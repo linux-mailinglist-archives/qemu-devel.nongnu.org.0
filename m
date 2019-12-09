@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3111117384
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:11:51 +0100 (CET)
-Received: from localhost ([::1]:43808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA55117403
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:21:27 +0100 (CET)
+Received: from localhost ([::1]:44310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieNVf-00048w-0F
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:11:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32979)
+	id 1ieNew-0003se-KN
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNUn-0003hl-BM
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:11:00 -0500
+ (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNaJ-0006hC-4I
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNUk-0003xm-Ci
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:10:57 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43975)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ieNUk-0003xV-4S
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:10:54 -0500
-Received: by mail-oi1-x241.google.com with SMTP id x14so7158401oic.10
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 10:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=KfBqMaIGx/iINZZYYVTJbZsjRHNB8gtOZdrcSFsKVC8=;
- b=nfQMxp6nzsB8z2QEGvC23BZdhDjiMtWj3KAs1ecQoEFDp+v2BZyEcqS3NI5mr1IVez
- /irqKY/5hPbr7PsIt9gxr45nnI9+P/9zJsNJ6TVDPMV9v3Z9dGoP89uT0VpLbw0fAh8R
- hz7mgGA29S3g9olcOuXskYD7zzG3Qt3nT7qVdSMUTr97iHjsdYwDw7k5sF6OIKhpv/BJ
- Q0AWS/y6OoOYfd6LESbaNiiRUX9291mWrI8Edozx13vxWdYZ1wyKhb/V4f5Q4v3jYnwi
- n9M1Jz9nqa7re9D+OTI/j7RvZPoYty2smoPS2/CRWstLB18EWouxYUrRJFktDG/y+xOf
- RnVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=KfBqMaIGx/iINZZYYVTJbZsjRHNB8gtOZdrcSFsKVC8=;
- b=UBGy1tEOR8Xz1pWBj0RHClOwD4u/Z5d63iEOgdURFufRBxOEg80eUYIHbzU2rMhZZM
- 2ufKdFyUSu0qz8bbwyUsVYQRoKed+cpMBFvYcJ2xyNrSPl0weEHpzmkfdHG7zKxIp6aN
- G22b/2hImwjg/FHduu0WGhlu/DnNkExSqRIGc9MDqaT+gzH+VF8BsLeT8Ax1nVr7lyVN
- zu+74cF4GoAfp19Pfa9CucqNXCAVkwjQ/My7Ov6dQaCgMNRmbIhnK0N6O+r9fB3D5/hO
- Wg9ZI6I8bVIfHGMrDfKwvrtljU6HLPBjl2iVxZBf0iXYCDrYOEjcyNZt1hF4W0zGdvvY
- vf9w==
-X-Gm-Message-State: APjAAAWHGAq9rQt30IV/JUd16lf9VtOiN+scfPV17iUteQm8R7APGLLB
- 4wnnoKlS3OxflQ3+T8FnvZ5W+o6O2vcFMr2uHwE=
-X-Google-Smtp-Source: APXvYqzhLKxzprQF9QYBFLDY6+6nud3xvVmgd+JFOBCrdaFrvwoaj/zGFVci5NKRy1ZeyIRlut+yMzbY953DRGnndYk=
-X-Received: by 2002:a05:6808:64e:: with SMTP id
- z14mr265185oih.79.1575915052922; 
- Mon, 09 Dec 2019 10:10:52 -0800 (PST)
+ (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNaH-0007A9-QE
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:38 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:7351)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNaH-000793-I0; Mon, 09 Dec 2019 13:16:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1575915412; x=1607451412;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=nCEFrGsdqSlTsNdZgJBvup6ug01DbicTleCFMlg1Qxs=;
+ b=qXWmvw9ex2Tj3JPRzTxHTbhoaycZ+4hSJmpMBkEpBiBhbYz4A+6rsCZM
+ EQFQd6Pr6KI/ERgVF+F1WVId1P7DO6MHQXB5bNKcCqfYu91J0LBsqrpRD
+ 70LcbPVrfhdA9eZVvA9WbRjYc0+8ltE7ZLiPwH50AWuEl9ufdYmarRARJ
+ NzXIaoGur6fypbPpkuVv3UE1TETIysyiNHpEVXvRCP/sdfXO2lCDX2Lh0
+ AS0G8Jfy2PJm6/yCHTRMIAONtd5kDMcy4IFTlcz9Jilsd+0y3/CXXLnzR
+ DqILvc/vEHpmuLGN5cU/y8pX5s22LJ8L7Ea9+jXUo5vzcGnpzRAFnsz58 w==;
+IronPort-SDR: 92HWrKpgf247kuj258tlApGrNF+95sR61Y4GiwpbuN8mE8J/pHWX4oMgQ5PLD7fOEmDtpKJYJk
+ 2GCBMDdsVTZv+3mEWQ1QmhccTXv7QU5URofn1TJlxQxd3FsB7FmJPMxiwKq3poQNnOtnUVYONX
+ odMUej/Vg0F6lD1+lyHYN+wYcxVb4BPKBaoxsWnGmB0y3sLbh6NQZDulymoMSV8G1OiQTgSfA5
+ NY4oZ07c+OJBmvoFLcTrBIixvQbMab/Pc1keqwNtOYQvWyTea7GsiQU32k5jxd9+0MVJNzsrh4
+ kuQ=
+X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="226411917"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:16:49 +0800
+IronPort-SDR: RjcUdjM5UXjGllbnnkdDX2KhM6jR15f9eKaxxpjm4mGz/tKvRZBUNhkZC1/DSbv0tZwiv0OXYP
+ C1GYhttQbUiBTdXfHXNtnbBTEZH1acsTviyQCFoSuNpTA99zYZXwqw5pigOdj8WxAxrJhbdz1d
+ faRX+3dVoanEgZK7hyQbWGdR0WRJIgjH5dkr34iLrw/th0Ptj1fNoox81bP4Juv2zIS0LpLhDR
+ XzaspyrBEGgq7O7Ys/3xFjRTdbIcOr5x8Pww44e8bGD7WEvoJ363Pvz1J0xsEaht+M1o/28G5U
+ O6n5eOEBEFb65kv483+Fd9gs
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2019 10:10:51 -0800
+IronPort-SDR: jPUcFI1bzEt5s+Osudjg2aj1bneOy35qUqB1Cg1HCtY/VcuQtl7iF/ZCUJBY9DLxTz2j3WjF8U
+ 8a/Uo40i+/TOy6N+fRdUVgYWaerPdfthR7hB9l1Oe97bzKZAL4xVAU+KS+tWcY3hY2mFIRmclh
+ pC779u3SnpZIUpkCq35/2NuqL/fj5kWaxPNBh4Ss8MHM6NPp+NvOUXbOT02/+Cj8LMAPGlHZir
+ m1Oi5LIyAcKQQsOl3mU83TYsreoq8m4hVPoZalwJvPE9Nd+UHCqHWSt9KBWOCdxehiOgz5jUEG
+ nqo=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+ by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2019 10:16:36 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 05/36] target/riscv: Add support for the new execption
+ numbers
+Date: Mon,  9 Dec 2019 10:10:53 -0800
+Message-Id: <1d461d2c750cf9e5573294b82d874b3823817c7e.1575914822.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <cover.1575914822.git.alistair.francis@wdc.com>
+References: <cover.1575914822.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Mon, 9 Dec 2019 10:10:52 -0800 (PST)
-In-Reply-To: <20191208183922.13757-12-mrolnik@gmail.com>
-References: <20191208183922.13757-1-mrolnik@gmail.com>
- <20191208183922.13757-12-mrolnik@gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 9 Dec 2019 19:10:52 +0100
-Message-ID: <CAL1e-=iPsFgtEmvT2xt-Fm8AiQBxq48_veVDcnnyMEqghF16hw@mail.gmail.com>
-Subject: Re: [PATCH v38 11/22] target/avr: Add instruction disassembly function
-To: Michael Rolnik <mrolnik@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000ecfe88059949502e"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 68.232.143.124
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,777 +85,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>,
- "me@xcancerberox.com.ar" <me@xcancerberox.com.ar>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ecfe88059949502e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The v0.5 Hypervisor spec add new execption numbers, let's add support
+for those.
 
-On Sunday, December 8, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.c        |  8 ++++++++
+ target/riscv/cpu_bits.h   | 35 +++++++++++++++++++----------------
+ target/riscv/cpu_helper.c |  7 +++++--
+ target/riscv/csr.c        |  7 +++++--
+ 4 files changed, 37 insertions(+), 20 deletions(-)
 
-> Provide function disassembles executed instruction when `-d in_asm` is
-> provided
->
-> Example:
-> `./avr-softmmu/qemu-system-avr -bios free-rtos/Demo/AVR_ATMega2560_GCC/de=
-mo.elf
-> -d in_asm` will produce something like the following
->
-> ```
->     ...
->     IN:
->     0x0000014a:  CALL      0x3808
->
->     IN: main
->     0x00003808:  CALL      0x4b4
->
->     IN: vParTestInitialise
->     0x000004b4:  LDI       r24, 255
->     0x000004b6:  STS       r24, 0
->     0x000004b8:  MULS      r16, r20
->     0x000004ba:  OUT       $1, r24
->     0x000004bc:  LDS       r24, 0
->     0x000004be:  MULS      r16, r20
->     0x000004c0:  OUT       $2, r24
->     0x000004c2:  RET
->     ...
-> ```
->
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  target/avr/cpu.h       |   1 +
->  target/avr/cpu.c       |   2 +-
->  target/avr/disas.c     | 226 +++++++++++++++++++++++++++++++++++++++++
->  target/avr/translate.c |  11 ++
->  4 files changed, 239 insertions(+), 1 deletion(-)
->  create mode 100644 target/avr/disas.c
->
-> diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-> index c217eefeb4..a8a3e7ade6 100644
-> --- a/target/avr/cpu.h
-> +++ b/target/avr/cpu.h
-> @@ -178,6 +178,7 @@ bool avr_cpu_exec_interrupt(CPUState *cpu, int
-> int_req);
->  hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
->  int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-> +int avr_print_insn(bfd_vma addr, disassemble_info *info);
->
->  static inline int avr_feature(CPUAVRState *env, int feature)
->  {
-> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-> index c5cafcae3c..be4b921e4d 100644
-> --- a/target/avr/cpu.c
-> +++ b/target/avr/cpu.c
-> @@ -83,7 +83,7 @@ static void avr_cpu_reset(CPUState *cs)
->  static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info=
-)
->  {
->      info->mach =3D bfd_arch_avr;
-> -    info->print_insn =3D NULL;
-> +    info->print_insn =3D avr_print_insn;
->  }
->
->  static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
-> diff --git a/target/avr/disas.c b/target/avr/disas.c
-> new file mode 100644
-> index 0000000000..22863d2eb1
-> --- /dev/null
-> +++ b/target/avr/disas.c
-> @@ -0,0 +1,226 @@
-> +/*
-> + * AVR disassembler
-> + *
-> + * Copyright (c) 2019 Richard Henderson <rth@twiddle.net>
-> + * Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
-> + *
-> + * This program is free software: you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation, either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +
-> +typedef struct {
-> +    disassemble_info *info;
-> +    uint16_t next_word;
-> +    bool next_word_used;
-> +} DisasContext;
-> +
-> +static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
-> +{
-> +    return 16 + (indx % 16);
-> +}
-> +
-> +static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
-> +{
-> +    return 16 + (indx % 8);
-> +}
-> +static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
-> +{
-> +    return 24 + (indx % 4) * 2;
-> +}
-> +static int to_regs_00_30_by_two(DisasContext *ctx, int indx)
-> +{
-> +    return (indx % 16) * 2;
-> +}
-> +
-> +static uint16_t next_word(DisasContext *ctx)
-> +{
-> +    ctx->next_word_used =3D true;
-> +    return ctx->next_word;
-> +}
-> +
-> +static int append_16(DisasContext *ctx, int x)
-> +{
-> +    return x << 16 | next_word(ctx);
-> +}
-> +
-> +
-> +/* Include the auto-generated decoder.  */
-> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
-> +#include "decode_insn.inc.c"
-> +
-> +#define output(mnemonic, format, ...) \
-> +    (pctx->info->fprintf_func(pctx->info->stream, "%-9s " format, \
-> +                        mnemonic, ##__VA_ARGS__))
-> +
-> +int avr_print_insn(bfd_vma addr, disassemble_info *info)
-> +{
-> +    DisasContext ctx;
-> +    DisasContext *pctx =3D &ctx;
-> +    bfd_byte buffer[4];
-> +    uint16_t insn;
-> +    int status;
-> +
-> +    ctx.info =3D info;
-> +
-> +    status =3D info->read_memory_func(addr, buffer, 4, info);
-> +    if (status !=3D 0) {
-> +        info->memory_error_func(status, addr, info);
-> +        return -1;
-> +    }
-> +    insn =3D bfd_getl16(buffer);
-> +    ctx.next_word =3D bfd_getl16(buffer + 2);
-> +    ctx.next_word_used =3D false;
-> +
-> +    if (!decode_insn(&ctx, insn)) {
-> +        output(".db", "0x%02x, 0x%02x", buffer[0], buffer[1]);
-> +    }
-> +
-> +    return ctx.next_word_used ? 4 : 2;
-> +}
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index e521ebe2e1..d23d2cba64 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -67,6 +67,14 @@ const char * const riscv_excp_names[] = {
+     "load_page_fault",
+     "reserved",
+     "store_page_fault"
++    "reserved",
++    "reserved",
++    "reserved",
++    "reserved",
++    "guest_exec_page_fault",
++    "guest_load_page_fault",
++    "reserved",
++    "guest_store_page_fault"
+ };
+ 
+ const char * const riscv_intr_names[] = {
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 25c0fb258d..9ce73c36de 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -488,22 +488,25 @@
+ #define DEFAULT_RSTVEC      0x1000
+ 
+ /* Exception causes */
+-#define EXCP_NONE                          -1 /* sentinel value */
+-#define RISCV_EXCP_INST_ADDR_MIS           0x0
+-#define RISCV_EXCP_INST_ACCESS_FAULT       0x1
+-#define RISCV_EXCP_ILLEGAL_INST            0x2
+-#define RISCV_EXCP_BREAKPOINT              0x3
+-#define RISCV_EXCP_LOAD_ADDR_MIS           0x4
+-#define RISCV_EXCP_LOAD_ACCESS_FAULT       0x5
+-#define RISCV_EXCP_STORE_AMO_ADDR_MIS      0x6
+-#define RISCV_EXCP_STORE_AMO_ACCESS_FAULT  0x7
+-#define RISCV_EXCP_U_ECALL                 0x8
+-#define RISCV_EXCP_S_ECALL                 0x9
+-#define RISCV_EXCP_H_ECALL                 0xa
+-#define RISCV_EXCP_M_ECALL                 0xb
+-#define RISCV_EXCP_INST_PAGE_FAULT         0xc /* since: priv-1.10.0 */
+-#define RISCV_EXCP_LOAD_PAGE_FAULT         0xd /* since: priv-1.10.0 */
+-#define RISCV_EXCP_STORE_PAGE_FAULT        0xf /* since: priv-1.10.0 */
++#define EXCP_NONE                                -1 /* sentinel value */
++#define RISCV_EXCP_INST_ADDR_MIS                 0x0
++#define RISCV_EXCP_INST_ACCESS_FAULT             0x1
++#define RISCV_EXCP_ILLEGAL_INST                  0x2
++#define RISCV_EXCP_BREAKPOINT                    0x3
++#define RISCV_EXCP_LOAD_ADDR_MIS                 0x4
++#define RISCV_EXCP_LOAD_ACCESS_FAULT             0x5
++#define RISCV_EXCP_STORE_AMO_ADDR_MIS            0x6
++#define RISCV_EXCP_STORE_AMO_ACCESS_FAULT        0x7
++#define RISCV_EXCP_U_ECALL                       0x8
++#define RISCV_EXCP_S_ECALL                      0x9
++#define RISCV_EXCP_VS_ECALL                      0xa
++#define RISCV_EXCP_M_ECALL                       0xb
++#define RISCV_EXCP_INST_PAGE_FAULT               0xc /* since: priv-1.10.0 */
++#define RISCV_EXCP_LOAD_PAGE_FAULT               0xd /* since: priv-1.10.0 */
++#define RISCV_EXCP_STORE_PAGE_FAULT              0xf /* since: priv-1.10.0 */
++#define RISCV_EXCP_INST_GUEST_PAGE_FAULT         0x14
++#define RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT       0x15
++#define RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT  0x17
+ 
+ #define RISCV_EXCP_INT_FLAG                0x80000000
+ #define RISCV_EXCP_INT_MASK                0x7fffffff
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 0de3a468eb..c201919c54 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -526,7 +526,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     static const int ecall_cause_map[] = {
+         [PRV_U] = RISCV_EXCP_U_ECALL,
+         [PRV_S] = RISCV_EXCP_S_ECALL,
+-        [PRV_H] = RISCV_EXCP_H_ECALL,
++        [PRV_H] = RISCV_EXCP_VS_ECALL,
+         [PRV_M] = RISCV_EXCP_M_ECALL
+     };
+ 
+@@ -542,6 +542,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         case RISCV_EXCP_INST_PAGE_FAULT:
+         case RISCV_EXCP_LOAD_PAGE_FAULT:
+         case RISCV_EXCP_STORE_PAGE_FAULT:
++        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
++        case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
++        case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
+             tval = env->badaddr;
+             break;
+         default:
+@@ -554,7 +557,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         }
+     }
+ 
+-    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval, cause < 16 ?
++    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval, cause < 23 ?
+         (async ? riscv_intr_names : riscv_excp_names)[cause] : "(unknown)");
+ 
+     if (env->priv <= PRV_S &&
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index da02f9f0b1..6a0a59edfd 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -242,11 +242,14 @@ static const target_ulong delegable_excps =
+     (1ULL << (RISCV_EXCP_STORE_AMO_ACCESS_FAULT)) |
+     (1ULL << (RISCV_EXCP_U_ECALL)) |
+     (1ULL << (RISCV_EXCP_S_ECALL)) |
+-    (1ULL << (RISCV_EXCP_H_ECALL)) |
++    (1ULL << (RISCV_EXCP_VS_ECALL)) |
+     (1ULL << (RISCV_EXCP_M_ECALL)) |
+     (1ULL << (RISCV_EXCP_INST_PAGE_FAULT)) |
+     (1ULL << (RISCV_EXCP_LOAD_PAGE_FAULT)) |
+-    (1ULL << (RISCV_EXCP_STORE_PAGE_FAULT));
++    (1ULL << (RISCV_EXCP_STORE_PAGE_FAULT)) |
++    (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
++    (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
++    (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
+ static const target_ulong sstatus_v1_9_mask = SSTATUS_SIE | SSTATUS_SPIE |
+     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
+     SSTATUS_SUM | SSTATUS_SD;
+-- 
+2.24.0
 
-
-Hi, Michael,
-
-What is the role of ctx.next_word_used, if it looks it is always "false"?
-
-Related to this, how do you disassemble 32-bit-coded instructions? From
-this patch, it looks you treat all AVR instructions as 16-bit-coded?
-
-Thanks,
-Aleksandar
-
-
-> +
-> +
-> +#define INSN(opcode, format, ...)                                       =
-\
-> +static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        =
-\
-> +{                                                                       =
-\
-> +    output(#opcode, format, ##__VA_ARGS__);                             =
-\
-> +    return true;                                                        =
-\
-> +}
-> +
-> +#define INSN_MNEMONIC(opcode, mnemonic, format, ...)                    =
-\
-> +static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        =
-\
-> +{                                                                       =
-\
-> +    output(mnemonic, format, ##__VA_ARGS__);                            =
-\
-> +    return true;                                                        =
-\
-> +}
-> +
-> +/*
-> + *   C       Z       N       V       S       H       T       I
-> + *   0       1       2       3       4       5       6       7
-> + */
-> +static const char *brbc[] =3D {
-> +    "BRCC", "BRNE", "BRPL", "BRVC", "BRGE", "BRHC", "BRTC", "BRID"
-> +};
-> +
-> +static const char *brbs[] =3D {
-> +    "BRCS", "BREQ", "BRMI", "BRVS", "BRLT", "BRHS", "BRTS", "BRIE"
-> +};
-> +
-> +static const char *bset[] =3D {
-> +    "SEC",  "SEZ",  "SEN",  "SEZ",  "SES",  "SEH",  "SET",  "SEI"
-> +};
-> +
-> +static const char *bclr[] =3D {
-> +    "CLC",  "CLZ",  "CLN",  "CLZ",  "CLS",  "CLH",  "CLT",  "CLI"
-> +};
-> +
-> +INSN(ADC,    "r%d, r%d", a->rd, a->rr)
-> +INSN(ADD,    "r%d, r%d", a->rd, a->rr)
-> +INSN(ADIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-> +INSN(AND,    "r%d, r%d", a->rd, a->rr)
-> +INSN(ANDI,   "r%d, %d", a->rd, a->imm)
-> +INSN(ASR,    "r%d", a->rd)
-> +INSN_MNEMONIC(BCLR,  bclr[a->bit], "")
-> +INSN(BLD,    "r%d, %d", a->rd, a->bit)
-> +INSN_MNEMONIC(BRBC,  brbc[a->bit], ".%+d", a->imm * 2)
-> +INSN_MNEMONIC(BRBS,  brbs[a->bit], ".%+d", a->imm * 2)
-> +INSN(BREAK,  "")
-> +INSN_MNEMONIC(BSET,  bset[a->bit], "")
-> +INSN(BST,    "r%d, %d", a->rd, a->bit)
-> +INSN(CALL,   "0x%x", a->imm * 2)
-> +INSN(CBI,    "%d, %d", a->reg, a->bit)
-> +INSN(COM,    "r%d", a->rd)
-> +INSN(CP,     "r%d, r%d", a->rd, a->rr)
-> +INSN(CPC,    "r%d, r%d", a->rd, a->rr)
-> +INSN(CPI,    "r%d, %d", a->rd, a->imm)
-> +INSN(CPSE,   "r%d, r%d", a->rd, a->rr)
-> +INSN(DEC,    "r%d", a->rd)
-> +INSN(DES,    "%d", a->imm)
-> +INSN(EICALL, "")
-> +INSN(EIJMP,  "")
-> +INSN(ELPM1,  "")
-> +INSN(ELPM2,  "r%d, Z", a->rd)
-> +INSN(ELPMX,  "r%d, Z+", a->rd)
-> +INSN(EOR,    "r%d, r%d", a->rd, a->rr)
-> +INSN(FMUL,   "r%d, r%d", a->rd, a->rr)
-> +INSN(FMULS,  "r%d, r%d", a->rd, a->rr)
-> +INSN(FMULSU, "r%d, r%d", a->rd, a->rr)
-> +INSN(ICALL,  "")
-> +INSN(IJMP,   "")
-> +INSN(IN,     "r%d, $%d", a->rd, a->imm)
-> +INSN(INC,    "r%d", a->rd)
-> +INSN(JMP,    "0x%x", a->imm * 2)
-> +INSN(LAC,    "Z, r%d", a->rd)
-> +INSN(LAS,    "Z, r%d", a->rd)
-> +INSN(LAT,    "Z, r%d", a->rd)
-> +INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
-> +INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
-> +INSN(LDI,    "r%d, %d", a->rd, a->imm)
-> +INSN(LDS,    "r%d, %d", a->rd, a->imm)
-> +INSN(LDX1,   "r%d, X", a->rd)
-> +INSN(LDX2,   "r%d, X+", a->rd)
-> +INSN(LDX3,   "r%d, -X", a->rd)
-> +INSN(LDY2,   "r%d, Y+", a->rd)
-> +INSN(LDY3,   "r%d, -Y", a->rd)
-> +INSN(LDZ2,   "r%d, Z+", a->rd)
-> +INSN(LDZ3,   "r%d, -Z", a->rd)
-> +INSN(LPM1,   "")
-> +INSN(LPM2,   "r%d, Z", a->rd)
-> +INSN(LPMX,   "r%d, Z+", a->rd)
-> +INSN(LSR,    "r%d", a->rd)
-> +INSN(MOV,    "r%d, r%d", a->rd, a->rr)
-> +INSN(MOVW,   "r%d:r%d, r%d,r:r%d", a->rd + 1, a->rd, a->rr + 1, a->rr)
-> +INSN(MUL,    "r%d, r%d", a->rd, a->rr)
-> +INSN(MULS,   "r%d, r%d", a->rd, a->rr)
-> +INSN(MULSU,  "r%d, r%d", a->rd, a->rr)
-> +INSN(NEG,    "r%d", a->rd)
-> +INSN(NOP,    "")
-> +INSN(OR,     "r%d, r%d", a->rd, a->rr)
-> +INSN(ORI,    "r%d, %d", a->rd, a->imm)
-> +INSN(OUT,    "$%d, r%d", a->imm, a->rd)
-> +INSN(POP,    "r%d", a->rd)
-> +INSN(PUSH,   "r%d", a->rd)
-> +INSN(RCALL,  ".%+d", a->imm * 2)
-> +INSN(RET,    "")
-> +INSN(RETI,   "")
-> +INSN(RJMP,   ".%+d", a->imm * 2)
-> +INSN(ROR,    "r%d", a->rd)
-> +INSN(SBC,    "r%d, r%d", a->rd, a->rr)
-> +INSN(SBCI,   "r%d, %d", a->rd, a->imm)
-> +INSN(SBI,    "$%d, %d", a->reg, a->bit)
-> +INSN(SBIC,   "$%d, %d", a->reg, a->bit)
-> +INSN(SBIS,   "$%d, %d", a->reg, a->bit)
-> +INSN(SBIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-> +INSN(SBRC,   "r%d, %d", a->rr, a->bit)
-> +INSN(SBRS,   "r%d, %d", a->rr, a->bit)
-> +INSN(SLEEP,  "")
-> +INSN(SPM,    "")
-> +INSN(SPMX,   "Z+")
-> +INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
-> +INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
-> +INSN(STS,    "r%d, %d", a->rd, a->imm)
-> +INSN(STX1,   "r%d, X", a->rr)
-> +INSN(STX2,   "r%d, X+", a->rr)
-> +INSN(STX3,   "r%d, -X", a->rr)
-> +INSN(STY2,   "r%d, Y+", a->rd)
-> +INSN(STY3,   "r%d, -Y", a->rd)
-> +INSN(STZ2,   "r%d, Z+", a->rd)
-> +INSN(STZ3,   "r%d, -Z", a->rd)
-> +INSN(SUB,    "r%d, r%d", a->rd, a->rr)
-> +INSN(SUBI,   "r%d, %d", a->rd, a->imm)
-> +INSN(SWAP,   "r%d", a->rd)
-> +INSN(WDR,    "")
-> +INSN(XCH,    "Z, r%d", a->rd)
-> +
-> diff --git a/target/avr/translate.c b/target/avr/translate.c
-> index c8c6f798bf..a621195817 100644
-> --- a/target/avr/translate.c
-> +++ b/target/avr/translate.c
-> @@ -2917,6 +2917,17 @@ done_generating:
->
->      tb->size =3D (ctx.npc - pc_start) * 2;
->      tb->icount =3D num_insns;
-> +
-> +#ifdef DEBUG_DISAS
-> +    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
-> +        && qemu_log_in_addr_range(tb->pc)) {
-> +        qemu_log_lock();
-> +        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
-> +        log_target_disas(cs, tb->pc, tb->size);
-> +        qemu_log("\n");
-> +        qemu_log_unlock();
-> +    }
-> +#endif
->  }
->
->  void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
-> --
-> 2.17.2 (Apple Git-113)
->
->
-
---000000000000ecfe88059949502e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Sunday, December 8, 2019, Michael Rolnik &lt;<a href=3D"mailto:m=
-rolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">Provide function disassembles executed instruction when `-d in_as=
-m` is<br>
-provided<br>
-<br>
-Example:<br>
-`./avr-softmmu/qemu-system-avr -bios free-rtos/Demo/AVR_ATMega2560_<wbr>GCC=
-/demo.elf -d in_asm` will produce something like the following<br>
-<br>
-```<br>
-=C2=A0 =C2=A0 ...<br>
-=C2=A0 =C2=A0 IN:<br>
-=C2=A0 =C2=A0 0x0000014a:=C2=A0 CALL=C2=A0 =C2=A0 =C2=A0 0x3808<br>
-<br>
-=C2=A0 =C2=A0 IN: main<br>
-=C2=A0 =C2=A0 0x00003808:=C2=A0 CALL=C2=A0 =C2=A0 =C2=A0 0x4b4<br>
-<br>
-=C2=A0 =C2=A0 IN: vParTestInitialise<br>
-=C2=A0 =C2=A0 0x000004b4:=C2=A0 LDI=C2=A0 =C2=A0 =C2=A0 =C2=A0r24, 255<br>
-=C2=A0 =C2=A0 0x000004b6:=C2=A0 STS=C2=A0 =C2=A0 =C2=A0 =C2=A0r24, 0<br>
-=C2=A0 =C2=A0 0x000004b8:=C2=A0 MULS=C2=A0 =C2=A0 =C2=A0 r16, r20<br>
-=C2=A0 =C2=A0 0x000004ba:=C2=A0 OUT=C2=A0 =C2=A0 =C2=A0 =C2=A0$1, r24<br>
-=C2=A0 =C2=A0 0x000004bc:=C2=A0 LDS=C2=A0 =C2=A0 =C2=A0 =C2=A0r24, 0<br>
-=C2=A0 =C2=A0 0x000004be:=C2=A0 MULS=C2=A0 =C2=A0 =C2=A0 r16, r20<br>
-=C2=A0 =C2=A0 0x000004c0:=C2=A0 OUT=C2=A0 =C2=A0 =C2=A0 =C2=A0$2, r24<br>
-=C2=A0 =C2=A0 0x000004c2:=C2=A0 RET<br>
-=C2=A0 =C2=A0 ...<br>
-```<br>
-<br>
-Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com">mrol=
-nik@gmail.com</a>&gt;<br>
-Suggested-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lin=
-aro.org">richard.henderson@linaro.org</a>&gt;<br>
-Suggested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redh=
-at.com">philmd@redhat.com</a>&gt;<br>
-Suggested-by: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.m.mail@g=
-mail.com">aleksandar.m.mail@gmail.com</a>&gt;<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redha=
-t.com">philmd@redhat.com</a>&gt;<br>
-Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
-com">philmd@redhat.com</a>&gt;<br>
----<br>
-=C2=A0target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0target/avr/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A0target/avr/disas.c=C2=A0 =C2=A0 =C2=A0| 226 +++++++++++++++++++++++++=
-+++++<wbr>+++++++++++<br>
-=C2=A0target/avr/translate.c |=C2=A0 11 ++<br>
-=C2=A04 files changed, 239 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 target/avr/disas.c<br>
-<br>
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h<br>
-index c217eefeb4..a8a3e7ade6 100644<br>
---- a/target/avr/cpu.h<br>
-+++ b/target/avr/cpu.h<br>
-@@ -178,6 +178,7 @@ bool avr_cpu_exec_interrupt(<wbr>CPUState *cpu, int int=
-_req);<br>
-=C2=A0hwaddr avr_cpu_get_phys_page_debug(<wbr>CPUState *cpu, vaddr addr);<b=
-r>
-=C2=A0int avr_cpu_gdb_read_register(<wbr>CPUState *cpu, uint8_t *buf, int r=
-eg);<br>
-=C2=A0int avr_cpu_gdb_write_register(<wbr>CPUState *cpu, uint8_t *buf, int =
-reg);<br>
-+int avr_print_insn(bfd_vma addr, disassemble_info *info);<br>
-<br>
-=C2=A0static inline int avr_feature(CPUAVRState *env, int feature)<br>
-=C2=A0{<br>
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c<br>
-index c5cafcae3c..be4b921e4d 100644<br>
---- a/target/avr/cpu.c<br>
-+++ b/target/avr/cpu.c<br>
-@@ -83,7 +83,7 @@ static void avr_cpu_reset(CPUState *cs)<br>
-=C2=A0static void avr_cpu_disas_set_info(<wbr>CPUState *cpu, disassemble_in=
-fo *info)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0info-&gt;mach =3D bfd_arch_avr;<br>
--=C2=A0 =C2=A0 info-&gt;print_insn =3D NULL;<br>
-+=C2=A0 =C2=A0 info-&gt;print_insn =3D avr_print_insn;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void avr_cpu_realizefn(DeviceState *dev, Error **errp)<br>
-diff --git a/target/avr/disas.c b/target/avr/disas.c<br>
-new file mode 100644<br>
-index 0000000000..22863d2eb1<br>
---- /dev/null<br>
-+++ b/target/avr/disas.c<br>
-@@ -0,0 +1,226 @@<br>
-+/*<br>
-+ * AVR disassembler<br>
-+ *<br>
-+ * Copyright (c) 2019 Richard Henderson &lt;<a href=3D"mailto:rth@twiddle.=
-net">rth@twiddle.net</a>&gt;<br>
-+ * Copyright (c) 2019 Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.c=
-om">mrolnik@gmail.com</a>&gt;<br>
-+ *<br>
-+ * This program is free software: you can redistribute it and/or modify<br=
->
-+ * it under the terms of the GNU General Public License as published by<br=
->
-+ * the Free Software Foundation, either version 2 of the License, or<br>
-+ * (at your option) any later version.<br>
-+ *<br>
-+ * This program is distributed in the hope that it will be useful,<br>
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the<br>
-+ * GNU General Public License for more details.<br>
-+ *<br>
-+ * You should have received a copy of the GNU General Public License<br>
-+ * along with this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gn=
-u.org/licenses/" target=3D"_blank">http://www.gnu.org/licenses/</a>&gt;<wbr=
->.<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;cpu.h&quot;<br>
-+<br>
-+typedef struct {<br>
-+=C2=A0 =C2=A0 disassemble_info *info;<br>
-+=C2=A0 =C2=A0 uint16_t next_word;<br>
-+=C2=A0 =C2=A0 bool next_word_used;<br>
-+} DisasContext;<br>
-+<br>
-+static int to_regs_16_31_by_one(<wbr>DisasContext *ctx, int indx)<br>
-+{<br>
-+=C2=A0 =C2=A0 return 16 + (indx % 16);<br>
-+}<br>
-+<br>
-+static int to_regs_16_23_by_one(<wbr>DisasContext *ctx, int indx)<br>
-+{<br>
-+=C2=A0 =C2=A0 return 16 + (indx % 8);<br>
-+}<br>
-+static int to_regs_24_30_by_two(<wbr>DisasContext *ctx, int indx)<br>
-+{<br>
-+=C2=A0 =C2=A0 return 24 + (indx % 4) * 2;<br>
-+}<br>
-+static int to_regs_00_30_by_two(<wbr>DisasContext *ctx, int indx)<br>
-+{<br>
-+=C2=A0 =C2=A0 return (indx % 16) * 2;<br>
-+}<br>
-+<br>
-+static uint16_t next_word(DisasContext *ctx)<br>
-+{<br>
-+=C2=A0 =C2=A0 ctx-&gt;next_word_used =3D true;<br>
-+=C2=A0 =C2=A0 return ctx-&gt;next_word;<br>
-+}<br>
-+<br>
-+static int append_16(DisasContext *ctx, int x)<br>
-+{<br>
-+=C2=A0 =C2=A0 return x &lt;&lt; 16 | next_word(ctx);<br>
-+}<br>
-+<br>
-+<br>
-+/* Include the auto-generated decoder.=C2=A0 */<br>
-+static bool decode_insn(DisasContext *ctx, uint16_t insn);<br>
-+#include &quot;decode_insn.inc.c&quot;<br>
-+<br>
-+#define output(mnemonic, format, ...) \<br>
-+=C2=A0 =C2=A0 (pctx-&gt;info-&gt;fprintf_func(<wbr>pctx-&gt;info-&gt;strea=
-m, &quot;%-9s &quot; format, \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 mnemonic, ##__VA_ARGS__))<br>
-+<br>
-+int avr_print_insn(bfd_vma addr, disassemble_info *info)<br>
-+{<br>
-+=C2=A0 =C2=A0 DisasContext ctx;<br>
-+=C2=A0 =C2=A0 DisasContext *pctx =3D &amp;ctx;<br>
-+=C2=A0 =C2=A0 bfd_byte buffer[4];<br>
-+=C2=A0 =C2=A0 uint16_t insn;<br>
-+=C2=A0 =C2=A0 int status;<br>
-+<br>
-+=C2=A0 =C2=A0 <a href=3D"http://ctx.info" target=3D"_blank">ctx.info</a> =
-=3D info;<br>
-+<br>
-+=C2=A0 =C2=A0 status =3D info-&gt;read_memory_func(addr, buffer, 4, info);=
-<br>
-+=C2=A0 =C2=A0 if (status !=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;memory_error_func(<wbr>status, addr, =
-info);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 insn =3D bfd_getl16(buffer);<br>
-+=C2=A0 =C2=A0 ctx.next_word =3D bfd_getl16(buffer + 2);<br>
-+=C2=A0 =C2=A0 ctx.next_word_used =3D false;<br>
-+<br>
-+=C2=A0 =C2=A0 if (!decode_insn(&amp;ctx, insn)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 output(&quot;.db&quot;, &quot;0x%02x, 0x%02x&q=
-uot;, buffer[0], buffer[1]);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return ctx.next_word_used ? 4 : 2;<br>
-+}</blockquote><div><br></div><div>Hi, Michael,</div><div><br></div><div>Wh=
-at is the role of ctx.next_word_used, if it looks it is always &quot;false&=
-quot;?</div><div><br></div><div>Related to this, how do you disassemble 32-=
-bit-coded instructions? From this patch, it looks you treat all AVR instruc=
-tions as 16-bit-coded?</div><div><br></div><div>Thanks,</div><div>Aleksanda=
-r</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-+<br>
-+<br>
-+#define INSN(opcode, format, ...)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 \<br>
-+{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 output(#opcode, format, ##__VA_ARGS__);=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 return true;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \=
-<br>
-+}<br>
-+<br>
-+#define INSN_MNEMONIC(opcode, mnemonic, format, ...)=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 \<br>
-+{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 output(mnemonic, format, ##__VA_ARGS__);=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 \<br>
-+=C2=A0 =C2=A0 return true;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \=
-<br>
-+}<br>
-+<br>
-+/*<br>
-+ *=C2=A0 =C2=A0C=C2=A0 =C2=A0 =C2=A0 =C2=A0Z=C2=A0 =C2=A0 =C2=A0 =C2=A0N=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0V=C2=A0 =C2=A0 =C2=A0 =C2=A0S=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0H=C2=A0 =C2=A0 =C2=A0 =C2=A0T=C2=A0 =C2=A0 =C2=A0 =C2=A0I<br>
-+ *=C2=A0 =C2=A00=C2=A0 =C2=A0 =C2=A0 =C2=A01=C2=A0 =C2=A0 =C2=A0 =C2=A02=
-=C2=A0 =C2=A0 =C2=A0 =C2=A03=C2=A0 =C2=A0 =C2=A0 =C2=A04=C2=A0 =C2=A0 =C2=
-=A0 =C2=A05=C2=A0 =C2=A0 =C2=A0 =C2=A06=C2=A0 =C2=A0 =C2=A0 =C2=A07<br>
-+ */<br>
-+static const char *brbc[] =3D {<br>
-+=C2=A0 =C2=A0 &quot;BRCC&quot;, &quot;BRNE&quot;, &quot;BRPL&quot;, &quot;=
-BRVC&quot;, &quot;BRGE&quot;, &quot;BRHC&quot;, &quot;BRTC&quot;, &quot;BRI=
-D&quot;<br>
-+};<br>
-+<br>
-+static const char *brbs[] =3D {<br>
-+=C2=A0 =C2=A0 &quot;BRCS&quot;, &quot;BREQ&quot;, &quot;BRMI&quot;, &quot;=
-BRVS&quot;, &quot;BRLT&quot;, &quot;BRHS&quot;, &quot;BRTS&quot;, &quot;BRI=
-E&quot;<br>
-+};<br>
-+<br>
-+static const char *bset[] =3D {<br>
-+=C2=A0 =C2=A0 &quot;SEC&quot;,=C2=A0 &quot;SEZ&quot;,=C2=A0 &quot;SEN&quot=
-;,=C2=A0 &quot;SEZ&quot;,=C2=A0 &quot;SES&quot;,=C2=A0 &quot;SEH&quot;,=C2=
-=A0 &quot;SET&quot;,=C2=A0 &quot;SEI&quot;<br>
-+};<br>
-+<br>
-+static const char *bclr[] =3D {<br>
-+=C2=A0 =C2=A0 &quot;CLC&quot;,=C2=A0 &quot;CLZ&quot;,=C2=A0 &quot;CLN&quot=
-;,=C2=A0 &quot;CLZ&quot;,=C2=A0 &quot;CLS&quot;,=C2=A0 &quot;CLH&quot;,=C2=
-=A0 &quot;CLT&quot;,=C2=A0 &quot;CLI&quot;<br>
-+};<br>
-+<br>
-+INSN(ADC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(ADD,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(ADIW,=C2=A0 =C2=A0&quot;r%d:r%d, %d&quot;, a-&gt;rd + 1, a-&gt;rd, a-=
-&gt;imm)<br>
-+INSN(AND,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(ANDI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(ASR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN_MNEMONIC(BCLR,=C2=A0 bclr[a-&gt;bit], &quot;&quot;)<br>
-+INSN(BLD,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;bit)<br>
-+INSN_MNEMONIC(BRBC,=C2=A0 brbc[a-&gt;bit], &quot;.%+d&quot;, a-&gt;imm * 2=
-)<br>
-+INSN_MNEMONIC(BRBS,=C2=A0 brbs[a-&gt;bit], &quot;.%+d&quot;, a-&gt;imm * 2=
-)<br>
-+INSN(BREAK,=C2=A0 &quot;&quot;)<br>
-+INSN_MNEMONIC(BSET,=C2=A0 bset[a-&gt;bit], &quot;&quot;)<br>
-+INSN(BST,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;bit)<br>
-+INSN(CALL,=C2=A0 =C2=A0&quot;0x%x&quot;, a-&gt;imm * 2)<br>
-+INSN(CBI,=C2=A0 =C2=A0 &quot;%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
-+INSN(COM,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(CP,=C2=A0 =C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(CPC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(CPI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(CPSE,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(DEC,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(DES,=C2=A0 =C2=A0 &quot;%d&quot;, a-&gt;imm)<br>
-+INSN(EICALL, &quot;&quot;)<br>
-+INSN(EIJMP,=C2=A0 &quot;&quot;)<br>
-+INSN(ELPM1,=C2=A0 &quot;&quot;)<br>
-+INSN(ELPM2,=C2=A0 &quot;r%d, Z&quot;, a-&gt;rd)<br>
-+INSN(ELPMX,=C2=A0 &quot;r%d, Z+&quot;, a-&gt;rd)<br>
-+INSN(EOR,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(FMUL,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(FMULS,=C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(FMULSU, &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(ICALL,=C2=A0 &quot;&quot;)<br>
-+INSN(IJMP,=C2=A0 =C2=A0&quot;&quot;)<br>
-+INSN(IN,=C2=A0 =C2=A0 =C2=A0&quot;r%d, $%d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(INC,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(JMP,=C2=A0 =C2=A0 &quot;0x%x&quot;, a-&gt;imm * 2)<br>
-+INSN(LAC,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
-+INSN(LAS,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
-+INSN(LAT,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
-+INSN(LDDY,=C2=A0 =C2=A0&quot;r%d, Y+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(LDDZ,=C2=A0 =C2=A0&quot;r%d, Z+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(LDI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(LDS,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(LDX1,=C2=A0 =C2=A0&quot;r%d, X&quot;, a-&gt;rd)<br>
-+INSN(LDX2,=C2=A0 =C2=A0&quot;r%d, X+&quot;, a-&gt;rd)<br>
-+INSN(LDX3,=C2=A0 =C2=A0&quot;r%d, -X&quot;, a-&gt;rd)<br>
-+INSN(LDY2,=C2=A0 =C2=A0&quot;r%d, Y+&quot;, a-&gt;rd)<br>
-+INSN(LDY3,=C2=A0 =C2=A0&quot;r%d, -Y&quot;, a-&gt;rd)<br>
-+INSN(LDZ2,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)<br>
-+INSN(LDZ3,=C2=A0 =C2=A0&quot;r%d, -Z&quot;, a-&gt;rd)<br>
-+INSN(LPM1,=C2=A0 =C2=A0&quot;&quot;)<br>
-+INSN(LPM2,=C2=A0 =C2=A0&quot;r%d, Z&quot;, a-&gt;rd)<br>
-+INSN(LPMX,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)<br>
-+INSN(LSR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(MOV,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(MOVW,=C2=A0 =C2=A0&quot;r%d:r%d, r%d,r:r%d&quot;, a-&gt;rd + 1, a-&gt=
-;rd, a-&gt;rr + 1, a-&gt;rr)<br>
-+INSN(MUL,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(MULS,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(MULSU,=C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(NEG,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(NOP,=C2=A0 =C2=A0 &quot;&quot;)<br>
-+INSN(OR,=C2=A0 =C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(ORI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(OUT,=C2=A0 =C2=A0 &quot;$%d, r%d&quot;, a-&gt;imm, a-&gt;rd)<br>
-+INSN(POP,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(PUSH,=C2=A0 =C2=A0&quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(RCALL,=C2=A0 &quot;.%+d&quot;, a-&gt;imm * 2)<br>
-+INSN(RET,=C2=A0 =C2=A0 &quot;&quot;)<br>
-+INSN(RETI,=C2=A0 =C2=A0&quot;&quot;)<br>
-+INSN(RJMP,=C2=A0 =C2=A0&quot;.%+d&quot;, a-&gt;imm * 2)<br>
-+INSN(ROR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(SBC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(SBCI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(SBI,=C2=A0 =C2=A0 &quot;$%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
-+INSN(SBIC,=C2=A0 =C2=A0&quot;$%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
-+INSN(SBIS,=C2=A0 =C2=A0&quot;$%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
-+INSN(SBIW,=C2=A0 =C2=A0&quot;r%d:r%d, %d&quot;, a-&gt;rd + 1, a-&gt;rd, a-=
-&gt;imm)<br>
-+INSN(SBRC,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rr, a-&gt;bit)<br>
-+INSN(SBRS,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rr, a-&gt;bit)<br>
-+INSN(SLEEP,=C2=A0 &quot;&quot;)<br>
-+INSN(SPM,=C2=A0 =C2=A0 &quot;&quot;)<br>
-+INSN(SPMX,=C2=A0 =C2=A0&quot;Z+&quot;)<br>
-+INSN(STDY,=C2=A0 =C2=A0&quot;r%d, Y+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(STDZ,=C2=A0 =C2=A0&quot;r%d, Z+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(STS,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(STX1,=C2=A0 =C2=A0&quot;r%d, X&quot;, a-&gt;rr)<br>
-+INSN(STX2,=C2=A0 =C2=A0&quot;r%d, X+&quot;, a-&gt;rr)<br>
-+INSN(STX3,=C2=A0 =C2=A0&quot;r%d, -X&quot;, a-&gt;rr)<br>
-+INSN(STY2,=C2=A0 =C2=A0&quot;r%d, Y+&quot;, a-&gt;rd)<br>
-+INSN(STY3,=C2=A0 =C2=A0&quot;r%d, -Y&quot;, a-&gt;rd)<br>
-+INSN(STZ2,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)<br>
-+INSN(STZ3,=C2=A0 =C2=A0&quot;r%d, -Z&quot;, a-&gt;rd)<br>
-+INSN(SUB,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
-+INSN(SUBI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
-+INSN(SWAP,=C2=A0 =C2=A0&quot;r%d&quot;, a-&gt;rd)<br>
-+INSN(WDR,=C2=A0 =C2=A0 &quot;&quot;)<br>
-+INSN(XCH,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
-+<br>
-diff --git a/target/avr/translate.c b/target/avr/translate.c<br>
-index c8c6f798bf..a621195817 100644<br>
---- a/target/avr/translate.c<br>
-+++ b/target/avr/translate.c<br>
-@@ -2917,6 +2917,17 @@ done_generating:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0tb-&gt;size =3D (ctx.npc - pc_start) * 2;<br>
-=C2=A0 =C2=A0 =C2=A0tb-&gt;icount =3D num_insns;<br>
-+<br>
-+#ifdef DEBUG_DISAS<br>
-+=C2=A0 =C2=A0 if (qemu_loglevel_mask(CPU_LOG_<wbr>TB_IN_ASM)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; qemu_log_in_addr_range(tb-&gt;pc)<w=
-br>) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_lock();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;IN: %s\n&quot;, lookup_symbol(t=
-b-&gt;pc));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 log_target_disas(cs, tb-&gt;pc, tb-&gt;size);<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_unlock();<br>
-+=C2=A0 =C2=A0 }<br>
-+#endif<br>
-=C2=A0}<br>
-<br>
-=C2=A0void restore_state_to_opc(<wbr>CPUAVRState *env, TranslationBlock *tb=
-,<br>
--- <br>
-2.17.2 (Apple Git-113)<br>
-<br>
-</blockquote>
-
---000000000000ecfe88059949502e--
 
