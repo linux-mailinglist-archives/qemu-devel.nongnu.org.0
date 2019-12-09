@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441B2116FDE
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:07:44 +0100 (CET)
-Received: from localhost ([::1]:41217 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25475116FD1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:04:54 +0100 (CET)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieKdT-0008VF-2w
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:07:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46996)
+	id 1ieKai-0005El-3S
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:04:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXm-0003Kj-RU
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:55 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXn-0003Kl-S0
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXl-0001Bz-ER
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:50 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:32778)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXm-0001Cj-SQ
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:51 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52828)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ieKXl-0001Ak-8Y
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:49 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b6so16593459wrq.0
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:01:48 -0800 (PST)
+ id 1ieKXm-0001CC-LQ
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:50 -0500
+Received: by mail-wm1-x344.google.com with SMTP id p9so15826614wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:01:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yB185R7vRAPf6g0hUwD5ydBSy9wds6hweJHZ+kNDoeo=;
- b=kcXSB2wkrei7hyeqMJdTCIvAHEdh+MJlAo8rsAgZeP8ryAxUFKllwxZR7w75963EFQ
- B5cHz4As1TMnlDw7ORSjIy3HNkhztVrB90I+pBGBxM0Zpwhghp6PUye4cnUTVYgoKsYq
- kY3lx7g6P5s2uDWOCHwcrFeGrqem5NqZawhTxbHmZuJAnhX+SdrB9we9k2apwdLV6IYo
- 0m+Tgja7DSzq5wnCqvIm+Tt8zaOgZaT83K/SWUrovrTZ0NOCfT2i1JSConp5Wyz6XmEz
- +G0pIqixGkP97BbfDodi9mFWiXJKo1P2LaFiVXapoXLjH0slrDzmLFe98+Hvl6uf/30m
- pXnA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=aB/U/Tf7guynfrwJbWpfYI+QRcweDccxGqmzLn8iwE8=;
+ b=sk1JqgRjhOOTr/dRvGHkiH1p7uHgB+CVM18UIPOXrpZhbYnRlrbR7qYmXbJm+NqPh5
+ HOW7KUy+BTldeVw34HHJD4t5H41DSio7UNdj1dP6I84U0A8d641c5Em57lHw+nUhIP9l
+ UwQ+Tf7gSymC86/GYraCe6iUrLEpwJr65S4gJPNHg0RzEXU/z4kYHcKCdNdI9bUDR2ve
+ 2+Hg1EWjXJ1448TVrpezcLXX8nP25fqRqw97ABQOZHY6YLRrOhWbkcwC34Q9MlYazABe
+ XfogqzsAWw0YVerOGgXFBrSHn++wfFLSPbTO875k28077a3VI1QpWg4ys7kCbjlpR7oW
+ obZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=yB185R7vRAPf6g0hUwD5ydBSy9wds6hweJHZ+kNDoeo=;
- b=Yio0yqYEMdWZVdDboo4/8H8zpO8s+iYn+5F6HAONPXzHhYGSfGSa4CE4KOAV3Qbk8q
- IcdK3F7O61Sh+e1Xpvmz289wgLNqnTziQU8o6SxxYxcL8MfN8jAnIlteJPzzvRgnmX8O
- URP24frvCwxwzIdImw3Rcl4Xf3Wn93iIWs/ywoWljNUcpy5WBwS2gDho1I3M7g7iwQoc
- L/PAM2Tmnu8DvnoSZZCmn7ONizjac1GQykg2qKX0Vl0LZvgLgmfCy+MJv3usq/zSdAOC
- wBsl4QJCpMgDcDf5efPCu+Ka1nVF6FeiktlLrI+xqBT9GMW9+FiEcAIMCEfK4jW0IjJC
- GNGw==
-X-Gm-Message-State: APjAAAVR5OUbnPvuL6vnfM0EaAMZ83yCuf2ogjdszr4AmuhX4/lOToKK
- VAmQH+UJmepwOmGKuCH6yZ7UiLNE
-X-Google-Smtp-Source: APXvYqwEmCtMhtYRFGPXGil3Tx2okfCEMnigaNB2ZFJ8/p02PvJIOm8MUJMl9Huxf7By+0jcqKdshA==
-X-Received: by 2002:adf:f28c:: with SMTP id k12mr2626362wro.360.1575903707479; 
- Mon, 09 Dec 2019 07:01:47 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=aB/U/Tf7guynfrwJbWpfYI+QRcweDccxGqmzLn8iwE8=;
+ b=o5JC25k4ShpkiwLXI37B+e4ibUHNm8veo+B6leYJDsz87LbDaQiT5ieshwQXHFdR4V
+ i+ZeQ3LdCFXXjBb7xGMyiLdORu5eAX2Kge98pCIryu6fqfrV8CK+GZcjd67RGmDCUbbj
+ yCg7agNKiNQnerSMua9RmsWSiBZnyuvP9z051jJ/ORRU+m7HLMlA7a536+ntFc3UUd08
+ isdeovKT4kHihBe6Is8gEot1QxiDUc6vnOJNZsehkyjYsetqzNqHJOYyyNNyiJUyE9LK
+ wCbHoaDThIan3kHPPGJaTEQv6CBVLzWkqAOxYqO42z2O2vbizD4oRT+kaFcytJwN9w6p
+ ZOxQ==
+X-Gm-Message-State: APjAAAV6Zdo/xNG7rBNj7gk8Mn0AUT4hs0o21iYnhbuFDpNE1lpLgH8s
+ Nua8cKUkcDF9UaPLIOHOsyog+pA/
+X-Google-Smtp-Source: APXvYqyQRF5WjfoEOlGUpyWr04KG4TTpEclG8hBiFJIoujG7eRKtcSBbMSGw79YhtW6i8GmzZiVs5A==
+X-Received: by 2002:a1c:750f:: with SMTP id o15mr25987309wmc.161.1575903708518; 
+ Mon, 09 Dec 2019 07:01:48 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.01.46
+ by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.01.47
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 09 Dec 2019 07:01:46 -0800 (PST)
+ Mon, 09 Dec 2019 07:01:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/18] Complete the implementation of -accel
-Date: Mon,  9 Dec 2019 16:01:27 +0100
-Message-Id: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH v2 01/18] memory: do not look at current_machine->accel
+Date: Mon,  9 Dec 2019 16:01:28 +0100
+Message-Id: <1575903705-12925-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
+References: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,78 +82,50 @@ Cc: thuth@redhat.com, elmarco@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series completes the implementation of -accel:
+"info mtree -f" prints the wrong accelerator name if used with for example
+"-machine accel=kvm:tcg".  The right thing to do is to fetch the name
+from the AccelClass, which will also work nicely once
+current_machine->accel stops existing.
 
-- Alternative accelerators can be specified with multiple -accel options,
-  and each -accel option will configure the respective accelerator.
-  This is implemented in patches 1 to 6, with a small addendum in patch 7.
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ memory.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-- Accelerators can now support arbitrary options, which are implemented
-  in terms of QOM properties.  This is implemented in patches 8 to 11,
-  together with the conversion of the sole existing "-accel" option to QOM.
-
-- Accelerator-related machine options, and legacy options such as -tb-size,
-  forward to accelerator objects for backwards compatibility, but they
-  do not exist anymore as QOM properties.  This is implemented in patch
-  6 for "-machine accel" and patches 12 to 16 for everything else.
-
-Paolo
-
-v1->v2: improve bisectability by moving patch "vl: move icount configuration
-        earlier" towards the beginning of the series
-
-        new patch to compile accel/accel.c just once
-
-Paolo Bonzini (18):
-  memory: do not look at current_machine->accel
-  vl: move icount configuration earlier
-  tcg: move qemu_tcg_configure to accel/tcg/tcg-all.c
-  vl: extract accelerator option processing to a separate function
-  vl: merge -accel processing into configure_accelerators
-  accel: compile accel/accel.c just once
-  vl: introduce object_parse_property_opt
-  vl: configure accelerators from -accel options
-  vl: warn for unavailable accelerators, clarify messages
-  qom: introduce object_register_sugar_prop
-  qom: add object_new_with_class
-  accel: pass object to accel_init_machine
-  tcg: convert "-accel threads" to a QOM property
-  tcg: add "-accel tcg,tb-size" and deprecate "-tb-size"
-  xen: convert "-machine igd-passthru" to an accelerator property
-  kvm: convert "-machine kvm_shadow_mem" to an accelerator property
-  kvm: introduce kvm_kernel_irqchip_* functions
-  kvm: convert "-machine kernel_irqchip" to an accelerator property
-
- Makefile.objs             |   1 +
- accel/Makefile.objs       |   2 +-
- accel/accel.c             |  73 +--------------
- accel/kvm/kvm-all.c       | 117 ++++++++++++++++++++++--
- accel/tcg/tcg-all.c       | 149 +++++++++++++++++++++++++++++-
- cpus.c                    |  72 ---------------
- hw/core/machine.c         | 141 -----------------------------
- hw/ppc/e500.c             |   4 +-
- hw/ppc/spapr_irq.c        |  10 +--
- hw/xen/xen-common.c       |  16 ++++
- include/hw/boards.h       |   7 --
- include/qom/object.h      |  13 +++
- include/sysemu/accel.h    |   4 +-
- include/sysemu/cpus.h     |   2 -
- include/sysemu/kvm.h      |   7 +-
- memory.c                  |   5 +-
- qemu-deprecated.texi      |   6 ++
- qemu-options.hx           |  30 ++++---
- qom/object.c              |  28 +++++-
- target/arm/kvm.c          |   8 +-
- target/i386/cpu.c         |   8 +-
- target/i386/kvm.c         |   6 +-
- target/mips/kvm.c         |   2 +-
- target/ppc/kvm.c          |   2 +-
- target/s390x/cpu_models.c |   4 +-
- target/s390x/kvm.c        |   2 +-
- vl.c                      | 225 ++++++++++++++++++++++++++++++++--------------
- 27 files changed, 532 insertions(+), 412 deletions(-)
-
+diff --git a/memory.c b/memory.c
+index 06484c2..6d79cf1 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2979,7 +2979,6 @@ struct FlatViewInfo {
+     bool dispatch_tree;
+     bool owner;
+     AccelClass *ac;
+-    const char *ac_name;
+ };
+ 
+ static void mtree_print_flatview(gpointer key, gpointer value,
+@@ -3049,7 +3048,7 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+                 if (fvi->ac->has_memory(current_machine, as,
+                                         int128_get64(range->addr.start),
+                                         MR_SIZE(range->addr.size) + 1)) {
+-                    qemu_printf(" %s", fvi->ac_name);
++                    qemu_printf(" %s", fvi->ac->name);
+                 }
+             }
+         }
+@@ -3097,8 +3096,6 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner)
+ 
+         if (ac->has_memory) {
+             fvi.ac = ac;
+-            fvi.ac_name = current_machine->accel ? current_machine->accel :
+-                object_class_get_name(OBJECT_CLASS(ac));
+         }
+ 
+         /* Gather all FVs in one table */
 -- 
 1.8.3.1
+
 
 
