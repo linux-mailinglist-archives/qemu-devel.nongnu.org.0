@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99525117026
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:18:22 +0100 (CET)
-Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A280F117014
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:14:39 +0100 (CET)
+Received: from localhost ([::1]:41330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieKnl-0003i0-1J
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:18:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47261)
+	id 1ieKkA-0008MH-8X
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:14:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47286)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKY2-0003Yx-2T
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:07 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKY3-0003bA-N6
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKY0-0001V8-Da
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:05 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42591)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKY1-0001Wh-Ir
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:07 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40765)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ieKY0-0001UQ-6S
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:04 -0500
-Received: by mail-wr1-x443.google.com with SMTP id a15so16529964wrf.9
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:02:04 -0800 (PST)
+ id 1ieKY1-0001Vg-BX
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:05 -0500
+Received: by mail-wr1-x442.google.com with SMTP id c14so16555923wrn.7
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:02:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6G+yRJhQoOCW2slm7RNaCHxgek5OcRgkFOCnJMrl/qg=;
- b=rN9AHL1QRjxZ+OtsAQ3yN/5C16/iifMaLaS1arnFpY/iO4sH+6xHj7FfnXRZ4T/Rad
- xQQGAUwjRDKKDwSv6+8bMW00PgKnA+TFlcdh6vlXz1ZjP42eTCB6/5suXxqNke7Sxcxz
- LgnF2UXYGoBnNJiNl2975a3K9BbEOtxIIMmSsJ3tebkGqPnt2BSO5od2/seyfySoS41s
- oWmSj/kUirtwBl3vrH/J3f6rPIHkDvab9KWBsraCC8ncPh9T8jxcR51YgWXp8OmUbYga
- C5d7y7s4Al/0gakJWb/VVetJUx5K/pjU7g2pkQf9q5ZYaTB2IOX4wLOxzNYRo7s1imaH
- V0+A==
+ bh=FD2f+Nbu9tSiCoNEXPrgDf5vOFg7Yixed0iiSTqFeNk=;
+ b=K/fFKf25PiwDzxOrE6hxBDYmqGgXKHetDM0qyCmWRC6Kbho2bO4msh4gr7cjoLaR9Z
+ +GW3kjLByTTofFSruYR8MCqcjCS+RGdmGlJDnxKuLWSgsAxVkzsPiAOwNumYcVcQ12CX
+ kGQ2ffDQoUvzPr7W349ff7gMX1ujyn7Ex30Irwx5px7u9nby1/mzLrfb3CwJPPzJi+VJ
+ RpQoz1VhbQD7IEi9MvBkXVgdyFdJl8OmBnCSKOneCa1+L9Fe26IgYJb6+jrRPzBBvs7G
+ NcCAfkG+FkENew5EqiSuFzvkK6ap2J6RUYj7YG8wJthPG7JHViE3pgA9DIe3Yyy/wYpf
+ S4fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=6G+yRJhQoOCW2slm7RNaCHxgek5OcRgkFOCnJMrl/qg=;
- b=oO5Rc8/RFcujGvTnaGvfs1ezCogtDcRKKkq1U+Qw15yB648jxzlj7FC82L4lx/92Xb
- FCDJi0SInNHzXURFSc8qJfht/ScZPupnDiZfVUg30luQb1nSC9lRrHTMa2kfTpGK7qNE
- xHDUq/trwJN6JAdyfslh1Qpif3EMNNo+XCOJcq/2SyHGZ5btIf9YvLunifD1iDOUndKR
- RJKtYueI9Vf/VS2LBKvaz2gd+SlKPJmSuhZcSx82ZI1flTI6k4i2qo2Khw2p8UBrsmEd
- NYEkQ+W+hEHdDa8iFpr1IZZsDkusfYk0D4Y7rXhEU8I+L/iNGuUNNx6N4AiMM8Ws0hKM
- sUiQ==
-X-Gm-Message-State: APjAAAWolI6ZbVKdJYLCiEjyXWwGxS0ONRN8Mn2WERDuvVaeTQXm8zTp
- haSsFSanKvJy+X33fm8mAob9iJ7K
-X-Google-Smtp-Source: APXvYqzTv/7BfIN+Drz8syjX9peHWZMYoDim/iuwSrdY8I3MkCwsNiSE/z/4w+Vv3AMxUmjjGwJkMw==
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr2662907wrs.222.1575903722859; 
- Mon, 09 Dec 2019 07:02:02 -0800 (PST)
+ bh=FD2f+Nbu9tSiCoNEXPrgDf5vOFg7Yixed0iiSTqFeNk=;
+ b=e8+VduZZA8a2CLf/Xy38D0AyOuKwAIG7LbkDzvAkV7tVDbJZC/X2rDeDvLS8EoSKxr
+ hRtHZT2YfbCCqfsClmON7mgCdP+KQ4d0Ji8i0ITvE3Y6e0WH9J66U16yxzlbWbFcls2a
+ qaJDMlMUNAsD3mNO3jXzyAFZ2W1GF+Q4x9MXuX9kt0FpMh6U1PFQNfNgbOaZ6kdM2ETh
+ ElqvteiRXdEpeOICMUL3iYDpEQzC9pv6WEgASJ9+s5ws9vElACy+Hu1MIDrlEZO7A8Dw
+ oC4RwUGGTuNf4bDnN2QCJ0xeTnpfVALmLFCTU21qqVD3TZBoO9IrYI+a6aoYv04nF8ih
+ MJCQ==
+X-Gm-Message-State: APjAAAXD2O/HBWNkV/tY5/IL6fN9ybq8PemarMJZAqHnFUP+NLxkEFH6
+ vr4DoE+oPsHdSv0XIVjyld7oURNq
+X-Google-Smtp-Source: APXvYqz0eHB2vK8To2G/mhdArXpaB8A2XVPmEi3NdF7T7layEb5BIr1zkqhe+2Ts2PZ3w/9MV2Zr8Q==
+X-Received: by 2002:a5d:66c3:: with SMTP id k3mr2514645wrw.370.1575903724017; 
+ Mon, 09 Dec 2019 07:02:04 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.02.01
+ by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.02.02
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 09 Dec 2019 07:02:02 -0800 (PST)
+ Mon, 09 Dec 2019 07:02:03 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/18] tcg: add "-accel tcg,
- tb-size" and deprecate "-tb-size"
-Date: Mon,  9 Dec 2019 16:01:41 +0100
-Message-Id: <1575903705-12925-15-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH v2 15/18] xen: convert "-machine igd-passthru" to an
+ accelerator property
+Date: Mon,  9 Dec 2019 16:01:42 +0100
+Message-Id: <1575903705-12925-16-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
 References: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,199 +79,186 @@ Cc: thuth@redhat.com, elmarco@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--tb-size fits nicely in the new framework for accelerator-specific options.  It
-is a very niche option, so insta-deprecate it.
+The first machine property to fall is Xen's Intel integrated graphics
+passthrough.  The "-machine igd-passthru" option does not set anymore
+a property on the machine object, but desugars to a GlobalProperty on
+accelerator objects.
+
+The setter is very simple, since the value ends up in a
+global variable, so this patch also provides an example before the more
+complicated cases that follow it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/tcg-all.c    | 40 +++++++++++++++++++++++++++++++++++++---
- include/sysemu/accel.h |  2 --
- qemu-deprecated.texi   |  6 ++++++
- qemu-options.hx        |  8 ++++++--
- vl.c                   |  8 ++++----
- 5 files changed, 53 insertions(+), 11 deletions(-)
+ hw/core/machine.c   | 20 --------------------
+ hw/xen/xen-common.c | 16 ++++++++++++++++
+ include/hw/boards.h |  1 -
+ qemu-options.hx     |  7 ++++---
+ vl.c                | 14 ++++----------
+ 5 files changed, 24 insertions(+), 34 deletions(-)
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 7829f02..1dc384c 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -34,11 +34,13 @@
- #include "include/qapi/error.h"
- #include "include/qemu/error-report.h"
- #include "include/hw/boards.h"
-+#include "qapi/qapi-builtin-visit.h"
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 45ddfb6..d7a0356 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -412,20 +412,6 @@ static void machine_set_graphics(Object *obj, bool value, Error **errp)
+     ms->enable_graphics = value;
+ }
  
- typedef struct TCGState {
-     AccelState parent_obj;
- 
-     bool mttcg_enabled;
-+    unsigned long tb_size;
- } TCGState;
- 
- #define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
-@@ -46,8 +48,6 @@ typedef struct TCGState {
- #define TCG_STATE(obj) \
-         OBJECT_CHECK(TCGState, (obj), TYPE_TCG_ACCEL)
- 
--unsigned long tcg_tb_size;
+-static bool machine_get_igd_gfx_passthru(Object *obj, Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
 -
- /* mask must never be zero, except for A20 change call */
- static void tcg_handle_interrupt(CPUState *cpu, int mask)
+-    return ms->igd_gfx_passthru;
+-}
+-
+-static void machine_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
+-
+-    ms->igd_gfx_passthru = value;
+-}
+-
+ static char *machine_get_firmware(Object *obj, Error **errp)
  {
-@@ -126,7 +126,7 @@ static int tcg_init(MachineState *ms)
- {
-     TCGState *s = TCG_STATE(current_machine->accelerator);
+     MachineState *ms = MACHINE(obj);
+@@ -862,12 +848,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "graphics",
+         "Set on/off to enable/disable graphics emulation", &error_abort);
  
--    tcg_exec_init(tcg_tb_size * 1024 * 1024);
-+    tcg_exec_init(s->tb_size * 1024 * 1024);
-     cpu_interrupt_handler = tcg_handle_interrupt;
-     mttcg_enabled = s->mttcg_enabled;
-     return 0;
-@@ -167,6 +167,33 @@ static void tcg_set_thread(Object *obj, const char *value, Error **errp)
+-    object_class_property_add_bool(oc, "igd-passthru",
+-        machine_get_igd_gfx_passthru, machine_set_igd_gfx_passthru,
+-        &error_abort);
+-    object_class_property_set_description(oc, "igd-passthru",
+-        "Set on/off to enable/disable igd passthrou", &error_abort);
+-
+     object_class_property_add_str(oc, "firmware",
+         machine_get_firmware, machine_set_firmware,
+         &error_abort);
+diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
+index 5284b0d..6cba30c 100644
+--- a/hw/xen/xen-common.c
++++ b/hw/xen/xen-common.c
+@@ -124,6 +124,16 @@ static void xen_change_state_handler(void *opaque, int running,
      }
  }
  
-+static void tcg_get_tb_size(Object *obj, Visitor *v,
-+                            const char *name, void *opaque,
-+                            Error **errp)
++static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
 +{
-+    TCGState *s = TCG_STATE(obj);
-+    uint32_t value = s->tb_size;
-+
-+    visit_type_uint32(v, name, &value, errp);
++    return has_igd_gfx_passthru;
 +}
 +
-+static void tcg_set_tb_size(Object *obj, Visitor *v,
-+                            const char *name, void *opaque,
-+                            Error **errp)
++static void xen_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
 +{
-+    TCGState *s = TCG_STATE(obj);
-+    Error *error = NULL;
-+    uint32_t value;
-+
-+    visit_type_uint32(v, name, &value, &error);
-+    if (error) {
-+        error_propagate(errp, error);
-+        return;
-+    }
-+
-+    s->tb_size = value;
++    has_igd_gfx_passthru = value;
 +}
 +
- static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ static void xen_setup_post(MachineState *ms, AccelState *accel)
  {
-     AccelClass *ac = ACCEL_CLASS(oc);
-@@ -178,6 +205,13 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
-                                   tcg_get_thread,
-                                   tcg_set_thread,
-                                   NULL);
+     int rc;
+@@ -177,6 +187,12 @@ static void xen_accel_class_init(ObjectClass *oc, void *data)
+     ac->compat_props = g_ptr_array_new();
+ 
+     compat_props_add(ac->compat_props, compat, G_N_ELEMENTS(compat));
 +
-+    object_class_property_add(oc, "tb-size", "int",
-+        tcg_get_tb_size, tcg_set_tb_size,
-+        NULL, NULL, &error_abort);
-+    object_class_property_set_description(oc, "tb-size",
-+        "TCG translation block cache size", &error_abort);
-+
++    object_class_property_add_bool(oc, "igd-passthru",
++        xen_get_igd_gfx_passthru, xen_set_igd_gfx_passthru,
++        &error_abort);
++    object_class_property_set_description(oc, "igd-passthru",
++        "Set on/off to enable/disable igd passthrou", &error_abort);
  }
  
- static const TypeInfo tcg_accel_type = {
-diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-index 22cac0f..d4c1429 100644
---- a/include/sysemu/accel.h
-+++ b/include/sysemu/accel.h
-@@ -64,8 +64,6 @@ typedef struct AccelClass {
- #define ACCEL_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
- 
--extern unsigned long tcg_tb_size;
--
- AccelClass *accel_find(const char *opt_name);
- int accel_init_machine(AccelState *accel, MachineState *ms);
- 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 4b4b742..487d2b4 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -147,6 +147,12 @@ QEMU 4.1 has three options, please migrate to one of these three:
-       to do is specify the kernel they want to boot with the -kernel option
-  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
- 
-+@subsection -tb-size option (since 5.0)
-+
-+QEMU 5.0 introduced an alternative syntax to specify the size of the translation
-+block cache, @option{-accel tcg,tb-size=}.  The new syntax deprecates the
-+previously available @option{-tb-size} option.
-+
- @section QEMU Machine Protocol (QMP) commands
- 
- @subsection change (since 2.5.0)
+ #define TYPE_XEN_ACCEL ACCEL_CLASS_NAME("xen")
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 36fcbda..cdcf481 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -287,7 +287,6 @@ struct MachineState {
+     bool mem_merge;
+     bool usb;
+     bool usb_disabled;
+-    bool igd_gfx_passthru;
+     char *firmware;
+     bool iommu;
+     bool suppress_vmdesc;
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 65c9473..9775258 100644
+index 9775258..6f12b31 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -118,8 +118,9 @@ Select CPU model (@code{-cpu help} for list and additional feature selection)
- ETEXI
- 
+@@ -37,7 +37,6 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "                kvm_shadow_mem=size of KVM shadow MMU in bytes\n"
+     "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
+     "                mem-merge=on|off controls memory merge support (default: on)\n"
+-    "                igd-passthru=on|off controls IGD GFX passthrough support (default=off)\n"
+     "                aes-key-wrap=on|off controls support for AES key wrapping (default=on)\n"
+     "                dea-key-wrap=on|off controls support for DEA key wrapping (default=on)\n"
+     "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
+@@ -71,8 +70,6 @@ more than one accelerator specified, the next one is used if the previous one
+ fails to initialize.
+ @item kernel_irqchip=on|off
+ Controls in-kernel irqchip support for the chosen accelerator when available.
+-@item gfx_passthru=on|off
+-Enables IGD GFX passthrough support for the chosen machine when available.
+ @item vmport=on|off|auto
+ Enables emulation of VMWare IO port, for vmmouse etc. auto says to select the
+ value based on accel. For accel=xen the default is off otherwise the default
+@@ -120,6 +117,7 @@ ETEXI
  DEF("accel", HAS_ARG, QEMU_OPTION_accel,
--    "-accel [accel=]accelerator[,thread=single|multi]\n"
-+    "-accel [accel=]accelerator[,prop[=value][,...]]\n"
+     "-accel [accel=]accelerator[,prop[=value][,...]]\n"
      "                select accelerator (kvm, xen, hax, hvf, whpx or tcg; use 'help' for a list)\n"
-+    "                tb-size=n (TCG translation block cache size)\n"
++    "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
+     "                tb-size=n (TCG translation block cache size)\n"
      "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
  STEXI
- @item -accel @var{name}[,prop=@var{value}[,...]]
-@@ -129,6 +130,8 @@ kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used. If th
+@@ -130,6 +128,9 @@ kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used. If th
  more than one accelerator specified, the next one is used if the previous one
  fails to initialize.
  @table @option
-+@item tb-size=@var{n}
-+Controls the size (in MiB) of the TCG translation block cache.
++@item igd-passthru=on|off
++When Xen is in use, this option controls whether Intel integrated graphics
++devices can be passed through to the guest (default=off)
+ @item tb-size=@var{n}
+ Controls the size (in MiB) of the TCG translation block cache.
  @item thread=single|multi
- Controls number of TCG threads. When the TCG is multi-threaded there will be one
- thread per vCPU therefor taking advantage of additional host cores. The default
-@@ -4012,7 +4015,8 @@ DEF("tb-size", HAS_ARG, QEMU_OPTION_tb_size, \
- STEXI
- @item -tb-size @var{n}
- @findex -tb-size
--Set TB size.
-+Set TCG translation block cache size.  Deprecated, use @samp{-accel tcg,tb-size=@var{n}}
-+instead.
- ETEXI
- 
- DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
 diff --git a/vl.c b/vl.c
-index b6c23d1..e6ff56b 100644
+index e6ff56b..ee872f2 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -2852,6 +2852,7 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
-         return 0;
-     }
-     accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
-+    object_apply_compat_props(OBJECT(accel));
-     qemu_opt_foreach(opts, accelerator_set_property,
-                      accel,
-                      &error_fatal);
-@@ -2863,6 +2864,7 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
-                      acc, strerror(-ret));
-         return 0;
-     }
-+
-     return 1;
+@@ -1257,13 +1257,6 @@ static void configure_msg(QemuOpts *opts)
  }
  
-@@ -3745,10 +3747,8 @@ int main(int argc, char **argv, char **envp)
-                 error_report("TCG is disabled");
-                 exit(1);
- #endif
--                if (qemu_strtoul(optarg, NULL, 0, &tcg_tb_size) < 0) {
--                    error_report("Invalid argument to -tb-size");
--                    exit(1);
--                }
-+                warn_report("The -tb-size option is deprecated, use -accel tcg,tb-size instead");
-+                object_register_sugar_prop(ACCEL_CLASS_NAME("tcg"), "tb-size", optarg);
-                 break;
-             case QEMU_OPTION_icount:
-                 icount_opts = qemu_opts_parse_noisily(qemu_find_opts("icount"),
+ 
+-/* Now we still need this for compatibility with XEN. */
+-bool has_igd_gfx_passthru;
+-static void igd_gfx_passthru(void)
+-{
+-    has_igd_gfx_passthru = current_machine->igd_gfx_passthru;
+-}
+-
+ /***********************************************************/
+ /* USB devices */
+ 
+@@ -2642,6 +2635,10 @@ static int machine_set_property(void *opaque,
+     if (g_str_equal(qom_name, "accel")) {
+         return 0;
+     }
++    if (g_str_equal(qom_name, "igd-passthru")) {
++        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
++        return 0;
++    }
+ 
+     return object_parse_property_opt(opaque, name, value, "type", errp);
+ }
+@@ -4456,9 +4453,6 @@ int main(int argc, char **argv, char **envp)
+             exit(1);
+     }
+ 
+-    /* Check if IGD GFX passthrough. */
+-    igd_gfx_passthru();
+-
+     /* init generic devices */
+     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
+     qemu_opts_foreach(qemu_find_opts("device"),
 -- 
 1.8.3.1
 
