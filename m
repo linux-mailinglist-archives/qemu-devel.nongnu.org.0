@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20641174E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:50:21 +0100 (CET)
-Received: from localhost ([::1]:44970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D821174F1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:55:53 +0100 (CET)
+Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieO6u-0007xw-Bc
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:50:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37140)
+	id 1ieOCG-0006pc-OA
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:55:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNhZ-0000rQ-Qe
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:24:14 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ieNl8-0006MS-CF
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:27:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNhV-0003Su-Gm
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:24:09 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34755)
+ (envelope-from <mrolnik@gmail.com>) id 1ieNl5-0007AO-4a
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:27:50 -0500
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:44088)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ieNhV-0003Sl-6m
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:24:05 -0500
-Received: by mail-oi1-x242.google.com with SMTP id l136so7259937oig.1
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 10:24:05 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ieNl4-00079Y-U0
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:27:47 -0500
+Received: by mail-qk1-x741.google.com with SMTP id w127so2155747qkb.11
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 10:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=vSE7fbcPyRIxeCO8DxQjaPm1pon01p8/ZMEA6g1kCwc=;
- b=BQuA+LHrBGJwd7kxEaH7kl/iR6ByMnQllrZWwUL/XqYAbd+OpqMvTyOJed7NEZWpk+
- xbIOWBBiqNIjYA8kI7FXK2Kvy/piZBOWcNmKkkfFhlJw/1iRxQWaync4gR8m2ESfeIek
- 7mUcOMihwWkamVlKgUFVut/Ob9bWGpHDFM6RHDgnfa8Ebs/RgPsgTxtiCAfI1CFiOwym
- rThbAtbYWA2ekgSZNxyfabU98rm89HDrV3m6KeJX7LYPTJahDCpHmgvCB65WY9S16quA
- rzkhKJbaisfr04IJA39Mvpp3HpI7B6Jh3+be9+VpTQEIvc763mhxGK9uCNSzZvli1IKt
- IVVw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ktkhst6m1KG9hVNk6wtwGHuIWKFgzZRuz2m63JEqdh8=;
+ b=LFAdlLRyYy0QMc3jLifzEY02W/gWqTv3oSuv2R7FkBZYhGJZ4A1wA5GqWllcZgymKv
+ j9mSyz8q2GGb0hCzvlmF3m0WMFj55RUus3BHVtC7xQX8ktR3AOHoEFSMqxwMQx2Vz5gi
+ uiuAf3bOP65lzLKShAe8dMcf6ZTRc2YmgedgqAnJ37U8mDN9w9k8wqs2xoj+6MuCF5pw
+ 2wFIP9TBQysaDpgeRH91u4pPbtzV1Bdre371/ivNAiRplsqV+k68+AV3j5qOhRf5b1Uv
+ J0DKn3rU+js5PW6GdeAEYRrDsAt8JwOTMvJzt31gL9Iy4V532FGJTMv5mSwodDEDANvv
+ 4ZyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vSE7fbcPyRIxeCO8DxQjaPm1pon01p8/ZMEA6g1kCwc=;
- b=NPGfbC6YcZLYabReRxao1jg9efFdwSCa66ITYMAA2kbaeAaflTGmQdRE0ser+asifd
- zryjQ0Z/jgiNN70vqnAD4E47vMuhha5vk4Ne84m6SJVmBIQFGXLBSNy1Rs6WCONYH5L7
- x5WDGrR8sfBAjeuJZilSqsP2nJCj43LLJ4fzOwptOMnn54ylACOltEFcoguIgI26/zee
- D2Gun5xc/vvdKukOfGhxusVZEqDO0L25mIbESSzaiVMMjaYPqmlR7+MWkf8agjcKb4zj
- qvH43qLAXWigXeWYRkGLpdgF1NomFWDNVJDj4xvUx1RkF++t7mc+K+T8oDcO/jTueLJL
- r34Q==
-X-Gm-Message-State: APjAAAUL9WXS7oL4XTIMs8z6NMkXezAWErwGDq92g4aVNMbvuB4sQuN5
- fv4H+PEXNWwp3xISDI5s5waMdjjuB6xiBx8WuAA=
-X-Google-Smtp-Source: APXvYqxmHZ150tA2CQKnM1kRTnvqDfrL29Z8vR2VlqxcioOzdWzLiAp84fsxhOXxz8f1QkNl9OSVw+6dcZ+trqUOthk=
-X-Received: by 2002:aca:1b08:: with SMTP id b8mr353506oib.106.1575915844240;
- Mon, 09 Dec 2019 10:24:04 -0800 (PST)
+ bh=ktkhst6m1KG9hVNk6wtwGHuIWKFgzZRuz2m63JEqdh8=;
+ b=XOzrUB2y7maqq/njR0Johdq3VnThMK2HJ2nccFnTL2PIpJidPFFpITvYySQFuAo+GN
+ sSrWxqvPgUbcxH9iRLVhwyf+OfY8vIYieE+ENQvRS3U2D+OzksGED907cVt6YVJ+OzKo
+ egqUnAlYlmHQvDSEXgzql6jZWxyxOZus3h4KFUc5Qj/ryYTzAF1mt7bqkfcas+ZfGNfG
+ 822u/66gs/JYqe2AMsKTK+U5QJYjIRP3EtYkWK3TajuEryX5uOdSYvSHmFV4SxdKmUEd
+ mHaPda0WB93fvClws5BcFMGToq5XkuQQUSE9XoFAvnrD8bOQhPMnDUS2yYFA4m85kw5w
+ OttQ==
+X-Gm-Message-State: APjAAAVI7Urnd7zHbcdZm9G6oKvB/WIzET81J90pzWYg4dOkZUeNc/Ud
+ hyECVVQOF6jkpdcveRPoDkstjrNQ8WK5BTTtgVI=
+X-Google-Smtp-Source: APXvYqzkWTlbSKTFhaRJlbfBIhDABvurK5hH8xte+poTE6AW8ok5nSoJXzb/0mWwtlYFkXj2w9x2HLisRv5GKZb3Iyg=
+X-Received: by 2002:a37:4fd0:: with SMTP id
+ d199mr29314546qkb.103.1575916065974; 
+ Mon, 09 Dec 2019 10:27:45 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Mon, 9 Dec 2019 10:24:03 -0800 (PST)
-In-Reply-To: <20191208183922.13757-16-mrolnik@gmail.com>
 References: <20191208183922.13757-1-mrolnik@gmail.com>
- <20191208183922.13757-16-mrolnik@gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 9 Dec 2019 19:24:03 +0100
-Message-ID: <CAL1e-=hOw0_bfejCqj-VHG9Ww3HK3_C_P1f8KWy2myQ2GbTrQA@mail.gmail.com>
-Subject: Re: [PATCH v38 15/22] target/avr: Add example board configuration
-To: Michael Rolnik <mrolnik@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000001789a605994980c9"
+ <20191208183922.13757-12-mrolnik@gmail.com>
+ <CAL1e-=iPsFgtEmvT2xt-Fm8AiQBxq48_veVDcnnyMEqghF16hw@mail.gmail.com>
+In-Reply-To: <CAL1e-=iPsFgtEmvT2xt-Fm8AiQBxq48_veVDcnnyMEqghF16hw@mail.gmail.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Mon, 9 Dec 2019 20:27:01 +0200
+Message-ID: <CAK4993ipego3-ELy82A85Rcd=PDiqCF0M5-COpHPUTL6UjVQZQ@mail.gmail.com>
+Subject: Re: [PATCH v38 11/22] target/avr: Add instruction disassembly function
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000004eeeb40599498dd3"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,1144 +83,795 @@ Cc: "thuth@redhat.com" <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001789a605994980c9
+--0000000000004eeeb40599498dd3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sunday, December 8, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+Hi Aleksandar.
 
-> A simple board setup that configures an AVR CPU to run a given firmware
-> image.
-> This is all that's useful to implement without peripheral emulation as AV=
-R
-> CPUs include a lot of on-board peripherals.
->
-> NOTE: this is not a real board !!!!
-> NOTE: it's used for CPU testing!!!!
->
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> Nacked-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  include/elf.h        |   2 +
->  include/hw/elf_ops.h |   6 +-
->  include/hw/loader.h  |   3 +-
->  hw/avr/sample.c      | 293 +++++++++++++++++++++++++++++++++++++++++++
->  hw/core/loader.c     |  13 +-
->  hw/Kconfig           |   1 +
->  hw/avr/Kconfig       |   6 +
->  hw/avr/Makefile.objs |   1 +
->  8 files changed, 317 insertions(+), 8 deletions(-)
->  create mode 100644 hw/avr/sample.c
->  create mode 100644 hw/avr/Kconfig
->  create mode 100644 hw/avr/Makefile.objs
->
-> diff --git a/include/elf.h b/include/elf.h
-> index 3501e0c8d0..53cdfa23b7 100644
-> --- a/include/elf.h
-> +++ b/include/elf.h
-> @@ -202,6 +202,8 @@ typedef struct mips_elf_abiflags_v0 {
->  #define EM_MOXIE           223     /* Moxie processor family */
->  #define EM_MOXIE_OLD       0xFEED
->
-> +#define EM_AVR 83 /* AVR 8-bit microcontroller */
-> +
->  /* This is the info that is needed to parse the dynamic section of the
-> file */
->  #define DT_NULL                0
->  #define DT_NEEDED      1
-> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-> index e07d276df7..9f28c16490 100644
-> --- a/include/hw/elf_ops.h
-> +++ b/include/hw/elf_ops.h
-> @@ -316,7 +316,8 @@ static int glue(load_elf, SZ)(const char *name, int f=
-d,
->                                void *translate_opaque,
->                                int must_swab, uint64_t *pentry,
->                                uint64_t *lowaddr, uint64_t *highaddr,
-> -                              int elf_machine, int clear_lsb, int
-> data_swab,
-> +                              int elf_machine, uint32_t *pflags,
-> +                              int clear_lsb, int data_swab,
->                                AddressSpace *as, bool load_rom,
->                                symbol_fn_t sym_cb)
+1. all instructions are 16 bit long except CALL & JMP they are 32 bit long
+2. next_word_used is set to true by next_word when called by append_16 when
+CALL & JMP are parsed
 
+Regards,
+Michael Rolnik
+
+On Mon, Dec 9, 2019 at 8:10 PM Aleksandar Markovic <
+aleksandar.m.mail@gmail.com> wrote:
 
 >
- New parameter uint32_t *pflags should go before int elf_machine, so that
-input and output parameters are grouped together. The mane should be more
-precise, like pe_flags.
+>
+> On Sunday, December 8, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+>
+>> Provide function disassembles executed instruction when `-d in_asm` is
+>> provided
+>>
+>> Example:
+>> `./avr-softmmu/qemu-system-avr -bios
+>> free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf -d in_asm` will produce
+>> something like the following
+>>
+>> ```
+>>     ...
+>>     IN:
+>>     0x0000014a:  CALL      0x3808
+>>
+>>     IN: main
+>>     0x00003808:  CALL      0x4b4
+>>
+>>     IN: vParTestInitialise
+>>     0x000004b4:  LDI       r24, 255
+>>     0x000004b6:  STS       r24, 0
+>>     0x000004b8:  MULS      r16, r20
+>>     0x000004ba:  OUT       $1, r24
+>>     0x000004bc:  LDS       r24, 0
+>>     0x000004be:  MULS      r16, r20
+>>     0x000004c0:  OUT       $2, r24
+>>     0x000004c2:  RET
+>>     ...
+>> ```
+>>
+>> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+>> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>  target/avr/cpu.h       |   1 +
+>>  target/avr/cpu.c       |   2 +-
+>>  target/avr/disas.c     | 226 +++++++++++++++++++++++++++++++++++++++++
+>>  target/avr/translate.c |  11 ++
+>>  4 files changed, 239 insertions(+), 1 deletion(-)
+>>  create mode 100644 target/avr/disas.c
+>>
+>> diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+>> index c217eefeb4..a8a3e7ade6 100644
+>> --- a/target/avr/cpu.h
+>> +++ b/target/avr/cpu.h
+>> @@ -178,6 +178,7 @@ bool avr_cpu_exec_interrupt(CPUState *cpu, int
+>> int_req);
+>>  hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>>  int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+>>  int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>> +int avr_print_insn(bfd_vma addr, disassemble_info *info);
+>>
+>>  static inline int avr_feature(CPUAVRState *env, int feature)
+>>  {
+>> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+>> index c5cafcae3c..be4b921e4d 100644
+>> --- a/target/avr/cpu.c
+>> +++ b/target/avr/cpu.c
+>> @@ -83,7 +83,7 @@ static void avr_cpu_reset(CPUState *cs)
+>>  static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *inf=
+o)
+>>  {
+>>      info->mach =3D bfd_arch_avr;
+>> -    info->print_insn =3D NULL;
+>> +    info->print_insn =3D avr_print_insn;
+>>  }
+>>
+>>  static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
+>> diff --git a/target/avr/disas.c b/target/avr/disas.c
+>> new file mode 100644
+>> index 0000000000..22863d2eb1
+>> --- /dev/null
+>> +++ b/target/avr/disas.c
+>> @@ -0,0 +1,226 @@
+>> +/*
+>> + * AVR disassembler
+>> + *
+>> + * Copyright (c) 2019 Richard Henderson <rth@twiddle.net>
+>> + * Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
+>> + *
+>> + * This program is free software: you can redistribute it and/or modify
+>> + * it under the terms of the GNU General Public License as published by
+>> + * the Free Software Foundation, either version 2 of the License, or
+>> + * (at your option) any later version.
+>> + *
+>> + * This program is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> + * GNU General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU General Public License
+>> + * along with this program.  If not, see <http://www.gnu.org/licenses/>=
+.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "cpu.h"
+>> +
+>> +typedef struct {
+>> +    disassemble_info *info;
+>> +    uint16_t next_word;
+>> +    bool next_word_used;
+>> +} DisasContext;
+>> +
+>> +static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
+>> +{
+>> +    return 16 + (indx % 16);
+>> +}
+>> +
+>> +static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
+>> +{
+>> +    return 16 + (indx % 8);
+>> +}
+>> +static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
+>> +{
+>> +    return 24 + (indx % 4) * 2;
+>> +}
+>> +static int to_regs_00_30_by_two(DisasContext *ctx, int indx)
+>> +{
+>> +    return (indx % 16) * 2;
+>> +}
+>> +
+>> +static uint16_t next_word(DisasContext *ctx)
+>> +{
+>> +    ctx->next_word_used =3D true;
+>> +    return ctx->next_word;
+>> +}
+>> +
+>> +static int append_16(DisasContext *ctx, int x)
+>> +{
+>> +    return x << 16 | next_word(ctx);
+>> +}
+>> +
+>> +
+>> +/* Include the auto-generated decoder.  */
+>> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
+>> +#include "decode_insn.inc.c"
+>> +
+>> +#define output(mnemonic, format, ...) \
+>> +    (pctx->info->fprintf_func(pctx->info->stream, "%-9s " format, \
+>> +                        mnemonic, ##__VA_ARGS__))
+>> +
+>> +int avr_print_insn(bfd_vma addr, disassemble_info *info)
+>> +{
+>> +    DisasContext ctx;
+>> +    DisasContext *pctx =3D &ctx;
+>> +    bfd_byte buffer[4];
+>> +    uint16_t insn;
+>> +    int status;
+>> +
+>> +    ctx.info =3D info;
+>> +
+>> +    status =3D info->read_memory_func(addr, buffer, 4, info);
+>> +    if (status !=3D 0) {
+>> +        info->memory_error_func(status, addr, info);
+>> +        return -1;
+>> +    }
+>> +    insn =3D bfd_getl16(buffer);
+>> +    ctx.next_word =3D bfd_getl16(buffer + 2);
+>> +    ctx.next_word_used =3D false;
+>> +
+>> +    if (!decode_insn(&ctx, insn)) {
+>> +        output(".db", "0x%02x, 0x%02x", buffer[0], buffer[1]);
+>> +    }
+>> +
+>> +    return ctx.next_word_used ? 4 : 2;
+>> +}
+>
+>
+> Hi, Michael,
+>
+> What is the role of ctx.next_word_used, if it looks it is always "false"?
+>
+> Related to this, how do you disassemble 32-bit-coded instructions? From
+> this patch, it looks you treat all AVR instructions as 16-bit-coded?
+>
+> Thanks,
+> Aleksandar
+>
+>
+>> +
+>> +
+>> +#define INSN(opcode, format, ...)                                      =
+ \
+>> +static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)       =
+ \
+>> +{                                                                      =
+ \
+>> +    output(#opcode, format, ##__VA_ARGS__);                            =
+ \
+>> +    return true;                                                       =
+ \
+>> +}
+>> +
+>> +#define INSN_MNEMONIC(opcode, mnemonic, format, ...)                   =
+ \
+>> +static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)       =
+ \
+>> +{                                                                      =
+ \
+>> +    output(mnemonic, format, ##__VA_ARGS__);                           =
+ \
+>> +    return true;                                                       =
+ \
+>> +}
+>> +
+>> +/*
+>> + *   C       Z       N       V       S       H       T       I
+>> + *   0       1       2       3       4       5       6       7
+>> + */
+>> +static const char *brbc[] =3D {
+>> +    "BRCC", "BRNE", "BRPL", "BRVC", "BRGE", "BRHC", "BRTC", "BRID"
+>> +};
+>> +
+>> +static const char *brbs[] =3D {
+>> +    "BRCS", "BREQ", "BRMI", "BRVS", "BRLT", "BRHS", "BRTS", "BRIE"
+>> +};
+>> +
+>> +static const char *bset[] =3D {
+>> +    "SEC",  "SEZ",  "SEN",  "SEZ",  "SES",  "SEH",  "SET",  "SEI"
+>> +};
+>> +
+>> +static const char *bclr[] =3D {
+>> +    "CLC",  "CLZ",  "CLN",  "CLZ",  "CLS",  "CLH",  "CLT",  "CLI"
+>> +};
+>> +
+>> +INSN(ADC,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(ADD,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(ADIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
+>> +INSN(AND,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(ANDI,   "r%d, %d", a->rd, a->imm)
+>> +INSN(ASR,    "r%d", a->rd)
+>> +INSN_MNEMONIC(BCLR,  bclr[a->bit], "")
+>> +INSN(BLD,    "r%d, %d", a->rd, a->bit)
+>> +INSN_MNEMONIC(BRBC,  brbc[a->bit], ".%+d", a->imm * 2)
+>> +INSN_MNEMONIC(BRBS,  brbs[a->bit], ".%+d", a->imm * 2)
+>> +INSN(BREAK,  "")
+>> +INSN_MNEMONIC(BSET,  bset[a->bit], "")
+>> +INSN(BST,    "r%d, %d", a->rd, a->bit)
+>> +INSN(CALL,   "0x%x", a->imm * 2)
+>> +INSN(CBI,    "%d, %d", a->reg, a->bit)
+>> +INSN(COM,    "r%d", a->rd)
+>> +INSN(CP,     "r%d, r%d", a->rd, a->rr)
+>> +INSN(CPC,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(CPI,    "r%d, %d", a->rd, a->imm)
+>> +INSN(CPSE,   "r%d, r%d", a->rd, a->rr)
+>> +INSN(DEC,    "r%d", a->rd)
+>> +INSN(DES,    "%d", a->imm)
+>> +INSN(EICALL, "")
+>> +INSN(EIJMP,  "")
+>> +INSN(ELPM1,  "")
+>> +INSN(ELPM2,  "r%d, Z", a->rd)
+>> +INSN(ELPMX,  "r%d, Z+", a->rd)
+>> +INSN(EOR,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(FMUL,   "r%d, r%d", a->rd, a->rr)
+>> +INSN(FMULS,  "r%d, r%d", a->rd, a->rr)
+>> +INSN(FMULSU, "r%d, r%d", a->rd, a->rr)
+>> +INSN(ICALL,  "")
+>> +INSN(IJMP,   "")
+>> +INSN(IN,     "r%d, $%d", a->rd, a->imm)
+>> +INSN(INC,    "r%d", a->rd)
+>> +INSN(JMP,    "0x%x", a->imm * 2)
+>> +INSN(LAC,    "Z, r%d", a->rd)
+>> +INSN(LAS,    "Z, r%d", a->rd)
+>> +INSN(LAT,    "Z, r%d", a->rd)
+>> +INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
+>> +INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
+>> +INSN(LDI,    "r%d, %d", a->rd, a->imm)
+>> +INSN(LDS,    "r%d, %d", a->rd, a->imm)
+>> +INSN(LDX1,   "r%d, X", a->rd)
+>> +INSN(LDX2,   "r%d, X+", a->rd)
+>> +INSN(LDX3,   "r%d, -X", a->rd)
+>> +INSN(LDY2,   "r%d, Y+", a->rd)
+>> +INSN(LDY3,   "r%d, -Y", a->rd)
+>> +INSN(LDZ2,   "r%d, Z+", a->rd)
+>> +INSN(LDZ3,   "r%d, -Z", a->rd)
+>> +INSN(LPM1,   "")
+>> +INSN(LPM2,   "r%d, Z", a->rd)
+>> +INSN(LPMX,   "r%d, Z+", a->rd)
+>> +INSN(LSR,    "r%d", a->rd)
+>> +INSN(MOV,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(MOVW,   "r%d:r%d, r%d,r:r%d", a->rd + 1, a->rd, a->rr + 1, a->rr)
+>> +INSN(MUL,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(MULS,   "r%d, r%d", a->rd, a->rr)
+>> +INSN(MULSU,  "r%d, r%d", a->rd, a->rr)
+>> +INSN(NEG,    "r%d", a->rd)
+>> +INSN(NOP,    "")
+>> +INSN(OR,     "r%d, r%d", a->rd, a->rr)
+>> +INSN(ORI,    "r%d, %d", a->rd, a->imm)
+>> +INSN(OUT,    "$%d, r%d", a->imm, a->rd)
+>> +INSN(POP,    "r%d", a->rd)
+>> +INSN(PUSH,   "r%d", a->rd)
+>> +INSN(RCALL,  ".%+d", a->imm * 2)
+>> +INSN(RET,    "")
+>> +INSN(RETI,   "")
+>> +INSN(RJMP,   ".%+d", a->imm * 2)
+>> +INSN(ROR,    "r%d", a->rd)
+>> +INSN(SBC,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(SBCI,   "r%d, %d", a->rd, a->imm)
+>> +INSN(SBI,    "$%d, %d", a->reg, a->bit)
+>> +INSN(SBIC,   "$%d, %d", a->reg, a->bit)
+>> +INSN(SBIS,   "$%d, %d", a->reg, a->bit)
+>> +INSN(SBIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
+>> +INSN(SBRC,   "r%d, %d", a->rr, a->bit)
+>> +INSN(SBRS,   "r%d, %d", a->rr, a->bit)
+>> +INSN(SLEEP,  "")
+>> +INSN(SPM,    "")
+>> +INSN(SPMX,   "Z+")
+>> +INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
+>> +INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
+>> +INSN(STS,    "r%d, %d", a->rd, a->imm)
+>> +INSN(STX1,   "r%d, X", a->rr)
+>> +INSN(STX2,   "r%d, X+", a->rr)
+>> +INSN(STX3,   "r%d, -X", a->rr)
+>> +INSN(STY2,   "r%d, Y+", a->rd)
+>> +INSN(STY3,   "r%d, -Y", a->rd)
+>> +INSN(STZ2,   "r%d, Z+", a->rd)
+>> +INSN(STZ3,   "r%d, -Z", a->rd)
+>> +INSN(SUB,    "r%d, r%d", a->rd, a->rr)
+>> +INSN(SUBI,   "r%d, %d", a->rd, a->imm)
+>> +INSN(SWAP,   "r%d", a->rd)
+>> +INSN(WDR,    "")
+>> +INSN(XCH,    "Z, r%d", a->rd)
+>> +
+>> diff --git a/target/avr/translate.c b/target/avr/translate.c
+>> index c8c6f798bf..a621195817 100644
+>> --- a/target/avr/translate.c
+>> +++ b/target/avr/translate.c
+>> @@ -2917,6 +2917,17 @@ done_generating:
+>>
+>>      tb->size =3D (ctx.npc - pc_start) * 2;
+>>      tb->icount =3D num_insns;
+>> +
+>> +#ifdef DEBUG_DISAS
+>> +    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+>> +        && qemu_log_in_addr_range(tb->pc)) {
+>> +        qemu_log_lock();
+>> +        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
+>> +        log_target_disas(cs, tb->pc, tb->size);
+>> +        qemu_log("\n");
+>> +        qemu_log_unlock();
+>> +    }
+>> +#endif
+>>  }
+>>
+>>  void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
+>> --
+>> 2.17.2 (Apple Git-113)
+>>
+>>
 
-But, it looks to me that you are breaking all other platforms with this
-change. Did you try full qemu build after your series is applied?
+--=20
+Best Regards,
+Michael Rolnik
 
-
->
-
- {
-> @@ -594,6 +595,9 @@ static int glue(load_elf, SZ)(const char *name, int f=
-d,
->          }
->      }
->
-> +    if (pflags) {
-> +        *pflags =3D (uint32_t)(elf_sword)ehdr.e_flags;
-> +    }
->      if (lowaddr)
->          *lowaddr =3D (uint64_t)(elf_sword)low;
->      if (highaddr)
-> diff --git a/include/hw/loader.h b/include/hw/loader.h
-> index 48a96cd559..3dbdd1868d 100644
-> --- a/include/hw/loader.h
-> +++ b/include/hw/loader.h
-> @@ -132,7 +132,8 @@ int load_elf_ram_sym(const char *filename,
->                       uint64_t (*translate_fn)(void *, uint64_t),
->                       void *translate_opaque, uint64_t *pentry,
->                       uint64_t *lowaddr, uint64_t *highaddr, int
-> big_endian,
-> -                     int elf_machine, int clear_lsb, int data_swab,
-> +                     int elf_machine, uint32_t *pflags,
-> +                     int clear_lsb, int data_swab,
->                       AddressSpace *as, bool load_rom, symbol_fn_t sym_cb=
-);
->
->  /** load_elf_ram:
-> diff --git a/hw/avr/sample.c b/hw/avr/sample.c
-> new file mode 100644
-> index 0000000000..6574733b57
-> --- /dev/null
-> +++ b/hw/avr/sample.c
-> @@ -0,0 +1,293 @@
-> +/*
-> + * QEMU AVR CPU
-> + *
-> + * Copyright (c) 2019 Michael Rolnik
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see
-> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
-> + */
-> +
-> +/*
-> + *  NOTE:
-> + *      This is not a real AVR board, this is an example!
-> + *      The CPU is an approximation of an ATmega2560, but is missing
-> various
-> + *      built-in peripherals.
-> + *
-> + *      This example board loads provided binary file into flash memory
-> and
-> + *      executes it from 0x00000000 address in the code memory space.
-> + *
-> + *      Currently used for AVR CPU validation
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu-common.h"
-> +#include "cpu.h"
-> +#include "hw/hw.h"
-> +#include "sysemu/sysemu.h"
-> +#include "sysemu/qtest.h"
-> +#include "ui/console.h"
-> +#include "hw/boards.h"
-> +#include "hw/loader.h"
-> +#include "qemu/error-report.h"
-> +#include "exec/address-spaces.h"
-> +#include "include/hw/sysbus.h"
-> +#include "include/hw/char/avr_usart.h"
-> +#include "include/hw/timer/avr_timer16.h"
-> +#include "include/hw/misc/avr_mask.h"
-> +#include "elf.h"
-> +#include "hw/misc/unimp.h"
-> +
-> +#define SIZE_FLASH 0x00040000
-> +#define SIZE_SRAM 0x00002000
-> +/*
-> + * Size of additional "external" memory, as if the AVR were configured t=
-o
-> use
-> + * an external RAM chip.
-> + * Note that the configuration registers that normally enable this
-> feature are
-> + * unimplemented.
-> + */
-> +#define SIZE_EXMEM 0x00000000
-> +
-> +/* Offsets of peripherals in emulated memory space (i.e. not host
-> addresses)  */
-> +#define PRR0_BASE 0x64
-> +#define PRR1_BASE 0x65
-> +#define USART_BASE 0xc0
-> +#define TIMER1_BASE 0x80
-> +#define TIMER1_IMSK_BASE 0x6f
-> +#define TIMER1_IFR_BASE 0x36
-> +
-> +/* Interrupt numbers used by peripherals */
-> +#define USART_RXC_IRQ 24
-> +#define USART_DRE_IRQ 25
-> +#define USART_TXC_IRQ 26
-> +
-> +#define TIMER1_CAPT_IRQ 15
-> +#define TIMER1_COMPA_IRQ 16
-> +#define TIMER1_COMPB_IRQ 17
-> +#define TIMER1_COMPC_IRQ 18
-> +#define TIMER1_OVF_IRQ 19
-> +
-> +/*  Power reduction     */
-> +#define PRR1_BIT_PRTIM5     0x05    /*  Timer/Counter5  */
-> +#define PRR1_BIT_PRTIM4     0x04    /*  Timer/Counter4  */
-> +#define PRR1_BIT_PRTIM3     0x03    /*  Timer/Counter3  */
-> +#define PRR1_BIT_PRUSART3   0x02    /*  USART3  */
-> +#define PRR1_BIT_PRUSART2   0x01    /*  USART2  */
-> +#define PRR1_BIT_PRUSART1   0x00    /*  USART1  */
-> +
-> +#define PRR0_BIT_PRTWI      0x06    /*  TWI */
-> +#define PRR0_BIT_PRTIM2     0x05    /*  Timer/Counter2  */
-> +#define PRR0_BIT_PRTIM0     0x04    /*  Timer/Counter0  */
-> +#define PRR0_BIT_PRTIM1     0x03    /*  Timer/Counter1  */
-> +#define PRR0_BIT_PRSPI      0x02    /*  Serial Peripheral Interface */
-> +#define PRR0_BIT_PRUSART0   0x01    /*  USART0  */
-> +#define PRR0_BIT_PRADC      0x00    /*  ADC */
-> +
-> +typedef struct {
-> +    MachineClass parent;
-> +} SampleMachineClass;
-> +
-> +typedef struct {
-> +    MachineState parent;
-> +    MemoryRegion *ram;
-> +    MemoryRegion *flash;
-> +    AVRUsartState *usart0;
-> +    AVRTimer16State *timer1;
-> +    AVRMaskState *prr[2];
-> +} SampleMachineState;
-> +
-> +#define TYPE_SAMPLE_MACHINE MACHINE_TYPE_NAME("sample")
-> +
-> +#define SAMPLE_MACHINE(obj) \
-> +    OBJECT_CHECK(SampleMachineState, obj, TYPE_SAMPLE_MACHINE)
-> +#define SAMPLE_MACHINE_GET_CLASS(obj) \
-> +    OBJECT_GET_CLASS(SampleMachineClass, obj, TYPE_SAMPLE_MACHINE)
-> +#define SAMPLE_MACHINE_CLASS(klass) \
-> +    OBJECT_CLASS_CHECK(SampleMachineClass, klass, TYPE_SAMPLE_MACHINE)
-> +
-> +static void sample_init(MachineState *machine)
-> +{
-> +    SampleMachineState *sms =3D SAMPLE_MACHINE(machine);
-> +    MemoryRegion *system_memory =3D get_system_memory();
-> +    AVRCPU *cpu;
-> +    const char *firmware =3D NULL;
-> +    const char *filename =3D NULL;
-> +    const char *cpu_type =3D NULL;
-> +    uint32_t flags;
-> +    int bytes_loaded;
-> +    SysBusDevice *busdev;
-> +    DeviceState *cpudev;
-> +
-> +    system_memory =3D get_system_memory();
-> +    sms->ram =3D g_new(MemoryRegion, 1);
-> +    sms->flash =3D g_new(MemoryRegion, 1);
-> +
-> +    /* if ELF file is provided, determine CPU type reading ELF flags */
-> +    cpu_type =3D machine->cpu_type;
-> +    firmware =3D machine->firmware;
-> +    if (firmware !=3D NULL) {
-> +        filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
-> +        if (filename =3D=3D NULL) {
-> +            error_report("Unable to find %s", firmware);
-> +            exit(1);
-> +        }
-> +
-> +        bytes_loaded =3D load_elf_ram_sym(filename, NULL, NULL, NULL, NU=
-LL,
-> NULL,
-> +                NULL, 0, EM_AVR, &flags, 0, 0, NULL, 0, 0);
-> +        if (bytes_loaded > 0) {
-> +            cpu_type =3D avr_flags_to_cpu_type(flags, cpu_type);
-> +        }
-> +    }
-> +
-> +    cpu =3D AVR_CPU(cpu_create(cpu_type));
-> +    cpudev =3D DEVICE(cpu);
-> +
-> +    memory_region_init_rom(sms->flash, NULL, "avr.flash", SIZE_FLASH,
-> +            &error_fatal);
-> +    memory_region_add_subregion(system_memory, OFFSET_CODE, sms->flash);
-> +
-> +    /* following are atmel2560 device */
-> +    create_unimplemented_device("usart 3", OFFSET_DATA + 0x0130, 0x0007)=
-;
-> +    create_unimplemented_device("timer-counter-16bit 5",
-> +            OFFSET_DATA + 0x0120, 0x000e);
-> +    create_unimplemented_device("gpio L", OFFSET_DATA + 0x0109, 0x0003);
-> +    create_unimplemented_device("gpio K", OFFSET_DATA + 0x0106, 0x0003);
-> +    create_unimplemented_device("gpio J", OFFSET_DATA + 0x0103, 0x0003);
-> +    create_unimplemented_device("gpio H", OFFSET_DATA + 0x0100, 0x0003);
-> +    create_unimplemented_device("usart 2", OFFSET_DATA + 0x00d0, 0x0007)=
-;
-> +    create_unimplemented_device("usart 1", OFFSET_DATA + 0x00c8, 0x0007)=
-;
-> +    create_unimplemented_device("usart 0", OFFSET_DATA + 0x00c0, 0x0007)=
-;
-> +    create_unimplemented_device("twi", OFFSET_DATA + 0x00b8, 0x0006);
-> +    create_unimplemented_device("timer-counter-async-8bit 2",
-> +            OFFSET_DATA + 0x00b0, 0x0007);
-> +    create_unimplemented_device("timer-counter-16bit 4",
-> +            OFFSET_DATA + 0x00a0, 0x000e);
-> +    create_unimplemented_device("timer-counter-16bit 3",
-> +            OFFSET_DATA + 0x0090, 0x000e);
-> +    create_unimplemented_device("timer-counter-16bit 1",
-> +            OFFSET_DATA + 0x0080, 0x000e);
-> +    create_unimplemented_device("ac / adc",
-> +            OFFSET_DATA + 0x0078, 0x0008);
-> +    create_unimplemented_device("ext-mem-iface",
-> +            OFFSET_DATA + 0x0074, 0x0002);
-> +    create_unimplemented_device("int-controller",
-> +            OFFSET_DATA + 0x0068, 0x000c);
-> +    create_unimplemented_device("sys",
-> +            OFFSET_DATA + 0x0060, 0x0007);
-> +    create_unimplemented_device("spi",
-> +            OFFSET_DATA + 0x004c, 0x0003);
-> +    create_unimplemented_device("ext-mem-iface",
-> +            OFFSET_DATA + 0x004a, 0x0002);
-> +    create_unimplemented_device("timer-counter-pwm-8bit 0",
-> +            OFFSET_DATA + 0x0043, 0x0006);
-> +    create_unimplemented_device("ext-mem-iface",
-> +            OFFSET_DATA + 0x003e, 0x0005);
-> +    create_unimplemented_device("int-controller",
-> +            OFFSET_DATA + 0x0035, 0x0009);
-> +    create_unimplemented_device("gpio G", OFFSET_DATA + 0x0032, 0x0003);
-> +    create_unimplemented_device("gpio F", OFFSET_DATA + 0x002f, 0x0003);
-> +    create_unimplemented_device("gpio E", OFFSET_DATA + 0x002c, 0x0003);
-> +    create_unimplemented_device("gpio D", OFFSET_DATA + 0x0029, 0x0003);
-> +    create_unimplemented_device("gpio C", OFFSET_DATA + 0x0026, 0x0003);
-> +    create_unimplemented_device("gpio B", OFFSET_DATA + 0x0023, 0x0003);
-> +    create_unimplemented_device("gpio A", OFFSET_DATA + 0x0020, 0x0003);
-> +
-> +    memory_region_allocate_system_memory(
-> +        sms->ram, NULL, "avr.ram", SIZE_SRAM + SIZE_EXMEM);
-> +    memory_region_add_subregion(system_memory, OFFSET_DATA + 0x200,
-> sms->ram);
-> +
-> +    /* Power Reduction built-in peripheral */
-> +    sms->prr[0] =3D AVR_MASK(sysbus_create_simple(TYPE_AVR_MASK,
-> +                    OFFSET_DATA + PRR0_BASE, NULL));
-> +    sms->prr[1] =3D AVR_MASK(sysbus_create_simple(TYPE_AVR_MASK,
-> +                    OFFSET_DATA + PRR1_BASE, NULL));
-> +
-> +    /* USART 0 built-in peripheral */
-> +    sms->usart0 =3D AVR_USART(object_new(TYPE_AVR_USART));
-> +    busdev =3D SYS_BUS_DEVICE(sms->usart0);
-> +    qdev_prop_set_chr(DEVICE(sms->usart0), "chardev", serial_hd(0));
-> +    object_property_set_bool(OBJECT(sms->usart0), true, "realized",
-> +            &error_fatal);
-> +    sysbus_mmio_map(busdev, 0, OFFSET_DATA + USART_BASE);
-> +    /*
-> +     * These IRQ numbers don't match the datasheet because we're countin=
-g
-> from
-> +     * zero and not including reset.
-> +     */
-> +    sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(cpudev,
-> USART_RXC_IRQ));
-> +    sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(cpudev,
-> USART_DRE_IRQ));
-> +    sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(cpudev,
-> USART_TXC_IRQ));
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(sms->prr[1]), PRR1_BIT_PRUSART1,
-> +            qdev_get_gpio_in(DEVICE(sms->usart0), 0));
-> +
-> +    /* Timer 1 built-in periphal */
-> +    sms->timer1 =3D AVR_TIMER16(object_new(TYPE_AVR_TIMER16));
-> +    object_property_set_bool(OBJECT(sms->timer1), true, "realized",
-> +            &error_fatal);
-> +    busdev =3D SYS_BUS_DEVICE(sms->timer1);
-> +    sysbus_mmio_map(busdev, 0, OFFSET_DATA + TIMER1_BASE);
-> +    sysbus_mmio_map(busdev, 1, OFFSET_DATA + TIMER1_IMSK_BASE);
-> +    sysbus_mmio_map(busdev, 2, OFFSET_DATA + TIMER1_IFR_BASE);
-> +    sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(cpudev,
-> TIMER1_CAPT_IRQ));
-> +    sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(cpudev,
-> TIMER1_COMPA_IRQ));
-> +    sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(cpudev,
-> TIMER1_COMPB_IRQ));
-> +    sysbus_connect_irq(busdev, 3, qdev_get_gpio_in(cpudev,
-> TIMER1_COMPC_IRQ));
-> +    sysbus_connect_irq(busdev, 4, qdev_get_gpio_in(cpudev,
-> TIMER1_OVF_IRQ));
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(sms->prr[0]), PRR0_BIT_PRTIM1,
-> +            qdev_get_gpio_in(DEVICE(sms->timer1), 0));
-> +
-> +    /* Load firmware (contents of flash) trying to auto-detect format */
-> +    if (filename !=3D NULL) {
-> +        bytes_loaded =3D load_elf(
-> +            filename, NULL, NULL, NULL, NULL, NULL, NULL, 0, EM_NONE, 0,
-> 0);
-> +        if (bytes_loaded < 0) {
-> +            bytes_loaded =3D load_image_targphys(
-> +                filename, OFFSET_CODE, SIZE_FLASH);
-> +        }
-> +        if (bytes_loaded < 0) {
-> +            error_report(
-> +                "Unable to load firmware image %s as ELF or raw binary",
-> +                firmware);
-> +            exit(1);
-> +        }
-> +    }
-> +}
-> +
-> +static void sample_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +
-> +    mc->desc =3D "AVR sample/example board (ATmega2560)";
-> +    mc->init =3D sample_init;
-> +    mc->default_cpus =3D 1;
-> +    mc->min_cpus =3D mc->default_cpus;
-> +    mc->max_cpus =3D mc->default_cpus;
-> +    mc->default_cpu_type =3D "avr6-avr-cpu"; /* ATmega2560. */
-> +    mc->is_default =3D 1;
-> +}
-> +
-> +static const TypeInfo sample_info =3D {
-> +    .name =3D TYPE_SAMPLE_MACHINE,
-> +    .parent =3D TYPE_MACHINE,
-> +    .instance_size =3D sizeof(SampleMachineState),
-> +    .class_size =3D sizeof(SampleMachineClass),
-> +    .class_init =3D sample_class_init,
-> +};
-> +
-> +static void sample_machine_init(void)
-> +{
-> +    type_register_static(&sample_info);
-> +}
-> +
-> +type_init(sample_machine_init);
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index 5099f27dc8..e6511466ba 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -439,7 +439,7 @@ int load_elf_ram(const char *filename,
->      return load_elf_ram_sym(filename, elf_note_fn,
->                              translate_fn, translate_opaque,
->                              pentry, lowaddr, highaddr, big_endian,
-> -                            elf_machine, clear_lsb, data_swab, as,
-> +                            elf_machine, NULL, clear_lsb, data_swab, as,
->                              load_rom, NULL);
->  }
->
-> @@ -449,7 +449,8 @@ int load_elf_ram_sym(const char *filename,
->                       uint64_t (*translate_fn)(void *, uint64_t),
->                       void *translate_opaque, uint64_t *pentry,
->                       uint64_t *lowaddr, uint64_t *highaddr, int
-> big_endian,
-> -                     int elf_machine, int clear_lsb, int data_swab,
-> +                     int elf_machine, uint32_t *pflags,
-> +                     int clear_lsb, int data_swab,
->                       AddressSpace *as, bool load_rom, symbol_fn_t sym_cb=
-)
->  {
->      int fd, data_order, target_data_order, must_swab, ret =3D
-> ELF_LOAD_FAILED;
-> @@ -490,13 +491,13 @@ int load_elf_ram_sym(const char *filename,
->      if (e_ident[EI_CLASS] =3D=3D ELFCLASS64) {
->          ret =3D load_elf64(filename, fd, elf_note_fn,
->                           translate_fn, translate_opaque, must_swab,
-> -                         pentry, lowaddr, highaddr, elf_machine,
-> clear_lsb,
-> -                         data_swab, as, load_rom, sym_cb);
-> +                         pentry, lowaddr, highaddr, elf_machine, pflags,
-> +                         clear_lsb, data_swab, as, load_rom, sym_cb);
->      } else {
->          ret =3D load_elf32(filename, fd, elf_note_fn,
->                           translate_fn, translate_opaque, must_swab,
-> -                         pentry, lowaddr, highaddr, elf_machine,
-> clear_lsb,
-> -                         data_swab, as, load_rom, sym_cb);
-> +                         pentry, lowaddr, highaddr, elf_machine, pflags,
-> +                         clear_lsb, data_swab, as, load_rom, sym_cb);
->      }
->
->   fail:
-> diff --git a/hw/Kconfig b/hw/Kconfig
-> index b9685b3944..07b8abb342 100644
-> --- a/hw/Kconfig
-> +++ b/hw/Kconfig
-> @@ -44,6 +44,7 @@ source watchdog/Kconfig
->  # arch Kconfig
->  source arm/Kconfig
->  source alpha/Kconfig
-> +source avr/Kconfig
->  source cris/Kconfig
->  source hppa/Kconfig
->  source i386/Kconfig
-> diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
-> new file mode 100644
-> index 0000000000..92aa1e6afb
-> --- /dev/null
-> +++ b/hw/avr/Kconfig
-> @@ -0,0 +1,6 @@
-> +config AVR_SAMPLE
-> +    bool
-> +    select AVR_TIMER16
-> +    select AVR_USART
-> +    select AVR_MASK
-> +    select UNIMP
-> diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-> new file mode 100644
-> index 0000000000..626b7064b3
-> --- /dev/null
-> +++ b/hw/avr/Makefile.objs
-> @@ -0,0 +1 @@
-> +obj-y +=3D sample.o
-> --
-> 2.17.2 (Apple Git-113)
->
->
-
---0000000000001789a605994980c9
+--0000000000004eeeb40599498dd3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi Aleksandar.<div><br></div><div>1. all instructions are =
+16 bit long except CALL &amp; JMP they are 32 bit long</div><div>2.=C2=A0ne=
+xt_word_used is set to true by=C2=A0next_word when called by=C2=A0append_16=
+ when CALL &amp; JMP are parsed</div><div><br></div><div>Regards,</div><div=
+>Michael Rolnik</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Mon, Dec 9, 2019 at 8:10 PM Aleksandar Markovic &lt=
+;<a href=3D"mailto:aleksandar.m.mail@gmail.com">aleksandar.m.mail@gmail.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
 <br><br>On Sunday, December 8, 2019, Michael Rolnik &lt;<a href=3D"mailto:m=
-rolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">A simple board setup that configures an AVR CPU to run a given fi=
-rmware image.<br>
-This is all that&#39;s useful to implement without peripheral emulation as =
-AVR CPUs include a lot of on-board peripherals.<br>
+rolnik@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>&gt; wrote:<br><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">Provide function disassemble=
+s executed instruction when `-d in_asm` is<br>
+provided<br>
 <br>
-NOTE: this is not a real board !!!!<br>
-NOTE: it&#39;s used for CPU testing!!!!<br>
+Example:<br>
+`./avr-softmmu/qemu-system-avr -bios free-rtos/Demo/AVR_ATMega2560_GCC/demo=
+.elf -d in_asm` will produce something like the following<br>
 <br>
-Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com">mrol=
-nik@gmail.com</a>&gt;<br>
-Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.c=
-om">amarkovic@wavecomp.com</a>&gt;<br>
-Nacked-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
-com">philmd@redhat.com</a>&gt;<br>
+```<br>
+=C2=A0 =C2=A0 ...<br>
+=C2=A0 =C2=A0 IN:<br>
+=C2=A0 =C2=A0 0x0000014a:=C2=A0 CALL=C2=A0 =C2=A0 =C2=A0 0x3808<br>
+<br>
+=C2=A0 =C2=A0 IN: main<br>
+=C2=A0 =C2=A0 0x00003808:=C2=A0 CALL=C2=A0 =C2=A0 =C2=A0 0x4b4<br>
+<br>
+=C2=A0 =C2=A0 IN: vParTestInitialise<br>
+=C2=A0 =C2=A0 0x000004b4:=C2=A0 LDI=C2=A0 =C2=A0 =C2=A0 =C2=A0r24, 255<br>
+=C2=A0 =C2=A0 0x000004b6:=C2=A0 STS=C2=A0 =C2=A0 =C2=A0 =C2=A0r24, 0<br>
+=C2=A0 =C2=A0 0x000004b8:=C2=A0 MULS=C2=A0 =C2=A0 =C2=A0 r16, r20<br>
+=C2=A0 =C2=A0 0x000004ba:=C2=A0 OUT=C2=A0 =C2=A0 =C2=A0 =C2=A0$1, r24<br>
+=C2=A0 =C2=A0 0x000004bc:=C2=A0 LDS=C2=A0 =C2=A0 =C2=A0 =C2=A0r24, 0<br>
+=C2=A0 =C2=A0 0x000004be:=C2=A0 MULS=C2=A0 =C2=A0 =C2=A0 r16, r20<br>
+=C2=A0 =C2=A0 0x000004c0:=C2=A0 OUT=C2=A0 =C2=A0 =C2=A0 =C2=A0$2, r24<br>
+=C2=A0 =C2=A0 0x000004c2:=C2=A0 RET<br>
+=C2=A0 =C2=A0 ...<br>
+```<br>
+<br>
+Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" targ=
+et=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
+Suggested-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lin=
+aro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+Suggested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redh=
+at.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+Suggested-by: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.m.mail@g=
+mail.com" target=3D"_blank">aleksandar.m.mail@gmail.com</a>&gt;<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redha=
+t.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
+com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0include/elf.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
-=C2=A0include/hw/elf_ops.h |=C2=A0 =C2=A06 +-<br>
-=C2=A0include/hw/loader.h=C2=A0 |=C2=A0 =C2=A03 +-<br>
-=C2=A0hw/avr/sample.c=C2=A0 =C2=A0 =C2=A0 | 293 +++++++++++++++++++++++++++=
-+++<wbr>+++++++++++++<br>
-=C2=A0hw/core/loader.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 13 +-<br>
-=C2=A0hw/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<=
+=C2=A0target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+=C2=A0target/avr/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A0target/avr/disas.c=C2=A0 =C2=A0 =C2=A0| 226 +++++++++++++++++++++++++=
+++++++++++++++++<br>
+=C2=A0target/avr/translate.c |=C2=A0 11 ++<br>
+=C2=A04 files changed, 239 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 target/avr/disas.c<br>
+<br>
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h<br>
+index c217eefeb4..a8a3e7ade6 100644<br>
+--- a/target/avr/cpu.h<br>
++++ b/target/avr/cpu.h<br>
+@@ -178,6 +178,7 @@ bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req)=
+;<br>
+=C2=A0hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);<br>
+=C2=A0int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);<=
 br>
-=C2=A0hw/avr/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 +<br>
-=C2=A0hw/avr/Makefile.objs |=C2=A0 =C2=A01 +<br>
-=C2=A08 files changed, 317 insertions(+), 8 deletions(-)<br>
-=C2=A0create mode 100644 hw/avr/sample.c<br>
-=C2=A0create mode 100644 hw/avr/Kconfig<br>
-=C2=A0create mode 100644 hw/avr/Makefile.objs<br>
+=C2=A0int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);=
 <br>
-diff --git a/include/elf.h b/include/elf.h<br>
-index 3501e0c8d0..53cdfa23b7 100644<br>
---- a/include/elf.h<br>
-+++ b/include/elf.h<br>
-@@ -202,6 +202,8 @@ typedef struct mips_elf_abiflags_v0 {<br>
-=C2=A0#define EM_MOXIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0223=C2=A0 =
-=C2=A0 =C2=A0/* Moxie processor family */<br>
-=C2=A0#define EM_MOXIE_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A00xFEED<br>
++int avr_print_insn(bfd_vma addr, disassemble_info *info);<br>
 <br>
-+#define EM_AVR 83 /* AVR 8-bit microcontroller */<br>
-+<br>
-=C2=A0/* This is the info that is needed to parse the dynamic section of th=
-e file */<br>
-=C2=A0#define DT_NULL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 0<br>
-=C2=A0#define DT_NEEDED=C2=A0 =C2=A0 =C2=A0 1<br>
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h<br>
-index e07d276df7..9f28c16490 100644<br>
---- a/include/hw/elf_ops.h<br>
-+++ b/include/hw/elf_ops.h<br>
-@@ -316,7 +316,8 @@ static int glue(load_elf, SZ)(const char *name, int fd,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *translate_opaque,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int must_swab, uint64_t *pentry,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *lowaddr, uint64_t *highaddr=
-,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int elf_machine, int clear_lsb, int data_sw=
-ab,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int elf_machine, uint32_t *pflags,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int clear_lsb, int data_swab,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AddressSpace *as, bool load_rom,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0symbol_fn_t sym_cb)</blockquote><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><br></blockquote><div><br></div><div>=C2=A0New pa=
-rameter uint32_t *pflags should go before=C2=A0int elf_machine, so that inp=
-ut and output parameters are grouped together. The mane should be more prec=
-ise, like pe_flags.</div><div><br></div><div>But, it looks to me that you a=
-re breaking all other platforms with this change. Did you try full qemu bui=
-ld after your series is applied?</div><div><br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=A0</blockquote=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">
+=C2=A0static inline int avr_feature(CPUAVRState *env, int feature)<br>
 =C2=A0{<br>
-@@ -594,6 +595,9 @@ static int glue(load_elf, SZ)(const char *name, int fd,=
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c<br>
+index c5cafcae3c..be4b921e4d 100644<br>
+--- a/target/avr/cpu.c<br>
++++ b/target/avr/cpu.c<br>
+@@ -83,7 +83,7 @@ static void avr_cpu_reset(CPUState *cs)<br>
+=C2=A0static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *i=
+nfo)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0info-&gt;mach =3D bfd_arch_avr;<br>
+-=C2=A0 =C2=A0 info-&gt;print_insn =3D NULL;<br>
++=C2=A0 =C2=A0 info-&gt;print_insn =3D avr_print_insn;<br>
+=C2=A0}<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 if (pflags) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pflags =3D (uint32_t)(elf_sword)ehdr.e_<wbr>f=
-lags;<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0if (lowaddr)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*lowaddr =3D (uint64_t)(elf_sword)low;<br=
->
-=C2=A0 =C2=A0 =C2=A0if (highaddr)<br>
-diff --git a/include/hw/loader.h b/include/hw/loader.h<br>
-index 48a96cd559..3dbdd1868d 100644<br>
---- a/include/hw/loader.h<br>
-+++ b/include/hw/loader.h<br>
-@@ -132,7 +132,8 @@ int load_elf_ram_sym(const char *filename,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 uint64_t (*translate_fn)(void *, uint64_t),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 void *translate_opaque, uint64_t *pentry,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 uint64_t *lowaddr, uint64_t *highaddr, int big_endian,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0int elf_machine, int clear_lsb, int data_swab,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0int elf_machine, uint32_t *pflags,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0int clear_lsb, int data_swab,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 AddressSpace *as, bool load_rom, symbol_fn_t sym_cb);<br>
-<br>
-=C2=A0/** load_elf_ram:<br>
-diff --git a/hw/avr/sample.c b/hw/avr/sample.c<br>
+=C2=A0static void avr_cpu_realizefn(DeviceState *dev, Error **errp)<br>
+diff --git a/target/avr/disas.c b/target/avr/disas.c<br>
 new file mode 100644<br>
-index 0000000000..6574733b57<br>
+index 0000000000..22863d2eb1<br>
 --- /dev/null<br>
-+++ b/hw/avr/sample.c<br>
-@@ -0,0 +1,293 @@<br>
++++ b/target/avr/disas.c<br>
+@@ -0,0 +1,226 @@<br>
 +/*<br>
-+ * QEMU AVR CPU<br>
++ * AVR disassembler<br>
 + *<br>
-+ * Copyright (c) 2019 Michael Rolnik<br>
++ * Copyright (c) 2019 Richard Henderson &lt;<a href=3D"mailto:rth@twiddle.=
+net" target=3D"_blank">rth@twiddle.net</a>&gt;<br>
++ * Copyright (c) 2019 Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.c=
+om" target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
 + *<br>
-+ * This library is free software; you can redistribute it and/or<br>
-+ * modify it under the terms of the GNU Lesser General Public<br>
-+ * License as published by the Free Software Foundation; either<br>
-+ * version 2.1 of the License, or (at your option) any later version.<br>
++ * This program is free software: you can redistribute it and/or modify<br=
+>
++ * it under the terms of the GNU General Public License as published by<br=
+>
++ * the Free Software Foundation, either version 2 of the License, or<br>
++ * (at your option) any later version.<br>
 + *<br>
-+ * This library is distributed in the hope that it will be useful,<br>
++ * This program is distributed in the hope that it will be useful,<br>
 + * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
-br>
-+ * Lesser General Public License for more details.<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the<br>
++ * GNU General Public License for more details.<br>
 + *<br>
-+ * You should have received a copy of the GNU Lesser General Public<br>
-+ * License along with this library; if not, see<br>
-+ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" target=3D"_bl=
-ank">http://www.gnu.org/licenses/<wbr>lgpl-2.1.html</a>&gt;<br>
-+ */<br>
-+<br>
-+/*<br>
-+ *=C2=A0 NOTE:<br>
-+ *=C2=A0 =C2=A0 =C2=A0 This is not a real AVR board, this is an example!<b=
-r>
-+ *=C2=A0 =C2=A0 =C2=A0 The CPU is an approximation of an ATmega2560, but i=
-s missing various<br>
-+ *=C2=A0 =C2=A0 =C2=A0 built-in peripherals.<br>
-+ *<br>
-+ *=C2=A0 =C2=A0 =C2=A0 This example board loads provided binary file into =
-flash memory and<br>
-+ *=C2=A0 =C2=A0 =C2=A0 executes it from 0x00000000 address in the code mem=
-ory space.<br>
-+ *<br>
-+ *=C2=A0 =C2=A0 =C2=A0 Currently used for AVR CPU validation<br>
-+ *<br>
++ * You should have received a copy of the GNU General Public License<br>
++ * along with this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gn=
+u.org/licenses/" target=3D"_blank">http://www.gnu.org/licenses/</a>&gt;.<br=
+>
 + */<br>
 +<br>
 +#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qapi/error.h&quot;<br>
-+#include &quot;qemu-common.h&quot;<br>
 +#include &quot;cpu.h&quot;<br>
-+#include &quot;hw/hw.h&quot;<br>
-+#include &quot;sysemu/sysemu.h&quot;<br>
-+#include &quot;sysemu/qtest.h&quot;<br>
-+#include &quot;ui/console.h&quot;<br>
-+#include &quot;hw/boards.h&quot;<br>
-+#include &quot;hw/loader.h&quot;<br>
-+#include &quot;qemu/error-report.h&quot;<br>
-+#include &quot;exec/address-spaces.h&quot;<br>
-+#include &quot;include/hw/sysbus.h&quot;<br>
-+#include &quot;include/hw/char/avr_usart.h&quot;<br>
-+#include &quot;include/hw/timer/avr_timer16.<wbr>h&quot;<br>
-+#include &quot;include/hw/misc/avr_mask.h&quot;<br>
-+#include &quot;elf.h&quot;<br>
-+#include &quot;hw/misc/unimp.h&quot;<br>
 +<br>
-+#define SIZE_FLASH 0x00040000<br>
-+#define SIZE_SRAM 0x00002000<br>
++typedef struct {<br>
++=C2=A0 =C2=A0 disassemble_info *info;<br>
++=C2=A0 =C2=A0 uint16_t next_word;<br>
++=C2=A0 =C2=A0 bool next_word_used;<br>
++} DisasContext;<br>
++<br>
++static int to_regs_16_31_by_one(DisasContext *ctx, int indx)<br>
++{<br>
++=C2=A0 =C2=A0 return 16 + (indx % 16);<br>
++}<br>
++<br>
++static int to_regs_16_23_by_one(DisasContext *ctx, int indx)<br>
++{<br>
++=C2=A0 =C2=A0 return 16 + (indx % 8);<br>
++}<br>
++static int to_regs_24_30_by_two(DisasContext *ctx, int indx)<br>
++{<br>
++=C2=A0 =C2=A0 return 24 + (indx % 4) * 2;<br>
++}<br>
++static int to_regs_00_30_by_two(DisasContext *ctx, int indx)<br>
++{<br>
++=C2=A0 =C2=A0 return (indx % 16) * 2;<br>
++}<br>
++<br>
++static uint16_t next_word(DisasContext *ctx)<br>
++{<br>
++=C2=A0 =C2=A0 ctx-&gt;next_word_used =3D true;<br>
++=C2=A0 =C2=A0 return ctx-&gt;next_word;<br>
++}<br>
++<br>
++static int append_16(DisasContext *ctx, int x)<br>
++{<br>
++=C2=A0 =C2=A0 return x &lt;&lt; 16 | next_word(ctx);<br>
++}<br>
++<br>
++<br>
++/* Include the auto-generated decoder.=C2=A0 */<br>
++static bool decode_insn(DisasContext *ctx, uint16_t insn);<br>
++#include &quot;decode_insn.inc.c&quot;<br>
++<br>
++#define output(mnemonic, format, ...) \<br>
++=C2=A0 =C2=A0 (pctx-&gt;info-&gt;fprintf_func(pctx-&gt;info-&gt;stream, &q=
+uot;%-9s &quot; format, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 mnemonic, ##__VA_ARGS__))<br>
++<br>
++int avr_print_insn(bfd_vma addr, disassemble_info *info)<br>
++{<br>
++=C2=A0 =C2=A0 DisasContext ctx;<br>
++=C2=A0 =C2=A0 DisasContext *pctx =3D &amp;ctx;<br>
++=C2=A0 =C2=A0 bfd_byte buffer[4];<br>
++=C2=A0 =C2=A0 uint16_t insn;<br>
++=C2=A0 =C2=A0 int status;<br>
++<br>
++=C2=A0 =C2=A0 <a href=3D"http://ctx.info" target=3D"_blank">ctx.info</a> =
+=3D info;<br>
++<br>
++=C2=A0 =C2=A0 status =3D info-&gt;read_memory_func(addr, buffer, 4, info);=
+<br>
++=C2=A0 =C2=A0 if (status !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;memory_error_func(status, addr, info)=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 insn =3D bfd_getl16(buffer);<br>
++=C2=A0 =C2=A0 ctx.next_word =3D bfd_getl16(buffer + 2);<br>
++=C2=A0 =C2=A0 ctx.next_word_used =3D false;<br>
++<br>
++=C2=A0 =C2=A0 if (!decode_insn(&amp;ctx, insn)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 output(&quot;.db&quot;, &quot;0x%02x, 0x%02x&q=
+uot;, buffer[0], buffer[1]);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return ctx.next_word_used ? 4 : 2;<br>
++}</blockquote><div><br></div><div>Hi, Michael,</div><div><br></div><div>Wh=
+at is the role of ctx.next_word_used, if it looks it is always &quot;false&=
+quot;?</div><div><br></div><div>Related to this, how do you disassemble 32-=
+bit-coded instructions? From this patch, it looks you treat all AVR instruc=
+tions as 16-bit-coded?</div><div><br></div><div>Thanks,</div><div>Aleksanda=
+r</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++<br>
++<br>
++#define INSN(opcode, format, ...)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 \<br>
++{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 output(#opcode, format, ##__VA_ARGS__);=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 return true;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \=
+<br>
++}<br>
++<br>
++#define INSN_MNEMONIC(opcode, mnemonic, format, ...)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
++static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 \<br>
++{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
++=C2=A0 =C2=A0 output(mnemonic, format, ##__VA_ARGS__);=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 \<br>
++=C2=A0 =C2=A0 return true;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \=
+<br>
++}<br>
++<br>
 +/*<br>
-+ * Size of additional &quot;external&quot; memory, as if the AVR were conf=
-igured to use<br>
-+ * an external RAM chip.<br>
-+ * Note that the configuration registers that normally enable this feature=
- are<br>
-+ * unimplemented.<br>
++ *=C2=A0 =C2=A0C=C2=A0 =C2=A0 =C2=A0 =C2=A0Z=C2=A0 =C2=A0 =C2=A0 =C2=A0N=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0V=C2=A0 =C2=A0 =C2=A0 =C2=A0S=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0H=C2=A0 =C2=A0 =C2=A0 =C2=A0T=C2=A0 =C2=A0 =C2=A0 =C2=A0I<br>
++ *=C2=A0 =C2=A00=C2=A0 =C2=A0 =C2=A0 =C2=A01=C2=A0 =C2=A0 =C2=A0 =C2=A02=
+=C2=A0 =C2=A0 =C2=A0 =C2=A03=C2=A0 =C2=A0 =C2=A0 =C2=A04=C2=A0 =C2=A0 =C2=
+=A0 =C2=A05=C2=A0 =C2=A0 =C2=A0 =C2=A06=C2=A0 =C2=A0 =C2=A0 =C2=A07<br>
 + */<br>
-+#define SIZE_EXMEM 0x00000000<br>
-+<br>
-+/* Offsets of peripherals in emulated memory space (i.e. not host addresse=
-s)=C2=A0 */<br>
-+#define PRR0_BASE 0x64<br>
-+#define PRR1_BASE 0x65<br>
-+#define USART_BASE 0xc0<br>
-+#define TIMER1_BASE 0x80<br>
-+#define TIMER1_IMSK_BASE 0x6f<br>
-+#define TIMER1_IFR_BASE 0x36<br>
-+<br>
-+/* Interrupt numbers used by peripherals */<br>
-+#define USART_RXC_IRQ 24<br>
-+#define USART_DRE_IRQ 25<br>
-+#define USART_TXC_IRQ 26<br>
-+<br>
-+#define TIMER1_CAPT_IRQ 15<br>
-+#define TIMER1_COMPA_IRQ 16<br>
-+#define TIMER1_COMPB_IRQ 17<br>
-+#define TIMER1_COMPC_IRQ 18<br>
-+#define TIMER1_OVF_IRQ 19<br>
-+<br>
-+/*=C2=A0 Power reduction=C2=A0 =C2=A0 =C2=A0*/<br>
-+#define PRR1_BIT_PRTIM5=C2=A0 =C2=A0 =C2=A00x05=C2=A0 =C2=A0 /*=C2=A0 Time=
-r/Counter5=C2=A0 */<br>
-+#define PRR1_BIT_PRTIM4=C2=A0 =C2=A0 =C2=A00x04=C2=A0 =C2=A0 /*=C2=A0 Time=
-r/Counter4=C2=A0 */<br>
-+#define PRR1_BIT_PRTIM3=C2=A0 =C2=A0 =C2=A00x03=C2=A0 =C2=A0 /*=C2=A0 Time=
-r/Counter3=C2=A0 */<br>
-+#define PRR1_BIT_PRUSART3=C2=A0 =C2=A00x02=C2=A0 =C2=A0 /*=C2=A0 USART3=C2=
-=A0 */<br>
-+#define PRR1_BIT_PRUSART2=C2=A0 =C2=A00x01=C2=A0 =C2=A0 /*=C2=A0 USART2=C2=
-=A0 */<br>
-+#define PRR1_BIT_PRUSART1=C2=A0 =C2=A00x00=C2=A0 =C2=A0 /*=C2=A0 USART1=C2=
-=A0 */<br>
-+<br>
-+#define PRR0_BIT_PRTWI=C2=A0 =C2=A0 =C2=A0 0x06=C2=A0 =C2=A0 /*=C2=A0 TWI =
-*/<br>
-+#define PRR0_BIT_PRTIM2=C2=A0 =C2=A0 =C2=A00x05=C2=A0 =C2=A0 /*=C2=A0 Time=
-r/Counter2=C2=A0 */<br>
-+#define PRR0_BIT_PRTIM0=C2=A0 =C2=A0 =C2=A00x04=C2=A0 =C2=A0 /*=C2=A0 Time=
-r/Counter0=C2=A0 */<br>
-+#define PRR0_BIT_PRTIM1=C2=A0 =C2=A0 =C2=A00x03=C2=A0 =C2=A0 /*=C2=A0 Time=
-r/Counter1=C2=A0 */<br>
-+#define PRR0_BIT_PRSPI=C2=A0 =C2=A0 =C2=A0 0x02=C2=A0 =C2=A0 /*=C2=A0 Seri=
-al Peripheral Interface */<br>
-+#define PRR0_BIT_PRUSART0=C2=A0 =C2=A00x01=C2=A0 =C2=A0 /*=C2=A0 USART0=C2=
-=A0 */<br>
-+#define PRR0_BIT_PRADC=C2=A0 =C2=A0 =C2=A0 0x00=C2=A0 =C2=A0 /*=C2=A0 ADC =
-*/<br>
-+<br>
-+typedef struct {<br>
-+=C2=A0 =C2=A0 MachineClass parent;<br>
-+} SampleMachineClass;<br>
-+<br>
-+typedef struct {<br>
-+=C2=A0 =C2=A0 MachineState parent;<br>
-+=C2=A0 =C2=A0 MemoryRegion *ram;<br>
-+=C2=A0 =C2=A0 MemoryRegion *flash;<br>
-+=C2=A0 =C2=A0 AVRUsartState *usart0;<br>
-+=C2=A0 =C2=A0 AVRTimer16State *timer1;<br>
-+=C2=A0 =C2=A0 AVRMaskState *prr[2];<br>
-+} SampleMachineState;<br>
-+<br>
-+#define TYPE_SAMPLE_MACHINE MACHINE_TYPE_NAME(&quot;sample&quot;)<br>
-+<br>
-+#define SAMPLE_MACHINE(obj) \<br>
-+=C2=A0 =C2=A0 OBJECT_CHECK(<wbr>SampleMachineState, obj, TYPE_SAMPLE_MACHI=
-NE)<br>
-+#define SAMPLE_MACHINE_GET_CLASS(obj) \<br>
-+=C2=A0 =C2=A0 OBJECT_GET_CLASS(<wbr>SampleMachineClass, obj, TYPE_SAMPLE_M=
-ACHINE)<br>
-+#define SAMPLE_MACHINE_CLASS(klass) \<br>
-+=C2=A0 =C2=A0 OBJECT_CLASS_CHECK(<wbr>SampleMachineClass, klass, TYPE_SAMP=
-LE_MACHINE)<br>
-+<br>
-+static void sample_init(MachineState *machine)<br>
-+{<br>
-+=C2=A0 =C2=A0 SampleMachineState *sms =3D SAMPLE_MACHINE(machine);<br>
-+=C2=A0 =C2=A0 MemoryRegion *system_memory =3D get_system_memory();<br>
-+=C2=A0 =C2=A0 AVRCPU *cpu;<br>
-+=C2=A0 =C2=A0 const char *firmware =3D NULL;<br>
-+=C2=A0 =C2=A0 const char *filename =3D NULL;<br>
-+=C2=A0 =C2=A0 const char *cpu_type =3D NULL;<br>
-+=C2=A0 =C2=A0 uint32_t flags;<br>
-+=C2=A0 =C2=A0 int bytes_loaded;<br>
-+=C2=A0 =C2=A0 SysBusDevice *busdev;<br>
-+=C2=A0 =C2=A0 DeviceState *cpudev;<br>
-+<br>
-+=C2=A0 =C2=A0 system_memory =3D get_system_memory();<br>
-+=C2=A0 =C2=A0 sms-&gt;ram =3D g_new(MemoryRegion, 1);<br>
-+=C2=A0 =C2=A0 sms-&gt;flash =3D g_new(MemoryRegion, 1);<br>
-+<br>
-+=C2=A0 =C2=A0 /* if ELF file is provided, determine CPU type reading ELF f=
-lags */<br>
-+=C2=A0 =C2=A0 cpu_type =3D machine-&gt;cpu_type;<br>
-+=C2=A0 =C2=A0 firmware =3D machine-&gt;firmware;<br>
-+=C2=A0 =C2=A0 if (firmware !=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 filename =3D qemu_find_file(QEMU_FILE_TYPE_<wb=
-r>BIOS, firmware);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (filename =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;Unable to fin=
-d %s&quot;, firmware);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bytes_loaded =3D load_elf_ram_sym(filename, NU=
-LL, NULL, NULL, NULL, NULL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, 0, EM_AVR, &=
-amp;flags, 0, 0, NULL, 0, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bytes_loaded &gt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_type =3D avr_flags_to_cpu_ty=
-pe(flags, cpu_type);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 cpu =3D AVR_CPU(cpu_create(cpu_type));<br>
-+=C2=A0 =C2=A0 cpudev =3D DEVICE(cpu);<br>
-+<br>
-+=C2=A0 =C2=A0 memory_region_init_rom(sms-&gt;<wbr>flash, NULL, &quot;avr.f=
-lash&quot;, SIZE_FLASH,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_fatal);<br>
-+=C2=A0 =C2=A0 memory_region_add_subregion(<wbr>system_memory, OFFSET_CODE,=
- sms-&gt;flash);<br>
-+<br>
-+=C2=A0 =C2=A0 /* following are atmel2560 device */<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>usart 3&quot;, OFFSET=
-_DATA + 0x0130, 0x0007);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>timer-counter-16bit 5=
-&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0120, 0x000e);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio L&quot;, OFFSET_=
-DATA + 0x0109, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio K&quot;, OFFSET_=
-DATA + 0x0106, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio J&quot;, OFFSET_=
-DATA + 0x0103, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio H&quot;, OFFSET_=
-DATA + 0x0100, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>usart 2&quot;, OFFSET=
-_DATA + 0x00d0, 0x0007);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>usart 1&quot;, OFFSET=
-_DATA + 0x00c8, 0x0007);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>usart 0&quot;, OFFSET=
-_DATA + 0x00c0, 0x0007);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>twi&quot;, OFFSET_DAT=
-A + 0x00b8, 0x0006);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>timer-counter-async-8=
-bit 2&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x00b0, 0x0007);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>timer-counter-16bit 4=
-&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x00a0, 0x000e);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>timer-counter-16bit 3=
-&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0090, 0x000e);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>timer-counter-16bit 1=
-&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0080, 0x000e);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>ac / adc&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0078, 0x0008);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>ext-mem-iface&quot;,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0074, 0x0002);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>int-controller&quot;,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0068, 0x000c);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>sys&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0060, 0x0007);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>spi&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x004c, 0x0003);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>ext-mem-iface&quot;,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x004a, 0x0002);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>timer-counter-pwm-8bi=
-t 0&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0043, 0x0006);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>ext-mem-iface&quot;,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x003e, 0x0005);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>int-controller&quot;,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFSET_DATA + 0x0035, 0x0009);<b=
-r>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio G&quot;, OFFSET_=
-DATA + 0x0032, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio F&quot;, OFFSET_=
-DATA + 0x002f, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio E&quot;, OFFSET_=
-DATA + 0x002c, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio D&quot;, OFFSET_=
-DATA + 0x0029, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio C&quot;, OFFSET_=
-DATA + 0x0026, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio B&quot;, OFFSET_=
-DATA + 0x0023, 0x0003);<br>
-+=C2=A0 =C2=A0 create_unimplemented_device(&quot;<wbr>gpio A&quot;, OFFSET_=
-DATA + 0x0020, 0x0003);<br>
-+<br>
-+=C2=A0 =C2=A0 memory_region_allocate_system_<wbr>memory(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sms-&gt;ram, NULL, &quot;avr.ram&quot;, SIZE_S=
-RAM + SIZE_EXMEM);<br>
-+=C2=A0 =C2=A0 memory_region_add_subregion(<wbr>system_memory, OFFSET_DATA =
-+ 0x200, sms-&gt;ram);<br>
-+<br>
-+=C2=A0 =C2=A0 /* Power Reduction built-in peripheral */<br>
-+=C2=A0 =C2=A0 sms-&gt;prr[0] =3D AVR_MASK(sysbus_create_simple(<wbr>TYPE_A=
-VR_MASK,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFS=
-ET_DATA + PRR0_BASE, NULL));<br>
-+=C2=A0 =C2=A0 sms-&gt;prr[1] =3D AVR_MASK(sysbus_create_simple(<wbr>TYPE_A=
-VR_MASK,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 OFFS=
-ET_DATA + PRR1_BASE, NULL));<br>
-+<br>
-+=C2=A0 =C2=A0 /* USART 0 built-in peripheral */<br>
-+=C2=A0 =C2=A0 sms-&gt;usart0 =3D AVR_USART(object_new(TYPE_AVR_<wbr>USART)=
-);<br>
-+=C2=A0 =C2=A0 busdev =3D SYS_BUS_DEVICE(sms-&gt;usart0);<br>
-+=C2=A0 =C2=A0 qdev_prop_set_chr(DEVICE(sms-&gt;<wbr>usart0), &quot;chardev=
-&quot;, serial_hd(0));<br>
-+=C2=A0 =C2=A0 object_property_set_bool(<wbr>OBJECT(sms-&gt;usart0), true, =
-&quot;realized&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_fatal);<br>
-+=C2=A0 =C2=A0 sysbus_mmio_map(busdev, 0, OFFSET_DATA + USART_BASE);<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* These IRQ numbers don&#39;t match the datasheet beca=
-use we&#39;re counting from<br>
-+=C2=A0 =C2=A0 =C2=A0* zero and not including reset.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(cpudev, USART=
-_RXC_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(cpudev, USART=
-_DRE_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(cpudev, USART=
-_TXC_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(SYS_BUS_<wbr>DEVICE(sms-&gt;prr[1]), PRR1=
-_BIT_PRUSART1,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DEVICE(sms-&gt;=
-<wbr>usart0), 0));<br>
-+<br>
-+=C2=A0 =C2=A0 /* Timer 1 built-in periphal */<br>
-+=C2=A0 =C2=A0 sms-&gt;timer1 =3D AVR_TIMER16(object_new(TYPE_<wbr>AVR_TIME=
-R16));<br>
-+=C2=A0 =C2=A0 object_property_set_bool(<wbr>OBJECT(sms-&gt;timer1), true, =
-&quot;realized&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_fatal);<br>
-+=C2=A0 =C2=A0 busdev =3D SYS_BUS_DEVICE(sms-&gt;timer1);<br>
-+=C2=A0 =C2=A0 sysbus_mmio_map(busdev, 0, OFFSET_DATA + TIMER1_BASE);<br>
-+=C2=A0 =C2=A0 sysbus_mmio_map(busdev, 1, OFFSET_DATA + TIMER1_IMSK_BASE);<=
-br>
-+=C2=A0 =C2=A0 sysbus_mmio_map(busdev, 2, OFFSET_DATA + TIMER1_IFR_BASE);<b=
-r>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(cpudev, TIMER=
-1_CAPT_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(cpudev, TIMER=
-1_COMPA_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 2, qdev_get_gpio_in(cpudev, TIMER=
-1_COMPB_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 3, qdev_get_gpio_in(cpudev, TIMER=
-1_COMPC_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(busdev, 4, qdev_get_gpio_in(cpudev, TIMER=
-1_OVF_IRQ));<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(SYS_BUS_<wbr>DEVICE(sms-&gt;prr[0]), PRR0=
-_BIT_PRTIM1,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DEVICE(sms-&gt;=
-<wbr>timer1), 0));<br>
-+<br>
-+=C2=A0 =C2=A0 /* Load firmware (contents of flash) trying to auto-detect f=
-ormat */<br>
-+=C2=A0 =C2=A0 if (filename !=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bytes_loaded =3D load_elf(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 filename, NULL, NULL, NULL, NULL=
-, NULL, NULL, 0, EM_NONE, 0, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bytes_loaded &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bytes_loaded =3D load_image_targ=
-phys(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 filename, OFFSET_C=
-ODE, SIZE_FLASH);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bytes_loaded &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Unable to lo=
-ad firmware image %s as ELF or raw binary&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 firmware);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void sample_class_init(ObjectClass *oc, void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 MachineClass *mc =3D MACHINE_CLASS(oc);<br>
-+<br>
-+=C2=A0 =C2=A0 mc-&gt;desc =3D &quot;AVR sample/example board (ATmega2560)&=
-quot;;<br>
-+=C2=A0 =C2=A0 mc-&gt;init =3D sample_init;<br>
-+=C2=A0 =C2=A0 mc-&gt;default_cpus =3D 1;<br>
-+=C2=A0 =C2=A0 mc-&gt;min_cpus =3D mc-&gt;default_cpus;<br>
-+=C2=A0 =C2=A0 mc-&gt;max_cpus =3D mc-&gt;default_cpus;<br>
-+=C2=A0 =C2=A0 mc-&gt;default_cpu_type =3D &quot;avr6-avr-cpu&quot;; /* ATm=
-ega2560. */<br>
-+=C2=A0 =C2=A0 mc-&gt;is_default =3D 1;<br>
-+}<br>
-+<br>
-+static const TypeInfo sample_info =3D {<br>
-+=C2=A0 =C2=A0 .name =3D TYPE_SAMPLE_MACHINE,<br>
-+=C2=A0 =C2=A0 .parent =3D TYPE_MACHINE,<br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(SampleMachineState),<br>
-+=C2=A0 =C2=A0 .class_size =3D sizeof(SampleMachineClass),<br>
-+=C2=A0 =C2=A0 .class_init =3D sample_class_init,<br>
++static const char *brbc[] =3D {<br>
++=C2=A0 =C2=A0 &quot;BRCC&quot;, &quot;BRNE&quot;, &quot;BRPL&quot;, &quot;=
+BRVC&quot;, &quot;BRGE&quot;, &quot;BRHC&quot;, &quot;BRTC&quot;, &quot;BRI=
+D&quot;<br>
 +};<br>
 +<br>
-+static void sample_machine_init(void)<br>
-+{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;sample_<wbr>info);<br>
-+}<br>
++static const char *brbs[] =3D {<br>
++=C2=A0 =C2=A0 &quot;BRCS&quot;, &quot;BREQ&quot;, &quot;BRMI&quot;, &quot;=
+BRVS&quot;, &quot;BRLT&quot;, &quot;BRHS&quot;, &quot;BRTS&quot;, &quot;BRI=
+E&quot;<br>
++};<br>
 +<br>
-+type_init(sample_machine_<wbr>init);<br>
-diff --git a/hw/core/loader.c b/hw/core/loader.c<br>
-index 5099f27dc8..e6511466ba 100644<br>
---- a/hw/core/loader.c<br>
-+++ b/hw/core/loader.c<br>
-@@ -439,7 +439,7 @@ int load_elf_ram(const char *filename,<br>
-=C2=A0 =C2=A0 =C2=A0return load_elf_ram_sym(filename, elf_note_fn,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0translate_fn, translate_opaque,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, big_endian,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 elf_machine, clear_lsb, data_swab, as,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 elf_machine, NULL, clear_lsb, data_swab, as,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0load_rom, NULL);<br>
++static const char *bset[] =3D {<br>
++=C2=A0 =C2=A0 &quot;SEC&quot;,=C2=A0 &quot;SEZ&quot;,=C2=A0 &quot;SEN&quot=
+;,=C2=A0 &quot;SEZ&quot;,=C2=A0 &quot;SES&quot;,=C2=A0 &quot;SEH&quot;,=C2=
+=A0 &quot;SET&quot;,=C2=A0 &quot;SEI&quot;<br>
++};<br>
++<br>
++static const char *bclr[] =3D {<br>
++=C2=A0 =C2=A0 &quot;CLC&quot;,=C2=A0 &quot;CLZ&quot;,=C2=A0 &quot;CLN&quot=
+;,=C2=A0 &quot;CLZ&quot;,=C2=A0 &quot;CLS&quot;,=C2=A0 &quot;CLH&quot;,=C2=
+=A0 &quot;CLT&quot;,=C2=A0 &quot;CLI&quot;<br>
++};<br>
++<br>
++INSN(ADC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(ADD,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(ADIW,=C2=A0 =C2=A0&quot;r%d:r%d, %d&quot;, a-&gt;rd + 1, a-&gt;rd, a-=
+&gt;imm)<br>
++INSN(AND,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(ANDI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(ASR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN_MNEMONIC(BCLR,=C2=A0 bclr[a-&gt;bit], &quot;&quot;)<br>
++INSN(BLD,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;bit)<br>
++INSN_MNEMONIC(BRBC,=C2=A0 brbc[a-&gt;bit], &quot;.%+d&quot;, a-&gt;imm * 2=
+)<br>
++INSN_MNEMONIC(BRBS,=C2=A0 brbs[a-&gt;bit], &quot;.%+d&quot;, a-&gt;imm * 2=
+)<br>
++INSN(BREAK,=C2=A0 &quot;&quot;)<br>
++INSN_MNEMONIC(BSET,=C2=A0 bset[a-&gt;bit], &quot;&quot;)<br>
++INSN(BST,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;bit)<br>
++INSN(CALL,=C2=A0 =C2=A0&quot;0x%x&quot;, a-&gt;imm * 2)<br>
++INSN(CBI,=C2=A0 =C2=A0 &quot;%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
++INSN(COM,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN(CP,=C2=A0 =C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(CPC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(CPI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(CPSE,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(DEC,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN(DES,=C2=A0 =C2=A0 &quot;%d&quot;, a-&gt;imm)<br>
++INSN(EICALL, &quot;&quot;)<br>
++INSN(EIJMP,=C2=A0 &quot;&quot;)<br>
++INSN(ELPM1,=C2=A0 &quot;&quot;)<br>
++INSN(ELPM2,=C2=A0 &quot;r%d, Z&quot;, a-&gt;rd)<br>
++INSN(ELPMX,=C2=A0 &quot;r%d, Z+&quot;, a-&gt;rd)<br>
++INSN(EOR,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(FMUL,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(FMULS,=C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(FMULSU, &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(ICALL,=C2=A0 &quot;&quot;)<br>
++INSN(IJMP,=C2=A0 =C2=A0&quot;&quot;)<br>
++INSN(IN,=C2=A0 =C2=A0 =C2=A0&quot;r%d, $%d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(INC,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN(JMP,=C2=A0 =C2=A0 &quot;0x%x&quot;, a-&gt;imm * 2)<br>
++INSN(LAC,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
++INSN(LAS,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
++INSN(LAT,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
++INSN(LDDY,=C2=A0 =C2=A0&quot;r%d, Y+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(LDDZ,=C2=A0 =C2=A0&quot;r%d, Z+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(LDI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(LDS,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(LDX1,=C2=A0 =C2=A0&quot;r%d, X&quot;, a-&gt;rd)<br>
++INSN(LDX2,=C2=A0 =C2=A0&quot;r%d, X+&quot;, a-&gt;rd)<br>
++INSN(LDX3,=C2=A0 =C2=A0&quot;r%d, -X&quot;, a-&gt;rd)<br>
++INSN(LDY2,=C2=A0 =C2=A0&quot;r%d, Y+&quot;, a-&gt;rd)<br>
++INSN(LDY3,=C2=A0 =C2=A0&quot;r%d, -Y&quot;, a-&gt;rd)<br>
++INSN(LDZ2,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)<br>
++INSN(LDZ3,=C2=A0 =C2=A0&quot;r%d, -Z&quot;, a-&gt;rd)<br>
++INSN(LPM1,=C2=A0 =C2=A0&quot;&quot;)<br>
++INSN(LPM2,=C2=A0 =C2=A0&quot;r%d, Z&quot;, a-&gt;rd)<br>
++INSN(LPMX,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)<br>
++INSN(LSR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN(MOV,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(MOVW,=C2=A0 =C2=A0&quot;r%d:r%d, r%d,r:r%d&quot;, a-&gt;rd + 1, a-&gt=
+;rd, a-&gt;rr + 1, a-&gt;rr)<br>
++INSN(MUL,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(MULS,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(MULSU,=C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(NEG,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN(NOP,=C2=A0 =C2=A0 &quot;&quot;)<br>
++INSN(OR,=C2=A0 =C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(ORI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(OUT,=C2=A0 =C2=A0 &quot;$%d, r%d&quot;, a-&gt;imm, a-&gt;rd)<br>
++INSN(POP,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN(PUSH,=C2=A0 =C2=A0&quot;r%d&quot;, a-&gt;rd)<br>
++INSN(RCALL,=C2=A0 &quot;.%+d&quot;, a-&gt;imm * 2)<br>
++INSN(RET,=C2=A0 =C2=A0 &quot;&quot;)<br>
++INSN(RETI,=C2=A0 =C2=A0&quot;&quot;)<br>
++INSN(RJMP,=C2=A0 =C2=A0&quot;.%+d&quot;, a-&gt;imm * 2)<br>
++INSN(ROR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
++INSN(SBC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(SBCI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(SBI,=C2=A0 =C2=A0 &quot;$%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
++INSN(SBIC,=C2=A0 =C2=A0&quot;$%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
++INSN(SBIS,=C2=A0 =C2=A0&quot;$%d, %d&quot;, a-&gt;reg, a-&gt;bit)<br>
++INSN(SBIW,=C2=A0 =C2=A0&quot;r%d:r%d, %d&quot;, a-&gt;rd + 1, a-&gt;rd, a-=
+&gt;imm)<br>
++INSN(SBRC,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rr, a-&gt;bit)<br>
++INSN(SBRS,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rr, a-&gt;bit)<br>
++INSN(SLEEP,=C2=A0 &quot;&quot;)<br>
++INSN(SPM,=C2=A0 =C2=A0 &quot;&quot;)<br>
++INSN(SPMX,=C2=A0 =C2=A0&quot;Z+&quot;)<br>
++INSN(STDY,=C2=A0 =C2=A0&quot;r%d, Y+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(STDZ,=C2=A0 =C2=A0&quot;r%d, Z+%d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(STS,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(STX1,=C2=A0 =C2=A0&quot;r%d, X&quot;, a-&gt;rr)<br>
++INSN(STX2,=C2=A0 =C2=A0&quot;r%d, X+&quot;, a-&gt;rr)<br>
++INSN(STX3,=C2=A0 =C2=A0&quot;r%d, -X&quot;, a-&gt;rr)<br>
++INSN(STY2,=C2=A0 =C2=A0&quot;r%d, Y+&quot;, a-&gt;rd)<br>
++INSN(STY3,=C2=A0 =C2=A0&quot;r%d, -Y&quot;, a-&gt;rd)<br>
++INSN(STZ2,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)<br>
++INSN(STZ3,=C2=A0 =C2=A0&quot;r%d, -Z&quot;, a-&gt;rd)<br>
++INSN(SUB,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr)<br>
++INSN(SUBI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd, a-&gt;imm)<br>
++INSN(SWAP,=C2=A0 =C2=A0&quot;r%d&quot;, a-&gt;rd)<br>
++INSN(WDR,=C2=A0 =C2=A0 &quot;&quot;)<br>
++INSN(XCH,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<br>
++<br>
+diff --git a/target/avr/translate.c b/target/avr/translate.c<br>
+index c8c6f798bf..a621195817 100644<br>
+--- a/target/avr/translate.c<br>
++++ b/target/avr/translate.c<br>
+@@ -2917,6 +2917,17 @@ done_generating:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0tb-&gt;size =3D (ctx.npc - pc_start) * 2;<br>
+=C2=A0 =C2=A0 =C2=A0tb-&gt;icount =3D num_insns;<br>
++<br>
++#ifdef DEBUG_DISAS<br>
++=C2=A0 =C2=A0 if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; qemu_log_in_addr_range(tb-&gt;pc)) =
+{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_lock();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;IN: %s\n&quot;, lookup_symbol(t=
+b-&gt;pc));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 log_target_disas(cs, tb-&gt;pc, tb-&gt;size);<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_unlock();<br>
++=C2=A0 =C2=A0 }<br>
++#endif<br>
 =C2=A0}<br>
 <br>
-@@ -449,7 +449,8 @@ int load_elf_ram_sym(const char *filename,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 uint64_t (*translate_fn)(void *, uint64_t),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 void *translate_opaque, uint64_t *pentry,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 uint64_t *lowaddr, uint64_t *highaddr, int big_endian,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0int elf_machine, int clear_lsb, int data_swab,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0int elf_machine, uint32_t *pflags,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0int clear_lsb, int data_swab,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int fd, data_order, target_data_order, must_swab, ret =
-=3D ELF_LOAD_FAILED;<br>
-@@ -490,13 +491,13 @@ int load_elf_ram_sym(const char *filename,<br>
-=C2=A0 =C2=A0 =C2=A0if (e_ident[EI_CLASS] =3D=3D ELFCLASS64) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_elf64(filename, fd, elf_note=
-_fn,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 translate_fn, translate_opaque, must_swab,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, elf_machine, clear_lsb,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0data_swab, as, load_rom, sym_cb);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, elf_machine, pflags,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0clear_lsb, data_swab, as, load_rom, sym_cb);<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_elf32(filename, fd, elf_note=
-_fn,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 translate_fn, translate_opaque, must_swab,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, elf_machine, clear_lsb,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0data_swab, as, load_rom, sym_cb);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, elf_machine, pflags,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0clear_lsb, data_swab, as, load_rom, sym_cb);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 fail:<br>
-diff --git a/hw/Kconfig b/hw/Kconfig<br>
-index b9685b3944..07b8abb342 100644<br>
---- a/hw/Kconfig<br>
-+++ b/hw/Kconfig<br>
-@@ -44,6 +44,7 @@ source watchdog/Kconfig<br>
-=C2=A0# arch Kconfig<br>
-=C2=A0source arm/Kconfig<br>
-=C2=A0source alpha/Kconfig<br>
-+source avr/Kconfig<br>
-=C2=A0source cris/Kconfig<br>
-=C2=A0source hppa/Kconfig<br>
-=C2=A0source i386/Kconfig<br>
-diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig<br>
-new file mode 100644<br>
-index 0000000000..92aa1e6afb<br>
---- /dev/null<br>
-+++ b/hw/avr/Kconfig<br>
-@@ -0,0 +1,6 @@<br>
-+config AVR_SAMPLE<br>
-+=C2=A0 =C2=A0 bool<br>
-+=C2=A0 =C2=A0 select AVR_TIMER16<br>
-+=C2=A0 =C2=A0 select AVR_USART<br>
-+=C2=A0 =C2=A0 select AVR_MASK<br>
-+=C2=A0 =C2=A0 select UNIMP<br>
-diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs<br>
-new file mode 100644<br>
-index 0000000000..626b7064b3<br>
---- /dev/null<br>
-+++ b/hw/avr/Makefile.objs<br>
-@@ -0,0 +1 @@<br>
-+obj-y +=3D sample.o<br>
+=C2=A0void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,<br>
 -- <br>
 2.17.2 (Apple Git-113)<br>
 <br>
 </blockquote>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
 
---0000000000001789a605994980c9--
+--0000000000004eeeb40599498dd3--
 
