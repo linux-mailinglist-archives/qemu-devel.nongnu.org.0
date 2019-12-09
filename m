@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC9611737D
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:09:18 +0100 (CET)
-Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70F81173EE
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:18:57 +0100 (CET)
+Received: from localhost ([::1]:44198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieNTB-0002wt-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:09:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60670)
+	id 1ieNcW-0008Ou-C0
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:18:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1ieNSQ-0002SR-N0
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:08:31 -0500
+ (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNa8-0006SK-9Q
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1ieNSP-0001GK-Kl
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:08:30 -0500
-Resent-Date: Mon, 09 Dec 2019 13:08:30 -0500
-Resent-Message-Id: <E1ieNSP-0001GK-Kl@eggs.gnu.org>
-Received: from sender4-of-o50.zoho.com ([136.143.188.50]:21011)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1ieNSM-00016e-NY; Mon, 09 Dec 2019 13:08:26 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1575914889; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=HsXj5h8AIKy6NE4Smnwpbs7R+cfnhWGliuxzF1pK137v1oquQT1WQ+nWHJRbF1JIuXlkiOngPxvkAJJgIV1zBs1pZMIgFs58sZp1unqUk0vDEjPs9lr5azzYZUeRhp5dO3ZHnVjPYh+S3pAXFyDcq/yNRzdiRyGLYOtye2FtOQQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1575914889;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=sBGymazN6YGgs8S/9gdg1z7hpxoAy0Uf5Qvfwh8MYww=; 
- b=LKbjVFHF1xFYBXDreZlrcQTIWQllPG93g2HkmZ1jhVuqT4NdizRoqQLrN0/pqn0yW+2p9hzyb2k0yuuiDGtKDA2x4Q4l+jxvaDKH71ravNU3V014mT+hh8XL3uOgjzemc8bXaGwWIilrynlgrr8WBCkaTRXeVZkGq5wuoR9Jbgo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1575914889156384.82932510369983;
- Mon, 9 Dec 2019 10:08:09 -0800 (PST)
-In-Reply-To: <157589808041.21182.18121655959115011353.stgit@bahia.lan>
-Subject: Re: [for-5.0 PATCH] ppc: Make PPCVirtualHypervisor an incomplete type
-Message-ID: <157591488816.7675.17244780792824596591@37313f22b938>
+ (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNa6-00073C-QA
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:28 -0500
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:57622)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNa6-000707-2y; Mon, 09 Dec 2019 13:16:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1575915386; x=1607451386;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=07+2TT8Mqx2a4MyDwcPbMvE1bAlmDWGUW17SRPcc+k8=;
+ b=nyy26ppO5e4KeaSQev4lwNqegeyWLvSOFawwLgE6A39eQUZe/36xY5OD
+ pc0hHwzxLYdsIkONNFCb2cs+NCxX+8gan/j9z6d7PAo9WRxaPpcCQPlX2
+ ft+LTyEl8NhICmSBOd2FITw9lW2iRuLYnxzo0lOVoJWgTyLPJZhIDUrG7
+ CHrZbY19QVqCu3C0GYZHR3UQQn/UpO0xfNlA5IIuE4mDhT+1pnsOOzN0V
+ 58/wVMZAOKztxreTkgeQq1ygzrYdwco8cTE9QhW2UubxIX4/o2b7DxvE4
+ bKrhFaphSfv7T/J5oFjYIUjYeFbmh+EECBd4oxCVfh4lJASbKfZ3eKhv4 w==;
+IronPort-SDR: 3BzXAH71wiZ43jPdeuonY5znbKDr9MzJBHzFqQjBzp00ebogvaoSbyOu7MfJ0vCrWG0ojEGruA
+ X3D9Mal3Zu0IqjS7ahjE+E81/z33UYclOPAwGScSl857+wpvciO6yiiYspUjL7iftAqOklYtMS
+ mIRCHP/zMC2TGYBISXPxvfgJgDonilSMXLtYfCETgAkrL2mefktNEUVG7SccX4KUReY4PzBCC/
+ u4/a5HMBwR8EInK+PeBhV0nPQyDW6Xk94YoDnil50HfgyojVJjFTXbeUQXGTw5oHikIUY4TpeO
+ Dhc=
+X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="129370392"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:16:22 +0800
+IronPort-SDR: +f4hhphK+ZiVtwQZ58BrdyetXdzcaRNLtmcD4pdVuOj6Gv7xntdTcJ6o1vinLOyD91PhO/597e
+ P23GT2v/axDs4HP5rZ+RFe2auMn+lqIrakHiwroPzmnCachrTSFFndBDTXLe7OTC/xm+I95geS
+ bZo3HZ/sPPE2n/mcu/TpnanCPue5THJxo0U4glxnDk1MWPNPkovpmzYRCjEXzeqQ1om/fm6ryv
+ +NxDVJs6eJoMsu/trGaIRzDi1aOnEPeyZ2pnOaJWJdou80WVsyWgyQy051PRZANRc6ksT0/6UO
+ bx+d0XL2LmKr81WnfN2Nmc+P
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2019 10:10:38 -0800
+IronPort-SDR: NgCjCnERLlMjJ4CbnGdpGX6OxuBwnkB0ucx5W7J9bR4wTYq58mjvSz9/n59WmCo1OedkkYYi0f
+ DXQy/w4KgnWhFw/1BoDQstwSkMHa7+VNAZF4L9EkX8wZlyybzManmOJQAygSXVhuBeMR+liaHj
+ snKCO6l3WN3noFznIxiY9cvr2QFheUsy+zzjzMiGdafXh1MW5CDXf9UK55746aDDj92eH1+in9
+ 8gt8CcfVBNzp10vka4IQrWqZNXanlhJUveNriLoVjdFXzoB+Y7Ue256J6FdIebLxrrJ4Xg8LgG
+ xB4=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+ by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2019 10:16:22 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 00/36]  Add RISC-V Hypervisor Extension v0.5
+Date: Mon,  9 Dec 2019 10:10:40 -0800
+Message-Id: <cover.1575914822.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: groug@kaod.org
-Date: Mon, 9 Dec 2019 10:08:09 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.50
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 216.71.153.141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,36 +82,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTc1ODk4MDgwNDEuMjExODIu
-MTgxMjE2NTU5NTkxMTUwMTEzNTMuc3RnaXRAYmFoaWEubGFuLwoKCgpIaSwKClRoaXMgc2VyaWVz
-IGZhaWxlZCB0aGUgZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0
-aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBE
-b2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoK
-PT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0
-Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXIt
-dGVzdC1taW5nd0BmZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
-ClN1Ym1vZHVsZSAnZHRjJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2R0Yy5naXQpIHJlZ2lz
-dGVyZWQgZm9yIHBhdGggJ2R0YycKQ2xvbmluZyBpbnRvICdkdGMnLi4uCnJlbW90ZTogQ291bnRp
-bmcgb2JqZWN0czogNTI4MCwgZG9uZS4gICAgICAgIAplcnJvcjogUlBDIGZhaWxlZDsgcmVzdWx0
-PTE4LCBIVFRQIGNvZGUgPSAyMDAKZmF0YWw6IFRoZSByZW1vdGUgZW5kIGh1bmcgdXAgdW5leHBl
-Y3RlZGx5CmZhdGFsOiBwcm90b2NvbCBlcnJvcjogYmFkIHBhY2sgaGVhZGVyCkNsb25lIG9mICdo
-dHRwczovL2dpdC5xZW11Lm9yZy9naXQvZHRjLmdpdCcgaW50byBzdWJtb2R1bGUgcGF0aCAnZHRj
-JyBmYWlsZWQKZmFpbGVkIHRvIHVwZGF0ZSBzdWJtb2R1bGUgZHRjClN1Ym1vZHVsZSAnZHRjJyAo
-aHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2R0Yy5naXQpIHVucmVnaXN0ZXJlZCBmb3IgcGF0aCAn
-ZHRjJwptYWtlWzFdOiAqKiogWy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1vNmY4d3JfZi9z
-cmMvZG9ja2VyLXNyYy4yMDE5LTEyLTA5LTEzLjAzLjUyLjEyNjU1XSBFcnJvciAxCm1ha2VbMV06
-IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtbzZmOHdyX2Yv
-c3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJl
-YWwgICAgNG0xNi43MDhzCnVzZXIgICAgMG0yLjUzMHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
-YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE1NzU4OTgwODA0MS4yMTE4Mi4xODEyMTY1
-NTk1OTExNTAxMTM1My5zdGdpdEBiYWhpYS5sYW4vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3Jh
-Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
-aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
-cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+This patch series adds the RISC-V Hypervisor extension v0.5. This is the
+latest draft spec of the Hypervisor extension.
+
+The Hypervisor extension is disabled by default, so this series should
+result in no changes to anyone using QEMU unless they enable the
+extension. The extention can be enabled with the -cpu property (see
+below).
+
+Testing of this implementation has been done by using the baremetal
+Xvisor Hypervisor. We are able to run two Linux guests (that's all I
+have tried) as guests in 64-bit. In 32-bit so far I can only run
+baremetal guests, but I think this is a baremetal boot loader issue and
+not an issue in QEMU.
+
+The RISC-V KVM implementation was also written using these patches. The
+KVM implementation is currently under review.
+
+At the moment this spec is in a draft state and is subject to change. As
+QEMU is extreamly useful in early bring up I think it makes sense for
+QEMU to support non-frozen extensions.
+
+Thanks to Anup for doing the initial port of Xvisor. The port is avaliable here:
+https://github.com/avpatel/xvisor-next and will run on QEMU.
+
+Also thanks to Atish for implementing the SBI call support in Xvisor and
+for lots of help debugging.
+
+To run this yourself:
+ 1. Apply this patch series to QEMU. The latest branch can be found here:
+      https://github.com/alistair23/qemu/tree/mainline/alistair/riscv-hyp-ext-v0.5.next
+ 2. Get the version of OpenSBI that supports the H extension. This can
+    be found here:
+      https://github.com/avpatel/opensbi/tree/riscv_hyp_ext_0_5_v1
+ 3. Build the next release of Xvisor. It is available here:
+      https://github.com/avpatel/xvisor-next
+ 4. Make sure you build the Xvisor tests, see here for details:
+      https://github.com/avpatel/xvisor-next/tree/master/tests/riscv/virt64/linux
+ 5. Run QEMU:
+     ./riscv64-softmmu/qemu-system-riscv64 -nographic \
+       -machine virt -cpu rv64,x-h=true \
+       -serial mon:stdio -serial null -m 4G \
+       -device loader,file=vmm.bin,addr=0x80200000 \
+       -kernel fw_jump.elf \
+       -initrd vmm-disk-linux.img \
+       -append "vmm.console=uart@10000000 vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs cat /system/banner.txt\""
+
+   Once you get to the prompt you can start the geust by running:
+     guest kick guest0
+   You can then bind to the serial port using:
+     vserial bind guest0/uart0
+   Then you can start Linux using:
+     autoexec
+
+ This was all tested with the mainline 5.2/5.3 kernels.
+
+There is very early work on a Xen port as well which is avaliable here:
+https://github.com/alistair23/xen/tree/alistair/riscv-port
+
+ToDo/Issues
+ - Get 32-bit fully working
+
+
+
+Alistair Francis (36):
+  target/riscv: Convert MIP CSR to target_ulong
+  target/riscv: Don't set write permissions on dirty PTEs
+  target/riscv: Add the Hypervisor extension
+  target/riscv: Add the Hypervisor CSRs to CPUState
+  target/riscv: Add support for the new execption numbers
+  target/riscv: Rename the H irqs to VS irqs
+  target/riscv: Add the virtulisation mode
+  target/riscv: Add the force HS exception mode
+  target/riscv: Fix CSR perm checking for HS mode
+  target/riscv: Print priv and virt in disas log
+  target/riscv: Dump Hypervisor registers if enabled
+  target/riscv: Add Hypervisor CSR access functions
+  target/riscv: Add Hypervisor virtual CSRs accesses
+  target/riscv: Add Hypervisor virtual CSRs accesses
+  target/riscv: Convert mstatus to pointers
+  target/riscv: Add virtual register swapping function
+  target/riscv: Set VS bits in mideleg for Hyp extension
+  target/riscv: Extend the MIE CSR to support virtulisation
+  target/riscv: Extend the SIP CSR to support virtulisation
+  target/riscv: Add support for virtual interrupt setting
+  target/ricsv: Flush the TLB on virtulisation mode changes
+  target/riscv: Generate illegal instruction on WFI when V=1
+  target/riscv: Add hypvervisor trap support
+  target/riscv: Add Hypervisor trap return support
+  target/riscv: Add hfence instructions
+  target/riscv: Remove the hret instruction
+  target/riscv: Disable guest FP support based on virtual status
+  target/riscv: Mark both sstatus and vsstatus as dirty
+  target/riscv: Respect MPRV and SPRV for floating point ops
+  target/riscv: Allow specifying MMU stage
+  target/riscv: Implement second stage MMU
+  target/riscv: Raise the new execptions when 2nd stage translation
+    fails
+  target/riscv: Set htval and mtval2 on execptions
+  target/riscv: Add support for the 32-bit MSTATUSH CSR
+  target/riscv: Add the MSTATUS_MPV_ISSET helper macro
+  target/riscv: Allow enabling the Hypervisor extension
+
+ target/riscv/cpu.c                            |  71 ++-
+ target/riscv/cpu.h                            |  58 +-
+ target/riscv/cpu_bits.h                       | 111 ++--
+ target/riscv/cpu_helper.c                     | 501 +++++++++++++++---
+ target/riscv/csr.c                            | 389 +++++++++++++-
+ target/riscv/gdbstub.c                        |  11 +-
+ target/riscv/insn32.decode                    |  22 +-
+ .../riscv/insn_trans/trans_privileged.inc.c   |  45 +-
+ target/riscv/op_helper.c                      |  81 ++-
+ target/riscv/translate.c                      |  34 ++
+ 10 files changed, 1161 insertions(+), 162 deletions(-)
+
+-- 
+2.24.0
 
 
