@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2FC116A30
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 10:53:00 +0100 (CET)
-Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686C5116A40
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 10:54:05 +0100 (CET)
+Received: from localhost ([::1]:37972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieFit-0002mN-O2
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 04:52:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49178)
+	id 1ieFjw-0004PL-H3
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 04:54:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49197)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ieFgW-000899-4m
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 04:50:33 -0500
+ (envelope-from <philmd@redhat.com>) id 1ieFgj-0008T5-K2
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 04:50:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ieFgU-0000jy-VS
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 04:50:32 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25860
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ieFgi-0000mB-Kg
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 04:50:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56797
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ieFgU-0000jU-S8
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 04:50:30 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ieFgi-0000ly-HE
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 04:50:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575885030;
+ s=mimecast20190719; t=1575885044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=65dn2EaMCTP37YOCYHLxZUlHztk6cKACuH+ML1W/q/Y=;
- b=FbT1BtM+ats12IGQYugzBIR4/YSU68bbLczAyWMSNsDdjA/P20a5qLWxruUiI6WG3kJl9p
- 6OsY6Uo+ahQuB+FyQJz+D73bnOsDaafE2oSUZE1v7Oqw0yU0o7nd5oGb2cNa88Clq7gSuE
- fniY2zBc6fyAXKRTkDf0O3X8XSqUM4A=
+ bh=nQooNv4KuAJbOCpnZQESZEyWieR/hAlT1WGgxUjJTpQ=;
+ b=U3HV4rr7iW79bGAKPiRi+Rd8YGmb53rNOOlxOe+UHSKPEVZ738PbEKBO8bIpRz5lfJh0jK
+ an7mObpz0dFn/6F2SSK9+ASkaRL37n/Q03TPIi2j1AnvKFP34dt/boOSB0hKd+mWi1p8K3
+ isCGQuhhBlUuc4rzv0aJ1TfETmYZ/Lw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-iZ-_Yi-lPHK3MEi807cAbQ-1; Mon, 09 Dec 2019 04:50:28 -0500
+ us-mta-13-gfa2tifNPLWJqkaOzwt-IQ-1; Mon, 09 Dec 2019 04:50:41 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 581F01800D45;
- Mon,  9 Dec 2019 09:50:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A7CD800D53;
+ Mon,  9 Dec 2019 09:50:40 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-142.brq.redhat.com [10.40.205.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 32B2519C5B;
- Mon,  9 Dec 2019 09:50:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5472519C5B;
+ Mon,  9 Dec 2019 09:50:27 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 v3 2/6] hw/pci-host/i440fx: Extract PCII440FXState to
- "hw/pci-host/i440fx.h"
-Date: Mon,  9 Dec 2019 10:49:58 +0100
-Message-Id: <20191209095002.32194-3-philmd@redhat.com>
+Subject: [PATCH-for-5.0 v3 3/6] hw/pci-host/i440fx: Use size_t to iterate over
+ ARRAY_SIZE()
+Date: Mon,  9 Dec 2019 10:49:59 +0100
+Message-Id: <20191209095002.32194-4-philmd@redhat.com>
 In-Reply-To: <20191209095002.32194-1-philmd@redhat.com>
 References: <20191209095002.32194-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: iZ-_Yi-lPHK3MEi807cAbQ-1
+X-MC-Unique: gfa2tifNPLWJqkaOzwt-IQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,86 +81,36 @@ Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the PCII440FXState structure public, so it can be used out of
-this source file. This will allow us to extract the IGD Passthrough
-Host Bridge, which is a children of the TYPE_I440FX_PCI_DEVICE.
+We don't enforce the -Wsign-conversion CPPFLAG, but it doesn't hurt
+to avoid this warning:
+
+  warning: implicit conversion changes signedness: 'int' to 'size_t' (aka '=
+unsigned long') [-Wsign-conversion]
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/pci-host/i440fx.h | 19 +++++++++++++++++--
- hw/pci-host/i440fx.c         | 18 ------------------
- 2 files changed, 17 insertions(+), 20 deletions(-)
+ hw/pci-host/i440fx.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
-index f54e6466e4..cc58d82ed4 100644
---- a/include/hw/pci-host/i440fx.h
-+++ b/include/hw/pci-host/i440fx.h
-@@ -13,12 +13,27 @@
-=20
- #include "hw/hw.h"
- #include "hw/pci/pci_bus.h"
--
--typedef struct PCII440FXState PCII440FXState;
-+#include "hw/pci-host/pam.h"
-=20
- #define TYPE_I440FX_PCI_HOST_BRIDGE "i440FX-pcihost"
- #define TYPE_I440FX_PCI_DEVICE "i440FX"
-=20
-+#define I440FX_PCI_DEVICE(obj) \
-+    OBJECT_CHECK(PCII440FXState, (obj), TYPE_I440FX_PCI_DEVICE)
-+
-+typedef struct PCII440FXState {
-+    /*< private >*/
-+    PCIDevice parent_obj;
-+    /*< public >*/
-+
-+    MemoryRegion *system_memory;
-+    MemoryRegion *pci_address_space;
-+    MemoryRegion *ram_memory;
-+    PAMMemoryRegion pam_regions[13];
-+    MemoryRegion smram_region;
-+    MemoryRegion smram, low_smram;
-+} PCII440FXState;
-+
- #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
-=20
- PCIBus *i440fx_init(const char *host_type, const char *pci_type,
 diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 3fc94426ea..fbdc563599 100644
+index fbdc563599..0cc80b276d 100644
 --- a/hw/pci-host/i440fx.c
 +++ b/hw/pci-host/i440fx.c
-@@ -31,7 +31,6 @@
- #include "hw/sysbus.h"
- #include "qapi/error.h"
- #include "migration/vmstate.h"
--#include "hw/pci-host/pam.h"
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
+@@ -419,12 +419,11 @@ out:
+ static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     uint32_t val =3D 0;
+-    int i, num;
++    size_t i;
+     int pos, len;
+     Error *local_err =3D NULL;
 =20
-@@ -51,23 +50,6 @@ typedef struct I440FXState {
-     uint32_t short_root_bus;
- } I440FXState;
-=20
--#define I440FX_PCI_DEVICE(obj) \
--    OBJECT_CHECK(PCII440FXState, (obj), TYPE_I440FX_PCI_DEVICE)
--
--struct PCII440FXState {
--    /*< private >*/
--    PCIDevice parent_obj;
--    /*< public >*/
--
--    MemoryRegion *system_memory;
--    MemoryRegion *pci_address_space;
--    MemoryRegion *ram_memory;
--    PAMMemoryRegion pam_regions[13];
--    MemoryRegion smram_region;
--    MemoryRegion smram, low_smram;
--};
--
--
- #define I440FX_PAM      0x59
- #define I440FX_PAM_SIZE 7
- #define I440FX_SMRAM    0x72
+-    num =3D ARRAY_SIZE(igd_host_bridge_infos);
+-    for (i =3D 0; i < num; i++) {
++    for (i =3D 0; i < ARRAY_SIZE(igd_host_bridge_infos); i++) {
+         pos =3D igd_host_bridge_infos[i].offset;
+         len =3D igd_host_bridge_infos[i].len;
+         host_pci_config_read(pos, len, &val, &local_err);
 --=20
 2.21.0
 
