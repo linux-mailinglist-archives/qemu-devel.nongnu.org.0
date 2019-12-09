@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3BD1221BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 02:57:26 +0100 (CET)
-Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D4C1221C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 02:58:35 +0100 (CET)
+Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih273-0003Lb-4n
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 20:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38570)
+	id 1ih28A-0005H6-4j
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 20:58:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1ih25g-0002E7-Kq
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:56:01 -0500
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1ih25i-0002EM-7e
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:56:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1ih25e-0001RU-PK
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:55:59 -0500
-Received: from [192.146.154.1] (port=8940 helo=mcp01.nutanix.com)
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1ih25g-0001Uy-P4
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:56:02 -0500
+Received: from [192.146.154.1] (port=38126 helo=mcp01.nutanix.com)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <raphael.norwitz@nutanix.com>) id 1ih25e-0001QA-K9
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:55:58 -0500
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1ih25g-0001Ub-H7
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:56:00 -0500
 Received: from localhost.corp.nutanix.com (unknown [10.40.33.233])
- by mcp01.nutanix.com (Postfix) with ESMTP id 4450E1008B75;
- Tue, 17 Dec 2019 01:55:57 +0000 (UTC)
+ by mcp01.nutanix.com (Postfix) with ESMTP id 16B171008B6E;
+ Tue, 17 Dec 2019 01:56:00 +0000 (UTC)
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 To: mst@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/3] Fixed Error Handling in
- vhost_user_set_mem_table_postcopy
-Date: Mon,  9 Dec 2019 02:00:45 -0500
-Message-Id: <1575874847-5792-2-git-send-email-raphael.norwitz@nutanix.com>
+Subject: [RFC PATCH 2/3] vhost-user: Refactor vhost_user_set_mem_table
+ Functions
+Date: Mon,  9 Dec 2019 02:00:46 -0500
+Message-Id: <1575874847-5792-3-git-send-email-raphael.norwitz@nutanix.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1575874847-5792-1-git-send-email-raphael.norwitz@nutanix.com>
 References: <1575874847-5792-1-git-send-email-raphael.norwitz@nutanix.com>
@@ -51,55 +51,227 @@ Cc: raphael.s.norwitz@gmail.com, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current vhost_user_set_mem_table_postcopy() implementation
-populates each region of the VHOST_USER_SET_MEM_TABLE
-message without first checking if there are more than
-VHOST_MEMORY_MAX_NREGIONS already populated. This can
-cause memory corruption and potentially a crash if too many
-regions are added to the message during the postcopy step.
+vhost_user_set_mem_table() and vhost_user_set_mem_table_postcopy()
+have gotten convoluted, and have some identical code.
 
-Additionally, after populating each region, the current
-implementation asserts that the current region index is less than
-VHOST_MEMORY_MAX_NREGIONS. Thus, even if the aforementioned
-bug is fixed by moving the existing assert up, too many hot-adds
-during the postcopy step will bring down qemu instead of
-gracefully propogating up the error as in
-vhost_user_set_mem_table().
+This change moves the logic populating the VhostUserMemory struct
+and fds array from vhost_user_set_mem_table() and
+vhost_user_set_mem_table_postcopy() to a new function,
+vhost_user_fill_set_mem_table_msg().
 
-This change cleans up error handling in
-vhost_user_set_mem_table_postcopy() such that it handles
-an unsupported number of memory hot-adds like
-vhost_user_set_mem_table(), gracefully propogating an error
-up instead of corrupting memory and crashing qemu.
+No functionality is impacted.
 
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- hw/virtio/vhost-user.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-user.c | 144 +++++++++++++++++++++++--------------------------
+ 1 file changed, 66 insertions(+), 78 deletions(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 02a9b25..f74ff3b 100644
+index f74ff3b..2134e81 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -441,6 +441,10 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
+@@ -405,76 +405,97 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+     return 0;
+ }
+ 
+-static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
+-                                             struct vhost_memory *mem)
++static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
++                                             struct vhost_dev *dev,
++                                             VhostUserMsg *msg,
++                                             int *fds, size_t *fd_num,
++                                             bool postcopy)
+ {
+-    struct vhost_user *u = dev->opaque;
+-    int fds[VHOST_MEMORY_MAX_NREGIONS];
+     int i, fd;
+-    size_t fd_num = 0;
+-    VhostUserMsg msg_reply;
+-    int region_i, msg_i;
++    ram_addr_t offset;
++    MemoryRegion *mr;
++    struct vhost_memory_region *reg;
+ 
+-    VhostUserMsg msg = {
+-        .hdr.request = VHOST_USER_SET_MEM_TABLE,
+-        .hdr.flags = VHOST_USER_VERSION,
+-    };
+-
+-    if (u->region_rb_len < dev->mem->nregions) {
+-        u->region_rb = g_renew(RAMBlock*, u->region_rb, dev->mem->nregions);
+-        u->region_rb_offset = g_renew(ram_addr_t, u->region_rb_offset,
+-                                      dev->mem->nregions);
+-        memset(&(u->region_rb[u->region_rb_len]), '\0',
+-               sizeof(RAMBlock *) * (dev->mem->nregions - u->region_rb_len));
+-        memset(&(u->region_rb_offset[u->region_rb_len]), '\0',
+-               sizeof(ram_addr_t) * (dev->mem->nregions - u->region_rb_len));
+-        u->region_rb_len = dev->mem->nregions;
+-    }
++    msg->hdr.request = VHOST_USER_SET_MEM_TABLE;
+ 
+     for (i = 0; i < dev->mem->nregions; ++i) {
+-        struct vhost_memory_region *reg = dev->mem->regions + i;
+-        ram_addr_t offset;
+-        MemoryRegion *mr;
++        reg = dev->mem->regions + i;
+ 
+         assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
+         mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
                                       &offset);
          fd = memory_region_get_fd(mr);
          if (fd > 0) {
-+            if (fd_num == VHOST_MEMORY_MAX_NREGIONS) {
-+                error_report("Failed preparing vhost-user memory table msg");
-+                return -1;
+-            if (fd_num == VHOST_MEMORY_MAX_NREGIONS) {
++            if (*fd_num == VHOST_MEMORY_MAX_NREGIONS) {
+                 error_report("Failed preparing vhost-user memory table msg");
+                 return -1;
+             }
+-            trace_vhost_user_set_mem_table_withfd(fd_num, mr->name,
+-                                                  reg->memory_size,
+-                                                  reg->guest_phys_addr,
+-                                                  reg->userspace_addr, offset);
+-            u->region_rb_offset[i] = offset;
+-            u->region_rb[i] = mr->ram_block;
+-            msg.payload.memory.regions[fd_num].userspace_addr =
++            if (postcopy) {
++                trace_vhost_user_set_mem_table_withfd(*fd_num, mr->name,
++                                                      reg->memory_size,
++                                                      reg->guest_phys_addr,
++                                                      reg->userspace_addr,
++                                                      offset);
++                u->region_rb_offset[i] = offset;
++                u->region_rb[i] = mr->ram_block;
 +            }
-             trace_vhost_user_set_mem_table_withfd(fd_num, mr->name,
-                                                   reg->memory_size,
-                                                   reg->guest_phys_addr,
-@@ -453,7 +457,6 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
-             msg.payload.memory.regions[fd_num].guest_phys_addr =
++            msg->payload.memory.regions[*fd_num].userspace_addr =
+                 reg->userspace_addr;
+-            msg.payload.memory.regions[fd_num].memory_size  = reg->memory_size;
+-            msg.payload.memory.regions[fd_num].guest_phys_addr =
++            msg->payload.memory.regions[*fd_num].memory_size =
++                reg->memory_size;
++            msg->payload.memory.regions[*fd_num].guest_phys_addr =
                  reg->guest_phys_addr;
-             msg.payload.memory.regions[fd_num].mmap_offset = offset;
--            assert(fd_num < VHOST_MEMORY_MAX_NREGIONS);
-             fds[fd_num++] = fd;
-         } else {
+-            msg.payload.memory.regions[fd_num].mmap_offset = offset;
+-            fds[fd_num++] = fd;
+-        } else {
++            msg->payload.memory.regions[*fd_num].mmap_offset = offset;
++            fds[(*fd_num)++] = fd;
++        } else if (postcopy) {
              u->region_rb_offset[i] = 0;
+             u->region_rb[i] = NULL;
+         }
+     }
+ 
+-    msg.payload.memory.nregions = fd_num;
++    msg->payload.memory.nregions = *fd_num;
+ 
+-    if (!fd_num) {
++    if (!*fd_num) {
+         error_report("Failed initializing vhost-user memory map, "
+                      "consider using -object memory-backend-file share=on");
+         return -1;
+     }
+ 
+-    msg.hdr.size = sizeof(msg.payload.memory.nregions);
+-    msg.hdr.size += sizeof(msg.payload.memory.padding);
+-    msg.hdr.size += fd_num * sizeof(VhostUserMemoryRegion);
++    msg->hdr.size = sizeof(msg->payload.memory.nregions);
++    msg->hdr.size += sizeof(msg->payload.memory.padding);
++    msg->hdr.size += *fd_num * sizeof(VhostUserMemoryRegion);
++
++    return 1;
++}
++
++static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
++                                             struct vhost_memory *mem)
++{
++    struct vhost_user *u = dev->opaque;
++    int fds[VHOST_MEMORY_MAX_NREGIONS];
++    size_t fd_num = 0;
++    VhostUserMsg msg_reply;
++    int region_i, msg_i;
++
++    VhostUserMsg msg = {
++        .hdr.flags = VHOST_USER_VERSION,
++    };
++
++    if (u->region_rb_len < dev->mem->nregions) {
++        u->region_rb = g_renew(RAMBlock*, u->region_rb, dev->mem->nregions);
++        u->region_rb_offset = g_renew(ram_addr_t, u->region_rb_offset,
++                                      dev->mem->nregions);
++        memset(&(u->region_rb[u->region_rb_len]), '\0',
++               sizeof(RAMBlock *) * (dev->mem->nregions - u->region_rb_len));
++        memset(&(u->region_rb_offset[u->region_rb_len]), '\0',
++               sizeof(ram_addr_t) * (dev->mem->nregions - u->region_rb_len));
++        u->region_rb_len = dev->mem->nregions;
++    }
++
++    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
++                                          true) < 0) {
++        return -1;
++    }
+ 
+     if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
+         return -1;
+@@ -546,7 +567,6 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+ {
+     struct vhost_user *u = dev->opaque;
+     int fds[VHOST_MEMORY_MAX_NREGIONS];
+-    int i, fd;
+     size_t fd_num = 0;
+     bool do_postcopy = u->postcopy_listen && u->postcopy_fd.handler;
+     bool reply_supported = virtio_has_feature(dev->protocol_features,
+@@ -560,7 +580,6 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+     }
+ 
+     VhostUserMsg msg = {
+-        .hdr.request = VHOST_USER_SET_MEM_TABLE,
+         .hdr.flags = VHOST_USER_VERSION,
+     };
+ 
+@@ -568,42 +587,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+         msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+     }
+ 
+-    for (i = 0; i < dev->mem->nregions; ++i) {
+-        struct vhost_memory_region *reg = dev->mem->regions + i;
+-        ram_addr_t offset;
+-        MemoryRegion *mr;
+-
+-        assert((uintptr_t)reg->userspace_addr == reg->userspace_addr);
+-        mr = memory_region_from_host((void *)(uintptr_t)reg->userspace_addr,
+-                                     &offset);
+-        fd = memory_region_get_fd(mr);
+-        if (fd > 0) {
+-            if (fd_num == VHOST_MEMORY_MAX_NREGIONS) {
+-                error_report("Failed preparing vhost-user memory table msg");
+-                return -1;
+-            }
+-            msg.payload.memory.regions[fd_num].userspace_addr =
+-                reg->userspace_addr;
+-            msg.payload.memory.regions[fd_num].memory_size  = reg->memory_size;
+-            msg.payload.memory.regions[fd_num].guest_phys_addr =
+-                reg->guest_phys_addr;
+-            msg.payload.memory.regions[fd_num].mmap_offset = offset;
+-            fds[fd_num++] = fd;
+-        }
+-    }
+-
+-    msg.payload.memory.nregions = fd_num;
+-
+-    if (!fd_num) {
+-        error_report("Failed initializing vhost-user memory map, "
+-                     "consider using -object memory-backend-file share=on");
++    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
++                                          false) < 0) {
+         return -1;
+     }
+ 
+-    msg.hdr.size = sizeof(msg.payload.memory.nregions);
+-    msg.hdr.size += sizeof(msg.payload.memory.padding);
+-    msg.hdr.size += fd_num * sizeof(VhostUserMemoryRegion);
+-
+     if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
+         return -1;
+     }
 -- 
 1.8.3.1
 
