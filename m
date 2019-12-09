@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8CC11703C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:20:26 +0100 (CET)
-Received: from localhost ([::1]:41420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9367111704B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:22:44 +0100 (CET)
+Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieKpl-0005bB-EB
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:20:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
+	id 1ieKrz-000867-GS
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:22:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ieKlN-0002Ly-Rm
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:15:54 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ieKmm-0003LD-HJ
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:17:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ieKlM-00088d-PX
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:15:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55644
+ (envelope-from <mreitz@redhat.com>) id 1ieKml-0000Xz-GF
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:17:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55625
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ieKlM-00088R-Ks
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:15:52 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ieKml-0000Xr-C7
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:17:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575904552;
+ s=mimecast20190719; t=1575904638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=lM3vbnTw/RZ0LpQNSnN4/xGO7PbENAg1XD3JVe3vFGQ=;
- b=iPOsSBvjkPF70aKqWtPWT6FwtBgDydcPKnlR/UrqI3/J1lrSXGuD/JYuFiZCVd98Ib2pj2
- FBE8/hWhtA63bBUaOq7tdJA66jQcJqyjhgJsYmy/JiA+v5NZy0qQNaWudktJw0SR8EWoI1
- m+1f9BBpp8qUpDnjk66Vbhqo1QbzJ7I=
+ bh=TnwAA5xuFcM139Mz/syaLe5To6oPEnOlY9bKigmo+yM=;
+ b=b7PiLLb5mmq9tLr9dBVluIqegC1IYlUHPGmFJKnwfy9YQ1n7feO8v5VQ1KY4L8X0bsryWJ
+ /NwQWnm0PWydHzYOVneUqAiN2Mpyfoz0kJsEyxY134zq9XQhX0PFl5GUFAloTCzuF7ZPyD
+ +qqqhcy+bkVGVAMUG8O6aPeHaFgd5Rs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-un1AhD1GN--VxcMF_7wjrA-1; Mon, 09 Dec 2019 10:15:48 -0500
-X-MC-Unique: un1AhD1GN--VxcMF_7wjrA-1
+ us-mta-232-v7vCR0iHPMKXb3r8sF_qfw-1; Mon, 09 Dec 2019 10:17:14 -0500
+X-MC-Unique: v7vCR0iHPMKXb3r8sF_qfw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A98C4107ACC4;
- Mon,  9 Dec 2019 15:15:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F29F1800D45;
+ Mon,  9 Dec 2019 15:17:12 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.36.118.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CDBD5D9D6;
- Mon,  9 Dec 2019 15:15:45 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BC4C5D9D6;
+ Mon,  9 Dec 2019 15:17:06 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v2 22/23] iotests: Check that @replaces can
+ replace filters
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-20-mreitz@redhat.com>
- <2416e1d8-c1c3-4c88-6e7b-52670eb23c0e@virtuozzo.com>
- <3be97c8b-fbee-a183-0cd8-dc2e5824efbc@virtuozzo.com>
+ <20191111160216.197086-23-mreitz@redhat.com>
+ <c75475a4-f2ab-bd99-1c26-463c48c4d94c@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -75,20 +75,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e21bfadf-670f-9c17-71b8-c14a1ed3727c@redhat.com>
-Date: Mon, 9 Dec 2019 16:15:44 +0100
+Message-ID: <fabdd02a-391e-b37e-3b76-6cf3d268d52c@redhat.com>
+Date: Mon, 9 Dec 2019 16:17:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <3be97c8b-fbee-a183-0cd8-dc2e5824efbc@virtuozzo.com>
+In-Reply-To: <c75475a4-f2ab-bd99-1c26-463c48c4d94c@virtuozzo.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="9FGwwd22GCPnwstyvaOqcarZw2eh3E71G"
+ boundary="zT6Y8UEZrJHUug0Sc4NTwbxLI2fQc3nFM"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,51 +106,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9FGwwd22GCPnwstyvaOqcarZw2eh3E71G
-Content-Type: multipart/mixed; boundary="sFlrZw2gE0RFjQtRfBX9TEKyrWv3jNJaU"
+--zT6Y8UEZrJHUug0Sc4NTwbxLI2fQc3nFM
+Content-Type: multipart/mixed; boundary="6fXBeBQE9dJ629Pff7TPY3ml04Fp2NcbD"
 
---sFlrZw2gE0RFjQtRfBX9TEKyrWv3jNJaU
+--6fXBeBQE9dJ629Pff7TPY3ml04Fp2NcbD
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 03.12.19 14:33, Vladimir Sementsov-Ogievskiy wrote:
-> 03.12.2019 16:32, Vladimir Sementsov-Ogievskiy wrote:
->> 11.11.2019 19:02, Max Reitz wrote:
->>> Signed-off-by: Max Reitz<mreitz@redhat.com>
+On 03.12.19 16:58, Vladimir Sementsov-Ogievskiy wrote:
+> 11.11.2019 19:02, Max Reitz wrote:
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   tests/qemu-iotests/041     | 46 ++++++++++++++++++++++++++++++++++++++
+>>   tests/qemu-iotests/041.out |  4 ++--
+>>   2 files changed, 48 insertions(+), 2 deletions(-)
 >>
->>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>
+>> diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+>> index ab0cb5b42f..9a00cf6f7b 100755
+>> --- a/tests/qemu-iotests/041
+>> +++ b/tests/qemu-iotests/041
+>> @@ -1200,6 +1200,52 @@ class TestOrphanedSource(iotests.QMPTestCase):
+>>           self.assertFalse('mirror-filter' in nodes,
+>>                            'Mirror filter node did not disappear')
+>>  =20
+>> +# Test cases for @replaces that do not necessarily involve Quorum
+>> +class TestReplaces(iotests.QMPTestCase):
+>> +    # Each of these test cases needs their own block graph, so do not
+>> +    # create any nodes here
+>> +    def setUp(self):
+>> +        self.vm =3D iotests.VM()
+>> +        self.vm.launch()
+>> +
+>> +    def tearDown(self):
+>> +        self.vm.shutdown()
+>> +        for img in (test_img, target_img):
+>> +            try:
+>> +                os.remove(img)
+>> +            except OSError:
+>> +                pass
+>> +
+>> +    """
+>> +    Check that we can replace filter nodes.
+>> +    """
 >=20
->=20
-> Oops, stop. Why do you remove line "self.vm.shutdown()" ?
+> PEP8 says, that doc string should appear after "def" line.
+> (this applies to previous patch too)
 
-Because we don=92t need it.  tearDown() does it anyway.  I suppose I
-should mention it in the commit message.
+OK.  I just noticed that in some previous patch I also left them having
+single quotes, which I should fix.
 
 Max
 
 
---sFlrZw2gE0RFjQtRfBX9TEKyrWv3jNJaU--
+--6fXBeBQE9dJ629Pff7TPY3ml04Fp2NcbD--
 
---9FGwwd22GCPnwstyvaOqcarZw2eh3E71G
+--zT6Y8UEZrJHUug0Sc4NTwbxLI2fQc3nFM
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3uZSAACgkQ9AfbAGHV
-z0AFcAf+IHRFQIttXm9ya1inb26StvR800Jh29WVA21skhRbGyqNgjTbIobUFxph
-vhlk1VTcl7gibkiZEM2vmMZ1JeZQm/oZ1WX+SSr9s3pwmrr8SESDCkcjZEd57Xio
-2ZUYj0ThQYGdxZ8+Kxl/rxwK8mniWvumVV5cus5LJLdIa+gMBEtSxf37HSwuHeNj
-zYUHiiGa69JzNAsybRfjUR8uCT8dRAmOJuGtsW1SHDXz2n/12ex/rcVe/x2ImP1w
-AZyAQlm7f7PeehxXqZ1Mu0sp6Z/3+0PgRWTbYzbmj62OtD3pLVkezsS323ImvnQw
-YC04NETPbfFS3EhUwT2Yp/Yyc0avxQ==
-=Vrai
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3uZXAACgkQ9AfbAGHV
+z0BVwAf/UFEKXfGHxjYxDzYCxjSP1ZsuSq260doEidKWyHXc0qZkWdNJjoHwOb0N
+AtMJOqm8r5Fl5/ZT2jQpY93U1LqjolmY/OG6Uaqe54MWTvP6cQeZlwGKZtu3U+cK
+C7X0/8P4IhXNJwg8bJzdYMyu6q/kW293HZ7iXQ23YcPjrdZ0B1fFOejJaXAu49vJ
+Z5l2e8lAd8SejGSdHyDE6H+1GZ8hRcjZNZm6nHj+66MuNhR8A4+Bz2AZO6pp/kUe
+MmyK75+SQUphzd2SRos5jVYhsL9b3hXhE0WWePqqnpJ7c8BKMSA4I94Ve2apNzAw
+CjZXN+ekJGIqxOjRKedw8cAIVecOFA==
+=eH4+
 -----END PGP SIGNATURE-----
 
---9FGwwd22GCPnwstyvaOqcarZw2eh3E71G--
+--zT6Y8UEZrJHUug0Sc4NTwbxLI2fQc3nFM--
 
 
