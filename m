@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BC911701E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:15:48 +0100 (CET)
-Received: from localhost ([::1]:41334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8CC11703C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:20:26 +0100 (CET)
+Received: from localhost ([::1]:41420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieKlH-0001Bx-9D
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:15:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51047)
+	id 1ieKpl-0005bB-EB
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:20:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ieKgY-000507-UM
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:10:56 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ieKlN-0002Ly-Rm
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:15:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ieKgV-0002hB-Ff
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:10:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43338
+ (envelope-from <mreitz@redhat.com>) id 1ieKlM-00088d-PX
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:15:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55644
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ieKgV-0002gw-7n
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:10:51 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ieKlM-00088R-Ks
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:15:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575904250;
+ s=mimecast20190719; t=1575904552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ntErCLuWdVYTlhCfpxHzq3YbNwT+dO+0Z2GL10MVMBs=;
- b=FSShsaRbVA3IfLbegJgh2W3JcOgGGft4UnkJloUtelt1nn8NZHft6VDeHFqX2BS6GeVrOy
- ILZseUgSEsod4rf9zfCU3+fowiO7fkZOipaeTz9+sKvBcAzP/INex2oLVPCQSNFbNJRsOk
- OGWY+5gY7xcpGda7rbVBqbutdARYWAA=
+ bh=lM3vbnTw/RZ0LpQNSnN4/xGO7PbENAg1XD3JVe3vFGQ=;
+ b=iPOsSBvjkPF70aKqWtPWT6FwtBgDydcPKnlR/UrqI3/J1lrSXGuD/JYuFiZCVd98Ib2pj2
+ FBE8/hWhtA63bBUaOq7tdJA66jQcJqyjhgJsYmy/JiA+v5NZy0qQNaWudktJw0SR8EWoI1
+ m+1f9BBpp8qUpDnjk66Vbhqo1QbzJ7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-9GfCdNoVMjOJeqj6uHhm1Q-1; Mon, 09 Dec 2019 10:10:46 -0500
-X-MC-Unique: 9GfCdNoVMjOJeqj6uHhm1Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-323-un1AhD1GN--VxcMF_7wjrA-1; Mon, 09 Dec 2019 10:15:48 -0500
+X-MC-Unique: un1AhD1GN--VxcMF_7wjrA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3B78593A2;
- Mon,  9 Dec 2019 15:10:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A98C4107ACC4;
+ Mon,  9 Dec 2019 15:15:47 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.36.118.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0A8D5D6C5;
- Mon,  9 Dec 2019 15:10:43 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v2 18/23] iotests: Add VM.assert_block_path()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CDBD5D9D6;
+ Mon,  9 Dec 2019 15:15:45 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-19-mreitz@redhat.com>
- <12688028-7bce-228a-4046-f886ac32cf4d@virtuozzo.com>
+ <20191111160216.197086-20-mreitz@redhat.com>
+ <2416e1d8-c1c3-4c88-6e7b-52670eb23c0e@virtuozzo.com>
+ <3be97c8b-fbee-a183-0cd8-dc2e5824efbc@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -74,20 +75,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <9c1e5973-aef5-20f3-86fd-1515e2977316@redhat.com>
-Date: Mon, 9 Dec 2019 16:10:41 +0100
+Message-ID: <e21bfadf-670f-9c17-71b8-c14a1ed3727c@redhat.com>
+Date: Mon, 9 Dec 2019 16:15:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <12688028-7bce-228a-4046-f886ac32cf4d@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <3be97c8b-fbee-a183-0cd8-dc2e5824efbc@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="usCWNJVCeUSZfZhvDSD23tMmTmOqDFYa7"
+ boundary="9FGwwd22GCPnwstyvaOqcarZw2eh3E71G"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,218 +106,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---usCWNJVCeUSZfZhvDSD23tMmTmOqDFYa7
-Content-Type: multipart/mixed; boundary="A7LlWobqL23kSzQhUFh7qjQBSYGdu5Qgj"
+--9FGwwd22GCPnwstyvaOqcarZw2eh3E71G
+Content-Type: multipart/mixed; boundary="sFlrZw2gE0RFjQtRfBX9TEKyrWv3jNJaU"
 
---A7LlWobqL23kSzQhUFh7qjQBSYGdu5Qgj
+--sFlrZw2gE0RFjQtRfBX9TEKyrWv3jNJaU
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 03.12.19 13:59, Vladimir Sementsov-Ogievskiy wrote:
-> 11.11.2019 19:02, Max Reitz wrote:
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   tests/qemu-iotests/iotests.py | 59 +++++++++++++++++++++++++++++++++++
->>   1 file changed, 59 insertions(+)
+On 03.12.19 14:33, Vladimir Sementsov-Ogievskiy wrote:
+> 03.12.2019 16:32, Vladimir Sementsov-Ogievskiy wrote:
+>> 11.11.2019 19:02, Max Reitz wrote:
+>>> Signed-off-by: Max Reitz<mreitz@redhat.com>
 >>
->> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.=
-py
->> index d34305ce69..3e03320ce3 100644
->> --- a/tests/qemu-iotests/iotests.py
->> +++ b/tests/qemu-iotests/iotests.py
->> @@ -681,6 +681,65 @@ class VM(qtest.QEMUQtestMachine):
->>  =20
->>           return fields.items() <=3D ret.items()
->>  =20
->> +    """
->> +    Check whether the node under the given path in the block graph is
->> +    @expected_node.
->> +
->> +    @root is the node name of the node where the @path is rooted.
->> +
->> +    @path is a string that consists of child names separated by
->> +    slashes.  It must begin with a slash.
+>>
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>
 >=20
-> Why do you need this slash?
-
-I don=92t.  It just looked better to me.
-
-(One reason would be so it could be empty to refer to @root, but as I
-said that isn=92t very useful.)
-
-> To stress that we are starting from root?
-> But root is not global, it's selected by previous argument, so for me the
-> path is more like relative than absolute..
 >=20
->> +
->> +    Examples for @root + @path:
->> +      - root=3D"qcow2-node", path=3D"/backing/file"
->> +      - root=3D"quorum-node", path=3D"/children.2/file"
->> +
->> +    Hypothetically, @path could be empty, in which case it would point
->> +    to @root.  However, in practice this case is not useful and hence
->> +    not allowed.
->=20
-> 1. path can't be empty, as accordingly to previous point, it must start w=
-ith '/'
+> Oops, stop. Why do you remove line "self.vm.shutdown()" ?
 
-Hence =93hypothetically=94.
-
-> 2. path can be '/', which does exactly what you don't allow, and I don't =
-see,
-> where it is restricted in code
-
-No, it doesn=92t.  That refers to a child of @root with an empty name.
-
->> +
->> +    @expected_node may be None.
->=20
-> Which means that, we assert existence of the path except its last element=
-,
-> yes? Worth mention this behavior here.
-
-=93(All elements of the path but the leaf must still exist.)=94?  OK.
-
->> +
->> +    @graph may be None or the result of an x-debug-query-block-graph
->> +    call that has already been performed.
->> +    """
->> +    def assert_block_path(self, root, path, expected_node, graph=3DNone=
-):
->> +        if graph is None:
->> +            graph =3D self.qmp('x-debug-query-block-graph')['return']
->> +
->> +        iter_path =3D iter(path.split('/'))
->> +
->> +        # Must start with a /
->> +        assert next(iter_path) =3D=3D ''
->> +
->> +        node =3D next((node for node in graph['nodes'] if node['name'] =
-=3D=3D root),
->> +                    None)
->> +
->> +        for path_node in iter_path:
->> +            assert node is not None, 'Cannot follow path %s' % path
->> +
->> +            try:
->> +                node_id =3D next(edge['child'] for edge in graph['edges=
-'] \
->> +                                             if edge['parent'] =3D=3D n=
-ode['id'] and
->> +                                                edge['name'] =3D=3D pat=
-h_node)
->> +
->> +                node =3D next(node for node in graph['nodes'] \
->> +                                 if node['id'] =3D=3D node_id)
->=20
-> this line cant fail. If it fail, it means a bug in x-debug-query-block-gr=
-aph, so,
-> I'd prefer to move it out of try:except block.
-
-But that makes the code uglier, in my opinion.  We=92d then have to set
-node_id to e.g. None in the except branch (or rather just abolish the
-try-except then) and check whether it=92s None before assigning node.
-Like this:
-
-node_id =3D next(..., None)
-
-if node_id is not None:
-    node =3D next(...)
-else:
-    node =3D None
-
-I prefer the current try-except construct over that.
-
->> +            except StopIteration:
->> +                node =3D None
->> +
->> +        assert node is not None or expected_node is None, \
->> +               'No node found under %s (but expected %s)' % \
->> +               (path, expected_node)
->> +
->> +        assert expected_node is not None or node is None, \
->> +               'Found node %s under %s (but expected none)' % \
->> +               (node['name'], path)
->> +
->> +        if node is not None and expected_node is not None:
->=20
-> [1]
-> second part of condition already asserted by previous assertion
-
-Yes, but I wanted to cover all four cases explicitly.  (In the usual 00,
-01, 10, 11 manner.  Well, except it=92s 10, 01, 11, 00.)
-
->> +            assert node['name'] =3D=3D expected_node, \
->> +                   'Found node %s under %s (but expected %s)' % \
->> +                   (node['name'], path, expected_node)
->=20
-> IMHO, it would be easier to read like:
->=20
->            if node is None:
->                assert  expected_node is None, \
->                   'No node found under %s (but expected %s)' % \
->                   (path, expected_node)
->            else:
->                assert expected_node is not None, \
->                   'Found node %s under %s (but expected none)' % \
->                   (node['name'], path)
->=20
->                assert node['name'] =3D=3D expected_node, \
->                       'Found node %s under %s (but expected %s)' % \
->                       (node['name'], path, expected_node)
->=20
-> Or even just
->=20
->            if node is None:
->                assert expected_node is None, \
->                   'No node found under %s (but expected %s)' % \
->                   (path, expected_node)
->            else:
->                assert node['name'] =3D=3D expected_node, \
->                       'Found node %s under %s (but expected %s)' % \
->                       (node['name'], path, expected_node)
-
-Works for me, too.
-
-> (I've checked:
->  >>> 'erger %s erg' % None
-> 'erger None erg'
->=20
-> Also, %-style formatting is old, as I understand it's better always use .=
-format()
-> )
-
-OK.
+Because we don=92t need it.  tearDown() does it anyway.  I suppose I
+should mention it in the commit message.
 
 Max
 
->>  =20
->>   index_re =3D re.compile(r'([^\[]+)\[([^\]]+)\]')
->>  =20
->>
 
+--sFlrZw2gE0RFjQtRfBX9TEKyrWv3jNJaU--
 
-
---A7LlWobqL23kSzQhUFh7qjQBSYGdu5Qgj--
-
---usCWNJVCeUSZfZhvDSD23tMmTmOqDFYa7
+--9FGwwd22GCPnwstyvaOqcarZw2eh3E71G
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3uY/EACgkQ9AfbAGHV
-z0CMPggAtNQ48VtSdYl/9Zz5NS7gaVeb6TC/s+QGptvU0T0ND0x8mCdf0eWD/TSW
-1bcNxhSOtksdg8Whc6H/XNnpuF5dHTgGrHsMYtr+bD0StuD9oCeuiLDAqOwdOumI
-/yU1SkYucBbGLq3hfB4GXBSGARfrw8ZQli8uQnfZw3wsH8f0rUyExdwcNqGFuiyV
-dpIdt3vMCZbtsmZ91r1l98pemUJjSqT2j0kGci8hnK862nezC2lhboyD1EoZ2RMG
-lm9Uv8g9MS7oxpdoCuOEL60MkazsLAGESDMZdj1jqAAAOJiQflEwVy2SRTEDxqff
-cPTwX0lUDEiBgkFHMlaARZCoB7SB3Q==
-=Irh8
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3uZSAACgkQ9AfbAGHV
+z0AFcAf+IHRFQIttXm9ya1inb26StvR800Jh29WVA21skhRbGyqNgjTbIobUFxph
+vhlk1VTcl7gibkiZEM2vmMZ1JeZQm/oZ1WX+SSr9s3pwmrr8SESDCkcjZEd57Xio
+2ZUYj0ThQYGdxZ8+Kxl/rxwK8mniWvumVV5cus5LJLdIa+gMBEtSxf37HSwuHeNj
+zYUHiiGa69JzNAsybRfjUR8uCT8dRAmOJuGtsW1SHDXz2n/12ex/rcVe/x2ImP1w
+AZyAQlm7f7PeehxXqZ1Mu0sp6Z/3+0PgRWTbYzbmj62OtD3pLVkezsS323ImvnQw
+YC04NETPbfFS3EhUwT2Yp/Yyc0avxQ==
+=Vrai
 -----END PGP SIGNATURE-----
 
---usCWNJVCeUSZfZhvDSD23tMmTmOqDFYa7--
+--9FGwwd22GCPnwstyvaOqcarZw2eh3E71G--
 
 
