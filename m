@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE06D11701F
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:15:48 +0100 (CET)
-Received: from localhost ([::1]:41332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99525117026
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:18:22 +0100 (CET)
+Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieKlH-0001BX-9c
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:15:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47236)
+	id 1ieKnl-0003i0-1J
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:18:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKY0-0003XT-Us
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:06 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKY2-0003Yx-2T
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXz-0001UB-AJ
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:04 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53788)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKY0-0001V8-Da
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:05 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42591)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ieKXz-0001RI-17
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:03 -0500
-Received: by mail-wm1-x343.google.com with SMTP id n9so15329102wmd.3
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:02:02 -0800 (PST)
+ id 1ieKY0-0001UQ-6S
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:02:04 -0500
+Received: by mail-wr1-x443.google.com with SMTP id a15so16529964wrf.9
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:02:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZyE5O5JAEITvx4NuqnX21tFQPYz9WQOu6fuX5qbaGbg=;
- b=Wb00X+YMD1KYN/d0ocuLnKKN901g3qFCF6qwRai4I8cwijtUQPh111Sy9Fx8RxGU0I
- O5CDDGZppZb9q/IYe3wHU64yI9yqtNlYaIdJ5vDb0Mi80BJ5ZEuylNtVffu4TqQ+1KjO
- WzOY71f+IATfeB4X1HI1LjeAkkZfVlVPUiGsv87pLy5HAlsiCKWeKcT3vjLpk1VIT+r+
- Dvi7UN+qPjIyBrN1GaARlt20xLudW6C87v7So6b7kfBv0yW5Db+a9QGsCUc3Bsp+ivmw
- BZp+LiMeZdozkZ0OY2ZkOnq+BVUjAP6WTzxVe9IprNkjvQtgBo4iE8scJK84PYIrrr9Z
- x07A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=6G+yRJhQoOCW2slm7RNaCHxgek5OcRgkFOCnJMrl/qg=;
+ b=rN9AHL1QRjxZ+OtsAQ3yN/5C16/iifMaLaS1arnFpY/iO4sH+6xHj7FfnXRZ4T/Rad
+ xQQGAUwjRDKKDwSv6+8bMW00PgKnA+TFlcdh6vlXz1ZjP42eTCB6/5suXxqNke7Sxcxz
+ LgnF2UXYGoBnNJiNl2975a3K9BbEOtxIIMmSsJ3tebkGqPnt2BSO5od2/seyfySoS41s
+ oWmSj/kUirtwBl3vrH/J3f6rPIHkDvab9KWBsraCC8ncPh9T8jxcR51YgWXp8OmUbYga
+ C5d7y7s4Al/0gakJWb/VVetJUx5K/pjU7g2pkQf9q5ZYaTB2IOX4wLOxzNYRo7s1imaH
+ V0+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZyE5O5JAEITvx4NuqnX21tFQPYz9WQOu6fuX5qbaGbg=;
- b=VT13wIAv8bgFd+rOZbeJRs/NtBjwKq+QALEgJJ/O2TRFiORxOQ5MfmQZhzKbtBomPX
- JiWXGC9TbiLgWnI0wwlUS8SAgU//1+my2voUvx/eim860P69E37PNFT8d8A76hoQjDKh
- ikqDfzmLK5A06xcWQoNcNkbAjNB4NcPmO2qs7FV6qwarJMhEpyAomXFmA5Bdh6LBw23C
- WUnp3cDTaSHOf+tLgmdY+bTsnzwlfyC88731Edl55wIlNUy+yftRG11SDMlrjb4cZ34c
- 3AKoySLlGHSZ2kv/4lAxx1xbby72CfefmKD/530EqZbIuqB1oVzCnEpa3D4zwy382Dq1
- p8Bw==
-X-Gm-Message-State: APjAAAU9iOnznsHsbArURIFvgwqBwdPmZ8tqut7dtR4VqbZGW5dZpZca
- ERRVEBPDM9l9Yvdbdozci7Ciptf1
-X-Google-Smtp-Source: APXvYqyP2EARTK8tctjseidflj3T0tn4xfwh4KRnY80EQy0LkgPyuzEfpbYIIU//azfBmM+2IObTiw==
-X-Received: by 2002:a1c:6255:: with SMTP id w82mr26596787wmb.20.1575903721806; 
- Mon, 09 Dec 2019 07:02:01 -0800 (PST)
+ :in-reply-to:references;
+ bh=6G+yRJhQoOCW2slm7RNaCHxgek5OcRgkFOCnJMrl/qg=;
+ b=oO5Rc8/RFcujGvTnaGvfs1ezCogtDcRKKkq1U+Qw15yB648jxzlj7FC82L4lx/92Xb
+ FCDJi0SInNHzXURFSc8qJfht/ScZPupnDiZfVUg30luQb1nSC9lRrHTMa2kfTpGK7qNE
+ xHDUq/trwJN6JAdyfslh1Qpif3EMNNo+XCOJcq/2SyHGZ5btIf9YvLunifD1iDOUndKR
+ RJKtYueI9Vf/VS2LBKvaz2gd+SlKPJmSuhZcSx82ZI1flTI6k4i2qo2Khw2p8UBrsmEd
+ NYEkQ+W+hEHdDa8iFpr1IZZsDkusfYk0D4Y7rXhEU8I+L/iNGuUNNx6N4AiMM8Ws0hKM
+ sUiQ==
+X-Gm-Message-State: APjAAAWolI6ZbVKdJYLCiEjyXWwGxS0ONRN8Mn2WERDuvVaeTQXm8zTp
+ haSsFSanKvJy+X33fm8mAob9iJ7K
+X-Google-Smtp-Source: APXvYqzTv/7BfIN+Drz8syjX9peHWZMYoDim/iuwSrdY8I3MkCwsNiSE/z/4w+Vv3AMxUmjjGwJkMw==
+X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr2662907wrs.222.1575903722859; 
+ Mon, 09 Dec 2019 07:02:02 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.02.00
+ by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.02.01
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 09 Dec 2019 07:02:01 -0800 (PST)
+ Mon, 09 Dec 2019 07:02:02 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/18] tcg: convert "-accel threads" to a QOM property
-Date: Mon,  9 Dec 2019 16:01:40 +0100
-Message-Id: <1575903705-12925-14-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH v2 14/18] tcg: add "-accel tcg,
+ tb-size" and deprecate "-tb-size"
+Date: Mon,  9 Dec 2019 16:01:41 +0100
+Message-Id: <1575903705-12925-15-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
 References: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,195 +79,199 @@ Cc: thuth@redhat.com, elmarco@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the ad-hoc qemu_tcg_configure with generic code invoking QOM
-property getters and setters.  More properties (and thus more valid
--accel suboptions) will be added in the next patches, which will move
-accelerator-related "-machine" options to accelerators.
+-tb-size fits nicely in the new framework for accelerator-specific options.  It
+is a very niche option, so insta-deprecate it.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/tcg-all.c   | 50 ++++++++++++++++++++++++++++++++++++--------------
- include/sysemu/cpus.h |  2 --
- vl.c                  | 32 +++++++++++++++++---------------
- 3 files changed, 53 insertions(+), 31 deletions(-)
+ accel/tcg/tcg-all.c    | 40 +++++++++++++++++++++++++++++++++++++---
+ include/sysemu/accel.h |  2 --
+ qemu-deprecated.texi   |  6 ++++++
+ qemu-options.hx        |  8 ++++++--
+ vl.c                   |  8 ++++----
+ 5 files changed, 53 insertions(+), 11 deletions(-)
 
 diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 78a0ab5..7829f02 100644
+index 7829f02..1dc384c 100644
 --- a/accel/tcg/tcg-all.c
 +++ b/accel/tcg/tcg-all.c
-@@ -34,7 +34,17 @@
+@@ -34,11 +34,13 @@
  #include "include/qapi/error.h"
  #include "include/qemu/error-report.h"
  #include "include/hw/boards.h"
--#include "qemu/option.h"
-+
-+typedef struct TCGState {
-+    AccelState parent_obj;
-+
-+    bool mttcg_enabled;
-+} TCGState;
-+
-+#define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
-+
-+#define TCG_STATE(obj) \
-+        OBJECT_CHECK(TCGState, (obj), TYPE_TCG_ACCEL)
++#include "qapi/qapi-builtin-visit.h"
  
- unsigned long tcg_tb_size;
+ typedef struct TCGState {
+     AccelState parent_obj;
  
-@@ -109,23 +119,31 @@ static void tcg_accel_instance_init(Object *obj)
+     bool mttcg_enabled;
++    unsigned long tb_size;
+ } TCGState;
+ 
+ #define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
+@@ -46,8 +48,6 @@ typedef struct TCGState {
+ #define TCG_STATE(obj) \
+         OBJECT_CHECK(TCGState, (obj), TYPE_TCG_ACCEL)
+ 
+-unsigned long tcg_tb_size;
+-
+ /* mask must never be zero, except for A20 change call */
+ static void tcg_handle_interrupt(CPUState *cpu, int mask)
  {
-     TCGState *s = TCG_STATE(obj);
- 
--    mttcg_enabled = default_mttcg_enabled();
-+    s->mttcg_enabled = default_mttcg_enabled();
- }
- 
- static int tcg_init(MachineState *ms)
+@@ -126,7 +126,7 @@ static int tcg_init(MachineState *ms)
  {
-+    TCGState *s = TCG_STATE(current_machine->accelerator);
-+
-     tcg_exec_init(tcg_tb_size * 1024 * 1024);
+     TCGState *s = TCG_STATE(current_machine->accelerator);
+ 
+-    tcg_exec_init(tcg_tb_size * 1024 * 1024);
++    tcg_exec_init(s->tb_size * 1024 * 1024);
      cpu_interrupt_handler = tcg_handle_interrupt;
-+    mttcg_enabled = s->mttcg_enabled;
+     mttcg_enabled = s->mttcg_enabled;
      return 0;
- }
- 
--void qemu_tcg_configure(QemuOpts *opts, Error **errp)
-+static char *tcg_get_thread(Object *obj, Error **errp)
- {
--    const char *t = qemu_opt_get(opts, "thread");
--    if (!t) {
--        return;
--    }
--    if (strcmp(t, "multi") == 0) {
-+    TCGState *s = TCG_STATE(obj);
-+
-+    return g_strdup(s->mttcg_enabled ? "multi" : "single");
-+}
-+
-+static void tcg_set_thread(Object *obj, const char *value, Error **errp)
-+{
-+    TCGState *s = TCG_STATE(obj);
-+
-+    if (strcmp(value, "multi") == 0) {
-         if (TCG_OVERSIZED_GUEST) {
-             error_setg(errp, "No MTTCG when guest word size > hosts");
-         } else if (use_icount) {
-@@ -140,12 +158,12 @@ void qemu_tcg_configure(QemuOpts *opts, Error **errp)
-                             "than the host provides");
-                 error_printf("This may cause strange/hard to debug errors\n");
-             }
--            mttcg_enabled = true;
-+            s->mttcg_enabled = true;
-         }
--    } else if (strcmp(t, "single") == 0) {
--        mttcg_enabled = false;
-+    } else if (strcmp(value, "single") == 0) {
-+        s->mttcg_enabled = false;
-     } else {
--        error_setg(errp, "Invalid 'thread' setting %s", t);
-+        error_setg(errp, "Invalid 'thread' setting %s", value);
+@@ -167,6 +167,33 @@ static void tcg_set_thread(Object *obj, const char *value, Error **errp)
      }
  }
  
-@@ -155,15 +173,19 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
-     ac->name = "tcg";
-     ac->init_machine = tcg_init;
-     ac->allowed = &tcg_allowed;
--}
- 
--#define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
-+    object_class_property_add_str(oc, "thread",
-+                                  tcg_get_thread,
-+                                  tcg_set_thread,
-+                                  NULL);
-+}
- 
- static const TypeInfo tcg_accel_type = {
-     .name = TYPE_TCG_ACCEL,
-     .parent = TYPE_ACCEL,
-     .instance_init = tcg_accel_instance_init,
-     .class_init = tcg_accel_class_init,
-+    .instance_size = sizeof(TCGState),
- };
- 
- static void register_accel_types(void)
-diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-index 32c05f2..3c1da6a 100644
---- a/include/sysemu/cpus.h
-+++ b/include/sysemu/cpus.h
-@@ -40,6 +40,4 @@ extern int smp_threads;
- 
- void list_cpus(const char *optarg);
- 
--void qemu_tcg_configure(QemuOpts *opts, Error **errp);
--
- #endif
-diff --git a/vl.c b/vl.c
-index 078ab7a..b6c23d1 100644
---- a/vl.c
-+++ b/vl.c
-@@ -295,17 +295,12 @@ static QemuOptsList qemu_accel_opts = {
-     .implied_opt_name = "accel",
-     .head = QTAILQ_HEAD_INITIALIZER(qemu_accel_opts.head),
-     .desc = {
--        {
--            .name = "accel",
--            .type = QEMU_OPT_STRING,
--            .help = "Select the type of accelerator",
--        },
--        {
--            .name = "thread",
--            .type = QEMU_OPT_STRING,
--            .help = "Enable/disable multi-threaded TCG",
--        },
--        { /* end of list */ }
-+        /*
-+         * no elements => accept any
-+         * sanity checking will happen later
-+         * when setting accelerator properties
-+         */
-+        { }
-     },
- };
- 
-@@ -2836,6 +2831,13 @@ static int do_configure_icount(void *opaque, QemuOpts *opts, Error **errp)
-     return 0;
- }
- 
-+static int accelerator_set_property(void *opaque,
-+                                const char *name, const char *value,
-+                                Error **errp)
++static void tcg_get_tb_size(Object *obj, Visitor *v,
++                            const char *name, void *opaque,
++                            Error **errp)
 +{
-+    return object_parse_property_opt(opaque, name, value, "accel", errp);
++    TCGState *s = TCG_STATE(obj);
++    uint32_t value = s->tb_size;
++
++    visit_type_uint32(v, name, &value, errp);
 +}
 +
- static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
++static void tcg_set_tb_size(Object *obj, Visitor *v,
++                            const char *name, void *opaque,
++                            Error **errp)
++{
++    TCGState *s = TCG_STATE(obj);
++    Error *error = NULL;
++    uint32_t value;
++
++    visit_type_uint32(v, name, &value, &error);
++    if (error) {
++        error_propagate(errp, error);
++        return;
++    }
++
++    s->tb_size = value;
++}
++
+ static void tcg_accel_class_init(ObjectClass *oc, void *data)
  {
-     bool *p_init_failed = opaque;
-@@ -2850,6 +2852,10 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+     AccelClass *ac = ACCEL_CLASS(oc);
+@@ -178,6 +205,13 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+                                   tcg_get_thread,
+                                   tcg_set_thread,
+                                   NULL);
++
++    object_class_property_add(oc, "tb-size", "int",
++        tcg_get_tb_size, tcg_set_tb_size,
++        NULL, NULL, &error_abort);
++    object_class_property_set_description(oc, "tb-size",
++        "TCG translation block cache size", &error_abort);
++
+ }
+ 
+ static const TypeInfo tcg_accel_type = {
+diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+index 22cac0f..d4c1429 100644
+--- a/include/sysemu/accel.h
++++ b/include/sysemu/accel.h
+@@ -64,8 +64,6 @@ typedef struct AccelClass {
+ #define ACCEL_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
+ 
+-extern unsigned long tcg_tb_size;
+-
+ AccelClass *accel_find(const char *opt_name);
+ int accel_init_machine(AccelState *accel, MachineState *ms);
+ 
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 4b4b742..487d2b4 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -147,6 +147,12 @@ QEMU 4.1 has three options, please migrate to one of these three:
+       to do is specify the kernel they want to boot with the -kernel option
+  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
+ 
++@subsection -tb-size option (since 5.0)
++
++QEMU 5.0 introduced an alternative syntax to specify the size of the translation
++block cache, @option{-accel tcg,tb-size=}.  The new syntax deprecates the
++previously available @option{-tb-size} option.
++
+ @section QEMU Machine Protocol (QMP) commands
+ 
+ @subsection change (since 2.5.0)
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 65c9473..9775258 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -118,8 +118,9 @@ Select CPU model (@code{-cpu help} for list and additional feature selection)
+ ETEXI
+ 
+ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+-    "-accel [accel=]accelerator[,thread=single|multi]\n"
++    "-accel [accel=]accelerator[,prop[=value][,...]]\n"
+     "                select accelerator (kvm, xen, hax, hvf, whpx or tcg; use 'help' for a list)\n"
++    "                tb-size=n (TCG translation block cache size)\n"
+     "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
+ STEXI
+ @item -accel @var{name}[,prop=@var{value}[,...]]
+@@ -129,6 +130,8 @@ kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used. If th
+ more than one accelerator specified, the next one is used if the previous one
+ fails to initialize.
+ @table @option
++@item tb-size=@var{n}
++Controls the size (in MiB) of the TCG translation block cache.
+ @item thread=single|multi
+ Controls number of TCG threads. When the TCG is multi-threaded there will be one
+ thread per vCPU therefor taking advantage of additional host cores. The default
+@@ -4012,7 +4015,8 @@ DEF("tb-size", HAS_ARG, QEMU_OPTION_tb_size, \
+ STEXI
+ @item -tb-size @var{n}
+ @findex -tb-size
+-Set TB size.
++Set TCG translation block cache size.  Deprecated, use @samp{-accel tcg,tb-size=@var{n}}
++instead.
+ ETEXI
+ 
+ DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
+diff --git a/vl.c b/vl.c
+index b6c23d1..e6ff56b 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2852,6 +2852,7 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
          return 0;
      }
      accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
-+    qemu_opt_foreach(opts, accelerator_set_property,
-+                     accel,
-+                     &error_fatal);
-+
-     ret = accel_init_machine(accel, current_machine);
-     if (ret < 0) {
-         *p_init_failed = true;
-@@ -2857,10 +2863,6 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
++    object_apply_compat_props(OBJECT(accel));
+     qemu_opt_foreach(opts, accelerator_set_property,
+                      accel,
+                      &error_fatal);
+@@ -2863,6 +2864,7 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
                       acc, strerror(-ret));
          return 0;
      }
--
--    if (tcg_enabled()) {
--        qemu_tcg_configure(opts, &error_fatal);
--    }
++
      return 1;
  }
  
+@@ -3745,10 +3747,8 @@ int main(int argc, char **argv, char **envp)
+                 error_report("TCG is disabled");
+                 exit(1);
+ #endif
+-                if (qemu_strtoul(optarg, NULL, 0, &tcg_tb_size) < 0) {
+-                    error_report("Invalid argument to -tb-size");
+-                    exit(1);
+-                }
++                warn_report("The -tb-size option is deprecated, use -accel tcg,tb-size instead");
++                object_register_sugar_prop(ACCEL_CLASS_NAME("tcg"), "tb-size", optarg);
+                 break;
+             case QEMU_OPTION_icount:
+                 icount_opts = qemu_opts_parse_noisily(qemu_find_opts("icount"),
 -- 
 1.8.3.1
 
