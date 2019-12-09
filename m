@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BA7116DBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:12:01 +0100 (CET)
-Received: from localhost ([::1]:39898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D4E116DB5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:11:28 +0100 (CET)
+Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieIpT-0000b7-Tu
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:12:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44947)
+	id 1ieIox-0008CX-H5
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:11:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ieImb-0006J5-1L
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:02 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ieImd-0006Lo-1o
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ieImZ-0006Dd-Rb
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:00 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53463
+ (envelope-from <imammedo@redhat.com>) id 1ieImb-0006Jj-Hy
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51325
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieImZ-0006D9-NY
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:08:59 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieImb-0006Gf-Db
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575896938;
+ s=mimecast20190719; t=1575896940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GmySUZAla9z24QSCLhjOaREFZwmd3rVww5EMo7hAmjw=;
- b=cca2dk1+Y7Y+yI+2XX75Ag0S+fkkuDwIRchdOKbUNN3xjJJMGcC3aUWzPiypBGEl+xOIGj
- GV0HPhJzOq8eF9v2wYL73SSvli9RPpRvhEQqS45AJ/cYE5D19yQs4+HY3tMAjSiOyGPx52
- EHem8FT/UwRcw+HR5b+Pq/1s5akHtWc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cioeW4SSr09ObvzRXUyDz1xqJxs21g3MnA23WRs94Qw=;
+ b=H7aW2AgPkUvx/f81ki6qHP8dUvkDdgP/7AnqnWXZl1uL6eUH+wlJ3JGc0YtUzz/FyOkq3v
+ lJHZswdtCE8TSgkV6SrZtwjutmcQj4eOs5nngaFKAiV/uVzv38JMkSMJqLCqW3YWJmWtYV
+ 8Ua+RHbdCi8geBeUqElBNqllKakSegc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-cPraaP5HMficguaJRKG4GQ-1; Mon, 09 Dec 2019 08:08:57 -0500
+ us-mta-206-k8nQjiTnOnaPWTasmCgw9g-1; Mon, 09 Dec 2019 08:08:59 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6DF7107ACC5
- for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:08:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4175E1005502
+ for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:08:58 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2ED75D9D6;
- Mon,  9 Dec 2019 13:08:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B8125D9D6;
+ Mon,  9 Dec 2019 13:08:56 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v2 0/9] q35: CPU hotplug with secure boot, part 1+2
-Date: Mon,  9 Dec 2019 14:08:53 +0100
-Message-Id: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
+Subject: [PATCH for-5.0 v2 1/9] hw: add compat machines for 5.0
+Date: Mon,  9 Dec 2019 14:08:54 +0100
+Message-Id: <1575896942-331151-2-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
+References: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: cPraaP5HMficguaJRKG4GQ-1
+X-MC-Unique: k8nQjiTnOnaPWTasmCgw9g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,85 +74,236 @@ Cc: pbonzini@redhat.com, philmd@redhat.com, lersek@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ChangeLog:
-  * since v1:
-      - include "hw: add compat machines for 5.0" to provide
-        compat context for 4.2 machine types
-      - add comment that SMRAM at SMBASE is QEMU hack
-        and why it was used
-      - split command data 2 into a separate patch
-          "acpi: cpuhp: introduce 'Command data 2' field"
-      - rewrite enabling/detecting modern CPU hotplug interface
-        to use existing CPHP_GET_NEXT_CPU_WITH_EVENT_CMD and
-        squash it into "acpi: cpuhp: spec: add typical usecases" patch
-      - "acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command"
-        modulo 'Command data 2' being moved out into separate patch,
-        rewrite commit message to explain better why new command is needed.
- =20
+From: Cornelia Huck <cohuck@redhat.com>
 
-Series consists of 2 parts: 1st is lockable SMRAM at SMBASE
-and the 2nd better documents interface and adds means to
-enumerate APIC IDs for possible CPUs.
+Add 5.0 machine types for arm/i440fx/q35/s390x/spapr.
 
-1st part [1-2/9]:
- In order to support CPU hotplug in secure boot mode,
- UEFI firmware needs to relocate SMI handler of hotplugged CPU,
- in a way that won't allow ring 0 user to break in priveleged
- SMM mode that firmware maintains during runtime.
- Used approach allows to hide RAM at default SMBASE to make it
- accessible only to SMM mode, which lets us to make sure that
- SMI handler installed by firmware can not be hijacked by
- unpriveleged user (similar to TSEG behavior).=20
+For i440fx and q35, unversioned cpu models are still translated
+to -v1; I'll leave changing this (if desired) to the respective
+maintainers.
 
-2nd part:
- mostly fixes and extra documentation on how to detect and use
- modern CPU hotplug interface (MMIO block).
- So firmware could reuse it for enumerating possible CPUs and
- detecting hotplugged CPU(s). It also adds support for
- CPHP_GET_CPU_ID_CMD command [7/8], which should allow firmware
- to fetch APIC IDs for possible CPUs which is necessary for
- initializing internal structures for possible CPUs on boot.
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ hw/arm/virt.c              |  7 ++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 14 +++++++++++++-
+ hw/i386/pc_q35.c           | 13 ++++++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ 9 files changed, 69 insertions(+), 6 deletions(-)
+
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index de45087..24cbeec 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -329,6 +329,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
 =20
-
-CC: mst@redhat.com
-CC: pbonzini@redhat.com
-CC: lersek@redhat.com
-CC: philmd@redhat.com
-
-
-Cornelia Huck (1):
-  hw: add compat machines for 5.0
-
-Igor Mammedov (8):
-  q35: implement 128K SMRAM at default SMBASE address
-  tests: q35: MCH: add default SMBASE SMRAM lock test
-  acpi: cpuhp: spec: clarify 'CPU selector' register usage and
-    endianness
-  acpi: cpuhp: spec: fix 'Command data' description
-  acpi: cpuhp: spec: clarify store into 'Command data' when 'Command
-    field' =3D=3D 0
-  acpi: cpuhp: introduce 'Command data 2' field
-  acpi: cpuhp: spec: add typical usecases
-  acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-
- include/hw/boards.h             |   3 ++
- include/hw/i386/pc.h            |   3 ++
- include/hw/pci-host/q35.h       |  10 ++++
- docs/specs/acpi_cpu_hotplug.txt |  89 +++++++++++++++++++++++++++-------
- hw/acpi/cpu.c                   |  18 +++++++
- hw/acpi/trace-events            |   1 +
- hw/arm/virt.c                   |   7 ++-
- hw/core/machine.c               |   3 ++
- hw/i386/pc.c                    |   5 ++
- hw/i386/pc_piix.c               |  14 +++++-
- hw/i386/pc_q35.c                |  13 ++++-
- hw/pci-host/q35.c               |  84 +++++++++++++++++++++++++++++---
- hw/ppc/spapr.c                  |  15 +++++-
- hw/s390x/s390-virtio-ccw.c      |  14 +++++-
- tests/q35-test.c                | 105 ++++++++++++++++++++++++++++++++++++=
-++++
- 15 files changed, 354 insertions(+), 30 deletions(-)
-
++extern GlobalProperty hw_compat_4_2[];
++extern const size_t hw_compat_4_2_len;
++
+ extern GlobalProperty hw_compat_4_1[];
+ extern const size_t hw_compat_4_1_len;
+=20
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 1f86eba..61a998d 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -237,6 +237,9 @@ void pc_system_firmware_init(PCMachineState *pcms, Memo=
+ryRegion *rom_memory);
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        const CPUArchIdList *apic_ids, GArray *entry);
+=20
++extern GlobalProperty pc_compat_4_2[];
++extern const size_t pc_compat_4_2_len;
++
+ extern GlobalProperty pc_compat_4_1[];
+ extern const size_t pc_compat_4_1_len;
+=20
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index d4bedc2..02f654b 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2147,10 +2147,15 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+=20
++static void virt_machine_5_0_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
++
+ static void virt_machine_4_2_options(MachineClass *mc)
+ {
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(4, 2)
++DEFINE_VIRT_MACHINE(4, 2)
+=20
+ static void virt_machine_4_1_options(MachineClass *mc)
+ {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 1689ad3..21fe2d9 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -27,6 +27,9 @@
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
+=20
++GlobalProperty hw_compat_4_2[] =3D {};
++const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
++
+ GlobalProperty hw_compat_4_1[] =3D {
+     { "virtio-pci", "x-pcie-flr-init", "off" },
+ };
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index ac08e63..58867f9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -103,6 +103,9 @@
+=20
+ struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_MAX};
+=20
++GlobalProperty pc_compat_4_2[] =3D {};
++const size_t pc_compat_4_2_len =3D G_N_ELEMENTS(pc_compat_4_2);
++
+ GlobalProperty pc_compat_4_1[] =3D {};
+ const size_t pc_compat_4_1_len =3D G_N_ELEMENTS(pc_compat_4_1);
+=20
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 1bd70d1..846e70b 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -424,7 +424,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+ }
+=20
+-static void pc_i440fx_4_2_machine_options(MachineClass *m)
++static void pc_i440fx_5_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+@@ -433,6 +433,18 @@ static void pc_i440fx_4_2_machine_options(MachineClass=
+ *m)
+     pcmc->default_cpu_version =3D 1;
+ }
+=20
++DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
++                      pc_i440fx_5_0_machine_options);
++
++static void pc_i440fx_4_2_machine_options(MachineClass *m)
++{
++    pc_i440fx_5_0_machine_options(m);
++    m->alias =3D NULL;
++    m->is_default =3D 0;
++    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
++    compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
++}
++
+ DEFINE_I440FX_MACHINE(v4_2, "pc-i440fx-4.2", NULL,
+                       pc_i440fx_4_2_machine_options);
+=20
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 385e5cf..ddd485d 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -348,7 +348,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus =3D 288;
+ }
+=20
+-static void pc_q35_4_2_machine_options(MachineClass *m)
++static void pc_q35_5_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+@@ -356,6 +356,17 @@ static void pc_q35_4_2_machine_options(MachineClass *m=
+)
+     pcmc->default_cpu_version =3D 1;
+ }
+=20
++DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
++                   pc_q35_5_0_machine_options);
++
++static void pc_q35_4_2_machine_options(MachineClass *m)
++{
++    pc_q35_5_0_machine_options(m);
++    m->alias =3D NULL;
++    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
++    compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
++}
++
+ DEFINE_Q35_MACHINE(v4_2, "pc-q35-4.2", NULL,
+                    pc_q35_4_2_machine_options);
+=20
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index e076f60..3ae7db1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4492,14 +4492,25 @@ static const TypeInfo spapr_machine_info =3D {
+     type_init(spapr_machine_register_##suffix)
+=20
+ /*
++ * pseries-5.0
++ */
++static void spapr_machine_5_0_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
++
++DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
++
++/*
+  * pseries-4.2
+  */
+ static void spapr_machine_4_2_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_5_0_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+ }
+=20
+-DEFINE_SPAPR_MACHINE(4_2, "4.2", true);
++DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
+=20
+ /*
+  * pseries-4.1
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index d3edeef..01e7e20 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -639,14 +639,26 @@ bool css_migration_enabled(void)
+     }                                                                     =
+    \
+     type_init(ccw_machine_register_##suffix)
+=20
++static void ccw_machine_5_0_instance_options(MachineState *machine)
++{
++}
++
++static void ccw_machine_5_0_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(5_0, "5.0", true);
++
+ static void ccw_machine_4_2_instance_options(MachineState *machine)
+ {
++    ccw_machine_5_0_instance_options(machine);
+ }
+=20
+ static void ccw_machine_4_2_class_options(MachineClass *mc)
+ {
++    ccw_machine_5_0_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+ }
+-DEFINE_CCW_MACHINE(4_2, "4.2", true);
++DEFINE_CCW_MACHINE(4_2, "4.2", false);
+=20
+ static void ccw_machine_4_1_instance_options(MachineState *machine)
+ {
 --=20
 2.7.4
 
