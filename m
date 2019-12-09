@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47244116FD2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:04:54 +0100 (CET)
-Received: from localhost ([::1]:41174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4534116FEA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:08:35 +0100 (CET)
+Received: from localhost ([::1]:41234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieKai-0005En-QP
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:04:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47031)
+	id 1ieKeI-0001C3-Bp
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:08:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXo-0003Kn-F2
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:53 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXt-0003PP-Ok
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXn-0001D2-Be
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:52 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34278)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXo-0001EA-Ad
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:57 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53182)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ieKXn-0001CR-5M
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:51 -0500
-Received: by mail-wm1-x343.google.com with SMTP id f4so94078wmj.1
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:01:51 -0800 (PST)
+ id 1ieKXo-0001D9-3T
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:52 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id p9so15826795wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:01:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cA2iDpQolGtGjsKYpqIIZsLwkl3s5m793VU3l0S5tY0=;
- b=BjG0OV7KCOZquhmVDFRSgzJqTGOSGIwB3GKU0kpQqbnbGtu5oD2oFoCbhMl/wg9byc
- UidwY/BWjFJ9x5O7WmfBse6kIjJDpmo5wHpI6V2F5/wUxzUitm3GXqxqW5P/OsWPzASO
- Kfz2mG61/OGiHHPaW1bh1wB/CVRunklZ8f+JpuyGtMP7SnCm8Qy5qy/7vVml1zXijQfq
- DxDn4bcAww5wbaS8UWEAdLUHJAhm36x9MrzKqW3zgoMNgwKVVbNq36i+uDlHpTSBC6PR
- EHjaOQVQGS2aEAMhLY44PbTrY4+beio3I93cr6h4Q75fU0bDZ07bGtEGq2K4P95Bie8k
- aMQg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=J6kmay0/CICTcqz3JkZsoWunBp9NRsOcVHRaHxwN+QQ=;
+ b=hGpl+q4/RP7Dqc4ZLKQ5/xAUtOtpQ4J3RLW/TAW0z2imj9oIwRED58EVuXVlUlINfE
+ YN1w1Yul/1Sx/WPOAIGAk4afQpvxugbXeb3LnHvq/rLNm/bY/p80sNWAf9Kmf1rb3huR
+ qj4lu2wGLTOwdr7RCPwd6tBZNYZ+RkB8YuUHp6QQyZFlYCg04+Ot+OG8EfzsYF0kOA0R
+ 9f2kw+TjUjwVCjuu4AFI0xjpPICzG8VOP6WN3IJje+ASWkwuLpx2c3pl93gTh9pW8hWW
+ 2cCOZREd/9Rglu28i+MAKPByhNrsNldADRxC3SRqVjXVL6dj9f/DCkeSM4WDya4o1jHk
+ vc8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cA2iDpQolGtGjsKYpqIIZsLwkl3s5m793VU3l0S5tY0=;
- b=uBQ7OVuUqUglAlTjky0f4AmtZzMZ/v+nCsVdgiGGa4twOoB2tT0nQVPru5ImUJAkQi
- kfQ02VQJc6ESyIbZuytmFtAGvuv4t1Z6TYdgL3FnytXCbIcQraCvYlOmD7qN84cm8h+R
- iGoQUwzrKC2AkI5WBMPmEUttWHLT2/6EK8xNdaCvMylmkoYrekd5LQSNvjKB/B5ElxUH
- nTVuQs4a8nIdF5HSRGq8riQSlemuuBH0z7su3TGla/8eKSC3A8GfiPu7+IVprJZl9Mda
- utfdL3ZuZEXd3mWhT3ofklJxfrvumZAGYvZcj1w535bDTTvege09JPXZqdrl5fe+U9MQ
- WLZg==
-X-Gm-Message-State: APjAAAXIdgDkl2ZM0Xsh8A9T6dupPfXt+8McqiJFGYpyLsdMi8vmqI4J
- NSfuxPbyJFgxzrNxvq9UwamC34KF
-X-Google-Smtp-Source: APXvYqz8fySJwzvZLlv5q/aAsgI5L59Bx7gaPgkw7B9IJChsbbKdoCg9S41b7EzTHsJdlUA22ik5Rw==
-X-Received: by 2002:a7b:c936:: with SMTP id h22mr24181637wml.115.1575903709437; 
- Mon, 09 Dec 2019 07:01:49 -0800 (PST)
+ :in-reply-to:references;
+ bh=J6kmay0/CICTcqz3JkZsoWunBp9NRsOcVHRaHxwN+QQ=;
+ b=UhXqrxOA9Y3ntLLtHEAh6MzerfECrm+a/k7AvQdVMGQ+6xBEubtvn99EOEh9Hf9o7y
+ +BRlwZ6AGbEAMj+XA1WBzkDJoIUspNeuCQtf3XegGjHqMM4fcSmhep9xg2MC/k7Vq+AL
+ 88lLP3OXlYBhD0O5LeyPZiK4gPOBsCXsgTaecHwWnhAGBwxmox+xk6JV9lXF3A+M1mZ3
+ k6pYmVYKIBPQ3M1XPiTKolcjosfiOV03wlrb85+JOXTU3XCtbLjiWJdeJuolhrOUO2fn
+ GchTakwyWwbXTDlGqCJdWPk0yGT3C91iRjsaEiiFbbYO3B/Vni9G8DLW/hMOEFS+JAC9
+ 4/Kg==
+X-Gm-Message-State: APjAAAUEpQf/RtcwbXsEhbKNdKbZSl7tIfpSl1nEhDWAxF6xrQf6XenZ
+ on7K+/o/cr16Yx+A02G0Mjtlvv8g
+X-Google-Smtp-Source: APXvYqxIpDxn8fvpDsaqLTXTZE5YNnbVqWFc4rKrIq8k7OSM9Ux6CZcHkRGcfuLGp2NE937IYCaHUA==
+X-Received: by 2002:a05:600c:2509:: with SMTP id
+ d9mr25863441wma.148.1575903710677; 
+ Mon, 09 Dec 2019 07:01:50 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.01.48
+ by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.01.49
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 09 Dec 2019 07:01:48 -0800 (PST)
+ Mon, 09 Dec 2019 07:01:49 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/18] vl: move icount configuration earlier
-Date: Mon,  9 Dec 2019 16:01:29 +0100
-Message-Id: <1575903705-12925-3-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH v2 03/18] tcg: move qemu_tcg_configure to accel/tcg/tcg-all.c
+Date: Mon,  9 Dec 2019 16:01:30 +0100
+Message-Id: <1575903705-12925-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
 References: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,63 +79,219 @@ Cc: thuth@redhat.com, elmarco@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Once qemu_tcg_configure is turned into a QOM property setter, it will not
-be able to set a default value for mttcg_enabled.  Setting the default will
-move to the TCG instance_init function, which currently runs before "-icount"
-is processed.
+Move everything related to mttcg_enabled in accel/tcg/tcg-all.c,
+which will make even more sense when "thread" becomes a QOM property.
 
-However, it is harmless to do configure_icount for all accelerators; we will
-just fail later if a non-TCG accelerator is selected.  So do that.
+For now, initializing mttcg_enabled in the instance_init function
+prepares for the next patch, which will only invoke qemu_tcg_configure
+when the command line includes a -accel option.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- vl.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ accel/tcg/tcg-all.c | 85 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ cpus.c              | 72 ---------------------------------------------
+ 2 files changed, 85 insertions(+), 72 deletions(-)
 
-diff --git a/vl.c b/vl.c
-index 6a65a64..f69fea1 100644
---- a/vl.c
-+++ b/vl.c
-@@ -2825,6 +2825,12 @@ static void user_register_global_props(void)
-                       global_init_func, NULL, NULL);
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index c59d5b0..78a0ab5 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -30,6 +30,11 @@
+ #include "cpu.h"
+ #include "sysemu/cpus.h"
+ #include "qemu/main-loop.h"
++#include "tcg/tcg.h"
++#include "include/qapi/error.h"
++#include "include/qemu/error-report.h"
++#include "include/hw/boards.h"
++#include "qemu/option.h"
+ 
+ unsigned long tcg_tb_size;
+ 
+@@ -58,6 +63,55 @@ static void tcg_handle_interrupt(CPUState *cpu, int mask)
+     }
  }
  
-+static int do_configure_icount(void *opaque, QemuOpts *opts, Error **errp)
++/*
++ * We default to false if we know other options have been enabled
++ * which are currently incompatible with MTTCG. Otherwise when each
++ * guest (target) has been updated to support:
++ *   - atomic instructions
++ *   - memory ordering primitives (barriers)
++ * they can set the appropriate CONFIG flags in ${target}-softmmu.mak
++ *
++ * Once a guest architecture has been converted to the new primitives
++ * there are two remaining limitations to check.
++ *
++ * - The guest can't be oversized (e.g. 64 bit guest on 32 bit host)
++ * - The host must have a stronger memory order than the guest
++ *
++ * It may be possible in future to support strong guests on weak hosts
++ * but that will require tagging all load/stores in a guest with their
++ * implicit memory order requirements which would likely slow things
++ * down a lot.
++ */
++
++static bool check_tcg_memory_orders_compatible(void)
 +{
-+    configure_icount(opts, errp);
-+    return 0;
++#if defined(TCG_GUEST_DEFAULT_MO) && defined(TCG_TARGET_DEFAULT_MO)
++    return (TCG_GUEST_DEFAULT_MO & ~TCG_TARGET_DEFAULT_MO) == 0;
++#else
++    return false;
++#endif
 +}
 +
- int main(int argc, char **argv, char **envp)
++static bool default_mttcg_enabled(void)
++{
++    if (use_icount || TCG_OVERSIZED_GUEST) {
++        return false;
++    } else {
++#ifdef TARGET_SUPPORTS_MTTCG
++        return check_tcg_memory_orders_compatible();
++#else
++        return false;
++#endif
++    }
++}
++
++static void tcg_accel_instance_init(Object *obj)
++{
++    TCGState *s = TCG_STATE(obj);
++
++    mttcg_enabled = default_mttcg_enabled();
++}
++
+ static int tcg_init(MachineState *ms)
  {
-     int i;
-@@ -4165,6 +4171,8 @@ int main(int argc, char **argv, char **envp)
-      * Note: uses machine properties such as kernel-irqchip, must run
-      * after machine_set_property().
-      */
-+    qemu_opts_foreach(qemu_find_opts("icount"),
-+                      do_configure_icount, NULL, &error_fatal);
-     configure_accelerator(current_machine, argv[0]);
+     tcg_exec_init(tcg_tb_size * 1024 * 1024);
+@@ -65,6 +119,36 @@ static int tcg_init(MachineState *ms)
+     return 0;
+ }
  
-     /*
-@@ -4250,13 +4258,9 @@ int main(int argc, char **argv, char **envp)
-     qemu_spice_init();
++void qemu_tcg_configure(QemuOpts *opts, Error **errp)
++{
++    const char *t = qemu_opt_get(opts, "thread");
++    if (!t) {
++        return;
++    }
++    if (strcmp(t, "multi") == 0) {
++        if (TCG_OVERSIZED_GUEST) {
++            error_setg(errp, "No MTTCG when guest word size > hosts");
++        } else if (use_icount) {
++            error_setg(errp, "No MTTCG when icount is enabled");
++        } else {
++#ifndef TARGET_SUPPORTS_MTTCG
++            warn_report("Guest not yet converted to MTTCG - "
++                        "you may get unexpected results");
++#endif
++            if (!check_tcg_memory_orders_compatible()) {
++                warn_report("Guest expects a stronger memory ordering "
++                            "than the host provides");
++                error_printf("This may cause strange/hard to debug errors\n");
++            }
++            mttcg_enabled = true;
++        }
++    } else if (strcmp(t, "single") == 0) {
++        mttcg_enabled = false;
++    } else {
++        error_setg(errp, "Invalid 'thread' setting %s", t);
++    }
++}
++
+ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelClass *ac = ACCEL_CLASS(oc);
+@@ -78,6 +162,7 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ static const TypeInfo tcg_accel_type = {
+     .name = TYPE_TCG_ACCEL,
+     .parent = TYPE_ACCEL,
++    .instance_init = tcg_accel_instance_init,
+     .class_init = tcg_accel_class_init,
+ };
  
-     cpu_ticks_init();
--    if (icount_opts) {
--        if (!tcg_enabled()) {
--            error_report("-icount is not allowed with hardware virtualization");
--            exit(1);
+diff --git a/cpus.c b/cpus.c
+index 63bda15..b472378 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -166,78 +166,6 @@ typedef struct TimersState {
+ static TimersState timers_state;
+ bool mttcg_enabled;
+ 
+-/*
+- * We default to false if we know other options have been enabled
+- * which are currently incompatible with MTTCG. Otherwise when each
+- * guest (target) has been updated to support:
+- *   - atomic instructions
+- *   - memory ordering primitives (barriers)
+- * they can set the appropriate CONFIG flags in ${target}-softmmu.mak
+- *
+- * Once a guest architecture has been converted to the new primitives
+- * there are two remaining limitations to check.
+- *
+- * - The guest can't be oversized (e.g. 64 bit guest on 32 bit host)
+- * - The host must have a stronger memory order than the guest
+- *
+- * It may be possible in future to support strong guests on weak hosts
+- * but that will require tagging all load/stores in a guest with their
+- * implicit memory order requirements which would likely slow things
+- * down a lot.
+- */
+-
+-static bool check_tcg_memory_orders_compatible(void)
+-{
+-#if defined(TCG_GUEST_DEFAULT_MO) && defined(TCG_TARGET_DEFAULT_MO)
+-    return (TCG_GUEST_DEFAULT_MO & ~TCG_TARGET_DEFAULT_MO) == 0;
+-#else
+-    return false;
+-#endif
+-}
+-
+-static bool default_mttcg_enabled(void)
+-{
+-    if (use_icount || TCG_OVERSIZED_GUEST) {
+-        return false;
+-    } else {
+-#ifdef TARGET_SUPPORTS_MTTCG
+-        return check_tcg_memory_orders_compatible();
+-#else
+-        return false;
+-#endif
+-    }
+-}
+-
+-void qemu_tcg_configure(QemuOpts *opts, Error **errp)
+-{
+-    const char *t = qemu_opt_get(opts, "thread");
+-    if (t) {
+-        if (strcmp(t, "multi") == 0) {
+-            if (TCG_OVERSIZED_GUEST) {
+-                error_setg(errp, "No MTTCG when guest word size > hosts");
+-            } else if (use_icount) {
+-                error_setg(errp, "No MTTCG when icount is enabled");
+-            } else {
+-#ifndef TARGET_SUPPORTS_MTTCG
+-                warn_report("Guest not yet converted to MTTCG - "
+-                            "you may get unexpected results");
+-#endif
+-                if (!check_tcg_memory_orders_compatible()) {
+-                    warn_report("Guest expects a stronger memory ordering "
+-                                "than the host provides");
+-                    error_printf("This may cause strange/hard to debug errors\n");
+-                }
+-                mttcg_enabled = true;
+-            }
+-        } else if (strcmp(t, "single") == 0) {
+-            mttcg_enabled = false;
+-        } else {
+-            error_setg(errp, "Invalid 'thread' setting %s", t);
 -        }
--        configure_icount(icount_opts, &error_abort);
--        qemu_opts_del(icount_opts);
-+    if (!tcg_enabled() && use_icount) {
-+        error_report("-icount is not allowed with hardware virtualization");
-+        exit(1);
-     }
+-    } else {
+-        mttcg_enabled = default_mttcg_enabled();
+-    }
+-}
  
-     if (tcg_enabled()) {
+ /* The current number of executed instructions is based on what we
+  * originally budgeted minus the current state of the decrementing
 -- 
 1.8.3.1
 
