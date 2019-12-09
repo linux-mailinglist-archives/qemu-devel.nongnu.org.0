@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6FE116DB7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:11:41 +0100 (CET)
-Received: from localhost ([::1]:39896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27036116DBE
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:13:35 +0100 (CET)
+Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieIpA-00006t-9d
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:11:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45018)
+	id 1ieIqz-0002g1-P2
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:13:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ieImn-0006UO-3o
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:14 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ieImm-0006Ta-I7
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ieIml-0006QR-L4
+ (envelope-from <imammedo@redhat.com>) id 1ieIml-0006QK-GR
  for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21306
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37988
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieIml-0006QE-HL
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieIml-0006Q5-Cx
  for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1575896951;
@@ -27,39 +27,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9rTAsu61kfsjr+dyoO+ow9+AlkfoKZIwKFhn+b5wB8Y=;
- b=QsD2J5Hfz5gyCO8Tady1vQb+oRda8qnLXzRSq8UzgwZpvqPcInSrVkHMJ61vn70CkrSUnw
- yKzhu99GAIX0Mt6B4ThsUsB6WksgzXowZrRXKDT0U2H2UBjfM6ZEBUFKFiCGdLDLovEU3U
- LQ5U6ekVMcyCApDFO4rjDIcDFT0qAqI=
+ bh=IXWUNvqNN5ClGR1wviwpy2v2AS3yXXwj2mo3UIvxF8s=;
+ b=jTDke9nDyzThgnVMiw2CRWiS4v/2Iy1oD8CE0rvojpQB7IAG4pu0o8/T3gdaO2D00xuhfy
+ GBO1U7Hy5/QUrZCALA73ZmYH6NyaTT2HCbyuyrjfyykc5PYe0HAgsroUQLzo4PYrtwQ2Pz
+ eO7Q3IefxxYRC72AtX1JQzIZMRJ0fGQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-DiVD2t2ROOOgTONC2H5PHQ-1; Mon, 09 Dec 2019 08:09:07 -0500
+ us-mta-47-nc6LehCjPkSomqRE26Zpgw-1; Mon, 09 Dec 2019 08:09:09 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2275918AAFA5
- for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:09:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94AF618AAFA5
+ for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:09:08 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F06A25D9D6;
- Mon,  9 Dec 2019 13:09:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AD245DA60;
+ Mon,  9 Dec 2019 13:09:07 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v2 4/9] acpi: cpuhp: spec: clarify 'CPU selector'
- register usage and endianness
-Date: Mon,  9 Dec 2019 14:08:57 +0100
-Message-Id: <1575896942-331151-5-git-send-email-imammedo@redhat.com>
+Subject: [PATCH for-5.0 v2 5/9] acpi: cpuhp: spec: fix 'Command data'
+ description
+Date: Mon,  9 Dec 2019 14:08:58 +0100
+Message-Id: <1575896942-331151-6-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
 References: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: DiVD2t2ROOOgTONC2H5PHQ-1
+X-MC-Unique: nc6LehCjPkSomqRE26Zpgw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,55 +75,55 @@ Cc: pbonzini@redhat.com, philmd@redhat.com, lersek@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Move reserved registers to the top of the section, so reader would be
-  aware of effects when reading registers description.
-* State registers endianness explicitly at the beginning of the section
-* Describe registers behavior in case of 'CPU selector' register contains
-  value that doesn't point to a possible CPU.
+Correct returned value description in case 'Command field' =3D=3D 0x0,
+it's not PXM but CPU selector value with pending event
+
+In addition describe 0 blanket value in case of not supported
+'Command field' value.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 ---
- docs/specs/acpi_cpu_hotplug.txt | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+v2:
+ * rephrase a docs little bit (Laszlo)
+---
+ docs/specs/acpi_cpu_hotplug.txt | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.=
 txt
-index ee219c8..4e65286 100644
+index 4e65286..d510872 100644
 --- a/docs/specs/acpi_cpu_hotplug.txt
 +++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -30,6 +30,18 @@ Register block base address:
- Register block size:
-     ACPI_CPU_HOTPLUG_REG_LEN =3D 12
+@@ -56,9 +56,8 @@ read access:
+            3-7: reserved and should be ignored by OSPM
+     [0x5-0x7] reserved
+     [0x8] Command data: (DWORD access)
+-          in case of error or unsupported command reads is 0xFFFFFFFF
+-          current 'Command field' value:
+-              0: returns PXM value corresponding to device
++          contains 0 unless value last stored in 'Command field' is one of=
+:
++              0: contains 'CPU selector' value of a CPU with pending event=
+[s]
 =20
-+All accesses to registers described below, imply little-endian byte order.
-+
-+Reserved resisters behavior:
-+   - write accesses are ignored
-+   - read accesses return all bits set to 0.
-+
-+The last stored value in 'CPU selector' must refer to a possible CPU, othe=
-rwise
-+  - reads from any register return 0
-+  - writes to any other register are ignored until valid value is stored i=
-nto it
-+On QEMU start, 'CPU selector' is initialized to a valid value, on reset it
-+keeps the current value.
-+
- read access:
+ write access:
      offset:
-     [0x0-0x3] reserved
-@@ -86,9 +98,3 @@ write access:
-                  ACPI_DEVICE_OST QMP event from QEMU to external applicati=
-ons
-                  with current values of OST event and status registers.
-             other values: reserved
--
--Selecting CPU device beyond possible range has no effect on platform:
--   - write accesses to CPU hot-plug registers not documented above are
--     ignored
--   - read accesses to CPU hot-plug registers not documented above return
--     all bits set to 0.
+@@ -81,9 +80,9 @@ write access:
+           value:
+             0: selects a CPU device with inserting/removing events and
+                following reads from 'Command data' register return
+-               selected CPU (CPU selector value). If no CPU with events
+-               found, the current CPU selector doesn't change and
+-               corresponding insert/remove event flags are not set.
++               selected CPU ('CPU selector' value).
++               If no CPU with events found, the current 'CPU selector' doe=
+sn't
++               change and corresponding insert/remove event flags are not =
+modified.
+             1: following writes to 'Command data' register set OST event
+                register in QEMU
+             2: following writes to 'Command data' register set OST status
 --=20
 2.7.4
 
