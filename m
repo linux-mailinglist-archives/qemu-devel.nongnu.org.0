@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27036116DBE
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:13:35 +0100 (CET)
-Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647B7116DCA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:16:46 +0100 (CET)
+Received: from localhost ([::1]:39962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieIqz-0002g1-P2
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:13:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
+	id 1ieIu5-0005lO-44
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:16:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ieImm-0006Ta-I7
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:13 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ieImr-0006bA-Rm
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ieIml-0006QK-GR
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:12 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37988
+ (envelope-from <imammedo@redhat.com>) id 1ieImq-0006RK-RX
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:17 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31844
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieIml-0006Q5-Cx
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:11 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieImq-0006RE-Nl
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575896951;
+ s=mimecast20190719; t=1575896956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IXWUNvqNN5ClGR1wviwpy2v2AS3yXXwj2mo3UIvxF8s=;
- b=jTDke9nDyzThgnVMiw2CRWiS4v/2Iy1oD8CE0rvojpQB7IAG4pu0o8/T3gdaO2D00xuhfy
- GBO1U7Hy5/QUrZCALA73ZmYH6NyaTT2HCbyuyrjfyykc5PYe0HAgsroUQLzo4PYrtwQ2Pz
- eO7Q3IefxxYRC72AtX1JQzIZMRJ0fGQ=
+ bh=N/zL+oUPazEV3yrIgIQGktVpOAKbjraCKyyj25RYVAw=;
+ b=PT1YKFmGCpoAnU95opNPyEZq+weDLSoI2h6iNCP2th+s3qhAPUEcShPN1pPHR+nyLHzNVC
+ ZJBJpaO8lDIuouIqa4xJ6vDb5E2dtBQIVcyBgRDKk4hx0rSm9j5eYZKUzhUB9NWdbtEj//
+ 2u1zSKxcCFp1X9hSyExtlxczW4Du7l8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-nc6LehCjPkSomqRE26Zpgw-1; Mon, 09 Dec 2019 08:09:09 -0500
+ us-mta-440-EBxk-X8dPKeK6pft9d85Sg-1; Mon, 09 Dec 2019 08:09:14 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94AF618AAFA5
- for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:09:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 534C9800D41
+ for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:09:12 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AD245DA60;
- Mon,  9 Dec 2019 13:09:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC35D5D9D6;
+ Mon,  9 Dec 2019 13:09:08 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v2 5/9] acpi: cpuhp: spec: fix 'Command data'
- description
-Date: Mon,  9 Dec 2019 14:08:58 +0100
-Message-Id: <1575896942-331151-6-git-send-email-imammedo@redhat.com>
+Subject: [PATCH for-5.0 v2 6/9] acpi: cpuhp: spec: clarify store into 'Command
+ data' when 'Command field' == 0
+Date: Mon,  9 Dec 2019 14:08:59 +0100
+Message-Id: <1575896942-331151-7-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
 References: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: nc6LehCjPkSomqRE26Zpgw-1
+X-MC-Unique: EBxk-X8dPKeK6pft9d85Sg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,55 +75,33 @@ Cc: pbonzini@redhat.com, philmd@redhat.com, lersek@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correct returned value description in case 'Command field' =3D=3D 0x0,
-it's not PXM but CPU selector value with pending event
-
-In addition describe 0 blanket value in case of not supported
-'Command field' value.
+Write section of 'Command data' register should describe what happens
+when it's written into. Correct description in case the last stored
+'Command field' value is equal to 0, to reflect that currently it's not
+supported.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 ---
-v2:
- * rephrase a docs little bit (Laszlo)
----
- docs/specs/acpi_cpu_hotplug.txt | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ docs/specs/acpi_cpu_hotplug.txt | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.=
 txt
-index 4e65286..d510872 100644
+index d510872..8fb9ad2 100644
 --- a/docs/specs/acpi_cpu_hotplug.txt
 +++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -56,9 +56,8 @@ read access:
-            3-7: reserved and should be ignored by OSPM
-     [0x5-0x7] reserved
+@@ -90,8 +90,7 @@ write access:
+             other values: reserved
+     [0x6-0x7] reserved
      [0x8] Command data: (DWORD access)
--          in case of error or unsupported command reads is 0xFFFFFFFF
 -          current 'Command field' value:
--              0: returns PXM value corresponding to device
-+          contains 0 unless value last stored in 'Command field' is one of=
-:
-+              0: contains 'CPU selector' value of a CPU with pending event=
-[s]
-=20
- write access:
-     offset:
-@@ -81,9 +80,9 @@ write access:
-           value:
-             0: selects a CPU device with inserting/removing events and
-                following reads from 'Command data' register return
--               selected CPU (CPU selector value). If no CPU with events
--               found, the current CPU selector doesn't change and
--               corresponding insert/remove event flags are not set.
-+               selected CPU ('CPU selector' value).
-+               If no CPU with events found, the current 'CPU selector' doe=
-sn't
-+               change and corresponding insert/remove event flags are not =
-modified.
-             1: following writes to 'Command data' register set OST event
-                register in QEMU
-             2: following writes to 'Command data' register set OST status
+-              0: OSPM reads value of CPU selector
++          if last stored 'Command field' value:
+               1: stores value into OST event register
+               2: stores value into OST status register, triggers
+                  ACPI_DEVICE_OST QMP event from QEMU to external applicati=
+ons
 --=20
 2.7.4
 
