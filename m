@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B99611744B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:34:49 +0100 (CET)
-Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1DB117442
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:31:29 +0100 (CET)
+Received: from localhost ([::1]:44598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieNrr-0005HM-Or
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:34:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34848)
+	id 1ieNod-0001gy-SX
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:31:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34893)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNaq-0007Qb-4p
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:13 -0500
+ id 1ieNau-0007WJ-7k
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNap-0007Ua-0d
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:11 -0500
+ id 1ieNat-0007Wd-3g
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:16 -0500
 Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28155)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNao-0007TS-Oy; Mon, 09 Dec 2019 13:17:10 -0500
+ id 1ieNas-0007TS-Rq; Mon, 09 Dec 2019 13:17:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1575915430; x=1607451430;
+ t=1575915434; x=1607451434;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hdFYTa8nuoS5vpBd2+mk08dQE6Uw8kRTfLExTl5You8=;
- b=f64il1Mq3wTP/MN1lYtWpgEwr64aVLj9cVhdDI6Jy7B4tqzMQhNu0jTI
- lUXL9M4p1gC3+uv26U7KcFDoKZ7lTrzbiWrI4uXTTRM9z2BbMCuitz+Ky
- +Uiy0KX436Ntm5EyCL68+VXUvU/2g3Q24IBSd15ULui4KV9YURxHaHFZr
- a3Tuc9Dm7tSt0YGKKj18t6y+09Fv/5XkdGNqhpPhfaW8HCgyrdFtTi+Xx
- 72jRy/HIo47PFCpdxYe/JfsnoAdzZTSqWz0pqKoEMdKwlfL2IPkGrcpRz
- Mqx+SwoeR0xetraA1j2Fv1QUg9aBm6awrDae5JKGleD5//So1XIWblLHo w==;
-IronPort-SDR: aMGicJ7DLp62+7ltBERBQSctdAwKQ63c5Bovv7qX6D/0OWypAy8uruDcZC0MgJL+eXkBu27jnm
- 9LkHLQitimHNnFXziVEkfgPeg6TG+f06eU5OIgFVdgcsMt9eNpWcbl34Vkcg7baOEXvCauw/P9
- gPClDcKH9l36opjhG/fFIGSQdROJLwNwRSX3vsZsZIidvR557z1RrVFVlRLuZt0yxTfFHeLx15
- rxEcMr1S4x7gGoyR2EUv3YcPVu+UNEMeY6ers0HrygRyyJpeB5+zbFCKcesmr4lJ9ergK7mKBs
- Ia0=
-X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="232461552"
+ bh=v0SO8nhyQkJ4xqraF/XgpsgRnhZWo2ZbF8AlFDAUc7Q=;
+ b=EuUhOFC7G3SO29L+FYaQNPWf9ekEn3CDyiS/O0y2ie7HKsmONi7ugJ/H
+ PphOTscmWQpL/9XUMXSHxBvIg5CggLDccOf1LfsnKC5LLLauv9ExlYs6I
+ oAAj85er/euaYjccX00qvpOhezzICj3VcvoP++Mo+ORXFzRosqudsQVaY
+ vIlNJPqQDhHbDuzqJBA4JItH/HHvKtadaqUTcVH1gWA/0uZYDtBIpvR3m
+ 1rlRJKM+evLswL5/C3D51eTvnzITpvaC29KuHxrwSQdZdj9/QR8tFtH91
+ l8bm8drxrBTiddX1LNz3pYvKRkEEAwBRRSGzkmY30LH8QAOEN1E5Xau28 g==;
+IronPort-SDR: 07bIPC2TpVzegfAgi0Clxguxf73NepppW7imBVUoK/0fkIzbq6ce0aaTLEfXVozqp/BV2Jckx4
+ qlBIonJXprnNijeKXAmPum66o+32hD4XwtaSbsrLwbQg8GzgmOZ0qF8onCllEZAH/V9gqhuNp/
+ gBliQkMYrofjaG/LGTKCz6MIzJ9YemeXj5Q5HWzhLqWh8BxiQloiyWG5YiqdkfcsLtzg0cNvwh
+ T+NSH9J0sl7dJTbSWery+RA6C6ndWdOlGfmlBVO4bLZAAsJWn04MszviYs1KccVSrJIQYsHuCW
+ q0k=
+X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="232461563"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:17:09 +0800
-IronPort-SDR: awNa/K5zzGBqo/fwTpRG+/BpBcWpWktHxo0rAv+B6co93U6fhnZdyPx9TtLlFOCDlcn/nCxhoa
- eZoRqo8bnkjfSLtOFedZ11asLx61u71mcxlzZs5asGDQSPWM1qHQp71And7WrGPWn6LmK/wyNY
- 571wQgesBT4YX4hos6hw5Nl9tGkHlPZm5RXitU7hFs7qarPAisSfayWA/264fZ9yWfRN6KF/YD
- fADjcy/Jwma3w+wL4J4HMINkkNyrnZonGaXNg9rUaULbNpOv0ROICw9CzBzTke8y0s4kumutig
- AwxXjrcCytfKsev7a01SNU3u
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:17:14 +0800
+IronPort-SDR: TwFpygT84fSMUGfmMnu+lOTdRNEdri6rsqAGfWr4iKG3lW/jVTDElFshkVANygtal3Axvc8ofz
+ VtdE1fLD9OyKy8Fgsr8sNfMNQ8f2bhOMNH25AdTQhTX80Yw+AjrvQuDDDFvTn1UnEBEyWoG29X
+ ba2jVV1vlwZhl3jGjhgQQIBcWoBENSZgxvXbfDL/D2l4ypBuFME1rk9rPfvrBPDwDRsNUWkuzF
+ Vp4ouEGtEI1okd3/nWBCG8M77GYcmE9CZoTg4hMU2vcvg8zclsKcUqcM7XPDfEmISLfyswbXQ5
+ cYlbrceYwPCmuGlhkmFUa3rj
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2019 10:11:25 -0800
-IronPort-SDR: 9DGjPov6QmDxhHIyLlngTjgf7esmiNzf5y5oTu0rpDuEPX4m52MPTPGT0knRYeqm06FPn1dixJ
- XHVlRpZpEL0ZasB116Dj5QC1MrqY7wDQAQ20F5tZvoojvqEJ3SThDIyg7jLAjcbhgUIOMSHS63
- gwdbTjfo/B9w1j1ceTmJgeQObmkKw4ZI9VGuVkZ2JhAq0/U5QN7TaO5X27HhwqwWeuA4GSqzDm
- mi4i1BLHkqjQvZ/sHZYdRTo6WmsouUeLt1Beg+YuqcfgRtDzAOd+MAwYidcu4I3MUYEWrdyALs
- G1M=
+ 09 Dec 2019 10:11:30 -0800
+IronPort-SDR: 7A/zOgJVTSkd/z2pzxkFFk+exTdhfOu/YydyXWHkEBmjIpatF8MBv4wr4fQG1AcIwijyZq3ONY
+ jcATmcuf8gMCKTAeLXcslvnDHtDZC/D1YoYlxbUV6Y7bY+34rMaRV63cYHPOM/JNG5qzRj5lXj
+ +jhRBl0gnk3JX9NGqcDA//qzM5gaU7LLT1ptUzv4X/7rgUMQJk6deBBBUg165g33Bq01710Dvx
+ 53VsqjvxHOeSpn+9RPJpHxNEtlLf3wESaxCIBesviv0O0x8uIFDP3k27v0+eE+gCqHgPJru9WR
+ EVI=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip02.wdc.com with ESMTP; 09 Dec 2019 10:17:09 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2019 10:17:15 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 18/36] target/riscv: Extend the MIE CSR to support
- virtulisation
-Date: Mon,  9 Dec 2019 10:11:27 -0800
-Message-Id: <6ec43c1bf0886d917fcd88d3751d72def5507db2.1575914822.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 20/36] target/riscv: Add support for virtual interrupt
+ setting
+Date: Mon,  9 Dec 2019 10:11:32 -0800
+Message-Id: <2389483485d4642a6e5670e2546c62e493e91fd6.1575914822.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <cover.1575914822.git.alistair.francis@wdc.com>
 References: <cover.1575914822.git.alistair.francis@wdc.com>
@@ -91,56 +91,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ target/riscv/cpu_helper.c | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index fc38c45a7e..54edfb280e 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -244,8 +244,10 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
- #define S_MODE_INTERRUPTS  (MIP_SSIP | MIP_STIP | MIP_SEIP)
- #define VS_MODE_INTERRUPTS (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)
- 
--static const target_ulong delegable_ints = S_MODE_INTERRUPTS;
--static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS;
-+static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
-+                                           VS_MODE_INTERRUPTS;
-+static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
-+                                     VS_MODE_INTERRUPTS;
- static const target_ulong delegable_excps =
-     (1ULL << (RISCV_EXCP_INST_ADDR_MIS)) |
-     (1ULL << (RISCV_EXCP_INST_ACCESS_FAULT)) |
-@@ -631,13 +633,27 @@ static int write_sstatus(CPURISCVState *env, int csrno, target_ulong val)
- 
- static int read_sie(CPURISCVState *env, int csrno, target_ulong *val)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 63439c9370..85eed5d885 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -37,13 +37,36 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+ #ifndef CONFIG_USER_ONLY
+ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
  {
--    *val = env->mie & env->mideleg;
-+    if (riscv_cpu_virt_enabled(env)) {
-+        /* Tell the guest the VS bits, shifted to the S bit locations */
-+        *val = (env->mie & env->mideleg & VS_MODE_INTERRUPTS) >> 1;
-+    } else {
-+        *val = env->mie & env->mideleg;
-+    }
-     return 0;
- }
- 
- static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
- {
--    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg);
-+    target_ulong newval;
++    target_ulong irqs;
++
+     target_ulong mstatus_mie = get_field(*env->mstatus, MSTATUS_MIE);
+     target_ulong mstatus_sie = get_field(*env->mstatus, MSTATUS_SIE);
+-    target_ulong pending = env->mip & env->mie;
+-    target_ulong mie = env->priv < PRV_M || (env->priv == PRV_M && mstatus_mie);
+-    target_ulong sie = env->priv < PRV_S || (env->priv == PRV_S && mstatus_sie);
+-    target_ulong irqs = (pending & ~env->mideleg & -mie) |
+-                        (pending &  env->mideleg & -sie);
++    target_ulong hs_mstatus_sie = get_field(env->mstatus_novirt, MSTATUS_SIE);
++
++    target_ulong pending = env->mip & env->mie &
++                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
++    target_ulong vspending = (env->mip & env->mie &
++                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)) >> 1;
++
++    target_ulong mie    = env->priv < PRV_M ||
++                          (env->priv == PRV_M && mstatus_mie);
++    target_ulong sie    = env->priv < PRV_S ||
++                          (env->priv == PRV_S && mstatus_sie);
++    target_ulong hs_sie = env->priv < PRV_S ||
++                          (env->priv == PRV_S && hs_mstatus_sie);
 +
 +    if (riscv_cpu_virt_enabled(env)) {
-+        /* Shift the guests S bits to VS */
-+        newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-+                 ((val << 1) & VS_MODE_INTERRUPTS);
-+    } else {
-+        newval = (env->mie & ~S_MODE_INTERRUPTS) | (val & S_MODE_INTERRUPTS);
++        target_ulong pending_hs_irq = pending & -hs_sie;
++
++        if (pending_hs_irq) {
++            riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
++            return ctz64(pending_hs_irq);
++        }
++
++        pending = vspending;
 +    }
 +
-     return write_mie(env, CSR_MIE, newval);
- }
++    irqs = (pending & ~env->mideleg & -mie) | (pending &  env->mideleg & -sie);
  
+     if (irqs) {
+         return ctz64(irqs); /* since non-zero */
 -- 
 2.24.0
 
