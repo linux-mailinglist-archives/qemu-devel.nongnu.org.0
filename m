@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF27C117430
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:29:53 +0100 (CET)
-Received: from localhost ([::1]:44542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B831173CF
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:14:11 +0100 (CET)
+Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieNn6-0008F6-EF
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:29:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35150)
+	id 1ieNXu-0005BC-VB
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:14:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNbJ-00080R-4c
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:42 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNX6-0004k8-PZ
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:13:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNbH-0007kC-L6
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:41 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:7465)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNbH-0007jP-Cn; Mon, 09 Dec 2019 13:17:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1575915484; x=1607451484;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ul2PecweUl3c79MlLRmaZ7UEHyFoZ32Y3/ct8Gyc2pQ=;
- b=GPCnUwIJmu9PstSNuBR5uRXB7ydAQq5GzpHkd49LpiKI2nK+onG1UIy/
- s+FHUYlUAXNZRlqcAq8UqVzwzxq8u7bcrLqxEoDIRvQjxJqjvNQwUmc6w
- A1z+mM7jf4mOd85kGo2+epF+ESSLvx9qdsp/93tHGy/PZWXNwjx00iO4y
- KF3Hm+Ox9XzJwr2s1rAchYfXuxyksvI+2pvuP42HD/i9s8S62qOzp0NYG
- Z3aCkZ77rM7sx88MDjgDFmkxEhoa7xK1H6fGj7tVnkSbjKnipT2pGp/Pp
- hDxmHMNB/nIZM2AdoEzhaPMLnlf8Jkxc/mfvqnEnVa4EM4JjeI9LLH5HS w==;
-IronPort-SDR: QrEtSSAn5RDIbqDRTyu6Vj/IB4QZ9aopfVv1D6RbTeRPktdW/F9juWjW/gHS7qYEblm3eWeONw
- D9VZY3gkqg/eQ1zacyRhetK592P8ZqQu+4PfnMogPgPQRrVy3CdHZq9EgGCmPrxDA+G7P3Jq/s
- 3QpTPDWxkeglaqV8yzsmLqn/E/uJxMDE/u7ZXd/Nd3qzrpwpMrxGnfP7iMkd3OesGvtGzJCSst
- bTsraW/Zslc077gBz5c5JqL2LqcB64TdVMHWvuFwSrUqBLyjSe5pbT9OW6Zb3ZqiVIlvZh2gML
- P6Y=
-X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="226412024"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:18:02 +0800
-IronPort-SDR: PR/IbmW9OU433kN2rsK1o8twAJVzaa0ShBkyaLz+OtqC7VuRVA0rM9ol15WfnBWe6o/dal/VUj
- qdES5XtnecehH5ZJEwFnn71+/Kq0uBdenGEIyROz66Dq2DtivufrjzacPJ4tMws6S6xouhSkvF
- sHNC3RWAve4uFaE451+A6K0fAP4DJc6ACKzeaXOQIWTIaLtHgKaF+GJs0jTg1xhglXe4TOjTfd
- 4l1VHBSJMBA14Ab4KO/kkIpTKVyyCcUyBdX8fveVy4U8OZgqNIoHpuMNkZP8Hk55uv03s1kb/P
- H+j729sMBDLRtgTF1eNcR9Wg
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2019 10:12:16 -0800
-IronPort-SDR: w4BaxIQBnOhe+nZ1X5fmU0XfRk0u0qiTL4LUZPuK5ohjznEPaFsMM+pG/8+fu1DlrfnAmFYbn5
- 7Fi0qsc4UJPFPM5JwKkfByNOrnt0HcMXZ1TPz72KGtiTJbcSZxR4tquB5eQ2MnDDeBDuDKwyhU
- 9Pk1xb9XeV1rXYPhkWaMonfdkedEYta/gzBTKII0aHMVnay2XXZtpo+lIecPu3NtsTs9cvgUAe
- WPEn5CYIMO/KKlJLvW2WlqRgu9o7kKW3nQGX2jMtsHDJBesz2mJq7dbVdb+FA+tTNuHdfM+1Nh
- k1E=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip02.wdc.com with ESMTP; 09 Dec 2019 10:17:38 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 29/36] target/riscv: Respect MPRV and SPRV for floating
- point ops
-Date: Mon,  9 Dec 2019 10:11:56 -0800
-Message-Id: <f1725ddb8d69edf68ddd2d6e1b6688cd7b2ba550.1575914822.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <cover.1575914822.git.alistair.francis@wdc.com>
-References: <cover.1575914822.git.alistair.francis@wdc.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNX5-00052k-Oh
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:13:20 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38881)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ieNX5-00052C-It
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:13:19 -0500
+Received: by mail-oi1-x241.google.com with SMTP id b8so7200343oiy.5
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 10:13:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=PFJ5EPu8tqeVW6zDhGM/QhXW/xXFq2JhNuZo+QcpDC8=;
+ b=Vrh8mOo1DDaIJJti6TN6FJiqEuTf6YktirIa9wlhK6/7RgkETBNwCnoFpoU5uAhVcb
+ 2guQsGfHylDiUH2nMCKDQchPpKQ1aE1yrjNwyaXBHinDbQD7MEun0Kw+PsY3IFbT5nXs
+ d8SmO1B3ppCAsc1fHj8FhlQTUqLs1KeF3Sb+08r5BIj/RIvZAdYr0IayvvX+NRAWXp4M
+ 65XDHKpjzlozUKLbr5eFLMogRzqGbnpBvGBghvwkHu4IDzH5MpYvY4ogbkwyDw4xb6cv
+ d1OoK+9oSvMwUM0XUwOgI9DGLmTWojcNIXmI5cmsgJIONnrb8JJGhrW9N/Z4J/zufLZ/
+ oUmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=PFJ5EPu8tqeVW6zDhGM/QhXW/xXFq2JhNuZo+QcpDC8=;
+ b=jf3oXtZGbAO+IHzi6Zpgmkms9dg3T6YQRyIp1/h+5d36M04UwBb1kzcPiqJDXWq6lW
+ 2+pnXGmETRsqguPYblE/iqPtuIMkIQvbazcwqS5hNxkQrrA7jsSPIr827ewM66uvsY8p
+ cdPqQjNy0xwK3lMDno8GedbABGXKVZ7oLuX+IIj7ig3HePrEV0Nj1HZGkOFw5viZkNM7
+ zAsiDBZmsxpTc+brGo+nl0qj/SAHnN98XFU9uKWz34hxr8M8kz3/t7zyi+GBNNO0iRzy
+ 3iwedXAp9aX+bO1Q1eOGJna/DPaUa//lZCUZOEy2kzxfqz/aot/cfUYsjiqwuxLt7A6K
+ vakA==
+X-Gm-Message-State: APjAAAX67+Ne+23ro2mrioqoe8FnRKhFlc/Y+0N0hjoXCF6V2LYr2vRi
+ dEVwJMuV80nnrshVoDhfRwnncJV4WHD5cOt3P8E=
+X-Google-Smtp-Source: APXvYqzQt900zj0W3X9JZh3jtqxTa/ynujfZYSwLRoPstO6Pph9JPihNetNPKxyK+qQ6Iy/OEyosEytMcpgyjuja54A=
+X-Received: by 2002:aca:bbc6:: with SMTP id l189mr298336oif.53.1575915199027; 
+ Mon, 09 Dec 2019 10:13:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.143.124
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Mon, 9 Dec 2019 10:13:18 -0800 (PST)
+In-Reply-To: <20191208183922.13757-19-mrolnik@gmail.com>
+References: <20191208183922.13757-1-mrolnik@gmail.com>
+ <20191208183922.13757-19-mrolnik@gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 9 Dec 2019 19:13:18 +0100
+Message-ID: <CAL1e-=jN=Z+zzsyq3OuVAZ=WwqU05oFX=F8nkGn1Xt8PHe=brg@mail.gmail.com>
+Subject: Re: [PATCH v38 18/22] target/avr: Add machine none test
+To: Michael Rolnik <mrolnik@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000a25ec605994959ae"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,48 +74,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "me@xcancerberox.com.ar" <me@xcancerberox.com.ar>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mark_fs_dirty() is the only place in translate.c that uses the
-virt_enabled bool. Let's respect the contents of MSTATUS.MPRV and
-HSTATUS.SPRV when setting the bool as this is used for performing
-floating point operations when V=0.
+--000000000000a25ec605994959ae
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/translate.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+On Sunday, December 8, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 1d879b34db..dd93e12b45 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -748,7 +748,21 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
-     ctx->priv_ver = env->priv_ver;
- #if !defined(CONFIG_USER_ONLY)
--    ctx->virt_enabled = riscv_cpu_virt_enabled(env);
-+    if (riscv_has_ext(env, RVH)) {
-+        ctx->virt_enabled = riscv_cpu_virt_enabled(env);
-+        if (env->priv_ver == PRV_M &&
-+            get_field(*env->mstatus, MSTATUS_MPRV) &&
-+            get_field(*env->mstatus, MSTATUS_MPV)) {
-+            ctx->virt_enabled = true;
-+        } else if (env->priv == PRV_S &&
-+                   !riscv_cpu_virt_enabled(env) &&
-+                   get_field(env->hstatus, HSTATUS_SPRV) &&
-+                   get_field(env->hstatus, HSTATUS_SPV)) {
-+            ctx->virt_enabled = true;
-+        }
-+    } else {
-+        ctx->virt_enabled = false;
-+    }
- #else
-     ctx->virt_enabled = false;
- #endif
--- 
-2.24.0
+> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> ---
+>  tests/machine-none-test.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+>
+You need to add a commit message explaining how adding a test is achieved
+with this single line.
 
+
+
+> diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
+> index 5953d31755..3e5c74e73e 100644
+> --- a/tests/machine-none-test.c
+> +++ b/tests/machine-none-test.c
+> @@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] =3D {
+>      /* tested targets list */
+>      { "arm", "cortex-a15" },
+>      { "aarch64", "cortex-a57" },
+> +    { "avr", "avr6-avr-cpu" },
+>      { "x86_64", "qemu64,apic-id=3D0" },
+>      { "i386", "qemu32,apic-id=3D0" },
+>      { "alpha", "ev67" },
+> --
+> 2.17.2 (Apple Git-113)
+>
+>
+
+--000000000000a25ec605994959ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Sunday, December 8, 2019, Michael Rolnik &lt;<a href=3D"mailto:m=
+rolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail=
+.com">mrolnik@gmail.com</a>&gt;<br>
+Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
+com">philmd@redhat.com</a>&gt;<br>
+Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.c=
+om">amarkovic@wavecomp.com</a>&gt;<br>
+---<br>
+=C2=A0tests/machine-none-test.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br></blockquote><div><br></div><div>You need to add a commit message expla=
+ining how adding a test is achieved with this single line.</div><div><br></=
+div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c<br>
+index 5953d31755..3e5c74e73e 100644<br>
+--- a/tests/machine-none-test.c<br>
++++ b/tests/machine-none-test.c<br>
+@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0/* tested targets list */<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;arm&quot;, &quot;cortex-a15&quot; },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;aarch64&quot;, &quot;cortex-a57&quot; },<br>
++=C2=A0 =C2=A0 { &quot;avr&quot;, &quot;avr6-avr-cpu&quot; },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;x86_64&quot;, &quot;qemu64,apic-id=3D0&quot; },=
+<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;i386&quot;, &quot;qemu32,apic-id=3D0&quot; },<b=
+r>
+=C2=A0 =C2=A0 =C2=A0{ &quot;alpha&quot;, &quot;ev67&quot; },<br>
+-- <br>
+2.17.2 (Apple Git-113)<br>
+<br>
+</blockquote>
+
+--000000000000a25ec605994959ae--
 
