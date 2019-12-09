@@ -2,63 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5528E116DD2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:19:08 +0100 (CET)
-Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10159116DDA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:21:47 +0100 (CET)
+Received: from localhost ([::1]:40048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieIwN-00078G-5I
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:19:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45066)
+	id 1ieIyw-0001TT-05
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:21:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ieImy-0006ky-TR
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:25 -0500
+ (envelope-from <philmd@redhat.com>) id 1ieIq9-0002k2-OO
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:12:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ieImw-0006Vb-J5
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48737
+ (envelope-from <philmd@redhat.com>) id 1ieIq7-0000dD-J5
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:12:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24242
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieImw-0006UU-F2
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:22 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ieIq7-0000d3-Eh
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:12:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575896962;
+ s=mimecast20190719; t=1575897159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hrv7w8oWl4v3zXpCbYG5A0WNpbhVP5sF5WD50lFPsPw=;
- b=MkIz07HGSllncnM3y980ppHC0Ol8SFkk33QWGNIOZ3n2+S/GaWnnM9RSdH1YBogWnH8k0s
- gCWAJ4/9jM9soxd98Rd8QusBrHl9O9jXW7IZLrDCraKh6k3wRNah3ofL9Rjzphxdh5AtgX
- ehrAS14idLUuzLfSRIBuIGM2GJ7m8GA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-VTTKusSIPR6YK4w95mlRhA-1; Mon, 09 Dec 2019 08:09:19 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBAC88017DF
- for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:09:18 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C59515D9D6;
- Mon,  9 Dec 2019 13:09:17 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v2 9/9] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-Date: Mon,  9 Dec 2019 14:09:02 +0100
-Message-Id: <1575896942-331151-10-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
-References: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: VTTKusSIPR6YK4w95mlRhA-1
+ bh=TQUZ5vCt0vHhC/vLRo1BaBM+ejyy1fbgPpqyUuuKQ24=;
+ b=Kai/XKi2rS+yocQCSQLdwyj71ZiLvEePVo8aWMNKnAowihijTjVqAAL3mRljOfZJbQar9n
+ 2LMup428ucvxvU2TKflV79LF2p1tXyA/nbLNSHqeVhQQ53MjqOi6tPjnDK1W/KqdodKUyt
+ QS+csTM7gpnantcygfDm6nmKN0Up9T8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-jhRPyGicOIKju721cdcRCA-1; Mon, 09 Dec 2019 08:12:38 -0500
+Received: by mail-wr1-f69.google.com with SMTP id z10so7430556wrt.21
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 05:12:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TQUZ5vCt0vHhC/vLRo1BaBM+ejyy1fbgPpqyUuuKQ24=;
+ b=N15ES8KhCRxT7ELi2gr+9CQkp8OGUCZAAkP99bq+GOJoQhusCFHg2ThPFRg2b8AepP
+ rGGKoj8nzHIyu0yWCUOrshLn+ujv40W7qXWapJ9IPGuYaKSBiV1/K7/m3Dqv0SL3VDu+
+ N3vocpuScpU0BzuVv1HEvn9MpXlL5CgS8vnLXid55ewoLuvr+eAjZKk/mFLxQjcvZZY0
+ K/OI2ONwT87sFaiITDEw1X5RhmKydcgzww691bdDkIgmXHexGIREu0HXY1qsk6aYiwo7
+ iZayxFMhkFmp+yMpNh9i43q7kyi8cuDzLSN89UGIuEZ4eIrl2REoln3GrkJPk6MxUMAb
+ /ZGQ==
+X-Gm-Message-State: APjAAAX+NbdT9v8cljGXQ/KGyvPq3OJgQ22vzBGBGIC7Am/ce/a8Vz0x
+ 2STkAJeDKrGsg94whphsPHpAkwrA/OIyZIay4xbbl+EPnJdw3etpedk+mcbSLVQmmo1XAL4mWOX
+ r31eKLa0dPNwuB1U=
+X-Received: by 2002:a1c:b7c4:: with SMTP id
+ h187mr24834349wmf.105.1575897156896; 
+ Mon, 09 Dec 2019 05:12:36 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxTCtT1fzParRMDy6Knni/tKA4WbQSuUCMTPS6W0Ji5Lc/lJcq2tu7e7ca6pDOyx6huAzd1IA==
+X-Received: by 2002:a1c:b7c4:: with SMTP id
+ h187mr24834334wmf.105.1575897156704; 
+ Mon, 09 Dec 2019 05:12:36 -0800 (PST)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id 2sm28407645wrq.31.2019.12.09.05.12.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Dec 2019 05:12:36 -0800 (PST)
+Subject: Re: [PATCH v2 4/4] hw/display: Remove "rombar" hack from vga-pci and
+ vmware_vga
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20191209125248.5849-1-thuth@redhat.com>
+ <20191209125248.5849-5-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3ab730ea-658f-ff98-035d-f94ed7775f00@redhat.com>
+Date: Mon, 9 Dec 2019 14:12:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20191209125248.5849-5-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: jhRPyGicOIKju721cdcRCA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,99 +96,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philmd@redhat.com, lersek@redhat.com, mst@redhat.com
+Cc: libvir-list@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Firmware can enumerate present at boot APs by broadcasting wakeup IPI,
-so that woken up secondary CPUs could register them-selves.
-However in CPU hotplug case, it would need to know architecture
-specific CPU IDs for possible and hotplugged CPUs so it could
-prepare environment for and wake hotplugged AP.
+On 12/9/19 1:52 PM, Thomas Huth wrote:
+> Now that the old pc-0.x machine types have been removed, we do not need
+> the old "rombar" hacks anymore.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   hw/display/vga-pci.c    | 5 -----
+>   hw/display/vga.c        | 4 +---
+>   hw/display/vmware_vga.c | 5 -----
+>   3 files changed, 1 insertion(+), 13 deletions(-)
+> 
+> diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
+> index a27b88122d..cfe095713e 100644
+> --- a/hw/display/vga-pci.c
+> +++ b/hw/display/vga-pci.c
+> @@ -264,11 +264,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
+>   
+>           pci_register_bar(&d->dev, 2, PCI_BASE_ADDRESS_SPACE_MEMORY, &d->mmio);
+>       }
+> -
+> -    if (!dev->rom_bar) {
+> -        /* compatibility with pc-0.13 and older */
+> -        vga_init_vbe(s, OBJECT(dev), pci_address_space(dev));
+> -    }
+>   }
+>   
+>   static void pci_std_vga_init(Object *obj)
+> diff --git a/hw/display/vga.c b/hw/display/vga.c
+> index 82ebe53610..636586a476 100644
+> --- a/hw/display/vga.c
+> +++ b/hw/display/vga.c
+> @@ -2304,9 +2304,7 @@ void vga_init(VGACommonState *s, Object *obj, MemoryRegion *address_space,
+>   
+>   void vga_init_vbe(VGACommonState *s, Object *obj, MemoryRegion *system_memory)
+>   {
+> -    /* With pc-0.12 and below we map both the PCI BAR and the fixed VBE region,
+> -     * so use an alias to avoid double-mapping the same region.
+> -     */
+> +    /* Use an alias to avoid double-mapping the same region */
 
-Reuse and extend existing CPU hotplug interface to return architecture
-specific ID for currently selected CPU in 2 registers:
- - lower 32 bits in ACPI_CPU_CMD_DATA_OFFSET_RW
- - upper 32 bits in ACPI_CPU_CMD_DATA2_OFFSET_R
+If I understand the comment correctly, we can now revert commit 
+8294a64d7f9 and and remove the alias, isn't it?
 
-On x86, firmware will use CPHP_GET_CPU_ID_CMD for fetching the APIC ID
-when handling hotplug SMI.
-
-Later, CPHP_GET_CPU_ID_CMD will be used on ARM to retrieve MPIDR,
-which serves the similar to APIC ID purpose.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v1:
- - s/ACPI_CPU_CMD_DATA2_OFFSET_RW/ACPI_CPU_CMD_DATA2_OFFSET_R/.
-v2:
- - ACPI_CPU_CMD_DATA2_OFFSET_R moved into separate patch
-   that adds 'Command data 2' field separately
- - ammend commit message
----
- docs/specs/acpi_cpu_hotplug.txt | 3 +++
- hw/acpi/cpu.c                   | 7 +++++++
- 2 files changed, 10 insertions(+)
-
-diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.=
-txt
-index cb99cf3..a8ce5e7 100644
---- a/docs/specs/acpi_cpu_hotplug.txt
-+++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -47,6 +47,7 @@ read access:
-     [0x0-0x3] Command data 2: (DWORD access)
-               if value last stored in 'Command field':
-                 0: reads as 0x0
-+                3: upper 32 bits of architecture specific CPU ID value
-                 other values: reserved
-     [0x4] CPU device status fields: (1 byte access)
-         bits:
-@@ -61,6 +62,8 @@ read access:
-     [0x8] Command data: (DWORD access)
-           contains 0 unless value last stored in 'Command field' is one of=
-:
-               0: contains 'CPU selector' value of a CPU with pending event=
-[s]
-+              3: lower 32 bits of architecture specific CPU ID value
-+                 (in x86 case: APIC ID)
-=20
- write access:
-     offset:
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index d475c06..e2c957c 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -18,6 +18,7 @@ enum {
-     CPHP_GET_NEXT_CPU_WITH_EVENT_CMD =3D 0,
-     CPHP_OST_EVENT_CMD =3D 1,
-     CPHP_OST_STATUS_CMD =3D 2,
-+    CPHP_GET_CPU_ID_CMD =3D 3,
-     CPHP_CMD_MAX
- };
-=20
-@@ -75,6 +76,9 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr,=
- unsigned size)
-         case CPHP_GET_NEXT_CPU_WITH_EVENT_CMD:
-            val =3D cpu_st->selector;
-            break;
-+        case CPHP_GET_CPU_ID_CMD:
-+           val =3D cdev->arch_id & 0xFFFFFFFF;
-+           break;
-         default:
-            break;
-         }
-@@ -85,6 +89,9 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr,=
- unsigned size)
-         case CPHP_GET_NEXT_CPU_WITH_EVENT_CMD:
-            val =3D 0;
-            break;
-+        case CPHP_GET_CPU_ID_CMD:
-+           val =3D cdev->arch_id >> 32;
-+           break;
-         default:
-            break;
-         }
---=20
-2.7.4
+>       memory_region_init_alias(&s->vram_vbe, obj, "vram.vbe",
+>                                &s->vram, 0, memory_region_size(&s->vram));
+>       /* XXX: use optimized standard vga accesses */
+> diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+> index 23dc8910cc..ead754eccf 100644
+> --- a/hw/display/vmware_vga.c
+> +++ b/hw/display/vmware_vga.c
+> @@ -1312,11 +1312,6 @@ static void pci_vmsvga_realize(PCIDevice *dev, Error **errp)
+>                        &s->chip.vga.vram);
+>       pci_register_bar(dev, 2, PCI_BASE_ADDRESS_MEM_PREFETCH,
+>                        &s->chip.fifo_ram);
+> -
+> -    if (!dev->rom_bar) {
+> -        /* compatibility with pc-0.13 and older */
+> -        vga_init_vbe(&s->chip.vga, OBJECT(dev), pci_address_space(dev));
+> -    }
+>   }
+>   
+>   static Property vga_vmware_properties[] = {
+> 
 
 
