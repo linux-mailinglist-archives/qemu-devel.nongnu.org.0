@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33197116D60
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 13:57:18 +0100 (CET)
-Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40798116D59
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 13:55:19 +0100 (CET)
+Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieIbF-0008Ax-4B
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 07:57:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38596)
+	id 1ieIZJ-0005sb-Uz
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 07:55:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ieIXL-0004Tm-Ir
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:16 -0500
+ (envelope-from <thuth@redhat.com>) id 1ieIXI-0004Pf-If
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ieIXK-0003Ro-Gt
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20339
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1ieIXH-0003LH-EG
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:12 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31893
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ieIXK-0003Ra-D6
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:14 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ieIXH-0003KV-9G
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575895993;
+ s=mimecast20190719; t=1575895990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MlIeblQRv5fu5oXdGI9yCHmB9MmeWIo1PL9hdY9YMbo=;
- b=hXgeTDG+kLblFpiXjIKU5bQup4m8q0B7GGjOF4NqzQzEIDirFCGIrLns/+39+MjYR0Os6Q
- Yq8an3l2vakgsBN5FDs9k/Y9/7ZpuyipBIjw+Ulb6gGU0QhhFcUzLlYQG13mgLy4NEA3gS
- WckMvAOKKP4PkEQIei7zfUdz3D89M+o=
+ bh=ecUnEqckiitiSvyjYWjaRQBIb05gDxsuJW4wiPZ/9eM=;
+ b=Kx+p1+Y/b5nSKvUMPN2IS7O2UiFtjAAeZkxsY0+7SmaNLzNFrFRY8KrZw3BP1IuptJ1pTF
+ eKABCGPbwpdFAwiRGjzZGBv2EhMy2ndL0J5zvcFAp6/gmVNeZLmpZM8zC9iz9ndYCnr2Eh
+ 6BozLhhGjJJHdIl6JRMt3QVvVKTxTvg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-Yi1mPtecNPmSebJY_BbsBw-1; Mon, 09 Dec 2019 07:53:06 -0500
+ us-mta-233-HM9PojW6PE2H85MtBgFyvQ-1; Mon, 09 Dec 2019 07:53:09 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9231B101F4E3;
- Mon,  9 Dec 2019 12:53:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 105251856A71;
+ Mon,  9 Dec 2019 12:53:08 +0000 (UTC)
 Received: from thuth.com (ovpn-116-121.ams2.redhat.com [10.36.116.121])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8114C6E3FB;
- Mon,  9 Dec 2019 12:53:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1CC9E46;
+ Mon,  9 Dec 2019 12:53:05 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v2 2/4] hw/audio: Remove the "use_broken_id" hack from the
- AC97 device
-Date: Mon,  9 Dec 2019 13:52:46 +0100
-Message-Id: <20191209125248.5849-3-thuth@redhat.com>
+Subject: [PATCH v2 3/4] hw/pci: Remove the "command_serr_enable" property
+Date: Mon,  9 Dec 2019 13:52:47 +0100
+Message-Id: <20191209125248.5849-4-thuth@redhat.com>
 In-Reply-To: <20191209125248.5849-1-thuth@redhat.com>
 References: <20191209125248.5849-1-thuth@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: Yi1mPtecNPmSebJY_BbsBw-1
+X-MC-Unique: HM9PojW6PE2H85MtBgFyvQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,50 +75,56 @@ Cc: libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the old pc-0.x machine types are gone, we do not need
-the "use_broken_id" hack anymore.
+Now that the old pc-0.x machine types have been removed, this config
+knob is not required anymore.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/audio/ac97.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ hw/pci/pci.c         | 6 +-----
+ include/hw/pci/pci.h | 2 +-
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index a136b97f68..78cda88333 100644
---- a/hw/audio/ac97.c
-+++ b/hw/audio/ac97.c
-@@ -161,7 +161,6 @@ typedef struct AC97BusMasterRegs {
- typedef struct AC97LinkState {
-     PCIDevice dev;
-     QEMUSoundCard card;
--    uint32_t use_broken_id;
-     uint32_t glob_cnt;
-     uint32_t glob_sta;
-     uint32_t cas;
-@@ -1373,13 +1372,6 @@ static void ac97_realize(PCIDevice *dev, Error **err=
-p)
-     c[PCI_BASE_ADDRESS_0 + 6] =3D 0x00;
-     c[PCI_BASE_ADDRESS_0 + 7] =3D 0x00;
-=20
--    if (s->use_broken_id) {
--        c[PCI_SUBSYSTEM_VENDOR_ID] =3D 0x86;
--        c[PCI_SUBSYSTEM_VENDOR_ID + 1] =3D 0x80;
--        c[PCI_SUBSYSTEM_ID] =3D 0x00;
--        c[PCI_SUBSYSTEM_ID + 1] =3D 0x00;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index cbc7a32568..e3d310365d 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -69,8 +69,6 @@ static Property pci_props[] =3D {
+     DEFINE_PROP_UINT32("rombar",  PCIDevice, rom_bar, 1),
+     DEFINE_PROP_BIT("multifunction", PCIDevice, cap_present,
+                     QEMU_PCI_CAP_MULTIFUNCTION_BITNR, false),
+-    DEFINE_PROP_BIT("command_serr_enable", PCIDevice, cap_present,
+-                    QEMU_PCI_CAP_SERR_BITNR, true),
+     DEFINE_PROP_BIT("x-pcie-lnksta-dllla", PCIDevice, cap_present,
+                     QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
+     DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
+@@ -751,9 +749,7 @@ static void pci_init_wmask(PCIDevice *dev)
+     pci_set_word(dev->wmask + PCI_COMMAND,
+                  PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER =
+|
+                  PCI_COMMAND_INTX_DISABLE);
+-    if (dev->cap_present & QEMU_PCI_CAP_SERR) {
+-        pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_S=
+ERR);
 -    }
--
-     c[PCI_INTERRUPT_LINE] =3D 0x00;      /* intr_ln interrupt line rw */
-     c[PCI_INTERRUPT_PIN] =3D 0x01;      /* intr_pn interrupt pin ro */
++    pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_SERR)=
+;
 =20
-@@ -1411,7 +1403,6 @@ static int ac97_init (PCIBus *bus)
+     memset(dev->wmask + PCI_CONFIG_HEADER_SIZE, 0xff,
+            config_size - PCI_CONFIG_HEADER_SIZE);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index db75c6dfd0..2acd8321af 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -174,7 +174,7 @@ enum {
+ #define QEMU_PCI_CAP_MULTIFUNCTION_BITNR        3
+     QEMU_PCI_CAP_MULTIFUNCTION =3D (1 << QEMU_PCI_CAP_MULTIFUNCTION_BITNR)=
+,
 =20
- static Property ac97_properties[] =3D {
-     DEFINE_AUDIO_PROPERTIES(AC97LinkState, card),
--    DEFINE_PROP_UINT32 ("use_broken_id", AC97LinkState, use_broken_id, 0),
-     DEFINE_PROP_END_OF_LIST (),
- };
-=20
+-    /* command register SERR bit enabled */
++    /* command register SERR bit enabled - unused since QEMU v5.0 */
+ #define QEMU_PCI_CAP_SERR_BITNR 4
+     QEMU_PCI_CAP_SERR =3D (1 << QEMU_PCI_CAP_SERR_BITNR),
+     /* Standard hot plug controller. */
 --=20
 2.18.1
 
