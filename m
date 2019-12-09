@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40798116D59
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 13:55:19 +0100 (CET)
-Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42694116D5F
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 13:57:17 +0100 (CET)
+Received: from localhost ([::1]:39506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieIZJ-0005sb-Uz
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 07:55:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38553)
+	id 1ieIbE-00089P-9O
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 07:57:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ieIXI-0004Pf-If
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:13 -0500
+ (envelope-from <thuth@redhat.com>) id 1ieIXK-0004SC-Nd
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ieIXH-0003LH-EG
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:12 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31893
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1ieIXJ-0003RQ-Lj
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45135
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ieIXH-0003KV-9G
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:11 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ieIXJ-0003Qj-Hs
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 07:53:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575895990;
+ s=mimecast20190719; t=1575895993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ecUnEqckiitiSvyjYWjaRQBIb05gDxsuJW4wiPZ/9eM=;
- b=Kx+p1+Y/b5nSKvUMPN2IS7O2UiFtjAAeZkxsY0+7SmaNLzNFrFRY8KrZw3BP1IuptJ1pTF
- eKABCGPbwpdFAwiRGjzZGBv2EhMy2ndL0J5zvcFAp6/gmVNeZLmpZM8zC9iz9ndYCnr2Eh
- 6BozLhhGjJJHdIl6JRMt3QVvVKTxTvg=
+ bh=2RFpp2s3aGUqR+t/+bn3Wx2jxQlWsovaH14QFwEROH8=;
+ b=bokS/HZT+ZqzV9B22vktj2mA23mGLz8v0TIn70kYARfDfTR65SvJC9Kjrl0F3OpLiIxvKQ
+ DOFUoR9IB1QXDwV+zsv6uF0biVMZ9WIAqqhE229bJYz/v8b26ho4EFaB/zBEWklurzvGh2
+ 9RjBDnMvnjGhlBrgiHdcul5jh8C0GUQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-HM9PojW6PE2H85MtBgFyvQ-1; Mon, 09 Dec 2019 07:53:09 -0500
+ us-mta-211-3EEiVgXYN_S2cTVyvVwVhw-1; Mon, 09 Dec 2019 07:53:11 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 105251856A71;
- Mon,  9 Dec 2019 12:53:08 +0000 (UTC)
-Received: from thuth.com (ovpn-116-121.ams2.redhat.com [10.36.116.121])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CC9E46;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06202477;
  Mon,  9 Dec 2019 12:53:05 +0000 (UTC)
+Received: from thuth.com (ovpn-116-121.ams2.redhat.com [10.36.116.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FC496E3FD;
+ Mon,  9 Dec 2019 12:53:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v2 3/4] hw/pci: Remove the "command_serr_enable" property
-Date: Mon,  9 Dec 2019 13:52:47 +0100
-Message-Id: <20191209125248.5849-4-thuth@redhat.com>
+Subject: [PATCH v2 4/4] hw/display: Remove "rombar" hack from vga-pci and
+ vmware_vga
+Date: Mon,  9 Dec 2019 13:52:48 +0100
+Message-Id: <20191209125248.5849-5-thuth@redhat.com>
 In-Reply-To: <20191209125248.5849-1-thuth@redhat.com>
 References: <20191209125248.5849-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: HM9PojW6PE2H85MtBgFyvQ-1
+X-MC-Unique: 3EEiVgXYN_S2cTVyvVwVhw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,56 +76,69 @@ Cc: libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the old pc-0.x machine types have been removed, this config
-knob is not required anymore.
+Now that the old pc-0.x machine types have been removed, we do not need
+the old "rombar" hacks anymore.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/pci/pci.c         | 6 +-----
- include/hw/pci/pci.h | 2 +-
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/display/vga-pci.c    | 5 -----
+ hw/display/vga.c        | 4 +---
+ hw/display/vmware_vga.c | 5 -----
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index cbc7a32568..e3d310365d 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -69,8 +69,6 @@ static Property pci_props[] =3D {
-     DEFINE_PROP_UINT32("rombar",  PCIDevice, rom_bar, 1),
-     DEFINE_PROP_BIT("multifunction", PCIDevice, cap_present,
-                     QEMU_PCI_CAP_MULTIFUNCTION_BITNR, false),
--    DEFINE_PROP_BIT("command_serr_enable", PCIDevice, cap_present,
--                    QEMU_PCI_CAP_SERR_BITNR, true),
-     DEFINE_PROP_BIT("x-pcie-lnksta-dllla", PCIDevice, cap_present,
-                     QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
-     DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
-@@ -751,9 +749,7 @@ static void pci_init_wmask(PCIDevice *dev)
-     pci_set_word(dev->wmask + PCI_COMMAND,
-                  PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER =
-|
-                  PCI_COMMAND_INTX_DISABLE);
--    if (dev->cap_present & QEMU_PCI_CAP_SERR) {
--        pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_S=
-ERR);
+diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
+index a27b88122d..cfe095713e 100644
+--- a/hw/display/vga-pci.c
++++ b/hw/display/vga-pci.c
+@@ -264,11 +264,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Error =
+**errp)
+=20
+         pci_register_bar(&d->dev, 2, PCI_BASE_ADDRESS_SPACE_MEMORY, &d->mm=
+io);
+     }
+-
+-    if (!dev->rom_bar) {
+-        /* compatibility with pc-0.13 and older */
+-        vga_init_vbe(s, OBJECT(dev), pci_address_space(dev));
 -    }
-+    pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_SERR)=
-;
+ }
 =20
-     memset(dev->wmask + PCI_CONFIG_HEADER_SIZE, 0xff,
-            config_size - PCI_CONFIG_HEADER_SIZE);
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index db75c6dfd0..2acd8321af 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -174,7 +174,7 @@ enum {
- #define QEMU_PCI_CAP_MULTIFUNCTION_BITNR        3
-     QEMU_PCI_CAP_MULTIFUNCTION =3D (1 << QEMU_PCI_CAP_MULTIFUNCTION_BITNR)=
-,
+ static void pci_std_vga_init(Object *obj)
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 82ebe53610..636586a476 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -2304,9 +2304,7 @@ void vga_init(VGACommonState *s, Object *obj, MemoryR=
+egion *address_space,
 =20
--    /* command register SERR bit enabled */
-+    /* command register SERR bit enabled - unused since QEMU v5.0 */
- #define QEMU_PCI_CAP_SERR_BITNR 4
-     QEMU_PCI_CAP_SERR =3D (1 << QEMU_PCI_CAP_SERR_BITNR),
-     /* Standard hot plug controller. */
+ void vga_init_vbe(VGACommonState *s, Object *obj, MemoryRegion *system_mem=
+ory)
+ {
+-    /* With pc-0.12 and below we map both the PCI BAR and the fixed VBE re=
+gion,
+-     * so use an alias to avoid double-mapping the same region.
+-     */
++    /* Use an alias to avoid double-mapping the same region */
+     memory_region_init_alias(&s->vram_vbe, obj, "vram.vbe",
+                              &s->vram, 0, memory_region_size(&s->vram));
+     /* XXX: use optimized standard vga accesses */
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index 23dc8910cc..ead754eccf 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -1312,11 +1312,6 @@ static void pci_vmsvga_realize(PCIDevice *dev, Error=
+ **errp)
+                      &s->chip.vga.vram);
+     pci_register_bar(dev, 2, PCI_BASE_ADDRESS_MEM_PREFETCH,
+                      &s->chip.fifo_ram);
+-
+-    if (!dev->rom_bar) {
+-        /* compatibility with pc-0.13 and older */
+-        vga_init_vbe(&s->chip.vga, OBJECT(dev), pci_address_space(dev));
+-    }
+ }
+=20
+ static Property vga_vmware_properties[] =3D {
 --=20
 2.18.1
 
