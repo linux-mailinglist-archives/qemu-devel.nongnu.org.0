@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B4A117446
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:33:17 +0100 (CET)
-Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CE01174E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:52:10 +0100 (CET)
+Received: from localhost ([::1]:45030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieNqN-0003Rq-Qt
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:33:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
+	id 1ieO8f-0002gy-Fr
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:52:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ieNbU-0008DA-Q8
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:53 -0500
+ (envelope-from <no-reply@patchew.org>) id 1ieNcU-0001Hk-MC
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:18:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ieNbT-0007sA-KP
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50008
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ieNbT-0007rQ-GQ
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575915470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u/8iD3Drs3CR5g4H++10+p08axZ4cAuwMRyK9QszuTo=;
- b=RoPflkVAcxOw1nbfGs3vrOVqeoyabcoje0J/qMZPMyoRcJebYcCDVgL5w0dRdZYPNZEMiM
- /IMJ6OokrxkqQfm/hNjptw78DXkCvT3TyjOXgTAvuG3vZejmLQ8GEh6myvUn5SBYi9amcT
- FCUmh5tooM0b8605Mfc5yIlLeKxksAA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-os0a7UBSP9muapp6cjUptw-1; Mon, 09 Dec 2019 13:17:49 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B47D10054E3;
- Mon,  9 Dec 2019 18:17:48 +0000 (UTC)
-Received: from gondolin (ovpn-116-43.ams2.redhat.com [10.36.116.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EC2D817C;
- Mon,  9 Dec 2019 18:17:41 +0000 (UTC)
-Date: Mon, 9 Dec 2019 19:17:38 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [for-5.0 PATCH v2 1/3] cpu: Introduce CPUReset callback typedef
-Message-ID: <20191209191738.4a33a67f.cohuck@redhat.com>
-In-Reply-To: <157591411864.46967.18244018296239778673.stgit@bahia.lan>
-References: <157591411283.46967.15944326590669093952.stgit@bahia.lan>
- <157591411864.46967.18244018296239778673.stgit@bahia.lan>
-Organization: Red Hat GmbH
+ (envelope-from <no-reply@patchew.org>) id 1ieNcT-0008PE-3P
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:18:54 -0500
+Resent-Date: Mon, 09 Dec 2019 13:18:54 -0500
+Resent-Message-Id: <E1ieNcT-0008PE-3P@eggs.gnu.org>
+Received: from sender4-of-o50.zoho.com ([136.143.188.50]:21040)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1ieNcS-0008Oj-SK
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:18:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1575915524; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=HCS+AKT6u4CMdb/17OC0HnRWG1P7YQ6PAC9bWdhNcUH9NWf5o1NsLclzU1HSYXYal9uyCUxplwiC8SbqSbUt7rZ7Uhc/Hkr/71w+6XoevIhl6K0CXuazZo5vkbzdZXntjn3GC49X7VaOU/AbRIOrXZljmgkodPDvBOpiHseF/FY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1575915524;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=mvdRq1vIMN/a7UZmc+BeY4Z8b4PGB06K2qveCyZF2Co=; 
+ b=RUG+ME0TSbhyH/bxI9HS2aHySdtBBnnhjUj4XrBcg/BJHXJlTiFBENV1gf25ciHPkWHAda/VUXOKf3AbLRmZxBZz2V+OqzK3gLJJrKlL2qZ/my9wsy1x/Gm5UWrOTnsvJQ6uaUCr1OhVWmaN7PUK64eOdEfR1r7dQejBsoiDN4E=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1575915522711655.6558440913589;
+ Mon, 9 Dec 2019 10:18:42 -0800 (PST)
+In-Reply-To: <20191209125248.5849-1-thuth@redhat.com>
+Subject: Re: [libvirt] [PATCH v2 0/4] Remove deprecated pc-0.x machine types
+ and related hacks
+Message-ID: <157591552130.7675.1004391530900578576@37313f22b938>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: os0a7UBSP9muapp6cjUptw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: thuth@redhat.com
+Date: Mon, 9 Dec 2019 10:18:42 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 136.143.188.50
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,53 +65,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, mst@redhat.com, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 09 Dec 2019 18:55:18 +0100
-Greg Kurz <groug@kaod.org> wrote:
-
-> Use it in include/hw/core/cpu.h and convert all targets to use it as
-> well with:
-> 
-> perl -pi \
->  -e 's/void\s+\(\*(parent_reset)\)\(CPUState\s+\*\w+\)/CPUReset \1/;' \
->  $(git ls-files 'target/*.h')
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/core/cpu.h       |    4 +++-
->  target/alpha/cpu-qom.h      |    2 +-
->  target/arm/cpu-qom.h        |    2 +-
->  target/cris/cpu-qom.h       |    2 +-
->  target/hppa/cpu-qom.h       |    2 +-
->  target/i386/cpu-qom.h       |    2 +-
->  target/lm32/cpu-qom.h       |    2 +-
->  target/m68k/cpu-qom.h       |    2 +-
->  target/microblaze/cpu-qom.h |    2 +-
->  target/mips/cpu-qom.h       |    2 +-
->  target/moxie/cpu.h          |    2 +-
->  target/nios2/cpu.h          |    2 +-
->  target/openrisc/cpu.h       |    2 +-
->  target/ppc/cpu-qom.h        |    2 +-
->  target/riscv/cpu.h          |    2 +-
->  target/s390x/cpu-qom.h      |    2 +-
->  target/sh4/cpu-qom.h        |    2 +-
->  target/sparc/cpu-qom.h      |    2 +-
->  target/tilegx/cpu.h         |    2 +-
->  target/tricore/cpu-qom.h    |    2 +-
->  target/xtensa/cpu-qom.h     |    2 +-
->  21 files changed, 23 insertions(+), 21 deletions(-)
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTIwOTEyNTI0OC41ODQ5
+LTEtdGh1dGhAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
+ci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5FVFdP
+Uks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9MTQg
+TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTdWJtb2R1bGUgJ2R0YycgKGh0dHBz
+Oi8vZ2l0LnFlbXUub3JnL2dpdC9kdGMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdkdGMnCkNs
+b25pbmcgaW50byAnZHRjJy4uLgpyZW1vdGU6IENvdW50aW5nIG9iamVjdHM6IDUyODAsIGRvbmUu
+ICAgICAgICAKZXJyb3I6IFJQQyBmYWlsZWQ7IHJlc3VsdD0xOCwgSFRUUCBjb2RlID0gMjAwCmZh
+dGFsOiBUaGUgcmVtb3RlIGVuZCBodW5nIHVwIHVuZXhwZWN0ZWRseQpmYXRhbDogcHJvdG9jb2wg
+ZXJyb3I6IGJhZCBwYWNrIGhlYWRlcgpDbG9uZSBvZiAnaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0
+L2R0Yy5naXQnIGludG8gc3VibW9kdWxlIHBhdGggJ2R0YycgZmFpbGVkCmZhaWxlZCB0byB1cGRh
+dGUgc3VibW9kdWxlIGR0YwpTdWJtb2R1bGUgJ2R0YycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dp
+dC9kdGMuZ2l0KSB1bnJlZ2lzdGVyZWQgZm9yIHBhdGggJ2R0YycKbWFrZVsxXTogKioqIFsvdmFy
+L3RtcC9wYXRjaGV3LXRlc3Rlci10bXAteF9mbnFjbzEvc3JjL2RvY2tlci1zcmMuMjAxOS0xMi0w
+OS0xMy4xMy41NC4xMzk2NF0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zh
+ci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXhfZm5xY28xL3NyYycKbWFrZTogKioqIFtkb2NrZXIt
+cnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICA0bTQ4LjUwN3MKdXNlciAg
+ICAwbTIuNDU3cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
+b3JnL2xvZ3MvMjAxOTEyMDkxMjUyNDguNTg0OS0xLXRodXRoQHJlZGhhdC5jb20vdGVzdGluZy5k
+b2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
+dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
+ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
