@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D8C11740C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:22:59 +0100 (CET)
-Received: from localhost ([::1]:44352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AA51173EF
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:19:00 +0100 (CET)
+Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieNgP-00067V-NU
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:22:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34371)
+	id 1ieNcZ-0008Uq-NB
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:18:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNa9-0006U8-Mw
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:30 -0500
+ id 1ieNaB-0006Wn-OJ
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNa8-00074R-Mr
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:29 -0500
+ id 1ieNaA-00075r-NX
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:31 -0500
 Received: from esa3.hgst.iphmx.com ([216.71.153.141]:57632)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNa8-00073h-Dk; Mon, 09 Dec 2019 13:16:28 -0500
+ id 1ieNaA-00073h-Fb; Mon, 09 Dec 2019 13:16:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1575915388; x=1607451388;
+ t=1575915390; x=1607451390;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Dys0PWzpucJXCLJWA35Bq97629MmvwsOaIFCuZq7/+E=;
- b=NMX+qKevn/KSjzpQXyhT4yyf3D6pLvGA3M2T3DaOZLd5wAwtiwU+DBAU
- uLAomQxrkki1ZjitNQYQgCaJhiI3K/3yXub22F8J9oKJanEgEvhFqqW1Q
- if+Vk457INnYMvjm/g/ttEwVGti4/XKXmgzGBMGIabC1tLciUUv3Yc7mX
- 3AxI7+o7bn4dJNK6nsWFrTPwEIbU+k8y/zH/N/MqGJSNwA+KWR94cyO8u
- 09q2tAqZkvB+m/8jusmRGDHW4ba7hci/wLgWmAAqfAh2DJReg/wwrU2gB
- 2OmcvZ6RGhOzV4cxYPwUjJ5THs8LF13X+CRoQmq3KSN+SkUkrHHUXqRoX w==;
-IronPort-SDR: lS4q1EtRCmAAX1q/1DjASAMcFYzQKhb6pHUF2OT3Zqb3TZjE/7Lt0cVH3E2MTqKFpAVHZXqTUK
- KHgkbcVf8HiOpA1wmdEt6EgI3mVzbO0tZ1KRZgyGh2xjttwo86vddrwTMJIaf+dqTtH1G8Cf/a
- VIpIepMdit14hN1WC7jj0FlUIseVU0XdUT36zMFwKcPFerK+wzmhLknWrhDZIc5WF7GwXxsy4l
- L7Tz5QmwWQvgB5le/+LpayCewFN7MukRHoMIZpsZ2GtiOKNfK9gTYOzzriYYGqUPcOcGRp0GrW
- jXk=
-X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="129370403"
+ bh=eZ4GmpjmK0ndi25FbF/XUvsZz/5T+5wl/pA8my/wzRw=;
+ b=kKpAzn8MM2jWaJhHs+fbAMB9dKuaGJCq3mxjC2TnMx3M+BSaRY3+3Uad
+ jYJF0IZ6Pw/DZAzo6uuvsCi4otkvdJb+R16Wave7N7H4mKBG1ynO7LBxD
+ PkUMan+JijfH74flmhVUvgCRsXv6liAmtNST/8m9IyPzN6ldP5dWfqJIy
+ lJR8hPUxKw6BWvLS9oWeldxBamWm9iHsXan+/39HsPt2XRe/3yb/LzCqM
+ lBLwjXQJgge7mPe0iRhAn2RVsy04qeoOmgWrTdJ9BrDW5GDkONv9rUGAH
+ EhqWtqvIASbjt/AF4DWeTDZIfKCvzQW2QLH1VuOhYc8Sb5l/gaQVRaohG Q==;
+IronPort-SDR: OBs0RUQfunrWkWIXrzKERZk/fjr7at1ewSK54plXENsmGzcW5PW5p42Gx4x3K3UoeOeTLrCOF7
+ JktsMy+dQrRo+m+fKjaWMxmRu1JMjIiaFS5ntmNrl0KLDYNwxGHvb3ty+4FeMYSSB3P6d157St
+ udRTRGc7O/Di/QlILfYZUxvN32Z97PPd4dRCFGmo7L3l9Jam6CuiOr1V587RPqQuNEEylddcFU
+ cYzx9JJJsyIK7K2Kmi2M6bkpci508on8DBgKEvnGtHfvUKCbAL4VYTaXAhn5yzt1KGN+Qp2koN
+ Paw=
+X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="129370408"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:16:27 +0800
-IronPort-SDR: 6fNXwaX2de/01TFmzEzZmWBAKneFQxGPGCHXJZK1/fON937WN2nXaZX9NXQVNZcAEMqUAsJ1Ba
- 0AJR2+tjh4LTXZQBTXUfH5Q5Nv6l7yvddWMZKZ+kMtzKFZZ6PmYDJ4uDlNySUo0kRZYQBi6n01
- o9l2I85FjJ/UUGXHXOp86spm7SZhzeb3MMzRwgrsH8F3F9HIH7ztJTnLyw0Dgjd3OdDN99m/+K
- vy58uuoRNdYpQwQVRVZKGEucVYaWH9bNKIIwmDvT3NoxEAqrQoG+wRjWa9uASJjQd6NRQRnPtf
- 2MYl4odTjUshgz4DidHRulBr
+ by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:16:30 +0800
+IronPort-SDR: OE+ts604FoKWxfFugpaJUAEo6RC7Z2ZJBsxqE8wRmtNL9XMBWFdOoJP3eBSZcXrfx3H1v3sPO8
+ 2hutSIhAUIj0AceDIhhHMhke1MXMoOv3eCxmBKXOkkEgfROa9tBjdbTFtnP1Z1OiUuSFvnTPpq
+ OkuLfols19kyWjXAwfdX1PNnWNJWI5Pg+oTJySn5VAi1kpbBTwxRGs+J+QlLicXXZZm4oviLfY
+ 1yHJhOG2Y78UPW2ZeCHxpJZai0weLU+rspasLlOPJJys2BvVCgZJ3wm1s5Tc1/Ae/StOVSh6h5
+ 4AcDEuuCuw8leCqVaSMO/vsb
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2019 10:10:43 -0800
-IronPort-SDR: 4b6YO3UXNRUxpvvnxQGgMNqQaBHE/hb+43abs8WjXehAAvpL1fYfe9iqBGF7A+ZtQGf+9SK2xU
- 2y9iylsqLvexEI3TzK0XWdc24RJZIEOzt4WwSgJBpjg4DfeEapXoF8yAzZ2B68D5eDmAmNzDz1
- vkaK24qBCPPcpxTvofsy9IDOHZRs7e7b13YPr7Yz+Wq2+phZDeTdMoF7JMJbI3cRLWQEod7RQU
- 2tf/vCR5kYX1CPaWzDiIUxTxjiEc+5Un62o4vm6S/fmcp0XsHwZRqWnbNARB3IWFGu8qLLYvYj
- 1PA=
+ 09 Dec 2019 10:10:46 -0800
+IronPort-SDR: sDtIlTbk+iY7m3S/zqRBW2DRxC0hKC2VcJeIK/W+Qq9mk9A8P3WLcohlgDdioWxkDha1vOVh1u
+ z9xP7LQ0XigHMdCLUITBhGQG2Tg9ICY3iNt5G1pmyndFC9GOk6ITIuo+8o8A+r4ybgHm4by52r
+ WPyOHxqb9lgzPQzsz1IU0mT1k9MyjvkHLFk6uJD0gw6Os5PFATCMtUsY2T2c+BAnKhCTStLJDp
+ IC3SqKtQlQTd8OSrVUelfsoOGgJ+ZIIZOt0KgCHIqY75KIKhzVLLYiz4LG6ZaKLwzdG3vHruxo
+ NFM=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2019 10:16:28 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2019 10:16:30 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 02/36] target/riscv: Don't set write permissions on dirty
- PTEs
-Date: Mon,  9 Dec 2019 10:10:45 -0800
-Message-Id: <6a38e1a02e9a3d38fc311809772a152f0d99fd7a.1575914822.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 03/36] target/riscv: Add the Hypervisor extension
+Date: Mon,  9 Dec 2019 10:10:48 -0800
+Message-Id: <a61a1739c01c587a5e65a93398317ae644426aff.1575914822.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <cover.1575914822.git.alistair.francis@wdc.com>
 References: <cover.1575914822.git.alistair.francis@wdc.com>
@@ -89,34 +88,25 @@ Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting write permission on dirty PTEs results in userspace inside a
-Hypervisor guest (VU) becoming corrupted. This appears to be because it
-ends up with write permission in the second stage translation in cases
-where we aren't doing a store.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_helper.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/riscv/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 767c8762ac..0de3a468eb 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -344,10 +344,8 @@ restart:
-             if ((pte & PTE_X)) {
-                 *prot |= PAGE_EXEC;
-             }
--            /* add write permission on stores or if the page is already dirty,
--               so that we TLB miss on later writes to update the dirty bit */
--            if ((pte & PTE_W) &&
--                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-+            /* add write permission on stores */
-+            if ((pte & PTE_W) && (access_type == MMU_DATA_STORE)) {
-                 *prot |= PAGE_WRITE;
-             }
-             return TRANSLATE_SUCCESS;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index f889427869..91e1c56fc4 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -67,6 +67,7 @@
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
++#define RVH RV('H')
+ 
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
 -- 
 2.24.0
 
