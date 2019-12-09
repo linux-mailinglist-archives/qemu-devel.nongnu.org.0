@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505841173ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:18:41 +0100 (CET)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BF811743D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:31:11 +0100 (CET)
+Received: from localhost ([::1]:44564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieNcF-0007qA-P2
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:18:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34286)
+	id 1ieNoL-0001AW-Sc
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:31:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNZv-0006BF-V3
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:17 -0500
+ (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNac-00077f-DI
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ieNZu-0006vz-Hx
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:15 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35156)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ieNZu-0006vQ-9f
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:14 -0500
-Received: by mail-ot1-x341.google.com with SMTP id o9so13053790ote.2
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 10:16:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=CB1KjF3ZOT0dJgFx5/rOjrc7b02VK8tpDKAvB4NS60E=;
- b=XL8FnAMKMZwOwQm9O83ZMGUERbua4XP7KpF7b68IPgy4PpOcor39bmaEPr54JdXsXW
- eiuuWSKkacCjhcJ2eYKR5EqAhTmFEa4KMq28GwRq6k6ZNq8LsozGlSsULwGBzYr+nHhK
- UPOTE8N8GYg4BLosaTZxuUREb/G7Pl1DWYRHp6TOz+lnrgoYwZunSlLUtGsAIvIa9uTK
- SP+MaBOWlCdbf/7ZLRcbt/O5x0zLsg4LoFWpAJC34D2LTlgvRIPrZ/kmUfDm3UTf7Lup
- uQiXkNG2CVmC9Hyw2MLqenbTAUEJfPp+md/PZ5hF/vpRZ73HKHbANxO2Wb1DYoIPScAB
- KEtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=CB1KjF3ZOT0dJgFx5/rOjrc7b02VK8tpDKAvB4NS60E=;
- b=J8Or8U6N/q2XztH/735mL7c/UVLC2nseuX4q2boRXs4oIWsd5F0TcFwVEvdppcoxZw
- 2Zl7ibMHLPLjYRSSbHVWXmTJfd4nbEbmjBwKLMVqoxUIMWaCYY8/Uek68jst3Mkiu/RE
- tO5DNixC/3aEAXXuQ9wpM5ucnWwZFl88Zod0slnmJo7mn7L51BogsGVXgWRoELoo1nTQ
- P45W65Yppt7X/LEYEDp7Nl9ltJtwYQzg1NtL5vRUqtQnlilqHTaAg06jHcuPXZ139NJ4
- oNhQ6BHbGg5qs7DYy+bAOMyo1scUKuf6WVSVNABZvL43r1uWCa/p6RpzNq+j14Lk8+IQ
- klyg==
-X-Gm-Message-State: APjAAAXZRVlUDx9GFRucSdhy59IYENiXFrzNpSeIIy9LqTORClIacK8/
- tmCTDDG6FBVU17fq5w63Z2aye3JgQ85nVrkJfL4=
-X-Google-Smtp-Source: APXvYqw2tu35+4zamET+3exp6Iq6vHplTOu+7ufm0JC4Dhn/QR5O5NEBVOCvqGiCze0F3dUJwWuRAjtmdmI6ppXzAFQ=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr21692006otk.64.1575915373490; 
- Mon, 09 Dec 2019 10:16:13 -0800 (PST)
+ (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNaa-0007L0-UC
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:16:58 -0500
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:57667)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
+ id 1ieNaa-0007Jf-M3; Mon, 09 Dec 2019 13:16:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1575915416; x=1607451416;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=4H0su8MGdCo0qAyvbF2q3YIaN3niPJWSOwi/vIFwuzE=;
+ b=Ckp6HhVKeuEts+Cjk4yVKo2pu6H0bByIFUziYPzrQh3VzrLlespHWwUg
+ Cw8V6632NPNrQflCZQ8/zFek6IwjQDmGcP+B+TMjCFpiU4H/CYyRGAuwE
+ TDDGI4woeCWh9LW5HTuY/9ddGQ2pdBFq+drt0abgGIGXX+T9YhNYJmNm6
+ YTRFMBlhPfiqtRP451zosTnFlA+2BgtX6MWEoTdY6LpFJ8BdyjfJtUaXq
+ 6LiPGWeE0sFvWxbx42YNy/Y6MxQcVN6G6VfXV3yhbqIWaIicSlRWDTE8R
+ SqDZdVWK5Eupe1ANY0sY2+UfuPRJAcsqwDTEJHOfDBzs3bg3iLRV+9tJ0 w==;
+IronPort-SDR: O+fwkJ3aI0udIk0VkGksnU94SvJMIWUsv3yPYzq71aKgyVx64zYgWLWYqNrvo8nZhQ+1yd7J83
+ KbqXprLqml8cb9gwju1BJr9HEhVOUPBvgh0ClfHCsiduKTUDMZPT7EDPqA8qQZteq8o5Zq6Ydg
+ t/hSNqDe3KZ00g6Rix4tsV9ECRpiPANc75jgEYhQYqhtaE8E0tgdZlvxeSydtcXmFZQ29mEpXF
+ z37ud7RR5FpuvSrJ17Aov1EYkurC4E2Ck5Bwyr3xlxPTPNYymHMDiaIMtjiL9GDq0mAvtcN0F7
+ QDQ=
+X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="129370432"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:16:56 +0800
+IronPort-SDR: 27ap37Q8ddo8sNrdavUwHQE/RP/CPTig/Sv9cJQxvJpzciaZ1L6wwNblsNn2mAkYdPCcbnEJl5
+ mprzpDrfPvaHNWrFSagaXnnfKK3e1eZL3759TymNxz6GTCEomInumYsd1u+RgdKYBy2T8E+Lr4
+ 709uB6u0vMyaNFQoU1QF4Xbw0y9Dim0A0E/JtYjJC5S20adk+1L5GnwXDUhvZsXNopOyzcs5jw
+ y4zyb18YP0x0ZdHpf1v0QHtGLBAlxlR23gGswcGWpdKjuPzToju8vn0SxGbzkITQUm6jC3c9+e
+ wquSxCiVEfmVXxf9zLIged5s
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2019 10:11:34 -0800
+IronPort-SDR: ZfvlB9mWHb6DAy1yE912QfMVFeB431CHmmHclf8rSMH7LIji0eJte0JoBMxgWvtpw0MlSauGzd
+ EMtl6U+i+CWQs4E1ACDjn50JOCEExUh6I57cbZgOJlWnxeQrCIhqu4GrxuNBS8Zix2kISZZ2PF
+ uWG+3c4o6lTAaVVmMtruOaCqBKq4ENfn+U3gAzLEOig8xDa2Ku7jzGiaQb5lTm4SrmYTpFvJKS
+ /fIwZPkPYlCalJJaQtkICGSzRUVviXnbd95Vf9l0rPo4xhe3aeuCfwdR2OhtHWMPhvFx3TfRX7
+ I8k=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+ by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2019 10:16:56 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 13/36] target/riscv: Add Hypervisor virtual CSRs accesses
+Date: Mon,  9 Dec 2019 10:11:14 -0800
+Message-Id: <ddc8b8fcd0a3f9257c1f5be15daef38a456f51e9.1575914822.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <cover.1575914822.git.alistair.francis@wdc.com>
+References: <cover.1575914822.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Mon, 9 Dec 2019 10:16:13 -0800 (PST)
-In-Reply-To: <20191208183922.13757-18-mrolnik@gmail.com>
-References: <20191208183922.13757-1-mrolnik@gmail.com>
- <20191208183922.13757-18-mrolnik@gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 9 Dec 2019 19:16:13 +0100
-Message-ID: <CAL1e-=guE3xT3n2P5j0=UVoVDw8WKqbK02=otf+Pf90Mi8hfmQ@mail.gmail.com>
-Subject: Re: [PATCH v38 17/22] target/avr: Register AVR support with the rest
- of QEMU
-To: Michael Rolnik <mrolnik@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000008754d05994964d0"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 216.71.153.141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,208 +84,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>,
- "me@xcancerberox.com.ar" <me@xcancerberox.com.ar>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000008754d05994964d0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+---
+ target/riscv/csr.c | 116 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 116 insertions(+)
 
-On Sunday, December 8, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index b582d78529..aaca1a6a0f 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -273,6 +273,7 @@ static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
+     SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
+ static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
+ static const target_ulong hip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
++static const target_ulong vsip_writable_mask = MIP_VSSIP;
+ 
+ #if defined(TARGET_RISCV32)
+ static const char valid_vm_1_09[16] = {
+@@ -879,6 +880,111 @@ static int write_hgatp(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++/* Virtual CSR Registers */
++static int read_vsstatus(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vsstatus;
++    return 0;
++}
++
++static int write_vsstatus(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vsstatus = val;
++    return 0;
++}
++
++static int rmw_vsip(CPURISCVState *env, int csrno, target_ulong *ret_value,
++                    target_ulong new_value, target_ulong write_mask)
++{
++    int ret = rmw_mip(env, 0, ret_value, new_value,
++                      write_mask & env->mideleg & vsip_writable_mask);
++    return ret;
++}
++
++static int read_vsie(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->mie & env->mideleg & VS_MODE_INTERRUPTS;
++    return 0;
++}
++
++static int write_vsie(CPURISCVState *env, int csrno, target_ulong val)
++{
++    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg & MIP_VSSIP);
++    return write_mie(env, CSR_MIE, newval);
++}
++
++static int read_vstvec(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vstvec;
++    return 0;
++}
++
++static int write_vstvec(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vstvec = val;
++    return 0;
++}
++
++static int read_vsscratch(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vsscratch;
++    return 0;
++}
++
++static int write_vsscratch(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vsscratch = val;
++    return 0;
++}
++
++static int read_vsepc(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vsepc;
++    return 0;
++}
++
++static int write_vsepc(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vsepc = val;
++    return 0;
++}
++
++static int read_vscause(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vscause;
++    return 0;
++}
++
++static int write_vscause(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vscause = val;
++    return 0;
++}
++
++static int read_vstval(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vstval;
++    return 0;
++}
++
++static int write_vstval(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vstval = val;
++    return 0;
++}
++
++static int read_vsatp(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    *val = env->vsatp;
++    return 0;
++}
++
++static int write_vsatp(CPURISCVState *env, int csrno, target_ulong val)
++{
++    env->vsatp = val;
++    return 0;
++}
++
+ /* Physical Memory Protection */
+ static int read_pmpcfg(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+@@ -1092,6 +1198,16 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_HTINST] =              { hmode,   read_htinst,      write_htinst     },
+     [CSR_HGATP] =               { hmode,   read_hgatp,       write_hgatp      },
+ 
++    [CSR_VSSTATUS] =            { hmode,   read_vsstatus,    write_vsstatus   },
++    [CSR_VSIP] =                { hmode,   NULL,     NULL,     rmw_vsip       },
++    [CSR_VSIE] =                { hmode,   read_vsie,        write_vsie       },
++    [CSR_VSTVEC] =              { hmode,   read_vstvec,      write_vstvec     },
++    [CSR_VSSCRATCH] =           { hmode,   read_vsscratch,   write_vsscratch  },
++    [CSR_VSEPC] =               { hmode,   read_vsepc,       write_vsepc      },
++    [CSR_VSCAUSE] =             { hmode,   read_vscause,     write_vscause    },
++    [CSR_VSTVAL] =              { hmode,   read_vstval,      write_vstval     },
++    [CSR_VSATP] =               { hmode,   read_vsatp,       write_vsatp      },
++
+     /* Physical Memory Protection */
+     [CSR_PMPCFG0  ... CSR_PMPADDR9] =  { pmp,   read_pmpcfg,  write_pmpcfg   },
+     [CSR_PMPADDR0 ... CSR_PMPADDR15] = { pmp,   read_pmpaddr, write_pmpaddr  },
+-- 
+2.24.0
 
-> Add AVR related definitions into QEMU
->
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->  qapi/machine.json          | 3 ++-
->  include/disas/dis-asm.h    | 6 ++++++
->  include/sysemu/arch_init.h | 1 +
->  arch_init.c                | 2 ++
->  4 files changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index ca26779f1a..8c6df54921 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -21,11 +21,12 @@
->  #        is true even for "qemu-system-x86_64".
->  #
->  # ppcemb: dropped in 3.1
-> +# avr: since 5.0
->  #
->  # Since: 3.0
->  ##
->  { 'enum' : 'SysEmuTarget',
-> -  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-> +  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
-> 'lm32',
-
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
->               'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
->               'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-> index e9c7dd8eb4..8bedce17ac 100644
-> --- a/include/disas/dis-asm.h
-> +++ b/include/disas/dis-asm.h
-> @@ -211,6 +211,12 @@ enum bfd_architecture
->  #define bfd_mach_m32r          0  /* backwards compatibility */
->    bfd_arch_mn10200,    /* Matsushita MN10200 */
->    bfd_arch_mn10300,    /* Matsushita MN10300 */
-> +  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
-> +#define bfd_mach_avr1          1
-> +#define bfd_mach_avr2          2
-> +#define bfd_mach_avr3          3
-> +#define bfd_mach_avr4          4
-> +#define bfd_mach_avr5          5
-
-
-Incomplete list. I already explained why in reply to v37.
-
-
-
->    bfd_arch_cris,       /* Axis CRIS */
->  #define bfd_mach_cris_v0_v10   255
->  #define bfd_mach_cris_v32      32
-> diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-> index 62c6fe4cf1..893df26ce2 100644
-> --- a/include/sysemu/arch_init.h
-> +++ b/include/sysemu/arch_init.h
-> @@ -24,6 +24,7 @@ enum {
->      QEMU_ARCH_NIOS2 =3D (1 << 17),
->      QEMU_ARCH_HPPA =3D (1 << 18),
->      QEMU_ARCH_RISCV =3D (1 << 19),
-> +    QEMU_ARCH_AVR =3D (1 << 20),
->  };
->
->  extern const uint32_t arch_type;
-> diff --git a/arch_init.c b/arch_init.c
-> index 705d0b94ad..6a741165b2 100644
-> --- a/arch_init.c
-> +++ b/arch_init.c
-> @@ -89,6 +89,8 @@ int graphic_depth =3D 32;
->  #define QEMU_ARCH QEMU_ARCH_UNICORE32
->  #elif defined(TARGET_XTENSA)
->  #define QEMU_ARCH QEMU_ARCH_XTENSA
-> +#elif defined(TARGET_AVR)
-> +#define QEMU_ARCH QEMU_ARCH_AVR
->  #endif
->
->  const uint32_t arch_type =3D QEMU_ARCH;
-> --
-> 2.17.2 (Apple Git-113)
->
->
-
---00000000000008754d05994964d0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Sunday, December 8, 2019, Michael Rolnik &lt;<a href=3D"mailto:m=
-rolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">Add AVR related definitions into QEMU<br>
-<br>
-Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com">mrol=
-nik@gmail.com</a>&gt;<br>
-Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
-com">philmd@redhat.com</a>&gt;<br>
-Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.c=
-om">amarkovic@wavecomp.com</a>&gt;<br>
----<br>
-=C2=A0qapi/machine.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 ++-<br>
-=C2=A0include/disas/dis-asm.h=C2=A0 =C2=A0 | 6 ++++++<br>
-=C2=A0include/sysemu/arch_init.h | 1 +<br>
-=C2=A0arch_init.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
-2 ++<br>
-=C2=A04 files changed, 11 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/qapi/machine.json b/qapi/machine.json<br>
-index ca26779f1a..8c6df54921 100644<br>
---- a/qapi/machine.json<br>
-+++ b/qapi/machine.json<br>
-@@ -21,11 +21,12 @@<br>
-=C2=A0#=C2=A0 =C2=A0 =C2=A0 =C2=A0 is true even for &quot;qemu-system-x86_6=
-4&quot;.<br>
-=C2=A0#<br>
-=C2=A0# ppcemb: dropped in 3.1<br>
-+# avr: since 5.0<br>
-=C2=A0#<br>
-=C2=A0# Since: 3.0<br>
-=C2=A0##<br>
-=C2=A0{ &#39;enum&#39; : &#39;SysEmuTarget&#39;,<br>
--=C2=A0 &#39;data&#39; : [ &#39;aarch64&#39;, &#39;alpha&#39;, &#39;arm&#39=
-;, &#39;cris&#39;, &#39;hppa&#39;, &#39;i386&#39;, &#39;lm32&#39;,<br>
-+=C2=A0 &#39;data&#39; : [ &#39;aarch64&#39;, &#39;alpha&#39;, &#39;arm&#39=
-;, &#39;avr&#39;, &#39;cris&#39;, &#39;hppa&#39;, &#39;i386&#39;, &#39;lm32=
-&#39;,</blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;m68k&#39;, &#39;micro=
-blaze&#39;, &#39;microblazeel&#39;, &#39;mips&#39;, &#39;mips64&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;mips64el&#39;, &#39;m=
-ipsel&#39;, &#39;moxie&#39;, &#39;nios2&#39;, &#39;or1k&#39;, &#39;ppc&#39;=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;ppc64&#39;, &#39;risc=
-v32&#39;, &#39;riscv64&#39;, &#39;s390x&#39;, &#39;sh4&#39;,<br>
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h<br>
-index e9c7dd8eb4..8bedce17ac 100644<br>
---- a/include/disas/dis-asm.h<br>
-+++ b/include/disas/dis-asm.h<br>
-@@ -211,6 +211,12 @@ enum bfd_architecture<br>
-=C2=A0#define bfd_mach_m32r=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0=C2=A0 /* ba=
-ckwards compatibility */<br>
-=C2=A0 =C2=A0bfd_arch_mn10200,=C2=A0 =C2=A0 /* Matsushita MN10200 */<br>
-=C2=A0 =C2=A0bfd_arch_mn10300,=C2=A0 =C2=A0 /* Matsushita MN10300 */<br>
-+=C2=A0 bfd_arch_avr,=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Atmel AVR microcontrolle=
-rs.=C2=A0 */<br>
-+#define bfd_mach_avr1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1<br>
-+#define bfd_mach_avr2=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2<br>
-+#define bfd_mach_avr3=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 3<br>
-+#define bfd_mach_avr4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4<br>
-+#define bfd_mach_avr5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 5</blockquote><div=
-><br></div><div>Incomplete list. I already explained why in reply to v37.</=
-div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-=C2=A0 =C2=A0bfd_arch_cris,=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Axis CRIS */<br>
-=C2=A0#define bfd_mach_cris_v0_v10=C2=A0 =C2=A0255<br>
-=C2=A0#define bfd_mach_cris_v32=C2=A0 =C2=A0 =C2=A0 32<br>
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h<br>
-index 62c6fe4cf1..893df26ce2 100644<br>
---- a/include/sysemu/arch_init.h<br>
-+++ b/include/sysemu/arch_init.h<br>
-@@ -24,6 +24,7 @@ enum {<br>
-=C2=A0 =C2=A0 =C2=A0QEMU_ARCH_NIOS2 =3D (1 &lt;&lt; 17),<br>
-=C2=A0 =C2=A0 =C2=A0QEMU_ARCH_HPPA =3D (1 &lt;&lt; 18),<br>
-=C2=A0 =C2=A0 =C2=A0QEMU_ARCH_RISCV =3D (1 &lt;&lt; 19),<br>
-+=C2=A0 =C2=A0 QEMU_ARCH_AVR =3D (1 &lt;&lt; 20),<br>
-=C2=A0};<br>
-<br>
-=C2=A0extern const uint32_t arch_type;<br>
-diff --git a/arch_init.c b/arch_init.c<br>
-index 705d0b94ad..6a741165b2 100644<br>
---- a/arch_init.c<br>
-+++ b/arch_init.c<br>
-@@ -89,6 +89,8 @@ int graphic_depth =3D 32;<br>
-=C2=A0#define QEMU_ARCH QEMU_ARCH_UNICORE32<br>
-=C2=A0#elif defined(TARGET_XTENSA)<br>
-=C2=A0#define QEMU_ARCH QEMU_ARCH_XTENSA<br>
-+#elif defined(TARGET_AVR)<br>
-+#define QEMU_ARCH QEMU_ARCH_AVR<br>
-=C2=A0#endif<br>
-<br>
-=C2=A0const uint32_t arch_type =3D QEMU_ARCH;<br>
--- <br>
-2.17.2 (Apple Git-113)<br>
-<br>
-</blockquote>
-
---00000000000008754d05994964d0--
 
