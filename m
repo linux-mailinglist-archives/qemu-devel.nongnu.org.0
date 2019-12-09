@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE49116707
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 07:41:35 +0100 (CET)
-Received: from localhost ([::1]:36534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD8E116700
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 07:40:00 +0100 (CET)
+Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieCje-0008O3-2j
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 01:41:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36156)
+	id 1ieCi7-0006VB-79
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 01:39:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1ieCh2-0005LE-3t
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 01:38:53 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1ieCh0-0004cF-QM
+ (envelope-from <guoheyi@huawei.com>) id 1ieCh1-0005Kp-RO
  for qemu-devel@nongnu.org; Mon, 09 Dec 2019 01:38:52 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:60990 helo=huawei.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <guoheyi@huawei.com>) id 1ieCh0-0004cA-PL
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 01:38:51 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:60988 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1ieCgx-0004aL-Pe; Mon, 09 Dec 2019 01:38:48 -0500
+ id 1ieCgx-0004aM-Vu; Mon, 09 Dec 2019 01:38:48 -0500
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id AE692E26B1E13D5F2F62;
+ by Forcepoint Email with ESMTP id A8D9E3A6E32C72004617;
  Mon,  9 Dec 2019 14:38:42 +0800 (CST)
 Received: from linux-XCyijm.huawei.com (10.175.104.212) by
  DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
  14.3.439.0; Mon, 9 Dec 2019 14:38:34 +0800
 From: Heyi Guo <guoheyi@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v6 1/2] hw/arm/acpi: simplify AML bit and/or statement
-Date: Mon, 9 Dec 2019 14:37:18 +0800
-Message-ID: <20191209063719.23086-2-guoheyi@huawei.com>
+Subject: [PATCH v6 2/2] hw/arm/acpi: enable SHPC native hot plug
+Date: Mon, 9 Dec 2019 14:37:19 +0800
+Message-ID: <20191209063719.23086-3-guoheyi@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20191209063719.23086-1-guoheyi@huawei.com>
 References: <20191209063719.23086-1-guoheyi@huawei.com>
@@ -60,9 +60,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The last argument of AML bit and/or statement is the target variable,
-so we don't need to use a NULL target and then an additional store
-operation; using just aml_and() or aml_or() statement is enough.
+After the introduction of generic PCIe root port and PCIe-PCI bridge,
+we will also have SHPC controller on ARM, so just enable SHPC native
+hot plug.
 
 Also update tests/data/acpi/virt/DSDT* to pass "make check".
 
@@ -70,105 +70,66 @@ Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 ---
- hw/arm/virt-acpi-build.c          |  16 ++++++++--------
- tests/data/acpi/virt/DSDT         | Bin 18470 -> 18462 bytes
- tests/data/acpi/virt/DSDT.memhp   | Bin 19807 -> 19799 bytes
- tests/data/acpi/virt/DSDT.numamem | Bin 18470 -> 18462 bytes
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ hw/arm/virt-acpi-build.c          |   7 ++++++-
+ tests/data/acpi/virt/DSDT         | Bin 18462 -> 18462 bytes
+ tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 19799 bytes
+ tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 18462 bytes
+ 4 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 4cd50175e0..51b293e0a1 100644
+index 51b293e0a1..bd5f771e9b 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -267,17 +267,17 @@ static void acpi_dsdt_add_pci(Aml *scope, const Mem=
-MapEntry *memmap,
+@@ -267,7 +267,12 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemM=
+apEntry *memmap,
          aml_create_dword_field(aml_arg(3), aml_int(8), "CDW3"));
      aml_append(ifctx, aml_store(aml_name("CDW2"), aml_name("SUPP")));
      aml_append(ifctx, aml_store(aml_name("CDW3"), aml_name("CTRL")));
--    aml_append(ifctx, aml_store(aml_and(aml_name("CTRL"), aml_int(0x1D),=
- NULL),
--                                aml_name("CTRL")));
-+    aml_append(ifctx, aml_and(aml_name("CTRL"), aml_int(0x1D),
-+                              aml_name("CTRL")));
+-    aml_append(ifctx, aml_and(aml_name("CTRL"), aml_int(0x1D),
++
++    /*
++     * Allow OS control for all 5 features:
++     * PCIeHotplug SHPCHotplug PME AER PCIeCapability.
++     */
++    aml_append(ifctx, aml_and(aml_name("CTRL"), aml_int(0x1F),
+                               aml_name("CTRL")));
 =20
      ifctx1 =3D aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(0x1))));
--    aml_append(ifctx1, aml_store(aml_or(aml_name("CDW1"), aml_int(0x08),=
- NULL),
--                                 aml_name("CDW1")));
-+    aml_append(ifctx1, aml_or(aml_name("CDW1"), aml_int(0x08),
-+                              aml_name("CDW1")));
-     aml_append(ifctx, ifctx1);
-=20
-     ifctx1 =3D aml_if(aml_lnot(aml_equal(aml_name("CDW3"), aml_name("CTR=
-L"))));
--    aml_append(ifctx1, aml_store(aml_or(aml_name("CDW1"), aml_int(0x10),=
- NULL),
--                                 aml_name("CDW1")));
-+    aml_append(ifctx1, aml_or(aml_name("CDW1"), aml_int(0x10),
-+                              aml_name("CDW1")));
-     aml_append(ifctx, ifctx1);
-=20
-     aml_append(ifctx, aml_store(aml_name("CTRL"), aml_name("CDW3")));
-@@ -285,8 +285,8 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
-pEntry *memmap,
-     aml_append(method, ifctx);
-=20
-     elsectx =3D aml_else();
--    aml_append(elsectx, aml_store(aml_or(aml_name("CDW1"), aml_int(4), N=
-ULL),
--                                  aml_name("CDW1")));
-+    aml_append(elsectx, aml_or(aml_name("CDW1"), aml_int(4),
-+                               aml_name("CDW1")));
-     aml_append(elsectx, aml_return(aml_arg(3)));
-     aml_append(method, elsectx);
-     aml_append(dev, method);
 diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
-index bce76e3d23e99e6c5ef64c94c770282dd30ecdd0..05bcfc8a912f58f266aa90656=
-3ea01c24906717e 100644
+index 05bcfc8a912f58f266aa906563ea01c24906717e..d0f3afeb134fdf1c11f64cd06=
+dbcdd30be603b80 100644
 GIT binary patch
-delta 133
-zcmZ2BfpOjhMlP3Nmk>D*1_q|2iCof5o%I{lJ2{y;?{412x!p#<jWgaq*qNm(o59&7
-z+;D-%<VrV7_iE>mARjJS5V=3D5L(&S9WT970c2Uv;Nq{%?q7$gZ1761tsfcPNsCD{x4
-MAmS{W8QoPG0j8@bzW@LL
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q{tja=3D*8809zbbW3Ff0C~9xM*si-
 
-delta 141
-zcmbO?fpOUcMlP3Nmk>1%1_q`n6S<_B8XGpMcXBc{-rKy1bGwazA7{LOuro_nHiNTE
-zxZwi7$(3%F{sq;}AwfP|vJ4<<fzYJMnT!RsAbBnhh%$*ulYv}gkTg_604z}e5&_99
-R$zCV`m0@An{L@X95dZ+BD!u>!
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q|2ja=3D*87-cu_bW3Ff0C~j-M*si-
 
 diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.=
 memhp
-index b4b153fcdc30d211237fced6be1e99d3500bd276..c041a910fdf272cb89263bb63=
-6239ae3a5e1708d 100644
+index c041a910fdf272cb89263bb636239ae3a5e1708d..41ccc6431b917252bcbaac86c=
+33b340c796be5ce 100644
 GIT binary patch
-delta 132
-zcmcaVi}Cs_MlP3NmymE@1_ma@iCof*O&is^IGH-{Zr;SX-A2HTGu}VgnWZb6!PzC;
-zaDm6<N;gaQYUhw3A1+xCxj<mj<V?m|kR%reSc%xA$w1l|Bnc4~00|d>_#p8m*$ep~
-L;w+mP-Q(B*s{AMU
+delta 28
+kcmcaUi}Cs_MlP3NmymE@1_mbija=3D*8809zbbeqQp0Eq|*2mk;8
 
-delta 140
-zcmcaUi}C&}MlP3Nmymd01_maViCof*T^rT9IGGynZQjJW-A2HVGu}VgnWZb6!PzC;
-zaDm_CN;gaYf@<fGARjJS1`xGCXwu|N#)4XqJQoK<nZ%^YK&~-J8Y&?GmM8#;fMk|r
-QFBE{vurO@?=3D@!QZ00dYn_y7O^
+delta 28
+kcmcaUi}Cs_MlP3NmymE@1_ma@ja=3D*87-cu_beqQp0ErX{2mk;8
 
 diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSD=
 T.numamem
-index bce76e3d23e99e6c5ef64c94c770282dd30ecdd0..05bcfc8a912f58f266aa90656=
-3ea01c24906717e 100644
+index 05bcfc8a912f58f266aa906563ea01c24906717e..d0f3afeb134fdf1c11f64cd06=
+dbcdd30be603b80 100644
 GIT binary patch
-delta 133
-zcmZ2BfpOjhMlP3Nmk>D*1_q|2iCof5o%I{lJ2{y;?{412x!p#<jWgaq*qNm(o59&7
-z+;D-%<VrV7_iE>mARjJS5V=3D5L(&S9WT970c2Uv;Nq{%?q7$gZ1761tsfcPNsCD{x4
-MAmS{W8QoPG0j8@bzW@LL
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q{tja=3D*8809zbbW3Ff0C~9xM*si-
 
-delta 141
-zcmbO?fpOUcMlP3Nmk>1%1_q`n6S<_B8XGpMcXBc{-rKy1bGwazA7{LOuro_nHiNTE
-zxZwi7$(3%F{sq;}AwfP|vJ4<<fzYJMnT!RsAbBnhh%$*ulYv}gkTg_604z}e5&_99
-R$zCV`m0@An{L@X95dZ+BD!u>!
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q|2ja=3D*87-cu_bW3Ff0C~j-M*si-
 
 --=20
 2.19.1
