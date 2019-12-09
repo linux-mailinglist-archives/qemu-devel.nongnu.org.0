@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D4E116DB5
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:11:28 +0100 (CET)
-Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CA3116DC2
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 14:14:18 +0100 (CET)
+Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieIox-0008CX-H5
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:11:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44963)
+	id 1ieIrh-0003XS-RF
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 08:14:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ieImd-0006Lo-1o
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:04 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ieImg-0006OC-OE
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ieImb-0006Jj-Hy
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:02 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51325
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1ieImf-0006No-43
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34575
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieImb-0006Gf-Db
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:01 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ieIme-0006Mi-W2
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 08:09:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575896940;
+ s=mimecast20190719; t=1575896944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cioeW4SSr09ObvzRXUyDz1xqJxs21g3MnA23WRs94Qw=;
- b=H7aW2AgPkUvx/f81ki6qHP8dUvkDdgP/7AnqnWXZl1uL6eUH+wlJ3JGc0YtUzz/FyOkq3v
- lJHZswdtCE8TSgkV6SrZtwjutmcQj4eOs5nngaFKAiV/uVzv38JMkSMJqLCqW3YWJmWtYV
- 8Ua+RHbdCi8geBeUqElBNqllKakSegc=
+ bh=Qlqu3alGMc4CJDsJ3LVLvIl3Av6Wwz2J4VOluHST5Jg=;
+ b=EfRWQGmL6/R302qDj/F1pWAecCFfVddw206WYaybMYNyDLTEGlisj3HdTCl6DU6p78Uoex
+ OOe9vY/q1eelr+MiwiSwwiSvIKDviTrh9YpR21ydvnu7FqqHMQMhXE2x0e/x2WajkQkOS6
+ jcqpxs46XNMDVdseebI5mE07XdrK+L0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-k8nQjiTnOnaPWTasmCgw9g-1; Mon, 09 Dec 2019 08:08:59 -0500
+ us-mta-45-Bl9WAdN-Mc-Ecx6ghC2EOQ-1; Mon, 09 Dec 2019 08:09:02 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4175E1005502
- for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:08:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E832764A7F
+ for <qemu-devel@nongnu.org>; Mon,  9 Dec 2019 13:09:01 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B8125D9D6;
- Mon,  9 Dec 2019 13:08:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 896DE5D9D6;
+ Mon,  9 Dec 2019 13:08:58 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 v2 1/9] hw: add compat machines for 5.0
-Date: Mon,  9 Dec 2019 14:08:54 +0100
-Message-Id: <1575896942-331151-2-git-send-email-imammedo@redhat.com>
+Subject: [PATCH for-5.0 v2 2/9] q35: implement 128K SMRAM at default SMBASE
+ address
+Date: Mon,  9 Dec 2019 14:08:55 +0100
+Message-Id: <1575896942-331151-3-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
 References: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: k8nQjiTnOnaPWTasmCgw9g-1
+X-MC-Unique: Bl9WAdN-Mc-Ecx6ghC2EOQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,236 +75,257 @@ Cc: pbonzini@redhat.com, philmd@redhat.com, lersek@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+It's not what real HW does, implementing which would be overkill [**]
+and would require complex cross stack changes (QEMU+firmware) to make
+it work.
+So considering that SMRAM is owned by MCH, for simplicity (ab)use
+reserved Q35 register, which allows QEMU and firmware easily init
+and make RAM at SMBASE available only from SMM context.
 
-Add 5.0 machine types for arm/i440fx/q35/s390x/spapr.
+Patch uses commit (2f295167e0 q35/mch: implement extended TSEG sizes)
+for inspiration and uses reserved register in config space at 0x9c
+offset [*] to extend q35 pci-host with ability to use 128K at
+0x30000 as SMRAM and hide it (like TSEG) from non-SMM context.
 
-For i440fx and q35, unversioned cpu models are still translated
-to -v1; I'll leave changing this (if desired) to the respective
-maintainers.
+Usage:
+  1: write 0xff in the register
+  2: if the feature is supported, follow up read from the register
+     should return 0x01. At this point RAM at 0x30000 is still
+     available for SMI handler configuration from non-SMM context
+  3: writing 0x02 in the register, locks SMBASE area, making its contents
+     available only from SMM context. In non-SMM context, reads return
+     0xff and writes are ignored. Further writes into the register are
+     ignored until the system reset.
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+*) https://www.mail-archive.com/qemu-devel@nongnu.org/msg455991.html
+**) https://www.mail-archive.com/qemu-devel@nongnu.org/msg646965.html
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- hw/arm/virt.c              |  7 ++++++-
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 15 +++++++++++++--
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- 9 files changed, 69 insertions(+), 6 deletions(-)
+V2:
+  - add a note in commit message/coed that used approach is QEMU hack
+    to make impl. simple instead of going after VT-d approach
+    which real HW does.
+    (Paolo Bonzini <pbonzini@redhat.com>)
+  - rebase on top of (hw: add compat machines for 5.0), and move
+    compat property smbase-smram to pc_compat_4_2[]
+    ("Laszlo Ersek" <lersek@redhat.com>)
+---
+ include/hw/pci-host/q35.h | 10 ++++++
+ hw/i386/pc.c              |  4 ++-
+ hw/pci-host/q35.c         | 84 +++++++++++++++++++++++++++++++++++++++++++=
+----
+ 3 files changed, 90 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index de45087..24cbeec 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -329,6 +329,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
+diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
+index b3bcf2e..976fbae 100644
+--- a/include/hw/pci-host/q35.h
++++ b/include/hw/pci-host/q35.h
+@@ -32,6 +32,7 @@
+ #include "hw/acpi/ich9.h"
+ #include "hw/pci-host/pam.h"
+ #include "hw/i386/intel_iommu.h"
++#include "qemu/units.h"
 =20
-+extern GlobalProperty hw_compat_4_2[];
-+extern const size_t hw_compat_4_2_len;
+ #define TYPE_Q35_HOST_DEVICE "q35-pcihost"
+ #define Q35_HOST_DEVICE(obj) \
+@@ -54,6 +55,8 @@ typedef struct MCHPCIState {
+     MemoryRegion smram_region, open_high_smram;
+     MemoryRegion smram, low_smram, high_smram;
+     MemoryRegion tseg_blackhole, tseg_window;
++    MemoryRegion smbase_blackhole, smbase_window;
++    bool has_smram_at_smbase;
+     Range pci_hole;
+     uint64_t below_4g_mem_size;
+     uint64_t above_4g_mem_size;
+@@ -97,6 +100,13 @@ typedef struct Q35PCIHost {
+ #define MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_QUERY  0xffff
+ #define MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_MAX    0xfff
+=20
++#define MCH_HOST_BRIDGE_SMBASE_SIZE            (128 * KiB)
++#define MCH_HOST_BRIDGE_SMBASE_ADDR            0x30000
++#define MCH_HOST_BRIDGE_F_SMBASE               0x9c
++#define MCH_HOST_BRIDGE_F_SMBASE_QUERY         0xff
++#define MCH_HOST_BRIDGE_F_SMBASE_IN_RAM        0x01
++#define MCH_HOST_BRIDGE_F_SMBASE_LCK           0x02
 +
- extern GlobalProperty hw_compat_4_1[];
- extern const size_t hw_compat_4_1_len;
-=20
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 1f86eba..61a998d 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -237,6 +237,9 @@ void pc_system_firmware_init(PCMachineState *pcms, Memo=
-ryRegion *rom_memory);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
-=20
-+extern GlobalProperty pc_compat_4_2[];
-+extern const size_t pc_compat_4_2_len;
-+
- extern GlobalProperty pc_compat_4_1[];
- extern const size_t pc_compat_4_1_len;
-=20
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index d4bedc2..02f654b 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2147,10 +2147,15 @@ static void machvirt_machine_init(void)
- }
- type_init(machvirt_machine_init);
-=20
-+static void virt_machine_5_0_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
-+
- static void virt_machine_4_2_options(MachineClass *mc)
- {
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(4, 2)
-+DEFINE_VIRT_MACHINE(4, 2)
-=20
- static void virt_machine_4_1_options(MachineClass *mc)
- {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3..21fe2d9 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -27,6 +27,9 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
-=20
-+GlobalProperty hw_compat_4_2[] =3D {};
-+const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
-+
- GlobalProperty hw_compat_4_1[] =3D {
-     { "virtio-pci", "x-pcie-flr-init", "off" },
- };
+ #define MCH_HOST_BRIDGE_PCIEXBAR               0x60    /* 64bit register *=
+/
+ #define MCH_HOST_BRIDGE_PCIEXBAR_SIZE          8       /* 64bit register *=
+/
+ #define MCH_HOST_BRIDGE_PCIEXBAR_DEFAULT       0xb0000000
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index ac08e63..58867f9 100644
+index 58867f9..ff4d583 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -103,6 +103,9 @@
+@@ -103,7 +103,9 @@
 =20
  struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_MAX};
 =20
-+GlobalProperty pc_compat_4_2[] =3D {};
-+const size_t pc_compat_4_2_len =3D G_N_ELEMENTS(pc_compat_4_2);
-+
+-GlobalProperty pc_compat_4_2[] =3D {};
++GlobalProperty pc_compat_4_2[] =3D {
++    { "mch", "smbase-smram", "off" },
++};
+ const size_t pc_compat_4_2_len =3D G_N_ELEMENTS(pc_compat_4_2);
+=20
  GlobalProperty pc_compat_4_1[] =3D {};
- const size_t pc_compat_4_1_len =3D G_N_ELEMENTS(pc_compat_4_1);
-=20
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1bd70d1..846e70b 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -424,7 +424,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
- }
-=20
--static void pc_i440fx_4_2_machine_options(MachineClass *m)
-+static void pc_i440fx_5_0_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -433,6 +433,18 @@ static void pc_i440fx_4_2_machine_options(MachineClass=
- *m)
-     pcmc->default_cpu_version =3D 1;
- }
-=20
-+DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
-+                      pc_i440fx_5_0_machine_options);
-+
-+static void pc_i440fx_4_2_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_5_0_machine_options(m);
-+    m->alias =3D NULL;
-+    m->is_default =3D 0;
-+    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-+    compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
-+}
-+
- DEFINE_I440FX_MACHINE(v4_2, "pc-i440fx-4.2", NULL,
-                       pc_i440fx_4_2_machine_options);
-=20
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 385e5cf..ddd485d 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -348,7 +348,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus =3D 288;
- }
-=20
--static void pc_q35_4_2_machine_options(MachineClass *m)
-+static void pc_q35_5_0_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -356,6 +356,17 @@ static void pc_q35_4_2_machine_options(MachineClass *m=
-)
-     pcmc->default_cpu_version =3D 1;
- }
-=20
-+DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
-+                   pc_q35_5_0_machine_options);
-+
-+static void pc_q35_4_2_machine_options(MachineClass *m)
-+{
-+    pc_q35_5_0_machine_options(m);
-+    m->alias =3D NULL;
-+    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-+    compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
-+}
-+
- DEFINE_Q35_MACHINE(v4_2, "pc-q35-4.2", NULL,
-                    pc_q35_4_2_machine_options);
-=20
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e076f60..3ae7db1 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4492,14 +4492,25 @@ static const TypeInfo spapr_machine_info =3D {
-     type_init(spapr_machine_register_##suffix)
-=20
- /*
-+ * pseries-5.0
-+ */
-+static void spapr_machine_5_0_class_options(MachineClass *mc)
-+{
-+    /* Defaults for the latest behaviour inherited from the base class */
-+}
-+
-+DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
-+
-+/*
-  * pseries-4.2
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 158d270..6342f73 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -275,20 +275,20 @@ static const TypeInfo q35_host_info =3D {
+  * MCH D0:F0
   */
- static void spapr_machine_4_2_class_options(MachineClass *mc)
+=20
+-static uint64_t tseg_blackhole_read(void *ptr, hwaddr reg, unsigned size)
++static uint64_t blackhole_read(void *ptr, hwaddr reg, unsigned size)
  {
--    /* Defaults for the latest behaviour inherited from the base class */
-+    spapr_machine_5_0_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+     return 0xffffffff;
  }
 =20
--DEFINE_SPAPR_MACHINE(4_2, "4.2", true);
-+DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
+-static void tseg_blackhole_write(void *opaque, hwaddr addr, uint64_t val,
+-                                 unsigned width)
++static void blackhole_write(void *opaque, hwaddr addr, uint64_t val,
++                            unsigned width)
+ {
+     /* nothing */
+ }
 =20
- /*
-  * pseries-4.1
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index d3edeef..01e7e20 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -639,14 +639,26 @@ bool css_migration_enabled(void)
-     }                                                                     =
-    \
-     type_init(ccw_machine_register_##suffix)
+-static const MemoryRegionOps tseg_blackhole_ops =3D {
+-    .read =3D tseg_blackhole_read,
+-    .write =3D tseg_blackhole_write,
++static const MemoryRegionOps blackhole_ops =3D {
++    .read =3D blackhole_read,
++    .write =3D blackhole_write,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+     .valid.min_access_size =3D 1,
+     .valid.max_access_size =3D 4,
+@@ -430,6 +430,46 @@ static void mch_update_ext_tseg_mbytes(MCHPCIState *mc=
+h)
+     }
+ }
 =20
-+static void ccw_machine_5_0_instance_options(MachineState *machine)
++static void mch_update_smbase_smram(MCHPCIState *mch)
 +{
++    PCIDevice *pd =3D PCI_DEVICE(mch);
++    uint8_t *reg =3D pd->config + MCH_HOST_BRIDGE_F_SMBASE;
++    bool lck;
++
++    if (!mch->has_smram_at_smbase) {
++        return;
++    }
++
++    if (*reg =3D=3D MCH_HOST_BRIDGE_F_SMBASE_QUERY) {
++        pd->wmask[MCH_HOST_BRIDGE_F_SMBASE] =3D
++            MCH_HOST_BRIDGE_F_SMBASE_LCK;
++        *reg =3D MCH_HOST_BRIDGE_F_SMBASE_IN_RAM;
++        return;
++    }
++
++    /*
++     * default/reset state, discard written value
++     * which will disable SMRAM balackhole at SMBASE
++     */
++    if (pd->wmask[MCH_HOST_BRIDGE_F_SMBASE] =3D=3D 0xff) {
++        *reg =3D 0x00;
++    }
++
++    memory_region_transaction_begin();
++    if (*reg & MCH_HOST_BRIDGE_F_SMBASE_LCK) {
++        /* disable all writes */
++        pd->wmask[MCH_HOST_BRIDGE_F_SMBASE] &=3D
++            ~MCH_HOST_BRIDGE_F_SMBASE_LCK;
++        *reg =3D MCH_HOST_BRIDGE_F_SMBASE_LCK;
++        lck =3D true;
++    } else {
++        lck =3D false;
++    }
++    memory_region_set_enabled(&mch->smbase_blackhole, lck);
++    memory_region_set_enabled(&mch->smbase_window, lck);
++    memory_region_transaction_commit();
 +}
 +
-+static void ccw_machine_5_0_class_options(MachineClass *mc)
-+{
-+}
-+DEFINE_CCW_MACHINE(5_0, "5.0", true);
+ static void mch_write_config(PCIDevice *d,
+                               uint32_t address, uint32_t val, int len)
+ {
+@@ -456,6 +496,10 @@ static void mch_write_config(PCIDevice *d,
+                        MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_SIZE)) {
+         mch_update_ext_tseg_mbytes(mch);
+     }
 +
- static void ccw_machine_4_2_instance_options(MachineState *machine)
- {
-+    ccw_machine_5_0_instance_options(machine);
++    if (ranges_overlap(address, len, MCH_HOST_BRIDGE_F_SMBASE, 1)) {
++        mch_update_smbase_smram(mch);
++    }
  }
 =20
- static void ccw_machine_4_2_class_options(MachineClass *mc)
- {
-+    ccw_machine_5_0_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
--DEFINE_CCW_MACHINE(4_2, "4.2", true);
-+DEFINE_CCW_MACHINE(4_2, "4.2", false);
+ static void mch_update(MCHPCIState *mch)
+@@ -464,6 +508,7 @@ static void mch_update(MCHPCIState *mch)
+     mch_update_pam(mch);
+     mch_update_smram(mch);
+     mch_update_ext_tseg_mbytes(mch);
++    mch_update_smbase_smram(mch);
 =20
- static void ccw_machine_4_1_instance_options(MachineState *machine)
- {
+     /*
+      * pci hole goes from end-of-low-ram to io-apic.
+@@ -514,6 +559,9 @@ static void mch_reset(DeviceState *qdev)
+                      MCH_HOST_BRIDGE_EXT_TSEG_MBYTES_QUERY);
+     }
+=20
++    d->config[MCH_HOST_BRIDGE_F_SMBASE] =3D 0;
++    d->wmask[MCH_HOST_BRIDGE_F_SMBASE] =3D 0xff;
++
+     mch_update(mch);
+ }
+=20
+@@ -563,7 +611,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
+     memory_region_add_subregion(&mch->smram, 0xfeda0000, &mch->high_smram)=
+;
+=20
+     memory_region_init_io(&mch->tseg_blackhole, OBJECT(mch),
+-                          &tseg_blackhole_ops, NULL,
++                          &blackhole_ops, NULL,
+                           "tseg-blackhole", 0);
+     memory_region_set_enabled(&mch->tseg_blackhole, false);
+     memory_region_add_subregion_overlap(mch->system_memory,
+@@ -575,6 +623,27 @@ static void mch_realize(PCIDevice *d, Error **errp)
+     memory_region_set_enabled(&mch->tseg_window, false);
+     memory_region_add_subregion(&mch->smram, mch->below_4g_mem_size,
+                                 &mch->tseg_window);
++
++    /*
++     * This is not what hardware does, so it's QEMU specific hack.
++     * See commit message for details.
++     */
++    memory_region_init_io(&mch->smbase_blackhole, OBJECT(mch), &blackhole_=
+ops,
++                          NULL, "smbase-blackhole",
++                          MCH_HOST_BRIDGE_SMBASE_SIZE);
++    memory_region_set_enabled(&mch->smbase_blackhole, false);
++    memory_region_add_subregion_overlap(mch->system_memory,
++                                        MCH_HOST_BRIDGE_SMBASE_ADDR,
++                                        &mch->smbase_blackhole, 1);
++
++    memory_region_init_alias(&mch->smbase_window, OBJECT(mch),
++                             "smbase-window", mch->ram_memory,
++                             MCH_HOST_BRIDGE_SMBASE_ADDR,
++                             MCH_HOST_BRIDGE_SMBASE_SIZE);
++    memory_region_set_enabled(&mch->smbase_window, false);
++    memory_region_add_subregion(&mch->smram, MCH_HOST_BRIDGE_SMBASE_ADDR,
++                                &mch->smbase_window);
++
+     object_property_add_const_link(qdev_get_machine(), "smram",
+                                    OBJECT(&mch->smram), &error_abort);
+=20
+@@ -601,6 +670,7 @@ uint64_t mch_mcfg_base(void)
+ static Property mch_props[] =3D {
+     DEFINE_PROP_UINT16("extended-tseg-mbytes", MCHPCIState, ext_tseg_mbyte=
+s,
+                        16),
++    DEFINE_PROP_BOOL("smbase-smram", MCHPCIState, has_smram_at_smbase, tru=
+e),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
 --=20
 2.7.4
 
