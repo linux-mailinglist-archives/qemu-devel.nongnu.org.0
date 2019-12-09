@@ -2,52 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F541116756
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 08:06:00 +0100 (CET)
-Received: from localhost ([::1]:36706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEB6116749
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 08:03:22 +0100 (CET)
+Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieD7H-0000ya-H3
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 02:05:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41367)
+	id 1ieD4i-0006RM-P4
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 02:03:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ieD5u-0000DW-Ql
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 02:04:35 -0500
+ (envelope-from <bharata@linux.ibm.com>) id 1ieD23-0004CG-Mo
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 02:00:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ieD5s-0003Vf-QC
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 02:04:34 -0500
-Received: from ozlabs.org ([203.11.71.1]:50349)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ieD5s-0003Up-DY; Mon, 09 Dec 2019 02:04:32 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47WZ1p0F85z9sPc; Mon,  9 Dec 2019 18:04:29 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1575875070;
- bh=+5DHq/ROT43NtT6HRVKnKlJCN/t8Nab3V3faN+XyDk4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kLkbUuEZtTHJQFKMqX55relg9k55bY8gucPRMf6WaBLPz92osjyGMX7rCbjQKCJdA
- kGwa5mn+8v2XvUUsH6M0MSyc+xZO1Aymtf4x0CcfF2dJrF/PL5Ur0KPH2wMyqXDaoj
- +9rUkIyDxP+MiaqJP2dN169UtSFd3MqlYayXqqP4=
-Date: Mon, 9 Dec 2019 18:00:11 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/1] ppc-for-4.2 queue 20191206
-Message-ID: <20191209070011.GA103449@umbus.fritz.box>
-References: <20191206044134.259488-1-david@gibson.dropbear.id.au>
- <CAFEAcA-oGLx+mcgqxC6-QRv9dSdzOqvM8g7q7SzUuAqKSZU-tA@mail.gmail.com>
- <20191206102903.GM5031@umbus.fritz.box>
- <CAFEAcA_j3VdVGgu8=vTPtmafEjX34OMKjyjdYuRkKNU=yAW7BA@mail.gmail.com>
- <CAFEAcA8Q9u=fXsBDqemur2EkbQYtepYu4qYpfi=ibKMFUmQjEA@mail.gmail.com>
+ (envelope-from <bharata@linux.ibm.com>) id 1ieD20-0008NR-69
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 02:00:34 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49680
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <bharata@linux.ibm.com>)
+ id 1ieD20-0008N7-0N
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 02:00:32 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xB96vKYH137074
+ for <qemu-devel@nongnu.org>; Mon, 9 Dec 2019 02:00:31 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wrt9en4xm-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 02:00:31 -0500
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <bharata@linux.ibm.com>;
+ Mon, 9 Dec 2019 07:00:29 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 9 Dec 2019 07:00:26 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id xB96xiMb40894810
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Dec 2019 06:59:44 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8099B52085;
+ Mon,  9 Dec 2019 07:00:24 +0000 (GMT)
+Received: from bharata.in.ibm.com (unknown [9.109.247.23])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id CB3775207C;
+ Mon,  9 Dec 2019 07:00:22 +0000 (GMT)
+From: Bharata B Rao <bharata@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 ppc-for-5.0 1/2] linux-headers: Update
+Date: Mon,  9 Dec 2019 12:30:11 +0530
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191209070012.14766-1-bharata@linux.ibm.com>
+References: <20191209070012.14766-1-bharata@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8Q9u=fXsBDqemur2EkbQYtepYu4qYpfi=ibKMFUmQjEA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19120907-4275-0000-0000-0000038D24A1
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19120907-4276-0000-0000-000038A0D089
+Message-Id: <20191209070012.14766-2-bharata@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-09_01:2019-12-09,2019-12-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 adultscore=0 spamscore=0 bulkscore=0 phishscore=0
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912090059
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,99 +87,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Laurent Vivier <lvivier@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>
+Cc: linuxram@us.ibm.com, Bharata B Rao <bharata@linux.ibm.com>,
+ qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Update to mainline commit: e42617b825f8 ("Linux 5.5-rc1")
 
---/9DWx/yDrRhgMJTb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+---
+ include/standard-headers/asm-x86/bootparam.h  |  7 +-
+ .../infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h | 15 +++-
+ include/standard-headers/drm/drm_fourcc.h     | 28 ++++++-
+ .../linux/input-event-codes.h                 | 77 +++++++++++++++++++
+ include/standard-headers/linux/pci_regs.h     |  3 +
+ .../standard-headers/rdma/vmw_pvrdma-abi.h    |  5 ++
+ linux-headers/linux/kvm.h                     |  1 +
+ 7 files changed, 132 insertions(+), 4 deletions(-)
 
-On Fri, Dec 06, 2019 at 01:40:19PM +0000, Peter Maydell wrote:
-> On Fri, 6 Dec 2019 at 11:19, Peter Maydell <peter.maydell@linaro.org> wro=
-te:
-> >
-> > On Fri, 6 Dec 2019 at 10:43, David Gibson <david@gibson.dropbear.id.au>=
- wrote:
-> > >
-> > > On Fri, Dec 06, 2019 at 09:52:54AM +0000, Peter Maydell wrote:
-> > > > On Fri, 6 Dec 2019 at 04:41, David Gibson <david@gibson.dropbear.id=
-=2Eau> wrote:
-> > > > >
-> > > > > The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13=
-666fd9278e:
-> > > > >
-> > > > >   Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +000=
-0)
-> > > > >
-> > > > > are available in the Git repository at:
-> > > > >
-> > > > >   git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191206
-> > > > >
-> > > > > for you to fetch changes up to d887a8cfc083bcf3856f9f42352989f362=
-4e0cae:
-> > > > >
-> > > > >   pseries: Update SLOF firmware image (2019-12-06 15:33:23 +1100)
-> > > > >
-> > > > > ----------------------------------------------------------------
-> > > > > ppc patch queue 2019-12-06
-> > > > >
-> > > > > This is a last minute pull request for ppc-for-4.2.  I know it's =
-very
-> > > > > late in freeze, but this does fix a regression: a bad interaction
-> > > > > between the new qemu and SLOF device tree construction code means=
- that
-> > > > > SLOF will crash if PCI to PCI bridges are included in the system.
-> > > >
-> > > > I really really really don't want to do an rc5. This would
-> > > > have to be "everybody using ppc gets crashes" for me to
-> > > > really want to put it in at this point...
-> > >
-> > > Yeah, alright.  I'll send it to Mike for a 4.2.1.
-> >
-> > Paolo says he has something that needs to go into rc5, so maybe
-> > we can take this too. How confident are you that the change is
-> > small and safe? It's a bit hard to tell with updates to
-> > firmware binaries.
->=20
-> ...I just read the commit message for the firmware blob update.
-> That is way too many random changes to go into rc5. I'd have
-> taken a firmware blob update that was just "one change, fixing
-> this specific bug", but not one which has all that other stuff too.
+diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
+index a6f7cf535e..072e2ed546 100644
+--- a/include/standard-headers/asm-x86/bootparam.h
++++ b/include/standard-headers/asm-x86/bootparam.h
+@@ -2,7 +2,7 @@
+ #ifndef _ASM_X86_BOOTPARAM_H
+ #define _ASM_X86_BOOTPARAM_H
+ 
+-/* setup_data types */
++/* setup_data/setup_indirect types */
+ #define SETUP_NONE			0
+ #define SETUP_E820_EXT			1
+ #define SETUP_DTB			2
+@@ -11,6 +11,11 @@
+ #define SETUP_APPLE_PROPERTIES		5
+ #define SETUP_JAILHOUSE			6
+ 
++#define SETUP_INDIRECT			(1<<31)
++
++/* SETUP_INDIRECT | max(SETUP_*) */
++#define SETUP_TYPE_MAX			(SETUP_INDIRECT | SETUP_JAILHOUSE)
++
+ /* ram_size flags */
+ #define RAMDISK_IMAGE_START_MASK	0x07FF
+ #define RAMDISK_PROMPT_FLAG		0x8000
+diff --git a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h
+index d019872608..a5a1c8234e 100644
+--- a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h
++++ b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h
+@@ -58,7 +58,8 @@
+ #define PVRDMA_ROCEV1_VERSION		17
+ #define PVRDMA_ROCEV2_VERSION		18
+ #define PVRDMA_PPN64_VERSION		19
+-#define PVRDMA_VERSION			PVRDMA_PPN64_VERSION
++#define PVRDMA_QPHANDLE_VERSION		20
++#define PVRDMA_VERSION			PVRDMA_QPHANDLE_VERSION
+ 
+ #define PVRDMA_BOARD_ID			1
+ #define PVRDMA_REV_ID			1
+@@ -581,6 +582,17 @@ struct pvrdma_cmd_create_qp_resp {
+ 	uint32_t max_inline_data;
+ };
+ 
++struct pvrdma_cmd_create_qp_resp_v2 {
++	struct pvrdma_cmd_resp_hdr hdr;
++	uint32_t qpn;
++	uint32_t qp_handle;
++	uint32_t max_send_wr;
++	uint32_t max_recv_wr;
++	uint32_t max_send_sge;
++	uint32_t max_recv_sge;
++	uint32_t max_inline_data;
++};
++
+ struct pvrdma_cmd_modify_qp {
+ 	struct pvrdma_cmd_hdr hdr;
+ 	uint32_t qp_handle;
+@@ -663,6 +675,7 @@ union pvrdma_cmd_resp {
+ 	struct pvrdma_cmd_create_cq_resp create_cq_resp;
+ 	struct pvrdma_cmd_resize_cq_resp resize_cq_resp;
+ 	struct pvrdma_cmd_create_qp_resp create_qp_resp;
++	struct pvrdma_cmd_create_qp_resp_v2 create_qp_resp_v2;
+ 	struct pvrdma_cmd_query_qp_resp query_qp_resp;
+ 	struct pvrdma_cmd_destroy_qp_resp destroy_qp_resp;
+ 	struct pvrdma_cmd_create_srq_resp create_srq_resp;
+diff --git a/include/standard-headers/drm/drm_fourcc.h b/include/standard-headers/drm/drm_fourcc.h
+index a308c91b4f..46d279f515 100644
+--- a/include/standard-headers/drm/drm_fourcc.h
++++ b/include/standard-headers/drm/drm_fourcc.h
+@@ -68,7 +68,7 @@ extern "C" {
+ #define fourcc_code(a, b, c, d) ((uint32_t)(a) | ((uint32_t)(b) << 8) | \
+ 				 ((uint32_t)(c) << 16) | ((uint32_t)(d) << 24))
+ 
+-#define DRM_FORMAT_BIG_ENDIAN (1<<31) /* format is big endian instead of little endian */
++#define DRM_FORMAT_BIG_ENDIAN (1U<<31) /* format is big endian instead of little endian */
+ 
+ /* Reserve 0 for the invalid format specifier */
+ #define DRM_FORMAT_INVALID	0
+@@ -647,7 +647,21 @@ extern "C" {
+  * Further information on the use of AFBC modifiers can be found in
+  * Documentation/gpu/afbc.rst
+  */
+-#define DRM_FORMAT_MOD_ARM_AFBC(__afbc_mode)	fourcc_mod_code(ARM, __afbc_mode)
++
++/*
++ * The top 4 bits (out of the 56 bits alloted for specifying vendor specific
++ * modifiers) denote the category for modifiers. Currently we have only two
++ * categories of modifiers ie AFBC and MISC. We can have a maximum of sixteen
++ * different categories.
++ */
++#define DRM_FORMAT_MOD_ARM_CODE(__type, __val) \
++	fourcc_mod_code(ARM, ((uint64_t)(__type) << 52) | ((__val) & 0x000fffffffffffffULL))
++
++#define DRM_FORMAT_MOD_ARM_TYPE_AFBC 0x00
++#define DRM_FORMAT_MOD_ARM_TYPE_MISC 0x01
++
++#define DRM_FORMAT_MOD_ARM_AFBC(__afbc_mode) \
++	DRM_FORMAT_MOD_ARM_CODE(DRM_FORMAT_MOD_ARM_TYPE_AFBC, __afbc_mode)
+ 
+ /*
+  * AFBC superblock size
+@@ -741,6 +755,16 @@ extern "C" {
+  */
+ #define AFBC_FORMAT_MOD_BCH     (1ULL << 11)
+ 
++/*
++ * Arm 16x16 Block U-Interleaved modifier
++ *
++ * This is used by Arm Mali Utgard and Midgard GPUs. It divides the image
++ * into 16x16 pixel blocks. Blocks are stored linearly in order, but pixels
++ * in the block are reordered.
++ */
++#define DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED \
++	DRM_FORMAT_MOD_ARM_CODE(DRM_FORMAT_MOD_ARM_TYPE_MISC, 1ULL)
++
+ /*
+  * Allwinner tiled modifier
+  *
+diff --git a/include/standard-headers/linux/input-event-codes.h b/include/standard-headers/linux/input-event-codes.h
+index eb08cb8598..b484c25289 100644
+--- a/include/standard-headers/linux/input-event-codes.h
++++ b/include/standard-headers/linux/input-event-codes.h
+@@ -649,6 +649,83 @@
+  */
+ #define KEY_DATA			0x277
+ #define KEY_ONSCREEN_KEYBOARD		0x278
++/* Electronic privacy screen control */
++#define KEY_PRIVACY_SCREEN_TOGGLE	0x279
++
++/*
++ * Some keyboards have keys which do not have a defined meaning, these keys
++ * are intended to be programmed / bound to macros by the user. For most
++ * keyboards with these macro-keys the key-sequence to inject, or action to
++ * take, is all handled by software on the host side. So from the kernel's
++ * point of view these are just normal keys.
++ *
++ * The KEY_MACRO# codes below are intended for such keys, which may be labeled
++ * e.g. G1-G18, or S1 - S30. The KEY_MACRO# codes MUST NOT be used for keys
++ * where the marking on the key does indicate a defined meaning / purpose.
++ *
++ * The KEY_MACRO# codes MUST also NOT be used as fallback for when no existing
++ * KEY_FOO define matches the marking / purpose. In this case a new KEY_FOO
++ * define MUST be added.
++ */
++#define KEY_MACRO1			0x290
++#define KEY_MACRO2			0x291
++#define KEY_MACRO3			0x292
++#define KEY_MACRO4			0x293
++#define KEY_MACRO5			0x294
++#define KEY_MACRO6			0x295
++#define KEY_MACRO7			0x296
++#define KEY_MACRO8			0x297
++#define KEY_MACRO9			0x298
++#define KEY_MACRO10			0x299
++#define KEY_MACRO11			0x29a
++#define KEY_MACRO12			0x29b
++#define KEY_MACRO13			0x29c
++#define KEY_MACRO14			0x29d
++#define KEY_MACRO15			0x29e
++#define KEY_MACRO16			0x29f
++#define KEY_MACRO17			0x2a0
++#define KEY_MACRO18			0x2a1
++#define KEY_MACRO19			0x2a2
++#define KEY_MACRO20			0x2a3
++#define KEY_MACRO21			0x2a4
++#define KEY_MACRO22			0x2a5
++#define KEY_MACRO23			0x2a6
++#define KEY_MACRO24			0x2a7
++#define KEY_MACRO25			0x2a8
++#define KEY_MACRO26			0x2a9
++#define KEY_MACRO27			0x2aa
++#define KEY_MACRO28			0x2ab
++#define KEY_MACRO29			0x2ac
++#define KEY_MACRO30			0x2ad
++
++/*
++ * Some keyboards with the macro-keys described above have some extra keys
++ * for controlling the host-side software responsible for the macro handling:
++ * -A macro recording start/stop key. Note that not all keyboards which emit
++ *  KEY_MACRO_RECORD_START will also emit KEY_MACRO_RECORD_STOP if
++ *  KEY_MACRO_RECORD_STOP is not advertised, then KEY_MACRO_RECORD_START
++ *  should be interpreted as a recording start/stop toggle;
++ * -Keys for switching between different macro (pre)sets, either a key for
++ *  cycling through the configured presets or keys to directly select a preset.
++ */
++#define KEY_MACRO_RECORD_START		0x2b0
++#define KEY_MACRO_RECORD_STOP		0x2b1
++#define KEY_MACRO_PRESET_CYCLE		0x2b2
++#define KEY_MACRO_PRESET1		0x2b3
++#define KEY_MACRO_PRESET2		0x2b4
++#define KEY_MACRO_PRESET3		0x2b5
++
++/*
++ * Some keyboards have a buildin LCD panel where the contents are controlled
++ * by the host. Often these have a number of keys directly below the LCD
++ * intended for controlling a menu shown on the LCD. These keys often don't
++ * have any labeling so we just name them KEY_KBD_LCD_MENU#
++ */
++#define KEY_KBD_LCD_MENU1		0x2b8
++#define KEY_KBD_LCD_MENU2		0x2b9
++#define KEY_KBD_LCD_MENU3		0x2ba
++#define KEY_KBD_LCD_MENU4		0x2bb
++#define KEY_KBD_LCD_MENU5		0x2bc
+ 
+ #define BTN_TRIGGER_HAPPY		0x2c0
+ #define BTN_TRIGGER_HAPPY1		0x2c0
+diff --git a/include/standard-headers/linux/pci_regs.h b/include/standard-headers/linux/pci_regs.h
+index 29d6e93fd1..acb7d2bdb4 100644
+--- a/include/standard-headers/linux/pci_regs.h
++++ b/include/standard-headers/linux/pci_regs.h
+@@ -34,6 +34,7 @@
+  * of which the first 64 bytes are standardized as follows:
+  */
+ #define PCI_STD_HEADER_SIZEOF	64
++#define PCI_STD_NUM_BARS	6	/* Number of standard BARs */
+ #define PCI_VENDOR_ID		0x00	/* 16 bits */
+ #define PCI_DEVICE_ID		0x02	/* 16 bits */
+ #define PCI_COMMAND		0x04	/* 16 bits */
+@@ -673,6 +674,8 @@
+ #define  PCI_EXP_LNKCTL2_TLS_8_0GT	0x0003 /* Supported Speed 8GT/s */
+ #define  PCI_EXP_LNKCTL2_TLS_16_0GT	0x0004 /* Supported Speed 16GT/s */
+ #define  PCI_EXP_LNKCTL2_TLS_32_0GT	0x0005 /* Supported Speed 32GT/s */
++#define  PCI_EXP_LNKCTL2_ENTER_COMP	0x0010 /* Enter Compliance */
++#define  PCI_EXP_LNKCTL2_TX_MARGIN	0x0380 /* Transmit Margin */
+ #define PCI_EXP_LNKSTA2		50	/* Link Status 2 */
+ #define PCI_CAP_EXP_ENDPOINT_SIZEOF_V2	52	/* v2 endpoints with link end here */
+ #define PCI_EXP_SLTCAP2		52	/* Slot Capabilities 2 */
+diff --git a/include/standard-headers/rdma/vmw_pvrdma-abi.h b/include/standard-headers/rdma/vmw_pvrdma-abi.h
+index 336a8d596f..0989426a3f 100644
+--- a/include/standard-headers/rdma/vmw_pvrdma-abi.h
++++ b/include/standard-headers/rdma/vmw_pvrdma-abi.h
+@@ -179,6 +179,11 @@ struct pvrdma_create_qp {
+ 	uint64_t __attribute__((aligned(8))) qp_addr;
+ };
+ 
++struct pvrdma_create_qp_resp {
++	uint32_t qpn;
++	uint32_t qp_handle;
++};
++
+ /* PVRDMA masked atomic compare and swap */
+ struct pvrdma_ex_cmp_swap {
+ 	uint64_t __attribute__((aligned(8))) swap_val;
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 3b27a1ae85..9d647fad76 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1348,6 +1348,7 @@ struct kvm_s390_ucas_mapping {
+ #define KVM_PPC_GET_CPU_CHAR	  _IOR(KVMIO,  0xb1, struct kvm_ppc_cpu_char)
+ /* Available with KVM_CAP_PMU_EVENT_FILTER */
+ #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
++#define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
+ 
+ /* ioctl for vm fd */
+ #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
+-- 
+2.21.0
 
-Yeah, that's a good point.  I've just resent, but with a cherry-picked
-update that only includes the SLOF patches directly relevant to this
-regression.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---/9DWx/yDrRhgMJTb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3t8PkACgkQbDjKyiDZ
-s5KnxxAAhK4zrM8c/6mD2DFXkNX9YL7EP4RpMH7EAzs9068yfnSPcsZc8T24+mYC
-FShlpVdDG1QGJVTsntBFx4A85JiW1hEQlrpIGXakXHFcmBTwcuhH1NHdfCuMEJn5
-RnoC0YSm2la3z3K0y1djz/sucmc80pUQW0mknz7KfBMBcJCi1tH98biZ4Stf7Ywa
-AcnSYSQiJbORfqPdlfvvBvrH6UDixyZswbF2ngT/puGceteG93EZYSKn3gzupirz
-B0E8lF5Abbhr7t8JtDOnphohOC38xDWpVdZSYT8wlPu8WPhGbT5qqeHzpieOpd0M
-YUkv0UlEavNnzxRkRRCPu7n7EmUqKxsgpP74/PDqY+v3xkcHSWB2dL5YDtfJZ+I8
-qG716OWVjx7kq98ICn1DE+8P0dmPhaZmmZ7BspgTlUUyjkkCOizaSnj9+odrJfMu
-ZPAagXCU9ZnevtLdt6UxVPW1n3ipu3YTL+hOXjDhgppzg1VV2iLxs23y+GqUiv3e
-1hfkOFTGjSqyFNwagtVK0PwipAN2dTTBmtYYiwO2wxUgfoelKffx5GS1rbFZX0eQ
-hpMS+X2afuXUOKCNV+FTP+7+YegWXP0k2OuSrvxClDktp9YdVJ6LRHM2MkYmCFLF
-HO6ircRpAaraxI31PTy4qVZlxnsOpAWw9bnpg9PI96nBK/dkxgY=
-=yj4R
------END PGP SIGNATURE-----
-
---/9DWx/yDrRhgMJTb--
 
