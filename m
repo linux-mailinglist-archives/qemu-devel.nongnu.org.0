@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA04117E2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 04:30:09 +0100 (CET)
-Received: from localhost ([::1]:49782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C20117E8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 04:51:57 +0100 (CET)
+Received: from localhost ([::1]:49992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieWDw-0005Bv-OM
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 22:30:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53545)
+	id 1ieWZ2-0001Kw-5G
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 22:51:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ieWCw-0004Kf-2m
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 22:29:07 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ieWXv-0000IW-KZ
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 22:50:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ieWCu-00046O-K9
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 22:29:05 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36343 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ieWXu-00073x-CE
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 22:50:47 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39859 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ieWCt-00042k-KP; Mon, 09 Dec 2019 22:29:04 -0500
+ id 1ieWXt-00072u-Aw; Mon, 09 Dec 2019 22:50:46 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47X5Bd1wbsz9sRH; Tue, 10 Dec 2019 14:28:57 +1100 (AEDT)
+ id 47X5gh2kKkz9sR7; Tue, 10 Dec 2019 14:50:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1575948537;
- bh=gGYyRP7Z1SDDi9c/C1rgZVkGuXX3P3A1T7SqFDs5UH4=;
+ d=gibson.dropbear.id.au; s=201602; t=1575949840;
+ bh=2MD5Awgc6RucPtUwIU39SdeLZwiSee1UNQtrx6dURa0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nLGVfc6qvaMPoAyqbf0wTtSbzae/uJ76cWW76B/nl/QbIjBRNqXwZI8jzFyuoIADR
- Keyw2pZxFSeOSegtd0tFPU4g9/AdWDdlwFK8hHafKh1jIsN7xv+vV4NZ2JQJ97rrvt
- 48FbTsv1t9zilcZ2ksHLZqkY5VV+kPepHdipjpkw=
-Date: Tue, 10 Dec 2019 14:28:51 +1100
+ b=No4rpPz2Y4nMlGFtQh+akHhA//0x5mQVUikYo3asBJwk1U0hJHDNpD3hwUxQiSm27
+ ETr+9a+6T0DgYLZDd2S10Z83vc0lV1j7FgxRXPVgVTCa2scRYfz9wJ31kFsI6+aOwG
+ LYYchurF/aEjPyxrxaXCW5cR1FwfIe58NsZdiwSQ=
+Date: Tue, 10 Dec 2019 14:33:47 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Bharata B Rao <bharata@linux.ibm.com>
-Subject: Re: [PATCH v1 ppc-for-5.0 2/2] ppc/spapr: Support reboot of secure
- pseries guest
-Message-ID: <20191210032851.GC207300@umbus.fritz.box>
-References: <20191209070012.14766-1-bharata@linux.ibm.com>
- <20191209070012.14766-3-bharata@linux.ibm.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 0/5] ppc/pnv: add a POWER10 PnvChip and a powernv10 machine
+Message-ID: <20191210033347.GD207300@umbus.fritz.box>
+References: <20191205184454.10722-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KDt/GgjP6HVcx58l"
+ protocol="application/pgp-signature"; boundary="qGV0fN9tzfkG3CxV"
 Content-Disposition: inline
-In-Reply-To: <20191209070012.14766-3-bharata@linux.ibm.com>
+In-Reply-To: <20191205184454.10722-1-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -57,94 +55,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linuxram@us.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KDt/GgjP6HVcx58l
-Content-Type: text/plain; charset=us-ascii
+--qGV0fN9tzfkG3CxV
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 09, 2019 at 12:30:12PM +0530, Bharata B Rao wrote:
-> A pseries guest can be run as a secure guest on Ultravisor-enabled
-> POWER platforms. When such a secure guest is reset, we need to
-> release/reset a few resources both on ultravisor and hypervisor side.
-> This is achieved by invoking this new ioctl KVM_PPC_SVM_OFF from the
-> machine reset path.
+On Thu, Dec 05, 2019 at 07:44:49PM +0100, C=E9dric Le Goater wrote:
+> Hello,
 >=20
-> As part of this ioctl, the secure guest is essentially transitioned
-> back to normal mode so that it can reboot like a regular guest and
-> become secure again.
->=20
-> This ioctl has no effect when invoked for a normal guest.
->=20
-> Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
-> ---
->  hw/ppc/spapr.c       | 1 +
->  target/ppc/kvm.c     | 7 +++++++
->  target/ppc/kvm_ppc.h | 6 ++++++
->  3 files changed, 14 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index f11422fc41..4c7ad3400d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1597,6 +1597,7 @@ static void spapr_machine_reset(MachineState *machi=
-ne)
->      void *fdt;
->      int rc;
-> =20
-> +    kvmppc_svm_off();
+> The POWER10 and POWER9 processors are very similar and this series
+> adds the basic framework for a POWER10 chip and a machine using this
+> chip. The PSI and LPC models are provided first because there are no
+> changes. XIVE needs some adaptation and will come later.
 
-If you're going to have this return an error value, you should really
-check it here.
+Applied to ppc-for-5.0, thanks.
 
->      spapr_caps_apply(spapr);
-> =20
->      first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 7406d18945..1a86fa4f0c 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -2900,3 +2900,10 @@ void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int=
-64_t tb_offset)
->          kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
->      }
->  }
-> +
-> +int kvmppc_svm_off(void)
-> +{
-> +    KVMState *s =3D KVM_STATE(current_machine->accelerator);
-> +
-> +    return kvm_vm_ioctl(s, KVM_PPC_SVM_OFF);
-> +}
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 47b08a4030..5cc812e486 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -37,6 +37,7 @@ int kvmppc_booke_watchdog_enable(PowerPCCPU *cpu);
->  target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
->                                       bool radix, bool gtse,
->                                       uint64_t proc_tbl);
-> +int kvmppc_svm_off(void);
->  #ifndef CONFIG_USER_ONLY
->  bool kvmppc_spapr_use_multitce(void);
->  int kvmppc_spapr_enable_inkernel_multitce(void);
-> @@ -201,6 +202,11 @@ static inline target_ulong kvmppc_configure_v3_mmu(P=
-owerPCCPU *cpu,
->      return 0;
->  }
-> =20
-> +static inline int kvmppc_svm_off(void)
-> +{
-> +    return 0;
-> +}
-> +
->  static inline void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu,
->                                               unsigned int online)
->  {
+>=20
+> Thanks,
+>=20
+> C.
+>=20
+> C=E9dric Le Goater (5):
+>   target/ppc: Add POWER10 DD1.0 model information
+>   ppc/pnv: Introduce a POWER10 PnvChip and a powernv10 machine
+>   ppc/psi: cleanup definitions
+>   ppc/pnv: add a PSI bridge model for POWER10
+>   ppc/pnv: add a LPC Controller model for POWER10
+>=20
+>  include/hw/ppc/pnv.h            |  46 +++++++
+>  include/hw/ppc/pnv_lpc.h        |   6 +-
+>  include/hw/ppc/pnv_psi.h        |   2 +
+>  include/hw/ppc/pnv_xscom.h      |  22 ++++
+>  target/ppc/cpu-models.h         |   3 +
+>  target/ppc/cpu.h                |   1 +
+>  hw/ppc/pnv.c                    | 192 ++++++++++++++++++++++++++--
+>  hw/ppc/pnv_core.c               |  10 ++
+>  hw/ppc/pnv_lpc.c                |  30 +++--
+>  hw/ppc/pnv_psi.c                |  32 ++++-
+>  hw/ppc/pnv_xscom.c              |  23 +++-
+>  target/ppc/compat.c             |  21 +++-
+>  target/ppc/cpu-models.c         |   3 +
+>  target/ppc/translate_init.inc.c | 215 ++++++++++++++++++++++++++++++++
+>  14 files changed, 576 insertions(+), 30 deletions(-)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -152,25 +110,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KDt/GgjP6HVcx58l
+--qGV0fN9tzfkG3CxV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3vEPMACgkQbDjKyiDZ
-s5KEWg/6Askq4DWnesqxCiJuHr2TLbEVW9jedcxtbs3JWeQQ0YdFuDobt46zAVf7
-K4aXNqQigkWV2WlG/8mNLOjym2G+5Eb6crDzurv8BryzWksMXuth1vxugayMuvUS
-CdcjiNeAwI06TYJqXQDFWGkhTMxzUzqe9TW+NhbsWmiUU9yOLPMQrwGgBF3okF+s
-TwfmxLQ0QcPaDOn7R9fPanfhbCYbTOdOLQmmmRWWyaO6FBUKShwTiFBGHlotPWEw
-pQbH/6AHsgVbfzttHntHkjA392d7Ys1mRJRRe9YbJIcYYziC2HRaNYE0L1tEjZ+P
-5sBGDxsmeXaj1x64d66ys95343Zt8D+RB53Qs6Q1zO5upUW3maBjzgrolCKbpFbg
-9C7adSrsPHN/jxI+CD3kKcP92aaohx7Y9Ji2U3iJ1vRFFuEGhDSbIcdgg60YOJaU
-pNaTKdH3UCBH9/IaAZ8ZuDM8ojW73lkTnwWbeKNNf4yXHKk+MkV8H7gtWJEJiLUF
-ShY01DC9I1rIr37F/N6DEKO1zSs5PNTrjRklw2NJGurwXV0tTW+uMSws18aCHEpn
-4IidWoTd2riyMkQEUELfg0VybPt8UKva0GLe6IwHQavrQBYPeGPe46fXlmQfw84X
-wncKZ30mQRTiqgTBCMKeQaTkYCRompYWQrr8vk2MpQsDVGLutVw=
-=HI9K
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3vEhsACgkQbDjKyiDZ
+s5L3KhAAmKhBwNr+TWpclFbXDu2IEjrChAwwoz/EEA+yxnABf8RFxFZdA75qV9bx
+zDes2SM6cujJxU/R5qWw93zPvMephLitFaoLQSUeKCgPipAOP5XXGDLmJsIY5oQv
+Ash3HeufaU4+Yn7GP/hfxTWDOuVw151gUMKikUMpY3agvxH+Iz5wtEwCXufGHMGw
+NPtPbzV7P74UHhGVhdCj+TMDSaSi6fgrwgQAtp8TzXMywwGsRSuml8ymCMzVkZZA
+Nwsa6RRPt5vW4SdD93d4VjYfM8jFibnp/Xe7e63d6BWK63eUVrFf7FzBZYtQOtwv
+imD7ooKvFcy4J3N5DqmXv5aaqvK5bE9VHf2lOQsgWyQlBZRvhdrdz5fo+7TiXV6z
+NdMQABO8f2cqKn0ifpjvQZPsWLoj4QXvTNC2W8cEF/FDjgg/7+S9tmHkjq5y2NZE
+a4nbl3gZtXH1SDXSpKBFOcYuQSp/UflOiwpWHe+dizbd+BBbeSuMPUCtlFsLgNtf
+WjJaDcoQeMTnVGuN0LOzXyd1ERxWQLaePZmgoH7uv6zq+rlikcfXwCZwRLOyqVG3
+Qe/uymBOXVDKse9GAk3PHqUQMIrzAEu5YmBXQ1KArO5ivzyO1VpWlfkDwR4sw/f2
+rJh0zW5oXxJTvyt4sLrsHVmkQssKn4CJJ1KEre/Dvsx1aVW+WTE=
+=ZvJv
 -----END PGP SIGNATURE-----
 
---KDt/GgjP6HVcx58l--
+--qGV0fN9tzfkG3CxV--
 
