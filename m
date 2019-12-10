@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61612118E18
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:48:15 +0100 (CET)
-Received: from localhost ([::1]:59120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA34118E25
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:50:51 +0100 (CET)
+Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieigH-00054E-Ct
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58945)
+	id 1ieiin-0007Re-G2
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:50:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1ieicm-0003Cx-3i
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:44:37 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1ieidD-0003tI-2y
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:45:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1ieicl-0004M6-3Q
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:44:36 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44387)
+ (envelope-from <jean-philippe@linaro.org>) id 1ieidC-0004XR-3o
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:45:02 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42599)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1ieick-0004Ll-Sl
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:44:35 -0500
-Received: by mail-wr1-x441.google.com with SMTP id q10so20873833wrm.11
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:44:34 -0800 (PST)
+ id 1ieidB-0004Wp-Ug
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:45:02 -0500
+Received: by mail-wr1-x444.google.com with SMTP id a15so20852656wrf.9
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Pc/HUtwzczF7hl6cnINcFfG6ZqHbQFHNh940PLCprkw=;
- b=RnTss9rSbsavmfAYaoiMDwVIsdegSm3Pwy0/t5YimwPdG0Tv+LXOQAikrquQ1gH/L3
- t/vDKRUi3Jpds48e+qclxshkUJMTwRB0d2Z1wWKfo37Bk0KI+5eSNqMcvp0pK4DKbHEh
- nyuqJYgoAfQg01JLLSalT+YN/J/pBKerH2xedN+0pQF6Kn0s7vvu2vaPZYHOA6ZeGcxS
- 4mzyygEJZSbZpsZ3NQXNV1PZdZRQ1QomUgc4zDAP3hRV4kTJauoI+7QJ79sjdIYSYzZA
- MMS3U5K+wmQTiC/pTOaPd3uE7PE0u9HFilKg6hdez/KP+HMU4KXkiZdd8WsF5MqPfT7s
- QWog==
+ bh=g9cCMZtEkM7Y7AHaz9CHJEQ5Bqx3hepUjwcskldSK3k=;
+ b=DwlGZP8+EpwQOTeJoLtucByNvZ9UpL03GK829rihVuEGOLULBNz27gCFJi/Y9asyhA
+ /yagQyBTIKXfYCsif4YPCvJbeLoOViM5nGXhqxXYlgmTYkhnTJv5RJ/Tm+M7uQsAlBdz
+ 3pZyBSiQXfNRschF5jx2eAS19+lA3YNorgni/IIgCVFtGxsy01bK+19MfpLQpDlKMcrC
+ GUisdoMI78UK5NWmssIS0hibeg8OIweSne2qOi/aywIcas+FK1bE1xob0FsOeLAv1BsG
+ /6nI6fMq/NzZQJUmr07aa0CPG5rrmuzUBnkk0tBxYOdW6vd5x4frEWqvWAlA2Li5cwGb
+ Xqyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Pc/HUtwzczF7hl6cnINcFfG6ZqHbQFHNh940PLCprkw=;
- b=ZtqSPtFTkkLd6jA3o+FJU9M/+ciRz1WK1NH7p+QXlWBZRQUDLXlFvWIIcfxx4PRQxj
- IwbGEboO/l4lL0Q5eHQ7Do8fbPxTPnuQSr7OZZ5ejCmRoH6qVUwF1m3nHN+kI3XNvfs8
- Jr0k6tdF2NuGbHEyA4J+DYacI16DBN4GN/xbRgfOoeTVkkApJTJ6fnqypRBoSYR7dVul
- JlDiea873kCRgmBLuHTDCfmFnlDKyJc7Qovv3XhuHHlZ6v8E9QC7W5Te7iUpges274eJ
- dNpyfy5Lu+mBlzAJAlQU5fd6Zduawadpgx5HMTv1wMeS7LiW9GE6oE/BQqR1lj2+nbMU
- uzHw==
-X-Gm-Message-State: APjAAAXgR+02lm6/F+oFOsAcITzntuzOalAEhMoNgGcDk1vvLu+ANzGP
- 1wC7nZbSbdaimPAb/qCGaMeN0Q==
-X-Google-Smtp-Source: APXvYqxbShFZ86wmwb83jArVx6pbttNvj/034bI8PUddYwI18r5tKa8vHPCYqAoiYCkfSCQCFbEwtw==
-X-Received: by 2002:adf:e3c1:: with SMTP id k1mr4138784wrm.151.1575996273900; 
- Tue, 10 Dec 2019 08:44:33 -0800 (PST)
+ bh=g9cCMZtEkM7Y7AHaz9CHJEQ5Bqx3hepUjwcskldSK3k=;
+ b=Krbug6yzOp+GQV4kI68X/tSq0KiXMECQjQdrSZrqnE1vOXgZorAHNwLlPxeGdtGgFH
+ NZrgIhdYkXmHQMqPwNA7nImW8A4/bScAt7pBfgePeXMMBu6aAyn7/FkbQA0H8RMk4X1t
+ 3CyF7hYPiRsTSJnHpEoSDgXnYxSnBrkzROeGAVTsFLOvKYemmvdYe8QgfPivaSko8Wke
+ /kpuC1DzI38n8YMs6Mni3hQZ0Rf8JoCwgCFD0VsMUmnUr5ghjZcXUZ3FB1BsOi0MYWDa
+ k7h3FsO4KOJVEYL+PNbdXIF55jYpuYhDmET21e8ij6r2cmHJsX65TCCtWdOr2TKRb5xn
+ BQ6g==
+X-Gm-Message-State: APjAAAX237fUaVMB646hNSLJXPJhLBjLDLRhWA1ei53LFelbBmJO5POs
+ KIHSXmZXZDPYgeSF8HJdnhti5A==
+X-Google-Smtp-Source: APXvYqyg6IvNiPboGL1KqEAv5dXfOxRf4UKen/I72vMGY8AyDRICYfqHTvUK0rdLm54PegAZ4hgDLg==
+X-Received: by 2002:adf:ffc5:: with SMTP id x5mr4392337wrs.92.1575996300824;
+ Tue, 10 Dec 2019 08:45:00 -0800 (PST)
 Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id x18sm3823630wrr.75.2019.12.10.08.44.32
+ by smtp.gmail.com with ESMTPSA id p10sm3682392wmi.15.2019.12.10.08.44.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 08:44:33 -0800 (PST)
-Date: Tue, 10 Dec 2019 17:44:28 +0100
+ Tue, 10 Dec 2019 08:45:00 -0800 (PST)
+Date: Tue, 10 Dec 2019 17:44:55 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 09/20] virtio-iommu: Implement fault reporting
-Message-ID: <20191210164428.GH277340@myrica>
+Subject: Re: [PATCH for-5.0 v11 10/20] virtio-iommu-pci: Add virtio iommu pci
+ support
+Message-ID: <20191210164455.GI277340@myrica>
 References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-10-eric.auger@redhat.com>
+ <20191122182943.4656-11-eric.auger@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191122182943.4656-10-eric.auger@redhat.com>
+In-Reply-To: <20191122182943.4656-11-eric.auger@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,42 +87,11 @@ Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 22, 2019 at 07:29:32PM +0100, Eric Auger wrote:
-> @@ -443,6 +489,8 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->      if (!ep) {
->          if (!bypass_allowed) {
->              error_report_once("%s sid=%d is not known!!", __func__, sid);
-> +            virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_UNKNOWN,
-> +                                      0, sid, 0);
+On Fri, Nov 22, 2019 at 07:29:33PM +0100, Eric Auger wrote:
+> This patch adds virtio-iommu-pci, which is the pci proxy for
+> the virtio-iommu device.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-I guess we could report the faulting address as well, it can be useful for
-diagnostics.
-
->          } else {
->              entry.perm = flag;
->          }
-> @@ -455,6 +503,8 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->                            "%s %02x:%02x.%01x not attached to any domain\n",
->                            __func__, PCI_BUS_NUM(sid),
->                            PCI_SLOT(sid), PCI_FUNC(sid));
-> +            virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_DOMAIN,
-> +                                      0, sid, 0);
-
-Here as well, especially since that error would get propagated by a linux
-guest to the device driver
-
->          } else {
->              entry.perm = flag;
->          }
-> @@ -468,16 +518,25 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s no mapping for 0x%"PRIx64" for sid=%d\n",
->                        __func__, addr, sid);
-> +        virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
-> +                                  0, sid, addr);
-
-Flag VIRTIO_IOMMU_FAULT_F_ADDRESS denotes a valid address field
-
-Thanks,
-Jean
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
