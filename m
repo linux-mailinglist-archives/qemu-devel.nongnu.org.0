@@ -2,52 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2F9118DB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:36:39 +0100 (CET)
-Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF94118DA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:35:00 +0100 (CET)
+Received: from localhost ([::1]:58796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieiV4-0003cT-59
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:36:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56117)
+	id 1ieiTT-00013A-AH
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:34:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ieiR2-0007aN-2g
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:29 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1ieiRF-0007nl-FQ
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ieiR0-0007pk-Th
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:27 -0500
-Received: from 4.mo3.mail-out.ovh.net ([178.33.46.10]:49327)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ieiR0-0007nm-NB
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:26 -0500
-Received: from player795.ha.ovh.net (unknown [10.109.146.131])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id 364712351D0
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 17:32:23 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: groug@kaod.org)
- by player795.ha.ovh.net (Postfix) with ESMTPSA id AAE00CEFB913;
- Tue, 10 Dec 2019 16:32:08 +0000 (UTC)
-Date: Tue, 10 Dec 2019 17:32:06 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [for-5.0 PATCH v2 1/3] cpu: Introduce CPUReset callback typedef
-Message-ID: <20191210173206.3b599b8c@bahia.tlslab.ibm.com>
-In-Reply-To: <CAFEAcA8rVxtHbvEenxRsSFQWY7bE47e060NdxdVPXpCTrEOYHw@mail.gmail.com>
-References: <157591411283.46967.15944326590669093952.stgit@bahia.lan>
- <157591411864.46967.18244018296239778673.stgit@bahia.lan>
- <87pngw31ob.fsf@dusky.pond.sub.org>
- <CAFEAcA8rVxtHbvEenxRsSFQWY7bE47e060NdxdVPXpCTrEOYHw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <jean-philippe@linaro.org>) id 1ieiRD-0007zl-CF
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:41 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40140)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
+ id 1ieiRD-0007zB-2M
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:39 -0500
+Received: by mail-wm1-x341.google.com with SMTP id t14so3900870wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:32:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=qgVznmekNB3MfWLf8bBgjLOIH1R7Lmqq4nQfM+upz3U=;
+ b=k2qqHrXpr77w0dy+IsuoZDZBR/zO1WWMkmuM0lgyEBcYt9nGmQFMIP0tKz7vAakfPl
+ mj6EEnUORMrkxg1qYTKoAazJMitEMrlle4erVE86cUl7DPGfuUAGqBiqdPNF1K/LfJF+
+ P4dmS1Bv1PLgJ7bdMv7iZOeUU1/Ex90kE6EkFf6eSgkovI0HowIC/TGoqP+Uj/0Y2m+Z
+ USuRSdzIWqMKIIf5IwAWRTGPFnHtH233VgOwvj8mkK9nv2jJq3vx5z4UIC3j9TrzSaIY
+ 9fWjHx8MXWKTQUc5DpkTy4jc81F1k8P+MHc+hHlOCT/bx4kgQkb0nvGN5vDPv1UnDiAL
+ hstQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qgVznmekNB3MfWLf8bBgjLOIH1R7Lmqq4nQfM+upz3U=;
+ b=rJFpTBh18iZby9IQ8VqjcMHKkb9hRPDjLxg2fVQMVQJ+s63k1gi2zN5jbgMaOPaLQs
+ 6fKW7vFtI5/cshXo7XWIt9DYs4x1TEb9YW2MEqU/CQ8FDcVBuBkuH9C6RdC4skGREzFT
+ 2U+htu7qw1elXv1YMyzkzTMvWTYeHXwTlKpBnZdtGTDKIbtHm3tpKzFkbUm1qcmvYfR8
+ fFVyiFnxTFei7KxXHGbzio0nYbtUUGiR6VJP9Av23H2IWO+z1v2vzQsctkB6y8lxfru6
+ iOBpwlamgI3GfqehLWSD2jhLF1/hCvHoqj8GJ6ihl3P4Q/CcMkld8DjwGWPFv14kA6j8
+ a1RA==
+X-Gm-Message-State: APjAAAVCboRUPCaAnvE1/ZK+/zQO60XZkJVxOAd0IfqFjeAFs2wEr3/c
+ NGJbdc6x8kd+3njr1V0XAh7C0w==
+X-Google-Smtp-Source: APXvYqyltAwOreZoQ/omCzEQQ5FjH/XyA8RdQZXB56rgqB5k2s5ytj78cTlWZV+vkONaZtKV/jQjag==
+X-Received: by 2002:a05:600c:2301:: with SMTP id
+ 1mr6485530wmo.147.1575995557913; 
+ Tue, 10 Dec 2019 08:32:37 -0800 (PST)
+Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
+ by smtp.gmail.com with ESMTPSA id u10sm3615307wmd.1.2019.12.10.08.32.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Dec 2019 08:32:37 -0800 (PST)
+Date: Tue, 10 Dec 2019 17:32:33 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH for-5.0 v11 03/20] virtio-iommu: Decode the command payload
+Message-ID: <20191210163233.GB277340@myrica>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-4-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 14454021529746184465
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelfedgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelhedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepud
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 178.33.46.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191122182943.4656-4-eric.auger@redhat.com>
+X-TUID: ajVuZQQERWm/
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,64 +80,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ dgilbert@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Dec 2019 10:42:51 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Tue, 10 Dec 2019 at 10:39, Markus Armbruster <armbru@redhat.com> wrote:
-> >
-> > Greg Kurz <groug@kaod.org> writes:
-> > > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> > > index 77c6f0529903..047e3972ecaf 100644
-> > > --- a/include/hw/core/cpu.h
-> > > +++ b/include/hw/core/cpu.h
-> > > @@ -74,6 +74,8 @@ typedef struct CPUWatchpoint CPUWatchpoint;
-> > >
-> > >  struct TranslationBlock;
-> > >
-> > > +typedef void (*CPUReset)(CPUState *cpu);
-> > > +
-> > >  /**
-> > >   * CPUClass:
-> > >   * @class_by_name: Callback to map -cpu command line model name to an
-> > > @@ -165,7 +167,7 @@ typedef struct CPUClass {
-> > >      ObjectClass *(*class_by_name)(const char *cpu_model);
-> > >      void (*parse_features)(const char *typename, char *str, Error **errp);
-> > >
-> > > -    void (*reset)(CPUState *cpu);
-> > > +    CPUReset reset;
-> > >      int reset_dump_flags;
-> > >      bool (*has_work)(CPUState *cpu);
-> > >      void (*do_interrupt)(CPUState *cpu);
-> > [...]
-> >
-> > Opinion, not objection: such typedefs make the code less obvious.
+On Fri, Nov 22, 2019 at 07:29:26PM +0100, Eric Auger wrote:
+> This patch adds the command payload decoding and
+> introduces the functions that will do the actual
+> command handling. Those functions are not yet implemented.
 > 
-> It's particularly odd here where this class has several
-> methods but we've only chosen one to privilege with a typedef.
-> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-Yes, children classes don't do the overloading-and-call-the-parent for
-other methods which was the initial motivation for the typedef.
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-> Personal preference: if you use a typedef, typedef the
-> function type, not the pointer-to-the-function-type.
-> But I would just leave it be.
-> 
+Which isn't worth much since I don't have prior QEMU experience but I did
+stare at this code for a while and work on future extensions.
 
-Thinking again, I'm not sure the typedef really helps here. Markus
-doesn't like it either. I'll try without.
-
-> thanks
-> -- PMM
+Thanks,
+Jean
 
 
