@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97989118DA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:34:35 +0100 (CET)
-Received: from localhost ([::1]:58782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2F9118DB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:36:39 +0100 (CET)
+Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieiT4-0000NY-8D
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:34:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55997)
+	id 1ieiV4-0003cT-59
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:36:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56117)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1ieiQd-00079z-OM
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:04 -0500
+ (envelope-from <groug@kaod.org>) id 1ieiR2-0007aN-2g
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1ieiQc-0007gc-Lm
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:03 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39112)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1ieiQc-0007fz-EB
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:02 -0500
-Received: by mail-wr1-x441.google.com with SMTP id y11so20803301wrt.6
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:32:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=yFJvEW6PL4Wk9dE8Q8kwfKDDjO3R418aBjP/+OttZ5A=;
- b=QL3B9wwzzN9AcFnvQWPzk69I2vS9i13JtB5K3ng8EPET4KlE2XDjpWJ2fNy2dAbjNQ
- dHflE7wG8NvhZUEAU+fT630hhR7x70Xr7zTrYIOrgfefmzOhrf7kPav7fqTy/RzNILrA
- 3bCH0f6ptEdJE+iPzvDm1Bb3BcwUo+Eg7lTaadOOOk6TQPeIVy5vIZ11epYqvV5pHM5w
- YpbBaDswRn29senin0FPUedkNbM794QSWPO2h4Pgr2eoAMVZrfrKrDrO3hjbpFU3rg+X
- Jr4MZkuLZ1y8fpfhdhg6JDdB8IFXgH5lFw7A+fGmuqMf7J/YfGIlr/oSJB2X2mT8iStN
- 0nBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yFJvEW6PL4Wk9dE8Q8kwfKDDjO3R418aBjP/+OttZ5A=;
- b=fUgsK8QM95TIN5yVO+W32R1hOhlGRVs/68oM9oV0gNOAlWLy46E+hmz6vI4sHrbpDs
- EGWsdL+YJjYsO4UUAsRz/D7qm3U911zoRhpb9QNkCY80o64ic3U0YLM+FquHXgMx9XYg
- 3S6NoVOqHSAIcHWc3YAb1j55XoChAuCSig9/1OozoOg4Qmq93wXfWLMFnyYOdLdgsRBP
- oQoW/2Iqb5+ZsIt+EFA6ySeucB+Tj4plvaFpJZqSnk2o/x74ARt9kfsQSf+0qQFTl7Zn
- OnHnnV9b2mnfLDw6VgJVXjoThvNqQGOz7bffmo4xY04sT3G+5M0Jd5jdvqsZjsyZEJa4
- GPnA==
-X-Gm-Message-State: APjAAAW0o+pK9jiwzmu0WOY+X74pwEuytJfhWYMH1vukUIljSJzKpFPm
- ruRVOQ022ooDQWfVZ3BG3INkCg==
-X-Google-Smtp-Source: APXvYqzjNyutGRXO8/G4WT7haieLoxlV0LaBYWCWz9kz1jBfJ5Fem0xDlkK1Isa0r6cI50zPINvIAA==
-X-Received: by 2002:adf:db41:: with SMTP id f1mr4380682wrj.392.1575995520619; 
- Tue, 10 Dec 2019 08:32:00 -0800 (PST)
-Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id x17sm3807881wrt.74.2019.12.10.08.31.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 08:31:59 -0800 (PST)
-Date: Tue, 10 Dec 2019 17:31:55 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 02/20] virtio-iommu: Add skeleton
-Message-ID: <20191210163155.GA277340@myrica>
-References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-3-eric.auger@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1ieiR0-0007pk-Th
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:27 -0500
+Received: from 4.mo3.mail-out.ovh.net ([178.33.46.10]:49327)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ieiR0-0007nm-NB
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:32:26 -0500
+Received: from player795.ha.ovh.net (unknown [10.109.146.131])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 364712351D0
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 17:32:23 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player795.ha.ovh.net (Postfix) with ESMTPSA id AAE00CEFB913;
+ Tue, 10 Dec 2019 16:32:08 +0000 (UTC)
+Date: Tue, 10 Dec 2019 17:32:06 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [for-5.0 PATCH v2 1/3] cpu: Introduce CPUReset callback typedef
+Message-ID: <20191210173206.3b599b8c@bahia.tlslab.ibm.com>
+In-Reply-To: <CAFEAcA8rVxtHbvEenxRsSFQWY7bE47e060NdxdVPXpCTrEOYHw@mail.gmail.com>
+References: <157591411283.46967.15944326590669093952.stgit@bahia.lan>
+ <157591411864.46967.18244018296239778673.stgit@bahia.lan>
+ <87pngw31ob.fsf@dusky.pond.sub.org>
+ <CAFEAcA8rVxtHbvEenxRsSFQWY7bE47e060NdxdVPXpCTrEOYHw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191122182943.4656-3-eric.auger@redhat.com>
-X-TUID: HBRCdcJechMs
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 14454021529746184465
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelfedgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelhedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepud
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 178.33.46.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,44 +59,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
- quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
- dgilbert@redhat.com, eric.auger.pro@gmail.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+On Tue, 10 Dec 2019 10:42:51 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-On Fri, Nov 22, 2019 at 07:29:25PM +0100, Eric Auger wrote:
-> +typedef struct VirtIOIOMMU {
-> +    VirtIODevice parent_obj;
-> +    VirtQueue *req_vq;
-> +    VirtQueue *event_vq;
-> +    struct virtio_iommu_config config;
-> +    uint64_t features;
-> +    uint64_t acked_features;
-
-We already have guest_features in the parent object.
-
-> +    GHashTable *as_by_busptr;
-> +    IOMMUPciBus *as_by_bus_num[IOMMU_PCI_BUS_MAX];
-
-Doesn't seem used anymore.
-
-Thanks,
-Jean
-
-> +    PCIBus *primary_bus;
-> +    GTree *domains;
-> +    QemuMutex mutex;
-> +    GTree *endpoints;
-> +} VirtIOIOMMU;
-> +
-> +#endif
-> -- 
-> 2.20.1
+> On Tue, 10 Dec 2019 at 10:39, Markus Armbruster <armbru@redhat.com> wrote:
+> >
+> > Greg Kurz <groug@kaod.org> writes:
+> > > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> > > index 77c6f0529903..047e3972ecaf 100644
+> > > --- a/include/hw/core/cpu.h
+> > > +++ b/include/hw/core/cpu.h
+> > > @@ -74,6 +74,8 @@ typedef struct CPUWatchpoint CPUWatchpoint;
+> > >
+> > >  struct TranslationBlock;
+> > >
+> > > +typedef void (*CPUReset)(CPUState *cpu);
+> > > +
+> > >  /**
+> > >   * CPUClass:
+> > >   * @class_by_name: Callback to map -cpu command line model name to an
+> > > @@ -165,7 +167,7 @@ typedef struct CPUClass {
+> > >      ObjectClass *(*class_by_name)(const char *cpu_model);
+> > >      void (*parse_features)(const char *typename, char *str, Error **errp);
+> > >
+> > > -    void (*reset)(CPUState *cpu);
+> > > +    CPUReset reset;
+> > >      int reset_dump_flags;
+> > >      bool (*has_work)(CPUState *cpu);
+> > >      void (*do_interrupt)(CPUState *cpu);
+> > [...]
+> >
+> > Opinion, not objection: such typedefs make the code less obvious.
 > 
+> It's particularly odd here where this class has several
+> methods but we've only chosen one to privilege with a typedef.
 > 
+
+Yes, children classes don't do the overloading-and-call-the-parent for
+other methods which was the initial motivation for the typedef.
+
+> Personal preference: if you use a typedef, typedef the
+> function type, not the pointer-to-the-function-type.
+> But I would just leave it be.
+> 
+
+Thinking again, I'm not sure the typedef really helps here. Markus
+doesn't like it either. I'll try without.
+
+> thanks
+> -- PMM
+
 
