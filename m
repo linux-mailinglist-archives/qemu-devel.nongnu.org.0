@@ -2,39 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C25E1188F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 13:58:32 +0100 (CET)
-Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4771188F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 13:58:33 +0100 (CET)
+Received: from localhost ([::1]:56232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ief5z-0003eu-1x
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 07:58:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52762)
+	id 1ief60-0003fB-1l
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 07:58:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52784)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ief4C-0002RA-Hg
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:56:41 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ief4D-0002RC-A9
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:56:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ief4B-00038t-2T
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:56:40 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:39379 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ief4C-00039K-CK
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:56:41 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:57771 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ief4A-0002lY-S9
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:56:39 -0500
+ id 1ief4C-000395-5a
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:56:40 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 620541A2057;
- Tue, 10 Dec 2019 13:55:33 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 790DF1A21EB;
+ Tue, 10 Dec 2019 13:55:42 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 45B001A1EB3;
- Tue, 10 Dec 2019 13:55:33 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 480C21A21C7;
+ Tue, 10 Dec 2019 13:55:42 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/5] MAINTAINERS: Fine adjustment for (mostly mips) content
-Date: Tue, 10 Dec 2019 13:55:14 +0100
-Message-Id: <1575982519-29852-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v3 4/5] MAINTAINERS: Add three files to Malta section
+Date: Tue, 10 Dec 2019 13:55:18 +0100
+Message-Id: <1575982519-29852-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1575982519-29852-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1575982519-29852-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,39 +61,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-v2->v3:
+Add two files that were recently introduced in a refactoring,
+that Malta emulation relies on. They are added by this patch
+to Malta section, but they are not added to the general MIPS
+section, since they are really not MIPS-specific, and there
+may be some non-MIPS hardware using them in future.
 
-  - changed patches 2, 3, 4 on Philippe's request
-  - add a patch on including acceptance test in MIPS section
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ MAINTAINERS | 3 +++
+ 1 file changed, 3 insertions(+)
 
-v1->v2:
-
-  - removed patch on new git infrastructure section
-  - added a patch that adds two files in Malta section
-
-The goal of this series is to:
-
-  * reduce the amount of "unmainatined" files (not having their
-    maintainer in "MAINTAINERS")
-  * reduce the amount of nominally maintained files, but unmaintained
-    in reality
-  * increase the role of non-mips open source participants in
-    maintaining and reviewing mips content
-
-Best wishes to all new and former maintainers in future activities
-and enavours!
-
-Aleksandar Markovic (5):
-  MAINTAINERS: Add a section on UI translation
-  MAINTAINERS: Adjust maintainership for Fulong 2E board
-  MAINTAINERS: Adjust maintainership for Malta board
-  MAINTAINERS: Add three files to Malta section
-  MAINTAINERS: Add a file to MIPS section
-
- MAINTAINERS | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
--- 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7803fe7..2af7313 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -959,8 +959,11 @@ M: Aleksandar Markovic <amarkovic@wavecomp.com>
+ M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+ S: Maintained
++F: hw/isa/piix4.c
++F: hw/acpi/piix4.c
+ F: hw/mips/mips_malta.c
+ F: hw/mips/gt64xxx_pci.c
++F: include/hw/southbridge/piix.h
+ F: tests/acceptance/linux_ssh_mips_malta.py
+=20
+ Mipssim
+--=20
 2.7.4
 
 
