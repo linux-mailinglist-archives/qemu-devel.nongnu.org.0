@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017DE118CF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 16:49:46 +0100 (CET)
-Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C03118D1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 16:55:38 +0100 (CET)
+Received: from localhost ([::1]:58152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iehlg-0005xp-R1
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 10:49:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
+	id 1iehrM-0008KD-NO
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 10:55:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <abologna@redhat.com>) id 1iehk4-00052C-Nr
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 10:48:05 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iehqB-0007av-V3
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 10:54:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <abologna@redhat.com>) id 1iehk1-00043Z-FD
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 10:48:02 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24470
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <abologna@redhat.com>) id 1iehk1-00041d-BH
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 10:48:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575992880;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VhYuL2Sq9yxjpF+tZAOFmq1iyF/dfLOzaDkTF2Fc/GA=;
- b=gEl9OJJs333zcpWoGN+dRai+U+Qqf+29NpUm5I7XxHet6q5EY06dvVYhS+bBzhVbzLRIxm
- hhUB+apCOn94EkhRTDCdaC1QhUHp9f5ThwD6RHcODTMIfFBkpEqDdy79Oq/JICGweuFHy3
- T4uavo4baYqHGqfkmu1D0CBMsWCgDiY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-Vsc1rnNRMo-k8cxV4xnNCw-1; Tue, 10 Dec 2019 10:47:56 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 975FE100E0D9;
- Tue, 10 Dec 2019 15:47:54 +0000 (UTC)
-Received: from ovpn-205-189.brq.redhat.com (ovpn-205-189.brq.redhat.com
- [10.40.205.189])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56F1660BE0;
- Tue, 10 Dec 2019 15:47:52 +0000 (UTC)
-Message-ID: <e0f86b200d0b3c08769cdbaa080569c3ec3db3ab.camel@redhat.com>
-Subject: Re: [PATCH v1 0/5] target/arm/kvm: Provide an option to adjust
- virtual time
-From: Andrea Bolognani <abologna@redhat.com>
-To: Andrew Jones <drjones@redhat.com>
-Date: Tue, 10 Dec 2019 16:47:49 +0100
-In-Reply-To: <20191210143311.4sen6blhfhzop6zw@kamzik.brq.redhat.com>
-References: <20191016143410.5023-1-drjones@redhat.com>
- <CAFEAcA8j8M_J8Ocdpms8a2XufigVQ6oB4JBy2BcYAkXfJX5y5A@mail.gmail.com>
- <20191206155327.7adiyjjkjh56mg2t@kamzik.brq.redhat.com>
- <596d07e933cb4da48dbba5b492e81a2438e78a2f.camel@redhat.com>
- <CAFEAcA9+G0jprsHRQp8g=Aso+2-_GhoWkDGx4WWxoC88maOKEg@mail.gmail.com>
- <20191210110531.psjzlikir2ep2omo@kamzik.brq.redhat.com>
- <CAFEAcA_M61hTzU=qCiUbR4V9Mnwd0phFNqTJG9pCWKreVmjy6A@mail.gmail.com>
- <20191210133254.22vcpvr3eabcnthe@kamzik.brq.redhat.com>
- <29add42daba074ab5bdbd462b2d377115fec7c3c.camel@redhat.com>
- <20191210143311.4sen6blhfhzop6zw@kamzik.brq.redhat.com>
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31)
+ (envelope-from <peter.maydell@linaro.org>) id 1iehqA-0008JF-RG
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 10:54:23 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46737)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iehqA-0008Iy-LZ
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 10:54:22 -0500
+Received: by mail-oi1-x244.google.com with SMTP id a124so10186725oii.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 07:54:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qkvXH55G+iv0yZ4areBM4JInh6uKCzUpqm+YCgqvJbg=;
+ b=KuFGnYt/t268MsTXofoQshaYJr/nAShbCt+AOCnnzl96R8uRChzhjFXZN5CMtqb7Xr
+ pxY21NtQsyPc8qWeSj36a/J7SC56DecORnLahkTeDyelNgVzR8wtuLGlvptJLsT1DWnY
+ b+37dw4vio4cT+HWLqfeh+BTveDbM/SkVpXUtH+gdvfEuJcquhdK/8O9UF2iA/Jr5onx
+ OsIhWk+j3bD7fxvViXxNgHWZN2+7n5hzdwHT1lDLjXeNrqTqd0MpYE6ADUTDAYATeM6Y
+ GYx/j74CL0yipW+ERJ5B/GRI+HakWcD9/S+FgHXY5Ae4woqoc+itArFHecIwL3MtLEx2
+ 15Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qkvXH55G+iv0yZ4areBM4JInh6uKCzUpqm+YCgqvJbg=;
+ b=SwPFA8bz8q3XPtVZs/utBoVikAo4xLFyOpkW+ucrxRTiFIiu14Ca8vxLncHAzESa4V
+ 1LfSHnTb+S3ODKJAJ73dQPo51jdw8wwczMR6GBgplq/BwnpuChJwaIVROBmqhl0lBcti
+ Uz04p0/bhDbTpLV66FwZuY16IRgXvDIzg++7R3Q/5O8m9Zo77KzRsYQgQh/0gnRbiCuv
+ OZON93uyNS+t0msl4jSmGRkft3Oc5D9NIiGWL43Nx1MQIhcG0F3/1lYw8rB4qZNzzX2L
+ qVrCZBA0hVxoNtPy1rYddezgBgWjN5TRIoE/Ckq+aPUHX/CDzmyDNs6Eu9bGDLeyLOWo
+ c+4Q==
+X-Gm-Message-State: APjAAAUStJaXQUsxhNVUwYHo1xoEu5af/VzA4n+M6QaOE7d6u9hys+6O
+ E28urUIejI4NTHq0dhutVLVfDyXG0tilEVwiKbgAbQ==
+X-Google-Smtp-Source: APXvYqxlLGNk8aLVogO0zZkyoe+jfnwIR09cEFRD/p9gfWAP77vgqEJcSYX924cfMdQy/KubluT2raGTjGSR2xd8veI=
+X-Received: by 2002:aca:3182:: with SMTP id x124mr4651766oix.170.1575993261791; 
+ Tue, 10 Dec 2019 07:54:21 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Vsc1rnNRMo-k8cxV4xnNCw-1
-X-Mimecast-Spam-Score: 0
+References: <20191016143410.5023-1-drjones@redhat.com>
+ <20191016143410.5023-4-drjones@redhat.com>
+In-Reply-To: <20191016143410.5023-4-drjones@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 10 Dec 2019 15:54:11 +0000
+Message-ID: <CAFEAcA-uP9eAMu=S98hv7Ge_3GU42acpfvWDMmcMSKagnD9rsQ@mail.gmail.com>
+Subject: Re: [PATCH v1 3/5] target/arm/kvm: Implement cpu feature kvm-adjvtime
+To: Andrew Jones <drjones@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,40 +72,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, bijan.mottahedeh@oracle.com,
- Marc Zyngier <maz@kernel.org>,
+Cc: Marc Zyngier <maz@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+ QEMU Developers <qemu-devel@nongnu.org>, bijan.mottahedeh@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2019-12-10 at 15:33 +0100, Andrew Jones wrote:
-> On Tue, Dec 10, 2019 at 03:21:02PM +0100, Andrea Bolognani wrote:
-> > I agree with everything except the naming: why would
-> > 
-> >   kvm-no-adjvtime=off  vtime is adjusted      (default)
-> >   kvm-no-adjvtime=on   vtime is not adjusted
-> > 
-> > be better than
-> > 
-> >   kvm-adjvtime=on   vtime is adjusted      (default)
-> >   kvm-adjvtime=off  vtime is not adjusted
-> > 
-> > ? Both offer the exact same amount of flexibility, but the latter has
-> > the advantage of not introducing any unwieldy double negatives.
-> 
-> A default of 'off' == 0 means not setting anything at all. There's
-> already precedent for 'kvm-no*' prefixed cpu features,
-> 
-> kvm-no-smi-migration
-> kvm-nopiodelay
+On Wed, 16 Oct 2019 at 15:34, Andrew Jones <drjones@redhat.com> wrote:
+>
+> When kvm-adjvtime is enabled the guest's cntvct[_el0] won't count
+> the time when the VM is stopped. That time is skipped by updating
+> cntvoff[_el2] on each transition to vm_running using the current
+> QEMU_CLOCK_VIRTUAL time. QEMU_CLOCK_VIRTUAL only ticks when the VM
+> is running.
+>
+> This patch only provides the implementation. A subsequent patch
+> will provide the CPU property allowing the feature to be enabled.
 
-Sorry, I'm not sure I understand. Do you mean that the array where
-you store CPU features is 0-inizialized, so it's more convenient to
-have off (0) as the default because it means you don't have to touch
-it beforehand? Or something different?
 
--- 
-Andrea Bolognani / Red Hat / Virtualization
+> +void kvm_arm_set_virtual_time(CPUState *cs)
+> +{
+> +    uint64_t cnt;
+> +    struct kvm_one_reg reg = {
+> +        .id = KVM_REG_ARM_TIMER_CNT,
+> +        .addr = (uintptr_t)&cnt,
+> +    };
+> +    int ret;
+> +
+> +    cnt = muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+> +                   cpu_get_host_tick_frequency(),
+> +                   NANOSECONDS_PER_SECOND);
+> +
+> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +    if (ret) {
+> +        error_report("Failed to set KVM_REG_ARM_TIMER_CNT");
+> +        abort();
+> +    }
 
+The commit message (and the doc comment for this function)
+say that we're updating the counter offset, but the
+kvm_one_reg operation here is updating the timer count
+(and relying on the kernel's handling of "if we update
+the timer count implement that by changing the offset").
+That seems a bit confusing.
+
+Would it be possible to implement "cntvct should not change while the
+VM is stopped" with "read cntvct when the VM stops, and just write
+back that value when the VM is restarted", rather than
+"write back a new value calculated from QEMU_CLOCK_VIRTUAL"?
+If I understand commit 00f4d64ee76e873be8 correctly, that's
+basically how x86 is doing it. It would also let you sidestep
+the need to know the tick frequency of the counter.
+
+thanks
+-- PMM
 
