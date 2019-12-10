@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1A4118E26
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:50:53 +0100 (CET)
-Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4088118E27
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:50:57 +0100 (CET)
+Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieiip-0007Vy-Pg
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:50:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59420)
+	id 1ieiiu-0007eP-Ch
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:50:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59514)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1ieif4-0005M8-RZ
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:46:59 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1ieifH-0005be-AO
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:47:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1ieif3-0005FR-QU
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:46:58 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34727)
+ (envelope-from <jean-philippe@linaro.org>) id 1ieifG-0005KJ-1j
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:47:11 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40760)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1ieif3-0005Ex-KW
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:46:57 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so20921440wrr.1
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:46:57 -0800 (PST)
+ id 1ieifF-0005Jp-S9
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:47:09 -0500
+Received: by mail-wr1-x441.google.com with SMTP id c14so20877808wrn.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:47:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=t6xiBm4AewZPGvWuP/C57U7CBdnlU6ctV7vonpSTcNY=;
- b=QfoZ5P48W8GsomtBZLloAwVJKXIiOVSv8BYnO1KEc4cVmUvX8ODXUpoKPaJ0DNLX5v
- hIoItecgjGlxfqsTlIhq89JGVyTjbsdMgfgfoXyYLtfzMlgZfEqbVCSxumBZU5daq7jF
- uxknZNGmVEn5uYE+yVkB8BHyqanWi7ObXl1EH+m0EBm9lHsGilGYnVCnxoY16hWRkaFh
- 9Ej/s0+ctL2JG8l5uuWj8u01+EyzvkH5MFI8hlOQJHaPn/zVlByD/96egQwVRkWRhCOP
- mTdMSWhlpkIUwP8O5H9Sav+mnYD3lANb0gMzx3pSUvxRLRTRR3o5dRW0ZtmAdZeyr7Gc
- +QYw==
+ bh=MaG2yhQk2cqVE1psdudnea3pLB+w1y+rXcyshwhvQEQ=;
+ b=C37tM1vu50Xd4/4ybdT4NjFOcRVsfZpTVIze9zGBYP41ep0mVm45g8YQEQLTDqxJBY
+ JIhL7ZGtRi8k7sO7n4rFRD2061F9nPLQ0ZxyuD7K4OPOWkGXt9dkl/De+mfDT56CE9PH
+ Vbw2dbsVLSGzcEBApcxllDjzVxOL2STEVmOkCWzl8Svbia3N9iiHPjojElzZHX/aFrXp
+ caJPrw2+ReyMjwz8QFHMLre3WY7fhdW+UDe+x04Lv/n49pRrabnwnBPwFUzC8Ae/u0bb
+ mBha/aiRRvxcvcSizi4occldr3egmOeszng7i71VqLWdvZPfnFxI53AgWlORyNNYvfkJ
+ 9zSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=t6xiBm4AewZPGvWuP/C57U7CBdnlU6ctV7vonpSTcNY=;
- b=qRmuHdua8RtZ6tjkA0j5Ei4PB6tx9B/6k4SIe1bDWL86NEn1v+DtbyBuZVpPdwdGo3
- i9LhGhfRM5z3rpj/VlsiOu9lVl6+lqbYGJj/PGI8Zg5MjHIPuGG9Wo/ts9p9GHntSk5+
- 1KBfeV5tMzvByBQm36yOThbgrLa5tgJSWFQAgSDU+JMqXpgGd33GIyTjGxY3AW/j80A1
- cV1QzkOwgCoKgkKg+pH4aaQDEUKY2OZjdPZH96bYi4x3s345gq1YgB7E4zKSm0LlqSM8
- MyZigVTV/5uFPFJKipVFnkrY+en/c8zXH4SSRT5b0D6sVLVdNyiMYRZDC5GlnrdH5bgd
- AIzA==
-X-Gm-Message-State: APjAAAXNApbZoC9yeLSpEB7Sei6Bg1NByUGMczBYOJNveRpDTMgPEdxb
- Z9TNqXsm1E3Pikqnwu37Ha7FNQ==
-X-Google-Smtp-Source: APXvYqx9XR6r84Xopmm1b212+fWkQzXvL9yJa3C/hKbkklYVUxSIArRDNTYIkSBmgTNPCdt+H2sL8A==
-X-Received: by 2002:adf:ea05:: with SMTP id q5mr4398038wrm.48.1575996416685;
- Tue, 10 Dec 2019 08:46:56 -0800 (PST)
+ bh=MaG2yhQk2cqVE1psdudnea3pLB+w1y+rXcyshwhvQEQ=;
+ b=M828gUo0Ge+6Go5Wux0SyrpTRuRtl8StSunT9LmewJEcho2HGg1nPNHCokmNtl+pl4
+ Wh6U8JY8U9VZFKqaEuunEHbCXFbd0AiEpW207tzgAEZS+YjfWWH2YH+AuZHmlc5vUZyz
+ NAy7P+zt32+QHeHV5UzJIth/qimC+os6M8492zH8BBJSusdNgI5Ws52zEJNArtMCRa0h
+ vT5AQARc7LCdmtj7I8vRvEcJUR5nQO6ez+n5/KUZgKIqCUjXUZLEJyeY9TfyoyiqQ2a4
+ mqQkpnEmdtg6qY6ZRA1wDp1x0TBeNnDr7Avx5DbUTECQTqXa2PrMWh92HjYRjUZC4IXz
+ s1JQ==
+X-Gm-Message-State: APjAAAVOEAhRwXYMYU7mZz9/HGMq5maA+/tx61s+o2VRL82qvQ4WhQL9
+ zbxx5Iz9GmjEvV2Dov9/PthiiA==
+X-Google-Smtp-Source: APXvYqwTE1gZERfzuQ9NC9J5s9ebQhgK3/hg4vjz/cnsqaJRMmw2DPRSXxntXYsq0iOk8/8JT4V4ag==
+X-Received: by 2002:a5d:43c7:: with SMTP id v7mr4121910wrr.32.1575996428921;
+ Tue, 10 Dec 2019 08:47:08 -0800 (PST)
 Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id q6sm3927503wrx.72.2019.12.10.08.46.55
+ by smtp.gmail.com with ESMTPSA id f17sm2032251wmc.8.2019.12.10.08.47.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 08:46:56 -0800 (PST)
-Date: Tue, 10 Dec 2019 17:46:51 +0100
+ Tue, 10 Dec 2019 08:47:08 -0800 (PST)
+Date: Tue, 10 Dec 2019 17:47:04 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 14/20] virtio-iommu: Handle reserved regions
- in the translation process
-Message-ID: <20191210164651.GL277340@myrica>
+Subject: Re: [PATCH for-5.0 v11 15/20] virtio-iommu-pci: Add array of
+ Interval properties
+Message-ID: <20191210164704.GM277340@myrica>
 References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-15-eric.auger@redhat.com>
+ <20191122182943.4656-16-eric.auger@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191122182943.4656-15-eric.auger@redhat.com>
+In-Reply-To: <20191122182943.4656-16-eric.auger@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::441
@@ -87,22 +87,12 @@ Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 22, 2019 at 07:29:37PM +0100, Eric Auger wrote:
-> +    for (i = 0; i < s->nb_reserved_regions; i++) {
-> +        if (interval.low >= s->reserved_regions[i].low &&
-> +            interval.low <= s->reserved_regions[i].high) {
-> +            switch (s->reserved_regions[i].type) {
-> +            case VIRTIO_IOMMU_RESV_MEM_T_MSI:
-> +                entry.perm = flag;
-> +                goto unlock;
-> +            case VIRTIO_IOMMU_RESV_MEM_T_RESERVED:
-> +            default:
-> +                virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
-> +                                          0, sid, addr);
+On Fri, Nov 22, 2019 at 07:29:38PM +0100, Eric Auger wrote:
+> The machine may need to pass reserved regions to the
+> virtio-iommu-pci device (such as the MSI window on x86).
+> So let's add an array of Interval properties.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-Needs the VIRTIO_IOMMU_FAULT_F_ADDRESS flag.
-
-Thanks,
-Jean
-
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
