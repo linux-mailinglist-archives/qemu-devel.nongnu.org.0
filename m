@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FD7118DC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:39:44 +0100 (CET)
-Received: from localhost ([::1]:58912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FB3118DF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:42:44 +0100 (CET)
+Received: from localhost ([::1]:58952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieiY3-0006xL-Mt
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:39:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
+	id 1ieiax-0000jT-1p
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:42:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ieiWg-00068L-4L
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:38:19 -0500
+ (envelope-from <drjones@redhat.com>) id 1ieiZb-0008Tf-Ge
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:41:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ieiWc-0002OA-C3
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:38:15 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31578
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1ieiZa-0003Tr-Bn
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:41:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53175
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ieiWa-0002Nc-EP
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:38:12 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1ieiZa-0003TC-7l
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:41:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575995891;
+ s=mimecast20190719; t=1575996077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tk9zUsPUOUkFHWSFqxNcwB5t8u11MSGyU2vMilOzNIA=;
- b=UxbnlUfxID8MlehoGKAXvC2tSP+GbtqatstMVMzP2N7N4oeLkBcPk7Vo1qHibLoS8oe355
- qAmAVYvKD08BsbzQU8NH9DiSuLCV1zyhvtjBtPX3FC1pdK+0AnUAjW3SXu0+Yx++ClV/ey
- VlgvyyteLakoAww7THcmNN8kfHzMpPw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-h8PAnNy4OjiC2pG75VAYaA-1; Tue, 10 Dec 2019 11:38:09 -0500
-Received: by mail-wm1-f71.google.com with SMTP id 18so1222751wmp.0
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:38:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mREBnZHOKeVpk5+/+P2sv7KE5LHLe6gTzu2pCFvlRnA=;
- b=P+eyEFEOTRDDUg7e5FlQzLeUnTICY6keOFrcNywUfrXcglSWDo/CcnnhkUNg5Q3b9s
- uFV95mpU6onIll/C5PyYaiKNI6Ccs7lORbsJT5avQ8rhAGcoMDR/FMwePK1HKlLuM+Tk
- UUAwKdw8OTSyRl3URV3n2G6Qc84SfI1HhUq5aaNJ+O51YaCCG4Hd0YVpEY08Li7O0D2d
- CpZ80xgr4NOljLgK2f2gTkqUjQE88Dinp8haQr6nElPuFYTEBT4Ha/GlCcQhOTqJIUSr
- PLYQEBy/MsPN8uIp2gYSjaKBNo3zuEx0V4CU174NlVIYcGuMu11WDrCs7aRHCBwd+Ry6
- laEw==
-X-Gm-Message-State: APjAAAU3P+q278TbKzRv2uctwKZZo20hi8f3zj1g9rhe76kIvinahun+
- /aEqLjRmszurG92lVIMjfIyXuWjajNXs+UUnUtGKXOhXxkTF8IOlNP5ACiJrafZUQitEaPW9uZt
- lzug2T0RCcbEvm1Y=
-X-Received: by 2002:a1c:49c2:: with SMTP id w185mr581018wma.138.1575995888289; 
- Tue, 10 Dec 2019 08:38:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzCuMvjdC0fENOPCU8lKNcINoUMCz52bWa4TPg/wjVUlDUl75Q231H5dIrceVfy5GePr+PI6Q==
-X-Received: by 2002:a1c:49c2:: with SMTP id w185mr581000wma.138.1575995888102; 
- Tue, 10 Dec 2019 08:38:08 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id o15sm3908051wra.83.2019.12.10.08.38.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Dec 2019 08:38:07 -0800 (PST)
-Subject: Re: [PATCH v3] qga: fence guest-set-time if hwclock not available
-To: Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20191205115350.18713-1-cohuck@redhat.com>
- <5aaa7f3a-e3d1-0057-5fe2-07dea4864bc7@redhat.com>
- <20191205141212.6cb05ac7.cohuck@redhat.com>
- <87d0d1orco.fsf@dusky.pond.sub.org>
- <20191209193305.7108b3e9.cohuck@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ef45f3a1-7683-3b14-1096-ec083b29ea5d@redhat.com>
-Date: Tue, 10 Dec 2019 17:38:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=oQ2rGxKgg83OZ9oqSgECS/5VH/LEYzs7CGZjuEUgRUI=;
+ b=U2FuMeKaqgxy+iGDpBgo5bCgXw9zQJw2HHyuJ/4Q9+797q+iMJ08+JmFb18wQka96E4XHQ
+ SWMxHo/Y/WbAmMZWDHH0kQBvnd5rZa5Plbp5bBT51gnmYx/X/P5V/8eufVyr6Vm0n1gedV
+ 6acw9wrylReaa1fWfYTu7ZakekpSQwA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-fCV5_Z9mP2qvGb4xpFHIBQ-1; Tue, 10 Dec 2019 11:41:13 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71E711010C5D;
+ Tue, 10 Dec 2019 16:41:12 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 227271001902;
+ Tue, 10 Dec 2019 16:41:10 +0000 (UTC)
+Date: Tue, 10 Dec 2019 17:41:08 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v1 2/5] timer: arm: Introduce functions to get the host
+ cntfrq
+Message-ID: <20191210164108.waqpn3wbo75nwqpx@kamzik.brq.redhat.com>
+References: <20191016143410.5023-1-drjones@redhat.com>
+ <20191016143410.5023-3-drjones@redhat.com>
+ <CAFEAcA-a9O88EbKqSNxb_7GLVZzC+dx0daEWyAAe9SS4SRa1oQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191209193305.7108b3e9.cohuck@redhat.com>
-Content-Language: en-US
-X-MC-Unique: h8PAnNy4OjiC2pG75VAYaA-1
+In-Reply-To: <CAFEAcA-a9O88EbKqSNxb_7GLVZzC+dx0daEWyAAe9SS4SRa1oQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: fCV5_Z9mP2qvGb4xpFHIBQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,96 +74,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
+Cc: Marc Zyngier <maz@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, bijan.mottahedeh@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/19 7:33 PM, Cornelia Huck wrote:
-> On Fri, 06 Dec 2019 08:17:27 +0100
-> Markus Armbruster <armbru@redhat.com> wrote:
+On Tue, Dec 10, 2019 at 03:47:39PM +0000, Peter Maydell wrote:
+> On Wed, 16 Oct 2019 at 15:34, Andrew Jones <drjones@redhat.com> wrote:
+> >
+> > When acceleration like KVM is in use it's necessary to use the host's
+> > counter frequency when converting ticks to or from time units.
+> >
+> > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  include/qemu/timer.h | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+> > index 85bc6eb00b21..8941ddea8242 100644
+> > --- a/include/qemu/timer.h
+> > +++ b/include/qemu/timer.h
+> > @@ -1006,6 +1006,22 @@ static inline int64_t cpu_get_host_ticks(void)
+> >  }
+> >  #endif
+> >
+> > +#if defined(__aarch64__)
+> > +static inline uint32_t cpu_get_host_tick_frequency(void)
+> > +{
+> > +    uint64_t frq;
+> > +    asm volatile("mrs %0, cntfrq_el0" : "=3Dr" (frq));
+> > +    return frq;
+> > +}
+> > +#elif defined(__arm__)
+> > +static inline uint32_t cpu_get_host_tick_frequency(void)
+> > +{
+> > +    uint32_t frq;
+> > +    asm volatile("mrc p15, 0, %0, c14, c0, 0" : "=3Dr" (frq));
+> > +    return frq;
+> > +}
+> > +#endif
 >=20
->> Cornelia Huck <cohuck@redhat.com> writes:
->>
->>> On Thu, 5 Dec 2019 14:05:19 +0100
->>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
->>>  =20
->>>> Hi Cornelia,
->>>>
->>>> On 12/5/19 12:53 PM, Cornelia Huck wrote:
->>>>> The Posix implementation of guest-set-time invokes hwclock to
->>>>> set/retrieve the time to/from the hardware clock. If hwclock
->>>>> is not available, the user is currently informed that "hwclock
->>>>> failed to set hardware clock to system time", which is quite
->>>>> misleading. This may happen e.g. on s390x, which has a different
->>>>> timekeeping concept anyway.
->>>>>
->>>>> Let's check for the availability of the hwclock command and
->>>>> return QERR_UNSUPPORTED for guest-set-time if it is not available.
->>>>>
->>>>> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
->>>>> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->>>>> Reviewed-by: Michael Roth <mdroth@linux.vnet.ibm.com>
->>>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->>>>> ---
->>>>>
->>>>> v2->v3:
->>>>>     - added 'static' keyword to hwclock_path
->>>>>
->>>>> Not sure what tree this is going through; if there's no better place,
->>>>> I can also take this through the s390 tree.
->>>>
->>>> s390 or trivial trees seems appropriate.
->>>>   =20
->>>>>
->>>>> ---
->>>>>    qga/commands-posix.c | 13 ++++++++++++-
->>>>>    1 file changed, 12 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
->>>>> index 1c1a165daed8..0be301a4ea77 100644
->>>>> --- a/qga/commands-posix.c
->>>>> +++ b/qga/commands-posix.c
->>>>> @@ -156,6 +156,17 @@ void qmp_guest_set_time(bool has_time, int64_t t=
-ime_ns, Error **errp)
->>>>>        pid_t pid;
->>>>>        Error *local_err =3D NULL;
->>>>>        struct timeval tv;
->>>>> +    static const char hwclock_path[] =3D "/sbin/hwclock";
->>>>> +    static int hwclock_available =3D -1;
->>>>> +
->>>>> +    if (hwclock_available < 0) {
->>>>> +        hwclock_available =3D (access(hwclock_path, X_OK) =3D=3D 0);
->>>>> +    }
->>>>> +
->>>>> +    if (!hwclock_available) {
->>>>> +        error_setg(errp, QERR_UNSUPPORTED);
->>>>
->>>> In include/qapi/qmp/qerror.h we have:
->>>>
->>>> /*
->>>>    * These macros will go away, please don't use in new code, and do n=
-ot
->>>>    * add new ones!
->>>>    */
->>>
->>> Sigh, it is really hard to keep track here :( I just copied from other
->>> callers in this file...
->>
->> I'm not faulting you for that.
->>
->> I think this new use is acceptable.  For details, see my other reply in
->> this thread.
->=20
-> Ok, thanks for your explanation there.
->=20
-> I guess I'll queue this on s390-next... Philippe, any objections to
-> adding your R-b to the unmodified patch?
+> Don't we want to know what the guest counter frequency
+> is, not the host counter frequency? That is, I would have
+> expected that we get this value via doing a KVM ONE_REG ioctl
+> to ask the kernel what the guest cntfrq is. Are we using
+> the host value on the assumption that the guest might have
+> misprogrammed their copy of the register?
+>
 
-Certainly, sorry for the delay/noise on this trivial patch, I learned=20
-the subtle differences between comments in code and reality :)
+Indeed it would be best to get whatever KVM is using for the given VCPU's
+CNTFRQ through GET_ONE_REG, but KVM doesn't seem to allow it. I hadn't
+tested before, but to be sure, I did now with the following kselftests
+test
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+ #include "kvm_util.h"
+ #include "processor.h"
+=20
+ static void guest_code(void) { }
+=20
+ int main(void)
+ {
+   struct kvm_vm *vm =3D vm_create_default(0, 0, guest_code);
+   uint64_t reg;
+=20
+   get_reg(vm, 0, ARM64_SYS_REG(3, 3, 14, 0, 0), &reg);
+   printf("%lx\n", reg);
+   return 0;
+ }
+
+The vcpu ioctl fails with ENOENT. Currently KVM requires all guests to
+have the same frequency as the host, but I guess that will change
+eventually. It's definitely best to do the save/restore thing, as you
+suggest.
+
+Thanks,
+drew
 
 
