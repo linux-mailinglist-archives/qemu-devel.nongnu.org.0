@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7466011818A
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 08:50:29 +0100 (CET)
-Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A8F11819C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 08:57:10 +0100 (CET)
+Received: from localhost ([::1]:51764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieaHs-0002gP-Ig
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 02:50:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50889)
+	id 1ieaOL-0005Ty-5K
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 02:57:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ieaGg-00027U-T4
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 02:49:16 -0500
+ (envelope-from <philmd@redhat.com>) id 1ieaNO-0004w6-MY
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 02:56:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ieaGf-0005FV-HL
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 02:49:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39764
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ieaNN-0008H2-5x
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 02:56:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38487
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ieaGf-0005FE-Do
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 02:49:13 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ieaNN-0008Gs-30
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 02:56:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575964152;
+ s=mimecast20190719; t=1575964568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u4PkXnKRd3GOouAWzrRRlAm8so7Eo0Y984+shY8xYGY=;
- b=Xs7R9qKx3R2kg5izZuID95wBE2PfCHKPzRit4DTpDw+DrXg3eJVbHMP5LHKhSMZdcMEJJQ
- oacDlz0g7mpsdW4ro60p3jqh41G8EWSLy7jJfQUlEoATsiX8h4700z8as/xm1uhiXhoeQy
- RQ3Hqzk1yAfnDLvhAxxlAxi+MMMb/5k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-_dLgQ5TXNRS0tQrhWYQgVg-1; Tue, 10 Dec 2019 02:49:11 -0500
-Received: by mail-wr1-f71.google.com with SMTP id u12so8602736wrt.15
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 23:49:11 -0800 (PST)
+ bh=oLmwHHyHcbG03UjZlQhw3ftszHY2lolMAFMILWOXSaI=;
+ b=ByJixM8ZLV/mD8n0mv0hecao7d2MBrjklwo8AfsqZ002VnlFa1BrsXlRQ/vRpYnitlOUhW
+ uadIsQ5mYyKHRDXe5FysenQz8czcKhO7/j688gAS4ArM564j7QanGyx9GMMuERY8vYKmg3
+ 8n/yce30jV3WO95fspD8koVM1SBwB60=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-Z0mvdxtZPRGijalvowmR5Q-1; Tue, 10 Dec 2019 02:56:05 -0500
+Received: by mail-wm1-f72.google.com with SMTP id g1so686941wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 23:56:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Nfd7QU5jJwPptNEVMPri1imjwNzI7fUtImWVOnEx3Ug=;
- b=XLLtR24cMFGsx0sO3qlzyF3fvAdEU9757/7y3aBhO9KOSdUATfwQ5sYSrvddUdl+Dm
- +gj4LMVMNpGBTCh8kQaFLvCGLpIwBqbVaNm4XtPDVKBIYKbSBY4H2YASwglvV9ZPpaya
- l4OdI4PlyrPhK39kQjN4484C/EJz/LHMoNXl3ONH9cTbDysxMjPHKd/4O+5H7Hlqpcfs
- Cl/Uab8bTIJ2VoLQlO2dDVrwQhoZaCxRRhiWs/BuDj5b7HIosLwHnweh6h2khp/DkLvN
- HV95lcJxyX+3zXzpPhAufrJBBzwPIzyMpgzVM7jU1VqXX7jkY67s8o/pqFC+y4hv9NfX
- HCLA==
-X-Gm-Message-State: APjAAAVc6cVEwJq73vb53rQSugz5d6vHSHKeLq5OrVjMMQRsQqUspeXp
- 2X0Pm+ODrMczLsbmNAr2ONIrtAlDx6W0ypPZholi0jdtI3xJKUsFXcq+yPSPvNzu3MJy2bPO1Rb
- CQK374PIGIahLS9c=
-X-Received: by 2002:a1c:486:: with SMTP id 128mr3559688wme.163.1575964150247; 
- Mon, 09 Dec 2019 23:49:10 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxyqSwShXSXT4O4HxftejY6uYA6R+wCIO1cko55fCFjIGNJ3gqApFF3XOFhwwA6lipx6/eAlQ==
-X-Received: by 2002:a1c:486:: with SMTP id 128mr3559677wme.163.1575964150015; 
- Mon, 09 Dec 2019 23:49:10 -0800 (PST)
+ bh=7lKFvmIk1ckH9ho4BOT62MUH7tKFHMTUn/IZ+AcP/SE=;
+ b=h/O/g4d2Fnu56rXszL0oHN2mLg3Y7T4D40J4XPmBBEoYpIQ2F+/z+29iE6N/jqX0Rk
+ 1WguhVqf6x8wnEu6oxYZYgQAwzREc89f5VW520aJAkHu3wW2fqzISWaEramkgp/1UaRt
+ mo8EpZCGmCNuRt9QZ9rfi1RsHYMjHyN5rgK9y/R/XyRl0btnhoxyqPrWsMw26WUCT+uZ
+ btpGELc+8t4t8r0gJVxahImbIxkokNVXK7SrHMAP9Lvgl/R2Fshyo1OYPOWPKzTF8+fN
+ oX4HcbOAElYtCvrn+MECiUO5ycFmRv+MPv2stE5PdNCn3jst4ykr+0k/wEPvFF7vx6ET
+ tCeg==
+X-Gm-Message-State: APjAAAU3aI00cTmumSVp3LBvVQaTBj+Ao9XFkOLUgq3Ff2JOL2dEI7Hy
+ nhnmiYMLdcIZoJBsejcreZopOSX3AYaDJ4gbUbI8AzmCsQtAOwmtAQEfsVULxdSkhYhvW3h73Ep
+ PH5h89HwuLUwku9I=
+X-Received: by 2002:a1c:20d6:: with SMTP id g205mr3594421wmg.38.1575964563899; 
+ Mon, 09 Dec 2019 23:56:03 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzpuD27zieSAWnmK5k7ErZ7Gf8lH2qXwKSBhTNv5mTzYEYTN7YvYLy+bt2UXvFMiX9hDPsXZQ==
+X-Received: by 2002:a1c:20d6:: with SMTP id g205mr3594407wmg.38.1575964563677; 
+ Mon, 09 Dec 2019 23:56:03 -0800 (PST)
 Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id w13sm2364554wru.38.2019.12.09.23.49.09
+ by smtp.gmail.com with ESMTPSA id g69sm2283097wmg.13.2019.12.09.23.56.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Dec 2019 23:49:09 -0800 (PST)
-Subject: Re: [PATCH 1/2] hw/sd: Configure number of slots exposed by the
- ASPEED SDHCI model
-To: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org
-References: <cover.da2612e7c1835c563b20851f0ac26c7b175428fc.1575938234.git-series.andrew@aj.id.au>
- <11e1d38d2374a48996a3496c906db215de246583.1575938234.git-series.andrew@aj.id.au>
+ Mon, 09 Dec 2019 23:56:03 -0800 (PST)
+Subject: Re: [PATCH 04/10] arm: allwinner-h3: add USB host controller
+To: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
+ <20191202210947.3603-5-nieklinnenbank@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f17f9d41-e7aa-b701-e48d-dd9fd5f71b8e@redhat.com>
-Date: Tue, 10 Dec 2019 08:49:08 +0100
+Message-ID: <4a900e8d-d803-5c58-5a4b-879cce5970b4@redhat.com>
+Date: Tue, 10 Dec 2019 08:56:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <11e1d38d2374a48996a3496c906db215de246583.1575938234.git-series.andrew@aj.id.au>
+In-Reply-To: <20191202210947.3603-5-nieklinnenbank@gmail.com>
 Content-Language: en-US
-X-MC-Unique: _dLgQ5TXNRS0tQrhWYQgVg-1
+X-MC-Unique: Z0mvdxtZPRGijalvowmR5Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,147 +92,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, joel@jms.id.au, qemu-devel@nongnu.org,
- clg@kaod.org
+Cc: b.galvani@gmail.com, peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/19 1:52 AM, Andrew Jeffery wrote:
-> The AST2600 includes a second cut-down version of the SD/MMC controller
-> found in the AST2500, named the eMMC controller. It's cut down in the
-> sense that it only supports one slot rather than two, but it brings the
-> total number of slots supported by the AST2600 to three.
+On 12/2/19 10:09 PM, Niek Linnenbank wrote:
+> The Allwinner H3 System on Chip contains multiple USB 2.0 bus
+> connections which provide software access using the Enhanced
+> Host Controller Interface (EHCI) and Open Host Controller
+> Interface (OHCI) interfaces. This commit adds support for
+> both interfaces in the Allwinner H3 System on Chip.
 >=20
-> The existing code assumed that the SD controller always provided two
-> slots. Rework the SDHCI object to expose the number of slots as a
-> property to be set by the SoC configuration.
->=20
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 > ---
->   hw/arm/aspeed.c              |  2 +-
->   hw/arm/aspeed_ast2600.c      |  2 ++
->   hw/arm/aspeed_soc.c          |  3 +++
->   hw/sd/aspeed_sdhci.c         | 11 +++++++++--
->   include/hw/sd/aspeed_sdhci.h |  1 +
->   5 files changed, 16 insertions(+), 3 deletions(-)
+>   hw/arm/allwinner-h3.c    | 20 ++++++++++++++++++++
+>   hw/usb/hcd-ehci-sysbus.c | 17 +++++++++++++++++
+>   hw/usb/hcd-ehci.h        |  1 +
+
+Cc'ing Gerd, the maintainer of these files.
+
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+>   3 files changed, 38 insertions(+)
 >=20
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 028191ff36fc..862549b1f3a9 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -259,7 +259,7 @@ static void aspeed_board_init(MachineState *machine,
->           cfg->i2c_init(bmc);
+> diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+> index 5566e979ec..afeb49c0ac 100644
+> --- a/hw/arm/allwinner-h3.c
+> +++ b/hw/arm/allwinner-h3.c
+> @@ -26,6 +26,7 @@
+>   #include "hw/sysbus.h"
+>   #include "hw/arm/allwinner-h3.h"
+>   #include "hw/misc/unimp.h"
+> +#include "hw/usb/hcd-ehci.h"
+>   #include "sysemu/sysemu.h"
+>  =20
+>   static void aw_h3_init(Object *obj)
+> @@ -183,6 +184,25 @@ static void aw_h3_realize(DeviceState *dev, Error **=
+errp)
 >       }
+>       sysbus_mmio_map(SYS_BUS_DEVICE(&s->ccu), 0, AW_H3_CCU_BASE);
 >  =20
-> -    for (i =3D 0; i < ARRAY_SIZE(bmc->soc.sdhci.slots); i++) {
-> +    for (i =3D 0; i < bmc->soc.sdhci.num_slots; i++) {
->           SDHCIState *sdhci =3D &bmc->soc.sdhci.slots[i];
->           DriveInfo *dinfo =3D drive_get_next(IF_SD);
->           BlockBackend *blk;
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index 931887ac681f..931ee5aae183 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -208,6 +208,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
->       sysbus_init_child_obj(obj, "sdc", OBJECT(&s->sdhci), sizeof(s->sdhc=
-i),
->                             TYPE_ASPEED_SDHCI);
->  =20
-> +    object_property_set_int(OBJECT(&s->sdhci), 2, "num-slots", &error_ab=
-ort);
+> +    /* Universal Serial Bus */
+> +    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI0_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_EHCI0]);
+> +    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI1_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_EHCI1]);
+> +    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI2_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_EHCI2]);
+> +    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI3_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_EHCI3]);
 > +
->       /* Init sd card slot class here so that they're under the correct p=
-arent */
->       for (i =3D 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
->           sysbus_init_child_obj(obj, "sdhci[*]", OBJECT(&s->sdhci.slots[i=
-]),
-> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-> index f4fe243458fd..3498f55603f2 100644
-> --- a/hw/arm/aspeed_soc.c
-> +++ b/hw/arm/aspeed_soc.c
-> @@ -215,6 +215,9 @@ static void aspeed_soc_init(Object *obj)
->       sysbus_init_child_obj(obj, "sdc", OBJECT(&s->sdhci), sizeof(s->sdhc=
-i),
->                             TYPE_ASPEED_SDHCI);
->  =20
-> +    object_property_set_int(OBJECT(&s->sdhci), ASPEED_SDHCI_NUM_SLOTS,
-> +                            "num-slots", &error_abort);
+> +    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI0_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_OHCI0]);
+> +    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI1_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_OHCI1]);
+> +    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI2_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_OHCI2]);
+> +    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI3_BASE,
+> +                         s->irq[AW_H3_GIC_SPI_OHCI3]);
 > +
->       /* Init sd card slot class here so that they're under the correct p=
-arent */
->       for (i =3D 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
->           sysbus_init_child_obj(obj, "sdhci[*]", OBJECT(&s->sdhci.slots[i=
-]),
-> diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
-> index cff3eb7dd21e..939d1510dedb 100644
-> --- a/hw/sd/aspeed_sdhci.c
-> +++ b/hw/sd/aspeed_sdhci.c
-> @@ -13,6 +13,7 @@
->   #include "qapi/error.h"
->   #include "hw/irq.h"
->   #include "migration/vmstate.h"
-> +#include "hw/qdev-properties.h"
->  =20
->   #define ASPEED_SDHCI_INFO            0x00
->   #define  ASPEED_SDHCI_INFO_RESET     0x00030000
-> @@ -120,14 +121,14 @@ static void aspeed_sdhci_realize(DeviceState *dev, =
-Error **errp)
->  =20
->       /* Create input irqs for the slots */
->       qdev_init_gpio_in_named_with_opaque(DEVICE(sbd), aspeed_sdhci_set_i=
-rq,
-> -                                        sdhci, NULL, ASPEED_SDHCI_NUM_SL=
-OTS);
-> +                                        sdhci, NULL, sdhci->num_slots);
->  =20
->       sysbus_init_irq(sbd, &sdhci->irq);
->       memory_region_init_io(&sdhci->iomem, OBJECT(sdhci), &aspeed_sdhci_o=
-ps,
->                             sdhci, TYPE_ASPEED_SDHCI, 0x1000);
->       sysbus_init_mmio(sbd, &sdhci->iomem);
->  =20
-> -    for (int i =3D 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
-> +    for (int i =3D 0; i < sdhci->num_slots; ++i) {
->           Object *sdhci_slot =3D OBJECT(&sdhci->slots[i]);
->           SysBusDevice *sbd_slot =3D SYS_BUS_DEVICE(&sdhci->slots[i]);
->  =20
-> @@ -174,6 +175,11 @@ static const VMStateDescription vmstate_aspeed_sdhci=
- =3D {
->       },
+>       /* UART */
+>       if (serial_hd(0)) {
+>           serial_mm_init(get_system_memory(), AW_H3_UART0_REG_BASE, 2,
+> diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
+> index 020211fd10..174c3446ef 100644
+> --- a/hw/usb/hcd-ehci-sysbus.c
+> +++ b/hw/usb/hcd-ehci-sysbus.c
+> @@ -145,6 +145,22 @@ static const TypeInfo ehci_exynos4210_type_info =3D =
+{
+>       .class_init    =3D ehci_exynos4210_class_init,
 >   };
 >  =20
-> +static Property aspeed_sdhci_properties[] =3D {
-> +    DEFINE_PROP_UINT8("num-slots", AspeedSDHCIState, num_slots, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
+> +static void ehci_aw_h3_class_init(ObjectClass *oc, void *data)
+> +{
+> +    SysBusEHCIClass *sec =3D SYS_BUS_EHCI_CLASS(oc);
+> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
+> +
+> +    sec->capsbase =3D 0x0;
+> +    sec->opregbase =3D 0x10;
+> +    set_bit(DEVICE_CATEGORY_USB, dc->categories);
+> +}
+> +
+> +static const TypeInfo ehci_aw_h3_type_info =3D {
+> +    .name          =3D TYPE_AW_H3_EHCI,
+> +    .parent        =3D TYPE_SYS_BUS_EHCI,
+> +    .class_init    =3D ehci_aw_h3_class_init,
 > +};
 > +
->   static void aspeed_sdhci_class_init(ObjectClass *classp, void *data)
+>   static void ehci_tegra2_class_init(ObjectClass *oc, void *data)
 >   {
->       DeviceClass *dc =3D DEVICE_CLASS(classp);
-> @@ -181,6 +187,7 @@ static void aspeed_sdhci_class_init(ObjectClass *clas=
-sp, void *data)
->       dc->realize =3D aspeed_sdhci_realize;
->       dc->reset =3D aspeed_sdhci_reset;
->       dc->vmsd =3D &vmstate_aspeed_sdhci;
-> +    dc->props =3D aspeed_sdhci_properties;
->   }
->  =20
->   static TypeInfo aspeed_sdhci_info =3D {
-> diff --git a/include/hw/sd/aspeed_sdhci.h b/include/hw/sd/aspeed_sdhci.h
-> index dfdab4379021..dffbb46946b9 100644
-> --- a/include/hw/sd/aspeed_sdhci.h
-> +++ b/include/hw/sd/aspeed_sdhci.h
-> @@ -24,6 +24,7 @@ typedef struct AspeedSDHCIState {
->       SysBusDevice parent;
->  =20
->       SDHCIState slots[ASPEED_SDHCI_NUM_SLOTS];
-> +    uint8_t num_slots;
->  =20
->       MemoryRegion iomem;
->       qemu_irq irq;
+>       SysBusEHCIClass *sec =3D SYS_BUS_EHCI_CLASS(oc);
+> @@ -267,6 +283,7 @@ static void ehci_sysbus_register_types(void)
+>       type_register_static(&ehci_platform_type_info);
+>       type_register_static(&ehci_xlnx_type_info);
+>       type_register_static(&ehci_exynos4210_type_info);
+> +    type_register_static(&ehci_aw_h3_type_info);
+>       type_register_static(&ehci_tegra2_type_info);
+>       type_register_static(&ehci_ppc4xx_type_info);
+>       type_register_static(&ehci_fusbh200_type_info);
+> diff --git a/hw/usb/hcd-ehci.h b/hw/usb/hcd-ehci.h
+> index 0298238f0b..edb59311c4 100644
+> --- a/hw/usb/hcd-ehci.h
+> +++ b/hw/usb/hcd-ehci.h
+> @@ -342,6 +342,7 @@ typedef struct EHCIPCIState {
+>   #define TYPE_SYS_BUS_EHCI "sysbus-ehci-usb"
+>   #define TYPE_PLATFORM_EHCI "platform-ehci-usb"
+>   #define TYPE_EXYNOS4210_EHCI "exynos4210-ehci-usb"
+> +#define TYPE_AW_H3_EHCI "aw-h3-ehci-usb"
+>   #define TYPE_TEGRA2_EHCI "tegra2-ehci-usb"
+>   #define TYPE_PPC4xx_EHCI "ppc4xx-ehci-usb"
+>   #define TYPE_FUSBH200_EHCI "fusbh200-ehci-usb"
 >=20
 
 
