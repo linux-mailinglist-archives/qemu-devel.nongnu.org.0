@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3461187A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 13:07:41 +0100 (CET)
-Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481A0118897
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 13:37:48 +0100 (CET)
+Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieeIm-00075y-UF
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 07:07:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38081)
+	id 1ieelu-0004SP-SR
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 07:37:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ieeH0-0005f4-Mc
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:05:52 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ieekw-000434-5F
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:36:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ieeGy-0002f4-QT
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:05:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52938
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ieeGy-0002Yj-Eo
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:05:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575979545;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pH06kxAA6/MFRQa8xQzBLaJRjuJw0dsx5yg1BHU2ac0=;
- b=eh2Xg94xef+5GjZO+8SVn0OZSCt+B1CdukXUay8hAqhOwenRIqM5Mb7bHoVuB1uL9+vwbz
- v3WCjXS+MXztWGU06vziE4/Y8u5nIQaIbVv6ieZIwVHQdBaTeWHvm88KaZ9v1kPQdFZKU3
- spb8zGmCBafDvOeM1vvTeX4iQstkA58=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-NuBzTdztMlaTdDNtsDnjew-1; Tue, 10 Dec 2019 07:05:44 -0500
-Received: by mail-wr1-f71.google.com with SMTP id u12so8863653wrt.15
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 04:05:44 -0800 (PST)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ieekt-0006Sj-Uz
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:36:46 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46800)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ieekt-0006PU-OP
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 07:36:43 -0500
+Received: by mail-wr1-x443.google.com with SMTP id z7so19789811wrl.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 04:36:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gAfZ0HqdKQx2gkWX6YIiiAzgEs6wRB7F/m+vAiGTvBo=;
+ b=DCIlIbwp/Dbw+RhkOSzlYY7Bdi26r8AVLCfYdHqtyCC4+tfB44NLak4U/TF+6w23u8
+ k0skol+W458Ys+lQKjJcbTc0b8UP3Prhpm+014v8+XOPd6mnzxRfND07vVZd1B149Ijm
+ S0ZBwIZWxZLqQ0RT3Zdrc1Zw7Bg1FL76x5lmn7KBn0NGTZQ0XludC20LdUDVMoITD8i5
+ MgK6fCVx1/53V0uQ/SrHqfwBiEAtlkBQFw0v79BbzG6Z2ipTzzyRjednqlk6WXKVihVl
+ fWUP38XmeZtdFzpn5zjuhLFgz3u1dsli3T/zvfCFrWdQR0xwf9B2HDbJQTLerN6SdkxZ
+ 392g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cY5ICv2/WNfGIoyhYkBKtlW1CFBrO3U9rx2DuqOugpQ=;
- b=eH34Ye722LPWPfPSUjQTBTUwAm6GDoHsphWXBJxM8Sam/7goWWc8QpysU6KAdu/1mu
- lBOJL3zYoq08YB+lv/9kJlAjBIkre673c8B6NJe7aXklAo+LkRfXWLJsTnlDYVmS3PNB
- QakB3g3Ojs/CgYVfGfeaj6uSbStc2Iq6uiSU+FtvCutfCl5sGqZPYhc9rP8RLpjvu6An
- w/4zc41oHusKnXGBV+oOHiMAfoeG7FccKFNw/ZJ1kolXD+dTCZeDIDKsrfqDYr8Btiij
- Mvykd216tOQHursnsxOWLb5QcgY/tFEUJvgXDWYOOExzPQGshcA2RO5LHZ2bMMfu/qcG
- 1eiA==
-X-Gm-Message-State: APjAAAUbsH82q6hwSD4knOfe/YdhvmkzwJ2jtBCKgMnRiU1V2du6oN/D
- 5KL8uriJ77JqClFsVrCKKV37AnhZ71LV9k5gWPZi3aIienOL9o9bR+n8tq9pGNshPr4Y2Q7KENP
- zNfHgxADNtH2jzuI=
-X-Received: by 2002:a5d:5708:: with SMTP id a8mr3022726wrv.79.1575979543134;
- Tue, 10 Dec 2019 04:05:43 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxLnSyDQq3tvGgR43UCVOc8yxqalm9X//pEn9zLYY0kxgGUDbY1EXXnux+pI6eLrgdajg7d7A==
-X-Received: by 2002:a5d:5708:: with SMTP id a8mr3022685wrv.79.1575979542824;
- Tue, 10 Dec 2019 04:05:42 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id k11sm2769361wmc.20.2019.12.10.04.05.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Dec 2019 04:05:42 -0800 (PST)
-Subject: Re: [PATCH v2 18/18] kvm: convert "-machine kernel_irqchip" to an
- accelerator property
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
- <1575903705-12925-19-git-send-email-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <295b4845-5577-68af-8c00-598632ae0cad@redhat.com>
-Date: Tue, 10 Dec 2019 13:05:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gAfZ0HqdKQx2gkWX6YIiiAzgEs6wRB7F/m+vAiGTvBo=;
+ b=Bn/xeVFEka0g/E3MVB/jRZs6+VA5tBFQA6xxvM7wxj40oXYnhIVMc0HeJebtTUyQ3p
+ LfrKft/wCgslGU7letyfSFmT+HoMhgNUtk529AgGCjN/QkT6X9NbnCcghVv67gR7IX8o
+ IdEabeMAzp2MfmiqbcJA9CVQLynp69x1W0XNL5GUEb4EzUH8RIPIu9sY/lNgYKVqAQWg
+ l0kmvrmrYjoAoAD/OuBZifgIkJvSrXXI52E5oGchIrSFAiUXvtKFXzBT4V1y9F4BpWzk
+ ajaZR3wJ1yP7lb58vn0b0/ezChIEwjKJ/Ps/gRuVh9lmvngwH7qixRLIoJDFSsRpB+nt
+ B/8A==
+X-Gm-Message-State: APjAAAV+eHNMLwAYVgNdZhadrC64Va3mHIGZvaogVrDOaIaLyaq5G6dD
+ HIXUOVgTGlwps0lBc61FOEcFiRAcaHyHNRjEyaY=
+X-Google-Smtp-Source: APXvYqyG5LJEJ6m7xFT5WEY6fPmt9sR524LNN/hrwXhOA0vI678cqPp0HOh2DTgGdO+1byUNDQ+Q00MHn6FVNTOIyzk=
+X-Received: by 2002:a5d:4a84:: with SMTP id o4mr3021719wrq.396.1575981402067; 
+ Tue, 10 Dec 2019 04:36:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1575903705-12925-19-git-send-email-pbonzini@redhat.com>
-Content-Language: en-US
-X-MC-Unique: NuBzTdztMlaTdDNtsDnjew-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+References: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
+ <1575903705-12925-11-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1575903705-12925-11-git-send-email-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 10 Dec 2019 16:36:29 +0400
+Message-ID: <CAJ+F1C+Qx+B9h0fz=FvoZ438Z3S2N57idhN+y2TeXorAuXvQDA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/18] qom: introduce object_register_sugar_prop
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,333 +74,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, elmarco@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ elmarco@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/19 4:01 PM, Paolo Bonzini wrote:
+Hi
+
+On Mon, Dec 9, 2019 at 7:10 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Similar to the existing "-rtc driftfix" option, we will convert some
+> legacy "-machine" command line options to global properties on accelerato=
+rs.
+> Because accelerators are not devices, we cannot use qdev_prop_register_gl=
+obal.
+> Instead, provide a slot in the generic object_compat_props arrays for
+> command line syntactic sugar.
+>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   accel/kvm/kvm-all.c | 59 ++++++++++++++++++++++++++++++++++++++++++++++=
------
->   hw/core/machine.c   | 61 ----------------------------------------------=
--------
->   include/hw/boards.h |  3 ---
->   qemu-options.hx     |  9 +++++---
->   vl.c                |  3 ++-
->   5 files changed, 62 insertions(+), 73 deletions(-)
->=20
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index c0a6351..b0adbb2 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -42,6 +42,8 @@
->   #include "sysemu/sev.h"
->   #include "sysemu/balloon.h"
->   #include "qapi/visitor.h"
-> +#include "qapi/qapi-types-common.h"
-> +#include "qapi/qapi-visit-common.h"
->  =20
->   #include "hw/boards.h"
->  =20
-> @@ -94,6 +96,9 @@ struct KVMState
->       int many_ioeventfds;
->       int intx_set_mask;
->       int kvm_shadow_mem;
-> +    bool kernel_irqchip_allowed;
-> +    bool kernel_irqchip_required;
-> +    bool kernel_irqchip_split;
->       bool sync_mmu;
->       bool manual_dirty_log_protect;
->       /* The man page (and posix) say ioctl numbers are signed int, but
-> @@ -1780,7 +1785,7 @@ static void kvm_irqchip_create(KVMState *s)
->        * in-kernel irqchip for us */
->       ret =3D kvm_arch_irqchip_create(s);
->       if (ret =3D=3D 0) {
-> -        if (kvm_kernel_irqchip_split()) {
-> +        if (s->kernel_irqchip_split) {
->               perror("Split IRQ chip mode not supported.");
->               exit(1);
->           } else {
-> @@ -2051,7 +2056,7 @@ static int kvm_init(MachineState *ms)
->           goto err;
->       }
->  =20
-> -    if (machine_kernel_irqchip_allowed(ms)) {
-> +    if (s->kernel_irqchip_allowed) {
->           kvm_irqchip_create(s);
->       }
->  =20
-> @@ -2969,19 +2974,57 @@ static void kvm_set_kvm_shadow_mem(Object *obj, V=
-isitor *v,
->       s->kvm_shadow_mem =3D value;
->   }
->  =20
-> +static void kvm_set_kernel_irqchip(Object *obj, Visitor *v,
-> +                                   const char *name, void *opaque,
-> +                                   Error **errp)
+>  include/qom/object.h |  1 +
+>  qom/object.c         | 23 +++++++++++++++++++++--
+>  vl.c                 | 10 +++-------
+>  3 files changed, 25 insertions(+), 9 deletions(-)
+>
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 128d00c..230b18f 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -679,6 +679,7 @@ void object_apply_global_props(Object *obj, const GPt=
+rArray *props,
+>                                 Error **errp);
+>  void object_set_machine_compat_props(GPtrArray *compat_props);
+>  void object_set_accelerator_compat_props(GPtrArray *compat_props);
+> +void object_register_sugar_prop(const char *driver, const char *prop, co=
+nst char *value);
+>  void object_apply_compat_props(Object *obj);
+>
+>  /**
+> diff --git a/qom/object.c b/qom/object.c
+> index d51b57f..bfb4413 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -414,10 +414,29 @@ void object_apply_global_props(Object *obj, const G=
+PtrArray *props, Error **errp
+>   * Global property defaults
+>   * Slot 0: accelerator's global property defaults
+>   * Slot 1: machine's global property defaults
+> + * Slot 2: global properties from legacy command line option
+>   * Each is a GPtrArray of of GlobalProperty.
+>   * Applied in order, later entries override earlier ones.
+>   */
+> -static GPtrArray *object_compat_props[2];
+> +static GPtrArray *object_compat_props[3];
+> +
+> +/*
+> + * Retrieve @GPtrArray for global property defined with options
+> + * other than "-global".  These are generally used for syntactic
+> + * sugar and legacy command line options.
+> + */
+> +void object_register_sugar_prop(const char *driver, const char *prop, co=
+nst char *value)
 > +{
-> +    Error *err =3D NULL;
-> +    KVMState *s =3D KVM_STATE(obj);
-> +    OnOffSplit mode;
-> +
-> +    visit_type_OnOffSplit(v, name, &mode, &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    } else {
-> +        switch (mode) {
-> +        case ON_OFF_SPLIT_ON:
-> +            s->kernel_irqchip_allowed =3D true;
-> +            s->kernel_irqchip_required =3D true;
-> +            s->kernel_irqchip_split =3D false;
-> +            break;
-> +        case ON_OFF_SPLIT_OFF:
-> +            s->kernel_irqchip_allowed =3D false;
-> +            s->kernel_irqchip_required =3D false;
-> +            s->kernel_irqchip_split =3D false;
-> +            break;
-> +        case ON_OFF_SPLIT_SPLIT:
-> +            s->kernel_irqchip_allowed =3D true;
-> +            s->kernel_irqchip_required =3D true;
-> +            s->kernel_irqchip_split =3D true;
-> +            break;
-> +        default:
-> +            /* The value was checked in visit_type_OnOffSplit() above. I=
-f
-
-With recent style enforcement you now need to split this comment in 2 lines=
-.
-
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
-> +             * we get here, then something is wrong in QEMU.
-> +             */
-> +            abort();
-> +        }
+> +    GlobalProperty *g;
+> +    if (!object_compat_props[2]) {
+> +        object_compat_props[2] =3D g_ptr_array_new();
 > +    }
+> +    g =3D g_new(GlobalProperty, 1);
+> +    g->driver =3D g_strdup(driver);
+> +    g->property =3D g_strdup(prop);
+> +    g->value =3D g_strdup(value);
+> +    g_ptr_array_add(object_compat_props[2], g);
 > +}
-> +
->   bool kvm_kernel_irqchip_allowed(void)
->   {
-> -    return machine_kernel_irqchip_allowed(current_machine);
-> +    return kvm_state->kernel_irqchip_allowed;
->   }
->  =20
->   bool kvm_kernel_irqchip_required(void)
->   {
-> -    return machine_kernel_irqchip_required(current_machine);
-> +    return kvm_state->kernel_irqchip_required;
->   }
->  =20
->   bool kvm_kernel_irqchip_split(void)
->   {
-> -    return machine_kernel_irqchip_split(current_machine);
-> +    return kvm_state->kernel_irqchip_split;
->   }
->  =20
->   static void kvm_accel_instance_init(Object *obj)
-> @@ -2999,6 +3042,12 @@ static void kvm_accel_class_init(ObjectClass *oc, =
-void *data)
->       ac->has_memory =3D kvm_accel_has_memory;
->       ac->allowed =3D &kvm_allowed;
->  =20
-> +    object_class_property_add(oc, "kernel-irqchip", "on|off|split",
-> +        NULL, kvm_set_kernel_irqchip,
-> +        NULL, NULL, &error_abort);
-> +    object_class_property_set_description(oc, "kernel-irqchip",
-> +        "Configure KVM in-kernel irqchip", &error_abort);
-> +
->       object_class_property_add(oc, "kvm-shadow-mem", "int",
->           kvm_get_kvm_shadow_mem, kvm_set_kvm_shadow_mem,
->           NULL, NULL, &error_abort);
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index bfb5f6f..c1cad2c 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -173,44 +173,6 @@ GlobalProperty hw_compat_2_1[] =3D {
->   };
->   const size_t hw_compat_2_1_len =3D G_N_ELEMENTS(hw_compat_2_1);
->  =20
-> -static void machine_set_kernel_irqchip(Object *obj, Visitor *v,
-> -                                       const char *name, void *opaque,
-> -                                       Error **errp)
-> -{
-> -    Error *err =3D NULL;
-> -    MachineState *ms =3D MACHINE(obj);
-> -    OnOffSplit mode;
-> -
-> -    visit_type_OnOffSplit(v, name, &mode, &err);
-> -    if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> -    } else {
-> -        switch (mode) {
-> -        case ON_OFF_SPLIT_ON:
-> -            ms->kernel_irqchip_allowed =3D true;
-> -            ms->kernel_irqchip_required =3D true;
-> -            ms->kernel_irqchip_split =3D false;
-> -            break;
-> -        case ON_OFF_SPLIT_OFF:
-> -            ms->kernel_irqchip_allowed =3D false;
-> -            ms->kernel_irqchip_required =3D false;
-> -            ms->kernel_irqchip_split =3D false;
-> -            break;
-> -        case ON_OFF_SPLIT_SPLIT:
-> -            ms->kernel_irqchip_allowed =3D true;
-> -            ms->kernel_irqchip_required =3D true;
-> -            ms->kernel_irqchip_split =3D true;
-> -            break;
-> -        default:
-> -            /* The value was checked in visit_type_OnOffSplit() above. I=
-f
-> -             * we get here, then something is wrong in QEMU.
-> -             */
-> -            abort();
-> -        }
-> -    }
-> -}
-> -
->   static char *machine_get_kernel(Object *obj, Error **errp)
->   {
->       MachineState *ms =3D MACHINE(obj);
-> @@ -752,12 +714,6 @@ static void machine_class_init(ObjectClass *oc, void=
- *data)
->       mc->numa_mem_align_shift =3D 23;
->       mc->numa_auto_assign_ram =3D numa_default_auto_assign_ram;
->  =20
-> -    object_class_property_add(oc, "kernel-irqchip", "on|off|split",
-> -        NULL, machine_set_kernel_irqchip,
-> -        NULL, NULL, &error_abort);
-> -    object_class_property_set_description(oc, "kernel-irqchip",
-> -        "Configure KVM in-kernel irqchip", &error_abort);
-> -
->       object_class_property_add_str(oc, "kernel",
->           machine_get_kernel, machine_set_kernel, &error_abort);
->       object_class_property_set_description(oc, "kernel",
-> @@ -857,8 +813,6 @@ static void machine_initfn(Object *obj)
->       MachineState *ms =3D MACHINE(obj);
->       MachineClass *mc =3D MACHINE_GET_CLASS(obj);
->  =20
-> -    ms->kernel_irqchip_allowed =3D true;
-> -    ms->kernel_irqchip_split =3D mc->default_kernel_irqchip_split;
->       ms->dump_guest_core =3D true;
->       ms->mem_merge =3D true;
->       ms->enable_graphics =3D true;
-> @@ -914,21 +868,6 @@ bool machine_usb(MachineState *machine)
->       return machine->usb;
->   }
->  =20
-> -bool machine_kernel_irqchip_allowed(MachineState *machine)
-> -{
-> -    return machine->kernel_irqchip_allowed;
-> -}
-> -
-> -bool machine_kernel_irqchip_required(MachineState *machine)
-> -{
-> -    return machine->kernel_irqchip_required;
-> -}
-> -
-> -bool machine_kernel_irqchip_split(MachineState *machine)
-> -{
-> -    return machine->kernel_irqchip_split;
-> -}
-> -
->   int machine_phandle_start(MachineState *machine)
->   {
->       return machine->phandle_start;
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 46119eb..b42fedd 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -63,9 +63,6 @@ extern MachineState *current_machine;
->  =20
->   void machine_run_board_init(MachineState *machine);
->   bool machine_usb(MachineState *machine);
-> -bool machine_kernel_irqchip_allowed(MachineState *machine);
-> -bool machine_kernel_irqchip_required(MachineState *machine);
-> -bool machine_kernel_irqchip_split(MachineState *machine);
->   int machine_phandle_start(MachineState *machine);
->   bool machine_dump_guest_core(MachineState *machine);
->   bool machine_mem_merge(MachineState *machine);
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 779c8af..945fc4a 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -32,7 +32,6 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->       "                selects emulated machine ('-machine help' for list=
-)\n"
->       "                property accel=3Daccel1[:accel2[:...]] selects acc=
-elerator\n"
->       "                supported accelerators are kvm, xen, hax, hvf, whp=
-x or tcg (default: tcg)\n"
-> -    "                kernel_irqchip=3Don|off|split controls accelerated =
-irqchip support (default=3Doff)\n"
->       "                vmport=3Don|off|auto controls emulation of vmport =
-(default: auto)\n"
->       "                dump-guest-core=3Don|off include guest memory in a=
- core dump (default=3Don)\n"
->       "                mem-merge=3Don|off controls memory merge support (=
-default: on)\n"
-> @@ -67,8 +66,6 @@ This is used to enable an accelerator. Depending on the=
- target architecture,
->   kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is us=
-ed. If there is
->   more than one accelerator specified, the next one is used if the previo=
-us one
->   fails to initialize.
-> -@item kernel_irqchip=3Don|off
-> -Controls in-kernel irqchip support for the chosen accelerator when avail=
-able.
->   @item vmport=3Don|off|auto
->   Enables emulation of VMWare IO port, for vmmouse etc. auto says to sele=
-ct the
->   value based on accel. For accel=3Dxen the default is off otherwise the =
-default
-> @@ -115,6 +112,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
->       "-accel [accel=3D]accelerator[,prop[=3Dvalue][,...]]\n"
->       "                select accelerator (kvm, xen, hax, hvf, whpx or tc=
-g; use 'help' for a list)\n"
->       "                igd-passthru=3Don|off (enable Xen integrated Intel=
- graphics passthrough, default=3Doff)\n"
-> +    "                kernel-irqchip=3Don|off|split controls accelerated =
-irqchip support (default=3Don)\n"
->       "                kvm-shadow-mem=3Dsize of KVM shadow MMU in bytes\n=
-"
->       "                tb-size=3Dn (TCG translation block cache size)\n"
->       "                thread=3Dsingle|multi (enable multi-threaded TCG)\=
-n", QEMU_ARCH_ALL)
-> @@ -129,6 +127,11 @@ fails to initialize.
->   @item igd-passthru=3Don|off
->   When Xen is in use, this option controls whether Intel integrated graph=
-ics
->   devices can be passed through to the guest (default=3Doff)
-> +@item kernel-irqchip=3Don|off|split
-> +Controls KVM in-kernel irqchip support.  The default is full acceleratio=
-n of the
-> +interrupt controllers.  On x86, split irqchip reduces the kernel attack
-> +surface, at a performance cost for non-MSI interrupts.  Disabling the in=
--kernel
-> +irqchip completely is not recommended except for debugging purposes.
->   @item kvm-shadow-mem=3Dsize
->   Defines the size of the KVM shadow MMU.
->   @item tb-size=3D@var{n}
+>
+>  /*
+>   * Set machine's global property defaults to @compat_props.
+> @@ -445,7 +464,7 @@ void object_apply_compat_props(Object *obj)
+>
+>      for (i =3D 0; i < ARRAY_SIZE(object_compat_props); i++) {
+>          object_apply_global_props(obj, object_compat_props[i],
+> -                                  &error_abort);
+> +                                  i =3D=3D 2 ? &error_fatal : &error_abo=
+rt);
+>      }
+>  }
+>
 > diff --git a/vl.c b/vl.c
-> index 3678522..53e4ff6 100644
+> index 58aad4f..d6c77bc 100644
 > --- a/vl.c
 > +++ b/vl.c
-> @@ -2639,7 +2639,8 @@ static int machine_set_property(void *opaque,
->           object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, v=
-alue);
->           return 0;
->       }
-> -    if (g_str_equal(qom_name, "kvm-shadow-mem")) {
-> +    if (g_str_equal(qom_name, "kvm-shadow-mem") ||
-> +        g_str_equal(qom_name, "kernel-irqchip")) {
->           object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, v=
-alue);
->           return 0;
->       }
->=20
+> @@ -897,13 +897,9 @@ static void configure_rtc(QemuOpts *opts)
+>      value =3D qemu_opt_get(opts, "driftfix");
+>      if (value) {
+>          if (!strcmp(value, "slew")) {
+> -            static GlobalProperty slew_lost_ticks =3D {
+> -                .driver   =3D "mc146818rtc",
+> -                .property =3D "lost_tick_policy",
+> -                .value    =3D "slew",
+> -            };
+> -
+> -            qdev_prop_register_global(&slew_lost_ticks);
+> +            object_register_sugar_prop("mc146818rtc",
+> +                                       "lost_tick_policy",
+> +                                       "slew");
+>          } else if (!strcmp(value, "none")) {
+>              /* discard is default */
+>          } else {
+> --
+> 1.8.3.1
+>
+>
+>
 
+
+I am not too happy about the change, but the "global properties"
+handling is an area that can be improved later.
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
