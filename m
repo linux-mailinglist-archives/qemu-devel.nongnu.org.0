@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D36118E3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:54:02 +0100 (CET)
-Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD44D118E4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:56:23 +0100 (CET)
+Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieils-0002nK-Jd
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:54:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59175)
+	id 1ieioA-00066m-LL
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:56:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1ieidn-0004O7-BM
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:45:40 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1ieieS-0004kO-3B
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:46:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1ieidm-0004qP-9E
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:45:39 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44397)
+ (envelope-from <jean-philippe@linaro.org>) id 1ieieQ-00055D-VU
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:46:20 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35114)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1ieidj-0004m2-Ew
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:45:38 -0500
-Received: by mail-wr1-x442.google.com with SMTP id q10so20877534wrm.11
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:45:34 -0800 (PST)
+ id 1ieieQ-00054Z-P1
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:46:18 -0500
+Received: by mail-wr1-x442.google.com with SMTP id g17so20902566wro.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:46:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=J9i3/MkcXXwFrp7MwGhstFhrn0JoZM+nuz8kFsu3TVs=;
- b=B4Mg2svv2Enjp6/cLsAW+6qr1toLBoUc624xx9f0y5aI9fYj4m3x66uYs7t2sJAPJa
- hsQq1YhwflwdTMQxuMAX5Jk6dMa5XbQ6UQfi6Gh8XSe09jhYhn8ZhAjnuzm6bkgU1hDR
- Emd8abkwuv12lv+fvHhfvw0mEmlb6yxgjqNnRzn813Y2i8jefUrggZEqacIFpBF+AwG4
- PUUxWRWOgodys1WeeW99iGdXkpxfL++J8YexKTnZ1PusfUg7ya36D+gMTOw7d6EDJ0V0
- DbyrguN/KPM6a+UZq/CPck78Ryz30C6yzzdw08IiAKTdbFCEJKNGlxALIL8SWzvQRPJg
- GGSw==
+ bh=yBKxW4v01bphY2O9YP1yA6L9FAbeDZs2B/G4JBWdu/E=;
+ b=j5+PyxjGFHC0Sr3oAnZYMUkLhH3Yjf/rZSjyCb+vUWnHg8tykTdUKDwS7HlIrmy6Sk
+ nNXzqKGkeyQz4ujmtDZL+im0k2nQYSoivNp3P0P3qLl8ICw4iYxyKqI5MC4Sv7S5VSam
+ Mg91e5Ycs2wgJyiuysUOIHSbewI/6UvG4AN5SvtKGzvyejo3uWy+FptbcGyNll+5XAX2
+ XHHAVRIUgfWyTRQZHXfPusugHkAu+UGIVgj4ISzTzgS13M/ZjdCaeHQIcseinzJGbHCS
+ e1b18kluJ4WcKH6h0+vJye8COrWjl8ugB6+2WkHO2ehGnrHsFt1j/UIrzaMBdym6fj4B
+ yM7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=J9i3/MkcXXwFrp7MwGhstFhrn0JoZM+nuz8kFsu3TVs=;
- b=YbeN6c3cQsHyvsOi/3CG29wh6EQsSafxkztGOaEFR+CUyF8nmhBA0+FnORQgyywCgz
- XQxuSZzzAyIg//xPij4D86JDryIFaOEsar9xhLO9jPCA2ihMjMnX3eTZ7FKyskxNZUCE
- xnKJ3hQDHds+FvaSVRVyhIyFJqfenX8VwZ2rwXsKfubDbOsnart2PLsWVTiJ41Hmu/BR
- pTPCl5W2w9TTm8346VPLaUAfnUK8JNtcNTqOPsFjVKsPQ0IU50BTrbX0HgUxWP4Pqobo
- /fdxjAbmgtPG11qbQOTMLGsd99fZKhUdZDFWAabsQMRlrIO4XCGh0Os4+QTqCiM3qVOc
- 2zWg==
-X-Gm-Message-State: APjAAAW5E+ntw/48kmVgd6QVu6xSLVZtu4dmFzlFWhYFLevbRyMSMtfP
- 5ur7652xIKKjmNAkYX9GFypAOg==
-X-Google-Smtp-Source: APXvYqyZ7Q/kWlwUTEDAmH6FUoWnHKchBRgXb1VlIGofFVKDPPpDPZlr1HpfGBaE3DvfAf+N0aXMbw==
-X-Received: by 2002:a05:6000:12ce:: with SMTP id
- l14mr4601426wrx.342.1575996333166; 
- Tue, 10 Dec 2019 08:45:33 -0800 (PST)
+ bh=yBKxW4v01bphY2O9YP1yA6L9FAbeDZs2B/G4JBWdu/E=;
+ b=ochAq3Y9AYGS2jITu1WEkzrqMu2fOaF8LUoOa26pB8En76j0vUnRtjrj2aeOcUeqpp
+ 53SwOAcQK9Knfy02WQdA9lR7LzjW8+7NyN5AyH52vzsWtPKpZDy2U/9d9UO+9Fcv2k1T
+ QOAjBQfgXq5ykK5I72lTJTNK7qGFRKjAIhEDpnEecXKpF0qVLtE8lLO1LJ0iBv/Vy27F
+ hY9BPnynkRDo4KsK8N1ld4zvNqp7zIWLD7WJrhVGCMcgsTTTnUWvhFDBI3Mtr5Tc6Pqs
+ lQ06qfGzbQRfEVuEv5cl9PYWW+Uc473abYdbvFSAzVOd8qzSv8ujRhf6UC90uotvYidb
+ UJQg==
+X-Gm-Message-State: APjAAAUAhfG2TRWzsbOZXs4wnSUZJVSE/Y6sv9GM6sD2b82VG4Qh7317
+ A6vUWI3TDDiYf8s1bHuKqxFbQg==
+X-Google-Smtp-Source: APXvYqyV9Ji4GM/uba2zln5kgKPeRYOqyPr4NtfEVQdW7TPMXNfhY1QwgWxO9EfqTM1PDCs4P8LDOg==
+X-Received: by 2002:adf:fe4d:: with SMTP id m13mr3978876wrs.179.1575996377832; 
+ Tue, 10 Dec 2019 08:46:17 -0800 (PST)
 Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id v4sm3484387wml.2.2019.12.10.08.45.32
+ by smtp.gmail.com with ESMTPSA id w22sm3534503wmk.34.2019.12.10.08.46.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 08:45:32 -0800 (PST)
-Date: Tue, 10 Dec 2019 17:45:28 +0100
+ Tue, 10 Dec 2019 08:46:17 -0800 (PST)
+Date: Tue, 10 Dec 2019 17:46:12 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 11/20] hw/arm/virt: Add the virtio-iommu
- device tree mappings
-Message-ID: <20191210164528.GJ277340@myrica>
+Subject: Re: [PATCH for-5.0 v11 13/20] virtio-iommu: Implement probe request
+Message-ID: <20191210164612.GK277340@myrica>
 References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-12-eric.auger@redhat.com>
+ <20191122182943.4656-14-eric.auger@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191122182943.4656-12-eric.auger@redhat.com>
+In-Reply-To: <20191122182943.4656-14-eric.auger@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::442
@@ -88,22 +86,12 @@ Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 22, 2019 at 07:29:34PM +0100, Eric Auger wrote:
-> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-> index 280230b31e..4cfae1f9df 100644
-> --- a/hw/virtio/virtio-iommu-pci.c
-> +++ b/hw/virtio/virtio-iommu-pci.c
-> @@ -31,9 +31,6 @@ struct VirtIOIOMMUPCI {
->  
->  static Property virtio_iommu_pci_properties[] = {
->      DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-> -    DEFINE_PROP_ARRAY("reserved-regions", VirtIOIOMMUPCI,
-> -                      vdev.nb_reserved_regions, vdev.reserved_regions,
-> -                      qdev_prop_interval, Interval),
+On Fri, Nov 22, 2019 at 07:29:36PM +0100, Eric Auger wrote:
+> This patch implements the PROBE request. At the moment,
+> no reserved regions are returned as none are registered
+> per device. Only a NONE property is returned.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-Belongs in patch 10?
-
-Apart from that 
 Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-
 
