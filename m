@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4952B118E5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:58:04 +0100 (CET)
-Received: from localhost ([::1]:59464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32122118E75
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 18:03:00 +0100 (CET)
+Received: from localhost ([::1]:59550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieipn-0008A2-9A
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33194)
+	id 1ieiuY-0003Up-O6
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 12:02:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <daniel.thompson@linaro.org>) id 1ieilm-0003wM-VJ
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:53:56 -0500
+ (envelope-from <groug@kaod.org>) id 1ieilT-0003Xh-TA
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:53:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <daniel.thompson@linaro.org>) id 1ieill-0007dK-QJ
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:53:54 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33648)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <daniel.thompson@linaro.org>)
- id 1ieill-0007cP-JP
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:53:53 -0500
-Received: by mail-wm1-x344.google.com with SMTP id d139so1626599wmd.0
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:53:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=UxvJ/YVTJuP+hzpz1BJMpuf68KLAsLUo57u2sksODLU=;
- b=BGiPRQuwSInGNHSJAJJyjw7IdSn2N/5ded78AZFJiUsXWL2FJn25Ro9Kdak/CS/Wlb
- RDw21qnr3CwaeOALl/A0is/GVeXyG2FwjftKiBjFdzylfZ3YkLhwt00ZN7h5XDBUkxVl
- 5ki1+DZNwPsqJTJMr6Yqr8rrpr1Ng3Nf8gYauYG9PUJWf2dgs4B3Fv+lipGlTHY12kTg
- E0pKtq/Kpr5Wu2SzOCbvCgGaZOYrYIrdKtwQpYuUrfqllnpKfzitGy/HXk+zOY8zaKdG
- 5W9mCF2aLisOKJnqwI3t7QFqLJtIzSHq/Vz57fQPwoSFVJHZLmgDGLv/Dr9zbyclJ0fj
- A0Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UxvJ/YVTJuP+hzpz1BJMpuf68KLAsLUo57u2sksODLU=;
- b=iMx3knhuCaPaU5BJYPMmE5LdOUJagYgLfJ+gMc8Z0d8nQIyH3itlg6TJBUziFUqiuL
- 26hxJ2qQCTH4hgTtwNoNLP/OR9YY/PcW6hBAGyrOzJ2jyOSrTvt4yE2fAALIjDLSosud
- F5nxXskrqVLzjPDJPNlLpWx+OUgri0ma8Yi+PQD+vMgD8fLJUAooQR30CM1www3r3WYP
- PPQe7oBUz+EiGuMfYeHteyPrghql4E2O7fyFcuatWhmQjVqZQq8bPM2iy2BOf8k1x74Y
- A50ovOlBRqrjDmvGxaC7iZLflYOFytlK8WCyUGOUtkikw7GqBYLntVmdEZBi4clfVNT0
- 3TCg==
-X-Gm-Message-State: APjAAAWba+MjR4Zr3xnRMlwDp3WiG5CPrAg5+CnkjQq01yHQlyHYg+or
- pJHZ43we6BpnbSaTMNqvzCLNCQ==
-X-Google-Smtp-Source: APXvYqwad2Wvw1plasNOQ27dhBz3MdQF4fdcqMICgUC5o9UQARbbU/XuWPAgnzI2IYafpsKxr9Fc5Q==
-X-Received: by 2002:a1c:731a:: with SMTP id d26mr5975246wmb.130.1575996832049; 
- Tue, 10 Dec 2019 08:53:52 -0800 (PST)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id z18sm3637640wmf.21.2019.12.10.08.53.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2019 08:53:51 -0800 (PST)
-Date: Tue, 10 Dec 2019 16:53:49 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/arm/virt: Second uart for normal-world
-Message-ID: <20191210165349.5sfyqwkbpfl7nlk2@holly.lan>
-References: <20191209152456.977399-1-daniel.thompson@linaro.org>
- <CAFEAcA-sgFKev2MiOjRAzuE0trNYQoNe6LOFLeghGm73N1h=SA@mail.gmail.com>
- <20191209170827.yojyts6qdvpxbkp4@holly.lan>
- <CAFEAcA_3_EwjAZ_Av4a9BkT_3KmbEEFFFukyV7gsDuWPrYKmVQ@mail.gmail.com>
+ (envelope-from <groug@kaod.org>) id 1ieilS-0007XI-Oh
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:53:35 -0500
+Received: from 6.mo69.mail-out.ovh.net ([46.105.50.107]:40691)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ieilS-0007X0-Ig
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:53:34 -0500
+Received: from player693.ha.ovh.net (unknown [10.108.1.161])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 77FF57480C
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 17:53:32 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player693.ha.ovh.net (Postfix) with ESMTPSA id CF43BD1B2159;
+ Tue, 10 Dec 2019 16:53:25 +0000 (UTC)
+Date: Tue, 10 Dec 2019 17:53:23 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 2/2] ppc/pnv: populate the DT with realized XSCOM devices
+Message-ID: <20191210175323.76e77bcb@bahia.tlslab.ibm.com>
+In-Reply-To: <20191210135845.19773-3-clg@kaod.org>
+References: <20191210135845.19773-1-clg@kaod.org>
+ <20191210135845.19773-3-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_3_EwjAZ_Av4a9BkT_3KmbEEFFFukyV7gsDuWPrYKmVQ@mail.gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 14811213274579507595
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelfedgledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelfedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.50.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,44 +57,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- "patches@linaro.org" <patches@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 09, 2019 at 05:10:30PM +0000, Peter Maydell wrote:
-> On Mon, 9 Dec 2019 at 17:08, Daniel Thompson <daniel.thompson@linaro.org> wrote:
-> > I don't object to making it command line dependant (it is certainly
-> > lower risk) but, out of interest, has using /aliases to force the
-> > kernel to enumerate the serial nodes in the existing order been ruled
-> > out for any reason.
-> 
-> No, I don't think anybody's investigated that (I wasn't aware
-> that you could do something like that). Bear in mind that the
-> kernel is not the only consumer of the DT, though -- you need
-> to use a mechanism that all DT consumers will handle correctly.
+On Tue, 10 Dec 2019 14:58:45 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-The syntax for /aliases is standardized (in the DT documentation) but
-AFAIK the exact semantic meaning of an alias relies somewhat on idiom.
-It is true that the DT binding documentation for some serial drivers
-does include details of /aliases but sadly PL011 is not amoung them.
+> Some devices could be initialized in the instance_init handler but not
+> realized for configuration reasons. Nodes should not be added in the DT
+> for such devices.
+>=20
 
-I took a fairly detailed look at FreeBSD. I don't think /aliases is
-used to control enumeration order but that appears to be because
-aliases are handled in a different way to Linux. For example 
-FreeBSD allows a custom console to be selected using FDT syntax
-(hw.fdt.console=serial0 or hw.fdt.console=/path/to/fdt-uart ) which
-means the Linux-like approach (such as console=ttyAMA0) need not be
-used.
+Do you have examples of such devices to share ?
 
-In summary I think that support for /aliases can and should be added
-since it the best way to help DT systems figure out how to match qemu
-uart numbering to its own naming.
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  hw/ppc/pnv_xscom.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+> index 006d87e970d9..6d3745a49e50 100644
+> --- a/hw/ppc/pnv_xscom.c
+> +++ b/hw/ppc/pnv_xscom.c
+> @@ -272,7 +272,10 @@ static int xscom_dt_child(Object *child, void *opaqu=
+e)
+>          PnvXScomInterface *xd =3D PNV_XSCOM_INTERFACE(child);
+>          PnvXScomInterfaceClass *xc =3D PNV_XSCOM_INTERFACE_GET_CLASS(xd);
+> =20
+> -        if (xc->dt_xscom) {
+> +        /*
+> +         * Only "realized" devices should be configured in the DT
+> +         */
+> +        if (xc->dt_xscom && DEVICE(child)->realized) {
+>              _FDT((xc->dt_xscom(xd, args->fdt, args->xscom_offset)));
+>          }
+>      }
 
-However I agree we still need a way to create systems with only a
-single UART even if I have not yet been able to come up with a test
-case that proves /aliases is insufficient ;-)
-
-
-Daniel.
 
