@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD979118E3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:54:03 +0100 (CET)
-Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5335D118E35
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 17:53:08 +0100 (CET)
+Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieilu-0002sM-2c
-	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:54:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60033)
+	id 1ieil0-0001cA-Oq
+	for lists+qemu-devel@lfdr.de; Tue, 10 Dec 2019 11:53:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ieihF-0007Gt-Q0
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:49:21 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1ieiiE-00083p-7D
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:50:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ieihE-00062e-Ix
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:49:13 -0500
-Received: from 3.mo178.mail-out.ovh.net ([46.105.44.197]:51281)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ieihE-00061V-De
- for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:49:12 -0500
-Received: from player695.ha.ovh.net (unknown [10.108.42.142])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 125AC84F74
- for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 17:49:09 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: groug@kaod.org)
- by player695.ha.ovh.net (Postfix) with ESMTPSA id E4959D06690C;
- Tue, 10 Dec 2019 16:49:03 +0000 (UTC)
-Date: Tue, 10 Dec 2019 17:49:01 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/2] ppc/pnv: Loop on the whole hierarchy to populate
- the DT with the XSCOM nodes
-Message-ID: <20191210174901.6215ddd4@bahia.tlslab.ibm.com>
-In-Reply-To: <20191210135845.19773-2-clg@kaod.org>
-References: <20191210135845.19773-1-clg@kaod.org>
- <20191210135845.19773-2-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <jean-philippe@linaro.org>) id 1ieiiD-0006QQ-3M
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:50:14 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40361)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
+ id 1ieiiC-0006Py-Se
+ for qemu-devel@nongnu.org; Tue, 10 Dec 2019 11:50:13 -0500
+Received: by mail-wm1-x343.google.com with SMTP id t14so3968460wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 10 Dec 2019 08:50:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=r8wiVmuohB+E6DxPcyxULVV8ixEmXNvbFga4Fjsd5gs=;
+ b=ytkYdsWxjkbQ145QRW5KgM8/L9+9b3Gd8CuOQHfBcMvtHGvFazwETTkKBRABoi36lc
+ RVYTNwCMvxCRtL/r7qYgFAcshjQ8TxfDIhKkMF5XJr63ZWEoxaoK40Sn3P9H2l/zgdF2
+ zNGbWEBV3hPAZdUZNEVG9vSkj2/x4jlEhhWs0mFexkEZPmfw9yTWoLr/XcHwR60Xy91+
+ 8KPlGw3hHb/8sMc4fIt7UCkVFItqinXe0+ZaE9VNCMjBVkZrR0CfUu6WyS/NpYCgBUSr
+ UFALSDTEkSbgdeJNdOExQcEHgf3TojcI04AWP0061ZhSD6fig9EIibesm9fzAUFt8PID
+ jF7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=r8wiVmuohB+E6DxPcyxULVV8ixEmXNvbFga4Fjsd5gs=;
+ b=PahFo1xSJ+vjGsKI9J7N6Q/eBMwJg5VnTMuteGKMHLDsD2P2RtMxKLGZ+LCvlEG9dB
+ nkS4QIS63Wf2s7O2JH570p/SFkTy9OKjOJa4fRHN6mAlOwYCDowGhpz96LzsJuHcttas
+ 606cKYR0ikOKE0rDWKWXVtz+HkKyFmsk+HPFSji2rOLul+aqpYRulMHqT4mDp5esVwnR
+ mdtlKNCpSVgSwWHnQBbazNz4dZhliSKj8U/2YBgOkGY+unb2JZsYAO8D+hrUJ3Mk07vx
+ un+z37UBvgk6PICw3YugAyJ+F8d6xN4y9ywGKWGTCHaRewqsVp5xJ4BB7E1CJfTDtsfc
+ UFPA==
+X-Gm-Message-State: APjAAAVinAIpX6e1EJ5Ms7OzLHzjVtYfA3jTacki3ElhdHskzLZXd3rD
+ Tdxq+n8+v5KK4Z2vZhCG/4YzJQ==
+X-Google-Smtp-Source: APXvYqwuFYFJNREQM+tpSI2EiAdhiApENKlYKeWCRwrSi5x0FlbhZVdJz1p6JphQdtYW1qgTyjWmiw==
+X-Received: by 2002:a05:600c:1105:: with SMTP id
+ b5mr6634272wma.159.1575996611555; 
+ Tue, 10 Dec 2019 08:50:11 -0800 (PST)
+Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
+ by smtp.gmail.com with ESMTPSA id e18sm3769701wrr.95.2019.12.10.08.50.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Dec 2019 08:50:10 -0800 (PST)
+Date: Tue, 10 Dec 2019 17:50:06 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH for-5.0 v11 18/20] virtio-iommu: Support migration
+Message-ID: <20191210165006.GP277340@myrica>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-19-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 14737185358297733515
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelfedgledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelhedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.44.197
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191122182943.4656-19-eric.auger@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,47 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ dgilbert@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Dec 2019 14:58:44 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Fri, Nov 22, 2019 at 07:29:41PM +0100, Eric Auger wrote:
+> +static const VMStateDescription vmstate_virtio_iommu_device = {
+> +    .name = "virtio-iommu-device",
+> +    .minimum_version_id = 1,
+> +    .version_id = 1,
+> +    .post_load = iommu_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_GTREE_DIRECT_KEY_V(domains, VirtIOIOMMU, 1,
+> +                                   &vmstate_domain, viommu_domain),
+> +        VMSTATE_GTREE_DIRECT_KEY_V(endpoints, VirtIOIOMMU, 1,
+> +                                   &vmstate_endpoint, viommu_endpoint),
 
-> Some PnvXScomInterface objects lie a bit deeper (PnvPBCQState) than
+So if I understand correctly these fields are state that is modified by
+the guest? We don't need to save/load fields that cannot be modified by
+the guest, static information that is created from the QEMU command-line. 
 
-I didn't find any trace of PnvPBCQState in the code... what is it ?
+I think the above covers everything we need to migrate in VirtIOIOMMU
+then, except for acked_features, which (as I pointed out on another patch)
+seems redundant anyway since there is vdev->guest_features.
 
-> the first layer, so we need to loop on the whole object hierarchy to
-> catch them.
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  hw/ppc/pnv_xscom.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-> index bed41840845e..006d87e970d9 100644
-> --- a/hw/ppc/pnv_xscom.c
-> +++ b/hw/ppc/pnv_xscom.c
-> @@ -326,7 +326,12 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_=
-offset)
->      args.fdt =3D fdt;
->      args.xscom_offset =3D xscom_offset;
-> =20
-> -    object_child_foreach(OBJECT(chip), xscom_dt_child, &args);
-> +    /*
-> +     * Loop on the whole object hierarchy to catch all
-> +     * PnvXScomInterface objects which can lie a bit deeper the first
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-s/deeper the first/deeper than the first/
-
-> +     * layer.
-> +     */
-> +    object_child_foreach_recursive(OBJECT(chip), xscom_dt_child, &args);
->      return 0;
->  }
-> =20
-
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+> +
+>  static const VMStateDescription vmstate_virtio_iommu = {
+>      .name = "virtio-iommu",
+>      .minimum_version_id = 1,
+> -- 
+> 2.20.1
+> 
+> 
 
