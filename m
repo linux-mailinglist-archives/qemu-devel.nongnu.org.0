@@ -2,86 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8861117E8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 04:51:57 +0100 (CET)
-Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AAA117EDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Dec 2019 05:16:27 +0100 (CET)
+Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieWZ2-0001On-UY
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 22:51:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57414)
+	id 1ieWwk-0008Lg-4b
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 23:16:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59461)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bharata@linux.ibm.com>) id 1ieWXz-0000J8-O1
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 22:50:53 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ieWvQ-0007K9-2J
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 23:15:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bharata@linux.ibm.com>) id 1ieWXy-00076A-D3
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 22:50:51 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63880)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bharata@linux.ibm.com>)
- id 1ieWXy-00075F-4q
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 22:50:50 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBA3gQZ2070129
- for <qemu-devel@nongnu.org>; Mon, 9 Dec 2019 22:50:48 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wsu3nqjxx-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 22:50:48 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bharata@linux.ibm.com>;
- Tue, 10 Dec 2019 03:50:46 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Dec 2019 03:50:43 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBA3ogF136044826
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Dec 2019 03:50:42 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6939411C04C;
- Tue, 10 Dec 2019 03:50:42 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3E1B211C052;
- Tue, 10 Dec 2019 03:50:41 +0000 (GMT)
-Received: from in.ibm.com (unknown [9.199.37.168])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Tue, 10 Dec 2019 03:50:41 +0000 (GMT)
-Date: Tue, 10 Dec 2019 09:20:38 +0530
-From: Bharata B Rao <bharata@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v1 ppc-for-5.0 2/2] ppc/spapr: Support reboot of secure
- pseries guest
-References: <20191209070012.14766-1-bharata@linux.ibm.com>
- <20191209070012.14766-3-bharata@linux.ibm.com>
- <20191210032851.GC207300@umbus.fritz.box>
+ (envelope-from <dgibson@ozlabs.org>) id 1ieWvO-0007yV-Ny
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 23:15:03 -0500
+Received: from ozlabs.org ([203.11.71.1]:53069)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ieWvN-0007vP-NE; Mon, 09 Dec 2019 23:15:02 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47X6Cj4YV7z9sR8; Tue, 10 Dec 2019 15:14:57 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1575951297;
+ bh=svulIjJ5zf0/JraVL0RtsV6/IZHWwIZFaVe9UqWzXDk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ghZw/RLpXXRBJCOvDBLj4QqrLJn7Fg04gBTtrcmNQ0g864TvZ8oEzqDwg2zkzlSU+
+ aV7T5pOcu4Nd+2wHTJnHUWFLO3bmQMjHrjzLlyySSSte99qoWp59Gg9T5H4aHd3Ts4
+ 7ahC4tLoCdE/9hN7Bddkyg2xpr63C+HzNB8JYWHQ=
+Date: Tue, 10 Dec 2019 14:51:13 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 0/7] target/ppc: Implement KVM support under TCG (final
+ steps)
+Message-ID: <20191210035113.GF207300@umbus.fritz.box>
+References: <20191128134700.16091-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cpvLTH7QU4gwfq3S"
 Content-Disposition: inline
-In-Reply-To: <20191210032851.GC207300@umbus.fritz.box>
+In-Reply-To: <20191128134700.16091-1-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19121003-0008-0000-0000-0000033F515C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121003-0009-0000-0000-00004A5E8094
-Message-Id: <20191210035038.GB17552@in.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-09_05:2019-12-09,2019-12-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- bulkscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912100033
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,49 +56,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: bharata@linux.ibm.com
-Cc: linuxram@us.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 10, 2019 at 02:28:51PM +1100, David Gibson wrote:
-> On Mon, Dec 09, 2019 at 12:30:12PM +0530, Bharata B Rao wrote:
-> > A pseries guest can be run as a secure guest on Ultravisor-enabled
-> > POWER platforms. When such a secure guest is reset, we need to
-> > release/reset a few resources both on ultravisor and hypervisor side.
-> > This is achieved by invoking this new ioctl KVM_PPC_SVM_OFF from the
-> > machine reset path.
-> > 
-> > As part of this ioctl, the secure guest is essentially transitioned
-> > back to normal mode so that it can reboot like a regular guest and
-> > become secure again.
-> > 
-> > This ioctl has no effect when invoked for a normal guest.
-> > 
-> > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
-> > ---
-> >  hw/ppc/spapr.c       | 1 +
-> >  target/ppc/kvm.c     | 7 +++++++
-> >  target/ppc/kvm_ppc.h | 6 ++++++
-> >  3 files changed, 14 insertions(+)
-> > 
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index f11422fc41..4c7ad3400d 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -1597,6 +1597,7 @@ static void spapr_machine_reset(MachineState *machine)
-> >      void *fdt;
-> >      int rc;
-> >  
-> > +    kvmppc_svm_off();
-> 
-> If you're going to have this return an error value, you should really
-> check it here.
 
-I could, by spapr_machine_reset() and the callers don't propagate the
-errors up. So may be I could print a warning instead when ioctl fails?
+--cpvLTH7QU4gwfq3S
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Bharata.
+On Thu, Nov 28, 2019 at 02:46:53PM +0100, C=E9dric Le Goater wrote:
+> Hello,
+>=20
+> This is a resend of Suraj's series adding KVM support to the QEMU
+> PowerNV machine under TCG :
+>=20
+>   http://patchwork.ozlabs.org/cover/1094658/
+>  =20
+> I have addressed the comments and kept for later the final patch
+> adding partition scoped radix tree translation. I need to educate
+> myself a bit more on the topic first.
 
+I've applied 1..4 to ppc-for-5.0, the rest I'm still trying to look at
+more closely.
+
+
+>=20
+> Thanks,
+>=20
+> C.=20
+>=20
+> C=E9dric Le Goater (1):
+>   target/ppc: add support for Hypervisor Facility Unavailable Exception
+>=20
+> Suraj Jitindar Singh (6):
+>   target/ppc: Implement the VTB for HV access
+>   target/ppc: Work [S]PURR implementation and add HV support
+>   target/ppc: Add SPR ASDR
+>   target/ppc: Add SPR TBU40
+>   target/ppc: Add privileged message send facilities
+>   target/ppc: Enforce that the root page directory size must be at least 5
+>=20
+>  include/hw/ppc/ppc.h            |   4 +-
+>  target/ppc/cpu.h                |  11 ++++
+>  target/ppc/helper.h             |   9 +++
+>  hw/ppc/ppc.c                    |  46 +++++++++++---
+>  linux-user/ppc/cpu_loop.c       |   5 ++
+>  target/ppc/excp_helper.c        |  52 ++++++++++++++--
+>  target/ppc/misc_helper.c        |  46 ++++++++++++++
+>  target/ppc/mmu-radix64.c        |   3 +
+>  target/ppc/timebase_helper.c    |  20 ++++++
+>  target/ppc/translate.c          |  30 +++++++++
+>  target/ppc/translate_init.inc.c | 105 +++++++++++++++++++++++++++-----
+>  11 files changed, 297 insertions(+), 34 deletions(-)
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--cpvLTH7QU4gwfq3S
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3vFiwACgkQbDjKyiDZ
+s5LRGxAAmLzxod9pPP4+abCGVArs8r5cbEKn16AjMenUbj2AVa62nL11DNerwPIa
+ncalxhTGt5z8hxbXGjV4eYpR0L6ieNu7hs/RzxieiZ01Qdp3cJwjb7OtiLgT6g3T
+sqzhV05GxXryC+p7Pqimsc9uETVKrpZZ57lsTODsexIZD8PylqJGX29YsGZngclY
+Ci6MLbUoCHcritsRH9Oqgz43a61w8yvUZ1y9Lk5ideSnSDCjvti3HFO0/N8cwgBR
+dEfZmxP+sm16P5iVqO5YyGaj+xCBmNiTycw8vX+djVw+EjLzXtyIV9/FZWaDibD3
+aHCGh060N3OizY6NQlasF+xVk61/s4m2GIpx4d2ftgvejoD/5eqxL5yTInnW469B
+mFWomTlUQJQVO2P3Lwwpe/ScIzyuQpP4LF3FfVN6yaAUWwf2moZl9MZkGNMXkaqA
+fAzh3iCp39I3LtlZBmTE43TbSg8RsgJ4Jpnpko4EA/uT7H0oF53DFKGEILBBRsQx
+kVle4Ed7UFzMwk8EGeZPpj/wYfImllF/F/lqLpNOjEbbwJGSy2TUHkESVy5K7xht
+rAaVi9Vh3HbSmL69Mc2e7fdWZMQl8sBK10dScEWnrVUawgYYCma96qzbOSftfhiP
+55AWleo94ZsBzG2egZYZYSzQsyUHBUSs5nQwM8ovdxb2onvrOJ4=
+=L8x9
+-----END PGP SIGNATURE-----
+
+--cpvLTH7QU4gwfq3S--
 
