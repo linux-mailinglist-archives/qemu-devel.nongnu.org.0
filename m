@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439D811AD93
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:34:46 +0100 (CET)
-Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8275011AD7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:31:38 +0100 (CET)
+Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if34e-0006sp-Te
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:34:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33878)
+	id 1if31d-0004OH-7O
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:31:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34007)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if2tw-0005QN-RL
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2ty-0005Qa-2D
  for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if2tv-0003FU-Km
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:40 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52735)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2tw-0003GG-3N
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:41 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37043)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1if2tv-0003DM-61; Wed, 11 Dec 2019 09:23:39 -0500
-Received: by mail-wm1-x341.google.com with SMTP id p9so7297080wmc.2;
- Wed, 11 Dec 2019 06:23:38 -0800 (PST)
+ id 1if2tv-0003E4-Kx; Wed, 11 Dec 2019 09:23:39 -0500
+Received: by mail-wm1-x341.google.com with SMTP id f129so7177817wmf.2;
+ Wed, 11 Dec 2019 06:23:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=DDlSLM0gJZ7KaXQqepJKvC61+c7na5da89NPclbedsE=;
- b=oKiMEdf0K3rS4kJfQSAf5sHlJWePOIoEwbuFS5wrtEaA8F8+KLXiZ4Gt5ZCXOGazac
- 3SaReoLWacgYVCFaEr3qm+oTMUdFE/l+NbIFk7qKx8XTnJOhEXtpIq3D1llLBKmzV99K
- IRepDLHbUH62dMk2RhzA29hDFl2bTXsQCO1ccSNdc/dLHXB03PsCmvQvUapEpFBjEYX9
- veruvGuTnHSoq/5oel4Tu05+maYkPM09mvVQHqPm6DXOEk/vE/SpQ1s+l1LCe11YvK7d
- jM+ru+ChEiyUKrN0bcn5A4ocRq2fJ3ySQQBtLPfNhVUXKMSMUMe5Omom3hnOgKEAGuIS
- nJhg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KN9etHlviUCG+vbW1yGc2GU/5pE4ak3K4nMaIwbbgzo=;
+ b=pLnIGARi5BmE/p1ouE8fQ+i99DJA6bSr0I5aKD+VjiD/xNbZqL7f5iEcvB2fUhipjM
+ 2HyWrbeZtub/BRAjgPwyZOQ+HBBctgwSATArGnWZ2KXLJkekY0GqXvm71IPHmt1JZLA0
+ lz88/4WmtA8bvfMklZMScak95lf5/pJe5ju8njQF5QX/GsaX+nhMs2uEkAlIx4icH+R+
+ kjMKYH85GcPfLkJ0OaiuTm+st84ff2VJ0IqoDzI+yLL5PvyKl5nI9HfbLFlb4O2OpX//
+ 7DROM9a4B9wvtvDmaCHuNko7YF7T8mQ+6EK4Ifwc2ZbSobPbKegiUbO5WwzHAfZucSjA
+ KkNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=DDlSLM0gJZ7KaXQqepJKvC61+c7na5da89NPclbedsE=;
- b=uS8zBjKvJVoBxsUoJ4fuggrx7PWj27+WxspVy0QJb2mPSCygBGFZXInjyFeKuglRKv
- LU3ZYA1r9mUQ2NGmSClypHXpelRxoMBXWkqWwHfnEakW3U6TSWwv/USI3rdYnmjD/vzR
- cRsB4XF64UrK3BZlALJoW5YdDe1HjMe6r4P+HBM0EPu0UsF2UjGWXvTForfnixDWjlYh
- kMOpuQ27iWljkMOgWByNE2Qx5mcnsOd6MaV6XvbFWdkMQ8RGy4YCbkhLXGMyg/dLbCQw
- hYLGI306wHiDLVP2SwB25w7tisMV3uBpDfV290ElJYJybESDaE7UkgeG24Cjeszyqw5l
- izJQ==
-X-Gm-Message-State: APjAAAXJTV4ceR1ChxCsML/uZ0SK1na8RylsvfYLBLoI1t1YZvf/55o0
- nRqOKsfQj2GYdoDP7QNauL4ouvBf
-X-Google-Smtp-Source: APXvYqzd1YLGsmpelVZJQnbeosTTRhrZNd8xFPZ6Z9W5lBZtYWciJR57Gt/KLX4u2UIrlmkub5FjgA==
-X-Received: by 2002:a1c:9cce:: with SMTP id f197mr9239wme.133.1576074217391;
- Wed, 11 Dec 2019 06:23:37 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=KN9etHlviUCG+vbW1yGc2GU/5pE4ak3K4nMaIwbbgzo=;
+ b=U/zMB2wbvaEmi9jOQzsCstsaLvVviCJlqDY3lB6PARWIg/leLLL+4ziqvRyrS2GKTq
+ DjSMtOx/7V8L32/i9onhVh1s9/m6uUGc0Iyms60d1qBupM5xVVYDXbfio4hDsk/ESkXl
+ PF1xbJi5C4c0YNaPsMV5t5z7SiF53ZN4uxLp9DYnUGcP5HSE558sG69YtAU3pstGiQX5
+ t2WtluU0Ua5qdOslCesNZdenOK2cAjU/5ww9+cJ0ehdCuLt3GksAQzFEEoD6vEm5aX05
+ 3Uxo6HEyeKURAPfPS5KGOQKFjPWiNI21YHd+szHGI9N5GofVHEo1K0y/GY7XoUxD00pm
+ HFrQ==
+X-Gm-Message-State: APjAAAU1XqU7N4035MmZvo5wcBUWK3w1BZZWuh3dREEtqCROAHYsPDYi
+ pLZR5wdMSHb7C4RR882KG4qOI1TZ
+X-Google-Smtp-Source: APXvYqwfq/vrAT43jWS9/sgvgllG0n04BBZPwQcLnXRQXHIaie2AaCYOkTbLlPiYifMs5qLCP+F2yw==
+X-Received: by 2002:a7b:cf21:: with SMTP id m1mr49725wmg.170.1576074218369;
+ Wed, 11 Dec 2019 06:23:38 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g23sm2503783wmk.14.2019.12.11.06.23.36
+ by smtp.gmail.com with ESMTPSA id g23sm2503783wmk.14.2019.12.11.06.23.37
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Dec 2019 06:23:36 -0800 (PST)
+ Wed, 11 Dec 2019 06:23:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: use g_test_rand_int
-Date: Wed, 11 Dec 2019 15:23:27 +0100
-Message-Id: <1576074210-52834-6-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH] glib: use portable g_setenv()
+Date: Wed, 11 Dec 2019 15:23:28 +0100
+Message-Id: <1576074210-52834-7-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::341
@@ -70,113 +75,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_test_rand_int provides a reproducible random integer number, using a
-different number seed every time but allowing reproduction using the
---seed command line option.  It is thus better suited to tests than
-g_random_int or random.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+We have a setenv() wrapper in os-win32.c that no one is actually using.
+Drop it and change to g_setenv() uniformly.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/vhdx.c         | 2 +-
- block/vmdk.c         | 4 ++--
- tests/ivshmem-test.c | 2 +-
- tests/test-bitmap.c  | 8 ++++----
- tests/test-qga.c     | 4 ++--
- 5 files changed, 10 insertions(+), 10 deletions(-)
+ include/sysemu/os-win32.h        |  2 --
+ os-win32.c                       | 22 ----------------------
+ tests/libqtest.c                 |  2 +-
+ tests/test-crypto-tlscredsx509.c |  2 +-
+ tests/test-crypto-tlssession.c   |  2 +-
+ tests/test-io-channel-tls.c      |  2 +-
+ tests/test-vmstate.c             |  2 +-
+ ui/sdl2.c                        |  2 +-
+ 8 files changed, 6 insertions(+), 30 deletions(-)
 
-diff --git a/block/vhdx.c b/block/vhdx.c
-index f02d261..36465d5 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -1504,7 +1504,7 @@ static int vhdx_create_new_headers(BlockBackend *blk, uint64_t image_size,
-     hdr = g_new0(VHDXHeader, 1);
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index ff18b23..d8978e2 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -67,8 +67,6 @@ int getpagesize(void);
+ # define EPROTONOSUPPORT EINVAL
+ #endif
  
-     hdr->signature       = VHDX_HEADER_SIGNATURE;
--    hdr->sequence_number = g_random_int();
-+    hdr->sequence_number = g_test_rand_int();
-     hdr->log_version     = 0;
-     hdr->version         = 1;
-     hdr->log_length      = log_size;
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 20e909d..eba96bf 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2037,7 +2037,7 @@ static int vmdk_pwritev(BlockDriverState *bs, uint64_t offset,
-         /* update CID on the first write every time the virtual disk is
-          * opened */
-         if (!s->cid_updated) {
--            ret = vmdk_write_cid(bs, g_random_int());
-+            ret = vmdk_write_cid(bs, g_test_rand_int());
-             if (ret < 0) {
-                 return ret;
-             }
-@@ -2499,7 +2499,7 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
+-int setenv(const char *name, const char *value, int overwrite);
+-
+ typedef struct {
+     long tv_sec;
+     long tv_usec;
+diff --git a/os-win32.c b/os-win32.c
+index 1336cd3..6b86e02 100644
+--- a/os-win32.c
++++ b/os-win32.c
+@@ -30,28 +30,6 @@
+ #include "qemu-options.h"
+ #include "sysemu/runstate.h"
  
-     /* generate descriptor file */
-     desc = g_strdup_printf(desc_template,
--                           g_random_int(),
-+                           g_test_rand_int(),
-                            parent_cid,
-                            BlockdevVmdkSubformat_str(subformat),
-                            parent_desc_line,
-diff --git a/tests/ivshmem-test.c b/tests/ivshmem-test.c
-index be9aa92..ecda256 100644
---- a/tests/ivshmem-test.c
-+++ b/tests/ivshmem-test.c
-@@ -443,7 +443,7 @@ static gchar *mktempshm(int size, int *fd)
-     while (true) {
-         gchar *name;
- 
--        name = g_strdup_printf("/qtest-%u-%u", getpid(), g_random_int());
-+        name = g_strdup_printf("/qtest-%u-%u", getpid(), g_test_rand_int());
-         *fd = shm_open(name, O_CREAT|O_RDWR|O_EXCL,
-                        S_IRWXU|S_IRWXG|S_IRWXO);
-         if (*fd > 0) {
-diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
-index 087e02a..2f5b714 100644
---- a/tests/test-bitmap.c
-+++ b/tests/test-bitmap.c
-@@ -22,10 +22,10 @@ static void check_bitmap_copy_with_offset(void)
-     bmap2 = bitmap_new(BMAP_SIZE);
-     bmap3 = bitmap_new(BMAP_SIZE);
- 
--    bmap1[0] = random();
--    bmap1[1] = random();
--    bmap1[2] = random();
--    bmap1[3] = random();
-+    bmap1[0] = g_test_rand_int();
-+    bmap1[1] = g_test_rand_int();
-+    bmap1[2] = g_test_rand_int();
-+    bmap1[3] = g_test_rand_int();
-     total = BITS_PER_LONG * 4;
- 
-     /* Shift 115 bits into bmap2 */
-diff --git a/tests/test-qga.c b/tests/test-qga.c
-index 1ca49bb..d2b2435 100644
---- a/tests/test-qga.c
-+++ b/tests/test-qga.c
-@@ -143,7 +143,7 @@ static void qmp_assertion_message_error(const char     *domain,
- static void test_qga_sync_delimited(gconstpointer fix)
+-/***********************************************************/
+-/* Functions missing in mingw */
+-
+-int setenv(const char *name, const char *value, int overwrite)
+-{
+-    int result = 0;
+-    if (overwrite || !getenv(name)) {
+-        size_t length = strlen(name) + strlen(value) + 2;
+-        char *string = g_malloc(length);
+-        snprintf(string, length, "%s=%s", name, value);
+-        result = putenv(string);
+-
+-        /* Windows takes a copy and does not continue to use our string.
+-         * Therefore it can be safely freed on this platform.  POSIX code
+-         * typically has to leak the string because according to the spec it
+-         * becomes part of the environment.
+-         */
+-        g_free(string);
+-    }
+-    return result;
+-}
+-
+ static BOOL WINAPI qemu_ctrl_handler(DWORD type)
  {
-     const TestFixture *fixture = fix;
--    guint32 v, r = g_random_int();
-+    guint32 v, r = g_test_rand_int();
-     unsigned char c;
-     QDict *ret;
+     qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_SIGNAL);
+diff --git a/tests/libqtest.c b/tests/libqtest.c
+index 91e9cb2..f36e30a 100644
+--- a/tests/libqtest.c
++++ b/tests/libqtest.c
+@@ -254,7 +254,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+     s->expected_status = 0;
+     s->qemu_pid = fork();
+     if (s->qemu_pid == 0) {
+-        setenv("QEMU_AUDIO_DRV", "none", true);
++        g_setenv("QEMU_AUDIO_DRV", "none", true);
+         execlp("/bin/sh", "sh", "-c", command, NULL);
+         exit(1);
+     }
+diff --git a/tests/test-crypto-tlscredsx509.c b/tests/test-crypto-tlscredsx509.c
+index a27efb7..f487349 100644
+--- a/tests/test-crypto-tlscredsx509.c
++++ b/tests/test-crypto-tlscredsx509.c
+@@ -141,7 +141,7 @@ int main(int argc, char **argv)
  
-@@ -186,7 +186,7 @@ static void test_qga_sync_delimited(gconstpointer fix)
- static void test_qga_sync(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
--    guint32 v, r = g_random_int();
-+    guint32 v, r = g_test_rand_int();
-     QDict *ret;
+     module_call_init(MODULE_INIT_QOM);
+     g_test_init(&argc, &argv, NULL);
+-    setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
++    g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
  
-     /*
+     mkdir(WORKDIR, 0700);
+ 
+diff --git a/tests/test-crypto-tlssession.c b/tests/test-crypto-tlssession.c
+index 6560d71..8b2453f 100644
+--- a/tests/test-crypto-tlssession.c
++++ b/tests/test-crypto-tlssession.c
+@@ -398,7 +398,7 @@ int main(int argc, char **argv)
+ 
+     module_call_init(MODULE_INIT_QOM);
+     g_test_init(&argc, &argv, NULL);
+-    setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
++    g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
+ 
+     mkdir(WORKDIR, 0700);
+ 
+diff --git a/tests/test-io-channel-tls.c b/tests/test-io-channel-tls.c
+index 3c9ef6f..ad7554c 100644
+--- a/tests/test-io-channel-tls.c
++++ b/tests/test-io-channel-tls.c
+@@ -273,7 +273,7 @@ int main(int argc, char **argv)
+ 
+     module_call_init(MODULE_INIT_QOM);
+     g_test_init(&argc, &argv, NULL);
+-    setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
++    g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
+ 
+     mkdir(WORKDIR, 0700);
+ 
+diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
+index 1e5be1d..8f184f3 100644
+--- a/tests/test-vmstate.c
++++ b/tests/test-vmstate.c
+@@ -1325,7 +1325,7 @@ int main(int argc, char **argv)
+ 
+     module_call_init(MODULE_INIT_QOM);
+ 
+-    setenv("QTEST_SILENT_ERRORS", "1", 1);
++    g_setenv("QTEST_SILENT_ERRORS", "1", 1);
+ 
+     g_test_init(&argc, &argv, NULL);
+     g_test_add_func("/vmstate/simple/primitive", test_simple_primitive);
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index bd4e736..9030f1c 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -772,7 +772,7 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+      * This is a bit hackish but saves us from bigger problem.
+      * Maybe it's a good idea to fix this in SDL instead.
+      */
+-    setenv("SDL_VIDEODRIVER", "x11", 0);
++    g_setenv("SDL_VIDEODRIVER", "x11", 0);
+ #endif
+ 
+     if (SDL_Init(SDL_INIT_VIDEO)) {
 -- 
 1.8.3.1
 
