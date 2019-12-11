@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D0611B86A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 17:19:12 +0100 (CET)
-Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E093911B8AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 17:24:20 +0100 (CET)
+Received: from localhost ([::1]:45474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if4hj-0003hs-AS
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 11:19:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43672)
+	id 1if4mh-0007uI-39
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 11:24:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43233)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1if4ca-0000bv-8H
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:13:53 -0500
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1if4kK-0006EF-8T
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:21:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1if4cY-0006wv-Vc
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:13:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20994
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1if4cY-0006wW-R9
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:13:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576080830;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OL0aRlGSKpSoTMVlNBUVPkab/a9UZhPdcE01fU1VNlQ=;
- b=IGUNXuEHyHXQlzhvQ9u+cOBNVhbas8KUEUsvpFO9TJqrjNt4E7ETavEcA0h/MEaJXaCPoK
- kIuovr5zYMPMsqfQuHBuqJcolwBpBlPd/Dpvbw9pAX6BCsUUOI40UWAbuGyLeNkH9mNElL
- HxAQIkz/y/vWqGrMQkL0O3ktdj7zIas=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-W44nSYBONOGd_0gddWO91g-1; Wed, 11 Dec 2019 11:13:49 -0500
-Received: by mail-wr1-f71.google.com with SMTP id o6so10590002wrp.8
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 08:13:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3Dk48f+905tu40fuiA0Wi7X06wQ57iExGYr6Vzkp7Jc=;
- b=T5aWtFfdv2hVFpXw0h5L6OO/xnZH3+7deRI7nEK09wZHIXlBzLuOLHg7POEYxN+Dh+
- GgGLdQ3aIpybZ3XxVHsKDTtB3Evt2iNoL9amahYyBOg55PCwHnqS3G9PHiVGnf3toLVj
- ap5Ble60mRJ8m4IBo/OeSdoa11r2gBZDdAb4R6iD4hEUEbm7+Ec1j5WMrI7nGW0gQ9r2
- zD0nsSpnMyUUzlN61v7IhFz4lU4CJ7Uud/8vRjjOJEaiEdznpKJG4C5YkDBIDaNlKyLa
- X67ryPrQr+c/zenc/gw6WOmj8iC/5r5q9g7GEapZc2j+z3iA4UseSitRmxoUj3Rbjmfx
- iEqw==
-X-Gm-Message-State: APjAAAWS3DBjbM7pEgKKcpBcVusMVfhFApczZTzRVtHm5dxXTREzLuMs
- en29Wv50J8THd4qeEpFGsWVPceGlKY2hNTGNZlgEz/Sg1SE8zYXr80tNu4Mf9UVd939yAFCdSyl
- 5D/na9hSVSvoMBcE=
-X-Received: by 2002:a7b:ce81:: with SMTP id q1mr640975wmj.47.1576080827637;
- Wed, 11 Dec 2019 08:13:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzl5+3whZ0/OuGxpc8u0LnfF1Ws2r7sjoBSBqIbMs0bMprtY7HI0bVfZS5qZDM6nzJc2c2RPw==
-X-Received: by 2002:a7b:ce81:: with SMTP id q1mr640944wmj.47.1576080827391;
- Wed, 11 Dec 2019 08:13:47 -0800 (PST)
-Received: from [10.201.33.164] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id b185sm3028847wme.36.2019.12.11.08.13.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Dec 2019 08:13:46 -0800 (PST)
-Subject: Re: [PATCH v2] ppc/pnv: Make PnvXScomInterface an incomplete type
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <157608025541.186670.1577861507610404326.stgit@bahia.lan>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <be09c897-d982-e6ff-0997-61693b34be74@redhat.com>
-Date: Wed, 11 Dec 2019 17:13:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1if4kI-0000g8-Ey
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:21:52 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:65406)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1if4kI-0000fJ-8F; Wed, 11 Dec 2019 11:21:50 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBBGCRvp090506; Wed, 11 Dec 2019 11:21:35 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wtf6yjkgh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Dec 2019 11:21:35 -0500
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBBGCXVa090804;
+ Wed, 11 Dec 2019 11:21:35 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wtf6yjkg2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Dec 2019 11:21:35 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBBGKpjo032063;
+ Wed, 11 Dec 2019 16:21:34 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma04dal.us.ibm.com with ESMTP id 2wr3q6yqet-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Dec 2019 16:21:34 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBBGLWe337028150
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 11 Dec 2019 16:21:33 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E5F076E04E;
+ Wed, 11 Dec 2019 16:21:32 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 697F96E04C;
+ Wed, 11 Dec 2019 16:21:32 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 11 Dec 2019 16:21:32 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PACTH v3 0/5] Add vTPM emulator supportfor ppc64 platform
+Date: Wed, 11 Dec 2019 11:20:45 -0500
+Message-Id: <20191211162050.970199-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <157608025541.186670.1577861507610404326.stgit@bahia.lan>
-Content-Language: en-US
-X-MC-Unique: W44nSYBONOGd_0gddWO91g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-11_04:2019-12-11,2019-12-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 adultscore=0 clxscore=1011 malwarescore=0
+ suspectscore=0 impostorscore=0 bulkscore=0 phishscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912110137
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,49 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/19 5:04 PM, Greg Kurz wrote:
-> PnvXScomInterface is an interface instance. It should never be
-> dereferenced. Drop the dummy type definition for extra safety,
-> which is the common practice with QOM interfaces.
->=20
-> While here also convert the bogus OBJECT_CHECK() to INTERFACE_CHECK().
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+The following series of patches adds vTPM emulator support for the
+ppc64 platform (pSeries). 
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+It can be tested as follows with swtpm/libtpms:
 
-> ---
-> v2: convert OBJECT_CHECK() to INTERFACE_CHECK()
-> ---
->   include/hw/ppc/pnv_xscom.h |    6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-> index 1c1d76bf9be5..306c22461587 100644
-> --- a/include/hw/ppc/pnv_xscom.h
-> +++ b/include/hw/ppc/pnv_xscom.h
-> @@ -22,13 +22,11 @@
->  =20
->   #include "qom/object.h"
->  =20
-> -typedef struct PnvXScomInterface {
-> -    Object parent;
-> -} PnvXScomInterface;
-> +typedef struct PnvXScomInterface PnvXScomInterface;
->  =20
->   #define TYPE_PNV_XSCOM_INTERFACE "pnv-xscom-interface"
->   #define PNV_XSCOM_INTERFACE(obj) \
-> -     OBJECT_CHECK(PnvXScomInterface, (obj), TYPE_PNV_XSCOM_INTERFACE)
-> +    INTERFACE_CHECK(PnvXScomInterface, (obj), TYPE_PNV_XSCOM_INTERFACE)
->   #define PNV_XSCOM_INTERFACE_CLASS(klass)                \
->       OBJECT_CLASS_CHECK(PnvXScomInterfaceClass, (klass), \
->                          TYPE_PNV_XSCOM_INTERFACE)
->=20
->=20
+mkdir /tmp/mytpm1
+swtpm socket --tpmstate dir=/tmp/mytpm1 \
+  --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
+  --log level=20
+
+If TPM 2 is desired, add --tpm2 as parameter to the above.
+
+In another terminal start QEMU:
+
+sudo ./ppc64-softmmu/qemu-system-ppc64 -display sdl \
+	-machine pseries,accel=kvm \
+	-m 1024 -bios slof.bin -boot menu=on \
+	-nodefaults -device VGA -device pci-ohci -device usb-kbd \
+	-chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+	-tpmdev emulator,id=tpm0,chardev=chrtpm \
+	-device tpm-spapr,tpmdev=tpm0 \
+	-device spapr-vscsi,id=scsi0,reg=0x00002000 \
+	-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
+	-drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
+
+Links:
+ - libtpms: https://github.com/stefanberger/libtpms/wiki
+ - swtpm: https://github.com/stefanberger/swtpm/wiki
+
+Changes:
+ v2->v3:
+  - patch 1: a TPM 2 is identified by IBM,vtpm20 in the compatible node
+  - patch 1: convert to tracing to display Tx and Rx buffers
+  - added documentation patch
+  - added patch to enable TPM device as part of pSeries
+
+ v1->v2:
+  - followed Cedric Le Goater's suggestions to patch 1
+  - send appropriate CRQ error responses if DMA read or write fails
+  - renamed tpm_spapr_got_payload to tpm_spapr_process_cmd and
+    pass endianess-adjusted data pointer from CRQ to it
+
+Regards,
+    Stefan
+
+Stefan Berger (5):
+  tpm_spapr: Support TPM for ppc64 using CRQ based interface
+  tpm: Return bool from tpm_backend_finish_sync
+  tpm_spapr: Support suspend and resume
+  hw/ppc/Kconfig: Enable TPMDEV as part of PSERIES config
+  docs: tpm: Add example command line for ppc64 and tpm-spapr
+
+ backends/tpm.c               |   6 +-
+ docs/specs/tpm.txt           |  20 +-
+ hw/ppc/Kconfig               |   1 +
+ hw/tpm/Makefile.objs         |   1 +
+ hw/tpm/tpm_spapr.c           | 445 +++++++++++++++++++++++++++++++++++
+ hw/tpm/trace-events          |  12 +
+ include/sysemu/tpm.h         |   3 +
+ include/sysemu/tpm_backend.h |   4 +-
+ qapi/tpm.json                |   6 +-
+ 9 files changed, 492 insertions(+), 6 deletions(-)
+ create mode 100644 hw/tpm/tpm_spapr.c
+
+-- 
+2.21.0
 
 
