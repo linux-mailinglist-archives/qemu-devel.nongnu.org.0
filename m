@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9268711AD92
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:34:35 +0100 (CET)
-Received: from localhost ([::1]:43274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D812911ADA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:37:45 +0100 (CET)
+Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if34U-0006fT-2L
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:34:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34008)
+	id 1if37Y-0001tM-JM
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:37:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if2ty-0005Qc-0w
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:43 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2uk-0006SP-V9
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:24:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if2tw-0003Gu-OR
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:41 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36746)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2uj-0004UR-M4
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:24:30 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42836)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1if2tw-0003Fy-Hk; Wed, 11 Dec 2019 09:23:40 -0500
-Received: by mail-wr1-x443.google.com with SMTP id z3so24268422wru.3;
- Wed, 11 Dec 2019 06:23:40 -0800 (PST)
+ id 1if2uj-0004SB-Fc
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:24:29 -0500
+Received: by mail-wr1-x443.google.com with SMTP id q6so2749234wro.9
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 06:24:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ovY/8mchaDtROHxcc8/8N5K4E3la5in6G3plOwjOIug=;
- b=rhikW6K/gbZ9isrqgty7qmQwUnbyVnmYTKz5HypEJhZK0/qTafXLXtIFuXdLvgfLtp
- RPV+FDadKho0M/WHWOitlUADP+hhRJtYNywS2S/t162KCf13MDA1JiOGzc91glbobHBv
- iXX1tInbK9TtrGRVyGkIWfrRAXC2JrrS8JOqNPaDEOl+HGjl45BLp1jjLCJmza/KvF1P
- g+fucdjqv4/DladghQF4xIl78WeUYTiGd+GDlvkV7i9H+b7FZHK+WdgjSnZygbdxKfey
- EyY8h1VPT4onzQDQPpqCIewrCQJQaKGff5qR0Fkaf1NZny4+KVUY+tXkgI7Z/basGfVk
- 94BQ==
+ bh=6P+O7fP7RdRxtrVlibSaBNIUsO6tN03n2SE/FwGlPpk=;
+ b=l0uNsFNfQ2lywr02LWYhFULRgQI+/K+QVKVG/VwAgpMz2+vS0ef7h+40S5IHvN0nnE
+ PuIgzhTMfrU2f86pw2fAE9WOGlvRDGX6AROERAenwZcgKsIQbIfOXjgDjn8f88BxYpjO
+ 9F3a4f0uFMONQKErc8t9VCOD/PxwM9m0haWg9XRTr1SV99ovEgtakwUqD9Gjuw3Afxf/
+ 37nk/UKaSx3UamtmuD/JNHMTLZb1g73K3fsIE+cjkJW73qDdYZlWX9cjTrT5BXmJVfzJ
+ M933phMnMrRZj7zxC39n4slMi7l8f5PEeWIv7POtWIxwXxpqeRbY1b7OvdmDMmQW65Ub
+ 2Mvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=ovY/8mchaDtROHxcc8/8N5K4E3la5in6G3plOwjOIug=;
- b=bQg4HOHGg7qzbpnU+Qw/spXjXkcb8mKppT4lxduBFgcYK/a9JjsldDtKCNFdr9UJzg
- JY5LtelHBlMtACyjR6GbvDSoIkpR2AvdnrCBjjkmO0of19wfKdbtyKfU9ZqxG+PxTwhM
- MI3H6ey0G7gjHGmTSRG07hcne/mH3dgLWzar3dr0ysqjdaq/8joUPuR+dUPLFyXo6tEK
- JV1gpUAExJBYkSJkBNFBWTwDtUR+rW8EFshHCzzCkfiVUJgqEXPQGhFD0ib5kTczB2lW
- lQTtIIoPsdvikufQcXJhQbojeOj2rore26tX7wWhFNY751GDsh2OHTLnDdpyDusCfqQ6
- yTaA==
-X-Gm-Message-State: APjAAAV4UF4mEhMnj2VeCuFGn1kjUXdMuarqD4zmv2tWYvaX87WMvyHE
- m8zLUGGI9GnTJ1pcuoGy+7C57d0o
-X-Google-Smtp-Source: APXvYqz/+foVIWHc/iUo+ZpM6GX9itFSn4I4d039NFmWwstofErAvka4YFP2raP6bLbipJrIIR9pPA==
-X-Received: by 2002:adf:dfc9:: with SMTP id q9mr21438wrn.219.1576074219297;
- Wed, 11 Dec 2019 06:23:39 -0800 (PST)
+ bh=6P+O7fP7RdRxtrVlibSaBNIUsO6tN03n2SE/FwGlPpk=;
+ b=GHZEphoKBAUK6zWYEtDfT6Mjf7qwJtT0Od3w1+5yCjqVkatZS7jz4QU24ytb5+zAWZ
+ 2G4Q/Rhok7vKT+wAhKNjV2Ut6978uMJEgO6Icsve5f4uTTDg1m3LWcI5xemn4R5iEco3
+ qLqZwwWYdnr8FgMAPiMR1Yq5z3Z79NZgJ/1tHG0d8HqDcI+hEaqEVYS4wN/FsSdN8OkP
+ 71PtH2CDWJoyaqqS44GIkBK+5gzQA9MEGN0mapvY/06+pByhaQEZtAW1JlRc88mZw7aZ
+ YAbpYb1S4cdU65Kqa1fTlvFk8zBW11qdoyLKuIv5gWITH2xlnpcoSXKNFlVhcPGum1KA
+ Da1Q==
+X-Gm-Message-State: APjAAAV6zQ5oaZIh1wa9OfR9o9ZdHMJ38fwQ396BS5DJlcWPi0LgDCC/
+ dgneezRnXS6s1Y20Obz5MqXNVX0i
+X-Google-Smtp-Source: APXvYqzj5dN64kbSxo0CFeODPpIH1dEJvzzW2C0PBbdUO+/aiSgWWBbwdzIAb8l0cxg2sl4rYQ9eUQ==
+X-Received: by 2002:a5d:4cc9:: with SMTP id c9mr96260wrt.70.1576074268281;
+ Wed, 11 Dec 2019 06:24:28 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g23sm2503783wmk.14.2019.12.11.06.23.38
+ by smtp.gmail.com with ESMTPSA id b10sm2391123wrt.90.2019.12.11.06.24.27
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Dec 2019 06:23:38 -0800 (PST)
+ Wed, 11 Dec 2019 06:24:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: fix test-qga on macosx
-Date: Wed, 11 Dec 2019 15:23:29 +0100
-Message-Id: <1576074210-52834-8-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH] os-posix: simplify os_find_datadir
+Date: Wed, 11 Dec 2019 15:24:26 +0100
+Message-Id: <1576074266-53158-1-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -75,141 +76,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Fix Unix socket connection & skip commands that are not implemented.
+Use g_build_filename instead of sprintf, and g_autofree instead of
+manual freeing.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/test-qga.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+ os-posix.c | 41 +++++++++++++----------------------------
+ 1 file changed, 13 insertions(+), 28 deletions(-)
 
-diff --git a/tests/test-qga.c b/tests/test-qga.c
-index d2b2435..abeb9c9 100644
---- a/tests/test-qga.c
-+++ b/tests/test-qga.c
-@@ -17,17 +17,17 @@ typedef struct {
- 
- static int connect_qga(char *path)
- {
--    int s, ret, len, i = 0;
-+    int s, ret, i = 0;
-     struct sockaddr_un remote;
- 
-     s = socket(AF_UNIX, SOCK_STREAM, 0);
-     g_assert(s != -1);
- 
-+    memset(&remote, 0, sizeof(struct sockaddr_un));
-     remote.sun_family = AF_UNIX;
-     do {
--        strcpy(remote.sun_path, path);
--        len = strlen(remote.sun_path) + sizeof(remote.sun_family);
--        ret = connect(s, (struct sockaddr *)&remote, len);
-+        strncpy(remote.sun_path, path, sizeof(remote.sun_path) - 1);
-+        ret = connect(s, (struct sockaddr *)&remote, sizeof(struct sockaddr_un));
-         if (ret == -1) {
-             g_usleep(G_USEC_PER_SEC);
-         }
-@@ -305,6 +305,7 @@ static void test_qga_info(gconstpointer fix)
-     qobject_unref(ret);
+diff --git a/os-posix.c b/os-posix.c
+index 86cffd2..3cd52e1 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -80,41 +80,26 @@ void os_setup_signal_handling(void)
+     sigaction(SIGTERM, &act, NULL);
  }
  
-+#if defined(__linux__)
- static void test_qga_get_vcpus(gconstpointer fix)
+-/* Find a likely location for support files using the location of the binary.
+-   For installed binaries this will be "$bindir/../share/qemu".  When
+-   running from the build tree this will be "$bindir/../pc-bios".  */
+-#define SHARE_SUFFIX "/share/qemu"
+-#define BUILD_SUFFIX "/pc-bios"
++/*
++ * Find a likely location for support files using the location of the binary.
++ * When running from the build tree this will be "$bindir/../pc-bios".
++ * Otherwise, this is CONFIG_QEMU_DATADIR.
++ */
+ char *os_find_datadir(void)
  {
-     const TestFixture *fixture = fix;
-@@ -324,7 +325,9 @@ static void test_qga_get_vcpus(gconstpointer fix)
+-    char *dir, *exec_dir;
+-    char *res;
+-    size_t max_len;
++    g_autofree char *exec_dir = NULL;
++    g_autofree char *dir = NULL;
  
-     qobject_unref(ret);
- }
-+#endif
- 
-+#if defined(__linux__)
- static void test_qga_get_fsinfo(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -348,6 +351,7 @@ static void test_qga_get_fsinfo(gconstpointer fix)
- 
-     qobject_unref(ret);
- }
-+#endif
- 
- static void test_qga_get_memory_block_info(gconstpointer fix)
- {
-@@ -394,6 +398,7 @@ static void test_qga_get_memory_blocks(gconstpointer fix)
-     qobject_unref(ret);
- }
- 
-+#if defined(__linux__)
- static void test_qga_network_get_interfaces(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -412,6 +417,7 @@ static void test_qga_network_get_interfaces(gconstpointer fix)
- 
-     qobject_unref(ret);
- }
-+#endif
- 
- static void test_qga_file_ops(gconstpointer fix)
- {
-@@ -682,7 +688,7 @@ static void test_qga_blacklist(gconstpointer data)
-     qobject_unref(ret);
- 
-     /* check something work */
--    ret = qmp_fd(fix.fd, "{'execute': 'guest-get-fsinfo'}");
-+    ret = qmp_fd(fix.fd, "{'execute': 'guest-info'}");
-     qmp_assert_no_error(ret);
-     qobject_unref(ret);
- 
-@@ -766,6 +772,7 @@ static void test_qga_config(gconstpointer data)
-     g_key_file_free(kf);
- }
- 
-+#if defined(__linux__)
- static void test_qga_fsfreeze_status(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -781,6 +788,7 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
- 
-     qobject_unref(ret);
- }
-+#endif
- 
- static void test_qga_guest_exec(gconstpointer fix)
- {
-@@ -976,12 +984,17 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
-     g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
-     g_test_add_data_func("/qga/info", &fix, test_qga_info);
-+#if defined(__linux__)
-     g_test_add_data_func("/qga/network-get-interfaces", &fix,
-                          test_qga_network_get_interfaces);
-     if (!access("/sys/devices/system/cpu/cpu0", F_OK)) {
-         g_test_add_data_func("/qga/get-vcpus", &fix, test_qga_get_vcpus);
-     }
-     g_test_add_data_func("/qga/get-fsinfo", &fix, test_qga_get_fsinfo);
-+    g_test_add_data_func("/qga/fsfreeze-status", &fix,
-+                         test_qga_fsfreeze_status);
-+#endif
+     exec_dir = qemu_get_exec_dir();
+-    if (exec_dir == NULL) {
+-        return NULL;
+-    }
+-    dir = g_path_get_dirname(exec_dir);
+-
+-    max_len = strlen(dir) +
+-        MAX(strlen(SHARE_SUFFIX), strlen(BUILD_SUFFIX)) + 1;
+-    res = g_malloc0(max_len);
+-    snprintf(res, max_len, "%s%s", dir, SHARE_SUFFIX);
+-    if (access(res, R_OK)) {
+-        snprintf(res, max_len, "%s%s", dir, BUILD_SUFFIX);
+-        if (access(res, R_OK)) {
+-            g_free(res);
+-            res = NULL;
+-        }
++    g_return_val_if_fail(exec_dir != NULL, NULL);
 +
-     g_test_add_data_func("/qga/get-memory-block-info", &fix,
-                          test_qga_get_memory_block_info);
-     g_test_add_data_func("/qga/get-memory-blocks", &fix,
-@@ -993,8 +1006,6 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/invalid-oob", &fix, test_qga_invalid_oob);
-     g_test_add_data_func("/qga/invalid-cmd", &fix, test_qga_invalid_cmd);
-     g_test_add_data_func("/qga/invalid-args", &fix, test_qga_invalid_args);
--    g_test_add_data_func("/qga/fsfreeze-status", &fix,
--                         test_qga_fsfreeze_status);
++    dir = g_build_filename(exec_dir, "..", "pc-bios", NULL);
++    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
++        return g_steal_pointer(&dir);
+     }
  
-     g_test_add_data_func("/qga/blacklist", NULL, test_qga_blacklist);
-     g_test_add_data_func("/qga/config", NULL, test_qga_config);
+-    g_free(dir);
+-    g_free(exec_dir);
+-    return res;
++    return g_strdup(CONFIG_QEMU_DATADIR);
+ }
+-#undef SHARE_SUFFIX
+-#undef BUILD_SUFFIX
+ 
+ void os_set_proc_name(const char *s)
+ {
 -- 
 1.8.3.1
 
