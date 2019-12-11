@@ -2,66 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60D011AEB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 16:07:36 +0100 (CET)
-Received: from localhost ([::1]:43864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34E411AEE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 16:09:17 +0100 (CET)
+Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if3aR-0001cM-OA
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 10:07:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45831)
+	id 1if3c4-0003Eq-P5
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 10:09:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=241120df0=sveith@amazon.com>)
- id 1if3ZH-0000hj-Br
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:06:24 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1if3Zt-0001Zb-MM
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:07:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=241120df0=sveith@amazon.com>)
- id 1if3ZG-00020y-9i
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:06:23 -0500
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:44717)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <prvs=241120df0=sveith@amazon.com>)
- id 1if3ZE-0001vm-3L; Wed, 11 Dec 2019 10:06:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1576076780; x=1607612780;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=mVMZNzfGgCZy2rnEt7SIpbodq72YKWuf3Om7HpAHf2g=;
- b=gTi1E7VRURq/8F+m3ObZxnpdUDHC2/IfhGJ5AoFwdjT0IPcAMfN/Egxr
- qO9XG7oNgAEC+4qkurtVIE9nptg8FwY/R5mpJKyMl+BffRoaQ+x+lXTxh
- EwCxXcfgfITGMmyKXK0i6tXN9+RcNVm2U3wNK42U59XEqLiqEYQyVDetl M=;
-IronPort-SDR: p7UU1YkJwIQ3WP4vdsajOaU54IkE1Csl31l9DnNCzg2gx+MXCq9C6N9DoLk3l3ixomBy+QJ6c8
- 61zJL+IGrd6w==
-X-IronPort-AV: E=Sophos;i="5.69,301,1571702400"; 
-   d="scan'208";a="8108820"
-Received: from iad6-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.124.125.2])
- by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
- 11 Dec 2019 15:06:18 +0000
-Received: from sveith-desktop.aka.corp.amazon.com
- (iad7-ws-svc-lb50-vlan2.amazon.com [10.0.93.210])
- by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS
- id 1FFECA25EA; Wed, 11 Dec 2019 15:06:15 +0000 (UTC)
-Received: from sveith-desktop.aka.corp.amazon.com (localhost [127.0.0.1])
- by sveith-desktop.aka.corp.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id
- xBBF6Ce7024283; Wed, 11 Dec 2019 16:06:12 +0100
-Received: (from sveith@localhost)
- by sveith-desktop.aka.corp.amazon.com (8.15.2/8.15.2/Submit) id xBBF6B5B024260;
- Wed, 11 Dec 2019 16:06:11 +0100
-From: Simon Veith <sveith@amazon.de>
-To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Cc: Simon Veith <sveith@amazon.de>, Eric Auger <eric.auger@redhat.com>
-Subject: [PATCH v2 2/6] hw/arm/smmuv3: Correct SMMU_BASE_ADDR_MASK value
-Date: Wed, 11 Dec 2019 16:05:39 +0100
-Message-Id: <1576076739-23708-1-git-send-email-sveith@amazon.de>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1576076260-18659-1-git-send-email-sveith@amazon.de>
-References: <1576076260-18659-1-git-send-email-sveith@amazon.de>
-Precedence: Bulk
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 72.21.196.25
+ (envelope-from <pbonzini@redhat.com>) id 1if3Zr-0002ns-VK
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:07:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55573
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1if3Zr-0002n8-R5
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:06:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576076819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IOCUVHiwbRRSxonJiaLVp/nyDhsQwBM7qpLWA2sm4EE=;
+ b=CCmGtzKwpAgXafJwvlljq7RaZUPOV2LrsevLXTO6Or9Piqbu3g6ZujNA72GKhiyHgGKSP+
+ BmSJ/oGqQbdxbxE+o/zzvyj8rS74+JAC/mmQslYvEIlF5JENfZ0WA2OcRD+MK7O0dE5nC9
+ m4VZALL6N/tcFHZDKMj103E3xYg8rQ4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-qWFj4lN9PRygtgvGW5wyxQ-1; Wed, 11 Dec 2019 10:06:55 -0500
+Received: by mail-wr1-f71.google.com with SMTP id c6so10498826wrm.18
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 07:06:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2fX08xYAujcxdg2yTAv/a6NcZVRY2wBEL3Fj4xtuYqQ=;
+ b=K/KOfTr1IPU1VZh+TIlsKDnFBe/SdFyzQ9Yw2c3AEedC0dX5RfTU8QIxlkZHEMkrRL
+ 3Z5NkdgYO8QkfUo1YwDJpLb8Od4GnUBQAlY40WLgv5m7QfMok1jyPDvkxKpZqXtDO5Gz
+ tjcXy9szAX4ikUATuqIWHYc/VIpUyPLh/EFlDPEEriB2K3VakNqos7FZFbsWVPv42dnv
+ Hea+IngHXhvsORVQDMkosxmFwfJpsHfMz0YNP1GFqQIQeMP5CdPa7U3DGiLCGwc1fexJ
+ wj0hFYczqZEK4XLN8qymaCUfAeW3SS+GY620vjWGV2SAIO04Ae7fvhT+Zoceq3geaQj7
+ kpcA==
+X-Gm-Message-State: APjAAAU0fb+aAZe+4xlzq4D53wrR2U0Qce1eqzVMuAQYzlI0hM7FEeMI
+ kVZ9WSF+YnuMpoINHBvU4nB9dj2HEKJ0xYwSMtI3dMbeLequEVJwzxVAuqf1ZqPBkVuHMy5t/PL
+ RyivhA/MOHjZxNgc=
+X-Received: by 2002:a1c:5451:: with SMTP id p17mr252349wmi.57.1576076814651;
+ Wed, 11 Dec 2019 07:06:54 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyivH70pAdc03UL33RQQXzdiX+EMpl/0pXjgYTqr0KmdkR5sdjkfaKKrQx4xKGjj9NZU7DHLQ==
+X-Received: by 2002:a1c:5451:: with SMTP id p17mr252326wmi.57.1576076814334;
+ Wed, 11 Dec 2019 07:06:54 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
+ ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
+ by smtp.gmail.com with ESMTPSA id z12sm2577734wmd.16.2019.12.11.07.06.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Dec 2019 07:06:53 -0800 (PST)
+Subject: Re: [PATCH] build-sys: do not include Windows SLIRP dependencies in
+ $LIBS
+To: Samuel Thibault <samuel.thibault@gnu.org>
+References: <1576074210-52834-2-git-send-email-pbonzini@redhat.com>
+ <20191211143722.a4co5wi53gylo2sr@function>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <81150fb4-5a6b-d27d-ee6f-53fcdc5b93d0@redhat.com>
+Date: Wed, 11 Dec 2019 16:06:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191211143722.a4co5wi53gylo2sr@function>
+Content-Language: en-US
+X-MC-Unique: qWFj4lN9PRygtgvGW5wyxQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,42 +92,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two issues with the current value of SMMU_BASE_ADDR_MASK:
+On 11/12/19 15:37, Samuel Thibault wrote:
+> Paolo Bonzini, le mer. 11 d=C3=A9c. 2019 15:23:23 +0100, a ecrit:
+>> When including the internal SLIRP library, we should add all the librari=
+es that
+>> it needs for the build.  Right now they are all included by QEMU, but -l=
+iphlpapi
+>> is not needed without slirp.  Move it from LIBS to slirp_libs.
+>>
+>> Based on a patch by Marc-Andr=C3=A9 Lureau.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>=20
+> Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-- At the lower end, we are clearing bits [4:0]. Per the SMMUv3 spec,
-  we should also be treating bit 5 as zero in the base address.
-- At the upper end, we are clearing bits [63:48]. Per the SMMUv3 spec,
-  only bits [63:52] must be explicitly treated as zero.
+Ok, I'll queue it.  But you could use "make docker-test-mingw@fedora". :)
 
-Update the SMMU_BASE_ADDR_MASK value to mask out bits [63:52] and [5:0].
+Paolo
 
-ref. ARM IHI 0070C, section 6.3.23.
-
-Signed-off-by: Simon Veith <sveith@amazon.de>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
----
- hw/arm/smmuv3-internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index d190181..042b435 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -99,7 +99,7 @@ REG32(GERROR_IRQ_CFG2, 0x74)
- 
- #define A_STRTAB_BASE      0x80 /* 64b */
- 
--#define SMMU_BASE_ADDR_MASK 0xffffffffffe0
-+#define SMMU_BASE_ADDR_MASK 0xfffffffffffc0
- 
- REG32(STRTAB_BASE_CFG,     0x88)
-     FIELD(STRTAB_BASE_CFG, FMT,      16, 2)
--- 
-2.7.4
+> (I don't have a win environment to test this)
+>=20
+>> ---
+>>  configure | 5 ++++-
+>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/configure b/configure
+>> index 6099be1..d16dad2 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -926,7 +926,7 @@ if test "$mingw32" =3D "yes" ; then
+>>    DSOSUF=3D".dll"
+>>    # MinGW needs -mthreads for TLS and macro _MT.
+>>    QEMU_CFLAGS=3D"-mthreads $QEMU_CFLAGS"
+>> -  LIBS=3D"-lwinmm -lws2_32 -liphlpapi $LIBS"
+>> +  LIBS=3D"-lwinmm -lws2_32 $LIBS"
+>>    write_c_skeleton;
+>>    if compile_prog "" "-liberty" ; then
+>>      LIBS=3D"-liberty $LIBS"
+>> @@ -6069,6 +6069,9 @@ case "$slirp" in
+>>      mkdir -p slirp
+>>      slirp_cflags=3D"-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
+>>      slirp_libs=3D"-L\$(BUILD_DIR)/slirp -lslirp"
+>> +    if test "$mingw32" =3D "yes" ; then
+>> +      slirp_libs=3D"$slirp_libs -lws2_32 -liphlpapi"
+>> +    fi
+>>      ;;
+>> =20
+>>    system)
+>> --=20
+>> 1.8.3.1
+>>
+>>
+>=20
 
 
