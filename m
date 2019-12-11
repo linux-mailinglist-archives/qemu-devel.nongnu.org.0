@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6433E11B96C
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 17:59:55 +0100 (CET)
-Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D26D11B9A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:08:41 +0100 (CET)
+Received: from localhost ([::1]:46338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if5L8-0000HA-G9
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 11:59:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48715)
+	id 1if5Tc-0007ZP-1i
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:08:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1if5K8-0008FH-Uq
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:58:54 -0500
+ (envelope-from <armbru@redhat.com>) id 1if5MT-0001gt-4R
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:01:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1if5K5-0001ZY-Bn
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:58:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33441
+ (envelope-from <armbru@redhat.com>) id 1if5MR-0004zz-M3
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:01:16 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58261
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1if5K4-0001X8-UH
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:58:49 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1if5MR-0004yu-H7
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:01:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576083527;
+ s=mimecast20190719; t=1576083675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FbmRB3fcXOchRvjr5xZoMVU+BWtOFp64v3teU6Vo040=;
- b=B5x8YZ6x7/n4rzDPKZWTt5EcmaWHsSwl6BWUSpInV5QV0z4Fk46mr1XPuAeYKRSKlGWJbO
- ALkTkeGCHZ+UI0fsc3Qtyg/w6pvCTrxbWB4E+Znnw4siiV0JkMhOOanSIFscvbeN79iqDK
- PYrME1zvgfax567V32z3g+fm7/8NUP0=
+ bh=jGH2WxoQ5eUGnr8ZWjZsY/+FUNqTYhp5iCq8fgcFwPY=;
+ b=FPV6SPPqJKmt7IOiCCta55mczG30l92VZ4rFGG3msVxUXvgmETERBJk5rVa1CM5W64lqix
+ ZRstmrsWUhFuoIh3wcreKxtQZWhFQvgq9tPI/I+/XM+Z+Gtg26A/nTfAjJlITDVlubxvzO
+ AgUFJNOoAeUmTNQHMDaXNPO5dUtRo8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-Z3lT-cdMPfOjzrnsPtE3XQ-1; Wed, 11 Dec 2019 11:58:44 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-388--0pb-_NIOlCO4Vn37QV3Og-1; Wed, 11 Dec 2019 12:01:12 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45E90107ACC9;
- Wed, 11 Dec 2019 16:58:43 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-122-129.rdu2.redhat.com
- [10.10.122.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC9685DA70;
- Wed, 11 Dec 2019 16:58:36 +0000 (UTC)
-Subject: Re: [PATCH v2 2/4] python/qemu: accel: Add list_accel() method
-To: Cleber Rosa <crosa@redhat.com>
-References: <20191206213433.11305-1-wainersm@redhat.com>
- <20191206213433.11305-3-wainersm@redhat.com>
- <20191210005258.GC31990@localhost.localdomain>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <fee77377-2ffc-af79-4740-23682096f799@redhat.com>
-Date: Wed, 11 Dec 2019 14:58:35 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A2A8800D5A;
+ Wed, 11 Dec 2019 17:01:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-181.ams2.redhat.com
+ [10.36.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4774C1001938;
+ Wed, 11 Dec 2019 17:01:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8EA8D11386A7; Wed, 11 Dec 2019 18:01:03 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] object: Improve documentation of interfaces
+References: <157607116183.174911.9764813135617350231.stgit@bahia.lan>
+Date: Wed, 11 Dec 2019 18:01:03 +0100
+In-Reply-To: <157607116183.174911.9764813135617350231.stgit@bahia.lan> (Greg
+ Kurz's message of "Wed, 11 Dec 2019 14:32:41 +0100")
+Message-ID: <875zimu78w.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191210005258.GC31990@localhost.localdomain>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: Z3lT-cdMPfOjzrnsPtE3XQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: -0pb-_NIOlCO4Vn37QV3Og-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,110 +75,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, ehabkost@redhat.com, alex.bennee@linaro.org,
- qemu-devel@nongnu.org, philmd@redhat.com, jsnow@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Greg Kurz <groug@kaod.org> writes:
 
-On 12/9/19 10:52 PM, Cleber Rosa wrote:
-> On Fri, Dec 06, 2019 at 04:34:31PM -0500, Wainer dos Santos Moschetta wro=
-te:
->> Since commit cbe6d6365a48 the command `qemu -accel help` returns
->> the list of accelerators enabled in the QEMU binary. This adds
->> the list_accel() method which return that same list.
->>
->> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
->> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
->> ---
->>   python/qemu/accel.py | 23 +++++++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->>
->> diff --git a/python/qemu/accel.py b/python/qemu/accel.py
->> index cbeac10dd1..746b7e68f5 100644
->> --- a/python/qemu/accel.py
->> +++ b/python/qemu/accel.py
->> @@ -14,7 +14,11 @@ accelerators.
->>   # the COPYING file in the top-level directory.
->>   #
->>  =20
->> +import logging
->>   import os
->> +import subprocess
->> +
->> +LOG =3D logging.getLogger(__name__)
->>  =20
->>   # Mapping host architecture to any additional architectures it can
->>   # support which often includes its 32 bit cousin.
->> @@ -23,6 +27,25 @@ ADDITIONAL_ARCHES =3D {
->>       "aarch64" : "armhf"
->>   }
->>  =20
->> +def list_accel(qemu_bin):
->> +    """
->> +    List accelerators enabled in the QEMU binary.
->> +
->> +    @param qemu_bin (str): path to the QEMU binary.
->> +    @raise Exception: if failed to run `qemu -accel help`
->> +    @return a list of accelerator names.
->> +    """
->> +    if not qemu_bin:
->> +        return []
->> +    try:
->> +        out =3D subprocess.check_output("%s -accel help" % qemu_bin, sh=
-ell=3DTrue)
-> There's no need to use a shell here.  This could become:
+> QOM interfaces allow a limited form of multiple inheritance, at the
+> condition of being stateless. That is, they cannot be instantiated
+> and a pointer to an interface shouldn't be dereferenceable in any way.
+> This is achieved by making the QOM instance type an incomplete type,
+> which is, as mentioned by Markus Armbruster, the closest you can get
+> to abstract class in C.
 >
->     out =3D subprocess.check_output([qemu_bin, '-accel' 'help'])
-
-Ack
-
+> Incomplete types are widely used to hide implementation details, but
+> people usually expect to find at least one place where the type is
+> fully defined. The fact that it doesn't happen with QOM interfaces is
+> quite disturbing, especially since it isn't documented anywhere as
+> recently discussed in this thread:
 >
->> +    except:
->> +        LOG.debug("Failed to get the list of accelerators in %s" % qemu=
-_bin)
->> +        raise
->> +    lines =3D out.decode().splitlines()
-> And maybe discard the first line earlier with:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg01579.html
 >
->     lines =3D out.decode().splitlines()[1:]
+> Amend the documentation in the object.h header file to provide more
+> details about why and how to implement QOM interfaces using incomplete
+> types.
 >
-> Also, you could avoid the manual decode() with the `universal_newlines`
-> option to subprocess.check_output(), ie:
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  include/qom/object.h |   10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 >
->     accels =3D subprocess.check_output([qemu-bin, '-accel', 'help'],
->                                      universal_newlines=3DTrue).splitline=
-s()[1:]
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 128d00c77fd6..5cf98d2c4350 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -200,8 +200,14 @@ typedef struct InterfaceInfo InterfaceInfo;
+>   *
+>   * Interfaces allow a limited form of multiple inheritance.  Instances a=
+re
+>   * similar to normal types except for the fact that are only defined by
+> - * their classes and never carry any state.  You can dynamically cast an=
+ object
+> - * to one of its #Interface types and vice versa.
+> + * their classes and never carry any state.  As a consequence, a pointer=
+ to
+> + * an interface instance should always be of incomplete type in order to=
+ be
+> + * sure it cannot be dereferenced.  That is, you should define the
+> + * 'typedef struct SomethingIf SomethingIf' so that you can pass around
+> + * 'SomethingIf *si' arguments, but not define a 'struct SomethingIf { .=
+.. }'.
+> + * The only things you can validly do with a 'SomethingIf *' are to pass=
+ it as
+> + * an argument to a method on its corresponding SomethingIfClass, or to
+> + * dynamically cast it to an object that implements the interface.
+>   *
+>   * # Methods #
+>   *
 
-Nice. v3 will have universal_newlines=3DTrue.
-
->
->> +    # Skip the first line which is the header.
->> +    return [l.strip() for l in lines[1:] if l]
->> +
-> I think that the `if l` check can actually hide undesirable behavior
-> (bugs) in the `qemu -accel ?` output.  I don't remember seeing
-> `-$(option) ?` returning empty strings but doesn't mean it couldn't
-> and shouldn't).
->
-> I do remember `-machine ?` returning random non-printable characters
-> that turned out to be a bug, though.
-
-Double-checking: are you suggesting to remove the 'if not empty' check=20
-so that bugs on output could emerge?
-
-Thanks!
-
-- Wainer
-
->
->>   def kvm_available(target_arch=3DNone):
->>       host_arch =3D os.uname()[4]
->>       if target_arch and target_arch !=3D host_arch:
->> --=20
->> 2.21.0
->>
-> - Cleber.
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
