@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BFC11BC58
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 19:59:47 +0100 (CET)
-Received: from localhost ([::1]:47978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE2411BC65
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 20:02:05 +0100 (CET)
+Received: from localhost ([::1]:48020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if7D8-0002oX-Tb
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 13:59:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57185)
+	id 1if7FM-0004ud-4n
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 14:02:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1if7Ac-00019c-Li
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 13:57:13 -0500
+ (envelope-from <philmd@redhat.com>) id 1if7Cb-0003G1-9w
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 13:59:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1if7Aa-0008Ld-7l
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 13:57:10 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34905
+ (envelope-from <philmd@redhat.com>) id 1if7Ca-00022S-5I
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 13:59:13 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20459
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1if7Aa-0008K5-1L
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 13:57:08 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1if7C8-0001uo-40
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 13:59:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576090627;
+ s=mimecast20190719; t=1576090723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PmdxvSNjUeqla4gN3qZhqc4RbOqddSYV1Rqf96la1Vc=;
- b=T8QeXffUNrYJSMEwd0xkPWFmq0pvrOald9dK60479LkgqOFcC5K1CnrYll/UXyMdmvRiNm
- Tpnbe4pguw3SEaSwFfco3Nh6PotSr0KElBh5XVGP/Iuu3UwSFFR7/sr/oKJfvu/LZE3zhF
- ECVZXrxV+u5WHUMNzueKKu4GPjOfvXI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-968Uo2dtOCmD4F7hjzRc3A-1; Wed, 11 Dec 2019 13:57:03 -0500
-X-MC-Unique: 968Uo2dtOCmD4F7hjzRc3A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43406DBA7;
- Wed, 11 Dec 2019 18:57:02 +0000 (UTC)
-Received: from x1.home (ovpn04.gateway.prod.ext.phx2.redhat.com [10.5.9.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 141265DA87;
- Wed, 11 Dec 2019 18:56:56 +0000 (UTC)
-Date: Wed, 11 Dec 2019 11:56:55 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Subject: Re: [RFC PATCH 4/9] vfio-pci: register default
- dynamic-trap-bar-info region
-Message-ID: <20191211115655.7ecc5c83@x1.home>
-In-Reply-To: <20191211062555.GC28339@joy-OptiPlex-7040>
-References: <20191205032419.29606-1-yan.y.zhao@intel.com>
- <20191205032650.29794-1-yan.y.zhao@intel.com>
- <20191205165530.1f29fe85@x1.home>
- <20191206060407.GF31791@joy-OptiPlex-7040>
- <20191206082038.2b1078d9@x1.home>
- <20191209062212.GL31791@joy-OptiPlex-7040>
- <20191209141608.310520fc@x1.home>
- <20191210074444.GA28339@joy-OptiPlex-7040>
- <20191210093805.36a5b443@x1.home>
- <20191211062555.GC28339@joy-OptiPlex-7040>
-Organization: Red Hat
+ bh=l3ltQxB1nZ5TUtcXPnUx1OAoc/lTuv9KR/2gZ+b69MI=;
+ b=chXxu/kmVygqsl8+BqIhnvOd8i6r3LGnhQIQjz9Q3eAH5k8n8h6hbhToteeuZ2pk+1bSal
+ Jf9WZ/i8wtE/g2KTN6ydIjHLT85WrMYu8jXCXdCA11tz6PF/fA5m0LP/Eyl44QU2OyYkOY
+ Scgj4+iHvXv+7sxazf2QvsKM7LImMg8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-6YD1xRlBO5SA-n8c-EBy-g-1; Wed, 11 Dec 2019 13:58:42 -0500
+Received: by mail-wr1-f69.google.com with SMTP id c6so10727229wrm.18
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 10:58:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=l3ltQxB1nZ5TUtcXPnUx1OAoc/lTuv9KR/2gZ+b69MI=;
+ b=fhYstJMZQ8gAZqrRPdmE73QdGlewH+4338/cU0LlZdLuePIKwWlUF5Ib+BGZyCKeX+
+ 2VdyVv0DVt8twHDWBRavrQFeyToYvznyB2zXoCyC0Gak5VvXdyhSUhsTvDAG5opx6wUJ
+ 2oQ3lMnWWUqtF5yZ1H4L7aUrkjiT3ym4s60RycNGpWZNkwD5IY+yc1bYqG7oTTngDMM7
+ rdkjbdLJa4pJW8GBX+gsN6F2ZXzzsNA3WO6F1eoYVlSqTBmDFeHTK8c0obC0mQox8QwS
+ ktrZvZOM7251C6PWzWlkN1SJi5FaiWAgtaNeC6+wMrFnIb1CBREkQS/BRQCR/3UZUBA8
+ 2NCw==
+X-Gm-Message-State: APjAAAUarEVHebEXP7LGwiSEdM8C/Lj+ZsJEMu9k10cGAFnZkHCWeODQ
+ h+gQ3Pk8h8CQDQI2Yd4kC7TH68iKl7ofo8l1cMOjgKZhezxhNuK16yiuGXJb2ugmeLP79R6JCTo
+ s1oh0hxRh5KZlTkE=
+X-Received: by 2002:a1c:ded6:: with SMTP id v205mr1248939wmg.86.1576090721213; 
+ Wed, 11 Dec 2019 10:58:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxU/wDixVREsQvMC1lpMLrgCyrURBAUptVuwLlvh0L/Rc/2xNjDrHCSLLbJ2doDpREpUZsziw==
+X-Received: by 2002:a1c:ded6:: with SMTP id v205mr1248927wmg.86.1576090720987; 
+ Wed, 11 Dec 2019 10:58:40 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id l2sm3269770wmi.5.2019.12.11.10.58.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Dec 2019 10:58:40 -0800 (PST)
+Subject: Re: [PATCH v2 2/2] gdbstub: do not split gdb_monitor_write payload
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+References: <20191211160514.58373-1-damien.hedde@greensocs.com>
+ <20191211160514.58373-3-damien.hedde@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e1b2e3a7-a40a-3e0f-ce83-bfacd28aedeb@redhat.com>
+Date: Wed, 11 Dec 2019 19:58:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20191211160514.58373-3-damien.hedde@greensocs.com>
+Content-Language: en-US
+X-MC-Unique: 6YD1xRlBO5SA-n8c-EBy-g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,266 +91,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "He, 
- Shaopeng" <shaopeng.he@intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>
+Cc: alex.bennee@linaro.org, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 11 Dec 2019 01:25:55 -0500
-Yan Zhao <yan.y.zhao@intel.com> wrote:
+On 12/11/19 5:05 PM, Damien Hedde wrote:
+> Since we can now send packets of arbitrary length:
+> simplify gdb_monitor_write() and send the whole payload
+> in one packet.
 
-> On Wed, Dec 11, 2019 at 12:38:05AM +0800, Alex Williamson wrote:
-> > On Tue, 10 Dec 2019 02:44:44 -0500
-> > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> >   
-> > > On Tue, Dec 10, 2019 at 05:16:08AM +0800, Alex Williamson wrote:  
-> > > > On Mon, 9 Dec 2019 01:22:12 -0500
-> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > >     
-> > > > > On Fri, Dec 06, 2019 at 11:20:38PM +0800, Alex Williamson wrote:    
-> > > > > > On Fri, 6 Dec 2019 01:04:07 -0500
-> > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > >       
-> > > > > > > On Fri, Dec 06, 2019 at 07:55:30AM +0800, Alex Williamson wrote:      
-> > > > > > > > On Wed,  4 Dec 2019 22:26:50 -0500
-> > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > > >         
-> > > > > > > > > Dynamic trap bar info region is a channel for QEMU and vendor driver to
-> > > > > > > > > communicate dynamic trap info. It is of type
-> > > > > > > > > VFIO_REGION_TYPE_DYNAMIC_TRAP_BAR_INFO and subtype
-> > > > > > > > > VFIO_REGION_SUBTYPE_DYNAMIC_TRAP_BAR_INFO.
-> > > > > > > > > 
-> > > > > > > > > This region has two fields: dt_fd and trap.
-> > > > > > > > > When QEMU detects a device regions of this type, it will create an
-> > > > > > > > > eventfd and write its eventfd id to dt_fd field.
-> > > > > > > > > When vendor drivre signals this eventfd, QEMU reads trap field of this
-> > > > > > > > > info region.
-> > > > > > > > > - If trap is true, QEMU would search the device's PCI BAR
-> > > > > > > > > regions and disable all the sparse mmaped subregions (if the sparse
-> > > > > > > > > mmaped subregion is disablable).
-> > > > > > > > > - If trap is false, QEMU would re-enable those subregions.
-> > > > > > > > > 
-> > > > > > > > > A typical usage is
-> > > > > > > > > 1. vendor driver first cuts its bar 0 into several sections, all in a
-> > > > > > > > > sparse mmap array. So initally, all its bar 0 are passthroughed.
-> > > > > > > > > 2. vendor driver specifys part of bar 0 sections to be disablable.
-> > > > > > > > > 3. on migration starts, vendor driver signals dt_fd and set trap to true
-> > > > > > > > > to notify QEMU disabling the bar 0 sections of disablable flags on.
-> > > > > > > > > 4. QEMU disables those bar 0 section and hence let vendor driver be able
-> > > > > > > > > to trap access of bar 0 registers and make dirty page tracking possible.
-> > > > > > > > > 5. on migration failure, vendor driver signals dt_fd to QEMU again.
-> > > > > > > > > QEMU reads trap field of this info region which is false and QEMU
-> > > > > > > > > re-passthrough the whole bar 0 region.
-> > > > > > > > > 
-> > > > > > > > > Vendor driver specifies whether it supports dynamic-trap-bar-info region
-> > > > > > > > > through cap VFIO_PCI_DEVICE_CAP_DYNAMIC_TRAP_BAR in
-> > > > > > > > > vfio_pci_mediate_ops->open().
-> > > > > > > > > 
-> > > > > > > > > If vfio-pci detects this cap, it will create a default
-> > > > > > > > > dynamic_trap_bar_info region on behalf of vendor driver with region len=0
-> > > > > > > > > and region->ops=null.
-> > > > > > > > > Vvendor driver should override this region's len, flags, rw, mmap in its
-> > > > > > > > > vfio_pci_mediate_ops.        
-> > > > > > > > 
-> > > > > > > > TBH, I don't like this interface at all.  Userspace doesn't pass data
-> > > > > > > > to the kernel via INFO ioctls.  We have a SET_IRQS ioctl for
-> > > > > > > > configuring user signaling with eventfds.  I think we only need to
-> > > > > > > > define an IRQ type that tells the user to re-evaluate the sparse mmap
-> > > > > > > > information for a region.  The user would enumerate the device IRQs via
-> > > > > > > > GET_IRQ_INFO, find one of this type where the IRQ info would also
-> > > > > > > > indicate which region(s) should be re-evaluated on signaling.  The user
-> > > > > > > > would enable that signaling via SET_IRQS and simply re-evaluate the        
-> > > > > > > ok. I'll try to switch to this way. Thanks for this suggestion.
-> > > > > > >       
-> > > > > > > > sparse mmap capability for the associated regions when signaled.        
-> > > > > > > 
-> > > > > > > Do you like the "disablable" flag of sparse mmap ?
-> > > > > > > I think it's a lightweight way for user to switch mmap state of a whole region,
-> > > > > > > otherwise going through a complete flow of GET_REGION_INFO and re-setup
-> > > > > > > region might be too heavy.      
-> > > > > > 
-> > > > > > No, I don't like the disable-able flag.  At what frequency do we expect
-> > > > > > regions to change?  It seems like we'd only change when switching into
-> > > > > > and out of the _SAVING state, which is rare.  It seems easy for
-> > > > > > userspace, at least QEMU, to drop the entire mmap configuration and      
-> > > > > ok. I'll try this way.
-> > > > >     
-> > > > > > re-read it.  Another concern here is how do we synchronize the event?
-> > > > > > Are we assuming that this event would occur when a user switch to
-> > > > > > _SAVING mode on the device?  That operation is synchronous, the device
-> > > > > > must be in saving mode after the write to device state completes, but
-> > > > > > it seems like this might be trying to add an asynchronous dependency.
-> > > > > > Will the write to device_state only complete once the user handles the
-> > > > > > eventfd?  How would the kernel know when the mmap re-evaluation is
-> > > > > > complete.  It seems like there are gaps here that the vendor driver
-> > > > > > could miss traps required for migration because the user hasn't
-> > > > > > completed the mmap transition yet.  Thanks,
-> > > > > > 
-> > > > > > Alex      
-> > > > > 
-> > > > > yes, this asynchronous event notification will cause vendor driver miss
-> > > > > traps. But it's supposed to be of very short period time. That's also a
-> > > > > reason for us to wish the re-evaluation to be lightweight. E.g. if it's
-> > > > > able to be finished before the first iterate, it's still safe.    
-> > > > 
-> > > > Making the re-evaluation lightweight cannot solve the race, it only
-> > > > masks it.
-> > > >     
-> > > > > But I agree, the timing is not guaranteed, and so it's best for kernel
-> > > > > to wait for mmap re-evaluation to complete. 
-> > > > > 
-> > > > > migration_thread
-> > > > >     |->qemu_savevm_state_setup
-> > > > >     |   |->ram_save_setup
-> > > > >     |   |   |->migration_bitmap_sync
-> > > > >     |   |       |->kvm_log_sync
-> > > > >     |   |       |->vfio_log_sync
-> > > > >     |   |
-> > > > >     |   |->vfio_save_setup
-> > > > >     |       |->set_device_state(_SAVING)
-> > > > >     |
-> > > > >     |->qemu_savevm_state_pending
-> > > > >     |   |->ram_save_pending
-> > > > >     |   |   |->migration_bitmap_sync 
-> > > > >     |   |      |->kvm_log_sync
-> > > > >     |   |      |->vfio_log_sync
-> > > > >     |   |->vfio_save_pending
-> > > > >     |
-> > > > >     |->qemu_savevm_state_iterate
-> > > > >     |   |->ram_save_iterate //send pages
-> > > > >     |   |->vfio_save_iterate
-> > > > >     ...
-> > > > > 
-> > > > > 
-> > > > > Actually, we previously let qemu trigger the re-evaluation when migration starts.
-> > > > > And now the reason for we to wish kernel to trigger the mmap re-evaluation is that
-> > > > > there're other two possible use cases:
-> > > > > (1) keep passing through devices when migration starts and track dirty pages
-> > > > >     using hardware IOMMU. Then when migration is about to complete, stop the
-> > > > >     device and start trap PCI BARs for software emulation. (we made some
-> > > > >     changes to let device stop ahead of vcpu )    
-> > > > 
-> > > > How is that possible?  I/O devices need to continue to work until the
-> > > > vCPU stops otherwise the vCPU can get blocked on the device.  Maybe QEMU    
-> > > hi Alex
-> > > For devices like DSA [1], it can support SVM mode. In this mode, when a
-> > > page fault happens, the Intel DSA device blocks until the page fault is
-> > > resolved, if PRS is enabled; otherwise it is reported as an error.
-> > > 
-> > > Therefore, to pass through DSA into guest and do live migration with it,
-> > > it is desired to stop DSA before stopping vCPU, as there may be an
-> > > outstanding page fault to be resolved.
-> > > 
-> > > During the period when DSA is stopped and vCPUs are still running, all the
-> > > pass-through resources are trapped and emulated by host mediation driver until
-> > > vCPUs stop.  
-> > 
-> > If the DSA is stopped and resources are trapped and emulated, then is
-> > the device really stopped from a QEMU perspective or has it simply
-> > switched modes underneath QEMU?  If the device is truly stopped, then
-> > I'd like to understand how a vCPU doing a PIO read from the device
-> > wouldn't wedge the VM.
-> >  
-> It doesn't matter if the device is truly stopped or not (although from
-> my point of view, just draining commands and keeping device running is
-> better as it handles live migration failure better).
-> PIOs also need to be trapped and emulated if a vCPU accesses them.
+While we can send arbitrary length on the wire, we advertise 
+PacketSize=MAX_PACKET_LENGTH in handle_query_supported().
 
-We seem to be talking around each other here.  If PIOs are trapped and
-emulated then the device is not "stopped" as far as QEMU is concerned,
-right?  "Stopping" a device suggests to me that a running vCPU doing a
-PIO read from the device would block and cause problems in the still
-running VM.  So I think you're suggesting some sort of mode switch in
-the device where direct access is disabled an emulation takes over
-until the vCPUs are stopped.
- 
-> > > [1] https://software.intel.com/sites/default/files/341204-intel-data-streaming-accelerator-spec.pdf
-> > > 
-> > >   
-> > > > should assume all mmaps should be dropped on vfio device after we pass
-> > > > some point of the migration process.
-> > > >     
-> > > yes, it should be workable for the use case of DSA.
-> > >   
-> > > > If there are a fixed set of mmap settings for a region and discrete
-> > > > conditions under which they become active (ex. switch device to SAVING
-> > > > mode) then QEMU could choose the right mapping itself and we wouldn't
-> > > > need to worry about this asynchronous signaling problem, it would just
-> > > > be defined as part of the protocol userspace needs to use.
-> > > >    
-> > > It's ok to let QEMU trigger dynamic trap on certain condition (like switching
-> > > device to SAVING mode), but it seems that there's no fixed set of mmap settings
-> > > for a region.
-> > > For example, some devices may want to trap the whole BARs, but some devices
-> > > only requires to trap a range of pages in a BAR for performance consideration.
-> > > 
-> > > If the "disable-able" flag is not preferable, maybe re-evaluation way is
-> > > the only choice? But it is a burden to ask for re-evaluation if they are
-> > > not required.
-> > > 
-> > > What about introducing a "region_bitmask" in ctl header of the migration region?
-> > > when QEMU writes a region index to the "region_bitmask", it can read back
-> > > from this field a bitmask to know which mmap to disable.  
-> > 
-> > If a vendor driver wanted to have a migration sparse mmap that's
-> > different from its runtime sparse mmap, we could simply add a new
-> > capability in the region_info.  Userspace would only need to switch to
-> > a different mapping for regions which advertise a new migration sparse
-> > mmap capability.  Doesn't that serve the same purpose as the proposed
-> > bitmap?  
+We can raise this limit however.
+
+> Suggested-by: Luc Michel <luc.michel@greensocs.com>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+>   gdbstub.c | 23 +++--------------------
+>   1 file changed, 3 insertions(+), 20 deletions(-)
 > 
-> yes, it does.
-> I will try this way in next version.
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 93b26f1b86..ef999abee2 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -3200,28 +3200,11 @@ static void gdb_chr_event(void *opaque, int event)
+>       }
+>   }
+>   
+> -static void gdb_monitor_output(GDBState *s, const char *msg, int len)
+> -{
+> -    g_autoptr(GString) buf = g_string_new("O");
+> -    memtohex(buf, (uint8_t *)msg, len);
+> -    put_packet(buf->str);
+> -}
+> -
+>   static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
+>   {
+> -    const char *p = (const char *)buf;
+> -    int max_sz;
+> -
+> -    max_sz = (MAX_PACKET_LENGTH / 2) + 1;
+> -    for (;;) {
+> -        if (len <= max_sz) {
+> -            gdb_monitor_output(&gdbserver_state, p, len);
+> -            break;
+> -        }
+> -        gdb_monitor_output(&gdbserver_state, p, max_sz);
+> -        p += max_sz;
+> -        len -= max_sz;
+> -    }
+> +    g_autoptr(GString) hex_buf = g_string_new("O");
+> +    memtohex(hex_buf, buf, len);
+> +    put_packet(hex_buf->str);
+>       return len;
+>   }
+>   
 > 
-> > > > > (2) performance optimization. There's an example in GVT (mdev case): 
-> > > > >     PCI BARs are passed through on vGPU initialization and are mmaped to a host
-> > > > >     dummy buffer. Then after initialization done, start trap of PCI BARs of
-> > > > >     vGPUs and start normal host mediation. The initial pass-through can save
-> > > > >     1000000 times of mmio trap.    
-> > > > 
-> > > > Much of this discussion has me worried that many assumptions are being
-> > > > made about the user and device interaction.  Backwards compatible
-> > > > behavior is required.  If a mdev device presents an initial sparse mmap
-> > > > capability for this acceleration, how do you support an existing
-> > > > userspace that doesn't understand the new dynamic mmap semantics and
-> > > > continues to try to operate with the initial sparse mmap?  Doesn't this
-> > > > introduce another example of the raciness of the device trying to
-> > > > switch mmaps?  Seems that if QEMU doesn't handle the eventfd with
-> > > > sufficient timeliness the switch back to trap behavior could miss an
-> > > > important transaction.  This also seems like an optimization targeted
-> > > > at VMs running for only a short time, where it's not obvious to me that
-> > > > GVT-g overlaps those sorts of use cases.  How much initialization time
-> > > > is actually being saved with such a hack?  Thanks,
-> > > >    
-> > > It can save about 4s initialization time with such a hack. But you are
-> > > right, the backward compatibility is a problem and we are not going to
-> > > upstream that. Just an example to show the usage.
-> > > It's fine if we drop the way of asynchronous kernel notification.  
-> > 
-> > I think to handle such a situation we'd need a mechanism to revoke the
-> > user's mmap.  We can make use of an asynchronous mechanism to improve
-> > performance of a device, but we need a synchronous mechanism to
-> > maintain correctness.  For this example, the sparse mmap capability
-> > could advertise the section of the BAR as mmap'able and revoke that
-> > user mapping after the device finishes the initialization phase.
-> > Potentially the user re-evaluating region_info after the initialization
-> > phase would see a different sparse mmap capability excluding these
-> > sections, but then we might need to think whether we want to suggest
-> > that the user always re-read the region_info after device reset.  AFAIK,
-> > we currently have no mechanism to revoke user mmaps. Thanks,
-> >   
-> Actually I think the "disable-able" flag is good except for its backward
-> compatibility :)
-
-Setting a flag on a section of a region doesn't solve the asynchronous
-problem.  Thanks,
-
-Alex
 
 
