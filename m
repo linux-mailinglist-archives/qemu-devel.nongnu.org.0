@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC27C11B115
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 16:28:30 +0100 (CET)
-Received: from localhost ([::1]:44430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F0711B294
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 16:37:07 +0100 (CET)
+Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if3uf-0005gA-K3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 10:28:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59087)
+	id 1if430-0007sw-Bf
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 10:37:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1if3tV-0004mi-Pb
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:27:19 -0500
+ (envelope-from <clg@kaod.org>) id 1if41v-0007S1-W9
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:36:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1if3tU-0007gn-Ig
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:27:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42291
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1if41u-0002Z9-Rj
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:35:59 -0500
+Received: from 14.mo5.mail-out.ovh.net ([188.165.51.82]:59248)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1if3tU-0007fE-Eo
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:27:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576078035;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ic4OCtGrxM2ChkJX3DmMCPE5CaYTXgEooLA9ZxwOx34=;
- b=gYjTBMzBy0VZPVe9nJbAqxR8adknxR2EcDTBG7tgQ2AtGV5pSvDkg/0xqKnu1OuvowHOBU
- h/FHq3ZlQPuCgWlXXha9ZAoYOJiU0ib4AGQY1ILJtFMcMbuvpYSC2+mqQnVkgRT8Lhg4ZA
- z5wi4NltmmYE0JYOhZWGlJKIBm3BYTc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-B3I6YegfP4ab4gZ0tKTZBA-1; Wed, 11 Dec 2019 10:27:09 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8641E106BF7E;
- Wed, 11 Dec 2019 15:27:08 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95D6F60303;
- Wed, 11 Dec 2019 15:27:04 +0000 (UTC)
-Date: Wed, 11 Dec 2019 15:27:02 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] build-sys: build vhost-user-gpu only if CONFIG_TOOLS
-Message-ID: <20191211152702.GB3876@work-vm>
-References: <1576074210-52834-1-git-send-email-pbonzini@redhat.com>
- <20191211143119.GK955178@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1if41u-0002Og-Lw
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:35:58 -0500
+Received: from player690.ha.ovh.net (unknown [10.108.42.176])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id D24D7262628
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 16:35:48 +0100 (CET)
+Received: from kaod.org (lfbn-tou-1-1227-223.w90-76.abo.wanadoo.fr
+ [90.76.50.223]) (Authenticated sender: clg@kaod.org)
+ by player690.ha.ovh.net (Postfix) with ESMTPSA id 1717AD0F4835;
+ Wed, 11 Dec 2019 15:35:41 +0000 (UTC)
+Subject: Re: [PATCH] ppc/pnv: Make PnvXScomInterface an incomplete type
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <157607473444.179018.14127987124523137347.stgit@bahia.lan>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <c66981b1-0be1-6f59-8dd7-5f4744c506e1@kaod.org>
+Date: Wed, 11 Dec 2019 16:35:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191211143119.GK955178@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: B3I6YegfP4ab4gZ0tKTZBA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+In-Reply-To: <157607473444.179018.14127987124523137347.stgit@bahia.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 924363826463017811
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelhedgjeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 188.165.51.82
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,79 +58,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> On Wed, Dec 11, 2019 at 03:23:22PM +0100, Paolo Bonzini wrote:
-> > From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> >=20
-> > vhost-user-gpu is always built and installed, but it is not part of the=
- emulator
-> > proper.  Cut it if --disable-tools is specified.
->=20
-> I don't feel like this is something that people would really
-> consider part of "tools" either.  This is something you'd
-> only ever use in conjunction with the emulators, so I don't
-> think controlling it with --disable-tools is appropriate.
->=20
-> A new --(enable|disable)-vhost-backends  arg looks more
-> desirable to me. Disabling the system emulators should
-> automatically imply --disable-vhost-backends by default
-> too
+On 11/12/2019 15:32, Greg Kurz wrote:
+> PnvXScomInterface is an interface instance. It should never be
+> dereferenced. Drop the dummy type definition for extra safety,
+> which is the common practice with QOM interfaces.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  include/hw/ppc/pnv_xscom.h |    4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+> index 1c1d76bf9be5..b738011ab205 100644
+> --- a/include/hw/ppc/pnv_xscom.h
+> +++ b/include/hw/ppc/pnv_xscom.h
+> @@ -22,9 +22,7 @@
+>  
+>  #include "qom/object.h"
+>  
+> -typedef struct PnvXScomInterface {
+> -    Object parent;
+> -} PnvXScomInterface;
+> +typedef struct PnvXScomInterface PnvXScomInterface;
+>  
+>  #define TYPE_PNV_XSCOM_INTERFACE "pnv-xscom-interface"
+>  #define PNV_XSCOM_INTERFACE(obj) \
 
-It feels to me that vhost-backends are a subset of tools.
+We should use INTERFACE_CHECK() here.
 
-Dave
+C.
 
-> >=20
-> > Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  Makefile | 6 +-----
-> >  1 file changed, 1 insertion(+), 5 deletions(-)
-> >=20
-> > diff --git a/Makefile b/Makefile
-> > index 53823c2..8d921c6 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -321,14 +321,10 @@ HELPERS-y =3D
-> > =20
-> >  HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =3D qemu-bridge=
--helper$(EXESUF)
-> > =20
-> > -ifdef CONFIG_LINUX
-> > -ifdef CONFIG_VIRGL
-> > -ifdef CONFIG_GBM
-> > +ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
-> >  HELPERS-y +=3D vhost-user-gpu$(EXESUF)
-> >  vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
-> >  endif
-> > -endif
-> > -endif
-> > =20
-> >  # Sphinx does not allow building manuals into the same directory as
-> >  # the source files, so if we're doing an in-tree QEMU build we must
-> > --=20
-> > 1.8.3.1
-> >=20
-> >=20
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+ 
 
 
