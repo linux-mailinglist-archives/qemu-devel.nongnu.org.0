@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CBA11A5DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 09:31:17 +0100 (CET)
-Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A88211A669
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 10:01:35 +0100 (CET)
+Received: from localhost ([::1]:40110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iexOu-0003Fu-2o
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 03:31:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52255)
+	id 1iexsD-0003Qa-VF
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 04:01:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40193)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iexNT-0001xZ-0q
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 03:29:48 -0500
+ (envelope-from <drjones@redhat.com>) id 1iexqu-0002nC-MF
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 04:00:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iexNR-0004GM-1G
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 03:29:46 -0500
-Received: from 1.mo173.mail-out.ovh.net ([178.33.111.180]:42887)
+ (envelope-from <drjones@redhat.com>) id 1iexqr-0007z5-1O
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 04:00:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49060
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iexNQ-0004Db-O3
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 03:29:44 -0500
-Received: from player730.ha.ovh.net (unknown [10.108.42.5])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 197FF121865
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 09:29:42 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player730.ha.ovh.net (Postfix) with ESMTPSA id 5F25CD03E88B;
- Wed, 11 Dec 2019 08:29:36 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 2/2] ppc/pnv: Fix OCC common area region mapping
-Date: Wed, 11 Dec 2019 09:29:12 +0100
-Message-Id: <20191211082912.2625-3-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191211082912.2625-1-clg@kaod.org>
-References: <20191211082912.2625-1-clg@kaod.org>
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iexqq-0007wV-Gp
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 04:00:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576054807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dsHsAeCyGP+9vg/yV/H6LJG7OyvEe3wO3zM0wa/wLoI=;
+ b=RwndYhxdTxXfuLYil7CH1+SBJxmYwXQEea8szCsM+2C37GHO2CImvUC+b6kkkwhEM2qUN6
+ zmSVpIrlUVhFbDx4ZaYd87NJzJE71lH9qstOCzrNW4FX467ufXl/7BUm1rIXvJY0W/K7m3
+ uQavfg6SsErIBwhtAMI+T+7UeRXeM6s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-RBmE-DGYPhCnVrDWe5RguQ-1; Wed, 11 Dec 2019 04:00:06 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C23C48E30B0;
+ Wed, 11 Dec 2019 09:00:04 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 178DF19756;
+ Wed, 11 Dec 2019 09:00:02 +0000 (UTC)
+Date: Wed, 11 Dec 2019 10:00:00 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Guoheyi <guoheyi@huawei.com>
+Subject: Re: [PATCH v1 0/5] target/arm/kvm: Provide an option to adjust
+ virtual time
+Message-ID: <20191211090000.kajcyk7oqlqr3chk@kamzik.brq.redhat.com>
+References: <20191016143410.5023-1-drjones@redhat.com>
+ <CAFEAcA8j8M_J8Ocdpms8a2XufigVQ6oB4JBy2BcYAkXfJX5y5A@mail.gmail.com>
+ <5679d43f-3f29-6ee1-0894-19ef2f3e08a2@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 12174918643125554150
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelgedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeftddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepud
+In-Reply-To: <5679d43f-3f29-6ee1-0894-19ef2f3e08a2@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: RBmE-DGYPhCnVrDWe5RguQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.111.180
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,178 +74,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, bala24@linux.ibm.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, bijan.mottahedeh@oracle.com,
+ Marc Zyngier <maz@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The OCC common area is mapped at a unique address on the system and
-each OCC is assigned a segment to expose its sensor data :
+On Wed, Dec 11, 2019 at 04:02:52PM +0800, Guoheyi wrote:
+>=20
+> =E5=9C=A8 2019/12/6 23:22, Peter Maydell =E5=86=99=E9=81=93:
+> > On Wed, 16 Oct 2019 at 15:34, Andrew Jones <drjones@redhat.com> wrote:
+> > > v2:
+> > >   - move from RFC status to v1
+> > >   - put kvm_arm_vm_state_change() in kvm.c to share among kvm32.c and=
+ kvm64.c
+> > >   - add r-b's from Richard
+> > >=20
+> > >=20
+> > > This series is inspired by a series[1] posted by Bijan Mottahedeh abo=
+ut
+> > > a year ago.  The problem described in the cover letter of [1] is easi=
+ly
+> > > reproducible and some users would like to have the option to avoid it=
+.
+> > > However the solution, which is to adjust the virtual counter offset e=
+ach
+> > > time the VM transitions to the running state, introduces a different
+> > > problem, which is that the virtual and physical counters diverge.  As
+> > > described in the cover letter of [1] this divergence is easily observ=
+ed
+> > > when comparing the output of `date` and `hwclock` after suspending th=
+e
+> > > guest, waiting a while, and then resuming it.  Because this different
+> > > problem may actually be worse for some users, unlike [1], the series
+> > > posted here makes the virtual counter offset adjustment optional and =
+not
+> > > even enabled by default.  Besides the adjustment being optional, this
+> > > series approaches the needed changes differently to apply them in mor=
+e
+> > > appropriate locations.  Finally, unlike [1], this series doesn't atte=
+mpt
+> > > to measure "pause time" itself.  Simply using QEMU_CLOCK_VIRTUAL, whi=
+ch
+> > > only ticks when the VM is not stopped, is sufficient.
+> > So I guess my overall question is "what is the x86 solution to
+> > this problem, and why is this all arm-specific?" It would also
+> > be helpful to know how it fits into all the other proposals regarding
+> > time in VMs.
+>=20
+> I also sent a RFC in March and ARM KVM experts were also invoved in the
+> discussion:
+>=20
+> https://lists.cs.columbia.edu/pipermail/kvmarm/2019-March/035026.html
+>=20
+> According to the discussion, qemu on x86 is using KVM_KVMCLOCK_CTRL to
+> request KVM to set a flag "PVCLOCK_GUEST_STOPPED" in pvclock, informing V=
+M
+> kernel about external force stop.
+>=20
+> Thanks,
+>=20
+> Heyi
 
-  -----------------------------------------------------------------------=
---
-  | Start (Offset from | End           | Size     |Description           =
- |
-  | BAR2 base address) |               |          |                      =
- |
-  -----------------------------------------------------------------------=
---
-  |    0x00580000      |  0x005A57FF   |150kB     |OCC 0 Sensor Data Bloc=
-k|
-  |    0x005A5800      |  0x005CAFFF   |150kB     |OCC 1 Sensor Data Bloc=
-k|
-  |        :           |       :       |  :       |            :         =
- |
-  |    0x00686800      |  0x006ABFFF   |150kB     |OCC 7 Sensor Data Bloc=
-k|
-  |    0x006AC000      |  0x006FFFFF   |336kB     |Reserved              =
- |
-  -----------------------------------------------------------------------=
---
+Hi Heyi,
 
-Maximum size is 1.5MB.
+Apologies for having forgotten about that thread. I recall now having
+followed it last March. Indeed it even addresses the issue in the way
+we're coming around to now (save/restore vs. update with virtual time).
 
-We could define a "OCC common area" memory region at the machine level
-and sub regions for each OCC. But it adds some extra complexity to the
-models. Fix the current layout with a simpler model.
+I just reread the whole thread, and my feeling is that, while there are
+still many issues left to work, until we get a pvclock for arm, a patch
+like this one, but with a way to opt-in/out in order to give users a
+chance to choose their poison, is the best we can do. Also a patch like
+this one is a step in the right direction, as it will be needed as part
+of the bigger pvclock solution eventually, just as it is for x86.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
+One comment on the patch is that I would prefer to do the save/restore
+for all VCPUs, even though KVM does currently handle synchronization.
+Not only does it "feel" more correct to apply VCPU APIs to all VCPUs,
+but I assume it will be less problematic to implement CPU hotplug at
+some point.
 
- include/hw/ppc/pnv.h     |  4 ++++
- include/hw/ppc/pnv_occ.h |  8 ++++++--
- hw/ppc/pnv.c             |  4 ++--
- hw/ppc/pnv_occ.c         | 11 ++++-------
- 4 files changed, 16 insertions(+), 11 deletions(-)
-
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 301c7e62fa73..92f80b1ccead 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -246,6 +246,8 @@ IPMIBmc *pnv_bmc_create(void);
-=20
- #define PNV_OCC_COMMON_AREA_SIZE    0x0000000000800000ull
- #define PNV_OCC_COMMON_AREA_BASE    0x7fff800000ull
-+#define PNV_OCC_SENSOR_BASE(chip)   (PNV_OCC_COMMON_AREA_BASE + \
-+    PNV_OCC_SENSOR_DATA_BLOCK_BASE(PNV_CHIP_INDEX(chip)))
-=20
- #define PNV_HOMER_SIZE              0x0000000000400000ull
- #define PNV_HOMER_BASE(chip)                                            =
-\
-@@ -312,6 +314,8 @@ IPMIBmc *pnv_bmc_create(void);
-=20
- #define PNV9_OCC_COMMON_AREA_SIZE    0x0000000000800000ull
- #define PNV9_OCC_COMMON_AREA_BASE    0x203fff800000ull
-+#define PNV9_OCC_SENSOR_BASE(chip)   (PNV9_OCC_COMMON_AREA_BASE +       =
-\
-+    PNV_OCC_SENSOR_DATA_BLOCK_BASE(PNV_CHIP_INDEX(chip)))
-=20
- #define PNV9_HOMER_SIZE              0x0000000000400000ull
- #define PNV9_HOMER_BASE(chip)                                           =
-\
-diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
-index 66b0989be69d..f8d3061419dc 100644
---- a/include/hw/ppc/pnv_occ.h
-+++ b/include/hw/ppc/pnv_occ.h
-@@ -29,6 +29,9 @@
- #define TYPE_PNV9_OCC TYPE_PNV_OCC "-POWER9"
- #define PNV9_OCC(obj) OBJECT_CHECK(PnvOCC, (obj), TYPE_PNV9_OCC)
-=20
-+#define PNV_OCC_SENSOR_DATA_BLOCK_OFFSET 0x00580000
-+#define PNV_OCC_SENSOR_DATA_BLOCK_SIZE   0x00025800
-+
- typedef struct PnvOCC {
-     DeviceState xd;
-=20
-@@ -50,10 +53,11 @@ typedef struct PnvOCCClass {
-     DeviceClass parent_class;
-=20
-     int xscom_size;
--    int sram_size;
-     const MemoryRegionOps *xscom_ops;
--    const MemoryRegionOps *sram_ops;
-     int psi_irq;
- } PnvOCCClass;
-=20
-+#define PNV_OCC_SENSOR_DATA_BLOCK_BASE(i)                               =
-\
-+    (PNV_OCC_SENSOR_DATA_BLOCK_OFFSET + (i) * PNV_OCC_SENSOR_DATA_BLOCK_=
-SIZE)
-+
- #endif /* PPC_PNV_OCC_H */
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index af7317a86d2f..0be0b6b411c3 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1065,7 +1065,7 @@ static void pnv_chip_power8_realize(DeviceState *de=
-v, Error **errp)
-     pnv_xscom_add_subregion(chip, PNV_XSCOM_OCC_BASE, &chip8->occ.xscom_=
-regs);
-=20
-     /* OCC SRAM model */
--    memory_region_add_subregion(get_system_memory(), PNV_OCC_COMMON_AREA=
-_BASE,
-+    memory_region_add_subregion(get_system_memory(), PNV_OCC_SENSOR_BASE=
-(chip),
-                                 &chip8->occ.sram_regs);
-=20
-     /* HOMER */
-@@ -1278,7 +1278,7 @@ static void pnv_chip_power9_realize(DeviceState *de=
-v, Error **errp)
-     pnv_xscom_add_subregion(chip, PNV9_XSCOM_OCC_BASE, &chip9->occ.xscom=
-_regs);
-=20
-     /* OCC SRAM model */
--    memory_region_add_subregion(get_system_memory(), PNV9_OCC_COMMON_ARE=
-A_BASE,
-+    memory_region_add_subregion(get_system_memory(), PNV9_OCC_SENSOR_BAS=
-E(chip),
-                                 &chip9->occ.sram_regs);
-=20
-     /* HOMER */
-diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
-index 765c0a6ce595..924fdabc9e63 100644
---- a/hw/ppc/pnv_occ.c
-+++ b/hw/ppc/pnv_occ.c
-@@ -167,9 +167,7 @@ static void pnv_occ_power8_class_init(ObjectClass *kl=
-ass, void *data)
-     PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
-=20
-     poc->xscom_size =3D PNV_XSCOM_OCC_SIZE;
--    poc->sram_size =3D PNV_OCC_COMMON_AREA_SIZE;
-     poc->xscom_ops =3D &pnv_occ_power8_xscom_ops;
--    poc->sram_ops =3D &pnv_occ_sram_ops;
-     poc->psi_irq =3D PSIHB_IRQ_OCC;
- }
-=20
-@@ -240,9 +238,7 @@ static void pnv_occ_power9_class_init(ObjectClass *kl=
-ass, void *data)
-     PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
-=20
-     poc->xscom_size =3D PNV9_XSCOM_OCC_SIZE;
--    poc->sram_size =3D PNV9_OCC_COMMON_AREA_SIZE;
-     poc->xscom_ops =3D &pnv_occ_power9_xscom_ops;
--    poc->sram_ops =3D &pnv_occ_sram_ops;
-     poc->psi_irq =3D PSIHB9_IRQ_OCC;
- }
-=20
-@@ -266,9 +262,10 @@ static void pnv_occ_realize(DeviceState *dev, Error =
-**errp)
-     pnv_xscom_region_init(&occ->xscom_regs, OBJECT(dev), poc->xscom_ops,
-                           occ, "xscom-occ", poc->xscom_size);
-=20
--    /* XScom region for OCC SRAM registers */
--    pnv_xscom_region_init(&occ->sram_regs, OBJECT(dev), poc->sram_ops,
--                          occ, "occ-common-area", poc->sram_size);
-+    /* OCC common area mmio region for OCC SRAM registers */
-+    memory_region_init_io(&occ->sram_regs, OBJECT(dev), &pnv_occ_sram_op=
-s,
-+                          occ, "occ-common-area",
-+                          PNV_OCC_SENSOR_DATA_BLOCK_SIZE);
- }
-=20
- static Property pnv_occ_properties[] =3D {
---=20
-2.21.0
+Thanks,
+drew
 
 
