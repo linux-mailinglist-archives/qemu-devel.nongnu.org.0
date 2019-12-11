@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E291511AD79
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:31:29 +0100 (CET)
-Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439D811AD93
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:34:46 +0100 (CET)
+Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if31U-0004KK-UH
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:31:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33694)
+	id 1if34e-0006sp-Te
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:34:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33878)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if2tv-0005Pm-CX
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:40 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2tw-0005QN-RL
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if2tt-0003D8-Tq
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:39 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41492)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2tv-0003FU-Km
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:40 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52735)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1if2tt-0003CA-Nw; Wed, 11 Dec 2019 09:23:37 -0500
-Received: by mail-wr1-x443.google.com with SMTP id c9so24247094wrw.8;
- Wed, 11 Dec 2019 06:23:37 -0800 (PST)
+ id 1if2tv-0003DM-61; Wed, 11 Dec 2019 09:23:39 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p9so7297080wmc.2;
+ Wed, 11 Dec 2019 06:23:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SnbM4HZb29FsG4J6fiW5WwWfE0ShjwYvCK5bmD3CYRU=;
- b=ilpQS7Vg1VgZDqrE/uEczkUIFtJqrxecCgvPQcP2+fNZ5Y0wDu4jdpg7IfL4WqKzB4
- w11BCNJ1sBFfapPPasdZzfqplIrJcK8lU3EDh+CSsEOp0m2BQIF+/EcocnNH9SZOFcbn
- u777YwftnULQEd18vrH5v34hGR16r+J8XZvylHWg0nC3gjuv12z1UVRGTaqokTR/4SeT
- EEmUTtG8q+GzxkR1ELvB1DhmVIaNFqA3+hxXGfdj3gQ39AlXjF1cBmrbVZ1YBtuRA8El
- WP3IDdnWkjbxuejYkljwSHjGhM42tHLpT1CDcB/76+Vdl2d1Bpnq6MENWIYGqQWh3Cbb
- oKCg==
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=DDlSLM0gJZ7KaXQqepJKvC61+c7na5da89NPclbedsE=;
+ b=oKiMEdf0K3rS4kJfQSAf5sHlJWePOIoEwbuFS5wrtEaA8F8+KLXiZ4Gt5ZCXOGazac
+ 3SaReoLWacgYVCFaEr3qm+oTMUdFE/l+NbIFk7qKx8XTnJOhEXtpIq3D1llLBKmzV99K
+ IRepDLHbUH62dMk2RhzA29hDFl2bTXsQCO1ccSNdc/dLHXB03PsCmvQvUapEpFBjEYX9
+ veruvGuTnHSoq/5oel4Tu05+maYkPM09mvVQHqPm6DXOEk/vE/SpQ1s+l1LCe11YvK7d
+ jM+ru+ChEiyUKrN0bcn5A4ocRq2fJ3ySQQBtLPfNhVUXKMSMUMe5Omom3hnOgKEAGuIS
+ nJhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=SnbM4HZb29FsG4J6fiW5WwWfE0ShjwYvCK5bmD3CYRU=;
- b=kHOP9PtpwAuv2Fqb37kttZzt4kFMKazhqyu+8AvwrmkCelj3J+D6WBFInUIU9SCvOO
- O/Oqu1G363dotmp/H6LYwRRtGzZ2WGF2FcvJRWHrDP0ys23tME7fBwgQ3abUr2GLF8Nu
- zJE2k5WXA0h6bhT6JJgHuNhhG7uHMua9/cDNifhTYT9vwe4Ce6GXkwmluBbyjpirIVcd
- FXHshE1sutVhKxd36bbj+GPor0aQcIwm7yNtrEYYpMje0WKLwDV1XZ2h/iJpToJ72FpA
- vNlrlt1zvq7DiRRAfWW0EjH7dnZDmww+Qs3olkRCLNFLzfHpVyslDXT5P3SwPawQbBKV
- AIVQ==
-X-Gm-Message-State: APjAAAUObBYvx5t8byiTHDud2aeoMnhBYzXV0SBFBSsEAj8xUuLkIjO4
- CsL1z/9+QX/SUxppXZoBQs4H2Drm
-X-Google-Smtp-Source: APXvYqyezu+o4TaFOOsMQboqUbLhkRRiaWSUS1F+/DK+51nKA+uRVWg+uUeo2CzNKamq6QxK7V1x7Q==
-X-Received: by 2002:a05:6000:cb:: with SMTP id q11mr92237wrx.14.1576074216464; 
- Wed, 11 Dec 2019 06:23:36 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=DDlSLM0gJZ7KaXQqepJKvC61+c7na5da89NPclbedsE=;
+ b=uS8zBjKvJVoBxsUoJ4fuggrx7PWj27+WxspVy0QJb2mPSCygBGFZXInjyFeKuglRKv
+ LU3ZYA1r9mUQ2NGmSClypHXpelRxoMBXWkqWwHfnEakW3U6TSWwv/USI3rdYnmjD/vzR
+ cRsB4XF64UrK3BZlALJoW5YdDe1HjMe6r4P+HBM0EPu0UsF2UjGWXvTForfnixDWjlYh
+ kMOpuQ27iWljkMOgWByNE2Qx5mcnsOd6MaV6XvbFWdkMQ8RGy4YCbkhLXGMyg/dLbCQw
+ hYLGI306wHiDLVP2SwB25w7tisMV3uBpDfV290ElJYJybESDaE7UkgeG24Cjeszyqw5l
+ izJQ==
+X-Gm-Message-State: APjAAAXJTV4ceR1ChxCsML/uZ0SK1na8RylsvfYLBLoI1t1YZvf/55o0
+ nRqOKsfQj2GYdoDP7QNauL4ouvBf
+X-Google-Smtp-Source: APXvYqzd1YLGsmpelVZJQnbeosTTRhrZNd8xFPZ6Z9W5lBZtYWciJR57Gt/KLX4u2UIrlmkub5FjgA==
+X-Received: by 2002:a1c:9cce:: with SMTP id f197mr9239wme.133.1576074217391;
+ Wed, 11 Dec 2019 06:23:37 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g23sm2503783wmk.14.2019.12.11.06.23.35
+ by smtp.gmail.com with ESMTPSA id g23sm2503783wmk.14.2019.12.11.06.23.36
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Dec 2019 06:23:35 -0800 (PST)
+ Wed, 11 Dec 2019 06:23:36 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] monitor: fix maybe-uninitialized
-Date: Wed, 11 Dec 2019 15:23:26 +0100
-Message-Id: <1576074210-52834-5-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH] tests: use g_test_rand_int
+Date: Wed, 11 Dec 2019 15:23:27 +0100
+Message-Id: <1576074210-52834-6-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,48 +70,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+g_test_rand_int provides a reproducible random integer number, using a
+different number seed every time but allowing reproduction using the
+--seed command line option.  It is thus better suited to tests than
+g_random_int or random.
 
-../monitor/misc.c: In function ‘mon_get_cpu_sync’:
-/home/elmarco/src/qq/include/sysemu/hw_accel.h:22:9: error: ‘cpu’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-   22 |         kvm_cpu_synchronize_state(cpu);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../monitor/misc.c:397:15: note: ‘cpu’ was declared here
-  397 |     CPUState *cpu;
-      |               ^~~
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- monitor/misc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ block/vhdx.c         | 2 +-
+ block/vmdk.c         | 4 ++--
+ tests/ivshmem-test.c | 2 +-
+ tests/test-bitmap.c  | 8 ++++----
+ tests/test-qga.c     | 4 ++--
+ 5 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 3baa15f..a74cff3 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -394,7 +394,7 @@ int monitor_set_cpu(int cpu_index)
- /* Callers must hold BQL. */
- static CPUState *mon_get_cpu_sync(bool synchronize)
- {
--    CPUState *cpu;
-+    CPUState *cpu = NULL;
+diff --git a/block/vhdx.c b/block/vhdx.c
+index f02d261..36465d5 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -1504,7 +1504,7 @@ static int vhdx_create_new_headers(BlockBackend *blk, uint64_t image_size,
+     hdr = g_new0(VHDXHeader, 1);
  
-     if (cur_mon->mon_cpu_path) {
-         cpu = (CPUState *) object_resolve_path_type(cur_mon->mon_cpu_path,
-@@ -411,6 +411,7 @@ static CPUState *mon_get_cpu_sync(bool synchronize)
-         monitor_set_cpu(first_cpu->cpu_index);
-         cpu = first_cpu;
-     }
-+    assert(cpu != NULL);
-     if (synchronize) {
-         cpu_synchronize_state(cpu);
-     }
+     hdr->signature       = VHDX_HEADER_SIGNATURE;
+-    hdr->sequence_number = g_random_int();
++    hdr->sequence_number = g_test_rand_int();
+     hdr->log_version     = 0;
+     hdr->version         = 1;
+     hdr->log_length      = log_size;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 20e909d..eba96bf 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2037,7 +2037,7 @@ static int vmdk_pwritev(BlockDriverState *bs, uint64_t offset,
+         /* update CID on the first write every time the virtual disk is
+          * opened */
+         if (!s->cid_updated) {
+-            ret = vmdk_write_cid(bs, g_random_int());
++            ret = vmdk_write_cid(bs, g_test_rand_int());
+             if (ret < 0) {
+                 return ret;
+             }
+@@ -2499,7 +2499,7 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
+ 
+     /* generate descriptor file */
+     desc = g_strdup_printf(desc_template,
+-                           g_random_int(),
++                           g_test_rand_int(),
+                            parent_cid,
+                            BlockdevVmdkSubformat_str(subformat),
+                            parent_desc_line,
+diff --git a/tests/ivshmem-test.c b/tests/ivshmem-test.c
+index be9aa92..ecda256 100644
+--- a/tests/ivshmem-test.c
++++ b/tests/ivshmem-test.c
+@@ -443,7 +443,7 @@ static gchar *mktempshm(int size, int *fd)
+     while (true) {
+         gchar *name;
+ 
+-        name = g_strdup_printf("/qtest-%u-%u", getpid(), g_random_int());
++        name = g_strdup_printf("/qtest-%u-%u", getpid(), g_test_rand_int());
+         *fd = shm_open(name, O_CREAT|O_RDWR|O_EXCL,
+                        S_IRWXU|S_IRWXG|S_IRWXO);
+         if (*fd > 0) {
+diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
+index 087e02a..2f5b714 100644
+--- a/tests/test-bitmap.c
++++ b/tests/test-bitmap.c
+@@ -22,10 +22,10 @@ static void check_bitmap_copy_with_offset(void)
+     bmap2 = bitmap_new(BMAP_SIZE);
+     bmap3 = bitmap_new(BMAP_SIZE);
+ 
+-    bmap1[0] = random();
+-    bmap1[1] = random();
+-    bmap1[2] = random();
+-    bmap1[3] = random();
++    bmap1[0] = g_test_rand_int();
++    bmap1[1] = g_test_rand_int();
++    bmap1[2] = g_test_rand_int();
++    bmap1[3] = g_test_rand_int();
+     total = BITS_PER_LONG * 4;
+ 
+     /* Shift 115 bits into bmap2 */
+diff --git a/tests/test-qga.c b/tests/test-qga.c
+index 1ca49bb..d2b2435 100644
+--- a/tests/test-qga.c
++++ b/tests/test-qga.c
+@@ -143,7 +143,7 @@ static void qmp_assertion_message_error(const char     *domain,
+ static void test_qga_sync_delimited(gconstpointer fix)
+ {
+     const TestFixture *fixture = fix;
+-    guint32 v, r = g_random_int();
++    guint32 v, r = g_test_rand_int();
+     unsigned char c;
+     QDict *ret;
+ 
+@@ -186,7 +186,7 @@ static void test_qga_sync_delimited(gconstpointer fix)
+ static void test_qga_sync(gconstpointer fix)
+ {
+     const TestFixture *fixture = fix;
+-    guint32 v, r = g_random_int();
++    guint32 v, r = g_test_rand_int();
+     QDict *ret;
+ 
+     /*
 -- 
 1.8.3.1
 
