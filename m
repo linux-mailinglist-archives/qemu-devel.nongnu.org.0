@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BDD11ADC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:39:49 +0100 (CET)
-Received: from localhost ([::1]:43382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA4111ADFC
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:41:36 +0100 (CET)
+Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if39X-0004b3-Vf
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:39:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49970)
+	id 1if3BH-0007PH-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:41:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if30B-0003zf-3o
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:30:08 -0500
+ (envelope-from <berrange@redhat.com>) id 1if31b-000595-Js
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:31:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1if308-0003Vs-Ht
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:30:06 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38408)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1if308-0003U9-AS
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:30:04 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y17so24280430wrh.5
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 06:30:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sOXmfdkp6uqWjdrg0TuZzWd3wRDxzC7eIg66A07rdZg=;
- b=ihsMmgzjNZTCnAFxkE140PQmT+pRGNZBqKmRiZfufovQp5NvSpl+xvCeN1nSpd7nix
- JSn07LDiKEZcMnB2oyPO9Z/3Lt/cZYUzsgVAHpeFhamoU6l4EmgEJAx6v+5jHygSXOMm
- UNeLz/624koOTE3XMZXL+PfLZMiU1SflffUYDAzjYCZe8Vqzjnel4BhgYgZYXSIDsQOq
- i6xWkkN+JWeOX805N7xoBccjX+mxzkF/crtmEy612n/y4k99rJp7thPub+pzf5vR58ds
- VQiIRjoTeYVp5efYUHRdRgjkPAf8GgAEnV436vTd36OSRjGi751wext30EUT22cRJ79O
- hi+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=sOXmfdkp6uqWjdrg0TuZzWd3wRDxzC7eIg66A07rdZg=;
- b=FdT/QcGHM+zN0yKAp7WRLzjHDu05K7Q6dIARMLYUe4nkSfC5DAAgKC9IzvbJ7TWUmS
- zI+KGgabByoFRlvoZNdu+jt+HvFv5B1VFhPAF1ktrjdOLVwWvByCq0kQQ94wF3VqageF
- 0qaK035YzxFkrftW8jIVSYcn3sr9WX9OnUaDII2GRmwlqZ0sbwoNkazz2jZNyk465bcl
- BZEX1AYGE72EUFXhHJuHyDFBm+z1X9jKGw6Ez81tSZNWg98WDN1e9jCCmwa9Ljs2sJyh
- bwXb8IIevT18KAkSH6vC/lGcvwsje47NSRAWgxIoemIdTLn2Lh7NkZcQwtszA0d8EmKY
- P19w==
-X-Gm-Message-State: APjAAAUxsEsJwjY92S3D06iSLEwNfZq4R3QxEYen4q/vrbwUROTMjPsz
- oirIYZv9D2Miqle7hj/7htWGMeV6
-X-Google-Smtp-Source: APXvYqzRYEqkwk8E0UZzJySziPci5d2R/yvWBFeCvP44TqlxDyd+1Lm9sxYijvfdM7/lX1wNevlO3A==
-X-Received: by 2002:adf:cf0a:: with SMTP id o10mr27891wrj.325.1576074602386;
- Wed, 11 Dec 2019 06:30:02 -0800 (PST)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n8sm2475408wrx.42.2019.12.11.06.30.01
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 11 Dec 2019 06:30:01 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] ci: build out-of-tree
-Date: Wed, 11 Dec 2019 15:30:00 +0100
-Message-Id: <1576074600-54759-1-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
+ (envelope-from <berrange@redhat.com>) id 1if31X-000596-J9
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:31:34 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23043
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1if31X-00057b-Dg
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:31:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576074690;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BFdNYQIyjvbayKmi//5UM3M2LBqK+D80GsKiRYvVMkY=;
+ b=IkHbwY+Xpdr7/gVS53hHUilHmzCGGzquHtboXG9TlRogn+IKpk1T4b4Q2z/8j/D2B3Ec5W
+ iOxUqV4635ToC2IPs05g3Nq2sEZmjsszR5fJ5Hu+SqoKVKXWoa7cVHFtH4HBgiqqScvVIJ
+ Dy/ZuiC8Kk9cPWW3r6C5363J5xPXiAk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-6gxKeg_tPKSff984KcPhaQ-1; Wed, 11 Dec 2019 09:31:27 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87775113619B;
+ Wed, 11 Dec 2019 14:31:26 +0000 (UTC)
+Received: from redhat.com (ovpn-112-62.ams2.redhat.com [10.36.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7D4E6016C;
+ Wed, 11 Dec 2019 14:31:22 +0000 (UTC)
+Date: Wed, 11 Dec 2019 14:31:19 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] build-sys: build vhost-user-gpu only if CONFIG_TOOLS
+Message-ID: <20191211143119.GK955178@redhat.com>
+References: <1576074210-52834-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+In-Reply-To: <1576074210-52834-1-git-send-email-pbonzini@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 6gxKeg_tPKSff984KcPhaQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,190 +73,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most developers are using out-of-tree builds and it was discussed in the past
-to only allow those.  To prepare for the transition, use out-of-tree builds
-in all continuous integration jobs.
+On Wed, Dec 11, 2019 at 03:23:22PM +0100, Paolo Bonzini wrote:
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>=20
+> vhost-user-gpu is always built and installed, but it is not part of the e=
+mulator
+> proper.  Cut it if --disable-tools is specified.
 
-Based on a patch by Marc-André Lureau.
+I don't feel like this is something that people would really
+consider part of "tools" either.  This is something you'd
+only ever use in conjunction with the emulators, so I don't
+think controlling it with --disable-tools is appropriate.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- .cirrus.yml    |  8 ++++++--
- .gitlab-ci.yml | 28 +++++++++++++++++++++-------
- .shippable.yml |  4 +++-
- .travis.yml    |  7 +++++--
- configure      |  1 +
- 5 files changed, 36 insertions(+), 12 deletions(-)
+A new --(enable|disable)-vhost-backends  arg looks more
+desirable to me. Disabling the system emulators should
+automatically imply --disable-vhost-backends by default
+too
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 27efc48..90645fe 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -22,7 +22,9 @@ macos_task:
-   install_script:
-     - brew install pkg-config python gnu-sed glib pixman make sdl2
-   script:
--    - ./configure --python=/usr/local/bin/python3 || { cat config.log; exit 1; }
-+    - mkdir build
-+    - cd build
-+    - ../configure --python=/usr/local/bin/python3 || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check -j$(sysctl -n hw.ncpu)
- 
-@@ -33,6 +35,8 @@ macos_xcode_task:
-   install_script:
-     - brew install pkg-config gnu-sed glib pixman make sdl2
-   script:
--    - ./configure --cc=clang || { cat config.log; exit 1; }
-+    - mkdir build
-+    - cd build
-+    - ../configure --cc=clang || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check -j$(sysctl -n hw.ncpu)
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index be57c6a..f771b40 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -6,7 +6,9 @@ build-system1:
-  script:
-  - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
-       libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
-- - ./configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
-       cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
-       mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
-  - make -j2
-@@ -16,7 +18,9 @@ build-system2:
-  script:
-  - apt-get install -y -qq libsdl2-dev libgcrypt-dev libbrlapi-dev libaio-dev
-       libfdt-dev liblzo2-dev librdmacm-dev libibverbs-dev libibumad-dev
-- - ./configure --enable-werror --target-list="tricore-softmmu unicore32-softmmu
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-werror --target-list="tricore-softmmu unicore32-softmmu
-       microblaze-softmmu mips-softmmu riscv32-softmmu s390x-softmmu sh4-softmmu
-       sparc64-softmmu x86_64-softmmu xtensa-softmmu nios2-softmmu or1k-softmmu"
-  - make -j2
-@@ -24,7 +28,9 @@ build-system2:
- 
- build-disabled:
-  script:
-- - ./configure --enable-werror --disable-rdma --disable-slirp --disable-curl
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-werror --disable-rdma --disable-slirp --disable-curl
-       --disable-capstone --disable-live-block-migration --disable-glusterfs
-       --disable-replication --disable-coroutine-pool --disable-smartcard
-       --disable-guest-agent --disable-curses --disable-libxml2 --disable-tpm
-@@ -37,7 +43,9 @@ build-disabled:
- build-tcg-disabled:
-  script:
-  - apt-get install -y -qq clang libgtk-3-dev libbluetooth-dev libusb-dev
-- - ./configure --cc=clang --enable-werror --disable-tcg --audio-drv-list=""
-+ - mkdir build
-+ - cd build
-+ - ../configure --cc=clang --enable-werror --disable-tcg --audio-drv-list=""
-  - make -j2
-  - make check-unit
-  - make check-qapi-schema
-@@ -52,7 +60,9 @@ build-tcg-disabled:
- 
- build-user:
-  script:
-- - ./configure --enable-werror --disable-system --disable-guest-agent
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-werror --disable-system --disable-guest-agent
-                --disable-capstone --disable-slirp --disable-fdt
-  - make -j2
-  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
-@@ -61,7 +71,9 @@ build-clang:
-  script:
-  - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-dev
-       xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev librbd-dev
-- - ./configure --cc=clang --cxx=clang++ --enable-werror
-+ - mkdir build
-+ - cd build
-+ - ../configure --cc=clang --cxx=clang++ --enable-werror
-       --target-list="alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
-                      ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user"
-  - make -j2
-@@ -70,7 +82,9 @@ build-clang:
- build-tci:
-  script:
-  - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
-- - ./configure --enable-tcg-interpreter
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-tcg-interpreter
-       --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
-  - make -j2
-  - make tests/boot-serial-test tests/cdrom-test tests/pxe-test
-diff --git a/.shippable.yml b/.shippable.yml
-index f74a3de..83aae08 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -35,5 +35,7 @@ build:
-     options: "-e HOME=/root"
-   ci:
-     - unset CC
--    - ./configure ${QEMU_CONFIGURE_OPTS} --target-list=${TARGET_LIST}
-+    - mkdir build
-+    - cd build
-+    - ../configure ${QEMU_CONFIGURE_OPTS} --target-list=${TARGET_LIST}
-     - make -j$(($(getconf _NPROCESSORS_ONLN) + 1))
-diff --git a/.travis.yml b/.travis.yml
-index 445b064..d259b51 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -74,8 +74,8 @@ notifications:
- 
- env:
-   global:
--    - SRC_DIR="."
--    - BUILD_DIR="."
-+    - SRC_DIR=".."
-+    - BUILD_DIR="build"
-     - BASE_CONFIG="--disable-docs --disable-tools"
-     - TEST_CMD="make check V=1"
-     # This is broadly a list of "mainline" softmmu targets which have support across the major distros
-@@ -192,7 +192,9 @@ matrix:
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-sanitize"
-       compiler: clang
-       before_script:
-+        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-         - ./configure ${CONFIG} --extra-cflags="-fsanitize=undefined -Werror" || { cat config.log && exit 1; }
-+        - ${SRC_DIR}/configure ${CONFIG} --extra-cflags="-fsanitize=undefined -Werror" --extra-ldflags="-fsanitize=undefined" || { cat config.log && exit 1; }
- 
- 
-     - env:
-@@ -323,6 +325,7 @@ matrix:
-         - CONFIG="--cc=gcc-9 --cxx=g++-9 --disable-pie --disable-linux-user"
-         - TEST_CMD=""
-       before_script:
-+        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-         - ./configure ${CONFIG} --extra-cflags="-g3 -O0 -Wno-error=stringop-truncation -fsanitize=thread -fuse-ld=gold" || { cat config.log && exit 1; }
- 
- 
-diff --git a/configure b/configure
-index 7a1bc47..19b209a 100755
---- a/configure
-+++ b/configure
-@@ -6441,6 +6441,7 @@ else
- echo "local state directory   queried at runtime"
- echo "Windows SDK       $win_sdk"
- fi
-+echo "Build directory   $(pwd)"
- echo "Source path       $source_path"
- echo "GIT binary        $git"
- echo "GIT submodules    $git_submodules"
--- 
-1.8.3.1
+>=20
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  Makefile | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/Makefile b/Makefile
+> index 53823c2..8d921c6 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -321,14 +321,10 @@ HELPERS-y =3D
+> =20
+>  HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =3D qemu-bridge-h=
+elper$(EXESUF)
+> =20
+> -ifdef CONFIG_LINUX
+> -ifdef CONFIG_VIRGL
+> -ifdef CONFIG_GBM
+> +ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
+>  HELPERS-y +=3D vhost-user-gpu$(EXESUF)
+>  vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
+>  endif
+> -endif
+> -endif
+> =20
+>  # Sphinx does not allow building manuals into the same directory as
+>  # the source files, so if we're doing an in-tree QEMU build we must
+> --=20
+> 1.8.3.1
+>=20
+>=20
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
