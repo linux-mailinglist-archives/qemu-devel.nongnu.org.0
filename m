@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A1611AC86
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 14:54:58 +0100 (CET)
-Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F7211AD22
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:15:09 +0100 (CET)
+Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if2S8-0001vA-2M
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 08:54:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56852)
+	id 1if2lf-0001eP-JH
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:15:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1if2OS-0006Eo-09
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:51:09 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1if2i4-0000js-J5
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:11:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1if2OQ-0000Sf-Hn
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:51:07 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2223 helo=huawei.com)
+ (envelope-from <damien.hedde@greensocs.com>) id 1if2i2-0007Mc-OC
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:11:24 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:45260)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1if2ON-0000JN-3n; Wed, 11 Dec 2019 08:51:03 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 48958B31F41B410CF4E1;
- Wed, 11 Dec 2019 21:50:54 +0800 (CST)
-Received: from [127.0.0.1] (10.133.216.73) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Wed, 11 Dec 2019
- 21:50:44 +0800
-Subject: Re: [PATCH v1 0/5] target/arm/kvm: Provide an option to adjust
- virtual time
-To: Andrew Jones <drjones@redhat.com>
-References: <20191016143410.5023-1-drjones@redhat.com>
- <CAFEAcA8j8M_J8Ocdpms8a2XufigVQ6oB4JBy2BcYAkXfJX5y5A@mail.gmail.com>
- <5679d43f-3f29-6ee1-0894-19ef2f3e08a2@huawei.com>
- <20191211090000.kajcyk7oqlqr3chk@kamzik.brq.redhat.com>
-From: Guoheyi <guoheyi@huawei.com>
-Message-ID: <c5241a1e-f81c-2616-8169-1696c23b747d@huawei.com>
-Date: Wed, 11 Dec 2019 21:50:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1if2i2-0007Kw-4K
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:11:22 -0500
+Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 1054196EF0;
+ Wed, 11 Dec 2019 14:11:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1576073479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zxBwkv3zg1HY6xig9PokwgpvT5ZZ839Y2wL/0gQQMLE=;
+ b=CZ1F+oAkuu2sRi8ZJdOFBOfWsAqiauBGgy7LKvTd9TQ+KKm9fe0EuR5wvVKP0YTD32ZzFt
+ oAca0TCCBBbf25Oc0XMwxHgmqrwfxRzk8B7AWcFUFrSxyunNITPkBe/Fy88m6a9/nFr82c
+ qxDr58pSidQ6AivuXTMU/ZZNBAdXITY=
+Subject: Re: [PATCH] gdbstub: change GDBState.last_packet to GByteArray
+To: Luc Michel <luc.michel@greensocs.com>, qemu-devel@nongnu.org
+References: <20191206134203.77385-1-damien.hedde@greensocs.com>
+ <4b7e67f1-e3c4-44d3-db36-b371eeabe2b5@greensocs.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <b2c5113c-d76e-8634-65d3-242d8375e7b4@greensocs.com>
+Date: Wed, 11 Dec 2019 15:11:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <20191211090000.kajcyk7oqlqr3chk@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-X-Originating-IP: [10.133.216.73]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4b7e67f1-e3c4-44d3-db36-b371eeabe2b5@greensocs.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1576073479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zxBwkv3zg1HY6xig9PokwgpvT5ZZ839Y2wL/0gQQMLE=;
+ b=MA03w+qEd+ZDeTo+QzeMWS3Hzmz56eta3EyXn64jdRwiMMqPJa/mhABYGUv6mhaCd5Udx7
+ N2efjsYenpUKewH3EV9f8l0VfPnnvjCcUJV2xiWBsxfqslqyYqTK9LkChj2uIx9brp5ZYQ
+ Q2VxU5kCLhn50Y+o1FvCzFGg0hACq8c=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1576073479; a=rsa-sha256; cv=none;
+ b=MEIftNtQ20WWZVxCHyPHz4DSbldRV7z7/fapDliLXA9l1thYJ4gzguZu/bothsjwrLt2lk
+ 1+kPHkt4e9CqmsdBZBKN1coJTOmmMDJ3SosopHb6s5QIq6bZYk7qJg1P+X+bIrepIdJjdQ
+ HG4l3dvTQNCElJiZH9KdxuLFcqWHEX4=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,110 +78,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, bijan.mottahedeh@oracle.com,
- Marc Zyngier <maz@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- wanghaibin 00208455 <wanghaibin.wang@huawei.com>
+Cc: philmd@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-=E5=9C=A8 2019/12/11 17:00, Andrew Jones =E5=86=99=E9=81=93:
-> On Wed, Dec 11, 2019 at 04:02:52PM +0800, Guoheyi wrote:
->> =E5=9C=A8 2019/12/6 23:22, Peter Maydell =E5=86=99=E9=81=93:
->>> On Wed, 16 Oct 2019 at 15:34, Andrew Jones <drjones@redhat.com> wrote=
-:
->>>> v2:
->>>>    - move from RFC status to v1
->>>>    - put kvm_arm_vm_state_change() in kvm.c to share among kvm32.c a=
-nd kvm64.c
->>>>    - add r-b's from Richard
->>>>
->>>>
->>>> This series is inspired by a series[1] posted by Bijan Mottahedeh ab=
-out
->>>> a year ago.  The problem described in the cover letter of [1] is eas=
-ily
->>>> reproducible and some users would like to have the option to avoid i=
-t.
->>>> However the solution, which is to adjust the virtual counter offset =
-each
->>>> time the VM transitions to the running state, introduces a different
->>>> problem, which is that the virtual and physical counters diverge.  A=
-s
->>>> described in the cover letter of [1] this divergence is easily obser=
-ved
->>>> when comparing the output of `date` and `hwclock` after suspending t=
-he
->>>> guest, waiting a while, and then resuming it.  Because this differen=
-t
->>>> problem may actually be worse for some users, unlike [1], the series
->>>> posted here makes the virtual counter offset adjustment optional and=
- not
->>>> even enabled by default.  Besides the adjustment being optional, thi=
-s
->>>> series approaches the needed changes differently to apply them in mo=
-re
->>>> appropriate locations.  Finally, unlike [1], this series doesn't att=
-empt
->>>> to measure "pause time" itself.  Simply using QEMU_CLOCK_VIRTUAL, wh=
-ich
->>>> only ticks when the VM is not stopped, is sufficient.
->>> So I guess my overall question is "what is the x86 solution to
->>> this problem, and why is this all arm-specific?" It would also
->>> be helpful to know how it fits into all the other proposals regarding
->>> time in VMs.
->> I also sent a RFC in March and ARM KVM experts were also invoved in th=
-e
->> discussion:
+On 12/9/19 11:15 AM, Luc Michel wrote:
+> 
+> 
+> On 12/6/19 2:42 PM, Damien Hedde wrote:
+>> Remove the packet size upper limit by using a GByteArray
+>> instead of a statically allocated array for last_packet.
+>> Thus we can now send big packets.
 >>
->> https://lists.cs.columbia.edu/pipermail/kvmarm/2019-March/035026.html
+>> Also remove the last_packet_len field and use last_packet->len
+>> instead.
 >>
->> According to the discussion, qemu on x86 is using KVM_KVMCLOCK_CTRL to
->> request KVM to set a flag "PVCLOCK_GUEST_STOPPED" in pvclock, informin=
-g VM
->> kernel about external force stop.
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> ---
 >>
->> Thanks,
+>> This patch is a follow-up of Alex's series about sve registers
+>> which introduces some GbyteArray/Gstring in the gdbstub.
+>> It removes the remaining barrier to send big packets.
 >>
->> Heyi
-> Hi Heyi,
->
-> Apologies for having forgotten about that thread. I recall now having
-> followed it last March. Indeed it even addresses the issue in the way
-> we're coming around to now (save/restore vs. update with virtual time).
+>> Based-on <20191130084602.10818-1-alex.bennee@linaro.org>
+>> ---
+>>  gdbstub.c | 39 +++++++++++++++++++++------------------
+>>  1 file changed, 21 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/gdbstub.c b/gdbstub.c
+>> index 7b695bdebe..022edd6bdb 100644
+>> --- a/gdbstub.c
+>> +++ b/gdbstub.c
+>> @@ -351,8 +351,7 @@ typedef struct GDBState {
+>>      int line_buf_index;
+>>      int line_sum; /* running checksum */
+>>      int line_csum; /* checksum at the end of the packet */
+>> -    uint8_t last_packet[MAX_PACKET_LENGTH + 4];
+>> -    int last_packet_len;
+>> +    GByteArray *last_packet;
+>>      int signal;
+>>  #ifdef CONFIG_USER_ONLY
+>>      int fd;
+>> @@ -384,6 +383,7 @@ static void init_gdbserver_state(void)
+>>      gdbserver_state.init = true;
+>>      gdbserver_state.str_buf = g_string_new(NULL);
+>>      gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
+>> +    gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
+>>  }
+>>  
+>>  #ifndef CONFIG_USER_ONLY
+>> @@ -626,28 +626,29 @@ static void hexdump(const char *buf, int len,
+>>  static int put_packet_binary(const char *buf, int len, bool dump)
+>>  {
+>>      int csum, i;
+>> -    uint8_t *p;
+>> -    uint8_t *ps = &gdbserver_state.last_packet[0];
+>> +    uint8_t footer[3];
+>>  
+>>      if (dump && trace_event_get_state_backends(TRACE_GDBSTUB_IO_BINARYREPLY)) {
+>>          hexdump(buf, len, trace_gdbstub_io_binaryreply);
+>>      }
+>>  
+>>      for(;;) {
+>> -        p = ps;
+>> -        *(p++) = '$';
+>> -        memcpy(p, buf, len);
+>> -        p += len;
+>> +        g_byte_array_set_size(gdbserver_state.last_packet, 0);
+>> +        g_byte_array_append(gdbserver_state.last_packet,
+>> +                            (const uint8_t *) "$", 1);
+>> +        g_byte_array_append(gdbserver_state.last_packet,
+>> +                            (const uint8_t *) buf, len);
+>>          csum = 0;
+>>          for(i = 0; i < len; i++) {
+>>              csum += buf[i];
+>>          }
+>> -        *(p++) = '#';
+>> -        *(p++) = tohex((csum >> 4) & 0xf);
+>> -        *(p++) = tohex((csum) & 0xf);
+>> +        footer[0] = '#';
+>> +        footer[1] = tohex((csum >> 4) & 0xf);
+>> +        footer[2] = tohex((csum) & 0xf);
+>> +        g_byte_array_append(gdbserver_state.last_packet, footer, 3);
+>>  
+>> -        gdbserver_state.last_packet_len = p - ps;
+>> -        put_buffer(ps, gdbserver_state.last_packet_len);
+>> +        put_buffer(gdbserver_state.last_packet->data,
+>> +                   gdbserver_state.last_packet->len);
+>>  
+>>  #ifdef CONFIG_USER_ONLY
+>>          i = get_char();
+>> @@ -2812,20 +2813,22 @@ static void gdb_read_byte(GDBState *s, uint8_t ch)
+>>      uint8_t reply;
+>>  
+>>  #ifndef CONFIG_USER_ONLY
+>> -    if (gdbserver_state.last_packet_len) {
+>> +    if (gdbserver_state.last_packet->len) {
+>>          /* Waiting for a response to the last packet.  If we see the start
+>>             of a new command then abandon the previous response.  */
+>>          if (ch == '-') {
+>>              trace_gdbstub_err_got_nack();
+>> -            put_buffer((uint8_t *)gdbserver_state.last_packet, gdbserver_state.last_packet_len);
+>> +            put_buffer(gdbserver_state.last_packet->data,
+>> +                       gdbserver_state.last_packet->len);
+>>          } else if (ch == '+') {
+>>              trace_gdbstub_io_got_ack();
+>>          } else {
+>>              trace_gdbstub_io_got_unexpected(ch);
+>>          }
+>>  
+>> -        if (ch == '+' || ch == '$')
+>> -            gdbserver_state.last_packet_len = 0;
+>> +        if (ch == '+' || ch == '$') {
+>> +            g_byte_array_set_size(gdbserver_state.last_packet, 0);
+>> +        }
+>>          if (ch != '$')
+>>              return;
+>>      }
+>> @@ -3209,7 +3212,7 @@ static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
+>>      const char *p = (const char *)buf;
+>>      int max_sz;
+>>  
+>> -    max_sz = (sizeof(gdbserver_state.last_packet) - 2) / 2;
+>> +    max_sz = MAX_PACKET_LENGTH / 2;
+> I think max_sz is not the same as before here.
+> 
+> Before we had (sizeof(gdbserver_state.last_packet) - 2) / 2
+>            -> ((MAX_PACKET_LENGTH + 4) - 2) / 2
+>            -> (MAX_PACKET_LENGTH / 2) + 1
+> 
+> Now we have MAX_PACKET_LENGTH / 2
 
-Never mind :) We were also blocked by this issue when trying to support=20
-VM suspend/resume, save/restore, etc, so I'm happy to see your patches=20
-that we have the chance to fix it.
+Oups... I'll fix that.
 
->
-> I just reread the whole thread, and my feeling is that, while there are
-> still many issues left to work, until we get a pvclock for arm, a patch
-> like this one, but with a way to opt-in/out in order to give users a
-> chance to choose their poison, is the best we can do. Also a patch like
-> this one is a step in the right direction, as it will be needed as part
-> of the bigger pvclock solution eventually, just as it is for x86.
-
-Yes, it is simple and it works with current version of ARM64 OS=20
-distributions.
+> 
+> But looking at the gdb_monitor_output() function, it performs the
+> following check:
+>     if (len > (MAX_PACKET_LENGTH/2) - 1)
+>         len = (MAX_PACKET_LENGTH/2) - 1;
+> 
+> So both versions seem actually wrong and can lead to characters being
+> dropped.
+> 
+> However gdb_monitor_output() is still using a MAX_PACKET_LENGTH sized
+> local buffer. With this patch it can probably be removed entirely so
+> that last_packet is written directly (with a g_byte_array aware version
+> of memtohex?).
+> 
+Actually, Alex's patches (on which this patch is based) already do the
+memtohex aware version. But yes we can simplify this, I'll prepare a v2
+with this.
 
 Thanks,
-
-Heyi
-
->
-> One comment on the patch is that I would prefer to do the save/restore
-> for all VCPUs, even though KVM does currently handle synchronization.
-> Not only does it "feel" more correct to apply VCPU APIs to all VCPUs,
-> but I assume it will be less problematic to implement CPU hotplug at
-> some point.
->
-> Thanks,
-> drew
->
->
-> .
-
+--
+Damien
 
