@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921FE11AC85
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 14:54:56 +0100 (CET)
-Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0063511AC1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 14:34:15 +0100 (CET)
+Received: from localhost ([::1]:42494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if2S7-0001lV-L1
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 08:54:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33517)
+	id 1if285-0002st-I5
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 08:34:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1if2PP-0007fD-3Y
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:52:10 -0500
+ (envelope-from <groug@kaod.org>) id 1if26r-0002H6-W9
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:32:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1if2PN-0001WF-Ah
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:52:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38907
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1if2PN-0001V4-74
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:52:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576072324;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=imZREeAJbmsKRfpVD9WfILTxvWQGZ+trG2dKpVByNTw=;
- b=RweEJ7b25X/juF6opE5mtkPemCrXKu42YZikpgWoAY64OYMgJzVmoJ4W9+Ff3X5BguVQ78
- ++/7+O3oHF2pswXVmhZhF1tE6p+BALmR42l8T+CUjlea/cTreuKI/lX3e8oetANOSGZMvE
- havCPCCRrSZRPMJsb0ohV2uQCVk/ot8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-JYl0e_6CNxWzkcFM-62ejg-1; Wed, 11 Dec 2019 06:51:14 -0500
-Received: by mail-wm1-f72.google.com with SMTP id g26so1647437wmk.6
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 03:51:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=byrRNTyQi11YCfRwvlmUEIKq7+oiaHZkCiOdUY2Ubw0=;
- b=r/P78EO4lcL6Jl7MLLsmjqIaCKuFvRT4fvn1U+fnBlnadg0Tg4x0b3LEtWZLvF5/Lq
- Nz7xGan9h0iwzhoF3YASjnfcF6kMuAn51R7o0yHBXdpeEtzXazmK9hsBqDHQc/RpYtcM
- a1AX96O9FhjYswTFIABJoIrMFhuJ4XdtrAMCYy+Ul8auqdNikUtK88zYwGC8qFXVc0tO
- vaTEs+lBeMLe0lWQysw5Q7/NB41oMjgHIIa/c1mvXaA8phEbAOpYgCSud2PdLBQwCXMS
- CKYklk90kYk7Ezr778zJDrbJrCOjWNARrTm0CS0U9qIohDaHWlrMcANMeoHrHNqxcroo
- m34Q==
-X-Gm-Message-State: APjAAAXfk/3sq2A/sKiOdXgExfdibOn4RNntlYXXv0TZMAaMjMN3me88
- WjpqVo8m0CqqcWS9oVlQXpLVmMy9S4woZRDLI4srZCvb32aVKL0IAAx3A7t+siJteVIbUVxbCjh
- hkqywsMR2zE8FPAM=
-X-Received: by 2002:a05:600c:24b:: with SMTP id
- 11mr3177707wmj.19.1576065073194; 
- Wed, 11 Dec 2019 03:51:13 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyClRK4qcpxhTuQIpdAMujKMXQ8ecFl8AKfJYeXN2yJaQPbVymUZ5DxTcB2l2eHGmgz35jHyg==
-X-Received: by 2002:a05:600c:24b:: with SMTP id
- 11mr3177684wmj.19.1576065072966; 
- Wed, 11 Dec 2019 03:51:12 -0800 (PST)
-Received: from [10.201.33.164] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id v188sm2033314wma.10.2019.12.11.03.51.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Dec 2019 03:51:12 -0800 (PST)
-Subject: Re: [PATCH v2] hw/usb: Introduce Kconfig switches for the CCID card
- devices
-To: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191211102029.1772-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <70300510-b621-b021-74a3-f3e4ffb06ec3@redhat.com>
-Date: Wed, 11 Dec 2019 12:51:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <groug@kaod.org>) id 1if26q-0002jg-HM
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:32:57 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37182)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1if26q-0002gw-82
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:32:56 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBBDR9QT128480
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 08:32:53 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wr8kywauf-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 08:32:53 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Wed, 11 Dec 2019 13:32:47 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 11 Dec 2019 13:32:43 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBBDWg8A47906944
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 11 Dec 2019 13:32:42 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7FC01AE045;
+ Wed, 11 Dec 2019 13:32:42 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32352AE04D;
+ Wed, 11 Dec 2019 13:32:42 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.152.115])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 11 Dec 2019 13:32:42 +0000 (GMT)
+Subject: [PATCH] object: Improve documentation of interfaces
+From: Greg Kurz <groug@kaod.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 11 Dec 2019 14:32:41 +0100
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-In-Reply-To: <20191211102029.1772-1-thuth@redhat.com>
-Content-Language: en-US
-X-MC-Unique: JYl0e_6CNxWzkcFM-62ejg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19121113-0020-0000-0000-00000397277E
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19121113-0021-0000-0000-000021EE2BC5
+Message-Id: <157607116183.174911.9764813135617350231.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-11_03:2019-12-11,2019-12-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 clxscore=1034 adultscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912110115
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,108 +87,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/19 11:20 AM, Thomas Huth wrote:
-> In our downstream distribution of QEMU, we need more fine-grained
-> control on the set of CCID card devices that we want to include.
-> So let's introduce some proper Kconfig switches that it is easier
-> to disable them without modifying the corresponding Makefile.objs.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   v2: Use CONFIG_SMARTCARD in Kconfig.host as suggested by Philippe
->=20
->   Kconfig.host         |  3 +++
->   Makefile             |  3 ++-
->   hw/usb/Kconfig       | 12 +++++++++++-
->   hw/usb/Makefile.objs |  9 ++++-----
->   4 files changed, 20 insertions(+), 7 deletions(-)
->=20
-> diff --git a/Kconfig.host b/Kconfig.host
-> index bb6e116e2a..b532358854 100644
-> --- a/Kconfig.host
-> +++ b/Kconfig.host
-> @@ -35,3 +35,6 @@ config VIRTFS
->  =20
->   config PVRDMA
->       bool
-> +
-> +config SMARTCARD
-> +    bool
-> diff --git a/Makefile b/Makefile
-> index b437a346d7..287cda35cb 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -388,7 +388,8 @@ MINIKCONF_ARGS =3D \
->       CONFIG_VHOST_USER=3D$(CONFIG_VHOST_USER) \
->       CONFIG_VIRTFS=3D$(CONFIG_VIRTFS) \
->       CONFIG_LINUX=3D$(CONFIG_LINUX) \
-> -    CONFIG_PVRDMA=3D$(CONFIG_PVRDMA)
-> +    CONFIG_PVRDMA=3D$(CONFIG_PVRDMA) \
-> +    CONFIG_SMARTCARD=3D$(CONFIG_SMARTCARD)
+QOM interfaces allow a limited form of multiple inheritance, at the
+condition of being stateless. That is, they cannot be instantiated
+and a pointer to an interface shouldn't be dereferenceable in any way.
+This is achieved by making the QOM instance type an incomplete type,
+which is, as mentioned by Markus Armbruster, the closest you can get
+to abstract class in C.
 
-Oh I missed this detail :)
+Incomplete types are widely used to hide implementation details, but
+people usually expect to find at least one place where the type is
+fully defined. The fact that it doesn't happen with QOM interfaces is
+quite disturbing, especially since it isn't documented anywhere as
+recently discussed in this thread:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg01579.html
 
->  =20
->   MINIKCONF_INPUTS =3D $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig \
->                      $(wildcard $(SRC_PATH)/hw/*/Kconfig)
-> diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-> index 555e09377b..da3026586f 100644
-> --- a/hw/usb/Kconfig
-> +++ b/hw/usb/Kconfig
-> @@ -90,9 +90,19 @@ config USB_BLUETOOTH
->   config USB_SMARTCARD
->       bool
->       default y
-> -    depends on USB
-> +    depends on USB && SMARTCARD
->  =20
->   config USB_STORAGE_MTP
->       bool
->       default y
->       depends on USB
-> +
-> +config CCID_PASSTHRU
-> +    bool
-> +    default y
-> +    depends on USB_SMARTCARD
-> +
-> +config CCID_EMULATED
-> +    bool
-> +    default y
-> +    depends on USB_SMARTCARD
-> diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-> index 303ac084a0..478e6d5752 100644
-> --- a/hw/usb/Makefile.objs
-> +++ b/hw/usb/Makefile.objs
-> @@ -27,13 +27,12 @@ common-obj-$(CONFIG_USB_SERIAL)       +=3D dev-serial=
-.o
->   common-obj-$(CONFIG_USB_NETWORK)      +=3D dev-network.o
->   common-obj-$(CONFIG_USB_BLUETOOTH)    +=3D dev-bluetooth.o
->  =20
-> -ifeq ($(CONFIG_USB_SMARTCARD),y)
-> -common-obj-y                          +=3D dev-smartcard-reader.o
-> -common-obj-$(CONFIG_SMARTCARD)        +=3D smartcard.mo
-> -smartcard.mo-objs :=3D ccid-card-passthru.o ccid-card-emulated.o
-> +common-obj-$(CONFIG_USB_SMARTCARD)    +=3D dev-smartcard-reader.o
-> +common-obj-$(call lor,$(CONFIG_CCID_PASSTHRU),$(CONFIG_CCID_EMULATED)) +=
-=3D smartcard.mo
-> +smartcard.mo-objs :=3D $(call lif,$(CONFIG_CCID_PASSTHRU),ccid-card-pass=
-thru.o) \
-> +                     $(call lif,$(CONFIG_CCID_EMULATED),ccid-card-emulat=
-ed.o)
->   smartcard.mo-cflags :=3D $(SMARTCARD_CFLAGS)
->   smartcard.mo-libs :=3D $(SMARTCARD_LIBS)
-> -endif
->  =20
->   ifeq ($(CONFIG_POSIX),y)
->   common-obj-$(CONFIG_USB_STORAGE_MTP)  +=3D dev-mtp.o
->=20
+Amend the documentation in the object.h header file to provide more
+details about why and how to implement QOM interfaces using incomplete
+types.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ include/qom/object.h |   10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 128d00c77fd6..5cf98d2c4350 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -200,8 +200,14 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *
+  * Interfaces allow a limited form of multiple inheritance.  Instances are
+  * similar to normal types except for the fact that are only defined by
+- * their classes and never carry any state.  You can dynamically cast an object
+- * to one of its #Interface types and vice versa.
++ * their classes and never carry any state.  As a consequence, a pointer to
++ * an interface instance should always be of incomplete type in order to be
++ * sure it cannot be dereferenced.  That is, you should define the
++ * 'typedef struct SomethingIf SomethingIf' so that you can pass around
++ * 'SomethingIf *si' arguments, but not define a 'struct SomethingIf { ... }'.
++ * The only things you can validly do with a 'SomethingIf *' are to pass it as
++ * an argument to a method on its corresponding SomethingIfClass, or to
++ * dynamically cast it to an object that implements the interface.
+  *
+  * # Methods #
+  *
 
 
