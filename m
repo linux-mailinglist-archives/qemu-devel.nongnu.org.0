@@ -2,75 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF22911BA37
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:24:59 +0100 (CET)
-Received: from localhost ([::1]:46732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A55D11B9FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:20:34 +0100 (CET)
+Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if5jN-0000NA-Mr
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:24:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53319)
+	id 1if5f6-0002ti-TP
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:20:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1if5WF-0003K1-IT
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:11:27 -0500
+ (envelope-from <laurent@vivier.eu>) id 1if5TJ-0008Kt-N7
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:08:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1if5WD-0003Gu-JR
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:11:22 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34131)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1if5WB-0003Ct-5a
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:11:19 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so24916475wrr.1
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 09:11:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HgQILMH+wQNyAcOrarpR7rw2vBB43pS1pI9nkMO2sho=;
- b=Nc+Ci3za4eDF4uV6K0p3FaUjxumMKBdrCJ6LvrS/aOLXFVvYoDjFTVXsLMPrZZAqcb
- PTCHbnF1qZIficgGEnf4VS7caGCQVm8kPfQgv5nWqCj/MdZvFAlb+hBnyyG688QZkDit
- JW+/uyqLXawXf9Tl5KG4T9/CRowl9zi1doo2dCMMYTNMsFWAAeKD+BMxEnWiJQbjoTGt
- i5+Wf496KquGzpd8VfFgniVWlGV878HctSyoxlOekLf2I05whUJbUbmVjdGl+Bc66rwG
- J4wYXGpOilHPjuv6jzwtuHcWEiuQ9tBrnuT2GpTPwU9GSZ7k6RAH8ZCLSYbAwNIHM8OP
- rBOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HgQILMH+wQNyAcOrarpR7rw2vBB43pS1pI9nkMO2sho=;
- b=iJAWy4gN/c8/Ougf2BBzz7X+84PmQKR/PGs9q7OHIF78bMFsnPhmOisYeDsRI0FCB/
- PgALy8sKR8DlT5F8N+cZI0RhWdjCFWvDJaGdygvBw/4q3sDQB7wb9zT9RqLBkgr8U7jU
- dL1hCCgOQjeTBthCJzxuhibZoU9QQWuChcobwyHXjKfHH9WeF4ozLS2zQu/1ELfOTmmM
- 0WFdyoXZ6OaTwZbAFDdfKQD/hizH3vUe/b06809H39JBWKoPmmV/asxmXSLdYlNoM4fT
- 01ENn42SXGOBarR4gMtziQfhZBP9lSTZWj+jmuOheXKS2b2szn6UEx03pK9M105g2ofI
- bRHQ==
-X-Gm-Message-State: APjAAAXJCNpqEytBCt5gbu6N9C5TbiMbD8ZHus/c4pehqAjhJtAwS5aZ
- Z1rJgU/6m8m5clREt1KACPWwNQ==
-X-Google-Smtp-Source: APXvYqz2/O894u7dIs9iGd3IwmLEPeavCdEWIZpjgNsOWepBEUZkga0Cbq/Kl2/Y0aLV5Y2MnOMJXw==
-X-Received: by 2002:adf:f2d0:: with SMTP id d16mr954545wrp.314.1576084277875; 
- Wed, 11 Dec 2019 09:11:17 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w13sm3138312wru.38.2019.12.11.09.11.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2019 09:11:13 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1D0D21FFA6;
- Wed, 11 Dec 2019 17:05:25 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/20] tests/tcg/aarch64: add test-sve-ioctl guest-debug
- test
-Date: Wed, 11 Dec 2019 17:05:20 +0000
-Message-Id: <20191211170520.7747-21-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191211170520.7747-1-alex.bennee@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1if5TI-0007RW-GD
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:08:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:52915)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1if5TI-0007PZ-6i
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:08:20 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MfHUx-1i47tj06Qt-00goiH; Wed, 11 Dec 2019 18:08:16 +0100
+Subject: Re: [PATCH v3 07/20] target/m68k: use gdb_get_reg helpers
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 References: <20191211170520.7747-1-alex.bennee@linaro.org>
+ <20191211170520.7747-8-alex.bennee@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <707af2b1-d3c3-11ac-0285-00fe31b8b426@vivier.eu>
+Date: Wed, 11 Dec 2019 18:08:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20191211170520.7747-8-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Provags-ID: V03:K1:VltHBx8ka76KtwPv3RPVlAa4uTmun86VFpsaDC1E3CgCyZBqvfZ
+ +3XcoUvRb635iaks6NfCoXWKtcrH5SFMksJg8zLNhPqBeBWY0jGPokS2H4aZNE0vRSJ3BBW
+ 1zXmwLxHjWSu9e9uD3HCTFAYnsKRMXSp/m5WcknWXkIhHQ1d+io+gh02FOR/BubjtuGvcHL
+ cOjoamKkNq5PYgjIaNwuQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s8igVXrLxNI=:DU1HXnA6gf5Z7tpvfyH5W8
+ YJroUCLKhVz9AS8yc7pymIftuk67ED7y51MXFbIfdLjwFwtlwL5V5aYiVY3NNuW3BY7iAiDL3
+ 60c/b41GRlQ4Y+PU4ePjNUAkikSLNaBWXNvkxxREzKu7PA2UPG4VZFAUaIG9KwaW8m0U4eUtD
+ r1MhfHPIwHvorM/HvCS18xsaSBexrvff58lIOTGK6vOIapF6/7XCTnLi5cCaB38dfAYGKwv4f
+ oGkrnbIPQmjAmOQLjfTAyfUhyvKiEFWdlxItVpRsr1/sqVhEK26qAuLPpMgXgR44SNrOu5+Nn
+ pu5u/aXbcCmWCAa17kd+uB+Dr57hfqWQqVdUQPUi/CBkDmIVmlDhyD0tA7EmajAl9RFCsN+43
+ fPEw1s/L0JBvgGkBil0p63b49xOS5n8XBkYY+bXujyyCyMrOYa+6bi1xkKgoO9gkA2Lr5aIGB
+ 14glOY54MdlIJppqdXV+Z+GuyD7ykZ2Qq/g+Fq9lXFl0n5x9UTbcGW6kMUH1syoivMPIaGaj3
+ DbYpj+0nGuGXtH0VKN/24D/nBQMxupcuf++MIC8LOYUxFca0UhNlez9eT9ka+W8pipcP7zsYK
+ EB9pd9m9AyZcbKQycluq4GZDYOpOOq+9w8AVZ0JKR5Dy/C5MrRHPnTmG8j9F9x3wTxFIBrijD
+ tRXZMd4+s/x0fap4bUFrQyZkmm2MaT5BEqbsvWRry2W5J7bNwQxkUGh5syOsqZS413LqyzsD0
+ x2x59L9CiU/8XlDHMC/O+KOtgnEGFEMFRHjC3x2O7ozNuMTx6bTSQ0xeQWumgXkdrtB5XZPZ/
+ RdoNW+MDspi5M79WxNDUEHj3cDchC1sgd/fjjpEfqNbZFY1I4wfbrLw6y6Uq417LjXmGw2wpB
+ LS9nuBG4EpC54XvLqOHQ==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,101 +112,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
- luis.machado@linaro.org, richard.henderson@linaro.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
+ richard.henderson@linaro.org, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test exercises the gdbstub while runing the sve-iotcl test. I
-haven't plubmed it into make system as we need a way of verifying if
-gdb has the right support for SVE.
+Le 11/12/2019 à 18:05, Alex Bennée a écrit :
+> This is cleaner than poking memory directly and will make later
+> clean-ups easier.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> ---
+> v3
+>   - fix mem_buf references
+>   - fix mem_buf + len cases
+> ---
+>  target/m68k/helper.c | 29 +++++++++++------------------
+>  1 file changed, 11 insertions(+), 18 deletions(-)
+> 
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 71 +++++++++++++++++++++
- 1 file changed, 71 insertions(+)
- create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-new file mode 100644
-index 00000000000..2c8c21ca381
---- /dev/null
-+++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-@@ -0,0 +1,71 @@
-+from __future__ import print_function
-+#
-+# Test the SVE ZReg reports the right amount of data. It uses the
-+# sve-ioctl test and examines the register data each time the
-+# __sve_ld_done breakpoint is hit.
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
-+
-+import gdb
-+
-+initial_vlen = 0
-+failcount = 0
-+
-+def report(cond, msg):
-+    "Report success/fail of test"
-+    if cond:
-+        print ("PASS: %s" % (msg))
-+    else:
-+        print ("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+class TestBreakpoint(gdb.Breakpoint):
-+    def __init__(self, sym_name="__sve_ld_done"):
-+        super(TestBreakpoint, self).__init__(sym_name)
-+        # self.sym, ok = gdb.lookup_symbol(sym_name)
-+
-+    def stop(self):
-+        val_i = gdb.parse_and_eval('i')
-+        global initial_vlen
-+        for i in range(0, int(val_i)):
-+            val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-+            report(int(val_z) == i, "z0.b.u[%d] == %d" % (i, i))
-+        for i in range(i + 1, initial_vlen):
-+            val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-+            report(int(val_z) == 0, "z0.b.u[%d] == 0" % (i))
-+
-+
-+def run_test():
-+    "Run through the tests one by one"
-+
-+    print ("Setup breakpoint")
-+    bp = TestBreakpoint()
-+
-+    global initial_vlen
-+    vg = gdb.parse_and_eval("$vg")
-+    initial_vlen = int(vg) * 16
-+
-+    gdb.execute("c")
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except:
-+    print ("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+    import code
-+    code.InteractiveConsole(locals=globals()).interact()
-+    raise
-+
-+print("All tests complete: %d failures" % failcount)
-+exit(failcount)
--- 
-2.20.1
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
