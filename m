@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF65111BA20
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:23:10 +0100 (CET)
-Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D7311B9D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:15:39 +0100 (CET)
+Received: from localhost ([::1]:46530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if5hd-0006H2-LI
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:23:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53020)
+	id 1if5aL-0006h3-Pa
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:15:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1if5WD-0003IC-T5
+ (envelope-from <alex.bennee@linaro.org>) id 1if5WD-0003II-R4
  for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:11:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1if5WB-0003Dv-5K
+ (envelope-from <alex.bennee@linaro.org>) id 1if5W9-0003B2-A4
  for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:11:21 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34133)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33074)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1if5WA-0003AT-Qv
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:11:19 -0500
-Received: by mail-wr1-x444.google.com with SMTP id t2so24916392wrr.1
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 09:11:17 -0800 (PST)
+ id 1if5W8-00037E-QW
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:11:17 -0500
+Received: by mail-wr1-x444.google.com with SMTP id b6so24915576wrq.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 09:11:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EBZ3DPnRoL/gVkfjngBhb96wArtd46lZaB9In16XXlo=;
- b=zToJGI66PDBZiVPjo+8oYb3OOwV0rJoYuExUkXp/R0BDL/KjN3pbKzHWMTo2n1nLDB
- lnOvE6y2XYBmJoBTxYB7q46VKXtJH9SIfx4pHoxzJ4NVY2RuZ0mOFmvRRzaoHYojsHbX
- o/NuX0Tr6nfMYNPmr+1meYsr+lg15NHarSfiCeOajHeJdvP2cFMcc15Xvxcj9Tw83XhK
- /VRGXfXF7SoSdijPLubewE75jwEoqAz2UDYGg2GdJO3WYzOZUkTNO5fq76cMVgrDEaAa
- /jxadglFfuU+OnFM/vhKN1FNO1ZmsjtmIdn/JjTMp/BvSHvHYuilaUyegLNryYrnQ8Xr
- Mdwg==
+ bh=w/xx1ZZFQsqOfvn/N8QKFZGLl1ALeRRvJF9s6yRLgdQ=;
+ b=RTRu0Bxp3FFeexoYt3MIPl0zcgmVIEDwTpN9rkO0e8l7by4rtWd1hAk1YQTh+drbw0
+ 5RQfMhn/rxQjiUMMGAoH3q1ZPVfqct1y+Gaoa/LXTVf8/rLgydO+/fDc5k3bscNT2ZaA
+ ZYbVmLWfkuh0GKVYtAPrs6cMOaIGDNScNrLgAPeJzyJr1EO7Oip9PQR2naD8kiarvIH6
+ Kym+aK8TCJNgZ05ph4Rs1Nsdv0m6ixNdgVmW1xCv7U6sFmxVzUdxyNxn2Wf1vlbKDvjO
+ Q6SRLkHvmZ46bne6tlMgomuuxz9dKZYtfw1U4G6QDyb90sqnsDGPII2eO1fUfu4rkx/3
+ v8Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EBZ3DPnRoL/gVkfjngBhb96wArtd46lZaB9In16XXlo=;
- b=MNPeSTS2rnNZQXcDS8vFajf3HQzzZpkqRhcqA/H6yg8CyxPGkDJ59r6oMgAEc7TX6N
- eIBMbZBzh5jJJZsHgfFzipsvX8+8aZ13PgNmPUgUIs9LHxFJiESYABBq9Aq8bXnwOsNK
- U07F88+zwxMUNmjgO97NKELUeKebFXyjeuD/4FfjhH07M9b6odGHkImlrcQT0QErqCJZ
- Vp2RnQmTCh9IH6BF+WGG28aZJwUk5jsHWpj6GfHtVW4zMcngcKO6J4AxV+o8qreqh1yP
- bezBEK3hMJYlX77aRyWUQz3pPAgZJc0fm7AiLQZOOFBVytyR3xf1oD5w16ANDpAL0qbG
- ioRg==
-X-Gm-Message-State: APjAAAXYX8Bbnfy+/xb3R/eNtPiA+3Y42VZ43XhTZYIsIqlt47MDKcfk
- nH0h4zAARt0qtSAh9GSB5v0VhcnhKYs=
-X-Google-Smtp-Source: APXvYqxqxqKa6h2J7yq0/uDYSOcFtz1QIqt8aC3kb0Hl04gwzKA12eGTVepFRYbLJldzO2Md2MaG7g==
-X-Received: by 2002:adf:f6c8:: with SMTP id y8mr882775wrp.167.1576084276620;
- Wed, 11 Dec 2019 09:11:16 -0800 (PST)
+ bh=w/xx1ZZFQsqOfvn/N8QKFZGLl1ALeRRvJF9s6yRLgdQ=;
+ b=Ph2SzughTYSGqz1hE332XOWx6MWeTf25aErsS5KgR0lYqe69VbvlJrO827Ln/Z/STf
+ S4vI9tB1aqcGBNVGjbeDjktlix6prHt6vMHwww9kAYREM7Y3eXQfzawheg3RCapqE4RB
+ YqD7d/gNMp4nUcHu7iOFxIFEJVlaCOChfKRJDS0OQtjw8DBLtGNOk3ngClKsDu8/a825
+ 6PAl48qak1JEWCFFvwli6VYOCQXIzyHJCOFTjfVMXP7uOTxZeCK0LehZ070x5u9N3GCT
+ X1WvWxre/jETBHsxifD5oNfjxgcbGNHGgPDlB2x1qP3PBnxIkD1oWGtrj4To/4/1ap5E
+ Gqtw==
+X-Gm-Message-State: APjAAAW7E7iTDcT72kamWGX8DEDn8bKAy9tdVNj9geLWrJg4Q9xom8FP
+ LhAVv+3Di5ZI33l+/uKT42+65Q==
+X-Google-Smtp-Source: APXvYqwCUyIev80dUZTzFfuSEvS7lZ3K8VjUPgReKKUyOJjnixpRpWUxvbtP3MypkR8joZXfgl/iEw==
+X-Received: by 2002:a5d:6284:: with SMTP id k4mr891557wru.398.1576084274210;
+ Wed, 11 Dec 2019 09:11:14 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s25sm2808856wmh.4.2019.12.11.09.11.12
+ by smtp.gmail.com with ESMTPSA id u14sm2940604wrm.51.2019.12.11.09.11.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2019 09:11:13 -0800 (PST)
+ Wed, 11 Dec 2019 09:11:12 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1420E1FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 3F9741FF9E;
  Wed, 11 Dec 2019 17:05:24 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/20] target/arm: don't bother with id_aa64pfr0_read for
- USER_ONLY
-Date: Wed, 11 Dec 2019 17:05:14 +0000
-Message-Id: <20191211170520.7747-15-alex.bennee@linaro.org>
+Subject: [PATCH  v3 15/20] tests/tcg/aarch64: userspace system register test
+Date: Wed, 11 Dec 2019 17:05:15 +0000
+Message-Id: <20191211170520.7747-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191211170520.7747-1-alex.bennee@linaro.org>
 References: <20191211170520.7747-1-alex.bennee@linaro.org>
@@ -89,70 +88,215 @@ Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For system emulation we need to check the state of the GIC before we
-report the value. However this isn't relevant to exporting of the
-value to linux-user and indeed breaks the exported value as set by
-modify_arm_cp_regs.
+This tests a bunch of registers that the kernel allows userspace to
+read including the CPUID registers. We need a SVE aware compiler as we
+are testing the id_aa64zfr0_el1 register in the set.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20190205190224.2198-7-alex.bennee@linaro.org>
 
 ---
-v2
-  - extend the ifdef and make type CONST with no accessfn
+vgdbstub
+  - don't build unless using docker or CROSS_CC_HAS_SVE
 ---
- target/arm/helper.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ tests/tcg/aarch64/sysregs.c       | 172 ++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |   6 ++
+ 2 files changed, 178 insertions(+)
+ create mode 100644 tests/tcg/aarch64/sysregs.c
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b6e1fe51d76..58592c86714 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5878,6 +5878,7 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     return pfr1;
- }
- 
-+#ifndef CONFIG_USER_ONLY
- static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -5888,6 +5889,7 @@ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     }
-     return pfr0;
- }
+diff --git a/tests/tcg/aarch64/sysregs.c b/tests/tcg/aarch64/sysregs.c
+new file mode 100644
+index 00000000000..40cf8d2877e
+--- /dev/null
++++ b/tests/tcg/aarch64/sysregs.c
+@@ -0,0 +1,172 @@
++/*
++ * Check emulated system register access for linux-user mode.
++ *
++ * See: https://www.kernel.org/doc/Documentation/arm64/cpu-feature-registers.txt
++ *
++ * Copyright (c) 2019 Linaro
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include <asm/hwcap.h>
++#include <stdio.h>
++#include <sys/auxv.h>
++#include <signal.h>
++#include <string.h>
++#include <stdbool.h>
++
++#ifndef HWCAP_CPUID
++#define HWCAP_CPUID (1 << 11)
 +#endif
++
++int failed_bit_count;
++
++/* Read and print system register `id' value */
++#define get_cpu_reg(id) ({                                      \
++            unsigned long __val = 0xdeadbeef;                   \
++            asm("mrs %0, "#id : "=r" (__val));                  \
++            printf("%-20s: 0x%016lx\n", #id, __val);            \
++            __val;                                               \
++        })
++
++/* As above but also check no bits outside of `mask' are set*/
++#define get_cpu_reg_check_mask(id, mask) ({                     \
++            unsigned long __cval = get_cpu_reg(id);             \
++            unsigned long __extra = __cval & ~mask;             \
++            if (__extra) {                                      \
++                printf("%-20s: 0x%016lx\n", "  !!extra bits!!", __extra);   \
++                failed_bit_count++;                            \
++            }                                                   \
++})
++
++/* As above but check RAZ */
++#define get_cpu_reg_check_zero(id) ({                           \
++            unsigned long __val = 0xdeadbeef;                   \
++            asm("mrs %0, "#id : "=r" (__val));                  \
++            if (__val) {                                        \
++                printf("%-20s: 0x%016lx (not RAZ!)\n", #id, __val);        \
++                failed_bit_count++;                            \
++            }                                                   \
++})
++
++/* Chunk up mask into 63:48, 47:32, 31:16, 15:0 to ease counting */
++#define _m(a, b, c, d) (0x ## a ## b ## c ## d ##ULL)
++
++bool should_fail;
++int should_fail_count;
++int should_not_fail_count;
++uintptr_t failed_pc[10];
++
++void sigill_handler(int signo, siginfo_t *si, void *data)
++{
++    ucontext_t *uc = (ucontext_t *)data;
++
++    if (should_fail) {
++        should_fail_count++;
++    } else {
++        uintptr_t pc = (uintptr_t) uc->uc_mcontext.pc;
++        failed_pc[should_not_fail_count++] =  pc;
++    }
++    uc->uc_mcontext.pc += 4;
++}
++
++int main(void)
++{
++    struct sigaction sa;
++
++    /* Hook in a SIGILL handler */
++    memset(&sa, 0, sizeof(struct sigaction));
++    sa.sa_flags = SA_SIGINFO;
++    sa.sa_sigaction = &sigill_handler;
++    sigemptyset(&sa.sa_mask);
++
++    if (sigaction(SIGILL, &sa, 0) != 0) {
++        perror("sigaction");
++        return 1;
++    }
++
++    /* Counter values have been exposed since Linux 4.12 */
++    printf("Checking Counter registers\n");
++
++    get_cpu_reg(ctr_el0);
++    get_cpu_reg(cntvct_el0);
++    get_cpu_reg(cntfrq_el0);
++
++    /* HWCAP_CPUID indicates we can read feature registers, since Linux 4.11 */
++    if (!(getauxval(AT_HWCAP) & HWCAP_CPUID)) {
++        printf("CPUID registers unavailable\n");
++        return 1;
++    } else {
++        printf("Checking CPUID registers\n");
++    }
++
++    /*
++     * Some registers only expose some bits to user-space. Anything
++     * that is IMPDEF is exported as 0 to user-space. The _mask checks
++     * assert no extra bits are set.
++     *
++     * This check is *not* comprehensive as some fields are set to
++     * minimum valid fields - for the purposes of this check allowed
++     * to have non-zero values.
++     */
++    get_cpu_reg_check_mask(id_aa64isar0_el1, _m(00ff,ffff,f0ff,fff0));
++    get_cpu_reg_check_mask(id_aa64isar1_el1, _m(0000,00f0,ffff,ffff));
++    /* TGran4 & TGran64 as pegged to -1 */
++    get_cpu_reg_check_mask(id_aa64mmfr0_el1, _m(0000,0000,ff00,0000));
++    get_cpu_reg_check_zero(id_aa64mmfr1_el1);
++    /* EL1/EL0 reported as AA64 only */
++    get_cpu_reg_check_mask(id_aa64pfr0_el1,  _m(000f,000f,00ff,0011));
++    get_cpu_reg_check_mask(id_aa64pfr1_el1,  _m(0000,0000,0000,00f0));
++    /* all hidden, DebugVer fixed to 0x6 (ARMv8 debug architecture) */
++    get_cpu_reg_check_mask(id_aa64dfr0_el1,  _m(0000,0000,0000,0006));
++    get_cpu_reg_check_zero(id_aa64dfr1_el1);
++    get_cpu_reg_check_zero(id_aa64zfr0_el1);
++
++    get_cpu_reg_check_zero(id_aa64afr0_el1);
++    get_cpu_reg_check_zero(id_aa64afr1_el1);
++
++    get_cpu_reg_check_mask(midr_el1,         _m(0000,0000,ffff,ffff));
++    /* mpidr sets bit 31, everything else hidden */
++    get_cpu_reg_check_mask(mpidr_el1,        _m(0000,0000,8000,0000));
++    /* REVIDR is all IMPDEF so should be all zeros to user-space */
++    get_cpu_reg_check_zero(revidr_el1);
++
++    /*
++     * There are a block of more registers that are RAZ in the rest of
++     * the Op0=3, Op1=0, CRn=0, CRm=0,4,5,6,7 space. However for
++     * brevity we don't check stuff that is currently un-allocated
++     * here. Feel free to add them ;-)
++     */
++
++    printf("Remaining registers should fail\n");
++    should_fail = true;
++
++    /* Unexposed register access causes SIGILL */
++    get_cpu_reg(id_mmfr0_el1);
++    get_cpu_reg(id_mmfr1_el1);
++    get_cpu_reg(id_mmfr2_el1);
++    get_cpu_reg(id_mmfr3_el1);
++
++    get_cpu_reg(mvfr0_el1);
++    get_cpu_reg(mvfr1_el1);
++
++    if (should_not_fail_count > 0) {
++        int i;
++        for (i = 0; i < should_not_fail_count; i++) {
++            uintptr_t pc = failed_pc[i];
++            uint32_t insn = *(uint32_t *) pc;
++            printf("insn %#x @ %#lx unexpected FAIL\n", insn, pc);
++        }
++        return 1;
++    }
++
++    if (failed_bit_count > 0) {
++        printf("Extra information leaked to user-space!\n");
++        return 1;
++    }
++
++    return should_fail_count == 6 ? 0 : 1;
++}
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 96d2321045a..3f8783ada5c 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -32,4 +32,10 @@ run-plugin-semihosting-with-%:
+ 		 $(call strip-plugin,$<) 2> $<.err, \
+ 		"$< on $(TARGET_NAME) with $*")
  
- /* Shared logic between LORID and the rest of the LOR* registers.
-  * Secure state has already been delt with.
-@@ -6308,16 +6310,24 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-          * define new registers here.
-          */
-         ARMCPRegInfo v8_idregs[] = {
--            /* ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST because we don't
--             * know the right value for the GIC field until after we
--             * define these regs.
-+            /*
-+             * ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST in system
-+             * emulation because we don't know the right value for the
-+             * GIC field until after we define these regs.
-              */
-             { .name = "ID_AA64PFR0_EL1", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 0,
--              .access = PL1_R, .type = ARM_CP_NO_RAW,
-+              .access = PL1_R,
-+#ifdef CONFIG_USER_ONLY
-+              .type = ARM_CP_CONST,
-+              .resetvalue = cpu->isar.id_aa64pfr0
-+#else
-+              .type = ARM_CP_NO_RAW,
-               .accessfn = access_aa64_tid3,
-               .readfn = id_aa64pfr0_read,
--              .writefn = arm_cp_write_ignore },
-+              .writefn = arm_cp_write_ignore
-+#endif
-+            },
-             { .name = "ID_AA64PFR1_EL1", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 1,
-               .access = PL1_R, .type = ARM_CP_CONST,
++ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
++# System Registers Tests
++AARCH64_TESTS += sysregs
++sysregs: CFLAGS+=-march=armv8.1-a+sve
++endif
++
+ TESTS += $(AARCH64_TESTS)
 -- 
 2.20.1
 
