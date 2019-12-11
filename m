@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFBE11ABE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 14:19:34 +0100 (CET)
-Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0159811AB8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 14:07:48 +0100 (CET)
+Received: from localhost ([::1]:41796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if1tt-0004Ni-3I
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 08:19:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48063)
+	id 1if1iU-0004o9-Nc
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 08:07:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1if1s3-0003K6-2y
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:17:41 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1if1gy-0003hF-5h
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:06:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1if1rz-0000p7-TV
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:17:37 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33836
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1if1rz-0000ne-OZ
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:17:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576070254;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mo0z5QojFHlBv/jCsdFtEh+2kA9z5SolgPHUFAC+3DI=;
- b=Z8E6ohOpQVzj2QJgPcHwuOZEFRQw7mfcb7ihwgVJc1nY58MVb0WPQYAP8/7o03jczjFSp+
- 7uYqLZNZGPOTKV8wFEZQoqsU88LK/mNM5G5TX7kbFAjWsdI4k8UR5VGTLZt0Pd1dRjGjX3
- Imjxb+4Orvse86fydI8o14x22LhR4q8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-p4yD34fRMeSLaU8sKx5XKw-1; Wed, 11 Dec 2019 06:17:09 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86691800D5E;
- Wed, 11 Dec 2019 11:17:08 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 872806A022;
- Wed, 11 Dec 2019 11:16:57 +0000 (UTC)
-Date: Wed, 11 Dec 2019 11:16:55 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Yury Kotov <yury-kotov@yandex-team.ru>
-Subject: Re: [RFC PATCH 0/1] Removing RAMBlocks during migration
-Message-ID: <20191211111655.GC3875@work-vm>
-References: <20191209074102.5926-1-yury-kotov@yandex-team.ru>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1if1gw-00035O-Ve
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:06:12 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34273)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1if1gv-00030x-Lw
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:06:09 -0500
+Received: by mail-wr1-x441.google.com with SMTP id t2so23986753wrr.1
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 05:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=j6HHlT6J093i0KH+E444P6RkaJOr2gNObY68xIKCC6E=;
+ b=eFuLAcZ64Z2gNuuG0jca2vRZnFaZjwtmbpwpLeKbmkPPPQ8epGgTa7D2ONI5KCLFpl
+ fkCNsPK+oRsD5eOH+ItmES4+4fgxcHmRNrI03RPBBBX7eGamnVcUxSznWCMbHZUxRBJF
+ llzhXGZfmq4eUOEhVBNGIeEvdR9NEH3k4Ky0qYevyb35lEIQfonNcYPBgd+cFjEXykeY
+ ZzSZNbyxJ3nTyxr8Q9wHEast4FfcKzPuRbExuARzdI0k5kQR/iiodWbJLux15hGk3gNG
+ VJYqWndeo7sabBwh2nZH0+/qCWpK4Ff/bnXn7U5B984a2xaw+PwSDrXOggiVexvCN7vJ
+ O0wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=j6HHlT6J093i0KH+E444P6RkaJOr2gNObY68xIKCC6E=;
+ b=NKNa6SGG2X7fyZ4/rGucQP+CbUofEDDtu9YvpbVP1ZhO/mcMNdpWhoh+FTd72Wnhfa
+ lhUd73BvF4bdDuADV7QduIiHikFWW/doejmIR0LlWAp6U8Qy0kHjyoDQ23y3174V8W79
+ Por8H7pN5uEJWRonNcpQTuYSI1eMRUR2WUFci8fdtUbLzIc9lrUVtZJ8vMeCnGJUJcgO
+ vxEG1W5NrHeNTyvlDCUbpc7lrn/1X/ftyHhOCTcV2w8K1JwU0+CyED4I96QVXk+vtC/a
+ /SDM5E8peCYsgXDZm9iuN1s5dg6n1Q6TXZkK2H+9VeglllJ2+ynwQVkWIqEppottsfeI
+ 6Fsg==
+X-Gm-Message-State: APjAAAV/qt+Xz9y3dXRJI4kOV9DAeNIzL5UOvEkTmCV0nINWBLj2qmCj
+ R5fibIoaEIqO0Bgbrja2Zk/dWrFdOvfh3bG5H+5wRmGm
+X-Google-Smtp-Source: APXvYqwwUAs4ktg6UlK6hVu6sriWd0q7Y655nYb4oO5aVFE/x9FE8fSzqQ1ADv+D5I2hyorOuDnG+ojwQYBpokLaPYQ=
+X-Received: by 2002:adf:f10a:: with SMTP id r10mr3430373wro.202.1576065697198; 
+ Wed, 11 Dec 2019 04:01:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191209074102.5926-1-yury-kotov@yandex-team.ru>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: p4yD34fRMeSLaU8sKx5XKw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <CAJ+F1CLV_JRhXX=tB7ZXYxa1En4LzYgJr+7egKzVRNBOLY2nSA@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLV_JRhXX=tB7ZXYxa1En4LzYgJr+7egKzVRNBOLY2nSA@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 11 Dec 2019 16:01:25 +0400
+Message-ID: <CAJ+F1CLS4HV-SckggfYNRKXxPa0R2BxSQrpPv8CRVkfvRB3E4w@mail.gmail.com>
+Subject: Re: [PATCH v4 00/37] Clean-ups: qom-ify serial and remove
+ QDEV_PROP_PTR
+To: QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,119 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, yc-core@yandex-team.ru,
- Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Yury Kotov (yury-kotov@yandex-team.ru) wrote:
-> Hi,
->=20
-> I found that it's possible to remove a RAMBlock during migration.
-> E.g. device hot-unplugging initiated by a guest (how to reproduce is belo=
-w).
-> And I want to clarify whether RAMBlock removing (or even adding) during
-> migration is valid operation or it's a bug.
->=20
-> Currently, it may cause some race conditions with migration thread and
-> migration may fail because of them. For instance, vmstate_unregister_ram
-> function which is called during PCIe device removing does these:
-> - Memset idstr -> target may receive unknown/zeroed idstr -> migration fa=
-il
-> - Set RAMBlock flags as non-migratable -> migration fail
->=20
-> RAMBlock removing itself seems safe for migration thread because of RCU.
-> But it seems to me there are other possible race conditions (didn't test =
-it):
-> - qemu_put_buffer_async -> saves pointer to RAMBlock's memory
->    -> block will be freed out of RCU (between ram save iterations)
->    -> qemu_fflush -> access to freed memory.
->=20
-> So, I have the following questions:
-> 1. Is RAMBlock removing/adding OK during migration?
+Hi
 
-I don't think that any hot(un)plug is safe during migration.
-While it's true we hold RCUs as we walk lists, we can't hold the RCU
-around the entire migration.
+On Sun, Dec 1, 2019 at 2:19 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+>
+> - "chardev: generate an internal id when none given"
+>
+> As explained, this is necessary for qdev_prop_set_chr()
 
-There's lots of other problems;  for example we call the .save_setup
-methods on devices at the start of migration, but then call the iterate
-on those devices later - if the device is added/removed between stages
-we'll end up either having done a setup and not calling the actual save,
-or the other way around.
+ping
 
-Juan added checks to qdev_device_add/qdev_unplug in b06424d ~2.5 years
-ago.
+>
+> - "serial: register vmsd with DeviceClass"
+>
+> This is standard qdev-ification, however it breaks backward migration,
+> but that's just how qdev_set_legacy_instance_id() works.
 
-> 2. If yes then what should we do with vmstate_unregister_ram?
->    - Just remove vmstate_unregister_ram (my RFC patch)
->    - Refcount RAMBlock's migratable/non-migratable state
->    - Something else?
-> 3. If it mustn't be possible, so may be
->    assert(migration_is_idle()) in qemu_ram_free?
->=20
-> P.S.
-> I'm working on a fix of below problem and trying to choose better way:
-> allow device removing and fix all problem like this or fix a particular d=
-evice.
->=20
-> --------
-> How to reproduce device removing during migration:
->=20
-> 1. Source QEMU command line (target is similar)
->   $ x86_64-softmmu/qemu-system-x86_64 \
->     -nodefaults -no-user-config -m 1024 -M q35 \
->     -qmp unix:./src.sock,server,nowait \
->     -drive file=3D./image,format=3Draw,if=3Dvirtio \
->     -device ioh3420,id=3Dpcie.1 \
->     -device virtio-net,bus=3Dpcie.1
-> 2. Start migration with slow speed (to simplify reproducing)
-> 3. Power off a device on the hotplug pcie.1 bus:
->   $ echo 0 > /sys/bus/pci/slots/0/power
-> 4. Increase migration speed and wait until fail
->=20
-> Most likely you will get something like this:
->   qemu-system-x86_64: get_pci_config_device: Bad config data:
->           i=3D0xaa read: 0 device: 40 cmask: ff wmask: 0 w1cmask:19
->   qemu-system-x86_64: Failed to load PCIDevice:config
->   qemu-system-x86_64: Failed to load
->           ioh-3240-express-root-port:parent_obj.parent_obj.parent_obj
->   qemu-system-x86_64: error while loading state for instance 0x0 of devic=
-e
->           '0000:00:03.0/ioh-3240-express-root-port'
->   qemu-system-x86_64: load of migration failed: Invalid argument
->=20
-> This error is just an illustration of the removing device possibility,
-> but not actually an illustration of the race conditions for removing RAMB=
-lock.
+See thread, someone could review or nack (if backward migration is a proble=
+m).
 
-What path does this actually take - does it end up going via qdev_unplug
-or some other way?
+>
+> - "sm501: make SerialMM a child, export chardev property"
+>
+> review?
 
-Dave
+ping
 
-> Regards,
-> Yury
->=20
-> Yury Kotov (1):
->   migration: Remove vmstate_unregister_ram
->=20
->  hw/block/pflash_cfi01.c     | 1 -
->  hw/block/pflash_cfi02.c     | 1 -
->  hw/mem/pc-dimm.c            | 5 -----
->  hw/misc/ivshmem.c           | 2 --
->  hw/pci/pci.c                | 1 -
->  include/migration/vmstate.h | 1 -
->  migration/savevm.c          | 6 ------
->  7 files changed, 17 deletions(-)
->=20
-> --=20
-> 2.24.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+> - "qdev/qom: remove some TODO limitations now that PROP_PTR is gone"
+>
+> This should be straightforward.
 
+ping
+
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
