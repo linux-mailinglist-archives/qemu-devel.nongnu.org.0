@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB7E11AEE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 16:09:25 +0100 (CET)
-Received: from localhost ([::1]:43916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8633C11B036
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 16:21:00 +0100 (CET)
+Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if3cC-0003OA-OF
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 10:09:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56236)
+	id 1if3nP-0003DT-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 10:20:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37580)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1if3ao-0002LW-0V
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:07:59 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1if3mV-0002gU-6h
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:20:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1if3am-0003hs-Qk
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:07:57 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48510
+ (envelope-from <pbonzini@redhat.com>) id 1if3mR-0006ml-SW
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:20:00 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57235
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1if3am-0003gi-Mo
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:07:56 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1if3mR-0006lP-Dq
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 10:19:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576076872;
+ s=mimecast20190719; t=1576077598;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VAZysT5uZKd9J8uq61bCtrwvuGt9+aQ3AaN0zOdkWv4=;
- b=b9eYsaxyeb0dbrnWB1oebm+jmg4YP+J00EyOwxq551UQIVH90tklzPHVIZJzada/QJ7IFD
- Pv3FiupWg5IRW98AyQfhYp11dTxKyw9d9QUnjMk6YMFYydMIcIYk3+L/NQZUGpLdji33uK
- c/9t6On4cFQMBF8oV60WakJdrAHMlgg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-nFNoLw-eNMOFVsgFG6lkaA-1; Wed, 11 Dec 2019 10:07:51 -0500
-Received: by mail-wm1-f70.google.com with SMTP id 7so1818143wmf.9
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 07:07:51 -0800 (PST)
+ bh=WqwLral0ePoKsgMP0FMvkTCbQxadumdMNu32wH3waJA=;
+ b=JetfetHkhaP1G0Fek2bYnLGz1fuZorII37JHvYgEaJ2DxwpPG99xT5ijaXFHxv3N55aBZ8
+ gBEFZY36kNoDSPKhHbe42lJBVgmUZ7BhH4EzDShnI0FTNINIZwwJ9shW/WUGWEUo7kSuqA
+ zlxH6fZ8uYePjlcuzIKwPNor5ktkBrI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-iQkn7nzaMSmEQLsA2xCbYA-1; Wed, 11 Dec 2019 10:19:56 -0500
+Received: by mail-wr1-f70.google.com with SMTP id f10so1083505wro.14
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 07:19:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1jbqvpXVWx1C2QN4aadpKQ7nY8XPhlOfaXsNjlzbnkg=;
- b=s4WZa6VpMi2bHAjlnvlCBCak5dkM1n8tW678E3hhlfJ/rVTIMs5N0vfJLq6d5ROSFn
- Ilia87DXRjGCIloYOWZqkqXthNZJHBHH1zUOkffHeHyXhXeeRmMPd2YdilZovyAHLHkX
- HTMm7Q3yFEmVu2Uy0zERfz6R6eZ2S3ARwH1BPGavUcLEq7bAhB4xmTxVUpUIEwDLFtwM
- yhinjr8LqKp+srNwrehH0xiprte+5YK0DU5Tpntzk7FvL0RBX9T0R4H8KtZ3t1aeXipM
- Y/FHaS2xjpvRT4L4hUOZSDZV2m5mskEgD2IqmFeDhRGXvhtGm9cnbEPmr64AGDdhq68K
- J1Vg==
-X-Gm-Message-State: APjAAAVxUdXBAZyURemZPj8HbeUVM6a6dARG5B+iBHMEaRGighRS1E3k
- cxibPcZgzMu8c3fPAVwEfKF0re2yuZpfG4CHBRcZUCtGwHPW/g1DZOrcv7jP9R1tE6SMeXetfHP
- KpJeVFmFrC7yd5po=
-X-Received: by 2002:a5d:62d1:: with SMTP id o17mr287550wrv.9.1576076870264;
- Wed, 11 Dec 2019 07:07:50 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx31rQwYjuKku43LLWcP1izoE6AcqMDCHaWdKbeAubjCnrp5CY+Vp9P4ZFgUhy5Nd7nEFGrGQ==
-X-Received: by 2002:a5d:62d1:: with SMTP id o17mr287524wrv.9.1576076869937;
- Wed, 11 Dec 2019 07:07:49 -0800 (PST)
+ bh=FzNuMIkolt2BzGbBb95RpT2dmhPPNIOV3sl1gtgzVLQ=;
+ b=TiA+/gH3NX1oIoA+APQBV9onFXQUf3L+gd+YXjKeAMJDacZSJRaJAyDBPEM0hYBzNH
+ wxDFKrbTNJoNxtVSUN0Db+SQO1a8yoOe0oHWCdFNmfPZYbW61h90zyPVw7/AHXwcI3o9
+ UvsC/HFu7q063dbtIo2yrOlJaZhD0TCiOVQX37Bv4FSjqCDDabS4l350gJIZiRQl3oQa
+ /X3dSobgzOLVmyfgE4XhdusKQ9mc3TjjcvtmIhiT5T2MwK+KsXdkFmne4Xq/TQAe0FPU
+ UC3lsNq59079veMpbGXeqsBQyWg11Bz0Ml8f9MTFSntW0GoJQjtHRUtL29jQGMMnQkNd
+ 1yzw==
+X-Gm-Message-State: APjAAAXRBGYwnEpKa2n0XgoTJx8RuRzvHw6qCIol6KeYiI/Wq7phxJ99
+ WO2TDCstiNlg+5nX6pTNMG20q1Wv25o/zCf59u34Cb149laic2OKuGTMTkyOguGZqTv5caI27u8
+ 7bXwpFk+uThNNNHw=
+X-Received: by 2002:a1c:f303:: with SMTP id q3mr349182wmq.98.1576077595436;
+ Wed, 11 Dec 2019 07:19:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyL41x51BHYpE68k01X6XWc4LTwO4jXE7YY5n+d2CN08ZwvE03Z/YzjXGno15EHVCDGbIHaBw==
+X-Received: by 2002:a1c:f303:: with SMTP id q3mr349164wmq.98.1576077595193;
+ Wed, 11 Dec 2019 07:19:55 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
  ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
- by smtp.gmail.com with ESMTPSA id t8sm2490820wrp.69.2019.12.11.07.07.49
+ by smtp.gmail.com with ESMTPSA id i16sm2777635wmb.36.2019.12.11.07.19.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Dec 2019 07:07:49 -0800 (PST)
-Subject: Re: [PATCH] ci: build out-of-tree
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <1576074600-54759-1-git-send-email-pbonzini@redhat.com>
- <be96796e-958f-e51e-6832-b6376e2f9c72@redhat.com>
+ Wed, 11 Dec 2019 07:19:54 -0800 (PST)
+Subject: Re: [PATCH] ff Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <1576075593-50346-1-git-send-email-pbonzini@redhat.com>
+ <20191211150228.GL955178@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <650aa4be-b7be-0150-f6d9-590b9ce1f550@redhat.com>
-Date: Wed, 11 Dec 2019 16:07:49 +0100
+Message-ID: <f206baa1-9d25-6c41-cefb-06ce35782d34@redhat.com>
+Date: Wed, 11 Dec 2019 16:19:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <be96796e-958f-e51e-6832-b6376e2f9c72@redhat.com>
+In-Reply-To: <20191211150228.GL955178@redhat.com>
 Content-Language: en-US
-X-MC-Unique: nFNoLw-eNMOFVsgFG6lkaA-1
+X-MC-Unique: iQkn7nzaMSmEQLsA2xCbYA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,73 +91,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/19 15:50, Thomas Huth wrote:
-> On 11/12/2019 15.30, Paolo Bonzini wrote:
->> Most developers are using out-of-tree builds and it was discussed in the=
- past
->> to only allow those.  To prepare for the transition, use out-of-tree bui=
-lds
->> in all continuous integration jobs.
->>
->> Based on a patch by Marc-Andr=C3=A9 Lureau.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
-> [...]
->> diff --git a/.travis.yml b/.travis.yml
->> index 445b064..d259b51 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -74,8 +74,8 @@ notifications:
->> =20
->>  env:
->>    global:
->> -    - SRC_DIR=3D"."
->> -    - BUILD_DIR=3D"."
->> +    - SRC_DIR=3D".."
->> +    - BUILD_DIR=3D"build"
->>      - BASE_CONFIG=3D"--disable-docs --disable-tools"
->>      - TEST_CMD=3D"make check V=3D1"
->>      # This is broadly a list of "mainline" softmmu targets which have s=
-upport across the major distros
->> @@ -192,7 +192,9 @@ matrix:
->>          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-clang-sanitize"
->>        compiler: clang
->>        before_script:
->> +        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
->>          - ./configure ${CONFIG} --extra-cflags=3D"-fsanitize=3Dundefine=
-d -Werror" || { cat config.log && exit 1; }
->=20
-> Don't you want to remove the old line?
->=20
->> +        - ${SRC_DIR}/configure ${CONFIG} --extra-cflags=3D"-fsanitize=
-=3Dundefined -Werror" --extra-ldflags=3D"-fsanitize=3Dundefined" || { cat c=
-onfig.log && exit 1; }
->> =20
->> =20
->>      - env:
->> @@ -323,6 +325,7 @@ matrix:
->>          - CONFIG=3D"--cc=3Dgcc-9 --cxx=3Dg++-9 --disable-pie --disable-=
-linux-user"
->>          - TEST_CMD=3D""
->>        before_script:
->> +        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
->>          - ./configure ${CONFIG} --extra-cflags=3D"-g3 -O0 -Wno-error=3D=
-stringop-truncation -fsanitize=3Dthread -fuse-ld=3Dgold" || { cat config.lo=
-g && exit 1; }
->=20
-> That should also use "../configure" (or $SRC_DIR/configure), shouldn't it=
-?
->=20
->  Thomas
->=20
+On 11/12/19 16:02, Daniel P. Berrang=C3=A9 wrote:
+> Missing commit message subject line :-)
 
-Yes, I've sent v2.  This was supposed to be --dry-run, sorry for the noise.
+I'm not fast enough at Ctrl-C, it seems!
 
 Paolo
+
+> On Wed, Dec 11, 2019 at 03:46:33PM +0100, Paolo Bonzini wrote:
+>> ---
+>>  hw/ppc/e500.c      | 1 -
+>>  hw/ppc/spapr_irq.c | 8 --------
+>>  2 files changed, 9 deletions(-)
+>>
+>> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+>> index 928efaa..12b6a5b 100644
+>> --- a/hw/ppc/e500.c
+>> +++ b/hw/ppc/e500.c
+>> @@ -793,7 +793,6 @@ static DeviceState *ppce500_init_mpic(PPCE500Machine=
+State *pms,
+>>                                        MemoryRegion *ccsr,
+>>                                        IrqLines *irqs)
+>>  {
+>> -    MachineState *machine =3D MACHINE(pms);
+>>      const PPCE500MachineClass *pmc =3D PPCE500_MACHINE_GET_CLASS(pms);
+>>      DeviceState *dev =3D NULL;
+>>      SysBusDevice *s;
+>> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+>> index c3f8870..15c3dd4 100644
+>> --- a/hw/ppc/spapr_irq.c
+>> +++ b/hw/ppc/spapr_irq.c
+>> @@ -74,7 +74,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptControl=
+ler *, Error **),
+>>                         SpaprInterruptController *intc,
+>>                         Error **errp)
+>>  {
+>> -    MachineState *machine =3D MACHINE(qdev_get_machine());
+>>      Error *local_err =3D NULL;
+>> =20
+>>      if (kvm_enabled() && kvm_kernel_irqchip_allowed()) {
+>> @@ -287,7 +286,6 @@ uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
+>> =20
+>>  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+>>  {
+>> -    MachineState *machine =3D MACHINE(spapr);
+>>      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+>> =20
+>>      if (kvm_enabled() && kvm_kernel_irqchip_split()) {
+>> @@ -295,12 +293,6 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
+ **errp)
+>>          return;
+>>      }
+>> =20
+>> -    if (!kvm_enabled() && kvm_kernel_irqchip_required()) {
+>> -        error_setg(errp,
+>> -                   "kernel_irqchip requested but only available with KV=
+M");
+>> -        return;
+>> -    }
+>> -
+>>      if (spapr_irq_check(spapr, errp) < 0) {
+>>          return;
+>>      }
+>> --=20
+>> 1.8.3.1
+>>
+>>
+>=20
+> Regards,
+> Daniel
+>=20
 
 
