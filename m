@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26F7211AD22
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:15:09 +0100 (CET)
-Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5683A11AD63
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:26:08 +0100 (CET)
+Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if2lf-0001eP-JH
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:15:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43129)
+	id 1if2wI-00072X-0i
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:26:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1if2i4-0000js-J5
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:11:26 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2tr-0005PM-61
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1if2i2-0007Mc-OC
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:11:24 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:45260)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1if2i2-0007Kw-4K
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:11:22 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 1054196EF0;
- Wed, 11 Dec 2019 14:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1576073479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zxBwkv3zg1HY6xig9PokwgpvT5ZZ839Y2wL/0gQQMLE=;
- b=CZ1F+oAkuu2sRi8ZJdOFBOfWsAqiauBGgy7LKvTd9TQ+KKm9fe0EuR5wvVKP0YTD32ZzFt
- oAca0TCCBBbf25Oc0XMwxHgmqrwfxRzk8B7AWcFUFrSxyunNITPkBe/Fy88m6a9/nFr82c
- qxDr58pSidQ6AivuXTMU/ZZNBAdXITY=
-Subject: Re: [PATCH] gdbstub: change GDBState.last_packet to GByteArray
-To: Luc Michel <luc.michel@greensocs.com>, qemu-devel@nongnu.org
-References: <20191206134203.77385-1-damien.hedde@greensocs.com>
- <4b7e67f1-e3c4-44d3-db36-b371eeabe2b5@greensocs.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <b2c5113c-d76e-8634-65d3-242d8375e7b4@greensocs.com>
-Date: Wed, 11 Dec 2019 15:11:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if2tq-00037z-2i
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:23:35 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40860)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1if2tp-000366-Sd; Wed, 11 Dec 2019 09:23:34 -0500
+Received: by mail-wm1-x344.google.com with SMTP id t14so7149638wmi.5;
+ Wed, 11 Dec 2019 06:23:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zl8wJ/+eVF38FZiKYMZ2pcbwsnsvBSDZWndiffPRqXo=;
+ b=ft5eIrs0OuO8yL8ZMvPVOhtaSvWZeSa47fn/CjVxkaExs3njpdBtbJLOpRKEd4UOuF
+ n4zDuQ0ryaQ5y04f+oGTc54Ov4g/hCf4CjQgq40TikW7/Xwccs7n/8PRg3xqHPnsKx+l
+ n5ozzInOTqLHtf/QLmkkNFJM4boOK8a+dnk+sdkcGh1Rsc18rjhwBXu80octz/YPbax3
+ BB2wvS62cPySRpW9f/5i47VdMNNFxiqUkxORnX5ZNOBD8zn3eOmmZ+C9yErgtE0T3QUp
+ yt5b1YdQ9PRTaxQk04mZJJsXwe6Qb7y3FiBLFBW/Mazpc4/6G1fVbQ7V+e94QRhDaqPo
+ hbdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=zl8wJ/+eVF38FZiKYMZ2pcbwsnsvBSDZWndiffPRqXo=;
+ b=cmHHbrKuP+HmDfVtruES+K6gkrYVeONW1TUKFdpSFN3dJi8CY4mpH8CXb3RvV98UG9
+ FY9NLdlaXeT08GgwANLvR6OlnqfgORKTDVe4Lvd7wPUmY4LkYE/q7yEa9/N+wb7iJxky
+ AVScIvEprzwyC1JiamZzPSKZkEO/t7vWPN+lAN6a1sbdvY5m8ELSa096uVLyqRAUIvO6
+ bDOGrzR+om5iskLfW1Gkw32E8UgH6UdfqEuJUwbiRiLP7BV5QGJXvcWVKRvIcDTKEJY3
+ rrsjH4wQcC4O8Qi4GygJe0JhdQx8u146D+H/6+yFfzM+V625Cup1h2aTuoAtGPVl60om
+ HKpQ==
+X-Gm-Message-State: APjAAAW8LClr75twTtNq3oMpQn/U4p+c9PzX6Y1g90nuluLSHXAHlTGz
+ i/NGOU7IqBu0BETb0waCQgAiNbyi
+X-Google-Smtp-Source: APXvYqy1NqYzAoJll19RJVnvT4ZvYNlPYBkM24RteR9g7nWHUuUUMwyMBDycL0nXMmDd6QnJ1x237g==
+X-Received: by 2002:a7b:cf01:: with SMTP id l1mr71045wmg.86.1576074212126;
+ Wed, 11 Dec 2019 06:23:32 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id g23sm2503783wmk.14.2019.12.11.06.23.31
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Dec 2019 06:23:31 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] build-sys: build vhost-user-gpu only if CONFIG_TOOLS
+Date: Wed, 11 Dec 2019 15:23:22 +0100
+Message-Id: <1576074210-52834-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <4b7e67f1-e3c4-44d3-db36-b371eeabe2b5@greensocs.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1576073479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zxBwkv3zg1HY6xig9PokwgpvT5ZZ839Y2wL/0gQQMLE=;
- b=MA03w+qEd+ZDeTo+QzeMWS3Hzmz56eta3EyXn64jdRwiMMqPJa/mhABYGUv6mhaCd5Udx7
- N2efjsYenpUKewH3EV9f8l0VfPnnvjCcUJV2xiWBsxfqslqyYqTK9LkChj2uIx9brp5ZYQ
- Q2VxU5kCLhn50Y+o1FvCzFGg0hACq8c=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1576073479; a=rsa-sha256; cv=none;
- b=MEIftNtQ20WWZVxCHyPHz4DSbldRV7z7/fapDliLXA9l1thYJ4gzguZu/bothsjwrLt2lk
- 1+kPHkt4e9CqmsdBZBKN1coJTOmmMDJ3SosopHb6s5QIq6bZYk7qJg1P+X+bIrepIdJjdQ
- HG4l3dvTQNCElJiZH9KdxuLFcqWHEX4=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.135.226.135
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,159 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On 12/9/19 11:15 AM, Luc Michel wrote:
-> 
-> 
-> On 12/6/19 2:42 PM, Damien Hedde wrote:
->> Remove the packet size upper limit by using a GByteArray
->> instead of a statically allocated array for last_packet.
->> Thus we can now send big packets.
->>
->> Also remove the last_packet_len field and use last_packet->len
->> instead.
->>
->> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->> ---
->>
->> This patch is a follow-up of Alex's series about sve registers
->> which introduces some GbyteArray/Gstring in the gdbstub.
->> It removes the remaining barrier to send big packets.
->>
->> Based-on <20191130084602.10818-1-alex.bennee@linaro.org>
->> ---
->>  gdbstub.c | 39 +++++++++++++++++++++------------------
->>  1 file changed, 21 insertions(+), 18 deletions(-)
->>
->> diff --git a/gdbstub.c b/gdbstub.c
->> index 7b695bdebe..022edd6bdb 100644
->> --- a/gdbstub.c
->> +++ b/gdbstub.c
->> @@ -351,8 +351,7 @@ typedef struct GDBState {
->>      int line_buf_index;
->>      int line_sum; /* running checksum */
->>      int line_csum; /* checksum at the end of the packet */
->> -    uint8_t last_packet[MAX_PACKET_LENGTH + 4];
->> -    int last_packet_len;
->> +    GByteArray *last_packet;
->>      int signal;
->>  #ifdef CONFIG_USER_ONLY
->>      int fd;
->> @@ -384,6 +383,7 @@ static void init_gdbserver_state(void)
->>      gdbserver_state.init = true;
->>      gdbserver_state.str_buf = g_string_new(NULL);
->>      gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
->> +    gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
->>  }
->>  
->>  #ifndef CONFIG_USER_ONLY
->> @@ -626,28 +626,29 @@ static void hexdump(const char *buf, int len,
->>  static int put_packet_binary(const char *buf, int len, bool dump)
->>  {
->>      int csum, i;
->> -    uint8_t *p;
->> -    uint8_t *ps = &gdbserver_state.last_packet[0];
->> +    uint8_t footer[3];
->>  
->>      if (dump && trace_event_get_state_backends(TRACE_GDBSTUB_IO_BINARYREPLY)) {
->>          hexdump(buf, len, trace_gdbstub_io_binaryreply);
->>      }
->>  
->>      for(;;) {
->> -        p = ps;
->> -        *(p++) = '$';
->> -        memcpy(p, buf, len);
->> -        p += len;
->> +        g_byte_array_set_size(gdbserver_state.last_packet, 0);
->> +        g_byte_array_append(gdbserver_state.last_packet,
->> +                            (const uint8_t *) "$", 1);
->> +        g_byte_array_append(gdbserver_state.last_packet,
->> +                            (const uint8_t *) buf, len);
->>          csum = 0;
->>          for(i = 0; i < len; i++) {
->>              csum += buf[i];
->>          }
->> -        *(p++) = '#';
->> -        *(p++) = tohex((csum >> 4) & 0xf);
->> -        *(p++) = tohex((csum) & 0xf);
->> +        footer[0] = '#';
->> +        footer[1] = tohex((csum >> 4) & 0xf);
->> +        footer[2] = tohex((csum) & 0xf);
->> +        g_byte_array_append(gdbserver_state.last_packet, footer, 3);
->>  
->> -        gdbserver_state.last_packet_len = p - ps;
->> -        put_buffer(ps, gdbserver_state.last_packet_len);
->> +        put_buffer(gdbserver_state.last_packet->data,
->> +                   gdbserver_state.last_packet->len);
->>  
->>  #ifdef CONFIG_USER_ONLY
->>          i = get_char();
->> @@ -2812,20 +2813,22 @@ static void gdb_read_byte(GDBState *s, uint8_t ch)
->>      uint8_t reply;
->>  
->>  #ifndef CONFIG_USER_ONLY
->> -    if (gdbserver_state.last_packet_len) {
->> +    if (gdbserver_state.last_packet->len) {
->>          /* Waiting for a response to the last packet.  If we see the start
->>             of a new command then abandon the previous response.  */
->>          if (ch == '-') {
->>              trace_gdbstub_err_got_nack();
->> -            put_buffer((uint8_t *)gdbserver_state.last_packet, gdbserver_state.last_packet_len);
->> +            put_buffer(gdbserver_state.last_packet->data,
->> +                       gdbserver_state.last_packet->len);
->>          } else if (ch == '+') {
->>              trace_gdbstub_io_got_ack();
->>          } else {
->>              trace_gdbstub_io_got_unexpected(ch);
->>          }
->>  
->> -        if (ch == '+' || ch == '$')
->> -            gdbserver_state.last_packet_len = 0;
->> +        if (ch == '+' || ch == '$') {
->> +            g_byte_array_set_size(gdbserver_state.last_packet, 0);
->> +        }
->>          if (ch != '$')
->>              return;
->>      }
->> @@ -3209,7 +3212,7 @@ static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
->>      const char *p = (const char *)buf;
->>      int max_sz;
->>  
->> -    max_sz = (sizeof(gdbserver_state.last_packet) - 2) / 2;
->> +    max_sz = MAX_PACKET_LENGTH / 2;
-> I think max_sz is not the same as before here.
-> 
-> Before we had (sizeof(gdbserver_state.last_packet) - 2) / 2
->            -> ((MAX_PACKET_LENGTH + 4) - 2) / 2
->            -> (MAX_PACKET_LENGTH / 2) + 1
-> 
-> Now we have MAX_PACKET_LENGTH / 2
+vhost-user-gpu is always built and installed, but it is not part of the emulator
+proper.  Cut it if --disable-tools is specified.
 
-Oups... I'll fix that.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ Makefile | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-> 
-> But looking at the gdb_monitor_output() function, it performs the
-> following check:
->     if (len > (MAX_PACKET_LENGTH/2) - 1)
->         len = (MAX_PACKET_LENGTH/2) - 1;
-> 
-> So both versions seem actually wrong and can lead to characters being
-> dropped.
-> 
-> However gdb_monitor_output() is still using a MAX_PACKET_LENGTH sized
-> local buffer. With this patch it can probably be removed entirely so
-> that last_packet is written directly (with a g_byte_array aware version
-> of memtohex?).
-> 
-Actually, Alex's patches (on which this patch is based) already do the
-memtohex aware version. But yes we can simplify this, I'll prepare a v2
-with this.
+diff --git a/Makefile b/Makefile
+index 53823c2..8d921c6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -321,14 +321,10 @@ HELPERS-y =
+ 
+ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
+ 
+-ifdef CONFIG_LINUX
+-ifdef CONFIG_VIRGL
+-ifdef CONFIG_GBM
++ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
+ HELPERS-y += vhost-user-gpu$(EXESUF)
+ vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
+ endif
+-endif
+-endif
+ 
+ # Sphinx does not allow building manuals into the same directory as
+ # the source files, so if we're doing an in-tree QEMU build we must
+-- 
+1.8.3.1
 
-Thanks,
---
-Damien
 
