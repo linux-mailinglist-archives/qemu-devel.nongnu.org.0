@@ -2,105 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A55D11B9FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:20:34 +0100 (CET)
-Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C405611BA79
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:38:42 +0100 (CET)
+Received: from localhost ([::1]:47000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if5f6-0002ti-TP
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:20:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59272)
+	id 1if5wf-0000KV-FC
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:38:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1if5TJ-0008Kt-N7
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:08:22 -0500
+ (envelope-from <stefanha@redhat.com>) id 1if5vt-0008EO-4g
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:37:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1if5TI-0007RW-GD
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:08:21 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:52915)
+ (envelope-from <stefanha@redhat.com>) id 1if5vr-0001yi-Jw
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:37:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31298
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1if5TI-0007PZ-6i
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:08:20 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MfHUx-1i47tj06Qt-00goiH; Wed, 11 Dec 2019 18:08:16 +0100
-Subject: Re: [PATCH v3 07/20] target/m68k: use gdb_get_reg helpers
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191211170520.7747-1-alex.bennee@linaro.org>
- <20191211170520.7747-8-alex.bennee@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <707af2b1-d3c3-11ac-0285-00fe31b8b426@vivier.eu>
-Date: Wed, 11 Dec 2019 18:08:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1if5vr-0001xz-GT
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:37:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576085871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pWIYYDIqxFQrMnbHb7i+JJOBoSDL2kGf0VMHwE0d70U=;
+ b=iZ35iD8I+wp6bFNqQzRuUu84MYNYom+ynydT8mf1SUwesyjEx9yt80opIwqzaxS4J6xtuy
+ +/h8W+rJEqm8q32UfWMqh7qE0qXD78aQMfvgvcQy3yKIBJ8Qre9uEPCUe8oRcMJ8z532oo
+ zBZFTyjOz3LLCXADAUyJ1TPUL3xeaPE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-neRtTF0dNvqE2kLLMKEbOw-1; Wed, 11 Dec 2019 12:37:47 -0500
+X-MC-Unique: neRtTF0dNvqE2kLLMKEbOw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89BDB107B79B;
+ Wed, 11 Dec 2019 17:37:46 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 269145E244;
+ Wed, 11 Dec 2019 17:37:40 +0000 (UTC)
+Date: Wed, 11 Dec 2019 17:37:39 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] virtio: don't enable notifications during polling
+Message-ID: <20191211173739.GA947773@stefanha-x1.localdomain>
+References: <20191209210957.65087-1-stefanha@redhat.com>
+ <20191211105755-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20191211170520.7747-8-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VltHBx8ka76KtwPv3RPVlAa4uTmun86VFpsaDC1E3CgCyZBqvfZ
- +3XcoUvRb635iaks6NfCoXWKtcrH5SFMksJg8zLNhPqBeBWY0jGPokS2H4aZNE0vRSJ3BBW
- 1zXmwLxHjWSu9e9uD3HCTFAYnsKRMXSp/m5WcknWXkIhHQ1d+io+gh02FOR/BubjtuGvcHL
- cOjoamKkNq5PYgjIaNwuQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s8igVXrLxNI=:DU1HXnA6gf5Z7tpvfyH5W8
- YJroUCLKhVz9AS8yc7pymIftuk67ED7y51MXFbIfdLjwFwtlwL5V5aYiVY3NNuW3BY7iAiDL3
- 60c/b41GRlQ4Y+PU4ePjNUAkikSLNaBWXNvkxxREzKu7PA2UPG4VZFAUaIG9KwaW8m0U4eUtD
- r1MhfHPIwHvorM/HvCS18xsaSBexrvff58lIOTGK6vOIapF6/7XCTnLi5cCaB38dfAYGKwv4f
- oGkrnbIPQmjAmOQLjfTAyfUhyvKiEFWdlxItVpRsr1/sqVhEK26qAuLPpMgXgR44SNrOu5+Nn
- pu5u/aXbcCmWCAa17kd+uB+Dr57hfqWQqVdUQPUi/CBkDmIVmlDhyD0tA7EmajAl9RFCsN+43
- fPEw1s/L0JBvgGkBil0p63b49xOS5n8XBkYY+bXujyyCyMrOYa+6bi1xkKgoO9gkA2Lr5aIGB
- 14glOY54MdlIJppqdXV+Z+GuyD7ykZ2Qq/g+Fq9lXFl0n5x9UTbcGW6kMUH1syoivMPIaGaj3
- DbYpj+0nGuGXtH0VKN/24D/nBQMxupcuf++MIC8LOYUxFca0UhNlez9eT9ka+W8pipcP7zsYK
- EB9pd9m9AyZcbKQycluq4GZDYOpOOq+9w8AVZ0JKR5Dy/C5MrRHPnTmG8j9F9x3wTxFIBrijD
- tRXZMd4+s/x0fap4bUFrQyZkmm2MaT5BEqbsvWRry2W5J7bNwQxkUGh5syOsqZS413LqyzsD0
- x2x59L9CiU/8XlDHMC/O+KOtgnEGFEMFRHjC3x2O7ozNuMTx6bTSQ0xeQWumgXkdrtB5XZPZ/
- RdoNW+MDspi5M79WxNDUEHj3cDchC1sgd/fjjpEfqNbZFY1I4wfbrLw6y6Uq417LjXmGw2wpB
- LS9nuBG4EpC54XvLqOHQ==
+In-Reply-To: <20191211105755-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.130
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,27 +72,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
- richard.henderson@linaro.org, alan.hayward@arm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/12/2019 à 18:05, Alex Bennée a écrit :
-> This is cleaner than poking memory directly and will make later
-> clean-ups easier.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> ---
-> v3
->   - fix mem_buf references
->   - fix mem_buf + len cases
-> ---
->  target/m68k/helper.c | 29 +++++++++++------------------
->  1 file changed, 11 insertions(+), 18 deletions(-)
-> 
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+On Wed, Dec 11, 2019 at 10:58:43AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Dec 09, 2019 at 09:09:57PM +0000, Stefan Hajnoczi wrote:
+> > Virtqueue notifications are not necessary during polling, so we disable
+> > them.  This allows the guest driver to avoid MMIO vmexits.
+> > Unfortunately the virtio-blk and virtio-scsi handler functions re-enabl=
+e
+> > notifications, defeating this optimization.
+> >=20
+> > Fix virtio-blk and virtio-scsi emulation so they leave notifications
+> > disabled.  The key thing to remember for correctness is that polling
+> > always checks one last time after ending its loop, therefore it's safe
+> > to lose the race when re-enabling notifications at the end of polling.
+> >=20
+> > There is a measurable performance improvement of 5-10% with the null-co
+> > block driver.  Real-life storage configurations will see a smaller
+> > improvement because the MMIO vmexit overhead contributes less to
+> > latency.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>=20
+>=20
+> Thanks! I'll queue it for merge after the release. If possible please pin=
+g me
+> after the release to help make sure it didn't get dropped.
+
+Great, thanks!
+
+Stefan
+
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3xKWMACgkQnKSrs4Gr
+c8jgTgf/YX9xz9hKasZbmEcl/CS0YSLJuhHP0Yd/c78/Q7NdZerefh2j31vP9dzc
+EHEFFnPwk7E1lp97JALYahV9ETiZ98hN0/EJEA13f+hGrFs1Ps7eTW8C0d3yb/XH
+9aYf/buuaLAflelT8EUc7CFzFzYn88R1+iER3OqLvh+On+rGa8RK1kJAeJyaNSw2
+EL1YxgPrsDKbHPzEPart3xo9dTBSSDqnc8q2XzJ/e9A8TWB0aA3ZoD1g34zfC9WW
+dp7RiNdbSUkuZw56qlgLSRXCNVUE7OJeEYPzorI8o80KQf8+gz8HYAvzagey7nPb
+XJp+XriIcQjhb+OKLkKFqI04h9+cCw==
+=DMNr
+-----END PGP SIGNATURE-----
+
+--WIyZ46R2i8wDzkSu--
 
 
