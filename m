@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D6011B734
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 17:06:24 +0100 (CET)
-Received: from localhost ([::1]:45100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44BA11B84F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 17:15:51 +0100 (CET)
+Received: from localhost ([::1]:45284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if4VL-0003Ng-Q2
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 11:06:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39981)
+	id 1if4eU-0000If-4f
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 11:15:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1if4U6-0002XQ-BD
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:05:07 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1if4UQ-0002wR-Hi
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:05:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1if4U5-0003O7-4q
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:05:06 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36628)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1if4U4-0003LM-VR
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:05:05 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBBG3VN8037864
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 11:05:03 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wtf6yj1wm-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 11:05:01 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 11 Dec 2019 16:04:19 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 11 Dec 2019 16:04:17 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xBBG3Y2A46793114
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Dec 2019 16:03:34 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1FD3442049;
- Wed, 11 Dec 2019 16:04:16 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D368742041;
- Wed, 11 Dec 2019 16:04:15 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.152.115])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 11 Dec 2019 16:04:15 +0000 (GMT)
-Subject: [PATCH v2] ppc/pnv: Make PnvXScomInterface an incomplete type
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 11 Dec 2019 17:04:15 +0100
-User-Agent: StGit/unknown-version
+ (envelope-from <damien.hedde@greensocs.com>) id 1if4UP-0003wl-Ag
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:05:26 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:49342)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1if4UO-0003uC-Nx
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 11:05:25 -0500
+Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
+ [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 9510096EF0;
+ Wed, 11 Dec 2019 16:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1576080322;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7ZbBjtI4dr6fjhdNdYGM+WXuaoVgIRl6Ax5D6XSQADc=;
+ b=uuyk14+PBQQF54KDIehtjdPAEVAhzLefQIvK+0OwynIWtFtfO55cv/cCz9IzlH0+8QZLcC
+ yVt1PbudVx1LkjCnQU+35QCt4i+kXrPszA11fKL/CbE11tdtWSkMSr3CGQec2kgcPE0LGo
+ elrIoSddy6dkxjZAyVA0O1ezCjFg+e0=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] gdbstub: allow sending packet of arbitrary length
+Date: Wed, 11 Dec 2019 17:05:12 +0100
+Message-Id: <20191211160514.58373-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19121116-0008-0000-0000-0000033FDB77
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121116-0009-0000-0000-00004A5F1264
-Message-Id: <157608025541.186670.1577861507610404326.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-11_04:2019-12-11,2019-12-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 adultscore=0 clxscore=1034 malwarescore=0
- suspectscore=0 impostorscore=0 bulkscore=0 phishscore=0 spamscore=0
- mlxscore=0 mlxlogscore=738 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912110135
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset=UTF-8
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1576080322;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7ZbBjtI4dr6fjhdNdYGM+WXuaoVgIRl6Ax5D6XSQADc=;
+ b=M0YQVGFpjMdkuK1ZLPL0HVk/LN+A9afpjO+aVzY9VY1ZXzngAcrBTxLL/+0Uk/foOyZKWV
+ ew08S73y+LHMF3XOVxqtAvRk0ap03tFQ6KysuQGxwjkqesMxiEi2eB3CsNjWP1Jz56H14O
+ YDM5qDdT+g4LKq6399Mggrvid91QSwI=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1576080322; a=rsa-sha256; cv=none;
+ b=HjtCvj9FlJokZBsCiOYul7BSGDr9DVI1tHSW8P6zy30Ffco7133XMiJq/tj+iOfaSdFFRj
+ uEMPl+435q6yWCBuT65uGWUJ7/ydQLe81/ko+Y5bh5GY7+uGC+xKeP0Unu2+VuasVX5oWw
+ dCwTBU5nAR2C/s6npheLZba9FxlYULY=
+ARC-Authentication-Results: i=1;
+	beetle.greensocs.com;
+	none
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,43 +73,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>, philmd@redhat.com,
+ alex.bennee@linaro.org, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PnvXScomInterface is an interface instance. It should never be
-dereferenced. Drop the dummy type definition for extra safety,
-which is the common practice with QOM interfaces.
+Hi All,
 
-While here also convert the bogus OBJECT_CHECK() to INTERFACE_CHECK().
+This series is a follow-up of Alex's series about sve registers
+which introduces some GbyteArray/Gstring in the gdbstub.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
-v2: convert OBJECT_CHECK() to INTERFACE_CHECK()
----
- include/hw/ppc/pnv_xscom.h |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+It removes the remaining barrier to send big packets.
 
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index 1c1d76bf9be5..306c22461587 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -22,13 +22,11 @@
- 
- #include "qom/object.h"
- 
--typedef struct PnvXScomInterface {
--    Object parent;
--} PnvXScomInterface;
-+typedef struct PnvXScomInterface PnvXScomInterface;
- 
- #define TYPE_PNV_XSCOM_INTERFACE "pnv-xscom-interface"
- #define PNV_XSCOM_INTERFACE(obj) \
--     OBJECT_CHECK(PnvXScomInterface, (obj), TYPE_PNV_XSCOM_INTERFACE)
-+    INTERFACE_CHECK(PnvXScomInterface, (obj), TYPE_PNV_XSCOM_INTERFACE)
- #define PNV_XSCOM_INTERFACE_CLASS(klass)                \
-     OBJECT_CLASS_CHECK(PnvXScomInterfaceClass, (klass), \
-                        TYPE_PNV_XSCOM_INTERFACE)
+In consequence, we can slso simply gdb_monitor_write().
+
+Based-on <20191130084602.10818-1-alex.bennee@linaro.org>
+
+v2:
++ patch 1: fix gdb_monitor_write() max_sz error (Luc)
++ patch 2: new patch (Luc)
+
+--
+Damien
+
+Damien Hedde (2):
+  gdbstub: change GDBState.last_packet to GByteArray
+  gdbstub: do not split gdb_monitor_write payload
+
+ gdbstub.c | 60 +++++++++++++++++++++----------------------------------
+ 1 file changed, 23 insertions(+), 37 deletions(-)
+
+--=20
+2.24.0
 
 
