@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F13A11AE19
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:46:42 +0100 (CET)
-Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF2F11AE3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 15:49:51 +0100 (CET)
+Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if3GC-0001K2-T3
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:46:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52485)
+	id 1if3JG-0003gh-Bk
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 09:49:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1if3Ex-0000ka-W3
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:45:24 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if3GA-0001dC-Km
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:46:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1if3Ew-0003IR-C1
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:45:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27730
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1if3Ew-0003GF-5H
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:45:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576075520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=4aJjamctqMyrJrduHQMjmFHKX87+PUspY03vPhNAqXQ=;
- b=GWPiw61sSKO2+Yr/BxTgVfk89plDqYhMXIXtOSUQY+jDnnDUvdhIYVIjbudJGwk9cpvgOI
- uz93Ws0Ers17fFE6skuYvvS7q8Dm94TT2vn+tzEJqeeUTL8T2YYTtCqlJL5Xd4adeHrh9f
- XG8h/bTFZBsifV4jqcCjhsR7i1RAl6o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-c4wqAx-QPyC4FclpPsfhUQ-1; Wed, 11 Dec 2019 09:45:19 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 118B98DFC71;
- Wed, 11 Dec 2019 14:45:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-11.ams2.redhat.com [10.36.117.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 975295D6A3;
- Wed, 11 Dec 2019 14:45:14 +0000 (UTC)
-Subject: Re: [PATCH] tests: skip block layer tests if !CONFIG_TOOLS
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1576074293-53357-1-git-send-email-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <2bf62e63-5f05-49bd-17f6-aa3754561491@redhat.com>
-Date: Wed, 11 Dec 2019 15:45:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <1576074293-53357-1-git-send-email-pbonzini@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: c4wqAx-QPyC4FclpPsfhUQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ (envelope-from <paolo.bonzini@gmail.com>) id 1if3G9-0004oS-DP
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:46:38 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41411)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1if3G9-0004n3-6v
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 09:46:37 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id c9so24333601wrw.8
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 06:46:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id;
+ bh=USDqUNCM4KMduVA1uLz1BsaNkE7bd5fbPPNLbt82HNw=;
+ b=R4nW0dnGIdSkqVkmrivPNCyd+akvvjsoWWoqfyYgZ1okIGy9zfv/amz9s9wnJZTVTm
+ VFyRehROrwvQ7gDFc3svarmA+F9smg1tuoX6oRFD19uttkCIbslPzeDpDEEO4ngYiJqa
+ aLdmBbTyTqyPGsbPewecCL7OLu7E90Oulot6dqf/5jhTNqSnf08ftgp40TjVf4KPAIWx
+ x7cIPFLqCzH2CmsVCHr9g5yyj8YkKLnRaHJWEM8hNKf6YCBsngg9CjwlgNOJJO4uXxxV
+ Gv/5oPtZFQrFfyAah+oFAKBvA1DauiJTIwIiMZfigin/hseYqnxIsS2US8eZ5aRCd+J3
+ Vttw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id;
+ bh=USDqUNCM4KMduVA1uLz1BsaNkE7bd5fbPPNLbt82HNw=;
+ b=YoTeiEDfS5Qp6vFqPrxfh8AVH3ku7cU6aY1tHZSqONgx1HiB2NYkqqvrkAJXihin19
+ nQT35QzzcZvijAWvX/rX4oCnxJ/wKfC/W/vB7vTQ8zDc1x77CVJZPXNvnv6RZyT/QwZz
+ ewKQThHR3fWskrkf9adLSiCh+7pOqGY4FDA3pd7Cd+sih9VnZdnQ141W1ufPs5G8mJfo
+ p7SRcJQ/S+RcRMTWL8nAjBQmHlAUNAtau1uKD64AGpdHlBocdaTcF+xRuVNJ2ElZtGMV
+ CLOv3WtTF4hg6t4PdY12PGrRfvJJwNN6nGtHilFDSxrGtzaH34m7Z1+0FJZTrUWAzrQY
+ sasQ==
+X-Gm-Message-State: APjAAAUxUSQVWvpOjDjIdq+deU3EYI7u57bB/+NfM+hM86KTmj3gBalv
+ 7E2RfhhS2m8N72G7tfpOQdTIT7UU
+X-Google-Smtp-Source: APXvYqyGF8/UMmINORJiSwkY2NOR7cCyJKgSd4kLguFFOjzFv4xtUUx5i2kEi4HdPDx+fS+vhyTxSQ==
+X-Received: by 2002:adf:e2cf:: with SMTP id d15mr127933wrj.225.1576075595663; 
+ Wed, 11 Dec 2019 06:46:35 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id z4sm2588279wme.17.2019.12.11.06.46.34
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Dec 2019 06:46:34 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ff Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 11 Dec 2019 15:46:33 +0100
+Message-Id: <1576075593-50346-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,39 +72,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/2019 15.24, Paolo Bonzini wrote:
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->=20
-> The block tests, as well as ahci-test needs qemu-img.  Do not run
-> them if it wasn't built.
->=20
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/Makefile.include | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 8566f5f..f07c761 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -169,7 +169,9 @@ check-qtest-pci-$(CONFIG_IVSHMEM_DEVICE) +=3D tests/i=
-vshmem-test$(EXESUF)
->  check-qtest-i386-$(CONFIG_ISA_TESTDEV) =3D tests/endianness-test$(EXESUF=
-)
->  check-qtest-i386-y +=3D tests/fdc-test$(EXESUF)
->  check-qtest-i386-y +=3D tests/ide-test$(EXESUF)
-> +ifeq ($(CONFIG_TOOLS),y)
->  check-qtest-i386-y +=3D tests/ahci-test$(EXESUF)
-> +endif
+---
+ hw/ppc/e500.c      | 1 -
+ hw/ppc/spapr_irq.c | 8 --------
+ 2 files changed, 9 deletions(-)
 
-Please use "check-qtest-i386-$(CONFIG_TOOLS) +=3D ..." instead.
-
- Thomas
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 928efaa..12b6a5b 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -793,7 +793,6 @@ static DeviceState *ppce500_init_mpic(PPCE500MachineState *pms,
+                                       MemoryRegion *ccsr,
+                                       IrqLines *irqs)
+ {
+-    MachineState *machine = MACHINE(pms);
+     const PPCE500MachineClass *pmc = PPCE500_MACHINE_GET_CLASS(pms);
+     DeviceState *dev = NULL;
+     SysBusDevice *s;
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index c3f8870..15c3dd4 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -74,7 +74,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptController *, Error **),
+                        SpaprInterruptController *intc,
+                        Error **errp)
+ {
+-    MachineState *machine = MACHINE(qdev_get_machine());
+     Error *local_err = NULL;
+ 
+     if (kvm_enabled() && kvm_kernel_irqchip_allowed()) {
+@@ -287,7 +286,6 @@ uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
+ 
+ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+ {
+-    MachineState *machine = MACHINE(spapr);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+ 
+     if (kvm_enabled() && kvm_kernel_irqchip_split()) {
+@@ -295,12 +293,6 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+         return;
+     }
+ 
+-    if (!kvm_enabled() && kvm_kernel_irqchip_required()) {
+-        error_setg(errp,
+-                   "kernel_irqchip requested but only available with KVM");
+-        return;
+-    }
+-
+     if (spapr_irq_check(spapr, errp) < 0) {
+         return;
+     }
+-- 
+1.8.3.1
 
 
