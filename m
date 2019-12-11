@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0159811AB8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 14:07:48 +0100 (CET)
-Received: from localhost ([::1]:41796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED40C11AC08
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 14:26:45 +0100 (CET)
+Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if1iU-0004o9-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 08:07:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55146)
+	id 1if20q-0007aV-8m
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 08:26:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1if1gy-0003hF-5h
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:06:14 -0500
+ (envelope-from <kwolf@redhat.com>) id 1if1zQ-0006wZ-8Z
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:25:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1if1gw-00035O-Ve
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:06:12 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34273)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1if1gv-00030x-Lw
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:06:09 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so23986753wrr.1
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 05:06:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=j6HHlT6J093i0KH+E444P6RkaJOr2gNObY68xIKCC6E=;
- b=eFuLAcZ64Z2gNuuG0jca2vRZnFaZjwtmbpwpLeKbmkPPPQ8epGgTa7D2ONI5KCLFpl
- fkCNsPK+oRsD5eOH+ItmES4+4fgxcHmRNrI03RPBBBX7eGamnVcUxSznWCMbHZUxRBJF
- llzhXGZfmq4eUOEhVBNGIeEvdR9NEH3k4Ky0qYevyb35lEIQfonNcYPBgd+cFjEXykeY
- ZzSZNbyxJ3nTyxr8Q9wHEast4FfcKzPuRbExuARzdI0k5kQR/iiodWbJLux15hGk3gNG
- VJYqWndeo7sabBwh2nZH0+/qCWpK4Ff/bnXn7U5B984a2xaw+PwSDrXOggiVexvCN7vJ
- O0wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=j6HHlT6J093i0KH+E444P6RkaJOr2gNObY68xIKCC6E=;
- b=NKNa6SGG2X7fyZ4/rGucQP+CbUofEDDtu9YvpbVP1ZhO/mcMNdpWhoh+FTd72Wnhfa
- lhUd73BvF4bdDuADV7QduIiHikFWW/doejmIR0LlWAp6U8Qy0kHjyoDQ23y3174V8W79
- Por8H7pN5uEJWRonNcpQTuYSI1eMRUR2WUFci8fdtUbLzIc9lrUVtZJ8vMeCnGJUJcgO
- vxEG1W5NrHeNTyvlDCUbpc7lrn/1X/ftyHhOCTcV2w8K1JwU0+CyED4I96QVXk+vtC/a
- /SDM5E8peCYsgXDZm9iuN1s5dg6n1Q6TXZkK2H+9VeglllJ2+ynwQVkWIqEppottsfeI
- 6Fsg==
-X-Gm-Message-State: APjAAAV/qt+Xz9y3dXRJI4kOV9DAeNIzL5UOvEkTmCV0nINWBLj2qmCj
- R5fibIoaEIqO0Bgbrja2Zk/dWrFdOvfh3bG5H+5wRmGm
-X-Google-Smtp-Source: APXvYqwwUAs4ktg6UlK6hVu6sriWd0q7Y655nYb4oO5aVFE/x9FE8fSzqQ1ADv+D5I2hyorOuDnG+ojwQYBpokLaPYQ=
-X-Received: by 2002:adf:f10a:: with SMTP id r10mr3430373wro.202.1576065697198; 
- Wed, 11 Dec 2019 04:01:37 -0800 (PST)
+ (envelope-from <kwolf@redhat.com>) id 1if1zO-0002Gc-0b
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:25:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32532
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1if1zN-0002Fs-Rw
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 08:25:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576070713;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eWLcZmzWP1thshO5+8HaCofQSktkf9qVOpCeFPvffbw=;
+ b=FhRumh8w7CCrBxokrE/Kp3bxLtAR+PVtENRuyq5YOjAfgb9WTohvwqinYvHGMZ+M7+Oz4E
+ FIkoYKXXICJC6Q3/wHSH4vyRriKbjcwggJs3zeGH8uFWGeYDJzZwMYNOh03IGLTgwTc3j0
+ qLjrbHRiOK963O2v3rcOzHQj+iPsWGk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-spLs-IgbMKehH6FcwleFHg-1; Wed, 11 Dec 2019 07:24:20 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE286477;
+ Wed, 11 Dec 2019 12:24:19 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96F1B5C1B5;
+ Wed, 11 Dec 2019 12:24:18 +0000 (UTC)
+Date: Wed, 11 Dec 2019 13:24:17 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: Insufficiently documented deprecated command arguments
+Message-ID: <20191211122417.GB6505@linux.fritz.box>
+References: <87tv67wa9y.fsf@dusky.pond.sub.org>
+ <20191211093317.GB2441258@angien.pipo.sk>
+ <20191211101439.GA6505@linux.fritz.box>
+ <20191211105147.GC2441258@angien.pipo.sk>
 MIME-Version: 1.0
-References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
- <CAJ+F1CLV_JRhXX=tB7ZXYxa1En4LzYgJr+7egKzVRNBOLY2nSA@mail.gmail.com>
-In-Reply-To: <CAJ+F1CLV_JRhXX=tB7ZXYxa1En4LzYgJr+7egKzVRNBOLY2nSA@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 11 Dec 2019 16:01:25 +0400
-Message-ID: <CAJ+F1CLS4HV-SckggfYNRKXxPa0R2BxSQrpPv8CRVkfvRB3E4w@mail.gmail.com>
-Subject: Re: [PATCH v4 00/37] Clean-ups: qom-ify serial and remove
- QDEV_PROP_PTR
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191211105147.GC2441258@angien.pipo.sk>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: spLs-IgbMKehH6FcwleFHg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,47 +75,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Am 11.12.2019 um 11:51 hat Peter Krempa geschrieben:
+> On Wed, Dec 11, 2019 at 11:14:39 +0100, Kevin Wolf wrote:
+> > Am 11.12.2019 um 10:33 hat Peter Krempa geschrieben:
+> > > On Wed, Dec 11, 2019 at 09:12:41 +0100, Markus Armbruster wrote:
+> > > >     Commit 7a9877a026 "block: Accept device model name for
+> > > >     block_set_io_throttle" (v2.8.0) deprecated block_set_io_throttl=
+e
+> > > >     argument @device.
+> > >=20
+> > > This one is more complex. The command is used both in 'blockdev' and =
+in
+> > > 'drive' mode:
+> > >=20
+> > > In 'drive' mode we pass the alias of the 'drive' as the @device
+> > > argument.
+> > >=20
+> > > In 'blockdev' mode we pass the qom name as @id
+> >=20
+> > Any reason you couldn't use the QOM name even in 'drive' mode for any
+> > QEMU version that has the @id option?
+>=20
+> Honestly, I didn't want to change the existing implementation at all.
+>=20
+> If it will help I can change that as it will be pretty easy to do.
 
-On Sun, Dec 1, 2019 at 2:19 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
->
-> - "chardev: generate an internal id when none given"
->
-> As explained, this is necessary for qdev_prop_set_chr()
+You can keep it for until after the blockdev dust has settled. It would
+"just" be to address the deprecation since QEMU 2.8, not because of any
+functional change.
 
-ping
+> >=20
+> > > >     Commit c42e8742f5 "block: Use JSON null instead of "" to disabl=
+e
+> > > >     backing file" (v2.10.0) deprecated blockdev-add empty string
+> > > >     argument @backing.
+> > >=20
+> > > This is used in 'blockdev' mode only and we always pass the JSON null=
+ or
+> > > a node name string.
+> >=20
+> > Here the thing to consider might be that JSON null isn't easy to use on
+> > the command line for manual users.
+> >=20
+> > > >     These were missed in commit eb22aeca65 "docs: document deprecat=
+ion
+> > > >     policy & deprecated features in appendix" (v2.10.0).
+> > > >=20
+> > > >     Commit 3c605f4074 "commit: Add top-node/base-node options" (v3.=
+1.0)
+> > > >     deprecated block-commit arguments @base and @top.
+> > >=20
+> > > This command also has two modes:
+> > >=20
+> > > In 'drive' mode we pass in path strings as @base and @ top.
+> > >=20
+> > > In 'blockdev' mode we pass in nodenames as @base-node and @top-node.
+> > >=20
+> > > Starting from qemu-4.2 libvirt uses 'blockdev' mode for VMs unless an=
+ SD
+> > > card is configured as we didn't convert to the '-device' approach for
+> > > those as AFAIK not everything is possible to be converted.
+> >=20
+> > Hm... I guess in 'drive' mode, you stil don't assign node names, so you
+> > actually have to rely on paths?
+>=20
+> Well, in some specific cases we could detect the node names
+> auto-assigned by qemu and use them instead of paths, but in my opinion
+> it's not worth the effort and extra code.
 
->
-> - "serial: register vmsd with DeviceClass"
->
-> This is standard qdev-ification, however it breaks backward migration,
-> but that's just how qdev_set_legacy_instance_id() works.
+Well, the question is what to do on the QEMU side then. Deprecation
+should mean that we have a plan for removing the feature. If we're
+planning to keep the feature indefinitely because libvirt needs it, we
+might want to consider removing the deprecation notice.
 
-See thread, someone could review or nack (if backward migration is a proble=
-m).
+(Though honestly, keeping this one indefinitely feels wrong because
+using file names to identify nodes was really one of the worse ideas.)
 
->
-> - "sm501: make SerialMM a child, export chardev property"
->
-> review?
+Kevin
 
-ping
-
->
-> - "qdev/qom: remove some TODO limitations now that PROP_PTR is gone"
->
-> This should be straightforward.
-
-ping
-
-thanks
-
---=20
-Marc-Andr=C3=A9 Lureau
 
