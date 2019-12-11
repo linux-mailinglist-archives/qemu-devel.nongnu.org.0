@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D26D11B9A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:08:41 +0100 (CET)
-Received: from localhost ([::1]:46338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B9911B99E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Dec 2019 18:08:20 +0100 (CET)
+Received: from localhost ([::1]:46326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1if5Tc-0007ZP-1i
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:08:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37479)
+	id 1if5TF-0006vg-PC
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 12:08:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1if5MT-0001gt-4R
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:01:18 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1if5QU-0004s4-EG
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:05:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1if5MR-0004zz-M3
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:01:16 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58261
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1if5MR-0004yu-H7
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:01:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576083675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jGH2WxoQ5eUGnr8ZWjZsY/+FUNqTYhp5iCq8fgcFwPY=;
- b=FPV6SPPqJKmt7IOiCCta55mczG30l92VZ4rFGG3msVxUXvgmETERBJk5rVa1CM5W64lqix
- ZRstmrsWUhFuoIh3wcreKxtQZWhFQvgq9tPI/I+/XM+Z+Gtg26A/nTfAjJlITDVlubxvzO
- AgUFJNOoAeUmTNQHMDaXNPO5dUtRo8A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388--0pb-_NIOlCO4Vn37QV3Og-1; Wed, 11 Dec 2019 12:01:12 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A2A8800D5A;
- Wed, 11 Dec 2019 17:01:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-181.ams2.redhat.com
- [10.36.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4774C1001938;
- Wed, 11 Dec 2019 17:01:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8EA8D11386A7; Wed, 11 Dec 2019 18:01:03 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] object: Improve documentation of interfaces
-References: <157607116183.174911.9764813135617350231.stgit@bahia.lan>
-Date: Wed, 11 Dec 2019 18:01:03 +0100
-In-Reply-To: <157607116183.174911.9764813135617350231.stgit@bahia.lan> (Greg
- Kurz's message of "Wed, 11 Dec 2019 14:32:41 +0100")
-Message-ID: <875zimu78w.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <alex.bennee@linaro.org>) id 1if5QS-0002zt-Po
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:05:26 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46688)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1if5QS-0002xt-FS
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 12:05:24 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id z7so24752312wrl.13
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 09:05:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hLJ/BFRwgmTY0fBftGO4fFir5tGVTnnqvUClhbQxS6g=;
+ b=hqzw4dpDHVTFj4lOha8n9zDymrFGKzDnxbdrVEJ3bk+i2Yz/n6nxUTJ6D8icqb7MlJ
+ rKH8QC+vvW26Biwb7Ekfj7jNUwsf7eIxSev6CV1T+Irpw709898CtnaWKczI8BorKedk
+ U7vcTQGwkqq0O5rzprIaV9QTNxWFKQLxlq+GX35Yxovf4mT6pWrQ4dCp5sTqdMtfbUuA
+ 6ZPO4nyAvks5qPlj5ajpKrQhsmBWenhuowF59mSUN3oEL+xOyF4WibLhveC73FOFhN2i
+ 3sHKzEMG7H8XjPnBWnDOJU5fKeIidp/q4htFZPI+IESIJwJV0PEaoPIz/L7cmu3AXFjk
+ fz3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hLJ/BFRwgmTY0fBftGO4fFir5tGVTnnqvUClhbQxS6g=;
+ b=dgE8IXW4WGunf8i4RjtI5ZlYTB1thQ1fsVX3wVxyHxamttFZ/zO3lhqP224/+WZgtH
+ bo8DuXkqq8iXZVubkYbJGiyLPGVdXVpYUWjmGaMS1oRZ/maYiyIwWcH/hcE4AYYqjAY1
+ I0UgVZEtCY/0wnw6fInKSAyLEq/2L9BHcA/T8loR9J8ur1RcCItmcdiY29xtLIvxkZCV
+ qojBRXkmmSx/Q3/3oNK2rMF4IpnQZFAQERukoCYFc5UaZMAV5mS1dSzpK+TG2iGtrrAx
+ 0rYi0o3OJfodg7Cs+4s8heOSaSMXkRf2+fI8PeXcmZ0FazgCSviAuwUkAVgEu4nCAoKy
+ Kccw==
+X-Gm-Message-State: APjAAAVWRfbezZQKxkqQ5lBVijehdh/tKMZpY7DIMhJm6Q2FBkV9AmZO
+ iYskHS+RZb/YaQgJ0PDIZFtZbQ==
+X-Google-Smtp-Source: APXvYqxJHwZvM+cK/ZPzYnbhrlEqx9UaqWVPVp8jc6r0Wn+iLiuFHYGzyODBt29fOwrfjQTtwglPvA==
+X-Received: by 2002:adf:db84:: with SMTP id u4mr850022wri.317.1576083922645;
+ Wed, 11 Dec 2019 09:05:22 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a84sm2977777wme.44.2019.12.11.09.05.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2019 09:05:21 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CC1001FF87;
+ Wed, 11 Dec 2019 17:05:20 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/20] gdbstub refactor and SVE support (+check-tcg tweaks)
+Date: Wed, 11 Dec 2019 17:05:00 +0000
+Message-Id: <20191211170520.7747-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: -0pb-_NIOlCO4Vn37QV3Og-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,70 +79,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
+Hi,
 
-> QOM interfaces allow a limited form of multiple inheritance, at the
-> condition of being stateless. That is, they cannot be instantiated
-> and a pointer to an interface shouldn't be dereferenceable in any way.
-> This is achieved by making the QOM instance type an incomplete type,
-> which is, as mentioned by Markus Armbruster, the closest you can get
-> to abstract class in C.
->
-> Incomplete types are widely used to hide implementation details, but
-> people usually expect to find at least one place where the type is
-> fully defined. The fact that it doesn't happen with QOM interfaces is
-> quite disturbing, especially since it isn't documented anywhere as
-> recently discussed in this thread:
->
-> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg01579.html
->
-> Amend the documentation in the object.h header file to provide more
-> details about why and how to implement QOM interfaces using incomplete
-> types.
->
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  include/qom/object.h |   10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index 128d00c77fd6..5cf98d2c4350 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -200,8 +200,14 @@ typedef struct InterfaceInfo InterfaceInfo;
->   *
->   * Interfaces allow a limited form of multiple inheritance.  Instances a=
-re
->   * similar to normal types except for the fact that are only defined by
-> - * their classes and never carry any state.  You can dynamically cast an=
- object
-> - * to one of its #Interface types and vice versa.
-> + * their classes and never carry any state.  As a consequence, a pointer=
- to
-> + * an interface instance should always be of incomplete type in order to=
- be
-> + * sure it cannot be dereferenced.  That is, you should define the
-> + * 'typedef struct SomethingIf SomethingIf' so that you can pass around
-> + * 'SomethingIf *si' arguments, but not define a 'struct SomethingIf { .=
-.. }'.
-> + * The only things you can validly do with a 'SomethingIf *' are to pass=
- it as
-> + * an argument to a method on its corresponding SomethingIfClass, or to
-> + * dynamically cast it to an object that implements the interface.
->   *
->   * # Methods #
->   *
+In this update of the SVE support I've addressed the review comments
+as well expanding the test cases for SVE. I've included a few fixes
+for check-tcg to allow for the inclusion of SVE enabled test cases.
+This includes including the userspace ID register test as I needed to
+do something similar for the SVE specific test.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+I think this is ready to be merged once the tree re-opens.
+
+The following patches need review
+  08 - gdbstub extend GByteArray to read register helper
+  09 - target arm prepare for multiple dynamic XMLs
+  11 - target arm default SVE length to 64 bytes for lin
+  12 - target arm generate xml description of our SVE re
+  13 - tests tcg add a configure compiler check for ARMv
+  14 - target arm don t bother with id_aa64pfr0_read for
+  15 - tests tcg aarch64 userspace system register test
+  16 - tests tcg ensure we re configure if configure.sh 
+  17 - tests guest debug add a simple test runner
+  18 - tests tcg aarch64 add a gdbstub testcase for SVE 
+  19 - tests tcg aarch64 add SVE iotcl test
+  20 - tests tcg aarch64 add test sve ioctl guest debug 
+
+Alex Bennée (20):
+  gdbstub: make GDBState static and have common init function
+  gdbstub: stop passing GDBState * around and use global
+  gdbstub: move str_buf to GDBState and use GString
+  gdbstub: move mem_buf to GDBState and use GByteArray
+  gdbstub: add helper for 128 bit registers
+  target/arm: use gdb_get_reg helpers
+  target/m68k: use gdb_get_reg helpers
+  gdbstub: extend GByteArray to read register helpers
+  target/arm: prepare for multiple dynamic XMLs
+  target/arm: explicitly encode regnum in our XML
+  target/arm: default SVE length to 64 bytes for linux-user
+  target/arm: generate xml description of our SVE registers
+  tests/tcg: add a configure compiler check for ARMv8.1 and SVE
+  target/arm: don't bother with id_aa64pfr0_read for USER_ONLY
+  tests/tcg/aarch64: userspace system register test
+  tests/tcg: ensure we re-configure if configure.sh is updated
+  tests/guest-debug: add a simple test runner
+  tests/tcg/aarch64: add a gdbstub testcase for SVE registers
+  tests/tcg/aarch64: add SVE iotcl test
+  tests/tcg/aarch64: add test-sve-ioctl guest-debug test
+
+ include/exec/gdbstub.h                      |  49 +-
+ include/hw/core/cpu.h                       |   2 +-
+ target/alpha/cpu.h                          |   2 +-
+ target/arm/cpu.h                            |  31 +-
+ target/cris/cpu.h                           |   4 +-
+ target/hppa/cpu.h                           |   2 +-
+ target/i386/cpu.h                           |   2 +-
+ target/lm32/cpu.h                           |   2 +-
+ target/m68k/cpu.h                           |   2 +-
+ target/microblaze/cpu.h                     |   2 +-
+ target/mips/internal.h                      |   2 +-
+ target/openrisc/cpu.h                       |   2 +-
+ target/ppc/cpu.h                            |   4 +-
+ target/riscv/cpu.h                          |   2 +-
+ target/s390x/internal.h                     |   2 +-
+ target/sh4/cpu.h                            |   2 +-
+ target/sparc/cpu.h                          |   2 +-
+ target/xtensa/cpu.h                         |   2 +-
+ gdbstub.c                                   | 903 ++++++++++----------
+ hw/core/cpu.c                               |   2 +-
+ target/alpha/gdbstub.c                      |   2 +-
+ target/arm/cpu.c                            |   4 +-
+ target/arm/gdbstub.c                        | 172 +++-
+ target/arm/gdbstub64.c                      |   2 +-
+ target/arm/helper.c                         | 182 +++-
+ target/cris/gdbstub.c                       |   4 +-
+ target/hppa/gdbstub.c                       |   2 +-
+ target/i386/gdbstub.c                       |   2 +-
+ target/lm32/gdbstub.c                       |   2 +-
+ target/m68k/gdbstub.c                       |   2 +-
+ target/m68k/helper.c                        |  33 +-
+ target/microblaze/gdbstub.c                 |   2 +-
+ target/mips/gdbstub.c                       |   2 +-
+ target/nios2/cpu.c                          |   2 +-
+ target/openrisc/gdbstub.c                   |   2 +-
+ target/ppc/gdbstub.c                        |  48 +-
+ target/ppc/translate_init.inc.c             |  54 +-
+ target/riscv/gdbstub.c                      |  18 +-
+ target/s390x/gdbstub.c                      |  30 +-
+ target/sh4/gdbstub.c                        |   2 +-
+ target/sparc/gdbstub.c                      |   2 +-
+ target/xtensa/gdbstub.c                     |   2 +-
+ tests/tcg/aarch64/sve-ioctls.c              |  77 ++
+ tests/tcg/aarch64/sysregs.c                 | 172 ++++
+ tests/.gitignore                            |   1 +
+ tests/guest-debug/run-test.py               |  57 ++
+ tests/tcg/Makefile.prereqs                  |   2 +-
+ tests/tcg/aarch64/Makefile.target           |  10 +
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py |  71 ++
+ tests/tcg/aarch64/gdbstub/test-sve.py       |  75 ++
+ tests/tcg/configure.sh                      |  14 +
+ 51 files changed, 1413 insertions(+), 658 deletions(-)
+ create mode 100644 tests/tcg/aarch64/sve-ioctls.c
+ create mode 100644 tests/tcg/aarch64/sysregs.c
+ create mode 100755 tests/guest-debug/run-test.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve.py
+
+-- 
+2.20.1
 
 
