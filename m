@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF0811C501
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 05:48:11 +0100 (CET)
-Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F75211C526
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 06:10:51 +0100 (CET)
+Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifGOY-0008Rd-TT
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 23:48:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
+	id 1ifGkU-0003x2-FL
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 00:10:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ifGNk-00080Y-Gv
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:47:21 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ifGj6-0002Ya-P9
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 00:09:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ifGNj-0004XV-J2
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:47:20 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:44321)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ifGNj-0004VK-BQ
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:47:19 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id w5so476862pjh.11
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 20:47:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bmarqO1plC3fKJtO3kqi2xmiPTvovvFC18tmAR5wJGg=;
- b=YQzJ/qUYAz2NAQFQjEpgGAoxHORIZfJQt585ZKFzW1eQr2vGAWPLpYv3IzWmox/2Ca
- /vyrFbp5FJsfWTIriPQPmhkBpE9QMUCwfxcCWquM/qBVmCifPzWHalUIW067TWXh4f5T
- JtDiFvqsTfkxGjGmkpKicvazFAGrbVYs5UDQoyZUGdTMJ5O7Gj2FC8AjtMnVBvdse46X
- eaqiGtsXq5cgX26yCEjRiox01DG0Q9bO8Ggp6BSDC4nGjDZU5FIpH00bvPtQU4R6OLX/
- dyDwCKmq4xFn19Kqur3SxJ4Q7A9I7Ay9t5RHftSceKWiKs7rqNIA4n9M8uOoLk+Qo/xW
- lOOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bmarqO1plC3fKJtO3kqi2xmiPTvovvFC18tmAR5wJGg=;
- b=f1OgQJeAkECp5RixNZbIjUdBXjc+P8lxQSn+0KTN6NTut4StSD6dmtaPAm0fO6Cc15
- B1FzDW9gBcCFpUpB1aUEqCn5EHO4pDyPdyuEicCSqnOV4V/dbRnc2+RHdA+er582WAwu
- ygwVvIRdMNTcjJH6g9sh9MxNV+HkhZOYYESgbM6wobp18ybPNI6SIsFSOoOtNZurgi3m
- gvgwsauFSG7qg6dJVRtXzldmUgLRZdsVuVwywqpreivxCOBg+8Jh7KkkBfItDYTpxT1G
- NyfVUYpCFCzQsVEUwVXVZ4sXoMTenb9wapgbB7MsGsjgjl+BQx9eaXZ66q83Upp19eFu
- lpMg==
-X-Gm-Message-State: APjAAAWqLiy2nxFnr7fb5Rk4XFPCFKru6HW2JmmVswpNzbn7Q4GsT7U2
- 5mgEjoEyKxNr3yYgUJ0xWb3PFA==
-X-Google-Smtp-Source: APXvYqxBPPPbGnPVbwCIphaqkiXEjLQz3xgRcSz+m8cifrjaGOXfTUNupM03llR6sXp4yXd745SZxw==
-X-Received: by 2002:a17:90a:8685:: with SMTP id
- p5mr7837360pjn.92.1576126038282; 
- Wed, 11 Dec 2019 20:47:18 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id a10sm4844919pgm.81.2019.12.11.20.47.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Dec 2019 20:47:17 -0800 (PST)
-Subject: Re: [PATCH v2 03/18] tcg: move qemu_tcg_configure to
- accel/tcg/tcg-all.c
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
- <1575903705-12925-4-git-send-email-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <71e3c89a-e62a-2ba4-8a63-b4868d7f3356@linaro.org>
-Date: Wed, 11 Dec 2019 20:47:15 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ (envelope-from <dgibson@ozlabs.org>) id 1ifGj5-0002T1-GY
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 00:09:24 -0500
+Received: from ozlabs.org ([203.11.71.1]:48623)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ifGj4-0002Ku-Gq; Thu, 12 Dec 2019 00:09:23 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47YMJx09tWz9sPc; Thu, 12 Dec 2019 16:08:48 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1576127329;
+ bh=rmqpWv+3oYeM5sCgfN2wcbVcEVrye/Sr6TuRmvwKTq0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ULAHlDWfRzNX+jePGkHwGw5eFJzhbeTyPGGIN8p3Y+EvTp/5bXNNz9BRr5bHx9TvI
+ qCnorg03sEYOUPPa0qLIn8rEbYB2zeeWrdQ29KCBjYTvdEMhg64U8oUYhzADgJI1lS
+ P6W3IlVdYU9FJde9QlsIfW5ZITWVq2CmBNSj1FOs=
+Date: Thu, 12 Dec 2019 14:44:31 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [PATCH v5 1/3] linux-headers: Update kvm.h for ppc single step
+ capability
+Message-ID: <20191212034431.GT207300@umbus.fritz.box>
+References: <20191211191013.454125-1-farosas@linux.ibm.com>
+ <20191211191013.454125-2-farosas@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <1575903705-12925-4-git-send-email-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HtRZva1Vzv8iP5ye"
+Content-Disposition: inline
+In-Reply-To: <20191211191013.454125-2-farosas@linux.ibm.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,25 +57,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, elmarco@redhat.com
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/19 7:01 AM, Paolo Bonzini wrote:
-> Move everything related to mttcg_enabled in accel/tcg/tcg-all.c,
-> which will make even more sense when "thread" becomes a QOM property.
-> 
-> For now, initializing mttcg_enabled in the instance_init function
-> prepares for the next patch, which will only invoke qemu_tcg_configure
-> when the command line includes a -accel option.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+--HtRZva1Vzv8iP5ye
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Dec 11, 2019 at 04:10:11PM -0300, Fabiano Rosas wrote:
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+
+Generally, imported linux header updates are done as a block, pulling
+qemu up to a specified kernel commit id, rather than just grabbing
+pieces for a particular feature.
+
+There's actually already a header update to be2eca94d144 in my
+ppc-for-5.0 tree.  Is that recent enough for what you need here?
+
 > ---
->  accel/tcg/tcg-all.c | 85 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  cpus.c              | 72 ---------------------------------------------
->  2 files changed, 85 insertions(+), 72 deletions(-)
+>  linux-headers/linux/kvm.h | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 3d9b18f7f8..488f3baf01 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1000,6 +1000,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_PMU_EVENT_FILTER 173
+>  #define KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 174
+>  #define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 175
+> +#define KVM_CAP_PPC_GUEST_DEBUG_SSTEP 176
+> =20
+>  #ifdef KVM_CAP_IRQ_ROUTING
+> =20
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-r~
+--HtRZva1Vzv8iP5ye
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3xt5wACgkQbDjKyiDZ
+s5JXvg/8DuQM6/0ye5X/4RFCtYEdVa5x+oWQ4gn8Du7pRLnFTkG8+olvs/TG/Wxk
+iX2tLZ+T02lTBZgWYi8cGpcdl8ClEMiZkFcRuebdBN3rESNs7hvAOqQ7WdGqITBR
+8uKuOGFhsqksA+dJ0y9rVqzlA+Sup/XHU23RtU6IJKrhv4Uv7cB7s29OiA0Hhz+c
+q1S5OEwlAQXUp0FhkovItn55S03nT+SZJRHti4irDyjpIS67NsbWudb/ki5cLlSU
+deS614qnNbT21MDayf59CKu2ZcP+E6jbA/KeI1qAm/JZI+BXhA0sgFu5N4DFtLln
+xFDOsfX96oxia1HP1pYcigFdV+7IEZrScj7JJrVbC6e22v/DxyIZMqG4CBzzlvuA
+5QoBUM4a9cEOlB6nwjPcPEAS9TC/N8NnFMK/3tx6e+azrCX0Wd8v9TrQOBgMvf1b
+hx9IYF6v1UTHEGBS+nXLCbvq4tExr0OqJJCftHjMxGlL3cqm2gMFHEGVfp4sbkUG
+0JQcSeg5by/wlE4Kl4iZ5z699wx8eDozkj2lRZjcsprPSkstVHCWLh36mHSqkB1Q
+qmZKUsqtuk+g+JnTQhctBO2J9ood1VfPB0ehegD0DanNKZX9/C1Uciwx3eUe0lb4
+0IksBoQcPML5y/V//r8ERZulg8AV70m6SwwTBtsqIwgtlXMveW8=
+=LjqE
+-----END PGP SIGNATURE-----
+
+--HtRZva1Vzv8iP5ye--
 
