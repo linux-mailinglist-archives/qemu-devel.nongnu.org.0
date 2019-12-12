@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F0511D2EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:58:25 +0100 (CET)
-Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A422111D2CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:53:01 +0100 (CET)
+Received: from localhost ([::1]:34254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifRnE-00006N-1S
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:58:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
+	id 1ifRi0-0001ug-BQ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:53:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVJ-0005ND-Uf
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVK-0005Ob-Pl
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVI-0001c2-Mw
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:53 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30385
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVJ-0001dD-FH
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49152
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVI-0001ag-If
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:52 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVJ-0001cT-Ah
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168791;
+ s=mimecast20190719; t=1576168792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YRLLWR3oSmOC1GQ4wgCvG70PVNqMhkYy6wEguAA/JYY=;
- b=XcjeQG+oFPWwdqHl2GzLi0bCfK1jEfO8eMhCizjcpp2nl4d1woKr9PthBm859jmGdVtA93
- voaVBihRX7vRsuqIymLz55KN4muAAqqyz6ALGzPD2/TINS4P54NSZBUybLEO7utGrurX2T
- Lh+5d781ED/917Lj6MnNhyh7fQOeObY=
+ bh=nTx+GKJ25A7Hkl3M7fPSzFynCUZJjjcDWcOEEEe/PAg=;
+ b=XBRVus+rzxYe9TDiOY3Zl6emrodMlC01Nlx68CKLpmjWB7dQIlgfZ8qNRHl4KzXC/Xe5SI
+ PFVB0qnu2K1vvbgk+a8PGQtINHWOKIL4N7IQG0Z/YJm7svvwMcfOoUwgScjjSw9XxvIy9s
+ KF32dGp8IaUOs9ojOMtQ92mRz2wXuCY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-UorVez84OYmnn83aMol55Q-1; Thu, 12 Dec 2019 11:39:50 -0500
+ us-mta-294-95ZC5Lr0On-f55YYT4FWFg-1; Thu, 12 Dec 2019 11:39:51 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D96E64A7E
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE4EA1005512
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:50 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4B5C60BE1;
- Thu, 12 Dec 2019 16:39:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E71EE60BE1;
+ Thu, 12 Dec 2019 16:39:49 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 024/104] virtiofsd: Keep track of replies
-Date: Thu, 12 Dec 2019 16:37:44 +0000
-Message-Id: <20191212163904.159893-25-dgilbert@redhat.com>
+Subject: [PATCH 025/104] virtiofsd: Add Makefile wiring for virtiofsd contrib
+Date: Thu, 12 Dec 2019 16:37:45 +0000
+Message-Id: <20191212163904.159893-26-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: UorVez84OYmnn83aMol55Q-1
+X-MC-Unique: 95ZC5Lr0On-f55YYT4FWFg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,100 +78,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Keep track of whether we sent a reply to a request; this is a bit
-paranoid but it means:
-  a) We should always recycle an element even if there was an error
-     in the request
-  b) Never try and send two replies on one queue element
+Wire up the building of the virtiofsd in contrib.
+
+virtiofsd relies on Linux-specific system calls and seccomp.  Anyone
+wishing to port it to other host operating systems should do so
+carefully and without reducing security.
+
+Only allow building on Linux hosts.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ Makefile                      |  8 ++++++++
+ Makefile.objs                 |  1 +
+ tools/virtiofsd/Makefile.objs | 10 ++++++++++
+ 3 files changed, 19 insertions(+)
+ create mode 100644 tools/virtiofsd/Makefile.objs
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index c38268a1d5..c33e0f7e8c 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -44,6 +44,7 @@ struct fv_QueueInfo {
+diff --git a/Makefile b/Makefile
+index b437a346d7..b7f7019a50 100644
+--- a/Makefile
++++ b/Makefile
+@@ -322,6 +322,8 @@ HELPERS-y =3D
+ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =3D qemu-bridge-hel=
+per$(EXESUF)
 =20
-     /* The element for the command currently being processed */
-     VuVirtqElement *qe;
-+    bool reply_sent;
- };
-=20
- /*
-@@ -178,6 +179,7 @@ int virtio_send_msg(struct fuse_session *se, struct fus=
-e_chan *ch,
- {
-     VuVirtqElement *elem;
-     VuVirtq *q;
-+    int ret =3D 0;
-=20
-     assert(count >=3D 1);
-     assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
-@@ -191,6 +193,7 @@ int virtio_send_msg(struct fuse_session *se, struct fus=
-e_chan *ch,
-     assert(out->unique);
-     /* For virtio we always have ch */
-     assert(ch);
-+    assert(!ch->qi->reply_sent);
-     elem =3D ch->qi->qe;
-     q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
-=20
-@@ -208,19 +211,23 @@ int virtio_send_msg(struct fuse_session *se, struct f=
-use_chan *ch,
-     if (in_len < sizeof(struct fuse_out_header)) {
-         fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
-                  __func__, elem->index);
--        return -E2BIG;
-+        ret =3D -E2BIG;
-+        goto err;
-     }
-     if (in_len < tosend_len) {
-         fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
-                  __func__, elem->index, tosend_len);
--        return -E2BIG;
-+        ret =3D -E2BIG;
-+        goto err;
-     }
-=20
-     copy_iov(iov, count, in_sg, in_num, tosend_len);
-     vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
-     vu_queue_notify(&se->virtio_dev->dev, q);
-+    ch->qi->reply_sent =3D true;
-=20
--    return 0;
-+err:
-+    return ret;
- }
-=20
- /* Thread function for individual queues, created when a queue is 'started=
-' */
-@@ -297,6 +304,9 @@ static void *fv_queue_thread(void *opaque)
-                 break;
-             }
-=20
-+            qi->qe =3D elem;
-+            qi->reply_sent =3D false;
+ ifdef CONFIG_LINUX
++HELPERS-y +=3D virtiofsd$(EXESUF)
 +
-             if (!fbuf.mem) {
-                 fbuf.mem =3D malloc(se->bufsize);
-                 assert(fbuf.mem);
-@@ -332,6 +342,13 @@ static void *fv_queue_thread(void *opaque)
-             /* TODO: Add checks for fuse_session_exited */
-             fuse_session_process_buf_int(se, &fbuf, &ch);
+ ifdef CONFIG_VIRGL
+ ifdef CONFIG_GBM
+ HELPERS-y +=3D vhost-user-gpu$(EXESUF)
+@@ -430,6 +432,7 @@ dummy :=3D $(call unnest-vars,, \
+                 elf2dmp-obj-y \
+                 ivshmem-client-obj-y \
+                 ivshmem-server-obj-y \
++                virtiofsd-obj-y \
+                 rdmacm-mux-obj-y \
+                 libvhost-user-obj-y \
+                 vhost-user-scsi-obj-y \
+@@ -674,6 +677,11 @@ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
+ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+ =09$(call LINK, $^)
 =20
-+            if (!qi->reply_sent) {
-+                fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
-+                         __func__, elem->index);
-+                /* I think we've still got to recycle the element */
-+                vu_queue_push(dev, q, elem, 0);
-+                vu_queue_notify(dev, q);
-+            }
-             qi->qe =3D NULL;
-             free(elem);
-             elem =3D NULL;
++ifdef CONFIG_LINUX # relies on Linux-specific syscalls
++virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
++=09$(call LINK, $^)
++endif
++
+ vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) li=
+bqemuutil.a libqemustub.a
+ =09$(call LINK, $^)
+=20
+diff --git a/Makefile.objs b/Makefile.objs
+index 11ba1a36bd..b5f667a4ba 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -125,6 +125,7 @@ vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
+ rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
+ vhost-user-input-obj-y =3D contrib/vhost-user-input/
+ vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
++virtiofsd-obj-y =3D tools/virtiofsd/
+=20
+ ######################################################################
+ trace-events-subdirs =3D
+diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.objs
+new file mode 100644
+index 0000000000..67be16332c
+--- /dev/null
++++ b/tools/virtiofsd/Makefile.objs
+@@ -0,0 +1,10 @@
++virtiofsd-obj-y =3D buffer.o \
++                  fuse_opt.o \
++                  fuse_log.o \
++                  fuse_loop_mt.o \
++                  fuse_lowlevel.o \
++                  fuse_signals.o \
++                  fuse_virtio.o \
++                  helper.o \
++                  passthrough_ll.o
++
 --=20
 2.23.0
 
