@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9CC11D42E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:37:27 +0100 (CET)
-Received: from localhost ([::1]:34792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A2511D43A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:40:06 +0100 (CET)
+Received: from localhost ([::1]:34818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSP0-00062Q-DW
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:37:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54821)
+	id 1ifSRZ-0000zq-1s
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:40:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRW7-0006WW-TW
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:44 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRWA-0006ax-Se
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRW6-00033e-QP
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:43 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23604
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW9-00039u-V4
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:46 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53619
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW6-00032Y-M2
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:42 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW9-00039D-R5
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168842;
+ s=mimecast20190719; t=1576168845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jATh6s0mzb1OGuPD7THwqcKVeVz1fcAINKaP1WcnAFE=;
- b=Xee+YX2tEA79vOBo337hiO7kiAGFytQtmSOsGo1Ua+babpIA+GmnDaJSoxNAMrolj6FJOk
- 2UaErYazxxM/h6FBP7ixDuke2XHdIqiJDV272CV3WbO6z0TveAm4ZfUeAjz+NM9eypjHQn
- X4H3LNCVShk40FAknvQkWOFaPuEukIA=
+ bh=hdIRDXwyt3RkJOCUfmKKkrNRtzPc/lLRGQepZPsW0B0=;
+ b=NP6gnI0vWGAx++6zjfZa+yqGhCEWR6OCSosATeqexOxufUmXFf8D0f2cBhAb8o6F0UvWtR
+ 2SQ7z52VxEqu/0olemdW4cYlGrIzhPWdAvw31t6z3Cy1UA3RwCxcPK1G/XfvCoc/CxlE1I
+ npGbOKmor0FSU7/H63kIpkz+ezET/5A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-umVwNgOgMKGINK0hdulfTQ-1; Thu, 12 Dec 2019 11:40:40 -0500
+ us-mta-110-8T2LDMC5Pr-uotjrhuEz4g-1; Thu, 12 Dec 2019 11:40:44 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 973961800D45
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2522C800D24
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:43 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B46EB60BE1;
- Thu, 12 Dec 2019 16:40:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E739E60BE1;
+ Thu, 12 Dec 2019 16:40:39 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 060/104] virtiofsd: Add timestamp to the log with
- FUSE_LOG_DEBUG level
-Date: Thu, 12 Dec 2019 16:38:20 +0000
-Message-Id: <20191212163904.159893-61-dgilbert@redhat.com>
+Subject: [PATCH 061/104] virtiofsd: Handle reinit
+Date: Thu, 12 Dec 2019 16:38:21 +0000
+Message-Id: <20191212163904.159893-62-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: umVwNgOgMKGINK0hdulfTQ-1
+X-MC-Unique: 8T2LDMC5Pr-uotjrhuEz4g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,62 +76,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-virtiofsd has some threads, so we see a lot of logs with debug option.
-It would be useful for debugging if we can see the timestamp.
+Allow init->destroy->init  for mount->umount->mount
 
-Add nano second timestamp, which got by get_clock(), to the log with
-FUSE_LOG_DEBUG level if the syslog option isn't set.
-
-The log is like as:
-
-  ]# ./virtiofsd -d -o vhost_user_socket=3D/tmp/vhostqemu0 -o source=3D/tmp=
-/share0 -o cache=3Dauto
-  ...
-  [5365943125463727] [ID: 00000002] fv_queue_thread: Start for queue 0 kick=
-_fd 9
-  [5365943125568644] [ID: 00000002] fv_queue_thread: Waiting for Queue 0 ev=
-ent
-  [5365943125573561] [ID: 00000002] fv_queue_thread: Got queue event on Que=
-ue 0
-
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tools/virtiofsd/fuse_lowlevel.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 8e00a90e6f..91d3120033 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -35,6 +35,8 @@
-  * \include passthrough_ll.c
-  */
-=20
-+#include "qemu/osdep.h"
-+#include "qemu/timer.h"
- #include "fuse_virtio.h"
- #include "fuse_log.h"
- #include "fuse_lowlevel.h"
-@@ -2258,7 +2260,12 @@ static void log_func(enum fuse_log_level level, cons=
-t char *_fmt, va_list ap)
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 0abb369b3d..2d1d1a2e59 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2030,6 +2030,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid=
+,
      }
 =20
-     if (current_log_level =3D=3D FUSE_LOG_DEBUG) {
--        fmt =3D g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid), _f=
-mt);
-+        if (!use_syslog) {
-+            fmt =3D g_strdup_printf("[%ld] [ID: %08ld] %s", get_clock(),
-+                                  syscall(__NR_gettid), _fmt);
-+        } else {
-+            fmt =3D g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid)=
-, _fmt);
-+        }
+     se->got_init =3D 1;
++    se->got_destroy =3D 0;
+     if (se->op.init) {
+         se->op.init(se->userdata, &se->conn);
      }
+@@ -2132,6 +2133,7 @@ static void do_destroy(fuse_req_t req, fuse_ino_t nod=
+eid,
+     (void)iter;
 =20
-     if (use_syslog) {
+     se->got_destroy =3D 1;
++    se->got_init =3D 0;
+     if (se->op.destroy) {
+         se->op.destroy(se->userdata);
+     }
 --=20
 2.23.0
 
