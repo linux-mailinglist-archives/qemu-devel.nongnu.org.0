@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F70A11CFC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:28:10 +0100 (CET)
-Received: from localhost ([::1]:60638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1883611CFDB
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:33:25 +0100 (CET)
+Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifPRp-0004rz-2k
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:28:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58314)
+	id 1ifPWt-0007SA-HK
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:33:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ifPQw-0004PV-Qa
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:27:15 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU8-0005im-6L
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ifPQv-0002Xg-Fd
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:27:14 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36297)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU3-0008Cg-E1
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:31 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38952)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ifPQv-0002Vt-6o
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:27:13 -0500
-Received: by mail-pf1-x444.google.com with SMTP id x184so847491pfb.3
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 06:27:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=nvxk4w/BhuCMNQHLTJjLJrN27ClmCoaoni3Fxdh9B8g=;
- b=IEytGpefHhV7GfQWn5lRMYgWtqGfwJHOp1DRypElmQa4qVURq/x1AJ9JAlCFwmYFau
- i8kKnBsg97tSznRYyxwhj+QWwEQmQgp+UxvG//6YfTqkk8e12QvFZ8fznv8T2Bjw1bnc
- 8XiT8zYAEUaGG7YcGtkHo1kIoTsjcJ3FDBtOiiKcuSX/rMgSqusqnyrn6JevT9nwdFls
- yLZ3fXz1pGmt70sLjaqpdDnvsWRwCMonKqHtjSUqF6sFwdnzMD2aVSjpcireKHCHISjl
- XGbuKgg/O7dBUc+q7ZPcDHKsGOZldIRUi796EC4izbQBDoiONMu2SR/1GL1aPB2gqgx5
- PsJA==
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ifPU1-00086v-Rl
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:26 -0500
+Received: by mail-wm1-x330.google.com with SMTP id d5so2737781wmb.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 06:30:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=kmRqd/13hZnlFAZxCGECJRhCSuJOvoQsqZ3JU1fNSWs=;
+ b=N9e6fkZAicGPV6try0V+6u8olMiAuBOXomzn3eCZSk4o0N68w4mQk8eJ8xmzy+FqmL
+ GQp1je8X5HKsUW+ykNgLzIrW++txGzpBp1efgG7So3J3egajeS5/EjKI4WNdZVjjXpP+
+ PIpwZDbpiRwA3Dg5NYyQ/aAI4k8SzpCMiDX2OAw4cQ2Ixbjafb08lnZXYWcnnLSx+rLu
+ VCkuM7MVI4l45a8E3uRWRpNdf/oatp0+jrasCYTDge++teGj9wYR1VynpQbHUmihg8eG
+ uXiosSu66JtLgaqjkEMgWFcAhc8HnkpCZ60ja0R2FQAzEISMcUSv8kGrwn9B216zGs6S
+ 8rtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nvxk4w/BhuCMNQHLTJjLJrN27ClmCoaoni3Fxdh9B8g=;
- b=tbDq+itu+a4i1LoDY6lUq+dZaCzf47X8j+cMaulELMBIIyXHog0StoEmY4Z8QJFJvB
- XbeA9Hm2K2Qfm74a2FNAmMhBt5gq0XQZPFDlOaFJmDq8yUcWdFBHJDBa4Zh7PegA5Hr3
- 23UxgpAuYiM9z/b/GS1nQEb0/3D7Lw9unCmJpdqaIm2a/rcVY7dwCvB+IJ8owi+pH8WA
- gdsIivQf5outb4MZhyAzla4xvqdoLXnFS5JoKNdeLignzWsMSGD+5grA3QYzsxSNgQrF
- 1uLGX6WfeN9A0vUTlik0MlhYJ3Tz9zT/p+sXDccmPXLWnQoCyOly55HQV2syC2F0w/G4
- C2LQ==
-X-Gm-Message-State: APjAAAU1fDDXtY8kc/YC8f1T/D6aWGaaS3F1tbUC0GAbtGeiGX0GTsJX
- ZwFzkSuBgOJdC9CAcIGwOa2BU0WkOpQ=
-X-Google-Smtp-Source: APXvYqxiLc3KzrCoLgdeKaxFfYibSFVXLyNVaL6fQZy2g05t6YuCIIvcADMHFOYd3SuJTIaOhrLpLg==
-X-Received: by 2002:a63:5657:: with SMTP id g23mr10508251pgm.452.1576160831152; 
- Thu, 12 Dec 2019 06:27:11 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id r1sm7019892pgp.15.2019.12.12.06.27.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Dec 2019 06:27:10 -0800 (PST)
-Subject: Re: [PATCH 23/28] target/m68k: Use cpu_*_mmuidx_ra instead of
- MMU_MODE{0, 1}_SUFFIX
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20191212040039.26546-1-richard.henderson@linaro.org>
- <20191212040039.26546-24-richard.henderson@linaro.org>
- <6162d8ab-b608-15e4-8e33-8a656afb304a@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b1beeef1-cb13-3452-f8be-e07b860143b5@linaro.org>
-Date: Thu, 12 Dec 2019 06:27:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
-MIME-Version: 1.0
-In-Reply-To: <6162d8ab-b608-15e4-8e33-8a656afb304a@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=kmRqd/13hZnlFAZxCGECJRhCSuJOvoQsqZ3JU1fNSWs=;
+ b=cc5GkARJeRDB4+gPFnD5Kozytq+Jm8DmToT9Q+NoWWVV/lm4oMiInU1O5Hqly0cu34
+ 2NeUQdoUxUW83g2s06EoSV9vxbbai6mqCs0VGDPKb2ZCXpLXHFWZGYTzPQP0TuCgBi3y
+ RuDqU+aUQwRAnhFUk7dZxy2lcQ0pnMi2KNeuOIYHs1ui5NoSq5xszUsOFdVsC81EecVR
+ zY2XxAayzSQb6kV6Ec493hCDPFs6/1CcxN5MgBueU9DVnI0VK9i7hQQrizD3JAWz+/iv
+ nmtj+BbR7nsDSyaMczzLRvTJHdu1T/ADgpyRR2P0hEokLWDzC+jEVu83YSZhjidkGxnf
+ IVpw==
+X-Gm-Message-State: APjAAAUHX7MEoN5Hwk319uQYHjTjnuNS35GBjiCbTgKodeKeNQYmqa/u
+ HKc6LTRZCOw7r2vHcMCe10s9Yrbc
+X-Google-Smtp-Source: APXvYqwjH9a3jm0AkhXKWx/F+pe/olZW/lrUxFR5N+oDfil5mqlXkPQHd7I5Tn6CTJDiQX2OLeHIqQ==
+X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr7320355wma.78.1576161023246; 
+ Thu, 12 Dec 2019 06:30:23 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id c9sm6140505wmc.47.2019.12.12.06.30.22
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 12 Dec 2019 06:30:22 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] x86: allow building without PC machine types
+Date: Thu, 12 Dec 2019 15:30:16 +0100
+Message-Id: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,22 +71,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: philmd@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/19 1:44 AM, Laurent Vivier wrote:
->> +#define cpu_lduw_kernel(e, p)    cpu_lduw_mmuidx_ra(e, p, MMU_KERNEL_IDX, 0)
->> +#define cpu_ldl_kernel(e, p)     cpu_ldl_mmuidx_ra(e, p, MMU_KERNEL_IDX, 0)
->> +#define cpu_stw_kernel(e, p, v)  cpu_stw_mmuidx_ra(e, p, v, MMU_KERNEL_IDX, 0)
->> +#define cpu_stl_kernel(e, p, v)  cpu_stl_mmuidx_ra(e, p, v, MMU_KERNEL_IDX, 0)
-> 
-> Do you think it would be a reasonable cleanup to replace the _kernel
-> functions by the _mmuidx_ra functions directly in the code in a future
-> patch?
+With this series it is possible to build QEMU with this configuration:
 
-I can do this in v2, as David asked for the same thing for s390x.
+   CONFIG_MICROVM=y
+   CONFIG_SERIAL_ISA=y
+   CONFIG_VIRTIO=y
+   CONFIG_VIRTIO_BALLOON=y
+   CONFIG_VIRTIO_BLK=y
+   CONFIG_VIRTIO_NET=y
+   CONFIG_VIRTIO_RNG=y
+   CONFIG_VIRTIO_SCSI=y
+   CONFIG_VIRTIO_SERIAL=y
+   CONFIG_WDT_IB700=y
+   CONFIG_I8254=y
 
+Thanks,
 
-r~
+Paolo
+
+Paolo Bonzini (5):
+  i386: conditionally compile more files
+  fw_cfg: allow building without other devices
+  x86: move more functions to X86MachineState and x86.c
+  pci-stub: add more MSI functions
+  kvm: check before accessing PCMachineState fields
+
+ hw/i386/Makefile.objs     |   6 +--
+ hw/i386/fw_cfg.c          |   7 ++++
+ hw/i386/kvm/Makefile.objs |   6 ++-
+ hw/i386/pc.c              | 101 ----------------------------------------------
+ hw/i386/x86.c             | 101 ++++++++++++++++++++++++++++++++++++++++++++++
+ hw/pci/pci-stub.c         |  27 +++++++++++++
+ include/hw/i386/pc.h      |  12 ------
+ include/hw/i386/x86.h     |  13 ++++++
+ roms/SLOF                 |   2 +-
+ target/i386/kvm.c         |  11 ++++-
+ 10 files changed, 166 insertions(+), 120 deletions(-)
+
+-- 
+1.8.3.1
 
 
