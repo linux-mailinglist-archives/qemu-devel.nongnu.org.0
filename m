@@ -2,58 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D4E11CF7E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:14:41 +0100 (CET)
-Received: from localhost ([::1]:60152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161A311CF95
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:18:38 +0100 (CET)
+Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifPEm-00028C-Jg
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:14:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49267)
+	id 1ifPIa-0006ug-S7
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:18:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60695)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1ifOb4-0003eW-92
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:33:39 -0500
+ (envelope-from <linus.walleij@linaro.org>) id 1ifOi5-0004mh-LI
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:40:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1ifOb2-0002f9-Os
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:33:38 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:41332)
+ (envelope-from <linus.walleij@linaro.org>) id 1ifOi1-0005SY-RD
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:40:53 -0500
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:34253)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1ifOb2-0002dV-ID
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:33:36 -0500
-Received: by mail-oi1-f195.google.com with SMTP id i1so409193oie.8
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 05:33:36 -0800 (PST)
+ (Exim 4.71) (envelope-from <linus.walleij@linaro.org>)
+ id 1ifOi0-0005Oe-0t
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:40:48 -0500
+Received: by mail-lj1-x241.google.com with SMTP id m6so2354744ljc.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 05:40:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7PbHPLSXQGj0yJrSH192TMtAaxNo5rw41NetJ/dcUfw=;
+ b=DRzJQiVQg/nQ/ASUfL3q6cDwUxWJ56eQnZWGgR+JOoveYSxcv7+j9kjbi9XlxA1AEO
+ A02/XOPXYlK843ecHoWeaRH53jfl/cx5u3XSjbfE6QXM6s9uUsm05zfWWRKxADesDQaV
+ PnpOe4EYjBF5MZNs5FNBPAYxERQpmPL1TeloXm3jpv3+AB/lT3PvU4ZBj/VaARR4vYaR
+ uJAZHSCgQIgMRkQV60ebT26TmXAs0cOXjT+DYySEPkfd4IKU4kJpTPp6/Mka/ayB4hXZ
+ fNwhN8IIW0TkBhIE6JdShsrKJP3KtegCAZBZzOcTXVPJ7RuZIJLfrFV04K8VZIFI/qoI
+ sOeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=B1c5GbpC2qZV4XZL32ReXMmOl4Gf9Xdye7e43MFMR8g=;
- b=ubcrILAsj0IiGasCgkyC49mc/Gmrg0xueyh88hZjFcZ5PUazTVkzBOVcWYi7ejGI8t
- P+MSGfJzGWxyBw1+3TQQXuSPECEXCHoeVp8+y7MeaULOa7r1+3wBxvpq1WBBzSRl6Lqx
- UDtn4nVxRgdrDMZVWcgpMkdfOiNEU6rzx3rUkCbLjm+9qD9K55zAAP4DdcZ0yQHeAutF
- LjMB0d+esnZ5IagBZUrgUnwzGD5wLFro3qllbbLZYig/2ZDchk4Q5tRm5RQXxv/v+m2W
- 2H7vMIv30lAUgU+WW7F5UPNx9XgLcJnhwpoPnoePt0Npu81bHi1sMy8pIXq+gqT7IFPS
- /LYQ==
-X-Gm-Message-State: APjAAAVHXRzsXHAXRy+U9BqulFC+ltx4pKFcnPyuPx85Oa0Snd1jv6Qo
- tIRLX3KrEfEBAT4Vw8gKLPJI6/8thJBgAsP/TYQ=
-X-Google-Smtp-Source: APXvYqyZrB81syD0Ce6WwALcSofZswA84PMJGyV785ydrh5qmd3i1ZIC8I8AuxCcmSbHRH3rYOaGved6PnxX/cMztls=
-X-Received: by 2002:aca:4e87:: with SMTP id c129mr4645921oib.153.1576157615510; 
- Thu, 12 Dec 2019 05:33:35 -0800 (PST)
+ bh=7PbHPLSXQGj0yJrSH192TMtAaxNo5rw41NetJ/dcUfw=;
+ b=kgld7fHlHVjIETepc+qKFMMczJdFqQpdXXiAl+QhikgPK3ozW+hPmNSmph2t3UNjzT
+ kbpa9kBtYpyIKi7VBrv9kx0DLvDyzOeAjfjY8K89IOqXZZy0T4DLY9RdmGv99IOw8Ari
+ ZMCsSeAeshaDiGhBswiK/Hq/Re7yTpHSogNwGvNqD1ccMzGbfkhfAvHJC4f1nhee8uDN
+ swN9at1ZUtRLAfv7PEVKI55LA2/OTZxqhAKtRa7Jjur7M3wU7tVqaB2so8zIl6fOaGIU
+ d2/PJAs9bPHhwIX/NVjDqVKJb4zX4i7fUvHSQsEsQ2+j2l/z/Nq68T0szYMzib44OAqm
+ FKyg==
+X-Gm-Message-State: APjAAAWANIyYDLD5cDmZiilgUMcgShEbJAUMGnRPa6Y4/j1CaV7aRUcI
+ sEC+ZewXUh6S9R3XFBQ78LkYtQkquv+vJYXfbt8v7A==
+X-Google-Smtp-Source: APXvYqz4WIPVD6RaEfzhjt2nRL8Q3ReinXWMfS2taUKWfU1ppqbKjrPvuAhDEVOow4IVqRo34vof7KNX/xH9rfQS/Dc=
+X-Received: by 2002:a2e:9ec4:: with SMTP id h4mr6024597ljk.77.1576158044254;
+ Thu, 12 Dec 2019 05:40:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-3-geert+renesas@glider.be>
- <CACRpkdYyY0eGipdK6ixZxLtdJ5px=U2mOa79VZb00NEEAEL=6g@mail.gmail.com>
-In-Reply-To: <CACRpkdYyY0eGipdK6ixZxLtdJ5px=U2mOa79VZb00NEEAEL=6g@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 12 Dec 2019 14:33:24 +0100
-Message-ID: <CAMuHMdVL2w=DzOHTh-Tq6NZLTNUKxUneMi3wX71Z83mdsy3LTA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] gpiolib: Add support for gpiochipN-based table
- lookup
-To: Linus Walleij <linus.walleij@linaro.org>
+ <20191127084253.16356-4-geert+renesas@glider.be>
+In-Reply-To: <20191127084253.16356-4-geert+renesas@glider.be>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 12 Dec 2019 14:40:29 +0100
+Message-ID: <CACRpkdZs0_VvfpE34bgrMtBVeamCsq6BaqfyJc1tyvWCornSUw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] gpiolib: Add support for GPIO line table lookup
+To: Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.195
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,8 +75,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Mark Rutland <mark.rutland@arm.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <marc.zyngier@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  Magnus Damm <magnus.damm@gmail.com>,
@@ -85,95 +91,65 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Linus,
+On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-On Thu, Dec 12, 2019 at 2:20 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Currently GPIO controllers can only be referred to by label in GPIO
-> > lookup tables.
-> >
-> > Add support for looking them up by "gpiochipN" name, with "N" either the
-> > corresponding GPIO device's ID number, or the GPIO controller's first
-> > GPIO number.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Currently GPIOs can only be referred to by GPIO controller and offset in
+> GPIO lookup tables.
 >
-> What the commit message is missing is a rationale, why is this needed?
-
-Right. To be added: so they can be looked up in the GPIO lookup table
-using either the chip's label, or the "gpiochipN" name.
-
-> > If this is rejected, the GPIO Aggregator documentation must be updated.
-> >
-> > The second variant is currently used by the legacy sysfs interface only,
-> > so perhaps the chip->base check should be dropped?
+> Add support for looking them up by line name.
 >
-> Anything improving the sysfs is actively discouraged by me.
-> If it is just about staying compatible it is another thing.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-OK, so N must be the corresponding GPIO device's ID number.
+OK I see what you want to do...
 
-> > +static int gpiochip_match_id(struct gpio_chip *chip, void *data)
-> > +{
-> > +       int id = (uintptr_t)data;
-> > +
-> > +       return id == chip->base || id == chip->gpiodev->id;
-> > +}
-> >  static struct gpio_chip *find_chip_by_name(const char *name)
-> >  {
-> > -       return gpiochip_find((void *)name, gpiochip_match_name);
-> > +       struct gpio_chip *chip;
-> > +       int id;
-> > +
-> > +       chip = gpiochip_find((void *)name, gpiochip_match_name);
-> > +       if (chip)
-> > +               return chip;
-> > +
-> > +       if (!str_has_prefix(name, GPIOCHIP_NAME))
-> > +               return NULL;
-> > +
-> > +       if (kstrtoint(name + strlen(GPIOCHIP_NAME), 10, &id))
-> > +               return NULL;
-> > +
-> > +       return gpiochip_find((void *)(uintptr_t)id, gpiochip_match_id);
+> +               if (p->chip_hwnum == (u16)-1) {
+
+If you want to use this then use:
+
+if (p->chip_hwnum == U16_MAX)
+
+from <linux/limits.h>
+
+> +                       desc = gpio_name_to_desc(p->chip_label);
+> +                       if (desc) {
+> +                               *flags = p->flags;
+> +                               return desc;
+> +                       }
+> +
+> +                       dev_warn(dev, "cannot find GPIO line %s, deferring\n",
+> +                                p->chip_label);
+> +                       return ERR_PTR(-EPROBE_DEFER);
+> +               }
+> +
+>                 chip = find_chip_by_name(p->chip_label);
 >
-> Isn't it easier to just  augment the existing match function to
-> check like this:
->
-> static int gpiochip_match_name(struct gpio_chip *chip, void *data)
-> {
->         const char *name = data;
->
->         if (!strcmp(chip->label, name))
->                return 0;
+>                 if (!chip) {
+> diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
+> index 1ebe5be05d5f81fa..84c1c097e55eefaf 100644
+> --- a/include/linux/gpio/machine.h
+> +++ b/include/linux/gpio/machine.h
+> @@ -31,7 +31,7 @@ enum gpio_lookup_flags {
+>   */
+>  struct gpiod_lookup {
+>         const char *chip_label;
+> -       u16 chip_hwnum;
+> +       u16 chip_hwnum;                 /* if -1, chip_label is named line */
 
-return true;
+/* if U16_MAX then chip_label is the named line we are looking for */
 
->         return !strcmp(dev_name(&chip->gpiodev->dev), name);
-> }
+But the member name "chip_label" is completely abused with this
+setup, it should then be renamed as part of the patch set to something
+like chip_label_or_line_name so it is clear what it is or
+just name it "const char *key".
 
-Oh, didn't think of using dev_name() on the gpiodev.
-Yes, with the chip->base check removed, the code can be simplified.
+But I'm not entirely convinced about reusing the existing
+struct gpio_lookup for this.
 
-Or just
+What about constructing a new lookup struct specifically for this?
+I understand it is more work, but will that not be more
+maintainable and readable?
 
-        return !strcmp(chip->label, name) ||
-               !strcmp(dev_name(&chip->gpiodev->dev), name);
-
-> We should I guess also add some kerneldoc to say we first
-> match on the label and second on dev_name().
-
-OK.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
 
