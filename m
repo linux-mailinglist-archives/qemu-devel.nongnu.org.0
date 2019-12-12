@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1883611CFDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:33:25 +0100 (CET)
-Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C0311CFDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:33:27 +0100 (CET)
+Received: from localhost ([::1]:60712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifPWt-0007SA-HK
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:33:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58657)
+	id 1ifPWv-0007WK-UB
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:33:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU8-0005im-6L
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU8-0005in-6k
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU3-0008Cg-E1
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU3-0008Cn-Fi
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:31 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38952)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50518)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifPU1-00086v-Rl
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:26 -0500
-Received: by mail-wm1-x330.google.com with SMTP id d5so2737781wmb.4
+ id 1ifPU2-00088S-RT
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:27 -0500
+Received: by mail-wm1-x342.google.com with SMTP id a5so2607814wmb.0
  for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 06:30:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=kmRqd/13hZnlFAZxCGECJRhCSuJOvoQsqZ3JU1fNSWs=;
- b=N9e6fkZAicGPV6try0V+6u8olMiAuBOXomzn3eCZSk4o0N68w4mQk8eJ8xmzy+FqmL
- GQp1je8X5HKsUW+ykNgLzIrW++txGzpBp1efgG7So3J3egajeS5/EjKI4WNdZVjjXpP+
- PIpwZDbpiRwA3Dg5NYyQ/aAI4k8SzpCMiDX2OAw4cQ2Ixbjafb08lnZXYWcnnLSx+rLu
- VCkuM7MVI4l45a8E3uRWRpNdf/oatp0+jrasCYTDge++teGj9wYR1VynpQbHUmihg8eG
- uXiosSu66JtLgaqjkEMgWFcAhc8HnkpCZ60ja0R2FQAzEISMcUSv8kGrwn9B216zGs6S
- 8rtQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=cGzZu1dSkbhVKoFntviesvbXQbdj2irYdhRwr8yxjKc=;
+ b=ZOWkH2CQmQMBxQHWk9zvVoAujN9eJJsdpN+M0Pjiunrz1QXzlHRICpAzWVsLZvCv0G
+ tLpFovrIFGKQEht6yabTeE1bj4upzR93j/UPT+MwoJAHlom0EXWIVhN9xRmJKykzTlW/
+ uribn+pt2vgcHed4fMPcArzaJgBPo9+yJ2tRqv+LNRlAETktD/rGJKwSfqJl3+4mj+V5
+ IsMvsCF8ZjDrCsxt38Tn/c0cbjq55RF9I2AJ2Syt8UqINaQFoDtB0vsw2D6FrV3jsz2+
+ eOOk84MNuhfUc4U9UAG67nBrLXLh1/y31BvRXFVTiGUajqMmorN2mInD64ieBIpJilY6
+ +s+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=kmRqd/13hZnlFAZxCGECJRhCSuJOvoQsqZ3JU1fNSWs=;
- b=cc5GkARJeRDB4+gPFnD5Kozytq+Jm8DmToT9Q+NoWWVV/lm4oMiInU1O5Hqly0cu34
- 2NeUQdoUxUW83g2s06EoSV9vxbbai6mqCs0VGDPKb2ZCXpLXHFWZGYTzPQP0TuCgBi3y
- RuDqU+aUQwRAnhFUk7dZxy2lcQ0pnMi2KNeuOIYHs1ui5NoSq5xszUsOFdVsC81EecVR
- zY2XxAayzSQb6kV6Ec493hCDPFs6/1CcxN5MgBueU9DVnI0VK9i7hQQrizD3JAWz+/iv
- nmtj+BbR7nsDSyaMczzLRvTJHdu1T/ADgpyRR2P0hEokLWDzC+jEVu83YSZhjidkGxnf
- IVpw==
-X-Gm-Message-State: APjAAAUHX7MEoN5Hwk319uQYHjTjnuNS35GBjiCbTgKodeKeNQYmqa/u
- HKc6LTRZCOw7r2vHcMCe10s9Yrbc
-X-Google-Smtp-Source: APXvYqwjH9a3jm0AkhXKWx/F+pe/olZW/lrUxFR5N+oDfil5mqlXkPQHd7I5Tn6CTJDiQX2OLeHIqQ==
-X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr7320355wma.78.1576161023246; 
- Thu, 12 Dec 2019 06:30:23 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=cGzZu1dSkbhVKoFntviesvbXQbdj2irYdhRwr8yxjKc=;
+ b=WsexdFkbcMfq+JSasDaGF9LjHp1UpIVSFsFQc4Pl2eoArNOV7KDbNF4U/YNMdtHZRj
+ tKpyvwLdoO7DOQ4gkioH6yqrFcebt0cGk4Loy7w1o3xLnRpTXAIpL/WRLnfnn6olRtZW
+ /WjLC6A22L9KXCDZm+1X2PNjInsJKFQBcUHkFTR0r/t29YPsgKfL6sJAOE01Dn+/ZN+B
+ US6m63yEfhOC3mOv5sFB7ci139lgqdsHwzVWs3cVM2N8318aAYcdTt9gAgVYK0Td16nr
+ A182r004xdv1DctC/wuuV/jS3hT5OsRy8/EsO9uX7pI/T5k2p/Ze5uKw1167jREvEUE9
+ KlPQ==
+X-Gm-Message-State: APjAAAXWhh6HhHbkVPmsp8cDaDXhzczKCKbzT8bNOF4SCSvn6HcMuN7K
+ A0os0f/f0OtWEfDpGU+YZQiZdSM3
+X-Google-Smtp-Source: APXvYqzK+d/zM3ghtrRoDTvNVorju97mNAzn2qkm68KRW7asP5s7yBnXF1ebfYML5XDGWOt9tpjI9A==
+X-Received: by 2002:a05:600c:d7:: with SMTP id
+ u23mr6595335wmm.145.1576161024238; 
+ Thu, 12 Dec 2019 06:30:24 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c9sm6140505wmc.47.2019.12.12.06.30.22
+ by smtp.gmail.com with ESMTPSA id c9sm6140505wmc.47.2019.12.12.06.30.23
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 06:30:22 -0800 (PST)
+ Thu, 12 Dec 2019 06:30:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] x86: allow building without PC machine types
-Date: Thu, 12 Dec 2019 15:30:16 +0100
-Message-Id: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 1/5] i386: conditionally compile more files
+Date: Thu, 12 Dec 2019 15:30:17 +0100
+Message-Id: <1576161021-5359-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
+References: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,44 +79,49 @@ Cc: philmd@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this series it is possible to build QEMU with this configuration:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/i386/Makefile.objs     | 6 +++---
+ hw/i386/kvm/Makefile.objs | 6 +++++-
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-   CONFIG_MICROVM=y
-   CONFIG_SERIAL_ISA=y
-   CONFIG_VIRTIO=y
-   CONFIG_VIRTIO_BALLOON=y
-   CONFIG_VIRTIO_BLK=y
-   CONFIG_VIRTIO_NET=y
-   CONFIG_VIRTIO_RNG=y
-   CONFIG_VIRTIO_SCSI=y
-   CONFIG_VIRTIO_SERIAL=y
-   CONFIG_WDT_IB700=y
-   CONFIG_I8254=y
-
-Thanks,
-
-Paolo
-
-Paolo Bonzini (5):
-  i386: conditionally compile more files
-  fw_cfg: allow building without other devices
-  x86: move more functions to X86MachineState and x86.c
-  pci-stub: add more MSI functions
-  kvm: check before accessing PCMachineState fields
-
- hw/i386/Makefile.objs     |   6 +--
- hw/i386/fw_cfg.c          |   7 ++++
- hw/i386/kvm/Makefile.objs |   6 ++-
- hw/i386/pc.c              | 101 ----------------------------------------------
- hw/i386/x86.c             | 101 ++++++++++++++++++++++++++++++++++++++++++++++
- hw/pci/pci-stub.c         |  27 +++++++++++++
- include/hw/i386/pc.h      |  12 ------
- include/hw/i386/x86.h     |  13 ++++++
- roms/SLOF                 |   2 +-
- target/i386/kvm.c         |  11 ++++-
- 10 files changed, 166 insertions(+), 120 deletions(-)
-
+diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+index 0d195b5..01ae202 100644
+--- a/hw/i386/Makefile.objs
++++ b/hw/i386/Makefile.objs
+@@ -1,11 +1,11 @@
+ obj-$(CONFIG_KVM) += kvm/
+ obj-y += e820_memory_layout.o multiboot.o
+ obj-y += x86.o
+-obj-y += pc.o
++obj-$(CONFIG_PC) += pc.o pc_sysfw.o
+ obj-$(CONFIG_I440FX) += pc_piix.o
+ obj-$(CONFIG_Q35) += pc_q35.o
+ obj-$(CONFIG_MICROVM) += microvm.o
+-obj-y += fw_cfg.o pc_sysfw.o
++obj-y += fw_cfg.o
+ obj-y += x86-iommu.o
+ obj-$(CONFIG_VTD) += intel_iommu.o
+ obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o
+@@ -14,4 +14,4 @@ obj-$(CONFIG_VMPORT) += vmport.o
+ obj-$(CONFIG_VMMOUSE) += vmmouse.o
+ 
+ obj-y += kvmvapic.o
+-obj-y += acpi-build.o
++obj-$(CONFIG_PC) += acpi-build.o
+diff --git a/hw/i386/kvm/Makefile.objs b/hw/i386/kvm/Makefile.objs
+index 4224ed9..0c8d5f2 100644
+--- a/hw/i386/kvm/Makefile.objs
++++ b/hw/i386/kvm/Makefile.objs
+@@ -1 +1,5 @@
+-obj-y += clock.o apic.o i8259.o ioapic.o i8254.o
++obj-y += clock.o
++obj-$(CONFIG_APIC) += apic.o
++obj-$(CONFIG_IOAPIC) += ioapic.o
++obj-$(CONFIG_I8254) += i8254.o
++obj-$(CONFIG_I8259) += i8259.o
 -- 
 1.8.3.1
+
 
 
