@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B5B11CEC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:52:22 +0100 (CET)
-Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19C911CEC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:51:51 +0100 (CET)
+Received: from localhost ([::1]:59570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOtB-0007QX-2S
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:52:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40908)
+	id 1ifOsg-0006aD-6o
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:51:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41023)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyz-0004TW-Pb
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNz0-0004Ud-GH
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyx-0007x2-Hx
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:17 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43669)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyz-000809-Cy
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:18 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41635)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyx-0007vg-AA
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:15 -0500
-Received: by mail-wr1-x431.google.com with SMTP id d16so2590736wre.10
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:15 -0800 (PST)
+ id 1ifNyz-0007xD-5o
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:17 -0500
+Received: by mail-wr1-x430.google.com with SMTP id c9so2604809wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lHyWIiwXqz7PUK23G2WjiaSirKHA3tPFe4PBKOzvAwM=;
- b=ScfKteO7hjhUi3JGJy6N8LP478VQKlVjEVuuubkr7O8YZniUrZwtMqej5B4c2PYUWM
- yADPGYRuTB14njr5yCZV2CRHAIj/utnuKolV5vamOJhNDLg7czhwAOaBZDg0/VOHtfN1
- vkg8qtAwEZAGj9q0yXH4lW/QEn/7Xkk61dyj7OFPkWUhWotAdolaFmvfTFReICdBzKKp
- 7SZjKlo9ZqOcq5Wx+LdFY4ytOw+s5MTUsw01vyIAEsLPjn7ISseUE72tqc97vT2kI52X
- 3q3odCW+RQrykolMyG0dXdqRNukymt8EoOql2SS/SqSSZ9jgrKyZQqoq0wZy8TY4UwaT
- l4Xw==
+ bh=NZznVY2PNcm8/8th1seZakUGMQB4kApyVOseMDs6r+M=;
+ b=YrylU0Mto+scss+HWbGPVSjD9Gk8rSfvjR9eX9K824j4nioz3js1OS2OY1bF0igTLb
+ D7xj93ghUIxkc1uGC2E9JnxVotNC9gpcP024nsKtwcGscxRos3VPaO460F1OlZhBklMq
+ MXgSX5zVZLqvvD/tMzErrXAAFauBMoIRb8NDDe9vVF8b6AyPpNS0tJ0jc6bMiVgCLlEk
+ 11KzItAInQWvkXE+KFBzcK8JyCRypue7Ygt1lfG1q0qkU6Edy5RUfU53wSgah884VEVX
+ 8Mv8FAfoGkUtfJVnO+2XumoudWiD2Z3KH3Q1gcm+fqcHjgZ2vbLoIuRoThX2Moq9M9Ba
+ 63gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lHyWIiwXqz7PUK23G2WjiaSirKHA3tPFe4PBKOzvAwM=;
- b=A4NT69dQFs649eRDiMOiXpRrjOQIo3iY4uO8h3CM4KU62qfR+UR8r5P/H2dQV0bP5F
- pcckogIbofuKN4DXBQdUpSGWZnvb0S3wJY96XBoGYAq/qli3KkbPRq31ROkAmRkjXTse
- af5qnKxbR+6Cm2pIDTJXDiRNSLacdq84ZWWS3FR9Qd5C5WfPwsjkEMtGtxLI4IQgivvZ
- M/S7VxoDgOmYQq9w2pt2gBAaSNr+enbXnPkzEos5iprFu/mAmzQ2tAkmyXWjMBnP1Fs5
- puH9voTfwL31quwyfILt66FuuACMCfPo8LCnG38zEMdSiQ1H7oorPQK8BqzHf+LtV2rE
- Wvrg==
-X-Gm-Message-State: APjAAAXrsQ/8D6aMgZ3q1MoiEzOj3FxxRt6rD+plbyxpBGjoE2sHs4HA
- NyuE+wbKGUhrgzmAG/GUR+UzpgcL
-X-Google-Smtp-Source: APXvYqyHgEHNuciUAVqMeYt+6iNT/Aq1t/UmEBlorKxPkKuBQyrxAUOsEn5Kd9qWNkspgQi1g6qL9Q==
-X-Received: by 2002:a5d:438c:: with SMTP id i12mr6351464wrq.196.1576155254035; 
- Thu, 12 Dec 2019 04:54:14 -0800 (PST)
+ bh=NZznVY2PNcm8/8th1seZakUGMQB4kApyVOseMDs6r+M=;
+ b=WUCVltmVa7H1LCLQFy7yLfgL0r8sWfKi/BNFuvioiPrjj1fdPrn3omwf4jRn5nC64G
+ qpzovEnwtwRoY/Sd4oaPBu/IJJpxaGGZm8hp+Ss94aPgLQzRn+I+/bvJZF2dyvmmOwX8
+ jaowiquvQJUQPp5ntZGTt7+QJcfrXIgVX+CHbPcG+gp1Rxpg0vCPsuzsuP4Px92KXAIy
+ 09Qv+XpX03v/vnI93TPqhS10dkMLNVh82IBJRj99p+lWgvKnhJtxn76PqCmbmJFTTV8y
+ a9hbVuBYiZ41nViz0iH5jF21CX6SqTBQTboylS4Nlzp5pdEl6a02yvwZ4yRRUAJVC1b2
+ Xiag==
+X-Gm-Message-State: APjAAAUqYvkOIZDFDryUAm9A6n7s3Uf540J1pzXd+3wVPNDeZaw3Cw4P
+ QvzEESZxtPKChq9LEP04v5wZiKbs
+X-Google-Smtp-Source: APXvYqxxomIJkq60aa8Ya3e4qnvPcvzpGBdJRA7R6DYdloh6jQz4isAm8SkM2rTM0dO4Jtu1bSwIqQ==
+X-Received: by 2002:adf:d848:: with SMTP id k8mr5983951wrl.328.1576155255004; 
+ Thu, 12 Dec 2019 04:54:15 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.13
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:54:13 -0800 (PST)
+ Thu, 12 Dec 2019 04:54:14 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 076/132] meson: convert hw/scsi
-Date: Thu, 12 Dec 2019 13:52:00 +0100
-Message-Id: <1576155176-2464-77-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 077/132] meson: convert hw/pcmcia
+Date: Thu, 12 Dec 2019 13:52:01 +0100
+Message-Id: <1576155176-2464-78-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,90 +86,53 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/meson.build        |  1 +
- hw/scsi/Makefile.objs | 15 ---------------
- hw/scsi/meson.build   | 26 ++++++++++++++++++++++++++
- 4 files changed, 27 insertions(+), 16 deletions(-)
- delete mode 100644 hw/scsi/Makefile.objs
- create mode 100644 hw/scsi/meson.build
+ hw/Makefile.objs        | 1 -
+ hw/meson.build          | 1 +
+ hw/pcmcia/Makefile.objs | 2 --
+ hw/pcmcia/meson.build   | 2 ++
+ 4 files changed, 3 insertions(+), 3 deletions(-)
+ delete mode 100644 hw/pcmcia/Makefile.objs
+ create mode 100644 hw/pcmcia/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 22ea14a..4670061 100644
+index 4670061..bfa305f 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -25,7 +25,6 @@ devices-dirs-y += nvram/
+@@ -24,7 +24,6 @@ devices-dirs-y += rdma/
+ devices-dirs-y += nvram/
  devices-dirs-y += pci/
  devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
- devices-dirs-y += pcmcia/
--devices-dirs-$(CONFIG_SCSI) += scsi/
+-devices-dirs-y += pcmcia/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 0d29fa7..37ff9ec 100644
+index 37ff9ec..2356eda 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,5 +1,6 @@
  subdir('core')
  subdir('mem')
-+subdir('scsi')
++subdir('pcmcia')
+ subdir('scsi')
  subdir('sd')
  subdir('semihosting')
- subdir('smbios')
-diff --git a/hw/scsi/Makefile.objs b/hw/scsi/Makefile.objs
+diff --git a/hw/pcmcia/Makefile.objs b/hw/pcmcia/Makefile.objs
 deleted file mode 100644
-index 54b36ed..0000000
---- a/hw/scsi/Makefile.objs
+index 4eac060..0000000
+--- a/hw/pcmcia/Makefile.objs
 +++ /dev/null
-@@ -1,15 +0,0 @@
--common-obj-y += scsi-disk.o emulation.o
--common-obj-y += scsi-generic.o scsi-bus.o
--common-obj-$(CONFIG_LSI_SCSI_PCI) += lsi53c895a.o
--common-obj-$(CONFIG_MPTSAS_SCSI_PCI) += mptsas.o mptconfig.o mptendian.o
--common-obj-$(CONFIG_MEGASAS_SCSI_PCI) += megasas.o
--common-obj-$(CONFIG_VMW_PVSCSI_SCSI_PCI) += vmw_pvscsi.o
--common-obj-$(CONFIG_ESP) += esp.o
--common-obj-$(CONFIG_ESP_PCI) += esp-pci.o
--obj-$(CONFIG_SPAPR_VSCSI) += spapr_vscsi.o
--
--ifeq ($(CONFIG_VIRTIO_SCSI),y)
--obj-y += virtio-scsi.o virtio-scsi-dataplane.o
--obj-$(CONFIG_VHOST_SCSI) += vhost-scsi-common.o vhost-scsi.o
--obj-$(CONFIG_VHOST_USER_SCSI) += vhost-scsi-common.o vhost-user-scsi.o
--endif
-diff --git a/hw/scsi/meson.build b/hw/scsi/meson.build
+@@ -1,2 +0,0 @@
+-common-obj-y += pcmcia.o
+-obj-$(CONFIG_PXA2XX) += pxa2xx.o
+diff --git a/hw/pcmcia/meson.build b/hw/pcmcia/meson.build
 new file mode 100644
-index 0000000..923a34f
+index 0000000..48ece81
 --- /dev/null
-+++ b/hw/scsi/meson.build
-@@ -0,0 +1,26 @@
-+scsi_ss = ss.source_set()
-+scsi_ss.add(files(
-+  'emulation.c',
-+  'scsi-bus.c',
-+  'scsi-disk.c',
-+  'scsi-generic.c',
-+))
-+scsi_ss.add(when: 'CONFIG_ESP', if_true: files('esp.c'))
-+scsi_ss.add(when: 'CONFIG_ESP_PCI', if_true: files('esp-pci.c'))
-+scsi_ss.add(when: 'CONFIG_LSI_SCSI_PCI', if_true: files('lsi53c895a.c'))
-+scsi_ss.add(when: 'CONFIG_MEGASAS_SCSI_PCI', if_true: files('megasas.c'))
-+scsi_ss.add(when: 'CONFIG_MPTSAS_SCSI_PCI', if_true: files('mptsas.c', 'mptconfig.c', 'mptendian.c'))
-+scsi_ss.add(when: 'CONFIG_VMW_PVSCSI_SCSI_PCI', if_true: files('vmw_pvscsi.c'))
-+softmmu_ss.add_all(when: 'CONFIG_SCSI', if_true: scsi_ss)
-+
-+specific_scsi_ss = ss.source_set()
-+
-+virtio_scsi_ss = ss.source_set()
-+virtio_scsi_ss.add(files('virtio-scsi.c', 'virtio-scsi-dataplane.c'))
-+virtio_scsi_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-common.c', 'vhost-scsi.c'))
-+virtio_scsi_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-scsi-common.c', 'vhost-user-scsi.c'))
-+specific_scsi_ss.add_all(when: 'CONFIG_VIRTIO_SCSI', if_true: virtio_scsi_ss)
-+
-+specific_scsi_ss.add(when: 'CONFIG_SPAPR_VSCSI', if_true: files('spapr_vscsi.c'))
-+
-+specific_ss.add_all(when: 'CONFIG_SCSI', if_true: specific_scsi_ss)
++++ b/hw/pcmcia/meson.build
+@@ -0,0 +1,2 @@
++softmmu_ss.add(files('pcmcia.c'))
++specific_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx.c'))
 -- 
 1.8.3.1
 
