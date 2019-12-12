@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D648511D4A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:56:13 +0100 (CET)
-Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C30A11D43B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:40:27 +0100 (CET)
+Received: from localhost ([::1]:34827 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifShA-0006Ch-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:56:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
+	id 1ifSRt-0001RN-CI
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:40:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRWy-0007iH-K7
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:38 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRX5-0007rX-00
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRWx-0004i7-51
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38611
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifRX3-0004vV-SC
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:42 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44889
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRWw-0004gm-Ui
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:35 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRX3-0004ul-NY
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168894;
+ s=mimecast20190719; t=1576168901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5AO3BjV12qctb9/wSyR/WcWUQ11asDIps1CZbGF1aYw=;
- b=XxFAqFebVxlRxgItQixPjZV8zbVhM+OO0ELeNhLy+MUaBbYX+Cs1LhCNv5/ZwYxOBsOfxI
- GDjtWpJTYqy/l8EUovhDNLGN3rrQ2voIGCW2ir7s0cOv9NrVWyPsxv5pjGVFy1zz/XgnWW
- cpHD/rsfxzbSJKgOJyjt7Yq79Ko4iZk=
+ bh=5OzLXiuaEm9rsBZclFzC9sSXge9QS5piPP1Nh1UzqHM=;
+ b=HC5dDoIgcCnK7uh3H7S44uvOu0LmPl8eALryOnbLtbjeHQB6Tk0UDmzvzjukOYuBnOqNPE
+ XuBTo7YB/MYVH0G0wXRzLiuNwN4dUko5YggWTSU2c5od8sWt/AI5zk2rrHP2ggJcm13blU
+ hBlroFXICEYsvbXqUNrEaQAUIN2a9T8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-TQn8XQ_7OpmzJgoAb6TA7Q-1; Thu, 12 Dec 2019 11:41:33 -0500
+ us-mta-349-V48IxQcPMaKVsvTKlWEoBA-1; Thu, 12 Dec 2019 11:41:40 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 629FD12D6581
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4397D800D5A
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:39 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8724E619A8;
- Thu, 12 Dec 2019 16:41:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BB9560BE1;
+ Thu, 12 Dec 2019 16:41:35 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 092/104] virtiofsd: add man page
-Date: Thu, 12 Dec 2019 16:38:52 +0000
-Message-Id: <20191212163904.159893-93-dgilbert@redhat.com>
+Subject: [PATCH 096/104] virtiofsd: Reset O_DIRECT flag during file open
+Date: Thu, 12 Dec 2019 16:38:56 +0000
+Message-Id: <20191212163904.159893-97-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: TQn8XQ_7OpmzJgoAb6TA7Q-1
+X-MC-Unique: V48IxQcPMaKVsvTKlWEoBA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,160 +76,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+If an application wants to do direct IO and opens a file with O_DIRECT
+in guest, that does not necessarily mean that we need to bypass page
+cache on host as well. So reset this flag on host.
+
+If somebody needs to bypass page cache on host as well (and it is safe to
+do so), we can add a knob in daemon later to control this behavior.
+
+I check virtio-9p and they do reset O_DIRECT flag.
+
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- Makefile                       |  7 +++
- tools/virtiofsd/virtiofsd.texi | 85 ++++++++++++++++++++++++++++++++++
- 2 files changed, 92 insertions(+)
- create mode 100644 tools/virtiofsd/virtiofsd.texi
+ tools/virtiofsd/passthrough_ll.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index fa15174ba0..53d175d12f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -357,6 +357,9 @@ DOCS+=3Ddocs/qemu-cpu-models.7
- ifdef CONFIG_VIRTFS
- DOCS+=3Dfsdev/virtfs-proxy-helper.1
- endif
-+ifdef CONFIG_LINUX
-+DOCS+=3Dtools/virtiofsd/virtiofsd.1
-+endif
- ifdef CONFIG_TRACE_SYSTEMTAP
- DOCS+=3Dscripts/qemu-trace-stap.1
- endif
-@@ -863,6 +866,9 @@ ifdef CONFIG_VIRTFS
- =09$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
- =09$(INSTALL_DATA) fsdev/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
- endif
-+ifdef CONFIG_LINUX
-+=09$(INSTALL_DATA) tools/virtiofsd/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
-+endif
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index cf6b548eee..6b3d396b6f 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1705,6 +1705,13 @@ static void lo_create(fuse_req_t req, fuse_ino_t par=
+ent, const char *name,
+         goto out;
+     }
 =20
- install-datadir:
- =09$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
-@@ -1061,6 +1067,7 @@ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.=
-texi qemu-monitor-info.texi
- qemu.1: qemu-option-trace.texi
- qemu-img.1: qemu-img.texi qemu-option-trace.texi qemu-img-cmds.texi
- fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
-+tools/virtiofsd/virtiofsd.1: tools/virtiofsd/virtiofsd.texi
- qemu-nbd.8: qemu-nbd.texi qemu-option-trace.texi
- docs/qemu-block-drivers.7: docs/qemu-block-drivers.texi
- docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
-diff --git a/tools/virtiofsd/virtiofsd.texi b/tools/virtiofsd/virtiofsd.tex=
-i
-new file mode 100644
-index 0000000000..eec7fbf4e6
---- /dev/null
-+++ b/tools/virtiofsd/virtiofsd.texi
-@@ -0,0 +1,85 @@
-+@example
-+@c man begin SYNOPSIS
-+@command{virtiofsd} [OPTION] @option{--socket-path=3D}@var{path}|@option{-=
--fd=3D}@var{fdnum} @option{-o source=3D}@var{path}
-+@c man end
-+@end example
++    /*
++     * O_DIRECT in guest should not necessarily mean bypassing page
++     * cache on host as well. If somebody needs that behavior, it
++     * probably should be a configuration knob in daemon.
++     */
++    fi->flags &=3D ~O_DIRECT;
 +
-+@c man begin DESCRIPTION
+     fd =3D openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOL=
+LOW,
+                 mode);
+     err =3D fd =3D=3D -1 ? errno : 0;
+@@ -1934,6 +1941,13 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, =
+struct fuse_file_info *fi)
+         fi->flags &=3D ~O_APPEND;
+     }
+=20
++    /*
++     * O_DIRECT in guest should not necessarily mean bypassing page
++     * cache on host as well. If somebody needs that behavior, it
++     * probably should be a configuration knob in daemon.
++     */
++    fi->flags &=3D ~O_DIRECT;
 +
-+Share a host directory tree with a guest through a virtio-fs device.  This
-+program is a vhost-user backend that implements the virtio-fs device.  Eac=
-h
-+virtio-fs device instance requires its own virtiofsd process.
-+
-+This program is designed to work with QEMU's @code{--device vhost-user-fs-=
-pci}
-+but should work with any virtual machine monitor (VMM) that supports
-+vhost-user.  See the EXAMPLES section below.
-+
-+This program must be run as the root user.  Upon startup the program will
-+switch into a new file system namespace with the shared directory tree as =
-its
-+root.  This prevents "file system escapes" due to symlinks and other file
-+system objects that might lead to files outside the shared directory.  The
-+program also sandboxes itself using seccomp(2) to prevent ptrace(2) and ot=
-her
-+vectors that could allow an attacker to compromise the system after gainin=
-g
-+control of the virtiofsd process.
-+
-+@c man end
-+
-+@c man begin OPTIONS
-+@table @option
-+@item -h, --help
-+Print help.
-+@item -V, --version
-+Print version.
-+@item -d, -o debug
-+Enable debug output.
-+@item --syslog
-+Print log messages to syslog instead of stderr.
-+@item -o log_level=3D@var{level}
-+Print only log messages matching @var{level} or more severe.  @var{level} =
-is
-+one of @code{err}, @code{warn}, @code{info}, or @code{debug}.  The default=
- is
-+@var{info}.
-+@item -o source=3D@var{path}
-+Share host directory tree located at @var{path}.  This option is required.
-+@item --socket-path=3D@var{path}, -o vhost_user_socket=3D@var{path}
-+Listen on vhost-user UNIX domain socket at @var{path}.
-+@item --fd=3D@var{fdnum}
-+Accept connections from vhost-user UNIX domain socket file descriptor @var=
-{fdnum}.  The file descriptor must already be listening for connections.
-+@item --thread-pool-size=3D@var{num}
-+Restrict the number of worker threads per request queue to @var{num}.  The=
- default is 64.
-+@item --cache=3D@code{none}|@code{auto}|@code{always}
-+Select the desired trade-off between coherency and performance.  @code{non=
-e}
-+forbids the FUSE client from caching to achieve best coherency at the cost=
- of
-+performance.  @code{auto} acts similar to NFS with a 1 second metadata cac=
-he
-+timeout.  @code{always} sets a long cache lifetime at the expense of coher=
-ency.
-+@item --writeback
-+Enable writeback cache, allowing the FUSE client to buffer and merge write=
- requests.
-+@end table
-+@c man end
-+
-+@c man begin EXAMPLES
-+Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @code{/v=
-ar/run/vm001-vhost-fs.sock}:
-+
-+@example
-+host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=3D/=
-var/lib/fs/vm001
-+host# qemu-system-x86_64 \
-+    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
-+    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
-+    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,sha=
-re=3Don \
-+    -numa node,memdev=3Dmem \
-+    ...
-+guest# mount -t virtio_fs \
-+    -o default_permissions,allow_other,user_id=3D0,group_id=3D0,rootmode=
-=3D040000,dax \
-+    myfs /mnt
-+@end example
-+@c man end
-+
-+@ignore
-+@setfilename virtiofsd
-+@settitle QEMU virtio-fs shared file system daemon
-+
-+@c man begin AUTHOR
-+Copyright (C) 2019 Red Hat, Inc.
-+This is free software; see the source for copying conditions.  There is NO
-+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE=
-.
-+@c man end
-+@end ignore
+     sprintf(buf, "%i", lo_fd(req, ino));
+     fd =3D openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+     if (fd =3D=3D -1) {
 --=20
 2.23.0
 
