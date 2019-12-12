@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A2511D43A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:40:06 +0100 (CET)
-Received: from localhost ([::1]:34818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC4F11D408
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:32:10 +0100 (CET)
+Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSRZ-0000zq-1s
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:40:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
+	id 1ifSJs-0007UN-LD
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:32:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRWA-0006ax-Se
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:47 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRWE-0006gh-O4
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRW9-00039u-V4
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:46 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53619
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifRWC-0003Ef-GC
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50698
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW9-00039D-R5
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:45 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRWC-0003Dy-BV
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168845;
+ s=mimecast20190719; t=1576168847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hdIRDXwyt3RkJOCUfmKKkrNRtzPc/lLRGQepZPsW0B0=;
- b=NP6gnI0vWGAx++6zjfZa+yqGhCEWR6OCSosATeqexOxufUmXFf8D0f2cBhAb8o6F0UvWtR
- 2SQ7z52VxEqu/0olemdW4cYlGrIzhPWdAvw31t6z3Cy1UA3RwCxcPK1G/XfvCoc/CxlE1I
- npGbOKmor0FSU7/H63kIpkz+ezET/5A=
+ bh=WkhckyCPoEugYH+BhktCmuRCvCKkyg2XHUE4U9xmKGA=;
+ b=Wta3Y7kFkQU84uY8Ww/plJiJajME6Z/83WA1kMK3Th96Q6yr+E3kKCydD6rIZ4Abrrl3hG
+ SCDjky3zeBSkLUzDf4ByjzYohm0DvRijdzF8bfeyNZXnuaX1+KCVKbCXuNcApqTIcW3VSX
+ dgzQUmNj7XIptZ45d+VIfjBG9ORg+FA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-8T2LDMC5Pr-uotjrhuEz4g-1; Thu, 12 Dec 2019 11:40:44 -0500
+ us-mta-10-HnPoBiDrOTSTajjKpc-fBA-1; Thu, 12 Dec 2019 11:40:46 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2522C800D24
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B774107ACCC
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:45 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E739E60BE1;
- Thu, 12 Dec 2019 16:40:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9150560BE1;
+ Thu, 12 Dec 2019 16:40:44 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 061/104] virtiofsd: Handle reinit
-Date: Thu, 12 Dec 2019 16:38:21 +0000
-Message-Id: <20191212163904.159893-62-dgilbert@redhat.com>
+Subject: [PATCH 063/104] virtiofsd: Kill threads when queues are stopped
+Date: Thu, 12 Dec 2019 16:38:23 +0000
+Message-Id: <20191212163904.159893-64-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 8T2LDMC5Pr-uotjrhuEz4g-1
+X-MC-Unique: HnPoBiDrOTSTajjKpc-fBA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,36 +78,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Allow init->destroy->init  for mount->umount->mount
+Kill the threads we've started when the queues get stopped.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tools/virtiofsd/fuse_virtio.c | 37 +++++++++++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 0abb369b3d..2d1d1a2e59 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -2030,6 +2030,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid=
-,
-     }
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 3c778b6296..2f11fee46d 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -41,6 +41,7 @@ struct fv_QueueInfo {
+     /* Our queue index, corresponds to array position */
+     int qidx;
+     int kick_fd;
++    int kill_fd; /* For killing the thread */
 =20
-     se->got_init =3D 1;
-+    se->got_destroy =3D 0;
-     if (se->op.init) {
-         se->op.init(se->userdata, &se->conn);
-     }
-@@ -2132,6 +2133,7 @@ static void do_destroy(fuse_req_t req, fuse_ino_t nod=
-eid,
-     (void)iter;
+     /* The element for the command currently being processed */
+     VuVirtqElement *qe;
+@@ -410,14 +411,17 @@ static void *fv_queue_thread(void *opaque)
+     fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func_=
+_,
+              qi->qidx, qi->kick_fd);
+     while (1) {
+-        struct pollfd pf[1];
++        struct pollfd pf[2];
+         pf[0].fd =3D qi->kick_fd;
+         pf[0].events =3D POLLIN;
+         pf[0].revents =3D 0;
++        pf[1].fd =3D qi->kill_fd;
++        pf[1].events =3D POLLIN;
++        pf[1].revents =3D 0;
 =20
-     se->got_destroy =3D 1;
-+    se->got_init =3D 0;
-     if (se->op.destroy) {
-         se->op.destroy(se->userdata);
+         fuse_log(FUSE_LOG_DEBUG, "%s: Waiting for Queue %d event\n", __fun=
+c__,
+                  qi->qidx);
+-        int poll_res =3D ppoll(pf, 1, NULL, NULL);
++        int poll_res =3D ppoll(pf, 2, NULL, NULL);
+=20
+         if (poll_res =3D=3D -1) {
+             if (errno =3D=3D EINTR) {
+@@ -428,12 +432,23 @@ static void *fv_queue_thread(void *opaque)
+             fuse_log(FUSE_LOG_ERR, "fv_queue_thread ppoll: %m\n");
+             break;
+         }
+-        assert(poll_res =3D=3D 1);
++        assert(poll_res >=3D 1);
+         if (pf[0].revents & (POLLERR | POLLHUP | POLLNVAL)) {
+             fuse_log(FUSE_LOG_ERR, "%s: Unexpected poll revents %x Queue %=
+d\n",
+                      __func__, pf[0].revents, qi->qidx);
+             break;
+         }
++        if (pf[1].revents & (POLLERR | POLLHUP | POLLNVAL)) {
++            fuse_log(FUSE_LOG_ERR,
++                     "%s: Unexpected poll revents %x Queue %d killfd\n",
++                     __func__, pf[1].revents, qi->qidx);
++            break;
++        }
++        if (pf[1].revents) {
++            fuse_log(FUSE_LOG_INFO, "%s: kill event on queue %d - quitting=
+\n",
++                     __func__, qi->qidx);
++            break;
++        }
+         assert(pf[0].revents & POLLIN);
+         fuse_log(FUSE_LOG_DEBUG, "%s: Got queue event on Queue %d\n", __fu=
+nc__,
+                  qi->qidx);
+@@ -631,15 +646,29 @@ static void fv_queue_set_started(VuDev *dev, int qidx=
+, bool started)
+         }
+         ourqi =3D vud->qi[qidx];
+         ourqi->kick_fd =3D dev->vq[qidx].kick_fd;
++
++        ourqi->kill_fd =3D eventfd(0, EFD_CLOEXEC | EFD_SEMAPHORE);
++        assert(ourqi->kill_fd !=3D -1);
+         if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) =
+{
+             fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue =
+%d\n",
+                      __func__, qidx);
+             assert(0);
+         }
+     } else {
+-        /* TODO: Kill the thread */
++        int ret;
+         assert(qidx < vud->nqueues);
+         ourqi =3D vud->qi[qidx];
++
++        /* Kill the thread */
++        if (eventfd_write(ourqi->kill_fd, 1)) {
++            fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
++        }
++        ret =3D pthread_join(ourqi->thread, NULL);
++        if (ret) {
++            fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %=
+d\n",
++                     __func__, qidx, ret);
++        }
++        close(ourqi->kill_fd);
+         ourqi->kick_fd =3D -1;
      }
+ }
 --=20
 2.23.0
 
