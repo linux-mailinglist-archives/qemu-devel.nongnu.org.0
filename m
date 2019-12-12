@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7642811D2DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:55:54 +0100 (CET)
-Received: from localhost ([::1]:34276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F0511D2EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:58:25 +0100 (CET)
+Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifRkn-0004pv-2m
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:55:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45529)
+	id 1ifRnE-00006N-1S
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:58:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVD-0005Iy-HY
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:49 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVJ-0005ND-Uf
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVC-0001SN-4T
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:47 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56622
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVI-0001c2-Mw
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:53 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30385
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVC-0001Rg-08
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:46 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVI-0001ag-If
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168785;
+ s=mimecast20190719; t=1576168791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1luCXZrdxqKoSPR+HiU/ctUOTfC03fMruiZm8svsaGE=;
- b=dIxI39ofKb46ZP521M5YKS/WPIc1A/QNqJgepE1y6EvkE9fMxOZobAx1YA45O1zxEVMZ6T
- 6LMT0gMPBy2WZDAjlXLRa4Oab8l6PxNQ1UY7e+QMA1trQ63ArbGn8Imf1VvYT2lPDjnnhS
- BNBIilMpzSaimpb4ter95z8HSaHMsyQ=
+ bh=YRLLWR3oSmOC1GQ4wgCvG70PVNqMhkYy6wEguAA/JYY=;
+ b=XcjeQG+oFPWwdqHl2GzLi0bCfK1jEfO8eMhCizjcpp2nl4d1woKr9PthBm859jmGdVtA93
+ voaVBihRX7vRsuqIymLz55KN4muAAqqyz6ALGzPD2/TINS4P54NSZBUybLEO7utGrurX2T
+ Lh+5d781ED/917Lj6MnNhyh7fQOeObY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-CLsR1Ds7MN2T15OKoQHirQ-1; Thu, 12 Dec 2019 11:39:43 -0500
+ us-mta-384-UorVez84OYmnn83aMol55Q-1; Thu, 12 Dec 2019 11:39:50 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70C5C1800D42
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D96E64A7E
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:49 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94D7E60BE1;
- Thu, 12 Dec 2019 16:39:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4B5C60BE1;
+ Thu, 12 Dec 2019 16:39:48 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 020/104] virtiofsd: Start queue threads
-Date: Thu, 12 Dec 2019 16:37:40 +0000
-Message-Id: <20191212163904.159893-21-dgilbert@redhat.com>
+Subject: [PATCH 024/104] virtiofsd: Keep track of replies
+Date: Thu, 12 Dec 2019 16:37:44 +0000
+Message-Id: <20191212163904.159893-25-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: CLsR1Ds7MN2T15OKoQHirQ-1
+X-MC-Unique: UorVez84OYmnn83aMol55Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,151 +78,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Start a thread for each queue when we get notified it's been started.
+Keep track of whether we sent a reply to a request; this is a bit
+paranoid but it means:
+  a) We should always recycle an element even if there was an error
+     in the request
+  b) Never try and send two replies on one queue element
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-fix by:
-Signed-off-by: Jun Piao <piaojun@huawei.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 89 +++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+ tools/virtiofsd/fuse_virtio.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 1bbbf570ac..94f9db76df 100644
+index c38268a1d5..c33e0f7e8c 100644
 --- a/tools/virtiofsd/fuse_virtio.c
 +++ b/tools/virtiofsd/fuse_virtio.c
-@@ -11,6 +11,7 @@
-  * See the file COPYING.LIB
-  */
+@@ -44,6 +44,7 @@ struct fv_QueueInfo {
 =20
-+#include "qemu/osdep.h"
- #include "fuse_virtio.h"
- #include "fuse_i.h"
- #include "standard-headers/linux/fuse.h"
-@@ -30,6 +31,15 @@
-=20
- #include "contrib/libvhost-user/libvhost-user.h"
-=20
-+struct fv_QueueInfo {
-+    pthread_t thread;
-+    struct fv_VuDev *virtio_dev;
-+
-+    /* Our queue index, corresponds to array position */
-+    int qidx;
-+    int kick_fd;
-+};
-+
- /*
-  * We pass the dev element into libvhost-user
-  * and then use it to get back to the outer
-@@ -38,6 +48,13 @@
- struct fv_VuDev {
-     VuDev dev;
-     struct fuse_session *se;
-+
-+    /*
-+     * The following pair of fields are only accessed in the main
-+     * virtio_loop
-+     */
-+    size_t nqueues;
-+    struct fv_QueueInfo **qi;
+     /* The element for the command currently being processed */
+     VuVirtqElement *qe;
++    bool reply_sent;
  };
 =20
- /* From spec */
-@@ -83,6 +100,75 @@ static void fv_panic(VuDev *dev, const char *err)
-     exit(EXIT_FAILURE);
+ /*
+@@ -178,6 +179,7 @@ int virtio_send_msg(struct fuse_session *se, struct fus=
+e_chan *ch,
+ {
+     VuVirtqElement *elem;
+     VuVirtq *q;
++    int ret =3D 0;
+=20
+     assert(count >=3D 1);
+     assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
+@@ -191,6 +193,7 @@ int virtio_send_msg(struct fuse_session *se, struct fus=
+e_chan *ch,
+     assert(out->unique);
+     /* For virtio we always have ch */
+     assert(ch);
++    assert(!ch->qi->reply_sent);
+     elem =3D ch->qi->qe;
+     q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
+=20
+@@ -208,19 +211,23 @@ int virtio_send_msg(struct fuse_session *se, struct f=
+use_chan *ch,
+     if (in_len < sizeof(struct fuse_out_header)) {
+         fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
+                  __func__, elem->index);
+-        return -E2BIG;
++        ret =3D -E2BIG;
++        goto err;
+     }
+     if (in_len < tosend_len) {
+         fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
+                  __func__, elem->index, tosend_len);
+-        return -E2BIG;
++        ret =3D -E2BIG;
++        goto err;
+     }
+=20
+     copy_iov(iov, count, in_sg, in_num, tosend_len);
+     vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
+     vu_queue_notify(&se->virtio_dev->dev, q);
++    ch->qi->reply_sent =3D true;
+=20
+-    return 0;
++err:
++    return ret;
  }
 =20
-+static void *fv_queue_thread(void *opaque)
-+{
-+    struct fv_QueueInfo *qi =3D opaque;
-+    fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func_=
-_,
-+             qi->qidx, qi->kick_fd);
-+    while (1) {
-+        /* TODO */
-+    }
-+
-+    return NULL;
-+}
-+
-+/* Callback from libvhost-user on start or stop of a queue */
-+static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-+{
-+    struct fv_VuDev *vud =3D container_of(dev, struct fv_VuDev, dev);
-+    struct fv_QueueInfo *ourqi;
-+
-+    fuse_log(FUSE_LOG_INFO, "%s: qidx=3D%d started=3D%d\n", __func__, qidx=
-,
-+             started);
-+    assert(qidx >=3D 0);
-+
-+    /*
-+     * Ignore additional request queues for now.  passthrough_ll.c must be
-+     * audited for thread-safety issues first.  It was written with a
-+     * well-behaved client in mind and may not protect against all types o=
-f
-+     * races yet.
-+     */
-+    if (qidx > 1) {
-+        fuse_log(FUSE_LOG_ERR,
-+                 "%s: multiple request queues not yet implemented, please =
-only "
-+                 "configure 1 request queue\n",
-+                 __func__);
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    if (started) {
-+        /* Fire up a thread to watch this queue */
-+        if (qidx >=3D vud->nqueues) {
-+            vud->qi =3D realloc(vud->qi, (qidx + 1) * sizeof(vud->qi[0]));
-+            assert(vud->qi);
-+            memset(vud->qi + vud->nqueues, 0,
-+                   sizeof(vud->qi[0]) * (1 + (qidx - vud->nqueues)));
-+            vud->nqueues =3D qidx + 1;
-+        }
-+        if (!vud->qi[qidx]) {
-+            vud->qi[qidx] =3D calloc(sizeof(struct fv_QueueInfo), 1);
-+            assert(vud->qi[qidx]);
-+            vud->qi[qidx]->virtio_dev =3D vud;
-+            vud->qi[qidx]->qidx =3D qidx;
-+        } else {
-+            /* Shouldn't have been started */
-+            assert(vud->qi[qidx]->kick_fd =3D=3D -1);
-+        }
-+        ourqi =3D vud->qi[qidx];
-+        ourqi->kick_fd =3D dev->vq[qidx].kick_fd;
-+        if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) =
-{
-+            fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue =
-%d\n",
-+                     __func__, qidx);
-+            assert(0);
-+        }
-+    } else {
-+        /* TODO: Kill the thread */
-+        assert(qidx < vud->nqueues);
-+        ourqi =3D vud->qi[qidx];
-+        ourqi->kick_fd =3D -1;
-+    }
-+}
-+
- static bool fv_queue_order(VuDev *dev, int qidx)
- {
-     return false;
-@@ -92,6 +178,9 @@ static const VuDevIface fv_iface =3D {
-     .get_features =3D fv_get_features,
-     .set_features =3D fv_set_features,
+ /* Thread function for individual queues, created when a queue is 'started=
+' */
+@@ -297,6 +304,9 @@ static void *fv_queue_thread(void *opaque)
+                 break;
+             }
 =20
-+    /* Don't need process message, we've not got any at vhost-user level *=
-/
-+    .queue_set_started =3D fv_queue_set_started,
++            qi->qe =3D elem;
++            qi->reply_sent =3D false;
 +
-     .queue_is_processed_in_order =3D fv_queue_order,
- };
+             if (!fbuf.mem) {
+                 fbuf.mem =3D malloc(se->bufsize);
+                 assert(fbuf.mem);
+@@ -332,6 +342,13 @@ static void *fv_queue_thread(void *opaque)
+             /* TODO: Add checks for fuse_session_exited */
+             fuse_session_process_buf_int(se, &fbuf, &ch);
 =20
++            if (!qi->reply_sent) {
++                fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
++                         __func__, elem->index);
++                /* I think we've still got to recycle the element */
++                vu_queue_push(dev, q, elem, 0);
++                vu_queue_notify(dev, q);
++            }
+             qi->qe =3D NULL;
+             free(elem);
+             elem =3D NULL;
 --=20
 2.23.0
 
