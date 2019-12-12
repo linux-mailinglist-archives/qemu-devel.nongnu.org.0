@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435AD11D418
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:34:24 +0100 (CET)
-Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DA911D434
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:38:55 +0100 (CET)
+Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSM2-0001e0-OR
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:34:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54097)
+	id 1ifSQQ-0007vc-De
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:38:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRW4-0006QN-1A
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:41 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW6-0006UQ-Hd
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRW2-0002rV-BQ
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:39 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48927
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW5-00030D-8N
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58839
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW2-0002qZ-6B
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:38 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW5-0002z5-3o
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168837;
+ s=mimecast20190719; t=1576168840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dvlZVFarT78i+OdZ7mDvcKD7WhFq4H1FVCJgNZrLelo=;
- b=BKy7GdSYiBwMzGMlGN63ecVMyV570bH7p89SzaIkAPOSaLDfI73SqLi+w0KkQU+/Bm8VQL
- t8ueOUBjzk24YXChyrNp5RtkyRZSRGfrnSRuD0B4FK3oyVCPPoNH+qByFN8qEHeJT/OcCQ
- Yf+Mi++u9QdgXJLuyQLpYPtVnsPzruc=
+ bh=6wtW03wKduanTOuj8YbTNu2WRG1KP4JxkSYDlZB6z1I=;
+ b=By+FAKOO1mvlcbT3CpPZIpUis6zVlmHDvIjaeOhmfHS0h3KHg29IH0BB81FqIYHPwkQYtS
+ jW0OiSG/tJhouVu5yPz8ApAePB+BWOYbnpe30uGbC5FG0OgaPcl0WaNKshQLKqa851IpSU
+ MBFSS47vk6jx77wNmIGx3vzAgePrIhQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-8Ae6SY1KNSWIcR9F7h-pJg-1; Thu, 12 Dec 2019 11:40:35 -0500
+ us-mta-198-esZvh4y3NBCOrwq4LPFVJQ-1; Thu, 12 Dec 2019 11:40:39 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE343801E7E
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AB751005502
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:38 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 20B4460BF3;
- Thu, 12 Dec 2019 16:40:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9118960BE1;
+ Thu, 12 Dec 2019 16:40:37 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 056/104] virtiofsd: add security guide document
-Date: Thu, 12 Dec 2019 16:38:16 +0000
-Message-Id: <20191212163904.159893-57-dgilbert@redhat.com>
+Subject: [PATCH 059/104] virtiofsd: Add ID to the log with FUSE_LOG_DEBUG level
+Date: Thu, 12 Dec 2019 16:38:19 +0000
+Message-Id: <20191212163904.159893-60-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 8Ae6SY1KNSWIcR9F7h-pJg-1
+X-MC-Unique: esZvh4y3NBCOrwq4LPFVJQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,189 +76,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 
-Many people want to know: what's up with virtiofsd and security?  This
-document provides the answers!
+virtiofsd has some threads, so we see a lot of logs with debug option.
+It would be useful for debugging if we can identify the specific thread
+from the log.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Add ID, which is got by gettid(), to the log with FUSE_LOG_DEBUG level
+so that we can grep the specific thread.
+
+The log is like as:
+
+  ]# ./virtiofsd -d -o vhost_user_socket=3D/tmp/vhostqemu0 -o source=3D/tmp=
+/share0 -o cache=3Dauto
+  ...
+  [ID: 00000097]    unique: 12696, success, outsize: 120
+  [ID: 00000097] virtio_send_msg: elem 18: with 2 in desc of length 120
+  [ID: 00000003] fv_queue_thread: Got queue event on Queue 1
+  [ID: 00000003] fv_queue_thread: Queue 1 gave evalue: 1 available: in: 655=
+52 out: 80
+  [ID: 00000003] fv_queue_thread: Waiting for Queue 1 event
+  [ID: 00000071] fv_queue_worker: elem 33: with 2 out desc of length 80 bad=
+_in_num=3D0 bad_out_num=3D0
+  [ID: 00000071] unique: 12694, opcode: READ (15), nodeid: 2, insize: 80, p=
+id: 2014
+  [ID: 00000071] lo_read(ino=3D2, size=3D65536, off=3D131072)
+
+Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 ---
- tools/virtiofsd/security.rst | 118 +++++++++++++++++++++++++++++++++++
- 1 file changed, 118 insertions(+)
- create mode 100644 tools/virtiofsd/security.rst
+ tools/virtiofsd/passthrough_ll.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/security.rst b/tools/virtiofsd/security.rst
-new file mode 100644
-index 0000000000..61ce551344
---- /dev/null
-+++ b/tools/virtiofsd/security.rst
-@@ -0,0 +1,118 @@
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Virtiofsd Security Guide
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 6f398a7ff2..8e00a90e6f 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -42,6 +42,7 @@
+ #include <cap-ng.h>
+ #include <dirent.h>
+ #include <errno.h>
++#include <glib.h>
+ #include <inttypes.h>
+ #include <limits.h>
+ #include <pthread.h>
+@@ -2248,12 +2249,18 @@ static void setup_nofile_rlimit(void)
+     }
+ }
+=20
+-static void log_func(enum fuse_log_level level, const char *fmt, va_list a=
+p)
++static void log_func(enum fuse_log_level level, const char *_fmt, va_list =
+ap)
+ {
++    char *fmt =3D (char *)_fmt;
 +
-+Introduction
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+This document covers security topics for users of virtiofsd, the daemon th=
-at
-+implements host<->guest file system sharing.  Sharing files between one or=
- more
-+guests and the host raises questions about the trust relationships between
-+these entities.  By understanding these topics users can safely deploy
-+virtiofsd and control access to their data.
+     if (current_log_level < level) {
+         return;
+     }
+=20
++    if (current_log_level =3D=3D FUSE_LOG_DEBUG) {
++        fmt =3D g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid), _f=
+mt);
++    }
 +
-+Architecture
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+The virtiofsd daemon process acts as a vhost-user device backend, implemen=
-ting
-+the virtio-fs device that the corresponding device driver inside the guest
-+interacts with.
+     if (use_syslog) {
+         int priority =3D LOG_ERR;
+         switch (level) {
+@@ -2286,6 +2293,10 @@ static void log_func(enum fuse_log_level level, cons=
+t char *fmt, va_list ap)
+     } else {
+         vfprintf(stderr, fmt, ap);
+     }
 +
-+There is one virtiofsd process per virtio-fs device instance.  For example=
-,
-+when two guests have access to the same shared directory there are still t=
-wo
-+virtiofsd processes since there are two virtio-fs device instances.  Simil=
-arly,
-+if one guest has access to two shared directories, there are two virtiofsd
-+processes since there are two virtio-fs device instances.
-+
-+Files are created on the host with uid/gid values provided by the guest.
-+Furthermore, virtiofsd is unable to enforce file permissions since guests =
-have
-+the ability to access any file within the shared directory.  File permissi=
-ons
-+are implemented in the guest, just like with traditional local file system=
-s.
-+
-+Security Requirements
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Guests have root access to the shared directory.  This is necessary for ro=
-ot
-+file systems on virtio-fs and similar use cases.
-+
-+When multiple guests have access to the same shared directory, the guests =
-have
-+a trust relationship.  A broken or malicious guest could delete or corrupt
-+files.  It could exploit symlink or time-of-check-to-time-of-use (TOCTOU) =
-race
-+conditions against applications in other guests.  It could plant device no=
-des
-+or setuid executables to gain privileges in other guests.  It could perfor=
-m
-+denial-of-service (DoS) attacks by consuming available space or making the=
- file
-+system unavailable to other guests.
-+
-+Guests are restricted to the shared directory and cannot access other file=
-s on
-+the host.
-+
-+Guests should not be able to gain arbitrary code execution inside the virt=
-iofsd
-+process.  If they do, the process is sandboxed to prevent escaping into ot=
-her
-+parts of the host.
-+
-+Daemon Sandboxing
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+The virtiofsd process handles virtio-fs FUSE requests from the untrusted g=
-uest.
-+This attack surface could give the guest access to host resources and must
-+therefore be protected.  Sandboxing mechanisms are integrated into virtiof=
-sd to
-+reduce the impact in the event that an attacker gains control of the proce=
-ss.
-+
-+As a general rule, virtiofsd does not trust inputs from the guest, aside f=
-rom
-+uid/gid values.  Input validation is performed so that the guest cannot co=
-rrupt
-+memory or otherwise gain arbitrary code execution in the virtiofsd process=
-.
-+
-+Sandboxing adds restrictions on the virtiofsd so that even if an attacker =
-is
-+able to exploit a bug, they will be constrained to the virtiofsd process a=
-nd
-+unable to cause damage on the host.
-+
-+Seccomp Whitelist
-+-----------------
-+Many system calls are not required by virtiofsd to perform its function.  =
-For
-+example, ptrace(2) and execve(2) are not necessary and attackers are likel=
-y to
-+use them to further compromise the system.  This is prevented using a secc=
-omp
-+whitelist in virtiofsd.
-+
-+During startup virtiofsd installs a whitelist of allowed system calls.  Al=
-l
-+other system calls are forbidden for the remaining lifetime of the process=
-.
-+This list has been built through experience of running virtiofsd on severa=
-l
-+flavors of Linux and observing which system calls were encountered.
-+
-+It is possible that previously unexplored code paths or newer library vers=
-ions
-+will invoke system calls that have not been whitelisted yet.  In this case=
- the
-+process terminates and a seccomp error is captured in the audit log.  The =
-log
-+can typically be viewed using ``journalctl -xe`` and searching for ``SECCO=
-MP``.
-+
-+Should it be necessary to extend the whitelist, system call numbers from t=
-he
-+audit log can be translated to names through a CPU architecture-specific
-+``.tbl`` file in the Linux source tree.  They can then be added to the
-+whitelist in ``seccomp.c`` in the virtiofsd source tree.
-+
-+Mount Namespace
-+---------------
-+During startup virtiofsd enters a new mount namespace and releases all mou=
-nts
-+except for the shared directory.  This makes the file system root `/` the
-+shared directory.  It is impossible to access files outside the shared
-+directory since they cannot be looked up by path resolution.
-+
-+Several attacks, including `..` traversal and symlink escapes, are prevent=
-ed by
-+the mount namespace.
-+
-+The current virtiofsd implementation keeps a directory file descriptor to
-+/proc/self/fd open in order to implement several FUSE requests.  This file
-+descriptor could be used by attackers to access files outside the shared
-+directory.  This limitation will be addressed in a future release of virti=
-ofsd.
-+
-+Other Namespaces
-+----------------
-+Virtiofsd enters new pid and network namespaces during startup.  The pid
-+namespace prevents the process from seeing other processes running on the =
-host.
-+The network namespace removes network connectivity from the process.
-+
-+Deployment Best Practices
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-+The shared directory should be a separate file system so that untrusted gu=
-ests
-+cannot cause a denial-of-service by using up all available inodes or exhau=
-sting
-+free space.
-+
-+If the shared directory is also accessible from a host mount namespace, it=
- is
-+recommended to keep a parent directory with rwx------ permissions so that =
-other
-+users on the host are unable to access any setuid executables or device no=
-des
-+in the shared directory.  The `nosuid` and `nodev` mount options can also =
-be
-+used to prevent this issue.
++    if (current_log_level =3D=3D FUSE_LOG_DEBUG) {
++        g_free(fmt);
++    }
+ }
+=20
+ int main(int argc, char *argv[])
 --=20
 2.23.0
 
