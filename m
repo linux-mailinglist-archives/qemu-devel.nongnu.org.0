@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9108F11D4B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:58:41 +0100 (CET)
-Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D648511D4A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:56:13 +0100 (CET)
+Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSjY-0002FA-2S
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:58:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
+	id 1ifShA-0006Ch-Fx
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:56:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRWs-0007Wd-Jd
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:31 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRWy-0007iH-K7
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRWr-0004TT-5q
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:30 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46625
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifRWx-0004i7-51
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38611
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRWr-0004SP-1X
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:29 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRWw-0004gm-Ui
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168888;
+ s=mimecast20190719; t=1576168894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YKGi7O5+pF1pdQXIvkLoBF7Id3Qpi7NspKSo2jSrGn8=;
- b=PemqlxxxF+UBwmgbrN1BZuQ/lFkEeL2CqWnW11ZTXtns3lGCVdK0jx2uRfVNh6HgaqSPJU
- 54Pv6A3h7/GJfVVRnNTxA+l1eYkJCsMikKKRiyq6cEEpPbWMA0EFZB/BIsrdYaI6mSgfN9
- 0WUejMUa5+p6M4AaCHcGts3k1f0xzsk=
+ bh=5AO3BjV12qctb9/wSyR/WcWUQ11asDIps1CZbGF1aYw=;
+ b=XxFAqFebVxlRxgItQixPjZV8zbVhM+OO0ELeNhLy+MUaBbYX+Cs1LhCNv5/ZwYxOBsOfxI
+ GDjtWpJTYqy/l8EUovhDNLGN3rrQ2voIGCW2ir7s0cOv9NrVWyPsxv5pjGVFy1zz/XgnWW
+ cpHD/rsfxzbSJKgOJyjt7Yq79Ko4iZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-zPMzaOCnN1SZLv6vvYpm5A-1; Thu, 12 Dec 2019 11:41:27 -0500
+ us-mta-264-TQn8XQ_7OpmzJgoAb6TA7Q-1; Thu, 12 Dec 2019 11:41:33 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4ADE107ACCC
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 629FD12D6581
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:32 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD75260BE1;
- Thu, 12 Dec 2019 16:41:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8724E619A8;
+ Thu, 12 Dec 2019 16:41:31 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 087/104] virtiofsd: prevent fv_queue_thread() vs virtio_loop()
- races
-Date: Thu, 12 Dec 2019 16:38:47 +0000
-Message-Id: <20191212163904.159893-88-dgilbert@redhat.com>
+Subject: [PATCH 092/104] virtiofsd: add man page
+Date: Thu, 12 Dec 2019 16:38:52 +0000
+Message-Id: <20191212163904.159893-93-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: zPMzaOCnN1SZLv6vvYpm5A-1
+X-MC-Unique: TQn8XQ_7OpmzJgoAb6TA7Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,136 +78,158 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-We call into libvhost-user from the virtqueue handler thread and the
-vhost-user message processing thread without a lock.  There is nothing
-protecting the virtqueue handler thread if the vhost-user message
-processing thread changes the virtqueue or memory table while it is
-running.
-
-This patch introduces a read-write lock.  Virtqueue handler threads are
-readers.  The vhost-user message processing thread is a writer.  This
-will allow concurrency for multiqueue in the future while protecting
-against fv_queue_thread() vs virtio_loop() races.
-
-Note that the critical sections could be made smaller but it would be
-more invasive and require libvhost-user changes.  Let's start simple and
-improve performance later, if necessary.  Another option would be an
-RCU-style approach with lighter-weight primitives.
-
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-  Merged with log changes
-  pull request 12
 ---
- tools/virtiofsd/fuse_virtio.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ Makefile                       |  7 +++
+ tools/virtiofsd/virtiofsd.texi | 85 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 tools/virtiofsd/virtiofsd.texi
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index a364f23d5d..2c1e524852 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -58,6 +58,18 @@ struct fv_VuDev {
-     VuDev dev;
-     struct fuse_session *se;
+diff --git a/Makefile b/Makefile
+index fa15174ba0..53d175d12f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -357,6 +357,9 @@ DOCS+=3Ddocs/qemu-cpu-models.7
+ ifdef CONFIG_VIRTFS
+ DOCS+=3Dfsdev/virtfs-proxy-helper.1
+ endif
++ifdef CONFIG_LINUX
++DOCS+=3Dtools/virtiofsd/virtiofsd.1
++endif
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ DOCS+=3Dscripts/qemu-trace-stap.1
+ endif
+@@ -863,6 +866,9 @@ ifdef CONFIG_VIRTFS
+ =09$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
+ =09$(INSTALL_DATA) fsdev/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
+ endif
++ifdef CONFIG_LINUX
++=09$(INSTALL_DATA) tools/virtiofsd/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
++endif
 =20
-+    /*
-+     * Either handle virtqueues or vhost-user protocol messages.  Don't do
-+     * both at the same time since that could lead to race conditions if
-+     * virtqueues or memory tables change while another thread is accessin=
+ install-datadir:
+ =09$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
+@@ -1061,6 +1067,7 @@ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.=
+texi qemu-monitor-info.texi
+ qemu.1: qemu-option-trace.texi
+ qemu-img.1: qemu-img.texi qemu-option-trace.texi qemu-img-cmds.texi
+ fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
++tools/virtiofsd/virtiofsd.1: tools/virtiofsd/virtiofsd.texi
+ qemu-nbd.8: qemu-nbd.texi qemu-option-trace.texi
+ docs/qemu-block-drivers.7: docs/qemu-block-drivers.texi
+ docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
+diff --git a/tools/virtiofsd/virtiofsd.texi b/tools/virtiofsd/virtiofsd.tex=
+i
+new file mode 100644
+index 0000000000..eec7fbf4e6
+--- /dev/null
++++ b/tools/virtiofsd/virtiofsd.texi
+@@ -0,0 +1,85 @@
++@example
++@c man begin SYNOPSIS
++@command{virtiofsd} [OPTION] @option{--socket-path=3D}@var{path}|@option{-=
+-fd=3D}@var{fdnum} @option{-o source=3D}@var{path}
++@c man end
++@end example
++
++@c man begin DESCRIPTION
++
++Share a host directory tree with a guest through a virtio-fs device.  This
++program is a vhost-user backend that implements the virtio-fs device.  Eac=
+h
++virtio-fs device instance requires its own virtiofsd process.
++
++This program is designed to work with QEMU's @code{--device vhost-user-fs-=
+pci}
++but should work with any virtual machine monitor (VMM) that supports
++vhost-user.  See the EXAMPLES section below.
++
++This program must be run as the root user.  Upon startup the program will
++switch into a new file system namespace with the shared directory tree as =
+its
++root.  This prevents "file system escapes" due to symlinks and other file
++system objects that might lead to files outside the shared directory.  The
++program also sandboxes itself using seccomp(2) to prevent ptrace(2) and ot=
+her
++vectors that could allow an attacker to compromise the system after gainin=
 g
-+     * them.
-+     *
-+     * The assumptions are:
-+     * 1. fv_queue_thread() reads/writes to virtqueues and only reads VuDe=
-v.
-+     * 2. virtio_loop() reads/writes virtqueues and VuDev.
-+     */
-+    pthread_rwlock_t vu_dispatch_rwlock;
++control of the virtiofsd process.
 +
-     /*
-      * The following pair of fields are only accessed in the main
-      * virtio_loop
-@@ -413,6 +425,8 @@ static void *fv_queue_thread(void *opaque)
-              qi->qidx, qi->kick_fd);
-     while (1) {
-         struct pollfd pf[2];
-+        int ret;
++@c man end
 +
-         pf[0].fd =3D qi->kick_fd;
-         pf[0].events =3D POLLIN;
-         pf[0].revents =3D 0;
-@@ -459,6 +473,9 @@ static void *fv_queue_thread(void *opaque)
-             fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
-             break;
-         }
-+        /* Mutual exclusion with virtio_loop() */
-+        ret =3D pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock)=
-;
-+        assert(ret =3D=3D 0); /* there is no possible error case */
-         /* out is from guest, in is too guest */
-         unsigned int in_bytes, out_bytes;
-         vu_queue_get_avail_bytes(dev, q, &in_bytes, &out_bytes, ~0, ~0);
-@@ -467,6 +484,7 @@ static void *fv_queue_thread(void *opaque)
-                  "%s: Queue %d gave evalue: %zx available: in: %u out: %u\=
-n",
-                  __func__, qi->qidx, (size_t)evalue, in_bytes, out_bytes);
-=20
++@c man begin OPTIONS
++@table @option
++@item -h, --help
++Print help.
++@item -V, --version
++Print version.
++@item -d, -o debug
++Enable debug output.
++@item --syslog
++Print log messages to syslog instead of stderr.
++@item -o log_level=3D@var{level}
++Print only log messages matching @var{level} or more severe.  @var{level} =
+is
++one of @code{err}, @code{warn}, @code{info}, or @code{debug}.  The default=
+ is
++@var{info}.
++@item -o source=3D@var{path}
++Share host directory tree located at @var{path}.  This option is required.
++@item --socket-path=3D@var{path}, -o vhost_user_socket=3D@var{path}
++Listen on vhost-user UNIX domain socket at @var{path}.
++@item --fd=3D@var{fdnum}
++Accept connections from vhost-user UNIX domain socket file descriptor @var=
+{fdnum}.  The file descriptor must already be listening for connections.
++@item --thread-pool-size=3D@var{num}
++Restrict the number of worker threads per request queue to @var{num}.  The=
+ default is 64.
++@item --cache=3D@code{none}|@code{auto}|@code{always}
++Select the desired trade-off between coherency and performance.  @code{non=
+e}
++forbids the FUSE client from caching to achieve best coherency at the cost=
+ of
++performance.  @code{auto} acts similar to NFS with a 1 second metadata cac=
+he
++timeout.  @code{always} sets a long cache lifetime at the expense of coher=
+ency.
++@item --writeback
++Enable writeback cache, allowing the FUSE client to buffer and merge write=
+ requests.
++@end table
++@c man end
 +
-         while (1) {
-             bool allocated_bufv =3D false;
-             struct fuse_bufvec bufv;
-@@ -595,6 +613,8 @@ static void *fv_queue_thread(void *opaque)
-             free(elem);
-             elem =3D NULL;
-         }
++@c man begin EXAMPLES
++Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @code{/v=
+ar/run/vm001-vhost-fs.sock}:
 +
-+        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-     }
- out:
-     pthread_mutex_destroy(&ch.lock);
-@@ -701,6 +721,8 @@ int virtio_loop(struct fuse_session *se)
-=20
-     while (!fuse_session_exited(se)) {
-         struct pollfd pf[1];
-+        bool ok;
-+        int ret;
-         pf[0].fd =3D se->vu_socketfd;
-         pf[0].events =3D POLLIN;
-         pf[0].revents =3D 0;
-@@ -725,7 +747,15 @@ int virtio_loop(struct fuse_session *se)
-         }
-         assert(pf[0].revents & POLLIN);
-         fuse_log(FUSE_LOG_DEBUG, "%s: Got VU event\n", __func__);
--        if (!vu_dispatch(&se->virtio_dev->dev)) {
-+        /* Mutual exclusion with fv_queue_thread() */
-+        ret =3D pthread_rwlock_wrlock(&se->virtio_dev->vu_dispatch_rwlock)=
-;
-+        assert(ret =3D=3D 0); /* there is no possible error case */
++@example
++host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=3D/=
+var/lib/fs/vm001
++host# qemu-system-x86_64 \
++    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
++    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
++    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,sha=
+re=3Don \
++    -numa node,memdev=3Dmem \
++    ...
++guest# mount -t virtio_fs \
++    -o default_permissions,allow_other,user_id=3D0,group_id=3D0,rootmode=
+=3D040000,dax \
++    myfs /mnt
++@end example
++@c man end
 +
-+        ok =3D vu_dispatch(&se->virtio_dev->dev);
++@ignore
++@setfilename virtiofsd
++@settitle QEMU virtio-fs shared file system daemon
 +
-+        pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
-+
-+        if (!ok) {
-             fuse_log(FUSE_LOG_ERR, "%s: vu_dispatch failed\n", __func__);
-             break;
-         }
-@@ -871,6 +901,7 @@ int virtio_session_mount(struct fuse_session *se)
-=20
-     se->vu_socketfd =3D data_sock;
-     se->virtio_dev->se =3D se;
-+    pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
-     vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, fv_set_wat=
-ch,
-             fv_remove_watch, &fv_iface);
-=20
-@@ -887,6 +918,7 @@ void virtio_session_close(struct fuse_session *se)
-=20
-     close(se->vu_socketfd);
-     free(se->virtio_dev->qi);
-+    pthread_rwlock_destroy(&se->virtio_dev->vu_dispatch_rwlock);
-     free(se->virtio_dev);
-     se->virtio_dev =3D NULL;
- }
++@c man begin AUTHOR
++Copyright (C) 2019 Red Hat, Inc.
++This is free software; see the source for copying conditions.  There is NO
++warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE=
+.
++@c man end
++@end ignore
 --=20
 2.23.0
 
