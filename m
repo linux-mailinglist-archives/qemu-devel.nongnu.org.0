@@ -2,66 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3089A11D7F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 21:36:08 +0100 (CET)
-Received: from localhost ([::1]:37104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B09911D85C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 22:13:54 +0100 (CET)
+Received: from localhost ([::1]:37400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifVBv-0000KY-5P
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 15:36:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42913)
+	id 1ifVmS-0000XG-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 16:13:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ifVAd-0007nm-EV
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:34:49 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1ifVlg-0008W7-Ay
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 16:13:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ifVAb-0000qg-6R
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:34:47 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33179)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ifVAa-0000oq-Ud
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:34:45 -0500
-Received: by mail-ot1-x344.google.com with SMTP id d17so3396524otc.0
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 12:34:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=FagFkdtiK9jEQFDTU7LTSShb4NPPbVA5eNm5GsJbJAk=;
- b=p+RuYOwaDMEU5ZypsmBAGHikhPsplaMqQkP0gEovIoPdK9bZCby5OuGLLNtouytaSW
- q0TPIbkuMIg6Qi98Om4r8cSg7xa1KntSib2O/iq/NJ5V+ODS0/uywgc55Z7i9hYjlhu7
- y1ZTVc8PwTSblNWIs3db69mR+5bQdYps4I8Mn07OFucQZ4trwI3vnfNWQzaRUl814UKQ
- JY+VQEggZf6zVFbntywM6ObX3eM3JFW0kikXwz3Gu0r+4iwIVYlSJ+Xzhr3m9rpoA9hs
- ifqTq7TISzWnirCaQt/316W/VZYWx/Vlo4AnF1EpnL5sNrJV3DEt8lfA1PlUHDVBJfF5
- MtoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=FagFkdtiK9jEQFDTU7LTSShb4NPPbVA5eNm5GsJbJAk=;
- b=fZ02qPwWwDYEFpdza7NY4yZRtiLRmdBkqjD4DlQfBosPjJB2s5ksUUTvXBB3IxeIaa
- 0FaxgGHQAofCUsk232rMo+9IawBGq6HU/3+5bccJYA1qe7rhIFwPOACnwrU+M8ck4i2u
- 5FJsUp+1cZyGcu9LUHB49AaRjn+e/cYwBi2xM+n7qchZ0VgfD0jufTlVBlCUEgdjMYqE
- lYZx4gYAAUCf2JiDQMSbhcEKWXVZHSsvL/qxyLzILbQZxiTEdP7D7fQvszTrHHv8UQqP
- Oqm62MxKuVZaxatrxEAKs+6Izv4AKTBoHgCdAI6bSb6OYe9HNMRLjgHLOyksKjFqUSif
- JV9w==
-X-Gm-Message-State: APjAAAWcxZRG+SpF7IiXugQXe2mL+Y66hsvyMAk5CQuD6rNt9SHGpGbF
- g3FsoXbiclGOutSTznAmhQRUbnZiJKU76cLUk90=
-X-Google-Smtp-Source: APXvYqz/y/Cc8R5SnUYyDpZ6Ma8f2+I//g1NcAidVNzWI57adsY2FpitmDACcH3vRvzhlRpyUTV200GLTDmM9zesro0=
-X-Received: by 2002:a9d:7c8f:: with SMTP id q15mr10699144otn.341.1576182883970; 
- Thu, 12 Dec 2019 12:34:43 -0800 (PST)
+ (envelope-from <balaton@eik.bme.hu>) id 1ifVle-00059x-F3
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 16:13:03 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52974)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1ifVle-00053j-8B
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 16:13:02 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 937857456FE;
+ Thu, 12 Dec 2019 22:12:57 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 75D9D7456F8; Thu, 12 Dec 2019 22:12:57 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 74CA774568D;
+ Thu, 12 Dec 2019 22:12:57 +0100 (CET)
+Date: Thu, 12 Dec 2019 22:12:57 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 2/3] q800: add djMEMC memory controller
+In-Reply-To: <20191212200142.15688-3-laurent@vivier.eu>
+Message-ID: <alpine.BSF.2.21.99999.352.1912122211001.83036@zero.eik.bme.hu>
+References: <20191212200142.15688-1-laurent@vivier.eu>
+ <20191212200142.15688-3-laurent@vivier.eu>
+User-Agent: Alpine 2.21.99999 (BSF 352 2019-06-22)
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Thu, 12 Dec 2019 12:34:43 -0800 (PST)
-In-Reply-To: <20191212040039.26546-1-richard.henderson@linaro.org>
-References: <20191212040039.26546-1-richard.henderson@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 12 Dec 2019 21:34:43 +0100
-Message-ID: <CAL1e-=jUf2MVx863YUqg0oHppsHJ6mBpTBP6YNuRipnFTC6Luw@mail.gmail.com>
-Subject: Re: [PATCH 00/28] cputlb: Remove support for MMU_MODE*_SUFFIX
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000e67279059987aca5"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,299 +53,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Chris Wulff <crwulff@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e67279059987aca5
-Content-Type: text/plain; charset="UTF-8"
+On Thu, 12 Dec 2019, Laurent Vivier wrote:
+> Current implementation is based on GLUE, an early implementation
+> of the memory controller found in Macintosh II series.
+>
+> Quadra 800 uses in fact djMEMC:
+>
+> The djMEMC is an Apple custom integrated circuit chip that performs a
+> variety of functions (RAM management, clock generation, ...).
+> It receives interrupt requests from various devices, assign priority to
+> each, and asserts one or more interrupt line to the CPU.
+>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+> MAINTAINERS              |   2 +
+> hw/m68k/Kconfig          |   1 +
+> hw/m68k/q800.c           |  61 ++++----------
+> hw/misc/Kconfig          |   3 +
+> hw/misc/Makefile.objs    |   1 +
+> hw/misc/djmemc.c         | 176 +++++++++++++++++++++++++++++++++++++++
+> hw/misc/trace-events     |   4 +
+> include/hw/misc/djmemc.h |  34 ++++++++
+> 8 files changed, 237 insertions(+), 45 deletions(-)
+> create mode 100644 hw/misc/djmemc.c
+> create mode 100644 include/hw/misc/djmemc.h
+>
+[...]
+> diff --git a/hw/misc/djmemc.c b/hw/misc/djmemc.c
+> new file mode 100644
+> index 0000000000..b494e82a60
+> --- /dev/null
+> +++ b/hw/misc/djmemc.c
+> @@ -0,0 +1,176 @@
+> +/*
+> + * djMEMC, macintosh memory and interrupt controller
+> + * (Quadra 610/650/800 & Centris 610/650)
+> + *
+> + *    https://mac68k.info/wiki/display/mac68k/djMEMC+Information
+> + *
+> + * The djMEMC is an Apple custom integrated circuit chip that performs a
+> + * variety of functions (RAM management, clock generation, ...).
+> + * It receives interrupt requests from various devices, assign priority to
+> + * each, and asserts one or more interrupt line to the CPU.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/misc/djmemc.h"
+> +#include "hw/qdev-properties.h"
+> +#include "trace.h"
+> +
+> +#define DJMEMC_SIZE       0x2000
+> +
+> +#define InterleaveConf    0
+> +#define Bank0Conf         1
+> +#define Bank1Conf         2
+> +#define Bank2Conf         3
+> +#define Bank3Conf         4
+> +#define Bank4Conf         5
+> +#define Bank5Conf         6
+> +#define Bank6Conf         7
+> +#define Bank7Conf         8
+> +#define Bank8Conf         9
+> +#define Bank9Conf         10
+> +#define MemTop            11
+> +#define Config            12
+> +#define Refresh           13
 
-On Thursday, December 12, 2019, Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Should this be an enum so the compiler can better verify values and if all 
+cases are handled?
 
-> This is part of a project to raise the limit on NB_MMU_MODES.
->
-> One of those is in cpu_ldst.h, in support of MMU_MODE*_SUFFIX.
-> While this could be extended, it's not the best interface for
-> such things.  Better is a single interface that allows a variable
-> mmu_idx.  The best exemplars of that is the usage in target/mips
-> and target/ppc.
->
-> In the process, I tried to clean up the implementation of these
-> functions for softmmu and user-only.
->
->
-Just a suggestion: Given the nature of the series, please consider some
-additional changes to:
-
- docs/devel/loads-stores.rst
-
-Aleksandar
-
-
-> r~
->
->
-> Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Cc: Chris Wulff <crwulff@gmail.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Max Filippov <jcmvbkbc@gmail.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
->
->
-> Richard Henderson (28):
->   target/xtensa: Use probe_access for itlb_hit_test
->   cputlb: Use trace_mem_get_info instead of trace_mem_build_info
->   trace: Remove trace_mem_build_info_no_se_[bl]e
->   cputlb: Move body of cpu_ldst_template.h out of line
->   translator: Use cpu_ld*_code instead of open-coding
->   cputlb: Rename helper_ret_ld*_cmmu to cpu_ld*_code
->   cputlb: Provide cpu_(ld,st}*_mmuidx_ra for user-only
->   target/i386: Use cpu_*_mmuidx_ra instead of templates
->   target/s390x: Include tcg.h in mem_helper.c
->   target/arm: Include tcg.h in sve_helper.c
->   accel/tcg: Include tcg.h in tcg-runtime.c
->   linux-user: Include tcg.h in syscall.c
->   linux-user: Include trace-root.h in syscall-trace.h
->   cputlb: Expand cpu_ldst_useronly_template.h in user-exec.c
->   target/nios2: Remove MMU_MODE{0,1}_SUFFIX
->   target/alpha: Remove MMU_MODE{0,1}_SUFFIX
->   target/cris: Remove MMU_MODE{0,1}_SUFFIX
->   target/i386: Remove MMU_MODE{0,1,2}_SUFFIX
->   target/microblaze: Remove MMU_MODE{0,1,2}_SUFFIX
->   target/sh4: Remove MMU_MODE{0,1}_SUFFIX
->   target/unicore32: Remove MMU_MODE{0,1}_SUFFIX
->   target/xtensa: Remove MMU_MODE{0,1,2,3}_SUFFIX
->   target/m68k: Use cpu_*_mmuidx_ra instead of MMU_MODE{0,1}_SUFFIX
->   target/mips: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
->   target/s390x: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
->   target/ppc: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
->   cputlb: Remove support for MMU_MODE*_SUFFIX
->   cputlb: Expand cpu_ldst_template.h in cputlb.c
->
->  accel/tcg/atomic_template.h               |  67 ++--
->  include/exec/cpu_ldst.h                   | 448 +++++++---------------
->  include/exec/cpu_ldst_template.h          | 211 ----------
->  include/exec/cpu_ldst_useronly_template.h | 159 --------
->  include/exec/translator.h                 |  48 +--
->  include/user/syscall-trace.h              |   2 +
->  target/alpha/cpu.h                        |   2 -
->  target/cris/cpu.h                         |   2 -
->  target/i386/cpu.h                         |   3 -
->  target/m68k/cpu.h                         |   2 -
->  target/microblaze/cpu.h                   |   3 -
->  target/mips/cpu.h                         |   4 -
->  target/nios2/cpu.h                        |   2 -
->  target/ppc/cpu.h                          |   2 -
->  target/s390x/cpu.h                        |   5 -
->  target/sh4/cpu.h                          |   2 -
->  target/unicore32/cpu.h                    |   2 -
->  target/xtensa/cpu.h                       |   4 -
->  tcg/tcg.h                                 |  29 --
->  trace/mem-internal.h                      |  17 -
->  accel/tcg/cputlb.c                        | 315 +++++++++++----
->  accel/tcg/tcg-runtime.c                   |   1 +
->  accel/tcg/user-exec.c                     | 236 ++++++++++++
->  linux-user/syscall.c                      |   1 +
->  target/arm/sve_helper.c                   |   1 +
->  target/i386/seg_helper.c                  |  75 ++--
->  target/m68k/op_helper.c                   |   5 +
->  target/mips/op_helper.c                   | 182 +++------
->  target/ppc/mem_helper.c                   |  11 +-
->  target/s390x/mem_helper.c                 |   6 +
->  target/xtensa/mmu_helper.c                |   5 +-
->  docs/devel/loads-stores.rst               |   4 +-
->  32 files changed, 788 insertions(+), 1068 deletions(-)
->  delete mode 100644 include/exec/cpu_ldst_template.h
->  delete mode 100644 include/exec/cpu_ldst_useronly_template.h
->
-> --
-> 2.20.1
->
->
->
-
---000000000000e67279059987aca5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Thursday, December 12, 2019, Richard Henderson &lt;<a href=3D"ma=
-ilto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">This is part of a project to raise th=
-e limit on NB_MMU_MODES.<br>
-<br>
-One of those is in cpu_ldst.h, in support of MMU_MODE*_SUFFIX.<br>
-While this could be extended, it&#39;s not the best interface for<br>
-such things.=C2=A0 Better is a single interface that allows a variable<br>
-mmu_idx.=C2=A0 The best exemplars of that is the usage in target/mips<br>
-and target/ppc.<br>
-<br>
-In the process, I tried to clean up the implementation of these<br>
-functions for softmmu and user-only.<br>
-<br></blockquote><div><br></div><div>Just a suggestion: Given the nature of=
- the series, please consider some additional changes to:</div><div><br></di=
-v><div><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.120=
-0008392334px">=C2=A0docs/devel/loads-stores.rst=C2=A0</span>=C2=A0<br></div=
-><div><br></div><div>Aleksandar</div><div><br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-<br>
-r~<br>
-<br>
-<br>
-Cc: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.com">amark=
-ovic@wavecomp.com</a>&gt;<br>
-Cc: Aleksandar Rikalo &lt;<a href=3D"mailto:aleksandar.rikalo@rt-rk.com">al=
-eksandar.rikalo@rt-rk.com</a>&gt;<br>
-Cc: Aurelien Jarno &lt;<a href=3D"mailto:aurelien@aurel32.net">aurelien@aur=
-el32.net</a>&gt;<br>
-Cc: Chris Wulff &lt;<a href=3D"mailto:crwulff@gmail.com">crwulff@gmail.com<=
-/a>&gt;<br>
-Cc: David Gibson &lt;<a href=3D"mailto:david@gibson.dropbear.id.au">david@g=
-ibson.dropbear.id.au</a>&gt;<br>
-Cc: David Hildenbrand &lt;<a href=3D"mailto:david@redhat.com">david@redhat.=
-com</a>&gt;<br>
-Cc: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.iglesias@gmail.com">edgar=
-.iglesias@gmail.com</a>&gt;<br>
-Cc: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@red=
-hat.com</a>&gt;<br>
-Cc: Guan Xuetao &lt;<a href=3D"mailto:gxt@mprc.pku.edu.cn">gxt@mprc.pku.edu=
-.cn</a>&gt;<br>
-Cc: Laurent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laurent@vivier.=
-eu</a>&gt;<br>
-Cc: Marek Vasut &lt;<a href=3D"mailto:marex@denx.de">marex@denx.de</a>&gt;<=
-br>
-Cc: Max Filippov &lt;<a href=3D"mailto:jcmvbkbc@gmail.com">jcmvbkbc@gmail.c=
-om</a>&gt;<br>
-Cc: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redha=
-t.com</a>&gt;<br>
-Cc: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.may=
-dell@linaro.org</a>&gt;<br>
-<br>
-<br>
-Richard Henderson (28):<br>
-=C2=A0 target/xtensa: Use probe_access for itlb_hit_test<br>
-=C2=A0 cputlb: Use trace_mem_get_info instead of trace_mem_build_info<br>
-=C2=A0 trace: Remove trace_mem_build_info_no_se_[<wbr>bl]e<br>
-=C2=A0 cputlb: Move body of cpu_ldst_template.h out of line<br>
-=C2=A0 translator: Use cpu_ld*_code instead of open-coding<br>
-=C2=A0 cputlb: Rename helper_ret_ld*_cmmu to cpu_ld*_code<br>
-=C2=A0 cputlb: Provide cpu_(ld,st}*_mmuidx_ra for user-only<br>
-=C2=A0 target/i386: Use cpu_*_mmuidx_ra instead of templates<br>
-=C2=A0 target/s390x: Include tcg.h in mem_helper.c<br>
-=C2=A0 target/arm: Include tcg.h in sve_helper.c<br>
-=C2=A0 accel/tcg: Include tcg.h in tcg-runtime.c<br>
-=C2=A0 linux-user: Include tcg.h in syscall.c<br>
-=C2=A0 linux-user: Include trace-root.h in syscall-trace.h<br>
-=C2=A0 cputlb: Expand cpu_ldst_useronly_template.h in user-exec.c<br>
-=C2=A0 target/nios2: Remove MMU_MODE{0,1}_SUFFIX<br>
-=C2=A0 target/alpha: Remove MMU_MODE{0,1}_SUFFIX<br>
-=C2=A0 target/cris: Remove MMU_MODE{0,1}_SUFFIX<br>
-=C2=A0 target/i386: Remove MMU_MODE{0,1,2}_SUFFIX<br>
-=C2=A0 target/microblaze: Remove MMU_MODE{0,1,2}_SUFFIX<br>
-=C2=A0 target/sh4: Remove MMU_MODE{0,1}_SUFFIX<br>
-=C2=A0 target/unicore32: Remove MMU_MODE{0,1}_SUFFIX<br>
-=C2=A0 target/xtensa: Remove MMU_MODE{0,1,2,3}_SUFFIX<br>
-=C2=A0 target/m68k: Use cpu_*_mmuidx_ra instead of MMU_MODE{0,1}_SUFFIX<br>
-=C2=A0 target/mips: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX<br>
-=C2=A0 target/s390x: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX<br>
-=C2=A0 target/ppc: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX<br>
-=C2=A0 cputlb: Remove support for MMU_MODE*_SUFFIX<br>
-=C2=A0 cputlb: Expand cpu_ldst_template.h in cputlb.c<br>
-<br>
-=C2=A0accel/tcg/atomic_template.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 67 ++--<br>
-=C2=A0include/exec/cpu_ldst.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 448 +++++++---------------<br>
-=C2=A0include/exec/cpu_ldst_<wbr>template.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 211 ----------<br>
-=C2=A0include/exec/cpu_ldst_<wbr>useronly_template.h | 159 --------<br>
-=C2=A0include/exec/translator.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 48 +--<br>
-=C2=A0include/user/syscall-trace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 |=C2=A0 =C2=A02 +<br>
-=C2=A0target/alpha/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 -<br>
-=C2=A0target/cris/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 -<br>
-=C2=A0target/i386/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 -<br>
-=C2=A0target/m68k/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 -<br>
-=C2=A0target/microblaze/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 -<br>
-=C2=A0target/mips/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 -<br>
-=C2=A0target/nios2/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 -<br>
-=C2=A0target/ppc/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 -<br>
-=C2=A0target/s390x/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 -<br>
-=C2=A0target/sh4/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 -<br>
-=C2=A0target/unicore32/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 -<br>
-=C2=A0target/xtensa/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 -<br>
-=C2=A0tcg/tcg.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 29 --<br=
->
-=C2=A0trace/mem-internal.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 17 -<br>
-=C2=A0accel/tcg/cputlb.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 315 +++++++++++----<br>
-=C2=A0accel/tcg/tcg-runtime.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0accel/tcg/user-exec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0| 236 ++++++++++++<br>
-=C2=A0linux-user/syscall.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0target/arm/sve_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0target/i386/seg_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 75 ++--<br>
-=C2=A0target/m68k/op_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 +<br>
-=C2=A0target/mips/op_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 182 +++------<br>
-=C2=A0target/ppc/mem_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 11 +-<br>
-=C2=A0target/s390x/mem_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 +<br>
-=C2=A0target/xtensa/mmu_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
-=C2=A0docs/devel/loads-stores.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
-=C2=A032 files changed, 788 insertions(+), 1068 deletions(-)<br>
-=C2=A0delete mode 100644 include/exec/cpu_ldst_<wbr>template.h<br>
-=C2=A0delete mode 100644 include/exec/cpu_ldst_<wbr>useronly_template.h<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-</blockquote>
-
---000000000000e67279059987aca5--
+Regards,
+BALATON Zoltan
 
