@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3334511C174
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 01:33:13 +0100 (CET)
-Received: from localhost ([::1]:52180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A4011C180
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 01:34:21 +0100 (CET)
+Received: from localhost ([::1]:52202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifCPn-0003C2-Mj
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 19:33:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
+	id 1ifCQu-00057Y-AP
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 19:34:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ifCNO-0002B3-DW
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 19:30:43 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ifCOB-0002nG-W9
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 19:31:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ifCNM-00071j-Ra
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 19:30:41 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26936
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1ifCO4-000849-HH
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 19:31:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24016
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifCNM-0006zL-NO
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 19:30:40 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifCO3-000823-AB
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 19:31:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576110639;
+ s=mimecast20190719; t=1576110682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Vr9P5A9kEqsqd1Xp2S9A6iF1BZr0AEVVajoJo+Xies=;
- b=VSBvcWkdWlN26B/H6pfVBL/9AX++28qUXrZnzWwbDzQsC5YF9VMojUIUWmmyIxPgT9Umdu
- 4/Pn9eWciE9YQ55vKp/VWj1mRm3eXyVxolFL3Zyc2+EEEPCHxCoC6MkabNgzy/oKjzSJ0H
- N/TacLNgwTx4j7Rni6xDwS2B8z5rHTg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-nl_F9ztnO3KfOur9Ug5X5A-1; Wed, 11 Dec 2019 19:30:36 -0500
-Received: by mail-wr1-f70.google.com with SMTP id w6so301981wrm.16
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 16:30:36 -0800 (PST)
+ bh=UJGOP2uBpm5En8S36aOhtvQxYnoYYWbOTtm9lAZdCHs=;
+ b=QQjxMyKkqLe+0TPITzH+FcBBaIl8Y8ueWC+TQF5bARO+Od32T2uO/9h9nta4pdBtURS3eA
+ 1kXcuHrEggoGpQfLbzPT1pOMoOYHmQ1fp7HDmjzuiq6u+P6u2a7flh1HbHQGeCHqQDOLtX
+ P9MtSmPwbvMJj/qEMJtTfpPdBJ5tfKE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-TykT7G5XMxiSs8NWJWXUWQ-1; Wed, 11 Dec 2019 19:31:07 -0500
+Received: by mail-wr1-f72.google.com with SMTP id 90so311766wrq.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 16:31:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IJTH2QxuZCyLNMte321Sg7VZjmcyryFyDnBE1XiL3w4=;
- b=rM+BcCOZaTKD2rV7Zky+5LaNsvLaCrvzl8QzQIlr+OdYUX6Km5xsUlGY4T3LJIl3Wc
- 1XZUcgzWPMDJoJ+9ISRXg8OHWBa9WrFe6gx657tALP28bK6j4BnRag1JQEo0ovNwalcn
- s6rsuJyEIFf8PStUCGJWRaqFhHEh1qioy2bmAd6yt3G6/AG3F2UHv+yh7rOhx4aH7rxE
- 8Kxr9S9ZZWtaqv3dYBnn9JIuFf7+GNassozJ7gTOSGw41J00MXTAKi1mw/0GJ3eaOKWs
- 1FmWXioJy2Hyx0ffOAilLAkJdC6SEA4SZTWHLi0o6PSP5Q1EwdcX2GVCg6j89vaBxIAu
- zXMg==
-X-Gm-Message-State: APjAAAWXzw3BKMGgcezj8RqB4fNIZmC8B3onkAzGq42svRP6ztuBFmgN
- 1aq0yGyMu0/fKCzXRHugxdpIjacCeTEqYT/WJHd6zalg37c3HGR7V1afl3Rbzmp17EMKD+hiC9f
- GW2HoV5ag65z9uX4=
-X-Received: by 2002:a05:600c:2101:: with SMTP id
- u1mr2955728wml.43.1576110635563; 
- Wed, 11 Dec 2019 16:30:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyzuqULwt3cl9UYWfGHw0r3Y1tefmNmu5yI1Bgdjt+/9tSLIkgjuHUqoBGu7b0/LYx3s/vUoQ==
-X-Received: by 2002:a05:600c:2101:: with SMTP id
- u1mr2955707wml.43.1576110635336; 
- Wed, 11 Dec 2019 16:30:35 -0800 (PST)
+ bh=UJGOP2uBpm5En8S36aOhtvQxYnoYYWbOTtm9lAZdCHs=;
+ b=VOLpbk650fuWCzCLnNmD5TUxnQwNnIs8TkL9kun9k/vhjBUFiD7NFMxbnkWd2YXmOK
+ ZwgbT9ESM7m4ncGAgJouhZCH2HrOpL8mo/qvzQQC1B4b3oizNxC7tfJZVqWtL2HvhaI0
+ J6zGjU8ZC87zIbeQbjPCtt48YfspXZkpCkMdHUV6DvROwVVJQlglop08ih7/61v4L7I+
+ C3V2QANsq6svkvQbtXmso1zjzOoeEJSvzOSoFGgybKd+mdrgIICJYh5+zVBWPtH1jRrn
+ Z1JZt/rg4Koo/76QF0MAB+THl3zVy2VXGE61V/IZ15umeTSKxJ3b2E54t0avfwrprKhl
+ 0NqA==
+X-Gm-Message-State: APjAAAUgarlvAZ6ThGTCaDjjcTh2i2SHAsoML6S2yett+DT62A3P+eE4
+ IWGu6xPZ8mzARPQdix4+GQ7IvkQcYyfK2/4mpCteixFCqO5svYAPxiOFJJB7rAOwd6cGqsL7km6
+ PKuc1re5DQCw84L0=
+X-Received: by 2002:adf:fa12:: with SMTP id m18mr2711295wrr.309.1576110666141; 
+ Wed, 11 Dec 2019 16:31:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzcqfZatkvH4PnwiUjxdpl7g13EVDB2oLVNPnTsYZZ1kdm4muEW6fxgbOom+YOWS/ntbE1v+Q==
+X-Received: by 2002:adf:fa12:: with SMTP id m18mr2711276wrr.309.1576110665845; 
+ Wed, 11 Dec 2019 16:31:05 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
  ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
- by smtp.gmail.com with ESMTPSA id x17sm3756838wrt.74.2019.12.11.16.30.32
+ by smtp.gmail.com with ESMTPSA id f1sm4231998wml.11.2019.12.11.16.31.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Dec 2019 16:30:34 -0800 (PST)
-Subject: Re: [PATCH] configure: simplify vhost condition with Kconfig
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <1576074296-53617-1-git-send-email-pbonzini@redhat.com>
- <05e89669-dd8d-a6e2-a41a-57391ba6b1d5@redhat.com>
+ Wed, 11 Dec 2019 16:31:05 -0800 (PST)
+Subject: Re: [PATCH 1/1] tests/Makefile: Fix check-report.* targets shown in
+ check-help
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org, 
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+References: <20191211204427.4681-1-wainersm@redhat.com>
+ <20191211204427.4681-2-wainersm@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c9da8528-5542-9017-6ae0-0e3db3812ee3@redhat.com>
-Date: Thu, 12 Dec 2019 01:30:32 +0100
+Message-ID: <daf920c0-7b3e-5b2e-c865-ccaf39ba1740@redhat.com>
+Date: Thu, 12 Dec 2019 01:31:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <05e89669-dd8d-a6e2-a41a-57391ba6b1d5@redhat.com>
+In-Reply-To: <20191211204427.4681-2-wainersm@redhat.com>
 Content-Language: en-US
-X-MC-Unique: nl_F9ztnO3KfOur9Ug5X5A-1
+X-MC-Unique: TykT7G5XMxiSs8NWJWXUWQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,40 +93,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/19 20:38, Thomas Huth wrote:
-> On 11/12/2019 15.24, Paolo Bonzini wrote:
->> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>  Kconfig.host            | 5 +++++
->>  hw/virtio/Kconfig       | 3 +++
->>  hw/virtio/Makefile.objs | 4 ++--
->>  3 files changed, 10 insertions(+), 2 deletions(-)
->>
->> diff --git a/Kconfig.host b/Kconfig.host
->> index bb6e116..55136e0 100644
->> --- a/Kconfig.host
->> +++ b/Kconfig.host
->> @@ -25,6 +25,11 @@ config TPM
->> =20
->>  config VHOST_USER
->>      bool
->> +    select VHOST
->> +
->> +config VHOST_KERNEL
->> +    bool
->> +    select VHOST
->=20
-> Don't you also have to add it to MINIKCONF_ARGS in the main Makefile??
+On 11/12/19 21:44, Wainer dos Santos Moschetta wrote:
+> The check-report.html and check-report.xml targets were replaced
+> with check-report.tap in commit 9df43317b82 but the check-help
+> text was not updated so it still lists check-report.html.
+> 
+> Fixes: 9df43317b82
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> ---
+>  tests/Makefile.include | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 8566f5f119..680bd8a669 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -16,12 +16,10 @@ check-help:
+>  	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
+>  	@echo " $(MAKE) check-acceptance     Run all acceptance (functional) tests"
+>  	@echo
+> -	@echo " $(MAKE) check-report.html    Generates an HTML test report"
+> +	@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test report"
+>  	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
+>  	@echo " $(MAKE) check-clean          Clean the tests and related data"
+>  	@echo
+> -	@echo "Please note that HTML reports do not regenerate if the unit tests"
+> -	@echo "have not changed."
+>  	@echo
+>  	@echo "The variable SPEED can be set to control the gtester speed setting."
+>  	@echo "Default options are -k and (for $(MAKE) V=1) --verbose; they can be"
+> 
 
-Yes, I do.
-
-Paolo
+Cc: qemu-trivial@nongnu.org
 
 
