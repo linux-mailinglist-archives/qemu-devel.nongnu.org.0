@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3869211CDB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:01:41 +0100 (CET)
-Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634C011CDC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:04:58 +0100 (CET)
+Received: from localhost ([::1]:58986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifO67-0003SK-ON
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:01:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56166)
+	id 1ifO9I-00078J-V7
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:04:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56266)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxr-0002gq-88
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:08 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxr-0002hl-QS
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxp-0005hx-RO
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxq-0005k9-OG
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:07 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42359)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37436)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNxp-0005gM-Jf
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:05 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id q6so2581135wro.9
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:05 -0800 (PST)
+ id 1ifNxq-0005iA-HN
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:06 -0500
+Received: by mail-wm1-x333.google.com with SMTP id f129so2382306wmf.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V9NM3FbIChOvvJW2t/FWXrIIPwk25T+7dF1biBLa1ws=;
- b=upUIWPI9kOWOIA3rUJmV7BUl7gJ30asVYi26sQWcv/rJhDxCsO9DOSOw/ZTcijJaYL
- TrP8DhvJe3w3rK9bEWRpXFxlywdb38Eum6Kiu0FPPZsF1PrdIszh9B2njtceQDmdXejy
- 8tMhM90eN71+xF2wDIz7AoGy6pFdk3ZWZuvRZK1AhlPWvAIE/MvtdgrvDUZ+RNER3Fyu
- BacAnIuYoN+bBdu+6kYCLsaAtGRekBc753wQp2mKLmVWJc0F2CGj4+j1IJVINPEQjEdx
- 3yJZLevQYvqJKs7amv7tKeV2sj9reI9hz2qC0ygPOo/dIbB6aoqVygsN+CQYwrYvo6BA
- BurQ==
+ bh=5YKl/o+m9GbbKn5dSPHFmGa3ModS1EkXzWqXYztB4ug=;
+ b=j6g1EUEjaNfxayYVz9Jva5wqgy/QfZ7PvA9ndjOtI8f9SFI1MMDaHGiwAjiTosC0dk
+ O1QfalBPlTuRQ7CvpJAx1PGLvkzBs/htlWUS6b6uHbiICpEc9Er7+Yjs8H1E44Kh7fML
+ jzPsZDVyxKboE7KhFqd+/6TXNqxnHI+39axR6Ds9YVXGW+eZSYry8gk8lmki/SzgafF7
+ DOrjKBdTb5jzb5kZ1X5BgNQH4rqbjp1IAEEuT/bjjK76geeqOnJdSR5yya8tCAVlm7rE
+ HrckiWq42u2dEkQPxpxFr4UAnfPmeF8eSRupW3zm/Ijz50MAQuO2/Vqe/j6DNwgHGhNH
+ F1zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=V9NM3FbIChOvvJW2t/FWXrIIPwk25T+7dF1biBLa1ws=;
- b=mdD5ibbK4eF8uoiAeF0JuYJXNkBgkHMDwCqM67SC2NpL7aoi4jZAhYCdKRpg94pZ3y
- JscMhfJcJy2nWiGbBbpbxlb5G+1oEC0QR4fp2WCrlHZa8caoXr2jG4E/nPL1FV4N+UaF
- AazBSHHcRPzz4aEbv+ZoXmZ96ljB9p84i9+0JH31JL+zhptdI4e7yCj1hDZ+EflHjxUq
- LX1FvQDJ5wxhwHwXMnDkNFF6BTGK/zHVgbRrfUDPIyyAnqD9lJazVZ962IATAi1mb549
- 3Kibt9aH/xCsnrtBXKLSEfES+fRw2CH7TZW1xrkrwBXY/yNHrzip8zX/lC9Ppls/oMdR
- 3NbA==
-X-Gm-Message-State: APjAAAV8+Vlf/rRbl/RtQJWvVG4kreL4IK3YnCMKTA+rlzbMvr875N23
- /prdduorZ9PucgQDEOHXPR2JNLQu
-X-Google-Smtp-Source: APXvYqxa2iToLqHwd09nBgILHNzp2+uKvRIzv3VJcmRTEkaH46jbwB4H6IeIa0j4yILYhHdaAwY/hQ==
-X-Received: by 2002:a5d:4d0e:: with SMTP id z14mr5993041wrt.208.1576155184325; 
- Thu, 12 Dec 2019 04:53:04 -0800 (PST)
+ bh=5YKl/o+m9GbbKn5dSPHFmGa3ModS1EkXzWqXYztB4ug=;
+ b=uOTr9sczhNsh/fAGQnPrQN/6qqLNWtO7fIEwrU8KWkVnMYszepuM6EtkRzWoXPWT4k
+ Lh6X9qdAgUzPjNOf075nbjHblyk1tY8I/Td8FYKJRKP00xTWRrWM4xKmhTe6FKjcUN9p
+ 3FDFAZfJJ8/so73/X3H5w9mEVYTaTjM0dtjWeLFSaFyTfF07KbK36RixjdW3N10aW/5b
+ ZPKu/pg31T4HMlikALS8H8PW6HnmnQUGJnW7CVHUpewR89vA5kTG4KHrV0ivSRq0345T
+ 9U0GdQ0TQneM/1F+DGbge9/bo8SwdiUN+NIo7JGBYRDi32swb6T7T3Q1AxsbvJ99Vv8v
+ u7Ww==
+X-Gm-Message-State: APjAAAVqRjuoQK8b15WJQYzAyfLF0Gb5/6nyldqxEsWxNVAL4SVjVAwe
+ s3+unVxgWaWfuqRxFx0VumNpDOYO
+X-Google-Smtp-Source: APXvYqw0nLEfQupoh9Ri7KceYGuXe14KPiycUmMGx0F0Rd0noxoK3d4XVBEs/V0QW02zO9GgwhfmvA==
+X-Received: by 2002:a7b:c218:: with SMTP id x24mr6606036wmi.149.1576155185278; 
+ Thu, 12 Dec 2019 04:53:05 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.03
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:03 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:04 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 006/132] build-sys: add meson submodule
-Date: Thu, 12 Dec 2019 13:50:50 +0100
-Message-Id: <1576155176-2464-7-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 007/132] meson: enable pie
+Date: Thu, 12 Dec 2019 13:50:51 +0100
+Message-Id: <1576155176-2464-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,115 +86,29 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- .gitmodules               |  3 +++
- configure                 | 45 +++++++++++++++++++++++++++++++++++++++++----
- meson                     |  1 +
- scripts/archive-source.sh |  3 ++-
- 4 files changed, 47 insertions(+), 5 deletions(-)
- create mode 160000 meson
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitmodules b/.gitmodules
-index c5c4741..67f4ed8 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -58,3 +58,6 @@
- [submodule "roms/opensbi"]
- 	path = roms/opensbi
- 	url = 	https://git.qemu.org/git/opensbi.git
-+[submodule "meson"]
-+	path = meson
-+	url = https://github.com/mesonbuild/meson/
 diff --git a/configure b/configure
-index 2f3e231..0eb3d70 100755
+index 0eb3d70..80055f1 100755
 --- a/configure
 +++ b/configure
-@@ -171,6 +171,25 @@ path_of() {
-     return 1
- }
+@@ -2075,7 +2075,6 @@ int main(void) { return tls_var; }
+ EOF
+   if compile_prog "-fPIE -DPIE" "-pie"; then
+     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+-    LDFLAGS="-pie $LDFLAGS"
+     pie="yes"
+     if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
+       LDFLAGS="-Wl,-z,relro -Wl,-z,now $LDFLAGS"
+@@ -7942,6 +7941,7 @@ NINJA=$PWD/ninjatool $python $meson setup \
+ 	--localstatedir "$local_statedir" \
+ 	$(test "$strip_opt" = yes && echo --strip) \
+ 	--buildtype $(if test "$debug" = yes; then echo debug; else echo debugoptimized; fi) \
++        -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         $cross_arg \
+ 	"$PWD" "$source_path"
  
-+version_ge () {
-+    local_ver1=`echo $1 | tr . ' '`
-+    local_ver2=`echo $2 | tr . ' '`
-+    while true; do
-+        set x $local_ver1
-+        local_first=${2-0}
-+        # shift 2 does nothing if there are less than 2 arguments
-+        shift; shift
-+        local_ver1=$*
-+        set x $local_ver2
-+        # the second argument finished, the first must be greater or equal
-+        test $# = 1 && return 0
-+        test $local_first -lt $2 && return 1
-+        test $local_first -gt $2 && return 0
-+        shift; shift
-+        local_ver2=$*
-+    done
-+}
-+
- have_backend () {
-     echo "$trace_backends" | grep "$1" >/dev/null
- }
-@@ -489,7 +508,6 @@ libxml2=""
- debug_mutex="no"
- libpmem=""
- default_devices="yes"
--meson=meson
- 
- supported_cpu="no"
- supported_os="no"
-@@ -1827,9 +1845,28 @@ then
-     error_exit "Python not found. Use --python=/path/to/python"
- fi
- 
--if ! has "$meson"
--then
--    error_exit "Meson not found. Use --meson=/path/to/meson"
-+if test -z "$meson" ; then
-+    if has meson && version_ge "$(meson --version)" 0.53.0; then
-+        meson=meson
-+    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-+        meson=git
-+    elif test -e "${source_path}/meson/meson.py" ; then
-+        meson=internal
-+    fi
-+fi
-+
-+case "$meson" in
-+    git | internal)
-+        if test "$meson" = git; then
-+            git_submodules="${git_submodules} meson"
-+            (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update meson)
-+        fi
-+        meson="${source_path}/meson/meson.py"
-+        ;;
-+esac
-+
-+if ! has "$meson" ; then
-+    error_exit "Meson not found. Use --meson=/path/to/meson|git|internal"
- fi
- meson=$(command -v $meson)
- 
-diff --git a/meson b/meson
-new file mode 160000
-index 0000000..5031f49
---- /dev/null
-+++ b/meson
-@@ -0,0 +1 @@
-+Subproject commit 5031f4981d4fcf6eb0bc950669a0a77a7df22939
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index fb5d6b3..c6169db 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -26,7 +26,8 @@ sub_file="${sub_tdir}/submodule.tar"
- # independent of what the developer currently has initialized
- # in their checkout, because the build environment is completely
- # different to the host OS.
--submodules="dtc slirp ui/keycodemapdb tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
-+submodules="dtc slirp meson ui/keycodemapdb"
-+submodules="$submodules tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
- sub_deinit=""
- 
- function cleanup() {
 -- 
 1.8.3.1
 
