@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C247511D9D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 00:17:09 +0100 (CET)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD79311D9F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 00:24:42 +0100 (CET)
+Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifXhk-00046p-HF
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 18:17:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
+	id 1ifXp3-0005w6-Rt
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 18:24:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52004)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ifXgX-0003do-L2
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 18:15:59 -0500
+ (envelope-from <jcmvbkbc@gmail.com>) id 1ifXnz-00058K-7H
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 18:23:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ifXgW-0003ew-4M
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 18:15:53 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45377)
+ (envelope-from <jcmvbkbc@gmail.com>) id 1ifXnx-000749-2H
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 18:23:35 -0500
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:35273)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1ifXgV-0003dh-Sl
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 18:15:52 -0500
-Received: by mail-lj1-x242.google.com with SMTP id d20so496659ljc.12
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 15:15:51 -0800 (PST)
+ (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1ifXnv-0006zj-H4
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 18:23:32 -0500
+Received: by mail-lj1-x230.google.com with SMTP id j6so568646lja.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 15:23:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=lmVYUN8ZhqaCMZ9YG1JlcS29l66frHCIrNzkl+VlQfw=;
- b=ZEEc8iAn7beYGWde+8OxYhzREBNGf3JXWqspqIbEPVmM29S86JFMQSng3F0I8XOP2d
- p0+1VzUu3EAJ9IzGmq8Uzvjpwgjp6BgYZlyhRyC7lIDMyb1W3/giG5/u9LGcz4igID5s
- VNzDNsKHbIVIN7f/9SxdVHAZVgmy/OgRGDgZhGgg8Axc6kQSbOEOPKhGeVYqzE2+uZrx
- BFLYfdpIhVHGojarG9v1VLUOAVM/77nTbKV2Llj0QX98Z29O/CzmzthA9ztRPIg/WJ25
- Ssy/QTBzxZwYA4rFFz/89YhorwpKqx1dnbbCO0lpjvj0JsYlt+C27o7wNA83iLuWyfJh
- YQSg==
+ bh=lp8ydgDOVLYnzNeRidfIHC2JLqLXcTtj8UXZm6Z61Wc=;
+ b=UlHykSLj01SKtPh0Iz4aDOd52MT09/fDWu1N3BAbgQMyXzCPXV/aV6H2HxXxZTXAAU
+ 0Zdml0J9g5UDqaZnXlFOrDH9ixmQ45S8aaTtRARx1jxAiMO+0FiFFrQLoluo59b8UBtA
+ IuzH2cqh2mK2jyBnlDSjjzMwZKNATMeRd1kMAGYHoo9cy4MbJ62jNTyUhuv2rmfkNlpg
+ 2v0XBGrsfbAxq28hogsrE18tVqj5mUnPaE4iwSOPUgpYRVYv2Jl1Y1v8GeuE6uL3xdsn
+ /oGVKFzfL/hg3NhHDu2aJvKtVKl6nAOfNxJKqN6uDlVVviGtkYGz6v1ShOvJTjuETlqM
+ ecYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=lmVYUN8ZhqaCMZ9YG1JlcS29l66frHCIrNzkl+VlQfw=;
- b=M4S0SP6CCHl4SIErt+xqfS1Xhff7/yqkA+T70+yP9olSv4G4WcyANr0QSyTf78EDQX
- /pVvHiQtUzClOUAf5aHlZevfFurDKEQ4EmzKCqFXVq5biQhk2LA7ej6Qjwxb19EKjOMf
- EP8eGV5Na7pqr2PbvQvPfXrxPrkCfCfo3Eoo7Hw1abZUdZhjI3jrUhDr2M8PtzaNkY43
- L2/ey6hEUd8ooH2mvau5yvSpDcO9gEH/guLwXIKSXxJ5by+yES3QqC4tSryJpgf1Dbfn
- 5etPyhGWsWWaRFKGmsxE4rq6KO1LY1nufP3AftRvGwFW/PgA6FqIaV95NdannsY73wbP
- 5v1g==
-X-Gm-Message-State: APjAAAUit7F6agu/a5Y/5E0QvIladCRzStDCXVU4JKevRVnugoPvtrfn
- RP0Ddkm3GqK39oKDIG0DPbmnsNrB
-X-Google-Smtp-Source: APXvYqwl69VI7EXFO2EV+HlsAKjbOV5rwvbyrPTW0EEvX1i6AzUy7ENjeKZ63vT7Qa1lODXN9I5/aA==
-X-Received: by 2002:a2e:3a12:: with SMTP id h18mr7626332lja.81.1576192550179; 
- Thu, 12 Dec 2019 15:15:50 -0800 (PST)
+ bh=lp8ydgDOVLYnzNeRidfIHC2JLqLXcTtj8UXZm6Z61Wc=;
+ b=cjPlV5qoduW743Rt9drcEOy/LN3k/x/PdI43DcIsZj+OYTr3CUvP+BOFbWse9xaJGw
+ /PQr5DrA/QFI7Nl/TL7Ze43vLehlpz3oL0UfY3CPgVS2iKRqFSIETyNOvZqwlk6PpICp
+ M5nB8rui1DIiNwVq5teuxmHU2pa8n64La6SjVammR1AAk0hKuHYdQv5b/L7W00wSkSKq
+ cmoP5QgUW4Tjqcf2grmjSKzmaHe52nWVus64ZWdNPgxM2BN+xlLbhKH8IuWE5AKhptjV
+ eD70BAGGKgSX0Sd/cM7Mh7heTDnRaEdrH1ppRX5uk2nheobZk8H06DhZxRw5CeXlBrig
+ ZMlw==
+X-Gm-Message-State: APjAAAXMcvzJjAbh+9Fys2E1a2nAMvFNnqkbMd7NHhkmdfK36uzp1itd
+ epviQEe4uWgMWE3hm+DeFE1QeZnnaV0=
+X-Google-Smtp-Source: APXvYqxmBDbXkAij6AMkbuRR9jrvC2nTKO1pvd02rL5uu/4ijzrnt2k1ohIheevNXY0ZG4XG/srrug==
+X-Received: by 2002:a2e:144b:: with SMTP id 11mr7659037lju.216.1576193009558; 
+ Thu, 12 Dec 2019 15:23:29 -0800 (PST)
 Received: from octofox.cadence.com
  (jcmvbkbc-1-pt.tunnel.tserv24.sto1.ipv6.he.net. [2001:470:27:1fa::2])
- by smtp.gmail.com with ESMTPSA id x12sm3771705ljd.92.2019.12.12.15.15.48
+ by smtp.gmail.com with ESMTPSA id j19sm4107859lfb.90.2019.12.12.15.23.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Dec 2019 15:15:49 -0800 (PST)
+ Thu, 12 Dec 2019 15:23:28 -0800 (PST)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] target/xtensa: fix ps.ring use in MPU configs
-Date: Thu, 12 Dec 2019 15:15:37 -0800
-Message-Id: <20191212231537.2766-1-jcmvbkbc@gmail.com>
+Subject: [PATCH 0/2] target/xtensa: use background MPU map from overlay
+Date: Thu, 12 Dec 2019 15:23:16 -0800
+Message-Id: <20191212232318.2840-1-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::242
+X-Received-From: 2a00:1450:4864:20::230
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,57 +79,21 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow ps.ring modification by wsr.ps/xsr.ps and use ps.ring value in
-xtensa_get_[c]ring on configurations with MPU.
+Hello,
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
----
- target/xtensa/cpu.h       | 10 +++++++---
- target/xtensa/translate.c |  3 ++-
- 2 files changed, 9 insertions(+), 4 deletions(-)
+this series changes target/xtensa/import_core.sh script to import one
+more header from the configuration overlay: the one with default address
+space map for the core and uses information in this header to generate
+background MPU map.
 
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index b363ffcf1066..75e65df59704 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -645,7 +645,9 @@ static inline int xtensa_get_cintlevel(const CPUXtensaState *env)
- 
- static inline int xtensa_get_ring(const CPUXtensaState *env)
- {
--    if (xtensa_option_enabled(env->config, XTENSA_OPTION_MMU)) {
-+    if (xtensa_option_bits_enabled(env->config,
-+                                   XTENSA_OPTION_BIT(XTENSA_OPTION_MMU) |
-+                                   XTENSA_OPTION_BIT(XTENSA_OPTION_MPU))) {
-         return (env->sregs[PS] & PS_RING) >> PS_RING_SHIFT;
-     } else {
-         return 0;
-@@ -654,8 +656,10 @@ static inline int xtensa_get_ring(const CPUXtensaState *env)
- 
- static inline int xtensa_get_cring(const CPUXtensaState *env)
- {
--    if (xtensa_option_enabled(env->config, XTENSA_OPTION_MMU) &&
--            (env->sregs[PS] & PS_EXCM) == 0) {
-+    if (xtensa_option_bits_enabled(env->config,
-+                                   XTENSA_OPTION_BIT(XTENSA_OPTION_MMU) |
-+                                   XTENSA_OPTION_BIT(XTENSA_OPTION_MPU)) &&
-+        (env->sregs[PS] & PS_EXCM) == 0) {
-         return (env->sregs[PS] & PS_RING) >> PS_RING_SHIFT;
-     } else {
-         return 0;
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 4a14fdb3f1db..159bbd404885 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -2713,7 +2713,8 @@ static void translate_wsr_ps(DisasContext *dc, const OpcodeArg arg[],
-     uint32_t mask = PS_WOE | PS_CALLINC | PS_OWB |
-         PS_UM | PS_EXCM | PS_INTLEVEL;
- 
--    if (option_enabled(dc, XTENSA_OPTION_MMU)) {
-+    if (option_enabled(dc, XTENSA_OPTION_MMU) ||
-+        option_enabled(dc, XTENSA_OPTION_MPU)) {
-         mask |= PS_RING;
-     }
-     tcg_gen_andi_i32(cpu_SR[par[0]], arg[0].in, mask);
+Max Filippov (2):
+  target/xtensa: import xtensa/config/core-isa.h
+  target/xtensa: use MPU background map from core configuration
+
+ target/xtensa/import_core.sh |  6 ++++--
+ target/xtensa/overlay_tool.h | 15 ++++++++++++++-
+ 2 files changed, 18 insertions(+), 3 deletions(-)
+
 -- 
 2.20.1
 
