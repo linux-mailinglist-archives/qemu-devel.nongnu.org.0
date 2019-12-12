@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDB011CF84
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:16:02 +0100 (CET)
-Received: from localhost ([::1]:60156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E20311CFA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:22:45 +0100 (CET)
+Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifPG4-0003Tw-RC
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:16:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48269)
+	id 1ifPMa-0001pn-3l
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:22:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37076)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1ifPE4-0001vG-4Y
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:13:57 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1ifPFc-0004MR-7b
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:15:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1ifPE1-0005rH-5u
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:13:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55716
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <luc.michel@greensocs.com>) id 1ifPFa-000078-Br
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:15:31 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:57758)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ifPE1-0005oR-11
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:13:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576160031;
+ (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
+ id 1ifPFZ-0008U4-Bu
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:15:30 -0500
+Received: from [172.17.10.6] (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id F207396EF0;
+ Thu, 12 Dec 2019 14:15:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1576160126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KZs2c3ua3XI4JlaybMO4mKpScj/gnCYK5aGNCIu41Rw=;
- b=FNnhfUTobi3iwy/shOppXFqOu5er1CUVKKokBKM+szIYbvhd0RKx3+97HiXpUGo+2sxNDB
- Esq1Kk5tp7CbfL3xPNbdiMukTTFTwJ4Qf3K1pcXiM1QHvZVV/o3KW2AhcOk+n2sYo5rT4C
- gaKs/FPFMixdG+FdxlfzNQi8nL9gt7U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-bH4IrWj3MP2h9n_06DLgyQ-1; Thu, 12 Dec 2019 09:13:50 -0500
-X-MC-Unique: bH4IrWj3MP2h9n_06DLgyQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30B0C107ACC4
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 14:13:49 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-124-90.rdu2.redhat.com
- [10.10.124.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 538F310013A1;
- Thu, 12 Dec 2019 14:13:43 +0000 (UTC)
-Date: Thu, 12 Dec 2019 09:13:42 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v2 1/2] python/qemu: Add set_qmp_monitor() to QEMUMachine
-Message-ID: <20191212141342.GA26584@localhost.localdomain>
-References: <20191211185536.16962-1-wainersm@redhat.com>
- <20191211185536.16962-2-wainersm@redhat.com>
+ bh=csgbn40Ydzt4WX0T5iS0fv0Xz/2HyDUUCnnTrpiZqO0=;
+ b=o0JEBXkjREHTZrI+3WV7cwDFBL5yWim59FiuKFP4959mmhtPdljtmRNacJDwYYhDUdXb2F
+ zeSi4Xa0myly647+VO7xnut+apZouPNswWaWLq8iYNo9li1y6Yr3VMf7DoLVHWcD43UPyK
+ xxrYoH76/whZENVUeeeovW3BkcC7ZUM=
+Subject: Re: [PATCH v2 1/2] gdbstub: change GDBState.last_packet to GByteArray
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+References: <20191211160514.58373-1-damien.hedde@greensocs.com>
+ <20191211160514.58373-2-damien.hedde@greensocs.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <34c9016c-6d41-19a6-7f27-2476349920ce@greensocs.com>
+Date: Thu, 12 Dec 2019 15:15:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191211185536.16962-2-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
+In-Reply-To: <20191211160514.58373-2-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-PH
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1576160126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=csgbn40Ydzt4WX0T5iS0fv0Xz/2HyDUUCnnTrpiZqO0=;
+ b=2Uut55PtvrM2KR15t7KGzyGvVpZv9kPN37vggolipU0pHGPbqu1Nt5Ke+IGF/uhm35cwX+
+ ALge1B0ZzBQXgeWqLxc4ab2+vHqGXKsk0PgA7pd1kxX7Lx/o+CbQR8o4x1YRautRSQrGjM
+ pHqy4l1Xf0HWhNgMHsmDBLOEpondRow=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1576160126; a=rsa-sha256; cv=none;
+ b=y7ryWe/DH8cd03S10mfVVfO58SjckpBmd8zJiUw6pnoduDpsP5SUPvKIpbEeIQjZdLnZPR
+ qHT+/yqAgdfJysnaLb/x+pYO6ZQFJoaSeTeMck6h6O3ZomPBFORDJMkVi53QTBzqp2cno7
+ 7XjEiohWHf+ZOlEXVKsPKw/BR/8IquA=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,87 +78,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: philmd@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 11, 2019 at 01:55:35PM -0500, Wainer dos Santos Moschetta wrote=
-:
-> The QEMUMachine VM has a monitor setup on which an QMP
-> connection is always attempted on _post_launch() (executed
-> by launch()). In case the QEMU process immediatly exits
-> then the qmp.accept() (used to establish the connection) stalls
-> until it reaches timeout and consequently an exception raises.
+
+On 12/11/19 5:05 PM, Damien Hedde wrote:
+> Remove the packet size upper limit by using a GByteArray
+> instead of a statically allocated array for last_packet.
+> Thus we can now send big packets.
 >=20
-> That behavior is undesirable when, for instance, it needs to
-> gather information from the QEMU binary ($ qemu -cpu list) or a
-> test which launches the VM expecting its failure.
+> Also remove the last_packet_len field and use last_packet->len
+> instead.
 >=20
-> This patch adds the set_qmp_monitor() method to QEMUMachine that
-> allows turn off the creation of the monitor machinery on VM launch.
->=20
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+
 > ---
->  python/qemu/machine.py | 66 +++++++++++++++++++++++++++---------------
->  1 file changed, 43 insertions(+), 23 deletions(-)
+>  gdbstub.c | 39 +++++++++++++++++++++------------------
+>  1 file changed, 21 insertions(+), 18 deletions(-)
 >=20
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index a4631d6934..7d4d621a42 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -104,6 +104,7 @@ class QEMUMachine(object):
->          self._events =3D []
->          self._iolog =3D None
->          self._socket_scm_helper =3D socket_scm_helper
-> +        self._qmp_set =3D True   # Enable QMP monitor by default.
->          self._qmp =3D None
->          self._qemu_full_args =3D None
->          self._test_dir =3D test_dir
-> @@ -228,15 +229,16 @@ class QEMUMachine(object):
->                  self._iolog =3D iolog.read()
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 7b695bdebe..93b26f1b86 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -351,8 +351,7 @@ typedef struct GDBState {
+>      int line_buf_index;
+>      int line_sum; /* running checksum */
+>      int line_csum; /* checksum at the end of the packet */
+> -    uint8_t last_packet[MAX_PACKET_LENGTH + 4];
+> -    int last_packet_len;
+> +    GByteArray *last_packet;
+>      int signal;
+>  #ifdef CONFIG_USER_ONLY
+>      int fd;
+> @@ -384,6 +383,7 @@ static void init_gdbserver_state(void)
+>      gdbserver_state.init =3D true;
+>      gdbserver_state.str_buf =3D g_string_new(NULL);
+>      gdbserver_state.mem_buf =3D g_byte_array_sized_new(MAX_PACKET_LENG=
+TH);
+> +    gdbserver_state.last_packet =3D g_byte_array_sized_new(MAX_PACKET_=
+LENGTH + 4);
+>  }
 > =20
->      def _base_args(self):
-> -        if isinstance(self._monitor_address, tuple):
-> -            moncdev =3D "socket,id=3Dmon,host=3D%s,port=3D%s" % (
-> +        args =3D ['-display', 'none', '-vga', 'none']
-> +        if self._qmp_set:
-> +            if isinstance(self._monitor_address, tuple):
-> +                moncdev =3D "socket,id=3Dmon,host=3D%s,port=3D%s" % (
->                  self._monitor_address[0],
->                  self._monitor_address[1])
-
-One thing I missed in my review on v1 was this now became badly
-indented.  No worries, it's a minor issue that I can fix on my side
-when queueing this patch.
-
-- Cleber.
-
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl3ySxQACgkQZX6NM6Xy
-CfNiLw//afjGUN6UEY4gJDqjnjdi/Y4RG14AuaN211ZDa63R8lWPElsPueK+brNc
-75+a0Nm3IevT9WG+hziVjwVVVB83N3hq2WSe6gV1Lc/FGVRscTzigP1AbCUytX+v
-HD4bMvRwtFpUGYDF4CYuBUmkkjclZASb2/GkBf2H11y6O0zMOU/wB1SUFF18T0oJ
-mVEuudr9y/tD/eqdkxTrhoSx3wFmHI9DcyCA/JPf4mnG3Yi49UFRhIyNHIseRfD/
-2MQ36cGa58f5HXJc/oNlZY7mdiMWYBYdVo2tUmFzMjLQyniAAx2tjKx3K1INLYlg
-LGjUOnsts3frO3/BgMvrX+VXRDPUbNBByU9je2zibotnhbZIZ+wJ4zFbhEVnSciy
-eImIC5WYMopNWwcrxyTQ6fZ8s95qN6mpniQVWv3VmZ75hqCEVkP5bF/rKHlLniF5
-EA589D7zWa4LCCP0K5NwRmnjp0QxvlsTyg/Pr7qK6ZSFA69wfVKko+Zy94kXTyex
-J7KmrTvZSS6tAUPh0OmMX0IVa2ZtNvqBMrLS0CZ8hmPQyAfw6Khn7drfSLAKw06p
-F/Coa2DCAwXRl82R+qdU4RDD1/ce9Z3s3Ke5o+rnUk3ShkNpK5aPvhrBIMfxO9y2
-rkSFpKsqM0oPU87t9iNEPi0Dda1nnfjJutC1Uq/4o51dc/epjfo=
-=Cn/s
------END PGP SIGNATURE-----
-
---ZGiS0Q5IWpPtfppv--
-
+>  #ifndef CONFIG_USER_ONLY
+> @@ -626,28 +626,29 @@ static void hexdump(const char *buf, int len,
+>  static int put_packet_binary(const char *buf, int len, bool dump)
+>  {
+>      int csum, i;
+> -    uint8_t *p;
+> -    uint8_t *ps =3D &gdbserver_state.last_packet[0];
+> +    uint8_t footer[3];
+> =20
+>      if (dump && trace_event_get_state_backends(TRACE_GDBSTUB_IO_BINARY=
+REPLY)) {
+>          hexdump(buf, len, trace_gdbstub_io_binaryreply);
+>      }
+> =20
+>      for(;;) {
+> -        p =3D ps;
+> -        *(p++) =3D '$';
+> -        memcpy(p, buf, len);
+> -        p +=3D len;
+> +        g_byte_array_set_size(gdbserver_state.last_packet, 0);
+> +        g_byte_array_append(gdbserver_state.last_packet,
+> +                            (const uint8_t *) "$", 1);
+> +        g_byte_array_append(gdbserver_state.last_packet,
+> +                            (const uint8_t *) buf, len);
+>          csum =3D 0;
+>          for(i =3D 0; i < len; i++) {
+>              csum +=3D buf[i];
+>          }
+> -        *(p++) =3D '#';
+> -        *(p++) =3D tohex((csum >> 4) & 0xf);
+> -        *(p++) =3D tohex((csum) & 0xf);
+> +        footer[0] =3D '#';
+> +        footer[1] =3D tohex((csum >> 4) & 0xf);
+> +        footer[2] =3D tohex((csum) & 0xf);
+> +        g_byte_array_append(gdbserver_state.last_packet, footer, 3);
+> =20
+> -        gdbserver_state.last_packet_len =3D p - ps;
+> -        put_buffer(ps, gdbserver_state.last_packet_len);
+> +        put_buffer(gdbserver_state.last_packet->data,
+> +                   gdbserver_state.last_packet->len);
+> =20
+>  #ifdef CONFIG_USER_ONLY
+>          i =3D get_char();
+> @@ -2812,20 +2813,22 @@ static void gdb_read_byte(GDBState *s, uint8_t =
+ch)
+>      uint8_t reply;
+> =20
+>  #ifndef CONFIG_USER_ONLY
+> -    if (gdbserver_state.last_packet_len) {
+> +    if (gdbserver_state.last_packet->len) {
+>          /* Waiting for a response to the last packet.  If we see the s=
+tart
+>             of a new command then abandon the previous response.  */
+>          if (ch =3D=3D '-') {
+>              trace_gdbstub_err_got_nack();
+> -            put_buffer((uint8_t *)gdbserver_state.last_packet, gdbserv=
+er_state.last_packet_len);
+> +            put_buffer(gdbserver_state.last_packet->data,
+> +                       gdbserver_state.last_packet->len);
+>          } else if (ch =3D=3D '+') {
+>              trace_gdbstub_io_got_ack();
+>          } else {
+>              trace_gdbstub_io_got_unexpected(ch);
+>          }
+> =20
+> -        if (ch =3D=3D '+' || ch =3D=3D '$')
+> -            gdbserver_state.last_packet_len =3D 0;
+> +        if (ch =3D=3D '+' || ch =3D=3D '$') {
+> +            g_byte_array_set_size(gdbserver_state.last_packet, 0);
+> +        }
+>          if (ch !=3D '$')
+>              return;
+>      }
+> @@ -3209,7 +3212,7 @@ static int gdb_monitor_write(Chardev *chr, const =
+uint8_t *buf, int len)
+>      const char *p =3D (const char *)buf;
+>      int max_sz;
+> =20
+> -    max_sz =3D (sizeof(gdbserver_state.last_packet) - 2) / 2;
+> +    max_sz =3D (MAX_PACKET_LENGTH / 2) + 1;
+>      for (;;) {
+>          if (len <=3D max_sz) {
+>              gdb_monitor_output(&gdbserver_state, p, len);
+>=20
 
