@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D679D11CE2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:21:27 +0100 (CET)
-Received: from localhost ([::1]:59188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE5311CE1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:19:15 +0100 (CET)
+Received: from localhost ([::1]:59156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOPG-0002qv-Dk
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59637)
+	id 1ifON7-000858-UL
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:19:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNy9-0003A6-Vw
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:27 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyA-0003Bb-UN
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNy8-0006JE-Pc
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:25 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39013)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNy9-0006Kq-Jw
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:26 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40421)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNy8-0006HZ-Ib
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:24 -0500
-Received: by mail-wm1-x330.google.com with SMTP id d5so2374822wmb.4
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:24 -0800 (PST)
+ id 1ifNy9-0006J9-B9
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:25 -0500
+Received: by mail-wm1-x334.google.com with SMTP id t14so2370700wmi.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s/XxOv3v8yWIEINkNyhklSprKPX+gu5M/S5mfVQYviU=;
- b=p28New7zU64hcnMnqpVn1jvz1Ag1iuA9FnWsTEnYaN3NdeaM2+ZfdYoUaicJ2YcXhS
- B9tYIBkqnnYEBG1olqgPQHRhb0gAAmbe43gf5KOiHK1Peh/mQmXa57FVC2tjw0Iun0rM
- Tdb3NUBo4kvNKlnVhBrT6At3UZrA9LCOTjECYodXzSQCauYOdfllVggGj9/Z4K5fqr8P
- ERSyMtdv1MtGmgy/Ox4iEWPm+ISoIKnx1o3WU1LJTKupqMWK400UivmdTlnv4IEA9RG2
- FMOByAuPtb8gg4JO6cldvsAChY4duSUqCj+66p2ds4P2kMz/KFb62zeK6XX0NjANYp7w
- QWEQ==
+ bh=xSwt9wbl5F36WhAyO5q9Z+UABxMxg8aLFFIonQFV0ZI=;
+ b=f/gEKCk/XUaOSVmfmoV0SzT0dGhPIm6K4QJWBLAQJqvirUvI/6zb/eVfSsdiGcuZE8
+ RxeUNnE5FND13W9sZqL7YJZQVn9x9xzqcp7cLr+BZfbPGqHx4x8mQPMK3BEHFt/F8BML
+ fJwbV6nVuVJSKybPTAFI10TaiqBBv1YSzzF8UxoUYViD3kFUiLI5RAflnI1I0kSXv9f2
+ mOcIfCHpvn/3ZEvikwB0ixqlJZ1//OY4MpmEOcBsNi2PPgmR5f+TdaDE13ajVWAVmI+O
+ C+ukl54otyAMjpUGhf2hz7i9VZpO2zbxc5YlYWkjVGlYW4Cne13eZ3dmzIxIEobUUvob
+ ZHDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=s/XxOv3v8yWIEINkNyhklSprKPX+gu5M/S5mfVQYviU=;
- b=Rua9oUiazKAMR9/UHDz9pWQqASmqCPJPY87/HJ543M93YICc+/tbapQXh0sFwGRSsI
- L6qE6ZvP7cPyXg9ttxuUVg0v5bAhOSwl1n+vgmK/FZ8rObJi/gK9ggf/VVxZeXJebx/T
- L1irem8qfTxCcS8ng8oPmsc1BbEom4zukvfPfhEEN4H4aYd2h2oq+Y5RAnziT7D/Hn9W
- dZPjPlT/3GgGKRRhYmcyOD9ySLJgN9s3qjPAlV8DWnSPyMx7Mp/Vd/R87NC7mixWTFNf
- 8gqEfTetCjbg1+fvsv+zyZSZs1YsiPT9Yt44YLcXxl+chvQuLtLZKnGPIdfo3LYk+8w6
- txhA==
-X-Gm-Message-State: APjAAAUJWZN+anwRRgN7mLbvEA13XHBB8KLExxcOpA5Uyq5OgejUZnFf
- tnuEKGeRnNH4ZP0yHR8Aea0HYbgm
-X-Google-Smtp-Source: APXvYqzxu9sKAou26SXbhfTWJZ3eFaqHnZSdMXFSTWjKCRMt+twbaxu4bBBF0DA4MgpyWmGIxsSwnw==
-X-Received: by 2002:a1c:e909:: with SMTP id q9mr6758500wmc.30.1576155203343;
- Thu, 12 Dec 2019 04:53:23 -0800 (PST)
+ bh=xSwt9wbl5F36WhAyO5q9Z+UABxMxg8aLFFIonQFV0ZI=;
+ b=t0Bbci1FUMM9qin8A3DwMDSrBEyznIDOcPlbaCqnL2YI2NRXKzPRdlrUe9g2aJoREK
+ PIK2nZyN82OFbEAetbBWkVXzOYU5JfKW06zwjZW3bxAfqhFZTBysBSazSf6HLwbFIB1M
+ kp5GBeWUtlGxHnH6Q/v+c5GTkEtwBhdWGFaeChpa+8hLNcI7DYyPjiqtXhi7lrM5ODAS
+ CoCx/kmp6hBxgyJB7/gxrdFDji7xcqiFAmnnGQFTiGDOZsx7y11kduas6UjXhIfQfvXT
+ LUC9w2+7MuPcJNnfLs4rJ8yqX6k4xH8Jaui9GPrxxdFsRK29nsTyBmT8qJ+VGvB+WmOR
+ TH+Q==
+X-Gm-Message-State: APjAAAW97CpIRbp6o/d0RDxtuJRDsXIGayquPNuc/vPCoPJTaz9reviC
+ Pfdih17JR+a0rZRwkrBzOQUB4YOl
+X-Google-Smtp-Source: APXvYqwq1rWduoMDzxs2tDeA/WdQtc6xWxSpF3ILrUq2A2zDZVjLoOlbjoX8RbDNFLZzLPxcHzllZA==
+X-Received: by 2002:a1c:48c1:: with SMTP id v184mr6703342wma.5.1576155204141; 
+ Thu, 12 Dec 2019 04:53:24 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.22
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:22 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 025/132] meson: add qemu-edid
-Date: Thu, 12 Dec 2019 13:51:09 +0100
-Message-Id: <1576155176-2464-26-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 026/132] meson: add virtfs-proxy-helper
+Date: Thu, 12 Dec 2019 13:51:10 +0100
+Message-Id: <1576155176-2464-27-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,51 +87,99 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    | 2 --
- configure   | 2 +-
- meson.build | 3 +++
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ Makefile          | 3 ---
+ configure         | 6 ++++--
+ fsdev/meson.build | 4 ++++
+ meson.build       | 6 ++++++
+ 4 files changed, 14 insertions(+), 5 deletions(-)
+ create mode 100644 fsdev/meson.build
 
 diff --git a/Makefile b/Makefile
-index fe4df0d..6a888b0 100644
+index 6a888b0..9110115 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -372,8 +372,6 @@ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
+@@ -372,9 +372,6 @@ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
  qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
  qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
  
--qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+-fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p-marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
+-fsdev/virtfs-proxy-helper$(EXESUF): LIBS += -lcap
 -
- fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p-marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
- fsdev/virtfs-proxy-helper$(EXESUF): LIBS += -lcap
- 
+ scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ ifdef CONFIG_MPATH
+ scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
 diff --git a/configure b/configure
-index d05c0de..0b294bb 100755
+index 0b294bb..ca91a76 100755
 --- a/configure
 +++ b/configure
-@@ -6041,7 +6041,7 @@ fi
+@@ -3969,6 +3969,7 @@ fi
+ ##########################################
+ # attr probe
  
- tools=""
- if test "$want_tools" = "yes" ; then
--  tools="qemu-img\$(EXESUF) qemu-io\$(EXESUF) qemu-edid\$(EXESUF) $tools"
-+  tools="qemu-img\$(EXESUF) qemu-io\$(EXESUF) $tools"
-   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
-     tools="qemu-nbd\$(EXESUF) $tools"
-   fi
++libattr_libs=
+ if test "$attr" != "no" ; then
+   cat > $TMPC <<EOF
+ #include <stdio.h>
+@@ -3985,7 +3986,8 @@ EOF
+   # Older distros have <attr/xattr.h>, and need -lattr:
+   elif compile_prog "-DCONFIG_LIBATTR" "-lattr" ; then
+     attr=yes
+-    LIBS="-lattr $LIBS"
++    libattr_libs="-lattr"
++    LIBS="$libattr_libs $LIBS"
+     libattr=yes
+   else
+     if test "$attr" = "yes" ; then
+@@ -6050,7 +6052,6 @@ if test "$softmmu" = yes ; then
+   if test "$linux" = yes; then
+     if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
+       virtfs=yes
+-      tools="$tools fsdev/virtfs-proxy-helper\$(EXESUF)"
+     else
+       if test "$virtfs" = yes; then
+         error_exit "VirtFS requires libcap devel and libattr devel"
+@@ -6833,6 +6834,7 @@ if test "$linux_aio" = "yes" ; then
+ fi
+ if test "$attr" = "yes" ; then
+   echo "CONFIG_ATTR=y" >> $config_host_mak
++  echo "LIBATTR_LIBS=$libattr_libs" >> $config_host_mak
+ fi
+ if test "$libattr" = "yes" ; then
+   echo "CONFIG_LIBATTR=y" >> $config_host_mak
+diff --git a/fsdev/meson.build b/fsdev/meson.build
+new file mode 100644
+index 0000000..eee8507
+--- /dev/null
++++ b/fsdev/meson.build
+@@ -0,0 +1,4 @@
++if have_tools and libattr.found() and libcap_ng.found() and 'CONFIG_VIRTFS' in config_host
++  executable('virtfs-proxy-helper', files('virtfs-proxy-helper.c', '9p-marshal.c', '9p-iov-marshal.c'),
++             dependencies: [qemuutil, libattr, libcap_ng])
++endif
 diff --git a/meson.build b/meson.build
-index 14a8a9a..e5b0e31 100644
+index e5b0e31..b53c2dc 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -234,6 +234,9 @@ if have_tools
-                dependencies: [qemuutil, xkbcommon], install: true)
-   endif
+@@ -56,6 +56,10 @@ if 'CONFIG_GNUTLS' in config_host
+ endif
+ pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
+                             link_args: config_host['PIXMAN_LIBS'].split())
++libattr = declare_dependency()
++if 'CONFIG_ATTR' in config_host
++  libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
++endif
+ libcap_ng = declare_dependency()
+ if 'CONFIG_LIBCAP_NG' in config_host
+   libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
+@@ -220,6 +224,8 @@ libqemuutil = static_library('qemuutil',
+ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: version_res)
  
-+  executable('qemu-edid', files('qemu-edid.c', 'hw/display/edid-generate.c'),
-+             dependencies: qemuutil)
++subdir('fsdev')
 +
-   if 'CONFIG_VHOST_USER' in config_host
-     subdir('contrib/libvhost-user')
-     subdir('contrib/vhost-user-blk')
+ # Other build targets
+ if 'CONFIG_GUEST_AGENT' in config_host
+   subdir('qga')
 -- 
 1.8.3.1
 
