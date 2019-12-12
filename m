@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82FF11CDA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 13:58:22 +0100 (CET)
-Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E121D11CD9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 13:55:31 +0100 (CET)
+Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifO2v-0008HY-PK
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 07:58:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55524)
+	id 1ifO0A-0004hq-8A
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 07:55:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxn-0002bK-T6
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:04 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxp-0002ed-SB
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxm-0005bh-QC
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:03 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38625)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxo-0005gA-QV
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:05 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37683)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNxm-0005Zo-Ij
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:02 -0500
-Received: by mail-wm1-x335.google.com with SMTP id p17so2374008wmi.3
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:02 -0800 (PST)
+ id 1ifNxo-0005dv-K2
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:04 -0500
+Received: by mail-wr1-x431.google.com with SMTP id w15so2623900wru.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lAA1rauPYw3IdpUqrU8014lOsyjgeqIfQTPWD16bhyU=;
- b=AEUUq2eQC1y04DVlwqhtHbH5q85fKMba2+z67LVO//TenswBIQehzV4XVBgS9ih+Ee
- xYfHjIpojqS0qt9TGiYT+FJE5ZN5HwRyS85mPFxVjQ7u0f30Ejuf1u+LaYqf3388h5aa
- XTnLkh7dcvsScL6ogtIK8LHOWuFGZNOh/p/NnYf6BbrqX1KHDKww1YzAtszbyEmaD33H
- iKMBAr52EDuWhf0wycCmOWGbz5n9gZy6bHHnscIgxQCBxaXlyyoGuz0LoirYqF+jwJGB
- aYLRg6ailW/htf4KIpxJoH0C67iq8sM8X4nFbaWwqHfiCe9QnnlmfQHo5pBfvzdO5Wl/
- rKTg==
+ bh=PH7UeOYv3AaEAyoiruUKVOCR4GfXDd27Kf2Yko972zU=;
+ b=KkMIC2afPP7er6EMMZVmh7Mm86Qtdyw8GEd/41txIwD7nn9x/dB1QUeGqWGbHp+MLN
+ s7gp7Jatu7QKuQNt2ZffEYzL7F/Wr8Pi71AtVx7T+juYAhsADEvF3V5npmyglKEc4Xuh
+ cL9XSclfrpql+S9GJhjKFLcagHReZlMa8A9E7YPtM630FBkSeiZ6R4RXcK/+XdL9pCVy
+ yqzq0ketLYYWjaEu00Hd0X5FSeklMjUcMFsDvNiJZBdUuQlKAW4EOXnGGx4Ivm47GC3o
+ +yqmBudMf8uf65XUjUcxShzHM5qzlpCPir0KefHrVtabxTrLevk6G3SG/Xl3igHD1qR2
+ GxzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lAA1rauPYw3IdpUqrU8014lOsyjgeqIfQTPWD16bhyU=;
- b=npmMyHGRilSYOSHnVzotNvH0UY3bcTExZSHj+NlaxS4xlRB9BxoESub9UDp3p5T0Ay
- q2Yy1c/CbOenwFQFY66Z813xhO2sv1FAVBnolhnN2K6Q2ZlzArKsA35wi78pazWPZDhX
- f5OD/7/RVvxhrrST+F6KSy+UFQe262a4LZDZgO5UEVUIlKJDg8j3EVejKgtpkSDQAavB
- aWp6ZN55QbYa5Bwz79Poc2oxiu9aqVjPSDJ6zysoz/ZHufEed0l0p+X42Hu4xDIiMgwk
- v5wUAEI1E96c9g0ZKlS5l/91Gv008LmfV/6/lMTQGFHaWswgO85mvU0/do3SLMiaDlh6
- GHlQ==
-X-Gm-Message-State: APjAAAUBhD2Xzww/HXeHfrIBZP/6VjICQZYqEa3Gr3XZ8s/v1s9gLHcr
- LPTlGd/7Im5LLyjF+MwT+dV8UBl5
-X-Google-Smtp-Source: APXvYqzVi6EPtHjIiN2lriJmXybAtb1AQ180AnLTEHmQRDtlZ/ywPdVo1iHIWUDhnSvo8SkAfzGewA==
-X-Received: by 2002:a7b:cbcd:: with SMTP id n13mr6455917wmi.104.1576155181268; 
- Thu, 12 Dec 2019 04:53:01 -0800 (PST)
+ bh=PH7UeOYv3AaEAyoiruUKVOCR4GfXDd27Kf2Yko972zU=;
+ b=TpAV7HRQOeotKG7dFf9NyCt+yssM+pvJDRgGQPNCj80/msiqFpSis0/xGSju8Oc/X4
+ LmYehGgT97SxGSqtXZbmHaOrdj7trTfpPtBan+jbONSvg1/QboHY5PsyYUT8IbbVg0QO
+ Y1ip2kHjhBcRMR9dkkjTthJg+10MYhNyBoWfNVdRF1o7gxiyVSCxK646gbvw+pzovNVf
+ wxa5D1dWn8jrAQymH9brPOMf7umzBPadmC/YMcG55czY+PSrBIqr8Rj/S9nBZnPBA/xR
+ U3afetDonVinOJtR27qqCQR4oj1OBYtwkPnzwjidf1s02Q60xnfO9nTciQOYPwg/wbKk
+ JW2w==
+X-Gm-Message-State: APjAAAXd6fyEB4OLXKTjylpWzJqbCyFtfh+fE0854oL6R79rVLTZfOBK
+ aXH5NBEqVPlb3+hK/Ng7nG7yAqps
+X-Google-Smtp-Source: APXvYqzQu8+Il+Ac4szdLi8B0eAEAuG3hk8OVneswrjBIe5KT8NhmTsfpdJJRvVrAvC7t/ZYfqVdiA==
+X-Received: by 2002:adf:e591:: with SMTP id l17mr5699975wrm.139.1576155183211; 
+ Thu, 12 Dec 2019 04:53:03 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.00
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:00 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:02 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 003/132] configure: expand path variables for meson configure
-Date: Thu, 12 Dec 2019 13:50:47 +0100
-Message-Id: <1576155176-2464-4-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 005/132] configure: generate Meson cross file
+Date: Thu, 12 Dec 2019 13:50:49 +0100
+Message-Id: <1576155176-2464-6-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,70 +87,68 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 35 ++++++++++++++++++++---------------
- 1 file changed, 20 insertions(+), 15 deletions(-)
+ configure | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/configure b/configure
-index 9745b87..a444bc3 100755
+index 3e3eb3d..2f3e231 100755
 --- a/configure
 +++ b/configure
-@@ -404,16 +404,7 @@ DSOSUF=".so"
- LDFLAGS_SHARED="-shared"
- modules="no"
- prefix="/usr/local"
--mandir="\${prefix}/share/man"
--datadir="\${prefix}/share"
- firmwarepath="\${prefix}/share/qemu-firmware"
--qemu_docdir="\${prefix}/share/doc/qemu"
--bindir="\${prefix}/bin"
--libdir="\${prefix}/lib"
--libexecdir="\${prefix}/libexec"
--includedir="\${prefix}/include"
--sysconfdir="\${prefix}/etc"
--local_statedir="\${prefix}/var"
- confsuffix="/qemu"
- slirp=""
- oss_lib=""
-@@ -926,12 +917,6 @@ if test "$mingw32" = "yes" ; then
-     LIBS="-liberty $LIBS"
-   fi
-   prefix="c:/Program Files/QEMU"
--  mandir="\${prefix}"
--  datadir="\${prefix}"
--  qemu_docdir="\${prefix}"
--  bindir="\${prefix}"
--  sysconfdir="\${prefix}"
--  local_statedir=
-   confsuffix=""
-   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
- fi
-@@ -1529,6 +1514,26 @@ for opt do
-   esac
- done
+@@ -7852,6 +7852,46 @@ echo "# Automatically generated by configure - do not modify" > "$iotests_common
+ echo >> "$iotests_common_env"
+ echo "export PYTHON='$python'" >> "$iotests_common_env"
  
-+libdir="${libdir:-$prefix/lib}"
-+libexecdir="${libexecdir:-$prefix/libexec}"
-+includedir="${includedir:-$prefix/include}"
++cross="config-meson.cross"
++cross_arg=
 +
++if test -n "$cross_prefix"; then
++    echo "# Automatically generated by configure - do not modify" > $cross
++    echo "[binaries]" >> $cross
++    echo "c = '$cc'" >> $cross
++    echo "cpp = '$cxx'" >> $cross
++    echo "ar = '$ar'" >> $cross
++    echo "nm = '$nm'" >> $cross
++    echo "pkgconfig = '$pkg_config_exe'" >> $cross
++    echo "ranlib = '$ranlib'" >> $cross
++    echo "strip = '$strip'" >> $cross
++    echo "windres = '$windres'" >> $cross
++
++    echo "[properties]" >> $cross
++    echo "root = '$prefix'" >> $cross
++
++    echo "[host_machine]" >> $cross
 +if test "$mingw32" = "yes" ; then
-+    mandir="$prefix"
-+    datadir="$prefix"
-+    qemu_docdir="$prefix"
-+    bindir="$prefix"
-+    sysconfdir="$prefix"
-+    local_statedir=
++    echo "system = 'windows'" >> $cross
++fi
++case "$ARCH" in
++    i386|x86_64)
++        echo "cpu_family = 'x86'" >> $cross
++        ;;
++    *)
++        echo "cpu_family = '$ARCH'" >> $cross
++        ;;
++esac
++    echo "cpu = '$cpu'" >> $cross
++if test "$bigendian" = "yes" ; then
++    echo "endian = 'big'" >> $cross
 +else
-+    mandir="${mandir:-$prefix/share/man}"
-+    datadir="${datadir:-$prefix/share}"
-+    qemu_docdir="${qemu_docdir:-$prefix/share/doc/qemu}"
-+    bindir="${bindir:-$prefix/bin}"
-+    sysconfdir="${sysconfdir:-$prefix/etc}"
-+    local_statedir="${local_statedir:-$prefix/var}"
++    echo "endian = 'little'" >> $cross
 +fi
 +
- case "$cpu" in
-     ppc)
-            CPU_CFLAGS="-m32"
++    cross_arg="--cross-file=$cross"
++fi
++
+ rm -rf meson-private meson-info meson-logs
+ NINJA=$PWD/ninjatool $python $meson setup \
+ 	--prefix "$prefix" \
+@@ -7865,6 +7905,7 @@ NINJA=$PWD/ninjatool $python $meson setup \
+ 	--localstatedir "$local_statedir" \
+ 	$(test "$strip_opt" = yes && echo --strip) \
+ 	--buildtype $(if test "$debug" = yes; then echo debug; else echo debugoptimized; fi) \
++        $cross_arg \
+ 	"$PWD" "$source_path"
+ 
+ if test "$?" -ne 0 ; then
 -- 
 1.8.3.1
 
