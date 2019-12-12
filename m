@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0891011CEDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:55:37 +0100 (CET)
-Received: from localhost ([::1]:59606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A0411CEFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:57:55 +0100 (CET)
+Received: from localhost ([::1]:59724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOwJ-0003cB-GP
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:55:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42698)
+	id 1ifOyY-0006lC-7Z
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:57:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42817)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNzB-0004nW-L6
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:30 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNzC-0004pG-Ha
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNzA-0008Hy-Ae
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:29 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34220)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNzB-0008Jj-5i
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:30 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50827)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNzA-0008GN-49
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:28 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id t2so2647279wrr.1
+ id 1ifNzA-0008IJ-V9
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:29 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id a5so2260892wmb.0
  for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T8nlJuKHUFV6YDTgA0pf50k84pJ1aEuOI0caCAxP+sI=;
- b=U/M4N4DdnO7Xn28tAIEtwkjRZgcJjReHyw00UgJQoITPzs1AeeOvTAqaiRP2DXvpAb
- PC5Sc45wt+2qmzeMVPnldMVQdGD/vhrjHakT04YV2pa3yZLemjmcTRS49kOB8gpElWzh
- nQpNoJBGOnMy/JDuEq2y4D29mDi47e6Fi2Ls8fZrJn1bcFImXLGo9BERE+OIbo/FwRYQ
- v8iRqgFtrsTB7ObsWLBghSZu6c+j1iJWA6srKMjsFMa4dhmgWqAedxx3tydsoRRlC11O
- nFPhFhS0UVihJc7vJgYf1AhJP/h1esn/K4J/+hz6bkt57Ep2l+dmCCWKIiQGEuC6RFGj
- pyUg==
+ bh=Y1eC1US5t9rCGASLFzWBCNStyznZMB9jdOkTWcqcyvc=;
+ b=vKq6NAPZGuuDdyc33e92L7mFmjhoaCp4i/GqwgcBGTRQazxA0zOWhvqaS1DBJwgybj
+ LBh0L21lcMTp6iJ7XYT08Nwpw5LuFmXllBRhTBMAKWeiTNpPsMsdA69jUeNr+6NhLs8a
+ 62PVpg2RvoingaHx0bR26QadxezaK0YfMNxAqf0KF7piNR4oeycRgJn8gONenPLX3LNy
+ jAnQ3SPjt5DQtnRgeC42Qr8elEYp0s6c4Z4IOaF4rTXn4xueeRbc+kkD6u0ykPQzg2+m
+ PgjhpmvwogYKDQXhbspNseI0Sq/aYqZrhvc7ZK70EQrxSnNhrXmj7w72Gvv/0tgLYGZG
+ 0HLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T8nlJuKHUFV6YDTgA0pf50k84pJ1aEuOI0caCAxP+sI=;
- b=KG7tW5nsUeiQ7ulkXI4VaR81zndydZ5GnAKMkBymuEjPXjt+vCT1KCMTmELsy3RNcV
- YLa2gdk752JkByqyyPCGp7NRO275O8FKAMX+T4vMJzlxARBOPyWGKdbTbsgTqvMGd+pR
- GICRDT769DUzGlK6utMfQ5/4aE7daqeqmJPuKGoP8V5rWOmxEKcLAJFnrhxgiSmogvZ7
- JQjYajLqlXqCWZqw/UvIICuOEMAmLwrXszfipjRsvfd1y+GfrhBgb7rxWjuL57StRZdk
- lXyFG3k6QpkyOyt+QTB1wPkx9RCzv1E9i4yrqabHDLVy7x0LiFXXQQnz/BYhuLBp6BaE
- LO2Q==
-X-Gm-Message-State: APjAAAURT74yZrFR9BKA8+5rRZoQYalAkjIOB57z/VNs0E6kDowvl7sc
- 3m9MESJSGItQxcV9xWLaNasXQjQf
-X-Google-Smtp-Source: APXvYqzSdB9RsmIKQPuWTiPl8hUOUm6kgfOWyJEEsbqL+FmUvijdrf7zJW2XiDwQKwojHjIYegWEBA==
-X-Received: by 2002:adf:fe43:: with SMTP id m3mr6373042wrs.213.1576155266825; 
- Thu, 12 Dec 2019 04:54:26 -0800 (PST)
+ bh=Y1eC1US5t9rCGASLFzWBCNStyznZMB9jdOkTWcqcyvc=;
+ b=ce+au6IjCFHdBm41aL9EExa8Hqao17/+RfgBwuWT+zTOaScZ0FpeSa4Bfs7vguTOG/
+ cwGoPuZRlVt5iW1+EczNQaJEQQtX6xrsqssrQQVk1bQXY52Jn8aBCDOQWUqi9uoPmc8M
+ a1R77p1OBlyntx5qkAm4EdlqApUgZfmnkhaTmrURcey5WxfTXpVujRQkbiTzQr2wylVm
+ q/qNBJBXKifcRLGOEBPeOhfOsL6T81yJ3JI9pv7T/WN/SaIT0LIWj4PX3m5ij5wmBqXq
+ IUxCCU7j1aSz12I25L7jv6HGHNttEcoCliI+YMz9opR6XQ4vj+H4Ps6gLt/EXE022EKZ
+ zxvg==
+X-Gm-Message-State: APjAAAVEF0sw9RyDudj6N2dfCiwLILQl0bi3zZ8B7H8xJ5SIQUjjvxIk
+ HsJVv5kuRPtO97q4yWODyr1gXlwj
+X-Google-Smtp-Source: APXvYqwswPsBmraVAo8WeCOvx6A9MbfcpMcV01ndEKFvSm64N+NLRynq8VGN+bSLUeiBGDL7vFKD7w==
+X-Received: by 2002:a1c:286:: with SMTP id 128mr6209106wmc.176.1576155267803; 
+ Thu, 12 Dec 2019 04:54:27 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.25
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:54:25 -0800 (PST)
+ Thu, 12 Dec 2019 04:54:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 089/132] meson: convert hw/input
-Date: Thu, 12 Dec 2019 13:52:13 +0100
-Message-Id: <1576155176-2464-90-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 090/132] meson: convert hw/ide
+Date: Thu, 12 Dec 2019 13:52:14 +0100
+Message-Id: <1576155176-2464-91-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,82 +86,76 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs       |  1 -
- hw/input/Makefile.objs | 17 -----------------
- hw/input/meson.build   | 17 +++++++++++++++++
- hw/meson.build         |  1 +
- 4 files changed, 18 insertions(+), 18 deletions(-)
- delete mode 100644 hw/input/Makefile.objs
- create mode 100644 hw/input/meson.build
+ hw/Makefile.objs     |  1 -
+ hw/ide/Makefile.objs | 14 --------------
+ hw/ide/meson.build   | 14 ++++++++++++++
+ hw/meson.build       |  1 +
+ 4 files changed, 15 insertions(+), 15 deletions(-)
+ delete mode 100644 hw/ide/Makefile.objs
+ create mode 100644 hw/ide/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index c89ca8d..c99f7e3 100644
+index c99f7e3..b75e027 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -13,7 +13,6 @@ devices-dirs-y += gpio/
+@@ -12,7 +12,6 @@ devices-dirs-y += dma/
+ devices-dirs-y += gpio/
  devices-dirs-$(CONFIG_HYPERV) += hyperv/
  devices-dirs-$(CONFIG_I2C) += i2c/
- devices-dirs-y += ide/
--devices-dirs-y += input/
+-devices-dirs-y += ide/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/input/Makefile.objs b/hw/input/Makefile.objs
+diff --git a/hw/ide/Makefile.objs b/hw/ide/Makefile.objs
 deleted file mode 100644
-index a1bc502..0000000
---- a/hw/input/Makefile.objs
+index faf04e0..0000000
+--- a/hw/ide/Makefile.objs
 +++ /dev/null
-@@ -1,17 +0,0 @@
--common-obj-$(CONFIG_ADB) += adb.o adb-mouse.o adb-kbd.o
--common-obj-y += hid.o
--common-obj-$(CONFIG_LM832X) += lm832x.o
--common-obj-$(CONFIG_PCKBD) += pckbd.o
--common-obj-$(CONFIG_PL050) += pl050.o
--common-obj-$(CONFIG_PS2) += ps2.o
--common-obj-$(CONFIG_STELLARIS_INPUT) += stellaris_input.o
--common-obj-$(CONFIG_TSC2005) += tsc2005.o
--
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input.o
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-hid.o
--common-obj-$(CONFIG_VIRTIO_INPUT_HOST) += virtio-input-host.o
--common-obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input.o
--
--obj-$(CONFIG_MILKYMIST) += milkymist-softusb.o
--obj-$(CONFIG_PXA2XX) += pxa2xx_keypad.o
--obj-$(CONFIG_TSC210X) += tsc210x.o
-diff --git a/hw/input/meson.build b/hw/input/meson.build
+@@ -1,14 +0,0 @@
+-common-obj-$(CONFIG_IDE_CORE) += core.o atapi.o
+-common-obj-$(CONFIG_IDE_QDEV) += qdev.o
+-common-obj-$(CONFIG_IDE_PCI) += pci.o
+-common-obj-$(CONFIG_IDE_ISA) += isa.o ioport.o
+-common-obj-$(CONFIG_IDE_PIIX) += piix.o ioport.o
+-common-obj-$(CONFIG_IDE_CMD646) += cmd646.o
+-common-obj-$(CONFIG_IDE_MACIO) += macio.o
+-common-obj-$(CONFIG_IDE_MMIO) += mmio.o
+-common-obj-$(CONFIG_IDE_VIA) += via.o
+-common-obj-$(CONFIG_MICRODRIVE) += microdrive.o
+-common-obj-$(CONFIG_AHCI) += ahci.o
+-common-obj-$(CONFIG_AHCI_ICH9) += ich.o
+-common-obj-$(CONFIG_ALLWINNER_A10) += ahci-allwinner.o
+-common-obj-$(CONFIG_IDE_SII3112) += sii3112.o
+diff --git a/hw/ide/meson.build b/hw/ide/meson.build
 new file mode 100644
-index 0000000..6cc59e6
+index 0000000..ddcb3b2
 --- /dev/null
-+++ b/hw/input/meson.build
-@@ -0,0 +1,17 @@
-+softmmu_ss.add(files('hid.c'))
-+softmmu_ss.add(when: 'CONFIG_ADB', if_true: files('adb.c', 'adb-mouse.c', 'adb-kbd.c'))
-+softmmu_ss.add(when: 'CONFIG_LM832X', if_true: files('lm832x.c'))
-+softmmu_ss.add(when: 'CONFIG_PCKBD', if_true: files('pckbd.c'))
-+softmmu_ss.add(when: 'CONFIG_PL050', if_true: files('pl050.c'))
-+softmmu_ss.add(when: 'CONFIG_PS2', if_true: files('ps2.c'))
-+softmmu_ss.add(when: 'CONFIG_STELLARIS_INPUT', if_true: files('stellaris_input.c'))
-+softmmu_ss.add(when: 'CONFIG_TSC2005', if_true: files('tsc2005.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input-hid.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host.c'))
-+softmmu_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input.c'))
-+
-+specific_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-softusb.c'))
-+specific_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_keypad.c'))
-+specific_ss.add(when: 'CONFIG_TSC210X', if_true: files('tsc210x.c'))
++++ b/hw/ide/meson.build
+@@ -0,0 +1,14 @@
++softmmu_ss.add(when: 'CONFIG_AHCI', if_true: files('ahci.c'))
++softmmu_ss.add(when: 'CONFIG_AHCI_ICH9', if_true: files('ich.c'))
++softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10', if_true: files('ahci-allwinner.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_CMD646', if_true: files('cmd646.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_CORE', if_true: files('core.c', 'atapi.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_ISA', if_true: files('isa.c', 'ioport.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_MACIO', if_true: files('macio.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_MMIO', if_true: files('mmio.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_PCI', if_true: files('pci.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_PIIX', if_true: files('piix.c', 'ioport.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_QDEV', if_true: files('qdev.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_SII3112', if_true: files('sii3112.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_VIA', if_true: files('via.c'))
++softmmu_ss.add(when: 'CONFIG_MICRODRIVE', if_true: files('microdrive.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index a5032d3..a85ec93 100644
+index a85ec93..848736d 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('input')
++subdir('ide')
+ subdir('input')
  subdir('intc')
  subdir('ipack')
- subdir('ipmi')
 -- 
 1.8.3.1
 
