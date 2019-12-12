@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E1A11C59D
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 06:53:11 +0100 (CET)
-Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C4811C60B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 07:41:55 +0100 (CET)
+Received: from localhost ([::1]:55140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifHPR-0001H7-JP
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 00:53:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35361)
+	id 1ifIAc-0005FQ-BO
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 01:41:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bharata@linux.ibm.com>) id 1ifHNg-0008Ni-C2
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 00:51:21 -0500
+ (envelope-from <stevensd@chromium.org>) id 1ifI9h-0004pK-Sa
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 01:40:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bharata@linux.ibm.com>) id 1ifHNe-00063E-Rk
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 00:51:20 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20526
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bharata@linux.ibm.com>)
- id 1ifHNe-00062Y-MN
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 00:51:18 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBC5grro176629
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 00:51:18 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wtbt2xkfv-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 00:51:18 -0500
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bharata@linux.ibm.com>;
- Thu, 12 Dec 2019 05:51:16 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Dec 2019 05:51:13 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBC5pCEa54591630
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Dec 2019 05:51:12 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CFF1E4C04A;
- Thu, 12 Dec 2019 05:51:12 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9DDB34C044;
- Thu, 12 Dec 2019 05:51:11 +0000 (GMT)
-Received: from bharata.in.ibm.com (unknown [9.124.35.198])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Dec 2019 05:51:11 +0000 (GMT)
-From: Bharata B Rao <bharata@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 ppc-for-5.0 2/2] ppc/spapr: Support reboot of secure
- pseries guest
-Date: Thu, 12 Dec 2019 11:20:59 +0530
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191212055059.9399-1-bharata@linux.ibm.com>
-References: <20191212055059.9399-1-bharata@linux.ibm.com>
+ (envelope-from <stevensd@chromium.org>) id 1ifI9g-0005Yd-Nc
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 01:40:57 -0500
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:40655)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stevensd@chromium.org>)
+ id 1ifI9g-0005WM-GI
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 01:40:56 -0500
+Received: by mail-qk1-x744.google.com with SMTP id c17so729962qkg.7
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 22:40:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AXRap6BBWQzWAyS8XpX73+bYNdrI0cAeZpXa9H/bRAc=;
+ b=MA51rQXW0kUy/eH8a+CHW4cprcJcqsH2HDzbo+OKNkS1fIXDmPWFSH3Msg+CjLkt0o
+ Hn/0mqSAS7p59uvMv2wKRkhzzpGh/xZo8lBVIiBJppJf7GsAmMMTWL+CZJ5TtspASJzS
+ NaTGJFY7ayj0hAf+odDLpymBHQaz1OrCu/eC4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AXRap6BBWQzWAyS8XpX73+bYNdrI0cAeZpXa9H/bRAc=;
+ b=PvNok8LzDbaqhMbjCHj116ISwqggm/yqq7xqQy9PksW34tlevGc6qYnoy1kOdvoAEq
+ 6eXQ2Dj/F4aj1tGlBLeNaTsRdX6/N2J3TVLqpzjgtKW3yiKTrF3WXR4C404uwsmwTRmE
+ dcDzePxmOXDUcR5t8dJ8aLq/e3XI965L5VzikjYRJJgwdhmvGC5gKUIcjnstXO/Ps/ep
+ FwojpygSj/7epgUUMM5DJRM+VkobB3Q2RLOtuKMrmP02Kw74aPv6N8n8uN3UQJafdb8w
+ GDLLaMEo6FEGIopscyIQT6ImtscN7A6xas0I3es0oj30/TLycYWu3DZaOl+3UGDp8HuB
+ SlEw==
+X-Gm-Message-State: APjAAAUUzZhWDCEzwrtRvys6H2GgL7ADFbNZVqSgygD8aJFSRyAL2WQP
+ MduykmK8aKeGxvgJOxKb4Uv9yI0q9iJ9HT+WGShTow==
+X-Google-Smtp-Source: APXvYqxMMjzivuQZLMAX1uEdLyogQxiS5pr/nUVktTqgng9NiXTmVutloTIAjZEQhboxEVr3pF5DU82GdhtuG5OkV90=
+X-Received: by 2002:a05:620a:101b:: with SMTP id
+ z27mr6394282qkj.241.1576132855363; 
+ Wed, 11 Dec 2019 22:40:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19121205-4275-0000-0000-0000038E2341
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121205-4276-0000-0000-000038A1DADA
-Message-Id: <20191212055059.9399-3-bharata@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-12_01:2019-12-12,2019-12-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 suspectscore=1 phishscore=0 malwarescore=0 bulkscore=0
- mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1912120036
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
+ <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org>
+ <72712fe048af1489368f7416faa92c45@hostfission.com>
+ <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+ <d65bec5074eda5f389668e28922c1609@hostfission.com>
+ <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
+ <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
+ <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
+ <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+In-Reply-To: <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+From: David Stevens <stevensd@chromium.org>
+Date: Thu, 12 Dec 2019 15:40:44 +0900
+Message-ID: <CAD=HUj7d3SWqCH=57ymy-BVd6xdJWc=WSqHAFyQXt-3MjchEAA@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::744
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,98 +78,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, linuxram@us.ibm.com,
- Bharata B Rao <bharata@linux.ibm.com>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Geoffrey McRae <geoff@hostfission.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Zach Reizner <zachr@chromium.org>, Alexandre Courbot <acourbot@chromium.org>,
+ virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>,
+ Alex Lau <alexlau@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Keiichi Watanabe <keiichiw@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ Dylan Reid <dgreid@chromium.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+ Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A pseries guest can be run as a secure guest on Ultravisor-enabled
-POWER platforms. When such a secure guest is reset, we need to
-release/reset a few resources both on ultravisor and hypervisor side.
-This is achieved by invoking this new ioctl KVM_PPC_SVM_OFF from the
-machine reset path.
+> First the addressing is non-trivial, especially with the "transport
+> specific device address" in the tuple.
 
-As part of this ioctl, the secure guest is essentially transitioned
-back to normal mode so that it can reboot like a regular guest and
-become secure again.
+There is complexity here, but I think it would also be present in the
+buffer sharing device case. With a buffer sharing device, the same
+identifying information would need to be provided from the exporting
+driver to the buffer sharing driver, so the buffer sharing device
+would be able to identify the right device in the vmm. And then in
+both import cases, the buffer is just identified by some opaque bytes
+that need to be given to a buffer manager in the vmm to resolve the
+actual buffer.
 
-This ioctl has no effect when invoked for a normal guest. If this ioctl
-fails for a secure guest, the guest is terminated.
+> Second I think it is a bad idea
+> from the security point of view.  When explicitly exporting buffers it
+> is easy to restrict access to the actual exports.
 
-Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
----
- hw/ppc/spapr.c       | 15 +++++++++++++++
- target/ppc/kvm.c     |  7 +++++++
- target/ppc/kvm_ppc.h |  6 ++++++
- 3 files changed, 28 insertions(+)
+Restricting access to actual exports could perhaps help catch bugs.
+However, I don't think it provides any security guarantees, since the
+guest can always just export every buffer before using it. Using
+implicit addresses doesn't mean that the buffer import actually has to
+be allowed - it can be thought of as fusing the buffer export and
+buffer import operations into a single operation. The vmm can still
+perform exactly the same security checks.
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f11422fc41..25e1a3446e 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1597,6 +1597,21 @@ static void spapr_machine_reset(MachineState *machine)
-     void *fdt;
-     int rc;
- 
-+    /*
-+     * KVM_PPC_SVM_OFF ioctl can fail for secure guests, check and
-+     * exit in that case. However check for -ENOTTY explicitly
-+     * to ensure that we don't terminate normal guests that are
-+     * running on kernels which don't support this ioctl.
-+     *
-+     * Also, this ioctl returns 0 for normal guests on kernels where
-+     * this ioctl is supported.
-+     */
-+    rc = kvmppc_svm_off();
-+    if (rc && rc != -ENOTTY) {
-+        error_report("Reset of secure guest failed, exiting...");
-+        exit(EXIT_FAILURE);
-+    }
-+
-     spapr_caps_apply(spapr);
- 
-     first_ppc_cpu = POWERPC_CPU(first_cpu);
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 7406d18945..1a86fa4f0c 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2900,3 +2900,10 @@ void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset)
-         kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
-     }
- }
-+
-+int kvmppc_svm_off(void)
-+{
-+    KVMState *s = KVM_STATE(current_machine->accelerator);
-+
-+    return kvm_vm_ioctl(s, KVM_PPC_SVM_OFF);
-+}
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 47b08a4030..5cc812e486 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -37,6 +37,7 @@ int kvmppc_booke_watchdog_enable(PowerPCCPU *cpu);
- target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
-                                      bool radix, bool gtse,
-                                      uint64_t proc_tbl);
-+int kvmppc_svm_off(void);
- #ifndef CONFIG_USER_ONLY
- bool kvmppc_spapr_use_multitce(void);
- int kvmppc_spapr_enable_inkernel_multitce(void);
-@@ -201,6 +202,11 @@ static inline target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
-     return 0;
- }
- 
-+static inline int kvmppc_svm_off(void)
-+{
-+    return 0;
-+}
-+
- static inline void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu,
-                                              unsigned int online)
- {
--- 
-2.21.0
+> Instead of using a dedicated buffer sharing device we can also use
+> virtio-gpu (or any other driver which supports dma-buf exports) to
+> manage buffers.
 
+I don't think adding generic buffer management to virtio-gpu (or any
+specific device type) is a good idea, since that device would then
+become a requirement for buffer sharing between unrelated devices. For
+example, it's easy to imagine a device with a virtio-camera and a
+virtio-encoder (although such protocols don't exist today). It
+wouldn't make sense to require a virtio-gpu device to allow those two
+devices to share buffers.
+
+> With no central instance (buffer sharing device) being there managing
+> the buffer identifiers I think using uuids as identifiers would be a
+> good idea, to avoid clashes.  Also good for security because it's pretty
+> much impossible to guess buffer identifiers then.
+
+Using uuids to identify buffers would work. The fact that it provides
+a single way to refer to both guest and host allocated buffers is
+nice. And it could also directly apply to sharing resources other than
+buffers (e.g. fences). Although unless we're positing that there are
+different levels of trust within the guest, I don't think uuids really
+provides much security.
+
+If we're talking about uuids, they could also be used to simplify my
+proposed implicit addressing scheme. Each device could be assigned a
+uuid, which would simplify the shared resource identifier to
+(device-uuid, shmid, offset).
+
+In my opinion, the implicit buffer addressing scheme is fairly similar
+to the uuid proposal. As I see it, the difference is that one is
+referring to resources as uuids in a global namespace, whereas the
+other is referring to resources with fully qualified names. Beyond
+that, the implementations would be fairly similar.
+
+-David
 
