@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FB611D3C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:26:24 +0100 (CET)
-Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2443C11D38A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:16:35 +0100 (CET)
+Received: from localhost ([::1]:34530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSEI-0008JA-Gr
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:26:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52840)
+	id 1ifS4n-00041b-VC
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:16:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53656)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVx-0006EA-5p
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:34 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW1-0006LR-KA
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVv-0002fl-TZ
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51756
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW0-0002oC-CB
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35912
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVv-0002dz-Od
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:31 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW0-0002nI-7b
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168831;
+ s=mimecast20190719; t=1576168835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1zCWgU5wSX+ZOtO7tkdYlO+R9PnuS8eLt1pa4uOBgOU=;
- b=Be2Od8okQA2oE1z63unbBQJl0mgtsqhlhaNVgcpV6s5JZ3JYuZq1Gf5sXF5SQPxqYphGDK
- RDwTzyEZ0BMJk1PWtw+59fpfltqlzbdyF5/Mqc28ZrsCa0b/S+rBfWhKff3SyZu7amx3M+
- ki7u5kvbA+BJpOShPbz4gX9KaF4L5u4=
+ bh=lTsbTmjXGySrUE5zs/n5qZKAmmP3lDqBaYyOa+YlryE=;
+ b=PYWE4mdqs5TzUXaiPmP2ZuLAbE2IdOvq1aCGH/d2f2yIPUXVizIYOFOe9aEMgFVd/ldybW
+ fayaC3jB+/mrRImWEWxKm1ET+Trw3bG93R97ltj3dn6QXGW7TfxDZG/pNrOk2nL40yuEI3
+ bYrgYCtNPHzVH/y1/cyjeuceRdEwNNo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-npSOdD8tPM2Kj4owtoDXUA-1; Thu, 12 Dec 2019 11:40:30 -0500
+ us-mta-387-d4vcgBpxOKWLofUATTdNEg-1; Thu, 12 Dec 2019 11:40:33 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A402107ACC7
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A503B64A7F
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:32 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6157160BF3;
- Thu, 12 Dec 2019 16:40:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE04160BF3;
+ Thu, 12 Dec 2019 16:40:31 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 051/104] virtiofsd: Parse flag FUSE_WRITE_KILL_PRIV
-Date: Thu, 12 Dec 2019 16:38:11 +0000
-Message-Id: <20191212163904.159893-52-dgilbert@redhat.com>
+Subject: [PATCH 054/104] virtiofsd: set maximum RLIMIT_NOFILE limit
+Date: Thu, 12 Dec 2019 16:38:14 +0000
+Message-Id: <20191212163904.159893-55-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: npSOdD8tPM2Kj4owtoDXUA-1
+X-MC-Unique: d4vcgBpxOKWLofUATTdNEg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,60 +76,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Caller can set FUSE_WRITE_KILL_PRIV in write_flags. Parse it and pass it
-to the filesystem.
+virtiofsd can exceed the default open file descriptor limit easily on
+most systems.  Take advantage of the fact that it runs as root to raise
+the limit.
 
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_common.h   | 6 +++++-
- tools/virtiofsd/fuse_lowlevel.c | 4 +++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index 147c043bd9..1e8191b7a6 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -93,8 +93,12 @@ struct fuse_file_info {
-      */
-     unsigned int cache_readdir:1;
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index ab318a6f36..139bf08f4c 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -52,6 +52,7 @@
+ #include <sys/file.h>
+ #include <sys/mount.h>
+ #include <sys/prctl.h>
++#include <sys/resource.h>
+ #include <sys/syscall.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
+@@ -2250,6 +2251,35 @@ static void setup_sandbox(struct lo_data *lo, struct=
+ fuse_session *se)
+     setup_seccomp();
+ }
 =20
-+    /* Indicates that suid/sgid bits should be removed upon write */
-+    unsigned int kill_priv:1;
++/* Raise the maximum number of open file descriptors */
++static void setup_nofile_rlimit(void)
++{
++    const rlim_t max_fds =3D 1000000;
++    struct rlimit rlim;
 +
++    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
++        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
++        exit(1);
++    }
 +
-     /** Padding.  Reserved for future use*/
--    unsigned int padding:25;
-+    unsigned int padding:24;
-     unsigned int padding2:32;
++    if (rlim.rlim_cur >=3D max_fds) {
++        return; /* nothing to do */
++    }
++
++    rlim.rlim_cur =3D max_fds;
++    rlim.rlim_max =3D max_fds;
++
++    if (setrlimit(RLIMIT_NOFILE, &rlim) < 0) {
++        /* Ignore SELinux denials */
++        if (errno =3D=3D EPERM) {
++            return;
++        }
++
++        fuse_log(FUSE_LOG_ERR, "setrlimit(RLIMIT_NOFILE): %m\n");
++        exit(1);
++    }
++}
++
+ int main(int argc, char *argv[])
+ {
+     struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+@@ -2371,6 +2401,8 @@ int main(int argc, char *argv[])
 =20
-     /*
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index bd5ca2f157..c8a3b1597a 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1144,6 +1144,7 @@ static void do_write(fuse_req_t req, fuse_ino_t nodei=
-d,
-     memset(&fi, 0, sizeof(fi));
-     fi.fh =3D arg->fh;
-     fi.writepage =3D (arg->write_flags & FUSE_WRITE_CACHE) !=3D 0;
-+    fi.kill_priv =3D !!(arg->write_flags & FUSE_WRITE_KILL_PRIV);
+     fuse_daemonize(opts.foreground);
 =20
-     fi.lock_owner =3D arg->lock_owner;
-     fi.flags =3D arg->flags;
-@@ -1179,7 +1180,8 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t n=
-odeid,
-     fi.lock_owner =3D arg->lock_owner;
-     fi.flags =3D arg->flags;
-     fi.fh =3D arg->fh;
--    fi.writepage =3D arg->write_flags & FUSE_WRITE_CACHE;
-+    fi.writepage =3D !!(arg->write_flags & FUSE_WRITE_CACHE);
-+    fi.kill_priv =3D !!(arg->write_flags & FUSE_WRITE_KILL_PRIV);
++    setup_nofile_rlimit();
++
+     /* Must be before sandbox since it wants /proc */
+     setup_capng();
 =20
-     if (ibufv->count =3D=3D 1) {
-         assert(!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD));
 --=20
 2.23.0
 
