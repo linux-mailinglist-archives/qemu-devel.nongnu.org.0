@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755B411CE86
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:40:10 +0100 (CET)
-Received: from localhost ([::1]:59430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C314211CE7D
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:38:34 +0100 (CET)
+Received: from localhost ([::1]:59418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOhN-0002hE-9B
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:40:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38440)
+	id 1ifOfp-0000q3-4U
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:38:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyl-00047s-51
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:04 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNym-00049N-Ah
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyj-0007Y4-UW
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:02 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39313)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyl-0007Zq-05
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:04 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41629)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyj-0007WI-Nh
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:01 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y11so2614572wrt.6
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:01 -0800 (PST)
+ id 1ifNyk-0007YU-On
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:02 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id c9so2604105wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=syJqPmkvJMmzIU8/98Xe13xx4bSEe0J6m0yTSrxfhOA=;
- b=DqKNEYE+2yxjHvOZAU+E8QKL5yav38LW2Q1/rO7yONRFFHdui5Gi2ER9E8kDy8ambK
- DSmKPSdzYl/iXUya2Zo5ydqDqg8yDyyHJS6E+mi/RUrcq97cfOcssP6vwoCvdPDIN59A
- g9x9HR/yap8+l4nodDFWc3uA4OxHeLxJ9ovW3f+yYBDIZH/lVOEjT5gGjk6DshIUoTAL
- 0W1s4oTDfDFoVHppHnvosaLQ+UmZe2dXmozER1tPI2A/Cc2hLuWazqKK4p/Dcm8o+jLn
- 8EIaacLJzotT/LSumpIXcmUBm/Rl8icDqYJLDqMOog/rYyfzMbL5AcGnUXmMOMZw0NAZ
- HpWQ==
+ bh=TLIRCS+wjAUW+voOAGF0GUcqpTyXyeNhrBqncLIwiuE=;
+ b=AqvO9J725lA+Hw7t70teDncrOjDv0SK5RBmENXig/vwwk9ZR/nZ5rekt7gWaodZwJS
+ EXfCt96kVAhtVCHZesvAYxuY8YjZXhAJr7ZmQrz20s/ZSjGuELqsTvTTjwXuWiMETF+Q
+ fIod5JagQgF3wcWyHapXJ3VbOTosZ8Y6sW+nKWZA8N4vrda0x0fi+0GiLXJkCTn8uCHO
+ 4e7+QZ8gRhmSlN6jonArZqcJ4sO60z3ng54qW1458WwyJqfsX+5SBi2OJcFUEMylKUg1
+ JprFW/7A+axabvsSYCAONDY1sFIsoIkfte9OZt2Q+8gOSWXcKW8e2Wnib8P9PB/PrSsH
+ 0IPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=syJqPmkvJMmzIU8/98Xe13xx4bSEe0J6m0yTSrxfhOA=;
- b=iQuDXgmcww7kRu6EMuzHxR7SjimyY6U0rLfysO3xoD5uKKwXtsXDkyNUjAoJP6s19s
- 04yHv4t9JIaA0hKB6Ogy7Bu7XoCz1RdYcOzRPL5wFOQd/hSW2yxuHh4gslm4QRIGPRby
- HAou/H9DEx/6qta1kprWlMClJDtIJDk3qAx4RCXPEWh9qcYehU9BMfWw+kyjvG90fxgj
- VMmx5wbu3AaPyfhSYTgHiVIiyIPthsqjERBqLZFg1euC8MiMhTLFrRsqHOeNYd2TVdNQ
- iNH3UIGJ/pYuwmRQAGVQUqjQYyiJOAHmA9eLDQmwQJx6CQCixdeWA4/xt0TmQbkg5CD+
- H+fw==
-X-Gm-Message-State: APjAAAXf4kpeGXC+roKeeiRCn4Nn8Rmtv3PnRIPDWiV+YHfrWLM8Lu9V
- 8CXiBF2Iiulcio5yN2kXTP5OvjZ7
-X-Google-Smtp-Source: APXvYqzaRwkMRKT2//tDyuphSKlcbksWqEXrm5cWTb6rk4WYCs01cW6KSB48ZT+X0rysGthlMx9wmA==
-X-Received: by 2002:adf:90e1:: with SMTP id i88mr5873056wri.95.1576155240488; 
- Thu, 12 Dec 2019 04:54:00 -0800 (PST)
+ bh=TLIRCS+wjAUW+voOAGF0GUcqpTyXyeNhrBqncLIwiuE=;
+ b=VyOknBO8ZRcchQhhia7CkqxeYLtcC4vLkf0QQLWGpwjiVItrMHdX9+mnAM2sKbq1dy
+ W23E2onidIIuGCnaUeCJh/XnydIexPhzDa3Nfz+JlHul0plo72OwUeEAzHi8zsRcwSU0
+ LKEK7We3blEvrVCCXFW2Mj7ZxVhBQsMV+1+H9c7Zr0Jp0KOscUNKQHM4p6KpOmGzyJjD
+ Nt+1ZNWvLJ/FPnRJmMWGzrUJNQAfCtGYQQ5BYmtgAHDhuRggwAPA9nPUzi/D4u0PrQmO
+ OVORd/k/rwZjw9i8ASYy3hjXCunIVoth+ueocsnk00lF1w4Q1gN0mzUdFuOwMqMDPOpf
+ M8/A==
+X-Gm-Message-State: APjAAAVnlV+wDzCHeyIOEcqtKo6JweYe6MZ4ellOVkd98dN6jIpQG+SO
+ bJ45UizkRSmo69wcSr5ZJUVAozwr
+X-Google-Smtp-Source: APXvYqwYU/BQAya4ZPTXfVfLMIdfSeXkFWVSwM0hz2Lu76zS+PeH0MhUsUuGWr21lCf9yDZtTcwLOw==
+X-Received: by 2002:adf:f288:: with SMTP id k8mr6539554wro.301.1576155241483; 
+ Thu, 12 Dec 2019 04:54:01 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.59
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:59 -0800 (PST)
+ Thu, 12 Dec 2019 04:54:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 062/132] meson: convert qapi-specific to meson
-Date: Thu, 12 Dec 2019 13:51:46 +0100
-Message-Id: <1576155176-2464-63-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 063/132] meson: convert hw/xen
+Date: Thu, 12 Dec 2019 13:51:47 +0100
+Message-Id: <1576155176-2464-64-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,80 +86,118 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.target    |  1 -
- qapi/Makefile.objs | 11 -----------
- qapi/meson.build   | 21 +++++++++++++++++++--
- 3 files changed, 19 insertions(+), 14 deletions(-)
- delete mode 100644 qapi/Makefile.objs
+ configure            |  4 ++++
+ hw/Makefile.objs     |  1 -
+ hw/meson.build       |  1 +
+ hw/xen/Makefile.objs |  6 ------
+ hw/xen/meson.build   | 18 ++++++++++++++++++
+ meson.build          |  6 ++++++
+ 6 files changed, 29 insertions(+), 7 deletions(-)
+ create mode 100644 hw/meson.build
+ delete mode 100644 hw/xen/Makefile.objs
+ create mode 100644 hw/xen/meson.build
 
-diff --git a/Makefile.target b/Makefile.target
-index e025246..c2fcb22 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -154,7 +154,6 @@ ifdef CONFIG_SOFTMMU
- obj-y += arch_init.o cpus.o gdbstub.o balloon.o ioport.o
- obj-y += qtest.o
- obj-y += hw/
--obj-y += qapi/
- obj-y += memory.o
- obj-y += memory_mapping.o
- LIBS := $(libs_softmmu) $(LIBS)
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+diff --git a/configure b/configure
+index 28746c1..c53df48 100755
+--- a/configure
++++ b/configure
+@@ -2454,6 +2454,8 @@ if test "$xen" != "no" ; then
+     fi
+     QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags $xen_pc)"
+     libs_softmmu="$($pkg_config --libs $xen_pc) $libs_softmmu"
++    xen_cflags="$($pkg_config --cflags $xen_pc)"
++    xen_libs="$($pkg_config --libs $xen_pc)"
+   else
+ 
+     xen_libs="-lxenstore -lxenctrl -lxenguest"
+@@ -6843,6 +6845,8 @@ fi
+ if test "$xen" = "yes" ; then
+   echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
+   echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
++  echo "XEN_CFLAGS=$xen_cflags" >> $config_host_mak
++  echo "XEN_LIBS=$xen_libs" >> $config_host_mak
+ fi
+ if test "$linux_aio" = "yes" ; then
+   echo "CONFIG_LINUX_AIO=y" >> $config_host_mak
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+index ece6cc3..793d55b 100644
+--- a/hw/Makefile.objs
++++ b/hw/Makefile.objs
+@@ -35,7 +35,6 @@ devices-dirs-y += usb/
+ devices-dirs-$(CONFIG_VFIO) += vfio/
+ devices-dirs-y += virtio/
+ devices-dirs-y += watchdog/
+-devices-dirs-y += xen/
+ devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
+ devices-dirs-y += semihosting/
+ devices-dirs-y += smbios/
+diff --git a/hw/meson.build b/hw/meson.build
+new file mode 100644
+index 0000000..08112a5
+--- /dev/null
++++ b/hw/meson.build
+@@ -0,0 +1 @@
++subdir('xen')
+diff --git a/hw/xen/Makefile.objs b/hw/xen/Makefile.objs
 deleted file mode 100644
-index 10ca4f6..0000000
---- a/qapi/Makefile.objs
+index 84df60a..0000000
+--- a/hw/xen/Makefile.objs
 +++ /dev/null
-@@ -1,11 +0,0 @@
--QAPI_TARGET_MODULES = machine-target misc-target
+@@ -1,6 +0,0 @@
+-# xen backend driver support
+-common-obj-$(CONFIG_XEN) += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-common.o xen-bus.o xen-bus-helper.o xen-backend.o
 -
--obj-y = qapi-introspect.o
--obj-y += $(QAPI_TARGET_MODULES:%=qapi-types-%.o)
--obj-y += qapi-types.o
--obj-y += $(QAPI_TARGET_MODULES:%=qapi-visit-%.o)
--obj-y += qapi-visit.o
--obj-y += $(QAPI_TARGET_MODULES:%=qapi-events-%.o)
--obj-y += qapi-events.o
--obj-y += $(QAPI_TARGET_MODULES:%=qapi-commands-%.o)
--obj-y += qapi-commands.o
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 8431f26..4a335d9 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -67,11 +67,17 @@ foreach module : qapi_common_modules + qapi_target_modules
-   endif
- endforeach
- 
--qapi_all_outputs += [
-+qapi_specific_outputs = [
-   'qapi-introspect.c', 'qapi-introspect.h',
--  'qapi-doc.texi'
-+  'qapi-types.c', 'qapi-types.h',
-+  'qapi-visit.c', 'qapi-visit.h',
-+  'qapi-events.c', 'qapi-events.h',
-+  'qapi-commands.c', 'qapi-commands.h',
- ]
- 
-+qapi_all_outputs += qapi_specific_outputs
-+qapi_all_outputs += 'qapi-doc.texi'
+-obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen-host-pci-device.o
+-obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt.o xen_pt_config_init.o xen_pt_graphics.o xen_pt_msi.o
+-obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt_load_rom.o
+diff --git a/hw/xen/meson.build b/hw/xen/meson.build
+new file mode 100644
+index 0000000..e9587b6
+--- /dev/null
++++ b/hw/xen/meson.build
+@@ -0,0 +1,18 @@
++softmmu_ss.add(when: ['CONFIG_XEN', xen], if_true: files(
++  'xen-backend.c',
++  'xen-bus-helper.c',
++  'xen-bus.c',
++  'xen-common.c',
++  'xen-legacy-backend.c',
++  'xen_devconfig.c',
++  'xen_pvdev.c',
++))
 +
- qapi_files = custom_target('QAPI files',
-   output: qapi_all_outputs,
-   input: [ files('qapi-schema.json') ],
-@@ -87,3 +93,14 @@ foreach output : qapi_util_outputs
-   endif
-   i = i + 1
- endforeach
-+
-+i = 0
-+foreach output : qapi_all_outputs
-+  if output in qapi_specific_outputs
-+    specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
-+  endif
-+  if output.endswith('-target.c')
-+    specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
-+  endif
-+  i = i + 1
-+endforeach
++specific_ss.add(when: 'CONFIG_XEN_PCI_PASSTHROUGH', if_true: files(
++  'xen-host-pci-device.c',
++  'xen_pt.c',
++  'xen_pt_config_init.c',
++  'xen_pt_graphics.c',
++  'xen_pt_load_rom.c',
++  'xen_pt_msi.c',
++))
+diff --git a/meson.build b/meson.build
+index 68a5f6e..f1c5e7a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -295,6 +295,11 @@ numa = declare_dependency()
+ if 'CONFIG_NUMA' in config_host
+   numa = declare_dependency(link_args: config_host['NUMA_LIBS'].split())
+ endif
++xen = declare_dependency()
++if 'CONFIG_XEN_BACKEND' in config_host
++  xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
++                           link_args: config_host['XEN_LIBS'].split())
++endif
+ 
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
+@@ -618,6 +623,7 @@ subdir('migration')
+ subdir('monitor')
+ subdir('net')
+ subdir('replay')
++subdir('hw')
+ 
+ mods = []
+ block_mods = []
 -- 
 1.8.3.1
 
