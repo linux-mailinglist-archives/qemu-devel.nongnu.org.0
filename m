@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B017611D3B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:23:19 +0100 (CET)
-Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EA611D3A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:20:17 +0100 (CET)
+Received: from localhost ([::1]:34554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSBK-0003nl-4g
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:23:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54164)
+	id 1ifS8O-0007o3-Gx
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:20:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRW4-0006Qw-G8
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW4-0006R2-Gg
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRW2-0002sP-L4
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW2-0002t0-St
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45450
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26757
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW2-0002r8-GG
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRW2-0002rn-Ns
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576168838;
@@ -27,35 +27,35 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S01a68xItix7+IL7xKUOvzbOC0v58eqnDVjeN0233Ao=;
- b=Z+nXmVakTwymglgOyk4qV70yw6u9L3RdI2jycL3EuzwKXEVNWN9kEwtrdX2j7s8ybPepwF
- 4zFJOL9wbOwmabJJRMvxKHsZvgDyCcjC9a3ymAeeKWpoC2Gd2H9TFvpvfl51TZbKiuAk58
- VAtQ8NfCObFF/R/V6HjJOZMqXG8Lc8w=
+ bh=jSVjjnm0/PyMOSmHXzLv1BxPzXRMt4kyEA13porArRE=;
+ b=V0LkrVKa8xTFmVeDVIvBJWfhdAHSIxw66cHmHjBEWvjB+nZQx/njd/ij32rF2bS/dcC+dk
+ 1W5UaxCWpSK++i+lVrZPorg5iIoO9wGpU7TjS4gv3emBI9BaEqCL8oIKCJoOGeIaMjTzao
+ rzh2zcnm8BXMEJBCMhw7P4hhIF7jjuI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-HzGiwsFOMfKN3YKpP4TI9A-1; Thu, 12 Dec 2019 11:40:34 -0500
+ us-mta-164-Bvv4ns0VOKOdXq-R5KjDQg-1; Thu, 12 Dec 2019 11:40:36 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCD1B64A7D
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2243F189CD01
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:36 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2DB860BF3;
- Thu, 12 Dec 2019 16:40:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4587260BF3;
+ Thu, 12 Dec 2019 16:40:35 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 055/104] virtiofsd: fix libfuse information leaks
-Date: Thu, 12 Dec 2019 16:38:15 +0000
-Message-Id: <20191212163904.159893-56-dgilbert@redhat.com>
+Subject: [PATCH 057/104] virtiofsd: add --syslog command-line option
+Date: Thu, 12 Dec 2019 16:38:17 +0000
+Message-Id: <20191212163904.159893-58-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: HzGiwsFOMfKN3YKpP4TI9A-1
+X-MC-Unique: Bvv4ns0VOKOdXq-R5KjDQg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,317 +78,232 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Some FUSE message replies contain padding fields that are not
-initialized by libfuse.  This is fine in traditional FUSE applications
-because the kernel is trusted.  virtiofsd does not trust the guest and
-must not expose uninitialized memory.
-
-Use C struct initializers to automatically zero out memory.  Not all of
-these code changes are strictly necessary but they will prevent future
-information leaks if the structs are extended.
+Sometimes collecting output from stderr is inconvenient or does not fit
+within the overall logging architecture.  Add syslog(3) support for
+cases where stderr cannot be used.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+dgilbert: Reworked as a logging function
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c | 150 ++++++++++++++++----------------
- 1 file changed, 76 insertions(+), 74 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.h  |  1 +
+ tools/virtiofsd/helper.c         |  2 ++
+ tools/virtiofsd/passthrough_ll.c | 50 ++++++++++++++++++++++++++++++--
+ tools/virtiofsd/seccomp.c        | 32 ++++++++++++++------
+ tools/virtiofsd/seccomp.h        |  4 ++-
+ 5 files changed, 76 insertions(+), 13 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index c8a3b1597a..f3c8bdf7cb 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -43,21 +43,23 @@ static __attribute__((constructor)) void fuse_ll_init_p=
-agesize(void)
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
+l.h
+index 6c63cb740c..c67677732b 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1828,6 +1828,7 @@ struct fuse_cmdline_opts {
+     int show_help;
+     int print_capabilities;
+     int clone_fd;
++    int syslog;
+     unsigned int max_idle_threads;
+ };
 =20
- static void convert_stat(const struct stat *stbuf, struct fuse_attr *attr)
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 4c9a3b2fc9..2c64b10ebf 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -55,6 +55,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
+     FUSE_OPT_KEY("subtype=3D", FUSE_OPT_KEY_KEEP),
+     FUSE_HELPER_OPT("clone_fd", clone_fd),
+     FUSE_HELPER_OPT("max_idle_threads=3D%u", max_idle_threads),
++    FUSE_HELPER_OPT("--syslog", syslog),
+     FUSE_OPT_END
+ };
+=20
+@@ -139,6 +140,7 @@ void fuse_cmdline_help(void)
+            "    -V   --version             print version\n"
+            "    --print-capabilities       print vhost-user.json\n"
+            "    -d   -o debug              enable debug output (implies -f=
+)\n"
++           "    --syslog                   log to syslog (default stderr)\=
+n"
+            "    -f                         foreground operation\n"
+            "    --daemonize                run in background\n"
+            "    -s                         disable multi-threaded operatio=
+n\n"
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 139bf08f4c..9ede80af94 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -57,6 +57,7 @@
+ #include <sys/types.h>
+ #include <sys/wait.h>
+ #include <sys/xattr.h>
++#include <syslog.h>
+ #include <unistd.h>
+=20
+ #include "passthrough_helpers.h"
+@@ -138,6 +139,7 @@ static const struct fuse_opt lo_opts[] =3D {
+     { "norace", offsetof(struct lo_data, norace), 1 },
+     FUSE_OPT_END
+ };
++static bool use_syslog =3D false;
+=20
+ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
+_t n);
+=20
+@@ -2244,11 +2246,12 @@ static void setup_mounts(const char *source)
+  * Lock down this process to prevent access to other processes or files ou=
+tside
+  * source directory.  This reduces the impact of arbitrary code execution =
+bugs.
+  */
+-static void setup_sandbox(struct lo_data *lo, struct fuse_session *se)
++static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
++                          bool enable_syslog)
  {
--    attr->ino =3D stbuf->st_ino;
--    attr->mode =3D stbuf->st_mode;
--    attr->nlink =3D stbuf->st_nlink;
--    attr->uid =3D stbuf->st_uid;
--    attr->gid =3D stbuf->st_gid;
--    attr->rdev =3D stbuf->st_rdev;
--    attr->size =3D stbuf->st_size;
--    attr->blksize =3D stbuf->st_blksize;
--    attr->blocks =3D stbuf->st_blocks;
--    attr->atime =3D stbuf->st_atime;
--    attr->mtime =3D stbuf->st_mtime;
--    attr->ctime =3D stbuf->st_ctime;
--    attr->atimensec =3D ST_ATIM_NSEC(stbuf);
--    attr->mtimensec =3D ST_MTIM_NSEC(stbuf);
--    attr->ctimensec =3D ST_CTIM_NSEC(stbuf);
-+    *attr =3D (struct fuse_attr){
-+        .ino =3D stbuf->st_ino,
-+        .mode =3D stbuf->st_mode,
-+        .nlink =3D stbuf->st_nlink,
-+        .uid =3D stbuf->st_uid,
-+        .gid =3D stbuf->st_gid,
-+        .rdev =3D stbuf->st_rdev,
-+        .size =3D stbuf->st_size,
-+        .blksize =3D stbuf->st_blksize,
-+        .blocks =3D stbuf->st_blocks,
-+        .atime =3D stbuf->st_atime,
-+        .mtime =3D stbuf->st_mtime,
-+        .ctime =3D stbuf->st_ctime,
-+        .atimensec =3D ST_ATIM_NSEC(stbuf),
-+        .mtimensec =3D ST_MTIM_NSEC(stbuf),
-+        .ctimensec =3D ST_CTIM_NSEC(stbuf),
-+    };
+     setup_namespaces(lo, se);
+     setup_mounts(lo->source);
+-    setup_seccomp();
++    setup_seccomp(enable_syslog);
  }
 =20
- static void convert_attr(const struct fuse_setattr_in *attr, struct stat *=
-stbuf)
-@@ -183,16 +185,16 @@ static int fuse_send_msg(struct fuse_session *se, str=
-uct fuse_chan *ch,
- int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *io=
-v,
-                                int count)
- {
--    struct fuse_out_header out;
-+    struct fuse_out_header out =3D {
-+        .unique =3D req->unique,
-+        .error =3D error,
-+    };
-=20
-     if (error <=3D -1000 || error > 0) {
-         fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n", error);
-         error =3D -ERANGE;
+ /* Raise the maximum number of open file descriptors */
+@@ -2280,6 +2283,42 @@ static void setup_nofile_rlimit(void)
      }
-=20
--    out.unique =3D req->unique;
--    out.error =3D error;
--
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(struct fuse_out_header);
-=20
-@@ -277,14 +279,16 @@ size_t fuse_add_direntry(fuse_req_t req, char *buf, s=
-ize_t bufsize,
- static void convert_statfs(const struct statvfs *stbuf,
-                            struct fuse_kstatfs *kstatfs)
- {
--    kstatfs->bsize =3D stbuf->f_bsize;
--    kstatfs->frsize =3D stbuf->f_frsize;
--    kstatfs->blocks =3D stbuf->f_blocks;
--    kstatfs->bfree =3D stbuf->f_bfree;
--    kstatfs->bavail =3D stbuf->f_bavail;
--    kstatfs->files =3D stbuf->f_files;
--    kstatfs->ffree =3D stbuf->f_ffree;
--    kstatfs->namelen =3D stbuf->f_namemax;
-+    *kstatfs =3D (struct fuse_kstatfs){
-+        .bsize =3D stbuf->f_bsize,
-+        .frsize =3D stbuf->f_frsize,
-+        .blocks =3D stbuf->f_blocks,
-+        .bfree =3D stbuf->f_bfree,
-+        .bavail =3D stbuf->f_bavail,
-+        .files =3D stbuf->f_files,
-+        .ffree =3D stbuf->f_ffree,
-+        .namelen =3D stbuf->f_namemax,
-+    };
  }
 =20
- static int send_reply_ok(fuse_req_t req, const void *arg, size_t argsize)
-@@ -328,12 +332,14 @@ static unsigned int calc_timeout_nsec(double t)
- static void fill_entry(struct fuse_entry_out *arg,
-                        const struct fuse_entry_param *e)
++static void log_func(enum fuse_log_level level, const char *fmt, va_list a=
+p)
++{
++    if (use_syslog) {
++        int priority =3D LOG_ERR;
++        switch (level) {
++        case FUSE_LOG_EMERG:
++            priority =3D LOG_EMERG;
++            break;
++        case FUSE_LOG_ALERT:
++            priority =3D LOG_ALERT;
++            break;
++        case FUSE_LOG_CRIT:
++            priority =3D LOG_CRIT;
++            break;
++        case FUSE_LOG_ERR:
++            priority =3D LOG_ERR;
++            break;
++        case FUSE_LOG_WARNING:
++            priority =3D LOG_WARNING;
++            break;
++        case FUSE_LOG_NOTICE:
++            priority =3D LOG_NOTICE;
++            break;
++        case FUSE_LOG_INFO:
++            priority =3D LOG_INFO;
++            break;
++        case FUSE_LOG_DEBUG:
++            priority =3D LOG_DEBUG;
++            break;
++        }
++        vsyslog(priority, fmt, ap);
++    } else {
++        vfprintf(stderr, fmt, ap);
++    }
++}
++
+ int main(int argc, char *argv[])
  {
--    arg->nodeid =3D e->ino;
--    arg->generation =3D e->generation;
--    arg->entry_valid =3D calc_timeout_sec(e->entry_timeout);
--    arg->entry_valid_nsec =3D calc_timeout_nsec(e->entry_timeout);
--    arg->attr_valid =3D calc_timeout_sec(e->attr_timeout);
--    arg->attr_valid_nsec =3D calc_timeout_nsec(e->attr_timeout);
-+    *arg =3D (struct fuse_entry_out){
-+        .nodeid =3D e->ino,
-+        .generation =3D e->generation,
-+        .entry_valid =3D calc_timeout_sec(e->entry_timeout),
-+        .entry_valid_nsec =3D calc_timeout_nsec(e->entry_timeout),
-+        .attr_valid =3D calc_timeout_sec(e->attr_timeout),
-+        .attr_valid_nsec =3D calc_timeout_nsec(e->attr_timeout),
-+    };
-     convert_stat(&e->attr, &arg->attr);
- }
+     struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+@@ -2318,6 +2357,11 @@ int main(int argc, char *argv[])
+     if (fuse_parse_cmdline(&args, &opts) !=3D 0) {
+         return 1;
+     }
++    fuse_set_log_func(log_func);
++    use_syslog =3D opts.syslog;
++    if (use_syslog) {
++        openlog("virtiofsd", LOG_PID, LOG_DAEMON);
++    }
+     if (opts.show_help) {
+         printf("usage: %s [options]\n\n", argv[0]);
+         fuse_cmdline_help();
+@@ -2406,7 +2450,7 @@ int main(int argc, char *argv[])
+     /* Must be before sandbox since it wants /proc */
+     setup_capng();
 =20
-@@ -362,10 +368,12 @@ size_t fuse_add_direntry_plus(fuse_req_t req, char *b=
-uf, size_t bufsize,
-     fill_entry(&dp->entry_out, e);
+-    setup_sandbox(&lo, se);
++    setup_sandbox(&lo, se, opts.syslog);
 =20
-     struct fuse_dirent *dirent =3D &dp->dirent;
--    dirent->ino =3D e->attr.st_ino;
--    dirent->off =3D off;
--    dirent->namelen =3D namelen;
--    dirent->type =3D (e->attr.st_mode & S_IFMT) >> 12;
-+    *dirent =3D (struct fuse_dirent){
-+        .ino =3D e->attr.st_ino,
-+        .off =3D off,
-+        .namelen =3D namelen,
-+        .type =3D (e->attr.st_mode & S_IFMT) >> 12,
-+    };
-     memcpy(dirent->name, name, namelen);
-     memset(dirent->name + namelen, 0, entlen_padded - entlen);
+     /* Block until ctrl+c or fusermount -u */
+     ret =3D virtio_loop(se);
+diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
+index 6359bb55bb..33ec309fc8 100644
+--- a/tools/virtiofsd/seccomp.c
++++ b/tools/virtiofsd/seccomp.c
+@@ -97,11 +97,28 @@ static const int syscall_whitelist[] =3D {
+     SCMP_SYS(writev),
+ };
 =20
-@@ -498,15 +506,14 @@ int fuse_reply_data(fuse_req_t req, struct fuse_bufve=
-c *bufv,
-                     enum fuse_buf_copy_flags flags)
+-void setup_seccomp(void)
++/* Syscalls used when --syslog is enabled */
++static const int syscall_whitelist_syslog[] =3D {
++    SCMP_SYS(sendto),
++};
++
++static void add_whitelist(scmp_filter_ctx ctx, const int syscalls[], size_=
+t len)
  {
-     struct iovec iov[2];
--    struct fuse_out_header out;
-+    struct fuse_out_header out =3D {
-+        .unique =3D req->unique,
-+    };
-     int res;
+-    scmp_filter_ctx ctx;
+     size_t i;
 =20
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(struct fuse_out_header);
-=20
--    out.unique =3D req->unique;
--    out.error =3D 0;
--
-     res =3D fuse_send_data_iov(req->se, req->ch, iov, 1, bufv, flags);
-     if (res <=3D 0) {
-         fuse_free_req(req);
-@@ -2147,14 +2154,14 @@ static void do_destroy(fuse_req_t req, fuse_ino_t n=
-odeid,
- static int send_notify_iov(struct fuse_session *se, int notify_code,
-                            struct iovec *iov, int count)
- {
--    struct fuse_out_header out;
-+    struct fuse_out_header out =3D {
-+        .error =3D notify_code,
-+    };
-=20
-     if (!se->got_init) {
-         return -ENOTCONN;
++    for (i =3D 0; i < len; i++) {
++        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, syscalls[i], 0) !=3D 0) =
+{
++            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d failed\n",
++                     syscalls[i]);
++            exit(1);
++        }
++    }
++}
++
++void setup_seccomp(bool enable_syslog)
++{
++    scmp_filter_ctx ctx;
++
+ #ifdef SCMP_ACT_KILL_PROCESS
+     ctx =3D seccomp_init(SCMP_ACT_KILL_PROCESS);
+     /* Handle a newer libseccomp but an older kernel */
+@@ -116,13 +133,10 @@ void setup_seccomp(void)
+         exit(1);
      }
 =20
--    out.unique =3D 0;
--    out.error =3D notify_code;
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(struct fuse_out_header);
-=20
-@@ -2164,11 +2171,11 @@ static int send_notify_iov(struct fuse_session *se,=
- int notify_code,
- int fuse_lowlevel_notify_poll(struct fuse_pollhandle *ph)
- {
-     if (ph !=3D NULL) {
--        struct fuse_notify_poll_wakeup_out outarg;
-+        struct fuse_notify_poll_wakeup_out outarg =3D {
-+            .kh =3D ph->kh,
-+        };
-         struct iovec iov[2];
-=20
--        outarg.kh =3D ph->kh;
--
-         iov[1].iov_base =3D &outarg;
-         iov[1].iov_len =3D sizeof(outarg);
-=20
-@@ -2181,17 +2188,17 @@ int fuse_lowlevel_notify_poll(struct fuse_pollhandl=
-e *ph)
- int fuse_lowlevel_notify_inval_inode(struct fuse_session *se, fuse_ino_t i=
-no,
-                                      off_t off, off_t len)
- {
--    struct fuse_notify_inval_inode_out outarg;
-+    struct fuse_notify_inval_inode_out outarg =3D {
-+        .ino =3D ino,
-+        .off =3D off,
-+        .len =3D len,
-+    };
-     struct iovec iov[2];
-=20
-     if (!se) {
-         return -EINVAL;
+-    for (i =3D 0; i < G_N_ELEMENTS(syscall_whitelist); i++) {
+-        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
+-                             syscall_whitelist[i], 0) !=3D 0) {
+-            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d",
+-                     syscall_whitelist[i]);
+-            exit(1);
+-        }
++    add_whitelist(ctx, syscall_whitelist, G_N_ELEMENTS(syscall_whitelist))=
+;
++    if (enable_syslog) {
++        add_whitelist(ctx, syscall_whitelist_syslog,
++                      G_N_ELEMENTS(syscall_whitelist_syslog));
      }
 =20
--    outarg.ino =3D ino;
--    outarg.off =3D off;
--    outarg.len =3D len;
--
-     iov[1].iov_base =3D &outarg;
-     iov[1].iov_len =3D sizeof(outarg);
+     /* libvhost-user calls this for post-copy migration, we don't need it =
+*/
+diff --git a/tools/virtiofsd/seccomp.h b/tools/virtiofsd/seccomp.h
+index 86bce72652..d47c8eade6 100644
+--- a/tools/virtiofsd/seccomp.h
++++ b/tools/virtiofsd/seccomp.h
+@@ -9,6 +9,8 @@
+ #ifndef VIRTIOFSD_SECCOMP_H
+ #define VIRTIOFSD_SECCOMP_H
 =20
-@@ -2201,17 +2208,16 @@ int fuse_lowlevel_notify_inval_inode(struct fuse_se=
-ssion *se, fuse_ino_t ino,
- int fuse_lowlevel_notify_inval_entry(struct fuse_session *se, fuse_ino_t p=
-arent,
-                                      const char *name, size_t namelen)
- {
--    struct fuse_notify_inval_entry_out outarg;
-+    struct fuse_notify_inval_entry_out outarg =3D {
-+        .parent =3D parent,
-+        .namelen =3D namelen,
-+    };
-     struct iovec iov[3];
+-void setup_seccomp(void);
++#include <stdbool.h>
++
++void setup_seccomp(bool enable_syslog);
 =20
-     if (!se) {
-         return -EINVAL;
-     }
-=20
--    outarg.parent =3D parent;
--    outarg.namelen =3D namelen;
--    outarg.padding =3D 0;
--
-     iov[1].iov_base =3D &outarg;
-     iov[1].iov_len =3D sizeof(outarg);
-     iov[2].iov_base =3D (void *)name;
-@@ -2224,18 +2230,17 @@ int fuse_lowlevel_notify_delete(struct fuse_session=
- *se, fuse_ino_t parent,
-                                 fuse_ino_t child, const char *name,
-                                 size_t namelen)
- {
--    struct fuse_notify_delete_out outarg;
-+    struct fuse_notify_delete_out outarg =3D {
-+        .parent =3D parent,
-+        .child =3D child,
-+        .namelen =3D namelen,
-+    };
-     struct iovec iov[3];
-=20
-     if (!se) {
-         return -EINVAL;
-     }
-=20
--    outarg.parent =3D parent;
--    outarg.child =3D child;
--    outarg.namelen =3D namelen;
--    outarg.padding =3D 0;
--
-     iov[1].iov_base =3D &outarg;
-     iov[1].iov_len =3D sizeof(outarg);
-     iov[2].iov_base =3D (void *)name;
-@@ -2248,24 +2253,21 @@ int fuse_lowlevel_notify_store(struct fuse_session =
-*se, fuse_ino_t ino,
-                                off_t offset, struct fuse_bufvec *bufv,
-                                enum fuse_buf_copy_flags flags)
- {
--    struct fuse_out_header out;
--    struct fuse_notify_store_out outarg;
-+    struct fuse_out_header out =3D {
-+        .error =3D FUSE_NOTIFY_STORE,
-+    };
-+    struct fuse_notify_store_out outarg =3D {
-+        .nodeid =3D ino,
-+        .offset =3D offset,
-+        .size =3D fuse_buf_size(bufv),
-+    };
-     struct iovec iov[3];
--    size_t size =3D fuse_buf_size(bufv);
-     int res;
-=20
-     if (!se) {
-         return -EINVAL;
-     }
-=20
--    out.unique =3D 0;
--    out.error =3D FUSE_NOTIFY_STORE;
--
--    outarg.nodeid =3D ino;
--    outarg.offset =3D offset;
--    outarg.size =3D size;
--    outarg.padding =3D 0;
--
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(out);
-     iov[1].iov_base =3D &outarg;
+ #endif /* VIRTIOFSD_SECCOMP_H */
 --=20
 2.23.0
 
