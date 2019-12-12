@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906C111CEB4
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:47:44 +0100 (CET)
-Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516BA11CEBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:49:33 +0100 (CET)
+Received: from localhost ([::1]:59538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOoh-0002C2-Fl
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:47:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
+	id 1ifOqR-0003lu-NE
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:49:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyw-0004Oq-5j
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyw-0004Pv-TK
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyu-0007rt-LB
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyv-0007tg-J0
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:14 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37696)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34228)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyu-0007qZ-DW
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:12 -0500
-Received: by mail-wr1-x436.google.com with SMTP id w15so2627269wru.4
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:12 -0800 (PST)
+ id 1ifNyv-0007s3-9e
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:13 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t2so2646587wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yXQbJKsvQk7oYU4KlgfGRW1DYvBILSdETOHeXV/ZcBk=;
- b=eA4fCgYsbDn5WshczUK/HB7vxAdbF5kfSLKk29e3VQX8jEjcU+THyBWH8JSQKjdgZj
- 3gk4w1KlIIwjrD90XOsoGpgnDNHAAiSp2IpK1L5OkZ8KH9KMgkDApYsmWsWYTuExt/j/
- xXiSCd9PDQb5UL5wsogcs6rykus553SwNNQc6kelzBDKiERo+t/ac2sDK2HkU5j7xS6T
- LuTG3g9jAmEjuj1UYrrpeWUIyD13XfQcg/iSFayJU9XhDousxN3CjGnTYWe4o+n8nWWX
- ExVzqA7/LS+8RjZRH9kVrfBgkd30JStLPUkDe3fP1VQ0KKR0puR3/Od1bwnl9EWKrDGF
- C3pA==
+ bh=tSMwvOVlmljJ/d7pUHQjqPiE5EBDb5gSPZ7yrnNNJfk=;
+ b=SNE2+tezie7kPxeQwQ1zKJ31REZIRUiH5F49tNoYAyrmeVoDq3nbxUaaz06z0nFi+z
+ qr81l8U288WjjM9wnhoYADBu+9zY4WMMPtgIiGEerfoqzfWfej6Nj8TXnVhEEj+esGDc
+ Hv4giCv5EKwFr7QsinMQv2/4A1tFmAo17DVXcimmnsPIzJgMOKZaHoyzO0vW4uvNREmv
+ 3++QaqBtH5aWHUH2FVCy9ovDsP5xdo2ryQjxJSyZR7cQjzWHwEEXcgHQ4B9rDDmIKOtY
+ I1gKqkXxNRbznj3E2/UUnlk5b43jURzrlA+N+IzwqSGNGsw5yyuZds4TsqG7O3Y0PC0Q
+ Pj5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yXQbJKsvQk7oYU4KlgfGRW1DYvBILSdETOHeXV/ZcBk=;
- b=ClC1P9wIkgu9V31eCqkm3NLvOujAb0FrMDfVbprKymMxvQdmmg7po4wWLL8SbMrMLE
- i+41KvNuzbcY+LJZKgHYRt5OgCbnBQs5Vv3e1/v8y9Ca4GMvmkrDK/u2+9N5BcIyq/AA
- ivIL1jJHeC+Qhcsqr1TpOZ9olNAgCdC/f6zSaHtgITc3bd+HShQcnIjLowhADBHesR5T
- ao+Ma7hIB3eoAh+V5RIUaRwZ7CVL9yrAo1LgnrsE9b4DCvW3zH9JSDpEwrWIpZkJuZdK
- 0w0YsPKsWPavbxEYSOfRsv34PQnARfyphCsrvtA3RglQBgtD5jfd3sEMUUtLjfQ67qUz
- Vk0A==
-X-Gm-Message-State: APjAAAWxKJ1pH9CinfMEVMi7wLQxIsQpFtMrvoWKdRmvkbxaZvDF0gcu
- 7BQ/3Tej2ex5vnMrn9izbDHtTRb1
-X-Google-Smtp-Source: APXvYqzZFA2cbfILZ0V7dqEr89xknJm/YKmcImxw7iWsKLY/rjl07OrvuqjZy5oonJfpDFqNH//KIA==
-X-Received: by 2002:adf:e3d0:: with SMTP id k16mr6303203wrm.241.1576155251115; 
- Thu, 12 Dec 2019 04:54:11 -0800 (PST)
+ bh=tSMwvOVlmljJ/d7pUHQjqPiE5EBDb5gSPZ7yrnNNJfk=;
+ b=c8tyXWOutf2Uq0zt9fROB+T93LqDsUIM4TvonkKcXoQI1MxXLoH/ZZN6b8ZJv+AOie
+ Bbit/aRm91+XPpWq52mXiIHyb2diF5k4xlLFgZzc4b1t1tsAnPLnNYaJGAlRw3SY1uP5
+ +bBboMYFl0QFZ+nVNZhHqb3dBEzqV3mUHj7/6f4V1SF+6bSbCNeg3Lflep8rEPVqV/Eg
+ tpCPGN1ajCEb8wkXF83x/b9MIUiQK7N5SyHZJk8uBf0OAUJtP/TOD54HFVEDjxnse7Zs
+ ZqWZ7bH/GB+GzrL46XRFf9J45J1MRR8SVIb7OWTy6VJxyUAG3/uFXgvQ/a7J299U6khV
+ dQ2Q==
+X-Gm-Message-State: APjAAAUjJH9Bcw/IquIYFvHXDBvuO+Y51Fniz08dJ7NWmYPDCUiJSKc8
+ wZOeWM5orEA38pFfTyUOtaTnhBSI
+X-Google-Smtp-Source: APXvYqy5pey0D27+QQgofM/UsmmeEhimhJqgLZRBha717I8MkKwGaPoseAHiJ+a3u8OuhuivZjIMrQ==
+X-Received: by 2002:adf:ffc7:: with SMTP id x7mr6133054wrs.159.1576155252105; 
+ Thu, 12 Dec 2019 04:54:12 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.10
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:54:10 -0800 (PST)
+ Thu, 12 Dec 2019 04:54:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 073/132] meson: convert hw/timer
-Date: Thu, 12 Dec 2019 13:51:57 +0100
-Message-Id: <1576155176-2464-74-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 074/132] meson: convert hw/ssi
+Date: Thu, 12 Dec 2019 13:51:58 +0100
+Message-Id: <1576155176-2464-75-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,142 +86,70 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs       |  1 -
- hw/meson.build         |  1 +
- hw/timer/Makefile.objs | 49 -------------------------------------------------
- hw/timer/meson.build   | 43 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 44 insertions(+), 50 deletions(-)
- delete mode 100644 hw/timer/Makefile.objs
- create mode 100644 hw/timer/meson.build
+ hw/Makefile.objs     |  1 -
+ hw/meson.build       |  1 +
+ hw/ssi/Makefile.objs | 10 ----------
+ hw/ssi/meson.build   | 10 ++++++++++
+ 4 files changed, 11 insertions(+), 11 deletions(-)
+ delete mode 100644 hw/ssi/Makefile.objs
+ create mode 100644 hw/ssi/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 6529617..1d47113 100644
+index 1d47113..201d614 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -28,7 +28,6 @@ devices-dirs-y += pcmcia/
+@@ -27,7 +27,6 @@ devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
+ devices-dirs-y += pcmcia/
  devices-dirs-$(CONFIG_SCSI) += scsi/
  devices-dirs-y += sd/
- devices-dirs-y += ssi/
--devices-dirs-y += timer/
+-devices-dirs-y += ssi/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 4e918d0..960fd14 100644
+index 960fd14..a867f82 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -2,6 +2,7 @@ subdir('core')
  subdir('mem')
  subdir('semihosting')
  subdir('smbios')
-+subdir('timer')
++subdir('ssi')
+ subdir('timer')
  subdir('tpm')
  subdir('usb')
- subdir('vfio')
-diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+diff --git a/hw/ssi/Makefile.objs b/hw/ssi/Makefile.objs
 deleted file mode 100644
-index 123d92c..0000000
---- a/hw/timer/Makefile.objs
+index f5bcc65..0000000
+--- a/hw/ssi/Makefile.objs
 +++ /dev/null
-@@ -1,49 +0,0 @@
--common-obj-$(CONFIG_ARM_TIMER) += arm_timer.o
--common-obj-$(CONFIG_ARM_MPTIMER) += arm_mptimer.o
--common-obj-$(CONFIG_ARM_V7M) += armv7m_systick.o
--common-obj-$(CONFIG_A9_GTIMER) += a9gtimer.o
--common-obj-$(CONFIG_CADENCE) += cadence_ttc.o
--common-obj-$(CONFIG_DS1338) += ds1338.o
--common-obj-$(CONFIG_HPET) += hpet.o
--common-obj-$(CONFIG_I8254) += i8254_common.o i8254.o
--common-obj-$(CONFIG_M41T80) += m41t80.o
--common-obj-$(CONFIG_M48T59) += m48t59.o
--ifeq ($(CONFIG_ISA_BUS),y)
--common-obj-$(CONFIG_M48T59) += m48t59-isa.o
--endif
--common-obj-$(CONFIG_PL031) += pl031.o
--common-obj-$(CONFIG_PUV3) += puv3_ost.o
--common-obj-$(CONFIG_TWL92230) += twl92230.o
--common-obj-$(CONFIG_XILINX) += xilinx_timer.o
--common-obj-$(CONFIG_SLAVIO) += slavio_timer.o
--common-obj-$(CONFIG_ETRAXFS) += etraxfs_timer.o
--common-obj-$(CONFIG_GRLIB) += grlib_gptimer.o
--common-obj-$(CONFIG_IMX) += imx_epit.o
--common-obj-$(CONFIG_IMX) += imx_gpt.o
--common-obj-$(CONFIG_LM32) += lm32_timer.o
--common-obj-$(CONFIG_MILKYMIST) += milkymist-sysctl.o
--common-obj-$(CONFIG_XLNX_ZYNQMP) += xlnx-zynqmp-rtc.o
--common-obj-$(CONFIG_NRF51_SOC) += nrf51_timer.o
+@@ -1,10 +0,0 @@
+-common-obj-$(CONFIG_PL022) += pl022.o
+-common-obj-$(CONFIG_SSI) += ssi.o
+-common-obj-$(CONFIG_XILINX_SPI) += xilinx_spi.o
+-common-obj-$(CONFIG_XILINX_SPIPS) += xilinx_spips.o
+-common-obj-$(CONFIG_ASPEED_SOC) += aspeed_smc.o
+-common-obj-$(CONFIG_STM32F2XX_SPI) += stm32f2xx_spi.o
+-common-obj-$(CONFIG_MSF2) += mss-spi.o
 -
--obj-$(CONFIG_ALTERA_TIMER) += altera_timer.o
--obj-$(CONFIG_EXYNOS4) += exynos4210_mct.o
--obj-$(CONFIG_EXYNOS4) += exynos4210_pwm.o
--obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
--obj-$(CONFIG_OMAP) += omap_gptimer.o
--obj-$(CONFIG_OMAP) += omap_synctimer.o
--obj-$(CONFIG_PXA2XX) += pxa2xx_timer.o
--obj-$(CONFIG_SH4) += sh_timer.o
--obj-$(CONFIG_DIGIC) += digic-timer.o
--obj-$(CONFIG_MIPS_CPS) += mips_gictimer.o
--
--obj-$(CONFIG_MC146818RTC) += mc146818rtc.o
--
--obj-$(CONFIG_ALLWINNER_A10_PIT) += allwinner-a10-pit.o
--
--common-obj-$(CONFIG_STM32F2XX_TIMER) += stm32f2xx_timer.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_timer.o aspeed_rtc.o
--
--common-obj-$(CONFIG_SUN4V_RTC) += sun4v-rtc.o
--common-obj-$(CONFIG_CMSDK_APB_TIMER) += cmsdk-apb-timer.o
--common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) += cmsdk-apb-dualtimer.o
--common-obj-$(CONFIG_MSF2) += mss-timer.o
-diff --git a/hw/timer/meson.build b/hw/timer/meson.build
+-obj-$(CONFIG_OMAP) += omap_spi.o
+-obj-$(CONFIG_IMX) += imx_spi.o
+diff --git a/hw/ssi/meson.build b/hw/ssi/meson.build
 new file mode 100644
-index 0000000..5162b9b
+index 0000000..612c109
 --- /dev/null
-+++ b/hw/timer/meson.build
-@@ -0,0 +1,43 @@
-+softmmu_ss.add(when: 'CONFIG_A9_GTIMER', if_true: files('a9gtimer.c'))
-+softmmu_ss.add(when: 'CONFIG_ARM_MPTIMER', if_true: files('arm_mptimer.c'))
-+softmmu_ss.add(when: 'CONFIG_ARM_TIMER', if_true: files('arm_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_systick.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c', 'aspeed_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_ttc.c'))
-+softmmu_ss.add(when: 'CONFIG_CMSDK_APB_DUALTIMER', if_true: files('cmsdk-apb-dualtimer.c'))
-+softmmu_ss.add(when: 'CONFIG_CMSDK_APB_TIMER', if_true: files('cmsdk-apb-timer.c'))
-+softmmu_ss.add(when: 'CONFIG_DS1338', if_true: files('ds1338.c'))
-+softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_gptimer.c'))
-+softmmu_ss.add(when: 'CONFIG_HPET', if_true: files('hpet.c'))
-+softmmu_ss.add(when: 'CONFIG_I8254', if_true: files('i8254_common.c', 'i8254.c'))
-+softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_epit.c'))
-+softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_gpt.c'))
-+softmmu_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_M41T80', if_true: files('m41t80.c'))
-+softmmu_ss.add(when: 'CONFIG_M48T59', if_true: files('m48t59.c'))
-+softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-sysctl.c'))
-+softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('mss-timer.c'))
-+softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
-+softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_ost.c'))
-+softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_STM32F2XX_TIMER', if_true: files('stm32f2xx_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_SUN4V_RTC', if_true: files('sun4v-rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_TWL92230', if_true: files('twl92230.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_timer.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-rtc.c'))
-+softmmu_ss.add(when: ['CONFIG_ISA_BUS', 'CONFIG_M48T59'], if_true: files('m48t59-isa.c'))
++++ b/hw/ssi/meson.build
+@@ -0,0 +1,10 @@
++softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_smc.c'))
++softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('mss-spi.c'))
++softmmu_ss.add(when: 'CONFIG_PL022', if_true: files('pl022.c'))
++softmmu_ss.add(when: 'CONFIG_SSI', if_true: files('ssi.c'))
++softmmu_ss.add(when: 'CONFIG_STM32F2XX_SPI', if_true: files('stm32f2xx_spi.c'))
++softmmu_ss.add(when: 'CONFIG_XILINX_SPI', if_true: files('xilinx_spi.c'))
++softmmu_ss.add(when: 'CONFIG_XILINX_SPIPS', if_true: files('xilinx_spips.c'))
 +
-+specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIT', if_true: files('allwinner-a10-pit.c'))
-+specific_ss.add(when: 'CONFIG_ALTERA_TIMER', if_true: files('altera_timer.c'))
-+specific_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic-timer.c'))
-+specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_mct.c'))
-+specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_pwm.c'))
-+specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_rtc.c'))
-+specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-+specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gictimer.c'))
-+specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gptimer.c'))
-+specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_synctimer.c'))
-+specific_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_timer.c'))
-+specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_timer.c'))
++specific_ss.add(when: 'CONFIG_IMX', if_true: files('imx_spi.c'))
++specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_spi.c'))
 -- 
 1.8.3.1
 
