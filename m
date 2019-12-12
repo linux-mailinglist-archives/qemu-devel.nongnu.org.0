@@ -2,57 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EC311D647
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:51:36 +0100 (CET)
-Received: from localhost ([::1]:36180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CBF11D5ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:38:46 +0100 (CET)
+Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifTYl-0000Oa-Qd
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:51:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58540)
+	id 1ifTMK-00036m-P6
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:38:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1ifT5O-0006oD-EZ
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:21:16 -0500
+ (envelope-from <david@redhat.com>) id 1ifTC6-0007w1-HD
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:28:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1ifT5M-0008Ik-S6
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:21:14 -0500
-Resent-Date: Thu, 12 Dec 2019 13:21:14 -0500
-Resent-Message-Id: <E1ifT5M-0008Ik-S6@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21124)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1ifT5M-0008Da-Ju
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:21:12 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1576174865; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=e/priW7kyevKS1nxC8nGvQoQu6uiZKwEcb4bhj+IU0ulSUbAvFO1bAWMP4DiF+APZHY42pr/uayJd5TcJ8gO1lXQDhWjaZ4sAWYYKr+RkLlt5TaaUpMrwmFC70d05JNP6X0yc1crODFGVlrD5i4EP+vQOEIhRSZtTSqqtZPAmNM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1576174865;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=AE6kErm6nlfmig9IyfZDoEToBOnqJmowNWUMn4IHgs4=; 
- b=ZezzZjqGWex8pzBGgzyKrVT/6SNbHILSQ8CvXjvVOptSY8z71Wjo3CBCBWZQFvM37g8UyKs18iWsUzizG5L8DZM8VxiJvKZPToqIOU8inPYW6b3g0VMSBvCRD2edJgqdnYvypOM50v/Ha5kNI7N8+Z2tE/s1PfGZ3dXt/UUE/FA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1576174863183228.3824820151758;
- Thu, 12 Dec 2019 10:21:03 -0800 (PST)
-In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
-Subject: Re: [PATCH 000/104] virtiofs daemon [all]
-Message-ID: <157617486223.14867.10636708287001545781@37313f22b938>
+ (envelope-from <david@redhat.com>) id 1ifTC2-0003W6-SD
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:28:07 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52393
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1ifTC2-0003V6-Ko
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:28:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576175284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qXuj2wlIvR0mV4LH44WrMCfAVVXJ4LZPzKVEVs84WzQ=;
+ b=SNmSXnVU+Sbf7hakt1GyqlCSyS+xxRdOm3cXxr6AOwswiaIAooNF/nREWo5D0MsNE2FkaO
+ KUI1S4q3XZ/IEBXf89nsWwMzWkcbD8lfBdHmMkHYAiZKFkeMhnZQ8thKQy14yLNcNCNR2I
+ C3P3pb9p4syh/g7u5nCOzVdSX4wXy7w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-JPSbFPsHM42J2NFIiV00-Q-1; Thu, 12 Dec 2019 13:28:03 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB98C100551B;
+ Thu, 12 Dec 2019 18:28:00 +0000 (UTC)
+Received: from [10.36.117.65] (ovpn-117-65.ams2.redhat.com [10.36.117.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CEA019C4F;
+ Thu, 12 Dec 2019 18:27:54 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 1/5] hw: add compat machines for 5.0
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20191212173320.11610-1-drjones@redhat.com>
+ <20191212173320.11610-2-drjones@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <15037e94-0c85-63f2-e505-fb2c186a1565@redhat.com>
+Date: Thu, 12 Dec 2019 19:27:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dgilbert@redhat.com
-Date: Thu, 12 Dec 2019 10:21:03 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <20191212173320.11610-2-drjones@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: JPSbFPsHM42J2NFIiV00-Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,23 +119,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: peter.maydell@linaro.org, bijan.mottahedeh@oracle.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, maz@kernel.org,
+ Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
+ richard.henderson@linaro.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+ "open list:sPAPR" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>, guoheyi@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, msys.mizuma@gmail.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTIxMjE2MzkwNC4xNTk4
-OTMtMS1kZ2lsYmVydEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-ZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2Vy
-LWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0Bm
-ZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCgoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTEyMTIxNjM5
-MDQuMTU5ODkzLTEtZGdpbGJlcnRAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRv
-cmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
-dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
-byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 12.12.19 18:33, Andrew Jones wrote:
+> Add 5.0 machine types for arm/i440fx/q35/s390x/spapr.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> 
+
+[...]
+
+>  /*
+>   * pseries-4.1
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index d3edeef0ad92..a40f79e20733 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -639,14 +639,27 @@ bool css_migration_enabled(void)
+>      }                                                                         \
+>      type_init(ccw_machine_register_##suffix)
+>  
+> +
+> +static void ccw_machine_5_0_instance_options(MachineState *machine)
+> +{
+> +}
+> +
+> +static void ccw_machine_5_0_class_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_CCW_MACHINE(5_0, "5.0", true);
+> +
+>  static void ccw_machine_4_2_instance_options(MachineState *machine)
+>  {
+> +    ccw_machine_5_0_instance_options(machine);
+>  }
+>  
+>  static void ccw_machine_4_2_class_options(MachineClass *mc)
+>  {
+> +    ccw_machine_5_0_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+>  }
+> -DEFINE_CCW_MACHINE(4_2, "4.2", true);
+> +DEFINE_CCW_MACHINE(4_2, "4.2", false);
+>  
+
+
+s390x parts LGTM
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
