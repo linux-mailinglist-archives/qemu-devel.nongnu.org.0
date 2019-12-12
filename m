@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9312211D63A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:50:10 +0100 (CET)
-Received: from localhost ([::1]:36138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE56F11D672
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:57:43 +0100 (CET)
+Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifTXN-00071v-Aa
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:50:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37515)
+	id 1ifTeg-000437-H5
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:57:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44873)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ifTTw-0004qy-A4
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:46:37 -0500
+ (envelope-from <thuth@redhat.com>) id 1ifTbk-0002J0-H3
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:54:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ifTTv-0005tR-B4
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:46:36 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43465)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1ifTTv-0005nd-3J
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:46:35 -0500
-Received: by mail-pf1-x441.google.com with SMTP id h14so1238743pfe.10
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 10:46:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d3hN3crFgargNwf6dP5mibCcgUskG+IJPCcHFmzqCA8=;
- b=cnYEC7TKTa8nVhve5gqYBeVHgsRVe9bqxWfdqp/2Ut7qQMyF1Po8szjHIFvGq+Z+EN
- am30C7P4noVmdKIMYm9ko8oIqf0MZLP8vYQ8dgoQ/4SzUxad29zwYgKR+gJ3NEvPqeAr
- vSxnKlyQ6WSGKRvCLN6ZEGB0MpBSBgrahA43/2lTvRDUZAsjMq7j4PTwL+e2OBMeVdmx
- MpIjQPpjOD0Crpk/twRI2fFFi8eFzBryVkb/NqQS7VomNqSr7zIRff1OKHDQu1rN6FpJ
- o+hdfxIizFKnU3V8MV0ui/SPtiDfX1+7C/yPDR+Wiwctw2SRRb16wSpLXoQ85iuhD9ri
- Ytsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d3hN3crFgargNwf6dP5mibCcgUskG+IJPCcHFmzqCA8=;
- b=SE2kaDC6i4NUlzhHjg5c/JVf7GOeCST14xE5Q92ch2B0icv4fVukQIlyuHh7W9r7Sw
- ZyPLtdUaOUMKiNs1IAY68YA6aTH2Hmgaotir9WOviMIY80+oGhbySJzkG5Jaqk+QjZKu
- tcjqApjLmg/fNWacwg4Cb8RvvlP0zB1FVONkusgvFBTNYzV1oMUvoiMcd6lrHyKR2YNe
- S8k99jMxEIPpHOaHd1R2SX+5EdmLgWnmEHxmzepgZBN/HkwjG4kIMK39cOKTGPR7i5V4
- CrxTBkZQ9Xo8ayytSEqFblGat4XdFK3BpAlS/XmDJdiS9OrMK5ZXr4MKPU6Z32qw4tBz
- S4Aw==
-X-Gm-Message-State: APjAAAXu0MfnnSA2fFk8L+R2JLot4dfmS80+tJ4wQtrWmTT1XuJdzxCY
- 18ZSHNfnm8/TGjmBvsQKzau7+NJJrcA+DeV4/FM=
-X-Google-Smtp-Source: APXvYqx3lh2v0DqCM82wmgHzrWLRbqh11S56/ubPNlGyPROcHazOjssL1WWP85gHJVNzmkMyyF3sxEzKw7xIwK6uBcE=
-X-Received: by 2002:a63:5062:: with SMTP id q34mr12091412pgl.378.1576176390444; 
- Thu, 12 Dec 2019 10:46:30 -0800 (PST)
+ (envelope-from <thuth@redhat.com>) id 1ifTbg-00087k-Ee
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:54:37 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51077
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ifTbg-00084y-6b
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:54:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576176874;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ywhF0mDJPToGztXR81jzoR/v7+5m/XLXDLdXmTzQTHY=;
+ b=K2MmqQ88dfQrOcM2Z7caeojbjAUCZBXgqnfyqtSWTD5xseDAEQiSg2Vp/s3zaF7OtKZVzV
+ /NrYy2x6Lr3jnT2IELEwT1U+QxwDyI2ZV317wdNnMQsOAv4Uj54dr67rgBG9fKUcfV6CX8
+ BUN7n7kg2guApMgUBDYiRkfStk9sdIk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-cuQHZp6QMMmA8cvByg_r8A-1; Thu, 12 Dec 2019 13:54:32 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58C68800D4C;
+ Thu, 12 Dec 2019 18:54:31 +0000 (UTC)
+Received: from thuth.com (ovpn-116-168.ams2.redhat.com [10.36.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8E4C19C4F;
+ Thu, 12 Dec 2019 18:54:27 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 00/10] Bluetooth removal, and qtest & misc patches
+Date: Thu, 12 Dec 2019 19:54:14 +0100
+Message-Id: <20191212185424.4675-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20191212040039.26546-1-richard.henderson@linaro.org>
- <20191212040039.26546-23-richard.henderson@linaro.org>
-In-Reply-To: <20191212040039.26546-23-richard.henderson@linaro.org>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Thu, 12 Dec 2019 10:46:18 -0800
-Message-ID: <CAMo8BfKX=aqWOWrFx14Oy_UwSYnHqFPnFvNo9v-hVVXhhMPkog@mail.gmail.com>
-Subject: Re: [PATCH 22/28] target/xtensa: Remove MMU_MODE{0,1,2,3}_SUFFIX
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: cuQHZp6QMMmA8cvByg_r8A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,24 +69,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 11, 2019 at 8:01 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The functions generated by these macros are unused.
->
-> Cc: Max Filippov <jcmvbkbc@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/xtensa/cpu.h | 4 ----
->  1 file changed, 4 deletions(-)
+ Hi,
 
-Acked-by: Max Filippov <jcmvbkbc@gmail.com>
+the following changes since commit 52901abf94477b400cf88c1f70bb305e690ba2de=
+:
 
--- 
-Thanks.
--- Max
+  Update version for v4.2.0-rc5 release (2019-12-10 17:15:21 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/huth/qemu.git tags/pull-request-2019-12-12
+
+for you to fetch changes up to e38f04c4db40a9219cc0c516a6c68b9ca0a783d0:
+
+  tests: use g_test_rand_int (2019-12-12 08:16:24 +0100)
+
+----------------------------------------------------------------
+- Removal of the deprecated bluetooth code
+- Some qtest and misc patches
+----------------------------------------------------------------
+
+Cole Robinson (1):
+      tests: fix modules-test 'duplicate test case' error
+
+Laurent Vivier (1):
+      pseries: disable migration-test if /dev/kvm cannot be used
+
+Marc-Andr=C3=A9 Lureau (1):
+      glib: use portable g_setenv()
+
+Markus Armbruster (1):
+      hw/misc/ivshmem: Bury dead legacy INTx code
+
+Paolo Bonzini (1):
+      tests: use g_test_rand_int
+
+Thomas Huth (4):
+      hw/arm/nseries: Replace the bluetooth chardev with a "null" chardev
+      hw/usb: Remove the USB bluetooth dongle device
+      Remove the core bluetooth code
+      Remove libbluetooth / bluez from the CI tests
+
+Wainer dos Santos Moschetta (1):
+      tests/Makefile: Fix check-report.* targets shown in check-help
+
+ .gitlab-ci.yml                             |    2 +-
+ Makefile.objs                              |    2 -
+ bt-host.c                                  |  198 ---
+ bt-vhci.c                                  |  167 --
+ configure                                  |   31 -
+ hw/Kconfig                                 |    1 -
+ hw/Makefile.objs                           |    1 -
+ hw/arm/nseries.c                           |   16 +-
+ hw/bt/Kconfig                              |    2 -
+ hw/bt/Makefile.objs                        |    3 -
+ hw/bt/core.c                               |  143 --
+ hw/bt/hci-csr.c                            |  512 -------
+ hw/bt/hci.c                                | 2263 ------------------------=
+----
+ hw/bt/hid.c                                |  553 -------
+ hw/bt/l2cap.c                              | 1367 -----------------
+ hw/bt/sdp.c                                |  989 ------------
+ hw/misc/ivshmem.c                          |   35 -
+ hw/usb/Kconfig                             |    5 -
+ hw/usb/Makefile.objs                       |    1 -
+ hw/usb/dev-bluetooth.c                     |  581 -------
+ include/hw/bt.h                            | 2177 ------------------------=
+--
+ include/sysemu/bt.h                        |   20 -
+ include/sysemu/os-win32.h                  |    2 -
+ os-win32.c                                 |   22 -
+ qemu-deprecated.texi                       |    7 -
+ qemu-doc.texi                              |   17 -
+ qemu-options.hx                            |   79 -
+ tests/Makefile.include                     |    4 +-
+ tests/docker/dockerfiles/fedora.docker     |    1 -
+ tests/docker/dockerfiles/ubuntu.docker     |    1 -
+ tests/docker/dockerfiles/ubuntu1804.docker |    1 -
+ tests/ivshmem-test.c                       |    2 +-
+ tests/libqtest.c                           |    2 +-
+ tests/migration-test.c                     |    3 +-
+ tests/modules-test.c                       |    3 +-
+ tests/test-bitmap.c                        |    8 +-
+ tests/test-crypto-tlscredsx509.c           |    2 +-
+ tests/test-crypto-tlssession.c             |    2 +-
+ tests/test-io-channel-tls.c                |    2 +-
+ tests/test-qga.c                           |    4 +-
+ tests/test-vmstate.c                       |    2 +-
+ ui/sdl2.c                                  |    2 +-
+ vl.c                                       |  136 --
+ 43 files changed, 26 insertions(+), 9345 deletions(-)
+ delete mode 100644 bt-host.c
+ delete mode 100644 bt-vhci.c
+ delete mode 100644 hw/bt/Kconfig
+ delete mode 100644 hw/bt/Makefile.objs
+ delete mode 100644 hw/bt/core.c
+ delete mode 100644 hw/bt/hci-csr.c
+ delete mode 100644 hw/bt/hci.c
+ delete mode 100644 hw/bt/hid.c
+ delete mode 100644 hw/bt/l2cap.c
+ delete mode 100644 hw/bt/sdp.c
+ delete mode 100644 hw/usb/dev-bluetooth.c
+ delete mode 100644 include/hw/bt.h
+ delete mode 100644 include/sysemu/bt.h
+
 
