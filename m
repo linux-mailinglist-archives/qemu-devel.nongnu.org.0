@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAF011D2B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:49:23 +0100 (CET)
-Received: from localhost ([::1]:34210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF5711D2A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:45:59 +0100 (CET)
+Received: from localhost ([::1]:34164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifReU-0006YB-13
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:49:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44008)
+	id 1ifRbB-00035T-Q5
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:45:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44044)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRV3-00059b-Hw
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:39 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRV3-0005A6-QK
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRV2-0001Cx-B9
+ (envelope-from <dgilbert@redhat.com>) id 1ifRV2-0001DB-CM
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60596
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30580
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRV2-0001Az-58
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRV2-0001Bo-8C
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168774;
+ s=mimecast20190719; t=1576168775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1fpH8VVxfz2mYhtV7I/EfiqNshb8FuXw7lbiKT3c1kg=;
- b=VYMlukS++5yNb6j3c3DlbRnsBUN+Mver2hO8sCTwiNAC509oU7o/KvtZYycMNsqbTqGXAL
- VtefjZKzcxq2Nkh2eaX7Rgg9v7TaVB9nUJFdCSK3NA4wcKQRcmkl9Egr3uYXsYyFvKcyUT
- PBfwF1CIehWh84Z3NB+rDZd8RgsaEzY=
+ bh=bRRjerRpuN4Dt176CUE+aUh+f+XW9HBjlO7drQNxgPs=;
+ b=VhGxNLa+c6pz+9wQaRgwzApz4AtEgseUqP83uNV5pYlcCmgMpv8LPo3XwQjFgTqmFUlBGf
+ 8OMHszfFuGI6cbPlYtOz2iiBn7O5rZPJKIWUh0HBNxg5K8vFb9oQeRNvOSmNSV8ZZdqJWC
+ sqJfla9gZZjEVK7bBwGh7adAeYQ2jxM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-VtENEmi2M8Swhazz__pbKQ-1; Thu, 12 Dec 2019 11:39:31 -0500
+ us-mta-157-ySQLvTRgPkqWnytq93IIeA-1; Thu, 12 Dec 2019 11:39:33 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03C161800D42
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 274C6107ACC7
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:32 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C3E060BE1;
- Thu, 12 Dec 2019 16:39:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D5AF60C05;
+ Thu, 12 Dec 2019 16:39:31 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 010/104] virtiofsd: Fix fuse_daemonize ignored return values
-Date: Thu, 12 Dec 2019 16:37:30 +0000
-Message-Id: <20191212163904.159893-11-dgilbert@redhat.com>
+Subject: [PATCH 011/104] virtiofsd: Fix common header and define for QEMU
+ builds
+Date: Thu, 12 Dec 2019 16:37:31 +0000
+Message-Id: <20191212163904.159893-12-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: VtENEmi2M8Swhazz__pbKQ-1
+X-MC-Unique: ySQLvTRgPkqWnytq93IIeA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,99 +79,181 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-QEMU's compiler enables warnings/errors for ignored values
-and the (void) trick used in the fuse code isn't enough.
-Turn all the return values into a return value on the function.
+All of the fuse files include config.h and define GNU_SOURCE
+where we don't have either under our build - remove them.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/helper.c | 33 ++++++++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ tools/virtiofsd/buffer.c         |  3 ---
+ tools/virtiofsd/fuse_i.h         |  3 +++
+ tools/virtiofsd/fuse_loop_mt.c   |  3 +--
+ tools/virtiofsd/fuse_lowlevel.c  | 12 +-----------
+ tools/virtiofsd/fuse_opt.c       |  1 -
+ tools/virtiofsd/fuse_signals.c   |  1 -
+ tools/virtiofsd/passthrough_ll.c |  9 ++-------
+ 7 files changed, 7 insertions(+), 25 deletions(-)
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index d8c42401a7..8afccfc15e 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -10,12 +10,10 @@
+diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+index 38521f5889..1d7e6d2439 100644
+--- a/tools/virtiofsd/buffer.c
++++ b/tools/virtiofsd/buffer.c
+@@ -9,9 +9,6 @@
+  * See the file COPYING.LIB
+  */
+=20
+-#define _GNU_SOURCE
+-
+-#include "config.h"
+ #include "fuse_i.h"
+ #include "fuse_lowlevel.h"
+ #include <assert.h>
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 1119e85e57..0b5acc8765 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -6,6 +6,9 @@
+  * See the file COPYING.LIB
+  */
+=20
++#define FUSE_USE_VERSION 31
++
++
+ #include "fuse.h"
+ #include "fuse_lowlevel.h"
+=20
+diff --git a/tools/virtiofsd/fuse_loop_mt.c b/tools/virtiofsd/fuse_loop_mt.=
+c
+index 39e080d9ff..00138b2ab3 100644
+--- a/tools/virtiofsd/fuse_loop_mt.c
++++ b/tools/virtiofsd/fuse_loop_mt.c
+@@ -8,11 +8,10 @@
   * See the file COPYING.LIB.
   */
 =20
 -#include "config.h"
  #include "fuse_i.h"
+-#include "fuse_kernel.h"
  #include "fuse_lowlevel.h"
+ #include "fuse_misc.h"
++#include "standard-headers/linux/fuse.h"
+=20
+ #include <assert.h>
+ #include <errno.h>
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 0d7b2c3dc9..497eb25487 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -9,14 +9,10 @@
+  * See the file COPYING.LIB
+  */
+=20
+-#define _GNU_SOURCE
+-
+-#include "config.h"
+ #include "fuse_i.h"
+-#include "fuse_kernel.h"
++#include "standard-headers/linux/fuse.h"
  #include "fuse_misc.h"
  #include "fuse_opt.h"
 -#include "mount_util.h"
 =20
+ #include <assert.h>
  #include <errno.h>
- #include <limits.h>
-@@ -177,6 +175,7 @@ int fuse_parse_cmdline(struct fuse_args *args, struct f=
-use_cmdline_opts *opts)
+@@ -2093,7 +2089,6 @@ static struct {
+     [FUSE_RENAME2] =3D { do_rename2, "RENAME2" },
+     [FUSE_COPY_FILE_RANGE] =3D { do_copy_file_range, "COPY_FILE_RANGE" },
+     [FUSE_LSEEK] =3D { do_lseek, "LSEEK" },
+-    [CUSE_INIT] =3D { cuse_lowlevel_init, "CUSE_INIT" },
+ };
 =20
- int fuse_daemonize(int foreground)
+ #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
+@@ -2220,7 +2215,6 @@ void fuse_lowlevel_version(void)
  {
-+    int ret =3D 0, rett;
-     if (!foreground) {
-         int nullfd;
-         int waiter[2];
-@@ -198,8 +197,8 @@ int fuse_daemonize(int foreground)
-         case 0:
-             break;
-         default:
--            (void)read(waiter[0], &completed, sizeof(completed));
--            _exit(0);
-+            _exit(read(waiter[0], &completed,
-+                       sizeof(completed) !=3D sizeof(completed)));
-         }
-=20
-         if (setsid() =3D=3D -1) {
-@@ -207,13 +206,22 @@ int fuse_daemonize(int foreground)
-             return -1;
-         }
-=20
--        (void)chdir("/");
-+        ret =3D chdir("/");
-=20
-         nullfd =3D open("/dev/null", O_RDWR, 0);
-         if (nullfd !=3D -1) {
--            (void)dup2(nullfd, 0);
--            (void)dup2(nullfd, 1);
--            (void)dup2(nullfd, 2);
-+            rett =3D dup2(nullfd, 0);
-+            if (!ret) {
-+                ret =3D rett;
-+            }
-+            rett =3D dup2(nullfd, 1);
-+            if (!ret) {
-+                ret =3D rett;
-+            }
-+            rett =3D dup2(nullfd, 2);
-+            if (!ret) {
-+                ret =3D rett;
-+            }
-             if (nullfd > 2) {
-                 close(nullfd);
-             }
-@@ -221,13 +229,16 @@ int fuse_daemonize(int foreground)
-=20
-         /* Propagate completion of daemon initialization */
-         completed =3D 1;
--        (void)write(waiter[1], &completed, sizeof(completed));
-+        rett =3D write(waiter[1], &completed, sizeof(completed));
-+        if (!ret) {
-+            ret =3D rett;
-+        }
-         close(waiter[0]);
-         close(waiter[1]);
-     } else {
--        (void)chdir("/");
-+        ret =3D chdir("/");
-     }
--    return 0;
-+    return ret;
+     printf("using FUSE kernel interface version %i.%i\n", FUSE_KERNEL_VERS=
+ION,
+            FUSE_KERNEL_MINOR_VERSION);
+-    fuse_mount_version();
  }
 =20
- void fuse_apply_conn_info_opts(struct fuse_conn_info_opts *opts,
+ void fuse_lowlevel_help(void)
+@@ -2310,10 +2304,6 @@ struct fuse_session *fuse_session_new(struct fuse_ar=
+gs *args,
+         goto out4;
+     }
+=20
+-    if (se->debug) {
+-        fuse_log(FUSE_LOG_DEBUG, "FUSE library version: %s\n", PACKAGE_VER=
+SION);
+-    }
+-
+     se->bufsize =3D FUSE_MAX_MAX_PAGES * getpagesize() + FUSE_BUFFER_HEADE=
+R_SIZE;
+=20
+     list_init_req(&se->list);
+diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
+index edd36f4a3b..1fee55e266 100644
+--- a/tools/virtiofsd/fuse_opt.c
++++ b/tools/virtiofsd/fuse_opt.c
+@@ -10,7 +10,6 @@
+  */
+=20
+ #include "fuse_opt.h"
+-#include "config.h"
+ #include "fuse_i.h"
+ #include "fuse_misc.h"
+=20
+diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signals.=
+c
+index 19d6791cb9..10a6f88088 100644
+--- a/tools/virtiofsd/fuse_signals.c
++++ b/tools/virtiofsd/fuse_signals.c
+@@ -8,7 +8,6 @@
+  * See the file COPYING.LIB
+  */
+=20
+-#include "config.h"
+ #include "fuse_i.h"
+ #include "fuse_lowlevel.h"
+=20
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index a79ec2c70d..0e543353a4 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -35,15 +35,10 @@
+  * \include passthrough_ll.c
+  */
+=20
+-#define _GNU_SOURCE
+-#define FUSE_USE_VERSION 31
+-
+-#include "config.h"
+-
++#include "fuse_lowlevel.h"
+ #include <assert.h>
+ #include <dirent.h>
+ #include <errno.h>
+-#include <fuse_lowlevel.h>
+ #include <inttypes.h>
+ #include <limits.h>
+ #include <pthread.h>
+@@ -58,6 +53,7 @@
+=20
+ #include "passthrough_helpers.h"
+=20
++#define HAVE_POSIX_FALLOCATE 1
+ /*
+  * We are re-using pointers to our `struct lo_inode` and `struct
+  * lo_dirp` elements as inodes. This means that we must be able to
+@@ -1303,7 +1299,6 @@ int main(int argc, char *argv[])
+         ret =3D 0;
+         goto err_out1;
+     } else if (opts.show_version) {
+-        printf("FUSE library version %s\n", fuse_pkgversion());
+         fuse_lowlevel_version();
+         ret =3D 0;
+         goto err_out1;
 --=20
 2.23.0
 
