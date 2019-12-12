@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E5111D98B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 23:39:56 +0100 (CET)
-Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7BC11D984
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 23:38:42 +0100 (CET)
+Received: from localhost ([::1]:38018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifX7j-0004ML-8s
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 17:39:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37580)
+	id 1ifX6X-0002TQ-2i
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 17:38:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ifX4k-0000u8-E4
+ (envelope-from <groug@kaod.org>) id 1ifX4m-0000v2-08
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ifX4j-0000bd-9T
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4756)
+ (envelope-from <groug@kaod.org>) id 1ifX4j-0000c2-Kl
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:51 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5992
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifX4j-0000Zm-0m
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifX4j-0000bV-Fz
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:49 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBCMWRhq079791
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:48 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wugd2wmej-1
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBCMX5kL080973
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:49 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wusmk10tk-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:47 -0500
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:48 -0500
 Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 12 Dec 2019 22:36:45 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Thu, 12 Dec 2019 22:36:47 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Dec 2019 22:36:43 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xBCMa0dx15728936
+ Thu, 12 Dec 2019 22:36:45 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBCMaihH58720464
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Dec 2019 22:36:00 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2FAD8A405F;
- Thu, 12 Dec 2019 22:36:42 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1CD17A405B;
- Thu, 12 Dec 2019 22:36:42 +0000 (GMT)
+ Thu, 12 Dec 2019 22:36:44 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F19611C054;
+ Thu, 12 Dec 2019 22:36:44 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0A77311C052;
+ Thu, 12 Dec 2019 22:36:44 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Dec 2019 22:36:42 +0000 (GMT)
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Dec 2019 22:36:44 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-185-241.de.ibm.com [9.145.185.241])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 596D0220110;
- Thu, 12 Dec 2019 23:36:41 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 597B3220110;
+ Thu, 12 Dec 2019 23:36:43 +0100 (CET)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 3/5] ci: Use libcap-ng
-Date: Thu, 12 Dec 2019 23:35:58 +0100
+Subject: [PULL 4/5] travis.yml: Drop libcap-dev
+Date: Thu, 12 Dec 2019 23:35:59 +0100
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191212223601.309245-1-groug@kaod.org>
 References: <20191212223601.309245-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-x-cbid: 19121222-0012-0000-0000-000003744299
+x-cbid: 19121222-0008-0000-0000-000003404458
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121222-0013-0000-0000-000021B0206B
-Message-Id: <20191212223601.309245-4-groug@kaod.org>
+x-cbparentid: 19121222-0009-0000-0000-00004A60486D
+Message-Id: <20191212223601.309245-5-groug@kaod.org>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-12_07:2019-12-12,2019-12-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=2
- mlxlogscore=953 clxscore=1034 adultscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 suspectscore=2
+ spamscore=0 adultscore=0 mlxscore=0 mlxlogscore=879 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ clxscore=1034 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1912120172
 Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id xBCMWRhq079791
+ mx0b-001b2d01.pphosted.com id xBCMX5kL080973
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,45 +95,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Commit 7e46261368d1 converted virtfs-proxy-helper to using libcap-ng. The=
+re
+aren't any users of libcap anymore. No need to install libcap-dev.
 
-We currently enable libcap-dev in build-clang to pick up the 9p proxy
-helper.  Paolo's patch changes (commit 7e46261368d1) that to use
-libcap-ng, so switch to using it.  This also means we'll be testing the
-scsi pr manager and the bridge helper.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-[groug, mention SHA1 that dropped libcap]
 Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 ---
- .gitlab-ci.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .travis.yml | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index be57c6a454a5..62a96097983d 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -59,7 +59,7 @@ build-user:
-=20
- build-clang:
-  script:
-- - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-dev
-+ - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-ng-dev
-       xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev libr=
-bd-dev
-  - ./configure --cc=3Dclang --cxx=3Dclang++ --enable-werror
-       --target-list=3D"alpha-softmmu arm-softmmu m68k-softmmu mips64-sof=
-tmmu
+diff --git a/.travis.yml b/.travis.yml
+index 445b0646c18a..6cb8af6fa599 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -26,7 +26,6 @@ addons:
+       - libaio-dev
+       - libattr1-dev
+       - libbrlapi-dev
+-      - libcap-dev
+       - libcap-ng-dev
+       - libgcc-4.8-dev
+       - libgnutls28-dev
 --=20
 2.21.0
 
