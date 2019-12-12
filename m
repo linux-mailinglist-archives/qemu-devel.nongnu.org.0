@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240FA11C499
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 05:06:18 +0100 (CET)
-Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4473511C488
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 05:03:19 +0100 (CET)
+Received: from localhost ([::1]:53860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifFk0-000666-Oh
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 23:06:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47375)
+	id 1ifFh7-0002Rk-On
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 23:03:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ifFeh-0000mb-Ar
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:00:51 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ifFef-0000mS-Hf
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:00:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ifFed-0003py-VG
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:00:47 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39057)
+ (envelope-from <richard.henderson@linaro.org>) id 1ifFee-0003qQ-5X
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:00:45 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41156)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ifFed-0003mp-GP
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:00:43 -0500
-Received: by mail-pg1-x535.google.com with SMTP id b137so431644pga.6
+ id 1ifFed-0003oo-V5
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:00:44 -0500
+Received: by mail-pf1-x443.google.com with SMTP id s18so28492pfd.8
  for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 20:00:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W/IrtrUk4g6Dwcqz2tLntq918adD2bGYeEMjuC4fyfU=;
- b=mQVHAd+BwxgklYnel0XpxkwrERfid/9HfybVC3HaJm8FnxS7kMlcu4DnX7g//WlySr
- 5i3larzYs+uM172LVd4V18X+aRnzlrhV6nH2jhGmEg9+bB+kW4jGToduMfgk90T+rgdX
- kYg+6EcELxmEC/1f0si+U4WBaD04T2rhIeJZIL3bubS0Ym8YvhYQZEo5/UL/TBZ8+L1q
- j0RtuGneZ+MOLfDKJlPDGwG+iSFnWk6Vi7fRMODirY4xGKNyOIerpshbnf5vQcGD0/r0
- urI7yFsxwcm+YEbyM9SKQICKotaps1MtklWy/av/tjvHrxv7vizGZqA4VQv05DKyaU4i
- dDBg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=k7TVKqC6wpnG6/oe5COCiVkS66yxk1gF0iSSBffTaF8=;
+ b=D9ifO4x8Xh5HI25dUv+e8Tai+TGpxXXG8oTF+hw+0uAvkV8339NGkCvhlnrmwB7+uz
+ dsKQknGzebL//SWhY/XHBrG+0i3oP+RfelBJdxMrQQ6sXpgLxGZtYvHtFVPF904Tn2sN
+ kog5EAb4Z4SzmJzulxyVlSZobBfaueiYwDxo0MQ+UME2ZzE0V/3nHICNpVmOYkW/lQOx
+ qZQ006BJvdBo1jmupk3GV5X30vcXt1ZJuGEUJrU8WdTgnFqqBjXHhv+XQG0E0ls9mg7/
+ 5seGp49L8aeKUG6X85Uuel+U2ij7bXL/7HxaDyUdUWFBzelhQ3ZbMCmNXhNsNeGJ2Y1D
+ +xeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W/IrtrUk4g6Dwcqz2tLntq918adD2bGYeEMjuC4fyfU=;
- b=gxewESHs3oSmU8lKy8ayq184xjMJIZvkqjjfg32ADOI4uz2+dwkpp3pVmVbJmG8+rc
- bHwN1rhC7o3sxBhz7bSZ9zlZWm24Msoo4BBueVnVGW3kmPvEagCeLWmGS36FKesHo0Q+
- BfEvlJ0T3drtVLDNIhc6nOfU5zZEuDpzKU2jTc/c+2CLZo5HUODExGURNfxRYEkg4+UA
- uq4C0DfcUftjmuln5kIHPMqp86sbLJ/cZ3SYjRz3EGSFUzY7+H+JtlkFnw1HAqaZnOMf
- bvhaUbjV2WcTzvGzhih1QFbD0W7j9jCFl7Unpu8KlT1L7seSdplXmnd1JExBpyBlt/P/
- Lupg==
-X-Gm-Message-State: APjAAAXmFpP0q5gle6hpxi7o6RBLD+zQWnZF3msLR3G6b2z8OlvlDtqA
- 3+bCo6DbDZSKfDIRMt6p6ElYbBFJlFo=
-X-Google-Smtp-Source: APXvYqz4ARl5h2k+YBfYYvs3T2t5v90E/pjzrQjPRVGrNNWdyw7uDzBS1CRf5Xl8IshK5QweKQreog==
-X-Received: by 2002:a62:b402:: with SMTP id h2mr7541642pfn.55.1576123241427;
- Wed, 11 Dec 2019 20:00:41 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=k7TVKqC6wpnG6/oe5COCiVkS66yxk1gF0iSSBffTaF8=;
+ b=hvnPyb7eTMibu5vwREh1vIWkDeZB8eaPCc+V1UUwOuYnXAPmjGatGOH/0MrJZtn+3w
+ gr8P4CwmVfCweResho7UCccowOFbl77jzzTgZBBbfrl+HN41dGRwMe0d1kErcwWYo/vf
+ mGPt5BvOEJbx5VRoQ57ahlWsmYZ4vKNqpqDSYObSF7xDqQyfrZH9Gd8wcPHi5vjQfOw6
+ MYymlN9um3HbhOyddrmxdw83VTsJSIWQzBN5QKf8lYDgISqP2H6OyF5TP7a4FLbZmTV0
+ YWJWG/YYazrUgtaYsvumcZuGvqwJSvj8v6zIKt2fMjF0m7PQg82L7tjG2dTmTMW2bLIp
+ SW8Q==
+X-Gm-Message-State: APjAAAVsl3po1p0GKLwhYwhXiViEuRawBc/3A6CSh9a8c4sESO1q0BM3
+ t8gN7O3C7nw/aRmcWLXdq6WZpqqSmHU=
+X-Google-Smtp-Source: APXvYqzhPbWJq6v87XLvD7wLopriI3V8ug25HVvvr9x/eRmhvGYyJ2gJpA6Edv17FTxLfjatZjQtWA==
+X-Received: by 2002:a62:33c6:: with SMTP id z189mr7684937pfz.246.1576123242515; 
+ Wed, 11 Dec 2019 20:00:42 -0800 (PST)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id z130sm4666391pgz.6.2019.12.11.20.00.39
+ by smtp.gmail.com with ESMTPSA id z130sm4666391pgz.6.2019.12.11.20.00.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2019 20:00:40 -0800 (PST)
+ Wed, 11 Dec 2019 20:00:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/28] cputlb: Remove support for MMU_MODE*_SUFFIX
-Date: Wed, 11 Dec 2019 20:00:11 -0800
-Message-Id: <20191212040039.26546-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/28] target/xtensa: Use probe_access for itlb_hit_test
+Date: Wed, 11 Dec 2019 20:00:12 -0800
+Message-Id: <20191212040039.26546-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191212040039.26546-1-richard.henderson@linaro.org>
+References: <20191212040039.26546-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::535
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,116 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is part of a project to raise the limit on NB_MMU_MODES.
+We don't actually need the result of the read, only to probe that the
+memory mapping exists.  This is exactly what probe_access does.
 
-One of those is in cpu_ldst.h, in support of MMU_MODE*_SUFFIX.
-While this could be extended, it's not the best interface for
-such things.  Better is a single interface that allows a variable
-mmu_idx.  The best exemplars of that is the usage in target/mips
-and target/ppc.
+This is also the only user of any cpu_ld*_code_ra function.
+Removing this allows the interface to be removed shortly.
 
-In the process, I tried to clean up the implementation of these
-functions for softmmu and user-only.
-
-
-r~
-
-
-Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Chris Wulff <crwulff@gmail.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Marek Vasut <marex@denx.de>
 Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/xtensa/mmu_helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-Richard Henderson (28):
-  target/xtensa: Use probe_access for itlb_hit_test
-  cputlb: Use trace_mem_get_info instead of trace_mem_build_info
-  trace: Remove trace_mem_build_info_no_se_[bl]e
-  cputlb: Move body of cpu_ldst_template.h out of line
-  translator: Use cpu_ld*_code instead of open-coding
-  cputlb: Rename helper_ret_ld*_cmmu to cpu_ld*_code
-  cputlb: Provide cpu_(ld,st}*_mmuidx_ra for user-only
-  target/i386: Use cpu_*_mmuidx_ra instead of templates
-  target/s390x: Include tcg.h in mem_helper.c
-  target/arm: Include tcg.h in sve_helper.c
-  accel/tcg: Include tcg.h in tcg-runtime.c
-  linux-user: Include tcg.h in syscall.c
-  linux-user: Include trace-root.h in syscall-trace.h
-  cputlb: Expand cpu_ldst_useronly_template.h in user-exec.c
-  target/nios2: Remove MMU_MODE{0,1}_SUFFIX
-  target/alpha: Remove MMU_MODE{0,1}_SUFFIX
-  target/cris: Remove MMU_MODE{0,1}_SUFFIX
-  target/i386: Remove MMU_MODE{0,1,2}_SUFFIX
-  target/microblaze: Remove MMU_MODE{0,1,2}_SUFFIX
-  target/sh4: Remove MMU_MODE{0,1}_SUFFIX
-  target/unicore32: Remove MMU_MODE{0,1}_SUFFIX
-  target/xtensa: Remove MMU_MODE{0,1,2,3}_SUFFIX
-  target/m68k: Use cpu_*_mmuidx_ra instead of MMU_MODE{0,1}_SUFFIX
-  target/mips: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
-  target/s390x: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
-  target/ppc: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
-  cputlb: Remove support for MMU_MODE*_SUFFIX
-  cputlb: Expand cpu_ldst_template.h in cputlb.c
-
- accel/tcg/atomic_template.h               |  67 ++--
- include/exec/cpu_ldst.h                   | 448 +++++++---------------
- include/exec/cpu_ldst_template.h          | 211 ----------
- include/exec/cpu_ldst_useronly_template.h | 159 --------
- include/exec/translator.h                 |  48 +--
- include/user/syscall-trace.h              |   2 +
- target/alpha/cpu.h                        |   2 -
- target/cris/cpu.h                         |   2 -
- target/i386/cpu.h                         |   3 -
- target/m68k/cpu.h                         |   2 -
- target/microblaze/cpu.h                   |   3 -
- target/mips/cpu.h                         |   4 -
- target/nios2/cpu.h                        |   2 -
- target/ppc/cpu.h                          |   2 -
- target/s390x/cpu.h                        |   5 -
- target/sh4/cpu.h                          |   2 -
- target/unicore32/cpu.h                    |   2 -
- target/xtensa/cpu.h                       |   4 -
- tcg/tcg.h                                 |  29 --
- trace/mem-internal.h                      |  17 -
- accel/tcg/cputlb.c                        | 315 +++++++++++----
- accel/tcg/tcg-runtime.c                   |   1 +
- accel/tcg/user-exec.c                     | 236 ++++++++++++
- linux-user/syscall.c                      |   1 +
- target/arm/sve_helper.c                   |   1 +
- target/i386/seg_helper.c                  |  75 ++--
- target/m68k/op_helper.c                   |   5 +
- target/mips/op_helper.c                   | 182 +++------
- target/ppc/mem_helper.c                   |  11 +-
- target/s390x/mem_helper.c                 |   6 +
- target/xtensa/mmu_helper.c                |   5 +-
- docs/devel/loads-stores.rst               |   4 +-
- 32 files changed, 788 insertions(+), 1068 deletions(-)
- delete mode 100644 include/exec/cpu_ldst_template.h
- delete mode 100644 include/exec/cpu_ldst_useronly_template.h
-
+diff --git a/target/xtensa/mmu_helper.c b/target/xtensa/mmu_helper.c
+index f15bff306f..b01ff9399a 100644
+--- a/target/xtensa/mmu_helper.c
++++ b/target/xtensa/mmu_helper.c
+@@ -63,10 +63,11 @@
+ void HELPER(itlb_hit_test)(CPUXtensaState *env, uint32_t vaddr)
+ {
+     /*
+-     * Attempt the memory load; we don't care about the result but
++     * Probe the memory; we don't care about the result but
+      * only the side-effects (ie any MMU or other exception)
+      */
+-    cpu_ldub_code_ra(env, vaddr, GETPC());
++    probe_access(env, vaddr, 1, MMU_INST_FETCH,
++                 cpu_mmu_index(env, true), GETPC());
+ }
+ 
+ void HELPER(wsr_rasid)(CPUXtensaState *env, uint32_t v)
 -- 
 2.20.1
 
