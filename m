@@ -2,93 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1D911D4FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:14:24 +0100 (CET)
-Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DF111D523
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:18:48 +0100 (CET)
+Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSyk-0006HP-Qp
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:14:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54262)
+	id 1ifT30-0002TI-1I
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:18:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57382)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1ifS1D-0000eR-R9
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:12:55 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifSH9-0005DQ-SG
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1ifS1C-0003oN-8U
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:12:51 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41428
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1ifS1C-0003nF-2H; Thu, 12 Dec 2019 12:12:50 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBCH627F146140; Thu, 12 Dec 2019 12:12:41 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wujxrfuge-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2019 12:12:40 -0500
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCH7gZA007739;
- Thu, 12 Dec 2019 12:12:40 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wujxrfuej-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2019 12:12:39 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCHAcTa026013;
- Thu, 12 Dec 2019 17:12:37 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma05wdc.us.ibm.com with ESMTP id 2wtdq7juu4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2019 17:12:37 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBCHCaP557475340
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Dec 2019 17:12:36 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 06DC1136055;
- Thu, 12 Dec 2019 17:12:36 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 89A65136051;
- Thu, 12 Dec 2019 17:12:35 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 12 Dec 2019 17:12:35 +0000 (GMT)
-Subject: Re: [PACTH v3 3/5] tpm_spapr: Support suspend and resume
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20191211162050.970199-1-stefanb@linux.vnet.ibm.com>
- <20191211162050.970199-4-stefanb@linux.vnet.ibm.com>
- <CAJ+F1CL6R5wwn6pnFTRaoTWqXUr7eTDAzMzT27M8zSkG2K7uEw@mail.gmail.com>
- <08e2a506-2a0e-f8d2-40ea-97429ff2c46c@linux.ibm.com>
-Message-ID: <77e12176-5dc0-e5d1-f50d-960e9156c56d@linux.ibm.com>
-Date: Thu, 12 Dec 2019 12:12:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <08e2a506-2a0e-f8d2-40ea-97429ff2c46c@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-12_05:2019-12-12,2019-12-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- malwarescore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
- clxscore=1015 suspectscore=0 bulkscore=0 spamscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912120133
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id xBCH627F146140
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifSH8-0003vj-Ij
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:19 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35278)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ifSH8-0003uG-C1
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:18 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p17so3476263wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 09:29:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=zGrhjuKLKINlntV85KOX8PlaXtCg/M0M2UPFX50JWfc=;
+ b=do9EW8VUyvlaMdMe3sxKVqhjF8PI5Z23x2E9li/IVUVebukJ7X741mph+5E/twuWEu
+ 16jjgXq/f4OFehXBny+XpSely36PERQwQaXd8kFIXjxX/CbsTAmLoGOIM6QBXTJ4i6sd
+ lxQvzbbF3wv/mfFF6i4pTYH9Y1bLHx13bNzl6GLqAL+2K8Rj8xDHKyWlziNz3PSDvJZ9
+ YracWj1gFljKprl2QYMSkznURoFoFUlAdwS1jh78wRyMwPIo2kXn30qRJNhPlQu6dGwo
+ XCzX2zS2chUvba7n6bf6H92ocgpqXOYOAvhAfMRNNrOa3ohOb3UFqpNvvDh6BGWgYwsG
+ GPaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=zGrhjuKLKINlntV85KOX8PlaXtCg/M0M2UPFX50JWfc=;
+ b=Xr5JymAzpsSjED8kIiJ12ucl+7EaIiBFRTxYBw3lnSnU+JOuXZP/NXGwC3I9H1UmYb
+ RYx5lEynaynfKRiQzbPot+1E5b/h74OV3ZPnxqdYUWWEoxLMtHWNuuCxxuI5Q34BuZf0
+ 4YlHzD0rpSaTvBu66EeGmlv2BDSzpqrWxqTjL4xjOKEMnljWOgCwVDlH084oCrMaaCId
+ KmpK17v9MieNa6K6OIpAs9l1QHOuTSZpKE5c3+ZBqpLbTjlETYSAujiTyFcRbMdcbyZR
+ gIG8X2GurwJdiJ9RWEX7o3amZlMBUHP6bKnR5jFdYA/9IZCSkMouPOrEuTgnDJWOEnMc
+ dvWw==
+X-Gm-Message-State: APjAAAXh1wP7apETcIbQWboMrKNhLIF0rhr1drVQQnJvh7hQZrPn6Kb6
+ JBWd9gRZ4EG879WJKqkr0MXZ3pYG
+X-Google-Smtp-Source: APXvYqzbPJhLAXrizTNazXFAPHse/mT2gHY2IjHxctscYk1/Tf1m5cTarqmZKC/gcK7CAN8QOnfi8Q==
+X-Received: by 2002:a7b:c407:: with SMTP id k7mr8175212wmi.46.1576171756712;
+ Thu, 12 Dec 2019 09:29:16 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id 2sm6810130wrq.31.2019.12.12.09.29.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 12 Dec 2019 09:29:15 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/8] x86: allow building without PC machine types
+Date: Thu, 12 Dec 2019 18:29:06 +0100
+Message-Id: <1576171754-45138-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,115 +71,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:sPAPR pseries" <qemu-ppc@nongnu.org>,
- QEMU <qemu-devel@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: philmd@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/19 8:22 AM, Stefan Berger wrote:
-> On 12/12/19 6:00 AM, Marc-Andr=C3=A9 Lureau wrote:
->> Hi
->>
->> On Wed, Dec 11, 2019 at 8:27 PM Stefan Berger
->> <stefanb@linux.vnet.ibm.com> wrote:
->>> Extend the tpm_spapr frontend with VM suspend and resume support.
->>>
->>> Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
->>> ---
->>> =C2=A0 hw/tpm/tpm_spapr.c | 42 ++++++++++++++++++++++++++++++++++++++=
-+++-
->>> =C2=A0 1 file changed, 41 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
->>> index c4a67e2403..d9153bd95c 100644
->>> --- a/hw/tpm/tpm_spapr.c
->>> +++ b/hw/tpm/tpm_spapr.c
->>> @@ -87,6 +87,8 @@ typedef struct {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 TPMVersion be_tpm_version;
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t be_buffer_size;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 bool deliver_response; /* whether to deliver resp=
-onse after VM=20
->>> resume */
->>> =C2=A0 } SPAPRvTPMState;
->>>
->>> =C2=A0 static void tpm_spapr_show_buffer(const unsigned char *buffer,
->>> @@ -339,9 +341,47 @@ static enum TPMVersion=20
->>> tpm_spapr_get_version(TPMIf *ti)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return tpm_backend_get_tpm_version(s->=
-be_driver);
->>> =C2=A0 }
->>>
->>> +/* persistent state handling */
->>> +
->>> +static int tpm_spapr_pre_save(void *opaque)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 SPAPRvTPMState *s =3D opaque;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 s->deliver_response =3D tpm_backend_finish_sync(s=
-->be_driver);
->>> +=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 * we cannot deliver the results to the VM s=
-ince DMA would=20
->>> touch VM memory
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return 0;
->>> +}
->>> +
->>> +static int tpm_spapr_post_load(void *opaque, int version_id)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 SPAPRvTPMState *s =3D opaque;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (s->deliver_response) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* deliver the results to=
- the VM via DMA */
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tpm_spapr_request_complet=
-ed(TPM_IF(s), 0);
->> Why isn't it enough to rely on tpm_spapr_request_completed callback
->> being called during pre-save when tpm_backend_finish_sync() is called?
->> (like tis & crb)
->
->
-> When .pre_save is called the VM memory has been fully replicated and=20
-> only the devices need to save their state, right? So TIS and CRB save=20
-> the response in memory of the device for the OS driver to pick up=20
-> after resume. The SPAPR device model is expected to write the response=20
-> into VM memory using DMA but memory won't be marked dirty anymore and=20
-> replicated (afaik). So we may have the mechanism of having=20
-> tpm_spapr_request_completed() invoked but in addition we need to=20
-> re-deliver a response after resume so that the OS driver reads the=20
-> proper response then. I'll investigate, though...
+In fact I went one step further and ensured that microvm could build
+without pc.h even. :)
 
+Paolo
 
-Suspend/resume works fine for as long as we don't catch a 'delayed=20
-response', meaning a response received while the devices suspend (and=20
-.pre_save is called). With this device the troubles are starting when=20
-having to deliver such a 'delayed response' because the whole=20
-tpm_spapr_request_completed() has to be deferred until after resume,=20
-otherwise the OS driver gets stuck. So, in tpm_spapr_request_completed()=20
-we need to be able to query the backend whether it is suspending,=20
-meaning whether its .pre_save() has been invoked and we received the=20
-response due to polling. If so, we must not do anything in this function=20
-at this time but do it in post_load and we need to remember this in a=20
-field 'deliver_response'. I have this field now but the reason why I set=20
-it was not correct, at least not for the tpm_emulator backend. In case=20
-we do get a delayed response while in the tpm_spapr's pre_save function,=20
-we do need to set the 'deliver_response' as well in order to call the=20
-tpm_spapr_request_completed() in tpm_spapr_post_load() when resuming.
+v1->v2: more thorough cleansing of pc.h (new patches 3/7/8) [Sergio]
+	move SMM property to X86MachineState (patch 5) [Sergio]
 
-The easiest way to trigger all this is to read a TPM 2.0's PCRs inside a=20
-VM and have libtpms instrumented with a sleep(4) in PCRRead() function=20
-to cause enough delays to trigger the critical code when suspending the V=
-M.
+Paolo Bonzini (8):
+  i386: conditionally compile more files
+  fw_cfg: allow building without other devices
+  hw: replace hw/i386/pc.h with a header just for the i8259
+  pci-stub: add more MSI functions
+  x86: move SMM property to X86MachineState
+  x86: move more x86-generic functions out of PC files
+  acpi: move PC stubs out of stubs/
+  pc: stubify x86 iommu
 
-I'll repost with these fixes.
+ hw/acpi/Makefile.objs                              |   2 +-
+ .../pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c |   0
+ hw/alpha/alpha_sys.h                               |   3 +-
+ hw/alpha/dp264.c                                   |   1 +
+ hw/hppa/hppa_sys.h                                 |   3 +-
+ hw/hppa/machine.c                                  |   1 +
+ hw/i386/Kconfig                                    |   6 +
+ hw/i386/Makefile.objs                              |   9 +-
+ hw/i386/acpi-build.c                               |   1 +
+ hw/i386/fw_cfg.c                                   |   8 +-
+ hw/i386/fw_cfg.h                                   |   2 +
+ hw/i386/kvm/Makefile.objs                          |   6 +-
+ hw/i386/kvm/i8259.c                                |   1 +
+ hw/i386/kvm/ioapic.c                               |   2 +-
+ hw/i386/microvm.c                                  |   4 +-
+ hw/i386/pc.c                                       | 153 +--------------------
+ hw/i386/pc_piix.c                                  |   6 +-
+ hw/i386/pc_q35.c                                   |   2 +-
+ hw/i386/x86-iommu-stub.c                           |  34 +++++
+ hw/i386/x86-iommu.c                                |   1 -
+ hw/i386/x86.c                                      | 151 +++++++++++++++++++-
+ hw/input/pckbd.c                                   |   1 -
+ hw/intc/Kconfig                                    |   2 +
+ hw/intc/apic.c                                     |   2 +-
+ hw/intc/i8259.c                                    |   2 +-
+ hw/intc/i8259_common.c                             |   2 +-
+ hw/intc/ioapic.c                                   |   3 +-
+ hw/isa/i82378.c                                    |   2 +-
+ hw/isa/lpc_ich9.c                                  |   1 -
+ hw/isa/piix4.c                                     |   2 +-
+ hw/mips/gt64xxx_pci.c                              |   2 +-
+ hw/mips/mips_fulong2e.c                            |   2 +-
+ hw/mips/mips_jazz.c                                |   2 +-
+ hw/mips/mips_r4k.c                                 |   2 +-
+ hw/pci-host/bonito.c                               |   1 -
+ hw/pci-host/prep.c                                 |   2 +-
+ hw/pci/pci-stub.c                                  |  27 ++++
+ include/hw/i386/pc.h                               |  31 -----
+ include/hw/i386/x86.h                              |  23 ++++
+ include/hw/intc/i8259.h                            |  12 ++
+ include/hw/isa/i8259_internal.h                    |   2 +-
+ stubs/Makefile.objs                                |   1 -
+ target/i386/kvm.c                                  |   5 +-
+ target/i386/machine.c                              |   2 +-
+ target/i386/monitor.c                              |   1 -
+ 45 files changed, 307 insertions(+), 221 deletions(-)
+ rename stubs/pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c (100%)
+ create mode 100644 hw/i386/x86-iommu-stub.c
+ create mode 100644 include/hw/intc/i8259.h
 
- =C2=A0=C2=A0 Stefan
-
-
->
->
+-- 
+1.8.3.1
 
 
