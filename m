@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C78911D4D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:05:23 +0100 (CET)
-Received: from localhost ([::1]:35188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D3811D4E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:08:00 +0100 (CET)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSq1-00022z-Gr
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:05:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36774)
+	id 1ifSsZ-0005kG-IR
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:07:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRX0-0007lQ-IT
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:39 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRX1-0007nL-KZ
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRWz-0004mm-Fr
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40708
+ (envelope-from <dgilbert@redhat.com>) id 1ifRX0-0004pc-Ek
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58129
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRWz-0004mC-BL
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:37 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRX0-0004oC-AM
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576168897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XdFMhPXLxEG/2BovVQr6Ct1a0mroXMy68XMoJZB1WZU=;
- b=dHISGmYlEeuSGty78WmeqnFiaYt/douhPRHV9pZDRfooJMQjXp1M28wZtHRIp4LAsk0jcx
- C6288JjJrcQnQq579jmYiYbwUH1M0u2KnmUW43GDlX38Qcv4XO6wIPPjYSUHdoJM3BvnOU
- FaJhNeWmHI6jvorLBgJJXwbuWuPIKEA=
+ bh=cfSe41TLUp+GhrlKGSyL7HvQZ5ppxCVRsLJMopRQC34=;
+ b=LPYfclk88Bfk0nVf3ojsjPFRJ3M8fjEMA0eW1KsIGMRop4sZZ1uBj52yhqCQhwIKy35Qhp
+ M0jqBFZSp1LSrvsPNBnJSpZjmxxfA9aDp6k6hcmqijbNO+0CjFaMp9YhPiuQLUCsX7tIEh
+ vGFLa5dSzuabqvwt5RccW8hxsLI2XfM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-Csl0h2EZNY-zZ9V3wB0BmA-1; Thu, 12 Dec 2019 11:41:35 -0500
+ us-mta-390-qMAXncyqNyeU3NCPdaJ7vA-1; Thu, 12 Dec 2019 11:41:36 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A92F112D65BB
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D22BC1572974
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1A1960BE1;
- Thu, 12 Dec 2019 16:41:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F33FB60BE1;
+ Thu, 12 Dec 2019 16:41:34 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 094/104] virtiofsd: do not always set FUSE_FLOCK_LOCKS
-Date: Thu, 12 Dec 2019 16:38:54 +0000
-Message-Id: <20191212163904.159893-95-dgilbert@redhat.com>
+Subject: [PATCH 095/104] virtiofsd: convert more fprintf and perror to use
+ fuse log infra
+Date: Thu, 12 Dec 2019 16:38:55 +0000
+Message-Id: <20191212163904.159893-96-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Csl0h2EZNY-zZ9V3wB0BmA-1
+X-MC-Unique: qMAXncyqNyeU3NCPdaJ7vA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,40 +77,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peng Tao <tao.peng@linux.alibaba.com>
+From: Eryu Guan <eguan@linux.alibaba.com>
 
-Right now we always enable it regardless of given commandlines.
-Fix it by setting the flag relying on the lo->flock bit.
-
-Signed-off-by: Peng Tao <tao.peng@linux.alibaba.com>
+Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ tools/virtiofsd/fuse_signals.c | 6 +++++-
+ tools/virtiofsd/helper.c       | 9 ++++++---
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 8f4ab8351c..cf6b548eee 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -548,9 +548,14 @@ static void lo_init(void *userdata, struct fuse_conn_i=
-nfo *conn)
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: activating writeback\n");
-         conn->want |=3D FUSE_CAP_WRITEBACK_CACHE;
-     }
--    if (lo->flock && conn->capable & FUSE_CAP_FLOCK_LOCKS) {
--        fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
--        conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
-+    if (conn->capable & FUSE_CAP_FLOCK_LOCKS) {
-+        if (lo->flock) {
-+            fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
-+            conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
-+        } else {
-+            fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling flock locks\n");
-+            conn->want &=3D ~FUSE_CAP_FLOCK_LOCKS;
-+        }
+diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signals.=
+c
+index 10a6f88088..edabf24e0d 100644
+--- a/tools/virtiofsd/fuse_signals.c
++++ b/tools/virtiofsd/fuse_signals.c
+@@ -11,6 +11,7 @@
+ #include "fuse_i.h"
+ #include "fuse_lowlevel.h"
+=20
++#include <errno.h>
+ #include <signal.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -46,12 +47,15 @@ static int set_one_signal_handler(int sig, void (*handl=
+er)(int), int remove)
+     sa.sa_flags =3D 0;
+=20
+     if (sigaction(sig, NULL, &old_sa) =3D=3D -1) {
+-        perror("fuse: cannot get old signal handler");
++        fuse_log(FUSE_LOG_ERR, "fuse: cannot get old signal handler: %s\n"=
+,
++                 strerror(errno));
+         return -1;
      }
 =20
-     if (conn->capable & FUSE_CAP_POSIX_LOCKS) {
+     if (old_sa.sa_handler =3D=3D (remove ? handler : SIG_DFL) &&
+         sigaction(sig, &sa, NULL) =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "fuse: cannot set signal handler: %s\n",
++                 strerror(errno));
+         perror("fuse: cannot set signal handler");
+         return -1;
+     }
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 7b28507a38..bcb8c05063 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -200,7 +200,8 @@ int fuse_daemonize(int foreground)
+         char completed;
+=20
+         if (pipe(waiter)) {
+-            perror("fuse_daemonize: pipe");
++            fuse_log(FUSE_LOG_ERR, "fuse_daemonize: pipe: %s\n",
++                     strerror(errno));
+             return -1;
+         }
+=20
+@@ -210,7 +211,8 @@ int fuse_daemonize(int foreground)
+          */
+         switch (fork()) {
+         case -1:
+-            perror("fuse_daemonize: fork");
++            fuse_log(FUSE_LOG_ERR, "fuse_daemonize: fork: %s\n",
++                     strerror(errno));
+             return -1;
+         case 0:
+             break;
+@@ -220,7 +222,8 @@ int fuse_daemonize(int foreground)
+         }
+=20
+         if (setsid() =3D=3D -1) {
+-            perror("fuse_daemonize: setsid");
++            fuse_log(FUSE_LOG_ERR, "fuse_daemonize: setsid: %s\n",
++                     strerror(errno));
+             return -1;
+         }
+=20
 --=20
 2.23.0
 
