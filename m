@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D0811CDD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:08:45 +0100 (CET)
-Received: from localhost ([::1]:59030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD28311CDE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:12:34 +0100 (CET)
+Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOCx-0003WD-NS
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:08:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60328)
+	id 1ifOGf-0007nH-96
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:12:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyD-0003Fe-KG
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:30 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyE-0003Hx-S2
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyC-0006QK-9G
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:29 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45876)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyD-0006TC-EY
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:30 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyC-0006Oo-1m
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:28 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j42so2572706wrj.12
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:27 -0800 (PST)
+ id 1ifNyD-0006RG-68
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:29 -0500
+Received: by mail-wm1-x334.google.com with SMTP id p9so2247547wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g4zEzo5NcSs7ChSRMHLU2CYO2jCxB5nfA8k+ievYaHo=;
- b=Ksdp0GvpDI6cpUu9Bq17GXw82sqGwnAaKNxuahEUX9oife2gT+YcEA2XTnDJAhYQF9
- aDoydGNOp+2uSYpMQ1u/X/sF7MSp7lafJAFoz/70EN5Q002yG461ebUG6/qc6WQ7KQxq
- IYi2f1iEny8lklr3rZKxqw4dWIO956Xj2OR4Jssg3NbPw7SNnpCWUPnk/jY/XdjEjt1R
- o5HMAIF2uBs/cADO+X0KzBmsHbxRsFsLRPuMcoYdNRUbJFzphsOrpCDwL/Abp9K/R0nq
- 66SDvqzOEvjOSDpFv9O5W+/A4TjbahLJVkC460B+tONOD0RA5yougZV0uG6ag2hUiJrl
- tSrA==
+ bh=TtsZenLOjhtMivOafiVAH9+nVf02IjMWlP1Q3QoXfuk=;
+ b=nHf21q0zmfdIQhkCw2bBgaSNZo62OAAiyFfGpLVYmAbw8JYPxrhrROnCsqBUx4ngTl
+ /to9W5ZihlV2OB98MoTwl7Zp561yefMVAjZv3pTvTEZsVUEGddmdYSDJrM1n0hcfGp2q
+ psYkO4LfuDcCGFS7dOXCjl35UxzCKPDhxK5znxvPSCmw4QlcTSZTDHXoiYbyXBtwe5/y
+ MY++Xm1+cZ6MA2bN5x1cq8dhBLW0Wi1amBT5F8/+gGo08T0NhaeVNQAZs4yMD/UoGTMo
+ qhxWb7CIb1WAAfyIUts1G3yuXlr5AXxfQiKBXF8CPXnfyZet+nQFg9YllboIf5bv0Sra
+ 0u8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=g4zEzo5NcSs7ChSRMHLU2CYO2jCxB5nfA8k+ievYaHo=;
- b=RFHY036iy6apznt7VjjOxv5i6dredIDLWHbX2GWtAEVR6r17SmMM1e7Hd/Cep/fXwQ
- phiabszjNbgW6Z1BkPQkyr+peI8g09QcAsnitsjX7c2ePyTYDRSJsggDfjgy7nDH8w88
- dVRFKoJ22RYUD+6ifpYfjsLYLVQu/KM/s06saJHqUnv6hDireWQ0kQ3TO3sM+2/X58+n
- iQjvUIOddbaXG/B4DmeQ61zbg2wsZzDgcwzMNI65pBI90BjhGjryIzLxkRUO9N4fM2cC
- hnhbFd2pPsLEHTHuU3fYtcDBCPlerkVQf1AAivUmTUjbfu99A8cHTed0ZMWREVYzKTn2
- ETtQ==
-X-Gm-Message-State: APjAAAUDNf6xg2FiFFxsnnavW5kf8B76WifGteHz6tNU+Fp1g5ZIZyWU
- omOOHrbYT0NvQ9odzdnPpB87/fv0
-X-Google-Smtp-Source: APXvYqxMUzRDYfGUxp3ZeYHXramC3JssWC7Lntu8Vo/SBtU+E3413qPUDXS3zXUz96zyoCb0wKFAlg==
-X-Received: by 2002:a05:6000:12c9:: with SMTP id
- l9mr6524706wrx.304.1576155206901; 
- Thu, 12 Dec 2019 04:53:26 -0800 (PST)
+ bh=TtsZenLOjhtMivOafiVAH9+nVf02IjMWlP1Q3QoXfuk=;
+ b=jRqytIgl5T3Ikdq3Kn6KWjTwognJcq652wWw3/8sZ/Ixs1AffU1wXUe8Sm23tvYeay
+ ITvZKDHeyTSiSgz2c/dJynVvEtUv6Xkx6CI3ynHy9bAfW59X6PFDki2tmFNnAOLLWOpa
+ HhEVk30y3mbEWOUH5fy00UtMSjJRl04IZA/Dfor8PKHFUB7vGI5CyYYKC2jk6s19dG/i
+ /mX6nmsah90HUHAMi8YFq8/eircY4lM+mmLPA9F4Cw/ac6ShJmgpibFaiX3FzohP1poe
+ NRBp4UQCUyuK7bNsEbzfby4wYXRnsEGUTjkyARRwQs6toyhajY1MZajh8irf15hFT75+
+ kz6A==
+X-Gm-Message-State: APjAAAWyfBt2HymagS98dME+Zcjz9ojfU84H+FWaBgqDmynRMw9bNYJD
+ Y5jLm6B61jFNWrqlL5dfvVwGF1Yo
+X-Google-Smtp-Source: APXvYqyiwxpt1/Rb4ybO43wK0oxur81PBbpMUjnEAV6lfPAM9+ACXkbOzBZ5CVgxHrQ30guYuYCm/g==
+X-Received: by 2002:a1c:1d16:: with SMTP id d22mr6696540wmd.158.1576155207966; 
+ Thu, 12 Dec 2019 04:53:27 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.25
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:26 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 029/132] meson: generate shader headers
-Date: Thu, 12 Dec 2019 13:51:13 +0100
-Message-Id: <1576155176-2464-30-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 030/132] meson: generate hxtool files
+Date: Thu, 12 Dec 2019 13:51:14 +0100
+Message-Id: <1576155176-2464-31-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,85 +87,148 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile              | 18 ------------------
- meson.build           |  1 +
- ui/meson.build        |  2 ++
- ui/shader/meson.build | 15 +++++++++++++++
- 4 files changed, 18 insertions(+), 18 deletions(-)
- create mode 100644 ui/shader/meson.build
+ Makefile        | 19 +------------------
+ Makefile.target |  6 ------
+ meson.build     | 35 +++++++++++++++++++++++++++++++++++
+ scripts/hxtool  |  2 +-
+ 4 files changed, 37 insertions(+), 25 deletions(-)
+ mode change 100644 => 100755 scripts/hxtool
 
 diff --git a/Makefile b/Makefile
-index 5d0be7b..472962d 100644
+index 472962d..7588467 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -582,24 +582,6 @@ cscope:
- 	find "$(SRC_PATH)/" -name "*.[chsS]" -print | sed 's,^\./,,' > "$(SRC_PATH)/cscope.files"
- 	cscope -b -i"$(SRC_PATH)/cscope.files"
+@@ -96,7 +96,7 @@ include $(SRC_PATH)/rules.mak
+ # lor is defined in rules.mak
+ CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
  
--# opengl shader programs
--ui/shader/%-vert.h: $(SRC_PATH)/ui/shader/%.vert $(SRC_PATH)/scripts/shaderinclude.pl
--	@mkdir -p $(dir $@)
--	$(call quiet-command,\
--		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
--		"VERT","$@")
+-generated-files-y = config-host.h qemu-options.def
++generated-files-y = config-host.h
+ 
+ generated-files-y += module_block.h
+ 
+@@ -221,8 +221,6 @@ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all mo
+ 
+ config-host.h: config-host.h-timestamp
+ config-host.h-timestamp: config-host.mak
+-qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
+ 
+ TARGET_DIRS_RULES := $(foreach t, all clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
+ 
+@@ -314,9 +312,6 @@ ifdef CONFIG_MPATH
+ scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
+ endif
+ 
+-qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
 -
--ui/shader/%-frag.h: $(SRC_PATH)/ui/shader/%.frag $(SRC_PATH)/scripts/shaderinclude.pl
--	@mkdir -p $(dir $@)
--	$(call quiet-command,\
--		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
--		"FRAG","$@")
+ ifneq ($(EXESUF),)
+ .PHONY: qga/qemu-ga
+ qga/qemu-ga: qga/qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
+@@ -629,18 +624,6 @@ $(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
+ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+ 	$(call build-manual,specs)
+ 
+-qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
 -
--ui/shader.o: $(SRC_PATH)/ui/shader.c \
--	ui/shader/texture-blit-vert.h \
--	ui/shader/texture-blit-flip-vert.h \
--	ui/shader/texture-blit-frag.h
+-qemu-monitor.texi: $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
 -
- # documentation
- MAKEINFO=makeinfo
- MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
+-qemu-monitor-info.texi: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+-qemu-img-cmds.texi: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+ docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
+ 	@cp -p $< $@
+ 
+diff --git a/Makefile.target b/Makefile.target
+index c5af974..1f19d68 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -210,12 +210,6 @@ endif
+ gdbstub-xml.c: $(TARGET_XML_FILES) $(SRC_PATH)/scripts/feature_to_c.sh
+ 	$(call quiet-command,rm -f $@ && $(SHELL) $(SRC_PATH)/scripts/feature_to_c.sh $@ $(TARGET_XML_FILES),"GEN","$(TARGET_DIR)$@")
+ 
+-hmp-commands.h: $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$(TARGET_DIR)$@")
+-
+-hmp-commands-info.h: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$(TARGET_DIR)$@")
+-
+ clean: clean-target
+ 	rm -f *.a *~ $(PROGS)
+ 	rm -f $(shell find . -name '*.[od]')
 diff --git a/meson.build b/meson.build
-index 6d4bf27..447a32c 100644
+index 447a32c..de5a26e 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -113,6 +113,7 @@ have_block = have_system or have_tools
  
  # Generators
  
-+shaderinclude = find_program('scripts/shaderinclude.pl')
++hxtool = find_program('scripts/hxtool')
+ shaderinclude = find_program('scripts/shaderinclude.pl')
  qapi_gen = find_program('scripts/qapi-gen.py')
  qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/events.py',
-                      meson.source_root() / 'scripts/qapi/introspect.py',
-diff --git a/ui/meson.build b/ui/meson.build
-index cad9763..8157754 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -32,3 +32,5 @@ foreach e : keymaps
-                           '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
-                           'code-map', '@INPUT0@', e[0], e[1]])
- endforeach
-+
-+subdir('shader')
-diff --git a/ui/shader/meson.build b/ui/shader/meson.build
-new file mode 100644
-index 0000000..26c7a18
---- /dev/null
-+++ b/ui/shader/meson.build
-@@ -0,0 +1,15 @@
-+shaders = [
-+  ['texture-blit', 'frag'],
-+  ['texture-blit', 'vert'],
-+  ['texture-blit-flip', 'vert'],
+@@ -123,6 +124,40 @@ qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/events.py',
+                      meson.source_root() / 'scripts/qapi/doc.py',
+                      meson.source_root() / 'scripts/qapi-gen.py' ]
+ 
++hxdep = []
++hx_headers = [
++  ['qemu-options.hx', 'qemu-options.def'],
++  ['qemu-img-cmds.hx', 'qemu-img-cmds.h'],
 +]
-+
-+foreach e : shaders
-+  output = '@0@-@1@.h'.format(e[0], e[1])
-+  custom_target(output,
-+                output: output,
++if have_system
++  hx_headers += [
++    ['hmp-commands.hx', 'hmp-commands.h'],
++    ['hmp-commands-info.hx', 'hmp-commands-info.h'],
++  ]
++endif
++foreach d : hx_headers
++  custom_target(d[1],
++                input: files(d[0]),
++                output: d[1],
 +                capture: true,
 +                build_by_default: true, # to be removed when added to a target
-+                input: files('@0@.@1@'.format(e[0], e[1])),
-+                command: [shaderinclude, '@INPUT0@'])
++                command: [hxtool, '-h', '@INPUT0@'])
 +endforeach
++
++foreach d : [
++  ['qemu-options.hx', 'qemu-options.texi'],
++  ['hmp-commands.hx', 'qemu-monitor.texi'],
++  ['hmp-commands-info.hx', 'qemu-monitor-info.texi'],
++  ['qemu-img-cmds.hx', 'qemu-img-cmds.texi'],
++]
++  custom_target(d[1],
++                input: files(d[0]),
++                output: d[1],
++                capture: true,
++                build_by_default: true, # to be removed when added to a target
++                command: [hxtool, '-t', '@INPUT0@'])
++endforeach
++
+ # Collect sourcesets.
+ 
+ util_ss = ss.source_set()
+diff --git a/scripts/hxtool b/scripts/hxtool
+old mode 100644
+new mode 100755
+index 7d7c428..27cbab5
+--- a/scripts/hxtool
++++ b/scripts/hxtool
+@@ -64,6 +64,6 @@ case "$1" in
+ "-h") hxtoh ;;
+ "-t") hxtotexi ;;
+ *) exit 1 ;;
+-esac
++esac < "$2"
+ 
+ exit 0
 -- 
 1.8.3.1
 
