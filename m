@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16C911CE5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:33:23 +0100 (CET)
-Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDC411CE77
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:37:02 +0100 (CET)
+Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOao-00025E-E5
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:33:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36224)
+	id 1ifOeL-0007Ar-1s
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:37:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36390)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyZ-0003px-Ez
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:52 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNya-0003rI-6G
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyY-0007B5-9z
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:51 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39592)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyZ-0007Cs-4P
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:52 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40438)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyY-00079M-1X
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:50 -0500
-Received: by mail-wr1-x435.google.com with SMTP id y11so2613952wrt.6
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:49 -0800 (PST)
+ id 1ifNyY-0007BE-Tn
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:51 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id c14so2607694wrn.7
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I4kIdx5/B7vhPeGSC/yHPjfKMOrsksBPLKlOIGo7xQE=;
- b=Kx7Duzrw63cyTVzGjM9zxolW3DSi15Yg8QS5yAzeOK3kdbFZrgwfjIuAQVrL1/uhbU
- fP6OmUUIOUB9RGa8KwjMn4ErQZlyrTK1h7sjeTJ1rOYExDhtik7/8jloeHm6lh9inSjr
- 0CeGoF0mHqwBDJnSRGhqdEe3+XacgWAK+g7J5exKRmzRsJju0kFFxbB8uTbFIwZbh4BD
- NkCD9HBWGxI7wAacKt6tp7dIPSDdv5jGXtpeVB70T82QRjHyJPGg2ET5aFcU+sxroMdV
- A0kYKBE2T7ech3VHwZOLroI6+SpWnaRr1tDZD1wb5+ehzHneg/eGEyoatw4nPnjgN550
- UjCA==
+ bh=YBMtW7/slCFp25JbxpbTiSSPBB6bO91AS1uGQxrTq6o=;
+ b=sRbLtdcohVktZDlC8bzgVvCOoBdiq7J74UytyJTT7QlzCuIA+4lKU3RnJUzEHNH4NS
+ D++iKB7idrW9magoQRpKMQGfYoMvIXCVVNo6R0FL8eGAGYT65OH0lk0/08i5pJt+uuiZ
+ YUm/tbwg88rGZVLJQMclVstop6cBuW7JH5q9JlaJkxd7QGdu1Z+OnAJT5xynuMiFkv/v
+ Qme5IMgwihSjlRW599rto5J7bvSAax+TEkxYQWerxw50/whv7609gP0mxkI5SdHonohj
+ t6lsvmiIQeTqsb2oK97Ug3z6YCXKdb5lApSKABTPGZZq9youonx0kJXzteICyW32n/BZ
+ DCLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=I4kIdx5/B7vhPeGSC/yHPjfKMOrsksBPLKlOIGo7xQE=;
- b=kr4YqYHaJDW9w455+ZOZDvekcUUadCqXJEpHjmGEdh+0FsfEofpqfGftfnMO9YY/sR
- DGZGZEpL7wRkYTrkUMMTDU/xyYVIsFSnRIPxrBQvK8hcZEelH8H78Vl/OdijJIFFCXsG
- n1RFJRu6+vU1GntE/HePmJtP6ZrK3VF4o49l5I0gD37PY91RfQK7GVZecim13+k9O5OZ
- gzqBmgJCLkS3OkQjplPBeiLEDnUK5x50TVVqNMQUGyykdBcZTxgL+EgjLZLxFmqkITbl
- gI4621TPl8SquYdOc1LZy6FcL8LW3PHbTsIc9Qx/tkGkUh43Nqix7hBqh4cjH6C0oSAi
- RksQ==
-X-Gm-Message-State: APjAAAVK7trojTZbeqtD/YLsuiyd0MNkdE221imj6MmhtvGJed5cCzhA
- 6SOlQSrh5+pQpqDld/21eA1DXta5
-X-Google-Smtp-Source: APXvYqzujCYIz6pWqghF8eZxljM2HM9TFDW4pY74V+ZQ4IMg59TP7AokTf4Xc4mRKQkz1VMcxSbfDg==
-X-Received: by 2002:adf:f802:: with SMTP id s2mr6204146wrp.201.1576155228887; 
- Thu, 12 Dec 2019 04:53:48 -0800 (PST)
+ bh=YBMtW7/slCFp25JbxpbTiSSPBB6bO91AS1uGQxrTq6o=;
+ b=FFA/IoX0G2MthOkf8O9KAiyfXwZmsBgMJS4uHEEJMY7LYJ2GpQw/OA2tq6D41UUuvb
+ UDTNbtkew9fT9PtDsDRgs45/t/fR68bMxJzlw9RwTM7hYp0WdNVMbKkX1ywJ2Kf/sPVG
+ sFd7htRXyMGyiNpjTDtCr3ScGw+aAtaUnPb8wZLVvuhPqYV3ZAS56UpigwhmwKId5YKW
+ 63eEplq6gL7fGp0Zl9SB51GTOVklEs7BhvlL09MtG161+Si+HFDfnTWfL0Ncv8mjrf0h
+ bNixGNXkE7/8PbyIzMO8CP8dAWm0LoiERy5x6Z0vlCg0myPJCU/1U+utiayyAfaOknWy
+ cS2w==
+X-Gm-Message-State: APjAAAV6hbQ1q9rqzLTzzsEqOn28+HQmc1lAcrsj+Yo2WKJ8rwcN3Fmi
+ oBW32OeDmU6gLAX9OXFZjO1kzlBC
+X-Google-Smtp-Source: APXvYqw5xypLEGV3TVhCj8N0rTEZbwggGr+/p64I3ER0d3FHMlY7yIZT2oLIA0wMNdx6PJCbss/+0w==
+X-Received: by 2002:adf:d848:: with SMTP id k8mr5982149wrl.328.1576155229697; 
+ Thu, 12 Dec 2019 04:53:49 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.47
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:48 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:49 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 051/132] meson: convert qom/
-Date: Thu, 12 Dec 2019 13:51:35 +0100
-Message-Id: <1576155176-2464-52-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 052/132] meson: convert block/
+Date: Thu, 12 Dec 2019 13:51:36 +0100
+Message-Id: <1576155176-2464-53-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,44 +86,44 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.objs     | 1 -
- qom/Makefile.objs | 1 -
- qom/meson.build   | 5 +++++
- 3 files changed, 5 insertions(+), 2 deletions(-)
- delete mode 100644 qom/Makefile.objs
+ Makefile.objs       | 3 +--
+ block/Makefile.objs | 1 -
+ block/meson.build   | 2 ++
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ delete mode 100644 block/Makefile.objs
 
 diff --git a/Makefile.objs b/Makefile.objs
-index e9ae889..0bc9167 100644
+index 0bc9167..4c7ae48 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -71,7 +71,6 @@ endif
- # Target-independent parts used in system and user emulation
+@@ -35,8 +35,7 @@ qom-obj-y = qom/libqom.fa
+ # single QEMU executable should support all CPUs and machines.
  
- common-obj-y += hw/
--common-obj-y += qom/
- common-obj-y += disas/
- 
- ######################################################################
-diff --git a/qom/Makefile.objs b/qom/Makefile.objs
+ ifeq ($(CONFIG_SOFTMMU),y)
+-common-obj-y = block/
+-common-obj-y += dump/
++common-obj-y = dump/
+ common-obj-y += monitor/
+ common-obj-y += net/
+ common-obj-$(CONFIG_LINUX) += fsdev/
+diff --git a/block/Makefile.objs b/block/Makefile.objs
 deleted file mode 100644
-index fc1248e..0000000
---- a/qom/Makefile.objs
+index 83e87b3..0000000
+--- a/block/Makefile.objs
 +++ /dev/null
 @@ -1 +0,0 @@
--common-obj-$(CONFIG_SOFTMMU) += qom-hmp-cmds.o qom-qmp-cmds.o
-diff --git a/qom/meson.build b/qom/meson.build
-index 4af044d..3875663 100644
---- a/qom/meson.build
-+++ b/qom/meson.build
-@@ -13,3 +13,8 @@ libqom = static_library('qom', qom_ss.sources(),
-                         name_suffix: 'fa')
+-common-obj-y += stream.o
+diff --git a/block/meson.build b/block/meson.build
+index a68689b..ca62992 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -98,4 +98,6 @@ module_block_h = custom_target('module_block.h',
+                                command: [module_block_py, '@OUTPUT0@', modsrc])
+ block_ss.add(module_block_h)
  
- qom = declare_dependency(link_whole: libqom)
++softmmu_ss.add(files('stream.c'))
 +
-+softmmu_ss.add(files(
-+  'qom-hmp-cmds.c',
-+  'qom-qmp-cmds.c',
-+))
+ modules += {'block': block_modules}
 -- 
 1.8.3.1
 
