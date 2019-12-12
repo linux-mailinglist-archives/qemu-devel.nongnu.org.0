@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F090311D7AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 21:06:16 +0100 (CET)
-Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD21C11D7A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 21:04:25 +0100 (CET)
+Received: from localhost ([::1]:36822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifUj1-0001O9-VG
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 15:06:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47499)
+	id 1ifUhE-0007ey-Gi
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 15:04:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ifUel-0005xA-NF
+ (envelope-from <laurent@vivier.eu>) id 1ifUel-0005x8-MN
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:01:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ifUej-0004Bv-Ov
+ (envelope-from <laurent@vivier.eu>) id 1ifUej-0004Br-Os
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:01:51 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:34499)
+Received: from mout.kundenserver.de ([212.227.17.13]:40711)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1ifUeh-00044k-Rr
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1ifUeh-00044p-RP
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:01:49 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MGygv-1iS2WJ1A8Z-00E8g0; Thu, 12 Dec 2019 21:01:44 +0100
+ id 1MwxNF-1hm89L2hHX-00yMRo; Thu, 12 Dec 2019 21:01:44 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] q800: update machine emulation
-Date: Thu, 12 Dec 2019 21:01:39 +0100
-Message-Id: <20191212200142.15688-1-laurent@vivier.eu>
+Subject: [PATCH 1/3] q800: fix ESCC base
+Date: Thu, 12 Dec 2019 21:01:40 +0100
+Message-Id: <20191212200142.15688-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191212200142.15688-1-laurent@vivier.eu>
+References: <20191212200142.15688-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KKWhmer8d7YysWnvYm2l2eaUZJpPEg8HKLpIkPl3jWyg0/Fsxka
- PGIMGpGJyhO1c/luITUzOjt5dlFGhujyz2IIMwMVVG8rV0GkXne93U+oseiWYQ5wadyM80r
- MX/N9b913st6cA/QvsvPaFLOVVOS+IBc+uokDm76bY9VvsKqoFxnCJCkMXO37EO5Bm0lPQX
- i6fu/hqyBS6eUUwlh66RQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Me2BmnkaOw8=:Ii3C3VX4CL7fwLp9BBqOZB
- pLBlNyS2WKpKTDngFmEEqEJkC8x/pLH16cBhkNG/W3Oqg1JMMOJBqjbLmTPg+MlZuww7k2Nm5
- mOPoNWWaasd3KkrCXoKvNKUOxiPV7hhJwatLzi3r3YE7AlPN+f143HmzsJc5R1BKg8eji6idv
- 6KWLVDllmSpscKUaYkEpg/YT4UN9jqhMJ726XFmSnKh35glo7Gh6yVA+hQZa1hTXqx+dliYoY
- D94PqMdBdqbt/d5cARrwf2NNeS0xFv3C94y7qUJPQbpNbQejxhb9y34Ab4n7T4s/lv1HLMTbF
- K0G/R2hC6DOhB2wHXVEtVtsCl93cOti4ncNZl3IGU55gNOeKtYeKcfb6lpligb8kmhBLFbpKn
- IskTJRbG+dB77bEagwhfTXvsbzqe+aq721gOTBKyUGNHYdKXWU9exTstr+NL0SXfNPh/yfmYV
- ahuuRaESoHtDPoqXhx/CcbU5jE0SDLQZbia/b1DNXPmARHN5hYDoEqL8UlWwGM0D4JGL8vSqp
- cgUVS5ROm62ynlG069AcADNoENPD6GiwUlwthAibMRqqMzm3bTKV0LeKMXndUDyZl6CYTAViS
- 68qhRfsjmA+HDaLRKHnppeccCZKKzRAw640yWL8W/DhLoOk5c8MxmEGigXc8wBkvxX7ciw22R
- TEZh1eB03l1xvQkC9c71zYcdqoMHO6HGbuuhGMmUeEVsjNKcK3inSEcwPVJHow33LESCCAl59
- Xyk7mEJhZ7P02pgdwsj/KHLeaw6Uulzmphs6zjG+UZ4DnwVjQpSJm4OMCZY2nYPo3MBbK0hvM
- ZTRX23TDXamX/T9mFxpA2HDdv5RTxrK0cNP8n8p0vmzOo0AnKOhogjrb1bmowDitORcsSyVqX
- HY+wCnnwAnDb0N1toBXw==
+X-Provags-ID: V03:K1:KwNe+eUQl1Ww4Y0vvfXrqZjcejk0ju1XGmCAc2nJz1TxqZBDdej
+ kExVBOPe/LBQVy//d681qJLph6cM6WcCz7Z6I39PlvxAu+unV8C77ERhhHvn8ArgR663z2G
+ UjKwvJn991dER5x2ILqCZnJpZL+k6neK/Gsm5Nf7PY7ggUKZXJaQM2AA0HTU9zXcwt8g472
+ vy6HbnDCszPYrRdpIY/zA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+lGyNolFVvI=:ZkdVY8BgyL1qxWI3zL6ay8
+ 53aG7ReD2yYXYfAS1qpjMUHATXaF64MmEBC79YvsJGVTJT+zG4QtHIRW6rpRZHHcYMxY3CLlQ
+ QsCEmnaGXiNPCBfzE13FA+LrIwfZrBYq9r0yTlvHhvAtlfKDMXWF19a+Sgj27CIJCUthzZqIL
+ iH2PzeVIDvkekpsS0Lqgjf9kV/iYe4tUgNPvjNKXXUoAw5tgV2935CNFQ3Mas7Y5PVxiswqzp
+ AVQCtXY93Pj6V5/tO4javoJglqMTivzwyk5zRgTq4x/N6/tq2J/Te7pAAxtDvOeu9+AmAsnq7
+ E0NM6O+xqVfrWiFk83IHfFbH60gAagcm05y/Wk0rKdOrB2n2HKB7xN0OceQ62N5gLayGkeRI3
+ fb2mH8KM3bSza3vqby+wyKoT8K+Xbui6JLnuIT5c7uTBiJEfsU86782D1pml7m+4w66FNzjw1
+ yeY2xf4Xr2s+2Wquo7DoWz2xk8kBzqbHiK5nLJnPKesAqFZzPq693bhnIBDoze2XZvyN5rDvB
+ 9zlHng8T1QaQRrLO4G5YfFiE2g52KMekz4Gmyow8M60gruMK2BNx7q4d4rZI8wvk9LLh05lkN
+ GEWbas+hi++MbcutjrvCTW6L+WBaeR7ev0e9l6eccXf4lxbP3mq4d9RBSm6krr111kbWNGgPZ
+ vMA4HE++gbqyiBBQfsxwn4/RjZfxVa9nLViy42nj+5g+JxZfjYhUhYFj+SgUvpct4kESmAxph
+ yZDiehYa8Iwu9IRenmkZmyo90zEYbbfJvohOQElvCUBJ56QxFGCk8DtyfLtbESJolLvo60uXo
+ N4HFL2rCWUueqg/Kpc+EyWZQ0VOa+yyMWGjsngwZH8D2e7GMmdTd41UUVVjfmTeq//51hSn5b
+ zrhqWXuhxBrgTuQcImDg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.75
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,35 +69,28 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the way to run a MacOS ROM we need a more accurate
-emulation of the Quadra 800.
+0xc020 is for Q900/Q950, Q800 uses 0xc000.
+This value was provided to the kernel, this explains why it was working
+even with wrong value
 
-This series fixes the ESCC base address that was wrong but
-as the linux kernel uses the one provided by the bootloader
-(in our case QEMU) it was not a problem. This value
-is hardcoded in the ROM, so QEMU must use the good one.
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/m68k/q800.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The two other patches update the description of the machine
-by introducing the djMEMC memory controller and the machine id
-register.
-
-Laurent Vivier (3):
-  q800: fix ESCC base
-  q800: add djMEMC memory controller
-  q800: add machine id register
-
- MAINTAINERS              |   2 +
- hw/m68k/Kconfig          |   1 +
- hw/m68k/q800.c           |  85 +++++++++----------
- hw/misc/Kconfig          |   3 +
- hw/misc/Makefile.objs    |   1 +
- hw/misc/djmemc.c         | 176 +++++++++++++++++++++++++++++++++++++++
- hw/misc/trace-events     |   4 +
- include/hw/misc/djmemc.h |  34 ++++++++
- 8 files changed, 260 insertions(+), 46 deletions(-)
- create mode 100644 hw/misc/djmemc.c
- create mode 100644 include/hw/misc/djmemc.h
-
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 4ca8678007..ef0014f4c4 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -67,7 +67,7 @@
+ #define VIA_BASE              (IO_BASE + 0x00000)
+ #define SONIC_PROM_BASE       (IO_BASE + 0x08000)
+ #define SONIC_BASE            (IO_BASE + 0x0a000)
+-#define SCC_BASE              (IO_BASE + 0x0c020)
++#define SCC_BASE              (IO_BASE + 0x0c000)
+ #define ESP_BASE              (IO_BASE + 0x10000)
+ #define ESP_PDMA              (IO_BASE + 0x10100)
+ #define ASC_BASE              (IO_BASE + 0x14000)
 -- 
 2.23.0
 
