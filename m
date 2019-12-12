@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6601B11C4E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 05:21:11 +0100 (CET)
-Received: from localhost ([::1]:54238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B21011C4C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 05:15:41 +0100 (CET)
+Received: from localhost ([::1]:54120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifFyQ-0000kJ-Gh
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 23:21:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50657)
+	id 1ifFt5-0002Zg-6D
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 23:15:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ifFf9-00015B-SX
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:16 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ifFfB-00016n-Ad
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ifFf8-0004UN-IN
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:15 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:34018)
+ (envelope-from <richard.henderson@linaro.org>) id 1ifFfA-0004XO-04
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:17 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42167)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ifFf8-0004SH-BV
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:14 -0500
-Received: by mail-pl1-x641.google.com with SMTP id x17so11569pln.1
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 20:01:14 -0800 (PST)
+ id 1ifFf9-0004Vw-QA
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:15 -0500
+Received: by mail-pl1-x642.google.com with SMTP id x13so443510plr.9
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 20:01:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LUeojZYde3/VPw2CxoZItM1wJDRbu9EUvabmt44460c=;
- b=eiblINp2VMI3MQxaYSnI2FBOhKZFOnvn+VkzoxYpz/Nl4SlibWU3HBih2G6tNva4Vf
- wRC2BkJXqBCPOKMRgWC1AU+MevuT9+cgTDHdzYHR5bM4YhwUnwlCxLeLD+JH4Rvj6BSd
- cCJV2NbVOBkdpCFQt+TvPNdTb02JmP2d4XhToaBfjsJeiaBiMChwFQ18dx/etimCPs1B
- dwnDuGrnthmSAn61PpUuV9xb4rqUOn0BG/MqXezipE1GkBic7+7gzVcWX/LI+1cf2/9I
- qykamI4WQmVbMdMMRXsGjOPdX0gYyfpkurhtelbL0x3I5Gna23Peusrur1+6xG3i4DXY
- pZ5w==
+ bh=JWpl4dTJywBw8dk4WBNibniYDIKR8WNVBGRxmrDjrqI=;
+ b=lKAF37rDeJwPJJzCVjRsrmVOwoq2hL4644wwI/qCwCYqryAMD88LiuofJSjSc2wbx1
+ L+ali8Cl+rvvOXZDCOdY2yqCQwz01B6uLU6X3f2//gZhf/ndHjU4zyBjcCkiPiNkrz4C
+ i6SgCednOhD+cK05Y/08UsbAHvzN7FqQGmwnI64I23E7UxI7Px7nBzW5CeaqKa6LN0+K
+ mLIRH31VOO4pc+BYw5g9MK0XRljkZ/O/cj2IEFwtsA+DLZe7whzvtL6Bcz5XQDifTcM9
+ PPiGZyV6to7o1o0M6x1wOgJLrlX9CTq+sbkGn2uidWNJUzHHBs/vjMTfaWgPwMOrlbxv
+ tJHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LUeojZYde3/VPw2CxoZItM1wJDRbu9EUvabmt44460c=;
- b=CUWXKQXV75DBpg0eTSgBddlZ4adagNfuIUtftoPcwu44RuBcWMiFtHl8fHwX/kUh4J
- STafwuJQ8praJWJ9XkEW4B7ZOe7gTFhzKCOj5ygp1LdcNfQAnAZd4m0FdsX4t9x1ak58
- uhPvt1G5EOZedc7bGPQmUiurgLIAac3JvQZ3s5e+KgPTqU8oCRsQlfHJgUUAeCme/cWq
- 8OWjpPPGO6JP6rmyoay0dj2RRNMkjWvTac0lu/ELklSklvsZcrbGvBQHyMMbb85AHney
- AKZ5pQwn54JnPbjH8O4HWz+TwRxu1AtUtyaMVEJBa4ULQnDAdE+anqsbc12w4HfweDwV
- +yFg==
-X-Gm-Message-State: APjAAAUHizsT2TzPITBx8UdsIEiGU185/mAQzW+YfFJ7PedMyUuHMflT
- k0zKRKS2gvvL82ckR7HF/BfZVG0kayg=
-X-Google-Smtp-Source: APXvYqyCITezLurnr52VrmWBIDqt6GRIzS1WHSZ0sA87c0nqV1ATXrsMOjg2zFTLYacOnWqPt7oDpw==
-X-Received: by 2002:a17:902:8608:: with SMTP id
- f8mr7383736plo.106.1576123273028; 
- Wed, 11 Dec 2019 20:01:13 -0800 (PST)
+ bh=JWpl4dTJywBw8dk4WBNibniYDIKR8WNVBGRxmrDjrqI=;
+ b=SRxpjtnjuW7+HliNEKHPNL83zFLEQ1a8DHJeW+hgAr0MoDOWiQnhUx+p/lQvg7AiR0
+ m1geQY7WpZM6xtxyyO3exiTwqiX6+7NcBb7nn/qJtphDWwDKQrfS1xCAPTcdg0ctbnjj
+ 6wVZLrzn4JawNeQ4zA6A4Vg/UlIQz1cRg9djGmFwjuppPKtVgTgnYzIT35K7KOPvrFLA
+ oNgIkCzZMeaKSvMmkNNf5srrer6wir3bu1hqhzFXO+pCIy4nQnrv5bxuqbUX66t60RBV
+ traPPSh7KCaBI3uZ11CtXqmcRp4DYX4qz8EANUgSobEbfcrgIRHdZhIZbuOeD7N8iXCy
+ dkfw==
+X-Gm-Message-State: APjAAAVm6hLQzw/h6FOcna6+zkQtn6IFt1OPSGcU4WdNhv9E9nh5bQCJ
+ JYKMk8FnABwmYQFADAevzHEVH5ZQzc8=
+X-Google-Smtp-Source: APXvYqx80jEZM4tYvc2SvKg0t14l04dBqVCLsJrpRibL1qYFzamtq4K8QgFGXU2NbpOf5BCUnEkyWA==
+X-Received: by 2002:a17:90b:8cf:: with SMTP id
+ ds15mr7663891pjb.134.1576123274493; 
+ Wed, 11 Dec 2019 20:01:14 -0800 (PST)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id z130sm4666391pgz.6.2019.12.11.20.01.12
+ by smtp.gmail.com with ESMTPSA id z130sm4666391pgz.6.2019.12.11.20.01.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2019 20:01:12 -0800 (PST)
+ Wed, 11 Dec 2019 20:01:13 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/28] target/s390x: Use cpu_*_mmuidx_ra instead of
+Subject: [PATCH 26/28] target/ppc: Use cpu_*_mmuidx_ra instead of
  MMU_MODE*_SUFFIX
-Date: Wed, 11 Dec 2019 20:00:36 -0800
-Message-Id: <20191212040039.26546-26-richard.henderson@linaro.org>
+Date: Wed, 11 Dec 2019 20:00:37 -0800
+Message-Id: <20191212040039.26546-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191212040039.26546-1-richard.henderson@linaro.org>
 References: <20191212040039.26546-1-richard.henderson@linaro.org>
@@ -68,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,53 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generated functions aside from *_real are unused.
-The *_real functions have a couple of users in mem_helper.c;
-use *_mmuidx_ra instead, with MMU_REAL_IDX.
+There are only two uses.  Within dcbz_common, the local variable
+mmu_idx already contains the epid computation, and we can avoid
+repeating it for the store.  Within helper_icbiep, the usage is
+trivially expanded using PPC_TLB_EPID_LOAD.
 
-Cc: David Hildenbrand <david@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/cpu.h        | 5 -----
- target/s390x/mem_helper.c | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ target/ppc/cpu.h        |  2 --
+ target/ppc/mem_helper.c | 11 ++---------
+ 2 files changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 17460ed7b3..2670728e8a 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -36,11 +36,6 @@
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index e3e82327b7..3bd983adaa 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -951,8 +951,6 @@ struct ppc_radix_page_info {
+  * + real/paged mode combinations. The other two modes are for
+  * external PID load/store.
+  */
+-#define MMU_MODE8_SUFFIX _epl
+-#define MMU_MODE9_SUFFIX _eps
+ #define PPC_TLB_EPID_LOAD 8
+ #define PPC_TLB_EPID_STORE 9
  
- #define TARGET_INSN_START_EXTRA_WORDS 2
- 
--#define MMU_MODE0_SUFFIX _primary
--#define MMU_MODE1_SUFFIX _secondary
--#define MMU_MODE2_SUFFIX _home
--#define MMU_MODE3_SUFFIX _real
--
- #define MMU_USER_IDX 0
- 
- #define S390_MAX_CPUS 248
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 57ce17c252..d379be8418 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -43,6 +43,11 @@
- #define HELPER_LOG(x...)
+diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
+index 1351b53f28..56855f2381 100644
+--- a/target/ppc/mem_helper.c
++++ b/target/ppc/mem_helper.c
+@@ -177,14 +177,7 @@ static void dcbz_common(CPUPPCState *env, target_ulong addr,
+     } else {
+         /* Slow path */
+         for (i = 0; i < dcbz_size; i += 8) {
+-            if (epid) {
+-#if !defined(CONFIG_USER_ONLY)
+-                /* Does not make sense on USER_ONLY config */
+-                cpu_stq_eps_ra(env, addr + i, 0, retaddr);
+-#endif
+-            } else {
+-                cpu_stq_data_ra(env, addr + i, 0, retaddr);
+-            }
++            cpu_stq_mmuidx_ra(env, addr + i, 0, mmu_idx, retaddr);
+         }
+     }
+ }
+@@ -216,7 +209,7 @@ void helper_icbiep(CPUPPCState *env, target_ulong addr)
+ #if !defined(CONFIG_USER_ONLY)
+     /* See comments above */
+     addr &= ~(env->dcache_line_size - 1);
+-    cpu_ldl_epl_ra(env, addr, GETPC());
++    cpu_ldl_mmuidx_ra(env, addr, PPC_TLB_EPID_LOAD, GETPC());
  #endif
+ }
  
-+#define cpu_ldl_real_ra(e, p, r)    cpu_ldl_mmuidx_ra(e, p, MMU_REAL_IDX, r)
-+#define cpu_ldq_real_ra(e, p, r)    cpu_ldq_mmuidx_ra(e, p, MMU_REAL_IDX, r)
-+#define cpu_stl_real_ra(e, p, v, r) cpu_stl_mmuidx_ra(e, p, v, MMU_REAL_IDX, r)
-+#define cpu_stq_real_ra(e, p, v, r) cpu_stq_mmuidx_ra(e, p, v, MMU_REAL_IDX, r)
-+
- static inline bool psw_key_valid(CPUS390XState *env, uint8_t psw_key)
- {
-     uint16_t pkm = env->cregs[3] >> 16;
 -- 
 2.20.1
 
