@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A8011D957
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 23:29:37 +0100 (CET)
-Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DC911D952
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 23:27:03 +0100 (CET)
+Received: from localhost ([::1]:37905 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifWxk-0006SG-At
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 17:29:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55443)
+	id 1ifWvG-0003xU-O2
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 17:27:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55411)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ifWpK-0005eD-1O
+ (envelope-from <quintela@redhat.com>) id 1ifWpJ-0005dr-OG
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:20:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ifWpI-0007Mo-Og
+ (envelope-from <quintela@redhat.com>) id 1ifWpI-0007MD-HB
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:20:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32300
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32731
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ifWpI-0007LS-Kh
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ifWpI-0007LB-CI
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:20:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576189252;
+ s=mimecast20190719; t=1576189251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0w7WovLcGiIOEr3DtPfw0C/dgLJ5qTeFwH1j1g+SVgU=;
- b=gmM6w/rbBvcRY5tOwCFSnVqEM6dDJjAK+L8aRwY6n/dzALSMD/LUaNuSARMVq02HrQ+g37
- R3czJ1o8ZDMufSonMnGlXd+q+yjPtbq3WCJtrKsl85y3LDwU4KjPDHAXRU9dHs+EpB1NOp
- I+nBLqv5vdgikwGAOLDa6txAkJYFWsU=
+ bh=O6/0Q3j2l+4PNvSN8GNivdWEfANnGpdF14b3fgeO7Io=;
+ b=RV2EP3VNSmt/9HopcPAFdNhVYmF9OWmVJOtwwNS4Gi673fr8Y18Ze4pIi+OIFMWtdNYP81
+ aRlnXBy4/v/EjQc7f5YmIFS8hP5p13NNSZE9zpsg+cbr/Mdg0xTtccQnE3iKqv1sXA7pA7
+ VnpxR1Uy3KszmyuA5WTqoeX3VpPoFQY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-w9utus2qMj2GzvGhVxFQ7Q-1; Thu, 12 Dec 2019 17:20:48 -0500
+ us-mta-98-pjC52Ux4OyyZT5SnLLEhBw-1; Thu, 12 Dec 2019 17:20:50 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5BD11854CE0
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 22:20:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2E57800053
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 22:20:49 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-25.ams2.redhat.com [10.36.116.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B3E310013A1;
- Thu, 12 Dec 2019 22:20:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4686910013A1;
+ Thu, 12 Dec 2019 22:20:48 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/10] migration-test: Move -name handling to common
+Subject: [PATCH 07/10] migration-test: Move -serial handling to common
  commandline
-Date: Thu, 12 Dec 2019 23:20:29 +0100
-Message-Id: <20191212222033.1026-7-quintela@redhat.com>
+Date: Thu, 12 Dec 2019 23:20:30 +0100
+Message-Id: <20191212222033.1026-8-quintela@redhat.com>
 In-Reply-To: <20191212222033.1026-1-quintela@redhat.com>
 References: <20191212222033.1026-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: w9utus2qMj2GzvGhVxFQ7Q-1
+X-MC-Unique: pjC52Ux4OyyZT5SnLLEhBw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,100 +79,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- tests/migration-test.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ tests/migration-test.c | 41 ++++++++++++++++-------------------------
+ 1 file changed, 16 insertions(+), 25 deletions(-)
 
 diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 85c98f0f9c..a83e43b7b6 100644
+index a83e43b7b6..85e270ca39 100644
 --- a/tests/migration-test.c
 +++ b/tests/migration-test.c
-@@ -579,12 +579,10 @@ static int test_migrate_start(QTestState **from, QTes=
+@@ -579,13 +579,10 @@ static int test_migrate_start(QTestState **from, QTes=
 tState **to,
          machine_type =3D "";
          machine_args =3D "";
          memory_size =3D "150M";
--        cmd_src =3D g_strdup_printf(" -name source,debug-threads=3Don"
--                                  " -serial file:%s/src_serial"
-+        cmd_src =3D g_strdup_printf(" -serial file:%s/src_serial"
-                                   " -drive file=3D%s,format=3Draw",
-                                   tmpfs, bootpath);
--        cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
--                                  " -serial file:%s/dest_serial"
-+        cmd_dst =3D g_strdup_printf(" -serial file:%s/dest_serial"
-                                   " -drive file=3D%s,format=3Draw"
+-        cmd_src =3D g_strdup_printf(" -serial file:%s/src_serial"
+-                                  " -drive file=3D%s,format=3Draw",
+-                                  tmpfs, bootpath);
+-        cmd_dst =3D g_strdup_printf(" -serial file:%s/dest_serial"
+-                                  " -drive file=3D%s,format=3Draw"
++        cmd_src =3D g_strdup_printf("-drive file=3D%s,format=3Draw", bootp=
+ath);
++        cmd_dst =3D g_strdup_printf("-drive file=3D%s,format=3Draw"
                                    " -incoming %s",
-                                   tmpfs, bootpath, uri);
-@@ -595,11 +593,9 @@ static int test_migrate_start(QTestState **from, QTest=
-State **to,
+-                                  tmpfs, bootpath, uri);
++                                  bootpath, uri);
+         start_address =3D X86_TEST_MEM_START;
+         end_address =3D X86_TEST_MEM_END;
+     } else if (g_str_equal(arch, "s390x")) {
+@@ -593,28 +590,22 @@ static int test_migrate_start(QTestState **from, QTes=
+tState **to,
          machine_type =3D "";
          machine_args =3D "";
          memory_size =3D "128M";
--        cmd_src =3D g_strdup_printf(" -name source,debug-threads=3Don"
--                                  " -serial file:%s/src_serial -bios %s",
-+        cmd_src =3D g_strdup_printf(" -serial file:%s/src_serial -bios %s"=
+-        cmd_src =3D g_strdup_printf(" -serial file:%s/src_serial -bios %s"=
 ,
-                                   tmpfs, bootpath);
--        cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
--                                  " -serial file:%s/dest_serial -bios %s"
-+        cmd_dst =3D g_strdup_printf(" -serial file:%s/dest_serial -bios %s=
+-                                  tmpfs, bootpath);
+-        cmd_dst =3D g_strdup_printf(" -serial file:%s/dest_serial -bios %s=
 "
++        cmd_src =3D g_strdup_printf("-bios %s", bootpath);
++        cmd_dst =3D g_strdup_printf("-bios %s"
                                    " -incoming %s",
-                                   tmpfs, bootpath, uri);
+-                                  tmpfs, bootpath, uri);
++                                  bootpath, uri);
          start_address =3D S390_TEST_MEM_START;
-@@ -609,15 +605,13 @@ static int test_migrate_start(QTestState **from, QTes=
-tState **to,
+         end_address =3D S390_TEST_MEM_END;
+     } else if (strcmp(arch, "ppc64") =3D=3D 0) {
+         machine_type =3D "";
          machine_args =3D ",vsmt=3D8";
          memory_size =3D "256M";
-         cmd_src =3D g_strdup_printf("-nodefaults"
--                                  " -name source,debug-threads=3Don"
-                                   " -serial file:%s/src_serial"
-                                   " -prom-env 'use-nvramrc?=3Dtrue' -prom-=
+-        cmd_src =3D g_strdup_printf("-nodefaults"
+-                                  " -serial file:%s/src_serial"
+-                                  " -prom-env 'use-nvramrc?=3Dtrue' -prom-=
 env "
++        cmd_src =3D g_strdup_printf("-nodefaults "
++                                  "-prom-env 'use-nvramrc?=3Dtrue' -prom-e=
+nv "
                                    "'nvramrc=3Dhex .\" _\" begin %x %x "
                                    "do i c@ 1 + i c! 1000 +loop .\" B\" 0 "
-                                   "until'", tmpfs, end_address,
-                                   start_address);
--        cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
--                                  " -serial file:%s/dest_serial"
-+        cmd_dst =3D g_strdup_printf(" -serial file:%s/dest_serial"
-                                   " -incoming %s",
-                                   tmpfs, uri);
-=20
-@@ -628,11 +622,11 @@ static int test_migrate_start(QTestState **from, QTes=
+-                                  "until'", tmpfs, end_address,
+-                                  start_address);
+-        cmd_dst =3D g_strdup_printf(" -serial file:%s/dest_serial"
+-                                  " -incoming %s",
+-                                  tmpfs, uri);
+-
++                                  "until'", end_address, start_address);
++        cmd_dst =3D g_strdup_printf(" -incoming %s", uri);
+         start_address =3D PPC_TEST_MEM_START;
+         end_address =3D PPC_TEST_MEM_END;
+     } else if (strcmp(arch, "aarch64") =3D=3D 0) {
+@@ -623,14 +614,12 @@ static int test_migrate_start(QTestState **from, QTes=
 tState **to,
-         machine_type =3D "virt,";
          machine_args =3D "gic-version=3Dmax";
          memory_size =3D "150M";
--        cmd_src =3D g_strdup_printf("-name vmsource,debug-threads=3Don -cp=
-u max "
-+        cmd_src =3D g_strdup_printf("-cpu max "
-                                   "-serial file:%s/src_serial "
+         cmd_src =3D g_strdup_printf("-cpu max "
+-                                  "-serial file:%s/src_serial "
                                    "-kernel %s",
-                                   tmpfs, bootpath);
--        cmd_dst =3D g_strdup_printf("-name vmdest,debug-threads=3Don -cpu =
-max "
-+        cmd_dst =3D g_strdup_printf("-cpu max "
-                                   "-serial file:%s/dest_serial "
+-                                  tmpfs, bootpath);
++                                  bootpath);
+         cmd_dst =3D g_strdup_printf("-cpu max "
+-                                  "-serial file:%s/dest_serial "
                                    "-kernel %s "
                                    "-incoming %s",
-@@ -666,6 +660,7 @@ static int test_migrate_start(QTestState **from, QTestS=
-tate **to,
-     }
+-                                  tmpfs, bootpath, uri);
++                                  bootpath, uri);
+=20
+         start_address =3D ARM_TEST_MEM_START;
+         end_address =3D ARM_TEST_MEM_END;
+@@ -661,10 +650,11 @@ static int test_migrate_start(QTestState **from, QTes=
+tState **to,
 =20
      cmd_source =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s "
-+                                 "-name source,debug-threads=3Don "
+                                  "-name source,debug-threads=3Don "
++                                 "-serial file:%s/src_serial "
                                   "-m %s "
                                   "%s %s %s %s",
                                   machine_type, machine_args,
-@@ -676,6 +671,7 @@ static int test_migrate_start(QTestState **from, QTestS=
-tate **to,
-     g_free(cmd_source);
-=20
+-                                 memory_size,
++                                 tmpfs, memory_size,
+                                  cmd_src, shmem_opts, opts_src, ignore_std=
+err);
+     g_free(cmd_src);
+     *from =3D qtest_init(cmd_source);
+@@ -673,9 +663,10 @@ static int test_migrate_start(QTestState **from, QTest=
+State **to,
      cmd_target =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s "
-+                                 "-name target,debug-threads=3Don "
+                                  "-name target,debug-threads=3Don "
                                   "-m %s "
++                                 "-serial file:%s/dest_serial "
                                   "%s %s %s %s",
                                   machine_type, machine_args,
+-                                 memory_size,
++                                 tmpfs, memory_size,
+                                  cmd_dst, shmem_opts, opts_dst, ignore_std=
+err);
+     g_free(cmd_dst);
+     *to =3D qtest_init(cmd_target);
 --=20
 2.21.0
 
