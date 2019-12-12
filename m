@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B2211D2DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:56:11 +0100 (CET)
-Received: from localhost ([::1]:34280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BF111D2F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 17:58:41 +0100 (CET)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifRl3-0005HC-V3
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:56:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46825)
+	id 1ifRnT-0000X9-Sf
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 11:58:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVM-0005Qt-6b
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:57 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVN-0005SS-7J
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVK-0001fE-La
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:56 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27502
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVL-0001hM-SN
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:57 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52254
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVK-0001ef-Gb
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:54 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVL-0001ge-O8
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168794;
+ s=mimecast20190719; t=1576168795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZnB7Rhtu4ntwEhgMVuiwoszT6jzVyPSFV1MYjVZdEJE=;
- b=icYow69wLBDIBaz2OvSnLsDTCd+uQSgmWP3jQeFYVC2ZwVExBqQnMNxHKODzXlsbLTQU6i
- LcpeYsabidyD3KlykiS1wV3mNskCgJ/M2bLtYGKjlfUt/YvumoU4R14Df6pQ9GV2F8Ftj7
- AKdfmOryq6N/T0Q3BL12BT5/gF9bFYE=
+ bh=Fq6GL8FwmKdJn/+t2Ee0mLAIuG4GVEQzd1DtocTgicI=;
+ b=bBDY/n5cIORyaHeKDIdTXPmfvYZIK4XXqsx7i2ZEAra4wfpJSk7iYVppeQuaoCturlOelh
+ AooN/tr/ulb6LmdUmuiaBi5HnzaMkgnRsk4vXV7Famsw94bjTf+R91XGWAqiGhFeS9WLkV
+ QKL9Tl8qKmWwo3FzCJHGf2iNhA1BAts=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-gF9R4cWZOMWggXU7Mh5kEQ-1; Thu, 12 Dec 2019 11:39:52 -0500
+ us-mta-221-gqyzUjqXOIiFFnPtWGpIog-1; Thu, 12 Dec 2019 11:39:54 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E04AB801E7A
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F49E1005514
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:53 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 147E060BE1;
- Thu, 12 Dec 2019 16:39:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3685260BE1;
+ Thu, 12 Dec 2019 16:39:52 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 026/104] virtiofsd: Fast path for virtio read
-Date: Thu, 12 Dec 2019 16:37:46 +0000
-Message-Id: <20191212163904.159893-27-dgilbert@redhat.com>
+Subject: [PATCH 027/104] virtiofsd: add --fd=FDNUM fd passing option
+Date: Thu, 12 Dec 2019 16:37:47 +0000
+Message-Id: <20191212163904.159893-28-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: gF9R4cWZOMWggXU7Mh5kEQ-1
+X-MC-Unique: gqyzUjqXOIiFFnPtWGpIog-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -76,225 +76,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Readv the data straight into the guests buffer.
+Although --socket-path=3DPATH is useful for manual invocations, management
+tools typically create the UNIX domain socket themselves and pass it to
+the vhost-user device backend.  This way QEMU can be launched
+immediately with a valid socket.  No waiting for the vhost-user device
+backend is required when fd passing is used.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-With fix by:
-Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c |   5 +
- tools/virtiofsd/fuse_virtio.c   | 159 ++++++++++++++++++++++++++++++++
- tools/virtiofsd/fuse_virtio.h   |   4 +
- 3 files changed, 168 insertions(+)
+ tools/virtiofsd/fuse_i.h        |  1 +
+ tools/virtiofsd/fuse_lowlevel.c | 14 +++++++++---
+ tools/virtiofsd/fuse_virtio.c   | 39 ++++++++++++++++++++++++---------
+ 3 files changed, 41 insertions(+), 13 deletions(-)
 
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 3d9a39cc1a..cb1ca70ffa 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -68,6 +68,7 @@ struct fuse_session {
+     size_t bufsize;
+     int error;
+     char *vu_socket_path;
++    int   vu_listen_fd;
+     int   vu_socketfd;
+     struct fv_VuDev *virtio_dev;
+ };
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
 l.c
-index c2b114cf5b..5f80625652 100644
+index 5f80625652..bea092b454 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -475,6 +475,11 @@ static int fuse_send_data_iov_fallback(struct fuse_ses=
-sion *se,
-         return fuse_send_msg(se, ch, iov, iov_count);
+@@ -2134,6 +2134,7 @@ static const struct fuse_opt fuse_ll_opts[] =3D {
+     LL_OPTION("allow_root", deny_others, 1),
+     LL_OPTION("--socket-path=3D%s", vu_socket_path, 0),
+     LL_OPTION("vhost_user_socket=3D%s", vu_socket_path, 0),
++    LL_OPTION("--fd=3D%d", vu_listen_fd, 0),
+     FUSE_OPT_END
+ };
+=20
+@@ -2154,6 +2155,7 @@ void fuse_lowlevel_help(void)
+         "    -o allow_root              allow access by root\n"
+         "    --socket-path=3DPATH         path for the vhost-user socket\n=
+"
+         "    -o vhost_user_socket=3DPATH  path for the vhost-user socket\n=
+"
++        "    --fd=3DFDNUM                 fd number of vhost-user socket\n=
+"
+         "    -o auto_unmount            auto unmount on process terminatio=
+n\n");
+ }
+=20
+@@ -2198,6 +2200,7 @@ struct fuse_session *fuse_session_new(struct fuse_arg=
+s *args,
+         goto out1;
+     }
+     se->fd =3D -1;
++    se->vu_listen_fd =3D -1;
+     se->conn.max_write =3D UINT_MAX;
+     se->conn.max_readahead =3D UINT_MAX;
+=20
+@@ -2233,8 +2236,13 @@ struct fuse_session *fuse_session_new(struct fuse_ar=
+gs *args,
+         goto out4;
      }
 =20
-+    if (fuse_lowlevel_is_virtio(se) && buf->count =3D=3D 1 &&
-+        buf->buf[0].flags =3D=3D (FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK)) {
-+        return virtio_send_data_iov(se, ch, iov, iov_count, buf, len);
+-    if (!se->vu_socket_path) {
+-        fprintf(stderr, "fuse: missing -o vhost_user_socket option\n");
++    if (!se->vu_socket_path && se->vu_listen_fd < 0) {
++        fuse_log(FUSE_LOG_ERR, "fuse: missing --socket-path or --fd option=
+\n");
++        goto out4;
 +    }
-+
-     abort(); /* Will have taken vhost path */
-     return 0;
++    if (se->vu_socket_path && se->vu_listen_fd >=3D 0) {
++        fuse_log(FUSE_LOG_ERR,
++                 "fuse: --socket-path and --fd cannot be given together\n"=
+);
+         goto out4;
+     }
+=20
+@@ -2274,7 +2282,7 @@ void fuse_session_unmount(struct fuse_session *se)
+=20
+ int fuse_lowlevel_is_virtio(struct fuse_session *se)
+ {
+-    return se->vu_socket_path !=3D NULL;
++    return !!se->virtio_dev;
  }
+=20
+ #ifdef linux
 diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index c33e0f7e8c..146cd3f702 100644
+index 146cd3f702..fa6e53e7d0 100644
 --- a/tools/virtiofsd/fuse_virtio.c
 +++ b/tools/virtiofsd/fuse_virtio.c
-@@ -230,6 +230,165 @@ err:
-     return ret;
+@@ -636,22 +636,21 @@ int virtio_loop(struct fuse_session *se)
+     return 0;
  }
 =20
-+/*
-+ * Callback from fuse_send_data_iov_* when it's virtio and the buffer
-+ * is a single FD with FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK
-+ * We need send the iov and then the buffer.
-+ * Return 0 on success
-+ */
-+int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-+                         struct iovec *iov, int count, struct fuse_bufvec =
-*buf,
-+                         size_t len)
-+{
-+    int ret =3D 0;
-+    VuVirtqElement *elem;
-+    VuVirtq *q;
-+
-+    assert(count >=3D 1);
-+    assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
-+
-+    struct fuse_out_header *out =3D iov[0].iov_base;
-+    /* TODO: Endianness! */
-+
-+    size_t iov_len =3D iov_size(iov, count);
-+    size_t tosend_len =3D iov_len + len;
-+
-+    out->len =3D tosend_len;
-+
-+    fuse_log(FUSE_LOG_DEBUG, "%s: count=3D%d len=3D%zd iov_len=3D%zd\n", _=
-_func__,
-+             count, len, iov_len);
-+
-+    /* unique =3D=3D 0 is notification which we don't support */
-+    assert(out->unique);
-+
-+    /* For virtio we always have ch */
-+    assert(ch);
-+    assert(!ch->qi->reply_sent);
-+    elem =3D ch->qi->qe;
-+    q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
-+
-+    /* The 'in' part of the elem is to qemu */
-+    unsigned int in_num =3D elem->in_num;
-+    struct iovec *in_sg =3D elem->in_sg;
-+    size_t in_len =3D iov_size(in_sg, in_num);
-+    fuse_log(FUSE_LOG_DEBUG, "%s: elem %d: with %d in desc of length %zd\n=
-",
-+             __func__, elem->index, in_num, in_len);
-+
-+    /*
-+     * The elem should have room for a 'fuse_out_header' (out from fuse)
-+     * plus the data based on the len in the header.
-+     */
-+    if (in_len < sizeof(struct fuse_out_header)) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
-+                 __func__, elem->index);
-+        ret =3D -E2BIG;
-+        goto err;
-+    }
-+    if (in_len < tosend_len) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
-+                 __func__, elem->index, tosend_len);
-+        ret =3D -E2BIG;
-+        goto err;
+-int virtio_session_mount(struct fuse_session *se)
++static int fv_create_listen_socket(struct fuse_session *se)
+ {
+     struct sockaddr_un un;
+     mode_t old_umask;
+=20
++    /* Nothing to do if fd is already initialized */
++    if (se->vu_listen_fd >=3D 0) {
++        return 0;
 +    }
 +
-+    /* TODO: Limit to 'len' */
-+
-+    /* First copy the header data from iov->in_sg */
-+    copy_iov(iov, count, in_sg, in_num, iov_len);
-+
-+    /*
-+     * Build a copy of the the in_sg iov so we can skip bits in it,
-+     * including changing the offsets
-+     */
-+    struct iovec *in_sg_cpy =3D calloc(sizeof(struct iovec), in_num);
-+    memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
-+    /* These get updated as we skip */
-+    struct iovec *in_sg_ptr =3D in_sg_cpy;
-+    int in_sg_cpy_count =3D in_num;
-+
-+    /* skip over parts of in_sg that contained the header iov */
-+    size_t skip_size =3D iov_len;
-+
-+    size_t in_sg_left =3D 0;
-+    do {
-+        while (skip_size !=3D 0 && in_sg_cpy_count) {
-+            if (skip_size >=3D in_sg_ptr[0].iov_len) {
-+                skip_size -=3D in_sg_ptr[0].iov_len;
-+                in_sg_ptr++;
-+                in_sg_cpy_count--;
-+            } else {
-+                in_sg_ptr[0].iov_len -=3D skip_size;
-+                in_sg_ptr[0].iov_base +=3D skip_size;
-+                break;
-+            }
-+        }
-+
-+        int i;
-+        for (i =3D 0, in_sg_left =3D 0; i < in_sg_cpy_count; i++) {
-+            in_sg_left +=3D in_sg_ptr[i].iov_len;
-+        }
-+        fuse_log(FUSE_LOG_DEBUG,
-+                 "%s: after skip skip_size=3D%zd in_sg_cpy_count=3D%d "
-+                 "in_sg_left=3D%zd\n",
-+                 __func__, skip_size, in_sg_cpy_count, in_sg_left);
-+        ret =3D preadv(buf->buf[0].fd, in_sg_ptr, in_sg_cpy_count,
-+                     buf->buf[0].pos);
-+
-+        fuse_log(FUSE_LOG_DEBUG, "%s: preadv_res=3D%d(%m) len=3D%zd\n",
-+                 __func__, ret, len);
-+        if (ret =3D=3D -1) {
-+            ret =3D errno;
-+            free(in_sg_cpy);
-+            goto err;
-+        }
-+        if (ret < len && ret) {
-+            fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
-+            /* Skip over this much next time around */
-+            skip_size =3D ret;
-+            buf->buf[0].pos +=3D ret;
-+            len -=3D ret;
-+
-+            /* Lets do another read */
-+            continue;
-+        }
-+        if (!ret) {
-+            /* EOF case? */
-+            fuse_log(FUSE_LOG_DEBUG, "%s: !ret in_sg_left=3D%zd\n", __func=
-__,
-+                     in_sg_left);
-+            break;
-+        }
-+        if (ret !=3D len) {
-+            fuse_log(FUSE_LOG_DEBUG, "%s: ret!=3Dlen\n", __func__);
-+            ret =3D EIO;
-+            free(in_sg_cpy);
-+            goto err;
-+        }
-+        in_sg_left -=3D ret;
-+        len -=3D ret;
-+    } while (in_sg_left);
-+    free(in_sg_cpy);
-+
-+    /* Need to fix out->len on EOF */
-+    if (len) {
-+        struct fuse_out_header *out_sg =3D in_sg[0].iov_base;
-+
-+        tosend_len -=3D len;
-+        out_sg->len =3D tosend_len;
-+    }
-+
-+    ret =3D 0;
-+
-+    vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
-+    vu_queue_notify(&se->virtio_dev->dev, q);
-+
-+err:
-+    if (ret =3D=3D 0) {
-+        ch->qi->reply_sent =3D true;
-+    }
-+
-+    return ret;
+     if (strlen(se->vu_socket_path) >=3D sizeof(un.sun_path)) {
+         fuse_log(FUSE_LOG_ERR, "Socket path too long\n");
+         return -1;
+     }
+=20
+-    /*
+-     * Poison the fuse FD so we spot if we accidentally use it;
+-     * DO NOT check for this value, check for fuse_lowlevel_is_virtio()
+-     */
+-    se->fd =3D 0xdaff0d11;
+-
+     /*
+      * Create the Unix socket to communicate with qemu
+      * based on QEMU's vhost-user-bridge
+@@ -684,15 +683,35 @@ int virtio_session_mount(struct fuse_session *se)
+         return -1;
+     }
+=20
++    se->vu_listen_fd =3D listen_sock;
++    return 0;
 +}
 +
- /* Thread function for individual queues, created when a queue is 'started=
-' */
- static void *fv_queue_thread(void *opaque)
- {
-diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
-index 135a14875a..cc676b9193 100644
---- a/tools/virtiofsd/fuse_virtio.h
-+++ b/tools/virtiofsd/fuse_virtio.h
-@@ -26,4 +26,8 @@ int virtio_loop(struct fuse_session *se);
- int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-                     struct iovec *iov, int count);
-=20
-+int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-+                         struct iovec *iov, int count,
-+                         struct fuse_bufvec *buf, size_t len);
++int virtio_session_mount(struct fuse_session *se)
++{
++    int ret;
 +
- #endif
++    ret =3D fv_create_listen_socket(se);
++    if (ret < 0) {
++        return ret;
++    }
++
++    /*
++     * Poison the fuse FD so we spot if we accidentally use it;
++     * DO NOT check for this value, check fuse_lowlevel_is_virtio()
++     */
++    se->fd =3D 0xdaff0d11;
++
+     fuse_log(FUSE_LOG_INFO, "%s: Waiting for vhost-user socket connection.=
+..\n",
+              __func__);
+-    int data_sock =3D accept(listen_sock, NULL, NULL);
++    int data_sock =3D accept(se->vu_listen_fd, NULL, NULL);
+     if (data_sock =3D=3D -1) {
+         fuse_log(FUSE_LOG_ERR, "vhost socket accept: %m\n");
+-        close(listen_sock);
++        close(se->vu_listen_fd);
+         return -1;
+     }
+-    close(listen_sock);
++    close(se->vu_listen_fd);
++    se->vu_listen_fd =3D -1;
+     fuse_log(FUSE_LOG_INFO, "%s: Received vhost-user socket connection\n",
+              __func__);
+=20
 --=20
 2.23.0
 
