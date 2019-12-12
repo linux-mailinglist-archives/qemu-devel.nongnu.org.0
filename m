@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9423011CE37
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:23:56 +0100 (CET)
-Received: from localhost ([::1]:59231 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF00911CDFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:15:28 +0100 (CET)
+Received: from localhost ([::1]:59106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifORf-0006iI-4k
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:23:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60872)
+	id 1ifOJS-0002r3-Mn
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:15:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyG-0003ML-9j
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:33 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyH-0003Nx-Eb
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyF-0006Wa-4Z
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:32 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34261)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyG-0006Zu-3B
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:33 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39580)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyE-0006Ul-T4
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:31 -0500
-Received: by mail-wr1-x442.google.com with SMTP id t2so2644495wrr.1
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:30 -0800 (PST)
+ id 1ifNyF-0006X7-Qw
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:32 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id y11so2612920wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=09ICg9D+Dn1VQ8tTw8DePRqwSVhY2gWWE2lvsGgxM/A=;
- b=uIaz2ieIEnBqcrjVllovt/9qWH9KD2xjr98j8JEm3fzVJgjIqJZGONyOG3ugCqOzkC
- d0h72eAezo+tsnnoV/JI1CUXUV8b31/5ygT7WbSKVCywdM+5nXNirEajZ0THFQW4P5sQ
- 9HOIvUJO9oeyl/OpvxUGr3jZtP27FXKts4u7qFWQ7yiQsD/uWCjiSloOoDUc18KvXvFL
- 0+JqUhqqgh1WU/Gb6ulhhVP09+mygqrT2HwxQPhaz7r7oRREPKA1fboFqxOuNDvnkRHt
- 3vNeTR7/666Spnebvom1ab+aK1ZLeG0cZzsLonFAN3Pe+2IKCZ7oSwrOudC7os86CoeZ
- 7F1g==
+ bh=Bxsd7cj1t1IS27BdAUrkJJ/4ZajGVGqHzwhI7jGnNf0=;
+ b=uAIVzBZLzlF70bo9em0ieC8sc5toqa+mD/sXh/cKdxoieVhINn1uovhUC30H8NHG9+
+ vepKIhlhI2hHGfa8Bok1edNlKChTVGZ7iw6lySuSIK7DhMU5Gji0SZei3qTYKgPxrMql
+ oQb140psvjHwohlGGfiPLrt877JKQklUsJFZoK1w/MKKDVI6eatd9YWTDdyBdz2WTHPn
+ mYJwu16zTKoAZDDjjFHWW94FRcvwYLDsAwoEUyV7/2Sj4wT1l9dHPi62Qe9Jqtksidgp
+ HcXrRT+pt+N4sPKFueCDSgoxoJQ048BucRGFp6iOXo2/RUXmVPjpzlmCQt0XqWmi4kz8
+ 1OFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=09ICg9D+Dn1VQ8tTw8DePRqwSVhY2gWWE2lvsGgxM/A=;
- b=O0IputYuR5wInPGU7oMqEcY29w37NtYwmpvWZoQA1Db1+PQok3ovMu93ZR3MDReZft
- cnyU/AKWUIoHC+sSmmk0G5Qp0MxpM32I/sVlGg6DDLfW4FX99Fy/NAjF95zFmFdvxU9I
- uGOj/UMEcOzEUTBkeljg29xST8w/bO3PHR5RKtZ05ySEutw1CnBDAcOoh9OBbEOFIYER
- V3eO4wiT8lfUBboxIKv37dnEdyUJrILxm/BAlAsbyWQ7Ps/ud7zrqa9+qN6AT7tmgsLM
- uXgyZ3PdeuWR25PcbpWeA+0pYj5Ndj5xL01JjgIA3E+KRrtP+zOChUB7KaPhNU++2BZ9
- I3ig==
-X-Gm-Message-State: APjAAAWq9gHqmOuhTP1F4mLy01UoaWa84AG+8Az6j7t6cY5DXbfZKirT
- bE9+SAxIb6O24H/nFOwItWDv1xNh
-X-Google-Smtp-Source: APXvYqzLe44TG31SEJ6wxMi9v0jCtYgOjapmwA5l86ZyMYWIk/xYPQzQ8Mr93j8orO+psQDnmXQOWQ==
-X-Received: by 2002:a5d:690e:: with SMTP id t14mr6102272wru.65.1576155209765; 
- Thu, 12 Dec 2019 04:53:29 -0800 (PST)
+ bh=Bxsd7cj1t1IS27BdAUrkJJ/4ZajGVGqHzwhI7jGnNf0=;
+ b=ccicDJk8le6bBXY1r4xr0nZGS1kw+jV+FwYWXzbEgTjdMm2vjAe9b7vJGJm0CfMS1w
+ G6HVr7HB1QFbeDqdEduyexTRjkFBSgZBwDTD+YVtNXBiVGfQym4qSM+csGshg4h0QpLX
+ qxyxxmv7Agsyo0FoMWZX7nQa1L92R8pYRf0Sy1s/bRRzlPk+JmLN3xcI+ouscSf9ndaf
+ ViZJ3L9Gq/6KHEzBcrLvkP6UBOtbwy9Ut2Jado71e8UTpkI8nf67Dca+IZDxRLeJvhF8
+ B82eirwllMbRL3QPkXlY9xG4vyRjnmUL7zsVDYTZnjsY64ce+cRKo0jnnHXqlq3L2UKg
+ d/rA==
+X-Gm-Message-State: APjAAAWTDRlXCcgPDesUSNkdCIYKIfTm2Rw1qWGYccgcEntYEgT00+TU
+ z0F8axLQlGj//jBtGKp/JY7KULpp
+X-Google-Smtp-Source: APXvYqzvPJCqG/Gxinm+XDjZpeEBehFj+5csNVj/Td1sjPtT22lzkJSNc0rqnbJ8BVO5J6M4MTxxxA==
+X-Received: by 2002:adf:f885:: with SMTP id u5mr6283471wrp.359.1576155210602; 
+ Thu, 12 Dec 2019 04:53:30 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.28
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:29 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:30 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 032/132] meson: uncompress edk2 bios
-Date: Thu, 12 Dec 2019 13:51:16 +0100
-Message-Id: <1576155176-2464-33-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 033/132] build-sys hack: link with whole .fa archives
+Date: Thu, 12 Dec 2019 13:51:17 +0100
+Message-Id: <1576155176-2464-34-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,74 +84,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+In order to link the *-obj-y files into tests, we will make static
+libraries of them in Meson, and then link them as whole archives
+into the tests.  To separate regular static libraries from link-whole
+libraries, give them a different file extension.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile            |  4 ----
- meson.build         |  2 ++
- pc-bios/meson.build | 21 +++++++++++++++++++++
- 3 files changed, 23 insertions(+), 4 deletions(-)
- create mode 100644 pc-bios/meson.build
+ rules.mak | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 0a6615c..b880265 100644
---- a/Makefile
-+++ b/Makefile
-@@ -103,9 +103,6 @@ generated-files-y += module_block.h
- generated-files-y += .git-submodule-status
+diff --git a/rules.mak b/rules.mak
+index 5289184..a10a972 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -39,6 +39,13 @@ find-symbols = $(if $1, $(sort $(shell $(NM) -P -g $1 | $2)))
+ defined-symbols = $(call find-symbols,$1,awk '$$2!="U"{print $$1}')
+ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
  
- edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
--pc-bios/edk2-%.fd: pc-bios/edk2-%.fd.bz2
--	$(call quiet-command,bzip2 -d -c $< > $@,"BUNZIP2",$<)
--
- # Don't try to regenerate Makefile or configure
- # We don't generate any of them
- Makefile: ;
-@@ -226,7 +223,6 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
- $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
- $(SOFTMMU_ALL_RULES): $(io-obj-y)
- $(SOFTMMU_ALL_RULES): config-all-devices.mak
--$(SOFTMMU_ALL_RULES): $(edk2-decompressed)
++WL := -Wl,
++ifdef CONFIG_DARWIN
++whole-archive = $(WL)-force_load,$1
++else
++whole-archive = $(WL)--whole-archive $1 $(WL)--no-whole-archive
++endif
++
+ # All the .mo objects in -m variables are also added into corresponding -y
+ # variable in unnest-vars, but filtered out here, when LINK is called.
+ #
+@@ -54,11 +61,12 @@ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
+ # This is necessary because the exectuable itself may not use the function, in
+ # which case the function would not be linked in. Then the DSO loading will
+ # fail because of the missing symbol.
+-process-archive-undefs = $(filter-out %.a %.mo,$1) \
++process-archive-undefs = $(filter-out %.a %.fa %.mo,$1) \
+                 $(addprefix $(WL_U), \
+-                     $(filter $(call defined-symbols,$(filter %.a, $1)), \
++                     $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
+                               $(call undefined-symbols,$(filter %.mo,$1)))) \
+-                $(filter %.a,$1)
++		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
++		$(filter %.a,$1)
  
- .PHONY: $(TARGET_DIRS_RULES)
- # The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
-diff --git a/meson.build b/meson.build
-index de5a26e..00c0767 100644
---- a/meson.build
-+++ b/meson.build
-@@ -312,3 +312,5 @@ if have_tools
-     subdir('contrib/ivshmem-server')
-   endif
- endif
-+
-+subdir('pc-bios')
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-new file mode 100644
-index 0000000..5524b95
---- /dev/null
-+++ b/pc-bios/meson.build
-@@ -0,0 +1,21 @@
-+bzip2 = find_program('bzip2')
-+
-+fds = [
-+  'edk2-aarch64-code.fd',
-+  'edk2-arm-code.fd',
-+  'edk2-arm-vars.fd',
-+  'edk2-i386-code.fd',
-+  'edk2-i386-secure-code.fd',
-+  'edk2-i386-vars.fd',
-+  'edk2-x86_64-code.fd',
-+  'edk2-x86_64-secure-code.fd',
-+]
-+
-+foreach f : fds
-+  custom_target(f,
-+                output: f,
-+                input: '@0@.bz2'.format(f),
-+                capture: true,
-+                build_by_default: true,
-+                command: [ bzip2, '-dc', '@INPUT0@' ])
-+endforeach
+ extract-libs = $(strip $(foreach o,$(filter-out %.mo,$1),$($o-libs)))
+ expand-objs = $(strip $(sort $(filter %.o,$1)) \
+@@ -122,7 +130,7 @@ LD_REL := $(CC) -nostdlib $(LD_REL_FLAGS)
+ modules:
+ 
+ %$(EXESUF): %.o
+-	$(call LINK,$(filter %.o %.a %.mo, $^))
++	$(call LINK,$(filter %.o %.a %.mo %.fa, $^))
+ 
+ %.a:
+ 	$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@")
+@@ -378,7 +386,7 @@ define unnest-vars
+                 $(error $o added in $v but $o-objs is not set)))
+         $(shell mkdir -p ./ $(sort $(dir $($v))))
+         # Include all the .d files
+-        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$($v))))
++        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
+         $(eval $v := $(filter-out %/,$($v))))
+ endef
+ 
 -- 
 1.8.3.1
 
