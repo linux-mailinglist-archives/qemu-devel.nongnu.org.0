@@ -2,112 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CBF11D5ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:38:46 +0100 (CET)
-Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A51711D603
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:41:08 +0100 (CET)
+Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifTMK-00036m-P6
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:38:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38258)
+	id 1ifTOd-0006XP-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:41:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1ifTC6-0007w1-HD
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:28:11 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1ifTHN-0005cf-4C
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:33:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1ifTC2-0003W6-SD
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:28:07 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52393
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1ifTC2-0003V6-Ko
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:28:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576175284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=qXuj2wlIvR0mV4LH44WrMCfAVVXJ4LZPzKVEVs84WzQ=;
- b=SNmSXnVU+Sbf7hakt1GyqlCSyS+xxRdOm3cXxr6AOwswiaIAooNF/nREWo5D0MsNE2FkaO
- KUI1S4q3XZ/IEBXf89nsWwMzWkcbD8lfBdHmMkHYAiZKFkeMhnZQ8thKQy14yLNcNCNR2I
- C3P3pb9p4syh/g7u5nCOzVdSX4wXy7w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-JPSbFPsHM42J2NFIiV00-Q-1; Thu, 12 Dec 2019 13:28:03 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB98C100551B;
- Thu, 12 Dec 2019 18:28:00 +0000 (UTC)
-Received: from [10.36.117.65] (ovpn-117-65.ams2.redhat.com [10.36.117.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CEA019C4F;
- Thu, 12 Dec 2019 18:27:54 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 1/5] hw: add compat machines for 5.0
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20191212173320.11610-1-drjones@redhat.com>
- <20191212173320.11610-2-drjones@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABtCREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT6JAlgEEwEIAEICGwMFCQlmAYAGCwkIBwMCBhUI
- AgkKCwQWAgMBAh4BAheAFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl3pImkCGQEACgkQTd4Q
- 9wD/g1o+VA//SFvIHUAvul05u6wKv/pIR6aICPdpF9EIgEU448g+7FfDgQwcEny1pbEzAmiw
- zAXIQ9H0NZh96lcq+yDLtONnXk/bEYWHHUA014A1wqcYNRY8RvY1+eVHb0uu0KYQoXkzvu+s
- Dncuguk470XPnscL27hs8PgOP6QjG4jt75K2LfZ0eAqTOUCZTJxA8A7E9+XTYuU0hs7QVrWJ
- jQdFxQbRMrYz7uP8KmTK9/Cnvqehgl4EzyRaZppshruKMeyheBgvgJd5On1wWq4ZUV5PFM4x
- II3QbD3EJfWbaJMR55jI9dMFa+vK7MFz3rhWOkEx/QR959lfdRSTXdxs8V3zDvChcmRVGN8U
- Vo93d1YNtWnA9w6oCW1dnDZ4kgQZZSBIjp6iHcA08apzh7DPi08jL7M9UQByeYGr8KuR4i6e
- RZI6xhlZerUScVzn35ONwOC91VdYiQgjemiVLq1WDDZ3B7DIzUZ4RQTOaIWdtXBWb8zWakt/
- ztGhsx0e39Gvt3391O1PgcA7ilhvqrBPemJrlb9xSPPRbaNAW39P8ws/UJnzSJqnHMVxbRZC
- Am4add/SM+OCP0w3xYss1jy9T+XdZa0lhUvJfLy7tNcjVG/sxkBXOaSC24MFPuwnoC9WvCVQ
- ZBxouph3kqc4Dt5X1EeXVLeba+466P1fe1rC8MbcwDkoUo65Ag0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAGJAiUEGAECAA8FAlXLn5ECGwwFCQlmAYAACgkQTd4Q
- 9wD/g1qA6w/+M+ggFv+JdVsz5+ZIc6MSyGUozASX+bmIuPeIecc9UsFRatc91LuJCKMkD9Uv
- GOcWSeFpLrSGRQ1Z7EMzFVU//qVs6uzhsNk0RYMyS0B6oloW3FpyQ+zOVylFWQCzoyyf227y
- GW8HnXunJSC+4PtlL2AY4yZjAVAPLK2l6mhgClVXTQ/S7cBoTQKP+jvVJOoYkpnFxWE9pn4t
- H5QIFk7Ip8TKr5k3fXVWk4lnUi9MTF/5L/mWqdyIO1s7cjharQCstfWCzWrVeVctpVoDfJWp
- 4LwTuQ5yEM2KcPeElLg5fR7WB2zH97oI6/Ko2DlovmfQqXh9xWozQt0iGy5tWzh6I0JrlcxJ
- ileZWLccC4XKD1037Hy2FLAjzfoWgwBLA6ULu0exOOdIa58H4PsXtkFPrUF980EEibUp0zFz
- GotRVekFAceUaRvAj7dh76cToeZkfsjAvBVb4COXuhgX6N4pofgNkW2AtgYu1nUsPAo+NftU
- CxrhjHtLn4QEBpkbErnXQyMjHpIatlYGutVMS91XTQXYydCh5crMPs7hYVsvnmGHIaB9ZMfB
- njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
- FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
-Organization: Red Hat GmbH
-Message-ID: <15037e94-0c85-63f2-e505-fb2c186a1565@redhat.com>
-Date: Thu, 12 Dec 2019 19:27:52 +0100
+ (envelope-from <stefanb@linux.ibm.com>) id 1ifTHL-00014c-PX
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:33:36 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58484
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1ifTHL-00013M-Jg; Thu, 12 Dec 2019 13:33:35 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBCIMCoe079339; Thu, 12 Dec 2019 13:33:24 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wujxrjbu1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 13:33:24 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCIMIST081972;
+ Thu, 12 Dec 2019 13:33:24 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wujxrjbtu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 13:33:23 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCIUrJk015812;
+ Thu, 12 Dec 2019 18:33:23 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02wdc.us.ibm.com with ESMTP id 2wr3q709au-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 18:33:23 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBCIXMkn57934226
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Dec 2019 18:33:22 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 41611136053;
+ Thu, 12 Dec 2019 18:33:22 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5BF913604F;
+ Thu, 12 Dec 2019 18:33:21 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Dec 2019 18:33:21 +0000 (GMT)
+Subject: Re: [PATCH v4 3/8] tpm_emulator: Implement callback for whether we
+ are suspended
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-ppc@nongnu.org
+References: <20191212180744.1070446-1-stefanb@linux.vnet.ibm.com>
+ <20191212180744.1070446-4-stefanb@linux.vnet.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <76e147e3-c5d1-e7e0-1297-f1f2f0e07aa5@linux.ibm.com>
+Date: Thu, 12 Dec 2019 13:33:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191212173320.11610-2-drjones@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: JPSbFPsHM42J2NFIiV00-Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191212180744.1070446-4-stefanb@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-12_06:2019-12-12,2019-12-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
+ clxscore=1015 suspectscore=0 bulkscore=0 spamscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912120141
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,69 +96,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bijan.mottahedeh@oracle.com,
- "Michael S. Tsirkin" <mst@redhat.com>, maz@kernel.org,
- Richard Henderson <rth@twiddle.net>, Cornelia Huck <cohuck@redhat.com>,
- richard.henderson@linaro.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
- "open list:sPAPR" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>, guoheyi@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>, msys.mizuma@gmail.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.12.19 18:33, Andrew Jones wrote:
-> Add 5.0 machine types for arm/i440fx/q35/s390x/spapr.
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> 
-
-[...]
-
->  /*
->   * pseries-4.1
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index d3edeef0ad92..a40f79e20733 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -639,14 +639,27 @@ bool css_migration_enabled(void)
->      }                                                                         \
->      type_init(ccw_machine_register_##suffix)
->  
+On 12/12/19 1:07 PM, Stefan Berger wrote:
+> Implement the check whether the emulator backend is suspended.
+>
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+>
+> diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
+> index 22f9113432..7be7d3a91b 100644
+> --- a/hw/tpm/tpm_emulator.c
+> +++ b/hw/tpm/tpm_emulator.c
+> @@ -80,6 +80,8 @@ typedef struct TPMEmulator {
+>       unsigned int established_flag_cached:1;
+>   
+>       TPMBlobBuffers state_blobs;
 > +
-> +static void ccw_machine_5_0_instance_options(MachineState *machine)
+> +    bool is_suspended;
+>   } TPMEmulator;
+>   
+>   struct tpm_error {
+> @@ -486,6 +488,13 @@ static size_t tpm_emulator_get_buffer_size(TPMBackend *tb)
+>       return actual_size;
+>   }
+>   
+> +static bool tpm_emulator_is_suspended(TPMBackend *tb)
 > +{
+> +    TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
+> +
+> +    return tpm_emu->is_suspended;
 > +}
 > +
-> +static void ccw_machine_5_0_class_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_CCW_MACHINE(5_0, "5.0", true);
-> +
->  static void ccw_machine_4_2_instance_options(MachineState *machine)
->  {
-> +    ccw_machine_5_0_instance_options(machine);
->  }
->  
->  static void ccw_machine_4_2_class_options(MachineClass *mc)
->  {
-> +    ccw_machine_5_0_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
->  }
-> -DEFINE_CCW_MACHINE(4_2, "4.2", true);
-> +DEFINE_CCW_MACHINE(4_2, "4.2", false);
->  
+>   static int tpm_emulator_block_migration(TPMEmulator *tpm_emu)
+>   {
+>       Error *err = NULL;
+> @@ -846,6 +855,8 @@ static int tpm_emulator_pre_save(void *opaque)
+>       TPMBackend *tb = opaque;
+>       TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
+>   
+> +    tpm_emu->is_suspended = true;
 
+This is the most critical part here. It must be true when we receive a 
+response in the tpm_spapr_request_completed(). The problem is that what 
+tpm_backend_finish_sync() does is not specific to this backend but more 
+a global operation that another device could run as well -- none seem to 
+do this today. So the point is that there could be a race here. This 
+flag should really be set in '.pre_pre_save,' so before any other device 
+could poll. Better would be calling a global function that indicates 
+whether device suspension has started. In this case we could do away 
+with this and just call that function from the spapr device.
 
-s390x parts LGTM
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
 
 
