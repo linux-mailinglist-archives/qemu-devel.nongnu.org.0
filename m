@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1C111D48A
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:50:00 +0100 (CET)
-Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA0511D4B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:58:53 +0100 (CET)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSb8-0003kN-Mn
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:49:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
+	id 1ifSjk-0002YI-Cr
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:58:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39060)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRXE-000851-SM
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:53 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRXC-0005CO-ER
+ (envelope-from <dgilbert@redhat.com>) id 1ifRXC-00082F-C8
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:52 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55125
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRXC-0005BS-A4
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgilbert@redhat.com>) id 1ifRXB-00059j-3V
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53565
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRXA-00058x-V5
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168909;
+ s=mimecast20190719; t=1576168908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z8yqdPTVQDekQjGPhaXS/9UYKrLqxCuFnNjgoVrw9LU=;
- b=KCR/UcyCOZa7JaRyjIxQ6F4+g8jFNX3X0M6E2ix1KWPgoshzvxNrMotvlpkvQaxXdL2xwq
- zDNSTEWPMeTYuWexFLGOf6a8vPEkFUx2Fb3dRSki65e1PmCt6Tk71rjxG8warl9iQmAGMZ
- uISuRphopIAEWMg4hY7rXdxMxN3/ExY=
+ bh=aFXzRnUUfN49Blvfmm9LqBuOUa1ZI4A1nWCoxa8Wcjs=;
+ b=UKJkDTZA7MuD7D5Paf0Tb+xaHJ0sXstX4MVYR1Zo7iPZ61udEdXh0zcyqGHr/3KmUwbol7
+ dYvicjCr34wxdoGMGzCymPnT6q5VluW7RG6PuTy2qJfoYE6cH2Qwzi7BJ+6kmZs04G4fM5
+ Bej3AfciizgvS01KARCzVNMAywvB/s4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-QSRsO-2UPQ6H6QX_xbL3aA-1; Thu, 12 Dec 2019 11:41:46 -0500
+ us-mta-8-7FKnJ5RHOTCq64rgankW6A-1; Thu, 12 Dec 2019 11:41:47 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30DB612A7E53
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52BFD107ACCC
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:46 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55F9560BE1;
- Thu, 12 Dec 2019 16:41:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A04460BE1;
+ Thu, 12 Dec 2019 16:41:45 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 101/104] virtiofsd: prevent FUSE_INIT/FUSE_DESTROY races
-Date: Thu, 12 Dec 2019 16:39:01 +0000
-Message-Id: <20191212163904.159893-102-dgilbert@redhat.com>
+Subject: [PATCH 102/104] virtiofsd: fix lo_destroy() resource leaks
+Date: Thu, 12 Dec 2019 16:39:02 +0000
+Message-Id: <20191212163904.159893-103-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: QSRsO-2UPQ6H6QX_xbL3aA-1
+X-MC-Unique: 7FKnJ5RHOTCq64rgankW6A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,88 +78,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-When running with multiple threads it can be tricky to handle
-FUSE_INIT/FUSE_DESTROY in parallel with other request types or in
-parallel with themselves.  Serialize FUSE_INIT and FUSE_DESTROY so that
-malicious clients cannot trigger race conditions.
+Now that lo_destroy() is serialized we can call unref_inode() so that
+all inode resources are freed.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_i.h        |  1 +
- tools/virtiofsd/fuse_lowlevel.c | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 41 ++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 21 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-index d0679508cd..8a4a05b319 100644
---- a/tools/virtiofsd/fuse_i.h
-+++ b/tools/virtiofsd/fuse_i.h
-@@ -61,6 +61,7 @@ struct fuse_session {
-     struct fuse_req list;
-     struct fuse_req interrupts;
-     pthread_mutex_t lock;
-+    pthread_rwlock_t init_rwlock;
-     int got_destroy;
-     int broken_splice_nonblock;
-     uint64_t notify_ctr;
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 10f478b00c..9f01c05e3e 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -2431,6 +2431,19 @@ void fuse_session_process_buf_int(struct fuse_sessio=
-n *se,
-     req->ctx.pid =3D in->pid;
-     req->ch =3D ch ? fuse_chan_get(ch) : NULL;
-=20
-+    /*
-+     * INIT and DESTROY requests are serialized, all other request types
-+     * run in parallel.  This prevents races between FUSE_INIT and ordinar=
-y
-+     * requests, FUSE_INIT and FUSE_INIT, FUSE_INIT and FUSE_DESTROY, and
-+     * FUSE_DESTROY and FUSE_DESTROY.
-+     */
-+    if (in->opcode =3D=3D FUSE_INIT || in->opcode =3D=3D CUSE_INIT ||
-+        in->opcode =3D=3D FUSE_DESTROY) {
-+        pthread_rwlock_wrlock(&se->init_rwlock);
-+    } else {
-+        pthread_rwlock_rdlock(&se->init_rwlock);
-+    }
-+
-     err =3D EIO;
-     if (!se->got_init) {
-         enum fuse_opcode expected;
-@@ -2488,10 +2501,13 @@ void fuse_session_process_buf_int(struct fuse_sessi=
-on *se,
-     } else {
-         fuse_ll_ops[in->opcode].func(req, in->nodeid, &iter);
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 1bf251a91d..38f4948e61 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1355,26 +1355,6 @@ static void unref_inode_lolocked(struct lo_data *lo,=
+ struct lo_inode *inode,
      }
-+
-+    pthread_rwlock_unlock(&se->init_rwlock);
-     return;
-=20
- reply_err:
-     fuse_reply_err(req, err);
-+    pthread_rwlock_unlock(&se->init_rwlock);
  }
 =20
- #define LL_OPTION(n, o, v)                     \
-@@ -2538,6 +2554,7 @@ void fuse_session_destroy(struct fuse_session *se)
-             se->op.destroy(se->userdata);
-         }
-     }
-+    pthread_rwlock_destroy(&se->init_rwlock);
-     pthread_mutex_destroy(&se->lock);
-     free(se->cuse_data);
-     if (se->fd !=3D -1) {
-@@ -2631,6 +2648,7 @@ struct fuse_session *fuse_session_new(struct fuse_arg=
-s *args,
-     list_init_req(&se->list);
-     list_init_req(&se->interrupts);
-     fuse_mutex_init(&se->lock);
-+    pthread_rwlock_init(&se->init_rwlock, NULL);
+-static int unref_all_inodes_cb(gpointer key, gpointer value, gpointer user=
+_data)
+-{
+-    struct lo_inode *inode =3D value;
+-    struct lo_data *lo =3D user_data;
+-
+-    inode->nlookup =3D 0;
+-    lo_map_remove(&lo->ino_map, inode->fuse_ino);
+-    close(inode->fd);
+-    lo_inode_put(lo, &inode); /* Drop our refcount from lo_do_lookup() */
+-
+-    return TRUE;
+-}
+-
+-static void unref_all_inodes(struct lo_data *lo)
+-{
+-    pthread_mutex_lock(&lo->mutex);
+-    g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
+-    pthread_mutex_unlock(&lo->mutex);
+-}
+-
+ static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
+)
+ {
+     struct lo_data *lo =3D lo_data(req);
+@@ -2460,7 +2440,26 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
+ off_t off, int whence,
+ static void lo_destroy(void *userdata)
+ {
+     struct lo_data *lo =3D (struct lo_data *)userdata;
+-    unref_all_inodes(lo);
++
++    /*
++     * Normally lo->mutex must be taken when traversing lo->inodes but
++     * lo_destroy() is a serialized request so no races are possible here.
++     *
++     * In addition, we cannot acquire lo->mutex since unref_inode() takes =
+it
++     * too and this would result in a recursive lock.
++     */
++    while (true) {
++        GHashTableIter iter;
++        gpointer key, value;
++
++        g_hash_table_iter_init(&iter, lo->inodes);
++        if (!g_hash_table_iter_next(&iter, &key, &value)) {
++            break;
++        }
++
++        struct lo_inode *inode =3D value;
++        unref_inode_lolocked(lo, inode, inode->nlookup);
++    }
+ }
 =20
-     memcpy(&se->op, op, op_size);
-     se->owner =3D getuid();
+ static struct fuse_lowlevel_ops lo_oper =3D {
 --=20
 2.23.0
 
