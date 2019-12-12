@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CBA11CF55
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:07:36 +0100 (CET)
-Received: from localhost ([::1]:59912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFAA11CF37
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:05:43 +0100 (CET)
+Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifP7v-0002JV-4U
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:07:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43101)
+	id 1ifP66-0007yP-Gy
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:05:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNzE-0004v0-DA
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:33 -0500
+ (envelope-from <wainersm@redhat.com>) id 1ifO3I-0001ce-HY
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:58:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNzD-0008Mn-5T
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:32 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39597)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNzC-0008Lf-Ur
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:31 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y11so2616224wrt.6
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wHl5lU6t4e5jkqS3GA+ZrkV9FVQZHTyfosUh/T46DLc=;
- b=CIQd8OtoPD9tDSiev4cZ2V75Uy1hPZK/IerWKIvHkjeDfRDhjEQvdgYfdo28NsVSeH
- mr4AwVOVGyd9XwQPvlaMCQ1EGwT9JY8FxFZWbjGFAKWD/iHbjOSA4x00dCZzF6d+3PhH
- 963FA/XMQJjMPnvnVKfugNyoE5K5jBJWIxWqXLiiRwafd7EkcluEmou96MsIlPszDjvP
- 0lBl2Bbg7nOwvOr0e9MEFUBhF+Qb2eRX2Gbm8IKCEnnsa8BEgdXL7fvoMoBPgQyknzzG
- wHaxphjnmgCpmvz9KH+cABEgNOj90JFijoAJ7meDtioyGl2DiVHq8TuPTljdmR+FAbI7
- x8iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wHl5lU6t4e5jkqS3GA+ZrkV9FVQZHTyfosUh/T46DLc=;
- b=Vp7YbfTNtEY0NJPh89ut8hqKBikeDeWrwrODbmKR9WTFOOE4yGeYjs+ExNlzmmQLvF
- fc9o9EGMCp3AgO2zo3yXj6kRp/rO+3seLExRsIVVMU9aWOLBr4S40UEZ2DBHDFFqFiGA
- bbi8AxHdieTD6w2QCUjcNhkRpVGnSqLKEAQ9eNKa16NHgNebPwwZ0nC++wGmJA7g8QUM
- WCi5+3jO+5BvVfnLa/BVCZkRCv7lr9cf8z1VrJS2NKcawEY2HlPAZmqGRqpuuiWYQ4BA
- KnZjqE/Tw6kRxJuolBxtjuSCApGmyYJbsUKbc1T/t+3CYlB7V+IMotJNXd626d5wpWRN
- Rvtg==
-X-Gm-Message-State: APjAAAUX5wBCf/fhhyMzzEJXZgdAcZaUMLjn3QPD9BMK1lt/W9arAKyn
- ffjdONEeFpc1zN45Zykz2l8Q+s8z
-X-Google-Smtp-Source: APXvYqxSLa358/VfY5IzoEoqTn0J1VFvcs/Ba0y5OcqHmuv1hkF/8eR9Bg++1+jPI0wkuQSLaJw+Cg==
-X-Received: by 2002:adf:fc03:: with SMTP id i3mr6329547wrr.306.1576155269824; 
- Thu, 12 Dec 2019 04:54:29 -0800 (PST)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.28
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:54:28 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (envelope-from <wainersm@redhat.com>) id 1ifO3H-0005I4-46
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:58:44 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43693
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ifO3G-0005HA-Vi
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:58:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576155522;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oSO7A+dXdJZ8ryN9WaQGS8dKl0GZ1r6/F/p0+CEDDsw=;
+ b=XaYZBVIgXFaX3Kr4LYXZFHRVWzRiMqLRrmaAYLS6Kzk1GgbLDf52kG9FJ00+hJsUX+Mlib
+ uCwrwOvi+421S6RY9tF0rLpJFFCqwmZ6jFblehAEGxapJFqiw1iOt7jGPpbt0bK3h+5erU
+ Cf7LIsJFiBwvy6IKIG9LsXAUzm9aAYc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-QqoJDWgpMMi5nIAyg6BUlg-1; Thu, 12 Dec 2019 07:58:39 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D057F801E66;
+ Thu, 12 Dec 2019 12:58:37 +0000 (UTC)
+Received: from virtlab501.virt.lab.eng.bos.redhat.com
+ (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31E4610013A1;
+ Thu, 12 Dec 2019 12:58:32 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 092/132] meson: convert hw/hyperv
-Date: Thu, 12 Dec 2019 13:52:16 +0100
-Message-Id: <1576155176-2464-93-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
-References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH v3 0/5] python/qemu: New accel module and improvements
+Date: Thu, 12 Dec 2019 07:58:26 -0500
+Message-Id: <20191212125831.2654-1-wainersm@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: QqoJDWgpMMi5nIAyg6BUlg-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::434
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,61 +68,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, ehabkost@redhat.com, jsnow@redhat.com,
+ alex.bennee@linaro.org, crosa@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On commit abf0bf998dcb John Snow moved some code out of __init__.py
+to machine.py. kvm_available() remained in though. So on patch 01
+I continue his work by creating a home for that method (the new
+'accel' module). Honestly I was unsure about whether move the code
+to any existing module or make a new, but since I am adding more
+methods related with accelerators then I thought they would deserve a modul=
+e.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- hw/Makefile.objs        | 1 -
- hw/hyperv/Makefile.objs | 2 --
- hw/hyperv/meson.build   | 2 ++
- hw/meson.build          | 1 +
- 4 files changed, 3 insertions(+), 3 deletions(-)
- delete mode 100644 hw/hyperv/Makefile.objs
- create mode 100644 hw/hyperv/meson.build
+The patches 02-04 introduce new helpers and make improvements. Later
+I intend to use those methods on the acceptance tests such as
+to automatically set the accelerator in QEMUMachine VM via Avocado
+tags, and skip the test if the accelerator is not available.
 
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 0213b1b..2ca159e 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -10,7 +10,6 @@ devices-dirs-y += cpu/
- devices-dirs-y += display/
- devices-dirs-y += dma/
- devices-dirs-y += gpio/
--devices-dirs-$(CONFIG_HYPERV) += hyperv/
- endif
- 
- common-obj-y += $(devices-dirs-y)
-diff --git a/hw/hyperv/Makefile.objs b/hw/hyperv/Makefile.objs
-deleted file mode 100644
-index edaca2f..0000000
---- a/hw/hyperv/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--obj-y += hyperv.o
--obj-$(CONFIG_HYPERV_TESTDEV) += hyperv_testdev.o
-diff --git a/hw/hyperv/meson.build b/hw/hyperv/meson.build
-new file mode 100644
-index 0000000..98663ec
---- /dev/null
-+++ b/hw/hyperv/meson.build
-@@ -0,0 +1,2 @@
-+specific_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'))
-+specific_ss.add(when: 'CONFIG_HYPERV_TESTDEV', if_true: files('hyperv_testdev.c'))
-diff --git a/hw/meson.build b/hw/meson.build
-index e59ed44..bfd4d59 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -1,4 +1,5 @@
- subdir('core')
-+subdir('hyperv')
- subdir('i2c')
- subdir('ide')
- subdir('input')
--- 
-1.8.3.1
+Patch 05 just remove unneeded imports in __init__.py
 
+Changes v2 -> v3:
+- Refactor subprocess.check_output() call (patch 02) [crosa]
+  Not using shell=3DTrue
+  Pass universal_newlines=3DTrue so don't need to decode() the output
+  Do not check if returned accelerator's name is empty string
+- New patch 05 [crosa]
+  On patch 01 Cleber suggested to remove unneeded imports in
+  python/qemu/__init__.py
+
+Changes v1 -> v2:
+- Removed 'Based on qmp.py' from python/qemu/accel.py
+(patch 01) [alex.bennee]
+- logging added only when used on python/qemu/accel.py
+(patch 02) [alex.bennee]
+
+Git:
+- Tree: https://github.com/wainersm/qemu
+- Branch: python_accel_v3
+
+CI:
+- Travis (FAIL): https://travis-ci.org/wainersm/qemu/builds/623800273
+  Failure is not related with this change
+
+Wainer dos Santos Moschetta (5):
+  python/qemu: Move kvm_available() to its own module
+  python/qemu: accel: Add list_accel() method
+  python/qemu: accel: Strengthen kvm_available() checks
+  python/qemu: accel: Add tcg_available() method
+  python/qemu: Remove unneeded imports in __init__
+
+ python/qemu/__init__.py | 24 -------------
+ python/qemu/accel.py    | 77 +++++++++++++++++++++++++++++++++++++++++
+ tests/vm/basevm.py      |  2 +-
+ 3 files changed, 78 insertions(+), 25 deletions(-)
+ create mode 100644 python/qemu/accel.py
+
+--=20
+2.21.0
 
 
