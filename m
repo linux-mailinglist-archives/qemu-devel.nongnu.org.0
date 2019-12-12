@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861DE11D980
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 23:38:20 +0100 (CET)
-Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB5711D985
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 23:39:48 +0100 (CET)
+Received: from localhost ([::1]:38030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifX6B-0001lt-6s
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 17:38:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33910)
+	id 1ifX7b-0004Ex-6Y
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 17:39:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ifX4O-0000Ry-8Y
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:29 -0500
+ (envelope-from <groug@kaod.org>) id 1ifX4R-0000UA-7u
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ifX4M-0008Pj-OK
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:28 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27920)
+ (envelope-from <groug@kaod.org>) id 1ifX4Q-0008Ur-3Z
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:31 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15330
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifX4M-0008Nv-Fs
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:26 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifX4P-0008Tk-Up
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 17:36:30 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBCMWQ0U130886
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:25 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wuhsd29xv-1
+ xBCMWO96038399
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:28 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wusnb8qxa-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:25 -0500
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 17:36:28 -0500
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 12 Dec 2019 22:36:23 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Thu, 12 Dec 2019 22:36:26 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 12 Dec 2019 22:36:21 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xBCMaKcc47251930
+ Thu, 12 Dec 2019 22:36:23 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBCMaMcI53674140
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Dec 2019 22:36:20 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6F9E5AE05F;
- Thu, 12 Dec 2019 22:36:20 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5B636AE05D;
- Thu, 12 Dec 2019 22:36:20 +0000 (GMT)
+ Thu, 12 Dec 2019 22:36:22 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DAEEB52071;
+ Thu, 12 Dec 2019 22:36:22 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 12 Dec 2019 22:36:20 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C77825206C;
+ Thu, 12 Dec 2019 22:36:22 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-185-241.de.ibm.com [9.145.185.241])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id C1043220110;
- Thu, 12 Dec 2019 23:36:19 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 45C47220110;
+ Thu, 12 Dec 2019 23:36:22 +0100 (CET)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 1/5] virtfs-proxy-helper: switch from libcap to libcap-ng
-Date: Thu, 12 Dec 2019 23:35:56 +0100
+Subject: [PULL 2/5] docker: remove libcap development packages
+Date: Thu, 12 Dec 2019 23:35:57 +0100
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191212223601.309245-1-groug@kaod.org>
 References: <20191212223601.309245-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-x-cbid: 19121222-0028-0000-0000-000003C7FBB5
+x-cbid: 19121222-0008-0000-0000-000003404451
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121222-0029-0000-0000-0000248B3727
-Message-Id: <20191212223601.309245-2-groug@kaod.org>
+x-cbparentid: 19121222-0009-0000-0000-00004A604866
+Message-Id: <20191212223601.309245-3-groug@kaod.org>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-12_07:2019-12-12,2019-12-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- mlxscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 adultscore=0 clxscore=1034 phishscore=0 mlxlogscore=999
- suspectscore=8 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 bulkscore=0
+ suspectscore=2 impostorscore=0 phishscore=0 mlxscore=0 clxscore=1034
+ lowpriorityscore=0 mlxlogscore=876 priorityscore=1501 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1912120172
 Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id xBCMWQ0U130886
+ mx0a-001b2d01.pphosted.com id xBCMWO96038399
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,246 +93,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-virtfs-proxy-helper is the only user of libcap; everyone else is using
-the simpler libcap-ng API.  Switch and remove the configure code to
-detect libcap.
+Libcap was dropped from virtio-9p (commit 7e46261368d1), so remove it fro=
+m
+the dockerfiles as well.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-[groug: - drop remaining -lcap from Makefile
-        - fix error message in configure]
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+[groug, mention SHA1 that dropped libcap]
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- Makefile                    |   1 -
- configure                   |  20 +-------
- fsdev/virtfs-proxy-helper.c | 100 ++++++++++++++++--------------------
- 3 files changed, 47 insertions(+), 74 deletions(-)
+ tests/docker/dockerfiles/fedora.docker     | 1 -
+ tests/docker/dockerfiles/ubuntu.docker     | 1 -
+ tests/docker/dockerfiles/ubuntu1804.docker | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index b437a346d71a..1361def1441c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -575,7 +575,6 @@ qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o=
- $(COMMON_LDADDS)
- qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDAD=
-DS)
-=20
- fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p=
--marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
--fsdev/virtfs-proxy-helper$(EXESUF): LIBS +=3D -lcap
-=20
- scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz=
--obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- ifdef CONFIG_MPATH
-diff --git a/configure b/configure
-index 6099be1d848c..2c72e04d23f3 100755
---- a/configure
-+++ b/configure
-@@ -3863,22 +3863,6 @@ else
-   mpathpersist=3Dno
- fi
-=20
--##########################################
--# libcap probe
--
--if test "$cap" !=3D "no" ; then
--  cat > $TMPC <<EOF
--#include <stdio.h>
--#include <sys/capability.h>
--int main(void) { cap_t caps; caps =3D cap_init(); return caps !=3D NULL;=
- }
--EOF
--  if compile_prog "" "-lcap" ; then
--    cap=3Dyes
--  else
--    cap=3Dno
--  fi
--fi
--
- ##########################################
- # pthread probe
- PTHREADLIBS_LIST=3D"-pthread -lpthread -lpthreadGC2"
-@@ -6204,12 +6188,12 @@ if test "$want_tools" =3D "yes" ; then
- fi
- if test "$softmmu" =3D yes ; then
-   if test "$linux" =3D yes; then
--    if test "$virtfs" !=3D no && test "$cap" =3D yes && test "$attr" =3D=
- yes ; then
-+    if test "$virtfs" !=3D no && test "$cap_ng" =3D yes && test "$attr" =
-=3D yes ; then
-       virtfs=3Dyes
-       tools=3D"$tools fsdev/virtfs-proxy-helper\$(EXESUF)"
-     else
-       if test "$virtfs" =3D yes; then
--        error_exit "VirtFS requires libcap devel and libattr devel"
-+        error_exit "VirtFS requires libcap-ng devel and libattr devel"
-       fi
-       virtfs=3Dno
-     fi
-diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-index 6f132c5ff15a..0d4de49dcf75 100644
---- a/fsdev/virtfs-proxy-helper.c
-+++ b/fsdev/virtfs-proxy-helper.c
-@@ -13,7 +13,6 @@
- #include <sys/resource.h>
- #include <getopt.h>
- #include <syslog.h>
--#include <sys/capability.h>
- #include <sys/fsuid.h>
- #include <sys/vfs.h>
- #include <sys/ioctl.h>
-@@ -21,6 +20,7 @@
- #ifdef CONFIG_LINUX_MAGIC_H
- #include <linux/magic.h>
- #endif
-+#include <cap-ng.h>
- #include "qemu-common.h"
- #include "qemu/sockets.h"
- #include "qemu/xattr.h"
-@@ -79,49 +79,10 @@ static void do_perror(const char *string)
-     }
- }
-=20
--static int do_cap_set(cap_value_t *cap_value, int size, int reset)
--{
--    cap_t caps;
--    if (reset) {
--        /*
--         * Start with an empty set and set permitted and effective
--         */
--        caps =3D cap_init();
--        if (caps =3D=3D NULL) {
--            do_perror("cap_init");
--            return -1;
--        }
--        if (cap_set_flag(caps, CAP_PERMITTED, size, cap_value, CAP_SET) =
-< 0) {
--            do_perror("cap_set_flag");
--            goto error;
--        }
--    } else {
--        caps =3D cap_get_proc();
--        if (!caps) {
--            do_perror("cap_get_proc");
--            return -1;
--        }
--    }
--    if (cap_set_flag(caps, CAP_EFFECTIVE, size, cap_value, CAP_SET) < 0)=
- {
--        do_perror("cap_set_flag");
--        goto error;
--    }
--    if (cap_set_proc(caps) < 0) {
--        do_perror("cap_set_proc");
--        goto error;
--    }
--    cap_free(caps);
--    return 0;
--
--error:
--    cap_free(caps);
--    return -1;
--}
--
- static int init_capabilities(void)
- {
-     /* helper needs following capabilities only */
--    cap_value_t cap_list[] =3D {
-+    int cap_list[] =3D {
-         CAP_CHOWN,
-         CAP_DAC_OVERRIDE,
-         CAP_FOWNER,
-@@ -130,7 +91,34 @@ static int init_capabilities(void)
-         CAP_MKNOD,
-         CAP_SETUID,
-     };
--    return do_cap_set(cap_list, ARRAY_SIZE(cap_list), 1);
-+    int i;
-+
-+    capng_clear(CAPNG_SELECT_BOTH);
-+    for (i =3D 0; i < ARRAY_SIZE(cap_list); i++) {
-+        if (capng_update(CAPNG_ADD, CAPNG_EFFECTIVE | CAPNG_PERMITTED,
-+                         cap_list[i]) < 0) {
-+            do_perror("capng_update");
-+            return -1;
-+        }
-+    }
-+    if (capng_apply(CAPNG_SELECT_BOTH) < 0) {
-+        do_perror("capng_apply");
-+        return -1;
-+    }
-+
-+    /* Prepare effective set for setugid.  */
-+    for (i =3D 0; i < ARRAY_SIZE(cap_list); i++) {
-+        if (cap_list[i] =3D=3D CAP_DAC_OVERRIDE) {
-+            continue;
-+        }
-+
-+        if (capng_update(CAPNG_DROP, CAPNG_EFFECTIVE,
-+                         cap_list[i]) < 0) {
-+            do_perror("capng_update");
-+            return -1;
-+        }
-+    }
-+    return 0;
- }
-=20
- static int socket_read(int sockfd, void *buff, ssize_t size)
-@@ -295,14 +283,6 @@ static int setugid(int uid, int gid, int *suid, int =
-*sgid)
- {
-     int retval;
-=20
--    /*
--     * We still need DAC_OVERRIDE because we don't change
--     * supplementary group ids, and hence may be subjected DAC rules
--     */
--    cap_value_t cap_list[] =3D {
--        CAP_DAC_OVERRIDE,
--    };
--
-     *suid =3D geteuid();
-     *sgid =3D getegid();
-=20
-@@ -316,11 +296,21 @@ static int setugid(int uid, int gid, int *suid, int=
- *sgid)
-         goto err_sgid;
-     }
-=20
--    if (uid !=3D 0 || gid !=3D 0) {
--        if (do_cap_set(cap_list, ARRAY_SIZE(cap_list), 0) < 0) {
--            retval =3D -errno;
--            goto err_suid;
--        }
-+    if (uid =3D=3D 0 && gid =3D=3D 0) {
-+        /* Linux has already copied the permitted set to the effective s=
-et.  */
-+        return 0;
-+    }
-+
-+    /*
-+     * All capabilities have been cleared from the effective set.  Howev=
-er
-+     * we still need DAC_OVERRIDE because we don't change supplementary
-+     * group ids, and hence may be subject to DAC rules.  init_capabilit=
-ies
-+     * left the set of capabilities that we want in libcap-ng's state.
-+     */
-+    if (capng_apply(CAPNG_SELECT_CAPS) < 0) {
-+        retval =3D -errno;
-+        do_perror("capng_apply");
-+        goto err_suid;
-     }
-     return 0;
-=20
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
+files/fedora.docker
+index 4ddc7dd112a2..47732fc5d565 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -25,7 +25,6 @@ ENV PACKAGES \
+     libasan \
+     libattr-devel \
+     libblockdev-mpath-devel \
+-    libcap-devel \
+     libcap-ng-devel \
+     libcurl-devel \
+     libfdt-devel \
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/docker=
+files/ubuntu.docker
+index f4864922240b..ecea155646ea 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -23,7 +23,6 @@ ENV PACKAGES flex bison \
+     libbrlapi-dev \
+     libbz2-dev \
+     libcacard-dev \
+-    libcap-dev \
+     libcap-ng-dev \
+     libcurl4-gnutls-dev \
+     libdrm-dev \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/do=
+ckerfiles/ubuntu1804.docker
+index 3cc4f492c4a7..32a607471a0c 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -12,7 +12,6 @@ ENV PACKAGES flex bison \
+     libbrlapi-dev \
+     libbz2-dev \
+     libcacard-dev \
+-    libcap-dev \
+     libcap-ng-dev \
+     libcurl4-gnutls-dev \
+     libdrm-dev \
 --=20
 2.21.0
 
