@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DAC11D637
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:50:03 +0100 (CET)
-Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B389511D5FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:41:06 +0100 (CET)
+Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifTXG-0006uc-3r
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:50:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34207)
+	id 1ifTOZ-0006Qm-8O
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:41:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33876)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifStJ-00086c-Bl
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:08:46 -0500
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifStH-00083r-Hl
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:08:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifStI-0006Pd-7Y
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:08:45 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28352
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifStG-0006M3-Hv
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:08:43 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64818
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ifStI-0006Ob-2H; Thu, 12 Dec 2019 13:08:44 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBCHrDGq050715; Thu, 12 Dec 2019 13:08:28 -0500
+ id 1ifStG-0006L3-Ci; Thu, 12 Dec 2019 13:08:42 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBCHrJMR051859; Thu, 12 Dec 2019 13:08:28 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wu4t7fd99-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wusnb1thp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 12 Dec 2019 13:08:28 -0500
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCHsK71083008;
- Thu, 12 Dec 2019 13:08:27 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wu4t7fd92-1
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCHrToS060464;
+ Thu, 12 Dec 2019 13:08:28 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wusnb1thd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 12 Dec 2019 13:08:27 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCI5qCY021746;
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCI5rYR022315;
  Thu, 12 Dec 2019 18:08:27 GMT
 Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 2wr3q703kq-1
+ [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 2wtdq7k8td-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 12 Dec 2019 18:08:27 +0000
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
  [9.57.199.108])
  by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBCI8Q2t16122714
+ xBCI8Q0x39453020
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Dec 2019 18:08:26 GMT
+ Thu, 12 Dec 2019 18:08:27 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C58AFB2064;
+ by IMSVA (Postfix) with ESMTP id DDAF9B205F;
  Thu, 12 Dec 2019 18:08:26 +0000 (GMT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B816EB2068;
+ by IMSVA (Postfix) with ESMTP id C6AF3B2066;
  Thu, 12 Dec 2019 18:08:26 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
  Thu, 12 Dec 2019 18:08:26 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v4 3/8] tpm_emulator: Implement callback for whether we are
+Subject: [PATCH v4 4/8] tpm_passthrough: Implement callback for whether we are
  suspended
-Date: Thu, 12 Dec 2019 13:07:39 -0500
-Message-Id: <20191212180744.1070446-4-stefanb@linux.vnet.ibm.com>
+Date: Thu, 12 Dec 2019 13:07:40 -0500
+Message-Id: <20191212180744.1070446-5-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191212180744.1070446-1-stefanb@linux.vnet.ibm.com>
 References: <20191212180744.1070446-1-stefanb@linux.vnet.ibm.com>
@@ -73,10 +73,10 @@ X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-12_05:2019-12-12,2019-12-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 impostorscore=0 spamscore=0 clxscore=1015 suspectscore=1
- mlxscore=0 mlxlogscore=998 malwarescore=0 adultscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 bulkscore=0
+ suspectscore=1 impostorscore=0 phishscore=0 mlxscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=979 priorityscore=1501 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1912120140
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -97,54 +97,35 @@ Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the check whether the emulator backend is suspended.
+Implement the callback for whether the passthrough backend is
+suspended. We always respond with false.
 
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
-diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
-index 22f9113432..7be7d3a91b 100644
---- a/hw/tpm/tpm_emulator.c
-+++ b/hw/tpm/tpm_emulator.c
-@@ -80,6 +80,8 @@ typedef struct TPMEmulator {
-     unsigned int established_flag_cached:1;
- 
-     TPMBlobBuffers state_blobs;
-+
-+    bool is_suspended;
- } TPMEmulator;
- 
- struct tpm_error {
-@@ -486,6 +488,13 @@ static size_t tpm_emulator_get_buffer_size(TPMBackend *tb)
-     return actual_size;
+diff --git a/hw/tpm/tpm_passthrough.c b/hw/tpm/tpm_passthrough.c
+index f67244b5d4..b759c7d30c 100644
+--- a/hw/tpm/tpm_passthrough.c
++++ b/hw/tpm/tpm_passthrough.c
+@@ -203,6 +203,11 @@ static size_t tpm_passthrough_get_buffer_size(TPMBackend *tb)
+     return tpm_pt->tpm_buffersize;
  }
  
-+static bool tpm_emulator_is_suspended(TPMBackend *tb)
++static bool tpm_passthrough_is_suspended(TPMBackend *tb)
 +{
-+    TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
-+
-+    return tpm_emu->is_suspended;
++    return false;
 +}
 +
- static int tpm_emulator_block_migration(TPMEmulator *tpm_emu)
- {
-     Error *err = NULL;
-@@ -846,6 +855,8 @@ static int tpm_emulator_pre_save(void *opaque)
-     TPMBackend *tb = opaque;
-     TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
- 
-+    tpm_emu->is_suspended = true;
-+
-     trace_tpm_emulator_pre_save();
- 
-     tpm_backend_finish_sync(tb);
-@@ -975,6 +986,7 @@ static void tpm_emulator_class_init(ObjectClass *klass, void *data)
-     tbc->get_tpm_version = tpm_emulator_get_tpm_version;
-     tbc->get_buffer_size = tpm_emulator_get_buffer_size;
-     tbc->get_tpm_options = tpm_emulator_get_tpm_options;
-+    tbc->is_suspended = tpm_emulator_is_suspended;
- 
-     tbc->handle_request = tpm_emulator_handle_request;
+ /*
+  * Unless path or file descriptor set has been provided by user,
+  * determine the sysfs cancel file following kernel documentation
+@@ -386,6 +391,7 @@ static void tpm_passthrough_class_init(ObjectClass *klass, void *data)
+     tbc->get_buffer_size = tpm_passthrough_get_buffer_size;
+     tbc->get_tpm_options = tpm_passthrough_get_tpm_options;
+     tbc->handle_request = tpm_passthrough_handle_request;
++    tbc->is_suspended = tpm_passthrough_is_suspended;
  }
+ 
+ static const TypeInfo tpm_passthrough_info = {
 -- 
 2.21.0
 
