@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AFF11D3F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:30:55 +0100 (CET)
-Received: from localhost ([::1]:34680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FDE11D40B
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:32:41 +0100 (CET)
+Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSIf-0005ke-UP
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:30:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52505)
+	id 1ifSKO-0008Rv-6q
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:32:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVv-00068E-5D
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:32 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVy-0006GT-GQ
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVt-0002aO-Hi
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:31 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29730
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVw-0002hP-VS
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:34 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32320
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVt-0002Zc-Cp
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:29 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVw-0002gd-Pq
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168829;
+ s=mimecast20190719; t=1576168832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gcHRGaMQySuscGEZQmOdWv9vhYbjHTW0hTRIDvEx2xA=;
- b=X5v6ztYKejFU1jdtkhXYlwshNeDMSXVmGSbB6n1JaOOlCLuk5MhU8rizsfps52Ysx9xrq3
- e5A0dq9sWAR1mlGoL0uTXv+CQ51HyLyb9h7sgzmwPLXvAe5FxFnCyu5HXbCeji0pVK5XZL
- iBdBSi10P1DxInIQEyAl5R1N1uBkmDM=
+ bh=UqOE+m4s+9lKUr6vCyIKK3Ke6GOjTZV0Lxhb78HsUmI=;
+ b=dSwcW8BQj47Sv1q373TsVYJlL8V/iIQjxfvY7nceHbt7+VmclqtHbapSV1lQql+tzF/JAP
+ dvWSFp8rhfR1qbyGtVU8+Q/vfSfBdfD/Ptr7y0kIPGVn1fT5lOEyky/yOEj15UBq2ub+vv
+ 7gU9YfIxhepmsncwTEOCl1U9VbRTtbY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-8Mk_Z5igPCWYyTCmEP8dzA-1; Thu, 12 Dec 2019 11:40:27 -0500
+ us-mta-262-_gIHmPMuNkC8wZscdU4NaA-1; Thu, 12 Dec 2019 11:40:31 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAE631800D45
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63055107B270
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:30 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E429160BF3;
- Thu, 12 Dec 2019 16:40:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8523D60BF3;
+ Thu, 12 Dec 2019 16:40:29 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 049/104] virtiofsd: move to a new pid namespace
-Date: Thu, 12 Dec 2019 16:38:09 +0000
-Message-Id: <20191212163904.159893-50-dgilbert@redhat.com>
+Subject: [PATCH 052/104] virtiofsd: cap-ng helpers
+Date: Thu, 12 Dec 2019 16:38:12 +0000
+Message-Id: <20191212163904.159893-53-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 8Mk_Z5igPCWYyTCmEP8dzA-1
+X-MC-Unique: _gIHmPMuNkC8wZscdU4NaA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,217 +76,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-virtiofsd needs access to /proc/self/fd.  Let's move to a new pid
-namespace so that a compromised process cannot see another other
-processes running on the system.
+libcap-ng reads /proc during capng_get_caps_process, and virtiofsd's
+sandboxing doesn't have /proc mounted; thus we have to do the
+caps read before we sandbox it and save/restore the state.
 
-One wrinkle in this approach: unshare(CLONE_NEWPID) affects *child*
-processes and not the current process.  Therefore we need to fork the
-pid 1 process that will actually run virtiofsd and leave a parent in
-waitpid(2).  This is not the same thing as daemonization and parent
-processes should not notice a difference.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 134 ++++++++++++++++++++-----------
- 1 file changed, 86 insertions(+), 48 deletions(-)
+ Makefile                         |  2 +
+ tools/virtiofsd/passthrough_ll.c | 72 ++++++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
 
+diff --git a/Makefile b/Makefile
+index 3f5d04e1f7..fa15174ba0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -323,9 +323,11 @@ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX))=
+ =3D qemu-bridge-helper$(EXE
+=20
+ ifdef CONFIG_LINUX
+ ifdef CONFIG_SECCOMP
++ifdef CONFIG_LIBCAP_NG
+ HELPERS-y +=3D virtiofsd$(EXESUF)
+ vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
+ endif
++endif
+=20
+ ifdef CONFIG_VIRGL
+ ifdef CONFIG_GBM
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 135a99f2fd..754ef2618b 100644
+index 701608c6df..6a09b28608 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -50,7 +50,10 @@
- #include <string.h>
- #include <sys/file.h>
- #include <sys/mount.h>
-+#include <sys/prctl.h>
- #include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
- #include <sys/xattr.h>
- #include <unistd.h>
+@@ -38,6 +38,7 @@
+ #include "fuse_virtio.h"
+ #include "fuse_lowlevel.h"
+ #include <assert.h>
++#include <cap-ng.h>
+ #include <dirent.h>
+ #include <errno.h>
+ #include <inttypes.h>
+@@ -139,6 +140,13 @@ static const struct fuse_opt lo_opts[] =3D {
 =20
-@@ -1927,24 +1930,95 @@ static void print_capabilities(void)
+ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
+_t n);
+=20
++static struct {
++    pthread_mutex_t mutex;
++    void *saved;
++} cap;
++/* That we loaded cap-ng in the current thread from the saved */
++static __thread bool cap_loaded =3D 0;
++
+ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st);
+=20
+ static int is_dot_or_dotdot(const char *name)
+@@ -162,6 +170,37 @@ static struct lo_data *lo_data(fuse_req_t req)
+     return (struct lo_data *)fuse_req_userdata(req);
  }
 =20
- /*
-- * Called after our UNIX domain sockets have been created, now we can move=
- to
-- * an empty network namespace to prevent TCP/IP and other network activity=
- in
-- * case this process is compromised.
-+ * Move to a new mount, net, and pid namespaces to isolate this process.
-  */
--static void setup_net_namespace(void)
-+static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
++/*
++ * Load capng's state from our saved state if the current thread
++ * hadn't previously been loaded.
++ * returns 0 on success
++ */
++static int load_capng(void)
++{
++    if (!cap_loaded) {
++        pthread_mutex_lock(&cap.mutex);
++        capng_restore_state(&cap.saved);
++        /*
++         * restore_state free's the saved copy
++         * so make another.
++         */
++        cap.saved =3D capng_save_state();
++        if (!cap.saved) {
++            fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
++            return -EINVAL;
++        }
++        pthread_mutex_unlock(&cap.mutex);
++
++        /*
++         * We want to use the loaded state for our pid,
++         * not the original
++         */
++        capng_setpid(syscall(SYS_gettid));
++        cap_loaded =3D true;
++    }
++    return 0;
++}
++
+ static void lo_map_init(struct lo_map *map)
  {
--    if (unshare(CLONE_NEWNET) !=3D 0) {
--        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNET): %m\n");
-+    pid_t child;
-+
-+    /*
-+     * Create a new pid namespace for *child* processes.  We'll have to
-+     * fork in order to enter the new pid namespace.  A new mount namespac=
-e
-+     * is also needed so that we can remount /proc for the new pid
-+     * namespace.
-+     *
-+     * Our UNIX domain sockets have been created.  Now we can move to
-+     * an empty network namespace to prevent TCP/IP and other network
-+     * activity in case this process is compromised.
-+     */
-+    if (unshare(CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWNET) !=3D 0) {
-+        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWPID | CLONE_NEWNS): %m\n"=
-);
-+        exit(1);
-+    }
-+
-+    child =3D fork();
-+    if (child < 0) {
-+        fuse_log(FUSE_LOG_ERR, "fork() failed: %m\n");
-+        exit(1);
-+    }
-+    if (child > 0) {
-+        pid_t waited;
-+        int wstatus;
-+
-+        /* The parent waits for the child */
-+        do {
-+            waited =3D waitpid(child, &wstatus, 0);
-+        } while (waited < 0 && errno =3D=3D EINTR && !se->exited);
-+
-+        /* We were terminated by a signal, see fuse_signals.c */
-+        if (se->exited) {
-+            exit(0);
-+        }
-+
-+        if (WIFEXITED(wstatus)) {
-+            exit(WEXITSTATUS(wstatus));
-+        }
-+
-+        exit(1);
-+    }
-+
-+    /* Send us SIGTERM when the parent thread terminates, see prctl(2) */
-+    prctl(PR_SET_PDEATHSIG, SIGTERM);
-+
-+    /*
-+     * If the mounts have shared propagation then we want to opt out so ou=
-r
-+     * mount changes don't affect the parent mount namespace.
-+     */
-+    if (mount(NULL, "/", NULL, MS_REC | MS_SLAVE, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
-+        exit(1);
-+    }
-+
-+    /* The child must remount /proc to use the new pid namespace */
-+    if (mount("proc", "/proc", "proc",
-+              MS_NODEV | MS_NOEXEC | MS_NOSUID | MS_RELATIME, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(/proc): %m\n");
-+        exit(1);
-+    }
-+
-+    /* Now we can get our /proc/self/fd directory file descriptor */
-+    lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
-+    if (lo->proc_self_fd =3D=3D -1) {
-+        fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
-         exit(1);
+     map->elems =3D NULL;
+@@ -2005,6 +2044,35 @@ static void setup_namespaces(struct lo_data *lo, str=
+uct fuse_session *se)
      }
  }
 =20
--/* This magic is based on lxc's lxc_pivot_root() */
--static void setup_pivot_root(const char *source)
 +/*
-+ * Make the source directory our root so symlinks cannot escape and no oth=
-er
-+ * files are accessible.  Assumes unshare(CLONE_NEWNS) was already called.
++ * Capture the capability state, we'll need to restore this for individual
++ * threads later; see load_capng.
 + */
-+static void setup_mounts(const char *source)
- {
-     int oldroot;
-     int newroot;
-=20
-+    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
-rce);
++static void setup_capng(void)
++{
++    /* Note this accesses /proc so has to happen before the sandbox */
++    if (capng_get_caps_process()) {
++        fuse_log(FUSE_LOG_ERR, "capng_get_caps_process\n");
 +        exit(1);
 +    }
++    pthread_mutex_init(&cap.mutex, NULL);
++    pthread_mutex_lock(&cap.mutex);
++    cap.saved =3D capng_save_state();
++    if (!cap.saved) {
++        fuse_log(FUSE_LOG_ERR, "capng_save_state\n");
++        exit(1);
++    }
++    pthread_mutex_unlock(&cap.mutex);
++}
 +
-+    /* This magic is based on lxc's lxc_pivot_root() */
-     oldroot =3D open("/", O_DIRECTORY | O_RDONLY | O_CLOEXEC);
-     if (oldroot < 0) {
-         fuse_log(FUSE_LOG_ERR, "open(/): %m\n");
-@@ -1991,47 +2065,14 @@ static void setup_pivot_root(const char *source)
-     close(oldroot);
- }
-=20
--static void setup_proc_self_fd(struct lo_data *lo)
--{
--    lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
--    if (lo->proc_self_fd =3D=3D -1) {
--        fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
--        exit(1);
--    }
--}
--
--/*
-- * Make the source directory our root so symlinks cannot escape and no oth=
-er
-- * files are accessible.
-- */
--static void setup_mount_namespace(const char *source)
--{
--    if (unshare(CLONE_NEWNS) !=3D 0) {
--        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNS): %m\n");
--        exit(1);
--    }
--
--    if (mount(NULL, "/", NULL, MS_REC | MS_SLAVE, NULL) < 0) {
--        fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_PRIVATE): %m\n");
--        exit(1);
--    }
--
--    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
--        fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
-rce);
--        exit(1);
--    }
--
--    setup_pivot_root(source);
--}
--
++static void cleanup_capng(void)
++{
++    free(cap.saved);
++    cap.saved =3D NULL;
++    pthread_mutex_destroy(&cap.mutex);
++}
++
++
  /*
-  * Lock down this process to prevent access to other processes or files ou=
-tside
-  * source directory.  This reduces the impact of arbitrary code execution =
-bugs.
-  */
--static void setup_sandbox(struct lo_data *lo)
-+static void setup_sandbox(struct lo_data *lo, struct fuse_session *se)
- {
--    setup_net_namespace();
--    setup_mount_namespace(lo->source);
-+    setup_namespaces(lo, se);
-+    setup_mounts(lo->source);
- }
-=20
- int main(int argc, char *argv[])
-@@ -2155,10 +2196,7 @@ int main(int argc, char *argv[])
+  * Make the source directory our root so symlinks cannot escape and no oth=
+er
+  * files are accessible.  Assumes unshare(CLONE_NEWNS) was already called.
+@@ -2198,12 +2266,16 @@ int main(int argc, char *argv[])
 =20
      fuse_daemonize(opts.foreground);
 =20
--    /* Must be after daemonize to get the right /proc/self/fd */
--    setup_proc_self_fd(&lo);
--
--    setup_sandbox(&lo);
-+    setup_sandbox(&lo, se);
++    /* Must be before sandbox since it wants /proc */
++    setup_capng();
++
+     setup_sandbox(&lo, se);
 =20
      /* Block until ctrl+c or fusermount -u */
      ret =3D virtio_loop(se);
+=20
+     fuse_session_unmount(se);
++    cleanup_capng();
+ err_out3:
+     fuse_remove_signal_handlers(se);
+ err_out2:
 --=20
 2.23.0
 
