@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691A911D3BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:25:02 +0100 (CET)
-Received: from localhost ([::1]:34621 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BB311D366
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:13:41 +0100 (CET)
+Received: from localhost ([::1]:34488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSCy-0006It-Rn
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:25:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50357)
+	id 1ifS20-0000LW-J0
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:13:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVh-0005rd-Q1
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVi-0005t2-Lq
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVg-0002FP-AH
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:17 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50836
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVh-0002Hp-HT
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:18 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39113
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVg-0002Eh-2i
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:16 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVh-0002H4-CS
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168815;
+ s=mimecast20190719; t=1576168816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dVCU0QAEMpRAgyvXWsnEyJwCGjSbQAWBP1xMWm8k5kI=;
- b=BS4WBlCNZuyqfBq4gU+XszBTO2oNoeELMivFeI7S+ITTAJZdf00YcFnb+U6zaLr49+K0/I
- 1BZU04LPPXmzXyeNcrZCWstxmsqUzb5470LHpKiDXQZszSIzFNj7c8SoZyJAQlpQDA5oxS
- ExRrxbAnfE8VNX8hmd7kGKO3djIAyvs=
+ bh=WG+Al5te8uqZSlxkLLc9k3C99FeovJnhxsjdX0wcZlg=;
+ b=TJG78EEVU4t1mNHKKv49P0SdL9SVddqXbrFhCaM25HcD+8cEUW4wqGpQS+aQvjnPW93yfy
+ SglUtPt33Sxb78V0IIJuJt3I5WIB/08d7w/qd1toMBkxUH+W0BsO5GCiptziYR7LVN1pnE
+ EVNqU5uvgoqq/C42P6aS5vrOAo4pBg0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-nVziACeQP8udgFneCGcNew-1; Thu, 12 Dec 2019 11:40:14 -0500
+ us-mta-99-nd6nUNfSNjuPXYOw0flkMQ-1; Thu, 12 Dec 2019 11:40:15 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E1DD107ACC4
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B6BD8017DF
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:14 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72C1A60BE1;
- Thu, 12 Dec 2019 16:40:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99A0C60BE1;
+ Thu, 12 Dec 2019 16:40:13 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 040/104] virtiofsd: Pass write iov's all the way through
-Date: Thu, 12 Dec 2019 16:38:00 +0000
-Message-Id: <20191212163904.159893-41-dgilbert@redhat.com>
+Subject: [PATCH 041/104] virtiofsd: add fuse_mbuf_iter API
+Date: Thu, 12 Dec 2019 16:38:01 +0000
+Message-Id: <20191212163904.159893-42-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: nVziACeQP8udgFneCGcNew-1
+X-MC-Unique: nd6nUNfSNjuPXYOw0flkMQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,129 +76,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Pass the write iov pointing to guest RAM all the way through rather
-than copying the data.
+Introduce an API for consuming bytes from a buffer with size checks.
+All FUSE operations will be converted to use this safe API instead of
+void *inarg.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 79 ++++++++++++++++++++++++++++++++---
- 1 file changed, 73 insertions(+), 6 deletions(-)
+ tools/virtiofsd/buffer.c      | 28 ++++++++++++++++++++
+ tools/virtiofsd/fuse_common.h | 49 ++++++++++++++++++++++++++++++++++-
+ 2 files changed, 76 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 99c877ea2e..3c778b6296 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -452,6 +452,10 @@ static void *fv_queue_thread(void *opaque)
-                  __func__, qi->qidx, (size_t)evalue, in_bytes, out_bytes);
+diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+index 1d7e6d2439..f59d8d72eb 100644
+--- a/tools/virtiofsd/buffer.c
++++ b/tools/virtiofsd/buffer.c
+@@ -338,3 +338,31 @@ ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct=
+ fuse_bufvec *srcv,
 =20
-         while (1) {
-+            bool allocated_bufv =3D false;
-+            struct fuse_bufvec bufv;
-+            struct fuse_bufvec *pbufv;
+     return copied;
+ }
 +
-             /*
-              * An element contains one request and the space to send our
-              * response They're spread over multiple descriptors in a
-@@ -493,14 +497,76 @@ static void *fv_queue_thread(void *opaque)
-                          __func__, elem->index);
-                 assert(0); /* TODO */
-             }
--            copy_from_iov(&fbuf, out_num, out_sg);
--            fbuf.size =3D out_len;
-+            /* Copy just the first element and look at it */
-+            copy_from_iov(&fbuf, 1, out_sg);
++void *fuse_mbuf_iter_advance(struct fuse_mbuf_iter *iter, size_t len)
++{
++    void *ptr;
 +
-+            if (out_num > 2 &&
-+                out_sg[0].iov_len =3D=3D sizeof(struct fuse_in_header) &&
-+                ((struct fuse_in_header *)fbuf.mem)->opcode =3D=3D FUSE_WR=
-ITE &&
-+                out_sg[1].iov_len =3D=3D sizeof(struct fuse_write_in)) {
-+                /*
-+                 * For a write we don't actually need to copy the
-+                 * data, we can just do it straight out of guest memory
-+                 * but we must still copy the headers in case the guest
-+                 * was nasty and changed them while we were using them.
-+                 */
-+                fuse_log(FUSE_LOG_DEBUG, "%s: Write special case\n", __fun=
-c__);
++    if (len > iter->size - iter->pos) {
++        return NULL;
++    }
 +
-+                /* copy the fuse_write_in header after the fuse_in_header =
-*/
-+                fbuf.mem +=3D out_sg->iov_len;
-+                copy_from_iov(&fbuf, 1, out_sg + 1);
-+                fbuf.mem -=3D out_sg->iov_len;
-+                fbuf.size =3D out_sg[0].iov_len + out_sg[1].iov_len;
++    ptr =3D iter->mem + iter->pos;
++    iter->pos +=3D len;
++    return ptr;
++}
 +
-+                /* Allocate the bufv, with space for the rest of the iov *=
-/
-+                allocated_bufv =3D true;
-+                pbufv =3D malloc(sizeof(struct fuse_bufvec) +
-+                               sizeof(struct fuse_buf) * (out_num - 2));
-+                if (!pbufv) {
-+                    vu_queue_unpop(dev, q, elem, 0);
-+                    free(elem);
-+                    fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
-+                             __func__);
-+                    goto out;
-+                }
++const char *fuse_mbuf_iter_advance_str(struct fuse_mbuf_iter *iter)
++{
++    const char *str =3D iter->mem + iter->pos;
++    size_t remaining =3D iter->size - iter->pos;
++    size_t i;
 +
-+                pbufv->count =3D 1;
-+                pbufv->buf[0] =3D fbuf;
-+
-+                size_t iovindex, pbufvindex;
-+                iovindex =3D 2; /* 2 headers, separate iovs */
-+                pbufvindex =3D 1; /* 2 headers, 1 fusebuf */
-+
-+                for (; iovindex < out_num; iovindex++, pbufvindex++) {
-+                    pbufv->count++;
-+                    pbufv->buf[pbufvindex].pos =3D ~0; /* Dummy */
-+                    pbufv->buf[pbufvindex].flags =3D 0;
-+                    pbufv->buf[pbufvindex].mem =3D out_sg[iovindex].iov_ba=
-se;
-+                    pbufv->buf[pbufvindex].size =3D out_sg[iovindex].iov_l=
-en;
-+                }
-+            } else {
-+                /* Normal (non fast write) path */
-+
-+                /* Copy the rest of the buffer */
-+                fbuf.mem +=3D out_sg->iov_len;
-+                copy_from_iov(&fbuf, out_num - 1, out_sg + 1);
-+                fbuf.mem -=3D out_sg->iov_len;
-+                fbuf.size =3D out_len;
++    for (i =3D 0; i < remaining; i++) {
++        if (str[i] =3D=3D '\0') {
++            iter->pos +=3D i + 1;
++            return str;
++        }
++    }
++    return NULL;
++}
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index 7bed38b436..147c043bd9 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -771,10 +771,57 @@ size_t fuse_buf_size(const struct fuse_bufvec *bufv);
+ ssize_t fuse_buf_copy(struct fuse_bufvec *dst, struct fuse_bufvec *src,
+                       enum fuse_buf_copy_flags flags);
 =20
--            /* TODO! Endianness of header */
-+                /* TODO! Endianness of header */
-=20
--            /* TODO: Add checks for fuse_session_exited */
--            struct fuse_bufvec bufv =3D { .buf[0] =3D fbuf, .count =3D 1 }=
-;
--            fuse_session_process_buf_int(se, &bufv, &ch);
-+                /* TODO: Add checks for fuse_session_exited */
-+                bufv.buf[0] =3D fbuf;
-+                bufv.count =3D 1;
-+                pbufv =3D &bufv;
-+            }
-+            pbufv->idx =3D 0;
-+            pbufv->off =3D 0;
-+            fuse_session_process_buf_int(se, pbufv, &ch);
++/**
++ * Memory buffer iterator
++ *
++ */
++struct fuse_mbuf_iter {
++    /**
++     * Data pointer
++     */
++    void *mem;
 +
-+            if (allocated_bufv) {
-+                free(pbufv);
-+            }
-=20
-             if (!qi->reply_sent) {
-                 fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
-@@ -514,6 +580,7 @@ static void *fv_queue_thread(void *opaque)
-             elem =3D NULL;
-         }
-     }
-+out:
-     pthread_mutex_destroy(&ch.lock);
-     free(fbuf.mem);
-=20
++    /**
++     * Total length, in bytes
++     */
++    size_t size;
++
++    /**
++     * Offset from start of buffer
++     */
++    size_t pos;
++};
++
++/* Initialize memory buffer iterator from a fuse_buf */
++#define FUSE_MBUF_ITER_INIT(fbuf) \
++    ((struct fuse_mbuf_iter){     \
++        .mem =3D fbuf->mem,         \
++        .size =3D fbuf->size,       \
++        .pos =3D 0,                 \
++    })
++
++/**
++ * Consume bytes from a memory buffer iterator
++ *
++ * @param iter memory buffer iterator
++ * @param len number of bytes to consume
++ * @return pointer to start of consumed bytes or
++ *         NULL if advancing beyond end of buffer
++ */
++void *fuse_mbuf_iter_advance(struct fuse_mbuf_iter *iter, size_t len);
++
++/**
++ * Consume a NUL-terminated string from a memory buffer iterator
++ *
++ * @param iter memory buffer iterator
++ * @return pointer to the string or
++ *         NULL if advancing beyond end of buffer or there is no NUL-termi=
+nator
++ */
++const char *fuse_mbuf_iter_advance_str(struct fuse_mbuf_iter *iter);
++
+ /*
+  * Signal handling
+  */
+-
+ /**
+  * Exit session on HUP, TERM and INT signals and ignore PIPE signal
+  *
 --=20
 2.23.0
 
