@@ -2,48 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2AD11C36E
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 03:42:52 +0100 (CET)
-Received: from localhost ([::1]:53282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D6E11C347
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 03:30:33 +0100 (CET)
+Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifERI-0003PE-2a
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 21:42:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40580)
+	id 1ifEFM-00074V-4h
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 21:30:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46497)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ifEPW-0001yN-GG
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 21:41:03 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ifEEE-0006Vr-4j
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 21:29:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ifEPV-0006Bo-7m
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 21:41:02 -0500
-Received: from ozlabs.org ([203.11.71.1]:55815)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ifEPT-00063F-3s; Wed, 11 Dec 2019 21:41:01 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47YJ1h06v6z9sPL; Thu, 12 Dec 2019 13:40:23 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576118424;
- bh=riZsyX6OgK3RoWT+tm0DTBg5lzOpGLEa2vF3dvFemVQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iztjlJd2aJKAgs6xZ8i5Wn9AtxWZbBftkdIf+cvs3bS09fxOfCL/W73ddCY+0BmYa
- btN5TrlqhOZJ5ausB4G1W1tqwrDrQtb8yesbfUQkzcgwBtQe7xm8Hu2VWpPCbDsWbF
- uTaN3Ms4qddutvZz186I+kCD8Pg8+svIPkU1akA4=
-Date: Thu, 12 Dec 2019 11:37:44 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2] ppc/pnv: Make PnvXScomInterface an incomplete type
-Message-ID: <20191212003744.GS207300@umbus.fritz.box>
-References: <157608025541.186670.1577861507610404326.stgit@bahia.lan>
+ (envelope-from <richard.henderson@linaro.org>) id 1ifEEC-0000eZ-C6
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 21:29:21 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39645)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1ifEEB-0000Ya-9I
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 21:29:19 -0500
+Received: by mail-pl1-x641.google.com with SMTP id o9so365738plk.6
+ for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 18:29:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dnSs02hUKWgYOXF+wicFs/wEm5XHaRR03CSW1fVdNiY=;
+ b=LuxnKsYV2P5jw3pWhC4NqH4SbsEWMDd423hp+nxFYkWo4Nej8Twbhm5a8L3IU+Y/ux
+ 0dZCuIl7GmeLYBWt/NHe8hjC2YYt/ibogZfwz8+QSxVSuTj92NAfX62Et4lHAax/v1oN
+ wrWO72GBJmzc1ZuQ/iT67LVSCE8gY82aDeqG9/UH0J3sdwjYusRmt8fZ1C6AqVeklo3c
+ obxAx7E/vwtsmizQc7PitJDbDkJgjpQ6UDhUvC+z+eFSQ9NJPzE/GPVfJ3XjxlLuJMKR
+ Tzdw7EO8DVtVCMp6pwkhI7qMDypNEZnqPCCt/0x+IJIO2szSvqQE8XtjlSZy1ZxxCJk1
+ zddg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dnSs02hUKWgYOXF+wicFs/wEm5XHaRR03CSW1fVdNiY=;
+ b=kFJqx/4PzZI7BzeYGZSyqVI8oJJZJEBbiFeCmNod5Gjb3HfSc+Lew//QAeieMrUP6M
+ g8Ef5d5aaBVn/dvbIxx6ke1Tb+BOIkeXk0F3EtP5v3uDVNktgp53Fee0yzsWP1M1VQ0t
+ /Z25c4VURNHZGvBP8cFaW4yeN+679u1h+AJvFhMSVoMswMjIAhef4l/SPOu7I2pWz0i1
+ Rcyt+UkHEXSBkIe0FDi2WxTpvaPxttBsKvchyb6rCrGr1HpO49rK3lZCCXD5x/zg7F6t
+ mUYypRJimRmIXNflrMxxWX0ftfavJ0j9sG26jjn/aJLbzRM3Se3px7UZi7g3AXXKKY4V
+ qrNA==
+X-Gm-Message-State: APjAAAXWhS7/Zxqp2VgpXtgx/r38WF/X8f/BFgv5XeADyzLkODEJvCWN
+ Cg4Th4lr+imGxO9HYBvMCTyKVw==
+X-Google-Smtp-Source: APXvYqwujqZ69gHWsNo4ORP98IGcjIhEFx7KOpNlkYeIETtq2doROUzqX2vhdew6XoMaU9NXa1BjoA==
+X-Received: by 2002:a17:902:ac97:: with SMTP id
+ h23mr7050556plr.237.1576117751180; 
+ Wed, 11 Dec 2019 18:29:11 -0800 (PST)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id z14sm2677828pfg.57.2019.12.11.18.29.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Dec 2019 18:29:10 -0800 (PST)
+Subject: Re: [PATCH v3 14/20] target/arm: don't bother with id_aa64pfr0_read
+ for USER_ONLY
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191211170520.7747-1-alex.bennee@linaro.org>
+ <20191211170520.7747-15-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c6de7384-0e22-c03c-1a02-ad288d3f7eec@linaro.org>
+Date: Wed, 11 Dec 2019 18:29:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uNvczuo8OWfsyO2w"
-Content-Disposition: inline
-In-Reply-To: <157608025541.186670.1577861507610404326.stgit@bahia.lan>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <20191211170520.7747-15-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,81 +85,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, luis.machado@linaro.org,
+ alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---uNvczuo8OWfsyO2w
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Dec 11, 2019 at 05:04:15PM +0100, Greg Kurz wrote:
-> PnvXScomInterface is an interface instance. It should never be
-> dereferenced. Drop the dummy type definition for extra safety,
-> which is the common practice with QOM interfaces.
->=20
-> While here also convert the bogus OBJECT_CHECK() to INTERFACE_CHECK().
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-
-Applied, thanks.
-
+On 12/11/19 9:05 AM, Alex Bennée wrote:
+> For system emulation we need to check the state of the GIC before we
+> report the value. However this isn't relevant to exporting of the
+> value to linux-user and indeed breaks the exported value as set by
+> modify_arm_cp_regs.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
 > ---
-> v2: convert OBJECT_CHECK() to INTERFACE_CHECK()
+> v2
+>   - extend the ifdef and make type CONST with no accessfn
 > ---
->  include/hw/ppc/pnv_xscom.h |    6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-> index 1c1d76bf9be5..306c22461587 100644
-> --- a/include/hw/ppc/pnv_xscom.h
-> +++ b/include/hw/ppc/pnv_xscom.h
-> @@ -22,13 +22,11 @@
-> =20
->  #include "qom/object.h"
-> =20
-> -typedef struct PnvXScomInterface {
-> -    Object parent;
-> -} PnvXScomInterface;
-> +typedef struct PnvXScomInterface PnvXScomInterface;
-> =20
->  #define TYPE_PNV_XSCOM_INTERFACE "pnv-xscom-interface"
->  #define PNV_XSCOM_INTERFACE(obj) \
-> -     OBJECT_CHECK(PnvXScomInterface, (obj), TYPE_PNV_XSCOM_INTERFACE)
-> +    INTERFACE_CHECK(PnvXScomInterface, (obj), TYPE_PNV_XSCOM_INTERFACE)
->  #define PNV_XSCOM_INTERFACE_CLASS(klass)                \
->      OBJECT_CLASS_CHECK(PnvXScomInterfaceClass, (klass), \
->                         TYPE_PNV_XSCOM_INTERFACE)
->=20
+>  target/arm/helper.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
---uNvczuo8OWfsyO2w
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3xi9gACgkQbDjKyiDZ
-s5JePxAAt0ge78+2HBhSeGZc9LwlU76YsdxeqKZZXafE/SGHvjMmxE5kmq0z3u7u
-zURlXCtP+s4e2V2Mw67eLSdCnZXY+S2r9y0dAu0Y53CpYsYtYoFpZgeV6NEc5P1U
-rkZTLOHrW3+eEgPD3KueoXNFBTIv5zNNDQ9tuFhUJI4R+6AVHPxsr1mFq5BFvhkf
-37ExZQ2c6NN83bZiaM1PRaD3TfrC7w5YJ9GXMsMsaksUG8s4ewBluB1X7MMIEMg1
-clppA1ip6hNmnGGIFK7FEodd9LnpCYECSOONOIeOG6BtqUWd+Cn/aLar8yzyRUkg
-fYRidwJVQ0YE3NpeLH25C4BQ7FlNvk7MoN5M/qndd0tsI71ClQ6NXlmQxtrJ/+vU
-lNVIwsCtePuEeJSpjJ1UwQ5TPOxsIr5YCWQ+GkADboj9pMsdh4vHFoITSbLGlQSl
-Fpr+S4pvHkpkzD4NNBEgOla7DS2fQZCLUrGxh4YsP58YGJtXkNvgkDttSmQ4Jdzq
-3nOfq22qnpUJmcWnMIDKMXWQM9360UrTaO5ed1gWz1+KPfI36cFep8hlBMCgssYx
-dT3Z5AG/nBSjwEkQoAT+67qbkkqUhgxu+/y3rI7uIIcKf0VSJqZQp4Mi1fUe8rSZ
-2dae90A5KotZq4lCKev15Wu13NRKuzCzhxsLJ0Cy+CHN+AeHouk=
-=nEcF
------END PGP SIGNATURE-----
-
---uNvczuo8OWfsyO2w--
+r~
 
