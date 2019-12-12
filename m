@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675D811CF81
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:15:30 +0100 (CET)
-Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E769811CF72
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:12:31 +0100 (CET)
+Received: from localhost ([::1]:60126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifPFZ-0003E5-2C
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:15:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45265)
+	id 1ifPCg-000084-M3
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:12:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49181)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1ifOQZ-00068s-ET
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:22:48 -0500
+ (envelope-from <kraxel@redhat.com>) id 1ifOYY-0000pd-IP
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:31:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1ifOQY-000082-2V
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:22:47 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20974
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1ifOQX-00006r-TZ; Thu, 12 Dec 2019 08:22:46 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBCDCCcV089627; Thu, 12 Dec 2019 08:22:34 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wujxr7egq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2019 08:22:34 -0500
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCDCf6v092981;
- Thu, 12 Dec 2019 08:22:33 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wujxr7efy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2019 08:22:33 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCDKc2Q014076;
- Thu, 12 Dec 2019 13:22:33 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 2wr3q81dcp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2019 13:22:33 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBCDMVhd50528696
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Dec 2019 13:22:31 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9BFA813605D;
- Thu, 12 Dec 2019 13:22:31 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2EB3F136059;
- Thu, 12 Dec 2019 13:22:31 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 12 Dec 2019 13:22:30 +0000 (GMT)
-Subject: Re: [PACTH v3 3/5] tpm_spapr: Support suspend and resume
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20191211162050.970199-1-stefanb@linux.vnet.ibm.com>
- <20191211162050.970199-4-stefanb@linux.vnet.ibm.com>
- <CAJ+F1CL6R5wwn6pnFTRaoTWqXUr7eTDAzMzT27M8zSkG2K7uEw@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <08e2a506-2a0e-f8d2-40ea-97429ff2c46c@linux.ibm.com>
-Date: Thu, 12 Dec 2019 08:22:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <kraxel@redhat.com>) id 1ifOYU-0006aB-KZ
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:31:00 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52875
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ifOYU-0006XA-93
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:30:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576157457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RzZIpRRe+E7GSX3vBKD3/vOsPzUov2OSOdMVEJzYEhQ=;
+ b=E7iwBPVXA4k0GGDyv7gNhalopAMqMHbIoVtlaEAfXiU71XpCFxucNXFHRYVQKjuVyARuKa
+ ZTvSn9lqZikOYJQEn1BTJAwypWhBSdpzWRD3EVqUYpfg4fijNLyKAaT7yrLaSDMQKcjCbb
+ kETVREvIktuv6nHMtmsRWFCmo44AA1A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-y4I0-nPNMs6f0eiAd_yjOg-1; Thu, 12 Dec 2019 08:30:53 -0500
+X-MC-Unique: y4I0-nPNMs6f0eiAd_yjOg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64082800D41;
+ Thu, 12 Dec 2019 13:30:50 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.36.118.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96EE260BF3;
+ Thu, 12 Dec 2019 13:30:49 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CB51B9DA4; Thu, 12 Dec 2019 14:30:48 +0100 (CET)
+Date: Thu, 12 Dec 2019 14:30:48 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+Message-ID: <20191212133048.4nbmuwhbq5z2ai6o@sirius.home.kraxel.org>
+References: <72712fe048af1489368f7416faa92c45@hostfission.com>
+ <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+ <d65bec5074eda5f389668e28922c1609@hostfission.com>
+ <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
+ <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
+ <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
+ <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+ <CAD=HUj7d3SWqCH=57ymy-BVd6xdJWc=WSqHAFyQXt-3MjchEAA@mail.gmail.com>
+ <20191212094121.by7w7fywlzdfoktn@sirius.home.kraxel.org>
+ <CAD=HUj6YYupjdxxz2mgMmE2DcKhXP-qdhRORvUNTmzcORRrLzg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CL6R5wwn6pnFTRaoTWqXUr7eTDAzMzT27M8zSkG2K7uEw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-12_03:2019-12-12,2019-12-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- malwarescore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
- clxscore=1015 suspectscore=0 bulkscore=0 spamscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912120100
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id xBCDCCcV089627
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD=HUj6YYupjdxxz2mgMmE2DcKhXP-qdhRORvUNTmzcORRrLzg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,78 +79,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:sPAPR pseries" <qemu-ppc@nongnu.org>,
- QEMU <qemu-devel@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Geoffrey McRae <geoff@hostfission.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Zach Reizner <zachr@chromium.org>, Alexandre Courbot <acourbot@chromium.org>,
+ virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>,
+ Alex Lau <alexlau@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Keiichi Watanabe <keiichiw@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+ Dylan Reid <dgreid@chromium.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+ Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/19 6:00 AM, Marc-Andr=C3=A9 Lureau wrote:
-> Hi
->
-> On Wed, Dec 11, 2019 at 8:27 PM Stefan Berger
-> <stefanb@linux.vnet.ibm.com> wrote:
->> Extend the tpm_spapr frontend with VM suspend and resume support.
->>
->> Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
->> ---
->>   hw/tpm/tpm_spapr.c | 42 +++++++++++++++++++++++++++++++++++++++++-
->>   1 file changed, 41 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
->> index c4a67e2403..d9153bd95c 100644
->> --- a/hw/tpm/tpm_spapr.c
->> +++ b/hw/tpm/tpm_spapr.c
->> @@ -87,6 +87,8 @@ typedef struct {
->>       TPMVersion be_tpm_version;
->>
->>       size_t be_buffer_size;
->> +
->> +    bool deliver_response; /* whether to deliver response after VM re=
-sume */
->>   } SPAPRvTPMState;
->>
->>   static void tpm_spapr_show_buffer(const unsigned char *buffer,
->> @@ -339,9 +341,47 @@ static enum TPMVersion tpm_spapr_get_version(TPMI=
-f *ti)
->>       return tpm_backend_get_tpm_version(s->be_driver);
->>   }
->>
->> +/* persistent state handling */
->> +
->> +static int tpm_spapr_pre_save(void *opaque)
->> +{
->> +    SPAPRvTPMState *s =3D opaque;
->> +
->> +    s->deliver_response =3D tpm_backend_finish_sync(s->be_driver);
->> +    /*
->> +     * we cannot deliver the results to the VM since DMA would touch =
-VM memory
->> +     */
->> +
->> +    return 0;
->> +}
->> +
->> +static int tpm_spapr_post_load(void *opaque, int version_id)
->> +{
->> +    SPAPRvTPMState *s =3D opaque;
->> +
->> +    if (s->deliver_response) {
->> +        /* deliver the results to the VM via DMA */
->> +        tpm_spapr_request_completed(TPM_IF(s), 0);
-> Why isn't it enough to rely on tpm_spapr_request_completed callback
-> being called during pre-save when tpm_backend_finish_sync() is called?
-> (like tis & crb)
+On Thu, Dec 12, 2019 at 09:26:32PM +0900, David Stevens wrote:
+> > > > Second I think it is a bad idea
+> > > > from the security point of view.  When explicitly exporting buffers it
+> > > > is easy to restrict access to the actual exports.
+> > >
+> > > Restricting access to actual exports could perhaps help catch bugs.
+> > > However, I don't think it provides any security guarantees, since the
+> > > guest can always just export every buffer before using it.
+> >
+> > Probably not on the guest/host boundary.
+> >
+> > It's important for security inside the guest though.  You don't want
+> > process A being able to access process B private resources via buffer
+> > sharing support, by guessing implicit buffer identifiers.
+> 
+> At least for the linux guest implementation, I wouldn't think the
+> uuids would be exposed from the kernel. To me, it seems like something
+> that should be handled internally by the virtio drivers.
 
+That would be one possible use case, yes.  The exporting driver attaches
+a uuid to the dma-buf.  The importing driver can see the attached uuid
+and use it (if supported, otherwise run with the scatter list).  That
+will be transparent to userspace, apps will just export/import dma-bufs
+as usual and not even notice the uuid.
 
-When .pre_save is called the VM memory has been fully replicated and=20
-only the devices need to save their state, right? So TIS and CRB save=20
-the response in memory of the device for the OS driver to pick up after=20
-resume. The SPAPR device model is expected to write the response into VM=20
-memory using DMA but memory won't be marked dirty anymore and replicated=20
-(afaik). So we may have the mechanism of having=20
-tpm_spapr_request_completed() invoked but in addition we need to=20
-re-deliver a response after resume so that the OS driver reads the=20
-proper response then. I'll investigate, though...
+I can see other valid use cases though:  A wayland proxy could use
+virtio-gpu buffer exports for shared memory and send the buffer uuid
+to the host over some stream protocol (vsock, tcp, ...).  For that to
+work we have to export the uuid to userspace, for example using a ioctl
+on the dma-buf file handle.
 
+> If you use some other guest with untrusted
+> userspace drivers, or if you're pulling the uuids out of the kernel to
+> give to some non-virtio transport, then I can see it being a concern.
+
+I strongly prefer a design where we don't have to worry about that
+concern in the first place instead of discussing whenever we should be
+worried or not.
+
+> > Without buffer sharing support the driver importing a virtio-gpu dma-buf
+> > can send the buffer scatter list to the host.  So both virtio-gpu and
+> > the other device would actually access the same guest pages, but they
+> > are not aware that the buffer is shared between devices.
+> 
+> With the uuid approach, how should this case be handled? Should it be
+> equivalent to exporting and importing the buffer which was created
+> first? Should the spec say it's undefined behavior that might work as
+> expected but might not, depending on the device implementation? Does
+> the spec even need to say anything about it?
+
+Using the uuid is an optional optimization.  I'd expect the workflow be
+roughly this:
+
+  (1) exporting driver exports a dma-buf as usual, additionally attaches
+      a uuid to it and notifies the host (using device-specific commands).
+  (2) importing driver will ask the host to use the buffer referenced by
+      the given uuid.
+  (3) if (2) fails for some reason use the dma-buf scatter list instead.
+
+Of course only virtio drivers would try step (2), other drivers (when
+sharing buffers between intel gvt device and virtio-gpu for example)
+would go straight to (3).
+
+> > With buffer sharing virtio-gpu would attach a uuid to the dma-buf, and
+> > the importing driver can send the uuid (instead of the scatter list) to
+> > the host.  So the device can simply lookup the buffer on the host side
+> > and use it directly.  Another advantage is that this enables some more
+> > use cases like sharing buffers between devices which are not backed by
+> > guest ram.
+> 
+> Not just buffers not backed by guest ram, but things like fences. I
+> would suggest the uuids represent 'exported resources' rather than
+> 'exported buffers'.
+
+Hmm, I can't see how this is useful.  Care to outline how you envision
+this to work in a typical use case?
+
+cheers,
+  Gerd
 
 
