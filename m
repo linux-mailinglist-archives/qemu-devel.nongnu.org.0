@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB6B11D62B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:47:57 +0100 (CET)
-Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9312211D63A
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:50:10 +0100 (CET)
+Received: from localhost ([::1]:36138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifTVE-00053a-NE
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:47:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54336)
+	id 1ifTXN-00071v-Aa
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:50:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ifTSs-0003il-Qs
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:45:32 -0500
+ (envelope-from <jcmvbkbc@gmail.com>) id 1ifTTw-0004qy-A4
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:46:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ifTSr-0003x4-RS
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:45:30 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35334)
+ (envelope-from <jcmvbkbc@gmail.com>) id 1ifTTv-0005tR-B4
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:46:36 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43465)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1ifTSr-0003sc-Kz
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:45:29 -0500
-Received: by mail-pg1-x542.google.com with SMTP id l24so1622936pgk.2
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 10:45:26 -0800 (PST)
+ (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1ifTTv-0005nd-3J
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:46:35 -0500
+Received: by mail-pf1-x441.google.com with SMTP id h14so1238743pfe.10
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 10:46:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZYEW0jxj8WRJdyQx2fgXWu4l83kuuVhZh2OTn/mfqr0=;
- b=FzFdD905kroORW8YR7L13J6jNulCSFsK5YKTj3eR6d4v14PJ+ZvlXJ3Vth7wEi69Oa
- 9CM/cQg2NfZoeyPA3GW0x55B9jVpE1I9gL1dEun7xC8jdJE5dpXwMersTHHp+/+YOUtV
- wiXDB5ZoS6caVAD6BAsP2IKG/C4uC3+WlaeQjFo6e1XHG/+w03tq+d1ERhmdUlaoYVKb
- jZb+w7hpGfWg7WpWhsuVv1bscdpHqc1VS1ayfIlBL3weRcDZmm4JfnN/erWeYyARYZ7e
- A4LO/7EM3nMrwf0kTuUmeoQL2oitZ6CPA0n+N1CqGqFBUNkhTSmqdJ3FisB1eIJIdsKt
- hE1g==
+ :cc; bh=d3hN3crFgargNwf6dP5mibCcgUskG+IJPCcHFmzqCA8=;
+ b=cnYEC7TKTa8nVhve5gqYBeVHgsRVe9bqxWfdqp/2Ut7qQMyF1Po8szjHIFvGq+Z+EN
+ am30C7P4noVmdKIMYm9ko8oIqf0MZLP8vYQ8dgoQ/4SzUxad29zwYgKR+gJ3NEvPqeAr
+ vSxnKlyQ6WSGKRvCLN6ZEGB0MpBSBgrahA43/2lTvRDUZAsjMq7j4PTwL+e2OBMeVdmx
+ MpIjQPpjOD0Crpk/twRI2fFFi8eFzBryVkb/NqQS7VomNqSr7zIRff1OKHDQu1rN6FpJ
+ o+hdfxIizFKnU3V8MV0ui/SPtiDfX1+7C/yPDR+Wiwctw2SRRb16wSpLXoQ85iuhD9ri
+ Ytsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZYEW0jxj8WRJdyQx2fgXWu4l83kuuVhZh2OTn/mfqr0=;
- b=nABSmtQV+0+sGhSSRCQb1ikN+g7E7J1xKhD66B9HzfqfMxXFnuPErpLqDirQGDXP29
- h0Z5zI0SiEYZ89h7iZee+xNenB11g92lrv6A+Jkrpb+6MmxuSUPaSpMWq3TS22fcbYJi
- PKtpAOOAZHb2MyvqOIAuPud9hhpFuOCE+PbYkj3NqXnkiOrc3EVOBFvxa4RCCjbU8Ts8
- i5MKDK/n5csf5MxlS5WDvmnHmqK1qy/KxCVkSjJltIIwxdLy6m2U4uwTEzEIbPM5zGFl
- AhzcZMocZwBwSjW4/SsrdM/yfmXZxOi7TEVJ8TSO5cnJLat1W5EXyy4PFQWW/pffKieU
- 6LlA==
-X-Gm-Message-State: APjAAAU5w7PjRuPd7UZeF78Yfg0GlvErmFNSmHOF73naVvOXLJ1f+M5t
- RJW+AokXFQnAJXHws0jzh+EtnSboNLtm3CwbEQ4=
-X-Google-Smtp-Source: APXvYqyMUX2DDmoefyQTcctQyRadIqd90kh8lfHkyHGDp/KIdRT5T05DsUei+p4ZQDApNtWPDmZJtpn1bqEeQRpkcPo=
-X-Received: by 2002:aa7:9192:: with SMTP id x18mr11455493pfa.125.1576176325703; 
- Thu, 12 Dec 2019 10:45:25 -0800 (PST)
+ bh=d3hN3crFgargNwf6dP5mibCcgUskG+IJPCcHFmzqCA8=;
+ b=SE2kaDC6i4NUlzhHjg5c/JVf7GOeCST14xE5Q92ch2B0icv4fVukQIlyuHh7W9r7Sw
+ ZyPLtdUaOUMKiNs1IAY68YA6aTH2Hmgaotir9WOviMIY80+oGhbySJzkG5Jaqk+QjZKu
+ tcjqApjLmg/fNWacwg4Cb8RvvlP0zB1FVONkusgvFBTNYzV1oMUvoiMcd6lrHyKR2YNe
+ S8k99jMxEIPpHOaHd1R2SX+5EdmLgWnmEHxmzepgZBN/HkwjG4kIMK39cOKTGPR7i5V4
+ CrxTBkZQ9Xo8ayytSEqFblGat4XdFK3BpAlS/XmDJdiS9OrMK5ZXr4MKPU6Z32qw4tBz
+ S4Aw==
+X-Gm-Message-State: APjAAAXu0MfnnSA2fFk8L+R2JLot4dfmS80+tJ4wQtrWmTT1XuJdzxCY
+ 18ZSHNfnm8/TGjmBvsQKzau7+NJJrcA+DeV4/FM=
+X-Google-Smtp-Source: APXvYqx3lh2v0DqCM82wmgHzrWLRbqh11S56/ubPNlGyPROcHazOjssL1WWP85gHJVNzmkMyyF3sxEzKw7xIwK6uBcE=
+X-Received: by 2002:a63:5062:: with SMTP id q34mr12091412pgl.378.1576176390444; 
+ Thu, 12 Dec 2019 10:46:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20191212040039.26546-1-richard.henderson@linaro.org>
- <20191212040039.26546-2-richard.henderson@linaro.org>
-In-Reply-To: <20191212040039.26546-2-richard.henderson@linaro.org>
+ <20191212040039.26546-23-richard.henderson@linaro.org>
+In-Reply-To: <20191212040039.26546-23-richard.henderson@linaro.org>
 From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Thu, 12 Dec 2019 10:45:13 -0800
-Message-ID: <CAMo8BfJNJ-APWhfUyaVs838GVEBRG8LE2Ep45capDn1LgyMDEg@mail.gmail.com>
-Subject: Re: [PATCH 01/28] target/xtensa: Use probe_access for itlb_hit_test
+Date: Thu, 12 Dec 2019 10:46:18 -0800
+Message-ID: <CAMo8BfKX=aqWOWrFx14Oy_UwSYnHqFPnFvNo9v-hVVXhhMPkog@mail.gmail.com>
+Subject: Re: [PATCH 22/28] target/xtensa: Remove MMU_MODE{0,1,2,3}_SUFFIX
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,20 +75,16 @@ Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 11, 2019 at 8:00 PM Richard Henderson
+On Wed, Dec 11, 2019 at 8:01 PM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We don't actually need the result of the read, only to probe that the
-> memory mapping exists.  This is exactly what probe_access does.
->
-> This is also the only user of any cpu_ld*_code_ra function.
-> Removing this allows the interface to be removed shortly.
+> The functions generated by these macros are unused.
 >
 > Cc: Max Filippov <jcmvbkbc@gmail.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/xtensa/mmu_helper.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  target/xtensa/cpu.h | 4 ----
+>  1 file changed, 4 deletions(-)
 
 Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 
