@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19C911CEC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:51:51 +0100 (CET)
-Received: from localhost ([::1]:59570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F95711CED7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:54:16 +0100 (CET)
+Received: from localhost ([::1]:59592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOsg-0006aD-6o
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:51:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41023)
+	id 1ifOv0-0001hE-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:54:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41057)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNz0-0004Ud-GH
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNz0-0004V6-LE
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyz-000809-Cy
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyz-000803-Cd
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:18 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41635)
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56060)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyz-0007xD-5o
+ id 1ifNyz-0007yU-5W
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:54:17 -0500
-Received: by mail-wr1-x430.google.com with SMTP id c9so2604809wrw.8
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:16 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id q9so2239157wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:54:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NZznVY2PNcm8/8th1seZakUGMQB4kApyVOseMDs6r+M=;
- b=YrylU0Mto+scss+HWbGPVSjD9Gk8rSfvjR9eX9K824j4nioz3js1OS2OY1bF0igTLb
- D7xj93ghUIxkc1uGC2E9JnxVotNC9gpcP024nsKtwcGscxRos3VPaO460F1OlZhBklMq
- MXgSX5zVZLqvvD/tMzErrXAAFauBMoIRb8NDDe9vVF8b6AyPpNS0tJ0jc6bMiVgCLlEk
- 11KzItAInQWvkXE+KFBzcK8JyCRypue7Ygt1lfG1q0qkU6Edy5RUfU53wSgah884VEVX
- 8Mv8FAfoGkUtfJVnO+2XumoudWiD2Z3KH3Q1gcm+fqcHjgZ2vbLoIuRoThX2Moq9M9Ba
- 63gA==
+ bh=R77k2Mbztn4q8/5DxwujzSso8bXI5Kuue23snjdJl60=;
+ b=ihs6R6RVw93NdSxyJz1hpBRqm2fDW1x1n7zly75lVY2ahry9q9mVIQjpCPCzUj4oqh
+ /WhzfDqL6b6riXHad+kE/FzR6g4l/ka19TfA0uQvaFq9nJtSxzL6gLXQI0Jn2+TIaw4v
+ D94PR69U5ltZmW3e3RtyzApJXdbMcnK7jmw/UAyPV6laaQIZC4dR/YQMLQYppCe6uJAL
+ gOakeQHrhWULgYwfWRK1yDP2re3mV1hEcAFrNSskM9Yi/SktIsawxdnq8+6m+DgX6mrW
+ /5EiilICRnCWYu5c9hZq+wMfnGx9XfNn5W6u20GeP8fAB5x2GWh/FBnjwkTQece2IcQc
+ 8BYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NZznVY2PNcm8/8th1seZakUGMQB4kApyVOseMDs6r+M=;
- b=WUCVltmVa7H1LCLQFy7yLfgL0r8sWfKi/BNFuvioiPrjj1fdPrn3omwf4jRn5nC64G
- qpzovEnwtwRoY/Sd4oaPBu/IJJpxaGGZm8hp+Ss94aPgLQzRn+I+/bvJZF2dyvmmOwX8
- jaowiquvQJUQPp5ntZGTt7+QJcfrXIgVX+CHbPcG+gp1Rxpg0vCPsuzsuP4Px92KXAIy
- 09Qv+XpX03v/vnI93TPqhS10dkMLNVh82IBJRj99p+lWgvKnhJtxn76PqCmbmJFTTV8y
- a9hbVuBYiZ41nViz0iH5jF21CX6SqTBQTboylS4Nlzp5pdEl6a02yvwZ4yRRUAJVC1b2
- Xiag==
-X-Gm-Message-State: APjAAAUqYvkOIZDFDryUAm9A6n7s3Uf540J1pzXd+3wVPNDeZaw3Cw4P
- QvzEESZxtPKChq9LEP04v5wZiKbs
-X-Google-Smtp-Source: APXvYqxxomIJkq60aa8Ya3e4qnvPcvzpGBdJRA7R6DYdloh6jQz4isAm8SkM2rTM0dO4Jtu1bSwIqQ==
-X-Received: by 2002:adf:d848:: with SMTP id k8mr5983951wrl.328.1576155255004; 
+ bh=R77k2Mbztn4q8/5DxwujzSso8bXI5Kuue23snjdJl60=;
+ b=YYoMWCU6pLYufe9POrnRl3KMmP9Aks5nP3Fa+jgGhFmVVQHR9JnEGAAhoU2icyJcQw
+ wfZ4ZliVTn+XnlAJmT2uSHideVQeVy0SmgZsJQzsNmN/Wk3fvK56b5ZDZ6Z/Q0gm0xBI
+ Uvn8pwn2h48SBEKD0RVx2axtCXlEn6RF+qoVE+zufQnDub0fRr/mIuJquVN3deKCpTHz
+ Xt9XOGum5wX+rvVZGJR4BauOqxZVbSvTcum8LotGX+wDrc5Q6Ms9mUEIFtJwLbgdY08y
+ xDg5GdKxYQznoce00QNpWxJWFqtaYA9s1LbiM4qmBxiA37sDcwmFPHnopEoW86lY+SGw
+ e1IQ==
+X-Gm-Message-State: APjAAAVDblrAgKuj8ZdzCGLhbBoWaANzci85gLLybqI+aV7IlIDi8R+S
+ IoUlC9hyuABgYKxIWb0PXZv0/9zm
+X-Google-Smtp-Source: APXvYqyU9m8lDHsudgRuPs2/y8iNHNwLvBF+NTbwmIWH+Llw1v3BWXnnrU1V+2FhNwFNRfjLNQssAA==
+X-Received: by 2002:a7b:ce19:: with SMTP id m25mr6122964wmc.83.1576155255921; 
  Thu, 12 Dec 2019 04:54:15 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.14
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.54.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:54:14 -0800 (PST)
+ Thu, 12 Dec 2019 04:54:15 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 077/132] meson: convert hw/pcmcia
-Date: Thu, 12 Dec 2019 13:52:01 +0100
-Message-Id: <1576155176-2464-78-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 078/132] meson: convert hw/pci-host
+Date: Thu, 12 Dec 2019 13:52:02 +0100
+Message-Id: <1576155176-2464-79-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,53 +86,93 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs        | 1 -
- hw/meson.build          | 1 +
- hw/pcmcia/Makefile.objs | 2 --
- hw/pcmcia/meson.build   | 2 ++
- 4 files changed, 3 insertions(+), 3 deletions(-)
- delete mode 100644 hw/pcmcia/Makefile.objs
- create mode 100644 hw/pcmcia/meson.build
+ hw/Makefile.objs          |  2 +-
+ hw/meson.build            |  1 +
+ hw/pci-host/Makefile.objs | 21 ---------------------
+ hw/pci-host/meson.build   | 22 ++++++++++++++++++++++
+ 4 files changed, 24 insertions(+), 22 deletions(-)
+ delete mode 100644 hw/pci-host/Makefile.objs
+ create mode 100644 hw/pci-host/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 4670061..bfa305f 100644
+index bfa305f..1f76ce1 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -24,7 +24,6 @@ devices-dirs-y += rdma/
+@@ -23,7 +23,7 @@ devices-dirs-y += net/
+ devices-dirs-y += rdma/
  devices-dirs-y += nvram/
  devices-dirs-y += pci/
- devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
--devices-dirs-y += pcmcia/
+-devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
++devices-dirs-$(CONFIG_PCI) += pci-bridge/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 37ff9ec..2356eda 100644
+index 2356eda..b93a496 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,5 +1,6 @@
  subdir('core')
  subdir('mem')
-+subdir('pcmcia')
++subdir('pci-host')
+ subdir('pcmcia')
  subdir('scsi')
  subdir('sd')
- subdir('semihosting')
-diff --git a/hw/pcmcia/Makefile.objs b/hw/pcmcia/Makefile.objs
+diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
 deleted file mode 100644
-index 4eac060..0000000
---- a/hw/pcmcia/Makefile.objs
+index a9cd3e0..0000000
+--- a/hw/pci-host/Makefile.objs
 +++ /dev/null
-@@ -1,2 +0,0 @@
--common-obj-y += pcmcia.o
--obj-$(CONFIG_PXA2XX) += pxa2xx.o
-diff --git a/hw/pcmcia/meson.build b/hw/pcmcia/meson.build
+@@ -1,21 +0,0 @@
+-common-obj-$(CONFIG_PAM) += pam.o
+-
+-# PPC devices
+-common-obj-$(CONFIG_PREP_PCI) += prep.o
+-common-obj-$(CONFIG_GRACKLE_PCI) += grackle.o
+-# NewWorld PowerMac
+-common-obj-$(CONFIG_UNIN_PCI) += uninorth.o
+-# PowerPC E500 boards
+-common-obj-$(CONFIG_PPCE500_PCI) += ppce500.o
+-
+-# ARM devices
+-common-obj-$(CONFIG_VERSATILE_PCI) += versatile.o
+-
+-common-obj-$(CONFIG_PCI_SABRE) += sabre.o
+-common-obj-$(CONFIG_FULONG) += bonito.o
+-common-obj-$(CONFIG_PCI_PIIX) += piix.o
+-common-obj-$(CONFIG_PCI_EXPRESS_Q35) += q35.o
+-common-obj-$(CONFIG_PCI_EXPRESS_GENERIC_BRIDGE) += gpex.o
+-common-obj-$(CONFIG_PCI_EXPRESS_XILINX) += xilinx-pcie.o
+-
+-common-obj-$(CONFIG_PCI_EXPRESS_DESIGNWARE) += designware.o
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
 new file mode 100644
-index 0000000..48ece81
+index 0000000..4938826
 --- /dev/null
-+++ b/hw/pcmcia/meson.build
-@@ -0,0 +1,2 @@
-+softmmu_ss.add(files('pcmcia.c'))
-+specific_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx.c'))
++++ b/hw/pci-host/meson.build
+@@ -0,0 +1,22 @@
++pci_ss = ss.source_set()
++pci_ss.add(when: 'CONFIG_FULONG', if_true: files('bonito.c'))
++pci_ss.add(when: 'CONFIG_PAM', if_true: files('pam.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('designware.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gpex.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_Q35', if_true: files('q35.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
++pci_ss.add(when: 'CONFIG_PCI_PIIX', if_true: files('piix.c'))
++pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
++
++# PPC devices
++pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
++pci_ss.add(when: 'CONFIG_GRACKLE_PCI', if_true: files('grackle.c'))
++# NewWorld PowerMac
++pci_ss.add(when: 'CONFIG_UNIN_PCI', if_true: files('uninorth.c'))
++# PowerPC E500 boards
++pci_ss.add(when: 'CONFIG_PPCE500_PCI', if_true: files('ppce500.c'))
++
++# ARM devices
++pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('versatile.c'))
++
++softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
 -- 
 1.8.3.1
 
