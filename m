@@ -2,53 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551DB11CD44
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 13:35:11 +0100 (CET)
-Received: from localhost ([::1]:58668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA5B11CD72
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 13:50:30 +0100 (CET)
+Received: from localhost ([::1]:58774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifNgU-0003Qx-D3
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 07:35:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59547)
+	id 1ifNvJ-0007cZ-FI
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 07:50:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ifNfg-0002t2-5Y
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:34:21 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ifNtj-0006AJ-UT
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:48:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ifNfe-0006aS-Uu
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:34:20 -0500
-Received: from 4.mo177.mail-out.ovh.net ([46.105.37.72]:40871)
+ (envelope-from <imammedo@redhat.com>) id 1ifNtg-0005gy-8k
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:48:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59643
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifNfe-0006Xa-OC
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:34:18 -0500
-Received: from player692.ha.ovh.net (unknown [10.108.1.232])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id BDD23115A59
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 13:34:16 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player692.ha.ovh.net (Postfix) with ESMTPSA id B5B7CD16B28C;
- Thu, 12 Dec 2019 12:33:51 +0000 (UTC)
-Date: Thu, 12 Dec 2019 13:32:51 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Bharata B Rao <bharata@linux.ibm.com>
-Subject: Re: [PATCH v2 ppc-for-5.0 2/2] ppc/spapr: Support reboot of secure
- pseries guest
-Message-ID: <20191212133252.483868d7@bahia.tlslab.ibm.com>
-In-Reply-To: <20191212085343.GB28362@in.ibm.com>
-References: <20191212055059.9399-1-bharata@linux.ibm.com>
- <20191212055059.9399-3-bharata@linux.ibm.com>
- <aeadba2d-1699-a750-2dc2-cf9921e57680@kaod.org>
- <20191212085343.GB28362@in.ibm.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ifNtg-0005fi-4E
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:48:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576154927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/imIckN8U8d+XSCxCo69jxbdWcrk2oCuRa8Rl/JSOPA=;
+ b=f27ow7FfXZs7pB9zN/4Wkm8pnIC5nskzvDeFsdbd5+O+TNq2gNokMCrvjzYw4WYogtP8HM
+ qynQsR7z7hh5lmX2OqZAAqNQWgPkQ920KNWVtW9HU2ZDcALR8tFObj+N1hJJGB6FVYZIEu
+ HnUDn9haNWxbCCVY7MvYN6e/YaC3XSg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-5tOesFIrNb2fozsqYWUsmg-1; Thu, 12 Dec 2019 07:48:45 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B632B1800D42;
+ Thu, 12 Dec 2019 12:48:44 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B21DE10013A1;
+ Thu, 12 Dec 2019 12:48:43 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] numa: stop abusing numa_mem_supported
+Date: Thu, 12 Dec 2019 13:48:54 +0100
+Message-Id: <1576154936-178362-1-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 5tOesFIrNb2fozsqYWUsmg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 3731232293415852534
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeljedggeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.37.72
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,86 +67,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, linuxram@us.ibm.com,
- qemu-devel@nongnu.org, paulus@ozlabs.org, qemu-ppc@nongnu.org,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, david@gibson.dropbear.id.au
+Cc: Tao Xu <tao3.xu@intel.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 12 Dec 2019 14:23:43 +0530
-Bharata B Rao <bharata@linux.ibm.com> wrote:
+A fix  and cleanup for a mistakes that slipped by me in
+  aa57020774 (numa: move numa global variable nb_numa_nodes into MachineSta=
+te)
 
-> On Thu, Dec 12, 2019 at 08:34:57AM +0100, C=C3=A9dric Le Goater wrote:
-> > Hello Bharata,
-> >=20
-> >=20
-> > On 12/12/2019 06:50, Bharata B Rao wrote:
-> > > A pseries guest can be run as a secure guest on Ultravisor-enabled
-> > > POWER platforms. When such a secure guest is reset, we need to
-> > > release/reset a few resources both on ultravisor and hypervisor side.
-> > > This is achieved by invoking this new ioctl KVM_PPC_SVM_OFF from the
-> > > machine reset path.
-> > >=20
-> > > As part of this ioctl, the secure guest is essentially transitioned
-> > > back to normal mode so that it can reboot like a regular guest and
-> > > become secure again.
-> > >=20
-> > > This ioctl has no effect when invoked for a normal guest. If this ioc=
-tl
-> > > fails for a secure guest, the guest is terminated.
-> >=20
-> > This looks OK.=20
-> >=20
-> > > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
-> > > ---
-> > >  hw/ppc/spapr.c       | 15 +++++++++++++++
-> > >  target/ppc/kvm.c     |  7 +++++++
-> > >  target/ppc/kvm_ppc.h |  6 ++++++
-> > >  3 files changed, 28 insertions(+)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index f11422fc41..25e1a3446e 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -1597,6 +1597,21 @@ static void spapr_machine_reset(MachineState *=
-machine)
-> > >      void *fdt;
-> > >      int rc;
-> > > =20
-> > > +    /*
-> > > +     * KVM_PPC_SVM_OFF ioctl can fail for secure guests, check and
-> > > +     * exit in that case. However check for -ENOTTY explicitly
-> > > +     * to ensure that we don't terminate normal guests that are
-> > > +     * running on kernels which don't support this ioctl.
-> > > +     *
-> > > +     * Also, this ioctl returns 0 for normal guests on kernels where
-> > > +     * this ioctl is supported.
-> > > +     */
-> > > +    rc =3D kvmppc_svm_off();
-> > > +    if (rc && rc !=3D -ENOTTY) {
-> >=20
-> > I would put these low level tests under kvmppc_svm_off().
->=20
-> Makes sense.
->=20
-> >=20
-> > > +        error_report("Reset of secure guest failed, exiting...");
-> > > +        exit(EXIT_FAILURE);
-> >=20
-> > The exit() could probably go under kvmppc_svm_off() also.
->=20
-> May be not. Then error_report would have also have to go in.
-> Doesn't make sense to print this error from there.
->=20
 
-Why doesn't it make sense ? It seems there's a consensus that the
-failure (at least the -EINVAL case) isn't recoverable in any way.
-Are there cases where we would call this and the caller could
-cope with an error ?
+CC: Eduardo Habkost <ehabkost@redhat.com>
+CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+CC: Tao Xu <tao3.xu@intel.com>
 
-> Regards,
-> Bharata.
->=20
->=20
+Igor Mammedov (2):
+  numa: remove not needed check
+  numa: properly check if numa is supported
+
+ hw/arm/sbsa-ref.c | 1 -
+ hw/core/machine.c | 4 ++--
+ hw/core/numa.c    | 7 +------
+ 3 files changed, 3 insertions(+), 9 deletions(-)
+
+--=20
+2.7.4
 
 
