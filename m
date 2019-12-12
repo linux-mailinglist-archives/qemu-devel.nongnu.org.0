@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C631611CE68
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:34:36 +0100 (CET)
-Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A16CF11CE57
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:31:56 +0100 (CET)
+Received: from localhost ([::1]:59326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifObz-0003Xx-8X
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:34:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35951)
+	id 1ifOZO-0000Fl-Sg
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:31:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyY-0003nj-05
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyY-0003ot-NO
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyW-00076v-GW
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:49 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40444)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyX-00078w-Ds
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:50 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33611)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyW-000755-81
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:48 -0500
-Received: by mail-wr1-x435.google.com with SMTP id c14so2607563wrn.7
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:48 -0800 (PST)
+ id 1ifNyX-00076r-6b
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:49 -0500
+Received: by mail-wr1-x429.google.com with SMTP id b6so2660446wrq.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w1/txV5t0S8rd0wKFy5mj47On35zo/mSGxOA86LohxE=;
- b=mrQ2qq7PGoCLzw7NTkVIhmAdYKBCFHnylM6srNq9OCfZq2k/3p3NR5igAY1MBFrKip
- OhFdWMC2mJ956HfUeNwo3+j2DXWYTzSJ7S/o8eUIUd3nbc2w2JiXZJfgH3xLeXFx70T8
- LVeEaXGhXJaXtNilK2hukTHzLL/KKCGeSvRmvHycjTBk6KL+b+IYO8U5KOJK16WROkwB
- 99LibKb+nrSj3s2LD4qoYZfAz5b6p5GeWWbtGcQ+cL0lejDdJeo5wXIivC4+Ex9Ae7Ka
- lPtzWr5F5vzqlGqPVeBHvZz8n1Q7dsA8uR2cGuSvUewowOdEnKhWUv+yCiMvbR5tq9Px
- LlzQ==
+ bh=gbod70QFVH0c994XIXE4cM47ECszyQsoWIS+2slZOD8=;
+ b=ZxRRYJb2AM1p7UP6XB2wXAdj8ZsyDNAqOYzj+JAmA0Yvkee1PpNv+c9tx7w4wLpO72
+ 2xNn0xmiBM4FYml3LSUshemre+qKnpMALjPf33kps/ag8bz4wgVz6K60uDyOz2y83Bo5
+ INIfwqtfgCNUN8JcMvpODvCLRFmUFUqaKuXTwAIxNy/abW7eV7AhX19ZpzTDz0JMHCeN
+ osn4psps4hpB/DB4ztz2t7JJ+TNAQCWPzRjtpTKNTFJW3JRNfLfVYQeUKEfk3w6bYG0B
+ T8wabGJiq66hfTlfFfwU18/n+kBp2SToWN/SzeyROGWYV6IH2qP5a2IiL9LMbb3kQwUX
+ OwlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w1/txV5t0S8rd0wKFy5mj47On35zo/mSGxOA86LohxE=;
- b=k1W45e7toolnS7o4YDNVyc/B6Xy3/uNMk9FWcqH0FmTxqfoJsiAt7B0Ye2awCaxiep
- B+YVIaflDt26wCzr2lAg+Yr8mormh0ZSDdNTNNdGDCeomxWjzY54Hd1nYpn5mqwJGJck
- JHM/da0w19j7mH78DGBhoiE8EB28yf3uHXvYvdSysnL1LQFpTSdsmh/a2XVsGYBZH0s4
- yy6IeB25GonZu0T0yyaJ72O/AFcMN+oxb7RcqY+TOYsQKrPkA+lxZcoQCL347FN5m6Ag
- XDEs1MCcF97TxQvOTQh5R8Uy2rgpWabb8/Mbp7wKsi1xMdbw53vQHBe+Ph/wXPlafAO9
- sdLA==
-X-Gm-Message-State: APjAAAVn9ezbiR1SMWoIWn0zv17W1/RDD0B8D+DTaz2xe3QR6Vx3vLPW
- NLS81GKXHMH3S+Mlsisjyg2fIwXj
-X-Google-Smtp-Source: APXvYqzGA9Rz2Wb/hdgJ3ZJge/5CBAg06nqkPIKwfYTID+Xss1soFpiRfmazDkBUeI7Moe1V8/+S+w==
-X-Received: by 2002:adf:fc03:: with SMTP id i3mr6326220wrr.306.1576155226982; 
- Thu, 12 Dec 2019 04:53:46 -0800 (PST)
+ bh=gbod70QFVH0c994XIXE4cM47ECszyQsoWIS+2slZOD8=;
+ b=e9PitdW7/Ei0sSR6rZXAnyDe53XBnjzD4GKaJD7pLQPyZREybMJMf4nVm/rFElZSxX
+ dSC0qT7x49GjVLnXQB9XJ1p6iTMmky3cpwxPidRAh9Q7YL8LKl7SY6G5LOlQ9hVRvNRu
+ Yqa/2DV20/6iTRcsMS2ZFsQYa2Z6ZCtPk/IOM/PzxLPtCX9D6ODPI1QZTzX67kgXTIxz
+ RiqfPx7G/v8sahMtNj/yJzeaMizRkYrGQy1CbT8QgrZUKfrJny2j8j2Z+Bz94MkHWVQA
+ +aFW1OntHqRGGXdSBos/Wd+cjjdx6WBANAp81QL7d5sCsml4Nxe0MAc4DJwLZlBnOq8e
+ BTRQ==
+X-Gm-Message-State: APjAAAWTvxn9FVAKoiJRSV7VHM9tNeXcS+0Bu1aPX4i1k95uGgRl8Ngo
+ DKi8gwLXHyKlA37IRC7OaKrq6sud
+X-Google-Smtp-Source: APXvYqwO49zyVjEBRXSJc5nyC51fW9GbKh32D3zruMH+NfbyFG6isVXRjgX4D15XXhVdKmBYR3SwPg==
+X-Received: by 2002:a05:6000:12c9:: with SMTP id
+ l9mr6526157wrx.304.1576155227922; 
+ Thu, 12 Dec 2019 04:53:47 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.46
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:46 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 049/132] meson: convert root directory to Meson
-Date: Thu, 12 Dec 2019 13:51:33 +0100
-Message-Id: <1576155176-2464-50-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 050/132] meson: convert trace/
+Date: Thu, 12 Dec 2019 13:51:34 +0100
+Message-Id: <1576155176-2464-51-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,177 +83,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs   | 29 ++---------------------------
- Makefile.target |  2 +-
- configure       |  3 +++
- meson.build     | 39 +++++++++++++++++++++++++++++++++++++++
- 4 files changed, 45 insertions(+), 28 deletions(-)
+ Makefile.objs       | 4 ----
+ trace/Makefile.objs | 8 --------
+ trace/meson.build   | 5 ++++-
+ 3 files changed, 4 insertions(+), 13 deletions(-)
+ delete mode 100644 trace/Makefile.objs
 
 diff --git a/Makefile.objs b/Makefile.objs
-index 1319ba2..307e27c 100644
+index 307e27c..e9ae889 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -35,19 +35,11 @@ qom-obj-y = qom/libqom.fa
- # single QEMU executable should support all CPUs and machines.
- 
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y = blockdev.o blockdev-nbd.o block/
+@@ -77,7 +77,3 @@ common-obj-y += disas/
+ ######################################################################
+ # Resource file for Windows executables
+ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
 -
--common-obj-y += bootdevice.o iothread.o
-+common-obj-y = block/
- common-obj-y += dump/
--common-obj-y += job-qmp.o
- common-obj-y += monitor/
- common-obj-y += net/
--common-obj-y += qdev-monitor.o device-hotplug.o
--common-obj-$(CONFIG_WIN32) += os-win32.o
--common-obj-$(CONFIG_POSIX) += os-posix.o
+-######################################################################
+-# tracing
+-util-obj-y +=  trace/
+diff --git a/trace/Makefile.objs b/trace/Makefile.objs
+deleted file mode 100644
+index a429474..0000000
+--- a/trace/Makefile.objs
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# -*- mode: makefile -*-
 -
- common-obj-$(CONFIG_LINUX) += fsdev/
 -
- common-obj-y += migration/
- 
- common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
-@@ -71,30 +63,13 @@ common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
- common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
- 
- common-obj-y += hw/
+-##################################################
+-# Translation level
 -
- common-obj-y += replay/
--
--common-obj-y += bt-host.o bt-vhci.o
--bt-host.o-cflags := $(BLUEZ_CFLAGS)
--
--common-obj-y += dma-helpers.o
--common-obj-y += vl.o
--vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
--common-obj-$(CONFIG_TPM) += tpm.o
--
- common-obj-y += backends/
--
--common-obj-$(CONFIG_SECCOMP) += qemu-seccomp.o
--qemu-seccomp.o-cflags := $(SECCOMP_CFLAGS)
--qemu-seccomp.o-libs := $(SECCOMP_LIBS)
--
--common-obj-$(CONFIG_FDT) += device_tree.o
--
- endif
- 
- #######################################################################
- # Target-independent parts used in system and user emulation
--common-obj-y += cpus-common.o
+-obj-y += generated-helpers.o
+-obj-y += control-target.o
+diff --git a/trace/meson.build b/trace/meson.build
+index 8ea8db7..b113425 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -1,3 +1,5 @@
++specific_ss.add(files('control-target.c'))
 +
- common-obj-y += hw/
- common-obj-y += qom/
- common-obj-y += disas/
-diff --git a/Makefile.target b/Makefile.target
-index 265b596..bad50ce 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -168,7 +168,7 @@ ifneq ($(CONFIG_MODULES),y)
- LIBS := $(LIBS) $(ALSA_LIBS) $(OSS_LIBS) $(PULSE_LIBS) $(SDL_LIBS)
- LIBS := $(LIBS) $(GTK_LIBS) $(VTE_LIBS) $(X11_LIBS) $(CURSES_LIBS) $(ICONV_LIBS) $(GIO_LIBS)
- endif
--LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS)
-+LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS) $(SECCOMP_LIBS)
- LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
+ # common options
+ tracetool = [
+   find_program('scripts/tracetool.py'),
+@@ -67,12 +69,13 @@ foreach d : [
+   ['generated-helpers.h', 'tcg-helper-h'],
+   ['generated-helpers-wrappers.h', 'tcg-helper-wrapper-h'],
+ ]
+-  custom_target(d[0],
++  gen = custom_target(d[0],
+                 output: d[0],
+                 input: meson.source_root() / 'trace-events',
+                 command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
+                 build_by_default: true, # to be removed when added to a target
+                 capture: true)
++  specific_ss.add(gen)
+ endforeach
  
- # Hardware support
-diff --git a/configure b/configure
-index a18fe24..c4b50a7 100755
---- a/configure
-+++ b/configure
-@@ -6771,6 +6771,7 @@ fi
- if test "$bluez" = "yes" ; then
-   echo "CONFIG_BLUEZ=y" >> $config_host_mak
-   echo "BLUEZ_CFLAGS=$bluez_cflags" >> $config_host_mak
-+  echo "BLUEZ_LIBS=$bluez_libs" >> $config_host_mak
- fi
- if test "$gtk" = "yes" ; then
-   echo "CONFIG_GTK=m" >> $config_host_mak
-@@ -6891,6 +6892,8 @@ if test "$preadv" = "yes" ; then
- fi
- if test "$fdt" != "no" ; then
-   echo "CONFIG_FDT=y" >> $config_host_mak
-+  echo "FDT_CFLAGS=$fdt_cflags" >> $config_host_mak
-+  echo "FDT_LIBS=$fdt_ldflags $fdt_libs" >> $config_host_mak
- fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index cb164e0..cb60aac 100644
---- a/meson.build
-+++ b/meson.build
-@@ -37,6 +37,7 @@ configure_file(input: files('scripts/ninjatool.py'),
- 
- m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
-+winmm = []
- socket = []
- version_res = []
- coref = []
-@@ -45,6 +46,7 @@ cocoa = []
- hvf = []
- if host_machine.system() == 'windows'
-   socket = cc.find_library('ws2_32')
-+  winmm = cc.find_library('winmm')
- 
-   win = import('windows')
-   version_res = win.compile_resources('version.rc',
-@@ -248,6 +250,21 @@ if 'CONFIG_VNC_SASL' in config_host
-   sasl = declare_dependency(compile_args: config_host['SASL_CFLAGS'].split(),
-                             link_args: config_host['SASL_LIBS'].split())
- endif
-+bluez = declare_dependency()
-+if 'CONFIG_BLUEZ' in config_host
-+  bluez = declare_dependency(compile_args: config_host['BLUEZ_CFLAGS'].split(),
-+                             link_args: config_host['BLUEZ_LIBS'].split())
-+endif
-+seccomp = declare_dependency()
-+if 'CONFIG_SECCOMP' in config_host
-+  seccomp = declare_dependency(compile_args: config_host['SECCOMP_CFLAGS'].split(),
-+                               link_args: config_host['SECCOMP_LIBS'].split())
-+endif
-+fdt = declare_dependency()
-+if 'CONFIG_FDT' in config_host
-+  fdt = declare_dependency(compile_args: config_host['FDT_CFLAGS'].split(),
-+                           link_args: config_host['FDT_LIBS'].split())
-+endif
- 
- create_config = find_program('scripts/create_config')
- minikconf = find_program('scripts/minikconf.py')
-@@ -542,6 +559,28 @@ subdir('nbd')
- subdir('scsi')
- subdir('block')
- 
-+softmmu_ss.add(files(
-+  'blockdev-nbd.c',
-+  'blockdev.c',
-+  'bootdevice.c',
-+  'device-hotplug.c',
-+  'dma-helpers.c',
-+  'iothread.c',
-+  'job-qmp.c',
-+  'qdev-monitor.c',
-+  'vl.c',
-+), sdl)
-+
-+softmmu_ss.add(files('bt-host.c', 'bt-vhci.c'), bluez)
-+
-+softmmu_ss.add(when: 'CONFIG_WIN32', if_true: [files('os-win32.c'), winmm])
-+softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('os-posix.c'))
-+softmmu_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
-+softmmu_ss.add(when: 'CONFIG_SECCOMP', if_true: [files('qemu-seccomp.c'), seccomp])
-+softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
-+
-+common_ss.add(files('cpus-common.c'))
-+
- mods = []
- block_mods = []
- softmmu_mods = []
+ if 'CONFIG_TRACE_UST' in config_host
 -- 
 1.8.3.1
 
