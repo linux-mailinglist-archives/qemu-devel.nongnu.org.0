@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DF111D523
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:18:48 +0100 (CET)
-Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E32F11D4D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 19:04:49 +0100 (CET)
+Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifT30-0002TI-1I
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:18:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57382)
+	id 1ifSpT-0001Vc-EA
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 13:04:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifSH9-0005DQ-SG
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifSHA-0005F0-QO
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifSH8-0003vj-Ij
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:19 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35278)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifSH9-0003xy-Oa
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:20 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54257)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifSH8-0003uG-C1
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:18 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p17so3476263wmb.0
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 09:29:18 -0800 (PST)
+ id 1ifSH9-0003wG-Hh
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 12:29:19 -0500
+Received: by mail-wm1-x342.google.com with SMTP id w8so36614wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 09:29:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=zGrhjuKLKINlntV85KOX8PlaXtCg/M0M2UPFX50JWfc=;
- b=do9EW8VUyvlaMdMe3sxKVqhjF8PI5Z23x2E9li/IVUVebukJ7X741mph+5E/twuWEu
- 16jjgXq/f4OFehXBny+XpSely36PERQwQaXd8kFIXjxX/CbsTAmLoGOIM6QBXTJ4i6sd
- lxQvzbbF3wv/mfFF6i4pTYH9Y1bLHx13bNzl6GLqAL+2K8Rj8xDHKyWlziNz3PSDvJZ9
- YracWj1gFljKprl2QYMSkznURoFoFUlAdwS1jh78wRyMwPIo2kXn30qRJNhPlQu6dGwo
- XCzX2zS2chUvba7n6bf6H92ocgpqXOYOAvhAfMRNNrOa3ohOb3UFqpNvvDh6BGWgYwsG
- GPaQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=X8qg4vC4u62X+krIpf2n1pZJRXcVq9s/dN9HuyUC68E=;
+ b=BuJ/Ni/8Z0dbYx6aFUpWuzQRETBEy2qWx+fbII5cIRb4kj+NwHwyEda+ex2wWzrybV
+ tYL1YA1z7iCfGD4Yz1oBNyNy/UpNJnDHMiBnQYpY3yHHRik2tC/iFLVhSN6lgE+BVOuP
+ 4Vr+mzYmKijOo5uBMpYYNZTCcNBUUm46o309YQX2XuqurUHSWLvPwfp2UaQRW5OYwyRb
+ Vkb1x9I4NjTdqHpIjyhV8nuLqGA4p2e6WlkPlC2isGjvswMLi8XnVvxevQMGiI75rE04
+ UfCQKbTXMbL7gczMttJ7z3Lsn4jvYi+pCGLuBUH+F6a+vZOa7UQ4v/upLdoBt2tnOecL
+ gotw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=zGrhjuKLKINlntV85KOX8PlaXtCg/M0M2UPFX50JWfc=;
- b=Xr5JymAzpsSjED8kIiJ12ucl+7EaIiBFRTxYBw3lnSnU+JOuXZP/NXGwC3I9H1UmYb
- RYx5lEynaynfKRiQzbPot+1E5b/h74OV3ZPnxqdYUWWEoxLMtHWNuuCxxuI5Q34BuZf0
- 4YlHzD0rpSaTvBu66EeGmlv2BDSzpqrWxqTjL4xjOKEMnljWOgCwVDlH084oCrMaaCId
- KmpK17v9MieNa6K6OIpAs9l1QHOuTSZpKE5c3+ZBqpLbTjlETYSAujiTyFcRbMdcbyZR
- gIG8X2GurwJdiJ9RWEX7o3amZlMBUHP6bKnR5jFdYA/9IZCSkMouPOrEuTgnDJWOEnMc
- dvWw==
-X-Gm-Message-State: APjAAAXh1wP7apETcIbQWboMrKNhLIF0rhr1drVQQnJvh7hQZrPn6Kb6
- JBWd9gRZ4EG879WJKqkr0MXZ3pYG
-X-Google-Smtp-Source: APXvYqzbPJhLAXrizTNazXFAPHse/mT2gHY2IjHxctscYk1/Tf1m5cTarqmZKC/gcK7CAN8QOnfi8Q==
-X-Received: by 2002:a7b:c407:: with SMTP id k7mr8175212wmi.46.1576171756712;
- Thu, 12 Dec 2019 09:29:16 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=X8qg4vC4u62X+krIpf2n1pZJRXcVq9s/dN9HuyUC68E=;
+ b=j3atPfjxNVm/Up3D5gl9zlD6Gs9RlwiTzFaEJocYT9roaKXSoxiwm8WCWPvwKimPfN
+ mqIV5BqSTJqFzBc3wBqQjjfSI+Qfprq2PI02CDj43gNoFxTaujhxXUgXUMtD4zmx30d2
+ fd2APl1fQXHzFDC+i/xLL9vuSZ2AuXMx5WahPNHksQSTT8zcQItb6a0BaukfgX7wz8nt
+ wK6xJVc2nLt1RuHN4KYRmJQz4pJFbrqrRAeNr2mWqNN0JiRIcN+rWU74BV0F8iY6/Br7
+ 0/peESS0gfQCx7gJqiIX89P+bgKdUqLZPs+0zxKo1YjfQ0yy/IbhhOEkzQinbcLBJ8cH
+ 4YYw==
+X-Gm-Message-State: APjAAAWDa8QWj6K06wBj8acn7CFPtWtHWyMOM2Y/Zf8Y/ZsYasAzacXK
+ 7o/OuAMzBXCYGoVhLyDlmT570meO
+X-Google-Smtp-Source: APXvYqx55EHdl3/Np2mJPg7qWsig0xTnAfk+a0dcuBs8z3ZLyIEtgac4SmRrubfRxJSHfGGvhJZ0RA==
+X-Received: by 2002:a1c:286:: with SMTP id 128mr7597351wmc.176.1576171758031; 
+ Thu, 12 Dec 2019 09:29:18 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id 2sm6810130wrq.31.2019.12.12.09.29.15
+ by smtp.gmail.com with ESMTPSA id 2sm6810130wrq.31.2019.12.12.09.29.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 09:29:15 -0800 (PST)
+ Thu, 12 Dec 2019 09:29:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] x86: allow building without PC machine types
-Date: Thu, 12 Dec 2019 18:29:06 +0100
-Message-Id: <1576171754-45138-1-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH v2 1/8] i386: conditionally compile more files
+Date: Thu, 12 Dec 2019 18:29:07 +0100
+Message-Id: <1576171754-45138-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1576171754-45138-1-git-send-email-pbonzini@redhat.com>
+References: <1576171754-45138-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,75 +78,50 @@ Cc: philmd@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In fact I went one step further and ensured that microvm could build
-without pc.h even. :)
+Reviewed-by: Sergio Lopez <slp@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/i386/Makefile.objs     | 6 +++---
+ hw/i386/kvm/Makefile.objs | 6 +++++-
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-Paolo
-
-v1->v2: more thorough cleansing of pc.h (new patches 3/7/8) [Sergio]
-	move SMM property to X86MachineState (patch 5) [Sergio]
-
-Paolo Bonzini (8):
-  i386: conditionally compile more files
-  fw_cfg: allow building without other devices
-  hw: replace hw/i386/pc.h with a header just for the i8259
-  pci-stub: add more MSI functions
-  x86: move SMM property to X86MachineState
-  x86: move more x86-generic functions out of PC files
-  acpi: move PC stubs out of stubs/
-  pc: stubify x86 iommu
-
- hw/acpi/Makefile.objs                              |   2 +-
- .../pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c |   0
- hw/alpha/alpha_sys.h                               |   3 +-
- hw/alpha/dp264.c                                   |   1 +
- hw/hppa/hppa_sys.h                                 |   3 +-
- hw/hppa/machine.c                                  |   1 +
- hw/i386/Kconfig                                    |   6 +
- hw/i386/Makefile.objs                              |   9 +-
- hw/i386/acpi-build.c                               |   1 +
- hw/i386/fw_cfg.c                                   |   8 +-
- hw/i386/fw_cfg.h                                   |   2 +
- hw/i386/kvm/Makefile.objs                          |   6 +-
- hw/i386/kvm/i8259.c                                |   1 +
- hw/i386/kvm/ioapic.c                               |   2 +-
- hw/i386/microvm.c                                  |   4 +-
- hw/i386/pc.c                                       | 153 +--------------------
- hw/i386/pc_piix.c                                  |   6 +-
- hw/i386/pc_q35.c                                   |   2 +-
- hw/i386/x86-iommu-stub.c                           |  34 +++++
- hw/i386/x86-iommu.c                                |   1 -
- hw/i386/x86.c                                      | 151 +++++++++++++++++++-
- hw/input/pckbd.c                                   |   1 -
- hw/intc/Kconfig                                    |   2 +
- hw/intc/apic.c                                     |   2 +-
- hw/intc/i8259.c                                    |   2 +-
- hw/intc/i8259_common.c                             |   2 +-
- hw/intc/ioapic.c                                   |   3 +-
- hw/isa/i82378.c                                    |   2 +-
- hw/isa/lpc_ich9.c                                  |   1 -
- hw/isa/piix4.c                                     |   2 +-
- hw/mips/gt64xxx_pci.c                              |   2 +-
- hw/mips/mips_fulong2e.c                            |   2 +-
- hw/mips/mips_jazz.c                                |   2 +-
- hw/mips/mips_r4k.c                                 |   2 +-
- hw/pci-host/bonito.c                               |   1 -
- hw/pci-host/prep.c                                 |   2 +-
- hw/pci/pci-stub.c                                  |  27 ++++
- include/hw/i386/pc.h                               |  31 -----
- include/hw/i386/x86.h                              |  23 ++++
- include/hw/intc/i8259.h                            |  12 ++
- include/hw/isa/i8259_internal.h                    |   2 +-
- stubs/Makefile.objs                                |   1 -
- target/i386/kvm.c                                  |   5 +-
- target/i386/machine.c                              |   2 +-
- target/i386/monitor.c                              |   1 -
- 45 files changed, 307 insertions(+), 221 deletions(-)
- rename stubs/pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c (100%)
- create mode 100644 hw/i386/x86-iommu-stub.c
- create mode 100644 include/hw/intc/i8259.h
-
+diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+index 0d195b5..01ae202 100644
+--- a/hw/i386/Makefile.objs
++++ b/hw/i386/Makefile.objs
+@@ -1,11 +1,11 @@
+ obj-$(CONFIG_KVM) += kvm/
+ obj-y += e820_memory_layout.o multiboot.o
+ obj-y += x86.o
+-obj-y += pc.o
++obj-$(CONFIG_PC) += pc.o pc_sysfw.o
+ obj-$(CONFIG_I440FX) += pc_piix.o
+ obj-$(CONFIG_Q35) += pc_q35.o
+ obj-$(CONFIG_MICROVM) += microvm.o
+-obj-y += fw_cfg.o pc_sysfw.o
++obj-y += fw_cfg.o
+ obj-y += x86-iommu.o
+ obj-$(CONFIG_VTD) += intel_iommu.o
+ obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o
+@@ -14,4 +14,4 @@ obj-$(CONFIG_VMPORT) += vmport.o
+ obj-$(CONFIG_VMMOUSE) += vmmouse.o
+ 
+ obj-y += kvmvapic.o
+-obj-y += acpi-build.o
++obj-$(CONFIG_PC) += acpi-build.o
+diff --git a/hw/i386/kvm/Makefile.objs b/hw/i386/kvm/Makefile.objs
+index 4224ed9..0c8d5f2 100644
+--- a/hw/i386/kvm/Makefile.objs
++++ b/hw/i386/kvm/Makefile.objs
+@@ -1 +1,5 @@
+-obj-y += clock.o apic.o i8259.o ioapic.o i8254.o
++obj-y += clock.o
++obj-$(CONFIG_APIC) += apic.o
++obj-$(CONFIG_IOAPIC) += ioapic.o
++obj-$(CONFIG_I8254) += i8254.o
++obj-$(CONFIG_I8259) += i8259.o
 -- 
 1.8.3.1
+
 
 
