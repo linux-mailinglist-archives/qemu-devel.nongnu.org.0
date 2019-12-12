@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA0511D4B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:58:53 +0100 (CET)
-Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F4D11D466
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:46:42 +0100 (CET)
+Received: from localhost ([::1]:34892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSjk-0002YI-Cr
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:58:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39060)
+	id 1ifSXw-0008TX-Kw
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:46:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRXC-00082F-C8
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:52 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRXE-00084a-MZ
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRXB-00059j-3V
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53565
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifRXC-0005CC-9Z
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:52 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22049
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRXA-00058x-V5
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:49 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRXC-0005B7-57
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:41:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168908;
+ s=mimecast20190719; t=1576168909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aFXzRnUUfN49Blvfmm9LqBuOUa1ZI4A1nWCoxa8Wcjs=;
- b=UKJkDTZA7MuD7D5Paf0Tb+xaHJ0sXstX4MVYR1Zo7iPZ61udEdXh0zcyqGHr/3KmUwbol7
- dYvicjCr34wxdoGMGzCymPnT6q5VluW7RG6PuTy2qJfoYE6cH2Qwzi7BJ+6kmZs04G4fM5
- Bej3AfciizgvS01KARCzVNMAywvB/s4=
+ bh=VefKB9RlUXu02ons9azC9CYKcJBU6lNjMRM0fYViISw=;
+ b=P8CkcsAs3h1YanvQbaISsdPUIImP3olwYpWen6jx1LRTNF67alFUow24iCnUMnIr274ScZ
+ qcxhS9ew/M97Z4/4onBSBDC0bLyr0NxxEIKOmYYPnV3FRUmzigkUHo2SehYecd3sOshR72
+ GOX5hLv9o3vdvuyTonPAjtZiDbmfGds=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-7FKnJ5RHOTCq64rgankW6A-1; Thu, 12 Dec 2019 11:41:47 -0500
+ us-mta-414-4B_u7S6CO_KXW8nQr2liwg-1; Thu, 12 Dec 2019 11:41:48 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52BFD107ACCC
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7610712A7E54
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:41:47 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A04460BE1;
- Thu, 12 Dec 2019 16:41:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C2F260BE1;
+ Thu, 12 Dec 2019 16:41:46 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 102/104] virtiofsd: fix lo_destroy() resource leaks
-Date: Thu, 12 Dec 2019 16:39:02 +0000
-Message-Id: <20191212163904.159893-103-dgilbert@redhat.com>
+Subject: [PATCH 103/104] virtiofsd: add --thread-pool-size=NUM option
+Date: Thu, 12 Dec 2019 16:39:03 +0000
+Message-Id: <20191212163904.159893-104-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 7FKnJ5RHOTCq64rgankW6A-1
+X-MC-Unique: 4B_u7S6CO_KXW8nQr2liwg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,80 +78,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Now that lo_destroy() is serialized we can call unref_inode() so that
-all inode resources are freed.
+Add an option to control the size of the thread pool.  Requests are now
+processed in parallel by default.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 41 ++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 21 deletions(-)
+ tools/virtiofsd/fuse_i.h        | 1 +
+ tools/virtiofsd/fuse_lowlevel.c | 7 ++++++-
+ tools/virtiofsd/fuse_virtio.c   | 5 +++--
+ 3 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 1bf251a91d..38f4948e61 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1355,26 +1355,6 @@ static void unref_inode_lolocked(struct lo_data *lo,=
- struct lo_inode *inode,
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 8a4a05b319..4da6a242ba 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -72,6 +72,7 @@ struct fuse_session {
+     int   vu_listen_fd;
+     int   vu_socketfd;
+     struct fv_VuDev *virtio_dev;
++    int thread_pool_size;
+ };
+=20
+ struct fuse_chan {
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 9f01c05e3e..09a7b23726 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -27,6 +27,7 @@
+ #include <sys/file.h>
+ #include <unistd.h>
+=20
++#define THREAD_POOL_SIZE 64
+=20
+ #define OFFSET_MAX 0x7fffffffffffffffLL
+=20
+@@ -2523,6 +2524,7 @@ static const struct fuse_opt fuse_ll_opts[] =3D {
+     LL_OPTION("--socket-path=3D%s", vu_socket_path, 0),
+     LL_OPTION("vhost_user_socket=3D%s", vu_socket_path, 0),
+     LL_OPTION("--fd=3D%d", vu_listen_fd, 0),
++    LL_OPTION("--thread-pool-size=3D%d", thread_pool_size, 0),
+     FUSE_OPT_END
+ };
+=20
+@@ -2544,7 +2546,9 @@ void fuse_lowlevel_help(void)
+         "    --socket-path=3DPATH         path for the vhost-user socket\n=
+"
+         "    -o vhost_user_socket=3DPATH  path for the vhost-user socket\n=
+"
+         "    --fd=3DFDNUM                 fd number of vhost-user socket\n=
+"
+-        "    -o auto_unmount            auto unmount on process terminatio=
+n\n");
++        "    -o auto_unmount            auto unmount on process terminatio=
+n\n"
++        "    --thread-pool-size=3DNUM     thread pool size limit (default =
+%d)\n",
++        THREAD_POOL_SIZE);
+ }
+=20
+ void fuse_session_destroy(struct fuse_session *se)
+@@ -2598,6 +2602,7 @@ struct fuse_session *fuse_session_new(struct fuse_arg=
+s *args,
      }
- }
+     se->fd =3D -1;
+     se->vu_listen_fd =3D -1;
++    se->thread_pool_size =3D THREAD_POOL_SIZE;
+     se->conn.max_write =3D UINT_MAX;
+     se->conn.max_readahead =3D UINT_MAX;
 =20
--static int unref_all_inodes_cb(gpointer key, gpointer value, gpointer user=
-_data)
--{
--    struct lo_inode *inode =3D value;
--    struct lo_data *lo =3D user_data;
--
--    inode->nlookup =3D 0;
--    lo_map_remove(&lo->ino_map, inode->fuse_ino);
--    close(inode->fd);
--    lo_inode_put(lo, &inode); /* Drop our refcount from lo_do_lookup() */
--
--    return TRUE;
--}
--
--static void unref_all_inodes(struct lo_data *lo)
--{
--    pthread_mutex_lock(&lo->mutex);
--    g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
--    pthread_mutex_unlock(&lo->mutex);
--}
--
- static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
-)
- {
-     struct lo_data *lo =3D lo_data(req);
-@@ -2460,7 +2440,26 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
- off_t off, int whence,
- static void lo_destroy(void *userdata)
- {
-     struct lo_data *lo =3D (struct lo_data *)userdata;
--    unref_all_inodes(lo);
-+
-+    /*
-+     * Normally lo->mutex must be taken when traversing lo->inodes but
-+     * lo_destroy() is a serialized request so no races are possible here.
-+     *
-+     * In addition, we cannot acquire lo->mutex since unref_inode() takes =
-it
-+     * too and this would result in a recursive lock.
-+     */
-+    while (true) {
-+        GHashTableIter iter;
-+        gpointer key, value;
-+
-+        g_hash_table_iter_init(&iter, lo->inodes);
-+        if (!g_hash_table_iter_next(&iter, &key, &value)) {
-+            break;
-+        }
-+
-+        struct lo_inode *inode =3D value;
-+        unref_inode_lolocked(lo, inode, inode->nlookup);
-+    }
- }
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index b696ac3135..7bc6ff2f19 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -570,10 +570,11 @@ static void *fv_queue_thread(void *opaque)
+     struct fv_QueueInfo *qi =3D opaque;
+     struct VuDev *dev =3D &qi->virtio_dev->dev;
+     struct VuVirtq *q =3D vu_get_queue(dev, qi->qidx);
++    struct fuse_session *se =3D qi->virtio_dev->se;
+     GThreadPool *pool;
 =20
- static struct fuse_lowlevel_ops lo_oper =3D {
+-    pool =3D g_thread_pool_new(fv_queue_worker, qi, 1 /* TODO max_threads =
+*/,
+-                             TRUE, NULL);
++    pool =3D g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, =
+TRUE,
++                             NULL);
+     if (!pool) {
+         fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__)=
+;
+         return NULL;
 --=20
 2.23.0
 
