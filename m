@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743A311CFDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:33:21 +0100 (CET)
-Received: from localhost ([::1]:60706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A7311CFF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:35:23 +0100 (CET)
+Received: from localhost ([::1]:60742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifPWp-0007Pw-Sg
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:33:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58826)
+	id 1ifPYo-000241-SU
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:35:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU9-0005iq-4M
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:34 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU9-0005jO-U9
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU8-0008H1-2T
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU8-0008HS-5s
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:33 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33098)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34299)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifPU3-0008A5-CO
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:27 -0500
-Received: by mail-wr1-x443.google.com with SMTP id b6so3006660wrq.0
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 06:30:26 -0800 (PST)
+ id 1ifPU3-0008BY-Jv
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:32 -0500
+Received: by mail-wm1-x341.google.com with SMTP id f4so3748511wmj.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 06:30:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=d+fGHQicJfMCQVgermELgoy5/7QyWO3sNl/PPGYy11M=;
- b=f5tTkX/oBJRJtlTblwCIZzYIT++yb58irrw25E2QFk4JLqbF49FH5IXpGevUhLchGb
- rlxzpdz8fdBmE454YXG3MwjlWgmgEL9txWYqMD+bjIvTDIsZhyG8/qLUWVVAyHnm+Bzo
- RJ8ZQXXUQoLX7D0lbakZlbRVQiiJU9DooYjUnme1sv6IBDoq3EcthBx5c8CyMVaEyoPQ
- MfoQTqhZ8WNZlwviKwIjFUt1vafKCrFdhO7Aqy5E1eWQlahvLznTirFAgHPM8pJ7tEhy
- ejbV3xp5s7pkf6K4D885T2GLmCQHIIVt5cDQhYkMzI/w3u4lwR31a55jcce9UT5Ns855
- XIFA==
+ bh=9EDJH/BxPkKlhLjKsWHknM6vk0Y8bYaWTnGtJKPkwqA=;
+ b=JJEXAuh2pZssLNJEJY0y+N1djE2rGkTr5dDpfrFrlt/b1iIM/99Ytr69xV6yXfuT8S
+ FDcp707k5l/70HeDFUJvRYjxMr5gD/03uPVIGH0bJfyH0s638OjUw2II/lRoYQHeEEjK
+ GQoByIUJgH0/ZQRoQVDq7pBER3+F6TZ04SvxrfTytJRX/YLM3O+6a4R8oz0JIrogVgXF
+ aezy6Iv6Oc0rIQ3e1ZSaRXslruiXDtk/0G1/QA0Kbz0LLzmaMMyZ8TzxLojSH4yezALI
+ R0Tqn2aB8L4H1gWcqBapvLR7EeHbuNjRaOB92FHkK6sFXeJEfamex0+3+pDoRDarfDeE
+ iW/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=d+fGHQicJfMCQVgermELgoy5/7QyWO3sNl/PPGYy11M=;
- b=TSwxu/bUvMHQw++Z+xrg//QCUpaXEUtfQdNachSdWSLSFmbt4DI1k1Aa3hhIMtsTBh
- bb1HhrQItxKzAAbHjKLcyZcTb0/NraGMiRPcuP/ZtFrET1uTEZeOi9tV1U6jvKZo8AYD
- I/rf0ffeOpMocsW4KxpyyTKuJbiJyRf5TvTCzCm6I1uiGKTlDAwjrvx+w6bCCyBsA56+
- U5T7yh6tHAIvfY56n3VaVYd8EM7d1QT49yhtG2teBYvxL72w6jo1W9AUed3Vx4XuBE9N
- zAcT/eWeiImNoXM8nGfMrE7Klcz/L1fRPANOjd40lPt/9IES7H4O3lMmti56YNx3hAta
- wY6g==
-X-Gm-Message-State: APjAAAVtJ94d7QL8CK9NRXtth3EEOTgvI5f2dqWqlnxH4Eh0vWopohyh
- ZQPh12Xx4Bf9Ie3+4212tuYg7Bn0
-X-Google-Smtp-Source: APXvYqwHhdPgXiqODZlFJx1LRu/DKz4P1XH0oZGppQNuBKCsyhKA1THPVZ8W5VXF3gLRju9jbBBegg==
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr6682043wrr.116.1576161025181; 
- Thu, 12 Dec 2019 06:30:25 -0800 (PST)
+ bh=9EDJH/BxPkKlhLjKsWHknM6vk0Y8bYaWTnGtJKPkwqA=;
+ b=LyXaPX/lGxjaU3KqbFSmDN4XyD/uk85FORAQL0gZyhGqil/uJ2hzGOdQ45y+VL6W0F
+ W8ZTnHYv/4bxwyFKDfIfMR7W0EFmTTY8sYCekCuA8wWeanml08dxWXVuevQUh56t/f5x
+ OwYvfoKpE9U0N/vEPHUgE8Xt+8evOPDG7Fr11F3qYFIgdFaSQNJQ4c60/Ho1Lxcch7Z/
+ PMX5LA0xV4CMCXAe6ReEGySEAv6+Ii98X1SYCtfV/eFtUX9NoPfjJMnLxf2h0lYFE/bT
+ 82lXT3se5/W3FHiWKe2U/WNPC5YR1DmlxHYgMFqV8GDsSgWZJrfVyAWhnPh5WMiHZId9
+ kR6w==
+X-Gm-Message-State: APjAAAVlRlJWX4zGFuFujB6S6IxJir0Tqys8vgRGVdJ33928+ztXjFzG
+ B3tQrzrz8CmkmivuA4lzR1Ct9P9G
+X-Google-Smtp-Source: APXvYqxK9ivQbr6rzDsczuHIBj602drLKASadsEvrPkAi6usJNZki99iULJweMKzdaH5R+zmXzyV2w==
+X-Received: by 2002:a1c:1d8c:: with SMTP id d134mr7303447wmd.16.1576161026205; 
+ Thu, 12 Dec 2019 06:30:26 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c9sm6140505wmc.47.2019.12.12.06.30.24
+ by smtp.gmail.com with ESMTPSA id c9sm6140505wmc.47.2019.12.12.06.30.25
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 06:30:24 -0800 (PST)
+ Thu, 12 Dec 2019 06:30:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] fw_cfg: allow building without other devices
-Date: Thu, 12 Dec 2019 15:30:18 +0100
-Message-Id: <1576161021-5359-3-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 3/5] x86: move more functions to X86MachineState and x86.c
+Date: Thu, 12 Dec 2019 15:30:19 +0100
+Message-Id: <1576161021-5359-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
 References: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,70 +78,347 @@ Cc: philmd@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The microvm machine type uses fw_cfg but lacks SMBIOS and ACPI.  Do not include
-the files if the symbol is not present in QEMU and remove dependencies on
-machine-specific files.
+These are needed by microvm too, so move them outside of PC-specific files.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/fw_cfg.c | 7 +++++++
- hw/i386/pc.c     | 2 --
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ hw/i386/pc.c          |  99 -------------------------------------------------
+ hw/i386/x86.c         | 101 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/pc.h  |  12 ------
+ include/hw/i386/x86.h |  13 +++++++
+ 4 files changed, 114 insertions(+), 111 deletions(-)
 
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index 39b6bc6..326e33e 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -22,6 +22,9 @@
- #include "hw/nvram/fw_cfg.h"
- #include "e820_memory_layout.h"
- #include "kvm_i386.h"
-+#include "config-devices.h"
-+
-+struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
- 
- const char *fw_cfg_arch_key_name(uint16_t key)
- {
-@@ -46,6 +49,7 @@ const char *fw_cfg_arch_key_name(uint16_t key)
- 
- void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
- {
-+#ifdef CONFIG_SMBIOS
-     uint8_t *smbios_tables, *smbios_anchor;
-     size_t smbios_tables_len, smbios_anchor_len;
-     struct smbios_phys_mem_area *mem_array;
-@@ -83,6 +87,7 @@ void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
-         fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
-                         smbios_anchor, smbios_anchor_len);
-     }
-+#endif
- }
- 
- FWCfgState *fw_cfg_arch_create(MachineState *ms,
-@@ -114,8 +119,10 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
-      */
-     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
-     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
-+#ifdef CONFIG_ACPI
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
-                      acpi_tables, acpi_tables_len);
-+#endif
-     fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
- 
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index b9f3b38..3d2c5d8 100644
+index 3d2c5d8..308248d 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -101,8 +101,6 @@
- #define DPRINTF(fmt, ...)
- #endif
+@@ -342,17 +342,6 @@ GlobalProperty pc_compat_1_4[] = {
+ };
+ const size_t pc_compat_1_4_len = G_N_ELEMENTS(pc_compat_1_4);
  
--struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+-void gsi_handler(void *opaque, int n, int level)
+-{
+-    GSIState *s = opaque;
 -
- GlobalProperty pc_compat_4_1[] = {};
- const size_t pc_compat_4_1_len = G_N_ELEMENTS(pc_compat_4_1);
+-    DPRINTF("pc: %s GSI %d\n", level ? "raising" : "lowering", n);
+-    if (n < ISA_NUM_IRQS) {
+-        qemu_set_irq(s->i8259_irq[n], level);
+-    }
+-    qemu_set_irq(s->ioapic_irq[n], level);
+-}
+-
+ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
+ {
+     GSIState *s;
+@@ -392,55 +381,6 @@ static uint64_t ioportF0_read(void *opaque, hwaddr addr, unsigned size)
+     return 0xffffffffffffffffULL;
+ }
  
+-/* TSC handling */
+-uint64_t cpu_get_tsc(CPUX86State *env)
+-{
+-    return cpu_get_ticks();
+-}
+-
+-/* IRQ handling */
+-int cpu_get_pic_interrupt(CPUX86State *env)
+-{
+-    X86CPU *cpu = env_archcpu(env);
+-    int intno;
+-
+-    if (!kvm_irqchip_in_kernel()) {
+-        intno = apic_get_interrupt(cpu->apic_state);
+-        if (intno >= 0) {
+-            return intno;
+-        }
+-        /* read the irq from the PIC */
+-        if (!apic_accept_pic_intr(cpu->apic_state)) {
+-            return -1;
+-        }
+-    }
+-
+-    intno = pic_read_irq(isa_pic);
+-    return intno;
+-}
+-
+-static void pic_irq_request(void *opaque, int irq, int level)
+-{
+-    CPUState *cs = first_cpu;
+-    X86CPU *cpu = X86_CPU(cs);
+-
+-    DPRINTF("pic_irqs: %s irq %d\n", level? "raise" : "lower", irq);
+-    if (cpu->apic_state && !kvm_irqchip_in_kernel()) {
+-        CPU_FOREACH(cs) {
+-            cpu = X86_CPU(cs);
+-            if (apic_accept_pic_intr(cpu->apic_state)) {
+-                apic_deliver_pic_intr(cpu->apic_state, level);
+-            }
+-        }
+-    } else {
+-        if (level) {
+-            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+-        } else {
+-            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+-        }
+-    }
+-}
+-
+ /* PC cmos mappings */
+ 
+ #define REG_EQUIPMENT_BYTE          0x14
+@@ -884,16 +824,6 @@ void pc_init_ne2k_isa(ISABus *bus, NICInfo *nd)
+     nb_ne2k++;
+ }
+ 
+-DeviceState *cpu_get_current_apic(void)
+-{
+-    if (current_cpu) {
+-        X86CPU *cpu = X86_CPU(current_cpu);
+-        return cpu->apic_state;
+-    } else {
+-        return NULL;
+-    }
+-}
+-
+ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
+ {
+     X86CPU *cpu = opaque;
+@@ -1289,11 +1219,6 @@ uint64_t pc_pci_hole64_start(void)
+     return ROUND_UP(hole64_start, 1 * GiB);
+ }
+ 
+-qemu_irq pc_allocate_cpu_irq(void)
+-{
+-    return qemu_allocate_irq(pic_irq_request, NULL, 0);
+-}
+-
+ DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus)
+ {
+     DeviceState *dev = NULL;
+@@ -1480,30 +1405,6 @@ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs)
+     g_free(i8259);
+ }
+ 
+-void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
+-{
+-    DeviceState *dev;
+-    SysBusDevice *d;
+-    unsigned int i;
+-
+-    if (kvm_ioapic_in_kernel()) {
+-        dev = qdev_create(NULL, TYPE_KVM_IOAPIC);
+-    } else {
+-        dev = qdev_create(NULL, TYPE_IOAPIC);
+-    }
+-    if (parent_name) {
+-        object_property_add_child(object_resolve_path(parent_name, NULL),
+-                                  "ioapic", OBJECT(dev), NULL);
+-    }
+-    qdev_init_nofail(dev);
+-    d = SYS_BUS_DEVICE(dev);
+-    sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
+-
+-    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
+-        gsi_state->ioapic_irq[i] = qdev_get_gpio_in(dev, i);
+-    }
+-}
+-
+ static void pc_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+                                Error **errp)
+ {
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 394edc2..028bbf4 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -41,11 +41,15 @@
+ #include "hw/i386/fw_cfg.h"
+ 
+ #include "hw/acpi/cpu_hotplug.h"
++#include "hw/i386/pc.h"
++#include "hw/irq.h"
+ #include "hw/nmi.h"
+ #include "hw/loader.h"
+ #include "multiboot.h"
+ #include "elf.h"
+ #include "standard-headers/asm-x86/bootparam.h"
++#include "config-devices.h"
++#include "kvm_i386.h"
+ 
+ #define BIOS_FILENAME "bios.bin"
+ 
+@@ -220,6 +224,103 @@ static long get_file_size(FILE *f)
+     return size;
+ }
+ 
++/* TSC handling */
++uint64_t cpu_get_tsc(CPUX86State *env)
++{
++    return cpu_get_ticks();
++}
++
++/* IRQ handling */
++static void pic_irq_request(void *opaque, int irq, int level)
++{
++    CPUState *cs = first_cpu;
++    X86CPU *cpu = X86_CPU(cs);
++
++    if (cpu->apic_state && !kvm_irqchip_in_kernel()) {
++        CPU_FOREACH(cs) {
++            cpu = X86_CPU(cs);
++            if (apic_accept_pic_intr(cpu->apic_state)) {
++                apic_deliver_pic_intr(cpu->apic_state, level);
++            }
++        }
++    } else {
++        if (level) {
++            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++        } else {
++            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++        }
++    }
++}
++
++qemu_irq pc_allocate_cpu_irq(void)
++{
++    return qemu_allocate_irq(pic_irq_request, NULL, 0);
++}
++
++int cpu_get_pic_interrupt(CPUX86State *env)
++{
++    X86CPU *cpu = env_archcpu(env);
++    int intno;
++
++    if (!kvm_irqchip_in_kernel()) {
++        intno = apic_get_interrupt(cpu->apic_state);
++        if (intno >= 0) {
++            return intno;
++        }
++        /* read the irq from the PIC */
++        if (!apic_accept_pic_intr(cpu->apic_state)) {
++            return -1;
++        }
++    }
++
++    intno = pic_read_irq(isa_pic);
++    return intno;
++}
++
++DeviceState *cpu_get_current_apic(void)
++{
++    if (current_cpu) {
++        X86CPU *cpu = X86_CPU(current_cpu);
++        return cpu->apic_state;
++    } else {
++        return NULL;
++    }
++}
++
++void gsi_handler(void *opaque, int n, int level)
++{
++    GSIState *s = opaque;
++
++    if (n < ISA_NUM_IRQS) {
++        qemu_set_irq(s->i8259_irq[n], level);
++    }
++    qemu_set_irq(s->ioapic_irq[n], level);
++}
++
++void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
++{
++    DeviceState *dev;
++    SysBusDevice *d;
++    unsigned int i;
++
++    if (kvm_ioapic_in_kernel()) {
++        dev = qdev_create(NULL, TYPE_KVM_IOAPIC);
++    } else {
++        dev = qdev_create(NULL, TYPE_IOAPIC);
++    }
++    if (parent_name) {
++        object_property_add_child(object_resolve_path(parent_name, NULL),
++                                  "ioapic", OBJECT(dev), NULL);
++    }
++    qdev_init_nofail(dev);
++    d = SYS_BUS_DEVICE(dev);
++    sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
++
++    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
++        gsi_state->ioapic_irq[i] = qdev_get_gpio_in(dev, i);
++    }
++}
++
+ struct setup_data {
+     uint64_t next;
+     uint32_t type;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 1f86eba..0ab4a2a 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -3,11 +3,9 @@
+ 
+ #include "exec/memory.h"
+ #include "hw/boards.h"
+-#include "hw/isa/isa.h"
+ #include "hw/block/fdc.h"
+ #include "hw/block/flash.h"
+ #include "net/net.h"
+-#include "hw/i386/ioapic.h"
+ #include "hw/i386/x86.h"
+ 
+ #include "qemu/range.h"
+@@ -144,15 +142,6 @@ int pic_get_output(DeviceState *d);
+ 
+ /* ioapic.c */
+ 
+-/* Global System Interrupts */
+-
+-#define GSI_NUM_PINS IOAPIC_NUM_PINS
+-
+-typedef struct GSIState {
+-    qemu_irq i8259_irq[ISA_NUM_IRQS];
+-    qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
+-} GSIState;
+-
+ void gsi_handler(void *opaque, int n, int level);
+ 
+ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
+@@ -217,7 +206,6 @@ void pc_pci_device_init(PCIBus *pci_bus);
+ typedef void (*cpu_set_smm_t)(int smm, void *arg);
+ 
+ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs);
+-void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
+ 
+ ISADevice *pc_find_fdc0(void);
+ int cmos_get_fd_drive_type(FloppyDriveType fd0);
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 4b84917..a6c23ef 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -23,6 +23,8 @@
+ 
+ #include "hw/boards.h"
+ #include "hw/nmi.h"
++#include "hw/isa/isa.h"
++#include "hw/i386/ioapic.h"
+ 
+ typedef struct {
+     /*< private >*/
+@@ -95,4 +97,15 @@ void x86_load_linux(X86MachineState *x86ms,
+                     bool pvh_enabled,
+                     bool linuxboot_dma_enabled);
+ 
++/* Global System Interrupts */
++
++#define GSI_NUM_PINS IOAPIC_NUM_PINS
++
++typedef struct GSIState {
++    qemu_irq i8259_irq[ISA_NUM_IRQS];
++    qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
++} GSIState;
++
++void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
++
+ #endif
 -- 
 1.8.3.1
 
