@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDC411CE77
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:37:02 +0100 (CET)
-Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9B511CE85
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:39:53 +0100 (CET)
+Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOeL-0007Ar-1s
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36390)
+	id 1ifOh6-0002JE-Hl
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:39:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNya-0003rI-6G
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:53 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyb-0003tG-Kt
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyZ-0007Cs-4P
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:52 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40438)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNya-0007FF-5R
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:53 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55228)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyY-0007BE-Tn
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:51 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id c14so2607694wrn.7
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:50 -0800 (PST)
+ id 1ifNyZ-0007DO-Tx
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:52 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id b11so2236948wmj.4
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YBMtW7/slCFp25JbxpbTiSSPBB6bO91AS1uGQxrTq6o=;
- b=sRbLtdcohVktZDlC8bzgVvCOoBdiq7J74UytyJTT7QlzCuIA+4lKU3RnJUzEHNH4NS
- D++iKB7idrW9magoQRpKMQGfYoMvIXCVVNo6R0FL8eGAGYT65OH0lk0/08i5pJt+uuiZ
- YUm/tbwg88rGZVLJQMclVstop6cBuW7JH5q9JlaJkxd7QGdu1Z+OnAJT5xynuMiFkv/v
- Qme5IMgwihSjlRW599rto5J7bvSAax+TEkxYQWerxw50/whv7609gP0mxkI5SdHonohj
- t6lsvmiIQeTqsb2oK97Ug3z6YCXKdb5lApSKABTPGZZq9youonx0kJXzteICyW32n/BZ
- DCLg==
+ bh=Atnpcgx8oxW2ZL46UP1c38Ecu167rif8vvUIatLdPCk=;
+ b=bha/P4oHOphE9TTm71AWhMgERPcecb1WRO7UkLXAXAlHecA3CsOfWevmYho23B6Jkb
+ cj+MvLT0CrGS1Fz5havNVecunO79JIx+PifuGvr0FfSzw9lIjoPusNXzGQNZnr6eiJ3l
+ Ad/bdHRYYDCwiJqDdJagO133ZmHZcZOLyVQqIQho1FQfyg/xjMuzmCBMFnNfz7SWKLi/
+ 6dm94fffQVpGytSJntbfR9/3RUXnte+zLkvUkRjr9Y14uKWOFQEvhF9Yn0TMOQAfnh3e
+ 5cZjJigBH4WCS1KHYQ6F7Zzkz1UJV72jRwEm3sb1jwNJhimsc26P9jVZXTmIMJAxIXJW
+ qtew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YBMtW7/slCFp25JbxpbTiSSPBB6bO91AS1uGQxrTq6o=;
- b=FFA/IoX0G2MthOkf8O9KAiyfXwZmsBgMJS4uHEEJMY7LYJ2GpQw/OA2tq6D41UUuvb
- UDTNbtkew9fT9PtDsDRgs45/t/fR68bMxJzlw9RwTM7hYp0WdNVMbKkX1ywJ2Kf/sPVG
- sFd7htRXyMGyiNpjTDtCr3ScGw+aAtaUnPb8wZLVvuhPqYV3ZAS56UpigwhmwKId5YKW
- 63eEplq6gL7fGp0Zl9SB51GTOVklEs7BhvlL09MtG161+Si+HFDfnTWfL0Ncv8mjrf0h
- bNixGNXkE7/8PbyIzMO8CP8dAWm0LoiERy5x6Z0vlCg0myPJCU/1U+utiayyAfaOknWy
- cS2w==
-X-Gm-Message-State: APjAAAV6hbQ1q9rqzLTzzsEqOn28+HQmc1lAcrsj+Yo2WKJ8rwcN3Fmi
- oBW32OeDmU6gLAX9OXFZjO1kzlBC
-X-Google-Smtp-Source: APXvYqw5xypLEGV3TVhCj8N0rTEZbwggGr+/p64I3ER0d3FHMlY7yIZT2oLIA0wMNdx6PJCbss/+0w==
-X-Received: by 2002:adf:d848:: with SMTP id k8mr5982149wrl.328.1576155229697; 
- Thu, 12 Dec 2019 04:53:49 -0800 (PST)
+ bh=Atnpcgx8oxW2ZL46UP1c38Ecu167rif8vvUIatLdPCk=;
+ b=TSoaeqF8vpGWr/Yx/Onl4g/XGClkhQIZ3+1R4hfk/dBtTudP9gPKqKAbA8AuYVzJa1
+ O0sV2cItQCs4n9i5k+hzS/Q3hNyRyjgPEc3udS/dfC/em++A6Xr9EICTEKUEIYBAFda3
+ gziscTn4gza9akHajZ7nmZMieuqw0G4ArsDRqN0OIy4mgWG/G3kuqk8/VztCJ+KFZC/s
+ 9Cf5c+brGJewlC8/LLTwNH6xKgI/wFd9/7JvrVtyV1wC55pz8Lp92UXR2b9mnTkdDNlj
+ ROf9Jc1fP3gRAj4+LrdPDRYHRlDX6Zxz8qTicQeoDpTYgahTzg+RxhJbnrRSgehNwI30
+ RP1g==
+X-Gm-Message-State: APjAAAXSy0oxuiY2rXK3/wl17Yty3OYhTgRsz1Army5fGdL1AKwTCLD8
+ b9wWtkg+BykAUsjHkJR5FYrZrmc7
+X-Google-Smtp-Source: APXvYqy9gc3UpLA5JB+Nc22BUEn+VMijDhB/wWQpJm15swGaEMN9y0xnMpoAqIiBuHjpPxV7HWNkMg==
+X-Received: by 2002:a1c:286:: with SMTP id 128mr6206268wmc.176.1576155230652; 
+ Thu, 12 Dec 2019 04:53:50 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.48
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Thu, 12 Dec 2019 04:53:49 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 052/132] meson: convert block/
-Date: Thu, 12 Dec 2019 13:51:36 +0100
-Message-Id: <1576155176-2464-53-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 053/132] meson: convert dump/
+Date: Thu, 12 Dec 2019 13:51:37 +0100
+Message-Id: <1576155176-2464-54-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,44 +86,121 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.objs       | 3 +--
- block/Makefile.objs | 1 -
- block/meson.build   | 2 ++
- 3 files changed, 3 insertions(+), 3 deletions(-)
- delete mode 100644 block/Makefile.objs
+ Makefile.objs      | 3 +--
+ Makefile.target    | 1 -
+ configure          | 4 ++++
+ dump/Makefile.objs | 3 ---
+ dump/meson.build   | 4 ++++
+ meson.build        | 9 +++++++++
+ 6 files changed, 18 insertions(+), 6 deletions(-)
+ delete mode 100644 dump/Makefile.objs
+ create mode 100644 dump/meson.build
 
 diff --git a/Makefile.objs b/Makefile.objs
-index 0bc9167..4c7ae48 100644
+index 4c7ae48..1b1eff5 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
 @@ -35,8 +35,7 @@ qom-obj-y = qom/libqom.fa
  # single QEMU executable should support all CPUs and machines.
  
  ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y = block/
--common-obj-y += dump/
-+common-obj-y = dump/
- common-obj-y += monitor/
+-common-obj-y = dump/
+-common-obj-y += monitor/
++common-obj-y = monitor/
  common-obj-y += net/
  common-obj-$(CONFIG_LINUX) += fsdev/
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-deleted file mode 100644
-index 83e87b3..0000000
---- a/block/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--common-obj-y += stream.o
-diff --git a/block/meson.build b/block/meson.build
-index a68689b..ca62992 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -98,4 +98,6 @@ module_block_h = custom_target('module_block.h',
-                                command: [module_block_py, '@OUTPUT0@', modsrc])
- block_ss.add(module_block_h)
+ common-obj-y += migration/
+diff --git a/Makefile.target b/Makefile.target
+index bad50ce..569f2d9 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -153,7 +153,6 @@ endif #CONFIG_BSD_USER
+ ifdef CONFIG_SOFTMMU
+ obj-y += arch_init.o cpus.o gdbstub.o balloon.o ioport.o
+ obj-y += qtest.o
+-obj-y += dump/
+ obj-y += hw/
+ obj-y += monitor/
+ obj-y += qapi/
+diff --git a/configure b/configure
+index c4b50a7..8e55f3a 100755
+--- a/configure
++++ b/configure
+@@ -2351,6 +2351,7 @@ int main(void) { lzo_version(); return 0; }
+ EOF
+     if compile_prog "" "-llzo2" ; then
+         libs_softmmu="$libs_softmmu -llzo2"
++        lzo_libs="-llzo2"
+         lzo="yes"
+     else
+         if test "$lzo" = "yes"; then
+@@ -2370,6 +2371,7 @@ int main(void) { snappy_max_compressed_length(4096); return 0; }
+ EOF
+     if compile_prog "" "-lsnappy" ; then
+         libs_softmmu="$libs_softmmu -lsnappy"
++        snappy_libs='-lsnappy'
+         snappy="yes"
+     else
+         if test "$snappy" = "yes"; then
+@@ -6976,10 +6978,12 @@ fi
  
-+softmmu_ss.add(files('stream.c'))
+ if test "$lzo" = "yes" ; then
+   echo "CONFIG_LZO=y" >> $config_host_mak
++  echo "LZO_LIBS=$lzo_libs" >> $config_host_mak
+ fi
+ 
+ if test "$snappy" = "yes" ; then
+   echo "CONFIG_SNAPPY=y" >> $config_host_mak
++  echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
+ fi
+ 
+ if test "$bzip2" = "yes" ; then
+diff --git a/dump/Makefile.objs b/dump/Makefile.objs
+deleted file mode 100644
+index d2a5db3..0000000
+--- a/dump/Makefile.objs
++++ /dev/null
+@@ -1,3 +0,0 @@
+-obj-y += dump.o
+-common-obj-y += dump-hmp-cmds.o
+-obj-$(TARGET_X86_64) += win_dump.o
+diff --git a/dump/meson.build b/dump/meson.build
+new file mode 100644
+index 0000000..2eff29c
+--- /dev/null
++++ b/dump/meson.build
+@@ -0,0 +1,4 @@
++softmmu_ss.add(files('dump-hmp-cmds.c'))
 +
- modules += {'block': block_modules}
++specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
++specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'], if_true: files('win_dump.c'))
+diff --git a/meson.build b/meson.build
+index cb60aac..804a9bc 100644
+--- a/meson.build
++++ b/meson.build
+@@ -265,6 +265,14 @@ if 'CONFIG_FDT' in config_host
+   fdt = declare_dependency(compile_args: config_host['FDT_CFLAGS'].split(),
+                            link_args: config_host['FDT_LIBS'].split())
+ endif
++snappy = declare_dependency()
++if 'CONFIG_SNAPPY' in config_host
++  snappy = declare_dependency(link_args: config_host['SNAPPY_LIBS'].split())
++endif
++lzo = declare_dependency()
++if 'CONFIG_LZO' in config_host
++  lzo = declare_dependency(link_args: config_host['LZO_LIBS'].split())
++endif
+ 
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
+@@ -546,6 +554,7 @@ subdir('audio')
+ subdir('io')
+ subdir('chardev')
+ subdir('fsdev')
++subdir('dump')
+ 
+ block_ss.add(files(
+   'block.c',
 -- 
 1.8.3.1
 
