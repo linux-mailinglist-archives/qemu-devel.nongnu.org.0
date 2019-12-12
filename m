@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B0C11D74B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 20:42:19 +0100 (CET)
-Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BA311D787
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 20:56:44 +0100 (CET)
+Received: from localhost ([::1]:36756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifULq-0006Si-BC
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 14:42:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1ifUZn-0004DZ-QD
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 14:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45567)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ifUKX-0005WE-VG
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 14:40:59 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ifUNg-0007VR-9k
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 14:44:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ifUKW-00019h-Lr
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 14:40:57 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:60751)
+ (envelope-from <laurent@vivier.eu>) id 1ifUNf-0006oQ-4b
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 14:44:12 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:58415)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1ifUKS-000101-CB
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 14:40:56 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1ifUNb-0006cT-P2; Thu, 12 Dec 2019 14:44:08 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M1INQ-1ih91W05nO-002siR; Thu, 12 Dec 2019 20:40:48 +0100
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MUY9w-1iFC6L3TX6-00QSTU; Thu, 12 Dec 2019 20:44:02 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] target/m68k: only change valid bits in CACR
-Date: Thu, 12 Dec 2019 20:40:45 +0100
-Message-Id: <20191212194045.12882-1-laurent@vivier.eu>
+Subject: [PATCH] mos6522: remove anh register
+Date: Thu, 12 Dec 2019 20:43:59 +0100
+Message-Id: <20191212194359.13508-1-laurent@vivier.eu>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yozRRqaLw1zXvx3bLY+piiPVA8r1Z5yVhMB0a/Cn0SOI85RS/1x
- iWIfEm5dLsyFT8MqXZG0XZFSLNrF+iozBOSRKEFNPZIJEm13TV/kBWEAgpF2wka1Tpw7uPD
- PrBlOdcTlsmgoDwwTNz0dS5n1bFDpByqm/NEpUZWQ6DYWHbt1cNFJIWtzyLM/rzNC6QstGp
- 59NgIMppt6ehKRZm+1Vqg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xtZ0CctKWak=:yhaW4BbiU8ipJ5oTQ2qd12
- z1W2V+q/YjyUGwYID/CHZB32Tdz0S5DUt5bRw7a0nwOuwPw6ecQZLufYwxu5hGLB9isa28qRE
- QeNrzk26vG9PQ5WiVvkaB3BJVyN76HEzvm3FQn59SPSwC2Y6oQbW1Id0Hqs5iIGrNwF7zx5X9
- HTmAWR8lzKQYRt28maN3SyGXeqdzyIYZZzbTZyN4LMy1OaAo/ForYbJs6uCmNFua+jfGI9m6c
- NOFJFC6rB45D8EXdUWmxhUxq7EiU638JQ0PN7ppg4r5DEzYBo/KMz7NddnwImr4p2JM2vucNd
- +trqYMqYDEqzxCCEveAY6/B30IFcwvP27pg/LquAg7+BbbmU+YLY5CG0uHbImb2cY7cAGv86O
- s7pJ+L3A6Dx27koZwchaV/A8seWoVRnasTKjK2nIbQ5JS65zbvTFcEDuvKzkvqiGpfTJGQjgt
- NoUUA1uF600fuc+Tf8J2HvRtTl26UVeOrYjSD2HSnehG8lJX8E7BvvLE9ZiYqyZvoS+g6P9oE
- 4FEIOLYt6xcRXiVp3Yub+UZzKji2yOEOa++JRuWaPFLNxjkzqRYy3QHYrz5CeOn+XTXkEu8T0
- fXMu+QbEL7g9KQC6nt1J4+STw9ZHeVDvs1togmsMuIjVcYkXFS2Qo9xfplsTD+8duVQJBZTwi
- gj9+sdsqZGLWxbdwaO+T5zcxWpGQDFwr5zcawmEsodtSeaEFk+XpZu6cvWE7iglneQLWLoadc
- T2b0DQcrJLFL249KnmA6PeBal4cUJuyoVLJLJuysloGYa8pv/mzuTvESo5m99H21l++KYVlq6
- /sdj6kzh7+Ao+LmWR9hI8QlYgHttmn+hjQroHvJxsMZMaGJUl7gJmRLIDFEKf19yX98Fmnu6a
- /tByyNQRtE11SfrDaXCg==
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Received-From: 212.227.17.10
+X-Provags-ID: V03:K1:TkbCZicbBO8E00QHGiYTY59pahKYt1llB7ucbZMACFczBXbjEqS
+ 1kWKgZIRl544qCYqof2RrM9G4ZZ7xcos/kTfCm3MjIZGvZM7EEgxNfbV5dhigF5nw8U/td5
+ DV+6sfdRHQ0GunBV7jqOjQE1MYHEgwuNB40o2MYrumgOFXmecLKpnauAQHlNjHoLRI8iRQ9
+ LkbyRVH3GGNqXsDu3tuaw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:V8W02lgdepM=:oVl7cbaGVrOa9161g3Oz0I
+ LrkBQYL5+K9MHgK7OxK8xK/scyr28aad36oq5x/EGRNYu5ft7IYwakD7B3HRPpkvu2XPDGJ+f
+ YGeQWmQMu4n5cZTnPKN5kxFY01DN5hAYEGAKKNM03zWLmdSMF+Rxz7GcBivX+bw7QJFR9uBAr
+ XpUCoGvJYJszS3ebTCJOQIuA1CXVO+PwVQJkmXRMJQTO+Fa1rB7pmDgwIHdi3jUdExUPDnAAf
+ 7XG5szWC54NXNhr2u4AyS6ezvUWAo24V/SB66I7shQq71vIbhH2APGkw6B3w0xltnVD48H3mp
+ kzQFT1FcD1LdFvWGoA8dhJhox27gPZW7gPy0+GRxkLbmKW44xAC/vv2/KK9c1Luj0lM8iAY51
+ geyiMsYBoB87QPum1sLtuqYG7rdNXXlKFd1nHyH8070zkMBl6JcHvMoEJucuETXUYx7bhCJNx
+ e8afkFyro/ohJS+03R4qH+z30uQqfz7x9aM/9/+EndaN5TmtcSCcnLKQq4cP3heATwpS4WSyY
+ OXW7LL2HAL1kgU6Fb3eesRsh4B9Upb1VsbhGaBXfDLpY6ptB/7YSTXC7416Fz5nnA+p0q1JCo
+ y9wHZH4vCfiB5DEsdDJc4WQq7n/V6RzWtSOG6vQQu/Kc4qZVLmVteDPNaFiS+0PoKKH9f18aQ
+ qgTMrMO/t4jMptT8yZFgRfssIBvKNKWJ4EpGbeK4Hr2B7Tqs7kxJGVa5YARBf4GBhVOx818d+
+ 73N3zQc/rekOirtTpL30tvWC4lWhdYTSsEaqBfsDzT9d8Ay9KXnqiW/FP3JcYzxrLvzHWZZY0
+ GjtWZtG9RO6dZmuo+zhtMLrxMfphi78UFABuasss9TS5hIDgD/GhIUvRsvmq5HYWgdnaUMbWn
+ uZasYjU2AYrjv/keu3Iw==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,128 +63,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is used by netBSD (and MacOS ROM) to detect the MMU type
+Register addr 1 is defined as buffer A with handshake (vBufAH),
+register addr 15 is also defined as buffer A without handshake (vBufA).
+
+Linux kernel has a big "DON'T USE!" next to the register 1 addr
+definition (vBufAH), and only uses register 15 (vBufA).
+
+So remove the definition of 'anh' and use only 'a' (with VIA_REG_ANH and
+VIA_REG_A).
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/cpu.c    | 28 ++++++++++++++++++++++------
- target/m68k/cpu.h    |  4 ++++
- target/m68k/helper.c | 16 ++++++++++++++--
- 3 files changed, 40 insertions(+), 8 deletions(-)
+ hw/misc/mos6522.c         | 12 ++++--------
+ include/hw/misc/mos6522.h |  1 -
+ 2 files changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index e6596de29c..1d202cec49 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -114,11 +114,8 @@ static void m68000_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_MOVEP);
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index cecf0be59e..86ede4005c 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -244,6 +244,7 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+         val = s->b;
+         break;
+     case VIA_REG_A:
++    case VIA_REG_ANH:
+         val = s->a;
+         break;
+     case VIA_REG_DIRB:
+@@ -297,9 +298,7 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+         val = s->ier | 0x80;
+         break;
+     default:
+-    case VIA_REG_ANH:
+-        val = s->anh;
+-        break;
++        g_assert_not_reached();
+     }
+ 
+     if (addr != VIA_REG_IFR || val != 0) {
+@@ -322,6 +321,7 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+         mdc->portB_write(s);
+         break;
+     case VIA_REG_A:
++    case VIA_REG_ANH:
+         s->a = (s->a & ~s->dira) | (val & s->dira);
+         mdc->portA_write(s);
+         break;
+@@ -395,9 +395,7 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+                               qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     default:
+-    case VIA_REG_ANH:
+-        s->anh = val;
+-        break;
++        g_assert_not_reached();
+     }
  }
  
--static void m68020_cpu_initfn(Object *obj)
-+static void m680x0_cpu_common(CPUM68KState *env)
- {
--    M68kCPU *cpu = M68K_CPU(obj);
--    CPUM68KState *env = &cpu->env;
--
-     m68k_set_feature(env, M68K_FEATURE_M68000);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-     m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
-@@ -136,14 +133,32 @@ static void m68020_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_CHK2);
-     m68k_set_feature(env, M68K_FEATURE_MOVEP);
- }
--#define m68030_cpu_initfn m68020_cpu_initfn
-+
-+static void m68020_cpu_initfn(Object *obj)
-+{
-+    M68kCPU *cpu = M68K_CPU(obj);
-+    CPUM68KState *env = &cpu->env;
-+
-+    m680x0_cpu_common(env);
-+    m68k_set_feature(env, M68K_FEATURE_MMU68851);
-+}
-+
-+static void m68030_cpu_initfn(Object *obj)
-+{
-+    M68kCPU *cpu = M68K_CPU(obj);
-+    CPUM68KState *env = &cpu->env;
-+
-+    m680x0_cpu_common(env);
-+    m68k_set_feature(env, M68K_FEATURE_MMU68030);
-+}
+@@ -439,7 +437,6 @@ const VMStateDescription vmstate_mos6522 = {
+         VMSTATE_UINT8(pcr, MOS6522State),
+         VMSTATE_UINT8(ifr, MOS6522State),
+         VMSTATE_UINT8(ier, MOS6522State),
+-        VMSTATE_UINT8(anh, MOS6522State),
+         VMSTATE_STRUCT_ARRAY(timers, MOS6522State, 2, 0,
+                              vmstate_mos6522_timer, MOS6522Timer),
+         VMSTATE_END_OF_LIST()
+@@ -460,7 +457,6 @@ static void mos6522_reset(DeviceState *dev)
+     s->ifr = 0;
+     s->ier = 0;
+     /* s->ier = T1_INT | SR_INT; */
+-    s->anh = 0;
  
- static void m68040_cpu_initfn(Object *obj)
- {
-     M68kCPU *cpu = M68K_CPU(obj);
-     CPUM68KState *env = &cpu->env;
+     s->timers[0].frequency = s->frequency;
+     s->timers[0].latch = 0xffff;
+diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+index 493c907537..97384c6e02 100644
+--- a/include/hw/misc/mos6522.h
++++ b/include/hw/misc/mos6522.h
+@@ -115,7 +115,6 @@ typedef struct MOS6522State {
+     uint8_t pcr;
+     uint8_t ifr;
+     uint8_t ier;
+-    uint8_t anh;
  
--    m68020_cpu_initfn(obj);
-+    m680x0_cpu_common(env);
-+    m68k_set_feature(env, M68K_FEATURE_MMU68040);
-     m68k_set_feature(env, M68K_FEATURE_M68040);
- }
- 
-@@ -166,6 +181,7 @@ static void m68060_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_BKPT);
-     m68k_set_feature(env, M68K_FEATURE_RTD);
-     m68k_set_feature(env, M68K_FEATURE_CHK2);
-+    m68k_set_feature(env, M68K_FEATURE_MMU68060);
- }
- 
- static void m5208_cpu_initfn(Object *obj)
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 20de3c379a..36e4353b44 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -483,6 +483,10 @@ enum m68k_features {
-     M68K_FEATURE_CHK2,
-     M68K_FEATURE_M68040, /* instructions specific to MC68040 */
-     M68K_FEATURE_MOVEP,
-+    M68K_FEATURE_MMU68851,
-+    M68K_FEATURE_MMU68030,
-+    M68K_FEATURE_MMU68040,
-+    M68K_FEATURE_MMU68060,
- };
- 
- static inline int m68k_feature(CPUM68KState *env, int feature)
-diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index ae766a6cb0..b5758bbd7d 100644
---- a/target/m68k/helper.c
-+++ b/target/m68k/helper.c
-@@ -205,7 +205,13 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
-         return;
-     /* MC680[234]0 */
-     case M68K_CR_CACR:
--        env->cacr = val;
-+        if (m68k_feature(env, M68K_FEATURE_MMU68040)) {
-+            env->cacr = val & 0x80008000;
-+        } else if (m68k_feature(env, M68K_FEATURE_MMU68030)) {
-+            env->cacr = val & 0x00003fff;
-+        } else if (m68k_feature(env, M68K_FEATURE_MMU68851)) {
-+            env->cacr = val & 0x0000000f;
-+        }
-         m68k_switch_sp(env);
-         return;
-     /* MC680[34]0 */
-@@ -261,7 +267,13 @@ uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
-         return env->vbr;
-     /* MC680[234]0 */
-     case M68K_CR_CACR:
--        return env->cacr;
-+        if (m68k_feature(env, M68K_FEATURE_MMU68040)) {
-+            return env->cacr & 0x80008000;
-+        } else if (m68k_feature(env, M68K_FEATURE_MMU68030)) {
-+            return env->cacr & 0x00003fff;
-+        } else if (m68k_feature(env, M68K_FEATURE_MMU68851)) {
-+            return env->cacr & 0x0000000f;
-+        }
-     /* MC680[34]0 */
-     case M68K_CR_TC:
-         return env->mmu.tcr;
+     MOS6522Timer timers[2];
+     uint64_t frequency;
 -- 
 2.23.0
 
