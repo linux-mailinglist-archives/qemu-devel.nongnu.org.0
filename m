@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8769111CD9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 13:55:27 +0100 (CET)
-Received: from localhost ([::1]:58862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82FF11CDA7
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 13:58:22 +0100 (CET)
+Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifO05-0004V0-Tp
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 07:55:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55355)
+	id 1ifO2v-0008HY-PK
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 07:58:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55524)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxn-0002aF-1R
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxn-0002bK-T6
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxl-0005ZF-PF
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:02 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41948)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNxm-0005bh-QC
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:03 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38625)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNxl-0005Xm-I5
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:01 -0500
-Received: by mail-wr1-x441.google.com with SMTP id c9so2600580wrw.8
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:01 -0800 (PST)
+ id 1ifNxm-0005Zo-Ij
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:02 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p17so2374008wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=hQa8RQN93P2TBfJsyGVMdsfgVEPZ5APj9EiA07gMxPg=;
- b=QyWjwGOnr3b9/8G4o2TmPcgrsDOau5C4XHfkw9SWDrbtSUU5EK8CJNqrK/rvFAG77v
- lJoBmrcW1RWyBGy0OdPwugIY13/4c+JMto4IFoQXjTG4SLRaWVIBnT1rRWjA/oYUI74a
- +bg7rRXjzYgFkqBxBzZLLD62qsGA8w3uJ9UnSCVn2kXttoPFrHSFXLFCbApdoMwZ83/0
- z5wZhcYBPp7kclffEYyM3E5oAeNvB9E64cspbmrrI7lBtSvJ42VYy6fotEQYfNFQ/+0l
- QpdDzbBJNVPIYL4I+2hfEppTvKaIU7sUyxEH6NoG8Yn3aYppmqFQuogf8H2I5KhqewBq
- n5Cw==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lAA1rauPYw3IdpUqrU8014lOsyjgeqIfQTPWD16bhyU=;
+ b=AEUUq2eQC1y04DVlwqhtHbH5q85fKMba2+z67LVO//TenswBIQehzV4XVBgS9ih+Ee
+ xYfHjIpojqS0qt9TGiYT+FJE5ZN5HwRyS85mPFxVjQ7u0f30Ejuf1u+LaYqf3388h5aa
+ XTnLkh7dcvsScL6ogtIK8LHOWuFGZNOh/p/NnYf6BbrqX1KHDKww1YzAtszbyEmaD33H
+ iKMBAr52EDuWhf0wycCmOWGbz5n9gZy6bHHnscIgxQCBxaXlyyoGuz0LoirYqF+jwJGB
+ aYLRg6ailW/htf4KIpxJoH0C67iq8sM8X4nFbaWwqHfiCe9QnnlmfQHo5pBfvzdO5Wl/
+ rKTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=hQa8RQN93P2TBfJsyGVMdsfgVEPZ5APj9EiA07gMxPg=;
- b=HOty7AXd53pWUiex1qJ+115srh/CZ8CPB0/6F/8EKhDzYz07d1LcZMQbP6LmEwBNRK
- YBMaXdHV9NIZX9GQH2CxBylEqOtAd2IXjjXDyWm1UAmeny5olmBvkk2jX7v6xi2jtV5q
- SJf+BO6WKpv1vYhHOE1S/3uuT9BcXGL6Fkmr3aQ0yfe8OLKpDd8k+WHxVEPJVqZ5ftbr
- fH/oYu8CQoNbg+8D4sQcYmdLH9TtbD5Xp1O55cinds8xmxBAlO6Ibgyey/GPPqMXrdZN
- S8jWsfo2gLWoyeNgcfzR0Y5tC1J0szcyBKMdhtUrCxfQK79OZ2VdUtWWGLlfX1ncM8ZU
- ClLA==
-X-Gm-Message-State: APjAAAVmLuXiNOJv9oFnZr4n7Ji9T7iFRXuLXUDm0PB13e7CGsslYBA2
- kyW1fbtslMHDbB06qljdBQcvpwyr
-X-Google-Smtp-Source: APXvYqyU1mh0Ih1PGRKpQobpBS68+LaDbE56GDzxRsBMNN8Up43LPi8T7OdnrS/cGLEWKBBC+14LSw==
-X-Received: by 2002:adf:90e7:: with SMTP id i94mr5992612wri.47.1576155180321; 
- Thu, 12 Dec 2019 04:53:00 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=lAA1rauPYw3IdpUqrU8014lOsyjgeqIfQTPWD16bhyU=;
+ b=npmMyHGRilSYOSHnVzotNvH0UY3bcTExZSHj+NlaxS4xlRB9BxoESub9UDp3p5T0Ay
+ q2Yy1c/CbOenwFQFY66Z813xhO2sv1FAVBnolhnN2K6Q2ZlzArKsA35wi78pazWPZDhX
+ f5OD/7/RVvxhrrST+F6KSy+UFQe262a4LZDZgO5UEVUIlKJDg8j3EVejKgtpkSDQAavB
+ aWp6ZN55QbYa5Bwz79Poc2oxiu9aqVjPSDJ6zysoz/ZHufEed0l0p+X42Hu4xDIiMgwk
+ v5wUAEI1E96c9g0ZKlS5l/91Gv008LmfV/6/lMTQGFHaWswgO85mvU0/do3SLMiaDlh6
+ GHlQ==
+X-Gm-Message-State: APjAAAUBhD2Xzww/HXeHfrIBZP/6VjICQZYqEa3Gr3XZ8s/v1s9gLHcr
+ LPTlGd/7Im5LLyjF+MwT+dV8UBl5
+X-Google-Smtp-Source: APXvYqzVi6EPtHjIiN2lriJmXybAtb1AQ180AnLTEHmQRDtlZ/ywPdVo1iHIWUDhnSvo8SkAfzGewA==
+X-Received: by 2002:a7b:cbcd:: with SMTP id n13mr6455917wmi.104.1576155181268; 
+ Thu, 12 Dec 2019 04:53:01 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.52.59
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:52:59 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 002/132] configure: do not include $(...) variables in
- config-host.mak
-Date: Thu, 12 Dec 2019 13:50:46 +0100
-Message-Id: <1576155176-2464-3-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 003/132] configure: expand path variables for meson configure
+Date: Thu, 12 Dec 2019 13:50:47 +0100
+Message-Id: <1576155176-2464-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,106 +82,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This ensures that Meson will be able to reuse the results of
-the tests that are performed in the configure script.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ configure | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
 diff --git a/configure b/configure
-index f50314f..9745b87 100755
+index 9745b87..a444bc3 100755
 --- a/configure
 +++ b/configure
-@@ -589,8 +589,8 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv -std=gnu99 $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
--QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
--QEMU_INCLUDES="$QEMU_INCLUDES -iquote \$(SRC_PATH)/disas/libvixl"
-+QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
-+QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
- if test "$debug_info" = "yes"; then
-     CFLAGS="-g $CFLAGS"
-     LDFLAGS="-g $LDFLAGS"
-@@ -881,7 +881,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   kvm="yes"
--  QEMU_INCLUDES="-I\$(SRC_PATH)/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-I${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-   supported_os="yes"
-   libudev="yes"
- ;;
-@@ -4038,8 +4038,8 @@ EOF
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-               symlink "$source_path/dtc/scripts" "dtc/scripts"
-           fi
--          fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
--          fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
-+          fdt_cflags="-I${source_path}/dtc/libfdt"
-+          fdt_ldflags="-L$PWD/dtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -4988,13 +4988,13 @@ case "$capstone" in
-       git_submodules="${git_submodules} capstone"
-     fi
-     mkdir -p capstone
--    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
-+    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
-     if test "$mingw32" = "yes"; then
-       LIBCAPSTONE=capstone.lib
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    libs_cpu="-L\$(BUILD_DIR)/capstone -lcapstone $libs_cpu"
-+    libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
-     ;;
- 
-   system)
-@@ -5888,8 +5888,8 @@ case "$slirp" in
-       git_submodules="${git_submodules} slirp"
-     fi
-     mkdir -p slirp
--    slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
--    slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
-+    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
-+    slirp_libs="-L$PWD/slirp -lslirp"
-     if test "$mingw32" = "yes" ; then
-       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
-     fi
-@@ -7235,21 +7235,21 @@ if test "$sheepdog" = "yes" ; then
+@@ -404,16 +404,7 @@ DSOSUF=".so"
+ LDFLAGS_SHARED="-shared"
+ modules="no"
+ prefix="/usr/local"
+-mandir="\${prefix}/share/man"
+-datadir="\${prefix}/share"
+ firmwarepath="\${prefix}/share/qemu-firmware"
+-qemu_docdir="\${prefix}/share/doc/qemu"
+-bindir="\${prefix}/bin"
+-libdir="\${prefix}/lib"
+-libexecdir="\${prefix}/libexec"
+-includedir="\${prefix}/include"
+-sysconfdir="\${prefix}/etc"
+-local_statedir="\${prefix}/var"
+ confsuffix="/qemu"
+ slirp=""
+ oss_lib=""
+@@ -926,12 +917,6 @@ if test "$mingw32" = "yes" ; then
+     LIBS="-liberty $LIBS"
+   fi
+   prefix="c:/Program Files/QEMU"
+-  mandir="\${prefix}"
+-  datadir="\${prefix}"
+-  qemu_docdir="\${prefix}"
+-  bindir="\${prefix}"
+-  sysconfdir="\${prefix}"
+-  local_statedir=
+   confsuffix=""
+   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
  fi
+@@ -1529,6 +1514,26 @@ for opt do
+   esac
+ done
  
- if test "$tcg_interpreter" = "yes"; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
- elif test "$ARCH" = "sparc64" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/sparc $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
- elif test "$ARCH" = "s390x" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/s390 $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
- elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/i386 $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
- elif test "$ARCH" = "ppc64" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/ppc $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
- elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
--  QEMU_INCLUDES="-I\$(SRC_PATH)/tcg/riscv $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
- else
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/\$(ARCH) $QEMU_INCLUDES"
- fi
--QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg $QEMU_INCLUDES"
-+QEMU_INCLUDES="-iquote ${source_path}/tcg $QEMU_INCLUDES"
- 
- echo "TOOLS=$tools" >> $config_host_mak
- echo "ROMS=$roms" >> $config_host_mak
++libdir="${libdir:-$prefix/lib}"
++libexecdir="${libexecdir:-$prefix/libexec}"
++includedir="${includedir:-$prefix/include}"
++
++if test "$mingw32" = "yes" ; then
++    mandir="$prefix"
++    datadir="$prefix"
++    qemu_docdir="$prefix"
++    bindir="$prefix"
++    sysconfdir="$prefix"
++    local_statedir=
++else
++    mandir="${mandir:-$prefix/share/man}"
++    datadir="${datadir:-$prefix/share}"
++    qemu_docdir="${qemu_docdir:-$prefix/share/doc/qemu}"
++    bindir="${bindir:-$prefix/bin}"
++    sysconfdir="${sysconfdir:-$prefix/etc}"
++    local_statedir="${local_statedir:-$prefix/var}"
++fi
++
+ case "$cpu" in
+     ppc)
+            CPU_CFLAGS="-m32"
 -- 
 1.8.3.1
 
