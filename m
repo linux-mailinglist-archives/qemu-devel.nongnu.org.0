@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820AC11D683
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 20:00:28 +0100 (CET)
-Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F397111D6C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 20:06:16 +0100 (CET)
+Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifThL-0007m3-71
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 14:00:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48687)
+	id 1ifTmy-0005F1-1H
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 14:06:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48862)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ifTc5-0002ly-KE
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:55:02 -0500
+ (envelope-from <thuth@redhat.com>) id 1ifTc8-0002nD-KD
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:55:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ifTc4-0000Jq-Go
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:55:01 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28154
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1ifTc4-0000KW-SQ
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:55:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28421
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ifTc4-0000J4-BU
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ifTc4-0000Jh-Nz
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 13:55:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576176899;
+ s=mimecast20190719; t=1576176900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZAwffZkNPLokqTuFCAgkcN6DNnGsl5ORUvhYAh0aDdI=;
- b=dl6qalBE8qoGR3lxj3F+/Jl3KljN+jo5SbxLRc4a/I0/o3RZA87hHGZzCM53oxfhYdlfez
- Qd+fHdxik8J5AFvHUAHpcQC8BFtXlMia4AVFH8zkAJOgzkE4O4vG2zuPT3Ry4LXktVSICI
- CeCaHm8Ln3RjBrpGlgUUC3w/mCk5/ss=
+ bh=xAdT6VOY0Ne6iSSofvCt/EzmDvcLOV6lujrEWJJqt2Q=;
+ b=X2hNUIbQL3ZJeMJE61Kl4H2TI2pjaEqXHDMocpM6ilXFl1txHNJft704A5ueox0TT0iR/j
+ SsC+KO1KSqe2NeWNhdtaurLJdnXrcUbf7JMdLrstxrBa3OdgOFdf4kbIMmG8MeLafw+7y/
+ yPEFDo1a+IcKDDjCYD7l0M9PaxYTKQo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314--zK7kxDBMe2Hmd3GOoiDnA-1; Thu, 12 Dec 2019 13:54:56 -0500
+ us-mta-224-fPM9I2JvOlqYmWcLvesSHg-1; Thu, 12 Dec 2019 13:54:58 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 680FA8017DF;
- Thu, 12 Dec 2019 18:54:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E5D3800D41;
+ Thu, 12 Dec 2019 18:54:57 +0000 (UTC)
 Received: from thuth.com (ovpn-116-168.ams2.redhat.com [10.36.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FDBC19C4F;
- Thu, 12 Dec 2019 18:54:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5E1019C4F;
+ Thu, 12 Dec 2019 18:54:55 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 09/10] tests/Makefile: Fix check-report.* targets shown in
- check-help
-Date: Thu, 12 Dec 2019 19:54:23 +0100
-Message-Id: <20191212185424.4675-10-thuth@redhat.com>
+Subject: [PULL 10/10] tests: use g_test_rand_int
+Date: Thu, 12 Dec 2019 19:54:24 +0100
+Message-Id: <20191212185424.4675-11-thuth@redhat.com>
 In-Reply-To: <20191212185424.4675-1-thuth@redhat.com>
 References: <20191212185424.4675-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: -zK7kxDBMe2Hmd3GOoiDnA-1
+X-MC-Unique: fPM9I2JvOlqYmWcLvesSHg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,48 +71,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-The check-report.html and check-report.xml targets were replaced
-with check-report.tap in commit 9df43317b82 but the check-help
-text was not updated so it still lists check-report.html.
+g_test_rand_int provides a reproducible random integer number, using a
+different number seed every time but allowing reproduction using the
+--seed command line option.  It is thus better suited to tests than
+g_random_int or random.
 
-Fixes: 9df43317b82
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20191211204427.4681-2-wainersm@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <1576113478-42926-1-git-send-email-pbonzini@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/Makefile.include | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ tests/ivshmem-test.c | 2 +-
+ tests/test-bitmap.c  | 8 ++++----
+ tests/test-qga.c     | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 8566f5f119..680bd8a669 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -16,12 +16,10 @@ check-help:
- =09@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
- =09@echo " $(MAKE) check-acceptance     Run all acceptance (functional) te=
-sts"
- =09@echo
--=09@echo " $(MAKE) check-report.html    Generates an HTML test report"
-+=09@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test r=
-eport"
- =09@echo " $(MAKE) check-venv           Creates a Python venv for tests"
- =09@echo " $(MAKE) check-clean          Clean the tests and related data"
- =09@echo
--=09@echo "Please note that HTML reports do not regenerate if the unit test=
-s"
--=09@echo "have not changed."
- =09@echo
- =09@echo "The variable SPEED can be set to control the gtester speed setti=
-ng."
- =09@echo "Default options are -k and (for $(MAKE) V=3D1) --verbose; they c=
-an be"
+diff --git a/tests/ivshmem-test.c b/tests/ivshmem-test.c
+index be9aa92a61..ecda256472 100644
+--- a/tests/ivshmem-test.c
++++ b/tests/ivshmem-test.c
+@@ -443,7 +443,7 @@ static gchar *mktempshm(int size, int *fd)
+     while (true) {
+         gchar *name;
+=20
+-        name =3D g_strdup_printf("/qtest-%u-%u", getpid(), g_random_int())=
+;
++        name =3D g_strdup_printf("/qtest-%u-%u", getpid(), g_test_rand_int=
+());
+         *fd =3D shm_open(name, O_CREAT|O_RDWR|O_EXCL,
+                        S_IRWXU|S_IRWXG|S_IRWXO);
+         if (*fd > 0) {
+diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
+index 087e02a26c..2f5b71458a 100644
+--- a/tests/test-bitmap.c
++++ b/tests/test-bitmap.c
+@@ -22,10 +22,10 @@ static void check_bitmap_copy_with_offset(void)
+     bmap2 =3D bitmap_new(BMAP_SIZE);
+     bmap3 =3D bitmap_new(BMAP_SIZE);
+=20
+-    bmap1[0] =3D random();
+-    bmap1[1] =3D random();
+-    bmap1[2] =3D random();
+-    bmap1[3] =3D random();
++    bmap1[0] =3D g_test_rand_int();
++    bmap1[1] =3D g_test_rand_int();
++    bmap1[2] =3D g_test_rand_int();
++    bmap1[3] =3D g_test_rand_int();
+     total =3D BITS_PER_LONG * 4;
+=20
+     /* Shift 115 bits into bmap2 */
+diff --git a/tests/test-qga.c b/tests/test-qga.c
+index 1ca49bbced..d2b2435bb4 100644
+--- a/tests/test-qga.c
++++ b/tests/test-qga.c
+@@ -143,7 +143,7 @@ static void qmp_assertion_message_error(const char     =
+*domain,
+ static void test_qga_sync_delimited(gconstpointer fix)
+ {
+     const TestFixture *fixture =3D fix;
+-    guint32 v, r =3D g_random_int();
++    guint32 v, r =3D g_test_rand_int();
+     unsigned char c;
+     QDict *ret;
+=20
+@@ -186,7 +186,7 @@ static void test_qga_sync_delimited(gconstpointer fix)
+ static void test_qga_sync(gconstpointer fix)
+ {
+     const TestFixture *fixture =3D fix;
+-    guint32 v, r =3D g_random_int();
++    guint32 v, r =3D g_test_rand_int();
+     QDict *ret;
+=20
+     /*
 --=20
 2.18.1
 
