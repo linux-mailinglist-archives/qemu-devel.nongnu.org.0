@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D0D11D37B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:15:14 +0100 (CET)
-Received: from localhost ([::1]:34507 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2CE11D303
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:02:11 +0100 (CET)
+Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifS3V-00027L-AX
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:15:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46735)
+	id 1ifRqs-0003h3-85
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:02:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVL-0005Q1-Lj
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:57 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVP-0005Vg-7G
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVK-0001eV-6A
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47710
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVN-0001jI-3k
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:59 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50864
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVK-0001dl-2K
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:54 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVM-0001ig-Vs
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168793;
+ s=mimecast20190719; t=1576168796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5oWNA0oGQioHCkmreQwFOTLRRcxDsb9hm+i3cW+LpQc=;
- b=AGIoZUjF1AsVQNAe3s7wG+I/5GE7a5TEbsPfh5+nCX25SXwqTFtUS1plN9wGUrywaxJKrp
- vkbfiQgUxrq3lLJi2CIYPMIP4nu5kyktelknm8srUIqARyFiX9xhGymAZ+qEPKBNVKKIQD
- 6VK8fDgmN46ypYiK75QhzXHiV34CILc=
+ bh=T7bD0dOx27r76nONEMW9u8B5bkrGN8LoLqIE2MOXJbk=;
+ b=IrEaEfxwo07VL3x54d3UR1jb7gCLkh740tBMLDw3uspS6v7ThrtuxZeyRjetH4hRg9RieR
+ BQvl1MP39xyTse/yM+fyxte1KsgCYXS1IRw5DQg/8ssX83GpPuivGXxa6T0sR7CTU7Il50
+ 3Jm+jkBbd8OL2N75PwoYTOc0CCJ/9g8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-pjp5xW6aOB-45cUY2xSFSg-1; Thu, 12 Dec 2019 11:39:49 -0500
+ us-mta-253-_oyxQlW3NASP1MbLEE-R3Q-1; Thu, 12 Dec 2019 11:39:55 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 778B41800D42
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68C8C800D41
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D23A60BE1;
- Thu, 12 Dec 2019 16:39:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5851760BE1;
+ Thu, 12 Dec 2019 16:39:53 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 023/104] virtiofsd: Send replies to messages
-Date: Thu, 12 Dec 2019 16:37:43 +0000
-Message-Id: <20191212163904.159893-24-dgilbert@redhat.com>
+Subject: [PATCH 028/104] virtiofsd: make -f (foreground) the default
+Date: Thu, 12 Dec 2019 16:37:48 +0000
+Message-Id: <20191212163904.159893-29-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: pjp5xW6aOB-45cUY2xSFSg-1
+X-MC-Unique: _oyxQlW3NASP1MbLEE-R3Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,187 +76,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Route fuse out messages back through the same queue elements
-that had the command that triggered the request.
+According to vhost-user.rst "Backend program conventions", backend
+programs should run in the foregound by default.  Follow the
+conventions so libvirt and other management tools can control virtiofsd
+in a standard way.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c |   4 ++
- tools/virtiofsd/fuse_virtio.c   | 107 ++++++++++++++++++++++++++++++--
- tools/virtiofsd/fuse_virtio.h   |   4 ++
- 3 files changed, 111 insertions(+), 4 deletions(-)
+ tools/virtiofsd/helper.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 2bdd1d9d80..c2b114cf5b 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -171,6 +171,10 @@ static int fuse_send_msg(struct fuse_session *se, stru=
-ct fuse_chan *ch,
-         }
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 48e38a7963..d4fff4fa53 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -28,6 +28,11 @@
+     {                                               \
+         t, offsetof(struct fuse_cmdline_opts, p), 1 \
      }
-=20
-+    if (fuse_lowlevel_is_virtio(se)) {
-+        return virtio_send_msg(se, ch, iov, count);
++#define FUSE_HELPER_OPT_VALUE(t, p, v)              \
++    {                                               \
++        t, offsetof(struct fuse_cmdline_opts, p), v \
 +    }
 +
-     abort(); /* virtio should have taken it before here */
-     return 0;
- }
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 99cced6888..c38268a1d5 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -41,6 +41,9 @@ struct fv_QueueInfo {
-     /* Our queue index, corresponds to array position */
-     int qidx;
-     int kick_fd;
-+
-+    /* The element for the command currently being processed */
-+    VuVirtqElement *qe;
- };
 =20
- /*
-@@ -121,6 +124,105 @@ static void copy_from_iov(struct fuse_buf *buf, size_=
-t out_num,
-     }
- }
+ static const struct fuse_opt fuse_helper_opts[] =3D {
+     FUSE_HELPER_OPT("-h", show_help),
+@@ -41,6 +46,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
+     FUSE_OPT_KEY("-d", FUSE_OPT_KEY_KEEP),
+     FUSE_OPT_KEY("debug", FUSE_OPT_KEY_KEEP),
+     FUSE_HELPER_OPT("-f", foreground),
++    FUSE_HELPER_OPT_VALUE("--daemonize", foreground, 0),
+     FUSE_HELPER_OPT("-s", singlethread),
+     FUSE_HELPER_OPT("fsname=3D", nodefault_subtype),
+     FUSE_OPT_KEY("fsname=3D", FUSE_OPT_KEY_KEEP),
+@@ -132,6 +138,7 @@ void fuse_cmdline_help(void)
+            "    -V   --version             print version\n"
+            "    -d   -o debug              enable debug output (implies -f=
+)\n"
+            "    -f                         foreground operation\n"
++           "    --daemonize                run in background\n"
+            "    -s                         disable multi-threaded operatio=
+n\n"
+            "    -o clone_fd                use separate fuse device fd for=
+ "
+            "each thread\n"
+@@ -163,6 +170,7 @@ int fuse_parse_cmdline(struct fuse_args *args, struct f=
+use_cmdline_opts *opts)
+     memset(opts, 0, sizeof(struct fuse_cmdline_opts));
 =20
-+/*
-+ * Copy from one iov to another, the given number of bytes
-+ * The caller must have checked sizes.
-+ */
-+static void copy_iov(struct iovec *src_iov, int src_count,
-+                     struct iovec *dst_iov, int dst_count, size_t to_copy)
-+{
-+    size_t dst_offset =3D 0;
-+    /* Outer loop copies 'src' elements */
-+    while (to_copy) {
-+        assert(src_count);
-+        size_t src_len =3D src_iov[0].iov_len;
-+        size_t src_offset =3D 0;
-+
-+        if (src_len > to_copy) {
-+            src_len =3D to_copy;
-+        }
-+        /* Inner loop copies contents of one 'src' to maybe multiple dst. =
-*/
-+        while (src_len) {
-+            assert(dst_count);
-+            size_t dst_len =3D dst_iov[0].iov_len - dst_offset;
-+            if (dst_len > src_len) {
-+                dst_len =3D src_len;
-+            }
-+
-+            memcpy(dst_iov[0].iov_base + dst_offset,
-+                   src_iov[0].iov_base + src_offset, dst_len);
-+            src_len -=3D dst_len;
-+            to_copy -=3D dst_len;
-+            src_offset +=3D dst_len;
-+            dst_offset +=3D dst_len;
-+
-+            assert(dst_offset <=3D dst_iov[0].iov_len);
-+            if (dst_offset =3D=3D dst_iov[0].iov_len) {
-+                dst_offset =3D 0;
-+                dst_iov++;
-+                dst_count--;
-+            }
-+        }
-+        src_iov++;
-+        src_count--;
-+    }
-+}
-+
-+/*
-+ * Called back by ll whenever it wants to send a reply/message back
-+ * The 1st element of the iov starts with the fuse_out_header
-+ * 'unique'=3D=3D0 means it's a notify message.
-+ */
-+int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-+                    struct iovec *iov, int count)
-+{
-+    VuVirtqElement *elem;
-+    VuVirtq *q;
-+
-+    assert(count >=3D 1);
-+    assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
-+
-+    struct fuse_out_header *out =3D iov[0].iov_base;
-+    /* TODO: Endianness! */
-+
-+    size_t tosend_len =3D iov_size(iov, count);
-+
-+    /* unique =3D=3D 0 is notification, which we don't support */
-+    assert(out->unique);
-+    /* For virtio we always have ch */
-+    assert(ch);
-+    elem =3D ch->qi->qe;
-+    q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
-+
-+    /* The 'in' part of the elem is to qemu */
-+    unsigned int in_num =3D elem->in_num;
-+    struct iovec *in_sg =3D elem->in_sg;
-+    size_t in_len =3D iov_size(in_sg, in_num);
-+    fuse_log(FUSE_LOG_DEBUG, "%s: elem %d: with %d in desc of length %zd\n=
-",
-+             __func__, elem->index, in_num, in_len);
-+
-+    /*
-+     * The elem should have room for a 'fuse_out_header' (out from fuse)
-+     * plus the data based on the len in the header.
-+     */
-+    if (in_len < sizeof(struct fuse_out_header)) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
-+                 __func__, elem->index);
-+        return -E2BIG;
-+    }
-+    if (in_len < tosend_len) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
-+                 __func__, elem->index, tosend_len);
-+        return -E2BIG;
-+    }
-+
-+    copy_iov(iov, count, in_sg, in_num, tosend_len);
-+    vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
-+    vu_queue_notify(&se->virtio_dev->dev, q);
-+
-+    return 0;
-+}
-+
- /* Thread function for individual queues, created when a queue is 'started=
-' */
- static void *fv_queue_thread(void *opaque)
- {
-@@ -227,13 +329,10 @@ static void *fv_queue_thread(void *opaque)
+     opts->max_idle_threads =3D 10;
++    opts->foreground =3D 1;
 =20
-             /* TODO! Endianness of header */
-=20
--            /* TODO: Fixup fuse_send_msg */
-             /* TODO: Add checks for fuse_session_exited */
-             fuse_session_process_buf_int(se, &fbuf, &ch);
-=20
--            /* TODO: vu_queue_push(dev, q, elem, qi->write_count); */
--            vu_queue_notify(dev, q);
--
-+            qi->qe =3D NULL;
-             free(elem);
-             elem =3D NULL;
-         }
-diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
-index 23026d6e4c..135a14875a 100644
---- a/tools/virtiofsd/fuse_virtio.h
-+++ b/tools/virtiofsd/fuse_virtio.h
-@@ -22,4 +22,8 @@ int virtio_session_mount(struct fuse_session *se);
-=20
- int virtio_loop(struct fuse_session *se);
-=20
-+
-+int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-+                    struct iovec *iov, int count);
-+
- #endif
+     if (fuse_opt_parse(args, opts, fuse_helper_opts, fuse_helper_opt_proc)=
+ =3D=3D
+         -1) {
 --=20
 2.23.0
 
