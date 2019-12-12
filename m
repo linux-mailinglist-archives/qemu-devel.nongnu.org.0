@@ -2,64 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F59F11CF25
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:04:41 +0100 (CET)
-Received: from localhost ([::1]:59828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692F111CF54
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:06:44 +0100 (CET)
+Received: from localhost ([::1]:59894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifP56-0006lG-2v
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:04:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47431)
+	id 1ifP75-00015c-C1
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35947)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1ifO3S-0001lW-Mz
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:58:55 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1ifO5A-0003sB-N1
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:00:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1ifO3Q-0005U5-88
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:58:54 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35565
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ifO3P-0005RY-IS
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:58:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576155530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yRvhJd1J7DuZ9DIj5XWMPvxBgRSr8B6bbR062Zm6ESk=;
- b=ZtBRO8zD1DGz6e8oegDh83CNQE71EH/h2io/3ZfV04OMJhu8dAIvF8lGP1OoiepiWHD+cn
- ZgENBtLMV542z1gz6XH2z1rj/POR25zoOHwJlTsE2XFFKNJ/oewsbYwwGvhSUidvD08Cij
- MI3JKej7+bMpmJ773da2NYdez1RqEPY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-kARTAf4PORaDRvvDetLw6w-1; Thu, 12 Dec 2019 07:58:43 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76593107B26F;
- Thu, 12 Dec 2019 12:58:42 +0000 (UTC)
-Received: from virtlab501.virt.lab.eng.bos.redhat.com
- (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA05D1001B09;
- Thu, 12 Dec 2019 12:58:41 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/5] python/qemu: Remove unneeded imports in __init__
-Date: Thu, 12 Dec 2019 07:58:31 -0500
-Message-Id: <20191212125831.2654-6-wainersm@redhat.com>
-In-Reply-To: <20191212125831.2654-1-wainersm@redhat.com>
-References: <20191212125831.2654-1-wainersm@redhat.com>
+ (envelope-from <stefanb@linux.ibm.com>) id 1ifO54-00083C-1l
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 08:00:39 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25928
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1ifO53-00080B-IO; Thu, 12 Dec 2019 08:00:33 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBCCvMPJ013409; Thu, 12 Dec 2019 08:00:15 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wuj6bqnva-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 08:00:15 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCCvmHS014777;
+ Thu, 12 Dec 2019 08:00:14 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wuj6bqnuk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 08:00:14 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCCtse4025251;
+ Thu, 12 Dec 2019 13:00:14 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma04dal.us.ibm.com with ESMTP id 2wr3q796nj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 13:00:14 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBCD06g444695952
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Dec 2019 13:00:06 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DE18D136069;
+ Thu, 12 Dec 2019 13:00:05 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 48DC3136053;
+ Thu, 12 Dec 2019 13:00:05 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Dec 2019 13:00:05 +0000 (GMT)
+Subject: Re: [PACTH v3 1/5] tpm_spapr: Support TPM for ppc64 using CRQ based
+ interface
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20191211162050.970199-1-stefanb@linux.vnet.ibm.com>
+ <20191211162050.970199-2-stefanb@linux.vnet.ibm.com>
+ <CAJ+F1CKo2zkn5s+_ZmWOVt_w_6jPa_roVwAAV3h96vWxXTDefg@mail.gmail.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <ca3827f8-e228-686b-e6a6-095bebd68901@linux.ibm.com>
+Date: Thu, 12 Dec 2019 07:59:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: kARTAf4PORaDRvvDetLw6w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CAJ+F1CKo2zkn5s+_ZmWOVt_w_6jPa_roVwAAV3h96vWxXTDefg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-12_03:2019-12-12,2019-12-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
+ mlxscore=0 mlxlogscore=999 clxscore=1011 spamscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912120098
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id xBCCvMPJ013409
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, ehabkost@redhat.com, jsnow@redhat.com,
- alex.bennee@linaro.org, crosa@redhat.com, philmd@redhat.com
+Cc: "open list:sPAPR pseries" <qemu-ppc@nongnu.org>,
+ QEMU <qemu-devel@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-__init_.py import some sub-modules unnecessarily. So let's
-clean it up.
+On 12/12/19 6:05 AM, Marc-Andr=C3=A9 Lureau wrote:
+> Hi
+>
+> On Wed, Dec 11, 2019 at 8:25 PM Stefan Berger
+> <stefanb@linux.vnet.ibm.com> wrote:
+>> Implement support for TPM on ppc64 by implementing the vTPM CRQ interf=
+ace
+>> as a frontend. It can use the tpm_emulator driver backend with the ext=
+ernal
+>> swtpm.
+>>
+>> The Linux vTPM driver for ppc64 works with this emulation.
+>>
+>> This TPM emulator also handles the TPM 2 case.
+>>
+>> Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
+>> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+>> ---
+>>   hw/tpm/Makefile.objs |   1 +
+>>   hw/tpm/tpm_spapr.c   | 405 +++++++++++++++++++++++++++++++++++++++++=
+++
+>>   hw/tpm/trace-events  |  12 ++
+>>   include/sysemu/tpm.h |   3 +
+>>   qapi/tpm.json        |   6 +-
+>>   5 files changed, 424 insertions(+), 3 deletions(-)
+>>   create mode 100644 hw/tpm/tpm_spapr.c
+>>
+>> diff --git a/hw/tpm/Makefile.objs b/hw/tpm/Makefile.objs
+>> index de0b85d02a..f9f29e0082 100644
+>> --- a/hw/tpm/Makefile.objs
+>> +++ b/hw/tpm/Makefile.objs
+>> @@ -4,3 +4,4 @@ common-obj-$(CONFIG_TPM_TIS) +=3D tpm_tis.o
+>>   common-obj-$(CONFIG_TPM_CRB) +=3D tpm_crb.o
+>>   common-obj-$(CONFIG_TPM_PASSTHROUGH) +=3D tpm_passthrough.o
+>>   common-obj-$(CONFIG_TPM_EMULATOR) +=3D tpm_emulator.o
+>> +obj-$(CONFIG_PSERIES) +=3D tpm_spapr.o
+> looks good to me, but why not introduce CONFIG_TPM_SPAPR ?
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Suggested-by: Cleber Rosa <crosa@redhat.com>
----
- python/qemu/__init__.py | 6 ------
- 1 file changed, 6 deletions(-)
 
-diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
-index eff17a306e..4ca06c34a4 100644
---- a/python/qemu/__init__.py
-+++ b/python/qemu/__init__.py
-@@ -9,9 +9,3 @@
- # This work is licensed under the terms of the GNU GPL, version 2.  See
- # the COPYING file in the top-level directory.
- #
--# Based on qmp.py.
--#
--
--from . import qmp
--from . import machine
--from . import accel
---=20
-2.21.0
+Good point. I fixed it.
+
+
 
 
