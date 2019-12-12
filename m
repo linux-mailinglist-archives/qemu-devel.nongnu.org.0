@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05EAA11D7DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 21:28:15 +0100 (CET)
-Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3976311D7DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 21:29:51 +0100 (CET)
+Received: from localhost ([::1]:37042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifV4H-00032i-U8
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 15:28:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
+	id 1ifV5q-0004wG-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 15:29:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42646)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifV1T-0008JC-Hc
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifV1T-0008J3-EP
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:25:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifV1S-0001sE-C0
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifV1R-0001qo-U5
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:25:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62234)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17460)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ifV1S-0001qG-3w; Thu, 12 Dec 2019 15:25:18 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1ifV1R-0001pE-LT; Thu, 12 Dec 2019 15:25:17 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBCKP3Ra092850; Thu, 12 Dec 2019 15:25:14 -0500
+ xBCKOOVK040745; Thu, 12 Dec 2019 15:25:14 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wuspg5uau-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wuswn4vhs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 12 Dec 2019 15:25:14 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCKP8CN093358;
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCKOTls041314;
  Thu, 12 Dec 2019 15:25:13 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wuspg5uab-1
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wuswn4vhf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 12 Dec 2019 15:25:13 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCKOfNQ004548;
- Thu, 12 Dec 2019 20:25:12 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma05wdc.us.ibm.com with ESMTP id 2wtdq7m5ue-1
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCKOfKZ028634;
+ Thu, 12 Dec 2019 20:25:13 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 2wr3q7d5yq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2019 20:25:12 +0000
+ Thu, 12 Dec 2019 20:25:13 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBCKPB5638011240
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBCKPCBx19202434
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 12 Dec 2019 20:25:11 GMT
+ Thu, 12 Dec 2019 20:25:12 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC16DAC060;
+ by IMSVA (Postfix) with ESMTP id DDBEDAC065;
  Thu, 12 Dec 2019 20:25:11 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B55FEAC067;
+ by IMSVA (Postfix) with ESMTP id CFB04AC05E;
  Thu, 12 Dec 2019 20:25:11 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
  Thu, 12 Dec 2019 20:25:11 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v5 4/5] hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES
- config
-Date: Thu, 12 Dec 2019 15:24:29 -0500
-Message-Id: <20191212202430.1079725-5-stefanb@linux.vnet.ibm.com>
+Subject: [PATCH v5 5/5] docs: tpm: Add example command line for ppc64 and
+ tpm-spapr
+Date: Thu, 12 Dec 2019 15:24:30 -0500
+Message-Id: <20191212202430.1079725-6-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
 References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
@@ -72,10 +72,10 @@ X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-12_06:2019-12-12,2019-12-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=1 adultscore=0
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 clxscore=1015
- mlxlogscore=978 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 mlxscore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=1 mlxlogscore=999 bulkscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1912120157
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
@@ -96,20 +96,56 @@ Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add an example to the TPM docs for how to add a TPM SPAPR
+device model to a QEMU VM emulating a pSeries machine.
+
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index f927ec9c74..b5b3519158 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -10,6 +10,7 @@ config PSERIES
-     select XICS_SPAPR
-     select XIVE_SPAPR
-     select MSI_NONBROKEN
-+    select TPM_SPAPR
+diff --git a/docs/specs/tpm.txt b/docs/specs/tpm.txt
+index 9c8cca042d..9c3e67d8a7 100644
+--- a/docs/specs/tpm.txt
++++ b/docs/specs/tpm.txt
+@@ -34,6 +34,12 @@ The CRB interface makes a memory mapped IO region in the area 0xfed40000 -
+ QEMU files related to TPM CRB interface:
+  - hw/tpm/tpm_crb.c
  
- config SPAPR_RNG
-     bool
++
++pSeries (ppc64) machines offer a tpm-spapr device model.
++
++QEMU files related to the SPAPR interface:
++ - hw/tpm/tpm_spapr.c
++
+ = fw_cfg interface =
+ 
+ The bios/firmware may read the "etc/tpm/config" fw_cfg entry for
+@@ -281,7 +287,7 @@ swtpm socket --tpmstate dir=/tmp/mytpm1 \
+   --log level=20
+ 
+ Command line to start QEMU with the TPM emulator device communicating with
+-the swtpm:
++the swtpm (x86):
+ 
+ qemu-system-x86_64 -display sdl -accel kvm \
+   -m 1024 -boot d -bios bios-256k.bin -boot menu=on \
+@@ -289,6 +295,18 @@ qemu-system-x86_64 -display sdl -accel kvm \
+   -tpmdev emulator,id=tpm0,chardev=chrtpm \
+   -device tpm-tis,tpmdev=tpm0 test.img
+ 
++In case a pSeries machine is emulated, use the following command line:
++
++qemu-system-ppc64 -display sdl -machine pseries,accel=kvm \
++  -m 1024 -bios slof.bin -boot menu=on \
++  -nodefaults -device VGA -device pci-ohci -device usb-kbd \
++  -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
++  -tpmdev emulator,id=tpm0,chardev=chrtpm \
++  -device tpm-spapr,tpmdev=tpm0 \
++  -device spapr-vscsi,id=scsi0,reg=0x00002000 \
++  -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
++  -drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
++
+ 
+ In case SeaBIOS is used as firmware, it should show the TPM menu item
+ after entering the menu with 'ESC'.
 -- 
 2.21.0
 
