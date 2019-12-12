@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FDE11D40B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:32:41 +0100 (CET)
-Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA7311D428
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:36:05 +0100 (CET)
+Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifSKO-0008Rv-6q
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:32:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53093)
+	id 1ifSNg-000459-B2
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:36:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53388)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVy-0006GT-GQ
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:35 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRW0-0006JC-4z
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVw-0002hP-VS
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:34 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32320
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVy-0002lH-Sc
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:35 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24994
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVw-0002gd-Pq
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:32 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVy-0002km-O2
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168832;
+ s=mimecast20190719; t=1576168834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UqOE+m4s+9lKUr6vCyIKK3Ke6GOjTZV0Lxhb78HsUmI=;
- b=dSwcW8BQj47Sv1q373TsVYJlL8V/iIQjxfvY7nceHbt7+VmclqtHbapSV1lQql+tzF/JAP
- dvWSFp8rhfR1qbyGtVU8+Q/vfSfBdfD/Ptr7y0kIPGVn1fT5lOEyky/yOEj15UBq2ub+vv
- 7gU9YfIxhepmsncwTEOCl1U9VbRTtbY=
+ bh=y+d2ihNor2vedUZbNfrFzFj0RiCA7tAKLxiUkD1nspQ=;
+ b=A0/LIvfsuKUwc3QHQpjjoZVd/A3ShUL5mKVJgZXD3UwGJjyOG5YNbDyOidksa7eUTD2Diu
+ de0KCaPRQo6pjRbXnVY8y9vSVx0Ubz+wfGdqC5W7nJksAQT42uoDZ/5AyqD+MWNZ0nT7jR
+ 9keaTrn8+rHSwzuHX7KhxKHuxOy8jxw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-_gIHmPMuNkC8wZscdU4NaA-1; Thu, 12 Dec 2019 11:40:31 -0500
+ us-mta-359-a2V62wk4P5OBh20UWVbb-Q-1; Thu, 12 Dec 2019 11:40:32 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63055107B270
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84480107ACC9
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:40:31 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8523D60BF3;
- Thu, 12 Dec 2019 16:40:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB42060BF3;
+ Thu, 12 Dec 2019 16:40:30 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 052/104] virtiofsd: cap-ng helpers
-Date: Thu, 12 Dec 2019 16:38:12 +0000
-Message-Id: <20191212163904.159893-53-dgilbert@redhat.com>
+Subject: [PATCH 053/104] virtiofsd: Drop CAP_FSETID if client asked for it
+Date: Thu, 12 Dec 2019 16:38:13 +0000
+Message-Id: <20191212163904.159893-54-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: _gIHmPMuNkC8wZscdU4NaA-1
+X-MC-Unique: a2V62wk4P5OBh20UWVbb-Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,156 +76,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-libcap-ng reads /proc during capng_get_caps_process, and virtiofsd's
-sandboxing doesn't have /proc mounted; thus we have to do the
-caps read before we sandbox it and save/restore the state.
+If client requested killing setuid/setgid bits on file being written, drop
+CAP_FSETID capability so that setuid/setgid bits are cleared upon write
+automatically.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+pjdfstest chown/12.t needs this.
+
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+  dgilbert: reworked for libcap-ng
 ---
- Makefile                         |  2 +
- tools/virtiofsd/passthrough_ll.c | 72 ++++++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 105 +++++++++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 3f5d04e1f7..fa15174ba0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -323,9 +323,11 @@ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX))=
- =3D qemu-bridge-helper$(EXE
-=20
- ifdef CONFIG_LINUX
- ifdef CONFIG_SECCOMP
-+ifdef CONFIG_LIBCAP_NG
- HELPERS-y +=3D virtiofsd$(EXESUF)
- vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
- endif
-+endif
-=20
- ifdef CONFIG_VIRGL
- ifdef CONFIG_GBM
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 701608c6df..6a09b28608 100644
+index 6a09b28608..ab318a6f36 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -38,6 +38,7 @@
- #include "fuse_virtio.h"
- #include "fuse_lowlevel.h"
- #include <assert.h>
-+#include <cap-ng.h>
- #include <dirent.h>
- #include <errno.h>
- #include <inttypes.h>
-@@ -139,6 +140,13 @@ static const struct fuse_opt lo_opts[] =3D {
-=20
- static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
-_t n);
-=20
-+static struct {
-+    pthread_mutex_t mutex;
-+    void *saved;
-+} cap;
-+/* That we loaded cap-ng in the current thread from the saved */
-+static __thread bool cap_loaded =3D 0;
-+
- static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st);
-=20
- static int is_dot_or_dotdot(const char *name)
-@@ -162,6 +170,37 @@ static struct lo_data *lo_data(fuse_req_t req)
-     return (struct lo_data *)fuse_req_userdata(req);
+@@ -201,6 +201,91 @@ static int load_capng(void)
+     return 0;
  }
 =20
 +/*
-+ * Load capng's state from our saved state if the current thread
-+ * hadn't previously been loaded.
-+ * returns 0 on success
++ * Helpers for dropping and regaining effective capabilities. Returns 0
++ * on success, error otherwise
 + */
-+static int load_capng(void)
++static int drop_effective_cap(const char *cap_name, bool *cap_dropped)
 +{
-+    if (!cap_loaded) {
-+        pthread_mutex_lock(&cap.mutex);
-+        capng_restore_state(&cap.saved);
-+        /*
-+         * restore_state free's the saved copy
-+         * so make another.
-+         */
-+        cap.saved =3D capng_save_state();
-+        if (!cap.saved) {
-+            fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
-+            return -EINVAL;
-+        }
-+        pthread_mutex_unlock(&cap.mutex);
++    int cap, ret;
 +
-+        /*
-+         * We want to use the loaded state for our pid,
-+         * not the original
-+         */
-+        capng_setpid(syscall(SYS_gettid));
-+        cap_loaded =3D true;
++    cap =3D capng_name_to_capability(cap_name);
++    if (cap < 0) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_name_to_capability(%s) failed:%s\n",
++                 cap_name, strerror(errno));
++        goto out;
 +    }
-+    return 0;
++
++    if (load_capng()) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "load_capng() failed\n");
++        goto out;
++    }
++
++    /* We dont have this capability in effective set already. */
++    if (!capng_have_capability(CAPNG_EFFECTIVE, cap)) {
++        ret =3D 0;
++        goto out;
++    }
++
++    if (capng_update(CAPNG_DROP, CAPNG_EFFECTIVE, cap)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_update(DROP,) failed\n");
++        goto out;
++    }
++
++    if (capng_apply(CAPNG_SELECT_CAPS)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "drop:capng_apply() failed\n");
++        goto out;
++    }
++
++    ret =3D 0;
++    if (cap_dropped) {
++        *cap_dropped =3D true;
++    }
++
++out:
++    return ret;
++}
++
++static int gain_effective_cap(const char *cap_name)
++{
++    int cap;
++    int ret =3D 0;
++
++    cap =3D capng_name_to_capability(cap_name);
++    if (cap < 0) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_name_to_capability(%s) failed:%s\n",
++                 cap_name, strerror(errno));
++        goto out;
++    }
++
++    if (load_capng()) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "load_capng() failed\n");
++        goto out;
++    }
++
++    if (capng_update(CAPNG_ADD, CAPNG_EFFECTIVE, cap)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_update(ADD,) failed\n");
++        goto out;
++    }
++
++    if (capng_apply(CAPNG_SELECT_CAPS)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "gain:capng_apply() failed\n");
++        goto out;
++    }
++    ret =3D 0;
++
++out:
++    return ret;
 +}
 +
  static void lo_map_init(struct lo_map *map)
  {
      map->elems =3D NULL;
-@@ -2005,6 +2044,35 @@ static void setup_namespaces(struct lo_data *lo, str=
-uct fuse_session *se)
+@@ -1559,6 +1644,7 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t i=
+no,
+     (void)ino;
+     ssize_t res;
+     struct fuse_bufvec out_buf =3D FUSE_BUFVEC_INIT(fuse_buf_size(in_buf))=
+;
++    bool cap_fsetid_dropped =3D false;
+=20
+     out_buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
+     out_buf.buf[0].fd =3D lo_fi_fd(req, fi);
+@@ -1570,12 +1656,31 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t=
+ ino,
+                  out_buf.buf[0].size, (unsigned long)off);
      }
+=20
++    /*
++     * If kill_priv is set, drop CAP_FSETID which should lead to kernel
++     * clearing setuid/setgid on file.
++     */
++    if (fi->kill_priv) {
++        res =3D drop_effective_cap("FSETID", &cap_fsetid_dropped);
++        if (res !=3D 0) {
++            fuse_reply_err(req, res);
++            return;
++        }
++    }
++
+     res =3D fuse_buf_copy(&out_buf, in_buf, 0);
+     if (res < 0) {
+         fuse_reply_err(req, -res);
+     } else {
+         fuse_reply_write(req, (size_t)res);
+     }
++
++    if (cap_fsetid_dropped) {
++        res =3D gain_effective_cap("FSETID");
++        if (res) {
++            fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
++        }
++    }
  }
 =20
-+/*
-+ * Capture the capability state, we'll need to restore this for individual
-+ * threads later; see load_capng.
-+ */
-+static void setup_capng(void)
-+{
-+    /* Note this accesses /proc so has to happen before the sandbox */
-+    if (capng_get_caps_process()) {
-+        fuse_log(FUSE_LOG_ERR, "capng_get_caps_process\n");
-+        exit(1);
-+    }
-+    pthread_mutex_init(&cap.mutex, NULL);
-+    pthread_mutex_lock(&cap.mutex);
-+    cap.saved =3D capng_save_state();
-+    if (!cap.saved) {
-+        fuse_log(FUSE_LOG_ERR, "capng_save_state\n");
-+        exit(1);
-+    }
-+    pthread_mutex_unlock(&cap.mutex);
-+}
-+
-+static void cleanup_capng(void)
-+{
-+    free(cap.saved);
-+    cap.saved =3D NULL;
-+    pthread_mutex_destroy(&cap.mutex);
-+}
-+
-+
- /*
-  * Make the source directory our root so symlinks cannot escape and no oth=
-er
-  * files are accessible.  Assumes unshare(CLONE_NEWNS) was already called.
-@@ -2198,12 +2266,16 @@ int main(int argc, char *argv[])
-=20
-     fuse_daemonize(opts.foreground);
-=20
-+    /* Must be before sandbox since it wants /proc */
-+    setup_capng();
-+
-     setup_sandbox(&lo, se);
-=20
-     /* Block until ctrl+c or fusermount -u */
-     ret =3D virtio_loop(se);
-=20
-     fuse_session_unmount(se);
-+    cleanup_capng();
- err_out3:
-     fuse_remove_signal_handlers(se);
- err_out2:
+ static void lo_statfs(fuse_req_t req, fuse_ino_t ino)
 --=20
 2.23.0
 
