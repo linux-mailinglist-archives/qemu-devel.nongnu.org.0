@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D70C11C4EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 05:23:20 +0100 (CET)
-Received: from localhost ([::1]:54270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68B411C4D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 05:19:12 +0100 (CET)
+Received: from localhost ([::1]:54195 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifG0V-0002cr-2i
-	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 23:23:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51720)
+	id 1ifFwV-0006o0-OZ
+	for lists+qemu-devel@lfdr.de; Wed, 11 Dec 2019 23:19:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59935)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ifFfE-0001BY-W4
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:23 -0500
+ (envelope-from <jasowang@redhat.com>) id 1ifFoI-0005Xz-7h
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:10:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ifFfC-0004d1-NT
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:20 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37328)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ifFfC-0004bd-F2
- for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:01:18 -0500
-Received: by mail-pg1-x541.google.com with SMTP id q127so439164pga.4
- for <qemu-devel@nongnu.org>; Wed, 11 Dec 2019 20:01:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=33Q4Yqkuc7Q0/fUqgwOWgoOSsW6NeczfiBq3tI04bWU=;
- b=CkEazuxOwT4CSr9qzgQ+zz87JveXOkHyZm8DfK6cGSL8NAg+lnUumLmhjxfYekasT4
- OoF+nnN+hhRMWceGeYPNBw1TdXfVY0n9k7O8JXb8W8QTgDpl9JBpLtTI4Za+9oL44rae
- 7RyXNaveZi8QR8r2ACvvM1QHfSU9N6tlGRZdoJJWxoJas6bkACSGcLk7QkQB8ZMLJGDy
- EshPM4XbAi6ys28kUU9ox87yiqctc13yj4F6Wt9TfZ7XpiAR0uN+QXSTpF0eaAJCfUN1
- yJnqQbmNUHXcxTJnlqrcOGWnqQm9Rz6X8Rqy8a+g/0EarORMwT1HFhUQSBMed/dSDa8/
- oZ/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=33Q4Yqkuc7Q0/fUqgwOWgoOSsW6NeczfiBq3tI04bWU=;
- b=mEQ4cnL7TDXSh2uoppV1s7CRM45s5UxVVxsOVg/iMSJyxmYhxHVGceFJbhFKXLzJB9
- FWQjYZR4gWGZzLMx4c0W0hMoRuKZcH7mSoOZgDFHZthMXS8p0Gp3Uk+CAiTt+wBp0Hd3
- agCDa5jTxkQDYeZ6+z7X29HWNpTgxV53NdGJtDlYLFqb0diM83o8PUG456poKEdwOQgf
- 5HGmsJE1xvEQ8kPOrRjeybwgD+PVNLwOwG9wHlxsEwfQuULBRY+C5T+m/5Tkfiq1npFt
- Jnfg538tf36jMg8NCWysRi5zvDY7cq+npoyVShHerVyMdETAsHdh6IongrMNEaF+9AXh
- W+lQ==
-X-Gm-Message-State: APjAAAXESGfQVygA0TuKA2WUbGMN2MKqvgynwkBjkNoFy7zcuvGquDa/
- 47zJWC0iBeatuJRbSkivvP14eeyc6S0=
-X-Google-Smtp-Source: APXvYqyOI/q+erce3O/wr+4eTWPTmZkP22OK4hLbhmxtbHvGgsLnA6/fM/e5ThsZuMryfWHwKVwo7Q==
-X-Received: by 2002:a63:512:: with SMTP id 18mr8227357pgf.221.1576123276957;
- Wed, 11 Dec 2019 20:01:16 -0800 (PST)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id z130sm4666391pgz.6.2019.12.11.20.01.15
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2019 20:01:16 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 28/28] cputlb: Expand cpu_ldst_template.h in cputlb.c
-Date: Wed, 11 Dec 2019 20:00:39 -0800
-Message-Id: <20191212040039.26546-29-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191212040039.26546-1-richard.henderson@linaro.org>
-References: <20191212040039.26546-1-richard.henderson@linaro.org>
+ (envelope-from <jasowang@redhat.com>) id 1ifFoD-0005Qa-QU
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:10:40 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59258
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1ifFoD-0005PJ-JS
+ for qemu-devel@nongnu.org; Wed, 11 Dec 2019 23:10:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576123836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h0Mz06DiWxXBjBPVPcxy7y4+1Vju0lBhnwGW+DKZeas=;
+ b=YBdgDzFVp+og2XL7R6BxowjxDQFbIdxjVWEOtuhUMm7BRrVfoTmSWRUDVPGHIINvI6dfV7
+ BmmqoFCuzaTYtmgxj1UE0YIVDbcPgq1TWCVCdu9DeI4ddOLXyqswejlEV4u7RdoAbHSlJA
+ wlotjCdxi5lSBTmDQJE5rc5eK5mnGOo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-KJX0QddXMrG1Dt8AxvKF3A-1; Wed, 11 Dec 2019 23:10:31 -0500
+X-MC-Unique: KJX0QddXMrG1Dt8AxvKF3A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA3BE8017DF;
+ Thu, 12 Dec 2019 04:10:29 +0000 (UTC)
+Received: from [10.72.12.228] (ovpn-12-228.pek2.redhat.com [10.72.12.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 463B510016E8;
+ Thu, 12 Dec 2019 04:09:59 +0000 (UTC)
+Subject: Re: [RFC PATCH 0/9] Introduce mediate ops in vfio-pci
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20191205032419.29606-1-yan.y.zhao@intel.com>
+ <8bcf603c-f142-f96d-bb11-834d686f5519@redhat.com>
+ <20191205085111.GD31791@joy-OptiPlex-7040>
+ <fe84dba6-5af7-daad-3102-9fa86a90aa4d@redhat.com>
+ <20191206082232.GH31791@joy-OptiPlex-7040>
+ <8b97a35c-184c-cc87-4b4f-de5a1fa380a3@redhat.com>
+ <20191206104250.770f2154@x1.home>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <90723e79-c858-9ba0-3c60-a968656b1233@redhat.com>
+Date: Thu, 12 Dec 2019 12:09:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+In-Reply-To: <20191206104250.770f2154@x1.home>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,369 +78,398 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "He,
+ Shaopeng" <shaopeng.he@intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reduce the amount of preprocessor obfuscation by expanding
-the text of each of the functions generated.  The result is
-only slightly smaller than the original.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/cpu_ldst.h          |  67 +++++++-----------
- include/exec/cpu_ldst_template.h | 117 -------------------------------
- accel/tcg/cputlb.c               | 107 +++++++++++++++++++++++++++-
- 3 files changed, 130 insertions(+), 161 deletions(-)
- delete mode 100644 include/exec/cpu_ldst_template.h
+On 2019/12/7 =E4=B8=8A=E5=8D=881:42, Alex Williamson wrote:
+> On Fri, 6 Dec 2019 17:40:02 +0800
+> Jason Wang <jasowang@redhat.com> wrote:
+>
+>> On 2019/12/6 =E4=B8=8B=E5=8D=884:22, Yan Zhao wrote:
+>>> On Thu, Dec 05, 2019 at 09:05:54PM +0800, Jason Wang wrote:
+>>>> On 2019/12/5 =E4=B8=8B=E5=8D=884:51, Yan Zhao wrote:
+>>>>> On Thu, Dec 05, 2019 at 02:33:19PM +0800, Jason Wang wrote:
+>>>>>> Hi:
+>>>>>>
+>>>>>> On 2019/12/5 =E4=B8=8A=E5=8D=8811:24, Yan Zhao wrote:
+>>>>>>> For SRIOV devices, VFs are passthroughed into guest directly with=
+out host
+>>>>>>> driver mediation. However, when VMs migrating with passthroughed =
+VFs,
+>>>>>>> dynamic host mediation is required to  (1) get device states, (2)=
+ get
+>>>>>>> dirty pages. Since device states as well as other critical inform=
+ation
+>>>>>>> required for dirty page tracking for VFs are usually retrieved fr=
+om PFs,
+>>>>>>> it is handy to provide an extension in PF driver to centralizingl=
+y control
+>>>>>>> VFs' migration.
+>>>>>>>
+>>>>>>> Therefore, in order to realize (1) passthrough VFs at normal time=
+, (2)
+>>>>>>> dynamically trap VFs' bars for dirty page tracking and
+>>>>>> A silly question, what's the reason for doing this, is this a must=
+ for dirty
+>>>>>> page tracking?
+>>>>>>  =20
+>>>>> For performance consideration. VFs' bars should be passthoughed at
+>>>>> normal time and only enter into trap state on need.
+>>>> Right, but how does this matter for the case of dirty page tracking?
+>>>>  =20
+>>> Take NIC as an example, to trap its VF dirty pages, software way is
+>>> required to trap every write of ring tail that resides in BAR0.
+>>
+>> Interesting, but it looks like we need:
+>> - decode the instruction
+>> - mediate all access to BAR0
+>> All of which seems a great burden for the VF driver. I wonder whether =
+or
+>> not doing interrupt relay and tracking head is better in this case.
+> This sounds like a NIC specific solution, I believe the goal here is to
+> allow any device type to implement a partial mediation solution, in
+> this case to sufficiently track the device while in the migration
+> saving state.
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index eb2756e214..d7a20145ce 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -98,32 +98,6 @@ typedef target_ulong abi_ptr;
- #define TARGET_ABI_FMT_ptr TARGET_ABI_FMT_lx
- #endif
- 
--#if defined(CONFIG_USER_ONLY)
--
--extern __thread uintptr_t helper_retaddr;
--
--static inline void set_helper_retaddr(uintptr_t ra)
--{
--    helper_retaddr = ra;
--    /*
--     * Ensure that this write is visible to the SIGSEGV handler that
--     * may be invoked due to a subsequent invalid memory operation.
--     */
--    signal_barrier();
--}
--
--static inline void clear_helper_retaddr(void)
--{
--    /*
--     * Ensure that previous memory operations have succeeded before
--     * removing the data visible to the signal handler.
--     */
--    signal_barrier();
--    helper_retaddr = 0;
--}
--
--/* In user-only mode we provide only the _code and _data accessors. */
--
- uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr);
- uint32_t cpu_lduw_data(CPUArchState *env, abi_ptr ptr);
- uint32_t cpu_ldl_data(CPUArchState *env, abi_ptr ptr);
-@@ -152,6 +126,30 @@ void cpu_stl_data_ra(CPUArchState *env, abi_ptr ptr,
- void cpu_stq_data_ra(CPUArchState *env, abi_ptr ptr,
-                      uint64_t val, uintptr_t retaddr);
- 
-+#if defined(CONFIG_USER_ONLY)
-+
-+extern __thread uintptr_t helper_retaddr;
-+
-+static inline void set_helper_retaddr(uintptr_t ra)
-+{
-+    helper_retaddr = ra;
-+    /*
-+     * Ensure that this write is visible to the SIGSEGV handler that
-+     * may be invoked due to a subsequent invalid memory operation.
-+     */
-+    signal_barrier();
-+}
-+
-+static inline void clear_helper_retaddr(void)
-+{
-+    /*
-+     * Ensure that previous memory operations have succeeded before
-+     * removing the data visible to the signal handler.
-+     */
-+    signal_barrier();
-+    helper_retaddr = 0;
-+}
-+
- /*
-  * Provide the same *_mmuidx_ra interface as for softmmu.
-  * The mmu_idx argument is ignored.
-@@ -275,23 +273,6 @@ void cpu_stl_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint32_t val,
- void cpu_stq_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint64_t val,
-                        int mmu_idx, uintptr_t retaddr);
- 
--/* these access are slower, they must be as rare as possible */
--#define CPU_MMU_INDEX (cpu_mmu_index(env, false))
--#define MEMSUFFIX _data
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--
- #endif /* defined(CONFIG_USER_ONLY) */
- 
- uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr);
-diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_template.h
-deleted file mode 100644
-index e400979f23..0000000000
---- a/include/exec/cpu_ldst_template.h
-+++ /dev/null
-@@ -1,117 +0,0 @@
--/*
-- *  Software MMU support
-- *
-- * Generate inline load/store functions for one MMU mode and data
-- * size.
-- *
-- * Generate a store function as well as signed and unsigned loads.
-- *
-- * Not used directly but included from cpu_ldst.h.
-- *
-- *  Copyright (c) 2003 Fabrice Bellard
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-- */
--
--#if DATA_SIZE == 8
--#define SUFFIX q
--#define USUFFIX q
--#define DATA_TYPE uint64_t
--#define SHIFT 3
--#elif DATA_SIZE == 4
--#define SUFFIX l
--#define USUFFIX l
--#define DATA_TYPE uint32_t
--#define SHIFT 2
--#elif DATA_SIZE == 2
--#define SUFFIX w
--#define USUFFIX uw
--#define DATA_TYPE uint16_t
--#define DATA_STYPE int16_t
--#define SHIFT 1
--#elif DATA_SIZE == 1
--#define SUFFIX b
--#define USUFFIX ub
--#define DATA_TYPE uint8_t
--#define DATA_STYPE int8_t
--#define SHIFT 0
--#else
--#error unsupported data size
--#endif
--
--#if DATA_SIZE == 8
--#define RES_TYPE uint64_t
--#else
--#define RES_TYPE uint32_t
--#endif
--
--/* generic load/store macros */
--
--static inline RES_TYPE
--glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
--                                                  target_ulong ptr,
--                                                  uintptr_t retaddr)
--{
--    return glue(glue(cpu_ld, USUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX,
--                                                   retaddr);
--}
--
--static inline RES_TYPE
--glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr)
--{
--    return glue(glue(cpu_ld, USUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX, 0);
--}
--
--#if DATA_SIZE <= 2
--static inline int
--glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
--                                                  target_ulong ptr,
--                                                  uintptr_t retaddr)
--{
--    return glue(glue(cpu_lds, SUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX,
--                                                   retaddr);
--}
--
--static inline int
--glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr)
--{
--    return glue(glue(cpu_lds, SUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX, 0);
--}
--#endif
--
--/* generic store macro */
--
--static inline void
--glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
--                                                 target_ulong ptr,
--                                                 RES_TYPE v, uintptr_t retaddr)
--{
--    glue(glue(cpu_st, SUFFIX), _mmuidx_ra)(env, ptr, v, CPU_MMU_INDEX,
--                                           retaddr);
--}
--
--static inline void
--glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr,
--                                      RES_TYPE v)
--{
--    glue(glue(cpu_st, SUFFIX), _mmuidx_ra)(env, ptr, v, CPU_MMU_INDEX, 0);
--}
--
--#undef RES_TYPE
--#undef DATA_TYPE
--#undef DATA_STYPE
--#undef SUFFIX
--#undef USUFFIX
--#undef DATA_SIZE
--#undef SHIFT
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 7d519738bb..34560dd3e1 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -35,7 +35,6 @@
- #include "qemu/atomic128.h"
- #include "translate-all.h"
- #include "trace-root.h"
--#include "qemu/plugin.h"
- #include "trace/mem.h"
- #ifdef CONFIG_PLUGIN
- #include "qemu/plugin-memory.h"
-@@ -1697,6 +1696,68 @@ uint64_t cpu_ldq_mmuidx_ra(CPUArchState *env, abi_ptr addr,
-                            ? helper_le_ldq_mmu : helper_be_ldq_mmu);
- }
- 
-+uint32_t cpu_ldub_data_ra(CPUArchState *env, target_ulong ptr,
-+                          uintptr_t retaddr)
-+{
-+    return cpu_ldub_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+int cpu_ldsb_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
-+{
-+    return cpu_ldsb_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+uint32_t cpu_lduw_data_ra(CPUArchState *env, target_ulong ptr,
-+                          uintptr_t retaddr)
-+{
-+    return cpu_lduw_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+int cpu_ldsw_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
-+{
-+    return cpu_ldsw_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+uint32_t cpu_ldl_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
-+{
-+    return cpu_ldl_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+uint64_t cpu_ldq_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
-+{
-+    return cpu_ldq_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+uint32_t cpu_ldub_data(CPUArchState *env, target_ulong ptr)
-+{
-+    return cpu_ldub_data_ra(env, ptr, 0);
-+}
-+
-+int cpu_ldsb_data(CPUArchState *env, target_ulong ptr)
-+{
-+    return cpu_ldsb_data_ra(env, ptr, 0);
-+}
-+
-+uint32_t cpu_lduw_data(CPUArchState *env, target_ulong ptr)
-+{
-+    return cpu_lduw_data_ra(env, ptr, 0);
-+}
-+
-+int cpu_ldsw_data(CPUArchState *env, target_ulong ptr)
-+{
-+    return cpu_ldsw_data_ra(env, ptr, 0);
-+}
-+
-+uint32_t cpu_ldl_data(CPUArchState *env, target_ulong ptr)
-+{
-+    return cpu_ldl_data_ra(env, ptr, 0);
-+}
-+
-+uint64_t cpu_ldq_data(CPUArchState *env, target_ulong ptr)
-+{
-+    return cpu_ldq_data_ra(env, ptr, 0);
-+}
-+
- /*
-  * Store Helpers
-  */
-@@ -1970,6 +2031,50 @@ void cpu_stq_mmuidx_ra(CPUArchState *env, target_ulong addr, uint64_t val,
-     cpu_store_helper(env, addr, val, mmu_idx, retaddr, MO_TEQ);
- }
- 
-+void cpu_stb_data_ra(CPUArchState *env, target_ulong ptr,
-+                     uint32_t val, uintptr_t retaddr)
-+{
-+    cpu_stb_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+void cpu_stw_data_ra(CPUArchState *env, target_ulong ptr,
-+                     uint32_t val, uintptr_t retaddr)
-+{
-+    cpu_stw_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+void cpu_stl_data_ra(CPUArchState *env, target_ulong ptr,
-+                     uint32_t val, uintptr_t retaddr)
-+{
-+    cpu_stl_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+void cpu_stq_data_ra(CPUArchState *env, target_ulong ptr,
-+                     uint64_t val, uintptr_t retaddr)
-+{
-+    cpu_stq_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
-+}
-+
-+void cpu_stb_data(CPUArchState *env, target_ulong ptr, uint32_t val)
-+{
-+    cpu_stb_data_ra(env, ptr, val, 0);
-+}
-+
-+void cpu_stw_data(CPUArchState *env, target_ulong ptr, uint32_t val)
-+{
-+    cpu_stw_data_ra(env, ptr, val, 0);
-+}
-+
-+void cpu_stl_data(CPUArchState *env, target_ulong ptr, uint32_t val)
-+{
-+    cpu_stl_data_ra(env, ptr, val, 0);
-+}
-+
-+void cpu_stq_data(CPUArchState *env, target_ulong ptr, uint64_t val)
-+{
-+    cpu_stq_data_ra(env, ptr, val, 0);
-+}
-+
- /* First set of helpers allows passing in of OI and RETADDR.  This makes
-    them callable from other helpers.  */
- 
--- 
-2.20.1
+
+I suspect there's a solution that can work for any device type. E.g for=20
+virtio, avail index (head) doesn't belongs to any BAR and device may=20
+decide to disable doorbell from guest. So did interrupt relay since=20
+driver may choose to disable interrupt from device. In this case, the=20
+only way to track dirty pages correctly is to switch to software datapath=
+.
+
+
+>
+>>>    There's
+>>> still no IOMMU Dirty bit available.
+>>>>>>>      (3) centralizing
+>>>>>>> VF critical states retrieving and VF controls into one driver, we=
+ propose
+>>>>>>> to introduce mediate ops on top of current vfio-pci device driver=
+.
+>>>>>>>
+>>>>>>>
+>>>>>>>                                        _ _ _ _ _ _ _ _ _ _ _ _ _ =
+_ _ _ _
+>>>>>>>      __________   register mediate ops|  ___________     ________=
+___    |
+>>>>>>> |          |<-----------------------|     VF    |   |           |
+>>>>>>> | vfio-pci |                      | |  mediate  |   | PF driver |=
+   |
+>>>>>>> |__________|----------------------->|   driver  |   |___________|
+>>>>>>>          |            open(pdev)      |  -----------          |  =
+       |
+>>>>>>>          |                                                    |
+>>>>>>>          |                            |_ _ _ _ _ _ _ _ _ _ _ _|_ =
+_ _ _ _|
+>>>>>>>         \|/                                                  \|/
+>>>>>>> -----------                                         ------------
+>>>>>>> |    VF   |                                         |    PF    |
+>>>>>>> -----------                                         ------------
+>>>>>>>
+>>>>>>>
+>>>>>>> VF mediate driver could be a standalone driver that does not bind=
+ to
+>>>>>>> any devices (as in demo code in patches 5-6) or it could be a bui=
+lt-in
+>>>>>>> extension of PF driver (as in patches 7-9) .
+>>>>>>>
+>>>>>>> Rather than directly bind to VF, VF mediate driver register a med=
+iate
+>>>>>>> ops into vfio-pci in driver init. vfio-pci maintains a list of su=
+ch
+>>>>>>> mediate ops.
+>>>>>>> (Note that: VF mediate driver can register mediate ops into vfio-=
+pci
+>>>>>>> before vfio-pci binding to any devices. And VF mediate driver can
+>>>>>>> support mediating multiple devices.)
+>>>>>>>
+>>>>>>> When opening a device (e.g. a VF), vfio-pci goes through the medi=
+ate ops
+>>>>>>> list and calls each vfio_pci_mediate_ops->open() with pdev of the=
+ opening
+>>>>>>> device as a parameter.
+>>>>>>> VF mediate driver should return success or failure depending on i=
+t
+>>>>>>> supports the pdev or not.
+>>>>>>> E.g. VF mediate driver would compare its supported VF devfn with =
+the
+>>>>>>> devfn of the passed-in pdev.
+>>>>>>> Once vfio-pci finds a successful vfio_pci_mediate_ops->open(), it=
+ will
+>>>>>>> stop querying other mediate ops and bind the opening device with =
+this
+>>>>>>> mediate ops using the returned mediate handle.
+>>>>>>>
+>>>>>>> Further vfio-pci ops (VFIO_DEVICE_GET_REGION_INFO ioctl, rw, mmap=
+) on the
+>>>>>>> VF will be intercepted into VF mediate driver as
+>>>>>>> vfio_pci_mediate_ops->get_region_info(),
+>>>>>>> vfio_pci_mediate_ops->rw,
+>>>>>>> vfio_pci_mediate_ops->mmap, and get customized.
+>>>>>>> For vfio_pci_mediate_ops->rw and vfio_pci_mediate_ops->mmap, they=
+ will
+>>>>>>> further return 'pt' to indicate whether vfio-pci should further
+>>>>>>> passthrough data to hw.
+>>>>>>>
+>>>>>>> when vfio-pci closes the VF, it calls its vfio_pci_mediate_ops->r=
+elease()
+>>>>>>> with a mediate handle as parameter.
+>>>>>>>
+>>>>>>> The mediate handle returned from vfio_pci_mediate_ops->open() let=
+s VF
+>>>>>>> mediate driver be able to differentiate two opening VFs of the sa=
+me device
+>>>>>>> id and vendor id.
+>>>>>>>
+>>>>>>> When VF mediate driver exits, it unregisters its mediate ops from
+>>>>>>> vfio-pci.
+>>>>>>>
+>>>>>>>
+>>>>>>> In this patchset, we enable vfio-pci to provide 3 things:
+>>>>>>> (1) calling mediate ops to allow vendor driver customizing defaul=
+t
+>>>>>>> region info/rw/mmap of a region.
+>>>>>>> (2) provide a migration region to support migration
+>>>>>> What's the benefit of introducing a region? It looks to me we don'=
+t expect
+>>>>>> the region to be accessed directly from guest. Could we simply ext=
+end device
+>>>>>> fd ioctl for doing such things?
+>>>>>>  =20
+>>>>> You may take a look on mdev live migration discussions in
+>>>>> https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg01763.html
+>>>>>
+>>>>> or previous discussion at
+>>>>> https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg04908.html=
+,
+>>>>> which has kernel side implemetation https://patchwork.freedesktop.o=
+rg/series/56876/
+>>>>>
+>>>>> generaly speaking, qemu part of live migration is consistent for
+>>>>> vfio-pci + mediate ops way or mdev way.
+>>>> So in mdev, do you still have a mediate driver? Or you expect the pa=
+rent
+>>>> to implement the region?
+>>>>  =20
+>>> No, currently it's only for vfio-pci.
+>> And specific to PCI.
+> What's PCI specific?  The implementation, yes, it's done in the bus
+> vfio bus driver here but all device access is performed by the bus
+> driver.  I'm not sure how we could introduce the intercept at the
+> vfio-core level, but I'm open to suggestions.
+
+
+I haven't thought this too much, but if we can intercept at core level,=20
+it basically can do what mdev can do right now.
+
+
+>
+>>> mdev parent driver is free to customize its regions and hence does no=
+t
+>>> requires this mediate ops hooks.
+>>>  =20
+>>>>> The region is only a channel for
+>>>>> QEMU and kernel to communicate information without introducing IOCT=
+Ls.
+>>>> Well, at least you introduce new type of region in uapi. So this doe=
+s
+>>>> not answer why region is better than ioctl. If the region will only =
+be
+>>>> used by qemu, using ioctl is much more easier and straightforward.
+>>>>  =20
+>>> It's not introduced by me :)
+>>> mdev live migration is actually using this way, I'm just keeping
+>>> compatible to the uapi.
+>>
+>> I meant e.g VFIO_REGION_TYPE_MIGRATION.
+>>
+>>
+>>>   From my own perspective, my answer is that a region is more flexibl=
+e
+>>> compared to ioctl. vendor driver can freely define the size,
+>>>  =20
+>> Probably not since it's an ABI I think.
+> I think Kirti's thread proposing the migration interface is a better
+> place for this discussion, I believe Yan has already linked to it.  In
+> general we prefer to be frugal in our introduction of new ioctls,
+> especially when we have existing mechanisms via regions to support the
+> interactions.  The interface is designed to be flexible to the vendor
+> driver needs, partially thanks to it being a region.
+>
+>>>    mmap cap of
+>>> its data subregion.
+>>>  =20
+>> It doesn't help much unless it can be mapped into guest (which I don't
+>> think it was the case here).
+>> /
+>>>    Also, there're already too many ioctls in vfio.
+>> Probably not :) We had a brunch of=C2=A0 subsystems that have much mor=
+e
+>> ioctls than VFIO. (e.g DRM)
+> And this is a good thing?
+
+
+Well, I just meant that "having too much ioctls already" is not a good=20
+reason for not introducing new ones.
+
+
+> We can more easily deprecate and revise
+> region support than we can take back ioctls that have been previously
+> used.
+
+
+It belongs to uapi, how easily can we deprecate that?
+
+
+> I generally don't like the "let's create a new ioctl for that"
+> approach versus trying to fit something within the existing
+> architecture and convention.
+>
+>>>>>>> (3) provide a dynamic trap bar info region to allow vendor driver
+>>>>>>> control trap/untrap of device pci bars
+>>>>>>>
+>>>>>>> This vfio-pci + mediate ops way differs from mdev way in that
+>>>>>>> (1) medv way needs to create a 1:1 mdev device on top of one VF, =
+device
+>>>>>>> specific mdev parent driver is bound to VF directly.
+>>>>>>> (2) vfio-pci + mediate ops way does not create mdev devices and V=
+F
+>>>>>>> mediate driver does not bind to VFs. Instead, vfio-pci binds to V=
+Fs.
+>>>>>>>
+>>>>>>> The reason why we don't choose the way of writing mdev parent dri=
+ver is
+>>>>>>> that
+>>>>>>> (1) VFs are almost all the time directly passthroughed. Directly =
+binding
+>>>>>>> to vfio-pci can make most of the code shared/reused.
+>>>>>> Can we split out the common parts from vfio-pci?
+>>>>>>  =20
+>>>>> That's very attractive. but one cannot implement a vfio-pci except
+>>>>> export everything in it as common part :)
+>>>> Well, I think there should be not hard to do that. E..g you can rout=
+e it
+>>>> back to like:
+>>>>
+>>>> vfio -> vfio_mdev -> parent -> vfio_pci
+>>>>  =20
+>>> it's desired for us to have mediate driver binding to PF device.
+>>> so once a VF device is created, only PF driver and vfio-pci are
+>>> required. Just the same as what needs to be done for a normal VF pass=
+through.
+>>> otherwise, a separate parent driver binding to VF is required.
+>>> Also, this parent driver has many drawbacks as I mentions in this
+>>> cover-letter.
+>> Well, as discussed, no need to duplicate the code, bar trick should
+>> still work. The main issues I saw with this proposal is:
+>>
+>> 1) PCI specific, other bus may need something similar
+> Propose how it could be implemented higher in the vfio stack to make it
+> device agnostic.
+
+
+E.g doing it in vfio_device_fops instead of vfio_pci_ops?
+
+
+>
+>> 2) Function duplicated with mdev and mdev can do even more
+> mdev also comes with a device lifecycle interface that doesn't really
+> make sense when a driver is only trying to partially mediate a single
+> physical device rather than multiplex a physical device into virtual
+> devices.
+
+
+Yes, but that part could be decoupled out of mdev.
+
+
+>   mdev would also require vendor drivers to re-implement
+> much of vfio-pci for the direct access mechanisms.  Also, do we really
+> want users or management tools to decide between binding a device to
+> vfio-pci or a separate mdev driver to get this functionality.  We've
+> already been burnt trying to use mdev beyond its scope.
+
+
+The problem is, if we had a device that support both SRIOV and mdev.=20
+Does this mean we need prepare two set of drivers?
+
+
+>
+>>>>>>>      If we write a
+>>>>>>> vendor specific mdev parent driver, most of the code (like passth=
+rough
+>>>>>>> style of rw/mmap) still needs to be copied from vfio-pci driver, =
+which is
+>>>>>>> actually a duplicated and tedious work.
+>>>>>> The mediate ops looks quite similar to what vfio-mdev did. And it =
+looks to
+>>>>>> me we need to consider live migration for mdev as well. In that ca=
+se, do we
+>>>>>> still expect mediate ops through VFIO directly?
+>>>>>>
+>>>>>>  =20
+>>>>>>> (2) For features like dynamically trap/untrap pci bars, if they a=
+re in
+>>>>>>> vfio-pci, they can be available to most people without repeated c=
+ode
+>>>>>>> copying and re-testing.
+>>>>>>> (3) with a 1:1 mdev driver which passthrough VFs most of the time=
+, people
+>>>>>>> have to decide whether to bind VFs to vfio-pci or mdev parent dri=
+ver before
+>>>>>>> it runs into a real migration need. However, if vfio-pci is bound
+>>>>>>> initially, they have no chance to do live migration when there's =
+a need
+>>>>>>> later.
+>>>>>> We can teach management layer to do this.
+>>>>>>  =20
+>>>>> No. not possible as vfio-pci by default has no migration region and
+>>>>> dirty page tracking needs vendor's mediation at least for most
+>>>>> passthrough devices now.
+>>>> I'm not quite sure I get here but in this case, just tech them to us=
+e
+>>>> the driver that has migration support?
+>>>>  =20
+>>> That's a way, but as more and more passthrough devices have demands a=
+nd
+>>> caps to do migration, will vfio-pci be used in future any more ?
+>>
+>> This should not be a problem:
+>> - If we introduce a common mdev for vfio-pci, we can just bind that
+>> driver always
+> There's too much of mdev that doesn't make sense for this usage model,
+> this is why Yi's proposed generic mdev PCI wrapper is only a sample
+> driver.  I think we do not want to introduce user confusion regarding
+> which driver to use and there are outstanding non-singleton group
+> issues with mdev that don't seem worthwhile to resolve.
+
+
+I agree, but I think what user want is a unified driver that works for=20
+both SRIOV and mdev. That's why trying to have a common way for doing=20
+mediation may make sense.
+
+Thanks
+
+
+>
+>> - The most straightforward way to support dirty page tracking is done =
+by
+>> IOMMU instead of device specific operations.
+> Of course, but it doesn't exist yet.  We're attempting to design the
+> dirty page tracking in a way that's mostly transparent for current mdev
+> drivers, would provide generic support for IOMMU-based dirty tracking,
+> and extensible to the inevitability of vendor driver tracking.  Thanks,
+>
+> Alex
 
 
