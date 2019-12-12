@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C0311CFDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:33:27 +0100 (CET)
-Received: from localhost ([::1]:60712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 743A311CFDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 15:33:21 +0100 (CET)
+Received: from localhost ([::1]:60706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifPWv-0007WK-UB
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:33:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58662)
+	id 1ifPWp-0007Pw-Sg
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 09:33:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU8-0005in-6k
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:33 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU9-0005iq-4M
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU3-0008Cn-Fi
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:31 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50518)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifPU8-0008H1-2T
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:33 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33098)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifPU2-00088S-RT
+ id 1ifPU3-0008A5-CO
  for qemu-devel@nongnu.org; Thu, 12 Dec 2019 09:30:27 -0500
-Received: by mail-wm1-x342.google.com with SMTP id a5so2607814wmb.0
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 06:30:25 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id b6so3006660wrq.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 06:30:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=cGzZu1dSkbhVKoFntviesvbXQbdj2irYdhRwr8yxjKc=;
- b=ZOWkH2CQmQMBxQHWk9zvVoAujN9eJJsdpN+M0Pjiunrz1QXzlHRICpAzWVsLZvCv0G
- tLpFovrIFGKQEht6yabTeE1bj4upzR93j/UPT+MwoJAHlom0EXWIVhN9xRmJKykzTlW/
- uribn+pt2vgcHed4fMPcArzaJgBPo9+yJ2tRqv+LNRlAETktD/rGJKwSfqJl3+4mj+V5
- IsMvsCF8ZjDrCsxt38Tn/c0cbjq55RF9I2AJ2Syt8UqINaQFoDtB0vsw2D6FrV3jsz2+
- eOOk84MNuhfUc4U9UAG67nBrLXLh1/y31BvRXFVTiGUajqMmorN2mInD64ieBIpJilY6
- +s+g==
+ bh=d+fGHQicJfMCQVgermELgoy5/7QyWO3sNl/PPGYy11M=;
+ b=f5tTkX/oBJRJtlTblwCIZzYIT++yb58irrw25E2QFk4JLqbF49FH5IXpGevUhLchGb
+ rlxzpdz8fdBmE454YXG3MwjlWgmgEL9txWYqMD+bjIvTDIsZhyG8/qLUWVVAyHnm+Bzo
+ RJ8ZQXXUQoLX7D0lbakZlbRVQiiJU9DooYjUnme1sv6IBDoq3EcthBx5c8CyMVaEyoPQ
+ MfoQTqhZ8WNZlwviKwIjFUt1vafKCrFdhO7Aqy5E1eWQlahvLznTirFAgHPM8pJ7tEhy
+ ejbV3xp5s7pkf6K4D885T2GLmCQHIIVt5cDQhYkMzI/w3u4lwR31a55jcce9UT5Ns855
+ XIFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=cGzZu1dSkbhVKoFntviesvbXQbdj2irYdhRwr8yxjKc=;
- b=WsexdFkbcMfq+JSasDaGF9LjHp1UpIVSFsFQc4Pl2eoArNOV7KDbNF4U/YNMdtHZRj
- tKpyvwLdoO7DOQ4gkioH6yqrFcebt0cGk4Loy7w1o3xLnRpTXAIpL/WRLnfnn6olRtZW
- /WjLC6A22L9KXCDZm+1X2PNjInsJKFQBcUHkFTR0r/t29YPsgKfL6sJAOE01Dn+/ZN+B
- US6m63yEfhOC3mOv5sFB7ci139lgqdsHwzVWs3cVM2N8318aAYcdTt9gAgVYK0Td16nr
- A182r004xdv1DctC/wuuV/jS3hT5OsRy8/EsO9uX7pI/T5k2p/Ze5uKw1167jREvEUE9
- KlPQ==
-X-Gm-Message-State: APjAAAXWhh6HhHbkVPmsp8cDaDXhzczKCKbzT8bNOF4SCSvn6HcMuN7K
- A0os0f/f0OtWEfDpGU+YZQiZdSM3
-X-Google-Smtp-Source: APXvYqzK+d/zM3ghtrRoDTvNVorju97mNAzn2qkm68KRW7asP5s7yBnXF1ebfYML5XDGWOt9tpjI9A==
-X-Received: by 2002:a05:600c:d7:: with SMTP id
- u23mr6595335wmm.145.1576161024238; 
- Thu, 12 Dec 2019 06:30:24 -0800 (PST)
+ bh=d+fGHQicJfMCQVgermELgoy5/7QyWO3sNl/PPGYy11M=;
+ b=TSwxu/bUvMHQw++Z+xrg//QCUpaXEUtfQdNachSdWSLSFmbt4DI1k1Aa3hhIMtsTBh
+ bb1HhrQItxKzAAbHjKLcyZcTb0/NraGMiRPcuP/ZtFrET1uTEZeOi9tV1U6jvKZo8AYD
+ I/rf0ffeOpMocsW4KxpyyTKuJbiJyRf5TvTCzCm6I1uiGKTlDAwjrvx+w6bCCyBsA56+
+ U5T7yh6tHAIvfY56n3VaVYd8EM7d1QT49yhtG2teBYvxL72w6jo1W9AUed3Vx4XuBE9N
+ zAcT/eWeiImNoXM8nGfMrE7Klcz/L1fRPANOjd40lPt/9IES7H4O3lMmti56YNx3hAta
+ wY6g==
+X-Gm-Message-State: APjAAAVtJ94d7QL8CK9NRXtth3EEOTgvI5f2dqWqlnxH4Eh0vWopohyh
+ ZQPh12Xx4Bf9Ie3+4212tuYg7Bn0
+X-Google-Smtp-Source: APXvYqwHhdPgXiqODZlFJx1LRu/DKz4P1XH0oZGppQNuBKCsyhKA1THPVZ8W5VXF3gLRju9jbBBegg==
+X-Received: by 2002:adf:fe0e:: with SMTP id n14mr6682043wrr.116.1576161025181; 
+ Thu, 12 Dec 2019 06:30:25 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c9sm6140505wmc.47.2019.12.12.06.30.23
+ by smtp.gmail.com with ESMTPSA id c9sm6140505wmc.47.2019.12.12.06.30.24
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 06:30:23 -0800 (PST)
+ Thu, 12 Dec 2019 06:30:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] i386: conditionally compile more files
-Date: Thu, 12 Dec 2019 15:30:17 +0100
-Message-Id: <1576161021-5359-2-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 2/5] fw_cfg: allow building without other devices
+Date: Thu, 12 Dec 2019 15:30:18 +0100
+Message-Id: <1576161021-5359-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
 References: <1576161021-5359-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,47 +78,70 @@ Cc: philmd@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The microvm machine type uses fw_cfg but lacks SMBIOS and ACPI.  Do not include
+the files if the symbol is not present in QEMU and remove dependencies on
+machine-specific files.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/Makefile.objs     | 6 +++---
- hw/i386/kvm/Makefile.objs | 6 +++++-
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ hw/i386/fw_cfg.c | 7 +++++++
+ hw/i386/pc.c     | 2 --
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index 0d195b5..01ae202 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -1,11 +1,11 @@
- obj-$(CONFIG_KVM) += kvm/
- obj-y += e820_memory_layout.o multiboot.o
- obj-y += x86.o
--obj-y += pc.o
-+obj-$(CONFIG_PC) += pc.o pc_sysfw.o
- obj-$(CONFIG_I440FX) += pc_piix.o
- obj-$(CONFIG_Q35) += pc_q35.o
- obj-$(CONFIG_MICROVM) += microvm.o
--obj-y += fw_cfg.o pc_sysfw.o
-+obj-y += fw_cfg.o
- obj-y += x86-iommu.o
- obj-$(CONFIG_VTD) += intel_iommu.o
- obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o
-@@ -14,4 +14,4 @@ obj-$(CONFIG_VMPORT) += vmport.o
- obj-$(CONFIG_VMMOUSE) += vmmouse.o
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index 39b6bc6..326e33e 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -22,6 +22,9 @@
+ #include "hw/nvram/fw_cfg.h"
+ #include "e820_memory_layout.h"
+ #include "kvm_i386.h"
++#include "config-devices.h"
++
++struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
  
- obj-y += kvmvapic.o
--obj-y += acpi-build.o
-+obj-$(CONFIG_PC) += acpi-build.o
-diff --git a/hw/i386/kvm/Makefile.objs b/hw/i386/kvm/Makefile.objs
-index 4224ed9..0c8d5f2 100644
---- a/hw/i386/kvm/Makefile.objs
-+++ b/hw/i386/kvm/Makefile.objs
-@@ -1 +1,5 @@
--obj-y += clock.o apic.o i8259.o ioapic.o i8254.o
-+obj-y += clock.o
-+obj-$(CONFIG_APIC) += apic.o
-+obj-$(CONFIG_IOAPIC) += ioapic.o
-+obj-$(CONFIG_I8254) += i8254.o
-+obj-$(CONFIG_I8259) += i8259.o
+ const char *fw_cfg_arch_key_name(uint16_t key)
+ {
+@@ -46,6 +49,7 @@ const char *fw_cfg_arch_key_name(uint16_t key)
+ 
+ void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
+ {
++#ifdef CONFIG_SMBIOS
+     uint8_t *smbios_tables, *smbios_anchor;
+     size_t smbios_tables_len, smbios_anchor_len;
+     struct smbios_phys_mem_area *mem_array;
+@@ -83,6 +87,7 @@ void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
+         fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
+                         smbios_anchor, smbios_anchor_len);
+     }
++#endif
+ }
+ 
+ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+@@ -114,8 +119,10 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+      */
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
++#ifdef CONFIG_ACPI
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
+                      acpi_tables, acpi_tables_len);
++#endif
+     fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
+ 
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index b9f3b38..3d2c5d8 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -101,8 +101,6 @@
+ #define DPRINTF(fmt, ...)
+ #endif
+ 
+-struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+-
+ GlobalProperty pc_compat_4_1[] = {};
+ const size_t pc_compat_4_1_len = G_N_ELEMENTS(pc_compat_4_1);
+ 
 -- 
 1.8.3.1
 
