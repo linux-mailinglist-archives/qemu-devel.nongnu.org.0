@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE0011D39B
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:18:53 +0100 (CET)
-Received: from localhost ([::1]:34544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A45C11D306
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 18:02:28 +0100 (CET)
+Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifS72-0005t7-20
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:18:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
+	id 1ifRr8-00046x-N8
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 12:02:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVP-0005We-W3
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:00 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVR-0005YO-1w
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifRVO-0001lh-GN
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29702
+ (envelope-from <dgilbert@redhat.com>) id 1ifRVP-0001oA-TI
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:40:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33148
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVO-0001ky-C7
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:58 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifRVP-0001mr-DV
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 11:39:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576168797;
+ s=mimecast20190719; t=1576168799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1wdFt//EHKIMaArwJMPU+UJr6B4mjrAP4Q2QoxWyhBo=;
- b=Zy3fpniY2tjCh4UOfZ9Iknxt4xT5sp3nKUkNI2c4qWlYOc1Ex8YfOQAluwU1dyi+r9eJVa
- aK1w1mVQUP+bw+g8dnB5FgBOgWxtwACSQwJgHaEzOVSgdec8LLBd3Rlu2Uz0gMttawnKVR
- ViRUBWEL3/vRd94+oJKAnc1p6OoAUpE=
+ bh=m0opAHaGSN+8ckxDx5WF3aWf8QfqLKlhIvqEClsm618=;
+ b=Rr4wyGC35QFeqlN/iJdbWBVuLMRBXCcURhYN59443yyoCP4oeUebLn35vr1F59/4DEdezX
+ 9p+i+zvJyCzVPWVLt2rAq4pLR3XVxHa0/Z4Va84ESC/DI+nf+WxoR8PK9ytUCjfay0By9b
+ KvwkqhdOxfbEPVedihpq4pD2XNanbwQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-3LRf2L88PtuJOMSqGTgA4Q-1; Thu, 12 Dec 2019 11:39:56 -0500
+ us-mta-315-ejd34XK0NOCu7hXGcDXQmQ-1; Thu, 12 Dec 2019 11:39:57 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89B0D8017DF
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACE9A801E7E
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 16:39:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-226.ams2.redhat.com
  [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2FC660BE1;
- Thu, 12 Dec 2019 16:39:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D445460BE1;
+ Thu, 12 Dec 2019 16:39:55 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com,
 	vgoyal@redhat.com
-Subject: [PATCH 029/104] virtiofsd: add vhost-user.json file
-Date: Thu, 12 Dec 2019 16:37:49 +0000
-Message-Id: <20191212163904.159893-30-dgilbert@redhat.com>
+Subject: [PATCH 030/104] virtiofsd: add --print-capabilities option
+Date: Thu, 12 Dec 2019 16:37:50 +0000
+Message-Id: <20191212163904.159893-31-dgilbert@redhat.com>
 In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 3LRf2L88PtuJOMSqGTgA4Q-1
+X-MC-Unique: ejd34XK0NOCu7hXGcDXQmQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,55 +78,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Install a vhost-user.json file describing virtiofsd.  This allows
-libvirt and other management tools to enumerate vhost-user backend
-programs.
+Add the --print-capabilities option as per vhost-user.rst "Backend
+programs conventions".  Currently there are no advertised features.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- .gitignore                                | 1 +
- Makefile                                  | 1 +
- tools/virtiofsd/50-qemu-virtiofsd.json.in | 5 +++++
- 3 files changed, 7 insertions(+)
- create mode 100644 tools/virtiofsd/50-qemu-virtiofsd.json.in
+ docs/interop/vhost-user.json     |  4 +++-
+ tools/virtiofsd/fuse_lowlevel.h  |  1 +
+ tools/virtiofsd/helper.c         |  2 ++
+ tools/virtiofsd/passthrough_ll.c | 12 ++++++++++++
+ 4 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/.gitignore b/.gitignore
-index 7de868d1ea..c56ec1d122 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -6,6 +6,7 @@
- /config-target.*
- /config.status
- /config-temp
-+/tools/virtiofsd/50-qemu-virtiofsd.json
- /elf2dmp
- /trace-events-all
- /trace/generated-events.h
-diff --git a/Makefile b/Makefile
-index b7f7019a50..8a5746d8a0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -323,6 +323,7 @@ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =
-=3D qemu-bridge-helper$(EXE
+diff --git a/docs/interop/vhost-user.json b/docs/interop/vhost-user.json
+index da6aaf51c8..d4ea1f7ac5 100644
+--- a/docs/interop/vhost-user.json
++++ b/docs/interop/vhost-user.json
+@@ -31,6 +31,7 @@
+ # @rproc-serial: virtio remoteproc serial link
+ # @scsi: virtio scsi
+ # @vsock: virtio vsock transport
++# @fs: virtio fs (since 4.2)
+ #
+ # Since: 4.0
+ ##
+@@ -50,7 +51,8 @@
+       'rpmsg',
+       'rproc-serial',
+       'scsi',
+-      'vsock'
++      'vsock',
++      'fs'
+   ]
+ }
 =20
- ifdef CONFIG_LINUX
- HELPERS-y +=3D virtiofsd$(EXESUF)
-+vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
+l.h
+index 081bb1abb3..6c63cb740c 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1826,6 +1826,7 @@ struct fuse_cmdline_opts {
+     int nodefault_subtype;
+     int show_version;
+     int show_help;
++    int print_capabilities;
+     int clone_fd;
+     unsigned int max_idle_threads;
+ };
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index d4fff4fa53..4c9a3b2fc9 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -39,6 +39,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
+     FUSE_HELPER_OPT("--help", show_help),
+     FUSE_HELPER_OPT("-V", show_version),
+     FUSE_HELPER_OPT("--version", show_version),
++    FUSE_HELPER_OPT("--print-capabilities", print_capabilities),
+     FUSE_HELPER_OPT("-d", debug),
+     FUSE_HELPER_OPT("debug", debug),
+     FUSE_HELPER_OPT("-d", foreground),
+@@ -136,6 +137,7 @@ void fuse_cmdline_help(void)
+ {
+     printf("    -h   --help                print help\n"
+            "    -V   --version             print version\n"
++           "    --print-capabilities       print vhost-user.json\n"
+            "    -d   -o debug              enable debug output (implies -f=
+)\n"
+            "    -f                         foreground operation\n"
+            "    --daemonize                run in background\n"
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 23531d791d..68bacb6fc5 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1298,6 +1298,14 @@ static struct fuse_lowlevel_ops lo_oper =3D {
+     .lseek =3D lo_lseek,
+ };
 =20
- ifdef CONFIG_VIRGL
- ifdef CONFIG_GBM
-diff --git a/tools/virtiofsd/50-qemu-virtiofsd.json.in b/tools/virtiofsd/50=
--qemu-virtiofsd.json.in
-new file mode 100644
-index 0000000000..9bcd86f8dc
---- /dev/null
-+++ b/tools/virtiofsd/50-qemu-virtiofsd.json.in
-@@ -0,0 +1,5 @@
++/* Print vhost-user.json backend program capabilities */
++static void print_capabilities(void)
 +{
-+  "description": "QEMU virtiofsd vhost-user-fs",
-+  "type": "fs",
-+  "binary": "@libexecdir@/virtiofsd"
++    printf("{\n");
++    printf("  \"type\": \"fs\"\n");
++    printf("}\n");
 +}
++
+ int main(int argc, char *argv[])
+ {
+     struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+@@ -1328,6 +1336,10 @@ int main(int argc, char *argv[])
+         fuse_lowlevel_version();
+         ret =3D 0;
+         goto err_out1;
++    } else if (opts.print_capabilities) {
++        print_capabilities();
++        ret =3D 0;
++        goto err_out1;
+     }
+=20
+     if (fuse_opt_parse(&args, &lo, lo_opts, NULL) =3D=3D -1) {
 --=20
 2.23.0
 
