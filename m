@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AFC11CE43
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:27:30 +0100 (CET)
-Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1164511CE48
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:28:29 +0100 (CET)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifOV7-0003Yh-A7
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:27:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34731)
+	id 1ifOW3-0004sT-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:28:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyR-0003eC-P8
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:44 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyS-0003fz-VM
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyQ-0006uD-Ja
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:43 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34216)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyR-0006wD-Ok
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:44 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35170)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyQ-0006sK-At
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:42 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id t2so2645062wrr.1
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:42 -0800 (PST)
+ id 1ifNyR-0006v5-I3
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:43 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id p17so2391795wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AtwMOLvxXn85AOzw7ez1xNn8Y3y0JTmxG03ZrTDH7vU=;
- b=PYwLDjgbUYegUpgA0HKTrVR7svYP7IQS/u0m9yYSEBx9wRURIxfyBz+JtdiT1GYVw7
- kaOMIGhRszTcHJlYD+rtAryf/Srk6TYeh4kXh8FgPv+gRXJMbvzvTXqCpyFcwJ497C67
- cIA/KQ+5O5aaxXCCh6hsdzcqjXkWXjceSVPWbjVTVjOcmTIY6eay35izeptQraMJdsqo
- e2ka6ZgfZbzCcrkZ67ttrwPPJtS0DVJ2I0GSR+jL/bDg6GQfFIjTeFQFZpJMpLq2Q8Wi
- T3lPzVqUQXjVyORbSgv6Bla1beJPG5UIh1IWqFqt6xCZfdf8FRKlDkyCx5sVyAQl7GUK
- eCyQ==
+ bh=iabFqhpo6A2KWaNIf0m+RVkEHbWOeO2cBAZeGreYgno=;
+ b=kC3gYT/MhrM0FuUACXFAy4qHLEdaNmARNSKTmrq6CPRGsjbTIM3gdeXERD6SX6Hr5f
+ gMNqhWIZvYrojAz4dmBJmVt3zU8O4s4c77+r3plOzevrtH/T5SaFIiuLsm53plyphsye
+ j0eGaqDgMC2HkaexK4PoX/roQCeFClX27bPuxxW/XjhcQaSsP7/VtoEdvs0Ao5zfXvrC
+ 27Vwzl7+drtKW06Ptm0JXTSEB2k/Oal0kJRZPHxTGBtlz7KESKfX/6vzAoueDLzB21ku
+ FsVAacLeV3DzW0XzvoZuveib+Mv5xDez5IkKGCJPR9H5wK0r6PzrlP0W84Po8KZynFAv
+ TLSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AtwMOLvxXn85AOzw7ez1xNn8Y3y0JTmxG03ZrTDH7vU=;
- b=uFj45oEd4i4SGat/r3SxCfauuz2IdBYqO4EcfR6+fwjCazUD4GxbHRN6ga5O5wESEd
- jvbkfX5U34FzfOd8gTT7b0g/mHDBES/iaGqUrHuhqVIz53t6lwH5vEmJbpe6uGvkP/Du
- u6HowWeUim4+g2cMcC62/B6pE0QqZuLAhOs9j1UIgp/Ku8+4iu9MBqLkgg3y60iA8KiS
- 02ET/Q4GZNar/+FqwMDm+jtDYKRXcVPWQS73clfOFOMkmJ2lGRmoUHHLgsGEhjkraLWe
- QoLcxswnYZPqebVZYssreqPu31qttvW/fbB9nBZAvo+Uf5ZcWnTxpqWfxC/BjSKEdNbh
- Ii3A==
-X-Gm-Message-State: APjAAAUYV/cjkrJ6ZnNj33E4YI3Qk2EPsWi94p+Rh7iVWTNMMdL+Iyw5
- S89qNfBlfGKDTdjUCYw3z8LsU/h5
-X-Google-Smtp-Source: APXvYqyveVTDWjdy4dKQPwTt+nfHPni3TPBbxFgJj8MLqO2SnHo0ESDaQxJXnYr/EaK2GfwF/LuvWA==
-X-Received: by 2002:a5d:4d0e:: with SMTP id z14mr5995838wrt.208.1576155221034; 
- Thu, 12 Dec 2019 04:53:41 -0800 (PST)
+ bh=iabFqhpo6A2KWaNIf0m+RVkEHbWOeO2cBAZeGreYgno=;
+ b=BgqnjdLbAB9ehwZQg+cPD8YKLl4HCEg/aUOZTtMBQQgmyae0W0QIHtcRaVrRPWcsR/
+ kFdILWp/x8uj3NaGYd+rQ0x765FD2dc+B2bkY9ymN/vNseOeMT5K/Rv4qgngjlQbXsxa
+ CUcyGzwJQmhQSR6aUT201GApsEOAGqUqKZalCn1cAMjLLQFtL8Z7nNeAuc7pbiJ5Ye7E
+ xerffhtpdzXYthzyJnSBGaL6H7El6LM8Ywda8jdr6/7jVcgpU3Pd4WJ0wFTIBdXE3Z+F
+ 3O1a6Gw2P299lDgnRaUDfnfgOc8gBjGzPtEXm4jms89+oC6deVuC8G06jLtMhc1Am6A9
+ 8meA==
+X-Gm-Message-State: APjAAAXy16ueGsaBgW3u6MArCzDgRzC45Bg3SPrLT/b5iWJe9id5uRVA
+ 4JjCQo+V8FRSkAmHz4Tva9q6FHFI
+X-Google-Smtp-Source: APXvYqzG0QnvDhoH51BYWcZt7ISZfY4+vTEDfc6Yk7W6CSXBd38hDTlqa+xJFnd13t5kgUliuHPiNA==
+X-Received: by 2002:a7b:c004:: with SMTP id c4mr6315495wmb.45.1576155222404;
+ Thu, 12 Dec 2019 04:53:42 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.39
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:40 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:41 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 043/132] meson: qemu-{img,io,nbd}
-Date: Thu, 12 Dec 2019 13:51:27 +0100
-Message-Id: <1576155176-2464-44-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 044/132] meson: qemu-pr-helper
+Date: Thu, 12 Dec 2019 13:51:28 +0100
+Message-Id: <1576155176-2464-45-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,71 +87,74 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    | 6 ------
- configure   | 6 ------
- meson.build | 8 +++++++-
- 3 files changed, 7 insertions(+), 13 deletions(-)
+ Makefile    |  5 -----
+ configure   |  1 -
+ meson.build | 10 ++++++++++
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index cdd9d14..764981d 100644
+index 764981d..0cbdc34 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -231,12 +231,6 @@ Makefile: $(version-obj-y)
+@@ -231,11 +231,6 @@ Makefile: $(version-obj-y)
  
  COMMON_LDADDS = libqemuutil.a
  
--qemu-img.o: qemu-img-cmds.h
+-scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-ifdef CONFIG_MPATH
+-scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
+-endif
 -
--qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
--qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
--qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
--
- scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- ifdef CONFIG_MPATH
- scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
+ ifneq ($(EXESUF),)
+ .PHONY: qga/qemu-ga
+ qga/qemu-ga: qga/qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
 diff --git a/configure b/configure
-index 7be08f3..964897c 100755
+index 964897c..4757e45 100755
 --- a/configure
 +++ b/configure
-@@ -6043,12 +6043,6 @@ if [ "$eventfd" = "yes" ]; then
- fi
- 
- tools=""
--if test "$want_tools" = "yes" ; then
--  tools="qemu-img\$(EXESUF) qemu-io\$(EXESUF) $tools"
--  if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
--    tools="qemu-nbd\$(EXESUF) $tools"
--  fi
--fi
- if test "$softmmu" = yes ; then
-   if test "$linux" = yes; then
-     if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
+@@ -6061,7 +6061,6 @@ if test "$softmmu" = yes ; then
+       fi
+       mpath=no
+     fi
+-    tools="$tools scsi/qemu-pr-helper\$(EXESUF)"
+   else
+     if test "$virtfs" = yes; then
+       error_exit "VirtFS is supported only on Linux"
 diff --git a/meson.build b/meson.build
-index a46b671..2b4b36d 100644
+index 2b4b36d..b16ab72 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -280,7 +280,7 @@ if have_system
-   ]
+@@ -108,6 +108,10 @@ if 'CONFIG_LIBCAP_NG' in config_host
  endif
- foreach d : hx_headers
--  custom_target(d[1],
-+  hxdep += custom_target(d[1],
-                 input: files(d[0]),
-                 output: d[1],
-                 capture: true,
-@@ -591,6 +591,12 @@ if 'CONFIG_GUEST_AGENT' in config_host
- endif
+ xkbcommon = dependency('xkbcommon', required: false)
+ rt = cc.find_library('rt', required: false)
++libmpathpersist = declare_dependency()
++if config_host.has_key('CONFIG_MPATH')
++  libmpathpersist = cc.find_library('mpathpersist')
++endif
+ libiscsi = declare_dependency()
+ if 'CONFIG_LIBISCSI' in config_host
+   libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
+@@ -586,6 +590,7 @@ foreach target : target_dirs
+ endforeach
  
- if have_tools
-+  executable('qemu-img', [files('qemu-img.c'), hxdep], dependencies: [block, qemuutil], install: true)
-+  if host_machine.system() == 'linux' or host_machine.system() == 'sunos' or host_machine.system().endswith('bsd')
-+    executable('qemu-nbd', files('qemu-nbd.c'), dependencies: [block, qemuutil], install: true)
-+  endif
-+  executable('qemu-io', files('qemu-io.c'), dependencies: [block, qemuutil], install: true)
+ # Other build targets
 +
-   subdir('contrib/rdmacm-mux')
-   subdir('contrib/elf2dmp')
+ if 'CONFIG_GUEST_AGENT' in config_host
+   subdir('qga')
+ endif
+@@ -623,6 +628,11 @@ if have_tools
+                dependencies: [qemuutil, libcap_ng],
+                install: true,
+                install_dir: get_option('libexecdir'))
++
++    executable('qemu-pr-helper', files('scsi/qemu-pr-helper.c', 'scsi/utils.c'),
++               dependencies: [authz, crypto, io, qom, qemuutil,
++                              libcap_ng, libudev, libmpathpersist],
++               install: true)
+   endif
  
+   if 'CONFIG_IVSHMEM' in config_host
 -- 
 1.8.3.1
 
