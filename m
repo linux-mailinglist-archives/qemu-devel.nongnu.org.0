@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118F711CDDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:09:20 +0100 (CET)
-Received: from localhost ([::1]:59038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C0C11CE31
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 14:21:43 +0100 (CET)
+Received: from localhost ([::1]:59192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifODW-00041I-Lu
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:09:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60010)
+	id 1ifOPV-00039H-Io
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 08:21:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyB-0003DB-UM
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:29 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyC-0003Ec-Sr
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyA-0006My-J4
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:27 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37435)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ifNyB-0006Ov-I1
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:28 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34218)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ifNyA-0006L2-B3
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:26 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id f129so2383371wmf.2
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:26 -0800 (PST)
+ id 1ifNyB-0006Mj-AT
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 07:53:27 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t2so2644323wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 04:53:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g0Za0/5ts6UEf1IGGG8fGTwyEDqYKTDtKmkQ6EBfNWw=;
- b=aeZdfFUe7OxJt+koW/79QA2hya2LXE/Sztk4bu2Mvs5O9iqhFbKns5hmxCCcbFHLvv
- ueKFS5Yd8aBeVjYSTNhfrtK1TjmVX69+/cv66vb56nBHT//H9E+NiwfuQCzyfsN+w+OW
- w+cl8dFtEk/o2dcqHZ4DmUujJCuUkkNC2TBZj0nwuvwnXJnP94PZBSWaN7YeaL3BiwNL
- pHuM5N/qBxNRcRF9CXskDFotuelmJRWajj8Ug54sod7C0VJUi6ZcwMxXpuVQyrGqLDjy
- NJ2JE++eSJcQl/4l2jor2Zx/QP28q55uRBMC/HMynuDH9cArMOlrcG2z0uJAm4ZwqBYg
- eF6A==
+ bh=docWwRVWyAXD0RYJhQjYDMkeooVSkVTl6PNsvmqf6gQ=;
+ b=pIrysAjuEh2Vl38wspdZzy7pWHqKdwbkuOlNlxWfWKPAj43DX6A+TkVDuPnkvrpwH8
+ eIPzCscbMZo0PoizRrAqCppDECs30wQluKvSTZEbjH4De3WjUrB9+Srz8uIo11c8Rgy/
+ hI7mSBX++lBTvVBi8iTZOk88etuKBLMRqUfisMuBMvK89yfohQPuyKtPaR8d5k1BeTaF
+ oAOEo3qQyvdI3vdBkR+1Vfl6lH7//ih7ELEbAw1MBA53rW70/9n2v8qeIbvZOoxzpcDK
+ mB5BPxsOnWCJpgLtskZ3ZzbxykHvRBQLU0Wy+0efIosJSBUP+Brgr3CFhohKSK0MjdNu
+ tjOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=g0Za0/5ts6UEf1IGGG8fGTwyEDqYKTDtKmkQ6EBfNWw=;
- b=BtKADrRvrnoEUNNb+92GsRx9+eOMglro9spKMRX0kAYLRYCM1FVrPT6Su+RcA7XTta
- Rlm7Q4c2PKk0HBIr+1GtGmIC5xIodM933eR5nyEx9Aa5gdiiF21oaitl0z4hzBUljULN
- AyItPji7HqAHWyRKSgca5LxtR8KfhOWiEA3WYZ6RdwtXb5pIeJvdEzao/6AvFHWpH4Qj
- yOBNSJYE9aiV1fdLNB+OjwezEsfc+GkNnrCT7nm53CxCH565w7e1G7Y/SJHXpgkYHgey
- znkXRjNjii7ljfo++xjoWNiDtpk4hN67iahW4NsuId8xcHvDvLVdUd6KH6KuMGzWn0R0
- 9qvw==
-X-Gm-Message-State: APjAAAVMkRw+qsRpr8pZE0ZeNO4ZPv6+hcBbhleCMU8mPBeTjMss1VnX
- Rgu3Qlzre5dGXOFAsdkLNvrhrxpH
-X-Google-Smtp-Source: APXvYqwZnBgipFLkD4UrraBax1CpB73ymi+qa55yrB1StGpErhrkNELeiRVengz4WcI9Fk12uV8GxQ==
-X-Received: by 2002:a1c:9903:: with SMTP id b3mr6256518wme.139.1576155205069; 
+ bh=docWwRVWyAXD0RYJhQjYDMkeooVSkVTl6PNsvmqf6gQ=;
+ b=jhV6ibGARtcg0O3S2DId1S8AqzJwLcvAcpgSaQ06KTLRQ5mO8B9LM+89mTw8zdehBR
+ u2ovqt/2EndETnz21233Be/b15Y2BV+2ANF8n3J1UXpQbSXXaUuEZb+9/NtR9TTAfCah
+ UmXnk3XEw/Jd3BisD7nT1+BvB+/Ub25FQ0n2nDHvKhrlDiissnnffe7L3q0c8SzCMMjr
+ Pq4bVzhtlWOZA1t4o7CWm0HO6nj4Uw+0eav0C+qHoNoMgUUlW0aq6xRrUHWdj6pzH3O8
+ 2ixLLCm06LzbgrEAd0PLVU2FoQe/7EFc4iMq0eITYcuRt7LjBMc7Uy9GJPRP9w7JHnRz
+ uXWA==
+X-Gm-Message-State: APjAAAXuLHXZmjb7SkniFXp0akdsoD7WZ5CfEqwWO4hos34YB6FkL987
+ hGDhvPivCtcELIeIAnCwz/Q6y5ye
+X-Google-Smtp-Source: APXvYqwzyCH9poxfALlN14mXhB2j3etl7QN1xS7lVcYUGtHqSseCF2fzrDKO15nfGf4Wql3EtaI0mQ==
+X-Received: by 2002:adf:ea0f:: with SMTP id q15mr6017558wrm.324.1576155205914; 
  Thu, 12 Dec 2019 04:53:25 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.24
+ by smtp.gmail.com with ESMTPSA id n189sm5193825wme.33.2019.12.12.04.53.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 12 Dec 2019 04:53:24 -0800 (PST)
+ Thu, 12 Dec 2019 04:53:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 027/132] meson: keymap-gen
-Date: Thu, 12 Dec 2019 13:51:11 +0100
-Message-Id: <1576155176-2464-28-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 028/132] meson: generate qemu-version.h
+Date: Thu, 12 Dec 2019 13:51:12 +0100
+Message-Id: <1576155176-2464-29-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,113 +87,109 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile       | 38 --------------------------------------
- meson.build    |  1 +
- ui/meson.build | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+), 38 deletions(-)
- create mode 100644 ui/meson.build
+ Makefile                | 27 +--------------------------
+ meson.build             | 10 ++++++++++
+ scripts/qemu-version.sh | 25 +++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 26 deletions(-)
+ create mode 100755 scripts/qemu-version.sh
 
 diff --git a/Makefile b/Makefile
-index 9110115..d4ebbbf 100644
+index d4ebbbf..5d0be7b 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -116,44 +116,6 @@ generated-files-y += module_block.h
+@@ -96,21 +96,7 @@ include $(SRC_PATH)/rules.mak
+ # lor is defined in rules.mak
+ CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
  
- generated-files-y += .git-submodule-status
+-# Create QEMU_PKGVERSION and FULL_VERSION strings
+-# If PKGVERSION is set, use that; otherwise get version and -dirty status from git
+-QEMU_PKGVERSION := $(if $(PKGVERSION),$(PKGVERSION),$(shell \
+-  cd $(SRC_PATH); \
+-  if test -e .git; then \
+-    git describe --match 'v*' 2>/dev/null | tr -d '\n'; \
+-    if ! git diff-index --quiet HEAD &>/dev/null; then \
+-      echo "-dirty"; \
+-    fi; \
+-  fi))
+-
+-# Either "version (pkgversion)", or just "version" if pkgversion not set
+-FULL_VERSION := $(if $(QEMU_PKGVERSION),$(VERSION) ($(QEMU_PKGVERSION)),$(VERSION))
+-
+-generated-files-y = qemu-version.h config-host.h qemu-options.def
++generated-files-y = config-host.h qemu-options.def
  
--KEYCODEMAP_GEN = $(SRC_PATH)/ui/keycodemapdb/tools/keymap-gen
--KEYCODEMAP_CSV = $(SRC_PATH)/ui/keycodemapdb/data/keymaps.csv
+ generated-files-y += module_block.h
+ 
+@@ -233,17 +219,6 @@ include $(SRC_PATH)/tests/Makefile.include
+ 
+ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules $(vhost-user-json-y)
+ 
+-qemu-version.h: FORCE
+-	$(call quiet-command, \
+-                (printf '#define QEMU_PKGVERSION "$(QEMU_PKGVERSION)"\n'; \
+-		printf '#define QEMU_FULL_VERSION "$(FULL_VERSION)"\n'; \
+-		) > $@.tmp)
+-	$(call quiet-command, if ! cmp -s $@ $@.tmp; then \
+-	  mv $@.tmp $@; \
+-	 else \
+-	  rm $@.tmp; \
+-	 fi)
 -
--KEYCODEMAP_FILES = \
--		 ui/input-keymap-atset1-to-qcode.c \
--		 ui/input-keymap-linux-to-qcode.c \
--		 ui/input-keymap-qcode-to-atset1.c \
--		 ui/input-keymap-qcode-to-atset2.c \
--		 ui/input-keymap-qcode-to-atset3.c \
--		 ui/input-keymap-qcode-to-linux.c \
--		 ui/input-keymap-qcode-to-qnum.c \
--		 ui/input-keymap-qcode-to-sun.c \
--		 ui/input-keymap-qnum-to-qcode.c \
--		 ui/input-keymap-usb-to-qcode.c \
--		 ui/input-keymap-win32-to-qcode.c \
--		 ui/input-keymap-x11-to-qcode.c \
--		 ui/input-keymap-xorgevdev-to-qcode.c \
--		 ui/input-keymap-xorgkbd-to-qcode.c \
--		 ui/input-keymap-xorgxquartz-to-qcode.c \
--		 ui/input-keymap-xorgxwin-to-qcode.c \
--		 ui/input-keymap-osx-to-qcode.c \
--		 $(NULL)
--
--generated-files-$(CONFIG_SOFTMMU) += $(KEYCODEMAP_FILES)
--
--ui/input-keymap-%.c: $(KEYCODEMAP_GEN) $(KEYCODEMAP_CSV) $(SRC_PATH)/ui/Makefile.objs
--	$(call quiet-command,\
--	    stem=$* && src=$${stem%-to-*} dst=$${stem#*-to-} && \
--	    test -e $(KEYCODEMAP_GEN) && \
--	    $(PYTHON) $(KEYCODEMAP_GEN) \
--	          --lang glib2 \
--	          --varname qemu_input_map_$${src}_to_$${dst} \
--	          code-map $(KEYCODEMAP_CSV) $${src} $${dst} \
--	        > $@ || rm -f $@, "GEN", "$@")
--
--$(KEYCODEMAP_GEN): .git-submodule-status
--$(KEYCODEMAP_CSV): .git-submodule-status
--
- edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
- pc-bios/edk2-%.fd: pc-bios/edk2-%.fd.bz2
- 	$(call quiet-command,bzip2 -d -c $< > $@,"BUNZIP2",$<)
+ config-host.h: config-host.h-timestamp
+ config-host.h-timestamp: config-host.mak
+ qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
 diff --git a/meson.build b/meson.build
-index b53c2dc..8a4a90b 100644
+index 8a4a90b..6d4bf27 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -211,6 +211,7 @@ subdir('stubs')
- subdir('trace')
- subdir('util')
- subdir('crypto')
-+subdir('ui')
+@@ -18,6 +18,16 @@ add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
+ add_project_arguments(config_host['QEMU_INCLUDES'].split(),
+                       language: ['c', 'cpp'])
  
- # Build targets from sourcesets
- 
-diff --git a/ui/meson.build b/ui/meson.build
-new file mode 100644
-index 0000000..cad9763
++qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
++                    meson.current_source_dir(),
++                    config_host['PKGVERSION'], config_host['VERSION']]
++qemu_version = custom_target('QEMU version',
++                             output: 'qemu-version.h',
++                             command: qemu_version_cmd,
++                             capture: true,
++                             build_by_default: true,
++                             build_always_stale: true)
++
+ configure_file(input: files('scripts/ninjatool.py'),
+                output: 'ninjatool',
+                configuration: config_host)
+diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
+new file mode 100755
+index 0000000..4847385
 --- /dev/null
-+++ b/ui/meson.build
-@@ -0,0 +1,34 @@
-+keymap_gen = find_program('keycodemapdb/tools/keymap-gen')
++++ b/scripts/qemu-version.sh
+@@ -0,0 +1,25 @@
++#!/bin/sh
 +
-+keymaps = [
-+  ['atset1', 'qcode'],
-+  ['linux', 'qcode'],
-+  ['qcode', 'atset1'],
-+  ['qcode', 'atset2'],
-+  ['qcode', 'atset3'],
-+  ['qcode', 'linux'],
-+  ['qcode', 'qnum'],
-+  ['qcode', 'sun'],
-+  ['qnum', 'qcode'],
-+  ['usb', 'qcode'],
-+  ['win32', 'qcode'],
-+  ['x11', 'qcode'],
-+  ['xorgevdev', 'qcode'],
-+  ['xorgkbd', 'qcode'],
-+  ['xorgxquartz', 'qcode'],
-+  ['xorgxwin', 'qcode'],
-+  ['osx', 'qcode'],
-+]
++set -eu
 +
-+foreach e : keymaps
-+  output = 'input-keymap-@0@-to-@1@.c'.format(e[0], e[1])
-+  custom_target(output,
-+                output: output,
-+                capture: true,
-+                build_by_default: true, # to be removed when added to a target
-+                input: files('keycodemapdb/data/keymaps.csv'),
-+                command: [keymap_gen,
-+                          '--lang', 'glib2',
-+                          '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
-+                          'code-map', '@INPUT0@', e[0], e[1]])
-+endforeach
++dir="$1"
++pkgversion="$2"
++version="$3"
++
++if [ -z "$pkgversion"]; then
++    cd "$dir"
++    if [ -e .git ]; then
++        pkgversion=$(git describe --match 'v*' --dirty | echo "")
++    fi
++fi
++
++if [ -n "$pkgversion" ]; then
++    fullversion="$version ($pkgversion)"
++else
++    fullversion="$version"
++fi
++
++cat <<EOF
++#define QEMU_PKGVERSION "$pkgversion"
++#define QEMU_FULL_VERSION "$fullversion"
++EOF
 -- 
 1.8.3.1
 
