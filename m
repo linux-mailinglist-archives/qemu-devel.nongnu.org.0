@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5C411D7C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 21:19:05 +0100 (CET)
-Received: from localhost ([::1]:36952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427B011D7DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 12 Dec 2019 21:26:45 +0100 (CET)
+Received: from localhost ([::1]:37016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifUvQ-0006a4-LD
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 15:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36608)
+	id 1ifV2q-0001F6-9W
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 15:26:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifUuY-00066n-Ny
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:18:12 -0500
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifV1T-0008J5-Cx
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:25:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifUuW-0007aT-Pe
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:18:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24796
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifUuW-0007Z0-EC
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:18:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576181887;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RGFdRK9zG9V0RRn6RjouUd6u6qy1KsDOc3FyCEoJruE=;
- b=LP55PSwnXBpbZmT8RtYc8e2eo+ctRAi6AM85E6i5OKnNrclVxM/gRH1hpJSNh2sou07Za3
- BUJb5MmKosfVGMNk8lWs2mhI3JTbfM/gqrtAzHxV5vAK2IEz9AQU+qvRhddz3alPcoRyBl
- BrEeTg5hI0ZE77fVY3xbCxCT6GvrWn0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-o3BrMgcKNDOnSTfFpIGOKA-1; Thu, 12 Dec 2019 15:18:03 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C51CD802B60;
- Thu, 12 Dec 2019 20:18:02 +0000 (UTC)
-Received: from work-vm (ovpn-116-226.ams2.redhat.com [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D005A1001DE1;
- Thu, 12 Dec 2019 20:18:01 +0000 (UTC)
-Date: Thu, 12 Dec 2019 20:17:59 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v4 00/37] Clean-ups: qom-ify serial and remove
- QDEV_PROP_PTR
-Message-ID: <20191212201759.GF4282@work-vm>
-References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
- <CAJ+F1CLV_JRhXX=tB7ZXYxa1En4LzYgJr+7egKzVRNBOLY2nSA@mail.gmail.com>
- <CAFEAcA82wRy0U-DzPr64s5QiKo6XmZM96O88c4-AY4zP926GPw@mail.gmail.com>
- <CAJ+F1CKwZJnJMFzc4Z1zsY3dZAsXL1SLaXYu8y0G7=u319DWDg@mail.gmail.com>
- <CAFEAcA8nSVe2kGU9kuBxb+5BGs7GRVUHf4aHR2kUwvRNF-9-EA@mail.gmail.com>
- <CAJ+F1CL6i05tt7LmY1opSTdKq6tdJomF20MU0btBwqW-FvRGYg@mail.gmail.com>
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifV1R-0001r5-VM
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 15:25:19 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55874)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1ifV1R-0001ow-MJ; Thu, 12 Dec 2019 15:25:17 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBCKOPBU126671; Thu, 12 Dec 2019 15:25:13 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wuq3wkws3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 15:25:13 -0500
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBCKOXe0127393;
+ Thu, 12 Dec 2019 15:25:13 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wuq3wkwrm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 15:25:13 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCKOeek012391;
+ Thu, 12 Dec 2019 20:25:12 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 2wr3q70ydc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 20:25:12 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBCKPBK846858748
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Dec 2019 20:25:11 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 657C6AC05F;
+ Thu, 12 Dec 2019 20:25:11 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E930AC05B;
+ Thu, 12 Dec 2019 20:25:11 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Dec 2019 20:25:11 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v5 0/5] Add vTPM emulator support for ppc64 platform
+Date: Thu, 12 Dec 2019 15:24:25 -0500
+Message-Id: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CL6i05tt7LmY1opSTdKq6tdJomF20MU0btBwqW-FvRGYg@mail.gmail.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: o3BrMgcKNDOnSTfFpIGOKA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-12_06:2019-12-12,2019-12-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ mlxlogscore=999 impostorscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912120157
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,122 +87,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Apologies for the delay.
+The following series of patches adds vTPM emulator support for the
+ppc64 platform (pSeries). 
 
-* Marc-Andr=E9 Lureau (marcandre.lureau@gmail.com) wrote:
-> Hi
->=20
-> On Sun, Dec 1, 2019 at 10:10 PM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> >
-> > On Sun, 1 Dec 2019 at 17:27, Marc-Andr=E9 Lureau
-> > <marcandre.lureau@gmail.com> wrote:
-> > >
-> > > Hi
-> > >
-> > > On Sun, Dec 1, 2019 at 9:18 PM Peter Maydell <peter.maydell@linaro.or=
-g> wrote:
-> > > >
-> > > > On Sun, 1 Dec 2019 at 10:19, Marc-Andr=E9 Lureau
-> > > > <marcandre.lureau@gmail.com> wrote:
-> > > > >
-> > > > > - "serial: register vmsd with DeviceClass"
-> > > > >
-> > > > > This is standard qdev-ification, however it breaks backward migra=
-tion,
-> > > > > but that's just how qdev_set_legacy_instance_id() works.
-> > > >
-> > > > I don't understand this part. Surely the whole point
-> > > > of setting a legacy instance ID is exactly to preserve
-> > > > migration compatibility? If it doesn't do that then what
-> > > > does setting legacy ID value do?
-> > > >
-> > >
-> > > It works in old->new direction only, because new code can match the
-> > > legacy instance id.
-> > >
-> > > But when going from new->old, the legacy instance id is lost, as it
-> > > uses new 0-based instance_id.
-> >
-> > I still don't understand. My mental model of the situation is:
-> >
-> >  * in the old (current) version of the code, the instance ID
-> >    is some random thing resulting from what the old code does
->=20
-> right
->=20
-> >  * in the new version of the code, we use qdev_set_legacy_instance_id,
-> >    and so instead of using the ID you'd naturally get as a
-> >    written-from-scratch qdev device, it uses the legacy value
-> >    you pass in
->=20
-> no, it only sets the SaveStateEntry.alias_id, which is only used
-> during incoming migration in find_se().
->=20
-> Iow, it only works old->new.
->=20
-> >  * thus the device/board in both old and new versions of QEMU
-> >    uses the same value and migration in both directions works
->=20
-> sadly no
->=20
-> >
-> > I don't understand why we would ever be using a "new 0-based
-> > instance_id" -- it seems to me that the whole point of setting
-> > a legacy ID value is that we will use it always, and I don't
-> > understand how the board code can know that it's going to be
-> > the target of an old->new migration as opposed to being the
-> > source of a new->old migration such that it can end up with
-> > a different ID value in the latter case.
->=20
-> The target will find the "legacy" alias with find_se() on incoming
-> migration, but any new outgoing migration will use the new 0-based
-> instance_id
->=20
-> >
-> > If qdev_set_legacy_instance_id() doesn't work the way I
-> > think it does above, what *does* it do ?
->=20
-> just set the old alias_id for incoming migration.
->=20
-> David, is that correct?
+It can be tested as follows with swtpm/libtpms:
 
-Yes, I think it is.
-However, I'm curious which devices you're finding are explicitly setting
-their id's;  there aren't many - although there are some that probably
-should!
-For example, running an x86 image with:
-   -device isa-parallel,chardev=3D... -device isa-serial -device isa-serial=
- -trace enable=3Dqemu_loadvm_state_section_startfull
+mkdir /tmp/mytpm1
+swtpm socket --tpmstate dir=/tmp/mytpm1 \
+  --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
+  --log level=20
 
-shows:
-qemu_loadvm_state_section_startfull(uint32_t section_id, const char *idstr,=
- uint32_t instance_id, uint32_t version_id) "%u(%s) %u %u"
+If TPM 2 is desired, add --tpm2 as parameter to the above.
 
-165217@1576179638.856300:qemu_loadvm_state_section_startfull 41(serial) 0 3
-165217@1576179638.856307:qemu_loadvm_state_section_startfull 42(serial) 1 3
-165217@1576179638.856311:qemu_loadvm_state_section_startfull 43(parallel_is=
-a) 0 1
+In another terminal start QEMU:
 
-so those two serial devices are instances '0' and '1' I think by luck of
-their command line order, rather than having specified their base
-address (which would have been safer).
+sudo ./ppc64-softmmu/qemu-system-ppc64 -display sdl \
+	-machine pseries,accel=kvm \
+	-m 1024 -bios slof.bin -boot menu=on \
+	-nodefaults -device VGA -device pci-ohci -device usb-kbd \
+	-chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+	-tpmdev emulator,id=tpm0,chardev=chrtpm \
+	-device tpm-spapr,tpmdev=tpm0 \
+	-device spapr-vscsi,id=scsi0,reg=0x00002000 \
+	-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
+	-drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
 
-Dave
+Links:
+ - libtpms: https://github.com/stefanberger/libtpms/wiki
+ - swtpm: https://github.com/stefanberger/swtpm/wiki
 
+Changes:
+ v4->v5:
+  - use runstate_check(RUN_STATE_FINISH_MIGRATE) to check whether devices
+    are suspending; ditch 3 patches in this series that tried to do similar
 
+ v3->v4:
+  - addressed comments to v3
+  - reworked suspend/resume support that requires extensions to backends
 
-> thanks
->=20
->=20
-> --=20
-> Marc-Andr=E9 Lureau
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+ v2->v3:
+  - patch 1: a TPM 2 is identified by IBM,vtpm20 in the compatible node
+  - patch 1: convert to tracing to display Tx and Rx buffers
+  - added documentation patch
+  - added patch to enable TPM device as part of pSeries
+
+ v1->v2:
+  - followed Cedric Le Goater's suggestions to patch 1
+  - send appropriate CRQ error responses if DMA read or write fails
+  - renamed tpm_spapr_got_payload to tpm_spapr_process_cmd and
+    pass endianess-adjusted data pointer from CRQ to it
+
+Regards,
+    Stefan
+
+Stefan Berger (5):
+  tpm_spapr: Support TPM for ppc64 using CRQ based interface
+  tpm: Return bool from tpm_backend_finish_sync
+  tpm_spapr: Support suspend and resume
+  hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES config
+  docs: tpm: Add example command line for ppc64 and tpm-spapr
+
+ backends/tpm.c               |   6 +-
+ docs/specs/tpm.txt           |  20 +-
+ hw/ppc/Kconfig               |   1 +
+ hw/tpm/Kconfig               |   6 +
+ hw/tpm/Makefile.objs         |   1 +
+ hw/tpm/tpm_spapr.c           | 458 +++++++++++++++++++++++++++++++++++
+ hw/tpm/trace-events          |  14 ++
+ include/sysemu/tpm.h         |   3 +
+ include/sysemu/tpm_backend.h |   4 +-
+ qapi/tpm.json                |   6 +-
+ 10 files changed, 513 insertions(+), 6 deletions(-)
+ create mode 100644 hw/tpm/tpm_spapr.c
+
+-- 
+2.21.0
 
 
