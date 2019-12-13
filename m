@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56A211E688
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:27:46 +0100 (CET)
-Received: from localhost ([::1]:50418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A981911E747
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:59:55 +0100 (CET)
+Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifmr3-0008E0-U3
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:27:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44544)
+	id 1ifnMA-0007i6-DI
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:59:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifmq2-0007QK-8o
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:26:43 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ifnL0-00079C-9C
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:58:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifmq0-00045h-Ve
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:26:42 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24379
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifmq0-00044W-O2
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:26:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576250800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OGDcFdaDweesenDqqpnURRfzP7XVOxTM+bg+9OEjETU=;
- b=AFaJMNXY+7MyJLCo95gw/Sf//yZECU2qWQ2saVQ5B/5omoJtZt7ZR3EdIg8NtEJNax9MS5
- k7GIi7iw/pfb6voQJksaapbawXSnDQ53uMeqbGVyq96gYeUyyuw+rudo2Gh8QhpOdbvoon
- 2dTIfiNZHItaaG80uToIbgHJ67Kyscg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328--Cs0tYbzO8qRLF1vtDdpUQ-1; Fri, 13 Dec 2019 10:26:37 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB618107ACCC;
- Fri, 13 Dec 2019 15:26:36 +0000 (UTC)
-Received: from work-vm (unknown [10.36.117.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B46021EC8;
- Fri, 13 Dec 2019 15:26:32 +0000 (UTC)
-Date: Fri, 13 Dec 2019 15:26:30 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Liam Merwick <liam.merwick@oracle.com>
-Subject: Re: [PATCH 092/104] virtiofsd: add man page
-Message-ID: <20191213152630.GI3713@work-vm>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-93-dgilbert@redhat.com>
- <378b3033-4ea6-96fc-3301-f3d4c20ed159@oracle.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1ifnKy-0000ZW-VJ
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:58:42 -0500
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:43168)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ifnKy-0000Xs-OQ
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:58:40 -0500
+Received: by mail-ot1-x32d.google.com with SMTP id p8so6971584oth.10
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:58:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1gMq4r3ksiE1RRJUmICWKucGCYMCWCZ2HaS2ZBh9Pl0=;
+ b=r9Cn8ghfmB2BicULwcfOrMkEQwG6E9IMaaeWMEHmVlQuBdQ1n6FAqdFKh/pVJ3tFWv
+ 7e236gGGb17BLo7rMpahhnKTqe8F9EXQsxaczuw+JD+NCm1pLYW6RDw1U+OOqvGf8nKw
+ BK0py1tG5aKxR9ylr7PewsvD/lWEDCKD5Nb1gPCsnHOjUZJwNZ6psVx0zhRquWXYlxYt
+ yO3i0mB2rcwxAmEHzeQ+XefU9ZmV1VxNMwIclpHmg5fCLUI6dWBtPwbeAKL7C85pDtHB
+ ZsKJRRzD6PjGGNAvkIkDKojECX4VAWoZs5AuYzuV9xzGl8wjMAKRHtAMBnV3l6Xu+1Ss
+ tEWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1gMq4r3ksiE1RRJUmICWKucGCYMCWCZ2HaS2ZBh9Pl0=;
+ b=hCi11Puf43qIlA/YdU3T95rAN+NQ0Y1F2IvhtBe5qUCyP59akaWK01V5tgxdHfQJoN
+ yOvPSso4nYBioXABpJr76DJ4rNUyvhI4kOccUM1G53GizBInShsTMlbLA8Ri6iPtFn3b
+ YQPVfYcDsZ1OC7Xvlk0BgnJrqmYL+BIWVMuNtKIspBThHHnP4WqL9eIyuLP9Eve79B8R
+ 9BJFAijwPrrGKlD1vl935GGdErF2gHLfNeM6qlkOkPQTVR4ncWhMotfT/BZYzFoVPoMq
+ g4c5pVzfXzDSglirFJI4aSoSBHAkVFt0B/Q8cg/7TXx8vlcHrnT3jGGX+bZMViO8lM0P
+ yGHQ==
+X-Gm-Message-State: APjAAAUQUtpKh0zeP/iE1OVM6hFFwVe+SyiApzmSQWVEUQPUoetGM9q6
+ sRExFYdzLCjbyejeFZRNyIg6mawkRngOxiEwSv21zA==
+X-Google-Smtp-Source: APXvYqzei8ekSdQ8UNcjocsvKdaip5Qyfo9p3zbfb0x9xdp2nFkG9nU8IWhJx9uH+PJYCBPHIUE0c0sHe4rcp8Yz5eI=
+X-Received: by 2002:a9d:6745:: with SMTP id w5mr14623595otm.221.1576252719375; 
+ Fri, 13 Dec 2019 07:58:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <378b3033-4ea6-96fc-3301-f3d4c20ed159@oracle.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: -Cs0tYbzO8qRLF1vtDdpUQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191212223601.309245-1-groug@kaod.org>
+In-Reply-To: <20191212223601.309245-1-groug@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Dec 2019 15:58:28 +0000
+Message-ID: <CAFEAcA9mfqoKOtC6j9z62GauDyO2r2MZ=-vJ1dpE0W225HNnRw@mail.gmail.com>
+Subject: Re: [PULL 0/5] 9pfs patches for QEMU 5.0
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,62 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Liam Merwick (liam.merwick@oracle.com) wrote:
-> On 12/12/2019 16:38, Dr. David Alan Gilbert (git) wrote:
-> > From: Stefan Hajnoczi <stefanha@redhat.com>
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >   Makefile                       |  7 +++
-> >   tools/virtiofsd/virtiofsd.texi | 85 +++++++++++++++++++++++++++++++++=
-+
-> >   2 files changed, 92 insertions(+)
-> >   create mode 100644 tools/virtiofsd/virtiofsd.texi
-> >=20
->=20
-> ... deleted ...
->=20
-> > +@c man begin EXAMPLES
-> > +Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @cod=
-e{/var/run/vm001-vhost-fs.sock}:
-> > +
-> > +@example
-> > +host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=
-=3D/var/lib/fs/vm001
-> > +host# qemu-system-x86_64 \
-> > +    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
-> > +    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
-> > +    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm=
-,share=3Don \
-> > +    -numa node,memdev=3Dmem \
-> > +    ...
-> > +guest# mount -t virtio_fs \
-> > +    -o default_permissions,allow_other,user_id=3D0,group_id=3D0,rootmo=
-de=3D040000,dax \
-> > +    myfs /mnt
->=20
->=20
->=20
-> Should this be 'mount -t virtiofs myfs /mnt' like on
-> https://virtio-fs.gitlab.io/howto-qemu.html ?
+On Thu, 12 Dec 2019 at 22:36, Greg Kurz <groug@kaod.org> wrote:
+>
+> The following changes since commit fb2246882a2c8d7f084ebe0617e97ac78467d156:
+>
+>   .travis.yml: drop xcode9.4 from build matrix (2019-11-29 15:51:52 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/gkurz/qemu.git tags/9p-next-2019-12-12
+>
+> for you to fetch changes up to b3e2bb9458af556cb8aa0558f59222f462b81069:
+>
+>   virtfs: Remove the deprecated "-virtfs_synth" option (2019-12-09 18:00:35 +0100)
+>
+> ----------------------------------------------------------------
+> - conversion of virtfs-proxy-helper from libcap to libcap-ng
+> - removal of libcap-dev from docker, travis and gitlab CI
+> - removal of deprecate "-virtfs_synth" option
+>
 
-It should! The man page still had the old format; thanks for spotting
-it.
+Applied, thanks.
 
-> otherwise
->=20
-> Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
-Thank you!
-
-Dave
-
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
