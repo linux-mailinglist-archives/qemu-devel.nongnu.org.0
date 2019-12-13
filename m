@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E4C11E327
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:05:18 +0100 (CET)
-Received: from localhost ([::1]:48092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB4211E323
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:05:02 +0100 (CET)
+Received: from localhost ([::1]:48084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifjh7-0002Ew-EJ
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:05:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47434)
+	id 1ifjgq-0001zG-54
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:05:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifjai-0005tb-P8
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:58:41 -0500
+ (envelope-from <groug@kaod.org>) id 1ifjbg-0006yK-0x
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:59:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifjah-000234-Kg
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:58:40 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40366
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifjah-00021l-GO
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:58:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576238319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zLHIhKF8gtemS4I3jbOco6uwER63VSSn31OuRMEr5wU=;
- b=Vq22yntu8Dw4AtFHLpIMDIR4mq9xggJkp2I8RS0KaKzXloHVdGGC4saYPnB8QWL3hQU10M
- tHHVfhSoA6gclSGJTOhOZuMeLHke2z0K8mHOPLPTavKxe83252FuSPQmgJPxeY1dVbrC1A
- vwLNaMJ84JJ4iAX6HGy6/SOLfgG8I84=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-6y9u__Q2P9mdr7prac_g5A-1; Fri, 13 Dec 2019 06:58:35 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD27B800EB4
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 11:58:34 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.117.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AACE719C4F;
- Fri, 13 Dec 2019 11:58:33 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] virtio-fs: fix MSI-X nvectors calculation
-Date: Fri, 13 Dec 2019 11:58:22 +0000
-Message-Id: <20191213115822.77260-3-dgilbert@redhat.com>
-In-Reply-To: <20191213115822.77260-1-dgilbert@redhat.com>
-References: <20191213115822.77260-1-dgilbert@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1ifjbe-0003XB-JY
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:59:39 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31826
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifjbe-0003V4-C3
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:59:38 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBDBvgoe121422
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:59:35 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wu4t86r7w-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:59:34 -0500
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 13 Dec 2019 11:59:33 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 13 Dec 2019 11:59:30 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id xBDBwlwB49283516
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Dec 2019 11:58:47 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 34FF54C044;
+ Fri, 13 Dec 2019 11:59:29 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 040694C040;
+ Fri, 13 Dec 2019 11:59:29 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.185.241])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Dec 2019 11:59:28 +0000 (GMT)
+Subject: [PATCH 00/13] ppc/pnv: Get rid of chip_type attributes
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 13 Dec 2019 12:59:28 +0100
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 6y9u__Q2P9mdr7prac_g5A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19121311-0008-0000-0000-00000340727E
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19121311-0009-0000-0000-00004A607864
+Message-Id: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-13_03:2019-12-13,2019-12-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 impostorscore=0 spamscore=0 clxscore=1034 suspectscore=0
+ mlxscore=0 mlxlogscore=285 malwarescore=0 adultscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912130097
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,50 +88,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, stefanha@redhat.com, mst@redhat.com
+Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+The PnvChipClass type has a chip_type attribute which identifies various
+POWER CPU chip types that can be used in a powernv machine.
 
-The following MSI-X vectors are required:
- * VIRTIO Configuration Change
- * hiprio virtqueue
- * requests virtqueues
+typedef enum PnvChipType {
+    PNV_CHIP_POWER8E,     /* AKA Murano (default) */
+    PNV_CHIP_POWER8,      /* AKA Venice */
+    PNV_CHIP_POWER8NVL,   /* AKA Naples */
+    PNV_CHIP_POWER9,      /* AKA Nimbus */
+    PNV_CHIP_POWER10,     /* AKA TBD */
+} PnvChipType;
 
-Fix the calculation to reserve enough MSI-X vectors.  Otherwise guest
-drivers fall back to a sub-optional configuration where all virtqueues
-share a single vector.
+This attribute is used in many places where we want a different behaviour
+depending on the CPU type, either directly like:
 
-This change does not break live migration compatibility since
-vhost-user-fs-pci devices are not migratable yet.
+    switch (PNV_CHIP_GET_CLASS(chip)->chip_type) {
+    case PNV_CHIP_POWER8E:
+    case PNV_CHIP_POWER8:
+    case PNV_CHIP_POWER8NVL:
+        return ((addr >> 4) & ~0xfull) | ((addr >> 3) & 0xf);
+    case PNV_CHIP_POWER9:
+    case PNV_CHIP_POWER10:
+        return addr >> 3;
+    default:
+        g_assert_not_reached();
+    }
 
-Reported-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20191209110759.35227-1-stefanha@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+or through various helpers that rely on it:
+
+        /* Each core has an XSCOM MMIO region */
+        if (pnv_chip_is_power10(chip)) {
+            xscom_core_base = PNV10_XSCOM_EC_BASE(core_hwid);
+        } else if (pnv_chip_is_power9(chip)) {
+            xscom_core_base = PNV9_XSCOM_EC_BASE(core_hwid);
+        } else {
+            xscom_core_base = PNV_XSCOM_EX_BASE(core_hwid);
+        }
+
+The chip_type is also duplicated in the PnvPsiClass type.
+
+It looks a bit unfortunate to implement manually something that falls into
+the scope of QOM. Especially since we don't seem to need a finer grain than
+the CPU familly, ie. POWER8, POWER9, POWER10, ..., and we already have
+specialized versions of PnvChipClass and PnvPsiClass for these.
+
+This series basically QOM-ifies all the places where we check on the chip
+type, and gets rid of the chip_type attributes and the is_powerXX() helpers.
+
+Patch 1 was recently posted to the list but it isn't available in David's
+ppc-for-5.0 tree yet, so I include it in this series for convenience.
+
+--
+Greg
+
 ---
- hw/virtio/vhost-user-fs-pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-index 933a3f265b..e3a649d4a6 100644
---- a/hw/virtio/vhost-user-fs-pci.c
-+++ b/hw/virtio/vhost-user-fs-pci.c
-@@ -40,7 +40,8 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpc=
-i_dev, Error **errp)
-     DeviceState *vdev =3D DEVICE(&dev->vdev);
-=20
-     if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
--        vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 1;
-+        /* Also reserve config change and hiprio queue vectors */
-+        vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 2;
-     }
-=20
-     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
---=20
-2.23.0
+Greg Kurz (13):
+      ppc: Drop useless extern annotation for functions
+      ppc/pnv: Introduce PnvPsiClass::compat
+      ppc/pnv: Drop PnvPsiClass::chip_type
+      ppc/pnv: Introduce PnvMachineClass and PnvMachineClass::compat
+      ppc/pnv: Introduce PnvMachineClass::dt_power_mgt()
+      ppc/pnv: Drop pnv_is_power9() and pnv_is_power10() helpers
+      ppc/pnv: Introduce PnvChipClass::intc_print_info() method
+      ppc/pnv: Introduce PnvChipClass::xscom_core_base() method
+      ppc/pnv: Pass XSCOM base address and address size to pnv_dt_xscom()
+      ppc/pnv: Pass content of the "compatible" property to pnv_dt_xscom()
+      ppc/pnv: Drop pnv_chip_is_power9() and pnv_chip_is_power10() helpers
+      ppc/pnv: Introduce PnvChipClass::xscom_pcba() method
+      ppc/pnv: Drop PnvChipClass::type
+
+
+ hw/ppc/pnv.c               |  150 +++++++++++++++++++++++++++++++++-----------
+ hw/ppc/pnv_psi.c           |   28 +++-----
+ hw/ppc/pnv_xscom.c         |   48 ++------------
+ include/hw/ppc/pnv.h       |   53 ++++++----------
+ include/hw/ppc/pnv_psi.h   |    3 +
+ include/hw/ppc/pnv_xscom.h |   24 ++++---
+ include/hw/ppc/spapr_vio.h |    6 +-
+ 7 files changed, 169 insertions(+), 143 deletions(-)
 
 
