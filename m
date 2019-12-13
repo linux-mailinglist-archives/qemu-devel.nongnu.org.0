@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F9811DBA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 02:25:05 +0100 (CET)
-Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED08211DBBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 02:34:27 +0100 (CET)
+Received: from localhost ([::1]:39740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifZhY-0003H7-DN
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 20:25:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50962)
+	id 1ifZqd-0007tg-2a
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 20:34:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55197)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1ifZce-0006Pv-Hi
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 20:20:01 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1ifZpY-0007Kl-GZ
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 20:33:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1ifZcc-0007SV-TR
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 20:20:00 -0500
-Received: from mga11.intel.com ([192.55.52.93]:9651)
+ (envelope-from <tao3.xu@intel.com>) id 1ifZpX-0002iL-En
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 20:33:20 -0500
+Received: from mga03.intel.com ([134.134.136.65]:14945)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1ifZcc-0006sk-FO
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 20:19:58 -0500
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>)
+ id 1ifZpS-0002WF-93; Thu, 12 Dec 2019 20:33:14 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2019 17:19:58 -0800
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2019 17:33:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,307,1571727600"; d="scan'208";a="216480569"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by orsmga003.jf.intel.com with ESMTP; 12 Dec 2019 17:19:55 -0800
+X-IronPort-AV: E=Sophos;i="5.69,307,1571727600"; d="scan'208";a="239148017"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.238])
+ ([10.239.196.238])
+ by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2019 17:33:10 -0800
+Subject: Re: [PATCH 2/2] numa: properly check if numa is supported
+To: Igor Mammedov <imammedo@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1576154936-178362-1-git-send-email-imammedo@redhat.com>
+ <1576154936-178362-3-git-send-email-imammedo@redhat.com>
 From: Tao Xu <tao3.xu@intel.com>
-To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
- sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
- lvivier@redhat.com
-Subject: [PATCH RESEND v20 8/8] tests/bios-tables-test: add test cases for
- ACPI HMAT
-Date: Fri, 13 Dec 2019 09:19:29 +0800
-Message-Id: <20191213011929.2520-9-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191213011929.2520-1-tao3.xu@intel.com>
-References: <20191213011929.2520-1-tao3.xu@intel.com>
+Message-ID: <bf9dc1f6-514a-67ac-d09b-0b515545bf22@intel.com>
+Date: Fri, 13 Dec 2019 09:33:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1576154936-178362-3-git-send-email-imammedo@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.93
+X-Received-From: 134.134.136.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,170 +59,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
- jonathan.cameron@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
-Heterogeneous Memory with boot option '-numa node'.
+On 12/12/2019 8:48 PM, Igor Mammedov wrote:
+> Commit aa57020774b, by mistake used MachineClass::numa_mem_supported
+> to check if NUMA is supported by machine and also as unrelated change
+> set it to true for sbsa-ref board.
+> 
+> Luckily change didn't break machines that support NUMA, as the field
+> is set to true for them.
+> 
+> But the field is not intended for checking if NUMA is supported and
+> will be flipped to false within this release for new machine types.
+> 
+> Fix it:
+>   - by using previously used condition
+>        !mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id
+>     the first time and then use MachineState::numa_state down the road
+>     to check if NUMA is supported
+>   - dropping stray sbsa-ref chunk
+> 
+> Fixes: aa57020774b690a22be72453b8e91c9b5a68c516
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> CC: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
+> CC: Peter Maydell <peter.maydell@linaro.org>
+> CC: Leif Lindholm <leif.lindholm@linaro.org>
+> CC: qemu-arm@nongnu.org
+> CC: qemu-stable@nongnu.org
+> 
+> 
+>   hw/arm/sbsa-ref.c | 1 -
+>   hw/core/machine.c | 4 ++--
+>   2 files changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index 27046cc..c6261d4 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -791,7 +791,6 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *data)
+>       mc->possible_cpu_arch_ids = sbsa_ref_possible_cpu_arch_ids;
+>       mc->cpu_index_to_instance_props = sbsa_ref_cpu_index_to_props;
+>       mc->get_default_cpu_node_id = sbsa_ref_get_default_cpu_node_id;
+> -    mc->numa_mem_supported = true;
+>   }
+>   
+>   static const TypeInfo sbsa_ref_info = {
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 1689ad3..aa63231 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -958,7 +958,7 @@ static void machine_initfn(Object *obj)
+>                                           NULL);
+>       }
+>   
+> -    if (mc->numa_mem_supported) {
+> +    if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
+>           ms->numa_state = g_new0(NumaState, 1);
+>       }
 
-Add test cases on PC and Q35 machines with 2 numa nodes.
-Because HMAT is generated when system enable numa, the
-following tables need to be added for this test:
-    tests/data/acpi/pc/APIC.acpihmat
-    tests/data/acpi/pc/SRAT.acpihmat
-    tests/data/acpi/pc/HMAT.acpihmat
-    tests/data/acpi/pc/DSDT.acpihmat
-    tests/data/acpi/q35/APIC.acpihmat
-    tests/data/acpi/q35/SRAT.acpihmat
-    tests/data/acpi/q35/HMAT.acpihmat
-    tests/data/acpi/q35/DSDT.acpihmat
+I am wondering if @numa_mem_supported is unused here, it is unused for 
+QEMU, because the only usage of @numa_mem_supported is to initialize 
+@numa_state. Or there is other usage? So should it be removed from 
+struct MachineClass?
 
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
-
-No changes in v20.
-
-Changes in v18:
-    - Remove unit "ns".
-
-Changes in v17:
-    - Update the latency and bandwidth
-
-Changes in v15:
-    - Make tests without breaking CI (Michael)
-
-Changes in v13:
-    - Use decimal notation with appropriate suffix for cache size
----
- tests/bios-tables-test-allowed-diff.h |  8 +++++
- tests/bios-tables-test.c              | 44 +++++++++++++++++++++++++++
- tests/data/acpi/pc/APIC.acpihmat      |  0
- tests/data/acpi/pc/DSDT.acpihmat      |  0
- tests/data/acpi/pc/HMAT.acpihmat      |  0
- tests/data/acpi/pc/SRAT.acpihmat      |  0
- tests/data/acpi/q35/APIC.acpihmat     |  0
- tests/data/acpi/q35/DSDT.acpihmat     |  0
- tests/data/acpi/q35/HMAT.acpihmat     |  0
- tests/data/acpi/q35/SRAT.acpihmat     |  0
- 10 files changed, 52 insertions(+)
- create mode 100644 tests/data/acpi/pc/APIC.acpihmat
- create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
- create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
- create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
- create mode 100644 tests/data/acpi/q35/APIC.acpihmat
- create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
- create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
- create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
-
-diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
-index dfb8523c8b..3c9e0c979b 100644
---- a/tests/bios-tables-test-allowed-diff.h
-+++ b/tests/bios-tables-test-allowed-diff.h
-@@ -1 +1,9 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/APIC.acpihmat",
-+"tests/data/acpi/pc/SRAT.acpihmat",
-+"tests/data/acpi/pc/HMAT.acpihmat",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/q35/APIC.acpihmat",
-+"tests/data/acpi/q35/SRAT.acpihmat",
-+"tests/data/acpi/q35/HMAT.acpihmat",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 79f5da092f..9823820043 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -947,6 +947,48 @@ static void test_acpi_virt_tcg_numamem(void)
- 
- }
- 
-+static void test_acpi_tcg_acpi_hmat(const char *machine)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = machine;
-+    data.variant = ".acpihmat";
-+    test_acpi_one(" -machine hmat=on"
-+                  " -smp 2,sockets=2"
-+                  " -m 128M,slots=2,maxmem=1G"
-+                  " -object memory-backend-ram,size=64M,id=m0"
-+                  " -object memory-backend-ram,size=64M,id=m1"
-+                  " -numa node,nodeid=0,memdev=m0"
-+                  " -numa node,nodeid=1,memdev=m1,initiator=0"
-+                  " -numa cpu,node-id=0,socket-id=0"
-+                  " -numa cpu,node-id=0,socket-id=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-latency,latency=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=65534M"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-latency,latency=65534"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=32767M"
-+                  " -numa hmat-cache,node-id=0,size=10K,level=1,"
-+                  "associativity=direct,policy=write-back,line=8"
-+                  " -numa hmat-cache,node-id=1,size=10K,level=1,"
-+                  "associativity=direct,policy=write-back,line=8",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
-+static void test_acpi_q35_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
-+}
-+
-+static void test_acpi_piix4_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_PC);
-+}
-+
- static void test_acpi_virt_tcg(void)
- {
-     test_data data = {
-@@ -991,6 +1033,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-+        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-diff --git a/tests/data/acpi/pc/APIC.acpihmat b/tests/data/acpi/pc/APIC.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/HMAT.acpihmat b/tests/data/acpi/pc/HMAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/SRAT.acpihmat b/tests/data/acpi/pc/SRAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/APIC.acpihmat b/tests/data/acpi/q35/APIC.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/HMAT.acpihmat b/tests/data/acpi/q35/HMAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/SRAT.acpihmat b/tests/data/acpi/q35/SRAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
--- 
-2.20.1
 
 
