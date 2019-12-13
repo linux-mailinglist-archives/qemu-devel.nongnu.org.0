@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E027011E67E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:24:45 +0100 (CET)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BE611E687
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:26:45 +0100 (CET)
+Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifmo8-0005h6-Cy
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:24:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
+	id 1ifmq5-00077a-1T
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:26:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ifmnA-00053G-Pp
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:23:45 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ifmpG-0006ai-E0
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:25:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ifmn6-00072n-Vv
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:23:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57099
+ (envelope-from <pbonzini@redhat.com>) id 1ifmpF-0002fr-3Z
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:25:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29441
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ifmn6-00071H-SA
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:23:40 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifmpE-0002eR-WF
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:25:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576250620;
+ s=mimecast20190719; t=1576250752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MeK51fxNFq5+BdirxnvGrOlWweZR5gMFavqnBcWMREA=;
- b=I2iH/ONgNC+H8G3KTgbIMdo+/S38Hwugs3d562aBL51Yh2Mz78FLdSHLzKMD+2QAngTa1Z
- hoUbUy9mF4XgL51sKtclMbSQk0L+yQHpU/9pWf6X98iyerh4H2d+PYgoy2MsMCCc+GBdFb
- jJo1MRLQU/msOzb1ZbymoDwQmIewiAc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-6hpohohwOXOslwRvMcvq3A-1; Fri, 13 Dec 2019 10:23:37 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A20B800D48;
- Fri, 13 Dec 2019 15:23:36 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDB2960BF3;
- Fri, 13 Dec 2019 15:23:35 +0000 (UTC)
-Subject: Re: [PATCH RFC] qapi: Allow getting flat output from
- 'query-named-block-nodes'
-To: Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org
-References: <42dae98e1f6a9f444f48a20192f45195337824f0.1576246045.git.pkrempa@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <836c1a18-b67d-0426-2137-8f464e4e5c9b@redhat.com>
-Date: Fri, 13 Dec 2019 09:23:35 -0600
+ bh=tLgNbc+2hFAqQaiWDWxnQbumug6CmEjP1swZBRyMPBw=;
+ b=hldY2IeaeW/r01cOjL2eh5TiN/MlNnGpujTBvacF2RyKNKKRyNUE3HttT2rbEfSDVHkyfs
+ Jb0T0c9/HdbaGssx5RViqlpRolYs9/tun1RYpoux70+qnS6p9eorVn2t0rwfAINaJ77lw0
+ er0N2w3BPiQMVCZej+jGlG83IJMHQ2g=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-psbs4kANNpuvX5Os3oPT1Q-1; Fri, 13 Dec 2019 10:25:50 -0500
+Received: by mail-wr1-f71.google.com with SMTP id d8so2688943wrq.12
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:25:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=S1k6EFV1ep020D1FU5vQ+ItiXbjakJeqjxBtiMYMURE=;
+ b=nRPGDnpsYZqGERDHQ5SPFAG4zieB37ITWVy42ySbky5rSonkZ5LUOHuwqoCTd2/Ols
+ BVFQVnA5I19ZwAsWiBXUBBbmmwsF+e0r1BhyRHGDBVRZoX6ImR9Km2lKquIuka4u7PD0
+ +kXxaDlzFVEogn9KreBOhgPzpjcxTiptj0Dw51nrbiE7upiXvTRuPI/y3MivLFSq+xan
+ XZw/yKDW6wYN+gi2Op6X6f/1TRfz8ury6R7oEwDy7LcUWQmH2QEu50bKes94Nel/RK6D
+ 6o2hU8S+w6pNt+iYhvPxmo74qG7bBbItmFqev1h6OA7aOT/oB20wRwx/EHMV/W7n/W4g
+ euNQ==
+X-Gm-Message-State: APjAAAVaGq9eL83ydIrQwNoepAeNki+KK31apTV6jeVu7lQn59YRXKbL
+ 3qmdILJaaMLYHzlbkJWyLyAIDnHzqcH9icX8O6r5YgyYI/X3i+ViFEVf2PHvdWz6tXiJZmxzF/P
+ 0Yg4wI9c1PQD07K0=
+X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr14652849wmk.8.1576250749334; 
+ Fri, 13 Dec 2019 07:25:49 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyDblYPN1k2VrU0UPOKvThNY+BbUfNvkc3tkt/TigXt40zdOOfg9HStI24jRFI9NmtQWC2zOg==
+X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr14652822wmk.8.1576250749114; 
+ Fri, 13 Dec 2019 07:25:49 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
+ ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
+ by smtp.gmail.com with ESMTPSA id s65sm10919126wmf.48.2019.12.13.07.25.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2019 07:25:48 -0800 (PST)
+Subject: Re: [libvirt] [PATCH] virtio-blk: deprecate SCSI passthrough
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>
+References: <20191213144626.1208237-1-stefanha@redhat.com>
+ <a14facd1-731e-f1cd-2476-1bd676da1e7d@redhat.com>
+ <20191213150706.GS2441258@angien.pipo.sk>
+ <20191213151009.GF2232389@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <239982df-8527-2d13-710e-d3c14c9a22ab@redhat.com>
+Date: Fri, 13 Dec 2019 16:25:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <42dae98e1f6a9f444f48a20192f45195337824f0.1576246045.git.pkrempa@redhat.com>
+In-Reply-To: <20191213151009.GF2232389@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 6hpohohwOXOslwRvMcvq3A-1
+X-MC-Unique: psbs4kANNpuvX5Os3oPT1Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,66 +94,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/13/19 8:11 AM, Peter Krempa wrote:
-> When a management application manages node names there's no reason to
-> recurse into backing images in the output of query-named-block-nodes.
-> 
-> Add a parameter to the command which will return just the top level
-> structs.
+On 13/12/19 16:10, Daniel P. Berrang=C3=A9 wrote:
+> I don't think it really matters. QEMU is deprecating it with no
+> seemless direct replacement, so I don't think libvirt needs to
+> be concerned. The feature simply becomes unsupported.
+>=20
+> At the very most we need to check if it exists before using it,
+> but even that's just a nice to have which results in a slightly
+> prettier error message.
 
-At one point, Kevin was working on a saner command that tried to cut out 
-on more than just the redundant nesting.  But this is certainly a 
-quick-and-easy fix to ease libvirt's use of the existing command, while 
-we decide whether to add a saner new command.
+Libvirt right now assumes that a QEMU without the scsi property defaults
+to "on", but if the oldest supported QEMU version is 1.5.3 then it
+already has the property.  So you can just give an error if there is no
+scsi property and device=3D'lun'.
 
-> 
-> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-> ---
->   block.c               |  5 +++--
->   block/qapi.c          | 10 ++++++++--
->   blockdev.c            | 12 ++++++++++--
->   include/block/block.h |  2 +-
->   include/block/qapi.h  |  4 +++-
->   monitor/hmp-cmds.c    |  2 +-
->   qapi/block-core.json  |  6 +++++-
->   7 files changed, 31 insertions(+), 10 deletions(-)
-> 
-
-> +++ b/blockdev.c
-> @@ -3707,9 +3707,17 @@ void qmp_drive_backup(DriveBackup *arg, Error **errp)
->       }
->   }
-> 
-> -BlockDeviceInfoList *qmp_query_named_block_nodes(Error **errp)
-> +BlockDeviceInfoList *qmp_query_named_block_nodes(bool has_flat,
-> +                                                 bool flat,
-> +                                                 Error **errp)
->   {
-> -    return bdrv_named_nodes_list(errp);
-> +    bool return_flat = false;
-> +
-> +    if (has_flat) {
-> +        return_flat = flat;
-> +    }
-
-This could be shortened as 'bool return_flat = has_flat && flat;', but 
-that's not essential.
-
-> +
-> +    return bdrv_named_nodes_list(return_flat, errp);
->   }
-> 
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Paolo
 
 
