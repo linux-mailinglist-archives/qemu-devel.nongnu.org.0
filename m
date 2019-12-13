@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BE611E687
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:26:45 +0100 (CET)
-Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56A211E688
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:27:46 +0100 (CET)
+Received: from localhost ([::1]:50418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifmq5-00077a-1T
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:26:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35791)
+	id 1ifmr3-0008E0-U3
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:27:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ifmpG-0006ai-E0
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:25:55 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifmq2-0007QK-8o
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:26:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ifmpF-0002fr-3Z
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:25:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29441
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifmq0-00045h-Ve
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:26:42 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24379
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifmpE-0002eR-WF
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:25:53 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifmq0-00044W-O2
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:26:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576250752;
+ s=mimecast20190719; t=1576250800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tLgNbc+2hFAqQaiWDWxnQbumug6CmEjP1swZBRyMPBw=;
- b=hldY2IeaeW/r01cOjL2eh5TiN/MlNnGpujTBvacF2RyKNKKRyNUE3HttT2rbEfSDVHkyfs
- Jb0T0c9/HdbaGssx5RViqlpRolYs9/tun1RYpoux70+qnS6p9eorVn2t0rwfAINaJ77lw0
- er0N2w3BPiQMVCZej+jGlG83IJMHQ2g=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-psbs4kANNpuvX5Os3oPT1Q-1; Fri, 13 Dec 2019 10:25:50 -0500
-Received: by mail-wr1-f71.google.com with SMTP id d8so2688943wrq.12
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:25:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=S1k6EFV1ep020D1FU5vQ+ItiXbjakJeqjxBtiMYMURE=;
- b=nRPGDnpsYZqGERDHQ5SPFAG4zieB37ITWVy42ySbky5rSonkZ5LUOHuwqoCTd2/Ols
- BVFQVnA5I19ZwAsWiBXUBBbmmwsF+e0r1BhyRHGDBVRZoX6ImR9Km2lKquIuka4u7PD0
- +kXxaDlzFVEogn9KreBOhgPzpjcxTiptj0Dw51nrbiE7upiXvTRuPI/y3MivLFSq+xan
- XZw/yKDW6wYN+gi2Op6X6f/1TRfz8ury6R7oEwDy7LcUWQmH2QEu50bKes94Nel/RK6D
- 6o2hU8S+w6pNt+iYhvPxmo74qG7bBbItmFqev1h6OA7aOT/oB20wRwx/EHMV/W7n/W4g
- euNQ==
-X-Gm-Message-State: APjAAAVaGq9eL83ydIrQwNoepAeNki+KK31apTV6jeVu7lQn59YRXKbL
- 3qmdILJaaMLYHzlbkJWyLyAIDnHzqcH9icX8O6r5YgyYI/X3i+ViFEVf2PHvdWz6tXiJZmxzF/P
- 0Yg4wI9c1PQD07K0=
-X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr14652849wmk.8.1576250749334; 
- Fri, 13 Dec 2019 07:25:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyDblYPN1k2VrU0UPOKvThNY+BbUfNvkc3tkt/TigXt40zdOOfg9HStI24jRFI9NmtQWC2zOg==
-X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr14652822wmk.8.1576250749114; 
- Fri, 13 Dec 2019 07:25:49 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
- ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
- by smtp.gmail.com with ESMTPSA id s65sm10919126wmf.48.2019.12.13.07.25.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 07:25:48 -0800 (PST)
-Subject: Re: [libvirt] [PATCH] virtio-blk: deprecate SCSI passthrough
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>
-References: <20191213144626.1208237-1-stefanha@redhat.com>
- <a14facd1-731e-f1cd-2476-1bd676da1e7d@redhat.com>
- <20191213150706.GS2441258@angien.pipo.sk>
- <20191213151009.GF2232389@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <239982df-8527-2d13-710e-d3c14c9a22ab@redhat.com>
-Date: Fri, 13 Dec 2019 16:25:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=OGDcFdaDweesenDqqpnURRfzP7XVOxTM+bg+9OEjETU=;
+ b=AFaJMNXY+7MyJLCo95gw/Sf//yZECU2qWQ2saVQ5B/5omoJtZt7ZR3EdIg8NtEJNax9MS5
+ k7GIi7iw/pfb6voQJksaapbawXSnDQ53uMeqbGVyq96gYeUyyuw+rudo2Gh8QhpOdbvoon
+ 2dTIfiNZHItaaG80uToIbgHJ67Kyscg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328--Cs0tYbzO8qRLF1vtDdpUQ-1; Fri, 13 Dec 2019 10:26:37 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB618107ACCC;
+ Fri, 13 Dec 2019 15:26:36 +0000 (UTC)
+Received: from work-vm (unknown [10.36.117.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B46021EC8;
+ Fri, 13 Dec 2019 15:26:32 +0000 (UTC)
+Date: Fri, 13 Dec 2019 15:26:30 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Liam Merwick <liam.merwick@oracle.com>
+Subject: Re: [PATCH 092/104] virtiofsd: add man page
+Message-ID: <20191213152630.GI3713@work-vm>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-93-dgilbert@redhat.com>
+ <378b3033-4ea6-96fc-3301-f3d4c20ed159@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20191213151009.GF2232389@redhat.com>
-Content-Language: en-US
-X-MC-Unique: psbs4kANNpuvX5Os3oPT1Q-1
+In-Reply-To: <378b3033-4ea6-96fc-3301-f3d4c20ed159@oracle.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: -Cs0tYbzO8qRLF1vtDdpUQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,27 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/19 16:10, Daniel P. Berrang=C3=A9 wrote:
-> I don't think it really matters. QEMU is deprecating it with no
-> seemless direct replacement, so I don't think libvirt needs to
-> be concerned. The feature simply becomes unsupported.
+* Liam Merwick (liam.merwick@oracle.com) wrote:
+> On 12/12/2019 16:38, Dr. David Alan Gilbert (git) wrote:
+> > From: Stefan Hajnoczi <stefanha@redhat.com>
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >   Makefile                       |  7 +++
+> >   tools/virtiofsd/virtiofsd.texi | 85 +++++++++++++++++++++++++++++++++=
++
+> >   2 files changed, 92 insertions(+)
+> >   create mode 100644 tools/virtiofsd/virtiofsd.texi
+> >=20
 >=20
-> At the very most we need to check if it exists before using it,
-> but even that's just a nice to have which results in a slightly
-> prettier error message.
+> ... deleted ...
+>=20
+> > +@c man begin EXAMPLES
+> > +Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @cod=
+e{/var/run/vm001-vhost-fs.sock}:
+> > +
+> > +@example
+> > +host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=
+=3D/var/lib/fs/vm001
+> > +host# qemu-system-x86_64 \
+> > +    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
+> > +    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
+> > +    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm=
+,share=3Don \
+> > +    -numa node,memdev=3Dmem \
+> > +    ...
+> > +guest# mount -t virtio_fs \
+> > +    -o default_permissions,allow_other,user_id=3D0,group_id=3D0,rootmo=
+de=3D040000,dax \
+> > +    myfs /mnt
+>=20
+>=20
+>=20
+> Should this be 'mount -t virtiofs myfs /mnt' like on
+> https://virtio-fs.gitlab.io/howto-qemu.html ?
 
-Libvirt right now assumes that a QEMU without the scsi property defaults
-to "on", but if the oldest supported QEMU version is 1.5.3 then it
-already has the property.  So you can just give an error if there is no
-scsi property and device=3D'lun'.
+It should! The man page still had the old format; thanks for spotting
+it.
 
-Paolo
+> otherwise
+>=20
+> Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+
+Thank you!
+
+Dave
+
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
