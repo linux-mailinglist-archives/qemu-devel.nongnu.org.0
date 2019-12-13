@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B2F11E84E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:28:21 +0100 (CET)
-Received: from localhost ([::1]:51062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B845A11E814
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:21:22 +0100 (CET)
+Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnng-0001zA-9R
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:28:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1ifngv-0001Zy-7p
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:21:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifneJ-00080a-PB
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:40 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifneU-00088a-3R
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifneI-00006n-IV
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39592
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ifneR-0000Jm-Tz
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:49 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22562
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifneI-00005D-DT
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:38 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifneQ-0000IU-Q0
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253917;
+ s=mimecast20190719; t=1576253926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wz+kj9bS7gdLelr2F1XTImk+uhNKHdBToR+OTBW2CLw=;
- b=ARgXs80X6Oz740wQySDOCTsnUMLDtzH/IBDamZ8FLQhekFR/kJPKpd7R5rCuUtEJUBh0QW
- hskHdAqkxdd6k3G/XlWDIQqvHZ6hMyyAvXSvOk382a4qsnQeY5XLoRaJ0iceGMHzX9wYtq
- e0TyKO+JUU6lsKBPoTKWTlqhbyRoTO0=
+ bh=YVWQa/Zo1x2m8LGgxk7TW+9fJim2zfZM8M5wdoCqM3g=;
+ b=DzbLDecS98DTMSni0Va706qkqnXVDTEt0fyNdxJdUUTZw0e1XAyipwdI9DdldG6w/dQt92
+ 3N4YsxIh4RTL8oaLlYfhDUAxrsQEr4RAVVUczuMVwF39UFy97memvn7/4e7QdYPPaz9akM
+ srPp26IV5SSylzKBru/+xLKmQ9+xZdE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-LJRbsRb5OhS3yg3bYkLDHQ-1; Fri, 13 Dec 2019 11:18:36 -0500
-X-MC-Unique: LJRbsRb5OhS3yg3bYkLDHQ-1
+ us-mta-103-eDjHLZxKONO5C1zmGmqY7Q-1; Fri, 13 Dec 2019 11:18:45 -0500
+X-MC-Unique: eDjHLZxKONO5C1zmGmqY7Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7D391005512;
- Fri, 13 Dec 2019 16:18:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBEE2800D41;
+ Fri, 13 Dec 2019 16:18:42 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D383D19C4F;
- Fri, 13 Dec 2019 16:18:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 57CD819C4F;
+ Fri, 13 Dec 2019 16:18:35 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/12] hw/i386/pc: Move kvm_i8259_init() declaration to
- sysemu/kvm.h
-Date: Fri, 13 Dec 2019 17:17:43 +0100
-Message-Id: <20191213161753.8051-3-philmd@redhat.com>
+Subject: [PATCH 03/12] hw/i386/pc: Remove obsolete pc_pci_device_init()
+ declaration
+Date: Fri, 13 Dec 2019 17:17:44 +0100
+Message-Id: <20191213161753.8051-4-philmd@redhat.com>
 In-Reply-To: <20191213161753.8051-1-philmd@redhat.com>
 References: <20191213161753.8051-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,39 +81,28 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the KVM-related call to "sysemu/kvm.h".
+In commit 1454509726 we removed the pc_pci_device_init()
+deprecated function and its calls, but we forgot to remove
+its prototype. Do that now.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
  include/hw/i386/pc.h | 1 -
- include/sysemu/kvm.h | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ 1 file changed, 1 deletion(-)
 
 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 1f86eba3f9..9866dfbd60 100644
+index 9866dfbd60..bc7d855aaa 100644
 --- a/include/hw/i386/pc.h
 +++ b/include/hw/i386/pc.h
-@@ -138,7 +138,6 @@ typedef struct PCMachineClass {
+@@ -211,7 +211,6 @@ void pc_cmos_init(PCMachineState *pcms,
+                   BusState *ide0, BusState *ide1,
+                   ISADevice *s);
+ void pc_nic_init(PCMachineClass *pcmc, ISABus *isa_bus, PCIBus *pci_bus)=
+;
+-void pc_pci_device_init(PCIBus *pci_bus);
 =20
- extern DeviceState *isa_pic;
- qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq);
--qemu_irq *kvm_i8259_init(ISABus *bus);
- int pic_read_irq(DeviceState *d);
- int pic_get_output(DeviceState *d);
+ typedef void (*cpu_set_smm_t)(int smm, void *arg);
 =20
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 9fe233b9bf..0f57667f79 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -518,6 +518,7 @@ void kvm_irqchip_set_qemuirq_gsi(KVMState *s, qemu_ir=
-q irq, int gsi);
- void kvm_pc_gsi_handler(void *opaque, int n, int level);
- void kvm_pc_setup_irq_routing(bool pci_enabled);
- void kvm_init_irq_routing(KVMState *s);
-+qemu_irq *kvm_i8259_init(ISABus *bus);
-=20
- /**
-  * kvm_arch_irqchip_create:
 --=20
 2.21.0
 
