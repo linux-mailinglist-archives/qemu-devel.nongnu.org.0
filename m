@@ -2,52 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC3D11E3CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:47:01 +0100 (CET)
-Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2683A11E3D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:48:25 +0100 (CET)
+Received: from localhost ([::1]:48626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifkLU-0002QQ-Lm
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:47:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43163)
+	id 1ifkMp-0004Ka-Uj
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55727)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ifkJY-0001EA-CS
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:45:01 -0500
+ (envelope-from <wainersm@redhat.com>) id 1ifkL1-0002qA-NM
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:46:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ifkJX-0004vB-5c
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:45:00 -0500
-Received: from 7.mo69.mail-out.ovh.net ([46.105.50.32]:54620)
+ (envelope-from <wainersm@redhat.com>) id 1ifkKz-0007BJ-P2
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:46:30 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43950
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ifkJW-0004sS-VK
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:44:59 -0500
-Received: from player699.ha.ovh.net (unknown [10.109.143.3])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id 3B4A078FC2
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 13:44:57 +0100 (CET)
-Received: from kaod.org (lfbn-tou-1-1227-223.w90-76.abo.wanadoo.fr
- [90.76.50.223]) (Authenticated sender: clg@kaod.org)
- by player699.ha.ovh.net (Postfix) with ESMTPSA id 9E6FFD3F658F;
- Fri, 13 Dec 2019 12:44:51 +0000 (UTC)
-Subject: Re: [PATCH 05/13] ppc/pnv: Introduce PnvMachineClass::dt_power_mgt()
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
- <157623839642.360005.9243510140436689941.stgit@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <861cd13c-9237-59be-dad6-5f3d4031a1e1@kaod.org>
-Date: Fri, 13 Dec 2019 13:44:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ifkKz-000775-IT
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:46:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576241187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zSAHbW23ClFS7rdYRjFwzBhWL3r8xN1a79vFgLmDplE=;
+ b=NxICbOo11jSRTDLlig7nUlvyLC+3VSnX/+FeeENacztrJHhAO0M1MiM469l9i1KkRUEHb/
+ 3i8M0SNh+mXtC/3Ka/QNjqlJA9dkWvty403ov7bqO2gcwstj/WhEq2uhZfzaH90GCM22rB
+ P/8RcScDqp/gsJY7Q+/ClmXhYSKyCVs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-Y6zA9-vHNkO4S_1hyv8KJQ-1; Fri, 13 Dec 2019 07:46:26 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F899800D4E
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 12:46:25 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-49.gru2.redhat.com
+ [10.97.116.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5232060BF3;
+ Fri, 13 Dec 2019 12:46:18 +0000 (UTC)
+Subject: Re: [PATCH v2 1/2] python/qemu: Add set_qmp_monitor() to QEMUMachine
+To: Cleber Rosa <crosa@redhat.com>
+References: <20191211185536.16962-1-wainersm@redhat.com>
+ <20191211185536.16962-2-wainersm@redhat.com>
+ <20191212141342.GA26584@localhost.localdomain>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <cfae5351-ec67-53a3-b945-5300cb834d37@redhat.com>
+Date: Fri, 13 Dec 2019 10:46:17 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <157623839642.360005.9243510140436689941.stgit@bahia.lan>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191212141342.GA26584@localhost.localdomain>
 Content-Language: en-US
-X-Ovh-Tracer-Id: 9784070194249501523
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelledggeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Y6zA9-vHNkO4S_1hyv8KJQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.50.32
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,113 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: philmd@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/2019 12:59, Greg Kurz wrote:
-> We add an extra node to advertise power management on some machines,
-> namely powernv9 and powernv10. This is achieved by using the
-> pnv_is_power9() and pnv_is_power10() helpers.
->=20
-> This can be achieved with QOM. Add a method to the base class for
-> powernv machines and have it implemented by machine types that
-> support power management instead.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
 
+On 12/12/19 12:13 PM, Cleber Rosa wrote:
+> On Wed, Dec 11, 2019 at 01:55:35PM -0500, Wainer dos Santos Moschetta wrote:
+>> The QEMUMachine VM has a monitor setup on which an QMP
+>> connection is always attempted on _post_launch() (executed
+>> by launch()). In case the QEMU process immediatly exits
+>> then the qmp.accept() (used to establish the connection) stalls
+>> until it reaches timeout and consequently an exception raises.
+>>
+>> That behavior is undesirable when, for instance, it needs to
+>> gather information from the QEMU binary ($ qemu -cpu list) or a
+>> test which launches the VM expecting its failure.
+>>
+>> This patch adds the set_qmp_monitor() method to QEMUMachine that
+>> allows turn off the creation of the monitor machinery on VM launch.
+>>
+>> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+>> ---
+>>   python/qemu/machine.py | 66 +++++++++++++++++++++++++++---------------
+>>   1 file changed, 43 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+>> index a4631d6934..7d4d621a42 100644
+>> --- a/python/qemu/machine.py
+>> +++ b/python/qemu/machine.py
+>> @@ -104,6 +104,7 @@ class QEMUMachine(object):
+>>           self._events = []
+>>           self._iolog = None
+>>           self._socket_scm_helper = socket_scm_helper
+>> +        self._qmp_set = True   # Enable QMP monitor by default.
+>>           self._qmp = None
+>>           self._qemu_full_args = None
+>>           self._test_dir = test_dir
+>> @@ -228,15 +229,16 @@ class QEMUMachine(object):
+>>                   self._iolog = iolog.read()
+>>   
+>>       def _base_args(self):
+>> -        if isinstance(self._monitor_address, tuple):
+>> -            moncdev = "socket,id=mon,host=%s,port=%s" % (
+>> +        args = ['-display', 'none', '-vga', 'none']
+>> +        if self._qmp_set:
+>> +            if isinstance(self._monitor_address, tuple):
+>> +                moncdev = "socket,id=mon,host=%s,port=%s" % (
+>>                   self._monitor_address[0],
+>>                   self._monitor_address[1])
+> One thing I missed in my review on v1 was this now became badly
+> indented.  No worries, it's a minor issue that I can fix on my side
+> when queueing this patch.
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Good catch. Thanks!
 
-> ---
->  hw/ppc/pnv.c         |   10 ++++++----
->  include/hw/ppc/pnv.h |    8 ++++++--
->  2 files changed, 12 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 5ac149b149d8..efc00f4cb67a 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -472,7 +472,7 @@ static void pnv_dt_isa(PnvMachineState *pnv, void *=
-fdt)
->                         &args);
->  }
-> =20
-> -static void pnv_dt_power_mgt(void *fdt)
-> +static void pnv_dt_power_mgt(PnvMachineState *pnv, void *fdt)
->  {
->      int off;
-> =20
-> @@ -540,9 +540,9 @@ static void *pnv_dt_create(MachineState *machine)
->          pnv_dt_bmc_sensors(pnv->bmc, fdt);
->      }
-> =20
-> -    /* Create an extra node for power management on Power9 and Power10=
- */
-> -    if (pnv_is_power9(pnv) || pnv_is_power10(pnv)) {
-> -        pnv_dt_power_mgt(fdt);
-> +    /* Create an extra node for power management on machines that supp=
-ort it */
-> +    if (pmc->dt_power_mgt) {
-> +        pmc->dt_power_mgt(pnv, fdt);
->      }
-> =20
->      return fdt;
-> @@ -1710,6 +1710,7 @@ static void pnv_machine_power9_class_init(ObjectC=
-lass *oc, void *data)
-> =20
->      pmc->compat =3D compat;
->      pmc->compat_size =3D sizeof(compat);
-> +    pmc->dt_power_mgt =3D pnv_dt_power_mgt;
->  }
-> =20
->  static void pnv_machine_power10_class_init(ObjectClass *oc, void *data=
-)
-> @@ -1723,6 +1724,7 @@ static void pnv_machine_power10_class_init(Object=
-Class *oc, void *data)
-> =20
->      pmc->compat =3D compat;
->      pmc->compat_size =3D sizeof(compat);
-> +    pmc->dt_power_mgt =3D pnv_dt_power_mgt;
->  }
-> =20
->  static void pnv_machine_class_init(ObjectClass *oc, void *data)
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index d534746bd493..8a42c199b65c 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -190,6 +190,8 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32=
-_t pir);
->  #define PNV_MACHINE_CLASS(klass) \
->      OBJECT_CLASS_CHECK(PnvMachineClass, klass, TYPE_PNV_MACHINE)
-> =20
-> +typedef struct PnvMachineState PnvMachineState;
-> +
->  typedef struct PnvMachineClass {
->      /*< private >*/
->      MachineClass parent_class;
-> @@ -197,9 +199,11 @@ typedef struct PnvMachineClass {
->      /*< public >*/
->      const char *compat;
->      int compat_size;
-> +
-> +    void (*dt_power_mgt)(PnvMachineState *pnv, void *fdt);
->  } PnvMachineClass;
-> =20
-> -typedef struct PnvMachineState {
-> +struct PnvMachineState {
->      /*< private >*/
->      MachineState parent_obj;
-> =20
-> @@ -216,7 +220,7 @@ typedef struct PnvMachineState {
->      Notifier     powerdown_notifier;
-> =20
->      PnvPnor      *pnor;
-> -} PnvMachineState;
-> +};
-> =20
->  static inline bool pnv_chip_is_power9(const PnvChip *chip)
->  {
->=20
+- Wainer
+
+>
+> - Cleber.
 
 
