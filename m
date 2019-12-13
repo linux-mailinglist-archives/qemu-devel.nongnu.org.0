@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2683A11E3D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:48:25 +0100 (CET)
-Received: from localhost ([::1]:48626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47A011E3D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:48:46 +0100 (CET)
+Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifkMp-0004Ka-Uj
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:48:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55727)
+	id 1ifkNB-0004di-Oh
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:48:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60887)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1ifkL1-0002qA-NM
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:46:32 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1ifkLX-0003Po-PK
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:47:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1ifkKz-0007BJ-P2
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:46:30 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43950
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ifkKz-000775-IT
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:46:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576241187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zSAHbW23ClFS7rdYRjFwzBhWL3r8xN1a79vFgLmDplE=;
- b=NxICbOo11jSRTDLlig7nUlvyLC+3VSnX/+FeeENacztrJHhAO0M1MiM469l9i1KkRUEHb/
- 3i8M0SNh+mXtC/3Ka/QNjqlJA9dkWvty403ov7bqO2gcwstj/WhEq2uhZfzaH90GCM22rB
- P/8RcScDqp/gsJY7Q+/ClmXhYSKyCVs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-Y6zA9-vHNkO4S_1hyv8KJQ-1; Fri, 13 Dec 2019 07:46:26 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F899800D4E
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 12:46:25 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-49.gru2.redhat.com
- [10.97.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5232060BF3;
- Fri, 13 Dec 2019 12:46:18 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] python/qemu: Add set_qmp_monitor() to QEMUMachine
-To: Cleber Rosa <crosa@redhat.com>
-References: <20191211185536.16962-1-wainersm@redhat.com>
- <20191211185536.16962-2-wainersm@redhat.com>
- <20191212141342.GA26584@localhost.localdomain>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <cfae5351-ec67-53a3-b945-5300cb834d37@redhat.com>
-Date: Fri, 13 Dec 2019 10:46:17 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <stefanb@linux.ibm.com>) id 1ifkLW-00086x-Bs
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:47:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16966)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1ifkLW-000852-0r; Fri, 13 Dec 2019 07:47:02 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBDChVT8111256; Fri, 13 Dec 2019 07:46:53 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wugd3hwh6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2019 07:46:53 -0500
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBDCheiG112482;
+ Fri, 13 Dec 2019 07:46:52 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wugd3hwgs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2019 07:46:52 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBDCjwi2015739;
+ Fri, 13 Dec 2019 12:46:51 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01dal.us.ibm.com with ESMTP id 2wr3q7vf7y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2019 12:46:51 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBDCkouC61932012
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Dec 2019 12:46:50 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E5383136051;
+ Fri, 13 Dec 2019 12:46:49 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8410713604F;
+ Fri, 13 Dec 2019 12:46:49 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Dec 2019 12:46:49 +0000 (GMT)
+Subject: Re: [PATCH v5 3/5] tpm_spapr: Support suspend and resume
+To: David Gibson <david@gibson.dropbear.id.au>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
+ <20191212202430.1079725-4-stefanb@linux.vnet.ibm.com>
+ <20191213053933.GE207300@umbus.fritz.box>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <3ee5443f-6156-62de-d70d-13b4b224c2f3@linux.ibm.com>
+Date: Fri, 13 Dec 2019 07:46:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191212141342.GA26584@localhost.localdomain>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Y6zA9-vHNkO4S_1hyv8KJQ-1
-X-Mimecast-Spam-Score: 0
+In-Reply-To: <20191213053933.GE207300@umbus.fritz.box>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-13_03:2019-12-13,2019-12-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ mlxlogscore=999 clxscore=1015 adultscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912130102
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,65 +96,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 12/12/19 12:13 PM, Cleber Rosa wrote:
-> On Wed, Dec 11, 2019 at 01:55:35PM -0500, Wainer dos Santos Moschetta wrote:
->> The QEMUMachine VM has a monitor setup on which an QMP
->> connection is always attempted on _post_launch() (executed
->> by launch()). In case the QEMU process immediatly exits
->> then the qmp.accept() (used to establish the connection) stalls
->> until it reaches timeout and consequently an exception raises.
+On 12/13/19 12:39 AM, David Gibson wrote:
+> On Thu, Dec 12, 2019 at 03:24:28PM -0500, Stefan Berger wrote:
+>> Extend the tpm_spapr frontend with VM suspend and resume support.
 >>
->> That behavior is undesirable when, for instance, it needs to
->> gather information from the QEMU binary ($ qemu -cpu list) or a
->> test which launches the VM expecting its failure.
+>> Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
 >>
->> This patch adds the set_qmp_monitor() method to QEMUMachine that
->> allows turn off the creation of the monitor machinery on VM launch.
->>
->> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>   python/qemu/machine.py | 66 +++++++++++++++++++++++++++---------------
->>   1 file changed, 43 insertions(+), 23 deletions(-)
->>
->> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
->> index a4631d6934..7d4d621a42 100644
->> --- a/python/qemu/machine.py
->> +++ b/python/qemu/machine.py
->> @@ -104,6 +104,7 @@ class QEMUMachine(object):
->>           self._events = []
->>           self._iolog = None
->>           self._socket_scm_helper = socket_scm_helper
->> +        self._qmp_set = True   # Enable QMP monitor by default.
->>           self._qmp = None
->>           self._qemu_full_args = None
->>           self._test_dir = test_dir
->> @@ -228,15 +229,16 @@ class QEMUMachine(object):
->>                   self._iolog = iolog.read()
+>> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+>> index c4a67e2403..8f5a142bd4 100644
+>> --- a/hw/tpm/tpm_spapr.c
+>> +++ b/hw/tpm/tpm_spapr.c
+>> @@ -87,6 +87,8 @@ typedef struct {
+>>       TPMVersion be_tpm_version;
 >>   
->>       def _base_args(self):
->> -        if isinstance(self._monitor_address, tuple):
->> -            moncdev = "socket,id=mon,host=%s,port=%s" % (
->> +        args = ['-display', 'none', '-vga', 'none']
->> +        if self._qmp_set:
->> +            if isinstance(self._monitor_address, tuple):
->> +                moncdev = "socket,id=mon,host=%s,port=%s" % (
->>                   self._monitor_address[0],
->>                   self._monitor_address[1])
-> One thing I missed in my review on v1 was this now became badly
-> indented.  No worries, it's a minor issue that I can fix on my side
-> when queueing this patch.
+>>       size_t be_buffer_size;
+>> +
+>> +    bool deliver_response; /* whether to deliver response after VM resume */
+>>   } SPAPRvTPMState;
+>>   
+>>   static void tpm_spapr_show_buffer(const unsigned char *buffer,
+>> @@ -256,6 +258,12 @@ static void tpm_spapr_request_completed(TPMIf *ti, int ret)
+>>       uint32_t len;
+>>       int rc;
+>>   
+>> +    if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+> I'm trying to figure out the circumstances in which
+> request_completed() would get called before post_load on the
+> destination.
 
-Good catch. Thanks!
 
-- Wainer
+This is on the source side where we must not deliver the response in 
+case the devices are now suspending but defer the delivery to after the 
+resume.
+
 
 >
-> - Cleber.
+>> +        /* defer delivery of response until .post_load */
+>> +        s->deliver_response |= true;
+> |= is a bitwise OR which is not what you want, although it will
+> *probably* work in practice.  Better to just use
+> 	s->deliver_response = true;
+>
+>> +        return;
+>> +    }
+>> +
+>>       s->state = SPAPR_VTPM_STATE_COMPLETION;
+>>   
+>>       /* a max. of be_buffer_size bytes can be transported */
+>> @@ -316,6 +324,7 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
+>>       SPAPRvTPMState *s = VIO_SPAPR_VTPM(dev);
+>>   
+>>       s->state = SPAPR_VTPM_STATE_NONE;
+>> +    s->deliver_response = false;
+>>   
+>>       s->be_tpm_version = tpm_backend_get_tpm_version(s->be_driver);
+>>       tpm_spapr_update_deviceclass(dev);
+>> @@ -339,9 +348,53 @@ static enum TPMVersion tpm_spapr_get_version(TPMIf *ti)
+>>       return tpm_backend_get_tpm_version(s->be_driver);
+>>   }
+>>   
+>> +/* persistent state handling */
+>> +
+>> +static int tpm_spapr_pre_save(void *opaque)
+>> +{
+>> +    SPAPRvTPMState *s = opaque;
+>> +
+>> +    s->deliver_response |= tpm_backend_finish_sync(s->be_driver);
+> Same problem here.
+>
+>> +    trace_tpm_spapr_pre_save(s->deliver_response);
+>> +    /*
+>> +     * we cannot deliver the results to the VM since DMA would touch VM memory
+>> +     */
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int tpm_spapr_post_load(void *opaque, int version_id)
+>> +{
+>> +    SPAPRvTPMState *s = opaque;
+>> +
+>> +    if (s->deliver_response) {
+>> +        trace_tpm_spapr_post_load();
+>> +        /* deliver the results to the VM via DMA */
+>> +        tpm_spapr_request_completed(TPM_IF(s), 0);
+>> +        s->deliver_response = false;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static const VMStateDescription vmstate_spapr_vtpm = {
+>>       .name = "tpm-spapr",
+>> -    .unmigratable = 1,
+>> +    .version_id = 1,
+>> +    .minimum_version_id = 0,
+>> +    .minimum_version_id_old = 0,
+>> +    .pre_save = tpm_spapr_pre_save,
+>> +    .post_load = tpm_spapr_post_load,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_SPAPR_VIO(vdev, SPAPRvTPMState),
+>> +
+>> +        VMSTATE_UINT8(state, SPAPRvTPMState),
+>> +        VMSTATE_BUFFER(buffer, SPAPRvTPMState),
+> Transferring the whole 4kiB buffer unconditionally when it mostly
+> won't have anything useful in it doesn't seem like a great idea.
+
+
+It's really only needed in case of a 'delayed response'. So, yeah, we 
+could transfer data in only that case then.
+
+
+>
+>> +        /* remember DMA address */
+>> +        VMSTATE_UINT32(crq.s.data, SPAPRvTPMState),
+>> +        VMSTATE_BOOL(deliver_response, SPAPRvTPMState),
+>> +        VMSTATE_END_OF_LIST(),
+>> +    }
+>>   };
+>>   
+>>   static Property tpm_spapr_properties[] = {
+>> diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
+>> index 6278a39618..d109661b96 100644
+>> --- a/hw/tpm/trace-events
+>> +++ b/hw/tpm/trace-events
+>> @@ -67,3 +67,5 @@ tpm_spapr_do_crq_get_version(uint32_t version) "response: version %u"
+>>   tpm_spapr_do_crq_prepare_to_suspend(void) "response: preparing to suspend"
+>>   tpm_spapr_do_crq_unknown_msg_type(uint8_t type) "Unknown message type 0x%02x"
+>>   tpm_spapr_do_crq_unknown_crq(uint8_t raw1, uint8_t raw2) "unknown CRQ 0x%02x 0x%02x ..."
+>> +tpm_spapr_pre_save(bool v) "TPM response to deliver after resume: %d"
+>> +tpm_spapr_post_load(void) "Delivering TPM response after resume"
+
 
 
