@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA72A11E367
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:13:20 +0100 (CET)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D167D11E36F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:16:12 +0100 (CET)
+Received: from localhost ([::1]:48252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifjot-00057g-Bi
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:13:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33648)
+	id 1ifjrf-0008C8-BN
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:16:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34810)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ifjcB-0007Qu-T1
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:12 -0500
+ (envelope-from <groug@kaod.org>) id 1ifjcH-0007YS-N9
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ifjcA-0004NF-Jn
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:11 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26028)
+ (envelope-from <groug@kaod.org>) id 1ifjcG-0004Xd-4o
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:17 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27654)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifjcA-0004Ja-91
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:10 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifjcF-0004Vk-RL
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:16 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBDBwbsC120578
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:08 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wusvhutk7-1
+ xBDBuvPT002806
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:14 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wupyt0nj1-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:08 -0500
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:14 -0500
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 13 Dec 2019 12:00:06 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Fri, 13 Dec 2019 12:00:12 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 13 Dec 2019 12:00:03 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xBDBxKJc40632722
+ Fri, 13 Dec 2019 12:00:09 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBDC083757999486
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 11:59:20 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 871FEAE051;
- Fri, 13 Dec 2019 12:00:02 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 58CC8AE055;
- Fri, 13 Dec 2019 12:00:02 +0000 (GMT)
+ Fri, 13 Dec 2019 12:00:08 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 133A9A4068;
+ Fri, 13 Dec 2019 12:00:08 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E0F7AA4064;
+ Fri, 13 Dec 2019 12:00:07 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.185.241])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 13 Dec 2019 12:00:02 +0000 (GMT)
-Subject: [PATCH 06/13] ppc/pnv: Drop pnv_is_power9() and pnv_is_power10()
- helpers
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Dec 2019 12:00:07 +0000 (GMT)
+Subject: [PATCH 07/13] ppc/pnv: Introduce PnvChipClass::intc_print_info()
+ method
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Fri, 13 Dec 2019 13:00:02 +0100
+Date: Fri, 13 Dec 2019 13:00:07 +0100
 In-Reply-To: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
 References: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -65,17 +65,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19121312-0028-0000-0000-000003C82A4A
+x-cbid: 19121312-0016-0000-0000-000002D47154
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121312-0029-0000-0000-0000248B678B
-Message-Id: <157623840200.360005.1300941274565357363.stgit@bahia.lan>
+x-cbparentid: 19121312-0017-0000-0000-000033369CBB
+Message-Id: <157623840755.360005.5002022339473369934.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-13_03:2019-12-13,2019-12-13 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- clxscore=1034 suspectscore=0 adultscore=0 mlxlogscore=906 phishscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 clxscore=1034
+ adultscore=0 mlxlogscore=810 priorityscore=1501 impostorscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1912130097
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
@@ -95,40 +95,128 @@ Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They aren't used anymore.
+The pnv_pic_print_info() callback checks the type of the chip in order
+to forward to the request appropriate interrupt controller. This can
+be achieved with QOM. Introduce a method for this in the base chip class
+and implement it in child classes.
+
+This also prepares ground for the upcoming interrupt controller of POWER10
+chips.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- include/hw/ppc/pnv.h |   10 ----------
- 1 file changed, 10 deletions(-)
+ hw/ppc/pnv.c         |   30 +++++++++++++++++++++++++-----
+ include/hw/ppc/pnv.h |    1 +
+ 2 files changed, 26 insertions(+), 5 deletions(-)
 
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index efc00f4cb67a..2a53e99bda2e 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -832,6 +832,12 @@ static void pnv_chip_power8_intc_destroy(PnvChip *chip, PowerPCCPU *cpu)
+     pnv_cpu->intc = NULL;
+ }
+ 
++static void pnv_chip_power8_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
++                                            Monitor *mon)
++{
++    icp_pic_print_info(ICP(pnv_cpu_state(cpu)->intc), mon);
++}
++
+ /*
+  *    0:48  Reserved - Read as zeroes
+  *   49:52  Node ID
+@@ -889,6 +895,12 @@ static void pnv_chip_power9_intc_destroy(PnvChip *chip, PowerPCCPU *cpu)
+     pnv_cpu->intc = NULL;
+ }
+ 
++static void pnv_chip_power9_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
++                                            Monitor *mon)
++{
++    xive_tctx_pic_print_info(XIVE_TCTX(pnv_cpu_state(cpu)->intc), mon);
++}
++
+ static void pnv_chip_power10_intc_create(PnvChip *chip, PowerPCCPU *cpu,
+                                         Error **errp)
+ {
+@@ -910,6 +922,11 @@ static void pnv_chip_power10_intc_destroy(PnvChip *chip, PowerPCCPU *cpu)
+     pnv_cpu->intc = NULL;
+ }
+ 
++static void pnv_chip_power10_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
++                                             Monitor *mon)
++{
++}
++
+ /*
+  * Allowed core identifiers on a POWER8 Processor Chip :
+  *
+@@ -1086,6 +1103,7 @@ static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
+     k->intc_create = pnv_chip_power8_intc_create;
+     k->intc_reset = pnv_chip_power8_intc_reset;
+     k->intc_destroy = pnv_chip_power8_intc_destroy;
++    k->intc_print_info = pnv_chip_power8_intc_print_info;
+     k->isa_create = pnv_chip_power8_isa_create;
+     k->dt_populate = pnv_chip_power8_dt_populate;
+     k->pic_print_info = pnv_chip_power8_pic_print_info;
+@@ -1107,6 +1125,7 @@ static void pnv_chip_power8_class_init(ObjectClass *klass, void *data)
+     k->intc_create = pnv_chip_power8_intc_create;
+     k->intc_reset = pnv_chip_power8_intc_reset;
+     k->intc_destroy = pnv_chip_power8_intc_destroy;
++    k->intc_print_info = pnv_chip_power8_intc_print_info;
+     k->isa_create = pnv_chip_power8_isa_create;
+     k->dt_populate = pnv_chip_power8_dt_populate;
+     k->pic_print_info = pnv_chip_power8_pic_print_info;
+@@ -1128,6 +1147,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
+     k->intc_create = pnv_chip_power8_intc_create;
+     k->intc_reset = pnv_chip_power8_intc_reset;
+     k->intc_destroy = pnv_chip_power8_intc_destroy;
++    k->intc_print_info = pnv_chip_power8_intc_print_info;
+     k->isa_create = pnv_chip_power8nvl_isa_create;
+     k->dt_populate = pnv_chip_power8_dt_populate;
+     k->pic_print_info = pnv_chip_power8_pic_print_info;
+@@ -1299,6 +1319,7 @@ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
+     k->intc_create = pnv_chip_power9_intc_create;
+     k->intc_reset = pnv_chip_power9_intc_reset;
+     k->intc_destroy = pnv_chip_power9_intc_destroy;
++    k->intc_print_info = pnv_chip_power9_intc_print_info;
+     k->isa_create = pnv_chip_power9_isa_create;
+     k->dt_populate = pnv_chip_power9_dt_populate;
+     k->pic_print_info = pnv_chip_power9_pic_print_info;
+@@ -1379,6 +1400,7 @@ static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
+     k->intc_create = pnv_chip_power10_intc_create;
+     k->intc_reset = pnv_chip_power10_intc_reset;
+     k->intc_destroy = pnv_chip_power10_intc_destroy;
++    k->intc_print_info = pnv_chip_power10_intc_print_info;
+     k->isa_create = pnv_chip_power10_isa_create;
+     k->dt_populate = pnv_chip_power10_dt_populate;
+     k->pic_print_info = pnv_chip_power10_pic_print_info;
+@@ -1575,11 +1597,9 @@ static void pnv_pic_print_info(InterruptStatsProvider *obj,
+     CPU_FOREACH(cs) {
+         PowerPCCPU *cpu = POWERPC_CPU(cs);
+ 
+-        if (pnv_chip_is_power9(pnv->chips[0])) {
+-            xive_tctx_pic_print_info(XIVE_TCTX(pnv_cpu_state(cpu)->intc), mon);
+-        } else {
+-            icp_pic_print_info(ICP(pnv_cpu_state(cpu)->intc), mon);
+-        }
++        /* XXX: loop on each chip/core/thread instead of CPU_FOREACH() */
++        PNV_CHIP_GET_CLASS(pnv->chips[0])->intc_print_info(pnv->chips[0], cpu,
++                                                           mon);
+     }
+ 
+     for (i = 0; i < pnv->num_chips; i++) {
 diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 8a42c199b65c..c213bdd5ecd3 100644
+index c213bdd5ecd3..7d2402784d4b 100644
 --- a/include/hw/ppc/pnv.h
 +++ b/include/hw/ppc/pnv.h
-@@ -227,11 +227,6 @@ static inline bool pnv_chip_is_power9(const PnvChip *chip)
-     return PNV_CHIP_GET_CLASS(chip)->chip_type == PNV_CHIP_POWER9;
- }
- 
--static inline bool pnv_is_power9(PnvMachineState *pnv)
--{
--    return pnv_chip_is_power9(pnv->chips[0]);
--}
--
- PnvChip *pnv_get_chip(uint32_t chip_id);
- 
- #define PNV_FDT_ADDR          0x01000000
-@@ -242,11 +237,6 @@ static inline bool pnv_chip_is_power10(const PnvChip *chip)
-     return PNV_CHIP_GET_CLASS(chip)->chip_type == PNV_CHIP_POWER10;
- }
- 
--static inline bool pnv_is_power10(PnvMachineState *pnv)
--{
--    return pnv_chip_is_power10(pnv->chips[0]);
--}
--
- /*
-  * BMC helpers
-  */
+@@ -133,6 +133,7 @@ typedef struct PnvChipClass {
+     void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
+     void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
+     void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
++    void (*intc_print_info)(PnvChip *chip, PowerPCCPU *cpu, Monitor *mon);
+     ISABus *(*isa_create)(PnvChip *chip, Error **errp);
+     void (*dt_populate)(PnvChip *chip, void *fdt);
+     void (*pic_print_info)(PnvChip *chip, Monitor *mon);
 
 
