@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5CB11E52F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:05:44 +0100 (CET)
-Received: from localhost ([::1]:49636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5D111E540
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:10:14 +0100 (CET)
+Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iflZf-00007Z-R3
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:05:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
+	id 1ifle1-0002xu-Hv
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:10:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iflYF-00087C-TJ
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:04:21 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iflcT-0001a9-VM
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:08:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iflYD-0003vf-0z
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:04:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24731
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iflYC-0003sy-Sr
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:04:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576245851;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LnbP/jcQbjdoAULcGoja+4905KAb6Cecgp+1N+DQ5Vg=;
- b=ijsFaTAmjRNJyftosM3BKmFkXQRZUgYX4t0cw7ODh00ANdlzmM4jf0gtLT31YIKrBafgAz
- 6bqMbM+d5FM8euAGrppcN1z7zXOFOnutoMF8THdzEgXtvfxS/jaVSze1wgn2M/rfXSDm5c
- enamisoSbZItlfKdALlXHhk6EiKYnBU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-nG1dpW7fNs-Xakh5FAcF3w-1; Fri, 13 Dec 2019 09:04:08 -0500
-Received: by mail-wm1-f71.google.com with SMTP id b131so2369516wmd.9
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:04:07 -0800 (PST)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iflcS-0002r3-KK
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:08:37 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35315)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iflcS-0002o1-9j
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:08:36 -0500
+Received: by mail-wr1-x442.google.com with SMTP id g17so6803826wro.2
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:08:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=hZVVOGkgb20bftRL1JMnXY5FFlbJTfG81bARHGzmB20=;
+ b=jnZpdbs6SjYgk7LzucfU12QOVZDocVJ2eH9K6plxNUQI/SeeibKxVozGNn6bLRydtX
+ hP3cZ3uHjierypFb2lnf/ctHoBrs1/bT8wv0qAketxyPhEoACyj1Ijfj+QsWNAI/hczg
+ kgbwKjevasduibAjtifobnR6JeQuf4bAo3nn1DoEwYHX6M0MqmNU/yJLWkvtwLFQ2e4o
+ HD0NOmP9NG2BhCK59GmuZ12Ou47Iz8gubkZUaI1G9Z+VqRCO3rq2ixNzB4CQCbmDolpY
+ 3mL49QrPq5qUeD1v5SJiMzFWihoEmqUPv3lDi7kGUqIDEFRsCoEtcmeeSQJMruvbeXg0
+ rdPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LnbP/jcQbjdoAULcGoja+4905KAb6Cecgp+1N+DQ5Vg=;
- b=asrLJxHLYRluPWFLs+CA7ioob5ri244QtaGq/clOnsDDZr5PMsOi3zZ+43GlaU4s00
- FxWPhq5efFQaKPc5xoV/INcVKDCqQ1eJxrllD7+Skfa8X4gRwBMS/yCLQ/a+s7xImq9q
- g85p+wFqRLT0cwayI7i9Qh1UQ3EIRZ4cdWvwepNUTa6M7lBALnMvY1RSn5yIEdw4eOBb
- iifaQpdW1HlAGdt8AZqCcdzkKFGIo2qNd8UevLPswG3PQLtJZa1Ayc6srw7TM6sLTHmn
- O2J3OczONX70a2+IzoaV6AyFj69cnDEd5Y9O5Tg+5/J92CLajQvmwpEV09l+93ku8QJh
- tjXw==
-X-Gm-Message-State: APjAAAVOFGqUHaWF6uW/wwjRUGOLW8vuuDQa4hP2YdYUaE80XIXHJDF9
- YKxT9uVJUgFZusOAYBJY48FQ3biZL9b6QrK39bULHRzvl2aIMZgSt/QYR2et58h2ZC6/1yoggoH
- Rg7kMPB9fxHODZ78=
-X-Received: by 2002:a1c:640a:: with SMTP id y10mr5403900wmb.14.1576245846830; 
- Fri, 13 Dec 2019 06:04:06 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy8luqq1WdEc14Lc5nK83EdHj3SA9mbhUKaoS9BCZmJG3rplZ8wworApyaVwDLqFWIpa2PU8Q==
-X-Received: by 2002:a1c:640a:: with SMTP id y10mr5403860wmb.14.1576245846560; 
- Fri, 13 Dec 2019 06:04:06 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
- ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
- by smtp.gmail.com with ESMTPSA id s82sm11038871wms.28.2019.12.13.06.04.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 06:04:06 -0800 (PST)
-Subject: Re: [PATCH 0/2] rcu_read auto macro use
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, cota@braap.org, rkagan@virtuozzo.com
-References: <20191213131931.143878-1-dgilbert@redhat.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=hZVVOGkgb20bftRL1JMnXY5FFlbJTfG81bARHGzmB20=;
+ b=Bh46O18S2qE/7sj21pRg3knEisyTAclsA4+Cv+/HAbIvhDEx7nNTGnYk8khK1oWdb4
+ VJGISqu5yV/Iu6aAfoRaKNU0XNReHe6LUhKNG3zdlgOEksirDpYsbrXdyvZ2hK5MjanY
+ FWefOzFBvwtzR2orb8jxEFiXMmmjiQiFeAqqsE2KRElkv9Y3C8OiJSucnVd6PGpeDNk3
+ 5XGKtTPo1nVW43+h7cneWXLgWYXBzAu6KPkdX2eldfIzu7KarHhAo4SOrKu8bpYxoNnN
+ qT+qcYYDRMWTdNs07waOyoqvDiYgxY3NNDQJqTeUoWPxljsld+1+Ntd2glNMoJoKhIbJ
+ uDcg==
+X-Gm-Message-State: APjAAAUbuOw2sDot0HC1LS5sW793ndyQfmboPA8ZJ5V9OA/L8YQ2/t/w
+ k2mbdb0VztYRrFrgNV5N4sPB1yB8
+X-Google-Smtp-Source: APXvYqwa1E2eHoXRj8+FlttCYlWEJPPWifTNnVAuqV+v8DNKbuQAXxsk7iNw0uGWyY6gYV9taaPlTg==
+X-Received: by 2002:a5d:690e:: with SMTP id t14mr12837482wru.65.1576246114348; 
+ Fri, 13 Dec 2019 06:08:34 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id i8sm10268193wro.47.2019.12.13.06.08.33
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 13 Dec 2019 06:08:33 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6e3d6d39-31ce-c10e-bcb2-b564e5a1cdae@redhat.com>
-Date: Fri, 13 Dec 2019 15:04:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191213131931.143878-1-dgilbert@redhat.com>
-Content-Language: en-US
-X-MC-Unique: nG1dpW7fNs-Xakh5FAcF3w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+To: qemu-devel@nongnu.org
+Subject: [PATCH] memory: use RCU_READ_LOCK_GUARD
+Date: Fri, 13 Dec 2019 15:08:31 +0100
+Message-Id: <1576246112-23406-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,37 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/19 14:19, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Hi,
->   A couple more uses of the rcu_read macros; in qsp and
-> hyperv (neither of which list maintainers, so I guess
-> best through RCU).
-> 
-> The hyperv case saves a temporary.
-> The qsp case uses an rcu_read_lock around the lifetime
-> of a snapshot and carefully comments that; but now
-> it's automatic.
-> 
-> [Hyperv not tested]
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/exec/memory.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Queued, thanks.
-
-Paolo
-
-> Dave
-> 
-> Dr. David Alan Gilbert (2):
->   hyperv: Use auto rcu_read macros
->   qsp: Use WITH_RCU_READ_LOCK_GUARD
-> 
->  hw/hyperv/hyperv.c | 22 +++++++++-------------
->  util/qsp.c         | 22 ++++++++++------------
->  2 files changed, 19 insertions(+), 25 deletions(-)
-> 
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e499dc2..e42a9d7 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2165,7 +2165,7 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+ 
+     if (__builtin_constant_p(len)) {
+         if (len) {
+-            rcu_read_lock();
++            RCU_READ_LOCK_GUARD();
+             fv = address_space_to_flatview(as);
+             l = len;
+             mr = flatview_translate(fv, addr, &addr1, &l, false, attrs);
+@@ -2176,7 +2176,6 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+                 result = flatview_read_continue(fv, addr, attrs, buf, len,
+                                                 addr1, l, mr);
+             }
+-            rcu_read_unlock();
+         }
+     } else {
+         result = address_space_read_full(as, addr, attrs, buf, len);
+-- 
+1.8.3.1
 
 
