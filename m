@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F2D11E878
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:39:03 +0100 (CET)
-Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBE711E870
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:36:18 +0100 (CET)
+Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifny2-0006bu-Ho
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:39:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38952)
+	id 1ifnvN-0002l5-Cs
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:36:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifnfC-0000Ss-6J
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:35 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifnfN-0000kq-He
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifnfA-0001cw-Ui
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57669
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ifnfM-00022H-FA
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:45 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44675
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifnfA-0001bt-PC
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:32 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifnfM-00021M-AB
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253972;
+ s=mimecast20190719; t=1576253983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=udh4eRVcqNXqy8xw20XMMLF1nsNWpiytALbnJZM2cT8=;
- b=i0VrH76EFbp7A8+eEe2p1qN3w04JOzZ1tr3Zd1lpzaS5Q9WEsqrct6ITEHJXGGp3vIOyiu
- WZILvRsrvwTsNNxYoj449jsYlVkBeXDaG/4kfJM+MmRol+NBcQw76elq39b72qc1+wdXIY
- QJyWd54JMpWW5/Jn54GquLtuPBPFGCA=
+ bh=iDPjG3bzf4auKjid69BMILX9vi363Mf6WYlN4QfXbhI=;
+ b=eLl+lJReOT6+DEy8Sh4L7tX7UTJx5rZpY2Lyr7lSiraIR/hnS+YcXh3Nd5cWRUIWzndezX
+ x8Sh/dgBoIcBFShu47E8ILg+pSGE+IQtdeJ+/mIm0OupqReXaA2mEn1sDcfF6TwIQnNM8s
+ mPxSo1sbugk4IZuwZRdZZmBjc0pK338=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-E1z2I1SDMG2jpXGeAYNRRQ-1; Fri, 13 Dec 2019 11:19:28 -0500
-X-MC-Unique: E1z2I1SDMG2jpXGeAYNRRQ-1
+ us-mta-430-JGYk5EipN_i0mWuUmywLaw-1; Fri, 13 Dec 2019 11:19:40 -0500
+X-MC-Unique: JGYk5EipN_i0mWuUmywLaw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E8601854323;
- Fri, 13 Dec 2019 16:19:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70F3F102C8BB;
+ Fri, 13 Dec 2019 16:19:37 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F12719C4F;
- Fri, 13 Dec 2019 16:19:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06C8B19C4F;
+ Fri, 13 Dec 2019 16:19:26 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/12] hw/i386/ich9: Move unnecessary "pci_bridge.h" include
-Date: Fri, 13 Dec 2019 17:17:47 +0100
-Message-Id: <20191213161753.8051-7-philmd@redhat.com>
+Subject: [PATCH 07/12] hw/ide/piix: Remove superfluous DEVICE() cast
+Date: Fri, 13 Dec 2019 17:17:48 +0100
+Message-Id: <20191213161753.8051-8-philmd@redhat.com>
 In-Reply-To: <20191213161753.8051-1-philmd@redhat.com>
 References: <20191213161753.8051-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,53 +80,29 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the ICH9 chipset is a 'South Bridge', it is not a PCI bridge.
-Nothing in "hw/i386/ich9.h" requires definitions from "pci_bridge.h"
-so move its inclusion where it is required.
+Commit 02a9594b4f0 already converted 'dev' to DeviceState.
+Since the cast is superfluous, remove it.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/i386/ich9.h    | 1 -
- hw/i386/acpi-build.c      | 1 +
- hw/pci-bridge/i82801b11.c | 1 +
- 3 files changed, 2 insertions(+), 1 deletion(-)
+ hw/ide/piix.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index eeb79ac1fe..369bc64671 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -7,7 +7,6 @@
- #include "hw/isa/apm.h"
- #include "hw/i386/ioapic.h"
- #include "hw/pci/pci.h"
--#include "hw/pci/pci_bridge.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/ich9.h"
- #include "hw/pci/pci_bus.h"
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 12ff55fcfb..291909fa05 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -27,6 +27,7 @@
- #include "qemu/bitmap.h"
- #include "qemu/error-report.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bridge.h"
- #include "hw/core/cpu.h"
- #include "target/i386/cpu.h"
- #include "hw/misc/pvpanic.h"
-diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
-index 2b3907655b..033b3c43c4 100644
---- a/hw/pci-bridge/i82801b11.c
-+++ b/hw/pci-bridge/i82801b11.c
-@@ -43,6 +43,7 @@
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index db313dd3b1..ffeff4e095 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -193,7 +193,8 @@ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool a=
+ux)
+             blk_unref(blk);
+         }
+     }
+-    qdev_reset_all(DEVICE(dev));
++    qdev_reset_all(dev);
++
+     return 0;
+ }
 =20
- #include "qemu/osdep.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bridge.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "hw/i386/ich9.h"
 --=20
 2.21.0
 
