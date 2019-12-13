@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A56C11E5F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:57:51 +0100 (CET)
-Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A56F11E5F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:58:34 +0100 (CET)
+Received: from localhost ([::1]:50132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifmO5-0002Vn-HM
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:57:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52050)
+	id 1ifmOn-0003TW-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:58:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ifmMh-0001sl-B2
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:56:24 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ifmN8-0002Kf-FC
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:56:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ifmMg-0003ry-9B
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:56:23 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33946
+ (envelope-from <pbonzini@redhat.com>) id 1ifmN7-0004bF-Gh
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:56:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24977
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifmMg-0003rD-5u
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:56:22 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifmN7-0004aZ-Cf
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:56:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576248981;
+ s=mimecast20190719; t=1576249009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ui0OHbnHcOZh0wXwOElKgzMgDmGCKMqLxERfqRsgeNQ=;
- b=dv59/ycAuMvfpD/y1T5GkQtY3lQg+rLXRpQ6TcHZoasuVO5pmrIB1shpHZUchsslqTZK69
- VX83aE50SgpItIDLHATwIrNiVxUlRV7RESoWjnoswASSD7s0QVnI1HzJCOmcbc+H0PoHqm
- UBwY55a1X2TZgR87k5uEZNg6IC18Xbk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-OSTpRT2TP1a93oESPjXiDQ-1; Fri, 13 Dec 2019 09:56:17 -0500
-Received: by mail-wr1-f72.google.com with SMTP id c6so2653793wrm.18
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:56:17 -0800 (PST)
+ bh=y/LSdJyy6a3b5Pg94An83/eaSwEheiE6HMiBnXzxWYc=;
+ b=bvgbQLxm6FcD51akYaTM1DVI8Ak2PfKVmRBxfbYKeSDKFkkyrR3bIf0K0UJjJMRGm2idw3
+ umJ966hqVHWK4gCsVdju7dFubEYn64lbNyHVo/OGkCRMDR5wXxxsOeM9Fw43C5lfhl1A4I
+ 4AFAEA0GY4IBF1QjF0x5jxRpLkVKPw4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-vmKo2FDhMbWJ8WZo7HetKQ-1; Fri, 13 Dec 2019 09:56:47 -0500
+Received: by mail-wm1-f70.google.com with SMTP id p5so1859908wmc.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:56:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ui0OHbnHcOZh0wXwOElKgzMgDmGCKMqLxERfqRsgeNQ=;
- b=BM/PemlR3B4eBBkX/RKJwT25gT+hIpOOK49jp868RsEEcyKLoFG0mXe0zZv0VCdnyl
- bWMQpFRmQdgTkLeAQNDQUVSbQkqYeAQq+hau5z+dSiBm+nJchoIu3Po/6X4k4Q9Gre0J
- mI7OVoGKmLT9ZDBW5icjVb3/sgT+YjekIIK0DjuY49eKl1BIN0rVIeS7qqR85tic4jrv
- KRTd0z9AWDEC9ZQyko4tLfqtgST71h88fHr2qJlT41YkHtUf0bbvAuakytRaCCqGvpM4
- OrARc29ZfBBwNr0tFOMD/Wi+fm7JXsGvgh7I1NKLgTz/148RTq3S+Oz7PMTOAkodfPBp
- mSGA==
-X-Gm-Message-State: APjAAAVsSAxtTe+qXzI/MxpqgAyB0cMRV+q0uRZPzkZQSQPct3np2o2W
- +RbxVg68pWWli12DRfGGtypOLqHIKpshJSP3hpoutvwio61XCmYj/5W/X1zRcTjCq1D4iJP2irS
- mSpegCDgJSlPen7U=
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr11170991wrv.316.1576248976433; 
- Fri, 13 Dec 2019 06:56:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqynJ1o+JTv7Rzb+8iq8wJNVnN2nBfCyz/hjVnoi9YVR7WsHgoRv3eiEPN+jdZsAufhN+qj0rA==
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr11170967wrv.316.1576248976109; 
- Fri, 13 Dec 2019 06:56:16 -0800 (PST)
+ bh=fnhQz3+ry01+tI6rUZBpIC3HMtyaA3RO35XVPt1+Z7M=;
+ b=Sf2XMp/KHscX0H+K/JiN7f5nc1AN5EunE4So1NwsB7csMyxHUImu3YR8LM/elc8/d+
+ rvNz0ZhTPo84oJUmqQSk0oqe1qpVE0jnIZithnPJb0l5zvGbIKMy6wOqc7nLrgtLzGSp
+ GEpk6yNyjrMTh9NrcJVURcgPd1MWXK3urfZ/0v5RTHdJaJnYY4aCPt9pHL+6V3LNWE2I
+ 9QJ1JlMrYFJv6W9F7euvf3isWBXufCS5A9ZhHRiPJ5xwWxd2Bvz92Q6ZNEDgEiizXjQP
+ 6x8BvJJ9kHReiruFQfiHwwxNFCzKzTxUTiKgBOLLGlI9S+7huy3Sq7id3b8bXbIP5vG0
+ QGOA==
+X-Gm-Message-State: APjAAAXyxaZnztMKZGCox2gDFKDwMqa1QI1UKb9pUC0ZX/L4ocWOt05O
+ Vt2B7amgmCyWK0fpoPZMKTfVym+ilTJevNEd+0sw1nW6O7azRI9HXAYE02LtOxgxglqot4acDDR
+ 0bL2nmCTpaafk7Nk=
+X-Received: by 2002:a5d:530d:: with SMTP id e13mr13263681wrv.125.1576249006344; 
+ Fri, 13 Dec 2019 06:56:46 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyO9d81Q4U5v15kzJ2p5cTCHTIHruMBsF+3191MjUZ3Za1UZ4ZkPJDqqY71OvreUGTgCMYpFA==
+X-Received: by 2002:a5d:530d:: with SMTP id e13mr13263674wrv.125.1576249006120; 
+ Fri, 13 Dec 2019 06:56:46 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
  ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
- by smtp.gmail.com with ESMTPSA id a186sm10934044wmd.41.2019.12.13.06.56.13
+ by smtp.gmail.com with ESMTPSA id s15sm10176960wrp.4.2019.12.13.06.56.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 06:56:15 -0800 (PST)
-Subject: Re: [PATCH] virtio-blk: deprecate SCSI passthrough
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20191213144626.1208237-1-stefanha@redhat.com>
+ Fri, 13 Dec 2019 06:56:45 -0800 (PST)
+Subject: Re: [PATCH v2 3/8] hw: replace hw/i386/pc.h with a header just for
+ the i8259
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <1576171754-45138-1-git-send-email-pbonzini@redhat.com>
+ <1576171754-45138-4-git-send-email-pbonzini@redhat.com>
+ <d58b507e-9d68-d112-0f6c-6f9dfb153a93@redhat.com>
+ <CABgObfY_19XxcbYUMm=V7pUF-gbkyYViV7Sp4ieNiGSH+VoH3Q@mail.gmail.com>
+ <448c88fa-fb82-e62a-6219-0a1038db10fb@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a14facd1-731e-f1cd-2476-1bd676da1e7d@redhat.com>
-Date: Fri, 13 Dec 2019 15:56:08 +0100
+Message-ID: <4193c376-9a4d-b455-0de9-9567dec56878@redhat.com>
+Date: Fri, 13 Dec 2019 15:56:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191213144626.1208237-1-stefanha@redhat.com>
+In-Reply-To: <448c88fa-fb82-e62a-6219-0a1038db10fb@redhat.com>
 Content-Language: en-US
-X-MC-Unique: OSTpRT2TP1a93oESPjXiDQ-1
+X-MC-Unique: vmKo2FDhMbWJ8WZo7HetKQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -90,45 +95,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
- Christoph Hellwig <hch@lst.de>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/19 15:46, Stefan Hajnoczi wrote:
-> The Linux virtio_blk.ko guest driver is removing legacy SCSI passthrough
-> support.  Deprecate this feature in QEMU too.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  qemu-deprecated.texi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> index 4b4b7425ac..ef94d497da 100644
-> --- a/qemu-deprecated.texi
-> +++ b/qemu-deprecated.texi
-> @@ -285,6 +285,17 @@ spec you can use the ``-cpu rv64gcsu,priv_spec=v1.9.1`` command line argument.
->  
->  @section Device options
->  
-> +@subsection Emulated device options
-> +
-> +@subsubsection -device virtio-blk,scsi=on|off (since 5.0.0)
-> +
-> +The virtio-blk SCSI passthrough feature is a legacy VIRTIO feature.  VIRTIO 1.0
-> +and later do not support it because the virtio-scsi device was introduced for
-> +full SCSI support.  Use virtio-scsi instead when SCSI passthrough is required.
-> +
-> +Note this also applies to ``-device virtio-blk-pci,scsi=on|off'', which is an
-> +alias.
-> +
->  @subsection Block device options
->  
->  @subsubsection "backing": "" (since 2.12.0)
-> 
+On 13/12/19 10:43, Philippe Mathieu-Daud=C3=A9 wrote:
+>=20
+>=20
+> The MicroVM series introduced changes that outdated my work, and since
+> having MicroVM was more important that global cleanup, I didn't insist a
+> that time. Now GSI and IOAPIC are more exposed so my previous work
+> doesn't apply at all. Well, current code diverged.
+> I'll need some time to figure out if it is worthwhile salvaging, so
+> don't wait for that.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Can you just point me to it?  (Patchew URL)
+
+Paolo
 
 
