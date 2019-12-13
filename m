@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75D011E45F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 14:10:48 +0100 (CET)
-Received: from localhost ([::1]:49090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857D111E467
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 14:14:57 +0100 (CET)
+Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifkiW-0003i2-0X
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 08:10:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50344)
+	id 1ifkmW-00064X-Av
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 08:14:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51369)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ifkeX-0007p3-T2
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 08:06:43 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ifkkl-00059r-S3
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 08:13:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ifkeW-0007oC-Lv
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 08:06:41 -0500
-Received: from 7.mo177.mail-out.ovh.net ([46.105.61.149]:48220)
+ (envelope-from <imammedo@redhat.com>) id 1ifkkj-0001Wx-0Y
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 08:13:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20440
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ifkeW-0007lX-G0
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 08:06:40 -0500
-Received: from player772.ha.ovh.net (unknown [10.108.16.72])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id ABE5211AFBB
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 14:06:38 +0100 (CET)
-Received: from kaod.org (lfbn-tou-1-1227-223.w90-76.abo.wanadoo.fr
- [90.76.50.223]) (Authenticated sender: clg@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id 2DBB5D3CF9D4;
- Fri, 13 Dec 2019 13:06:34 +0000 (UTC)
-Subject: Re: [PATCH 13/13] ppc/pnv: Drop PnvChipClass::type
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
- <157623844102.360005.12070225703151669294.stgit@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <25632233-8059-3566-cea7-a8ba2805b53c@kaod.org>
-Date: Fri, 13 Dec 2019 14:06:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ifkki-0001Ti-Hj
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 08:13:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576242783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XJAaCGTQyOdY+ZlVP4tFf/dlth23z9aVmfrtHknWenE=;
+ b=XkFT7ts9IzJXzVsFhTCOjelmBe6EkfB7ofkIG9u9262ed7IGXPPBcpy8vu9yeSY5Qcht3k
+ Gx3vD7rEA6kAQ0EcPuLpYkBW2J2iFbvOWl6YKOxyCGC+sH1A8nYDoqZ1NU3qvzzaB01jar
+ CC12GDepeEA98SCrOM6pBMGRuvocmVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-sau5UIecORCd7sRuOGNXcg-1; Fri, 13 Dec 2019 08:13:00 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFDAD18543B0;
+ Fri, 13 Dec 2019 13:12:59 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C556C5D6BE;
+ Fri, 13 Dec 2019 13:12:53 +0000 (UTC)
+Date: Fri, 13 Dec 2019 14:12:51 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
+Message-ID: <20191213141251.00dfc67c@redhat.com>
+In-Reply-To: <20191213113957.GB1186952@stefanha-x1.localdomain>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128165933.GB3295@work-vm>
+ <20191129102325.55ee16ea@redhat.com>
+ <20191213113957.GB1186952@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <157623844102.360005.12070225703151669294.stgit@bahia.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 10150550612337265491
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudelledggeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: sau5UIecORCd7sRuOGNXcg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.61.149
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,105 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: gongsu@us.ibm.com, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/2019 13:00, Greg Kurz wrote:
-> It isn't used anymore.
+On Fri, 13 Dec 2019 11:39:57 +0000
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-Fantastic !=20
-
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Thanks,=20
-
-C.
-
-> ---
->  hw/ppc/pnv.c         |    5 -----
->  include/hw/ppc/pnv.h |    9 ---------
->  2 files changed, 14 deletions(-)
+> On Fri, Nov 29, 2019 at 10:23:25AM +0100, Igor Mammedov wrote:
+> > On Thu, 28 Nov 2019 16:59:33 +0000
+> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> >  =20
+> > > * Marc-Andr=C3=A9 Lureau (marcandre.lureau@redhat.com) wrote: =20
+> > > > Hi,
+> > > >=20
+> > > > Setting up shared memory for vhost-user is a bit complicated from
+> > > > command line, as it requires NUMA setup such as: m 4G -object
+> > > > memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,share=3D=
+on -numa
+> > > > node,memdev=3Dmem.
+> > > >=20
+> > > > Instead, I suggest to add a -mem-shared option for non-numa setups,
+> > > > that will make the -mem-path or anonymouse memory shareable.
+> > > >=20
+> > > > Comments welcome,   =20
+> > >=20
+> > > It's worth checking with Igor (cc'd) - he said he was going to work o=
+n
+> > > something similar.
+> > >=20
+> > > One other thing this fixes is that it lets you potentially do vhost-u=
+ser
+> > > on s390, since it currently has no NUMA. =20
+> > Switching to memdev will let vhost-user on s390 work as well.
+> > This is convenience option and workarounds inability to set main RAM
+> > properties in current impl.  =20
 >=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index cc40b90e9cd2..232b4a25603c 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1132,7 +1132,6 @@ static void pnv_chip_power8e_class_init(ObjectCla=
-ss *klass, void *data)
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
-> =20
-> -    k->chip_type =3D PNV_CHIP_POWER8E;
->      k->chip_cfam_id =3D 0x221ef04980000000ull;  /* P8 Murano DD2.1 */
->      k->cores_mask =3D POWER8E_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
-> @@ -1156,7 +1155,6 @@ static void pnv_chip_power8_class_init(ObjectClas=
-s *klass, void *data)
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
-> =20
-> -    k->chip_type =3D PNV_CHIP_POWER8;
->      k->chip_cfam_id =3D 0x220ea04980000000ull; /* P8 Venice DD2.0 */
->      k->cores_mask =3D POWER8_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
-> @@ -1180,7 +1178,6 @@ static void pnv_chip_power8nvl_class_init(ObjectC=
-lass *klass, void *data)
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
-> =20
-> -    k->chip_type =3D PNV_CHIP_POWER8NVL;
->      k->chip_cfam_id =3D 0x120d304980000000ull;  /* P8 Naples DD1.0 */
->      k->cores_mask =3D POWER8_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p8;
-> @@ -1360,7 +1357,6 @@ static void pnv_chip_power9_class_init(ObjectClas=
-s *klass, void *data)
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
-> =20
-> -    k->chip_type =3D PNV_CHIP_POWER9;
->      k->chip_cfam_id =3D 0x220d104900008000ull; /* P9 Nimbus DD2.0 */
->      k->cores_mask =3D POWER9_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p9;
-> @@ -1449,7 +1445,6 @@ static void pnv_chip_power10_class_init(ObjectCla=
-ss *klass, void *data)
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->      PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
-> =20
-> -    k->chip_type =3D PNV_CHIP_POWER10;
->      k->chip_cfam_id =3D 0x120da04900008000ull; /* P10 DD1.0 (with NX) =
-*/
->      k->cores_mask =3D POWER10_CORE_MASK;
->      k->core_pir =3D pnv_chip_core_pir_p10;
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 4972e93c2619..f78fd0dd967c 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -38,14 +38,6 @@
->  #define PNV_CHIP_GET_CLASS(obj) \
->       OBJECT_GET_CLASS(PnvChipClass, (obj), TYPE_PNV_CHIP)
-> =20
-> -typedef enum PnvChipType {
-> -    PNV_CHIP_POWER8E,     /* AKA Murano (default) */
-> -    PNV_CHIP_POWER8,      /* AKA Venice */
-> -    PNV_CHIP_POWER8NVL,   /* AKA Naples */
-> -    PNV_CHIP_POWER9,      /* AKA Nimbus */
-> -    PNV_CHIP_POWER10,     /* AKA TBD */
-> -} PnvChipType;
-> -
->  typedef struct PnvChip {
->      /*< private >*/
->      SysBusDevice parent_obj;
-> @@ -123,7 +115,6 @@ typedef struct PnvChipClass {
->      SysBusDeviceClass parent_class;
-> =20
->      /*< public >*/
-> -    PnvChipType  chip_type;
->      uint64_t     chip_cfam_id;
->      uint64_t     cores_mask;
-> =20
+> Gong Su asked about virtio-fs (vhost-user) on s390.  This patch series
+> might be the first step to enabling it.
+
+I'm preparing(resplitting/cleaning up) series that will switch main RAM
+to memdev backend.
+
+(
+I'd prefer to post complete series that does conversion across all boards.
+But if it's pressing, I surely can post several patches to enable it for s3=
+90
+and get some early feedback on approach
+)
+
+
 >=20
+> Stefan
 
 
