@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C4911DDDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 06:41:22 +0100 (CET)
-Received: from localhost ([::1]:41078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F0A11DDEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 06:50:29 +0100 (CET)
+Received: from localhost ([::1]:41166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifdhZ-0000FC-CV
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 00:41:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50425)
+	id 1ifdqO-0004SS-LP
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 00:50:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55013)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ifdgC-0007d6-KU
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:39:58 -0500
+ (envelope-from <andrew@aj.id.au>) id 1ifdol-0002yk-VU
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:48:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ifdg9-0004PC-VS
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:39:56 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:51953 helo=ozlabs.org)
+ (envelope-from <andrew@aj.id.au>) id 1ifdok-0004hC-T0
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:48:47 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:33035)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ifdg8-0004He-Pv; Fri, 13 Dec 2019 00:39:53 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47YzyD1Y1pz9sPT; Fri, 13 Dec 2019 16:39:48 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576215588;
- bh=K8I7BySlXe5w70jX25JhHMATjVMwd7LT9XDyP6NzhxY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R4gOIp9dC2iGmCiVVrn92yqN5+vXvWRJEB1hptLieKldWsMz8jCmf7fayxM3Sv3Op
- JYMPzag2Vm3L9nHpwun44jntpfif0ewVJfSmsh4WATeVZ+heXE/ozhP3LKyLM05D2G
- 0jmkqPFWxBODljfDNs1ub2avWEP8LkvpThGVS03Q=
-Date: Fri, 13 Dec 2019 16:39:33 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Subject: Re: [PATCH v5 3/5] tpm_spapr: Support suspend and resume
-Message-ID: <20191213053933.GE207300@umbus.fritz.box>
-References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
- <20191212202430.1079725-4-stefanb@linux.vnet.ibm.com>
+ (Exim 4.71) (envelope-from <andrew@aj.id.au>)
+ id 1ifdoh-0004YM-Md; Fri, 13 Dec 2019 00:48:44 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id ED206909;
+ Fri, 13 Dec 2019 00:48:41 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 13 Dec 2019 00:48:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=N9bCwlClnlHDFDNFqpp3fD4D/m
+ 1EZqVMm4Nk97EMVP4=; b=e9RikxxK9qaigA7SxEUg3gR9YbtXk+fnRLeeB9h1Oq
+ 0b8GfuOZC9ELD1gmpwFC5fYEdgbEi8J7oNp7Si0xZLVQC6NlE6x+5tomuaggvjT9
+ zu9UB6GyeQg9Zk9YVRRTCqXKOLJnQAO8vgy+0v0pvEFtCkV1AsDBB232zWGwUM1p
+ U62oW4qFCWu6cTi9rB97ft1VP0wVs+fDlNLj91rZCN1Y7jyHG1afQ8DeahlFk5eB
+ uNNwXRGMBAt2LDRU+2CIaHh3gEaaFSJD57QLovvA+og+EDwJh8ElcKXI4Jt2U2VR
+ nncERydcGxaLeFfIVN42YTBGdgM5pRNSm8U9O4NRS0/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=N9bCwlClnlHDFDNFq
+ pp3fD4D/m1EZqVMm4Nk97EMVP4=; b=OJnLt6TY6kCam8LNEYFbR/T7mvZzu4wK7
+ 1sWRZe/Fr4QRm2eA/WvuHdpBBUnBK7Rn3ne0Tsl/QS6CBIihHDOpynFyCHWaj5iZ
+ LdtE9blBI4Jj/IC28ftdRkv8Ee2NhyUgjL79RGBlePeeMnai//T+o1p8qdtkI1nK
+ 4ollp69wj/eP1GGDGFDMaI9QSkBZiYO35UZJB44OOZjloDJPenXW9HkXW0+BOuf7
+ UrxSj515tTkVYTntY07ax6N/rrQ6Wg78ajMHuanadlsHmTQRQKyf57EdA5qjC8VY
+ /Ogz9fqZ+cI43zbGpIOqjHKJUUOg9YmMhhlb1ZYh2y2UWLmFxp1vA==
+X-ME-Sender: <xms:OCbzXc72U_t_HP8zgA010MdlMcrN5yb79zyh1LvcM3g54GtOyiOfSg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgkeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkphepvddtvddrke
+ durddukedrfedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhi
+ ugdrrghunecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:OCbzXXchM_kfHTJ5Stqe832G1lV_NHWdbOlsrIjY_UflTkYho9V7SQ>
+ <xmx:OCbzXW4MF_QnmgpbnAZD8ORQy78NFNKDVrdaHA7_Lq52sMDI86cSzw>
+ <xmx:OCbzXf1fxHvr7jxeXUEfrEApRRBz17PpCttQvJe1zexmJu0m7CqSKg>
+ <xmx:OSbzXUvcO83-tFO_hbOGDsZ6JdiP1T0i_4TOdkwV-j9kxdce7QLXMA>
+Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1561E80063;
+ Fri, 13 Dec 2019 00:48:37 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v3 0/4] Expose GT CNTFRQ as a CPU property to support AST2600
+Date: Fri, 13 Dec 2019 16:19:47 +1030
+Message-Id: <cover.ec85a2db47c3e10de70fba144e1bc75caf2f0a91.1576215453.git-series.andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qicme7IxPpkH/pPU"
-Content-Disposition: inline
-In-Reply-To: <20191212202430.1079725-4-stefanb@linux.vnet.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 64.147.123.19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,170 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, philmd@redhat.com,
+ clg@kaod.org, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
---qicme7IxPpkH/pPU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is a v3 of the belated follow-up from a few of my earlier attempts to fix
+up the ARM generic timer for correct behaviour on the ASPEED AST2600 SoC. The
+AST2600 clocks the generic timer at the rate of HPLL, which is configured to
+1125MHz.  This is significantly quicker than the currently hard-coded generic
+timer rate of 62.5MHz and so we see "sticky" behaviour in the guest.
 
-On Thu, Dec 12, 2019 at 03:24:28PM -0500, Stefan Berger wrote:
-> Extend the tpm_spapr frontend with VM suspend and resume support.
->=20
-> Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
->=20
-> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-> index c4a67e2403..8f5a142bd4 100644
-> --- a/hw/tpm/tpm_spapr.c
-> +++ b/hw/tpm/tpm_spapr.c
-> @@ -87,6 +87,8 @@ typedef struct {
->      TPMVersion be_tpm_version;
-> =20
->      size_t be_buffer_size;
-> +
-> +    bool deliver_response; /* whether to deliver response after VM resum=
-e */
->  } SPAPRvTPMState;
-> =20
->  static void tpm_spapr_show_buffer(const unsigned char *buffer,
-> @@ -256,6 +258,12 @@ static void tpm_spapr_request_completed(TPMIf *ti, i=
-nt ret)
->      uint32_t len;
->      int rc;
-> =20
-> +    if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+v2 can be found here:
 
-I'm trying to figure out the circumstances in which
-request_completed() would get called before post_load on the
-destination.
+https://patchwork.ozlabs.org/cover/1203474/
 
-> +        /* defer delivery of response until .post_load */
-> +        s->deliver_response |=3D true;
+Changes since v2:
 
-|=3D is a bitwise OR which is not what you want, although it will
-*probably* work in practice.  Better to just use
-	s->deliver_response =3D true;
+* Address some minor review comments from Philippe and add tags
 
-> +        return;
-> +    }
-> +
->      s->state =3D SPAPR_VTPM_STATE_COMPLETION;
-> =20
->      /* a max. of be_buffer_size bytes can be transported */
-> @@ -316,6 +324,7 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
->      SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
-> =20
->      s->state =3D SPAPR_VTPM_STATE_NONE;
-> +    s->deliver_response =3D false;
-> =20
->      s->be_tpm_version =3D tpm_backend_get_tpm_version(s->be_driver);
->      tpm_spapr_update_deviceclass(dev);
-> @@ -339,9 +348,53 @@ static enum TPMVersion tpm_spapr_get_version(TPMIf *=
-ti)
->      return tpm_backend_get_tpm_version(s->be_driver);
->  }
-> =20
-> +/* persistent state handling */
-> +
-> +static int tpm_spapr_pre_save(void *opaque)
-> +{
-> +    SPAPRvTPMState *s =3D opaque;
-> +
-> +    s->deliver_response |=3D tpm_backend_finish_sync(s->be_driver);
+Changes since v1:
 
-Same problem here.
+* Fix a user mode build failure from partial renaming of gt_cntfrq_period_ns()
+* Add tags from Cedric and Richard
 
-> +    trace_tpm_spapr_pre_save(s->deliver_response);
-> +    /*
-> +     * we cannot deliver the results to the VM since DMA would touch VM =
-memory
-> +     */
-> +
-> +    return 0;
-> +}
-> +
-> +static int tpm_spapr_post_load(void *opaque, int version_id)
-> +{
-> +    SPAPRvTPMState *s =3D opaque;
-> +
-> +    if (s->deliver_response) {
-> +        trace_tpm_spapr_post_load();
-> +        /* deliver the results to the VM via DMA */
-> +        tpm_spapr_request_completed(TPM_IF(s), 0);
-> +        s->deliver_response =3D false;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static const VMStateDescription vmstate_spapr_vtpm =3D {
->      .name =3D "tpm-spapr",
-> -    .unmigratable =3D 1,
-> +    .version_id =3D 1,
-> +    .minimum_version_id =3D 0,
-> +    .minimum_version_id_old =3D 0,
-> +    .pre_save =3D tpm_spapr_pre_save,
-> +    .post_load =3D tpm_spapr_post_load,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_SPAPR_VIO(vdev, SPAPRvTPMState),
-> +
-> +        VMSTATE_UINT8(state, SPAPRvTPMState),
-> +        VMSTATE_BUFFER(buffer, SPAPRvTPMState),
+Please review.
 
-Transferring the whole 4kiB buffer unconditionally when it mostly
-won't have anything useful in it doesn't seem like a great idea.
+Andrew
 
-> +        /* remember DMA address */
-> +        VMSTATE_UINT32(crq.s.data, SPAPRvTPMState),
-> +        VMSTATE_BOOL(deliver_response, SPAPRvTPMState),
-> +        VMSTATE_END_OF_LIST(),
-> +    }
->  };
-> =20
->  static Property tpm_spapr_properties[] =3D {
-> diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
-> index 6278a39618..d109661b96 100644
-> --- a/hw/tpm/trace-events
-> +++ b/hw/tpm/trace-events
-> @@ -67,3 +67,5 @@ tpm_spapr_do_crq_get_version(uint32_t version) "respons=
-e: version %u"
->  tpm_spapr_do_crq_prepare_to_suspend(void) "response: preparing to suspen=
-d"
->  tpm_spapr_do_crq_unknown_msg_type(uint8_t type) "Unknown message type 0x=
-%02x"
->  tpm_spapr_do_crq_unknown_crq(uint8_t raw1, uint8_t raw2) "unknown CRQ 0x=
-%02x 0x%02x ..."
-> +tpm_spapr_pre_save(bool v) "TPM response to deliver after resume: %d"
-> +tpm_spapr_post_load(void) "Delivering TPM response after resume"
+Andrew Jeffery (4):
+  target/arm: Remove redundant scaling of nexttick
+  target/arm: Abstract the generic timer frequency
+  target/arm: Prepare generic timer for per-platform CNTFRQ
+  ast2600: Configure CNTFRQ at 1125MHz
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+ hw/arm/aspeed_ast2600.c |  3 ++-
+ target/arm/cpu.c        | 65 ++++++++++++++++++++++++++++++++++++------
+ target/arm/cpu.h        |  5 +++-
+ target/arm/helper.c     | 24 ++++++++++++----
+ 4 files changed, 83 insertions(+), 14 deletions(-)
 
---qicme7IxPpkH/pPU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3zJBUACgkQbDjKyiDZ
-s5LIjw/+JBlIgi+CV3NicSHeunB98iIMN9C4LDuoF/oEaPVq0OqM3VpocDH13dKt
-Cz3UZZpiIRlBF9EIO8KyxTgkxpGuu24ntkkof172meOY0INHJMADWuCMraO1oaOA
-haOIg64RderRz1U9majVWAeR/uY7cDs2qlNJCGmhhtkklYOjOVIwS/TxO0EvU6/R
-xQ0qV0JVwfsBNwwPogpIkjgxpCoMi/v93V5cYzDsrKnscLPpN2Y85mgCRUoXpAus
-NBZex9DM85uja2WEvkuBhJBGyT8moH/PP1RpSwBdJr6SKYFPej2+YYP3qs66ehrq
-vC0QUn6GC29BtPttQYLQlYX/AXV9TZBdVQu/Up+mJWsMXu2ZuOeO/0aMBhao/+iN
-gCccbAtTDZ1rR/14zwS1mZWzW8DpHSat1JvPYGLuhmMmiK87nzngxY4gspU2ckJ2
-9y2JaC4RcNrARqnao5y8NgJUp1qBjpKWQJA9FU3pJnoXsifLluP8H2Yy2bYtiO4L
-FgHoGvA/Ezkg7G4YoWvylKjNz4Mu8aonHkGugVMDVo0H8Z2UlfRGpecReAD9zNt6
-ykTVdFnX/5qSsWhDT4CAHViXTpE4noo1+RaXOIdq5Dpvx/8eL+cmqEmDYOwcrY3S
-dtXe9x+WJbehRGsax5//hRVBfF366nIrMAJaXhr81pJENlV579M=
-=OQsi
------END PGP SIGNATURE-----
-
---qicme7IxPpkH/pPU--
+base-commit: 04c9c81b8fa2ee33f59a26265700fae6fc646062
+-- 
+git-series 0.9.1
 
