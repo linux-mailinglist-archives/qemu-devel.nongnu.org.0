@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FFB11E60D
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:05:04 +0100 (CET)
-Received: from localhost ([::1]:50222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF9D11E632
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 16:08:25 +0100 (CET)
+Received: from localhost ([::1]:50262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifmV5-00070Z-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:05:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40019)
+	id 1ifmYJ-0000sr-Vn
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 10:08:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45147)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifmTz-0006Vi-6K
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:03:56 -0500
+ (envelope-from <pkrempa@redhat.com>) id 1ifmXM-00008q-2G
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:07:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifmTt-0007jv-1M
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:03:53 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40802
+ (envelope-from <pkrempa@redhat.com>) id 1ifmXL-0005EM-1y
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:07:23 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53396
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifmTs-0007hX-T7
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:03:48 -0500
+ (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1ifmXK-0005Cl-U1
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 10:07:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576249428;
+ s=mimecast20190719; t=1576249642;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iGY7qKX7AQigBv8N2a3MrzcqR+4xPBU4YHCK/lbRjSY=;
- b=AcNMFPU/TDOQK68sU2DGAi6aRr1+ZoD7dteIg8FMSJwK37GRzfdZpJLPsUyA/MF6A7eW4e
- oX9KmTDUYRyogcVeRcJhsHVo7Xb4pwFOkMT9zFKhNHoazJ/R28BqDK/4XmcnVJSj3rPdoK
- 7dkC/Peixsxa26JRqEzL+kt3/K1sWZc=
+ bh=jeaw94CjRLH2InwRSYkSIiG5LPDy/OQ/jN3H0cNrI1M=;
+ b=h2B3N5fprWJ2P/YV+Rl2E4tPx1vxypgIlU+hkqLPLvu+0kT2aXnnVYsz/pz99vC3JphE7h
+ GYSBAbr6mhOlYl0dN8d0UxaUq1Ftwo8fzMJE1LKF8wWs7GtezZoJ2zAb/rAtkU3zwn4woA
+ tzd4tXPptgIrBbyrxTPq1KW58lFaWOI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-nn90rs3NMku3cY7Zu5vxGw-1; Fri, 13 Dec 2019 10:03:46 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-98-v6V-g228PfGkgWYNdHE4Ag-1; Fri, 13 Dec 2019 10:07:19 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33F2C593A1;
- Fri, 13 Dec 2019 15:03:45 +0000 (UTC)
-Received: from work-vm (unknown [10.36.117.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15C3410013D9;
- Fri, 13 Dec 2019 15:03:43 +0000 (UTC)
-Date: Fri, 13 Dec 2019 15:03:41 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, quintela@redhat.com,
- chen.zhang@intel.com
-Subject: Re: [PATCH] colo: fix return without releasing RCU
-Message-ID: <20191213150341.GG3713@work-vm>
-References: <1576246112-23406-2-git-send-email-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F09F8107BAAB;
+ Fri, 13 Dec 2019 15:07:17 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.43.2.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9FB95D9CA;
+ Fri, 13 Dec 2019 15:07:08 +0000 (UTC)
+Date: Fri, 13 Dec 2019 16:07:06 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [libvirt] [PATCH] virtio-blk: deprecate SCSI passthrough
+Message-ID: <20191213150706.GS2441258@angien.pipo.sk>
+References: <20191213144626.1208237-1-stefanha@redhat.com>
+ <a14facd1-731e-f1cd-2476-1bd676da1e7d@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1576246112-23406-2-git-send-email-pbonzini@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: nn90rs3NMku3cY7Zu5vxGw-1
+In-Reply-To: <a14facd1-731e-f1cd-2476-1bd676da1e7d@redhat.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: v6V-g228PfGkgWYNdHE4Ag-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,83 +75,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> Use WITH_RCU_READ_LOCK_GUARD to avoid exiting colo_init_ram_cache
-> without releasing RCU.
+On Fri, Dec 13, 2019 at 15:56:08 +0100, Paolo Bonzini wrote:
+> On 13/12/19 15:46, Stefan Hajnoczi wrote:
+> > The Linux virtio_blk.ko guest driver is removing legacy SCSI passthroug=
+h
+> > support.  Deprecate this feature in QEMU too.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  qemu-deprecated.texi | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+> > index 4b4b7425ac..ef94d497da 100644
+> > --- a/qemu-deprecated.texi
+> > +++ b/qemu-deprecated.texi
+> > @@ -285,6 +285,17 @@ spec you can use the ``-cpu rv64gcsu,priv_spec=3Dv=
+1.9.1`` command line argument.
+> > =20
+> >  @section Device options
+> > =20
+> > +@subsection Emulated device options
+> > +
+> > +@subsubsection -device virtio-blk,scsi=3Don|off (since 5.0.0)
+> > +
+> > +The virtio-blk SCSI passthrough feature is a legacy VIRTIO feature.  V=
+IRTIO 1.0
+> > +and later do not support it because the virtio-scsi device was introdu=
+ced for
+> > +full SCSI support.  Use virtio-scsi instead when SCSI passthrough is r=
+equired.
+> > +
+> > +Note this also applies to ``-device virtio-blk-pci,scsi=3Don|off'', wh=
+ich is an
+> > +alias.
+> > +
+> >  @subsection Block device options
+> > =20
+> >  @subsubsection "backing": "" (since 2.12.0)
+> >=20
 >=20
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Libvirt still allows and exposes this configuration:
 
-> ---
->  migration/ram.c | 33 +++++++++++++++++----------------
->  1 file changed, 17 insertions(+), 16 deletions(-)
->=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 7dd7f81..8d7c015 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3891,26 +3891,27 @@ int colo_init_ram_cache(void)
->  {
->      RAMBlock *block;
-> =20
-> -    rcu_read_lock();
-> -    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-> -        block->colo_cache =3D qemu_anon_ram_alloc(block->used_length,
-> -                                                NULL,
-> -                                                false);
-> -        if (!block->colo_cache) {
-> -            error_report("%s: Can't alloc memory for COLO cache of block=
- %s,"
-> -                         "size 0x" RAM_ADDR_FMT, __func__, block->idstr,
-> -                         block->used_length);
-> -            RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-> -                if (block->colo_cache) {
-> -                    qemu_anon_ram_free(block->colo_cache, block->used_le=
-ngth);
-> -                    block->colo_cache =3D NULL;
-> +    WITH_RCU_READ_LOCK_GUARD() {
-> +        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-> +            block->colo_cache =3D qemu_anon_ram_alloc(block->used_length=
-,
-> +                                                    NULL,
-> +                                                    false);
-> +            if (!block->colo_cache) {
-> +                error_report("%s: Can't alloc memory for COLO cache of b=
-lock %s,"
-> +                             "size 0x" RAM_ADDR_FMT, __func__, block->id=
-str,
-> +                             block->used_length);
-> +                RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-> +                    if (block->colo_cache) {
-> +                        qemu_anon_ram_free(block->colo_cache, block->use=
-d_length);
-> +                        block->colo_cache =3D NULL;
-> +                    }
->                  }
-> +                return -errno;
->              }
-> -            return -errno;
-> +            memcpy(block->colo_cache, block->host, block->used_length);
->          }
-> -        memcpy(block->colo_cache, block->host, block->used_length);
->      }
-> -    rcu_read_unlock();
-> +
->      /*
->      * Record the dirty pages that sent by PVM, we use this dirty bitmap =
-together
->      * with to decide which page in cache should be flushed into SVM's RA=
-M. Here
-> --=20
-> 1.8.3.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+    <disk type=3D'block' device=3D'lun'>
+      <driver name=3D'qemu' type=3D'qcow2'/>
+      <source dev=3D'/dev/sdfake2'/>
+      <target dev=3D'vdb' bus=3D'virtio'/>
+      <address type=3D'pci' domain=3D'0x0000' bus=3D'0x00' slot=3D'0x05' fu=
+nction=3D'0x0'/>
+    </disk>
+
+which results into the following command line:
+
+-drive file=3D/dev/sdfake2,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk1=
+ \
+-device virtio-blk-pci,scsi=3Don,bus=3Dpci.0,addr=3D0x5,drive=3Ddrive-virti=
+o-disk1,\
+id=3Dvirtio-disk1
+
+In this case I don't see any possibility how to fix it since it requires
+change of controller.
+
+I don't think that we've also added interlocks for this with VIRTIO 1.0
 
 
