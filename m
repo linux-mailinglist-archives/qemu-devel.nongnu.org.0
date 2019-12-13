@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FF311E599
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:34:53 +0100 (CET)
-Received: from localhost ([::1]:49890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B0011E5B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:38:46 +0100 (CET)
+Received: from localhost ([::1]:49940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifm1r-0005TT-UC
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:34:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
+	id 1ifm5d-0000Q2-1I
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:38:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ifm0b-0004Wm-HX
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:34 -0500
+ (envelope-from <liam.merwick@oracle.com>) id 1ifm2g-00075j-Ey
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:35:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ifm0a-0008GL-BP
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36666
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ifm0a-0008FW-7A
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576247611;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8dyZzK+/rwkkyZTZ71KCvOWKB6vb2M8+p22eBPZs6Gc=;
- b=fLsm9z6qa4+vUgE69QCI/xk2vHI+Eo6FHhCLkxkaDHAxOoGZmp3M3KdjA/pq3oNREB4wO5
- 50DXgryFxvgEPp1IbukrVzdS2rvsbFYCDe8N296+1Pxltuyb3m7GyQGTc9+EwOdjkItNZH
- ezkyHcze++tH4tdj/zEj4WQdtFGC8yQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-CQOv34Q0Otq2o2EY2aSESw-1; Fri, 13 Dec 2019 09:33:26 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AF168D9F81;
- Fri, 13 Dec 2019 14:33:25 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCBED601A2;
- Fri, 13 Dec 2019 14:33:23 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] iothread: document -object iothread on man page
-Date: Fri, 13 Dec 2019 14:33:14 +0000
-Message-Id: <20191213143314.1198821-3-stefanha@redhat.com>
-In-Reply-To: <20191213143314.1198821-1-stefanha@redhat.com>
-References: <20191213143314.1198821-1-stefanha@redhat.com>
+ (envelope-from <liam.merwick@oracle.com>) id 1ifm2e-0003g9-Rw
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:35:42 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:36450)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
+ id 1ifm2e-0001p0-HE
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:35:40 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBDEYclF170505;
+ Fri, 13 Dec 2019 14:34:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2019-08-05;
+ bh=xMiolp/H/Iim5eeBzqEUfs+luAlp1Ehcsbcp9ZRhKjU=;
+ b=amhJOO6J2Z7jlSm9FW9iBikWwVto8nXc/7fWuIEjWAFSF1T2E7NpXuTtdzFuA56ynGL6
+ 0FnoqKA+zNnETwx1wJePKPuF1fihNCjHY+T/s79ycrtOrRkxbAw9dJYVAnrSSv2CtrPn
+ ESIBTptdmMUOeahJl5ZfIUiyUwP9kwf2iUFbhIpuGSlXXEc5OwVNTlulhQ6SPWXEADcy
+ Fo1P/snfTeYDmmMEIGL470Mf05HtGjCeWOMoem8J7IR6MwnT49JbbVb4v088TD1RnFVr
+ P1Km6r3g6J07zhUj6IN99TmZSVsMvRC45FlcdCJB3qvAGo3C7PcX4y2MqvZW8q4riI3N Cg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 2wr4qs1ahr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Dec 2019 14:34:38 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBDEYLWH089828;
+ Fri, 13 Dec 2019 14:34:37 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2wumw78wqy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Dec 2019 14:34:36 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xBDEXTxa024831;
+ Fri, 13 Dec 2019 14:33:30 GMT
+Received: from [10.175.208.200] (/10.175.208.200)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 13 Dec 2019 06:33:28 -0800
+Subject: Re: [PATCH 092/104] virtiofsd: add man page
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-93-dgilbert@redhat.com>
+From: Liam Merwick <liam.merwick@oracle.com>
+Message-ID: <378b3033-4ea6-96fc-3301-f3d4c20ed159@oracle.com>
+Date: Fri, 13 Dec 2019 14:33:25 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: CQOv34Q0Otq2o2EY2aSESw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <20191212163904.159893-93-dgilbert@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9469
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1912130118
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9469
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1912130118
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,88 +94,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Zhenyu Ye <yezhenyu2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add -object iothread documentation to the man page, including references
-to the query-iothread QMP command and qom-set syntax for adjusting
-adaptive polling parameters at run-time.
+On 12/12/2019 16:38, Dr. David Alan Gilbert (git) wrote:
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   Makefile                       |  7 +++
+>   tools/virtiofsd/virtiofsd.texi | 85 ++++++++++++++++++++++++++++++++++
+>   2 files changed, 92 insertions(+)
+>   create mode 100644 tools/virtiofsd/virtiofsd.texi
+> 
 
-Reported-by: Zhenyu Ye <yezhenyu2@huawei.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 20191025122236.29815-1-stefanha@redhat.com
-Message-Id: <20191025122236.29815-1-stefanha@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- qemu-options.hx | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+... deleted ...
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 65c9473b73..68d1592ccc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4926,6 +4926,44 @@ access
- CN=3Dlaptop.example.com,O=3DExample Home,L=3DLondon,ST=3DLondon,C=3DGB
- @end example
-=20
-+@item -object iothread,id=3D@var{id},poll-max-ns=3D@var{poll-max-ns},poll-=
-grow=3D@var{poll-grow},poll-shrink=3D@var{poll-shrink}
-+
-+Creates a dedicated event loop thread that devices can be assigned to.  Th=
-is is
-+known as an IOThread.  By default device emulation happens in vCPU threads=
- or
-+the main event loop thread.  This can become a scalability bottleneck.
-+IOThreads allow device emulation and I/O to run on other host CPUs.
-+
-+The @option{id} parameter is a unique ID that will be used to reference th=
-is
-+IOThread from @option{-device ...,iothread=3D@var{id}}.  Multiple devices =
-can be
-+assigned to an IOThread.  Note that not all devices support an
-+@option{iothread} parameter.
-+
-+The @code{query-iothreads} QMP command lists IOThreads and reports their t=
-hread
-+IDs so that the user can configure host CPU pinning/affinity.
-+
-+IOThreads use an adaptive polling algorithm to reduce event loop latency.
-+Instead of entering a blocking system call to monitor file descriptors and=
- then
-+pay the cost of being woken up when an event occurs, the polling algorithm
-+spins waiting for events for a short time.  The algorithm's default parame=
-ters
-+are suitable for many cases but can be adjusted based on knowledge of the
-+workload and/or host device latency.
-+
-+The @option{poll-max-ns} parameter is the maximum number of nanoseconds to=
- busy
-+wait for events.  Polling can be disabled by setting this value to 0.
-+
-+The @option{poll-grow} parameter is the multiplier used to increase the po=
-lling
-+time when the algorithm detects it is missing events due to not polling lo=
-ng
-+enough.
-+
-+The @option{poll-shrink} parameter is the divisor used to decrease the pol=
-ling
-+time when the algorithm detects it is spending too long polling without
-+encountering events.
-+
-+The polling parameters can be modified at run-time using the @code{qom-set=
-} command (where @code{iothread1} is the IOThread's @code{id}):
-+
-+@example
-+(qemu) qom-set /objects/iothread1 poll-max-ns 100000
-+@end example
-=20
- @end table
-=20
---=20
-2.23.0
+> +@c man begin EXAMPLES
+> +Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @code{/var/run/vm001-vhost-fs.sock}:
+> +
+> +@example
+> +host# virtiofsd --socket-path=/var/run/vm001-vhost-fs.sock -o source=/var/lib/fs/vm001
+> +host# qemu-system-x86_64 \
+> +    -chardev socket,id=char0,path=/var/run/vm001-vhost-fs.sock \
+> +    -device vhost-user-fs-pci,chardev=char0,tag=myfs \
+> +    -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on \
+> +    -numa node,memdev=mem \
+> +    ...
+> +guest# mount -t virtio_fs \
+> +    -o default_permissions,allow_other,user_id=0,group_id=0,rootmode=040000,dax \
+> +    myfs /mnt
+
+
+
+Should this be 'mount -t virtiofs myfs /mnt' like on 
+https://virtio-fs.gitlab.io/howto-qemu.html ?
+
+otherwise
+
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
 
 
