@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31D011E8CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:57:52 +0100 (CET)
-Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A2C11E8E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 18:07:00 +0100 (CET)
+Received: from localhost ([::1]:51794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifoGF-0000pn-UN
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:57:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39851)
+	id 1ifoP5-0008BY-KO
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 12:06:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifoFS-0000L3-91
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:57:03 -0500
+ (envelope-from <bounces@canonical.com>) id 1ifoNp-0007JS-HW
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:05:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifoFP-0004uY-IP
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:57:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45532
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifoFP-0004sg-Db
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:56:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576256218;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pq7lolIRfKv7T5Xf3TIhvB5H/tc/hMMwKGM+sW3QDH0=;
- b=F68vm6hKYNa99GOXWZr0ZqM/UIFxskav5TijPnt045Ef/YgC8QXR1GGO+3Swb73aL8E5M1
- qgWzcGJtWeok1W7tqhyY4glF3obZHg2X/kFOkvoivnpGK6ICRDNINUpxQYyCrjiJcSZnZl
- B+Lg4UiSooRy4THLBjXUYlJYnKPCFTg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-VaHvOFBAM-a0pVsixn_2OQ-1; Fri, 13 Dec 2019 11:56:56 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C52264A7E;
- Fri, 13 Dec 2019 16:56:55 +0000 (UTC)
-Received: from work-vm (unknown [10.36.117.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 67F6461F37;
- Fri, 13 Dec 2019 16:56:52 +0000 (UTC)
-Date: Fri, 13 Dec 2019 16:56:49 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Liam Merwick <liam.merwick@oracle.com>
-Subject: Re: [PATCH 025/104] virtiofsd: Add Makefile wiring for virtiofsd
- contrib
-Message-ID: <20191213165649.GN3713@work-vm>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-26-dgilbert@redhat.com>
- <a3a3b681-b411-0c22-291a-9e0cd9116c19@oracle.com>
+ (envelope-from <bounces@canonical.com>) id 1ifoNo-0001so-2Q
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:05:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55318)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ifoNn-0001rh-Rk
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:05:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ifoNm-0001mX-LU
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 17:05:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8CF342E80C8
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 17:05:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <a3a3b681-b411-0c22-291a-9e0cd9116c19@oracle.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: VaHvOFBAM-a0pVsixn_2OQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Fri, 13 Dec 2019 16:56:02 -0000
+From: Damir <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: djdatte
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Damir (djdatte)
+Message-Id: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Subject: [Bug 1856335] [NEW] Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 501b2a790ede7d387f473732526516a9d239071f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,111 +64,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Liam Merwick (liam.merwick@oracle.com) wrote:
-> On 12/12/2019 16:37, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >=20
-> > Wire up the building of the virtiofsd in contrib.
->=20
-> s/contrib/tools/
+Public bug reported:
 
-Ah! My sed of s-contrib/virtiofsd-tools/virtiofsd-
-wasn't smart enough for that!
+AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems to
+always map Cache ass if it was an 4-Core per CCX CPU, which is
+incorrect, and costs upwards 30% performance (more realistically 10%) in
+L3 Cache Layout aware applications.
 
-> otherwise
->=20
-> Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
 
-Thanks.
+  <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+    <model fallback=3D'forbid'>EPYC-IBPB</model>
+    <vendor>AMD</vendor>
+    <topology sockets=3D'1' cores=3D'8' threads=3D'1'/>
 
-Dave
+In windows, coreinfo reports correctly:
 
->=20
-> >=20
-> > virtiofsd relies on Linux-specific system calls and seccomp.  Anyone
-> > wishing to port it to other host operating systems should do so
-> > carefully and without reducing security.
-> >=20
-> > Only allow building on Linux hosts.
-> >=20
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >   Makefile                      |  8 ++++++++
-> >   Makefile.objs                 |  1 +
-> >   tools/virtiofsd/Makefile.objs | 10 ++++++++++
-> >   3 files changed, 19 insertions(+)
-> >   create mode 100644 tools/virtiofsd/Makefile.objs
-> >=20
-> > diff --git a/Makefile b/Makefile
-> > index b437a346d7..b7f7019a50 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -322,6 +322,8 @@ HELPERS-y =3D
-> >   HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =3D qemu-bridg=
-e-helper$(EXESUF)
-> >   ifdef CONFIG_LINUX
-> > +HELPERS-y +=3D virtiofsd$(EXESUF)
-> > +
-> >   ifdef CONFIG_VIRGL
-> >   ifdef CONFIG_GBM
-> >   HELPERS-y +=3D vhost-user-gpu$(EXESUF)
-> > @@ -430,6 +432,7 @@ dummy :=3D $(call unnest-vars,, \
-> >                   elf2dmp-obj-y \
-> >                   ivshmem-client-obj-y \
-> >                   ivshmem-server-obj-y \
-> > +                virtiofsd-obj-y \
-> >                   rdmacm-mux-obj-y \
-> >                   libvhost-user-obj-y \
-> >                   vhost-user-scsi-obj-y \
-> > @@ -674,6 +677,11 @@ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
-> >   rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
-> >   =09$(call LINK, $^)
-> > +ifdef CONFIG_LINUX # relies on Linux-specific syscalls
-> > +virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS=
-)
-> > +=09$(call LINK, $^)
-> > +endif
-> > +
-> >   vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-=
-y) libqemuutil.a libqemustub.a
-> >   =09$(call LINK, $^)
-> > diff --git a/Makefile.objs b/Makefile.objs
-> > index 11ba1a36bd..b5f667a4ba 100644
-> > --- a/Makefile.objs
-> > +++ b/Makefile.objs
-> > @@ -125,6 +125,7 @@ vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
-> >   rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
-> >   vhost-user-input-obj-y =3D contrib/vhost-user-input/
-> >   vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
-> > +virtiofsd-obj-y =3D tools/virtiofsd/
-> >   #####################################################################=
-#
-> >   trace-events-subdirs =3D
-> > diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.o=
-bjs
-> > new file mode 100644
-> > index 0000000000..67be16332c
-> > --- /dev/null
-> > +++ b/tools/virtiofsd/Makefile.objs
-> > @@ -0,0 +1,10 @@
-> > +virtiofsd-obj-y =3D buffer.o \
-> > +                  fuse_opt.o \
-> > +                  fuse_log.o \
-> > +                  fuse_loop_mt.o \
-> > +                  fuse_lowlevel.o \
-> > +                  fuse_signals.o \
-> > +                  fuse_virtio.o \
-> > +                  helper.o \
-> > +                  passthrough_ll.o
-> > +
-> >=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
 
+On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+ <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+    <model fallback=3D'forbid'>EPYC-IBPB</model>
+    <vendor>AMD</vendor>
+    <topology sockets=3D'1' cores=3D'6' threads=3D'1'/>
+
+in windows, coreinfo reports incorrectly:
+
+****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+
+Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm. =
+
+
+With newer Qemu there is a fix (that does behave correctly) in using the di=
+es parameter: =
+
+ <qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+The problem is that the dies are exposed differently than how AMD does
+it natively, they are exposed to Windows as sockets, which means, you
+can't ever have a machine with more than two CCX (6 cores) as Windows
+only supports two sockets. (Should this be reported as a separate bug?)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+    <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+      <model fallback=3D'forbid'>EPYC-IBPB</model>
+      <vendor>AMD</vendor>
+      <topology sockets=3D'1' cores=3D'8' threads=3D'1'/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+   <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+      <model fallback=3D'forbid'>EPYC-IBPB</model>
+      <vendor>AMD</vendor>
+      <topology sockets=3D'1' cores=3D'6' threads=3D'1'/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  =
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm. =
+
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter: =
+
+   <qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, you
+  can't ever have a machine with more than two CCX (6 cores) as Windows
+  only supports two sockets. (Should this be reported as a separate
+  bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
