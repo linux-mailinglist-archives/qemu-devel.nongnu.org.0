@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64F311E89A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:44:53 +0100 (CET)
-Received: from localhost ([::1]:51306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B6F11E877
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:39:02 +0100 (CET)
+Received: from localhost ([::1]:51218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifo3g-0006FE-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:44:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41753)
+	id 1ifny0-0006cW-NG
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:39:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ifnfQ-0000ow-4B
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:49 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ifnfS-0000sf-FG
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ifnfO-00027W-R8
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:48 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38967
+ (envelope-from <cohuck@redhat.com>) id 1ifnfR-0002CC-7p
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:50 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34281
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnfO-00026S-MU
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:46 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnfR-0002B1-2g
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253986;
+ s=mimecast20190719; t=1576253988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XW33OjbNZfIzOzwZ5W3uHfwF9YmS9RFQ9HoMdM6KrBs=;
- b=Ve0oNWM8tZdKoA5HKlMaNBYDhRdUlp+VVb7SaY+Nr/WEQEsKOMotXQKER66a9EYNE5fEoM
- saT0n0O14vGdyQvd2k0Lej27NRxAgvcDAid/QqszAhnIiuQgS75mu6vA8NzFZarhGxQyYA
- 3HdX1FM1KhGH3rZNw6Z7/mupOQ+iigk=
+ bh=0n4kzHV7ijQhtr1OsgzkClrsjQtDJq/jf3/dxh+9j8I=;
+ b=VjDavv3efQcbSS+ObFSu2rbQqz3Oimd/ZZhFd/3qDU7W1Fglr9eRkzv3DPNccZG8HaBGGK
+ 2X7XtLj+GEMgOWk2oZ0l1MJ6HF//CBDG98bu9lwaHW80SHBMRO/QnL5xOdbdEyedYKK3t1
+ fcinP0I1PQu3aAGWChYaASuEYnTAU2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-uvdHpbiUOwCr2z9JwiZJDw-1; Fri, 13 Dec 2019 11:19:42 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-146-Wdf2M40RPCOisdBVTM-BAQ-1; Fri, 13 Dec 2019 11:19:46 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6989618557E5;
- Fri, 13 Dec 2019 16:19:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDC38593DB;
+ Fri, 13 Dec 2019 16:19:45 +0000 (UTC)
 Received: from localhost (ovpn-116-226.ams2.redhat.com [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F258919C70;
- Fri, 13 Dec 2019 16:19:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 198481CB;
+ Fri, 13 Dec 2019 16:19:42 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/16] s390x/cpumodel: Fix realize() error API violations
-Date: Fri, 13 Dec 2019 17:18:47 +0100
-Message-Id: <20191213161851.24687-13-cohuck@redhat.com>
+Subject: [PULL 13/16] s390x/cpumodel: Fix query-cpu-model-FOO error API
+ violations
+Date: Fri, 13 Dec 2019 17:18:48 +0100
+Message-Id: <20191213161851.24687-14-cohuck@redhat.com>
 In-Reply-To: <20191213161851.24687-1-cohuck@redhat.com>
 References: <20191213161851.24687-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: uvdHpbiUOwCr2z9JwiZJDw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: Wdf2M40RPCOisdBVTM-BAQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,13 +79,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-get_max_cpu_model() dereferences @errp when
-kvm_s390_get_host_cpu_model() fails, apply_cpu_model() dereferences it
-when kvm_s390_apply_cpu_model() fails, and s390_realize_cpu_model()
-dereferences it when get_max_cpu_model() or check_compatibility()
-fail.  That's wrong; see the big comment in error.h.  All three
-introduced in commit 80560137cf "s390x/cpumodel: check and apply the
-CPU model".
+cpu_model_from_info() is a helper for qmp_query_cpu_model_expansion(),
+qmp_query_cpu_model_comparison(), qmp_query_cpu_model_baseline().  It
+dereferences @errp when the visitor or the QOM setter fails.  That's
+wrong; see the big comment in error.h.  Introduced in commit
+137974cea3 's390x/cpumodel: implement QMP interface
+"query-cpu-model-expansion"'.
+
+Its three callers have the same issue.  Introduced in commit
+4e82ef0502 's390x/cpumodel: implement QMP interface
+"query-cpu-model-comparison"' and commit f1a47d08ef 's390x/cpumodel:
+implement QMP interface "query-cpu-model-baseline"'.
 
 No caller actually passes null.
 
@@ -94,108 +99,134 @@ Cc: David Hildenbrand <david@redhat.com>
 Cc: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20191204093625.14836-14-armbru@redhat.com>
+Message-Id: <20191204093625.14836-15-armbru@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/cpu_models.c | 37 ++++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+ target/s390x/cpu_models.c | 43 ++++++++++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
 diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 6a29fd3ab113..c702e34a26b9 100644
+index c702e34a26b9..3ed301b5e509 100644
 --- a/target/s390x/cpu_models.c
 +++ b/target/s390x/cpu_models.c
-@@ -870,6 +870,7 @@ static void check_compatibility(const S390CPUModel *max=
-_model,
-=20
- static S390CPUModel *get_max_cpu_model(Error **errp)
+@@ -477,6 +477,7 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error =
+**errp)
+ static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *i=
+nfo,
+                                 Error **errp)
  {
 +    Error *err =3D NULL;
-     static S390CPUModel max_model;
-     static bool cached;
+     const QDict *qdict =3D NULL;
+     const QDictEntry *e;
+     Visitor *visitor;
+@@ -513,24 +514,26 @@ static void cpu_model_from_info(S390CPUModel *model, =
+const CpuModelInfo *info,
 =20
-@@ -878,22 +879,24 @@ static S390CPUModel *get_max_cpu_model(Error **errp)
-     }
-=20
-     if (kvm_enabled()) {
--        kvm_s390_get_host_cpu_model(&max_model, errp);
-+        kvm_s390_get_host_cpu_model(&max_model, &err);
-     } else {
-         max_model.def =3D s390_find_cpu_def(QEMU_MAX_CPU_TYPE, QEMU_MAX_CP=
-U_GEN,
-                                           QEMU_MAX_CPU_EC_GA, NULL);
-         bitmap_copy(max_model.features, qemu_max_cpu_feat, S390_FEAT_MAX);
--   }
--    if (!*errp) {
--        cached =3D true;
--        return &max_model;
-     }
--    return NULL;
-+    if (err) {
-+        error_propagate(errp, err);
-+        return NULL;
-+    }
-+    cached =3D true;
-+    return &max_model;
- }
-=20
- static inline void apply_cpu_model(const S390CPUModel *model, Error **errp=
-)
- {
- #ifndef CONFIG_USER_ONLY
-+    Error *err =3D NULL;
-     static S390CPUModel applied_model;
-     static bool applied;
-=20
-@@ -909,20 +912,23 @@ static inline void apply_cpu_model(const S390CPUModel=
- *model, Error **errp)
-     }
-=20
-     if (kvm_enabled()) {
--        kvm_s390_apply_cpu_model(model, errp);
-+        kvm_s390_apply_cpu_model(model, &err);
+     if (qdict) {
+         visitor =3D qobject_input_visitor_new(info->props);
+-        visit_start_struct(visitor, NULL, NULL, 0, errp);
+-        if (*errp) {
++        visit_start_struct(visitor, NULL, NULL, 0, &err);
 +        if (err) {
 +            error_propagate(errp, err);
-+            return;
-+        }
-     }
-=20
--    if (!*errp) {
--        applied =3D true;
--        if (model) {
--            applied_model =3D *model;
--        }
-+    applied =3D true;
-+    if (model) {
-+        applied_model =3D *model;
-     }
- #endif
- }
-=20
- void s390_realize_cpu_model(CPUState *cs, Error **errp)
+             visit_free(visitor);
+             object_unref(obj);
+             return;
+         }
+         for (e =3D qdict_first(qdict); e; e =3D qdict_next(qdict, e)) {
+-            object_property_set(obj, visitor, e->key, errp);
+-            if (*errp) {
++            object_property_set(obj, visitor, e->key, &err);
++            if (err) {
+                 break;
+             }
+         }
+-        if (!*errp) {
++        if (!err) {
+             visit_check_struct(visitor, errp);
+         }
+         visit_end_struct(visitor, NULL);
+         visit_free(visitor);
+-        if (*errp) {
++        if (err) {
++            error_propagate(errp, err);
+             object_unref(obj);
+             return;
+         }
+@@ -595,13 +598,15 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(=
+CpuModelExpansionType type,
+                                                       CpuModelInfo *model,
+                                                       Error **errp)
  {
 +    Error *err =3D NULL;
-     S390CPUClass *xcc =3D S390_CPU_GET_CLASS(cs);
-     S390CPU *cpu =3D S390_CPU(cs);
-     const S390CPUModel *max_model;
-@@ -939,7 +945,7 @@ void s390_realize_cpu_model(CPUState *cs, Error **errp)
-     }
+     CpuModelExpansionInfo *expansion_info =3D NULL;
+     S390CPUModel s390_model;
+     bool delta_changes =3D false;
 =20
-     max_model =3D get_max_cpu_model(errp);
+     /* convert it to our internal representation */
+-    cpu_model_from_info(&s390_model, model, errp);
 -    if (*errp) {
-+    if (!max_model) {
-         error_prepend(errp, "CPU models are not available: ");
-         return;
-     }
-@@ -951,8 +957,9 @@ void s390_realize_cpu_model(CPUState *cs, Error **errp)
-     cpu->model->cpu_ver =3D max_model->cpu_ver;
-=20
-     check_consistency(cpu->model);
--    check_compatibility(max_model, cpu->model, errp);
--    if (*errp) {
-+    check_compatibility(max_model, cpu->model, &err);
++    cpu_model_from_info(&s390_model, model, &err);
 +    if (err) {
 +        error_propagate(errp, err);
-         return;
+         return NULL;
+     }
+=20
+@@ -634,18 +639,21 @@ CpuModelCompareInfo *qmp_query_cpu_model_comparison(C=
+puModelInfo *infoa,
+                                                      CpuModelInfo *infob,
+                                                      Error **errp)
+ {
++    Error *err =3D NULL;
+     CpuModelCompareResult feat_result, gen_result;
+     CpuModelCompareInfo *compare_info;
+     S390FeatBitmap missing, added;
+     S390CPUModel modela, modelb;
+=20
+     /* convert both models to our internal representation */
+-    cpu_model_from_info(&modela, infoa, errp);
+-    if (*errp) {
++    cpu_model_from_info(&modela, infoa, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return NULL;
+     }
+-    cpu_model_from_info(&modelb, infob, errp);
+-    if (*errp) {
++    cpu_model_from_info(&modelb, infob, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return NULL;
+     }
+     compare_info =3D g_new0(CpuModelCompareInfo, 1);
+@@ -707,6 +715,7 @@ CpuModelBaselineInfo *qmp_query_cpu_model_baseline(CpuM=
+odelInfo *infoa,
+                                                     CpuModelInfo *infob,
+                                                     Error **errp)
+ {
++    Error *err =3D NULL;
+     CpuModelBaselineInfo *baseline_info;
+     S390CPUModel modela, modelb, model;
+     uint16_t cpu_type;
+@@ -714,13 +723,15 @@ CpuModelBaselineInfo *qmp_query_cpu_model_baseline(Cp=
+uModelInfo *infoa,
+     uint8_t max_gen;
+=20
+     /* convert both models to our internal representation */
+-    cpu_model_from_info(&modela, infoa, errp);
+-    if (*errp) {
++    cpu_model_from_info(&modela, infoa, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return NULL;
+     }
+=20
+-    cpu_model_from_info(&modelb, infob, errp);
+-    if (*errp) {
++    cpu_model_from_info(&modelb, infob, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return NULL;
      }
 =20
 --=20
