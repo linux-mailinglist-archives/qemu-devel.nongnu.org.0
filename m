@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABBA11E26F
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 11:55:53 +0100 (CET)
-Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3AB11E274
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 11:56:52 +0100 (CET)
+Received: from localhost ([::1]:46216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifibw-0002B2-5h
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 05:55:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43812)
+	id 1ifict-0003b9-No
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 05:56:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifiZ1-00075j-V0
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 05:52:52 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifibk-0002Y1-4h
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 05:55:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifiZ0-0003Ww-U1
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 05:52:51 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42217
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifibi-0008NX-1p
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 05:55:40 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43304
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifiZ0-0003W4-Py
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 05:52:50 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifibh-0008Mf-TG
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 05:55:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576234370;
+ s=mimecast20190719; t=1576234537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cwGE0Z6BWevny2p+v8p6kGq3+dllna6us1JYKE6ldNY=;
- b=EAwlYFAGOSNj16/ZMqLAIeFhIw8mZdDAcQuI/cw5Jqm+fcpCLAtpGx+oTk4OyohJpgm/QJ
- BxhOBCDGSWHh2+j1TrK3MNseSx0I8m5cqWTFHruxLOZlyxOr3M/ocxrHZWPrpxlh4nL/ga
- FzwyIKpp6xgiDoUPrvDsZoUOIKXtXmo=
+ bh=umbKmLlbP+IyYkIag221k6ZK8r+fM4dy+W1BoauK6TY=;
+ b=aS3YkTfHKbUwd1vwwyS+VUNY1GQRKaTzHMU48q/Oro93DiwXwlIzSe6MlEmFp8lTJRjjtH
+ oEI6YXJw5YxE0a4h+rr47J0RQ3jNzYyhvgDxaDgMWAsqcAM66n7XVmnP5vgbvvv+TCDoq2
+ svElQQex7ZtuK8j+cObBUqV5y/ZRYWE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-7Ga1f-YaNSaYC3p_LqPK2g-1; Fri, 13 Dec 2019 05:52:49 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-107-5eOMEey3NgaUQCqgFmxhWA-1; Fri, 13 Dec 2019 05:55:35 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FC071005502
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 10:52:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 733ADDB61
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 10:55:34 +0000 (UTC)
 Received: from work-vm (unknown [10.36.117.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF43B5D9C9;
- Fri, 13 Dec 2019 10:52:42 +0000 (UTC)
-Date: Fri, 13 Dec 2019 10:52:40 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 345D71001B00;
+ Fri, 13 Dec 2019 10:55:28 +0000 (UTC)
+Date: Fri, 13 Dec 2019 10:55:26 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH] vhost-user-fs: remove "vhostfd" property
-Message-ID: <20191213105240.GA7302@work-vm>
-References: <20191116112016.14872-1-marcandre.lureau@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] virtio-fs: fix MSI-X nvectors calculation
+Message-ID: <20191213105526.GB7302@work-vm>
+References: <20191209110759.35227-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191116112016.14872-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20191209110759.35227-1-stefanha@redhat.com>
 User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 7Ga1f-YaNSaYC3p_LqPK2g-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 5eOMEey3NgaUQCqgFmxhWA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,49 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Vivek Goyal <vgoyal@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Marc-Andr=E9 Lureau (marcandre.lureau@redhat.com) wrote:
-> The property doesn't make much sense for a vhost-user device.
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> The following MSI-X vectors are required:
+>  * VIRTIO Configuration Change
+>  * hiprio virtqueue
+>  * requests virtqueues
 >=20
-> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+> Fix the calculation to reserve enough MSI-X vectors.  Otherwise guest
+> drivers fall back to a sub-optional configuration where all virtqueues
+> share a single vector.
+>=20
+> This change does not break live migration compatibility since
+> vhost-user-fs-pci devices are not migratable yet.
+>=20
+> Reported-by: Vivek Goyal <vgoyal@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
 Queued for virtiofs
 
 > ---
->  hw/virtio/vhost-user-fs.c         | 1 -
->  include/hw/virtio/vhost-user-fs.h | 1 -
->  2 files changed, 2 deletions(-)
+>  hw/virtio/vhost-user-fs-pci.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index f0df7f4746..ca0b7fc9de 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -263,7 +263,6 @@ static Property vuf_properties[] =3D {
->      DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
->                         conf.num_request_queues, 1),
->      DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
-> -    DEFINE_PROP_STRING("vhostfd", VHostUserFS, conf.vhostfd),
->      DEFINE_PROP_END_OF_LIST(),
->  };
+> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.=
+c
+> index 933a3f265b..e3a649d4a6 100644
+> --- a/hw/virtio/vhost-user-fs-pci.c
+> +++ b/hw/virtio/vhost-user-fs-pci.c
+> @@ -40,7 +40,8 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *v=
+pci_dev, Error **errp)
+>      DeviceState *vdev =3D DEVICE(&dev->vdev);
 > =20
-> diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-=
-user-fs.h
-> index 539885b458..9ff1bdb7cf 100644
-> --- a/include/hw/virtio/vhost-user-fs.h
-> +++ b/include/hw/virtio/vhost-user-fs.h
-> @@ -28,7 +28,6 @@ typedef struct {
->      char *tag;
->      uint16_t num_request_queues;
->      uint16_t queue_size;
-> -    char *vhostfd;
->  } VHostUserFSConf;
+>      if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
+> -        vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 1;
+> +        /* Also reserve config change and hiprio queue vectors */
+> +        vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 2;
+>      }
 > =20
->  typedef struct {
+>      qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
 > --=20
-> 2.24.0
+> 2.23.0
 >=20
 >=20
 --
