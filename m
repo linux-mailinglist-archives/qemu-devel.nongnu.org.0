@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801BC11E587
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:25:29 +0100 (CET)
-Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD6011E58D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:32:12 +0100 (CET)
+Received: from localhost ([::1]:49838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iflsS-0000c1-Rf
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:25:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53079)
+	id 1iflzG-0002zm-8M
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:32:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iflrc-0000A7-DF
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:24:17 -0500
+ (envelope-from <bounces@canonical.com>) id 1ifly2-0002XL-UV
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:30:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iflra-0002Gi-3H
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:24:14 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46908
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iflrZ-0002En-N9
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:24:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576247052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zj2wVrIh8KQNhFA65bESMfJP7roYgy+mFo3n5QglPhQ=;
- b=Z5Pp56bDZjCGYD8Njs1oRlq2vyG2iH0J5q9a2NNc7gnThbIpC/3bdNMW51pKPM7/swXaTj
- vGla6gO3igcOSHqmHnn6vWStgDJLdDU0CE2gwgw0JMiRKbI+UmzKu9EMcfHmwSkveflqJN
- AomN6kRxdYixIrfuJFWXBojskcgMvaI=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-HWAvGZezMlGrQe6SSrllNQ-1; Fri, 13 Dec 2019 09:24:08 -0500
-Received: by mail-qv1-f72.google.com with SMTP id x22so1762864qvc.18
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:24:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition;
- bh=sanExUpcAf7TPhNumiJmyXjhA8u9u6QpSUASPDnjn/0=;
- b=cCgaSlaFbSsZvoJObnW1VGVk8hir2KBlyM0r2SNqn33ZyHd1JmdmdH45nOT+63xC2o
- wHoztA2QOiS4vSuXyAPqFo2UY/BhAfF5pgw7GmD1w/F+vTEfHg2OkSYD4XuigsketORJ
- c2chEb1CRYOMDYbK86ExvViiv9iEsBgbkXuVA7HOPjnODEfAFtdu/TpeuuvmCKoVJcZA
- WwJN0K8Z8puSKwjq9gTajJT/TyiyopSmkspJ3bvxUGYwXHdwTERm31QR4P+yETYgGa8O
- S9oTVoBbJXYoprPkNfasl0XfI0z2UVdE59Z17NOhR0NZoaN42BIN4/7tGFIu/xpz8zD7
- AQMQ==
-X-Gm-Message-State: APjAAAUzqVk1uWd8M3Mxa9qapub5lxwSeWis01Z9hW31NSidBtb5xDv+
- 2YmrvRjYHmx0eeYeOCOAyIlLRVAZx4Z05YxEg6HoNPtKMl/ZISfmHNuI8j4b84EBGMpbDHfquJF
- LdFAStM4dOusEjAI=
-X-Received: by 2002:a37:6706:: with SMTP id b6mr12959008qkc.461.1576247047437; 
- Fri, 13 Dec 2019 06:24:07 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxLWjfw6jptdpPaRDRdzXNuPoPBB3I+XUOkYu/8THWHjzmwLt0ZWNZT+nzbG95goC5DYAGEaA==
-X-Received: by 2002:a37:6706:: with SMTP id b6mr12958993qkc.461.1576247047170; 
- Fri, 13 Dec 2019 06:24:07 -0800 (PST)
-Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
- by smtp.gmail.com with ESMTPSA id w1sm1785155qtk.31.2019.12.13.06.24.05
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 06:24:06 -0800 (PST)
-Date: Fri, 13 Dec 2019 09:24:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio: update queue size on guest write
-Message-ID: <20191213142358.345301-1-mst@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1ifly1-0003fv-8w
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:30:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45300)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ifly1-0003bg-3E
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:30:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iflxw-0002LJ-Dr
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 14:30:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F38EB2E80DC
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 14:30:47 +0000 (UTC)
 MIME-Version: 1.0
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-MC-Unique: HWAvGZezMlGrQe6SSrllNQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Fri, 13 Dec 2019 14:24:54 -0000
+From: dann frazier <dann.frazier@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=In Progress; importance=Medium;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dannf jan-glauber-i jnsnow lizhengui rafaeldtinoco
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: dann frazier (dannf)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <157624709546.6430.15706163417270184638.launchpad@soybean.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a6eeae460e41c686003b56bcc76379b5da267c59
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,33 +84,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some guests read back queue size after writing it.
-Update the size immediatly upon write otherwise
-they get confused.
+** Changed in: kunpeng920
+       Status: New =3D> Confirmed
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/virtio/virtio-pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+** Changed in: qemu (Ubuntu Bionic)
+       Status: New =3D> Confirmed
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index c6b47a9c73..e5c759e19e 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1256,6 +1256,8 @@ static void virtio_pci_common_write(void *opaque, hwa=
-ddr addr,
-         break;
-     case VIRTIO_PCI_COMMON_Q_SIZE:
-         proxy->vqs[vdev->queue_sel].num =3D val;
-+        virtio_queue_set_num(vdev, vdev->queue_sel,
-+                             proxy->vqs[vdev->queue_sel].num);
-         break;
-     case VIRTIO_PCI_COMMON_Q_MSIX:
-         msix_vector_unuse(&proxy->pci_dev,
---=20
-MST
+** Changed in: qemu (Ubuntu Disco)
+       Status: New =3D> Confirmed
 
+** Changed in: qemu (Ubuntu Focal)
+       Status: New =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
+
+Status in kunpeng920:
+  Confirmed
+Status in QEMU:
+  In Progress
+Status in qemu package in Ubuntu:
+  Confirmed
+Status in qemu source package in Bionic:
+  Confirmed
+Status in qemu source package in Disco:
+  Confirmed
+Status in qemu source package in Eoan:
+  In Progress
+Status in qemu source package in Focal:
+  Confirmed
+
+Bug description:
+  Command:
+
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs.
+
+  ----
+
+  Workaround:
+
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
+
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  [ Original Description ]
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
