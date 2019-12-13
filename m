@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A9111E35A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:10:03 +0100 (CET)
-Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D7D11E366
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:12:23 +0100 (CET)
+Received: from localhost ([::1]:48211 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifjlh-0000H5-Hr
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:10:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44391)
+	id 1ifjnx-00044Q-E3
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ifjdI-0000Fw-GO
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:01:21 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ifjeh-0001Vt-B3
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:02:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ifjdH-0006Eo-8K
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:01:20 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3966)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifjdH-0006E5-3C
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:01:19 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBDBulqX195248
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:01:18 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wtf71jkjd-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:01:17 -0500
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 13 Dec 2019 12:00:45 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 13 Dec 2019 12:00:42 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBDC0fpQ30867664
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 12:00:41 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8EBB0AE058;
- Fri, 13 Dec 2019 12:00:41 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 601D8AE04D;
- Fri, 13 Dec 2019 12:00:41 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.185.241])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 13 Dec 2019 12:00:41 +0000 (GMT)
-Subject: [PATCH 13/13] ppc/pnv: Drop PnvChipClass::type
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Fri, 13 Dec 2019 13:00:41 +0100
-In-Reply-To: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
-References: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+ (envelope-from <pbonzini@redhat.com>) id 1ifjef-0008PI-FS
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:02:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56413
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifjef-0008Ng-8u
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:02:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576238562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zDpMWcY8MAvgf11QbhUG+VybIy/cco4vYWuQfZdZoDo=;
+ b=RtS7frjsYObr9s79UN4DXHM5kTl15vqX4WkteSuzq/fnWgHl9W+XXSYZZSG7mEFYQyS+NY
+ IDrYxgimTbpYX4dnNERuyXwxiAdY2Iml9b2LmJn3MK+xkeQLK+2ZqRkQxtKreqdlYK07Ap
+ j7zUrox619enkawbUFbo5SzeHEmX1d8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-AUOugu-eNiimCP-cBN0QTA-1; Fri, 13 Dec 2019 07:02:41 -0500
+Received: by mail-wm1-f70.google.com with SMTP id g1so2265977wmg.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 04:02:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KFc9zrc0lnaWTXScDbTfhkxNxQpAVklGF7JvKKV46Yw=;
+ b=X1v2KUfSphZOzaoPKKnJRrLNu0S9Qh3a4g/8HPfjkUemlllnJaam158rP2LHfvJLhg
+ qhSq/Fg64bQOXtN1YxLnNMI3w1ZAIgPiub0MXSAEYOR87LjB6hcRcHPHlsFv5GmjUIGm
+ sqPoHQbiSBVDHUq6KWc6OOuNJXN48I7LMOcnC67V/VDJLEkyhc+LvmpEUdpa9Vuj5pbU
+ 3dVXnqX/G1SUMSidtms5BXV8KC5IMrCCOZ5jN/pZYCz4w1JXsxhasKvt5AKxUPHt0PJw
+ GgmDYxPhtUNUmSkJxLd5STkB9oMOFJLf9MYfq6QY2d0mFloqLCCHozRrRhl3fhf1ZsPw
+ LLjQ==
+X-Gm-Message-State: APjAAAXLUYIbdaN9NGVrZ69FzaLS+MBE0wHSo19E13dxE+ifsMkSFYOu
+ IA28JdTy/wdHyNSBgk5YMoUKsUSFv2yL+ZLwCTslQKjmL3qJ+kG6MfUqXyTNxyKgoNWtR+cTZPb
+ MnNwdk40fJevu8Ss=
+X-Received: by 2002:a05:600c:21da:: with SMTP id
+ x26mr12626475wmj.4.1576238559917; 
+ Fri, 13 Dec 2019 04:02:39 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwoCftRM04qYwi72pC5q921M1Ds05cpN5tdRSlsIAa2FJQ3rJ756T/keW2JOQHWPggqcz0ujA==
+X-Received: by 2002:a05:600c:21da:: with SMTP id
+ x26mr12626438wmj.4.1576238559671; 
+ Fri, 13 Dec 2019 04:02:39 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
+ ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
+ by smtp.gmail.com with ESMTPSA id u8sm9915651wmm.15.2019.12.13.04.02.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2019 04:02:39 -0800 (PST)
+Subject: Re: [PATCH] hw/i386: De-duplicate gsi_handler() to remove
+ kvm_pc_gsi_handler()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191213110736.10767-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <02225320-0c42-33d2-6e30-16935eaaa5d2@redhat.com>
+Date: Fri, 13 Dec 2019 13:02:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19121312-0020-0000-0000-00000397C4D0
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121312-0021-0000-0000-000021EED241
-Message-Id: <157623844102.360005.12070225703151669294.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-13_03:2019-12-13,2019-12-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 adultscore=0 clxscore=1034 malwarescore=0
- suspectscore=0 impostorscore=0 bulkscore=0 phishscore=0 spamscore=0
- mlxscore=0 mlxlogscore=868 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912130097
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+In-Reply-To: <20191213110736.10767-1-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: AUOugu-eNiimCP-cBN0QTA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,89 +94,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <rth@twiddle.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ kvm@vger.kernel.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It isn't used anymore.
+On 13/12/19 12:07, Philippe Mathieu-Daud=C3=A9 wrote:
+> Both gsi_handler() and kvm_pc_gsi_handler() have the same content,
+> except one comment. Move the comment, and de-duplicate the code.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  include/sysemu/kvm.h |  1 -
+>  hw/i386/kvm/ioapic.c | 12 ------------
+>  hw/i386/pc.c         |  5 ++---
+>  3 files changed, 2 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index 9fe233b9bf..f5d0d0d710 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -515,7 +515,6 @@ int kvm_irqchip_add_irqfd_notifier(KVMState *s, Event=
+Notifier *n,
+>  int kvm_irqchip_remove_irqfd_notifier(KVMState *s, EventNotifier *n,
+>                                        qemu_irq irq);
+>  void kvm_irqchip_set_qemuirq_gsi(KVMState *s, qemu_irq irq, int gsi);
+> -void kvm_pc_gsi_handler(void *opaque, int n, int level);
+>  void kvm_pc_setup_irq_routing(bool pci_enabled);
+>  void kvm_init_irq_routing(KVMState *s);
+> =20
+> diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+> index f94729c565..bae7413a39 100644
+> --- a/hw/i386/kvm/ioapic.c
+> +++ b/hw/i386/kvm/ioapic.c
+> @@ -48,18 +48,6 @@ void kvm_pc_setup_irq_routing(bool pci_enabled)
+>      }
+>  }
+> =20
+> -void kvm_pc_gsi_handler(void *opaque, int n, int level)
+> -{
+> -    GSIState *s =3D opaque;
+> -
+> -    if (n < ISA_NUM_IRQS) {
+> -        /* Kernel will forward to both PIC and IOAPIC */
+> -        qemu_set_irq(s->i8259_irq[n], level);
+> -    } else {
+> -        qemu_set_irq(s->ioapic_irq[n], level);
+> -    }
+> -}
+> -
+>  typedef struct KVMIOAPICState KVMIOAPICState;
+> =20
+>  struct KVMIOAPICState {
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index ac08e63604..97e9049b71 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -350,6 +350,7 @@ void gsi_handler(void *opaque, int n, int level)
+> =20
+>      DPRINTF("pc: %s GSI %d\n", level ? "raising" : "lowering", n);
+>      if (n < ISA_NUM_IRQS) {
+> +        /* Under KVM, Kernel will forward to both PIC and IOAPIC */
+>          qemu_set_irq(s->i8259_irq[n], level);
+>      }
+>      qemu_set_irq(s->ioapic_irq[n], level);
+> @@ -362,10 +363,8 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_en=
+abled)
+>      s =3D g_new0(GSIState, 1);
+>      if (kvm_ioapic_in_kernel()) {
+>          kvm_pc_setup_irq_routing(pci_enabled);
+> -        *irqs =3D qemu_allocate_irqs(kvm_pc_gsi_handler, s, GSI_NUM_PINS=
+);
+> -    } else {
+> -        *irqs =3D qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
+>      }
+> +    *irqs =3D qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
+> =20
+>      return s;
+>  }
+>=20
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/ppc/pnv.c         |    5 -----
- include/hw/ppc/pnv.h |    9 ---------
- 2 files changed, 14 deletions(-)
+Queued, thanks.
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index cc40b90e9cd2..232b4a25603c 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1132,7 +1132,6 @@ static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PnvChipClass *k = PNV_CHIP_CLASS(klass);
- 
--    k->chip_type = PNV_CHIP_POWER8E;
-     k->chip_cfam_id = 0x221ef04980000000ull;  /* P8 Murano DD2.1 */
-     k->cores_mask = POWER8E_CORE_MASK;
-     k->core_pir = pnv_chip_core_pir_p8;
-@@ -1156,7 +1155,6 @@ static void pnv_chip_power8_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PnvChipClass *k = PNV_CHIP_CLASS(klass);
- 
--    k->chip_type = PNV_CHIP_POWER8;
-     k->chip_cfam_id = 0x220ea04980000000ull; /* P8 Venice DD2.0 */
-     k->cores_mask = POWER8_CORE_MASK;
-     k->core_pir = pnv_chip_core_pir_p8;
-@@ -1180,7 +1178,6 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PnvChipClass *k = PNV_CHIP_CLASS(klass);
- 
--    k->chip_type = PNV_CHIP_POWER8NVL;
-     k->chip_cfam_id = 0x120d304980000000ull;  /* P8 Naples DD1.0 */
-     k->cores_mask = POWER8_CORE_MASK;
-     k->core_pir = pnv_chip_core_pir_p8;
-@@ -1360,7 +1357,6 @@ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PnvChipClass *k = PNV_CHIP_CLASS(klass);
- 
--    k->chip_type = PNV_CHIP_POWER9;
-     k->chip_cfam_id = 0x220d104900008000ull; /* P9 Nimbus DD2.0 */
-     k->cores_mask = POWER9_CORE_MASK;
-     k->core_pir = pnv_chip_core_pir_p9;
-@@ -1449,7 +1445,6 @@ static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PnvChipClass *k = PNV_CHIP_CLASS(klass);
- 
--    k->chip_type = PNV_CHIP_POWER10;
-     k->chip_cfam_id = 0x120da04900008000ull; /* P10 DD1.0 (with NX) */
-     k->cores_mask = POWER10_CORE_MASK;
-     k->core_pir = pnv_chip_core_pir_p10;
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 4972e93c2619..f78fd0dd967c 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -38,14 +38,6 @@
- #define PNV_CHIP_GET_CLASS(obj) \
-      OBJECT_GET_CLASS(PnvChipClass, (obj), TYPE_PNV_CHIP)
- 
--typedef enum PnvChipType {
--    PNV_CHIP_POWER8E,     /* AKA Murano (default) */
--    PNV_CHIP_POWER8,      /* AKA Venice */
--    PNV_CHIP_POWER8NVL,   /* AKA Naples */
--    PNV_CHIP_POWER9,      /* AKA Nimbus */
--    PNV_CHIP_POWER10,     /* AKA TBD */
--} PnvChipType;
--
- typedef struct PnvChip {
-     /*< private >*/
-     SysBusDevice parent_obj;
-@@ -123,7 +115,6 @@ typedef struct PnvChipClass {
-     SysBusDeviceClass parent_class;
- 
-     /*< public >*/
--    PnvChipType  chip_type;
-     uint64_t     chip_cfam_id;
-     uint64_t     cores_mask;
- 
+Paolo
 
 
