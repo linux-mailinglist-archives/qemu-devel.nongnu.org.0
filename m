@@ -2,60 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1437F11E291
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 12:12:56 +0100 (CET)
-Received: from localhost ([::1]:46842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013FF11E29B
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 12:15:24 +0100 (CET)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifisR-0002OO-59
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 06:12:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59206)
+	id 1ifiuo-0003fL-S2
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 06:15:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifirX-0001wn-BH
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:12:00 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ifitn-00034z-9T
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:14:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifirW-0000Yz-Bf
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:11:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22790
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifirW-0000Y5-7v
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:11:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576235517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9m3dEZtdHZV4704oi8uUh8EJBV6qZdzh2uIOy9D2PN0=;
- b=cUZUvd4JQJ7yBiToLNGdTXrI9QpAmJTgCm+IXsGx9diLUvT6rjDwP3VVhstYqMqdnVT7HJ
- sb9cJEWpbA3bh+/gwj80ApxFbHxD9pmTyya48xF0sxD0RtNz6qkXBzVwRRS5lSHRbJOPaw
- yRseOFptLsYRq6ZXHu809IDUA7/aCPc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-km6ISO6JOp2eqirXKCoUXw-1; Fri, 13 Dec 2019 06:11:56 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DDB6800D41;
- Fri, 13 Dec 2019 11:11:55 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-134.brq.redhat.com [10.40.204.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 54EC75C3FD;
- Fri, 13 Dec 2019 11:11:47 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/i386/pc: Simplify ioapic_init_gsi()
-Date: Fri, 13 Dec 2019 12:11:45 +0100
-Message-Id: <20191213111145.11288-1-philmd@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1ifitm-0004ck-0H
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:14:18 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39123)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ifitl-0004Yz-Nl
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:14:17 -0500
+Received: by mail-wm1-x341.google.com with SMTP id d5so6125374wmb.4
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 03:14:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=hxzgsq+yoFWLY6k0DD0wP6nI9bTxnJN1dRCOWQVkrK0=;
+ b=BgTJOpCebewKLqe9enw6uhmA0XyVQnUye0qMxIkMmaDehtRJJRpJsI8QLtb58lmXtb
+ 8XgEbysRYDuqm3TC/KZmxX9Bqlr14yKSUInInh+TnsVe4ugKK3axa0XSSG2xyCkytuN9
+ Mc2OaJ0zdvna2Mb4sJa48LKnh4vWrWWfSoYYpU2j5iBkndXEZP0hbp6qhBTLtlVBoBp7
+ 4yjKCd/v+kU45eTnJhvXiwDuWuRUWBMnCbB5Ytl1IIGPDDI+/oB3FxNDURjGlSDlmxAg
+ /255CqeEhVWoIn0FYsB45kue0cqsqvIRWAcXJOxv07HecGRlBVVEI/ocg8yD/zGMSyHR
+ yyEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=hxzgsq+yoFWLY6k0DD0wP6nI9bTxnJN1dRCOWQVkrK0=;
+ b=WD4Op31sAzdFx9hFZG3RNc7ZSNkLQio5lXIiLRS/egrrCc1LXZVzQAY7l4axdBuCt9
+ jvd1aleOtOcFU7wJPRLI54GamQJDT+MeF2nnDg5MsDik4U3sfTsl5tyWxvhvzesg7ttb
+ 1UXcXdot/s95fWwO8uGc4i8Pff/r3Ym41Lg3aG9YUu/Df5M2P70RFuABXU8eqokhVvU4
+ 4LtVcrTnC/NEhUTujxxH4E8Us+dqGv0gP0QvMkD2OC68FlxU8rl7lk3HMtsP6s89ukci
+ /V/aCmo9EydRCsi9MSodToIAcEC49yTeX5CKh5AReQHUL26CWzlPZmmNlbopOVsAWFfZ
+ 93bA==
+X-Gm-Message-State: APjAAAW40C6U6LEKjH8b9lWwb/FGuo4jBmWgiBf+kpuSXnsfKaIQEI9d
+ Kom0oJG0ntHX4Nsf1SHm2FtHuQ==
+X-Google-Smtp-Source: APXvYqz6O5fjv8v0FtdUujoKnvG5On6b9KIn2j8/87hCDrZlkT+MGLZFKomTRJDnwPU9TaisO6nnXw==
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr12094421wmi.166.1576235655651; 
+ Fri, 13 Dec 2019 03:14:15 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z11sm9738612wrt.82.2019.12.13.03.14.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 03:14:14 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9E5A11FF87;
+ Fri, 13 Dec 2019 11:14:13 +0000 (GMT)
+References: <20191007152839.30804-1-alex.bennee@linaro.org>
+ <20191007152839.30804-2-alex.bennee@linaro.org>
+ <ca3b67ec-8cf7-26f3-5cfe-7a330e11571e@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v9 01/13] accel/tcg: introduce TBStatistics structure
+In-reply-to: <ca3b67ec-8cf7-26f3-5cfe-7a330e11571e@linaro.org>
+Date: Fri, 13 Dec 2019 11:14:13 +0000
+Message-ID: <87blscbhq2.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: km6ISO6JOp2eqirXKCoUXw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,49 +83,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
+ "Vanderson M. do Rosario" <vandersonmr2@gmail.com>, qemu-devel@nongnu.org,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All callers of ioapic_init_gsi() provide a parent. We want new
-uses to follow the same good practice and provide the parent
-name, so do not make this optional: assert the parent name is
-provided, and simplify the code.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/i386/pc.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index ac08e63604..234945d328 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1488,15 +1488,14 @@ void ioapic_init_gsi(GSIState *gsi_state, const cha=
-r *parent_name)
-     SysBusDevice *d;
-     unsigned int i;
-=20
-+    assert(parent_name);
-     if (kvm_ioapic_in_kernel()) {
-         dev =3D qdev_create(NULL, TYPE_KVM_IOAPIC);
-     } else {
-         dev =3D qdev_create(NULL, TYPE_IOAPIC);
-     }
--    if (parent_name) {
--        object_property_add_child(object_resolve_path(parent_name, NULL),
--                                  "ioapic", OBJECT(dev), NULL);
--    }
-+    object_property_add_child(object_resolve_path(parent_name, NULL),
-+                              "ioapic", OBJECT(dev), NULL);
-     qdev_init_nofail(dev);
-     d =3D SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
+> On 10/7/19 11:28 AM, Alex Benn=C3=A9e wrote:
+>> From: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>
+>>=20
+>> To store statistics for each TB, we created a TBStatistics structure
+>> which is linked with the TBs. TBStatistics can stay alive after
+>> tb_flush and be relinked to a regenerated TB. So the statistics can
+>> be accumulated even through flushes.
+>>=20
+>> The goal is to have all present and future qemu/tcg statistics and
+>> meta-data stored in this new structure.
+>>=20
+>> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+>> Message-Id: <20190829173437.5926-2-vandersonmr2@gmail.com>
+>> [AJB: fix git author, review comments]
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>=20
+>> ---
+>> AJB
+>>   - move tcg_collect_tb_stats inside tb-stats.c
+>>   - add spdx header
+>>   - drop tb from tbstats and associated functions
+>> ---
+>
+> The only quibble I have is with
+>
+>> +void init_tb_stats_htable_if_not(void);
+>
+> If not what?
+>
+> I can only imagine that this phrase is intended to finish "if not initial=
+ized".
+>  But I think it's clearer to just call this "init_tb_stats_htable".
+
+Fixed.
+
+>
+>> +void enable_collect_tb_stats(void)
+>> +{
+>> +    init_tb_stats_htable_if_not();
+>
+> Why do we need to do this again, since we did this in tb_htable_init?
+
+This is the route if we dynamically enable tb-stats with an already
+running system emulation.
+
 --=20
-2.21.0
-
+Alex Benn=C3=A9e
 
