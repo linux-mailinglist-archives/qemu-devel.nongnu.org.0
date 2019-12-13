@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E16111E854
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:29:41 +0100 (CET)
-Received: from localhost ([::1]:51072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A15B11E84D
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:28:01 +0100 (CET)
+Received: from localhost ([::1]:51057 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnox-0003oS-Sm
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:29:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37568)
+	id 1ifnnL-0001F1-Lk
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44378)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ifnf4-0000GV-RI
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:28 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ifnfd-000184-Ok
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ifnf3-0001Me-Hp
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:26 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30780
+ (envelope-from <cohuck@redhat.com>) id 1ifnfc-0002Yp-Nf
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:01 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60735
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnf3-0001Lg-DU
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:25 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnfc-0002WT-JD
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253964;
+ s=mimecast20190719; t=1576253999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3nzSX4Eik3KjtGJOW7//s0suSjmGjAvzRFJ0ah76MqM=;
- b=HRYq+6vXIP2YoqHq5zEDzGlxExQ8rBSrV36IEuchnGyrOCQSDkBg0TYqFxU9w7kPTuNRNO
- 7tg2mUj0EdFNm+xpLsuarZAoMYD7779ttD8HtuZ0ptFq3046jxYOTJSvGmlCen5EfgYWNE
- ufC/ORWqiKMGBda5kYBRgjKNkaRTq8c=
+ bh=6R+tH7lHFJCm0FH/ixXdJNaTFOW/B3rF19L4hUlBtlU=;
+ b=CYcgsjEA4vlIMzYCwQ0YcFpXmShm2oIjBSWTEU6l+9312a3+Eh9jq9RmJVf++8OhwhKGAJ
+ oY53zmg1VikzoJ1lqbVVU2F8qhaay1ZCEhMN5zuO1cJjvDjPU3gEOQjh3ewC9EwAQVrLZN
+ Si5326loJL/nDIDg54QFtJKJJDIjooo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-ct8vcmzbM5W5MIWSrMcgvg-1; Fri, 13 Dec 2019 11:19:23 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-216-Aw8PrsvTP1GPqC3AQwjaOA-1; Fri, 13 Dec 2019 11:19:55 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6BCD1852E29;
- Fri, 13 Dec 2019 16:19:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F31A801E72;
+ Fri, 13 Dec 2019 16:19:54 +0000 (UTC)
 Received: from localhost (ovpn-116-226.ams2.redhat.com [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C206660BF3;
- Fri, 13 Dec 2019 16:19:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CD3E601B6;
+ Fri, 13 Dec 2019 16:19:51 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 06/16] s390x: Move clear reset
-Date: Fri, 13 Dec 2019 17:18:41 +0100
-Message-Id: <20191213161851.24687-7-cohuck@redhat.com>
+Subject: [PULL 15/16] s390x/tcg: clear local interrupts on reset normal
+Date: Fri, 13 Dec 2019 17:18:50 +0100
+Message-Id: <20191213161851.24687-16-cohuck@redhat.com>
 In-Reply-To: <20191213161851.24687-1-cohuck@redhat.com>
 References: <20191213161851.24687-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ct8vcmzbM5W5MIWSrMcgvg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: Aw8PrsvTP1GPqC3AQwjaOA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,141 +70,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Janosch Frank <frankja@linux.ibm.com>
+We neglected to clean up pending interrupts and emergency signals;
+fix that.
 
-Let's also move the clear reset function into the reset handler.
-
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Message-Id: <20191127175046.4911-5-frankja@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191206135404.16051-1-cohuck@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cpu-qom.h |  1 +
- target/s390x/cpu.c     | 58 +++++++++++++-----------------------------
- 2 files changed, 18 insertions(+), 41 deletions(-)
+ target/s390x/cpu.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
-index 6f0a12042ed4..dbe5346ec901 100644
---- a/target/s390x/cpu-qom.h
-+++ b/target/s390x/cpu-qom.h
-@@ -37,6 +37,7 @@ typedef struct S390CPUDef S390CPUDef;
- typedef enum cpu_reset_type {
-     S390_CPU_RESET_NORMAL,
-     S390_CPU_RESET_INITIAL,
-+    S390_CPU_RESET_CLEAR,
- } cpu_reset_type;
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 7e1c18d59696..aa829e954cbf 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -98,10 +98,6 @@ struct CPUS390XState {
 =20
- /**
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index ca62fe768569..bd39cb54b7aa 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -94,6 +94,9 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type ty=
-pe)
-     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
+     uint64_t cregs[16]; /* control registers */
 =20
-     switch (type) {
-+    case S390_CPU_RESET_CLEAR:
-+        memset(env, 0, offsetof(CPUS390XState, start_initial_reset_fields)=
-);
-+        /* fall through */
-     case S390_CPU_RESET_INITIAL:
-         /* initial reset does not clear everything! */
-         memset(&env->start_initial_reset_fields, 0,
-@@ -107,6 +110,14 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type=
- type)
-         env->cregs[0] =3D CR0_RESET;
-         env->cregs[14] =3D CR14_RESET;
+-    int pending_int;
+-    uint16_t external_call_addr;
+-    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+-
+     uint64_t ckc;
+     uint64_t cputm;
+     uint32_t todpr;
+@@ -117,6 +113,10 @@ struct CPUS390XState {
+     struct {} start_normal_reset_fields;
+     uint8_t riccb[64];     /* runtime instrumentation control */
 =20
-+#if defined(CONFIG_USER_ONLY)
-+        /* user mode should always be allowed to use the full FPU */
-+        env->cregs[0] |=3D CR0_AFP;
-+        if (s390_has_feat(S390_FEAT_VECTOR)) {
-+            env->cregs[0] |=3D CR0_VECTOR;
-+        }
-+#endif
++    int pending_int;
++    uint16_t external_call_addr;
++    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
 +
-         /* tininess for underflow is detected before rounding */
-         set_float_detect_tininess(float_tininess_before_rounding,
-                                   &env->fpu_status);
-@@ -125,46 +136,6 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type=
- type)
-     }
- }
+     /* Fields up to this point are cleared by a CPU reset */
+     struct {} end_reset_fields;
 =20
--/* CPUClass:reset() */
--static void s390_cpu_full_reset(CPUState *s)
--{
--    S390CPU *cpu =3D S390_CPU(s);
--    S390CPUClass *scc =3D S390_CPU_GET_CLASS(cpu);
--    CPUS390XState *env =3D &cpu->env;
--
--    scc->parent_reset(s);
--    cpu->env.sigp_order =3D 0;
--    s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
--
--    memset(env, 0, offsetof(CPUS390XState, end_reset_fields));
--
--    /* architectured initial values for CR 0 and 14 */
--    env->cregs[0] =3D CR0_RESET;
--    env->cregs[14] =3D CR14_RESET;
--
--#if defined(CONFIG_USER_ONLY)
--    /* user mode should always be allowed to use the full FPU */
--    env->cregs[0] |=3D CR0_AFP;
--    if (s390_has_feat(S390_FEAT_VECTOR)) {
--        env->cregs[0] |=3D CR0_VECTOR;
--    }
--#endif
--
--    /* architectured initial value for Breaking-Event-Address register */
--    env->gbea =3D 1;
--
--    env->pfault_token =3D -1UL;
--
--    /* tininess for underflow is detected before rounding */
--    set_float_detect_tininess(float_tininess_before_rounding,
--                              &env->fpu_status);
--
--    /* Reset state inside the kernel that we cannot access yet from QEMU. =
-*/
--    if (kvm_enabled()) {
--        kvm_s390_reset_vcpu(cpu);
--    }
--}
--
- #if !defined(CONFIG_USER_ONLY)
- static void s390_cpu_machine_reset_cb(void *opaque)
- {
-@@ -456,6 +427,11 @@ static Property s390x_cpu_properties[] =3D {
-     DEFINE_PROP_END_OF_LIST()
- };
-=20
-+static void s390_cpu_reset_full(CPUState *s)
-+{
-+    return s390_cpu_reset(s, S390_CPU_RESET_CLEAR);
-+}
-+
- static void s390_cpu_class_init(ObjectClass *oc, void *data)
- {
-     S390CPUClass *scc =3D S390_CPU_CLASS(oc);
-@@ -472,7 +448,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *=
-data)
-     scc->load_normal =3D s390_cpu_load_normal;
- #endif
-     scc->reset =3D s390_cpu_reset;
--    cc->reset =3D s390_cpu_full_reset;
-+    cc->reset =3D s390_cpu_reset_full;
-     cc->class_by_name =3D s390_cpu_class_by_name,
-     cc->has_work =3D s390_cpu_has_work;
- #ifdef CONFIG_TCG
 --=20
 2.21.0
 
