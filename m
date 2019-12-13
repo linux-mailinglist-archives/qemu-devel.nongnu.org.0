@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC86711E338
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:06:54 +0100 (CET)
-Received: from localhost ([::1]:48134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA1D11E36A
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 13:14:51 +0100 (CET)
+Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifjif-0004fo-6T
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:06:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35831)
+	id 1ifjqM-0006sR-GR
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 07:14:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ifjcQ-0007m5-I5
+ (envelope-from <groug@kaod.org>) id 1ifjcT-0007po-T2
  for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ifjcP-0004iA-0g
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31694)
+ (envelope-from <groug@kaod.org>) id 1ifjcS-0004or-Eq
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:29 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36938)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifjcO-0004gA-Mw
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:24 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ifjcS-0004nI-3u
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 07:00:28 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBDBw6Mp026965
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:20 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wuq3xamr5-1
+ xBDBvJDE049877
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:27 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wuspgvb9n-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:19 -0500
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 07:00:27 -0500
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 13 Dec 2019 12:00:17 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Fri, 13 Dec 2019 12:00:24 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 13 Dec 2019 12:00:15 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBDC0EDS51249306
+ Fri, 13 Dec 2019 12:00:22 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBDC0L8R15335494
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 12:00:14 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A7A2352069;
- Fri, 13 Dec 2019 12:00:13 +0000 (GMT)
+ Fri, 13 Dec 2019 12:00:21 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4040F4C06E;
+ Fri, 13 Dec 2019 12:00:19 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 17C084C07E;
+ Fri, 13 Dec 2019 12:00:19 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.185.241])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 6F6B35207E;
- Fri, 13 Dec 2019 12:00:13 +0000 (GMT)
-Subject: [PATCH 08/13] ppc/pnv: Introduce PnvChipClass::xscom_core_base()
- method
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Dec 2019 12:00:19 +0000 (GMT)
+Subject: [PATCH 09/13] ppc/pnv: Pass XSCOM base address and address size to
+ pnv_dt_xscom()
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Fri, 13 Dec 2019 13:00:13 +0100
+Date: Fri, 13 Dec 2019 13:00:18 +0100
 In-Reply-To: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
 References: <157623836852.360005.1112241220707384093.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -62,17 +65,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19121312-0020-0000-0000-00000397C4CB
+x-cbid: 19121312-0016-0000-0000-000002D47158
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121312-0021-0000-0000-000021EED23C
-Message-Id: <157623841311.360005.4705705734873339545.stgit@bahia.lan>
+x-cbparentid: 19121312-0017-0000-0000-000033369CC0
+Message-Id: <157623841868.360005.17577624823547136435.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-13_03:2019-12-13,2019-12-13 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1034
- mlxlogscore=999 impostorscore=0 suspectscore=0 bulkscore=0 adultscore=0
- lowpriorityscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 adultscore=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 clxscore=1034
+ mlxlogscore=999 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1912130097
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
@@ -92,113 +95,99 @@ Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pnv_chip_core_realize() function configures the XSCOM MMIO subregion
-for each core of a single chip. The base address of the subregion depends
-on the CPU type. Its computation is currently open-code using the
-pnv_chip_is_powerXX() helpers. This can be achieved with QOM. Introduce
-a method for this in the base chip class and implement it in child classes.
+Since pnv_dt_xscom() is called from chip specific dt_populate() hooks,
+it shouldn't have to guess the chip type in order to populate the "reg"
+property. Just pass the base address and address size as arguments.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/pnv.c         |   31 ++++++++++++++++++++++++-------
- include/hw/ppc/pnv.h |    1 +
- 2 files changed, 25 insertions(+), 7 deletions(-)
+ hw/ppc/pnv.c               |   12 +++++++++---
+ hw/ppc/pnv_xscom.c         |   16 +++-------------
+ include/hw/ppc/pnv_xscom.h |    3 ++-
+ 3 files changed, 14 insertions(+), 17 deletions(-)
 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 2a53e99bda2e..88efa755e611 100644
+index 88efa755e611..c532e98e752a 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -616,6 +616,24 @@ static void pnv_chip_power9_pic_print_info(PnvChip *chip, Monitor *mon)
-     pnv_psi_pic_print_info(&chip9->psi, mon);
- }
- 
-+static uint64_t pnv_chip_power8_xscom_core_base(PnvChip *chip,
-+                                                uint32_t core_id)
-+{
-+    return PNV_XSCOM_EX_BASE(core_id);
-+}
-+
-+static uint64_t pnv_chip_power9_xscom_core_base(PnvChip *chip,
-+                                                uint32_t core_id)
-+{
-+    return PNV9_XSCOM_EC_BASE(core_id);
-+}
-+
-+static uint64_t pnv_chip_power10_xscom_core_base(PnvChip *chip,
-+                                                 uint32_t core_id)
-+{
-+    return PNV10_XSCOM_EC_BASE(core_id);
-+}
-+
- static bool pnv_match_cpu(const char *default_type, const char *cpu_type)
+@@ -282,7 +282,9 @@ static void pnv_chip_power8_dt_populate(PnvChip *chip, void *fdt)
  {
-     PowerPCCPUClass *ppc_default =
-@@ -1107,6 +1125,7 @@ static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
-     k->isa_create = pnv_chip_power8_isa_create;
-     k->dt_populate = pnv_chip_power8_dt_populate;
-     k->pic_print_info = pnv_chip_power8_pic_print_info;
-+    k->xscom_core_base = pnv_chip_power8_xscom_core_base;
-     dc->desc = "PowerNV Chip POWER8E";
+     int i;
  
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -1129,6 +1148,7 @@ static void pnv_chip_power8_class_init(ObjectClass *klass, void *data)
-     k->isa_create = pnv_chip_power8_isa_create;
-     k->dt_populate = pnv_chip_power8_dt_populate;
-     k->pic_print_info = pnv_chip_power8_pic_print_info;
-+    k->xscom_core_base = pnv_chip_power8_xscom_core_base;
-     dc->desc = "PowerNV Chip POWER8";
+-    pnv_dt_xscom(chip, fdt, 0);
++    pnv_dt_xscom(chip, fdt, 0,
++                 cpu_to_be64(PNV_XSCOM_BASE(chip)),
++                 cpu_to_be64(PNV_XSCOM_SIZE));
  
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -1151,6 +1171,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
-     k->isa_create = pnv_chip_power8nvl_isa_create;
-     k->dt_populate = pnv_chip_power8_dt_populate;
-     k->pic_print_info = pnv_chip_power8_pic_print_info;
-+    k->xscom_core_base = pnv_chip_power8_xscom_core_base;
-     dc->desc = "PowerNV Chip POWER8NVL";
+     for (i = 0; i < chip->nr_cores; i++) {
+         PnvCore *pnv_core = chip->cores[i];
+@@ -302,7 +304,9 @@ static void pnv_chip_power9_dt_populate(PnvChip *chip, void *fdt)
+ {
+     int i;
  
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -1323,6 +1344,7 @@ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
-     k->isa_create = pnv_chip_power9_isa_create;
-     k->dt_populate = pnv_chip_power9_dt_populate;
-     k->pic_print_info = pnv_chip_power9_pic_print_info;
-+    k->xscom_core_base = pnv_chip_power9_xscom_core_base;
-     dc->desc = "PowerNV Chip POWER9";
+-    pnv_dt_xscom(chip, fdt, 0);
++    pnv_dt_xscom(chip, fdt, 0,
++                 cpu_to_be64(PNV9_XSCOM_BASE(chip)),
++                 cpu_to_be64(PNV9_XSCOM_SIZE));
  
-     device_class_set_parent_realize(dc, pnv_chip_power9_realize,
-@@ -1404,6 +1426,7 @@ static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
-     k->isa_create = pnv_chip_power10_isa_create;
-     k->dt_populate = pnv_chip_power10_dt_populate;
-     k->pic_print_info = pnv_chip_power10_pic_print_info;
-+    k->xscom_core_base = pnv_chip_power10_xscom_core_base;
-     dc->desc = "PowerNV Chip POWER10";
+     for (i = 0; i < chip->nr_cores; i++) {
+         PnvCore *pnv_core = chip->cores[i];
+@@ -321,7 +325,9 @@ static void pnv_chip_power10_dt_populate(PnvChip *chip, void *fdt)
+ {
+     int i;
  
-     device_class_set_parent_realize(dc, pnv_chip_power10_realize,
-@@ -1491,13 +1514,7 @@ static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
-                                  &error_fatal);
+-    pnv_dt_xscom(chip, fdt, 0);
++    pnv_dt_xscom(chip, fdt, 0,
++                 cpu_to_be64(PNV10_XSCOM_BASE(chip)),
++                 cpu_to_be64(PNV10_XSCOM_SIZE));
  
-         /* Each core has an XSCOM MMIO region */
--        if (pnv_chip_is_power10(chip)) {
--            xscom_core_base = PNV10_XSCOM_EC_BASE(core_hwid);
--        } else if (pnv_chip_is_power9(chip)) {
--            xscom_core_base = PNV9_XSCOM_EC_BASE(core_hwid);
--        } else {
--            xscom_core_base = PNV_XSCOM_EX_BASE(core_hwid);
--        }
-+        xscom_core_base = pcc->xscom_core_base(chip, core_hwid);
+     for (i = 0; i < chip->nr_cores; i++) {
+         PnvCore *pnv_core = chip->cores[i];
+diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+index df926003f2ba..8189767eb0bb 100644
+--- a/hw/ppc/pnv_xscom.c
++++ b/hw/ppc/pnv_xscom.c
+@@ -286,24 +286,14 @@ static const char compat_p8[] = "ibm,power8-xscom\0ibm,xscom";
+ static const char compat_p9[] = "ibm,power9-xscom\0ibm,xscom";
+ static const char compat_p10[] = "ibm,power10-xscom\0ibm,xscom";
  
-         pnv_xscom_add_subregion(chip, xscom_core_base,
-                                 &pnv_core->xscom_regs);
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 7d2402784d4b..17ca9a14ac8f 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -137,6 +137,7 @@ typedef struct PnvChipClass {
-     ISABus *(*isa_create)(PnvChip *chip, Error **errp);
-     void (*dt_populate)(PnvChip *chip, void *fdt);
-     void (*pic_print_info)(PnvChip *chip, Monitor *mon);
-+    uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
- } PnvChipClass;
+-int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset)
++int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset,
++                 uint64_t xscom_base, uint64_t xscom_size)
+ {
+-    uint64_t reg[2];
++    uint64_t reg[] = { xscom_base, xscom_size };
+     int xscom_offset;
+     ForeachPopulateArgs args;
+     char *name;
  
- #define PNV_CHIP_TYPE_SUFFIX "-" TYPE_PNV_CHIP
+-    if (pnv_chip_is_power10(chip)) {
+-        reg[0] = cpu_to_be64(PNV10_XSCOM_BASE(chip));
+-        reg[1] = cpu_to_be64(PNV10_XSCOM_SIZE);
+-    } else if (pnv_chip_is_power9(chip)) {
+-        reg[0] = cpu_to_be64(PNV9_XSCOM_BASE(chip));
+-        reg[1] = cpu_to_be64(PNV9_XSCOM_SIZE);
+-    } else {
+-        reg[0] = cpu_to_be64(PNV_XSCOM_BASE(chip));
+-        reg[1] = cpu_to_be64(PNV_XSCOM_SIZE);
+-    }
+-
+     name = g_strdup_printf("xscom@%" PRIx64, be64_to_cpu(reg[0]));
+     xscom_offset = fdt_add_subnode(fdt, root_offset, name);
+     _FDT(xscom_offset);
+diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+index 2bdb7ae84fd3..ad53f788b44c 100644
+--- a/include/hw/ppc/pnv_xscom.h
++++ b/include/hw/ppc/pnv_xscom.h
+@@ -114,7 +114,8 @@ typedef struct PnvXScomInterfaceClass {
+ #define PNV10_XSCOM_PSIHB_SIZE     0x100
+ 
+ void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp);
+-int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
++int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset,
++                 uint64_t xscom_base, uint64_t xscom_size);
+ 
+ void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
+                              MemoryRegion *mr);
 
 
