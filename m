@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E64811E87A
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:41:22 +0100 (CET)
-Received: from localhost ([::1]:51254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C59911E859
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:30:57 +0100 (CET)
+Received: from localhost ([::1]:51082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifo0H-0001eX-8q
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:41:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42921)
+	id 1ifnqB-0005VD-I2
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:30:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ifnfW-0000x4-8I
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:55 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ifnff-0001Af-Jn
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ifnfV-0002KW-8h
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37443
+ (envelope-from <cohuck@redhat.com>) id 1ifnfe-0002bl-8Q
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37732
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnfV-0002JR-4K
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:53 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnfe-0002ar-3W
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253992;
+ s=mimecast20190719; t=1576254001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NUXGDBlQgXoYfeFlI09A6bJOwoS+zELlXbUsMOsd9hg=;
- b=PSBzwFGYNdC9ED3GYd1704PkmV2AsisO9BotvWuLTWpN9H7wC9HI9r9slYJZpk+nBERZzz
- x2PmH6p8GH5oSDAZ6r5vNx+zeS8AMd9G8pPG2/0WWPyKF4gqaZ1GGkyGanCe59ltcTFeEY
- MLEfca31n+1+2apx5MgxvjlB12fsEJQ=
+ bh=nbZyf1ZW8K5V3e1TBoi/wLdXPiQC4RLxVjDdCL55/kI=;
+ b=dnCEtIdAxwt7Of4I8L/W6HyIwVDhTYeYWfwy1fhLVY/lejoECbzJIde9m1ZRhB8tgtMO7d
+ TvM0t/OuL77EIm0xXlJ0/qxKs5AXSKL6lebYeSsuOmnBZznd02hfofH9tsYnPqtFtfqLEx
+ BV5jbxGvfrXx1qcuwnfISBtmChNTzAw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-ZJPq1ky7PXyi8f5Mt83kOA-1; Fri, 13 Dec 2019 11:19:51 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-203-1jw-cJVkO1qrYUf-CqvhkQ-1; Fri, 13 Dec 2019 11:20:00 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A20F1856A67;
- Fri, 13 Dec 2019 16:19:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2739F107ACCA;
+ Fri, 13 Dec 2019 16:19:59 +0000 (UTC)
 Received: from localhost (ovpn-116-226.ams2.redhat.com [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8386C10013D9;
- Fri, 13 Dec 2019 16:19:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EA5160BF3;
+ Fri, 13 Dec 2019 16:19:56 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/16] s390x/cpumodel: Fix query-cpu-definitions error API
- violations
-Date: Fri, 13 Dec 2019 17:18:49 +0100
-Message-Id: <20191213161851.24687-15-cohuck@redhat.com>
+Subject: [PULL 16/16] qga: fence guest-set-time if hwclock not available
+Date: Fri, 13 Dec 2019 17:18:51 +0100
+Message-Id: <20191213161851.24687-17-cohuck@redhat.com>
 In-Reply-To: <20191213161851.24687-1-cohuck@redhat.com>
 References: <20191213161851.24687-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: ZJPq1ky7PXyi8f5Mt83kOA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 1jw-cJVkO1qrYUf-CqvhkQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,53 +70,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-s390x@nongnu.org,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+The Posix implementation of guest-set-time invokes hwclock to
+set/retrieve the time to/from the hardware clock. If hwclock
+is not available, the user is currently informed that "hwclock
+failed to set hardware clock to system time", which is quite
+misleading. This may happen e.g. on s390x, which has a different
+timekeeping concept anyway.
 
-qmp_query_cpu_definitions() passes @errp to get_max_cpu_model(), then
-frees any error it gets back.  This effectively ignores errors.
-Dereferencing @errp is wrong; see the big comment in error.h.  Passing
-@errp is also wrong, because it works only as long as @errp is neither
-@error_fatal nor @error_abort.  Introduced in commit 38cba1f4d8
-"s390x: return unavailable features via query-cpu-definitions".
+Let's check for the availability of the hwclock command and
+return QERR_UNSUPPORTED for guest-set-time if it is not available.
 
-No caller actually passes such @errp values.
-
-Fix anyway: simply pass NULL to get_max_cpu_model().
-
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20191204093625.14836-16-armbru@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+Message-Id: <20191205115350.18713-1-cohuck@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/cpu_models.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ qga/commands-posix.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 3ed301b5e509..547bab8ac392 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -462,11 +462,7 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error=
- **errp)
-         .list =3D NULL,
-     };
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 1c1a165daed8..0be301a4ea77 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -156,6 +156,17 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns=
+, Error **errp)
+     pid_t pid;
+     Error *local_err =3D NULL;
+     struct timeval tv;
++    static const char hwclock_path[] =3D "/sbin/hwclock";
++    static int hwclock_available =3D -1;
++
++    if (hwclock_available < 0) {
++        hwclock_available =3D (access(hwclock_path, X_OK) =3D=3D 0);
++    }
++
++    if (!hwclock_available) {
++        error_setg(errp, QERR_UNSUPPORTED);
++        return;
++    }
 =20
--    list_data.model =3D get_max_cpu_model(errp);
--    if (*errp) {
--        error_free(*errp);
--        *errp =3D NULL;
--    }
-+    list_data.model =3D get_max_cpu_model(NULL);
+     /* If user has passed a time, validate and set it. */
+     if (has_time) {
+@@ -195,7 +206,7 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns,=
+ Error **errp)
 =20
-     object_class_foreach(create_cpu_model_list, TYPE_S390_CPU, false,
-                          &list_data);
+         /* Use '/sbin/hwclock -w' to set RTC from the system time,
+          * or '/sbin/hwclock -s' to set the system time from RTC. */
+-        execle("/sbin/hwclock", "hwclock", has_time ? "-w" : "-s",
++        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",
+                NULL, environ);
+         _exit(EXIT_FAILURE);
+     } else if (pid < 0) {
 --=20
 2.21.0
 
