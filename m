@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDB511E306
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 12:52:50 +0100 (CET)
-Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCE611E30A
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 12:54:53 +0100 (CET)
+Received: from localhost ([::1]:47984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifjV3-0002LS-FZ
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 06:52:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35958)
+	id 1ifjX2-0003Wz-H2
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 06:54:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54367)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ifjUA-0001vY-Pq
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:51:56 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ifjWD-0002vr-25
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:54:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ifjU8-00088C-Vw
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:51:54 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41956)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ifjU8-00086q-M4
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:51:52 -0500
-Received: by mail-wr1-x444.google.com with SMTP id c9so6334138wrw.8
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 03:51:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=VmzYywiMw3+41ZZR+hBQNVxS71g+7eEBc0HirjZY5WE=;
- b=AFZ6Il9b8bt34h6eTjwzh8Tm12tSFoboh8oFgrkbksGxN7zIDSWauE/+sxGYXF4pKB
- +eNRXLm/YMxGp5QyybSvjuKwUQ7yu8q/wDp7OW/ir1NQHbXLga73yvHpcD+a+vgUgXJq
- fTF3xijRDfDVPITWJvB3l7W03ea6EAG/UoZPoF69Cw/VYJxflSS2OB3AHlEXjYh5To3h
- aJth/33d1zwuRWnFGPffW0eyOecwJL7zTnSCrH1P4OV9LL0iFYGmvzo3yPJwEad4VLMd
- +gMhSLwbBLSvvbB4IK8syxDc8ju+YdBF/gPxui/Q6mcHnIJXSO/a6x8IzJ+VOIsm7/v6
- 6nNw==
+ (envelope-from <pbonzini@redhat.com>) id 1ifjWA-0002jZ-Ea
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:53:59 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20281
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ifjWA-0002iK-AB
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:53:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576238037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zDpMWcY8MAvgf11QbhUG+VybIy/cco4vYWuQfZdZoDo=;
+ b=Rp0+EPutJf/d9avWj9cdsogb9/LtfEvd4lucADJUR7uUns5sZhoSFYYq/s2GIh5/TDQdJJ
+ r34RArZUt0KMxAb9nuJ9rxya/hs0kvLBnVbfl0CHqjUWVpkxqs6Dt2EboV4Ip4YxF4MCcf
+ u/+428Rz+45tM4GY0eBoHAGOLNMX10E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-obC1M4pjNUqKAU7agcofwA-1; Fri, 13 Dec 2019 06:53:54 -0500
+Received: by mail-wm1-f69.google.com with SMTP id i17so2259574wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 03:53:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=VmzYywiMw3+41ZZR+hBQNVxS71g+7eEBc0HirjZY5WE=;
- b=cs6pGBDBbMkOhZahwEp515lpeBLhdgK5bw117vamVT1Vi7toXOW+GJsroUb1F4O80k
- ysiSdNn7oa5/NBQYSDfXiiF77Zfohwmut+PTBiFpg+7Eu25+mZGLgnHobratcDPwee0N
- N7RGzUr+xQKZFMwwFeuJAoJFq8LX1YLFGyDsjmQxEd6OTodyA4UqYg08FsKTxtGCnm3Z
- ocP7NSd9EznUKwETz6r0f8UgTZAO8gsdGF1GOBx8E6qaLHM1KOtUMbsVJcUA9VEQS6P4
- 18IBqvyFMv6op2RUVmDo8jiQhZ4vtxjVNt7ZULy8v1HRGPn4uXRysNhp+xWOZHOdbPSW
- opQw==
-X-Gm-Message-State: APjAAAVR7IY7dWYOrtOfiCaBrRqdm71BqMisLUFTrL92r8rA3QTXSvgf
- tjiu54GGx2Zmm3316+ZosRSgfQ==
-X-Google-Smtp-Source: APXvYqxzMPEbwwz3LwNYcaJo9wDTWVmoddm6h3+muNsyxrnkjurHieY1EDCLRc6TznChTcIvbENtyg==
-X-Received: by 2002:adf:f411:: with SMTP id g17mr11998664wro.89.1576237911350; 
- Fri, 13 Dec 2019 03:51:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z8sm9838042wrq.22.2019.12.13.03.51.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2019 03:51:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B48461FF87;
- Fri, 13 Dec 2019 11:51:49 +0000 (GMT)
-References: <20191007152839.30804-1-alex.bennee@linaro.org>
- <20191007152839.30804-4-alex.bennee@linaro.org>
- <c9b4b7e3-9ba3-f40f-7ef3-eb2a34290f82@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v9 03/13] accel: collecting JIT statistics
-In-reply-to: <c9b4b7e3-9ba3-f40f-7ef3-eb2a34290f82@linaro.org>
-Date: Fri, 13 Dec 2019 11:51:49 +0000
-Message-ID: <878sngbfze.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KFc9zrc0lnaWTXScDbTfhkxNxQpAVklGF7JvKKV46Yw=;
+ b=t1JUS0mVIkaokjf/PwJr69I1PdgsZr4ksGICeYjGsVME+pJz9b4Hy7pMO5MhBsi09e
+ pAp12nKzmfO8OTqZeOEm/x9ws52yn4WOMQdcASdIQgM+IBvkgbLFgg/ZO5kBv9u52v1x
+ hJfzx8HyIKeDK1684N+xzQ/0b0Pksm5kVc6WBRBZOZlpQ71KQ+TTS9slGAA4l/AT7nNj
+ LoZowoSR59JoIYnCaeVVK1VXSQ0Rlcg8Dg/VcxgbUORzrJcdPo8Gw41QGipVFcFWWUBt
+ H/MX5jfBrtl8Y9x6MrqH6y6fnW8utDg6Z2ACGRe+tmRgrJhJ3HMZoEynclLt3zCessaY
+ GpxA==
+X-Gm-Message-State: APjAAAWgVdEr/lnTqn923/neC+YdZP0jJy/yTZ8MWDbAxGuWNjzoVrsT
+ pnezXB+szNZNhtXJ/QJQDE+jbIcYV8m64zPNXxfi11bKbuDCvTKhpODFXIpEY5Yt+g1bn2CJfJP
+ npyQKoxP/XF0hRow=
+X-Received: by 2002:a5d:438c:: with SMTP id i12mr12627054wrq.196.1576238032830; 
+ Fri, 13 Dec 2019 03:53:52 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxE7FtlDzOpp15v3gB8QZ5NmgbfFuNJttdfg1aRcxPzTDf+i1ne4B/nU2LrXS9RYAUmFXdN7A==
+X-Received: by 2002:a5d:438c:: with SMTP id i12mr12627035wrq.196.1576238032554; 
+ Fri, 13 Dec 2019 03:53:52 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9?
+ ([2001:b07:6468:f312:e9bb:92e9:fcc3:7ba9])
+ by smtp.gmail.com with ESMTPSA id g18sm9437905wmh.48.2019.12.13.03.53.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2019 03:53:51 -0800 (PST)
+Subject: Re: [PATCH] hw/i386: De-duplicate gsi_handler() to remove
+ kvm_pc_gsi_handler()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191213110736.10767-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3d1afe84-9d17-eaea-bddf-62f1c6064ee9@redhat.com>
+Date: Fri, 13 Dec 2019 12:53:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <20191213110736.10767-1-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: obC1M4pjNUqKAU7agcofwA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,110 +92,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
- "Vanderson M. do Rosario" <vandersonmr2@gmail.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <rth@twiddle.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ kvm@vger.kernel.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 13/12/19 12:07, Philippe Mathieu-Daud=C3=A9 wrote:
+> Both gsi_handler() and kvm_pc_gsi_handler() have the same content,
+> except one comment. Move the comment, and de-duplicate the code.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  include/sysemu/kvm.h |  1 -
+>  hw/i386/kvm/ioapic.c | 12 ------------
+>  hw/i386/pc.c         |  5 ++---
+>  3 files changed, 2 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index 9fe233b9bf..f5d0d0d710 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -515,7 +515,6 @@ int kvm_irqchip_add_irqfd_notifier(KVMState *s, Event=
+Notifier *n,
+>  int kvm_irqchip_remove_irqfd_notifier(KVMState *s, EventNotifier *n,
+>                                        qemu_irq irq);
+>  void kvm_irqchip_set_qemuirq_gsi(KVMState *s, qemu_irq irq, int gsi);
+> -void kvm_pc_gsi_handler(void *opaque, int n, int level);
+>  void kvm_pc_setup_irq_routing(bool pci_enabled);
+>  void kvm_init_irq_routing(KVMState *s);
+> =20
+> diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+> index f94729c565..bae7413a39 100644
+> --- a/hw/i386/kvm/ioapic.c
+> +++ b/hw/i386/kvm/ioapic.c
+> @@ -48,18 +48,6 @@ void kvm_pc_setup_irq_routing(bool pci_enabled)
+>      }
+>  }
+> =20
+> -void kvm_pc_gsi_handler(void *opaque, int n, int level)
+> -{
+> -    GSIState *s =3D opaque;
+> -
+> -    if (n < ISA_NUM_IRQS) {
+> -        /* Kernel will forward to both PIC and IOAPIC */
+> -        qemu_set_irq(s->i8259_irq[n], level);
+> -    } else {
+> -        qemu_set_irq(s->ioapic_irq[n], level);
+> -    }
+> -}
+> -
+>  typedef struct KVMIOAPICState KVMIOAPICState;
+> =20
+>  struct KVMIOAPICState {
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index ac08e63604..97e9049b71 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -350,6 +350,7 @@ void gsi_handler(void *opaque, int n, int level)
+> =20
+>      DPRINTF("pc: %s GSI %d\n", level ? "raising" : "lowering", n);
+>      if (n < ISA_NUM_IRQS) {
+> +        /* Under KVM, Kernel will forward to both PIC and IOAPIC */
+>          qemu_set_irq(s->i8259_irq[n], level);
+>      }
+>      qemu_set_irq(s->ioapic_irq[n], level);
+> @@ -362,10 +363,8 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_en=
+abled)
+>      s =3D g_new0(GSIState, 1);
+>      if (kvm_ioapic_in_kernel()) {
+>          kvm_pc_setup_irq_routing(pci_enabled);
+> -        *irqs =3D qemu_allocate_irqs(kvm_pc_gsi_handler, s, GSI_NUM_PINS=
+);
+> -    } else {
+> -        *irqs =3D qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
+>      }
+> +    *irqs =3D qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
+> =20
+>      return s;
+>  }
+>=20
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Queued, thanks.
 
-> On 10/7/19 11:28 AM, Alex Benn=C3=A9e wrote:
->> @@ -1795,6 +1799,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->>          if (flag & TB_EXEC_STATS) {
->>              tb->tb_stats->stats_enabled |=3D TB_EXEC_STATS;
->>          }
->> +
->> +        if (flag & TB_JIT_STATS) {
->> +            tb->tb_stats->stats_enabled |=3D TB_JIT_STATS;
->> +        }
->
-> So, assuming that you really meant this, and not replacing as I was guess=
-ing vs
-> patch 2, then this is
->
->     tb->tb_stats->stats_enabled |=3D
->         flag & (TB_EXEC_STATS | TB_JIT_STATS);
->
-> But I still think it's weird to be wanting to modify the shared structure.
-> What does that mean for concurrent code generation?
+Paolo
 
-The idea was to have per translation area granularity on collecting the
-stats so we didn't have to burden all areas with the overhead. Currently
-this only takes effect when qemu_log_in_addr_range is in effect. However
-as the run goes on we could make decisions to disable some or all stats
-for stuff that doesn't come up that frequently.
-
-However the current positioning doesn't work as we keep setting the flag
-so I think we need to apply get_default_tbstats_flag() inside
-tb_get_stats only when we first create the data block.
-
->
->> +    /*
->> +     * Collect JIT stats when enabled. We batch them all up here to
->> +     * avoid spamming the cache with atomic accesses
->> +     */
->> +    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
->> +        TBStatistics *ts =3D tb->tb_stats;
->> +        qemu_mutex_lock(&ts->jit_stats_lock);
->> +
->> +        ts->code.num_guest_inst +=3D prof->translation.nb_guest_insns;
->> +        ts->code.num_tcg_ops +=3D prof->translation.nb_ops_pre_opt;
->> +        ts->code.num_tcg_ops_opt +=3D tcg_ctx->nb_ops;
->> +        ts->code.spills +=3D prof->translation.nb_spills;
->> +        ts->code.out_len +=3D tb->tc.size;
->> +
->> +        ts->translations.total++;
->> +        if (phys_page2 !=3D -1) {
->> +            ts->translations.spanning++;
->> +        }
->> +
->> +        g_ptr_array_add(ts->tbs, tb);
->> +
->> +        qemu_mutex_unlock(&ts->jit_stats_lock);
->> +    }
->
-> Hmm.  So we're to interpret all of code.field as sums, the average of whi=
-ch can
-> be obtained by dividing by translations.total.  Ok, but that should proba=
-bly be
-> mentioned in a comment in/near the structure definition.
-
-OK
-
-> What are we planning to do with the set of all tb's collected here?
-
-Originally we kept track for the coverset calculation as we need to know
-where each individual TB goes next. The code was racy so I dropped it
-from the series so tracking this now is possibly redundant although it
-might be useful in the future.
-
->
->> @@ -3125,6 +3126,7 @@ static void temp_sync
->>          case TEMP_VAL_REG:
->>              tcg_out_st(s, ts->type, ts->reg,
->>                         ts->mem_base->reg, ts->mem_offset);
->> +            s->prof.translation.nb_spills++;
->>              break;
->>=20=20
->>          case TEMP_VAL_MEM:
->
-> This is not a spill in the common compiler definition.
->
-> This is "write the temp to its backing storage".  While this does happen =
-in the
-> course of spilling, the vast majority of these are because we've finished
-> modifying a global temp and must now update memory.  Which is not nearly =
-the
-> same thing as "spill".
->
-> A spill in the compiler definition happens in tcg_reg_alloc, right after =
-the
-> comment "We must spill something".  ;-)
-
-OK I'll fix that.
-
---=20
-Alex Benn=C3=A9e
 
