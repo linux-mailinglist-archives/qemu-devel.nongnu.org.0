@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E2311E8DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 18:05:47 +0100 (CET)
-Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB09311E997
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 18:57:45 +0100 (CET)
+Received: from localhost ([::1]:52192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifoNu-0006wv-BQ
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 12:05:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55350)
+	id 1ifpCC-0003YL-RZ
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 12:57:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifoMc-0006M6-5E
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:04:27 -0500
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifp7u-0007PH-Jt
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:53:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifoMZ-0008P7-TF
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:04:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20155
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifoMZ-0008OC-Pp
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:04:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576256663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RZT7mKlrrJvs6wCkbiK3Z4f60pKV4mJ6oeMUJT8OsSQ=;
- b=cujFDY+flv18wXnMvQKcFqoUIm1V0f0kY32R0sHlYjINj88FdrpY5LzaXdAsR7ikFE12zH
- SsjVCrCwP9s1DtDudcd69IAHSPtTJReOQZ4fpKjEq49CdvxsBH0JONrzstTZkVrWLDt29p
- 18IELzsBVvTEcyAg4yE4l92eVr/eJWg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-3yx9deyPOF2Y961Cm-OoWg-1; Fri, 13 Dec 2019 12:04:21 -0500
-Received: by mail-wr1-f70.google.com with SMTP id c6so2792193wrm.18
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 09:04:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XUiq4uJ2Xy7OvbOEdpiV9tYwd2TGjMstqgqamc0EQI0=;
- b=Lqg8RmN7ETpxPCD7omEwQ8AhI13vlHC9mJtaSGmUWwpjDnijcrM1d6A9cDpl3x21Wu
- n2W3Q+aeT5hZ6ShrJUqmnUoa70g6NBUPKSODBGo6EdvSo8hOD2sloxLyfWMrnLhofCSZ
- wNvh6zosWhKB/ND9aFvF6EJZCejAXJ97rGa+cFB1LNzuiStdTTfv5+HtrwcsVmEr28eF
- bjK6pQ2h7n5aPzcz+ohsRdJx9rZK4pewgUvbkG6iydXSVcup/efmf5c5wNseYvek791n
- ZZrCpO8tDEI70KDFyCgQ8L36w1QXEOVY05RiUqX0zZopnKbPs0ZPaUAH5KL1oOu25DOj
- PHrg==
-X-Gm-Message-State: APjAAAVhjUdQLApAn/woOa0zvIWcjKQrhZyx1ImNLcybbhpnn6pp5ktW
- Fw4XLQ4+2iwGSoLLOC2ZBVcHApBflsllJTvhcHi3hIyMjhFAuQMVZgr4oTLYSzfsnuMaWGkfX6T
- VjwTdzXyEf1nNgC0=
-X-Received: by 2002:a05:600c:2112:: with SMTP id
- u18mr14476732wml.100.1576256659830; 
- Fri, 13 Dec 2019 09:04:19 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwHQcnqxCZRiLSpPveExbTVjVTIfuEOxqvf7hw8CwQ2CtspkWAwQyxun5V0SbspWmzbwX69pg==
-X-Received: by 2002:a05:600c:2112:: with SMTP id
- u18mr14476695wml.100.1576256659537; 
- Fri, 13 Dec 2019 09:04:19 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id m10sm10695455wrx.19.2019.12.13.09.04.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 09:04:18 -0800 (PST)
-Subject: Re: [PATCH v2 0/2] hw/arm: ast2600: Wire up eMMC controller
-To: Andrew Jeffery <andrew@aj.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, qemu-arm@nongnu.org
-References: <cover.fc3e5e495d85ebd919c1f06a1a2c7c7730518f9c.1576211124.git-series.andrew@aj.id.au>
- <16c90bb0-a3a9-06ec-e79a-bd98471d9e11@kaod.org>
- <1d96ac9b-5eb2-43ec-bf21-334ee3fa4420@www.fastmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d70b5f1a-08e3-4664-719f-dd5526a4135e@redhat.com>
-Date: Fri, 13 Dec 2019 18:04:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifp7t-0005VV-Ai
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:53:18 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56410)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1ifp7t-0005TY-1m; Fri, 13 Dec 2019 12:53:17 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBDHqpSh097414; Fri, 13 Dec 2019 12:52:59 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wuhse0aw5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2019 12:52:59 -0500
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBDHquc2097810;
+ Fri, 13 Dec 2019 12:52:59 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wuhse0avp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2019 12:52:59 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBDHq439025393;
+ Fri, 13 Dec 2019 17:52:58 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02dal.us.ibm.com with ESMTP id 2wr3q7q1cw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2019 17:52:58 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBDHqvrW55705894
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Dec 2019 17:52:57 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1E34C605B;
+ Fri, 13 Dec 2019 17:52:56 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 738FEC6057;
+ Fri, 13 Dec 2019 17:52:56 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Dec 2019 17:52:56 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v6 0/4] Add vTPM emulator support for ppc64 platform
+Date: Fri, 13 Dec 2019 12:52:11 -0500
+Message-Id: <20191213175215.1234660-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <1d96ac9b-5eb2-43ec-bf21-334ee3fa4420@www.fastmail.com>
-Content-Language: en-US
-X-MC-Unique: 3yx9deyPOF2Y961Cm-OoWg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-13_05:2019-12-13,2019-12-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ mlxscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ bulkscore=0 adultscore=0 clxscore=1015 phishscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912130142
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,36 +88,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
- qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/13/19 8:37 AM, Andrew Jeffery wrote:
-> On Fri, 13 Dec 2019, at 18:03, C=C3=A9dric Le Goater wrote:
->> On 13/12/2019 05:28, Andrew Jeffery wrote:
->>> Hello,
->>>
->>> The AST2600 has an additional SDHCI intended for use as an eMMC boot so=
-urce.
->>> These two patches rework the existing ASPEED SDHCI model to accommodate=
- the
->>> single-slot nature of the eMMC controller and wire it into the AST2600 =
-SoC.
->>>
->>> v2 contains some minor refactorings in response to issues pointed out b=
-y
->>> Cedric.
->>  =20
->>
->> I think these patches are based on mainline. I fixed them locally on
->> my aspeed 5.0 branch and I plan to send them along with other aspeed
->> changes in the 5.0 timeframe.
->=20
-> Yeah, they're based on Peter's tree. I'll base future patches on yours.
+The following series of patches adds vTPM emulator support for the
+ppc64 platform (pSeries). 
 
-To help any reviewer, simply add a note in the cover on which tree your=20
-series is based. This also works with individual patch, add the note=20
-under the '---' separator.
+It can be tested as follows with swtpm/libtpms:
+
+mkdir /tmp/mytpm1
+swtpm socket --tpmstate dir=/tmp/mytpm1 \
+  --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
+  --log level=20
+
+If TPM 2 is desired, add --tpm2 as parameter to the above.
+
+In another terminal start QEMU:
+
+sudo ./ppc64-softmmu/qemu-system-ppc64 -display sdl \
+	-machine pseries,accel=kvm \
+	-m 1024 -bios slof.bin -boot menu=on \
+	-nodefaults -device VGA -device pci-ohci -device usb-kbd \
+	-chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+	-tpmdev emulator,id=tpm0,chardev=chrtpm \
+	-device tpm-spapr,tpmdev=tpm0 \
+	-device spapr-vscsi,id=scsi0,reg=0x00002000 \
+	-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
+	-drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
+
+Links:
+ - libtpms: https://github.com/stefanberger/libtpms/wiki
+ - swtpm: https://github.com/stefanberger/swtpm/wiki
+
+Changes:
+
+ v5->v6:
+  - adjusted names of structures and simplified
+  - only transmitting min. necessary bytes to pass to VM after resume
+  - addressed other issues pointed out by D. Gibson
+
+ v4->v5:
+  - use runstate_check(RUN_STATE_FINISH_MIGRATE) to check whether devices
+    are suspending; ditch 3 patches in this series that tried to do similar
+
+ v3->v4:
+  - addressed comments to v3
+  - reworked suspend/resume support that requires extensions to backends
+
+ v2->v3:
+  - patch 1: a TPM 2 is identified by IBM,vtpm20 in the compatible node
+  - patch 1: convert to tracing to display Tx and Rx buffers
+  - added documentation patch
+  - added patch to enable TPM device as part of pSeries
+
+ v1->v2:
+  - followed Cedric Le Goater's suggestions to patch 1
+  - send appropriate CRQ error responses if DMA read or write fails
+  - renamed tpm_spapr_got_payload to tpm_spapr_process_cmd and
+    pass endianess-adjusted data pointer from CRQ to it
+
+Regards,
+    Stefan
+
+
+Stefan Berger (4):
+  tpm_spapr: Support TPM for ppc64 using CRQ based interface
+  tpm_spapr: Support suspend and resume
+  hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES config
+  docs: tpm: Add example command line for ppc64 and tpm-spapr
+
+ docs/specs/tpm.txt   |  20 +-
+ hw/ppc/Kconfig       |   1 +
+ hw/tpm/Kconfig       |   6 +
+ hw/tpm/Makefile.objs |   1 +
+ hw/tpm/tpm_spapr.c   | 470 +++++++++++++++++++++++++++++++++++++++++++
+ hw/tpm/trace-events  |  14 ++
+ include/sysemu/tpm.h |   3 +
+ qapi/tpm.json        |   6 +-
+ 8 files changed, 517 insertions(+), 4 deletions(-)
+ create mode 100644 hw/tpm/tpm_spapr.c
+
+-- 
+2.21.0
 
 
