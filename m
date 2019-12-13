@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05C911E98C
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 18:55:33 +0100 (CET)
-Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3101D11E9F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 19:14:17 +0100 (CET)
+Received: from localhost ([::1]:52320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifpA3-0000UK-PL
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 12:55:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
+	id 1ifpSB-0000lJ-E9
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 13:14:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifp7t-0007PA-Vn
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:53:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ifpQp-0008RT-PG
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:12:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ifp7s-0005UM-Qa
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:53:17 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14486)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ifp7s-0005S1-ID; Fri, 13 Dec 2019 12:53:16 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBDHqhFf121711; Fri, 13 Dec 2019 12:53:02 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wugd3vvt4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2019 12:53:02 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBDHr1bI122945;
- Fri, 13 Dec 2019 12:53:01 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wugd3vvs7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2019 12:53:01 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBDHj5ZJ018223;
- Fri, 13 Dec 2019 17:53:00 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 2wr3q7q1d8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2019 17:53:00 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBDHqxgJ47513868
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 17:52:59 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A5DF5C6057;
- Fri, 13 Dec 2019 17:52:59 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27DB1C6055;
- Fri, 13 Dec 2019 17:52:59 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 13 Dec 2019 17:52:58 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH v6 4/4] docs: tpm: Add example command line for ppc64 and
- tpm-spapr
-Date: Fri, 13 Dec 2019 12:52:15 -0500
-Message-Id: <20191213175215.1234660-5-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191213175215.1234660-1-stefanb@linux.vnet.ibm.com>
-References: <20191213175215.1234660-1-stefanb@linux.vnet.ibm.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1ifpQn-0005T8-T2
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:12:51 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35498)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ifpQn-0005Rf-Kc
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:12:49 -0500
+Received: by mail-oi1-x242.google.com with SMTP id k196so1589545oib.2
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 10:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2BZH+J6X7Kio36ibcIi9b2fHG77taCK5szwxqioQIVA=;
+ b=lrbyF+8+BPPsljUC7cxabD5DiEsts+/9QjAg6EvNRbvUt6HmjBZAS0lc9eth/0cxgm
+ 9Uie35wwRCrHX1oXT2zFLSOxDUV/Bi91kZySe4d4qHXXt+fIZzpIM+mDV+7/WUiewOh9
+ 7C+7OlaU15WOIpkEGz/Igmzc968rvvHPPzaMp9EOyUWjz9q2T4vf6Un+RvfaDecQp9aT
+ F9USsQNYl5FAhZZQAwWy2kbSCM7wxsBRBUnRZAgDNuvlao1waJKV3ZQ1lprZVhdwPdZr
+ YMthq652w1H0UaLa31IIC+zoT4XDs5tOFEorZXneQtAudoqxL3cjCI9iEzUTvX3ApKfh
+ EARw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2BZH+J6X7Kio36ibcIi9b2fHG77taCK5szwxqioQIVA=;
+ b=QWevfIxb7E2IsN+6Gy+3JxEOJQrPEPp4SBIBbSzlq63RrEI5OviFuJ+AK9R22RQyhZ
+ 2qpWcbh1UUQwLtt3QC2/RxLctB+kOxmHM0QOtKwveO4Xyaknle0368sPHE3slqEc5azV
+ 6umwgMdfmQBGN2yHclvipZOs4L8DCqH3RFqqoCa+IWZy4PRBJJeNHEzd6YoK2vVDjCLF
+ 8tDUSpxk+ECrm/FkhEdKO0V+tD7mskOQxkAC7PfL1mBwuPT008KhfWCQDPQ7LnlLnySA
+ gD+9h5GEWu210OOEns0hs+A6SmCYfZJj8/+IOv7LzxtbdRFf4ZIpSdk82UvI1U2T663B
+ tDsw==
+X-Gm-Message-State: APjAAAVOa+wcakh/hwbUxArAH7htdL1FSAHv+L+M8FkJnVmEiL+AKATK
+ 7Bf8nixJ42Tog9IZklOFiowLEr1buYoiMqXDg3k4uA==
+X-Google-Smtp-Source: APXvYqy4EV7S8u8b/1p80WJk4O2e5ylS939wXOmkmCb/lzCBQz88+s2lgzdr85OFEcR4X2xBNeDSYeFeqe2H2tzYDtI=
+X-Received: by 2002:a05:6808:996:: with SMTP id
+ a22mr7139423oic.146.1576260768467; 
+ Fri, 13 Dec 2019 10:12:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-13_05:2019-12-13,2019-12-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=1
- mlxlogscore=999 clxscore=1015 adultscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912130142
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+References: <20191213115822.77260-1-dgilbert@redhat.com>
+In-Reply-To: <20191213115822.77260-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 13 Dec 2019 18:12:37 +0000
+Message-ID: <CAFEAcA8KFcKkqJDu=jtGpZ_cXwJ0Zx0orsZUP3xcPXtihdKByQ@mail.gmail.com>
+Subject: Re: [PULL 0/2] virtiofs queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,66 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an example to the TPM docs for how to add a TPM SPAPR
-device model to a QEMU VM emulating a pSeries machine.
+On Fri, 13 Dec 2019 at 11:59, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit b0ca999a43a22b38158a222233d3f5881648bb=
+4f:
+>
+>   Update version for v4.2.0 release (2019-12-12 16:45:57 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dagrh/qemu.git tags/pull-virtiofs-20191213a
+>
+> for you to fetch changes up to 366844f3d1329c6423dd752891a28ccb3ee8fddd:
+>
+>   virtio-fs: fix MSI-X nvectors calculation (2019-12-13 10:53:57 +0000)
+>
+> ----------------------------------------------------------------
+> virtiofs pull 2019-12-13: Minor fixes and cleanups
+>
+> Cleanup from Marc-Andr=C3=A9 and MSI-X fix from Stefan.
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- docs/specs/tpm.txt | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/docs/specs/tpm.txt b/docs/specs/tpm.txt
-index 9c8cca042d..9c3e67d8a7 100644
---- a/docs/specs/tpm.txt
-+++ b/docs/specs/tpm.txt
-@@ -34,6 +34,12 @@ The CRB interface makes a memory mapped IO region in the area 0xfed40000 -
- QEMU files related to TPM CRB interface:
-  - hw/tpm/tpm_crb.c
- 
-+
-+pSeries (ppc64) machines offer a tpm-spapr device model.
-+
-+QEMU files related to the SPAPR interface:
-+ - hw/tpm/tpm_spapr.c
-+
- = fw_cfg interface =
- 
- The bios/firmware may read the "etc/tpm/config" fw_cfg entry for
-@@ -281,7 +287,7 @@ swtpm socket --tpmstate dir=/tmp/mytpm1 \
-   --log level=20
- 
- Command line to start QEMU with the TPM emulator device communicating with
--the swtpm:
-+the swtpm (x86):
- 
- qemu-system-x86_64 -display sdl -accel kvm \
-   -m 1024 -boot d -bios bios-256k.bin -boot menu=on \
-@@ -289,6 +295,18 @@ qemu-system-x86_64 -display sdl -accel kvm \
-   -tpmdev emulator,id=tpm0,chardev=chrtpm \
-   -device tpm-tis,tpmdev=tpm0 test.img
- 
-+In case a pSeries machine is emulated, use the following command line:
-+
-+qemu-system-ppc64 -display sdl -machine pseries,accel=kvm \
-+  -m 1024 -bios slof.bin -boot menu=on \
-+  -nodefaults -device VGA -device pci-ohci -device usb-kbd \
-+  -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
-+  -tpmdev emulator,id=tpm0,chardev=chrtpm \
-+  -device tpm-spapr,tpmdev=tpm0 \
-+  -device spapr-vscsi,id=scsi0,reg=0x00002000 \
-+  -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
-+  -drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
-+
- 
- In case SeaBIOS is used as firmware, it should show the TPM menu item
- after entering the menu with 'ESC'.
--- 
-2.21.0
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
+-- PMM
 
