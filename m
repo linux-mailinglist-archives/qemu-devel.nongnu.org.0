@@ -2,52 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4554F11DE11
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 06:56:41 +0100 (CET)
-Received: from localhost ([::1]:41294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC9D11DE19
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 07:06:05 +0100 (CET)
+Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifdwO-0000QG-2V
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 00:56:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45990)
+	id 1ife5U-0003gq-TT
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 01:06:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ifduG-0007RP-66
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:54:29 -0500
+ (envelope-from <aik@ozlabs.ru>) id 1ife4f-00039l-4H
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 01:05:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ifduE-0006Lx-Su
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:54:28 -0500
-Received: from ozlabs.org ([203.11.71.1]:58045)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ifduE-0006Dq-Dm; Fri, 13 Dec 2019 00:54:26 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47Z0Gw27cBz9sPh; Fri, 13 Dec 2019 16:54:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576216456;
- bh=11FLIDYz0JdsWUJZBhjur1OD2ess6rsjdZd2jQu2AI4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kJXzZ6ZpUKs0CNqnWFTu2bAio8F5Qf+gJYx+GuW8BI0D5dKuqvrQAGE40XD4kgp0V
- fRENsNW81oU6KMNQG6Zm1tnvB2HU4i5vKYOutjQJGuE9ff7bcnRUDXWHxz+52qzRWW
- sl9M5W4GL2Hl+UXjWZ2gbz4XEMHWMXkCels1XBbc=
-Date: Fri, 13 Dec 2019 16:54:09 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bharata B Rao <bharata@linux.ibm.com>
-Subject: Re: [PATCH v2 ppc-for-5.0 2/2] ppc/spapr: Support reboot of secure
- pseries guest
-Message-ID: <20191213055409.GG207300@umbus.fritz.box>
-References: <20191212055059.9399-1-bharata@linux.ibm.com>
- <20191212055059.9399-3-bharata@linux.ibm.com>
- <20191212132723.5fdfee47@bahia.tlslab.ibm.com>
- <20191213040438.GC28362@in.ibm.com>
+ (envelope-from <aik@ozlabs.ru>) id 1ife4d-0006La-0M
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 01:05:12 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46759)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1ife4c-0006JI-Fz
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 01:05:10 -0500
+Received: by mail-pl1-x644.google.com with SMTP id k20so771237pll.13
+ for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 22:05:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=to:from:subject:autocrypt:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=2xuXHs85cAq90WIioUe3DxaDxxxKDWlpSmfkD3spzms=;
+ b=Ilj5DBRcf8Tzj2lw68mf7z2/Ln6L5J+EQZqIZyISlz1Cdgy0sDREjUQwxBjohZhe8u
+ no2ta8N5BCJHclcLkAIntQDfha/q9tv7SZcXcypTAD2YoOUZlPpP/IlHGxOGR0P7jVZT
+ omgHPlASA2PFEC03PnFw30uyzyPsAedGLkALcJ3OLRje73EGPPO4sp7pfjvRSLgT0kfU
+ aS5yIGBpjJ1U6z3/d0q7JT5x8ANXutY+aJLvELEmnpi/EIznI895m9c0pkbX4PH4jizf
+ oIIErPU73jC/q8AoOsLWnNb7SfK0c8Q4CbrhcpxYnCmEMWxGqzidT+y9RgZrxO5dX8Y/
+ V69w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:from:subject:autocrypt:message-id:date
+ :user-agent:mime-version:content-language:content-transfer-encoding;
+ bh=2xuXHs85cAq90WIioUe3DxaDxxxKDWlpSmfkD3spzms=;
+ b=AAgsi/btSqllz/TbmZw0JklPz/YFZhc4vy0/ZNF/AudWWVu8t8wk2dgGBHlw5XpS+M
+ hsUbX8Hpv596edXSQvLyVrVS6RGgPcNx5fEdBJiSL0cVfGm41XYdtLk5m+tob2B+t+Vb
+ bzK1b4rHMFFk2u40CxxdVTe1MejdHQm6t7Of6D3mpoSRowsuWfP6HpJeYIrBFBZe+ddr
+ 73/TI5YYZVe5fHYchS98ML35ZQyUOZbIco0M9MDSfFU7coKymQ9txKMw4w9WFX0jJwPp
+ wwRis3jBDbcAtvZONr5udHe9zpdE/PP8KNTrQ0iTnotDFXcBNORsvCy0jv3kxGb/w71M
+ nwbw==
+X-Gm-Message-State: APjAAAXNluvCSPhf4JtB0OyHKtazBMkpdIn0sKdrtL6vaw/LVXfcU3BF
+ CJNE4MHb5B89cJr8g1jH/vnywg==
+X-Google-Smtp-Source: APXvYqzXtpF8+yJh/TENgf7GI3jIrEGqgglV9Pm4Gt+cbXWPhYKgq0ltINrVWkV5EqMyGI4FLBd5/g==
+X-Received: by 2002:a17:90b:8cf:: with SMTP id
+ ds15mr14746415pjb.134.1576217109205; 
+ Thu, 12 Dec 2019 22:05:09 -0800 (PST)
+Received: from [10.61.2.175] ([122.99.82.10])
+ by smtp.gmail.com with ESMTPSA id k9sm7956541pje.26.2019.12.12.22.05.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 12 Dec 2019 22:05:08 -0800 (PST)
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: virtio capabilities
+Autocrypt: addr=aik@ozlabs.ru; keydata=
+ mQINBE+rT0sBEADFEI2UtPRsLLvnRf+tI9nA8T91+jDK3NLkqV+2DKHkTGPP5qzDZpRSH6mD
+ EePO1JqpVuIow/wGud9xaPA5uvuVgRS1q7RU8otD+7VLDFzPRiRE4Jfr2CW89Ox6BF+q5ZPV
+ /pS4v4G9eOrw1v09lEKHB9WtiBVhhxKK1LnUjPEH3ifkOkgW7jFfoYgTdtB3XaXVgYnNPDFo
+ PTBYsJy+wr89XfyHr2Ev7BB3Xaf7qICXdBF8MEVY8t/UFsesg4wFWOuzCfqxFmKEaPDZlTuR
+ tfLAeVpslNfWCi5ybPlowLx6KJqOsI9R2a9o4qRXWGP7IwiMRAC3iiPyk9cknt8ee6EUIxI6
+ t847eFaVKI/6WcxhszI0R6Cj+N4y+1rHfkGWYWupCiHwj9DjILW9iEAncVgQmkNPpUsZECLT
+ WQzMuVSxjuXW4nJ6f4OFHqL2dU//qR+BM/eJ0TT3OnfLcPqfucGxubhT7n/CXUxEy+mvWwnm
+ s9p4uqVpTfEuzQ0/bE6t7dZdPBua7eYox1AQnk8JQDwC3Rn9kZq2O7u5KuJP5MfludMmQevm
+ pHYEMF4vZuIpWcOrrSctJfIIEyhDoDmR34bCXAZfNJ4p4H6TPqPh671uMQV82CfTxTrMhGFq
+ 8WYU2AH86FrVQfWoH09z1WqhlOm/KZhAV5FndwVjQJs1MRXD8QARAQABtCRBbGV4ZXkgS2Fy
+ ZGFzaGV2c2tpeSA8YWlrQG96bGFicy5ydT6JAjgEEwECACIFAk+rT0sCGwMGCwkIBwMCBhUI
+ AgkKCwQWAgMBAh4BAheAAAoJEIYTPdgrwSC5fAIP/0wf/oSYaCq9PhO0UP9zLSEz66SSZUf7
+ AM9O1rau1lJpT8RoNa0hXFXIVbqPPKPZgorQV8SVmYRLr0oSmPnTiZC82x2dJGOR8x4E01gK
+ TanY53J/Z6+CpYykqcIpOlGsytUTBA+AFOpdaFxnJ9a8p2wA586fhCZHVpV7W6EtUPH1SFTQ
+ q5xvBmr3KkWGjz1FSLH4FeB70zP6uyuf/B2KPmdlPkyuoafl2UrU8LBADi/efc53PZUAREih
+ sm3ch4AxaL4QIWOmlE93S+9nHZSRo9jgGXB1LzAiMRII3/2Leg7O4hBHZ9Nki8/fbDo5///+
+ kD4L7UNbSUM/ACWHhd4m1zkzTbyRzvL8NAVQ3rckLOmju7Eu9whiPueGMi5sihy9VQKHmEOx
+ OMEhxLRQbzj4ypRLS9a+oxk1BMMu9cd/TccNy0uwx2UUjDQw/cXw2rRWTRCxoKmUsQ+eNWEd
+ iYLW6TCfl9CfHlT6A7Zmeqx2DCeFafqEd69DqR9A8W5rx6LQcl0iOlkNqJxxbbW3ddDsLU/Y
+ r4cY20++WwOhSNghhtrroP+gouTOIrNE/tvG16jHs8nrYBZuc02nfX1/gd8eguNfVX/ZTHiR
+ gHBWe40xBKwBEK2UeqSpeVTohYWGBkcd64naGtK9qHdo1zY1P55lHEc5Uhlk743PgAnOi27Q
+ ns5zuQINBE+rT0sBEACnV6GBSm+25ACT+XAE0t6HHAwDy+UKfPNaQBNTTt31GIk5aXb2Kl/p
+ AgwZhQFEjZwDbl9D/f2GtmUHWKcCmWsYd5M/6Ljnbp0Ti5/xi6FyfqnO+G/wD2VhGcKBId1X
+ Em/B5y1kZVbzcGVjgD3HiRTqE63UPld45bgK2XVbi2+x8lFvzuFq56E3ZsJZ+WrXpArQXib2
+ hzNFwQleq/KLBDOqTT7H+NpjPFR09Qzfa7wIU6pMNF2uFg5ihb+KatxgRDHg70+BzQfa6PPA
+ o1xioKXW1eHeRGMmULM0Eweuvpc7/STD3K7EJ5bBq8svoXKuRxoWRkAp9Ll65KTUXgfS+c0x
+ gkzJAn8aTG0z/oEJCKPJ08CtYQ5j7AgWJBIqG+PpYrEkhjzSn+DZ5Yl8r+JnZ2cJlYsUHAB9
+ jwBnWmLCR3gfop65q84zLXRQKWkASRhBp4JK3IS2Zz7Nd/Sqsowwh8x+3/IUxVEIMaVoUaxk
+ Wt8kx40h3VrnLTFRQwQChm/TBtXqVFIuv7/Mhvvcq11xnzKjm2FCnTvCh6T2wJw3de6kYjCO
+ 7wsaQ2y3i1Gkad45S0hzag/AuhQJbieowKecuI7WSeV8AOFVHmgfhKti8t4Ff758Z0tw5Fpc
+ BFDngh6Lty9yR/fKrbkkp6ux1gJ2QncwK1v5kFks82Cgj+DSXK6GUQARAQABiQIfBBgBAgAJ
+ BQJPq09LAhsMAAoJEIYTPdgrwSC5NYEP/2DmcEa7K9A+BT2+G5GXaaiFa098DeDrnjmRvumJ
+ BhA1UdZRdfqICBADmKHlJjj2xYo387sZpS6ABbhrFxM6s37g/pGPvFUFn49C47SqkoGcbeDz
+ Ha7JHyYUC+Tz1dpB8EQDh5xHMXj7t59mRDgsZ2uVBKtXj2ZkbizSHlyoeCfs1gZKQgQE8Ffc
+ F8eWKoqAQtn3j4nE3RXbxzTJJfExjFB53vy2wV48fUBdyoXKwE85fiPglQ8bU++0XdOr9oyy
+ j1llZlB9t3tKVv401JAdX8EN0++ETiOovQdzE1m+6ioDCtKEx84ObZJM0yGSEGEanrWjiwsa
+ nzeK0pJQM9EwoEYi8TBGhHC9ksaAAQipSH7F2OHSYIlYtd91QoiemgclZcSgrxKSJhyFhmLr
+ QEiEILTKn/pqJfhHU/7R7UtlDAmFMUp7ByywB4JLcyD10lTmrEJ0iyRRTVfDrfVP82aMBXgF
+ tKQaCxcmLCaEtrSrYGzd1sSPwJne9ssfq0SE/LM1J7VdCjm6OWV33SwKrfd6rOtvOzgadrG6
+ 3bgUVBw+bsXhWDd8tvuCXmdY4bnUblxF2B6GOwSY43v6suugBttIyW5Bl2tXSTwP+zQisOJo
+ +dpVG2pRr39h+buHB3NY83NEPXm1kUOhduJUA17XUY6QQCAaN4sdwPqHq938S3EmtVhsuQIN
+ BFq54uIBEACtPWrRdrvqfwQF+KMieDAMGdWKGSYSfoEGGJ+iNR8v255IyCMkty+yaHafvzpl
+ PFtBQ/D7Fjv+PoHdFq1BnNTk8u2ngfbre9wd9MvTDsyP/TmpF0wyyTXhhtYvE267Av4X/BQT
+ lT9IXKyAf1fP4BGYdTNgQZmAjrRsVUW0j6gFDrN0rq2J9emkGIPvt9rQt6xGzrd6aXonbg5V
+ j6Uac1F42ESOZkIh5cN6cgnGdqAQb8CgLK92Yc8eiCVCH3cGowtzQ2m6U32qf30cBWmzfSH0
+ HeYmTP9+5L8qSTA9s3z0228vlaY0cFGcXjdodBeVbhqQYseMF9FXiEyRs28uHAJEyvVZwI49
+ CnAgVV/n1eZa5qOBpBL+ZSURm8Ii0vgfvGSijPGbvc32UAeAmBWISm7QOmc6sWa1tobCiVmY
+ SNzj5MCNk8z4cddoKIc7Wt197+X/X5JPUF5nQRvg3SEHvfjkS4uEst9GwQBpsbQYH9MYWq2P
+ PdxZ+xQE6v7cNB/pGGyXqKjYCm6v70JOzJFmheuUq0Ljnfhfs15DmZaLCGSMC0Amr+rtefpA
+ y9FO5KaARgdhVjP2svc1F9KmTUGinSfuFm3quadGcQbJw+lJNYIfM7PMS9fftq6vCUBoGu3L
+ j4xlgA/uQl/LPneu9mcvit8JqcWGS3fO+YeagUOon1TRqQARAQABiQRsBBgBCAAgFiEEZSrP
+ ibrORRTHQ99dhhM92CvBILkFAlq54uICGwICQAkQhhM92CvBILnBdCAEGQEIAB0WIQQIhvWx
+ rCU+BGX+nH3N7sq0YorTbQUCWrni4gAKCRDN7sq0YorTbVVSD/9V1xkVFyUCZfWlRuryBRZm
+ S4GVaNtiV2nfUfcThQBfF0sSW/aFkLP6y+35wlOGJE65Riw1C2Ca9WQYk0xKvcZrmuYkK3DZ
+ 0M9/Ikkj5/2v0vxz5Z5w/9+IaCrnk7pTnHZuZqOh23NeVZGBls/IDIvvLEjpD5UYicH0wxv+
+ X6cl1RoP2Kiyvenf0cS73O22qSEw0Qb9SId8wh0+ClWet2E7hkjWFkQfgJ3hujR/JtwDT/8h
+ 3oCZFR0KuMPHRDsCepaqb/k7VSGTLBjVDOmr6/C9FHSjq0WrVB9LGOkdnr/xcISDZcMIpbRm
+ EkIQ91LkT/HYIImL33ynPB0SmA+1TyMgOMZ4bakFCEn1vxB8Ir8qx5O0lHMOiWMJAp/PAZB2
+ r4XSSHNlXUaWUg1w3SG2CQKMFX7vzA31ZeEiWO8tj/c2ZjQmYjTLlfDK04WpOy1vTeP45LG2
+ wwtMA1pKvQ9UdbYbovz92oyZXHq81+k5Fj/YA1y2PI4MdHO4QobzgREoPGDkn6QlbJUBf4To
+ pEbIGgW5LRPLuFlOPWHmIS/sdXDrllPc29aX2P7zdD/ivHABslHmt7vN3QY+hG0xgsCO1JG5
+ pLORF2N5XpM95zxkZqvYfC5tS/qhKyMcn1kC0fcRySVVeR3tUkU8/caCqxOqeMe2B6yTiU1P
+ aNDq25qYFLeYxg67D/4w/P6BvNxNxk8hx6oQ10TOlnmeWp1q0cuutccblU3ryRFLDJSngTEu
+ ZgnOt5dUFuOZxmMkqXGPHP1iOb+YDznHmC0FYZFG2KAc9pO0WuO7uT70lL6larTQrEneTDxQ
+ CMQLP3qAJ/2aBH6SzHIQ7sfbsxy/63jAiHiT3cOaxAKsWkoV2HQpnmPOJ9u02TPjYmdpeIfa
+ X2tXyeBixa3i/6dWJ4nIp3vGQicQkut1YBwR7dJq67/FCV3Mlj94jI0myHT5PIrCS2S8LtWX
+ ikTJSxWUKmh7OP5mrqhwNe0ezgGiWxxvyNwThOHc5JvpzJLd32VDFilbxgu4Hhnf6LcgZJ2c
+ Zd44XWqUu7FzVOYaSgIvTP0hNrBYm/E6M7yrLbs3JY74fGzPWGRbBUHTZXQEqQnZglXaVB5V
+ ZhSFtHopZnBSCUSNDbB+QGy4B/E++Bb02IBTGl/JxmOwG+kZUnymsPvTtnNIeTLHxN/H/ae0
+ c7E5M+/NpslPCmYnDjs5qg0/3ihh6XuOGggZQOqrYPC3PnsNs3NxirwOkVPQgO6mXxpuifvJ
+ DG9EMkK8IBXnLulqVk54kf7fE0jT/d8RTtJIA92GzsgdK2rpT1MBKKVffjRFGwN7nQVOzi4T
+ XrB5p+6ML7Bd84xOEGsj/vdaXmz1esuH7BOZAGEZfLRCHJ0GVCSssg==
+Message-ID: <823b58f1-f17e-6645-11be-406ad1494e06@ozlabs.ru>
+Date: Fri, 13 Dec 2019 17:05:05 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d5ZB48mKYG2jsBgL"
-Content-Disposition: inline
-In-Reply-To: <20191213040438.GC28362@in.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,93 +153,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, linuxram@us.ibm.com,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi!
 
---d5ZB48mKYG2jsBgL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am having an issue with capabilities (hopefully the chunk formatting
+won't break).
+
+The problem is that when virtio_pci_find_capability() reads
+pci_find_capability(dev, PCI_CAP_ID_VNDR), 0 is returned; if repeated,
+it returns a valid number (0x84). Timing seems to matter. pci_cfg_read
+trace shows that that first time read does not reach QEMU but others do
+reach QEMU and return what is expected.
+
+How to debug this, any quick ideas? The config space is not a MMIO BAR
+or KVM memory slot or anything like this, right? :) Thanks,
 
 
-65;5803;1cOn Fri, Dec 13, 2019 at 09:34:38AM +0530, Bharata B Rao wrote:
-> On Thu, Dec 12, 2019 at 01:27:23PM +0100, Greg Kurz wrote:
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index f11422fc41..25e1a3446e 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -1597,6 +1597,21 @@ static void spapr_machine_reset(MachineState *=
-machine)
-> > >      void *fdt;
-> > >      int rc;
-> > > =20
-> > > +    /*
-> > > +     * KVM_PPC_SVM_OFF ioctl can fail for secure guests, check and
-> > > +     * exit in that case. However check for -ENOTTY explicitly
-> > > +     * to ensure that we don't terminate normal guests that are
-> > > +     * running on kernels which don't support this ioctl.
-> > > +     *
-> > > +     * Also, this ioctl returns 0 for normal guests on kernels where
-> > > +     * this ioctl is supported.
-> > > +     */
-> > > +    rc =3D kvmppc_svm_off();
-> > > +    if (rc && rc !=3D -ENOTTY) {
-> >=20
-> > This ioctl can also return -EINVAL if the ultravisor actually failed to=
- move
-> > the guest back to non-secure mode or -EBUSY if a vCPU is still running.=
- I
-> > agree that the former deserve the VM to be terminated. What about the l=
-atter ?
-> > Can this happen and if yes, why ? Should we try again as suggested by A=
-lexey ?
-> > Could this reveal a bug in QEMU, in which case we should maybe abort ?
->=20
-> We are in machine reset path, so all vcpus are already paused. So we don't
-> expect any vcpus to be running to handle -EBUSY here. Neither do I see any
-> sane recovery path from here.
+[    3.489492] ___K___ (0) virtio_pci_modern_probe 642
+[    3.489697] ___K___ (0) virtio_pci_find_capability 492: FIND a cap
+[    3.490070] ___K___ (0) virtio_pci_find_capability 494: cap is at 0
+[    3.490335] ___K___ (0) virtio_pci_find_capability 492: FIND a cap
+10909@1576216763.643271:pci_cfg_read virtio-net-pci 00:0 @0x6 -> 0x10
+10909@1576216763.643431:pci_cfg_read virtio-net-pci 00:0 @0x34 -> 0x98
+10909@1576216763.643591:pci_cfg_read virtio-net-pci 00:0 @0x98 -> 0x8411
+10909@1576216763.643747:pci_cfg_read virtio-net-pci 00:0 @0x84 -> 0x7009
+[    3.491264] ___K___ (0) virtio_pci_find_capability 494: cap is at 132
+10909@1576216763.644140:pci_cfg_read virtio-net-pci 00:0 @0x87 -> 0x5
+10909@1576216763.644287:pci_cfg_read virtio-net-pci 00:0 @0x88 -> 0x0
+[    3.491803] ___K___ (0) virtio_pci_find_capability 506: 5 0
+10909@1576216763.644632:pci_cfg_read virtio-net-pci 00:0 @0x85 -> 0x70
+10909@1576216763.644786:pci_cfg_read virtio-net-pci 00:0 @0x70 -> 0x6009
+10909@1576216763.644942:pci_cfg_read virtio-net-pci 00:0 @0x73 -> 0x2
+10909@1576216763.645092:pci_cfg_read virtio-net-pci 00:0 @0x74 -> 0x4
+[    3.492607] ___K___ (0) virtio_pci_find_capability 506: 2 4
 
-Right.  Because this path should only happen in the case of qemu (or
-kernel) error, abort() would also be appropriate.  However, it's not
-worth making that a separate case from the other fatal errors.
 
->=20
-> As Alexey mentioned earlier, may be we can just stop the VM?
-> Do vm_stop() with RUN_STATE_PAUSED or some such reason?
->=20
-> Regards,
-> Bharata.
->=20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---d5ZB48mKYG2jsBgL
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/virtio/virtio_pci_modern.c
+b/drivers/virtio/virtio_pci_modern.c
+index 7abcc50838b8..85b2a7ce96e9 100644
+--- a/drivers/virtio/virtio_pci_modern.c
++++ b/drivers/virtio/virtio_pci_modern.c
+@@ -486,9 +486,14 @@ static const struct virtio_config_ops
+virtio_pci_config_ops = {
+ static inline int virtio_pci_find_capability(struct pci_dev *dev, u8
+cfg_type,
+                                             u32 ioresource_types, int
+*bars)
+ {
+-       int pos;
++       int pos = 0;// = pci_find_capability(dev, PCI_CAP_ID_VNDR);
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3zJ4AACgkQbDjKyiDZ
-s5JWBhAAz0lnS1rlKzwbEa5AcL6h5NXrqkjYBfYmv5V7ID5QjYMej09p1N+qjWWA
-7JNsegXfkWog86mpLnbV4ygHIAXmicPnoF9Vo8D2+/TJ2NsNiOaYIiOcrfPt5Uy+
-2Rguow/1qHF2ErLwMGEFqhhqtRsi0uPDyYRRiq5fVNG6U4T8dep2aHaWyxNDeqZJ
-A5/A3De3P8ZBovj1szTjRO9MG/BmZN0wIMntEWFkUOT9kBizr+2T9k18wfUUv4n6
-a7MM3HjM9TChEdH2NawmSNO5dVfjkQujrtMhHYVKj62NShPak41THiv8aYQaBFVC
-9oQKpFFBgYoD3svBgVxAI/uBye5LmTbHruMnMJQGjqkMwreURxM6nyYm/dkd/X93
-8JL+koNOWcM95MzGoll53YZhPnvmwpQatTm+mTI2rWorET15TkN+dxSQEgPUptqW
-ThE29rZho8QLZjCtFvxZFUHl5gIYl1cvgRBSOPdPKSkM9FWivtCWVsFUmwK6l9G5
-C2q3Fm2quDsAB9Wu0uAqnghTEDYAYo4dpLQbyLziJ/qyAos/qaspnfOrTcalFKKo
-N81lySuq3/po4QepslZvV96JRFbuGEtKrjfl8cccEsz1vb8KuzR+1Ec1cmdcfT1E
-hkyU0+z/wAopcnSdaiqS0mdt9/K74MJ4yI4xGkE85p3s7tVaBvQ=
-=/Si0
------END PGP SIGNATURE-----
+-       for (pos = pci_find_capability(dev, PCI_CAP_ID_VNDR);
++       while (!pos) {
++               pr_err("___K___ (%u) %s %u: FIND a cap\n",
+smp_processor_id(), __func__, __LINE__);
++               pos = pci_find_capability(dev, PCI_CAP_ID_VNDR);
++               pr_err("___K___ (%u) %s %u: cap is at %d\n",
+smp_processor_id(), __func__, __LINE__, pos);
++       }
++       for (;
+             pos > 0;
+             pos = pci_find_next_capability(dev, pos, PCI_CAP_ID_VNDR)) {
+                u8 type, bar;
 
---d5ZB48mKYG2jsBgL--
+
+-- 
+Alexey
 
