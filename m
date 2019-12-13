@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC99F11E7A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:05:42 +0100 (CET)
-Received: from localhost ([::1]:50728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7669E11E80F
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:20:53 +0100 (CET)
+Received: from localhost ([::1]:50924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnRl-0003yv-Pp
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:05:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50043)
+	id 1ifngR-00013v-FW
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:20:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ifnPs-000356-FI
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:03:46 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifne2-0007nD-9n
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ifnPp-0007tV-3B
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:03:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31640
+ (envelope-from <philmd@redhat.com>) id 1ifndz-00083x-Ff
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27929
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ifnPo-0007qn-FU
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:03:41 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifndz-00082N-BH
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:18:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253019;
+ s=mimecast20190719; t=1576253898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y67nNUw3kEABmusngWQxuPaBGm/fVHALxf3bTj2Zees=;
- b=V1JTwMHlIwVBQmZWZh1RSRKQLmwyJh0H6H9gXM6IfeK0hojg8YF8PapFaAWIrbaKu8F49U
- jqjbrX7F9+fC1sPgVbsK8s3AEzisfv1R0cBPmJ65xjru7SHs32VRPL4Tuy11BDcinJuZHc
- WpFa4Rt3XDbvBt8V3IWiFd9WgFTjymA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eictPqqvfDWdLCnWulB6nvsiJMgILd7otDTiwQaZME4=;
+ b=W7FtgtZy02cgeowTjxtRgkyZ4xFT2qSVGM77Q+xQmb5rJO9AOgBIT2ez5KWeNhvYZQ0aZq
+ we01nH6WoRkLxRGiSg3khpteMc7lhCzlZolJJkWc1gcfDC76VlR8wDehbqlrGVloctr7pt
+ KAUKgVhiPknzDQ6XqFhbXdrD55H72cs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-eJeG1hRzMzawDPN9RfCJKA-1; Fri, 13 Dec 2019 11:03:38 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-82-termAq3FMgGFGnyF0OlLXA-1; Fri, 13 Dec 2019 11:18:14 -0500
+X-MC-Unique: termAq3FMgGFGnyF0OlLXA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 667D6100A155
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 16:03:37 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-153.ams2.redhat.com
- [10.36.117.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E010810013D9;
- Fri, 13 Dec 2019 16:03:31 +0000 (UTC)
-Date: Fri, 13 Dec 2019 17:03:30 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v6 00/25] monitor: add asynchronous command type
-Message-ID: <20191213160330.GD3428@localhost.localdomain>
-References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E942800D41;
+ Fri, 13 Dec 2019 16:18:12 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F91219C4F;
+ Fri, 13 Dec 2019 16:17:57 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/12] hw/i386/pc: Move PC-machine specific declarations to
+ 'pc_internal.h'
+Date: Fri, 13 Dec 2019 17:17:41 +0100
+Message-Id: <20191213161753.8051-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191108150123.12213-1-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: eJeG1hRzMzawDPN9RfCJKA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -73,68 +67,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.11.2019 um 16:00 hat Marc-Andr=E9 Lureau geschrieben:
-> The following series implements an internal async command solution
-> instead. By introducing a session context and a command return
-> handler, QMP handlers can:
-> - defer the return, allowing the mainloop to reenter
-> - return only to the caller (instead of the broadcast event reply)
-> - optionnally allow cancellation when the client is gone
-> - track on-going qapi command(s) per session
+Hi Paolo,
 
-This requires major changes to existing QMP command handlers. Did you
-consider at least optionally providing a way where instead of using the
-new async_fn, QMP already creates a coroutine in which the handler is
-executed?
+Since you posted your "x86: allow building without PC machine
+types" series [1], I looked at my past work on this topic
+(restrict "hw/i386/pc.h" to the X86 architecture).
+I'm glad to see in [2] you remove most (all) of the last uses.
+Since I haven't looked at this for some time, my WiP branch was
+quite diverged from QEMU master. I guess I could salvage most of
+the easy patches. The rest is QOMification of GSI/IOAPIC which
+require various changes with the i8259, so I'll keep that for
+later.
 
-At least for some of the block layer commands, we could simply enable
-this without changing any of the code and would automatically get rid of
-blocking the guest while the command is doing I/O. If we need to
-implement .async_fn, in contrast, it would be quite a bit of boiler
-plate code for each single handler to create a coroutine for the real
-handler and to wrap all parameters in a struct.
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664760.html
+[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664765.html
 
-I started playing a bit with this and it didn't look too bad, but we
-can't move every command handler to a coroutine without auditing it, so
-I would have had to add a new option to the QAPI schema - and at that
-point I thought that I might end up duplicating a lot of your code if I
-continued. So I'm now trying to get your opinion or advice before I
-continue with anything in that direction.
+Philippe Mathieu-Daud=C3=A9 (12):
+  hw/i386/pc: Convert DPRINTF() to trace events
+  hw/i386/pc: Move kvm_i8259_init() declaration to sysemu/kvm.h
+  hw/i386/pc: Remove obsolete pc_pci_device_init() declaration
+  hw/i386/pc: Remove obsolete cpu_set_smm_t typedef
+  hw/i386/ich9: Remove unused include
+  hw/i386/ich9: Move unnecessary "pci_bridge.h" include
+  hw/ide/piix: Remove superfluous DEVICE() cast
+  hw/ide/piix: Use ARRAY_SIZE() instead of magic numbers
+  hw/intc/ioapic: Make ioapic_print_redtbl() static
+  hw/i386/pc: Rename allocate_cpu_irq from 'pc' to 'x86_machine'
+  hw/i386/pc: Move x86_machine_allocate_cpu_irq() to 'hw/i386/x86.c'
+  hw/i386/pc: Move PC-machine specific declarations to 'pc_internal.h'
 
-> This does not introduce new QMP APIs or client visible changes, the
-> command are handled in order, and the reply still come in order (even
-> when handlers finish out of order).
->=20
-> Existing qemu commands can be gradually replaced by async:true
-> variants when needed, while carefully reviewing the concurrency
-> aspects. The async:true commands marshaller helpers are splitted in
-> half, the calling and return functions. The command is called with a
-> QmpReturn context, that can return immediately or later, using the
-> generated return helper.
+ hw/i386/pc_internal.h             | 144 ++++++++++++++++++++++++++++++
+ include/hw/i386/ich9.h            |   2 -
+ include/hw/i386/ioapic_internal.h |   1 -
+ include/hw/i386/pc.h              | 133 ---------------------------
+ include/hw/i386/x86.h             |   2 +
+ include/sysemu/kvm.h              |   1 +
+ hw/i386/acpi-build.c              |   2 +
+ hw/i386/microvm.c                 |   2 +-
+ hw/i386/pc.c                      |  47 ++--------
+ hw/i386/pc_piix.c                 |   1 +
+ hw/i386/pc_q35.c                  |   1 +
+ hw/i386/pc_sysfw.c                |   1 +
+ hw/i386/x86.c                     |  30 +++++++
+ hw/i386/xen/xen-hvm.c             |   1 +
+ hw/ide/piix.c                     |  29 +++---
+ hw/intc/ioapic_common.c           |   2 +-
+ hw/pci-bridge/i82801b11.c         |   1 +
+ hw/i386/trace-events              |   6 ++
+ 18 files changed, 211 insertions(+), 195 deletions(-)
+ create mode 100644 hw/i386/pc_internal.h
 
-This part would certainly become simpler with coroutines (the marshaller
-could stay unchanged).
-
-> The screendump command is converted to an async:true version to solve
-> rhbz#1230527. The command shows basic cancellation (this could be
-> extended if needed). It could be further improved to do asynchronous
-> IO writes as well.
-
-After converting it to QIOChannel like you already do, I/O would
-automatically become asynchronous when run in a coroutine.
-
-If you don't want this yet, but only fix the BZ, I guess you could delay
-that patch until later and just have a single yield and reenter of the
-command handler coroutine like this:
-
-    co =3D qemu_coroutine_self();
-    aio_co_schedule(qemu_coroutine_get_aio_context(co), co);
-    qemu_coroutine_yield();
-
-Kevin
+--=20
+2.21.0
 
 
