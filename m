@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46EFA11E826
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:24:32 +0100 (CET)
-Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C0111E825
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:24:26 +0100 (CET)
+Received: from localhost ([::1]:51004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnjy-0005R1-Tv
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35105)
+	id 1ifnjt-0005Nz-CP
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:24:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ifnes-0008Ok-9C
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:15 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ifnev-0008Sc-0v
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ifneq-0000wl-Hk
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53579
+ (envelope-from <cohuck@redhat.com>) id 1ifnet-00013N-LH
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27125
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnem-0000rX-Tr
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:09 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnet-00012I-H3
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253948;
+ s=mimecast20190719; t=1576253955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4BQ0cxHRn9CDvVFRXRPqBu9DFIeRE/0YzeZyOkJ9evs=;
- b=VEAQ4WgucCGSioHE+Ypi5PvdfNoEKSpsWVaYwOIGemJVTX/H9MLmLP51JTZLCBD4f3AR31
- 3Jgj5zbQYAuihOiWPs9MZ290wkvg16EX1O/kpD0IC39MFkvw/Y2VvIKz0JdcXBgLybenNO
- NWU7Ya0EdU6tuOcQIc0W5dmxI93akLw=
+ bh=XjihPKr7LPtpeVUyD1Ywx5iZuUUmd9Xf4ZGxJ7BU3l4=;
+ b=AuDyePU+g5tXDyfr60qFHlzMVB3UINIj0LxBkRzl5PxT15YJ4cmsQ461iIFbh4s2KSBBZK
+ LPTW0eH62jLqsGJb/QF7GdjKy4T3FpF4JJPNXJjjuRQgefWwgCGT7u3wwDOM5lHD4R3TgE
+ FfnbTcu4BBLzYkF0JtYatEBXCNCWn3I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-0e4KZQfJMKumuCYUh9xNEg-1; Fri, 13 Dec 2019 11:19:06 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-216-EYLts699MfyuIx5gU5koYA-1; Fri, 13 Dec 2019 11:19:13 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 657B6800053;
- Fri, 13 Dec 2019 16:19:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6598E800EB4;
+ Fri, 13 Dec 2019 16:19:12 +0000 (UTC)
 Received: from localhost (ovpn-116-226.ams2.redhat.com [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E45D10013D9;
- Fri, 13 Dec 2019 16:19:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06F465C553;
+ Fri, 13 Dec 2019 16:19:11 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/16] hw: add compat machines for 5.0
-Date: Fri, 13 Dec 2019 17:18:37 +0100
-Message-Id: <20191213161851.24687-3-cohuck@redhat.com>
+Subject: [PULL 04/16] s390x: Move reset normal to shared reset handler
+Date: Fri, 13 Dec 2019 17:18:39 +0100
+Message-Id: <20191213161851.24687-5-cohuck@redhat.com>
 In-Reply-To: <20191213161851.24687-1-cohuck@redhat.com>
 References: <20191213161851.24687-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 0e4KZQfJMKumuCYUh9xNEg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: EYLts699MfyuIx5gU5koYA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -70,243 +70,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 5.0 machine types for arm/i440fx/q35/s390x/spapr.
+From: Janosch Frank <frankja@linux.ibm.com>
 
-For i440fx and q35, unversioned cpu models are still translated
-to -v1; I'll leave changing this (if desired) to the respective
-maintainers.
+Let's start moving the cpu reset functions into a single function with
+a switch/case, so we can later use fallthroughs and share more code
+between resets.
 
+This patch introduces the reset function by renaming cpu_reset().
+
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20191127175046.4911-3-frankja@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20191112104811.30323-1-cohuck@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/arm/virt.c              |  7 ++++++-
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 15 +++++++++++++--
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- 9 files changed, 69 insertions(+), 6 deletions(-)
+ target/s390x/cpu-qom.h |  6 +++++-
+ target/s390x/cpu.c     | 19 +++++++++++++------
+ target/s390x/cpu.h     |  2 +-
+ target/s390x/sigp.c    |  2 +-
+ 4 files changed, 20 insertions(+), 9 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index d4bedc260712..02f654b63278 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2147,10 +2147,15 @@ static void machvirt_machine_init(void)
- }
- type_init(machvirt_machine_init);
+diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
+index b809ec8418e0..f3b71bac67c9 100644
+--- a/target/s390x/cpu-qom.h
++++ b/target/s390x/cpu-qom.h
+@@ -34,6 +34,10 @@
+ typedef struct S390CPUModel S390CPUModel;
+ typedef struct S390CPUDef S390CPUDef;
 =20
-+static void virt_machine_5_0_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
++typedef enum cpu_reset_type {
++    S390_CPU_RESET_NORMAL,
++} cpu_reset_type;
 +
- static void virt_machine_4_2_options(MachineClass *mc)
+ /**
+  * S390CPUClass:
+  * @parent_realize: The parent class' realize handler.
+@@ -57,7 +61,7 @@ typedef struct S390CPUClass {
+     DeviceRealize parent_realize;
+     void (*parent_reset)(CPUState *cpu);
+     void (*load_normal)(CPUState *cpu);
+-    void (*cpu_reset)(CPUState *cpu);
++    void (*reset)(CPUState *cpu, cpu_reset_type type);
+     void (*initial_cpu_reset)(CPUState *cpu);
+ } S390CPUClass;
+=20
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 3abe7e80fd0a..67d6fbfa4401 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -82,18 +82,25 @@ static void s390_cpu_load_normal(CPUState *s)
+ }
+ #endif
+=20
+-/* S390CPUClass::cpu_reset() */
+-static void s390_cpu_reset(CPUState *s)
++/* S390CPUClass::reset() */
++static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
  {
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(4, 2)
-+DEFINE_VIRT_MACHINE(4, 2)
+     S390CPU *cpu =3D S390_CPU(s);
+     S390CPUClass *scc =3D S390_CPU_GET_CLASS(cpu);
+     CPUS390XState *env =3D &cpu->env;
 =20
- static void virt_machine_4_1_options(MachineClass *mc)
+-    env->pfault_token =3D -1UL;
+-    env->bpbc =3D false;
+     scc->parent_reset(s);
+     cpu->env.sigp_order =3D 0;
+     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
++
++    switch (type) {
++    case S390_CPU_RESET_NORMAL:
++        env->pfault_token =3D -1UL;
++        env->bpbc =3D false;
++        break;
++    default:
++        g_assert_not_reached();
++    }
+ }
+=20
+ /* S390CPUClass::initial_reset() */
+@@ -102,7 +109,7 @@ static void s390_cpu_initial_reset(CPUState *s)
+     S390CPU *cpu =3D S390_CPU(s);
+     CPUS390XState *env =3D &cpu->env;
+=20
+-    s390_cpu_reset(s);
++    s390_cpu_reset(s, S390_CPU_RESET_NORMAL);
+     /* initial reset does not clear everything! */
+     memset(&env->start_initial_reset_fields, 0,
+         offsetof(CPUS390XState, end_reset_fields) -
+@@ -473,7 +480,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *=
+data)
+ #if !defined(CONFIG_USER_ONLY)
+     scc->load_normal =3D s390_cpu_load_normal;
+ #endif
+-    scc->cpu_reset =3D s390_cpu_reset;
++    scc->reset =3D s390_cpu_reset;
+     scc->initial_cpu_reset =3D s390_cpu_initial_reset;
+     cc->reset =3D s390_cpu_full_reset;
+     cc->class_by_name =3D s390_cpu_class_by_name,
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 17460ed7b381..18123dfd5bd1 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -741,7 +741,7 @@ static inline void s390_do_cpu_reset(CPUState *cs, run_=
+on_cpu_data arg)
  {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3bf8af..21fe2d974817 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -27,6 +27,9 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
+     S390CPUClass *scc =3D S390_CPU_GET_CLASS(cs);
 =20
-+GlobalProperty hw_compat_4_2[] =3D {};
-+const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
-+
- GlobalProperty hw_compat_4_1[] =3D {
-     { "virtio-pci", "x-pcie-flr-init", "off" },
- };
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index ac08e6360437..58867f987d88 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -103,6 +103,9 @@
-=20
- struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_MAX};
-=20
-+GlobalProperty pc_compat_4_2[] =3D {};
-+const size_t pc_compat_4_2_len =3D G_N_ELEMENTS(pc_compat_4_2);
-+
- GlobalProperty pc_compat_4_1[] =3D {};
- const size_t pc_compat_4_1_len =3D G_N_ELEMENTS(pc_compat_4_1);
-=20
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1bd70d1abbc4..846e70bc55ec 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -424,7 +424,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+-    scc->cpu_reset(cs);
++    scc->reset(cs, S390_CPU_RESET_NORMAL);
  }
 =20
--static void pc_i440fx_4_2_machine_options(MachineClass *m)
-+static void pc_i440fx_5_0_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -433,6 +433,18 @@ static void pc_i440fx_4_2_machine_options(MachineClass=
- *m)
-     pcmc->default_cpu_version =3D 1;
+ static inline void s390_do_cpu_initial_reset(CPUState *cs, run_on_cpu_data=
+ arg)
+diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
+index 2ce22d4dc18b..850139b9cd54 100644
+--- a/target/s390x/sigp.c
++++ b/target/s390x/sigp.c
+@@ -266,7 +266,7 @@ static void sigp_cpu_reset(CPUState *cs, run_on_cpu_dat=
+a arg)
+     SigpInfo *si =3D arg.host_ptr;
+=20
+     cpu_synchronize_state(cs);
+-    scc->cpu_reset(cs);
++    scc->reset(cs, S390_CPU_RESET_NORMAL);
+     cpu_synchronize_post_reset(cs);
+     si->cc =3D SIGP_CC_ORDER_CODE_ACCEPTED;
  }
-=20
-+DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
-+                      pc_i440fx_5_0_machine_options);
-+
-+static void pc_i440fx_4_2_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_5_0_machine_options(m);
-+    m->alias =3D NULL;
-+    m->is_default =3D 0;
-+    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-+    compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
-+}
-+
- DEFINE_I440FX_MACHINE(v4_2, "pc-i440fx-4.2", NULL,
-                       pc_i440fx_4_2_machine_options);
-=20
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 385e5cffb167..ddd485d608c0 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -348,7 +348,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus =3D 288;
- }
-=20
--static void pc_q35_4_2_machine_options(MachineClass *m)
-+static void pc_q35_5_0_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -356,6 +356,17 @@ static void pc_q35_4_2_machine_options(MachineClass *m=
-)
-     pcmc->default_cpu_version =3D 1;
- }
-=20
-+DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
-+                   pc_q35_5_0_machine_options);
-+
-+static void pc_q35_4_2_machine_options(MachineClass *m)
-+{
-+    pc_q35_5_0_machine_options(m);
-+    m->alias =3D NULL;
-+    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-+    compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
-+}
-+
- DEFINE_Q35_MACHINE(v4_2, "pc-q35-4.2", NULL,
-                    pc_q35_4_2_machine_options);
-=20
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e076f6023c73..3ae7db156303 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4491,15 +4491,26 @@ static const TypeInfo spapr_machine_info =3D {
-     }                                                                \
-     type_init(spapr_machine_register_##suffix)
-=20
-+/*
-+ * pseries-5.0
-+ */
-+static void spapr_machine_5_0_class_options(MachineClass *mc)
-+{
-+    /* Defaults for the latest behaviour inherited from the base class */
-+}
-+
-+DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
-+
- /*
-  * pseries-4.2
-  */
- static void spapr_machine_4_2_class_options(MachineClass *mc)
- {
--    /* Defaults for the latest behaviour inherited from the base class */
-+    spapr_machine_5_0_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
-=20
--DEFINE_SPAPR_MACHINE(4_2, "4.2", true);
-+DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
-=20
- /*
-  * pseries-4.1
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index d3edeef0ad92..01e7e209a5da 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -639,14 +639,26 @@ bool css_migration_enabled(void)
-     }                                                                     =
-    \
-     type_init(ccw_machine_register_##suffix)
-=20
-+static void ccw_machine_5_0_instance_options(MachineState *machine)
-+{
-+}
-+
-+static void ccw_machine_5_0_class_options(MachineClass *mc)
-+{
-+}
-+DEFINE_CCW_MACHINE(5_0, "5.0", true);
-+
- static void ccw_machine_4_2_instance_options(MachineState *machine)
- {
-+    ccw_machine_5_0_instance_options(machine);
- }
-=20
- static void ccw_machine_4_2_class_options(MachineClass *mc)
- {
-+    ccw_machine_5_0_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
--DEFINE_CCW_MACHINE(4_2, "4.2", true);
-+DEFINE_CCW_MACHINE(4_2, "4.2", false);
-=20
- static void ccw_machine_4_1_instance_options(MachineState *machine)
- {
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index de45087f34cb..24cbeecbaecc 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -329,6 +329,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
-=20
-+extern GlobalProperty hw_compat_4_2[];
-+extern const size_t hw_compat_4_2_len;
-+
- extern GlobalProperty hw_compat_4_1[];
- extern const size_t hw_compat_4_1_len;
-=20
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 1f86eba3f998..61a998de4665 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -237,6 +237,9 @@ void pc_system_firmware_init(PCMachineState *pcms, Memo=
-ryRegion *rom_memory);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
-=20
-+extern GlobalProperty pc_compat_4_2[];
-+extern const size_t pc_compat_4_2_len;
-+
- extern GlobalProperty pc_compat_4_1[];
- extern const size_t pc_compat_4_1_len;
-=20
 --=20
 2.21.0
 
