@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B3111EA18
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 19:21:47 +0100 (CET)
-Received: from localhost ([::1]:52382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8E111EA87
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 19:37:53 +0100 (CET)
+Received: from localhost ([::1]:52486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifpZS-0003ip-6h
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 13:21:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
+	id 1ifpp2-0001N5-DC
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 13:37:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ifpYG-0003Ba-Vn
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:20:35 -0500
+ (envelope-from <waynli329@gmail.com>) id 1ifpno-0000qw-27
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:36:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ifpYC-0002yh-C6
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:20:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23092
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifpYC-0002we-2a
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:20:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576261227;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iipuVH76o8CUL+hdVduksY4rAme7E55e135LU8pXtoU=;
- b=UW+0v5Y+Pf7+Np3ncKvAuCD8f9ST46y18NUq7Y861QEOF/dezqCh0lvsk8vfq/Q95YEWWD
- w+KhGEH0Jek3j+Jlx8jr9NCIgVe0x5qzbGbxp32fjydstnZhYcYmjIyAetFk6gLg5x0PWT
- +JgRBDRhdy54XRPipbnAVR9bACE8mzs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-nHYYJ4AuPPSw47NwCZYbIQ-1; Fri, 13 Dec 2019 13:20:23 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BBC4DBA3
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 18:20:22 +0000 (UTC)
-Received: from work-vm (unknown [10.36.117.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 852015D9C9;
- Fri, 13 Dec 2019 18:20:18 +0000 (UTC)
-Date: Fri, 13 Dec 2019 18:20:15 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v6 8/8] tests: add dbus-vmstate-test
-Message-ID: <20191213182015.GR3713@work-vm>
-References: <20191211134506.1803403-1-marcandre.lureau@redhat.com>
- <20191211134506.1803403-9-marcandre.lureau@redhat.com>
+ (envelope-from <waynli329@gmail.com>) id 1ifpnk-0008FX-Pm
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:36:35 -0500
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:41647)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <waynli329@gmail.com>) id 1ifpnk-0008AE-E3
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 13:36:32 -0500
+Received: by mail-il1-x132.google.com with SMTP id f10so226682ils.8
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 10:36:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jfQMfbcxt/GN7F55THyaQZwB2FdUzJvz8k7hQ1CU7+M=;
+ b=lx2m4CmiqXA3an6TXzafYZcgzuCIpOKF3b2+4x7//NyyP62PF8YrR14bH/D3YkKjE+
+ 8ZMiIZ58wlyEbJUAMvx7vhp3kRZGnfUJ/JMkMZfbW9yKPDIewUVQNH7KWrc/bNu8lixT
+ 7DFmb+far/0r/pqY9JENOwsrJiwRYdRy6LIKYg8yrqiLJkGVmP2Veov4+UO94jzlJqPC
+ BZ/gyVibhcYoaAtYUOxJO6ujfRoP49n5tQX2WN/gjo9WCzdUKYsfe/G9yz63PvJkTUxy
+ n0yUY4YnE7PGzy5bL4x6h2EPTIXBxjsCP21qsaq9ij0brXWRiezwbcFouT050MnGg/1p
+ KmRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jfQMfbcxt/GN7F55THyaQZwB2FdUzJvz8k7hQ1CU7+M=;
+ b=p1LBFL+fIybVnFCM/IKawvCnQmOnYlGY85xN2mp6jYXNUsxc4x4CTYZJTjj2jGy067
+ Sb2Nnm/fH1xF6SVtxt3OZ2Nr3Px4xzHN4qIvSaGsXT1RUomWTb4k0c0XrJFsMSmDhUkV
+ XL4ipop8NjKmw8unDMMSYjP0zNk5hrKss2a7sDnexJ8Ng98vUdb7TAMt4o+2KVZezwFZ
+ LfqH4MY53DcdAntBpfihrdoIHZ/oIW3RMxNl6M21jBAPEjaSsF4hGqQVb6zqhICVlbOo
+ zih+H/0Ehn0ry02Ufb8BHjEW+k98llXJHcMAMHpeOj92pyXaIuCRN4gb2HoEd9gxZDbK
+ ycxA==
+X-Gm-Message-State: APjAAAXwwIFHvV45TMh50B9j2qBHiCx6mu8XFUD1vHBZaYdzW/yMclvA
+ tL/oQ3EsK2pZiw7WBHOi1/Z3BcPLiy7ghDOXAjg=
+X-Google-Smtp-Source: APXvYqyBEeAHKEVyGMulbmYfNPAHuuqedFCkCmvQmN+qeSE320MC17XkeJn6BM5TKoqNv8vEXhd/d9/QKx1PANfDm1U=
+X-Received: by 2002:a92:465c:: with SMTP id t89mr686411ila.263.1576262189848; 
+ Fri, 13 Dec 2019 10:36:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191211134506.1803403-9-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: nHYYJ4AuPPSw47NwCZYbIQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <CAM2K0nrhkOhiJDxnANGmAu2140-TP0a9pY58i_PN1k9xAWGz9A@mail.gmail.com>
+ <76b207cd-09ce-b3df-e288-a515df40677e@redhat.com>
+ <CAM2K0nph2GZQkAv3tCgoP+ciPMWSzVJp0rHDXJJ2Gtqeq2Bgug@mail.gmail.com>
+ <c4e14191-efe5-7713-1eac-55a6bafb027a@redhat.com>
+ <CAM2K0no9-M9WRm-QKFBMRofUaNkfmMtDvop3KxrOQrU80YWSTA@mail.gmail.com>
+ <20191213034937.GB207300@umbus.fritz.box>
+In-Reply-To: <20191213034937.GB207300@umbus.fritz.box>
+From: Wayne Li <waynli329@gmail.com>
+Date: Fri, 13 Dec 2019 12:36:18 -0600
+Message-ID: <CAM2K0noRK2LqV9JfWd8jezm-bZM=Qqk1rY6a+cDoHAqSafiZcQ@mail.gmail.com>
+Subject: Re: QEMU VM crashes when enabling KVM
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: multipart/alternative; boundary="000000000000e61e8905999a2311"
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Received-From: 2607:f8b0:4864:20::132
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,390 +75,350 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ David Gibson <dgibson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Marc-Andr=E9 Lureau (marcandre.lureau@redhat.com) wrote:
-> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+--000000000000e61e8905999a2311
+Content-Type: text/plain; charset="UTF-8"
 
-> +static gboolean
-> +vmstate_save(VMState1 *object, GDBusMethodInvocation *invocation,
-> +             gpointer user_data)
-> +{
-> +    TestServer *h =3D user_data;
-> +    GVariant *var;
-> +
-> +    var =3D g_variant_new_fixed_array(G_VARIANT_TYPE_BYTE,
-> +                                    h->id->data, h->id->size, sizeof(cha=
-r));
-> +    g_dbus_method_invocation_return_value(invocation,
-> +                                          g_variant_new("(@ay)", var));
-> +    h->save_called =3D true;
-> +
-> +    return TRUE;
-> +}
-> +
-> +static gboolean
-> +wait_for_migration_complete(gpointer user_data)
+Thanks David and Zalton for the awesome explanations.  They're very helpful
+to us!
 
-It's a shame we don't have a way to share this with migration-test.c;
-we occasionally add more debug/cases in there.
+-Thanks, Wayne Li
 
-Dave
+On Thu, Dec 12, 2019 at 9:49 PM David Gibson <david@gibson.dropbear.id.au>
+wrote:
 
-> +{
-> +    Test *test =3D user_data;
-> +    QDict *rsp_return;
-> +    bool stop =3D false;
-> +    const char *status;
-> +
-> +    qtest_qmp_send(test->src_qemu, "{ 'execute': 'query-migrate' }");
-> +    rsp_return =3D qtest_qmp_receive_success(test->src_qemu, NULL, NULL)=
-;
-> +    status =3D qdict_get_str(rsp_return, "status");
-> +    if (g_str_equal(status, "completed") || g_str_equal(status, "failed"=
-)) {
-> +        stop =3D true;
-> +        g_assert_cmpstr(status, =3D=3D,
-> +                        test->migrate_fail ? "failed" : "completed");
-> +    }
-> +    qobject_unref(rsp_return);
-> +
-> +    if (stop) {
-> +        g_main_loop_quit(test->loop);
-> +    }
-> +    return stop ? G_SOURCE_REMOVE : G_SOURCE_CONTINUE;
-> +}
-> +
-> +static void migrate(QTestState *who, const char *uri)
-> +{
-> +    QDict *args, *rsp;
-> +
-> +    args =3D qdict_new();
-> +    qdict_put_str(args, "uri", uri);
-> +
-> +    rsp =3D qtest_qmp(who, "{ 'execute': 'migrate', 'arguments': %p }", =
-args);
-> +
-> +    g_assert(qdict_haskey(rsp, "return"));
-> +    qobject_unref(rsp);
-> +}
-> +
-> +typedef struct WaitNamed {
-> +    GMainLoop *loop;
-> +    bool named;
-> +} WaitNamed;
-> +
-> +static void
-> +named_cb(GDBusConnection *connection,
-> +         const gchar *name,
-> +         gpointer user_data)
-> +{
-> +    WaitNamed *t =3D user_data;
-> +
-> +    t->named =3D true;
-> +    g_main_loop_quit(t->loop);
-> +}
-> +
-> +static GDBusConnection *
-> +get_connection(Test *test, guint *ownid)
-> +{
-> +    g_autofree gchar *addr =3D NULL;
-> +    WaitNamed *wait;
-> +    GError *err =3D NULL;
-> +    GDBusConnection *c;
-> +
-> +    wait =3D g_new0(WaitNamed, 1);
-> +    wait->loop =3D test->loop;
-> +    addr =3D g_dbus_address_get_for_bus_sync(G_BUS_TYPE_SESSION, NULL, &=
-err);
-> +    g_assert_no_error(err);
-> +
-> +    c =3D g_dbus_connection_new_for_address_sync(
-> +        addr,
-> +        G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION |
-> +        G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT,
-> +        NULL, NULL, &err);
-> +    g_assert_no_error(err);
-> +    *ownid =3D g_bus_own_name_on_connection(c, "org.qemu.VMState1",
-> +                                          G_BUS_NAME_OWNER_FLAGS_NONE,
-> +                                          named_cb, named_cb, wait, g_fr=
-ee);
-> +    if (!wait->named) {
-> +        g_main_loop_run(wait->loop);
-> +    }
-> +
-> +    return c;
-> +}
-> +
-> +static GDBusObjectManagerServer *
-> +get_server(GDBusConnection *conn, TestServer *s, const TestServerId *id)
-> +{
-> +    g_autoptr(GDBusObjectSkeleton) sk =3D NULL;
-> +    g_autoptr(VMState1Skeleton) v =3D NULL;
-> +    GDBusObjectManagerServer *os;
-> +
-> +    s->id =3D id;
-> +    os =3D g_dbus_object_manager_server_new("/org/qemu");
-> +    sk =3D g_dbus_object_skeleton_new("/org/qemu/VMState1");
-> +
-> +    v =3D VMSTATE1_SKELETON(vmstate1_skeleton_new());
-> +    g_object_set(v, "id", id->name, NULL);
-> +
-> +    g_signal_connect(v, "handle-load", G_CALLBACK(vmstate_load), s);
-> +    g_signal_connect(v, "handle-save", G_CALLBACK(vmstate_save), s);
-> +
-> +    g_dbus_object_skeleton_add_interface(sk, G_DBUS_INTERFACE_SKELETON(v=
-));
-> +    g_dbus_object_manager_server_export(os, sk);
-> +    g_dbus_object_manager_server_set_connection(os, conn);
-> +
-> +    return os;
-> +}
-> +
-> +static void
-> +set_id_list(Test *test, QTestState *s)
-> +{
-> +    if (!test->id_list) {
-> +        return;
-> +    }
-> +
-> +    g_assert(!qmp_rsp_is_err(qtest_qmp(s,
-> +        "{ 'execute': 'qom-set', 'arguments': "
-> +        "{ 'path': '/objects/dv', 'property': 'id-list', 'value': %s } }=
-",
-> +        test->id_list)));
-> +}
-> +static void
-> +test_dbus_vmstate(Test *test)
-> +{
-> +    g_autofree char *src_qemu_args =3D NULL;
-> +    g_autofree char *dst_qemu_args =3D NULL;
-> +    g_autoptr(GTestDBus) srcbus =3D NULL;
-> +    g_autoptr(GTestDBus) dstbus =3D NULL;
-> +    g_autoptr(GDBusConnection) srcconnA =3D NULL;
-> +    g_autoptr(GDBusConnection) srcconnB =3D NULL;
-> +    g_autoptr(GDBusConnection) dstconnA =3D NULL;
-> +    g_autoptr(GDBusConnection) dstconnB =3D NULL;
-> +    g_autoptr(GDBusObjectManagerServer) srcserverA =3D NULL;
-> +    g_autoptr(GDBusObjectManagerServer) srcserverB =3D NULL;
-> +    g_autoptr(GDBusObjectManagerServer) dstserverA =3D NULL;
-> +    g_autoptr(GDBusObjectManagerServer) dstserverB =3D NULL;
-> +    g_auto(GStrv) srcaddr =3D NULL;
-> +    g_auto(GStrv) dstaddr =3D NULL;
-> +    g_autofree char *uri =3D NULL;
-> +    QTestState *src_qemu =3D NULL, *dst_qemu =3D NULL;
-> +    guint ownsrcA, ownsrcB, owndstA, owndstB;
-> +
-> +    uri =3D g_strdup_printf("unix:%s/migsocket", workdir);
-> +
-> +    test->loop =3D g_main_loop_new(NULL, TRUE);
-> +
-> +    srcbus =3D g_test_dbus_new(G_TEST_DBUS_NONE);
-> +    g_test_dbus_up(srcbus);
-> +    srcconnA =3D get_connection(test, &ownsrcA);
-> +    srcserverA =3D get_server(srcconnA, &test->srcA, &idA);
-> +    srcconnB =3D get_connection(test, &ownsrcB);
-> +    srcserverB =3D get_server(srcconnB, &test->srcB, &idB);
-> +
-> +    /* remove ,guid=3Dfoo part */
-> +    srcaddr =3D g_strsplit(g_test_dbus_get_bus_address(srcbus), ",", 2);
-> +    src_qemu_args =3D
-> +        g_strdup_printf("-object dbus-vmstate,id=3Ddv,addr=3D%s", srcadd=
-r[0]);
-> +
-> +    dstbus =3D g_test_dbus_new(G_TEST_DBUS_NONE);
-> +    g_test_dbus_up(dstbus);
-> +    dstconnA =3D get_connection(test, &owndstA);
-> +    dstserverA =3D get_server(dstconnA, &test->dstA, &idA);
-> +    if (!test->without_dst_b) {
-> +        dstconnB =3D get_connection(test, &owndstB);
-> +        dstserverB =3D get_server(dstconnB, &test->dstB, &idB);
-> +    }
-> +
-> +    dstaddr =3D g_strsplit(g_test_dbus_get_bus_address(dstbus), ",", 2);
-> +    dst_qemu_args =3D
-> +        g_strdup_printf("-object dbus-vmstate,id=3Ddv,addr=3D%s -incomin=
-g %s",
-> +                        dstaddr[0], uri);
-> +
-> +    src_qemu =3D qtest_init(src_qemu_args);
-> +    dst_qemu =3D qtest_init(dst_qemu_args);
-> +    set_id_list(test, src_qemu);
-> +    set_id_list(test, dst_qemu);
-> +
-> +    migrate(src_qemu, uri);
-> +    test->src_qemu =3D src_qemu;
-> +    g_timeout_add_seconds(1, wait_for_migration_complete, test);
-> +
-> +    g_main_loop_run(test->loop);
-> +    g_main_loop_unref(test->loop);
-> +
-> +    if (test->migrate_fail) {
-> +        qtest_set_expected_status(dst_qemu, 1);
-> +    }
-> +    qtest_quit(dst_qemu);
-> +    qtest_quit(src_qemu);
-> +    g_bus_unown_name(ownsrcA);
-> +    g_bus_unown_name(ownsrcB);
-> +    g_bus_unown_name(owndstA);
-> +    if (!test->without_dst_b) {
-> +        g_bus_unown_name(owndstB);
-> +    }
-> +}
-> +
-> +static void
-> +check_not_migrated(TestServer *s, TestServer *d)
-> +{
-> +    assert(!s->save_called);
-> +    assert(!s->load_called);
-> +    assert(!d->save_called);
-> +    assert(!d->load_called);
-> +}
-> +
-> +static void
-> +check_migrated(TestServer *s, TestServer *d)
-> +{
-> +    assert(s->save_called);
-> +    assert(!s->load_called);
-> +    assert(!d->save_called);
-> +    assert(d->load_called);
-> +}
-> +
-> +static void
-> +test_dbus_vmstate_without_list(void)
-> +{
-> +    Test test =3D { 0, };
-> +
-> +    test_dbus_vmstate(&test);
-> +
-> +    check_migrated(&test.srcA, &test.dstA);
-> +    check_migrated(&test.srcB, &test.dstB);
-> +}
-> +
-> +static void
-> +test_dbus_vmstate_with_list(void)
-> +{
-> +    Test test =3D { .id_list =3D "idA,idB" };
-> +
-> +    test_dbus_vmstate(&test);
-> +
-> +    check_migrated(&test.srcA, &test.dstA);
-> +    check_migrated(&test.srcB, &test.dstB);
-> +}
-> +
-> +static void
-> +test_dbus_vmstate_only_a(void)
-> +{
-> +    Test test =3D { .id_list =3D "idA" };
-> +
-> +    test_dbus_vmstate(&test);
-> +
-> +    check_migrated(&test.srcA, &test.dstA);
-> +    check_not_migrated(&test.srcB, &test.dstB);
-> +}
-> +
-> +static void
-> +test_dbus_vmstate_missing_src(void)
-> +{
-> +    Test test =3D { .id_list =3D "idA,idC", .migrate_fail =3D true };
-> +
-> +    /* run in subprocess to silence QEMU error reporting */
-> +    if (g_test_subprocess()) {
-> +        test_dbus_vmstate(&test);
-> +        check_not_migrated(&test.srcA, &test.dstA);
-> +        check_not_migrated(&test.srcB, &test.dstB);
-> +        return;
-> +    }
-> +
-> +    g_test_trap_subprocess(NULL, 0, 0);
-> +    g_test_trap_assert_passed();
-> +}
-> +
-> +static void
-> +test_dbus_vmstate_missing_dst(void)
-> +{
-> +    Test test =3D { .id_list =3D "idA,idB",
-> +                  .without_dst_b =3D true,
-> +                  .migrate_fail =3D true };
-> +
-> +    /* run in subprocess to silence QEMU error reporting */
-> +    if (g_test_subprocess()) {
-> +        test_dbus_vmstate(&test);
-> +        assert(test.srcA.save_called);
-> +        assert(test.srcB.save_called);
-> +        assert(!test.dstB.save_called);
-> +        return;
-> +    }
-> +
-> +    g_test_trap_subprocess(NULL, 0, 0);
-> +    g_test_trap_assert_passed();
-> +}
-> +
-> +int
-> +main(int argc, char **argv)
-> +{
-> +    GError *err =3D NULL;
-> +    g_autofree char *dbus_daemon =3D NULL;
-> +    int ret;
-> +
-> +    dbus_daemon =3D g_build_filename(G_STRINGIFY(SRCDIR),
-> +                                   "tests",
-> +                                   "dbus-vmstate-daemon.sh",
-> +                                   NULL);
-> +    g_setenv("G_TEST_DBUS_DAEMON", dbus_daemon, true);
-> +
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    workdir =3D g_dir_make_tmp("dbus-vmstate-test-XXXXXX", &err);
-> +    if (!workdir) {
-> +        g_error("Unable to create temporary dir: %s\n", err->message);
-> +        exit(1);
-> +    }
-> +
-> +    qtest_add_func("/dbus-vmstate/without-list",
-> +                   test_dbus_vmstate_without_list);
-> +    qtest_add_func("/dbus-vmstate/with-list",
-> +                   test_dbus_vmstate_with_list);
-> +    qtest_add_func("/dbus-vmstate/only-a",
-> +                   test_dbus_vmstate_only_a);
-> +    qtest_add_func("/dbus-vmstate/missing-src",
-> +                   test_dbus_vmstate_missing_src);
-> +    qtest_add_func("/dbus-vmstate/missing-dst",
-> +                   test_dbus_vmstate_missing_dst);
-> +
-> +    ret =3D g_test_run();
-> +
-> +    rmdir(workdir);
-> +    g_free(workdir);
-> +
-> +    return ret;
-> +}
-> diff --git a/tests/dbus-vmstate1.xml b/tests/dbus-vmstate1.xml
-> new file mode 100644
-> index 0000000000..cc8563be4c
-> --- /dev/null
-> +++ b/tests/dbus-vmstate1.xml
-> @@ -0,0 +1,12 @@
-> +<?xml version=3D"1.0"?>
-> +<node name=3D"/" xmlns:doc=3D"http://www.freedesktop.org/dbus/1.0/doc.dt=
-d">
-> +  <interface name=3D"org.qemu.VMState1">
-> +    <property name=3D"Id" type=3D"s" access=3D"read"/>
-> +    <method name=3D"Load">
-> +      <arg type=3D"ay" name=3D"data" direction=3D"in"/>
-> +    </method>
-> +    <method name=3D"Save">
-> +      <arg type=3D"ay" name=3D"data" direction=3D"out"/>
-> +    </method>
-> +  </interface>
-> +</node>
-> --=20
-> 2.24.0.308.g228f53135a
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> On Thu, Dec 12, 2019 at 10:40:44AM -0600, Wayne Li wrote:
+> > Dear David Gibson,
+> >
+> > I know you are under no obligation to respond, but if it's possible for
+> you
+> > to find the time to respond to my question, I would be extremely
+> grateful.
+> > My team at Boeing has been stuck trying to get KVM working for our
+> project
+> > for the last few months.  A good explanation of why this isn't possible
+> > would be absolutely critical.
+>
+> As you can see from that diagram, the history ppc CPUs is quite a bit
+> more diverse than x86.  Although they're all very similar from the
+> point of view of userspace code, they're quite different for
+> privileged kernel code: they have different MMUs, different privileged
+> registers amongst other things.
+>
+> Because of this there are several different KVM implementations.
+>
+> 1) KVM HV
+>
+> This one uses the virtualization facilities of BookS CPUs (present
+> since POWER4 / 970, but only well supported from POWER7 onwards).
+> Those don't allow much to virtualize the guest cpu model, so it
+> assumes the guest cpu is the same as the host.
+>
+> So, both your guest and host CPUs rule this one out.
+>
+> 2) Book3E KVM
+>
+> Uses the virtualization features of recent enough Freescale Book E
+> CPUs.  I don't know a lot about this or its limitations.  The e6500
+> might well have these features, but I'm pretty sure it can only
+> emulate BookE cpus for the guest.
+>
+> So, your guest rules this one out.
+>
+> 3) KVM PR
+>
+> This one operates by running the entire guest in user mode, and
+> emulating all privileged instructions.  It's slow (relative to
+> hardware assisted KVM models), but it's flexible.
+>
+> In theory, this one can do what you want, but there are a bunch of
+> caveats:
+>
+>   * Emulating all the privileged instructions for a whole bunch of cpu
+>   variants is a huge task, and KVM PR is now barely maintained.  There
+>   are lots of gaps in coverage.
+>
+>   * I'm not sure if it was ever really implemented for BookE hosts.
+>
+>   * Although there aren't many, there are a few differences between
+>   userland instructions between cpu variants, mostly because of new
+>   additions.  I think 7457 is an old enough design that this probably
+>   won't cause you troube, but I'm not certain.
+>
+>
+>
+> >
+> > -Thanks, Wayne Li
+> >
+> > On Thu, Dec 12, 2019 at 1:17 AM Paolo Bonzini <pbonzini@redhat.com>
+> wrote:
+> >
+> > > On 12/12/19 02:59, Wayne Li wrote:
+> > > > We wrote a project that is created on top of the QEMU source code; it
+> > > > calls functions from the QEMU code.  I run the executable created by
+> > > > compiling that project/QEMU code.  Anyway, looking at the following
+> 0> > > documentation:
+> > > >
+> > > > https://www.kernel.org/doc/Documentation/powerpc/cpu_families.txt
+> > > >
+> > > > It looks like the PowerPC 7457 is Book3S and the PowerPC e6500 is
+> > > > BookE.  Is that why you think I require a Book3S KVM?  Exactly why do
+> > > > you feel this way?  Also would that mean my team would need to go and
+> > > > buy a board with a Book3S processor?
+> > >
+> > > CCing the PPC maintainer.  There are aspects of BookE and Book3S that
+> > > are different and not really interchangeable in the privileged
+> interface.
+> > >
+> > > Paolo
+> > >
+> > > > -Thanks!, Wayne Li
+> > > >
+> > > > From my understanding
+> > > >
+> > > > On Wed, Dec 11, 2019 at 7:16 PM Paolo Bonzini <pbonzini@redhat.com
+> > > > <mailto:pbonzini@redhat.com>> wrote:
+> > > >
+> > > >     On 11/12/19 22:23, Wayne Li wrote:
+> > > >     >
+> > > >     > Now I am fairly sure KVM is actually enabled on the system.
+> > > Finding
+> > > >     > that out was another story that spanned a couple of months.
+> But
+> > > long
+> > > >     > story short, lsmod doesn't show that the KVM kernel module is
+> > > >     running.
+> > > >     > But that's because KVM is built-in and it can't actually be
+> built
+> > > as a
+> > > >     > loadable kernel module in this particular system.
+> > > >     >
+> > > >     > So I'm not really sure what could be the problem.  Though I was
+> > > >     thinking
+> > > >     > if I understood the error better that might help?  Following
+> the
+> > > >     code I
+> > > >     > see that the "Missing PVR setting capability." is called when a
+> > > >     variable
+> > > >     > called "cap_segstate" is 0:
+> > > >     >
+> > > >     > if (!cap_segstate) {
+> > > >     >             fprintf(stderr, "kvm error: missing PVR setting
+> > > >     capability\n");
+> > > >     >             return -ENOSYS;
+> > > >     > }
+> > > >     >
+> > > >     > And the cap_segstate variable is set by the following function:
+> > > >     >
+> > > >     > cap_segstate = kvm_check_extension(s, KVM_CAP_PPC_SEGSTATE);
+> > > >
+> > > >     You are not saying how you are running QEMU.  I think you are
+> using a
+> > > >     CPU model that requires a Book3S KVM.
+> > > >
+> > > >     Paolo
+> > > >
+> > >
+> > >
+>
+> --
+> David Gibson                    | I'll have my music baroque, and my code
+> david AT gibson.dropbear.id.au  | minimalist, thank you.  NOT _the_
+> _other_
+>                                 | _way_ _around_!
+> http://www.ozlabs.org/~dgibson
+>
 
+--000000000000e61e8905999a2311
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks David and Zalton for the awesome explanations.=
+=C2=A0 They&#39;re very helpful to us!</div><div><br></div><div>-Thanks, Wa=
+yne Li<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Dec 12, 2019 at 9:49 PM David Gibson &lt;<a href=3D=
+"mailto:david@gibson.dropbear.id.au">david@gibson.dropbear.id.au</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, Dec=
+ 12, 2019 at 10:40:44AM -0600, Wayne Li wrote:<br>
+&gt; Dear David Gibson,<br>
+&gt; <br>
+&gt; I know you are under no obligation to respond, but if it&#39;s possibl=
+e for you<br>
+&gt; to find the time to respond to my question, I would be extremely grate=
+ful.<br>
+&gt; My team at Boeing has been stuck trying to get KVM working for our pro=
+ject<br>
+&gt; for the last few months.=C2=A0 A good explanation of why this isn&#39;=
+t possible<br>
+&gt; would be absolutely critical.<br>
+<br>
+As you can see from that diagram, the history ppc CPUs is quite a bit<br>
+more diverse than x86.=C2=A0 Although they&#39;re all very similar from the=
+<br>
+point of view of userspace code, they&#39;re quite different for<br>
+privileged kernel code: they have different MMUs, different privileged<br>
+registers amongst other things.<br>
+<br>
+Because of this there are several different KVM implementations.<br>
+<br>
+1) KVM HV<br>
+<br>
+This one uses the virtualization facilities of BookS CPUs (present<br>
+since POWER4 / 970, but only well supported from POWER7 onwards).<br>
+Those don&#39;t allow much to virtualize the guest cpu model, so it<br>
+assumes the guest cpu is the same as the host.<br>
+<br>
+So, both your guest and host CPUs rule this one out.<br>
+<br>
+2) Book3E KVM<br>
+<br>
+Uses the virtualization features of recent enough Freescale Book E<br>
+CPUs.=C2=A0 I don&#39;t know a lot about this or its limitations.=C2=A0 The=
+ e6500<br>
+might well have these features, but I&#39;m pretty sure it can only<br>
+emulate BookE cpus for the guest.<br>
+<br>
+So, your guest rules this one out.<br>
+<br>
+3) KVM PR<br>
+<br>
+This one operates by running the entire guest in user mode, and<br>
+emulating all privileged instructions.=C2=A0 It&#39;s slow (relative to<br>
+hardware assisted KVM models), but it&#39;s flexible.<br>
+<br>
+In theory, this one can do what you want, but there are a bunch of<br>
+caveats:<br>
+<br>
+=C2=A0 * Emulating all the privileged instructions for a whole bunch of cpu=
+<br>
+=C2=A0 variants is a huge task, and KVM PR is now barely maintained.=C2=A0 =
+There<br>
+=C2=A0 are lots of gaps in coverage.<br>
+<br>
+=C2=A0 * I&#39;m not sure if it was ever really implemented for BookE hosts=
+.<br>
+<br>
+=C2=A0 * Although there aren&#39;t many, there are a few differences betwee=
+n<br>
+=C2=A0 userland instructions between cpu variants, mostly because of new<br=
+>
+=C2=A0 additions.=C2=A0 I think 7457 is an old enough design that this prob=
+ably<br>
+=C2=A0 won&#39;t cause you troube, but I&#39;m not certain.<br>
+<br>
+<br>
+<br>
+&gt; <br>
+&gt; -Thanks, Wayne Li<br>
+&gt; <br>
+&gt; On Thu, Dec 12, 2019 at 1:17 AM Paolo Bonzini &lt;<a href=3D"mailto:pb=
+onzini@redhat.com" target=3D"_blank">pbonzini@redhat.com</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On 12/12/19 02:59, Wayne Li wrote:<br>
+&gt; &gt; &gt; We wrote a project that is created on top of the QEMU source=
+ code; it<br>
+&gt; &gt; &gt; calls functions from the QEMU code.=C2=A0 I run the executab=
+le created by<br>
+&gt; &gt; &gt; compiling that project/QEMU code.=C2=A0 Anyway, looking at t=
+he following<br>
+0&gt; &gt; &gt; documentation:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; <a href=3D"https://www.kernel.org/doc/Documentation/powerpc/=
+cpu_families.txt" rel=3D"noreferrer" target=3D"_blank">https://www.kernel.o=
+rg/doc/Documentation/powerpc/cpu_families.txt</a><br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; It looks like the PowerPC 7457 is Book3S and the PowerPC e65=
+00 is<br>
+&gt; &gt; &gt; BookE.=C2=A0 Is that why you think I require a Book3S KVM?=
+=C2=A0 Exactly why do<br>
+&gt; &gt; &gt; you feel this way?=C2=A0 Also would that mean my team would =
+need to go and<br>
+&gt; &gt; &gt; buy a board with a Book3S processor?<br>
+&gt; &gt;<br>
+&gt; &gt; CCing the PPC maintainer.=C2=A0 There are aspects of BookE and Bo=
+ok3S that<br>
+&gt; &gt; are different and not really interchangeable in the privileged in=
+terface.<br>
+&gt; &gt;<br>
+&gt; &gt; Paolo<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; -Thanks!, Wayne Li<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; From my understanding<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Wed, Dec 11, 2019 at 7:16 PM Paolo Bonzini &lt;<a href=3D=
+"mailto:pbonzini@redhat.com" target=3D"_blank">pbonzini@redhat.com</a><br>
+&gt; &gt; &gt; &lt;mailto:<a href=3D"mailto:pbonzini@redhat.com" target=3D"=
+_blank">pbonzini@redhat.com</a>&gt;&gt; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0On 11/12/19 22:23, Wayne Li wrote:<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; Now I am fairly sure KVM is actually=
+ enabled on the system.<br>
+&gt; &gt; Finding<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; that out was another story that span=
+ned a couple of months.=C2=A0 But<br>
+&gt; &gt; long<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; story short, lsmod doesn&#39;t show =
+that the KVM kernel module is<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0running.<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; But that&#39;s because KVM is built-=
+in and it can&#39;t actually be built<br>
+&gt; &gt; as a<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; loadable kernel module in this parti=
+cular system.<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; So I&#39;m not really sure what coul=
+d be the problem.=C2=A0 Though I was<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0thinking<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; if I understood the error better tha=
+t might help?=C2=A0 Following the<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0code I<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; see that the &quot;Missing PVR setti=
+ng capability.&quot; is called when a<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0variable<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; called &quot;cap_segstate&quot; is 0=
+:<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; if (!cap_segstate) {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0fprintf(stderr, &quot;kvm error: missing PVR setting<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0capability\n&quot;);<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0return -ENOSYS;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; And the cap_segstate variable is set=
+ by the following function:<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0&gt; cap_segstate =3D kvm_check_extension=
+(s, KVM_CAP_PPC_SEGSTATE);<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0You are not saying how you are running QE=
+MU.=C2=A0 I think you are using a<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0CPU model that requires a Book3S KVM.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Paolo<br>
+&gt; &gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+<br>
+-- <br>
+David Gibson=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | I&#39;ll have my music baroque, and my code<br>
+david AT <a href=3D"http://gibson.dropbear.id.au" rel=3D"noreferrer" target=
+=3D"_blank">gibson.dropbear.id.au</a>=C2=A0 | minimalist, thank you.=C2=A0 =
+NOT _the_ _other_<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | _way_ _around_!<br>
+<a href=3D"http://www.ozlabs.org/~dgibson" rel=3D"noreferrer" target=3D"_bl=
+ank">http://www.ozlabs.org/~dgibson</a><br>
+</blockquote></div>
+
+--000000000000e61e8905999a2311--
 
