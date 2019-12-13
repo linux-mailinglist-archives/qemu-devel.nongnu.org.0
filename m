@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9624611ECAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 22:13:35 +0100 (CET)
-Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B6511ED46
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 22:56:36 +0100 (CET)
+Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifsFi-0007Jz-MW
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 16:13:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37445)
+	id 1ifsvK-0001fN-V4
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 16:56:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ifsEp-0006tU-VT
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:12:41 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ifsp1-00086S-VF
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:50:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ifsEo-000303-MB
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:12:39 -0500
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:45550)
+ (envelope-from <alex.bennee@linaro.org>) id 1ifsoz-0001XT-Vb
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:50:03 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53430)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ifsEo-0002xQ-Ge
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:12:38 -0500
-Received: by mail-oi1-x231.google.com with SMTP id v10so1885858oiv.12
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 13:12:38 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ifsox-0001Rf-Rs
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:50:00 -0500
+Received: by mail-wm1-x342.google.com with SMTP id w8so316342wmd.3
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 13:49:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5w0ChjojtBXEdgjarQfmok1s37IRkPKwN0axGhDM0RY=;
- b=IrntwNBa2V0mMJVsIS8fqHIbMwhZxAttnqBaetxlryLZ2LHbP+NRmiyZu7m0Ihjoh0
- /SWXv0bOu57eDaGKVihBcPd4SA+xvrm+hiGJPyVyTC5GK7vdm05C0kmxW0uPENIQNudR
- Kxml8V1Wyel+5KGMNjRHBzpp73lKICOk29zG9rC5/DkI4LuRbi2g5qg0TN1oq9A04WXG
- wj4x/jMPOP0pKQXNcCPggMihd00FIbdwbzPZ6Iruie6kiif5e7d88Ibh9TMOXc2XUrZc
- V3qvW/PpMpnVXsA0aBpZcQJneAHNyfwM7XT6CI/ods83IPk+eT8oiS7YAxyfJel2QChh
- O5Sg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=0c2HqkNzPuxLxjLub8aZreW+j1/US7MJsRuJNEQVx4o=;
+ b=VVbryDKTUZqPDaXkvXhWiD+MwT6pjV3sNllDzC8rt+NuusxljiI+C9HkF4AwQXAjw+
+ oqsPEnKRmpnW2Jwb/NZhuBJ6X+jjBLQiOgJzGmfB0MWLHJ2KKDScBELMQ/LY0HxbVc9j
+ Qf3FZKC/IEO5hHRvGmTbQpDyU+Bk4TxAo+FtCpq8fb1uBfK+7TV7qIYKydm+Ln7KvXp8
+ 9YGY1aO56kv3gnOCkgHMrAF2GcVSOEHKTeEGIDGZ2cwNRoxm7NjFQqgo/j7q1saURbk2
+ q1yVCkjqbqBsK/KN4VggwogaDxUcWwpF3EVBM7USXXuFeTUsI3O/f9KJw0n/b79cbtpO
+ n7GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5w0ChjojtBXEdgjarQfmok1s37IRkPKwN0axGhDM0RY=;
- b=F10fsHaXO5cUk2lOUoTEIeWRn5foytOQn6hugLgGWSflvIeNPwULqo2VDJvkkSnDkj
- 88ISpO2vzyVKPAJT44gRyWqbnvY/J3uiRLVNnhknzDFxOBhzhXKaAT36lvmM2daHm13h
- yAK5GnN6KhXr+Q4giYkLE6WD1jGv8gttwmH4ylfHnEA0umosND6frnYOIsEvYkZzcu4H
- pd058IDaAG9p5Hchz/jEV2xnqgglAaY6xywv24NWDB/qWinfC9cKNPYhYPRSBLU2lCzG
- XnoQ0BjUZn5qHX0ygl8KoiU2WGCzIgJz7VYqTdMtn44+t/+RAQuECA04cy9VotQvcymr
- GnJQ==
-X-Gm-Message-State: APjAAAWLm0YUBELVh3a+4GNWUgG2rlj4LQiBm/rdbsA4Pn4AwC+Nf/Nx
- XvSi+IQlJlSYDRe7GG+k6TdlXmxCQpB3wISOYnwRKA==
-X-Google-Smtp-Source: APXvYqxjUx5O9x/vQ4U3p1/b1sSv37mUSAX0pZn8zaTTQ+LgbE3jDgI3V58S4VKq8Oscx4KvfW2F7PXOF8hTLQ7neeg=
-X-Received: by 2002:aca:f5cc:: with SMTP id t195mr7998752oih.163.1576271557497; 
- Fri, 13 Dec 2019 13:12:37 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=0c2HqkNzPuxLxjLub8aZreW+j1/US7MJsRuJNEQVx4o=;
+ b=EL//3GgnxyrlvCdRAozUL08AJI60DN7qgehKTJwuCf3Ln1HxNn7YjmJB17jbT/nL9d
+ jTI1SBydfrIxJdbnWslFa42XhKKxQ3QhEtQf47RMwQZZXFW6GtaN83mz5Ms/P9lz1dmO
+ wFY9ApAPNqCOJx4px5mTf28JhnZ07BCvkHFg2gfFnsq7xakl5D2YAkND7O+48cgF7Gg9
+ 5deeObuZ/HHJ7ql0dMDDudE+KopiyRMNauzog9Af5cCU8s/0qWqOMlOB9WKiSTtcFn2z
+ 07aEtETN9BueAG4Ji/uIGfPJyyqyX6zIVl+3u52wVqfgNaEH1FGoDBIocRNlX8q6wCW4
+ kamw==
+X-Gm-Message-State: APjAAAX7HYyK55ldirI4V7WefuYhMec1JfbS+6vAc1gNvwvWIF2mKko5
+ JhBeGJYPSu7LKmWBgKP+sbO8/g==
+X-Google-Smtp-Source: APXvYqyX6EGxInKu7XFEK/9K53zKytYBov708LgQ1CaTMG9KT7o2byM9GfTBdX8M+RSrJM4SDn7o0A==
+X-Received: by 2002:a05:600c:2c08:: with SMTP id
+ q8mr15275671wmg.45.1576273797874; 
+ Fri, 13 Dec 2019 13:49:57 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u24sm4706751wml.10.2019.12.13.13.49.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 13:49:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DC4891FF87;
+ Fri, 13 Dec 2019 21:49:55 +0000 (GMT)
+References: <20191007152839.30804-1-alex.bennee@linaro.org>
+ <20191007152839.30804-6-alex.bennee@linaro.org>
+ <f7038a5e-ac42-bf7f-9191-13fc80eba7c8@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v9 05/13] accel: adding TB_JIT_TIME and full replacing
+ CONFIG_PROFILER
+In-reply-to: <f7038a5e-ac42-bf7f-9191-13fc80eba7c8@linaro.org>
+Date: Fri, 13 Dec 2019 21:49:55 +0000
+Message-ID: <8736dnc2v0.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20191213161851.24687-1-cohuck@redhat.com>
-In-Reply-To: <20191213161851.24687-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Dec 2019 21:12:18 +0000
-Message-ID: <CAFEAcA8O=ezHAQKKr9zrA0M_TE-FbnHmict5K8_+5v64BDoTxA@mail.gmail.com>
-Subject: Re: [PULL 00/16] first s390x update for 5.0
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::231
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,63 +85,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Dec 2019 at 16:19, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> The following changes since commit b0ca999a43a22b38158a222233d3f5881648bb4f:
->
->   Update version for v4.2.0 release (2019-12-12 16:45:57 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/cohuck/qemu tags/s390x-20191213
->
-> for you to fetch changes up to b147562019dd845a224cde7a37c219f9848d1b8d:
->
->   qga: fence guest-set-time if hwclock not available (2019-12-13 12:16:50 +0100)
->
-> ----------------------------------------------------------------
-> First s390x update for 5.0:
-> - compat machines (also for other architectures)
-> - cleanups and fixes in reset handling
-> - fence off guest-set-time, as we have no hwclock
-> - fix some misuses of the error API
-> - further cleanups
->
-> ----------------------------------------------------------------
->
 
-Hi -- this has conflicts. Most of them I could probably fix up,
-but this one in particular:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --cc hw/s390x/s390-virtio-ccw.c
-index cb5fe4c84d,e0e28139a2..0000000000
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@@ -645,9 -658,10 +658,13 @@@ static void ccw_machine_4_2_instance_op
+> On 10/7/19 11:28 AM, Alex Benn=C3=A9e wrote:
+>> From: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>
+>>=20
+>> Replace all others CONFIG_PROFILER statistics and migrate it to
+>> TBStatistics system. However, TCGProfiler still exists and can
+>> be use to store global statistics and times. All TB related
+>> statistics goes to TBStatistics.
+>>=20
+>> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+>> Message-Id: <20190829173437.5926-6-vandersonmr2@gmail.com>
+>> [AJB: fix authorship]
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  accel/tcg/tb-stats.c      |  98 +++++++++++++++++++++---------
+>>  accel/tcg/translate-all.c |  46 ++++++++-------
+>>  configure                 |   3 -
+>>  cpus.c                    |  14 ++---
+>>  include/exec/tb-stats.h   |  15 +++++
+>>  include/qemu/timer.h      |   5 +-
+>>  monitor/misc.c            |  28 ++-------
+>>  tcg/tcg.c                 | 121 ++++++++++++--------------------------
+>>  tcg/tcg.h                 |   2 +-
+>>  vl.c                      |   8 +--
+>>  10 files changed, 159 insertions(+), 181 deletions(-)
+>>=20
+>> diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
+>> index 0e64c176b3..f431159fd2 100644
+>> --- a/accel/tcg/tb-stats.c
+>> +++ b/accel/tcg/tb-stats.c
+>> @@ -17,11 +17,18 @@
+>>  #include "exec/tb-stats.h"
+>>=20=20
+>>  /* TBStatistic collection controls */
+>> -enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPE=
+D };
+>> +enum TBStatsStatus {
+>> +    TB_STATS_DISABLED =3D 0,
+>> +    TB_STATS_RUNNING,
+>> +    TB_STATS_PAUSED,
+>> +    TB_STATS_STOPPED
+>> +};
+>
+> This should be in patch 1, I should think.
+>
+>> +uint64_t dev_time;
+>
+> This patch is doing several things at once, and I think it should be spli=
+t.
+> All of the changes to dev_time, for instance, are unrelated to TBStatisti=
+c.
+>
+>> +    jpi->interm_time +=3D stat_per_translation(tbs, time.interm);
+>> +    jpi->code_time +=3D stat_per_translation(tbs, time.code);
+>> +    jpi->opt_time +=3D stat_per_translation(tbs, time.opt);
+>> +    jpi->la_time +=3D stat_per_translation(tbs, time.la);
+>> +    jpi->restore_time +=3D tbs->time.restore;
+>> +    jpi->restore_count +=3D tbs->time.restore_count;
+>
+> Why are some of these "per translation" and some not?
 
-  static void ccw_machine_4_2_class_options(MachineClass *mc)
-  {
-++<<<<<<< HEAD
-++=======
-+     ccw_machine_5_0_class_options(mc);
-++>>>>>>> remotes/cohuck/tags/s390x-20191213
-      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-  }
-- DEFINE_CCW_MACHINE(4_2, "4.2", true);
-+ DEFINE_CCW_MACHINE(4_2, "4.2", false);
+The restore_time is an amortised time or all restore operations (so
+dividable by restore_count rather than the number of translations).
 
-  static void ccw_machine_4_1_instance_options(MachineState *machine)
-  {
+I've added some commentary.
+
+>
+>> @@ -370,11 +371,11 @@ static int cpu_restore_state_from_tb
+>>      }
+>>      restore_state_to_opc(env, tb, data);
+>>=20=20
+>> -#ifdef CONFIG_PROFILER
+>> -    atomic_set(&prof->restore_time,
+>> -                prof->restore_time + profile_getclock() - ti);
+>> -    atomic_set(&prof->restore_count, prof->restore_count + 1);
+>> -#endif
+>> +    if (tb_stats_enabled(tb, TB_JIT_TIME)) {
+>> +        atomic_add(&tb->tb_stats->time.restore, profile_getclock() - ti=
+);
+>> +        atomic_inc(&tb->tb_stats->time.restore_count);
+>> +    }
+>
+> Would it be better to use a the TBStatistics lock than two atomic
+> updates?
+
+Yeah I think keeping the locking consistent as a mutex probably pays of
+in reducing complexity as well.
+
+>
+>> @@ -1826,10 +1828,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>>          tcg_ctx->tb_jmp_target_addr =3D tb->jmp_target_arg;
+>>      }
+>>=20=20
+>> -#ifdef CONFIG_PROFILER
+>> -    atomic_set(&prof->interm_time, prof->interm_time + profile_getclock=
+() - ti);
+>> -    ti =3D profile_getclock();
+>> -#endif
+>> +    if (tb_stats_enabled(tb, TB_JIT_TIME)) {
+>> +        atomic_add(&tb->tb_stats->time.interm, profile_getclock() - ti);
+>> +        ti =3D profile_getclock();
+>> +    }
+>
+> You should call profile_getclock() only once here.
+>
+> Why does this need an atomic_add, while the rest of TB_JIT_STATS within
+> tb_gen_code do not, and in fact have a comment:
+>
+>> +    /*
+>> +     * Collect JIT stats when enabled. We batch them all up here to
+>> +     * avoid spamming the cache with atomic accesses
+>> +     */
+>
+>> @@ -1871,9 +1873,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>>      }
+>>      tb->tc.size =3D gen_code_size;
+>>=20=20
+>> -#ifdef CONFIG_PROFILER
+>> -    atomic_set(&prof->code_time, prof->code_time + profile_getclock() -=
+ ti);
+>> -#endif
+>> +    if (tb_stats_enabled(tb, TB_JIT_TIME)) {
+>> +        atomic_add(&tb->tb_stats->time.code, profile_getclock() - ti);
+>> +    }
+>
+> Likewise.
+>
+>> diff --git a/configure b/configure
+>> index 8f8446f52b..eedeb9016e 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -6566,9 +6566,6 @@ fi
+>>  if test "$static" =3D "yes" ; then
+>>    echo "CONFIG_STATIC=3Dy" >> $config_host_mak
+>>  fi
+>> -if test "$profiler" =3D "yes" ; then
+>> -  echo "CONFIG_PROFILER=3Dy" >> $config_host_mak
+>> -fi
+>
+> Removing the define without removing --enable-profiler.
+>
+>>  static int tcg_cpu_exec(CPUState *cpu)
+>>  {
+>>      int ret;
+>> -#ifdef CONFIG_PROFILER
+>> -    int64_t ti;
+>> -#endif
+>> +    uint64_t ti;
+>>=20=20
+>>      assert(tcg_enabled());
+>> -#ifdef CONFIG_PROFILER
+>>      ti =3D profile_getclock();
+>> -#endif
+>> +
+>>      cpu_exec_start(cpu);
+>>      ret =3D cpu_exec(cpu);
+>>      cpu_exec_end(cpu);
+>> -#ifdef CONFIG_PROFILER
+>> -    atomic_set(&tcg_ctx->prof.cpu_exec_time,
+>> -               tcg_ctx->prof.cpu_exec_time + profile_getclock() - ti);
+>> -#endif
+>> +
+>> +    atomic_add(&tcg_ctx->prof.cpu_exec_time, profile_getclock() - ti);
+>
+> This is also unrelated to TBStatistics.
+
+I'm going to split this patch up into more sub-commits to do each piece
+one at a time. To make it easier can I drop CONFIG_PROFILE support
+before the re-factoring so I don't need to keep both modes compiling
+during the transition?
+
+> It's also adding an unconditional atomic_add, of which I am not fond.  Sh=
+ould
+> this be testing tb_stats_collection_enabled() or something else?
+>
+> I'll also note that tcg_ctx is per-thread (for mttcg), and so perhaps thi=
+s does
+> not require an atomic_add anyway.  Perhaps just an atomic_set to be paire=
+d with
+> atomic_read in the dump function that's iterating over the tcg_ctx.
+
+I'll try an improve the commenting of TCGProf about what is just holding
+per-translations values which get copied at the end and what is
+persistent and may be read from outside the translation context (I think
+just the OPC count array now).
+
+>
+> Even without the atomic_add, we shouldn't make the syscall for getclock i=
+n the
+> normal case.
+>
+>
+>> +    /* These are accessed with atomic operations */
+>> +    struct {
+>> +        int64_t restore;
+>> +        uint64_t restore_count;
+>> +        int64_t interm;
+>> +        int64_t code;
+>> +        int64_t opt;
+>> +        int64_t la;
+>> +    } time;
+>
+> Why are these signed?  We're always adding positive values.
+>
+> Why is restore_count here in "time"?  Indeed, why all of these unnamed
+> sub-structures at all?  I don't see that "." helps organization any more =
+than "_".
+>
+>> @@ -4020,18 +3959,18 @@ int tcg_gen_code(TCGContext *s, TranslationBlock=
+ *tb)
+>>      }
+>>  #endif
+>>=20=20
+>> -#ifdef CONFIG_PROFILER
+>> -    atomic_set(&prof->opt_time, prof->opt_time - profile_getclock());
+>> -#endif
+>> +    if (tb_stats_enabled(tb, TB_JIT_TIME)) {
+>> +        atomic_add(&tb->tb_stats->time.opt, -profile_getclock());
+>> +    }
+>
+> Atomic add of a negative clock value?  That just means the intermediate v=
+alue
+> is unusable, so why make any of this atomic?
+
+I've rewritten all this to just grab some timestamps at various key
+points and then bring it all together when we update the TBStat in
+translate.
+
+>
+> Also, this is tb_gen_code again, wherein we already talked about not using
+> atomic_foo.
+>
+>> @@ -4081,14 +4020,17 @@ int tcg_gen_code(TCGContext *s, TranslationBlock=
+ *tb)
+>>      s->pool_labels =3D NULL;
+>>  #endif
+>>=20=20
+>> +    if (!tb_stats_collection_enabled()) {
+>> +        QTAILQ_FOREACH(op, &s->ops, link) {
+>> +            TCGOpcode opc =3D op->opc;
+>> +            atomic_add(&s->prof.table_op_count[opc], 1);
+>> +        }
+>> +    }
+>
+> Why would you collect stats when stats collection is disabled?  Is this a
+> simple typo?
+
+I think if we can get away with not using atomics this count can go back
+to being inline with the main opc loop. If we aren't using atomics is
+there really such a big cost to just doing it unconditionally?
 
 
-I don't know whether we want the 'true' or 'false' version...
-
-Could you rebase and resend, please?
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
