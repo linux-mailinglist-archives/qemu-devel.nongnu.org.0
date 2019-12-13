@@ -2,68 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE3411EC2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 21:53:32 +0100 (CET)
-Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B3511EC36
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 21:55:05 +0100 (CET)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifrwI-000302-V3
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 15:53:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42047)
+	id 1ifrxo-00046O-L5
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 15:55:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ifrvO-0002Zr-D3
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 15:52:36 -0500
+ (envelope-from <julio.montes@intel.com>) id 1ifrwm-0003ah-Jq
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 15:54:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ifrvM-0007x0-R3
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 15:52:34 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:40140)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1ifrvM-0007v5-Kc; Fri, 13 Dec 2019 15:52:32 -0500
-Received: by mail-il1-x141.google.com with SMTP id b15so540457ila.7;
- Fri, 13 Dec 2019 12:52:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7O/3muIl5YW9JzXllxM/+0aPIk+ONdsqFZ3gZ4p5TYI=;
- b=c1EGIIBBlbP87N1dzNs3xElOM4EBJmIMGPQPkrXmKpYT8MjGjaCmezQRlHrTpa/QoP
- j5O57vytCX4zwpilrml3FJiHyvvHedbJmsXXAmItNbq/RlvPVFKQ5ye/IPsvFP+/Uv5g
- pPz9OMnZfyXwplsUe1PNAOjMsudT7O/tNcMMpAeqj6Z9+03VwU5ViXim+6x8Gzeiy6GD
- A8nRSVSEOJpWV/HhIUNKmMV8DQKRoQDSyZioCYDkXgL0cUNPo6GDyLsG7PKc+qGvbhjV
- VbsmT4RKoVK9rO4vVGrakU6gmEoAUf5la5glX2NifN/WV54vBteFHLYgBzk19I+fZmeu
- c7Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7O/3muIl5YW9JzXllxM/+0aPIk+ONdsqFZ3gZ4p5TYI=;
- b=qcD3PODdYjgrEI3Tc7bbweHSAxcND1tQomAqB1GQ+PUpGJZSXh0BTdWVjjdITsZt5w
- HK9yuMsr+V/H1dHI5U+6RM38yDEhmRrJV7UGTXfl21ePSafZ0B0d6YhHJL9A5724M0aH
- MUp4cRBt2KqH2lC0JDjm/uwOXMF8HNhKIG4w2CEJWA9mrUVpoF/UlEWfhHphV0MJN7Fp
- SDDZCY5ObwQb1wrGX8bINNquRqEOZsUe9xzCazoij+XknwbWJjD1mwYhBs8toSW5zXnK
- g5e6WxQyyvx3XVELkWfNFopx5zYUOEtNQX1Ur8uE4lCSDzizrBvo0/Sar+1lIpga2nGt
- I8wA==
-X-Gm-Message-State: APjAAAUHiDYJuJO2ppIBBJ9y5Feodrf0s1K9l0/Ws4zIwEOBOd4lB+Hv
- FHy2HIP8rtrLM3A7nF87q32Lbuto6YWpoFONu9k=
-X-Google-Smtp-Source: APXvYqytaePO8I+sLYzR0SzeHKg9G0ziNraGFu7hd3E2d8oXAc3lzg+yGnyR66uAXpLPKcfr2bsWlJhlxRXY9CcwSLw=
-X-Received: by 2002:a92:af08:: with SMTP id n8mr1201992ili.217.1576270351912; 
- Fri, 13 Dec 2019 12:52:31 -0800 (PST)
+ (envelope-from <julio.montes@intel.com>) id 1ifrwj-00036v-VH
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 15:53:59 -0500
+Received: from mga17.intel.com ([192.55.52.151]:62958)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <julio.montes@intel.com>)
+ id 1ifrwj-0002eu-Cs
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 15:53:57 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2019 12:53:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; 
+ d="scan'208,217";a="297032910"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+ by orsmga001.jf.intel.com with ESMTP; 13 Dec 2019 12:53:47 -0800
+Received: from orsmsx123.amr.corp.intel.com (10.22.240.116) by
+ ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 13 Dec 2019 12:53:47 -0800
+Received: from ORSEDG001.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX123.amr.corp.intel.com (10.22.240.116) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 13 Dec 2019 12:53:47 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.170)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 13 Dec 2019 12:53:47 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nVU/DUknmEZWXfOymsOnZK1rI0q6t5oM4bmOWSaVfaBsskDWmtTalNxYPXVnJOEf1lnRP5nrtZUSfOotJXMtOAB1Qip7eD+ewLtz+ZEkCRmUqIxqBHsS3Iz+ZvneycTDP2u+/6bttbMVNNt9Q7NfE26QYTFz939aE7Hj3FkwSHtPjZY+kHMao6seOYjQtDAYXWzjbGg6tDyx46Xqf9UOYyLpHFrQq3NAJLA9PkWqOwSJwNUACJlXL/RYpO6nz/aLS1sCe9JKF5fuKbrbDmAZxJtJbmqLeICr90qioPv7JtqyJedK7ZcX3fRUFB7GBiK7Tx37d1BSfvxJezSs47ItsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IS9AN/niKsT6FrXu5eR36sogXPqdZEO6VCT1EzphAsY=;
+ b=FXzENS7OYTPwAQJO2I/b5/GuXYpbPVM0S5SPrxQBgwgA63X26pY9c9yPodLuYT5cnJh2Y2j13Hi29pea8yHULidJOHzInSh0fmTBz4QkGe0meYM+hDKgJv3wURMcawxAlPX76VVY3SLS9hXcpEYbW96dDMqGZwfhfRMoCGVyd/6Ceg4Cp8Dmt8wqA8xVH4aynAbTW8za2BdWU4iPirC4w+oFf3D6vGlPd2yRCNldo8IihC9PvA4eoLEveStbgu+71deR4kPNHVYZOWvrcrgswKRpMOf4Y/Ow5SS1Jn4xd6v3q6NQ74P1r1kOwp0zLi/DCwRAbynsAT+VTB75cNOnAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IS9AN/niKsT6FrXu5eR36sogXPqdZEO6VCT1EzphAsY=;
+ b=fzIM5XNIoHvuchQPBXAWtPKgkWO2B5AlRUdVYafMPQ69byQbNaS1IN/fgYKhaWNk7b3DvyBU+GY5QTpkNGNP3I/ZbHC223kSU9vNuRpQHtfylvMwmtqnYPx+W/jLwNgPo3dMv329TJhwxzRphW3QnlVIMb9GNGrg18n733Sams8=
+Received: from DM6PR11MB4089.namprd11.prod.outlook.com (20.176.126.91) by
+ DM6PR11MB3017.namprd11.prod.outlook.com (20.177.219.219) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2516.14; Fri, 13 Dec 2019 20:53:46 +0000
+Received: from DM6PR11MB4089.namprd11.prod.outlook.com
+ ([fe80::80a6:f5df:aaf0:eb7c]) by DM6PR11MB4089.namprd11.prod.outlook.com
+ ([fe80::80a6:f5df:aaf0:eb7c%7]) with mapi id 15.20.2538.016; Fri, 13 Dec 2019
+ 20:53:46 +0000
+From: "Montes, Julio" <julio.montes@intel.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: qemu-4.2: failed to set MSR 0x48b to 0x1582e00000000: Assertion `ret
+ == cpu->kvm_msr_buf->nmsrs' failed.
+Thread-Topic: qemu-4.2: failed to set MSR 0x48b to 0x1582e00000000: Assertion
+ `ret == cpu->kvm_msr_buf->nmsrs' failed.
+Thread-Index: AQHVsfc5K/GHgo1+SUW1rgjP3fus/w==
+Date: Fri, 13 Dec 2019 20:53:46 +0000
+Message-ID: <DM6PR11MB4089A0B695CB84FB288068B89A540@DM6PR11MB4089.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=julio.montes@intel.com; 
+x-originating-ip: [134.134.137.73]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6e5ab957-3389-4be1-52bb-08d7800e8bf8
+x-ms-traffictypediagnostic: DM6PR11MB3017:
+x-microsoft-antispam-prvs: <DM6PR11MB3017B5B5DDAC82AF226A7DEC9A540@DM6PR11MB3017.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0250B840C1
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(39860400002)(396003)(376002)(366004)(346002)(189003)(199004)(64756008)(86362001)(66476007)(7696005)(66446008)(8936002)(76116006)(6506007)(9686003)(71200400001)(26005)(186003)(66556008)(81156014)(8676002)(2906002)(81166006)(5660300002)(6916009)(66946007)(33656002)(52536014)(19627405001)(55016002)(316002)(478600001)(81973001)(473944003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR11MB3017;
+ H:DM6PR11MB4089.namprd11.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: k1o8XIIwzxqA+xXez/LQ3YJQ+y0xy2ojPMlnxQCAHy77b4GCWpcHQCTjZxl7iu6Feu+wYXZInZL4WTXeLMPm77zQsGt8J2Rob5xFq+2sDYREgJorO3pPybL0fMe2PWCSb0XvE+OgDA0wPQdwgSbXZ9yuYDm7NecB0dM/3P/sVtTUU+FbPaNijYR3wR091rcuxSiw/FgoCfG0GMoe08nuIWLQX3oKLOrWSsZIUJb4q/YXbtndGw+BNnYjjz/zBcwsNw+lIQnm7USbhE326+ahoz7E9bID1wdKM0NcyhMqcvbaTHM2zKwLFuONpmbzWAeelXGtaJDD1miArKncZ/ww2P4+Y2ug751WCqeZX1O3FIS8kyNjmDrDCY2pMrsodLEUfHRN5g+O4K7nnkSsbUMHrZ1bRTT1kifqooJ+GMkXXrUXersQsr11FlIsTkJBCWNYA+EpY50e2JJKasGa/zo4dtYoAxChaNLSCuWUhL6BNhWFvGPKJMYoAPOlECEyA3GhRhqflrcDB4zc27AHme40Dw==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_DM6PR11MB4089A0B695CB84FB288068B89A540DM6PR11MB4089namp_"
 MIME-Version: 1.0
-References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
- <20191202210947.3603-7-nieklinnenbank@gmail.com>
- <CAFEAcA9XxH7zSmm6=KR-2ttfuqdauXxq05SWw++WgGEWw06NEQ@mail.gmail.com>
- <CAPan3WrYWpa2ymBjy5zCWAEdeVXVRYo7arNVOXWsbFeTAi0ucA@mail.gmail.com>
-In-Reply-To: <CAPan3WrYWpa2ymBjy5zCWAEdeVXVRYo7arNVOXWsbFeTAi0ucA@mail.gmail.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Fri, 13 Dec 2019 21:52:21 +0100
-Message-ID: <CAPan3Wqw0enwMDd8ZmEDU=JeC+XQCZvfxaoEVtVJd9tsP3=Qww@mail.gmail.com>
-Subject: Re: [PATCH 06/10] arm/arm-powerctl: set NSACR.{CP11,
- CP10} bits in arm_set_cpu_on()
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006552af05999c0a02"
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e5ab957-3389-4be1-52bb-08d7800e8bf8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2019 20:53:46.1269 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UWhDBDKtK6N+5DBJ9Pvf0F2CXb3f3SanfDAN3f/35hw8au/pzIVZzUFhcfWfgU5zbz80YvBTFUkR+RojPHk9Sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3017
+X-OriginatorOrg: intel.com
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::141
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,207 +119,426 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006552af05999c0a02
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Peter,
-
-Philippe discovered that this patch triggers an hflags assertion error when
-building QEMU
-with debugging enabled (--enable-debug and --extra-cflags=-ggdb).
-
-See this thread for details:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg665049.html
-
-What I added to resolve that is to call arm_rebuild_hflags() after setting
-CP10,CP11.
-However I'm not sure of any other side effects because I just don't know
-this area of the code very well.
-
-Regards,
-Niek
-
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index f77a950db6..cf2f3d69ab 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -104,6 +104,9 @@ static void arm_set_cpu_on_async_work(CPUState
-*target_cpu_state,
-         /* Processor is not in secure mode */
-         target_cpu->env.cp15.scr_el3 |= SCR_NS;
-
-+        /* Set NSACR.{CP11,CP10} so NS can access the FPU */
-+        target_cpu->env.cp15.nsacr |= 3 << 10;
-+
-         /*
-          * If QEMU is providing the equivalent of EL3 firmware, then we need
-          * to make sure a CPU targeting EL2 comes out of reset with a
-@@ -124,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUState
-*target_cpu_state,
-         target_cpu->env.regs[0] = info->context_id;
-     }
-
-+    /* Ensure hflags is rebuild */
-+    arm_rebuild_hflags(&target_cpu->env);
-+
-     /* Start the new CPU at the requested address */
-     cpu_set_pc(target_cpu_state, info->entry);
-
-
-
-
-
-On Fri, Dec 6, 2019 at 9:01 PM Niek Linnenbank <nieklinnenbank@gmail.com>
-wrote:
-
-> Hey Peter,
->
-> On Fri, Dec 6, 2019 at 3:25 PM Peter Maydell <peter.maydell@linaro.org>
-> wrote:
->
->> On Mon, 2 Dec 2019 at 21:10, Niek Linnenbank <nieklinnenbank@gmail.com>
->> wrote:
->> >
->> > This change ensures that the FPU can be accessed in Non-Secure mode
->> > when the CPU core is reset using the arm_set_cpu_on() function call.
->> > The NSACR.{CP11,CP10} bits define the exception level required to
->> > access the FPU in Non-Secure mode. Without these bits set, the CPU
->> > will give an undefined exception trap on the first FPU access for the
->> > secondary cores under Linux.
->> >
->> > Fixes: fc1120a7f5
->> > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
->> > ---
->>
->> Oops, another place where we failed to realise the ramifications
->> of making NSACR actually do something.
->>
->> Since this is a bugfix I'm going to fish it out of this patchset
->> and apply it to target-arm.next with a cc: stable.
->>
->> Thanks for the catch!
->>
->
-> Sure, I'm happy to help. Note that I only tested this fix with
-> the Allwinner H3 SoC patches that I'm working on.
->
-> OK, I'll keep an eye out for it. Once it is solved in master, I'll remove
-> this patch from the patch series.
->
-> Regards,
-> Niek
->
->>
->> -- PMM
->>
->
->
-> --
-> Niek Linnenbank
->
->
-
--- 
-Niek Linnenbank
-
---0000000000006552af05999c0a02
-Content-Type: text/html; charset="UTF-8"
+--_000_DM6PR11MB4089A0B695CB84FB288068B89A540DM6PR11MB4089namp_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Peter,</div><div><br></div><div>Philippe discovere=
-d that this patch triggers an hflags assertion error when building QEMU</di=
-v><div>with debugging enabled (--enable-debug and --extra-cflags=3D-ggdb).<=
-/div><div><br></div><div>See this thread for details:</div><div><a href=3D"=
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg665049.html">https://=
-www.mail-archive.com/qemu-devel@nongnu.org/msg665049.html</a></div><div><br=
-></div><div>What I added to resolve that is to call arm_rebuild_hflags() af=
-ter setting CP10,CP11.</div><div>However I&#39;m not sure of any other side=
- effects because I just don&#39;t know this area of the code very well.<br>=
-</div><div><br></div><div>Regards,</div><div>Niek<br></div><div><br></div><=
-div><pre>diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index f77a950db6..cf2f3d69ab 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -104,6 +104,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_=
-cpu_state,
-         /* Processor is not in secure mode */
-         target_cpu-&gt;env.cp15.scr_el3 |=3D SCR_NS;
-=20
-+        /* Set NSACR.{CP11,CP10} so NS can access the FPU */
-+        target_cpu-&gt;env.cp15.nsacr |=3D 3 &lt;&lt; 10;
-+
-         /*
-          * If QEMU is providing the equivalent of EL3 firmware, then we ne=
-ed
-          * to make sure a CPU targeting EL2 comes out of reset with a
-@@ -124,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_=
-cpu_state,
-         target_cpu-&gt;env.regs[0] =3D info-&gt;context_id;
-     }
-=20
-+    /* Ensure hflags is rebuild */
-+    arm_rebuild_hflags(&amp;target_cpu-&gt;env);
-+
-     /* Start the new CPU at the requested address */
-     cpu_set_pc(target_cpu_state, info-&gt;entry);
-=20
-</pre></div><div><br></div><div><br></div><div><br></div><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 6, 2019 at 9:01 =
-PM Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">nieklinn=
-enbank@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex"><div dir=3D"ltr"><div>Hey Peter,<br></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 6, 2019 at =
-3:25 PM Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" targe=
-t=3D"_blank">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">On Mon, 2 Dec 2019 at 21:10, Niek Linn=
-enbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com" target=3D"_blank">ni=
-eklinnenbank@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This change ensures that the FPU can be accessed in Non-Secure mode<br=
->
-&gt; when the CPU core is reset using the arm_set_cpu_on() function call.<b=
-r>
-&gt; The NSACR.{CP11,CP10} bits define the exception level required to<br>
-&gt; access the FPU in Non-Secure mode. Without these bits set, the CPU<br>
-&gt; will give an undefined exception trap on the first FPU access for the<=
-br>
-&gt; secondary cores under Linux.<br>
-&gt;<br>
-&gt; Fixes: fc1120a7f5<br>
-&gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gm=
-ail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-Oops, another place where we failed to realise the ramifications<br>
-of making NSACR actually do something.<br>
-<br></blockquote><div></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
-Since this is a bugfix I&#39;m going to fish it out of this patchset<br>
-and apply it to target-arm.next with a cc: stable.<br>
-<br>
-Thanks for the catch!<br></blockquote><div>=C2=A0</div><div><div>Sure, I&#3=
-9;m happy to help. Note that I only tested this fix with</div><div>the Allw=
-inner H3 SoC patches that I&#39;m working on.</div></div><div><br></div><di=
-v> OK, I&#39;ll keep an eye out for it. Once it is solved in master, I&#39;=
-ll remove this patch from the patch series.<br></div><div>=C2=A0</div><div>=
-Regards,</div><div>Niek<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-<br>
--- PMM<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr"><div dir=
-=3D"ltr"><div>Niek Linnenbank<br><br></div></div></div></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
+Hi folks
 
---0000000000006552af05999c0a02--
+I'm trying to run qemu 4.2.0 in azure VMs, unfourtunately qemu fails:
+
+failed to launch qemu: exit status 1, error messages from qemu log: qemu-sy=
+stem-x86_64: error: failed to set MSR 0x48b to 0x1582e00000000
+qemu-system-x86_64: /root/qemu/target/i386/kvm.c:2947: kvm_put_msrs: Assert=
+ion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
+
+I'm using the following command line:
+
+qemu-system-x86_64 -machine pc,accel=3Dkvm,kernel_irqchip,nvdimm -cpu host,=
+pmu=3Doff \
+-qmp unix:qmp.sock,server,nowait -m 2048M,slots=3D10,maxmem=3D8977M -device=
+ pci-bridge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don,addr=3D2=
+,romfile=3D \
+-device virtio-serial-pci,disable-modern=3Dtrue,id=3Dserial0,romfile=3D -de=
+vice virtconsole,chardev=3Dcharconsole0,id=3Dconsole0 \
+-chardev socket,id=3Dcharconsole0,path=3Dconsole.sock,server,nowait -device=
+ nvdimm,id=3Dnv0,memdev=3Dmem0 \
+-object memory-backend-file,id=3Dmem0,mem-path=3Dkata-containers.img,size=
+=3D134217728 -device virtio-scsi-pci,id=3Dscsi0,disable-modern=3Dtrue,romfi=
+le=3D \
+-object rng-random,id=3Drng0,filename=3D/dev/urandom -device virtio-rng,rng=
+=3Drng0,romfile=3D -device virtserialport,chardev=3Dcharch0,id=3Dchannel0,n=
+ame=3Dagent.channel.0 \
+-chardev socket,id=3Dcharch0,path=3Dkata.sock,server,nowait -device virtio-=
+9p-pci,disable-modern=3Dtrue,fsdev=3Dextra-9p-kataShared,mount_tag=3DkataSh=
+ared,romfile=3D \
+-fsdev local,id=3Dextra-9p-kataShared,path=3D/run/kata-containers/shared/sa=
+ndboxes,security_model=3Dnone -netdev tap,id=3Dnetwork-0,vhost=3Don,vhostfd=
+s=3D3,fds=3D4 \
+-device driver=3Dvirtio-net-pci,netdev=3Dnetwork-0,mac=3Dea:4a:b6:1a:92:72,=
+disable-modern=3Dtrue,mq=3Don,vectors=3D4,romfile=3D \
+-global kvm-pit.lost_tick_policy=3Ddiscard -vga none -no-user-config -nodef=
+aults -nographic -daemonize -object memory-backend-ram,id=3Ddimm1,size=3D20=
+48M \
+-numa node,memdev=3Ddimm1 -kernel /usr/share/kata-containers/vmlinuz-4.19.8=
+6-60 \
+-append "tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=3D1 i8042.dir=
+ect=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 noreplace-smp reb=
+oot=3Dk \
+console=3Dhvc0 console=3Dhvc1 iommu=3Doff cryptomgr.notests net.ifnames=3D0=
+ pci=3Dlastbus=3D0 root=3D/dev/pmem0p1 rootflags=3Ddax,data=3Dordered,error=
+s=3Dremount-ro \
+ro rootfstype=3Dext4 debug systemd.show_status=3Dtrue systemd.log_level=3Dd=
+ebug panic=3D1 nr_cpus=3D2 agent.use_vsock=3Dfalse systemd.unit=3Dkata-cont=
+ainers.target \
+systemd.mask=3Dsystemd-networkd.service systemd.mask=3Dsystemd-networkd.soc=
+ket agent.log=3Ddebug agent.log=3Ddebug" \
+-pidfile pid -D qemu.log -smp 1,cores=3D1,threads=3D1,sockets=3D2,maxcpus=
+=3D2
+
+Qemu 4.1.0 works fine
+Qemu 4.2.0 **only** fails in azure VMs, in my workstation it works fine
+
+any thoughts?
+
+
+Information about the VM:
+
+$ cat /sys/module/kvm_intel/parameters/nested
+Y
+
+$ cat /proc/cpuinfo
+processor : 0
+vendor_id : GenuineIntel
+cpu family : 6
+model : 79
+model name : Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
+stepping : 1
+microcode : 0xffffffff
+cpu MHz : 2294.685
+cache size : 51200 KB
+physical id : 0
+siblings : 2
+core id : 0
+cpu cores : 1
+apicid : 0
+initial apicid : 0
+fpu : yes
+fpu_exception : yes
+cpuid level : 20
+wp : yes
+flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat p=
+se36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_=
+tsc rep_good nopl xtopology cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid sse=
+4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3d=
+nowprefetch invpcid_single pti tpr_shadow vnmi ept vpid fsgsbase bmi1 hle a=
+vx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt md_clear
+bugs : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs=
+ taa itlb_multihit
+bogomips : 4589.37
+clflush size : 64
+cache_alignment : 64
+address sizes : 44 bits physical, 48 bits virtual
+power management:
+
+processor : 1
+vendor_id : GenuineIntel
+cpu family : 6
+model : 79
+model name : Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
+stepping : 1
+microcode : 0xffffffff
+cpu MHz : 2294.685
+cache size : 51200 KB
+physical id : 0
+siblings : 2
+core id : 0
+cpu cores : 1
+apicid : 1
+initial apicid : 1
+fpu : yes
+fpu_exception : yes
+cpuid level : 20
+wp : yes
+flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat p=
+se36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_=
+tsc rep_good nopl xtopology cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid sse=
+4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm abm 3d=
+nowprefetch invpcid_single pti tpr_shadow vnmi ept vpid fsgsbase bmi1 hle a=
+vx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt md_clear
+bugs : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs=
+ taa itlb_multihit
+bogomips : 4589.37
+clflush size : 64
+cache_alignment : 64
+address sizes : 44 bits physical, 48 bits virtual
+power management:
+
+$ uname -a
+Linux testcrio1 5.0.0-1027-azure #29~18.04.1-Ubuntu SMP Mon Nov 25 21:18:57=
+ UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+Thanks
+
+-
+Julio
+
+
+
+--_000_DM6PR11MB4089A0B695CB84FB288068B89A540DM6PR11MB4089namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<span>Hi folks <br>
+</span></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<div><br>
+</div>
+<div>I'm trying to run qemu 4.2.0 in azure VMs, unfourtunately qemu fails:<=
+br>
+</div>
+<div><br>
+</div>
+<div>failed to launch qemu: exit status 1, error messages from qemu log: qe=
+mu-system-x86_64: error: failed to set MSR 0x48b to 0x1582e00000000<br>
+</div>
+<div>qemu-system-x86_64: /root/qemu/target/i386/kvm.c:2947: kvm_put_msrs: A=
+ssertion `ret =3D=3D cpu-&gt;kvm_msr_buf-&gt;nmsrs' failed.<br>
+</div>
+<div><br>
+</div>
+<div>I'm using the following command line:<br>
+</div>
+<div><br>
+</div>
+<div>qemu-system-x86_64 -machine pc,accel=3Dkvm,kernel_irqchip,nvdimm -cpu =
+host,pmu=3Doff \<br>
+</div>
+<div>-qmp unix:qmp.sock,server,nowait -m 2048M,slots=3D10,maxmem=3D8977M -d=
+evice pci-bridge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don,add=
+r=3D2,romfile=3D \<br>
+</div>
+<div>-device virtio-serial-pci,disable-modern=3Dtrue,id=3Dserial0,romfile=
+=3D -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole0 \<br>
+</div>
+<div>-chardev socket,id=3Dcharconsole0,path=3Dconsole.sock,server,nowait -d=
+evice nvdimm,id=3Dnv0,memdev=3Dmem0 \<br>
+</div>
+<div>-object memory-backend-file,id=3Dmem0,mem-path=3Dkata-containers.img,s=
+ize=3D134217728 -device virtio-scsi-pci,id=3Dscsi0,disable-modern=3Dtrue,ro=
+mfile=3D \<br>
+</div>
+<div>-object rng-random,id=3Drng0,filename=3D/dev/urandom -device virtio-rn=
+g,rng=3Drng0,romfile=3D -device virtserialport,chardev=3Dcharch0,id=3Dchann=
+el0,name=3Dagent.channel.0 \<br>
+</div>
+<div>-chardev socket,id=3Dcharch0,path=3Dkata.sock,server,nowait -device vi=
+rtio-9p-pci,disable-modern=3Dtrue,fsdev=3Dextra-9p-kataShared,mount_tag=3Dk=
+ataShared,romfile=3D \<br>
+</div>
+<div>-fsdev local,id=3Dextra-9p-kataShared,path=3D/run/kata-containers/shar=
+ed/sandboxes,security_model=3Dnone -netdev tap,id=3Dnetwork-0,vhost=3Don,vh=
+ostfds=3D3,fds=3D4 \<br>
+</div>
+<div>-device driver=3Dvirtio-net-pci,netdev=3Dnetwork-0,mac=3Dea:4a:b6:1a:9=
+2:72,disable-modern=3Dtrue,mq=3Don,vectors=3D4,romfile=3D \<br>
+</div>
+<div>-global kvm-pit.lost_tick_policy=3Ddiscard -vga none -no-user-config -=
+nodefaults -nographic -daemonize -object memory-backend-ram,id=3Ddimm1,size=
+=3D2048M \<br>
+</div>
+<div>-numa node,memdev=3Ddimm1 -kernel /usr/share/kata-containers/vmlinuz-4=
+.19.86-60 \<br>
+</div>
+<div>-append &quot;tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=3D1=
+ i8042.direct=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 norepla=
+ce-smp reboot=3Dk \<br>
+</div>
+<div>console=3Dhvc0 console=3Dhvc1 iommu=3Doff cryptomgr.notests net.ifname=
+s=3D0 pci=3Dlastbus=3D0 root=3D/dev/pmem0p1 rootflags=3Ddax,data=3Dordered,=
+errors=3Dremount-ro \<br>
+</div>
+<div>ro rootfstype=3Dext4 debug systemd.show_status=3Dtrue systemd.log_leve=
+l=3Ddebug panic=3D1 nr_cpus=3D2 agent.use_vsock=3Dfalse systemd.unit=3Dkata=
+-containers.target \<br>
+</div>
+<div>systemd.mask=3Dsystemd-networkd.service systemd.mask=3Dsystemd-network=
+d.socket agent.log=3Ddebug agent.log=3Ddebug&quot; \<br>
+</div>
+<div>-pidfile pid -D qemu.log -smp 1,cores=3D1,threads=3D1,sockets=3D2,maxc=
+pus=3D2<br>
+</div>
+<div><br>
+</div>
+<div>
+<div>Qemu 4.1.0 works fine<br>
+</div>
+<div>Qemu 4.2.0 **only** fails in azure VMs, in my workstation it works fin=
+e<br>
+</div>
+<br>
+</div>
+<div>any thoughts?<br>
+</div>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Information about the VM:<br>
+<div><br>
+</div>
+<div>$ cat /sys/module/kvm_intel/parameters/nested<br>
+</div>
+<div>Y<br>
+</div>
+<div><br>
+</div>
+<div>$ cat /proc/cpuinfo <br>
+</div>
+<div>processor : 0<br>
+</div>
+<div>vendor_id : GenuineIntel<br>
+</div>
+<div>cpu family : 6<br>
+</div>
+<div>model : 79<br>
+</div>
+<div>model name : Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz<br>
+</div>
+<div>stepping : 1<br>
+</div>
+<div>microcode : 0xffffffff<br>
+</div>
+<div>cpu MHz : 2294.685<br>
+</div>
+<div>cache size : 51200 KB<br>
+</div>
+<div>physical id : 0<br>
+</div>
+<div>siblings : 2<br>
+</div>
+<div>core id : 0<br>
+</div>
+<div>cpu cores : 1<br>
+</div>
+<div>apicid : 0<br>
+</div>
+<div>initial apicid : 0<br>
+</div>
+<div>fpu : yes<br>
+</div>
+<div>fpu_exception : yes<br>
+</div>
+<div>cpuid level : 20<br>
+</div>
+<div>wp : yes<br>
+</div>
+<div>flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov =
+pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm cons=
+tant_tsc rep_good nopl xtopology cpuid pni pclmulqdq vmx ssse3 fma cx16 pci=
+d sse4_1 sse4_2 movbe popcnt aes
+ xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single =
+pti tpr_shadow vnmi ept vpid fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid =
+rtm rdseed adx smap xsaveopt md_clear<br>
+</div>
+<div>bugs : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds s=
+wapgs taa itlb_multihit<br>
+</div>
+<div>bogomips : 4589.37<br>
+</div>
+<div>clflush size : 64<br>
+</div>
+<div>cache_alignment : 64<br>
+</div>
+<div>address sizes : 44 bits physical, 48 bits virtual<br>
+</div>
+<div>power management:<br>
+</div>
+<div><br>
+</div>
+<div>processor : 1<br>
+</div>
+<div>vendor_id : GenuineIntel<br>
+</div>
+<div>cpu family : 6<br>
+</div>
+<div>model : 79<br>
+</div>
+<div>model name : Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz<br>
+</div>
+<div>stepping : 1<br>
+</div>
+<div>microcode : 0xffffffff<br>
+</div>
+<div>cpu MHz : 2294.685<br>
+</div>
+<div>cache size : 51200 KB<br>
+</div>
+<div>physical id : 0<br>
+</div>
+<div>siblings : 2<br>
+</div>
+<div>core id : 0<br>
+</div>
+<div>cpu cores : 1<br>
+</div>
+<div>apicid : 1<br>
+</div>
+<div>initial apicid : 1<br>
+</div>
+<div>fpu : yes<br>
+</div>
+<div>fpu_exception : yes<br>
+</div>
+<div>cpuid level : 20<br>
+</div>
+<div>wp : yes<br>
+</div>
+<div>flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov =
+pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm cons=
+tant_tsc rep_good nopl xtopology cpuid pni pclmulqdq vmx ssse3 fma cx16 pci=
+d sse4_1 sse4_2 movbe popcnt aes
+ xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single =
+pti tpr_shadow vnmi ept vpid fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid =
+rtm rdseed adx smap xsaveopt md_clear<br>
+</div>
+<div>bugs : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds s=
+wapgs taa itlb_multihit<br>
+</div>
+<div>bogomips : 4589.37<br>
+</div>
+<div>clflush size : 64<br>
+</div>
+<div>cache_alignment : 64<br>
+</div>
+<div>address sizes : 44 bits physical, 48 bits virtual<br>
+</div>
+<div>power management:<br>
+</div>
+<div><br>
+</div>
+<div>$ uname -a<br>
+</div>
+<div>Linux testcrio1 5.0.0-1027-azure #29~18.04.1-Ubuntu SMP Mon Nov 25 21:=
+18:57 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux<br>
+</div>
+<div><br>
+</div>
+<div>Thanks<br>
+</div>
+<div><br>
+</div>
+<div>-<br>
+</div>
+<div>Julio<br>
+</div>
+<div><br>
+</div>
+<span></span><br>
+</div>
+</body>
+</html>
+
+--_000_DM6PR11MB4089A0B695CB84FB288068B89A540DM6PR11MB4089namp_--
 
