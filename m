@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C1F11DCBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 05:05:56 +0100 (CET)
-Received: from localhost ([::1]:40542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD0311DD20
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 05:29:14 +0100 (CET)
+Received: from localhost ([::1]:40746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifcDC-0007xP-LO
-	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 23:05:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41282)
+	id 1ifcZl-0005I5-GY
+	for lists+qemu-devel@lfdr.de; Thu, 12 Dec 2019 23:29:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bharata@linux.ibm.com>) id 1ifcCA-0007Qf-MV
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 23:04:51 -0500
+ (envelope-from <andrew@aj.id.au>) id 1ifcXw-0003Oe-MO
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 23:27:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bharata@linux.ibm.com>) id 1ifcC9-0004pk-MZ
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 23:04:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5516)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bharata@linux.ibm.com>)
- id 1ifcC9-0004oD-Ef
- for qemu-devel@nongnu.org; Thu, 12 Dec 2019 23:04:49 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBD42BM7023040
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 23:04:48 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wuswnengj-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 12 Dec 2019 23:04:47 -0500
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bharata@linux.ibm.com>;
- Fri, 13 Dec 2019 04:04:45 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 13 Dec 2019 04:04:42 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBD44fpa42532986
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 04:04:41 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B796E4C04A;
- Fri, 13 Dec 2019 04:04:41 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 65D9C4C040;
- Fri, 13 Dec 2019 04:04:40 +0000 (GMT)
-Received: from in.ibm.com (unknown [9.85.92.59])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Fri, 13 Dec 2019 04:04:40 +0000 (GMT)
-Date: Fri, 13 Dec 2019 09:34:38 +0530
-From: Bharata B Rao <bharata@linux.ibm.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 ppc-for-5.0 2/2] ppc/spapr: Support reboot of secure
- pseries guest
-References: <20191212055059.9399-1-bharata@linux.ibm.com>
- <20191212055059.9399-3-bharata@linux.ibm.com>
- <20191212132723.5fdfee47@bahia.tlslab.ibm.com>
+ (envelope-from <andrew@aj.id.au>) id 1ifcXv-0003Gt-JO
+ for qemu-devel@nongnu.org; Thu, 12 Dec 2019 23:27:20 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:54753)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrew@aj.id.au>)
+ id 1ifcXs-00035M-EX; Thu, 12 Dec 2019 23:27:16 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id F12AD877;
+ Thu, 12 Dec 2019 23:27:13 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 12 Dec 2019 23:27:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=PqgLhpy94OGx/TZUhKr14ouSOm
+ hNdalV2V/031LW2zc=; b=TQ20b1eKD9tveMzCEHh14gs1nOP7CDus0iJBcem7JE
+ W1N7fTq9QC0oDxCMbs6FNEE1OhD/64Ch1F6UnpKqjDF/8hY0BzxrKATiazH5I+5l
+ 7+7cPTCKOIhdo5JuqIKD7E1JG6UlfAcOdihS04W2IBcdG0gD5QSgiMmBxW0LMRd2
+ 5zrP1TPkwu51xCEShImCDtEL791aVNEPcUBX9+Dhca2PDdcyxJG6r1BIMKjo9/wf
+ 19UXE6s3vxWhnVopngjgYU0LCD73aOH9iKUyl1EbUUxr1MSWxeFYVUDGl2gsj549
+ aOcQh90rGX1AUy3cVLnOW3/Q1Cmw8u+iklmFYnaFnwNQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PqgLhpy94OGx/TZUh
+ Kr14ouSOmhNdalV2V/031LW2zc=; b=fjtlUuFiyE4jIDZ3KSWKN1GNKe9+zXfZm
+ fpuP9YIwMCvdP62UyS9WOJ/YmQ2PQou19V02LzHCds9lM377pStfrYuRA6C3wJ0S
+ GaY0d4NCUix9qK7H+fJj+fHrn6SL6o2ZPNxSojamgDODokHiaOLzWz56OcY/tv9x
+ C03n3B3z+Jtf3VnV4XdXxEy8tzDjcsKni/YjWp/yNz7pEeGaYGE1EdC/KQCAt/0W
+ Gfh5AsckbHI4xOAHn7NCTpGFIi5T6gtMA8Hwjdjqm4p/tVgwh1DTLP7Jn/mQcgXw
+ xMMuIDkfMxONihV7+doR+dinxwSJ6FMPeMfCdHRQhL8RTSyeGG6wA==
+X-ME-Sender: <xms:IBPzXdlMrB_MOnDJmOfb4k3215zaCAUKop6ZXCqZ9uuOZU0IZ0xsxQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgjedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkphepvddtvddrke
+ durddukedrfedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhi
+ ugdrrghunecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:IBPzXdGjmPDFsEAobpPH6MTrWKJcPrJ6djzR77tzJVexEs8ywzDpVA>
+ <xmx:IBPzXepygpgOXjWZ9tol5MBD-fwWJB_WkSjZZSk2Eq4R4pR7aCHJKQ>
+ <xmx:IBPzXR4zgA3paZxElv-tetBNg92gcVenbawa1JC1IedWwyGkBGx-_g>
+ <xmx:IRPzXd0yGcDmFYHjWxycXSVzfZ5W3zuaQCEK9nZAzpvOFVyM6l1DRQ>
+Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 79FA980063;
+ Thu, 12 Dec 2019 23:27:10 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v2 0/2] hw/arm: ast2600: Wire up eMMC controller
+Date: Fri, 13 Dec 2019 14:58:40 +1030
+Message-Id: <cover.fc3e5e495d85ebd919c1f06a1a2c7c7730518f9c.1576211124.git-series.andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191212132723.5fdfee47@bahia.tlslab.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19121304-0012-0000-0000-000003745172
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19121304-0013-0000-0000-000021B02F9F
-Message-Id: <20191213040438.GC28362@in.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-12_08:2019-12-12,2019-12-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 malwarescore=0 spamscore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912130032
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 64.147.123.19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,48 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: bharata@linux.ibm.com
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, linuxram@us.ibm.com,
- qemu-devel@nongnu.org, paulus@ozlabs.org, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, clg@kaod.org,
+ joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 01:27:23PM +0100, Greg Kurz wrote:
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index f11422fc41..25e1a3446e 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -1597,6 +1597,21 @@ static void spapr_machine_reset(MachineState *machine)
-> >      void *fdt;
-> >      int rc;
-> >  
-> > +    /*
-> > +     * KVM_PPC_SVM_OFF ioctl can fail for secure guests, check and
-> > +     * exit in that case. However check for -ENOTTY explicitly
-> > +     * to ensure that we don't terminate normal guests that are
-> > +     * running on kernels which don't support this ioctl.
-> > +     *
-> > +     * Also, this ioctl returns 0 for normal guests on kernels where
-> > +     * this ioctl is supported.
-> > +     */
-> > +    rc = kvmppc_svm_off();
-> > +    if (rc && rc != -ENOTTY) {
-> 
-> This ioctl can also return -EINVAL if the ultravisor actually failed to move
-> the guest back to non-secure mode or -EBUSY if a vCPU is still running. I
-> agree that the former deserve the VM to be terminated. What about the latter ?
-> Can this happen and if yes, why ? Should we try again as suggested by Alexey ?
-> Could this reveal a bug in QEMU, in which case we should maybe abort ?
+Hello,
 
-We are in machine reset path, so all vcpus are already paused. So we don't
-expect any vcpus to be running to handle -EBUSY here. Neither do I see any
-sane recovery path from here.
+The AST2600 has an additional SDHCI intended for use as an eMMC boot source.
+These two patches rework the existing ASPEED SDHCI model to accommodate the
+single-slot nature of the eMMC controller and wire it into the AST2600 SoC.
 
-As Alexey mentioned earlier, may be we can just stop the VM?
-Do vm_stop() with RUN_STATE_PAUSED or some such reason?
+v2 contains some minor refactorings in response to issues pointed out by
+Cedric.
 
-Regards,
-Bharata.
+v1 can be found here:
 
+https://patchwork.ozlabs.org/cover/1206845/
+
+Please review!
+
+Andrew
+
+Andrew Jeffery (2):
+  hw/sd: Configure number of slots exposed by the ASPEED SDHCI model
+  hw/arm: ast2600: Wire up the eMMC controller
+
+ hw/arm/aspeed.c              | 27 +++++++++++++++++----------
+ hw/arm/aspeed_ast2600.c      | 23 +++++++++++++++++++++++
+ hw/arm/aspeed_soc.c          |  2 ++
+ hw/sd/aspeed_sdhci.c         | 11 +++++++++--
+ include/hw/arm/aspeed_soc.h  |  2 ++
+ include/hw/sd/aspeed_sdhci.h |  1 +
+ 6 files changed, 54 insertions(+), 12 deletions(-)
+
+base-commit: 6a4ef4e5d1084ce41fafa7d470a644b0fd3d9317
+-- 
+git-series 0.9.1
 
