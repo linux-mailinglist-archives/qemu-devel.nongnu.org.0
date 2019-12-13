@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6786011E5B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:37:27 +0100 (CET)
-Received: from localhost ([::1]:49932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FF311E599
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:34:53 +0100 (CET)
+Received: from localhost ([::1]:49890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifm4M-0007ci-5O
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:37:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54819)
+	id 1ifm1r-0005TT-UC
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:34:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ifm0Y-0004PK-0N
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:31 -0500
+ (envelope-from <stefanha@redhat.com>) id 1ifm0b-0004Wm-HX
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ifm0W-00087n-D8
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25504
+ (envelope-from <stefanha@redhat.com>) id 1ifm0a-0008GL-BP
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36666
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ifm0W-00086e-8Q
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:28 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ifm0a-0008FW-7A
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:33:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576247607;
+ s=mimecast20190719; t=1576247611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0OER0OXw3W5d6ZJtKEAz8bgG9o7LexLM47lHjVxV/+c=;
- b=TNpfPpJHKaHG377mEJDOupWqYgS7RElQbG6X+rI9m1x2LvgkIFewoOS80mT/jwlit/Y+Aj
- WKdHV70pV0DjmkKUqfIWQQxuKlM0+jim1GTIXidWY9byk+Pd53I5hfWFhLxTCwKnYkIAFY
- Kfub/VDAnbDrP7ErkNUDm20BeuKSEvI=
+ bh=8dyZzK+/rwkkyZTZ71KCvOWKB6vb2M8+p22eBPZs6Gc=;
+ b=fLsm9z6qa4+vUgE69QCI/xk2vHI+Eo6FHhCLkxkaDHAxOoGZmp3M3KdjA/pq3oNREB4wO5
+ 50DXgryFxvgEPp1IbukrVzdS2rvsbFYCDe8N296+1Pxltuyb3m7GyQGTc9+EwOdjkItNZH
+ ezkyHcze++tH4tdj/zEj4WQdtFGC8yQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-dvT_RBOkNTe8ujn4aS2GsQ-1; Fri, 13 Dec 2019 09:33:24 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-423-CQOv34Q0Otq2o2EY2aSESw-1; Fri, 13 Dec 2019 09:33:26 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BF431005510;
- Fri, 13 Dec 2019 14:33:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AF168D9F81;
+ Fri, 13 Dec 2019 14:33:25 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6219419C4F;
- Fri, 13 Dec 2019 14:33:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DCBED601A2;
+ Fri, 13 Dec 2019 14:33:23 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] virtio-blk: advertise F_WCE (F_FLUSH) if F_CONFIG_WCE is
- advertised
-Date: Fri, 13 Dec 2019 14:33:13 +0000
-Message-Id: <20191213143314.1198821-2-stefanha@redhat.com>
+Subject: [PULL 2/2] iothread: document -object iothread on man page
+Date: Fri, 13 Dec 2019 14:33:14 +0000
+Message-Id: <20191213143314.1198821-3-stefanha@redhat.com>
 In-Reply-To: <20191213143314.1198821-1-stefanha@redhat.com>
 References: <20191213143314.1198821-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: dvT_RBOkNTe8ujn4aS2GsQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: CQOv34Q0Otq2o2EY2aSESw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -71,182 +70,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Yakovlev <wrfsh@yandex-team.ru>,
- Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org
+ qemu-block@nongnu.org, Zhenyu Ye <yezhenyu2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Add -object iothread documentation to the man page, including references
+to the query-iothread QMP command and qom-set syntax for adjusting
+adaptive polling parameters at run-time.
 
-Virtio spec 1.1 (and earlier), 5.2.5.2 Driver Requirements: Device
-Initialization:
-
-"Devices SHOULD always offer VIRTIO_BLK_F_FLUSH, and MUST offer it if
-they offer VIRTIO_BLK_F_CONFIG_WCE"
-
-Currently F_CONFIG_WCE and F_WCE are not connected to each other.
-Qemu will advertise F_CONFIG_WCE if config-wce argument is
-set for virtio-blk device. And F_WCE is advertised only if
-underlying block backend actually has it's caching enabled.
-
-Fix this by advertising F_WCE if F_CONFIG_WCE is also advertised.
-
-To preserve backwards compatibility with newer machine types make this
-behaviour governed by "x-enable-wce-if-config-wce" virtio-blk-device
-property and introduce hw_compat_4_2 with new property being off by
-default for all machine types <=3D 4.2 (but don't introduce 4.3
-machine type itself yet).
-
-Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-Message-Id: <1572978137-189218-1-git-send-email-wrfsh@yandex-team.ru>
+Reported-by: Zhenyu Ye <yezhenyu2@huawei.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-id: 20191025122236.29815-1-stefanha@redhat.com
+Message-Id: <20191025122236.29815-1-stefanha@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/arm/virt.c                  | 1 +
- hw/block/virtio-blk.c          | 6 +++++-
- hw/core/machine.c              | 5 +++++
- hw/i386/pc_piix.c              | 1 +
- hw/i386/pc_q35.c               | 1 +
- hw/ppc/spapr.c                 | 2 +-
- hw/s390x/s390-virtio-ccw.c     | 1 +
- include/hw/boards.h            | 3 +++
- include/hw/virtio/virtio-blk.h | 1 +
- 9 files changed, 19 insertions(+), 2 deletions(-)
+ qemu-options.hx | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index d4bedc2607..bf4b1cbfb8 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2149,6 +2149,7 @@ type_init(machvirt_machine_init);
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 65c9473b73..68d1592ccc 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4926,6 +4926,44 @@ access
+ CN=3Dlaptop.example.com,O=3DExample Home,L=3DLondon,ST=3DLondon,C=3DGB
+ @end example
 =20
- static void virt_machine_4_2_options(MachineClass *mc)
- {
-+    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
- DEFINE_VIRT_MACHINE_AS_LATEST(4, 2)
-=20
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 4c357d2928..d62e6377c2 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -991,7 +991,9 @@ static uint64_t virtio_blk_get_features(VirtIODevice *v=
-dev, uint64_t features,
-         virtio_add_feature(&features, VIRTIO_BLK_F_SCSI);
-     }
-=20
--    if (blk_enable_write_cache(s->blk)) {
-+    if (blk_enable_write_cache(s->blk) ||
-+        (s->conf.x_enable_wce_if_config_wce &&
-+         virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
-         virtio_add_feature(&features, VIRTIO_BLK_F_WCE);
-     }
-     if (blk_is_read_only(s->blk)) {
-@@ -1270,6 +1272,8 @@ static Property virtio_blk_properties[] =3D {
-                        conf.max_discard_sectors, BDRV_REQUEST_MAX_SECTORS)=
-,
-     DEFINE_PROP_UINT32("max-write-zeroes-sectors", VirtIOBlock,
-                        conf.max_write_zeroes_sectors, BDRV_REQUEST_MAX_SEC=
-TORS),
-+    DEFINE_PROP_BOOL("x-enable-wce-if-config-wce", VirtIOBlock,
-+                     conf.x_enable_wce_if_config_wce, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3bf8..023548b4f3 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -27,6 +27,11 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
-=20
-+GlobalProperty hw_compat_4_2[] =3D {
-+    { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
-+};
-+const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
++@item -object iothread,id=3D@var{id},poll-max-ns=3D@var{poll-max-ns},poll-=
+grow=3D@var{poll-grow},poll-shrink=3D@var{poll-shrink}
 +
- GlobalProperty hw_compat_4_1[] =3D {
-     { "virtio-pci", "x-pcie-flr-init", "off" },
- };
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1bd70d1abb..87aced0742 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -431,6 +431,7 @@ static void pc_i440fx_4_2_machine_options(MachineClass =
-*m)
-     m->alias =3D "pc";
-     m->is_default =3D 1;
-     pcmc->default_cpu_version =3D 1;
-+    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
-=20
- DEFINE_I440FX_MACHINE(v4_2, "pc-i440fx-4.2", NULL,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 385e5cffb1..2608cd0062 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -354,6 +354,7 @@ static void pc_q35_4_2_machine_options(MachineClass *m)
-     pc_q35_machine_options(m);
-     m->alias =3D "q35";
-     pcmc->default_cpu_version =3D 1;
-+    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
-=20
- DEFINE_Q35_MACHINE(v4_2, "pc-q35-4.2", NULL,
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e076f6023c..2ca92f2148 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4496,7 +4496,7 @@ static const TypeInfo spapr_machine_info =3D {
-  */
- static void spapr_machine_4_2_class_options(MachineClass *mc)
- {
--    /* Defaults for the latest behaviour inherited from the base class */
-+    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
-=20
- DEFINE_SPAPR_MACHINE(4_2, "4.2", true);
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index d3edeef0ad..cb5fe4c84d 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -645,6 +645,7 @@ static void ccw_machine_4_2_instance_options(MachineSta=
-te *machine)
-=20
- static void ccw_machine_4_2_class_options(MachineClass *mc)
- {
-+    compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
- }
- DEFINE_CCW_MACHINE(4_2, "4.2", true);
-=20
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index de45087f34..24cbeecbae 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -329,6 +329,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
-=20
-+extern GlobalProperty hw_compat_4_2[];
-+extern const size_t hw_compat_4_2_len;
++Creates a dedicated event loop thread that devices can be assigned to.  Th=
+is is
++known as an IOThread.  By default device emulation happens in vCPU threads=
+ or
++the main event loop thread.  This can become a scalability bottleneck.
++IOThreads allow device emulation and I/O to run on other host CPUs.
 +
- extern GlobalProperty hw_compat_4_1[];
- extern const size_t hw_compat_4_1_len;
++The @option{id} parameter is a unique ID that will be used to reference th=
+is
++IOThread from @option{-device ...,iothread=3D@var{id}}.  Multiple devices =
+can be
++assigned to an IOThread.  Note that not all devices support an
++@option{iothread} parameter.
++
++The @code{query-iothreads} QMP command lists IOThreads and reports their t=
+hread
++IDs so that the user can configure host CPU pinning/affinity.
++
++IOThreads use an adaptive polling algorithm to reduce event loop latency.
++Instead of entering a blocking system call to monitor file descriptors and=
+ then
++pay the cost of being woken up when an event occurs, the polling algorithm
++spins waiting for events for a short time.  The algorithm's default parame=
+ters
++are suitable for many cases but can be adjusted based on knowledge of the
++workload and/or host device latency.
++
++The @option{poll-max-ns} parameter is the maximum number of nanoseconds to=
+ busy
++wait for events.  Polling can be disabled by setting this value to 0.
++
++The @option{poll-grow} parameter is the multiplier used to increase the po=
+lling
++time when the algorithm detects it is missing events due to not polling lo=
+ng
++enough.
++
++The @option{poll-shrink} parameter is the divisor used to decrease the pol=
+ling
++time when the algorithm detects it is spending too long polling without
++encountering events.
++
++The polling parameters can be modified at run-time using the @code{qom-set=
+} command (where @code{iothread1} is the IOThread's @code{id}):
++
++@example
++(qemu) qom-set /objects/iothread1 poll-max-ns 100000
++@end example
 =20
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.=
-h
-index cddcfbebe9..9c19f5b634 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -40,6 +40,7 @@ struct VirtIOBlkConf
-     uint16_t queue_size;
-     uint32_t max_discard_sectors;
-     uint32_t max_write_zeroes_sectors;
-+    bool x_enable_wce_if_config_wce;
- };
+ @end table
 =20
- struct VirtIOBlockDataPlane;
 --=20
 2.23.0
 
