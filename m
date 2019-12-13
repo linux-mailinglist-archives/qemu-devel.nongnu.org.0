@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DE011E896
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:43:04 +0100 (CET)
-Received: from localhost ([::1]:51280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBD811E879
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:40:14 +0100 (CET)
+Received: from localhost ([::1]:51224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifo1v-0004Ho-7Z
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:43:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47242)
+	id 1ifnzA-0008MV-Vp
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:40:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifnft-0001Q3-L3
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:18 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifng5-0001jO-6V
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifnfs-00034R-B8
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49710
+ (envelope-from <philmd@redhat.com>) id 1ifng3-0003Q5-R0
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55775
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifnfs-00033X-5Y
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:16 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifng3-0003P9-MQ
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:20:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576254015;
+ s=mimecast20190719; t=1576254027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KN6AckxlKUpsLzxakKRr0um+iuOesJrJu7GlUIEw6bQ=;
- b=MmZQ1LiHb7yd5M4X7q+qCp2C3t93mtfXDF/x8cB6eIBT8rCHDnU0/DVfK0fcYvpRW182ag
- v1quLewpJc9Ssm5HWeXXxkoa9wFe+ywXBZMj5MH2UbEHAPF7YXeWgeIlxsL4TXXTMbRa8P
- I7VEcUTf2nHYAYxMUePHNie0Ke0Gc1s=
+ bh=2EftjF8HiFSpwXHv8YZWYjoqxeIDtjy2n7wAZHjtMGk=;
+ b=A7+DBJ7RSW942P7zwXRg7R/4n94VRlMi/c+EYQ01Y06nQzqCZ/sThWMLJn63sTY5tB0oNo
+ lvCGQte90GCw1wP93Gj518KogjhUpFe2GXxwSisgw4ZjsG6i6HiCM/DBO06m8HP2NOeyuW
+ P5DKzHrfleAOjeUz2SFgVMT+ONgAO80=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-rlsJfBc9OvaPIStuNENCNA-1; Fri, 13 Dec 2019 11:20:14 -0500
-X-MC-Unique: rlsJfBc9OvaPIStuNENCNA-1
+ us-mta-124-fqun19fLNLSrG9Al94wyOA-1; Fri, 13 Dec 2019 11:20:26 -0500
+X-MC-Unique: fqun19fLNLSrG9Al94wyOA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A050800EC0;
- Fri, 13 Dec 2019 16:20:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89139800D4E;
+ Fri, 13 Dec 2019 16:20:24 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B180319C4F;
- Fri, 13 Dec 2019 16:20:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E95AD19481;
+ Fri, 13 Dec 2019 16:20:12 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/12] hw/i386/pc: Rename allocate_cpu_irq from 'pc' to
- 'x86_machine'
-Date: Fri, 13 Dec 2019 17:17:51 +0100
-Message-Id: <20191213161753.8051-11-philmd@redhat.com>
+Subject: [PATCH 11/12] hw/i386/pc: Move x86_machine_allocate_cpu_irq() to
+ 'hw/i386/x86.c'
+Date: Fri, 13 Dec 2019 17:17:52 +0100
+Message-Id: <20191213161753.8051-12-philmd@redhat.com>
 In-Reply-To: <20191213161753.8051-1-philmd@redhat.com>
 References: <20191213161753.8051-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -81,67 +81,146 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the X86 machines use an interrupt controller.
-Rename the function to something more generic.
+Keep 'pc.c' for PC-machine specific code, and use 'x86.c' for code
+used by all the X86-based machines.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/i386/pc.h | 2 +-
- hw/i386/microvm.c    | 2 +-
- hw/i386/pc.c         | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ include/hw/i386/pc.h  |  1 -
+ include/hw/i386/x86.h |  2 ++
+ hw/i386/pc.c          | 27 ---------------------------
+ hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
+ 4 files changed, 32 insertions(+), 28 deletions(-)
 
 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 743141e107..244dbf2ec0 100644
+index 244dbf2ec0..2ef6e2cfff 100644
 --- a/include/hw/i386/pc.h
 +++ b/include/hw/i386/pc.h
-@@ -198,7 +198,7 @@ void pc_memory_init(PCMachineState *pcms,
+@@ -198,7 +198,6 @@ void pc_memory_init(PCMachineState *pcms,
                      MemoryRegion *rom_memory,
                      MemoryRegion **ram_memory);
  uint64_t pc_pci_hole64_start(void);
--qemu_irq pc_allocate_cpu_irq(void);
-+qemu_irq x86_machine_allocate_cpu_irq(void);
+-qemu_irq x86_machine_allocate_cpu_irq(void);
  DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
  void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
                            ISADevice **rtc_state,
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index def37e60f7..7ac008460a 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -132,7 +132,7 @@ static void microvm_devices_init(MicrovmMachineState =
-*mms)
-     if (mms->pic =3D=3D ON_OFF_AUTO_ON || mms->pic =3D=3D ON_OFF_AUTO_AU=
-TO) {
-         qemu_irq *i8259;
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 4b84917885..4c3dd6f33e 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -95,4 +95,6 @@ void x86_load_linux(X86MachineState *x86ms,
+                     bool pvh_enabled,
+                     bool linuxboot_dma_enabled);
 =20
--        i8259 =3D i8259_init(isa_bus, pc_allocate_cpu_irq());
-+        i8259 =3D i8259_init(isa_bus, x86_machine_allocate_cpu_irq());
-         for (i =3D 0; i < ISA_NUM_IRQS; i++) {
-             gsi_state->i8259_irq[i] =3D i8259[i];
-         }
++qemu_irq x86_machine_allocate_cpu_irq(void);
++
+ #endif
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 5f8e39c025..4defee274f 100644
+index 4defee274f..4c018735b0 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -1282,7 +1282,7 @@ uint64_t pc_pci_hole64_start(void)
+@@ -412,28 +412,6 @@ int cpu_get_pic_interrupt(CPUX86State *env)
+     return intno;
+ }
+=20
+-static void pic_irq_request(void *opaque, int irq, int level)
+-{
+-    CPUState *cs =3D first_cpu;
+-    X86CPU *cpu =3D X86_CPU(cs);
+-
+-    trace_x86_pic_interrupt(irq, level);
+-    if (cpu->apic_state && !kvm_irqchip_in_kernel()) {
+-        CPU_FOREACH(cs) {
+-            cpu =3D X86_CPU(cs);
+-            if (apic_accept_pic_intr(cpu->apic_state)) {
+-                apic_deliver_pic_intr(cpu->apic_state, level);
+-            }
+-        }
+-    } else {
+-        if (level) {
+-            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+-        } else {
+-            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+-        }
+-    }
+-}
+-
+ /* PC cmos mappings */
+=20
+ #define REG_EQUIPMENT_BYTE          0x14
+@@ -1282,11 +1260,6 @@ uint64_t pc_pci_hole64_start(void)
      return ROUND_UP(hole64_start, 1 * GiB);
  }
 =20
--qemu_irq pc_allocate_cpu_irq(void)
-+qemu_irq x86_machine_allocate_cpu_irq(void)
+-qemu_irq x86_machine_allocate_cpu_irq(void)
+-{
+-    return qemu_allocate_irq(pic_irq_request, NULL, 0);
+-}
+-
+ DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus)
  {
-     return qemu_allocate_irq(pic_irq_request, NULL, 0);
- }
-@@ -1463,7 +1463,7 @@ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i82=
-59_irqs)
-     } else if (xen_enabled()) {
-         i8259 =3D xen_interrupt_controller_init();
-     } else {
--        i8259 =3D i8259_init(isa_bus, pc_allocate_cpu_irq());
-+        i8259 =3D i8259_init(isa_bus, x86_machine_allocate_cpu_irq());
-     }
+     DeviceState *dev =3D NULL;
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 394edc2f72..a6a394ca36 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -34,6 +34,7 @@
+ #include "sysemu/numa.h"
+ #include "sysemu/replay.h"
+ #include "sysemu/sysemu.h"
++#include "sysemu/kvm.h"
 =20
-     for (size_t i =3D 0; i < ISA_NUM_IRQS; i++) {
+ #include "hw/i386/x86.h"
+ #include "target/i386/cpu.h"
+@@ -41,11 +42,13 @@
+ #include "hw/i386/fw_cfg.h"
+=20
+ #include "hw/acpi/cpu_hotplug.h"
++#include "hw/irq.h"
+ #include "hw/nmi.h"
+ #include "hw/loader.h"
+ #include "multiboot.h"
+ #include "elf.h"
+ #include "standard-headers/asm-x86/bootparam.h"
++#include "trace.h"
+=20
+ #define BIOS_FILENAME "bios.bin"
+=20
+@@ -206,6 +209,33 @@ static void x86_nmi(NMIState *n, int cpu_index, Erro=
+r **errp)
+     }
+ }
+=20
++static void pic_irq_request(void *opaque, int irq, int level)
++{
++    CPUState *cs =3D first_cpu;
++    X86CPU *cpu =3D X86_CPU(cs);
++
++    trace_x86_pic_interrupt(irq, level);
++    if (cpu->apic_state && !kvm_irqchip_in_kernel()) {
++        CPU_FOREACH(cs) {
++            cpu =3D X86_CPU(cs);
++            if (apic_accept_pic_intr(cpu->apic_state)) {
++                apic_deliver_pic_intr(cpu->apic_state, level);
++            }
++        }
++    } else {
++        if (level) {
++            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++        } else {
++            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++        }
++    }
++}
++
++qemu_irq x86_machine_allocate_cpu_irq(void)
++{
++    return qemu_allocate_irq(pic_irq_request, NULL, 0);
++}
++
+ static long get_file_size(FILE *f)
+ {
+     long where, size;
 --=20
 2.21.0
 
