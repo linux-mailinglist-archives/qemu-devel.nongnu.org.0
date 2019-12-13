@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EFD11E788
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:05:21 +0100 (CET)
-Received: from localhost ([::1]:50724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC99F11E7A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:05:42 +0100 (CET)
+Received: from localhost ([::1]:50728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnRQ-0003j8-GC
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:05:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41037)
+	id 1ifnRl-0003yv-Pp
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:05:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.merwick@oracle.com>) id 1ifnOj-0001xU-1T
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:02:34 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ifnPs-000356-FI
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:03:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1ifnOd-0006DD-KD
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:02:32 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:37880)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1ifnOd-0006BJ-Ak
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:02:27 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBDFvObT064759;
- Fri, 13 Dec 2019 16:02:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=NsYR5Ax8OOzmGyTmAwImDHPI/KW8a7HCvyzWAV4cLSU=;
- b=g6hsBsCbR2IkrV9gDYPFE/5Ow0TG2OzUE4knRJhAJhstPZ8tNkr51XXpohldsAJp8mJ3
- FmtVyHXsK94Kpz4EaqEVz2dDDh5EcALzgxGentXMYFnmgM+uITxkLd/e98klsao7s3ll
- ZHnC/itOj2prn9Lyig3NKTrXVG7ZQqKbU1tbRLJyd56dTrRS2H3Q40jm/b3sNJ2qZwp2
- JzGTwCN4qtEnUZq+aefIz/H+kduSlM7qLPG8pc59m9HQWEtK/IzXqeOay3MahYqAAZ3T
- JNULIPjKfRyrc0QoupYxSpKT8nzw8v7EeS3mTf5/tixESnM8o0cUl0YNU7k/p1dOBCVy fg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2wrw4nps7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 16:02:25 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBDFxUgu060401;
- Fri, 13 Dec 2019 16:02:25 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2wvd1ge8js-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 16:02:25 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xBDG2OEx010342;
- Fri, 13 Dec 2019 16:02:24 GMT
-Received: from [10.175.208.200] (/10.175.208.200)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 13 Dec 2019 08:02:24 -0800
-Subject: Re: [PATCH 025/104] virtiofsd: Add Makefile wiring for virtiofsd
- contrib
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-26-dgilbert@redhat.com>
-From: Liam Merwick <liam.merwick@oracle.com>
-Message-ID: <a3a3b681-b411-0c22-291a-9e0cd9116c19@oracle.com>
-Date: Fri, 13 Dec 2019 16:02:19 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <kwolf@redhat.com>) id 1ifnPp-0007tV-3B
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:03:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31640
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ifnPo-0007qn-FU
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:03:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576253019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y67nNUw3kEABmusngWQxuPaBGm/fVHALxf3bTj2Zees=;
+ b=V1JTwMHlIwVBQmZWZh1RSRKQLmwyJh0H6H9gXM6IfeK0hojg8YF8PapFaAWIrbaKu8F49U
+ jqjbrX7F9+fC1sPgVbsK8s3AEzisfv1R0cBPmJ65xjru7SHs32VRPL4Tuy11BDcinJuZHc
+ WpFa4Rt3XDbvBt8V3IWiFd9WgFTjymA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-eJeG1hRzMzawDPN9RfCJKA-1; Fri, 13 Dec 2019 11:03:38 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 667D6100A155
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 16:03:37 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-153.ams2.redhat.com
+ [10.36.117.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E010810013D9;
+ Fri, 13 Dec 2019 16:03:31 +0000 (UTC)
+Date: Fri, 13 Dec 2019 17:03:30 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v6 00/25] monitor: add asynchronous command type
+Message-ID: <20191213160330.GD3428@localhost.localdomain>
+References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-26-dgilbert@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9470
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1912130130
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9470
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1912130130
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+In-Reply-To: <20191108150123.12213-1-marcandre.lureau@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: eJeG1hRzMzawDPN9RfCJKA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,97 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kraxel@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/2019 16:37, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Wire up the building of the virtiofsd in contrib.
+Am 08.11.2019 um 16:00 hat Marc-Andr=E9 Lureau geschrieben:
+> The following series implements an internal async command solution
+> instead. By introducing a session context and a command return
+> handler, QMP handlers can:
+> - defer the return, allowing the mainloop to reenter
+> - return only to the caller (instead of the broadcast event reply)
+> - optionnally allow cancellation when the client is gone
+> - track on-going qapi command(s) per session
 
-s/contrib/tools/
+This requires major changes to existing QMP command handlers. Did you
+consider at least optionally providing a way where instead of using the
+new async_fn, QMP already creates a coroutine in which the handler is
+executed?
 
-otherwise
+At least for some of the block layer commands, we could simply enable
+this without changing any of the code and would automatically get rid of
+blocking the guest while the command is doing I/O. If we need to
+implement .async_fn, in contrast, it would be quite a bit of boiler
+plate code for each single handler to create a coroutine for the real
+handler and to wrap all parameters in a struct.
 
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+I started playing a bit with this and it didn't look too bad, but we
+can't move every command handler to a coroutine without auditing it, so
+I would have had to add a new option to the QAPI schema - and at that
+point I thought that I might end up duplicating a lot of your code if I
+continued. So I'm now trying to get your opinion or advice before I
+continue with anything in that direction.
 
-> 
-> virtiofsd relies on Linux-specific system calls and seccomp.  Anyone
-> wishing to port it to other host operating systems should do so
-> carefully and without reducing security.
-> 
-> Only allow building on Linux hosts.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   Makefile                      |  8 ++++++++
->   Makefile.objs                 |  1 +
->   tools/virtiofsd/Makefile.objs | 10 ++++++++++
->   3 files changed, 19 insertions(+)
->   create mode 100644 tools/virtiofsd/Makefile.objs
-> 
-> diff --git a/Makefile b/Makefile
-> index b437a346d7..b7f7019a50 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -322,6 +322,8 @@ HELPERS-y =
->   HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
->   
->   ifdef CONFIG_LINUX
-> +HELPERS-y += virtiofsd$(EXESUF)
-> +
->   ifdef CONFIG_VIRGL
->   ifdef CONFIG_GBM
->   HELPERS-y += vhost-user-gpu$(EXESUF)
-> @@ -430,6 +432,7 @@ dummy := $(call unnest-vars,, \
->                   elf2dmp-obj-y \
->                   ivshmem-client-obj-y \
->                   ivshmem-server-obj-y \
-> +                virtiofsd-obj-y \
->                   rdmacm-mux-obj-y \
->                   libvhost-user-obj-y \
->                   vhost-user-scsi-obj-y \
-> @@ -674,6 +677,11 @@ rdmacm-mux$(EXESUF): LIBS += "-libumad"
->   rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
->   	$(call LINK, $^)
->   
-> +ifdef CONFIG_LINUX # relies on Linux-specific syscalls
-> +virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
-> +	$(call LINK, $^)
-> +endif
-> +
->   vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) libqemuutil.a libqemustub.a
->   	$(call LINK, $^)
->   
-> diff --git a/Makefile.objs b/Makefile.objs
-> index 11ba1a36bd..b5f667a4ba 100644
-> --- a/Makefile.objs
-> +++ b/Makefile.objs
-> @@ -125,6 +125,7 @@ vhost-user-blk-obj-y = contrib/vhost-user-blk/
->   rdmacm-mux-obj-y = contrib/rdmacm-mux/
->   vhost-user-input-obj-y = contrib/vhost-user-input/
->   vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
-> +virtiofsd-obj-y = tools/virtiofsd/
->   
->   ######################################################################
->   trace-events-subdirs =
-> diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.objs
-> new file mode 100644
-> index 0000000000..67be16332c
-> --- /dev/null
-> +++ b/tools/virtiofsd/Makefile.objs
-> @@ -0,0 +1,10 @@
-> +virtiofsd-obj-y = buffer.o \
-> +                  fuse_opt.o \
-> +                  fuse_log.o \
-> +                  fuse_loop_mt.o \
-> +                  fuse_lowlevel.o \
-> +                  fuse_signals.o \
-> +                  fuse_virtio.o \
-> +                  helper.o \
-> +                  passthrough_ll.o
-> +
-> 
+> This does not introduce new QMP APIs or client visible changes, the
+> command are handled in order, and the reply still come in order (even
+> when handlers finish out of order).
+>=20
+> Existing qemu commands can be gradually replaced by async:true
+> variants when needed, while carefully reviewing the concurrency
+> aspects. The async:true commands marshaller helpers are splitted in
+> half, the calling and return functions. The command is called with a
+> QmpReturn context, that can return immediately or later, using the
+> generated return helper.
+
+This part would certainly become simpler with coroutines (the marshaller
+could stay unchanged).
+
+> The screendump command is converted to an async:true version to solve
+> rhbz#1230527. The command shows basic cancellation (this could be
+> extended if needed). It could be further improved to do asynchronous
+> IO writes as well.
+
+After converting it to QIOChannel like you already do, I/O would
+automatically become asynchronous when run in a coroutine.
+
+If you don't want this yet, but only fix the BZ, I guess you could delay
+that patch until later and just have a single yield and reenter of the
+command handler coroutine like this:
+
+    co =3D qemu_coroutine_self();
+    aio_co_schedule(qemu_coroutine_get_aio_context(co), co);
+    qemu_coroutine_yield();
+
+Kevin
 
 
