@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F0A11DDEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 06:50:29 +0100 (CET)
-Received: from localhost ([::1]:41166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A0E11DDF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 06:51:55 +0100 (CET)
+Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifdqO-0004SS-LP
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 00:50:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55013)
+	id 1ifdrm-00065h-Ui
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 00:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@aj.id.au>) id 1ifdol-0002yk-VU
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:48:49 -0500
+ (envelope-from <andrew@aj.id.au>) id 1ifdon-000308-Ti
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:48:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew@aj.id.au>) id 1ifdok-0004hC-T0
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:48:47 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:33035)
+ (envelope-from <andrew@aj.id.au>) id 1ifdom-0004l4-L8
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:48:49 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:55527)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrew@aj.id.au>)
- id 1ifdoh-0004YM-Md; Fri, 13 Dec 2019 00:48:44 -0500
+ id 1ifdok-0004eA-2a; Fri, 13 Dec 2019 00:48:46 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id ED206909;
- Fri, 13 Dec 2019 00:48:41 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id C76068F7;
+ Fri, 13 Dec 2019 00:48:44 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 13 Dec 2019 00:48:42 -0500
+ by compute4.internal (MEProxy); Fri, 13 Dec 2019 00:48:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=N9bCwlClnlHDFDNFqpp3fD4D/m
- 1EZqVMm4Nk97EMVP4=; b=e9RikxxK9qaigA7SxEUg3gR9YbtXk+fnRLeeB9h1Oq
- 0b8GfuOZC9ELD1gmpwFC5fYEdgbEi8J7oNp7Si0xZLVQC6NlE6x+5tomuaggvjT9
- zu9UB6GyeQg9Zk9YVRRTCqXKOLJnQAO8vgy+0v0pvEFtCkV1AsDBB232zWGwUM1p
- U62oW4qFCWu6cTi9rB97ft1VP0wVs+fDlNLj91rZCN1Y7jyHG1afQ8DeahlFk5eB
- uNNwXRGMBAt2LDRU+2CIaHh3gEaaFSJD57QLovvA+og+EDwJh8ElcKXI4Jt2U2VR
- nncERydcGxaLeFfIVN42YTBGdgM5pRNSm8U9O4NRS0/Q==
+ :to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ 1UCByQUYAsPHw0TDr/9tqYqfBlUQ9Y9+Vdyqo8I6jT0=; b=Mog8UeNjUGLCDyBb
+ 0uRLdhuWZ0qlfpi5XASc7z8WWwpSyFQ7pN2floLJa+a3B0ZAKwloarK9oZ9e0hzY
+ /vhVvOSHPe/HGi3xIncIMthFqvmgJxUELYeivAuNKMmc8un43wE7g1Xv5d0XNlRJ
+ w7u4Awg71DC+EHHiMp6amC3aKVNzVUvoFnoB7JVIt80rTiB3j7cERJt+71qwtzwz
+ 3w1k5yCcxfV66EW5CkMM1W1qkZFdenj/Th9QJ696WVfCULl96tRNPYxs5sIrPv0u
+ g0/yH6KORo9qYNv4Sx3FYsPLjObEYY35aHqRJ7HYwhhgzYEaGOlhYtU950F7nbik
+ MDPDVQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=N9bCwlClnlHDFDNFq
- pp3fD4D/m1EZqVMm4Nk97EMVP4=; b=OJnLt6TY6kCam8LNEYFbR/T7mvZzu4wK7
- 1sWRZe/Fr4QRm2eA/WvuHdpBBUnBK7Rn3ne0Tsl/QS6CBIihHDOpynFyCHWaj5iZ
- LdtE9blBI4Jj/IC28ftdRkv8Ee2NhyUgjL79RGBlePeeMnai//T+o1p8qdtkI1nK
- 4ollp69wj/eP1GGDGFDMaI9QSkBZiYO35UZJB44OOZjloDJPenXW9HkXW0+BOuf7
- UrxSj515tTkVYTntY07ax6N/rrQ6Wg78ajMHuanadlsHmTQRQKyf57EdA5qjC8VY
- /Ogz9fqZ+cI43zbGpIOqjHKJUUOg9YmMhhlb1ZYh2y2UWLmFxp1vA==
-X-ME-Sender: <xms:OCbzXc72U_t_HP8zgA010MdlMcrN5yb79zyh1LvcM3g54GtOyiOfSg>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=1UCByQUYAsPHw0TDr/9tqYqfBlUQ9Y9+Vdyqo8I6j
+ T0=; b=huNnvZ+Q+4YfRQUYbw+RYsKYGLgs/h5sW/7Lcjf2/b8/mNZEIDLhCAI7d
+ Y0ZbojLikiX8c6MWiQBCr9DPkWviEEdf8xqDb2KMyLprfrMoiKVDUREqw/d5E5Q+
+ Ol8L7V2lC04dPiGFK28O7RZA4sCXuF3JbTU63O64c8rUAx0CO2199Trxt7jDQW2k
+ WAaVZiKVj6M5YRrxkXTQdYuc90wz/MsJniu9N/c+mAq0zjC5XOeyxBGcBiaKdt/O
+ +6rZup5oDrLFackU4BXDd46wp37guwchJ1QT0wJnlAaDqaUoucpyHr86PzsSy+7C
+ LWAjQLPsElhSTHgk/CTbg2yzwokXg==
+X-ME-Sender: <xms:PCbzXZhT39XpRfIBKoJfiZZDPvxRtMaxYav1-Dnmf-0vE7nfKsClcA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgkeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
- dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
- ihgurdgruheqnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkphepvddtvddrke
- durddukedrfedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhi
- ugdrrghunecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:OCbzXXchM_kfHTJ5Stqe832G1lV_NHWdbOlsrIjY_UflTkYho9V7SQ>
- <xmx:OCbzXW4MF_QnmgpbnAZD8ORQy78NFNKDVrdaHA7_Lq52sMDI86cSzw>
- <xmx:OCbzXf1fxHvr7jxeXUEfrEApRRBz17PpCttQvJe1zexmJu0m7CqSKg>
- <xmx:OSbzXUvcO83-tFO_hbOGDsZ6JdiP1T0i_4TOdkwV-j9kxdce7QLXMA>
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheptehnughr
+ vgifucflvghffhgvrhihuceorghnughrvgifsegrjhdrihgurdgruheqnecukfhppedvtd
+ dvrdekuddrudekrdeftdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegr
+ jhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:PCbzXXJVifcYCyYH3BPdZz43WTXkTFGorCHKNyE_uxXSgqwg2pzQKA>
+ <xmx:PCbzXR9Aev1m8W3mbBlN1_rYuwaPR-qF24Nv4bioavYFy_V27JoWmg>
+ <xmx:PCbzXQ4bWFHGNkRr0kfTpWiYM56y42V1d8-rBIe-DE6y551K1MtavQ>
+ <xmx:PCbzXdOTrqq-9kTMKdtxf-Cy0_FEU2kqBvvXH2yCgekHkTIWT1occQ>
 Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1561E80063;
- Fri, 13 Dec 2019 00:48:37 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4C6DE80060;
+ Fri, 13 Dec 2019 00:48:41 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v3 0/4] Expose GT CNTFRQ as a CPU property to support AST2600
-Date: Fri, 13 Dec 2019 16:19:47 +1030
-Message-Id: <cover.ec85a2db47c3e10de70fba144e1bc75caf2f0a91.1576215453.git-series.andrew@aj.id.au>
+Subject: [PATCH v3 1/4] target/arm: Remove redundant scaling of nexttick
+Date: Fri, 13 Dec 2019 16:19:48 +1030
+Message-Id: <f8c680720e3abe55476e6d9cb604ad27fdbeb2e0.1576215453.git-series.andrew@aj.id.au>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.ec85a2db47c3e10de70fba144e1bc75caf2f0a91.1576215453.git-series.andrew@aj.id.au>
+References: <cover.ec85a2db47c3e10de70fba144e1bc75caf2f0a91.1576215453.git-series.andrew@aj.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -81,49 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, philmd@redhat.com,
- clg@kaod.org, joel@jms.id.au
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, clg@kaod.org, philmd@redhat.com, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+The corner-case codepath was adjusting nexttick such that overflow
+wouldn't occur when timer_mod() scaled the value back up. Remove a use
+of GTIMER_SCALE and avoid unnecessary operations by calling
+timer_mod_ns() directly.
 
-This is a v3 of the belated follow-up from a few of my earlier attempts to fix
-up the ARM generic timer for correct behaviour on the ASPEED AST2600 SoC. The
-AST2600 clocks the generic timer at the rate of HPLL, which is configured to
-1125MHz.  This is significantly quicker than the currently hard-coded generic
-timer rate of 62.5MHz and so we see "sticky" behaviour in the guest.
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+---
+ target/arm/helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-v2 can be found here:
-
-https://patchwork.ozlabs.org/cover/1203474/
-
-Changes since v2:
-
-* Address some minor review comments from Philippe and add tags
-
-Changes since v1:
-
-* Fix a user mode build failure from partial renaming of gt_cntfrq_period_ns()
-* Add tags from Cedric and Richard
-
-Please review.
-
-Andrew
-
-Andrew Jeffery (4):
-  target/arm: Remove redundant scaling of nexttick
-  target/arm: Abstract the generic timer frequency
-  target/arm: Prepare generic timer for per-platform CNTFRQ
-  ast2600: Configure CNTFRQ at 1125MHz
-
- hw/arm/aspeed_ast2600.c |  3 ++-
- target/arm/cpu.c        | 65 ++++++++++++++++++++++++++++++++++++------
- target/arm/cpu.h        |  5 +++-
- target/arm/helper.c     | 24 ++++++++++++----
- 4 files changed, 83 insertions(+), 14 deletions(-)
-
-base-commit: 04c9c81b8fa2ee33f59a26265700fae6fc646062
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index a089fb5a6909..65c4441a3896 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2446,9 +2446,10 @@ static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
+          * timer expires we will reset the timer for any remaining period.
+          */
+         if (nexttick > INT64_MAX / GTIMER_SCALE) {
+-            nexttick = INT64_MAX / GTIMER_SCALE;
++            timer_mod_ns(cpu->gt_timer[timeridx], INT64_MAX);
++        } else {
++            timer_mod(cpu->gt_timer[timeridx], nexttick);
+         }
+-        timer_mod(cpu->gt_timer[timeridx], nexttick);
+         trace_arm_gt_recalc(timeridx, irqstate, nexttick);
+     } else {
+         /* Timer disabled: ISTATUS and timer output always clear */
 -- 
 git-series 0.9.1
 
