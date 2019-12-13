@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E2211E8C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:55:05 +0100 (CET)
-Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31D011E8CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:57:52 +0100 (CET)
+Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifoDX-0007HT-PN
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:55:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33553)
+	id 1ifoGF-0000pn-UN
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:57:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifo6S-0000hS-1p
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:47:45 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ifoFS-0000L3-91
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:57:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifo6N-0006cj-IU
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:47:40 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29208
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ifoFP-0004uY-IP
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:57:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45532
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifo6M-0006at-OK
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:47:38 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ifoFP-0004sg-Db
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:56:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576255658;
+ s=mimecast20190719; t=1576256218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u59+uMKkDaHRCWZubKtqahmfKg0NMvg9oSlaElre/Ac=;
- b=Eo4vaZvZ2Mm8XPJ4nyONDQoiYWtSqPV0znvuqr9uYNh8XnSyIXzsU9rEIR5tsr3Pmi7xSz
- 366ARR06n7UiHE51iaMlT/8EsL8F8Rb3/7qShMc2t784DR+1+T+xSHyp1aX+yu8o8gw1s5
- PaI/b/3QDIag1cDIXSBsyZ36zy16nC0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-glErBQeUNqK6-R6hUyroCg-1; Fri, 13 Dec 2019 11:47:32 -0500
-Received: by mail-wm1-f69.google.com with SMTP id i17so66711wmd.1
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 08:47:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xx4QpyhPJ7ddFApM5tN1aOYUoAAOoJoWqAv5YuUSmrQ=;
- b=Y2WK6LlIlgrgvdl1ntCVLgF3vfoRf730Fp6vYuP0iDN6DFj0LxObMi0suLs7jnO5tK
- J8HDLeQsf/+XkoThDLPnvwdnFmmHVasXtJ58TFJdGtGyswjKxS8Z5/NqEH5N6w8rr48V
- aC5Q5P+Tyh1Xm99MLJNneWSsQvu+67PWubFI2AT47R2s3WOwzkmf0KQ2scj2zqn4KmhD
- xC3iYXIdsfDb7YV5XDdDFdilYZeU6Qb3DHZyVKKfndxgTPpA06uGWXIJt7XfvbRDpvkx
- Fcy0pGirZ9h1O66ru4I7BBQp9Y+v6QInz99lbLoC5TRX1b2QkER4fi6fvfyUUlD/5urG
- dkAA==
-X-Gm-Message-State: APjAAAU2Xmf+LQ6EkEqZC3gh2mDLl9F0JsdYIw6CQIXTD6xLTMpSRAc4
- HnnGq+e8vf4el9DdVVOudV8HdYwuUPN6/y3OuDxWJhtmjncwVv/jHvX+S7t5KyjH9QxR/w0YIme
- W5NIiLPaeF6/4TCg=
-X-Received: by 2002:a05:600c:224d:: with SMTP id
- a13mr14931582wmm.57.1576255651299; 
- Fri, 13 Dec 2019 08:47:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzyANQJHgFGh+Kl0t/Tp4kzuWcPKmbHesl5SsB4LGdPrxk9Inysuhlbrs/E4yJYrUC92LmqzA==
-X-Received: by 2002:a05:600c:224d:: with SMTP id
- a13mr14931547wmm.57.1576255651048; 
- Fri, 13 Dec 2019 08:47:31 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id p17sm10589868wrx.20.2019.12.13.08.47.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 08:47:30 -0800 (PST)
-Subject: Re: [PATCH 12/12] hw/i386/pc: Move PC-machine specific declarations
- to 'pc_internal.h'
-To: qemu-devel@nongnu.org
-References: <20191213161753.8051-1-philmd@redhat.com>
- <20191213161753.8051-13-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d9792ff4-bada-fbb9-301d-aeb19826235c@redhat.com>
-Date: Fri, 13 Dec 2019 17:47:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=pq7lolIRfKv7T5Xf3TIhvB5H/tc/hMMwKGM+sW3QDH0=;
+ b=F68vm6hKYNa99GOXWZr0ZqM/UIFxskav5TijPnt045Ef/YgC8QXR1GGO+3Swb73aL8E5M1
+ qgWzcGJtWeok1W7tqhyY4glF3obZHg2X/kFOkvoivnpGK6ICRDNINUpxQYyCrjiJcSZnZl
+ B+Lg4UiSooRy4THLBjXUYlJYnKPCFTg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-VaHvOFBAM-a0pVsixn_2OQ-1; Fri, 13 Dec 2019 11:56:56 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C52264A7E;
+ Fri, 13 Dec 2019 16:56:55 +0000 (UTC)
+Received: from work-vm (unknown [10.36.117.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 67F6461F37;
+ Fri, 13 Dec 2019 16:56:52 +0000 (UTC)
+Date: Fri, 13 Dec 2019 16:56:49 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Liam Merwick <liam.merwick@oracle.com>
+Subject: Re: [PATCH 025/104] virtiofsd: Add Makefile wiring for virtiofsd
+ contrib
+Message-ID: <20191213165649.GN3713@work-vm>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-26-dgilbert@redhat.com>
+ <a3a3b681-b411-0c22-291a-9e0cd9116c19@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20191213161753.8051-13-philmd@redhat.com>
-Content-Language: en-US
-X-MC-Unique: glErBQeUNqK6-R6hUyroCg-1
+In-Reply-To: <a3a3b681-b411-0c22-291a-9e0cd9116c19@oracle.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: VaHvOFBAM-a0pVsixn_2OQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,72 +75,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/13/19 5:17 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Historically, QEMU started with only one X86 machine: the PC.
-> The 'hw/i386/pc.h' header was used to store all X86 and PC
-> declarations. Since we have now multiple machines based on the
-> X86 architecture, move the PC-specific declarations in a new
-> header.
-> We use 'internal' in the name to explicit this header is restricted
-> to the X86 architecture. Other architecture can not access it.
+* Liam Merwick (liam.merwick@oracle.com) wrote:
+> On 12/12/2019 16:37, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >=20
+> > Wire up the building of the virtiofsd in contrib.
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Maybe name it 'pc_machine.h'?
+> s/contrib/tools/
 
-I forgot to describe here (and in the cover), what's follow after this=20
-patch.
+Ah! My sed of s-contrib/virtiofsd-tools/virtiofsd-
+wasn't smart enough for that!
 
-Patch #13 moves PCMachineClass to
+> otherwise
+>=20
+> Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
 
-If you ignore PCMachineState, "hw/i386/pc.h" now only contains 76 lines,=20
-and it is easier to see what is PC machine specific, what is X86=20
-specific, and what is device generic (not X86 related at all):
+Thanks.
 
-- GSI is common to X86 (Paolo sent [3], [6])
-- IOAPIC is common to X86
-- i8259 is multiarch (Paolo [2])
-- PCI_HOST definitions and pc_pci_hole64_start() are X86
-- pc_machine_is_smm_enabled() is X86 (Paolo sent [5])
-- hpet
-- tsc (Paolo sent [3])
-- 3 more functions
+Dave
 
-So we can move half of this file to "pc_internal.h" and the other to
-
-One problem is the Q35 MCH north bridge which directly sets the PCI=20
-PCMachineState->bus in q35_host_realize(). This seems a QOM violation=20
-and is probably easily fixable.
-
-Maybe I can apply Paolo's patches instead of this #12, move X86-generic=20
-declarations to "hw/i386/x86.h", and directly git-move what's left of=20
-"hw/i386/pc.h" to "pc_internal.h".
-
-[3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664627.html
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664765.html
-[5] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664754.html
-[6] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664766.html
-
-> ---
->   hw/i386/pc_internal.h | 144 ++++++++++++++++++++++++++++++++++++++++++
->   include/hw/i386/pc.h  | 128 -------------------------------------
->   hw/i386/acpi-build.c  |   1 +
->   hw/i386/pc.c          |   1 +
->   hw/i386/pc_piix.c     |   1 +
->   hw/i386/pc_q35.c      |   1 +
->   hw/i386/pc_sysfw.c    |   1 +
->   hw/i386/xen/xen-hvm.c |   1 +
->   8 files changed, 150 insertions(+), 128 deletions(-)
->   create mode 100644 hw/i386/pc_internal.h
+>=20
+> >=20
+> > virtiofsd relies on Linux-specific system calls and seccomp.  Anyone
+> > wishing to port it to other host operating systems should do so
+> > carefully and without reducing security.
+> >=20
+> > Only allow building on Linux hosts.
+> >=20
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >   Makefile                      |  8 ++++++++
+> >   Makefile.objs                 |  1 +
+> >   tools/virtiofsd/Makefile.objs | 10 ++++++++++
+> >   3 files changed, 19 insertions(+)
+> >   create mode 100644 tools/virtiofsd/Makefile.objs
+> >=20
+> > diff --git a/Makefile b/Makefile
+> > index b437a346d7..b7f7019a50 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -322,6 +322,8 @@ HELPERS-y =3D
+> >   HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =3D qemu-bridg=
+e-helper$(EXESUF)
+> >   ifdef CONFIG_LINUX
+> > +HELPERS-y +=3D virtiofsd$(EXESUF)
+> > +
+> >   ifdef CONFIG_VIRGL
+> >   ifdef CONFIG_GBM
+> >   HELPERS-y +=3D vhost-user-gpu$(EXESUF)
+> > @@ -430,6 +432,7 @@ dummy :=3D $(call unnest-vars,, \
+> >                   elf2dmp-obj-y \
+> >                   ivshmem-client-obj-y \
+> >                   ivshmem-server-obj-y \
+> > +                virtiofsd-obj-y \
+> >                   rdmacm-mux-obj-y \
+> >                   libvhost-user-obj-y \
+> >                   vhost-user-scsi-obj-y \
+> > @@ -674,6 +677,11 @@ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
+> >   rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+> >   =09$(call LINK, $^)
+> > +ifdef CONFIG_LINUX # relies on Linux-specific syscalls
+> > +virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS=
+)
+> > +=09$(call LINK, $^)
+> > +endif
+> > +
+> >   vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-=
+y) libqemuutil.a libqemustub.a
+> >   =09$(call LINK, $^)
+> > diff --git a/Makefile.objs b/Makefile.objs
+> > index 11ba1a36bd..b5f667a4ba 100644
+> > --- a/Makefile.objs
+> > +++ b/Makefile.objs
+> > @@ -125,6 +125,7 @@ vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
+> >   rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
+> >   vhost-user-input-obj-y =3D contrib/vhost-user-input/
+> >   vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
+> > +virtiofsd-obj-y =3D tools/virtiofsd/
+> >   #####################################################################=
+#
+> >   trace-events-subdirs =3D
+> > diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.o=
+bjs
+> > new file mode 100644
+> > index 0000000000..67be16332c
+> > --- /dev/null
+> > +++ b/tools/virtiofsd/Makefile.objs
+> > @@ -0,0 +1,10 @@
+> > +virtiofsd-obj-y =3D buffer.o \
+> > +                  fuse_opt.o \
+> > +                  fuse_log.o \
+> > +                  fuse_loop_mt.o \
+> > +                  fuse_lowlevel.o \
+> > +                  fuse_signals.o \
+> > +                  fuse_virtio.o \
+> > +                  helper.o \
+> > +                  passthrough_ll.o
+> > +
+> >=20
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
