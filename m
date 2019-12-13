@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192EA11E55C
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:12:18 +0100 (CET)
-Received: from localhost ([::1]:49708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801BC11E587
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:25:29 +0100 (CET)
+Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iflfz-00055m-Vb
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:12:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41294)
+	id 1iflsS-0000c1-Rf
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:25:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53079)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1iflf3-0004YE-Oj
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:11:19 -0500
+ (envelope-from <mst@redhat.com>) id 1iflrc-0000A7-DF
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:24:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1iflf1-0007HF-T7
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:11:17 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29569
+ (envelope-from <mst@redhat.com>) id 1iflra-0002Gi-3H
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:24:14 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46908
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1iflf0-0007EF-KF
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:11:15 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iflrZ-0002En-N9
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:24:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576246273;
+ s=mimecast20190719; t=1576247052;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=JECB0MatuUVIWaMZKQVLAjz0Jf53W98F/a+FaZzHqfo=;
- b=baSVu2dmMv2j+N/dsfXAHrbnXoVMxms6GrY/gigS7Bs5EPhXUSmZy6OzhN1QDEM5MUM+Dt
- uQhV/wBD6GDA+js3RWxBull6hcRsmbkH2Rrv0Vb877yVYEVhjFDJKwARcd3MoRaWop3Luu
- X94B14m8X+I8tBuTZrTO7PfEEvlu9oI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-rMYg2Q67O7y2lwR7SJE5Fg-1; Fri, 13 Dec 2019 09:11:10 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 694FF1005502;
- Fri, 13 Dec 2019 14:11:09 +0000 (UTC)
-Received: from angien.redhat.com (unknown [10.43.2.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0154D19C4F;
- Fri, 13 Dec 2019 14:11:07 +0000 (UTC)
-From: Peter Krempa <pkrempa@redhat.com>
+ bh=zj2wVrIh8KQNhFA65bESMfJP7roYgy+mFo3n5QglPhQ=;
+ b=Z5Pp56bDZjCGYD8Njs1oRlq2vyG2iH0J5q9a2NNc7gnThbIpC/3bdNMW51pKPM7/swXaTj
+ vGla6gO3igcOSHqmHnn6vWStgDJLdDU0CE2gwgw0JMiRKbI+UmzKu9EMcfHmwSkveflqJN
+ AomN6kRxdYixIrfuJFWXBojskcgMvaI=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-HWAvGZezMlGrQe6SSrllNQ-1; Fri, 13 Dec 2019 09:24:08 -0500
+Received: by mail-qv1-f72.google.com with SMTP id x22so1762864qvc.18
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 06:24:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition;
+ bh=sanExUpcAf7TPhNumiJmyXjhA8u9u6QpSUASPDnjn/0=;
+ b=cCgaSlaFbSsZvoJObnW1VGVk8hir2KBlyM0r2SNqn33ZyHd1JmdmdH45nOT+63xC2o
+ wHoztA2QOiS4vSuXyAPqFo2UY/BhAfF5pgw7GmD1w/F+vTEfHg2OkSYD4XuigsketORJ
+ c2chEb1CRYOMDYbK86ExvViiv9iEsBgbkXuVA7HOPjnODEfAFtdu/TpeuuvmCKoVJcZA
+ WwJN0K8Z8puSKwjq9gTajJT/TyiyopSmkspJ3bvxUGYwXHdwTERm31QR4P+yETYgGa8O
+ S9oTVoBbJXYoprPkNfasl0XfI0z2UVdE59Z17NOhR0NZoaN42BIN4/7tGFIu/xpz8zD7
+ AQMQ==
+X-Gm-Message-State: APjAAAUzqVk1uWd8M3Mxa9qapub5lxwSeWis01Z9hW31NSidBtb5xDv+
+ 2YmrvRjYHmx0eeYeOCOAyIlLRVAZx4Z05YxEg6HoNPtKMl/ZISfmHNuI8j4b84EBGMpbDHfquJF
+ LdFAStM4dOusEjAI=
+X-Received: by 2002:a37:6706:: with SMTP id b6mr12959008qkc.461.1576247047437; 
+ Fri, 13 Dec 2019 06:24:07 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxLWjfw6jptdpPaRDRdzXNuPoPBB3I+XUOkYu/8THWHjzmwLt0ZWNZT+nzbG95goC5DYAGEaA==
+X-Received: by 2002:a37:6706:: with SMTP id b6mr12958993qkc.461.1576247047170; 
+ Fri, 13 Dec 2019 06:24:07 -0800 (PST)
+Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
+ by smtp.gmail.com with ESMTPSA id w1sm1785155qtk.31.2019.12.13.06.24.05
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2019 06:24:06 -0800 (PST)
+Date: Fri, 13 Dec 2019 09:24:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC] qapi: Allow getting flat output from
- 'query-named-block-nodes'
-Date: Fri, 13 Dec 2019 15:11:07 +0100
-Message-Id: <42dae98e1f6a9f444f48a20192f45195337824f0.1576246045.git.pkrempa@redhat.com>
+Subject: [PATCH] virtio: update queue size on guest write
+Message-ID: <20191213142358.345301-1-mst@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: rMYg2Q67O7y2lwR7SJE5Fg-1
+X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
+X-Mutt-Fcc: =sent
+X-MC-Unique: HWAvGZezMlGrQe6SSrllNQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,186 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a management application manages node names there's no reason to
-recurse into backing images in the output of query-named-block-nodes.
+Some guests read back queue size after writing it.
+Update the size immediatly upon write otherwise
+they get confused.
 
-Add a parameter to the command which will return just the top level
-structs.
-
-Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- block.c               |  5 +++--
- block/qapi.c          | 10 ++++++++--
- blockdev.c            | 12 ++++++++++--
- include/block/block.h |  2 +-
- include/block/qapi.h  |  4 +++-
- monitor/hmp-cmds.c    |  2 +-
- qapi/block-core.json  |  6 +++++-
- 7 files changed, 31 insertions(+), 10 deletions(-)
+ hw/virtio/virtio-pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block.c b/block.c
-index 473eb6eeaa..b30bdfa0d3 100644
---- a/block.c
-+++ b/block.c
-@@ -4766,14 +4766,15 @@ BlockDriverState *bdrv_find_node(const char *node_n=
-ame)
- }
-
- /* Put this QMP function here so it can access the static graph_bdrv_state=
-s. */
--BlockDeviceInfoList *bdrv_named_nodes_list(Error **errp)
-+BlockDeviceInfoList *bdrv_named_nodes_list(bool flat,
-+                                           Error **errp)
- {
-     BlockDeviceInfoList *list, *entry;
-     BlockDriverState *bs;
-
-     list =3D NULL;
-     QTAILQ_FOREACH(bs, &graph_bdrv_states, node_list) {
--        BlockDeviceInfo *info =3D bdrv_block_device_info(NULL, bs, errp);
-+        BlockDeviceInfo *info =3D bdrv_block_device_info(NULL, bs, flat, e=
-rrp);
-         if (!info) {
-             qapi_free_BlockDeviceInfoList(list);
-             return NULL;
-diff --git a/block/qapi.c b/block/qapi.c
-index 9a5d0c9b27..84048e1a57 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -42,7 +42,9 @@
- #include "qemu/cutils.h"
-
- BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
--                                        BlockDriverState *bs, Error **errp=
-)
-+                                        BlockDriverState *bs,
-+                                        bool flat,
-+                                        Error **errp)
- {
-     ImageInfo **p_image_info;
-     BlockDriverState *bs0;
-@@ -156,6 +158,10 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *=
-blk,
-             return NULL;
-         }
-
-+        /* stop gathering data for flat output */
-+        if (flat)
-+            break;
-+
-         if (bs0->drv && bs0->backing) {
-             info->backing_file_depth++;
-             bs0 =3D bs0->backing->bs;
-@@ -389,7 +395,7 @@ static void bdrv_query_info(BlockBackend *blk, BlockInf=
-o **p_info,
-
-     if (bs && bs->drv) {
-         info->has_inserted =3D true;
--        info->inserted =3D bdrv_block_device_info(blk, bs, errp);
-+        info->inserted =3D bdrv_block_device_info(blk, bs, false, errp);
-         if (info->inserted =3D=3D NULL) {
-             goto err;
-         }
-diff --git a/blockdev.c b/blockdev.c
-index 8e029e9c01..5f9c5e258f 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3707,9 +3707,17 @@ void qmp_drive_backup(DriveBackup *arg, Error **errp=
-)
-     }
- }
-
--BlockDeviceInfoList *qmp_query_named_block_nodes(Error **errp)
-+BlockDeviceInfoList *qmp_query_named_block_nodes(bool has_flat,
-+                                                 bool flat,
-+                                                 Error **errp)
- {
--    return bdrv_named_nodes_list(errp);
-+    bool return_flat =3D false;
-+
-+    if (has_flat) {
-+        return_flat =3D flat;
-+    }
-+
-+    return bdrv_named_nodes_list(return_flat, errp);
- }
-
- XDbgBlockGraph *qmp_x_debug_query_block_graph(Error **errp)
-diff --git a/include/block/block.h b/include/block/block.h
-index 1df9848e74..177ba09e3f 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -468,7 +468,7 @@ void bdrv_lock_medium(BlockDriverState *bs, bool locked=
-);
- void bdrv_eject(BlockDriverState *bs, bool eject_flag);
- const char *bdrv_get_format_name(BlockDriverState *bs);
- BlockDriverState *bdrv_find_node(const char *node_name);
--BlockDeviceInfoList *bdrv_named_nodes_list(Error **errp);
-+BlockDeviceInfoList *bdrv_named_nodes_list(bool flat, Error **errp);
- XDbgBlockGraph *bdrv_get_xdbg_block_graph(Error **errp);
- BlockDriverState *bdrv_lookup_bs(const char *device,
-                                  const char *node_name,
-diff --git a/include/block/qapi.h b/include/block/qapi.h
-index cd9410dee3..22c7807c89 100644
---- a/include/block/qapi.h
-+++ b/include/block/qapi.h
-@@ -29,7 +29,9 @@
- #include "block/snapshot.h"
-
- BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
--                                        BlockDriverState *bs, Error **errp=
-);
-+                                        BlockDriverState *bs,
-+                                        bool flat,
-+                                        Error **errp);
- int bdrv_query_snapshot_info_list(BlockDriverState *bs,
-                                   SnapshotInfoList **p_list,
-                                   Error **errp);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index b2551c16d1..651969819b 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -620,7 +620,7 @@ void hmp_info_block(Monitor *mon, const QDict *qdict)
-     }
-
-     /* Print node information */
--    blockdev_list =3D qmp_query_named_block_nodes(NULL);
-+    blockdev_list =3D qmp_query_named_block_nodes(false, false, NULL);
-     for (blockdev =3D blockdev_list; blockdev; blockdev =3D blockdev->next=
-) {
-         assert(blockdev->value->has_node_name);
-         if (device && strcmp(device, blockdev->value->node_name)) {
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0cf68fea14..bd651106bd 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1752,6 +1752,8 @@
- #
- # Get the named block driver list
- #
-+# @flat: don't recurse into backing images if true. Default is false (Sinc=
-e 5.0)
-+#
- # Returns: the list of BlockDeviceInfo
- #
- # Since: 2.0
-@@ -1805,7 +1807,9 @@
- #                    } } ] }
- #
- ##
--{ 'command': 'query-named-block-nodes', 'returns': [ 'BlockDeviceInfo' ] }
-+{ 'command': 'query-named-block-nodes',
-+  'returns': [ 'BlockDeviceInfo' ],
-+  'data': { '*flat': 'bool' } }
-
- ##
- # @XDbgBlockGraphNodeType:
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index c6b47a9c73..e5c759e19e 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1256,6 +1256,8 @@ static void virtio_pci_common_write(void *opaque, hwa=
+ddr addr,
+         break;
+     case VIRTIO_PCI_COMMON_Q_SIZE:
+         proxy->vqs[vdev->queue_sel].num =3D val;
++        virtio_queue_set_num(vdev, vdev->queue_sel,
++                             proxy->vqs[vdev->queue_sel].num);
+         break;
+     case VIRTIO_PCI_COMMON_Q_MSIX:
+         msix_vector_unuse(&proxy->pci_dev,
 --=20
-2.23.0
+MST
 
 
