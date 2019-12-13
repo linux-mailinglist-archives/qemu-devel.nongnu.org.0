@@ -2,60 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A2C11E8E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 18:07:00 +0100 (CET)
-Received: from localhost ([::1]:51794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E2311E8DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 18:05:47 +0100 (CET)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifoP5-0008BY-KO
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 12:06:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38658)
+	id 1ifoNu-0006wv-BQ
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 12:05:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ifoNp-0007JS-HW
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:05:42 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifoMc-0006M6-5E
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:04:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ifoNo-0001so-2Q
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:05:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55318)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ifoNn-0001rh-Rk
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:05:40 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ifoNm-0001mX-LU
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 17:05:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8CF342E80C8
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 17:05:38 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1ifoMZ-0008P7-TF
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:04:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20155
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifoMZ-0008OC-Pp
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 12:04:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576256663;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RZT7mKlrrJvs6wCkbiK3Z4f60pKV4mJ6oeMUJT8OsSQ=;
+ b=cujFDY+flv18wXnMvQKcFqoUIm1V0f0kY32R0sHlYjINj88FdrpY5LzaXdAsR7ikFE12zH
+ SsjVCrCwP9s1DtDudcd69IAHSPtTJReOQZ4fpKjEq49CdvxsBH0JONrzstTZkVrWLDt29p
+ 18IELzsBVvTEcyAg4yE4l92eVr/eJWg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-3yx9deyPOF2Y961Cm-OoWg-1; Fri, 13 Dec 2019 12:04:21 -0500
+Received: by mail-wr1-f70.google.com with SMTP id c6so2792193wrm.18
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 09:04:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XUiq4uJ2Xy7OvbOEdpiV9tYwd2TGjMstqgqamc0EQI0=;
+ b=Lqg8RmN7ETpxPCD7omEwQ8AhI13vlHC9mJtaSGmUWwpjDnijcrM1d6A9cDpl3x21Wu
+ n2W3Q+aeT5hZ6ShrJUqmnUoa70g6NBUPKSODBGo6EdvSo8hOD2sloxLyfWMrnLhofCSZ
+ wNvh6zosWhKB/ND9aFvF6EJZCejAXJ97rGa+cFB1LNzuiStdTTfv5+HtrwcsVmEr28eF
+ bjK6pQ2h7n5aPzcz+ohsRdJx9rZK4pewgUvbkG6iydXSVcup/efmf5c5wNseYvek791n
+ ZZrCpO8tDEI70KDFyCgQ8L36w1QXEOVY05RiUqX0zZopnKbPs0ZPaUAH5KL1oOu25DOj
+ PHrg==
+X-Gm-Message-State: APjAAAVhjUdQLApAn/woOa0zvIWcjKQrhZyx1ImNLcybbhpnn6pp5ktW
+ Fw4XLQ4+2iwGSoLLOC2ZBVcHApBflsllJTvhcHi3hIyMjhFAuQMVZgr4oTLYSzfsnuMaWGkfX6T
+ VjwTdzXyEf1nNgC0=
+X-Received: by 2002:a05:600c:2112:: with SMTP id
+ u18mr14476732wml.100.1576256659830; 
+ Fri, 13 Dec 2019 09:04:19 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwHQcnqxCZRiLSpPveExbTVjVTIfuEOxqvf7hw8CwQ2CtspkWAwQyxun5V0SbspWmzbwX69pg==
+X-Received: by 2002:a05:600c:2112:: with SMTP id
+ u18mr14476695wml.100.1576256659537; 
+ Fri, 13 Dec 2019 09:04:19 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id m10sm10695455wrx.19.2019.12.13.09.04.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2019 09:04:18 -0800 (PST)
+Subject: Re: [PATCH v2 0/2] hw/arm: ast2600: Wire up eMMC controller
+To: Andrew Jeffery <andrew@aj.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-arm@nongnu.org
+References: <cover.fc3e5e495d85ebd919c1f06a1a2c7c7730518f9c.1576211124.git-series.andrew@aj.id.au>
+ <16c90bb0-a3a9-06ec-e79a-bd98471d9e11@kaod.org>
+ <1d96ac9b-5eb2-43ec-bf21-334ee3fa4420@www.fastmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d70b5f1a-08e3-4664-719f-dd5526a4135e@redhat.com>
+Date: Fri, 13 Dec 2019 18:04:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <1d96ac9b-5eb2-43ec-bf21-334ee3fa4420@www.fastmail.com>
+Content-Language: en-US
+X-MC-Unique: 3yx9deyPOF2Y961Cm-OoWg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Dec 2019 16:56:02 -0000
-From: Damir <1856335@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: djdatte
-X-Launchpad-Bug-Reporter: Damir (djdatte)
-X-Launchpad-Bug-Modifier: Damir (djdatte)
-Message-Id: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Subject: [Bug 1856335] [NEW] Cache Layout wrong on many Zen Arch CPUs
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 501b2a790ede7d387f473732526516a9d239071f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,117 +95,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 12/13/19 8:37 AM, Andrew Jeffery wrote:
+> On Fri, 13 Dec 2019, at 18:03, C=C3=A9dric Le Goater wrote:
+>> On 13/12/2019 05:28, Andrew Jeffery wrote:
+>>> Hello,
+>>>
+>>> The AST2600 has an additional SDHCI intended for use as an eMMC boot so=
+urce.
+>>> These two patches rework the existing ASPEED SDHCI model to accommodate=
+ the
+>>> single-slot nature of the eMMC controller and wire it into the AST2600 =
+SoC.
+>>>
+>>> v2 contains some minor refactorings in response to issues pointed out b=
+y
+>>> Cedric.
+>>  =20
+>>
+>> I think these patches are based on mainline. I fixed them locally on
+>> my aspeed 5.0 branch and I plan to send them along with other aspeed
+>> changes in the 5.0 timeframe.
+>=20
+> Yeah, they're based on Peter's tree. I'll base future patches on yours.
 
-AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems to
-always map Cache ass if it was an 4-Core per CCX CPU, which is
-incorrect, and costs upwards 30% performance (more realistically 10%) in
-L3 Cache Layout aware applications.
+To help any reviewer, simply add a note in the cover on which tree your=20
+series is based. This also works with individual patch, add the note=20
+under the '---' separator.
 
-Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
-
-  <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-    <model fallback=3D'forbid'>EPYC-IBPB</model>
-    <vendor>AMD</vendor>
-    <topology sockets=3D'1' cores=3D'8' threads=3D'1'/>
-
-In windows, coreinfo reports correctly:
-
-****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
-----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-On a 3-CCX CPU (3960X /w 6 cores and no SMT):
-
- <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-    <model fallback=3D'forbid'>EPYC-IBPB</model>
-    <vendor>AMD</vendor>
-    <topology sockets=3D'1' cores=3D'6' threads=3D'1'/>
-
-in windows, coreinfo reports incorrectly:
-
-****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
-----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-
-Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm. =
-
-
-With newer Qemu there is a fix (that does behave correctly) in using the di=
-es parameter: =
-
- <qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
-
-The problem is that the dies are exposed differently than how AMD does
-it natively, they are exposed to Windows as sockets, which means, you
-can't ever have a machine with more than two CCX (6 cores) as Windows
-only supports two sockets. (Should this be reported as a separate bug?)
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856335
-
-Title:
-  Cache Layout wrong on many Zen Arch CPUs
-
-Status in QEMU:
-  New
-
-Bug description:
-  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
-  to always map Cache ass if it was an 4-Core per CCX CPU, which is
-  incorrect, and costs upwards 30% performance (more realistically 10%)
-  in L3 Cache Layout aware applications.
-
-  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
-
-    <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-      <model fallback=3D'forbid'>EPYC-IBPB</model>
-      <vendor>AMD</vendor>
-      <topology sockets=3D'1' cores=3D'8' threads=3D'1'/>
-
-  In windows, coreinfo reports correctly:
-
-  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
-
-   <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-      <model fallback=3D'forbid'>EPYC-IBPB</model>
-      <vendor>AMD</vendor>
-      <topology sockets=3D'1' cores=3D'6' threads=3D'1'/>
-
-  in windows, coreinfo reports incorrectly:
-
-  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  =
-
-  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm. =
-
-
-  With newer Qemu there is a fix (that does behave correctly) in using the =
-dies parameter: =
-
-   <qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
-
-  The problem is that the dies are exposed differently than how AMD does
-  it natively, they are exposed to Windows as sockets, which means, you
-  can't ever have a machine with more than two CCX (6 cores) as Windows
-  only supports two sockets. (Should this be reported as a separate
-  bug?)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
