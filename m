@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C7611E85E
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:31:40 +0100 (CET)
-Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD2D11E86A
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:34:39 +0100 (CET)
+Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnqs-0006Cr-LV
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:31:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
+	id 1ifntl-0001Xe-UZ
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:34:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ifnek-0008Mj-U1
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:09 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ifneu-0008Rn-Ec
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ifnei-0000m4-6p
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:05 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52817
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1ifnet-00012a-Ak
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42552
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifneh-0000jy-Ol
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:04 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ifnet-00010g-5B
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253943;
+ s=mimecast20190719; t=1576253954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QU6BUpybZ/7TTxuBnE3PZssAviZEtf6G2N9nLZaZTX0=;
- b=IBaMWV5kjZYoEp88b5hMLLAgBu3vn4OMe9qEKCY1+wrLRnAd2tDWYqY7UzqYWvrZJRq343
- 5XPBDGiDlU8w74fwNL2ZEDHGkBcx8Djiu+1gDPlTKW9T+lu1zoc0TKwFaDNyIx9JHn1I97
- L5SMa+1O/AHLf/w/EbTqlZH0YzVNZhM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8fD1jPf77hf5QwSCn7UJYPVPQ62que2NUPDBIS4Y2CY=;
+ b=JWTZsbqoHTM0slTlMpVElwZs6CYHV0LrT1VS7LBeDMUQL8h0ZQZ1zrbCOHIU7hdQL3ifXX
+ cBRSjNI9KrN0t8KMkyb1F04pH4cZF9QlzZfIPNw7oqw7vx6MtTFe7EBsZbB/z7bWD2LTuz
+ jx6NMMQBahy593xdPMkC+TmBXSeW0LE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-au230BRFO6i-Myf7NaOg9g-1; Fri, 13 Dec 2019 11:18:59 -0500
+ us-mta-82-397jilY5NrSiBO4eQdnubQ-1; Fri, 13 Dec 2019 11:19:11 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64497107ACE4;
- Fri, 13 Dec 2019 16:18:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DB87800D4E;
+ Fri, 13 Dec 2019 16:19:10 +0000 (UTC)
 Received: from localhost (ovpn-116-226.ams2.redhat.com [10.36.116.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0979F5C241;
- Fri, 13 Dec 2019 16:18:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A52D5C553;
+ Fri, 13 Dec 2019 16:19:06 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/16] first s390x update for 5.0
-Date: Fri, 13 Dec 2019 17:18:35 +0100
-Message-Id: <20191213161851.24687-1-cohuck@redhat.com>
+Subject: [PULL 03/16] s390x: Don't do a normal reset on the initial cpu
+Date: Fri, 13 Dec 2019 17:18:38 +0100
+Message-Id: <20191213161851.24687-4-cohuck@redhat.com>
+In-Reply-To: <20191213161851.24687-1-cohuck@redhat.com>
+References: <20191213161851.24687-1-cohuck@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: au230BRFO6i-Myf7NaOg9g-1
+X-MC-Unique: 397jilY5NrSiBO4eQdnubQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,80 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b0ca999a43a22b38158a222233d3f5881648bb4f=
-:
+From: Janosch Frank <frankja@linux.ibm.com>
 
-  Update version for v4.2.0 release (2019-12-12 16:45:57 +0000)
+The initiating cpu needs to be reset with an initial reset. While
+doing a normal reset followed by a initial reset is not wrong per se,
+the Ultravisor will only allow the correct reset to be performed.
 
-are available in the Git repository at:
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20191127175046.4911-2-frankja@linux.ibm.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/s390x/s390-virtio-ccw.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  https://github.com/cohuck/qemu tags/s390x-20191213
-
-for you to fetch changes up to b147562019dd845a224cde7a37c219f9848d1b8d:
-
-  qga: fence guest-set-time if hwclock not available (2019-12-13 12:16:50 +=
-0100)
-
-----------------------------------------------------------------
-First s390x update for 5.0:
-- compat machines (also for other architectures)
-- cleanups and fixes in reset handling
-- fence off guest-set-time, as we have no hwclock
-- fix some misuses of the error API
-- further cleanups
-
-----------------------------------------------------------------
-
-Boris Fiuczynski (1):
-  vfio-ccw: Fix error message
-
-Cornelia Huck (3):
-  hw: add compat machines for 5.0
-  s390x/tcg: clear local interrupts on reset normal
-  qga: fence guest-set-time if hwclock not available
-
-Janosch Frank (7):
-  s390x: Don't do a normal reset on the initial cpu
-  s390x: Move reset normal to shared reset handler
-  s390x: Move initial reset
-  s390x: Move clear reset
-  s390x: Beautify diag308 handling
-  s390x: kvm: Make kvm_sclp_service_call void
-  s390x: Fix cpu normal reset ri clearing
-
-Markus Armbruster (5):
-  s390x/event-facility: Fix realize() error API violations
-  s390x/cpumodel: Fix feature property error API violations
-  s390x/cpumodel: Fix realize() error API violations
-  s390x/cpumodel: Fix query-cpu-model-FOO error API violations
-  s390x/cpumodel: Fix query-cpu-definitions error API violations
-
- hw/arm/virt.c              |   7 ++-
- hw/core/machine.c          |   3 +
- hw/i386/pc.c               |   3 +
- hw/i386/pc_piix.c          |  14 ++++-
- hw/i386/pc_q35.c           |  13 ++++-
- hw/ppc/spapr.c             |  15 ++++-
- hw/s390x/event-facility.c  |   6 +-
- hw/s390x/s390-virtio-ccw.c |  17 +++++-
- hw/vfio/ccw.c              |   2 +-
- include/hw/boards.h        |   3 +
- include/hw/i386/pc.h       |   3 +
- qga/commands-posix.c       |  13 ++++-
- target/s390x/cpu-qom.h     |   9 ++-
- target/s390x/cpu.c         | 112 +++++++++++++++----------------------
- target/s390x/cpu.h         |  19 ++++---
- target/s390x/cpu_models.c  |  98 +++++++++++++++++++-------------
- target/s390x/diag.c        |  54 ++++++++++--------
- target/s390x/kvm.c         |  12 ++--
- target/s390x/sigp.c        |   4 +-
- 19 files changed, 250 insertions(+), 157 deletions(-)
-
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 01e7e209a5da..e0e28139a263 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -348,6 +348,9 @@ static void s390_machine_reset(MachineState *machine)
+         break;
+     case S390_RESET_LOAD_NORMAL:
+         CPU_FOREACH(t) {
++            if (t =3D=3D cs) {
++                continue;
++            }
+             run_on_cpu(t, s390_do_cpu_reset, RUN_ON_CPU_NULL);
+         }
+         subsystem_reset();
 --=20
 2.21.0
 
