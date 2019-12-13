@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7210911E874
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:37:53 +0100 (CET)
-Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E2211E8C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:55:05 +0100 (CET)
+Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnwu-0004l2-3Z
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:37:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48373)
+	id 1ifoDX-0007HT-PN
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:55:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ifntz-0002hS-H1
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:34:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifo6S-0000hS-1p
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:47:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ifnty-0001Lp-5e
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:34:51 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37676)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ifntx-0001JD-RY
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:34:50 -0500
-Received: by mail-wr1-x433.google.com with SMTP id w15so94103wru.4
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 08:34:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GllguRgKdMrXGb8b8bzp7zBGcHn43KAGsdtik35mN08=;
- b=P3VKHqBKL/XJ11aDDoPa9QZKyxOHai1d2tcx8eXgCbLvkKSh42tQ94LmRIcLwL8rvT
- CFYeUu7xOcVKT7o0kBZvtC5ZW6JfvNPgSKf46j4CdhO298oXg202J8phgmBE8qcxKum2
- pbz8+Fnkmw1Xd4aJgcN0y69Wi6iEBNawFc63OSFVWYXKb2YtTBvJ2yj9m3WQfD4ojxRq
- lruR6fuGGcMoQ9AZkrtQpDcyQNOoALFlaWHlLQZPVcZCh74e1VmlDgq+gbC/bIyQ9GMy
- h7BQiohvpXDUQ2ChnImiqVB7SvBtoOPv/MeazIBLz3JtN20UxLJ0VXzxt+DhfDniyIWE
- mGqQ==
+ (envelope-from <philmd@redhat.com>) id 1ifo6N-0006cj-IU
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:47:40 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29208
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifo6M-0006at-OK
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:47:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576255658;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u59+uMKkDaHRCWZubKtqahmfKg0NMvg9oSlaElre/Ac=;
+ b=Eo4vaZvZ2Mm8XPJ4nyONDQoiYWtSqPV0znvuqr9uYNh8XnSyIXzsU9rEIR5tsr3Pmi7xSz
+ 366ARR06n7UiHE51iaMlT/8EsL8F8Rb3/7qShMc2t784DR+1+T+xSHyp1aX+yu8o8gw1s5
+ PaI/b/3QDIag1cDIXSBsyZ36zy16nC0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-glErBQeUNqK6-R6hUyroCg-1; Fri, 13 Dec 2019 11:47:32 -0500
+Received: by mail-wm1-f69.google.com with SMTP id i17so66711wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 08:47:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GllguRgKdMrXGb8b8bzp7zBGcHn43KAGsdtik35mN08=;
- b=hVvEV1n7kBqkT6UpFQ7dKx9A32gqYBMSaqLfqJmNbHOVqI+PJCZ1CXPCxH2ZmRiZld
- IQmhnqM1UddFXol3ssY+9cXhbFA5VtRzn/eHQZc4Ad1++HpWffE6h49ycliKCbCPgCAg
- F7dKpEY9tXxGbyX8WMi6Cjw8CPnK+iHeEbPn68tty+QIN8HlxChjtB58LNEKNBsWhMqa
- QOyAm6uk/E2SeEr5QNKfFNzTG86urFd6GCuXIjZmHugH0jeW/QCm2lcZ+EKC1u+nsdLf
- J679ya1l66Ge4/1pdSF78TkbLY1sAp2qsJMZWAvOCfIB0hCFPH6mmMK1srhHPqXTI3Q5
- kwSw==
-X-Gm-Message-State: APjAAAWX+iFILQtKJTgn0MZCK3n8stnK9TajJKUXZPebShMOXT2Y+04/
- VdPDSwIaC60rcwpvrwhH4DlSj9XLeqv6TX7VTPg=
-X-Google-Smtp-Source: APXvYqzTXFe3fMkTxKMLvzfF2spjKxZURELeODW3VvnL5I179Y0zba8RA4GB4swUUCy6XLgXahZffLQDxnwaCEPmx2M=
-X-Received: by 2002:a5d:66c3:: with SMTP id k3mr12973864wrw.370.1576254888427; 
- Fri, 13 Dec 2019 08:34:48 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xx4QpyhPJ7ddFApM5tN1aOYUoAAOoJoWqAv5YuUSmrQ=;
+ b=Y2WK6LlIlgrgvdl1ntCVLgF3vfoRf730Fp6vYuP0iDN6DFj0LxObMi0suLs7jnO5tK
+ J8HDLeQsf/+XkoThDLPnvwdnFmmHVasXtJ58TFJdGtGyswjKxS8Z5/NqEH5N6w8rr48V
+ aC5Q5P+Tyh1Xm99MLJNneWSsQvu+67PWubFI2AT47R2s3WOwzkmf0KQ2scj2zqn4KmhD
+ xC3iYXIdsfDb7YV5XDdDFdilYZeU6Qb3DHZyVKKfndxgTPpA06uGWXIJt7XfvbRDpvkx
+ Fcy0pGirZ9h1O66ru4I7BBQp9Y+v6QInz99lbLoC5TRX1b2QkER4fi6fvfyUUlD/5urG
+ dkAA==
+X-Gm-Message-State: APjAAAU2Xmf+LQ6EkEqZC3gh2mDLl9F0JsdYIw6CQIXTD6xLTMpSRAc4
+ HnnGq+e8vf4el9DdVVOudV8HdYwuUPN6/y3OuDxWJhtmjncwVv/jHvX+S7t5KyjH9QxR/w0YIme
+ W5NIiLPaeF6/4TCg=
+X-Received: by 2002:a05:600c:224d:: with SMTP id
+ a13mr14931582wmm.57.1576255651299; 
+ Fri, 13 Dec 2019 08:47:31 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzyANQJHgFGh+Kl0t/Tp4kzuWcPKmbHesl5SsB4LGdPrxk9Inysuhlbrs/E4yJYrUC92LmqzA==
+X-Received: by 2002:a05:600c:224d:: with SMTP id
+ a13mr14931547wmm.57.1576255651048; 
+ Fri, 13 Dec 2019 08:47:31 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id p17sm10589868wrx.20.2019.12.13.08.47.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2019 08:47:30 -0800 (PST)
+Subject: Re: [PATCH 12/12] hw/i386/pc: Move PC-machine specific declarations
+ to 'pc_internal.h'
+To: qemu-devel@nongnu.org
+References: <20191213161753.8051-1-philmd@redhat.com>
+ <20191213161753.8051-13-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d9792ff4-bada-fbb9-301d-aeb19826235c@redhat.com>
+Date: Fri, 13 Dec 2019 17:47:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
- <CAJ+F1CLV_JRhXX=tB7ZXYxa1En4LzYgJr+7egKzVRNBOLY2nSA@mail.gmail.com>
- <CAFEAcA82wRy0U-DzPr64s5QiKo6XmZM96O88c4-AY4zP926GPw@mail.gmail.com>
- <CAJ+F1CKwZJnJMFzc4Z1zsY3dZAsXL1SLaXYu8y0G7=u319DWDg@mail.gmail.com>
- <CAFEAcA8nSVe2kGU9kuBxb+5BGs7GRVUHf4aHR2kUwvRNF-9-EA@mail.gmail.com>
- <CAJ+F1CL6i05tt7LmY1opSTdKq6tdJomF20MU0btBwqW-FvRGYg@mail.gmail.com>
- <20191212201759.GF4282@work-vm>
-In-Reply-To: <20191212201759.GF4282@work-vm>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 13 Dec 2019 20:34:35 +0400
-Message-ID: <CAJ+F1CJZ5BmCFdVUfOYqRbDb3wRY1seskOZOFaVie04aXRy4qQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/37] Clean-ups: qom-ify serial and remove
- QDEV_PROP_PTR
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191213161753.8051-13-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: glErBQeUNqK6-R6hUyroCg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,140 +94,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, xen-devel@lists.xenproject.org,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 12/13/19 5:17 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Historically, QEMU started with only one X86 machine: the PC.
+> The 'hw/i386/pc.h' header was used to store all X86 and PC
+> declarations. Since we have now multiple machines based on the
+> X86 architecture, move the PC-specific declarations in a new
+> header.
+> We use 'internal' in the name to explicit this header is restricted
+> to the X86 architecture. Other architecture can not access it.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Maybe name it 'pc_machine.h'?
 
-On Fri, Dec 13, 2019 at 12:18 AM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> Apologies for the delay.
->
-> * Marc-Andr=C3=A9 Lureau (marcandre.lureau@gmail.com) wrote:
-> > Hi
-> >
-> > On Sun, Dec 1, 2019 at 10:10 PM Peter Maydell <peter.maydell@linaro.org=
-> wrote:
-> > >
-> > > On Sun, 1 Dec 2019 at 17:27, Marc-Andr=C3=A9 Lureau
-> > > <marcandre.lureau@gmail.com> wrote:
-> > > >
-> > > > Hi
-> > > >
-> > > > On Sun, Dec 1, 2019 at 9:18 PM Peter Maydell <peter.maydell@linaro.=
-org> wrote:
-> > > > >
-> > > > > On Sun, 1 Dec 2019 at 10:19, Marc-Andr=C3=A9 Lureau
-> > > > > <marcandre.lureau@gmail.com> wrote:
-> > > > > >
-> > > > > > - "serial: register vmsd with DeviceClass"
-> > > > > >
-> > > > > > This is standard qdev-ification, however it breaks backward mig=
-ration,
-> > > > > > but that's just how qdev_set_legacy_instance_id() works.
-> > > > >
-> > > > > I don't understand this part. Surely the whole point
-> > > > > of setting a legacy instance ID is exactly to preserve
-> > > > > migration compatibility? If it doesn't do that then what
-> > > > > does setting legacy ID value do?
-> > > > >
-> > > >
-> > > > It works in old->new direction only, because new code can match the
-> > > > legacy instance id.
-> > > >
-> > > > But when going from new->old, the legacy instance id is lost, as it
-> > > > uses new 0-based instance_id.
-> > >
-> > > I still don't understand. My mental model of the situation is:
-> > >
-> > >  * in the old (current) version of the code, the instance ID
-> > >    is some random thing resulting from what the old code does
-> >
-> > right
-> >
-> > >  * in the new version of the code, we use qdev_set_legacy_instance_id=
-,
-> > >    and so instead of using the ID you'd naturally get as a
-> > >    written-from-scratch qdev device, it uses the legacy value
-> > >    you pass in
-> >
-> > no, it only sets the SaveStateEntry.alias_id, which is only used
-> > during incoming migration in find_se().
-> >
-> > Iow, it only works old->new.
-> >
-> > >  * thus the device/board in both old and new versions of QEMU
-> > >    uses the same value and migration in both directions works
-> >
-> > sadly no
-> >
-> > >
-> > > I don't understand why we would ever be using a "new 0-based
-> > > instance_id" -- it seems to me that the whole point of setting
-> > > a legacy ID value is that we will use it always, and I don't
-> > > understand how the board code can know that it's going to be
-> > > the target of an old->new migration as opposed to being the
-> > > source of a new->old migration such that it can end up with
-> > > a different ID value in the latter case.
-> >
-> > The target will find the "legacy" alias with find_se() on incoming
-> > migration, but any new outgoing migration will use the new 0-based
-> > instance_id
-> >
-> > >
-> > > If qdev_set_legacy_instance_id() doesn't work the way I
-> > > think it does above, what *does* it do ?
-> >
-> > just set the old alias_id for incoming migration.
-> >
-> > David, is that correct?
->
-> Yes, I think it is.
-> However, I'm curious which devices you're finding are explicitly setting
-> their id's;  there aren't many - although there are some that probably
-> should!
-> For example, running an x86 image with:
->    -device isa-parallel,chardev=3D... -device isa-serial -device isa-seri=
-al -trace enable=3Dqemu_loadvm_state_section_startfull
->
-> shows:
-> qemu_loadvm_state_section_startfull(uint32_t section_id, const char *idst=
-r, uint32_t instance_id, uint32_t version_id) "%u(%s) %u %u"
->
-> 165217@1576179638.856300:qemu_loadvm_state_section_startfull 41(serial) 0=
- 3
-> 165217@1576179638.856307:qemu_loadvm_state_section_startfull 42(serial) 1=
- 3
-> 165217@1576179638.856311:qemu_loadvm_state_section_startfull 43(parallel_=
-isa) 0 1
->
-> so those two serial devices are instances '0' and '1' I think by luck of
-> their command line order, rather than having specified their base
-> address (which would have been safer).
+I forgot to describe here (and in the cover), what's follow after this=20
+patch.
 
-None of the qdev devices using vmsd use a hard-coded instance id
-afaik. In device_set_realized(), vmstate_register_with_alias_id() is
-called with instance_id =3D -1, so it relies on
-calculate_new_instance_id(se->idstr)
+Patch #13 moves PCMachineClass to
 
->
-> Dave
->
->
->
-> > thanks
-> >
-> >
-> > --
-> > Marc-Andr=C3=A9 Lureau
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+If you ignore PCMachineState, "hw/i386/pc.h" now only contains 76 lines,=20
+and it is easier to see what is PC machine specific, what is X86=20
+specific, and what is device generic (not X86 related at all):
 
+- GSI is common to X86 (Paolo sent [3], [6])
+- IOAPIC is common to X86
+- i8259 is multiarch (Paolo [2])
+- PCI_HOST definitions and pc_pci_hole64_start() are X86
+- pc_machine_is_smm_enabled() is X86 (Paolo sent [5])
+- hpet
+- tsc (Paolo sent [3])
+- 3 more functions
 
---=20
-Marc-Andr=C3=A9 Lureau
+So we can move half of this file to "pc_internal.h" and the other to
+
+One problem is the Q35 MCH north bridge which directly sets the PCI=20
+PCMachineState->bus in q35_host_realize(). This seems a QOM violation=20
+and is probably easily fixable.
+
+Maybe I can apply Paolo's patches instead of this #12, move X86-generic=20
+declarations to "hw/i386/x86.h", and directly git-move what's left of=20
+"hw/i386/pc.h" to "pc_internal.h".
+
+[3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664627.html
+[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664765.html
+[5] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664754.html
+[6] https://www.mail-archive.com/qemu-devel@nongnu.org/msg664766.html
+
+> ---
+>   hw/i386/pc_internal.h | 144 ++++++++++++++++++++++++++++++++++++++++++
+>   include/hw/i386/pc.h  | 128 -------------------------------------
+>   hw/i386/acpi-build.c  |   1 +
+>   hw/i386/pc.c          |   1 +
+>   hw/i386/pc_piix.c     |   1 +
+>   hw/i386/pc_q35.c      |   1 +
+>   hw/i386/pc_sysfw.c    |   1 +
+>   hw/i386/xen/xen-hvm.c |   1 +
+>   8 files changed, 150 insertions(+), 128 deletions(-)
+>   create mode 100644 hw/i386/pc_internal.h
+
 
