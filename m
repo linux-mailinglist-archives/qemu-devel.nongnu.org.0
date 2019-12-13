@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B0011E5B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:38:46 +0100 (CET)
-Received: from localhost ([::1]:49940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E82911E5D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 15:47:38 +0100 (CET)
+Received: from localhost ([::1]:50036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifm5d-0000Q2-1I
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:38:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49641)
+	id 1ifmEC-0006MM-KB
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 09:47:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.merwick@oracle.com>) id 1ifm2g-00075j-Ey
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:35:43 -0500
+ (envelope-from <stefanha@redhat.com>) id 1ifmDH-0005sf-4I
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:46:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1ifm2e-0003g9-Rw
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:35:42 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:36450)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1ifm2e-0001p0-HE
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:35:40 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBDEYclF170505;
- Fri, 13 Dec 2019 14:34:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=xMiolp/H/Iim5eeBzqEUfs+luAlp1Ehcsbcp9ZRhKjU=;
- b=amhJOO6J2Z7jlSm9FW9iBikWwVto8nXc/7fWuIEjWAFSF1T2E7NpXuTtdzFuA56ynGL6
- 0FnoqKA+zNnETwx1wJePKPuF1fihNCjHY+T/s79ycrtOrRkxbAw9dJYVAnrSSv2CtrPn
- ESIBTptdmMUOeahJl5ZfIUiyUwP9kwf2iUFbhIpuGSlXXEc5OwVNTlulhQ6SPWXEADcy
- Fo1P/snfTeYDmmMEIGL470Mf05HtGjCeWOMoem8J7IR6MwnT49JbbVb4v088TD1RnFVr
- P1Km6r3g6J07zhUj6IN99TmZSVsMvRC45FlcdCJB3qvAGo3C7PcX4y2MqvZW8q4riI3N Cg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2wr4qs1ahr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 14:34:38 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBDEYLWH089828;
- Fri, 13 Dec 2019 14:34:37 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2wumw78wqy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Dec 2019 14:34:36 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xBDEXTxa024831;
- Fri, 13 Dec 2019 14:33:30 GMT
-Received: from [10.175.208.200] (/10.175.208.200)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 13 Dec 2019 06:33:28 -0800
-Subject: Re: [PATCH 092/104] virtiofsd: add man page
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-93-dgilbert@redhat.com>
-From: Liam Merwick <liam.merwick@oracle.com>
-Message-ID: <378b3033-4ea6-96fc-3301-f3d4c20ed159@oracle.com>
-Date: Fri, 13 Dec 2019 14:33:25 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <stefanha@redhat.com>) id 1ifmDG-0004MS-2w
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:46:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60727
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ifmDF-0004LM-VB
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 09:46:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576248397;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kJ9Lft/7dKkUQWK1jf/+7AbsIekSxQ17L0r0bN/D1og=;
+ b=CJbEcC/uFtWRFZv7UfuCTi9jVHbAjLn1yRRldwpRskHZDH98L4y13UHmbXrUO0or/A+P0N
+ hlH9+C5y7Kes94TQiKGhrY4hlD7bu8NnclJdeG6mYeyeHipuE0PNpSDdo7DJf8w20nrVwG
+ 7kkSAvv5B3q4kps5bmqfZ4jDFwEm+as=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-9-mQl40DO_mlnftUVTHu8w-1; Fri, 13 Dec 2019 09:46:36 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A0F0107ACFA;
+ Fri, 13 Dec 2019 14:46:35 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60325196AE;
+ Fri, 13 Dec 2019 14:46:27 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] virtio-blk: deprecate SCSI passthrough
+Date: Fri, 13 Dec 2019 14:46:26 +0000
+Message-Id: <20191213144626.1208237-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-93-dgilbert@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9469
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1912130118
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9469
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1912130118
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 9-mQl40DO_mlnftUVTHu8w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,44 +67,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/2019 16:38, Dr. David Alan Gilbert (git) wrote:
-> From: Stefan Hajnoczi <stefanha@redhat.com>
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   Makefile                       |  7 +++
->   tools/virtiofsd/virtiofsd.texi | 85 ++++++++++++++++++++++++++++++++++
->   2 files changed, 92 insertions(+)
->   create mode 100644 tools/virtiofsd/virtiofsd.texi
-> 
+The Linux virtio_blk.ko guest driver is removing legacy SCSI passthrough
+support.  Deprecate this feature in QEMU too.
 
-... deleted ...
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ qemu-deprecated.texi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-> +@c man begin EXAMPLES
-> +Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @code{/var/run/vm001-vhost-fs.sock}:
-> +
-> +@example
-> +host# virtiofsd --socket-path=/var/run/vm001-vhost-fs.sock -o source=/var/lib/fs/vm001
-> +host# qemu-system-x86_64 \
-> +    -chardev socket,id=char0,path=/var/run/vm001-vhost-fs.sock \
-> +    -device vhost-user-fs-pci,chardev=char0,tag=myfs \
-> +    -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on \
-> +    -numa node,memdev=mem \
-> +    ...
-> +guest# mount -t virtio_fs \
-> +    -o default_permissions,allow_other,user_id=0,group_id=0,rootmode=040000,dax \
-> +    myfs /mnt
-
-
-
-Should this be 'mount -t virtiofs myfs /mnt' like on 
-https://virtio-fs.gitlab.io/howto-qemu.html ?
-
-otherwise
-
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 4b4b7425ac..ef94d497da 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -285,6 +285,17 @@ spec you can use the ``-cpu rv64gcsu,priv_spec=3Dv1.9.=
+1`` command line argument.
+=20
+ @section Device options
+=20
++@subsection Emulated device options
++
++@subsubsection -device virtio-blk,scsi=3Don|off (since 5.0.0)
++
++The virtio-blk SCSI passthrough feature is a legacy VIRTIO feature.  VIRTI=
+O 1.0
++and later do not support it because the virtio-scsi device was introduced =
+for
++full SCSI support.  Use virtio-scsi instead when SCSI passthrough is requi=
+red.
++
++Note this also applies to ``-device virtio-blk-pci,scsi=3Don|off'', which =
+is an
++alias.
++
+ @subsection Block device options
+=20
+ @subsubsection "backing": "" (since 2.12.0)
+--=20
+2.23.0
 
 
