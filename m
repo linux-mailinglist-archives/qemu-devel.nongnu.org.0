@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DC211DDE2
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 06:42:35 +0100 (CET)
-Received: from localhost ([::1]:41092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C4911DDDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 06:41:22 +0100 (CET)
+Received: from localhost ([::1]:41078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifdik-0001lB-9K
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 00:42:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50440)
+	id 1ifdhZ-0000FC-CV
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 00:41:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ifdgC-0007d7-L8
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:39:59 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ifdgC-0007d6-KU
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:39:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ifdg9-0004P4-St
+ (envelope-from <dgibson@ozlabs.org>) id 1ifdg9-0004PC-VS
  for qemu-devel@nongnu.org; Fri, 13 Dec 2019 00:39:56 -0500
-Received: from ozlabs.org ([203.11.71.1]:57143)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51953 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ifdg8-0004Hn-Q7; Fri, 13 Dec 2019 00:39:53 -0500
+ id 1ifdg8-0004He-Pv; Fri, 13 Dec 2019 00:39:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47YzyD0mZkz9sNH; Fri, 13 Dec 2019 16:39:47 +1100 (AEDT)
+ id 47YzyD1Y1pz9sPT; Fri, 13 Dec 2019 16:39:48 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576215588;
- bh=2eHa9D4wAjUVeEbX5K+rURGL+iKK77QYxujTthqPfXE=;
+ bh=K8I7BySlXe5w70jX25JhHMATjVMwd7LT9XDyP6NzhxY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cYYTEx9vhPMQcqDYmdVkIYUQr2MpHa6jPqrO0DJtBfMATTJbMlJRfF1gsBXVg4jlx
- +5COf/0L03gdwYBxxKuf7/lsl7twA+lSHcuajMXuPP2diKSQe9JG9bi0F4a+47jwFP
- 61o7MUM4fEqrpGOX7I5hu0XsRdcUty3m/Wo+iGbg=
-Date: Fri, 13 Dec 2019 16:34:53 +1100
+ b=R4gOIp9dC2iGmCiVVrn92yqN5+vXvWRJEB1hptLieKldWsMz8jCmf7fayxM3Sv3Op
+ JYMPzag2Vm3L9nHpwun44jntpfif0ewVJfSmsh4WATeVZ+heXE/ozhP3LKyLM05D2G
+ 0jmkqPFWxBODljfDNs1ub2avWEP8LkvpThGVS03Q=
+Date: Fri, 13 Dec 2019 16:39:33 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Subject: Re: [PATCH v5 1/5] tpm_spapr: Support TPM for ppc64 using CRQ based
- interface
-Message-ID: <20191213053453.GD207300@umbus.fritz.box>
+Subject: Re: [PATCH v5 3/5] tpm_spapr: Support suspend and resume
+Message-ID: <20191213053933.GE207300@umbus.fritz.box>
 References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
- <20191212202430.1079725-2-stefanb@linux.vnet.ibm.com>
+ <20191212202430.1079725-4-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="y77xulteysKOarq0"
+ protocol="application/pgp-signature"; boundary="qicme7IxPpkH/pPU"
 Content-Disposition: inline
-In-Reply-To: <20191212202430.1079725-2-stefanb@linux.vnet.ibm.com>
+In-Reply-To: <20191212202430.1079725-4-stefanb@linux.vnet.ibm.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,586 +61,139 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---y77xulteysKOarq0
+--qicme7IxPpkH/pPU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 12, 2019 at 03:24:26PM -0500, Stefan Berger wrote:
-> Implement support for TPM on ppc64 by implementing the vTPM CRQ interface
-> as a frontend. It can use the tpm_emulator driver backend with the extern=
-al
-> swtpm.
->=20
-> The Linux vTPM driver for ppc64 works with this emulation.
->=20
-> This TPM emulator also handles the TPM 2 case.
+On Thu, Dec 12, 2019 at 03:24:28PM -0500, Stefan Berger wrote:
+> Extend the tpm_spapr frontend with VM suspend and resume support.
 >=20
 > Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 >=20
-> diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
-> index 4c8ee87d67..66a570aac1 100644
-> --- a/hw/tpm/Kconfig
-> +++ b/hw/tpm/Kconfig
-> @@ -22,3 +22,9 @@ config TPM_EMULATOR
->      bool
->      default y
->      depends on TPMDEV
-> +
-> +config TPM_SPAPR
-> +    bool
-> +    default n
-> +    select TPMDEV
-> +    depends on PSERIES
-> diff --git a/hw/tpm/Makefile.objs b/hw/tpm/Makefile.objs
-> index de0b85d02a..85eb99ae05 100644
-> --- a/hw/tpm/Makefile.objs
-> +++ b/hw/tpm/Makefile.objs
-> @@ -4,3 +4,4 @@ common-obj-$(CONFIG_TPM_TIS) +=3D tpm_tis.o
->  common-obj-$(CONFIG_TPM_CRB) +=3D tpm_crb.o
->  common-obj-$(CONFIG_TPM_PASSTHROUGH) +=3D tpm_passthrough.o
->  common-obj-$(CONFIG_TPM_EMULATOR) +=3D tpm_emulator.o
-> +obj-$(CONFIG_TPM_SPAPR) +=3D tpm_spapr.o
 > diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-> new file mode 100644
-> index 0000000000..c4a67e2403
-> --- /dev/null
+> index c4a67e2403..8f5a142bd4 100644
+> --- a/hw/tpm/tpm_spapr.c
 > +++ b/hw/tpm/tpm_spapr.c
-> @@ -0,0 +1,405 @@
-> +/*
-> + * QEMU PowerPC pSeries Logical Partition (aka sPAPR) hardware System Em=
-ulator
-> + *
-> + * PAPR Virtual TPM
-> + *
-> + * Copyright (c) 2015, 2017 IBM Corporation.
-> + *
-> + * Authors:
-> + *    Stefan Berger <stefanb@linux.vnet.ibm.com>
-> + *
-> + * This code is licensed under the GPL version 2 or later. See the
-> + * COPYING file in the top-level directory.
-> + *
-> + */
+> @@ -87,6 +87,8 @@ typedef struct {
+>      TPMVersion be_tpm_version;
+> =20
+>      size_t be_buffer_size;
 > +
-> +#include "qemu/osdep.h"
-> +#include "qemu/error-report.h"
-> +#include "qapi/error.h"
-> +#include "hw/qdev-properties.h"
-> +#include "migration/vmstate.h"
-> +
-> +#include "sysemu/tpm_backend.h"
-> +#include "tpm_int.h"
-> +#include "tpm_util.h"
-> +
-> +#include "hw/ppc/spapr.h"
-> +#include "hw/ppc/spapr_vio.h"
-> +#include "trace.h"
-> +
-> +#define DEBUG_SPAPR 0
-> +
-> +#define VIO_SPAPR_VTPM(obj) \
-> +     OBJECT_CHECK(SPAPRvTPMState, (obj), TYPE_TPM_SPAPR)
-> +
-> +typedef struct VioCRQ {
+> +    bool deliver_response; /* whether to deliver response after VM resum=
+e */
+>  } SPAPRvTPMState;
+> =20
+>  static void tpm_spapr_show_buffer(const unsigned char *buffer,
+> @@ -256,6 +258,12 @@ static void tpm_spapr_request_completed(TPMIf *ti, i=
+nt ret)
+>      uint32_t len;
+>      int rc;
+> =20
+> +    if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
 
-How does this structure relate to the existing SpaprVioCrq?
+I'm trying to figure out the circumstances in which
+request_completed() would get called before post_load on the
+destination.
 
-Also we're now avoiding exceptions to StudlyCaps, because it causes
-more confusion even if it is to match other capitalization
-conventions.  So, I'd suggest 'VioCrq', 'TpmSpaprCrq' etc.
+> +        /* defer delivery of response until .post_load */
+> +        s->deliver_response |=3D true;
 
-> +    uint8_t valid;  /* 0x80: cmd; 0xc0: init crq */
-> +                    /* 0x81-0x83: CRQ message response */
-> +    uint8_t msg;    /* see below */
-> +    uint16_t len;   /* len of TPM request; len of TPM response */
-> +    uint32_t data;  /* rtce_dma_handle when sending TPM request */
-> +    uint64_t reserved;
-> +} VioCRQ;
-> +
-> +typedef union TPMSpaprCRQ {
-> +    VioCRQ s;
-> +    uint8_t raw[sizeof(VioCRQ)];
-> +} TPMSpaprCRQ;
+|=3D is a bitwise OR which is not what you want, although it will
+*probably* work in practice.  Better to just use
+	s->deliver_response =3D true;
 
-A union just to get raw bytes seems a really weird thing to do (as
-opposed to just casting to (char *))
-
+> +        return;
+> +    }
 > +
-> +#define SPAPR_VTPM_VALID_INIT_CRQ_COMMAND  0xC0
-> +#define SPAPR_VTPM_VALID_COMMAND           0x80
-> +#define SPAPR_VTPM_MSG_RESULT              0x80
+>      s->state =3D SPAPR_VTPM_STATE_COMPLETION;
+> =20
+>      /* a max. of be_buffer_size bytes can be transported */
+> @@ -316,6 +324,7 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
+>      SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
+> =20
+>      s->state =3D SPAPR_VTPM_STATE_NONE;
+> +    s->deliver_response =3D false;
+> =20
+>      s->be_tpm_version =3D tpm_backend_get_tpm_version(s->be_driver);
+>      tpm_spapr_update_deviceclass(dev);
+> @@ -339,9 +348,53 @@ static enum TPMVersion tpm_spapr_get_version(TPMIf *=
+ti)
+>      return tpm_backend_get_tpm_version(s->be_driver);
+>  }
+> =20
+> +/* persistent state handling */
 > +
-> +/* msg types for valid =3D SPAPR_VTPM_VALID_INIT_CRQ */
-> +#define SPAPR_VTPM_INIT_CRQ_RESULT           0x1
-> +#define SPAPR_VTPM_INIT_CRQ_COMPLETE_RESULT  0x2
-> +
-> +/* msg types for valid =3D SPAPR_VTPM_VALID_CMD */
-> +#define SPAPR_VTPM_GET_VERSION               0x1
-> +#define SPAPR_VTPM_TPM_COMMAND               0x2
-> +#define SPAPR_VTPM_GET_RTCE_BUFFER_SIZE      0x3
-> +#define SPAPR_VTPM_PREPARE_TO_SUSPEND        0x4
-> +
-> +/* response error messages */
-> +#define SPAPR_VTPM_VTPM_ERROR                0xff
-> +
-> +/* error codes */
-> +#define SPAPR_VTPM_ERR_COPY_IN_FAILED        0x3
-> +#define SPAPR_VTPM_ERR_COPY_OUT_FAILED       0x4
-> +
-> +#define MAX_BUFFER_SIZE TARGET_PAGE_SIZE
-> +
-> +typedef struct {
-> +    SpaprVioDevice vdev;
-> +
-> +    TPMSpaprCRQ crq; /* track single TPM command */
-> +
-> +    uint8_t state;
-> +#define SPAPR_VTPM_STATE_NONE         0
-> +#define SPAPR_VTPM_STATE_EXECUTION    1
-> +#define SPAPR_VTPM_STATE_COMPLETION   2
-
-I see this field written, but never read.  What's up with that?
-
-> +
-> +    unsigned char buffer[MAX_BUFFER_SIZE];
-> +
-> +    TPMBackendCmd cmd;
-> +
-> +    TPMBackend *be_driver;
-> +    TPMVersion be_tpm_version;
-> +
-> +    size_t be_buffer_size;
-> +} SPAPRvTPMState;
-
-SpaprVtpmState
-
-Or just SpaprTpmState, since we use just "tpm spapr" rather than
-"vtpm" in plenty of other places.
-
-> +
-> +static void tpm_spapr_show_buffer(const unsigned char *buffer,
-> +                                  size_t buffer_size, const char *string)
+> +static int tpm_spapr_pre_save(void *opaque)
 > +{
-> +    size_t len, i;
-> +    char *line_buffer, *p;
+> +    SPAPRvTPMState *s =3D opaque;
 > +
-> +    len =3D MIN(tpm_cmd_get_size(buffer), buffer_size);
-> +
+> +    s->deliver_response |=3D tpm_backend_finish_sync(s->be_driver);
+
+Same problem here.
+
+> +    trace_tpm_spapr_pre_save(s->deliver_response);
 > +    /*
-> +     * allocate enough room for 3 chars per buffer entry plus a
-> +     * newline after every 16 chars and a final null terminator.
+> +     * we cannot deliver the results to the VM since DMA would touch VM =
+memory
 > +     */
-> +    line_buffer =3D g_malloc(len * 3 + (len / 16) + 1);
-
-You can use g_strdup_printf() / g_string_append_printf() to avoid
-fiddly messing around with allocations like this.
-
 > +
-> +    for (i =3D 0, p =3D line_buffer; i < len; i++) {
-> +        if (i && !(i % 16)) {
-> +            p +=3D sprintf(p, "\n");
-> +        }
-> +        p +=3D sprintf(p, "%.2X ", buffer[i]);
-> +    }
-> +    trace_tpm_spapr_show_buffer(string, len, line_buffer);
-> +
-> +    g_free(line_buffer);
+> +    return 0;
 > +}
 > +
-> +/*
-> + * Send a request to the TPM.
-> + */
-> +static void tpm_spapr_tpm_send(SPAPRvTPMState *s)
+> +static int tpm_spapr_post_load(void *opaque, int version_id)
 > +{
-> +    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
-> +        tpm_spapr_show_buffer(s->buffer, sizeof(s->buffer), "To TPM");
+> +    SPAPRvTPMState *s =3D opaque;
+> +
+> +    if (s->deliver_response) {
+> +        trace_tpm_spapr_post_load();
+> +        /* deliver the results to the VM via DMA */
+> +        tpm_spapr_request_completed(TPM_IF(s), 0);
+> +        s->deliver_response =3D false;
 > +    }
 > +
-> +    s->state =3D SPAPR_VTPM_STATE_EXECUTION;
-> +    s->cmd =3D (TPMBackendCmd) {
-> +        .locty =3D 0,
-> +        .in =3D s->buffer,
-> +        .in_len =3D MIN(tpm_cmd_get_size(s->buffer), sizeof(s->buffer)),
-> +        .out =3D s->buffer,
-> +        .out_len =3D sizeof(s->buffer),
-> +    };
-> +
-> +    tpm_backend_deliver_request(s->be_driver, &s->cmd);
+> +    return 0;
 > +}
 > +
-> +static int tpm_spapr_process_cmd(SPAPRvTPMState *s, uint64_t dataptr)
-> +{
-> +    long rc;
+>  static const VMStateDescription vmstate_spapr_vtpm =3D {
+>      .name =3D "tpm-spapr",
+> -    .unmigratable =3D 1,
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 0,
+> +    .minimum_version_id_old =3D 0,
+> +    .pre_save =3D tpm_spapr_pre_save,
+> +    .post_load =3D tpm_spapr_post_load,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_SPAPR_VIO(vdev, SPAPRvTPMState),
 > +
-> +    /* a max. of be_buffer_size bytes can be transported */
-> +    rc =3D spapr_vio_dma_read(&s->vdev, dataptr,
-> +                            s->buffer, s->be_buffer_size);
-> +    if (rc) {
-> +        error_report("tpm_spapr_got_payload: DMA read failure");
+> +        VMSTATE_UINT8(state, SPAPRvTPMState),
+> +        VMSTATE_BUFFER(buffer, SPAPRvTPMState),
+
+Transferring the whole 4kiB buffer unconditionally when it mostly
+won't have anything useful in it doesn't seem like a great idea.
+
+> +        /* remember DMA address */
+> +        VMSTATE_UINT32(crq.s.data, SPAPRvTPMState),
+> +        VMSTATE_BOOL(deliver_response, SPAPRvTPMState),
+> +        VMSTATE_END_OF_LIST(),
 > +    }
-> +    /* let vTPM handle any malformed request */
-> +    tpm_spapr_tpm_send(s);
-> +
-> +    return rc;
-> +}
-> +
-> +static int tpm_spapr_do_crq(struct SpaprVioDevice *dev, uint8_t *crq_dat=
-a)
-> +{
-> +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
-> +    TPMSpaprCRQ local_crq;
-> +    TPMSpaprCRQ *crq =3D &s->crq; /* requests only */
-> +    int rc;
-> +
-> +    memcpy(&local_crq.raw, crq_data, sizeof(local_crq.raw));
-
-Again, no real need for a union here, you can just memcpy onto a
-structure variable.
-
-> +    trace_tpm_spapr_do_crq(local_crq.raw[0], local_crq.raw[1]);
-> +
-> +    switch (local_crq.s.valid) {
-> +    case SPAPR_VTPM_VALID_INIT_CRQ_COMMAND: /* Init command/response */
-> +
-> +        /* Respond to initialization request */
-> +        switch (local_crq.s.msg) {
-> +        case SPAPR_VTPM_INIT_CRQ_RESULT:
-> +            trace_tpm_spapr_do_crq_crq_result();
-> +            memset(local_crq.raw, 0, sizeof(local_crq.raw));
-> +            local_crq.s.valid =3D SPAPR_VTPM_VALID_INIT_CRQ_COMMAND;
-> +            local_crq.s.msg =3D SPAPR_VTPM_INIT_CRQ_RESULT;
-> +            spapr_vio_send_crq(dev, local_crq.raw);
-> +            break;
-> +
-> +        case SPAPR_VTPM_INIT_CRQ_COMPLETE_RESULT:
-> +            trace_tpm_spapr_do_crq_crq_complete_result();
-> +            memset(local_crq.raw, 0, sizeof(local_crq.raw));
-> +            local_crq.s.valid =3D SPAPR_VTPM_VALID_INIT_CRQ_COMMAND;
-> +            local_crq.s.msg =3D SPAPR_VTPM_INIT_CRQ_COMPLETE_RESULT;
-> +            spapr_vio_send_crq(dev, local_crq.raw);
-> +            break;
-> +        }
-> +
-> +        break;
-> +    case SPAPR_VTPM_VALID_COMMAND: /* Payloads */
-> +        switch (local_crq.s.msg) {
-> +        case SPAPR_VTPM_TPM_COMMAND:
-> +            trace_tpm_spapr_do_crq_tpm_command();
-> +            if (s->state =3D=3D SPAPR_VTPM_STATE_EXECUTION) {
-> +                return H_BUSY;
-> +            }
-> +            /* this crq is tracked */
-> +            memcpy(crq->raw, crq_data, sizeof(crq->raw));
-> +
-> +            rc =3D tpm_spapr_process_cmd(s, be32_to_cpu(crq->s.data));
-> +
-> +            if (rc =3D=3D H_SUCCESS) {
-> +                crq->s.valid =3D be16_to_cpu(0);
-> +            } else {
-> +                local_crq.s.valid =3D SPAPR_VTPM_MSG_RESULT;
-> +                local_crq.s.msg =3D SPAPR_VTPM_VTPM_ERROR;
-> +                local_crq.s.data =3D cpu_to_be32(SPAPR_VTPM_ERR_COPY_IN_=
-FAILED);
-> +                spapr_vio_send_crq(dev, local_crq.raw);
-> +            }
-> +            break;
-> +
-> +        case SPAPR_VTPM_GET_RTCE_BUFFER_SIZE:
-> +            trace_tpm_spapr_do_crq_tpm_get_rtce_buffer_size(s->be_buffer=
-_size);
-> +            local_crq.s.msg |=3D SPAPR_VTPM_MSG_RESULT;
-> +            local_crq.s.len =3D cpu_to_be16(s->be_buffer_size);
-> +            spapr_vio_send_crq(dev, local_crq.raw);
-> +            break;
-> +
-> +        case SPAPR_VTPM_GET_VERSION:
-> +            local_crq.s.msg |=3D SPAPR_VTPM_MSG_RESULT;
-> +            local_crq.s.len =3D cpu_to_be16(0);
-> +            switch (s->be_tpm_version) {
-> +            case TPM_VERSION_UNSPEC:
-> +                local_crq.s.data =3D cpu_to_be32(0);
-> +                break;
-> +            case TPM_VERSION_1_2:
-> +                local_crq.s.data =3D cpu_to_be32(1);
-> +                break;
-> +            case TPM_VERSION_2_0:
-> +                local_crq.s.data =3D cpu_to_be32(2);
-> +                break;
-
-To make the breakage obvious when/if the backend adds a new version we
-should probably have a default: case with g_assert_not_reached() or
-the like.
-
-> +            }
-> +            trace_tpm_spapr_do_crq_get_version(be32_to_cpu(local_crq.s.d=
-ata));
-> +            spapr_vio_send_crq(dev, local_crq.raw);
-> +            break;
-> +
-> +        case SPAPR_VTPM_PREPARE_TO_SUSPEND:
-> +            trace_tpm_spapr_do_crq_prepare_to_suspend();
-> +            local_crq.s.msg |=3D SPAPR_VTPM_MSG_RESULT;
-> +            spapr_vio_send_crq(dev, local_crq.raw);
-> +            break;
-> +
-> +        default:
-> +            trace_tpm_spapr_do_crq_unknown_msg_type(crq->s.msg);
-> +        }
-> +        break;
-> +    default:
-> +        trace_tpm_spapr_do_crq_unknown_crq(local_crq.raw[0], local_crq.r=
-aw[1]);
-> +    };
-> +
-> +    return H_SUCCESS;
-> +}
-> +
-> +static void tpm_spapr_request_completed(TPMIf *ti, int ret)
-> +{
-> +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(ti);
-> +    TPMSpaprCRQ *crq =3D &s->crq;
-> +    uint32_t len;
-> +    int rc;
-> +
-> +    s->state =3D SPAPR_VTPM_STATE_COMPLETION;
-> +
-> +    /* a max. of be_buffer_size bytes can be transported */
-> +    len =3D MIN(tpm_cmd_get_size(s->buffer), s->be_buffer_size);
-> +    rc =3D spapr_vio_dma_write(&s->vdev, be32_to_cpu(crq->s.data),
-> +                             s->buffer, len);
-> +
-> +    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
-> +        tpm_spapr_show_buffer(s->buffer, len, "From TPM");
-> +    }
-> +
-> +    crq->s.valid =3D SPAPR_VTPM_MSG_RESULT;
-> +    if (rc =3D=3D H_SUCCESS) {
-> +        crq->s.msg =3D SPAPR_VTPM_TPM_COMMAND | SPAPR_VTPM_MSG_RESULT;
-> +        crq->s.len =3D cpu_to_be16(len);
-> +    } else {
-> +        error_report("%s: DMA write failure", __func__);
-> +        crq->s.msg =3D SPAPR_VTPM_VTPM_ERROR;
-> +        crq->s.len =3D cpu_to_be16(0);
-> +        crq->s.data =3D cpu_to_be32(SPAPR_VTPM_ERR_COPY_OUT_FAILED);
-> +    }
-> +
-> +    rc =3D spapr_vio_send_crq(&s->vdev, crq->raw);
-> +    if (rc) {
-> +        error_report("%s: Error sending response", __func__);
-> +    }
-> +}
-> +
-> +static int tpm_spapr_do_startup_tpm(SPAPRvTPMState *s, size_t buffersize)
-> +{
-> +    return tpm_backend_startup_tpm(s->be_driver, buffersize);
-> +}
-> +
-> +static void tpm_spapr_update_deviceclass(SpaprVioDevice *dev)
-> +{
-> +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
-> +    SpaprVioDeviceClass *k =3D VIO_SPAPR_DEVICE_GET_CLASS(dev);
-> +
-> +    switch (s->be_tpm_version) {
-> +    case TPM_VERSION_UNSPEC:
-> +        assert(false);
-> +        break;
-> +    case TPM_VERSION_1_2:
-> +        k->dt_name =3D "vtpm";
-> +        k->dt_type =3D "IBM,vtpm";
-> +        k->dt_compatible =3D "IBM,vtpm";
-> +        break;
-> +    case TPM_VERSION_2_0:
-> +        k->dt_name =3D "vtpm";
-> +        k->dt_type =3D "IBM,vtpm";
-> +        k->dt_compatible =3D "IBM,vtpm20";
-> +        break;
-
-Erk.  Updating DeviceClass structures on the fly is hideously ugly.
-We might need to take a different approach for this.
-
-> +    }
-> +}
-> +
-> +static void tpm_spapr_reset(SpaprVioDevice *dev)
-> +{
-> +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
-> +
-> +    s->state =3D SPAPR_VTPM_STATE_NONE;
-> +
-> +    s->be_tpm_version =3D tpm_backend_get_tpm_version(s->be_driver);
-> +    tpm_spapr_update_deviceclass(dev);
-> +
-> +    s->be_buffer_size =3D MAX(ROUND_UP(tpm_backend_get_buffer_size(s->be=
-_driver),
-> +                                     TARGET_PAGE_SIZE),
-> +                            sizeof(s->buffer));
-
-I'm very confused as to what be_buffer_size is supposed to represent.
-it's not the backend size, because you're rounding that up and taking
-MAX with another thing.  But it's not the max safe size for this
-locally, because it can be bigger than s->buffer.
-
-> +    tpm_backend_reset(s->be_driver);
-> +    tpm_spapr_do_startup_tpm(s, s->be_buffer_size);
-> +}
-> +
-> +static enum TPMVersion tpm_spapr_get_version(TPMIf *ti)
-> +{
-> +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(ti);
-> +
-> +    if (tpm_backend_had_startup_error(s->be_driver)) {
-> +        return TPM_VERSION_UNSPEC;
-> +    }
-> +
-> +    return tpm_backend_get_tpm_version(s->be_driver);
-> +}
-> +
-> +static const VMStateDescription vmstate_spapr_vtpm =3D {
-> +    .name =3D "tpm-spapr",
-> +    .unmigratable =3D 1,
-> +};
-> +
-> +static Property tpm_spapr_properties[] =3D {
-> +    DEFINE_SPAPR_PROPERTIES(SPAPRvTPMState, vdev),
-> +    DEFINE_PROP_TPMBE("tpmdev", SPAPRvTPMState, be_driver),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void tpm_spapr_realizefn(SpaprVioDevice *dev, Error **errp)
-> +{
-> +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
-> +
-> +    if (!tpm_find()) {
-
-This seems wrong, even though I also see it in existing TPM code.
-AFAICT tpm_find() returns a TPMIf pointer for the existing TPM if it
-exists, meaning !tpm_find() will be true if there is *not* an existing
-TPM.
-
-> +        error_setg(errp, "at most one TPM device is permitted");
-> +        return;
-> +    }
-> +
-> +    dev->crq.SendFunc =3D tpm_spapr_do_crq;
-> +
-> +    if (!s->be_driver) {
-> +        error_setg(errp, "'tpmdev' property is required");
-> +        return;
-> +    }
-> +}
-> +
-> +static void tpm_spapr_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    SpaprVioDeviceClass *k =3D VIO_SPAPR_DEVICE_CLASS(klass);
-> +    TPMIfClass *tc =3D TPM_IF_CLASS(klass);
-> +
-> +    k->realize =3D tpm_spapr_realizefn;
-> +    k->reset =3D tpm_spapr_reset;
-> +    k->signal_mask =3D 0x00000001;
-> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-> +    dc->props =3D tpm_spapr_properties;
-> +    k->rtce_window_size =3D 0x10000000;
-> +    dc->vmsd =3D &vmstate_spapr_vtpm;
-> +
-> +    tc->model =3D TPM_MODEL_TPM_SPAPR;
-> +    tc->get_version =3D tpm_spapr_get_version;
-> +    tc->request_completed =3D tpm_spapr_request_completed;
-> +}
-> +
-> +static const TypeInfo tpm_spapr_info =3D {
-> +    .name          =3D TYPE_TPM_SPAPR,
-> +    .parent        =3D TYPE_VIO_SPAPR_DEVICE,
-> +    .instance_size =3D sizeof(SPAPRvTPMState),
-> +    .class_init    =3D tpm_spapr_class_init,
-> +    .interfaces =3D (InterfaceInfo[]) {
-> +        { TYPE_TPM_IF },
-> +        { }
-> +    }
-> +};
-> +
-> +static void tpm_spapr_register_types(void)
-> +{
-> +    type_register_static(&tpm_spapr_info);
-> +}
-> +
-> +type_init(tpm_spapr_register_types)
+>  };
+> =20
+>  static Property tpm_spapr_properties[] =3D {
 > diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
-> index 89804bcd64..6278a39618 100644
+> index 6278a39618..d109661b96 100644
 > --- a/hw/tpm/trace-events
 > +++ b/hw/tpm/trace-events
-> @@ -55,3 +55,15 @@ tpm_tis_pre_save(uint8_t locty, uint32_t rw_offset) "l=
-octy: %d, rw_offset =3D %u"
-> =20
->  # tpm_ppi.c
->  tpm_ppi_memset(uint8_t *ptr, size_t size) "memset: %p %zu"
-> +
-> +# hw/tpm/tpm_spapr.c
-> +tpm_spapr_show_buffer(const char *direction, size_t len, const char *buf=
-) "direction: %s len: %zu\n%s"
-> +tpm_spapr_do_crq(uint8_t raw1, uint8_t raw2) "1st 2 bytes in CRQ: 0x%02x=
- 0x%02x"
-> +tpm_spapr_do_crq_crq_result(void) "SPAPR_VTPM_INIT_CRQ_RESULT"
-> +tpm_spapr_do_crq_crq_complete_result(void) "SPAPR_VTPM_INIT_CRQ_COMP_RES=
-ULT"
-> +tpm_spapr_do_crq_tpm_command(void) "got TPM command payload"
-> +tpm_spapr_do_crq_tpm_get_rtce_buffer_size(size_t buffersize) "response: =
-buffer size is %zu"
-> +tpm_spapr_do_crq_get_version(uint32_t version) "response: version %u"
-> +tpm_spapr_do_crq_prepare_to_suspend(void) "response: preparing to suspen=
+> @@ -67,3 +67,5 @@ tpm_spapr_do_crq_get_version(uint32_t version) "respons=
+e: version %u"
+>  tpm_spapr_do_crq_prepare_to_suspend(void) "response: preparing to suspen=
 d"
-> +tpm_spapr_do_crq_unknown_msg_type(uint8_t type) "Unknown message type 0x=
+>  tpm_spapr_do_crq_unknown_msg_type(uint8_t type) "Unknown message type 0x=
 %02x"
-> +tpm_spapr_do_crq_unknown_crq(uint8_t raw1, uint8_t raw2) "unknown CRQ 0x=
+>  tpm_spapr_do_crq_unknown_crq(uint8_t raw1, uint8_t raw2) "unknown CRQ 0x=
 %02x 0x%02x ..."
-> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-> index 5b541a71c8..15979a3647 100644
-> --- a/include/sysemu/tpm.h
-> +++ b/include/sysemu/tpm.h
-> @@ -45,11 +45,14 @@ typedef struct TPMIfClass {
-> =20
->  #define TYPE_TPM_TIS                "tpm-tis"
->  #define TYPE_TPM_CRB                "tpm-crb"
-> +#define TYPE_TPM_SPAPR              "tpm-spapr"
-> =20
->  #define TPM_IS_TIS(chr)                             \
->      object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS)
->  #define TPM_IS_CRB(chr)                             \
->      object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
-> +#define TPM_IS_SPAPR(chr)                           \
-> +    object_dynamic_cast(OBJECT(chr), TYPE_TPM_SPAPR)
-> =20
->  /* returns NULL unless there is exactly one TPM device */
->  static inline TPMIf *tpm_find(void)
-> diff --git a/qapi/tpm.json b/qapi/tpm.json
-> index b30323bb6b..63878aa0f4 100644
-> --- a/qapi/tpm.json
-> +++ b/qapi/tpm.json
-> @@ -12,11 +12,11 @@
->  #
->  # @tpm-tis: TPM TIS model
->  # @tpm-crb: TPM CRB model (since 2.12)
-> +# @tpm-spapr: TPM SPAPR model (since 5.0)
->  #
->  # Since: 1.5
->  ##
-> -{ 'enum': 'TpmModel', 'data': [ 'tpm-tis', 'tpm-crb' ] }
-> -
-> +{ 'enum': 'TpmModel', 'data': [ 'tpm-tis', 'tpm-crb', 'tpm-spapr' ] }
->  ##
->  # @query-tpm-models:
->  #
-> @@ -29,7 +29,7 @@
->  # Example:
->  #
->  # -> { "execute": "query-tpm-models" }
-> -# <- { "return": [ "tpm-tis", "tpm-crb" ] }
-> +# <- { "return": [ "tpm-tis", "tpm-crb", "tpm-spapr" ] }
->  #
->  ##
->  { 'command': 'query-tpm-models', 'returns': ['TpmModel'] }
+> +tpm_spapr_pre_save(bool v) "TPM response to deliver after resume: %d"
+> +tpm_spapr_post_load(void) "Delivering TPM response after resume"
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -649,25 +201,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---y77xulteysKOarq0
+--qicme7IxPpkH/pPU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3zIvsACgkQbDjKyiDZ
-s5JH4g/+LpgMjMTb9Rx7pfQIwoSWXXQ28UoFOwvzSjoPO7MjTvXJjGIHUQza4U0Y
-0+NxrfvFf58Sp+XEjN0GVes7xTTwWzaZOouVBmEh3xeQ7yPrPQ00UWYUBENDi46m
-KkFPu7uXCsxiLV4BQD9HHIvuHUdGLXyyP3BhVoPBOL+i9KIESA53Kz9U354h4RBm
-7ZURTBNynB2NcGUYpnMcxSC3U4KoNw2722qx0OHQks4m2stavceynP+PJFagtMxj
-eXJo2fWGoi4Cwo8mdjXAMsZq0GNTAqeIJNKnoBWUPaKFNs3efv0HKpq6KtyfmwaE
-gAJ3jGSY/HkA2VAD7FVjoxTOvDRDHDaysc2IJzfmuC3Dkr+ojwUAhgH37xkkIX5C
-LfwB2aDIOSCfe1sXYol65QanyjhyIX7eHEZEa3YZasHJTiFI8GigaiHMut0kPd4G
-sT2mstSUAqNSarcHab0uJqSzZ6wz4mX27yf55tg732D9Yq97EncoAQLCjAAxl2Kp
-cnLIqXwh4Eq8eLBPpKzkPrC/ASoFeq2+MWUNAcpu7Om9mVFlnqM6TeNTNzaSd8rg
-y9S5h6HAlymEUgXk3IfzvQDYHGfLnq+RmbtLRR9ihB155nvjtKXILEjTQnoraogF
-AHLMFZRlhZiCfL9b9KN/o+caU1O5KeHKMIWLhVPwQmxOZWutj6c=
-=XXTz
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3zJBUACgkQbDjKyiDZ
+s5LIjw/+JBlIgi+CV3NicSHeunB98iIMN9C4LDuoF/oEaPVq0OqM3VpocDH13dKt
+Cz3UZZpiIRlBF9EIO8KyxTgkxpGuu24ntkkof172meOY0INHJMADWuCMraO1oaOA
+haOIg64RderRz1U9majVWAeR/uY7cDs2qlNJCGmhhtkklYOjOVIwS/TxO0EvU6/R
+xQ0qV0JVwfsBNwwPogpIkjgxpCoMi/v93V5cYzDsrKnscLPpN2Y85mgCRUoXpAus
+NBZex9DM85uja2WEvkuBhJBGyT8moH/PP1RpSwBdJr6SKYFPej2+YYP3qs66ehrq
+vC0QUn6GC29BtPttQYLQlYX/AXV9TZBdVQu/Up+mJWsMXu2ZuOeO/0aMBhao/+iN
+gCccbAtTDZ1rR/14zwS1mZWzW8DpHSat1JvPYGLuhmMmiK87nzngxY4gspU2ckJ2
+9y2JaC4RcNrARqnao5y8NgJUp1qBjpKWQJA9FU3pJnoXsifLluP8H2Yy2bYtiO4L
+FgHoGvA/Ezkg7G4YoWvylKjNz4Mu8aonHkGugVMDVo0H8Z2UlfRGpecReAD9zNt6
+ykTVdFnX/5qSsWhDT4CAHViXTpE4noo1+RaXOIdq5Dpvx/8eL+cmqEmDYOwcrY3S
+dtXe9x+WJbehRGsax5//hRVBfF366nIrMAJaXhr81pJENlV579M=
+=OQsi
 -----END PGP SIGNATURE-----
 
---y77xulteysKOarq0--
+--qicme7IxPpkH/pPU--
 
