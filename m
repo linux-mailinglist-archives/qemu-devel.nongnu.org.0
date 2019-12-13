@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACBE711E870
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:36:18 +0100 (CET)
-Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE9511E8A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 17:46:53 +0100 (CET)
+Received: from localhost ([::1]:51346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifnvN-0002l5-Cs
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:36:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41215)
+	id 1ifo5c-0008JI-JH
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 11:46:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifnfN-0000kq-He
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:46 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifnfX-0000zI-IX
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifnfM-00022H-FA
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:45 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44675
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ifnfW-0002M2-4g
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50785
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifnfM-00021M-AB
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:44 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifnfW-0002L3-02
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 11:19:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576253983;
+ s=mimecast20190719; t=1576253993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iDPjG3bzf4auKjid69BMILX9vi363Mf6WYlN4QfXbhI=;
- b=eLl+lJReOT6+DEy8Sh4L7tX7UTJx5rZpY2Lyr7lSiraIR/hnS+YcXh3Nd5cWRUIWzndezX
- x8Sh/dgBoIcBFShu47E8ILg+pSGE+IQtdeJ+/mIm0OupqReXaA2mEn1sDcfF6TwIQnNM8s
- mPxSo1sbugk4IZuwZRdZZmBjc0pK338=
+ bh=psjmWWDdVhLhKwDb1Wq8yYWFEUJUVcwEEB0iH9Xv/kA=;
+ b=Nfy7zHBJEdilzAJnjb4XMffrbB907kyCRzm0FbdKOlR9dknJ7U9w/dq8+qrD2eW03mMf+5
+ A+75QNNc22NM6Y9BC0QCgjlLTALzM2slucuOp1RXkvmrMvOtKjmKG36snfFCOamCt740X6
+ ceYM0N4R9ij/Qmy9CdXPaXLevg92IM8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-JGYk5EipN_i0mWuUmywLaw-1; Fri, 13 Dec 2019 11:19:40 -0500
-X-MC-Unique: JGYk5EipN_i0mWuUmywLaw-1
+ us-mta-296-XiV1IY8PM82PJ_OyDAlfBg-1; Fri, 13 Dec 2019 11:19:50 -0500
+X-MC-Unique: XiV1IY8PM82PJ_OyDAlfBg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70F3F102C8BB;
- Fri, 13 Dec 2019 16:19:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE9211856A65;
+ Fri, 13 Dec 2019 16:19:48 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06C8B19C4F;
- Fri, 13 Dec 2019 16:19:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 070AE19C4F;
+ Fri, 13 Dec 2019 16:19:37 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/12] hw/ide/piix: Remove superfluous DEVICE() cast
-Date: Fri, 13 Dec 2019 17:17:48 +0100
-Message-Id: <20191213161753.8051-8-philmd@redhat.com>
+Subject: [PATCH 08/12] hw/ide/piix: Use ARRAY_SIZE() instead of magic numbers
+Date: Fri, 13 Dec 2019 17:17:49 +0100
+Message-Id: <20191213161753.8051-9-philmd@redhat.com>
 In-Reply-To: <20191213161753.8051-1-philmd@redhat.com>
 References: <20191213161753.8051-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,29 +80,95 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 02a9594b4f0 already converted 'dev' to DeviceState.
-Since the cast is superfluous, remove it.
+Using magic numbers is dangerous because the structures PCIIDEState
+might be modified and this source file consuming the "ide/pci.h"
+header would be out of sync, eventually accessing out of bound
+array members.
+Use the ARRAY_SIZE() to keep the source file sync.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ide/piix.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/ide/piix.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
 diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index db313dd3b1..ffeff4e095 100644
+index ffeff4e095..ab23613a44 100644
 --- a/hw/ide/piix.c
 +++ b/hw/ide/piix.c
-@@ -193,7 +193,8 @@ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool a=
-ux)
-             blk_unref(blk);
-         }
-     }
--    qdev_reset_all(DEVICE(dev));
-+    qdev_reset_all(dev);
-+
-     return 0;
- }
+@@ -87,10 +87,9 @@ static const MemoryRegionOps piix_bmdma_ops =3D {
 =20
+ static void bmdma_setup_bar(PCIIDEState *d)
+ {
+-    int i;
+-
+     memory_region_init(&d->bmdma_bar, OBJECT(d), "piix-bmdma-container",=
+ 16);
+-    for(i =3D 0;i < 2; i++) {
++
++    for (size_t i =3D 0; i < ARRAY_SIZE(d->bmdma); i++) {
+         BMDMAState *bm =3D &d->bmdma[i];
+=20
+         memory_region_init_io(&bm->extra_io, OBJECT(d), &piix_bmdma_ops,=
+ bm,
+@@ -107,9 +106,8 @@ static void piix_ide_reset(DeviceState *dev)
+     PCIIDEState *d =3D PCI_IDE(dev);
+     PCIDevice *pd =3D PCI_DEVICE(d);
+     uint8_t *pci_conf =3D pd->config;
+-    int i;
+=20
+-    for (i =3D 0; i < 2; i++) {
++    for (size_t i =3D 0; i < ARRAY_SIZE(d->bus); i++) {
+         ide_bus_reset(&d->bus[i]);
+     }
+=20
+@@ -132,10 +130,10 @@ static void pci_piix_init_ports(PCIIDEState *d) {
+         {0x1f0, 0x3f6, 14},
+         {0x170, 0x376, 15},
+     };
+-    int i;
+=20
+-    for (i =3D 0; i < 2; i++) {
+-        ide_bus_new(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
++    for (size_t i =3D 0; i < ARRAY_SIZE(d->bus); i++) {
++        ide_bus_new(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i,
++                    ARRAY_SIZE(d->bus[0].ifs));
+         ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+                         port_info[i].iobase2);
+         ide_init2(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
+@@ -163,14 +161,13 @@ static void pci_piix_ide_realize(PCIDevice *dev, Er=
+ror **errp)
+=20
+ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
+ {
+-    PCIIDEState *pci_ide;
++    PCIIDEState *pci_ide =3D PCI_IDE(dev);
+     DriveInfo *di;
+-    int i;
+     IDEDevice *idedev;
++    const size_t idedev_max =3D ARRAY_SIZE(pci_ide->bus)
++                            * ARRAY_SIZE(pci_ide->bus[0].ifs);
+=20
+-    pci_ide =3D PCI_IDE(dev);
+-
+-    for (i =3D aux ? 1 : 0; i < 4; i++) {
++    for (size_t i =3D aux ? 1 : 0; i < idedev_max; i++) {
+         di =3D drive_get_by_index(IF_IDE, i);
+         if (di !=3D NULL && !di->media_cd) {
+             BlockBackend *blk =3D blk_by_legacy_dinfo(di);
+@@ -210,9 +207,8 @@ PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveI=
+nfo **hd_table, int devfn)
+ static void pci_piix_ide_exitfn(PCIDevice *dev)
+ {
+     PCIIDEState *d =3D PCI_IDE(dev);
+-    unsigned i;
+=20
+-    for (i =3D 0; i < 2; ++i) {
++    for (size_t i =3D 0; i < ARRAY_SIZE(d->bmdma); ++i) {
+         memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io=
+);
+         memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_iop=
+ort);
+     }
 --=20
 2.21.0
 
