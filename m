@@ -2,105 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B0111E2D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 12:32:51 +0100 (CET)
-Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6C011E2E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 12:41:49 +0100 (CET)
+Received: from localhost ([::1]:47842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifjBi-0004dz-FF
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 06:32:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59840)
+	id 1ifjKM-0007KL-QS
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 06:41:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ifjAi-0004E2-53
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:31:49 -0500
+ (envelope-from <stefanha@redhat.com>) id 1ifjIl-00062E-Pv
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:40:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ifjAg-0000WW-Qw
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:31:47 -0500
-Received: from mail-eopbgr150129.outbound.protection.outlook.com
- ([40.107.15.129]:46502 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ifjAg-0000SK-CI; Fri, 13 Dec 2019 06:31:46 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iZDQdTm/+0H+o2jUxxz4YLC4Z5zELHBvvQf3ADLm0tDVIM7thQfGkOk/DIBmuTJQhqFUCk9oSr/QqkhuTrN+NFjyEBM5gMw76vuLjkm8+rLPrNGVQMUCMNJSlusISCl4Q8Uk2szu2CPQPGE8CeGkoCThjbGZY533lj/Y5ilt7X0kHzb75+KGegFeNLpdiz0o61Km3wbek/XAeQVaVcJfPFUQEyC9cotLUGhkhaEoOQQrHIXYh2Uud75LR/qHNQ8m7BRmMPPBBfj/joJAsnZoh7SY8kKlFEuAZGM92m+4EEiM3x6PmBsqDCBZFIsOSnsI66Gb0gq3bCAxlZUDnG+QJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iE3e+hyaSn7GWamRYnOoq7Gg/pm+kv7xxp5UfV/58i0=;
- b=Y2xTd1FIo3WzHH15kLCWsMGhmIo6bkARuqc2gbJjABK+saPYOMjjVRpAHh4w/z64Ib8qXqhv8fZYY686q2USCsttFN2LpdmdbnkutHHp7e88pgmmX438qnHUKc/JpLi9um7TRMzCqVIp++E53HWjd0mzzTEz0vzDQXt6iocQebXd4GuLHQGdmhEcRd8vtRQdVyLEG3omb2lAkZf7ywhkgBG/vA+DKiX9UHwxerIfbcbR4lK1ryhIGAfOaBJgly7fr70sFaQQD0Lvy6hoqN6pQpTu10bFLJlV6E7W5zwAoMLjFi5oJI2P1EA/2wjp/F8wEIVbNCYTN0C7bYU1PNKaWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iE3e+hyaSn7GWamRYnOoq7Gg/pm+kv7xxp5UfV/58i0=;
- b=vrY0kGuQsW3CWqNPVR+qXLGAGHlVkXL7fGDt/WQDnQUXNBABRLlwsJ9RAYgmMArgPiZRoAd78BE+K+WOpybFUOTgG+WmEYevlV57MLz6BWyD4i1gFCF0ydcZYMhDVgKUL2O6m8wMqKMPKF+1adWAzob2HTJkAuAE29p+wscaLOw=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3079.eurprd08.prod.outlook.com (52.135.163.152) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.15; Fri, 13 Dec 2019 11:31:43 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.020; Fri, 13 Dec 2019
- 11:31:43 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
-Thread-Topic: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
-Thread-Index: AQHVmKmNmeJL6G4US0WS+6Oh5cK+GqeovUSA///N8YCACYqFAIAGCrkA
-Date: Fri, 13 Dec 2019 11:31:43 +0000
-Message-ID: <8b72b979-92c5-d0ce-a34c-052425a2e53f@virtuozzo.com>
-References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-20-mreitz@redhat.com>
- <2416e1d8-c1c3-4c88-6e7b-52670eb23c0e@virtuozzo.com>
- <3be97c8b-fbee-a183-0cd8-dc2e5824efbc@virtuozzo.com>
- <e21bfadf-670f-9c17-71b8-c14a1ed3727c@redhat.com>
-In-Reply-To: <e21bfadf-670f-9c17-71b8-c14a1ed3727c@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0208.eurprd05.prod.outlook.com
- (2603:10a6:3:f9::32) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191213143140814
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 454ba24a-77d0-48dd-e2d7-08d77fc00751
-x-ms-traffictypediagnostic: AM6PR08MB3079:
-x-microsoft-antispam-prvs: <AM6PR08MB30792A07F5435B7B73937AE4C1540@AM6PR08MB3079.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-forefront-prvs: 0250B840C1
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(346002)(396003)(39840400004)(376002)(366004)(199004)(189003)(53546011)(6506007)(6486002)(31696002)(4744005)(54906003)(5660300002)(2906002)(52116002)(110136005)(66556008)(66946007)(66476007)(66446008)(64756008)(4326008)(86362001)(478600001)(31686004)(6512007)(71200400001)(186003)(8936002)(2616005)(8676002)(36756003)(316002)(81156014)(26005)(81166006);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3079;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QgayushFMCfTe51SFFKDl9cRPjzxoIsVkos6HoplwpzJNZcRBKVrGOIpbZ7rvOBnBlmYNgckCV77Z+zmpgIPb8xc09+Jm3UUfz284VTScdmSJ5THYgjE2vRUQnxGcODyn3Hg3ZKOmUl3zFiR7Iwd9cR5XWUISibupS+z24X86T6Xx3NniDNh9sMeyBtpA+6nqzMLw8mzWGzWdCkzvVBMpyBbSw9NePQN53uTH5T28E1LldBUcKfpN9q9vId1gFVvP7HvFtVRFrZKoh24HOqh4TMsVEc8EhiZ9pRxQOjBHJbC9iDshtbXS/GIBX+ykJxLkdwhDEUIx+XQTMB04+nwPmtxW1c+9EqFLhM9a3td+dzcm2A2cJd8FYkOf4JTLuSrEsnL3KgwN+wqFWC3mLMnJ5CFLVmZwzcKP5+BQHp3Czg2Nx+CffHU7P8PPQGk4gvt
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <69015D065E94E546ACC00AFB2575F6D3@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <stefanha@redhat.com>) id 1ifjIk-0006Lk-6j
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:40:07 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24573
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ifjIk-0006KR-1E
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 06:40:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576237205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9/SQS0kR7Vm0JJ0sZMxfjNjCZ2IFPpb6kbnnhl0+dHg=;
+ b=GGyAgWXDol4vGMuXgAWmNgQYLvg2pRVNC7J8dQZSwn+J0+kE/K56cMUWWlKGtLk1X1/FNu
+ VwXnxQhaIIJ3ZB/L9kpW0rcKb49A0hqKzzI36cc8Yq7Y0lNBvhj7ImYgcqjmYFWxcZ7l+V
+ 2nV+Y6lfYdM+DDwJ1lqB7Wn4er2npQE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-ZuTOqXwrMHiCoideIMnQnw-1; Fri, 13 Dec 2019 06:40:02 -0500
+X-MC-Unique: ZuTOqXwrMHiCoideIMnQnw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2387ADB2E;
+ Fri, 13 Dec 2019 11:40:01 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 433FA100EBCC;
+ Fri, 13 Dec 2019 11:39:58 +0000 (UTC)
+Date: Fri, 13 Dec 2019 11:39:57 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: gongsu@us.ibm.com
+Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
+Message-ID: <20191213113957.GB1186952@stefanha-x1.localdomain>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128165933.GB3295@work-vm>
+ <20191129102325.55ee16ea@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 454ba24a-77d0-48dd-e2d7-08d77fc00751
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2019 11:31:43.1228 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ij576y4gVz78Avf4f+LRC3NXzhEMKA8pOyzB9m/GSc/SO8urox47Rq7f5HHjCC434AJ1QuPab1DkikXSjM+XS0n5Me8TXFHpcIL6G4VhNeo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3079
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.15.129
+In-Reply-To: <20191129102325.55ee16ea@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="i0/AhcQY5QxfSsSZ"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,41 +73,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.12.2019 18:15, Max Reitz wrote:
-> On 03.12.19 14:33, Vladimir Sementsov-Ogievskiy wrote:
->> 03.12.2019 16:32, Vladimir Sementsov-Ogievskiy wrote:
->>> 11.11.2019 19:02, Max Reitz wrote:
->>>> Signed-off-by: Max Reitz<mreitz@redhat.com>
->>>
->>>
->>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>
->>
->>
->> Oops, stop. Why do you remove line "self.vm.shutdown()" ?
+--i0/AhcQY5QxfSsSZ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 29, 2019 at 10:23:25AM +0100, Igor Mammedov wrote:
+> On Thu, 28 Nov 2019 16:59:33 +0000
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 >=20
-> Because we don=92t need it.  tearDown() does it anyway.  I suppose I
-> should mention it in the commit message.
->=20
+> > * Marc-Andr=E9 Lureau (marcandre.lureau@redhat.com) wrote:
+> > > Hi,
+> > >=20
+> > > Setting up shared memory for vhost-user is a bit complicated from
+> > > command line, as it requires NUMA setup such as: m 4G -object
+> > > memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,share=3Don=
+ -numa
+> > > node,memdev=3Dmem.
+> > >=20
+> > > Instead, I suggest to add a -mem-shared option for non-numa setups,
+> > > that will make the -mem-path or anonymouse memory shareable.
+> > >=20
+> > > Comments welcome, =20
+> >=20
+> > It's worth checking with Igor (cc'd) - he said he was going to work on
+> > something similar.
+> >=20
+> > One other thing this fixes is that it lets you potentially do vhost-use=
+r
+> > on s390, since it currently has no NUMA.
+> Switching to memdev will let vhost-user on s390 work as well.
+> This is convenience option and workarounds inability to set main RAM
+> properties in current impl.=20
 
-Yes...
+Gong Su asked about virtio-fs (vhost-user) on s390.  This patch series
+might be the first step to enabling it.
 
-But actually, better to remove extra shutdown from all test cases, not from
-one, and than it would be separate patch.
+Stefan
 
-Extra shutdown is left in (considering only class TestRepairQuorum):
-test_pause
-test_cancel_after_ready
-test_cancel
-test_complete
+--i0/AhcQY5QxfSsSZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Best regards,
-Vladimir
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3zeI0ACgkQnKSrs4Gr
+c8heCQf/Tpua65a7VQ+IxGSYTVOd6Q/96lNPKA/slXSeePextNU3gucNpzB/uZ2B
+B2QLf/tLHHaci28RdMwoeW9WhTQA4rN0ppQVYuBuTfIQNgATywY0/c+Au/sZqZcB
+kNcD+p1b4WjZOkdXkPtsGukzKye9Ek6JOueHPqC2LhC08EixN6Zq5vT3z74srMkL
+ItqHKmjUlE0LFH5E4/QNAorFbK7zJHafuenlSUmWPT+gPpFwi87ERsnqke2j2dVX
+JJgpeyxShjBYUD3UJX1y0YNuA77ToEBhQlnhDJGMiUWrxoH8qPUvODeVmJIJcfD9
+VsUMyMbgyMSVPyeIPpAPJWo/LTvJog==
+=x6gH
+-----END PGP SIGNATURE-----
+
+--i0/AhcQY5QxfSsSZ--
+
 
