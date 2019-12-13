@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8AF11ECAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 22:11:34 +0100 (CET)
-Received: from localhost ([::1]:53508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9624611ECAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 13 Dec 2019 22:13:35 +0100 (CET)
+Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifsDl-0006Iw-Kp
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 16:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39957)
+	id 1ifsFi-0007Jz-MW
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 16:13:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ifsCc-0005HS-4D
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:10:23 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ifsEp-0006tU-VT
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:12:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ifsCa-0006Pu-NV
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:10:21 -0500
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:42997)
+ (envelope-from <peter.maydell@linaro.org>) id 1ifsEo-000303-MB
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:12:39 -0500
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:45550)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ifsCa-0006OF-Fi
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:10:20 -0500
-Received: by mail-oi1-x22b.google.com with SMTP id j22so1891021oij.9
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 13:10:20 -0800 (PST)
+ id 1ifsEo-0002xQ-Ge
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 16:12:38 -0500
+Received: by mail-oi1-x231.google.com with SMTP id v10so1885858oiv.12
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 13:12:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=et9DgHZv3cNUc21+xtHFjnkOwB9mRltLZxdxMnkrJyE=;
- b=mV4egBaZUgWXOeaw5Fk3ZNF2Fj8RnEBcZ3RaotIhPoLOo0lSpfJs04IgO3rOjoeqZw
- kKnFZN2fcDkNqcgst6ebZRmCTbVLveWtO2WNiV4qeNpepyjM2qMH32xl4GwZoWzXiffi
- UJlyInGeH3FEui2ubAeNwY/docIKZLuO0BWDsk6xK+EOTD3bWyRlHi96/a9YIXt9LkHP
- q6P3kZDCtJQF1GcBFB/hngSJLhbazBwDMmKf2POMqA9uOYQ1Vm63DqL/JzzhwHrFZBkC
- oq9psNuNh9Fuy22r/xMm+eaMvqImLOBlyMdXtHi4ryIkp1f1p5rDcVNEmWkOQ4PgwpsW
- HJrg==
+ :cc; bh=5w0ChjojtBXEdgjarQfmok1s37IRkPKwN0axGhDM0RY=;
+ b=IrntwNBa2V0mMJVsIS8fqHIbMwhZxAttnqBaetxlryLZ2LHbP+NRmiyZu7m0Ihjoh0
+ /SWXv0bOu57eDaGKVihBcPd4SA+xvrm+hiGJPyVyTC5GK7vdm05C0kmxW0uPENIQNudR
+ Kxml8V1Wyel+5KGMNjRHBzpp73lKICOk29zG9rC5/DkI4LuRbi2g5qg0TN1oq9A04WXG
+ wj4x/jMPOP0pKQXNcCPggMihd00FIbdwbzPZ6Iruie6kiif5e7d88Ibh9TMOXc2XUrZc
+ V3qvW/PpMpnVXsA0aBpZcQJneAHNyfwM7XT6CI/ods83IPk+eT8oiS7YAxyfJel2QChh
+ O5Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=et9DgHZv3cNUc21+xtHFjnkOwB9mRltLZxdxMnkrJyE=;
- b=qWW0P4DlGyLd1eMzycuYAtJyPrOHfdRC03flRezmTdnvCElthAZmjlKMGKRbhPzUGu
- rnGgPYD4VwgJ9ngg4gWF3uTt3yxkjPqpFuqrE9oVulMX0DqG9i9PW86rBtvRxpU4M81i
- lZouXKmb6LA/2okZWxRQq2d0695rQsGI6lIWVWzpGTQtMigQTQxgn14nleZFlsgJgxFO
- StmMDWZOMr41qZ/810z0+4v1fGU+pYYYPnu488Pikykzix/5oN0ft8im2pGLclz/Tbs/
- 63sa3vIclzVsNJ9npzJFS2p8jp9jyNfs1LSFhGPtU+wS+VuFNfjwoBgdTJeWMB9qAgoa
- 4JpA==
-X-Gm-Message-State: APjAAAVOPwTXzFqQKQoHVjHsuN2xngjN0MUDd59CBarcPUqWQ5qnP7of
- f/Ubg0HVNplK/qeCCX0vu2gMNHqN1hqKyh0+/9soAg==
-X-Google-Smtp-Source: APXvYqxbm+Doh+qHOK7ddKEGVd8GkbLrigEutUG8A7+aHvJy0EywpAy390aWXc/El3rG1otbvUM2ObGW9nOwZ7qRw70=
-X-Received: by 2002:a05:6808:2d8:: with SMTP id
- a24mr8184541oid.88.1576271419028; 
- Fri, 13 Dec 2019 13:10:19 -0800 (PST)
+ bh=5w0ChjojtBXEdgjarQfmok1s37IRkPKwN0axGhDM0RY=;
+ b=F10fsHaXO5cUk2lOUoTEIeWRn5foytOQn6hugLgGWSflvIeNPwULqo2VDJvkkSnDkj
+ 88ISpO2vzyVKPAJT44gRyWqbnvY/J3uiRLVNnhknzDFxOBhzhXKaAT36lvmM2daHm13h
+ yAK5GnN6KhXr+Q4giYkLE6WD1jGv8gttwmH4ylfHnEA0umosND6frnYOIsEvYkZzcu4H
+ pd058IDaAG9p5Hchz/jEV2xnqgglAaY6xywv24NWDB/qWinfC9cKNPYhYPRSBLU2lCzG
+ XnoQ0BjUZn5qHX0ygl8KoiU2WGCzIgJz7VYqTdMtn44+t/+RAQuECA04cy9VotQvcymr
+ GnJQ==
+X-Gm-Message-State: APjAAAWLm0YUBELVh3a+4GNWUgG2rlj4LQiBm/rdbsA4Pn4AwC+Nf/Nx
+ XvSi+IQlJlSYDRe7GG+k6TdlXmxCQpB3wISOYnwRKA==
+X-Google-Smtp-Source: APXvYqxjUx5O9x/vQ4U3p1/b1sSv37mUSAX0pZn8zaTTQ+LgbE3jDgI3V58S4VKq8Oscx4KvfW2F7PXOF8hTLQ7neeg=
+X-Received: by 2002:aca:f5cc:: with SMTP id t195mr7998752oih.163.1576271557497; 
+ Fri, 13 Dec 2019 13:12:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20191213143314.1198821-1-stefanha@redhat.com>
-In-Reply-To: <20191213143314.1198821-1-stefanha@redhat.com>
+References: <20191213161851.24687-1-cohuck@redhat.com>
+In-Reply-To: <20191213161851.24687-1-cohuck@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 13 Dec 2019 21:10:07 +0000
-Message-ID: <CAFEAcA_8zAXcZ+e1KiTkJx19bg1gopWyh48EGacbZasBY3PKiA@mail.gmail.com>
-Subject: Re: [PULL 0/2] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Fri, 13 Dec 2019 21:12:18 +0000
+Message-ID: <CAFEAcA8O=ezHAQKKr9zrA0M_TE-FbnHmict5K8_+5v64BDoTxA@mail.gmail.com>
+Subject: Re: [PULL 00/16] first s390x update for 5.0
+To: Cornelia Huck <cohuck@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22b
+X-Received-From: 2607:f8b0:4864:20::231
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,12 +71,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 13 Dec 2019 at 14:33, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Fri, 13 Dec 2019 at 16:19, Cornelia Huck <cohuck@redhat.com> wrote:
 >
 > The following changes since commit b0ca999a43a22b38158a222233d3f5881648bb4f:
 >
@@ -85,22 +83,51 @@ On Fri, 13 Dec 2019 at 14:33, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
 > are available in the Git repository at:
 >
->   https://github.com/stefanha/qemu.git tags/block-pull-request
+>   https://github.com/cohuck/qemu tags/s390x-20191213
 >
-> for you to fetch changes up to 86d2a49b41832355ab50cf60cec0cd50680fc0e5:
+> for you to fetch changes up to b147562019dd845a224cde7a37c219f9848d1b8d:
 >
->   iothread: document -object iothread on man page (2019-12-13 11:24:07 +0000)
->
-> ----------------------------------------------------------------
-> Pull request
+>   qga: fence guest-set-time if hwclock not available (2019-12-13 12:16:50 +0100)
 >
 > ----------------------------------------------------------------
+> First s390x update for 5.0:
+> - compat machines (also for other architectures)
+> - cleanups and fixes in reset handling
+> - fence off guest-set-time, as we have no hwclock
+> - fix some misuses of the error API
+> - further cleanups
+>
+> ----------------------------------------------------------------
 >
 
-Applied, thanks.
+Hi -- this has conflicts. Most of them I could probably fix up,
+but this one in particular:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+diff --cc hw/s390x/s390-virtio-ccw.c
+index cb5fe4c84d,e0e28139a2..0000000000
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@@ -645,9 -658,10 +658,13 @@@ static void ccw_machine_4_2_instance_op
 
+  static void ccw_machine_4_2_class_options(MachineClass *mc)
+  {
+++<<<<<<< HEAD
+++=======
++     ccw_machine_5_0_class_options(mc);
+++>>>>>>> remotes/cohuck/tags/s390x-20191213
+      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+  }
+- DEFINE_CCW_MACHINE(4_2, "4.2", true);
++ DEFINE_CCW_MACHINE(4_2, "4.2", false);
+
+  static void ccw_machine_4_1_instance_options(MachineState *machine)
+  {
+
+
+I don't know whether we want the 'true' or 'false' version...
+
+Could you rebase and resend, please?
+
+thanks
 -- PMM
 
