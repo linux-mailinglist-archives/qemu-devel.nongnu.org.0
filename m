@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B11E11F1C0
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 13:23:45 +0100 (CET)
-Received: from localhost ([::1]:58684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED33711F437
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:21:16 +0100 (CET)
+Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ig6SV-0006XZ-Nm
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 07:23:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58468)
+	id 1igEqh-0006BA-C8
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:21:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ig6R2-0005vB-Vx
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 07:22:13 -0500
+ (envelope-from <philmd@redhat.com>) id 1igEoe-0004Xx-Gb
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ig6Qz-00081c-HX
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 07:22:10 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23890
+ (envelope-from <philmd@redhat.com>) id 1igEoc-0007xb-1L
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:07 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48435
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ig6Qy-0007uz-RZ
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 07:22:09 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEob-0007v2-Hn
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576326127;
+ s=mimecast20190719; t=1576358344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=MiYsMXgGsFHfWNGUd03kBxtaFzsYHIdfW2UUfaxifrI=;
- b=bvxRtN0ZpV3Vk46YhHObmpIfo3d4y8VD4TzNRM1J8zh0mowwm8YqAECobu29mM0QnZ42WT
- fKdmMyWpLXZTtwZMymgtIaTG+aFLcZ2hQdNElRFHpZD0rp/V/V0sz2RAoH3l6O0VMKBz9S
- U8YPS3YGiZg61WsxVICeGOtYgfNB/1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-cZztHh_DO_yeBQktVlvZug-1; Sat, 14 Dec 2019 07:22:04 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC62A477;
- Sat, 14 Dec 2019 12:22:03 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-80.ams2.redhat.com [10.36.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84B965D9CA;
- Sat, 14 Dec 2019 12:21:53 +0000 (UTC)
-Subject: Re: [PATCH] virtio-blk: deprecate SCSI passthrough
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20191213144626.1208237-1-stefanha@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <0d2e25dc-ff7a-e133-433a-faac5d6a45d2@redhat.com>
-Date: Sat, 14 Dec 2019 13:21:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=y1WKTAAdK/tLnNkgos6Lk4vIt/+CYxOhkXdm02qtRI4=;
+ b=SdCp3WgSZYhtWzJy5xIYLDSGVCHuITzfoCvP3HVlsa6Wi4CY1pI7/dj6ch3pwaaEcTDb+8
+ qoFOcbeBG8ZqgFNo0HkWi5fsjxbK13fRUGUAzAKmWGOTgS3E1Lq93L1HuMCWVsi+CROvIJ
+ B9iyokMMsjICjY6YuzcJnYXpmtYQ0hs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-IRF1AYsgPJ29uxCrvvfezw-1; Sat, 14 Dec 2019 08:15:39 -0500
+Received: by mail-wr1-f69.google.com with SMTP id z15so986965wrw.0
+ for <qemu-devel@nongnu.org>; Sat, 14 Dec 2019 05:15:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y1WKTAAdK/tLnNkgos6Lk4vIt/+CYxOhkXdm02qtRI4=;
+ b=RilfM5GqtPiM8Ubt3EHkQ6uGH6EahAd6XLf63OBQ/nkH4/ZQ3GRJFKOK6SEENWVk/V
+ p8NPl2l4uVBtK7vKSQjgN0Ta6Gvw7UDkFujYxgQkLABhdgoMefqALfHo2+W8fv2kmRNO
+ yhRTZBMLk6yWS8Xdehc5YnLmswrglMVVkebwhJHwH0Z0VKbC1D2UJjG6JG6kRibJn6VA
+ sjrx6b2NK+AlAIS48W7p2GsNcl2Eka2Q3/EtyMxVe7VykIIsy1NNeVA/m+3tWHZTSLCJ
+ 0lgUXDDzd2ew0/Lpf9oQev6n0+ozBq/02k2JM2NEuUmKIUn+lgBmCym5IUvuXUhR+P+z
+ yIjg==
+X-Gm-Message-State: APjAAAWJn0C6+FS4yMnARA0Kk3Rhunff5d5xSmCWXB0pQXF7Jx/8kX5b
+ iiHMtKrgLaYZlaXbb1b2l8brVR55igT0l8pdZJaaevtdnMsYP6caXkpxzmXPlRzF5GdOuHm5oNj
+ X9ZmWbxgTjlSO2OM=
+X-Received: by 2002:adf:fd07:: with SMTP id e7mr18437409wrr.21.1576329338165; 
+ Sat, 14 Dec 2019 05:15:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzq84gfzBloTd+YaV1BT/Az2HOxGWAqJysHV99UsnXBOidd/s4ulY5JkHbF69zA8OlNFY8LpQ==
+X-Received: by 2002:adf:fd07:: with SMTP id e7mr18437335wrr.21.1576329337246; 
+ Sat, 14 Dec 2019 05:15:37 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id e8sm13607070wrt.7.2019.12.14.05.15.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 14 Dec 2019 05:15:36 -0800 (PST)
+Subject: Re: [PATCH 3/3] q800: add machine id register
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20191212200142.15688-1-laurent@vivier.eu>
+ <20191212200142.15688-4-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <147a4c04-3833-b812-977f-786f36c02bd6@redhat.com>
+Date: Sat, 14 Dec 2019 14:15:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191213144626.1208237-1-stefanha@redhat.com>
+In-Reply-To: <20191212200142.15688-4-laurent@vivier.eu>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: cZztHh_DO_yeBQktVlvZug-1
+X-MC-Unique: IRF1AYsgPJ29uxCrvvfezw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -74,42 +91,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/2019 15.46, Stefan Hajnoczi wrote:
-> The Linux virtio_blk.ko guest driver is removing legacy SCSI passthrough
-> support.  Deprecate this feature in QEMU too.
+On 12/12/19 9:01 PM, Laurent Vivier wrote:
+> MacOS reads this address to identify the hardware.
 > 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> This is a basic implementation returning the ID of Quadra 800.
+> 
+> Details:
+> 
+>    http://mess.redump.net/mess/driver_info/mac_technical_notes
+> 
+> "There are 3 ID schemes [...]
+>   The third and most scalable is a machine ID register at 0x5ffffffc.
+>   The top word must be 0xa55a to be valid. Then bits 15-11 are 0 for
+>   consumer Macs, 1 for portables, 2 for high-end 68k, and 3 for high-end
+>   PowerPC. Bit 10 is 1 if additional ID bits appear elsewhere (e.g. in VIA1).
+>   The rest of the bits are a per-model identifier.
+> 
+>   Model                          Lower 16 bits of ID
+> ...
+>   Quadra/Centris 610/650/800     0x2BAD"
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->  qemu-deprecated.texi | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>   hw/m68k/q800.c | 22 ++++++++++++++++++++++
+>   1 file changed, 22 insertions(+)
 > 
-> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> index 4b4b7425ac..ef94d497da 100644
-> --- a/qemu-deprecated.texi
-> +++ b/qemu-deprecated.texi
-> @@ -285,6 +285,17 @@ spec you can use the ``-cpu rv64gcsu,priv_spec=v1.9.1`` command line argument.
->  
->  @section Device options
->  
-> +@subsection Emulated device options
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index 9ee0cb1141..c2b2aa779f 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -97,6 +97,23 @@ static void main_cpu_reset(void *opaque)
+>       cpu->env.pc = ldl_phys(cs->as, 4);
+>   }
+>   
+> +static uint64_t machine_id_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    return 0xa55a2bad; /* Quadra 800 ID */
+> +}
 > +
-> +@subsubsection -device virtio-blk,scsi=on|off (since 5.0.0)
-> +
-> +The virtio-blk SCSI passthrough feature is a legacy VIRTIO feature.  VIRTIO 1.0
-> +and later do not support it because the virtio-scsi device was introduced for
-> +full SCSI support.  Use virtio-scsi instead when SCSI passthrough is required.
-> +
-> +Note this also applies to ``-device virtio-blk-pci,scsi=on|off'', which is an
-> +alias.
+> +static void machine_id_write(void *opaque, hwaddr addr, uint64_t val,
+> +                             unsigned size)
+> +{
 
-... and "-device virtio-blk-ccw,scsi=on|off". With that added:
+Maybe worth adding:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+        qemu_log_mask(LOG_GUEST_ERROR, ...);
+
+> +}
+> +
+> +static const MemoryRegionOps machine_id_ops = {
+> +    .read = machine_id_read,
+> +    .write = machine_id_write,
+> +    .valid.min_access_size = 4,
+> +    .valid.max_access_size = 4,
+
+I think you want s/valid/impl/, because i.e. the guest could use 16-bit 
+access right?
+
+> +};
+> +
+>   static void q800_init(MachineState *machine)
+>   {
+>       M68kCPU *cpu = NULL;
+> @@ -110,6 +127,7 @@ static void q800_init(MachineState *machine)
+>       MemoryRegion *rom;
+>       MemoryRegion *ram;
+>       MemoryRegion *io;
+> +    MemoryRegion *machine_id;
+>       const int io_slice_nb = (IO_SIZE / IO_SLICE) - 1;
+>       int i;
+>       ram_addr_t ram_size = machine->ram_size;
+> @@ -159,6 +177,10 @@ static void q800_init(MachineState *machine)
+>           g_free(name);
+>       }
+>   
+> +    machine_id = g_malloc(sizeof(*machine_id));
+
+We now prefer g_new(MemoryRegion, 1).
+
+> +    memory_region_init_io(machine_id, NULL, &machine_id_ops, NULL, "Machine ID", 4);
+> +    memory_region_add_subregion(get_system_memory(), 0x5ffffffc, machine_id);
+
+To keep the style consistent, can you use a MACHINEID_BASE definition 
+instead?
+
+> +
+>       /* djMEMC memory and interrupt controller */
+>   
+>       djmemc_dev = qdev_create(NULL, TYPE_DJMEMC);
+> 
 
 
