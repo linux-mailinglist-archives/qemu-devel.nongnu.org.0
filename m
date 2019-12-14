@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B3011EF8E
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 02:34:39 +0100 (CET)
-Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB0511EF96
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 02:40:05 +0100 (CET)
+Received: from localhost ([::1]:55098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifwKH-0001JW-7J
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 20:34:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54661)
+	id 1ifwPd-0006xx-02
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 20:40:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51008)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ifwHf-0007oZ-PY
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:31:53 -0500
+ (envelope-from <philmd@redhat.com>) id 1ifwOi-0006Wq-SQ
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:39:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ifwHZ-00083Z-DQ
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:31:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52085
+ (envelope-from <philmd@redhat.com>) id 1ifwOh-0007uQ-7N
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:39:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58920
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifwHU-0007xo-LL
- for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:31:43 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ifwOh-0007sf-19
+ for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:39:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576287098;
+ s=mimecast20190719; t=1576287546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+rfChBjeqlCDmq6N/UbfANfJtHcxYJfAuJC/Wa9rel4=;
- b=IQF9Zlbtk5BRuSqZPW6+iNhWADJw4QYIADbYF+tWLu53lm9u/RSGo4H4+8jjJH1Vr4tCte
- 0SHdaSZem6KyB8Nlkod1P4itLnrC6ylKCxL5UXYaKp8fx0SdSoXdFaL6TL6cn82FYnjbLw
- K9+RH6F0o3/htuPCGmIbtaguFmhgZ1s=
+ bh=XUh+xtArYtEffdKd7hr3LMOsE0p1PYuwn2xOw86Uueo=;
+ b=Pcu6gENk+PRCgnBnABz32jMMFb8eaJXfNYTHFBNmnoQ3qRxHztISV0hxgl+Dc/O0ImEO7K
+ xSeeIXtuSPBL/DJBbGcH/leESF5/s8QnA25MpdFx2OWVKl5nnrfd00mOe1VBHTU1RGVoza
+ 6lJwxgUBR+mUuQPGZYEEIiyGNqdTXR8=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-yNgS6bdlM0GZvfp-grETug-1; Fri, 13 Dec 2019 20:31:36 -0500
-Received: by mail-wr1-f71.google.com with SMTP id c17so332481wrp.10
- for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 17:31:36 -0800 (PST)
+ us-mta-88-AOlZ2BwyPziPAkT9QZdy2g-1; Fri, 13 Dec 2019 20:39:02 -0500
+Received: by mail-wr1-f71.google.com with SMTP id b13so326503wrx.22
+ for <qemu-devel@nongnu.org>; Fri, 13 Dec 2019 17:39:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:cc:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+rfChBjeqlCDmq6N/UbfANfJtHcxYJfAuJC/Wa9rel4=;
- b=bdY6X77bUSZF6WE629meP5lxHptn8+K0qyc7ewrdnolb7ruYYOBXmb4wuVL5Ges73q
- 4NZPxZNmDf0uA9YHjfOkrpGlf5GTdtMCM64v0IOjMFVYtlD6wg/AV67FJZoQd5rOqDxa
- ujJszHNxFG5KRHMWUQNIrxRmD8gcNEc1e/zS4C3hBlrXVtZaLWpZ64wYE0zachh+V9ue
- bdnCFj0haKoRVbeFoydW5WAetUT5S604Gssl0ZAW4w70DyvaGSGdebTMDFPioXjE23Oi
- BRXTMuX7GPhVsExykDFl6zrZSx4jwxUIkAPCYSGMq1RaU/d2+Gr6zg+xveyPwS7D94/r
- dQDg==
-X-Gm-Message-State: APjAAAWDvWUwMr3dyqVI5gqdqBohjB35ExVK6t+pYPTFRh8im85jZZYf
- bqffbCBFdElsCyQ79bUxum+KZJ7sql92MsN+GE/WvtRJH4QNcd89V9dMSQKIz4Jh6T5Px2N6ypk
- DpwK2mLFVaDKrtTs=
-X-Received: by 2002:a7b:c00c:: with SMTP id c12mr16617347wmb.34.1576287095594; 
- Fri, 13 Dec 2019 17:31:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxCJW05lTMYTKj5OPKmeUu6i+Y4aM4pvT0TIc75LbbTXE/OpWA6ZWCdiQKIAYZ+qaTXRBwlqA==
-X-Received: by 2002:a7b:c00c:: with SMTP id c12mr16617324wmb.34.1576287095336; 
- Fri, 13 Dec 2019 17:31:35 -0800 (PST)
+ bh=6pihhpOz+OkwI5H51pJn3ch1EeTbGZAXU5rriEBpMgg=;
+ b=A5Ype31J/NcoWIoAjnMFJHLffbQv7leW5qC5xdjeDITARHZRADi9kWonGc5j+2v03G
+ f7gD6QuaxmmB1cEN7p7sCSNPlc5/AHGpKM7rOW0fEP055PTSej6THNHiQaP45uCRTVqU
+ NJpcb7Jdht3y5Qf9CP+QSqrOJtoCTNJ+cz5N/mplVx+Ho0Ymzut9a/Fmwd5KNbOIBCkJ
+ mrKy/GUrJfbLn9OblRO2lYjoqpv8gNP7xZUPkhRigUdVEcETBBQ1Kwf1wFGPH2D82CBI
+ IU68joY6NtOqOOWi20TEbGkIY0pWQl9OdE0RLZxNQdyTbqZY7WAUyyf1L/WLyfVJffxY
+ 6k6Q==
+X-Gm-Message-State: APjAAAVsiJCJX/yK7PngrTDIscjMnBJqqJ14qDnm8hroZvXH5dgnRxvO
+ 8HxdwoMZxs+tHbH2x+YOGZ1J81/fiZuW4ncGFjPeE7B4gcrmsUDRtfXMz9Y1fumyRHay2caZINY
+ LEfRR7p7ouyyt4BA=
+X-Received: by 2002:a5d:4386:: with SMTP id i6mr15985365wrq.63.1576287541369; 
+ Fri, 13 Dec 2019 17:39:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxREcFAGrlzjN3y9GLu16XYm3zNnzqm/a+gc8vP72m9K6LIRIrPHBAkZQnuB+GmWMa9m423zw==
+X-Received: by 2002:a5d:4386:: with SMTP id i6mr15985353wrq.63.1576287541165; 
+ Fri, 13 Dec 2019 17:39:01 -0800 (PST)
 Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id g7sm12083992wrq.21.2019.12.13.17.31.34
+ by smtp.gmail.com with ESMTPSA id f17sm12223582wmc.8.2019.12.13.17.39.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 17:31:34 -0800 (PST)
-Subject: Re: qemu-4.2: failed to set MSR 0x48b to 0x1582e00000000: Assertion
- `ret == cpu->kvm_msr_buf->nmsrs' failed.
-To: "Montes, Julio" <julio.montes@intel.com>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <DM6PR11MB4089A0B695CB84FB288068B89A540@DM6PR11MB4089.namprd11.prod.outlook.com>
+ Fri, 13 Dec 2019 17:39:00 -0800 (PST)
+Subject: Re: MIPS cache bypass on custom board
+To: "Bensch, Alexander" <Alexander.Bensch@parsons.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <e3c2df7ae90747729a47d5f854e450e5@ALHUN12EXCH02.Parsons.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2c28287e-1869-751d-f7c8-04605ef4b337@redhat.com>
-Date: Sat, 14 Dec 2019 02:31:33 +0100
+Message-ID: <9ba23651-746a-5085-eff8-a048385e29ed@redhat.com>
+Date: Sat, 14 Dec 2019 02:38:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <DM6PR11MB4089A0B695CB84FB288068B89A540@DM6PR11MB4089.namprd11.prod.outlook.com>
+In-Reply-To: <e3c2df7ae90747729a47d5f854e450e5@ALHUN12EXCH02.Parsons.com>
 Content-Language: en-US
-X-MC-Unique: yNgS6bdlM0GZvfp-grETug-1
+X-MC-Unique: AOlZ2BwyPziPAkT9QZdy2g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,157 +91,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Julio,
+Hi Alexander,
 
-On 12/13/19 9:53 PM, Montes, Julio wrote:
-> Hi folks
-> 
-> I'm trying to run qemu 4.2.0 in azure VMs, unfourtunately qemu fails:
-> 
-> failed to launch qemu: exit status 1, error messages from qemu log: 
-> qemu-system-x86_64: error: failed to set MSR 0x48b to 0x1582e00000000
-> qemu-system-x86_64: /root/qemu/target/i386/kvm.c:2947: kvm_put_msrs: 
-> Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
-> 
-> I'm using the following command line:
-> 
-> qemu-system-x86_64 -machine pc,accel=kvm,kernel_irqchip,nvdimm -cpu 
-> host,pmu=off \
-> -qmp unix:qmp.sock,server,nowait -m 2048M,slots=10,maxmem=8977M -device 
-> pci-bridge,bus=pci.0,id=pci-bridge-0,chassis_nr=1,shpc=on,addr=2,romfile= \
-> -device virtio-serial-pci,disable-modern=true,id=serial0,romfile= 
-> -device virtconsole,chardev=charconsole0,id=console0 \
-> -chardev socket,id=charconsole0,path=console.sock,server,nowait -device 
-> nvdimm,id=nv0,memdev=mem0 \
-> -object 
-> memory-backend-file,id=mem0,mem-path=kata-containers.img,size=134217728 
-> -device virtio-scsi-pci,id=scsi0,disable-modern=true,romfile= \
-> -object rng-random,id=rng0,filename=/dev/urandom -device 
-> virtio-rng,rng=rng0,romfile= -device 
-> virtserialport,chardev=charch0,id=channel0,name=agent.channel.0 \
-> -chardev socket,id=charch0,path=kata.sock,server,nowait -device 
-> virtio-9p-pci,disable-modern=true,fsdev=extra-9p-kataShared,mount_tag=kataShared,romfile= 
-> \
-> -fsdev 
-> local,id=extra-9p-kataShared,path=/run/kata-containers/shared/sandboxes,security_model=none 
-> -netdev tap,id=network-0,vhost=on,vhostfds=3,fds=4 \
-> -device 
-> driver=virtio-net-pci,netdev=network-0,mac=ea:4a:b6:1a:92:72,disable-modern=true,mq=on,vectors=4,romfile= 
-> \
-> -global kvm-pit.lost_tick_policy=discard -vga none -no-user-config 
-> -nodefaults -nographic -daemonize -object 
-> memory-backend-ram,id=dimm1,size=2048M \
-> -numa node,memdev=dimm1 -kernel 
-> /usr/share/kata-containers/vmlinuz-4.19.86-60 \
-> -append "tsc=reliable no_timer_check rcupdate.rcu_expedited=1 
-> i8042.direct=1 i8042.dumbkbd=1 i8042.nopnp=1 i8042.noaux=1 noreplace-smp 
-> reboot=k \
-> console=hvc0 console=hvc1 iommu=off cryptomgr.notests net.ifnames=0 
-> pci=lastbus=0 root=/dev/pmem0p1 
-> rootflags=dax,data=ordered,errors=remount-ro \
-> ro rootfstype=ext4 debug systemd.show_status=true 
-> systemd.log_level=debug panic=1 nr_cpus=2 agent.use_vsock=false 
-> systemd.unit=kata-containers.target \
-> systemd.mask=systemd-networkd.service 
-> systemd.mask=systemd-networkd.socket agent.log=debug agent.log=debug" \
-> -pidfile pid -D qemu.log -smp 1,cores=1,threads=1,sockets=2,maxcpus=2
-> 
-> Qemu 4.1.0 works fine
-> Qemu 4.2.0 **only** fails in azure VMs, in my workstation it works fine
-> 
-> any thoughts?
+On 12/13/19 7:59 PM, Bensch, Alexander wrote:
+> Hi all,
+>=20
+> Currently stuck on a problem in QEMU 4.0.0. I=92m trying to implement a=
+=20
+> custom device using a MIPS 24Kc CPU. The device boots from an SPI flash=
+=20
+> device that is mapped to 0x9F000000 (physical address 0x1F000000). I got=
+=20
+> the initial load and execute working by direct loading a flash dump to a=
+=20
+> MemoryRegion based at 0x1F000000, which worked great until the ROM=20
+> needed to access the SPI registers that are addressed to 0xBF000000=20
+> (/also /physical address 0x1F000000). QEMU cannot differentiate reads=20
+> and writes to 0xBF000000 from reads and writes to 0x9F000000.
+>=20
+> Initially I assumed this was a caching problem, as I know that the SPI=20
+> registers are located in the KSEG1 memory segment which uses uncached=20
+> writes, while the flash mapping is in KSEG0 with cached writes. I also=20
+> can see that QEMU has logic to handle caching in a few source files=20
+> within /targets/mips//. However, when I read from addresses in the KSEG1=
+=20
+> region, I still see contents from the KSEG0 region.
+>=20
+> My question is whether there is any way to configure a MIPS board such=20
+> that I can correctly bypass the cache for KSEG1 as expressed by the MIPS=
+=20
+> documentation?
 
-Are you running also nested on your workstation?
+Unfortunately QEMU doesn't model microarchitecture, thus no cache is=20
+modelled, meaning KSEG1 is the same as KSEG0.
 
-> 
-> 
-> Information about the VM:
-> 
-> $ cat /sys/module/kvm_intel/parameters/nested
-> Y
-> 
-> $ cat /proc/cpuinfo
-> processor : 0
-> vendor_id : GenuineIntel
-> cpu family : 6
-> model : 79
-> model name : Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
-> stepping : 1
-> microcode : 0xffffffff
-> cpu MHz : 2294.685
-> cache size : 51200 KB
-> physical id : 0
-> siblings : 2
-> core id : 0
-> cpu cores : 1
-> apicid : 0
-> initial apicid : 0
-> fpu : yes
-> fpu_exception : yes
-> cpuid level : 20
-> wp : yes
-> flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov 
-> pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm 
-> constant_tsc rep_good nopl xtopology cpuid pni pclmulqdq vmx ssse3 fma 
-> cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand 
-> hypervisor lahf_lm abm 3dnowprefetch invpcid_single pti tpr_shadow vnmi 
-> ept vpid fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx 
-> smap xsaveopt md_clear
-> bugs : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds 
-> swapgs taa itlb_multihit
-> bogomips : 4589.37
-> clflush size : 64
-> cache_alignment : 64
-> address sizes : 44 bits physical, 48 bits virtual
-> power management:
-> 
-> processor : 1
-> vendor_id : GenuineIntel
-> cpu family : 6
-> model : 79
-> model name : Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
-> stepping : 1
-> microcode : 0xffffffff
-> cpu MHz : 2294.685
-> cache size : 51200 KB
-> physical id : 0
-> siblings : 2
-> core id : 0
-> cpu cores : 1
-> apicid : 1
-> initial apicid : 1
-> fpu : yes
-> fpu_exception : yes
-> cpuid level : 20
-> wp : yes
-> flags : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov 
-> pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm 
-> constant_tsc rep_good nopl xtopology cpuid pni pclmulqdq vmx ssse3 fma 
-> cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand 
-> hypervisor lahf_lm abm 3dnowprefetch invpcid_single pti tpr_shadow vnmi 
-> ept vpid fsgsbase bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx 
-> smap xsaveopt md_clear
-> bugs : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds 
-> swapgs taa itlb_multihit
-> bogomips : 4589.37
-> clflush size : 64
-> cache_alignment : 64
-> address sizes : 44 bits physical, 48 bits virtual
-> power management:
-> 
-> $ uname -a
-> Linux testcrio1 5.0.0-1027-azure #29~18.04.1-Ubuntu SMP Mon Nov 25 
-> 21:18:57 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-> 
-> Thanks
-> 
-> -
-> Julio
-> 
-> 
+Peter Maydell had the similar problem you describe last year:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg556999.html
+
+>=20
+> Apologies if details are lacking. Please request more info if needed.
+>=20
+> Thank you,
+>=20
+> *Alex Bensch*
 
 
