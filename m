@@ -2,46 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4889411F4EE
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 23:48:48 +0100 (CET)
-Received: from localhost ([::1]:34200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B11E11F1C0
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 13:23:45 +0100 (CET)
+Received: from localhost ([::1]:58684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igGDO-0002yF-Tf
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 17:48:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41543)
+	id 1ig6SV-0006XZ-Nm
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 07:23:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58468)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jocke@infinera.com>) id 1igFGk-0002PV-L2
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:48:13 -0500
+ (envelope-from <thuth@redhat.com>) id 1ig6R2-0005vB-Vx
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 07:22:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jocke@infinera.com>) id 1igFGj-0008Dj-2Y
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:48:10 -0500
-Received: from [31.15.61.139] (port=53679 helo=smtp.transmode.se)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <jocke@infinera.com>) id 1igFGi-0007rc-Qy
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:48:08 -0500
-Received: from gentoo-jocke.infinera.com (gentoo-jocke.infinera.com
- [10.210.71.11])
- by smtp.transmode.se (Postfix) with ESMTP id 35153118C7C6;
- Sat, 14 Dec 2019 13:20:25 +0100 (CET)
-Received: from gentoo-jocke.infinera.com (gentoo-jocke.infinera.com
- [127.0.0.1])
- by gentoo-jocke.infinera.com (8.15.2/8.14.9) with ESMTP id xBECKO5P017611;
- Sat, 14 Dec 2019 13:20:25 +0100
-Received: (from jocke@localhost)
- by gentoo-jocke.infinera.com (8.15.2/8.15.2/Submit) id xBECKO39017610;
- Sat, 14 Dec 2019 13:20:24 +0100
-From: Joakim Tjernlund <joakim.tjernlund@infinera.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: make binfmt flag O require P
-Date: Sat, 14 Dec 2019 13:20:22 +0100
-Message-Id: <20191214122022.17255-1-joakim.tjernlund@infinera.com>
-X-Mailer: git-send-email 2.23.0
+ (envelope-from <thuth@redhat.com>) id 1ig6Qz-00081c-HX
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 07:22:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23890
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ig6Qy-0007uz-RZ
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 07:22:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576326127;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=MiYsMXgGsFHfWNGUd03kBxtaFzsYHIdfW2UUfaxifrI=;
+ b=bvxRtN0ZpV3Vk46YhHObmpIfo3d4y8VD4TzNRM1J8zh0mowwm8YqAECobu29mM0QnZ42WT
+ fKdmMyWpLXZTtwZMymgtIaTG+aFLcZ2hQdNElRFHpZD0rp/V/V0sz2RAoH3l6O0VMKBz9S
+ U8YPS3YGiZg61WsxVICeGOtYgfNB/1I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-cZztHh_DO_yeBQktVlvZug-1; Sat, 14 Dec 2019 07:22:04 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC62A477;
+ Sat, 14 Dec 2019 12:22:03 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-80.ams2.redhat.com [10.36.116.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 84B965D9CA;
+ Sat, 14 Dec 2019 12:21:53 +0000 (UTC)
+Subject: Re: [PATCH] virtio-blk: deprecate SCSI passthrough
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191213144626.1208237-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <0d2e25dc-ff7a-e133-433a-faac5d6a45d2@redhat.com>
+Date: Sat, 14 Dec 2019 13:21:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 31.15.61.139
-X-Mailman-Approved-At: Sat, 14 Dec 2019 17:47:43 -0500
+In-Reply-To: <20191213144626.1208237-1-stefanha@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: cZztHh_DO_yeBQktVlvZug-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,74 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+On 13/12/2019 15.46, Stefan Hajnoczi wrote:
+> The Linux virtio_blk.ko guest driver is removing legacy SCSI passthrough
+> support.  Deprecate this feature in QEMU too.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  qemu-deprecated.texi | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+> index 4b4b7425ac..ef94d497da 100644
+> --- a/qemu-deprecated.texi
+> +++ b/qemu-deprecated.texi
+> @@ -285,6 +285,17 @@ spec you can use the ``-cpu rv64gcsu,priv_spec=v1.9.1`` command line argument.
+>  
+>  @section Device options
+>  
+> +@subsection Emulated device options
+> +
+> +@subsubsection -device virtio-blk,scsi=on|off (since 5.0.0)
+> +
+> +The virtio-blk SCSI passthrough feature is a legacy VIRTIO feature.  VIRTIO 1.0
+> +and later do not support it because the virtio-scsi device was introduced for
+> +full SCSI support.  Use virtio-scsi instead when SCSI passthrough is required.
+> +
+> +Note this also applies to ``-device virtio-blk-pci,scsi=on|off'', which is an
+> +alias.
 
-QEMU can autodetect if it is started from Linux binfmt loader
-when binfmt flag O is on.
-Use that and require binfmt flag P as well which will enable QEMU
-to pass in correct argv0 to the application.
+... and "-device virtio-blk-ccw,scsi=on|off". With that added:
 
-Signed-off-by: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
----
- linux-user/main.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 6ff7851e86..1b626e5762 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -544,7 +544,7 @@ static void usage(int exitcode)
-     exit(exitcode);
- }
-=20
--static int parse_args(int argc, char **argv)
-+static int parse_args(int argc, char **argv, int assume_P_flag)
- {
-     const char *r;
-     int optind;
-@@ -560,7 +560,17 @@ static int parse_args(int argc, char **argv)
-             arginfo->handle_opt(r);
-         }
-     }
--
-+    if (assume_P_flag) {
-+        /* Assume started by binmisc and binfmt P flag is set */
-+        if (argc < 3) {
-+            fprintf(stderr, "%s: Please use me through binfmt with P fla=
-g\n",
-+                    argv[0]);
-+            exit(1);
-+        }
-+        exec_path =3D argv[1];
-+        /* Next argv must be argv0 for the app */
-+        return 2;
-+    }
-     optind =3D 1;
-     for (;;) {
-         if (optind >=3D argc) {
-@@ -659,7 +669,8 @@ int main(int argc, char **argv, char **envp)
-     qemu_add_opts(&qemu_trace_opts);
-     qemu_plugin_add_opts();
-=20
--    optind =3D parse_args(argc, argv);
-+    execfd =3D qemu_getauxval(AT_EXECFD);
-+    optind =3D parse_args(argc, argv,  execfd > 0);
-=20
-     if (!trace_init_backends()) {
-         exit(1);
-@@ -682,7 +693,6 @@ int main(int argc, char **argv, char **envp)
-=20
-     init_qemu_uname_release();
-=20
--    execfd =3D qemu_getauxval(AT_EXECFD);
-     if (execfd =3D=3D 0) {
-         execfd =3D open(exec_path, O_RDONLY);
-         if (execfd < 0) {
---=20
-2.24.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
