@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAAA11F438
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:21:18 +0100 (CET)
-Received: from localhost ([::1]:33214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AB711F43A
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:23:50 +0100 (CET)
+Received: from localhost ([::1]:33282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igEqj-0006D6-Cb
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:21:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43078)
+	id 1igEtB-0001JZ-8n
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:23:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1igEoe-0004Xm-JT
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:09 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igEjC-0006J6-DM
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:13:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1igEoc-0007xO-0N
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50821
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEob-0007ut-N6
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576358344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m5w23wgjLipXGOJApBiDuCElbab9paRwQ4431X44oSE=;
- b=OkJDwmER+eq+RTYEyAOThqKPxXJrHb4RYpkC2QT7zdGkopE9Q58u+sSDVHgTXtrpet218v
- CXW7uIqpSp+3cfF6YxCHTNpC6ny/H78VYBXKU3YTquxdYEIUZ5FgHBoka5J8JrtQ7sH4zd
- upSA2teQC19KsjlxQPVUji0Aok4ipzs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-8Nx-jxcEP8qAgZqXHJyYXQ-1; Sat, 14 Dec 2019 13:17:27 -0500
-Received: by mail-wr1-f72.google.com with SMTP id t3so1241467wrm.23
- for <qemu-devel@nongnu.org>; Sat, 14 Dec 2019 10:17:27 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1igEjB-0006ok-3t
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:13:30 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37549)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1igEjA-0006lu-Tm
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:13:29 -0500
+Received: by mail-oi1-x241.google.com with SMTP id x195so2591257oix.4
+ for <qemu-devel@nongnu.org>; Sat, 14 Dec 2019 13:13:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RMrXhnl08yOQWoHsGq/Mqy6tAi/gvfJoz02znJajxJM=;
+ b=n2Ba4DCcTtQy+TuObNMMxs6W75KYEp7QP4qYVJefSlzwufoqhGmr69lW7Y0J7nBj53
+ NuQ+7XCu3ltts5rk+7ISqXvQ3xyzBoPY6Ii6wmrnZM3UxXbr40UU7IwrgC7I0P0bHIJk
+ LTwV/92yIa74Qi+WpqOjSNELSVLjkJo8l/Nv2hzzMIuOVu7bc1WqJQ9RQQTn0yLspap7
+ QyW9A+TWkC1Dk6x5DPa7YZ1g+4mOuMRqmjU/HiuM+CvZorTbWbibyjYhDe5PZwP7QI7S
+ iw9ROzPqsjxlY9Bn2L+ipJXy1iV/044q866OBk6qd3XVi1zI0nFNmBQEn1oTSPfOw1np
+ f0oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Sg5IoKLUjPL3d9d5tWOmLplt+9UU7U7u3KeGeq6Z2Ro=;
- b=DaLrX6SvG1spsYaWuc1n6eLGcnWrgWnFS/02NabVFRL7/dRK2mZ5qcHEmvoGAAWA0V
- clBc0YRbhV4zzOAcyJ3s2L7V11VIXhN7NXSPOSHe/YFa+QwHvrYa9ypCDneKDRiDLaDA
- Lh8G3pj4huXv4aMIOwGP5f3OXu/g73f08Fr0zHz5YrYt5giw0dqNmlibHmLTrAgO0AZ6
- scT7mh0NLSaxkbo6BBJVerazkF6Y6tWQkx12kiicd63k143G0tMg7dx7+ECOm50w/ZDM
- PEhGgot/vmBMF+Sn0LoaAN/yOsdWBZDGjXpsLtdtB/lDSq+LaOLTt/1UQeQq8PYkkssW
- abUw==
-X-Gm-Message-State: APjAAAXp1J9flDVd62W1Qzr5nK91gl6Z0mxKA6tyzzdb6Pkzv07RbPVV
- hxohNukeicv0CIKuJhQQHyg7syL3u+Aznwhoess08kt6+zpKHp2pCvX1EnZQqbdLPy2Vt0M6RnX
- sx01W2DHH3UfXebU=
-X-Received: by 2002:adf:ea8a:: with SMTP id s10mr19560666wrm.278.1576347446320; 
- Sat, 14 Dec 2019 10:17:26 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwa4vn4ff+Qn7Yr7sIor5+nJ8HSxrr0XhsEVlpcFJzSQc5WvO7C89H+O/cXVwaqad6m8td6Hw==
-X-Received: by 2002:adf:ea8a:: with SMTP id s10mr19560619wrm.278.1576347445986; 
- Sat, 14 Dec 2019 10:17:25 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id n8sm14941968wrx.42.2019.12.14.10.17.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 Dec 2019 10:17:25 -0800 (PST)
-Subject: Re: [PATCH 0/8] Simplify memory_region_add_subregion_overlap(...,
- priority=0)
-To: Peter Maydell <peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RMrXhnl08yOQWoHsGq/Mqy6tAi/gvfJoz02znJajxJM=;
+ b=F84M5hkjAOgqabuzHBRLENQDzTlQt3hsD5Sb6sIjlhejTr2Vj4y1sBSd/JPc/TK5/j
+ vWbiZ5o7r9Wp3460mXIcGgrCuJ03Fl8mBZ2CGO3fEPWUHs1pS8XQzYFaCMz9JfNfR7GB
+ 1zX1rtllOSC2vInpLSzaYKq8kt6ZvaJyCL3MGoXFUEgE02DpiZ+Qq8d1B8i3p7+ujg7S
+ 5xKUkVFxXEuYic6lf6QjAB7wzdVg+7rf6Zs6Qx9qbiKtL8uEOaxHWKCaPxwoJd8EWNz0
+ 0Gr/Dz/TEbPxbe1+DfJcWImj1wRJss5l9NbHvvajcHAkjzGL50tAVbLsMVzsAHnfedMT
+ StBA==
+X-Gm-Message-State: APjAAAViwBCX/Sqv0Sg3WYYn9ChPvprfkSd3n2qMPS20Sz2drGUkR1bu
+ eR5RDqi45TW5UMTQ52atxNl1Uvtn1kHwiW7r5hRO6DlB
+X-Google-Smtp-Source: APXvYqzzYIkxNYHSaWs+IMMqyvA2I2sxvou+3EOiMc1p3klHz2Q0lFygIlhZJZ4ZtzbhteGwQHNqN3WCW60QXniIRH4=
+X-Received: by 2002:a05:6808:996:: with SMTP id
+ a22mr8108069oic.146.1576353716975; 
+ Sat, 14 Dec 2019 12:01:56 -0800 (PST)
+MIME-Version: 1.0
 References: <20191214155614.19004-1-philmd@redhat.com>
  <CAFEAcA_QZtU9X4fxZk2oWAkN-zxXdQZejrSKZbDxPKLMwdFWgw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <31acb07b-a61b-1bc4-ee6e-faa511745a61@redhat.com>
-Date: Sat, 14 Dec 2019 19:17:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_QZtU9X4fxZk2oWAkN-zxXdQZejrSKZbDxPKLMwdFWgw@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: 8Nx-jxcEP8qAgZqXHJyYXQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+ <31acb07b-a61b-1bc4-ee6e-faa511745a61@redhat.com>
+In-Reply-To: <31acb07b-a61b-1bc4-ee6e-faa511745a61@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 14 Dec 2019 20:01:46 +0000
+Message-ID: <CAFEAcA-UdDF2pd24NoOqpXSTnHHFWdvcexi5bRzq6ewt5vrrWQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Simplify memory_region_add_subregion_overlap(...,
+ priority=0)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,48 +92,20 @@ Cc: Paul Burton <pburton@wavecomp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/19 5:28 PM, Peter Maydell wrote:
-> On Sat, 14 Dec 2019 at 15:56, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->>
->> Hi,
->>
->> In this series we use coccinelle to replace:
->> - memory_region_add_subregion_overlap(..., priority=3D0)
->> + memory_region_add_subregion(...)
->>
->> Rationale is the code is easier to read, and reviewers don't
->> have to worry about overlapping because it isn't used.
->=20
-> So our implementation of these two functions makes them
-> have the same behaviour, but the documentation comments
-> in memory.h describe them as different: a subregion added
-> with memory_region_add_subregion() is not supposed to
-> overlap any other subregion unless that other subregion
-> was explicitly marked as overlapping. My intention with the
-> API design here was that using the _overlap() version is
-> a statement of intent -- this region is *expected* to be
-> overlapping with some other regions, which hopefully
-> have a priority set so they go at the right order wrt this one.
+On Sat, 14 Dec 2019 at 18:17, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> Maybe we can a warning if priority=3D0, to force board designers to use
+> explicit priority (explicit overlap).
 
-I didn't notice the documentation differences, now it is clear.
+Priority 0 is fine, it's just one of the possible positive and
+negative values. I think what ideally we would complain about
+is where we see an overlap and both the regions involved
+have the same priority value, because in that case which
+one the guest sees is implicitly dependent on (I think) which
+order the subregions were added, which is fragile if we move
+code around. I'm not sure how easy that is to test for or how
+much of our existing code violates it, though.
 
-> Use of the non-overlap function says "I don't expect this
-> to overlap". (It doesn't actually assert that it doesn't
-> overlap because we have some legacy uses, notably
-> in the x86 PC machines, which do overlap without using
-> the right function, which we've never tried to tidy up.)
->=20
-> We used to have some #if-ed out code in memory.c which
-> was able to detect incorrect overlap, but it got removed
-> in commit b613597819587. I thought then and still do
-> that rather than removing code and API distinctions that
-> allow us to tell if the board code has done something
-> wrong (unintentional overlap, especially unintentional
-> overlap at the same priority value) it would be better to
-> fix the board bugs so we could enable the warnings/asserts...
-
-Maybe we can a warning if priority=3D0, to force board designers to use=20
-explicit priority (explicit overlap).
-
+thanks
+-- PMM
 
