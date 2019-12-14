@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4F511F417
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:02:09 +0100 (CET)
-Received: from localhost ([::1]:32896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F8E11F415
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:00:52 +0100 (CET)
+Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igEYB-00025m-UI
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:02:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55455)
+	id 1igEWv-00008k-LL
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:00:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1igEWC-0000Nf-Rb
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:00:06 -0500
+ (envelope-from <philmd@redhat.com>) id 1igEVM-0007ZF-Fz
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:59:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1igEWB-0001aY-Hc
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:00:04 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39305)
+ (envelope-from <philmd@redhat.com>) id 1igEVL-0007Bz-E2
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:59:12 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60198
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEWB-0001X9-7e
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:00:03 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEVL-00078E-7a
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:59:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576357202;
+ s=mimecast20190719; t=1576357150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1cebHdve3ZnvlZJWxH5a8KchlZuVrxNjKmx0NHd8T+o=;
- b=AOZSTBzPMR+g53eBKaMsby9yOBMukc9O+tFR5tZBwSq2cRuw1ceadAExwh6FLC3W5lLj7w
- DN7irXVhR6dGOUqXhvgvEozT5etBtJGVQ8iCoFh99xlMAKwUkaoUM7EPuM65P6ilquUWsA
- F8NeMDH5gmuGet5A4ATa4CGApKHsxL4=
+ bh=cFyYhSJaR8h39Rbqagf85ifWXxR+w0L7k4hKSrlfago=;
+ b=fFOyT04NXIGFh6MrBpyYxVtESBvmCSsEMcmq3FHJpXkR8amvdf1JEuzvJGBT+WFRvG65sB
+ YVdpeKWcgpgbuQORCPUDVq/3pJfSATITb3BRnhZxFcRf8TG8kZMOZOOsyEvDSqlH9WRcUc
+ j85ksL8/KnGcBvAknSFHUt6WgKde1Nk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-FmV6NzRAPFqS56q6qZWsiQ-1; Sat, 14 Dec 2019 10:58:07 -0500
-X-MC-Unique: FmV6NzRAPFqS56q6qZWsiQ-1
+ us-mta-205-GKZmRrbXNv-VBjqVcGU-Mg-1; Sat, 14 Dec 2019 10:58:20 -0500
+X-MC-Unique: GKZmRrbXNv-VBjqVcGU-Mg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74DD11005502;
- Sat, 14 Dec 2019 15:58:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AAA1801E74;
+ Sat, 14 Dec 2019 15:58:18 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DCAF5D6A7;
- Sat, 14 Dec 2019 15:57:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E18B066A1A;
+ Sat, 14 Dec 2019 15:58:05 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/8] target/i386: Use memory_region_add_subregion() when
- priority is 0
-Date: Sat, 14 Dec 2019 16:56:13 +0100
-Message-Id: <20191214155614.19004-8-philmd@redhat.com>
+Subject: [PATCH 8/8] target/i386/cpu: Use 'mr' for MemoryRegion variables
+Date: Sat, 14 Dec 2019 16:56:14 +0100
+Message-Id: <20191214155614.19004-9-philmd@redhat.com>
 In-Reply-To: <20191214155614.19004-1-philmd@redhat.com>
 References: <20191214155614.19004-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -84,57 +84,85 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is pointless to overlap a memory subregion with priority 0.
-Use the simpler memory_region_add_subregion() function.
-
-This patch was produced with the following spatch script:
-
-    @@
-    expression region;
-    expression offset;
-    expression subregion;
-    @@
-    -memory_region_add_subregion_overlap(region, offset, subregion, 0)
-    +memory_region_add_subregion(region, offset, subregion)
+The codebase use 'as' in variable names for AddressSpace objects,
+and 'mr' for MemoryRegion objects. Since these variables are
+MemoryRegion objects, rename them as 'mr' to avoid confusion with
+AddressSpace objects.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/i386/cpu.c | 2 +-
- target/i386/kvm.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/i386/cpu.h |  2 +-
+ target/i386/cpu.c | 18 +++++++++---------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index cde2a16b94..1e5ded6e84 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1713,7 +1713,7 @@ struct X86CPU {
+     /* in order to simplify APIC support, we leave this pointer to the
+        user */
+     struct DeviceState *apic_state;
+-    struct MemoryRegion *cpu_as_root, *cpu_as_mem, *smram;
++    MemoryRegion *cpu_mr_root, *cpu_mr_mem, *smram;
+     Notifier machine_done;
+=20
+     struct kvm_msrs *kvm_msr_buf;
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 69f518a21a..6131c62f9d 100644
+index 6131c62f9d..b5d22740b8 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6483,7 +6483,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Err=
-or **errp)
+@@ -5983,7 +5983,7 @@ static void x86_cpu_machine_done(Notifier *n, void =
+*unused)
+         memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
+                                  smram, 0, 1ull << 32);
+         memory_region_set_enabled(cpu->smram, true);
+-        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->sm=
+ram, 1);
++        memory_region_add_subregion_overlap(cpu->cpu_mr_root, 0, cpu->sm=
+ram, 1);
+     }
+ }
+ #else
+@@ -6471,24 +6471,24 @@ static void x86_cpu_realizefn(DeviceState *dev, E=
+rror **errp)
+=20
+ #ifndef CONFIG_USER_ONLY
+     if (tcg_enabled()) {
+-        cpu->cpu_as_mem =3D g_new(MemoryRegion, 1);
+-        cpu->cpu_as_root =3D g_new(MemoryRegion, 1);
++        cpu->cpu_mr_mem =3D g_new(MemoryRegion, 1);
++        cpu->cpu_mr_root =3D g_new(MemoryRegion, 1);
+=20
+         /* Outer container... */
+-        memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ul=
+l);
+-        memory_region_set_enabled(cpu->cpu_as_root, true);
++        memory_region_init(cpu->cpu_mr_root, OBJECT(cpu), "memory", ~0ul=
+l);
++        memory_region_set_enabled(cpu->cpu_mr_root, true);
+=20
+         /* ... with two regions inside: normal system memory with low
+          * priority, and...
           */
-         memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
+-        memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
++        memory_region_init_alias(cpu->cpu_mr_mem, OBJECT(cpu), "memory",
                                   get_system_memory(), 0, ~0ull);
--        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cp=
-u_as_mem, 0);
-+        memory_region_add_subregion(cpu->cpu_as_root, 0, cpu->cpu_as_mem=
+-        memory_region_add_subregion(cpu->cpu_as_root, 0, cpu->cpu_as_mem=
 );
-         memory_region_set_enabled(cpu->cpu_as_mem, true);
+-        memory_region_set_enabled(cpu->cpu_as_mem, true);
++        memory_region_add_subregion(cpu->cpu_mr_root, 0, cpu->cpu_mr_mem=
+);
++        memory_region_set_enabled(cpu->cpu_mr_mem, true);
 =20
          cs->num_ases =3D 2;
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 1d10046a6c..4e1ba9d474 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -2081,7 +2081,7 @@ static void register_smram_listener(Notifier *n, vo=
-id *unused)
-      */
-     memory_region_init_alias(&smram_as_mem, OBJECT(kvm_state), "mem-smra=
-m",
-                              get_system_memory(), 0, ~0ull);
--    memory_region_add_subregion_overlap(&smram_as_root, 0, &smram_as_mem=
-, 0);
-+    memory_region_add_subregion(&smram_as_root, 0, &smram_as_mem);
-     memory_region_set_enabled(&smram_as_mem, true);
+         cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
+-        cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
++        cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_mr_root);
 =20
-     if (smram) {
+         /* ... SMRAM with higher priority, linked from /machine/smram.  =
+*/
+         cpu->machine_done.notify =3D x86_cpu_machine_done;
 --=20
 2.21.0
 
