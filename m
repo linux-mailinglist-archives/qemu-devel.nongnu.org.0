@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAAF11EF83
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 02:31:10 +0100 (CET)
-Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9124511EF8B
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 02:34:13 +0100 (CET)
+Received: from localhost ([::1]:55006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifwGx-0005fs-PG
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 20:31:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41313)
+	id 1ifwJw-0000nh-8W
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 20:34:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41408)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1ifwEd-00041o-8N
+ (envelope-from <fthain@telegraphics.com.au>) id 1ifwEd-00041q-JF
  for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:28:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1ifwEc-00017Z-5O
+ (envelope-from <fthain@telegraphics.com.au>) id 1ifwEc-00017v-7T
  for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:28:43 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:47408)
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:47410)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <fthain@telegraphics.com.au>)
- id 1ifwEc-00016s-1J; Fri, 13 Dec 2019 20:28:42 -0500
+ id 1ifwEc-00016t-1D; Fri, 13 Dec 2019 20:28:42 -0500
 Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id 3082C27451; Fri, 13 Dec 2019 20:28:41 -0500 (EST)
+ id 4971D27C6B; Fri, 13 Dec 2019 20:28:41 -0500 (EST)
 To: Jason Wang <jasowang@redhat.com>,
     qemu-devel@nongnu.org
-Message-Id: <42667d1214124065a82e661f38757fdfd0a47943.1576286757.git.fthain@telegraphics.com.au>
+Message-Id: <d3fdb6ca3fa26e495dd89136ee7f06cd94d1f0f7.1576286757.git.fthain@telegraphics.com.au>
 In-Reply-To: <cover.1576286757.git.fthain@telegraphics.com.au>
 References: <cover.1576286757.git.fthain@telegraphics.com.au>
 From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH 05/10] dp8393x: Update LLFA register
+Subject: [PATCH 06/10] dp8393x: Clear RRRA command register bit only when
+ appropriate
 Date: Sat, 14 Dec 2019 12:25:57 +1100
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 98.124.60.144
@@ -49,29 +50,40 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the chip used QEMU's algorithm it would need an extra word-sized
-register just to recheck the EOL bit, which would be a waste of silicon.
-Do it the way the chip would do it. No functional change.
+It doesn't make sense to clear the command register bit unless the
+command was actually issued.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/net/dp8393x.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/net/dp8393x.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 49d7d9769e..494deb42bf 100644
+index 494deb42bf..3fdc6cc6f9 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -768,7 +768,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
-         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-                          (uint8_t *)s->data, size, 0);
--        if (dp8393x_get(s, width, 0) & 0x1) {
-+        s->regs[SONIC_LLFA] = dp8393x_get(s, width, 0);
-+        if (s->regs[SONIC_LLFA] & 0x1) {
-             /* Still EOL ; stop reception */
-             return -1;
-         }
+@@ -337,9 +337,6 @@ static void dp8393x_do_read_rra(dp8393xState *s)
+         s->regs[SONIC_ISR] |= SONIC_ISR_RBE;
+         dp8393x_update_irq(s);
+     }
+-
+-    /* Done */
+-    s->regs[SONIC_CR] &= ~SONIC_CR_RRRA;
+ }
+ 
+ static void dp8393x_do_software_reset(dp8393xState *s)
+@@ -548,8 +545,10 @@ static void dp8393x_do_command(dp8393xState *s, uint16_t command)
+         dp8393x_do_start_timer(s);
+     if (command & SONIC_CR_RST)
+         dp8393x_do_software_reset(s);
+-    if (command & SONIC_CR_RRRA)
++    if (command & SONIC_CR_RRRA) {
+         dp8393x_do_read_rra(s);
++        s->regs[SONIC_CR] &= ~SONIC_CR_RRRA;
++    }
+     if (command & SONIC_CR_LCAM)
+         dp8393x_do_load_cam(s);
+ }
 -- 
 2.23.0
 
