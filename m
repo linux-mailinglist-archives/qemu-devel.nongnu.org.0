@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED33711F437
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:21:16 +0100 (CET)
-Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02DB11F439
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:23:13 +0100 (CET)
+Received: from localhost ([::1]:33276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igEqh-0006BA-C8
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:21:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
+	id 1igEsa-0000Uv-SH
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:23:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39075)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1igEoe-0004Xx-Gb
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:09 -0500
+ (envelope-from <philmd@redhat.com>) id 1igEqk-0007Jn-7x
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:21:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1igEoc-0007xb-1L
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:07 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48435
+ (envelope-from <philmd@redhat.com>) id 1igEqg-0003By-DE
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:21:18 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39639
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEob-0007v2-Hn
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:19:05 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEqg-00039k-4M
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:21:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576358344;
+ s=mimecast20190719; t=1576358473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y1WKTAAdK/tLnNkgos6Lk4vIt/+CYxOhkXdm02qtRI4=;
- b=SdCp3WgSZYhtWzJy5xIYLDSGVCHuITzfoCvP3HVlsa6Wi4CY1pI7/dj6ch3pwaaEcTDb+8
- qoFOcbeBG8ZqgFNo0HkWi5fsjxbK13fRUGUAzAKmWGOTgS3E1Lq93L1HuMCWVsi+CROvIJ
- B9iyokMMsjICjY6YuzcJnYXpmtYQ0hs=
+ bh=d2cgnUsyCFW2BiPycL0uarGIB4Ld7QKWjjmbSxUwEzA=;
+ b=UnW/eHXQ4eVRMLeTaKXd31iWZmfM+3MJfUTluWA78gpJbhZaWLSIOw38PRKN7LLL2PlC/u
+ JOkKDKB4O8TUMRej6HYv4hJimMN6lT6LVeCjO+r/WXhGmJLmwSNbQvQpDZBJqVRxOTQKLj
+ C/MukYfqjGUJSDmhcQAocq4wHLiK5xQ=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-IRF1AYsgPJ29uxCrvvfezw-1; Sat, 14 Dec 2019 08:15:39 -0500
-Received: by mail-wr1-f69.google.com with SMTP id z15so986965wrw.0
- for <qemu-devel@nongnu.org>; Sat, 14 Dec 2019 05:15:39 -0800 (PST)
+ us-mta-205-kkATIfZ-OHKQwgam24uxPw-1; Sat, 14 Dec 2019 08:19:36 -0500
+Received: by mail-wr1-f69.google.com with SMTP id o6so977022wrp.8
+ for <qemu-devel@nongnu.org>; Sat, 14 Dec 2019 05:19:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=y1WKTAAdK/tLnNkgos6Lk4vIt/+CYxOhkXdm02qtRI4=;
- b=RilfM5GqtPiM8Ubt3EHkQ6uGH6EahAd6XLf63OBQ/nkH4/ZQ3GRJFKOK6SEENWVk/V
- p8NPl2l4uVBtK7vKSQjgN0Ta6Gvw7UDkFujYxgQkLABhdgoMefqALfHo2+W8fv2kmRNO
- yhRTZBMLk6yWS8Xdehc5YnLmswrglMVVkebwhJHwH0Z0VKbC1D2UJjG6JG6kRibJn6VA
- sjrx6b2NK+AlAIS48W7p2GsNcl2Eka2Q3/EtyMxVe7VykIIsy1NNeVA/m+3tWHZTSLCJ
- 0lgUXDDzd2ew0/Lpf9oQev6n0+ozBq/02k2JM2NEuUmKIUn+lgBmCym5IUvuXUhR+P+z
- yIjg==
-X-Gm-Message-State: APjAAAWJn0C6+FS4yMnARA0Kk3Rhunff5d5xSmCWXB0pQXF7Jx/8kX5b
- iiHMtKrgLaYZlaXbb1b2l8brVR55igT0l8pdZJaaevtdnMsYP6caXkpxzmXPlRzF5GdOuHm5oNj
- X9ZmWbxgTjlSO2OM=
-X-Received: by 2002:adf:fd07:: with SMTP id e7mr18437409wrr.21.1576329338165; 
- Sat, 14 Dec 2019 05:15:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzq84gfzBloTd+YaV1BT/Az2HOxGWAqJysHV99UsnXBOidd/s4ulY5JkHbF69zA8OlNFY8LpQ==
-X-Received: by 2002:adf:fd07:: with SMTP id e7mr18437335wrr.21.1576329337246; 
- Sat, 14 Dec 2019 05:15:37 -0800 (PST)
+ bh=pbwj25+M4vo0DDMS+IXW0D/94V5mNsvVY7y8A6P2wk0=;
+ b=GXgp0a7aGAKE7bPdVEU+k8HujtMFpeMIs4w7pPomYvPatwtQxKPJl48sLQj1JC9LvO
+ bePYxMZVAqk8aQa2XgN6t8uV2UZLRxa/4AN2lVKl2Q5MhrKIUXqEB50Mw1pdHc4jgugu
+ tICaAAMmLF7XXiIggcLhfrgS3m12IRHuTK3cfhLsOp1lp/x1c/v/D3Ba0xPwtRKB8CHm
+ ebZo1CToTdnmI392Lu7L4FQZVsJqYVNLRUMfWls3OJbsGF3n6IGwohSe3U7RIHb6wZKp
+ SPkETks4ebsrF3adYMFudyIJcXdHCEFu7Rk7q27t1AbvoAuA6SIlgl2OXUJrnoeaGpnq
+ tbwA==
+X-Gm-Message-State: APjAAAV3COYKnkB8I8wawAJyG8IY7h497yT8KNbwIXEPUzm7l8j73Kb+
+ z0zuYP2QA/wfzY7LSyD1ilf6PLIm2uuGD72FemhYiEomKB7YN0XXj2J1vJkahrNSk9nuleG+Ehh
+ PJpNO1x2ahBWfmTM=
+X-Received: by 2002:adf:f70b:: with SMTP id r11mr20027578wrp.388.1576329575091; 
+ Sat, 14 Dec 2019 05:19:35 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz6RcXnogXj8b8Itp9T7IvRotAlxhlWFymOy/GoHa8Ch32tvYS53TROMBiv7fGomyorxd1D6A==
+X-Received: by 2002:adf:f70b:: with SMTP id r11mr20027559wrp.388.1576329574923; 
+ Sat, 14 Dec 2019 05:19:34 -0800 (PST)
 Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id e8sm13607070wrt.7.2019.12.14.05.15.36
+ by smtp.gmail.com with ESMTPSA id g23sm14093585wmk.14.2019.12.14.05.19.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 14 Dec 2019 05:15:36 -0800 (PST)
-Subject: Re: [PATCH 3/3] q800: add machine id register
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20191212200142.15688-1-laurent@vivier.eu>
- <20191212200142.15688-4-laurent@vivier.eu>
+ Sat, 14 Dec 2019 05:19:34 -0800 (PST)
+Subject: Re: [PATCH] mos6522: remove anh register
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20191212194359.13508-1-laurent@vivier.eu>
+ <20191213014419.GA207300@umbus.fritz.box>
+ <68431265-fd33-89de-6a61-0c823beaa16e@vivier.eu>
+ <9c731591-3180-d9f8-e5f9-d1b34356664b@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <147a4c04-3833-b812-977f-786f36c02bd6@redhat.com>
-Date: Sat, 14 Dec 2019 14:15:35 +0100
+Message-ID: <8de4d817-dacc-73d1-e20b-7b6c533c76d0@redhat.com>
+Date: Sat, 14 Dec 2019 14:19:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191212200142.15688-4-laurent@vivier.eu>
+In-Reply-To: <9c731591-3180-d9f8-e5f9-d1b34356664b@ilande.co.uk>
 Content-Language: en-US
-X-MC-Unique: IRF1AYsgPJ29uxCrvvfezw-1
+X-MC-Unique: kkATIfZ-OHKQwgam24uxPw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,97 +95,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/19 9:01 PM, Laurent Vivier wrote:
-> MacOS reads this address to identify the hardware.
-> 
-> This is a basic implementation returning the ID of Quadra 800.
-> 
-> Details:
-> 
->    http://mess.redump.net/mess/driver_info/mac_technical_notes
-> 
-> "There are 3 ID schemes [...]
->   The third and most scalable is a machine ID register at 0x5ffffffc.
->   The top word must be 0xa55a to be valid. Then bits 15-11 are 0 for
->   consumer Macs, 1 for portables, 2 for high-end 68k, and 3 for high-end
->   PowerPC. Bit 10 is 1 if additional ID bits appear elsewhere (e.g. in VIA1).
->   The rest of the bits are a per-model identifier.
-> 
->   Model                          Lower 16 bits of ID
-> ...
->   Quadra/Centris 610/650/800     0x2BAD"
-> 
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->   hw/m68k/q800.c | 22 ++++++++++++++++++++++
->   1 file changed, 22 insertions(+)
-> 
-> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index 9ee0cb1141..c2b2aa779f 100644
-> --- a/hw/m68k/q800.c
-> +++ b/hw/m68k/q800.c
-> @@ -97,6 +97,23 @@ static void main_cpu_reset(void *opaque)
->       cpu->env.pc = ldl_phys(cs->as, 4);
->   }
->   
-> +static uint64_t machine_id_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    return 0xa55a2bad; /* Quadra 800 ID */
-> +}
-> +
-> +static void machine_id_write(void *opaque, hwaddr addr, uint64_t val,
-> +                             unsigned size)
-> +{
+On 12/14/19 11:47 AM, Mark Cave-Ayland wrote:
+> On 13/12/2019 08:45, Laurent Vivier wrote:
+>> Le 13/12/2019 =C3=A0 02:44, David Gibson a =C3=A9crit=C2=A0:
+>>> On Thu, Dec 12, 2019 at 08:43:59PM +0100, Laurent Vivier wrote:
+>>>> Register addr 1 is defined as buffer A with handshake (vBufAH),
+>>>> register addr 15 is also defined as buffer A without handshake (vBufA)=
+.
+>>>>
+>>>> Linux kernel has a big "DON'T USE!" next to the register 1 addr
+>>>> definition (vBufAH), and only uses register 15 (vBufA).
+>>>>
+>>>> So remove the definition of 'anh' and use only 'a' (with VIA_REG_ANH a=
+nd
+>>>> VIA_REG_A).
+>>>
+>>> I'm not actually following the rationale for removing the register.
+>>> Linux doesn't use it, but if it's part of the real hardware model we
+>>> should keep it, no?
+>>
+>> It's actually two methods to access the same register (with handshake,
+>> without handshake).
+>>
+>> In the datashit Register 15 is described as "Same as register 1 except
+>> no handshake".
+>=20
+> Indeed, certainly my reading of the specification was that it was the sam=
+e register.
+> I'd be inclined to add qemu_log() at unimp for the handshake registers so=
+ at least we
+> can easily spot if anything is using them.
 
-Maybe worth adding:
+Agreed, clever than my review suggestion.
 
-        qemu_log_mask(LOG_GUEST_ERROR, ...);
-
-> +}
-> +
-> +static const MemoryRegionOps machine_id_ops = {
-> +    .read = machine_id_read,
-> +    .write = machine_id_write,
-> +    .valid.min_access_size = 4,
-> +    .valid.max_access_size = 4,
-
-I think you want s/valid/impl/, because i.e. the guest could use 16-bit 
-access right?
-
-> +};
-> +
->   static void q800_init(MachineState *machine)
->   {
->       M68kCPU *cpu = NULL;
-> @@ -110,6 +127,7 @@ static void q800_init(MachineState *machine)
->       MemoryRegion *rom;
->       MemoryRegion *ram;
->       MemoryRegion *io;
-> +    MemoryRegion *machine_id;
->       const int io_slice_nb = (IO_SIZE / IO_SLICE) - 1;
->       int i;
->       ram_addr_t ram_size = machine->ram_size;
-> @@ -159,6 +177,10 @@ static void q800_init(MachineState *machine)
->           g_free(name);
->       }
->   
-> +    machine_id = g_malloc(sizeof(*machine_id));
-
-We now prefer g_new(MemoryRegion, 1).
-
-> +    memory_region_init_io(machine_id, NULL, &machine_id_ops, NULL, "Machine ID", 4);
-> +    memory_region_add_subregion(get_system_memory(), 0x5ffffffc, machine_id);
-
-To keep the style consistent, can you use a MACHINEID_BASE definition 
-instead?
-
-> +
->       /* djMEMC memory and interrupt controller */
->   
->       djmemc_dev = qdev_create(NULL, TYPE_DJMEMC);
-> 
+      case VIA_REG_A:
++        qemu_log_mask(LOG_UNIMP, ...);
++        /* fall through */
++    case VIA_REG_ANH:
+          val =3D s->a;
+          break;
 
 
