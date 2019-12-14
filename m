@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400BF11F146
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 10:58:16 +0100 (CET)
-Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E216D11F143
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 10:57:12 +0100 (CET)
+Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ig4Bj-0002QK-Ax
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 04:58:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33638)
+	id 1ig4Ah-00010C-UF
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 04:57:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34175)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ig40I-0005E6-Ud
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:28 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ig40K-0005ED-3w
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ig40H-0006Tp-JR
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:26 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46324
+ (envelope-from <cohuck@redhat.com>) id 1ig40I-0006Zk-Ui
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:27 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20635
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ig40F-0006Mc-MZ
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:23 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ig40I-0006WT-MA
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576316781;
+ s=mimecast20190719; t=1576316786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NUXGDBlQgXoYfeFlI09A6bJOwoS+zELlXbUsMOsd9hg=;
- b=HshiFcgxCl7ugL5/lL93LEGoxiYiD1TSbBH3vHVVem36NLAW1UUtF8K+nXw5jaZX9cEOD9
- MflO18ISwcGKAFekC0GJAHho+aNEYb+miHotwszDgp7IzsLH/2UR67jGl2K5oqg7ORwI7X
- whGGP0+1AZTsKjzr4RrbYizqi5i83Xs=
+ bh=6R+tH7lHFJCm0FH/ixXdJNaTFOW/B3rF19L4hUlBtlU=;
+ b=fQ84fC8gsNVWdGCK8GsdqYF2GyWxQ36DPRuso27hCF64fIjHxN7AFjRxpS32/stkf9+rOI
+ cCYj3wDlRwWD4urDZ6+ByIyCswLQPrNuF75GzyzkunyDg6gAwQq3CLI5Ohw0sqDSOZ+R+z
+ PxICDRJbPg4IIHmcCEI4rHAdevm6F10=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-5-NJ2EcyPieO_6J_sSoCDw-1; Sat, 14 Dec 2019 04:46:20 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-286-wIhzxU7fO_anBQhaqVarxQ-1; Sat, 14 Dec 2019 04:46:24 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AAF0800D4C;
- Sat, 14 Dec 2019 09:46:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67C3B800D4C;
+ Sat, 14 Dec 2019 09:46:23 +0000 (UTC)
 Received: from localhost (ovpn-116-90.ams2.redhat.com [10.36.116.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6038D77BF3;
- Sat, 14 Dec 2019 09:46:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CABA560BF3;
+ Sat, 14 Dec 2019 09:46:20 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 14/16] s390x/cpumodel: Fix query-cpu-definitions error API
- violations
-Date: Sat, 14 Dec 2019 10:45:24 +0100
-Message-Id: <20191214094526.8698-15-cohuck@redhat.com>
+Subject: [PULL v2 15/16] s390x/tcg: clear local interrupts on reset normal
+Date: Sat, 14 Dec 2019 10:45:25 +0100
+Message-Id: <20191214094526.8698-16-cohuck@redhat.com>
 In-Reply-To: <20191214094526.8698-1-cohuck@redhat.com>
 References: <20191214094526.8698-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 5-NJ2EcyPieO_6J_sSoCDw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: wIhzxU7fO_anBQhaqVarxQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -71,53 +70,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+We neglected to clean up pending interrupts and emergency signals;
+fix that.
 
-qmp_query_cpu_definitions() passes @errp to get_max_cpu_model(), then
-frees any error it gets back.  This effectively ignores errors.
-Dereferencing @errp is wrong; see the big comment in error.h.  Passing
-@errp is also wrong, because it works only as long as @errp is neither
-@error_fatal nor @error_abort.  Introduced in commit 38cba1f4d8
-"s390x: return unavailable features via query-cpu-definitions".
-
-No caller actually passes such @errp values.
-
-Fix anyway: simply pass NULL to get_max_cpu_model().
-
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20191204093625.14836-16-armbru@redhat.com>
+Message-Id: <20191206135404.16051-1-cohuck@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cpu_models.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/s390x/cpu.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 3ed301b5e509..547bab8ac392 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -462,11 +462,7 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error=
- **errp)
-         .list =3D NULL,
-     };
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 7e1c18d59696..aa829e954cbf 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -98,10 +98,6 @@ struct CPUS390XState {
 =20
--    list_data.model =3D get_max_cpu_model(errp);
--    if (*errp) {
--        error_free(*errp);
--        *errp =3D NULL;
--    }
-+    list_data.model =3D get_max_cpu_model(NULL);
+     uint64_t cregs[16]; /* control registers */
 =20
-     object_class_foreach(create_cpu_model_list, TYPE_S390_CPU, false,
-                          &list_data);
+-    int pending_int;
+-    uint16_t external_call_addr;
+-    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+-
+     uint64_t ckc;
+     uint64_t cputm;
+     uint32_t todpr;
+@@ -117,6 +113,10 @@ struct CPUS390XState {
+     struct {} start_normal_reset_fields;
+     uint8_t riccb[64];     /* runtime instrumentation control */
+=20
++    int pending_int;
++    uint16_t external_call_addr;
++    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
++
+     /* Fields up to this point are cleared by a CPU reset */
+     struct {} end_reset_fields;
+=20
 --=20
 2.21.0
 
