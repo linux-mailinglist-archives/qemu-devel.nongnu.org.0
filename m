@@ -2,23 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3329411F421
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:06:13 +0100 (CET)
-Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF4711F41E
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:04:31 +0100 (CET)
+Received: from localhost ([::1]:32922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igEc8-0006dr-8G
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:06:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55529)
+	id 1igEaU-0004Xd-9X
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:04:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55371)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1igEWD-0000Np-3O
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:00:06 -0500
+ (envelope-from <philmd@redhat.com>) id 1igEWC-0000NY-Ip
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:00:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1igEWB-0001aM-GE
+ (envelope-from <philmd@redhat.com>) id 1igEWB-0001Zl-CC
  for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:00:04 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47741)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36222
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEWB-0001W9-5H
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEWB-0001Wb-4G
  for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:00:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576357202;
@@ -26,29 +27,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LVY3k3PXmSJpFd+itDbLg545Lfy8MyLnQ8WHFK1FOqU=;
- b=HcCFqXiHdYLJtC3TlOlDcgG04EeX+VORp7/uhRWYY9niDo/mBjCj6mUw0fCjNM5S9Ilroc
- TeLY110yfKf3+Mk4rAEbkWhaZ67Y8mEU7Pz6DVxhZsxACvbUSPfszfDTYCRrP9BIUnPcOG
- Uze2u+Qkgk1pgtG99P3VkLM1IlD0jOk=
+ bh=LRDNXmBjVfes+8mRt7KTS+s8kaJK3nwCAodGqedjxW4=;
+ b=U6Ysk7CKH3hnQSV3zJWl3yLKj3sVtG733qDWXIrnk5CmeawZKj+Ke3NPwIgCXuidUG11wi
+ +sjo6L+vbJ0OmgBoKIAewndNW6tONejicWCHSBGPdXbwckM+7qrOxJ+Cmvvwu9OFZa2q6m
+ WDFxvQE8rq1L1yGj+ZCv+DeSQYGqWzY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-izlcFJRFOTCG14SMImFy1g-1; Sat, 14 Dec 2019 10:57:43 -0500
-X-MC-Unique: izlcFJRFOTCG14SMImFy1g-1
+ us-mta-271-InHhu3ggMleXW3tOq5yXNw-1; Sat, 14 Dec 2019 10:57:59 -0500
+X-MC-Unique: InHhu3ggMleXW3tOq5yXNw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBADE107ACC4;
- Sat, 14 Dec 2019 15:57:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1EA11852E2D;
+ Sat, 14 Dec 2019 15:57:56 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04D3D5D6A7;
- Sat, 14 Dec 2019 15:57:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88D2B5D6A7;
+ Sat, 14 Dec 2019 15:57:42 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/8] hw/mips/boston: Use memory_region_add_subregion() when
+Subject: [PATCH 6/8] hw/vfio/pci: Use memory_region_add_subregion() when
  priority is 0
-Date: Sat, 14 Dec 2019 16:56:11 +0100
-Message-Id: <20191214155614.19004-6-philmd@redhat.com>
+Date: Sat, 14 Dec 2019 16:56:12 +0100
+Message-Id: <20191214155614.19004-7-philmd@redhat.com>
 In-Reply-To: <20191214155614.19004-1-philmd@redhat.com>
 References: <20191214155614.19004-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +58,7 @@ X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,70 +100,26 @@ This patch was produced with the following spatch script:
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/mips/boston.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ hw/vfio/pci.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index ca7d813a52..a27258b4d1 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -412,10 +412,10 @@ xilinx_pcie_init(MemoryRegion *sys_mem, uint32_t bu=
-s_nr,
-     qdev_init_nofail(dev);
-=20
-     cfg =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
--    memory_region_add_subregion_overlap(sys_mem, cfg_base, cfg, 0);
-+    memory_region_add_subregion(sys_mem, cfg_base, cfg);
-=20
-     mmio =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 1);
--    memory_region_add_subregion_overlap(sys_mem, 0, mmio, 0);
-+    memory_region_add_subregion(sys_mem, 0, mmio);
-=20
-     qdev_connect_gpio_out_named(dev, "interrupt_out", 0, irq);
-=20
-@@ -471,17 +471,17 @@ static void boston_mach_init(MachineState *machine)
-=20
-     flash =3D  g_new(MemoryRegion, 1);
-     memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err)=
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 2d40b396f2..74b1eb7ddc 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -1095,8 +1095,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDev=
+ice *pdev, int bar)
+     memory_region_set_size(mmap_mr, size);
+     if (size !=3D vdev->bars[bar].size && memory_region_is_mapped(base_m=
+r)) {
+         memory_region_del_subregion(r->address_space, base_mr);
+-        memory_region_add_subregion_overlap(r->address_space,
+-                                            bar_addr, base_mr, 0);
++        memory_region_add_subregion(r->address_space, bar_addr, base_mr)=
 ;
--    memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
-+    memory_region_add_subregion(sys_mem, 0x18000000, flash);
+     }
 =20
-     ddr =3D g_new(MemoryRegion, 1);
-     memory_region_allocate_system_memory(ddr, NULL, "boston.ddr",
-                                          machine->ram_size);
--    memory_region_add_subregion_overlap(sys_mem, 0x80000000, ddr, 0);
-+    memory_region_add_subregion(sys_mem, 0x80000000, ddr);
-=20
-     ddr_low_alias =3D g_new(MemoryRegion, 1);
-     memory_region_init_alias(ddr_low_alias, NULL, "boston_low.ddr",
-                              ddr, 0, MIN(machine->ram_size, (256 * MiB))=
-);
--    memory_region_add_subregion_overlap(sys_mem, 0, ddr_low_alias, 0);
-+    memory_region_add_subregion(sys_mem, 0, ddr_low_alias);
-=20
-     xilinx_pcie_init(sys_mem, 0,
-                      0x10000000, 32 * MiB,
-@@ -501,7 +501,7 @@ static void boston_mach_init(MachineState *machine)
-     platreg =3D g_new(MemoryRegion, 1);
-     memory_region_init_io(platreg, NULL, &boston_platreg_ops, s,
-                           "boston-platregs", 0x1000);
--    memory_region_add_subregion_overlap(sys_mem, 0x17ffd000, platreg, 0)=
-;
-+    memory_region_add_subregion(sys_mem, 0x17ffd000, platreg);
-=20
-     s->uart =3D serial_mm_init(sys_mem, 0x17ffe000, 2,
-                              get_cps_irq(&s->cps, 3), 10000000,
-@@ -509,7 +509,7 @@ static void boston_mach_init(MachineState *machine)
-=20
-     lcd =3D g_new(MemoryRegion, 1);
-     memory_region_init_io(lcd, NULL, &boston_lcd_ops, s, "boston-lcd", 0=
-x8);
--    memory_region_add_subregion_overlap(sys_mem, 0x17fff000, lcd, 0);
-+    memory_region_add_subregion(sys_mem, 0x17fff000, lcd);
-=20
-     chr =3D qemu_chr_new("lcd", "vc:320x240", NULL);
-     qemu_chr_fe_init(&s->lcd_display, chr, NULL);
+     memory_region_transaction_commit();
 --=20
 2.21.0
 
