@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE9911EF8C
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 02:34:18 +0100 (CET)
-Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C242211EF8F
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 02:35:55 +0100 (CET)
+Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ifwK0-0000uR-HL
-	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 20:34:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41578)
+	id 1ifwLa-0003o5-PU
+	for lists+qemu-devel@lfdr.de; Fri, 13 Dec 2019 20:35:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1ifwEe-00041v-8W
+ (envelope-from <fthain@telegraphics.com.au>) id 1ifwEe-00041t-6i
  for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:28:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1ifwEc-00019q-OS
+ (envelope-from <fthain@telegraphics.com.au>) id 1ifwEc-00019F-KF
  for qemu-devel@nongnu.org; Fri, 13 Dec 2019 20:28:44 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:47392)
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:47408)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <fthain@telegraphics.com.au>)
- id 1ifwEc-000157-5V; Fri, 13 Dec 2019 20:28:42 -0500
+ id 1ifwEc-00016s-78; Fri, 13 Dec 2019 20:28:42 -0500
 Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id 26EE72786C; Fri, 13 Dec 2019 20:28:40 -0500 (EST)
+ id 5238A27C43; Fri, 13 Dec 2019 20:28:41 -0500 (EST)
 To: Jason Wang <jasowang@redhat.com>,
     qemu-devel@nongnu.org
-Message-Id: <fb6dc2fc63561e73ecd62286a2703883e31fd394.1576286757.git.fthain@telegraphics.com.au>
+Message-Id: <c37c8c085be7b484fb68a34f0e39851bdd1e48ca.1576286757.git.fthain@telegraphics.com.au>
 In-Reply-To: <cover.1576286757.git.fthain@telegraphics.com.au>
 References: <cover.1576286757.git.fthain@telegraphics.com.au>
 From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH 03/10] dp8393x: Have dp8393x_receive() return the packet size
+Subject: [PATCH 07/10] dp8393x: Implement TBWC0 and TBWC1 registers to restore
+ buffer state
 Date: Sat, 14 Dec 2019 12:25:57 +1100
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 98.124.60.144
@@ -49,53 +50,60 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function re-uses its 'size' argument as a scratch variable.
-Instead, declare a local 'size' variable for that purpose so that the
-function result doesn't get messed up.
+Restore the receive buffer state when the SONIC runs out of receive
+descriptors. Otherwise it may write the next packet past the end of the
+buffer and corrupt guest memory. This implements behaviour described
+in section 3.4.6.2 in the datasheet.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/net/dp8393x.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/net/dp8393x.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 3fd59bc1d4..462f8646e0 100644
+index 3fdc6cc6f9..5e4494a945 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -741,20 +741,21 @@ static int dp8393x_receive_filter(dp8393xState *s, const uint8_t * buf,
- }
+@@ -39,7 +39,7 @@ static const char* reg_names[] = {
+     "CR", "DCR", "RCR", "TCR", "IMR", "ISR", "UTDA", "CTDA",
+     "TPS", "TFC", "TSA0", "TSA1", "TFS", "URDA", "CRDA", "CRBA0",
+     "CRBA1", "RBWC0", "RBWC1", "EOBC", "URRA", "RSA", "REA", "RRP",
+-    "RWP", "TRBA0", "TRBA1", "0x1b", "0x1c", "0x1d", "0x1e", "LLFA",
++    "RWP", "TRBA0", "TRBA1", "TBWC0", "TBWC1", "0x1d", "0x1e", "LLFA",
+     "TTDA", "CEP", "CAP2", "CAP1", "CAP0", "CE", "CDP", "CDC",
+     "SR", "WT0", "WT1", "RSC", "CRCT", "FAET", "MPT", "MDT",
+     "0x30", "0x31", "0x32", "0x33", "0x34", "0x35", "0x36", "0x37",
+@@ -78,6 +78,8 @@ do { printf("sonic ERROR: %s: " fmt, __func__ , ## __VA_ARGS__); } while (0)
+ #define SONIC_RWP    0x18
+ #define SONIC_TRBA0  0x19
+ #define SONIC_TRBA1  0x1a
++#define SONIC_TBWC0  0x1b
++#define SONIC_TBWC1  0x1c
+ #define SONIC_LLFA   0x1f
+ #define SONIC_TTDA   0x20
+ #define SONIC_CEP    0x21
+@@ -777,6 +779,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     /* Save current position */
+     s->regs[SONIC_TRBA1] = s->regs[SONIC_CRBA1];
+     s->regs[SONIC_TRBA0] = s->regs[SONIC_CRBA0];
++    s->regs[SONIC_TBWC1] = s->regs[SONIC_RBWC1];
++    s->regs[SONIC_TBWC0] = s->regs[SONIC_RBWC0];
  
- static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
--                               size_t size)
-+                               size_t pkt_size)
- {
-     dp8393xState *s = qemu_get_nic_opaque(nc);
-     int packet_type;
-     uint32_t available, address;
--    int width, rx_len = size;
-+    int width, rx_len = pkt_size;
-     uint32_t checksum;
-+    int size;
- 
-     width = (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
- 
-     s->regs[SONIC_RCR] &= ~(SONIC_RCR_PRX | SONIC_RCR_LBK | SONIC_RCR_FAER |
-         SONIC_RCR_CRCR | SONIC_RCR_LPKT | SONIC_RCR_BC | SONIC_RCR_MC);
- 
--    packet_type = dp8393x_receive_filter(s, buf, size);
-+    packet_type = dp8393x_receive_filter(s, buf, pkt_size);
-     if (packet_type < 0) {
-         DPRINTF("packet not for netcard\n");
-         return -1;
-@@ -848,7 +849,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     /* Done */
-     dp8393x_update_irq(s);
- 
--    return size;
-+    return pkt_size;
- }
- 
- static void dp8393x_reset(DeviceState *dev)
+     /* Calculate the ethernet checksum */
+     checksum = cpu_to_le32(crc32(0, buf, rx_len));
+@@ -827,6 +831,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     if (s->regs[SONIC_LLFA] & 0x1) {
+         /* EOL detected */
+         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
++
++        /* Restore buffer state */
++        s->regs[SONIC_CRBA1] = s->regs[SONIC_TRBA1];
++        s->regs[SONIC_CRBA0] = s->regs[SONIC_TRBA0];
++        s->regs[SONIC_RBWC1] = s->regs[SONIC_TBWC1];
++        s->regs[SONIC_RBWC0] = s->regs[SONIC_TBWC0];
+     } else {
+         /* Clear in_use */
+         int offset = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
 -- 
 2.23.0
 
