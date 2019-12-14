@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B74B11F429
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:12:33 +0100 (CET)
-Received: from localhost ([::1]:33046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294DB11F416
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:01:05 +0100 (CET)
+Received: from localhost ([::1]:32848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igEiG-0004t6-EI
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:12:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44279)
+	id 1igEX9-0000ML-Kl
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:01:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40706)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1igEUI-0006yD-Ht
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:58:07 -0500
+ (envelope-from <philmd@redhat.com>) id 1igEVV-0007kg-8W
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:59:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1igEUF-0003nm-UY
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:58:04 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24346
+ (envelope-from <philmd@redhat.com>) id 1igEVU-0007dq-4M
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:59:21 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30518
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEUF-0003hY-JV
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:58:03 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEVT-0007cB-UB
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:59:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576357081;
+ s=mimecast20190719; t=1576357159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DU+v1+qSXxMwHczsoakDiicLnkfOmtj3Euf4AZRmwFY=;
- b=EBDBCsq+k3aa1gdI4dc6bM05PFuNLkd/pFnjyigdnItQ068ofa3/1DdfFhtGi6E5GRj+HJ
- LLjUYZlQLSpEBkMpjRJHjw2pQenxUsV3grDWvKoggXDucYEudPnleoMPjdO1mmeMUAuDz5
- ByAXH3tWn0TRcV+pOmayRn6LU3vqQR8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IiMSoFUEZseoMxLw1sAmT/IUeieWX2EUqAxBTC+j+po=;
+ b=ghzBJP88B4iQgceh0fqNxwlCPfFlOCloNtEFCU0Ib+S32KOsLT92oA5z0PaRWSvm8rQNTE
+ yiwh4E2wGl2Zwhchff9npqOkVrwWM6brULAyac3HyWhDRJI1EHqFNCd0V4itycMvcpo26S
+ tjnB9bFORHcSqThCJn1kFRLDXiWdEcc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-9iIaSgdkNYWGuH4yNdMIvw-1; Sat, 14 Dec 2019 10:56:33 -0500
-X-MC-Unique: 9iIaSgdkNYWGuH4yNdMIvw-1
+ us-mta-5-8GfcR2qbM7asPJU8NqZDDA-1; Sat, 14 Dec 2019 10:56:49 -0500
+X-MC-Unique: 8GfcR2qbM7asPJU8NqZDDA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B08321005502;
- Sat, 14 Dec 2019 15:56:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62B71107ACC4;
+ Sat, 14 Dec 2019 15:56:47 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 234905D6A7;
- Sat, 14 Dec 2019 15:56:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C0F166A1A;
+ Sat, 14 Dec 2019 15:56:32 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] Simplify memory_region_add_subregion_overlap(...,
- priority=0)
-Date: Sat, 14 Dec 2019 16:56:06 +0100
-Message-Id: <20191214155614.19004-1-philmd@redhat.com>
+Subject: [PATCH 1/8] hw/arm/nrf51_soc: Use memory_region_add_subregion() when
+ priority is 0
+Date: Sat, 14 Dec 2019 16:56:07 +0100
+Message-Id: <20191214155614.19004-2-philmd@redhat.com>
+In-Reply-To: <20191214155614.19004-1-philmd@redhat.com>
+References: <20191214155614.19004-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -82,48 +85,85 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+It is pointless to overlap a memory subregion with priority 0.
+Use the simpler memory_region_add_subregion() function.
 
-In this series we use coccinelle to replace:
-- memory_region_add_subregion_overlap(..., priority=3D0)
-+ memory_region_add_subregion(...)
+This patch was produced with the following spatch script:
 
-Rationale is the code is easier to read, and reviewers don't
-have to worry about overlapping because it isn't used.
+    @@
+    expression region;
+    expression offset;
+    expression subregion;
+    @@
+    -memory_region_add_subregion_overlap(region, offset, subregion, 0)
+    +memory_region_add_subregion(region, offset, subregion)
 
-Last patch is a minor cleanup in variable names.
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/arm/nrf51_soc.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-I expect each subsystem maintainer to take the subsystem patches.
-
-Regards,
-
-Phil.
-
-Philippe Mathieu-Daud=C3=A9 (8):
-  hw/arm/nrf51_soc: Use memory_region_add_subregion() when priority is 0
-  hw/arm/raspi: Use memory_region_add_subregion() when priority is 0
-  hw/arm/xlnx-versal: Use memory_region_add_subregion() when priority is
-    0
-  hw/i386/intel_iommu: Use memory_region_add_subregion when priority is
-    0
-  hw/mips/boston: Use memory_region_add_subregion() when priority is 0
-  hw/vfio/pci: Use memory_region_add_subregion() when priority is 0
-  target/i386: Use memory_region_add_subregion() when priority is 0
-  target/i386/cpu: Use 'mr' for MemoryRegion variables
-
- target/i386/cpu.h            |  2 +-
- hw/arm/bcm2835_peripherals.c |  4 ++--
- hw/arm/nrf51_soc.c           | 14 +++++++-------
- hw/arm/raspi.c               |  2 +-
- hw/arm/xlnx-versal-virt.c    |  3 +--
- hw/arm/xlnx-versal.c         |  4 ++--
- hw/i386/intel_iommu.c        | 11 ++++-------
- hw/mips/boston.c             | 14 +++++++-------
- hw/vfio/pci.c                |  3 +--
- target/i386/cpu.c            | 18 +++++++++---------
- target/i386/kvm.c            |  2 +-
- 11 files changed, 36 insertions(+), 41 deletions(-)
-
+diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
+index 74029169d0..ade06b225f 100644
+--- a/hw/arm/nrf51_soc.c
++++ b/hw/arm/nrf51_soc.c
+@@ -94,7 +94,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Err=
+or **errp)
+         return;
+     }
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->uart), 0);
+-    memory_region_add_subregion_overlap(&s->container, NRF51_UART_BASE, =
+mr, 0);
++    memory_region_add_subregion(&s->container, NRF51_UART_BASE, mr);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart), 0,
+                        qdev_get_gpio_in(DEVICE(&s->cpu),
+                        BASE_TO_IRQ(NRF51_UART_BASE)));
+@@ -107,7 +107,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, E=
+rror **errp)
+     }
+=20
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->rng), 0);
+-    memory_region_add_subregion_overlap(&s->container, NRF51_RNG_BASE, m=
+r, 0);
++    memory_region_add_subregion(&s->container, NRF51_RNG_BASE, mr);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->rng), 0,
+                        qdev_get_gpio_in(DEVICE(&s->cpu),
+                        BASE_TO_IRQ(NRF51_RNG_BASE)));
+@@ -127,13 +127,13 @@ static void nrf51_soc_realize(DeviceState *dev_soc,=
+ Error **errp)
+     }
+=20
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->nvm), 0);
+-    memory_region_add_subregion_overlap(&s->container, NRF51_NVMC_BASE, =
+mr, 0);
++    memory_region_add_subregion(&s->container, NRF51_NVMC_BASE, mr);
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->nvm), 1);
+-    memory_region_add_subregion_overlap(&s->container, NRF51_FICR_BASE, =
+mr, 0);
++    memory_region_add_subregion(&s->container, NRF51_FICR_BASE, mr);
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->nvm), 2);
+-    memory_region_add_subregion_overlap(&s->container, NRF51_UICR_BASE, =
+mr, 0);
++    memory_region_add_subregion(&s->container, NRF51_UICR_BASE, mr);
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->nvm), 3);
+-    memory_region_add_subregion_overlap(&s->container, NRF51_FLASH_BASE,=
+ mr, 0);
++    memory_region_add_subregion(&s->container, NRF51_FLASH_BASE, mr);
+=20
+     /* GPIO */
+     object_property_set_bool(OBJECT(&s->gpio), true, "realized", &err);
+@@ -143,7 +143,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, E=
+rror **errp)
+     }
+=20
+     mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->gpio), 0);
+-    memory_region_add_subregion_overlap(&s->container, NRF51_GPIO_BASE, =
+mr, 0);
++    memory_region_add_subregion(&s->container, NRF51_GPIO_BASE, mr);
+=20
+     /* Pass all GPIOs to the SOC layer so they are available to the boar=
+d */
+     qdev_pass_gpios(DEVICE(&s->gpio), dev_soc, NULL);
 --=20
 2.21.0
 
