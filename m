@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3131C11F420
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 22:05:06 +0100 (CET)
-Received: from localhost ([::1]:32930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE35A11F410
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 21:55:08 +0100 (CET)
+Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igEb3-00055u-4d
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 16:05:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36095)
+	id 1igERP-00068k-Ta
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 15:55:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35377)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1igEZU-00045O-1u
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:03:28 -0500
+ (envelope-from <bounces@canonical.com>) id 1igEPV-0003zR-0c
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:53:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1igEZT-0003GY-33
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:03:27 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43191
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1igEZS-0003E8-Up
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 16:03:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576357406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pT4WM40LU/MvM0flyFNYVRGgCmto08Bw6WjOatMkYRQ=;
- b=N4j6UZnA8R6o1g7WA7O1gDjFlX1KMpZCYrhkzQe+aYKUl7IkiZ0O495ghKbIspcpBPkhMX
- OAsnNPPcRj5b/p46qnlAQIgpdqG1rkngO8Cniox268j54EaFY7QAxk74cAsBUdTG/5poXU
- A7KXl27ToJGhA71FmSpHbmo4naekx30=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-LB-qO6-fN0OEfYRAM1n8AA-1; Sat, 14 Dec 2019 11:02:31 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84590800D41;
- Sat, 14 Dec 2019 16:02:30 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78A6660BF3;
- Sat, 14 Dec 2019 16:02:26 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] memory: Do not allow subregion out of the parent region range
-Date: Sat, 14 Dec 2019 17:02:23 +0100
-Message-Id: <20191214160223.20012-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1igEPT-000602-JM
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:53:08 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49778)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1igEPT-0005s2-A7
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 15:53:07 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1igAO8-00022A-HY
+ for <qemu-devel@nongnu.org>; Sat, 14 Dec 2019 16:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7C1142E80C7
+ for <qemu-devel@nongnu.org>; Sat, 14 Dec 2019 16:35:28 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: LB-qO6-fN0OEfYRAM1n8AA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Sat, 14 Dec 2019 16:24:38 -0000
+From: Simon Brand <1856399@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: simonbrand1992
+X-Launchpad-Bug-Reporter: Simon Brand (simonbrand1992)
+X-Launchpad-Bug-Modifier: Simon Brand (simonbrand1992)
+Message-Id: <157634067875.7231.7677894888746798043.malonedeb@soybean.canonical.com>
+Subject: [Bug 1856399] [NEW] Intel GVT-g works in X11, segfaults in wayland
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9b8ee2ec4b3611fca7867d9f34bebf3439469122
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,36 +64,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Bug 1856399 <1856399@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a subregion is mapped out of the parent region range, it
-will never get accessed. Since this is a bug, abort to help
-the developer notice the mistake.
+Public bug reported:
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- memory.c | 1 +
- 1 file changed, 1 insertion(+)
+Hello,
 
-diff --git a/memory.c b/memory.c
-index 06484c2bff..61f355dcd5 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2390,6 +2390,7 @@ static void memory_region_add_subregion_common(Memory=
-Region *mr,
- {
-     assert(!subregion->container);
-     subregion->container =3D mr;
-+    assert(offset + memory_region_size(subregion) <=3D memory_region_size(=
-mr));
-     subregion->addr =3D offset;
-     memory_region_update_container_subregions(subregion);
- }
---=20
-2.21.0
+I am using an uptodate Arch Linux 64bit with qemu version 4.2.0, but the pr=
+oblem was also present in older versions. The problem occurs with Linux 5.4=
+ and 4.19.
+The problem also occurs with Debian as guest. I am running sway.
+If I provide -vga std, then qemu works fine until I use the qemu window to =
+switch to the vfio-pci device. There are no problems under X11/xwayland at =
+all.
 
+Commandline:
+qemu-system-x86_64
+=C2=A0=C2=A0=C2=A0=C2=A0-enable-kvm
+=C2=A0=C2=A0=C2=A0=C2=A0-cpu host
+=C2=A0=C2=A0=C2=A0=C2=A0-smp 2
+=C2=A0=C2=A0=C2=A0=C2=A0-m 8192
+=C2=A0=C2=A0=C2=A0=C2=A0-display gtk,gl=3Don
+=C2=A0=C2=A0=C2=A0=C2=A0-device vfio-pci,sysfsdev=3D/sys/devices/pci0000:00=
+/0000:00:02.0/[ID]/,x-igd-opregion=3Don,display=3Don
+=C2=A0=C2=A0=C2=A0=C2=A0-cdrom archlinux-2019.11.01-x86_64.iso
+=C2=A0=C2=A0=C2=A0=C2=A0-vga none
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856399
+
+Title:
+  Intel GVT-g works in X11, segfaults in wayland
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I am using an uptodate Arch Linux 64bit with qemu version 4.2.0, but the =
+problem was also present in older versions. The problem occurs with Linux 5=
+.4 and 4.19.
+  The problem also occurs with Debian as guest. I am running sway.
+  If I provide -vga std, then qemu works fine until I use the qemu window t=
+o switch to the vfio-pci device. There are no problems under X11/xwayland a=
+t all.
+
+  Commandline:
+  qemu-system-x86_64
+  =C2=A0=C2=A0=C2=A0=C2=A0-enable-kvm
+  =C2=A0=C2=A0=C2=A0=C2=A0-cpu host
+  =C2=A0=C2=A0=C2=A0=C2=A0-smp 2
+  =C2=A0=C2=A0=C2=A0=C2=A0-m 8192
+  =C2=A0=C2=A0=C2=A0=C2=A0-display gtk,gl=3Don
+  =C2=A0=C2=A0=C2=A0=C2=A0-device vfio-pci,sysfsdev=3D/sys/devices/pci0000:=
+00/0000:00:02.0/[ID]/,x-igd-opregion=3Don,display=3Don
+  =C2=A0=C2=A0=C2=A0=C2=A0-cdrom archlinux-2019.11.01-x86_64.iso
+  =C2=A0=C2=A0=C2=A0=C2=A0-vga none
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856399/+subscriptions
 
