@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB4811F139
-	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 10:51:41 +0100 (CET)
-Received: from localhost ([::1]:57772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4364C11F140
+	for <lists+qemu-devel@lfdr.de>; Sat, 14 Dec 2019 10:55:05 +0100 (CET)
+Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ig45M-0001qK-37
-	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 04:51:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
+	id 1ig48e-00070i-1v
+	for lists+qemu-devel@lfdr.de; Sat, 14 Dec 2019 04:55:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ig3zt-0004gX-7j
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:02 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ig3zv-0004kV-W8
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ig3zr-0005CI-M8
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:01 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60803
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1ig3zu-0005M6-KO
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47412
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ig3zq-00058e-IS
- for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:45:59 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ig3zu-0005K7-BG
+ for qemu-devel@nongnu.org; Sat, 14 Dec 2019 04:46:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576316757;
+ s=mimecast20190719; t=1576316761;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3nzSX4Eik3KjtGJOW7//s0suSjmGjAvzRFJ0ah76MqM=;
- b=NHLGGDf0w/LtfFvu0q+ypDHpy9K39LMvAegu8hPm7McPFs6mngRyeK73y2FIv9/5y/+/8o
- 0ed1IlAY5cjzRSV/HFEBkm0DdRJv1DDKVg8esz9/kl02PY6KbfQbfhp4uk9MEQ/usaLu1t
- U/puJ3GPDjTvn8OP7Z7pIuY4vKh8cLg=
+ bh=Sl200vKoDtXZiCTG+5unevgyZVrBojkXBzppV1yXaVA=;
+ b=Jl6HzmMdSfnnE7pq/RC752Fs4JuATrz0/3o0jBEWsam82w8N/QNl4FKPChFV8pIER3pnXs
+ RfTfrAJTWJUa/bX46TWFFFEI8mnCLA57gGdMAkFZJNBfiZGLSQD3jUTA/l8t+eW6TNOXKE
+ NiMGInO9VxFr6Y5OXDbgxuVPd5Ne1Hc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-DE2GxzKHPY23VjyfP3r7sw-1; Sat, 14 Dec 2019 04:45:53 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-191-NJ36G41AM6OqRjOExXUqbg-1; Sat, 14 Dec 2019 04:45:58 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D72A91800D63;
- Sat, 14 Dec 2019 09:45:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D7258017DF;
+ Sat, 14 Dec 2019 09:45:57 +0000 (UTC)
 Received: from localhost (ovpn-116-90.ams2.redhat.com [10.36.116.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78DD960BF3;
- Sat, 14 Dec 2019 09:45:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90F2360474;
+ Sat, 14 Dec 2019 09:45:54 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 06/16] s390x: Move clear reset
-Date: Sat, 14 Dec 2019 10:45:16 +0100
-Message-Id: <20191214094526.8698-7-cohuck@redhat.com>
+Subject: [PULL v2 07/16] s390x: Beautify diag308 handling
+Date: Sat, 14 Dec 2019 10:45:17 +0100
+Message-Id: <20191214094526.8698-8-cohuck@redhat.com>
 In-Reply-To: <20191214094526.8698-1-cohuck@redhat.com>
 References: <20191214094526.8698-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: DE2GxzKHPY23VjyfP3r7sw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: NJ36G41AM6OqRjOExXUqbg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,133 +78,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-Let's also move the clear reset function into the reset handler.
+Let's improve readability by:
+* Using constants for the subcodes
+* Moving parameter checking into a function
+* Removing subcode > 6 check as the default case catches that
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Message-Id: <20191127175046.4911-5-frankja@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20191127175046.4911-6-frankja@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/cpu-qom.h |  1 +
- target/s390x/cpu.c     | 58 +++++++++++++-----------------------------
- 2 files changed, 18 insertions(+), 41 deletions(-)
+ target/s390x/diag.c | 54 +++++++++++++++++++++++++++------------------
+ 1 file changed, 32 insertions(+), 22 deletions(-)
 
-diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
-index 6f0a12042ed4..dbe5346ec901 100644
---- a/target/s390x/cpu-qom.h
-+++ b/target/s390x/cpu-qom.h
-@@ -37,6 +37,7 @@ typedef struct S390CPUDef S390CPUDef;
- typedef enum cpu_reset_type {
-     S390_CPU_RESET_NORMAL,
-     S390_CPU_RESET_INITIAL,
-+    S390_CPU_RESET_CLEAR,
- } cpu_reset_type;
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index 53c2f81f2a1a..b5aec06d6bef 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -53,6 +53,29 @@ int handle_diag_288(CPUS390XState *env, uint64_t r1, uin=
+t64_t r3)
+ #define DIAG_308_RC_NO_CONF         0x0102
+ #define DIAG_308_RC_INVALID         0x0402
 =20
- /**
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index ca62fe768569..bd39cb54b7aa 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -94,6 +94,9 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type ty=
-pe)
-     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
-=20
-     switch (type) {
-+    case S390_CPU_RESET_CLEAR:
-+        memset(env, 0, offsetof(CPUS390XState, start_initial_reset_fields)=
-);
-+        /* fall through */
-     case S390_CPU_RESET_INITIAL:
-         /* initial reset does not clear everything! */
-         memset(&env->start_initial_reset_fields, 0,
-@@ -107,6 +110,14 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type=
- type)
-         env->cregs[0] =3D CR0_RESET;
-         env->cregs[14] =3D CR14_RESET;
-=20
-+#if defined(CONFIG_USER_ONLY)
-+        /* user mode should always be allowed to use the full FPU */
-+        env->cregs[0] |=3D CR0_AFP;
-+        if (s390_has_feat(S390_FEAT_VECTOR)) {
-+            env->cregs[0] |=3D CR0_VECTOR;
-+        }
-+#endif
++#define DIAG308_RESET_MOD_CLR       0
++#define DIAG308_RESET_LOAD_NORM     1
++#define DIAG308_LOAD_CLEAR          3
++#define DIAG308_LOAD_NORMAL_DUMP    4
++#define DIAG308_SET                 5
++#define DIAG308_STORE               6
 +
-         /* tininess for underflow is detected before rounding */
-         set_float_detect_tininess(float_tininess_before_rounding,
-                                   &env->fpu_status);
-@@ -125,46 +136,6 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type=
- type)
-     }
- }
-=20
--/* CPUClass:reset() */
--static void s390_cpu_full_reset(CPUState *s)
--{
--    S390CPU *cpu =3D S390_CPU(s);
--    S390CPUClass *scc =3D S390_CPU_GET_CLASS(cpu);
--    CPUS390XState *env =3D &cpu->env;
--
--    scc->parent_reset(s);
--    cpu->env.sigp_order =3D 0;
--    s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
--
--    memset(env, 0, offsetof(CPUS390XState, end_reset_fields));
--
--    /* architectured initial values for CR 0 and 14 */
--    env->cregs[0] =3D CR0_RESET;
--    env->cregs[14] =3D CR14_RESET;
--
--#if defined(CONFIG_USER_ONLY)
--    /* user mode should always be allowed to use the full FPU */
--    env->cregs[0] |=3D CR0_AFP;
--    if (s390_has_feat(S390_FEAT_VECTOR)) {
--        env->cregs[0] |=3D CR0_VECTOR;
--    }
--#endif
--
--    /* architectured initial value for Breaking-Event-Address register */
--    env->gbea =3D 1;
--
--    env->pfault_token =3D -1UL;
--
--    /* tininess for underflow is detected before rounding */
--    set_float_detect_tininess(float_tininess_before_rounding,
--                              &env->fpu_status);
--
--    /* Reset state inside the kernel that we cannot access yet from QEMU. =
-*/
--    if (kvm_enabled()) {
--        kvm_s390_reset_vcpu(cpu);
--    }
--}
--
- #if !defined(CONFIG_USER_ONLY)
- static void s390_cpu_machine_reset_cb(void *opaque)
- {
-@@ -456,6 +427,11 @@ static Property s390x_cpu_properties[] =3D {
-     DEFINE_PROP_END_OF_LIST()
- };
-=20
-+static void s390_cpu_reset_full(CPUState *s)
++static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t ad=
+dr,
++                              uintptr_t ra, bool write)
 +{
-+    return s390_cpu_reset(s, S390_CPU_RESET_CLEAR);
++    if ((r1 & 1) || (addr & ~TARGET_PAGE_MASK)) {
++        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
++        return -1;
++    }
++    if (!address_space_access_valid(&address_space_memory, addr,
++                                    sizeof(IplParameterBlock), write,
++                                    MEMTXATTRS_UNSPECIFIED)) {
++        s390_program_interrupt(env, PGM_ADDRESSING, ra);
++        return -1;
++    }
++    return 0;
 +}
 +
- static void s390_cpu_class_init(ObjectClass *oc, void *data)
+ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr=
+_t ra)
  {
-     S390CPUClass *scc =3D S390_CPU_CLASS(oc);
-@@ -472,7 +448,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *=
-data)
-     scc->load_normal =3D s390_cpu_load_normal;
- #endif
-     scc->reset =3D s390_cpu_reset;
--    cc->reset =3D s390_cpu_full_reset;
-+    cc->reset =3D s390_cpu_reset_full;
-     cc->class_by_name =3D s390_cpu_class_by_name,
-     cc->has_work =3D s390_cpu_has_work;
- #ifdef CONFIG_TCG
+     CPUState *cs =3D env_cpu(env);
+@@ -65,30 +88,24 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, u=
+int64_t r3, uintptr_t ra)
+         return;
+     }
+=20
+-    if ((subcode & ~0x0ffffULL) || (subcode > 6)) {
++    if (subcode & ~0x0ffffULL) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+     }
+=20
+     switch (subcode) {
+-    case 0:
++    case DIAG308_RESET_MOD_CLR:
+         s390_ipl_reset_request(cs, S390_RESET_MODIFIED_CLEAR);
+         break;
+-    case 1:
++    case DIAG308_RESET_LOAD_NORM:
+         s390_ipl_reset_request(cs, S390_RESET_LOAD_NORMAL);
+         break;
+-    case 3:
++    case DIAG308_LOAD_CLEAR:
++        /* Well we still lack the clearing bit... */
+         s390_ipl_reset_request(cs, S390_RESET_REIPL);
+         break;
+-    case 5:
+-        if ((r1 & 1) || (addr & 0x0fffULL)) {
+-            s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+-            return;
+-        }
+-        if (!address_space_access_valid(&address_space_memory, addr,
+-                                        sizeof(IplParameterBlock), false,
+-                                        MEMTXATTRS_UNSPECIFIED)) {
+-            s390_program_interrupt(env, PGM_ADDRESSING, ra);
++    case DIAG308_SET:
++        if (diag308_parm_check(env, r1, addr, ra, false)) {
+             return;
+         }
+         iplb =3D g_new0(IplParameterBlock, 1);
+@@ -110,15 +127,8 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, =
+uint64_t r3, uintptr_t ra)
+ out:
+         g_free(iplb);
+         return;
+-    case 6:
+-        if ((r1 & 1) || (addr & 0x0fffULL)) {
+-            s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+-            return;
+-        }
+-        if (!address_space_access_valid(&address_space_memory, addr,
+-                                        sizeof(IplParameterBlock), true,
+-                                        MEMTXATTRS_UNSPECIFIED)) {
+-            s390_program_interrupt(env, PGM_ADDRESSING, ra);
++    case DIAG308_STORE:
++        if (diag308_parm_check(env, r1, addr, ra, true)) {
+             return;
+         }
+         iplb =3D s390_ipl_get_iplb();
 --=20
 2.21.0
 
