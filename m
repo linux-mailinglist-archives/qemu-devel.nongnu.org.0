@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4CB121AD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 21:24:06 +0100 (CET)
-Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF4E121B5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 21:55:56 +0100 (CET)
+Received: from localhost ([::1]:59884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igwuT-0001f8-G8
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 15:24:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58317)
+	id 1igxPG-0000ST-RR
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 15:55:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1igwte-0001Cc-W8
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:23:15 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1igxK4-00026O-HL
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:50:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1igwtd-0000e8-QU
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:23:14 -0500
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:45244)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1igwtd-0000cc-J4
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:23:13 -0500
-Received: by mail-pj1-x1043.google.com with SMTP id r11so3489911pjp.12
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 12:23:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AkgkOOtsz9GjG7aUzTcoRLGbdb372ppd5/6o/GBDfuc=;
- b=cVlQwiXyxTWgQUFCddj7U7wKnG+jWQlEhHgwBOmhDNqNXzmwj50Ay95JWWi09yVh8H
- rAiaLUsSckTRyWXFO01xod2uRvF1iLSk3MlwWGI9Qkh2fcCAWP7u6EB4J+iCizkzRCQ1
- MT6E68bwQDdLpOXwAeG67NP7Mz6KmdGiNgxP6ECvvVFzBopqpORpfcnRf3wkUiw1XnWy
- DBMH3/xIO21FTwb6+D5mF5R3RzCIjy48jPOi+7WIMZJ3ltVvfbVBIsnktuC462fBu6Kv
- MxGTg1O0yYwXw735ngu5uTUlgJyKUvkIWvaXDj+pf7oFx35M+8Ap0zdtZd04qIo5tyBQ
- fLAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AkgkOOtsz9GjG7aUzTcoRLGbdb372ppd5/6o/GBDfuc=;
- b=n/APH3w1XX45Dxj7jDZgCww1iYNtipIazpBWF/r0oPIq8dRWLdjR/Tja5mMm+aAGHE
- Y7SKtCbSL3if5K2cB74rY0jnJikxr6GEy31Bva22n8eg2EAvzXSoEEL6Qnui+tOJ+01W
- zSAGIe0wAu18IVNc0AYSU4du76yUuX9jWRMOAeaiftnSz3Bf64fpP3E+9EPzdgiIVMHE
- KdaKOKjmAnPUEJPIzk3zPZYYsXui+rdoNGK/Y/mo0RsWYaNRkShh03RqCMKjUuv1VH5+
- 7ST/QtSDtjHOWqSRRHCcIIMXAZ0cFA+5eZMsRkmiKlF1O3/WhJgG49OZUWV1/nfg41XX
- H5QQ==
-X-Gm-Message-State: APjAAAWfnvwg9JVIc7cnGjDI8zGBL2g/F419CoxypDqnsn/EpAsS3PkQ
- KNtriZn8dc1Ejed9UrohuROCnQ==
-X-Google-Smtp-Source: APXvYqxbsmYWyJ3YanraDOAH9bswgUGW4uQOBuem+6yoq7V0UmD3txfELyF+8qZIjT4XhMyjuv2RMg==
-X-Received: by 2002:a17:90a:d145:: with SMTP id
- t5mr1300631pjw.57.1576527791999; 
- Mon, 16 Dec 2019 12:23:11 -0800 (PST)
-Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
- ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id d38sm21481516pgd.59.2019.12.16.12.23.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Dec 2019 12:23:11 -0800 (PST)
-Subject: Re: [PATCH 0/2] target/s390x: Implement LOAD/STORE TO REAL ADDRESS
- inline
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20191211203614.15611-1-richard.henderson@linaro.org>
- <20191216180409.6a753390.cohuck@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a8665c3d-7329-18c9-767c-ba145defa71b@linaro.org>
-Date: Mon, 16 Dec 2019 10:23:07 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <kwankhede@nvidia.com>) id 1igxK2-00079d-Iz
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:50:31 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:15776)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1igxK2-000794-B2
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:50:30 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5df7ee0b0000>; Mon, 16 Dec 2019 12:50:19 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 16 Dec 2019 12:50:27 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 12:50:27 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
+ 2019 20:50:27 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 16 Dec 2019 20:50:20 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v10 Kernel 0/5] KABIs to support migration for VFIO devices 
+Date: Tue, 17 Dec 2019 01:51:35 +0530
+Message-ID: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20191216180409.6a753390.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576529419; bh=BgOwv2o4CTCcQspt5FGClKR4D3uCDj92wKjF5nLknrg=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=Jp084s/EeFOzyAT6SoeUUude2Rd7H/e1Ds++cHv+SAHcIUlCgh/y7nQFL5/RF7v0K
+ HlCKpeXmJWRV4zzP7FSMXKNvucYDLTw6d0IRuq0qHD9sDi/43KgQgmnPMlvHYsUHDv
+ faF8j0475HTsr2TSjR1gqTa0w3tS12ROgv/DjU8aWtpAcfv9nChKsMJmu5/CJ96lQz
+ sVh0OQcszBZcsMrqiA7oY1bqaMjXhtcohDM5J5+T5v/s8zluvZdBAjfjHvdEKOrTC1
+ dp3STCZHSWnJeV5E44PyVzSlDqrotFGezUb0xshxgHYVSRZPFm+2ohPbWxHd2QLuIv
+ 3WzUu2uCMseHQ==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,23 +67,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, david@redhat.com
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
+ ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/19 7:04 AM, Cornelia Huck wrote:
-> On Wed, 11 Dec 2019 12:36:12 -0800
-> Richard Henderson <richard.henderson@linaro.org> wrote:
-> 
->> Found while working on other parts of cputlb,
->> this cleanup can be split out independently.
-...
-> Should I take these via the s390 tree, or do you plan to merge them via
-> another path?
-> 
+Hi,
 
-Please take them via s390.
+This patch set adds:
+* New IOCTL VFIO_IOMMU_DIRTY_PAGES to get dirty pages bitmap with
+  respect to IOMMU container rather than per device. All pages pinned by
+  vendor driver through vfio_pin_pages external API has to be marked as
+  dirty during  migration. When IOMMU capable device is present in the
+  container and all pages are pinned and mapped, then all pages are marked
+  dirty.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned should be considered
+  as dirty.
+  This ioctl is also used to start dirty pages tracking for unpinned pages
+  while migration is active and device is running. These tracked unpinned
+  pages information is cleaned on dirty bitmap read from VFIO application
+  or if migration is failed or cancelled and unpinned pages tracking is
+  stopped.
+* Updated IOCTL VFIO_IOMMU_UNMAP_DMA to get dirty pages bitmap before
+  unmapping IO virtual address range.
+  With vIOMMU, during pre-copy phase of migration, while CPUs are still
+  running, IO virtual address unmap can happen while device still keeping
+  reference of guest pfns. Those pages should be reported as dirty before
+  unmap, so that VFIO user space application can copy content of those
+  pages from source to destination.
+
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required such that vendor
+driver could report dirty pages to VFIO module during migration phases.
+
+If IOMMU capable device is present in the container, then all pages are
+marked dirty. Need to think smart way to know if IOMMU capable device's
+driver is smart to report pages to be marked dirty by pinning those pages
+externally.
+
+Adding revision history from previous QEMU patch set to understand KABI
+changes done till now
+
+v9 -> v10:
+- Updated existing VFIO_IOMMU_UNMAP_DMA ioctl to get dirty pages bitmap
+  during unmap while migration is active
+- Added flag in VFIO_IOMMU_GET_INFO to indicate driver support dirty page
+  tracking.
+- If iommu_mapped, mark all pages dirty.
+- Added unpinned pages tracking while migration is active.
+- Updated comments for migration device state structure with bit
+  combination table and state transition details.
+
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
+
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load
+  as suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
+
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of
+  structure vfio_device_migration_info to be followed based on Alex's
+  suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration,
+  that is removed assumption that data will be till end of migration
+  region.
+- If vendor driver supports mappable sparsed region, map those region
+  during setup state of save/load, similarly unmap those from cleanup
+  routines.
+- Handles race condition that causes data corruption in migration region
+  during save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Split into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2
+  bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined
+  action on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with
+  region type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed
+  at 0th offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section
+  of the region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested
+  pages are copied.
+
+Thanks,
+Kirti
 
 
-r~
+
+Kirti Wankhede (5):
+  vfio: KABI for migration interface for device state
+  vfio iommu: Adds flag to indicate dirty pages tracking capability
+    support
+  vfio iommu: Add ioctl defination for dirty pages tracking.
+  vfio iommu: Implementation of ioctl to for dirty pages tracking.
+  vfio iommu: Update UNMAP_DMA ioctl to get dirty bitmap before unmap
+
+ drivers/vfio/vfio_iommu_type1.c | 276 +++++++++++++++++++++++++++++++++++++---
+ include/uapi/linux/vfio.h       | 240 +++++++++++++++++++++++++++++++++-
+ 2 files changed, 499 insertions(+), 17 deletions(-)
+
+-- 
+2.7.0
+
 
