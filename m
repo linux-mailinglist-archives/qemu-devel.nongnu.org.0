@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD821203FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:34:51 +0100 (CET)
-Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A346D1203EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:31:44 +0100 (CET)
+Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoeH-00061j-MC
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:34:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51028)
+	id 1igobH-000243-1u
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:31:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51023)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFk-0007ne-Mi
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFk-0007nE-Ii
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFj-0008DF-Dc
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFj-0008CY-9R
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:28 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54091)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43133)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFj-000888-6m
+ id 1igoFj-00088x-2X
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:27 -0500
-Received: by mail-wm1-x344.google.com with SMTP id m24so4865941wmc.3
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:27 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id d16so6712015wre.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=L01Bt7Pn8EbpPwCHMv8nyAgPyUlPk/hoQ9vzWdPLN80=;
- b=RJZUjOgvO0qyIxENiw+1QxNEsvUdcvTb8Qc3CzTD924W2vt2U8C0LtCdmp3Bcc5QVx
- H3u47BgHUXjpQKF/bUZstVXnhq+FRR/1RyLKHjc1tgYBUC6DDxgYnqnZAA6X3gVALJwp
- XTC10qkSry5tuYki+YgBmBp/rGyPS6yK5UOdWzZAqJhQKmNlWY4GEr3sVvm7Rm5U2PCi
- J8+lw4TO1PwTStg/FOHNxnceyd9w4gg40x+El8DU3sdqvcCAxtukYD4ByfZnB/KtMgju
- 1o+qMTOPnMm6o2IaWA5LRtTtbTCZ453nDjVjStALYdWk6anB6p8kuZy+ixBWd2iJXOR/
- sMog==
+ bh=cLD2Kna7vySI7JTixY4DUbJiDAp4iUXD1298DaSCR8I=;
+ b=rZ0hP8tz8VogaUVsp9aiUXJlXyJGkkdBMyO4EzwmzsW7Gy2+xAqKdzolFes0iNaIZn
+ TdamUM9AuYEFtfQ3vl4TJqfgY+ppsMnd8IKRfyGIft+a6L5IwidZ0US09sf2BHAIZFH5
+ 24GNlToZrDd2QLHGZl5Oke+5OiZRAkODRYYPMvTqFdrde3Zu1iaUrAn5wWhbAHefZMjU
+ jV8GuCy9TJn8yGEx+2QCuuAJak/m7mt5hCFu7BnJFYcttdUkUSZ7bDtZqtNVUv7Ft3ym
+ f2khM+ZcComZoKfZgiwAlSvC65p6w3pS2BwDKsn0vCHTtZgkmpxm81lLlU7GJXojtWg0
+ IHLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L01Bt7Pn8EbpPwCHMv8nyAgPyUlPk/hoQ9vzWdPLN80=;
- b=EoLKi32BEeJzPg1T9G+qWuyK3zEJUVgCniF35A23oc8OfqBFPSRR13hkED7X7wibdf
- JuNmxIqZxkIemJ9kgH5UesBMEHYcGmt6ZfIbeBpKGDooZ7bZTbBz7AoIYf3S11N2Oz4t
- LKhP1bF4x636VJddsvVOrJTt947Rw0/wPpIaRz6Ps76gVM/gc8bfkF7jk3XJxzjK+loO
- wVdI9/pNWb9P5ohkzaEokabOC/3FzyMYzU36FkfPchU6kfINI8lmYwURiYjgZp6pOyin
- Z+Mk3omWzWYNCFboAkNHSjOdOdBPDcH1K2mwVwepw534d1c5j0CWlNfCtaCAeKxwTNlv
- bjsw==
-X-Gm-Message-State: APjAAAX7Aj3vkZXgXBlhRZ3WdGyb+Ed1U+h11ZGW2SnwsequsD2lOBPA
- HS4oVpbyDW8+LhHNpNeq4w52AtxrL5Gtxg==
-X-Google-Smtp-Source: APXvYqxeDTVy51nQQ4NPncoZFp95ISBxcKkumABMZ8jixJWukFSxp6+EuolYveD8daa5s6ZqrWG3Gg==
-X-Received: by 2002:a7b:cd83:: with SMTP id y3mr28187588wmj.168.1576494564817; 
- Mon, 16 Dec 2019 03:09:24 -0800 (PST)
+ bh=cLD2Kna7vySI7JTixY4DUbJiDAp4iUXD1298DaSCR8I=;
+ b=mw3xiJ20m+HXqQdAJDPBDKEaEAKXGGs+Fto96SZMk0CJ2IcGdFkMm92+OydPHbMEEK
+ FxjCM2krRgTzl3oMjQZrRoclnau5NraMt+pRYdT65CdH2GE1Q2a97bzRYqr7ZmLmS5d/
+ kWAM1RwIUYaCLLL317Zs12roSIv6Y4/LcCT7D808ZjZ0/I+Brr1bE9q5dttl2LMVV7me
+ TgGLvMNG2xQfOOgCgjlHsO6C1kSc0gde8fSzE01GwMlEbN/mH6Jqme7piTMOjGf6NX7/
+ i872d3fnbH+tqtqI1UkMlllVJuRbgU4I4HufFTUiMKcQSTQu2iOqEuDQXXTZrAqObTxS
+ Fl0Q==
+X-Gm-Message-State: APjAAAXz5ZkvIz/ami2aQ4PX6gWJMR8uKSQDQiycQnr7YF/0O0NjWoUZ
+ WxAule2LxfA/YyuzzqsUaQA0nzimzGUVCQ==
+X-Google-Smtp-Source: APXvYqw7CA0lEFBH/KYeeg2n0bfL6xDJGUKqfanCTrMiq+9Mugtjgo+AA2HNs/DWXkQ3LmO0zUPu5w==
+X-Received: by 2002:adf:c746:: with SMTP id b6mr28282526wrh.298.1576494565931; 
+ Mon, 16 Dec 2019 03:09:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.23
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:24 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/34] aspeed: Add support for the tacoma-bmc board
-Date: Mon, 16 Dec 2019 11:08:46 +0000
-Message-Id: <20191216110904.30815-17-peter.maydell@linaro.org>
+Subject: [PULL 17/34] gpio: fix memory leak in aspeed_gpio_init()
+Date: Mon, 16 Dec 2019 11:08:47 +0000
+Message-Id: <20191216110904.30815-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,89 +82,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: PanNengyuan <pannengyuan@huawei.com>
 
-The Tacoma BMC board is replacement board for the BMC of the OpenPOWER
-Witherspoon system. It uses a AST2600 SoC instead of a AST2500 and the
-I2C layout is the same as it controls the same main board. Used for HW
-bringup.
+Address Sanitizer shows memory leak in hw/gpio/aspeed_gpio.c:875
 
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-15-clg@kaod.org
+Message-id: 20191119141211.25716-16-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ hw/gpio/aspeed_gpio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index e34e6787430..cc06af4fbb3 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -92,6 +92,10 @@ struct AspeedBoardState {
- #define AST2600_EVB_HW_STRAP1 0x000000C0
- #define AST2600_EVB_HW_STRAP2 0x00000003
- 
-+/* Tacoma hardware value */
-+#define TACOMA_BMC_HW_STRAP1  0x00000000
-+#define TACOMA_BMC_HW_STRAP2  0x00000000
-+
- /*
-  * The max ram region is for firmwares that scan the address space
-  * with load/store to guess how much RAM the SoC has.
-@@ -363,6 +367,9 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
-     AspeedSoCState *soc = &bmc->soc;
-     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
- 
-+    /* Bus 3: TODO bmp280@77 */
-+    /* Bus 3: TODO max31785@52 */
-+    /* Bus 3: TODO dps310@76 */
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), TYPE_PCA9552,
-                      0x60);
- 
-@@ -381,6 +388,7 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
-                           eeprom_buf);
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), TYPE_PCA9552,
-                      0x60);
-+    /* Bus 11: TODO ucd90160@64 */
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index 7acc5fa8e29..41e11ea9b04 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -876,6 +876,7 @@ static void aspeed_gpio_init(Object *obj)
+                                pin_idx % GPIOS_PER_GROUP);
+         object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
+                             aspeed_gpio_set_pin, NULL, NULL, NULL);
++        g_free(name);
+     }
  }
  
- static void aspeed_machine_class_init(ObjectClass *oc, void *data)
-@@ -485,6 +493,22 @@ static void aspeed_machine_ast2600_evb_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_size = 1 * GiB;
- };
- 
-+static void aspeed_machine_tacoma_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "Aspeed AST2600 EVB (Cortex A7)";
-+    amc->soc_name  = "ast2600-a0";
-+    amc->hw_strap1 = TACOMA_BMC_HW_STRAP1;
-+    amc->hw_strap2 = TACOMA_BMC_HW_STRAP2;
-+    amc->fmc_model = "mx66l1g45g";
-+    amc->spi_model = "mx66l1g45g";
-+    amc->num_cs    = 2;
-+    amc->i2c_init  = witherspoon_bmc_i2c_init; /* Same board layout */
-+    mc->default_ram_size = 1 * GiB;
-+};
-+
- static const TypeInfo aspeed_machine_types[] = {
-     {
-         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-@@ -510,6 +534,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("ast2600-evb"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_ast2600_evb_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_tacoma_class_init,
-     }, {
-         .name          = TYPE_ASPEED_MACHINE,
-         .parent        = TYPE_MACHINE,
 -- 
 2.20.1
 
