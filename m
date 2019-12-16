@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC451203A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:19:51 +0100 (CET)
-Received: from localhost ([::1]:51476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86AD1203C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:24:03 +0100 (CET)
+Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoPm-0002YB-7g
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:19:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50890)
+	id 1igoTq-0000AB-HN
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:24:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50915)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFd-0007c8-Fc
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:22 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFe-0007dl-EA
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFb-0007lM-8j
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:21 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35868)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFd-0007nT-AG
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:22 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54849)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFb-0007kH-2P
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:19 -0500
-Received: by mail-wr1-x436.google.com with SMTP id z3so6731899wru.3
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:19 -0800 (PST)
+ id 1igoFd-0007lW-45
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:21 -0500
+Received: by mail-wm1-x344.google.com with SMTP id b19so6249831wmj.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=QD+79veTer7FPiPBdF+SAJ8aBHWDVP6IlE9SRsgpnIk=;
- b=cDIr5UjBL8ljfe4FCdbjYixpga6PbOSVaVEEwERydB8SSbV2jL6/45nKYk8HZsetrc
- pTbdBXO8PWgC0mvrJf3Xb/h2gimHYQTAz0miOH97yz9YapPL9dsnH+0pk3GuRmD6cMN9
- Ze1z6MhNGZN33v5XnKTjuCFO0Ag4aNR56r0JXVx65L/3kSSFClt7jnrI3wTQnUzxofC2
- J9o1SIkP32UeGd5L6kEExkHeTxi9niUEzGBfW0xNsvFY8GOBZtMqqVWFnhUU0uGfWjUm
- TRCwidkV7nWz5chgVoovltkM6iZkK4QPjJ1/YmhiLbPLLFLMR+kpxkq/LhUgpVzLLDJV
- RvSg==
+ bh=INEC+O3trc34/sQ9VXKjuFm8nPKS5N+4sZ+l5CuQdRo=;
+ b=Lh1e8t1VanEgXHprir+MfcM8kydEMOOKZ6lsmPA657uh3UJa8N3oRjM1Hr1nwhnfAO
+ ucl7yInlLKGjv1R4vAC0Lc8tF7pfI2+dNPcyrPgr9LaebJSugLG22mJ3Fh/kHcg2pTNx
+ P1JbPUu/fCwf73qXMPbev+W8oygWkw+oAyANN+lxSgWy+PgQcOhai7snbZBnKXFemYWz
+ TiZyXkka3+zJH7aEU0STz1TqNIBxUA5Y/yqgiOFfYZVIMbtQSLViocuko0DPAi/7YwN+
+ 9tnz4YZuHiw+sLwSv81hrG3Gwiq/70Sz+fKS+NdpJvrtMcvG2QV3Lwj44o+LozRkdUE2
+ lbPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QD+79veTer7FPiPBdF+SAJ8aBHWDVP6IlE9SRsgpnIk=;
- b=oHtAWgXHrFwUGAHiIYgjHQEbfuks6UPAKPDSpCYwXq2VCilsmqnNedlYzkbg14w0+8
- UD9Xub4hNWx9V9SND6xbH/44Gf80YPFo7NG/plisqhVfnKSH4jTeXuVrxp55TiGS9fvn
- DJcWnDSNrrYdfgfiSpS1f7cMiFZByUCIc4u/4L5aX7h8k4ub3PRy9wgcc3oDVsAFsG4U
- 7rdJlxhduAxPoBvtpvIxVhh96nWuLbJmRWIr8cT+I8811F2wBeB8NRcjxiUO2z4rt1aQ
- 9YCnN3zwVuKjEBGUhFmeXX+ARwTzLoD77LkOjqXoPPcXRjvevOLOsAFHg71HlxmUDMv5
- LGyA==
-X-Gm-Message-State: APjAAAW/iTMGeF+Sc4l9YWoNapU5GwGZ3bJ+cz76xW28gVT/lVl8Nkx1
- 49IW015VuYQtukkRS5TmrZUqVfP9hYOpzQ==
-X-Google-Smtp-Source: APXvYqwAnmK5wEykYwcKL8U8sceOxLdk0DZjq1OaHsnP61DlZQjVFJp1mZ8OQAmup8mng3iBSG3LQw==
-X-Received: by 2002:adf:f1d0:: with SMTP id z16mr28467027wro.209.1576494557935; 
- Mon, 16 Dec 2019 03:09:17 -0800 (PST)
+ bh=INEC+O3trc34/sQ9VXKjuFm8nPKS5N+4sZ+l5CuQdRo=;
+ b=jz3nDKNA0eDt3TkyfnaW9p6YhFBzfxN6fclLMfoOiZvKZ+vI6emVj1QPSi8RdMEsz4
+ kpwYsrqGX6He2ZIbC2O0IALJrbXyhlxqB1bAvLgAJyAom64ZkBltnK/8tuqeSkUUdEwF
+ b3d7NFIZGW5LW098ywwjltKCHae35FXb4wzqPF3u71ueu0XgQk8sNuUKqmMQeHhDAY4D
+ pC5uJvSc3X1Vd84fuR5/GLaXure3gcxL4r5jOIdsNpWAEETIsqojs8WLzY9slDgbePrK
+ qk2s5XznuPKrhLard/TF5yGqR6ttY8GxSjC58JXMIVrBfge7FSFPN+3o/KgDF+tTe7S5
+ Pz2A==
+X-Gm-Message-State: APjAAAWHcqJuTetftu21+N23DP4Ji+UnB6/RemjdlKkz6/CC8k0/9N5Z
+ fOpDHweRPI6j7ulxgwt2ORK7fuwDciHQ+g==
+X-Google-Smtp-Source: APXvYqxe0fs2kpjA98H9FvOAaaBPn7OD2T3pPKvXDYEFa8pd0X/jNyhibSJ5NYszTHIwPdflYsbXFg==
+X-Received: by 2002:a1c:14e:: with SMTP id 75mr13969037wmb.123.1576494558774; 
+ Mon, 16 Dec 2019 03:09:18 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.17
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:17 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:18 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/34] aspeed/scu: Fix W1C behavior
-Date: Mon, 16 Dec 2019 11:08:39 +0000
-Message-Id: <20191216110904.30815-10-peter.maydell@linaro.org>
+Subject: [PULL 10/34] watchdog/aspeed: Improve watchdog timeout message
+Date: Mon, 16 Dec 2019 11:08:40 +0000
+Message-Id: <20191216110904.30815-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,77 +84,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-This models the clock write one to clear registers, and fixes up some
-incorrect behavior in all of the write to clear registers.
-
-There was also a typo in one of the register definitions.
+Users benefit from knowing which watchdog timer has expired. The address
+of the watchdog's registers unambiguously indicates which has expired,
+so log that.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-8-clg@kaod.org
-[clg: checkpatch.pl fixes ]
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20191119141211.25716-9-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/aspeed_scu.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ hw/watchdog/wdt_aspeed.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index 717509bc546..f62fa25e347 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -98,7 +98,7 @@
- #define AST2600_CLK_STOP_CTRL     TO_REG(0x80)
- #define AST2600_CLK_STOP_CTRL_CLR TO_REG(0x84)
- #define AST2600_CLK_STOP_CTRL2     TO_REG(0x90)
--#define AST2600_CLK_STOP_CTR2L_CLR TO_REG(0x94)
-+#define AST2600_CLK_STOP_CTRL2_CLR TO_REG(0x94)
- #define AST2600_SDRAM_HANDSHAKE   TO_REG(0x100)
- #define AST2600_HPLL_PARAM        TO_REG(0x200)
- #define AST2600_HPLL_EXT          TO_REG(0x204)
-@@ -532,11 +532,13 @@ static uint64_t aspeed_ast2600_scu_read(void *opaque, hwaddr offset,
-     return s->regs[reg];
+diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+index 145be6f99ce..d283d07d654 100644
+--- a/hw/watchdog/wdt_aspeed.c
++++ b/hw/watchdog/wdt_aspeed.c
+@@ -219,7 +219,8 @@ static void aspeed_wdt_timer_expired(void *dev)
+         return;
+     }
+ 
+-    qemu_log_mask(CPU_LOG_RESET, "Watchdog timer expired.\n");
++    qemu_log_mask(CPU_LOG_RESET, "Watchdog timer %" HWADDR_PRIx " expired.\n",
++                  s->iomem.addr);
+     watchdog_perform_action();
+     timer_del(s->timer);
  }
- 
--static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset, uint64_t data,
--                                     unsigned size)
-+static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset,
-+                                     uint64_t data64, unsigned size)
- {
-     AspeedSCUState *s = ASPEED_SCU(opaque);
-     int reg = TO_REG(offset);
-+    /* Truncate here so bitwise operations below behave as expected */
-+    uint32_t data = data64;
- 
-     if (reg >= ASPEED_AST2600_SCU_NR_REGS) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-@@ -563,15 +565,22 @@ static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset, uint64_t data,
-         /* fall through */
-     case AST2600_SYS_RST_CTRL:
-     case AST2600_SYS_RST_CTRL2:
-+    case AST2600_CLK_STOP_CTRL:
-+    case AST2600_CLK_STOP_CTRL2:
-         /* W1S (Write 1 to set) registers */
-         s->regs[reg] |= data;
-         return;
-     case AST2600_SYS_RST_CTRL_CLR:
-     case AST2600_SYS_RST_CTRL2_CLR:
-+    case AST2600_CLK_STOP_CTRL_CLR:
-+    case AST2600_CLK_STOP_CTRL2_CLR:
-     case AST2600_HW_STRAP1_CLR:
-     case AST2600_HW_STRAP2_CLR:
--        /* W1C (Write 1 to clear) registers */
--        s->regs[reg] &= ~data;
-+        /*
-+         * W1C (Write 1 to clear) registers are offset by one address from
-+         * the data register
-+         */
-+        s->regs[reg - 1] &= ~data;
-         return;
- 
-     case AST2600_RNG_DATA:
 -- 
 2.20.1
 
