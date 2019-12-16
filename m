@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE727120452
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:47:30 +0100 (CET)
-Received: from localhost ([::1]:52158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EB612041E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:38:21 +0100 (CET)
+Received: from localhost ([::1]:51908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoqX-0007DS-NE
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:47:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55466)
+	id 1igohf-0002HN-RP
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:38:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <casantos@redhat.com>) id 1igoQ3-0004Az-HM
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:20:08 -0500
+ (envelope-from <lwhsu.freebsd@gmail.com>) id 1igoRh-0006FN-9Y
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:21:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <casantos@redhat.com>) id 1igoQ1-0005tB-5S
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:20:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59642
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <casantos@redhat.com>) id 1igoQ1-0005s3-24
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:20:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576495204;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SwVQyMNgT9brotGcPSbpIjdQx/mOH7JomHgYrqLzAgg=;
- b=fGsqL2xwBxULgsQy/TVS6Ja+IhpH0hEwt67OIYNVwApPjZ+pFxfY3b7LXuwrb0gSmbtiQQ
- GypB1j8nHm5KsMTXeKoxse74YKn79mNpW72H7cZKavHqhle+sfrG3oY5/WW6TD+CWzvSmU
- cag6iODtprXlWu9pjuWL8up0RnYZugA=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-LD1Q8AEUMca65k-uYvMsqQ-1; Mon, 16 Dec 2019 06:18:54 -0500
-Received: by mail-io1-f71.google.com with SMTP id 144so5565269iou.3
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:18:54 -0800 (PST)
+ (envelope-from <lwhsu.freebsd@gmail.com>) id 1igoRg-0007bm-7E
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:21:49 -0500
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:33156)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lwhsu.freebsd@gmail.com>)
+ id 1igoRg-0007aZ-3R
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:21:48 -0500
+Received: by mail-yb1-f194.google.com with SMTP id o63so2729090ybc.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:21:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ycBHJBI9wGDoE2EYN/FzIsq5URCJeuHo4YVPgCGnQvQ=;
- b=J7pvxgTgTbUTmZwRINyM1528z7HLM060O5Ib4Gl9EI82dZQ2ODEHqs5Z1LBci1l8Ui
- vFZYPIx/KdS8FxaMS4yCJvJ66i4bjKT+SpTMM0iAbpDlgTdVePZ28fZdK5QDbX0DaHib
- XKJRFf82u4sRGXZkw8m3vXMH9LJFxcGOnRYAoAzdZ2A5WgAEUQnWKvVhAbj72LVpujAv
- fKrx8Lp2UQ+MYITR3EBnb/QFlR5O9ZQeq3U308oiVSN6oR9QATkLyVb11Yv5As9ehk2e
- Z8mDkdevX81JS9vpRPiIYGUoaiAwI1xnF5Pq7FZnZfokAiCi9AbBQ5M/wLysuU/IkxyE
- TITw==
-X-Gm-Message-State: APjAAAWFcuawTuOJSB2Jg+MFl4S1Aq96s1woUQx8RsYztug1DL2ay7xb
- ODGY6krswV5m6A9Oq4GYvjU9fkukxpk2P0EuxLbCDs1gB0mDq3IFDCSaUMGksv1gqJbr/nFvnCg
- FIn5ia4FYt/IO0XfBmDxjd88WJlP7xRA=
-X-Received: by 2002:a92:980f:: with SMTP id l15mr11217772ili.152.1576495133534; 
- Mon, 16 Dec 2019 03:18:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwUWpK0a42HZVgUbF/nhmm6vAwHyMgAjiKKor6OXFhtVMDREpJXMW8UPID2y4gguav/GXTWdhRTSSn8Tm3Tvf0=
-X-Received: by 2002:a92:980f:: with SMTP id l15mr11217767ili.152.1576495133376; 
- Mon, 16 Dec 2019 03:18:53 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bfIcnD34X2uvXZlHhVSSGi/Q/WdtTaqXAU4VpgLB46M=;
+ b=AFl80nTGsZKvRokzG2mEn6vdTSn/LzqhfzKYXy/bjfl/QbV5MQJci7pwaKHvy3w2pg
+ 6ImzvIPco4QehPTfyvaEh1VM3L/+LMt5tziHXXNeka0FvcVLqNy6SspvNLS1t/M2G4W/
+ nVdF/C29IuK8edaMsJVpGSp/C9AXXgiyHFvPZ53H9q1DwK5IuKaCZRZZvpvA/4BlUOFT
+ L1PoVO6fvqzpPQE/G6hiBjkUmBFSNTWNu03Iac4b114wB1j+afv1WZaBdJVS6MihZIBu
+ y9QuFANgATdlyHA//EJ201oSngrULIcOSC9zr1LgQN+OB7REwTpnre3D3SgyPDsoZOy4
+ pgyQ==
+X-Gm-Message-State: APjAAAWK0tBN97Bg3PaaahLATNqdE/vtfvzOYg45kSX1rCHp8Qurnehu
+ oFhPstEBd94AHOoP7jLzSIgKGBW71f6LFszN4BM=
+X-Google-Smtp-Source: APXvYqyWAALZBEJMU2QFpP0KgRgzR8J+5U+6N9wDjdOHNSwVCsw686SWkzJ4V6Tlb6fhnqsf9BjzYadVyVD/2rxX5DM=
+X-Received: by 2002:a25:8087:: with SMTP id n7mr13770846ybk.451.1576495306875; 
+ Mon, 16 Dec 2019 03:21:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20191017123713.30192-1-casantos@redhat.com>
- <CAFEAcA9dMRBtDs6QSXGVv_bNhtu5wnGKLvMxr2YuoWM=yomGDg@mail.gmail.com>
- <CAC1VKkNr8jN_0qVLtX5-YVH1dgN0fGAvnVZJXUpa+UfG_34ooQ@mail.gmail.com>
-In-Reply-To: <CAC1VKkNr8jN_0qVLtX5-YVH1dgN0fGAvnVZJXUpa+UfG_34ooQ@mail.gmail.com>
-From: Carlos Santos <casantos@redhat.com>
-Date: Mon, 16 Dec 2019 08:18:42 -0300
-Message-ID: <CAC1VKkPfacdLkXfHVNm-josjtds3Xsj=9NhRfNaQTyRv4XxEfQ@mail.gmail.com>
-Subject: Re: [PATCH] util/cacheinfo: fix crash when compiling with uClibc
-To: Peter Maydell <peter.maydell@linaro.org>
-X-MC-Unique: LD1Q8AEUMca65k-uYvMsqQ-1
-X-Mimecast-Spam-Score: 0
+References: <20191216110732.24027-1-alex.bennee@linaro.org>
+ <20191216110732.24027-11-alex.bennee@linaro.org>
+In-Reply-To: <20191216110732.24027-11-alex.bennee@linaro.org>
+From: Li-Wen Hsu <lwhsu@freebsd.org>
+Date: Mon, 16 Dec 2019 19:21:34 +0800
+Message-ID: <CAKBkRUzFwxiiwpptiNG7OEap6m6788eqc25k32TVk_X1bVRDUw@mail.gmail.com>
+Subject: Re: [PATCH v1 10/16] ci: build out-of-tree
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 209.85.219.194
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,83 +64,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Ed Maste <emaste@freebsd.org>, cota@braap.org, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 17, 2019 at 8:06 PM Carlos Santos <casantos@redhat.com> wrote:
+On Mon, Dec 16, 2019 at 7:07 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> On Thu, Oct 17, 2019 at 9:47 AM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> >
-> > On Thu, 17 Oct 2019 at 13:39, <casantos@redhat.com> wrote:
-> > >
-> > > From: Carlos Santos <casantos@redhat.com>
-> > >
-> > > uClibc defines _SC_LEVEL1_ICACHE_LINESIZE and _SC_LEVEL1_DCACHE_LINES=
-IZE
-> > > but the corresponding sysconf calls returns -1, which is a valid resu=
-lt,
-> > > meaning that the limit is indeterminate.
-> > >
-> > > Handle this situation using the fallback values instead of crashing d=
-ue
-> > > to an assertion failure.
-> > >
-> > > Signed-off-by: Carlos Santos <casantos@redhat.com>
-> > > ---
-> > >  util/cacheinfo.c | 10 ++++++++--
-> > >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-> > > index ea6f3e99bf..d94dc6adc8 100644
-> > > --- a/util/cacheinfo.c
-> > > +++ b/util/cacheinfo.c
-> > > @@ -93,10 +93,16 @@ static void sys_cache_info(int *isize, int *dsize=
-)
-> > >  static void sys_cache_info(int *isize, int *dsize)
-> > >  {
-> > >  # ifdef _SC_LEVEL1_ICACHE_LINESIZE
-> > > -    *isize =3D sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
-> > > +    int tmp_isize =3D (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
-> >
-> > Do we need the cast here ?
+> From: Paolo Bonzini <pbonzini@redhat.com>
 >
-> It's there to remind the reader that a type coercion may occur, since
-> sysconf() returns a long and isize is an int.
+> Most developers are using out-of-tree builds and it was discussed in the =
+past
+> to only allow those.  To prepare for the transition, use out-of-tree buil=
+ds
+> in all continuous integration jobs.
 >
-> > > +    if (tmp_isize > 0) {
-> > > +        *isize =3D tmp_isize;
-> > > +    }
-> > >  # endif
-> > >  # ifdef _SC_LEVEL1_DCACHE_LINESIZE
-> > > -    *dsize =3D sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
-> > > +    int tmp_dsize =3D (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
-> > > +    if (tmp_dsize > 0) {
-> > > +        *dsize =3D tmp_dsize;
-> > > +    }
-> > >  # endif
-> > >  }
-> > >  #endif /* sys_cache_info */
-> > > --
-> >
-> > thanks
-> > -- PMM
+> Based on a patch by Marc-Andr=C3=A9 Lureau.
 >
-> --
-> Carlos Santos
-> Senior Software Maintenance Engineer
-> Red Hat
-> casantos@redhat.com    T: +55-11-3534-6186
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Hi,
+On Mon, Apr 29, 2019 at 12:55 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+> We are going to enable the qemu-iotests during "make check" again,
+> and for running the iotests, we need bash and gnu-sed.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Any chance to have this merged for Christmas? :-)
-
---=20
-Carlos Santos
-Senior Software Maintenance Engineer
-Red Hat
-casantos@redhat.com    T: +55-11-3534-6186
-
+Reviewed-by: Li-Wen Hsu <lwhsu@freebsd.org>
 
