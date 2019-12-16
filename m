@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17AF121C98
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:19:58 +0100 (CET)
-Received: from localhost ([::1]:60746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BBA121CAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:22:42 +0100 (CET)
+Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igyib-0005Go-MX
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:19:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36702)
+	id 1igylF-0000N3-CW
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:22:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1igybB-0004xZ-8J
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:18 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1igybC-0004zC-6t
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1igyb9-00072b-OK
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:17 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:45680)
+ (envelope-from <richard.henderson@linaro.org>) id 1igybB-00073j-8s
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:18 -0500
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37530)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1igyb9-00072H-J8
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:15 -0500
-Received: by mail-pf1-x441.google.com with SMTP id 2so6361575pfg.12
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:15 -0800 (PST)
+ id 1igybB-00072y-3j
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:17 -0500
+Received: by mail-pl1-x643.google.com with SMTP id c23so5121991plz.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lsCNvFrnH2M18XdHCXW5ZamBsqq1c0FHuOYep4yKETk=;
- b=M1OUPrMEEdTWjq9e9kBnv9dRB2o0OsoH21mIPE3FnQ8a2f4PDm1MY6/3FroKZE1lL3
- YrJiUTaITQbM9vJg+H0t2SyHJhWGIB0OPdpYWJ2hcCdIKI8iFAPhejlXi6GPQ8Pp8MWB
- hDcXQ8ErVaMLkOL99Nrj45rng+IU4UKjPVm5shQGlHz+B0l4SChaXF5r8tZQ3zENvuzW
- cgzQXsHF53XPVMIuwlKj8nFmDi7n0B+8/sULxt92IyT0lhFbLShF8KtD5yKTBSNRSRo0
- ySM5b+5R+JuDbZK+S1Mbv9nFKBaCkNmIS3H+r51SFmAf251hRnkPyeIjKd6DzkYAChWs
- Kfew==
+ bh=Ze57z0hQRkPeItK9rFzUaBjTkCWGyBz1l0/XVJKtpEA=;
+ b=Hy+f+QRgGSc2OUx7cJ6809mCoVGKpGvLx6LOSbFFqqacS7CfrjZF4V9wKnEGvfTLnb
+ UlLN7WGxUjjVeQzSYSRkxNm4jR2MSWH4RxbfdscbK/M3A16PR5SvitUHEpFZmZTDjJpC
+ 8X8zwzTr8FwlCRlCRrmEZoEoVnC1Ik1YdxISCPnQHUWxOUf5idBqzYxIviCtpaQ9cO+I
+ IiKWMg6IV8G4gK+pF8t+azPNnrh/n8Ef6JmaE8nzPM6xtHrL+IKHHb0fvb178ItVtBz7
+ tTrY3OfLcswHI0EqhXbBBYRZqXh2+Q09GFURnfoiF12leFG/K3DiQnA8hnm3gr4mk8A8
+ 50rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lsCNvFrnH2M18XdHCXW5ZamBsqq1c0FHuOYep4yKETk=;
- b=K93+Pyhr1HkiC6sPEhdceTyN19FIRaX3HWhNSo9+xssjyrcGW+sDAPWMYCPONgzB6G
- Fc8a/RTkKgZWfDPAjOy2NPSfAtLAXUKSgzEAAtTpDd5t1fK2lkiZY91TzQUUFY5zbHSj
- v0c/xXyWQt25pkSaGOAytpSgP61y0LQqu5idkFHwansd3IKf8WzyG3bTLF7AiWjPo/h0
- t2SF+zwTA+jetayAavqIPVthf9iyvoUUujdptg5DK2KjuxdjmdSlR0eIAZSllvhXBZzt
- gUeFn7sk3TvncaMySvL/lC1oWMyV6JhGqeJ3d5kMgtnvUfC6uUY3gJkvxtXYUu4ekb9f
- ecNA==
-X-Gm-Message-State: APjAAAWNE1RUAbluk3yjj87RaeQ4o7WGmGd9LGFcbXYUwZsxqkKGtVba
- g7bAHUYO1MuVjtqOMEcOBZR5pQkYP+A=
-X-Google-Smtp-Source: APXvYqz1pwc5LRanoNAd12hu9TKM78dWDZv3oCTgMt9WgmRX4jUUnaIXjAHpaFhl+SG8SlR5YwoI4w==
-X-Received: by 2002:a63:2ccc:: with SMTP id s195mr20644457pgs.75.1576534334271; 
- Mon, 16 Dec 2019 14:12:14 -0800 (PST)
+ bh=Ze57z0hQRkPeItK9rFzUaBjTkCWGyBz1l0/XVJKtpEA=;
+ b=FQrY6aEbEKghQMyOD3cRWZQKMtaSbRXO7EnoA1cKcLh/KD3H96Lwxo+28+j8RZ4/yi
+ bjgjoEECrhvFqiQLGKICgvdw16YTdVPhraCyZHQIL0jp4Bk4p1qpMZfAs2mv2O/jsGb6
+ 4eca2HCcmBU4h3U6YrOy+mqyd7o8sghPwQTwS7V4opcT9sa6ZujORFR8zoqrCQIbKHqU
+ zWtFukgyWiL++WCuz0SMYYvRuHKgaTA72nrVNkJUMy7oZFFGIj2Mr+GDQY8dy1AbN7kw
+ qHTvlrwjUwT+cI44W98NsWYmY4PuCrCjxAO9Bfot22Cz4LtPTUjoYA+REA4GplmLZnpk
+ ZhHw==
+X-Gm-Message-State: APjAAAWmJgL+9zg2mgxW3DuzXHhrqq/W9JBkGaqtmJ39Z37JZzwSnDYc
+ lg+4uXu8qI9ZtE1yTlLe8kA/T7YhcG0=
+X-Google-Smtp-Source: APXvYqxaB3zRyL2yelTNFkq9GX5mgKihtEPsFpfCXXnhcB5PpbX0QLlLX+cmN+iMfUxkBFpW4bEjWw==
+X-Received: by 2002:a17:90b:85:: with SMTP id bb5mr1938113pjb.22.1576534335917; 
+ Mon, 16 Dec 2019 14:12:15 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.12
+ by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 14:12:13 -0800 (PST)
+ Mon, 16 Dec 2019 14:12:15 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/28] target/i386: Use cpu_*_mmuidx_ra instead of templates
-Date: Mon, 16 Dec 2019 12:11:38 -1000
-Message-Id: <20191216221158.29572-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/28] target/s390x: Include tcg.h in mem_helper.c
+Date: Mon, 16 Dec 2019 12:11:39 -1000
+Message-Id: <20191216221158.29572-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216221158.29572-1-richard.henderson@linaro.org>
 References: <20191216221158.29572-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,90 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not use exec/cpu_ldst_{,useronly_}template.h directly,
-but instead use the functional interface.
+Code movement in an upcoming patch will show that this file
+was implicitly depending on tcg.h being included indirectly.
 
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/seg_helper.c | 56 ++++++++++++++++++++--------------------
- 1 file changed, 28 insertions(+), 28 deletions(-)
+ target/s390x/mem_helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/i386/seg_helper.c b/target/i386/seg_helper.c
-index 87a627f9dc..b96de068ca 100644
---- a/target/i386/seg_helper.c
-+++ b/target/i386/seg_helper.c
-@@ -37,37 +37,37 @@
- # define LOG_PCALL_STATE(cpu) do { } while (0)
- #endif
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index 2325767f17..57ce17c252 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -27,6 +27,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "qemu/int128.h"
+ #include "qemu/atomic128.h"
++#include "tcg.h"
  
--#ifdef CONFIG_USER_ONLY
--#define MEMSUFFIX _kernel
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_useronly_template.h"
-+/*
-+ * TODO: Convert callers to compute cpu_mmu_index_kernel once
-+ * and use *_mmuidx_ra directly.
-+ */
-+#define cpu_ldub_kernel_ra(e, p, r) \
-+    cpu_ldub_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
-+#define cpu_lduw_kernel_ra(e, p, r) \
-+    cpu_lduw_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
-+#define cpu_ldl_kernel_ra(e, p, r) \
-+    cpu_ldl_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
-+#define cpu_ldq_kernel_ra(e, p, r) \
-+    cpu_ldq_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
- 
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_useronly_template.h"
-+#define cpu_stb_kernel_ra(e, p, v, r) \
-+    cpu_stb_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
-+#define cpu_stw_kernel_ra(e, p, v, r) \
-+    cpu_stw_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
-+#define cpu_stl_kernel_ra(e, p, v, r) \
-+    cpu_stl_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
-+#define cpu_stq_kernel_ra(e, p, v, r) \
-+    cpu_stq_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
- 
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_useronly_template.h"
-+#define cpu_ldub_kernel(e, p)    cpu_ldub_kernel_ra(e, p, 0)
-+#define cpu_lduw_kernel(e, p)    cpu_lduw_kernel_ra(e, p, 0)
-+#define cpu_ldl_kernel(e, p)     cpu_ldl_kernel_ra(e, p, 0)
-+#define cpu_ldq_kernel(e, p)     cpu_ldq_kernel_ra(e, p, 0)
- 
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_useronly_template.h"
--#undef MEMSUFFIX
--#else
--#define CPU_MMU_INDEX (cpu_mmu_index_kernel(env))
--#define MEMSUFFIX _kernel
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif
-+#define cpu_stb_kernel(e, p, v)  cpu_stb_kernel_ra(e, p, v, 0)
-+#define cpu_stw_kernel(e, p, v)  cpu_stw_kernel_ra(e, p, v, 0)
-+#define cpu_stl_kernel(e, p, v)  cpu_stl_kernel_ra(e, p, v, 0)
-+#define cpu_stq_kernel(e, p, v)  cpu_stq_kernel_ra(e, p, v, 0)
- 
- /* return non zero if error */
- static inline int load_segment_ra(CPUX86State *env, uint32_t *e1_ptr,
+ #if !defined(CONFIG_USER_ONLY)
+ #include "hw/s390x/storage-keys.h"
 -- 
 2.20.1
 
