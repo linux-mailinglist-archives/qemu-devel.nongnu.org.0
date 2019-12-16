@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E5E121160
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:12:12 +0100 (CET)
-Received: from localhost ([::1]:57164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D112116F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:14:53 +0100 (CET)
+Received: from localhost ([::1]:57216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtul-00080k-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:12:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57220)
+	id 1igtxM-00032n-0K
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:14:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFV-0005fc-U4
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:34 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFZ-0005mW-BW
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFU-0008Rv-SM
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:33 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53205)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFY-0000Af-B4
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:37 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44899)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFU-0008PW-M4
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:32 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p9so7444056wmc.2
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:32 -0800 (PST)
+ id 1igtFY-000089-51
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:36 -0500
+Received: by mail-wr1-x444.google.com with SMTP id q10so8018201wrm.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=X8qg4vC4u62X+krIpf2n1pZJRXcVq9s/dN9HuyUC68E=;
- b=DkyDH1SOrnnuzeAtaIVyM4YNPTAa8B2khYk2dkrazvMYpJmFFP6TuE9lrrhe8p8hjt
- ApCX2ys+xgUdD71Kzf/BcGEnNY418FWvWC6L4GpS4RP670Iw9R8LDwUXo4pO+1ieqpko
- uI6PUvYbJY3NGJd7qvvPPtEx21NNVT6fLYB3ehcGDhB7gQdf54Qs9yytaIdm3XICXVyG
- Fa0qF/GE+tbYKZoMaVrd69Z5k8dRaYE4bCglCXogK4fxHA9Qp/sJ84YfbZwvdQKKd8+g
- po3GzKr7HWv86FRkVzTIDMsmeeGA6hUzuP1+eNMxNaKRItTETRUz7r5r7HAB01qjoysg
- eyNw==
+ bh=U3vOKBgC/i6K4YScuB6kA+GIuvMW8sSGRrxjWYPsniE=;
+ b=Kz7ecRqgS8g0kMk/BTGySZ5sAGGmOEu/Uvt0Fbd4bpGxBYeoN3qAGJ5KG4A5KyJ62+
+ yB079OSks+yO/6dy8aJT+hkApyeGfJaSLFCTKBNvGJc8wcWnvJDhw0lvoKzgyqAPPsI+
+ /MfGMdLsJBtLbwEU1ffzgb9nxGIf9rhBwU5uRXs+int/x6infaBj0abzMVmi6jwW9w7t
+ YrVsmF1bvM4//Kof4+Isk2XGlxCDXo4ExaLGSnTtpoILc3zBlceZ/mZmH9xhahEAi15C
+ rMgHtmITDCoDGH8CFyYX+UGXNkxkeUGj3o0BcYU2RgGvU4zGc4z1+xdqStHyfwuQ9pnW
+ 2W9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=X8qg4vC4u62X+krIpf2n1pZJRXcVq9s/dN9HuyUC68E=;
- b=m7Nmrn8hvIciE5TTRiDz9f7nU49fMS98+jMtfUJ08YQdEGVbXvqk4wigsJiZJHl46+
- EGZ+jT0qCAnaNsICVOjzH3JRROEqhiwfH21LngrxxcpwzG9Zgem/M+394aRgIbBWISTp
- PXkZpwqF8uMnMxXQFtq79DezLjU0MZh5w1hlUNqMQtpdrsW8Qh0t7whH2IaYaYBVdFMD
- MS8SedM09Oo6S+YprRFlcKcnLPWMA4NmzLh3PupfyaMA76ciIbFGEOZ2tc6JcXSiFRhC
- 79fap2OkSidb9LIYMg3qnjVwCzgfBJRqB5+N8iVxS5Bt1yvn0OANQNZUoK/PyZG3r3c+
- n8Ww==
-X-Gm-Message-State: APjAAAW3AwDYzvsFGjJBxqS7n0tzDuzQkGHpS+UcKmcfE0NZySjNtL3l
- wHlOaVvXc6dd7qhiV9rNEoqkWklZ
-X-Google-Smtp-Source: APXvYqw7JvnnRlb6JUrtGCwqD43KUNjwRhRY9WwYoehyq99NgYbWLm7j5CvquTkgad0OQqPTGkFwjg==
-X-Received: by 2002:a1c:dc85:: with SMTP id t127mr30726224wmg.16.1576513771488; 
- Mon, 16 Dec 2019 08:29:31 -0800 (PST)
+ bh=U3vOKBgC/i6K4YScuB6kA+GIuvMW8sSGRrxjWYPsniE=;
+ b=g00Ow/OZ0PsfpPBVmPDwdwsLisbLGS/jDSMqTWTB4BAiZ3+ka6U13fSS5znuxBYUeX
+ /9yN0eyitcEinB1Ywl7Edr9RAkU7RZ1SgLkaGdDYsth9QzCMJ3Lo5N4FrwKPHZWau81y
+ b7bWpJJEADv8GlJexAq/CEMtJh0XBnqxA0eZdJKVpM35FbcUy8R5gzJtvFP8B3lH/8SQ
+ WCC3nl0mxAR+5Bar8pAVDeUO+mvy/WC5sxzRnltSBxsR4jFEbL+fXW6/nCBCCPywghHt
+ 1I7OUQJjzG9rZhhawO/2I3KYfgOwPuii6cKNA+sGOV2obh1mQihjNksVQ2YPo0FIlczm
+ MaUA==
+X-Gm-Message-State: APjAAAUP5+XvOAPbNihUi6LWpKNWypimusI9LryOJXk1X83HY2Qt0HwY
+ RshVNIgpyhES/mnsnpsd7SdkJXMw
+X-Google-Smtp-Source: APXvYqwJJxsgFJ76cLZbAoF0rKyH6MndSdPU4Kd8cSPKZ1wzaWmRvlUEgTaUD7ajuGdFq5c6OcYuRg==
+X-Received: by 2002:adf:c446:: with SMTP id a6mr30088253wrg.218.1576513774759; 
+ Mon, 16 Dec 2019 08:29:34 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.30
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:30 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:33 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/62] i386: conditionally compile more files
-Date: Mon, 16 Dec 2019 17:28:28 +0100
-Message-Id: <1576513726-53700-45-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 47/62] pci-stub: add more MSI functions
+Date: Mon, 16 Dec 2019 17:28:31 +0100
+Message-Id: <1576513726-53700-48-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,48 +78,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On x86, KVM needs some function from the PCI subsystem in order to set
+up interrupt routes.  Provide some stubs to support x86 machines that
+lack PCI.
+
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/Makefile.objs     | 6 +++---
- hw/i386/kvm/Makefile.objs | 6 +++++-
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ hw/pci/pci-stub.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index 0d195b5..01ae202 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -1,11 +1,11 @@
- obj-$(CONFIG_KVM) += kvm/
- obj-y += e820_memory_layout.o multiboot.o
- obj-y += x86.o
--obj-y += pc.o
-+obj-$(CONFIG_PC) += pc.o pc_sysfw.o
- obj-$(CONFIG_I440FX) += pc_piix.o
- obj-$(CONFIG_Q35) += pc_q35.o
- obj-$(CONFIG_MICROVM) += microvm.o
--obj-y += fw_cfg.o pc_sysfw.o
-+obj-y += fw_cfg.o
- obj-y += x86-iommu.o
- obj-$(CONFIG_VTD) += intel_iommu.o
- obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o
-@@ -14,4 +14,4 @@ obj-$(CONFIG_VMPORT) += vmport.o
- obj-$(CONFIG_VMMOUSE) += vmmouse.o
+diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
+index c04a5df..cc2a2e1 100644
+--- a/hw/pci/pci-stub.c
++++ b/hw/pci/pci-stub.c
+@@ -26,6 +26,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
  
- obj-y += kvmvapic.o
--obj-y += acpi-build.o
-+obj-$(CONFIG_PC) += acpi-build.o
-diff --git a/hw/i386/kvm/Makefile.objs b/hw/i386/kvm/Makefile.objs
-index 4224ed9..0c8d5f2 100644
---- a/hw/i386/kvm/Makefile.objs
-+++ b/hw/i386/kvm/Makefile.objs
-@@ -1 +1,5 @@
--obj-y += clock.o apic.o i8259.o ioapic.o i8254.o
-+obj-y += clock.o
-+obj-$(CONFIG_APIC) += apic.o
-+obj-$(CONFIG_IOAPIC) += ioapic.o
-+obj-$(CONFIG_I8254) += i8254.o
-+obj-$(CONFIG_I8259) += i8259.o
+ bool msi_nonbroken;
+ bool pci_available;
+@@ -64,3 +65,29 @@ void msi_notify(PCIDevice *dev, unsigned int vector)
+ {
+     g_assert_not_reached();
+ }
++
++/* Required by target/i386/kvm.c */
++bool msi_is_masked(const PCIDevice *dev, unsigned vector)
++{
++    g_assert_not_reached();
++}
++
++MSIMessage msi_get_message(PCIDevice *dev, unsigned int vector)
++{
++    g_assert_not_reached();
++}
++
++int msix_enabled(PCIDevice *dev)
++{
++    return false;
++}
++
++bool msix_is_masked(PCIDevice *dev, unsigned vector)
++{
++    g_assert_not_reached();
++}
++
++MSIMessage msix_get_message(PCIDevice *dev, unsigned int vector)
++{
++    g_assert_not_reached();
++}
 -- 
 1.8.3.1
 
