@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D7E12083B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:14:34 +0100 (CET)
-Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CF1120811
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:06:00 +0100 (CET)
+Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igr8q-0000tv-UN
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:14:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58942)
+	id 1igr0Y-0005iK-I6
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:05:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1igqzs-0005u9-8w
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:05:17 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1igqyX-0003zp-LT
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:03:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1igqzq-0004Gg-RK
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:05:16 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46661
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1igqyW-0003qH-HH
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:03:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35847
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1igqzq-0004G0-NG
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:05:14 -0500
+ id 1igqyW-0003q8-DS
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:03:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576505114;
+ s=mimecast20190719; t=1576505031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xlSr73pKSiopKdILGn5ZrLva3IOgBSdl74YTmPimHio=;
- b=EceEQl2S/7DB5qxiHsjqBoLyzNjSpZMoz0SCSrFLtPTx4N3Ps/cL0odiVpcnVuKYcpK0/v
- XhaHEI3zE8pm7ZIH3WcUlr2kk0+hxoHjfTGprKhhh7cLZRtRst0EFecn5zD6JrKkY1AVHE
- zOBXcrdJ75t/mFKdNL1qcwepP+K1dT8=
+ bh=wIBn80+V74amPBupfe+F9anDq8XfKyQu39ZmejTiR10=;
+ b=BxJVH3Xah74LAYZCEHLAOxai6gwRpmdRthnFhcGx0cH2C9U5xVKsBJE2ed4Y2dam1Iaoap
+ p5lin7XPmHjffgncFGs0yjeb5uWUbfimQE+EGOpT7n9MvBu3alTJ/q+iT7sOhaamYJ/CPc
+ T/nuUOm4Lm2Z8b6LRYu5wHNiN6dhTf4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-iwcwYKPnPgyNrdKse5Nt7w-1; Mon, 16 Dec 2019 09:03:40 -0500
-X-MC-Unique: iwcwYKPnPgyNrdKse5Nt7w-1
+ us-mta-234-J5MIrWbNMCydWN3sERnNSw-1; Mon, 16 Dec 2019 09:03:50 -0500
+X-MC-Unique: J5MIrWbNMCydWN3sERnNSw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70D9DDB33;
- Mon, 16 Dec 2019 14:03:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17434DBC9;
+ Mon, 16 Dec 2019 14:03:48 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58BE1675B9;
- Mon, 16 Dec 2019 14:03:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C94ED675B9;
+ Mon, 16 Dec 2019 14:03:38 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH 02/16] arm: gic: Provide per-IRQ helper
- functions
-Date: Mon, 16 Dec 2019 15:02:21 +0100
-Message-Id: <20191216140235.10751-3-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH 03/16] arm/arm64: gic: Introduce setup_irq()
+ helper
+Date: Mon, 16 Dec 2019 15:02:22 +0100
+Message-Id: <20191216140235.10751-4-eric.auger@redhat.com>
 In-Reply-To: <20191216140235.10751-1-eric.auger@redhat.com>
 References: <20191216140235.10751-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,171 +77,101 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andre Przywara <andre.przywara@arm.com>
+ipi_enable() code would be reusable for other interrupts
+than IPI. Let's rename it setup_irq() and pass an interrupt
+handler pointer. We also export it to use it in other tests
+such as the PMU's one.
 
-A common theme when accessing per-IRQ parameters in the GIC distributor
-is to set fields of a certain bit width in a range of MMIO registers.
-Examples are the enabled status (one bit per IRQ), the level/edge
-configuration (2 bits per IRQ) or the priority (8 bits per IRQ).
-
-Add a generic helper function which is able to mask and set the
-respective number of bits, given the IRQ number and the MMIO offset.
-Provide wrappers using this function to easily allow configuring an IRQ.
-
-For now assume that private IRQ numbers always refer to the current CPU.
-In a GICv2 accessing the "other" private IRQs is not easily doable (the
-registers are banked per CPU on the same MMIO address), so we impose the
-same limitation on GICv3, even though those registers are not banked
-there anymore.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
+ arm/gic.c         | 24 +++---------------------
+ lib/arm/asm/gic.h |  3 +++
+ lib/arm/gic.c     | 11 +++++++++++
+ 3 files changed, 17 insertions(+), 21 deletions(-)
 
-initialize reg
----
- lib/arm/asm/gic-v3.h |  2 +
- lib/arm/asm/gic.h    |  9 +++++
- lib/arm/gic.c        | 90 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 101 insertions(+)
-
-diff --git a/lib/arm/asm/gic-v3.h b/lib/arm/asm/gic-v3.h
-index 347be2f..4a445a5 100644
---- a/lib/arm/asm/gic-v3.h
-+++ b/lib/arm/asm/gic-v3.h
-@@ -23,6 +23,8 @@
- #define GICD_CTLR_ENABLE_G1A		(1U << 1)
- #define GICD_CTLR_ENABLE_G1		(1U << 0)
+diff --git a/arm/gic.c b/arm/gic.c
+index fcf4c1f..ba43ae5 100644
+--- a/arm/gic.c
++++ b/arm/gic.c
+@@ -215,20 +215,9 @@ static void ipi_test_smp(void)
+ 	report_prefix_pop();
+ }
 =20
-+#define GICD_IROUTER			0x6000
-+
- /* Re-Distributor registers, offsets from RD_base */
- #define GICR_TYPER			0x0008
+-static void ipi_enable(void)
+-{
+-	gic_enable_defaults();
+-#ifdef __arm__
+-	install_exception_handler(EXCPTN_IRQ, ipi_handler);
+-#else
+-	install_irq_handler(EL1H_IRQ, ipi_handler);
+-#endif
+-	local_irq_enable();
+-}
+-
+ static void ipi_send(void)
+ {
+-	ipi_enable();
++	setup_irq(ipi_handler);
+ 	wait_on_ready();
+ 	ipi_test_self();
+ 	ipi_test_smp();
+@@ -238,7 +227,7 @@ static void ipi_send(void)
 =20
+ static void ipi_recv(void)
+ {
+-	ipi_enable();
++	setup_irq(ipi_handler);
+ 	cpumask_set_cpu(smp_processor_id(), &ready);
+ 	while (1)
+ 		wfi();
+@@ -295,14 +284,7 @@ static void ipi_clear_active_handler(struct pt_regs =
+*regs __unused)
+ static void run_active_clear_test(void)
+ {
+ 	report_prefix_push("active");
+-	gic_enable_defaults();
+-#ifdef __arm__
+-	install_exception_handler(EXCPTN_IRQ, ipi_clear_active_handler);
+-#else
+-	install_irq_handler(EL1H_IRQ, ipi_clear_active_handler);
+-#endif
+-	local_irq_enable();
+-
++	setup_irq(ipi_clear_active_handler);
+ 	ipi_test_self();
+ 	report_prefix_pop();
+ }
 diff --git a/lib/arm/asm/gic.h b/lib/arm/asm/gic.h
-index 1fc10a0..21cdb58 100644
+index 21cdb58..55dd84b 100644
 --- a/lib/arm/asm/gic.h
 +++ b/lib/arm/asm/gic.h
-@@ -15,6 +15,7 @@
- #define GICD_IIDR			0x0008
- #define GICD_IGROUPR			0x0080
- #define GICD_ISENABLER			0x0100
-+#define GICD_ICENABLER			0x0180
- #define GICD_ISPENDR			0x0200
- #define GICD_ICPENDR			0x0280
- #define GICD_ISACTIVER			0x0300
-@@ -73,5 +74,13 @@ extern void gic_write_eoir(u32 irqstat);
- extern void gic_ipi_send_single(int irq, int cpu);
- extern void gic_ipi_send_mask(int irq, const cpumask_t *dest);
+@@ -82,5 +82,8 @@ void gic_set_irq_target(int irq, int cpu);
+ void gic_set_irq_group(int irq, int group);
+ int gic_get_irq_group(int irq);
 =20
-+void gic_set_irq_bit(int irq, int offset);
-+void gic_enable_irq(int irq);
-+void gic_disable_irq(int irq);
-+void gic_set_irq_priority(int irq, u8 prio);
-+void gic_set_irq_target(int irq, int cpu);
-+void gic_set_irq_group(int irq, int group);
-+int gic_get_irq_group(int irq);
++typedef void (*handler_t)(struct pt_regs *regs __unused);
++extern void setup_irq(handler_t handler);
 +
  #endif /* !__ASSEMBLY__ */
  #endif /* _ASMARM_GIC_H_ */
 diff --git a/lib/arm/gic.c b/lib/arm/gic.c
-index 9430116..aa9cb86 100644
+index aa9cb86..8416dde 100644
 --- a/lib/arm/gic.c
 +++ b/lib/arm/gic.c
-@@ -146,3 +146,93 @@ void gic_ipi_send_mask(int irq, const cpumask_t *des=
-t)
- 	assert(gic_common_ops && gic_common_ops->ipi_send_mask);
- 	gic_common_ops->ipi_send_mask(irq, dest);
+@@ -236,3 +236,14 @@ int gic_get_irq_group(int irq)
+ {
+ 	return gic_masked_irq_bits(irq, GICD_IGROUPR, 1, 0, ACCESS_READ);
  }
 +
-+enum gic_bit_access {
-+	ACCESS_READ,
-+	ACCESS_SET,
-+	ACCESS_RMW
-+};
-+
-+static u8 gic_masked_irq_bits(int irq, int offset, int bits, u8 value,
-+			      enum gic_bit_access access)
++void setup_irq(handler_t handler)
 +{
-+	void *base;
-+	int split =3D 32 / bits;
-+	int shift =3D (irq % split) * bits;
-+	u32 reg =3D 0, mask =3D ((1U << bits) - 1) << shift;
-+
-+	switch (gic_version()) {
-+	case 2:
-+		base =3D gicv2_dist_base();
-+		break;
-+	case 3:
-+		if (irq < 32)
-+			base =3D gicv3_sgi_base();
-+		else
-+			base =3D gicv3_dist_base();
-+		break;
-+	default:
-+		return 0;
-+	}
-+	base +=3D offset + (irq / split) * 4;
-+
-+	switch (access) {
-+	case ACCESS_READ:
-+		return (readl(base) & mask) >> shift;
-+	case ACCESS_SET:
-+		reg =3D 0;
-+		break;
-+	case ACCESS_RMW:
-+		reg =3D readl(base) & ~mask;
-+		break;
-+	}
-+
-+	writel(reg | ((u32)value << shift), base);
-+
-+	return 0;
-+}
-+
-+void gic_set_irq_bit(int irq, int offset)
-+{
-+	gic_masked_irq_bits(irq, offset, 1, 1, ACCESS_SET);
-+}
-+
-+void gic_enable_irq(int irq)
-+{
-+	gic_set_irq_bit(irq, GICD_ISENABLER);
-+}
-+
-+void gic_disable_irq(int irq)
-+{
-+	gic_set_irq_bit(irq, GICD_ICENABLER);
-+}
-+
-+void gic_set_irq_priority(int irq, u8 prio)
-+{
-+	gic_masked_irq_bits(irq, GICD_IPRIORITYR, 8, prio, ACCESS_RMW);
-+}
-+
-+void gic_set_irq_target(int irq, int cpu)
-+{
-+	if (irq < 32)
-+		return;
-+
-+	if (gic_version() =3D=3D 2) {
-+		gic_masked_irq_bits(irq, GICD_ITARGETSR, 8, 1U << cpu,
-+				    ACCESS_RMW);
-+
-+		return;
-+	}
-+
-+	writeq(cpus[cpu], gicv3_dist_base() + GICD_IROUTER + irq * 8);
-+}
-+
-+void gic_set_irq_group(int irq, int group)
-+{
-+	gic_masked_irq_bits(irq, GICD_IGROUPR, 1, group, ACCESS_RMW);
-+}
-+
-+int gic_get_irq_group(int irq)
-+{
-+	return gic_masked_irq_bits(irq, GICD_IGROUPR, 1, 0, ACCESS_READ);
++	gic_enable_defaults();
++#ifdef __arm__
++	install_exception_handler(EXCPTN_IRQ, handler);
++#else
++	install_irq_handler(EL1H_IRQ, handler);
++#endif
++	local_irq_enable();
 +}
 --=20
 2.20.1
