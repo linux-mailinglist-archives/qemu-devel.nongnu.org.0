@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C853120FB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:40:19 +0100 (CET)
-Received: from localhost ([::1]:56702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EA0120FAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:38:39 +0100 (CET)
+Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtPt-0001E2-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:40:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56639)
+	id 1igtOI-00075h-71
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:38:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtF4-0004uc-LF
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:07 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtF6-0004xO-Fe
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtF3-0007Hz-JT
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:06 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37138)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtF5-0007LU-CF
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:08 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43815)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtF3-0007G8-DO
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:05 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id f129so7407976wmf.2
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:05 -0800 (PST)
+ id 1igtF5-0007JX-5c
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:07 -0500
+Received: by mail-wr1-x432.google.com with SMTP id d16so8035923wre.10
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=VmTQcO7MS7thh5/mwSJ+9wNSUM+noesb+aFJvdPNQwo=;
- b=AkFijDCaa/Q26zrXhS21VfPc6nNLDsZotA24/i1fiF28r2R1//Mtpw2rfLsGle3PZR
- NG9E6rBdwRrzesfuznQdCJIKZz0/uA82vO+gljUs+NyZEO0OByhhRxK449oB0Sl/BexM
- Gt0jL8GpDf0uRYV7MulVZMSktS1M8dJpqLGBM3BsZco8muwQz2SVJsi0zSO0rkt0jEDp
- xTMmHbGUkVs9BUFEM5yG8RnxbgHvOr9WIlwUwr6AFRuCYHxi7N+hjYzO6DI7ZP877S0/
- gig1SRDAiW6fXgpykDIr1ASfeVIN5P3bW3R1KeAZmWelbwsCTAYwkM4aGenQv909EE7D
- xxfQ==
+ bh=YxoUvt3Ps00ZPMRYsL2yZ0hkryLbuyO6moys9UaojTo=;
+ b=LBGyytqPFmYvd7qfKp/kzjUZ++0fxnh0bwCn81ZOtAtX9xcL+hH27ZE4c9oNjGfyzN
+ Nf9CSowaA2axFHVFe6EDYLfGTELyKo5Io6oLbdzdx720u4pUCtFwnvmZV3fZLTVaWLlV
+ 08QFn+tfy1UAn1zW7EPywE8h5Ic5dYNDAVj+DjaxPwyA+NqkcJRPXWzEM2B9zgo3/sD8
+ WGMH3hSUXxoKWTSe9mfoMThK4SIL3i+jvLZprRa24XVyt+/2S9rLga7zKw7yuAoVio0v
+ e63k0cHEFnlEvyvUeWGr/upHMZwLtz2kuMkDPYQclh/KE1o8bpG+STtcWxvAaSC5bF5M
+ B2Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=VmTQcO7MS7thh5/mwSJ+9wNSUM+noesb+aFJvdPNQwo=;
- b=rSbEedW+eLPpTRUNTka05UkNuBt26HU4GOjD+iGpoAvBQ2fzQS1pgI6VYb+bUBVtSV
- HDFr74m5eQV6KxBEqInf5PnvHyQ392ri/daE1CmBK4BWe2egJJZecAxXB8BU9hsCH4xg
- yoBfeqls5dA3zOiZZe5kBMXNkIAumDiyn74NIjtYQ3kpIPf1e+G1uBBOmPylhilRKNIv
- pAMsMVDQKvPdsRIGKC1GPwjE6dGu/7hxJniBhvfdUpy1D1ymOFkQtzbqNBkBo0Tjl8uN
- IOlpj/03LaxbyT4+xTWQdXx37GbPNoz266fUx14xvB7FXY+edSkgZ7Cvfz/UQpjgjcVh
- aRvw==
-X-Gm-Message-State: APjAAAWXRKEiHiJEPp73nb9E9GTi0H1eFaQgVvDMFE86vw03QrZ1UlEM
- xX0I+HfsRn2zu6MTtJeYI7eDEa0/
-X-Google-Smtp-Source: APXvYqw+1A+gX82rQSgp+AT2jtknR7jP4WTq1iwvUb0btvaNXdxpc0X4G8QbwvtY2P6nJMIFeaC49A==
-X-Received: by 2002:a7b:c183:: with SMTP id y3mr5083413wmi.45.1576513744041;
- Mon, 16 Dec 2019 08:29:04 -0800 (PST)
+ bh=YxoUvt3Ps00ZPMRYsL2yZ0hkryLbuyO6moys9UaojTo=;
+ b=lQuzY2mEtzjQ4fVPffppzcjRVPxov0Xk78C2zyZ+0LK27EfPj1KCFqYPvH7EFduiri
+ UjEHlVtAQFJL+5mNj7qcH2Rtcv021UoRHaUdzFxiSyt4smRY3WcNjQOhmxXykirGvedE
+ AytSVsmmBoMvVgW4IuXrSc+z9hLRL0dhDa+o+UmOQRCxC/GjFW1krPqgeSAvbWotEEO+
+ Co4MGKXBykiLej5A1Jfe5JfOIDjc0dZ7C1iYHugIMvkLS8aIcEC09uXFYALkTZ9oWSCe
+ W1aldLmf48QhRZMGgLhkrmonQNvRTTYsh88UrpAZmCT1pLiHGH00fzu5ejk0iCQimxBk
+ Kbzg==
+X-Gm-Message-State: APjAAAVXfwxJIrZmT+1tt3hS1l3gc5JPSYz9g0ViJfbW1claUYET4k9f
+ e4IFXl21SZ2gzpdCbJ+psyFNJqNZ
+X-Google-Smtp-Source: APXvYqzQAHlgYUKzYuAa/zn4Ln+fPDJv7vTq2RZb7uMjPVBt/FwidpuhhZMQf6xH7paWP5AdvO4Eig==
+X-Received: by 2002:adf:f885:: with SMTP id u5mr31958112wrp.359.1576513745888; 
+ Mon, 16 Dec 2019 08:29:05 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.03
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:03 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:04 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/62] accel: compile accel/accel.c just once
-Date: Mon, 16 Dec 2019 17:28:01 +0100
-Message-Id: <1576513726-53700-18-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 18/62] vl: introduce object_parse_property_opt
+Date: Mon, 16 Dec 2019 17:28:02 +0100
+Message-Id: <1576513726-53700-19-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,37 +78,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that accel/accel.c does not use CONFIG_TCG or CONFIG_KVM anymore,
-it need not be compiled once for every softmmu target.
+We will reuse the parsing loop of machine_set_property soon for "-accel",
+but we do not want the "_" -> "-" conversion since "-accel" can just
+standardize on dashes.  We will also add a bunch of legacy option handling
+to keep the QOM machine object clean.  Extract the loop into a separate
+function, and keep the legacy handling in machine_set_property.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs       | 1 +
- accel/Makefile.objs | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ vl.c | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 11ba1a3..b6fcbac 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -55,6 +55,7 @@ common-obj-$(CONFIG_POSIX) += os-posix.o
+diff --git a/vl.c b/vl.c
+index 14c78bc..2f6b0dd 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2615,27 +2615,17 @@ static MachineClass *select_machine(void)
+     return machine_class;
+ }
  
- common-obj-$(CONFIG_LINUX) += fsdev/
+-static int machine_set_property(void *opaque,
+-                                const char *name, const char *value,
+-                                Error **errp)
++static int object_parse_property_opt(Object *obj,
++                                     const char *name, const char *value,
++                                     const char *skip, Error **errp)
+ {
+-    Object *obj = OBJECT(opaque);
+     Error *local_err = NULL;
+-    char *p, *qom_name;
  
-+common-obj-y += accel/
- common-obj-y += migration/
+-    if (strcmp(name, "type") == 0) {
++    if (g_str_equal(name, skip)) {
+         return 0;
+     }
  
- common-obj-y += audio/
-diff --git a/accel/Makefile.objs b/accel/Makefile.objs
-index 8b498d3..17e5ac6 100644
---- a/accel/Makefile.objs
-+++ b/accel/Makefile.objs
-@@ -1,4 +1,4 @@
--obj-$(CONFIG_SOFTMMU) += accel.o
-+common-obj-$(CONFIG_SOFTMMU) += accel.o
- obj-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_POSIX)) += qtest.o
- obj-$(CONFIG_KVM) += kvm/
- obj-$(CONFIG_TCG) += tcg/
+-    qom_name = g_strdup(name);
+-    for (p = qom_name; *p; p++) {
+-        if (*p == '_') {
+-            *p = '-';
+-        }
+-    }
+-
+-    object_property_parse(obj, value, qom_name, &local_err);
+-    g_free(qom_name);
++    object_property_parse(obj, value, name, &local_err);
+ 
+     if (local_err) {
+         error_propagate(errp, local_err);
+@@ -2645,6 +2635,21 @@ static int machine_set_property(void *opaque,
+     return 0;
+ }
+ 
++static int machine_set_property(void *opaque,
++                                const char *name, const char *value,
++                                Error **errp)
++{
++    g_autofree char *qom_name = g_strdup(name);
++    char *p;
++
++    for (p = qom_name; *p; p++) {
++        if (*p == '_') {
++            *p = '-';
++        }
++    }
++
++    return object_parse_property_opt(opaque, name, value, "type", errp);
++}
+ 
+ /*
+  * Initial object creation happens before all other
 -- 
 1.8.3.1
 
