@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6051203A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:21:33 +0100 (CET)
-Received: from localhost ([::1]:51526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 014681203BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:23:49 +0100 (CET)
+Received: from localhost ([::1]:51582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoRQ-0004a3-6p
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:21:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50737)
+	id 1igoTb-0008AE-Nk
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:23:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50765)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFW-0007RR-86
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:15 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFX-0007TA-B6
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFS-0007YC-63
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:12 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35598)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFW-0007b4-6z
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:15 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39898)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFS-0007Xe-0C
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:10 -0500
-Received: by mail-wr1-x444.google.com with SMTP id g17so6736382wro.2
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:09 -0800 (PST)
+ id 1igoFW-0007YI-0v
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:14 -0500
+Received: by mail-wr1-x442.google.com with SMTP id y11so6713523wrt.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=YMTEMJh/emKVxwbHbtHlnAEduqLFBKcxuqgnspTaEPo=;
- b=hY+zSFhon4ZaEkZild+FK7ostL8Qbx+iMZpglJVYtq2zuCIjGuu5VyDD9fWONGXsQi
- dkbAdLGYjjQO5VeSPy40oORjyRLZZjhGgs7apCUv4TuhWqkKAPeI1+vbIR5K94yg3Be9
- eUYb2qcZ6sF+ltSD+dWmOopZFcCoVb6ULsN/FbGhAPLB2eXz95OTMHmKxn2R0lTd4pnu
- uZOPSxD/MD9mtJD4dfuaG+jhnpxabztOWupemdkr6+rfAcs9SERu7KRpKD+cADdnti+t
- cPNY2JKh8pOtHYr/kySFtWtHn+/TvGnDtwBiicHxj6V+kvKpZopYf+L35oawIOm5XJLm
- Q6TQ==
+ bh=0cxUjenX4Zcy7AbEng8uMiqxruOg2URtl6WiQlwztWY=;
+ b=OoxFesnGk7aZGqX+4z+XcMIf2Zw6/yhJbnwffVqohS6sknLVmcjQa1qnyCk5tly0T8
+ oKJ2AbXA1xbA3sA8iOH2LF1aiRlY/KjmFblEyPf8gCD62BOfkirRwtrBp9VzfudrWHh6
+ 2VowCLgf7xAFZNmrl8Zx+gGvWmJKRbeQILpGkBeqClAc4v2Hj+70XT5Y9Gd8LAaihqye
+ BGAZC/FgLoO8uYRVOzaIy+sPCIKsmWgvzZBWfU8M5/i7WMeM1j9N98/Ulr3fdhSMkSDP
+ eze2BK3wMnYpsYrtN1sC4KFPUCuZ4NS3EcfJj//IEn3kxIo44vYs0beGknqBMyKXxG3V
+ EYrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YMTEMJh/emKVxwbHbtHlnAEduqLFBKcxuqgnspTaEPo=;
- b=EFktFZuI8/P3Owp1iVmQGeV+IxCdoH5uzb4bINhbgXqKaCJOCWZdX9Dr/kRgMYCxWN
- iK8/7ccUX7e6cvlY2KCXNb2xnEzbgvBVKfi2DfeyYW301UL2yL6RajmW7DvcgCu42StW
- upbYtC97itq81KAyxeVZ1IQfDoFrj4jjv57KA0TW9Z4x5aLa2PStEVm5fLkXAYMlWmi4
- shmui3704w/s7l4tHwCWlf2uO8sxyj2EsnWveWolf51GI5OvzGa1ZxuPjTEdzBzianK0
- kOhNAKlGuhI2PJ1Wn1+jeuYajj8Kf/jSZLiGcCjG5WZ6Dsdb6Tm9JO7Dr9TOi2j9GauR
- p1nA==
-X-Gm-Message-State: APjAAAVGlRrt7yWJ/od+pJH0E3PqHWI8zwHSk0yvi26AfMNz2HqoXYTo
- VT7sr1r9elaJxbqo6Wnju7JWHLVIrPlWuA==
-X-Google-Smtp-Source: APXvYqwBWbiuFRE4U4nFWbd61CsWHFQguruHt4PUcEF+OZJi320svn0rOGGp5hP5XR73hx2ndRApdQ==
-X-Received: by 2002:a5d:65c5:: with SMTP id e5mr29450377wrw.311.1576494548852; 
- Mon, 16 Dec 2019 03:09:08 -0800 (PST)
+ bh=0cxUjenX4Zcy7AbEng8uMiqxruOg2URtl6WiQlwztWY=;
+ b=qIb8lN+W865esFVA8gyzG+zV2hk9MhTWuIAwJbAJiHbLaKpLjDCkcqv8Qse3XEBNm6
+ 2T296U9aBtjG+eKSAMcckx1ixiLOz2uR7VvjJTW76CDHdEJI+Vg+bEsiEMJ7zWpkZ1n8
+ j63IRlSh1bCFtow7DgMAdSBfyN1AqUnnZZjeH1dfEGYadnLPsbQPux0kLzpD1pVyZyDt
+ U5nkrNTt1O79lJvINGaCpjBdAHWCb3+QLfbwOAEfPr+bJSPHUb1cPzjn+oE01Xra4D7a
+ qrlHnMz7uBbyUrU8r1vsxCsjeuvTllMSof5Q3HAzXZ64ahz5puHKXguH/ldfe4/pDRep
+ jtWg==
+X-Gm-Message-State: APjAAAWyHYwAIw3o8D6ySDo39zLr3fubPyXTmPGBaV88ep1x/9Ke6yMO
+ ELCNsEFdsjmZrLqHoWeSNmHMPYeMs71Ajw==
+X-Google-Smtp-Source: APXvYqw1M1vy7qsausKz7j5BSxRAAK15Z8Veu16u8eDJITKC5JSbzcuNbkU07XXFHJrJ1bBI3jBZxQ==
+X-Received: by 2002:a5d:6ac3:: with SMTP id u3mr30537669wrw.25.1576494549841; 
+ Mon, 16 Dec 2019 03:09:09 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.07
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:08 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:09 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/34] target/arm: Add support for cortex-m7 CPU
-Date: Mon, 16 Dec 2019 11:08:31 +0000
-Message-Id: <20191216110904.30815-2-peter.maydell@linaro.org>
+Subject: [PULL 02/34] exynos4210_gic: Suppress gcc9 format-truncation warnings
+Date: Mon, 16 Dec 2019 11:08:32 +0000
+Message-Id: <20191216110904.30815-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,75 +82,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christophe Lyon <christophe.lyon@linaro.org>
+From: David Gibson <david@gibson.dropbear.id.au>
 
-This is derived from cortex-m4 description, adding DP support and FPv5
-instructions with the corresponding flags in isar and mvfr2.
+exynos4210_gic_realize() prints the number of cpus into some temporary
+buffers, but it only allows 3 bytes space for it.  That's plenty:
+existing machines will only ever set this value to EXYNOS4210_NCPUS
+(2).  But the compiler can't always figure that out, so some[*] gcc9
+versions emit -Wformat-truncation warnings.
 
-Checked that it could successfully execute
-vrinta.f32 s15, s15
-while cortex-m4 emulation rejects it with "illegal instruction".
+We can fix that by hinting the constraint to the compiler with a
+suitably placed assert().
 
-Signed-off-by: Christophe Lyon <christophe.lyon@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20191025090841.10299-1-christophe.lyon@linaro.org
+[*] The bizarre thing here, is that I've long gotten these warnings
+    compiling in a 32-bit x86 container as host - Fedora 30 with
+    gcc-9.2.1-1.fc30.i686 - but it compiles just fine on my normal
+    x86_64 host - Fedora 30 with and gcc-9.2.1-1.fc30.x86_64.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+[PMM: deleted stray blank line]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ hw/intc/exynos4210_gic.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 7a4ac9339bf..dd51adac059 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1975,6 +1975,37 @@ static void cortex_m4_initfn(Object *obj)
-     cpu->isar.id_isar6 = 0x00000000;
- }
+diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
+index a1b699b6bab..9a84d8522e9 100644
+--- a/hw/intc/exynos4210_gic.c
++++ b/hw/intc/exynos4210_gic.c
+@@ -293,6 +293,7 @@ static void exynos4210_gic_realize(DeviceState *dev, Error **errp)
+     char cpu_alias_name[sizeof(cpu_prefix) + 3];
+     char dist_alias_name[sizeof(cpu_prefix) + 3];
+     SysBusDevice *gicbusdev;
++    uint32_t n = s->num_cpu;
+     uint32_t i;
  
-+static void cortex_m7_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_M);
-+    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
-+    set_feature(&cpu->env, ARM_FEATURE_VFP4);
-+    cpu->midr = 0x411fc272; /* r1p2 */
-+    cpu->pmsav7_dregion = 8;
-+    cpu->isar.mvfr0 = 0x10110221;
-+    cpu->isar.mvfr1 = 0x12000011;
-+    cpu->isar.mvfr2 = 0x00000040;
-+    cpu->id_pfr0 = 0x00000030;
-+    cpu->id_pfr1 = 0x00000200;
-+    cpu->id_dfr0 = 0x00100000;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->id_mmfr0 = 0x00100030;
-+    cpu->id_mmfr1 = 0x00000000;
-+    cpu->id_mmfr2 = 0x01000000;
-+    cpu->id_mmfr3 = 0x00000000;
-+    cpu->isar.id_isar0 = 0x01101110;
-+    cpu->isar.id_isar1 = 0x02112000;
-+    cpu->isar.id_isar2 = 0x20232231;
-+    cpu->isar.id_isar3 = 0x01111131;
-+    cpu->isar.id_isar4 = 0x01310132;
-+    cpu->isar.id_isar5 = 0x00000000;
-+    cpu->isar.id_isar6 = 0x00000000;
-+}
-+
- static void cortex_m33_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -2559,6 +2590,8 @@ static const ARMCPUInfo arm_cpus[] = {
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-m4",   .initfn = cortex_m4_initfn,
-                              .class_init = arm_v7m_class_init },
-+    { .name = "cortex-m7",   .initfn = cortex_m7_initfn,
-+                             .class_init = arm_v7m_class_init },
-     { .name = "cortex-m33",  .initfn = cortex_m33_initfn,
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
+     s->gic = qdev_create(NULL, "arm_gic");
+@@ -313,7 +314,13 @@ static void exynos4210_gic_realize(DeviceState *dev, Error **errp)
+     memory_region_init(&s->dist_container, obj, "exynos4210-dist-container",
+             EXYNOS4210_EXT_GIC_DIST_REGION_SIZE);
+ 
+-    for (i = 0; i < s->num_cpu; i++) {
++    /*
++     * This clues in gcc that our on-stack buffers do, in fact have
++     * enough room for the cpu numbers.  gcc 9.2.1 on 32-bit x86
++     * doesn't figure this out, otherwise and gives spurious warnings.
++     */
++    assert(n <= EXYNOS4210_NCPUS);
++    for (i = 0; i < n; i++) {
+         /* Map CPU interface per SMP Core */
+         sprintf(cpu_alias_name, "%s%x", cpu_prefix, i);
+         memory_region_init_alias(&s->cpu_alias[i], obj,
 -- 
 2.20.1
 
