@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F769121C91
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:17:32 +0100 (CET)
-Received: from localhost ([::1]:60702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9A8121CB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:24:43 +0100 (CET)
+Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igygE-00022o-Sr
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:17:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36867)
+	id 1igynC-0003RE-BR
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:24:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1igybL-0005Eg-7D
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:29 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1igybL-0005Fc-O5
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1igybI-0007HE-SQ
+ (envelope-from <richard.henderson@linaro.org>) id 1igybK-0007Jn-Gx
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:27 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:34967)
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39470)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1igybI-0007FT-JS
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:24 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id w23so3632031pjd.2
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:24 -0800 (PST)
+ id 1igybK-0007Ia-Bk
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:26 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id v93so3617202pjb.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=e7D0tfuzoU8uUsVgXAgk/gYVqQ2gabQZXbhCVY3WX4M=;
- b=E8Mr1W8N21Ke/14XaBHdMaGsPwyg2stUe6f2f2BZRz+yiNOxwm56EveHRBOvAmHtbh
- 0ajdUVhOwx3MhNH8YfOHGKGz/btHF80pxjb4aMpk+SNideZGnZADE6Rxx8vvWXs00X3F
- aGEBpALzljgLFpS/kz9dQSswM/c9PH8k6/snhqE65oiobEDbaTj/nbdXoCUsTBlvFMDY
- rRCpnctkRp+aViVGMl5N9EXh/+hE6C/vsabAk4B2OXNbyquA7fgB3H0NY87uef00S3+U
- fTH5YE/ZzmkjUiHt7fXF1QVHXEJ3eDncs9mTRee25s0XxKsTLBnI79WWndR+YmVdcLBT
- zR3A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ywIseiPjqJvH3CWY8/pVr57z5YPy7BfDXHEc/+9ytCA=;
+ b=sxhIcXsO1mDqVZ3f3lLseM6hZd8C8hvDkEk9QJWW8H4/7dW6VhtpqbSiGsg7YyeL0g
+ bMIJSmd1I/dW3PorOBgri++JD93GQOxlmCupBZFnBXmSsLOCaQ95z2cH1EAGBy+LQ8IF
+ RYx8CD6H0WZ7Ag4vHpuzKwu4zw5hbcbJQKWZFv0N844QA1XOAYg+tbuLWOro3tchXDVm
+ b+/o4to59ZtVf3CMTXk/WFfOlNQKyP+zv1TpK/F0NIknpVrKdF/EnRsT1ZzMAYzxwIJU
+ YxwYBhpjyF5GRqIbmlgW+5EjyILpk/QWpCEfZ2Kbnk0HsJz9To9leiyTch/9Pd3qIOMb
+ CnQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e7D0tfuzoU8uUsVgXAgk/gYVqQ2gabQZXbhCVY3WX4M=;
- b=QnVHGALJFMdcK+U7bdMj7hg+Bl41d/qc7bmHYQdOWd+nPKv2mcmyt7aXdOviQOxWL/
- 7TM/UJMgMChjOWcfJdrnUfdA/SqmSd+mgcoQ1jBnEAgwXNlG0YMuiZnpMPVS4U53M3rL
- 0VJ9ogZtHykpP0mqxN/JuL98G0Qh0GeZ+Ow5E69iGbrIu/p/TV7YzVcGI6EtZ3XV3FVZ
- /4/rdmZ3axJGJsLl7GuGlnPDg0JkpjcOswK6AClufSqBp3o2Ib3exIEdq//Aj65BiiPM
- MggkVdcK8BbI/9runMLAhr8fQyF/6jTFGNML7ZpoCW8GIfjotnN0poqbQPH+y2SbUpYY
- tzJw==
-X-Gm-Message-State: APjAAAWvrs/XigtzWW14LZeSqN8se4S1EPiINEWzkTPXzVpwgfq6Wflm
- ei+Lr6JWXFvGxza8L60z64SI82iM3HY=
-X-Google-Smtp-Source: APXvYqxnEqzDU4bQYPkCFI0H2Oa095HswOVNL3wrseUILCdF0nrlNbMGxuT6IBbtPoCaR8JKX92h3Q==
-X-Received: by 2002:a17:902:bf08:: with SMTP id
- bi8mr17763229plb.75.1576534343069; 
- Mon, 16 Dec 2019 14:12:23 -0800 (PST)
+ bh=ywIseiPjqJvH3CWY8/pVr57z5YPy7BfDXHEc/+9ytCA=;
+ b=BUFNHncqRtd0+ejglq1g7tJPSgOxOGxAIv1bUrjkAnKAFIczOBh1fe/KTwp/IARUdh
+ EzEM7wkinyHbV1DW2DH/XOIXD4W2UxMwkYP2AH9pS+nThWascun3DSzQ44Gj6indN6Jp
+ TY5Mu6ajtcuZsH20NOkwxwEvtq7SbbqZMDtFjeS1EC6/AOvvmq7pWvFlMaxe9oRsPXwQ
+ dVkKc0d4E5h/04Qdn/7V/il4iyUF2X7iw0pd7p7+Z2ejdLRW8dPiBJSpdPPguBsftV+0
+ nSew+fMoZ9JcB18a92bWTOr8HyjDrrU5MTW8QNoO1+1Tw3NpZQs+cZAicF/PnRuy6FXT
+ 8elQ==
+X-Gm-Message-State: APjAAAVbWx5ID0ydTj2A0LdZ79y68ZL+D75QuDgRSEHCtF7tFTdk92Kq
+ 5PnYRDeiSubTHCH/y8wdo9xYxBFvmNo=
+X-Google-Smtp-Source: APXvYqz5Yd5Rd6nBEH/KuRs8hV+fmNZb8fIa2GPI/UjygCwnBfQSaokiKSn1mYGbBmi6x13fOJ6Jqw==
+X-Received: by 2002:a17:902:9a42:: with SMTP id
+ x2mr18533066plv.202.1576534345055; 
+ Mon, 16 Dec 2019 14:12:25 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.21
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 14:12:22 -0800 (PST)
+ Mon, 16 Dec 2019 14:12:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/28] cputlb: Expand cpu_ldst_useronly_template.h in
- user-exec.c
-Date: Mon, 16 Dec 2019 12:11:44 -1000
-Message-Id: <20191216221158.29572-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/28] target/nios2: Remove MMU_MODE{0,1}_SUFFIX
+Date: Mon, 16 Dec 2019 12:11:45 -1000
+Message-Id: <20191216221158.29572-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216221158.29572-1-richard.henderson@linaro.org>
 References: <20191216221158.29572-1-richard.henderson@linaro.org>
@@ -69,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,523 +79,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the tracing hooks, the inline functions are no longer
-so simple.  Reduce the amount of preprocessor obfuscation
-by expanding the text of each of the functions generated.
-The result is only slightly larger than the original.
+The functions generated by these macros are unused.
 
+Cc: Chris Wulff <crwulff@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst.h                   |  54 +++--
- include/exec/cpu_ldst_useronly_template.h | 159 ---------------
- accel/tcg/user-exec.c                     | 236 ++++++++++++++++++++++
- 3 files changed, 262 insertions(+), 187 deletions(-)
- delete mode 100644 include/exec/cpu_ldst_useronly_template.h
+ target/nios2/cpu.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index 41b98ba801..0f3c49a005 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -120,35 +120,33 @@ static inline void clear_helper_retaddr(void)
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 361b06ffeb..78f633f970 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -217,8 +217,6 @@ void do_nios2_semihosting(CPUNios2State *env);
+ #define CPU_SAVE_VERSION 1
  
- /* In user-only mode we provide only the _code and _data accessors. */
+ /* MMU modes definitions */
+-#define MMU_MODE0_SUFFIX _kernel
+-#define MMU_MODE1_SUFFIX _user
+ #define MMU_SUPERVISOR_IDX  0
+ #define MMU_USER_IDX        1
  
--#define MEMSUFFIX _data
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_useronly_template.h"
-+uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr);
-+uint32_t cpu_lduw_data(CPUArchState *env, abi_ptr ptr);
-+uint32_t cpu_ldl_data(CPUArchState *env, abi_ptr ptr);
-+uint64_t cpu_ldq_data(CPUArchState *env, abi_ptr ptr);
-+int cpu_ldsb_data(CPUArchState *env, abi_ptr ptr);
-+int cpu_ldsw_data(CPUArchState *env, abi_ptr ptr);
- 
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_useronly_template.h"
-+uint32_t cpu_ldub_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr);
-+uint32_t cpu_lduw_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr);
-+uint32_t cpu_ldl_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr);
-+uint64_t cpu_ldq_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr);
-+int cpu_ldsb_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr);
-+int cpu_ldsw_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr);
- 
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_useronly_template.h"
-+void cpu_stb_data(CPUArchState *env, abi_ptr ptr, uint32_t val);
-+void cpu_stw_data(CPUArchState *env, abi_ptr ptr, uint32_t val);
-+void cpu_stl_data(CPUArchState *env, abi_ptr ptr, uint32_t val);
-+void cpu_stq_data(CPUArchState *env, abi_ptr ptr, uint64_t val);
- 
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_useronly_template.h"
--#undef MEMSUFFIX
--
--#define MEMSUFFIX _code
--#define CODE_ACCESS
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_useronly_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_useronly_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_useronly_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_useronly_template.h"
--#undef MEMSUFFIX
--#undef CODE_ACCESS
-+void cpu_stb_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint32_t val, uintptr_t retaddr);
-+void cpu_stw_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint32_t val, uintptr_t retaddr);
-+void cpu_stl_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint32_t val, uintptr_t retaddr);
-+void cpu_stq_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint64_t val, uintptr_t retaddr);
- 
- /*
-  * Provide the same *_mmuidx_ra interface as for softmmu.
-@@ -520,6 +518,8 @@ void cpu_stq_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint64_t val,
- #undef CPU_MMU_INDEX
- #undef MEMSUFFIX
- 
-+#endif /* defined(CONFIG_USER_ONLY) */
-+
- uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr);
- uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr addr);
- uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr addr);
-@@ -535,8 +535,6 @@ static inline int cpu_ldsw_code(CPUArchState *env, abi_ptr addr)
-     return (int16_t)cpu_lduw_code(env, addr);
- }
- 
--#endif /* defined(CONFIG_USER_ONLY) */
--
- /**
-  * tlb_vaddr_to_host:
-  * @env: CPUArchState
-diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu_ldst_useronly_template.h
-deleted file mode 100644
-index e5a3d1983a..0000000000
---- a/include/exec/cpu_ldst_useronly_template.h
-+++ /dev/null
-@@ -1,159 +0,0 @@
--/*
-- *  User-only accessor function support
-- *
-- * Generate inline load/store functions for one data size.
-- *
-- * Generate a store function as well as signed and unsigned loads.
-- *
-- * Not used directly but included from cpu_ldst.h.
-- *
-- *  Copyright (c) 2015 Linaro Limited
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-- */
--
--#if !defined(CODE_ACCESS)
--#include "trace-root.h"
--#endif
--
--#include "trace/mem.h"
--
--#if DATA_SIZE == 8
--#define SUFFIX q
--#define USUFFIX q
--#define DATA_TYPE uint64_t
--#define SHIFT 3
--#elif DATA_SIZE == 4
--#define SUFFIX l
--#define USUFFIX l
--#define DATA_TYPE uint32_t
--#define SHIFT 2
--#elif DATA_SIZE == 2
--#define SUFFIX w
--#define USUFFIX uw
--#define DATA_TYPE uint16_t
--#define DATA_STYPE int16_t
--#define SHIFT 1
--#elif DATA_SIZE == 1
--#define SUFFIX b
--#define USUFFIX ub
--#define DATA_TYPE uint8_t
--#define DATA_STYPE int8_t
--#define SHIFT 0
--#else
--#error unsupported data size
--#endif
--
--#if DATA_SIZE == 8
--#define RES_TYPE uint64_t
--#else
--#define RES_TYPE uint32_t
--#endif
--
--static inline RES_TYPE
--glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
--{
--    RES_TYPE ret;
--#ifdef CODE_ACCESS
--    set_helper_retaddr(1);
--    ret = glue(glue(ld, USUFFIX), _p)(g2h(ptr));
--    clear_helper_retaddr();
--#else
--    MemOp op = MO_TE | SHIFT;
--    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, false);
--    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = glue(glue(ld, USUFFIX), _p)(g2h(ptr));
--#endif
--    return ret;
--}
--
--#ifndef CODE_ACCESS
--static inline RES_TYPE
--glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
--                                                  abi_ptr ptr,
--                                                  uintptr_t retaddr)
--{
--    RES_TYPE ret;
--    set_helper_retaddr(retaddr);
--    ret = glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(env, ptr);
--    clear_helper_retaddr();
--    return ret;
--}
--#endif
--
--#if DATA_SIZE <= 2
--static inline int
--glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
--{
--    int ret;
--#ifdef CODE_ACCESS
--    set_helper_retaddr(1);
--    ret = glue(glue(lds, SUFFIX), _p)(g2h(ptr));
--    clear_helper_retaddr();
--#else
--    MemOp op = MO_TE | MO_SIGN | SHIFT;
--    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, false);
--    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    ret = glue(glue(lds, SUFFIX), _p)(g2h(ptr));
--    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
--#endif
--    return ret;
--}
--
--#ifndef CODE_ACCESS
--static inline int
--glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
--                                                  abi_ptr ptr,
--                                                  uintptr_t retaddr)
--{
--    int ret;
--    set_helper_retaddr(retaddr);
--    ret = glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(env, ptr);
--    clear_helper_retaddr();
--    return ret;
--}
--#endif /* CODE_ACCESS */
--#endif /* DATA_SIZE <= 2 */
--
--#ifndef CODE_ACCESS
--static inline void
--glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr,
--                                      RES_TYPE v)
--{
--    MemOp op = MO_TE | SHIFT;
--    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, true);
--    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
--    glue(glue(st, SUFFIX), _p)(g2h(ptr), v);
--    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
--}
--
--static inline void
--glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
--                                                  abi_ptr ptr,
--                                                  RES_TYPE v,
--                                                  uintptr_t retaddr)
--{
--    set_helper_retaddr(retaddr);
--    glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(env, ptr, v);
--    clear_helper_retaddr();
--}
--#endif
--
--#undef RES_TYPE
--#undef DATA_TYPE
--#undef DATA_STYPE
--#undef SUFFIX
--#undef USUFFIX
--#undef DATA_SIZE
--#undef SHIFT
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index b09f7a1577..79da4219bb 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -26,6 +26,8 @@
- #include "translate-all.h"
- #include "exec/helper-proto.h"
- #include "qemu/atomic128.h"
-+#include "trace-root.h"
-+#include "trace/mem.h"
- 
- #undef EAX
- #undef ECX
-@@ -734,6 +736,240 @@ int cpu_signal_handler(int host_signum, void *pinfo,
- 
- /* The softmmu versions of these helpers are in cputlb.c.  */
- 
-+uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint32_t ret;
-+    uint16_t meminfo = trace_mem_get_info(MO_UB, MMU_USER_IDX, false);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    ret = ldub_p(g2h(ptr));
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+    return ret;
-+}
-+
-+int cpu_ldsb_data(CPUArchState *env, abi_ptr ptr)
-+{
-+    int ret;
-+    uint16_t meminfo = trace_mem_get_info(MO_SB, MMU_USER_IDX, false);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    ret = ldsb_p(g2h(ptr));
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+    return ret;
-+}
-+
-+uint32_t cpu_lduw_data(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint32_t ret;
-+    uint16_t meminfo = trace_mem_get_info(MO_TEUW, MMU_USER_IDX, false);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    ret = lduw_p(g2h(ptr));
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+    return ret;
-+}
-+
-+int cpu_ldsw_data(CPUArchState *env, abi_ptr ptr)
-+{
-+    int ret;
-+    uint16_t meminfo = trace_mem_get_info(MO_TESW, MMU_USER_IDX, false);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    ret = ldsw_p(g2h(ptr));
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+    return ret;
-+}
-+
-+uint32_t cpu_ldl_data(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint32_t ret;
-+    uint16_t meminfo = trace_mem_get_info(MO_TEUL, MMU_USER_IDX, false);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    ret = ldl_p(g2h(ptr));
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+    return ret;
-+}
-+
-+uint64_t cpu_ldq_data(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint64_t ret;
-+    uint16_t meminfo = trace_mem_get_info(MO_TEQ, MMU_USER_IDX, false);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    ret = ldq_p(g2h(ptr));
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+    return ret;
-+}
-+
-+uint32_t cpu_ldub_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-+{
-+    uint32_t ret;
-+
-+    set_helper_retaddr(retaddr);
-+    ret = cpu_ldub_data(env, ptr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+int cpu_ldsb_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-+{
-+    int ret;
-+
-+    set_helper_retaddr(retaddr);
-+    ret = cpu_ldsb_data(env, ptr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint32_t cpu_lduw_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-+{
-+    uint32_t ret;
-+
-+    set_helper_retaddr(retaddr);
-+    ret = cpu_lduw_data(env, ptr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+int cpu_ldsw_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-+{
-+    int ret;
-+
-+    set_helper_retaddr(retaddr);
-+    ret = cpu_ldsw_data(env, ptr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint32_t cpu_ldl_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-+{
-+    uint32_t ret;
-+
-+    set_helper_retaddr(retaddr);
-+    ret = cpu_ldl_data(env, ptr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint64_t cpu_ldq_data_ra(CPUArchState *env, abi_ptr ptr, uintptr_t retaddr)
-+{
-+    uint64_t ret;
-+
-+    set_helper_retaddr(retaddr);
-+    ret = cpu_ldq_data(env, ptr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+void cpu_stb_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-+{
-+    uint16_t meminfo = trace_mem_get_info(MO_UB, MMU_USER_IDX, true);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    stb_p(g2h(ptr), val);
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+}
-+
-+void cpu_stw_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-+{
-+    uint16_t meminfo = trace_mem_get_info(MO_TEUW, MMU_USER_IDX, true);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    stw_p(g2h(ptr), val);
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+}
-+
-+void cpu_stl_data(CPUArchState *env, abi_ptr ptr, uint32_t val)
-+{
-+    uint16_t meminfo = trace_mem_get_info(MO_TEUL, MMU_USER_IDX, true);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    stl_p(g2h(ptr), val);
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+}
-+
-+void cpu_stq_data(CPUArchState *env, abi_ptr ptr, uint64_t val)
-+{
-+    uint16_t meminfo = trace_mem_get_info(MO_TEQ, MMU_USER_IDX, true);
-+
-+    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
-+    stq_p(g2h(ptr), val);
-+    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
-+}
-+
-+void cpu_stb_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint32_t val, uintptr_t retaddr)
-+{
-+    set_helper_retaddr(retaddr);
-+    cpu_stb_data(env, ptr, val);
-+    clear_helper_retaddr();
-+}
-+
-+void cpu_stw_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint32_t val, uintptr_t retaddr)
-+{
-+    set_helper_retaddr(retaddr);
-+    cpu_stw_data(env, ptr, val);
-+    clear_helper_retaddr();
-+}
-+
-+void cpu_stl_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint32_t val, uintptr_t retaddr)
-+{
-+    set_helper_retaddr(retaddr);
-+    cpu_stl_data(env, ptr, val);
-+    clear_helper_retaddr();
-+}
-+
-+void cpu_stq_data_ra(CPUArchState *env, abi_ptr ptr,
-+                     uint64_t val, uintptr_t retaddr)
-+{
-+    set_helper_retaddr(retaddr);
-+    cpu_stq_data(env, ptr, val);
-+    clear_helper_retaddr();
-+}
-+
-+uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint32_t ret;
-+
-+    set_helper_retaddr(1);
-+    ret = ldub_p(g2h(ptr));
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint32_t ret;
-+
-+    set_helper_retaddr(1);
-+    ret = lduw_p(g2h(ptr));
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint32_t ret;
-+
-+    set_helper_retaddr(1);
-+    ret = ldl_p(g2h(ptr));
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr ptr)
-+{
-+    uint64_t ret;
-+
-+    set_helper_retaddr(1);
-+    ret = ldq_p(g2h(ptr));
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
- /* Do not allow unaligned operations to proceed.  Return the host address.  */
- static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
-                                int size, uintptr_t retaddr)
 -- 
 2.20.1
 
