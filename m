@@ -2,41 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAE811FC3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 01:37:36 +0100 (CET)
-Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD9111FC6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 02:05:41 +0100 (CET)
+Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igeOF-0003Ts-Ll
-	for lists+qemu-devel@lfdr.de; Sun, 15 Dec 2019 19:37:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
+	id 1igepQ-0002fr-49
+	for lists+qemu-devel@lfdr.de; Sun, 15 Dec 2019 20:05:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1igeNX-00034u-C1
- for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:36:52 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1igenc-0000fS-B5
+ for qemu-devel@nongnu.org; Sun, 15 Dec 2019 20:03:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1igeNW-0006Ej-74
- for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:36:51 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:35288)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>)
- id 1igeNW-0006Ak-3X; Sun, 15 Dec 2019 19:36:50 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by kvm5.telegraphics.com.au (Postfix) with ESMTP id 7030023F85;
- Sun, 15 Dec 2019 19:36:44 -0500 (EST)
-Date: Mon, 16 Dec 2019 11:36:41 +1100 (AEDT)
-From: Finn Thain <fthain@telegraphics.com.au>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>, 
- Herve Poussineau <hpoussin@reactos.org>
-Subject: Re: [PATCH 00/10] Fixes for DP8393X SONIC device emulation
-In-Reply-To: <alpine.LNX.2.21.1.1912150915460.8@nippy.intranet>
-Message-ID: <alpine.LNX.2.21.1.1912160906420.11@nippy.intranet>
-References: <cover.1576286757.git.fthain@telegraphics.com.au>
- <CAL1e-=gwxSDa1NSevcCbjG1r5vg6A49Kg_FP2EL1jW+BMn7Ghw@mail.gmail.com>
- <alpine.LNX.2.21.1.1912150915460.8@nippy.intranet>
+ (envelope-from <tao3.xu@intel.com>) id 1igenb-0005ZZ-48
+ for qemu-devel@nongnu.org; Sun, 15 Dec 2019 20:03:48 -0500
+Received: from mga01.intel.com ([192.55.52.88]:20795)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>)
+ id 1igenU-00053U-Ve; Sun, 15 Dec 2019 20:03:41 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2019 17:03:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,319,1571727600"; d="scan'208";a="414917184"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.238])
+ ([10.239.196.238])
+ by fmsmga005.fm.intel.com with ESMTP; 15 Dec 2019 17:03:30 -0800
+Subject: Re: [PATCH 2/2] numa: properly check if numa is supported
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1576154936-178362-1-git-send-email-imammedo@redhat.com>
+ <1576154936-178362-3-git-send-email-imammedo@redhat.com>
+ <bf9dc1f6-514a-67ac-d09b-0b515545bf22@intel.com>
+ <20191213101219.0aa249dc@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <a0e52b4d-d6b9-3dec-35b8-a3225f07d8d5@intel.com>
+Date: Mon, 16 Dec 2019 09:03:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 98.124.60.144
+In-Reply-To: <20191213101219.0aa249dc@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.88
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,75 +60,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
  "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 15 Dec 2019, Finn Thain wrote:
-
-> I test the qemu build like this,
+On 12/13/2019 5:12 PM, Igor Mammedov wrote:
+> On Fri, 13 Dec 2019 09:33:10 +0800
+> Tao Xu <tao3.xu@intel.com> wrote:
 > 
-> qemu-system-m68k -M q800 -m 512M -serial none -serial mon:stdio -g 800x600x4
-> -net nic,model=dp83932,addr=00:00:00:01:02:03
-> -net bridge,helper=/opt/qemu/libexec/qemu-bridge-helper,br=br0
-> -append "fbcon=font:ProFont6x11 console=tty0 console=ttyS0 ignore_loglevel"
-> -kernel vmlinux-4.14.157-mac-backport+
-> -initrd /mnt/loop/install/cdrom/initrd.gz
+>> On 12/12/2019 8:48 PM, Igor Mammedov wrote:
+>>> Commit aa57020774b, by mistake used MachineClass::numa_mem_supported
+>>> to check if NUMA is supported by machine and also as unrelated change
+>>> set it to true for sbsa-ref board.
+>>>
+>>> Luckily change didn't break machines that support NUMA, as the field
+>>> is set to true for them.
+>>>
+>>> But the field is not intended for checking if NUMA is supported and
+>>> will be flipped to false within this release for new machine types.
+>>>
+>>> Fix it:
+>>>    - by using previously used condition
+>>>         !mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id
+>>>      the first time and then use MachineState::numa_state down the road
+>>>      to check if NUMA is supported
+>>>    - dropping stray sbsa-ref chunk
+>>>
+>>> Fixes: aa57020774b690a22be72453b8e91c9b5a68c516
+>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>>> ---
+>>> CC: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
+>>> CC: Peter Maydell <peter.maydell@linaro.org>
+>>> CC: Leif Lindholm <leif.lindholm@linaro.org>
+>>> CC: qemu-arm@nongnu.org
+>>> CC: qemu-stable@nongnu.org
+>>>
+>>>
+>>>    hw/arm/sbsa-ref.c | 1 -
+>>>    hw/core/machine.c | 4 ++--
+>>>    2 files changed, 2 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+>>> index 27046cc..c6261d4 100644
+>>> --- a/hw/arm/sbsa-ref.c
+>>> +++ b/hw/arm/sbsa-ref.c
+>>> @@ -791,7 +791,6 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *data)
+>>>        mc->possible_cpu_arch_ids = sbsa_ref_possible_cpu_arch_ids;
+>>>        mc->cpu_index_to_instance_props = sbsa_ref_cpu_index_to_props;
+>>>        mc->get_default_cpu_node_id = sbsa_ref_get_default_cpu_node_id;
+>>> -    mc->numa_mem_supported = true;
+>>>    }
+>>>    
+>>>    static const TypeInfo sbsa_ref_info = {
+>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>>> index 1689ad3..aa63231 100644
+>>> --- a/hw/core/machine.c
+>>> +++ b/hw/core/machine.c
+>>> @@ -958,7 +958,7 @@ static void machine_initfn(Object *obj)
+>>>                                            NULL);
+>>>        }
+>>>    
+>>> -    if (mc->numa_mem_supported) {
+>>> +    if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
+>>>            ms->numa_state = g_new0(NumaState, 1);
+>>>        }
+>>
+>> I am wondering if @numa_mem_supported is unused here, it is unused for
+>> QEMU, because the only usage of @numa_mem_supported is to initialize
+>> @numa_state. Or there is other usage? So should it be removed from
+>> struct MachineClass?
+> You are wrong, it's not intended for numa_state initialization,
+> read doc comment for it in include/hw/boards.h
+> (for full story look at commit cd5ff8333a3)
 > 
-> You can obtain this kernel binary from the linux-mac68k project on 
-> sourceforge. (I usually use a mainline Linux build but it makes no 
-> difference.)
-> 
-
-One difficulty with testing these patches with Linux guests is some old 
-bugs in drivers/net/ethernet/natsemi/sonic.c that can cause tx watchdog 
-timeouts on real hardware.
-
-I have some patches for that driver which may be useful when testing 
-QEMU's hw/net/dp8393x.c device. (I've pushed those patches to my github 
-repo.)
-
-The second obstacle I have involves testing the dp8393x device with a 
-bridge device on a Linux/i686 host.
-
-Running tcpdump in the Linux/m68k guest showed these two ping packets from 
-the host,
-
-00:15:28.480164 IP 192.168.66.1 > 192.168.66.111: ICMP echo request, id 23957, seq 11, length 64
-        0x0000:  0800 0702 0304 fe16 d9ae 6943 0800 4500  ..........iC..E.
-        0x0010:  0054 ff4d 4000 4001 359a c0a8 4201 c0a8  .T.M@.@.5...B...
-        0x0020:  426f 0800 4243 5d95 000b a0cc f65d cfee  Bo..BC]......]..
-        0x0030:  0600 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
-        0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
-        0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
-        0x0060:  3637 33e0 14c7                           673...
-00:15:29.341601 IP truncated-ip - 52 bytes missing! 192.168.66.1 > 192.168.66.111: ICMP echo request, id 23957, seq 12, length 64
-        0x0000:  0800 0702 0304 fe16 d9ae 6943 0800 4500  ..........iC..E.
-        0x0010:  0054 ff4e 4000 4001 3599 c0a8 4201 c0a8  .T.N@.@.5...B...
-        0x0020:  426f 0800 d61a 5d95 000c a0cc f65d        Bo....]......]
-
-Sniffing br0 on the host shows no sign of the truncated packet at all 
-which leaves a gap in the packet sequence numbers captured on the host. 
-Weird.
-
-When I log the calls to,
-
-static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-                               size_t pkt_size)
-
-the corresponding pkt_size values look like this,
-
-pkt_size 98
-pkt_size 42
-
-So this seems to show that the bug is not in dp8393x. Possibly not in 
-QEMU?
-
-I don't see any options in 'man brctl' that might explain why the host and 
-guest see different packets. I guess I'll have to find a way to avoid 
-using bridge interfaces (?)
+I understand.
 
