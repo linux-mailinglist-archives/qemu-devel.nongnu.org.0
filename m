@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FCC120823
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:09:16 +0100 (CET)
-Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFFC120865
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:17:10 +0100 (CET)
+Received: from localhost ([::1]:54500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igr3i-00026s-O6
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:09:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58822)
+	id 1igrBN-0004iD-SE
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:17:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1igqzJ-0004zU-KU
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:42 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igr2D-0001BR-ML
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:07:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1igqzI-00045y-2c
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:41 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56869
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1igqzH-00045i-Ue
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576505079;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lQJlLjmRnoxnyH5I+FAGf7Zim3+eldLoAm/hBFPMOq8=;
- b=JpMFaasEnFeDZcKsi5MJ/IEHnghF81Qe3qoaVsptWaboyOQYdZx/iCforGMnd8pDkZqXg7
- 70+k5YpyzxJeciLdzH6qbRxcw0/z7CncZA80u17xIvzqDcPkeFQB+1JUYq9jonJxlcgcnG
- B7rG55tt+ongH8dATmQJCXgrT3YNIhQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-uP40nYjUPiaYgrBYDA816Q-1; Mon, 16 Dec 2019 09:04:37 -0500
-X-MC-Unique: uP40nYjUPiaYgrBYDA816Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DC5118543AE;
- Mon, 16 Dec 2019 14:04:36 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 253EE675B8;
- Mon, 16 Dec 2019 14:04:32 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
- kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH 16/16] arm/arm64: ITS: pending table migration
- test
-Date: Mon, 16 Dec 2019 15:02:35 +0100
-Message-Id: <20191216140235.10751-17-eric.auger@redhat.com>
-In-Reply-To: <20191216140235.10751-1-eric.auger@redhat.com>
-References: <20191216140235.10751-1-eric.auger@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1igr2B-0006Cp-Q2
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:07:41 -0500
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:33236)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1igr2B-0006AI-Jm
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:07:39 -0500
+Received: by mail-ot1-x32e.google.com with SMTP id b18so771864otp.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 06:07:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=xfr4RsBDQPOFJsdG34apmzlNuzmpFAcZLgDsrhJEODA=;
+ b=NwjSHSjLT8J4Tdol3XdMmczkerp0vWC+2Csy9Ojgf58C3Bf9y4skAvutsyuHk48QSx
+ Q708Ew+QTImNkng/WwMQ1jDJuFxlIDnfRKDk4So+ykoQ3ttWENR1uq6oMlUmF/uAPy7N
+ Be6JS+ExY+zj/4xImQUKwAHnTUzZcyqRiLGOrneoqlSd7Mo16m4cWtyAoUf8nAFmBGJB
+ 7NA9fJLSqjZmi7temWFfY53MSgVPskuvGV6RthcdekIS0iY/T2WLmsO1Ufnfs+W8sd4X
+ sO2rHTsgwPKL5PrewiNLJzVn190WbPeM+cKKiiMmWm6UKih+Z3M2Jw3AT+/fxGRO8fud
+ 2Q/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=xfr4RsBDQPOFJsdG34apmzlNuzmpFAcZLgDsrhJEODA=;
+ b=PvBInpl3QdUfZLDHBtacyqt8pfmSISWJNde3QLk6/m6rFMAYTNg8MOPM0m3imIz89e
+ UNY5NAdOJqF7J6uuo+N1SMsb7KO/tNBwMS5Pu32I9VKk9FnnfEGdFSjS7dVCmB5dY2bf
+ IWl0m9EfAESuRy7GOYdz1Hf1we0o0AZHmjY69YuATHLxL7TFq2n9DyTx/MG632+THix6
+ fs/fpZoZeefTgknx9gT80OEtTxFc33NeLBvhNjXvmvcxWg08nWi9EhGJu3v0vfXyuvdg
+ pi7jwZuRuMqiFWvYfYbOVUTw70n3FHfGtd7xF1T5jZIkVSliqwLiOHxW0rPurIXkT+SL
+ C2MA==
+X-Gm-Message-State: APjAAAV1gAomZQmN311p5tUhGVXRg1SKD45RfF8js4xF1LWizJ5RsMrW
+ DyAbIhkAV+3dY4Uuo0YEFGivrIRoMlqUS+VkfzACOIEBaZY=
+X-Google-Smtp-Source: APXvYqzUoPPFSZ7g4ez4P9XRclxJbtuuuIIKIdGYGGrSzsmr6MKlMecReGVfsii5yeGwKS4Kv51y+jSd/PHDz/UwDQ0=
+X-Received: by 2002:a9d:4d8a:: with SMTP id u10mr32881983otk.232.1576505258277; 
+ Mon, 16 Dec 2019 06:07:38 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20191216110904.30815-1-peter.maydell@linaro.org>
+In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Dec 2019 14:07:27 +0000
+Message-ID: <CAFEAcA98eUpMieL3z3PFake18LeSQmX=aL8cmgUqotii5-+8LQ@mail.gmail.com>
+Subject: Re: [PULL 00/34] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,239 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
- thuth@redhat.com, yuzenghui@huawei.com, alexandru.elisei@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add two new migration tests. One testing the migration of
-a topology where collection were unmapped. The second test
-checks the migration of the pending table.
+On Mon, 16 Dec 2019 at 11:09, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+>
+> First arm pullreq of 5.0!
+>
+> The following changes since commit 084a398bf8aa7634738e6c6c0103236ee1b3b72f:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-12-13 18:14:07 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191216-1
+>
+> for you to fetch changes up to f80741d107673f162e3b097fc76a1590036cc9d1:
+>
+>   target/arm: ensure we use current exception state after SCR update (2019-12-16 10:52:58 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Add support for Cortex-M7 CPU
+>  * exynos4210_gic: Suppress gcc9 format-truncation warnings
+>  * aspeed: Various minor bug fixes and improvements
+>  * aspeed: Add support for the tacoma-bmc board
+>  * Honour HCR_EL32.TID1 and .TID2 trapping requirements
+>  * Handle trapping to EL2 of AArch32 VMRS instructions
+>  * Handle AArch32 CP15 trapping via HSTR_EL2
+>  * Add support for missing Jazelle system registers
+>  * arm/arm-powerctl: set NSACR.{CP11, CP10} bits in arm_set_cpu_on
+>  * Add support for DC CVAP & DC CVADP instructions
+>  * Fix assertion when SCR.NS is changed in Secure-SVC &c
+>  * enable SHPC native hot plug in arm ACPI
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- arm/gic.c         | 148 ++++++++++++++++++++++++++++++++++++++++++++++
- arm/unittests.cfg |  16 ++++-
- 2 files changed, 163 insertions(+), 1 deletion(-)
+Applied, thanks.
 
-diff --git a/arm/gic.c b/arm/gic.c
-index 8cca743..fc8cf6e 100644
---- a/arm/gic.c
-+++ b/arm/gic.c
-@@ -170,6 +170,7 @@ static void lpi_handler(struct pt_regs *regs __unused=
-)
- 	smp_rmb(); /* pairs with wmb in lpi_stats_expect */
- 	lpi_stats.observed.cpu_id =3D smp_processor_id();
- 	lpi_stats.observed.lpi_id =3D irqnr;
-+	acked[lpi_stats.observed.cpu_id]++;
- 	smp_wmb(); /* pairs with rmb in check_lpi_stats */
- }
-=20
-@@ -207,6 +208,18 @@ static void check_lpi_stats(void)
- 	}
- }
-=20
-+static void check_lpi_hits(int *expected)
-+{
-+	int i;
-+
-+	for (i =3D 0; i < nr_cpus; i++) {
-+		if (acked[i] !=3D expected[i])
-+			report(false, "expected %d LPIs on PE #%d, %d observed",
-+			       expected[i], i, acked[i]);
-+		}
-+	report(true, "check LPI on all vcpus");
-+}
-+
- static void gicv2_ipi_send_self(void)
- {
- 	writel(2 << 24 | IPI_IRQ, gicv2_dist_base() + GICD_SGIR);
-@@ -642,6 +655,18 @@ static int its_prerequisites(int nb_cpus)
- 	return 0;
- }
-=20
-+static void set_lpi(struct its_device *dev, u32 eventid, u32 physid,
-+		    struct its_collection *col)
-+{
-+	if (!dev || !col)
-+		report_abort("wrong device or collection");
-+
-+	its_send_mapti(dev, physid, eventid, col);
-+
-+	set_lpi_config(physid, LPI_PROP_DEFAULT);
-+	its_send_invall(col);
-+}
-+
- /*
-  * Setup the configuration for those mappings:
-  * dev_id=3D2 event=3D20 -> vcpu 3, intid=3D8195
-@@ -766,6 +791,121 @@ static void test_its_migration(void)
- 	check_lpi_stats();
- }
-=20
-+static void test_migrate_unmapped_collection(void)
-+{
-+	struct its_collection *col;
-+	struct its_device *dev2, *dev7;
-+	u8 config;
-+
-+	if (its_setup1())
-+		return;
-+
-+	col =3D its_create_collection(nr_cpus - 1, nr_cpus - 1);
-+	dev2 =3D its_get_device(2);
-+	dev7 =3D its_get_device(7);
-+
-+	/* MAPTI with the collection unmapped */
-+	set_lpi(dev2, 0, 8192, col);
-+
-+	puts("Now migrate the VM, then press a key to continue...\n");
-+	(void)getchar();
-+	report(true, "Migration complete");
-+
-+	/* on the destination, map the collection */
-+	its_send_mapc(col, true);
-+
-+	lpi_stats_expect(2, 8196);
-+	its_send_int(dev7, 255);
-+	check_lpi_stats();
-+
-+	config =3D get_lpi_config(8192);
-+	report(config =3D=3D LPI_PROP_DEFAULT,
-+	       "Config of LPI 8192 was properly migrated");
-+
-+	lpi_stats_expect(nr_cpus - 1, 8192);
-+	its_send_int(dev2, 0);
-+	check_lpi_stats();
-+
-+	/* unmap the collection */
-+	its_send_mapc(col, false);
-+
-+	lpi_stats_expect(-1, -1);
-+	its_send_int(dev2, 0);
-+	check_lpi_stats();
-+
-+	/* remap event 0 onto lpiid 8193 */
-+	set_lpi(dev2, 0, 8193, col);
-+	lpi_stats_expect(-1, -1);
-+	its_send_int(dev2, 0);
-+	check_lpi_stats();
-+
-+	/* remap the collection */
-+	its_send_mapc(col, true);
-+	lpi_stats_expect(nr_cpus - 1, 8193);
-+}
-+
-+static void test_its_pending_migration(void)
-+{
-+	struct its_device *dev;
-+	struct its_collection *collection[2];
-+	int expected[NR_CPUS];
-+	u64 pendbaser;
-+	void *ptr;
-+	int i;
-+
-+	if (its_prerequisites(4))
-+		return;
-+
-+	dev =3D its_create_device(2 /* dev id */, 8 /* nb_ites */);
-+	its_send_mapd(dev, true);
-+
-+	collection[0] =3D its_create_collection(nr_cpus - 1, nr_cpus - 1);
-+	collection[1] =3D its_create_collection(nr_cpus - 2, nr_cpus - 2);
-+	its_send_mapc(collection[0], true);
-+	its_send_mapc(collection[1], true);
-+
-+	/* disable lpi at redist level */
-+	gicv3_rdist_ctrl_lpi(nr_cpus - 1, false);
-+	gicv3_rdist_ctrl_lpi(nr_cpus - 2, false);
-+
-+	/* even lpis are assigned to even cpu */
-+	for (i =3D 0; i < 256; i++) {
-+		struct its_collection *col =3D i % 2 ? collection[0] :
-+						     collection[1];
-+		int vcpu =3D col->target_address >> 16;
-+
-+		its_send_mapti(dev, 8192 + i, i, col);
-+		set_lpi_config(8192 + i, LPI_PROP_DEFAULT);
-+		set_pending_table_bit(vcpu, 8192 + i, true);
-+	}
-+	its_send_invall(collection[0]);
-+	its_send_invall(collection[1]);
-+
-+	/* Set the PTZ bit on each pendbaser */
-+
-+	expected[nr_cpus - 1] =3D 128;
-+	expected[nr_cpus - 2] =3D 128;
-+
-+	ptr =3D gicv3_data.redist_base[nr_cpus - 1] + GICR_PENDBASER;
-+	pendbaser =3D readq(ptr);
-+	writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
-+
-+	ptr =3D gicv3_data.redist_base[nr_cpus - 2] + GICR_PENDBASER;
-+	pendbaser =3D readq(ptr);
-+	writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
-+
-+	gicv3_rdist_ctrl_lpi(nr_cpus - 1, true);
-+	gicv3_rdist_ctrl_lpi(nr_cpus - 2, true);
-+
-+	puts("Now migrate the VM, then press a key to continue...\n");
-+	(void)getchar();
-+	report(true, "Migration complete");
-+
-+	mdelay(1000);
-+
-+	check_lpi_hits(expected);
-+}
-+
- int main(int argc, char **argv)
- {
- 	if (!gic_init()) {
-@@ -804,6 +944,14 @@ int main(int argc, char **argv)
- 		report_prefix_push(argv[1]);
- 		test_its_migration();
- 		report_prefix_pop();
-+	} else if (!strcmp(argv[1], "its-pending-migration")) {
-+		report_prefix_push(argv[1]);
-+		test_its_pending_migration();
-+		report_prefix_pop();
-+	} else if (!strcmp(argv[1], "its-migrate-unmapped-collection")) {
-+		report_prefix_push(argv[1]);
-+		test_migrate_unmapped_collection();
-+		report_prefix_pop();
- 	} else if (strcmp(argv[1], "its-introspection") =3D=3D 0) {
- 		report_prefix_push(argv[1]);
- 		test_its_introspection();
-diff --git a/arm/unittests.cfg b/arm/unittests.cfg
-index 29e2efc..911f0b7 100644
---- a/arm/unittests.cfg
-+++ b/arm/unittests.cfg
-@@ -145,7 +145,21 @@ file =3D gic.flat
- smp =3D $MAX_SMP
- accel =3D kvm
- extra_params =3D -machine gic-version=3D3 -append 'its-migration'
--groups =3D its migration
-+groups =3D migration
-+
-+[its-pending-migration]
-+file =3D gic.flat
-+smp =3D $MAX_SMP
-+accel =3D kvm
-+extra_params =3D -machine gic-version=3D3 -append 'its-pending-migration=
-'
-+groups =3D migration
-+
-+[its-migrate-unmapped-collection]
-+file =3D gic.flat
-+smp =3D $MAX_SMP
-+accel =3D kvm
-+extra_params =3D -machine gic-version=3D3 -append 'its-migrate-unmapped-=
-collection'
-+groups =3D migration
-=20
- # Test PSCI emulation
- [psci]
---=20
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
+-- PMM
 
