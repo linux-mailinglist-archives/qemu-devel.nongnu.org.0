@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C23A1211B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:27:59 +0100 (CET)
-Received: from localhost ([::1]:57516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5F51211B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:24:45 +0100 (CET)
+Received: from localhost ([::1]:57393 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iguA1-0003sF-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:27:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46187)
+	id 1igu6u-0007gV-7m
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:24:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1igtia-0001ix-BU
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:38 -0500
+ (envelope-from <armbru@redhat.com>) id 1igtie-0001lT-C2
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1igtiZ-0008EV-6e
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:36 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46456
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1igtic-0008PC-U6
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:40 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40473
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1igtiZ-00087J-0q
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:35 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1igtic-0008NZ-OB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576515573;
+ s=mimecast20190719; t=1576515578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tOQM1/Rz4ycyGW1DEvNcWUzz5svT6E2Jm6LD2YWykoQ=;
- b=EOBc1hYIQsdkTlNL0/6PsKNKaZKuUHqdRVJCibsuqrtjVsSl6xCwMwjsS2LiF3E/d9Mk3X
- s5n2H68cxTXOUdL8ljyOQwFL3YyVWO+zwJ+aeKwIsRGlQq5woZ/gqLtTBwqduMwhLb6I1x
- LTiUJCwkPZU29gmsrjb6LyjrAFxV+z4=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9PTG+YbePueMrlvxE+3+yA5BA2oiSbsZCKQA0N93vtU=;
+ b=cchjfDf9ApylMdF8sBuxaSbItOeMiSnNqKUfXVc3DZmK9X2BddnKCRc58/XBV4yYgwtZUQ
+ Qmpui+YyXAA8cTLWOpb4SIyamdSdaca5cDmkdCMxnRDXbFG5VcTPgUE4D5cOjhR2Ekhmo/
+ 1u5MqBx1Znf297D35AXiYyGSFyZ35zA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-sYxEI4vzMTC5hBXrq0lGtA-1; Mon, 16 Dec 2019 11:59:29 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-25-0qietaDqNEW0AV3tpbWx2g-1; Mon, 16 Dec 2019 11:59:34 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA39E802561;
- Mon, 16 Dec 2019 16:59:27 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (ovpn-116-122.ams2.redhat.com
- [10.36.116.122])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E19715D9D6;
- Mon, 16 Dec 2019 16:59:23 +0000 (UTC)
-Date: Mon, 16 Dec 2019 17:59:20 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [RFC PATCH v2 0/5] target/arm/kvm: Adjust virtual time
-Message-ID: <20191216165920.qsx7ufviir74tbkl@kamzik.brq.redhat.com>
-References: <20191212173320.11610-1-drjones@redhat.com>
- <CAFEAcA9FprSotg11rS0fM94QiciysZ6kgKhyU4eQfZg7YYaL5Q@mail.gmail.com>
- <4cb9bcfd47dff57c9ae6bb92bae87589@www.loen.fr>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA6DFA89A04
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 16:59:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
+ [10.36.116.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 449AC620A9;
+ Mon, 16 Dec 2019 16:59:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CE66B11386A7; Mon, 16 Dec 2019 17:59:31 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Extraneous nesting in QAPI schema
+Date: Mon, 16 Dec 2019 17:59:31 +0100
+Message-ID: <87r214qk98.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <4cb9bcfd47dff57c9ae6bb92bae87589@www.loen.fr>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: sYxEI4vzMTC5hBXrq0lGtA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 0qietaDqNEW0AV3tpbWx2g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,57 +71,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, bijan.mottahedeh@oracle.com,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Heyi Guo <guoheyi@huawei.com>, msys.mizuma@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 16, 2019 at 04:18:23PM +0000, Marc Zyngier wrote:
-> On 2019-12-16 15:33, Peter Maydell wrote:
-> > On Thu, 12 Dec 2019 at 17:33, Andrew Jones <drjones@redhat.com> wrote:
-> >=20
-> > > Userspace that wants to set KVM_REG_ARM_TIMER_CNT should beware that
-> > > the KVM register ID is not correct.  This cannot be fixed because
-> > > it's
-> > > UAPI and if the UAPI headers are used then it can't be a problem.
-> > > However, if a userspace attempts to create the ID themselves from
-> > > the
-> > > register's specification, then they will get KVM_REG_ARM_TIMER_CVAL
-> > > instead, as the _CNT and _CVAL definitions have their register
-> > > parameters swapped.
-> >=20
-> > So, to be clear, you mean that:
-> >=20
-> > (1) the kernel headers say:
-> >=20
-> > /* EL0 Virtual Timer Registers */
-> > #define KVM_REG_ARM_TIMER_CTL           ARM64_SYS_REG(3, 3, 14, 3, 1)
-> > #define KVM_REG_ARM_TIMER_CNT           ARM64_SYS_REG(3, 3, 14, 3, 2)
-> > #define KVM_REG_ARM_TIMER_CVAL          ARM64_SYS_REG(3, 3, 14, 0, 2)
-> >=20
-> > (2) some of the RHSes of these are wrong
-> >=20
-> > (3) but the kernel internally is using the same 'wrong' value, so
-> > userspace also needs to use that value, ie trust the #defined name
-> > rather than manufacturing one ?
-> >=20
-> > That's awkward. I think it would be worth at least having a kernel
-> > patch to add a comment clearly documenting this bug.
-> >=20
-> > (This error seems to only be in the 64-bit ABI, not 32-bit.)
->=20
-> Yeah, this is pretty bad. I wonder how we managed not to notice
-> this for so long... :-(.
->=20
-> Andrew, could you please write a patch documenting this (both in
-> the UAPI headers and in the documentation)?
->
+Extra nesting is merely another set of braces in QMP.  It's bloody
+annoying in QAPIfied CLI using dotted keys syntax.  Example:
 
-Will do. I'll try to get to it this week.
+QMP command
 
-Thanks,
-drew
+    {"execute": "chardev-add",
+     "arguments": {
+         "id": "char0",
+         "backend": {
+             "type": "socket",
+             "data": {
+                 "addr": {
+                     "type": "inet",
+                     "data": {
+                         "host": "0.0.0.0",
+                         "port": "2445"}},
+                 "wait": false,
+                 "telnet": false,
+                 "server": true}}}}
+
+becomes dotted keys
+
+    --chardev id=3Dchar0,\
+    backend.type=3Dsocket,\
+    backend.data.addr.type=3Dinet,\
+    backend.data.addr.data.host=3D0.0.0.0,\
+    backend.data.addr.data.port=3D2445,\
+    backend.data.wait=3Doff,\
+    backend.data.telnet=3Doff,\
+    backend.data.server=3Don
+
+In our actual CLI, it's
+
+    -chardev id=3Dchar0,\
+    backend=3Dsocket,\
+    host=3D0.0.0.0,\
+    port=3D2445,\
+    wait=3Doff,\
+    telnet=3Doff,\
+    server=3Don
+
+The flattened syntax is provided by custom code.
+
+Custom code doesn't scale.  One of the hurdles for CLI QAPIfication.
+
+Kevin suggested to investigate a more generic flattening solutions.
+
+Of course, flattening is only possible as long as there are no name
+clashes.
+
+Let's start with trying to understand the sources of extra nesting.
+
+The obvious source of nesting is struct members of struct or union type.
+The example above has two: backend and backend.data.addr.
+
+This kind of nesting can sometimes be avoided by making the member
+(struct) type a base type of the containing type.  Possible when we can
+arrange the base types into a single chain.  In the example above, we'd
+make the implicit argument type of chardev-add explicit, then replace
+member 'backend': 'ChardevBackend' by 'base': 'ChardevBackend'.
+
+A more general solution would be adding "unboxed" members to the schema
+language.  A member that is normally a JSON object on the wire would
+instead have its JSON object members "spliced in".  Worth the trouble?
+Not sure.
+
+Special case: &rest arguments.  Example 1: object-add argument @props:
+
+    {"execute": "object-add",
+     "arguments": {
+         "qom-type": "memory-backend-file",
+         "id": "shmmem-shmem0",
+         "props": {"mem-path": "/dev/shm/my_shmem0",
+                   "size":4194304,
+                   "share":true}}}
+
+Example 2:
+
+    {"execute": "device_add",
+     "arguments": {
+         "driver": "virtio-scsi-pci",
+         "bus": "pci.0",
+         "id": "virtio_scsi_pci2",
+         "addr": "0xb"}}
+
+object-add wraps the properties in an object.  Device_add doesn't, but
+it needs to bypass the generated marshaller with 'gen': false.  We could
+add support for &rest arguments to the schema language.  Worth the
+trouble?  Not sure.
+
+Another source is "simple" unions.  Both backend and backend.data.addr
+are actually "simple" unions, giving rise to backend.data and
+backend.data.addr.data.
+
+We wouldn't use "simple" unions today.  With "flat" unions, we'd avoid
+the .data.
+
+How widespread are "simple" unions today?  Let's have a look.  Five
+occur as command arguments:
+
+* ChardevBackend
+
+  Used for command chardev-add and chardev-change argument @backend.
+
+* SocketAddressLegacy
+
+  Used for command nbd-server-start argument @addr, and in command
+  chardev-add and chardev-change argument @backend.
+
+* TransactionAction
+
+  Used for command transaction argument @actions.
+
+* KeyValue
+
+  Used for command send-key argument @keys, and in InputEvent (next
+  item)
+
+* InputEvent
+
+  Used for command input-send-event argument @events.
+
+Six commands: chardev-add, chardev-change, nbd-server-start,
+transaction, send-key, input-send-event.  Could be worse.
+
+Flattening could be done in at least two ways.  One, replace the nested
+commands by flat ones, deprecate.  Two, make the existing commands
+accept both nested and flat, deprecate use of nested.  Two is more
+difficult.
+
+Name clashes could prevent the flattening.  I haven't checked for them.
+
+Three more "simple" unions appear to occur only in results:
+
+* ImageInfoSpecific
+
+  Occurs in value of commands query-named-block-nodes and query-block.
+
+* MemoryDeviceInfo
+
+  Occurs in value of command query-memory-devices.
+
+* TpmTypeOptions
+
+  Occurs in value of command query-tpm.
+
+There, the only way to get rid of nesting is replace & deprecate.
+
+I'd love to eliminate "simple" unions from the schema language.
+Possible because any "simple" union can also be expressed as a flat
+union.
 
 
