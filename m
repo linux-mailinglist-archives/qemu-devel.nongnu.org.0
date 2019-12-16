@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A80F1203D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:26:32 +0100 (CET)
-Received: from localhost ([::1]:51650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7259F1203E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:29:09 +0100 (CET)
+Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoWF-0003go-4U
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:26:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50935)
+	id 1igoYm-0007Lh-Au
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:29:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFf-0007fe-DL
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:24 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFg-0007hR-7W
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFe-0007qu-55
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:23 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36298)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFf-0007wC-2L
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:24 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44284)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFd-0007nc-VB
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:22 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p17so6224784wma.1
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:21 -0800 (PST)
+ id 1igoFe-0007rl-Rt
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:23 -0500
+Received: by mail-wr1-x443.google.com with SMTP id q10so6693657wrm.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=oFUUQobexKmEiGcHc00gtIO7FQq8Xq2VFD8z4YpIbXU=;
- b=O2/ibXdp/R2HNKVFg9vgznlZ9Rs7S0/UyMbitKpb3gHOG/KXDb15dZRPn/orXtyE8m
- 5LtRN5DSwo/R4dOUWGVUVQaOE+6tkql7W6W9URa/Niz4+U7CcFd4ADmwFt6BODt+fwHo
- TGgzjh/8IVPPMhOquRUOClouqnwrLPbtXggY+XtOMB9/hEIcOKps0zrbfY5KE82A2zkY
- qfOTX+Bh17RU9/F5BJyl7vmsBhJZIL/j+lQ3i5KGA4Q3Acnl29gylLkD3dZ8nE8AyGz4
- OiujELXODU3Rfi+UinYJVfysaxXGHmBehpI5XMD4cTP3Z12onT5IzXQVUpJavSmqHEhu
- LR4w==
+ bh=8rDgs8l8yhYpP9GCvm5KtL7CxF0GTpM1OtN2KNG9tUw=;
+ b=qfBbRMXQSQxnwS5albiV/s1zdMXJ6wvpNxV6M7+pKp8wZMtrxmFlUHMy9Ol981Zv65
+ NhywM6UrQs2z6L+T7RuVaUVCFQO9UZxV23hRpoDEEHsgVEjmlLxvn6zihiGcuxv3XkWn
+ elwG/MVqgqDBrOR+uN9bvOZlBD3ru37CewF75s8pNATs5pDVCgHaGV2U1ARi82+C96xo
+ u5RvNd88OVrQrD+piiHm/A3TA9nsWlQaHjn9GoLiVXXFd6LOvL8GN8ZvAxx3EZBs+o+j
+ cGLOWLx1XMTD7+Uop62aHk3JJ7b0ZwP0Pu4zS0iRbrdsA+q2EXJyBZxQvr98Pmrw615B
+ gwjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oFUUQobexKmEiGcHc00gtIO7FQq8Xq2VFD8z4YpIbXU=;
- b=U/9gg3u2CzWqVzkL6LR/8/ogxrTg+ruBAa+zSLPxf6f7t7xyoliB/ezOkIeH8vXckd
- mtB94kgN485FqUCqJQ20Sc7aYhm9rn/f82jKct6A0B8aUUA/gXTzeLvCP0nctwgZqMup
- zzTwq7MvidwS88Ad4WKO1uQ7HPgEsLmMrvQrNCZNX+/VkxcLDCeOK0C0ZVDGqbihLeEQ
- sgwO6Pr4AqihDj4uDRdyH7Vw2dM2rQ3IeXC3r+sVzKlROVN1EWfJZBS2Unwk3MhjmxRf
- O8Li66zObqiTlEKYYyg34bT9zyxhGcf8LtkpDuCy0tQDL7HP2a0O+n7P1L3pWz8dEvxg
- gVCg==
-X-Gm-Message-State: APjAAAX3LEJi2KEdYUao/dzce614ZY1Ioi3DVQ/IsJzVV9y9eFErEHB9
- Ep3ZQaoxInZyy+j8oQ/xUEINcmQGv/GcOw==
-X-Google-Smtp-Source: APXvYqyylastqGrQXAl8xNNK5fyzbyH6O8gEB2z+TuXcSvCK6UnEELalme4yxD/fxBe+YU3LC7KsVw==
-X-Received: by 2002:a1c:dc08:: with SMTP id t8mr30838010wmg.139.1576494560782; 
- Mon, 16 Dec 2019 03:09:20 -0800 (PST)
+ bh=8rDgs8l8yhYpP9GCvm5KtL7CxF0GTpM1OtN2KNG9tUw=;
+ b=FpGcFANCH1hrWz1yiyuDXyW/3ES7V/sEnpsVdJa25Q8zQhnXl4d8JSgPtCXEe22Pfj
+ /ZXzMN/PumLoYnrfi92VxxJqqXNm5N0a0jeEUfozOL+iLIp+eLfv2YVXuy7WaOCRb35p
+ AnmXn8oZcQZa6KyBsuQ0Fx5OvWq/d6UhZG5j5gt8HzR/ILOTCSoISBs8hiOj4rtkC9TB
+ 1PXm2ix1opVQVk4SPLM49B0U8W/qS45VQTb1MeH0f0QT62WNB7gIcbygkYMh4MGeSZau
+ y0Xjl6xOUE+SPDSDTjoUNHxQBp+/Kw/tt9ERznRZvQ8TlAjUJEAv52i3jsL2sDVvPJn8
+ 2g0g==
+X-Gm-Message-State: APjAAAUh5QlBVbq8kew86mj29Jr3FCOJ2QmhJDqpTKUJRAI3EhR9q83J
+ xS9oAOy7Z9FBX7721Chq0uVmXMWudNIrcA==
+X-Google-Smtp-Source: APXvYqxztDoYruacIIrId+8h1MckXe97LibQn4T17AKawD6xYAxu6/WLQ9IGX0IJudhPgFJr6kgklA==
+X-Received: by 2002:adf:de84:: with SMTP id w4mr28220192wrl.97.1576494561724; 
+ Mon, 16 Dec 2019 03:09:21 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.19
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:20 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:21 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/34] aspeed/smc: Restore default AHB window mapping at reset
-Date: Mon, 16 Dec 2019 11:08:42 +0000
-Message-Id: <20191216110904.30815-13-peter.maydell@linaro.org>
+Subject: [PULL 13/34] aspeed/smc: Do not map disabled segment on the AST2600
+Date: Mon, 16 Dec 2019 11:08:43 +0000
+Message-Id: <20191216110904.30815-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,81 +84,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The current model only restores the Segment Register values but leaves
-the previous CS mapping behind. Introduce a helper setting the
-register value and mapping the region at the requested address. Use
-this helper when a Segment register is set and at reset.
+The segments can be disabled on the AST2600 (zero register value).
+CS0 is open by default but not the other CS. This is closing the
+access to the flash device in user mode and forbids scanning.
 
+In the model, check the segment size and disable the associated region
+when the value is zero.
+
+Fixes: bcaa8ddd081c ("aspeed/smc: Add AST2600 support")
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-11-clg@kaod.org
+Message-id: 20191119141211.25716-12-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/ssi/aspeed_smc.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+ hw/ssi/aspeed_smc.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index f0c7bbbad30..955ec21852a 100644
+index 955ec21852a..86cadbe4cc0 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -475,10 +475,26 @@ static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
-     return false;
+@@ -444,8 +444,13 @@ static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
+     uint32_t start_offset = (reg << 16) & AST2600_SEG_ADDR_MASK;
+     uint32_t end_offset = reg & AST2600_SEG_ADDR_MASK;
+ 
+-    seg->addr = s->ctrl->flash_window_base + start_offset;
+-    seg->size = end_offset + MiB - start_offset;
++    if (reg) {
++        seg->addr = s->ctrl->flash_window_base + start_offset;
++        seg->size = end_offset + MiB - start_offset;
++    } else {
++        seg->addr = s->ctrl->flash_window_base;
++        seg->size = 0;
++    }
  }
  
-+static void aspeed_smc_flash_set_segment_region(AspeedSMCState *s, int cs,
-+                                                uint64_t regval)
-+{
-+    AspeedSMCFlash *fl = &s->flashes[cs];
-+    AspeedSegments seg;
-+
-+    s->ctrl->reg_to_segment(s, regval, &seg);
-+
-+    memory_region_transaction_begin();
-+    memory_region_set_size(&fl->mmio, seg.size);
-+    memory_region_set_address(&fl->mmio, seg.addr - s->ctrl->flash_window_base);
-+    memory_region_set_enabled(&fl->mmio, true);
-+    memory_region_transaction_commit();
-+
-+    s->regs[R_SEG_ADDR0 + cs] = regval;
-+}
-+
- static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
-                                          uint64_t new)
- {
--    AspeedSMCFlash *fl = &s->flashes[cs];
-     AspeedSegments seg;
- 
-     s->ctrl->reg_to_segment(s, new, &seg);
-@@ -529,13 +545,7 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
-     aspeed_smc_flash_overlap(s, &seg, cs);
- 
-     /* All should be fine now to move the region */
--    memory_region_transaction_begin();
--    memory_region_set_size(&fl->mmio, seg.size);
--    memory_region_set_address(&fl->mmio, seg.addr - s->ctrl->flash_window_base);
+ static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
+@@ -486,7 +491,7 @@ static void aspeed_smc_flash_set_segment_region(AspeedSMCState *s, int cs,
+     memory_region_transaction_begin();
+     memory_region_set_size(&fl->mmio, seg.size);
+     memory_region_set_address(&fl->mmio, seg.addr - s->ctrl->flash_window_base);
 -    memory_region_set_enabled(&fl->mmio, true);
--    memory_region_transaction_commit();
--
--    s->regs[R_SEG_ADDR0 + cs] = new;
-+    aspeed_smc_flash_set_segment_region(s, cs, new);
- }
++    memory_region_set_enabled(&fl->mmio, !!seg.size);
+     memory_region_transaction_commit();
  
- static uint64_t aspeed_smc_flash_default_read(void *opaque, hwaddr addr,
-@@ -897,10 +907,10 @@ static void aspeed_smc_reset(DeviceState *d)
-         qemu_set_irq(s->cs_lines[i], true);
+     s->regs[R_SEG_ADDR0 + cs] = regval;
+@@ -526,8 +531,9 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
      }
  
--    /* setup default segment register values for all */
-+    /* setup the default segment register values and regions for all */
-     for (i = 0; i < s->ctrl->max_slaves; ++i) {
--        s->regs[R_SEG_ADDR0 + i] =
--            s->ctrl->segment_to_reg(s, &s->ctrl->segments[i]);
-+        aspeed_smc_flash_set_segment_region(s, i,
-+                    s->ctrl->segment_to_reg(s, &s->ctrl->segments[i]));
-     }
- 
-     /* HW strapping flash type for the AST2600 controllers  */
+     /* Keep the segment in the overall flash window */
+-    if (seg.addr + seg.size <= s->ctrl->flash_window_base ||
+-        seg.addr > s->ctrl->flash_window_base + s->ctrl->flash_window_size) {
++    if (seg.size &&
++        (seg.addr + seg.size <= s->ctrl->flash_window_base ||
++         seg.addr > s->ctrl->flash_window_base + s->ctrl->flash_window_size)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: new segment for CS%d is invalid : "
+                       "[ 0x%"HWADDR_PRIx" - 0x%"HWADDR_PRIx" ]\n",
+                       s->ctrl->name, cs, seg.addr, seg.addr + seg.size);
 -- 
 2.20.1
 
