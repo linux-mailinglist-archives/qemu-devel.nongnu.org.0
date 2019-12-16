@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036E612034B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:05:29 +0100 (CET)
-Received: from localhost ([::1]:50896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CC1120356
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:09:45 +0100 (CET)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoBr-0004LE-KI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:05:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49192)
+	id 1igoG0-0006oQ-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:09:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1igoB6-0003we-As
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:04:41 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1igoDy-00059m-IP
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1igoB3-0000mh-U3
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:04:38 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28039
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1igoB3-0000ke-Pg
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:04:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576494275;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QFx9ZMJGGLchrdWTvtIA2lU20wUiFmKf8nvAQedVx3I=;
- b=HCGmjOw55cXAQOJHbBN+Cd8f9q5hpBRz12A/WOvCpPStuRHBNBDLtTkJU5VJp/cpHoT4y1
- 1Z3Ybd7jovyi8U6ERIEp45+17m5VvgXhu1tDqR6v7dRZKBC8qin3/2a1UXlS3YWH9P9hLy
- FHB5F18b5ObSPUa8M+Fec8L68TiL0i4=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-ri91u2PFN1uyM3smtMBhaQ-1; Mon, 16 Dec 2019 06:04:32 -0500
-Received: by mail-qt1-f199.google.com with SMTP id d9so4387453qtq.13
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:04:32 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1igoDx-0003Sr-CR
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:38 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36276)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1igoDx-0003OW-64
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:37 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so6219078wma.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:07:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z/yAMxTAOXzQdowAYSyEQz+KmYwG/8lzp4QerstC74U=;
+ b=R3Px4neg8Jrs5sEqgsAe0/f2l7Occ3yWPU/OG3ZPJXqXeBP8MCj5Q2QZKckmS0VNJd
+ MW3ltrypS++k539omMsMz8Z9qIAwCIak4dY9x9409b0DEVmqNvrglyL5owsuKYuDLQyF
+ 6NwjjqLnITnT1LxeUz3c0ZMXzypasflY3rheOJg2lzYft07RKuGrEN7a5QKJMScBL+T7
+ 3jyzCa4/38hKWChQ2zMNL4TDD7AMgNrGlKOcm3dulO3ZwWLw6TsKSUqRcrt8jc4sVOMm
+ LBYs30Y2dT5L8+JCPkrd8xrQ8MhmyLJi5hIrmd/d9DmG8zb9gKFsz5GohJTsGDox6b8b
+ VL0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KmQhJeN0hfIlFlvcoh4JWmsV2x50GreGPIA2iZaYPnk=;
- b=bcGLbDOFOXp59ZbDuyLZ0JKcffdyTypauoC2L6rH0XGXTVfv9m7Us7hfzns6P4N8E+
- s0o/ZidRYBEEa9HCbdE55n+GnqVHBfsC0PLHn4o/T0twgwWaSBNCp89YVcTDdEszJX1p
- Nh8AyzLGDNDsl6C4sP7/vYxEA/i8us2+uvGUE/sM+sBIVyadvtYCPWivHvUtzIo2Mn0D
- Rgwj38kk//v1KODahn2yx/hp+ItvxX1iGbjOmDT8KCFl/ETLJO4o+3K28gUR1iDACu+V
- g0rcKL89wvLgVSYnd2EhPit4PQyXOvsM3MZ0+xwYqXNeb5YCirYtGwNe2BITf0Gieqa0
- lBFQ==
-X-Gm-Message-State: APjAAAWFKY9AYr5l9RfTTiLV1t7IIsYKi4nLvi01whsTp279yDYzP+tH
- YhV/FviXmCdH1rSLHKkl/PRmX9a/IETBYYkJtBUHiQ8r6cqdYohIqfwyRvKjf3RVYdYvfsMho+m
- EsvnSPXaw2xp/Z+s=
-X-Received: by 2002:ac8:5313:: with SMTP id t19mr14604312qtn.375.1576494271777; 
- Mon, 16 Dec 2019 03:04:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy6/r5KxdTeFB59616ssUs4cRSWIa2UIxVnVjWkL4+ba1vztaaDKLO19fN0qneVlc+7vN0GWQ==
-X-Received: by 2002:ac8:5313:: with SMTP id t19mr14604289qtn.375.1576494271616; 
- Mon, 16 Dec 2019 03:04:31 -0800 (PST)
-Received: from redhat.com (bzq-111-168-31-5.red.bezeqint.net. [31.168.111.5])
- by smtp.gmail.com with ESMTPSA id
- l31sm6697820qte.30.2019.12.16.03.04.25
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z/yAMxTAOXzQdowAYSyEQz+KmYwG/8lzp4QerstC74U=;
+ b=ne1D2FX2CoxIHl9W/fZxhjjnTMdG2Gth8yOxC6R90TGuJ1tEg1sitjOuti5X0b6OKw
+ xQL2OWqwg8Dp5NWLXabcxfZ3aRvSHBJhJ9cbg2UAQPuGGpv/OSyQ1XSKoSZv54VFzeTd
+ auAYGIQczCFsox59sFg+++gonY6/PHn5vnhi6h2tM2OX/AMcmCNXIGlbxdVZkx3ovAXH
+ yWwkDWNnDtekd0KjWPQHV2wbTnEZAdwhBA6ogA49h0OtIk1MC+ywGsdwEGeP48+8uGIE
+ MyiOpxOg5TbI4oltEUCbjfJbKFZ+FcFXCpwyU9AWRu5hlMMj+9YZaYRbNm7t7ub90/gO
+ pJ6A==
+X-Gm-Message-State: APjAAAXS5SZpcDD0ZL7iDX2NbxrPEW4REmaLMtA8GEqyi9hhhgHIwi2n
+ Az0s8WuYa+hxVfa761JPUcENAA==
+X-Google-Smtp-Source: APXvYqyoFsyL2cutxTggf3qDr+OOkW0Oz1q3z+xfrTZjKh+r4xd51RDP+krn1dUIjRTEOyWyezyQYA==
+X-Received: by 2002:a1c:1dd7:: with SMTP id d206mr28916243wmd.5.1576494455553; 
+ Mon, 16 Dec 2019 03:07:35 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a1sm21124370wrr.80.2019.12.16.03.07.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:04:30 -0800 (PST)
-Date: Mon, 16 Dec 2019 06:04:21 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Subject: Re: [PATCH v4 0/2] virtio: make seg_max virtqueue size dependent
-Message-ID: <20191216060349-mutt-send-email-mst@kernel.org>
-References: <20191216100451.28060-1-dplotnikov@virtuozzo.com>
+ Mon, 16 Dec 2019 03:07:32 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 15F3A1FF87;
+ Mon, 16 Dec 2019 11:07:32 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/16] testing and logging changes for master
+Date: Mon, 16 Dec 2019 11:07:16 +0000
+Message-Id: <20191216110732.24027-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191216100451.28060-1-dplotnikov@virtuozzo.com>
-X-MC-Unique: ri91u2PFN1uyM3smtMBhaQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,46 +79,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, den@virtuozzo.com
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 16, 2019 at 01:04:49PM +0300, Denis Plotnikov wrote:
-> v4:
->   * rebased on 4.2 [MST]
+Hi,
 
+This series will be my first post 4.2 PR this week. It contains a
+number of testing related fixes including enabling builds for arm64,
+ppc64 and s390x hosts. We also start defaulting to out-of-tree builds
+in anticipation of it's deprecation.
 
-Looks good. Can I get some acks from storage guys pls?
+As there is no obvious tree for logging changes I've also included
+Robert's RCU series which makes the changing the the output logfile
+safe and atomic.
 
-> v3:
->   * add property to set in machine type [MST]
->   * add min queue size check [Stefan]
->   * add avocado based test [Max, Stefan, Eduardo, Cleber]
->=20
-> v2:
->   * the standalone patch to make seg_max virtqueue size dependent
->   * other patches are postponed
->=20
-> v1:
->   the initial series
->=20
-> Denis Plotnikov (2):
->   virtio: make seg_max virtqueue size dependent
->   tests: add virtio-scsi and virtio-blk seg_max_adjust test
->=20
->  hw/block/virtio-blk.c                     |   9 +-
->  hw/core/machine.c                         |   3 +
->  hw/scsi/vhost-scsi.c                      |   2 +
->  hw/scsi/virtio-scsi.c                     |  10 +-
->  include/hw/virtio/virtio-blk.h            |   1 +
->  include/hw/virtio/virtio-scsi.h           |   1 +
->  tests/acceptance/virtio_seg_max_adjust.py | 135 ++++++++++++++++++++++
->  7 files changed, 159 insertions(+), 2 deletions(-)
->  create mode 100755 tests/acceptance/virtio_seg_max_adjust.py
->=20
-> --=20
-> 2.17.0
+Everything has already had a fair bit of review but if you want to
+have a look be my guest. I plan to send the PR by the end of the week.
+
+Alex Bennée (1):
+  configure: allow disable of cross compilation containers
+
+Paolo Bonzini (1):
+  ci: build out-of-tree
+
+Robert Foley (6):
+  Fix double free issue in qemu_set_log_filename().
+  Cleaned up flow of code in qemu_set_log(), to simplify and clarify.
+  Add a mutex to guarantee single writer to qemu_logfile handle.
+  qemu_log_lock/unlock now preserves the qemu_logfile handle.
+  Add use of RCU for qemu_logfile.
+  Added tests for close and change of logfile.
+
+Thomas Huth (7):
+  travis.yml: Run tcg tests with tci
+  iotests: Provide a function for checking the creation of huge files
+  iotests: Skip test 060 if it is not possible to create large files
+  iotests: Skip test 079 if it is not possible to create large files
+  tests/hd-geo-test: Skip test when images can not be created
+  tests/test-util-filemonitor: Skip test on non-x86 Travis containers
+  travis.yml: Enable builds on arm64, ppc64le and s390x
+
+Wainer dos Santos Moschetta (1):
+  tests/vm: Allow to set qemu-img path
+
+ docs/devel/testing.rst        |   6 +-
+ configure                     |   9 ++-
+ include/exec/log.h            |  33 +++++++++--
+ include/qemu/log.h            |  48 ++++++++++++---
+ accel/tcg/cpu-exec.c          |   4 +-
+ accel/tcg/translate-all.c     |   4 +-
+ accel/tcg/translator.c        |   4 +-
+ exec.c                        |   4 +-
+ hw/net/can/can_sja1000.c      |   4 +-
+ net/can/can_socketcan.c       |   5 +-
+ target/cris/translate.c       |   4 +-
+ target/i386/translate.c       |   5 +-
+ target/lm32/translate.c       |   4 +-
+ target/microblaze/translate.c |   4 +-
+ target/nios2/translate.c      |   4 +-
+ target/tilegx/translate.c     |   6 --
+ target/unicore32/translate.c  |   4 +-
+ tcg/tcg.c                     |  28 +++++----
+ tests/hd-geo-test.c           |  12 +++-
+ tests/test-logging.c          |  80 +++++++++++++++++++++++++
+ tests/test-util-filemonitor.c |  11 ++++
+ util/log.c                    | 100 ++++++++++++++++++++++++--------
+ .cirrus.yml                   |   8 ++-
+ .gitlab-ci.yml                |  28 ++++++---
+ .shippable.yml                |   4 +-
+ .travis.yml                   | 106 +++++++++++++++++++++++++++++++---
+ tests/qemu-iotests/005        |   5 +-
+ tests/qemu-iotests/060        |   3 +
+ tests/qemu-iotests/079        |   3 +
+ tests/qemu-iotests/220        |   6 +-
+ tests/qemu-iotests/common.rc  |  10 ++++
+ tests/tcg/configure.sh        |   6 +-
+ tests/vm/Makefile.include     |   1 +
+ tests/vm/basevm.py            |   5 ++
+ tests/vm/centos               |   2 +-
+ tests/vm/fedora               |   4 +-
+ tests/vm/freebsd              |   3 +-
+ tests/vm/netbsd               |   3 +-
+ tests/vm/openbsd              |   3 +-
+ tests/vm/ubuntu.i386          |   2 +-
+ 40 files changed, 465 insertions(+), 120 deletions(-)
+
+-- 
+2.20.1
 
 
