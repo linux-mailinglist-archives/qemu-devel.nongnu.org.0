@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EAB121050
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:03:23 +0100 (CET)
-Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879AE1210B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:06:12 +0100 (CET)
+Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtmD-00047D-EZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:03:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57356)
+	id 1igtox-0007jA-9D
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:06:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFd-0005td-MN
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:42 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFe-0005uG-VM
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFc-0000JX-HE
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:41 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:47013)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFd-0000ND-Lt
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:42 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35186)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFc-0000IL-B1
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:40 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id z7so7995433wrl.13
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:40 -0800 (PST)
+ id 1igtFd-0000KB-BO
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:41 -0500
+Received: by mail-wr1-x444.google.com with SMTP id g17so8055345wro.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=bCglA2xU8XIovJ5evRIXUQsgqKR2GztUSfl273PP6MA=;
- b=KYm1I0r6XVfiQJ9CiAaCZJ3gN0FsrHaRIsHJ6tP8GhS5xybKNgjM3+aHsBvxjUfVlE
- KDnJkxGVdPH8IsMYst3mz4V2Qwct/bPOZgIZdu00RfjZhIsRM0spj2O9sTX3y7f0xcDK
- PW1u/QZ+9aj5UvuQXQArV8qZw5y5XPS6Ehrm1StPyuCDfaC2cWaRHcfHCfvokirFKtvx
- 8I7zKDdKFSzvfqvMZTxJ5u6VzG2QEMBgNBQmYNRRnq0lQJXWMO/OArBqK379pdICYbJj
- 8kKr1iE6E38E2cOQCrBRMmRm78W7irWiVePu43fg7dgxCOGVqmBgKAD7K6rfX+Ozpldc
- FTsQ==
+ bh=9NSUuNQ9Jf+FzPsRmj7s9FDau0CX5jauhzpAS1A8igc=;
+ b=YWBDEQe6D1eKZ9PcOGWcCkECUNXngyWNgZyJNhAyFKOSLQsudtuQnoU5YBxOR3v3P+
+ aRqmtfVTGj12j3OyRbSPA/N6pFvzD+O5CTpQKwwZua0J57nAky/aJYLPCKUtVC23NxHZ
+ MZUVnApZYjkpmsfLywDg7jTog/mu3+6raktWv9oNm6PkbOXRahyhm4y93aqUj9Qzr4Q2
+ kP3FJJYUs4nVSrckEqMawc5yh3x+C1DcoimLSTCnXWXdFpGXzWRumZQkoHr9FOP0eFfd
+ vFnEfnI2QYT24DKt8/BivCJceQ3r7RWi5YCe6dOillj1e5QewMfpmC6fAipIIldH4bqx
+ kxSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=bCglA2xU8XIovJ5evRIXUQsgqKR2GztUSfl273PP6MA=;
- b=LB9rpGNv+1UPJP9pMokgcdQvGmvc399Uhm9J7qoyQii7aQNd1nh5f0c5C8Qg73pPhy
- 9omkLY2YJ8F/kF/5kjrPO9ttgHTLcP0DDSoZ/+vTfS4h6ngw8o5koTjhDfooNVHXI8U2
- 4JCDaj4+JAE7znJ7fXQrPbQb/pAYnLfOLQCJFfKWWnxBAk3x4pViAvubX6UjAl2jRwqs
- Bjt7CvYhZNh5CI4OXaUAI9WeoxTxgt+uIZt/VTdmrYNy0Ai7yQbWfThyf5sULZMFYs/w
- ANq6pt4ZgW0jq5yc3UD2CCQfPEp3iTyqMiTjJA+qBRXo4ak1py59vuVgWTRz10NfKSF8
- LLSA==
-X-Gm-Message-State: APjAAAW7KHZ/Y8uAtSfHP7qKyEfStJ7MGoLDhs+inqgnff8gB4wJ6GRx
- nRei5CnQnpYzpovTDl5JEjxlIrbC
-X-Google-Smtp-Source: APXvYqzI81c+u2qUPq4x1Y0z/xjBFlZDd7BteBUZd8hx9HyMyhMXAeGc1Y0jO8+wsMhcgqTavoNSzA==
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr30256974wro.234.1576513779155; 
- Mon, 16 Dec 2019 08:29:39 -0800 (PST)
+ bh=9NSUuNQ9Jf+FzPsRmj7s9FDau0CX5jauhzpAS1A8igc=;
+ b=EXlKNtVdRQMcKKHXoc9qHaCDIX7PKHpqZYvWBymi11mmaKXTmQpSVKS2Rhi2jt/5qZ
+ gHLWOIrm9AO16L86Vlik+YtNRlAFPfN4EntCg5oaYGPsvQWyJ+WCkcfOf6mP6W8ICHu9
+ OrXcQ+9Nh3mR+aAWeHcsqKroFvlKEA/OJ8cVX0VnmSZ9mi9ldJSUs4yCJ4YDpDh4URuf
+ uqHV2AHTrkjlEfoozp3wcuawfRt+rYjDethQxqZCsGpKRQGa+J/S8joVOu7XvfI0CWo8
+ Am8X8yE3+XHaiquYtOsVWs9UKckDmdmuAXbo+MrWYU8dh97GrvB/6WIaUrjDC+YQ3TRM
+ yHMg==
+X-Gm-Message-State: APjAAAXOikMcxdFNCDBT5skZW8IxOoAPJNUL4RG+zonf5dcuPtMSaOdU
+ 5GmohmqMqWihcT8HHiNIT/8bK10C
+X-Google-Smtp-Source: APXvYqw+R9I8WJRF4Mg35XRkh2EHHVCyrthR7Lb75RfJ9J0jH8UZ3Akjza51/mN3N6lwL1KJalUuNQ==
+X-Received: by 2002:adf:fe4d:: with SMTP id m13mr28683761wrs.179.1576513780139; 
+ Mon, 16 Dec 2019 08:29:40 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.38
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:38 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:39 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 51/62] acpi: move PC stubs out of stubs/
-Date: Mon, 16 Dec 2019 17:28:35 +0100
-Message-Id: <1576513726-53700-52-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 52/62] pc: stubify x86 iommu
+Date: Mon, 16 Dec 2019 17:28:36 +0100
+Message-Id: <1576513726-53700-53-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,51 +78,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a small cleanup that lets microvm build entirely without
-include/hw/i386/pc.h.
+Allow building microvm without x86-iommu.c.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/acpi/Makefile.objs                                | 3 ++-
- stubs/pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c | 0
- stubs/Makefile.objs                                  | 1 -
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename stubs/pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c (100%)
+ hw/i386/Kconfig          |  6 ++++++
+ hw/i386/Makefile.objs    |  3 ++-
+ hw/i386/x86-iommu-stub.c | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 hw/i386/x86-iommu-stub.c
 
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-index 655a9c1..9925305 100644
---- a/hw/acpi/Makefile.objs
-+++ b/hw/acpi/Makefile.objs
-@@ -8,6 +8,7 @@ common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
- common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
- common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
- common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
-+common-obj-$(call lnot,$(CONFIG_PC)) += acpi-x86-stub.o
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 5a49434..91cf584 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -103,11 +103,17 @@ config MICROVM
+     select MC146818RTC
+     select VIRTIO_MMIO
  
- common-obj-y += acpi_interface.o
- common-obj-y += bios-linker-loader.o
-@@ -20,4 +21,4 @@ common-obj-$(call lnot,$(CONFIG_IPMI)) += ipmi-stub.o
- else
- common-obj-y += acpi-stub.o
- endif
--common-obj-$(CONFIG_ALL) += acpi-stub.o ipmi-stub.o
-+common-obj-$(CONFIG_ALL) += acpi-stub.o acpi-x86-stub.o ipmi-stub.o
-diff --git a/stubs/pc_madt_cpu_entry.c b/hw/acpi/acpi-x86-stub.c
-similarity index 100%
-rename from stubs/pc_madt_cpu_entry.c
-rename to hw/acpi/acpi-x86-stub.c
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 4a50e95..8b0ff25 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -33,7 +33,6 @@ stub-obj-y += fd-register.o
- stub-obj-y += qmp_memory_device.o
- stub-obj-y += target-monitor-defs.o
- stub-obj-y += target-get-monitor-def.o
--stub-obj-y += pc_madt_cpu_entry.o
- stub-obj-y += vmgenid.o
- stub-obj-y += xen-common.o
- stub-obj-y += xen-hvm.o
++config X86_IOMMU
++    bool
++    depends on PC
++
+ config VTD
+     bool
++    select X86_IOMMU
+ 
+ config AMD_IOMMU
+     bool
++    select X86_IOMMU
+ 
+ config VMPORT
+     bool
+diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+index 01ae202..1236c3b 100644
+--- a/hw/i386/Makefile.objs
++++ b/hw/i386/Makefile.objs
+@@ -6,7 +6,8 @@ obj-$(CONFIG_I440FX) += pc_piix.o
+ obj-$(CONFIG_Q35) += pc_q35.o
+ obj-$(CONFIG_MICROVM) += microvm.o
+ obj-y += fw_cfg.o
+-obj-y += x86-iommu.o
++obj-$(CONFIG_X86_IOMMU) += x86-iommu.o
++obj-$(call lnot,$(CONFIG_X86_IOMMU)) += x86-iommu-stub.o
+ obj-$(CONFIG_VTD) += intel_iommu.o
+ obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o
+ obj-$(CONFIG_XEN) += ../xenpv/ xen/
+diff --git a/hw/i386/x86-iommu-stub.c b/hw/i386/x86-iommu-stub.c
+new file mode 100644
+index 0000000..03576cd
+--- /dev/null
++++ b/hw/i386/x86-iommu-stub.c
+@@ -0,0 +1,34 @@
++/*
++ * Stubs for X86 IOMMU emulation
++ *
++ * Copyright (C) 2019 Red Hat, Inc.
++ *
++ * Author: Paolo Bonzini <pbonzini@redhat.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/i386/x86-iommu.h"
++
++void x86_iommu_iec_register_notifier(X86IOMMUState *iommu,
++                                     iec_notify_fn fn, void *data)
++{
++}
++
++X86IOMMUState *x86_iommu_get_default(void)
++{
++    return NULL;
++}
++
 -- 
 1.8.3.1
 
