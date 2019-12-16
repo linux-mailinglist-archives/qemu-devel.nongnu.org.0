@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67835121CE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:27:54 +0100 (CET)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBDA121DC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:29:35 +0100 (CET)
+Received: from localhost ([::1]:60962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igyqH-00071P-89
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:27:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
+	id 1igyrt-0000zL-Jr
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:29:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36927)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1igybM-0005HT-QD
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:30 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1igybO-0005Jz-BQ
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1igybL-0007Lx-SM
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:28 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40946)
+ (envelope-from <richard.henderson@linaro.org>) id 1igybN-0007Mt-9v
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:30 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42306)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1igybL-0007KP-Mx
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:27 -0500
-Received: by mail-pg1-x543.google.com with SMTP id k25so4491111pgt.7
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:27 -0800 (PST)
+ id 1igybN-0007MW-4s
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:29 -0500
+Received: by mail-pf1-x441.google.com with SMTP id 4so6369388pfz.9
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=cdzUkCGd4j9cyI7GBjpMOiOf+nGUeT9o9Hdz62SsCpo=;
- b=cV4bn0u5eECfrX2GrUnPV61AzcgZZE/VVrp095/QIKfcrYRjOqZ4F3k9+ChlpH9+AR
- nTfk7UfMUXXbGHrOCNgevSgcniQr/zGlGb11u+lbH5rWtYV2YeZc2TliVIr7oX39zZxp
- bRAls1ERUwHtIPdcEBHxgxAoeEKjCNlsv/PgGONfw3mwp422UfQLqH2SKKHeXikR3Ljv
- FV9V1shyK/vi6fKZl0oB3Cn47sI7CzU1MyQSh5dHgh2JeL2ZifdP7l3kNvyYrHFPcN4J
- v4qJ7181ZuDLnD2M4IExRUHq3/eyGub2QohcbMizzv0I2IKsVzyBEgfEEsEEMs8v7iaf
- ANJg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s8SYA9/Rwv4ZxWRA0n9zn8WOO8ULkXoz56NCsZvZKnc=;
+ b=Eq452F6QFJcMlAB8xMCNBHfJaYeilcHziFExSzehhnynRgmkLcQRSFmhq8/fDo6+QH
+ xV7VFwuAkFDHegz+H3sNvosTQnDoMZVZ67uJL4AUR7NoI+3c6rJvs2BoPN36hIk8HZnq
+ oANRhG7AqyApNppDuVmXWA+dcFu4u3WkAkLZIqvjZudE4eMd19AqhUvaqOSoltx34k2w
+ 2JrKf5dF++dVddWOLrZjwc3SA28/uTLLbYmj9WIehpmkr+Aug3kkCeu7eUyThh4AEZOf
+ qCqwDos91MJ66tgwHnW6XP18DJ1pb5ayuclPavrqHGFIwgJl9gEYqlJeYaPyr/YhP4Yh
+ n04w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cdzUkCGd4j9cyI7GBjpMOiOf+nGUeT9o9Hdz62SsCpo=;
- b=UlhHV1+JuruSHfoyhUe/NuzMmYvbAsa45HMpayLi3//arpSh9S2rcBmVGnSUy9aJ8K
- /XVscYicybG4MaiUTbj3kDoTfAjnVJlc9M5OdOouueyc2XmGpQEoHd47oAUZ/LXoUyuH
- KaMyFmoCwpYUadwdpvgz0ZwuLcHehVRZqj7i51Zo67Nn/nltfaXVahWI4KqXCp7cYzcV
- GnFfYe4L7t9nC8jq3kpYmR17Jm6OrTPLxGVpjJc3a/ywTTgJxqj6tUWueXEcLwdP5UUt
- llN5qzz8cM6I2k0ATk4u0UGkJGlcqU0Zs4cDHdok3z2VEKGpSK0xgd3U8/f/Gv4rwkVy
- 5bCg==
-X-Gm-Message-State: APjAAAX3IwlyEAVYHPNRqS+KuiSojRzGID1DcxLMMzeB2amE0/2c03o+
- 561j+pNBr3VVx6cY+uUMv7grzJZk4ZU=
-X-Google-Smtp-Source: APXvYqyoFuTVqBxOuvLXtOZp5GPnvTWzpUUVReyVDZDaLVdWjBZxRm7EVj2zMuVQlDvprttExyFUhw==
-X-Received: by 2002:a63:5056:: with SMTP id q22mr20839449pgl.20.1576534346514; 
- Mon, 16 Dec 2019 14:12:26 -0800 (PST)
+ bh=s8SYA9/Rwv4ZxWRA0n9zn8WOO8ULkXoz56NCsZvZKnc=;
+ b=jUS/1LYex/oud6S8YWjfjjQ8BsVAVfJ2vDGUGMjbAYJn72+ziJ14wETLFnIvPkh5HY
+ giyvi9OMcxg49Knr8wQlNXiUtaCTNMBw7rVXIb1tSaOTCSsdQrn7osqUJLqoYiSZvYqY
+ mFc4n2xFtuykfoSV9SV7Gu3/jLqbkpa5YTCY4+ta4P2uw7XaTxv2dHHAEjHjB1sV/2C1
+ PxwaH3aLkJ0wTQhXNuGCpQFLGd9zrumt5h6H4Z012QrKVTCU0/5eHFcjRCwLwBgqnZ7j
+ c8Z3ewFq2wg4O6hqkWc80c12ob0lmatpSQQFBG0NiiofuhR2uUz1A9UI7jGdsDi76Gop
+ Hcng==
+X-Gm-Message-State: APjAAAWoOqeVnGhTw2hFF0iyXPJStSN8iFF33kwWqBOfXhK3hXFUTm/4
+ nfEjBKaipi3THHJujfdGi6JfqYm9rGE=
+X-Google-Smtp-Source: APXvYqxkpxCgMyFFqKqMps/rmdnL5J9fvp2WMFfLwllQwKQtze+1AU0XqUTEkBSzzr6m+fX+ieBVzA==
+X-Received: by 2002:a63:f814:: with SMTP id n20mr20921854pgh.318.1576534347942; 
+ Mon, 16 Dec 2019 14:12:27 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.25
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 14:12:25 -0800 (PST)
+ Mon, 16 Dec 2019 14:12:27 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/28] target/alpha: Remove MMU_MODE{0,1}_SUFFIX
-Date: Mon, 16 Dec 2019 12:11:46 -1000
-Message-Id: <20191216221158.29572-17-richard.henderson@linaro.org>
+Subject: [PATCH v2 17/28] target/cris: Remove MMU_MODE{0,1}_SUFFIX
+Date: Mon, 16 Dec 2019 12:11:47 -1000
+Message-Id: <20191216221158.29572-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216221158.29572-1-richard.henderson@linaro.org>
 References: <20191216221158.29572-1-richard.henderson@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,29 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The functions generated by these macros are unused.
 
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/cpu.h | 2 --
+ target/cris/cpu.h | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index a530249a5b..3f782c0efe 100644
---- a/target/alpha/cpu.h
-+++ b/target/alpha/cpu.h
-@@ -193,8 +193,6 @@ enum {
-    PALcode cheats and usees the KSEG mapping for its code+data rather than
-    physical addresses.  */
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index aba0a66474..bc43bc23a1 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -252,8 +252,6 @@ enum {
+ #define cpu_signal_handler cpu_cris_signal_handler
  
+ /* MMU modes definitions */
 -#define MMU_MODE0_SUFFIX _kernel
 -#define MMU_MODE1_SUFFIX _user
- #define MMU_KERNEL_IDX   0
- #define MMU_USER_IDX     1
- #define MMU_PHYS_IDX     2
+ #define MMU_USER_IDX 1
+ static inline int cpu_mmu_index (CPUCRISState *env, bool ifetch)
+ {
 -- 
 2.20.1
 
