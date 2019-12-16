@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2DC12090E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:57:45 +0100 (CET)
-Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E955412093A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 16:03:18 +0100 (CET)
+Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igroe-0000pD-Cq
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:57:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48615)
+	id 1igru1-0003wV-VS
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 10:03:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=24629a80a=sveith@amazon.de>) id 1igrna-0000Jo-N0
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:56:39 -0500
+ (envelope-from <groug@kaod.org>) id 1igrsI-0002i7-Fg
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 10:01:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=24629a80a=sveith@amazon.de>) id 1igrnZ-0000Rl-Ob
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:56:38 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:27175)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <prvs=24629a80a=sveith@amazon.de>)
- id 1igrnX-0000Kt-E7; Mon, 16 Dec 2019 09:56:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1576508196; x=1608044196;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:mime-version: content-transfer-encoding;
- bh=fsUpwpEZ/J/zAUOCl/OybCv/6wXahmN5L4niDYBQ4iA=;
- b=q0q3RHwHgu3keSsFVmIfXzrSl1JxqHpW/CDsffjUSXSLOC9PLUkwSi8z
- 1nmdk6kGyvJ0f2vZXDp/P5XRewfhqRd8g828bz9+tYp5BgbUt+I2OyMKj
- 2ZYHlAI8dIZWrCC/korQMnFvv8A9Gya++Ief4ACzVptVs2h2egle/rKCW U=;
-IronPort-SDR: e7Y4Ql8Nj1IXYrRrq5Dpc5izbJ5/0bHzdXL3QH4qPArt8JMbOcILdf8odWQ6VyZ6JUJ4FTPCf2
- AOf9IeQX5G7A==
-X-IronPort-AV: E=Sophos;i="5.69,321,1571702400"; d="scan'208";a="15157566"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
- email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com) ([10.47.23.38])
- by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP;
- 16 Dec 2019 14:56:24 +0000
-Received: from EX13MTAUEA001.ant.amazon.com
- (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
- by email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com (Postfix) with ESMTPS
- id 4D354A21E7; Mon, 16 Dec 2019 14:56:23 +0000 (UTC)
-Received: from EX13D18EUC001.ant.amazon.com (10.43.164.108) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.243) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 16 Dec 2019 14:56:22 +0000
-Received: from EX13D18EUC002.ant.amazon.com (10.43.164.50) by
- EX13D18EUC001.ant.amazon.com (10.43.164.108) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Mon, 16 Dec 2019 14:56:22 +0000
-Received: from EX13D18EUC002.ant.amazon.com ([10.43.164.50]) by
- EX13D18EUC002.ant.amazon.com ([10.43.164.50]) with mapi id 15.00.1367.000;
- Mon, 16 Dec 2019 14:56:21 +0000
-From: "Veith, Simon" <sveith@amazon.de>
-To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>
-CC: "eric.auger@redhat.com" <eric.auger@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
-Subject: Re: [PATCH v2 0/6] hw/arm/smmuv3: Correct stream ID and event address
- handling
-Thread-Topic: [PATCH v2 0/6] hw/arm/smmuv3: Correct stream ID and event
- address handling
-Thread-Index: AQHVsDNp2fogltgw+E+ej3y1KKrruae83nUAgAADFwA=
-Date: Mon, 16 Dec 2019 14:56:21 +0000
-Message-ID: <1576508180.11214.4.camel@amazon.de>
-References: <1576076260-18659-1-git-send-email-sveith@amazon.de>
- <CAFEAcA-Zz+Ape9z39s8uHEGUN3nOH3-o9t=EEJsm9M+oeDuebQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-Zz+Ape9z39s8uHEGUN3nOH3-o9t=EEJsm9M+oeDuebQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.162.222]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F7E2C316EFBA97458F7C7324B932FDF5@amazon.com>
+ (envelope-from <groug@kaod.org>) id 1igrsH-0006Gm-5N
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 10:01:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48162)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1igrsG-0006Et-Uu
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 10:01:29 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBGEudwR013804
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 10:01:21 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wvue75xr1-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 10:01:19 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Mon, 16 Dec 2019 15:01:11 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 16 Dec 2019 15:01:08 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBGF17GF50725058
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 16 Dec 2019 15:01:07 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5750A52071;
+ Mon, 16 Dec 2019 15:01:07 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.39.6])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id F0BC152054;
+ Mon, 16 Dec 2019 15:01:06 +0000 (GMT)
+Subject: [PATCH v3 0/2] cpu: Clarify overloading of reset QOM methods
+From: Greg Kurz <groug@kaod.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Date: Mon, 16 Dec 2019 16:01:06 +0100
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-Precedence: Bulk
-Content-Transfer-Encoding: base64
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 207.171.190.10
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+x-cbid: 19121615-0020-0000-0000-00000398C333
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19121615-0021-0000-0000-000021EFDA95
+Message-Id: <157650846660.354886.16810288202617432561.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-16_05:2019-12-16,2019-12-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ mlxlogscore=717 spamscore=0 priorityscore=1501 adultscore=0 mlxscore=0
+ lowpriorityscore=0 clxscore=1034 bulkscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912160132
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id xBGEudwR013804
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,21 +86,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gTW9uLCAyMDE5LTEyLTE2IGF0IDE0OjQ1ICswMDAwLCBQZXRlciBNYXlkZWxsIHdyb3RlOg0K
-PiBTb21ldGhpbmcgZnVubnkgc2VlbXMgdG8gaGF2ZSBoYXBwZW5lZCB3aGVuIHRoaXMgc2VyaWVz
-IGdvdA0KPiBzZW50IG91dDogcGF0Y2hlcyAxLDIsMyBhcmUgY29ycmVjdGx5IGZvbGxvd3VwcyB0
-byB0aGUgY292ZXINCj4gbGV0dGVyLCBidXQgNCw1LDYgYXJlIGZvbGxvd3VwcyB0byBwYXRjaCAz
-Lg0KDQpZb3UgYXJlIGNvcnJlY3Q7IEkgaGFkIGZpeGVkIHVwIG9uZSBvZiB0aGUgcGF0Y2hlcyBh
-cyBJIHdhcyBzZW5kaW5nDQp0aGVtIG91dCwgYW5kIHRob3VnaCBJIGhhZCB0aGVuIGFkZGVkIC0t
-aW4tcmVwbHktdG8gcG9pbnRpbmcgdG8gdGhlDQpjb3ZlciBsZXR0ZXIsIGdpdC1zZW5kLWVtYWls
-IHNlZW1zIHRvIGhhdmUgYWRkZWQgYW5vdGhlciBsZXZlbCBvZg0KdGhyZWFkaW5nLiBTb3JyeSBh
-Ym91dCB0aGF0LiBJJ2xsIHJlc2VuZCB0aGUgc2VyaWVzIGFnYWluLg0KDQpSZWdhcmRzDQpTaW1v
-bgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAz
-OAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2VyLCBK
-b25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVyZyB1
-bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkKCgo=
+Each cpu subclass overloads the reset method of its parent class with
+its own. But since it needs to call the parent method as well, it keeps
+a parent_reset pointer to do so. This causes the same not very explicit
+boiler plate to be duplicated all around the place:
+
+    pcc->parent_reset =3D cc->reset;
+    cc->reset =3D ppc_cpu_reset;
+
+A similar concern was addressed some time back by Philippe Mathieu-Daud=C3=
+=A9
+in qdev, with the addition of device_class_set_parent_reset() and friends=
+:
+
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D46795cf2e2f6
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dbf853881690d
+
+Follow the same approach with cpus.
+
+Changes in v3:
+- drop 'cpu: Introduce CPUReset callback typedef' patch which isn't neede=
+d
+  and makes the code less clear. This changes the declaration of the help=
+er
+  in 'cpu: Introduce cpu_class_set_parent_reset()', but it is minor so I
+  keep the Reviewed-by and Acked-by tags.
+
+Changes in v2:
+- added Reviewed-by and Acked-by tags
+- rebased on top of https://github.com/cohuck/qemu.git s390-next
+  SHA1 dd6252f035a2
+
+--
+Greg
+
+---
+
+Greg Kurz (2):
+      cpu: Introduce cpu_class_set_parent_reset()
+      cpu: Use cpu_class_set_parent_reset()
+
+
+ hw/core/cpu.c                   |    8 ++++++++
+ include/hw/core/cpu.h           |    4 ++++
+ target/arm/cpu.c                |    3 +--
+ target/cris/cpu.c               |    3 +--
+ target/i386/cpu.c               |    3 +--
+ target/lm32/cpu.c               |    3 +--
+ target/m68k/cpu.c               |    3 +--
+ target/microblaze/cpu.c         |    3 +--
+ target/mips/cpu.c               |    3 +--
+ target/moxie/cpu.c              |    3 +--
+ target/nios2/cpu.c              |    3 +--
+ target/openrisc/cpu.c           |    3 +--
+ target/ppc/translate_init.inc.c |    3 +--
+ target/riscv/cpu.c              |    3 +--
+ target/s390x/cpu.c              |    3 +--
+ target/sh4/cpu.c                |    3 +--
+ target/sparc/cpu.c              |    3 +--
+ target/tilegx/cpu.c             |    3 +--
+ target/tricore/cpu.c            |    3 +--
+ target/xtensa/cpu.c             |    3 +--
+ 20 files changed, 30 insertions(+), 36 deletions(-)
 
 
