@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24651206CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 14:16:31 +0100 (CET)
-Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BBA12070A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 14:24:16 +0100 (CET)
+Received: from localhost ([::1]:53672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igqEg-0006Jq-OH
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 08:16:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40960)
+	id 1igqMA-0001gD-RI
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 08:24:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1igqAJ-00025m-Nc
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 08:12:00 -0500
+ (envelope-from <cohuck@redhat.com>) id 1igqLM-0001Ei-OQ
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 08:23:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1igqAI-0007EX-Ja
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 08:11:59 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21816
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1igqLJ-0006Qy-7J
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 08:23:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49713
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1igqAI-0007DV-Fw
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 08:11:58 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1igqLJ-0006Qa-3I
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 08:23:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576501918;
+ s=mimecast20190719; t=1576502600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5IPkGhoQaMyuuMxfZ22vfywDxIiWsIX0Gx3A5XKdmDs=;
- b=WewY0kIl/P9l4Lj/x3E2GSNO2xDB2/UH6EpjZ0HIiIar0xCLE9+sCh3WHIDp8HgLDgKkgC
- KW/OwQ090UZNkK8eKtld5U/32hnwK7HBoZu38ALVT8ldrrvbpTr8nABLa7ueq8hXJNFh+5
- uaVF+duGEOYFigwi7rBJvTzU7ljD40Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-btBGIdTLM6Ox-UcA2IjEgg-1; Mon, 16 Dec 2019 08:11:56 -0500
-Received: by mail-wm1-f69.google.com with SMTP id g26so1004636wmk.6
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 05:11:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OVZ8qCkz+iSuAIxbiMtdabWP4u3zkLCvZUfHLBEZANg=;
- b=fA4rIlbfB6sJ5vcAG97pJGkaiMBnbRwz8I+c3Tf84YFija9yfls15awGKTwcagnapL
- EM90skFUiO4dIKb55fEcYXObEdmMnyKitmqGa36EVHS9gI5SwQtxUc/iHe752MajGPR9
- EmaRKZa4YhS79XinpIfnZ6v4zSd6mcdPaAC8vGe/Rsubg7I6e1q4B5rJusRHGqFXD+P4
- IxwhrRq4H1E0TSySJaaGkF6ob15bXLXYI3PG+Hh6E/GXnXsps4Ave1A7h2xModvJZ8s4
- 9W/moTo4BW2pFxMWjP/wkW/BeWQ+b+o+v+6QMxBzim/aIlrAtqXq7YN4Htae1uMoxh0X
- LfLg==
-X-Gm-Message-State: APjAAAWr3pja9PprYWBpYJgKTpluk/pkrBHzlsYlCCS2HOMLljOn/Yyb
- 3MNEvVdhaU/5mLa5uYUm0kABSpJ57x0u5E+fqdORsWEHJB1QW5+J88zLShqbUhxgeKGmzd+jDNZ
- F6+ET+6XnXV1AEwQ=
-X-Received: by 2002:adf:e6c5:: with SMTP id y5mr29515763wrm.210.1576501915281; 
- Mon, 16 Dec 2019 05:11:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw2vtXsGXckWOealAxKsd8xz8B6EZdGgNEAj2cPIngxIU6E4STQELcYok94Tp665k14zzg/Fg==
-X-Received: by 2002:adf:e6c5:: with SMTP id y5mr29515741wrm.210.1576501915086; 
- Mon, 16 Dec 2019 05:11:55 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:cde8:2463:95a9:1d81?
- ([2001:b07:6468:f312:cde8:2463:95a9:1d81])
- by smtp.gmail.com with ESMTPSA id o16sm6585832wmc.18.2019.12.16.05.11.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Dec 2019 05:11:54 -0800 (PST)
-Subject: Re: [PATCH 09/12] hw/intc/ioapic: Make ioapic_print_redtbl() static
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191213161753.8051-1-philmd@redhat.com>
- <20191213161753.8051-10-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <340e7a8b-b7c6-3f61-3646-c311c7c33f60@redhat.com>
-Date: Mon, 16 Dec 2019 14:11:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=i9XGtH1HIxT2Svyemp0h7H7JAFwmSw92X3ipmB9Jqok=;
+ b=cpLybrgWsHMAifAOfsZjsTEdC4mVxvshNqtNbj7YcxZpT4bwBzE/q8Gi6cZoUZgdZ6n1NP
+ pDFEKlTIZea6qtjgODbt33AI1Oth1KPOVXPzcS/D4GLGeEb8TUhhtPQd1vkRG1PpeC8yZ5
+ GymF9ZKnbfwva4FmWtPR88yUTFo5TJg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-lFrcD_WqP9ijv8k0BogYeQ-1; Mon, 16 Dec 2019 08:23:19 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F5BE8017DF
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 13:23:18 +0000 (UTC)
+Received: from gondolin (dhcp-192-245.str.redhat.com [10.33.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B73895D9C5;
+ Mon, 16 Dec 2019 13:23:16 +0000 (UTC)
+Date: Mon, 16 Dec 2019 14:23:14 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 00/10] Migration Arguments cleanup
+Message-ID: <20191216142314.7d4237cc.cohuck@redhat.com>
+In-Reply-To: <20191212222033.1026-1-quintela@redhat.com>
+References: <20191212222033.1026-1-quintela@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20191213161753.8051-10-philmd@redhat.com>
-Content-Language: en-US
-X-MC-Unique: btBGIdTLM6Ox-UcA2IjEgg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: lFrcD_WqP9ijv8k0BogYeQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,58 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/19 17:17, Philippe Mathieu-Daud=C3=A9 wrote:
-> Since commit 0c8465440 the ioapic_print_redtbl() function is not
-> used outside of ioapic_common.c, make it static, and remove its
-> prototype declaration in "ioapic_internal.h".
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  include/hw/i386/ioapic_internal.h | 1 -
->  hw/intc/ioapic_common.c           | 2 +-
->  2 files changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_i=
-nternal.h
-> index d46c87c510..8b743aeed0 100644
-> --- a/include/hw/i386/ioapic_internal.h
-> +++ b/include/hw/i386/ioapic_internal.h
-> @@ -118,7 +118,6 @@ struct IOAPICCommonState {
-> =20
->  void ioapic_reset_common(DeviceState *dev);
-> =20
-> -void ioapic_print_redtbl(Monitor *mon, IOAPICCommonState *s);
->  void ioapic_stat_update_irq(IOAPICCommonState *s, int irq, int level);
-> =20
->  #endif /* QEMU_IOAPIC_INTERNAL_H */
-> diff --git a/hw/intc/ioapic_common.c b/hw/intc/ioapic_common.c
-> index 5538b5b86e..72ea945377 100644
-> --- a/hw/intc/ioapic_common.c
-> +++ b/hw/intc/ioapic_common.c
-> @@ -76,7 +76,7 @@ static void ioapic_irr_dump(Monitor *mon, const char *n=
-ame, uint32_t bitmap)
->      monitor_printf(mon, "\n");
->  }
-> =20
-> -void ioapic_print_redtbl(Monitor *mon, IOAPICCommonState *s)
-> +static void ioapic_print_redtbl(Monitor *mon, IOAPICCommonState *s)
->  {
->      static const char *delm_str[] =3D {
->          "fixed", "lowest", "SMI", "...", "NMI", "INIT", "...", "extINT"}=
-;
->=20
+On Thu, 12 Dec 2019 23:20:23 +0100
+Juan Quintela <quintela@redhat.com> wrote:
 
-Queued, thanks.
+> Hi
+> 
+> This series simplify test_migrate_start() in two ways:
+> - simplify the command line creation, so everything that is common between
+>   architectures don't have to be repeated (DRY).
+>   Note that this bit remove lines of code.
+> - test_migrate_start() has two bools and two strings as arguments, it is very
+>   difficult to remmeber which is which and meaning.  And it is even worse to
+>   add new parameters.  Just pass them through one struct.
+> 
+> Please, review.
+> 
+> Juan Quintela (10):
+>   migration-test: Create cmd_soure and cmd_target
+>   migration-test: Move hide_stderr to common commandline
+>   migration-test: Move -machine to common commandline
+>   migration-test: Move memory size to common commandline
+>   migration-test: Move shmem handling to common commandline
+>   migration-test: Move -name handling to common commandline
+>   migration-test: Move -serial handling to common commandline
+>   migration-test: Move -incomming handling to common commandline
+>   migration-test: Rename cmd_src/dst to arch_source/arch_target
+>   migration-test: Use a struct for test_migrate_start parameters
+> 
+>  tests/migration-test.c | 265 +++++++++++++++++++++++------------------
+>  1 file changed, 147 insertions(+), 118 deletions(-)
+> 
 
-Paolo
+I gave this a go on s390x, and the migration test still seems to work
+fine there. So, feel free to add
+
+Tested-by: Cornelia Huck <cohuck@redhat.com> #s390x
 
 
