@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF8412104C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:01:55 +0100 (CET)
-Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B75121069
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:05:22 +0100 (CET)
+Received: from localhost ([::1]:57022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtkn-0002pF-T5
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:01:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57328)
+	id 1igto8-0006c4-1I
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:05:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFb-0005qh-S4
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:40 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFd-0005ti-NN
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFa-0000Fc-ES
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:39 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34202)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFb-0000I4-M9
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:41 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39131)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFa-0000Dk-8E
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:38 -0500
-Received: by mail-wr1-x442.google.com with SMTP id t2so8069740wrr.1
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:38 -0800 (PST)
+ id 1igtFb-0000Gl-Dx
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:39 -0500
+Received: by mail-wr1-x431.google.com with SMTP id y11so8036755wrt.6
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Sn0dnZOFeT+bItXnoSxlBiq/kd7e5Gr7bxLLAVDuPYI=;
- b=slSJZ2JI/L3JlbodvsDtpM9+zCsCt6xDZb3gwKNmea/CO0Xsi/q2BHCSgiyC1mafiD
- HgNGrQnuD5pb75igkkLn1nnyhqkrud9v4GsWmFF9ZusBTmBmZ9h2QDhsNw30x6FnZGUM
- xJmEegakPQYtfHC/sSXUxw0dwcrk9/zvTl1PfA5RMdkHoMvhCQVDnZadFNEF03y1hnrw
- jB5n6dAypaYl6ojjuyZwsWu4slhBIsNMHNaXJOSuYZH0OcsFiXYfZZNqYCXf3LSn6oLL
- g4HBLN836n28JeYEcg1/yeEmSEY6nJyfE3irHF3UpYkCIJcNpE3tHL2sxz3iQK7oFnr5
- y6SQ==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=J8EuXOaFv77zXVZ+gvJ8EQAA3UR6OUHvj5oaQV1ueAE=;
+ b=W38PuHIIuIOkRoTX4aCzkyhJO0RQwlepsvQLgGqLPHVIhwch+gIe9/nxWbUZGBlN24
+ e9cOgXCvLwifiz9IW8Y/nEEYpHo6lFb/O+geZZT9bZMywjjh+If8jRQO1i5wKq1Skuis
+ OdCue1kTM1z8NvzrXQ45InKtSEN2uJm9Rs+Azu7oYaByMchcNxGFtV+4wX0kV6KWXMBs
+ kxikWxv9m4kd4SzYR6z8udMYCtOXzU/MA63Hmjv4VsykXU3ydXKl8uqPEJFIH0NHC3IS
+ U1BuUfgkjIqtXHidYEvQn6gTMoHyF5x3+mJMPz57QekjGQRUoQNTZtksCOrxgwDuH8d5
+ k0Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Sn0dnZOFeT+bItXnoSxlBiq/kd7e5Gr7bxLLAVDuPYI=;
- b=r5REOeMlpUf2VcDlRKIDNqLkV0mnUNQz1jHvemYO4eUle0OciOufDMbWkscQ9zJFYf
- Yq5rfNE4zL866CwLYBoSj0mCmRZMzeyMs4ugirWC8HNBUFA992EzhMzb3JK63T26RzH8
- ve5XKB+TKvH8b/7/v3eP14qe/cCnAwHdgVjhKtLg0MWihx6vHrm2t3R4elNuDyqxpLzU
- YTABfU4QAPb4RxY3vqrgtUA6CHsGUknNFAGM53p/QfcmQTnh4zRSxi9yneKFitAPrCXr
- 8BlGqU348uj+bZqqQwKBJ1Zl928PxI6NqcRGZfrKyL7JSpsjrP2pgiSlm/ICwjujJ0vV
- OZ/w==
-X-Gm-Message-State: APjAAAUTjhJuDRpdiv/ZZ+USo7ugxtH/orA0cU+3oVlrtypgDr/Bi/jl
- F1SJXqfjaCPqukp0ChFMI9MLmUTs
-X-Google-Smtp-Source: APXvYqywpy89iy+WkDcdw1RStz4iuHnJpg3SFWA40cSMLEBFJGyln532GTph3EYVzVpuwnPZAB9PHQ==
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr30896357wrs.222.1576513776902; 
- Mon, 16 Dec 2019 08:29:36 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=J8EuXOaFv77zXVZ+gvJ8EQAA3UR6OUHvj5oaQV1ueAE=;
+ b=PChsnTpaC5+yTi0nYUkWCsNLnrQbYQ7JatudE1iSZMzYz0agEgKK9pmPkzVSiYFc9N
+ 0SimkvEvffuqBbLkXxbS34tcrPTFmC1nr/gKPlgrfRoPvofaAu0oBe5EO7qxKdEyqTmX
+ yvGf0xELNzfEuXc5yVRps6kHms+GCDEQwfMaJxvzwyx06ltrDmZjthZAP4A65yGZuQPk
+ 3mTtiuyQaSss04prkrPCLDRM81fEK5GX4K5x5/vt6zA7ebUQ2YcScO6xRrfY+azc41Sp
+ yHZ59/GGZ1FUfMa8poyQAWDtBzwrza5dtDZsr6iC8M5Fu3UcYTBMao2Q579/GH3aBZ/d
+ i6ew==
+X-Gm-Message-State: APjAAAXT9iqAJfHkWCjzTrGvLDuzwfRS8ptVQBjGqYbQSgW0yV+F/v9F
+ meWN1ceTZKmtU9LZGDmNgEKsp7Av
+X-Google-Smtp-Source: APXvYqy5ghhD6SZqVaITr+odcDl/K9w42rccHBxKn+Kbu/CINlyjJLTfQ0yKgK1++uqwFsaZqHJFeA==
+X-Received: by 2002:adf:e984:: with SMTP id h4mr30483525wrm.275.1576513778051; 
+ Mon, 16 Dec 2019 08:29:38 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.35
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.36
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:36 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 49/62] hw/i386/pc: Convert DPRINTF() to trace events
-Date: Mon, 16 Dec 2019 17:28:33 +0100
-Message-Id: <1576513726-53700-50-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 50/62] x86: move more x86-generic functions out of PC files
+Date: Mon, 16 Dec 2019 17:28:34 +0100
+Message-Id: <1576513726-53700-51-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,93 +75,520 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+These are needed by microvm too, so move them outside of PC-specific files.
+With this patch, microvm.c need not include pc.h anymore.
 
-Convert the deprecated DPRINTF() macro to trace events.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc.c         | 19 +++++--------------
- hw/i386/trace-events |  6 ++++++
- 2 files changed, 11 insertions(+), 14 deletions(-)
+ hw/i386/acpi-build.c  |   1 +
+ hw/i386/fw_cfg.c      |   1 -
+ hw/i386/fw_cfg.h      |   2 +
+ hw/i386/kvm/ioapic.c  |   2 +-
+ hw/i386/microvm.c     |   3 +-
+ hw/i386/pc.c          | 101 +------------------------------------------------
+ hw/i386/trace-events  |   6 ++-
+ hw/i386/x86.c         | 103 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/pc.h  |  20 ----------
+ include/hw/i386/x86.h |  18 +++++++++
+ target/i386/kvm.c     |   2 +-
+ target/i386/machine.c |   2 +-
+ 12 files changed, 133 insertions(+), 128 deletions(-)
 
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 12ff55f..7b8da62 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -53,6 +53,7 @@
+ /* Supported chipsets: */
+ #include "hw/southbridge/piix.h"
+ #include "hw/acpi/pcihp.h"
++#include "hw/i386/fw_cfg.h"
+ #include "hw/i386/ich9.h"
+ #include "hw/pci/pci_bus.h"
+ #include "hw/pci-host/q35.h"
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index 326e33e..da60ada 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -16,7 +16,6 @@
+ #include "sysemu/numa.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/firmware/smbios.h"
+-#include "hw/i386/pc.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/timer/hpet.h"
+ #include "hw/nvram/fw_cfg.h"
+diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
+index e0856a3..9e74278 100644
+--- a/hw/i386/fw_cfg.h
++++ b/hw/i386/fw_cfg.h
+@@ -12,6 +12,8 @@
+ #include "hw/boards.h"
+ #include "hw/nvram/fw_cfg.h"
+ 
++#define FW_CFG_IO_BASE     0x510
++
+ #define FW_CFG_ACPI_TABLES      (FW_CFG_ARCH_LOCAL + 0)
+ #define FW_CFG_SMBIOS_ENTRIES   (FW_CFG_ARCH_LOCAL + 1)
+ #define FW_CFG_IRQ0_OVERRIDE    (FW_CFG_ARCH_LOCAL + 2)
+diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+index f94729c..8703f19 100644
+--- a/hw/i386/kvm/ioapic.c
++++ b/hw/i386/kvm/ioapic.c
+@@ -12,7 +12,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "monitor/monitor.h"
+-#include "hw/i386/pc.h"
++#include "hw/i386/x86.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/i386/ioapic_internal.h"
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 2068319..827ce29 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -32,7 +32,6 @@
+ #include "hw/kvm/clock.h"
+ #include "hw/i386/microvm.h"
+ #include "hw/i386/x86.h"
+-#include "hw/i386/pc.h"
+ #include "target/i386/cpu.h"
+ #include "hw/intc/i8259.h"
+ #include "hw/timer/i8254.h"
+@@ -133,7 +132,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+     if (mms->pic == ON_OFF_AUTO_ON || mms->pic == ON_OFF_AUTO_AUTO) {
+         qemu_irq *i8259;
+ 
+-        i8259 = i8259_init(isa_bus, pc_allocate_cpu_irq());
++        i8259 = i8259_init(isa_bus, x86_allocate_cpu_irq());
+         for (i = 0; i < ISA_NUM_IRQS; i++) {
+             gsi_state->i8259_irq[i] = i8259[i];
+         }
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 4d7f7dd..907fc16 100644
+index 907fc16..f571fe7 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -91,16 +91,7 @@
- #include "config-devices.h"
- #include "e820_memory_layout.h"
- #include "fw_cfg.h"
--
--/* debug PC/ISA interrupts */
--//#define DEBUG_IRQ
--
--#ifdef DEBUG_IRQ
--#define DPRINTF(fmt, ...)                                       \
--    do { printf("CPUIRQ: " fmt , ## __VA_ARGS__); } while (0)
--#else
--#define DPRINTF(fmt, ...)
--#endif
-+#include "trace.h"
+@@ -334,17 +334,6 @@ GlobalProperty pc_compat_1_4[] = {
+ };
+ const size_t pc_compat_1_4_len = G_N_ELEMENTS(pc_compat_1_4);
  
- GlobalProperty pc_compat_4_1[] = {};
- const size_t pc_compat_4_1_len = G_N_ELEMENTS(pc_compat_4_1);
-@@ -347,7 +338,7 @@ void gsi_handler(void *opaque, int n, int level)
+-void gsi_handler(void *opaque, int n, int level)
+-{
+-    GSIState *s = opaque;
+-
+-    trace_pc_gsi_interrupt(n, level);
+-    if (n < ISA_NUM_IRQS) {
+-        qemu_set_irq(s->i8259_irq[n], level);
+-    }
+-    qemu_set_irq(s->ioapic_irq[n], level);
+-}
+-
+ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
  {
-     GSIState *s = opaque;
- 
--    DPRINTF("pc: %s GSI %d\n", level ? "raising" : "lowering", n);
-+    trace_pc_gsi_interrupt(n, level);
-     if (n < ISA_NUM_IRQS) {
-         qemu_set_irq(s->i8259_irq[n], level);
-     }
-@@ -425,7 +416,7 @@ static void pic_irq_request(void *opaque, int irq, int level)
-     CPUState *cs = first_cpu;
-     X86CPU *cpu = X86_CPU(cs);
- 
--    DPRINTF("pic_irqs: %s irq %d\n", level? "raise" : "lower", irq);
-+    trace_pc_pic_interrupt(irq, level);
-     if (cpu->apic_state && !kvm_irqchip_in_kernel()) {
-         CPU_FOREACH(cs) {
-             cpu = X86_CPU(cs);
-@@ -759,7 +750,7 @@ static void port92_write(void *opaque, hwaddr addr, uint64_t val,
-     Port92State *s = opaque;
-     int oldval = s->outport;
- 
--    DPRINTF("port92: write 0x%02" PRIx64 "\n", val);
-+    trace_port92_write(val);
-     s->outport = val;
-     qemu_set_irq(s->a20_out, (val >> 1) & 1);
-     if ((val & 1) && !(oldval & 1)) {
-@@ -774,7 +765,7 @@ static uint64_t port92_read(void *opaque, hwaddr addr,
-     uint32_t ret;
- 
-     ret = s->outport;
--    DPRINTF("port92: read 0x%02x\n", ret);
-+    trace_port92_read(ret);
-     return ret;
+     GSIState *s;
+@@ -384,55 +373,6 @@ static uint64_t ioportF0_read(void *opaque, hwaddr addr, unsigned size)
+     return 0xffffffffffffffffULL;
  }
  
+-/* TSC handling */
+-uint64_t cpu_get_tsc(CPUX86State *env)
+-{
+-    return cpu_get_ticks();
+-}
+-
+-/* IRQ handling */
+-int cpu_get_pic_interrupt(CPUX86State *env)
+-{
+-    X86CPU *cpu = env_archcpu(env);
+-    int intno;
+-
+-    if (!kvm_irqchip_in_kernel()) {
+-        intno = apic_get_interrupt(cpu->apic_state);
+-        if (intno >= 0) {
+-            return intno;
+-        }
+-        /* read the irq from the PIC */
+-        if (!apic_accept_pic_intr(cpu->apic_state)) {
+-            return -1;
+-        }
+-    }
+-
+-    intno = pic_read_irq(isa_pic);
+-    return intno;
+-}
+-
+-static void pic_irq_request(void *opaque, int irq, int level)
+-{
+-    CPUState *cs = first_cpu;
+-    X86CPU *cpu = X86_CPU(cs);
+-
+-    trace_pc_pic_interrupt(irq, level);
+-    if (cpu->apic_state && !kvm_irqchip_in_kernel()) {
+-        CPU_FOREACH(cs) {
+-            cpu = X86_CPU(cs);
+-            if (apic_accept_pic_intr(cpu->apic_state)) {
+-                apic_deliver_pic_intr(cpu->apic_state, level);
+-            }
+-        }
+-    } else {
+-        if (level) {
+-            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+-        } else {
+-            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+-        }
+-    }
+-}
+-
+ /* PC cmos mappings */
+ 
+ #define REG_EQUIPMENT_BYTE          0x14
+@@ -876,16 +816,6 @@ void pc_init_ne2k_isa(ISABus *bus, NICInfo *nd)
+     nb_ne2k++;
+ }
+ 
+-DeviceState *cpu_get_current_apic(void)
+-{
+-    if (current_cpu) {
+-        X86CPU *cpu = X86_CPU(current_cpu);
+-        return cpu->apic_state;
+-    } else {
+-        return NULL;
+-    }
+-}
+-
+ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
+ {
+     X86CPU *cpu = opaque;
+@@ -1281,11 +1211,6 @@ uint64_t pc_pci_hole64_start(void)
+     return ROUND_UP(hole64_start, 1 * GiB);
+ }
+ 
+-qemu_irq pc_allocate_cpu_irq(void)
+-{
+-    return qemu_allocate_irq(pic_irq_request, NULL, 0);
+-}
+-
+ DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus)
+ {
+     DeviceState *dev = NULL;
+@@ -1462,7 +1387,7 @@ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs)
+     } else if (xen_enabled()) {
+         i8259 = xen_interrupt_controller_init();
+     } else {
+-        i8259 = i8259_init(isa_bus, pc_allocate_cpu_irq());
++        i8259 = i8259_init(isa_bus, x86_allocate_cpu_irq());
+     }
+ 
+     for (size_t i = 0; i < ISA_NUM_IRQS; i++) {
+@@ -1472,30 +1397,6 @@ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs)
+     g_free(i8259);
+ }
+ 
+-void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
+-{
+-    DeviceState *dev;
+-    SysBusDevice *d;
+-    unsigned int i;
+-
+-    if (kvm_ioapic_in_kernel()) {
+-        dev = qdev_create(NULL, TYPE_KVM_IOAPIC);
+-    } else {
+-        dev = qdev_create(NULL, TYPE_IOAPIC);
+-    }
+-    if (parent_name) {
+-        object_property_add_child(object_resolve_path(parent_name, NULL),
+-                                  "ioapic", OBJECT(dev), NULL);
+-    }
+-    qdev_init_nofail(dev);
+-    d = SYS_BUS_DEVICE(dev);
+-    sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
+-
+-    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
+-        gsi_state->ioapic_irq[i] = qdev_get_gpio_in(dev, i);
+-    }
+-}
+-
+ static void pc_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+                                Error **errp)
+ {
 diff --git a/hw/i386/trace-events b/hw/i386/trace-events
-index c8bc464..43f33cf 100644
+index 43f33cf..a9b6437 100644
 --- a/hw/i386/trace-events
 +++ b/hw/i386/trace-events
-@@ -111,3 +111,9 @@ amdvi_ir_irte_ga_val(uint64_t hi, uint64_t lo) "hi 0x%"PRIx64" lo 0x%"PRIx64
- # vmport.c
+@@ -112,8 +112,10 @@ amdvi_ir_irte_ga_val(uint64_t hi, uint64_t lo) "hi 0x%"PRIx64" lo 0x%"PRIx64
  vmport_register(unsigned char command, void *func, void *opaque) "command: 0x%02x func: %p opaque: %p"
  vmport_command(unsigned char command) "command: 0x%02x"
+ 
++# x86.c
++x86_gsi_interrupt(int irqn, int level) "GSI interrupt #%d level:%d"
++x86_pic_interrupt(int irqn, int level) "PIC interrupt #%d level:%d"
 +
-+# pc.c
-+pc_gsi_interrupt(int irqn, int level) "GSI interrupt #%d level:%d"
-+pc_pic_interrupt(int irqn, int level) "PIC interrupt #%d level:%d"
-+port92_read(uint8_t val) "port92: read 0x%02x"
-+port92_write(uint8_t val) "port92: write 0x%02x"
+ # pc.c
+-pc_gsi_interrupt(int irqn, int level) "GSI interrupt #%d level:%d"
+-pc_pic_interrupt(int irqn, int level) "PIC interrupt #%d level:%d"
+ port92_read(uint8_t val) "port92: read 0x%02x"
+ port92_write(uint8_t val) "port92: write 0x%02x"
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 6fb01e4..80e33be 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -34,6 +34,7 @@
+ #include "sysemu/numa.h"
+ #include "sysemu/replay.h"
+ #include "sysemu/sysemu.h"
++#include "trace.h"
+ 
+ #include "hw/i386/x86.h"
+ #include "target/i386/cpu.h"
+@@ -42,11 +43,14 @@
+ #include "hw/intc/i8259.h"
+ 
+ #include "hw/acpi/cpu_hotplug.h"
++#include "hw/irq.h"
+ #include "hw/nmi.h"
+ #include "hw/loader.h"
+ #include "multiboot.h"
+ #include "elf.h"
+ #include "standard-headers/asm-x86/bootparam.h"
++#include "config-devices.h"
++#include "kvm_i386.h"
+ 
+ #define BIOS_FILENAME "bios.bin"
+ 
+@@ -221,6 +225,105 @@ static long get_file_size(FILE *f)
+     return size;
+ }
+ 
++/* TSC handling */
++uint64_t cpu_get_tsc(CPUX86State *env)
++{
++    return cpu_get_ticks();
++}
++
++/* IRQ handling */
++static void pic_irq_request(void *opaque, int irq, int level)
++{
++    CPUState *cs = first_cpu;
++    X86CPU *cpu = X86_CPU(cs);
++
++    trace_x86_pic_interrupt(irq, level);
++    if (cpu->apic_state && !kvm_irqchip_in_kernel()) {
++        CPU_FOREACH(cs) {
++            cpu = X86_CPU(cs);
++            if (apic_accept_pic_intr(cpu->apic_state)) {
++                apic_deliver_pic_intr(cpu->apic_state, level);
++            }
++        }
++    } else {
++        if (level) {
++            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++        } else {
++            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++        }
++    }
++}
++
++qemu_irq x86_allocate_cpu_irq(void)
++{
++    return qemu_allocate_irq(pic_irq_request, NULL, 0);
++}
++
++int cpu_get_pic_interrupt(CPUX86State *env)
++{
++    X86CPU *cpu = env_archcpu(env);
++    int intno;
++
++    if (!kvm_irqchip_in_kernel()) {
++        intno = apic_get_interrupt(cpu->apic_state);
++        if (intno >= 0) {
++            return intno;
++        }
++        /* read the irq from the PIC */
++        if (!apic_accept_pic_intr(cpu->apic_state)) {
++            return -1;
++        }
++    }
++
++    intno = pic_read_irq(isa_pic);
++    return intno;
++}
++
++DeviceState *cpu_get_current_apic(void)
++{
++    if (current_cpu) {
++        X86CPU *cpu = X86_CPU(current_cpu);
++        return cpu->apic_state;
++    } else {
++        return NULL;
++    }
++}
++
++void gsi_handler(void *opaque, int n, int level)
++{
++    GSIState *s = opaque;
++
++    trace_x86_gsi_interrupt(n, level);
++    if (n < ISA_NUM_IRQS) {
++        qemu_set_irq(s->i8259_irq[n], level);
++    }
++    qemu_set_irq(s->ioapic_irq[n], level);
++}
++
++void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
++{
++    DeviceState *dev;
++    SysBusDevice *d;
++    unsigned int i;
++
++    if (kvm_ioapic_in_kernel()) {
++        dev = qdev_create(NULL, TYPE_KVM_IOAPIC);
++    } else {
++        dev = qdev_create(NULL, TYPE_IOAPIC);
++    }
++    if (parent_name) {
++        object_property_add_child(object_resolve_path(parent_name, NULL),
++                                  "ioapic", OBJECT(dev), NULL);
++    }
++    qdev_init_nofail(dev);
++    d = SYS_BUS_DEVICE(dev);
++    sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
++
++    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
++        gsi_state->ioapic_irq[i] = qdev_get_gpio_in(dev, i);
++    }
++}
++
+ struct setup_data {
+     uint64_t next;
+     uint32_t type;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index ca641e8..e512838 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -3,11 +3,9 @@
+ 
+ #include "exec/memory.h"
+ #include "hw/boards.h"
+-#include "hw/isa/isa.h"
+ #include "hw/block/fdc.h"
+ #include "hw/block/flash.h"
+ #include "net/net.h"
+-#include "hw/i386/ioapic.h"
+ #include "hw/i386/x86.h"
+ 
+ #include "qemu/range.h"
+@@ -134,17 +132,6 @@ typedef struct PCMachineClass {
+ 
+ /* ioapic.c */
+ 
+-/* Global System Interrupts */
+-
+-#define GSI_NUM_PINS IOAPIC_NUM_PINS
+-
+-typedef struct GSIState {
+-    qemu_irq i8259_irq[ISA_NUM_IRQS];
+-    qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
+-} GSIState;
+-
+-void gsi_handler(void *opaque, int n, int level);
+-
+ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
+ 
+ /* vmport.c */
+@@ -188,7 +175,6 @@ void pc_memory_init(PCMachineState *pcms,
+                     MemoryRegion *rom_memory,
+                     MemoryRegion **ram_memory);
+ uint64_t pc_pci_hole64_start(void);
+-qemu_irq pc_allocate_cpu_irq(void);
+ DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
+ void pc_basic_device_init(ISABus *isa_bus, qemu_irq *gsi,
+                           ISADevice **rtc_state,
+@@ -206,18 +192,12 @@ void pc_pci_device_init(PCIBus *pci_bus);
+ typedef void (*cpu_set_smm_t)(int smm, void *arg);
+ 
+ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs);
+-void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
+ 
+ ISADevice *pc_find_fdc0(void);
+ int cmos_get_fd_drive_type(FloppyDriveType fd0);
+ 
+-#define FW_CFG_IO_BASE     0x510
+-
+ #define PORT92_A20_LINE "a20"
+ 
+-/* hpet.c */
+-extern int no_hpet;
+-
+ /* pc_sysfw.c */
+ void pc_system_flash_create(PCMachineState *pcms);
+ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 97d1575..41fe37b 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -23,6 +23,8 @@
+ 
+ #include "hw/boards.h"
+ #include "hw/nmi.h"
++#include "hw/isa/isa.h"
++#include "hw/i386/ioapic.h"
+ 
+ typedef struct {
+     /*< private >*/
+@@ -100,4 +102,20 @@ void x86_load_linux(X86MachineState *x86ms,
+ 
+ bool x86_machine_is_smm_enabled(X86MachineState *x86ms);
+ 
++/* Global System Interrupts */
++
++#define GSI_NUM_PINS IOAPIC_NUM_PINS
++
++typedef struct GSIState {
++    qemu_irq i8259_irq[ISA_NUM_IRQS];
++    qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
++} GSIState;
++
++qemu_irq x86_allocate_cpu_irq(void);
++void gsi_handler(void *opaque, int n, int level);
++void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
++
++/* hpet.c */
++extern int no_hpet;
++
+ #endif
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index c7ff67a..55e6265 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -35,7 +35,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+-#include "hw/i386/pc.h"
++#include "hw/i386/x86.h"
+ #include "hw/i386/apic.h"
+ #include "hw/i386/apic_internal.h"
+ #include "hw/i386/apic-msidef.h"
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 2699eed..b6720d8 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -1,10 +1,10 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+-#include "hw/i386/pc.h"
+ #include "hw/isa/isa.h"
+ #include "migration/cpu.h"
+ #include "hyperv.h"
++#include "hw/i386/x86.h"
+ #include "kvm_i386.h"
+ 
+ #include "sysemu/kvm.h"
 -- 
 1.8.3.1
 
