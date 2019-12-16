@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2461211AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:23:37 +0100 (CET)
-Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C23A1211B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:27:59 +0100 (CET)
+Received: from localhost ([::1]:57516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igu5o-0005tO-8C
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:23:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45293)
+	id 1iguA1-0003sF-Lp
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:27:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igtgL-0006dV-2Q
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:57:18 -0500
+ (envelope-from <drjones@redhat.com>) id 1igtia-0001ix-BU
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igtgJ-0001EM-OJ
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:57:16 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36037)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igtgJ-0001B6-DU
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:57:15 -0500
-Received: by mail-oi1-x243.google.com with SMTP id c16so3091650oic.3
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:57:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QaFLLYDEWud99qoiUNGEueTX0iNK5/Ih2SGsu7QWWCw=;
- b=hVDtMmy3zyYCoxN+m2cHJqFkUt9piFFGIUuFoZwabaoY+KnWL6g2duJZedACp2UzsZ
- 2zy1zKhI3/uWpRvP813LzBbrrm305FHOLT5292dUaOX6iKW+K77R4zCWMoZLovQdVnd6
- ZJBK6kWK891LU9P+makBzD/SpDs8gRzB2ubFxDPVueUXt8nUUvC9Rl2pz8lo5euJGxxi
- V7XgljTgNwAIanV59QEfhVNPB86z4zjZIeUiRYP17VdwSg/1DapxYt1UBxIpf4+cjKLu
- qofUOA0AG3fNLHEHhjvkiL5zNZyDH/Fb/TH3IGL+y9iwXPqtBHy2mZdzU62wwxgYH9F5
- /KoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QaFLLYDEWud99qoiUNGEueTX0iNK5/Ih2SGsu7QWWCw=;
- b=EIALe3JAbawL4C9641e7J4jOe7jlEiZaiaE4U+HeYlaaS0KY7zcBo4CFj5f71BFcBH
- 1lKQnvlylD84pnUTOZ2f6+SzQICjBo80cVAfqO2qXQMKmvfOXc4ndUFjnhfd4kgIvoHW
- 5YgdwVOSI97FeXtLuNE5vXWDu6Fbg/kgX3E02r6PoaKFGC1+2CA+wM+wVQZ05oSrCsRT
- +t1nwX8kt6aOo2n/1LnL350axajnc/NbREWNq6927xLiE6ToB+OVdsh12mjKbV1fPUPV
- ml+KWwC6GMAKozfSU5XBIae2i3tHyVdyCcsNVzWEH27dS0G77N+kHDohcFrCu65znPqF
- Gibw==
-X-Gm-Message-State: APjAAAWwx8IKoWFLPLxN2nwOpC0KjCxSIED+idlr9O2Hm79xMdfHw9y8
- jmCYhnqpO8we8us3KAp6rATPpQmqMRyhcc9xyT4V/Ro8Y7Q=
-X-Google-Smtp-Source: APXvYqz72DDSyAERPvL+ocn3L9YeI8+tIwMoLS3e1UmFlwTNWykfuwpTOSIgTobFrolcChoty2yns6EEPdLTEbkPqUQ=
-X-Received: by 2002:aca:f5cc:: with SMTP id
- t195mr10156384oih.163.1576515434294; 
- Mon, 16 Dec 2019 08:57:14 -0800 (PST)
-MIME-Version: 1.0
+ (envelope-from <drjones@redhat.com>) id 1igtiZ-0008EV-6e
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:36 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46456
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1igtiZ-00087J-0q
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:59:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576515573;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tOQM1/Rz4ycyGW1DEvNcWUzz5svT6E2Jm6LD2YWykoQ=;
+ b=EOBc1hYIQsdkTlNL0/6PsKNKaZKuUHqdRVJCibsuqrtjVsSl6xCwMwjsS2LiF3E/d9Mk3X
+ s5n2H68cxTXOUdL8ljyOQwFL3YyVWO+zwJ+aeKwIsRGlQq5woZ/gqLtTBwqduMwhLb6I1x
+ LTiUJCwkPZU29gmsrjb6LyjrAFxV+z4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-sYxEI4vzMTC5hBXrq0lGtA-1; Mon, 16 Dec 2019 11:59:29 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA39E802561;
+ Mon, 16 Dec 2019 16:59:27 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (ovpn-116-122.ams2.redhat.com
+ [10.36.116.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E19715D9D6;
+ Mon, 16 Dec 2019 16:59:23 +0000 (UTC)
+Date: Mon, 16 Dec 2019 17:59:20 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [RFC PATCH v2 0/5] target/arm/kvm: Adjust virtual time
+Message-ID: <20191216165920.qsx7ufviir74tbkl@kamzik.brq.redhat.com>
 References: <20191212173320.11610-1-drjones@redhat.com>
- <20191212173320.11610-6-drjones@redhat.com>
- <CAFEAcA8=FcrT8dRMDzxu14J-gv5LEDuNBNpD5yo9j3waV7u8iw@mail.gmail.com>
- <20191216165249.lygksiptf2yowqh7@kamzik.brq.redhat.com>
-In-Reply-To: <20191216165249.lygksiptf2yowqh7@kamzik.brq.redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Dec 2019 16:57:02 +0000
-Message-ID: <CAFEAcA-BND8-kxjaN2gRn48NLJ_BVxcguKPgAQ0qG3XaQ5ghRw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 5/5] target/arm/cpu: Add the kvm-no-adjvtime CPU
- property
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+ <CAFEAcA9FprSotg11rS0fM94QiciysZ6kgKhyU4eQfZg7YYaL5Q@mail.gmail.com>
+ <4cb9bcfd47dff57c9ae6bb92bae87589@www.loen.fr>
+MIME-Version: 1.0
+In-Reply-To: <4cb9bcfd47dff57c9ae6bb92bae87589@www.loen.fr>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: sYxEI4vzMTC5hBXrq0lGtA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,43 +74,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bijan.mottahedeh@oracle.com, Marc Zyngier <maz@kernel.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, bijan.mottahedeh@oracle.com,
  Richard Henderson <richard.henderson@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
  Heyi Guo <guoheyi@huawei.com>, msys.mizuma@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Dec 2019 at 16:53, Andrew Jones <drjones@redhat.com> wrote:
+On Mon, Dec 16, 2019 at 04:18:23PM +0000, Marc Zyngier wrote:
+> On 2019-12-16 15:33, Peter Maydell wrote:
+> > On Thu, 12 Dec 2019 at 17:33, Andrew Jones <drjones@redhat.com> wrote:
+> >=20
+> > > Userspace that wants to set KVM_REG_ARM_TIMER_CNT should beware that
+> > > the KVM register ID is not correct.  This cannot be fixed because
+> > > it's
+> > > UAPI and if the UAPI headers are used then it can't be a problem.
+> > > However, if a userspace attempts to create the ID themselves from
+> > > the
+> > > register's specification, then they will get KVM_REG_ARM_TIMER_CVAL
+> > > instead, as the _CNT and _CVAL definitions have their register
+> > > parameters swapped.
+> >=20
+> > So, to be clear, you mean that:
+> >=20
+> > (1) the kernel headers say:
+> >=20
+> > /* EL0 Virtual Timer Registers */
+> > #define KVM_REG_ARM_TIMER_CTL           ARM64_SYS_REG(3, 3, 14, 3, 1)
+> > #define KVM_REG_ARM_TIMER_CNT           ARM64_SYS_REG(3, 3, 14, 3, 2)
+> > #define KVM_REG_ARM_TIMER_CVAL          ARM64_SYS_REG(3, 3, 14, 0, 2)
+> >=20
+> > (2) some of the RHSes of these are wrong
+> >=20
+> > (3) but the kernel internally is using the same 'wrong' value, so
+> > userspace also needs to use that value, ie trust the #defined name
+> > rather than manufacturing one ?
+> >=20
+> > That's awkward. I think it would be worth at least having a kernel
+> > patch to add a comment clearly documenting this bug.
+> >=20
+> > (This error seems to only be in the 64-bit ABI, not 32-bit.)
+>=20
+> Yeah, this is pretty bad. I wonder how we managed not to notice
+> this for so long... :-(.
+>=20
+> Andrew, could you please write a patch documenting this (both in
+> the UAPI headers and in the documentation)?
 >
-> On Mon, Dec 16, 2019 at 03:06:57PM +0000, Peter Maydell wrote:
-> > This phrasing reads a bit confusingly to me. What I would usually expect
-> > is that you get
-> >   name-of-option              Description of what the option does.
-> >
-> > But here we have
-> >   name-of-option              Long description of the default behaviour,
-> >                               taking many lines and several sentences.
-> >                               Brief note at the end that enabling this
-> >                               feature gives the opposite effect.
-> >
-> > Especially since the default-behaviour description isn't prefaced
-> > with "By default" or similar, it's quite easy to start reading the
-> > text assuming it's defining what the option is going to do, only
-> > to get to the end and realise that it's defining what the option
-> > is *not* going to do...
->
-> I'll take another stab at this, but my feeling is that a '-no-' option
-> should be one that just turns off the default behavior, which is why I
-> wrote a long description of the default behavior. If you'd prefer the
-> description to be more terse, then I can certainly delete a bunch of
-> the text, but then I fear what this option disables wouldn't be clear
-> enough.
 
-I'm happy with the length of it; it would definitely be helped a lot
-just with phrasing that was clearer up front about that it was starting
-by describing the default behaviour.
+Will do. I'll try to get to it this week.
 
-thanks
--- PMM
+Thanks,
+drew
+
 
