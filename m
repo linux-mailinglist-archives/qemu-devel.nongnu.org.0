@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668DB1203E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:28:08 +0100 (CET)
-Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C70A120411
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:36:40 +0100 (CET)
+Received: from localhost ([::1]:51888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoXn-00066A-4E
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:28:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51172)
+	id 1igog3-0000iX-3a
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:36:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFs-00083y-UU
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFt-000856-JD
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFr-000083-Ip
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:36 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43135)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFs-00009U-IE
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:37 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36299)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFr-00006T-CA
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:35 -0500
-Received: by mail-wr1-x441.google.com with SMTP id d16so6712516wre.10
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:35 -0800 (PST)
+ id 1igoFs-00008D-CI
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:36 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p17so6225475wma.1
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ACmqU9kc4pH2AFemnhFozmUJPmfCe2y1E2GEg4ME7dE=;
- b=Qtv41et/cAnVAjr9sEMIwdJhL+pjKHlCpFIjd9AFEhnEGk2EGzeW9XHbpWNYBF0LBY
- uqdSCXdbsvLbL7QkrD3Zi24rB/cBwqBXbAwOo2Y214VmM7umK4UOWlALq7Fzixr/IQKG
- KqvG+hJwJOLFCXQek/jEgQAJECT6JbVJpklD9/D4IFKHUn0ocKq+noxv51U6Im2YxLm/
- ua7qCqLqQRgGEwAtZTihcH8iSf3YZnEmvMXDwtL4pD2NjoBDDB3JAAVo8NVGMeOgiiMN
- 8p1GYjLpCAfHIejfMmsUtBVWQcxFFRLmZYw+ztiNFLoYIupAoQvHL/iV7kUQk8CCpPBK
- DfRw==
+ bh=UiJZOf8roQyIB6kTmOAd2zer7SLUCnDoCQmZEmstycM=;
+ b=LSMlUMSNd/2Z+DmESGWmkX1tYN2sN6tECm2Wto+Tho4ikqxA1utBxJ0YTnll1V2NDg
+ sZ1As89tU3gbRsOZ/8jz0TBdu9Zg4AuY6JATm9ei54s2w0WzRWszR6sQsmY3tig1ZUTP
+ waHsoDEC6Bn93JFClY14ZkgQmWYExKJaRp0rqmoWctU8I5Y9ONO5vT7Hin+75tTY6pWc
+ WE+HxruOBkWZRiUI8yHWfoLhiLD0y+w/tgcYGebfGMMr0fjPGm1U3xaVU00LYJqkazo2
+ QBqtoncnVVJDkP4pdeK59Jit4/V8kxAoIwsLUm05678ceHt8jdqE0bEH3mcASu0zR1C0
+ 5DwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ACmqU9kc4pH2AFemnhFozmUJPmfCe2y1E2GEg4ME7dE=;
- b=W8cCMyqssVZmm35+26J7wXj8HVyfo2kT8uHqr4V5i81WDSN9HTi8MFeW2CnUuBBRuR
- q2J/TXOKJUuDAPuIeAJLtgFRam982XfjCSINJI5KqtgFzL7aZKXJCTvpbWc3lQ7EB90M
- XAeIbFuxVPfueOLsRt9Q3ul9Xis2ZLjp4Qb9vATWQ2dZHOLm4u7SCfN28lvsKmCLCL0/
- j+fch9ksNAr9K5LbDlbgJcfc1xxrLT1B2OuZZbY1fl5XxhmqGIrG1D9g9lMBcib+xckf
- EXsVzHKtpYd3KogM1cVT1yOL9hEv17b/QGRJDnwuq71RHJpek/TeyozEEXVT83EF4yLJ
- D4DA==
-X-Gm-Message-State: APjAAAVxjhA2jRFF998rPFflRaDS/G5uhllMD4xwTAhqI74MiLO0zVWg
- scqVFEoBfsG8LXQS7hyjOWDLf2VREFt8/g==
-X-Google-Smtp-Source: APXvYqwbBo40wpngpRa9J+nQzLqTWgW1Uf+sTs8bhVdZZNjdJNR2RIpMgkWHi5IJy4GobWyChvflFQ==
-X-Received: by 2002:adf:f1d0:: with SMTP id z16mr28468734wro.209.1576494574226; 
- Mon, 16 Dec 2019 03:09:34 -0800 (PST)
+ bh=UiJZOf8roQyIB6kTmOAd2zer7SLUCnDoCQmZEmstycM=;
+ b=k/KkAa6RgVCjQ7CMkbC+2IjUlwV9eDt4vOKJ9bW+qWPPLq0wIGbhMc0mYwIt9Cu3cw
+ 4QG+XfxOT9sWwngv15gJFgec7cgO+Q3a+lG84OBXmQ6fwv3eS0Gr2DbziIPaG8bhaltL
+ etVMPMOaeNQV2EiXkSJ6229Jr+EAphe3AInIB/JyeAvGLsFA8jPaly+kdmUTgAKSYvyo
+ ssioxftoKceWcmtG3meb8KRSmi/qY8LxsSe+fwcSbOMoHNlG+4N0W68MnUhice3NFyWZ
+ FZjy8mt2rUHrnLe0k+na8+aIV7SKmdx+Ob8Lp74npVtQ2YNYM3EPq1bNuHM4pyqlEwyE
+ NLYg==
+X-Gm-Message-State: APjAAAWs78uszMkqnDs+5AiLd32HiKSR8Po+yE2/RdptLuSXewtRzCk0
+ GkjeS+NYFhx68XFT8ieShZ2QsN9uySsbiw==
+X-Google-Smtp-Source: APXvYqxHPm0YkIiAZNnuTVExV87nJGdbEXhwkKc0BrtdlJ5ekPWiMB4CYxQKzf92GujjTMKDdTDDDQ==
+X-Received: by 2002:a1c:7918:: with SMTP id l24mr31471321wme.125.1576494575148; 
+ Mon, 16 Dec 2019 03:09:35 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.33
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:33 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:34 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/34] arm/arm-powerctl: set NSACR.{CP11,
- CP10} bits in arm_set_cpu_on()
-Date: Mon, 16 Dec 2019 11:08:55 +0000
-Message-Id: <20191216110904.30815-26-peter.maydell@linaro.org>
+Subject: [PULL 26/34] tcg: cputlb: Add probe_read
+Date: Mon, 16 Dec 2019 11:08:56 +0000
+Message-Id: <20191216110904.30815-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,43 +82,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
+From: Beata Michalska <beata.michalska@linaro.org>
 
-This change ensures that the FPU can be accessed in Non-Secure mode
-when the CPU core is reset using the arm_set_cpu_on() function call.
-The NSACR.{CP11,CP10} bits define the exception level required to
-access the FPU in Non-Secure mode. Without these bits set, the CPU
-will give an undefined exception trap on the first FPU access for the
-secondary cores under Linux.
+Add probe_read alongside the write probing equivalent.
 
-This is necessary because in this power-control codepath QEMU
-is effectively emulating a bit of EL3 firmware, and has to set
-the CPU up as the EL3 firmware would.
-
-Fixes: fc1120a7f5
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-[PMM: added clarifying para to commit message]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20191121000843.24844-2-beata.michalska@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/arm-powerctl.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/exec/exec-all.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index f77a950db67..b064513d44a 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -104,6 +104,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
-         /* Processor is not in secure mode */
-         target_cpu->env.cp15.scr_el3 |= SCR_NS;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index d85e610e85b..350c4b451be 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -339,6 +339,12 @@ static inline void *probe_write(CPUArchState *env, target_ulong addr, int size,
+     return probe_access(env, addr, size, MMU_DATA_STORE, mmu_idx, retaddr);
+ }
  
-+        /* Set NSACR.{CP11,CP10} so NS can access the FPU */
-+        target_cpu->env.cp15.nsacr |= 3 << 10;
++static inline void *probe_read(CPUArchState *env, target_ulong addr, int size,
++                               int mmu_idx, uintptr_t retaddr)
++{
++    return probe_access(env, addr, size, MMU_DATA_LOAD, mmu_idx, retaddr);
++}
 +
-         /*
-          * If QEMU is providing the equivalent of EL3 firmware, then we need
-          * to make sure a CPU targeting EL2 comes out of reset with a
+ #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
+ 
+ /* Estimated block size for TB allocation.  */
 -- 
 2.20.1
 
