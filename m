@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC72120485
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:57:05 +0100 (CET)
-Received: from localhost ([::1]:52312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E054F1204C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 13:06:34 +0100 (CET)
+Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igozo-0007RB-Ok
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:57:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38711)
+	id 1igp8z-0002vE-B9
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 07:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46057)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igopu-0007FA-MT
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:46:52 -0500
+ (envelope-from <bounces@canonical.com>) id 1igp86-0002Py-L7
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:05:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igops-0006OT-GO
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:46:50 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42291)
+ (envelope-from <bounces@canonical.com>) id 1igp85-0008O0-EB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:05:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40978)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igops-0006Jt-9v
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:46:48 -0500
-Received: by mail-ot1-x342.google.com with SMTP id 66so8848659otd.9
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8I5trJBGTW4luMb11Ffwe+Tyg+F3aLb9Oz/+hKtjAZQ=;
- b=yfj+MJhPaUOx7sxyWSVqpAJ3fhdorMc3yaCPiBcoJGHf3s50+RFX6CsD4btsF+xSNc
- epRtGKgGbnJcYr0b+57Psp8tbjWI91A+UwqXMW8IC/oT7eShtLBIxYb7eKq1wMyKwPQ7
- hDHK3B767lDJVvofvKZem/Aqt3PKjOSZNDB1JlLc4zYu+HdTtUx0gF31MlGxOPJ7M7ha
- Z+iDvgWzgkUF498+wFV8G9EUAcZ6xu5vn/w+H8bCbsk1CeEoLt0xYd/DPhZEXGjqxCMF
- oLZb9t8B63ZeKqB1WI752r0JJh7BkK5f9q4W1HbKLXetzOwI8GmThU55YSrFU9rPVH+/
- 2aaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8I5trJBGTW4luMb11Ffwe+Tyg+F3aLb9Oz/+hKtjAZQ=;
- b=uRkQBVjTGIG0xLgjAy879kIoj7zJvH1Gp+H3LMHO+SN9bk8azlEleSSukA6Sw7sGH9
- LP5Q12DduNHKfcE6BmE8LVrMEOUl9C2Sgjo1yuXkkth55grtroM4HIF+SjMwgYhmWdRB
- RicYzVe2wtYa7/mdkB4CPzU50ijsQWbPyGU8DdBInEc35tV9bK7OyHSpYu7t73DQVLxT
- QEAmS2pgp1qpczQRJRrsC+eD48ouzvpAwc7bJ2MuQWe4rknBzMSSqra0/2BL/unhHu2B
- uoEIQ78460SI6QJA7Uz7kC7B6rB+d9jhhBDx/VTSVVEdIa48nn3sWiipAdM1omcxaNXE
- AxmQ==
-X-Gm-Message-State: APjAAAU0nf99quoULuRivMEpaSIiRUPfv6Z5WlXTjtGYrmy68grg9cq6
- 19AfCyoJLCQAM8v2nnIEMngsAft32W+DhdQVocAQTw==
-X-Google-Smtp-Source: APXvYqxU8RwCCG8UHVDxyzHL7AncEdglJUZybQzX82nL6dMWGIqTX5XxVtjPkHDzIBRKKOCDoO1XFnaJ5Vmd7ng4cws=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr31703782otq.135.1576496807419; 
- Mon, 16 Dec 2019 03:46:47 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1igp85-0008Ju-8Y
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:05:37 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1igp83-0001V0-Ih
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 12:05:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 873F62E80C3
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 12:05:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191214155614.19004-1-philmd@redhat.com>
- <CAFEAcA_QZtU9X4fxZk2oWAkN-zxXdQZejrSKZbDxPKLMwdFWgw@mail.gmail.com>
- <20191215044759-mutt-send-email-mst@kernel.org>
- <CAFEAcA9ZF3VTR7kG_D-cJ+vPFTgd8zjmt2VPfJC7urNemF-5AQ@mail.gmail.com>
- <20191216063529-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20191216063529-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Dec 2019 11:46:35 +0000
-Message-ID: <CAFEAcA8RLOOT+0Bad4PfU0Jubp9MDOTTt1rHBQYABAfd9oMRLw@mail.gmail.com>
-Subject: Re: [PATCH 0/8] Simplify memory_region_add_subregion_overlap(...,
- priority=0)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Dec 2019 11:58:44 -0000
+From: dcb <1856549@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dcb314
+X-Launchpad-Bug-Reporter: dcb (dcb314)
+X-Launchpad-Bug-Modifier: dcb (dcb314)
+References: <157649490094.7480.17075229014510714852.malonedeb@soybean.canonical.com>
+Message-Id: <157649752475.4226.12810383033052233683.malone@chaenomeles.canonical.com>
+Subject: [Bug 1856549] Re: qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 78a563d3786c1ab12e23a105654f782168fb8a98
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,55 +65,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>,
- Alistair Francis <alistair@alistair23.me>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1856549 <1856549@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Dec 2019 at 11:40, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Sun, Dec 15, 2019 at 03:27:12PM +0000, Peter Maydell wrote:
-> > On Sun, 15 Dec 2019 at 09:51, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Sat, Dec 14, 2019 at 04:28:08PM +0000, Peter Maydell wrote:
-> > > > (It doesn't actually assert that it doesn't
-> > > > overlap because we have some legacy uses, notably
-> > > > in the x86 PC machines, which do overlap without using
-> > > > the right function, which we've never tried to tidy up.)
-> > >
-> > > It's not exactly legacy uses.
-> > >
-> > > To be more exact, the way the non overlap versions
-> > > are *used* is to mean "I don't care what happens when they overlap"
-> > > as opposed to "will never overlap".
-> >
-> > Almost all of the use of the non-overlap versions is
-> > for "these are never going to overlap" -- devices or ram at
-> > fixed addresses in the address space that can't
-> > ever be mapped over by anything else. If you want
-> > "can overlap but I don't care which one wins" then
-> > that would be more clearly expressed by using the _overlap()
-> > version but just giving everything that can overlap there
-> > the same priority.
->
-> Problem is device doesn't always know whether something can overlap it.
-> Imagine device A at a fixed address.
-> Guest can program device B to overlap the fixed address.
-> How is device A supposed to know this can happen?
+gcc compiler flag -Wduplicated-cond will catch this kind of problem.
 
-That's why (the original intention was) only one of the
-regions needs to be marked 'overlap OK', not both.
+You might want to switch it on in your builds. It has been available for
+over a year.
 
-thanks
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856549
+
+Title:
+  qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
+
+Status in QEMU:
+  New
+
+Bug description:
+  1.
+
+  qemu-4.2.0/hw/misc/mac_via.c:417:27: style: Expression is always false
+  because 'else if' condition matches previous condition at line 412.
+  [multiCondition]
+
+                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
+  ...
+                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
+
+  2.
+
+  qemu-4.2.0/hw/misc/mac_via.c:467:27: style: Expression is always false
+  because 'else if' condition matches previous condition at line 463.
+  [multiCondition]
+
+  Duplicate.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856549/+subscriptions
 
