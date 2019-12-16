@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407B012082E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:11:15 +0100 (CET)
-Received: from localhost ([::1]:54358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E38120835
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:11:41 +0100 (CET)
+Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igr5d-00050l-PK
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:11:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58702)
+	id 1igr64-0005iP-BL
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:11:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58906)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1igqyx-0004Sb-8g
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:20 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1igqzm-0005iC-9f
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:05:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1igqyw-0003z9-4O
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28034
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1igqzk-0004Ab-S7
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:05:10 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31443
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1igqyw-0003yt-1T
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:18 -0500
+ id 1igqzk-0004AQ-O8
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:05:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576505057;
+ s=mimecast20190719; t=1576505108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GByE+7FZ7lhIBOmguUpVZ915Jn/DtVoRPXv8rjNpFkQ=;
- b=hgnAcgRXM2x3rXdv1lny5QtNERSCTW4JomaBDwgMUcmZYYD6KAhXO32H0Cyq3AqHGD1k9y
- Y2HTT5zw3ijzFirAP/6B7yyQRwc7bxK1W++wqGnrUCa33/oZ+wfT54PazBRggT5BracnEB
- 1wGsRbz1bZ+1/s/hge8tJ3qTCRYzXas=
+ bh=50Vms+tgESY3M8NHXPohpfNztkjGMy8JPeeKVTKoeLA=;
+ b=WJZi8EbZR5dv6PD/koY1elsdkh2W15JkQL+Ut90O5iaAZ0CoOVOrlfCwFEjz82FmRJ18G9
+ GwGh1RLuT7d8ID8zd4RQ0jP35HjDrzJuZwXDXYvpHcCAo/m4jKL9Qzu13oaIKF7Vxa1RAB
+ HdqiKKNqCAoc941xealBogZiNbvzxLM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-LL_HqoBOP4e465DgIlVopg-1; Mon, 16 Dec 2019 09:04:15 -0500
-X-MC-Unique: LL_HqoBOP4e465DgIlVopg-1
+ us-mta-215-i2RWS0w7O9OR_4XEIYzBcg-1; Mon, 16 Dec 2019 09:04:19 -0500
+X-MC-Unique: i2RWS0w7O9OR_4XEIYzBcg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE9591809A54;
- Mon, 16 Dec 2019 14:04:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CCD180257B;
+ Mon, 16 Dec 2019 14:04:17 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0512675B8;
- Mon, 16 Dec 2019 14:04:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3242968863;
+ Mon, 16 Dec 2019 14:04:14 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH 10/16] arm/arm64: ITS: its_enable_defaults
-Date: Mon, 16 Dec 2019 15:02:29 +0100
-Message-Id: <20191216140235.10751-11-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH 11/16] arm/arm64: ITS: Device and collection
+ Initialization
+Date: Mon, 16 Dec 2019 15:02:30 +0100
+Message-Id: <20191216140235.10751-12-eric.auger@redhat.com>
 In-Reply-To: <20191216140235.10751-1-eric.auger@redhat.com>
 References: <20191216140235.10751-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,78 +77,128 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-its_enable_defaults() is the top init function that allocates all
-the requested tables (device, collection, lpi config and pending
-tables), enable LPIs at distributor level and ITS level.
+Introduce an helper functions to register
+- a new device, characterized by its device id and the
+  max number of event IDs that dimension its ITT (Interrupt
+  Translation Table).  The function allocates the ITT.
 
-gicv3_enable_defaults must be called before.
+- a new collection, characterized by its ID and the
+  target processing engine (PE).
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
+
 ---
- lib/arm/asm/gic-v3-its.h |  1 +
- lib/arm/gic-v3-its.c     | 41 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 42 insertions(+)
+---
+ lib/arm/asm/gic-v3-its.h | 20 +++++++++++++++++
+ lib/arm/gic-v3-its.c     | 46 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 66 insertions(+)
 
 diff --git a/lib/arm/asm/gic-v3-its.h b/lib/arm/asm/gic-v3-its.h
-index d56a17f..ab639c5 100644
+index ab639c5..245ef61 100644
 --- a/lib/arm/asm/gic-v3-its.h
 +++ b/lib/arm/asm/gic-v3-its.h
-@@ -139,6 +139,7 @@ extern void set_lpi_config(int n, u8 val);
- extern u8 get_lpi_config(int n);
+@@ -87,6 +87,9 @@
+=20
+ #define ITS_FLAGS_CMDQ_NEEDS_FLUSHING           (1ULL << 0)
+=20
++#define GITS_MAX_DEVICES		8
++#define GITS_MAX_COLLECTIONS		8
++
+ struct its_typer {
+ 	unsigned int ite_size;
+ 	unsigned int eventid_bits;
+@@ -117,6 +120,17 @@ struct its_cmd_block {
+ 	u64     raw_cmd[4];
+ };
+=20
++struct its_device {
++	u32 device_id;	/* device ID */
++	u32 nr_ites;	/* Max Interrupt Translation Entries */
++	void *itt;	/* Interrupt Translation Table GPA */
++};
++
++struct its_collection {
++	u64 target_address;
++	u16 col_id;
++};
++
+ struct its_data {
+ 	void *base;
+ 	struct its_typer typer;
+@@ -124,6 +138,10 @@ struct its_data {
+ 	struct its_cmd_block *cmd_base;
+ 	struct its_cmd_block *cmd_write;
+ 	struct its_cmd_block *cmd_readr;
++	struct its_device devices[GITS_MAX_DEVICES];
++	u32 nb_devices;		/* Allocated Devices */
++	struct its_collection collections[GITS_MAX_COLLECTIONS];
++	u32 nb_collections;	/* Allocated Collections */
+ };
+=20
+ extern struct its_data its_data;
+@@ -140,6 +158,8 @@ extern u8 get_lpi_config(int n);
  extern void set_pending_table_bit(int rdist, int n, bool set);
  extern void gicv3_rdist_ctrl_lpi(u32 redist, bool set);
-+extern void its_enable_defaults(void);
+ extern void its_enable_defaults(void);
++extern struct its_device *its_create_device(u32 dev_id, int nr_ites);
++extern struct its_collection *its_create_collection(u32 col_id, u32 targ=
+et_pe);
 =20
  #endif /* !__ASSEMBLY__ */
  #endif /* _ASMARM_GIC_V3_ITS_H_ */
 diff --git a/lib/arm/gic-v3-its.c b/lib/arm/gic-v3-its.c
-index b0f7714..9a51ef4 100644
+index 9a51ef4..9906428 100644
 --- a/lib/arm/gic-v3-its.c
 +++ b/lib/arm/gic-v3-its.c
-@@ -243,3 +243,44 @@ void gicv3_rdist_ctrl_lpi(u32 redist, bool set)
- 		val &=3D ~GICR_CTLR_ENABLE_LPIS;
- 	writel(val,  ptr + GICR_CTLR);
+@@ -284,3 +284,49 @@ void its_enable_defaults(void)
+=20
+ 	writel(GITS_CTLR_ENABLE, its_data.base + GITS_CTLR);
  }
 +
-+void its_enable_defaults(void)
++struct its_device *its_create_device(u32 device_id, int nr_ites)
 +{
-+	unsigned int i;
++	struct its_baser *baser;
++	struct its_device *new;
++	unsigned long n, order;
 +
-+	its_parse_typer();
++	if (its_data.nb_devices >=3D GITS_MAX_DEVICES)
++		report_abort("%s redimension GITS_MAX_DEVICES", __func__);
 +
-+	/* Allocate BASER tables (device and collection tables) */
-+	for (i =3D 0; i < GITS_BASER_NR_REGS; i++) {
-+		struct its_baser *baser =3D &its_data.baser[i];
-+		int ret;
++	baser =3D its_lookup_baser(GITS_BASER_TYPE_DEVICE);
++	if (!baser)
++		return NULL;
 +
-+		ret =3D its_parse_baser(i, baser);
-+		if (ret)
-+			continue;
++	new =3D &its_data.devices[its_data.nb_devices];
 +
-+		switch (baser->type) {
-+		case GITS_BASER_TYPE_DEVICE:
-+			baser->valid =3D true;
-+			baser->cache =3D GITS_BASER_nCnB;
-+			its_setup_baser(i, baser);
-+			break;
-+		case GITS_BASER_TYPE_COLLECTION:
-+			baser->valid =3D true;
-+			its_setup_baser(i, baser);
-+			break;
-+		default:
-+			break;
-+		}
-+	}
++	new->device_id =3D device_id;
++	new->nr_ites =3D nr_ites;
 +
-+	/* Allocate LPI config and pending tables */
-+	alloc_lpi_tables();
++	n =3D (baser->esz * nr_ites) >> PAGE_SHIFT;
++	order =3D is_power_of_2(n) ? fls(n) : fls(n) + 1;
++	new->itt =3D (void *)virt_to_phys(alloc_pages(order));
 +
-+	init_cmd_queue();
++	its_data.nb_devices++;
++	return new;
++}
 +
-+	for (i =3D 0; i < nr_cpus; i++)
-+		gicv3_rdist_ctrl_lpi(i, true);
++struct its_collection *its_create_collection(u32 col_id, u32 pe)
++{
++	struct its_collection *new;
 +
-+	writel(GITS_CTLR_ENABLE, its_data.base + GITS_CTLR);
++	if (its_data.nb_collections >=3D GITS_MAX_COLLECTIONS)
++		report_abort("%s redimension GITS_MAX_COLLECTIONS", __func__);
++
++	new =3D &its_data.collections[its_data.nb_collections];
++
++	new->col_id =3D col_id;
++
++	if (its_data.typer.pta)
++		new->target_address =3D (u64)gicv3_data.redist_base[pe];
++	else
++		new->target_address =3D pe << 16;
++
++	its_data.nb_collections++;
++	return new;
 +}
 --=20
 2.20.1
