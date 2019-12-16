@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5424120FED
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:46:03 +0100 (CET)
-Received: from localhost ([::1]:56776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C226D120F97
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:34:27 +0100 (CET)
+Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtVS-00008r-UW
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:46:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
+	id 1igtKE-00020I-Qo
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:34:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtF0-0004nW-2f
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:03 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtF0-0004p4-W9
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtEz-00077m-0P
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:01 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40442)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtEz-00079j-Sn
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:02 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35180)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtEy-00075p-OG
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:00 -0500
-Received: by mail-wm1-x332.google.com with SMTP id t14so7384320wmi.5
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:00 -0800 (PST)
+ id 1igtEz-00077r-MK
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:01 -0500
+Received: by mail-wr1-x443.google.com with SMTP id g17so8052716wro.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aB/U/Tf7guynfrwJbWpfYI+QRcweDccxGqmzLn8iwE8=;
- b=scAMYkAdJXxiRlfDh0u5udZNzctVpxvA1sYs2ON/nEpP/Ot+1weZ4Ocs53II+ZPGhv
- yYxtme4eBWPdx8A2MEqBAenJf46C450guJRWXlgaecJ1yb48mvifwFlOpSrop4FbV+a5
- Z59/5wx+Yt83c1vhQ8KMC3ZSyQ7YcBr2lD+1H76FUEApSY9eVO14Sp1wtwVmvcK6dcYy
- pb9Rw0Qcl7CVy9tmgaiWsTYqCjpdrOwovetn1SyOPjly1+LYYbbEcOK7Izv4Ptix4BxK
- 77WAr5WkCS9DW2/i/RxD25tMuZ4xd5KiqsDnFyZZUKhHy+AaiP5TWCpGrr8JCzaCeAjc
- Aj3g==
+ bh=yver+z01Ad2CgxbNm/G/S9DVzSw0YehnxQ3kmcrkoVo=;
+ b=L0BClAhCSyj7NiBVh0sMJtEzUFZK85VVU38/wYVKdDVdhefHQdGIwh4rx0mkP8Z435
+ YVPr0/E1lSVvG0ITpi4dQ0sklCvSDcEZLGEhxVj2At6co0fWAE1IEBOq819Jy/NhpPc9
+ d/09MU5QfXvaUcG+Fv+hrrEv1jYHzzJOl4pESWPTgGKejsd5AZYZ+pCJS1GwprghIDIn
+ e8OhJca5F04yHXVOgqci/m2jZvBEg00Noi2MBscFo9UX6cdYmqgGsCurf/wSfFgcI6LE
+ hbNrF9jYz4Txu2GddjtIRRC40SIiv2tMIA4cJnQZsWs3RUvOcEH6vcesthRlqAtFJjIt
+ KqFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aB/U/Tf7guynfrwJbWpfYI+QRcweDccxGqmzLn8iwE8=;
- b=O3WPqzxgzxF5gZ5s1iiblnYb21k5wizD7eCv0xKDVsieWcUMSMt8uMzyGw2GxhBfSC
- Ut5cAKMu91bQV2u8xCw86h6U1tCVE1BCd3jcVpGobyPkmPcNkQwVmwGCo6+riDnio5Ug
- NYtMRyLjDa7sTZnM9EfEaaFuVtRcvr29eQPVcczNyxw4T+y7UONjHOBMv2qs/6oGxrl6
- wd2vCjVReOPUXoH9EeLag5leHm6/d95mrBCcnJH8D4ImZpAQoFvemr2Cnyx0oVp+LXzM
- Ylc2eE8sX5vyqHOaZUGgWJoJLiMJsqYYUHTOYOKKDsBfnNc7SFSMoIULsi39dTrkmjrT
- EMvA==
-X-Gm-Message-State: APjAAAVT3eB+TGwh4VPI2/S3f1zqdbSXLGNUmiG8NFuRC/a/8fHEYxnq
- 7YPWZl/9mgxlGuSVi/qhUHkop2IT
-X-Google-Smtp-Source: APXvYqwfzzFLEKUntLhHIG3Slg0P9gtg9WBEpb13U+wqrNUlfBm9KrHSdb5LPHeypPULt6dnO846yQ==
-X-Received: by 2002:a1c:1f51:: with SMTP id f78mr29872958wmf.60.1576513739538; 
- Mon, 16 Dec 2019 08:28:59 -0800 (PST)
+ bh=yver+z01Ad2CgxbNm/G/S9DVzSw0YehnxQ3kmcrkoVo=;
+ b=d79YdxFTFSA09wmmeoFp0Gy9HufjGty77kxAsv4X1ySR2UAaZOdjxtzrHtYazizZm3
+ F9fVoe6BMlS7UjuIhQVqJpM/OHH+2uBLWJK+KHLYzv+TrfUTH6oNnJfCNor7IMKiusuY
+ PHNSPuVNhwam8cNP13VhdLyiHYYV0UNc05rf8j291kFHbZ7Gm7MysWQosOXphd+0d6fJ
+ /SqW5NaeMe5XUxxs4VCVUGB9sSr/zcS7KaEzT3K2bcgLxhrCNuKp7Xa2H5q3GTE/kLdq
+ DwhqMvLgidQEpyZolh05DObwn9/CA0lIYqjPvsgZ3BeODigB7VnTmmpIjZlSJPLxxINF
+ iMdA==
+X-Gm-Message-State: APjAAAUXYXZ3VRO+rVqctJp9HM3Wu4Fq758kcGwFF3nFAQ8/1BQgCb7c
+ IYUjKkXLOBbNWwpYT6TyWevG3DRg
+X-Google-Smtp-Source: APXvYqzMAmaYY5Cenkkd+eTM7OvEIdizsYVw28ZUq6Et4+ethQ/b4Kl8bFhSVSjrxZ6uZzZi89qtlQ==
+X-Received: by 2002:a5d:6206:: with SMTP id y6mr30349052wru.130.1576513740437; 
+ Mon, 16 Dec 2019 08:29:00 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.28.58
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.28.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:28:58 -0800 (PST)
+ Mon, 16 Dec 2019 08:28:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/62] memory: do not look at current_machine->accel
-Date: Mon, 16 Dec 2019 17:27:56 +0100
-Message-Id: <1576513726-53700-13-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 13/62] vl: move icount configuration earlier
+Date: Mon, 16 Dec 2019 17:27:57 +0100
+Message-Id: <1576513726-53700-14-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,48 +82,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"info mtree -f" prints the wrong accelerator name if used with for example
-"-machine accel=kvm:tcg".  The right thing to do is to fetch the name
-from the AccelClass, which will also work nicely once
-current_machine->accel stops existing.
+Once qemu_tcg_configure is turned into a QOM property setter, it will not
+be able to set a default value for mttcg_enabled.  Setting the default will
+move to the TCG instance_init function, which currently runs before "-icount"
+is processed.
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+However, it is harmless to do configure_icount for all accelerators; we will
+just fail later if a non-TCG accelerator is selected.  So do that.
+
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- memory.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ vl.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index 06484c2..6d79cf1 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2979,7 +2979,6 @@ struct FlatViewInfo {
-     bool dispatch_tree;
-     bool owner;
-     AccelClass *ac;
--    const char *ac_name;
- };
+diff --git a/vl.c b/vl.c
+index c0904b3..60353dc 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2825,6 +2825,12 @@ static void user_register_global_props(void)
+                       global_init_func, NULL, NULL);
+ }
  
- static void mtree_print_flatview(gpointer key, gpointer value,
-@@ -3049,7 +3048,7 @@ static void mtree_print_flatview(gpointer key, gpointer value,
-                 if (fvi->ac->has_memory(current_machine, as,
-                                         int128_get64(range->addr.start),
-                                         MR_SIZE(range->addr.size) + 1)) {
--                    qemu_printf(" %s", fvi->ac_name);
-+                    qemu_printf(" %s", fvi->ac->name);
-                 }
-             }
-         }
-@@ -3097,8 +3096,6 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner)
++static int do_configure_icount(void *opaque, QemuOpts *opts, Error **errp)
++{
++    configure_icount(opts, errp);
++    return 0;
++}
++
+ int main(int argc, char **argv, char **envp)
+ {
+     int i;
+@@ -4142,6 +4148,8 @@ int main(int argc, char **argv, char **envp)
+      * Note: uses machine properties such as kernel-irqchip, must run
+      * after machine_set_property().
+      */
++    qemu_opts_foreach(qemu_find_opts("icount"),
++                      do_configure_icount, NULL, &error_fatal);
+     configure_accelerator(current_machine, argv[0]);
  
-         if (ac->has_memory) {
-             fvi.ac = ac;
--            fvi.ac_name = current_machine->accel ? current_machine->accel :
--                object_class_get_name(OBJECT_CLASS(ac));
-         }
+     /*
+@@ -4227,13 +4235,9 @@ int main(int argc, char **argv, char **envp)
+     qemu_spice_init();
  
-         /* Gather all FVs in one table */
+     cpu_ticks_init();
+-    if (icount_opts) {
+-        if (!tcg_enabled()) {
+-            error_report("-icount is not allowed with hardware virtualization");
+-            exit(1);
+-        }
+-        configure_icount(icount_opts, &error_abort);
+-        qemu_opts_del(icount_opts);
++    if (use_icount && !(tcg_enabled() || qtest_enabled())) {
++        error_report("-icount is not allowed with hardware virtualization");
++        exit(1);
+     }
+ 
+     if (tcg_enabled()) {
 -- 
 1.8.3.1
 
