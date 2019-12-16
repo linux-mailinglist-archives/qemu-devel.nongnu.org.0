@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155621203C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:24:03 +0100 (CET)
-Received: from localhost ([::1]:51592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC451203A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:19:51 +0100 (CET)
+Received: from localhost ([::1]:51476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoTp-0000At-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50853)
+	id 1igoPm-0002YB-7g
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:19:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFb-0007a3-Ib
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:21 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFd-0007c8-Fc
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFa-0007jn-Ey
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:19 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35125)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFb-0007lM-8j
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:21 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35868)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFa-0007iP-8t
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:18 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id p17so6237782wmb.0
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:18 -0800 (PST)
+ id 1igoFb-0007kH-2P
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:19 -0500
+Received: by mail-wr1-x436.google.com with SMTP id z3so6731899wru.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xjn8RJQ0vY8rUfMNnaKgorm1b3kbGVHvXOz31kMfCJA=;
- b=nIvVcVJ83qyg50OrGtQp57MU++5uJWorzNom5qGy2nT8DVGSYwyPU1pZruFXkYq33P
- QP11F5U1CD16HhlyhU5AFuuOiUZyVdTn9ihawtcIsYLJrgFFabuRX6AGVXMrwgtmhxEH
- d7G2fcJP29ViUpuGTPikQIn38WE6FVLBIkZdtluXHSe5QxkhHkUOd3vEEwIk2s/da4Q8
- Wi5Q32WVKtRp7iwaJ7joWs9EGn/PNVi5+RmfXXA4+9uvHTjcY5ZD/HEcahjiM/i1one9
- km1M0f278/PW/lJXXrs3BUYs5twkheH8ozIWIZZMHWMIV1m/aSlJg8H2faRlOLle8VxI
- 3rKg==
+ bh=QD+79veTer7FPiPBdF+SAJ8aBHWDVP6IlE9SRsgpnIk=;
+ b=cDIr5UjBL8ljfe4FCdbjYixpga6PbOSVaVEEwERydB8SSbV2jL6/45nKYk8HZsetrc
+ pTbdBXO8PWgC0mvrJf3Xb/h2gimHYQTAz0miOH97yz9YapPL9dsnH+0pk3GuRmD6cMN9
+ Ze1z6MhNGZN33v5XnKTjuCFO0Ag4aNR56r0JXVx65L/3kSSFClt7jnrI3wTQnUzxofC2
+ J9o1SIkP32UeGd5L6kEExkHeTxi9niUEzGBfW0xNsvFY8GOBZtMqqVWFnhUU0uGfWjUm
+ TRCwidkV7nWz5chgVoovltkM6iZkK4QPjJ1/YmhiLbPLLFLMR+kpxkq/LhUgpVzLLDJV
+ RvSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xjn8RJQ0vY8rUfMNnaKgorm1b3kbGVHvXOz31kMfCJA=;
- b=gmrngAcWczYhz7GZVYaJMdhGhc+EVRvCO0PVAAy8lsKYxorfNfFWO9dlcse4+lUxOr
- eCBH1l91jmXjE1PKV7jCGFMDdwG17qsErkThEvSU5FzGom4L5K5xm0VRoEo0o8Dd684O
- jqn8+oZg8kT3vachp6UGqPmD4JJA7l4lWUxauj925pwLlIpVb4vJ/Ck90YrYbyCZUwUg
- twNvulr8+Z/ssE4vO0xvQy5mnoFOr3Tppl1DKI1BJIi0fidhW26jDnvUnw/gzIUBPze4
- E3EneVWd22ur5Uxi160gimR6Dn8wEUkQ7GG47vEtNFv22Y03a606yy2bYpgMreTluq94
- sNNg==
-X-Gm-Message-State: APjAAAVwu18S/t1/HGFun6kp1DLB5N4IV8j/wArSeIybhTuMqRllAQcO
- rkIn1xGAQiA//Oj/J9F8dOx5qrEZ67ySfg==
-X-Google-Smtp-Source: APXvYqxNdHYg0F2eJisfixjNYBbP0dCfjduPvzfhtEKampgPp4SzaSgFs5ei1bkUFNoXhzLziq9/Kg==
-X-Received: by 2002:a1c:a795:: with SMTP id q143mr28403322wme.52.1576494557023; 
+ bh=QD+79veTer7FPiPBdF+SAJ8aBHWDVP6IlE9SRsgpnIk=;
+ b=oHtAWgXHrFwUGAHiIYgjHQEbfuks6UPAKPDSpCYwXq2VCilsmqnNedlYzkbg14w0+8
+ UD9Xub4hNWx9V9SND6xbH/44Gf80YPFo7NG/plisqhVfnKSH4jTeXuVrxp55TiGS9fvn
+ DJcWnDSNrrYdfgfiSpS1f7cMiFZByUCIc4u/4L5aX7h8k4ub3PRy9wgcc3oDVsAFsG4U
+ 7rdJlxhduAxPoBvtpvIxVhh96nWuLbJmRWIr8cT+I8811F2wBeB8NRcjxiUO2z4rt1aQ
+ 9YCnN3zwVuKjEBGUhFmeXX+ARwTzLoD77LkOjqXoPPcXRjvevOLOsAFHg71HlxmUDMv5
+ LGyA==
+X-Gm-Message-State: APjAAAW/iTMGeF+Sc4l9YWoNapU5GwGZ3bJ+cz76xW28gVT/lVl8Nkx1
+ 49IW015VuYQtukkRS5TmrZUqVfP9hYOpzQ==
+X-Google-Smtp-Source: APXvYqwAnmK5wEykYwcKL8U8sceOxLdk0DZjq1OaHsnP61DlZQjVFJp1mZ8OQAmup8mng3iBSG3LQw==
+X-Received: by 2002:adf:f1d0:: with SMTP id z16mr28467027wro.209.1576494557935; 
  Mon, 16 Dec 2019 03:09:17 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.15
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:16 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:17 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/34] aspeed/sdmc: Make ast2600 default 1G
-Date: Mon, 16 Dec 2019 11:08:38 +0000
-Message-Id: <20191216110904.30815-9-peter.maydell@linaro.org>
+Subject: [PULL 09/34] aspeed/scu: Fix W1C behavior
+Date: Mon, 16 Dec 2019 11:08:39 +0000
+Message-Id: <20191216110904.30815-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,36 +84,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-Most boards have this much.
+This models the clock write one to clear registers, and fixes up some
+incorrect behavior in all of the write to clear registers.
+
+There was also a typo in one of the register definitions.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-7-clg@kaod.org
+Message-id: 20191119141211.25716-8-clg@kaod.org
+[clg: checkpatch.pl fixes ]
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/aspeed_sdmc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/misc/aspeed_scu.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index f3a63a2e01d..2df3244b53c 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -208,10 +208,10 @@ static int ast2600_rambits(AspeedSDMCState *s)
-     }
- 
-     /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
-+    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 1024M",
-                 s->ram_size);
--    s->ram_size = 512 << 20;
--    return ASPEED_SDMC_AST2600_512MB;
-+    s->ram_size = 1024 << 20;
-+    return ASPEED_SDMC_AST2600_1024MB;
+diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+index 717509bc546..f62fa25e347 100644
+--- a/hw/misc/aspeed_scu.c
++++ b/hw/misc/aspeed_scu.c
+@@ -98,7 +98,7 @@
+ #define AST2600_CLK_STOP_CTRL     TO_REG(0x80)
+ #define AST2600_CLK_STOP_CTRL_CLR TO_REG(0x84)
+ #define AST2600_CLK_STOP_CTRL2     TO_REG(0x90)
+-#define AST2600_CLK_STOP_CTR2L_CLR TO_REG(0x94)
++#define AST2600_CLK_STOP_CTRL2_CLR TO_REG(0x94)
+ #define AST2600_SDRAM_HANDSHAKE   TO_REG(0x100)
+ #define AST2600_HPLL_PARAM        TO_REG(0x200)
+ #define AST2600_HPLL_EXT          TO_REG(0x204)
+@@ -532,11 +532,13 @@ static uint64_t aspeed_ast2600_scu_read(void *opaque, hwaddr offset,
+     return s->regs[reg];
  }
  
- static void aspeed_sdmc_reset(DeviceState *dev)
+-static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset, uint64_t data,
+-                                     unsigned size)
++static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset,
++                                     uint64_t data64, unsigned size)
+ {
+     AspeedSCUState *s = ASPEED_SCU(opaque);
+     int reg = TO_REG(offset);
++    /* Truncate here so bitwise operations below behave as expected */
++    uint32_t data = data64;
+ 
+     if (reg >= ASPEED_AST2600_SCU_NR_REGS) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -563,15 +565,22 @@ static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset, uint64_t data,
+         /* fall through */
+     case AST2600_SYS_RST_CTRL:
+     case AST2600_SYS_RST_CTRL2:
++    case AST2600_CLK_STOP_CTRL:
++    case AST2600_CLK_STOP_CTRL2:
+         /* W1S (Write 1 to set) registers */
+         s->regs[reg] |= data;
+         return;
+     case AST2600_SYS_RST_CTRL_CLR:
+     case AST2600_SYS_RST_CTRL2_CLR:
++    case AST2600_CLK_STOP_CTRL_CLR:
++    case AST2600_CLK_STOP_CTRL2_CLR:
+     case AST2600_HW_STRAP1_CLR:
+     case AST2600_HW_STRAP2_CLR:
+-        /* W1C (Write 1 to clear) registers */
+-        s->regs[reg] &= ~data;
++        /*
++         * W1C (Write 1 to clear) registers are offset by one address from
++         * the data register
++         */
++        s->regs[reg - 1] &= ~data;
+         return;
+ 
+     case AST2600_RNG_DATA:
 -- 
 2.20.1
 
