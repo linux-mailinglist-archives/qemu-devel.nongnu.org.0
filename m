@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F12312104D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:02:00 +0100 (CET)
-Received: from localhost ([::1]:56992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5E512112B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:09:26 +0100 (CET)
+Received: from localhost ([::1]:57080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtks-0002xg-DY
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:01:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57129)
+	id 1igts4-00046D-Tz
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:09:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFQ-0005Wg-Sv
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:29 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFT-0005bJ-NO
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFP-0008FW-MT
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:28 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41941)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFS-0008Mc-PF
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:31 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36057)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFP-0008E9-G7
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:27 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id c9so8038595wrw.8
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:27 -0800 (PST)
+ id 1igtFS-0008LH-JE
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:30 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z3so514377wru.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=BGBt01mjWcpv3t8vsUW2U8xt8/YYqyeKISoIMxkLyoU=;
- b=ddCFy1xTxh6tEE+OIC2lkmB8CW9tWNxJmBLdv5BNg8/FhNPhI8sy6pmYPF+msuG5eT
- bULm277fHCU7KVJrQ8R/WQhwwkPoj9aehHWT6emqdkWSoFoPXElPZv0Cxpl1kezAYaWl
- OyI7jhV0UhU/26xQPxyVDLWL+skHlswuWL2LIj38C95RPGESXIFNBrwUQOzjEkVYNkOd
- Co2zVSyWOK8RrraknjtRi/eLQ9+jYU8FRQ1JBaDGPhf5C7RUZm5O7ajEMT8kPUncm83K
- 74nIkd4CZGJFsqE3P0iIN4Lur+l1bwfPpUQI7/f2eE/wP5uzxbhOPr3IbkX7CkdTXe2w
- puBA==
+ bh=qI31Sr5BEfau7aDI/0J1srKK7YhXgQE1cLHiZE6Vp/I=;
+ b=OTS/parCwNrF2TlmQ0yjUAw2H3QlPPKK0fOS30Su5MtOBKitWYfuNZfBRKkW3yupve
+ HfaVcA/tFOOVxusw5grNEjKzbcRjHE1LXFQlToK2Uf9ZVLyn4/inJ3MT7sxPVITyr5fF
+ 6/DbrorkSvJ7kATeNzilCnEPg4WCpb1waPey8S6QvAAPjHWvzMUBZoWuCMqsp+8A36LO
+ Qvr62eV1kTa/Knf3o1Yh8XhJHnvoCPQVYi8a28+gpK7tZ92ltWqClIpUJjtYlvq4MN0D
+ Z82DijNv1nCMaf83Fy9WRal8BNPKeOagnIBcIQHklPDhuPOsQsrNDyU6NLHp4v+aZ6R+
+ M4/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=BGBt01mjWcpv3t8vsUW2U8xt8/YYqyeKISoIMxkLyoU=;
- b=nt71P3a8TP4S2UfWtfSGAh2gumX7V4vWFT/MQwPE9uXX+WYL2rqBKABVr5ODSwRnMR
- rqVG9y4WDno6683n9Y4Nep5KA3TQ4uglhdtFgCy4ZZIrBVv8JNJnT9CCOn2AlHoEva2L
- +CHGcYuEzbETNXKIooe7gXrNTe7x+UpP9wdyJRbDruwkTlSbl6X5RDAlZ/XbYJQy0R86
- +//CQ5YYSk2whjJyeufEkQ4/pLaGIUcwZvvUfBrP2enEtxcEWAMICyezvtFW98/VzkeW
- pNA4HqpW/6ySW4LkNbE/HHDBiIEMZz+Fa1V7mX9oR1x9oIUo+pzIRGca20fbFxqJNlR0
- UJug==
-X-Gm-Message-State: APjAAAVUgVomwutKTv1XRsK06P6A71+BLaJXzxiWyHdEq8FCyAJHXfDM
- iIV7fXZre4uc0sUlJCRvXJZds0SG
-X-Google-Smtp-Source: APXvYqz/SS/O9Qa8M7+h73+TxUpOZywcyKfzuUr28sFQVcgnqQKLhi4R+eyIikh/gjkWiYYZ/a3Lzw==
-X-Received: by 2002:a5d:50cf:: with SMTP id f15mr31529530wrt.381.1576513766332; 
- Mon, 16 Dec 2019 08:29:26 -0800 (PST)
+ bh=qI31Sr5BEfau7aDI/0J1srKK7YhXgQE1cLHiZE6Vp/I=;
+ b=gGQNI3tC3BpzJQzeajvkDfuM2/8zfRG89bMbXYPzslaYpFmio7lLp//Kc4sXZRYYJ+
+ KlgMyJqhpLRt97/K16J7+uDPWwJSxcEyg7uN9G6EWt9iXDR/AVIkrsWqfqjOlr/l79e9
+ 5BUR7weQQ6q45CNbqugKEOsVrXcuoQLr8vM2aihim/VNhYZ3meNO1QBnPgq1GXWQi/C9
+ KcPYnMoymI176kRjIwuern4O9Zw1qHfb+DRkmY/AePKk7A45vG0LPC9edbKJj3sKCBbv
+ vX9CHmMTmMqDDzTpWyEprASI2ZGmbzhgLCiGas0OMHtDxjIaqSAiREy1h9Ot2BuCVbIX
+ oj9A==
+X-Gm-Message-State: APjAAAUR8JfI7u3G4c5OpscNz8UKX6eKdBFuwd72z6AdeTavNrka9sEh
+ CykApH5Chc/81mgznab8BFC54WaO
+X-Google-Smtp-Source: APXvYqwuS2IL4+BBq4x83WtOT40nzDSCMv2wSR473DwG3MckOmnKndf8atuyKmVFES9IDrb1p9/cMw==
+X-Received: by 2002:a5d:6206:: with SMTP id y6mr30351583wru.130.1576513769244; 
+ Mon, 16 Dec 2019 08:29:29 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.25
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:25 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:28 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/62] libvixl: remove per-target compiler flags
-Date: Mon, 16 Dec 2019 17:28:23 +0100
-Message-Id: <1576513726-53700-40-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 42/62] configure: set $PYTHON to a full path
+Date: Mon, 16 Dec 2019 17:28:26 +0100
+Message-Id: <1576513726-53700-43-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,60 +78,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are already including -D__STDC_LIMIT_MACROS in the global CXXFLAGS,
-so it makes sense to do the same for -D__STDC_CONSTANT_MACROS and
--D__STDC_FORMAT_MACROS instead of limiting that to libvixl.
-
-The -Wno-sign-compare option can also be removed since GCC 4.6 is not
-supported anymore.
+This will make it possible to replace it in a shebang line.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                   |  3 ++-
- disas/libvixl/Makefile.objs | 11 +----------
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 8fb26ad..394f7f5 100755
+index 394f7f5..bbb8611 100755
 --- a/configure
 +++ b/configure
-@@ -101,7 +101,7 @@ update_cxxflags() {
-     # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
-     # options which some versions of GCC's C++ compiler complain about
-     # because they only make sense for C programs.
--    QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS"
-+    QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
- 
-     for arg in $QEMU_CFLAGS; do
-         case $arg in
-@@ -596,6 +596,7 @@ QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
- QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
-+QEMU_INCLUDES="$QEMU_INCLUDES -iquote \$(SRC_PATH)/disas/libvixl"
- if test "$debug_info" = "yes"; then
-     CFLAGS="-g $CFLAGS"
-     LDFLAGS="-g $LDFLAGS"
-diff --git a/disas/libvixl/Makefile.objs b/disas/libvixl/Makefile.objs
-index 27183b7..99a637f 100644
---- a/disas/libvixl/Makefile.objs
-+++ b/disas/libvixl/Makefile.objs
-@@ -1,14 +1,5 @@
--libvixl_OBJS = vixl/utils.o \
-+common-obj-$(CONFIG_ARM_A64_DIS) = vixl/utils.o \
-                vixl/compiler-intrinsics.o \
-                vixl/a64/instructions-a64.o \
-                vixl/a64/decoder-a64.o \
-                vixl/a64/disasm-a64.o
--
--# The -Wno-sign-compare is needed only for gcc 4.6, which complains about
--# some signed-unsigned equality comparisons which later gcc versions do not.
--$(addprefix $(obj)/,$(libvixl_OBJS)): QEMU_CXXFLAGS := -I$(SRC_PATH)/disas/libvixl $(QEMU_CXXFLAGS) -Wno-sign-compare
--# Ensure that C99 macros are defined regardless of the inclusion order of
--# headers in vixl. This is required at least on NetBSD.
--$(addprefix $(obj)/,$(libvixl_OBJS)): QEMU_CXXFLAGS += -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS
--
--common-obj-$(CONFIG_ARM_A64_DIS) += $(libvixl_OBJS)
+@@ -909,7 +909,7 @@ for binary in "${PYTHON-python3}" python python2
+ do
+     if has "$binary"
+     then
+-        python="$binary"
++        python=$(command -v "$binary")
+         break
+     fi
+ done
 -- 
 1.8.3.1
 
