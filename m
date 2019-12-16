@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C9612103D
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:56:24 +0100 (CET)
-Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF494121010
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:50:38 +0100 (CET)
+Received: from localhost ([::1]:56826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtfT-0003iV-6p
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:56:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57052)
+	id 1igtZt-00054M-Ed
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:50:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57074)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFM-0005PX-R9
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:25 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFN-0005RS-Uv
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFL-00083d-Ox
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:24 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40707)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFM-00089Y-Qa
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:25 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37150)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFL-00081g-Ih
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:23 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id c14so8051676wrn.7
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:23 -0800 (PST)
+ id 1igtFM-000855-KU
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:24 -0500
+Received: by mail-wm1-x335.google.com with SMTP id f129so7409078wmf.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SnbM4HZb29FsG4J6fiW5WwWfE0ShjwYvCK5bmD3CYRU=;
- b=DaEHl6Dsqm8hqfm/jR7fBK2BgKP4aL4GewQe8VRKGq9TnVDAijwRqRS+U3cErGC5AV
- H2Tj8sSg4aLxQibYzclCtybH6sI3zYF1wZicKkIA0X1SlsgUcIKwg3k4CtG52Mie+nHu
- NMjuNS5lsZ5q6vROnGXcuNJY3FQ9FYSby/LIVEH2KzX6r22BfxA71aFdqtd/WkUbv4pa
- /LNs+VqYtMH6wzsC4FCj7Ax8XaFPTpZCqJ7dZ72v/6DulSSilCUDkTO/33ri83cfPrMF
- eNqK5CnkeqHFMUfznnP90BmZW+5I6CqTo3JuwW19CiYNXL/qKo/Clgtoi4PufFWGIV2Z
- r+fA==
+ bh=G3GeihMZT3FWsjutpTGVLlWKTkWWsva27E3p012qRdM=;
+ b=KzXbvxufQA840q/1TB8VQ7Z4x7UjC7xMOsqydpyuwoo8andOZYZ7WUa1lxwsPrGOVb
+ LyicX9bJXzx7EL1NvAdVt7hOSE78ksbVZhdnZtI6imHrDFvcpQHSdVAqcQ5fwGcycjPa
+ 7OdIYHdv7HdLyG3dJYyLBLjeKqAkz+YawUsEG+sQ1NvbPPoxZJwbKfxxeiUDewkjOLoQ
+ URMfCGVqK6HrY220acInEGpDYUoT/J+ydKx3z5b1rWkXvkV2Y3+QwCeY4+ea/Xwd5aQY
+ 4G59BG1VwSd0a+rCBhNJAjVI1PH5RTn6vYjRZExj/xnFpwRGinyS/aSUcka+vJObudoD
+ Oqrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SnbM4HZb29FsG4J6fiW5WwWfE0ShjwYvCK5bmD3CYRU=;
- b=rR9c3pmLQr9+8ie4EMybFmweIgyE+0GoQxhXEgX1t8R1HbqSY7tbxZiXuhcxKhQmN7
- 6gW6OwbW2wI2C9/QY/WKFk52IVSejitIXmSkF1PePMYWCFMmBRB8NzY/DPNeA17r2V1e
- c5sE2ISiJPHBwjRQSp7EquWZ+pcfgBxUeLs8S0i5op62UC6i7dwjagtO69ExzPTJ3frn
- lmwuvKJeOUUxgb9oYMuq+9dZOeMQN2VHGbQuxYRkATYa+gkMw6SDq6A1Tf5Oxf6F2356
- ur1G90s/40anwrTOwBpunsC7Whf/x4bPkp/B5VzKP1kdvq7KpR7ip3xGF0rbJ67CKXx6
- ZSMw==
-X-Gm-Message-State: APjAAAXvft40KR1/qqgfJoH6PwHr0SxJ+gYgRzk9u8L8y73ORER0m+H+
- PNhe+o/N80ua+UpQGIzbHiOnY1DY
-X-Google-Smtp-Source: APXvYqzZL9J/EAk7mMIH+jiTbjn8r/Z25M/xhwObmbxfiCjduNR6n+peidQdfEVUqlEgHUCNmy5S3A==
-X-Received: by 2002:a5d:53c1:: with SMTP id a1mr30044589wrw.373.1576513762427; 
- Mon, 16 Dec 2019 08:29:22 -0800 (PST)
+ bh=G3GeihMZT3FWsjutpTGVLlWKTkWWsva27E3p012qRdM=;
+ b=gy0ScnEACpVgIZ0Vc3lJgPpHRDjiH6YrA/CAOfq3KZk9TpdCNkVTJ3+2/NHoEstVnL
+ 5g8FNF5RtiDrEkuauyqz+Yc/DKGB9fVeByWI3vJMgtdI8RLeYoKyOTETDOCE4tiXwGWh
+ JJRllVIhAPbnsUkqN0rYNtl8QulKu836LuO0YZYXElSdQcnMhVt8sWPyjsW+WoNEKE+z
+ wVJ9sTQ9giA3cc6QOYi0WRo+AdLRBDXiFiwze8Q8v4CWZGF9uWjjh1eLWE2IN2UW6J1u
+ NPfos+kKO6XWMErFiBLCCbjeD6spYMUzgTW443f97tvSwSVi4NnddkDeb7j5eYseQv4I
+ hD3Q==
+X-Gm-Message-State: APjAAAWIAHLttbkZOZlfpItVOTuPXrflf8A+E+jV4oFdJLHuV110sh3S
+ 46myknJZ+bCqIczxB3FfFkD3qAJs
+X-Google-Smtp-Source: APXvYqzLi1J6h7gnp7ha6J+RLwMSpxfOQ/kHDGaH0RhRiHzjclL69AyB+L/eM3ps3mG6EBHTcF8PjQ==
+X-Received: by 2002:a7b:ce98:: with SMTP id q24mr29471008wmj.41.1576513763492; 
+ Mon, 16 Dec 2019 08:29:23 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.21
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.22
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:21 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/62] monitor: fix maybe-uninitialized
-Date: Mon, 16 Dec 2019 17:28:19 +0100
-Message-Id: <1576513726-53700-36-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 36/62] vhost-user-scsi: fix printf format warning
+Date: Mon, 16 Dec 2019 17:28:20 +0100
+Message-Id: <1576513726-53700-37-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,41 +84,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-../monitor/misc.c: In function ‘mon_get_cpu_sync’:
-/home/elmarco/src/qq/include/sysemu/hw_accel.h:22:9: error: ‘cpu’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-   22 |         kvm_cpu_synchronize_state(cpu);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../monitor/misc.c:397:15: note: ‘cpu’ was declared here
-  397 |     CPUState *cpu;
-      |               ^~~
+Fixes:
+../contrib/vhost-user-scsi/vhost-user-scsi.c:118:57: error: format specifies
+      type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
+    g_warning("Unable to determine cdb len (0x%02hhX)", cdb[0] >> 5);
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- monitor/misc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ contrib/vhost-user-scsi/vhost-user-scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 3baa15f..a74cff3 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -394,7 +394,7 @@ int monitor_set_cpu(int cpu_index)
- /* Callers must hold BQL. */
- static CPUState *mon_get_cpu_sync(bool synchronize)
- {
--    CPUState *cpu;
-+    CPUState *cpu = NULL;
+diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
+index 0fc14d7..7a1db16 100644
+--- a/contrib/vhost-user-scsi/vhost-user-scsi.c
++++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
+@@ -115,7 +115,7 @@ static int get_cdb_len(uint8_t *cdb)
+     case 4: return 16;
+     case 5: return 12;
+     }
+-    g_warning("Unable to determine cdb len (0x%02hhX)", cdb[0] >> 5);
++    g_warning("Unable to determine cdb len (0x%02hhX)", (uint8_t)(cdb[0] >> 5));
+     return -1;
+ }
  
-     if (cur_mon->mon_cpu_path) {
-         cpu = (CPUState *) object_resolve_path_type(cur_mon->mon_cpu_path,
-@@ -411,6 +411,7 @@ static CPUState *mon_get_cpu_sync(bool synchronize)
-         monitor_set_cpu(first_cpu->cpu_index);
-         cpu = first_cpu;
-     }
-+    assert(cpu != NULL);
-     if (synchronize) {
-         cpu_synchronize_state(cpu);
-     }
 -- 
 1.8.3.1
 
