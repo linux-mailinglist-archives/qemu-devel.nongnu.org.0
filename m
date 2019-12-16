@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A346D1203EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:31:44 +0100 (CET)
-Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69461203E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:29:11 +0100 (CET)
+Received: from localhost ([::1]:51704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igobH-000243-1u
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:31:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51023)
+	id 1igoYo-0007NU-FJ
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:29:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFk-0007nE-Ii
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:29 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFm-0007qD-0p
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFj-0008CY-9R
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:28 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43133)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFk-0008Ht-F7
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:29 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50558)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFj-00088x-2X
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:27 -0500
-Received: by mail-wr1-x441.google.com with SMTP id d16so6712015wre.10
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:26 -0800 (PST)
+ id 1igoFk-0008Ej-8Q
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:28 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id a5so6262287wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cLD2Kna7vySI7JTixY4DUbJiDAp4iUXD1298DaSCR8I=;
- b=rZ0hP8tz8VogaUVsp9aiUXJlXyJGkkdBMyO4EzwmzsW7Gy2+xAqKdzolFes0iNaIZn
- TdamUM9AuYEFtfQ3vl4TJqfgY+ppsMnd8IKRfyGIft+a6L5IwidZ0US09sf2BHAIZFH5
- 24GNlToZrDd2QLHGZl5Oke+5OiZRAkODRYYPMvTqFdrde3Zu1iaUrAn5wWhbAHefZMjU
- jV8GuCy9TJn8yGEx+2QCuuAJak/m7mt5hCFu7BnJFYcttdUkUSZ7bDtZqtNVUv7Ft3ym
- f2khM+ZcComZoKfZgiwAlSvC65p6w3pS2BwDKsn0vCHTtZgkmpxm81lLlU7GJXojtWg0
- IHLw==
+ bh=biJgw9AmxEjt8OjXP6jfcEtE+uZVIiqydwwtIiuDGOc=;
+ b=cEGyIRJFFxkvZk5j0vcRFJlkFTT/3mr5BDVGssKH3ziIpvm/WXZ8H1OTzQQPlXz4N7
+ MJQuchT6dYnI8AoyZ1bgWM9CtmWZBmAiN6NIdzkoCI9tJay3q6E+QwTvLGfgLn15bal5
+ QkiHW3pBr8NF2LxYBbmaO6uW60Kmu2uMFVjhtlpr70OUOhXGvIPSaMT2r2To2Ds+7SfZ
+ m8+d+pO/cc8jzd1BaSo5PmmiToIX22p7ldEj/Nd3g2hvkjA0bmMNuvxCOBCZqVUZdqhg
+ wlZ3J/HBrz28nZDOEE4nsk6mZbTbgoU2yuCek4AFH77Ystt0NWofuID3ztZ9iNgj6oR8
+ 0KQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cLD2Kna7vySI7JTixY4DUbJiDAp4iUXD1298DaSCR8I=;
- b=mw3xiJ20m+HXqQdAJDPBDKEaEAKXGGs+Fto96SZMk0CJ2IcGdFkMm92+OydPHbMEEK
- FxjCM2krRgTzl3oMjQZrRoclnau5NraMt+pRYdT65CdH2GE1Q2a97bzRYqr7ZmLmS5d/
- kWAM1RwIUYaCLLL317Zs12roSIv6Y4/LcCT7D808ZjZ0/I+Brr1bE9q5dttl2LMVV7me
- TgGLvMNG2xQfOOgCgjlHsO6C1kSc0gde8fSzE01GwMlEbN/mH6Jqme7piTMOjGf6NX7/
- i872d3fnbH+tqtqI1UkMlllVJuRbgU4I4HufFTUiMKcQSTQu2iOqEuDQXXTZrAqObTxS
- Fl0Q==
-X-Gm-Message-State: APjAAAXz5ZkvIz/ami2aQ4PX6gWJMR8uKSQDQiycQnr7YF/0O0NjWoUZ
- WxAule2LxfA/YyuzzqsUaQA0nzimzGUVCQ==
-X-Google-Smtp-Source: APXvYqw7CA0lEFBH/KYeeg2n0bfL6xDJGUKqfanCTrMiq+9Mugtjgo+AA2HNs/DWXkQ3LmO0zUPu5w==
-X-Received: by 2002:adf:c746:: with SMTP id b6mr28282526wrh.298.1576494565931; 
- Mon, 16 Dec 2019 03:09:25 -0800 (PST)
+ bh=biJgw9AmxEjt8OjXP6jfcEtE+uZVIiqydwwtIiuDGOc=;
+ b=aePRfnn18wHYBiz5tUy/rZpOQDQNByDwPsiuADGCZZD5Xp/VYyMxSvDaMHAeDTwTrP
+ tarXM/rF2U5pYmo8QJCx0Hm4XKP//cIEHgWwaqVGqLWaWCN0fHy4BsFmdgXVgegTarMr
+ OTIuAH8+WPrhl19hK+MkxTl8/WLbn85l5rbhVONmDDCIsBJu/PkWdBtzhENS0WTc4iKf
+ UmS1mhsTAj9BKIWBwPxDx9gE5nhw/06TxZmpB4l0sAbhYnDb+MdMVnAlrXeJ9uTOaKtt
+ eKX6eF67bW7m4W/NEv3qijUYzuoO4n7I+XDVEIwJxUkhpXmhpxVbs8f8/Ou9nCp3rs3u
+ Ac1Q==
+X-Gm-Message-State: APjAAAVws8Gkvv0WVsitJSugLZqPzx5z9lhVnypRuhXu9HwnOmmVVANO
+ SGNRYSQWeIpx3Y+bG/mUFonFTL/EPk7y0w==
+X-Google-Smtp-Source: APXvYqy+IrLpBAvPezEgepeuQPzn9xFwR5nHiMc6BpBhX6HfiuriIKH2ufaKKMF30bNycosY+FapKg==
+X-Received: by 2002:a1c:6404:: with SMTP id y4mr25598784wmb.143.1576494566966; 
+ Mon, 16 Dec 2019 03:09:26 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.24
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:25 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:26 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/34] gpio: fix memory leak in aspeed_gpio_init()
-Date: Mon, 16 Dec 2019 11:08:47 +0000
-Message-Id: <20191216110904.30815-18-peter.maydell@linaro.org>
+Subject: [PULL 18/34] aspeed: Change the "scu" property definition
+Date: Mon, 16 Dec 2019 11:08:48 +0000
+Message-Id: <20191216110904.30815-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,32 +82,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: PanNengyuan <pannengyuan@huawei.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-Address Sanitizer shows memory leak in hw/gpio/aspeed_gpio.c:875
+The Aspeed Watchdog and Timer models have a link pointing to the SCU
+controller model of the machine.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Change the "scu" property definition so that it explicitly sets the
+pointer. The property isn't optional : not being able to set the link
+is a bug and QEMU should rather abort than exit in this case.
+
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-16-clg@kaod.org
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20191119141211.25716-17-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/gpio/aspeed_gpio.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/aspeed_ast2600.c  |  8 ++++----
+ hw/arm/aspeed_soc.c      |  8 ++++----
+ hw/timer/aspeed_timer.c  | 17 +++++++++--------
+ hw/watchdog/wdt_aspeed.c | 17 ++++++++---------
+ 4 files changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 7acc5fa8e29..41e11ea9b04 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -876,6 +876,7 @@ static void aspeed_gpio_init(Object *obj)
-                                pin_idx % GPIOS_PER_GROUP);
-         object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
-                             aspeed_gpio_set_pin, NULL, NULL, NULL);
-+        g_free(name);
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 0881eb25983..810fd7de0c0 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -146,8 +146,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
+     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
+     sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
+                           sizeof(s->timerctrl), typename);
+-    object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
+-                                   OBJECT(&s->scu), &error_abort);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+     sysbus_init_child_obj(obj, "i2c", OBJECT(&s->i2c), sizeof(s->i2c),
+@@ -177,8 +175,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+         sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
+                               sizeof(s->wdt[i]), typename);
+-        object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
+-                                       OBJECT(&s->scu), &error_abort);
      }
+ 
+     for (i = 0; i < sc->macs_num; i++) {
+@@ -323,6 +319,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+                        aspeed_soc_get_irq(s, ASPEED_RTC));
+ 
+     /* Timer */
++    object_property_set_link(OBJECT(&s->timerctrl),
++                             OBJECT(&s->scu), "scu", &error_abort);
+     object_property_set_bool(OBJECT(&s->timerctrl), true, "realized", &err);
+     if (err) {
+         error_propagate(errp, err);
+@@ -415,6 +413,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < sc->wdts_num; i++) {
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+ 
++        object_property_set_link(OBJECT(&s->wdt[i]),
++                                 OBJECT(&s->scu), "scu", &error_abort);
+         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index b01c9774419..a6237e59401 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -163,8 +163,6 @@ static void aspeed_soc_init(Object *obj)
+     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
+     sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
+                           sizeof(s->timerctrl), typename);
+-    object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
+-                                   OBJECT(&s->scu), &error_abort);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+     sysbus_init_child_obj(obj, "i2c", OBJECT(&s->i2c), sizeof(s->i2c),
+@@ -194,8 +192,6 @@ static void aspeed_soc_init(Object *obj)
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+         sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
+                               sizeof(s->wdt[i]), typename);
+-        object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
+-                                       OBJECT(&s->scu), &error_abort);
+     }
+ 
+     for (i = 0; i < sc->macs_num; i++) {
+@@ -291,6 +287,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+                        aspeed_soc_get_irq(s, ASPEED_RTC));
+ 
+     /* Timer */
++    object_property_set_link(OBJECT(&s->timerctrl),
++                             OBJECT(&s->scu), "scu", &error_abort);
+     object_property_set_bool(OBJECT(&s->timerctrl), true, "realized", &err);
+     if (err) {
+         error_propagate(errp, err);
+@@ -376,6 +374,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < sc->wdts_num; i++) {
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+ 
++        object_property_set_link(OBJECT(&s->wdt[i]),
++                                 OBJECT(&s->scu), "scu", &error_abort);
+         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
+diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
+index bcce2192a92..a8c38cc1189 100644
+--- a/hw/timer/aspeed_timer.c
++++ b/hw/timer/aspeed_timer.c
+@@ -19,6 +19,7 @@
+ #include "qemu/timer.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "hw/qdev-properties.h"
+ #include "trace.h"
+ 
+ #define TIMER_NR_REGS 4
+@@ -603,15 +604,8 @@ static void aspeed_timer_realize(DeviceState *dev, Error **errp)
+     int i;
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     AspeedTimerCtrlState *s = ASPEED_TIMER(dev);
+-    Object *obj;
+-    Error *err = NULL;
+ 
+-    obj = object_property_get_link(OBJECT(dev), "scu", &err);
+-    if (!obj) {
+-        error_propagate_prepend(errp, err, "required link 'scu' not found: ");
+-        return;
+-    }
+-    s->scu = ASPEED_SCU(obj);
++    assert(s->scu);
+ 
+     for (i = 0; i < ASPEED_TIMER_NR_TIMERS; i++) {
+         aspeed_init_one_timer(s, i);
+@@ -677,6 +671,12 @@ static const VMStateDescription vmstate_aspeed_timer_state = {
+     }
+ };
+ 
++static Property aspeed_timer_properties[] = {
++    DEFINE_PROP_LINK("scu", AspeedTimerCtrlState, scu, TYPE_ASPEED_SCU,
++                     AspeedSCUState *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void timer_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -685,6 +685,7 @@ static void timer_class_init(ObjectClass *klass, void *data)
+     dc->reset = aspeed_timer_reset;
+     dc->desc = "ASPEED Timer";
+     dc->vmsd = &vmstate_aspeed_timer_state;
++    dc->props = aspeed_timer_properties;
  }
  
+ static const TypeInfo aspeed_timer_info = {
+diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+index 122aa8daaad..f50dab922e0 100644
+--- a/hw/watchdog/wdt_aspeed.c
++++ b/hw/watchdog/wdt_aspeed.c
+@@ -241,16 +241,8 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     AspeedWDTState *s = ASPEED_WDT(dev);
+-    Error *err = NULL;
+-    Object *obj;
+ 
+-    obj = object_property_get_link(OBJECT(dev), "scu", &err);
+-    if (!obj) {
+-        error_propagate(errp, err);
+-        error_prepend(errp, "required link 'scu' not found: ");
+-        return;
+-    }
+-    s->scu = ASPEED_SCU(obj);
++    assert(s->scu);
+ 
+     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, aspeed_wdt_timer_expired, dev);
+ 
+@@ -264,6 +256,12 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(sbd, &s->iomem);
+ }
+ 
++static Property aspeed_wdt_properties[] = {
++    DEFINE_PROP_LINK("scu", AspeedWDTState, scu, TYPE_ASPEED_SCU,
++                     AspeedSCUState *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void aspeed_wdt_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -273,6 +271,7 @@ static void aspeed_wdt_class_init(ObjectClass *klass, void *data)
+     dc->reset = aspeed_wdt_reset;
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+     dc->vmsd = &vmstate_aspeed_wdt;
++    dc->props = aspeed_wdt_properties;
+ }
+ 
+ static const TypeInfo aspeed_wdt_info = {
 -- 
 2.20.1
 
