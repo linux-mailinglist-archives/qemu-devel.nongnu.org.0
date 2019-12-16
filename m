@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E14120358
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:09:57 +0100 (CET)
-Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4B812036D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:12:50 +0100 (CET)
+Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoGB-0006xv-To
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:09:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50018)
+	id 1igoIz-0002cu-GW
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:12:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1igoE3-0005EY-6h
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:45 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1igoE5-0005GE-2Q
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1igoE1-0003b7-RU
+ (envelope-from <alex.bennee@linaro.org>) id 1igoE2-0003dM-Uy
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:43 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33129)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:47031)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1igoE1-0003aH-K7
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:41 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id b6so6749433wrq.0
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:07:41 -0800 (PST)
+ id 1igoE2-0003bZ-OB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:42 -0500
+Received: by mail-wr1-x433.google.com with SMTP id z7so6667559wrl.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:07:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sekHCSundFwN1XwOB6e9ZV5liIqc5bIq/ABEnUutdkA=;
- b=GjSAJ76J/nGCIVqYmfN3poFlcLv/lQxivXLSlIAxgEA+gVJDcKRZcvCSG8P+pviVCG
- LfplcImINo9lInuv7MAlD1ZdJvDQZNpme/nrDOPXCHGLtVe3etZ9Nb40FaYY4tmuGlKd
- z7xgPq++vlvaEtq7+omXOT/AkI29hil+qnCtvyEcfJDhNuGWKCdsBs9S0ZlC4/IaKysx
- ll0c+fFe6YLGSPEq/qoU7wTSP3Dwlcz1LhJVZe+Jl+HERx6xi4vYf8dcfIPOYCnfp627
- UPCmE9ITthDTdqxdI9X6q5cxlXBhckd/iQId4o7ngd16XU4f7dT7FGkgw03Rc88w/CgB
- D4CQ==
+ bh=7bvQ1VKDvRAorzg0rdjBH3tuWJxl25cthST4/KYuWTc=;
+ b=OUso2ReGobunB2AZAsiZhj92belsSBh212Tf7G3ih/Fr6BOqa7S2MPihhvRnnnfOJG
+ 4I4xnlx56IGewnrTHtnE2TrLUIiBM9uedSJlrcsXgax+UDzhHbkNQ4QjfczXu6Vq8i5b
+ PyQrHC3B7IKTgAbGHeY6hLBn+ySZfrSu/k9zukDAG1MQqTuYIoTxYtNMDgGWNSrO4/UV
+ MOYiDUTdr37SQb3cWQTIPT7Sct4ZUExoGceFgrUWKGh/W9jGiP41fzpvPjYbYUgsd59N
+ j6L4YdPLmpQJsDV7PcZgQkXk5QYqn9pLluPb8GWsDDvtTngrWth7JikKrd+BmQ5OFqJZ
+ AW/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sekHCSundFwN1XwOB6e9ZV5liIqc5bIq/ABEnUutdkA=;
- b=l8e/D4SjF9WmaN1Bi8HVcgrYXeNVHk4laMGUIfD744xPlal94qzOtbKi/0X3wB72nD
- +Zm8Qw7h76rtS+wVjlf3a1uUkdPe5wFJk44T7m5LSMjmOL2Kx1ugc67Rk2C17d/rjNfN
- Z93O66m4E6wwXAc/zx1fCzj9K+xewUiqeT/xDV9Q517uKZh5SyzAl3gO0ekMt7P9ysKr
- U0ckWQe2PuVku+uDEVZCUcc/gpyUEXlLMXHgiFsHRvCSo0XTAKZqUMwweI6q/JqFwWbB
- AQCHTtSX5eWkTcgdr/HQXUNMf7v3DTG4ZC3xoaS+WJsE2I6LV4Mx0g8jCBdNYNLybWix
- Wnfw==
-X-Gm-Message-State: APjAAAWZ8PbRHlgiSkWsuYF8mPuXSmLp0Fh+4KhM/8/Y4+7PLHn75TUl
- e1R8/WFUGVqI5jfhdMpOMl7C8Q==
-X-Google-Smtp-Source: APXvYqwIhOP0LrG9RLVNzwFEK7N3jMyhF1qRMy2FG9FI4d6i1KgL03lEuRbkCT2xtn6X1+23Kuj5+A==
-X-Received: by 2002:adf:e78b:: with SMTP id n11mr29657532wrm.10.1576494460522; 
- Mon, 16 Dec 2019 03:07:40 -0800 (PST)
+ bh=7bvQ1VKDvRAorzg0rdjBH3tuWJxl25cthST4/KYuWTc=;
+ b=elYUZy0/D9gaMHOxnSSLa2V1QRGInHCtCscyHUZq4dZIGgNiUP5NrOL7056EM4OufR
+ JnX7RhDs6F8PgTVLbE7HMCx+YvO7T/COLsurVyFbKlFSvqA+rtwKSbbJYkmMSKVoPa4s
+ QGvZYixwtZSWZdRnG+LxDKLj9tdkrEuhr7Os+Gtst+Dyh+9osHnXdzBi0gUxPs2py4op
+ vIicHWyUWr+XYhQHry1QblyJqbllBkBvBKoF6WVDEMr9ZVIC/utwI8L25oi7ticOj1NO
+ UVhRo9Hprpcl4rRvvW/MzyWqTBBHRpN23nt9xP6Ck1cQ9rQOLqLwts1kUqKvDBFm2KZc
+ mJyA==
+X-Gm-Message-State: APjAAAU/mf1SSHwvR7u7dnuE4Gd1F+MhsOKBG3OArPiZhgWjJyMXIpGn
+ 6/ToQhFZery2WGyAzs99bGzFZg==
+X-Google-Smtp-Source: APXvYqy4tfSv4WqYKXapA/sJ5NaF30yXgQ0HpwrIGJztNdMMVLqF4qQBPYBeKwmHOHUdIcX/rbvJFw==
+X-Received: by 2002:a5d:51c1:: with SMTP id n1mr29255562wrv.335.1576494461681; 
+ Mon, 16 Dec 2019 03:07:41 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s16sm21253491wrn.78.2019.12.16.03.07.33
+ by smtp.gmail.com with ESMTPSA id u10sm20122522wmd.1.2019.12.16.03.07.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 16 Dec 2019 03:07:37 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8148E1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 9A1B21FF92;
  Mon, 16 Dec 2019 11:07:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 04/16] iotests: Provide a function for checking the
- creation of huge files
-Date: Mon, 16 Dec 2019 11:07:20 +0000
-Message-Id: <20191216110732.24027-5-alex.bennee@linaro.org>
+Subject: [PATCH v1 05/16] iotests: Skip test 060 if it is not possible to
+ create large files
+Date: Mon, 16 Dec 2019 11:07:21 +0000
+Message-Id: <20191216110732.24027-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110732.24027-1-alex.bennee@linaro.org>
 References: <20191216110732.24027-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,88 +86,44 @@ Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
  Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  "open list:Block layer core" <qemu-block@nongnu.org>,
  stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, f4bug@amsat.org, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- Max Reitz <mreitz@redhat.com>, aurelien@aurel32.net
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Some tests create huge (but sparse) files, and to be able to run those
-tests in certain limited environments (like CI containers), we have to
-check for the possibility to create such files first. Thus let's introduce
-a common function to check for large files, and replace the already
-existing checks in the iotests 005 and 220 with this function.
+Test 060 fails in the arm64, s390x and ppc64le LXD containers on Travis
+(which we will hopefully enable in our CI soon). These containers
+apparently do not allow large files to be created. The repair process
+in test 060 creates a file of 64 GiB, so test first whether such large
+files are possible and skip the test if that's not the case.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191204154618.23560-2-thuth@redhat.com>
+Message-Id: <20191204154618.23560-3-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qemu-iotests/005       |  5 +----
- tests/qemu-iotests/220       |  6 ++----
- tests/qemu-iotests/common.rc | 10 ++++++++++
- 3 files changed, 13 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/060 | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
-index 58442762fe3..b6d03ac37de 100755
---- a/tests/qemu-iotests/005
-+++ b/tests/qemu-iotests/005
-@@ -59,10 +59,7 @@ fi
- # Sanity check: For raw, we require a file system that permits the creation
- # of a HUGE (but very sparse) file. Check we can create it before continuing.
- if [ "$IMGFMT" = "raw" ]; then
--    if ! truncate --size=5T "$TEST_IMG"; then
--        _notrun "file system on $TEST_DIR does not support large enough files"
--    fi
--    rm "$TEST_IMG"
-+    _require_large_file 5T
- fi
+diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
+index b91d8321bb8..d96f17a4846 100755
+--- a/tests/qemu-iotests/060
++++ b/tests/qemu-iotests/060
+@@ -49,6 +49,9 @@ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
  
- echo
-diff --git a/tests/qemu-iotests/220 b/tests/qemu-iotests/220
-index 2d62c5dcac2..15159270d33 100755
---- a/tests/qemu-iotests/220
-+++ b/tests/qemu-iotests/220
-@@ -42,10 +42,8 @@ echo "== Creating huge file =="
- 
- # Sanity check: We require a file system that permits the creation
- # of a HUGE (but very sparse) file.  tmpfs works, ext4 does not.
--if ! truncate --size=513T "$TEST_IMG"; then
--    _notrun "file system on $TEST_DIR does not support large enough files"
--fi
--rm "$TEST_IMG"
-+_require_large_file 513T
++# The repair process will create a large file - so check for availability first
++_require_large_file 64G
 +
- IMGOPTS='cluster_size=2M,refcount_bits=1' _make_test_img 513T
- 
- echo "== Populating refcounts =="
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 0cc8acc9edd..6f0582c79af 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -643,5 +643,15 @@ _require_drivers()
-     done
- }
- 
-+# Check that we have a file system that allows huge (but very sparse) files
-+#
-+_require_large_file()
-+{
-+    if ! truncate --size="$1" "$TEST_IMG"; then
-+        _notrun "file system on $TEST_DIR does not support large enough files"
-+    fi
-+    rm "$TEST_IMG"
-+}
-+
- # make sure this script returns success
- true
+ rt_offset=65536  # 0x10000 (XXX: just an assumption)
+ rb_offset=131072 # 0x20000 (XXX: just an assumption)
+ l1_offset=196608 # 0x30000 (XXX: just an assumption)
 -- 
 2.20.1
 
