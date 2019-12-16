@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F155312114F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:10:33 +0100 (CET)
-Received: from localhost ([::1]:57134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E436C12110D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:08:33 +0100 (CET)
+Received: from localhost ([::1]:57070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igttA-0005VP-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:10:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57521)
+	id 1igtrE-0002zr-No
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:08:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57561)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFl-00060T-Q7
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:50 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFn-00062c-8T
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFk-0000hy-N5
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:49 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37047)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFl-0000lJ-P3
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:50 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37669)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFj-0000dK-US
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:48 -0500
-Received: by mail-wm1-x341.google.com with SMTP id f129so7410565wmf.2
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:47 -0800 (PST)
+ id 1igtFl-0000h9-55
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:49 -0500
+Received: by mail-wr1-x444.google.com with SMTP id w15so8066939wru.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PMUWoCpuqKP+tFU4xIk4lPZAxU6QOkIu0guoobq7qFU=;
- b=C9sOyLQpIf9UG8d9SMxCbzTpCG4ty2fqSJZhYNSXG3jYoW49sUByVo8/7lyBJVZlmu
- tt6TUA3uuSTp/xroFqbWPzK4/D+9yxDomNBQTy2ofEfgvuYOLXM4ZGz8C0TMpXyxJs2r
- HMiZmb+NvhNjWtGu0r/SGpwuHrgumUJFSQTgLwvIRrBgQC7J6dsI/KK8nRXvAa32LH5y
- eOqbxJDN+U7cDmRl8iL0/qM27Kl+A/AuLigA+KCQLMtyRQbS8w/txju8JrUJP6d+n4CA
- G/aiblgelJNslnuNBQ3ytOQ8OZuaKjs8YYJqIlPYDjk2ycs9H99950koFphAyWYWirX6
- STPQ==
+ bh=nb2hZFwKzalXfmKpcbYjmUeCAEo1SDTH5IqQlmfU414=;
+ b=Mlvwqgp4qGA8Fg20kZKCRxrVTnH9nl3keRg5gX5ia4/a25JwygHQuQVfd3R0u9X/Ln
+ jFzr/7Qpk8dRaqssdw3yIqAZe1Wd2/e8pij/SyHZN9tsh6F9r+XfXDoEObCJXf0GlzhC
+ 68M6NEBkwvljigddmM2OrBXaigcwO3A/eYcDy2TwtQttDP+JtYqyWzjlP892pzNGHOpx
+ dkOe9qk4bnBNuaoGgng7s0bJIdfFKXMNcFcqv1z2UI5s6KKZREO0bNf9Cwryzx5SBya7
+ HZFNE19pk+APZgtq3W28aKAgL0ypJ+uupV6R+OE/AgwcLI7eEpRFFiUDmWSeHo23fg59
+ rAdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=PMUWoCpuqKP+tFU4xIk4lPZAxU6QOkIu0guoobq7qFU=;
- b=AWryTgHukShGm3KHN0jvREPWJ2Q81wNYn26QJ3kBsqguYvfVHnNlxW9Ch9yUqnwQJg
- QbnOGxlYcN8gKTd5PJfFUtIFiSGZx5Bsp1mxmTFwVOX26EJX6bYoPj7n2Ds60EfOaG2K
- 6hn6io32hIpWof4wgqMgxqPxsbuIkmvTgFknxPmbS98HiQAxH9pd4klvPXZb8TcRD/sV
- O9e8q47s/2PiabdX0pvQnLniTZZED0+GO4aRG0wYa2hLl9cjy5AWrYdrzvXqTIdSKZEo
- ZK8JBOlIcaUgnjEsxIdbcEltwyAGDFm7CC5pEt1BKLAHLECISmhRKBQRSzHP2xgfxXTM
- zy/Q==
-X-Gm-Message-State: APjAAAXPhk7fXr2ZSgQzfLxS6HmqjJ1U8HRMD6MW6crQPcBLzP3Ihuz0
- 2G43st3Fgd2btgaEGKS+oN869YYm
-X-Google-Smtp-Source: APXvYqxdKGIP9cMmvM5dLh6wVeaP0szbeL01d62k1FoRC5gckefhUxKFuVPBXy5n/bW9qi4+vwxiRA==
-X-Received: by 2002:a1c:740b:: with SMTP id p11mr33186397wmc.78.1576513786750; 
- Mon, 16 Dec 2019 08:29:46 -0800 (PST)
+ bh=nb2hZFwKzalXfmKpcbYjmUeCAEo1SDTH5IqQlmfU414=;
+ b=HoHIRVuRdGAzTkYwaczKsOt5uTpSu0Aff3i2lT9xQlGna/s/Sm2ZjSZ8eVZB9RCBp2
+ +d/T7LKCdoCDZZ4yujXgeZW92aBAcjvvOzgIb0ETbXxUoGMH/8BhdC1/h9ppQOB6bmgc
+ gYzXVQ9DqRBaePe9n4VGHK3NDIbLxFaEXwtYkquM3d4Pj9fy/RNHguoF1BGoWErs9Orl
+ g7/ajP8H9T2rvHOTaNWwmWmTOT+ImG5bYKmevHdVBX1HwlYpV+V4gKrH3BMdenfLmCPF
+ O68g9JP4oJckskZbnSsDko8Y/BaXBAbuZQdr0c4GD9r1OrXYuP6+i+Hus5dreOuWbw3t
+ +8BQ==
+X-Gm-Message-State: APjAAAUMwMIjE0tAe6+rqXAuOg6Li7yIl5DULrrq/IhhwcfJV2g/QXkY
+ SCfRxMSH4XefLmX7MQsaOMRoc0Hs
+X-Google-Smtp-Source: APXvYqznP2mGIOd/oI3qbOORu/XNCRRVQ5dz+tEQGyoGG6EashnmbuSxwOjhbszs8HQ+Yial5Iaaew==
+X-Received: by 2002:adf:ea4f:: with SMTP id j15mr32258278wrn.356.1576513787766; 
+ Mon, 16 Dec 2019 08:29:47 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.45
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:45 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 59/62] hyperv: Use auto rcu_read macros
-Date: Mon, 16 Dec 2019 17:28:43 +0100
-Message-Id: <1576513726-53700-60-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 60/62] qsp: Use WITH_RCU_READ_LOCK_GUARD
+Date: Mon, 16 Dec 2019 17:28:44 +0100
+Message-Id: <1576513726-53700-61-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,67 +80,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Use RCU_READ_LOCK_GUARD and WITH_RCU_READ_LOCK_GUARD
-to replace the manual rcu_read_(un)lock calls.
+The automatic rcu read lock maintenance works quite
+nicely in this case where it previously relied on a comment to
+delimit the lifetime and now has a block.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/hyperv/hyperv.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ util/qsp.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
-index 6ebf31c..da8ce82 100644
---- a/hw/hyperv/hyperv.c
-+++ b/hw/hyperv/hyperv.c
-@@ -546,14 +546,14 @@ uint16_t hyperv_hcall_post_message(uint64_t param, bool fast)
-     }
+diff --git a/util/qsp.c b/util/qsp.c
+index 6226541..7d5147f 100644
+--- a/util/qsp.c
++++ b/util/qsp.c
+@@ -598,7 +598,6 @@ static void qsp_ht_delete(void *p, uint32_t h, void *htp)
  
-     ret = HV_STATUS_INVALID_CONNECTION_ID;
--    rcu_read_lock();
--    QLIST_FOREACH_RCU(mh, &msg_handlers, link) {
--        if (mh->conn_id == (msg->connection_id & HV_CONNECTION_ID_MASK)) {
--            ret = mh->handler(msg, mh->data);
--            break;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QLIST_FOREACH_RCU(mh, &msg_handlers, link) {
-+            if (mh->conn_id == (msg->connection_id & HV_CONNECTION_ID_MASK)) {
-+                ret = mh->handler(msg, mh->data);
-+                break;
-+            }
-         }
-     }
--    rcu_read_unlock();
- 
- unmap:
-     cpu_physical_memory_unmap(msg, len, 0, 0);
-@@ -619,7 +619,6 @@ int hyperv_set_event_flag_handler(uint32_t conn_id, EventNotifier *notifier)
- 
- uint16_t hyperv_hcall_signal_event(uint64_t param, bool fast)
+ static void qsp_mktree(GTree *tree, bool callsite_coalesce)
  {
--    uint16_t ret;
-     EventFlagHandler *handler;
+-    QSPSnapshot *snap;
+     struct qht ht, coalesce_ht;
+     struct qht *htp;
  
-     if (unlikely(!fast)) {
-@@ -645,15 +644,12 @@ uint16_t hyperv_hcall_signal_event(uint64_t param, bool fast)
-         return HV_STATUS_INVALID_HYPERCALL_INPUT;
-     }
- 
--    ret = HV_STATUS_INVALID_CONNECTION_ID;
+@@ -610,20 +609,19 @@ static void qsp_mktree(GTree *tree, bool callsite_coalesce)
+      * We must remain in an RCU read-side critical section until we're done
+      * with the snapshot.
+      */
 -    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     QLIST_FOREACH_RCU(handler, &event_flag_handlers, link) {
-         if (handler->conn_id == param) {
-             event_notifier_set(handler->notifier);
--            ret = 0;
--            break;
-+            return 0;
-         }
+-    snap = atomic_rcu_read(&qsp_snapshot);
++    WITH_RCU_READ_LOCK_GUARD() {
++        QSPSnapshot *snap = atomic_rcu_read(&qsp_snapshot);
+ 
+-    /* Aggregate all results from the global hash table into a local one */
+-    qht_init(&ht, qsp_entry_no_thread_cmp, QSP_INITIAL_SIZE,
+-             QHT_MODE_AUTO_RESIZE | QHT_MODE_RAW_MUTEXES);
+-    qht_iter(&qsp_ht, qsp_aggregate, &ht);
++        /* Aggregate all results from the global hash table into a local one */
++        qht_init(&ht, qsp_entry_no_thread_cmp, QSP_INITIAL_SIZE,
++                 QHT_MODE_AUTO_RESIZE | QHT_MODE_RAW_MUTEXES);
++        qht_iter(&qsp_ht, qsp_aggregate, &ht);
+ 
+-    /* compute the difference wrt the snapshot, if any */
+-    if (snap) {
+-        qsp_diff(&snap->ht, &ht);
++        /* compute the difference wrt the snapshot, if any */
++        if (snap) {
++            qsp_diff(&snap->ht, &ht);
++        }
      }
+-    /* done with the snapshot; RCU can reclaim it */
 -    rcu_read_unlock();
--    return ret;
-+    return HV_STATUS_INVALID_CONNECTION_ID;
- }
+ 
+     htp = &ht;
+     if (callsite_coalesce) {
 -- 
 1.8.3.1
 
