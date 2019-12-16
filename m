@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DCF123BB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 01:41:28 +0100 (CET)
-Received: from localhost ([::1]:47808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009DA123BB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 01:39:39 +0100 (CET)
+Received: from localhost ([::1]:47768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihNP5-0000dl-JD
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 19:41:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53754)
+	id 1ihNNJ-0006e1-VJ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 19:39:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bbee54ae01647acca557d827a1ec9de2cdc7fc6a@lizzy.crudebyte.com>)
- id 1ihNLN-0004rR-11
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:37:38 -0500
+ (envelope-from <7cc4232f20b6980ebba7c8b3b3c44879c0f51f4d@lizzy.crudebyte.com>)
+ id 1ihNML-0005j9-Uw
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:38:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bbee54ae01647acca557d827a1ec9de2cdc7fc6a@lizzy.crudebyte.com>)
- id 1ihNLJ-0006Ln-HF
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:37:36 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:36367)
+ (envelope-from <7cc4232f20b6980ebba7c8b3b3c44879c0f51f4d@lizzy.crudebyte.com>)
+ id 1ihNMK-0007Ko-1v
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:38:37 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:48377)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <bbee54ae01647acca557d827a1ec9de2cdc7fc6a@lizzy.crudebyte.com>)
- id 1ihNLJ-0005Ix-9u
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:37:33 -0500
+ (envelope-from <7cc4232f20b6980ebba7c8b3b3c44879c0f51f4d@lizzy.crudebyte.com>)
+ id 1ihNMJ-0006MB-9l
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:38:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Message-Id:Subject:Date:Cc:To:From:Content-Type:
  Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=xxA8A/71VZmo/4tDAr7RZXyWuvgQX3RtHseCV2fExEs=; b=psYbl
- PjdYBNGwc0pGiyCd4G1exF2sTeT4kzRxAKE0UpDHp79/iV1hhDIZLKcym1S57TEOHQreE4Immc7j3
- fk8rs9fyqxqDHN+CgDz1fZ30JaZwM+q9r0Fk/DWAJefowHpPk5zugkMlGt3aU8uk951HHPalRNMWl
- 84O3boOv7FGoFqGgAGplz2CyndbP4Bd9jF2J9rYf2BnUCTc0oLf/hRN7Wqlj5ZHIBinog3ogXBbLE
- R575DHcdzggRj6sbpd1Sa9m9qjOVUTTnlo+XSSDDJlwzdjfxBKUekW4m3NyMMlOfQ3asARNipS7ly
- 67ypeKHry260eMV5bjujMNqIPHT0A==;
+ Content-Description; bh=cxMe92u5ASOp0Wed+HeYi8Yxfcg9hrZZhrc6cUMAWQo=; b=o70zb
+ PMasrSfh3gFH49tYY5wBovJDad38mBPCsYeL5embaiWhP2Fs/x1345BiVNZPEmoPssOBn7Vu0MzxY
+ DuFpv8e8G5hK8W/orbWyMN+Fh02TnTkskGitrINFkEPIRTK9xinNQ/suZGFozeQiJIVz0oC9PDWs4
+ 0GaxzalWajVYT/drZl/uj7V5LHchlm5DVQ/HlbUjfbxZZbDcWWe0cTGOYmaKPbvswYW4OnBgyWE0Z
+ vhDGlRuyZF+UyV+JVXgjbgL/ZyKEU5orInQjVL3Dr27pwmzXa5ce3g7z8uhXZ8wWPQNhxIy3PmGAx
+ SW7WbQGvU2qTQgIO6e5kPON30QxGg==;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
-Date: Mon, 16 Dec 2019 00:53:42 +0100
-Subject: [PATCH 4/9] tests/virtio-9p: added READDIR test
-Message-Id: <E1ihMv0-00077V-0K@lizzy.crudebyte.com>
+Date: Mon, 16 Dec 2019 13:43:12 +0100
+Subject: [PATCH 6/9] 9pfs: READDIR benchmark
+Message-Id: <E1ihMvE-00078A-5c@lizzy.crudebyte.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.194.90.13
@@ -56,186 +56,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This first READDIR test simply checks the amount of directory
-entries returned, according to the created amount on 9p synth
-driver side.
+This patch is not intended to be merged. It just provides a
+temporary benchmark foundation for coneniently A/B comparison
+of the subsequent 9p READDIR optimization patches:
+
+* hw/9pfs/9p-synth: increase amount of simulated files for
+  READDIR test to 2000 files.
+
+* tests/virtio-9p: measure wall time that elapsed between
+  sending T_readdir request and arrival of R_readdir response
+  and print out that measured duration, as well as amount of
+  directory entries received, and the amount of bytes of the
+  response message.
+
+* tests/virtio-9p: increased msize to 256kiB to allow
+  retrieving all 2000 files (simulated by synth backend) with
+  only one READDIR request.
+
+Running this benchmark is fairly quick & simple and does not
+require any guest OS installation or other prerequisites:
+
+cd build
+make && make tests/qos-test
+export QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64
+tests/qos-test -p $(tests/qos-test -l | grep readdir/basic)
+
+Since this benchmark uses the 9p synth backend, the host machine's
+IO hardware (SSDs/HDDs) is not relevant for the benchmark result,
+because the synth backend's readdir implementation returns
+immediately (without any blocking IO that would happen with a
+real-life backend) and just returns already prepared, simulated
+directory entries directly from RAM. So this benchmark focuses on
+the efficiency of the 9p controller code (or top half) for READDIR
+request handling.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/virtio-9p-test.c | 125 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+ hw/9pfs/9p-synth.h     |  2 +-
+ tests/virtio-9p-test.c | 33 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 33 insertions(+), 2 deletions(-)
 
+diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
+index 036d7e4a5b..7d6cedcdac 100644
+--- a/hw/9pfs/9p-synth.h
++++ b/hw/9pfs/9p-synth.h
+@@ -58,7 +58,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
+ /* for READDIR test */
+ #define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
+ #define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
+-#define QTEST_V9FS_SYNTH_READDIR_NFILES 100
++#define QTEST_V9FS_SYNTH_READDIR_NFILES 2000
+ 
+ /* Any write to the "FLUSH" file is handled one byte at a time by the
+  * backend. If the byte is zero, the backend returns success (ie, 1),
 diff --git a/tests/virtio-9p-test.c b/tests/virtio-9p-test.c
-index 880b4ff567..ab5926527a 100644
+index dafea1ae61..9a8b2046ae 100644
 --- a/tests/virtio-9p-test.c
 +++ b/tests/virtio-9p-test.c
-@@ -68,6 +68,11 @@ static void v9fs_memread(P9Req *req, void *addr, size_t len)
-     req->r_off += len;
- }
+@@ -15,6 +15,17 @@
+ #include "libqos/virtio-9p.h"
+ #include "libqos/qgraph.h"
  
-+static void v9fs_uint8_read(P9Req *req, uint8_t *val)
-+{
-+    v9fs_memread(req, val, 1);
++/*
++ * to benchmark the real time (not CPU time) that elapsed between start of
++ * a request and arrival of its response
++ */
++static double wall_time(void) {
++    struct timeval t;
++    struct timezone tz;
++    gettimeofday(&t, &tz);
++    return t.tv_sec + t.tv_usec * 0.000001;
 +}
 +
- static void v9fs_uint16_write(P9Req *req, uint16_t val)
- {
-     uint16_t le_val = cpu_to_le16(val);
-@@ -101,6 +106,12 @@ static void v9fs_uint32_read(P9Req *req, uint32_t *val)
-     le32_to_cpus(val);
+ #define QVIRTIO_9P_TIMEOUT_US (10 * 1000 * 1000)
+ static QGuestAllocator *alloc;
+ 
+@@ -36,7 +47,7 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(tag);
  }
  
-+static void v9fs_uint64_read(P9Req *req, uint64_t *val)
-+{
-+    v9fs_memread(req, val, 8);
-+    le64_to_cpus(val);
-+}
-+
- /* len[2] string[len] */
- static uint16_t v9fs_string_size(const char *string)
- {
-@@ -191,6 +202,7 @@ static const char *rmessage_name(uint8_t id)
-         id == P9_RLOPEN ? "RLOPEN" :
-         id == P9_RWRITE ? "RWRITE" :
-         id == P9_RFLUSH ? "RFLUSH" :
-+        id == P9_RREADDIR ? "READDIR" :
-         "<unknown>";
- }
+-#define P9_MAX_SIZE 4096 /* Max size of a T-message or R-message */
++#define P9_MAX_SIZE (256*1024) /* Max size of a T-message or R-message */
  
-@@ -348,6 +360,77 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
-     v9fs_req_free(req);
- }
+ typedef struct {
+     QTestState *qts;
+@@ -593,12 +604,32 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rlopen(req, &qid, NULL);
  
-+/* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
-+static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offset,
-+                            uint32_t count, uint16_t tag)
-+{
-+    P9Req *req;
++    const double start = wall_time();
 +
-+    req = v9fs_req_init(v9p, 4 + 8 + 4, P9_TREADDIR, tag);
-+    v9fs_uint32_write(req, fid);
-+    v9fs_uint64_write(req, offset);
-+    v9fs_uint32_write(req, count);
-+    v9fs_req_send(req);
-+    return req;
-+}
+     req = v9fs_treaddir(
+         v9p, 1/*fid*/, 0/*offset*/, P9_MAX_SIZE - P9_IOHDRSZ/*count*/,
+         0/*tag*/
+     );
++    const double treaddir = wall_time();
+     v9fs_req_wait_for_reply(req, NULL);
++    const double waitforreply = wall_time();
+     v9fs_rreaddir(req, &count, &nentries, &entries);
++    const double end = wall_time();
 +
-+struct v9fs_dirent {
-+    v9fs_qid qid;
-+    uint64_t offset;
-+    uint8_t type;
-+    char* name;
-+    struct v9fs_dirent* next;
-+};
++    printf("\nTime client spent on sending T_readdir: %fs\n\n", treaddir - start);
++    printf("Time client spent for waiting for reply from server: %fs [MOST IMPORTANT]\n", waitforreply - start);
++    printf("(This is the most important value, because it reflects the time\n"
++           "the 9p server required to process and return the result of the\n"
++           "T_readdir request.)\n\n");
 +
-+/* size[4] Rreaddir tag[2] count[4] data[count] */
-+static void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
-+                          struct v9fs_dirent **entries)
-+{
-+    uint32_t sz;
-+    struct v9fs_dirent *e = NULL;
-+    uint16_t slen;
-+    uint32_t n = 0;
++    printf("Total client time: %fs\n", end - start);
++    printf("(NOTE: this time is not relevant; this huge time comes from\n"
++           "inefficient qtest_memread() calls. So you can discard this\n"
++           "value as a problem of this test client implementation while\n"
++           "processing the received server T_readdir reply.)\n\n");
 +
-+    v9fs_req_recv(req, P9_RREADDIR);
-+    v9fs_uint32_read(req, &sz);
-+
-+    if (count)
-+        *count = sz;
-+
-+    for (int32_t togo = (int32_t)sz;
-+         togo >= 13 + 8 + 1 + 2;
-+         togo -= 13 + 8 + 1 + 2 + slen, ++n)
-+    {
-+        if (!e) {
-+            e = g_malloc(sizeof(struct v9fs_dirent));
-+            if (entries)
-+                *entries = e;
-+        } else {
-+            e = e->next = g_malloc(sizeof(struct v9fs_dirent));
-+        }
-+        e->next = NULL;
-+        /* qid[13] offset[8] type[1] name[s] */
-+        v9fs_memread(req, &e->qid, 13);
-+        v9fs_uint64_read(req, &e->offset);
-+        v9fs_uint8_read(req, &e->type);
-+        v9fs_string_read(req, &slen, &e->name);
-+    }
-+
-+    if (nentries)
-+        *nentries = n;
-+}
-+
-+static void v9fs_free_dirents(struct v9fs_dirent *e)
-+{
-+    struct v9fs_dirent *next = NULL;
-+
-+    for (; e; e = next) {
-+        next = e->next;
-+        g_free(e->name);
-+        g_free(e);
-+    }
-+}
-+
- /* size[4] Tlopen tag[2] fid[4] flags[4] */
- static P9Req *v9fs_tlopen(QVirtio9P *v9p, uint32_t fid, uint32_t flags,
-                           uint16_t tag)
-@@ -480,6 +563,47 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wqid);
- }
++    printf("Details of response message data: R_readddir nentries=%d rbytes=%d\n",
++           nentries, count);
  
-+static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-+    uint16_t nqid;
-+    v9fs_qid qid;
-+    uint32_t count, nentries;
-+    struct v9fs_dirent *entries = NULL;
-+    P9Req *req;
-+
-+    fs_attach(v9p, NULL, t_alloc);
-+    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rwalk(req, &nqid, NULL);
-+    g_assert_cmpint(nqid, ==, 1);
-+
-+    req = v9fs_tlopen(v9p, 1, O_DIRECTORY, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rlopen(req, &qid, NULL);
-+
-+    req = v9fs_treaddir(
-+        v9p, 1/*fid*/, 0/*offset*/, P9_MAX_SIZE - P9_IOHDRSZ/*count*/,
-+        0/*tag*/
-+    );
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rreaddir(req, &count, &nentries, &entries);
-+
-+    /*
-+     * Assuming msize (P9_MAX_SIZE) is large enough so we can retrieve all
-+     * dir entries with only one readdir request.
-+     */
-+    g_assert_cmpint(
-+        nentries, ==,
-+        QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
-+    );
-+
-+    v9fs_free_dirents(entries);
-+    g_free(wnames[0]);
-+}
-+
- static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-@@ -658,6 +782,7 @@ static void register_virtio_9p_test(void)
-                  NULL);
-     qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
-                  NULL);
-+    qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
- }
- 
- libqos_init(register_virtio_9p_test);
+     /*
+      * Assuming msize (P9_MAX_SIZE) is large enough so we can retrieve all
 -- 
 2.20.1
 
