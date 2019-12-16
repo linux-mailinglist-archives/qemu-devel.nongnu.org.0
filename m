@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314EA11FFAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 09:28:16 +0100 (CET)
-Received: from localhost ([::1]:48556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55BB12008C
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 10:12:56 +0100 (CET)
+Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iglji-0003lL-OG
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 03:28:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39751)
+	id 1igmQx-0005WP-BI
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 04:12:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1igliy-0003Ea-A5
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:27:29 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1igmQ2-0004uc-TI
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:12:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1igliv-0006qm-KS
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:27:26 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56052
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1igmQ1-00079d-8r
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:11:58 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:54139)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1igliv-0006q8-74
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:27:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576484844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=7TgsHHnQOdZdWreCKxFtkRY4b+D60YI+/bW28wyfBks=;
- b=KZqduc0F76LUA+D9NRdkUCNw0/Au9iEION5pAG5oZBX+8HvBDoHFZCjhc8Ku/lT2pTUvk6
- B0R2HI3iuFTPGWxRQ/hKt1RqEK4QcFSMUbCbhjQw6n4eXojxJCHgF9HOKpWwVkRlMfecPY
- ON37eAo3ZGyqp2HWM9yFvLGzHoGEjfc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-sLoJet4YNDmCXWJ9p5OOeQ-1; Mon, 16 Dec 2019 03:27:22 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34838DB24;
- Mon, 16 Dec 2019 08:27:21 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-164.ams2.redhat.com [10.36.117.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 514A61001938;
- Mon, 16 Dec 2019 08:27:15 +0000 (UTC)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1igmQ0-0006ov-4i; Mon, 16 Dec 2019 04:11:57 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47bwWV0ZKGz9sP6; Mon, 16 Dec 2019 20:11:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1576487510;
+ bh=4E7TJy64cpksRuxA+tYHs7DFaVXkQYq6dHDXcZ+gzFw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Sxw254aT0CePSoudyf9Yy1eK3tZ0bNvzXg2BNRNutIjyqbRpgA7S/tFoQowPO3am6
+ +4naq932wI+3/7erBeiwYLnFn85yGfVVh7/+62X463E1+Bi01Iju6GAj0mys2Xs76d
+ ZYlINAvZxm/HMIeyl/+Zia3JODi1QIqNOyyufnzs=
+Date: Mon, 16 Dec 2019 19:39:11 +1100
+From: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+To: Thomas Huth <thuth@redhat.com>
 Subject: Re: [PATCH] ppc: remove excessive logging
-To: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
- "balaton@eik.bme.hu" <balaton@eik.bme.hu>,
- "philmd@redhat.com" <philmd@redhat.com>
+Message-ID: <20191216083911.GE6242@umbus.fritz.box>
 References: <20191214121347.17071-1-joakim.tjernlund@infinera.com>
  <4a608af2-62a2-3ffb-0c02-8e0ca699d586@redhat.com>
  <alpine.BSF.2.21.99999.352.1912151147300.3618@zero.eik.bme.hu>
  <d975fe075db9db4266437e1575987fe0f2d82ca4.camel@infinera.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <ec67a070-77e2-08dc-9cc5-05907bbcbe79@redhat.com>
-Date: Mon, 16 Dec 2019 09:27:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <ec67a070-77e2-08dc-9cc5-05907bbcbe79@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d975fe075db9db4266437e1575987fe0f2d82ca4.camel@infinera.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: sLoJet4YNDmCXWJ9p5OOeQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="a+b56+3nqLzpiR9O"
+Content-Disposition: inline
+In-Reply-To: <ec67a070-77e2-08dc-9cc5-05907bbcbe79@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,23 +59,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+ Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/12/2019 22.15, Joakim Tjernlund wrote:
-[...]
->> LOG_EXCP() is not enabled by default, you have to edit source to enable it
-> 
-> LOG_EXCP is enabled on Gentoo, what about other distros?
 
-I don't think that this is enabled by any other distro. Why is this
-enabled on Gentoo at all? It really should not be enabled in builds that
-are supposed to be used by normal users. Have you tried to contact the
-package maintainers of the QEMU Gentoo package and asked them to disable
-it there again?
+--a+b56+3nqLzpiR9O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- Thomas
+On Mon, Dec 16, 2019 at 09:27:13AM +0100, Thomas Huth wrote:
+> On 15/12/2019 22.15, Joakim Tjernlund wrote:
+> [...]
+> >> LOG_EXCP() is not enabled by default, you have to edit source to enabl=
+e it
+> >=20
+> > LOG_EXCP is enabled on Gentoo, what about other distros?
+>=20
+> I don't think that this is enabled by any other distro. Why is this
+> enabled on Gentoo at all? It really should not be enabled in builds that
+> are supposed to be used by normal users. Have you tried to contact the
+> package maintainers of the QEMU Gentoo package and asked them to disable
+> it there again?
 
+I concur.  LOG_EXCP is definitely there for qemu developer debugging,
+it's not intended for use in "normal" builds.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--a+b56+3nqLzpiR9O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl33Qq8ACgkQbDjKyiDZ
+s5IHTQ//d2ZJwrep/s0Gu7+uGummFEykCCewY6jzYX6Bs5lwEX03lVpbvfILoo9Z
+AAxaXhwwM2c2SlQf7HTcYx0cy9M+9diiwkrGXpDwjzISVSXyQdSrVFJcjJMXDKIU
+ekh34rnmJ6ZjJq29j8SMwBSlihYSqC7QanbqKHtf60/LqWBK+L3u3BCdmSZLbI5j
+1k6gfo7YMJoIAy0y+jFcoaEKH/6yBovx+Qb8qmkpZ7f6i83orKgH3mYkRW6NdTop
+x+u1z12vRewhg4GbFL47YPbvH+GK5U+06nAR3nNCvp108CeBNVySMaIt449FHRLf
+kroDyFZPHMN/vld5eHhO8EvatGpueurhS7qxtYPtVGE6yxjIeZ4NsxeM7JcyCVSb
+j7oXlSTfUWLfN0/wEE6p45AECKlVTI2SI8HiAPy41fjNNwuJ9UeqYOwBuqbPkZFr
+faxdtfjJs0U5/B1vCKQzuh2DDM+Tg+exPgmRlBYq+WUECtfA1i+Iqu1YpFDRLKXI
+zad8iLrNJfKgtBsF7sXDHlAy9U7pGnLSTOK7l3sPjjhxs7w281fzBXOBkWyFu9AP
+MueTJOLqE6kU9B/MfW5XvO163SwNHITwgqXQS03cqNUJa2UBKl5wRRRyea0CTq77
+gvRLzlr4aI0HbjsucdBtW0KzTDMzhTZWOH6ZUgdsGQLvDmJvQ7A=
+=RZRv
+-----END PGP SIGNATURE-----
+
+--a+b56+3nqLzpiR9O--
 
