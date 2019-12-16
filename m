@@ -2,65 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D151205F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 13:39:22 +0100 (CET)
-Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34973120643
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 13:49:02 +0100 (CET)
+Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igpej-00052T-3u
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 07:39:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57504)
+	id 1igpo5-0003Xu-4w
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 07:49:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58769)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1igpde-0004Wu-8n
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:38:15 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1igpjO-0006kF-3G
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:44:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1igpdd-0007Qh-7Q
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:38:14 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33127)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1igpdd-0007Of-2B
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:38:13 -0500
-Received: by mail-oi1-x244.google.com with SMTP id v140so3250050oie.0
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 04:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mImmblik8R4Ino+HQdCIyq9PyHNn7E242osM/3NmQAc=;
- b=HO1zEIcvblIIlZYGzGSt09h8QVOMaK5qRQlx6UeAvDBDFQdElXf21AQxVqtdb8FrU4
- RawoJOrVJOAzfWq+buYE63de7fXJrR6stmhoTMjcCpbozcHFtX9r/KljA0NaAlVCVRdp
- +M5uo1eoGIViYRWNlqijcKvWfMSYp8a0HGx8RwBz46/o+9LduTajfipuS9vf4J65EhHO
- NCeT7cbB5WGRF4C3tjdYcLNsjBHYeagPVKG0cIJwWVdaMh3oBREly/Uxc5dYrEycZeqD
- scSvP2yTAoa35nJ3+yJAuKK0TZ8KInsy9V4dK8+2awIeqCr/RRb/292cREAEFa6LixAZ
- vTUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mImmblik8R4Ino+HQdCIyq9PyHNn7E242osM/3NmQAc=;
- b=AmJZkd8o5TTNWL4UysO23V3OhL/T6wNcVDlxNFdXSgtEgjXNSbOJStV5RNimhp9QLt
- TSmMqphvlOFKYTVmcT8g9KGWCdHYZ3M/Dl6ldspmtxUv156AN5HEdfifLN61gYmD7Fs5
- oWCUO3FOWoh1MPMvzHTXYVjY3yXFSXFhLrJu2FXF4xydBB32DxMphkIa+gPkz+BdNxFN
- wkbs3vj9+K10u3V9BZpG0E3YLCLCXpoTf8S409PMigURs5VKYyG/J0nhQ5q87DjQSflm
- wsHuBicJJSyZGComAK+Uu3RBNZUmpLyUuMX6H/tdPmt0Nxq4UoKZw7tV53XZbN37/W6c
- YaOg==
-X-Gm-Message-State: APjAAAVKCvzrZknG3t3vU13J8u7+5odw7UYncEA9bZwlM9C2SrVP5Tnz
- ScKXgtXaDp2TxxaPmsWbvydqN29qBxkYSs9GCQ0=
-X-Google-Smtp-Source: APXvYqxtAvDYk4ici8Okfyyufpo+G7pENyZYLmt5GrpdkRhsIBPUtMmOe26wWnUgrAzvIfyMrE0+cst1MwMfeWQIz0w=
-X-Received: by 2002:aca:bd85:: with SMTP id n127mr9524495oif.136.1576499892308; 
- Mon, 16 Dec 2019 04:38:12 -0800 (PST)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1igpjL-0006ue-LB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:44:09 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:42886 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1igpjL-0005lE-ES
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 07:44:07 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 8C6031A20B3;
+ Mon, 16 Dec 2019 13:43:01 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 6760C1A1D72;
+ Mon, 16 Dec 2019 13:43:01 +0100 (CET)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/11] MIPS queue for December 16th, 2019
+Date: Mon, 16 Dec 2019 13:42:41 +0100
+Message-Id: <1576500172-11264-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <1575982519-29852-1-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1575982519-29852-1-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 16 Dec 2019 13:38:01 +0100
-Message-ID: <CAL1e-=gL6aLFV2p45baffMP7NE1Tx3O5Rr_ta7_N6ebUAv2-TQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] MAINTAINERS: Fine adjustment for (mostly mips)
- content
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,57 +51,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 10, 2019 at 1:57 PM Aleksandar Markovic
-<aleksandar.markovic@rt-rk.com> wrote:
->
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> v2->v3:
->
->   - changed patches 2, 3, 4 on Philippe's request
->   - add a patch on including acceptance test in MIPS section
->
-> v1->v2:
->
->   - removed patch on new git infrastructure section
->   - added a patch that adds two files in Malta section
->
-> The goal of this series is to:
->
->   * reduce the amount of "unmainatined" files (not having their
->     maintainer in "MAINTAINERS")
->   * reduce the amount of nominally maintained files, but unmaintained
->     in reality
->   * increase the role of non-mips open source participants in
->     maintaining and reviewing mips content
->
-> Best wishes to all new and former maintainers in future activities
-> and enavours!
->
-> Aleksandar Markovic (5):
->   MAINTAINERS: Add a section on UI translation
->   MAINTAINERS: Adjust maintainership for Fulong 2E board
->   MAINTAINERS: Adjust maintainership for Malta board
->   MAINTAINERS: Add three files to Malta section
->   MAINTAINERS: Add a file to MIPS section
->
->  MAINTAINERS | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
->
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Applied to mips queue.
+The following changes since commit 084a398bf8aa7634738e6c6c0103236ee1b3b7=
+2f:
 
-> --
-> 2.7.4
->
->
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request'=
+ into staging (2019-12-13 18:14:07 +0000)
+
+are available in the git repository at:
+
+  https://github.com/AMarkovic/qemu tags/mips-queue-dec-16-2019
+
+for you to fetch changes up to 5d480ddde36649a652152bf35f57ccad38f052d6:
+
+  MAINTAINERS: Add a file to MIPS section (2019-12-16 13:16:15 +0100)
+
+----------------------------------------------------------------
+
+MIPS queue for December 16th, 2019
+
+  - contains only maintenance/cleanup items
+
+----------------------------------------------------------------
+
+Aleksandar Markovic (5):
+  MAINTAINERS: Add a section on UI translation
+  MAINTAINERS: Adjust maintainership for Fulong 2E board
+  MAINTAINERS: Adjust maintainership for Malta board
+  MAINTAINERS: Add three files to Malta section
+  MAINTAINERS: Add a file to MIPS section
+
+Filip Bozuta (5):
+  mips: jazz: Renovate coding style
+  mips: malta: Renovate coding style
+  mips: mipssim: Renovate coding style
+  mips: r4000: Renovate coding style
+  mips: fulong 2e: Renovate coding style
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  hw/mips: Deprecate the r4k machine
+
+ MAINTAINERS                              |  17 ++-
+ hw/display/jazz_led.c                    | 123 +++++++++++-----------
+ hw/dma/rc4030.c                          |  12 ++-
+ hw/isa/vt82c686.c                        |  23 +++--
+ hw/mips/mips_jazz.c                      |  32 +++---
+ hw/mips/mips_malta.c                     | 172 ++++++++++++++++---------=
+------
+ hw/mips/mips_r4k.c                       |  56 ++++++----
+ hw/net/mipsnet.c                         |  42 ++++----
+ hw/pci-host/bonito.c                     |  60 ++++++-----
+ qemu-deprecated.texi                     |   5 +
+ tests/acceptance/linux_ssh_mips_malta.py |   6 +-
+ 11 files changed, 300 insertions(+), 248 deletions(-)
+
+--=20
+2.7.4
+
 
