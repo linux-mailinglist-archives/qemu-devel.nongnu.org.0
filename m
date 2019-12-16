@@ -2,68 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D181201B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 10:59:25 +0100 (CET)
-Received: from localhost ([::1]:49426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644961201E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 11:06:29 +0100 (CET)
+Received: from localhost ([::1]:49504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ign9w-0000Y9-EK
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 04:59:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40927)
+	id 1ignGm-0002oR-Cp
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 05:06:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ign98-00006B-F5
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:58:35 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1ignFn-0001x6-0B
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:05:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ign94-0007tf-Sl
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:58:32 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33986
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1ignFl-0007Ai-Gl
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:05:26 -0500
+Received: from relay.sw.ru ([185.231.240.75]:55880)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ign94-0007sL-F7
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:58:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576490308;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xTB95OczKley658wIGoCYElGnHeDhivyoYytrtHljbg=;
- b=G7csbSioAS11P0kBez7yFhYGHsWLeYnMoy2s5O3WwKNu5UfgRORDZNRLsnDQF6hIdf3YDl
- zt2v01VEVTrqStdhecKlL4fL2aizMa3mRE0KKQoMBt+CiYiHGuBBu0G2MyP/IlDjg+NMtP
- pbDyFknHyXmLqZju0lX1he2pOJtbw/s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-xXYLmmtMM96xgkIfs1KBsA-1; Mon, 16 Dec 2019 04:58:21 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B349100550E
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 09:58:21 +0000 (UTC)
-Received: from redhat.com (ovpn-112-24.ams2.redhat.com [10.36.112.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6661119C7F;
- Mon, 16 Dec 2019 09:58:16 +0000 (UTC)
-Date: Mon, 16 Dec 2019 09:58:12 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v6 8/8] tests: add dbus-vmstate-test
-Message-ID: <20191216095812.GC3313@redhat.com>
-References: <20191211134506.1803403-1-marcandre.lureau@redhat.com>
- <20191211134506.1803403-9-marcandre.lureau@redhat.com>
- <20191213182015.GR3713@work-vm>
-MIME-Version: 1.0
-In-Reply-To: <20191213182015.GR3713@work-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: xXYLmmtMM96xgkIfs1KBsA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1ignFl-00075H-86
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:05:25 -0500
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1ignFb-0001Vo-Cf; Mon, 16 Dec 2019 13:05:15 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/2] virtio: make seg_max virtqueue size dependent
+Date: Mon, 16 Dec 2019 13:04:49 +0300
+Message-Id: <20191216100451.28060-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,53 +44,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: mprivozn@redhat.com,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- pbonzini@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com, mst@redhat.com,
+ mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 13, 2019 at 06:20:15PM +0000, Dr. David Alan Gilbert wrote:
-> * Marc-Andr=C3=A9 Lureau (marcandre.lureau@redhat.com) wrote:
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->=20
-> > +static gboolean
-> > +vmstate_save(VMState1 *object, GDBusMethodInvocation *invocation,
-> > +             gpointer user_data)
-> > +{
-> > +    TestServer *h =3D user_data;
-> > +    GVariant *var;
-> > +
-> > +    var =3D g_variant_new_fixed_array(G_VARIANT_TYPE_BYTE,
-> > +                                    h->id->data, h->id->size, sizeof(c=
-har));
-> > +    g_dbus_method_invocation_return_value(invocation,
-> > +                                          g_variant_new("(@ay)", var))=
-;
-> > +    h->save_called =3D true;
-> > +
-> > +    return TRUE;
-> > +}
-> > +
-> > +static gboolean
-> > +wait_for_migration_complete(gpointer user_data)
->=20
-> It's a shame we don't have a way to share this with migration-test.c;
-> we occasionally add more debug/cases in there.
+v4:
+  * rebased on 4.2 [MST]
 
-Easy enough to create a tests/migration-helpers.{c,h} file to share
-code between tests.
+v3:
+  * add property to set in machine type [MST]
+  * add min queue size check [Stefan]
+  * add avocado based test [Max, Stefan, Eduardo, Cleber]
 
+v2:
+  * the standalone patch to make seg_max virtqueue size dependent
+  * other patches are postponed
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+v1:
+  the initial series
+
+Denis Plotnikov (2):
+  virtio: make seg_max virtqueue size dependent
+  tests: add virtio-scsi and virtio-blk seg_max_adjust test
+
+ hw/block/virtio-blk.c                     |   9 +-
+ hw/core/machine.c                         |   3 +
+ hw/scsi/vhost-scsi.c                      |   2 +
+ hw/scsi/virtio-scsi.c                     |  10 +-
+ include/hw/virtio/virtio-blk.h            |   1 +
+ include/hw/virtio/virtio-scsi.h           |   1 +
+ tests/acceptance/virtio_seg_max_adjust.py | 135 ++++++++++++++++++++++
+ 7 files changed, 159 insertions(+), 2 deletions(-)
+ create mode 100755 tests/acceptance/virtio_seg_max_adjust.py
+
+-- 
+2.17.0
 
 
