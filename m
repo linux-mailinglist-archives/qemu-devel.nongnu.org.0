@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE5312119E
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:20:53 +0100 (CET)
-Received: from localhost ([::1]:57318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2461211AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:23:37 +0100 (CET)
+Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igu39-0001xZ-8d
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:20:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43697)
+	id 1igu5o-0005tO-8C
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:23:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1igtcI-0000wG-Dk
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:53:07 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igtgL-0006dV-2Q
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:57:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1igtcH-0006Nl-06
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:53:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42203
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1igtcG-0006Mf-SC
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:53:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576515184;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6l+ZX6jfRcQPNGxAaff9khunijHeffZz2XH2nVa2low=;
- b=DznEXNuRxDsjbPo7MjO6eFx2ucVMd5jzKQrNYUDEv3NzVDO3UWA2dfKrXNVJ5jv1mH1qq8
- knbWidEw8QJ2V7hchllRMQo+hs2//jp6CFs9v7e0b6mnbR7v36RuV8b81QfT2TyHc0P1yM
- 1rdNKkdNICzjBOSF1lzzBODtmKSkJGk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-TQ-AMmSSOLaG5TXmBjBmWw-1; Mon, 16 Dec 2019 11:53:01 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F5BE802570;
- Mon, 16 Dec 2019 16:52:59 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (ovpn-116-122.ams2.redhat.com
- [10.36.116.122])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50C8B60479;
- Mon, 16 Dec 2019 16:52:56 +0000 (UTC)
-Date: Mon, 16 Dec 2019 17:52:49 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH v2 5/5] target/arm/cpu: Add the kvm-no-adjvtime CPU
- property
-Message-ID: <20191216165249.lygksiptf2yowqh7@kamzik.brq.redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1igtgJ-0001EM-OJ
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:57:16 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36037)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1igtgJ-0001B6-DU
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:57:15 -0500
+Received: by mail-oi1-x243.google.com with SMTP id c16so3091650oic.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:57:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QaFLLYDEWud99qoiUNGEueTX0iNK5/Ih2SGsu7QWWCw=;
+ b=hVDtMmy3zyYCoxN+m2cHJqFkUt9piFFGIUuFoZwabaoY+KnWL6g2duJZedACp2UzsZ
+ 2zy1zKhI3/uWpRvP813LzBbrrm305FHOLT5292dUaOX6iKW+K77R4zCWMoZLovQdVnd6
+ ZJBK6kWK891LU9P+makBzD/SpDs8gRzB2ubFxDPVueUXt8nUUvC9Rl2pz8lo5euJGxxi
+ V7XgljTgNwAIanV59QEfhVNPB86z4zjZIeUiRYP17VdwSg/1DapxYt1UBxIpf4+cjKLu
+ qofUOA0AG3fNLHEHhjvkiL5zNZyDH/Fb/TH3IGL+y9iwXPqtBHy2mZdzU62wwxgYH9F5
+ /KoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QaFLLYDEWud99qoiUNGEueTX0iNK5/Ih2SGsu7QWWCw=;
+ b=EIALe3JAbawL4C9641e7J4jOe7jlEiZaiaE4U+HeYlaaS0KY7zcBo4CFj5f71BFcBH
+ 1lKQnvlylD84pnUTOZ2f6+SzQICjBo80cVAfqO2qXQMKmvfOXc4ndUFjnhfd4kgIvoHW
+ 5YgdwVOSI97FeXtLuNE5vXWDu6Fbg/kgX3E02r6PoaKFGC1+2CA+wM+wVQZ05oSrCsRT
+ +t1nwX8kt6aOo2n/1LnL350axajnc/NbREWNq6927xLiE6ToB+OVdsh12mjKbV1fPUPV
+ ml+KWwC6GMAKozfSU5XBIae2i3tHyVdyCcsNVzWEH27dS0G77N+kHDohcFrCu65znPqF
+ Gibw==
+X-Gm-Message-State: APjAAAWwx8IKoWFLPLxN2nwOpC0KjCxSIED+idlr9O2Hm79xMdfHw9y8
+ jmCYhnqpO8we8us3KAp6rATPpQmqMRyhcc9xyT4V/Ro8Y7Q=
+X-Google-Smtp-Source: APXvYqz72DDSyAERPvL+ocn3L9YeI8+tIwMoLS3e1UmFlwTNWykfuwpTOSIgTobFrolcChoty2yns6EEPdLTEbkPqUQ=
+X-Received: by 2002:aca:f5cc:: with SMTP id
+ t195mr10156384oih.163.1576515434294; 
+ Mon, 16 Dec 2019 08:57:14 -0800 (PST)
+MIME-Version: 1.0
 References: <20191212173320.11610-1-drjones@redhat.com>
  <20191212173320.11610-6-drjones@redhat.com>
  <CAFEAcA8=FcrT8dRMDzxu14J-gv5LEDuNBNpD5yo9j3waV7u8iw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8=FcrT8dRMDzxu14J-gv5LEDuNBNpD5yo9j3waV7u8iw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: TQ-AMmSSOLaG5TXmBjBmWw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ <20191216165249.lygksiptf2yowqh7@kamzik.brq.redhat.com>
+In-Reply-To: <20191216165249.lygksiptf2yowqh7@kamzik.brq.redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 16 Dec 2019 16:57:02 +0000
+Message-ID: <CAFEAcA-BND8-kxjaN2gRn48NLJ_BVxcguKPgAQ0qG3XaQ5ghRw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 5/5] target/arm/cpu: Add the kvm-no-adjvtime CPU
+ property
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,123 +83,36 @@ Cc: bijan.mottahedeh@oracle.com, Marc Zyngier <maz@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 16, 2019 at 03:06:57PM +0000, Peter Maydell wrote:
-> On Thu, 12 Dec 2019 at 17:33, Andrew Jones <drjones@redhat.com> wrote:
+On Mon, 16 Dec 2019 at 16:53, Andrew Jones <drjones@redhat.com> wrote:
+>
+> On Mon, Dec 16, 2019 at 03:06:57PM +0000, Peter Maydell wrote:
+> > This phrasing reads a bit confusingly to me. What I would usually expect
+> > is that you get
+> >   name-of-option              Description of what the option does.
 > >
-> > kvm-no-adjvtime is a KVM specific CPU property and a first of its kind.
-> > To accommodate it we also add kvm_arm_add_vcpu_properties() and a
-> > KVM specific CPU properties description to the CPU features document.
+> > But here we have
+> >   name-of-option              Long description of the default behaviour,
+> >                               taking many lines and several sentences.
+> >                               Brief note at the end that enabling this
+> >                               feature gives the opposite effect.
 > >
-> > Signed-off-by: Andrew Jones <drjones@redhat.com>
-> > ---
-> >  docs/arm-cpu-features.rst | 31 ++++++++++++++++++++++++++++++-
-> >  hw/arm/virt.c             |  8 ++++++++
-> >  include/hw/arm/virt.h     |  1 +
-> >  target/arm/cpu.c          |  2 ++
-> >  target/arm/cpu64.c        |  1 +
-> >  target/arm/kvm.c          | 28 ++++++++++++++++++++++++++++
-> >  target/arm/kvm_arm.h      | 11 +++++++++++
-> >  target/arm/monitor.c      |  1 +
-> >  tests/arm-cpu-features.c  |  4 ++++
-> >  9 files changed, 86 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
-> > index 1b367e22e16e..641ec9cb8f4a 100644
-> > --- a/docs/arm-cpu-features.rst
-> > +++ b/docs/arm-cpu-features.rst
-> > @@ -31,7 +31,9 @@ supporting the feature or only supporting the feature=
- under certain
-> >  configurations.  For example, the `aarch64` CPU feature, which, when
-> >  disabled, enables the optional AArch32 CPU feature, is only supported
-> >  when using the KVM accelerator and when running on a host CPU type tha=
-t
-> > -supports the feature.
-> > +supports the feature.  While `aarch64` currently only works with KVM,
-> > +it could work with TCG.  CPU features that are specific to KVM are
-> > +prefixed with "kvm-" and are described in "KVM VCPU Features".
-> >
-> >  CPU Feature Probing
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > @@ -171,6 +173,33 @@ disabling many SVE vector lengths would be quite v=
-erbose, the `sve<N>` CPU
-> >  properties have special semantics (see "SVE CPU Property Parsing
-> >  Semantics").
-> >
-> > +KVM VCPU Features
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +KVM VCPU features are CPU features that are specific to KVM, such as
-> > +paravirt features or features that enable CPU virtualization extension=
-s.
-> > +The features' CPU properties are only available when KVM is enabled an=
-d
-> > +are named with the prefix "kvm-".  KVM VCPU features may be probed,
-> > +enabled, and disabled in the same way as other CPU features.  Below is=
- the
-> > +list of KVM VCPU features and their descriptions.
-> > +
-> > +  kvm-no-adjvtime          When disabled, each time the VM transitions
-> > +                           back to running state from the paused state=
- the
-> > +                           VCPU's vitual counter is updated to ensure =
-the
->=20
-> "virtual"
->=20
-> > +                           stopped time is not counted.  This avoids t=
-ime
-> > +                           jumps surprising guest OSes and application=
-s,
-> > +                           as long as they use the virtual counter for
-> > +                           timekeeping, but has the side effect of the
-> > +                           virtual and physical counters diverging.  A=
-ll
-> > +                           timekeeping based on the virtual counter wi=
-ll
-> > +                           appear to lag behind any timekeeping that d=
-oes
-> > +                           not subtract VM stopped time.  The guest ma=
-y
-> > +                           resynchronize its virtual counter with othe=
-r
-> > +                           time sources as needed.  Enabling this KVM =
-VCPU
-> > +                           feature provides the legacy behavior, which=
- is
-> > +                           to also count stopped time with the virtual
-> > +                           counter.
->=20
-> This phrasing reads a bit confusingly to me. What I would usually expect
-> is that you get
->   name-of-option              Description of what the option does.
->=20
-> But here we have
->   name-of-option              Long description of the default behaviour,
->                               taking many lines and several sentences.
->                               Brief note at the end that enabling this
->                               feature gives the opposite effect.
->=20
-> Especially since the default-behaviour description isn't prefaced
-> with "By default" or similar, it's quite easy to start reading the
-> text assuming it's defining what the option is going to do, only
-> to get to the end and realise that it's defining what the option
-> is *not* going to do...
+> > Especially since the default-behaviour description isn't prefaced
+> > with "By default" or similar, it's quite easy to start reading the
+> > text assuming it's defining what the option is going to do, only
+> > to get to the end and realise that it's defining what the option
+> > is *not* going to do...
+>
+> I'll take another stab at this, but my feeling is that a '-no-' option
+> should be one that just turns off the default behavior, which is why I
+> wrote a long description of the default behavior. If you'd prefer the
+> description to be more terse, then I can certainly delete a bunch of
+> the text, but then I fear what this option disables wouldn't be clear
+> enough.
 
-I'll take another stab at this, but my feeling is that a '-no-' option
-should be one that just turns off the default behavior, which is why I
-wrote a long description of the default behavior. If you'd prefer the
-description to be more terse, then I can certainly delete a bunch of
-the text, but then I fear what this option disables wouldn't be clear
-enough.
+I'm happy with the length of it; it would definitely be helped a lot
+just with phrasing that was clearer up front about that it was starting
+by describing the default behaviour.
 
->=20
-> Incidentally, if I understand things correctly, for TCG the
-> behaviour is (and has always been) that VM-stopped time is
-> not counted, because we run the emulated versions of these counters
-> off QEMU_CLOCK_VIRTUAL. So having the KVM default be the same as
-> the TCG default is nicely consistent.
-
-Thanks,
-drew
-
+thanks
+-- PMM
 
