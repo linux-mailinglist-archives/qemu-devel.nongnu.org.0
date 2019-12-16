@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B731203BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:22:38 +0100 (CET)
-Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD821203FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:34:51 +0100 (CET)
+Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoSS-00066T-Sa
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:22:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50995)
+	id 1igoeH-00061j-MC
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:34:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51028)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFj-0007lZ-C8
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFk-0007ne-Mi
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFh-00087H-Dy
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:27 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39903)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFj-0008DF-Dc
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:28 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54091)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFh-00083A-65
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:25 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y11so6714323wrt.6
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:25 -0800 (PST)
+ id 1igoFj-000888-6m
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:27 -0500
+Received: by mail-wm1-x344.google.com with SMTP id m24so4865941wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2o7CDQS8pVXcqWWDWE4VR4sQFaFf+rJlwan49ZOJRHk=;
- b=LMxvKzpX2tcpgTuqcluk1e3C8ltGQ51Xvrvcp1FsSUFpagJTfEC8gRZAUt/Xj1p1mD
- QpeUDUTlI22hMrRXePfAPl/yUBz2FQZbDYM9l3MDBp5Xa8iD6PjdQ7jcMlEGvAMcL4oj
- WXIZvZP+ZS6jGz+7RHb12d7y+VRr9Vjlu2P1vaO+hph9aCrbXp8/WkZnsncmYytqhIPs
- FeHYriX0x4AJ30BSjuhBgZxhP2qgRqqEnxOk46HCJM8x53Pu6yH2LPbqDMrsLdR9xDsx
- z9edofKKbW4DCdY+QZsDi0mhDsuxCUsxRZ58xaF6jgAbup7oV4CVGHkZIs4pCHzw3dgE
- Pa/g==
+ bh=L01Bt7Pn8EbpPwCHMv8nyAgPyUlPk/hoQ9vzWdPLN80=;
+ b=RJZUjOgvO0qyIxENiw+1QxNEsvUdcvTb8Qc3CzTD924W2vt2U8C0LtCdmp3Bcc5QVx
+ H3u47BgHUXjpQKF/bUZstVXnhq+FRR/1RyLKHjc1tgYBUC6DDxgYnqnZAA6X3gVALJwp
+ XTC10qkSry5tuYki+YgBmBp/rGyPS6yK5UOdWzZAqJhQKmNlWY4GEr3sVvm7Rm5U2PCi
+ J8+lw4TO1PwTStg/FOHNxnceyd9w4gg40x+El8DU3sdqvcCAxtukYD4ByfZnB/KtMgju
+ 1o+qMTOPnMm6o2IaWA5LRtTtbTCZ453nDjVjStALYdWk6anB6p8kuZy+ixBWd2iJXOR/
+ sMog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2o7CDQS8pVXcqWWDWE4VR4sQFaFf+rJlwan49ZOJRHk=;
- b=RYYF1WDrAK0PVUeptsEuCQxk8orTYirvUe79n41JVDeWcPVSeLyWB7UQZpJiCCgw3t
- /pDeAH4nphAgAJ2feRsiOYy0gKYzYIm8lPe50My/cLOoiSzLmIYfBWMjDLgXZHysB0Rq
- ZpXaSKxh91+eDe0YNoR5fhpUHIzgS//80ruC1ORmMHO1zftej4unAtPC8JQySIVUwmNX
- nZ4KcBtzdg68ymZN3HwiH8CptBk43urgjteOjLGMTtG8SWxkolrD2vG38ORzl90lyrfK
- kKdzQqntYIa96G5XL/yA3b5jEMVL1YN2KCChfz9X8r/EA4V6d6+djrRFb2rYflrSNLph
- lEAg==
-X-Gm-Message-State: APjAAAWBl401UIyZ3L8LN4Z7eSL8D4Ia9fOTP0CfOjHeTccFcj6cCX9U
- icnfRyljN1crwDgv2iS0mbLwKBPmo3WE5w==
-X-Google-Smtp-Source: APXvYqzEcTSECqS8xERDuZ4DYNQQEBPtYYjJA/1bydF6JoinbPqudo7oWi64fDUjmZooCJonVdqB1Q==
-X-Received: by 2002:a5d:480b:: with SMTP id l11mr30123514wrq.129.1576494563815; 
- Mon, 16 Dec 2019 03:09:23 -0800 (PST)
+ bh=L01Bt7Pn8EbpPwCHMv8nyAgPyUlPk/hoQ9vzWdPLN80=;
+ b=EoLKi32BEeJzPg1T9G+qWuyK3zEJUVgCniF35A23oc8OfqBFPSRR13hkED7X7wibdf
+ JuNmxIqZxkIemJ9kgH5UesBMEHYcGmt6ZfIbeBpKGDooZ7bZTbBz7AoIYf3S11N2Oz4t
+ LKhP1bF4x636VJddsvVOrJTt947Rw0/wPpIaRz6Ps76gVM/gc8bfkF7jk3XJxzjK+loO
+ wVdI9/pNWb9P5ohkzaEokabOC/3FzyMYzU36FkfPchU6kfINI8lmYwURiYjgZp6pOyin
+ Z+Mk3omWzWYNCFboAkNHSjOdOdBPDcH1K2mwVwepw534d1c5j0CWlNfCtaCAeKxwTNlv
+ bjsw==
+X-Gm-Message-State: APjAAAX7Aj3vkZXgXBlhRZ3WdGyb+Ed1U+h11ZGW2SnwsequsD2lOBPA
+ HS4oVpbyDW8+LhHNpNeq4w52AtxrL5Gtxg==
+X-Google-Smtp-Source: APXvYqxeDTVy51nQQ4NPncoZFp95ISBxcKkumABMZ8jixJWukFSxp6+EuolYveD8daa5s6ZqrWG3Gg==
+X-Received: by 2002:a7b:cd83:: with SMTP id y3mr28187588wmj.168.1576494564817; 
+ Mon, 16 Dec 2019 03:09:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.22
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:23 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/34] aspeed: Remove AspeedBoardConfig array and use
- AspeedMachineClass
-Date: Mon, 16 Dec 2019 11:08:45 +0000
-Message-Id: <20191216110904.30815-16-peter.maydell@linaro.org>
+Subject: [PULL 16/34] aspeed: Add support for the tacoma-bmc board
+Date: Mon, 16 Dec 2019 11:08:46 +0000
+Message-Id: <20191216110904.30815-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,365 +84,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-AspeedBoardConfig is a redundant way to define class attributes and it
-complexifies the machine definition and initialization.
+The Tacoma BMC board is replacement board for the BMC of the OpenPOWER
+Witherspoon system. It uses a AST2600 SoC instead of a AST2500 and the
+I2C layout is the same as it controls the same main board. Used for HW
+bringup.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-14-clg@kaod.org
+Message-id: 20191119141211.25716-15-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed.h |  24 ++--
- hw/arm/aspeed.c         | 243 ++++++++++++++++++++++------------------
- 2 files changed, 143 insertions(+), 124 deletions(-)
+ hw/arm/aspeed.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index f49bc7081e4..4423cd0cda7 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -13,19 +13,6 @@
- 
- typedef struct AspeedBoardState AspeedBoardState;
- 
--typedef struct AspeedBoardConfig {
--    const char *name;
--    const char *desc;
--    const char *soc_name;
--    uint32_t hw_strap1;
--    uint32_t hw_strap2;
--    const char *fmc_model;
--    const char *spi_model;
--    uint32_t num_cs;
--    void (*i2c_init)(AspeedBoardState *bmc);
--    uint32_t ram;
--} AspeedBoardConfig;
--
- #define TYPE_ASPEED_MACHINE       MACHINE_TYPE_NAME("aspeed")
- #define ASPEED_MACHINE(obj) \
-     OBJECT_CHECK(AspeedMachine, (obj), TYPE_ASPEED_MACHINE)
-@@ -41,7 +28,16 @@ typedef struct AspeedMachine {
- 
- typedef struct AspeedMachineClass {
-     MachineClass parent_obj;
--    const AspeedBoardConfig *board;
-+
-+    const char *name;
-+    const char *desc;
-+    const char *soc_name;
-+    uint32_t hw_strap1;
-+    uint32_t hw_strap2;
-+    const char *fmc_model;
-+    const char *spi_model;
-+    uint32_t num_cs;
-+    void (*i2c_init)(AspeedBoardState *bmc);
- } AspeedMachineClass;
- 
- 
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 028191ff36f..e34e6787430 100644
+index e34e6787430..cc06af4fbb3 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -167,10 +167,10 @@ static void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
-     }
- }
+@@ -92,6 +92,10 @@ struct AspeedBoardState {
+ #define AST2600_EVB_HW_STRAP1 0x000000C0
+ #define AST2600_EVB_HW_STRAP2 0x00000003
  
--static void aspeed_board_init(MachineState *machine,
--                              const AspeedBoardConfig *cfg)
-+static void aspeed_machine_init(MachineState *machine)
- {
-     AspeedBoardState *bmc;
-+    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
-     AspeedSoCClass *sc;
-     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
-     ram_addr_t max_ram_size;
-@@ -182,18 +182,18 @@ static void aspeed_board_init(MachineState *machine,
-                        UINT32_MAX);
++/* Tacoma hardware value */
++#define TACOMA_BMC_HW_STRAP1  0x00000000
++#define TACOMA_BMC_HW_STRAP2  0x00000000
++
+ /*
+  * The max ram region is for firmwares that scan the address space
+  * with load/store to guess how much RAM the SoC has.
+@@ -363,6 +367,9 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
+     AspeedSoCState *soc = &bmc->soc;
+     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
  
-     object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
--                            (sizeof(bmc->soc)), cfg->soc_name, &error_abort,
-+                            (sizeof(bmc->soc)), amc->soc_name, &error_abort,
-                             NULL);
- 
-     sc = ASPEED_SOC_GET_CLASS(&bmc->soc);
- 
-     object_property_set_uint(OBJECT(&bmc->soc), ram_size, "ram-size",
-                              &error_abort);
--    object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap1, "hw-strap1",
-+    object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap1, "hw-strap1",
-                             &error_abort);
--    object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap2, "hw-strap2",
-+    object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap2, "hw-strap2",
-                             &error_abort);
--    object_property_set_int(OBJECT(&bmc->soc), cfg->num_cs, "num-cs",
-+    object_property_set_int(OBJECT(&bmc->soc), amc->num_cs, "num-cs",
-                             &error_abort);
-     object_property_set_int(OBJECT(&bmc->soc), machine->smp.cpus, "num-cpus",
-                             &error_abort);
-@@ -230,8 +230,8 @@ static void aspeed_board_init(MachineState *machine,
-                           "max_ram", max_ram_size  - ram_size);
-     memory_region_add_subregion(&bmc->ram_container, ram_size, &bmc->max_ram);
- 
--    aspeed_board_init_flashes(&bmc->soc.fmc, cfg->fmc_model, &error_abort);
--    aspeed_board_init_flashes(&bmc->soc.spi[0], cfg->spi_model, &error_abort);
-+    aspeed_board_init_flashes(&bmc->soc.fmc, amc->fmc_model, &error_abort);
-+    aspeed_board_init_flashes(&bmc->soc.spi[0], amc->spi_model, &error_abort);
- 
-     /* Install first FMC flash content as a boot rom. */
-     if (drive0) {
-@@ -255,8 +255,8 @@ static void aspeed_board_init(MachineState *machine,
-     aspeed_board_binfo.loader_start = sc->memmap[ASPEED_SDRAM];
-     aspeed_board_binfo.nb_cpus = bmc->soc.num_cpus;
- 
--    if (cfg->i2c_init) {
--        cfg->i2c_init(bmc);
-+    if (amc->i2c_init) {
-+        amc->i2c_init(bmc);
-     }
- 
-     for (i = 0; i < ARRAY_SIZE(bmc->soc.sdhci.slots); i++) {
-@@ -383,118 +383,141 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
++    /* Bus 3: TODO bmp280@77 */
++    /* Bus 3: TODO max31785@52 */
++    /* Bus 3: TODO dps310@76 */
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), TYPE_PCA9552,
                       0x60);
+ 
+@@ -381,6 +388,7 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
+                           eeprom_buf);
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), TYPE_PCA9552,
+                      0x60);
++    /* Bus 11: TODO ucd90160@64 */
  }
  
--static void aspeed_machine_init(MachineState *machine)
--{
--    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
--
--    aspeed_board_init(machine, amc->board);
--}
--
  static void aspeed_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
--    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
--    const AspeedBoardConfig *board = data;
+@@ -485,6 +493,22 @@ static void aspeed_machine_ast2600_evb_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = 1 * GiB;
+ };
  
--    mc->desc = board->desc;
-     mc->init = aspeed_machine_init;
-     mc->max_cpus = ASPEED_CPUS_NUM;
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
-     mc->no_parallel = 1;
--    if (board->ram) {
--        mc->default_ram_size = board->ram;
--    }
--    amc->board = board;
- }
- 
--static const TypeInfo aspeed_machine_type = {
--    .name = TYPE_ASPEED_MACHINE,
--    .parent = TYPE_MACHINE,
--    .instance_size = sizeof(AspeedMachine),
--    .class_size = sizeof(AspeedMachineClass),
--    .abstract = true,
--};
--
--static const AspeedBoardConfig aspeed_boards[] = {
--    {
--        .name      = MACHINE_TYPE_NAME("palmetto-bmc"),
--        .desc      = "OpenPOWER Palmetto BMC (ARM926EJ-S)",
--        .soc_name  = "ast2400-a1",
--        .hw_strap1 = PALMETTO_BMC_HW_STRAP1,
--        .fmc_model = "n25q256a",
--        .spi_model = "mx25l25635e",
--        .num_cs    = 1,
--        .i2c_init  = palmetto_bmc_i2c_init,
--        .ram       = 256 * MiB,
--    }, {
--        .name      = MACHINE_TYPE_NAME("ast2500-evb"),
--        .desc      = "Aspeed AST2500 EVB (ARM1176)",
--        .soc_name  = "ast2500-a1",
--        .hw_strap1 = AST2500_EVB_HW_STRAP1,
--        .fmc_model = "w25q256",
--        .spi_model = "mx25l25635e",
--        .num_cs    = 1,
--        .i2c_init  = ast2500_evb_i2c_init,
--        .ram       = 512 * MiB,
--    }, {
--        .name      = MACHINE_TYPE_NAME("romulus-bmc"),
--        .desc      = "OpenPOWER Romulus BMC (ARM1176)",
--        .soc_name  = "ast2500-a1",
--        .hw_strap1 = ROMULUS_BMC_HW_STRAP1,
--        .fmc_model = "n25q256a",
--        .spi_model = "mx66l1g45g",
--        .num_cs    = 2,
--        .i2c_init  = romulus_bmc_i2c_init,
--        .ram       = 512 * MiB,
--    }, {
--        .name      = MACHINE_TYPE_NAME("swift-bmc"),
--        .desc      = "OpenPOWER Swift BMC (ARM1176)",
--        .soc_name  = "ast2500-a1",
--        .hw_strap1 = SWIFT_BMC_HW_STRAP1,
--        .fmc_model = "mx66l1g45g",
--        .spi_model = "mx66l1g45g",
--        .num_cs    = 2,
--        .i2c_init  = swift_bmc_i2c_init,
--        .ram       = 512 * MiB,
--    }, {
--        .name      = MACHINE_TYPE_NAME("witherspoon-bmc"),
--        .desc      = "OpenPOWER Witherspoon BMC (ARM1176)",
--        .soc_name  = "ast2500-a1",
--        .hw_strap1 = WITHERSPOON_BMC_HW_STRAP1,
--        .fmc_model = "mx25l25635e",
--        .spi_model = "mx66l1g45g",
--        .num_cs    = 2,
--        .i2c_init  = witherspoon_bmc_i2c_init,
--        .ram       = 512 * MiB,
--    }, {
--        .name      = MACHINE_TYPE_NAME("ast2600-evb"),
--        .desc      = "Aspeed AST2600 EVB (Cortex A7)",
--        .soc_name  = "ast2600-a0",
--        .hw_strap1 = AST2600_EVB_HW_STRAP1,
--        .hw_strap2 = AST2600_EVB_HW_STRAP2,
--        .fmc_model = "w25q512jv",
--        .spi_model = "mx66u51235f",
--        .num_cs    = 1,
--        .i2c_init  = ast2600_evb_i2c_init,
--        .ram       = 1 * GiB,
--    },
--};
--
--static void aspeed_machine_types(void)
-+static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
- {
--    int i;
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
- 
--    type_register_static(&aspeed_machine_type);
--    for (i = 0; i < ARRAY_SIZE(aspeed_boards); ++i) {
--        TypeInfo ti = {
--            .name       = aspeed_boards[i].name,
--            .parent     = TYPE_ASPEED_MACHINE,
--            .class_init = aspeed_machine_class_init,
--            .class_data = (void *)&aspeed_boards[i],
--        };
--        type_register(&ti);
-+    mc->desc       = "OpenPOWER Palmetto BMC (ARM926EJ-S)";
-+    amc->soc_name  = "ast2400-a1";
-+    amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
-+    amc->fmc_model = "n25q256a";
-+    amc->spi_model = "mx25l25635e";
-+    amc->num_cs    = 1;
-+    amc->i2c_init  = palmetto_bmc_i2c_init;
-+    mc->default_ram_size       = 256 * MiB;
-+};
-+
-+static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "Aspeed AST2500 EVB (ARM1176)";
-+    amc->soc_name  = "ast2500-a1";
-+    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
-+    amc->fmc_model = "w25q256";
-+    amc->spi_model = "mx25l25635e";
-+    amc->num_cs    = 1;
-+    amc->i2c_init  = ast2500_evb_i2c_init;
-+    mc->default_ram_size       = 512 * MiB;
-+};
-+
-+static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "OpenPOWER Romulus BMC (ARM1176)";
-+    amc->soc_name  = "ast2500-a1";
-+    amc->hw_strap1 = ROMULUS_BMC_HW_STRAP1;
-+    amc->fmc_model = "n25q256a";
-+    amc->spi_model = "mx66l1g45g";
-+    amc->num_cs    = 2;
-+    amc->i2c_init  = romulus_bmc_i2c_init;
-+    mc->default_ram_size       = 512 * MiB;
-+};
-+
-+static void aspeed_machine_swift_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "OpenPOWER Swift BMC (ARM1176)";
-+    amc->soc_name  = "ast2500-a1";
-+    amc->hw_strap1 = SWIFT_BMC_HW_STRAP1;
-+    amc->fmc_model = "mx66l1g45g";
-+    amc->spi_model = "mx66l1g45g";
-+    amc->num_cs    = 2;
-+    amc->i2c_init  = swift_bmc_i2c_init;
-+    mc->default_ram_size       = 512 * MiB;
-+};
-+
-+static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
-+    amc->soc_name  = "ast2500-a1";
-+    amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
-+    amc->fmc_model = "mx25l25635e";
-+    amc->spi_model = "mx66l1g45g";
-+    amc->num_cs    = 2;
-+    amc->i2c_init  = witherspoon_bmc_i2c_init;
-+    mc->default_ram_size = 512 * MiB;
-+};
-+
-+static void aspeed_machine_ast2600_evb_class_init(ObjectClass *oc, void *data)
++static void aspeed_machine_tacoma_class_init(ObjectClass *oc, void *data)
 +{
 +    MachineClass *mc = MACHINE_CLASS(oc);
 +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
 +
 +    mc->desc       = "Aspeed AST2600 EVB (Cortex A7)";
 +    amc->soc_name  = "ast2600-a0";
-+    amc->hw_strap1 = AST2600_EVB_HW_STRAP1;
-+    amc->hw_strap2 = AST2600_EVB_HW_STRAP2;
-+    amc->fmc_model = "w25q512jv";
-+    amc->spi_model = "mx66u51235f";
-+    amc->num_cs    = 1;
-+    amc->i2c_init  = ast2600_evb_i2c_init;
++    amc->hw_strap1 = TACOMA_BMC_HW_STRAP1;
++    amc->hw_strap2 = TACOMA_BMC_HW_STRAP2;
++    amc->fmc_model = "mx66l1g45g";
++    amc->spi_model = "mx66l1g45g";
++    amc->num_cs    = 2;
++    amc->i2c_init  = witherspoon_bmc_i2c_init; /* Same board layout */
 +    mc->default_ram_size = 1 * GiB;
 +};
 +
-+static const TypeInfo aspeed_machine_types[] = {
-+    {
-+        .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_palmetto_class_init,
+ static const TypeInfo aspeed_machine_types[] = {
+     {
+         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+@@ -510,6 +534,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("ast2600-evb"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_ast2600_evb_class_init,
 +    }, {
-+        .name          = MACHINE_TYPE_NAME("ast2500-evb"),
++        .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
 +        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_ast2500_evb_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("romulus-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_romulus_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("swift-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_swift_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("witherspoon-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_witherspoon_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("ast2600-evb"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_ast2600_evb_class_init,
-+    }, {
-+        .name          = TYPE_ASPEED_MACHINE,
-+        .parent        = TYPE_MACHINE,
-+        .instance_size = sizeof(AspeedMachine),
-+        .class_size    = sizeof(AspeedMachineClass),
-+        .class_init    = aspeed_machine_class_init,
-+        .abstract      = true,
-     }
--}
-+};
- 
--type_init(aspeed_machine_types)
-+DEFINE_TYPES(aspeed_machine_types)
++        .class_init    = aspeed_machine_tacoma_class_init,
+     }, {
+         .name          = TYPE_ASPEED_MACHINE,
+         .parent        = TYPE_MACHINE,
 -- 
 2.20.1
 
