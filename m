@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F9511FC20
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 01:23:22 +0100 (CET)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3A511FC21
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 01:23:27 +0100 (CET)
+Received: from localhost ([::1]:44918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igeAT-0007cX-OA
-	for lists+qemu-devel@lfdr.de; Sun, 15 Dec 2019 19:23:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58703)
+	id 1igeAY-0007jR-5r
+	for lists+qemu-devel@lfdr.de; Sun, 15 Dec 2019 19:23:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ige90-0006Ie-E2
- for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:21:51 -0500
+ (envelope-from <philmd@redhat.com>) id 1ige93-0006JH-7W
+ for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:21:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ige8z-000665-GK
- for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:21:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45349
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ige92-0006Ff-3p
+ for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:21:53 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57442)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ige8z-00061k-DC
- for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:21:49 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ige92-0006DQ-0A
+ for qemu-devel@nongnu.org; Sun, 15 Dec 2019 19:21:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576455708;
+ s=mimecast20190719; t=1576455711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7IR6ewlBcwV4md0cSOov7RyetLSLGaIi1xQGhpC/i/s=;
- b=CWciwdVL8RnzoxfUcSowt7XQ9j6/bg2auueZTnDYMdm8dWp3tzFes+A+BB+f658LFulEsj
- NZ4gdYsyI34Ge3plI4IBMeOv7UC9ITVkgwlBFWq4xq9wQCCvw8oYzkDHDXSgibrKswBubX
- TE6aSoDZHzk4V8/lSfucZ1K1gF+xv2M=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NbuokKpyZ6Rqq7FIEeSB/3yNDkaQil2rMod/VmsNJf4=;
+ b=S6a4h0WaYn1iFznwUbcfcvtkHLlUl57Wagfs35tVSsa210JvFngUnDzpdhu8/qbCE2zKqX
+ DiqZcBr8ytk0/6E3U/pBpTQ/NOg4Le2ngvhb0Ccs+FuHDeT2vTGJAlPBqyS2U9tkvQFHTq
+ LeiJQrUNESTptUkmizVDymbE0TG0LgY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-ROBRgtlGOMazK0_j3QOjYQ-1; Sun, 15 Dec 2019 19:21:45 -0500
+ us-mta-16-7A9sLIAcP56usoo-tQ5Tmw-1; Sun, 15 Dec 2019 19:21:48 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88BD01005502;
- Mon, 16 Dec 2019 00:21:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33A4A107ACCA;
+ Mon, 16 Dec 2019 00:21:47 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-147.brq.redhat.com [10.40.205.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BCC861001901;
- Mon, 16 Dec 2019 00:21:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 229301001901;
+ Mon, 16 Dec 2019 00:21:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/pci/pci_host: Small cleanups
-Date: Mon, 16 Dec 2019 01:21:32 +0100
-Message-Id: <20191216002134.18279-1-philmd@redhat.com>
+Subject: [PATCH 1/2] hw/pci/pci_host: Remove redundant PCI_DPRINTF()
+Date: Mon, 16 Dec 2019 01:21:33 +0100
+Message-Id: <20191216002134.18279-2-philmd@redhat.com>
+In-Reply-To: <20191216002134.18279-1-philmd@redhat.com>
+References: <20191216002134.18279-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: ROBRgtlGOMazK0_j3QOjYQ-1
+X-MC-Unique: 7A9sLIAcP56usoo-tQ5Tmw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,18 +74,91 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Use unsigned 'size' argument
-- Remove unuseful DPRINTF()
+In commit 3bf4dfdd111 we introduced the pci_cfg_[read/write]
+trace events in pci_host_config_[read/write]_common().
+We have the following call trace:
 
-Philippe Mathieu-Daud=C3=A9 (2):
-  hw/pci/pci_host: Remove redundant PCI_DPRINTF()
-  hw/pci/pci_host: Let pci_data_[read/write] use unsigned 'size'
-    argument
+  pci_host_data_[read/write]()
+    - PCI_DPRINTF()
+    - pci_data_[read/write]()
+        - PCI_DPRINTF()
+        - pci_host_config_[read/write]_common()
+            trace_pci_cfg_[read/write]()
 
- include/hw/pci/pci_host.h |  4 ++--
- hw/pci/pci_host.c         | 25 +++++++------------------
- 2 files changed, 9 insertions(+), 20 deletions(-)
+Since the PCI_DPRINTF() calls are redundant with the trace
+events, remove them.
 
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/pci/pci_host.c | 21 +++++----------------
+ 1 file changed, 5 insertions(+), 16 deletions(-)
+
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index c5f9244934..0958d157de 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -115,8 +115,6 @@ void pci_data_write(PCIBus *s, uint32_t addr, uint32_t =
+val, int len)
+         return;
+     }
+=20
+-    PCI_DPRINTF("%s: %s: addr=3D%02" PRIx32 " val=3D%08" PRIx32 " len=3D%d=
+\n",
+-                __func__, pci_dev->name, config_addr, val, len);
+     pci_host_config_write_common(pci_dev, config_addr, PCI_CONFIG_SPACE_SI=
+ZE,
+                                  val, len);
+ }
+@@ -125,18 +123,13 @@ uint32_t pci_data_read(PCIBus *s, uint32_t addr, int =
+len)
+ {
+     PCIDevice *pci_dev =3D pci_dev_find_by_addr(s, addr);
+     uint32_t config_addr =3D addr & (PCI_CONFIG_SPACE_SIZE - 1);
+-    uint32_t val;
+=20
+     if (!pci_dev) {
+         return ~0x0;
+     }
+=20
+-    val =3D pci_host_config_read_common(pci_dev, config_addr,
+-                                      PCI_CONFIG_SPACE_SIZE, len);
+-    PCI_DPRINTF("%s: %s: addr=3D%02"PRIx32" val=3D%08"PRIx32" len=3D%d\n",
+-                __func__, pci_dev->name, config_addr, val, len);
+-
+-    return val;
++    return pci_host_config_read_common(pci_dev, config_addr,
++                                       PCI_CONFIG_SPACE_SIZE, len);
+ }
+=20
+ static void pci_host_config_write(void *opaque, hwaddr addr,
+@@ -167,8 +160,7 @@ static void pci_host_data_write(void *opaque, hwaddr ad=
+dr,
+                                 uint64_t val, unsigned len)
+ {
+     PCIHostState *s =3D opaque;
+-    PCI_DPRINTF("write addr " TARGET_FMT_plx " len %d val %x\n",
+-                addr, len, (unsigned)val);
++
+     if (s->config_reg & (1u << 31))
+         pci_data_write(s->bus, s->config_reg | (addr & 3), val, len);
+ }
+@@ -177,14 +169,11 @@ static uint64_t pci_host_data_read(void *opaque,
+                                    hwaddr addr, unsigned len)
+ {
+     PCIHostState *s =3D opaque;
+-    uint32_t val;
++
+     if (!(s->config_reg & (1U << 31))) {
+         return 0xffffffff;
+     }
+-    val =3D pci_data_read(s->bus, s->config_reg | (addr & 3), len);
+-    PCI_DPRINTF("read addr " TARGET_FMT_plx " len %d val %x\n",
+-                addr, len, val);
+-    return val;
++    return pci_data_read(s->bus, s->config_reg | (addr & 3), len);
+ }
+=20
+ const MemoryRegionOps pci_host_conf_le_ops =3D {
 --=20
 2.21.0
 
