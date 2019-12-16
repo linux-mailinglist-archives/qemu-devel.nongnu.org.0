@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AFCA12041F
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:38:32 +0100 (CET)
-Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4CEC1203F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:33:42 +0100 (CET)
+Received: from localhost ([::1]:51818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igohr-0003fE-BK
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:38:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51229)
+	id 1igodB-0004ne-KH
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:33:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFz-00087V-Dx
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:44 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFz-00087j-NX
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFy-0000EL-4d
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFy-0000Dv-02
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:43 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54850)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFx-0000C6-T0
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:42 -0500
-Received: by mail-wm1-x341.google.com with SMTP id b19so6250900wmj.4
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:39 -0800 (PST)
+ id 1igoFx-0000CI-O4
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:41 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id g17so6738305wro.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Bswh7/qVNoTMhX0s3zAgFkoXBHOrNaofcX0A6vxQIhI=;
- b=avq5xsVze4WGr53rNg2Mf0yzs/1RYk6MPUmTe3hz9UgkWmA9wk5EsulS6QIg3TPNon
- SnTLFZGpY5m7CiCDPNdCMadkhf4DDX0AweSCAz5aiznXlU7WQ78SbDT7ZqCTVHPl5zrX
- +6cf7yBjKqRSkPnfmJx81rFuQAIrkLo119DTZARVQqGfGeWMcmZissnRW6uqKDegSbi+
- +RoolCx7tDUMKGuBYzO1PwtnjmNYVoi2V6UX7hB//M4j0Wpa/3OFdL17sIQCOKp7IQEr
- lPj0r5pDp+KjfJktSYUcJ2qBJGxbQdUP0fLpg4LpMgX7ZfLGb3defa+O1r0YvFFCeNnQ
- Satg==
+ bh=uo8Ah3uFvL8+RhHBpsGXzAml5UmoCilXIxueeFhD5+Q=;
+ b=GdDYmJZI03tVZlsDbsRUIztsrspnFH1I8SOYXvGi6wjp7Th5EkkgG91VsJQD8SDhxo
+ F2DHw3H9ZCmDwPdk/UjSOxMKkjyWCRMBEo9rBAGy6x5O63XGCLeZJWZLNHG+eRTiGeYi
+ wgSDt5WukRYBXEgKJ8JI2mjZ8dTSugVlZTPUr6BO9hSpDT7YAvH793ZEGZnVaaE0+MKp
+ 8KAXEKJmpdL9FwqMfcz/tx4Su8QakcgkYaPYC3sUjTMSp7d5T8u5oIfftwHoGq2lVlzT
+ /RCcdeU5hVQFf2nF2Id0AXSA2vXoTGw0wrDima3zABUW6P8kRBSu+ASUU2wfBcxuOYkj
+ 2Xlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bswh7/qVNoTMhX0s3zAgFkoXBHOrNaofcX0A6vxQIhI=;
- b=guEfuC6mjmLKk/wVhSfpjxQ99XKlqLCIiUFDWUgXE3hXimy9HiJjPzRnXbmqZJohoy
- o3bBlaiPNi1CNFWTeexmq4NHV0N0qTPimiuhOPamf1Jyo1QNdi5Z7O+WkfWdAtjfvBnO
- +ZrCGY83k6ZtqCM2a4J0GR7sk+BVfUW3t4wqiFva9UkFqbaGHk3WoFL3AG18QzPZjxXN
- 4OEpPawQJ2/ERIRTbD7Cn/0+4dUnuycd3WTk8YUy26D5F3pf+iOMTZTYxwDBAvi3mipd
- 7ysId0YTW1m2WqAYJsoiG0Cwa2LOfQzGBB99wuD7NQkZ95jE6fwXVkoLoll+/yaRtYp4
- f88A==
-X-Gm-Message-State: APjAAAU/IP+2FJ4/ErERfF+If+1+lMcpVdzwmCg0hHEb6i5bqXg0yJHC
- 499vZ8d5wNalfWc3x3jOBLPakGDecCW3xA==
-X-Google-Smtp-Source: APXvYqzWjIsUusln2NmH7FZq5s2UdnF4O4Bn6HJ7J+WBaz0emR9D6KscC7JOF+0qPpzW6zew+chpDA==
-X-Received: by 2002:a1c:f60f:: with SMTP id w15mr28848560wmc.132.1576494578237; 
- Mon, 16 Dec 2019 03:09:38 -0800 (PST)
+ bh=uo8Ah3uFvL8+RhHBpsGXzAml5UmoCilXIxueeFhD5+Q=;
+ b=TpbkLWs4A5bJFZNrOSb5x1eeV3A8ZoLh6kSknq1M7WO3FVWn1Oze5fBgpDflOk3/b6
+ nfSMCgEMgF2EMHjSQYAj3zshGcIPTl+wUBZ6UTfk4s+KVaQv19f6Hn36MbUf3It9nUeT
+ SKz8LrArGaXJtVovjW8JX+IBcQeGaOEEwElfI5bAX54U5wlvAUWYNU4MWceDvhaEae3g
+ 8WLfg5txZ2Vd5UntdJ/wx+zaQWmBg/B3JkkwI3FzITIIJHv3SZfUQ4alX4nQ+Kl8Nxaj
+ YYqfyvjaQuyAbktY+JspuHKaBtLqQE0XS5gB0qPVGp1AhT6OcOBcnQtckH28Nj3z1ZN5
+ XL6Q==
+X-Gm-Message-State: APjAAAX1KvHamT715XxqYR803Lh6boyByvk75nE4YWviZ/yQREUdVYBp
+ DV0uHy06uHWCIXh82pXXL3evdOPpZx6LFA==
+X-Google-Smtp-Source: APXvYqx0IPC3btzcmVk57Y+/FNLHkN/UVhk5FX0KCvIOPkljIt2rXgrneZ7nd0zU46RDvwAGmf9Iag==
+X-Received: by 2002:adf:eb09:: with SMTP id s9mr30682652wrn.61.1576494579277; 
+ Mon, 16 Dec 2019 03:09:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.37
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:37 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:38 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/34] target/arm: Add support for DC CVAP & DC CVADP ins
-Date: Mon, 16 Dec 2019 11:08:59 +0000
-Message-Id: <20191216110904.30815-30-peter.maydell@linaro.org>
+Subject: [PULL 30/34] hw/arm/sbsa-ref: Simplify by moving the gic in the
+ machine state
+Date: Mon, 16 Dec 2019 11:09:00 +0000
+Message-Id: <20191216110904.30815-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,155 +83,262 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Beata Michalska <beata.michalska@linaro.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-ARMv8.2 introduced support for Data Cache Clean instructions
-to PoP (point-of-persistence) - DC CVAP and PoDP (point-of-deep-persistence)
-- DV CVADP. Both specify conceptual points in a memory system where all writes
-that are to reach them are considered persistent.
-The support provided considers both to be actually the same so there is no
-distinction between the two. If none is available (there is no backing store
-for given memory) both will result in Data Cache Clean up to the point of
-coherency. Otherwise sync for the specified range shall be performed.
+Make the gic a field in the machine state, and instead of filling
+an array of qemu_irq and passing it around, directly call
+qdev_get_gpio_in() on the gic field.
 
-Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191121000843.24844-5-beata.michalska@linaro.org
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20191206162303.30338-1-philmd@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h     | 10 ++++++++
- linux-user/elfload.c |  2 ++
- target/arm/cpu64.c   |  1 +
- target/arm/helper.c  | 56 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 69 insertions(+)
+ hw/arm/sbsa-ref.c | 86 +++++++++++++++++++++++------------------------
+ 1 file changed, 42 insertions(+), 44 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index cebb3511a51..4106e4ae590 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3618,6 +3618,16 @@ static inline bool isar_feature_aa64_frint(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, FRINTTS) != 0;
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 27046cc284f..5853bdee5ce 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -89,6 +89,7 @@ typedef struct {
+     void *fdt;
+     int fdt_size;
+     int psci_conduit;
++    DeviceState *gic;
+     PFlashCFI01 *flash[2];
+ } SBSAMachineState;
+ 
+@@ -328,10 +329,9 @@ static void create_secure_ram(SBSAMachineState *sms,
+     memory_region_add_subregion(secure_sysmem, base, secram);
  }
  
-+static inline bool isar_feature_aa64_dcpop(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) != 0;
-+}
-+
-+static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >= 2;
-+}
-+
- static inline bool isar_feature_aa64_fp16(const ARMISARegisters *id)
+-static void create_gic(SBSAMachineState *sms, qemu_irq *pic)
++static void create_gic(SBSAMachineState *sms)
  {
-     /* We always set the AdvSIMD and FP fields identically wrt FP16.  */
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index f6693e57609..07b16cc0f47 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -656,6 +656,7 @@ static uint32_t get_elf_hwcap(void)
-     GET_FEATURE_ID(aa64_jscvt, ARM_HWCAP_A64_JSCVT);
-     GET_FEATURE_ID(aa64_sb, ARM_HWCAP_A64_SB);
-     GET_FEATURE_ID(aa64_condm_4, ARM_HWCAP_A64_FLAGM);
-+    GET_FEATURE_ID(aa64_dcpop, ARM_HWCAP_A64_DCPOP);
+     unsigned int smp_cpus = MACHINE(sms)->smp.cpus;
+-    DeviceState *gicdev;
+     SysBusDevice *gicbusdev;
+     const char *gictype;
+     uint32_t redist0_capacity, redist0_count;
+@@ -339,25 +339,25 @@ static void create_gic(SBSAMachineState *sms, qemu_irq *pic)
  
-     return hwcaps;
- }
-@@ -665,6 +666,7 @@ static uint32_t get_elf_hwcap2(void)
-     ARMCPU *cpu = ARM_CPU(thread_cpu);
-     uint32_t hwcaps = 0;
+     gictype = gicv3_class_name();
  
-+    GET_FEATURE_ID(aa64_dcpodp, ARM_HWCAP2_A64_DCPODP);
-     GET_FEATURE_ID(aa64_condm_5, ARM_HWCAP2_A64_FLAGM2);
-     GET_FEATURE_ID(aa64_frint, ARM_HWCAP2_A64_FRINT);
- 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index a39d6fcea34..61fd0ade29a 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -646,6 +646,7 @@ static void aarch64_max_initfn(Object *obj)
-         cpu->isar.id_aa64isar0 = t;
- 
-         t = cpu->isar.id_aa64isar1;
-+        t = FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
-         t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, APA, 1); /* PAuth, architected only */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a4f7b61b4e1..3a93844a3bc 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5974,6 +5974,52 @@ static const ARMCPRegInfo rndr_reginfo[] = {
-       .access = PL0_R, .readfn = rndr_readfn },
-     REGINFO_SENTINEL
- };
-+
-+#ifndef CONFIG_USER_ONLY
-+static void dccvap_writefn(CPUARMState *env, const ARMCPRegInfo *opaque,
-+                          uint64_t value)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+    /* CTR_EL0 System register -> DminLine, bits [19:16] */
-+    uint64_t dline_size = 4 << ((cpu->ctr >> 16) & 0xF);
-+    uint64_t vaddr_in = (uint64_t) value;
-+    uint64_t vaddr = vaddr_in & ~(dline_size - 1);
-+    void *haddr;
-+    int mem_idx = cpu_mmu_index(env, false);
-+
-+    /* This won't be crossing page boundaries */
-+    haddr = probe_read(env, vaddr, dline_size, mem_idx, GETPC());
-+    if (haddr) {
-+
-+        ram_addr_t offset;
-+        MemoryRegion *mr;
-+
-+        /* RCU lock is already being held */
-+        mr = memory_region_from_host(haddr, &offset);
-+
-+        if (mr) {
-+            memory_region_do_writeback(mr, offset, dline_size);
-+        }
-+    }
-+}
-+
-+static const ARMCPRegInfo dcpop_reg[] = {
-+    { .name = "DC_CVAP", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 1,
-+      .access = PL0_W, .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
-+      .accessfn = aa64_cacheop_access, .writefn = dccvap_writefn },
-+    REGINFO_SENTINEL
-+};
-+
-+static const ARMCPRegInfo dcpodp_reg[] = {
-+    { .name = "DC_CVADP", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 1,
-+      .access = PL0_W, .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
-+      .accessfn = aa64_cacheop_access, .writefn = dccvap_writefn },
-+    REGINFO_SENTINEL
-+};
-+#endif /*CONFIG_USER_ONLY*/
-+
- #endif
- 
- static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -7046,6 +7092,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-     if (cpu_isar_feature(aa64_rndr, cpu)) {
-         define_arm_cp_regs(cpu, rndr_reginfo);
-     }
-+#ifndef CONFIG_USER_ONLY
-+    /* Data Cache clean instructions up to PoP */
-+    if (cpu_isar_feature(aa64_dcpop, cpu)) {
-+        define_one_arm_cp_reg(cpu, dcpop_reg);
-+
-+        if (cpu_isar_feature(aa64_dcpodp, cpu)) {
-+            define_one_arm_cp_reg(cpu, dcpodp_reg);
-+        }
-+    }
-+#endif /*CONFIG_USER_ONLY*/
- #endif
- 
+-    gicdev = qdev_create(NULL, gictype);
+-    qdev_prop_set_uint32(gicdev, "revision", 3);
+-    qdev_prop_set_uint32(gicdev, "num-cpu", smp_cpus);
++    sms->gic = qdev_create(NULL, gictype);
++    qdev_prop_set_uint32(sms->gic, "revision", 3);
++    qdev_prop_set_uint32(sms->gic, "num-cpu", smp_cpus);
      /*
+      * Note that the num-irq property counts both internal and external
+      * interrupts; there are always 32 of the former (mandated by GIC spec).
+      */
+-    qdev_prop_set_uint32(gicdev, "num-irq", NUM_IRQS + 32);
+-    qdev_prop_set_bit(gicdev, "has-security-extensions", true);
++    qdev_prop_set_uint32(sms->gic, "num-irq", NUM_IRQS + 32);
++    qdev_prop_set_bit(sms->gic, "has-security-extensions", true);
+ 
+     redist0_capacity =
+                 sbsa_ref_memmap[SBSA_GIC_REDIST].size / GICV3_REDIST_SIZE;
+     redist0_count = MIN(smp_cpus, redist0_capacity);
+ 
+-    qdev_prop_set_uint32(gicdev, "len-redist-region-count", 1);
+-    qdev_prop_set_uint32(gicdev, "redist-region-count[0]", redist0_count);
++    qdev_prop_set_uint32(sms->gic, "len-redist-region-count", 1);
++    qdev_prop_set_uint32(sms->gic, "redist-region-count[0]", redist0_count);
+ 
+-    qdev_init_nofail(gicdev);
+-    gicbusdev = SYS_BUS_DEVICE(gicdev);
++    qdev_init_nofail(sms->gic);
++    gicbusdev = SYS_BUS_DEVICE(sms->gic);
+     sysbus_mmio_map(gicbusdev, 0, sbsa_ref_memmap[SBSA_GIC_DIST].base);
+     sysbus_mmio_map(gicbusdev, 1, sbsa_ref_memmap[SBSA_GIC_REDIST].base);
+ 
+@@ -383,15 +383,15 @@ static void create_gic(SBSAMachineState *sms, qemu_irq *pic)
+ 
+         for (irq = 0; irq < ARRAY_SIZE(timer_irq); irq++) {
+             qdev_connect_gpio_out(cpudev, irq,
+-                                  qdev_get_gpio_in(gicdev,
++                                  qdev_get_gpio_in(sms->gic,
+                                                    ppibase + timer_irq[irq]));
+         }
+ 
+         qdev_connect_gpio_out_named(cpudev, "gicv3-maintenance-interrupt", 0,
+-                                    qdev_get_gpio_in(gicdev, ppibase
++                                    qdev_get_gpio_in(sms->gic, ppibase
+                                                      + ARCH_GIC_MAINT_IRQ));
+         qdev_connect_gpio_out_named(cpudev, "pmu-interrupt", 0,
+-                                    qdev_get_gpio_in(gicdev, ppibase
++                                    qdev_get_gpio_in(sms->gic, ppibase
+                                                      + VIRTUAL_PMU_IRQ));
+ 
+         sysbus_connect_irq(gicbusdev, i, qdev_get_gpio_in(cpudev, ARM_CPU_IRQ));
+@@ -402,13 +402,9 @@ static void create_gic(SBSAMachineState *sms, qemu_irq *pic)
+         sysbus_connect_irq(gicbusdev, i + 3 * smp_cpus,
+                            qdev_get_gpio_in(cpudev, ARM_CPU_VFIQ));
+     }
+-
+-    for (i = 0; i < NUM_IRQS; i++) {
+-        pic[i] = qdev_get_gpio_in(gicdev, i);
+-    }
+ }
+ 
+-static void create_uart(const SBSAMachineState *sms, qemu_irq *pic, int uart,
++static void create_uart(const SBSAMachineState *sms, int uart,
+                         MemoryRegion *mem, Chardev *chr)
+ {
+     hwaddr base = sbsa_ref_memmap[uart].base;
+@@ -420,15 +416,15 @@ static void create_uart(const SBSAMachineState *sms, qemu_irq *pic, int uart,
+     qdev_init_nofail(dev);
+     memory_region_add_subregion(mem, base,
+                                 sysbus_mmio_get_region(s, 0));
+-    sysbus_connect_irq(s, 0, pic[irq]);
++    sysbus_connect_irq(s, 0, qdev_get_gpio_in(sms->gic, irq));
+ }
+ 
+-static void create_rtc(const SBSAMachineState *sms, qemu_irq *pic)
++static void create_rtc(const SBSAMachineState *sms)
+ {
+     hwaddr base = sbsa_ref_memmap[SBSA_RTC].base;
+     int irq = sbsa_ref_irqmap[SBSA_RTC];
+ 
+-    sysbus_create_simple("pl031", base, pic[irq]);
++    sysbus_create_simple("pl031", base, qdev_get_gpio_in(sms->gic, irq));
+ }
+ 
+ static DeviceState *gpio_key_dev;
+@@ -442,13 +438,14 @@ static Notifier sbsa_ref_powerdown_notifier = {
+     .notify = sbsa_ref_powerdown_req
+ };
+ 
+-static void create_gpio(const SBSAMachineState *sms, qemu_irq *pic)
++static void create_gpio(const SBSAMachineState *sms)
+ {
+     DeviceState *pl061_dev;
+     hwaddr base = sbsa_ref_memmap[SBSA_GPIO].base;
+     int irq = sbsa_ref_irqmap[SBSA_GPIO];
+ 
+-    pl061_dev = sysbus_create_simple("pl061", base, pic[irq]);
++    pl061_dev = sysbus_create_simple("pl061", base,
++                                     qdev_get_gpio_in(sms->gic, irq));
+ 
+     gpio_key_dev = sysbus_create_simple("gpio-key", -1,
+                                         qdev_get_gpio_in(pl061_dev, 3));
+@@ -457,7 +454,7 @@ static void create_gpio(const SBSAMachineState *sms, qemu_irq *pic)
+     qemu_register_powerdown_notifier(&sbsa_ref_powerdown_notifier);
+ }
+ 
+-static void create_ahci(const SBSAMachineState *sms, qemu_irq *pic)
++static void create_ahci(const SBSAMachineState *sms)
+ {
+     hwaddr base = sbsa_ref_memmap[SBSA_AHCI].base;
+     int irq = sbsa_ref_irqmap[SBSA_AHCI];
+@@ -471,7 +468,7 @@ static void create_ahci(const SBSAMachineState *sms, qemu_irq *pic)
+     qdev_prop_set_uint32(dev, "num-ports", NUM_SATA_PORTS);
+     qdev_init_nofail(dev);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+-    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[irq]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, qdev_get_gpio_in(sms->gic, irq));
+ 
+     sysahci = SYSBUS_AHCI(dev);
+     ahci = &sysahci->ahci;
+@@ -484,16 +481,16 @@ static void create_ahci(const SBSAMachineState *sms, qemu_irq *pic)
+     }
+ }
+ 
+-static void create_ehci(const SBSAMachineState *sms, qemu_irq *pic)
++static void create_ehci(const SBSAMachineState *sms)
+ {
+     hwaddr base = sbsa_ref_memmap[SBSA_EHCI].base;
+     int irq = sbsa_ref_irqmap[SBSA_EHCI];
+ 
+-    sysbus_create_simple("platform-ehci-usb", base, pic[irq]);
++    sysbus_create_simple("platform-ehci-usb", base,
++                         qdev_get_gpio_in(sms->gic, irq));
+ }
+ 
+-static void create_smmu(const SBSAMachineState *sms, qemu_irq *pic,
+-                        PCIBus *bus)
++static void create_smmu(const SBSAMachineState *sms, PCIBus *bus)
+ {
+     hwaddr base = sbsa_ref_memmap[SBSA_SMMU].base;
+     int irq =  sbsa_ref_irqmap[SBSA_SMMU];
+@@ -507,11 +504,12 @@ static void create_smmu(const SBSAMachineState *sms, qemu_irq *pic,
+     qdev_init_nofail(dev);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+     for (i = 0; i < NUM_SMMU_IRQS; i++) {
+-        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, pic[irq + i]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
++                           qdev_get_gpio_in(sms->gic, irq + 1));
+     }
+ }
+ 
+-static void create_pcie(SBSAMachineState *sms, qemu_irq *pic)
++static void create_pcie(SBSAMachineState *sms)
+ {
+     hwaddr base_ecam = sbsa_ref_memmap[SBSA_PCIE_ECAM].base;
+     hwaddr size_ecam = sbsa_ref_memmap[SBSA_PCIE_ECAM].size;
+@@ -555,7 +553,8 @@ static void create_pcie(SBSAMachineState *sms, qemu_irq *pic)
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, base_pio);
+ 
+     for (i = 0; i < GPEX_NUM_IRQS; i++) {
+-        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, pic[irq + i]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
++                           qdev_get_gpio_in(sms->gic, irq + 1));
+         gpex_set_irq_num(GPEX_HOST(dev), i, irq + i);
+     }
+ 
+@@ -574,7 +573,7 @@ static void create_pcie(SBSAMachineState *sms, qemu_irq *pic)
+ 
+     pci_create_simple(pci->bus, -1, "VGA");
+ 
+-    create_smmu(sms, pic, pci->bus);
++    create_smmu(sms, pci->bus);
+ }
+ 
+ static void *sbsa_ref_dtb(const struct arm_boot_info *binfo, int *fdt_size)
+@@ -598,7 +597,6 @@ static void sbsa_ref_init(MachineState *machine)
+     bool firmware_loaded;
+     const CPUArchIdList *possible_cpus;
+     int n, sbsa_max_cpus;
+-    qemu_irq pic[NUM_IRQS];
+ 
+     if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
+         error_report("sbsa-ref: CPU type other than the built-in "
+@@ -695,22 +693,22 @@ static void sbsa_ref_init(MachineState *machine)
+ 
+     create_secure_ram(sms, secure_sysmem);
+ 
+-    create_gic(sms, pic);
++    create_gic(sms);
+ 
+-    create_uart(sms, pic, SBSA_UART, sysmem, serial_hd(0));
+-    create_uart(sms, pic, SBSA_SECURE_UART, secure_sysmem, serial_hd(1));
++    create_uart(sms, SBSA_UART, sysmem, serial_hd(0));
++    create_uart(sms, SBSA_SECURE_UART, secure_sysmem, serial_hd(1));
+     /* Second secure UART for RAS and MM from EL0 */
+-    create_uart(sms, pic, SBSA_SECURE_UART_MM, secure_sysmem, serial_hd(2));
++    create_uart(sms, SBSA_SECURE_UART_MM, secure_sysmem, serial_hd(2));
+ 
+-    create_rtc(sms, pic);
++    create_rtc(sms);
+ 
+-    create_gpio(sms, pic);
++    create_gpio(sms);
+ 
+-    create_ahci(sms, pic);
++    create_ahci(sms);
+ 
+-    create_ehci(sms, pic);
++    create_ehci(sms);
+ 
+-    create_pcie(sms, pic);
++    create_pcie(sms);
+ 
+     sms->bootinfo.ram_size = machine->ram_size;
+     sms->bootinfo.nb_cpus = smp_cpus;
 -- 
 2.20.1
 
