@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7D8120418
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:36:57 +0100 (CET)
-Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AE4120420
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:38:52 +0100 (CET)
+Received: from localhost ([::1]:51932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igogK-00016f-DN
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:36:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
+	id 1igoiA-000454-K5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:38:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFm-0007r6-KT
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFn-0007sV-J1
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFl-0008Io-BQ
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:30 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39404)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFm-0008JW-7p
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:31 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33423)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFl-0008Hz-4M
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:29 -0500
-Received: by mail-wm1-x343.google.com with SMTP id b72so4201057wme.4
+ id 1igoFm-0008Is-1S
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:30 -0500
+Received: by mail-wr1-x441.google.com with SMTP id b6so6756290wrq.0
  for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Xurk8bwctWtGSWDzsj4cIGJHvhLZxcMqw0xL6BAXFU0=;
- b=FH6a9wr0f+i24p5NOGyLNzvoiE+WuCv9veZsf23orkPio2f1cZmIpyZXtOA9eAgY58
- 4fi38AR2mvSjAV0RK0z/shyIM5kX3dqzSdkl8yEgcm1v5y67/syHZbSBfkTcbcVwYjZb
- AmpjSiDJI903CdIUMt8WskKpOnS1GLU50yJhIg+wqd9eqvWvHHAWol46Wk8n/6ylPWIe
- UDnU0d0vZa3pNPaxdbpjGxfMsa6I6f+S0ldcdEIj2ikhO7w3JeZJCYKfIgKHZmdCov5a
- 2O84xLtz0+TOEWieD9OY8o47jOINSQHZBaqABG8yicRECJd/7hulQJet0Vii0O5gMuM0
- NBDw==
+ bh=hppP2bCQOezxDFaY7+RUxIWUw1GUMX8Ov6ZmLeYdIro=;
+ b=vpY+9M/S9UQqJYDklq7y9Lz/MW8jRDn/kFs8Fp2qC6UQgyaPpDAlm/VEoBJGOfl87I
+ HVtjlNh2n/L8l4FKiCnQLcHnjSFAqqkdScI3iR7YhcstnEtYquoRL7y7IctrwLpJ11QW
+ sKmvbm8Ij5iYdlo1t5ILumop6gwujk35GyxWCMnQAHk9i694Kx7Bg6EjFnISnCl/cNXv
+ FmMwTNOHe0WmKMo2eEdqzZYsXSM0d5rLT98l9o/fxGYwiBfsipcC+cTzoxIdn3vO98L2
+ bEtkJqgI25Kg2zzqcqWzcFnrDuZWJjYANiuXX0KoNxhi2PpKAWOBROJNpKOvPzhWHhB5
+ cUdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Xurk8bwctWtGSWDzsj4cIGJHvhLZxcMqw0xL6BAXFU0=;
- b=PZ7M6kFPZM1Akk2Ak1b8KYb9RtAH4F2gAh9okfatpplHdYKdmcWc+PoyKi1ReqrAn9
- Ib1yAHpvYgBPtvwUq7ZZMTi+O0BrUfBgqRuaEdXxYeyhm2BTcUqaIVgtB/nkgn4mtqba
- CLDWjvxsZvyrTfcFNpLL1+dXvISaRAchjOf7pS36Gm6rWjisClqbZeoq/7FrTHyYhgV/
- kLXl7V7NHAjEd2ttfKyn0JUXTjyh+WkDIS/BeXQsIAWuIaaYr5gMKc2q4+dQz71Am3H6
- 9BGfmdaLDdMjYJGpt6NMWV6F4KMCNdmrZ7wS7OxiM5FvEM2//x4276yEnPn80MtaQ6fO
- GD6Q==
-X-Gm-Message-State: APjAAAXRc0dVJJth/KXuUdpvgAxZL5AkALc8EscCw6l+LwbKMDLOrQDV
- 0IEl8gIyNn53PPILADc2G3xWsGQz65q24w==
-X-Google-Smtp-Source: APXvYqziwhmSa8u1Tsi0tfxvGsAKymCrh25ka5osAHocbi2CKltYESO0tvwN3cLUdcR7z2feooeROQ==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr28812610wmc.36.1576494567902; 
- Mon, 16 Dec 2019 03:09:27 -0800 (PST)
+ bh=hppP2bCQOezxDFaY7+RUxIWUw1GUMX8Ov6ZmLeYdIro=;
+ b=j2S5ol8MbzNkUtUD7qgYNvXDHpr5T0Wd6ibJV3VHp3qLkPAqaEu7nerXS/N1fvFlUU
+ K3pOAJD7ko6heEeOclO21nVXsw78Bh8WDB+SMrsiJY11loOc1Bor0UCDAsfaYMrlKhwL
+ PDmwnCULqwcBw+bz1/sfEBGEexMS3fcSGMtSZtNeFogXNGtNVX/KGfmJyzhQaHMIeU7I
+ bnwJNyJBVjHZBvo+nkHvqyoicmegAkEoviVX7sF9OmQBCEUhmpcaN2Q6aAuiYBdoQWeN
+ p2qzJwxbQJQsmjeZ+KFf58GUEdqRanaLBHM4EzDAfifiiM4/rgBDINARnJE704bAn/uZ
+ VBoA==
+X-Gm-Message-State: APjAAAWThMs+cyfBdq/rCd7VW62sRhPD2iLpi2z786oUte6UoSPILDEf
+ yjVSHy4QLxwmyNwTP+OO0BH0YPlpaJGZ/w==
+X-Google-Smtp-Source: APXvYqz3SAnmK44b9xVZIzopGJv/LgyUHXlo39/GrYVy8uuZTPM742DFJaJoReLx4p86w42fFNHS6A==
+X-Received: by 2002:a5d:6350:: with SMTP id b16mr30060425wrw.132.1576494568862; 
+ Mon, 16 Dec 2019 03:09:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:27 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/34] aspeed: Change the "nic" property definition
-Date: Mon, 16 Dec 2019 11:08:49 +0000
-Message-Id: <20191216110904.30815-20-peter.maydell@linaro.org>
+Subject: [PULL 20/34] target/arm: Honor HCR_EL2.TID2 trapping requirements
+Date: Mon, 16 Dec 2019 11:08:50 +0000
+Message-Id: <20191216110904.30815-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,94 +81,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Marc Zyngier <maz@kernel.org>
 
-The Aspeed MII model has a link pointing to its associated FTGMAC100
-NIC in the machine.
+HCR_EL2.TID2 mandates that access from EL1 to CTR_EL0, CCSIDR_EL1,
+CCSIDR2_EL1, CLIDR_EL1, CSSELR_EL1 are trapped to EL2, and QEMU
+completely ignores it, making it impossible for hypervisors to
+virtualize the cache hierarchy.
 
-Change the "nic" property definition so that it explicitly sets the
-pointer. The property isn't optional : not being able to set the link
-is a bug and QEMU should rather abort than exit in this case.
+Do the right thing by trapping to EL2 if HCR_EL2.TID2 is set.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-18-clg@kaod.org
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20191201122018.25808-2-maz@kernel.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed_ast2600.c |  5 ++---
- hw/net/ftgmac100.c      | 19 +++++++++----------
- 2 files changed, 11 insertions(+), 13 deletions(-)
+ target/arm/helper.c | 31 +++++++++++++++++++++++++++----
+ 1 file changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 810fd7de0c0..be88005dab8 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -183,9 +183,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
- 
-         sysbus_init_child_obj(obj, "mii[*]", &s->mii[i], sizeof(s->mii[i]),
-                               TYPE_ASPEED_MII);
--        object_property_add_const_link(OBJECT(&s->mii[i]), "nic",
--                                       OBJECT(&s->ftgmac100[i]),
--                                       &error_abort);
-     }
- 
-     sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xdma),
-@@ -441,6 +438,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
-                            aspeed_soc_get_irq(s, ASPEED_ETH1 + i));
- 
-+        object_property_set_link(OBJECT(&s->mii[i]), OBJECT(&s->ftgmac100[i]),
-+                                 "nic", &error_abort);
-         object_property_set_bool(OBJECT(&s->mii[i]), true, "realized",
-                                  &err);
-         if (err) {
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index eb8b441461a..86ac25894a8 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -1204,17 +1204,8 @@ static void aspeed_mii_realize(DeviceState *dev, Error **errp)
- {
-     AspeedMiiState *s = ASPEED_MII(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--    Object *obj;
--    Error *local_err = NULL;
- 
--    obj = object_property_get_link(OBJECT(dev), "nic", &local_err);
--    if (!obj) {
--        error_propagate(errp, local_err);
--        error_prepend(errp, "required link 'nic' not found: ");
--        return;
--    }
--
--    s->nic = FTGMAC100(obj);
-+    assert(s->nic);
- 
-     memory_region_init_io(&s->iomem, OBJECT(dev), &aspeed_mii_ops, s,
-                           TYPE_ASPEED_MII, 0x8);
-@@ -1231,6 +1222,13 @@ static const VMStateDescription vmstate_aspeed_mii = {
-         VMSTATE_END_OF_LIST()
-     }
- };
-+
-+static Property aspeed_mii_properties[] = {
-+    DEFINE_PROP_LINK("nic", AspeedMiiState, nic, TYPE_FTGMAC100,
-+                     FTGMAC100State *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void aspeed_mii_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -1239,6 +1237,7 @@ static void aspeed_mii_class_init(ObjectClass *klass, void *data)
-     dc->reset = aspeed_mii_reset;
-     dc->realize = aspeed_mii_realize;
-     dc->desc = "Aspeed MII controller";
-+    dc->props = aspeed_mii_properties;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 0bf8f53d4b8..1e546096b82 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1910,6 +1910,17 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     raw_write(env, ri, value);
  }
  
- static const TypeInfo aspeed_mii_info = {
++static CPAccessResult access_aa64_tid2(CPUARMState *env,
++                                       const ARMCPRegInfo *ri,
++                                       bool isread)
++{
++    if (arm_current_el(env) == 1 && (arm_hcr_el2_eff(env) & HCR_TID2)) {
++        return CP_ACCESS_TRAP_EL2;
++    }
++
++    return CP_ACCESS_OK;
++}
++
+ static uint64_t ccsidr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -2110,10 +2121,14 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+       .writefn = pmintenclr_write },
+     { .name = "CCSIDR", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 0,
+-      .access = PL1_R, .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
++      .access = PL1_R,
++      .accessfn = access_aa64_tid2,
++      .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
+     { .name = "CSSELR", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 2, .opc2 = 0,
+-      .access = PL1_RW, .writefn = csselr_write, .resetvalue = 0,
++      .access = PL1_RW,
++      .accessfn = access_aa64_tid2,
++      .writefn = csselr_write, .resetvalue = 0,
+       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.csselr_s),
+                              offsetof(CPUARMState, cp15.csselr_ns) } },
+     /* Auxiliary ID register: this actually has an IMPDEF value but for now
+@@ -5204,6 +5219,11 @@ static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
+     if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
+         return CP_ACCESS_TRAP;
+     }
++
++    if (arm_current_el(env) < 2 && arm_hcr_el2_eff(env) & HCR_TID2) {
++        return CP_ACCESS_TRAP_EL2;
++    }
++
+     return CP_ACCESS_OK;
+ }
+ 
+@@ -6184,7 +6204,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         ARMCPRegInfo clidr = {
+             .name = "CLIDR", .state = ARM_CP_STATE_BOTH,
+             .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 1,
+-            .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = cpu->clidr
++            .access = PL1_R, .type = ARM_CP_CONST,
++            .accessfn = access_aa64_tid2,
++            .resetvalue = cpu->clidr
+         };
+         define_one_arm_cp_reg(cpu, &clidr);
+         define_arm_cp_regs(cpu, v7_cp_reginfo);
+@@ -6717,7 +6739,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             /* These are common to v8 and pre-v8 */
+             { .name = "CTR",
+               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 1,
+-              .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = cpu->ctr },
++              .access = PL1_R, .accessfn = ctr_el0_access,
++              .type = ARM_CP_CONST, .resetvalue = cpu->ctr },
+             { .name = "CTR_EL0", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 3, .opc2 = 1, .crn = 0, .crm = 0,
+               .access = PL0_R, .accessfn = ctr_el0_access,
 -- 
 2.20.1
 
