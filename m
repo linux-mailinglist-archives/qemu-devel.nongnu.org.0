@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBFE121EFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 00:33:12 +0100 (CET)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DCB121F04
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 00:37:57 +0100 (CET)
+Received: from localhost ([::1]:33300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igzrS-0005qV-Li
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 18:33:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49108)
+	id 1igzw4-0008Ho-Kz
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 18:37:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1igzqX-0005K1-Gv
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 18:32:14 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1igzuD-0006aC-3q
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 18:36:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1igzqU-0008G5-Ki
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 18:32:11 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59461
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1igzqU-0008CA-Gt
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 18:32:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576539129;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NfXBNyvZEtLPawukhi/mDsYeJ9xMR5ygs2sazn2M7nQ=;
- b=any1S+c0NF3O10b2FyydnzIkXAfbBLJ2Z8qkLlPG/aNBJJ+NxjqlYhMuKs3AC8bc/OegT1
- D9LxvTPr3WXdDIHd4l8Iw2BqF0W+ug6gshxEwgOVWvhcN+1coLOa1wqJRMtJ1cKXgtwDu8
- ByCKPer36tSk8GxTXt/jOEaZtCCXUuc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-JOWjyZJdOe6PsI597puHCA-1; Mon, 16 Dec 2019 18:32:05 -0500
-X-MC-Unique: JOWjyZJdOe6PsI597puHCA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C9AB800053;
- Mon, 16 Dec 2019 23:32:03 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-5.gru2.redhat.com [10.97.116.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D856C620A6;
- Mon, 16 Dec 2019 23:31:21 +0000 (UTC)
-Date: Mon, 16 Dec 2019 18:31:12 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v4 2/5] python/qemu: accel: Add list_accel() method
-Message-ID: <20191216233112.GA18357@localhost.localdomain>
-References: <20191216191438.93418-1-wainersm@redhat.com>
- <20191216191438.93418-3-wainersm@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20191216191438.93418-3-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (envelope-from <nieklinnenbank@gmail.com>) id 1igzuB-0002cS-55
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 18:36:00 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40361)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1igzuA-0002Ye-UY; Mon, 16 Dec 2019 18:35:59 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id c14so9329476wrn.7;
+ Mon, 16 Dec 2019 15:35:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=Wav2pjXl3otXM3BwbFA/bmO08NBIfisFM3zxLr/OPUs=;
+ b=CUA5AA6SEUw7Takj8G3p4nF+CEifgrSAbByJrCwCyXD8oUl/IV2UAHsDnQNal7UG0v
+ hcXaBfJ+6YWqYVb99NVdByLAl3JBN7oj50BGeHHQU0gKo0GFg7cSmlU0qouBYk9yJgIS
+ 8e9jG6xwrNFxOPdBODcu63m0XKB0xoRpqmWa9wk5AjuI89SA0J2uCsVpOC/hsRPSKY3n
+ n3QMwV7I6XlL32JOfeFBM4j2JfHJX3jOu/X3xFBZJpq01KU9xQKCskMF3bMO/cNPrSym
+ qeCmLP4icMxbh/5qR3YjwvNBt5+vWunNCJRQFFJ3+FJ6SSFgeIk9y8gGQgyJerZQzLXf
+ xAlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Wav2pjXl3otXM3BwbFA/bmO08NBIfisFM3zxLr/OPUs=;
+ b=iT3RcWQtBNu7IJX6qPsHPfOM2BGZVHxOfRybv93TTmZdywQx1E6YyoTY0kOb55q5QQ
+ MAO4ZVQQomTjdtVgJH7nChY+ujaaDqZjZG1f5HCXApZyhthSE2y7ZVoJ6Vvn3w7ktgLu
+ TJyBmGDJU226oInQzKudmmeunXS4RQtjTO//TyZed4RoOHSuGThJhvaGj/mX94qYrEgr
+ /5SWjzxhFca5E9z7rusgtpJlx7dtyUVtHWee97XRPMIu9P3HOC2zr0JY1Njoh96Ao9Aa
+ CrC0Vzm4jamd+dI0jgZVZVBw19E384teNj2NFx4dwc4h38ukSkVruJqiQb6SaKrlApiH
+ MIEg==
+X-Gm-Message-State: APjAAAXiJoeqnbfr+Z6FljT03jQTXtxzGEPN4y6J05zokpvRcGwct94E
+ FX37bSOX32OuikWteLTTrMKGcu48
+X-Google-Smtp-Source: APXvYqwoN+JZvzk1J1lkA5N1mbsz18j89puD/P08SKK00AQveP86ykC2vYqOWvw1lPHyS7Ux1/9KEA==
+X-Received: by 2002:a5d:4d8d:: with SMTP id b13mr34928864wru.6.1576539356224; 
+ Mon, 16 Dec 2019 15:35:56 -0800 (PST)
+Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
+ by smtp.gmail.com with ESMTPSA id z83sm984501wmg.2.2019.12.16.15.35.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Dec 2019 15:35:55 -0800 (PST)
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/10] Add Allwinner H3 SoC and Orange Pi PC Machine
+Date: Tue, 17 Dec 2019 00:35:09 +0100
+Message-Id: <20191216233519.29030-1-nieklinnenbank@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,47 +70,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, ehabkost@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org, jsnow@redhat.com, alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qemu-arm@nongnu.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---W/nzBZO5zC0uMSeA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Dear QEMU developers,
 
-On Mon, Dec 16, 2019 at 04:14:35PM -0300, Wainer dos Santos Moschetta wrote=
-:
-> Since commit cbe6d6365a48 the command `qemu -accel help` returns
-> the list of accelerators enabled in the QEMU binary. This adds
-> the list_accel() method which return that same list.
->=20
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Hereby I would like to contribute the following set of patches to QEMU
+which add support for the Allwinner H3 System on Chip and the
+Orange Pi PC machine. The following features and devices are supported:
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+ * SMP (Quad Core Cortex A7)
+ * Generic Interrupt Controller configuration
+ * SRAM mappings
+ * Timer device (re-used from Allwinner A10)
+ * UART
+ * SD/MMC storage controller
+ * EMAC ethernet connectivity
+ * USB 2.0 interfaces
+ * Clock Control Unit
+ * System Control module
+ * Security Identifier device
 
---W/nzBZO5zC0uMSeA
-Content-Type: application/pgp-signature; name="signature.asc"
+Functionality related to graphical output such as HDMI, GPU,
+Display Engine and audio are not included. Recently released
+mainline Linux kernels (4.19 up to latest master) and mainline U-Boot
+are known to work. The SD/MMC code is tested using bonnie++ and
+various tools such as fsck, dd and fdisk. The EMAC is verified with iperf3
+using -netdev socket.
 
------BEGIN PGP SIGNATURE-----
+To build a Linux mainline kernel that can be booted by the Orange Pi PC
+machine, simply configure the kernel using the sunxi_defconfig configuration:
+ $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make mrproper
+ $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make sunxi_defconfig
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl34E74ACgkQZX6NM6Xy
-CfPfrA//ScpCBA91OwW+Gs/kACr5C9UjcS5sasMCmfk9s8NirY2vhmCwufASdDr0
-lC7d/CbZidgy8jSpaQthX8SdNnK+Yn5WzlFlOc3ISEMWBOd/S8CSXSMlI7s/9Dud
-Q81wAXT/ILW6azcrxIinDPf5NfkrXfiIt+19An8m6foAak9SbFQWePLNwV9gtzXX
-94MU5AOpZ0jdR2zD7saWHps1X1tdWG7Gs7S3kn/ljoj47std+POYGSOU1BhlG7rL
-gBrSXEbuvj1KLTZw64P4utclih7QvZQku6YbGAaDRNYR6xj2GOMXsspFdQZ6gtKw
-NhA3ZbG7gZMUV5CnN8Tl/G9xeTaypkK0LwxAysb5C8q9zmeURr8Q2a9cSEEO3vlV
-ZhHBnUoTrz5STSpuWsfXBXojaaNiznhNgdwder4HP/fmPrUVYVdmC3Y1cJvOhBAV
-H4nnQraOtYLZxkTlEt0I4vfbj5lhUxKhwFORgE5TFgM2+uO8rcJ95Z+jpr3ssDdf
-droNZw1zfckNLfUNHzGuNR8cCrXaW2ZuIkIJG+12kgu+NyGVGo91ki0nnQp73zN2
-LmisnbfkWePpk7ajYmoVKGTlzyzEfLAjS54DHwYqGfOMqukuf0SlOCcXsOAFV+VP
-a4Crw2MnzLtCl/rjVPtvTJ4+CX9DO36cREGzzVTL+AYPIzoKqFs=
-=N1zt
------END PGP SIGNATURE-----
+To be able to use USB storage, you need to manually enable the corresponding
+configuration item. Start the kconfig configuration tool:
+ $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make menuconfig
 
---W/nzBZO5zC0uMSeA--
+Navigate to the following item, enable it and save your configuration:
+ Device Drivers > USB support > USB Mass Storage support
+
+Build the Linux kernel with:
+ $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make -j5
+
+To boot the newly build linux kernel in QEMU with the Orange Pi PC machine, use:
+ $ qemu-system-arm -M orangepi-pc -m 512 -nic user -nographic \
+     -kernel /path/to/linux/arch/arm/boot/zImage \
+     -append 'console=ttyS0,115200' \
+     -dtb /path/to/linux/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dtb
+
+Note that this kernel does not have a root filesystem. You may provide it
+with an official Orange Pi PC image [1] either as an SD card or as
+USB mass storage. To boot using the Orange Pi PC Debian image on SD card,
+simply add the -sd argument and provide the proper root= kernel parameter:
+ $ qemu-system-arm -M orangepi-pc -m 512 -nic user -nographic \
+     -kernel /path/to/linux/arch/arm/boot/zImage \
+     -append 'console=ttyS0,115200 root=/dev/mmcblk0p2' \
+     -dtb /path/to/linux/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dtb \
+     -sd OrangePi_pc_debian_stretch_server_linux5.3.5_v1.0.img
+
+Alternatively, you can also choose to build and boot a recent buildroot [2]
+using the orangepi_pc_defconfig or Armbian image [3] for Orange Pi PC.
+To attach an USB mass storage device to the machine, simply append to the command:
+ -drive if=none,id=stick,file=myimage.img \
+ -device usb-storage,bus=usb-bus.0,drive=stick
+
+U-Boot mainline can be build and configured using the orangepi_pc_defconfig
+using similar commands as describe above for Linux. To start U-Boot using
+the Orange Pi PC machine, provide the u-boot binary to the -kernel argument:
+ $ qemu-system-arm -M orangepi-pc -m 512 -nic user -nographic \
+     -kernel /path/to/uboot/u-boot -sd disk.img
+
+Use the following U-boot commands to load and boot a Linux kernel from SD card:
+ -> setenv bootargs console=ttyS0,115200
+ -> ext2load mmc 0 0x42000000 zImage
+ -> ext2load mmc 0 0x43000000 sun8i-h3-orangepi-pc.dtb
+ -> bootz 0x42000000 - 0x43000000
+
+Looking forward to your review comments. I will do my best
+to update the patches where needed.
+
+===== CHANGELOG =====
+
+v2:
+ * hw/arm/allwinner-h3.c: use cpus array in AwH3State instead of object_new()
+ * hw/arm/allwinner-h3.c: use error_abort in aw_h3_realize()
+ * hw/arm/allwinner-h3.c: use qdev_init_nofail() in aw_h3_realize()
+ * hw/arm/allwinner-h3.c: use qdev_get_gpio_in() instead of irq array
+ * hw/arm/allwinner-h3.c: add all missing unimplemented devices (memory map is complete)
+ * hw/arm/allwinner-h3.c: add UART1, UART2, UART3 and remove 'if (serial_hd(...))'
+ * hw/arm/allwinner-h3.c: remove sysbusdev variable and use SYS_BUS_DEVICE() directly
+ * include/hw/arm/allwinner-h3.h: move PPI/SPI defines to allwinner-h3.c as enum
+ * include/hw/arm/allwinner-h3.h: replace mem base/size defines with enum and memmap (like aspeed_soc.h)
+ * hw/arm/orangepi.c: Only allow Cortex-A7 in machine->cpu_type
+ * hw/arm/orangepi.c: Set mc->default_cpu_type to ARM_CPU_TYPE_NAME("cortex-a7")
+ * hw/arm/orangepi.c: Use error_abort in orangepi_init()
+ * hw/arm/orangepi.c: only allow maximum 1GiB RAM
+ * hw/arm/orangepi.c: renamed machine name to 'orangepi-pc'
+ * hw/arm/orangepi.c: remove mc->ignore_memory_transaction_failures = true
+ * hw/arm/orangepi.c: remove unnecessary check for 'sd-bus'
+ * hw/net/allwinner-h3-emac.c: use AW_H3_EMAC() for opaque in read/write functions
+ * hw/sd/allwinner-h3-sdhost.c: replace register defines with enums
+ * hw/sd/allwinner-h3-sdhost.c: remove 'irq_en' and use if() to set 'irq' in update_irq function
+ * hw/sd/allwinner-h3-sdhost.c: simplified if (rlen==) conditions in send_command function
+ * hw/sd/allwinner-h3-sdhost.c: use KiB macro to set desc->size
+ * hw/sd/allwinner-h3-sdhost.c: use ARRAY_SIZE() macro in reset function
+ * hw/misc/allwinner-h3-sid.c: replace randomized identifier with QemuUUID property
+ * hw/misc/allwinner-h3-sid.c: add tracing for read/write functions
+ * hw/misc/allwinner-h3-sid.c: fix incorrect usage of REG_PRCTL_OP_LOCK/REG_PRCTL_WRITE
+ * hw/misc/trace-events: add allwinner_h3_cpucfg* entries in correct patch (#7)
+ * hw/*/trace-events: use PRIu32/PRIx32 macros for size and max fields
+ * hw/*/allwinner-h3-*.c: set .impl.min_access_size = 4 to restrict MMIO access to 32-bit aligned
+ * hw/*/allwinner-h3-*.c: replace register defines with enums
+ * hw/*/allwinner-h3-*.c: set VMStateDescription.name with inline string (dont use TYPE macro)
+ * include/hw/*/allwinner-h3-*.h: remove MEM_SIZE define and use size inline in the source file
+ * target/arm/arm-powerctl.c: invoke arm_rebuild_hflags() after setting CP15 bits
+
+With kind regards,
+
+Niek Linnenbank
+
+[1] http://www.orangepi.org/downloadresources/
+[2] https://buildroot.org/download.html
+[3] https://www.armbian.com/orange-pi-pc/
+
+Niek Linnenbank (10):
+  hw: arm: add Allwinner H3 System-on-Chip
+  hw: arm: add Xunlong Orange Pi PC machine
+  arm: allwinner-h3: add Clock Control Unit
+  arm: allwinner-h3: add USB host controller
+  arm: allwinner-h3: add System Control module
+  arm/arm-powerctl: rebuild hflags after setting CP15 bits in
+    arm_set_cpu_on()
+  arm: allwinner-h3: add CPU Configuration module
+  arm: allwinner-h3: add Security Identifier device
+  arm: allwinner-h3: add SD/MMC host controller
+  arm: allwinner-h3: add EMAC ethernet device
+
+ default-configs/arm-softmmu.mak       |   1 +
+ hw/usb/hcd-ehci.h                     |   1 +
+ include/hw/arm/allwinner-h3.h         |  93 +++
+ include/hw/misc/allwinner-h3-clk.h    |  40 ++
+ include/hw/misc/allwinner-h3-cpucfg.h |  42 ++
+ include/hw/misc/allwinner-h3-sid.h    |  40 ++
+ include/hw/misc/allwinner-h3-syscon.h |  42 ++
+ include/hw/net/allwinner-h3-emac.h    |  67 +++
+ include/hw/sd/allwinner-h3-sdhost.h   |  71 +++
+ hw/arm/allwinner-h3.c                 | 442 ++++++++++++++
+ hw/arm/orangepi.c                     | 127 ++++
+ hw/misc/allwinner-h3-clk.c            | 238 ++++++++
+ hw/misc/allwinner-h3-cpucfg.c         | 288 +++++++++
+ hw/misc/allwinner-h3-sid.c            | 179 ++++++
+ hw/misc/allwinner-h3-syscon.c         | 146 +++++
+ hw/net/allwinner-h3-emac.c            | 829 ++++++++++++++++++++++++++
+ hw/sd/allwinner-h3-sdhost.c           | 813 +++++++++++++++++++++++++
+ hw/usb/hcd-ehci-sysbus.c              |  17 +
+ target/arm/arm-powerctl.c             |   3 +
+ MAINTAINERS                           |   8 +
+ hw/arm/Kconfig                        |   9 +
+ hw/arm/Makefile.objs                  |   1 +
+ hw/misc/Makefile.objs                 |   4 +
+ hw/misc/trace-events                  |   9 +
+ hw/net/Kconfig                        |   3 +
+ hw/net/Makefile.objs                  |   1 +
+ hw/net/trace-events                   |  10 +
+ hw/sd/Makefile.objs                   |   1 +
+ hw/sd/trace-events                    |   7 +
+ 29 files changed, 3532 insertions(+)
+ create mode 100644 include/hw/arm/allwinner-h3.h
+ create mode 100644 include/hw/misc/allwinner-h3-clk.h
+ create mode 100644 include/hw/misc/allwinner-h3-cpucfg.h
+ create mode 100644 include/hw/misc/allwinner-h3-sid.h
+ create mode 100644 include/hw/misc/allwinner-h3-syscon.h
+ create mode 100644 include/hw/net/allwinner-h3-emac.h
+ create mode 100644 include/hw/sd/allwinner-h3-sdhost.h
+ create mode 100644 hw/arm/allwinner-h3.c
+ create mode 100644 hw/arm/orangepi.c
+ create mode 100644 hw/misc/allwinner-h3-clk.c
+ create mode 100644 hw/misc/allwinner-h3-cpucfg.c
+ create mode 100644 hw/misc/allwinner-h3-sid.c
+ create mode 100644 hw/misc/allwinner-h3-syscon.c
+ create mode 100644 hw/net/allwinner-h3-emac.c
+ create mode 100644 hw/sd/allwinner-h3-sdhost.c
+
+-- 
+2.17.1
 
 
