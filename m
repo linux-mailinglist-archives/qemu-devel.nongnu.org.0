@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6006120419
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:37:00 +0100 (CET)
-Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B52212039A
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:18:50 +0100 (CET)
+Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igogN-0001B0-Ht
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54306)
+	id 1igoOm-0000xM-KG
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:18:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1igoMu-0008M5-Rf
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:53 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1igoEE-0005XW-OB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1igoMt-0001nd-Me
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:52 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44389)
+ (envelope-from <alex.bennee@linaro.org>) id 1igoED-0003xI-Gc
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:54 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46134)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1igoMt-0001n8-GQ
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:51 -0500
-Received: by mail-wr1-x443.google.com with SMTP id q10so6721802wrm.11
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:16:49 -0800 (PST)
+ id 1igoED-0003uC-AA
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:53 -0500
+Received: by mail-wr1-x443.google.com with SMTP id z7so6668274wrl.13
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g5Hton9Ll56kdz1LBD4VBc8EOQODiYzIByAV4cwmIMQ=;
- b=adxlnLePea+1R2MHKgZeckQIKKiYo8aohlZ3k0K71Qd3T13bx8KeR5qHiZNxeO1lY0
- /bfKeB9iLTeXyKHkgQLyONoHvFD+7O1vv6nTACU3Kl1BZ3SgakoDlvD2hfssaXK3eE2W
- yxNKAaIrb9zcpmsp9o6LFpaj8U2BA7omIKpymBvHa6sb2MGqED9feomY7gIsnE77RlwI
- +IgP4dFHx3ydjs1Vwf514tezgqlirWa/A4HRoA98INNV7Fwxm5jvleQB0u85tLNScHId
- RFcPLiB473J3LTs5W+NaWwBPofwYvb9S4vOSATGUCRHVsKLH69/mZAyeoprZtH/p7zii
- ykFg==
+ bh=EapHr3pf3XFLFZlU0U22jAMjtMgqM8Xrl+mCmZ4QWKU=;
+ b=ywpN5YA6aCvHTyEWwS0u5/pYxOTVGI38mdV308SSTsfdYdCFqNkiRzJONqHeQvIcX+
+ St6hHKunOSzkpdtHTEMgm2+hTv0NK2GIHP4E0YvH5O0+TquOtFi4C+TFC6bD3owOnHQ8
+ sDNl3lL80pVWkCuTwXnPsebCEL2UIctKVLP/Pn/CbZ2++FU3mDTdq++xf9sJUBk6au0I
+ sIX4mBHcZuP5RigpNU7sY8r/w3XscKmVGnDUi4KdUSURZSHlLHAWslLUVT6P7JUdqHsd
+ UWAvUTjHHhV1SSdsG+AvykT4gh/2ifexeGYP08lcgYUsg0DPRMcQp+P0NQ1HyZOWg9nK
+ P78g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g5Hton9Ll56kdz1LBD4VBc8EOQODiYzIByAV4cwmIMQ=;
- b=EBEYAqYD319066INmAhlCEyjZca3f9Piaoun3wp0go7Ymxrbqr84mjsLmAUiZcE3Bx
- EX8/cyNWJ1h1ol6iIdf5FwAZe3/7sOi8jT0vmzGx4HR6/UKgW0qEFwtKeTGhv6r63/2l
- PDllv0UpLA4zgT8+LdbP9YTTDGgDIqwee7R/YGcwHvOlFcYKMYdO/x4MAwwXIfuKhQvN
- IEl5Ha8Yc76V1rB+a8a4PSoPC4giXFeXrQxvwUEuk8mKxeXlx5/fQBM/AhC7emL2yozW
- yvh+dn4eRewqr3Cyv0pwX54ndeaCqx2Q7V8RQxB34DJjg0BtP40USI/4Wx3EWS8p5oD0
- e1hw==
-X-Gm-Message-State: APjAAAWqiV81vYpq5bZiOpKqAuz4qv60H/Qm4LaYnVM6wznk8KB/EmaH
- Z8UscSui3bfKwPQm/fd5T2ie+w==
-X-Google-Smtp-Source: APXvYqwLca8B+qO00U7g1tyvKCQ906VKhP0ByN6/wt1RR+mr/Wx2DyrgPMfdwyJmgoTVENk5gE4f7Q==
-X-Received: by 2002:a5d:4d0e:: with SMTP id z14mr28592175wrt.208.1576495008979; 
- Mon, 16 Dec 2019 03:16:48 -0800 (PST)
+ bh=EapHr3pf3XFLFZlU0U22jAMjtMgqM8Xrl+mCmZ4QWKU=;
+ b=KoPS8hwrMbxQ1AA0MNnpsMGjvLnHu9AOPKuACEOXXJ0T+0Iact5g3P7tsxIB/F6seh
+ dI6Q+k+yJeFQMUXsPWkSHo75HXgVXAChObrijj9VfYt3+Jt6k4uFdPfGhlVCltsT9VVY
+ fQZCD/4gUPVcQ9sdAYD3uMdUXf1hwtqpUKVMFduS7rlAExHpYwd4ZpLuWXFm8TFdpeS1
+ LXPwMSELBgYMc1CRNV72Le0BlDGh5nEyGxLG9BUqVnSDgbLiy88FjV/kBDuDOjjmtWju
+ hAO382lPVvTcgisMVohelsEQCNwqZgLyi0onWBqLbCgNkrdhisnHImIA65fe89Ad/cEn
+ gavw==
+X-Gm-Message-State: APjAAAUktOFQ3/CCA0dCFJwvTUboNbgv1kQAkhaYrVXytbof1F+iwkSn
+ 8S9jHnrEk+kd37dQSWpGiN2hOQ==
+X-Google-Smtp-Source: APXvYqwposUjIe7B/3bm7El0RYkM/AZ/pfHVJeqD6KJPTRNrZLCdDQ2fHFxukQOskGqiXYFPyB1i+g==
+X-Received: by 2002:adf:f803:: with SMTP id s3mr29258255wrp.7.1576494472318;
+ Mon, 16 Dec 2019 03:07:52 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h66sm1793582wme.41.2019.12.16.03.16.46
+ by smtp.gmail.com with ESMTPSA id u22sm22206820wru.30.2019.12.16.03.07.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:16:46 -0800 (PST)
+ Mon, 16 Dec 2019 03:07:46 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 412A81FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 573EB1FF9D;
  Mon, 16 Dec 2019 11:07:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 12/16] Cleaned up flow of code in qemu_set_log(),
- to simplify and clarify.
-Date: Mon, 16 Dec 2019 11:07:28 +0000
-Message-Id: <20191216110732.24027-13-alex.bennee@linaro.org>
+Subject: [PATCH v1 13/16] Add a mutex to guarantee single writer to
+ qemu_logfile handle.
+Date: Mon, 16 Dec 2019 11:07:29 +0000
+Message-Id: <20191216110732.24027-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110732.24027-1-alex.bennee@linaro.org>
 References: <20191216110732.24027-1-alex.bennee@linaro.org>
@@ -93,59 +93,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-Also added some explanation of the reasoning behind the branches.
+Also added qemu_logfile_init() for initializing the logfile mutex.
+
+Note that inside qemu_set_log() we needed to add a pair of
+qemu_mutex_unlock() calls in order to avoid a double lock in
+qemu_log_close().  This unavoidable temporary ugliness will be
+cleaned up in a later patch in this series.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191118211528.3221-3-robert.foley@linaro.org>
+Message-Id: <20191118211528.3221-4-robert.foley@linaro.org>
 ---
- util/log.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ util/log.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/util/log.c b/util/log.c
-index 4316fe74eee..417d16ec66e 100644
+index 417d16ec66e..953a66b5a8d 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -54,12 +54,25 @@ static bool log_uses_own_buffers;
- /* enable or disable low levels log */
- void qemu_set_log(int log_flags)
- {
-+    bool need_to_open_file = false;
-     qemu_loglevel = log_flags;
- #ifdef CONFIG_TRACE_LOG
-     qemu_loglevel |= LOG_TRACE;
- #endif
--    if (!qemu_logfile &&
--        (is_daemonized() ? logfilename != NULL : qemu_loglevel)) {
-+    /*
-+     * In all cases we only log if qemu_loglevel is set.
-+     * Also:
-+     *   If not daemonized we will always log either to stderr
-+     *     or to a file (if there is a logfilename).
-+     *   If we are daemonized,
-+     *     we will only log if there is a logfilename.
-+     */
-+    if (qemu_loglevel && (!is_daemonized() || logfilename)) {
-+        need_to_open_file = true;
-+    }
-+    if (qemu_logfile && !need_to_open_file) {
-+        qemu_log_close();
-+    } else if (!qemu_logfile && need_to_open_file) {
-         if (logfilename) {
-             qemu_logfile = fopen(logfilename, log_append ? "a" : "w");
-             if (!qemu_logfile) {
-@@ -93,10 +106,6 @@ void qemu_set_log(int log_flags)
-             log_append = 1;
-         }
-     }
--    if (qemu_logfile &&
--        (is_daemonized() ? logfilename == NULL : !qemu_loglevel)) {
--        qemu_log_close();
--    }
+@@ -24,8 +24,10 @@
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+ #include "trace/control.h"
++#include "qemu/thread.h"
+ 
+ static char *logfilename;
++static QemuMutex qemu_logfile_mutex;
+ FILE *qemu_logfile;
+ int qemu_loglevel;
+ static int log_append = 0;
+@@ -49,6 +51,11 @@ int qemu_log(const char *fmt, ...)
+     return ret;
  }
  
- void qemu_log_needs_buffers(void)
++static void __attribute__((__constructor__)) qemu_logfile_init(void)
++{
++    qemu_mutex_init(&qemu_logfile_mutex);
++}
++
+ static bool log_uses_own_buffers;
+ 
+ /* enable or disable low levels log */
+@@ -70,7 +77,9 @@ void qemu_set_log(int log_flags)
+     if (qemu_loglevel && (!is_daemonized() || logfilename)) {
+         need_to_open_file = true;
+     }
++    qemu_mutex_lock(&qemu_logfile_mutex);
+     if (qemu_logfile && !need_to_open_file) {
++        qemu_mutex_unlock(&qemu_logfile_mutex);
+         qemu_log_close();
+     } else if (!qemu_logfile && need_to_open_file) {
+         if (logfilename) {
+@@ -105,6 +114,7 @@ void qemu_set_log(int log_flags)
+ #endif
+             log_append = 1;
+         }
++        qemu_mutex_unlock(&qemu_logfile_mutex);
+     }
+ }
+ 
+@@ -240,12 +250,14 @@ void qemu_log_flush(void)
+ /* Close the log file */
+ void qemu_log_close(void)
+ {
++    qemu_mutex_lock(&qemu_logfile_mutex);
+     if (qemu_logfile) {
+         if (qemu_logfile != stderr) {
+             fclose(qemu_logfile);
+         }
+         qemu_logfile = NULL;
+     }
++    qemu_mutex_unlock(&qemu_logfile_mutex);
+ }
+ 
+ const QEMULogItem qemu_log_items[] = {
 -- 
 2.20.1
 
