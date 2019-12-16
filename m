@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8C5120FB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:40:17 +0100 (CET)
-Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D22120FCD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 17:42:57 +0100 (CET)
+Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtPr-0001Al-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:40:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56461)
+	id 1igtSR-0004yV-ML
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 11:42:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56489)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtEx-0004iz-7l
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:00 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtEy-0004kn-Cb
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtEw-00070w-2w
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:28:59 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53581)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtEx-00072W-1R
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:00 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35818)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtEv-0006z7-Sa
+ id 1igtEw-000716-Qv
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:28:58 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id m24so6034546wmc.3
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:28:57 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id p17so7413115wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:28:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=3ihEo7p0QbN2mTro2zOBTwTmqJafQZGvJFrYh7PK3bc=;
- b=hxbOI9WPbLZK3RpWV7/cYjs31honWKW26bVGaTJjdKcdsZBZiwnZNezCWQBNqb2Uib
- lQRX8ADfKJ6851sOu2vZO4U+ueDjpZtinr39JJPpfC+FsJzrCApqXlIRSpX8ldRw8TgY
- FvFcVdLAlQDrWofyhhEc9ylwB9PLD47zoPV3ywRtHQn0Rd47UVprp4r7VpAgVSZ5ahWU
- NC+Odwl3ioIOLUNXbx7HoVUtQbMaLYbbEhc0EohZi2EM436SJYZUTKAMphzE7zGp12/1
- RDfPCu+w6qlop6/vAsUPYgaXPTpB/yInDEINVlhAWx7SLQgbi7bUaKs+2cPi8xqDgoOi
- fHPQ==
+ bh=cNBpnObxWBVztSPS/48mA1SEs15cBP9TJArik3nLB+U=;
+ b=Oq0aGq9bW19PtQ1OcuJdaJQlHoYPpS+i3IJ60/IrMscJAHHZBgPPsrwUgFSJMg9OWf
+ Fpk95fhVTZR4rkJYfgmw/N52yTszBpCJ642CEgAtRcrvpaaPpqhnkpfi6vaenHgk2rVS
+ 0NR2zgQZS7xjEB87ty3gYDkNUh6dBg0vDMkbPu8L+rj6Qy2gXw+4xK4DD/Jt74z9Y4x/
+ tP7OVClOiMdwH3SXdwxaggynI+EqWiRPbmEqLmHYK1+5MY4dZ/PSRQU0PlMqMeiMDMpU
+ 4bPHOnXoBlC4wCArPyI4d5gFUfyU0Z0qyyj0756/HU2kVTcIsFtfMCTUyiD0xXSkd96C
+ /Z4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=3ihEo7p0QbN2mTro2zOBTwTmqJafQZGvJFrYh7PK3bc=;
- b=XYfqbAEX6av8Qz6TjAguDwxQ8ZWtNyuzlnSe2o0zMS8MmhiYSwMEBVveVlzeeQXn+m
- 1cO3Y6DFQAvYtgDOCiI5JnbDp+ZMBCFrdnuEt1ttO/3/84BMcEtCQS6734VzFoys5GQ6
- B+8iTvPq4kVq63SJDG2fXJ273W20meWjIyBvqnZWb+KdLbzocnkNkiVKA3HTmgHJcDbe
- lPWMTh6JVdN2XwY6IPizL2qw/kCR6K7aVj0+fxJ/olLygaEm/EUqHg02DTGZXzqd10MR
- jAb0IwB4O/NelLL66DnynsC3KT8k6IkjMNqhcwgVjVg32+5JHrup3UQD4GWjIThXpGk9
- xmBQ==
-X-Gm-Message-State: APjAAAUhTJQ97unFE443fbCmcuPHFSmGDjXdzSox5wTZCVQtGpRyWO6o
- gci4tYoVjE+ZgpsU5SOVPGpa15E/
-X-Google-Smtp-Source: APXvYqxJw2EVkh/w9RmOma6rBmNuN1jS8omOA0WJsb8y5SH0Ohmi0V+ByvfN1j1RbdWnWHzfRcaebg==
-X-Received: by 2002:a1c:9d8b:: with SMTP id g133mr30263697wme.27.1576513736631; 
- Mon, 16 Dec 2019 08:28:56 -0800 (PST)
+ bh=cNBpnObxWBVztSPS/48mA1SEs15cBP9TJArik3nLB+U=;
+ b=gLBZWFFtXUgSFSJ0eVQihhGS0GWg90qIa0k6IFTlvixU5QLuJtTmmXiqXedM7LQqxB
+ 8yQaDjkfHepHYMPIR3DNZhezBkiF2LF+H+u7FEnoUba9WuOj3tZVJsRdL1s4W1OcN8yX
+ yBOltcy7PolsP0NOLUTGDyKxhtpV66f6u0EbCPVq49FfSn2sGrTBh/yNqIA/8ieyhwrM
+ eysebi1jf0KDdEE3i0UcSbtYn0hGVDV1//bNGBjH9KTtH4kR3Ux9CruFKFIgDmY5iYHL
+ CiUH2BCfkJ6AkI1ri3Vl+uUpEOJFAfKb9wEweuP0bBXLNC/AvynX3l82vLZU8y9wN0P2
+ rEpQ==
+X-Gm-Message-State: APjAAAWtWvQPRBwPPUVRNAgDXoxYffBRvfwu8+023Gj0BAcG86DNAPh5
+ 1a4UfnqpZoAwze5afvo/Nwaqy52a
+X-Google-Smtp-Source: APXvYqy7nobk8PMef4mwNyz7lwt1sP2c6Aa6ZRGWmccFaQLstd5uePvRJU7DnH7NaE56jnKA6JNn1g==
+X-Received: by 2002:a1c:486:: with SMTP id 128mr32218822wme.163.1576513737600; 
+ Mon, 16 Dec 2019 08:28:57 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.28.55
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.28.56
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Mon, 16 Dec 2019 08:28:56 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/62] migration-test: Move -incomming handling to common
- commandline
-Date: Mon, 16 Dec 2019 17:27:53 +0100
-Message-Id: <1576513726-53700-10-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 10/62] migration-test: Rename cmd_src/dst to
+ arch_source/arch_target
+Date: Mon, 16 Dec 2019 17:27:54 +0100
+Message-Id: <1576513726-53700-11-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,87 +81,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Juan Quintela <quintela@redhat.com>
 
+This explains better what they do and avoid confussino with
+command_src/target.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Tested-by: Cornelia Huck <cohuck@redhat.com> #s390x
 Tested-by: Laurent Vivier <lvivier@redhat.com>
 ---
- tests/migration-test.c | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
+ tests/migration-test.c | 40 +++++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 19 deletions(-)
 
 diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 85e270c..5ab8cfd 100644
+index 5ab8cfd..6c7c416 100644
 --- a/tests/migration-test.c
 +++ b/tests/migration-test.c
-@@ -580,9 +580,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+@@ -549,7 +549,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+                                bool use_shmem, const char *opts_src,
+                                const char *opts_dst)
+ {
+-    gchar *cmd_src, *cmd_dst;
++    gchar *arch_source, *arch_target;
+     gchar *cmd_source, *cmd_target;
+     const gchar *ignore_stderr;
+     char *bootpath = NULL;
+@@ -579,8 +579,8 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         machine_type = "";
          machine_args = "";
          memory_size = "150M";
-         cmd_src = g_strdup_printf("-drive file=%s,format=raw", bootpath);
--        cmd_dst = g_strdup_printf("-drive file=%s,format=raw"
--                                  " -incoming %s",
--                                  bootpath, uri);
-+        cmd_dst = g_strdup(cmd_src);
+-        cmd_src = g_strdup_printf("-drive file=%s,format=raw", bootpath);
+-        cmd_dst = g_strdup(cmd_src);
++        arch_source = g_strdup_printf("-drive file=%s,format=raw", bootpath);
++        arch_target = g_strdup(arch_source);
          start_address = X86_TEST_MEM_START;
          end_address = X86_TEST_MEM_END;
      } else if (g_str_equal(arch, "s390x")) {
-@@ -591,9 +589,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+@@ -588,20 +588,20 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         machine_type = "";
          machine_args = "";
          memory_size = "128M";
-         cmd_src = g_strdup_printf("-bios %s", bootpath);
--        cmd_dst = g_strdup_printf("-bios %s"
--                                  " -incoming %s",
--                                  bootpath, uri);
-+        cmd_dst = g_strdup(cmd_src);
+-        cmd_src = g_strdup_printf("-bios %s", bootpath);
+-        cmd_dst = g_strdup(cmd_src);
++        arch_source = g_strdup_printf("-bios %s", bootpath);
++        arch_target = g_strdup(arch_source);
          start_address = S390_TEST_MEM_START;
          end_address = S390_TEST_MEM_END;
      } else if (strcmp(arch, "ppc64") == 0) {
-@@ -605,7 +601,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-                                   "'nvramrc=hex .\" _\" begin %x %x "
-                                   "do i c@ 1 + i c! 1000 +loop .\" B\" 0 "
-                                   "until'", end_address, start_address);
--        cmd_dst = g_strdup_printf(" -incoming %s", uri);
-+        cmd_dst = g_strdup("");
+         machine_type = "";
+         machine_args = ",vsmt=8";
+         memory_size = "256M";
+-        cmd_src = g_strdup_printf("-nodefaults "
+-                                  "-prom-env 'use-nvramrc?=true' -prom-env "
+-                                  "'nvramrc=hex .\" _\" begin %x %x "
+-                                  "do i c@ 1 + i c! 1000 +loop .\" B\" 0 "
+-                                  "until'", end_address, start_address);
+-        cmd_dst = g_strdup("");
++        arch_source = g_strdup_printf("-nodefaults "
++                                      "-prom-env 'use-nvramrc?=true' -prom-env "
++                                      "'nvramrc=hex .\" _\" begin %x %x "
++                                      "do i c@ 1 + i c! 1000 +loop .\" B\" 0 "
++                                      "until'", end_address, start_address);
++        arch_target = g_strdup("");
          start_address = PPC_TEST_MEM_START;
          end_address = PPC_TEST_MEM_END;
      } else if (strcmp(arch, "aarch64") == 0) {
-@@ -616,11 +612,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-         cmd_src = g_strdup_printf("-cpu max "
-                                   "-kernel %s",
-                                   bootpath);
--        cmd_dst = g_strdup_printf("-cpu max "
--                                  "-kernel %s "
--                                  "-incoming %s",
--                                  bootpath, uri);
--
-+        cmd_dst = g_strdup(cmd_src);
+@@ -609,10 +609,10 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         machine_type = "virt,";
+         machine_args = "gic-version=max";
+         memory_size = "150M";
+-        cmd_src = g_strdup_printf("-cpu max "
+-                                  "-kernel %s",
+-                                  bootpath);
+-        cmd_dst = g_strdup(cmd_src);
++        arch_source = g_strdup_printf("-cpu max "
++                                      "-kernel %s",
++                                      bootpath);
++        arch_target = g_strdup(arch_source);
          start_address = ARM_TEST_MEM_START;
          end_address = ARM_TEST_MEM_END;
  
-@@ -650,11 +642,11 @@ static int test_migrate_start(QTestState **from, QTestState **to,
- 
-     cmd_source = g_strdup_printf("-machine %saccel=kvm:tcg%s "
-                                  "-name source,debug-threads=on "
--                                 "-serial file:%s/src_serial "
-                                  "-m %s "
-+                                 "-serial file:%s/src_serial "
+@@ -647,8 +647,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
                                   "%s %s %s %s",
                                   machine_type, machine_args,
--                                 tmpfs, memory_size,
-+                                 memory_size, tmpfs,
-                                  cmd_src, shmem_opts, opts_src, ignore_stderr);
-     g_free(cmd_src);
+                                  memory_size, tmpfs,
+-                                 cmd_src, shmem_opts, opts_src, ignore_stderr);
+-    g_free(cmd_src);
++                                 arch_source, shmem_opts, opts_src,
++                                 ignore_stderr);
++    g_free(arch_source);
      *from = qtest_init(cmd_source);
-@@ -664,9 +656,10 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-                                  "-name target,debug-threads=on "
-                                  "-m %s "
-                                  "-serial file:%s/dest_serial "
-+                                 "-incoming %s "
+     g_free(cmd_source);
+ 
+@@ -660,8 +661,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
                                   "%s %s %s %s",
                                   machine_type, machine_args,
--                                 tmpfs, memory_size,
-+                                 memory_size, tmpfs, uri,
-                                  cmd_dst, shmem_opts, opts_dst, ignore_stderr);
-     g_free(cmd_dst);
+                                  memory_size, tmpfs, uri,
+-                                 cmd_dst, shmem_opts, opts_dst, ignore_stderr);
+-    g_free(cmd_dst);
++                                 arch_target, shmem_opts, opts_dst,
++                                 ignore_stderr);
++    g_free(arch_target);
      *to = qtest_init(cmd_target);
+     g_free(cmd_target);
+ 
 -- 
 1.8.3.1
 
