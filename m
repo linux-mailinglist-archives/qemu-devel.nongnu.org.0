@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917D3121CE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:27:00 +0100 (CET)
-Received: from localhost ([::1]:60914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3060121D7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:28:52 +0100 (CET)
+Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igypP-00068t-DE
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:26:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36955)
+	id 1igyrD-0000PV-Tw
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:28:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1igybP-0005MN-QI
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:32 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1igybU-0005Vv-4R
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1igybO-0007Pn-Op
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:31 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39012)
+ (envelope-from <richard.henderson@linaro.org>) id 1igybT-0007YB-1a
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:35 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44038)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1igybO-0007OK-JQ
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:30 -0500
-Received: by mail-pf1-x441.google.com with SMTP id 2so6376904pfx.6
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:30 -0800 (PST)
+ id 1igybS-0007X9-SW
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:34 -0500
+Received: by mail-pg1-x543.google.com with SMTP id x7so4482009pgl.11
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HC2V75/4cEYrSuehSqGFKt4qZAQdtudJE9CcEzS2ZMc=;
- b=mlM2O6WBUH+LbGvC6aZ0uVh/Xx8YWLRuP5gAe9BB9BUTkMOoj/HWaVFP7S0ew09q1v
- Fz+UAJqQex/Cmt821SwQcJYd7sEfI18aGRO7oH9gcZ1XPaSyYS3dIdnmKWqc/+F5L2v2
- CogC5wTLSGTvkAE+68INAkttFxM+pPVjca598vR9wQV3p0+LmrQ4VfxiLwrbtF5PTrJn
- kHR+7K4KTGzNstDxQURe/AlLKATZ5W6aQHWcT6Y+CiPg0ue2kiKQhOPTSJwF+9IiUvaY
- xhuO/DREwv4cBW4RUfki4A7aqKYVbeCq8yVxK1PVLXnVg3Ftg7aaxXBI75emE7Uzj6NP
- bRcA==
+ bh=b1FV8qQCpJxFWsy94CcM4K8EE5MW0MHS/kAxt/18Mds=;
+ b=Bgk4JFkNW+sJ/dz5ELiYElrTsrz3fFLExw3bBCromDd2/Y76ofUA+rClxFN10Hgd0h
+ HR1srAVtO5XJ9h0rqIstfAn6QhMWq+wEJJdpFiV35kkcg2p5vLJISK3GPwRb8xmxR0Xq
+ ZK0CbS3Ol5Ia7w528KtGnhRIlt70Bp+NHhVN3ROszjSzHThGRtbxRMVOJeoWXphryGTU
+ 2sMR/cHEsJjul+yrYQoELeBBew1snWwY2zyoiUwBmiirfs3t8zjULI2sLg29ngxIqACc
+ MNi+VgDZtE464SNL9pJYCyf+H87GO1C6OPdDyBSFeZvF09V7f161FYedOp6fhwvHD4v/
+ IKoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HC2V75/4cEYrSuehSqGFKt4qZAQdtudJE9CcEzS2ZMc=;
- b=uXfwZNVR1szCM+gCY+3/fUhvmao4WSDhzaZQobTeAZDSu7gadGKN1L96NNkyROfxKM
- EyPWkDIOwl1KsZoN5rVePJF8jXXEFmwGBju4geHSUyqKlJ1wn0CNU2JG65pb7shzY/Hb
- vJB0inXR8sP6Om85hARDoNY3gLMMZx80aPcQmFwFddIhSt6TvXCo2radKm27Sl9ypF4F
- cKCxATgHX//VNLLeEK0Na6/Df36HC1qnc2XUBurLqRD4bw40Wz6qHfppV09DCTLYo3Is
- kyfd3jRsX2r/AJoHHKtDkACxJv82ph1bJfsAuJ86oQhkRF736mAiVcPrvfW7OqPgc+ZT
- MjRg==
-X-Gm-Message-State: APjAAAUtMUFQlrL6jAFCbZ4vpU+/jTb/QrLunXcy+Q7XCC7rjH8maczO
- cCU+JOmoFu/odTO/DCxdM3Ss3/7G0nw=
-X-Google-Smtp-Source: APXvYqy0kN1k32Q3ZJomEtOLxz1wG8ymwbnaqMBI2GZCSqs7o5ogYW0BZIg54+EM+10mNju2kraxkA==
-X-Received: by 2002:a63:4f59:: with SMTP id p25mr20870819pgl.230.1576534349416; 
- Mon, 16 Dec 2019 14:12:29 -0800 (PST)
+ bh=b1FV8qQCpJxFWsy94CcM4K8EE5MW0MHS/kAxt/18Mds=;
+ b=cGfDVq6EjhEHy4zrfcI8825ZzWhaguAjY2KwOrhNa4EPjLF1d1U2aF8xID84cJ5+of
+ e8HYHWuCRQ64leDpCAl0jsqrS0xFQQw3kpG+hkDEpYGZS0Cy3lBqkuwyVZLqquJjZTZj
+ k/I1oD6mm4bdcqDbt69YxAZ9rT8yS0PhpikKLrdolUa7GHFyxzhmRhVK+iYyvtTzIB4P
+ 5IJQKEZEVzfL+bGx/ABaOZG4A0r6aKhwKHvRrBuwe3TFK0uTz+M4BJzPevdwYJF6gm5X
+ WzCxVmtpof5LX60NIwnwDR+yLgLfNhxlJFVQ5ri3d8bpmgxGyUMFCzL7CerUVXo+I4SV
+ 3weQ==
+X-Gm-Message-State: APjAAAX2eYv21Mxf1l8T70ECOL0q4G8LZsat56pwuSQ1o93+ZCURPVoX
+ eFEVzsCsNMy+wOkD19X2lp5ICTm3B2Y=
+X-Google-Smtp-Source: APXvYqxlqmUBGuu9wkYGto3MkJ5WYBKHjJI0h0pGkRpVWxxMQpIRgEtXtEWKUDZOAPsD/WwhFuJJFA==
+X-Received: by 2002:a62:5202:: with SMTP id g2mr18486921pfb.43.1576534353739; 
+ Mon, 16 Dec 2019 14:12:33 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.28
+ by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.12.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 14:12:28 -0800 (PST)
+ Mon, 16 Dec 2019 14:12:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/28] target/i386: Remove MMU_MODE{0,1,2}_SUFFIX
-Date: Mon, 16 Dec 2019 12:11:48 -1000
-Message-Id: <20191216221158.29572-19-richard.henderson@linaro.org>
+Subject: [PATCH v2 21/28] target/unicore32: Remove MMU_MODE{0,1}_SUFFIX
+Date: Mon, 16 Dec 2019 12:11:51 -1000
+Message-Id: <20191216221158.29572-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216221158.29572-1-richard.henderson@linaro.org>
 References: <20191216221158.29572-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,33 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The functions generated by these macros are unused.
 
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/cpu.h | 3 ---
- 1 file changed, 3 deletions(-)
+ target/unicore32/cpu.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index cde2a16b94..6a8228df4f 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1949,9 +1949,6 @@ uint64_t cpu_get_tsc(CPUX86State *env);
- #define cpu_list x86_cpu_list
+diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+index 50ed9dd99c..7a32e086ed 100644
+--- a/target/unicore32/cpu.h
++++ b/target/unicore32/cpu.h
+@@ -133,8 +133,6 @@ void cpu_asr_write(CPUUniCore32State *env1, target_ulong val, target_ulong mask)
+ int uc32_cpu_signal_handler(int host_signum, void *pinfo, void *puc);
  
  /* MMU modes definitions */
--#define MMU_MODE0_SUFFIX _ksmap
+-#define MMU_MODE0_SUFFIX _kernel
 -#define MMU_MODE1_SUFFIX _user
--#define MMU_MODE2_SUFFIX _knosmap /* SMAP disabled or CPL<3 && AC=1 */
- #define MMU_KSMAP_IDX   0
- #define MMU_USER_IDX    1
- #define MMU_KNOSMAP_IDX 2
+ #define MMU_USER_IDX 1
+ static inline int cpu_mmu_index(CPUUniCore32State *env, bool ifetch)
+ {
 -- 
 2.20.1
 
