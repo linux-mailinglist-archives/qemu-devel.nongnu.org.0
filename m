@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB08512043C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:43:55 +0100 (CET)
-Received: from localhost ([::1]:52088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5530120433
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:42:37 +0100 (CET)
+Received: from localhost ([::1]:52064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igon4-0003Sx-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:43:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54319)
+	id 1igolo-0001l4-Pk
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:42:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1igoMv-0008NG-Ph
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:55 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1igoMt-0008LD-KB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1igoMt-0001nj-Q7
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:53 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36384)
+ (envelope-from <alex.bennee@linaro.org>) id 1igoMr-0001nC-Jt
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:51 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35708)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1igoMt-0001nP-I8
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:51 -0500
-Received: by mail-wm1-x344.google.com with SMTP id p17so6248942wma.1
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:16:51 -0800 (PST)
+ id 1igoMr-0001n2-Ct
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:16:49 -0500
+Received: by mail-wr1-x443.google.com with SMTP id g17so6765963wro.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7KYiMQgpRbnKoG/zmEUQEeF3Z+9bcz0JYKmhwDmDp/Y=;
- b=Pic0UmhUyY5CrX1QJjB3VgBiBgJh5xPOuQsRa5KLO7496sbqpeTjlhsJzwCbsQE39V
- xQwMgOMJhk8ObPk4SR4RYW4tXmdViXVcphFou9PDe7z6y41PRx2CZQ0hPPxx7iba+jq2
- cBmXHj3dP9afIx4K5X04z7kRO9HT3VjBomzTjq+06SZhq8+FbCrEkepuHmICbDzIAA1W
- Kfg4+vR8yonQxbxI9+WXrYGZCngXuaQb0+rLc6ZEwVh1u8YBDDLJp+BbS7heLGPhyBn/
- XhpeSN3b8Hi1IbiF/BfQmCqKBMJijeybEf3/zqm24yx0RQ+3rP8hfEqVhtvYWzGApAHV
- 7H7A==
+ bh=grODXrfR2eDYomrBneZAL5WCQ1lKy+6FvdP9RcaBhKY=;
+ b=MkO8NnPv5nJs0dw0z4AvYiSy1S6AqnbUZgCLXANN7kQgiuAJwqjuGCU39UdC4KfuhO
+ BtecRYohSZ5RsIS/aDEBjqSWuN8I2de36NPe6PtgGcsDRmYKj56E7I1HDfCtzYy05HyS
+ Fi53QlDXVYIMIPAThjpDWvhbvQzwGQ/QrfKDuIRI7ugFYyRxaXDe8KM7ITwv09UxcuUK
+ 8VfjAnp/oKoJqqIin3lgWd4jqTFzW6MW4iqKcApMOrhnOPlHuTLNw+ZmU8H/+gRbX2Tp
+ 0VRwVsuiqx3hUhJPUMD18f9ndD/bAqwRtKtTzOejga1wj4JBY9421KGMtkl+lgBCzD7k
+ jIjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7KYiMQgpRbnKoG/zmEUQEeF3Z+9bcz0JYKmhwDmDp/Y=;
- b=pV7lL07Edi0Uwq+CH/g7ZKEZIATMg9iNZq7ASfbFe14lJhrX/xVc/PFcz1Ai+iw51n
- EmFbHP2eMXvimBNca+O7gmZncPoRISugZdVNQcqd/2QLdb8Zpj2jnqPMbZ2FkCJiOGBf
- snD4JiYItQ0kLh1Y4yBBr5/dKTQ5pKKRAQcZBpSWReYdqZ2C7D86YJ0UZD411B27R/gy
- 9S45VTK5kbMnn/A6RXjyng9UqmrelER+7wnCSj1UTnooURUP4xQCxm90jAhvOQXy6Vdx
- 2VdCPPLhj13AdSnzkZERS7hPkBmMwSh0B0MuP0EOs5is1OimUjlTeC4mHjEHSELwV5xN
- YhlQ==
-X-Gm-Message-State: APjAAAXsqO7JtcZFZ5WEnA5ALFgOCDnuyNtbmGDNQtOcF2IFLiM7DurO
- Qb7bC1rKk8KkxAEPgoWFynvDAQ==
-X-Google-Smtp-Source: APXvYqxkwQdaWzcVP7c1wvQ9wA6AbcDJzC6QhYX5ALQSviJ8pb7i5hPv+FjoG1za4PJZhiWqIDrZRg==
-X-Received: by 2002:a1c:9c87:: with SMTP id f129mr28916413wme.26.1576495010351; 
- Mon, 16 Dec 2019 03:16:50 -0800 (PST)
+ bh=grODXrfR2eDYomrBneZAL5WCQ1lKy+6FvdP9RcaBhKY=;
+ b=Nm8WSZTxhyEfalPIv22OJ1aAJdD9/MMqmFe+hn+ILf57HGDpdipvnXTg2Jk0Z7iQRO
+ I+SIjpceeHlveWn+ubgnudw0M/6G92m+6sva3D8DHjJATcTKlp/vDZzwzdp7opXQ7F7I
+ 14lwsRJnJxeIG0BFU6MHUJP6RVc0rKXJRxyfXNq94xllraunA21J55srVigtg93WsBGk
+ +Vl78HU8khydL6C7j5sF1CZKHuJE6OTHWKE8XnjA7QaOYNoGu6Od0KAJG2ituxynKrN0
+ go1IeNCyvpDpCddK67Pne8HVLQLvuIpTenddn09ON/My+Y2sq6yR9xl6xgKv1jKfHtoE
+ G7vg==
+X-Gm-Message-State: APjAAAU2bvVQxoHn2x5hYPyjnLWNo4B5RJeECjYVi1CHYhqA2IZ5b62E
+ yP2r1Z/3wTTnu5HNUTgA18EYow==
+X-Google-Smtp-Source: APXvYqyrg1GDKGS97POE8EDL0BisOKidO4cPMN8hApEXr2wP05uixQseoUdY7Bo9wLYdzcr14GnEYg==
+X-Received: by 2002:adf:f5cb:: with SMTP id k11mr28539684wrp.71.1576495008071; 
+ Mon, 16 Dec 2019 03:16:48 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o4sm21063469wrw.97.2019.12.16.03.16.46
+ by smtp.gmail.com with ESMTPSA id x26sm20353391wmc.30.2019.12.16.03.16.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 16 Dec 2019 03:16:46 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9F2261FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id B4F921FFA3;
  Mon, 16 Dec 2019 11:07:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 15/16] Add use of RCU for qemu_logfile.
-Date: Mon, 16 Dec 2019 11:07:31 +0000
-Message-Id: <20191216110732.24027-16-alex.bennee@linaro.org>
+Subject: [PATCH  v1 16/16] Added tests for close and change of logfile.
+Date: Mon, 16 Dec 2019 11:07:32 +0000
+Message-Id: <20191216110732.24027-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110732.24027-1-alex.bennee@linaro.org>
 References: <20191216110732.24027-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,363 +86,123 @@ Cc: fam@euphon.net, berrange@redhat.com, Robert Foley <robert.foley@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net, Richard Henderson <rth@twiddle.net>
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-This now allows changing the logfile while logging is active,
-and also solves the issue of a seg fault while changing the logfile.
-
-Any read access to the qemu_logfile handle will use
-the rcu_read_lock()/unlock() around the use of the handle.
-To fetch the handle we will use atomic_rcu_read().
-We also in many cases do a check for validity of the
-logfile handle before using it to deal with the case where the
-file is closed and set to NULL.
-
-The cases where we write to the qemu_logfile will use atomic_rcu_set().
-Writers will also use call_rcu() with a newly added qemu_logfile_free
-function for freeing/closing when readers have finished.
+One test ensures that the logfile handle is still valid even if
+the logfile is changed during logging.
+The other test validates that the logfile handle remains valid under
+the logfile lock even if the logfile is closed.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191118211528.3221-6-robert.foley@linaro.org>
+Message-Id: <20191118211528.3221-7-robert.foley@linaro.org>
 ---
- include/exec/log.h | 33 ++++++++++++++++++---
- include/qemu/log.h | 41 ++++++++++++++++++++++----
- tcg/tcg.c          | 12 ++++++--
- util/log.c         | 72 ++++++++++++++++++++++++++++++++--------------
- 4 files changed, 125 insertions(+), 33 deletions(-)
+ tests/test-logging.c | 80 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
-diff --git a/include/exec/log.h b/include/exec/log.h
-index e2cfd436e61..9bd1e4aa20b 100644
---- a/include/exec/log.h
-+++ b/include/exec/log.h
-@@ -15,8 +15,15 @@
-  */
- static inline void log_cpu_state(CPUState *cpu, int flags)
- {
-+    QemuLogFile *logfile;
-+
-     if (qemu_log_enabled()) {
--        cpu_dump_state(cpu, qemu_logfile, flags);
-+        rcu_read_lock();
-+        logfile = atomic_rcu_read(&qemu_logfile);
-+        if (logfile) {
-+            cpu_dump_state(cpu, logfile->fd, flags);
-+        }
-+        rcu_read_unlock();
-     }
+diff --git a/tests/test-logging.c b/tests/test-logging.c
+index a12585f70af..1e646f045dc 100644
+--- a/tests/test-logging.c
++++ b/tests/test-logging.c
+@@ -108,6 +108,82 @@ static void test_parse_path(gconstpointer data)
+     error_free_or_abort(&err);
  }
  
-@@ -40,19 +47,37 @@ static inline void log_cpu_state_mask(int mask, CPUState *cpu, int flags)
- static inline void log_target_disas(CPUState *cpu, target_ulong start,
-                                     target_ulong len)
- {
--    target_disas(qemu_logfile, cpu, start, len);
-+    QemuLogFile *logfile;
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-+        target_disas(logfile->fd, cpu, start, len);
-+    }
-+    rcu_read_unlock();
- }
- 
- static inline void log_disas(void *code, unsigned long size)
- {
--    disas(qemu_logfile, code, size);
-+    QemuLogFile *logfile;
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-+        disas(logfile->fd, code, size);
-+    }
-+    rcu_read_unlock();
- }
- 
- #if defined(CONFIG_USER_ONLY)
- /* page_dump() output to the log file: */
- static inline void log_page_dump(void)
- {
--    page_dump(qemu_logfile);
-+    QemuLogFile *logfile;
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-+        page_dump(logfile->fd);
-+    }
-+    rcu_read_unlock();
- }
- #endif
- #endif
-diff --git a/include/qemu/log.h b/include/qemu/log.h
-index a7c5b01571f..e0f4e406283 100644
---- a/include/qemu/log.h
-+++ b/include/qemu/log.h
-@@ -3,9 +3,16 @@
- 
- /* A small part of this API is split into its own header */
- #include "qemu/log-for-trace.h"
-+#include "qemu/rcu.h"
-+
-+typedef struct QemuLogFile {
-+    struct rcu_head rcu;
-+    FILE *fd;
-+} QemuLogFile;
- 
- /* Private global variable, don't use */
--extern FILE *qemu_logfile;
-+extern QemuLogFile *qemu_logfile;
-+
- 
- /* 
-  * The new API:
-@@ -25,7 +32,16 @@ static inline bool qemu_log_enabled(void)
-  */
- static inline bool qemu_log_separate(void)
- {
--    return qemu_logfile != NULL && qemu_logfile != stderr;
-+    QemuLogFile *logfile;
-+    bool res = false;
-+
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile && logfile->fd != stderr) {
-+        res = true;
-+    }
-+    rcu_read_unlock();
-+    return res;
- }
- 
- #define CPU_LOG_TB_OUT_ASM (1 << 0)
-@@ -55,8 +71,15 @@ static inline bool qemu_log_separate(void)
- 
- static inline FILE *qemu_log_lock(void)
- {
--    qemu_flockfile(qemu_logfile);
--    return logfile->fd;
-+    QemuLogFile *logfile;
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-+        qemu_flockfile(logfile->fd);
-+        return logfile->fd;
-+    } else {
-+        return NULL;
-+    }
- }
- 
- static inline void qemu_log_unlock(FILE *fd)
-@@ -64,6 +87,7 @@ static inline void qemu_log_unlock(FILE *fd)
-     if (fd) {
-         qemu_funlockfile(fd);
-     }
-+    rcu_read_unlock();
- }
- 
- /* Logging functions: */
-@@ -73,9 +97,14 @@ static inline void qemu_log_unlock(FILE *fd)
- static inline void GCC_FMT_ATTR(1, 0)
- qemu_log_vprintf(const char *fmt, va_list va)
- {
--    if (qemu_logfile) {
--        vfprintf(qemu_logfile, fmt, va);
-+    QemuLogFile *logfile;
-+
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-+        vfprintf(logfile->fd, fmt, va);
-     }
-+    rcu_read_unlock();
- }
- 
- /* log only if a bit is set on the current loglevel mask:
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 0511266d85d..4f616ba38bf 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -2114,9 +2114,17 @@ static void tcg_dump_ops(TCGContext *s, bool have_prefs)
-         }
- 
-         if (have_prefs || op->life) {
--            for (; col < 40; ++col) {
--                putc(' ', qemu_logfile);
-+
-+            QemuLogFile *logfile;
-+
-+            rcu_read_lock();
-+            logfile = atomic_rcu_read(&qemu_logfile);
-+            if (logfile) {
-+                for (; col < 40; ++col) {
-+                    putc(' ', logfile->fd);
-+                }
-             }
-+            rcu_read_unlock();
-         }
- 
-         if (op->life) {
-diff --git a/util/log.c b/util/log.c
-index 953a66b5a8d..867264da8d0 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -28,7 +28,7 @@
- 
- static char *logfilename;
- static QemuMutex qemu_logfile_mutex;
--FILE *qemu_logfile;
-+QemuLogFile *qemu_logfile;
- int qemu_loglevel;
- static int log_append = 0;
- static GArray *debug_regions;
-@@ -37,10 +37,14 @@ static GArray *debug_regions;
- int qemu_log(const char *fmt, ...)
- {
-     int ret = 0;
--    if (qemu_logfile) {
-+    QemuLogFile *logfile;
-+
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-         va_list ap;
-         va_start(ap, fmt);
--        ret = vfprintf(qemu_logfile, fmt, ap);
-+        ret = vfprintf(logfile->fd, fmt, ap);
-         va_end(ap);
- 
-         /* Don't pass back error results.  */
-@@ -48,6 +52,7 @@ int qemu_log(const char *fmt, ...)
-             ret = 0;
-         }
-     }
-+    rcu_read_unlock();
-     return ret;
- }
- 
-@@ -56,12 +61,24 @@ static void __attribute__((__constructor__)) qemu_logfile_init(void)
-     qemu_mutex_init(&qemu_logfile_mutex);
- }
- 
-+static void qemu_logfile_free(QemuLogFile *logfile)
++static void test_logfile_write(gconstpointer data)
 +{
-+    g_assert(logfile);
++    QemuLogFile *logfile;
++    QemuLogFile *logfile2;
++    gchar const *dir = data;
++    Error *err = NULL;
++    g_autofree gchar *file_path;
++    g_autofree gchar *file_path1;
++    FILE *orig_fd;
 +
-+    if (logfile->fd != stderr) {
-+        fclose(logfile->fd);
-+    }
-+    g_free(logfile);
++    /*
++     * Before starting test, set log flags, to ensure the file gets
++     * opened below with the call to qemu_set_log_filename().
++     * In cases where a logging backend other than log is used,
++     * this is needed.
++     */
++    qemu_set_log(CPU_LOG_TB_OUT_ASM);
++    file_path = g_build_filename(dir, "qemu_test_log_write0.log", NULL);
++    file_path1 = g_build_filename(dir, "qemu_test_log_write1.log", NULL);
++
++    /*
++     * Test that even if an open file handle is changed,
++     * our handle remains valid due to RCU.
++     */
++    qemu_set_log_filename(file_path, &err);
++    g_assert(!err);
++    rcu_read_lock();
++    logfile = atomic_rcu_read(&qemu_logfile);
++    orig_fd = logfile->fd;
++    g_assert(logfile && logfile->fd);
++    fprintf(logfile->fd, "%s 1st write to file\n", __func__);
++    fflush(logfile->fd);
++
++    /* Change the logfile and ensure that the handle is still valid. */
++    qemu_set_log_filename(file_path1, &err);
++    g_assert(!err);
++    logfile2 = atomic_rcu_read(&qemu_logfile);
++    g_assert(logfile->fd == orig_fd);
++    g_assert(logfile2->fd != logfile->fd);
++    fprintf(logfile->fd, "%s 2nd write to file\n", __func__);
++    fflush(logfile->fd);
++    rcu_read_unlock();
 +}
 +
- static bool log_uses_own_buffers;
- 
- /* enable or disable low levels log */
- void qemu_set_log(int log_flags)
++static void test_logfile_lock(gconstpointer data)
++{
++    FILE *logfile;
++    gchar const *dir = data;
++    Error *err = NULL;
++    g_autofree gchar *file_path;
++
++    file_path = g_build_filename(dir, "qemu_test_logfile_lock0.log", NULL);
++
++    /*
++     * Test the use of the logfile lock, such
++     * that even if an open file handle is closed,
++     * our handle remains valid for use due to RCU.
++     */
++    qemu_set_log_filename(file_path, &err);
++    logfile = qemu_log_lock();
++    g_assert(logfile);
++    fprintf(logfile, "%s 1st write to file\n", __func__);
++    fflush(logfile);
++
++    /*
++     * Initiate a close file and make sure our handle remains
++     * valid since we still have the logfile lock.
++     */
++    qemu_log_close();
++    fprintf(logfile, "%s 2nd write to file\n", __func__);
++    fflush(logfile);
++    qemu_log_unlock(logfile);
++
++    g_assert(!err);
++}
++
+ /* Remove a directory and all its entries (non-recursive). */
+ static void rmdir_full(gchar const *root)
  {
-     bool need_to_open_file = false;
-+    QemuLogFile *logfile;
-+
-     qemu_loglevel = log_flags;
- #ifdef CONFIG_TRACE_LOG
-     qemu_loglevel |= LOG_TRACE;
-@@ -79,43 +96,47 @@ void qemu_set_log(int log_flags)
-     }
-     qemu_mutex_lock(&qemu_logfile_mutex);
-     if (qemu_logfile && !need_to_open_file) {
--        qemu_mutex_unlock(&qemu_logfile_mutex);
--        qemu_log_close();
-+        logfile = qemu_logfile;
-+        atomic_rcu_set(&qemu_logfile, NULL);
-+        call_rcu(logfile, qemu_logfile_free, rcu);
-     } else if (!qemu_logfile && need_to_open_file) {
-+        logfile = g_new0(QemuLogFile, 1);
-         if (logfilename) {
--            qemu_logfile = fopen(logfilename, log_append ? "a" : "w");
--            if (!qemu_logfile) {
-+            logfile->fd = fopen(logfilename, log_append ? "a" : "w");
-+            if (!logfile->fd) {
-+                g_free(logfile);
-                 perror(logfilename);
-                 _exit(1);
-             }
-             /* In case we are a daemon redirect stderr to logfile */
-             if (is_daemonized()) {
--                dup2(fileno(qemu_logfile), STDERR_FILENO);
--                fclose(qemu_logfile);
-+                dup2(fileno(logfile->fd), STDERR_FILENO);
-+                fclose(logfile->fd);
-                 /* This will skip closing logfile in qemu_log_close() */
--                qemu_logfile = stderr;
-+                logfile->fd = stderr;
-             }
-         } else {
-             /* Default to stderr if no log file specified */
-             assert(!is_daemonized());
--            qemu_logfile = stderr;
-+            logfile->fd = stderr;
-         }
-         /* must avoid mmap() usage of glibc by setting a buffer "by hand" */
-         if (log_uses_own_buffers) {
-             static char logfile_buf[4096];
+@@ -134,6 +210,10 @@ int main(int argc, char **argv)
  
--            setvbuf(qemu_logfile, logfile_buf, _IOLBF, sizeof(logfile_buf));
-+            setvbuf(logfile->fd, logfile_buf, _IOLBF, sizeof(logfile_buf));
-         } else {
- #if defined(_WIN32)
-             /* Win32 doesn't support line-buffering, so use unbuffered output. */
--            setvbuf(qemu_logfile, NULL, _IONBF, 0);
-+            setvbuf(logfile->fd, NULL, _IONBF, 0);
- #else
--            setvbuf(qemu_logfile, NULL, _IOLBF, 0);
-+            setvbuf(logfile->fd, NULL, _IOLBF, 0);
- #endif
-             log_append = 1;
-         }
--        qemu_mutex_unlock(&qemu_logfile_mutex);
-+        atomic_rcu_set(&qemu_logfile, logfile);
-     }
-+    qemu_mutex_unlock(&qemu_logfile_mutex);
- }
+     g_test_add_func("/logging/parse_range", test_parse_range);
+     g_test_add_data_func("/logging/parse_path", tmp_path, test_parse_path);
++    g_test_add_data_func("/logging/logfile_write_path",
++                         tmp_path, test_logfile_write);
++    g_test_add_data_func("/logging/logfile_lock_path",
++                         tmp_path, test_logfile_lock);
  
- void qemu_log_needs_buffers(void)
-@@ -244,18 +265,27 @@ out:
- /* fflush() the log file */
- void qemu_log_flush(void)
- {
--    fflush(qemu_logfile);
-+    QemuLogFile *logfile;
-+
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-+        fflush(logfile->fd);
-+    }
-+    rcu_read_unlock();
- }
+     rc = g_test_run();
  
- /* Close the log file */
- void qemu_log_close(void)
- {
-+    QemuLogFile *logfile;
-+
-     qemu_mutex_lock(&qemu_logfile_mutex);
--    if (qemu_logfile) {
--        if (qemu_logfile != stderr) {
--            fclose(qemu_logfile);
--        }
--        qemu_logfile = NULL;
-+    logfile = qemu_logfile;
-+
-+    if (logfile) {
-+        atomic_rcu_set(&qemu_logfile, NULL);
-+        call_rcu(logfile, qemu_logfile_free, rcu);
-     }
-     qemu_mutex_unlock(&qemu_logfile_mutex);
- }
 -- 
 2.20.1
 
