@@ -2,100 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AE8120050
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 09:53:40 +0100 (CET)
-Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC431200DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 10:21:06 +0100 (CET)
+Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igm8J-000189-Cj
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 03:53:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46505)
+	id 1igmYr-0007rw-4D
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 04:21:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Joakim.Tjernlund@infinera.com>) id 1igm7L-0000dd-VI
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:52:40 -0500
+ (envelope-from <armbru@redhat.com>) id 1igmY6-0007Lp-2b
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:20:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Joakim.Tjernlund@infinera.com>) id 1igm7L-0003fr-0V
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:52:39 -0500
-Received: from mail-eopbgr750044.outbound.protection.outlook.com
- ([40.107.75.44]:38662 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Joakim.Tjernlund@infinera.com>)
- id 1igm7H-0003Yb-PF; Mon, 16 Dec 2019 03:52:36 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bKrt4aamfMCetrpPFg85sNG3SQaUMAnkHQffssPYKuICvSSIX+hLnYK/c9NVP5UmLwLn0USV4KM1lLwSJebUVjfdw3Abrv/Vr2/LR3VDQvel3GlXpCfQks8hIksqKLYLCN4700+xFn67GHgtetq2O0EXTC8cIZZoxM0fAJGbSlPusE7kdCY2AMGF4WsHHAyl9icIVO7EjJdUA6T2gcaQBV5XCKusIcnYYU/gU1jxPk4HRwjCx9sI0V7P1iUPzmW9Ipqg8dEh0/4gwt4PtQ9jfLRjjFGfNgjzGGPY+Oykrp7vGpXlhTv3H3tKjafCdizFF9sYByMJf7jTVBdlo73k3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HfAQoxg9fRP9YE643uMgUHN+ozYnXxXPPLyb1dJ4FNY=;
- b=QJot1iyUshpC/Va4v7F4UWrkP4Iv2/z5jH/ZRvDEfIltQ8oxxJ/3SnMIWvwzpsjy3m9OVqZbZhfSKpQ/b1wVCulYBQ+Ymgk9rZLGzmP8DJiHGCmt5ayR/4Yl1eiDi13q/8d3v87LCPqmaxL6Y8p66mh4bvTH+siiOcZ6/+Ypv88R7AInLQE/H5ggqXF0iBj3HcojVEdJ4epQt/P47uAtR+rXAQ+uQardWvQcaRKR7O8M/Dgudx8GCL9CyW9K9J5l30u816K55M7Js5+jbzDwUGB1A6QWVrJLkHW3pDSNdWdmqXAIfwaj2HXdib8uwRSKzUVCI8aLBU2qdVmUsHyKlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HfAQoxg9fRP9YE643uMgUHN+ozYnXxXPPLyb1dJ4FNY=;
- b=E1TPDGl/LnonPWhu7jVXnGak9qOfg6jP+ZOMN5xDCQK26WWbc0HCTBp19DqsKWxJG1B64XSFDhngkLEn1FVVsxYKXiqmX72SmOTNMFzXPTCoX0kqC6PUq840lNTZh3dygTY547uCM695XwbSGmWVbSSY7a+u6KpsMg8c7nv0V2g=
-Received: from BN8PR10MB3540.namprd10.prod.outlook.com (20.179.77.152) by
- BN8PR10MB4098.namprd10.prod.outlook.com (20.179.78.82) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.16; Mon, 16 Dec 2019 08:52:33 +0000
-Received: from BN8PR10MB3540.namprd10.prod.outlook.com
- ([fe80::a97b:1c2e:601a:3e6e]) by BN8PR10MB3540.namprd10.prod.outlook.com
- ([fe80::a97b:1c2e:601a:3e6e%7]) with mapi id 15.20.2538.019; Mon, 16 Dec 2019
- 08:52:33 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "balaton@eik.bme.hu" <balaton@eik.bme.hu>, "philmd@redhat.com"
- <philmd@redhat.com>, "thuth@redhat.com" <thuth@redhat.com>
-Subject: Re: [PATCH] ppc: remove excessive logging
-Thread-Topic: [PATCH] ppc: remove excessive logging
-Thread-Index: AQHVsniyPXjCb8LgOky/3NMa8MoAG6e6pm0AgABiCwCAAKwmgIAAu6yAgAAHEwA=
-Date: Mon, 16 Dec 2019 08:52:33 +0000
-Message-ID: <95a3c98d0f6a5aebe02bcd99a4db07db5de2720e.camel@infinera.com>
-References: <20191214121347.17071-1-joakim.tjernlund@infinera.com>
- <4a608af2-62a2-3ffb-0c02-8e0ca699d586@redhat.com>
- <alpine.BSF.2.21.99999.352.1912151147300.3618@zero.eik.bme.hu>
- <d975fe075db9db4266437e1575987fe0f2d82ca4.camel@infinera.com>
- <ec67a070-77e2-08dc-9cc5-05907bbcbe79@redhat.com>
-In-Reply-To: <ec67a070-77e2-08dc-9cc5-05907bbcbe79@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Joakim.Tjernlund@infinera.com; 
-x-originating-ip: [88.131.87.201]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ceba9a6a-0b8f-45ca-be07-08d782054aa9
-x-ms-traffictypediagnostic: BN8PR10MB4098:
-x-microsoft-antispam-prvs: <BN8PR10MB4098E046F451CE55625FD694F4510@BN8PR10MB4098.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 02530BD3AA
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(346002)(376002)(396003)(39860400002)(136003)(366004)(199004)(189003)(8676002)(5660300002)(186003)(8936002)(81156014)(81166006)(26005)(6486002)(66476007)(66556008)(64756008)(66446008)(2906002)(6506007)(6512007)(36756003)(71200400001)(4326008)(110136005)(478600001)(2616005)(86362001)(4001150100001)(91956017)(76116006)(4744005)(316002)(66946007)(54906003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BN8PR10MB4098;
- H:BN8PR10MB3540.namprd10.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: infinera.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zK9kJhzqmh1UStq55ZBIGid47cYhLHrXNb5UB3PQAL0A8hZJtEjsNwMmfB/nV1KxUxNPwVIuzATOQw+h8qK34k3I6EZrttH28JCMg7FX+4Nc883nx5IVJS5wd1Ge2OEDGM6cFPFKVSazAoAy8Wz7zrtphUz29WXnKoBfJsfRiIUZcAENEGk6TKEyT4/+PI69Ax2WW4n/A+5CdXLcV7zMkkHlph2CvbG1PMSmhfSlTBM944EAbHaNERUZXJmcpuZz2HdLrttEpBuDjVaqLgOFwiP0C1x+lh8kic058mgOc52/G/uGvsNmbYOFHbb+VX38TeHLbUWx1ARFC4+ajeC2xAP1jaPFEMDHLh3CJEa70RcTOi61LT4n/X/2qkh/8i4vJ4Q+JOonk+wr2M9sWelcrYDtrd1XHCdOETg9WfuHb4MyJqlKCjDRawbcQJtVndSw
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F145444DFE30AC4A9EE46BDE9DB6A173@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <armbru@redhat.com>) id 1igmY0-0006A9-3l
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:20:15 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52546
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1igmY0-0006A4-0h
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:20:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576488011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qwl97Alxo8sJFowOD7XKYUaloZ4HsrSdSRLgJZxOQ+o=;
+ b=Bya9zbbNCLQrzBftWHxEsPwdGBWbQ+YH1jzcOTuklN4mcLXO1EQmXD8ptwfeDhsFVLITB0
+ D1WdBn/hiFt5yviPATzmdSv+PtMKJ2yWQncQNXkxo92MIz6zJvxmKJPRbatBwOtRAsWcSb
+ 0IXBjQHrkqz9XLli8GBNO137goYix+Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-U0gZuiUEObW6w5VJb19WdA-1; Mon, 16 Dec 2019 04:20:09 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57F058E1E8F;
+ Mon, 16 Dec 2019 09:20:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
+ [10.36.116.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AAE263B80;
+ Mon, 16 Dec 2019 09:20:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1842211386A7; Mon, 16 Dec 2019 10:20:04 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Corey Minyard <cminyard@mvista.com>
+Subject: Re: [PATCH 11/21] hw/ipmi: Fix latent realize() error handling bugs
+References: <20191130194240.10517-1-armbru@redhat.com>
+ <20191130194240.10517-12-armbru@redhat.com>
+ <20191201182234.GA18195@minyard.net>
+Date: Mon, 16 Dec 2019 10:20:04 +0100
+In-Reply-To: <20191201182234.GA18195@minyard.net> (Corey Minyard's message of
+ "Sun, 1 Dec 2019 12:22:34 -0600")
+Message-ID: <87mubsfwzf.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ceba9a6a-0b8f-45ca-be07-08d782054aa9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2019 08:52:33.4330 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cYNvH8K+bDqHAw0keYPyWQ0revsIHHIx559jGSYQRt20iR0dAhFT+tPzq3IXZYXt22Ymc/e5NWWNN2OBhCGTyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR10MB4098
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.75.44
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: U0gZuiUEObW6w5VJb19WdA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,25 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gTW9uLCAyMDE5LTEyLTE2IGF0IDA5OjI3ICswMTAwLCBUaG9tYXMgSHV0aCB3cm90ZToNCj4g
-DQo+IE9uIDE1LzEyLzIwMTkgMjIuMTUsIEpvYWtpbSBUamVybmx1bmQgd3JvdGU6DQo+IFsuLi5d
-DQo+ID4gPiBMT0dfRVhDUCgpIGlzIG5vdCBlbmFibGVkIGJ5IGRlZmF1bHQsIHlvdSBoYXZlIHRv
-IGVkaXQgc291cmNlIHRvIGVuYWJsZSBpdA0KPiA+IA0KPiA+IExPR19FWENQIGlzIGVuYWJsZWQg
-b24gR2VudG9vLCB3aGF0IGFib3V0IG90aGVyIGRpc3Ryb3M/DQo+IA0KPiBJIGRvbid0IHRoaW5r
-IHRoYXQgdGhpcyBpcyBlbmFibGVkIGJ5IGFueSBvdGhlciBkaXN0cm8uIFdoeSBpcyB0aGlzDQo+
-IGVuYWJsZWQgb24gR2VudG9vIGF0IGFsbD8gSXQgcmVhbGx5IHNob3VsZCBub3QgYmUgZW5hYmxl
-ZCBpbiBidWlsZHMgdGhhdA0KPiBhcmUgc3VwcG9zZWQgdG8gYmUgdXNlZCBieSBub3JtYWwgdXNl
-cnMuIEhhdmUgeW91IHRyaWVkIHRvIGNvbnRhY3QgdGhlDQo+IHBhY2thZ2UgbWFpbnRhaW5lcnMg
-b2YgdGhlIFFFTVUgR2VudG9vIHBhY2thZ2UgYW5kIGFza2VkIHRoZW0gdG8gZGlzYWJsZQ0KPiBp
-dCB0aGVyZSBhZ2Fpbj8NCg0KaG1tLCBJIGhhdmUgYmVlbiBjYXJyeWluZyB0aGF0IHBhdGNoIGZv
-ciBhIGxvbmcgdGltZSh5ZWFycykgYW5kIG5vdyB3aGVuIEkgbG9vayBpbnRvIHRoZSBjb2RlL3Bh
-Y2thZ2UNCkkgZG9uJ3Qgc2VlIGl0IGVuYWJsZWQgYW55IG1vcmUgc28gSSB3aWxsIGRlbGV0ZSB0
-aGlzIHBhdGNoIG5vdyBmcm9tIG15IHRyZWUgYW5kIHNlZSB3aGF0IGhhcHBlbnMuDQoNCiBKb2Nr
-ZQ0K
+Corey Minyard <cminyard@mvista.com> writes:
+
+> On Sat, Nov 30, 2019 at 08:42:30PM +0100, Markus Armbruster wrote:
+>> isa_ipmi_bt_realize(), ipmi_isa_realize(), pci_ipmi_bt_realize(), and
+>> pci_ipmi_kcs_realize() crash when IPMIInterfaceClass method init()
+>> fails and their @errp argument is null.  First messed up in commit
+>> 0719029c47 "ipmi: Add an ISA KCS low-level interface", then imitated
+>> in commit a9b74079cb "ipmi: Add a BT low-level interface" and commit
+>> 12f983c6aa "ipmi: Add PCI IPMI interfaces".
+>>=20
+>> The bug can't bite as no caller actually passes null, and none of the
+>> init() methods can actually fail.  Fix it anyway.
+>
+> Well, whatever.  It looks correct and is better style.  I've added this
+> to my tree.
+
+I've since posted v2 with a revamped commit message, and I'm ready to
+post a pull request.  I really want the whole thing committed before the
+Christmas break, so Vladimir can base on it more easily.  Options:
+
+* You post a pull request before me.
+
+* Ask me to drop this patch from my pull request, so you can take it
+  through your tree at your leisure.
+
+* Post your Reviewed-by or Acked-by for me to include in my pull
+  request.
+
+* Do nothing; I'll post my pull request later this week.
+
 
