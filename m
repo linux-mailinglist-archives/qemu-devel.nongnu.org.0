@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332781211C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:30:08 +0100 (CET)
-Received: from localhost ([::1]:57592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A7E1211CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:34:43 +0100 (CET)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iguC6-0006vE-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:30:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49819)
+	id 1iguGY-0004Lb-Iq
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:34:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1igts0-0005IE-Rj
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 12:09:21 -0500
+ (envelope-from <bounces@canonical.com>) id 1igtoU-0008MS-Hi
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 12:05:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1igtry-0004Zb-Pn
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 12:09:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34075
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1igtrx-0004Xw-TS
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 12:09:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576516156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IDVqTpY3pjj42+37hfJNvN2IixURt4Ln1YS2ABghS38=;
- b=E18yVHlM9wRtsfV/T/NR08bTlPwZFHvGvjng1ERJ/i4UB1+b15teTX/qPl9groka5BCE2s
- 60JKxWRzZyx/KbVMVCOPxvJ96VjTUUV1IUt0HSEN6g2KVknS2BEBCITI2FKuPs2BlbmXqH
- /xnCE+Hze8wUCaYBXdeQoEfQ/so9Jac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-cJCzuQnwMKCl_U_4FalFgw-1; Mon, 16 Dec 2019 12:09:15 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFDA5102CE16;
- Mon, 16 Dec 2019 17:09:14 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-117-54.ams2.redhat.com [10.36.117.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E3736FEE8;
- Mon, 16 Dec 2019 17:09:13 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 09/10] iotests: 207: Remove duplication with
- VM.blockdev_create()
-Date: Mon, 16 Dec 2019 18:08:56 +0100
-Message-Id: <20191216170857.11880-10-kwolf@redhat.com>
-In-Reply-To: <20191216170857.11880-1-kwolf@redhat.com>
-References: <20191216170857.11880-1-kwolf@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1igtoT-0000JM-AK
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 12:05:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50922)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1igtoT-0000Hl-4U
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 12:05:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1igtoR-0006mO-IG
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 17:05:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8533B2E80C7
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 17:05:39 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: cJCzuQnwMKCl_U_4FalFgw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Dec 2019 16:52:40 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1856549@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: i2c m68k rtc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dcb314 philmd
+X-Launchpad-Bug-Reporter: dcb (dcb314)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <157649490094.7480.17075229014510714852.malonedeb@soybean.canonical.com>
+Message-Id: <157651516091.21880.18074819713454505107.malone@gac.canonical.com>
+Subject: [Bug 1856549] Re: qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 613255dd387afe8b42f20f1cff42f29843dd0fe7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,43 +67,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1856549 <1856549@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The blockdev_create() function in this test case adds another filter to
-the logging, but provides otherwise the same functionality as
-VM.blockdev_create() from iotests.py. Make it a thin wrapper around the
-iotests.py function.
+This code seems to emulate a RTC device connected via I2C to the VIA
+chipset.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+This might be the expected code (simply looking at this file, without check=
+ing the datasheet):
+-- >8 --
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -409,7 +409,7 @@ static void via1_rtc_update(MacVIAState *m)
+                 } else if (m->data_out =3D=3D 0x8d) { /* seconds register =
+3 */
+                     m->data_in =3D (time >> 24) & 0xff;
+                     m->data_in_cnt =3D 8;
+-                } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
++                } else if ((m->data_out & 0xf3) =3D=3D 0xa3) {
+                     /* PRAM address 0x10 -> 0x13 */
+                     int addr =3D (m->data_out >> 2) & 0x03;
+                     m->data_in =3D v1s->PRAM[addr];
+@@ -460,7 +460,7 @@ static void via1_rtc_update(MacVIAState *m)
+                 } else if (m->cmd =3D=3D 0x35) {
+                     /* Write Protect register */
+                     m->wprotect =3D m->data_out & 1;
+-                } else if ((m->cmd & 0xf3) =3D=3D 0xa1) {
++                } else if ((m->cmd & 0xf3) =3D=3D 0xa3) {
+                     /* PRAM address 0x10 -> 0x13 */
+                     int addr =3D (m->cmd >> 2) & 0x03;
+                     v1s->PRAM[addr] =3D m->data_out;
 ---
- tests/qemu-iotests/207 | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
-index ec8c1d06f0..812ab34e47 100755
---- a/tests/qemu-iotests/207
-+++ b/tests/qemu-iotests/207
-@@ -35,13 +35,7 @@ def filter_hash(qmsg):
-     return iotests.filter_qmp(qmsg, _filter)
-=20
- def blockdev_create(vm, options):
--    result =3D vm.qmp_log('blockdev-create', job_id=3D'job0', options=3Dop=
-tions,
--                        filters=3D[iotests.filter_qmp_testfiles, filter_ha=
-sh])
--
--    if 'return' in result:
--        assert result['return'] =3D=3D {}
--        vm.run_job('job0')
--    iotests.log("")
-+    vm.blockdev_create(options, filters=3D[iotests.filter_qmp_testfiles, f=
-ilter_hash])
-=20
- with iotests.FilePath('t.img') as disk_path, \
-      iotests.VM() as vm:
---=20
-2.20.1
+This file won a "/* TODO port to I2CBus */" comment :)
 
+** Tags added: m68k rtc
+
+** Tags added: i2c
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856549
+
+Title:
+  qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
+
+Status in QEMU:
+  New
+
+Bug description:
+  1.
+
+  qemu-4.2.0/hw/misc/mac_via.c:417:27: style: Expression is always false
+  because 'else if' condition matches previous condition at line 412.
+  [multiCondition]
+
+                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
+  ...
+                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
+
+  2.
+
+  qemu-4.2.0/hw/misc/mac_via.c:467:27: style: Expression is always false
+  because 'else if' condition matches previous condition at line 463.
+  [multiCondition]
+
+  Duplicate.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856549/+subscriptions
 
