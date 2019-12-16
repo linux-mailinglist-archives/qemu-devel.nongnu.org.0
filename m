@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1BF12036C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:12:48 +0100 (CET)
-Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4D1120380
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:15:40 +0100 (CET)
+Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoIx-0002Vq-Gy
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:12:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50085)
+	id 1igoLj-0005rI-6q
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:15:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1igoE7-0005Jp-1K
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:48 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1igoE8-0005My-OO
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1igoE5-0003hI-Sy
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:46 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36219)
+ (envelope-from <alex.bennee@linaro.org>) id 1igoE7-0003k4-IP
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:48 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1igoE5-0003gG-Mu
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:45 -0500
-Received: by mail-wr1-x442.google.com with SMTP id z3so6725905wru.3
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:07:45 -0800 (PST)
+ id 1igoE7-0003is-CK
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:47 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p9so6261133wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:07:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CjsswiYtUxVQ0NqmGtm0qPesCYMLKJ1Tdwc44fZ5BMo=;
- b=ar62b+qv2ai6tv2IKuA3KAB4T55E+rmUzzafFPVlhNfvzods/yQi2Y75WvJOmjVMHP
- W6SRtIzxHPoK2D/uZZMdEvTYhKZ6cpAcbqZ4UfwSRPYj2B2pQVWBlewLpBYXPAM4N9FL
- ZWDS7YLImTmCUdsA6HJdojFXKSq3wVNpKMOJOhL7qSyZ+JPeCCO5YFqs+EAktSRXSHud
- F9WY2LijQLzva3C1nvvhDn/MlPkCcG6OF3/k3TF7/XJsld1hejMEMucbj61VP098azVp
- sljX4zsgCJSrS3CNofsmZ6h32ABOeMHatPbFi6I3wEujC3Rofg/QywekmebJcJSsxKrl
- UAvg==
+ bh=IVVyJ2WnySPx9v78HV3GXr2KlEjRKr49Z+2VJrgBMpg=;
+ b=lDJCgjqlS7kzMl4Z8OZc6casJCqhgfTfFyWX8ufk4eb5JS7duEix6i1097l3zLFoUi
+ zTGNggT8ACsqrvrLSyRbiZWpZcW5N2XoUvygYSwJaKwmivG/d/2PLtNhvZpUwwrKdrny
+ JMlabUv0j+Ir8WrMdgHukrX2xY9lcGpfG5V0EoD7/jjNNHaEgGRxRjc2/BnxICtMsKXE
+ tlFXmOoNcdQpxvPj+uSwD0V1Mt3IXHgZiP7DUFvAhKKvHWr1rXPf3r2JdI+kDI0IzV1g
+ z8vPxU4pVPeqE9Y9E82WNv0PorvgECVfFT8NvP0T8BgCUS1Hp/o1zuJcFMlNWop1tJhJ
+ jI+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CjsswiYtUxVQ0NqmGtm0qPesCYMLKJ1Tdwc44fZ5BMo=;
- b=PfqGuIWlrM5TnSDEsCROH4A/txcDEajYWLZlcUeokSyOC9UyH4U2XdSl6UEb6amQgi
- mv5gLXZzU4Ypv4uGtX/nCM8hz5Vc7iXGtTfnR44hr7pGrK4eWOrVzPuyuDLDhf0Q6ORJ
- rbdQIG83moVvQ+XCXj/sRca+VAF/wRx3Q2lppNpKGrSBA+zY45kpjkL1zyOaW+Eu8K6j
- pRtNnQCdOE2LkUCfPFMrAR17IMbhoWdisGGsuteNkbAjiEYgSP1xfQPB2xZ4BlnntceH
- UfHeazAp+hQ/ayI5tWp7u2EEECAyNn6LoO68w0umucehhQb2hwNvOc03seR3Pfi3sLlI
- YTAw==
-X-Gm-Message-State: APjAAAWmczwYuZZgcW9sdYxyomX3LR5XPlecn0q0hevZ/eeK70XDsQW1
- 4me9DrABbxJLq7nkhuPNHDHTEw==
-X-Google-Smtp-Source: APXvYqyjREAu+Hk4UUINnUCSiGeTNWUFTcTzppVxnOIojeYl224UfZ9N/mWgdFOI/+sRm7N3n1h0GA==
-X-Received: by 2002:a5d:558d:: with SMTP id i13mr29824058wrv.364.1576494464685; 
- Mon, 16 Dec 2019 03:07:44 -0800 (PST)
+ bh=IVVyJ2WnySPx9v78HV3GXr2KlEjRKr49Z+2VJrgBMpg=;
+ b=lzve6fYc+6grVg3NFFvZEvSUS3pleGudL5Jr0s7x3F7fd6jCNJbLu2vbhM2IMGfLeG
+ 5QGx9F9C79J8IvZ9kXUcfM+IDjmkuwY3mcDwRXijM8A2gOB98CG03HYmE6hL3dpoax+i
+ uLcWiTYYwkpjjFev/4jm4lXez9mswImCsOsxcJQ5HWQ7u8HY73GLI6ivhjK0RHSwby64
+ 2IVihzX5yAK5fCGzi5v++8LQybbNUAlUpzFR3sqZf/kHuUFfb1bjzmFCCIqUmNrPdJlD
+ rGgc0h+A5YcojL0hcZPbNqjoiYFfZxWdE4nPCcLFhrqG1yiVRAuhguhakzejmPBVn+iK
+ oQ5A==
+X-Gm-Message-State: APjAAAUeBTdcpbeUQv1Q8F285QfLnuGOJAPwMt98fhYZtwHseG37fIGt
+ iFSPsKOdY1H7CGhDjqgSwoIesw==
+X-Google-Smtp-Source: APXvYqxgDPkbb5eL0DtAtLnKbIWmO1N5goEIUX4ixR8NAG6D2QIHlRorUPUvRkhi+ZlksQnINcodSA==
+X-Received: by 2002:a1c:48d5:: with SMTP id v204mr27536137wma.88.1576494466383; 
+ Mon, 16 Dec 2019 03:07:46 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s8sm20803091wrt.57.2019.12.16.03.07.36
+ by smtp.gmail.com with ESMTPSA id k19sm19030689wmi.42.2019.12.16.03.07.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 16 Dec 2019 03:07:39 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C46251FF96;
+ by zen.linaroharston (Postfix) with ESMTP id DA1DA1FF98;
  Mon, 16 Dec 2019 11:07:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 07/16] tests/hd-geo-test: Skip test when images can not be
- created
-Date: Mon, 16 Dec 2019 11:07:23 +0000
-Message-Id: <20191216110732.24027-8-alex.bennee@linaro.org>
+Subject: [PATCH v1 08/16] tests/test-util-filemonitor: Skip test on non-x86
+ Travis containers
+Date: Mon, 16 Dec 2019 11:07:24 +0000
+Message-Id: <20191216110732.24027-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110732.24027-1-alex.bennee@linaro.org>
 References: <20191216110732.24027-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,8 +82,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  richard.henderson@linaro.org, f4bug@amsat.org,
@@ -95,58 +94,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-In certain environments like restricted containers, we can not create
-huge test images. To be able to use "make check" in such container
-environments, too, let's skip the hd-geo-test instead of failing when
-the test images could not be created.
+test-util-filemonitor fails in restricted non-x86 Travis containers
+since they apparently blacklisted some required system calls there.
+Let's simply skip the test if we detect such an environment.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191204154618.23560-5-thuth@redhat.com>
+Message-Id: <20191204154618.23560-6-thuth@redhat.com>
 ---
- tests/hd-geo-test.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ tests/test-util-filemonitor.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/hd-geo-test.c b/tests/hd-geo-test.c
-index 7e86c5416cc..a2498005440 100644
---- a/tests/hd-geo-test.c
-+++ b/tests/hd-geo-test.c
-@@ -34,8 +34,13 @@ static char *create_test_img(int secs)
-     fd = mkstemp(template);
-     g_assert(fd >= 0);
-     ret = ftruncate(fd, (off_t)secs * 512);
--    g_assert(ret == 0);
-     close(fd);
-+
-+    if (ret) {
-+        free(template);
-+        template = NULL;
+diff --git a/tests/test-util-filemonitor.c b/tests/test-util-filemonitor.c
+index 301cd2db619..45009c69f41 100644
+--- a/tests/test-util-filemonitor.c
++++ b/tests/test-util-filemonitor.c
+@@ -406,10 +406,21 @@ test_file_monitor_events(void)
+     char *pathdst = NULL;
+     QFileMonitorTestData data;
+     GHashTable *ids = g_hash_table_new(g_int64_hash, g_int64_equal);
++    char *travis_arch;
+ 
+     qemu_mutex_init(&data.lock);
+     data.records = NULL;
+ 
++    /*
++     * This test does not work on Travis LXD containers since some
++     * syscalls are blocked in that environment.
++     */
++    travis_arch = getenv("TRAVIS_ARCH");
++    if (travis_arch && !g_str_equal(travis_arch, "x86_64")) {
++        g_test_skip("Test does not work on non-x86 Travis containers.");
++        return;
 +    }
 +
-     return template;
- }
- 
-@@ -934,6 +939,10 @@ int main(int argc, char **argv)
-     for (i = 0; i < backend_last; i++) {
-         if (img_secs[i] >= 0) {
-             img_file_name[i] = create_test_img(img_secs[i]);
-+            if (!img_file_name[i]) {
-+                g_test_message("Could not create test images.");
-+                goto test_add_done;
-+            }
-         } else {
-             img_file_name[i] = NULL;
-         }
-@@ -965,6 +974,7 @@ int main(int argc, char **argv)
-                        "skipping hd-geo/override/* tests");
-     }
- 
-+test_add_done:
-     ret = g_test_run();
- 
-     for (i = 0; i < backend_last; i++) {
+     /*
+      * The file monitor needs the main loop running in
+      * order to receive events from inotify. We must
 -- 
 2.20.1
 
