@@ -2,51 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55BB12008C
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 10:12:56 +0100 (CET)
-Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13963120045
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 09:51:18 +0100 (CET)
+Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igmQx-0005WP-BI
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 04:12:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55133)
+	id 1igm60-00006X-MK
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 03:51:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45758)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1igmQ2-0004uc-TI
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:12:00 -0500
+ (envelope-from <sgarzare@redhat.com>) id 1igm5C-00083N-M8
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:50:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1igmQ1-00079d-8r
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 04:11:58 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:54139)
+ (envelope-from <sgarzare@redhat.com>) id 1igm5A-00082o-0L
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:50:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30055
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1igmQ0-0006ov-4i; Mon, 16 Dec 2019 04:11:57 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47bwWV0ZKGz9sP6; Mon, 16 Dec 2019 20:11:49 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576487510;
- bh=4E7TJy64cpksRuxA+tYHs7DFaVXkQYq6dHDXcZ+gzFw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sxw254aT0CePSoudyf9Yy1eK3tZ0bNvzXg2BNRNutIjyqbRpgA7S/tFoQowPO3am6
- +4naq932wI+3/7erBeiwYLnFn85yGfVVh7/+62X463E1+Bi01Iju6GAj0mys2Xs76d
- ZYlINAvZxm/HMIeyl/+Zia3JODi1QIqNOyyufnzs=
-Date: Mon, 16 Dec 2019 19:39:11 +1100
-From: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] ppc: remove excessive logging
-Message-ID: <20191216083911.GE6242@umbus.fritz.box>
-References: <20191214121347.17071-1-joakim.tjernlund@infinera.com>
- <4a608af2-62a2-3ffb-0c02-8e0ca699d586@redhat.com>
- <alpine.BSF.2.21.99999.352.1912151147300.3618@zero.eik.bme.hu>
- <d975fe075db9db4266437e1575987fe0f2d82ca4.camel@infinera.com>
- <ec67a070-77e2-08dc-9cc5-05907bbcbe79@redhat.com>
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1igm59-0007yJ-GU
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 03:50:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576486221;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vTu6mi5o2jXTwaZdakb4a7k8BJOtyWjP3nmmofJJOcY=;
+ b=TCEhto4bnSSJ+D/Agtv2Ya/xrdNOX5ic3IrfZGvvHKKMowN1U0sug00jDb6tLUhSr4Av99
+ /9o07nobFX95W5uXL+iW5Xs2c4H73Unco6huw/1oGRcKxljZg/zXZ+viQJ7IFG8sdnmVvg
+ 3oZdDh+2K3ZtuPocLER0Hd62mkVxvvY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-pWJ6nNFqNcOAmysR1CeUIg-1; Mon, 16 Dec 2019 03:50:18 -0500
+Received: by mail-wr1-f71.google.com with SMTP id w6so3381211wrm.16
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 00:50:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9pXwsgDJAsqYku0OdmAsmCeZQhEx7VgkvTmfjAWVcWs=;
+ b=Cv1A/l4djRyBH79tRKm2rfXGV1RisjHX3HB9j401ag4ZATZ4kYp6VOxwd5lMniXebI
+ w3zWL8ZDzpUVzTtJAKiF+wXpRXzFQ/q5TnPfXUpeCSlXZVmISVLKVkWm901ZsLyXEZkF
+ aH1CYb5OrM6ox4vaCtKC3i3oXbTm9leElxu/vPZNtIBZyVsXVRc0jTULpot33y+CrgCW
+ Qk8LZIG0nDhEDUcvPP8SI+W5IdpXA4MoSaR0kGdBBlZApARvIr6VqYNr/+4jIjidkvNt
+ 8a37J9Pa9llH4csfDgBDXoEH+bSEb+1CJAv6eiCxhg1Vw6+IrALNzm6TdI/Bzq5wCuT5
+ m64g==
+X-Gm-Message-State: APjAAAXwSRqS5JnZvCAqnZU+985wSkPrcSXLUYXOowu3MaoAl5cSHNHZ
+ LzitS5crG/CchGqLUihIJ4yZOZIHnw7n4qSc68AGxvcTSjKqxhjRuwQ818uw6YJvL3wJ+1RK9Yr
+ eeH9oa6HC7dZQG9M=
+X-Received: by 2002:a5d:6b88:: with SMTP id n8mr29903733wrx.288.1576486216831; 
+ Mon, 16 Dec 2019 00:50:16 -0800 (PST)
+X-Google-Smtp-Source: APXvYqygSCF1gZJ7VOlvTRU0nweRambZcreJ0rJo6V+c1YZx6TiZpakbR8h34uGHw9C7GcqNPoQiCw==
+X-Received: by 2002:a5d:6b88:: with SMTP id n8mr29903715wrx.288.1576486216632; 
+ Mon, 16 Dec 2019 00:50:16 -0800 (PST)
+Received: from steredhat ([95.235.120.92])
+ by smtp.gmail.com with ESMTPSA id w8sm21040436wmm.0.2019.12.16.00.50.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Dec 2019 00:50:16 -0800 (PST)
+Date: Mon, 16 Dec 2019 09:50:13 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] virtio: update queue size on guest write
+Message-ID: <20191216085013.q7tgbesniil3nmbq@steredhat>
+References: <20191213142358.345301-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="a+b56+3nqLzpiR9O"
+In-Reply-To: <20191213142358.345301-1-mst@redhat.com>
+X-MC-Unique: pWJ6nNFqNcOAmysR1CeUIg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <ec67a070-77e2-08dc-9cc5-05907bbcbe79@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,61 +86,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
- "philmd@redhat.com" <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---a+b56+3nqLzpiR9O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 16, 2019 at 09:27:13AM +0100, Thomas Huth wrote:
-> On 15/12/2019 22.15, Joakim Tjernlund wrote:
-> [...]
-> >> LOG_EXCP() is not enabled by default, you have to edit source to enabl=
-e it
-> >=20
-> > LOG_EXCP is enabled on Gentoo, what about other distros?
+On Fri, Dec 13, 2019 at 09:24:03AM -0500, Michael S. Tsirkin wrote:
+> Some guests read back queue size after writing it.
+> Update the size immediatly upon write otherwise
+> they get confused.
 >=20
-> I don't think that this is enabled by any other distro. Why is this
-> enabled on Gentoo at all? It really should not be enabled in builds that
-> are supposed to be used by normal users. Have you tried to contact the
-> package maintainers of the QEMU Gentoo package and asked them to disable
-> it there again?
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  hw/virtio/virtio-pci.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-I concur.  LOG_EXCP is definitely there for qemu developer debugging,
-it's not intended for use in "normal" builds.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
+
+Just a question, should we do the same in virtio-mmio?
+
+Maybe doing virtio_queue_set_num() in any case (legacy and non-legacy)
+during VIRTIO_MMIO_QUEUE_NUM writing.
+
+Thanks,
+Stefano
+
+>=20
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index c6b47a9c73..e5c759e19e 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1256,6 +1256,8 @@ static void virtio_pci_common_write(void *opaque, h=
+waddr addr,
+>          break;
+>      case VIRTIO_PCI_COMMON_Q_SIZE:
+>          proxy->vqs[vdev->queue_sel].num =3D val;
+> +        virtio_queue_set_num(vdev, vdev->queue_sel,
+> +                             proxy->vqs[vdev->queue_sel].num);
+>          break;
+>      case VIRTIO_PCI_COMMON_Q_MSIX:
+>          msix_vector_unuse(&proxy->pci_dev,
+> --=20
+> MST
+>=20
+>=20
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---a+b56+3nqLzpiR9O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl33Qq8ACgkQbDjKyiDZ
-s5IHTQ//d2ZJwrep/s0Gu7+uGummFEykCCewY6jzYX6Bs5lwEX03lVpbvfILoo9Z
-AAxaXhwwM2c2SlQf7HTcYx0cy9M+9diiwkrGXpDwjzISVSXyQdSrVFJcjJMXDKIU
-ekh34rnmJ6ZjJq29j8SMwBSlihYSqC7QanbqKHtf60/LqWBK+L3u3BCdmSZLbI5j
-1k6gfo7YMJoIAy0y+jFcoaEKH/6yBovx+Qb8qmkpZ7f6i83orKgH3mYkRW6NdTop
-x+u1z12vRewhg4GbFL47YPbvH+GK5U+06nAR3nNCvp108CeBNVySMaIt449FHRLf
-kroDyFZPHMN/vld5eHhO8EvatGpueurhS7qxtYPtVGE6yxjIeZ4NsxeM7JcyCVSb
-j7oXlSTfUWLfN0/wEE6p45AECKlVTI2SI8HiAPy41fjNNwuJ9UeqYOwBuqbPkZFr
-faxdtfjJs0U5/B1vCKQzuh2DDM+Tg+exPgmRlBYq+WUECtfA1i+Iqu1YpFDRLKXI
-zad8iLrNJfKgtBsF7sXDHlAy9U7pGnLSTOK7l3sPjjhxs7w281fzBXOBkWyFu9AP
-MueTJOLqE6kU9B/MfW5XvO163SwNHITwgqXQS03cqNUJa2UBKl5wRRRyea0CTq77
-gvRLzlr4aI0HbjsucdBtW0KzTDMzhTZWOH6ZUgdsGQLvDmJvQ7A=
-=RZRv
------END PGP SIGNATURE-----
-
---a+b56+3nqLzpiR9O--
 
