@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3580121149
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:10:21 +0100 (CET)
-Received: from localhost ([::1]:57132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E91121163
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:13:13 +0100 (CET)
+Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtsy-0005Q0-HA
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:10:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57567)
+	id 1igtvk-0000uv-3K
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:13:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57589)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFn-00063A-Fp
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:52 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFo-00064O-AY
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFm-0000mo-Fc
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:51 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38453)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFn-0000pK-4k
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:52 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36401)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFl-0000jV-PO
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:49 -0500
-Received: by mail-wr1-x433.google.com with SMTP id y17so8052540wrh.5
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:49 -0800 (PST)
+ id 1igtFm-0000ld-IT
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:50 -0500
+Received: by mail-wr1-x441.google.com with SMTP id z3so515885wru.3
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hZVVOGkgb20bftRL1JMnXY5FFlbJTfG81bARHGzmB20=;
- b=m9i/2UcYLH3jc427b+umGKl+c4FrFCMLc2CJPAarBEeGlMEFUn+TkYEMDDE8LWkYuN
- +M22i1U5LE2Qa9fArBY3W/ZtHHxOjnJeHrF4/jvNhWRpzyxBDaQUtPS/aDOC7KneEpkB
- j4EDv8K4wX+xXGT/uHnQgeFxx+h2JZi2AJSw9+uwjjTOnqOapsYHyYrzqhCN719y65a4
- Ui5P4fAIMde5OnTuZ1eKv5Upr3BjFKj3v6ojMYROty3WSxSNqtlw77VD6z+Z6/6mI6UB
- pvQcG8AgBncfZ+oOjoPgH3djBpON9LIb0l2PNPPZSSmMUh/4d3Snbop+VWu8Kc3QxAJ9
- Weww==
+ bh=iSvd7kR69HHZhRhQRzsPwBtBWFePaMT2xa1YRgm+R84=;
+ b=Wr69G6hmY4M6IsGX1Zcy9pTNIvrQYCiIG8cpSrPvTb/D+4+8So7lH3Jb9ndZPRmsio
+ 0dRDXAo9k8JYCWgz184C289Zwp+bkV+WBS+wYODp8h7Gm0tNGlXhSgz+Ii1RllEyDKzZ
+ +ru5OsMFrloFOOr/hCv6u891aPTaLrnNG00XJjo65TNuqsfZXv2IDwpIX3K9t3p2azGY
+ ds6mrFt9QGLakZgshZzTBNrU/6t4To6d9Jyg/VFxmOry5n1TJ0I2G2jhLxklTln+lTkl
+ loA8P30MURqigaws69spBulr4O2b4E9RKZNcsdrl5tN86LuYC2u4hzmxwbWIPudkh0ev
+ oY1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=hZVVOGkgb20bftRL1JMnXY5FFlbJTfG81bARHGzmB20=;
- b=be1mGSaXnVKXUVhX5a7SNN2H+sgz7GargtWfBfZhylI7PNNj+4s/g0llts28mVPavA
- Z1xx2IQfc6uRfgXoKjo4QxdcxAZ/BC7GBLHOW1LTvYIYv10f8vDFRaAivp7T+K0iqCRy
- CUapDgFGBsND3F2Us/1oJl8S4YcSgH8rz63hebgHUbLamb7tA8RVy/ZNXV/HpR2Ks6PO
- rKJbYVcMKUXG5N9xJwtjrQHwQutaqW+SBfmgb3y0bz+cvYFg4SoCUUy/PVqnHPz0c8sA
- LNKIsWctH0cKcMOfd0PHXfgme4FWAs7HhE8VB/ci6AK+46fTiDa8tiIiOx+QtlbP5mxA
- hkzw==
-X-Gm-Message-State: APjAAAVehuro9Iu7ce5IOXDsadH5uViWeIIFiuDp6zYhyanxMkNsCeoO
- Zj+9heGQaeykKCXzCuvlnRhCWUkE
-X-Google-Smtp-Source: APXvYqyv0DROpQUFpgQN5d+Da/7/8nZI4bwEGJMJRiK2/Q2QVJX7HuJ1Btj8FkQbTNHFECB4LOlOig==
-X-Received: by 2002:a5d:4687:: with SMTP id u7mr31144180wrq.176.1576513788590; 
- Mon, 16 Dec 2019 08:29:48 -0800 (PST)
+ bh=iSvd7kR69HHZhRhQRzsPwBtBWFePaMT2xa1YRgm+R84=;
+ b=CZSJrk4iDwq2y46NTqGBgQ2fYfl1loeEXs8OrWS+rW1ROLvG0QBRUFNSAfb14wHdjZ
+ JE2NaSMYmliaahx1C9x4yFVsFTx5txdJkv1x+jhEPXTzHGD4kE6QQPdDeTnkXQjWaOYx
+ WarmCbzFDkYfORyBFYE0Qn2Bb9rq2ErNeg/+yqaC0ecN7W/bS39TZRqxqmwWAJAOfkz4
+ Lk75q6otbRBC1CLwEew9VkD5SG1QPw3NtZq5qkOEbKF921dksGhwih0/dX9692hMX3cZ
+ UFcUEaReqTseSpaJcfBYNZkn+YoxKbl4n6N8NREo1LdoHwndcc7jpoHGXE1WdQo+ZL1Z
+ L7jQ==
+X-Gm-Message-State: APjAAAVOgpXUYb3h3CXDrXFlT2ogC6FHMp0/4adJTegvxJv1JMf6li/i
+ EJS8YRcoLfQWoOPGoODZMFItcnHy
+X-Google-Smtp-Source: APXvYqxFF4WBvrTC4OIyBL0ho+kV9Z0aagU72rwUlAfZeqvHMdXQeZuxA0qx6Vn5OuFcEZk1lJ9HiQ==
+X-Received: by 2002:adf:f18b:: with SMTP id h11mr30146077wro.56.1576513789346; 
+ Mon, 16 Dec 2019 08:29:49 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.47
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.48
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Mon, 16 Dec 2019 08:29:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 61/62] memory: use RCU_READ_LOCK_GUARD
-Date: Mon, 16 Dec 2019 17:28:45 +0100
-Message-Id: <1576513726-53700-62-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 62/62] colo: fix return without releasing RCU
+Date: Mon, 16 Dec 2019 17:28:46 +0100
+Message-Id: <1576513726-53700-63-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,35 +78,64 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use WITH_RCU_READ_LOCK_GUARD to avoid exiting colo_init_ram_cache
+without releasing RCU.
+
 Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/exec/memory.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ migration/ram.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e499dc2..e42a9d7 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2165,7 +2165,7 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+diff --git a/migration/ram.c b/migration/ram.c
+index 7dd7f81..8d7c015 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3891,26 +3891,27 @@ int colo_init_ram_cache(void)
+ {
+     RAMBlock *block;
  
-     if (__builtin_constant_p(len)) {
-         if (len) {
--            rcu_read_lock();
-+            RCU_READ_LOCK_GUARD();
-             fv = address_space_to_flatview(as);
-             l = len;
-             mr = flatview_translate(fv, addr, &addr1, &l, false, attrs);
-@@ -2176,7 +2176,6 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
-                 result = flatview_read_continue(fv, addr, attrs, buf, len,
-                                                 addr1, l, mr);
+-    rcu_read_lock();
+-    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+-        block->colo_cache = qemu_anon_ram_alloc(block->used_length,
+-                                                NULL,
+-                                                false);
+-        if (!block->colo_cache) {
+-            error_report("%s: Can't alloc memory for COLO cache of block %s,"
+-                         "size 0x" RAM_ADDR_FMT, __func__, block->idstr,
+-                         block->used_length);
+-            RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+-                if (block->colo_cache) {
+-                    qemu_anon_ram_free(block->colo_cache, block->used_length);
+-                    block->colo_cache = NULL;
++    WITH_RCU_READ_LOCK_GUARD() {
++        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
++            block->colo_cache = qemu_anon_ram_alloc(block->used_length,
++                                                    NULL,
++                                                    false);
++            if (!block->colo_cache) {
++                error_report("%s: Can't alloc memory for COLO cache of block %s,"
++                             "size 0x" RAM_ADDR_FMT, __func__, block->idstr,
++                             block->used_length);
++                RAMBLOCK_FOREACH_NOT_IGNORED(block) {
++                    if (block->colo_cache) {
++                        qemu_anon_ram_free(block->colo_cache, block->used_length);
++                        block->colo_cache = NULL;
++                    }
+                 }
++                return -errno;
              }
--            rcu_read_unlock();
+-            return -errno;
++            memcpy(block->colo_cache, block->host, block->used_length);
          }
-     } else {
-         result = address_space_read_full(as, addr, attrs, buf, len);
+-        memcpy(block->colo_cache, block->host, block->used_length);
+     }
+-    rcu_read_unlock();
++
+     /*
+     * Record the dirty pages that sent by PVM, we use this dirty bitmap together
+     * with to decide which page in cache should be flushed into SVM's RAM. Here
 -- 
 1.8.3.1
-
 
 
