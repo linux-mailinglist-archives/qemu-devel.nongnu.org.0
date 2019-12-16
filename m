@@ -2,79 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE811207D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:02:29 +0100 (CET)
-Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D96AE120820
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:08:19 +0100 (CET)
+Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igqxA-0002Mz-5d
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:02:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57759)
+	id 1igr2o-00010b-Fa
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:08:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1igqwA-0001uy-8A
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:01:31 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1igqyO-0003m7-Ey
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:03:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1igqw8-0001Ph-GM
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:01:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25993
+ (envelope-from <eric.auger@redhat.com>) id 1igqyN-0003n7-6z
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:03:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56842
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1igqw8-0001Op-CB
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:01:24 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1igqyN-0003mv-4I
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:03:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576504883;
+ s=mimecast20190719; t=1576505022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BbQEX2JIKqHiDjkxMV/Nv5Sh2yeBjUn/e/ddurTfE4A=;
- b=YC5L8/IOxRetlsfO08VuvZRkJBqgaN+3V2BBvOPE/5sAI/Rl2SrZ5lP3ii+r1M+hwA6BeY
- XuS3Ui4j7AMsS8sMy6Jdts9edr1n4NE3e5Ubs/1ZLVrrValDv7EXIYNTpnbOuqWgq8bI82
- XFlT7v1Gp+zj1SgD+kzxlXSNoXpwgLk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-th2_mNmXM4-8rtSccABCJw-1; Mon, 16 Dec 2019 09:01:21 -0500
-Received: by mail-wm1-f70.google.com with SMTP id p2so1073177wma.3
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 06:01:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BbQEX2JIKqHiDjkxMV/Nv5Sh2yeBjUn/e/ddurTfE4A=;
- b=S7YdDyf/RMuoOGM0jHgic7iRuX+407yiCiW+FW8UkbRWH8KREOqgSmiQWxSkEDi7+M
- NnPhusEfjCXP9kxwcwrt0/PxFMoQxhC6Fquf4qNXvGHWhwPy8XUdbh+19BVmpwpvmDr7
- i2/JmYgu6pWJMXiGsW8bfEiR6yrlHc5qnehBYAbnPXdSzKOyoUEXrLGTNrC5stCZQUcv
- d0ZQ6LEt8n/LHpI5uY17jN/Jf4x63yQkjL0TrFJPLl4qhWBQ2BLeRsl0sVr703hx6rCU
- 8HSZZt5tgRLsmeQwEWNFjp/0URVjtAmkIG/AZ7xqpyMn56gXJnu9es04aprSZKEH61eW
- 0n7A==
-X-Gm-Message-State: APjAAAW4NdJ0pePJZwVVWjqzVPx7uZtksarJhDpIgKRQFd4OQKiXGfNE
- YxYVVibjA2PrggYVI93Ctm6VqH+6lcojcw6lHnCC843b9uM9nceblmCGBNhfYgLFzDCUVFXnnok
- ehFl8B3x9vuCSLVI=
-X-Received: by 2002:a5d:6a52:: with SMTP id t18mr29397390wrw.391.1576504880793; 
- Mon, 16 Dec 2019 06:01:20 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzWRK7MJ2za1iE3n5t7FpkZt5d96StOAUOELJ1qnwdJVhFW8g0AzFAdebEEH/ciS0KHJpevTA==
-X-Received: by 2002:a5d:6a52:: with SMTP id t18mr29397353wrw.391.1576504880561; 
- Mon, 16 Dec 2019 06:01:20 -0800 (PST)
-Received: from [192.168.10.150] ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id d8sm21400488wrx.71.2019.12.16.06.01.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Dec 2019 06:01:20 -0800 (PST)
-Subject: Re: [PATCH 00/10] Migration Arguments cleanup
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20191212222033.1026-1-quintela@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <89264106-87af-4fcb-607a-82ad7b56750d@redhat.com>
-Date: Mon, 16 Dec 2019 15:01:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A9SY0krHFjydIQmqzREy9ABCAZgjAKMUQ2ClrNvBGYM=;
+ b=GVTEM8evqKj2Re/gX6NfMwh9Jcgi3WdK4XnPoScBXspRpnSWeiEFYcu/sfa7j0ehiNsP+P
+ 1DMf+jcNSP0kmT5oN/B+Jnm9UKNfqT6jeOoQgZnOviBJT/QPo+euzDCtZ8qUwzztzQWOvj
+ drH3dM6xDT1d15xpJnSl06SBKdIto3o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-KZ0hcHf3OsqMUOdqJHz5Tw-1; Mon, 16 Dec 2019 09:03:25 -0500
+X-MC-Unique: KZ0hcHf3OsqMUOdqJHz5Tw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B81C9100550E;
+ Mon, 16 Dec 2019 14:03:22 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60B4268860;
+ Mon, 16 Dec 2019 14:03:16 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: [kvm-unit-tests PATCH 00/16] arm/arm64: Add ITS tests
+Date: Mon, 16 Dec 2019 15:02:19 +0100
+Message-Id: <20191216140235.10751-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191212222033.1026-1-quintela@redhat.com>
-Content-Language: en-US
-X-MC-Unique: th2_mNmXM4-8rtSccABCJw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -89,42 +68,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
+ thuth@redhat.com, yuzenghui@huawei.com, alexandru.elisei@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/19 23:20, Juan Quintela wrote:
-> Hi
-> 
-> This series simplify test_migrate_start() in two ways:
-> - simplify the command line creation, so everything that is common between
->   architectures don't have to be repeated (DRY).
->   Note that this bit remove lines of code.
-> - test_migrate_start() has two bools and two strings as arguments, it is very
->   difficult to remmeber which is which and meaning.  And it is even worse to
->   add new parameters.  Just pass them through one struct.
-> 
-> Please, review.
-> 
-> Juan Quintela (10):
->   migration-test: Create cmd_soure and cmd_target
->   migration-test: Move hide_stderr to common commandline
->   migration-test: Move -machine to common commandline
->   migration-test: Move memory size to common commandline
->   migration-test: Move shmem handling to common commandline
->   migration-test: Move -name handling to common commandline
->   migration-test: Move -serial handling to common commandline
->   migration-test: Move -incomming handling to common commandline
->   migration-test: Rename cmd_src/dst to arch_source/arch_target
->   migration-test: Use a struct for test_migrate_start parameters
-> 
->  tests/migration-test.c | 265 +++++++++++++++++++++++------------------
->  1 file changed, 147 insertions(+), 118 deletions(-)
-> 
+This series is a revival of an RFC series sent in Dec 2016 [1].
+Given the amount of code and the lack of traction at that time,
+I haven't respinned until now. However a recent bug found around
+the ITS migration convinced me that this work may deserve to be
+respinned and enhanced.
 
-I have picked up this series and rebased the -accel changes on top.
+Tests exercise main ITS commands and also test migration.
+With the migration framework, we are able to trigger the
+migration from guest and that is very practical actually.
 
-Paolo
+What is particular with the ITS programming is that most of
+the commands are passed through queues and there is real error
+handling. Invalid commands are just ignored and that is not
+really tester friendly.
+
+This series includes Andre's patch: "arm: gic: Provide
+per-IRQ helper functions" [2]
+
+The series can be fount at:
+https://github.com/eauger/kut/tree/its-v1
+
+Best Regards
+
+Eric
+
+[1] [kvm-unit-tests RFC 00/15] arm/arm64: add ITS framework
+    https://lists.gnu.org/archive/html/qemu-devel/2016-12/msg00575.html
+
+[2] [kvm-unit-tests PATCH 00/17] arm: gic: Test SPIs and interrupt groups
+    https://patchwork.kernel.org/cover/11234975/
+
+For ITS migration testing use:
+./run_tests.sh -g migration (blocks on TCG but I think it is beyond the
+scope of that series)
+
+For other ITS tests:
+./run_tests.sh -g its
+
+non migration tests can be launched invidually. For instance:
+./arm-run arm/gic.flat -smp 8 -append 'its-trigger'
+
+Andre Przywara (1):
+  arm: gic: Provide per-IRQ helper functions
+
+Eric Auger (15):
+  libcflat: Add other size defines
+  arm/arm64: gic: Introduce setup_irq() helper
+  arm/arm64: gicv3: Add some re-distributor defines
+  arm/arm64: ITS: Introspection tests
+  arm/arm64: ITS: Test BASER
+  arm/arm64: ITS: Set the LPI config and pending tables
+  arm/arm64: ITS: Init the command queue
+  arm/arm64: ITS: Enable/Disable LPIs at re-distributor level
+  arm/arm64: ITS: its_enable_defaults
+  arm/arm64: ITS: Device and collection Initialization
+  arm/arm64: ITS: commands
+  arm/arm64: ITS: INT functional tests
+  arm/run: Allow Migration tests
+  arm/arm64: ITS: migration tests
+  arm/arm64: ITS: pending table migration test
+
+ arm/Makefile.common        |   3 +-
+ arm/gic.c                  | 447 +++++++++++++++++++++++++++++++++--
+ arm/run                    |   2 +-
+ arm/unittests.cfg          |  39 ++++
+ lib/arm/asm/gic-v3-its.h   | 217 +++++++++++++++++
+ lib/arm/asm/gic-v3.h       |  87 +++++++
+ lib/arm/asm/gic.h          |  13 ++
+ lib/arm/gic-v3-its-cmd.c   | 462 +++++++++++++++++++++++++++++++++++++
+ lib/arm/gic-v3-its.c       | 354 ++++++++++++++++++++++++++++
+ lib/arm/gic.c              | 132 ++++++++++-
+ lib/arm/io.c               |  13 ++
+ lib/arm64/asm/gic-v3-its.h |   1 +
+ lib/libcflat.h             |   3 +
+ 13 files changed, 1745 insertions(+), 28 deletions(-)
+ create mode 100644 lib/arm/asm/gic-v3-its.h
+ create mode 100644 lib/arm/gic-v3-its-cmd.c
+ create mode 100644 lib/arm/gic-v3-its.c
+ create mode 100644 lib/arm64/asm/gic-v3-its.h
+
+--=20
+2.20.1
 
 
