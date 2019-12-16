@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E18120834
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:11:41 +0100 (CET)
-Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F94120813
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 15:06:11 +0100 (CET)
+Received: from localhost ([::1]:54272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igr63-0005gV-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:11:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58711)
+	id 1igr0j-0006Bf-VO
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 09:06:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58671)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1igqyy-0004Ty-0g
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:21 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1igqyt-0004KR-2x
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1igqyr-0003xl-Hc
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:19 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27895
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1igqys-0003y8-11
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53983
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1igqyr-0003xb-Dz
+ id 1igqyr-0003xu-TK
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 09:04:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576505052;
+ s=mimecast20190719; t=1576505053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=go7p3wwISfVA0pTnz3FCaoN35+Sj/LsY9kHumr5FQBc=;
- b=NngFZxQTzCi0dy/V0rHpIqF4ivGvco6IoqTDiD4sdmSYHDAvyxXBcCi0tmQ7LCpESO283N
- ynhLF+KCwDZ9WhXsSfMzY+B28IH4PDMUvHVoINsL66qVLKYzdUZgkVnrh1nHkKyPDW/Y8M
- CL2AWeEQ92zp3vv95hvMBH0t+0Z2LbI=
+ bh=OCRQ/pdsIh4TpbiB2k9WKBIlHq8frf2VL5aV01rBiHQ=;
+ b=eHhVD94OqnPQ/aKluQHF3Q743GPiau8yLs+1UY6ZGrXBoX0zFkHsn9bbjeV+ESfCBoSxnk
+ CfzFafFqLJ19sjc7wXJ7yEiot7cOOEcaWe+2P8uvSAp6uJvZ4x3u5g49OLuj8DJ+Hg2z82
+ nIT+D1/a+yOmeqPEhmY95sHNvvAm2vE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-rtoyeNZEPGCPQmzAG2EvCg-1; Mon, 16 Dec 2019 09:04:08 -0500
-X-MC-Unique: rtoyeNZEPGCPQmzAG2EvCg-1
+ us-mta-266-d9quq6-aOwC9kim1AWnO3A-1; Mon, 16 Dec 2019 09:04:12 -0500
+X-MC-Unique: d9quq6-aOwC9kim1AWnO3A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 199D38024E6;
- Mon, 16 Dec 2019 14:04:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85EBD1809A43;
+ Mon, 16 Dec 2019 14:04:10 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0B68675B8;
- Mon, 16 Dec 2019 14:04:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72116675B8;
+ Mon, 16 Dec 2019 14:04:07 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH 08/16] arm/arm64: ITS: Init the command queue
-Date: Mon, 16 Dec 2019 15:02:27 +0100
-Message-Id: <20191216140235.10751-9-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH 09/16] arm/arm64: ITS: Enable/Disable LPIs at
+ re-distributor level
+Date: Mon, 16 Dec 2019 15:02:28 +0100
+Message-Id: <20191216140235.10751-10-eric.auger@redhat.com>
 In-Reply-To: <20191216140235.10751-1-eric.auger@redhat.com>
 References: <20191216140235.10751-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,84 +77,52 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allocate the command queue and initialize related registers:
-CBASER, CREADR, CWRITER.
-
-The command queue is 64kB. This aims at not bothing with fullness.
+This helper function enables or disables the signaling of LPIs
+at redistributor level.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- lib/arm/asm/gic-v3-its.h |  7 +++++++
- lib/arm/gic-v3-its.c     | 37 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ lib/arm/asm/gic-v3-its.h |  1 +
+ lib/arm/gic-v3-its.c     | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
 diff --git a/lib/arm/asm/gic-v3-its.h b/lib/arm/asm/gic-v3-its.h
-index 0d11aed..ed42707 100644
+index ed42707..d56a17f 100644
 --- a/lib/arm/asm/gic-v3-its.h
 +++ b/lib/arm/asm/gic-v3-its.h
-@@ -113,10 +113,17 @@ struct its_baser {
- 	int esz;
- };
+@@ -138,6 +138,7 @@ extern struct its_baser *its_lookup_baser(int type);
+ extern void set_lpi_config(int n, u8 val);
+ extern u8 get_lpi_config(int n);
+ extern void set_pending_table_bit(int rdist, int n, bool set);
++extern void gicv3_rdist_ctrl_lpi(u32 redist, bool set);
 =20
-+struct its_cmd_block {
-+	u64     raw_cmd[4];
-+};
-+
- struct its_data {
- 	void *base;
- 	struct its_typer typer;
- 	struct its_baser baser[GITS_BASER_NR_REGS];
-+	struct its_cmd_block *cmd_base;
-+	struct its_cmd_block *cmd_write;
-+	struct its_cmd_block *cmd_readr;
- };
-=20
- extern struct its_data its_data;
+ #endif /* !__ASSEMBLY__ */
+ #endif /* _ASMARM_GIC_V3_ITS_H_ */
 diff --git a/lib/arm/gic-v3-its.c b/lib/arm/gic-v3-its.c
-index 0b5a700..8b6a095 100644
+index 8b6a095..b0f7714 100644
 --- a/lib/arm/gic-v3-its.c
 +++ b/lib/arm/gic-v3-its.c
-@@ -188,3 +188,40 @@ void set_pending_table_bit(int rdist, int n, bool se=
-t)
- 		byte &=3D ~mask;
- 	*ptr =3D byte;
+@@ -225,3 +225,21 @@ void init_cmd_queue(void)
+ 	writeq(0, its_data.base + GITS_CWRITER);
+ 	writeq(0, its_data.base + GITS_CREADR);
  }
 +
-+/**
-+ * init_cmd_queue: Allocate the command queue and initialize
-+ * CBASER, CREADR, CWRITER
-+ */
-+void init_cmd_queue(void);
-+void init_cmd_queue(void)
++void gicv3_rdist_ctrl_lpi(u32 redist, bool set)
 +{
-+	unsigned long n =3D SZ_64K >> PAGE_SHIFT;
-+	unsigned long order =3D fls(n);
-+	u64 cbaser, tmp;
++	void *ptr;
++	u64 val;
 +
-+	its_data.cmd_base =3D (void *)virt_to_phys(alloc_pages(order));
++	if (redist >=3D nr_cpus)
++		report_abort("%s redist=3D%d >=3D cpu_count=3D%d\n",
++			     __func__, redist, nr_cpus);
 +
-+	cbaser =3D ((u64)its_data.cmd_base	|
-+		 GITS_CBASER_WaWb               |
-+		 GITS_CBASER_InnerShareable     |
-+		 (SZ_64K / SZ_4K - 1) |
-+		 GITS_CBASER_VALID);
-+
-+	writeq(cbaser, its_data.base + GITS_CBASER);
-+	tmp =3D readq(its_data.base + GITS_CBASER);
-+
-+	if ((tmp ^ cbaser) & GITS_CBASER_SHAREABILITY_MASK) {
-+		if (!(tmp & GITS_CBASER_SHAREABILITY_MASK)) {
-+			cbaser &=3D ~(GITS_CBASER_SHAREABILITY_MASK |
-+				GITS_CBASER_CACHEABILITY_MASK);
-+			cbaser |=3D GITS_CBASER_nC;
-+			writeq(cbaser, its_data.base + GITS_CBASER);
-+		}
-+	}
-+
-+	its_data.cmd_write =3D its_data.cmd_base;
-+	its_data.cmd_readr =3D its_data.cmd_base;
-+	writeq(0, its_data.base + GITS_CWRITER);
-+	writeq(0, its_data.base + GITS_CREADR);
++	ptr =3D gicv3_data.redist_base[redist];
++	val =3D readl(ptr + GICR_CTLR);
++	if (set)
++		val |=3D GICR_CTLR_ENABLE_LPIS;
++	else
++		val &=3D ~GICR_CTLR_ENABLE_LPIS;
++	writel(val,  ptr + GICR_CTLR);
 +}
 --=20
 2.20.1
