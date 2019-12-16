@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5AC121B30
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 21:50:59 +0100 (CET)
-Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E7C121B69
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 22:00:55 +0100 (CET)
+Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igxKU-0001WW-FS
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 15:50:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36485)
+	id 1igxU6-0007HH-ON
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 16:00:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1igxIQ-0007mF-Hg
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:48:51 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1igxKO-0002fU-9m
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:50:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1igxIO-0006bM-Ve
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:48:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46133
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwankhede@nvidia.com>) id 1igxKN-0007NN-1F
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:50:52 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6553)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1igxIO-0006b7-SF
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:48:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576529328;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JVqCQEMGSyAN0RfyQhlZYKuYj1yMNsDA4gJwuQse6GI=;
- b=UvJJlG0COTddLdz4g05iniGoSgsEGi6rD9DO/Xsn+o5B9JEs81DZniSn6eYl63hCXQE7PQ
- KKnnOCY+cBs8+9T4K9r0KDuLI9Hv/j+pzGzsZ+y96iGCbjSsmk3yvmOeGbXeiXnNmGWaTa
- 8GM7YKKFZfsoCNeKiR6MNwzu/l8wPhs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324--XxOX5fLNpmjjCkVjiP1nw-1; Mon, 16 Dec 2019 15:48:47 -0500
-X-MC-Unique: -XxOX5fLNpmjjCkVjiP1nw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E67510B959E;
- Mon, 16 Dec 2019 20:48:45 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A8075D9C9;
- Mon, 16 Dec 2019 20:48:40 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
- kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH 10/10] arm: pmu: Test overflow interrupts
-Date: Mon, 16 Dec 2019 21:47:57 +0100
-Message-Id: <20191216204757.4020-11-eric.auger@redhat.com>
-In-Reply-To: <20191216204757.4020-1-eric.auger@redhat.com>
-References: <20191216204757.4020-1-eric.auger@redhat.com>
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1igxKM-0007NC-S4
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 15:50:50 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5df7ee200001>; Mon, 16 Dec 2019 12:50:40 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 16 Dec 2019 12:50:49 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 16 Dec 2019 12:50:49 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 16 Dec
+ 2019 20:50:48 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 16 Dec 2019 20:50:42 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v10 Kernel 3/5] vfio iommu: Add ioctl defination for dirty
+ pages tracking.
+Date: Tue, 17 Dec 2019 01:51:38 +0530
+Message-ID: <1576527700-21805-4-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+In-Reply-To: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
+References: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576529440; bh=9C0wkz7uJE+YfhvUbgMBGA/2c9koZ9iDMNMc32hwsoY=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+ Content-Type;
+ b=qI27Qpt3JBLOI2H89/9kaubuoatwhL+/O4x4/DPVQMypeIUcg3c7oxQ+Z/EDTabTy
+ 3tUcgQLb7rtsZEYKsUVIawZe0mn61y3Uq+Jt1ndX3tdbo3bnd1hWSnkb0hzmwUA1zV
+ CPO3tGxVHPRAJUf2oq+53GOrM8N3yG/g4vXqFW9BX2kwoSBoOncwVoTdDvt9BCXhQ5
+ db54xxK7je6CBeRTrmwT9XxJX0bUh30yKOrnlmh2xQrBjdYwIMKc0JZvrKyet/7dXp
+ vLMR2ktqs/55O+ihVrAaGDAcvAfoVq1ViIQCLaIWCS8KHaPQ9RS8kDVRrjz+xz9v+a
+ nR+LD0Iy5teMw==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,218 +71,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, andrew.murray@arm.com, drjones@redhat.com,
- alexandru.elisei@arm.com, andre.przywara@arm.com
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
+ ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test overflows for MEM_ACCESS and SW_INCR events. Also tests
-overflows with 64-bit events.
+IOMMU container maintains a list of all pages pinned by vfio_pin_pages API.
+All pages pinned by vendor driver through this API should be considered as
+dirty during migration. When container consists of IOMMU capable device and
+all pages are pinned and mapped, then all pages are marked dirty.
+Added support to start/stop unpinned pages tracking and to get bitmap of
+all dirtied pages for requested IO virtual address range. Unpinned page
+tracking is cleared either when bitmap is read by user application or
+unpinned page tracking is stopped.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- arm/pmu.c         | 134 ++++++++++++++++++++++++++++++++++++++++++++++
- arm/unittests.cfg |   6 +++
- 2 files changed, 140 insertions(+)
+ include/uapi/linux/vfio.h | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/arm/pmu.c b/arm/pmu.c
-index 8506544..9af9e42 100644
---- a/arm/pmu.c
-+++ b/arm/pmu.c
-@@ -45,6 +45,11 @@ struct pmu {
- 	uint32_t pmcr_ro;
- };
-=20
-+struct pmu_stats {
-+	unsigned long bitmap;
-+	uint32_t interrupts[32];
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index 81847ed54eb7..4ad54fbb4698 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -975,6 +975,49 @@ struct vfio_iommu_type1_dma_unmap {
+ #define VFIO_IOMMU_ENABLE	_IO(VFIO_TYPE, VFIO_BASE + 15)
+ #define VFIO_IOMMU_DISABLE	_IO(VFIO_TYPE, VFIO_BASE + 16)
+ 
++/**
++ * VFIO_IOMMU_DIRTY_PAGES - _IOWR(VFIO_TYPE, VFIO_BASE + 17,
++ *                                     struct vfio_iommu_type1_dirty_bitmap)
++ * IOCTL is used for dirty pages tracking. Caller sets argsz, which is size of
++ * struct vfio_iommu_type1_dirty_bitmap. Caller set flag depend on which
++ * operation to perform, details as below:
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_START set, indicates
++ * migration is active and IOMMU module should track pages which are being
++ * unpinned. Unpinned pages are tracked until bitmap for that range is queried
++ * or tracking is stopped by user application by setting
++ * VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP flag.
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP set, indicates
++ * IOMMU should stop tracking unpinned pages and also free previously tracked
++ * unpinned pages data.
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP flag set,
++ * IOCTL returns dirty pages bitmap for IOMMU container during migration for
++ * given IOVA range. User must allocate memory to get bitmap, zero the bitmap
++ * memory and set size of allocated memory in bitmap_size field. One bit is
++ * used to represent one page consecutively starting from iova offset. User
++ * should provide page size in 'pgsize'. Bit set in bitmap indicates page at
++ * that offset from iova is dirty.
++ *
++ * Only one flag should be set at a time.
++ *
++ */
++struct vfio_iommu_type1_dirty_bitmap {
++	__u32        argsz;
++	__u32        flags;
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_START	(1 << 0)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP	(1 << 1)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP	(1 << 2)
++	__u64        iova;		/* IO virtual address */
++	__u64        size;		/* Size of iova range */
++	__u64	     pgsize;		/* page size for bitmap */
++	__u64        bitmap_size;	/* in bytes */
++	void __user *bitmap;		/* one bit per page */
 +};
 +
- static struct pmu pmu;
-=20
- #if defined(__arm__)
-@@ -116,6 +121,7 @@ static void test_mem_access(void) {}
- static void test_chained_counters(void) {}
- static void test_chained_sw_incr(void) {}
- static void test_chain_promotion(void) {}
-+static void test_overflow_interrupt(void) {}
-=20
- #elif defined(__aarch64__)
- #define ID_AA64DFR0_PERFMON_SHIFT 8
-@@ -263,6 +269,43 @@ asm volatile(
- 	: );
- }
-=20
-+static struct pmu_stats pmu_stats;
++#define VFIO_IOMMU_DIRTY_PAGES             _IO(VFIO_TYPE, VFIO_BASE + 17)
 +
-+static void irq_handler(struct pt_regs *regs)
-+{
-+	uint32_t irqstat, irqnr;
-+
-+	irqstat =3D gic_read_iar();
-+	irqnr =3D gic_iar_irqnr(irqstat);
-+	gic_write_eoir(irqstat);
-+
-+	if (irqnr =3D=3D 23) {
-+		unsigned long overflows =3D read_sysreg(pmovsclr_el0);
-+		int i;
-+
-+		report_info("--> PMU overflow interrupt %d (counter bitmask 0x%lx)",
-+			    irqnr, overflows);
-+		for (i =3D 0; i < 32; i++) {
-+			if (test_and_clear_bit(i, &overflows)) {
-+				pmu_stats.interrupts[i]++;
-+				pmu_stats.bitmap |=3D 1 << i;
-+			}
-+		}
-+		write_sysreg(0xFFFFFFFF, pmovsclr_el0);
-+	} else {
-+		report_info("Unexpected interrupt: %d\n", irqnr);
-+	}
-+}
-+
-+static void pmu_reset_stats(void)
-+{
-+	int i;
-+
-+	for (i =3D 0; i < 32; i++)
-+		pmu_stats.interrupts[i] =3D 0;
-+
-+	pmu_stats.bitmap =3D 0;
-+}
-=20
- static void pmu_reset(void)
- {
-@@ -274,6 +317,7 @@ static void pmu_reset(void)
- 	write_sysreg(0xFFFFFFFF, pmovsclr_el0);
- 	/* disable overflow interrupts on all counters */
- 	write_sysreg(0xFFFFFFFF, pmintenclr_el1);
-+	pmu_reset_stats();
- 	isb();
- }
-=20
-@@ -713,6 +757,93 @@ static void test_chain_promotion(void)
- 			read_sysreg(pmovsclr_el0));
- }
-=20
-+static bool expect_interrupts(uint32_t bitmap)
-+{
-+	int i;
-+
-+	if (pmu_stats.bitmap ^ bitmap)
-+		return false;
-+
-+	for (i =3D 0; i < 32; i++) {
-+		if (test_and_clear_bit(i, &pmu_stats.bitmap))
-+			if (pmu_stats.interrupts[i] !=3D 1)
-+				return false;
-+	}
-+	return true;
-+}
-+
-+static void test_overflow_interrupt(void)
-+{
-+	uint32_t events[] =3D { 0x13 /* MEM_ACCESS */, 0x00 /* SW_INCR */};
-+	void *addr =3D malloc(PAGE_SIZE);
-+	int i;
-+
-+	if (!satisfy_prerequisites(events, ARRAY_SIZE(events)))
-+		return;
-+
-+	setup_irq(irq_handler);
-+	gic_enable_irq(23);
-+
-+	pmu_reset();
-+
-+	write_regn(pmevtyper, 0, events[0] | PMEVTYPER_EXCLUDE_EL0);
-+	write_regn(pmevtyper, 1, events[1] | PMEVTYPER_EXCLUDE_EL0);
-+	write_sysreg_s(0x3, PMCNTENSET_EL0);
-+	write_regn(pmevcntr, 0, 0xFFFFFFF0);
-+	write_regn(pmevcntr, 1, 0xFFFFFFF0);
-+	isb();
-+
-+	/* interrupts are disabled */
-+
-+	mem_access_loop(addr, 200, pmu.pmcr_ro | PMU_PMCR_E);
-+	report(expect_interrupts(0), "no overflow interrupt received");
-+
-+	set_pmcr(pmu.pmcr_ro | PMU_PMCR_E);
-+	for (i =3D 0; i < 100; i++)
-+		write_sysreg(0x2, pmswinc_el0);
-+
-+	set_pmcr(pmu.pmcr_ro);
-+	report(expect_interrupts(0), "no overflow interrupt received");
-+
-+	/* enable interrupts */
-+
-+	pmu_reset_stats();
-+
-+	write_regn(pmevcntr, 0, 0xFFFFFFF0);
-+	write_regn(pmevcntr, 1, 0xFFFFFFF0);
-+	write_sysreg(0xFFFFFFFF, pmintenset_el1);
-+	isb();
-+
-+	mem_access_loop(addr, 200, pmu.pmcr_ro | PMU_PMCR_E);
-+	for (i =3D 0; i < 100; i++)
-+		write_sysreg(0x3, pmswinc_el0);
-+
-+	mem_access_loop(addr, 200, pmu.pmcr_ro);
-+	report_info("overflow=3D0x%lx", read_sysreg(pmovsclr_el0));
-+	report(expect_interrupts(0x3),
-+		"overflow interrupts expected on #0 and #1");
-+
-+	/* promote to 64-b */
-+
-+	pmu_reset_stats();
-+
-+	events[1] =3D 0x1E /* CHAIN */;
-+	write_regn(pmevtyper, 1, events[1] | PMEVTYPER_EXCLUDE_EL0);
-+	write_regn(pmevcntr, 0, 0xFFFFFFF0);
-+	isb();
-+	mem_access_loop(addr, 200, pmu.pmcr_ro | PMU_PMCR_E);
-+	report(expect_interrupts(0),
-+		"no overflow interrupt expected on 32b boundary");
-+
-+	/* overflow on odd counter */
-+	pmu_reset_stats();
-+	write_regn(pmevcntr, 0, 0xFFFFFFF0);
-+	write_regn(pmevcntr, 1, 0xFFFFFFFF);
-+	isb();
-+	mem_access_loop(addr, 200, pmu.pmcr_ro | PMU_PMCR_E);
-+	report(expect_interrupts(0x2),
-+		"expect overflow interrupt on odd counter");
-+}
- #endif
-=20
+ /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU -------- */
+ 
  /*
-@@ -921,6 +1052,9 @@ int main(int argc, char *argv[])
- 	} else if (strcmp(argv[1], "chain-promotion") =3D=3D 0) {
- 		report_prefix_push(argv[1]);
- 		test_chain_promotion();
-+	} else if (strcmp(argv[1], "overflow-interrupt") =3D=3D 0) {
-+		report_prefix_push(argv[1]);
-+		test_overflow_interrupt();
- 	} else {
- 		report_abort("Unknown sub-test '%s'", argv[1]);
- 	}
-diff --git a/arm/unittests.cfg b/arm/unittests.cfg
-index eb6e87e..1d1bc27 100644
---- a/arm/unittests.cfg
-+++ b/arm/unittests.cfg
-@@ -108,6 +108,12 @@ groups =3D pmu
- arch =3D arm64
- extra_params =3D -append 'chain-promotion'
-=20
-+[overflow-interrupt]
-+file =3D pmu.flat
-+groups =3D pmu
-+arch =3D arm64
-+extra_params =3D -append 'overflow-interrupt'
-+
- # Test PMU support (TCG) with -icount IPC=3D1
- #[pmu-tcg-icount-1]
- #file =3D pmu.flat
---=20
-2.20.1
+-- 
+2.7.0
 
 
