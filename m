@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D43E123B9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 01:32:00 +0100 (CET)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E56C123BAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 01:36:35 +0100 (CET)
+Received: from localhost ([::1]:47714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihNFv-00085Y-3U
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 19:31:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36258)
+	id 1ihNKM-0003Zs-AS
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 19:36:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <a5aeeb90df6eb9bfca22431fc4ee0d5eaa58c2e5@lizzy.crudebyte.com>)
- id 1ihNEP-0007Jc-8T
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:30:27 -0500
+ (envelope-from <d7b84b1ca693b51413e9e7c148739fec0a5fcdca@lizzy.crudebyte.com>)
+ id 1ihNHN-0001nv-Ux
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:33:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <a5aeeb90df6eb9bfca22431fc4ee0d5eaa58c2e5@lizzy.crudebyte.com>)
- id 1ihNEN-0006PV-Sb
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:30:25 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:39153)
+ (envelope-from <d7b84b1ca693b51413e9e7c148739fec0a5fcdca@lizzy.crudebyte.com>)
+ id 1ihNHM-0001dI-ED
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:33:29 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44093)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <a5aeeb90df6eb9bfca22431fc4ee0d5eaa58c2e5@lizzy.crudebyte.com>)
- id 1ihNEN-0005Ph-9l
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:30:23 -0500
+ (envelope-from <d7b84b1ca693b51413e9e7c148739fec0a5fcdca@lizzy.crudebyte.com>)
+ id 1ihNHM-0008Ou-6x
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:33:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Message-Id:Subject:Date:Cc:To:From:Content-Type:
  Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=GgiXB8p8Xd/QoPlYaJiPVPesefRwdQros/8Qb85D0+4=; b=C1m+U
- 13LUJaLnInujhKDG80CG/9j/tsX37UtqVvC7futfXH63kfcxzTFYzjWQ9t+eLsO21C8xG3p3RCN/P
- sz+qnK8UjbJSC/vczDg/Rl8oUMzZdfMyLtb1HU2AD/7VMVvvYBunVIeGa1bIr0H/VnbISjTAYvjef
- 0FtZHQTsHdtj+PizxnpUuCZFtMQlx9Sf9ysaosEkBCyOQuQ4boSrkVd5712Y6RK6xlsLrnug92Vpe
- qhDGeUOFxaKpVdorbovrI9L0yqicfNJ97b0uG9A1A+bV/B/uxyyKDqWCOLYkhv39zU56/XFjDP2C1
- 94j9WXsoXncSo8cCIq+W9Ei3hGqNA==;
+ Content-Description; bh=Of3kdSNGm1c+zy/bfBvYPY10KOTunHycAP/quTGcvK4=; b=DOwwp
+ 1xFX2Pbl3pylqHR+PjM5cOywxNj8/JsLt6FPdWrHLGCFjW58Tkjmk4S4/n+R+hSo0JKLrry85HVIG
+ c73iAMHqgNZ384s028tsGYC01MZVD+U6umrRjjvDzR6xTkMxXBp8F9+NKDn/ISjcRv+5+GPCmE63d
+ aHIIfZXAbIeyAITadV6evWD7ZzswTbz+mzh3Ocs4oykSU/aqQqFxCer2mCl4ZD3drJhtk82/xagWa
+ zgYZ/jOIMLiav/cEj53VkNXbnrysaPeQKwQh/0oHCiyjXGQZsk0KqycVP6EqJ4i9HaQlZ+8intxtB
+ eOQRR20klocaL0h/AtDtFQSmVuW6Q==;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
-Date: Mon, 16 Dec 2019 15:43:39 +0100
-Subject: [PATCH 2/9] 9pfs: validate count sent by client with T_readdir
-Message-Id: <E1ihMum-00076q-5l@lizzy.crudebyte.com>
+Date: Mon, 16 Dec 2019 16:34:04 +0100
+Subject: [PATCH 5/9] tests/virtio-9p: check file names of READDIR response
+Message-Id: <E1ihMv6-00077n-K5@lizzy.crudebyte.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.194.90.13
@@ -56,43 +56,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A good 9p client sends T_readdir with "count" parameter that's
-sufficiently smaller than client's initially negotiated msize
-(maximum message size). We perform a check for that though to
-avoid the server to be interrupted with a "Failed to encode
-VirtFS reply type 41" error message by bad clients.
+Additionally to the already existing check for expected amount
+of directory entries returned by R_readdir response, also check
+whether all entries have the expected file names, ignoring
+their precise order in result list though.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ tests/virtio-9p-test.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 520177f40c..30e33b6573 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2414,6 +2414,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     int32_t count;
-     uint32_t max_count;
-     V9fsPDU *pdu = opaque;
-+    V9fsState *s = pdu->s;
+diff --git a/tests/virtio-9p-test.c b/tests/virtio-9p-test.c
+index ab5926527a..dafea1ae61 100644
+--- a/tests/virtio-9p-test.c
++++ b/tests/virtio-9p-test.c
+@@ -563,6 +563,15 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(wqid);
+ }
  
-     retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
-                            &initial_offset, &max_count);
-@@ -2422,6 +2423,13 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     }
-     trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset, max_count);
++static bool fs_dirents_contain_name(struct v9fs_dirent *e, const char* name) {
++    for (; e; e = e->next) {
++        if (!strcmp(e->name, name)) {
++            return true;
++        }
++    }
++    return false;
++}
++
+ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+@@ -600,6 +609,18 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+         QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
+     );
  
-+    if (max_count > s->msize - P9_IOHDRSZ) {
-+        max_count = s->msize - P9_IOHDRSZ;
-+        warn_report_once(
-+            "9p: bad client: T_readdir with count > msize - P9_IOHDRSZ"
-+        );
++    /*
++     * Check all file names exist in returned entries, ignore their order
++     * though.
++     */
++    g_assert_cmpint(fs_dirents_contain_name(entries, "."), ==, true);
++    g_assert_cmpint(fs_dirents_contain_name(entries, ".."), ==, true);
++    for (int i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
++        char *name = g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
++        g_assert_cmpint(fs_dirents_contain_name(entries, name), ==, true);
++        g_free(name);
 +    }
 +
-     fidp = get_fid(pdu, fid);
-     if (fidp == NULL) {
-         retval = -EINVAL;
+     v9fs_free_dirents(entries);
+     g_free(wnames[0]);
+ }
 -- 
 2.20.1
 
