@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CC1120356
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:09:45 +0100 (CET)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363E2120355
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:09:43 +0100 (CET)
+Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoG0-0006oQ-Ea
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:09:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49949)
+	id 1igoFt-0006jw-M2
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:09:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1igoDy-00059m-IP
+ (envelope-from <alex.bennee@linaro.org>) id 1igoDy-00059l-7t
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1igoDx-0003Sr-CR
+ (envelope-from <alex.bennee@linaro.org>) id 1igoDx-0003Qg-0G
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:38 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36276)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:34144)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1igoDx-0003OW-64
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:37 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p17so6219078wma.1
+ id 1igoDw-0003Mo-Ox
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:07:36 -0500
+Received: by mail-wm1-x334.google.com with SMTP id f4so4735820wmj.1
  for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:07:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=z/yAMxTAOXzQdowAYSyEQz+KmYwG/8lzp4QerstC74U=;
- b=R3Px4neg8Jrs5sEqgsAe0/f2l7Occ3yWPU/OG3ZPJXqXeBP8MCj5Q2QZKckmS0VNJd
- MW3ltrypS++k539omMsMz8Z9qIAwCIak4dY9x9409b0DEVmqNvrglyL5owsuKYuDLQyF
- 6NwjjqLnITnT1LxeUz3c0ZMXzypasflY3rheOJg2lzYft07RKuGrEN7a5QKJMScBL+T7
- 3jyzCa4/38hKWChQ2zMNL4TDD7AMgNrGlKOcm3dulO3ZwWLw6TsKSUqRcrt8jc4sVOMm
- LBYs30Y2dT5L8+JCPkrd8xrQ8MhmyLJi5hIrmd/d9DmG8zb9gKFsz5GohJTsGDox6b8b
- VL0Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=g3hgguPtL+HaKFSPze+k4Gth0iQFVtrGwoUkM6o8zZk=;
+ b=GI7JCyB+Jh2GdQZxhRB8mQNh9m46u8CtZBvK5+XT2YSti5Tnq6vTNCtXNPTlyIJeu1
+ oSHWkqd+RALzhrKaYU0WL9tSoDCRtYqtcNNmI0NUKwvv/QDumkMu0Sv78TZCdVeRRBLU
+ fI1lYnWk5/RKz+3OZvsOuz85mKvjJNUsBy0GCs8Yr+6TfTiHHAvQAy9YqeSznsMxNvfg
+ Kmt+lojm+/F6LvYfySN14nh8PQdpAgVteCranzDmFFcH+U+temkjgcsQOZM58JwI3t4e
+ +mptud26jdhDfZwaQiAF6Y5giaktKv4gbCWAKEOESpXuGH+FvvfV9ZCX7tPV9n5ZNPAI
+ /WPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=z/yAMxTAOXzQdowAYSyEQz+KmYwG/8lzp4QerstC74U=;
- b=ne1D2FX2CoxIHl9W/fZxhjjnTMdG2Gth8yOxC6R90TGuJ1tEg1sitjOuti5X0b6OKw
- xQL2OWqwg8Dp5NWLXabcxfZ3aRvSHBJhJ9cbg2UAQPuGGpv/OSyQ1XSKoSZv54VFzeTd
- auAYGIQczCFsox59sFg+++gonY6/PHn5vnhi6h2tM2OX/AMcmCNXIGlbxdVZkx3ovAXH
- yWwkDWNnDtekd0KjWPQHV2wbTnEZAdwhBA6ogA49h0OtIk1MC+ywGsdwEGeP48+8uGIE
- MyiOpxOg5TbI4oltEUCbjfJbKFZ+FcFXCpwyU9AWRu5hlMMj+9YZaYRbNm7t7ub90/gO
- pJ6A==
-X-Gm-Message-State: APjAAAXS5SZpcDD0ZL7iDX2NbxrPEW4REmaLMtA8GEqyi9hhhgHIwi2n
- Az0s8WuYa+hxVfa761JPUcENAA==
-X-Google-Smtp-Source: APXvYqyoFsyL2cutxTggf3qDr+OOkW0Oz1q3z+xfrTZjKh+r4xd51RDP+krn1dUIjRTEOyWyezyQYA==
-X-Received: by 2002:a1c:1dd7:: with SMTP id d206mr28916243wmd.5.1576494455553; 
- Mon, 16 Dec 2019 03:07:35 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=g3hgguPtL+HaKFSPze+k4Gth0iQFVtrGwoUkM6o8zZk=;
+ b=IOOq5vsqv5eQ9wpq7t+f+Ecr4riPvgtgXxsRc7GeupyzKgnLNXWcKX+7KFHNPnKv8B
+ 1Be3i5igBbkx3weoFNhcW6QQYEly7HEo5uZVX6RxkB9zP9Q2zgJGe43+1V78gkcchqwu
+ 01v5PbRoW5T26FHSVpR0wvG0FWfC/EAP1ruYE1KJZ9pAu7i/uB/4uGq2eC01Ylt9N9+s
+ ROhdnftdrq4T7tpr41KJg07qZ3WinDjcmaauDdlPa9tJB3kMVvJCmlVOpI+3BYzIVNIw
+ sfFtNlcdnbzcUX3q1rCE/c1EJ7W4sUhw20EjOD9eSk4SsDWEkrw8kYBeButgB7BtOTTj
+ Loag==
+X-Gm-Message-State: APjAAAU9NcUkdyKUS6XqdzVCC4fgf4JNaBuKSw+cZF9Tu1Yssqe8WAcu
+ r9siKoivSbqRS1BXZszJpvasQg==
+X-Google-Smtp-Source: APXvYqzjqTMI8Vzqy7eihoaWO7YQgCvmMfqh73ScTN4U6pUrLe6PFl8ye9HbQJ+m9kDrbHKJo+jMYA==
+X-Received: by 2002:a1c:9e4c:: with SMTP id h73mr8509596wme.177.1576494454347; 
+ Mon, 16 Dec 2019 03:07:34 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a1sm21124370wrr.80.2019.12.16.03.07.32
+ by smtp.gmail.com with ESMTPSA id u18sm20848261wrt.26.2019.12.16.03.07.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 16 Dec 2019 03:07:32 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 15F3A1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 2F5021FF8C;
  Mon, 16 Dec 2019 11:07:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 00/16] testing and logging changes for master
-Date: Mon, 16 Dec 2019 11:07:16 +0000
-Message-Id: <20191216110732.24027-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 01/16] configure: allow disable of cross compilation
+ containers
+Date: Mon, 16 Dec 2019 11:07:17 +0000
+Message-Id: <20191216110732.24027-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191216110732.24027-1-alex.bennee@linaro.org>
+References: <20191216110732.24027-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,92 +86,78 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+ Stefan Weil <sw@weilnetz.de>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Our docker infrastructure isn't quite as multiarch as we would wish so
+lets allow the user to disable it if they want. This will allow us to
+use still run check-tcg on non-x86 CI setups.
 
-This series will be my first post 4.2 PR this week. It contains a
-number of testing related fixes including enabling builds for arm64,
-ppc64 and s390x hosts. We also start defaulting to out-of-tree builds
-in anticipation of it's deprecation.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+---
+ configure              | 8 +++++++-
+ tests/tcg/configure.sh | 6 ++++--
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-As there is no obvious tree for logging changes I've also included
-Robert's RCU series which makes the changing the the output logfile
-safe and atomic.
-
-Everything has already had a fair bit of review but if you want to
-have a look be my guest. I plan to send the PR by the end of the week.
-
-Alex Bennée (1):
-  configure: allow disable of cross compilation containers
-
-Paolo Bonzini (1):
-  ci: build out-of-tree
-
-Robert Foley (6):
-  Fix double free issue in qemu_set_log_filename().
-  Cleaned up flow of code in qemu_set_log(), to simplify and clarify.
-  Add a mutex to guarantee single writer to qemu_logfile handle.
-  qemu_log_lock/unlock now preserves the qemu_logfile handle.
-  Add use of RCU for qemu_logfile.
-  Added tests for close and change of logfile.
-
-Thomas Huth (7):
-  travis.yml: Run tcg tests with tci
-  iotests: Provide a function for checking the creation of huge files
-  iotests: Skip test 060 if it is not possible to create large files
-  iotests: Skip test 079 if it is not possible to create large files
-  tests/hd-geo-test: Skip test when images can not be created
-  tests/test-util-filemonitor: Skip test on non-x86 Travis containers
-  travis.yml: Enable builds on arm64, ppc64le and s390x
-
-Wainer dos Santos Moschetta (1):
-  tests/vm: Allow to set qemu-img path
-
- docs/devel/testing.rst        |   6 +-
- configure                     |   9 ++-
- include/exec/log.h            |  33 +++++++++--
- include/qemu/log.h            |  48 ++++++++++++---
- accel/tcg/cpu-exec.c          |   4 +-
- accel/tcg/translate-all.c     |   4 +-
- accel/tcg/translator.c        |   4 +-
- exec.c                        |   4 +-
- hw/net/can/can_sja1000.c      |   4 +-
- net/can/can_socketcan.c       |   5 +-
- target/cris/translate.c       |   4 +-
- target/i386/translate.c       |   5 +-
- target/lm32/translate.c       |   4 +-
- target/microblaze/translate.c |   4 +-
- target/nios2/translate.c      |   4 +-
- target/tilegx/translate.c     |   6 --
- target/unicore32/translate.c  |   4 +-
- tcg/tcg.c                     |  28 +++++----
- tests/hd-geo-test.c           |  12 +++-
- tests/test-logging.c          |  80 +++++++++++++++++++++++++
- tests/test-util-filemonitor.c |  11 ++++
- util/log.c                    | 100 ++++++++++++++++++++++++--------
- .cirrus.yml                   |   8 ++-
- .gitlab-ci.yml                |  28 ++++++---
- .shippable.yml                |   4 +-
- .travis.yml                   | 106 +++++++++++++++++++++++++++++++---
- tests/qemu-iotests/005        |   5 +-
- tests/qemu-iotests/060        |   3 +
- tests/qemu-iotests/079        |   3 +
- tests/qemu-iotests/220        |   6 +-
- tests/qemu-iotests/common.rc  |  10 ++++
- tests/tcg/configure.sh        |   6 +-
- tests/vm/Makefile.include     |   1 +
- tests/vm/basevm.py            |   5 ++
- tests/vm/centos               |   2 +-
- tests/vm/fedora               |   4 +-
- tests/vm/freebsd              |   3 +-
- tests/vm/netbsd               |   3 +-
- tests/vm/openbsd              |   3 +-
- tests/vm/ubuntu.i386          |   2 +-
- 40 files changed, 465 insertions(+), 120 deletions(-)
-
+diff --git a/configure b/configure
+index 2c72e04d23f..419e1554978 100755
+--- a/configure
++++ b/configure
+@@ -302,6 +302,7 @@ audio_win_int=""
+ libs_qga=""
+ debug_info="yes"
+ stack_protector=""
++use_containers="yes"
+ 
+ if test -e "$source_path/.git"
+ then
+@@ -1539,6 +1540,10 @@ for opt do
+   ;;
+   --disable-plugins) plugins="no"
+   ;;
++  --enable-containers) use_containers="yes"
++  ;;
++  --disable-containers) use_containers="no"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1722,6 +1727,7 @@ Advanced options (experts only):
+                            track the maximum stack usage of stacks created by qemu_alloc_stack
+   --enable-plugins
+                            enable plugins via shared library loading
++  --disable-containers     don't use containers for cross-building
+ 
+ Optional features, enabled with --enable-FEATURE and
+ disabled with --disable-FEATURE, default is enabled if available:
+@@ -8023,7 +8029,7 @@ done
+ (for i in $cross_cc_vars; do
+   export $i
+ done
+-export target_list source_path
++export target_list source_path use_containers
+ $source_path/tests/tcg/configure.sh)
+ 
+ # temporary config to build submodules
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 6c4a471aeae..210e68396f2 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -36,8 +36,10 @@ TMPC="${TMPDIR1}/qemu-conf.c"
+ TMPE="${TMPDIR1}/qemu-conf.exe"
+ 
+ container="no"
+-if has "docker" || has "podman"; then
+-  container=$($python $source_path/tests/docker/docker.py probe)
++if test $use_containers = "yes"; then
++    if has "docker" || has "podman"; then
++        container=$($python $source_path/tests/docker/docker.py probe)
++    fi
+ fi
+ 
+ # cross compilers defaults, can be overridden with --cross-cc-ARCH
 -- 
 2.20.1
 
