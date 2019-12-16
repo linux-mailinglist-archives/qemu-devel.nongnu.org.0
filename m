@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1019A12043A
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:43:30 +0100 (CET)
-Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497481203ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:30:47 +0100 (CET)
+Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igomf-0002yb-2c
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:43:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51261)
+	id 1igoaL-00012x-Ld
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:30:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoG0-00088v-CK
+ (envelope-from <peter.maydell@linaro.org>) id 1igoG0-00088k-9k
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFy-0000EA-1r
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFz-0000FD-1s
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:44 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:47047)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52505)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFx-0000CW-RJ
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:41 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id z7so6675338wrl.13
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:41 -0800 (PST)
+ id 1igoFy-0000Ea-P0
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:42 -0500
+Received: by mail-wm1-x334.google.com with SMTP id p9so6267511wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KorzsVCuWzHJTDSVPZb5E19X40B2KWRXTCyI70IOxPk=;
- b=Cjc13Ye30XpoC333x5D5WROOjURTuFrMo6Y4jiojrqfW5q+cR/aWdBddDMpIg6L8+H
- lSORsxM8ucunnfBLlFplo2Qc7pxTwMMixXRB7lgRt0FhiThW3uUo2JFe8WCsIMX6ipz9
- wLUqkpK2vk2C4DJ+Ef67/Ycdtdxj9o/3oqRXcT70sXVcpjcxaTIstDjeV2vDMIzCHZQv
- wiuNoG9/BrGcYzHGNzoqemxdHa63XmB8i2RFE3Ws1Gv6/Ek+Tq24iwzdMSbjyELmyhEv
- DqVvUh5iHJQeh4oI0cUHK3NttpddmRgj2+eycAaiDaACVr8j+E5J2pvXhRZx6EqyHNnb
- r69Q==
+ bh=wi/6WNBxanhHv1N5BExE4AXQCOcHHg7jTThmTTrFuxQ=;
+ b=E3fAQ5rMQqlRQ9i4FQQsIxXvkz4kn9TgzZejAjUVtx/8JRNY4xZc73bvqFyxzLhhbP
+ 1R7DbAXzszwvGyxy+ZPeaeYcUfuxu7LH8aPzSRlGM+SjyHmlNJjxL+JdJv3cDX03Zh/o
+ FgZz7NwfOKOmAamu1cmElumik801kRe242CDCD52vPhTzUb1ynG/IFNrL91XZZiMLIWO
+ pYSyEqh64aJpbuUjctJUVGJzT/4NndXOziAMWRECebvcA0/k1iAQTspkmql2gpM8dotE
+ ay0ozQRYMSXAglHy9Ugp+1n1GnPRvs5jufVfy7CEoV6JBPItTygNimGsog8QeI9NFhgp
+ 0Pgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KorzsVCuWzHJTDSVPZb5E19X40B2KWRXTCyI70IOxPk=;
- b=bsotZVTkprk7ebNOdGW2hJo11iJr1fCsvO1CqwuqRlyzZxTYhN3erkSDni/LszWwm9
- dDBTI3Gv5eAuwrmkMCY1kGvnZTlLm+eNguA3JVAt8/e7lhQoKXieNxUQFn/PFHe++SSN
- Xm2gjPsyUW1cIec/NaqhLuZLvBtRVp1/AoSbKrI/dKtdnzb7/p4haBbCnL9H+7TFOW8K
- YuEpqeiwy1qboXTT2CBbh57RrFWDPhlpqsA4mYVsP0Tv0PyQsFQRcpGGCn1rBonsRFhf
- EKl//YMfbhXAD1dvaRHETODqFq+99kphbYIcHQyNOMwfNYKXgyMpQPkkmFSYETqtn4Ij
- PB8Q==
-X-Gm-Message-State: APjAAAUjqVL2fcVEApXtjR2YzV4cfDJ6vePl8sDEwSrBIBdrnOezutR9
- b98lbWt8paoT7lQg75bkftmcp6wxda54mQ==
-X-Google-Smtp-Source: APXvYqz2U2bfH3PvEbUYgTVoT4nm+CR3MJxKSGhn8xxglAWDUYv3hM4woUpBuwwe2IEq3agbhnIILg==
-X-Received: by 2002:adf:dd4d:: with SMTP id u13mr30003411wrm.394.1576494580425; 
- Mon, 16 Dec 2019 03:09:40 -0800 (PST)
+ bh=wi/6WNBxanhHv1N5BExE4AXQCOcHHg7jTThmTTrFuxQ=;
+ b=XhKNSRONBqf8fesvrwvD6kdrxW7KxHQvH1vBuJdJE8HGZRBYbWvIOoagadznWcDgKm
+ BRayoOQSrlaPoko7ReU0Uzkze4m3HRhjZNqe47UwZ1ue4UDcv+spAQalEiBKQzU6z7Qk
+ 5QnWbnFKnpByMFY+EBqoE4p5jhoCILf3Pnjvv18KIVvafr9YzuWhryrc1SnBI60kVMja
+ 9DqzZ4mHLMvm8y560xL1C+q7TPbf59r+zK9XAqLMuTpv+rUEdHc53RQUhq3FQnZ0WHlA
+ wsMYp9tX4nD0lh0LzNkvXqQNNKCyelfFnXujl/3hhllSMAttnOX3EF7O0u6SDg1jJIHp
+ H01w==
+X-Gm-Message-State: APjAAAUwCUqQ3ScObwyclDA7q6/W6LujOQ4VEoBdJcV/rdHYt0P+S23q
+ ZBVdkdwl1jrXFt//WSi1JZfU+NhE2i4Ptw==
+X-Google-Smtp-Source: APXvYqyMEhI4I0MSbdf73r/sJFavTnfTTnDA9U6WkPPYsNAB8U2P5pi8tX0JKo5lQIIDCqWBeghOqw==
+X-Received: by 2002:a05:600c:2509:: with SMTP id
+ d9mr30448057wma.148.1576494581374; 
+ Mon, 16 Dec 2019 03:09:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.39
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:39 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/34] hw/arm/acpi: simplify AML bit and/or statement
-Date: Mon, 16 Dec 2019 11:09:01 +0000
-Message-Id: <20191216110904.30815-32-peter.maydell@linaro.org>
+Subject: [PULL 32/34] hw/arm/acpi: enable SHPC native hot plug
+Date: Mon, 16 Dec 2019 11:09:02 +0000
+Message-Id: <20191216110904.30815-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,9 +84,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Heyi Guo <guoheyi@huawei.com>
 
-The last argument of AML bit and/or statement is the target variable,
-so we don't need to use a NULL target and then an additional store
-operation; using just aml_and() or aml_or() statement is enough.
+After the introduction of generic PCIe root port and PCIe-PCI bridge,
+we will also have SHPC controller on ARM, so just enable SHPC native
+hot plug.
 
 Also update tests/data/acpi/virt/DSDT* to pass "make check".
 
@@ -93,95 +94,62 @@ Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-Message-id: 20191209063719.23086-2-guoheyi@huawei.com
+Message-id: 20191209063719.23086-3-guoheyi@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt-acpi-build.c          |  16 ++++++++--------
- tests/data/acpi/virt/DSDT         | Bin 18470 -> 18462 bytes
- tests/data/acpi/virt/DSDT.memhp   | Bin 19807 -> 19799 bytes
- tests/data/acpi/virt/DSDT.numamem | Bin 18470 -> 18462 bytes
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ hw/arm/virt-acpi-build.c          |   7 ++++++-
+ tests/data/acpi/virt/DSDT         | Bin 18462 -> 18462 bytes
+ tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 19799 bytes
+ tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 18462 bytes
+ 4 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 4cd50175e04..51b293e0a1e 100644
+index 51b293e0a1e..bd5f771e9be 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -267,17 +267,17 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+@@ -267,7 +267,12 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
          aml_create_dword_field(aml_arg(3), aml_int(8), "CDW3"));
      aml_append(ifctx, aml_store(aml_name("CDW2"), aml_name("SUPP")));
      aml_append(ifctx, aml_store(aml_name("CDW3"), aml_name("CTRL")));
--    aml_append(ifctx, aml_store(aml_and(aml_name("CTRL"), aml_int(0x1D), NULL),
--                                aml_name("CTRL")));
-+    aml_append(ifctx, aml_and(aml_name("CTRL"), aml_int(0x1D),
-+                              aml_name("CTRL")));
+-    aml_append(ifctx, aml_and(aml_name("CTRL"), aml_int(0x1D),
++
++    /*
++     * Allow OS control for all 5 features:
++     * PCIeHotplug SHPCHotplug PME AER PCIeCapability.
++     */
++    aml_append(ifctx, aml_and(aml_name("CTRL"), aml_int(0x1F),
+                               aml_name("CTRL")));
  
      ifctx1 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(0x1))));
--    aml_append(ifctx1, aml_store(aml_or(aml_name("CDW1"), aml_int(0x08), NULL),
--                                 aml_name("CDW1")));
-+    aml_append(ifctx1, aml_or(aml_name("CDW1"), aml_int(0x08),
-+                              aml_name("CDW1")));
-     aml_append(ifctx, ifctx1);
- 
-     ifctx1 = aml_if(aml_lnot(aml_equal(aml_name("CDW3"), aml_name("CTRL"))));
--    aml_append(ifctx1, aml_store(aml_or(aml_name("CDW1"), aml_int(0x10), NULL),
--                                 aml_name("CDW1")));
-+    aml_append(ifctx1, aml_or(aml_name("CDW1"), aml_int(0x10),
-+                              aml_name("CDW1")));
-     aml_append(ifctx, ifctx1);
- 
-     aml_append(ifctx, aml_store(aml_name("CTRL"), aml_name("CDW3")));
-@@ -285,8 +285,8 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-     aml_append(method, ifctx);
- 
-     elsectx = aml_else();
--    aml_append(elsectx, aml_store(aml_or(aml_name("CDW1"), aml_int(4), NULL),
--                                  aml_name("CDW1")));
-+    aml_append(elsectx, aml_or(aml_name("CDW1"), aml_int(4),
-+                               aml_name("CDW1")));
-     aml_append(elsectx, aml_return(aml_arg(3)));
-     aml_append(method, elsectx);
-     aml_append(dev, method);
 diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
-index bce76e3d23e99e6c5ef64c94c770282dd30ecdd0..05bcfc8a912f58f266aa906563ea01c24906717e 100644
+index 05bcfc8a912f58f266aa906563ea01c24906717e..d0f3afeb134fdf1c11f64cd06dbcdd30be603b80 100644
 GIT binary patch
-delta 133
-zcmZ2BfpOjhMlP3Nmk>D*1_q|2iCof5o%I{lJ2{y;?{412x!p#<jWgaq*qNm(o59&7
-z+;D-%<VrV7_iE>mARjJS5V=5L(&S9WT970c2Uv;Nq{%?q7$gZ1761tsfcPNsCD{x4
-MAmS{W8QoPG0j8@bzW@LL
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q{tja=*8809zbbW3Ff0C~9xM*si-
 
-delta 141
-zcmbO?fpOUcMlP3Nmk>1%1_q`n6S<_B8XGpMcXBc{-rKy1bGwazA7{LOuro_nHiNTE
-zxZwi7$(3%F{sq;}AwfP|vJ4<<fzYJMnT!RsAbBnhh%$*ulYv}gkTg_604z}e5&_99
-R$zCV`m0@An{L@X95dZ+BD!u>!
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q|2ja=*87-cu_bW3Ff0C~j-M*si-
 
 diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
-index b4b153fcdc30d211237fced6be1e99d3500bd276..c041a910fdf272cb89263bb636239ae3a5e1708d 100644
+index c041a910fdf272cb89263bb636239ae3a5e1708d..41ccc6431b917252bcbaac86c33b340c796be5ce 100644
 GIT binary patch
-delta 132
-zcmcaVi}Cs_MlP3NmymE@1_ma@iCof*O&is^IGH-{Zr;SX-A2HTGu}VgnWZb6!PzC;
-zaDm6<N;gaQYUhw3A1+xCxj<mj<V?m|kR%reSc%xA$w1l|Bnc4~00|d>_#p8m*$ep~
-L;w+mP-Q(B*s{AMU
+delta 28
+kcmcaUi}Cs_MlP3NmymE@1_mbija=*8809zbbeqQp0Eq|*2mk;8
 
-delta 140
-zcmcaUi}C&}MlP3Nmymd01_maViCof*T^rT9IGGynZQjJW-A2HVGu}VgnWZb6!PzC;
-zaDm_CN;gaYf@<fGARjJS1`xGCXwu|N#)4XqJQoK<nZ%^YK&~-J8Y&?GmM8#;fMk|r
-QFBE{vurO@?=@!QZ00dYn_y7O^
+delta 28
+kcmcaUi}Cs_MlP3NmymE@1_ma@ja=*87-cu_beqQp0ErX{2mk;8
 
 diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.numamem
-index bce76e3d23e99e6c5ef64c94c770282dd30ecdd0..05bcfc8a912f58f266aa906563ea01c24906717e 100644
+index 05bcfc8a912f58f266aa906563ea01c24906717e..d0f3afeb134fdf1c11f64cd06dbcdd30be603b80 100644
 GIT binary patch
-delta 133
-zcmZ2BfpOjhMlP3Nmk>D*1_q|2iCof5o%I{lJ2{y;?{412x!p#<jWgaq*qNm(o59&7
-z+;D-%<VrV7_iE>mARjJS5V=5L(&S9WT970c2Uv;Nq{%?q7$gZ1761tsfcPNsCD{x4
-MAmS{W8QoPG0j8@bzW@LL
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q{tja=*8809zbbW3Ff0C~9xM*si-
 
-delta 141
-zcmbO?fpOUcMlP3Nmk>1%1_q`n6S<_B8XGpMcXBc{-rKy1bGwazA7{LOuro_nHiNTE
-zxZwi7$(3%F{sq;}AwfP|vJ4<<fzYJMnT!RsAbBnhh%$*ulYv}gkTg_604z}e5&_99
-R$zCV`m0@An{L@X95dZ+BD!u>!
+delta 28
+kcmbO?fpOjhMlP3Nmk>D*1_q|2ja=*87-cu_bW3Ff0C~j-M*si-
 
 -- 
 2.20.1
