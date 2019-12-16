@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7259F1203E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:29:09 +0100 (CET)
-Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A54A1203EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:32:00 +0100 (CET)
+Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoYm-0007Lh-Au
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:29:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
+	id 1igobW-0002SO-R5
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:31:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFg-0007hR-7W
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:25 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFi-0007kO-Ky
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFf-0007wC-2L
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:24 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44284)
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFg-00081B-AA
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:25 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45313)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFe-0007rl-Rt
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:23 -0500
-Received: by mail-wr1-x443.google.com with SMTP id q10so6693657wrm.11
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:22 -0800 (PST)
+ id 1igoFg-0007y8-3V
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:24 -0500
+Received: by mail-wr1-x432.google.com with SMTP id j42so2524811wrj.12
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8rDgs8l8yhYpP9GCvm5KtL7CxF0GTpM1OtN2KNG9tUw=;
- b=qfBbRMXQSQxnwS5albiV/s1zdMXJ6wvpNxV6M7+pKp8wZMtrxmFlUHMy9Ol981Zv65
- NhywM6UrQs2z6L+T7RuVaUVCFQO9UZxV23hRpoDEEHsgVEjmlLxvn6zihiGcuxv3XkWn
- elwG/MVqgqDBrOR+uN9bvOZlBD3ru37CewF75s8pNATs5pDVCgHaGV2U1ARi82+C96xo
- u5RvNd88OVrQrD+piiHm/A3TA9nsWlQaHjn9GoLiVXXFd6LOvL8GN8ZvAxx3EZBs+o+j
- cGLOWLx1XMTD7+Uop62aHk3JJ7b0ZwP0Pu4zS0iRbrdsA+q2EXJyBZxQvr98Pmrw615B
- gwjQ==
+ bh=ibgl5PVRhP+gnfhMETg2bP2CZS3sDh+cN9nWx6vn2LY=;
+ b=cL7s36FYYnSUp00+ypOBJCgmw+G/2vEV2CQbGy8J9t9B+p1EW9D/5TmdXXih7O2cUq
+ iM8YUgr+QqnpLwYaWh7utijb18STA9RH9QiF+plb3tYH1TFj9k9yAlvh6dfdj0GfPTvM
+ dwPh/ExhIirEpwtJZtzO6qsEBXTU5xkjOdG+Knw2zqv9HUNk1U3U5M6fg8qLE9Y/fcG5
+ rCjXMyjyJDkoDk5CyD2Cm7X37G5OhSGO0VTLABTvLKYeW3P58Eewm5g2lf29KZyp9bhT
+ bhtA2jYks0n8ux50/LshFuuqVPmiV16eydlqbyL558eBc6V/Tb8FWcMebsi73AFOtlz2
+ HKRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8rDgs8l8yhYpP9GCvm5KtL7CxF0GTpM1OtN2KNG9tUw=;
- b=FpGcFANCH1hrWz1yiyuDXyW/3ES7V/sEnpsVdJa25Q8zQhnXl4d8JSgPtCXEe22Pfj
- /ZXzMN/PumLoYnrfi92VxxJqqXNm5N0a0jeEUfozOL+iLIp+eLfv2YVXuy7WaOCRb35p
- AnmXn8oZcQZa6KyBsuQ0Fx5OvWq/d6UhZG5j5gt8HzR/ILOTCSoISBs8hiOj4rtkC9TB
- 1PXm2ix1opVQVk4SPLM49B0U8W/qS45VQTb1MeH0f0QT62WNB7gIcbygkYMh4MGeSZau
- y0Xjl6xOUE+SPDSDTjoUNHxQBp+/Kw/tt9ERznRZvQ8TlAjUJEAv52i3jsL2sDVvPJn8
- 2g0g==
-X-Gm-Message-State: APjAAAUh5QlBVbq8kew86mj29Jr3FCOJ2QmhJDqpTKUJRAI3EhR9q83J
- xS9oAOy7Z9FBX7721Chq0uVmXMWudNIrcA==
-X-Google-Smtp-Source: APXvYqxztDoYruacIIrId+8h1MckXe97LibQn4T17AKawD6xYAxu6/WLQ9IGX0IJudhPgFJr6kgklA==
-X-Received: by 2002:adf:de84:: with SMTP id w4mr28220192wrl.97.1576494561724; 
- Mon, 16 Dec 2019 03:09:21 -0800 (PST)
+ bh=ibgl5PVRhP+gnfhMETg2bP2CZS3sDh+cN9nWx6vn2LY=;
+ b=SBCM54xoCtOrE7ysI+pzaNCVEvDS3lSA4xTLOh8qRI+wc7/NufuqSB55zv56ZKch40
+ wYFKKxwXNXEfc/RQ2QHkMlC1ICwLeD3SUg0UKW2JOfDmyrZ5uRutIEjlv2dweSL+m7FG
+ 1RgwfbSzqppKycplApqtmM3i2QaNlXqqbRRfX/ePVK/GFDKfnqQ5tn1GTiSutY2xxB77
+ 6zLzpRPdUFabEnjr7AlH9jXBxH1E0HZa5QE/tbjYkU3dx/cOfSLsuwnv6BZRpCeKWyxW
+ rkmFkzZVT99ozaT5BZqnkFVg38cWgwp+5wvrbdQBbDbSEFJYQGj8pxKLXyVbxPrl9hC2
+ zT6A==
+X-Gm-Message-State: APjAAAXtn5d05KtTRTv9JuhghX80geoV4SHw1baOsQDmtRVnbJVZ4upD
+ v+IPh87DQQlZfWdCjqcu7Q3VamX0eTs8Gg==
+X-Google-Smtp-Source: APXvYqx/BN9gd9wnGecgzsuw5AVZys9vKpE7J7y8KWWwYF+MuvDWHLJe6Z8KS3fTm+aQ5ooXkcyzYA==
+X-Received: by 2002:adf:ffc7:: with SMTP id x7mr29301742wrs.159.1576494562698; 
+ Mon, 16 Dec 2019 03:09:22 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.20
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:21 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:22 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/34] aspeed/smc: Do not map disabled segment on the AST2600
-Date: Mon, 16 Dec 2019 11:08:43 +0000
-Message-Id: <20191216110904.30815-14-peter.maydell@linaro.org>
+Subject: [PULL 14/34] aspeed/smc: Add AST2600 timings registers
+Date: Mon, 16 Dec 2019 11:08:44 +0000
+Message-Id: <20191216110904.30815-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,64 +84,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The segments can be disabled on the AST2600 (zero register value).
-CS0 is open by default but not the other CS. This is closing the
-access to the flash device in user mode and forbids scanning.
+Each CS has its own Read Timing Compensation Register on newer SoCs.
 
-In the model, check the segment size and disable the associated region
-when the value is zero.
-
-Fixes: bcaa8ddd081c ("aspeed/smc: Add AST2600 support")
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-12-clg@kaod.org
+Message-id: 20191119141211.25716-13-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/ssi/aspeed_smc.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ include/hw/ssi/aspeed_smc.h |  1 +
+ hw/ssi/aspeed_smc.c         | 17 ++++++++++++++---
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
+diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+index 684d16e3361..6fbbb238f15 100644
+--- a/include/hw/ssi/aspeed_smc.h
++++ b/include/hw/ssi/aspeed_smc.h
+@@ -40,6 +40,7 @@ typedef struct AspeedSMCController {
+     uint8_t r_ce_ctrl;
+     uint8_t r_ctrl0;
+     uint8_t r_timings;
++    uint8_t nregs_timings;
+     uint8_t conf_enable_w0;
+     uint8_t max_slaves;
+     const AspeedSegments *segments;
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 955ec21852a..86cadbe4cc0 100644
+index 86cadbe4cc0..7755eca3497 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -444,8 +444,13 @@ static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
-     uint32_t start_offset = (reg << 16) & AST2600_SEG_ADDR_MASK;
-     uint32_t end_offset = reg & AST2600_SEG_ADDR_MASK;
+@@ -137,7 +137,7 @@
+ /* Checksum Calculation Result */
+ #define R_DMA_CHECKSUM    (0x90 / 4)
  
--    seg->addr = s->ctrl->flash_window_base + start_offset;
--    seg->size = end_offset + MiB - start_offset;
-+    if (reg) {
-+        seg->addr = s->ctrl->flash_window_base + start_offset;
-+        seg->size = end_offset + MiB - start_offset;
-+    } else {
-+        seg->addr = s->ctrl->flash_window_base;
-+        seg->size = 0;
-+    }
- }
+-/* Misc Control Register #2 */
++/* Read Timing Compensation Register */
+ #define R_TIMINGS         (0x94 / 4)
  
- static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
-@@ -486,7 +491,7 @@ static void aspeed_smc_flash_set_segment_region(AspeedSMCState *s, int cs,
-     memory_region_transaction_begin();
-     memory_region_set_size(&fl->mmio, seg.size);
-     memory_region_set_address(&fl->mmio, seg.addr - s->ctrl->flash_window_base);
--    memory_region_set_enabled(&fl->mmio, true);
-+    memory_region_set_enabled(&fl->mmio, !!seg.size);
-     memory_region_transaction_commit();
+ /* SPI controller registers and bits (AST2400) */
+@@ -256,6 +256,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 1,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 5,
+         .segments          = aspeed_segments_legacy,
+@@ -271,6 +272,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 1,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 5,
+         .segments          = aspeed_segments_fmc,
+@@ -288,6 +290,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = 0xff,
+         .r_ctrl0           = R_SPI_CTRL0,
+         .r_timings         = R_SPI_TIMINGS,
++        .nregs_timings     = 1,
+         .conf_enable_w0    = SPI_CONF_ENABLE_W0,
+         .max_slaves        = 1,
+         .segments          = aspeed_segments_spi,
+@@ -303,6 +306,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 1,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 3,
+         .segments          = aspeed_segments_ast2500_fmc,
+@@ -320,6 +324,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 1,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 2,
+         .segments          = aspeed_segments_ast2500_spi1,
+@@ -335,6 +340,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 1,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 2,
+         .segments          = aspeed_segments_ast2500_spi2,
+@@ -350,6 +356,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 1,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 3,
+         .segments          = aspeed_segments_ast2600_fmc,
+@@ -365,6 +372,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 2,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 2,
+         .segments          = aspeed_segments_ast2600_spi1,
+@@ -380,6 +388,7 @@ static const AspeedSMCController controllers[] = {
+         .r_ce_ctrl         = R_CE_CTRL,
+         .r_ctrl0           = R_CTRL0,
+         .r_timings         = R_TIMINGS,
++        .nregs_timings     = 3,
+         .conf_enable_w0    = CONF_ENABLE_W0,
+         .max_slaves        = 3,
+         .segments          = aspeed_segments_ast2600_spi2,
+@@ -951,7 +960,8 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr addr, unsigned int size)
+     addr >>= 2;
  
-     s->regs[R_SEG_ADDR0 + cs] = regval;
-@@ -526,8 +531,9 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
-     }
+     if (addr == s->r_conf ||
+-        addr == s->r_timings ||
++        (addr >= s->r_timings &&
++         addr < s->r_timings + s->ctrl->nregs_timings) ||
+         addr == s->r_ce_ctrl ||
+         addr == R_INTR_CTRL ||
+         addr == R_DUMMY_DATA ||
+@@ -1216,7 +1226,8 @@ static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
+     addr >>= 2;
  
-     /* Keep the segment in the overall flash window */
--    if (seg.addr + seg.size <= s->ctrl->flash_window_base ||
--        seg.addr > s->ctrl->flash_window_base + s->ctrl->flash_window_size) {
-+    if (seg.size &&
-+        (seg.addr + seg.size <= s->ctrl->flash_window_base ||
-+         seg.addr > s->ctrl->flash_window_base + s->ctrl->flash_window_size)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: new segment for CS%d is invalid : "
-                       "[ 0x%"HWADDR_PRIx" - 0x%"HWADDR_PRIx" ]\n",
-                       s->ctrl->name, cs, seg.addr, seg.addr + seg.size);
+     if (addr == s->r_conf ||
+-        addr == s->r_timings ||
++        (addr >= s->r_timings &&
++         addr < s->r_timings + s->ctrl->nregs_timings) ||
+         addr == s->r_ce_ctrl) {
+         s->regs[addr] = value;
+     } else if (addr >= s->r_ctrl0 && addr < s->r_ctrl0 + s->num_cs) {
 -- 
 2.20.1
 
