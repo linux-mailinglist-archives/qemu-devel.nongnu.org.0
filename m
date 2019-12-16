@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EE5121BB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 22:29:35 +0100 (CET)
-Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58510121C8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 23:17:06 +0100 (CET)
+Received: from localhost ([::1]:60682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igxvp-0005SC-OH
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 16:29:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50022)
+	id 1igyfo-0001PS-Ph
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 17:17:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1igxuo-0004v9-OH
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 16:28:32 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1igyb1-0004lD-Gz
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1igxun-0004Kl-4S
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 16:28:30 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:38366)
+ (envelope-from <richard.henderson@linaro.org>) id 1igyay-0006uF-8V
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:07 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:37845)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1igxuj-0004Id-Fe; Mon, 16 Dec 2019 16:28:25 -0500
-Received: by mail-yw1-f68.google.com with SMTP id 10so3101801ywv.5;
- Mon, 16 Dec 2019 13:28:25 -0800 (PST)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1igyax-0006u5-W0
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 17:12:04 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id q127so4502036pga.4
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 14:12:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uClweReSFDUrj6phTjOLn2zSfSBOWmvO4yEJytycYg0=;
+ b=mCs55jqotoYkQF8ecIu1vTcxFyBTkUKWeALgKK2Uqw2Jk1Zrhrsv+AkfH13u89ochH
+ Kyf1P4R1MuTXyhjIvESwo+lQgzS9WkJgdmVOTZbasLCutctgznABLCJrdszAxmjqWgAp
+ qhHgmQJq6P1WZiLLGd3fgiVJnCgHKly+BnqGeHslVuCdCxT1P3hTB7M91v5RI5jg9FYj
+ dzK66OKQ71p7aGJEHlfYgGNGP1GjNvTIQV0pi5lQRJB7L3CV05RVOdaBjAMMrpmtZLH8
+ 9dr7igxp1A6gmKJjjPJT8qlTIP6VdNVgXVjBr2cG7fubUtpY/0+TfltQGwd2vETbijYP
+ IRaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hngYlw1ZLnncQM83R3mqcAXHiBFV3HcVdNJ/QZK7/Kc=;
- b=Xc9JuvpzJnt+eWOeYz98a1xNDhVh4EHaNpfc3NlC9F6wX6zdJ12QxS7FPkyKEwol2U
- uAmAdZxETSkAtxFb0QOLVsr48905CL8ucwQowxIIocE4bcNL5HP2SkIiDBwlRHPxDnz/
- lViV9oyeYbQzvyxch/pidgQsv3kYECJ7+lI2Wyuj9ZWdqVzew1QUOnTtdUdxySDq3jAa
- ywcWz4H60w7QICSCZotozKCHa/QM7qNc88VNqsq1ERHxlN5+eNby/+fJZLFaEGsrug8l
- SzwpxgRhgfVbdM+Sj1QUnVq4ZcA9mVbPSpI+W8PeLhj9cOu6kL6HVMIQ/WeigX3DvmlZ
- +IKQ==
-X-Gm-Message-State: APjAAAXy/S/4AW7HrL7ReczZL3z30+Tcik9ImUJbwatEKGrqIapvBCDZ
- ff8tP2SyRCltkmCPupt0YNPksVo7L7qNvLosuiM=
-X-Google-Smtp-Source: APXvYqwg+gh4zL4+SjgxHYG2P16RV3uXk/AMrtS8Ilb9Tn9I0MPvFGEqMvYput+rYPXAZXf4/cYMPLr7c1gnmiLG2bE=
-X-Received: by 2002:a81:3ad0:: with SMTP id h199mr8106449ywa.37.1576531704611; 
- Mon, 16 Dec 2019 13:28:24 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uClweReSFDUrj6phTjOLn2zSfSBOWmvO4yEJytycYg0=;
+ b=eJ8KQHVRQUxz6ZulGToVA0GaNexZecw1LcCtY1N3+bb49ur8y9Ppb04B1HRHEqkGal
+ ZlowwtKL8VuJ63MqY8lQhSNRoXcSJW248cB4qKPTKA14i73DQrPihS2geWQR8wIZvDYT
+ KwrO/HjhxHosTe6LY1hyNJqAgIyHrxI+oW5a1yf/ityKHLP9quAV1QaCkhyGBo+WOsnK
+ 78NvK3h0WG+2H3SGORv4jjUtm/TN3l+fFK06firtUFljQKtoG/mGYNuboheoex1G169O
+ t6inUYTskU8imcVr66M0/7C2fa2kbKR7zH9k5HFqo+OCpKmwPmU1bixqsF0F8Gz+wY1P
+ WYCw==
+X-Gm-Message-State: APjAAAXYlY+y+3ZupTij2wA3FD7n+OY2/+cdnb/mqu153JWYLOsT01aw
+ 8P4TcyuFGQ05gjtm8mZaPoMG6YZwp28=
+X-Google-Smtp-Source: APXvYqzvqKd9p2ZPBNGVxkIl5ssU9AyETLattr9nm30BDZbmlyLIdagAIHxk0DTPe8eFjqHZrc7qFA==
+X-Received: by 2002:aa7:85d8:: with SMTP id z24mr19275148pfn.202.1576534322153; 
+ Mon, 16 Dec 2019 14:12:02 -0800 (PST)
+Received: from localhost.localdomain
+ ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
+ by smtp.gmail.com with ESMTPSA id d6sm529767pjl.8.2019.12.16.14.11.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Dec 2019 14:12:01 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/28] cputlb: Remove support for MMU_MODE*_SUFFIX
+Date: Mon, 16 Dec 2019 12:11:30 -1000
+Message-Id: <20191216221158.29572-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
- <20191202210947.3603-10-nieklinnenbank@gmail.com>
- <CAPan3WrRKnu5vFz=JvrnD8tewUk7SdwFVYx4xVL353AnfPDgHQ@mail.gmail.com>
- <6bee15d7-7d80-0709-ac90-ef2052b39329@redhat.com>
- <CAPan3WpiWahU85-ZgV4BMPU8mUTxsq2TPn-szOHkHc5+PHUqpw@mail.gmail.com>
- <03a78f1d-e8fe-5a53-b061-d39de9ed7a9e@redhat.com>
- <CAPan3WrHQk-apQhQrihF_71b3_PSqkaEu1dHYmeCXuygwnAy2A@mail.gmail.com>
-In-Reply-To: <CAPan3WrHQk-apQhQrihF_71b3_PSqkaEu1dHYmeCXuygwnAy2A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 16 Dec 2019 22:28:12 +0100
-Message-ID: <CAAdtpL6Vik9zVwSpVshWWicNMNitJ--0Xz7WHxd_wOLNGNkwgg@mail.gmail.com>
-Subject: Re: [PATCH 09/10] arm: allwinner-h3: add SD/MMC host controller
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000003b09be0599d8e485"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.161.68
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::52c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,273 +77,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003b09be0599d8e485
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is part of a project to raise the limit on NB_MMU_MODES.
 
-Le lun. 16 d=C3=A9c. 2019 20:46, Niek Linnenbank <nieklinnenbank@gmail.com>=
- a
-=C3=A9crit :
+One of those is in cpu_ldst.h, in support of MMU_MODE*_SUFFIX.
+While this could be extended, it's not the best interface for
+such things.  Better is a single interface that allows a variable
+mmu_idx.  The best exemplars of that is the usage in target/mips
+and target/ppc.
 
->
->
-> On Mon, Dec 16, 2019 at 1:14 AM Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com>
-> wrote:
->
->> On 12/16/19 12:07 AM, Niek Linnenbank wrote:
->> >
->> >
->> > On Fri, Dec 13, 2019 at 12:56 AM Philippe Mathieu-Daud=C3=A9
->> > <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
->> >
->> >     Hi Niek,
->> >
->> >     On 12/11/19 11:34 PM, Niek Linnenbank wrote:
->> [...]
->> >      >     +static uint32_t aw_h3_sdhost_process_desc(AwH3SDHostState
->> *s,
->> >      >     +                                          hwaddr desc_addr=
-,
->> >      >     +                                          TransferDescript=
-or
->> >     *desc,
->> >      >     +                                          bool is_write,
->> >     uint32_t
->> >      >     max_bytes)
->> >      >     +{
->> >      >     +    uint32_t num_done =3D 0;
->> >      >     +    uint32_t num_bytes =3D max_bytes;
->> >      >     +    uint8_t buf[1024];
->> >      >     +
->> >      >     +    /* Read descriptor */
->> >      >     +    cpu_physical_memory_read(desc_addr, desc,
->> sizeof(*desc));
->> >
->> >     Should we worry about endianess here?
->> >
->> >
->> > I tried to figure out what is expected, but the
->> > Allwinner_H3_Datasheet_V1.2.pdf does not
->> > explicitly mention endianness for any of its I/O devices. Currently it
->> > seems all devices are
->> > happy with using the same endianness as the CPUs. In the
->> MemoryRegionOps
->> > has DEVICE_NATIVE_ENDIAN
->> > set to match the behavior seen.
->>
->> OK.
->>
->> [...]
->> >      >     +static const MemoryRegionOps aw_h3_sdhost_ops =3D {
->> >      >     +    .read =3D aw_h3_sdhost_read,
->> >      >     +    .write =3D aw_h3_sdhost_write,
->> >      >     +    .endianness =3D DEVICE_NATIVE_ENDIAN,
->> >
->> >     I haven't checked .valid accesses from the datasheet.
->> >
->> >     However due to:
->> >
->> >         res =3D s->data_crc[((offset - REG_SD_DATA7_CRC) /
->> sizeof(uint32_t))];
->> >
->> >     You seem to expect:
->> >
->> >                  .impl.min_access_size =3D 4,
->> >
->> >     .impl.max_access_size unset is 8, which should works.
->> >
->> > It seems that all registers are aligned on at least 32-bit boundaries.
->> > And the section 5.3.5.1 mentions
->> > that the DMA descriptors must be stored in memory 32-bit aligned. So
->> > based on that information,
->>
->> So you are describing ".valid.min_access_size =3D 4", which is the minim=
-um
->> access size on the bus.
->> ".impl.min_access_size" is different, it is what access sizes is ready
->> to handle your model.
->> Your model read/write handlers expect addresses aligned on 32-bit
->> boundary, this is why I suggested to use ".impl.min_access_size =3D 4". =
-If
->> the guest were using a 16-bit access, your model would be buggy. If you
->> describe your implementation to accept minimum 32-bit and the guest is
->> allowed to use smaller accesses, QEMU will do a 32-bit access to the
->> device, and return the 16-bit part to the guest. This way your model is
->> safe. This is done by access_with_adjusted_size() in memory.c.
->> If you restrict with ".valid.min_access_size =3D 4", you might think we
->> don't need ".valid.min_access_size =3D 4" because all access from guest
->> will be at least 32-bit. However keep in mind someone might find this
->> device in another datasheet not limited to 32-bit, and let's say change
->> to ".valid.min_access_size =3D 2". Without ".impl.min_access_size =3D 4"
->> your model is buggy. So to be safe I'd use:
->>
->>    .impl.min_access_size =3D 4,
->>    .valid.min_access_size =3D 4,
->>
->
-> Now it makes more sense to me, thanks Philippe for explaining this!
-> Great, I'll add .impl.min_access_size =3D 4.
->
-> At this point, I've processed all the feedback that I received for all of
-> the patches
-> in this series. Is there anything else you would like to
-> see/discuss/review, or shall I send the v2 when I finish testing?
->
+In the process, I tried to clean up the implementation of these
+functions for softmmu and user-only.
 
-Send it! We'll discuss on updated v2 :)
+Aleksander asked about code size changes.  They vary between
+a minor size increase (e.g. for qemu-system-alpha, where there
+are in fact no uses of the functions, which are now present as
+out-of-line functions rather than eliminated inline functions),
+to a minor size decrease (e.g. -79k/-1.6% for qemu-system-i386).
+See below for details.
 
-Regards,
+Changes for v2:
+  * Significantly revised docs/devel/loads-stores.rst.
+  * m68k and s390x dropped #defines and use *_mmuidx_ra directly.
 
-Phil.
 
---0000000000003b09be0599d8e485
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+r~
 
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Le lun. 16 d=C3=A9c. 2019 20:46, Niek Linnenbank &lt;<a href=
-=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@gmail.com</a>&gt; a =C3=
-=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><di=
-v dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Mon, Dec 16, 2019 at 1:14 AM Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:philmd@redhat.com" target=3D"_blank" rel=3D"noref=
-errer">philmd@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">On 12/16/19 12:07 AM, Niek Linnenbank wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Fri, Dec 13, 2019 at 12:56 AM Philippe Mathieu-Daud=C3=A9 <br>
-&gt; &lt;<a href=3D"mailto:philmd@redhat.com" target=3D"_blank" rel=3D"nore=
-ferrer">philmd@redhat.com</a> &lt;mailto:<a href=3D"mailto:philmd@redhat.co=
-m" target=3D"_blank" rel=3D"noreferrer">philmd@redhat.com</a>&gt;&gt; wrote=
-:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Hi Niek,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On 12/11/19 11:34 PM, Niek Linnenbank wrote:<br>
-[...]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+static uint32_t aw_h3_sdh=
-ost_process_desc(AwH3SDHostState *s,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hwaddr desc_addr,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TransferDescriptor<br>
-&gt;=C2=A0 =C2=A0 =C2=A0*desc,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool is_write,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0uint32_t<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0max_bytes)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 uint32_t nu=
-m_done =3D 0;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 uint32_t nu=
-m_bytes =3D max_bytes;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 uint8_t buf=
-[1024];<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 /* Read des=
-criptor */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 cpu_physica=
-l_memory_read(desc_addr, desc, sizeof(*desc));<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Should we worry about endianess here?<br>
-&gt; <br>
-&gt; <br>
-&gt; I tried to figure out what is expected, but the <br>
-&gt; Allwinner_H3_Datasheet_V1.2.pdf does not<br>
-&gt; explicitly mention endianness for any of its I/O devices. Currently it=
- <br>
-&gt; seems all devices are<br>
-&gt; happy with using the same endianness as the CPUs. In the MemoryRegionO=
-ps <br>
-&gt; has DEVICE_NATIVE_ENDIAN<br>
-&gt; set to match the behavior seen.<br>
-<br>
-OK.<br>
-<br>
-[...]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+static const MemoryRegion=
-Ops aw_h3_sdhost_ops =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 .read =3D a=
-w_h3_sdhost_read,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 .write =3D =
-aw_h3_sdhost_write,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 =C2=A0+=C2=A0 =C2=A0 .endianness=
- =3D DEVICE_NATIVE_ENDIAN,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0I haven&#39;t checked .valid accesses from the data=
-sheet.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0However due to:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0res =3D s-&gt;data_crc[((offset - REG=
-_SD_DATA7_CRC) / sizeof(uint32_t))];<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0You seem to expect:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .impl.mi=
-n_access_size =3D 4,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0.impl.max_access_size unset is 8, which should work=
-s.<br>
-&gt; <br>
-&gt; It seems that all registers are aligned on at least 32-bit boundaries.=
- <br>
-&gt; And the section 5.3.5.1 mentions<br>
-&gt; that the DMA descriptors must be stored in memory 32-bit aligned. So <=
-br>
-&gt; based on that information,<br>
-<br>
-So you are describing &quot;.valid.min_access_size =3D 4&quot;, which is th=
-e minimum <br>
-access size on the bus.<br>
-&quot;.impl.min_access_size&quot; is different, it is what access sizes is =
-ready <br>
-to handle your model.<br>
-Your model read/write handlers expect addresses aligned on 32-bit <br>
-boundary, this is why I suggested to use &quot;.impl.min_access_size =3D 4&=
-quot;. If <br>
-the guest were using a 16-bit access, your model would be buggy. If you <br=
->
-describe your implementation to accept minimum 32-bit and the guest is <br>
-allowed to use smaller accesses, QEMU will do a 32-bit access to the <br>
-device, and return the 16-bit part to the guest. This way your model is <br=
->
-safe. This is done by access_with_adjusted_size() in memory.c.<br>
-If you restrict with &quot;.valid.min_access_size =3D 4&quot;, you might th=
-ink we <br>
-don&#39;t need &quot;.valid.min_access_size =3D 4&quot; because all access =
-from guest <br>
-will be at least 32-bit. However keep in mind someone might find this <br>
-device in another datasheet not limited to 32-bit, and let&#39;s say change=
- <br>
-to &quot;.valid.min_access_size =3D 2&quot;. Without &quot;.impl.min_access=
-_size =3D 4&quot; <br>
-your model is buggy. So to be safe I&#39;d use:<br>
-<br>
-=C2=A0 =C2=A0.impl.min_access_size =3D 4,<br>
-=C2=A0 =C2=A0.valid.min_access_size =3D 4,<br></blockquote><div><br></div><=
-div>Now it makes more sense to me, thanks Philippe for explaining this!<br>=
-</div><div>Great, I&#39;ll add .impl.min_access_size =3D 4.</div><div><br><=
-/div><div>At this point, I&#39;ve processed all the feedback that I receive=
-d for all of the patches</div><div>in this series. Is there anything else y=
-ou would like to see/discuss/review, or shall I send the v2 when I finish t=
-esting?<br></div></div></div></blockquote></div></div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">Send it! We&#39;ll discuss on updated v2 :)</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto">Regards,=C2=A0</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Phil.</div></div>
 
---0000000000003b09be0599d8e485--
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Chris Wulff <crwulff@gmail.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+
+
+Richard Henderson (28):
+  target/xtensa: Use probe_access for itlb_hit_test
+  cputlb: Use trace_mem_get_info instead of trace_mem_build_info
+  trace: Remove trace_mem_build_info_no_se_[bl]e
+  cputlb: Move body of cpu_ldst_template.h out of line
+  translator: Use cpu_ld*_code instead of open-coding
+  cputlb: Rename helper_ret_ld*_cmmu to cpu_ld*_code
+  cputlb: Provide cpu_(ld,st}*_mmuidx_ra for user-only
+  target/i386: Use cpu_*_mmuidx_ra instead of templates
+  target/s390x: Include tcg.h in mem_helper.c
+  target/arm: Include tcg.h in sve_helper.c
+  accel/tcg: Include tcg.h in tcg-runtime.c
+  linux-user: Include tcg.h in syscall.c
+  linux-user: Include trace-root.h in syscall-trace.h
+  cputlb: Expand cpu_ldst_useronly_template.h in user-exec.c
+  target/nios2: Remove MMU_MODE{0,1}_SUFFIX
+  target/alpha: Remove MMU_MODE{0,1}_SUFFIX
+  target/cris: Remove MMU_MODE{0,1}_SUFFIX
+  target/i386: Remove MMU_MODE{0,1,2}_SUFFIX
+  target/microblaze: Remove MMU_MODE{0,1,2}_SUFFIX
+  target/sh4: Remove MMU_MODE{0,1}_SUFFIX
+  target/unicore32: Remove MMU_MODE{0,1}_SUFFIX
+  target/xtensa: Remove MMU_MODE{0,1,2,3}_SUFFIX
+  target/m68k: Use cpu_*_mmuidx_ra instead of MMU_MODE{0,1}_SUFFIX
+  target/mips: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
+  target/s390x: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
+  target/ppc: Use cpu_*_mmuidx_ra instead of MMU_MODE*_SUFFIX
+  cputlb: Remove support for MMU_MODE*_SUFFIX
+  cputlb: Expand cpu_ldst_template.h in cputlb.c
+
+ accel/tcg/atomic_template.h               |  67 ++--
+ include/exec/cpu_ldst.h                   | 444 +++++++---------------
+ include/exec/cpu_ldst_template.h          | 211 ----------
+ include/exec/cpu_ldst_useronly_template.h | 159 --------
+ include/exec/translator.h                 |  48 +--
+ include/user/syscall-trace.h              |   2 +
+ target/alpha/cpu.h                        |   2 -
+ target/cris/cpu.h                         |   2 -
+ target/i386/cpu.h                         |   3 -
+ target/m68k/cpu.h                         |   2 -
+ target/microblaze/cpu.h                   |   3 -
+ target/mips/cpu.h                         |   4 -
+ target/nios2/cpu.h                        |   2 -
+ target/ppc/cpu.h                          |   2 -
+ target/s390x/cpu.h                        |   5 -
+ target/sh4/cpu.h                          |   2 -
+ target/unicore32/cpu.h                    |   2 -
+ target/xtensa/cpu.h                       |   4 -
+ tcg/tcg.h                                 |  29 --
+ trace/mem-internal.h                      |  17 -
+ accel/tcg/cputlb.c                        | 315 +++++++++++----
+ accel/tcg/tcg-runtime.c                   |   1 +
+ accel/tcg/user-exec.c                     | 236 ++++++++++++
+ linux-user/syscall.c                      |   1 +
+ target/arm/sve_helper.c                   |   1 +
+ target/i386/seg_helper.c                  |  56 +--
+ target/m68k/op_helper.c                   |  77 ++--
+ target/mips/op_helper.c                   | 182 +++------
+ target/ppc/mem_helper.c                   |  11 +-
+ target/s390x/mem_helper.c                 |  22 +-
+ target/xtensa/mmu_helper.c                |   5 +-
+ docs/devel/loads-stores.rst               | 215 ++++++++---
+ 32 files changed, 966 insertions(+), 1166 deletions(-)
+ delete mode 100644 include/exec/cpu_ldst_template.h
+ delete mode 100644 include/exec/cpu_ldst_useronly_template.h
+
+-- 
+2.20.1
+
+
+orig    new
+text    text
+size    size    change  %change binary
+------- ------- ------- ------- -----------------
+2097672	2101864	4192	0.20%	qemu-aarch64
+2102760	2107304	4544	0.22%	qemu-aarch64_be
+961464	965960	4496	0.47%	qemu-alpha
+1463736	1468200	4464	0.30%	qemu-arm
+1470072	1474632	4560	0.31%	qemu-armeb
+990584	995224	4640	0.47%	qemu-cris
+1009656	1012792	3136	0.31%	qemu-hppa
+1295728	1250064	-45664	-3.52%	qemu-i386
+1091560	1091928	368	0.03%	qemu-m68k
+965720	970232	4512	0.47%	qemu-microblaze
+961000	965496	4496	0.47%	qemu-microblazeel
+1959864	1957224	-2640	-0.13%	qemu-mips
+2001688	2003768	2080	0.10%	qemu-mips64
+1996184	1998232	2048	0.10%	qemu-mips64el
+1954648	1951928	-2720	-0.14%	qemu-mipsel
+2004936	2006888	1952	0.10%	qemu-mipsn32
+1999272	1999320	48	0.00%	qemu-mipsn32el
+933400	937896	4496	0.48%	qemu-nios2
+964024	969176	5152	0.53%	qemu-or1k
+1643400	1643272	-128	-0.01%	qemu-ppc
+1670168	1669192	-976	-0.06%	qemu-ppc64
+1693048	1691784	-1264	-0.07%	qemu-ppc64abi32
+1667880	1667080	-800	-0.05%	qemu-ppc64le
+973416	978024	4608	0.47%	qemu-riscv32
+970664	975112	4448	0.46%	qemu-riscv64
+1176952	1159928	-17024	-1.45%	qemu-s390x
+970600	974808	4208	0.43%	qemu-sh4
+975368	979656	4288	0.44%	qemu-sh4eb
+981992	986424	4432	0.45%	qemu-sparc
+1020168	1024008	3840	0.38%	qemu-sparc32plus
+1022264	1026072	3808	0.37%	qemu-sparc64
+926616	930872	4256	0.46%	qemu-tilegx
+1300464	1249504	-50960	-3.92%	qemu-x86_64
+1236648	1240952	4304	0.35%	qemu-xtensa
+1241896	1246360	4464	0.36%	qemu-xtensaeb
+
+orig    new
+text    text
+size    size    change  %change binary
+------- ------- ------- ------- -----------------
+6324680	6327256	2576	0.04%	qemu-system-aarch64
+3961000	3966200	5200	0.13%	qemu-system-alpha
+5580408	5583768	3360	0.06%	qemu-system-arm
+2816936	2822072	5136	0.18%	qemu-system-cris
+3969576	3971624	2048	0.05%	qemu-system-hppa
+4856824	4777432	-79392	-1.63%	qemu-system-i386
+2936584	2940984	4400	0.15%	qemu-system-lm32
+3010216	3002088	-8128	-0.27%	qemu-system-m68k
+2817400	2822264	4864	0.17%	qemu-system-microblaze
+2817160	2821912	4752	0.17%	qemu-system-microblazeel
+5098264	5101288	3024	0.06%	qemu-system-mips
+5205096	5206408	1312	0.03%	qemu-system-mips64
+5222424	5223704	1280	0.02%	qemu-system-mips64el
+5094216	5097048	2832	0.06%	qemu-system-mipsel
+2729320	2733448	4128	0.15%	qemu-system-moxie
+2750200	2755048	4848	0.18%	qemu-system-nios2
+2777656	2782840	5184	0.19%	qemu-system-or1k
+5020408	5018312	-2096	-0.04%	qemu-system-ppc
+5401848	5396936	-4912	-0.09%	qemu-system-ppc64
+4029464	4034520	5056	0.13%	qemu-system-riscv32
+4030632	4035320	4688	0.12%	qemu-system-riscv64
+3576984	3523992	-52992	-1.48%	qemu-system-s390x
+3952872	3958376	5504	0.14%	qemu-system-sh4
+3957032	3962680	5648	0.14%	qemu-system-sh4eb
+3003368	3009048	5680	0.19%	qemu-system-sparc
+4013240	4018040	4800	0.12%	qemu-system-sparc64
+2936472	2923080	-13392	-0.46%	qemu-system-tricore
+2824456	2829560	5104	0.18%	qemu-system-unicore32
+4886520	4816088	-70432	-1.44%	qemu-system-x86_64
+4160168	4165400	5232	0.13%	qemu-system-xtensa
+4164232	4169528	5296	0.13%	qemu-system-xtensaeb
+
 
