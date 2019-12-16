@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE391210F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:07:54 +0100 (CET)
-Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482AA1211B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:26:09 +0100 (CET)
+Received: from localhost ([::1]:57412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igtqa-00021l-LS
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:07:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57473)
+	id 1igu8F-0001EF-Ut
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:26:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57498)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFj-0005yF-Lk
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:48 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFk-0005zY-Oe
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFi-0000bL-MX
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:47 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37668)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFj-0000dj-EO
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:48 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35078)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFh-0000W9-6B
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:45 -0500
-Received: by mail-wr1-x444.google.com with SMTP id w15so8066676wru.4
- for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:44 -0800 (PST)
+ id 1igtFi-0000ZF-T2
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:47 -0500
+Received: by mail-wr1-x430.google.com with SMTP id g17so8055670wro.2
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D41f9AHtUnFEFhVN7otZyXIWZtbVHADUeBM3ruO23wc=;
- b=d6CPYHGhF+6RiAhXrHnw1lnXnK6hCY7QgwUydGGVpawmLCidVeYcd3i4yehLdu5LUv
- Lw2ZuR+7W9kWlBnfsk1iZ3eVdFfuoByPXS/LtMWc3dRFJ9RayF7zIbZV52OCBByYWpcI
- XR+3ysRqm0W7rIzqY/dxovdoC2HQnQkjpeASXtgM97AIPhqf9gs5Nx6FkNHkS8MJtKD7
- cntg165gqLZp53C9flcgB+LT+JXyJvysO8M6i0zHh2HtvtCgxTG1kuvj3Ufc/BQPpTc1
- u3Pa81jSa7VFh5uEKH/jS1ORdsdtnv11q4ZtwaK2VBP201y/r9hcJ4qLNJN22ImO18YX
- glmA==
+ bh=r5/ahDGycmBC2HKaQApweAbQRGj/Zbq759doBFgj9aU=;
+ b=n4Sxo5E0kIJMUcgArRNPV5sb3ghi+VsNaFvnC0ZcUkhLX9My0VKc4Nonf0Pyjjv7no
+ T41Rb9T8xWYmwSq5DiRwrDOD7nX/lNAtp9HVIMSYqzxxYjHDK/vjCZ1LgYsjOeyRTTDI
+ uM8OEOeBl6c9rmwNsfEhDdmFOTCzdurAckDrP4rgRmyrbkvroBel3FXxs9DO/D+gUevy
+ bHlwqLyri1nGk87ZstSedRH3/KhFyAPtr2Tg6Cvb8MOA5xauI73AIu9zi127q+IZ6GU2
+ FrXNYBV+J+s+BEUUEYI2o8sO2MFuc1ZbUu2QuzkuqXIrmzucY3vAcXDpMNQ8Vxe3h0U+
+ cvfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=D41f9AHtUnFEFhVN7otZyXIWZtbVHADUeBM3ruO23wc=;
- b=GhHf+WnEhbXXS2k2v/Env9c+2kTvN4rCJ0Z+uZoPlnK5LT1K60ovU32aa7TwWcdZPe
- S9daguF1bOh4nDuW9T77QyVkLnfbPTkmc51fIRHK0/wlOgUfyfPdHQ+jvbrBC8xnYLq4
- 8tWoHqc9rqY/jzUG3oPDbkMY8d2spC0Y0IJqk1JTZ2sNfhd8XZ6fDKqxgnJ+Oxs7D/x7
- oRg9Qc3DrjJIZTJttaGZ0bfT/ZdYwbkQ1R6tBZL5hIZ+K1BWcwZI4SX5zHqyhYfVA7bR
- dLp/AMH/VKtUo5FbRbLMVKctg0mquYxPmFHRbyQ7glLxi3muLAvaJuTrAYjU2/KEKEa4
- P0gQ==
-X-Gm-Message-State: APjAAAXsdUN8h04YqYj+zDZ7GARDQz/TenQgd3YCP6usYlzxqkBGfAhg
- 1zkUIPE0McyerjJiVhDaqOPnS9L2
-X-Google-Smtp-Source: APXvYqyyBGXRtw8sJf+T/A8U4cJfI0zB+bLW4Zk5Ca6sRAs2eMtS2F2bUXfo120Dc08yXN4YxeZHVg==
-X-Received: by 2002:a5d:68cf:: with SMTP id p15mr31613088wrw.31.1576513783877; 
- Mon, 16 Dec 2019 08:29:43 -0800 (PST)
+ bh=r5/ahDGycmBC2HKaQApweAbQRGj/Zbq759doBFgj9aU=;
+ b=QEOO4zKZCFQ6aDfzHOchgUBtqbQQrpYYMTpn441RchKHJmp+8gUszyLGvvVytLyD6+
+ mbL5ujg/i9lSZFvdlDQtF35E/JnsDbcNL9vbswH5lhQJYq5Bn5ffVKu5p6vnBlbkFPpG
+ IXcpRaxrGVQbMAjedp4WODWcA/OxxB8apkMLBtJQdIHcxjEjwRlWkd0QsTdzj12II0+a
+ 8bRkPDkaGQ8W/oCQR7F8o2JStble8sOibWchOllwlEawcoYt+CWYDtvVL/n+wiWwYW2K
+ Ev4b0Vl91/vSz73a/aV2o+K8pimX/04xS7sUk0NyHBrjobhmQ1o0XwLQxjS6kzIur6rg
+ Q0Hw==
+X-Gm-Message-State: APjAAAW6E4C8QsxTukX/YicJyAqHOupS2y/wQPNwZmDMocQJ9Nk79km9
+ 1tLFT+UEdBNscKA4fm5PMIYJiAZS
+X-Google-Smtp-Source: APXvYqxsdF0lPan4MpsQ8zFWwYIt0B9hgubvbDVO2bOfxDxO73LGC2M/8NkBSQCdAlNgO09FYS9Pfg==
+X-Received: by 2002:a5d:4044:: with SMTP id w4mr31119255wrp.322.1576513784651; 
+ Mon, 16 Dec 2019 08:29:44 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.42
+ by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:43 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 56/62] hw/i386/pc: Use TYPE_PORT92 instead of hardcoded string
-Date: Mon, 16 Dec 2019 17:28:40 +0100
-Message-Id: <1576513726-53700-57-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 57/62] hw/i386/pc: Inline port92_init()
+Date: Mon, 16 Dec 2019 17:28:41 +0100
+Message-Id: <1576513726-53700-58-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +84,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-By using the TYPE_* definitions for devices, we can:
-- quickly find where devices are used with 'git-grep'
-- easily rename a device (one-line change).
+This one-line function is not very helpful, so remove it
+by inlining the call to qdev_connect_gpio_out_named().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/pc.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d706b98..8752840 100644
+index 8752840..963eff4 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -1275,7 +1275,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
-         qdev_prop_set_ptr(dev, "ps2_mouse", i8042);
-         qdev_init_nofail(dev);
-     }
--    port92 = isa_create_simple(isa_bus, "port92");
-+    port92 = isa_create_simple(isa_bus, TYPE_PORT92);
+@@ -707,11 +707,6 @@ static uint64_t port92_read(void *opaque, hwaddr addr,
+     return ret;
+ }
+ 
+-static void port92_init(ISADevice *dev, qemu_irq a20_out)
+-{
+-    qdev_connect_gpio_out_named(DEVICE(dev), PORT92_A20_LINE, 0, a20_out);
+-}
+-
+ static const VMStateDescription vmstate_port92_isa = {
+     .name = "port92",
+     .version_id = 1,
+@@ -767,8 +762,8 @@ static void port92_class_initfn(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_port92_isa;
+     /*
+      * Reason: unlike ordinary ISA devices, this one needs additional
+-     * wiring: its A20 output line needs to be wired up by
+-     * port92_init().
++     * wiring: its A20 output line needs to be wired up with
++     * qdev_connect_gpio_out_named().
+      */
+     dc->user_creatable = false;
+ }
+@@ -1279,7 +1274,8 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
  
      a20_line = qemu_allocate_irqs(handle_a20_line_change, first_cpu, 2);
      i8042_setup_a20_line(i8042, a20_line[0]);
+-    port92_init(port92, a20_line[1]);
++    qdev_connect_gpio_out_named(DEVICE(port92),
++                                PORT92_A20_LINE, 0, a20_line[1]);
+     g_free(a20_line);
+ }
+ 
 -- 
 1.8.3.1
 
