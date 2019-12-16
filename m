@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E5C12039B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:19:07 +0100 (CET)
-Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5EE1203D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 12:26:17 +0100 (CET)
+Received: from localhost ([::1]:51634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igoP4-0001NV-Br
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:19:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
+	id 1igoVz-0003Al-Pf
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 06:26:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFY-0007Uy-Du
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFY-0007Um-E6
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1igoFX-0007d8-1Y
+ (envelope-from <peter.maydell@linaro.org>) id 1igoFW-0007cx-Tg
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:16 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37538)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33121)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1igoFW-0007aL-R8
+ id 1igoFW-0007aQ-Mr
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 06:09:14 -0500
-Received: by mail-wr1-x436.google.com with SMTP id w15so6740078wru.4
+Received: by mail-wm1-x343.google.com with SMTP id d139so4753571wmd.0
  for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 03:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CY7Ya5+IokAEVPxBUMo7NMyrxap6Uz4FpzWkrZ1uIdU=;
- b=WtmWULad0O2jr0MR63Xiy7U65WiNwiYs2nH9/sqyARf77WJ8mbVOx47XOpl0w86e7r
- M5x3R9sckPTfdWZHTnFlu+ZcyWryiHDKxaEw7NDLqTwqxaNCMV7sfUKrzHmbLtnM+6w4
- H6gMpjZjRTacX06vsUjvlqM5TEXmSYTc9dvEZzibsUtnSYQEJwH7gi2I/6BufqhV2opA
- YXlZ+xrg8COhnwjotiYKbs1/TTo76ZgUOGh/hxMs1bDWPe0HsFCrEogVaRiyL6qv71Ig
- P6cPHX43hfrX1cnwzbe4Z+EDnt+EZT/UFimeezYeOHKpUL4b1D4pxAAnE7KYCrmv85W1
- DwYw==
+ bh=zjLDEF6DNpTRDBT/Aj8pPr1zY4WR/x86sRDNZnQ+teI=;
+ b=Pzpo0ZM30HNU4Hjs/QeBMlEflKlfmY/0QOzkC15wMBVjF/nh6nI7OgewcVTdp3zIfJ
+ jPdxUiTGo1nKYLijZqxtX3jh6UMs4Js2OwFN/ysKJZ5HZhdtdLd02AYT+/oYCJUVeFBN
+ jc0wZ0kWsfHw48aGz/1/vTvpr7mX/3ySvpSO+g0iwoi/qj5aqEdMtvo/9JwLptPij4t9
+ rMm7TXWvVaK+zngaKJWO2Z+57lqu6ISlp1bprsy0GEQHzipM5YAXcYseMPYXmt09bRKN
+ /uSUfjU6AKms7vefmzURFPZZRO3dH0DCJM8F+jJgjc/pWW+igywwwA5q83MqE5OY5oq4
+ Si2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CY7Ya5+IokAEVPxBUMo7NMyrxap6Uz4FpzWkrZ1uIdU=;
- b=lQwann22kxkZWI9aw5gOUDBnp4WJnDvof6sFilZo6eCH8Tt6qbBqzsSJH9Rx2y49Ls
- w4Z76e33ZaLEI6WaHp8XQ7BwmddxTsmmKKTGLPHeek/0XARUoqGQE4qKKpbFkqiJIQii
- sUwRMto0VlA8tten/yY3Gb5GW2/B33b4z7I5bayZdJHZdOIaz7hgp2ujQDMVeo5r4O4H
- 1WOI9/CVCHl6TQgzfZIR2jiqlzqq+VvBrWfOS98zefwCS9kQc+r2ITIILsN6uTQbrDec
- WqeAxP7fxQeP7xY7vEm5qn8vxPARjwwZGtoGSVQ9IUTv6l7C8eENFfifr1Hurtdt74K9
- KH6A==
-X-Gm-Message-State: APjAAAXRObGuFsqdRXUH08Q2ifszZCamHVo7i2Y5mMzBBb2Px+ciZOFF
- y69kzBe5fXk/wOF73rE+nAbwoyN1kz0XTg==
-X-Google-Smtp-Source: APXvYqyvOD1ZmSyY+ktShTKfID+hMv9XkQ/3AyVJgvYaCGdtw+0G/gpS3i9fnrn7c+scShf1k04Pmg==
-X-Received: by 2002:a5d:6211:: with SMTP id y17mr29407112wru.344.1576494552520; 
- Mon, 16 Dec 2019 03:09:12 -0800 (PST)
+ bh=zjLDEF6DNpTRDBT/Aj8pPr1zY4WR/x86sRDNZnQ+teI=;
+ b=scady/4A562Pm5Ux2UBbMvrqtbxwTAQ/CitZBZz9nMzFZ9t+c7UqzGAj6E0b/btPOM
+ jgfo45jmSaCy09lOCvfIpcQ+5TqtY3PBNlDwL/QNhyO7OZle4Q/PDbTkRAOCaQ3z00Rr
+ Q5eeeJYP4FLfiTtyhUYTOmSMvNuOVM8joKKMQlZ11OSwHYG3zTzGFzDwnkLIwLaB2CJq
+ 06aF4VhaPLQpBtpk5TSVSNmYPuNLIMmNdxKF1Rm3UqUB8Qt6b2H8w67aFglwoAbjpv4W
+ O1cGDxDuYtPTQ6hq3YtCuronlOJj04MC7bGxGekglsQE+gYRzbF1dPKGrmqlJHpfCdVM
+ sntQ==
+X-Gm-Message-State: APjAAAWDxPKNNC+t88VatBVdTx7XQ9g/01y8aNuwYwFnPLGlLmF1C5kq
+ FvD5lZ55f+ar+yG+mJKmAPiusM5Eqa1l9A==
+X-Google-Smtp-Source: APXvYqynOhd5Ws1YR+/xNHtr33lTCp7tHhfzFdQwdudje8i5uaBb6+jX+toelZnNSuopJH30abhMFQ==
+X-Received: by 2002:a1c:f60f:: with SMTP id w15mr28846402wmc.132.1576494553428; 
+ Mon, 16 Dec 2019 03:09:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.11
+ by smtp.gmail.com with ESMTPSA id x10sm20976131wrp.58.2019.12.16.03.09.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2019 03:09:11 -0800 (PST)
+ Mon, 16 Dec 2019 03:09:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/34] aspeed/i2c: Check SRAM enablement on AST2500
-Date: Mon, 16 Dec 2019 11:08:34 +0000
-Message-Id: <20191216110904.30815-5-peter.maydell@linaro.org>
+Subject: [PULL 05/34] aspeed: Add a DRAM memory region at the SoC level
+Date: Mon, 16 Dec 2019 11:08:35 +0000
+Message-Id: <20191216110904.30815-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216110904.30815-1-peter.maydell@linaro.org>
 References: <20191216110904.30815-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,125 +84,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The SRAM must be enabled before using the Buffer Pool mode or the DMA
-mode. This is not required on other SoCs.
+Currently, we link the DRAM memory region to the FMC model (for DMAs)
+through a property alias at the SoC level. The I2C model will need a
+similar region for DMA support, add a DRAM region property at the SoC
+level for both model to use.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Tested-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20191119141211.25716-3-clg@kaod.org
+Message-id: 20191119141211.25716-4-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/i2c/aspeed_i2c.h |  3 +++
- hw/i2c/aspeed_i2c.c         | 37 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ include/hw/arm/aspeed_soc.h | 1 +
+ hw/arm/aspeed_ast2600.c     | 7 +++++--
+ hw/arm/aspeed_soc.c         | 9 +++++++--
+ 3 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index 5313d07aa72..7a555072dfb 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -61,6 +61,7 @@ typedef struct AspeedI2CState {
-     qemu_irq irq;
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 495c08be1b8..e84380984f7 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -40,6 +40,7 @@ typedef struct AspeedSoCState {
+     ARMCPU cpu[ASPEED_CPUS_NUM];
+     uint32_t num_cpus;
+     A15MPPrivState     a7mpcore;
++    MemoryRegion *dram_mr;
+     MemoryRegion sram;
+     AspeedVICState vic;
+     AspeedRtcState rtc;
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 931887ac681..a403c2aae06 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -158,8 +158,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
+                           typename);
+     object_property_add_alias(obj, "num-cs", OBJECT(&s->fmc), "num-cs",
+                               &error_abort);
+-    object_property_add_alias(obj, "dram", OBJECT(&s->fmc), "dram",
+-                              &error_abort);
  
-     uint32_t intr_status;
-+    uint32_t ctrl_global;
-     MemoryRegion pool_iomem;
-     uint8_t pool[ASPEED_I2C_MAX_POOL_SIZE];
- 
-@@ -83,6 +84,8 @@ typedef struct AspeedI2CClass {
-     uint64_t pool_size;
-     hwaddr pool_base;
-     uint8_t *(*bus_pool_base)(AspeedI2CBus *);
-+    bool check_sram;
-+
- } AspeedI2CClass;
- 
- I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr);
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index e21f45d9686..c7929aa2850 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -31,6 +31,8 @@
- #define I2C_CTRL_STATUS         0x00        /* Device Interrupt Status */
- #define I2C_CTRL_ASSIGN         0x08        /* Device Interrupt Target
-                                                Assignment */
-+#define I2C_CTRL_GLOBAL         0x0C        /* Global Control Register */
-+#define   I2C_CTRL_SRAM_EN                 BIT(0)
- 
- /* I2C Device (Bus) Register */
- 
-@@ -271,6 +273,29 @@ static uint8_t aspeed_i2c_get_addr(AspeedI2CBus *bus)
+     for (i = 0; i < sc->spis_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.spi%d-%s", i + 1, socname);
+@@ -362,6 +360,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
      }
- }
  
-+static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
-+{
-+    AspeedI2CState *s = bus->controller;
-+    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
-+
-+    if (!aic->check_sram) {
-+        return true;
-+    }
-+
-+    /*
-+     * AST2500: SRAM must be enabled before using the Buffer Pool or
-+     * DMA mode.
-+     */
-+    if (!(s->ctrl_global & I2C_CTRL_SRAM_EN) &&
-+        (bus->cmd & (I2CD_RX_DMA_ENABLE | I2CD_TX_DMA_ENABLE |
-+                     I2CD_RX_BUFF_ENABLE | I2CD_TX_BUFF_ENABLE))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: SRAM is not enabled\n", __func__);
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
- /*
-  * The state machine needs some refinement. It is only used to track
-  * invalid STOP commands for the moment.
-@@ -282,6 +307,10 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
-     bus->cmd &= ~0xFFFF;
-     bus->cmd |= value & 0xFFFF;
- 
-+    if (!aspeed_i2c_check_sram(bus)) {
+     /* FMC, The number of CS is set at the board level */
++    object_property_set_link(OBJECT(&s->fmc), OBJECT(s->dram_mr), "dram", &err);
++    if (err) {
++        error_propagate(errp, err);
 +        return;
 +    }
-+
-     if (bus->cmd & I2CD_M_START_CMD) {
-         uint8_t state = aspeed_i2c_get_state(bus) & I2CD_MACTIVE ?
-             I2CD_MSTARTR : I2CD_MSTART;
-@@ -436,6 +465,8 @@ static uint64_t aspeed_i2c_ctrl_read(void *opaque, hwaddr offset,
-     switch (offset) {
-     case I2C_CTRL_STATUS:
-         return s->intr_status;
-+    case I2C_CTRL_GLOBAL:
-+        return s->ctrl_global;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-                       __func__, offset);
-@@ -448,7 +479,12 @@ static uint64_t aspeed_i2c_ctrl_read(void *opaque, hwaddr offset,
- static void aspeed_i2c_ctrl_write(void *opaque, hwaddr offset,
-                                   uint64_t value, unsigned size)
- {
-+    AspeedI2CState *s = opaque;
-+
-     switch (offset) {
-+    case I2C_CTRL_GLOBAL:
-+        s->ctrl_global = value;
-+        break;
-     case I2C_CTRL_STATUS:
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-@@ -684,6 +720,7 @@ static void aspeed_2500_i2c_class_init(ObjectClass *klass, void *data)
-     aic->pool_size = 0x100;
-     aic->pool_base = 0x200;
-     aic->bus_pool_base = aspeed_2500_i2c_bus_pool_base;
-+    aic->check_sram = true;
- }
+     object_property_set_int(OBJECT(&s->fmc), sc->memmap[ASPEED_SDRAM],
+                             "sdram-base", &err);
+     if (err) {
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index f4fe243458f..dd1ee0e3336 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -175,8 +175,6 @@ static void aspeed_soc_init(Object *obj)
+                           typename);
+     object_property_add_alias(obj, "num-cs", OBJECT(&s->fmc), "num-cs",
+                               &error_abort);
+-    object_property_add_alias(obj, "dram", OBJECT(&s->fmc), "dram",
+-                              &error_abort);
  
- static const TypeInfo aspeed_2500_i2c_info = {
+     for (i = 0; i < sc->spis_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.spi%d-%s", i + 1, socname);
+@@ -323,6 +321,11 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+                        aspeed_soc_get_irq(s, ASPEED_I2C));
+ 
+     /* FMC, The number of CS is set at the board level */
++    object_property_set_link(OBJECT(&s->fmc), OBJECT(s->dram_mr), "dram", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     object_property_set_int(OBJECT(&s->fmc), sc->memmap[ASPEED_SDRAM],
+                             "sdram-base", &err);
+     if (err) {
+@@ -429,6 +432,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+ }
+ static Property aspeed_soc_properties[] = {
+     DEFINE_PROP_UINT32("num-cpus", AspeedSoCState, num_cpus, 0),
++    DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
++                     MemoryRegion *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.20.1
 
