@@ -2,43 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F130A1201E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 11:06:28 +0100 (CET)
-Received: from localhost ([::1]:49502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D23C120239
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 11:21:43 +0100 (CET)
+Received: from localhost ([::1]:49608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ignGl-0002ml-Lo
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 05:06:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44636)
+	id 1ignVV-0000H9-RV
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 05:21:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1ignFn-0001xr-0z
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:05:28 -0500
+ (envelope-from <bounces@canonical.com>) id 1ignUd-00082e-KB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:20:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1ignFl-0007Ad-Gh
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:05:26 -0500
-Received: from relay.sw.ru ([185.231.240.75]:55884)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1ignFl-00075I-88
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:05:25 -0500
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1ignFc-0001Vo-6S; Mon, 16 Dec 2019 13:05:16 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+ (envelope-from <bounces@canonical.com>) id 1ignUb-0007Fq-VE
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:20:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47412)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ignUb-0007Bw-PQ
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 05:20:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ignUZ-00048g-E3
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 10:20:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4AA542E80C8
+ for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 10:20:43 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Dec 2019 10:06:05 -0000
+From: Damir <1856335@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/2] tests: add virtio-scsi and virtio-blk seg_max_adjust
- test
-Date: Mon, 16 Dec 2019 13:04:51 +0300
-Message-Id: <20191216100451.28060-3-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20191216100451.28060-1-dplotnikov@virtuozzo.com>
-References: <20191216100451.28060-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: djdatte
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Damir (djdatte)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <157649076618.19251.2274802547008878034.launchpad@wampee.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b31e90666a7df27d74c6e127a32282374b35c2bd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -47,162 +65,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com, mst@redhat.com,
- mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@virtuozzo.com
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It tests proper seg_max_adjust settings for all machine types except
-'none', 'isapc', 'microvm'
+** Description changed:
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- tests/acceptance/virtio_seg_max_adjust.py | 135 ++++++++++++++++++++++
- 1 file changed, 135 insertions(+)
- create mode 100755 tests/acceptance/virtio_seg_max_adjust.py
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems to
+  always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%) in
+  L3 Cache Layout aware applications.
+  =
 
-diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance/virtio_seg_max_adjust.py
-new file mode 100755
-index 0000000000..00cf2565d9
---- /dev/null
-+++ b/tests/acceptance/virtio_seg_max_adjust.py
-@@ -0,0 +1,135 @@
-+#!/usr/bin/env python
-+#
-+# Test virtio-scsi and virtio-blk queue settings for all machine types
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import sys
-+import os
-+import re
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.machine import QEMUMachine
-+from avocado_qemu import Test
-+
-+#list of machine types and virtqueue properties to test
-+VIRTIO_SCSI_PROPS = {'seg_max_adjust': 'seg_max_adjust'}
-+VIRTIO_BLK_PROPS = {'seg_max_adjust': 'seg-max-adjust'}
-+
-+DEV_TYPES = {'virtio-scsi-pci': VIRTIO_SCSI_PROPS,
-+             'virtio-blk-pci': VIRTIO_BLK_PROPS}
-+
-+VM_DEV_PARAMS = {'virtio-scsi-pci': ['-device', 'virtio-scsi-pci,id=scsi0'],
-+                 'virtio-blk-pci': ['-device',
-+                                    'virtio-blk-pci,id=scsi0,drive=drive0',
-+                                    '-drive',
-+                                    'driver=null-co,id=drive0,if=none']}
-+
-+
-+class VirtioMaxSegSettingsCheck(Test):
-+    @staticmethod
-+    def make_pattern(props):
-+        pattern_items = ['{0} = \w+'.format(prop) for prop in props]
-+        return '|'.join(pattern_items)
-+
-+    def query_virtqueue(self, vm, dev_type_name):
-+        query_ok = False
-+        error = None
-+        props = None
-+
-+        output = vm.command('human-monitor-command',
-+                            command_line = 'info qtree')
-+        props_list = DEV_TYPES[dev_type_name].values();
-+        pattern = self.make_pattern(props_list)
-+        res = re.findall(pattern, output)
-+
-+        if len(res) != len(props_list):
-+            props_list = set(props_list)
-+            res = set(res)
-+            not_found = props_list.difference(res)
-+            not_found = ', '.join(not_found)
-+            error = '({0}): The following properties not found: {1}'\
-+                     .format(dev_type_name, not_found)
-+        else:
-+            query_ok = True
-+            props = dict()
-+            for prop in res:
-+                p = prop.split(' = ')
-+                props[p[0]] = p[1]
-+        return query_ok, props, error
-+
-+    def check_mt(self, mt, dev_type_name):
-+        with QEMUMachine(self.qemu_bin) as vm:
-+            vm.set_machine(mt["name"])
-+            for s in VM_DEV_PARAMS[dev_type_name]:
-+                vm.add_args(s)
-+            vm.launch()
-+            query_ok, props, error = self.query_virtqueue(vm, dev_type_name)
-+
-+        if not query_ok:
-+            self.fail('machine type {0}: {1}'.format(mt['name'], error))
-+
-+        for prop_name, prop_val in props.items():
-+            expected_val = mt[prop_name]
-+            self.assertEqual(expected_val, prop_val)
-+
-+    @staticmethod
-+    def seg_max_adjust_enabled(mt):
-+        # machine types > 4.2 should have seg_max_adjust = true
-+        # others seg_max_adjust = false
-+        mt = mt.split("-")
-+
-+        # machine types with one line name and name like pc-x.x
-+        if len(mt) <= 2:
-+            return False
-+
-+        # machine types like pc-<chip_name>-x.x[.x]
-+        ver = mt[2]
-+        ver = ver.split(".");
-+
-+        # all versions greater than 4.2 goes with seg_max_adjust enabled
-+        major = int(ver[0])
-+        minor = int(ver[1])
-+
-+        if major > 4 or (major == 4 and minor > 2):
-+            return True
-+        return False
-+
-+    def test_machine_types(self):
-+        # collect all machine types except 'none', 'isapc', 'microvm'
-+        with QEMUMachine(self.qemu_bin) as vm:
-+            vm.launch()
-+            machines = [m['name'] for m in vm.command('query-machines')]
-+            vm.shutdown()
-+        machines.remove('none')
-+        machines.remove('isapc')
-+        machines.remove('microvm')
-+
-+        for dev_type in DEV_TYPES:
-+            # create the list of machine types and their parameters.
-+            mtypes = list()
-+            for m in machines:
-+                if self.seg_max_adjust_enabled(m):
-+                    enabled = 'true'
-+                else:
-+                    enabled = 'false'
-+                mtypes.append({'name': m,
-+                               DEV_TYPES[dev_type]['seg_max_adjust']: enabled})
-+
-+            # test each machine type for a device type
-+            for mt in mtypes:
-+                self.check_mt(mt, dev_type)
--- 
-2.17.0
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+  =
 
+-   <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+-     <model fallback=3D'forbid'>EPYC-IBPB</model>
+-     <vendor>AMD</vendor>
+-     <topology sockets=3D'1' cores=3D'8' threads=3D'1'/>
++ =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
++ =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
++ =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
++ =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+  =
+
+  In windows, coreinfo reports correctly:
+  =
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+  =
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+  =
+
+-  <cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+-     <model fallback=3D'forbid'>EPYC-IBPB</model>
+-     <vendor>AMD</vendor>
+-     <topology sockets=3D'1' cores=3D'6' threads=3D'1'/>
++ =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
++ =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
++ =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
++ =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+  =
+
+  in windows, coreinfo reports incorrectly:
+  =
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+  =
+
++ Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+  =
+
+- Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm. =
+
+- =
+
+- With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter: =
+
+-  <qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
++ With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
++ =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+  =
+
+  The problem is that the dies are exposed differently than how AMD does
+- it natively, they are exposed to Windows as sockets, which means, you
+- can't ever have a machine with more than two CCX (6 cores) as Windows
+- only supports two sockets. (Should this be reported as a separate bug?)
++ it natively, they are exposed to Windows as sockets, which means, that
++ if you are nto a business user, you can't ever have a machine with more
++ than two CCX (6 cores) as consumer versions of Windows only supports two
++ sockets. (Should this be reported as a separate bug?)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
