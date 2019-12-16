@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11EA61211AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:23:40 +0100 (CET)
-Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE391210F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Dec 2019 18:07:54 +0100 (CET)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1igu5q-00063L-OA
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:23:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57455)
+	id 1igtqa-00021l-LS
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 12:07:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57473)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFj-0005xe-03
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFj-0005yF-Lk
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1igtFh-0000Z7-8L
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:46 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53209)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1igtFi-0000bL-MX
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:47 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37668)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1igtFg-0000U8-Uw
+ id 1igtFh-0000W9-6B
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 11:29:45 -0500
-Received: by mail-wm1-x334.google.com with SMTP id p9so7444714wmc.2
+Received: by mail-wr1-x444.google.com with SMTP id w15so8066676wru.4
  for <qemu-devel@nongnu.org>; Mon, 16 Dec 2019 08:29:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uHPnz/CuhNDw7Q8yQgUAYEh1mPj3Ixi1rl2oxYokSDY=;
- b=D91lpF6xCIs2UwubdoVbaMhMcJUquR5iq9fKhXDSIxdqXz+j8CmGQyCAd786XV8Xiu
- lqfHbzyWrthj1omOEfxPQBPpP8b89JQHWqm/GMWnpNdSL9bavjEP5uW3+42p3tN9sqWD
- tgmmg9eR15imc7DW489Ko6+GJrY5SSp5R3kjgZD+GHimT5PfewcUYMR5m39Lam5XrsCH
- 8jgTeNWJ9GPE/g7+5x454X5Lsq1UuBKYVVJi6iSFNVqtj1TmlBI9uHrGnwe08c5TqEBI
- Tyg44tVceGWIh6JPicEb6BaAwfOtd7sDWYEMvDjkv8PKXWS+tDJC+ddqbko7Z/RT1dJU
- t3Xw==
+ bh=D41f9AHtUnFEFhVN7otZyXIWZtbVHADUeBM3ruO23wc=;
+ b=d6CPYHGhF+6RiAhXrHnw1lnXnK6hCY7QgwUydGGVpawmLCidVeYcd3i4yehLdu5LUv
+ Lw2ZuR+7W9kWlBnfsk1iZ3eVdFfuoByPXS/LtMWc3dRFJ9RayF7zIbZV52OCBByYWpcI
+ XR+3ysRqm0W7rIzqY/dxovdoC2HQnQkjpeASXtgM97AIPhqf9gs5Nx6FkNHkS8MJtKD7
+ cntg165gqLZp53C9flcgB+LT+JXyJvysO8M6i0zHh2HtvtCgxTG1kuvj3Ufc/BQPpTc1
+ u3Pa81jSa7VFh5uEKH/jS1ORdsdtnv11q4ZtwaK2VBP201y/r9hcJ4qLNJN22ImO18YX
+ glmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uHPnz/CuhNDw7Q8yQgUAYEh1mPj3Ixi1rl2oxYokSDY=;
- b=uA+IJfD7bxDUI2XYnYraRZLTACN8MRRCZ2CjctIOPocIwIEvFZMuDu//HMo2kthvAr
- hpDJKnK4tFbiSDalUbs6CsEaLrM+sZoX68obegcdkklvdGoL8UvvArn4itFzC2x3D090
- yC98MZciyMWxZhssHv8M6mBwUXVnw7zKeFOGodRp2UqJgRLFkGPeX7mXS4Ag6QksBxcV
- d5xQEWJXXG2Tg5G9SttESTd2TUTzpU9cDJT6pD5v6PEGHkf0n2puW2n2oBIeaD+wVQgg
- ArLATccRs4qxwcdSdC5QzUDLOUcaLR5WdYpqyQYvnMGE4VyVj0fbUo3U1ePfqJpSza9V
- O5kA==
-X-Gm-Message-State: APjAAAXpyHmoy3Wk2pzJf7qMXwFDtp3GrQ39c0Buhws8CuN6YL9Zy4LW
- cuM7CqS6VyZ0GPrPhPRFagwHDJ8l
-X-Google-Smtp-Source: APXvYqxlNkhMRGRSG5eg4Xb4h3Pazx89IawPB0tefPb4zoIoepgnLNIzxI8LbZztjcwhCH5fbUwkfQ==
-X-Received: by 2002:a7b:cc82:: with SMTP id p2mr32501204wma.159.1576513782919; 
- Mon, 16 Dec 2019 08:29:42 -0800 (PST)
+ bh=D41f9AHtUnFEFhVN7otZyXIWZtbVHADUeBM3ruO23wc=;
+ b=GhHf+WnEhbXXS2k2v/Env9c+2kTvN4rCJ0Z+uZoPlnK5LT1K60ovU32aa7TwWcdZPe
+ S9daguF1bOh4nDuW9T77QyVkLnfbPTkmc51fIRHK0/wlOgUfyfPdHQ+jvbrBC8xnYLq4
+ 8tWoHqc9rqY/jzUG3oPDbkMY8d2spC0Y0IJqk1JTZ2sNfhd8XZ6fDKqxgnJ+Oxs7D/x7
+ oRg9Qc3DrjJIZTJttaGZ0bfT/ZdYwbkQ1R6tBZL5hIZ+K1BWcwZI4SX5zHqyhYfVA7bR
+ dLp/AMH/VKtUo5FbRbLMVKctg0mquYxPmFHRbyQ7glLxi3muLAvaJuTrAYjU2/KEKEa4
+ P0gQ==
+X-Gm-Message-State: APjAAAXsdUN8h04YqYj+zDZ7GARDQz/TenQgd3YCP6usYlzxqkBGfAhg
+ 1zkUIPE0McyerjJiVhDaqOPnS9L2
+X-Google-Smtp-Source: APXvYqyyBGXRtw8sJf+T/A8U4cJfI0zB+bLW4Zk5Ca6sRAs2eMtS2F2bUXfo120Dc08yXN4YxeZHVg==
+X-Received: by 2002:a5d:68cf:: with SMTP id p15mr31613088wrw.31.1576513783877; 
+ Mon, 16 Dec 2019 08:29:43 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id q68sm19962334wme.14.2019.12.16.08.29.42
- for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 16 Dec 2019 08:29:42 -0800 (PST)
+ Mon, 16 Dec 2019 08:29:43 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/62] hw/isa/isa-bus: cleanup irq functions
-Date: Mon, 16 Dec 2019 17:28:39 +0100
-Message-Id: <1576513726-53700-56-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 56/62] hw/i386/pc: Use TYPE_PORT92 instead of hardcoded string
+Date: Mon, 16 Dec 2019 17:28:40 +0100
+Message-Id: <1576513726-53700-57-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
 References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,83 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The irq number is unsigned; we reject negative values.  But -1
-is used for the isairq array, which is declared unsigned!  And
-since we have a definition for the number of ISA IRQs, use it.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Based on a patch by Philippe Mathieu-Daudé.
+By using the TYPE_* definitions for devices, we can:
+- quickly find where devices are used with 'git-grep'
+- easily rename a device (one-line change).
 
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/isa/isa-bus.c     | 11 +++++++----
- include/hw/isa/isa.h |  8 ++++----
- 2 files changed, 11 insertions(+), 8 deletions(-)
+ hw/i386/pc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 3888006..798dd91 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -82,24 +82,27 @@ void isa_bus_irqs(ISABus *bus, qemu_irq *irqs)
-  * This function is only for special cases such as the 'ferr', and
-  * temporary use for normal devices until they are converted to qdev.
-  */
--qemu_irq isa_get_irq(ISADevice *dev, int isairq)
-+qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
- {
-     assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
--    if (isairq < 0 || isairq > 15) {
-+    if (isairq >= ISA_NUM_IRQS) {
-         hw_error("isa irq %d invalid", isairq);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d706b98..8752840 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1275,7 +1275,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
+         qdev_prop_set_ptr(dev, "ps2_mouse", i8042);
+         qdev_init_nofail(dev);
      }
-     return isabus->irqs[isairq];
- }
+-    port92 = isa_create_simple(isa_bus, "port92");
++    port92 = isa_create_simple(isa_bus, TYPE_PORT92);
  
--void isa_init_irq(ISADevice *dev, qemu_irq *p, int isairq)
-+void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
- {
-     assert(dev->nirqs < ARRAY_SIZE(dev->isairq));
-+    if (isairq >= ISA_NUM_IRQS) {
-+        hw_error("isa irq %d invalid", isairq);
-+    }
-     dev->isairq[dev->nirqs] = isairq;
-     *p = isa_get_irq(dev, isairq);
-     dev->nirqs++;
- }
- 
--void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, int isairq)
-+void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
- {
-     qemu_irq irq;
-     isa_init_irq(isadev, &irq, isairq);
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 79f703f..e9ac1f1 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -88,7 +88,7 @@ struct ISADevice {
-     DeviceState parent_obj;
-     /*< public >*/
- 
--    uint32_t isairq[2];
-+    int8_t isairq[2];      /* -1 = unassigned */
-     int nirqs;
-     int ioport_id;
- };
-@@ -96,9 +96,9 @@ struct ISADevice {
- ISABus *isa_bus_new(DeviceState *dev, MemoryRegion *address_space,
-                     MemoryRegion *address_space_io, Error **errp);
- void isa_bus_irqs(ISABus *bus, qemu_irq *irqs);
--qemu_irq isa_get_irq(ISADevice *dev, int isairq);
--void isa_init_irq(ISADevice *dev, qemu_irq *p, int isairq);
--void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, int isairq);
-+qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
-+void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq);
-+void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
- void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16);
- IsaDma *isa_get_dma(ISABus *bus, int nchan);
- MemoryRegion *isa_address_space(ISADevice *dev);
+     a20_line = qemu_allocate_irqs(handle_a20_line_change, first_cpu, 2);
+     i8042_setup_a20_line(i8042, a20_line[0]);
 -- 
 1.8.3.1
 
