@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59AA1123407
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 18:59:34 +0100 (CET)
-Received: from localhost ([::1]:44680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185D512340C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 19:01:02 +0100 (CET)
+Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihH89-0002MX-C6
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 12:59:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32969)
+	id 1ihH9Z-0003rp-6G
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 13:01:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihH6H-0000zY-Mk
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihH6H-0000zU-7u
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:57:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihH6E-000717-9Z
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:57:37 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43934)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihH6D-0006zV-C2
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:57:35 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45412)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihH6D-0006v1-CA
+ id 1ihH6D-0006ur-4K
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:57:33 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d16so12314823wre.10
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 09:57:31 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id j42so8108093wrj.12
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 09:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=nKZchHpd70vIlJbL+VC1V92+mHhvR2A0AqZFydfzy38=;
- b=Z1FWdXjcUKpSV/XCRoLKMKPVlO6XqNVvo9TlYCsLamuPuPwkOYjUu/Eu16XuFzJUSL
- tNBObqIKw05qwTwu+RnsJz0S9jwgEd4648BIH0IgaDsNy3Vhg/Bvjq2iIErHrw+v9ZvR
- klAg6QGRApNWnw1ErvIGwUn6t+yQMJEXzL+UJpA0mRGhEJVEG5utW8a3jJeDuXkmflCq
- kCYTsVSCaD9bUFprQu2a6GM/Q49THZD0QVMP8dSIkMaRuNJhyytRxgdnOCA8k+MCEymM
- fLete6O26OdtRsBr57x5egsjy9MDv/k2EIR84G237ayqtE3Z7V//2zoS9DoI6TM9/P/D
- 0TDg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=laOZi9ZVqXfm59iac6wAKRH/U7LCmfU8oiWAikwr/M8=;
+ b=tOa34wibhS08+tFPFnoNxoWR6sIIqqmoRlQa63wBrJ7o4jeZttCTAPCESzlAlnyFQH
+ ibLi9vf4jVhowgNnsM1Cqu/1Xk2yt8MuCbUQASMllQi5UDFv4VC56rJWupt5X/pi0m67
+ 3SRucDOJZcKx+ZYllmKhI558L1CBYKW4IX2Mx5R56amYR1Zz8ATWwY+MCi946aQwT5o0
+ EAhrX0kuaCvpPVzinlgPTC4FQIDMpkt1rTlfL1AzMjUa0oNOJaO9GQPgjf9zFcCnfRLu
+ atRVnV/NZmv4Z3A4baD29laUOi5L49off8Z9AHg0aPsL4jrevpfNQZfFXawDitYoeRbt
+ 0+qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=nKZchHpd70vIlJbL+VC1V92+mHhvR2A0AqZFydfzy38=;
- b=iQq/wSYzOOKVMUZH7rZSqEkryDr3Q9PsdABYQAEKZ8m35Bz4Hcvf/alhyg3sdATQYz
- MK9tJQ6f3LaEHJzejkxNyjz339IYfQ8+oxBZtfD0fQuiqMKgtLpDfUvRTPn/INg5+lzK
- h9pcYSwdHtlyESLnpBSXyGT15gFCPvFBs+TsxH+hxst09KJxA2CF4fGCK7DuKh4SWTIS
- mX6yh22mOMkOMvJhFQlPkQ7gK85mOhhF5cw9BglzwMvHXebUq1heo391INFMHvAaN3oB
- T9abAOnKmSdn7PU9KVOaOzkpGThvayA7rw0ohX9ANggkaVZ5siGIDHL0U5r2/y1IwSGR
- cU0g==
-X-Gm-Message-State: APjAAAWntdglyabUQb8grqA/oaoz1emWYfnKyHV5Rd1oBzvVAXyNL5v6
- ntTyHy9qCAz4p+0CzS5llk8/6EKF
-X-Google-Smtp-Source: APXvYqwlMICYUqCzvmfKQlOMF//GWH4SCu1sGuxxuiQDznmse13inBZ8/jJ+POzsimA9YFbOC6vwoQ==
-X-Received: by 2002:a5d:62d1:: with SMTP id o17mr41021616wrv.9.1576605449982; 
- Tue, 17 Dec 2019 09:57:29 -0800 (PST)
+ bh=laOZi9ZVqXfm59iac6wAKRH/U7LCmfU8oiWAikwr/M8=;
+ b=sI737qRHWNMW4L+Wuw+P4VsrrnTGVzCHzoSOl11oNcNSfNb0u+zhGaEZ7cNeCCiPP/
+ bgwY/rv5V8hMtm5GKjb1J76Y9/QXce9ts2tyRnWuGc06fo/jLwTBMQG7TB9HJectKYeU
+ Jdv7cku1LUn6FUUS+oyG6AM8lZ+KOXC5BO4pmzLop98sGy/2ADOqhLtGmjzLk6oU8hgE
+ qH3Zelch2Bz4IbZz2KRSdMOlyILOLfbRtSOVDxxUnsiwpICK9lMWa//b+VBTar5B0yok
+ 4dMf6Ke7ozB6kvltylwgu78+v2Xjm5ZX4Kww0hdtplHgGnRacCAcfDH4KjzOK7fO9uzQ
+ tYCw==
+X-Gm-Message-State: APjAAAX6ua0Z/5r12qR68Sb8Rk8OWZ8le0Jjdl8UyMSjEMS2ItvzeLJx
+ CMPyLEJmATMfkFXshtCXpozbTqAA
+X-Google-Smtp-Source: APXvYqzGcfXtS8c98KgdU9MAQ9vzXSt5o7nRXOGvwPxjKuSFP3Gwz7oZ/DW4dyX1HKStSG7yGum8gg==
+X-Received: by 2002:adf:bc87:: with SMTP id g7mr39724988wrh.121.1576605448982; 
+ Tue, 17 Dec 2019 09:57:28 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q8sm3649573wmq.3.2019.12.17.09.57.29
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id q8sm3649573wmq.3.2019.12.17.09.57.27
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Dec 2019 09:57:29 -0800 (PST)
+ Tue, 17 Dec 2019 09:57:28 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/62] qom: introduce object_register_sugar_prop
-Date: Tue, 17 Dec 2019 18:57:25 +0100
-Message-Id: <1576605445-28158-3-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 11/62] migration-test: Use a struct for test_migrate_start
+ parameters
+Date: Tue, 17 Dec 2019 18:57:24 +0100
+Message-Id: <1576605445-28158-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576605445-28158-1-git-send-email-pbonzini@redhat.com>
 References: <1576605445-28158-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,99 +75,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to the existing "-rtc driftfix" option, we will convert some
-legacy "-machine" command line options to global properties on accelerators.
-Because accelerators are not devices, we cannot use qdev_prop_register_global.
-Instead, provide a slot in the generic object_compat_props arrays for
-command line syntactic sugar.
+From: Juan Quintela <quintela@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+It has two bools and two strings, it is very difficult to remember
+which does what.  And it makes very difficult to add new parameters as
+we need to modify all the callers.
+
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Tested-by: Cornelia Huck <cohuck@redhat.com> #s390x
+Tested-by: Laurent Vivier <lvivier@redhat.com>
 ---
- include/qom/object.h |  1 +
- qom/object.c         | 23 +++++++++++++++++++++--
- vl.c                 | 10 +++-------
- 3 files changed, 25 insertions(+), 9 deletions(-)
+ tests/migration-test.c | 118 ++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 78 insertions(+), 40 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 128d00c..230b18f 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -679,6 +679,7 @@ void object_apply_global_props(Object *obj, const GPtrArray *props,
-                                Error **errp);
- void object_set_machine_compat_props(GPtrArray *compat_props);
- void object_set_accelerator_compat_props(GPtrArray *compat_props);
-+void object_register_sugar_prop(const char *driver, const char *prop, const char *value);
- void object_apply_compat_props(Object *obj);
- 
- /**
-diff --git a/qom/object.c b/qom/object.c
-index d51b57f..e7b72f7 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -414,10 +414,29 @@ void object_apply_global_props(Object *obj, const GPtrArray *props, Error **errp
-  * Global property defaults
-  * Slot 0: accelerator's global property defaults
-  * Slot 1: machine's global property defaults
-+ * Slot 2: global properties from legacy command line option
-  * Each is a GPtrArray of of GlobalProperty.
-  * Applied in order, later entries override earlier ones.
-  */
--static GPtrArray *object_compat_props[2];
-+static GPtrArray *object_compat_props[3];
-+
-+/*
-+ * Retrieve @GPtrArray for global property defined with options
-+ * other than "-global".  These are generally used for syntactic
-+ * sugar and legacy command line options.
-+ */
-+void object_register_sugar_prop(const char *driver, const char *prop, const char *value)
-+{
-+    GlobalProperty *g;
-+    if (!object_compat_props[2]) {
-+        object_compat_props[2] = g_ptr_array_new();
-+    }
-+    g = g_new0(GlobalProperty, 1);
-+    g->driver = g_strdup(driver);
-+    g->property = g_strdup(prop);
-+    g->value = g_strdup(value);
-+    g_ptr_array_add(object_compat_props[2], g);
-+}
- 
- /*
-  * Set machine's global property defaults to @compat_props.
-@@ -445,7 +464,7 @@ void object_apply_compat_props(Object *obj)
- 
-     for (i = 0; i < ARRAY_SIZE(object_compat_props); i++) {
-         object_apply_global_props(obj, object_compat_props[i],
--                                  &error_abort);
-+                                  i == 2 ? &error_fatal : &error_abort);
-     }
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index 6c7c416..97dd1dc 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -544,10 +544,31 @@ static void migrate_postcopy_start(QTestState *from, QTestState *to)
+     qtest_qmp_eventwait(to, "RESUME");
  }
  
-diff --git a/vl.c b/vl.c
-index 46e4ec3..be3f51c 100644
---- a/vl.c
-+++ b/vl.c
-@@ -897,13 +897,9 @@ static void configure_rtc(QemuOpts *opts)
-     value = qemu_opt_get(opts, "driftfix");
-     if (value) {
-         if (!strcmp(value, "slew")) {
--            static GlobalProperty slew_lost_ticks = {
--                .driver   = "mc146818rtc",
--                .property = "lost_tick_policy",
--                .value    = "slew",
--            };
++typedef struct {
++    bool hide_stderr;
++    bool use_shmem;
++    char *opts_source;
++    char *opts_target;
++} MigrateStart;
++
++static MigrateStart *migrate_start_new(void)
++{
++    MigrateStart *args = g_new0(MigrateStart, 1);
++
++    args->opts_source = g_strdup("");
++    args->opts_target = g_strdup("");
++    return args;
++}
++
++static void migrate_start_destroy(MigrateStart *args)
++{
++    g_free(args->opts_source);
++    g_free(args->opts_target);
++    g_free(args);
++}
++
+ static int test_migrate_start(QTestState **from, QTestState **to,
+-                               const char *uri, bool hide_stderr,
+-                               bool use_shmem, const char *opts_src,
+-                               const char *opts_dst)
++                              const char *uri, MigrateStart *args)
+ {
+     gchar *arch_source, *arch_target;
+     gchar *cmd_source, *cmd_target;
+@@ -560,10 +581,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+     const char *machine_args;
+     const char *memory_size;
+ 
+-    opts_src = opts_src ? opts_src : "";
+-    opts_dst = opts_dst ? opts_dst : "";
 -
--            qdev_prop_register_global(&slew_lost_ticks);
-+            object_register_sugar_prop("mc146818rtc",
-+                                       "lost_tick_policy",
-+                                       "slew");
-         } else if (!strcmp(value, "none")) {
-             /* discard is default */
-         } else {
+-    if (use_shmem) {
++    if (args->use_shmem) {
+         if (!g_file_test("/dev/shm", G_FILE_TEST_IS_DIR)) {
+             g_test_skip("/dev/shm is not supported");
+             return -1;
+@@ -623,13 +641,13 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+ 
+     g_free(bootpath);
+ 
+-    if (hide_stderr) {
++    if (args->hide_stderr) {
+         ignore_stderr = "2>/dev/null";
+     } else {
+         ignore_stderr = "";
+     }
+ 
+-    if (use_shmem) {
++    if (args->use_shmem) {
+         shmem_path = g_strdup_printf("/dev/shm/qemu-%d", getpid());
+         shmem_opts = g_strdup_printf(
+             "-object memory-backend-file,id=mem0,size=%s"
+@@ -647,7 +665,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+                                  "%s %s %s %s",
+                                  machine_type, machine_args,
+                                  memory_size, tmpfs,
+-                                 arch_source, shmem_opts, opts_src,
++                                 arch_source, shmem_opts, args->opts_source,
+                                  ignore_stderr);
+     g_free(arch_source);
+     *from = qtest_init(cmd_source);
+@@ -661,8 +679,8 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+                                  "%s %s %s %s",
+                                  machine_type, machine_args,
+                                  memory_size, tmpfs, uri,
+-                                 arch_target, shmem_opts, opts_dst,
+-                                 ignore_stderr);
++                                 arch_target, shmem_opts,
++                                 args->opts_target, ignore_stderr);
+     g_free(arch_target);
+     *to = qtest_init(cmd_target);
+     g_free(cmd_target);
+@@ -672,11 +690,12 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+      * Remove shmem file immediately to avoid memory leak in test failed case.
+      * It's valid becase QEMU has already opened this file
+      */
+-    if (use_shmem) {
++    if (args->use_shmem) {
+         unlink(shmem_path);
+         g_free(shmem_path);
+     }
+ 
++    migrate_start_destroy(args);
+     return 0;
+ }
+ 
+@@ -762,13 +781,13 @@ static void test_deprecated(void)
+ }
+ 
+ static int migrate_postcopy_prepare(QTestState **from_ptr,
+-                                     QTestState **to_ptr,
+-                                     bool hide_error)
++                                    QTestState **to_ptr,
++                                    MigrateStart *args)
+ {
+     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, uri, hide_error, false, NULL, NULL)) {
++    if (test_migrate_start(&from, &to, uri, args)) {
+         return -1;
+     }
+ 
+@@ -813,9 +832,10 @@ static void migrate_postcopy_complete(QTestState *from, QTestState *to)
+ 
+ static void test_postcopy(void)
+ {
++    MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+ 
+-    if (migrate_postcopy_prepare(&from, &to, false)) {
++    if (migrate_postcopy_prepare(&from, &to, args)) {
+         return;
+     }
+     migrate_postcopy_start(from, to);
+@@ -824,10 +844,13 @@ static void test_postcopy(void)
+ 
+ static void test_postcopy_recovery(void)
+ {
++    MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+     char *uri;
+ 
+-    if (migrate_postcopy_prepare(&from, &to, true)) {
++    args->hide_stderr = true;
++
++    if (migrate_postcopy_prepare(&from, &to, args)) {
+         return;
+     }
+ 
+@@ -910,9 +933,12 @@ static void wait_for_migration_fail(QTestState *from, bool allow_active)
+ 
+ static void test_baddest(void)
+ {
++    MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, "tcp:0:0", true, false, NULL, NULL)) {
++    args->hide_stderr = true;
++
++    if (test_migrate_start(&from, &to, "tcp:0:0", args)) {
+         return;
+     }
+     migrate(from, "tcp:0:0", "{}");
+@@ -923,9 +949,10 @@ static void test_baddest(void)
+ static void test_precopy_unix(void)
+ {
+     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
++    MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, uri, false, false, NULL, NULL)) {
++    if (test_migrate_start(&from, &to, uri, args)) {
+         return;
+     }
+ 
+@@ -1001,9 +1028,10 @@ static void test_ignore_shared(void)
+ 
+ static void test_xbzrle(const char *uri)
+ {
++    MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, uri, false, false, NULL, NULL)) {
++    if (test_migrate_start(&from, &to, uri, args)) {
+         return;
+     }
+ 
+@@ -1052,11 +1080,11 @@ static void test_xbzrle_unix(void)
+ 
+ static void test_precopy_tcp(void)
+ {
++    MigrateStart *args = migrate_start_new();
+     char *uri;
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", false, false,
+-                           NULL, NULL)) {
++    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
+         return;
+     }
+ 
+@@ -1096,13 +1124,14 @@ static void test_precopy_tcp(void)
+ 
+ static void test_migrate_fd_proto(void)
+ {
++    MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+     int ret;
+     int pair[2];
+     QDict *rsp;
+     const char *error_desc;
+ 
+-    if (test_migrate_start(&from, &to, "defer", false, false, NULL, NULL)) {
++    if (test_migrate_start(&from, &to, "defer", args)) {
+         return;
+     }
+ 
+@@ -1178,15 +1207,12 @@ static void test_migrate_fd_proto(void)
+     test_migrate_end(from, to, true);
+ }
+ 
+-static void do_test_validate_uuid(const char *uuid_arg_src,
+-                                  const char *uuid_arg_dst,
+-                                  bool should_fail, bool hide_stderr)
++static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+ {
+     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, uri, hide_stderr, false,
+-                           uuid_arg_src, uuid_arg_dst)) {
++    if (test_migrate_start(&from, &to, uri, args)) {
+         return;
+     }
+ 
+@@ -1216,33 +1242,45 @@ static void do_test_validate_uuid(const char *uuid_arg_src,
+ 
+ static void test_validate_uuid(void)
+ {
+-    do_test_validate_uuid("-uuid 11111111-1111-1111-1111-111111111111",
+-                          "-uuid 11111111-1111-1111-1111-111111111111",
+-                          false, false);
++    MigrateStart *args = migrate_start_new();
++
++    args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
++    args->opts_target = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
++    do_test_validate_uuid(args, false);
+ }
+ 
+ static void test_validate_uuid_error(void)
+ {
+-    do_test_validate_uuid("-uuid 11111111-1111-1111-1111-111111111111",
+-                          "-uuid 22222222-2222-2222-2222-222222222222",
+-                          true, true);
++    MigrateStart *args = migrate_start_new();
++
++    args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
++    args->opts_target = g_strdup("-uuid 22222222-2222-2222-2222-222222222222");
++    args->hide_stderr = true;
++    do_test_validate_uuid(args, true);
+ }
+ 
+ static void test_validate_uuid_src_not_set(void)
+ {
+-    do_test_validate_uuid(NULL, "-uuid 11111111-1111-1111-1111-111111111111",
+-                          false, true);
++    MigrateStart *args = migrate_start_new();
++
++    args->opts_target = g_strdup("-uuid 22222222-2222-2222-2222-222222222222");
++    args->hide_stderr = true;
++    do_test_validate_uuid(args, false);
+ }
+ 
+ static void test_validate_uuid_dst_not_set(void)
+ {
+-    do_test_validate_uuid("-uuid 11111111-1111-1111-1111-111111111111", NULL,
+-                          false, true);
++    MigrateStart *args = migrate_start_new();
++
++    args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
++    args->hide_stderr = true;
++    do_test_validate_uuid(args, false);
+ }
+ 
+ static void test_migrate_auto_converge(void)
+ {
+     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
++    MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+     int64_t remaining, percentage;
+ 
+@@ -1261,7 +1299,7 @@ static void test_migrate_auto_converge(void)
+      */
+     const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
+ 
+-    if (test_migrate_start(&from, &to, uri, false, false, NULL, NULL)) {
++    if (test_migrate_start(&from, &to, uri, args)) {
+         return;
+     }
+ 
 -- 
 1.8.3.1
+
+
 
