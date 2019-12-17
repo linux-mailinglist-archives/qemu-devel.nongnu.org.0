@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2541223FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:44:55 +0100 (CET)
-Received: from localhost ([::1]:36088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B9712241B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:52:29 +0100 (CET)
+Received: from localhost ([::1]:36248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5fC-0001Zh-43
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:44:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
+	id 1ih5mW-0004F5-V9
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kV-0002qv-9A
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:20 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kn-0003Mk-Kw
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kT-00009o-SN
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:19 -0500
-Received: from ozlabs.org ([203.11.71.1]:52861)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4km-0000wd-7t
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:37 -0500
+Received: from ozlabs.org ([203.11.71.1]:39065)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4kT-00082s-GS; Mon, 16 Dec 2019 23:46:17 -0500
+ id 1ih4kl-0008WV-SX; Mon, 16 Dec 2019 23:46:36 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWj40twz9sTl; Tue, 17 Dec 2019 15:43:44 +1100 (AEDT)
+ id 47cQWl0k8gz9sTn; Tue, 17 Dec 2019 15:43:44 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557825;
- bh=beiPXhsZUwnNaLKV4yJfMDkkiO2d9SgIWAQnhLkMIzo=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557827;
+ bh=erWSHyC5lwCGEGfTSMrCkh+lwueXLVKO1d9GXDjoZFg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pVQ871x77OBqoeUI0mrRHDW/ZjzdRSAMuBqHNTRoN863Q0u3/QWKm3HSkWfKcIJNB
- kEyz8txojuu4WxM9tXN4O6Q3N0sGJdiRYNHGpqndGINUB0cXxUkqdLdF86BVIsUb1i
- VYNfInoBpbFX/jzD+LQ7e+nVlb55i3fdoBcQ0MvM=
+ b=UbLl3kzQV+63G/sw/RVkDN06ZYKPIIMJ2yC5f8Hss5pIffV6kPshKynzPtot83MPM
+ QbU7mMsdZwNE7KIaEYF5VkIbERinOn8u/WqwEiycShmGmQyJi1NKspH4qd+oMi+6ZL
+ vjvbZI+swxf3Nfxq2RrpjHFeD+gV4wOo6f2WjFHw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 81/88] ppc/pnv: Introduce PnvChipClass::intc_print_info() method
-Date: Tue, 17 Dec 2019 15:43:15 +1100
-Message-Id: <20191217044322.351838-82-david@gibson.dropbear.id.au>
+Subject: [PULL 82/88] ppc/pnv: Introduce PnvChipClass::xscom_core_base() method
+Date: Tue, 17 Dec 2019 15:43:16 +1100
+Message-Id: <20191217044322.351838-83-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -61,149 +61,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The pnv_pic_print_info() callback checks the type of the chip in order
-to forward to the request appropriate interrupt controller. This can
-be achieved with QOM. Introduce a method for this in the base chip class
-and implement it in child classes.
-
-This also prepares ground for the upcoming interrupt controller of POWER1=
-0
-chips.
+The pnv_chip_core_realize() function configures the XSCOM MMIO subregion
+for each core of a single chip. The base address of the subregion depends
+on the CPU type. Its computation is currently open-code using the
+pnv_chip_is_powerXX() helpers. This can be achieved with QOM. Introduce
+a method for this in the base chip class and implement it in child classe=
+s.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157623840755.360005.5002022339473369934.stgit@bahia.lan>
+Message-Id: <157623841311.360005.4705705734873339545.stgit@bahia.lan>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c         | 30 +++++++++++++++++++++++++-----
+ hw/ppc/pnv.c         | 31 ++++++++++++++++++++++++-------
  include/hw/ppc/pnv.h |  1 +
- 2 files changed, 26 insertions(+), 5 deletions(-)
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index a2ad7258f8..35416d1b3f 100644
+index 35416d1b3f..16f4e407ee 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -831,6 +831,12 @@ static void pnv_chip_power8_intc_destroy(PnvChip *ch=
-ip, PowerPCCPU *cpu)
-     pnv_cpu->intc =3D NULL;
+@@ -615,6 +615,24 @@ static void pnv_chip_power9_pic_print_info(PnvChip *=
+chip, Monitor *mon)
+     pnv_psi_pic_print_info(&chip9->psi, mon);
  }
 =20
-+static void pnv_chip_power8_intc_print_info(PnvChip *chip, PowerPCCPU *c=
-pu,
-+                                            Monitor *mon)
++static uint64_t pnv_chip_power8_xscom_core_base(PnvChip *chip,
++                                                uint32_t core_id)
 +{
-+    icp_pic_print_info(ICP(pnv_cpu_state(cpu)->intc), mon);
++    return PNV_XSCOM_EX_BASE(core_id);
 +}
 +
- /*
-  *    0:48  Reserved - Read as zeroes
-  *   49:52  Node ID
-@@ -888,6 +894,12 @@ static void pnv_chip_power9_intc_destroy(PnvChip *ch=
-ip, PowerPCCPU *cpu)
-     pnv_cpu->intc =3D NULL;
- }
-=20
-+static void pnv_chip_power9_intc_print_info(PnvChip *chip, PowerPCCPU *c=
-pu,
-+                                            Monitor *mon)
++static uint64_t pnv_chip_power9_xscom_core_base(PnvChip *chip,
++                                                uint32_t core_id)
 +{
-+    xive_tctx_pic_print_info(XIVE_TCTX(pnv_cpu_state(cpu)->intc), mon);
++    return PNV9_XSCOM_EC_BASE(core_id);
 +}
 +
- static void pnv_chip_power10_intc_create(PnvChip *chip, PowerPCCPU *cpu,
-                                         Error **errp)
++static uint64_t pnv_chip_power10_xscom_core_base(PnvChip *chip,
++                                                 uint32_t core_id)
++{
++    return PNV10_XSCOM_EC_BASE(core_id);
++}
++
+ static bool pnv_match_cpu(const char *default_type, const char *cpu_type=
+)
  {
-@@ -909,6 +921,11 @@ static void pnv_chip_power10_intc_destroy(PnvChip *c=
-hip, PowerPCCPU *cpu)
-     pnv_cpu->intc =3D NULL;
- }
-=20
-+static void pnv_chip_power10_intc_print_info(PnvChip *chip, PowerPCCPU *=
-cpu,
-+                                             Monitor *mon)
-+{
-+}
-+
- /*
-  * Allowed core identifiers on a POWER8 Processor Chip :
-  *
-@@ -1085,6 +1102,7 @@ static void pnv_chip_power8e_class_init(ObjectClass=
+     PowerPCCPUClass *ppc_default =3D
+@@ -1106,6 +1124,7 @@ static void pnv_chip_power8e_class_init(ObjectClass=
  *klass, void *data)
-     k->intc_create =3D pnv_chip_power8_intc_create;
-     k->intc_reset =3D pnv_chip_power8_intc_reset;
-     k->intc_destroy =3D pnv_chip_power8_intc_destroy;
-+    k->intc_print_info =3D pnv_chip_power8_intc_print_info;
      k->isa_create =3D pnv_chip_power8_isa_create;
      k->dt_populate =3D pnv_chip_power8_dt_populate;
      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-@@ -1106,6 +1124,7 @@ static void pnv_chip_power8_class_init(ObjectClass =
++    k->xscom_core_base =3D pnv_chip_power8_xscom_core_base;
+     dc->desc =3D "PowerNV Chip POWER8E";
+=20
+     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
+@@ -1128,6 +1147,7 @@ static void pnv_chip_power8_class_init(ObjectClass =
 *klass, void *data)
-     k->intc_create =3D pnv_chip_power8_intc_create;
-     k->intc_reset =3D pnv_chip_power8_intc_reset;
-     k->intc_destroy =3D pnv_chip_power8_intc_destroy;
-+    k->intc_print_info =3D pnv_chip_power8_intc_print_info;
      k->isa_create =3D pnv_chip_power8_isa_create;
      k->dt_populate =3D pnv_chip_power8_dt_populate;
      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-@@ -1127,6 +1146,7 @@ static void pnv_chip_power8nvl_class_init(ObjectCla=
++    k->xscom_core_base =3D pnv_chip_power8_xscom_core_base;
+     dc->desc =3D "PowerNV Chip POWER8";
+=20
+     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
+@@ -1150,6 +1170,7 @@ static void pnv_chip_power8nvl_class_init(ObjectCla=
 ss *klass, void *data)
-     k->intc_create =3D pnv_chip_power8_intc_create;
-     k->intc_reset =3D pnv_chip_power8_intc_reset;
-     k->intc_destroy =3D pnv_chip_power8_intc_destroy;
-+    k->intc_print_info =3D pnv_chip_power8_intc_print_info;
      k->isa_create =3D pnv_chip_power8nvl_isa_create;
      k->dt_populate =3D pnv_chip_power8_dt_populate;
      k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-@@ -1298,6 +1318,7 @@ static void pnv_chip_power9_class_init(ObjectClass =
++    k->xscom_core_base =3D pnv_chip_power8_xscom_core_base;
+     dc->desc =3D "PowerNV Chip POWER8NVL";
+=20
+     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
+@@ -1322,6 +1343,7 @@ static void pnv_chip_power9_class_init(ObjectClass =
 *klass, void *data)
-     k->intc_create =3D pnv_chip_power9_intc_create;
-     k->intc_reset =3D pnv_chip_power9_intc_reset;
-     k->intc_destroy =3D pnv_chip_power9_intc_destroy;
-+    k->intc_print_info =3D pnv_chip_power9_intc_print_info;
      k->isa_create =3D pnv_chip_power9_isa_create;
      k->dt_populate =3D pnv_chip_power9_dt_populate;
      k->pic_print_info =3D pnv_chip_power9_pic_print_info;
-@@ -1378,6 +1399,7 @@ static void pnv_chip_power10_class_init(ObjectClass=
++    k->xscom_core_base =3D pnv_chip_power9_xscom_core_base;
+     dc->desc =3D "PowerNV Chip POWER9";
+=20
+     device_class_set_parent_realize(dc, pnv_chip_power9_realize,
+@@ -1403,6 +1425,7 @@ static void pnv_chip_power10_class_init(ObjectClass=
  *klass, void *data)
-     k->intc_create =3D pnv_chip_power10_intc_create;
-     k->intc_reset =3D pnv_chip_power10_intc_reset;
-     k->intc_destroy =3D pnv_chip_power10_intc_destroy;
-+    k->intc_print_info =3D pnv_chip_power10_intc_print_info;
      k->isa_create =3D pnv_chip_power10_isa_create;
      k->dt_populate =3D pnv_chip_power10_dt_populate;
      k->pic_print_info =3D pnv_chip_power10_pic_print_info;
-@@ -1574,11 +1596,9 @@ static void pnv_pic_print_info(InterruptStatsProvi=
-der *obj,
-     CPU_FOREACH(cs) {
-         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++    k->xscom_core_base =3D pnv_chip_power10_xscom_core_base;
+     dc->desc =3D "PowerNV Chip POWER10";
 =20
--        if (pnv_chip_is_power9(pnv->chips[0])) {
--            xive_tctx_pic_print_info(XIVE_TCTX(pnv_cpu_state(cpu)->intc)=
-, mon);
+     device_class_set_parent_realize(dc, pnv_chip_power10_realize,
+@@ -1490,13 +1513,7 @@ static void pnv_chip_core_realize(PnvChip *chip, E=
+rror **errp)
+                                  &error_fatal);
+=20
+         /* Each core has an XSCOM MMIO region */
+-        if (pnv_chip_is_power10(chip)) {
+-            xscom_core_base =3D PNV10_XSCOM_EC_BASE(core_hwid);
+-        } else if (pnv_chip_is_power9(chip)) {
+-            xscom_core_base =3D PNV9_XSCOM_EC_BASE(core_hwid);
 -        } else {
--            icp_pic_print_info(ICP(pnv_cpu_state(cpu)->intc), mon);
+-            xscom_core_base =3D PNV_XSCOM_EX_BASE(core_hwid);
 -        }
-+        /* XXX: loop on each chip/core/thread instead of CPU_FOREACH() *=
-/
-+        PNV_CHIP_GET_CLASS(pnv->chips[0])->intc_print_info(pnv->chips[0]=
-, cpu,
-+                                                           mon);
-     }
++        xscom_core_base =3D pcc->xscom_core_base(chip, core_hwid);
 =20
-     for (i =3D 0; i < pnv->num_chips; i++) {
+         pnv_xscom_add_subregion(chip, xscom_core_base,
+                                 &pnv_core->xscom_regs);
 diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index c213bdd5ec..7d2402784d 100644
+index 7d2402784d..17ca9a14ac 100644
 --- a/include/hw/ppc/pnv.h
 +++ b/include/hw/ppc/pnv.h
-@@ -133,6 +133,7 @@ typedef struct PnvChipClass {
-     void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
-     void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
-     void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
-+    void (*intc_print_info)(PnvChip *chip, PowerPCCPU *cpu, Monitor *mon=
-);
+@@ -137,6 +137,7 @@ typedef struct PnvChipClass {
      ISABus *(*isa_create)(PnvChip *chip, Error **errp);
      void (*dt_populate)(PnvChip *chip, void *fdt);
      void (*pic_print_info)(PnvChip *chip, Monitor *mon);
++    uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
+ } PnvChipClass;
+=20
+ #define PNV_CHIP_TYPE_SUFFIX "-" TYPE_PNV_CHIP
 --=20
 2.23.0
 
