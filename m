@@ -2,55 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD3B12219A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 02:36:31 +0100 (CET)
-Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855A61221E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 03:12:11 +0100 (CET)
+Received: from localhost ([::1]:34318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih1mo-0007Vc-8A
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 20:36:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33300)
+	id 1ih2LK-0000Fa-5N
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 21:12:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1ih1lw-00073F-UA
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:35:38 -0500
+ (envelope-from <bounces@canonical.com>) id 1ih1rE-0008Jo-2A
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:41:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1ih1lv-0006Km-4R
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:35:36 -0500
-Received: from mga06.intel.com ([134.134.136.31]:27288)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1ih1lu-00064x-Rl
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:35:35 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2019 17:35:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,323,1571727600"; d="scan'208";a="240238481"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.238])
- ([10.239.196.238])
- by fmsmga004.fm.intel.com with ESMTP; 16 Dec 2019 17:35:23 -0800
-Subject: Re: [PATCH v2 0/4] Add extra information to versioned CPU models
-From: Tao Xu <tao3.xu@intel.com>
-To: "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
-References: <20191209071303.24303-1-tao3.xu@intel.com>
-Message-ID: <f7ee32e2-2d70-469b-7420-1305c25f93f8@intel.com>
-Date: Tue, 17 Dec 2019 09:35:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ (envelope-from <bounces@canonical.com>) id 1ih1rC-0003ND-Hz
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:41:03 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38984)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ih1rC-0003LO-CS
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 20:41:02 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ih1r7-0003ym-24
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 01:40:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0BEA22E80C0
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 01:40:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191209071303.24303-1-tao3.xu@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.31
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Dec 2019 01:34:00 -0000
+From: Fred Kimmy <kong.kongxinwei@hisilicon.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=In Progress; importance=Medium;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dannf jan-glauber-i jnsnow kongzizaixian lizhengui
+ rafaeldtinoco
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Fred Kimmy (kongzizaixian)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <157654644083.14692.7869547192402289701.malone@wampee.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b27d338fb0f39bbd86612cfde6c6948c92b0a843
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 16 Dec 2019 21:11:18 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,60 +86,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for comments.
+include/block/aio.h | 3 +++
+ qemu-img.c          | 4 ++++
+ util/async.c        | 5 +----
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-On 12/9/2019 3:12 PM, Tao Xu wrote:
-> This series of patches will remove MPX from Denverton, remove Remove
-> monitor from some CPU models. Add additional information for -cpu help
-> to indicate the changes in this version of CPU model.
-> 
-> The output is as follows:
-> ./x86_64-softmmu/qemu-system-x86_64 -cpu help | grep "\["
-> x86 Broadwell-v2          Intel Core Processor (Broadwell) [no TSX]
-> x86 Broadwell-v3          Intel Core Processor (Broadwell) [IBRS]
-> x86 Broadwell-v4          Intel Core Processor (Broadwell) [no TSX, IBRS]
-> x86 Cascadelake-Server-v2  Intel Xeon Processor (Cascadelake) [ARCH_CAPABILITIES]
-> x86 Cascadelake-Server-v3  Intel Xeon Processor (Cascadelake) [ARCH_CAPABILITIES, no TSX]
-> x86 Denverton-v2          Intel Atom Processor (Denverton) [no MPX, no MONITOR]
-> x86 Dhyana-v2             Hygon Dhyana Processor [no MONITOR]
-> x86 EPYC-v2               AMD EPYC Processor [IBPB]
-> x86 EPYC-v3               AMD EPYC Processor [IBPB, no MONITOR]
-> x86 Haswell-v2            Intel Core Processor (Haswell) [no TSX]
-> x86 Haswell-v3            Intel Core Processor (Haswell) [IBRS]
-> x86 Haswell-v4            Intel Core Processor (Haswell) [no TSX, IBRS]
-> x86 Icelake-Client-v2     Intel Core Processor (Icelake) [no TSX]
-> x86 Icelake-Server-v2     Intel Xeon Processor (Icelake) [no TSX]
-> x86 IvyBridge-v2          Intel Xeon E3-12xx v2 (Ivy Bridge) [IBRS]
-> x86 Nehalem-v2            Intel Core i7 9xx (Nehalem Class Core i7) [IBRS]
-> x86 Opteron_G3-v2         AMD Opteron 23xx (Gen 3 Class Opteron) [no MONITOR]
-> x86 SandyBridge-v2        Intel Xeon E312xx (Sandy Bridge) [IBRS]
-> x86 Skylake-Client-v2     Intel Core Processor (Skylake) [IBRS]
-> x86 Skylake-Client-v3     Intel Core Processor (Skylake) [no TSX, IBRS]
-> x86 Skylake-Server-v2     Intel Xeon Processor (Skylake) [IBRS]
-> x86 Skylake-Server-v3     Intel Xeon Processor (Skylake) [no TSX, IBRS]
-> x86 Snowridge-v2          Intel Atom Processor (SnowRidge) [no MPX]
-> x86 Snowridge-v3          Intel Atom Processor (SnowRidge) [no MPX, no MONITOR]
-> x86 Westmere-v2           Westmere E56xx/L56xx/X56xx (Nehalem-C) [IBRS]
-> 
-> Changes in v2:
->      - correct the note of Cascadelake v3 (Xiaoyao)
-> 
-> Tao Xu (4):
->    target/i386: Add Denverton-v2 (no MPX) CPU model
->    target/i386: Remove monitor from some CPU models
->    target/i386: Add new property note to versioned CPU models
->    target/i386: Add notes for versioned CPU models
-> 
->   target/i386/cpu.c | 112 +++++++++++++++++++++++++++++++++++-----------
->   1 file changed, 85 insertions(+), 27 deletions(-)
-> 
-> --
-> 2.20.1
-> 
-> 
+diff --git a/include/block/aio.h b/include/block/aio.h
+index e9bc04c..9153d87 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -89,6 +89,9 @@ struct AioContext {
+      */
+     uint32_t notify_me;
+ =
 
++    /* force to notify for qemu-img convert */
++    bool notify_for_convert;
++
+     /* lock to protect between bh's adders and deleter */
+     QemuMutex bh_lock;
+ =
+
+diff --git a/qemu-img.c b/qemu-img.c
+index 60a2be3..cf037aa 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2411,6 +2411,10 @@ static int img_convert(int argc, char **argv)
+         .wr_in_order        =3D wr_in_order,
+         .num_coroutines     =3D num_coroutines,
+     };
++
++    AioContext *ctx =3D qemu_get_aio_context();
++    ctx->notify_for_convert =3D 1;
++
+     ret =3D convert_do_copy(&state);
+ =
+
+ out:
+diff --git a/util/async.c b/util/async.c
+index 042bf8a..af235fc 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -336,12 +336,9 @@ void aio_notify(AioContext *ctx)
+      * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
+      */
+     smp_mb();
+-    if (ctx->notify_me) {
++    if (ctx->notify_me || ctx->notify_for_convert) {
+         event_notifier_set(&ctx->notifier);
+         atomic_mb_set(&ctx->notified, true);
+-#if defined(__aarch64__)
+-        kill(getpid(), SIGIO);
+-#endif
+     }
+ }
+
+Can you try this aboving patchset to slove it?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
+
+Status in kunpeng920:
+  Confirmed
+Status in QEMU:
+  In Progress
+Status in qemu package in Ubuntu:
+  Confirmed
+Status in qemu source package in Bionic:
+  Confirmed
+Status in qemu source package in Disco:
+  Confirmed
+Status in qemu source package in Eoan:
+  In Progress
+Status in qemu source package in Focal:
+  Confirmed
+
+Bug description:
+  Command:
+
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs.
+
+  ----
+
+  Workaround:
+
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
+
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  [ Original Description ]
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
