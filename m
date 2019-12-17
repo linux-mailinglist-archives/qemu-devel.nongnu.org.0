@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115BD12238A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:19:22 +0100 (CET)
-Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF0012237C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:13:46 +0100 (CET)
+Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5GS-0006zq-Ei
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:19:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35742)
+	id 1ih5B2-00070m-O9
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:13:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kR-0002lY-Ay
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:16 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jm-0002AG-CH
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kP-0008V0-N2
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:15 -0500
-Received: from ozlabs.org ([203.11.71.1]:36349)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jk-0007Yo-2p
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:34 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44639 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4kP-0007zB-BG; Mon, 16 Dec 2019 23:46:13 -0500
+ id 1ih4jj-00076W-9d; Mon, 16 Dec 2019 23:45:32 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWj0nyKz9sTg; Tue, 17 Dec 2019 15:43:40 +1100 (AEDT)
+ id 47cQWd6btmz9sTX; Tue, 17 Dec 2019 15:43:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557825;
- bh=A4wOr8sJUqg+WOlinsZsHjPg3iy96yxVrwBRRM8dIeM=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557821;
+ bh=H93vcA7eu+QF3H1KRJ06dJ+D+jFIDrmans7KndV5UnE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dmLMQ+LCL9vTuZv7ayYr2uyG1d+tBbjgdcPOD9EOKKjzGK+D3MwaXJX8jcZfq7xzE
- J0ustDbUMeB6+d9hSa2eDQmfEyBPa629OsKgKuI5uMX/RGiRDVvZ9fh1sNSXrb6zOH
- 7J1pdEznkP+nhUhLAQrYHCckw0lE8IKKE68dUPSM=
+ b=AtcrKPebrh8+S6l288JGCKjlftDliHrPYlQTLU9nxwElZBbjM3rGZZYUeqbuQvuek
+ V2wtZi1U2gIjS194XX6hKrDoOD39LI/75b2YomjzJ5SVJhXE4J38OFMYUDZgzQYww/
+ RdLFg6y4nAWrik9CUHBdp0PRHwCBe4AOrdgvGHIE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 67/88] target/ppc: Work [S]PURR implementation and add HV
- support
-Date: Tue, 17 Dec 2019 15:43:01 +1100
-Message-Id: <20191217044322.351838-68-david@gibson.dropbear.id.au>
+Subject: [PULL 69/88] target/ppc: Add SPR TBU40
+Date: Tue, 17 Dec 2019 15:43:03 +1100
+Message-Id: <20191217044322.351838-70-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,179 +63,158 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-The Processor Utilisation of Resources Register (PURR) and Scaled
-Processor Utilisation of Resources Register (SPURR) provide an estimate
-of the resources used by the thread, present on POWER7 and later
-processors.
+The spr TBU40 is used to set the upper 40 bits of the timebase
+register, present on POWER5+ and later processors.
 
-Currently the [S]PURR registers simply count at the rate of the
-timebase.
-
-Preserve this behaviour but rework the implementation to store an offset
-like the timebase rather than doing the calculation manually. Also allow
-hypervisor write access to the register along with the currently
-available read access.
+This register can only be written by the hypervisor, and cannot be read.
 
 Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-[ clg: rebased on current ppc tree ]
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191128134700.16091-3-clg@kaod.org>
+Message-Id: <20191128134700.16091-5-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc.c                    | 17 +++++++----------
- include/hw/ppc/ppc.h            |  3 +--
+ hw/ppc/ppc.c                    | 13 +++++++++++++
  target/ppc/cpu.h                |  1 +
  target/ppc/helper.h             |  1 +
  target/ppc/timebase_helper.c    |  5 +++++
- target/ppc/translate_init.inc.c | 23 +++++++++++++++--------
- 6 files changed, 30 insertions(+), 20 deletions(-)
+ target/ppc/translate_init.inc.c | 19 +++++++++++++++++++
+ 5 files changed, 39 insertions(+)
 
 diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index d8c402811f..2856d69495 100644
+index 2856d69495..4c5fa29399 100644
 --- a/hw/ppc/ppc.c
 +++ b/hw/ppc/ppc.c
-@@ -809,12 +809,9 @@ target_ulong cpu_ppc_load_hdecr(CPUPPCState *env)
- uint64_t cpu_ppc_load_purr (CPUPPCState *env)
+@@ -698,6 +698,19 @@ void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t va=
+lue)
+                      &tb_env->vtb_offset, value);
+ }
+=20
++void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value)
++{
++    ppc_tb_t *tb_env =3D env->tb_env;
++    uint64_t tb;
++
++    tb =3D cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                        tb_env->tb_offset);
++    tb &=3D 0xFFFFFFUL;
++    tb |=3D (value & ~0xFFFFFFUL);
++    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                     &tb_env->tb_offset, tb);
++}
++
+ static void cpu_ppc_tb_stop (CPUPPCState *env)
  {
      ppc_tb_t *tb_env =3D env->tb_env;
--    uint64_t diff;
-=20
--    diff =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - tb_env->purr_start;
--
--    return tb_env->purr_load +
--        muldiv64(diff, tb_env->tb_freq, NANOSECONDS_PER_SECOND);
-+    return cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                          tb_env->purr_offset);
- }
-=20
- /* When decrementer expires,
-@@ -973,12 +970,12 @@ static void cpu_ppc_hdecr_cb(void *opaque)
-     cpu_ppc_hdecr_excp(cpu);
- }
-=20
--static void cpu_ppc_store_purr(PowerPCCPU *cpu, uint64_t value)
-+void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value)
- {
--    ppc_tb_t *tb_env =3D cpu->env.tb_env;
-+    ppc_tb_t *tb_env =3D env->tb_env;
-=20
--    tb_env->purr_load =3D value;
--    tb_env->purr_start =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                     &tb_env->purr_offset, value);
- }
-=20
- static void cpu_ppc_set_tb_clk (void *opaque, uint32_t freq)
-@@ -995,7 +992,7 @@ static void cpu_ppc_set_tb_clk (void *opaque, uint32_=
-t freq)
-      */
-     _cpu_ppc_store_decr(cpu, 0xFFFFFFFF, 0xFFFFFFFF, 32);
-     _cpu_ppc_store_hdecr(cpu, 0xFFFFFFFF, 0xFFFFFFFF, 32);
--    cpu_ppc_store_purr(cpu, 0x0000000000000000ULL);
-+    cpu_ppc_store_purr(env, 0x0000000000000000ULL);
- }
-=20
- static void timebase_save(PPCTimebase *tb)
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index d7a95608f6..4ea5436095 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -33,8 +33,7 @@ struct ppc_tb_t {
-     /* Hypervisor decrementer management */
-     uint64_t hdecr_next;    /* Tick for next hdecr interrupt  */
-     QEMUTimer *hdecr_timer;
--    uint64_t purr_load;
--    uint64_t purr_start;
-+    int64_t purr_offset;
-     void *opaque;
-     uint32_t flags;
- };
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index eb7d2c7637..da44cc8809 100644
+index e99850c3ae..103bfe9dc2 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -1311,6 +1311,7 @@ void cpu_ppc_store_decr(CPUPPCState *env, target_ul=
-ong value);
+@@ -1310,6 +1310,7 @@ target_ulong cpu_ppc_load_decr(CPUPPCState *env);
+ void cpu_ppc_store_decr(CPUPPCState *env, target_ulong value);
  target_ulong cpu_ppc_load_hdecr(CPUPPCState *env);
  void cpu_ppc_store_hdecr(CPUPPCState *env, target_ulong value);
++void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value);
  uint64_t cpu_ppc_load_purr(CPUPPCState *env);
-+void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value);
+ void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value);
  uint32_t cpu_ppc601_load_rtcl(CPUPPCState *env);
- uint32_t cpu_ppc601_load_rtcu(CPUPPCState *env);
- #if !defined(CONFIG_USER_ONLY)
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index a5f53bb421..356a14d8a6 100644
+index 356a14d8a6..cd0dfe383a 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -655,6 +655,7 @@ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, tl=
-, env)
- #if !defined(CONFIG_USER_ONLY)
- #if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_1(load_purr, TCG_CALL_NO_RWG, tl, env)
-+DEF_HELPER_FLAGS_2(store_purr, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_2(store_ptcr, void, env, tl)
- #endif
- DEF_HELPER_2(store_sdr1, void, env, tl)
+@@ -672,6 +672,7 @@ DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void,=
+ env, tl)
+ DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
++DEF_HELPER_FLAGS_2(store_tbu40, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_2(store_hid0_601, void, env, tl)
+ DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
+ DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
 diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
-index 8c3c2fe67c..2395295b77 100644
+index 2395295b77..703bd9ed18 100644
 --- a/target/ppc/timebase_helper.c
 +++ b/target/ppc/timebase_helper.c
-@@ -55,6 +55,11 @@ target_ulong helper_load_purr(CPUPPCState *env)
- {
-     return (target_ulong)cpu_ppc_load_purr(env);
+@@ -128,6 +128,11 @@ void helper_store_vtb(CPUPPCState *env, target_ulong=
+ val)
+     cpu_ppc_store_vtb(env, val);
  }
-+
-+void helper_store_purr(CPUPPCState *env, target_ulong val)
-+{
-+    cpu_ppc_store_purr(env, val);
-+}
- #endif
 =20
- target_ulong helper_load_601_rtcl(CPUPPCState *env)
++void helper_store_tbu40(CPUPPCState *env, target_ulong val)
++{
++    cpu_ppc_store_tbu40(env, val);
++}
++
+ target_ulong helper_load_40x_pit(CPUPPCState *env)
+ {
+     return load_40x_pit(env);
 diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
 inc.c
-index 226aecf8f4..c5e4d45569 100644
+index c850a9d065..d33d65dff7 100644
 --- a/target/ppc/translate_init.inc.c
 +++ b/target/ppc/translate_init.inc.c
-@@ -287,6 +287,11 @@ static void spr_read_purr(DisasContext *ctx, int gpr=
-n, int sprn)
-     gen_helper_load_purr(cpu_gpr[gprn], cpu_env);
+@@ -327,6 +327,11 @@ static void spr_write_vtb(DisasContext *ctx, int spr=
+n, int gprn)
+     gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
  }
 =20
-+static void spr_write_purr(DisasContext *ctx, int sprn, int gprn)
++static void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
 +{
-+    gen_helper_store_purr(cpu_env, cpu_gpr[gprn]);
++    gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
 +}
 +
- /* HDECR */
- static void spr_read_hdecr(DisasContext *ctx, int gprn, int sprn)
- {
-@@ -8013,14 +8018,16 @@ static void gen_spr_book3s_purr(CPUPPCState *env)
- {
- #if !defined(CONFIG_USER_ONLY)
-     /* PURR & SPURR: Hack - treat these as aliases for the TB for now */
--    spr_register_kvm(env, SPR_PURR,   "PURR",
--                     &spr_read_purr, SPR_NOACCESS,
--                     &spr_read_purr, SPR_NOACCESS,
--                     KVM_REG_PPC_PURR, 0x00000000);
--    spr_register_kvm(env, SPR_SPURR,   "SPURR",
--                     &spr_read_purr, SPR_NOACCESS,
--                     &spr_read_purr, SPR_NOACCESS,
--                     KVM_REG_PPC_SPURR, 0x00000000);
-+    spr_register_kvm_hv(env, SPR_PURR,   "PURR",
-+                        &spr_read_purr, SPR_NOACCESS,
-+                        &spr_read_purr, SPR_NOACCESS,
-+                        &spr_read_purr, &spr_write_purr,
-+                        KVM_REG_PPC_PURR, 0x00000000);
-+    spr_register_kvm_hv(env, SPR_SPURR,   "SPURR",
-+                        &spr_read_purr, SPR_NOACCESS,
-+                        &spr_read_purr, SPR_NOACCESS,
-+                        &spr_read_purr, &spr_write_purr,
-+                        KVM_REG_PPC_SPURR, 0x00000000);
  #endif
+ #endif
+=20
+@@ -7853,6 +7858,16 @@ static void gen_spr_power5p_ear(CPUPPCState *env)
+                  0x00000000);
  }
 =20
++static void gen_spr_power5p_tb(CPUPPCState *env)
++{
++    /* TBU40 (High 40 bits of the Timebase register */
++    spr_register_hv(env, SPR_TBU40, "TBU40",
++                    SPR_NOACCESS, SPR_NOACCESS,
++                    SPR_NOACCESS, SPR_NOACCESS,
++                    SPR_NOACCESS, &spr_write_tbu40,
++                    0x00000000);
++}
++
+ #if !defined(CONFIG_USER_ONLY)
+ static void spr_write_hmer(DisasContext *ctx, int sprn, int gprn)
+ {
+@@ -8404,6 +8419,7 @@ static void init_proc_power5plus(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+=20
+     /* env variables */
+     env->dcache_line_size =3D 128;
+@@ -8516,6 +8532,7 @@ static void init_proc_POWER7(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+     gen_spr_power6_common(env);
+     gen_spr_power6_dbg(env);
+     gen_spr_power7_book4(env);
+@@ -8657,6 +8674,7 @@ static void init_proc_POWER8(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+     gen_spr_power6_common(env);
+     gen_spr_power6_dbg(env);
+     gen_spr_power8_tce_address_control(env);
+@@ -8847,6 +8865,7 @@ static void init_proc_POWER9(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+     gen_spr_power6_common(env);
+     gen_spr_power6_dbg(env);
+     gen_spr_power8_tce_address_control(env);
 --=20
 2.23.0
 
