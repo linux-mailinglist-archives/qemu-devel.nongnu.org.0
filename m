@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6875122363
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:08:19 +0100 (CET)
-Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41F912235B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:03:30 +0100 (CET)
+Received: from localhost ([::1]:35348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih55m-00077a-8r
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:08:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1ih517-0008IK-55
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:03:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iG-0008JO-5S
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:02 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iV-0000Dl-9X
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iB-0005ZB-C8
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:58 -0500
-Received: from ozlabs.org ([203.11.71.1]:59995)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iR-0005nb-T5
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:15 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55305 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4iA-0005Qt-3f; Mon, 16 Dec 2019 23:43:54 -0500
+ id 1ih4iR-0005UW-IQ; Mon, 16 Dec 2019 23:44:11 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWT4m6Kz9sSq; Tue, 17 Dec 2019 15:43:30 +1100 (AEDT)
+ id 47cQWV17mhz9sSp; Tue, 17 Dec 2019 15:43:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557813;
- bh=rqWdDbUCcpNjWZZpcK2jNRyA4bZeefxs9gm4nLiAqUM=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557814;
+ bh=0iPUaHnfHvwmQN/HVOaXeUDSVR/0Qc7oi4z2XkI4XvI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=B/VxeNQ25Ptsu8PVHK1qRpKomuP7Z9uRb5/EpuD/ky6m5jTzA0VoS3XjljzR2kmIq
- lI8853r20DoThbJx7NSrepkK5BIjiVD1tVulKsazZvdGTD7ei83a/e2kubthKTQDwz
- D5r+QxAKRpX+VuUlZvL0rkqwgEz4dPvdBx6CeDrA=
+ b=duOEa1WpjVZZTvCXheJ6aFjf0DKjmsOq8UXjkePPCvPa0LkWTt2kulgSQlxCYbfhd
+ NctQ1SNieFNecqm29TIzZc4dYBEp/F7T+NBhKtIVzZeUxpIWjrnS7UqSUnAGaRyNBZ
+ Gnxx9A6m6eAsxFc38OND8XhFVcGlPApYO5PfHjcE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 23/88] ppc/xive: Check V bit in TM_PULL_POOL_CTX
-Date: Tue, 17 Dec 2019 15:42:17 +1100
-Message-Id: <20191217044322.351838-24-david@gibson.dropbear.id.au>
+Subject: [PULL 24/88] ipmi: Add support to customize OEM functions
+Date: Tue, 17 Dec 2019 15:42:18 +1100
+Message-Id: <20191217044322.351838-25-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,41 +54,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, Corey Minyard <cminyard@mvista.com>, aik@ozlabs.ru,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-A context should be 'valid' when pulled from the thread interrupt
-context registers.
+The routine ipmi_register_oem_netfn() lets external modules register
+command handlers for OEM functions. Required for the PowerNV machine.
 
+Cc: Corey Minyard <cminyard@mvista.com>
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191115162436.30548-8-clg@kaod.org>
+Message-Id: <20191028070027.22752-2-clg@kaod.org>
+Acked-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/ipmi/ipmi_bmc_sim.c | 50 +++++-------------------------------------
+ include/hw/ipmi/ipmi.h | 42 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+), 44 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 42e9a11ef7..511e1a9363 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -377,6 +377,11 @@ static uint64_t xive_tm_pull_os_ctx(XiveTCTX *tctx, =
-hwaddr offset,
+diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
+index 71e56f3b13..6670cf039d 100644
+--- a/hw/ipmi/ipmi_bmc_sim.c
++++ b/hw/ipmi/ipmi_bmc_sim.c
+@@ -167,32 +167,14 @@ typedef struct IPMISensor {
+ #define MAX_SENSORS 20
+ #define IPMI_WATCHDOG_SENSOR 0
 =20
-     qw1w2 =3D xive_tctx_get_os_cam(tctx, &nvt_blk, &nvt_idx, &vo);
+-typedef struct IPMIBmcSim IPMIBmcSim;
+-typedef struct RspBuffer RspBuffer;
+-
+ #define MAX_NETFNS 64
 =20
-+    if (!vo) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: pulling invalid NVT %x/%x =
-!?\n",
-+                      nvt_blk, nvt_idx);
-+    }
+-typedef struct IPMICmdHandler {
+-    void (*cmd_handler)(IPMIBmcSim *s,
+-                        uint8_t *cmd, unsigned int cmd_len,
+-                        RspBuffer *rsp);
+-    unsigned int cmd_len_min;
+-} IPMICmdHandler;
+-
+-typedef struct IPMINetfn {
+-    unsigned int cmd_nums;
+-    const IPMICmdHandler *cmd_handlers;
+-} IPMINetfn;
+-
+ typedef struct IPMIRcvBufEntry {
+     QTAILQ_ENTRY(IPMIRcvBufEntry) entry;
+     uint8_t len;
+     uint8_t buf[MAX_IPMI_MSG_SIZE];
+ } IPMIRcvBufEntry;
+=20
+-#define TYPE_IPMI_BMC_SIMULATOR "ipmi-bmc-sim"
+-#define IPMI_BMC_SIMULATOR(obj) OBJECT_CHECK(IPMIBmcSim, (obj), \
+-                                        TYPE_IPMI_BMC_SIMULATOR)
+ struct IPMIBmcSim {
+     IPMIBmc parent;
+=20
+@@ -279,28 +261,8 @@ struct IPMIBmcSim {
+ #define IPMI_BMC_WATCHDOG_ACTION_POWER_DOWN      2
+ #define IPMI_BMC_WATCHDOG_ACTION_POWER_CYCLE     3
+=20
+-struct RspBuffer {
+-    uint8_t buffer[MAX_IPMI_MSG_SIZE];
+-    unsigned int len;
+-};
+-
+ #define RSP_BUFFER_INITIALIZER { }
+=20
+-static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t byte)
+-{
+-    rsp->buffer[2] =3D byte;
+-}
+-
+-/* Add a byte to the response. */
+-static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
+-{
+-    if (rsp->len >=3D sizeof(rsp->buffer)) {
+-        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
+-        return;
+-    }
+-    rsp->buffer[rsp->len++] =3D byte;
+-}
+-
+ static inline void rsp_buffer_pushmore(RspBuffer *rsp, uint8_t *bytes,
+                                        unsigned int n)
+ {
+@@ -630,8 +592,8 @@ static void ipmi_init_sensors_from_sdrs(IPMIBmcSim *s=
+)
+     }
+ }
+=20
+-static int ipmi_register_netfn(IPMIBmcSim *s, unsigned int netfn,
+-                               const IPMINetfn *netfnd)
++int ipmi_sim_register_netfn(IPMIBmcSim *s, unsigned int netfn,
++                        const IPMINetfn *netfnd)
+ {
+     if ((netfn & 1) || (netfn >=3D MAX_NETFNS) || (s->netfns[netfn / 2])=
+) {
+         return -1;
+@@ -1860,10 +1822,10 @@ static const IPMINetfn storage_netfn =3D {
+=20
+ static void register_cmds(IPMIBmcSim *s)
+ {
+-    ipmi_register_netfn(s, IPMI_NETFN_CHASSIS, &chassis_netfn);
+-    ipmi_register_netfn(s, IPMI_NETFN_SENSOR_EVENT, &sensor_event_netfn)=
+;
+-    ipmi_register_netfn(s, IPMI_NETFN_APP, &app_netfn);
+-    ipmi_register_netfn(s, IPMI_NETFN_STORAGE, &storage_netfn);
++    ipmi_sim_register_netfn(s, IPMI_NETFN_CHASSIS, &chassis_netfn);
++    ipmi_sim_register_netfn(s, IPMI_NETFN_SENSOR_EVENT, &sensor_event_ne=
+tfn);
++    ipmi_sim_register_netfn(s, IPMI_NETFN_APP, &app_netfn);
++    ipmi_sim_register_netfn(s, IPMI_NETFN_STORAGE, &storage_netfn);
+ }
+=20
+ static uint8_t init_sdrs[] =3D {
+diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
+index 6f2413b39b..8a99d958bb 100644
+--- a/include/hw/ipmi/ipmi.h
++++ b/include/hw/ipmi/ipmi.h
+@@ -55,6 +55,7 @@ enum ipmi_op {
+ #define IPMI_CC_COMMAND_NOT_SUPPORTED                    0xd5
+=20
+ #define IPMI_NETFN_APP                0x06
++#define IPMI_NETFN_OEM                0x3a
+=20
+ #define IPMI_DEBUG 1
+=20
+@@ -265,4 +266,45 @@ int ipmi_bmc_sdr_find(IPMIBmc *b, uint16_t recid,
+                       const struct ipmi_sdr_compact **sdr, uint16_t *nex=
+trec);
+ void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log);
+=20
++#define TYPE_IPMI_BMC_SIMULATOR "ipmi-bmc-sim"
++#define IPMI_BMC_SIMULATOR(obj) OBJECT_CHECK(IPMIBmcSim, (obj), \
++                                        TYPE_IPMI_BMC_SIMULATOR)
 +
-     /* Invalidate CAM line */
-     qw1w2_new =3D xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
-     xive_tctx_set_os_cam(tctx, qw1w2_new);
++typedef struct IPMIBmcSim IPMIBmcSim;
++
++typedef struct RspBuffer {
++    uint8_t buffer[MAX_IPMI_MSG_SIZE];
++    unsigned int len;
++} RspBuffer;
++
++static inline void rsp_buffer_set_error(RspBuffer *rsp, uint8_t byte)
++{
++    rsp->buffer[2] =3D byte;
++}
++
++/* Add a byte to the response. */
++static inline void rsp_buffer_push(RspBuffer *rsp, uint8_t byte)
++{
++    if (rsp->len >=3D sizeof(rsp->buffer)) {
++        rsp_buffer_set_error(rsp, IPMI_CC_REQUEST_DATA_TRUNCATED);
++        return;
++    }
++    rsp->buffer[rsp->len++] =3D byte;
++}
++
++typedef struct IPMICmdHandler {
++    void (*cmd_handler)(IPMIBmcSim *s,
++                        uint8_t *cmd, unsigned int cmd_len,
++                        RspBuffer *rsp);
++    unsigned int cmd_len_min;
++} IPMICmdHandler;
++
++typedef struct IPMINetfn {
++    unsigned int cmd_nums;
++    const IPMICmdHandler *cmd_handlers;
++} IPMINetfn;
++
++int ipmi_sim_register_netfn(IPMIBmcSim *s, unsigned int netfn,
++                            const IPMINetfn *netfnd);
++
+ #endif
 --=20
 2.23.0
 
