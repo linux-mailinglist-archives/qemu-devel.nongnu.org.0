@@ -2,65 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090BF1223CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:29:43 +0100 (CET)
-Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845171223D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:31:28 +0100 (CET)
+Received: from localhost ([::1]:35878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5QT-0005iM-Gk
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52261)
+	id 1ih5SA-0008Ig-V0
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:31:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1ih5DJ-0003Kz-U5
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:07 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jE-0001Sf-K6
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1ih5DI-0003cj-Ge
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:05 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28556
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jD-0006rU-EI
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:00 -0500
+Received: from ozlabs.org ([203.11.71.1]:34267)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5DI-0003bC-DK
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576559763;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jnxf8sfzIAVFpqegiNwwqTzgx0xhyT5dLDF1Z50dmzM=;
- b=HaS25IoO696Uhc6BNZFao/EL591fk5l5A3NrJOe53X9902e8+eDU2XlbeZmcO9UMlIyYzO
- gh5HkMqKw0vnr6aS/FvRvN8U5YgDOxQbI+POceYg23R5JB0nNbTnf9nrj6Zkm+IHmh0aUU
- +3Yd18S6ztxAgmNy5GWr1i+j3P9eMc0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-1VB2ToWuMsW5DgTq33ZYxQ-1; Tue, 17 Dec 2019 00:15:58 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A3BB8017DF;
- Tue, 17 Dec 2019 05:15:57 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-116-6.gru2.redhat.com
- [10.97.116.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A17F419C4F;
- Tue, 17 Dec 2019 05:15:48 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 04/15] analyze-migration.py: replace numpy with python 3.2
-Date: Tue, 17 Dec 2019 00:15:10 -0500
-Message-Id: <20191217051521.1239-5-crosa@redhat.com>
-In-Reply-To: <20191217051521.1239-1-crosa@redhat.com>
-References: <20191217051521.1239-1-crosa@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ih4jD-0006KY-2e; Mon, 16 Dec 2019 23:44:59 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47cQWZ45MKz9sT9; Tue, 17 Dec 2019 15:43:36 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1576557818;
+ bh=gc2VEHorOGzr/BBnU0/1bboHzXgl+whXQBs70dr1m+4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=cV2iCQoHoeZEZxPwM7YrJQzhDql/IHZf7FSqXeCrudnMRlZk4YP0sJVf3XlzXkGMa
+ omNZB4n0X/kVEyFyKAU3RLgYUpEqZ1x0neE4isRg1RbXU4l4DCpcdk6Meuv9Jz/85H
+ jzrw87jXwOwGF1a89P3iNsKLfHZU+6xOq6uDPRls=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 46/88] ppc/xive: Introduce a xive_tctx_ipb_update() helper
+Date: Tue, 17 Dec 2019 15:42:40 +1100
+Message-Id: <20191217044322.351838-47-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
+References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 1VB2ToWuMsW5DgTq33ZYxQ-1
-X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,143 +54,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Use int.from_bytes() from python 3.2 instead.
+We will use it to resend missed interrupts when a vCPU context is
+pushed on a HW thread.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20191127101038.327080-3-marcandre.lureau@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20191125065820.927-17-clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- scripts/analyze-migration.py | 35 +++++++++++++++++++----------------
- 1 file changed, 19 insertions(+), 16 deletions(-)
+ hw/intc/xive.c        | 21 +++++++++++----------
+ include/hw/ppc/xive.h |  1 +
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
-index 2b835d9b70..96a31d3974 100755
---- a/scripts/analyze-migration.py
-+++ b/scripts/analyze-migration.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python
-+#!/usr/bin/env python3
- #
- #  Migration Stream Analyzer
- #
-@@ -17,12 +17,18 @@
- # You should have received a copy of the GNU Lesser General Public
- # License along with this library; if not, see <http://www.gnu.org/license=
-s/>.
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 4bff3abdc3..7047e45dac 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -47,12 +47,6 @@ static uint8_t ipb_to_pipr(uint8_t ibp)
+     return ibp ? clz32((uint32_t)ibp << 24) : 0xff;
+ }
 =20
--from __future__ import print_function
--import numpy as np
- import json
- import os
- import argparse
- import collections
-+import struct
-+import sys
+-static void ipb_update(uint8_t *regs, uint8_t priority)
+-{
+-    regs[TM_IPB] |=3D priority_to_ipb(priority);
+-    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
+-}
+-
+ static uint8_t exception_mask(uint8_t ring)
+ {
+     switch (ring) {
+@@ -135,6 +129,15 @@ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8=
+_t ring, uint8_t cppr)
+     xive_tctx_notify(tctx, ring);
+ }
+=20
++void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb)
++{
++    uint8_t *regs =3D &tctx->regs[ring];
 +
++    regs[TM_IPB] |=3D ipb;
++    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
++    xive_tctx_notify(tctx, ring);
++}
 +
-+MIN_PYTHON =3D (3, 2)
-+if sys.version_info < MIN_PYTHON:
-+    sys.exit("Python %s.%s or later is required.\n" % MIN_PYTHON)
-+
+ static inline uint32_t xive_tctx_word2(uint8_t *ring)
+ {
+     return *((uint32_t *) &ring[TM_WORD2]);
+@@ -336,8 +339,7 @@ static void xive_tm_set_os_cppr(XivePresenter *xptr, =
+XiveTCTX *tctx,
+ static void xive_tm_set_os_pending(XivePresenter *xptr, XiveTCTX *tctx,
+                                    hwaddr offset, uint64_t value, unsign=
+ed size)
+ {
+-    ipb_update(&tctx->regs[TM_QW1_OS], value & 0xff);
+-    xive_tctx_notify(tctx, TM_QW1_OS);
++    xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff))=
+;
+ }
 =20
- def mkdir_p(path):
-     try:
-@@ -30,29 +36,26 @@ def mkdir_p(path):
-     except OSError:
-         pass
+ static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
+@@ -1429,8 +1431,7 @@ static bool xive_presenter_notify(uint8_t format,
 =20
-+
- class MigrationFile(object):
-     def __init__(self, filename):
-         self.filename =3D filename
-         self.file =3D open(self.filename, "rb")
+     /* handle CPU exception delivery */
+     if (count) {
+-        ipb_update(&match.tctx->regs[match.ring], priority);
+-        xive_tctx_notify(match.tctx, match.ring);
++        xive_tctx_ipb_update(match.tctx, match.ring, priority_to_ipb(pri=
+ority));
+     }
 =20
-     def read64(self):
--        return np.asscalar(np.fromfile(self.file, count=3D1, dtype=3D'>i8'=
-)[0])
-+        return int.from_bytes(self.file.read(8), byteorder=3D'big', signed=
-=3DTrue)
+     return !!count;
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 24315480e7..9c0bf2c301 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -469,6 +469,7 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor=
+ *mon);
+ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
+ void xive_tctx_reset(XiveTCTX *tctx);
+ void xive_tctx_destroy(XiveTCTX *tctx);
++void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
 =20
-     def read32(self):
--        return np.asscalar(np.fromfile(self.file, count=3D1, dtype=3D'>i4'=
-)[0])
-+        return int.from_bytes(self.file.read(4), byteorder=3D'big', signed=
-=3DTrue)
-=20
-     def read16(self):
--        return np.asscalar(np.fromfile(self.file, count=3D1, dtype=3D'>i2'=
-)[0])
-+        return int.from_bytes(self.file.read(2), byteorder=3D'big', signed=
-=3DTrue)
-=20
-     def read8(self):
--        return np.asscalar(np.fromfile(self.file, count=3D1, dtype=3D'>i1'=
-)[0])
-+        return int.from_bytes(self.file.read(1), byteorder=3D'big', signed=
-=3DTrue)
-=20
-     def readstr(self, len =3D None):
--        if len is None:
--            len =3D self.read8()
--        if len =3D=3D 0:
--            return ""
--        return np.fromfile(self.file, count=3D1, dtype=3D('S%d' % len))[0]
-+        return self.readvar(len).decode('utf-8')
-=20
-     def readvar(self, size =3D None):
-         if size is None:
-@@ -275,7 +278,7 @@ class VMSDFieldGeneric(object):
-         return str(self.__str__())
-=20
-     def __str__(self):
--        return " ".join("{0:02x}".format(ord(c)) for c in self.data)
-+        return " ".join("{0:02x}".format(c) for c in self.data)
-=20
-     def getDict(self):
-         return self.__str__()
-@@ -307,8 +310,8 @@ class VMSDFieldInt(VMSDFieldGeneric):
-=20
-     def read(self):
-         super(VMSDFieldInt, self).read()
--        self.sdata =3D np.fromstring(self.data, count=3D1, dtype=3D(self.s=
-dtype))[0]
--        self.udata =3D np.fromstring(self.data, count=3D1, dtype=3D(self.u=
-dtype))[0]
-+        self.sdata =3D int.from_bytes(self.data, byteorder=3D'big', signed=
-=3DTrue)
-+        self.udata =3D int.from_bytes(self.data, byteorder=3D'big', signed=
-=3DFalse)
-         self.data =3D self.sdata
-         return self.data
-=20
-@@ -363,7 +366,7 @@ class VMSDFieldStruct(VMSDFieldGeneric):
-             array_len =3D field.pop('array_len')
-             field['index'] =3D 0
-             new_fields.append(field)
--            for i in xrange(1, array_len):
-+            for i in range(1, array_len):
-                 c =3D field.copy()
-                 c['index'] =3D i
-                 new_fields.append(c)
+ /*
+  * KVM XIVE device helpers
 --=20
-2.21.0
+2.23.0
 
 
