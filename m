@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA7F122F9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 16:04:14 +0100 (CET)
-Received: from localhost ([::1]:41580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC82A122F8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 16:02:23 +0100 (CET)
+Received: from localhost ([::1]:41556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihEOT-0001lm-S4
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 10:04:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
+	id 1ihEMg-0007oq-3U
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 10:02:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihEKM-0006L1-Uf
+ (envelope-from <kwolf@redhat.com>) id 1ihEKM-0006L3-V2
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 10:00:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihEKK-00040F-9m
+ (envelope-from <kwolf@redhat.com>) id 1ihEKK-00040q-M7
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 09:59:57 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32589
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48793
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihEKK-0003rY-0p
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihEKK-0003zq-ID
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 09:59:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576594794;
+ s=mimecast20190719; t=1576594796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=iWkeDPA9pq1Fch/p5WlEPtzFM+wyUpcOI9JsLCyEXrE=;
- b=aN5rNtFkTP1UdytQ4pkk1L/QIF5HFK9fThZv5Cnprh5tZO0tkgv2pso9rbRchG5Fc5sdll
- /gvlv6W3Vui8J47jtwvQjMXjHt7bF+UanCxXwjbh4l+8hey6xRcgNmWU8dXiOuJHtXNs7t
- 5eiTYmu3tAPcFl+CLyBtfDnccZxai6A=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sBUL4P0L/KEFASTM+sY37eXKc7r25socze7YuXP8xJQ=;
+ b=jTvcifQ0maYfIoGmepr8nXGH0GhZSSzFDxaTiksdkKcMwkwaV6KNu0YtF6yYn3aCthzNMz
+ Pzc3+3ljehtyIrUDfUWrGLkRCE7ysC9cHFAV7P75VvuiRnghxP11sLHBKwfh014waPBtBu
+ DJ6X3CDPbdn/IPq46Gt7xgq+/0OXNkw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-_zkOjlk5OxaPClfjrA1ziA-1; Tue, 17 Dec 2019 09:59:53 -0500
+ us-mta-332-2LRWypv4MT619GnCcdmhFQ-1; Tue, 17 Dec 2019 09:59:54 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1097910054E3;
- Tue, 17 Dec 2019 14:59:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D81F107ACC4;
+ Tue, 17 Dec 2019 14:59:50 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-20.ams2.redhat.com [10.36.117.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF21826574;
- Tue, 17 Dec 2019 14:59:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54B9726574;
+ Tue, 17 Dec 2019 14:59:49 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/3] block: Fix external snapshot with VM state
-Date: Tue, 17 Dec 2019 15:59:36 +0100
-Message-Id: <20191217145939.5537-1-kwolf@redhat.com>
+Subject: [PATCH 1/3] block: Activate recursively even for already active nodes
+Date: Tue, 17 Dec 2019 15:59:37 +0100
+Message-Id: <20191217145939.5537-2-kwolf@redhat.com>
+In-Reply-To: <20191217145939.5537-1-kwolf@redhat.com>
+References: <20191217145939.5537-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: _zkOjlk5OxaPClfjrA1ziA-1
+X-MC-Unique: 2LRWypv4MT619GnCcdmhFQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -71,32 +74,106 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes bdrv_invalidate_cache_all() for some kinds of graphs where
-part of the nodes are active and others are inactive. This is a scenario
-that happens when libvirt takes an external snapshot with VM state.
+bdrv_invalidate_cache_all() assumes that all nodes in a given subtree
+are either active or inactive when it starts. Therefore, as soon as it
+arrives at an already active node, it stops.
 
-This was reported in:
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1781637
-('qemu crashed when do mem and disk snapshot')
+However, this assumption is wrong. For example, it's possible to take a
+snapshot of an inactive node, which results in an active overlay over an
+inactive backing file. The active overlay is probably also the root node
+of an inactive BlockBackend (blk->disable_perm =3D=3D true).
 
-Based-on: <20191216170857.11880-1-kwolf@redhat.com>
-('iotests: Remove duplicated blockdev_create()')
+In this case, bdrv_invalidate_cache_all() does not need to do anything
+to activate the overlay node, but it still needs to recurse into the
+children and the parents to make sure that after returning success,
+really everything is activated.
 
-Kevin Wolf (3):
-  block: Activate recursively even for already active nodes
-  hmp: Allow using qdev ID for qemu-io command
-  iotests: Test external snapshot with VM state
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block.c | 50 ++++++++++++++++++++++++--------------------------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
 
- block.c                    | 50 +++++++++++------------
- monitor/hmp-cmds.c         | 28 ++++++++-----
- hmp-commands.hx            |  8 ++--
- tests/qemu-iotests/280     | 83 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/280.out | 50 +++++++++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 6 files changed, 181 insertions(+), 39 deletions(-)
- create mode 100755 tests/qemu-iotests/280
- create mode 100644 tests/qemu-iotests/280.out
-
+diff --git a/block.c b/block.c
+index 73029fad64..1b6f7c86e8 100644
+--- a/block.c
++++ b/block.c
+@@ -5335,10 +5335,6 @@ static void coroutine_fn bdrv_co_invalidate_cache(Bl=
+ockDriverState *bs,
+         return;
+     }
+=20
+-    if (!(bs->open_flags & BDRV_O_INACTIVE)) {
+-        return;
+-    }
+-
+     QLIST_FOREACH(child, &bs->children, next) {
+         bdrv_co_invalidate_cache(child->bs, &local_err);
+         if (local_err) {
+@@ -5360,34 +5356,36 @@ static void coroutine_fn bdrv_co_invalidate_cache(B=
+lockDriverState *bs,
+      * just keep the extended permissions for the next time that an activa=
+tion
+      * of the image is tried.
+      */
+-    bs->open_flags &=3D ~BDRV_O_INACTIVE;
+-    bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
+-    ret =3D bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL, &loca=
+l_err);
+-    if (ret < 0) {
+-        bs->open_flags |=3D BDRV_O_INACTIVE;
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+-    bdrv_set_perm(bs, perm, shared_perm);
+-
+-    if (bs->drv->bdrv_co_invalidate_cache) {
+-        bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
+-        if (local_err) {
++    if (bs->open_flags & BDRV_O_INACTIVE) {
++        bs->open_flags &=3D ~BDRV_O_INACTIVE;
++        bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
++        ret =3D bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL, &=
+local_err);
++        if (ret < 0) {
+             bs->open_flags |=3D BDRV_O_INACTIVE;
+             error_propagate(errp, local_err);
+             return;
+         }
+-    }
++        bdrv_set_perm(bs, perm, shared_perm);
+=20
+-    FOR_EACH_DIRTY_BITMAP(bs, bm) {
+-        bdrv_dirty_bitmap_skip_store(bm, false);
+-    }
++        if (bs->drv->bdrv_co_invalidate_cache) {
++            bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
++            if (local_err) {
++                bs->open_flags |=3D BDRV_O_INACTIVE;
++                error_propagate(errp, local_err);
++                return;
++            }
++        }
+=20
+-    ret =3D refresh_total_sectors(bs, bs->total_sectors);
+-    if (ret < 0) {
+-        bs->open_flags |=3D BDRV_O_INACTIVE;
+-        error_setg_errno(errp, -ret, "Could not refresh total sector count=
+");
+-        return;
++        FOR_EACH_DIRTY_BITMAP(bs, bm) {
++            bdrv_dirty_bitmap_skip_store(bm, false);
++        }
++
++        ret =3D refresh_total_sectors(bs, bs->total_sectors);
++        if (ret < 0) {
++            bs->open_flags |=3D BDRV_O_INACTIVE;
++            error_setg_errno(errp, -ret, "Could not refresh total sector c=
+ount");
++            return;
++        }
+     }
+=20
+     QLIST_FOREACH(parent, &bs->parents, next_parent) {
 --=20
 2.20.1
 
