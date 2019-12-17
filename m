@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF16A123289
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:32:25 +0100 (CET)
-Received: from localhost ([::1]:42900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF66123295
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:34:33 +0100 (CET)
+Received: from localhost ([::1]:42912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihFlo-0001OB-GW
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:32:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1ihFns-0002SX-VZ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:34:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ihFkn-0000vz-A5
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:31:22 -0500
+ (envelope-from <stefanha@redhat.com>) id 1ihFmv-0001y5-Mm
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:33:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ihFkm-0002wD-6f
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:31:21 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33012)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ihFkm-0002q6-10
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:31:20 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ihFkh-0002TG-Gf
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 16:31:15 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 826A52E813C
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 16:31:12 +0000 (UTC)
+ (envelope-from <stefanha@redhat.com>) id 1ihFmt-0004Em-Ke
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:33:32 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36803
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ihFmt-0004Ec-FE
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:33:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576600410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NTKZc0e5cu6vabRymIEVDwJ2xegd9Ud8oYA9ieSqfSQ=;
+ b=imznI1NhdFqB27F6FNnM9pmRtttdyY6XaTRQBSXXPeqd1RLpI7j5p9dfDgs/qno/oRJyqA
+ S5y59XFPPAWPD0nacp9NCT+itvdeaOfEtj7xUUyhEA3X41bTuqfT9Du0V4mT588t4uu7n8
+ tMxMBOEBSFWYzWHBqlCMLa4WFI0KMcw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-U3xYZ1BqP-yQ8k7d1ZpOqw-1; Tue, 17 Dec 2019 11:33:25 -0500
+X-MC-Unique: U3xYZ1BqP-yQ8k7d1ZpOqw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21945DBA7;
+ Tue, 17 Dec 2019 16:33:23 +0000 (UTC)
+Received: from localhost (ovpn-117-244.ams2.redhat.com [10.36.117.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB8AF1001B00;
+ Tue, 17 Dec 2019 16:33:17 +0000 (UTC)
+Date: Tue, 17 Dec 2019 16:33:16 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Felipe Franciosi <felipe@nutanix.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Subject: Re: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
+ status update
+Message-ID: <20191217163316.GB1333385@stefanha-x1.localdomain>
+References: <cover.1571905346.git.jag.raman@oracle.com>
+ <20191210064716.GA6401@flaka>
+ <20191213104116.GB1180977@stefanha-x1.localdomain>
+ <20191216194655.GA5922@flaka>
+ <AFBAD3A1-0E22-4E22-AF22-C56794929D87@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Dec 2019 16:23:18 -0000
-From: Thomas Huth <1851552@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=cloud-init; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=networking-calico; status=New; importance=Undecided; 
- assignee=None; 
-X-Launchpad-Bug: product=nova; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: product=openstack-community; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=qemu-kvm; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=cloud-init; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: daniel-thewatkins janitor legovini raharper smoser
- vasili.namatov
-X-Launchpad-Bug-Reporter: Vasili (vasili.namatov)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157306761727.2702.10828795840242046904.malonedeb@gac.canonical.com>
-Message-Id: <157659980370.14847.14516311050317747770.launchpad@wampee.canonical.com>
-Subject: [Bug 1851552] Re: since ubuntu 18 bionic release and latest,
- the ubuntu18 cloud image is unable to boot up on openstack instance 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 45acec45cf5eb75d55817d717bf8ad0b5b3e00e7
+In-Reply-To: <AFBAD3A1-0E22-4E22-AF22-C56794929D87@nutanix.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yEPQxsgoJgBvi8ip"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,54 +77,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1851552 <1851552@bugs.launchpad.net>
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "jag.raman@oracle.com" <jag.raman@oracle.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "kanth.ghatraju@oracle.com" <kanth.ghatraju@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "liran.alon@oracle.com" <liran.alon@oracle.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
+ "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Project changed: qemu =3D> qemu (Ubuntu)
+--yEPQxsgoJgBvi8ip
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Mon, Dec 16, 2019 at 07:57:32PM +0000, Felipe Franciosi wrote:
+> > On 16 Dec 2019, at 20:47, Elena Ufimtseva <elena.ufimtseva@oracle.com> =
+wrote:
+> > =EF=BB=BFOn Fri, Dec 13, 2019 at 10:41:16AM +0000, Stefan Hajnoczi wrot=
+e:
+> >> Is there a work-in-progress muser patch series you can post to start t=
+he
+> >> discussion early?  That way we can avoid reviewers like myself asking
+> >> you to make changes after you have invested a lot of time.
+> >>=20
+> >=20
+> > Absolutely, that is our plan. At the moment we do not have the patches
+> > ready for the review. We have setup internally a milestone and will be
+> > sending that early version as a tarball after we have it completed.
+> > Would be also a meeting something that could help us to stay on the sam=
+e
+> > page?
+>=20
+> Please loop us in if you so set up a meeting.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1851552
+There is a bi-weekly KVM Community Call that we can use for phone
+discussions:
 
-Title:
-  since ubuntu 18 bionic release and latest, the ubuntu18 cloud image is
-  unable to boot up on openstack instance
+  https://calendar.google.com/calendar/embed?src=3DdG9iMXRqcXAzN3Y4ZXZwNzRo=
+MHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
 
-Status in cloud-init:
-  New
-Status in networking-calico:
-  New
-Status in OpenStack Compute (nova):
-  New
-Status in OpenStack Community Project:
-  New
-Status in qemu-kvm:
-  New
-Status in cloud-init package in Ubuntu:
-  Confirmed
-Status in qemu package in Ubuntu:
-  New
+Or we can schedule a one-off call at any time :).
 
-Bug description:
-  Openstack Queens release which is running on ubuntu 18 LTS Controller and=
- Compute.
-  Tried to boot up the instance via horizon dashboard without success.
-  Nova flow works perfect.
-  When access to console I discovered that the boot process stuck in the mi=
-ddle.
-  [[0;1;31m TIME [0m] Timed out waiting for device dev-vdb.device.
-  [[0;1;33mDEPEND[0m] Dependency failed for /mnt.
-  [[0;1;33mDEPEND[0m] Dependency failed for File System Check on /dev/vdb.
-  It receives IP but looks like not get configured at time.
-  since ubuntu 18 there is netplan feature managing the network interfaces
-  please advise.
+Questions I've seen when discussing muser with people have been:
 
-  more details as follow:
-  https://bugs.launchpad.net/networking-calico/+bug/1851548
+1. Can unprivileged containers create muser devices?  If not, this is a
+   blocker for use cases that want to avoid root privileges entirely.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/cloud-init/+bug/1851552/+subscriptions
+2. Does muser need to be in the kernel (e.g. slower to develop/ship,
+   security reasons)?  A similar library could be implemented in
+   userspace along the lines of the vhost-user protocol.  Although VMMs
+   would then need to use a new libmuser-client library instead of
+   reusing their VFIO code to access the device.
+
+3. Should this feature be Linux-only?  vhost-user can be implemented on
+   non-Linux OSes...
+
+Stefan
+
+--yEPQxsgoJgBvi8ip
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl35A0wACgkQnKSrs4Gr
+c8gNIAf+MxldTZ4hf1Yd5gMxB4GP7IMlW9whqjV5utrNbUJbIxWvnqpCtURV2iEw
+P/5p4Mbxemab7hbpHXNiX7fnhkR6A4AZaubkHKb2ejRJP9nuwTk9xJpszwAVrq6o
+aZAHTD1X/zcSFrDpdf6vA0JAdK3P/CbZRJlhLlfesgFO0yZHqvVURqPF+6ZJbUwb
+jWUUflo++YgY8qG5y5yJoC+riteqiqookwSkDJkbivUQ7paAlLh8v3FS3HWLzfum
+wlAsIXG/8QqvFZwNZ3Luugw0txWV4ixLD/sCwiilnKwKwjS8/vD7EdhvammgMKsR
+cO0hh1+Mdb0v7vCvTabSDz4uEAERCg==
+=NZjk
+-----END PGP SIGNATURE-----
+
+--yEPQxsgoJgBvi8ip--
+
 
