@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C5812234B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:54:39 +0100 (CET)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FE812234D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:55:12 +0100 (CET)
+Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4sY-0004lj-Ce
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:54:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33485)
+	id 1ih4t5-0005b5-D6
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:55:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33616)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4i0-00088F-4r
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:45 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4i7-0008EL-UI
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hy-0005PY-Tp
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:44 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34677 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4i1-0005T4-E1
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:48 -0500
+Received: from ozlabs.org ([203.11.71.1]:39847)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4hy-0005Ip-Il; Mon, 16 Dec 2019 23:43:42 -0500
+ id 1ih4i1-0005Kk-28; Mon, 16 Dec 2019 23:43:45 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWQ5YMDz9sSZ; Tue, 17 Dec 2019 15:43:29 +1100 (AEDT)
+ id 47cQWR3VHcz9sSd; Tue, 17 Dec 2019 15:43:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557810;
- bh=pG34byp+FTDvxI9Olx4WbQLypc0hfrTikv9BQlYsOr8=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557811;
+ bh=DkwFpJiNBFvJaIJBPjZaMoONoRs9YS2BWDzgU84Y6bA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CkIFCxxSJ4asBZRXXQ82IHNZKUR8ILRXCT0PIbs0n6b5oC2UgJG+EW2VrkKmiW9aJ
- XOQ3GTIEftefNbc2fVTjV7CXXVp3DPetrhBVpaUOqeDRm+UkUYqUhcEWtrIK8BfEVd
- elfS4k9ntMJ/VVVzr1PNP5OBL5+SvyXnD2TsvWFc=
+ b=PnashcfmSEHJD4E3gp+tRqqzF360/15aSBhso7G9J9uRrxiDdjepUjWYHVp5q2Z1W
+ vIgtsByciFPSUUp1gt8rpxFp8v5waGI+H8pEVIeNXO/+K+AZNhjUHh6xN7OLYl/2kF
+ 34GPYZCrOi4eMH95Ij+vkgSAPhypWmrwlCll1atY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/88] xics: Link ICP_PROP_XICS property to ICPState::xics
- pointer
-Date: Tue, 17 Dec 2019 15:42:07 +1100
-Message-Id: <20191217044322.351838-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/88] xics: Link ICP_PROP_CPU property to ICPState::cs pointer
+Date: Tue, 17 Dec 2019 15:42:08 +1100
+Message-Id: <20191217044322.351838-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,86 +61,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The ICP object has both a pointer and an ICP_PROP_XICS property pointing
-to the XICS fabric. Confusing bugs could arise if these ever go out of
-sync.
+The ICP object has both a pointer and an ICP_PROP_CPU property pointing
+to the cpu. Confusing bugs could arise if these ever go out of sync.
 
 Change the property definition so that it explicitly sets the pointer.
 The property isn't optional : not being able to set the link is a bug
 and QEMU should rather abort than exit in this case.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157403284152.409804.17114564311521923733.stgit@bahia.lan>
+Message-Id: <157403284709.409804.16142099083325945141.stgit@bahia.lan>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ hw/intc/xics.c | 21 ++++-----------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
 diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index f7a4548089..35dddb8867 100644
+index 35dddb8867..0b259a09c5 100644
 --- a/hw/intc/xics.c
 +++ b/hw/intc/xics.c
-@@ -310,15 +310,7 @@ static void icp_realize(DeviceState *dev, Error **er=
-rp)
-     Object *obj;
+@@ -305,25 +305,13 @@ void icp_reset(ICPState *icp)
+ static void icp_realize(DeviceState *dev, Error **errp)
+ {
+     ICPState *icp =3D ICP(dev);
+-    PowerPCCPU *cpu;
+     CPUPPCState *env;
+-    Object *obj;
      Error *err =3D NULL;
 =20
--    obj =3D object_property_get_link(OBJECT(dev), ICP_PROP_XICS, &err);
+     assert(icp->xics);
++    assert(icp->cs);
+=20
+-    obj =3D object_property_get_link(OBJECT(dev), ICP_PROP_CPU, &err);
 -    if (!obj) {
 -        error_propagate_prepend(errp, err,
--                                "required link '" ICP_PROP_XICS
+-                                "required link '" ICP_PROP_CPU
 -                                "' not found: ");
 -        return;
 -    }
 -
--    icp->xics =3D XICS_FABRIC(obj);
-+    assert(icp->xics);
+-    cpu =3D POWERPC_CPU(obj);
+-    icp->cs =3D CPU(obj);
+-
+-    env =3D &cpu->env;
++    env =3D &POWERPC_CPU(icp->cs)->env;
+     switch (PPC_INPUT(env)) {
+     case PPC_FLAGS_INPUT_POWER7:
+         icp->output =3D env->irq_inputs[POWER7_INPUT_INT];
+@@ -363,6 +351,7 @@ static void icp_unrealize(DeviceState *dev, Error **e=
+rrp)
+ static Property icp_properties[] =3D {
+     DEFINE_PROP_LINK(ICP_PROP_XICS, ICPState, xics, TYPE_XICS_FABRIC,
+                      XICSFabric *),
++    DEFINE_PROP_LINK(ICP_PROP_CPU, ICPState, cs, TYPE_CPU, CPUState *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 =20
-     obj =3D object_property_get_link(OBJECT(dev), ICP_PROP_CPU, &err);
-     if (!obj) {
-@@ -368,12 +360,19 @@ static void icp_unrealize(DeviceState *dev, Error *=
-*errp)
-     vmstate_unregister(NULL, &vmstate_icp_server, icp);
- }
-=20
-+static Property icp_properties[] =3D {
-+    DEFINE_PROP_LINK(ICP_PROP_XICS, ICPState, xics, TYPE_XICS_FABRIC,
-+                     XICSFabric *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void icp_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-     dc->realize =3D icp_realize;
-     dc->unrealize =3D icp_unrealize;
-+    dc->props =3D icp_properties;
-     /*
-      * Reason: part of XICS interrupt controller, needs to be wired up
-      * by icp_create().
-@@ -397,9 +396,7 @@ Object *icp_create(Object *cpu, const char *type, XIC=
+@@ -397,8 +386,7 @@ Object *icp_create(Object *cpu, const char *type, XIC=
 SFabric *xi, Error **errp)
-     obj =3D object_new(type);
      object_property_add_child(cpu, type, obj, &error_abort);
      object_unref(obj);
--    object_ref(OBJECT(xi));
--    object_property_add_const_link(obj, ICP_PROP_XICS, OBJECT(xi),
--                                   &error_abort);
-+    object_property_set_link(obj, OBJECT(xi), ICP_PROP_XICS, &error_abor=
+     object_property_set_link(obj, OBJECT(xi), ICP_PROP_XICS, &error_abor=
 t);
-     object_ref(cpu);
-     object_property_add_const_link(obj, ICP_PROP_CPU, cpu, &error_abort)=
+-    object_ref(cpu);
+-    object_property_add_const_link(obj, ICP_PROP_CPU, cpu, &error_abort)=
 ;
++    object_property_set_link(obj, cpu, ICP_PROP_CPU, &error_abort);
      object_property_set_bool(obj, true, "realized", &local_err);
-@@ -417,7 +414,6 @@ void icp_destroy(ICPState *icp)
+     if (local_err) {
+         object_unparent(obj);
+@@ -413,7 +401,6 @@ void icp_destroy(ICPState *icp)
+ {
      Object *obj =3D OBJECT(icp);
 =20
-     object_unref(object_property_get_link(obj, ICP_PROP_CPU, &error_abor=
+-    object_unref(object_property_get_link(obj, ICP_PROP_CPU, &error_abor=
 t));
--    object_unref(object_property_get_link(obj, ICP_PROP_XICS, &error_abo=
-rt));
      object_unparent(obj);
  }
 =20
