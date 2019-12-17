@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E234F1223CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:26:46 +0100 (CET)
-Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BB8122389
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:18:52 +0100 (CET)
+Received: from localhost ([::1]:35668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Nd-0000ws-C5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:26:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34962)
+	id 1ih5Fz-00061n-9T
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:18:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35075)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ja-00021z-Lw
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:23 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4ji-00027a-At
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jZ-0007NP-7V
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:22 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43839 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jg-0007VS-BS
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:30 -0500
+Received: from ozlabs.org ([203.11.71.1]:37031)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4jY-0006rQ-TN; Mon, 16 Dec 2019 23:45:21 -0500
+ id 1ih4jf-00071A-Dz; Mon, 16 Dec 2019 23:45:27 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWc2bLwz9sTL; Tue, 17 Dec 2019 15:43:38 +1100 (AEDT)
+ id 47cQWd2MzYz9sTK; Tue, 17 Dec 2019 15:43:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557820;
- bh=q6p3XQaAEcDfb+tvvOzabLiHVE3dNiJvf9oyM10gy0Q=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557821;
+ bh=gzHHLUuZkYUSgdIhhuqRz76mOFpXx2kVpf/11Jd9AYY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iZeqzRrjvO7I/cPVJUxUQ8mF+YxUeLvCFvrpaaAU3hxRiiuHvxgwwWepyY4u4WdSH
- H8n0H0j6YSTLgpIOzsfYE0viIH7LKuLLQGIRP1EHAjB3g4rVAvvhzGwzXwhs0B8bsC
- a0nFJ4FsSy9D+ss0p02A4zOOB53vrE8C71pSZM04=
+ b=bvEC2WDACRV8Z9GYkbkys5YHwqpQRmJqXNyQKFKhnAH2Fg/gOsheHBDJMZWj6nKes
+ MJhuOze8cQrkHcqdZTOLG+IvZhkbRYcj+a6bhXACI9RZVChHlQSEvJq3qNCiMOHjoJ
+ u84DJ/atd0d+z4S7m42L1EZozuIic+VAjJxIcXLQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 55/88] spapr: Simplify ovec diff
-Date: Tue, 17 Dec 2019 15:42:49 +1100
-Message-Id: <20191217044322.351838-56-david@gibson.dropbear.id.au>
+Subject: [PULL 56/88] ppc: Deassert the external interrupt pin in KVM on reset
+Date: Tue, 17 Dec 2019 15:42:50 +1100
+Message-Id: <20191217044322.351838-57-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,171 +53,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Mike Roth <mdroth@linux.vnet.ibm.com>, aik@ozlabs.ru,
- qemu-devel@nongnu.org, groug@kaod.org, Cedric Le Goater <clg@fr.ibm.com>,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org,
+ Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr_ovec_diff(ov, old, new) has somewhat complex semantics.  ov is set
-to those bits which are in new but not old, and it returns as a boolean
-whether or not there are any bits in old but not new.
+From: Greg Kurz <groug@kaod.org>
 
-It turns out that both callers only care about the second, not the first.
-This is basically equivalent to a bitmap subset operation, which is easie=
-r
-to understand and implement.  So replace spapr_ovec_diff() with
-spapr_ovec_subset().
+When a CPU is reset, QEMU makes sure no interrupt is pending by clearing
+CPUPPCstate::pending_interrupts in ppc_cpu_reset(). In the case of a
+complete machine emulation, eg. a sPAPR machine, an external interrupt
+request could still be pending in KVM though, eg. an IPI. It will be
+eventually presented to the guest, which is supposed to acknowledge it at
+the interrupt controller. If the interrupt controller is emulated in QEMU=
+,
+either XICS or XIVE, ppc_set_irq() won't deassert the external interrupt
+pin in KVM since it isn't pending anymore for QEMU. When the vCPU re-ente=
+rs
+the guest, the interrupt request is still pending and the vCPU will try
+again to acknowledge it. This causes an infinite loop and eventually hang=
+s
+the guest.
 
-Cc: Mike Roth <mdroth@linux.vnet.ibm.com>
+The code has been broken since the beginning. The issue wasn't hit before
+because accel=3Dkvm,kernel-irqchip=3Doff is an awkward setup that never g=
+ot
+used until recently with the LC92x IBM systems (aka, Boston).
 
+Add a ppc_irq_reset() function to do the necessary cleanup, ie. deassert
+the IRQ pins of the CPU in QEMU and most importantly the external interru=
+pt
+pin for this vCPU in KVM.
+
+Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <157548861740.3650476.16879693165328764758.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Cedric Le Goater <clg@fr.ibm.com>
 ---
- hw/ppc/spapr.c              | 14 +++-----------
- hw/ppc/spapr_hcall.c        |  8 ++------
- hw/ppc/spapr_ovec.c         | 30 ++++++++++--------------------
- include/hw/ppc/spapr_ovec.h |  4 +---
- 4 files changed, 16 insertions(+), 40 deletions(-)
+ hw/ppc/ppc.c                    | 8 ++++++++
+ include/hw/ppc/ppc.h            | 2 ++
+ target/ppc/translate_init.inc.c | 1 +
+ 3 files changed, 11 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 3dedb41d48..f11422fc41 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1840,8 +1840,6 @@ static bool spapr_ov5_cas_needed(void *opaque)
- {
-     SpaprMachineState *spapr =3D opaque;
-     SpaprOptionVector *ov5_mask =3D spapr_ovec_new();
--    SpaprOptionVector *ov5_legacy =3D spapr_ovec_new();
--    SpaprOptionVector *ov5_removed =3D spapr_ovec_new();
-     bool cas_needed;
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 8dd982fc1e..fab73f1b1f 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -1515,3 +1515,11 @@ PowerPCCPU *ppc_get_vcpu_by_pir(int pir)
 =20
-     /* Prior to the introduction of SpaprOptionVector, we had two option
-@@ -1873,17 +1871,11 @@ static bool spapr_ov5_cas_needed(void *opaque)
-     spapr_ovec_set(ov5_mask, OV5_DRCONF_MEMORY);
-     spapr_ovec_set(ov5_mask, OV5_DRMEM_V2);
-=20
--    /* spapr_ovec_diff returns true if bits were removed. we avoid using
--     * the mask itself since in the future it's possible "legacy" bits m=
-ay be
--     * removed via machine options, which could generate a false positiv=
-e
--     * that breaks migration.
--     */
--    spapr_ovec_intersect(ov5_legacy, spapr->ov5, ov5_mask);
--    cas_needed =3D spapr_ovec_diff(ov5_removed, spapr->ov5, ov5_legacy);
-+    /* We need extra information if we have any bits outside the mask
-+     * defined above */
-+    cas_needed =3D !spapr_ovec_subset(spapr->ov5, ov5_mask);
-=20
-     spapr_ovec_cleanup(ov5_mask);
--    spapr_ovec_cleanup(ov5_legacy);
--    spapr_ovec_cleanup(ov5_removed);
-=20
-     return cas_needed;
+     return NULL;
  }
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 0f19be794c..f1799b1b70 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1671,7 +1671,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
-     target_ulong fdt_bufsize =3D args[2];
-     target_ulong ov_table;
-     uint32_t cas_pvr;
--    SpaprOptionVector *ov1_guest, *ov5_guest, *ov5_cas_old, *ov5_updates=
-;
-+    SpaprOptionVector *ov1_guest, *ov5_guest, *ov5_cas_old;
-     bool guest_radix;
-     Error *local_err =3D NULL;
-     bool raw_mode_supported =3D false;
-@@ -1770,9 +1770,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
-     /* capabilities that have been added since CAS-generated guest reset=
-.
-      * if capabilities have since been removed, generate another reset
-      */
--    ov5_updates =3D spapr_ovec_new();
--    spapr->cas_reboot =3D spapr_ovec_diff(ov5_updates,
--                                        ov5_cas_old, spapr->ov5_cas);
-+    spapr->cas_reboot =3D !spapr_ovec_subset(ov5_cas_old, spapr->ov5_cas=
-);
-     spapr_ovec_cleanup(ov5_cas_old);
-     /* Now that processing is finished, set the radix/hash bit for the
-      * guest if it requested a valid mode; otherwise terminate the boot.=
- */
-@@ -1849,8 +1847,6 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
-         spapr->fdt_blob =3D fdt;
-     }
++
++void ppc_irq_reset(PowerPCCPU *cpu)
++{
++    CPUPPCState *env =3D &cpu->env;
++
++    env->irq_input_state =3D 0;
++    kvmppc_set_interrupt(cpu, PPC_INTERRUPT_EXT, 0);
++}
+diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
+index 585be6ab98..89e1dd065a 100644
+--- a/include/hw/ppc/ppc.h
++++ b/include/hw/ppc/ppc.h
+@@ -77,6 +77,7 @@ static inline void ppc970_irq_init(PowerPCCPU *cpu) {}
+ static inline void ppcPOWER7_irq_init(PowerPCCPU *cpu) {}
+ static inline void ppcPOWER9_irq_init(PowerPCCPU *cpu) {}
+ static inline void ppce500_irq_init(PowerPCCPU *cpu) {}
++static inline void ppc_irq_reset(PowerPCCPU *cpu) {}
+ #else
+ void ppc40x_irq_init(PowerPCCPU *cpu);
+ void ppce500_irq_init(PowerPCCPU *cpu);
+@@ -84,6 +85,7 @@ void ppc6xx_irq_init(PowerPCCPU *cpu);
+ void ppc970_irq_init(PowerPCCPU *cpu);
+ void ppcPOWER7_irq_init(PowerPCCPU *cpu);
+ void ppcPOWER9_irq_init(PowerPCCPU *cpu);
++void ppc_irq_reset(PowerPCCPU *cpu);
+ #endif
 =20
--    spapr_ovec_cleanup(ov5_updates);
--
-     if (spapr->cas_reboot) {
-         qemu_system_reset_request(SHUTDOWN_CAUSE_SUBSYSTEM_RESET);
-     }
-diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
-index 811fadf143..0ff6d1aeae 100644
---- a/hw/ppc/spapr_ovec.c
-+++ b/hw/ppc/spapr_ovec.c
-@@ -76,31 +76,21 @@ void spapr_ovec_intersect(SpaprOptionVector *ov,
-     bitmap_and(ov->bitmap, ov1->bitmap, ov2->bitmap, OV_MAXBITS);
- }
+ /* PPC machines for OpenBIOS */
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index ba726dec4d..64a838095c 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -10461,6 +10461,7 @@ static void ppc_cpu_reset(CPUState *s)
+     env->pending_interrupts =3D 0;
+     s->exception_index =3D POWERPC_EXCP_NONE;
+     env->error_code =3D 0;
++    ppc_irq_reset(cpu);
 =20
--/* returns true if options bits were removed, false otherwise */
--bool spapr_ovec_diff(SpaprOptionVector *ov,
--                     SpaprOptionVector *ov_old,
--                     SpaprOptionVector *ov_new)
-+/* returns true if ov1 has a subset of bits in ov2 */
-+bool spapr_ovec_subset(SpaprOptionVector *ov1, SpaprOptionVector *ov2)
- {
--    unsigned long *change_mask =3D bitmap_new(OV_MAXBITS);
--    unsigned long *removed_bits =3D bitmap_new(OV_MAXBITS);
--    bool bits_were_removed =3D false;
-+    unsigned long *tmp =3D bitmap_new(OV_MAXBITS);
-+    bool result;
-=20
--    g_assert(ov);
--    g_assert(ov_old);
--    g_assert(ov_new);
--
--    bitmap_xor(change_mask, ov_old->bitmap, ov_new->bitmap, OV_MAXBITS);
--    bitmap_and(ov->bitmap, ov_new->bitmap, change_mask, OV_MAXBITS);
--    bitmap_and(removed_bits, ov_old->bitmap, change_mask, OV_MAXBITS);
-+    g_assert(ov1);
-+    g_assert(ov2);
-=20
--    if (!bitmap_empty(removed_bits, OV_MAXBITS)) {
--        bits_were_removed =3D true;
--    }
-+    bitmap_andnot(tmp, ov1->bitmap, ov2->bitmap, OV_MAXBITS);
-+    result =3D bitmap_empty(tmp, OV_MAXBITS);
-=20
--    g_free(change_mask);
--    g_free(removed_bits);
-+    g_free(tmp);
-=20
--    return bits_were_removed;
-+    return result;
- }
-=20
- void spapr_ovec_cleanup(SpaprOptionVector *ov)
-diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
-index 7891e9caac..2bed517a2b 100644
---- a/include/hw/ppc/spapr_ovec.h
-+++ b/include/hw/ppc/spapr_ovec.h
-@@ -66,9 +66,7 @@ SpaprOptionVector *spapr_ovec_clone(SpaprOptionVector *=
-ov_orig);
- void spapr_ovec_intersect(SpaprOptionVector *ov,
-                           SpaprOptionVector *ov1,
-                           SpaprOptionVector *ov2);
--bool spapr_ovec_diff(SpaprOptionVector *ov,
--                     SpaprOptionVector *ov_old,
--                     SpaprOptionVector *ov_new);
-+bool spapr_ovec_subset(SpaprOptionVector *ov1, SpaprOptionVector *ov2);
- void spapr_ovec_cleanup(SpaprOptionVector *ov);
- void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
- void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
+     /* tininess for underflow is detected before rounding */
+     set_float_detect_tininess(float_tininess_before_rounding,
 --=20
 2.23.0
 
