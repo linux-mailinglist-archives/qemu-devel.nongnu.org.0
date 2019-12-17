@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CE2122341
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:49:29 +0100 (CET)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50FF122339
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:46:42 +0100 (CET)
+Received: from localhost ([::1]:35102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4nX-0005rq-Sh
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:49:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33268)
+	id 1ih4kr-0001kv-2S
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33251)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hu-0007y1-Hz
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:40 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hu-0007xq-5O
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hs-0005I0-Ui
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hs-0005Hb-Lt
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:38 -0500
-Received: from ozlabs.org ([203.11.71.1]:50079)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51499 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4hs-0005CB-IV; Mon, 16 Dec 2019 23:43:36 -0500
+ id 1ih4hs-0005C0-Aj; Mon, 16 Dec 2019 23:43:36 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWP0gYRz9sS9; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
+ id 47cQWN5LtLz9sS6; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557809;
- bh=kTPVeY0vCORU7ueoqjo8nwZLHGxRXqP2NzL13CPE7ns=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557808;
+ bh=cIWbSV2hKfff9gsmveOl7Eih/ky92vv9vdYrVaFyE9s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J5JVpA4V4LjkTSEk/4grQ+tcnmQyaFZH/yU8cO83cIWPmDu9As4IXhTqN8+R03WOG
- Y6JRi0okZekzJ8+hn3YxHRgt2/1kaoT9eV67Y0o7BxRiHFXw524Y1uOeMkifCVYwuW
- AaYgPYLQutx6S2vJp5IJi1vyq5U5I0VRa0aLoD+M=
+ b=hY0GgRnblNFayn8s02HEx8IabSoGlVzTNXrXtxxr3NE6EhzL1nTTxPLB5NaCKYHt8
+ VHezLzmxYgiB0PvgSH9Vk3OR+YFDQmlrnsaEjYkfp+Yar9yyMWxiUEYHDUyE2mN+yY
+ nMvMtZ0zBlEf92ocfAQAJ1mjjUZWyrpb7YD6FXdQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/88] xive: Link "xive" property to XiveEndSource::xrtr pointer
-Date: Tue, 17 Dec 2019 15:42:00 +1100
-Message-Id: <20191217044322.351838-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/88] ppc/pnv: Link "psi" property to PnvLpc::psi pointer
+Date: Tue, 17 Dec 2019 15:42:01 +1100
+Message-Id: <20191217044322.351838-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,95 +60,124 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The END source object has both a pointer and a "xive" property pointing t=
-o
-the router object. Confusing bugs could arise if these ever go out of syn=
-c.
+The LPC object has both a pointer and a "psi" property pointing to the
+PSI object. Confusing bugs could arise if these ever go out of sync.
 
 Change the property definition so that it explicitely sets the pointer.
-The property isn't optional : not being able to set the link is a bug
-and QEMU should rather abort than exit in this case.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157383333784.165747.5298512574054268786.stgit@bahia.lan>
+Message-Id: <157383334342.165747.3159314903077305653.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c   |  4 ++--
- hw/intc/spapr_xive.c |  4 ++--
- hw/intc/xive.c       | 13 +++----------
- 3 files changed, 7 insertions(+), 14 deletions(-)
+ hw/ppc/pnv.c     |  8 ++++----
+ hw/ppc/pnv_lpc.c | 19 ++++++++-----------
+ 2 files changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 9e23dc705d..6aa7aeed6f 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -1705,8 +1705,8 @@ static void pnv_xive_realize(DeviceState *dev, Erro=
-r **errp)
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 4e9ddc05ad..201facc701 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -901,8 +901,6 @@ static void pnv_chip_power8_instance_init(Object *obj=
+)
 =20
-     object_property_set_int(OBJECT(end_xsrc), PNV_XIVE_NR_ENDS, "nr-ends=
-",
-                             &error_fatal);
--    object_property_add_const_link(OBJECT(end_xsrc), "xive", OBJECT(xive=
-),
--                                   &error_fatal);
-+    object_property_set_link(OBJECT(end_xsrc), OBJECT(xive), "xive",
+     object_initialize_child(obj, "lpc",  &chip8->lpc, sizeof(chip8->lpc)=
+,
+                             TYPE_PNV8_LPC, &error_abort, NULL);
+-    object_property_add_const_link(OBJECT(&chip8->lpc), "psi",
+-                                   OBJECT(&chip8->psi), &error_abort);
+=20
+     object_initialize_child(obj, "occ",  &chip8->occ, sizeof(chip8->occ)=
+,
+                             TYPE_PNV8_OCC, &error_abort, NULL);
+@@ -981,6 +979,8 @@ static void pnv_chip_power8_realize(DeviceState *dev,=
+ Error **errp)
+                             &PNV_PSI(psi8)->xscom_regs);
+=20
+     /* Create LPC controller */
++    object_property_set_link(OBJECT(&chip8->lpc), OBJECT(&chip8->psi), "=
+psi",
 +                             &error_abort);
-     object_property_set_bool(OBJECT(end_xsrc), true, "realized", &local_=
-err);
+     object_property_set_bool(OBJECT(&chip8->lpc), true, "realized",
+                              &error_fatal);
+     pnv_xscom_add_subregion(chip, PNV_XSCOM_LPC_BASE, &chip8->lpc.xscom_=
+regs);
+@@ -1099,8 +1099,6 @@ static void pnv_chip_power9_instance_init(Object *o=
+bj)
+=20
+     object_initialize_child(obj, "lpc",  &chip9->lpc, sizeof(chip9->lpc)=
+,
+                             TYPE_PNV9_LPC, &error_abort, NULL);
+-    object_property_add_const_link(OBJECT(&chip9->lpc), "psi",
+-                                   OBJECT(&chip9->psi), &error_abort);
+=20
+     object_initialize_child(obj, "occ",  &chip9->occ, sizeof(chip9->occ)=
+,
+                             TYPE_PNV9_OCC, &error_abort, NULL);
+@@ -1199,6 +1197,8 @@ static void pnv_chip_power9_realize(DeviceState *de=
+v, Error **errp)
+                             &PNV_PSI(psi9)->xscom_regs);
+=20
+     /* LPC */
++    object_property_set_link(OBJECT(&chip9->lpc), OBJECT(&chip9->psi), "=
+psi",
++                             &error_abort);
+     object_property_set_bool(OBJECT(&chip9->lpc), true, "realized", &loc=
+al_err);
      if (local_err) {
          error_propagate(errp, local_err);
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 10890aeeeb..729246e906 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -290,8 +290,8 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
-r **errp)
-      */
-     object_property_set_int(OBJECT(end_xsrc), xive->nr_irqs, "nr-ends",
-                             &error_fatal);
--    object_property_add_const_link(OBJECT(end_xsrc), "xive", OBJECT(xive=
-),
--                                   &error_fatal);
-+    object_property_set_link(OBJECT(end_xsrc), OBJECT(xive), "xive",
-+                             &error_abort);
-     object_property_set_bool(OBJECT(end_xsrc), true, "realized", &local_=
-err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 2eac15efa6..3d472e29c8 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1814,17 +1814,8 @@ static const MemoryRegionOps xive_end_source_ops =3D=
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index 9466d4a1be..fb9f930320 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -24,7 +24,7 @@
+ #include "qemu/module.h"
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+-
++#include "hw/qdev-properties.h"
+ #include "hw/ppc/pnv.h"
+ #include "hw/ppc/pnv_lpc.h"
+ #include "hw/ppc/pnv_xscom.h"
+@@ -682,17 +682,8 @@ static const TypeInfo pnv_lpc_power9_info =3D {
+ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
  {
- static void xive_end_source_realize(DeviceState *dev, Error **errp)
- {
-     XiveENDSource *xsrc =3D XIVE_END_SOURCE(dev);
+     PnvLpcController *lpc =3D PNV_LPC(dev);
 -    Object *obj;
 -    Error *local_err =3D NULL;
--
--    obj =3D object_property_get_link(OBJECT(dev), "xive", &local_err);
+=20
+-    obj =3D object_property_get_link(OBJECT(dev), "psi", &local_err);
 -    if (!obj) {
 -        error_propagate(errp, local_err);
--        error_prepend(errp, "required link 'xive' not found: ");
+-        error_prepend(errp, "required link 'psi' not found: ");
 -        return;
 -    }
+-    /* The LPC controller needs PSI to generate interrupts  */
+-    lpc->psi =3D PNV_PSI(obj);
++    assert(lpc->psi);
 =20
--    xsrc->xrtr =3D XIVE_ROUTER(obj);
-+    assert(xsrc->xrtr);
+     /* Reg inits */
+     lpc->lpc_hc_fw_rd_acc_size =3D LPC_HC_FW_RD_4B;
+@@ -734,12 +725,18 @@ static void pnv_lpc_realize(DeviceState *dev, Error=
+ **errp)
+                                 &lpc->lpc_hc_regs);
+ }
 =20
-     if (!xsrc->nr_ends) {
-         error_setg(errp, "Number of interrupt needs to be greater than 0=
-");
-@@ -1850,6 +1841,8 @@ static Property xive_end_source_properties[] =3D {
-     DEFINE_PROP_UINT8("block-id", XiveENDSource, block_id, 0),
-     DEFINE_PROP_UINT32("nr-ends", XiveENDSource, nr_ends, 0),
-     DEFINE_PROP_UINT32("shift", XiveENDSource, esb_shift, XIVE_ESB_64K),
-+    DEFINE_PROP_LINK("xive", XiveENDSource, xrtr, TYPE_XIVE_ROUTER,
-+                     XiveRouter *),
-     DEFINE_PROP_END_OF_LIST(),
- };
++static Property pnv_lpc_properties[] =3D {
++    DEFINE_PROP_LINK("psi", PnvLpcController, psi, TYPE_PNV_PSI, PnvPsi =
+*),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void pnv_lpc_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
 =20
+     dc->realize =3D pnv_lpc_realize;
+     dc->desc =3D "PowerNV LPC Controller";
++    dc->props =3D pnv_lpc_properties;
+ }
+=20
+ static const TypeInfo pnv_lpc_info =3D {
 --=20
 2.23.0
 
