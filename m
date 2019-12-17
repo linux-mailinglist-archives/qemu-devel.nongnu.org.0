@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF28B1224CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:39:02 +0100 (CET)
-Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE19A1224BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:36:37 +0100 (CET)
+Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih6VZ-00085y-Gi
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:39:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48992)
+	id 1ih6TE-0004gY-F3
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:36:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ih6Jz-0000lD-Dw
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:05 -0500
+ (envelope-from <armbru@redhat.com>) id 1ih6Jx-0000iL-5C
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ih6Jw-0000xa-2R
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:03 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26359
+ (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000w3-TK
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:01 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32187
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000ti-Tm
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000sZ-P2
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:26:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576564019;
@@ -27,37 +27,37 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WJkfHcaxEpYm5hhWlCXM/SGv2lErq8lQvcIGyEnWk0o=;
- b=KXtB7wEX20npvTVtnT2y5Gxn26GuYI1jzvSOe3KXJ8ioosP7Z+0o2torfJ1UMAbyTuzCvd
- ghbABXLyIN7yR0ySUR9W5GW/Avo25QWLVexneW+DszJ0SHx9ShbGwMrKYcDK+9S0DSVkou
- yJOv885IeLLncf9si7IQYzhHedv7Dm8=
+ bh=tG58nF4sXqRdxJ0EBOKqq4NTFPvei9v1v/+uaiuykRE=;
+ b=HPZPEuN2Qe/Gnq2oP4JvM3LmawKe7NyKGRzIH1x9kdKUQpk2cmoQPvhPVojaLFg5XkijMe
+ 1QsomAL7cgPbQpfsxYQw5lbBxQnXwsQltkJcq3/jVVE8Xv9TlTyrT69QkjRaWqqIWqeCPK
+ xwcf1DDHSe/cPr30mPLXCHSIqqmEfdM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-MOKIn_EJOluOqmUsthPagA-1; Tue, 17 Dec 2019 01:26:55 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-438-TXC-CL-UOMukXlC7FfADhg-1; Tue, 17 Dec 2019 01:26:57 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8DF4800D4C;
- Tue, 17 Dec 2019 06:26:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E55271883521;
+ Tue, 17 Dec 2019 06:26:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A9ED2381;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E3F060484;
  Tue, 17 Dec 2019 06:26:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 61F8D11384AA; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
+ id 6531711384D2; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/34] hw/ipmi: Fix realize() error API violations
-Date: Tue, 17 Dec 2019 07:26:26 +0100
-Message-Id: <20191217062651.9687-10-armbru@redhat.com>
+Subject: [PULL 10/34] qga: Fix guest-get-fsinfo error API violations
+Date: Tue, 17 Dec 2019 07:26:27 +0100
+Message-Id: <20191217062651.9687-11-armbru@redhat.com>
 In-Reply-To: <20191217062651.9687-1-armbru@redhat.com>
 References: <20191217062651.9687-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: MOKIn_EJOluOqmUsthPagA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: TXC-CL-UOMukXlC7FfADhg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,136 +73,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-isa_ipmi_bt_realize(), ipmi_isa_realize(), pci_ipmi_bt_realize(), and
-pci_ipmi_kcs_realize() dereference @errp when IPMIInterfaceClass
-method init() fails.  That's wrong; see the big comment in error.h.
-Introduced in commit 0719029c47 "ipmi: Add an ISA KCS low-level
-interface", then imitated in commit a9b74079cb "ipmi: Add a BT
-low-level interface" and commit 12f983c6aa "ipmi: Add PCI IPMI
-interfaces".
+build_guest_fsinfo_for_virtual_device() dereferences @errp when
+build_guest_fsinfo_for_device() fails.  That's wrong; see the big
+comment in error.h.  Introduced in commit 46d4c5723e "qga: Add
+guest-get-fsinfo command".
 
 No caller actually passes null.
 
 Fix anyway: splice in a local Error *err, and error_propagate().
 
-Cc: Corey Minyard <cminyard@mvista.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191204093625.14836-9-armbru@redhat.com>
+Message-Id: <20191204093625.14836-10-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/ipmi/isa_ipmi_bt.c  | 7 +++++--
- hw/ipmi/isa_ipmi_kcs.c | 7 +++++--
- hw/ipmi/pci_ipmi_bt.c  | 6 ++++--
- hw/ipmi/pci_ipmi_kcs.c | 6 ++++--
- 4 files changed, 18 insertions(+), 8 deletions(-)
+ qga/commands-posix.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
-index 9a87ffd3f0..9fba5ed383 100644
---- a/hw/ipmi/isa_ipmi_bt.c
-+++ b/hw/ipmi/isa_ipmi_bt.c
-@@ -70,6 +70,7 @@ static void isa_ipmi_bt_lower_irq(IPMIBT *ib)
-=20
- static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 0be301a4ea..10d818c3b2 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -1060,6 +1060,7 @@ static void build_guest_fsinfo_for_virtual_device(cha=
+r const *syspath,
+                                                   GuestFilesystemInfo *fs,
+                                                   Error **errp)
  {
 +    Error *err =3D NULL;
-     ISADevice *isadev =3D ISA_DEVICE(dev);
-     ISAIPMIBTDevice *iib =3D ISA_IPMI_BT(dev);
-     IPMIInterface *ii =3D IPMI_INTERFACE(dev);
-@@ -85,9 +86,11 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error =
-**errp)
-     iib->bt.bmc->intf =3D ii;
-     iib->bt.opaque =3D iib;
+     DIR *dir;
+     char *dirpath;
+     struct dirent *entry;
+@@ -1089,10 +1090,11 @@ static void build_guest_fsinfo_for_virtual_device(c=
+har const *syspath,
 =20
--    iic->init(ii, 0, errp);
--    if (*errp)
-+    iic->init(ii, 0, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return;
-+    }
+             g_debug(" slave device '%s'", entry->d_name);
+             path =3D g_strdup_printf("%s/slaves/%s", syspath, entry->d_nam=
+e);
+-            build_guest_fsinfo_for_device(path, fs, errp);
++            build_guest_fsinfo_for_device(path, fs, &err);
+             g_free(path);
 =20
-     if (iib->isairq > 0) {
-         isa_init_irq(isadev, &iib->irq, iib->isairq);
-diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
-index ca3ea36a3f..cc6bd817f2 100644
---- a/hw/ipmi/isa_ipmi_kcs.c
-+++ b/hw/ipmi/isa_ipmi_kcs.c
-@@ -69,6 +69,7 @@ static void isa_ipmi_kcs_lower_irq(IPMIKCS *ik)
-=20
- static void ipmi_isa_realize(DeviceState *dev, Error **errp)
- {
-+    Error *err =3D NULL;
-     ISADevice *isadev =3D ISA_DEVICE(dev);
-     ISAIPMIKCSDevice *iik =3D ISA_IPMI_KCS(dev);
-     IPMIInterface *ii =3D IPMI_INTERFACE(dev);
-@@ -84,9 +85,11 @@ static void ipmi_isa_realize(DeviceState *dev, Error **e=
-rrp)
-     iik->kcs.bmc->intf =3D ii;
-     iik->kcs.opaque =3D iik;
-=20
--    iic->init(ii, 0, errp);
--    if (*errp)
-+    iic->init(ii, 0, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return;
-+    }
-=20
-     if (iik->isairq > 0) {
-         isa_init_irq(isadev, &iik->irq, iik->isairq);
-diff --git a/hw/ipmi/pci_ipmi_bt.c b/hw/ipmi/pci_ipmi_bt.c
-index 6ed925a665..ba9cf016b5 100644
---- a/hw/ipmi/pci_ipmi_bt.c
-+++ b/hw/ipmi/pci_ipmi_bt.c
-@@ -54,6 +54,7 @@ static void pci_ipmi_lower_irq(IPMIBT *ik)
-=20
- static void pci_ipmi_bt_realize(PCIDevice *pd, Error **errp)
- {
-+    Error *err =3D NULL;
-     PCIIPMIBTDevice *pik =3D PCI_IPMI_BT(pd);
-     IPMIInterface *ii =3D IPMI_INTERFACE(pd);
-     IPMIInterfaceClass *iic =3D IPMI_INTERFACE_GET_CLASS(ii);
-@@ -74,8 +75,9 @@ static void pci_ipmi_bt_realize(PCIDevice *pd, Error **er=
-rp)
-     pik->bt.raise_irq =3D pci_ipmi_raise_irq;
-     pik->bt.lower_irq =3D pci_ipmi_lower_irq;
-=20
--    iic->init(ii, 8, errp);
--    if (*errp) {
-+    iic->init(ii, 8, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return;
-     }
-     pci_register_bar(pd, 0, PCI_BASE_ADDRESS_SPACE_IO, &pik->bt.io);
-diff --git a/hw/ipmi/pci_ipmi_kcs.c b/hw/ipmi/pci_ipmi_kcs.c
-index eeba63baa4..99f46152f4 100644
---- a/hw/ipmi/pci_ipmi_kcs.c
-+++ b/hw/ipmi/pci_ipmi_kcs.c
-@@ -54,6 +54,7 @@ static void pci_ipmi_lower_irq(IPMIKCS *ik)
-=20
- static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **errp)
- {
-+    Error *err =3D NULL;
-     PCIIPMIKCSDevice *pik =3D PCI_IPMI_KCS(pd);
-     IPMIInterface *ii =3D IPMI_INTERFACE(pd);
-     IPMIInterfaceClass *iic =3D IPMI_INTERFACE_GET_CLASS(ii);
-@@ -74,8 +75,9 @@ static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **e=
-rrp)
-     pik->kcs.raise_irq =3D pci_ipmi_raise_irq;
-     pik->kcs.lower_irq =3D pci_ipmi_lower_irq;
-=20
--    iic->init(ii, 8, errp);
--    if (*errp) {
-+    iic->init(ii, 8, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return;
-     }
-     pci_register_bar(pd, 0, PCI_BASE_ADDRESS_SPACE_IO, &pik->kcs.io);
+-            if (*errp) {
++            if (err) {
++                error_propagate(errp, err);
+                 break;
+             }
+         }
 --=20
 2.21.0
 
