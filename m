@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CB0122405
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:47:40 +0100 (CET)
-Received: from localhost ([::1]:36144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43A61223D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:32:20 +0100 (CET)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5hr-00058l-CH
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:47:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52137)
+	id 1ih5T1-0000v9-BH
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:32:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1ih5D8-000324-95
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:55 -0500
+ (envelope-from <crosa@redhat.com>) id 1ih5DK-0003Lk-Ae
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1ih5D7-0003MW-2k
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:54 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54727
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1ih5DI-0003dY-N6
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57254
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5D6-0003LD-Vm
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:53 -0500
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5DI-0003cJ-Id
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576559752;
+ s=mimecast20190719; t=1576559764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BXjHJ/nHmfAHIatMjaNdnTAvIONIZN05s8S26P3Z/mo=;
- b=ZnsJfw10RQn44VAjOmihnWacJ3w1p8P+phYGXVD+28QlwwOXSfvgY2CjlSad6APfpdW1Fx
- t1sfB7ivwd5VIUfDh66CeW8PsAQhkqyVeJFPJh7GFT1RmnyTwgLv2U2cj8fs38DHzWpyXv
- 2iNzklFdlMkXIcFH01GRO9leHACb70A=
+ bh=dUlDAtfcVLMRklp8hQ9k0o99XZdShJYWYb9iO1gCBC0=;
+ b=NfUnYW5hvCFcgl+TViKGU82Il+NakXC2Yjc/AuxaftKkB2kxEMHKgKAGTTFrnQEAu76lIX
+ kNWfVR52+MfZo/tEpQXUVL82SwNsEG8HBNgK7MP3V+mp/JhPZt7st05ny75Jncp1Y8bUwr
+ llYBmbVYxu2L0NcVqp1ZYZKcBrEeqss=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-n2n22fOBN5eOqTM-Hs74IA-1; Tue, 17 Dec 2019 00:15:49 -0500
+ us-mta-401-6yVa4uJaNRKg78w-vX1snQ-1; Tue, 17 Dec 2019 00:16:02 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4554A189CD01;
- Tue, 17 Dec 2019 05:15:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DCBF800D4E;
+ Tue, 17 Dec 2019 05:16:01 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-6.gru2.redhat.com
  [10.97.116.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4194819C4F;
- Tue, 17 Dec 2019 05:15:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 740D019C4F;
+ Tue, 17 Dec 2019 05:15:57 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/15] analyze-migration.py: fix find() type error
-Date: Tue, 17 Dec 2019 00:15:09 -0500
-Message-Id: <20191217051521.1239-4-crosa@redhat.com>
+Subject: [PULL 05/15] python/qemu: Add set_qmp_monitor() to QEMUMachine
+Date: Tue, 17 Dec 2019 00:15:11 -0500
+Message-Id: <20191217051521.1239-6-crosa@redhat.com>
 In-Reply-To: <20191217051521.1239-1-crosa@redhat.com>
 References: <20191217051521.1239-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: n2n22fOBN5eOqTM-Hs74IA-1
+X-MC-Unique: 6yVa4uJaNRKg78w-vX1snQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,7 +75,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Fabien Chouteau <chouteau@adacore.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -86,44 +85,154 @@ Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Traceback (most recent call last):
-  File "../scripts/analyze-migration.py", line 611, in <module>
-    dump.read(desc_only =3D True)
-  File "../scripts/analyze-migration.py", line 513, in read
-    self.load_vmsd_json(file)
-  File "../scripts/analyze-migration.py", line 556, in load_vmsd_json
-    vmsd_json =3D file.read_migration_debug_json()
-  File "../scripts/analyze-migration.py", line 89, in read_migration_debug_=
-json
-    nulpos =3D data.rfind("\0")
-TypeError: argument should be integer or bytes-like object, not 'str'
+The QEMUMachine VM has a monitor setup on which an QMP
+connection is always attempted on _post_launch() (executed
+by launch()). In case the QEMU process immediatly exits
+then the qmp.accept() (used to establish the connection) stalls
+until it reaches timeout and consequently an exception raises.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20191127101038.327080-2-marcandre.lureau@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+That behavior is undesirable when, for instance, it needs to
+gather information from the QEMU binary ($ qemu -cpu list) or a
+test which launches the VM expecting its failure.
+
+This patch adds the set_qmp_monitor() method to QEMUMachine that
+allows turn off the creation of the monitor machinery on VM launch.
+
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20191211185536.16962-2-wainersm@redhat.com>
+[Cleber: trivial indentation fix]
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/analyze-migration.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ python/qemu/machine.py | 70 +++++++++++++++++++++++++++---------------
+ 1 file changed, 45 insertions(+), 25 deletions(-)
 
-diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
-index e527eb168e..2b835d9b70 100755
---- a/scripts/analyze-migration.py
-+++ b/scripts/analyze-migration.py
-@@ -86,8 +86,8 @@ class MigrationFile(object):
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index a4631d6934..734efd8536 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -104,6 +104,7 @@ class QEMUMachine(object):
+         self._events =3D []
+         self._iolog =3D None
+         self._socket_scm_helper =3D socket_scm_helper
++        self._qmp_set =3D True   # Enable QMP monitor by default.
+         self._qmp =3D None
+         self._qemu_full_args =3D None
+         self._test_dir =3D test_dir
+@@ -228,15 +229,16 @@ class QEMUMachine(object):
+                 self._iolog =3D iolog.read()
 =20
-         # Find the last NULL byte, then the first brace after that. This s=
-hould
-         # be the beginning of our JSON data.
--        nulpos =3D data.rfind("\0")
--        jsonpos =3D data.find("{", nulpos)
-+        nulpos =3D data.rfind(b'\0')
-+        jsonpos =3D data.find(b'{', nulpos)
+     def _base_args(self):
+-        if isinstance(self._monitor_address, tuple):
+-            moncdev =3D "socket,id=3Dmon,host=3D%s,port=3D%s" % (
+-                self._monitor_address[0],
+-                self._monitor_address[1])
+-        else:
+-            moncdev =3D 'socket,id=3Dmon,path=3D%s' % self._vm_monitor
+-        args =3D ['-chardev', moncdev,
+-                '-mon', 'chardev=3Dmon,mode=3Dcontrol',
+-                '-display', 'none', '-vga', 'none']
++        args =3D ['-display', 'none', '-vga', 'none']
++        if self._qmp_set:
++            if isinstance(self._monitor_address, tuple):
++                moncdev =3D "socket,id=3Dmon,host=3D%s,port=3D%s" % (
++                    self._monitor_address[0],
++                    self._monitor_address[1])
++            else:
++                moncdev =3D 'socket,id=3Dmon,path=3D%s' % self._vm_monitor
++            args.extend(['-chardev', moncdev, '-mon',
++                         'chardev=3Dmon,mode=3Dcontrol'])
+         if self._machine is not None:
+             args.extend(['-machine', self._machine])
+         if self._console_set:
+@@ -255,20 +257,21 @@ class QEMUMachine(object):
 =20
-         # Check backwards from there and see whether we guessed right
-         self.file.seek(datapos + jsonpos - 5, 0)
+     def _pre_launch(self):
+         self._temp_dir =3D tempfile.mkdtemp(dir=3Dself._test_dir)
+-        if self._monitor_address is not None:
+-            self._vm_monitor =3D self._monitor_address
+-        else:
+-            self._vm_monitor =3D os.path.join(self._sock_dir,
+-                                            self._name + "-monitor.sock")
+-            self._remove_files.append(self._vm_monitor)
+         self._qemu_log_path =3D os.path.join(self._temp_dir, self._name + =
+".log")
+         self._qemu_log_file =3D open(self._qemu_log_path, 'wb')
+=20
+-        self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor,
+-                                            server=3DTrue)
++        if self._qmp_set:
++            if self._monitor_address is not None:
++                self._vm_monitor =3D self._monitor_address
++            else:
++                self._vm_monitor =3D os.path.join(self._sock_dir,
++                                                self._name + "-monitor.soc=
+k")
++                self._remove_files.append(self._vm_monitor)
++            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor, server=
+=3DTrue)
+=20
+     def _post_launch(self):
+-        self._qmp.accept()
++        if self._qmp:
++            self._qmp.accept()
+=20
+     def _post_shutdown(self):
+         if self._qemu_log_file is not None:
+@@ -330,7 +333,8 @@ class QEMUMachine(object):
+         Wait for the VM to power off
+         """
+         self._popen.wait()
+-        self._qmp.close()
++        if self._qmp:
++            self._qmp.close()
+         self._load_io_log()
+         self._post_shutdown()
+=20
+@@ -346,12 +350,13 @@ class QEMUMachine(object):
+             self._console_socket =3D None
+=20
+         if self.is_running():
+-            try:
+-                if not has_quit:
+-                    self._qmp.cmd('quit')
+-                self._qmp.close()
+-            except:
+-                self._popen.kill()
++            if self._qmp:
++                try:
++                    if not has_quit:
++                        self._qmp.cmd('quit')
++                    self._qmp.close()
++                except:
++                    self._popen.kill()
+             self._popen.wait()
+=20
+         self._load_io_log()
+@@ -368,6 +373,21 @@ class QEMUMachine(object):
+=20
+         self._launched =3D False
+=20
++    def set_qmp_monitor(self, enabled=3DTrue):
++        """
++        Set the QMP monitor.
++
++        @param enabled: if False, qmp monitor options will be removed from
++                        the base arguments of the resulting QEMU command
++                        line. Default is True.
++        @note: call this function before launch().
++        """
++        if enabled:
++            self._qmp_set =3D True
++        else:
++            self._qmp_set =3D False
++            self._qmp =3D None
++
+     def qmp(self, cmd, conv_keys=3DTrue, **args):
+         """
+         Invoke a QMP command and return the response dict
 --=20
 2.21.0
 
