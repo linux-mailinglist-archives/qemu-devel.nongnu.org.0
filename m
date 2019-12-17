@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125421223EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:38:30 +0100 (CET)
-Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5151223D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:34:13 +0100 (CET)
+Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Yy-0001LX-U5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:38:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35382)
+	id 1ih5Uq-0003Fn-56
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:34:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4k6-0002Lr-1N
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:57 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kB-0002Nq-NK
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jz-0007y6-Hq
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:53 -0500
-Received: from ozlabs.org ([203.11.71.1]:42423)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4k9-00083v-FE
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:59 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34107 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4jw-0007Nq-8X; Mon, 16 Dec 2019 23:45:45 -0500
+ id 1ih4k6-0007ac-Ev; Mon, 16 Dec 2019 23:45:55 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWf6p3Tz9sTY; Tue, 17 Dec 2019 15:43:39 +1100 (AEDT)
+ id 47cQWh2P6Tz9sTf; Tue, 17 Dec 2019 15:43:39 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557822;
- bh=rlTeDJpdg4rEEZiWHjdxU1vrmoe+ccL1RPnnRbfaP8k=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557824;
+ bh=nD6rEAj61/oIlfmU5mHCM3f6/i6i4am4uzRT/VwDHRo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QD2a6ZnSOJcp9DeE+4ltVwVwrURg0r6ErUnZqaJ70KpROXRXYTbKVHMG+sN/HuUhE
- E6//WjHkbTOMDJXzc6cxPIXSx++7Fos7i9Cwv2j9PuB2UWveUjg1ayPIyAJ9ZBPHrs
- /NHbR1SrEtC6JWK94vsr8Geec5Brei7gbW8jby2M=
+ b=Jy48gU/xtwbA+XzYdAQP9TOlkwCJaoQPgMpwewdZgR4diQ+rOuJpx36OPZ4zsRPk8
+ KybZqkV+SexuTtf23mVG3pOEyTv5tv/Z5fI9FIh4sPgwLaOOWXFgBkWhNcVEJF3At1
+ r6t6RAjAA9+vvZmMyxAXfsLTAfExFskSEEWSEsbk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 61/88] target/ppc: Add POWER10 DD1.0 model information
-Date: Tue, 17 Dec 2019 15:42:55 +1100
-Message-Id: <20191217044322.351838-62-david@gibson.dropbear.id.au>
+Subject: [PULL 62/88] ppc/pnv: Introduce a POWER10 PnvChip and a powernv10
+ machine
+Date: Tue, 17 Dec 2019 15:42:56 +1100
+Message-Id: <20191217044322.351838-63-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,395 +62,505 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-This includes in QEMU a new CPU model for the POWER10 processor with
-the same capabilities of a POWER9 process. The model will be extended
-when support is completed.
+This is an empty shell with the XSCOM bus and cores. The chip controllers
+will come later.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191205184454.10722-2-clg@kaod.org>
+Message-Id: <20191205184454.10722-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/compat.c             |  21 +++-
- target/ppc/cpu-models.c         |   3 +
- target/ppc/cpu-models.h         |   3 +
- target/ppc/cpu.h                |   1 +
- target/ppc/translate_init.inc.c | 215 ++++++++++++++++++++++++++++++++
- 5 files changed, 237 insertions(+), 6 deletions(-)
+ hw/ppc/pnv.c               | 158 +++++++++++++++++++++++++++++++++++--
+ hw/ppc/pnv_core.c          |  10 +++
+ hw/ppc/pnv_xscom.c         |  23 ++++--
+ include/hw/ppc/pnv.h       |  33 ++++++++
+ include/hw/ppc/pnv_xscom.h |  19 +++++
+ 5 files changed, 232 insertions(+), 11 deletions(-)
 
-diff --git a/target/ppc/compat.c b/target/ppc/compat.c
-index 7de4bf3122..f48df25944 100644
---- a/target/ppc/compat.c
-+++ b/target/ppc/compat.c
-@@ -51,36 +51,38 @@ static const CompatInfo compat_table[] =3D {
-     { /* POWER6, ISA2.05 */
-         .name =3D "power6",
-         .pvr =3D CPU_POWERPC_LOGICAL_2_05,
--        .pcr =3D PCR_COMPAT_3_00 | PCR_COMPAT_2_07 | PCR_COMPAT_2_06 |
--               PCR_COMPAT_2_05 | PCR_TM_DIS | PCR_VSX_DIS,
-+        .pcr =3D PCR_COMPAT_3_10 | PCR_COMPAT_3_00 | PCR_COMPAT_2_07 |
-+               PCR_COMPAT_2_06 | PCR_COMPAT_2_05 | PCR_TM_DIS | PCR_VSX_=
-DIS,
-         .pcr_level =3D PCR_COMPAT_2_05,
-         .max_vthreads =3D 2,
-     },
-     { /* POWER7, ISA2.06 */
-         .name =3D "power7",
-         .pvr =3D CPU_POWERPC_LOGICAL_2_06,
--        .pcr =3D PCR_COMPAT_3_00 | PCR_COMPAT_2_07 | PCR_COMPAT_2_06 | P=
-CR_TM_DIS,
-+        .pcr =3D PCR_COMPAT_3_10 | PCR_COMPAT_3_00 | PCR_COMPAT_2_07 |
-+               PCR_COMPAT_2_06 | PCR_TM_DIS,
-         .pcr_level =3D PCR_COMPAT_2_06,
-         .max_vthreads =3D 4,
-     },
-     {
-         .name =3D "power7+",
-         .pvr =3D CPU_POWERPC_LOGICAL_2_06_PLUS,
--        .pcr =3D PCR_COMPAT_3_00 | PCR_COMPAT_2_07 | PCR_COMPAT_2_06 | P=
-CR_TM_DIS,
-+        .pcr =3D PCR_COMPAT_3_10 | PCR_COMPAT_3_00 | PCR_COMPAT_2_07 |
-+               PCR_COMPAT_2_06 | PCR_TM_DIS,
-         .pcr_level =3D PCR_COMPAT_2_06,
-         .max_vthreads =3D 4,
-     },
-     { /* POWER8, ISA2.07 */
-         .name =3D "power8",
-         .pvr =3D CPU_POWERPC_LOGICAL_2_07,
--        .pcr =3D PCR_COMPAT_3_00 | PCR_COMPAT_2_07,
-+        .pcr =3D PCR_COMPAT_3_10 | PCR_COMPAT_3_00 | PCR_COMPAT_2_07,
-         .pcr_level =3D PCR_COMPAT_2_07,
-         .max_vthreads =3D 8,
-     },
-     { /* POWER9, ISA3.00 */
-         .name =3D "power9",
-         .pvr =3D CPU_POWERPC_LOGICAL_3_00,
--        .pcr =3D PCR_COMPAT_3_00,
-+        .pcr =3D PCR_COMPAT_3_10 | PCR_COMPAT_3_00,
-         .pcr_level =3D PCR_COMPAT_3_00,
-         /*
-          * POWER9 hardware only supports 4 threads / core, but this
-@@ -91,6 +93,13 @@ static const CompatInfo compat_table[] =3D {
-          */
-         .max_vthreads =3D 8,
-     },
-+    { /* POWER10, ISA3.10 */
-+        .name =3D "power10",
-+        .pvr =3D CPU_POWERPC_LOGICAL_3_10,
-+        .pcr =3D PCR_COMPAT_3_10,
-+        .pcr_level =3D PCR_COMPAT_3_10,
-+        .max_vthreads =3D 8,
-+    },
- };
-=20
- static const CompatInfo *compat_by_pvr(uint32_t pvr)
-diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-index 086548e9b9..4ad16863c0 100644
---- a/target/ppc/cpu-models.c
-+++ b/target/ppc/cpu-models.c
-@@ -774,6 +774,8 @@
-                 "POWER9 v1.0")
-     POWERPC_DEF("power9_v2.0",   CPU_POWERPC_POWER9_DD20,            POW=
-ER9,
-                 "POWER9 v2.0")
-+    POWERPC_DEF("power10_v1.0",  CPU_POWERPC_POWER10_DD1,            POW=
-ER10,
-+                "POWER10 v1.0")
- #endif /* defined (TARGET_PPC64) */
-=20
- /***********************************************************************=
-****/
-@@ -950,6 +952,7 @@ PowerPCCPUAlias ppc_cpu_aliases[] =3D {
-     { "power8", "power8_v2.0" },
-     { "power8nvl", "power8nvl_v1.0" },
-     { "power9", "power9_v2.0" },
-+    { "power10", "power10_v1.0" },
- #endif
-=20
-     /* Generic PowerPCs */
-diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
-index 4fdb73034d..ce750b2d55 100644
---- a/target/ppc/cpu-models.h
-+++ b/target/ppc/cpu-models.h
-@@ -373,6 +373,8 @@ enum {
-     CPU_POWERPC_POWER9_BASE        =3D 0x004E0000,
-     CPU_POWERPC_POWER9_DD1         =3D 0x004E0100,
-     CPU_POWERPC_POWER9_DD20        =3D 0x004E1200,
-+    CPU_POWERPC_POWER10_BASE       =3D 0x00800000,
-+    CPU_POWERPC_POWER10_DD1        =3D 0x00800100,
-     CPU_POWERPC_970_v22            =3D 0x00390202,
-     CPU_POWERPC_970FX_v10          =3D 0x00391100,
-     CPU_POWERPC_970FX_v20          =3D 0x003C0200,
-@@ -409,6 +411,7 @@ enum {
-     CPU_POWERPC_LOGICAL_2_06_PLUS  =3D 0x0F100003,
-     CPU_POWERPC_LOGICAL_2_07       =3D 0x0F000004,
-     CPU_POWERPC_LOGICAL_3_00       =3D 0x0F000005,
-+    CPU_POWERPC_LOGICAL_3_10       =3D 0x0F000006,
- };
-=20
- /* System version register (used on MPC 8xxx)                           =
-     */
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 60cf030ce6..fbec1b0cd5 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2364,6 +2364,7 @@ enum {
-     PCR_COMPAT_2_06     =3D PPC_BIT(61),
-     PCR_COMPAT_2_07     =3D PPC_BIT(60),
-     PCR_COMPAT_3_00     =3D PPC_BIT(59),
-+    PCR_COMPAT_3_10     =3D PPC_BIT(58),
-     PCR_VEC_DIS         =3D PPC_BIT(0), /* Vec. disable (bit NA since PO=
-WER8) */
-     PCR_VSX_DIS         =3D PPC_BIT(1), /* VSX disable (bit NA since POW=
-ER8) */
-     PCR_TM_DIS          =3D PPC_BIT(2), /* Trans. memory disable (POWER8=
-) */
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index 64a838095c..7364d36b07 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -3354,6 +3354,11 @@ static void init_excp_POWER9(CPUPPCState *env)
- #endif
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index fa656858b2..d99cd72840 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -317,6 +317,23 @@ static void pnv_chip_power9_dt_populate(PnvChip *chi=
+p, void *fdt)
+     pnv_dt_lpc(chip, fdt, 0);
  }
 =20
-+static void init_excp_POWER10(CPUPPCState *env)
++static void pnv_chip_power10_dt_populate(PnvChip *chip, void *fdt)
 +{
-+    init_excp_POWER9(env);
-+}
++    int i;
 +
- #endif
-=20
- /***********************************************************************=
-******/
-@@ -8996,6 +9001,216 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *dat=
-a)
-     pcc->lpcr_pm =3D LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_=
-OEE;
- }
-=20
-+#ifdef CONFIG_SOFTMMU
-+/*
-+ * Radix pg sizes and AP encodings for dt node ibm,processor-radix-AP-en=
-codings
-+ * Encoded as array of int_32s in the form:
-+ *  0bxxxyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
-+ *  x -> AP encoding
-+ *  y -> radix mode supported page size (encoded as a shift)
-+ */
-+static struct ppc_radix_page_info POWER10_radix_page_info =3D {
-+    .count =3D 4,
-+    .entries =3D {
-+        0x0000000c, /*  4K - enc: 0x0 */
-+        0xa0000010, /* 64K - enc: 0x5 */
-+        0x20000015, /*  2M - enc: 0x1 */
-+        0x4000001e  /*  1G - enc: 0x2 */
++    pnv_dt_xscom(chip, fdt, 0);
++
++    for (i =3D 0; i < chip->nr_cores; i++) {
++        PnvCore *pnv_core =3D chip->cores[i];
++
++        pnv_dt_core(chip, pnv_core, fdt);
 +    }
-+};
-+#endif /* CONFIG_SOFTMMU */
 +
-+static void init_proc_POWER10(CPUPPCState *env)
-+{
-+    /* Common Registers */
-+    init_proc_book3s_common(env);
-+    gen_spr_book3s_207_dbg(env);
-+
-+    /* POWER8 Specific Registers */
-+    gen_spr_book3s_ids(env);
-+    gen_spr_amr(env);
-+    gen_spr_iamr(env);
-+    gen_spr_book3s_purr(env);
-+    gen_spr_power5p_common(env);
-+    gen_spr_power5p_lpar(env);
-+    gen_spr_power5p_ear(env);
-+    gen_spr_power6_common(env);
-+    gen_spr_power6_dbg(env);
-+    gen_spr_power8_tce_address_control(env);
-+    gen_spr_power8_ids(env);
-+    gen_spr_power8_ebb(env);
-+    gen_spr_power8_fscr(env);
-+    gen_spr_power8_pmu_sup(env);
-+    gen_spr_power8_pmu_user(env);
-+    gen_spr_power8_tm(env);
-+    gen_spr_power8_pspb(env);
-+    gen_spr_vtb(env);
-+    gen_spr_power8_ic(env);
-+    gen_spr_power8_book4(env);
-+    gen_spr_power8_rpr(env);
-+    gen_spr_power9_mmu(env);
-+
-+    /* POWER9 Specific registers */
-+    spr_register_kvm(env, SPR_TIDR, "TIDR", NULL, NULL,
-+                     spr_read_generic, spr_write_generic,
-+                     KVM_REG_PPC_TIDR, 0);
-+
-+    /* FIXME: Filter fields properly based on privilege level */
-+    spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
-+                        spr_read_generic, spr_write_generic,
-+                        KVM_REG_PPC_PSSCR, 0);
-+
-+    /* env variables */
-+    env->dcache_line_size =3D 128;
-+    env->icache_line_size =3D 128;
-+
-+    /* Allocate hardware IRQ controller */
-+    init_excp_POWER10(env);
-+    ppcPOWER9_irq_init(env_archcpu(env));
-+}
-+
-+static bool ppc_pvr_match_power10(PowerPCCPUClass *pcc, uint32_t pvr)
-+{
-+    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER10=
-_BASE) {
-+        return true;
-+    }
-+    return false;
-+}
-+
-+static bool cpu_has_work_POWER10(CPUState *cs)
-+{
-+    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-+    CPUPPCState *env =3D &cpu->env;
-+
-+    if (cs->halted) {
-+        uint64_t psscr =3D env->spr[SPR_PSSCR];
-+
-+        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
-+            return false;
-+        }
-+
-+        /* If EC is clear, just return true on any pending interrupt */
-+        if (!(psscr & PSSCR_EC)) {
-+            return true;
-+        }
-+        /* External Exception */
-+        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
-+            (env->spr[SPR_LPCR] & LPCR_EEE)) {
-+            bool heic =3D !!(env->spr[SPR_LPCR] & LPCR_HEIC);
-+            if (heic =3D=3D 0 || !msr_hv || msr_pr) {
-+                return true;
-+            }
-+        }
-+        /* Decrementer Exception */
-+        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DECR)) &&
-+            (env->spr[SPR_LPCR] & LPCR_DEE)) {
-+            return true;
-+        }
-+        /* Machine Check or Hypervisor Maintenance Exception */
-+        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_MCK |
-+            1u << PPC_INTERRUPT_HMI)) && (env->spr[SPR_LPCR] & LPCR_OEE)=
-) {
-+            return true;
-+        }
-+        /* Privileged Doorbell Exception */
-+        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DOORBELL)) &=
-&
-+            (env->spr[SPR_LPCR] & LPCR_PDEE)) {
-+            return true;
-+        }
-+        /* Hypervisor Doorbell Exception */
-+        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HDOORBELL)) =
-&&
-+            (env->spr[SPR_LPCR] & LPCR_HDEE)) {
-+            return true;
-+        }
-+        /* Hypervisor virtualization exception */
-+        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HVIRT)) &&
-+            (env->spr[SPR_LPCR] & LPCR_HVEE)) {
-+            return true;
-+        }
-+        if (env->pending_interrupts & (1u << PPC_INTERRUPT_RESET)) {
-+            return true;
-+        }
-+        return false;
-+    } else {
-+        return msr_ee && (cs->interrupt_request & CPU_INTERRUPT_HARD);
++    if (chip->ram_size) {
++        pnv_dt_memory(fdt, chip->chip_id, chip->ram_start, chip->ram_siz=
+e);
 +    }
 +}
 +
-+POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(oc);
-+    PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(oc);
-+    CPUClass *cc =3D CPU_CLASS(oc);
-+
-+    dc->fw_name =3D "PowerPC,POWER10";
-+    dc->desc =3D "POWER10";
-+    dc->props =3D powerpc_servercpu_properties;
-+    pcc->pvr_match =3D ppc_pvr_match_power10;
-+    pcc->pcr_mask =3D PCR_COMPAT_2_05 | PCR_COMPAT_2_06 | PCR_COMPAT_2_0=
-7 |
-+                    PCR_COMPAT_3_00;
-+    pcc->pcr_supported =3D PCR_COMPAT_3_10 | PCR_COMPAT_3_00 | PCR_COMPA=
-T_2_07 |
-+                         PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
-+    pcc->init_proc =3D init_proc_POWER10;
-+    pcc->check_pow =3D check_pow_nocheck;
-+    cc->has_work =3D cpu_has_work_POWER10;
-+    pcc->insns_flags =3D PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MF=
-TB |
-+                       PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-+                       PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-+                       PPC_FLOAT_FRSQRTES |
-+                       PPC_FLOAT_STFIWX |
-+                       PPC_FLOAT_EXT |
-+                       PPC_CACHE | PPC_CACHE_ICBI | PPC_CACHE_DCBZ |
-+                       PPC_MEM_SYNC | PPC_MEM_EIEIO |
-+                       PPC_MEM_TLBSYNC |
-+                       PPC_64B | PPC_64H | PPC_64BX | PPC_ALTIVEC |
-+                       PPC_SEGMENT_64B | PPC_SLBI |
-+                       PPC_POPCNTB | PPC_POPCNTWD |
-+                       PPC_CILDST;
-+    pcc->insns_flags2 =3D PPC2_VSX | PPC2_VSX207 | PPC2_DFP | PPC2_DBRX =
-|
-+                        PPC2_PERM_ISA206 | PPC2_DIVE_ISA206 |
-+                        PPC2_ATOMIC_ISA206 | PPC2_FP_CVT_ISA206 |
-+                        PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
-+                        PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
-+                        PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
-+                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
-+    pcc->msr_mask =3D (1ull << MSR_SF) |
-+                    (1ull << MSR_SHV) |
-+                    (1ull << MSR_TM) |
-+                    (1ull << MSR_VR) |
-+                    (1ull << MSR_VSX) |
-+                    (1ull << MSR_EE) |
-+                    (1ull << MSR_PR) |
-+                    (1ull << MSR_FP) |
-+                    (1ull << MSR_ME) |
-+                    (1ull << MSR_FE0) |
-+                    (1ull << MSR_SE) |
-+                    (1ull << MSR_DE) |
-+                    (1ull << MSR_FE1) |
-+                    (1ull << MSR_IR) |
-+                    (1ull << MSR_DR) |
-+                    (1ull << MSR_PMM) |
-+                    (1ull << MSR_RI) |
-+                    (1ull << MSR_LE);
-+    pcc->mmu_model =3D POWERPC_MMU_3_00;
-+#if defined(CONFIG_SOFTMMU)
-+    pcc->handle_mmu_fault =3D ppc64_v3_handle_mmu_fault;
-+    /* segment page size remain the same */
-+    pcc->hash64_opts =3D &ppc_hash64_opts_POWER7;
-+    pcc->radix_page_info =3D &POWER10_radix_page_info;
-+    pcc->lrg_decr_bits =3D 56;
-+#endif
-+    pcc->excp_model =3D POWERPC_EXCP_POWER9;
-+    pcc->bus_model =3D PPC_FLAGS_INPUT_POWER9;
-+    pcc->bfd_mach =3D bfd_mach_ppc64;
-+    pcc->flags =3D POWERPC_FLAG_VRE | POWERPC_FLAG_SE |
-+                 POWERPC_FLAG_BE | POWERPC_FLAG_PMM |
-+                 POWERPC_FLAG_BUS_CLK | POWERPC_FLAG_CFAR |
-+                 POWERPC_FLAG_VSX | POWERPC_FLAG_TM;
-+    pcc->l1_dcache_size =3D 0x8000;
-+    pcc->l1_icache_size =3D 0x8000;
-+    pcc->interrupts_big_endian =3D ppc_cpu_interrupts_big_endian_lpcr;
-+    pcc->lpcr_pm =3D LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_=
-OEE;
-+}
-+
- #if !defined(CONFIG_USER_ONLY)
- void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHypervisor *vhyp)
+ static void pnv_dt_rtc(ISADevice *d, void *fdt, int lpc_off)
  {
+     uint32_t io_base =3D d->ioport_id;
+@@ -467,6 +484,7 @@ static void *pnv_dt_create(MachineState *machine)
+ {
+     const char plat_compat8[] =3D "qemu,powernv8\0qemu,powernv\0ibm,powe=
+rnv";
+     const char plat_compat9[] =3D "qemu,powernv9\0ibm,powernv";
++    const char plat_compat10[] =3D "qemu,powernv10\0ibm,powernv";
+     PnvMachineState *pnv =3D PNV_MACHINE(machine);
+     void *fdt;
+     char *buf;
+@@ -484,7 +502,10 @@ static void *pnv_dt_create(MachineState *machine)
+     _FDT((fdt_setprop_cell(fdt, 0, "#size-cells", 0x2)));
+     _FDT((fdt_setprop_string(fdt, 0, "model",
+                              "IBM PowerNV (emulated by qemu)")));
+-    if (pnv_is_power9(pnv)) {
++    if (pnv_is_power10(pnv)) {
++        _FDT((fdt_setprop(fdt, 0, "compatible", plat_compat10,
++                          sizeof(plat_compat10))));
++    } else if (pnv_is_power9(pnv)) {
+         _FDT((fdt_setprop(fdt, 0, "compatible", plat_compat9,
+                           sizeof(plat_compat9))));
+     } else {
+@@ -528,8 +549,8 @@ static void *pnv_dt_create(MachineState *machine)
+         pnv_dt_bmc_sensors(pnv->bmc, fdt);
+     }
+=20
+-    /* Create an extra node for power management on Power9 */
+-    if (pnv_is_power9(pnv)) {
++    /* Create an extra node for power management on Power9 and Power10 *=
+/
++    if (pnv_is_power9(pnv) || pnv_is_power10(pnv)) {
+         pnv_dt_power_mgt(fdt);
+     }
+=20
+@@ -578,6 +599,12 @@ static ISABus *pnv_chip_power9_isa_create(PnvChip *c=
+hip, Error **errp)
+     return pnv_lpc_isa_create(&chip9->lpc, false, errp);
+ }
+=20
++static ISABus *pnv_chip_power10_isa_create(PnvChip *chip, Error **errp)
++{
++    error_setg(errp, "No ISA bus!");
++    return NULL;
++}
++
+ static ISABus *pnv_isa_create(PnvChip *chip, Error **errp)
+ {
+     return PNV_CHIP_GET_CLASS(chip)->isa_create(chip, errp);
+@@ -618,6 +645,13 @@ static void pnv_ipmi_bt_init(ISABus *bus, IPMIBmc *b=
+mc, uint32_t irq)
+     object_property_set_bool(obj, true, "realized", &error_fatal);
+ }
+=20
++static void pnv_chip_power10_pic_print_info(PnvChip *chip, Monitor *mon)
++{
++    /*
++     * No interrupt controller yet
++     */;
++}
++
+ static void pnv_init(MachineState *machine)
+ {
+     PnvMachineState *pnv =3D PNV_MACHINE(machine);
+@@ -822,6 +856,11 @@ static uint32_t pnv_chip_core_pir_p9(PnvChip *chip, =
+uint32_t core_id)
+     return (chip->chip_id << 8) | (core_id << 2);
+ }
+=20
++static uint32_t pnv_chip_core_pir_p10(PnvChip *chip, uint32_t core_id)
++{
++    return (chip->chip_id << 8) | (core_id << 2);
++}
++
+ static void pnv_chip_power9_intc_create(PnvChip *chip, PowerPCCPU *cpu,
+                                         Error **errp)
+ {
+@@ -859,6 +898,27 @@ static void pnv_chip_power9_intc_destroy(PnvChip *ch=
+ip, PowerPCCPU *cpu)
+     pnv_cpu->intc =3D NULL;
+ }
+=20
++static void pnv_chip_power10_intc_create(PnvChip *chip, PowerPCCPU *cpu,
++                                        Error **errp)
++{
++    PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
++
++    /* Will be defined when the interrupt controller is */
++    pnv_cpu->intc =3D NULL;
++}
++
++static void pnv_chip_power10_intc_reset(PnvChip *chip, PowerPCCPU *cpu)
++{
++    ;
++}
++
++static void pnv_chip_power10_intc_destroy(PnvChip *chip, PowerPCCPU *cpu=
+)
++{
++    PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
++
++    pnv_cpu->intc =3D NULL;
++}
++
+ /*
+  * Allowed core identifiers on a POWER8 Processor Chip :
+  *
+@@ -886,6 +946,9 @@ static void pnv_chip_power9_intc_destroy(PnvChip *chi=
+p, PowerPCCPU *cpu)
+  */
+ #define POWER9_CORE_MASK   (0xffffffffffffffull)
+=20
++
++#define POWER10_CORE_MASK  (0xffffffffffffffull)
++
+ static void pnv_chip_power8_instance_init(Object *obj)
+ {
+     Pnv8Chip *chip8 =3D PNV8_CHIP(obj);
+@@ -1246,6 +1309,56 @@ static void pnv_chip_power9_class_init(ObjectClass=
+ *klass, void *data)
+                                     &k->parent_realize);
+ }
+=20
++static void pnv_chip_power10_instance_init(Object *obj)
++{
++    /*
++     * No controllers yet
++     */
++    ;
++}
++
++static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
++{
++    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(dev);
++    PnvChip *chip =3D PNV_CHIP(dev);
++    Error *local_err =3D NULL;
++
++    /* XSCOM bridge is first */
++    pnv_xscom_realize(chip, PNV10_XSCOM_SIZE, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(chip), 0, PNV10_XSCOM_BASE(chip));
++
++    pcc->parent_realize(dev, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++}
++
++static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++    PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
++
++    k->chip_type =3D PNV_CHIP_POWER10;
++    k->chip_cfam_id =3D 0x120da04900008000ull; /* P10 DD1.0 (with NX) */
++    k->cores_mask =3D POWER10_CORE_MASK;
++    k->core_pir =3D pnv_chip_core_pir_p10;
++    k->intc_create =3D pnv_chip_power10_intc_create;
++    k->intc_reset =3D pnv_chip_power10_intc_reset;
++    k->intc_destroy =3D pnv_chip_power10_intc_destroy;
++    k->isa_create =3D pnv_chip_power10_isa_create;
++    k->dt_populate =3D pnv_chip_power10_dt_populate;
++    k->pic_print_info =3D pnv_chip_power10_pic_print_info;
++    dc->desc =3D "PowerNV Chip POWER10";
++
++    device_class_set_parent_realize(dc, pnv_chip_power10_realize,
++                                    &k->parent_realize);
++}
++
+ static void pnv_chip_core_sanitize(PnvChip *chip, Error **errp)
+ {
+     PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
+@@ -1327,10 +1440,12 @@ static void pnv_chip_core_realize(PnvChip *chip, =
+Error **errp)
+                                  &error_fatal);
+=20
+         /* Each core has an XSCOM MMIO region */
+-        if (!pnv_chip_is_power9(chip)) {
+-            xscom_core_base =3D PNV_XSCOM_EX_BASE(core_hwid);
+-        } else {
++        if (pnv_chip_is_power10(chip)) {
++            xscom_core_base =3D PNV10_XSCOM_EC_BASE(core_hwid);
++        } else if (pnv_chip_is_power9(chip)) {
+             xscom_core_base =3D PNV9_XSCOM_EC_BASE(core_hwid);
++        } else {
++            xscom_core_base =3D PNV_XSCOM_EX_BASE(core_hwid);
+         }
+=20
+         pnv_xscom_add_subregion(chip, xscom_core_base,
+@@ -1558,6 +1673,14 @@ static void pnv_machine_power9_class_init(ObjectCl=
+ass *oc, void *data)
+     mc->alias =3D "powernv";
+ }
+=20
++static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc =3D MACHINE_CLASS(oc);
++
++    mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER10";
++    mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power10_v1.0");
++}
++
+ static void pnv_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc =3D MACHINE_CLASS(oc);
+@@ -1595,7 +1718,19 @@ static void pnv_machine_class_init(ObjectClass *oc=
+, void *data)
+         .parent        =3D TYPE_PNV9_CHIP,          \
+     }
+=20
++#define DEFINE_PNV10_CHIP_TYPE(type, class_initfn) \
++    {                                              \
++        .name          =3D type,                     \
++        .class_init    =3D class_initfn,             \
++        .parent        =3D TYPE_PNV10_CHIP,          \
++    }
++
+ static const TypeInfo types[] =3D {
++    {
++        .name          =3D MACHINE_TYPE_NAME("powernv10"),
++        .parent        =3D TYPE_PNV_MACHINE,
++        .class_init    =3D pnv_machine_power10_class_init,
++    },
+     {
+         .name          =3D MACHINE_TYPE_NAME("powernv9"),
+         .parent        =3D TYPE_PNV_MACHINE,
+@@ -1635,6 +1770,17 @@ static const TypeInfo types[] =3D {
+         .abstract      =3D true,
+     },
+=20
++    /*
++     * P10 chip and variants
++     */
++    {
++        .name          =3D TYPE_PNV10_CHIP,
++        .parent        =3D TYPE_PNV_CHIP,
++        .instance_init =3D pnv_chip_power10_instance_init,
++        .instance_size =3D sizeof(Pnv10Chip),
++    },
++    DEFINE_PNV10_CHIP_TYPE(TYPE_PNV_CHIP_POWER10, pnv_chip_power10_class=
+_init),
++
+     /*
+      * P9 chip and variants
+      */
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 5ab75bde6c..2651044278 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -247,6 +247,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
+**errp)
+     }
+=20
+     snprintf(name, sizeof(name), "xscom-core.%d", cc->core_id);
++    /* TODO: check PNV_XSCOM_EX_SIZE for p10 */
+     pnv_xscom_region_init(&pc->xscom_regs, OBJECT(dev), pcc->xscom_ops,
+                           pc, name, PNV_XSCOM_EX_SIZE);
+=20
+@@ -308,6 +309,14 @@ static void pnv_core_power9_class_init(ObjectClass *=
+oc, void *data)
+     pcc->xscom_ops =3D &pnv_core_power9_xscom_ops;
+ }
+=20
++static void pnv_core_power10_class_init(ObjectClass *oc, void *data)
++{
++    PnvCoreClass *pcc =3D PNV_CORE_CLASS(oc);
++
++    /* TODO: Use the P9 XSCOMs for now on P10 */
++    pcc->xscom_ops =3D &pnv_core_power9_xscom_ops;
++}
++
+ static void pnv_core_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(oc);
+@@ -337,6 +346,7 @@ static const TypeInfo pnv_core_infos[] =3D {
+     DEFINE_PNV_CORE_TYPE(power8, "power8_v2.0"),
+     DEFINE_PNV_CORE_TYPE(power8, "power8nvl_v1.0"),
+     DEFINE_PNV_CORE_TYPE(power9, "power9_v2.0"),
++    DEFINE_PNV_CORE_TYPE(power10, "power10_v1.0"),
+ };
+=20
+ DEFINE_TYPES(pnv_core_infos)
+diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+index f01d788a65..b3d3b6e350 100644
+--- a/hw/ppc/pnv_xscom.c
++++ b/hw/ppc/pnv_xscom.c
+@@ -69,10 +69,16 @@ static uint32_t pnv_xscom_pcba(PnvChip *chip, uint64_=
+t addr)
+ {
+     addr &=3D (PNV_XSCOM_SIZE - 1);
+=20
+-    if (pnv_chip_is_power9(chip)) {
+-        return addr >> 3;
+-    } else {
++    switch (PNV_CHIP_GET_CLASS(chip)->chip_type) {
++    case PNV_CHIP_POWER8E:
++    case PNV_CHIP_POWER8:
++    case PNV_CHIP_POWER8NVL:
+         return ((addr >> 4) & ~0xfull) | ((addr >> 3) & 0xf);
++    case PNV_CHIP_POWER9:
++    case PNV_CHIP_POWER10:
++        return addr >> 3;
++    default:
++        g_assert_not_reached();
+     }
+ }
+=20
+@@ -307,6 +313,7 @@ static int xscom_dt_child(Object *child, void *opaque=
+)
+=20
+ static const char compat_p8[] =3D "ibm,power8-xscom\0ibm,xscom";
+ static const char compat_p9[] =3D "ibm,power9-xscom\0ibm,xscom";
++static const char compat_p10[] =3D "ibm,power10-xscom\0ibm,xscom";
+=20
+ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset)
+ {
+@@ -315,7 +322,10 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_=
+offset)
+     ForeachPopulateArgs args;
+     char *name;
+=20
+-    if (pnv_chip_is_power9(chip)) {
++    if (pnv_chip_is_power10(chip)) {
++        reg[0] =3D cpu_to_be64(PNV10_XSCOM_BASE(chip));
++        reg[1] =3D cpu_to_be64(PNV10_XSCOM_SIZE);
++    } else if (pnv_chip_is_power9(chip)) {
+         reg[0] =3D cpu_to_be64(PNV9_XSCOM_BASE(chip));
+         reg[1] =3D cpu_to_be64(PNV9_XSCOM_SIZE);
+     } else {
+@@ -332,7 +342,10 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_=
+offset)
+     _FDT((fdt_setprop_cell(fdt, xscom_offset, "#size-cells", 1)));
+     _FDT((fdt_setprop(fdt, xscom_offset, "reg", reg, sizeof(reg))));
+=20
+-    if (pnv_chip_is_power9(chip)) {
++    if (pnv_chip_is_power10(chip)) {
++        _FDT((fdt_setprop(fdt, xscom_offset, "compatible", compat_p10,
++                          sizeof(compat_p10))));
++    } else if (pnv_chip_is_power9(chip)) {
+         _FDT((fdt_setprop(fdt, xscom_offset, "compatible", compat_p9,
+                           sizeof(compat_p9))));
+     } else {
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 3a7bc3c57e..bfa61edfba 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -43,6 +43,7 @@ typedef enum PnvChipType {
+     PNV_CHIP_POWER8,      /* AKA Venice */
+     PNV_CHIP_POWER8NVL,   /* AKA Naples */
+     PNV_CHIP_POWER9,      /* AKA Nimbus */
++    PNV_CHIP_POWER10,     /* AKA TBD */
+ } PnvChipType;
+=20
+ typedef struct PnvChip {
+@@ -105,6 +106,14 @@ typedef struct Pnv9Chip {
+ #define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+ #define PNV9_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
+=20
++#define TYPE_PNV10_CHIP "pnv10-chip"
++#define PNV10_CHIP(obj) OBJECT_CHECK(Pnv10Chip, (obj), TYPE_PNV10_CHIP)
++
++typedef struct Pnv10Chip {
++    /*< private >*/
++    PnvChip      parent_obj;
++} Pnv10Chip;
++
+ typedef struct PnvChipClass {
+     /*< private >*/
+     SysBusDeviceClass parent_class;
+@@ -144,6 +153,10 @@ typedef struct PnvChipClass {
+ #define PNV_CHIP_POWER9(obj) \
+     OBJECT_CHECK(PnvChip, (obj), TYPE_PNV_CHIP_POWER9)
+=20
++#define TYPE_PNV_CHIP_POWER10 PNV_CHIP_TYPE_NAME("power10_v1.0")
++#define PNV_CHIP_POWER10(obj) \
++    OBJECT_CHECK(PnvChip, (obj), TYPE_PNV_CHIP_POWER10)
++
+ /*
+  * This generates a HW chip id depending on an index, as found on a
+  * two socket system with dual chip modules :
+@@ -203,6 +216,16 @@ PnvChip *pnv_get_chip(uint32_t chip_id);
+ #define PNV_FDT_ADDR          0x01000000
+ #define PNV_TIMEBASE_FREQ     512000000ULL
+=20
++static inline bool pnv_chip_is_power10(const PnvChip *chip)
++{
++    return PNV_CHIP_GET_CLASS(chip)->chip_type =3D=3D PNV_CHIP_POWER10;
++}
++
++static inline bool pnv_is_power10(PnvMachineState *pnv)
++{
++    return pnv_chip_is_power10(pnv->chips[0]);
++}
++
+ /*
+  * BMC helpers
+  */
+@@ -293,4 +316,14 @@ IPMIBmc *pnv_bmc_create(void);
+ #define PNV9_HOMER_SIZE              0x0000000000300000ull
+ #define PNV9_HOMER_BASE(chip)                                           =
+\
+     (0x203ffd800000ull + ((uint64_t)PNV_CHIP_INDEX(chip)) * PNV9_HOMER_S=
+IZE)
++
++/*
++ * POWER10 MMIO base addresses - 16TB stride per chip
++ */
++#define PNV10_CHIP_BASE(chip, base)   \
++    ((base) + ((uint64_t) (chip)->chip_id << 44))
++
++#define PNV10_XSCOM_SIZE             0x0000000400000000ull
++#define PNV10_XSCOM_BASE(chip)       PNV10_CHIP_BASE(chip, 0x00603fc0000=
+0000ull)
++
+ #endif /* PPC_PNV_H */
+diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+index 67641ed278..790eb3d8f3 100644
+--- a/include/hw/ppc/pnv_xscom.h
++++ b/include/hw/ppc/pnv_xscom.h
+@@ -70,6 +70,9 @@ typedef struct PnvXScomInterfaceClass {
+ #define PNV_XSCOM_OCC_BASE        0x0066000
+ #define PNV_XSCOM_OCC_SIZE        0x6000
+=20
++/*
++ * Layout of the XSCOM PCB addresses (POWER 9)
++ */
+ #define PNV9_XSCOM_EC_BASE(core) \
+     ((uint64_t)(((core) & 0x1F) + 0x20) << 24)
+ #define PNV9_XSCOM_EC_SIZE        0x100000
+@@ -87,6 +90,22 @@ typedef struct PnvXScomInterfaceClass {
+ #define PNV9_XSCOM_XIVE_BASE      0x5013000
+ #define PNV9_XSCOM_XIVE_SIZE      0x300
+=20
++/*
++ * Layout of the XSCOM PCB addresses (POWER 10)
++ */
++#define PNV10_XSCOM_EQ_CHIPLET(core)  (0x20 + ((core) >> 2))
++#define PNV10_XSCOM_EQ(chiplet)       ((chiplet) << 24)
++#define PNV10_XSCOM_EC(proc)                    \
++    ((0x2 << 16) | ((1 << (3 - (proc))) << 12))
++
++#define PNV10_XSCOM_EQ_BASE(core)     \
++    ((uint64_t) PNV10_XSCOM_EQ(PNV10_XSCOM_EQ_CHIPLET(core)))
++#define PNV10_XSCOM_EQ_SIZE        0x100000
++
++#define PNV10_XSCOM_EC_BASE(core) \
++    ((uint64_t) PNV10_XSCOM_EQ_BASE(core) | PNV10_XSCOM_EC(core & 0x3))
++#define PNV10_XSCOM_EC_SIZE        0x100000
++
+ extern void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp=
+);
+ extern int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
+=20
 --=20
 2.23.0
 
