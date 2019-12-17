@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA5612238B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:20:52 +0100 (CET)
-Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934CF12235F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:06:32 +0100 (CET)
+Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Hu-0000mt-TY
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:20:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34008)
+	id 1ih542-0004IC-Ti
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:06:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ia-0000LJ-8r
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:21 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4ie-0000Sz-GB
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iZ-0005vp-31
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:20 -0500
-Received: from ozlabs.org ([203.11.71.1]:49689)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4id-00060a-72
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:24 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36595 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4iY-0005aN-NY; Mon, 16 Dec 2019 23:44:19 -0500
+ id 1ih4ic-0005cl-TD; Mon, 16 Dec 2019 23:44:23 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWV4SJlz9sSs; Tue, 17 Dec 2019 15:43:32 +1100 (AEDT)
+ id 47cQWW1C85z9sSy; Tue, 17 Dec 2019 15:43:33 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557814;
- bh=DSSa+2JspH3S+BZddb51VgY8bu9p/D1QJFBo+rul0po=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557815;
+ bh=MNkuUrwEEOI6QJkCE3jk3dhRDtxbCW6eBnBkT4Cz3Ok=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EnwRO3qQoy/YU3F+usm43cfCb9ZV920WTksOoJBDGErVlEEcYnjPUL4bRPCyy4QUo
- lwpYDw21utzN6K5FdrijBG8MY/NkwQjQjBFmQs8PDuh6ok74LhwIbCm6DkQK6piiqv
- Uy+P4q8GKXJaSPQ78+KXMUlmSKB6Hax0LnRwYtbk=
+ b=ZEDBd/qP++CLQlsPY7kBwe4JVsb24pl8VRlhnnNQyPZCjQ3pFUL6sk09jtRiSH0RB
+ 53TXnpNiidqkvNEzo6EHlVQAl4YYuYNLKAA4FPDl4Ur+wTRsS54pyyKdkYT7xjDvIb
+ 5qcts6GIwvvxZplmezHaj9lbviITZ3mWCxT+nZh8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 32/88] ppc/pnv: Introduce a pnv_xive_is_cpu_enabled() helper
-Date: Tue, 17 Dec 2019 15:42:26 +1100
-Message-Id: <20191217044322.351838-33-david@gibson.dropbear.id.au>
+Subject: [PULL 33/88] ppc/pnv: Fix TIMA indirect access
+Date: Tue, 17 Dec 2019 15:42:27 +1100
+Message-Id: <20191217044322.351838-34-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,72 +61,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-and use this helper to exclude CPUs which are not enabled in the XIVE
-controller.
+When the TIMA of a CPU needs to be accessed from the indirect page,
+the thread id of the target CPU is first stored in the PC_TCTXT_INDIR0
+register. This thread id is relative to the chip and not to the system.
+
+Introduce a helper routine to look for a CPU of a given PIR and fix
+pnv_xive_get_indirect_tctx() to scan only the threads of the local
+chip and not the whole machine.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-7-clg@kaod.org>
+Message-Id: <20191125065820.927-8-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c   | 19 +++++++++++++++++++
- include/hw/ppc/pnv.h |  5 +++++
- 2 files changed, 24 insertions(+)
+ hw/intc/pnv_xive.c   | 13 +++++++------
+ hw/ppc/pnv.c         | 17 +++++++++++++++++
+ include/hw/ppc/pnv.h |  2 ++
+ 3 files changed, 26 insertions(+), 6 deletions(-)
 
 diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 9798bd9e72..ec8349ee4a 100644
+index ec8349ee4a..b2ab2ccc91 100644
 --- a/hw/intc/pnv_xive.c
 +++ b/hw/intc/pnv_xive.c
-@@ -372,6 +372,21 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
-t blk, uint32_t idx,
-     return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
+@@ -1400,12 +1400,13 @@ static const MemoryRegionOps pnv_xive_ic_lsi_ops =
+=3D {
+  */
+=20
+ /*
+- * When the TIMA is accessed from the indirect page, the thread id
+- * (PIR) has to be configured in the IC registers before. This is used
+- * for resets and for debug purpose also.
++ * When the TIMA is accessed from the indirect page, the thread id of
++ * the target CPU is configured in the PC_TCTXT_INDIR0 register before
++ * use. This is used for resets and for debug purpose also.
+  */
+ static XiveTCTX *pnv_xive_get_indirect_tctx(PnvXive *xive)
+ {
++    PnvChip *chip =3D xive->chip;
+     uint64_t tctxt_indir =3D xive->regs[PC_TCTXT_INDIR0 >> 3];
+     PowerPCCPU *cpu =3D NULL;
+     int pir;
+@@ -1415,15 +1416,15 @@ static XiveTCTX *pnv_xive_get_indirect_tctx(PnvXi=
+ve *xive)
+         return NULL;
+     }
+=20
+-    pir =3D GETFIELD(PC_TCTXT_INDIR_THRDID, tctxt_indir) & 0xff;
+-    cpu =3D ppc_get_vcpu_by_pir(pir);
++    pir =3D (chip->chip_id << 8) | GETFIELD(PC_TCTXT_INDIR_THRDID, tctxt=
+_indir);
++    cpu =3D pnv_chip_find_cpu(chip, pir);
+     if (!cpu) {
+         xive_error(xive, "IC: invalid PIR %x for indirect access", pir);
+         return NULL;
+     }
+=20
+     /* Check that HW thread is XIVE enabled */
+-    if (!(xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(pir & 0x3f))) {
++    if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
+         xive_error(xive, "IC: CPU %x is not enabled", pir);
+     }
+=20
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index d899c83e52..8f688f4efc 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1371,6 +1371,23 @@ static void pnv_chip_class_init(ObjectClass *klass=
+, void *data)
+     dc->desc =3D "PowerNV Chip";
  }
 =20
-+/*
-+ * One bit per thread id. The first register PC_THREAD_EN_REG0 covers
-+ * the first cores 0-15 (normal) of the chip or 0-7 (fused). The
-+ * second register covers cores 16-23 (normal) or 8-11 (fused).
-+ */
-+static bool pnv_xive_is_cpu_enabled(PnvXive *xive, PowerPCCPU *cpu)
++PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
 +{
-+    int pir =3D ppc_cpu_pir(cpu);
-+    uint32_t fc =3D PNV9_PIR2FUSEDCORE(pir);
-+    uint64_t reg =3D fc < 8 ? PC_THREAD_EN_REG0 : PC_THREAD_EN_REG1;
-+    uint32_t bit =3D pir & 0x3f;
++    int i, j;
 +
-+    return xive->regs[reg >> 3] & PPC_BIT(bit);
++    for (i =3D 0; i < chip->nr_cores; i++) {
++        PnvCore *pc =3D chip->cores[i];
++        CPUCore *cc =3D CPU_CORE(pc);
++
++        for (j =3D 0; j < cc->nr_threads; j++) {
++            if (ppc_cpu_pir(pc->threads[j]) =3D=3D pir) {
++                return pc->threads[j];
++            }
++        }
++    }
++    return NULL;
 +}
 +
- static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
-                               uint8_t nvt_blk, uint32_t nvt_idx,
-                               bool cam_ignore, uint8_t priority,
-@@ -391,6 +406,10 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, u=
-int8_t format,
-             XiveTCTX *tctx;
-             int ring;
-=20
-+            if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
-+                continue;
-+            }
-+
-             tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-=20
-             /*
+ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+ {
+     PnvMachineState *pnv =3D PNV_MACHINE(xi);
 diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 03cb429f21..12b0169a40 100644
+index 12b0169a40..a58cfea3f2 100644
 --- a/include/hw/ppc/pnv.h
 +++ b/include/hw/ppc/pnv.h
-@@ -99,6 +99,11 @@ typedef struct Pnv9Chip {
-     PnvQuad      *quads;
- } Pnv9Chip;
+@@ -162,6 +162,8 @@ typedef struct PnvChipClass {
+ #define PNV_CHIP_INDEX(chip)                                    \
+     (((chip)->chip_id >> 2) * 2 + ((chip)->chip_id & 0x3))
 =20
-+/*
-+ * A SMT8 fused core is a pair of SMT4 cores.
-+ */
-+#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
++PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
 +
- typedef struct PnvChipClass {
-     /*< private >*/
-     SysBusDeviceClass parent_class;
+ #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
+ #define PNV_MACHINE(obj) \
+     OBJECT_CHECK(PnvMachineState, (obj), TYPE_PNV_MACHINE)
 --=20
 2.23.0
 
