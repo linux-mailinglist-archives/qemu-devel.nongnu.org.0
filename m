@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0A31232FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:54:17 +0100 (CET)
-Received: from localhost ([::1]:43490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C186123304
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:56:05 +0100 (CET)
+Received: from localhost ([::1]:43554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihG6y-0008QQ-88
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:54:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55314)
+	id 1ihG8i-0002hj-N9
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:56:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ihG0Z-00008C-Ni
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:47:41 -0500
+ (envelope-from <philmd@redhat.com>) id 1ihG3b-0004LJ-Dk
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:50:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ihG0V-0003Aj-Hm
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:47:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40173
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ihG3Z-0005ka-O6
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:50:47 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51408
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ihG0U-0003AA-AU
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:47:35 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihG3Z-0005jG-JF
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:50:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576601253;
+ s=mimecast20190719; t=1576601443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=TyMfOmVwxZHG0er0HbkabROkpDlIzP2fMhLhONe7t/Y=;
- b=CxZ2tU7NrFzYk7KokanKllkvijk46ziMV8qsOOKIGtX3lrh7ov2DPNCrAJv6stSK1ryAZ6
- uZcfEukKaxquM0aqfwQp1BzD1X0/zBmtBkb0nreHFxbOHByPzxyN8DxoU2yYbpUdXWM4kb
- 3BREI8VaxILdIBEFL5VA9O2NpHPq4nE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-2QsDyCCmPvyAsvzDOc3MYg-1; Tue, 17 Dec 2019 11:47:32 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B07C5107ACCA;
- Tue, 17 Dec 2019 16:47:31 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-149.ams2.redhat.com [10.36.116.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A37B6B566;
- Tue, 17 Dec 2019 16:47:27 +0000 (UTC)
-Subject: Re: [PATCH v2] docs: build an index page for the HTML docs
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20191111102157.440664-1-stefanha@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <22747677-3ea5-b0f3-aaa8-20d501364d7d@redhat.com>
-Date: Tue, 17 Dec 2019 17:47:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=Hxi4TFPUAhXySks0MDg1YAzEzstwrloAcjIJSqHZj1U=;
+ b=XNcPD3erCJ2pmg2N3rgG5QJrwu0bulGZqdXzv8una6NNhXrnwJwOtXjaZVj/iNoZLzJ1gI
+ jibt//3mUsKmVCclpB+sLIFooXU8PUUJA2YHY07jKH3e2Sm35u3WA0Ij87JcOZ6vEgXSLw
+ ITR49mt3vhBvv3ABxVYdSoumV5QcqOk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-_4vmNwiONZ6GyUXw8_zGEA-1; Tue, 17 Dec 2019 11:50:42 -0500
+Received: by mail-wm1-f72.google.com with SMTP id l11so963742wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 08:50:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aQejgbF//N7qVjT/SefZZofdV97veJrrkximXLqTP+A=;
+ b=Bvkedte1kTQTQVqV72hvOsIMMPV9DxJMTqwqh6mDO3NIa19SXUak7Woz4finH2RIEP
+ kh9ug0TqxcKYuHyDkfJjYJhXzZEMvaLDDtAN+lcrKp19yKCi6R+WEma5qmWZljse94JY
+ MzAfamJ/CJsfqhmk2USS/X79DAW1XCSRw4QlXU1sNYTYB+inaElpgDvQMShc3WkHSd1i
+ pUlZPk44vp1oZPlYl1liqvs/YHumZ/7IiNIo9PnsIm9iPuKlYnljBhOZDAjCrGFu6v6Q
+ cr3VI18S121fwHE3+vTgWfMoN/yx00DSsoYfOsBzRwS4DYfrZdOV7sOboRU7Zx/479Ki
+ 97Ig==
+X-Gm-Message-State: APjAAAXr2PRvZ6AFDtFsmHAasKoSjl9WV3OMgt7nBijbLSZ6aW23IgJo
+ Om0PHSBrkJWupY3r7HmFTdurYBjpM2ikYaB4zxfnfOWHOvHtBTNtfmu7xOEsKRlF/8zDKW+qs5b
+ et7itvj2kj3EAics=
+X-Received: by 2002:adf:fc0c:: with SMTP id i12mr40284773wrr.74.1576601440827; 
+ Tue, 17 Dec 2019 08:50:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzMWX+DFZaPRiAJdgMUIPC3pOtgwgD77koA4kzYE32onbQoSruQixU1C2EpCg2MAQDxpzSFXg==
+X-Received: by 2002:adf:fc0c:: with SMTP id i12mr40284727wrr.74.1576601440590; 
+ Tue, 17 Dec 2019 08:50:40 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id s1sm3636122wmc.23.2019.12.17.08.50.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Dec 2019 08:50:39 -0800 (PST)
+Subject: Re: [PATCH 00/14] chardev: Use QEMUChrEvent enum in IOEventHandler
+ typedef
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20191217163808.20068-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <154a68ee-c683-d5c5-dad8-df483aa00c20@redhat.com>
+Date: Tue, 17 Dec 2019 17:50:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191111102157.440664-1-stefanha@redhat.com>
+In-Reply-To: <20191217163808.20068-1-philmd@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 2QsDyCCmPvyAsvzDOc3MYg-1
+X-MC-Unique: _4vmNwiONZ6GyUXw8_zGEA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,92 +94,126 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Paul Burton <pburton@wavecomp.com>,
+ Jason Wang <jasowang@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alberto Garcia <berto@igalia.com>, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Joel Stanley <joel@jms.id.au>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Corey Minyard <minyard@acm.org>, Amit Shah <amit@kernel.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-riscv@nongnu.org,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Zhang Chen <chen.zhang@intel.com>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Thomas Huth <huth@tuxfamily.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/2019 11.21, Stefan Hajnoczi wrote:
-> There is no index.html start page for the QEMU HTML documentation.  An
-> index page is needed so that documentation can be browsed easily on the
-> web.
-> 
-> This patch adds an index.html.in template file where the QEMU version
-> number is expanded.  It is written in HTML instead of using the existing
-> sphinx (rST) and texi documentation generators because they are
-> heavyweight and would make this harder.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  Makefile           |  6 ++++++
->  docs/index.html.in | 17 +++++++++++++++++
->  2 files changed, 23 insertions(+)
->  create mode 100644 docs/index.html.in
-> 
-> diff --git a/Makefile b/Makefile
-> index aa9d1a42aa..581bc68918 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -347,6 +347,7 @@ DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/
->  DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
->  DOCS+=docs/qemu-block-drivers.7
->  DOCS+=docs/qemu-cpu-models.7
-> +DOCS+=$(MANUAL_BUILDDIR)/index.html
->  ifdef CONFIG_VIRTFS
->  DOCS+=fsdev/virtfs-proxy-helper.1
->  endif
-> @@ -818,6 +819,7 @@ install-sphinxdocs: sphinxdocs
->  
->  install-doc: $(DOCS) install-sphinxdocs
->  	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
-> +	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/index.html "$(DESTDIR)$(qemu_docdir)"
->  	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
->  	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
->  	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.html "$(DESTDIR)$(qemu_docdir)"
-> @@ -1024,6 +1026,10 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
->  $(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
->  	$(call build-manual,interop,man)
->  
-> +$(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
-> +	$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
-> +             "GEN","$@")
-> +
->  qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
->  	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
->  
-> diff --git a/docs/index.html.in b/docs/index.html.in
-> new file mode 100644
-> index 0000000000..c2df85a185
-> --- /dev/null
-> +++ b/docs/index.html.in
-> @@ -0,0 +1,17 @@
-> +<!DOCTYPE html>
-> +<html>
+On 12/17/19 5:37 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi,
+>=20
+> After this chat on #qemu IRC:
+> 13:20 <stsquad> so what is the difference between a IOReadHandler and IOE=
+ventHandler?
+> 13:25 <f4bug> stsquad: one is in-band and the other out-of-band?
+> 13:26 <stsquad> f4bug: ahh yes it seems so - connect/disconnect etc...
+> 13:27 <f4bug> see QEMUChrEvent for IOEventHandler
+>=20
+> I thought it might be a good opportunity to make the IOEventHandler
+> typedef meaning more obvious, by using the QEMUChrEvent enum.
+>=20
+> To be able to build I had to explicit a 'default' case when frontends
+> use a switch(event) case and do not handle all events.
+>=20
+> Then I used a coccinelle spatch to change the various IOEventHandler.
+> I don't think the last patch can be split, but suggestions are welcome!
+>=20
+> Regards,
+>=20
+> Phil.
+>=20
+> PD: I use git-publish. To avoid spamming too much, I'm using per-patch
+> Cc tag, after the '---' separator. This way each recipient should get
+> the cover and the specific patches of interests, + the last one.
+>=20
+> Sent with: 'git publish --suppress-cc=3Dcccmd'
 
-https://validator.w3.org/ says:
+While 'git-publish --verbose' show it was adding recipient from the tags:
+(mbox) Adding cc: ...
+(mbox) Adding cc: ...
 
-"Warning: Consider adding a lang attribute to the html start tag to
-declare the language of this document."
+It still sent each patch to everybody from the cover:
+Server:
+MAIL FROM:
+RCPT TO: ...
+RCPT TO: ...
 
-... it's just a warning though, but in case you respin, you might want
-to add it.
+Maybe the list was cached in the tag and I should have use the=20
+--override-cc flag too:
 
-> +    <head>
-> +        <meta charset="UTF-8">
-> +        <title>QEMU @@VERSION@@ Documentation</title>
-> +    </head>
-> +    <body>
-> +        <h1>QEMU @@VERSION@@ Documentation</h1>
-> +        <ul>
-> +            <li><a href="qemu-doc.html">User Documentation</a></li>
-> +            <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
-> +            <li><a href="qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
-> +            <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
-> +            <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
-> +        </ul>
-> +    </body>
-> +</html>
-> 
+   --override-cc     Ignore any profile or saved CC emails
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+I apologize for the no-relevant patches I spammed you with :(
+
+> Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+> Cc: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
+> Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+> Cc: Andrzej Zaborowski <balrogg@gmail.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+> Cc: Alistair Francis <alistair@alistair23.me>
+> Cc: Antony Pavlov <antonynpavlov@gmail.com>
+> Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
+> Cc: Fabien Chouteau <chouteau@adacore.com>
+> Cc: KONRAD Frederic <frederic.konrad@adacore.com>
+> Cc: Peter Chubb <peter.chubb@nicta.com.au>
+> Cc: Alberto Garcia <berto@igalia.com>
+> Cc: Michael Walle <michael@walle.cc>
+> Cc: Thomas Huth <huth@tuxfamily.org>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Laurent Vivier <lvivier@redhat.com>
+> Cc: Amit Shah <amit@kernel.org>
+> Cc: Corey Minyard <minyard@acm.org>
+> Cc: Paul Burton <pburton@wavecomp.com>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+> Cc: Aurelien Jarno <aurelien@aurel32.net>
+> Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
+> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Zhang Chen <chen.zhang@intel.com>
+> Cc: Li Zhijian <lizhijian@cn.fujitsu.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: qemu-arm@nongnu.org
+> Cc: qemu-block@nongnu.org
+> Cc: qemu-s390x@nongnu.org
+> Cc: qemu-riscv@nongnu.org
 
 
