@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA3212235E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:05:49 +0100 (CET)
-Received: from localhost ([::1]:35392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E470122398
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:23:50 +0100 (CET)
+Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih53M-00034q-5b
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:05:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34013)
+	id 1ih5Kn-0004y9-20
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:23:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ia-0000LX-Fu
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:21 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4ir-0000rk-SU
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iZ-0005vz-8B
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:20 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36987 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iq-0006JT-Rp
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:37 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46691 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4iY-0005Zd-Tf; Mon, 16 Dec 2019 23:44:19 -0500
+ id 1ih4iq-0005ql-Hw; Mon, 16 Dec 2019 23:44:36 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWV3DSZz9sSl; Tue, 17 Dec 2019 15:43:32 +1100 (AEDT)
+ id 47cQWX22l1z9sT1; Tue, 17 Dec 2019 15:43:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557814;
- bh=SF6fWedF+5KWjn9BhcYbOsSQqaIC10oX6/pQpr5822g=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557816;
+ bh=C8HKUXcfECjE3sXrMS4Qa0Rb0MODe28HXahNg2u1FYE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KhdT80b8J/NZIKjKnnWmeVf2v3Q4fjbt1LyhWBUUopSdAXiEMMXX5VxJOa//wkvtX
- 81g7wFGb9rrfN0868oz3lMe9dCzoVzmvyeRTffWEQ7sX1biomPfKh58njQBg/9xwyM
- 7JyhB0aRjcYzisV4lFbP+H6hIU3pEDAJ+zIDuP0Q=
+ b=KNHRyfEPGlseVZsr985epRYy4vFfO2ioRwHUlmVeFXSj4zwZIihF2na44zjOdNGs6
+ b4z9OBuyKLxaV9DYtjmSkVns8T7hlL3kKlxgbA6nro0s+cIbgNEchSllmYdCjG0mfd
+ xPdmgQrSfMTrO5cn4AvpBinzyVXKpeTd1Q2XtDz0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 30/88] ppc/pnv: Loop on the threads of the chip to find a
- matching NVT
-Date: Tue, 17 Dec 2019 15:42:24 +1100
-Message-Id: <20191217044322.351838-31-david@gibson.dropbear.id.au>
+Subject: [PULL 31/88] ppc: Introduce a ppc_cpu_pir() helper
+Date: Tue, 17 Dec 2019 15:42:25 +1100
+Message-Id: <20191217044322.351838-32-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -62,99 +61,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-CPU_FOREACH() loops on all the CPUs of the machine which is incorrect.
-Each XIVE Presenter should scan only the HW threads of the chip it
-belongs to.
-
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-5-clg@kaod.org>
+Message-Id: <20191125065820.927-6-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c | 61 ++++++++++++++++++++++++++--------------------
- 1 file changed, 35 insertions(+), 26 deletions(-)
+ hw/ppc/ppc.c         | 9 +++++++--
+ include/hw/ppc/ppc.h | 1 +
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 8055de89cf..9798bd9e72 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -377,34 +377,43 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, =
-uint8_t format,
-                               bool cam_ignore, uint8_t priority,
-                               uint32_t logic_serv, XiveTCTXMatch *match)
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 52a18eb7d7..8dd982fc1e 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -1495,15 +1495,20 @@ void PPC_debug_write (void *opaque, uint32_t addr=
+, uint32_t val)
+     }
+ }
+=20
++int ppc_cpu_pir(PowerPCCPU *cpu)
++{
++    CPUPPCState *env =3D &cpu->env;
++    return env->spr_cb[SPR_PIR].default_value;
++}
++
+ PowerPCCPU *ppc_get_vcpu_by_pir(int pir)
  {
--    CPUState *cs;
-+    PnvXive *xive =3D PNV_XIVE(xptr);
-+    PnvChip *chip =3D xive->chip;
-     int count =3D 0;
--
--    CPU_FOREACH(cs) {
--        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--        XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
--        int ring;
--
--        /*
--         * Check the thread context CAM lines and record matches.
--         */
--        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_blk, =
-nvt_idx,
--                                         cam_ignore, logic_serv);
--        /*
--         * Save the context and follow on to catch duplicates, that we
--         * don't support yet.
--         */
--        if (ring !=3D -1) {
--            if (match->tctx) {
--                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a "
--                              "thread context NVT %x/%x\n",
--                              nvt_blk, nvt_idx);
--                return -1;
-+    int i, j;
-+
-+    for (i =3D 0; i < chip->nr_cores; i++) {
-+        PnvCore *pc =3D chip->cores[i];
-+        CPUCore *cc =3D CPU_CORE(pc);
-+
-+        for (j =3D 0; j < cc->nr_threads; j++) {
-+            PowerPCCPU *cpu =3D pc->threads[j];
-+            XiveTCTX *tctx;
-+            int ring;
-+
-+            tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-+
-+            /*
-+             * Check the thread context CAM lines and record matches.
-+             */
-+            ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_b=
-lk,
-+                                             nvt_idx, cam_ignore, logic_=
-serv);
-+            /*
-+             * Save the context and follow on to catch duplicates, that =
-we
-+             * don't support yet.
-+             */
-+            if (ring !=3D -1) {
-+                if (match->tctx) {
-+                    qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found =
-a "
-+                                  "thread context NVT %x/%x\n",
-+                                  nvt_blk, nvt_idx);
-+                    return -1;
-+                }
-+
-+                match->ring =3D ring;
-+                match->tctx =3D tctx;
-+                count++;
-             }
--
--            match->ring =3D ring;
--            match->tctx =3D tctx;
--            count++;
+     CPUState *cs;
+=20
+     CPU_FOREACH(cs) {
+         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-        CPUPPCState *env =3D &cpu->env;
+=20
+-        if (env->spr_cb[SPR_PIR].default_value =3D=3D pir) {
++        if (ppc_cpu_pir(cpu) =3D=3D pir) {
+             return cpu;
          }
      }
+diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
+index 4bdcb8bacd..585be6ab98 100644
+--- a/include/hw/ppc/ppc.h
++++ b/include/hw/ppc/ppc.h
+@@ -5,6 +5,7 @@
 =20
+ void ppc_set_irq(PowerPCCPU *cpu, int n_IRQ, int level);
+ PowerPCCPU *ppc_get_vcpu_by_pir(int pir);
++int ppc_cpu_pir(PowerPCCPU *cpu);
+=20
+ /* PowerPC hardware exceptions management helpers */
+ typedef void (*clk_setup_cb)(void *opaque, uint32_t freq);
 --=20
 2.23.0
 
