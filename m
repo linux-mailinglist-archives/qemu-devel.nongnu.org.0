@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BB8122389
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:18:52 +0100 (CET)
-Received: from localhost ([::1]:35668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11EC712237B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:13:37 +0100 (CET)
+Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Fz-00061n-9T
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:18:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35075)
+	id 1ih5At-0006mL-Ll
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:13:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ji-00027a-At
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:32 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jJ-0001aM-NL
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jg-0007VS-BS
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:30 -0500
-Received: from ozlabs.org ([203.11.71.1]:37031)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jI-000700-Ef
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:05 -0500
+Received: from ozlabs.org ([203.11.71.1]:35339)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4jf-00071A-Dz; Mon, 16 Dec 2019 23:45:27 -0500
+ id 1ih4jI-0006Rh-3B; Mon, 16 Dec 2019 23:45:04 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWd2MzYz9sTK; Tue, 17 Dec 2019 15:43:38 +1100 (AEDT)
+ id 47cQWb0n0Xz9sT7; Tue, 17 Dec 2019 15:43:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557821;
- bh=gzHHLUuZkYUSgdIhhuqRz76mOFpXx2kVpf/11Jd9AYY=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557819;
+ bh=PYsIZv4wWScv1e8Bh3X6QiwpEh8GrxqKPfNCFUsPPKU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bvEC2WDACRV8Z9GYkbkys5YHwqpQRmJqXNyQKFKhnAH2Fg/gOsheHBDJMZWj6nKes
- MJhuOze8cQrkHcqdZTOLG+IvZhkbRYcj+a6bhXACI9RZVChHlQSEvJq3qNCiMOHjoJ
- u84DJ/atd0d+z4S7m42L1EZozuIic+VAjJxIcXLQ=
+ b=CWQ7tT3r7/HRDZog0D6DFUou8YeTL7QI5w0oeK3PnNjFCgWNwheJ+Enz97s3M4C1l
+ MBEtP2v5PPpBMlSk4MTNzhMFViRl9BjPXzD6XSkELwV2+n/B8Khjus58tUBZ4Et7PP
+ cUVY0Plt++1PpVm2UR0TWSnulJqxC8hPCoSD1aNg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 56/88] ppc: Deassert the external interrupt pin in KVM on reset
-Date: Tue, 17 Dec 2019 15:42:50 +1100
-Message-Id: <20191217044322.351838-57-david@gibson.dropbear.id.au>
+Subject: [PULL 58/88] ppc: Don't use CPUPPCState::irq_input_state with modern
+ Book3s CPU models
+Date: Tue, 17 Dec 2019 15:42:52 +1100
+Message-Id: <20191217044322.351838-59-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -54,98 +55,97 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org,
- Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-When a CPU is reset, QEMU makes sure no interrupt is pending by clearing
-CPUPPCstate::pending_interrupts in ppc_cpu_reset(). In the case of a
-complete machine emulation, eg. a sPAPR machine, an external interrupt
-request could still be pending in KVM though, eg. an IPI. It will be
-eventually presented to the guest, which is supposed to acknowledge it at
-the interrupt controller. If the interrupt controller is emulated in QEMU=
-,
-either XICS or XIVE, ppc_set_irq() won't deassert the external interrupt
-pin in KVM since it isn't pending anymore for QEMU. When the vCPU re-ente=
-rs
-the guest, the interrupt request is still pending and the vCPU will try
-again to acknowledge it. This causes an infinite loop and eventually hang=
-s
-the guest.
+The power7_set_irq() and power9_set_irq() functions set this but it is
+never used actually. Modern Book3s compatible CPUs are only supported
+by the pnv and spapr machines. They have an interrupt controller, XICS
+for POWER7/8 and XIVE for POWER9, whose models don't require to track
+IRQ input states at the CPU level.
 
-The code has been broken since the beginning. The issue wasn't hit before
-because accel=3Dkvm,kernel-irqchip=3Doff is an awkward setup that never g=
-ot
-used until recently with the LC92x IBM systems (aka, Boston).
+Drop these lines to avoid confusion.
 
-Add a ppc_irq_reset() function to do the necessary cleanup, ie. deassert
-the IRQ pins of the CPU in QEMU and most importantly the external interru=
-pt
-pin for this vCPU in KVM.
-
-Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157548861740.3650476.16879693165328764758.stgit@bahia.lan>
+Message-Id: <157548862861.3650476.16622818876928044450.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc.c                    | 8 ++++++++
- include/hw/ppc/ppc.h            | 2 ++
- target/ppc/translate_init.inc.c | 1 +
- 3 files changed, 11 insertions(+)
+ hw/ppc/ppc.c     | 16 ++--------------
+ target/ppc/cpu.h |  4 +++-
+ 2 files changed, 5 insertions(+), 15 deletions(-)
 
 diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 8dd982fc1e..fab73f1b1f 100644
+index fab73f1b1f..45834f98d1 100644
 --- a/hw/ppc/ppc.c
 +++ b/hw/ppc/ppc.c
-@@ -1515,3 +1515,11 @@ PowerPCCPU *ppc_get_vcpu_by_pir(int pir)
+@@ -275,10 +275,9 @@ void ppc970_irq_init(PowerPCCPU *cpu)
+ static void power7_set_irq(void *opaque, int pin, int level)
+ {
+     PowerPCCPU *cpu =3D opaque;
+-    CPUPPCState *env =3D &cpu->env;
 =20
-     return NULL;
+     LOG_IRQ("%s: env %p pin %d level %d\n", __func__,
+-                env, pin, level);
++            &cpu->env, pin, level);
+=20
+     switch (pin) {
+     case POWER7_INPUT_INT:
+@@ -292,11 +291,6 @@ static void power7_set_irq(void *opaque, int pin, in=
+t level)
+         LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+         return;
+     }
+-    if (level) {
+-        env->irq_input_state |=3D 1 << pin;
+-    } else {
+-        env->irq_input_state &=3D ~(1 << pin);
+-    }
  }
-+
-+void ppc_irq_reset(PowerPCCPU *cpu)
-+{
-+    CPUPPCState *env =3D &cpu->env;
-+
-+    env->irq_input_state =3D 0;
-+    kvmppc_set_interrupt(cpu, PPC_INTERRUPT_EXT, 0);
-+}
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index 585be6ab98..89e1dd065a 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -77,6 +77,7 @@ static inline void ppc970_irq_init(PowerPCCPU *cpu) {}
- static inline void ppcPOWER7_irq_init(PowerPCCPU *cpu) {}
- static inline void ppcPOWER9_irq_init(PowerPCCPU *cpu) {}
- static inline void ppce500_irq_init(PowerPCCPU *cpu) {}
-+static inline void ppc_irq_reset(PowerPCCPU *cpu) {}
- #else
- void ppc40x_irq_init(PowerPCCPU *cpu);
- void ppce500_irq_init(PowerPCCPU *cpu);
-@@ -84,6 +85,7 @@ void ppc6xx_irq_init(PowerPCCPU *cpu);
- void ppc970_irq_init(PowerPCCPU *cpu);
- void ppcPOWER7_irq_init(PowerPCCPU *cpu);
- void ppcPOWER9_irq_init(PowerPCCPU *cpu);
-+void ppc_irq_reset(PowerPCCPU *cpu);
- #endif
 =20
- /* PPC machines for OpenBIOS */
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index ba726dec4d..64a838095c 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -10461,6 +10461,7 @@ static void ppc_cpu_reset(CPUState *s)
-     env->pending_interrupts =3D 0;
-     s->exception_index =3D POWERPC_EXCP_NONE;
-     env->error_code =3D 0;
-+    ppc_irq_reset(cpu);
+ void ppcPOWER7_irq_init(PowerPCCPU *cpu)
+@@ -311,10 +305,9 @@ void ppcPOWER7_irq_init(PowerPCCPU *cpu)
+ static void power9_set_irq(void *opaque, int pin, int level)
+ {
+     PowerPCCPU *cpu =3D opaque;
+-    CPUPPCState *env =3D &cpu->env;
 =20
-     /* tininess for underflow is detected before rounding */
-     set_float_detect_tininess(float_tininess_before_rounding,
+     LOG_IRQ("%s: env %p pin %d level %d\n", __func__,
+-                env, pin, level);
++            &cpu->env, pin, level);
+=20
+     switch (pin) {
+     case POWER9_INPUT_INT:
+@@ -334,11 +327,6 @@ static void power9_set_irq(void *opaque, int pin, in=
+t level)
+         LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+         return;
+     }
+-    if (level) {
+-        env->irq_input_state |=3D 1 << pin;
+-    } else {
+-        env->irq_input_state &=3D ~(1 << pin);
+-    }
+ }
+=20
+ void ppcPOWER9_irq_init(PowerPCCPU *cpu)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index e3e82327b7..f9528fc29d 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1090,7 +1090,9 @@ struct CPUPPCState {
+ #if !defined(CONFIG_USER_ONLY)
+     /*
+      * This is the IRQ controller, which is implementation dependent
+-     * and only relevant when emulating a complete machine.
++     * and only relevant when emulating a complete machine. Note that
++     * this isn't used by recent Book3s compatible CPUs (POWER7 and
++     * newer).
+      */
+     uint32_t irq_input_state;
+     void **irq_inputs;
 --=20
 2.23.0
 
