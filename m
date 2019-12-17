@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8363E1223F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:42:29 +0100 (CET)
-Received: from localhost ([::1]:36046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332291223DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:36:23 +0100 (CET)
+Received: from localhost ([::1]:35962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5cq-0006li-Fq
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:42:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35424)
+	id 1ih5Wv-0006l4-V7
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:36:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35675)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4k9-0002MD-G8
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:58 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kL-0002c8-I9
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4k6-00082c-1m
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:55 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52743 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kK-0008MI-CK
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:09 -0500
+Received: from ozlabs.org ([203.11.71.1]:49031)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4k2-0007V9-3s; Mon, 16 Dec 2019 23:45:53 -0500
+ id 1ih4kK-0007xM-0h; Mon, 16 Dec 2019 23:46:08 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWg2mZKz9sTS; Tue, 17 Dec 2019 15:43:41 +1100 (AEDT)
+ id 47cQWh66Wmz9sTZ; Tue, 17 Dec 2019 15:43:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557823;
- bh=5/a5TMrvK4EzeFh6JE4d9uQG/td8uvROAlRqOMDCQng=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557824;
+ bh=eOGD8QwMNRe7LTWiMEshk2Ag9kxPUIVvcEXGfVAnae0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pp3QAFPf4XCm3gCh3bHQR27GX9dZJPZt/k2mZ5ohGxI6JSZYnkOxB7SyrTZQSddI8
- aJm4p2oXplpdp4uNxYXWvxSBOe27bCJkqdtdxqqyKa5pfTkLdWSrdhn8/c8mZYPX8y
- GXri7XvK9GU4oQtxelFbqcn8KCcY+2Tc0hPgd6fk=
+ b=aGD8BR9wclJpDi2Fbf8BTwDV3UhIeg0OVXD3zybczDCzs0nCp3YIRUfhEE8hVIU7p
+ v+c1WgeWWvcZtyOiGhOM1MC9kD2N+8mkgQjMjskVjbFcae69f33isjZuLPrWTsgiDS
+ xoEe2e0gzWMDoN916vheJxsTcusWNeOYq9oN7OZ8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 68/88] target/ppc: Add SPR ASDR
-Date: Tue, 17 Dec 2019 15:43:02 +1100
-Message-Id: <20191217044322.351838-69-david@gibson.dropbear.id.au>
+Subject: [PULL 71/88] ppc/pnv: populate the DT with realized XSCOM devices
+Date: Tue, 17 Dec 2019 15:43:05 +1100
+Message-Id: <20191217044322.351838-72-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,61 +56,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
  qemu-ppc@nongnu.org, clg@kaod.org,
- Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-The Access Segment Descriptor Register (ASDR) provides information about
-the storage element when taking a hypervisor storage interrupt. When
-performing nested radix address translation, this is normally the guest
-real address. This register is present on POWER9 processors and later.
+Some devices could be initialized in the instance_init handler but not
+realized for configuration reasons. Nodes should not be added in the DT
+for such devices.
 
-Implement the ADSR, note read and write access is limited to the
-hypervisor.
-
-Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191128134700.16091-4-clg@kaod.org>
+Message-Id: <20191210135845.19773-3-clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h                | 1 +
- target/ppc/translate_init.inc.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+ hw/ppc/pnv_xscom.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index da44cc8809..e99850c3ae 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1778,6 +1778,7 @@ typedef PowerPCCPU ArchCPU;
- #define SPR_MPC_MD_DBRAM1     (0x32A)
- #define SPR_RCPU_L2U_RA3      (0x32B)
- #define SPR_TAR               (0x32F)
-+#define SPR_ASDR              (0x330)
- #define SPR_IC                (0x350)
- #define SPR_VTB               (0x351)
- #define SPR_MMCRC             (0x353)
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index c5e4d45569..c850a9d065 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -8295,6 +8295,12 @@ static void gen_spr_power9_mmu(CPUPPCState *env)
-                         SPR_NOACCESS, SPR_NOACCESS,
-                         &spr_read_generic, &spr_write_ptcr,
-                         KVM_REG_PPC_PTCR, 0x00000000);
-+    /* Address Segment Descriptor Register */
-+    spr_register_hv(env, SPR_ASDR, "ASDR",
-+                    SPR_NOACCESS, SPR_NOACCESS,
-+                    SPR_NOACCESS, SPR_NOACCESS,
-+                    &spr_read_generic, &spr_write_generic,
-+                    0x0000000000000000);
- #endif
- }
+diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+index 760571037b..fd48d4ee37 100644
+--- a/hw/ppc/pnv_xscom.c
++++ b/hw/ppc/pnv_xscom.c
+@@ -304,7 +304,10 @@ static int xscom_dt_child(Object *child, void *opaqu=
+e)
+         PnvXScomInterface *xd =3D PNV_XSCOM_INTERFACE(child);
+         PnvXScomInterfaceClass *xc =3D PNV_XSCOM_INTERFACE_GET_CLASS(xd)=
+;
 =20
+-        if (xc->dt_xscom) {
++        /*
++         * Only "realized" devices should be configured in the DT
++         */
++        if (xc->dt_xscom && DEVICE(child)->realized) {
+             _FDT((xc->dt_xscom(xd, args->fdt, args->xscom_offset)));
+         }
+     }
 --=20
 2.23.0
 
