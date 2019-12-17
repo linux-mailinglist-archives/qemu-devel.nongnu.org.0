@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDEC1224FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:47:45 +0100 (CET)
-Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DEF91224E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:42:39 +0100 (CET)
+Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih6e0-0001UB-42
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:47:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49047)
+	id 1ih6Z3-0003I1-US
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:42:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49319)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ih6K0-0000md-Fv
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:05 -0500
+ (envelope-from <armbru@redhat.com>) id 1ih6KA-00014o-MI
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ih6Jy-0001Ex-Lp
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:04 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56694
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1ih6K9-0002O0-F0
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50616
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jy-0001AH-Fu
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:02 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6K9-0002MX-Ap
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576564021;
+ s=mimecast20190719; t=1576564032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lE2ASXi1Xmz2/vAd9C/cYNmssgI7GdbEFzurPjciP4E=;
- b=Nowa+Icg9iQwzC0+zoSEsUdc7382xtrJoskFsWa42Yq/OG/qE66xqj52DASeyUpZrZVVqi
- Zz+HIF5o9xh5k0uwe16JD7WGdOPPkIzX4yhMSLasVX0RuSMkfWymb+dx9rrreQUHKHsffm
- tWEIWMWJuaxopsb6u7VKMx+LXo+zzgQ=
+ bh=C93fgCuYkcySyFZzbNYaKAJAO/+ByfBxZR60vnYOo/s=;
+ b=A07vhD7wQJwGqg4HZkUx0lQCrO5oPVVMedQ164Afej3Hv9i6B/kdC1NCQhSY+M3nFlWY7R
+ MKxx7yUcDc3xe7Pjk9abXhpRnTXv1P7aiyS8QqhLaPH0zjfq9xl6a1yigKkYJ4K2Y5Nyiw
+ YFNUJnxo1vl9GjtAWLjnEuUIDkBwC3Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-04YHYlObP-ChRJxHpl1bRw-1; Tue, 17 Dec 2019 01:26:59 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-326-ZVjbZ_r9OLeqoDda1Tah-Q-1; Tue, 17 Dec 2019 01:27:01 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFF971005516;
- Tue, 17 Dec 2019 06:26:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEE3C477;
+ Tue, 17 Dec 2019 06:26:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 829EE5D9C9;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 86CD8620B0;
  Tue, 17 Dec 2019 06:26:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 897491136425; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
+ id 8CB301136426; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/34] 9pfs: make Error **errp const where it is appropriate
-Date: Tue, 17 Dec 2019 07:26:38 +0100
-Message-Id: <20191217062651.9687-22-armbru@redhat.com>
+Subject: [PULL 22/34] hw/core/qdev: cleanup Error ** variables
+Date: Tue, 17 Dec 2019 07:26:39 +0100
+Message-Id: <20191217062651.9687-23-armbru@redhat.com>
 In-Reply-To: <20191217062651.9687-1-armbru@redhat.com>
 References: <20191217062651.9687-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 04YHYlObP-ChRJxHpl1bRw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: ZVjbZ_r9OLeqoDda1Tah-Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,61 +73,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Mostly, Error ** is for returning error from the function, so the
-callee sets it. However error_append_security_model_hint and
-error_append_socket_sockfd_hint get already filled errp
-parameter. They don't change the pointer itself, only change the
-internal state of referenced Error object. So we can make it Error
-*const * errp, to stress the behavior. It will also help coccinelle
-script (in future) to distinguish such cases from common errp usage.
+Rename Error ** parameter in check_only_migratable to common errp.
+
+In device_set_realized:
+
+ - Move "if (local_err !=3D NULL)" closer to error setters.
+
+ - Drop 'Error **local_errp': it doesn't save any LoCs, but it's very
+   unusual.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20191205174635.18758-9-vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Commit message replaced]
+Message-Id: <20191205174635.18758-10-vsementsov@virtuozzo.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/9pfs/9p-local.c | 2 +-
- hw/9pfs/9p-proxy.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/core/qdev.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 4708c0bd89..ca641390fb 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1473,7 +1473,7 @@ static void local_cleanup(FsContext *ctx)
-     g_free(data);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index cf1ba28fe3..82d3ee590a 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -820,12 +820,12 @@ static bool device_get_realized(Object *obj, Error **=
+errp)
+     return dev->realized;
  }
 =20
--static void error_append_security_model_hint(Error **errp)
-+static void error_append_security_model_hint(Error *const *errp)
+-static bool check_only_migratable(Object *obj, Error **err)
++static bool check_only_migratable(Object *obj, Error **errp)
  {
-     error_append_hint(errp, "Valid options are: security_model=3D"
-                       "[passthrough|mapped-xattr|mapped-file|none]\n");
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index 97ab9c58a5..8136e1342d 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -1114,7 +1114,7 @@ static int connect_namedsocket(const char *path, Erro=
-r **errp)
-     return sockfd;
+     DeviceClass *dc =3D DEVICE_GET_CLASS(obj);
+=20
+     if (!vmstate_check_only_migratable(dc->vmsd)) {
+-        error_setg(err, "Device %s is not migratable, but "
++        error_setg(errp, "Device %s is not migratable, but "
+                    "--only-migratable was specified",
+                    object_get_typename(obj));
+         return false;
+@@ -874,10 +874,9 @@ static void device_set_realized(Object *obj, bool valu=
+e, Error **errp)
+=20
+         if (dc->realize) {
+             dc->realize(dev, &local_err);
+-        }
+-
+-        if (local_err !=3D NULL) {
+-            goto fail;
++            if (local_err !=3D NULL) {
++                goto fail;
++            }
+         }
+=20
+         DEVICE_LISTENER_CALL(realize, Forward, dev);
+@@ -918,27 +917,26 @@ static void device_set_realized(Object *obj, bool val=
+ue, Error **errp)
+        }
+=20
+     } else if (!value && dev->realized) {
+-        Error **local_errp =3D NULL;
++        /* We want local_err to track only the first error */
+         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+-            local_errp =3D local_err ? NULL : &local_err;
+             object_property_set_bool(OBJECT(bus), false, "realized",
+-                                     local_errp);
++                                     local_err ? NULL : &local_err);
+         }
+         if (qdev_get_vmsd(dev)) {
+             vmstate_unregister(dev, qdev_get_vmsd(dev), dev);
+         }
+         if (dc->unrealize) {
+-            local_errp =3D local_err ? NULL : &local_err;
+-            dc->unrealize(dev, local_errp);
++            dc->unrealize(dev, local_err ? NULL : &local_err);
+         }
+         dev->pending_deleted_event =3D true;
+         DEVICE_LISTENER_CALL(unrealize, Reverse, dev);
+-    }
+=20
+-    if (local_err !=3D NULL) {
+-        goto fail;
++        if (local_err !=3D NULL) {
++            goto fail;
++        }
+     }
+=20
++    assert(local_err =3D=3D NULL);
+     dev->realized =3D value;
+     return;
+=20
+@@ -976,7 +974,7 @@ static bool device_get_hotpluggable(Object *obj, Error =
+**errp)
+                                 qbus_is_hotpluggable(dev->parent_bus));
  }
 =20
--static void error_append_socket_sockfd_hint(Error **errp)
-+static void error_append_socket_sockfd_hint(Error *const *errp)
+-static bool device_get_hotplugged(Object *obj, Error **err)
++static bool device_get_hotplugged(Object *obj, Error **errp)
  {
-     error_append_hint(errp, "Either specify socket=3D/some/path where /som=
-e/path"
-                       " points to a listening AF_UNIX socket or sock_fd=3D=
-fd"
+     DeviceState *dev =3D DEVICE(obj);
+=20
 --=20
 2.21.0
 
