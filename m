@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617F51224FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:49:01 +0100 (CET)
-Received: from localhost ([::1]:36870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDEC1224FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:47:45 +0100 (CET)
+Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih6fE-0003kR-CH
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:49:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49105)
+	id 1ih6e0-0001UB-42
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:47:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ih6K1-0000nZ-26
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:06 -0500
+ (envelope-from <armbru@redhat.com>) id 1ih6K0-0000md-Fv
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ih6Jy-0001FH-N6
+ (envelope-from <armbru@redhat.com>) id 1ih6Jy-0001Ex-Lp
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42308
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56694
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jy-0001BZ-Ha
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jy-0001AH-Fu
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576564022;
+ s=mimecast20190719; t=1576564021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sycYzc90UKlJPyK8203d36UCiFa0IWSVytZB9r+GpRs=;
- b=af6NHcB/CrpK+WzJtXzhLALQWCYr3h+isLUW1gjHuqXXC5eX74Bxhztv06oQcVAT6fVlJF
- SETh2UlcuTsjmNlxRixPK8nxzBa1V8pS/h5Y3B5gFUqyPLgtx3A+PY9cA9g6H/8nhsFFpy
- rNChdsSk+0RgbHiOvhr9u+hQqRhLr84=
+ bh=lE2ASXi1Xmz2/vAd9C/cYNmssgI7GdbEFzurPjciP4E=;
+ b=Nowa+Icg9iQwzC0+zoSEsUdc7382xtrJoskFsWa42Yq/OG/qE66xqj52DASeyUpZrZVVqi
+ Zz+HIF5o9xh5k0uwe16JD7WGdOPPkIzX4yhMSLasVX0RuSMkfWymb+dx9rrreQUHKHsffm
+ tWEIWMWJuaxopsb6u7VKMx+LXo+zzgQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-88xGZMMNNyaKnEvny_Apkg-1; Tue, 17 Dec 2019 01:26:57 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-292-04YHYlObP-ChRJxHpl1bRw-1; Tue, 17 Dec 2019 01:26:59 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 885E5800D41;
- Tue, 17 Dec 2019 06:26:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFF971005516;
+ Tue, 17 Dec 2019 06:26:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56BA31001281;
- Tue, 17 Dec 2019 06:26:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 829EE5D9C9;
+ Tue, 17 Dec 2019 06:26:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 861F51136424; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
+ id 897491136425; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/34] ppc: make Error **errp const where it is appropriate
-Date: Tue, 17 Dec 2019 07:26:37 +0100
-Message-Id: <20191217062651.9687-21-armbru@redhat.com>
+Subject: [PULL 21/34] 9pfs: make Error **errp const where it is appropriate
+Date: Tue, 17 Dec 2019 07:26:38 +0100
+Message-Id: <20191217062651.9687-22-armbru@redhat.com>
 In-Reply-To: <20191217062651.9687-1-armbru@redhat.com>
 References: <20191217062651.9687-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 88xGZMMNNyaKnEvny_Apkg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 04YHYlObP-ChRJxHpl1bRw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,86 +74,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 Mostly, Error ** is for returning error from the function, so the
-callee sets it. However kvmppc_hint_smt_possible gets already filled
-errp parameter. It doesn't change the pointer itself, only change the
+callee sets it. However error_append_security_model_hint and
+error_append_socket_sockfd_hint get already filled errp
+parameter. They don't change the pointer itself, only change the
 internal state of referenced Error object. So we can make it Error
 *const * errp, to stress the behavior. It will also help coccinelle
 script (in future) to distinguish such cases from common errp usage.
 
-While there, rename the function to
-kvmppc_error_append_smt_possible_hint().
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20191205174635.18758-8-vsementsov@virtuozzo.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20191205174635.18758-9-vsementsov@virtuozzo.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 [Commit message replaced]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- target/ppc/kvm_ppc.h | 4 ++--
- hw/ppc/spapr.c       | 2 +-
- target/ppc/kvm.c     | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ hw/9pfs/9p-local.c | 2 +-
+ hw/9pfs/9p-proxy.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 98bd7d5da6..f22daabf51 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -28,7 +28,7 @@ void kvmppc_set_papr(PowerPCCPU *cpu);
- int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
- void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
- int kvmppc_smt_threads(void);
--void kvmppc_hint_smt_possible(Error **errp);
-+void kvmppc_error_append_smt_possible_hint(Error *const *errp);
- int kvmppc_set_smt_threads(int smt);
- int kvmppc_clear_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
- int kvmppc_or_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
-@@ -164,7 +164,7 @@ static inline int kvmppc_smt_threads(void)
-     return 1;
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 4708c0bd89..ca641390fb 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1473,7 +1473,7 @@ static void local_cleanup(FsContext *ctx)
+     g_free(data);
  }
 =20
--static inline void kvmppc_hint_smt_possible(Error **errp)
-+static inline void kvmppc_error_append_smt_possible_hint(Error *const *err=
-p)
+-static void error_append_security_model_hint(Error **errp)
++static void error_append_security_model_hint(Error *const *errp)
  {
-     return;
- }
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 3ae7db1563..c5d8f0afb6 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2564,7 +2564,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState *sp=
-apr, Error **errp)
-                                       " requires the use of VSMT mode %d.\=
-n",
-                                       smp_threads, kvm_smt, spapr->vsmt);
-                 }
--                kvmppc_hint_smt_possible(&local_err);
-+                kvmppc_error_append_smt_possible_hint(&local_err);
-                 goto out;
-             }
-         }
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index c77f9848ec..27ea3ce535 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2076,7 +2076,7 @@ int kvmppc_set_smt_threads(int smt)
-     return ret;
+     error_append_hint(errp, "Valid options are: security_model=3D"
+                       "[passthrough|mapped-xattr|mapped-file|none]\n");
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 97ab9c58a5..8136e1342d 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -1114,7 +1114,7 @@ static int connect_namedsocket(const char *path, Erro=
+r **errp)
+     return sockfd;
  }
 =20
--void kvmppc_hint_smt_possible(Error **errp)
-+void kvmppc_error_append_smt_possible_hint(Error *const *errp)
+-static void error_append_socket_sockfd_hint(Error **errp)
++static void error_append_socket_sockfd_hint(Error *const *errp)
  {
-     int i;
-     GString *g;
+     error_append_hint(errp, "Either specify socket=3D/some/path where /som=
+e/path"
+                       " points to a listening AF_UNIX socket or sock_fd=3D=
+fd"
 --=20
 2.21.0
 
