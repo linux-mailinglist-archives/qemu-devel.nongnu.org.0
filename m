@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6091F1223C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:26:27 +0100 (CET)
-Received: from localhost ([::1]:35797 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353A2122365
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:10:53 +0100 (CET)
+Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5NJ-0000Oe-Sc
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:26:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34374)
+	id 1ih58F-0002VD-QY
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:10:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34493)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ix-0000zE-4x
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:44 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4j2-00018i-KC
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iv-0006Po-CE
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:42 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60959 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4j1-0006Zz-0a
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:48 -0500
+Received: from ozlabs.org ([203.11.71.1]:56989)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4iv-0005wF-1e; Mon, 16 Dec 2019 23:44:41 -0500
+ id 1ih4j0-00061k-D8; Mon, 16 Dec 2019 23:44:46 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWX45rZz9sSx; Tue, 17 Dec 2019 15:43:34 +1100 (AEDT)
+ id 47cQWY5xcqz9sTC; Tue, 17 Dec 2019 15:43:34 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557816;
- bh=piLi9ZJMSTKCOcegDGaL5RCevw3ESsXiD4T/sAMW9X4=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557817;
+ bh=uUiqDKLLVTBBPiFHlPyXS5b1JgnGOzsSFBr2SRaf5go=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aQeeuYGKNcsrbPdldzFREf2B3gg6Qe23WVlIIDg+su9Xz7shOqD1sHlcEXfEqvzur
- GFcseJmfdGJw9Tmhay+zz2bbUc119pumnIzgWM6pevVHUHWW0/npbtDZsFWpqSwX4M
- Eat6cwH+EgFwH4+NJKjTp2KqqBc5PgvI9QDmj3S8=
+ b=hOFpnWQlMFYLN0RdPJpRXybpptSxIj5G1JKBu3IAtaatvgV+Z+BYo4bGOAP6xuKF4
+ 6iIkjjN36+1yg8xL6B/iIWc3j8PKBVUymDy6H5sZ01DXtRtPSClupFKqmPxdt4scjv
+ Y2tFfn+NEYMttjp1FJunt9Bh69WbY7kzFlFNei/s=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 38/88] ppc/xive: Extend the TIMA operation with a XivePresenter
- parameter
-Date: Tue, 17 Dec 2019 15:42:32 +1100
-Message-Id: <20191217044322.351838-39-david@gibson.dropbear.id.au>
+Subject: [PULL 39/88] linux-headers: Update
+Date: Tue, 17 Dec 2019 15:42:33 +1100
+Message-Id: <20191217044322.351838-40-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,278 +58,229 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Greg Kurz <groug@kaod.org>
 
-The TIMA operations are performed on behalf of the XIVE IVPE sub-engine
-(Presenter) on the thread interrupt context registers. The current
-operations supported by the model are simple and do not require access
-to the controller but more complex operations will need access to the
-controller NVT table and to its configuration.
+Update to mainline commit be2eca94d144 ("Merge tag 'for-linus-5.5-1'`
+of git://github.com/cminyard/linux-ipmi")
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-13-clg@kaod.org>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <157478677756.67101.11558821804418331832.stgit@bahia.tlslab.i=
+bm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c    |  4 +--
- hw/intc/xive.c        | 58 ++++++++++++++++++++++++-------------------
- include/hw/ppc/xive.h |  7 +++---
- 3 files changed, 38 insertions(+), 31 deletions(-)
+ include/standard-headers/linux/ethtool.h     |  6 ++++++
+ include/standard-headers/linux/virtio_ring.h |  2 +-
+ linux-headers/asm-arm/kvm.h                  |  3 ++-
+ linux-headers/asm-arm64/kvm.h                |  5 ++++-
+ linux-headers/asm-mips/unistd_n32.h          |  1 +
+ linux-headers/asm-mips/unistd_n64.h          |  1 +
+ linux-headers/asm-mips/unistd_o32.h          |  1 +
+ linux-headers/asm-powerpc/kvm.h              |  3 +++
+ linux-headers/linux/kvm.h                    | 11 +++++++++++
+ linux-headers/linux/psp-sev.h                |  3 +++
+ 10 files changed, 33 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index b2ab2ccc91..95e9de312c 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -1436,7 +1436,7 @@ static void xive_tm_indirect_write(void *opaque, hw=
-addr offset,
- {
-     XiveTCTX *tctx =3D pnv_xive_get_indirect_tctx(PNV_XIVE(opaque));
+diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-=
+headers/linux/ethtool.h
+index 4ff422b635..6e8a10ee10 100644
+--- a/include/standard-headers/linux/ethtool.h
++++ b/include/standard-headers/linux/ethtool.h
+@@ -1507,6 +1507,11 @@ enum ethtool_link_mode_bit_indices {
+ 	ETHTOOL_LINK_MODE_200000baseCR4_Full_BIT	 =3D 66,
+ 	ETHTOOL_LINK_MODE_100baseT1_Full_BIT		 =3D 67,
+ 	ETHTOOL_LINK_MODE_1000baseT1_Full_BIT		 =3D 68,
++	ETHTOOL_LINK_MODE_400000baseKR8_Full_BIT	 =3D 69,
++	ETHTOOL_LINK_MODE_400000baseSR8_Full_BIT	 =3D 70,
++	ETHTOOL_LINK_MODE_400000baseLR8_ER8_FR8_Full_BIT =3D 71,
++	ETHTOOL_LINK_MODE_400000baseDR8_Full_BIT	 =3D 72,
++	ETHTOOL_LINK_MODE_400000baseCR8_Full_BIT	 =3D 73,
 =20
--    xive_tctx_tm_write(tctx, offset, value, size);
-+    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
-);
+ 	/* must be last entry */
+ 	__ETHTOOL_LINK_MODE_MASK_NBITS
+@@ -1618,6 +1623,7 @@ enum ethtool_link_mode_bit_indices {
+ #define SPEED_56000		56000
+ #define SPEED_100000		100000
+ #define SPEED_200000		200000
++#define SPEED_400000		400000
+=20
+ #define SPEED_UNKNOWN		-1
+=20
+diff --git a/include/standard-headers/linux/virtio_ring.h b/include/stand=
+ard-headers/linux/virtio_ring.h
+index 306cd41147..f230fed479 100644
+--- a/include/standard-headers/linux/virtio_ring.h
++++ b/include/standard-headers/linux/virtio_ring.h
+@@ -167,7 +167,7 @@ static inline void vring_init(struct vring *vr, unsig=
+ned int num, void *p,
+ {
+ 	vr->num =3D num;
+ 	vr->desc =3D p;
+-	vr->avail =3D p + num*sizeof(struct vring_desc);
++	vr->avail =3D (struct vring_avail *)((char *)p + num * sizeof(struct vr=
+ing_desc));
+ 	vr->used =3D (void *)(((uintptr_t)&vr->avail->ring[num] + sizeof(__virt=
+io16)
+ 		+ align-1) & ~(align - 1));
  }
+diff --git a/linux-headers/asm-arm/kvm.h b/linux-headers/asm-arm/kvm.h
+index 9d379d3372..0db5644e27 100644
+--- a/linux-headers/asm-arm/kvm.h
++++ b/linux-headers/asm-arm/kvm.h
+@@ -131,8 +131,9 @@ struct kvm_vcpu_events {
+ 	struct {
+ 		__u8 serror_pending;
+ 		__u8 serror_has_esr;
++		__u8 ext_dabt_pending;
+ 		/* Align it to 8 bytes */
+-		__u8 pad[6];
++		__u8 pad[5];
+ 		__u64 serror_esr;
+ 	} exception;
+ 	__u32 reserved[12];
+diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.=
+h
+index 0ce6e49f3a..920af01c8b 100644
+--- a/linux-headers/asm-arm64/kvm.h
++++ b/linux-headers/asm-arm64/kvm.h
+@@ -164,8 +164,9 @@ struct kvm_vcpu_events {
+ 	struct {
+ 		__u8 serror_pending;
+ 		__u8 serror_has_esr;
++		__u8 ext_dabt_pending;
+ 		/* Align it to 8 bytes */
+-		__u8 pad[6];
++		__u8 pad[5];
+ 		__u64 serror_esr;
+ 	} exception;
+ 	__u32 reserved[12];
+@@ -323,6 +324,8 @@ struct kvm_vcpu_events {
+ #define KVM_ARM_VCPU_TIMER_CTRL		1
+ #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
+ #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
++#define KVM_ARM_VCPU_PVTIME_CTRL	2
++#define   KVM_ARM_VCPU_PVTIME_IPA	0
 =20
- static uint64_t xive_tm_indirect_read(void *opaque, hwaddr offset,
-@@ -1444,7 +1444,7 @@ static uint64_t xive_tm_indirect_read(void *opaque,=
- hwaddr offset,
- {
-     XiveTCTX *tctx =3D pnv_xive_get_indirect_tctx(PNV_XIVE(opaque));
+ /* KVM_IRQ_LINE irq field index values */
+ #define KVM_ARM_IRQ_VCPU2_SHIFT		28
+diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips=
+/unistd_n32.h
+index 7dffe8e34e..659d5c9ade 100644
+--- a/linux-headers/asm-mips/unistd_n32.h
++++ b/linux-headers/asm-mips/unistd_n32.h
+@@ -364,6 +364,7 @@
+ #define __NR_fsmount	(__NR_Linux + 432)
+ #define __NR_fspick	(__NR_Linux + 433)
+ #define __NR_pidfd_open	(__NR_Linux + 434)
++#define __NR_clone3	(__NR_Linux + 435)
 =20
--    return xive_tctx_tm_read(tctx, offset, size);
-+    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
-;
- }
 =20
- static const MemoryRegionOps xive_tm_indirect_ops =3D {
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 8e683847bf..9e7e5ea57c 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -144,19 +144,20 @@ static inline uint32_t xive_tctx_word2(uint8_t *rin=
-g)
-  * XIVE Thread Interrupt Management Area (TIMA)
-  */
+ #endif /* _ASM_MIPS_UNISTD_N32_H */
+diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips=
+/unistd_n64.h
+index f4592d6fc5..4b6310a05c 100644
+--- a/linux-headers/asm-mips/unistd_n64.h
++++ b/linux-headers/asm-mips/unistd_n64.h
+@@ -340,6 +340,7 @@
+ #define __NR_fsmount	(__NR_Linux + 432)
+ #define __NR_fspick	(__NR_Linux + 433)
+ #define __NR_pidfd_open	(__NR_Linux + 434)
++#define __NR_clone3	(__NR_Linux + 435)
 =20
--static void xive_tm_set_hv_cppr(XiveTCTX *tctx, hwaddr offset,
--                                uint64_t value, unsigned size)
-+static void xive_tm_set_hv_cppr(XivePresenter *xptr, XiveTCTX *tctx,
-+                                hwaddr offset, uint64_t value, unsigned =
-size)
- {
-     xive_tctx_set_cppr(tctx, TM_QW3_HV_PHYS, value & 0xff);
- }
 =20
--static uint64_t xive_tm_ack_hv_reg(XiveTCTX *tctx, hwaddr offset, unsign=
-ed size)
-+static uint64_t xive_tm_ack_hv_reg(XivePresenter *xptr, XiveTCTX *tctx,
-+                                   hwaddr offset, unsigned size)
- {
-     return xive_tctx_accept(tctx, TM_QW3_HV_PHYS);
- }
+ #endif /* _ASM_MIPS_UNISTD_N64_H */
+diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips=
+/unistd_o32.h
+index 04c6728352..4ce7b4e288 100644
+--- a/linux-headers/asm-mips/unistd_o32.h
++++ b/linux-headers/asm-mips/unistd_o32.h
+@@ -410,6 +410,7 @@
+ #define __NR_fsmount	(__NR_Linux + 432)
+ #define __NR_fspick	(__NR_Linux + 433)
+ #define __NR_pidfd_open	(__NR_Linux + 434)
++#define __NR_clone3	(__NR_Linux + 435)
 =20
--static uint64_t xive_tm_pull_pool_ctx(XiveTCTX *tctx, hwaddr offset,
--                                      unsigned size)
-+static uint64_t xive_tm_pull_pool_ctx(XivePresenter *xptr, XiveTCTX *tct=
-x,
-+                                      hwaddr offset, unsigned size)
- {
-     uint32_t qw2w2_prev =3D xive_tctx_word2(&tctx->regs[TM_QW2_HV_POOL])=
-;
-     uint32_t qw2w2;
-@@ -166,13 +167,14 @@ static uint64_t xive_tm_pull_pool_ctx(XiveTCTX *tct=
-x, hwaddr offset,
-     return qw2w2;
- }
 =20
--static void xive_tm_vt_push(XiveTCTX *tctx, hwaddr offset,
-+static void xive_tm_vt_push(XivePresenter *xptr, XiveTCTX *tctx, hwaddr =
-offset,
-                             uint64_t value, unsigned size)
- {
-     tctx->regs[TM_QW3_HV_PHYS + TM_WORD2] =3D value & 0xff;
- }
+ #endif /* _ASM_MIPS_UNISTD_O32_H */
+diff --git a/linux-headers/asm-powerpc/kvm.h b/linux-headers/asm-powerpc/=
+kvm.h
+index b0f72dea8b..264e266a85 100644
+--- a/linux-headers/asm-powerpc/kvm.h
++++ b/linux-headers/asm-powerpc/kvm.h
+@@ -667,6 +667,8 @@ struct kvm_ppc_cpu_char {
 =20
--static uint64_t xive_tm_vt_poll(XiveTCTX *tctx, hwaddr offset, unsigned =
-size)
-+static uint64_t xive_tm_vt_poll(XivePresenter *xptr, XiveTCTX *tctx,
-+                                hwaddr offset, unsigned size)
- {
-     return tctx->regs[TM_QW3_HV_PHYS + TM_WORD2] & 0xff;
- }
-@@ -315,13 +317,14 @@ static uint64_t xive_tm_raw_read(XiveTCTX *tctx, hw=
-addr offset, unsigned size)
-  * state changes (side effects) in addition to setting/returning the
-  * interrupt management area context of the processor thread.
-  */
--static uint64_t xive_tm_ack_os_reg(XiveTCTX *tctx, hwaddr offset, unsign=
-ed size)
-+static uint64_t xive_tm_ack_os_reg(XivePresenter *xptr, XiveTCTX *tctx,
-+                                   hwaddr offset, unsigned size)
- {
-     return xive_tctx_accept(tctx, TM_QW1_OS);
- }
+ /* PPC64 eXternal Interrupt Controller Specification */
+ #define KVM_DEV_XICS_GRP_SOURCES	1	/* 64-bit source attributes */
++#define KVM_DEV_XICS_GRP_CTRL		2
++#define   KVM_DEV_XICS_NR_SERVERS	1
 =20
--static void xive_tm_set_os_cppr(XiveTCTX *tctx, hwaddr offset,
--                                uint64_t value, unsigned size)
-+static void xive_tm_set_os_cppr(XivePresenter *xptr, XiveTCTX *tctx,
-+                                hwaddr offset, uint64_t value, unsigned =
-size)
- {
-     xive_tctx_set_cppr(tctx, TM_QW1_OS, value & 0xff);
- }
-@@ -330,8 +333,8 @@ static void xive_tm_set_os_cppr(XiveTCTX *tctx, hwadd=
-r offset,
-  * Adjust the IPB to allow a CPU to process event queues of other
-  * priorities during one physical interrupt cycle.
-  */
--static void xive_tm_set_os_pending(XiveTCTX *tctx, hwaddr offset,
--                                   uint64_t value, unsigned size)
-+static void xive_tm_set_os_pending(XivePresenter *xptr, XiveTCTX *tctx,
-+                                   hwaddr offset, uint64_t value, unsign=
-ed size)
- {
-     ipb_update(&tctx->regs[TM_QW1_OS], value & 0xff);
-     xive_tctx_notify(tctx, TM_QW1_OS);
-@@ -366,8 +369,8 @@ static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint=
-32_t qw1w2)
-     memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
- }
+ /* Layout of 64-bit source attribute values */
+ #define  KVM_XICS_DESTINATION_SHIFT	0
+@@ -683,6 +685,7 @@ struct kvm_ppc_cpu_char {
+ #define KVM_DEV_XIVE_GRP_CTRL		1
+ #define   KVM_DEV_XIVE_RESET		1
+ #define   KVM_DEV_XIVE_EQ_SYNC		2
++#define   KVM_DEV_XIVE_NR_SERVERS	3
+ #define KVM_DEV_XIVE_GRP_SOURCE		2	/* 64-bit source identifier */
+ #define KVM_DEV_XIVE_GRP_SOURCE_CONFIG	3	/* 64-bit source identifier */
+ #define KVM_DEV_XIVE_GRP_EQ_CONFIG	4	/* 64-bit EQ identifier */
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 3d9b18f7f8..3b27a1ae85 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -235,6 +235,7 @@ struct kvm_hyperv_exit {
+ #define KVM_EXIT_S390_STSI        25
+ #define KVM_EXIT_IOAPIC_EOI       26
+ #define KVM_EXIT_HYPERV           27
++#define KVM_EXIT_ARM_NISV         28
 =20
--static uint64_t xive_tm_pull_os_ctx(XiveTCTX *tctx, hwaddr offset,
--                                    unsigned size)
-+static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-+                                    hwaddr offset, unsigned size)
- {
-     uint32_t qw1w2;
-     uint32_t qw1w2_new;
-@@ -396,9 +399,11 @@ typedef struct XiveTmOp {
-     uint8_t  page_offset;
-     uint32_t op_offset;
-     unsigned size;
--    void     (*write_handler)(XiveTCTX *tctx, hwaddr offset, uint64_t va=
-lue,
--                              unsigned size);
--    uint64_t (*read_handler)(XiveTCTX *tctx, hwaddr offset, unsigned siz=
-e);
-+    void     (*write_handler)(XivePresenter *xptr, XiveTCTX *tctx,
-+                              hwaddr offset,
-+                              uint64_t value, unsigned size);
-+    uint64_t (*read_handler)(XivePresenter *xptr, XiveTCTX *tctx, hwaddr=
- offset,
-+                             unsigned size);
- } XiveTmOp;
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -394,6 +395,11 @@ struct kvm_run {
+ 		} eoi;
+ 		/* KVM_EXIT_HYPERV */
+ 		struct kvm_hyperv_exit hyperv;
++		/* KVM_EXIT_ARM_NISV */
++		struct {
++			__u64 esr_iss;
++			__u64 fault_ipa;
++		} arm_nisv;
+ 		/* Fix the size of the union. */
+ 		char padding[256];
+ 	};
+@@ -1000,6 +1006,9 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_PMU_EVENT_FILTER 173
+ #define KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 174
+ #define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 175
++#define KVM_CAP_PPC_GUEST_DEBUG_SSTEP 176
++#define KVM_CAP_ARM_NISV_TO_USER 177
++#define KVM_CAP_ARM_INJECT_EXT_DABT 178
 =20
- static const XiveTmOp xive_tm_operations[] =3D {
-@@ -444,8 +449,8 @@ static const XiveTmOp *xive_tm_find_op(hwaddr offset,=
- unsigned size, bool write)
- /*
-  * TIMA MMIO handlers
-  */
--void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset, uint64_t value,
--                        unsigned size)
-+void xive_tctx_tm_write(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offs=
-et,
-+                        uint64_t value, unsigned size)
- {
-     const XiveTmOp *xto;
+ #ifdef KVM_CAP_IRQ_ROUTING
 =20
-@@ -462,7 +467,7 @@ void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset=
-, uint64_t value,
-             qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid write access a=
-t TIMA "
-                           "@%"HWADDR_PRIx"\n", offset);
-         } else {
--            xto->write_handler(tctx, offset, value, size);
-+            xto->write_handler(xptr, tctx, offset, value, size);
-         }
-         return;
-     }
-@@ -472,7 +477,7 @@ void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset=
-, uint64_t value,
-      */
-     xto =3D xive_tm_find_op(offset, size, true);
-     if (xto) {
--        xto->write_handler(tctx, offset, value, size);
-+        xto->write_handler(xptr, tctx, offset, value, size);
-         return;
-     }
+@@ -1227,6 +1236,8 @@ enum kvm_device_type {
+ #define KVM_DEV_TYPE_ARM_VGIC_ITS	KVM_DEV_TYPE_ARM_VGIC_ITS
+ 	KVM_DEV_TYPE_XIVE,
+ #define KVM_DEV_TYPE_XIVE		KVM_DEV_TYPE_XIVE
++	KVM_DEV_TYPE_ARM_PV_TIME,
++#define KVM_DEV_TYPE_ARM_PV_TIME	KVM_DEV_TYPE_ARM_PV_TIME
+ 	KVM_DEV_TYPE_MAX,
+ };
 =20
-@@ -482,7 +487,8 @@ void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset=
-, uint64_t value,
-     xive_tm_raw_write(tctx, offset, value, size);
- }
+diff --git a/linux-headers/linux/psp-sev.h b/linux-headers/linux/psp-sev.=
+h
+index 34c39690c0..31f971e896 100644
+--- a/linux-headers/linux/psp-sev.h
++++ b/linux-headers/linux/psp-sev.h
+@@ -58,6 +58,9 @@ typedef enum {
+ 	SEV_RET_HWSEV_RET_PLATFORM,
+ 	SEV_RET_HWSEV_RET_UNSAFE,
+ 	SEV_RET_UNSUPPORTED,
++	SEV_RET_INVALID_PARAM,
++	SEV_RET_RESOURCE_LIMIT,
++	SEV_RET_SECURE_DATA_INVALID,
+ 	SEV_RET_MAX,
+ } sev_ret_code;
 =20
--uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr offset, unsigned size)
-+uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveTCTX *tctx, hwaddr o=
-ffset,
-+                           unsigned size)
- {
-     const XiveTmOp *xto;
-=20
-@@ -500,7 +506,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
-set, unsigned size)
-                           "@%"HWADDR_PRIx"\n", offset);
-             return -1;
-         }
--        return xto->read_handler(tctx, offset, size);
-+        return xto->read_handler(xptr, tctx, offset, size);
-     }
-=20
-     /*
-@@ -508,7 +514,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
-set, unsigned size)
-      */
-     xto =3D xive_tm_find_op(offset, size, false);
-     if (xto) {
--        return xto->read_handler(tctx, offset, size);
-+        return xto->read_handler(xptr, tctx, offset, size);
-     }
-=20
-     /*
-@@ -522,14 +528,14 @@ static void xive_tm_write(void *opaque, hwaddr offs=
-et,
- {
-     XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
-_cpu);
-=20
--    xive_tctx_tm_write(tctx, offset, value, size);
-+    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
-);
- }
-=20
- static uint64_t xive_tm_read(void *opaque, hwaddr offset, unsigned size)
- {
-     XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
-_cpu);
-=20
--    return xive_tctx_tm_read(tctx, offset, size);
-+    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
-;
- }
-=20
- const MemoryRegionOps xive_tm_ops =3D {
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index b00af98877..97bbcddb38 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -463,9 +463,10 @@ typedef struct XiveENDSource {
- #define XIVE_TM_USER_PAGE       0x3
-=20
- extern const MemoryRegionOps xive_tm_ops;
--void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset, uint64_t value,
--                        unsigned size);
--uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr offset, unsigned size)=
-;
-+void xive_tctx_tm_write(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offs=
-et,
-+                        uint64_t value, unsigned size);
-+uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveTCTX *tctx, hwaddr o=
-ffset,
-+                           unsigned size);
-=20
- void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
- Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
 --=20
 2.23.0
 
