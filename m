@@ -2,46 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D461232B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:41:54 +0100 (CET)
-Received: from localhost ([::1]:43062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B259E1232E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:47:20 +0100 (CET)
+Received: from localhost ([::1]:43294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihFuz-0000C7-0k
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:41:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51181)
+	id 1ihG0F-0006QX-Fd
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:47:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pl@kamp.de>) id 1ihFs4-0005KN-DY
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:38:53 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ihFv4-0001Ft-Tz
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:42:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pl@kamp.de>) id 1ihFs2-0000Dt-RO
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:38:51 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:42192)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pl@kamp.de>)
- id 1ihFs2-0000AM-L0; Tue, 17 Dec 2019 11:38:50 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
- Tue, 17 Dec 2019 17:38:43 +0100
-Subject: Re: bdrv_co_pwritev: Assertion `!waited || !use_local_qiov' failed.
-To: Kevin Wolf <kwolf@redhat.com>
-References: <16b69066-cabb-3412-0005-886055352a05@kamp.de>
- <20191217155255.GA6580@linux.fritz.box>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <b3603dd5-3743-7e87-da14-417bb8aeeb3b@kamp.de>
-Date: Tue, 17 Dec 2019 17:38:45 +0100
+ (envelope-from <richard.henderson@linaro.org>) id 1ihFv3-0003g7-Ln
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:41:58 -0500
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:38333)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1ihFv3-0003eh-GC
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:41:57 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id l35so97674pje.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 08:41:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=43Dbd2S1AzJNiOKd7dHnjOLXefnUc+FpgARmyexaboI=;
+ b=gvup+FblALos6y8TtuxoA/RhPQpTbv5FW4Eja/poTMM4RUe+emsfSWVnmd8OcYY+8e
+ NFPx2P00XGu2YLVQ9x6u9ZiFOw4ZcxquK0NT5DBPaGukkS73Rb6C8cs96mdJ6qE0ZMty
+ /H2RBDMnuCfJNIVZQBETlxRm0fK8OnIXhndOFO4HYqmZGxqjerN2KUi6PnBa2Fnz4I7Z
+ xPsVaCehtEL/nz7qRXVPiW9evzP7BTFINABk7rjTbV9t0x2M210v1U9IBS0QvGrB02mS
+ EnyCY0ZdLYQI6JjX/APFOdhzgL75gwd+5bU0zqeXrkUIgShAenqfKJOaCC0dk8cwHaGV
+ BnxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=43Dbd2S1AzJNiOKd7dHnjOLXefnUc+FpgARmyexaboI=;
+ b=U2i88XUN5Nu33sNM2wWcB8k3XxUh5H3fjpZl7HEQ+z99aMV1PLNoCJw13Az3H2DxMJ
+ +E0yP9muI49WXXXxNx2U1S1ATEW2g/szdCiLNszaFPh0Zy8Qnra5kMYhygTI69YTT0tx
+ iEhONhFuo8QKboLFwczDZMWPZqFen5ASYtQhSJ6pJxu8pYxZMUMA+WF0IHXFQoNLcwc3
+ U2jGHe/d004fyHXJbvP9CoZ1AHOnaxuLgNaStkQdCAV31uHRJYldnbEnVV3/V7C+O/yV
+ fqlcOZ1fJc8S8t5BMKyxbxQq9RorjdURHt4T+r4ajA6FFPoin23a9gDshWNgkzKmUXy0
+ xDrQ==
+X-Gm-Message-State: APjAAAW0yGUL1WjZTlOxghjvw6FTGP0SOKKnB0ucUsHLZLrGZo60Rc+l
+ JWnHYE8BJTnAZcOnFI7Na73sx+2wmiA=
+X-Google-Smtp-Source: APXvYqyBNwGeeOIQBndVpfipHxTpMo6e7mgI4szvoGmDgeO7aLHz2x5VyjbpD+Br/+eskhzEPgEZpg==
+X-Received: by 2002:a17:90a:e28e:: with SMTP id
+ d14mr7467390pjz.56.1576600916139; 
+ Tue, 17 Dec 2019 08:41:56 -0800 (PST)
+Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
+ ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
+ by smtp.gmail.com with ESMTPSA id k190sm27695401pga.73.2019.12.17.08.41.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Dec 2019 08:41:55 -0800 (PST)
+Subject: Re: [PATCH v2 06/10] arm/arm-powerctl: rebuild hflags after setting
+ CP15 bits in arm_set_cpu_on()
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>
+References: <20191216233519.29030-1-nieklinnenbank@gmail.com>
+ <20191216233519.29030-7-nieklinnenbank@gmail.com>
+ <CAPan3WpW1Q3zpnqgk=MWRWe99=MQ4XoW2kw8L3tioFxfEBXd+Q@mail.gmail.com>
+ <CAFEAcA8Viii4Em_bf4Y=AG0jU+EFFFTX6dO-52qd=RT4uHbCVw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <19e4f2ac-6067-f61f-f340-108545fb0f02@linaro.org>
+Date: Tue, 17 Dec 2019 06:41:52 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191217155255.GA6580@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA8Viii4Em_bf4Y=AG0jU+EFFFTX6dO-52qd=RT4uHbCVw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 195.62.97.192
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,85 +88,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- qemu block <qemu-block@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.12.19 um 16:52 schrieb Kevin Wolf:
-> Am 17.12.2019 um 15:14 hat Peter Lieven geschrieben:
->> I have a vserver running Qemu 4.0 that seems to reproducibly hit the
->> following assertion:
->>
->>   bdrv_co_pwritev: Assertion `!waited || !use_local_qiov' failed.
->>
->> I noticed that the padding code was recently reworked in commit
->> 2e2ad02f2c. In the new code I cannot find a similar assertion. Was
->> the assertion wrong or why was it dropped?
-> No, the assertion in the old version makes sense to me. The code goes
-> basically like this:
->
->      if (head unaligned) {
->          /* Make sure no new conflicting request will be started */
->          mark_request_serialising()
->
->          /* Wait if a conflicting request is already in flight */
->          wait_serialising_requests()
->
->          adjust start of the request
->      }
->
->      if (tail unaligned) {
->          /* Make sure no new conflicting request will be started */
->          mark_request_serialising()
->
->          /* Wait if a conflicting request is already in flight. If we
->           * already had an unaligned head, we already waited for
->           * conflicting requests and no new requests may have been
->           * started, so in this case this must be a no-op. */
->          wait_serialising_requests()
->
->          adjust end of the request
->      }
->
-> If the assertion fails, we already waited in the "head unaligned" case,
-> but a new request snuck in even though we marked this request as
-> serialising, so the other request should have waited.
->
-> This might mean that a wait_serialising_requests() is missing somewhere.
->
->> I try to add some debugging code to find out what is exactly happing.
->> Especially the requests that are in flight when the assertion is
->> triggered.
-> You can just have a look at bs->tracked_requests in gdb (if you can
-> trigger the bug in a debugging environment). However, at the time of the
-> assertion it's too late, we have waited for the bad request to complete,
-> so it's gone now. You probably need to tell
-> bdrv_wait_serialising_requests() that it's not supposed to wait, so you
-> can assert the condition already there.
->
-> (In the new code, I think the situation is different because both head
-> and tail are handled at once, so we don't even have two instances of
-> mark_request_serialising() and wait_serialising_requests() any more. But
-> if a bug existed previously, it probably still exists.)
+On 12/17/19 6:12 AM, Peter Maydell wrote:
+> Cc'ing Richard : this is one for you I think... (surely we
+> need to rebuild the hflags from scratch when we power up
+> a CPU anyway?)
+
+We do compute hflags from scratch in reset.
+
+It has also turned out that there were a few board models that poked at the
+contents of the cpu and needed special help.  Some of that I would imagine
+would be fixed properly with the multi-phase reset patches, where we could
+rebuild hflags when *leaving* reset.
+
+In arm_set_cpu_on_async_work, we start by resetting the cpu and then start
+poking at the contents of some system registers.  So, yes, we do need to
+rebuild after doing that.  Also, I'm not sure how this function should fit into
+the multi-phase reset future.
+
+So:
+
+>> On Tue, Dec 17, 2019 at 12:36 AM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
+>>>
+>>> After setting CP15 bits in arm_set_cpu_on() the cached hflags must
+>>> be rebuild to reflect the changed processor state. Without rebuilding,
+>>> the cached hflags would be inconsistent until the next call to
+>>> arm_rebuild_hflags(). When QEMU is compiled with debugging enabled
+>>> (--enable-debug), this problem is captured shortly after the first
+>>> call to arm_set_cpu_on() for CPUs running in ARM 32-bit non-secure mode:
+>>>
+>>>   qemu-system-arm: target/arm/helper.c:11359: cpu_get_tb_cpu_state:
+>>>   Assertion `flags == rebuild_hflags_internal(env)' failed.
+>>>   Aborted (core dumped)
+>>>
+>>> Fixes: 0c7f8c43daf65
+>>> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+>>> ---
+>>>  target/arm/arm-powerctl.c | 3 +++
+>>>  1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
+>>> index b064513d44..b75f813b40 100644
+>>> --- a/target/arm/arm-powerctl.c
+>>> +++ b/target/arm/arm-powerctl.c
+>>> @@ -127,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
+>>>          target_cpu->env.regs[0] = info->context_id;
+>>>      }
+>>>
+>>> +    /* CP15 update requires rebuilding hflags */
+>>> +    arm_rebuild_hflags(&target_cpu->env);
+>>> +
+>>>      /* Start the new CPU at the requested address */
+>>>      cpu_set_pc(target_cpu_state, info->entry);
+>>>
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-Thanks for your detailed explanation. This makes things a bit clearer.
-
-I will try reproduce and get a better insight what is happening.
-
-
- From a first look at the code I was curious that we modify req->overlap_bytes and req->overlap_offset
-
-without the bs->reqs_lock lock held. We also modify req->serializing. All three are accessed in wait_serializing_requests
-
-while we might modify them.
-
-
-Best,
-
-Peter
-
-
-
+r~
 
