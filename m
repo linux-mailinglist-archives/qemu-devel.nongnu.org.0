@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86129122359
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:02:24 +0100 (CET)
-Received: from localhost ([::1]:35330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FE7122366
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:10:59 +0100 (CET)
+Received: from localhost ([::1]:35478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih502-0006u6-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:02:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33480)
+	id 1ih58M-0002cM-83
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:10:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33859)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4i0-00087w-10
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:45 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iS-00008m-Jt
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hy-0005PO-S7
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:43 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40345 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iR-0005n9-J0
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:12 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52677 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4hy-0005IT-Gb; Mon, 16 Dec 2019 23:43:42 -0500
+ id 1ih4iR-0005Q9-8L; Mon, 16 Dec 2019 23:44:11 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWQ1BM3z9sSR; Tue, 17 Dec 2019 15:43:29 +1100 (AEDT)
+ id 47cQWS3GRlz9sSj; Tue, 17 Dec 2019 15:43:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557810;
- bh=/bVJz8FI8ZTVWwvUmPr/bk76ycZKdhdgCe/CQD3lNcU=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557812;
+ bh=Qr/f8LIMoTqVdF6BB8cAbzhbd2tEVe4IjlvUHANWBx8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aDveKUjxtBsezpxRKF71hef+xdIR8PlvVfdS2M9ociV5MIpK0605jwrGBVGY/zsTu
- 1WhOOToprven+U/F89xG3Zvbz1uhxyvbpnIw1EM5xgiYHGSfCft5fiPzIA/Z29opVH
- qB9hZNmKm5Rv4+LZeRx2w8tELuMih8ceWhT+Efik=
+ b=MF40L5ZUudkHSZpryrBv9Ep/ltcxpiSVzF/0+3hudN8JjiGS2pSADeli6vQ3Ckszo
+ oZgAxziaIeWaYGkTLf5VKBHO6oODvrIccviR45zC6Qhb75V6TuOIvjISPkQtB5ZgNd
+ lDcS2eDLuZrlgZrPYKmcoNhxlpfFujpJ7rWVW5Ng=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 20/88] xive/kvm: Trigger interrupts from userspace
-Date: Tue, 17 Dec 2019 15:42:14 +1100
-Message-Id: <20191217044322.351838-21-david@gibson.dropbear.id.au>
+Subject: [PULL 21/88] ppc/pnv: Quiesce some XIVE errors
+Date: Tue, 17 Dec 2019 15:42:15 +1100
+Message-Id: <20191217044322.351838-22-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -59,68 +59,54 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-When using the XIVE KVM device, the trigger page is directly accessible
-in QEMU. Unlike with XICS, no need to ask KVM to fire the interrupt. A
-simple store on the trigger page does the job.
+When dumping the END and NVT tables, the error logging is too noisy.
 
-Just call xive_esb_trigger().
-
-This may improve performance of emulated devices that go through
-qemu_set_irq(), eg. virtio devices created with ioeventfd=3Doff or
-configured by the guest to use LSI interrupts, which aren't really
-recommended setups.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157408992731.494439.3405812941731584740.stgit@bahia.lan>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20191115162436.30548-6-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ hw/intc/pnv_xive.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 08012ac7cd..69e73552f1 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -354,32 +354,20 @@ static void kvmppc_xive_source_get_state(XiveSource=
- *xsrc)
- void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val)
- {
-     XiveSource *xsrc =3D opaque;
--    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
--    struct kvm_irq_level args;
--    int rc;
--
--    /* The KVM XIVE device should be in use */
--    assert(xive->fd !=3D -1);
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index a4d80fd5e7..9a771f6407 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -29,7 +29,7 @@
 =20
--    args.irq =3D srcno;
-     if (!xive_source_irq_is_lsi(xsrc, srcno)) {
-         if (!val) {
-             return;
-         }
--        args.level =3D KVM_INTERRUPT_SET;
-     } else {
-         if (val) {
-             xsrc->status[srcno] |=3D XIVE_STATUS_ASSERTED;
--            args.level =3D KVM_INTERRUPT_SET_LEVEL;
-         } else {
-             xsrc->status[srcno] &=3D ~XIVE_STATUS_ASSERTED;
--            args.level =3D KVM_INTERRUPT_UNSET;
-         }
-     }
--    rc =3D kvm_vm_ioctl(kvm_state, KVM_IRQ_LINE, &args);
--    if (rc < 0) {
--        error_report("XIVE: kvm_irq_line() failed : %s", strerror(errno)=
-);
--    }
-+
-+    xive_esb_trigger(xsrc, srcno);
- }
+ #include "pnv_xive_regs.h"
+=20
+-#define XIVE_DEBUG
++#undef XIVE_DEBUG
 =20
  /*
+  * Virtual structures table (VST)
+@@ -157,7 +157,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
+ive, uint32_t type,
+     vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
+=20
+     if (!(vsd & VSD_ADDRESS_MASK)) {
++#ifdef XIVE_DEBUG
+         xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
+;
++#endif
+         return 0;
+     }
+=20
+@@ -178,7 +180,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
+ive, uint32_t type,
+         vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
+=20
+         if (!(vsd & VSD_ADDRESS_MASK)) {
++#ifdef XIVE_DEBUG
+             xive_error(xive, "VST: invalid %s entry %x !?", info->name, =
+idx);
++#endif
+             return 0;
+         }
+=20
 --=20
 2.23.0
 
