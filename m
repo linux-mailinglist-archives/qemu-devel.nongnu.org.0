@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB891233B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 18:39:21 +0100 (CET)
-Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040BA1233CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 18:44:55 +0100 (CET)
+Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihGoa-0008Dw-HX
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 12:39:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47761)
+	id 1ihGtx-0006z2-LF
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 12:44:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49308)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ihGmq-0005xI-NU
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:37:33 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ihGoX-0000i3-2L
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:39:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ihGmp-0003SU-KT
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:37:32 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21717
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ihGmp-0003Qb-Fy
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:37:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576604251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4vngugwHib7hOwEtRrUIaOtDx9aRZsX2TJgvv7rVQPA=;
- b=OhYLoWH+Vd/Dx4LJmWpJ7WV5IjzBRoypICBGJ5Uifg0k5FJtsqtRxOC3Rky0n/bFnN7VID
- 4MuTosdBCDeIyPq+Yq++O7wr8LEiaZVACeV8XbaAjEpLNEzzAnUak8ViAmPIrL5NN1yE/G
- 5V9Y/UOcU2b06soVKEbjqzQR7nV9COs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-FTYo5Hq0O9q99eUcAYrq6w-1; Tue, 17 Dec 2019 12:37:29 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDCDF800D50
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 17:37:28 +0000 (UTC)
-Received: from work-vm (ovpn-117-232.ams2.redhat.com [10.36.117.232])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A49960C63;
- Tue, 17 Dec 2019 17:37:24 +0000 (UTC)
-Date: Tue, 17 Dec 2019 17:37:22 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 10/14] monitor/hmp: Explicit we ignore a QEMUChrEvent
- in IOEventHandler
-Message-ID: <20191217173722.GD2780@work-vm>
-References: <20191217163808.20068-1-philmd@redhat.com>
- <20191217163808.20068-11-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1ihGoV-0007jz-18
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:39:15 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41510)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ihGoU-0007gv-LQ
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:39:14 -0500
+Received: by mail-oi1-x243.google.com with SMTP id i1so6019465oie.8
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 09:39:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r6nMlH6NQ/zXzXEPNeLi6nAjmBQajsuEkVBCjNWQcD0=;
+ b=gubyXtSh0zHIgd1Re0/fWLr0b0mA3drEhj/W9zkdeQOx/PRivitrxOyU2vII8ACCiW
+ RLJX90qNIllHkvM9VELh/n9gw0TCy1HRFZ0b1HJSYrXnRSK15qsDqy513O9sE3MTUTzO
+ DGsm+cfW24w5bdDwRU/RnV7hyTr0HzcK70vFSTzokUUT2zevhXAYWhVFFQul9Pbd84uf
+ iFB1i8ksaAcm4190NS/AhLRrRO/KF+dBELhlLNH1Pgm17ihdIMmAh7zec7J4+p9m7SU8
+ AO2pyInuDPggJEWqw83Wv+1NLM6WBYwortx8/EQc2BgbhCpeKrxBhXQ0/QYUtdWiGA6f
+ c7cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r6nMlH6NQ/zXzXEPNeLi6nAjmBQajsuEkVBCjNWQcD0=;
+ b=biwhK9iMcpZ740pbbSxd8iAVkaXVn2/Jg+PkyyX3HswyN1XQroerq/kl4nAKSriYeY
+ Wn0o3fRyM+66olSlQG8rLWsdH9R8/3ISoCLIIiPfzgAYDOG31P8MvIFZi7ur+2SWU/7N
+ D2R+eivw7hOR/WYKV+0LBtEbuB4hzw0GovYYye09j6mZQCaVhmFZyoIqD7HoTxoGCXS5
+ 5lM15UcKxwAX09h1v17SmvFIao9aMFfCt3C16Dn8l+vhkYPYLp4yoxlLGvkcY9W04EiO
+ 1SIYnueukYE046h7oKTz+DVvpSJoIv+MmJeAGVeHDHy7jGIa32ywdQYmVqUWPfCCwVAK
+ ilAw==
+X-Gm-Message-State: APjAAAVy62I45IfRlcOa121cnh/B+GblhoffrsNiPlVnUsnLay0970pi
+ MES40EnZe+bmx4x5c3HDgKC0j/Cao+l7XH078uSj5g==
+X-Google-Smtp-Source: APXvYqzL8ssQdFbcn8W7G6YxFMKH2/1Rfsh8FGWBvv+exO3TO894Sz604o0/OIpKK8ZdlRRwXNdN/ty70Ne+IhJU7/4=
+X-Received: by 2002:a05:6808:996:: with SMTP id
+ a22mr2135701oic.146.1576604353813; 
+ Tue, 17 Dec 2019 09:39:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191217163808.20068-11-philmd@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: FTYo5Hq0O9q99eUcAYrq6w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20191216233519.29030-1-nieklinnenbank@gmail.com>
+ <20191216233519.29030-7-nieklinnenbank@gmail.com>
+ <CAPan3WpW1Q3zpnqgk=MWRWe99=MQ4XoW2kw8L3tioFxfEBXd+Q@mail.gmail.com>
+ <CAFEAcA8Viii4Em_bf4Y=AG0jU+EFFFTX6dO-52qd=RT4uHbCVw@mail.gmail.com>
+ <19e4f2ac-6067-f61f-f340-108545fb0f02@linaro.org>
+In-Reply-To: <19e4f2ac-6067-f61f-f340-108545fb0f02@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Dec 2019 17:39:02 +0000
+Message-ID: <CAFEAcA-mzCB2OhU4AvgpSfjQMqvxm8Nn3iamoW9CY4QSA4k3gQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] arm/arm-powerctl: rebuild hflags after setting
+ CP15 bits in arm_set_cpu_on()
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,61 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daud=C3=A9 (philmd@redhat.com) wrote:
-> The Chardev events are listed in the QEMUChrEvent enum. To be
-> able to use this enum in the IOEventHandler typedef, we need to
-> explicit when frontends ignore some events, to silent GCC the
-> following warnings:
->=20
->     CC      monitor/hmp.o
->   monitor/hmp.c: In function =E2=80=98monitor_event=E2=80=99:
->   monitor/hmp.c:1330:5: error: enumeration value =E2=80=98CHR_EVENT_BREAK=
-=E2=80=99 not handled in switch [-Werror=3Dswitch]
->    1330 |     switch (event) {
->         |     ^~~~~~
->   cc1: all warnings being treated as errors
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
+On Tue, 17 Dec 2019 at 16:41, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 12/17/19 6:12 AM, Peter Maydell wrote:
+> > Cc'ing Richard : this is one for you I think... (surely we
+> > need to rebuild the hflags from scratch when we power up
+> > a CPU anyway?)
+>
+> We do compute hflags from scratch in reset.
+>
+> It has also turned out that there were a few board models that poked at the
+> contents of the cpu and needed special help.  Some of that I would imagine
+> would be fixed properly with the multi-phase reset patches, where we could
+> rebuild hflags when *leaving* reset.
+>
+> In arm_set_cpu_on_async_work, we start by resetting the cpu and then start
+> poking at the contents of some system registers.  So, yes, we do need to
+> rebuild after doing that.  Also, I'm not sure how this function should fit into
+> the multi-phase reset future.
+>
+> So:
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+Thanks; I've applied this patch to target-arm.next.
 
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  for HMP
-
-Note that the use of 'default' will make life more unpredictable
-if you ever come to add a new event type.
-
-Dave
-
-
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> ---
->  monitor/hmp.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/monitor/hmp.c b/monitor/hmp.c
-> index 8942e28933..d84238c120 100644
-> --- a/monitor/hmp.c
-> +++ b/monitor/hmp.c
-> @@ -1371,6 +1371,10 @@ static void monitor_event(void *opaque, int event)
->          mon_refcount--;
->          monitor_fdsets_cleanup();
->          break;
-> +
-> +    default:
-> +        /* Ignore */
-> +        break;
->      }
->  }
-> =20
-> --=20
-> 2.21.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
