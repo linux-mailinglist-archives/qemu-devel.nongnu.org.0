@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63404122455
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:54:27 +0100 (CET)
-Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0E31223F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:42:36 +0100 (CET)
+Received: from localhost ([::1]:36050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5oQ-0006JX-Gh
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:54:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36277)
+	id 1ih5cw-0006wR-VB
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:42:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kt-0003VX-SD
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:45 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4l4-0003kl-Hs
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ks-0001KB-GZ
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:43 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35953 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4l3-0001YG-EV
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:54 -0500
+Received: from ozlabs.org ([203.11.71.1]:48091)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4ks-0000F6-5x; Mon, 16 Dec 2019 23:46:42 -0500
+ id 1ih4l3-0000g2-3O; Mon, 16 Dec 2019 23:46:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWm0zKgz9sRc; Tue, 17 Dec 2019 15:43:45 +1100 (AEDT)
+ id 47cQWm43QMz9sTv; Tue, 17 Dec 2019 15:43:45 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557828;
- bh=jJaUvC3L1J19szq6Xx2t4DAcLfJF1KIsBpr7HLRkc1Y=;
+ bh=hAkVJ+pdy5kFzF3todD0E6oMTylecfVF64CKJc42ZPI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Sejz2c9OpmwdASBQpfvQUZzBPFIIfXcZsD5g4r4E7SXFbnG53Eq5hrNPjBLekwKdB
- nUVKXqYulIVsuOmGUVG6A9mDqyML1IUGNTUYpSO8h+T0Xt4E1OdA/sN++YWAlTk3t+
- nTFfpixPtZaSUivunTFU/iMN1xGA5EDe0aVN2i8M=
+ b=VmE1pc3EZuaek8lTVma21UoA4Ov6/cFuXSqluCm1nM1cn+m44OYXhU6EeLdp/YXQg
+ q26HWjjgHGL5hORxT7joOudFgwuAkCgFM7zUiBCFXL0aNa57EOWLYk4BZt+PGwuDf6
+ E20XOYuVLq9etM0b4OMnQryPJt+lkCWDx5g4p4To=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 86/88] ppc/pnv: Introduce PnvChipClass::xscom_pcba() method
-Date: Tue, 17 Dec 2019 15:43:20 +1100
-Message-Id: <20191217044322.351838-87-david@gibson.dropbear.id.au>
+Subject: [PULL 87/88] ppc/pnv: Drop PnvChipClass::type
+Date: Tue, 17 Dec 2019 15:43:21 +1100
+Message-Id: <20191217044322.351838-88-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,160 +61,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The XSCOM bus is implemented with a QOM interface, which is mostly
-generic from a CPU type standpoint, except for the computation of
-addresses on the Pervasive Connect Bus (PCB) network. This is handled
-by the pnv_xscom_pcba() function with a switch statement based on
-the chip_type class level attribute of the CPU chip.
-
-This can be achieved using QOM. Also the address argument is masked with
-PNV_XSCOM_SIZE - 1, which is for POWER8 only. Addresses may have differen=
-t
-sizes with other CPU types. Have each CPU chip type handle the appropriat=
-e
-computation with a QOM xscom_pcba() method.
+It isn't used anymore.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157623843543.360005.13996472463887521794.stgit@bahia.lan>
+Message-Id: <157623844102.360005.12070225703151669294.stgit@bahia.lan>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c         | 23 +++++++++++++++++++++++
- hw/ppc/pnv_xscom.c   | 14 +-------------
- include/hw/ppc/pnv.h |  1 +
- 3 files changed, 25 insertions(+), 13 deletions(-)
+ hw/ppc/pnv.c         | 5 -----
+ include/hw/ppc/pnv.h | 9 ---------
+ 2 files changed, 14 deletions(-)
 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index b3388038c6..41e5d762df 100644
+index 41e5d762df..f77e7ca84e 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1120,6 +1120,12 @@ static void pnv_chip_power8_realize(DeviceState *d=
-ev, Error **errp)
-                                 &chip8->homer.regs);
- }
-=20
-+static uint32_t pnv_chip_power8_xscom_pcba(PnvChip *chip, uint64_t addr)
-+{
-+    addr &=3D (PNV_XSCOM_SIZE - 1);
-+    return ((addr >> 4) & ~0xfull) | ((addr >> 3) & 0xf);
-+}
-+
- static void pnv_chip_power8e_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -1137,6 +1143,7 @@ static void pnv_chip_power8e_class_init(ObjectClass=
+@@ -1131,7 +1131,6 @@ static void pnv_chip_power8e_class_init(ObjectClass=
  *klass, void *data)
-     k->dt_populate =3D pnv_chip_power8_dt_populate;
-     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-     k->xscom_core_base =3D pnv_chip_power8_xscom_core_base;
-+    k->xscom_pcba =3D pnv_chip_power8_xscom_pcba;
-     dc->desc =3D "PowerNV Chip POWER8E";
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
 =20
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -1160,6 +1167,7 @@ static void pnv_chip_power8_class_init(ObjectClass =
+-    k->chip_type =3D PNV_CHIP_POWER8E;
+     k->chip_cfam_id =3D 0x221ef04980000000ull;  /* P8 Murano DD2.1 */
+     k->cores_mask =3D POWER8E_CORE_MASK;
+     k->core_pir =3D pnv_chip_core_pir_p8;
+@@ -1155,7 +1154,6 @@ static void pnv_chip_power8_class_init(ObjectClass =
 *klass, void *data)
-     k->dt_populate =3D pnv_chip_power8_dt_populate;
-     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-     k->xscom_core_base =3D pnv_chip_power8_xscom_core_base;
-+    k->xscom_pcba =3D pnv_chip_power8_xscom_pcba;
-     dc->desc =3D "PowerNV Chip POWER8";
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
 =20
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -1183,6 +1191,7 @@ static void pnv_chip_power8nvl_class_init(ObjectCla=
+-    k->chip_type =3D PNV_CHIP_POWER8;
+     k->chip_cfam_id =3D 0x220ea04980000000ull; /* P8 Venice DD2.0 */
+     k->cores_mask =3D POWER8_CORE_MASK;
+     k->core_pir =3D pnv_chip_core_pir_p8;
+@@ -1179,7 +1177,6 @@ static void pnv_chip_power8nvl_class_init(ObjectCla=
 ss *klass, void *data)
-     k->dt_populate =3D pnv_chip_power8_dt_populate;
-     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
-     k->xscom_core_base =3D pnv_chip_power8_xscom_core_base;
-+    k->xscom_pcba =3D pnv_chip_power8_xscom_pcba;
-     dc->desc =3D "PowerNV Chip POWER8NVL";
-=20
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -1339,6 +1348,12 @@ static void pnv_chip_power9_realize(DeviceState *d=
-ev, Error **errp)
-                                 &chip9->homer.regs);
- }
-=20
-+static uint32_t pnv_chip_power9_xscom_pcba(PnvChip *chip, uint64_t addr)
-+{
-+    addr &=3D (PNV9_XSCOM_SIZE - 1);
-+    return addr >> 3;
-+}
-+
- static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
- {
      DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -1356,6 +1371,7 @@ static void pnv_chip_power9_class_init(ObjectClass =
+     PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
+=20
+-    k->chip_type =3D PNV_CHIP_POWER8NVL;
+     k->chip_cfam_id =3D 0x120d304980000000ull;  /* P8 Naples DD1.0 */
+     k->cores_mask =3D POWER8_CORE_MASK;
+     k->core_pir =3D pnv_chip_core_pir_p8;
+@@ -1359,7 +1356,6 @@ static void pnv_chip_power9_class_init(ObjectClass =
 *klass, void *data)
-     k->dt_populate =3D pnv_chip_power9_dt_populate;
-     k->pic_print_info =3D pnv_chip_power9_pic_print_info;
-     k->xscom_core_base =3D pnv_chip_power9_xscom_core_base;
-+    k->xscom_pcba =3D pnv_chip_power9_xscom_pcba;
-     dc->desc =3D "PowerNV Chip POWER9";
-=20
-     device_class_set_parent_realize(dc, pnv_chip_power9_realize,
-@@ -1421,6 +1437,12 @@ static void pnv_chip_power10_realize(DeviceState *=
-dev, Error **errp)
-                                             (uint64_t) PNV10_LPCM_BASE(c=
-hip));
- }
-=20
-+static uint32_t pnv_chip_power10_xscom_pcba(PnvChip *chip, uint64_t addr=
-)
-+{
-+    addr &=3D (PNV10_XSCOM_SIZE - 1);
-+    return addr >> 3;
-+}
-+
- static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
- {
      DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -1438,6 +1460,7 @@ static void pnv_chip_power10_class_init(ObjectClass=
+     PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
+=20
+-    k->chip_type =3D PNV_CHIP_POWER9;
+     k->chip_cfam_id =3D 0x220d104900008000ull; /* P9 Nimbus DD2.0 */
+     k->cores_mask =3D POWER9_CORE_MASK;
+     k->core_pir =3D pnv_chip_core_pir_p9;
+@@ -1448,7 +1444,6 @@ static void pnv_chip_power10_class_init(ObjectClass=
  *klass, void *data)
-     k->dt_populate =3D pnv_chip_power10_dt_populate;
-     k->pic_print_info =3D pnv_chip_power10_pic_print_info;
-     k->xscom_core_base =3D pnv_chip_power10_xscom_core_base;
-+    k->xscom_pcba =3D pnv_chip_power10_xscom_pcba;
-     dc->desc =3D "PowerNV Chip POWER10";
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     PnvChipClass *k =3D PNV_CHIP_CLASS(klass);
 =20
-     device_class_set_parent_realize(dc, pnv_chip_power10_realize,
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index 5ae9dfbb88..b681c72575 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
-@@ -57,19 +57,7 @@ static void xscom_complete(CPUState *cs, uint64_t hmer=
-_bits)
-=20
- static uint32_t pnv_xscom_pcba(PnvChip *chip, uint64_t addr)
- {
--    addr &=3D (PNV_XSCOM_SIZE - 1);
--
--    switch (PNV_CHIP_GET_CLASS(chip)->chip_type) {
--    case PNV_CHIP_POWER8E:
--    case PNV_CHIP_POWER8:
--    case PNV_CHIP_POWER8NVL:
--        return ((addr >> 4) & ~0xfull) | ((addr >> 3) & 0xf);
--    case PNV_CHIP_POWER9:
--    case PNV_CHIP_POWER10:
--        return addr >> 3;
--    default:
--        g_assert_not_reached();
--    }
-+    return PNV_CHIP_GET_CLASS(chip)->xscom_pcba(chip, addr);
- }
-=20
- static uint64_t xscom_read_default(PnvChip *chip, uint32_t pcba)
+-    k->chip_type =3D PNV_CHIP_POWER10;
+     k->chip_cfam_id =3D 0x120da04900008000ull; /* P10 DD1.0 (with NX) */
+     k->cores_mask =3D POWER10_CORE_MASK;
+     k->core_pir =3D pnv_chip_core_pir_p10;
 diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 7a134a15d3..4972e93c26 100644
+index 4972e93c26..f78fd0dd96 100644
 --- a/include/hw/ppc/pnv.h
 +++ b/include/hw/ppc/pnv.h
-@@ -138,6 +138,7 @@ typedef struct PnvChipClass {
-     void (*dt_populate)(PnvChip *chip, void *fdt);
-     void (*pic_print_info)(PnvChip *chip, Monitor *mon);
-     uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
-+    uint32_t (*xscom_pcba)(PnvChip *chip, uint64_t addr);
- } PnvChipClass;
+@@ -38,14 +38,6 @@
+ #define PNV_CHIP_GET_CLASS(obj) \
+      OBJECT_GET_CLASS(PnvChipClass, (obj), TYPE_PNV_CHIP)
 =20
- #define PNV_CHIP_TYPE_SUFFIX "-" TYPE_PNV_CHIP
+-typedef enum PnvChipType {
+-    PNV_CHIP_POWER8E,     /* AKA Murano (default) */
+-    PNV_CHIP_POWER8,      /* AKA Venice */
+-    PNV_CHIP_POWER8NVL,   /* AKA Naples */
+-    PNV_CHIP_POWER9,      /* AKA Nimbus */
+-    PNV_CHIP_POWER10,     /* AKA TBD */
+-} PnvChipType;
+-
+ typedef struct PnvChip {
+     /*< private >*/
+     SysBusDevice parent_obj;
+@@ -123,7 +115,6 @@ typedef struct PnvChipClass {
+     SysBusDeviceClass parent_class;
+=20
+     /*< public >*/
+-    PnvChipType  chip_type;
+     uint64_t     chip_cfam_id;
+     uint64_t     cores_mask;
+=20
 --=20
 2.23.0
 
