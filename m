@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0B91224AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:31:53 +0100 (CET)
-Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF28B1224CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:39:02 +0100 (CET)
+Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih6Od-0006Di-Rz
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:31:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48897)
+	id 1ih6VZ-00085y-Gi
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:39:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48992)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ih6Jx-0000iP-LD
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:03 -0500
+ (envelope-from <armbru@redhat.com>) id 1ih6Jz-0000lD-Dw
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ih6Jw-0000xT-1x
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40450
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1ih6Jw-0000xa-2R
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:03 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26359
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000tn-UE
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000ti-Tm
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:26:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576564019;
@@ -27,41 +27,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KaXK1sLPfIPPUrPRoQaoOCLoMDQhgCjGoky0wIOIPBk=;
- b=b1fACMkvt7ZKjeBsKIEot6kyqhR1g0b9WS8VPTqZ0MXk8nciiZB1Ga4UisB7lXNB5EOzP+
- xm8/DGyDY0cPOjyRu9vwht7SGOV2nSrPx7hlw0kiprA//7tI5khN/H9++p4WH0nNt+dCR+
- M46ZVqq+xVW5xPINF6wptM1zNpM8ipo=
+ bh=WJkfHcaxEpYm5hhWlCXM/SGv2lErq8lQvcIGyEnWk0o=;
+ b=KXtB7wEX20npvTVtnT2y5Gxn26GuYI1jzvSOe3KXJ8ioosP7Z+0o2torfJ1UMAbyTuzCvd
+ ghbABXLyIN7yR0ySUR9W5GW/Avo25QWLVexneW+DszJ0SHx9ShbGwMrKYcDK+9S0DSVkou
+ yJOv885IeLLncf9si7IQYzhHedv7Dm8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-rCva-4vPMM--5Qv_67EZbg-1; Tue, 17 Dec 2019 01:26:58 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-356-MOKIn_EJOluOqmUsthPagA-1; Tue, 17 Dec 2019 01:26:55 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 050BD800D4E;
- Tue, 17 Dec 2019 06:26:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8DF4800D4C;
+ Tue, 17 Dec 2019 06:26:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D0E55C1D6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A9ED2381;
  Tue, 17 Dec 2019 06:26:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5EB0011385D5; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
+ id 61F8D11384AA; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/34] hw/core: Fix fit_load_fdt() error API violations
-Date: Tue, 17 Dec 2019 07:26:25 +0100
-Message-Id: <20191217062651.9687-9-armbru@redhat.com>
+Subject: [PULL 09/34] hw/ipmi: Fix realize() error API violations
+Date: Tue, 17 Dec 2019 07:26:26 +0100
+Message-Id: <20191217062651.9687-10-armbru@redhat.com>
 In-Reply-To: <20191217062651.9687-1-armbru@redhat.com>
 References: <20191217062651.9687-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: rCva-4vPMM--5Qv_67EZbg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: MOKIn_EJOluOqmUsthPagA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,72 +73,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fit_load_fdt() passes @errp to fit_image_addr(), then recovers from
-ENOENT failures.  Passing @errp is wrong, because it works only as
-long as @errp is neither @error_fatal nor @error_abort.  Error
-recovery dereferences @errp.  That's also wrong; see the big comment
-in error.h.  Error recovery can leave *errp pointing to a freed
-Error object.  Wrong, it must be null on success.  Messed up in
-commit 3eb99edb48 "loader-fit: Wean off error_printf()".
+isa_ipmi_bt_realize(), ipmi_isa_realize(), pci_ipmi_bt_realize(), and
+pci_ipmi_kcs_realize() dereference @errp when IPMIInterfaceClass
+method init() fails.  That's wrong; see the big comment in error.h.
+Introduced in commit 0719029c47 "ipmi: Add an ISA KCS low-level
+interface", then imitated in commit a9b74079cb "ipmi: Add a BT
+low-level interface" and commit 12f983c6aa "ipmi: Add PCI IPMI
+interfaces".
 
-No caller actually passes such values, or uses *errp on success.
+No caller actually passes null.
 
 Fix anyway: splice in a local Error *err, and error_propagate().
 
+Cc: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191204093625.14836-8-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20191204093625.14836-9-armbru@redhat.com>
 ---
- hw/core/loader-fit.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ hw/ipmi/isa_ipmi_bt.c  | 7 +++++--
+ hw/ipmi/isa_ipmi_kcs.c | 7 +++++--
+ hw/ipmi/pci_ipmi_bt.c  | 6 ++++--
+ hw/ipmi/pci_ipmi_kcs.c | 6 ++++--
+ 4 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
-index 953b16bc82..c465921b8f 100644
---- a/hw/core/loader-fit.c
-+++ b/hw/core/loader-fit.c
-@@ -178,11 +178,12 @@ static int fit_load_fdt(const struct fit_loader *ldr,=
- const void *itb,
-                         int cfg, void *opaque, const void *match_data,
-                         hwaddr kernel_end, Error **errp)
+diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
+index 9a87ffd3f0..9fba5ed383 100644
+--- a/hw/ipmi/isa_ipmi_bt.c
++++ b/hw/ipmi/isa_ipmi_bt.c
+@@ -70,6 +70,7 @@ static void isa_ipmi_bt_lower_irq(IPMIBT *ib)
+=20
+ static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
  {
 +    Error *err =3D NULL;
-     const char *name;
-     const void *data;
-     const void *load_data;
-     hwaddr load_addr;
--    int img_off, err;
-+    int img_off;
-     size_t sz;
-     int ret;
+     ISADevice *isadev =3D ISA_DEVICE(dev);
+     ISAIPMIBTDevice *iib =3D ISA_IPMI_BT(dev);
+     IPMIInterface *ii =3D IPMI_INTERFACE(dev);
+@@ -85,9 +86,11 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error =
+**errp)
+     iib->bt.bmc->intf =3D ii;
+     iib->bt.opaque =3D iib;
 =20
-@@ -197,13 +198,13 @@ static int fit_load_fdt(const struct fit_loader *ldr,=
- const void *itb,
-         return -EINVAL;
+-    iic->init(ii, 0, errp);
+-    if (*errp)
++    iic->init(ii, 0, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return;
++    }
+=20
+     if (iib->isairq > 0) {
+         isa_init_irq(isadev, &iib->irq, iib->isairq);
+diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
+index ca3ea36a3f..cc6bd817f2 100644
+--- a/hw/ipmi/isa_ipmi_kcs.c
++++ b/hw/ipmi/isa_ipmi_kcs.c
+@@ -69,6 +69,7 @@ static void isa_ipmi_kcs_lower_irq(IPMIKCS *ik)
+=20
+ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
+ {
++    Error *err =3D NULL;
+     ISADevice *isadev =3D ISA_DEVICE(dev);
+     ISAIPMIKCSDevice *iik =3D ISA_IPMI_KCS(dev);
+     IPMIInterface *ii =3D IPMI_INTERFACE(dev);
+@@ -84,9 +85,11 @@ static void ipmi_isa_realize(DeviceState *dev, Error **e=
+rrp)
+     iik->kcs.bmc->intf =3D ii;
+     iik->kcs.opaque =3D iik;
+=20
+-    iic->init(ii, 0, errp);
+-    if (*errp)
++    iic->init(ii, 0, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return;
++    }
+=20
+     if (iik->isairq > 0) {
+         isa_init_irq(isadev, &iik->irq, iik->isairq);
+diff --git a/hw/ipmi/pci_ipmi_bt.c b/hw/ipmi/pci_ipmi_bt.c
+index 6ed925a665..ba9cf016b5 100644
+--- a/hw/ipmi/pci_ipmi_bt.c
++++ b/hw/ipmi/pci_ipmi_bt.c
+@@ -54,6 +54,7 @@ static void pci_ipmi_lower_irq(IPMIBT *ik)
+=20
+ static void pci_ipmi_bt_realize(PCIDevice *pd, Error **errp)
+ {
++    Error *err =3D NULL;
+     PCIIPMIBTDevice *pik =3D PCI_IPMI_BT(pd);
+     IPMIInterface *ii =3D IPMI_INTERFACE(pd);
+     IPMIInterfaceClass *iic =3D IPMI_INTERFACE_GET_CLASS(ii);
+@@ -74,8 +75,9 @@ static void pci_ipmi_bt_realize(PCIDevice *pd, Error **er=
+rp)
+     pik->bt.raise_irq =3D pci_ipmi_raise_irq;
+     pik->bt.lower_irq =3D pci_ipmi_lower_irq;
+=20
+-    iic->init(ii, 8, errp);
+-    if (*errp) {
++    iic->init(ii, 8, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return;
      }
+     pci_register_bar(pd, 0, PCI_BASE_ADDRESS_SPACE_IO, &pik->bt.io);
+diff --git a/hw/ipmi/pci_ipmi_kcs.c b/hw/ipmi/pci_ipmi_kcs.c
+index eeba63baa4..99f46152f4 100644
+--- a/hw/ipmi/pci_ipmi_kcs.c
++++ b/hw/ipmi/pci_ipmi_kcs.c
+@@ -54,6 +54,7 @@ static void pci_ipmi_lower_irq(IPMIKCS *ik)
 =20
--    err =3D fit_image_addr(itb, img_off, "load", &load_addr, errp);
--    if (err =3D=3D -ENOENT) {
-+    ret =3D fit_image_addr(itb, img_off, "load", &load_addr, &err);
-+    if (ret =3D=3D -ENOENT) {
-         load_addr =3D ROUND_UP(kernel_end, 64 * KiB) + (10 * MiB);
--        error_free(*errp);
--    } else if (err) {
--        error_prepend(errp, "unable to read FDT load address from FIT: ");
--        ret =3D err;
-+        error_free(err);
-+    } else if (ret) {
-+        error_propagate_prepend(errp, err,
-+                                "unable to read FDT load address from FIT:=
- ");
-         goto out;
+ static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **errp)
+ {
++    Error *err =3D NULL;
+     PCIIPMIKCSDevice *pik =3D PCI_IPMI_KCS(pd);
+     IPMIInterface *ii =3D IPMI_INTERFACE(pd);
+     IPMIInterfaceClass *iic =3D IPMI_INTERFACE_GET_CLASS(ii);
+@@ -74,8 +75,9 @@ static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **e=
+rrp)
+     pik->kcs.raise_irq =3D pci_ipmi_raise_irq;
+     pik->kcs.lower_irq =3D pci_ipmi_lower_irq;
+=20
+-    iic->init(ii, 8, errp);
+-    if (*errp) {
++    iic->init(ii, 8, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return;
      }
-=20
+     pci_register_bar(pd, 0, PCI_BASE_ADDRESS_SPACE_IO, &pik->kcs.io);
 --=20
 2.21.0
 
