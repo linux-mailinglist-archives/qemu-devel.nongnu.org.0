@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDC51223E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:37:32 +0100 (CET)
-Received: from localhost ([::1]:35974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871FE1223F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:41:27 +0100 (CET)
+Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Y3-0008MU-Iq
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:37:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35793)
+	id 1ih5bq-0005TP-6d
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:41:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kV-0002qf-3X
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:20 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kt-0003VL-PJ
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kT-00009a-QO
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:18 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48477 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4ks-0001KQ-Jh
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:43 -0500
+Received: from ozlabs.org ([203.11.71.1]:44487)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4kT-00082o-Fp; Mon, 16 Dec 2019 23:46:17 -0500
+ id 1ih4ks-0000Eu-8M; Mon, 16 Dec 2019 23:46:42 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWj5gTRz9sTs; Tue, 17 Dec 2019 15:43:44 +1100 (AEDT)
+ id 47cQWm083dz9sTp; Tue, 17 Dec 2019 15:43:45 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557825;
- bh=ljmL1lYaXFyfFF9azN9Hfb8Gm1J0BuKOdNiP9RTy5kU=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557828;
+ bh=WPGhRLVgvuo1dfcfSmYeMRPiaxlknfIpHytSLFhG/OA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fYnBEn3Q97fzOecWLnZ4a4awkx9f7ReJymTAUJRx2FNwmNtuA3kr8QV0KDHNGwPXy
- LCbRnR/SFseP+DwKhoXif2sKMaLqB2Zj34MGSCtpFrKFbQF2uj+VdoBcPo5vsn49hl
- ShZurNJ+boqCSISIWtaWqDauyWSpCLPppECqxnCM=
+ b=aWIoqsuIfjjubhESYx8NAuAV0YlJAbe4andXIa91KzeDo/v6kzdbOpbQ5BXEyoTat
+ 0CAqaKui3/i9QD1hcr+gROqKRHotPhqErpu+h/A8FnVCUq+zrzthPltsfk/SVYWNx3
+ h+2yVExEi9dkDyHMEhiGaGbdp2/pflED9pHOkq6c=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 83/88] ppc/pnv: Pass XSCOM base address and address size to
- pnv_dt_xscom()
-Date: Tue, 17 Dec 2019 15:43:17 +1100
-Message-Id: <20191217044322.351838-84-david@gibson.dropbear.id.au>
+Subject: [PULL 85/88] ppc/pnv: Drop pnv_chip_is_power9() and
+ pnv_chip_is_power10() helpers
+Date: Tue, 17 Dec 2019 15:43:19 +1100
+Message-Id: <20191217044322.351838-86-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,107 +62,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Since pnv_dt_xscom() is called from chip specific dt_populate() hooks,
-it shouldn't have to guess the chip type in order to populate the "reg"
-property. Just pass the base address and address size as arguments.
+They aren't used anymore.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157623841868.360005.17577624823547136435.stgit@bahia.lan>
+Message-Id: <157623842986.360005.1787401623906380181.stgit@bahia.lan>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c               | 12 +++++++++---
- hw/ppc/pnv_xscom.c         | 16 +++-------------
- include/hw/ppc/pnv_xscom.h |  3 ++-
- 3 files changed, 14 insertions(+), 17 deletions(-)
+ include/hw/ppc/pnv.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 16f4e407ee..c0a5703b74 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -282,7 +282,9 @@ static void pnv_chip_power8_dt_populate(PnvChip *chip=
-, void *fdt)
- {
-     int i;
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 17ca9a14ac..7a134a15d3 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -224,21 +224,11 @@ struct PnvMachineState {
+     PnvPnor      *pnor;
+ };
 =20
--    pnv_dt_xscom(chip, fdt, 0);
-+    pnv_dt_xscom(chip, fdt, 0,
-+                 cpu_to_be64(PNV_XSCOM_BASE(chip)),
-+                 cpu_to_be64(PNV_XSCOM_SIZE));
-=20
-     for (i =3D 0; i < chip->nr_cores; i++) {
-         PnvCore *pnv_core =3D chip->cores[i];
-@@ -302,7 +304,9 @@ static void pnv_chip_power9_dt_populate(PnvChip *chip=
-, void *fdt)
- {
-     int i;
-=20
--    pnv_dt_xscom(chip, fdt, 0);
-+    pnv_dt_xscom(chip, fdt, 0,
-+                 cpu_to_be64(PNV9_XSCOM_BASE(chip)),
-+                 cpu_to_be64(PNV9_XSCOM_SIZE));
-=20
-     for (i =3D 0; i < chip->nr_cores; i++) {
-         PnvCore *pnv_core =3D chip->cores[i];
-@@ -321,7 +325,9 @@ static void pnv_chip_power10_dt_populate(PnvChip *chi=
-p, void *fdt)
- {
-     int i;
-=20
--    pnv_dt_xscom(chip, fdt, 0);
-+    pnv_dt_xscom(chip, fdt, 0,
-+                 cpu_to_be64(PNV10_XSCOM_BASE(chip)),
-+                 cpu_to_be64(PNV10_XSCOM_SIZE));
-=20
-     for (i =3D 0; i < chip->nr_cores; i++) {
-         PnvCore *pnv_core =3D chip->cores[i];
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index df926003f2..8189767eb0 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
-@@ -286,24 +286,14 @@ static const char compat_p8[] =3D "ibm,power8-xscom=
-\0ibm,xscom";
- static const char compat_p9[] =3D "ibm,power9-xscom\0ibm,xscom";
- static const char compat_p10[] =3D "ibm,power10-xscom\0ibm,xscom";
-=20
--int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset)
-+int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset,
-+                 uint64_t xscom_base, uint64_t xscom_size)
- {
--    uint64_t reg[2];
-+    uint64_t reg[] =3D { xscom_base, xscom_size };
-     int xscom_offset;
-     ForeachPopulateArgs args;
-     char *name;
-=20
--    if (pnv_chip_is_power10(chip)) {
--        reg[0] =3D cpu_to_be64(PNV10_XSCOM_BASE(chip));
--        reg[1] =3D cpu_to_be64(PNV10_XSCOM_SIZE);
--    } else if (pnv_chip_is_power9(chip)) {
--        reg[0] =3D cpu_to_be64(PNV9_XSCOM_BASE(chip));
--        reg[1] =3D cpu_to_be64(PNV9_XSCOM_SIZE);
--    } else {
--        reg[0] =3D cpu_to_be64(PNV_XSCOM_BASE(chip));
--        reg[1] =3D cpu_to_be64(PNV_XSCOM_SIZE);
--    }
+-static inline bool pnv_chip_is_power9(const PnvChip *chip)
+-{
+-    return PNV_CHIP_GET_CLASS(chip)->chip_type =3D=3D PNV_CHIP_POWER9;
+-}
 -
-     name =3D g_strdup_printf("xscom@%" PRIx64, be64_to_cpu(reg[0]));
-     xscom_offset =3D fdt_add_subnode(fdt, root_offset, name);
-     _FDT(xscom_offset);
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index 2bdb7ae84f..ad53f788b4 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -114,7 +114,8 @@ typedef struct PnvXScomInterfaceClass {
- #define PNV10_XSCOM_PSIHB_SIZE     0x100
+ PnvChip *pnv_get_chip(uint32_t chip_id);
 =20
- void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp);
--int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
-+int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset,
-+                 uint64_t xscom_base, uint64_t xscom_size);
+ #define PNV_FDT_ADDR          0x01000000
+ #define PNV_TIMEBASE_FREQ     512000000ULL
 =20
- void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
-                              MemoryRegion *mr);
+-static inline bool pnv_chip_is_power10(const PnvChip *chip)
+-{
+-    return PNV_CHIP_GET_CLASS(chip)->chip_type =3D=3D PNV_CHIP_POWER10;
+-}
+-
+ /*
+  * BMC helpers
+  */
 --=20
 2.23.0
 
