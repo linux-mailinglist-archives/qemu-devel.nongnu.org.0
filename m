@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F133C122409
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:49:21 +0100 (CET)
-Received: from localhost ([::1]:36162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91833122466
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:59:29 +0100 (CET)
+Received: from localhost ([::1]:36350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5jU-0007mW-R5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:49:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52432)
+	id 1ih5tI-0002VL-Mb
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:59:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1ih5DY-0003j1-Fb
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:22 -0500
+ (envelope-from <crosa@redhat.com>) id 1ih5Db-0003on-Rf
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1ih5DW-0003q9-Ud
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28131
+ (envelope-from <crosa@redhat.com>) id 1ih5Da-0003uU-Ng
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40376
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5DW-0003pU-QX
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:18 -0500
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5Da-0003tN-Jc
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576559778;
+ s=mimecast20190719; t=1576559782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fQwK+2ggju9MLRI5wSEJQ1PDIjvpWcu6KEuH5srydJc=;
- b=WU0h4WllAlYIA5kZeyCZ9YAuiHid9w6k2/aSYigv1ux8siyWT1SEtKF/FN9DUZN08pyrzm
- hkhR7OcBA7F1BUFtr+hXNtR2QssOm2fh0SBipnwC6zeynx0Yd499K8oH7brjDB2Jr1Rgo6
- cyVhCKSNwIFiyfl0KAekm3PApSbHNX4=
+ bh=6e9dmtG6oZZcoSJJsYBqEqR/a1t6qZG4SswHex2xLR4=;
+ b=LKcSwiHWDOwvGvJrLi12glOeLTVphzQQcPhrr8DaO7I+IgpDcEOc6AcOZWaA+NKNAlNqkv
+ cqxkRr+qUArq4ri/cdYtzREZOdat+PLnGEVcBBY50L16fJW/Dy+PswOFVyP6v89ZoAwLft
+ 2xqzdOc17p9Oq8bc7JPiymkirQXmQI4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-VM2EWkGgM9qzCb6xGn4qqQ-1; Tue, 17 Dec 2019 00:16:16 -0500
+ us-mta-253-sHlM-8mtOMey6Axmo5VTOw-1; Tue, 17 Dec 2019 00:16:20 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 049BC107ACC4;
- Tue, 17 Dec 2019 05:16:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7807189CD01;
+ Tue, 17 Dec 2019 05:16:18 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-6.gru2.redhat.com
  [10.97.116.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D31519C4F;
- Tue, 17 Dec 2019 05:16:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D9BC19C4F;
+ Tue, 17 Dec 2019 05:16:15 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 07/15] Acceptance test x86_cpu_model_versions: use default vm
-Date: Tue, 17 Dec 2019 00:15:13 -0500
-Message-Id: <20191217051521.1239-8-crosa@redhat.com>
+Subject: [PULL 08/15] Acceptance tests: introduce utility method for tags
+ unique vals
+Date: Tue, 17 Dec 2019 00:15:14 -0500
+Message-Id: <20191217051521.1239-9-crosa@redhat.com>
 In-Reply-To: <20191217051521.1239-1-crosa@redhat.com>
 References: <20191217051521.1239-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: VM2EWkGgM9qzCb6xGn4qqQ-1
+X-MC-Unique: sHlM-8mtOMey6Axmo5VTOw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,188 +86,56 @@ Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The default vm provided by the test, available as self.vm, serves the
-same purpose of the one obtained by self.get_vm(), but saves a line
-and matches the style of other tests.
+Currently a test can describe the target architecture binary that it
+should primarily be run with, be setting a single tag value.
+
+The same approach is expected to be done with other QEMU aspects to be
+tested, for instance, the machine type and accelerator, so let's
+generalize the logic into a utility method.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20190924194501.9303-2-crosa@redhat.com>
+Message-Id: <20190924194501.9303-3-crosa@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/x86_cpu_model_versions.py | 100 ++++++++++-----------
- 1 file changed, 46 insertions(+), 54 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/=
-x86_cpu_model_versions.py
-index 5fc9ca4bc6..6eb977954d 100644
---- a/tests/acceptance/x86_cpu_model_versions.py
-+++ b/tests/acceptance/x86_cpu_model_versions.py
-@@ -25,10 +25,6 @@
- import avocado_qemu
- import re
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
+vocado_qemu/__init__.py
+index 9a57c020d8..e676d9c4e7 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -100,14 +100,21 @@ def exec_command_and_wait_for_pattern(test, command,
 =20
--def get_cpu_prop(vm, prop):
--    cpu_path =3D vm.command('query-cpus')[0].get('qom_path')
--    return vm.command('qom-get', path=3Dcpu_path, property=3Dprop)
--
- class X86CPUModelAliases(avocado_qemu.Test):
-     """
-     Validation of PC CPU model versions and CPU model aliases
-@@ -241,78 +237,74 @@ class CascadelakeArchCapabilities(avocado_qemu.Test):
 =20
-     :avocado: tags=3Darch:x86_64
-     """
-+    def get_cpu_prop(self, prop):
-+        cpu_path =3D self.vm.command('query-cpus')[0].get('qom_path')
-+        return self.vm.command('qom-get', path=3Dcpu_path, property=3Dprop=
-)
+ class Test(avocado.Test):
++    def _get_unique_tag_val(self, tag_name):
++        """
++        Gets a tag value, if unique for a key
++        """
++        vals =3D self.tags.get(tag_name, [])
++        if len(vals) =3D=3D 1:
++            return vals.pop()
++        return None
 +
-     def test_4_1(self):
-         # machine-type only:
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.1')
--        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,chec=
-k=3Doff,enforce=3Doff')
--        vm.launch()
--        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.1')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don=
-,check=3Doff,enforce=3Doff')
-+        self.vm.launch()
-+        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server should not ha=
-ve arch-capabilities')
-=20
-     def test_4_0(self):
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.0')
--        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,chec=
-k=3Doff,enforce=3Doff')
--        vm.launch()
--        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.0')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don=
-,check=3Doff,enforce=3Doff')
-+        self.vm.launch()
-+        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server should not ha=
-ve arch-capabilities')
-=20
-     def test_set_4_0(self):
-         # command line must override machine-type if CPU model is not vers=
-ioned:
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.0')
--        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,chec=
-k=3Doff,enforce=3Doff,+arch-capabilities')
--        vm.launch()
--        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.0')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don=
-,check=3Doff,enforce=3Doff,+arch-capabilities')
-+        self.vm.launch()
-+        self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-                         'pc-i440fx-4.0 + Cascadelake-Server,+arch-capabili=
-ties should have arch-capabilities')
-=20
-     def test_unset_4_1(self):
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.1')
--        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,chec=
-k=3Doff,enforce=3Doff,-arch-capabilities')
--        vm.launch()
--        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.1')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don=
-,check=3Doff,enforce=3Doff,-arch-capabilities')
-+        self.vm.launch()
-+        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server,-arch-capabil=
-ities should not have arch-capabilities')
-=20
-     def test_v1_4_0(self):
-         # versioned CPU model overrides machine-type:
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.0')
--        vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=3Don,c=
-heck=3Doff,enforce=3Doff')
--        vm.launch()
--        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.0')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=
-=3Don,check=3Doff,enforce=3Doff')
-+        self.vm.launch()
-+        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.0 + Cascadelake-Server-v1 should not=
- have arch-capabilities')
-=20
-     def test_v2_4_0(self):
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.0')
--        vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=3Don,c=
-heck=3Doff,enforce=3Doff')
--        vm.launch()
--        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
--                         'pc-i440fx-4.0 + Cascadelake-Server-v2 should hav=
-e arch-capabilities')
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.0')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=
-=3Don,check=3Doff,enforce=3Doff')
-+        self.vm.launch()
-+        self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-+                        'pc-i440fx-4.0 + Cascadelake-Server-v2 should have=
- arch-capabilities')
-=20
-     def test_v1_set_4_0(self):
-         # command line must override machine-type and versioned CPU model:
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.0')
--        vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=3Don,c=
-heck=3Doff,enforce=3Doff,+arch-capabilities')
--        vm.launch()
--        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
--                         'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-capa=
-bilities should have arch-capabilities')
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.0')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=
-=3Don,check=3Doff,enforce=3Doff,+arch-capabilities')
-+        self.vm.launch()
-+        self.assertTrue(self.get_cpu_prop('arch-capabilities'),
-+                        'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-capab=
-ilities should have arch-capabilities')
-=20
-     def test_v2_unset_4_1(self):
--        vm =3D self.get_vm()
--        vm.add_args('-S')
--        vm.set_machine('pc-i440fx-4.1')
--        vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=3Don,c=
-heck=3Doff,enforce=3Doff,-arch-capabilities')
--        vm.launch()
--        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+        self.vm.add_args('-S')
-+        self.vm.set_machine('pc-i440fx-4.1')
-+        self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=
-=3Don,check=3Doff,enforce=3Doff,-arch-capabilities')
-+        self.vm.launch()
-+        self.assertFalse(self.get_cpu_prop('arch-capabilities'),
-                          'pc-i440fx-4.1 + Cascadelake-Server-v2,-arch-capa=
-bilities should not have arch-capabilities')
+     def setUp(self):
+         self._vms =3D {}
+-        arches =3D self.tags.get('arch', [])
+-        if len(arches) =3D=3D 1:
+-            arch =3D arches.pop()
+-        else:
+-            arch =3D None
+-        self.arch =3D self.params.get('arch', default=3Darch)
++
++        self.arch =3D self.params.get('arch',
++                                    default=3Dself._get_unique_tag_val('ar=
+ch'))
++
+         default_qemu_bin =3D pick_default_qemu_bin(arch=3Dself.arch)
+         self.qemu_bin =3D self.params.get('qemu_bin',
+                                         default=3Ddefault_qemu_bin)
 --=20
 2.21.0
 
