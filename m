@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD11122381
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:16:11 +0100 (CET)
-Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8ED12239D
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:24:44 +0100 (CET)
+Received: from localhost ([::1]:35750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5DN-0002Ac-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:16:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35426)
+	id 1ih5Lf-0006Nu-HE
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:24:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4k9-0002ME-Gf
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:58 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kt-0003UM-1j
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4k6-00082N-0S
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:55 -0500
-Received: from ozlabs.org ([203.11.71.1]:39273)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kr-0001JK-Uz
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:42 -0500
+Received: from ozlabs.org ([203.11.71.1]:41657)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4k4-0007Xd-Ek; Mon, 16 Dec 2019 23:45:53 -0500
+ id 1ih4kr-0000EE-Jn; Mon, 16 Dec 2019 23:46:41 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWh0trzz9sTW; Tue, 17 Dec 2019 15:43:41 +1100 (AEDT)
+ id 47cQWl66Mjz9sTj; Tue, 17 Dec 2019 15:43:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557824;
- bh=1amkbfv/C6Cb1XKFIBX0BD98zbGySF/FrizpzYukWV0=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557827;
+ bh=97r7TzXK+1Ou/D6VolXeUHodoCbDq+0CZLkcFo2DuDc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HMxjXq9vQfEbE1NXt7Z7vgA+k+bbVHG391rl7/UOIPwYO4f2b3R6YZb1YakK+oP+/
- bGHE+hJFlbn+UOHlANiU5XBoNcPEekU/p3SDO9LBKN8Spa1nhHechMiVYs0SvWSuGc
- rqzjcLxA9eYBZM2jR97R6Eydxzd6pT9ewcS2DqaY=
+ b=FX0w8UiFnAj4wBixpRcCpXcetm2ollHht0h7be5O+fmJUssmSfhVIJUyoPvjOWo09
+ igMouJevZp/f4jwZWXuw0p7Uy3yU4OD5hYmhoFQ7jl9RLD8HPDvLVZAkJgGK5KkS1L
+ 30pg9WehN3tOydgj8jpl+6OqrxYUQMA0Mghex82g=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 70/88] ppc/pnv: Loop on the whole hierarchy to populate the DT
- with the XSCOM nodes
-Date: Tue, 17 Dec 2019 15:43:04 +1100
-Message-Id: <20191217044322.351838-71-david@gibson.dropbear.id.au>
+Subject: [PULL 79/88] ppc/pnv: Introduce PnvMachineClass::dt_power_mgt()
+Date: Tue, 17 Dec 2019 15:43:13 +1100
+Message-Id: <20191217044322.351838-80-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -60,40 +59,108 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Greg Kurz <groug@kaod.org>
 
-Some PnvXScomInterface objects lie a bit deeper (PnvPBCQState) than
-the first layer, so we need to loop on the whole object hierarchy to
-catch them.
+We add an extra node to advertise power management on some machines,
+namely powernv9 and powernv10. This is achieved by using the
+pnv_is_power9() and pnv_is_power10() helpers.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191210135845.19773-2-clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-[dwg: Corrected error in comment]
+This can be achieved with QOM. Add a method to the base class for
+powernv machines and have it implemented by machine types that
+support power management instead.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <157623839642.360005.9243510140436689941.stgit@bahia.lan>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv_xscom.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/ppc/pnv.c         | 10 ++++++----
+ include/hw/ppc/pnv.h |  8 ++++++--
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index b3d3b6e350..760571037b 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
-@@ -358,7 +358,12 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_=
-offset)
-     args.fdt =3D fdt;
-     args.xscom_offset =3D xscom_offset;
-=20
--    object_child_foreach(OBJECT(chip), xscom_dt_child, &args);
-+    /*
-+     * Loop on the whole object hierarchy to catch all
-+     * PnvXScomInterface objects which can lie a bit deeper than the
-+     * first layer.
-+     */
-+    object_child_foreach_recursive(OBJECT(chip), xscom_dt_child, &args);
-     return 0;
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 97845e7bde..a2ad7258f8 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -472,7 +472,7 @@ static void pnv_dt_isa(PnvMachineState *pnv, void *fd=
+t)
+                        &args);
  }
 =20
+-static void pnv_dt_power_mgt(void *fdt)
++static void pnv_dt_power_mgt(PnvMachineState *pnv, void *fdt)
+ {
+     int off;
+=20
+@@ -539,9 +539,9 @@ static void *pnv_dt_create(MachineState *machine)
+         pnv_dt_bmc_sensors(pnv->bmc, fdt);
+     }
+=20
+-    /* Create an extra node for power management on Power9 and Power10 *=
+/
+-    if (pnv_is_power9(pnv) || pnv_is_power10(pnv)) {
+-        pnv_dt_power_mgt(fdt);
++    /* Create an extra node for power management on machines that suppor=
+t it */
++    if (pmc->dt_power_mgt) {
++        pmc->dt_power_mgt(pnv, fdt);
+     }
+=20
+     return fdt;
+@@ -1709,6 +1709,7 @@ static void pnv_machine_power9_class_init(ObjectCla=
+ss *oc, void *data)
+=20
+     pmc->compat =3D compat;
+     pmc->compat_size =3D sizeof(compat);
++    pmc->dt_power_mgt =3D pnv_dt_power_mgt;
+ }
+=20
+ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
+@@ -1722,6 +1723,7 @@ static void pnv_machine_power10_class_init(ObjectCl=
+ass *oc, void *data)
+=20
+     pmc->compat =3D compat;
+     pmc->compat_size =3D sizeof(compat);
++    pmc->dt_power_mgt =3D pnv_dt_power_mgt;
+ }
+=20
+ static void pnv_machine_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index d534746bd4..8a42c199b6 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -190,6 +190,8 @@ PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t=
+ pir);
+ #define PNV_MACHINE_CLASS(klass) \
+     OBJECT_CLASS_CHECK(PnvMachineClass, klass, TYPE_PNV_MACHINE)
+=20
++typedef struct PnvMachineState PnvMachineState;
++
+ typedef struct PnvMachineClass {
+     /*< private >*/
+     MachineClass parent_class;
+@@ -197,9 +199,11 @@ typedef struct PnvMachineClass {
+     /*< public >*/
+     const char *compat;
+     int compat_size;
++
++    void (*dt_power_mgt)(PnvMachineState *pnv, void *fdt);
+ } PnvMachineClass;
+=20
+-typedef struct PnvMachineState {
++struct PnvMachineState {
+     /*< private >*/
+     MachineState parent_obj;
+=20
+@@ -216,7 +220,7 @@ typedef struct PnvMachineState {
+     Notifier     powerdown_notifier;
+=20
+     PnvPnor      *pnor;
+-} PnvMachineState;
++};
+=20
+ static inline bool pnv_chip_is_power9(const PnvChip *chip)
+ {
 --=20
 2.23.0
 
