@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F451223D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:34:12 +0100 (CET)
-Received: from localhost ([::1]:35914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEA81223E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:36:41 +0100 (CET)
+Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Up-0003Gb-LG
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:34:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
+	id 1ih5XE-0007D1-6t
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:36:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jL-0001cf-BG
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:08 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4k0-0002LV-Ib
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jK-00071l-9O
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:07 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57659 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jz-0007xj-GE
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:48 -0500
+Received: from ozlabs.org ([203.11.71.1]:37161)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4jJ-0006Vo-VK; Mon, 16 Dec 2019 23:45:06 -0500
+ id 1ih4jw-0007Oo-7q; Mon, 16 Dec 2019 23:45:45 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWb3HC8z9sTJ; Tue, 17 Dec 2019 15:43:38 +1100 (AEDT)
+ id 47cQWg16NBz9sTT; Tue, 17 Dec 2019 15:43:39 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557819;
- bh=gKTXY6PIFlGqQkjlQe3AzKVDyV+OH7Fw3zyDvKgJzpc=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557823;
+ bh=n8oIL2+nZlBzgcIXuaZwztF3/7D7XKvuOUrx0Eqt9sE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CmaxjR9z/I8fsymqZJUtk2RrfDSOX/x063IEx0/+7Ta5uozXmvsOp5CxQfiyZx9lw
- 6ksP4jWO12wctUXaJbmQMGP5Ys9n0bSOzMzLMewLdcW33cH6IpgJokvl5UH5Q0VLrO
- XgfXO3folmt49nVH53F8gpOJ5R1q1SKRPTXzGR7s=
+ b=hJSjFhMVW78KPVlwr0fANyBoB0doLE9l2tF4Q5zNpEBUckYaIOp17/RLyHS9TM1PW
+ ehp8PYXSgoclv/8o8VDbKq/gRa0WzVBIQsVcnTlHirxicMbO79D/yy75kX0PeN5gi/
+ aDG63tCaxVJSBasM4GNgX6bBmQMSZoW6uwO6gp3o=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 57/88] xics: Don't deassert outputs
-Date: Tue, 17 Dec 2019 15:42:51 +1100
-Message-Id: <20191217044322.351838-58-david@gibson.dropbear.id.au>
+Subject: [PULL 60/88] ppc: Make PPCVirtualHypervisor an incomplete type
+Date: Tue, 17 Dec 2019 15:42:54 +1100
+Message-Id: <20191217044322.351838-61-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,30 +60,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The correct way to do this is to deassert the input pins on the CPU side.
-This is the case since a previous change.
+PPCVirtualHypervisor is an interface instance. It should never be
+dereferenced. Drop the dummy type definition for extra safety, which
+is the common practice with QOM interfaces.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157548862298.3650476.1228720391270249433.stgit@bahia.lan>
+Message-Id: <157589808041.21182.18121655959115011353.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/ppc/cpu.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index 0b259a09c5..1952009e6d 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -289,9 +289,6 @@ void icp_reset(ICPState *icp)
-     icp->pending_priority =3D 0xff;
-     icp->mfrr =3D 0xff;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index f9528fc29d..60cf030ce6 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1222,10 +1222,6 @@ PowerPCCPUClass *ppc_cpu_class_by_pvr(uint32_t pvr=
+);
+ PowerPCCPUClass *ppc_cpu_class_by_pvr_mask(uint32_t pvr);
+ PowerPCCPUClass *ppc_cpu_get_family_class(PowerPCCPUClass *pcc);
 =20
--    /* Make all outputs are deasserted */
--    qemu_set_irq(icp->output, 0);
+-struct PPCVirtualHypervisor {
+-    Object parent;
+-};
 -
-     if (kvm_irqchip_in_kernel()) {
-         Error *local_err =3D NULL;
-=20
+ struct PPCVirtualHypervisorClass {
+     InterfaceClass parent;
+     void (*hypercall)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
 --=20
 2.23.0
 
