@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D57122C61
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 13:58:03 +0100 (CET)
-Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF1B122C70
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 14:00:42 +0100 (CET)
+Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihCQM-0005FG-8f
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 07:58:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54011)
+	id 1ihCSv-0007TB-Hq
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 08:00:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1ihCMV-0000OZ-9V
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 07:54:04 -0500
+ (envelope-from <stevensd@chromium.org>) id 1ihCRy-0006zh-Me
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 07:59:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1ihCMU-0001Di-1E
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 07:54:03 -0500
-Received: from mga18.intel.com ([134.134.136.126]:49328)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1ihCMT-00018a-Mv
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 07:54:01 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2019 04:54:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,325,1571727600"; d="scan'208";a="209689654"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga008.jf.intel.com with ESMTP; 17 Dec 2019 04:54:00 -0800
-From: Zhang Chen <chen.zhang@intel.com >
-To: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V4 5/5] docs/awd.txt: Add doc to introduce Advanced
- WatchDog(AWD) module
-Date: Tue, 17 Dec 2019 20:45:54 +0800
-Message-Id: <20191217124554.30818-6-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191217124554.30818-1-chen.zhang@intel.com>
-References: <20191217124554.30818-1-chen.zhang@intel.com>
+ (envelope-from <stevensd@chromium.org>) id 1ihCRx-0008ST-NQ
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 07:59:42 -0500
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:47008)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stevensd@chromium.org>)
+ id 1ihCRx-0008RO-Hw
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 07:59:41 -0500
+Received: by mail-qk1-x742.google.com with SMTP id r14so7700408qke.13
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 04:59:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4bZpGkKAkvfd+jX4DG0vMQ2qfrG6ll9qDalxUKn1b3E=;
+ b=YMCJELu631QRNTqwkjAcCOyFtrMLDTS5TMyx6OvxxAkDtKxhgfrna//TtU2raSRNzY
+ gwQWOfT1HpZvRZBEsApA0YfgTjyjxYUXxUx9xKZoFDLhlO3noHCZIPQyYpJgt+zfy9qr
+ aPs71Gjd0r2qzgILwvNDn4unYX33ibUDXggyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4bZpGkKAkvfd+jX4DG0vMQ2qfrG6ll9qDalxUKn1b3E=;
+ b=moieLioJxpoBFXQsdvwMUEB3nxzCqDGoJV77P2DhHFw8SUxt7+oJW72zNS1el4FY/B
+ dX1Qe+2wdXX61DPLLL4+qL47cCF6KaIEYXSJujWD4tBc7XiGH839Usm6jtTLPKwGunkg
+ 1H9+PFvgFgv4KEtO6eU1jpp1LdRvLNNIOPaHeqSf4JFziEKwnlrAMV0XNLN+0iHr+qDm
+ yMMZlY544qw+XOHec7UYlLGvdAn6H49xon/uFBRMUqetmfSL1V0AYQfGUaZK1XdGjFPg
+ JZG8Gl/qk5/rpEFQWrbz7hUjBphPgJvrT3ZcwnrCdbHUAM2towHvkQ8Ku5Lxjmoo/RcB
+ Hmag==
+X-Gm-Message-State: APjAAAXh8yLqzBuxXaOA0gytr0ZETDGlv+HOr+qyEqQnMLeFlJ9lJtst
+ BCGKZsC0+RwVvtwsl7vrJb8UabosKWvieFQwm85ltg==
+X-Google-Smtp-Source: APXvYqyb1xxZ9FokZNGah/UIpAaFRfxJfgV4qwKVLTBXmZOACLUgrXPPiNzDxSLuRgoM0J8lMuMLN3unMTrUaERb+JU=
+X-Received: by 2002:a05:620a:910:: with SMTP id
+ v16mr4862526qkv.194.1576587580491; 
+ Tue, 17 Dec 2019 04:59:40 -0800 (PST)
+MIME-Version: 1.0
+References: <d65bec5074eda5f389668e28922c1609@hostfission.com>
+ <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
+ <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
+ <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
+ <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+ <CAD=HUj7d3SWqCH=57ymy-BVd6xdJWc=WSqHAFyQXt-3MjchEAA@mail.gmail.com>
+ <20191212094121.by7w7fywlzdfoktn@sirius.home.kraxel.org>
+ <CAD=HUj6YYupjdxxz2mgMmE2DcKhXP-qdhRORvUNTmzcORRrLzg@mail.gmail.com>
+ <20191212133048.4nbmuwhbq5z2ai6o@sirius.home.kraxel.org>
+ <CAD=HUj623MyeZ7VmrYTfig9oiyNhipidpvhuuurs3VgGBgjZpQ@mail.gmail.com>
+ <20191216134728.czulyb6yvrkokrqv@sirius.home.kraxel.org>
+In-Reply-To: <20191216134728.czulyb6yvrkokrqv@sirius.home.kraxel.org>
+From: David Stevens <stevensd@chromium.org>
+Date: Tue, 17 Dec 2019 21:59:29 +0900
+Message-ID: <CAD=HUj4us6_cEv40EVRLd5K5cGW7GsN10EFWifmog-pq9_RC8Q@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.126
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,115 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
+Cc: Geoffrey McRae <geoff@hostfission.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Zach Reizner <zachr@chromium.org>, Alexandre Courbot <acourbot@chromium.org>,
+ virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>,
+ Alex Lau <alexlau@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+ Keiichi Watanabe <keiichiw@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ Dylan Reid <dgreid@chromium.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+ Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+> > > Of course only virtio drivers would try step (2), other drivers (when
+> > > sharing buffers between intel gvt device and virtio-gpu for example)
+> > > would go straight to (3).
+> >
+> > For virtio-gpu as it is today, it's not clear to me that they're
+> > equivalent. As I read it, the virtio-gpu spec makes a distinction
+> > between the guest memory and the host resource. If virtio-gpu is
+> > communicating with non-virtio devices, then obviously you'd just be
+> > working with guest memory. But if it's communicating with another
+> > virtio device, then there are potentially distinct guest and host
+> > buffers that could be used. The spec shouldn't leave any room for
+> > ambiguity as to how this distinction is handled.
+>
+> Yep.  It should be the host side buffer.
 
-Add docs to introduce Advanced WatchDog detail and usage.
+I agree that it should be the host side buffer. I just want to make
+sure that the meaning of 'import' is clear, and to establish the fact
+that importing a buffer by uuid is not necessarily the same thing as
+creating a new buffer in a different device from the same sglist (for
+example, sharing a guest sglist might require more flushes).
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- docs/awd.txt | 88 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
- create mode 100644 docs/awd.txt
-
-diff --git a/docs/awd.txt b/docs/awd.txt
-new file mode 100644
-index 0000000000..0ce513be5a
---- /dev/null
-+++ b/docs/awd.txt
-@@ -0,0 +1,88 @@
-+Advanced Watch Dog (AWD)
-+========================
-+Copyright (c) 2019 Intel Corporation.
-+Author: Zhang Chen <chen.zhang@intel.com>
-+
-+This work is licensed under the terms of the GNU GPL, version 2 or later.
-+See the COPYING file in the top-level directory.
-+
-+Introduction
-+------------
-+
-+Advanced Watch Dog is an universal monitoring module on VMM side, it can be used
-+to detect network issues(VMM to guest, VMM to VMM, VMM to another remote server)
-+and do previously set operation. Current AWD accept any input as the signal
-+to refresh the watchdog timer, and we can also make a certain interactive
-+protocol here. Users can pre-write some command or some messages in the
-+AWD opt-script as the notification output. We noticed that there is no way
-+for VMM communicate directly, so we engaged with real customer found that they
-+need a lightweight and efficient mechanism to solve some practical problems,
-+for example Edge Computing cases(they think high level software is too heavy
-+to use in Edge or it is hard to manage and combine with VM instance).
-+It make user have basic VM/Host network monitoring tools and basic false
-+tolerance and recovery solution.
-+
-+Use case
-+--------
-+
-+1. Monitor local guest status.
-+Running a simple application in guest for send signal to the local AWD module,
-+if timeout occur, AWD will notify high level admin or do some previously set
-+operation. For example send exit command to local QMP interface or qemu monitor.
-+
-+2. Monitor other VMM.
-+AWD module can be connected to each other to build heartbeat service.
-+
-+3. Monitor other remote service.
-+In some cases, remote service have certain relationship with current VM. If
-+network connection have some issue, AWD can do some urgent operation like reboot
-+local VM. etc...
-+
-+AWD usage
-+---------
-+
-+User must "--enable-awd" in Qemu configuration.
-+
-+1. Monitor local guest status.
-+
-+-chardev socket,id=detection,host=0.0.0.0,port=9009,server,nowait
-+-chardev socket,id=notification,host=127.0.0.1,port=4445
-+-object iothread,id=iothread1
-+-object advanced-watchdog,id=awd1,server=on,awd_node=detection,notification_node=notification,opt_script=colo_opt_script,iothread=iothread1,pulse_interval=1000,timeout=5000
-+-monitor tcp::4445,server,nowait
-+
-+qemu_opt_script:
-+quit
-+
-+Guest service need connect to detection node, admin can check notification node
-+to get message when timeout occur.
-+
-+2. Monitor other VMM.
-+
-+Demo usage(for COLO heartbeat service):
-+
-+In primary node:
-+
-+-chardev socket,id=h1,host=3.3.3.3,port=9009,server,nowait
-+-chardev socket,id=heartbeat0,host=3.3.3.3,port=4445
-+-object iothread,id=iothread1
-+-object advanced-watchdog,id=heart1,server=on,awd_node=h1,notification_node=heartbeat0,opt_script=colo_primary_opt_script,iothread=iothread1,pulse_interval=1000,timeout=5000
-+
-+colo_primary_opt_script:
-+x_colo_lost_heartbeat
-+
-+In secondary node:
-+
-+-monitor tcp::4445,server,nowait
-+-chardev socket,id=h1,host=3.3.3.3,port=9009,reconnect=1
-+-chardev socket,id=heart1,host=3.3.3.8,port=4445
-+-object iothread,id=iothread1
-+-object advanced-watchdog,id=heart1,server=off,awd_node=h1,notification_node=heart1,opt_script=colo_secondary_opt_script,iothread=iothread1,timeout=10000
-+
-+colo_secondary_opt_script:
-+nbd_server_stop
-+x_colo_lost_heartbeat
-+
-+3. Monitor other remote service.
-+
-+Same like monitor local guest except detection node and notification node.
--- 
-2.17.1
-
+-David
 
