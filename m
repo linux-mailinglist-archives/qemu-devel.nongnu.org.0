@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B259E1232E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:47:20 +0100 (CET)
-Received: from localhost ([::1]:43294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0A31232FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 17:54:17 +0100 (CET)
+Received: from localhost ([::1]:43490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihG0F-0006QX-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:47:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
+	id 1ihG6y-0008QQ-88
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 11:54:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55314)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihFv4-0001Ft-Tz
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:42:00 -0500
+ (envelope-from <thuth@redhat.com>) id 1ihG0Z-00008C-Ni
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:47:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihFv3-0003g7-Ln
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:41:58 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:38333)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihFv3-0003eh-GC
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:41:57 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id l35so97674pje.3
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 08:41:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=43Dbd2S1AzJNiOKd7dHnjOLXefnUc+FpgARmyexaboI=;
- b=gvup+FblALos6y8TtuxoA/RhPQpTbv5FW4Eja/poTMM4RUe+emsfSWVnmd8OcYY+8e
- NFPx2P00XGu2YLVQ9x6u9ZiFOw4ZcxquK0NT5DBPaGukkS73Rb6C8cs96mdJ6qE0ZMty
- /H2RBDMnuCfJNIVZQBETlxRm0fK8OnIXhndOFO4HYqmZGxqjerN2KUi6PnBa2Fnz4I7Z
- xPsVaCehtEL/nz7qRXVPiW9evzP7BTFINABk7rjTbV9t0x2M210v1U9IBS0QvGrB02mS
- EnyCY0ZdLYQI6JjX/APFOdhzgL75gwd+5bU0zqeXrkUIgShAenqfKJOaCC0dk8cwHaGV
- BnxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=43Dbd2S1AzJNiOKd7dHnjOLXefnUc+FpgARmyexaboI=;
- b=U2i88XUN5Nu33sNM2wWcB8k3XxUh5H3fjpZl7HEQ+z99aMV1PLNoCJw13Az3H2DxMJ
- +E0yP9muI49WXXXxNx2U1S1ATEW2g/szdCiLNszaFPh0Zy8Qnra5kMYhygTI69YTT0tx
- iEhONhFuo8QKboLFwczDZMWPZqFen5ASYtQhSJ6pJxu8pYxZMUMA+WF0IHXFQoNLcwc3
- U2jGHe/d004fyHXJbvP9CoZ1AHOnaxuLgNaStkQdCAV31uHRJYldnbEnVV3/V7C+O/yV
- fqlcOZ1fJc8S8t5BMKyxbxQq9RorjdURHt4T+r4ajA6FFPoin23a9gDshWNgkzKmUXy0
- xDrQ==
-X-Gm-Message-State: APjAAAW0yGUL1WjZTlOxghjvw6FTGP0SOKKnB0ucUsHLZLrGZo60Rc+l
- JWnHYE8BJTnAZcOnFI7Na73sx+2wmiA=
-X-Google-Smtp-Source: APXvYqyBNwGeeOIQBndVpfipHxTpMo6e7mgI4szvoGmDgeO7aLHz2x5VyjbpD+Br/+eskhzEPgEZpg==
-X-Received: by 2002:a17:90a:e28e:: with SMTP id
- d14mr7467390pjz.56.1576600916139; 
- Tue, 17 Dec 2019 08:41:56 -0800 (PST)
-Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
- ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id k190sm27695401pga.73.2019.12.17.08.41.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Dec 2019 08:41:55 -0800 (PST)
-Subject: Re: [PATCH v2 06/10] arm/arm-powerctl: rebuild hflags after setting
- CP15 bits in arm_set_cpu_on()
-To: Peter Maydell <peter.maydell@linaro.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>
-References: <20191216233519.29030-1-nieklinnenbank@gmail.com>
- <20191216233519.29030-7-nieklinnenbank@gmail.com>
- <CAPan3WpW1Q3zpnqgk=MWRWe99=MQ4XoW2kw8L3tioFxfEBXd+Q@mail.gmail.com>
- <CAFEAcA8Viii4Em_bf4Y=AG0jU+EFFFTX6dO-52qd=RT4uHbCVw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <19e4f2ac-6067-f61f-f340-108545fb0f02@linaro.org>
-Date: Tue, 17 Dec 2019 06:41:52 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <thuth@redhat.com>) id 1ihG0V-0003Aj-Hm
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:47:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40173
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ihG0U-0003AA-AU
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 11:47:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576601253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=TyMfOmVwxZHG0er0HbkabROkpDlIzP2fMhLhONe7t/Y=;
+ b=CxZ2tU7NrFzYk7KokanKllkvijk46ziMV8qsOOKIGtX3lrh7ov2DPNCrAJv6stSK1ryAZ6
+ uZcfEukKaxquM0aqfwQp1BzD1X0/zBmtBkb0nreHFxbOHByPzxyN8DxoU2yYbpUdXWM4kb
+ 3BREI8VaxILdIBEFL5VA9O2NpHPq4nE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-2QsDyCCmPvyAsvzDOc3MYg-1; Tue, 17 Dec 2019 11:47:32 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B07C5107ACCA;
+ Tue, 17 Dec 2019 16:47:31 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-149.ams2.redhat.com [10.36.116.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A37B6B566;
+ Tue, 17 Dec 2019 16:47:27 +0000 (UTC)
+Subject: Re: [PATCH v2] docs: build an index page for the HTML docs
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191111102157.440664-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <22747677-3ea5-b0f3-aaa8-20d501364d7d@redhat.com>
+Date: Tue, 17 Dec 2019 17:47:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Viii4Em_bf4Y=AG0jU+EFFFTX6dO-52qd=RT4uHbCVw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191111102157.440664-1-stefanha@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 2QsDyCCmPvyAsvzDOc3MYg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,67 +74,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/19 6:12 AM, Peter Maydell wrote:
-> Cc'ing Richard : this is one for you I think... (surely we
-> need to rebuild the hflags from scratch when we power up
-> a CPU anyway?)
+On 11/11/2019 11.21, Stefan Hajnoczi wrote:
+> There is no index.html start page for the QEMU HTML documentation.  An
+> index page is needed so that documentation can be browsed easily on the
+> web.
+> 
+> This patch adds an index.html.in template file where the QEMU version
+> number is expanded.  It is written in HTML instead of using the existing
+> sphinx (rST) and texi documentation generators because they are
+> heavyweight and would make this harder.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  Makefile           |  6 ++++++
+>  docs/index.html.in | 17 +++++++++++++++++
+>  2 files changed, 23 insertions(+)
+>  create mode 100644 docs/index.html.in
+> 
+> diff --git a/Makefile b/Makefile
+> index aa9d1a42aa..581bc68918 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -347,6 +347,7 @@ DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/
+>  DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
+>  DOCS+=docs/qemu-block-drivers.7
+>  DOCS+=docs/qemu-cpu-models.7
+> +DOCS+=$(MANUAL_BUILDDIR)/index.html
+>  ifdef CONFIG_VIRTFS
+>  DOCS+=fsdev/virtfs-proxy-helper.1
+>  endif
+> @@ -818,6 +819,7 @@ install-sphinxdocs: sphinxdocs
+>  
+>  install-doc: $(DOCS) install-sphinxdocs
+>  	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+> +	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/index.html "$(DESTDIR)$(qemu_docdir)"
+>  	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
+>  	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
+>  	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.html "$(DESTDIR)$(qemu_docdir)"
+> @@ -1024,6 +1026,10 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+>  $(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
+>  	$(call build-manual,interop,man)
+>  
+> +$(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
+> +	$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
+> +             "GEN","$@")
+> +
+>  qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+>  	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+>  
+> diff --git a/docs/index.html.in b/docs/index.html.in
+> new file mode 100644
+> index 0000000000..c2df85a185
+> --- /dev/null
+> +++ b/docs/index.html.in
+> @@ -0,0 +1,17 @@
+> +<!DOCTYPE html>
+> +<html>
 
-We do compute hflags from scratch in reset.
+https://validator.w3.org/ says:
 
-It has also turned out that there were a few board models that poked at the
-contents of the cpu and needed special help.  Some of that I would imagine
-would be fixed properly with the multi-phase reset patches, where we could
-rebuild hflags when *leaving* reset.
+"Warning: Consider adding a lang attribute to the html start tag to
+declare the language of this document."
 
-In arm_set_cpu_on_async_work, we start by resetting the cpu and then start
-poking at the contents of some system registers.  So, yes, we do need to
-rebuild after doing that.  Also, I'm not sure how this function should fit into
-the multi-phase reset future.
+... it's just a warning though, but in case you respin, you might want
+to add it.
 
-So:
+> +    <head>
+> +        <meta charset="UTF-8">
+> +        <title>QEMU @@VERSION@@ Documentation</title>
+> +    </head>
+> +    <body>
+> +        <h1>QEMU @@VERSION@@ Documentation</h1>
+> +        <ul>
+> +            <li><a href="qemu-doc.html">User Documentation</a></li>
+> +            <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
+> +            <li><a href="qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
+> +            <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
+> +            <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
+> +        </ul>
+> +    </body>
+> +</html>
+> 
 
->> On Tue, Dec 17, 2019 at 12:36 AM Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
->>>
->>> After setting CP15 bits in arm_set_cpu_on() the cached hflags must
->>> be rebuild to reflect the changed processor state. Without rebuilding,
->>> the cached hflags would be inconsistent until the next call to
->>> arm_rebuild_hflags(). When QEMU is compiled with debugging enabled
->>> (--enable-debug), this problem is captured shortly after the first
->>> call to arm_set_cpu_on() for CPUs running in ARM 32-bit non-secure mode:
->>>
->>>   qemu-system-arm: target/arm/helper.c:11359: cpu_get_tb_cpu_state:
->>>   Assertion `flags == rebuild_hflags_internal(env)' failed.
->>>   Aborted (core dumped)
->>>
->>> Fixes: 0c7f8c43daf65
->>> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
->>> ---
->>>  target/arm/arm-powerctl.c | 3 +++
->>>  1 file changed, 3 insertions(+)
->>>
->>> diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
->>> index b064513d44..b75f813b40 100644
->>> --- a/target/arm/arm-powerctl.c
->>> +++ b/target/arm/arm-powerctl.c
->>> @@ -127,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
->>>          target_cpu->env.regs[0] = info->context_id;
->>>      }
->>>
->>> +    /* CP15 update requires rebuilding hflags */
->>> +    arm_rebuild_hflags(&target_cpu->env);
->>> +
->>>      /* Start the new CPU at the requested address */
->>>      cpu_set_pc(target_cpu_state, info->entry);
->>>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
