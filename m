@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA43A1223D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:31:39 +0100 (CET)
-Received: from localhost ([::1]:35880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA941223DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:35:44 +0100 (CET)
+Received: from localhost ([::1]:35944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5SM-00005n-93
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:31:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35127)
+	id 1ih5WJ-0005e7-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:35:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35645)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jm-0002AD-CR
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:36 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kJ-0002ZL-Nd
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ji-0007X5-9s
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:34 -0500
-Received: from ozlabs.org ([203.11.71.1]:48103)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kH-0008JC-Vr
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:07 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33581 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4jg-000727-Fn; Mon, 16 Dec 2019 23:45:30 -0500
+ id 1ih4kH-0007to-LV; Mon, 16 Dec 2019 23:46:05 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWd4y1gz9sTG; Tue, 17 Dec 2019 15:43:40 +1100 (AEDT)
+ id 47cQWh4ZdJz9sTV; Tue, 17 Dec 2019 15:43:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557821;
- bh=tUWiTimI4vG2ukDtApEV0gwVGlWRs2/TqcyikECZ2zc=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557824;
+ bh=YlK/tUICTVr5Vv0darORvjbxvkstbvsYCLK3WqmknOE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VRnXcZ6exeFF/z3VWfvFvpnWGqEbs2cCvPyujP0s2xqLsatjYvQ0oSMmtbYU4f3AR
- EQLHMg4EIVk8Rhd1ve6wAeud905xKDX8huN8LtHsK+FjXdwM+TAUOfd4y7JFJVRdbV
- Cmc/KC7Chij604l1KZ23XY8iH7Gy9Zu2Pg6pAxPw=
+ b=Noa+EfdlmFTvtU4hmt4Qyj256y8knXZXR7U60/ACQ3qAQd0YTIIUDxDVdsDBFymPI
+ K89QRUzLrQ5UCdnX9rXgZk+aZGReWfhWOATAsWHK9RtrAxDj8z9g8HohomswkN3K1k
+ DcDt3uUzRelbVV+9Ts3mnHI3QgCTI+nz71J22zJY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 64/88] ppc/pnv: add a PSI bridge model for POWER10
-Date: Tue, 17 Dec 2019 15:42:58 +1100
-Message-Id: <20191217044322.351838-65-david@gibson.dropbear.id.au>
+Subject: [PULL 66/88] target/ppc: Implement the VTB for HV access
+Date: Tue, 17 Dec 2019 15:43:00 +1100
+Message-Id: <20191217044322.351838-67-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,207 +55,202 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-The POWER10 PSIHB controller is very similar to the one on POWER9. We
-should probably introduce a common PnvPsiXive object.
+The virtual timebase register (VTB) is a 64-bit register which
+increments at the same rate as the timebase register, present on POWER8
+and later processors.
 
-The ESB page size should be changed to 64k when P10 support is ready.
+The register is able to be read/written by the hypervisor and read by
+the supervisor. All other accesses are illegal.
 
+Currently the VTB is just an alias for the timebase (TB) register.
+
+Implement the VTB so that is can be read/written independent of the TB.
+Make use of the existing method for accessing timebase facilities where
+by the compensation is stored and used to compute the value on reads/is
+updated on writes.
+
+Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+[ clg: rebased on current ppc tree ]
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191205184454.10722-5-clg@kaod.org>
+Message-Id: <20191128134700.16091-2-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c               | 27 ++++++++++++++++++++-------
- hw/ppc/pnv_psi.c           | 25 ++++++++++++++++++++++++-
- include/hw/ppc/pnv.h       |  9 +++++++++
- include/hw/ppc/pnv_psi.h   |  2 ++
- include/hw/ppc/pnv_xscom.h |  3 +++
- 5 files changed, 58 insertions(+), 8 deletions(-)
+ hw/ppc/ppc.c                    | 16 ++++++++++++++++
+ include/hw/ppc/ppc.h            |  1 +
+ linux-user/ppc/cpu_loop.c       |  5 +++++
+ target/ppc/cpu.h                |  2 ++
+ target/ppc/helper.h             |  2 ++
+ target/ppc/timebase_helper.c    | 10 ++++++++++
+ target/ppc/translate_init.inc.c | 19 +++++++++++++++----
+ 7 files changed, 51 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index d99cd72840..09263ab747 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -647,9 +647,9 @@ static void pnv_ipmi_bt_init(ISABus *bus, IPMIBmc *bm=
-c, uint32_t irq)
-=20
- static void pnv_chip_power10_pic_print_info(PnvChip *chip, Monitor *mon)
- {
--    /*
--     * No interrupt controller yet
--     */;
-+    Pnv10Chip *chip10 =3D PNV10_CHIP(chip);
-+
-+    pnv_psi_pic_print_info(&chip10->psi, mon);
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 45834f98d1..d8c402811f 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -682,6 +682,22 @@ void cpu_ppc_store_atbu (CPUPPCState *env, uint32_t =
+value)
+                      &tb_env->atb_offset, ((uint64_t)value << 32) | tb);
  }
 =20
- static void pnv_init(MachineState *machine)
-@@ -1311,16 +1311,17 @@ static void pnv_chip_power9_class_init(ObjectClas=
-s *klass, void *data)
-=20
- static void pnv_chip_power10_instance_init(Object *obj)
- {
--    /*
--     * No controllers yet
--     */
--    ;
-+    Pnv10Chip *chip10 =3D PNV10_CHIP(obj);
-+
-+    object_initialize_child(obj, "psi",  &chip10->psi, sizeof(chip10->ps=
-i),
-+                            TYPE_PNV10_PSI, &error_abort, NULL);
- }
-=20
- static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
- {
-     PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(dev);
-     PnvChip *chip =3D PNV_CHIP(dev);
-+    Pnv10Chip *chip10 =3D PNV10_CHIP(dev);
-     Error *local_err =3D NULL;
-=20
-     /* XSCOM bridge is first */
-@@ -1336,6 +1337,18 @@ static void pnv_chip_power10_realize(DeviceState *=
-dev, Error **errp)
-         error_propagate(errp, local_err);
-         return;
-     }
-+
-+    /* Processor Service Interface (PSI) Host Bridge */
-+    object_property_set_int(OBJECT(&chip10->psi), PNV10_PSIHB_BASE(chip)=
-,
-+                            "bar", &error_fatal);
-+    object_property_set_bool(OBJECT(&chip10->psi), true, "realized",
-+                             &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    pnv_xscom_add_subregion(chip, PNV10_XSCOM_PSIHB_BASE,
-+                            &PNV_PSI(&chip10->psi)->xscom_regs);
- }
-=20
- static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index e6c266ac4a..572924388b 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -538,6 +538,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
-Error **errp)
-=20
- static const char compat_p8[] =3D "ibm,power8-psihb-x\0ibm,psihb-x";
- static const char compat_p9[] =3D "ibm,power9-psihb-x\0ibm,psihb-x";
-+static const char compat_p10[] =3D "ibm,power10-psihb-x\0ibm,psihb-x";
-=20
- static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, int xscom=
-_offset)
- {
-@@ -557,7 +558,10 @@ static int pnv_psi_dt_xscom(PnvXScomInterface *dev, =
-void *fdt, int xscom_offset)
-     _FDT(fdt_setprop(fdt, offset, "reg", reg, sizeof(reg)));
-     _FDT(fdt_setprop_cell(fdt, offset, "#address-cells", 2));
-     _FDT(fdt_setprop_cell(fdt, offset, "#size-cells", 1));
--    if (ppc->chip_type =3D=3D PNV_CHIP_POWER9) {
-+    if (ppc->chip_type =3D=3D PNV_CHIP_POWER10) {
-+        _FDT(fdt_setprop(fdt, offset, "compatible", compat_p10,
-+                         sizeof(compat_p10)));
-+    } else if (ppc->chip_type =3D=3D PNV_CHIP_POWER9) {
-         _FDT(fdt_setprop(fdt, offset, "compatible", compat_p9,
-                          sizeof(compat_p9)));
-     } else {
-@@ -909,6 +913,24 @@ static const TypeInfo pnv_psi_power9_info =3D {
-     },
- };
-=20
-+static void pnv_psi_power10_class_init(ObjectClass *klass, void *data)
++uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
 +{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    PnvPsiClass *ppc =3D PNV_PSI_CLASS(klass);
++    ppc_tb_t *tb_env =3D env->tb_env;
 +
-+    dc->desc    =3D "PowerNV PSI Controller POWER10";
-+
-+    ppc->chip_type  =3D PNV_CHIP_POWER10;
-+    ppc->xscom_pcba =3D PNV10_XSCOM_PSIHB_BASE;
-+    ppc->xscom_size =3D PNV10_XSCOM_PSIHB_SIZE;
++    return cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                          tb_env->vtb_offset);
 +}
 +
-+static const TypeInfo pnv_psi_power10_info =3D {
-+    .name          =3D TYPE_PNV10_PSI,
-+    .parent        =3D TYPE_PNV9_PSI,
-+    .class_init    =3D pnv_psi_power10_class_init,
-+};
++void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value)
++{
++    ppc_tb_t *tb_env =3D env->tb_env;
 +
- static void pnv_psi_class_init(ObjectClass *klass, void *data)
++    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                     &tb_env->vtb_offset, value);
++}
++
+ static void cpu_ppc_tb_stop (CPUPPCState *env)
  {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -938,6 +960,7 @@ static void pnv_psi_register_types(void)
-     type_register_static(&pnv_psi_info);
-     type_register_static(&pnv_psi_power8_info);
-     type_register_static(&pnv_psi_power9_info);
-+    type_register_static(&pnv_psi_power10_info);
+     ppc_tb_t *tb_env =3D env->tb_env;
+diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
+index 89e1dd065a..d7a95608f6 100644
+--- a/include/hw/ppc/ppc.h
++++ b/include/hw/ppc/ppc.h
+@@ -24,6 +24,7 @@ struct ppc_tb_t {
+     /* Time base management */
+     int64_t  tb_offset;    /* Compensation                    */
+     int64_t  atb_offset;   /* Compensation                    */
++    int64_t  vtb_offset;
+     uint32_t tb_freq;      /* TB frequency                    */
+     /* Decrementer management */
+     uint64_t decr_next;    /* Tick for next decr interrupt    */
+diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+index d5704def29..5b27f8603e 100644
+--- a/linux-user/ppc/cpu_loop.c
++++ b/linux-user/ppc/cpu_loop.c
+@@ -47,6 +47,11 @@ uint32_t cpu_ppc_load_atbu(CPUPPCState *env)
+     return cpu_ppc_get_tb(env) >> 32;
  }
 =20
- type_init(pnv_psi_register_types);
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index bfa61edfba..47b7370b27 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -112,6 +112,9 @@ typedef struct Pnv9Chip {
- typedef struct Pnv10Chip {
-     /*< private >*/
-     PnvChip      parent_obj;
++uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
++{
++    return cpu_ppc_get_tb(env);
++}
 +
-+    /*< public >*/
-+    Pnv9Psi      psi;
- } Pnv10Chip;
+ uint32_t cpu_ppc601_load_rtcu(CPUPPCState *env)
+ __attribute__ (( alias ("cpu_ppc_load_tbu") ));
 =20
- typedef struct PnvChipClass {
-@@ -326,4 +329,10 @@ IPMIBmc *pnv_bmc_create(void);
- #define PNV10_XSCOM_SIZE             0x0000000400000000ull
- #define PNV10_XSCOM_BASE(chip)       PNV10_CHIP_BASE(chip, 0x00603fc0000=
-0000ull)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index fbec1b0cd5..eb7d2c7637 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1303,6 +1303,8 @@ uint64_t cpu_ppc_load_atbl(CPUPPCState *env);
+ uint32_t cpu_ppc_load_atbu(CPUPPCState *env);
+ void cpu_ppc_store_atbl(CPUPPCState *env, uint32_t value);
+ void cpu_ppc_store_atbu(CPUPPCState *env, uint32_t value);
++uint64_t cpu_ppc_load_vtb(CPUPPCState *env);
++void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value);
+ bool ppc_decr_clear_on_delivery(CPUPPCState *env);
+ target_ulong cpu_ppc_load_decr(CPUPPCState *env);
+ void cpu_ppc_store_decr(CPUPPCState *env, target_ulong value);
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index f843814b8a..a5f53bb421 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -649,6 +649,7 @@ DEF_HELPER_FLAGS_1(load_tbl, TCG_CALL_NO_RWG, tl, env=
+)
+ DEF_HELPER_FLAGS_1(load_tbu, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_atbl, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_atbu, TCG_CALL_NO_RWG, tl, env)
++DEF_HELPER_FLAGS_1(load_vtb, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_601_rtcl, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, tl, env)
+ #if !defined(CONFIG_USER_ONLY)
+@@ -669,6 +670,7 @@ DEF_HELPER_FLAGS_1(load_decr, TCG_CALL_NO_RWG, tl, en=
+v)
+ DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
++DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_2(store_hid0_601, void, env, tl)
+ DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
+ DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
+diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+index 73363e08ae..8c3c2fe67c 100644
+--- a/target/ppc/timebase_helper.c
++++ b/target/ppc/timebase_helper.c
+@@ -45,6 +45,11 @@ target_ulong helper_load_atbu(CPUPPCState *env)
+     return cpu_ppc_load_atbu(env);
+ }
 =20
-+#define PNV10_PSIHB_ESB_SIZE        0x0000000000100000ull
-+#define PNV10_PSIHB_ESB_BASE(chip)  PNV10_CHIP_BASE(chip, 0x000603020200=
-0000ull)
++target_ulong helper_load_vtb(CPUPPCState *env)
++{
++    return cpu_ppc_load_vtb(env);
++}
 +
-+#define PNV10_PSIHB_SIZE            0x0000000000100000ull
-+#define PNV10_PSIHB_BASE(chip)      PNV10_CHIP_BASE(chip, 0x000603020300=
-0000ull)
-+
- #endif /* PPC_PNV_H */
-diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
-index e82df9709f..a044aab304 100644
---- a/include/hw/ppc/pnv_psi.h
-+++ b/include/hw/ppc/pnv_psi.h
-@@ -69,6 +69,8 @@ typedef struct Pnv9Psi {
-     XiveSource source;
- } Pnv9Psi;
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+ target_ulong helper_load_purr(CPUPPCState *env)
+ {
+@@ -113,6 +118,11 @@ void helper_store_hdecr(CPUPPCState *env, target_ulo=
+ng val)
+     cpu_ppc_store_hdecr(env, val);
+ }
 =20
-+#define TYPE_PNV10_PSI TYPE_PNV_PSI "-POWER10"
++void helper_store_vtb(CPUPPCState *env, target_ulong val)
++{
++    cpu_ppc_store_vtb(env, val);
++}
 +
- #define PNV_PSI_CLASS(klass) \
-      OBJECT_CLASS_CHECK(PnvPsiClass, (klass), TYPE_PNV_PSI)
- #define PNV_PSI_GET_CLASS(obj) \
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index 790eb3d8f3..a40d2a2a2a 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -106,6 +106,9 @@ typedef struct PnvXScomInterfaceClass {
-     ((uint64_t) PNV10_XSCOM_EQ_BASE(core) | PNV10_XSCOM_EC(core & 0x3))
- #define PNV10_XSCOM_EC_SIZE        0x100000
+ target_ulong helper_load_40x_pit(CPUPPCState *env)
+ {
+     return load_40x_pit(env);
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index 7364d36b07..226aecf8f4 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -312,6 +312,16 @@ static void spr_write_hdecr(DisasContext *ctx, int s=
+prn, int gprn)
+     }
+ }
 =20
-+#define PNV10_XSCOM_PSIHB_BASE     0x3011D00
-+#define PNV10_XSCOM_PSIHB_SIZE     0x100
++static void spr_read_vtb(DisasContext *ctx, int gprn, int sprn)
++{
++    gen_helper_load_vtb(cpu_gpr[gprn], cpu_env);
++}
 +
- extern void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp=
-);
- extern int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
++static void spr_write_vtb(DisasContext *ctx, int sprn, int gprn)
++{
++    gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
++}
++
+ #endif
+ #endif
 =20
+@@ -8174,10 +8184,11 @@ static void gen_spr_power8_ebb(CPUPPCState *env)
+ /* Virtual Time Base */
+ static void gen_spr_vtb(CPUPPCState *env)
+ {
+-    spr_register_kvm(env, SPR_VTB, "VTB",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_tbl, SPR_NOACCESS,
+-                 KVM_REG_PPC_VTB, 0x00000000);
++    spr_register_kvm_hv(env, SPR_VTB, "VTB",
++                        SPR_NOACCESS, SPR_NOACCESS,
++                        &spr_read_vtb, SPR_NOACCESS,
++                        &spr_read_vtb, &spr_write_vtb,
++                        KVM_REG_PPC_VTB, 0x00000000);
+ }
+=20
+ static void gen_spr_power8_fscr(CPUPPCState *env)
 --=20
 2.23.0
 
