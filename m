@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E0312245B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:55:51 +0100 (CET)
-Received: from localhost ([::1]:36320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CB0122405
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:47:40 +0100 (CET)
+Received: from localhost ([::1]:36144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5pm-0007pr-RN
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:55:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51997)
+	id 1ih5hr-00058l-CH
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:47:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52137)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1ih5Cx-0002jL-HV
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:44 -0500
+ (envelope-from <crosa@redhat.com>) id 1ih5D8-000324-95
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1ih5Cw-0002nv-5n
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48702
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1ih5D7-0003MW-2k
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:54 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54727
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5Cw-0002mR-36
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:42 -0500
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5D6-0003LD-Vm
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:15:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576559741;
+ s=mimecast20190719; t=1576559752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MV0fOidRF7C4EAztP9ZWauegvPnXcw1LymAIIRWE6Bk=;
- b=bOydHx+tbMG5ap9ijuh692YQVet2yPdYcRe2BDvvd0NjuXFR5qi/GDjQkSGJxSZ7LyBVVx
- L4LIDbiDLM39ib/s3Ghr0AjW/vSktgNoDXW3nLadIb1e7D649ibfhSrnwkDR/EVKYAYWRZ
- 52cSjpblo8C/GDrovY9l1zbrL1xluZQ=
+ bh=BXjHJ/nHmfAHIatMjaNdnTAvIONIZN05s8S26P3Z/mo=;
+ b=ZnsJfw10RQn44VAjOmihnWacJ3w1p8P+phYGXVD+28QlwwOXSfvgY2CjlSad6APfpdW1Fx
+ t1sfB7ivwd5VIUfDh66CeW8PsAQhkqyVeJFPJh7GFT1RmnyTwgLv2U2cj8fs38DHzWpyXv
+ 2iNzklFdlMkXIcFH01GRO9leHACb70A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-NysG47SINh-ne9G14LVJoA-1; Tue, 17 Dec 2019 00:15:39 -0500
+ us-mta-394-n2n22fOBN5eOqTM-Hs74IA-1; Tue, 17 Dec 2019 00:15:49 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7328107ACC4;
- Tue, 17 Dec 2019 05:15:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4554A189CD01;
+ Tue, 17 Dec 2019 05:15:48 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-6.gru2.redhat.com
  [10.97.116.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10EFD19C4F;
- Tue, 17 Dec 2019 05:15:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4194819C4F;
+ Tue, 17 Dec 2019 05:15:42 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/15] tests/boot_linux_console: Fetch assets from Debian
- snapshot archives
-Date: Tue, 17 Dec 2019 00:15:07 -0500
-Message-Id: <20191217051521.1239-2-crosa@redhat.com>
+Subject: [PULL 03/15] analyze-migration.py: fix find() type error
+Date: Tue, 17 Dec 2019 00:15:09 -0500
+Message-Id: <20191217051521.1239-4-crosa@redhat.com>
 In-Reply-To: <20191217051521.1239-1-crosa@redhat.com>
 References: <20191217051521.1239-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: NysG47SINh-ne9G14LVJoA-1
+X-MC-Unique: n2n22fOBN5eOqTM-Hs74IA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,6 +75,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Fabien Chouteau <chouteau@adacore.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -86,39 +86,44 @@ Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-The kernel packaged was fetched from an unstable repository.
-Use the stable snapshot archive instead.
+Traceback (most recent call last):
+  File "../scripts/analyze-migration.py", line 611, in <module>
+    dump.read(desc_only =3D True)
+  File "../scripts/analyze-migration.py", line 513, in read
+    self.load_vmsd_json(file)
+  File "../scripts/analyze-migration.py", line 556, in load_vmsd_json
+    vmsd_json =3D file.read_migration_debug_json()
+  File "../scripts/analyze-migration.py", line 89, in read_migration_debug_=
+json
+    nulpos =3D data.rfind("\0")
+TypeError: argument should be integer or bytes-like object, not 'str'
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191126223810.20180-2-philmd@redhat.com>
-Tested-by: Willian Rampazzo <wrampazz@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20191127101038.327080-2-marcandre.lureau@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/analyze-migration.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
-_linux_console.py
-index 7e41cebd47..752f776f68 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -479,7 +479,8 @@ class BootLinuxConsole(Test):
-         :avocado: tags=3Darch:m68k
-         :avocado: tags=3Dmachine:q800
-         """
--        deb_url =3D ('http://ftp.ports.debian.org/debian-ports/pool-m68k/m=
-ain'
-+        deb_url =3D ('https://snapshot.debian.org/archive/debian-ports'
-+                   '/20191021T083923Z/pool-m68k/main'
-                    '/l/linux/kernel-image-5.3.0-1-m68k-di_5.3.7-1_m68k.ude=
-b')
-         deb_hash =3D '044954bb9be4160a3ce81f8bc1b5e856b75cccd1'
-         try:
+diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
+index e527eb168e..2b835d9b70 100755
+--- a/scripts/analyze-migration.py
++++ b/scripts/analyze-migration.py
+@@ -86,8 +86,8 @@ class MigrationFile(object):
+=20
+         # Find the last NULL byte, then the first brace after that. This s=
+hould
+         # be the beginning of our JSON data.
+-        nulpos =3D data.rfind("\0")
+-        jsonpos =3D data.find("{", nulpos)
++        nulpos =3D data.rfind(b'\0')
++        jsonpos =3D data.find(b'{', nulpos)
+=20
+         # Check backwards from there and see whether we guessed right
+         self.file.seek(datapos + jsonpos - 5, 0)
 --=20
 2.21.0
 
