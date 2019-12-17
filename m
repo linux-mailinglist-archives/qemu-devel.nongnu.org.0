@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0601223CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:29:05 +0100 (CET)
-Received: from localhost ([::1]:35836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDEA122386
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:18:34 +0100 (CET)
+Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Pr-0004ex-KT
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:29:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34604)
+	id 1ih5Fh-0005d7-74
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:18:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jC-0001Pa-NG
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:59 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iz-00012j-5x
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jB-0006oe-GF
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:58 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46239 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iy-0006Ud-2Q
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:45 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53063 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4jB-0006HZ-5C; Mon, 16 Dec 2019 23:44:57 -0500
+ id 1ih4ix-0005z4-OX; Mon, 16 Dec 2019 23:44:44 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWZ2TyWz9sT6; Tue, 17 Dec 2019 15:43:36 +1100 (AEDT)
+ id 47cQWY494Fz9sT4; Tue, 17 Dec 2019 15:43:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557818;
- bh=nZ5yfF0vhIxWHx0QMLrYt8s8F6FlZSGETDaImhofivo=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557817;
+ bh=AEyG8kMDV7K7eTzUARbjLzoB254Nh5b/bzAWmYEElow=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Igf5mJnKDxNQHKNjNPSNijPO5KkMWeNjozivLTfe4g18CVhEdG6hUqbfuXUle5HMC
- OMVzaJG1l7ozQyKcAGOqDsPkiuRaS5ev8X8J5L1LN5bmdqOuJnP6/JkNnITXScjuNY
- LNX7IoGevHXkEjsk1kMEMmsmJZNv62GWXE8g9K68=
+ b=jO+mHOJZVbyK2GLvx573YVavWb1AAvnMLJN1nhrgmOjoN2CSZ0UxHhfbqOvlbJ8V/
+ HMSryDhGWb+pzIixJInhvXRfvIpLj+uzwcLckNiFj7msaJzSBvayrrMqsm4ghfRpw3
+ JuaCiBrZ8vYWEpPQ9bwjZskU5o0hYE4ShN2OQmXI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 45/88] ppc/xive: Remove the get_tctx() XiveRouter handler
-Date: Tue, 17 Dec 2019 15:42:39 +1100
-Message-Id: <20191217044322.351838-46-david@gibson.dropbear.id.au>
+Subject: [PULL 47/88] ppc/xive: Synthesize interrupt from the saved IPB in the
+ NVT
+Date: Tue, 17 Dec 2019 15:42:41 +1100
+Message-Id: <20191217044322.351838-48-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -61,123 +62,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-It is now unused.
+When a vCPU is dispatched on a HW thread, its context is pushed in the
+thread registers and it is activated by setting the VO bit in the CAM
+line word2. The HW grabs the associated NVT, pulls the IPB bits and
+merges them with the IPB of the new context. If interrupts were missed
+while the vCPU was not dispatched, these are synthesized in this
+sequence.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-16-clg@kaod.org>
+Message-Id: <20191125065820.927-18-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c    | 13 -------------
- hw/intc/spapr_xive.c  |  8 --------
- hw/intc/xive.c        |  7 -------
- include/hw/ppc/xive.h |  2 --
- 4 files changed, 30 deletions(-)
+ hw/intc/xive.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index c14a2d1869..216ebc150a 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -460,18 +460,6 @@ static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu=
-)
-     return xive;
- }
-=20
--static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
--{
--    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
--
--    if (!xive) {
--        return NULL;
--    }
--
--    return XIVE_TCTX(pnv_cpu_state(cpu)->intc);
--}
--
- /*
-  * The internal sources (IPIs) of the interrupt controller have no
-  * knowledge of the XIVE chip on which they reside. Encode the block
-@@ -1900,7 +1888,6 @@ static void pnv_xive_class_init(ObjectClass *klass,=
- void *data)
-     xrc->write_end =3D pnv_xive_write_end;
-     xrc->get_nvt =3D pnv_xive_get_nvt;
-     xrc->write_nvt =3D pnv_xive_write_nvt;
--    xrc->get_tctx =3D pnv_xive_get_tctx;
-=20
-     xnc->notify =3D pnv_xive_notify;
-     xpc->match_nvt  =3D pnv_xive_match_nvt;
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 40891543e0..b785066da5 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -427,13 +427,6 @@ static int spapr_xive_write_nvt(XiveRouter *xrtr, ui=
-nt8_t nvt_blk,
-     g_assert_not_reached();
- }
-=20
--static XiveTCTX *spapr_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
--{
--    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--
--    return spapr_cpu_state(cpu)->tctx;
--}
--
- static int spapr_xive_match_nvt(XivePresenter *xptr, uint8_t format,
-                                 uint8_t nvt_blk, uint32_t nvt_idx,
-                                 bool cam_ignore, uint8_t priority,
-@@ -773,7 +766,6 @@ static void spapr_xive_class_init(ObjectClass *klass,=
- void *data)
-     xrc->write_end =3D spapr_xive_write_end;
-     xrc->get_nvt =3D spapr_xive_get_nvt;
-     xrc->write_nvt =3D spapr_xive_write_nvt;
--    xrc->get_tctx =3D spapr_xive_get_tctx;
-=20
-     sicc->activate =3D spapr_xive_activate;
-     sicc->deactivate =3D spapr_xive_deactivate;
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 0ca7099f4e..4bff3abdc3 100644
+index 7047e45dac..e022bb7afd 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -1317,13 +1317,6 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8_=
-t nvt_blk, uint32_t nvt_idx,
-    return xrc->write_nvt(xrtr, nvt_blk, nvt_idx, nvt, word_number);
+@@ -393,6 +393,57 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *x=
+ptr, XiveTCTX *tctx,
+     return qw1w2;
  }
 =20
--XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs)
--{
--    XiveRouterClass *xrc =3D XIVE_ROUTER_GET_CLASS(xrtr);
--
--    return xrc->get_tctx(xrtr, cs);
--}
--
++static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
++                                  uint8_t nvt_blk, uint32_t nvt_idx)
++{
++    XiveNVT nvt;
++    uint8_t ipb;
++
++    /*
++     * Grab the associated NVT to pull the pending bits, and merge
++     * them with the IPB of the thread interrupt context registers
++     */
++    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid NVT %x/%x\n",
++                          nvt_blk, nvt_idx);
++        return;
++    }
++
++    ipb =3D xive_get_field32(NVT_W4_IPB, nvt.w4);
++
++    if (ipb) {
++        /* Reset the NVT value */
++        nvt.w4 =3D xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
++        xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
++
++        /* Merge in current context */
++        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
++    }
++}
++
++/*
++ * Updating the OS CAM line can trigger a resend of interrupt
++ */
++static void xive_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
++                                hwaddr offset, uint64_t value, unsigned =
+size)
++{
++    uint32_t cam =3D value;
++    uint32_t qw1w2 =3D cpu_to_be32(cam);
++    uint8_t nvt_blk;
++    uint32_t nvt_idx;
++    bool vo;
++
++    xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
++
++    /* First update the registers */
++    xive_tctx_set_os_cam(tctx, qw1w2);
++
++    /* Check the interrupt pending bits */
++    if (vo) {
++        xive_tctx_need_resend(XIVE_ROUTER(xptr), tctx, nvt_blk, nvt_idx)=
+;
++    }
++}
++
  /*
-  * Encode the HW CAM line in the block group mode format :
-  *
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index dcf8974515..24315480e7 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -351,7 +351,6 @@ typedef struct XiveRouterClass {
-                    XiveNVT *nvt);
-     int (*write_nvt)(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nvt_idx=
-,
-                      XiveNVT *nvt, uint8_t word_number);
--    XiveTCTX *(*get_tctx)(XiveRouter *xrtr, CPUState *cs);
- } XiveRouterClass;
-=20
- int xive_router_get_eas(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_=
-idx,
-@@ -364,7 +363,6 @@ int xive_router_get_nvt(XiveRouter *xrtr, uint8_t nvt=
-_blk, uint32_t nvt_idx,
-                         XiveNVT *nvt);
- int xive_router_write_nvt(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nv=
-t_idx,
-                           XiveNVT *nvt, uint8_t word_number);
--XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs);
- void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
-=20
- /*
+  * Define a mapping of "special" operations depending on the TIMA page
+  * offset and the size of the operation.
+@@ -414,6 +465,7 @@ static const XiveTmOp xive_tm_operations[] =3D {
+      * effects
+      */
+     { XIVE_TM_OS_PAGE, TM_QW1_OS + TM_CPPR,   1, xive_tm_set_os_cppr, NU=
+LL },
++    { XIVE_TM_HV_PAGE, TM_QW1_OS + TM_WORD2,     4, xive_tm_push_os_ctx,=
+ NULL },
+     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_CPPR, 1, xive_tm_set_hv_cppr,=
+ NULL },
+     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, xive_tm_vt_push, NU=
+LL },
+     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, NULL, xive_tm_vt_po=
+ll },
 --=20
 2.23.0
 
