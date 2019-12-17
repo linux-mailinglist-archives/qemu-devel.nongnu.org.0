@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E470122398
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:23:50 +0100 (CET)
-Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA5612238B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:20:52 +0100 (CET)
+Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Kn-0004y9-20
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:23:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
+	id 1ih5Hu-0000mt-TY
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:20:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34008)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ir-0000rk-SU
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:38 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4ia-0000LJ-8r
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iq-0006JT-Rp
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:37 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46691 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iZ-0005vp-31
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:20 -0500
+Received: from ozlabs.org ([203.11.71.1]:49689)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4iq-0005ql-Hw; Mon, 16 Dec 2019 23:44:36 -0500
+ id 1ih4iY-0005aN-NY; Mon, 16 Dec 2019 23:44:19 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWX22l1z9sT1; Tue, 17 Dec 2019 15:43:32 +1100 (AEDT)
+ id 47cQWV4SJlz9sSs; Tue, 17 Dec 2019 15:43:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557816;
- bh=C8HKUXcfECjE3sXrMS4Qa0Rb0MODe28HXahNg2u1FYE=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557814;
+ bh=DSSa+2JspH3S+BZddb51VgY8bu9p/D1QJFBo+rul0po=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KNHRyfEPGlseVZsr985epRYy4vFfO2ioRwHUlmVeFXSj4zwZIihF2na44zjOdNGs6
- b4z9OBuyKLxaV9DYtjmSkVns8T7hlL3kKlxgbA6nro0s+cIbgNEchSllmYdCjG0mfd
- xPdmgQrSfMTrO5cn4AvpBinzyVXKpeTd1Q2XtDz0=
+ b=EnwRO3qQoy/YU3F+usm43cfCb9ZV920WTksOoJBDGErVlEEcYnjPUL4bRPCyy4QUo
+ lwpYDw21utzN6K5FdrijBG8MY/NkwQjQjBFmQs8PDuh6ok74LhwIbCm6DkQK6piiqv
+ Uy+P4q8GKXJaSPQ78+KXMUlmSKB6Hax0LnRwYtbk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 31/88] ppc: Introduce a ppc_cpu_pir() helper
-Date: Tue, 17 Dec 2019 15:42:25 +1100
-Message-Id: <20191217044322.351838-32-david@gibson.dropbear.id.au>
+Subject: [PULL 32/88] ppc/pnv: Introduce a pnv_xive_is_cpu_enabled() helper
+Date: Tue, 17 Dec 2019 15:42:26 +1100
+Message-Id: <20191217044322.351838-33-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,54 +61,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
+and use this helper to exclude CPUs which are not enabled in the XIVE
+controller.
+
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-6-clg@kaod.org>
+Message-Id: <20191125065820.927-7-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc.c         | 9 +++++++--
- include/hw/ppc/ppc.h | 1 +
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ hw/intc/pnv_xive.c   | 19 +++++++++++++++++++
+ include/hw/ppc/pnv.h |  5 +++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 52a18eb7d7..8dd982fc1e 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -1495,15 +1495,20 @@ void PPC_debug_write (void *opaque, uint32_t addr=
-, uint32_t val)
-     }
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 9798bd9e72..ec8349ee4a 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -372,6 +372,21 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+     return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
  }
 =20
-+int ppc_cpu_pir(PowerPCCPU *cpu)
++/*
++ * One bit per thread id. The first register PC_THREAD_EN_REG0 covers
++ * the first cores 0-15 (normal) of the chip or 0-7 (fused). The
++ * second register covers cores 16-23 (normal) or 8-11 (fused).
++ */
++static bool pnv_xive_is_cpu_enabled(PnvXive *xive, PowerPCCPU *cpu)
 +{
-+    CPUPPCState *env =3D &cpu->env;
-+    return env->spr_cb[SPR_PIR].default_value;
++    int pir =3D ppc_cpu_pir(cpu);
++    uint32_t fc =3D PNV9_PIR2FUSEDCORE(pir);
++    uint64_t reg =3D fc < 8 ? PC_THREAD_EN_REG0 : PC_THREAD_EN_REG1;
++    uint32_t bit =3D pir & 0x3f;
++
++    return xive->regs[reg >> 3] & PPC_BIT(bit);
 +}
 +
- PowerPCCPU *ppc_get_vcpu_by_pir(int pir)
- {
-     CPUState *cs;
+ static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+                               uint8_t nvt_blk, uint32_t nvt_idx,
+                               bool cam_ignore, uint8_t priority,
+@@ -391,6 +406,10 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, u=
+int8_t format,
+             XiveTCTX *tctx;
+             int ring;
 =20
-     CPU_FOREACH(cs) {
-         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--        CPUPPCState *env =3D &cpu->env;
++            if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
++                continue;
++            }
++
+             tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
 =20
--        if (env->spr_cb[SPR_PIR].default_value =3D=3D pir) {
-+        if (ppc_cpu_pir(cpu) =3D=3D pir) {
-             return cpu;
-         }
-     }
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index 4bdcb8bacd..585be6ab98 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -5,6 +5,7 @@
+             /*
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 03cb429f21..12b0169a40 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -99,6 +99,11 @@ typedef struct Pnv9Chip {
+     PnvQuad      *quads;
+ } Pnv9Chip;
 =20
- void ppc_set_irq(PowerPCCPU *cpu, int n_IRQ, int level);
- PowerPCCPU *ppc_get_vcpu_by_pir(int pir);
-+int ppc_cpu_pir(PowerPCCPU *cpu);
-=20
- /* PowerPC hardware exceptions management helpers */
- typedef void (*clk_setup_cb)(void *opaque, uint32_t freq);
++/*
++ * A SMT8 fused core is a pair of SMT4 cores.
++ */
++#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
++
+ typedef struct PnvChipClass {
+     /*< private >*/
+     SysBusDeviceClass parent_class;
 --=20
 2.23.0
 
