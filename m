@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FE7122366
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:10:59 +0100 (CET)
-Received: from localhost ([::1]:35478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582DD122379
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:13:20 +0100 (CET)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih58M-0002cM-83
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:10:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33859)
+	id 1ih5Ac-0006IR-Q1
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:13:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iS-00008m-Jt
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:13 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iT-0000BR-Uj
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iR-0005n9-J0
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:12 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52677 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iS-0005oo-S7
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:13 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45237 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4iR-0005Q9-8L; Mon, 16 Dec 2019 23:44:11 -0500
+ id 1ih4iS-0005Pr-I7; Mon, 16 Dec 2019 23:44:12 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWS3GRlz9sSj; Tue, 17 Dec 2019 15:43:30 +1100 (AEDT)
+ id 47cQWS1cnDz9sSm; Tue, 17 Dec 2019 15:43:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557812;
- bh=Qr/f8LIMoTqVdF6BB8cAbzhbd2tEVe4IjlvUHANWBx8=;
+ bh=pepwT/pUYDx/GUmEQo/uunQvZUzzeXQhKHZYA4EiAUU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MF40L5ZUudkHSZpryrBv9Ep/ltcxpiSVzF/0+3hudN8JjiGS2pSADeli6vQ3Ckszo
- oZgAxziaIeWaYGkTLf5VKBHO6oODvrIccviR45zC6Qhb75V6TuOIvjISPkQtB5ZgNd
- lDcS2eDLuZrlgZrPYKmcoNhxlpfFujpJ7rWVW5Ng=
+ b=GLrd+IAlG/GsubjIeT8gx3BUy5KFq6n1O6umPxJCbz9ogKA6p29GXFXb5CET0bcbr
+ NbCUMABpgtcc3I6XFubM2O1nKzew2IPwvQYHaYLyYMWBG85tspDqqp4Sl4XQNMHug4
+ i/NuKd+TTQmrqQsyluZM7pwCExv2qEu98ASkq4t4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 21/88] ppc/pnv: Quiesce some XIVE errors
-Date: Tue, 17 Dec 2019 15:42:15 +1100
-Message-Id: <20191217044322.351838-22-david@gibson.dropbear.id.au>
+Subject: [PULL 22/88] ppc/xive: Introduce OS CAM line helpers
+Date: Tue, 17 Dec 2019 15:42:16 +1100
+Message-Id: <20191217044322.351838-23-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -61,51 +61,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-When dumping the END and NVT tables, the error logging is too noisy.
+The OS CAM line has a special encoding exploited by the HW. Provide
+helper routines to hide the details to the TIMA command handlers. This
+also clarifies the endianness of different variables : 'qw1w2' is
+big-endian and 'cam' is native.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191115162436.30548-6-clg@kaod.org>
+Message-Id: <20191115162436.30548-7-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/intc/xive.c | 41 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index a4d80fd5e7..9a771f6407 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -29,7 +29,7 @@
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 177663d2b4..42e9a11ef7 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -337,14 +337,49 @@ static void xive_tm_set_os_pending(XiveTCTX *tctx, =
+hwaddr offset,
+     xive_tctx_notify(tctx, TM_QW1_OS);
+ }
 =20
- #include "pnv_xive_regs.h"
++static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
++                               uint32_t *nvt_idx, bool *vo)
++{
++    if (nvt_blk) {
++        *nvt_blk =3D xive_nvt_blk(cam);
++    }
++    if (nvt_idx) {
++        *nvt_idx =3D xive_nvt_idx(cam);
++    }
++    if (vo) {
++        *vo =3D !!(cam & TM_QW1W2_VO);
++    }
++}
++
++static uint32_t xive_tctx_get_os_cam(XiveTCTX *tctx, uint8_t *nvt_blk,
++                                     uint32_t *nvt_idx, bool *vo)
++{
++    uint32_t qw1w2 =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
++    uint32_t cam =3D be32_to_cpu(qw1w2);
++
++    xive_os_cam_decode(cam, nvt_blk, nvt_idx, vo);
++    return qw1w2;
++}
++
++static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t qw1w2)
++{
++    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
++}
++
+ static uint64_t xive_tm_pull_os_ctx(XiveTCTX *tctx, hwaddr offset,
+                                     unsigned size)
+ {
+-    uint32_t qw1w2_prev =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
+     uint32_t qw1w2;
++    uint32_t qw1w2_new;
++    uint8_t nvt_blk;
++    uint32_t nvt_idx;
++    bool vo;
 =20
--#define XIVE_DEBUG
-+#undef XIVE_DEBUG
-=20
- /*
-  * Virtual structures table (VST)
-@@ -157,7 +157,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
-ive, uint32_t type,
-     vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
-=20
-     if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-         xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
-;
-+#endif
-         return 0;
-     }
-=20
-@@ -178,7 +180,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
-ive, uint32_t type,
-         vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
-=20
-         if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-             xive_error(xive, "VST: invalid %s entry %x !?", info->name, =
-idx);
-+#endif
-             return 0;
-         }
+-    qw1w2 =3D xive_set_field32(TM_QW1W2_VO, qw1w2_prev, 0);
+-    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
++    qw1w2 =3D xive_tctx_get_os_cam(tctx, &nvt_blk, &nvt_idx, &vo);
++
++    /* Invalidate CAM line */
++    qw1w2_new =3D xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
++    xive_tctx_set_os_cam(tctx, qw1w2_new);
+     return qw1w2;
+ }
 =20
 --=20
 2.23.0
