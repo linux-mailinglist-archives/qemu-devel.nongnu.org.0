@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41807122471
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:01:39 +0100 (CET)
-Received: from localhost ([::1]:36384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F1B122482
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:11:46 +0100 (CET)
+Received: from localhost ([::1]:36452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5vO-0004RR-BN
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:01:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52708)
+	id 1ih65B-0007Jn-Bw
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:11:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1ih5E7-0004b2-Dr
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:57 -0500
+ (envelope-from <sbhat@linux.ibm.com>) id 1ih64N-0006nr-8Z
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:10:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1ih5E4-0004IG-Rw
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53606
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ih5E4-0004Hv-Ni
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 00:16:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576559812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DDb+RUoh9h50/NugqfGetWuvIlrL5CsXimNxjVbow44=;
- b=N6wDlRCTx2d8QsEniUhVXm7sz8bmrP4JelljSTiEO8ulg5Nsfnd8QpoYEpNrFewnfk9C8X
- fFWAP8o6KeNoo3rY0YBWxERTkf+pOurDNDMobxxgIolhapei5vGO3skX9iRx8XcRaPrMBs
- Xxwg81xcrom8cKTovWmVQwlgiFbCGj8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-3jw45WaeNa6zC9Gq5OZVzQ-1; Tue, 17 Dec 2019 00:16:50 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2827107ACC4;
- Tue, 17 Dec 2019 05:16:48 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-116-6.gru2.redhat.com
- [10.97.116.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5921B19C4F;
- Tue, 17 Dec 2019 05:16:45 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/15] python/qemu: accel: Add tcg_available() method
-Date: Tue, 17 Dec 2019 00:15:20 -0500
-Message-Id: <20191217051521.1239-15-crosa@redhat.com>
-In-Reply-To: <20191217051521.1239-1-crosa@redhat.com>
-References: <20191217051521.1239-1-crosa@redhat.com>
+ (envelope-from <sbhat@linux.ibm.com>) id 1ih64M-00081a-CE
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:10:55 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35692)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sbhat@linux.ibm.com>) id 1ih64M-0007yv-57
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:10:54 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBH67TjA139294
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 01:10:52 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wwdvn6j40-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 01:10:52 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <sbhat@linux.ibm.com>;
+ Tue, 17 Dec 2019 06:10:50 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 17 Dec 2019 06:10:48 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBH6Ala544892256
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Dec 2019 06:10:47 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 781AE11C05B;
+ Tue, 17 Dec 2019 06:10:47 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4677911C04A;
+ Tue, 17 Dec 2019 06:10:46 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.124.35.229])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 17 Dec 2019 06:10:46 +0000 (GMT)
+Subject: Re: [PATCH v3 3/3] spapr: Add Hcalls to support PAPR NVDIMM device
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <157107820388.27733.3565652855304038259.stgit@lep8c.aus.stglabs.ibm.com>
+ <157107827730.27733.6442960086351627702.stgit@lep8c.aus.stglabs.ibm.com>
+ <20191122051121.GE5582@umbus.fritz.box>
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Date: Tue, 17 Dec 2019 11:40:45 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 3jw45WaeNa6zC9Gq5OZVzQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <20191122051121.GE5582@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 19121706-0020-0000-0000-00000398FBC2
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19121706-0021-0000-0000-000021F015FC
+Message-Id: <60ac495d-a6ef-f182-1c08-4061e362919e@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-17_01:2019-12-16,2019-12-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=958 lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ suspectscore=0 clxscore=1015 phishscore=0 impostorscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912170055
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,52 +93,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-ppc@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, sbhat@linux.vnet.ibm.com,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Hi David,
 
-This adds a method to check if the tcg accelerator is enabled
-in the QEMU binary.
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20191216191438.93418-5-wainersm@redhat.com>
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- python/qemu/accel.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On 11/22/2019 10:41 AM, David Gibson wrote:
+> On Mon, Oct 14, 2019 at 01:38:16PM -0500, Shivaprasad G Bhat wrote:
+>> device_add/del phase itself instead.
+>>
+>> The guest kernel makes bind/unbind requests for the virtual NVDIMM device
+>> at the region level granularity. Without interleaving, each virtual NVDIMM
+> It's not clear to me what a "region" means in this context.
 
-diff --git a/python/qemu/accel.py b/python/qemu/accel.py
-index 5fce3aa3dd..0b38ddf0ab 100644
---- a/python/qemu/accel.py
-+++ b/python/qemu/accel.py
-@@ -67,3 +67,11 @@ def kvm_available(target_arch=3DNone, qemu_bin=3DNone):
-     if qemu_bin and "kvm" not in list_accel(qemu_bin):
-         return False
-     return True
-+
-+def tcg_available(qemu_bin):
-+    """
-+    Check if TCG is available.
-+
-+    @param qemu_bin (str): path to the QEMU binary
-+    """
-+    return 'tcg' in list_accel(qemu_bin)
---=20
-2.21.0
+That is PMEM terminology. "region" in this context is guest physical
+address range.
+
+Fixing all the rest of the things you pointed out.
+
+Thanks,
+Shivaprasad
+
+>
 
 
