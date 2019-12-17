@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3416E1223E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:38:08 +0100 (CET)
-Received: from localhost ([::1]:35980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346B41223D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:31:15 +0100 (CET)
+Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Yc-0000me-U0
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:38:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35798)
+	id 1ih5Rx-0007kq-NO
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:31:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35489)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kV-0002r8-8u
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:20 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kB-0002Nh-4r
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kT-00009j-SK
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:19 -0500
-Received: from ozlabs.org ([203.11.71.1]:35459)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4k9-00084n-Pj
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:58 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42157 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4kT-00082r-GH; Mon, 16 Dec 2019 23:46:17 -0500
+ id 1ih4k9-00082n-FN; Mon, 16 Dec 2019 23:45:57 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWk0d4Fz9sRh; Tue, 17 Dec 2019 15:43:42 +1100 (AEDT)
+ id 47cQWj2Z0Gz9sTb; Tue, 17 Dec 2019 15:43:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557826;
- bh=IBWkRFwx/vIV/i59CX152JuOWpLUoM7587gE3heFvug=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557825;
+ bh=APu7qN38GsprHR5Z7/xsS8JIgH+fS44UWNOeJDQ/e0Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eBku1mLSpKH5yermo1D60LiF7wiQEVVVmIgVLnPeASJoB4x/p83aQoYywdzxRxnQE
- 43SeBw63KFz9T6QIaPxu+A8XrvV6rT/MpBvRzz9RQTjaDXQ0xhVXNHYtxZQVxRyjN7
- Pph3OezXuH8ZzNGkzcZ5ooeINv/UTWHBHl/OHhdI=
+ b=O1s4FwXLefvnUWEySZT10FYWSO2LKNQzGFSw9RFY/LHY2/C5J8XxZpRqpAbf74OsX
+ 23rAsRyWcgtShfDduKlNBxesWjuoNGSDksJtLO2ELwnmCPzSsJlMI51lOTypPuAnaV
+ nTY003ZDvw9Vr2BkeFRR47jg82O3UVhToon3SssA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 74/88] ppc/pnv: Fix OCC common area region mapping
-Date: Tue, 17 Dec 2019 15:43:08 +1100
-Message-Id: <20191217044322.351838-75-david@gibson.dropbear.id.au>
+Subject: [PULL 75/88] ppc: Drop useless extern annotation for functions
+Date: Tue, 17 Dec 2019 15:43:09 +1100
+Message-Id: <20191217044322.351838-76-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,179 +55,75 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Greg Kurz <groug@kaod.org>
 
-The OCC common area is mapped at a unique address on the system and
-each OCC is assigned a segment to expose its sensor data :
-
-  -----------------------------------------------------------------------=
---
-  | Start (Offset from | End           | Size     |Description           =
- |
-  | BAR2 base address) |               |          |                      =
- |
-  -----------------------------------------------------------------------=
---
-  |    0x00580000      |  0x005A57FF   |150kB     |OCC 0 Sensor Data Bloc=
-k|
-  |    0x005A5800      |  0x005CAFFF   |150kB     |OCC 1 Sensor Data Bloc=
-k|
-  |        :           |       :       |  :       |            :         =
- |
-  |    0x00686800      |  0x006ABFFF   |150kB     |OCC 7 Sensor Data Bloc=
-k|
-  |    0x006AC000      |  0x006FFFFF   |336kB     |Reserved              =
- |
-  -----------------------------------------------------------------------=
---
-
-Maximum size is 1.5MB.
-
-We could define a "OCC common area" memory region at the machine level
-and sub regions for each OCC. But it adds some extra complexity to the
-models. Fix the current layout with a simpler model.
-
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191211082912.2625-3-clg@kaod.org>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <157623837421.360005.412120366652768311.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c             |  4 ++--
- hw/ppc/pnv_occ.c         | 11 ++++-------
- include/hw/ppc/pnv.h     |  4 ++++
- include/hw/ppc/pnv_occ.h |  8 ++++++--
- 4 files changed, 16 insertions(+), 11 deletions(-)
+ include/hw/ppc/pnv_xscom.h | 22 +++++++++++-----------
+ include/hw/ppc/spapr_vio.h |  6 +++---
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index af7317a86d..0be0b6b411 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1065,7 +1065,7 @@ static void pnv_chip_power8_realize(DeviceState *de=
-v, Error **errp)
-     pnv_xscom_add_subregion(chip, PNV_XSCOM_OCC_BASE, &chip8->occ.xscom_=
-regs);
+diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+index 09188d74b0..2bdb7ae84f 100644
+--- a/include/hw/ppc/pnv_xscom.h
++++ b/include/hw/ppc/pnv_xscom.h
+@@ -113,16 +113,16 @@ typedef struct PnvXScomInterfaceClass {
+ #define PNV10_XSCOM_PSIHB_BASE     0x3011D00
+ #define PNV10_XSCOM_PSIHB_SIZE     0x100
 =20
-     /* OCC SRAM model */
--    memory_region_add_subregion(get_system_memory(), PNV_OCC_COMMON_AREA=
-_BASE,
-+    memory_region_add_subregion(get_system_memory(), PNV_OCC_SENSOR_BASE=
-(chip),
-                                 &chip8->occ.sram_regs);
-=20
-     /* HOMER */
-@@ -1278,7 +1278,7 @@ static void pnv_chip_power9_realize(DeviceState *de=
-v, Error **errp)
-     pnv_xscom_add_subregion(chip, PNV9_XSCOM_OCC_BASE, &chip9->occ.xscom=
-_regs);
-=20
-     /* OCC SRAM model */
--    memory_region_add_subregion(get_system_memory(), PNV9_OCC_COMMON_ARE=
-A_BASE,
-+    memory_region_add_subregion(get_system_memory(), PNV9_OCC_SENSOR_BAS=
-E(chip),
-                                 &chip9->occ.sram_regs);
-=20
-     /* HOMER */
-diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
-index 765c0a6ce5..924fdabc9e 100644
---- a/hw/ppc/pnv_occ.c
-+++ b/hw/ppc/pnv_occ.c
-@@ -167,9 +167,7 @@ static void pnv_occ_power8_class_init(ObjectClass *kl=
-ass, void *data)
-     PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
-=20
-     poc->xscom_size =3D PNV_XSCOM_OCC_SIZE;
--    poc->sram_size =3D PNV_OCC_COMMON_AREA_SIZE;
-     poc->xscom_ops =3D &pnv_occ_power8_xscom_ops;
--    poc->sram_ops =3D &pnv_occ_sram_ops;
-     poc->psi_irq =3D PSIHB_IRQ_OCC;
- }
-=20
-@@ -240,9 +238,7 @@ static void pnv_occ_power9_class_init(ObjectClass *kl=
-ass, void *data)
-     PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
-=20
-     poc->xscom_size =3D PNV9_XSCOM_OCC_SIZE;
--    poc->sram_size =3D PNV9_OCC_COMMON_AREA_SIZE;
-     poc->xscom_ops =3D &pnv_occ_power9_xscom_ops;
--    poc->sram_ops =3D &pnv_occ_sram_ops;
-     poc->psi_irq =3D PSIHB9_IRQ_OCC;
- }
-=20
-@@ -266,9 +262,10 @@ static void pnv_occ_realize(DeviceState *dev, Error =
-**errp)
-     pnv_xscom_region_init(&occ->xscom_regs, OBJECT(dev), poc->xscom_ops,
-                           occ, "xscom-occ", poc->xscom_size);
-=20
--    /* XScom region for OCC SRAM registers */
--    pnv_xscom_region_init(&occ->sram_regs, OBJECT(dev), poc->sram_ops,
--                          occ, "occ-common-area", poc->sram_size);
-+    /* OCC common area mmio region for OCC SRAM registers */
-+    memory_region_init_io(&occ->sram_regs, OBJECT(dev), &pnv_occ_sram_op=
-s,
-+                          occ, "occ-common-area",
-+                          PNV_OCC_SENSOR_DATA_BLOCK_SIZE);
- }
-=20
- static Property pnv_occ_properties[] =3D {
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 301c7e62fa..92f80b1cce 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -246,6 +246,8 @@ IPMIBmc *pnv_bmc_create(void);
-=20
- #define PNV_OCC_COMMON_AREA_SIZE    0x0000000000800000ull
- #define PNV_OCC_COMMON_AREA_BASE    0x7fff800000ull
-+#define PNV_OCC_SENSOR_BASE(chip)   (PNV_OCC_COMMON_AREA_BASE + \
-+    PNV_OCC_SENSOR_DATA_BLOCK_BASE(PNV_CHIP_INDEX(chip)))
-=20
- #define PNV_HOMER_SIZE              0x0000000000400000ull
- #define PNV_HOMER_BASE(chip)                                            =
-\
-@@ -312,6 +314,8 @@ IPMIBmc *pnv_bmc_create(void);
-=20
- #define PNV9_OCC_COMMON_AREA_SIZE    0x0000000000800000ull
- #define PNV9_OCC_COMMON_AREA_BASE    0x203fff800000ull
-+#define PNV9_OCC_SENSOR_BASE(chip)   (PNV9_OCC_COMMON_AREA_BASE +       =
-\
-+    PNV_OCC_SENSOR_DATA_BLOCK_BASE(PNV_CHIP_INDEX(chip)))
-=20
- #define PNV9_HOMER_SIZE              0x0000000000400000ull
- #define PNV9_HOMER_BASE(chip)                                           =
-\
-diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
-index 66b0989be6..f8d3061419 100644
---- a/include/hw/ppc/pnv_occ.h
-+++ b/include/hw/ppc/pnv_occ.h
-@@ -29,6 +29,9 @@
- #define TYPE_PNV9_OCC TYPE_PNV_OCC "-POWER9"
- #define PNV9_OCC(obj) OBJECT_CHECK(PnvOCC, (obj), TYPE_PNV9_OCC)
-=20
-+#define PNV_OCC_SENSOR_DATA_BLOCK_OFFSET 0x00580000
-+#define PNV_OCC_SENSOR_DATA_BLOCK_SIZE   0x00025800
+-extern void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp=
+);
+-extern int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
+-
+-extern void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
+-                                    MemoryRegion *mr);
+-extern void pnv_xscom_region_init(MemoryRegion *mr,
+-                                  struct Object *owner,
+-                                  const MemoryRegionOps *ops,
+-                                  void *opaque,
+-                                  const char *name,
+-                                  uint64_t size);
++void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp);
++int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
 +
- typedef struct PnvOCC {
-     DeviceState xd;
++void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
++                             MemoryRegion *mr);
++void pnv_xscom_region_init(MemoryRegion *mr,
++                           struct Object *owner,
++                           const MemoryRegionOps *ops,
++                           void *opaque,
++                           const char *name,
++                           uint64_t size);
 =20
-@@ -50,10 +53,11 @@ typedef struct PnvOCCClass {
-     DeviceClass parent_class;
+ #endif /* PPC_PNV_XSCOM_H */
+diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
+index 72762ed16b..ce6d9b0c66 100644
+--- a/include/hw/ppc/spapr_vio.h
++++ b/include/hw/ppc/spapr_vio.h
+@@ -80,10 +80,10 @@ struct SpaprVioBus {
+     uint32_t next_reg;
+ };
 =20
-     int xscom_size;
--    int sram_size;
-     const MemoryRegionOps *xscom_ops;
--    const MemoryRegionOps *sram_ops;
-     int psi_irq;
- } PnvOCCClass;
+-extern SpaprVioBus *spapr_vio_bus_init(void);
+-extern SpaprVioDevice *spapr_vio_find_by_reg(SpaprVioBus *bus, uint32_t =
+reg);
++SpaprVioBus *spapr_vio_bus_init(void);
++SpaprVioDevice *spapr_vio_find_by_reg(SpaprVioBus *bus, uint32_t reg);
+ void spapr_dt_vdevice(SpaprVioBus *bus, void *fdt);
+-extern gchar *spapr_vio_stdout_path(SpaprVioBus *bus);
++gchar *spapr_vio_stdout_path(SpaprVioBus *bus);
 =20
-+#define PNV_OCC_SENSOR_DATA_BLOCK_BASE(i)                               =
-\
-+    (PNV_OCC_SENSOR_DATA_BLOCK_OFFSET + (i) * PNV_OCC_SENSOR_DATA_BLOCK_=
-SIZE)
-+
- #endif /* PPC_PNV_OCC_H */
+ static inline void spapr_vio_irq_pulse(SpaprVioDevice *dev)
+ {
 --=20
 2.23.0
 
