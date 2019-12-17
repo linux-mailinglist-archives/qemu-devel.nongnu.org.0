@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A237123360
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 18:20:52 +0100 (CET)
-Received: from localhost ([::1]:44019 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06AE1233C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 18:41:49 +0100 (CET)
+Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihGWg-00069i-T5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 12:20:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39833)
+	id 1ihGqx-00034g-Ql
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 12:41:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49687)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ihGVk-0005hE-DB
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:19:53 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1ihGox-0001RG-Mq
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:39:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ihGVj-0001Xz-1D
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:19:52 -0500
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:34863)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ihGVi-0001Xr-Rp
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:19:50 -0500
-Received: by mail-ot1-x32d.google.com with SMTP id f71so5001781otf.2
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 09:19:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rcECzhTd1HBYWF7LAUn/lPdWQwFk6rMb++qmPhd3QMk=;
- b=l3BczMjDeeajcbn9ErmpwyWGQxmKHB4FfQg/pAtBsXhs82khCfdh+X/N4XafTOuUOX
- sPxLPQoV5iwNJqJKq4yHTppeb+89OBCSaTZOe62OgkvDfJSVmn3zMrzjiKhAa10fhIUy
- WGgo+kkfwHdVnagBJgUiLWxi7fknltezC6SnbOEd/edC9vEeLpp+zRoGycNV6aOb8qcs
- oIMVHeyT4ITWQwJwdrbv9bJc/UAxHdbs08c3jBRmoXnR4at0vPamIPD1weypYcH12s9G
- vUzqhrcryZ20NxXAT564OZs4qfAeYJDKbYccKKp/gxCjJKexj/q0RySNsB/ayDhmm2uv
- ADJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rcECzhTd1HBYWF7LAUn/lPdWQwFk6rMb++qmPhd3QMk=;
- b=S+0/VF3wl97AsT/QxyykGjW7lLa0VfWDrZcM4lYutzx67QZDMwHTlje3zhAlK0xex9
- ld3XIg1ve1xv6XtsEAbkOQ6UtCp9zMQ70507/Mc/ZI74qhGybO62s8+smH47ricW23cd
- QvU6wbAs7nCrsWDFvJjdbhz909Yr61N6swClJRe5Y0pKyaibqXeEOJA8tjzdck1hxgYD
- ikKzWXwLXzqQVu+1Vak6FPPJai2lbWVPgWT46cEEgHtQW04WrB41dRJ5wCEqgT3VDGep
- bYkwhjWxp9QvAb2lUO9+vJYbPXHGDEHh2ZlRdPnDjtC/JcinzigFPIwdXUFXmOHhTbNw
- t7Mw==
-X-Gm-Message-State: APjAAAUBZDXf/U0d5v3T519KTgfs71p2XeCUEYszvF8uucAgaZJKwjU+
- /3ZN+i58TIvfGYJ74AnkLt/S+e1dQ6b/0viS9cOwIg==
-X-Google-Smtp-Source: APXvYqxsF0tSitO3YZEBzZdMg2M9ppqXULqVW7NMxeqY+/OYyPs0W6EBfS7+WagA6xNtWqAxOPXiR+k1jttaWO2P4mM=
-X-Received: by 2002:a9d:6745:: with SMTP id w5mr36859834otm.221.1576603189995; 
- Tue, 17 Dec 2019 09:19:49 -0800 (PST)
+ (envelope-from <kwankhede@nvidia.com>) id 1ihGov-0000Mi-FU
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:39:42 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13142)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1ihGov-0000Hz-4a
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 12:39:41 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5df912be0002>; Tue, 17 Dec 2019 09:39:10 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 17 Dec 2019 09:39:38 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 17 Dec 2019 09:39:38 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
+ 2019 17:39:38 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 17 Dec 2019 17:39:31 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v11 Kernel 0/6] KABIs to support migration for VFIO devices
+Date: Tue, 17 Dec 2019 22:40:45 +0530
+Message-ID: <1576602651-15430-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <20191217084223.10231-1-thuth@redhat.com>
-In-Reply-To: <20191217084223.10231-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Dec 2019 17:19:39 +0000
-Message-ID: <CAFEAcA_xwsaCym6yg7En0YScZDiA1nTnRcxCShur7LTQ5omrLQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/10] Bluetooth removal, and qtest & misc patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32d
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1576604351; bh=lODMYvYoFy4OfIDsqlxu0jkNIpukWEEJpd2Wszajnyo=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=md1pzdm7+Lv/wrAU0I5DS7qkfTjRZV8eKCqN/KaN+hs8D4ZtKKbUicNptF+j7m3lF
+ dw9XYYWArSm1/02If/qZHavMehTtMBzXGChNDpMYfC99yEO3X5bKpKe1DHHd4JSuTx
+ eBOfryizSmHdQbE/dAWa/NzONK8Y7TudafrpKSTUwouiCkY0HOfbn024Ac503MngM4
+ T3gH7iU/O/pXTQHPDu4UDcyRcDJWmFvwCqKB62kEWkQD3CGop1Q/w/feV2pXn+Q2uf
+ sQz1m+6qkFrF/5XvjZ9Zfp41Yha/R+gE6bKuYo2jK3I9SvVhYyqWCFbPayrQFk8NRi
+ nEVRs8YVwQvqg==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,47 +67,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
+ ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Dec 2019 at 08:42, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi!
->
-> The following changes since commit cb88904a54903ef6ba21a68a61d9cd51e2166304:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-dec-16-2019' into staging (2019-12-16 14:07:56 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2019-12-17
->
-> for you to fetch changes up to 0f555602c7430ae55b5a4bacf39ce9e483e11193:
->
->   tests: use g_test_rand_int (2019-12-17 09:05:23 +0100)
->
-> ----------------------------------------------------------------
-> * Removal of the deprecated bluetooth code
-> * Some qtest and misc patches
-> ----------------------------------------------------------------
->
-> v2: Unfortunately, I was not able to reproduce the build problem that
->     Peter reported for the v1 pull request. So I'm trying to work-around
->     the issue now by leaving an empty hw/bt/Kconfig file around this time.
->     I'll remove it by another patch later in a couple of weeks instead.
->
+Hi,
 
-This passed without issues on all my build hosts, so your guess
-about it being down to the deletion of the Kconfig file must
-be right.
+This patch set adds:
+* New IOCTL VFIO_IOMMU_DIRTY_PAGES to get dirty pages bitmap with
+  respect to IOMMU container rather than per device. All pages pinned by
+  vendor driver through vfio_pin_pages external API has to be marked as
+  dirty during  migration. When IOMMU capable device is present in the
+  container and all pages are pinned and mapped, then all pages are marked
+  dirty.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned should be considered
+  as dirty.
+  This ioctl is also used to start dirty pages tracking for unpinned pages
+  while migration is active and device is running. These tracked unpinned
+  pages information is cleaned on dirty bitmap read from VFIO application
+  or if migration is failed or cancelled and unpinned pages tracking is
+  stopped.
+* Updated IOCTL VFIO_IOMMU_UNMAP_DMA to get dirty pages bitmap before
+  unmapping IO virtual address range.
+  With vIOMMU, during pre-copy phase of migration, while CPUs are still
+  running, IO virtual address unmap can happen while device still keeping
+  reference of guest pfns. Those pages should be reported as dirty before
+  unmap, so that VFIO user space application can copy content of those
+  pages from source to destination.
+
+* Patch 6 is proposed change to detect if IOMMU capable device driver is
+  smart to report pages to be marked dirty by pinning pages using
+  vfio_pin_pages() API.
 
 
-Applied, thanks.
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required such that vendor
+driver could report dirty pages to VFIO module during migration phases.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Adding revision history from previous QEMU patch set to understand KABI
+changes done till now
 
--- PMM
+v10 -> v11
+- Fix pin pages API to free vpfn if it is marked as unpinned tracking page.
+- Added proposal to detect if IOMMU capable device calls external pin pages
+  API to mark pages dirty.
+- Nit picks from v10 reviews
+
+v9 -> v10:
+- Updated existing VFIO_IOMMU_UNMAP_DMA ioctl to get dirty pages bitmap
+  during unmap while migration is active
+- Added flag in VFIO_IOMMU_GET_INFO to indicate driver support dirty page
+  tracking.
+- If iommu_mapped, mark all pages dirty.
+- Added unpinned pages tracking while migration is active.
+- Updated comments for migration device state structure with bit
+  combination table and state transition details.
+
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
+
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load
+  as suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
+
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of
+  structure vfio_device_migration_info to be followed based on Alex's
+  suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration,
+  that is removed assumption that data will be till end of migration
+  region.
+- If vendor driver supports mappable sparsed region, map those region
+  during setup state of save/load, similarly unmap those from cleanup
+  routines.
+- Handles race condition that causes data corruption in migration region
+  during save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Split into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2
+  bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined
+  action on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with
+  region type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed
+  at 0th offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section
+  of the region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested
+  pages are copied.
+
+Thanks,
+Kirti
+
+Kirti Wankhede (6):
+  vfio: KABI for migration interface for device state
+  vfio iommu: Add ioctl definition for dirty pages tracking.
+  vfio iommu: Implementation of ioctl to for dirty pages tracking.
+  vfio iommu: Update UNMAP_DMA ioctl to get dirty bitmap before unmap
+  vfio iommu: Adds flag to indicate dirty pages tracking capability
+    support
+  vfio: Selective dirty page tracking if IOMMU backed device pins pages
+
+ drivers/vfio/vfio.c             |  33 ++++
+ drivers/vfio/vfio_iommu_type1.c | 324 +++++++++++++++++++++++++++++++++++++---
+ include/linux/vfio.h            |   3 +-
+ include/uapi/linux/vfio.h       | 247 +++++++++++++++++++++++++++++-
+ 4 files changed, 587 insertions(+), 20 deletions(-)
+
+-- 
+2.7.0
+
 
