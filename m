@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1E0122346
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:52:01 +0100 (CET)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22E812234E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:55:30 +0100 (CET)
+Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4q0-0001PA-Ap
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:52:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33324)
+	id 1ih4tN-0006CU-Bg
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:55:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hw-00080Y-6F
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:41 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hu-0005KF-ID
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hv-0007yn-9j
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:40 -0500
-Received: from ozlabs.org ([203.11.71.1]:58873)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4ht-0005JL-UT
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:39 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45905 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4hu-0005D7-5Y; Mon, 16 Dec 2019 23:43:38 -0500
+ id 1ih4ht-0005D5-K9; Mon, 16 Dec 2019 23:43:37 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWP4ntgz9sST; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
+ id 47cQWP6L6zz9sSQ; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557809;
- bh=xdy4ml9PTOzwf29Yc3/mszIQeVuCWoBI17z72LVZWy4=;
+ bh=0Y4e9z7qnnI/ns1o/F7tXL36eNCsL0ItzSihF6vlJW8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F9mVrSJ/zschzBC4hr9/dboMEgtTG3CYagHIZ89ASSjg9CVJJqjnok+nrth3g+1jS
- G0lRh1DRAaE1Rukd98F3FLw7kYOFEd8JLsTA0+rjmPK5yzCMITkvLVivA2PapaiVap
- Lm92mVDaWb/eWoW08vFv4Yv7I13gzwlOD3KO/8Jo=
+ b=TNbGcFFpLxa5zPgG11H1BiE4UQ9HJmwxZI9C7HNJNwQtKjwP+SfXc8VtVpyT67ykz
+ bDc/ncs6AnzLTWBstENEOB+oCoWvtlkxu3xOdBGfLnfbjOkysA6SvrJ9eJH9t1K+Au
+ +ytVoTryJM2iWt1ScssVCn+O/3OR+dJwbiGfh1kc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/88] ppc/pnv: Link "chip" property to PnvHomer::chip pointer
-Date: Tue, 17 Dec 2019 15:42:03 +1100
-Message-Id: <20191217044322.351838-10-david@gibson.dropbear.id.au>
+Subject: [PULL 10/88] ppc/pnv: Link "chip" property to PnvCore::chip pointer
+Date: Tue, 17 Dec 2019 15:42:04 +1100
+Message-Id: <20191217044322.351838-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,118 +60,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The homer object has both a pointer and a "chip" property pointing to the
+The core object has both a pointer and a "chip" property pointing to the
 chip object. Confusing bugs could arise if these ever go out of sync.
 
 Change the property definition so that it explicitely sets the pointer.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157383335451.165747.32301068645427993.stgit@bahia.lan>
+Message-Id: <157383336007.165747.1524120147081367440.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c       |  8 ++++----
- hw/ppc/pnv_homer.c | 20 ++++++++++----------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ hw/ppc/pnv.c      |  4 ++--
+ hw/ppc/pnv_core.c | 10 ++--------
+ 2 files changed, 4 insertions(+), 10 deletions(-)
 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index ce24a4ee99..3fa24a2d60 100644
+index 3fa24a2d60..2bf8a3b23b 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -907,8 +907,6 @@ static void pnv_chip_power8_instance_init(Object *obj=
-)
+@@ -1327,8 +1327,8 @@ static void pnv_chip_core_realize(PnvChip *chip, Er=
+ror **errp)
+         object_property_set_int(OBJECT(pnv_core),
+                                 pcc->core_pir(chip, core_hwid),
+                                 "pir", &error_fatal);
+-        object_property_add_const_link(OBJECT(pnv_core), "chip",
+-                                       OBJECT(chip), &error_fatal);
++        object_property_set_link(OBJECT(pnv_core), OBJECT(chip), "chip",
++                                 &error_abort);
+         object_property_set_bool(OBJECT(pnv_core), true, "realized",
+                                  &error_fatal);
 =20
-     object_initialize_child(obj, "homer",  &chip8->homer, sizeof(chip8->=
-homer),
-                             TYPE_PNV8_HOMER, &error_abort, NULL);
--    object_property_add_const_link(OBJECT(&chip8->homer), "chip", obj,
--                                   &error_abort);
- }
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 61b3d3ce22..5ab75bde6c 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -217,15 +217,8 @@ static void pnv_core_realize(DeviceState *dev, Error=
+ **errp)
+     void *obj;
+     int i, j;
+     char name[32];
+-    Object *chip;
 =20
- static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
-@@ -1012,6 +1010,8 @@ static void pnv_chip_power8_realize(DeviceState *de=
-v, Error **errp)
-                                 &chip8->occ.sram_regs);
-=20
-     /* HOMER */
-+    object_property_set_link(OBJECT(&chip8->homer), OBJECT(chip), "chip"=
-,
-+                             &error_abort);
-     object_property_set_bool(OBJECT(&chip8->homer), true, "realized",
-                              &local_err);
-     if (local_err) {
-@@ -1105,8 +1105,6 @@ static void pnv_chip_power9_instance_init(Object *o=
-bj)
-=20
-     object_initialize_child(obj, "homer",  &chip9->homer, sizeof(chip9->=
-homer),
-                             TYPE_PNV9_HOMER, &error_abort, NULL);
--    object_property_add_const_link(OBJECT(&chip9->homer), "chip", obj,
--                                   &error_abort);
- }
-=20
- static void pnv_chip_quad_realize(Pnv9Chip *chip9, Error **errp)
-@@ -1223,6 +1221,8 @@ static void pnv_chip_power9_realize(DeviceState *de=
-v, Error **errp)
-                                 &chip9->occ.sram_regs);
-=20
-     /* HOMER */
-+    object_property_set_link(OBJECT(&chip9->homer), OBJECT(chip), "chip"=
-,
-+                             &error_abort);
-     object_property_set_bool(OBJECT(&chip9->homer), true, "realized",
-                              &local_err);
-     if (local_err) {
-diff --git a/hw/ppc/pnv_homer.c b/hw/ppc/pnv_homer.c
-index cc881a3b32..994a378108 100644
---- a/hw/ppc/pnv_homer.c
-+++ b/hw/ppc/pnv_homer.c
-@@ -22,6 +22,7 @@
- #include "exec/memory.h"
- #include "sysemu/cpus.h"
- #include "hw/qdev-core.h"
-+#include "hw/qdev-properties.h"
- #include "hw/ppc/pnv.h"
- #include "hw/ppc/pnv_homer.h"
-=20
-@@ -229,28 +230,27 @@ static void pnv_homer_realize(DeviceState *dev, Err=
-or **errp)
- {
-     PnvHomer *homer =3D PNV_HOMER(dev);
-     PnvHomerClass *hmrc =3D PNV_HOMER_GET_CLASS(homer);
--    Object *obj;
--    Error *local_err =3D NULL;
--
--    obj =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
--    if (!obj) {
--        error_propagate(errp, local_err);
--        error_prepend(errp, "required link 'chip' not found: ");
+-    chip =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
+-    if (!chip) {
+-        error_propagate_prepend(errp, local_err,
+-                                "required link 'chip' not found: ");
 -        return;
 -    }
--    homer->chip =3D PNV_CHIP(obj);
-+
-+    assert(homer->chip);
-+
-     /* homer region */
-     memory_region_init_io(&homer->regs, OBJECT(dev),
-                           hmrc->homer_ops, homer, "homer-main-memory",
-                           hmrc->homer_size);
- }
+-    pc->chip =3D PNV_CHIP(chip);
++    assert(pc->chip);
 =20
-+static Property pnv_homer_properties[] =3D {
-+    DEFINE_PROP_LINK("chip", PnvHomer, chip, TYPE_PNV_CHIP, PnvChip *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void pnv_homer_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
+     for (i =3D 0; i < cc->nr_threads; i++) {
+@@ -297,6 +290,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
+r **errp)
 =20
-     dc->realize =3D pnv_homer_realize;
-     dc->desc =3D "PowerNV HOMER Memory";
-+    dc->props =3D pnv_homer_properties;
- }
+ static Property pnv_core_properties[] =3D {
+     DEFINE_PROP_UINT32("pir", PnvCore, pir, 0),
++    DEFINE_PROP_LINK("chip", PnvCore, chip, TYPE_PNV_CHIP, PnvChip *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 =20
- static const TypeInfo pnv_homer_type_info =3D {
 --=20
 2.23.0
 
