@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEF91224E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:42:39 +0100 (CET)
-Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EED122500
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:49:03 +0100 (CET)
+Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih6Z3-0003I1-US
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:42:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49319)
+	id 1ih6fG-0003nz-25
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:49:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ih6KA-00014o-MI
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:15 -0500
+ (envelope-from <armbru@redhat.com>) id 1ih6K1-0000nm-4Z
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ih6K9-0002O0-F0
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50616
+ (envelope-from <armbru@redhat.com>) id 1ih6Jz-0001KS-Fn
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22304
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6K9-0002MX-Ap
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:13 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jz-0001GG-7G
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576564032;
+ s=mimecast20190719; t=1576564022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C93fgCuYkcySyFZzbNYaKAJAO/+ByfBxZR60vnYOo/s=;
- b=A07vhD7wQJwGqg4HZkUx0lQCrO5oPVVMedQ164Afej3Hv9i6B/kdC1NCQhSY+M3nFlWY7R
- MKxx7yUcDc3xe7Pjk9abXhpRnTXv1P7aiyS8QqhLaPH0zjfq9xl6a1yigKkYJ4K2Y5Nyiw
- YFNUJnxo1vl9GjtAWLjnEuUIDkBwC3Q=
+ bh=c6f6Jd/iz7emJKypVVi34B7fHSfFbx40tceL+5zU5Ms=;
+ b=Q40+OcodKsWqZWJAilBhgmIpb7XRL8H25/8c6pXFUIA5tYv3bukd/iIECx8KtqjDQrThjP
+ vAOdyvUwb4DAs/j0D1De8jkeWc9Nli5Anqlq389MH+kEPHL6/f/9vtkwXKJVQqNe7NeyPa
+ yTGBJap0+JIHBmLAe22SgssIDXt+aPA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-ZVjbZ_r9OLeqoDda1Tah-Q-1; Tue, 17 Dec 2019 01:27:01 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-310-zMVy6s1RN1qqoi6m9toc4A-1; Tue, 17 Dec 2019 01:26:58 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEE3C477;
- Tue, 17 Dec 2019 06:26:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC751800D53;
+ Tue, 17 Dec 2019 06:26:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86CD8620B0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD3755C1D6;
  Tue, 17 Dec 2019 06:26:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8CB301136426; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
+ id 901FB1136427; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/34] hw/core/qdev: cleanup Error ** variables
-Date: Tue, 17 Dec 2019 07:26:39 +0100
-Message-Id: <20191217062651.9687-23-armbru@redhat.com>
+Subject: [PULL 23/34] block/snapshot: rename Error ** parameter to more common
+ errp
+Date: Tue, 17 Dec 2019 07:26:40 +0100
+Message-Id: <20191217062651.9687-24-armbru@redhat.com>
 In-Reply-To: <20191217062651.9687-1-armbru@redhat.com>
 References: <20191217062651.9687-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: ZVjbZ_r9OLeqoDda1Tah-Q-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: zMVy6s1RN1qqoi6m9toc4A-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,113 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Rename Error ** parameter in check_only_migratable to common errp.
-
-In device_set_realized:
-
- - Move "if (local_err !=3D NULL)" closer to error setters.
-
- - Drop 'Error **local_errp': it doesn't save any LoCs, but it's very
-   unusual.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191205174635.18758-10-vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@Redhat.com>
+Message-Id: <20191205174635.18758-11-vsementsov@virtuozzo.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/core/qdev.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ include/block/snapshot.h | 2 +-
+ block/snapshot.c         | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index cf1ba28fe3..82d3ee590a 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -820,12 +820,12 @@ static bool device_get_realized(Object *obj, Error **=
-errp)
-     return dev->realized;
+diff --git a/include/block/snapshot.h b/include/block/snapshot.h
+index b5d5084a12..2bfcd57578 100644
+--- a/include/block/snapshot.h
++++ b/include/block/snapshot.h
+@@ -78,7 +78,7 @@ int bdrv_snapshot_load_tmp_by_id_or_name(BlockDriverState=
+ *bs,
+=20
+ bool bdrv_all_can_snapshot(BlockDriverState **first_bad_bs);
+ int bdrv_all_delete_snapshot(const char *name, BlockDriverState **first_bs=
+d_bs,
+-                             Error **err);
++                             Error **errp);
+ int bdrv_all_goto_snapshot(const char *name, BlockDriverState **first_bad_=
+bs,
+                            Error **errp);
+ int bdrv_all_find_snapshot(const char *name, BlockDriverState **first_bad_=
+bs);
+diff --git a/block/snapshot.c b/block/snapshot.c
+index 8081616ae9..bd9fb01817 100644
+--- a/block/snapshot.c
++++ b/block/snapshot.c
+@@ -426,7 +426,7 @@ fail:
  }
 =20
--static bool check_only_migratable(Object *obj, Error **err)
-+static bool check_only_migratable(Object *obj, Error **errp)
+ int bdrv_all_delete_snapshot(const char *name, BlockDriverState **first_ba=
+d_bs,
+-                             Error **err)
++                             Error **errp)
  {
-     DeviceClass *dc =3D DEVICE_GET_CLASS(obj);
-=20
-     if (!vmstate_check_only_migratable(dc->vmsd)) {
--        error_setg(err, "Device %s is not migratable, but "
-+        error_setg(errp, "Device %s is not migratable, but "
-                    "--only-migratable was specified",
-                    object_get_typename(obj));
-         return false;
-@@ -874,10 +874,9 @@ static void device_set_realized(Object *obj, bool valu=
-e, Error **errp)
-=20
-         if (dc->realize) {
-             dc->realize(dev, &local_err);
--        }
--
--        if (local_err !=3D NULL) {
--            goto fail;
-+            if (local_err !=3D NULL) {
-+                goto fail;
-+            }
+     int ret =3D 0;
+     BlockDriverState *bs;
+@@ -441,7 +441,7 @@ int bdrv_all_delete_snapshot(const char *name, BlockDri=
+verState **first_bad_bs,
+             bdrv_snapshot_find(bs, snapshot, name) >=3D 0)
+         {
+             ret =3D bdrv_snapshot_delete(bs, snapshot->id_str,
+-                                       snapshot->name, err);
++                                       snapshot->name, errp);
          }
-=20
-         DEVICE_LISTENER_CALL(realize, Forward, dev);
-@@ -918,27 +917,26 @@ static void device_set_realized(Object *obj, bool val=
-ue, Error **errp)
-        }
-=20
-     } else if (!value && dev->realized) {
--        Error **local_errp =3D NULL;
-+        /* We want local_err to track only the first error */
-         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
--            local_errp =3D local_err ? NULL : &local_err;
-             object_property_set_bool(OBJECT(bus), false, "realized",
--                                     local_errp);
-+                                     local_err ? NULL : &local_err);
-         }
-         if (qdev_get_vmsd(dev)) {
-             vmstate_unregister(dev, qdev_get_vmsd(dev), dev);
-         }
-         if (dc->unrealize) {
--            local_errp =3D local_err ? NULL : &local_err;
--            dc->unrealize(dev, local_errp);
-+            dc->unrealize(dev, local_err ? NULL : &local_err);
-         }
-         dev->pending_deleted_event =3D true;
-         DEVICE_LISTENER_CALL(unrealize, Reverse, dev);
--    }
-=20
--    if (local_err !=3D NULL) {
--        goto fail;
-+        if (local_err !=3D NULL) {
-+            goto fail;
-+        }
-     }
-=20
-+    assert(local_err =3D=3D NULL);
-     dev->realized =3D value;
-     return;
-=20
-@@ -976,7 +974,7 @@ static bool device_get_hotpluggable(Object *obj, Error =
-**errp)
-                                 qbus_is_hotpluggable(dev->parent_bus));
- }
-=20
--static bool device_get_hotplugged(Object *obj, Error **err)
-+static bool device_get_hotplugged(Object *obj, Error **errp)
- {
-     DeviceState *dev =3D DEVICE(obj);
-=20
+         aio_context_release(ctx);
+         if (ret < 0) {
 --=20
 2.21.0
 
