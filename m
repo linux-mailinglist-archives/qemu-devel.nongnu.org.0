@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDEA122386
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:18:34 +0100 (CET)
-Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD83122362
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:08:07 +0100 (CET)
+Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Fh-0005d7-74
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:18:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
+	id 1ih55a-0006r4-II
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:08:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iz-00012j-5x
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:46 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jE-0001SQ-F5
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iy-0006Ud-2Q
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:45 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53063 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jC-0006qg-Tz
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:00 -0500
+Received: from ozlabs.org ([203.11.71.1]:33027)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4ix-0005z4-OX; Mon, 16 Dec 2019 23:44:44 -0500
+ id 1ih4jC-0006oL-Id; Mon, 16 Dec 2019 23:44:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWY494Fz9sT4; Tue, 17 Dec 2019 15:43:36 +1100 (AEDT)
+ id 47cQWb6DfBz9sTH; Tue, 17 Dec 2019 15:43:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557817;
- bh=AEyG8kMDV7K7eTzUARbjLzoB254Nh5b/bzAWmYEElow=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557819;
+ bh=i12A5ZnvX8+6HSOGcBYPXVsT2ReFZORAeCbOhhExg7o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jO+mHOJZVbyK2GLvx573YVavWb1AAvnMLJN1nhrgmOjoN2CSZ0UxHhfbqOvlbJ8V/
- HMSryDhGWb+pzIixJInhvXRfvIpLj+uzwcLckNiFj7msaJzSBvayrrMqsm4ghfRpw3
- JuaCiBrZ8vYWEpPQ9bwjZskU5o0hYE4ShN2OQmXI=
+ b=ciE+6hfZWU/jTd08hHd2J0fqBqIRp4Y6IxuI3o4FKqZIMPhIFtnBs/66hnX4UGcIQ
+ HP3vxh9b6m+vnX/K8ofRMvO3oPp6FIObb4Z+izEgNpM5LPQmKPGyuYY6guMu8umN7S
+ 0H0pO+KB579T5JNxqDeZliPltCgQx1dJ9bsVChBI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 47/88] ppc/xive: Synthesize interrupt from the saved IPB in the
- NVT
-Date: Tue, 17 Dec 2019 15:42:41 +1100
-Message-Id: <20191217044322.351838-48-david@gibson.dropbear.id.au>
+Subject: [PULL 48/88] ppc/pnv: Introduce a pnv_xive_block_id() helper
+Date: Tue, 17 Dec 2019 15:42:42 +1100
+Message-Id: <20191217044322.351838-49-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,98 +61,197 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-When a vCPU is dispatched on a HW thread, its context is pushed in the
-thread registers and it is activated by setting the VO bit in the CAM
-line word2. The HW grabs the associated NVT, pulls the IPB bits and
-merges them with the IPB of the new context. If interrupts were missed
-while the vCPU was not dispatched, these are synthesized in this
-sequence.
+When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID field
+overrides the hardwired chip ID in the Powerbus operations and for CAM
+compares. This is typically used in the one block-per-chip configuration
+to associate a unique block id number to each IC of the system.
+
+Simplify the model with a pnv_xive_block_id() helper and remove
+'tctx_chipid' which becomes useless.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-18-clg@kaod.org>
+Message-Id: <20191125065820.927-19-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ hw/intc/pnv_xive.c        | 64 ++++++++++++++++++++-------------------
+ include/hw/ppc/pnv_xive.h |  3 --
+ 2 files changed, 33 insertions(+), 34 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 7047e45dac..e022bb7afd 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -393,6 +393,57 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *x=
-ptr, XiveTCTX *tctx,
-     return qw1w2;
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 216ebc150a..23e73641f2 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -85,13 +85,30 @@ static inline uint64_t SETFIELD(uint64_t mask, uint64=
+_t word,
+     return (word & ~mask) | ((value << ctz64(mask)) & mask);
  }
 =20
-+static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
-+                                  uint8_t nvt_blk, uint32_t nvt_idx)
-+{
-+    XiveNVT nvt;
-+    uint8_t ipb;
-+
-+    /*
-+     * Grab the associated NVT to pull the pending bits, and merge
-+     * them with the IPB of the thread interrupt context registers
-+     */
-+    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid NVT %x/%x\n",
-+                          nvt_blk, nvt_idx);
-+        return;
-+    }
-+
-+    ipb =3D xive_get_field32(NVT_W4_IPB, nvt.w4);
-+
-+    if (ipb) {
-+        /* Reset the NVT value */
-+        nvt.w4 =3D xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
-+        xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
-+
-+        /* Merge in current context */
-+        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
-+    }
-+}
-+
 +/*
-+ * Updating the OS CAM line can trigger a resend of interrupt
++ * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
++ * field overrides the hardwired chip ID in the Powerbus operations
++ * and for CAM compares
 + */
-+static void xive_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-+                                hwaddr offset, uint64_t value, unsigned =
-size)
++static uint8_t pnv_xive_block_id(PnvXive *xive)
 +{
-+    uint32_t cam =3D value;
-+    uint32_t qw1w2 =3D cpu_to_be32(cam);
-+    uint8_t nvt_blk;
-+    uint32_t nvt_idx;
-+    bool vo;
++    uint8_t blk =3D xive->chip->chip_id;
++    uint64_t cfg_val =3D xive->regs[PC_TCTXT_CFG >> 3];
 +
-+    xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
-+
-+    /* First update the registers */
-+    xive_tctx_set_os_cam(tctx, qw1w2);
-+
-+    /* Check the interrupt pending bits */
-+    if (vo) {
-+        xive_tctx_need_resend(XIVE_ROUTER(xptr), tctx, nvt_blk, nvt_idx)=
-;
++    if (cfg_val & PC_TCTXT_CHIPID_OVERRIDE) {
++        blk =3D GETFIELD(PC_TCTXT_CHIPID, cfg_val);
 +    }
++
++    return blk;
 +}
 +
  /*
-  * Define a mapping of "special" operations depending on the TIMA page
-  * offset and the size of the operation.
-@@ -414,6 +465,7 @@ static const XiveTmOp xive_tm_operations[] =3D {
-      * effects
-      */
-     { XIVE_TM_OS_PAGE, TM_QW1_OS + TM_CPPR,   1, xive_tm_set_os_cppr, NU=
-LL },
-+    { XIVE_TM_HV_PAGE, TM_QW1_OS + TM_WORD2,     4, xive_tm_push_os_ctx,=
- NULL },
-     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_CPPR, 1, xive_tm_set_hv_cppr,=
- NULL },
-     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, xive_tm_vt_push, NU=
-LL },
-     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, NULL, xive_tm_vt_po=
-ll },
+  * Remote access to controllers. HW uses MMIOs. For now, a simple scan
+  * of the chips is good enough.
+  *
+  * TODO: Block scope support
+  */
+-static PnvXive *pnv_xive_get_ic(uint8_t blk)
++static PnvXive *pnv_xive_get_remote(uint8_t blk)
+ {
+     PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
+     int i;
+@@ -100,7 +117,7 @@ static PnvXive *pnv_xive_get_ic(uint8_t blk)
+         Pnv9Chip *chip9 =3D PNV9_CHIP(pnv->chips[i]);
+         PnvXive *xive =3D &chip9->xive;
+=20
+-        if (xive->chip->chip_id =3D=3D blk) {
++        if (pnv_xive_block_id(xive) =3D=3D blk) {
+             return xive;
+         }
+     }
+@@ -216,7 +233,7 @@ static uint64_t pnv_xive_vst_addr(PnvXive *xive, uint=
+32_t type, uint8_t blk,
+=20
+     /* Remote VST access */
+     if (GETFIELD(VSD_MODE, vsd) =3D=3D VSD_MODE_FORWARD) {
+-        xive =3D pnv_xive_get_ic(blk);
++        xive =3D pnv_xive_get_remote(blk);
+=20
+         return xive ? pnv_xive_vst_addr(xive, type, blk, idx) : 0;
+     }
+@@ -364,7 +381,10 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+ {
+     PnvXive *xive =3D PNV_XIVE(xrtr);
+=20
+-    if (pnv_xive_get_ic(blk) !=3D xive) {
++    /*
++     * EAT lookups should be local to the IC
++     */
++    if (pnv_xive_block_id(xive) !=3D blk) {
+         xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx))=
+;
+         return -1;
+     }
+@@ -470,7 +490,7 @@ static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu)
+ static void pnv_xive_notify(XiveNotifier *xn, uint32_t srcno)
+ {
+     PnvXive *xive =3D PNV_XIVE(xn);
+-    uint8_t blk =3D xive->chip->chip_id;
++    uint8_t blk =3D pnv_xive_block_id(xive);
+=20
+     xive_router_notify(xn, XIVE_EAS(blk, srcno));
+ }
+@@ -834,20 +854,7 @@ static void pnv_xive_ic_reg_write(void *opaque, hwad=
+dr offset,
+     case PC_TCTXT_CFG:
+         /*
+          * TODO: block group support
+-         *
+-         * PC_TCTXT_CFG_BLKGRP_EN
+-         * PC_TCTXT_CFG_HARD_CHIPID_BLK :
+-         *   Moves the chipid into block field for hardwired CAM compare=
+s.
+-         *   Block offset value is adjusted to 0b0..01 & ThrdId
+-         *
+-         *   Will require changes in xive_presenter_tctx_match(). I am
+-         *   not sure how to handle that yet.
+          */
+-
+-        /* Overrides hardwired chip ID with the chip ID field */
+-        if (val & PC_TCTXT_CHIPID_OVERRIDE) {
+-            xive->tctx_chipid =3D GETFIELD(PC_TCTXT_CHIPID, val);
+-        }
+         break;
+     case PC_TCTXT_TRACK:
+         /*
+@@ -1656,19 +1663,20 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D =
+{
+ void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
+ {
+     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+-    uint8_t blk =3D xive->chip->chip_id;
++    uint8_t blk =3D pnv_xive_block_id(xive);
++    uint8_t chip_id =3D xive->chip->chip_id;
+     uint32_t srcno0 =3D XIVE_EAS(blk, 0);
+     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
+     XiveEAS eas;
+     XiveEND end;
+     int i;
+=20
+-    monitor_printf(mon, "XIVE[%x] Source %08x .. %08x\n", blk, srcno0,
+-                   srcno0 + nr_ipis - 1);
++    monitor_printf(mon, "XIVE[%x] #%d Source %08x .. %08x\n", chip_id, b=
+lk,
++                   srcno0, srcno0 + nr_ipis - 1);
+     xive_source_pic_print_info(&xive->ipi_source, srcno0, mon);
+=20
+-    monitor_printf(mon, "XIVE[%x] EAT %08x .. %08x\n", blk, srcno0,
+-                   srcno0 + nr_ipis - 1);
++    monitor_printf(mon, "XIVE[%x] #%d EAT %08x .. %08x\n", chip_id, blk,
++                   srcno0, srcno0 + nr_ipis - 1);
+     for (i =3D 0; i < nr_ipis; i++) {
+         if (xive_router_get_eas(xrtr, blk, i, &eas)) {
+             break;
+@@ -1678,13 +1686,13 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monit=
+or *mon)
+         }
+     }
+=20
+-    monitor_printf(mon, "XIVE[%x] ENDT\n", blk);
++    monitor_printf(mon, "XIVE[%x] #%d ENDT\n", chip_id, blk);
+     i =3D 0;
+     while (!xive_router_get_end(xrtr, blk, i, &end)) {
+         xive_end_pic_print_info(&end, i++, mon);
+     }
+=20
+-    monitor_printf(mon, "XIVE[%x] END Escalation EAT\n", blk);
++    monitor_printf(mon, "XIVE[%x] #%d END Escalation EAT\n", chip_id, bl=
+k);
+     i =3D 0;
+     while (!xive_router_get_end(xrtr, blk, i, &end)) {
+         xive_end_eas_pic_print_info(&end, i++, mon);
+@@ -1697,12 +1705,6 @@ static void pnv_xive_reset(void *dev)
+     XiveSource *xsrc =3D &xive->ipi_source;
+     XiveENDSource *end_xsrc =3D &xive->end_source;
+=20
+-    /*
+-     * Use the PnvChip id to identify the XIVE interrupt controller.
+-     * It can be overriden by configuration at runtime.
+-     */
+-    xive->tctx_chipid =3D xive->chip->chip_id;
+-
+     /* Default page size (Should be changed at runtime to 64k) */
+     xive->ic_shift =3D xive->vc_shift =3D xive->pc_shift =3D 12;
+=20
+diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
+index 4fdaa9247d..f4c7caad40 100644
+--- a/include/hw/ppc/pnv_xive.h
++++ b/include/hw/ppc/pnv_xive.h
+@@ -72,9 +72,6 @@ typedef struct PnvXive {
+     /* Interrupt controller registers */
+     uint64_t      regs[0x300];
+=20
+-    /* Can be configured by FW */
+-    uint32_t      tctx_chipid;
+-
+     /*
+      * Virtual Structure Descriptor tables : EAT, SBE, ENDT, NVTT, IRQ
+      * These are in a SRAM protected by ECC.
 --=20
 2.23.0
 
