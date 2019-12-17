@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBA8123069
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 16:36:35 +0100 (CET)
-Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F356B1230D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 16:50:34 +0100 (CET)
+Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihEtl-0001f3-QQ
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 10:36:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
+	id 1ihF7J-0006Ux-HG
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 10:50:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihEsn-0000pi-Iy
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 10:35:34 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ihF6T-00066U-3n
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 10:49:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihEsm-000433-CA
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 10:35:33 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:38253)
+ (envelope-from <peter.maydell@linaro.org>) id 1ihF6R-0001vP-H4
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 10:49:40 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:35201)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihEsm-00042q-4K
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 10:35:32 -0500
-Received: by mail-pl1-x642.google.com with SMTP id f20so4502060plj.5
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 07:35:32 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ihF6R-0001sP-BI
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 10:49:39 -0500
+Received: by mail-ot1-x330.google.com with SMTP id f71so4683008otf.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 07:49:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oN/poZbEgaYLI+a3ykjDg0cLCZbVYQH3dL2RlbI+LGY=;
- b=kzo92IS34fxtG1CRwmvqAHRK3N2wiGmFpCfP8HSDnJrM9MKXVJLySt5SdLobqTYZDY
- dDosgkqLhyJLTh6h6htxOOGy0B4flbim8UnAAuqpwltAM0dvVlhRGDEd+0x3esDRH8PC
- m9pt8WDbwaPsjHXMItLKg9JSYBVxc1n2AoPAtZfiiZWomHMgCgohbvc64Bhi4RnbUw8i
- Q53RvuQLrb0TIWAJ1H7SskLSu5P8IC9M1opXjZJgr463I7m4eH9KmkPhqYYbYYEGP2A2
- cEjksCA7tNWqndK+FGCg3410dV4MqFJivkV9Dc+lOQuxc5Zk304V2rqAJeloeefsrONb
- /Xtw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jVwXCSmM8/TQE//M+K3tfvuIIchNfzOHhWN8mGYG+Wc=;
+ b=S0Iagp7NwwcRxavX5+NBf7c7h5Wn/mpzMy9Bok29W0c9TxrvOD3RxwhEfcAW2SEpam
+ 4utyXVQ0AXCyFxPAfDjbq/L96YZgKL2UPy7mydRonNDqRhdJZjDPs/Hi5z60qytQzc31
+ 1lM7T+xfswcj3OSYj+wx63NYM6Nk/I1kuHndlMSDz9jb8ZgzrHGf7zNO0dXk4ShED4Zb
+ 6g5cxVvVjLI4t50o8CEMVGebh4K8qYNlmZHvr/HMy71EOuW21o3vIu+3Rr4LsAX2JraN
+ T1iBCMDqIKp4A2dI3dBz0Xfx55zHGviiU7lYdZR8umCy/WqZj/WUI5ztSS5crVSIysJI
+ XGUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oN/poZbEgaYLI+a3ykjDg0cLCZbVYQH3dL2RlbI+LGY=;
- b=UIGPVjD720nSX44068gf/vjXhFiin5JJvdozlKIv6VeAzFbq09u9ZX11Ew1+QE8R4F
- VBBIShwq/EhZMRZFYLlYnAAV7ri4qUv5oSTj8hoT51hyYk9MIAtjDQPRYnTnlTNPgkHI
- JK3fX+tAjJnMgHR1ZSBVm/LP3mZnF1qXGKLfpjyKJFBJfid6/gDbcgSnGWRSeqyrHrZL
- HamPgkAMOrecwtfAMztXpXlwBHPZGacgdbuRfKN9rI2MjSfHA0WTXUg0Auh5mXFjkxy3
- KNxQTwa9Cu3pc+O2/7jwWkmp996G24Y7d9mURV7tuSAO4pUUuBIXcDky5Fha46LRwJO6
- mnVQ==
-X-Gm-Message-State: APjAAAU9kdE/i9mKYcXfYqL/sT/l8eg5Fyy5w2AhPRkPIvMNyzNAvnOM
- FBEhMkkxGkoP9Dlb58D0njRuuQ==
-X-Google-Smtp-Source: APXvYqyuy9dkIf5A/xMAFiCxnHKViRZR12Ty6AzmLVPARyEmmF9r3lkvuExQ0GyZMO2kq1cko2SKLQ==
-X-Received: by 2002:a17:90a:2569:: with SMTP id
- j96mr6634310pje.79.1576596931033; 
- Tue, 17 Dec 2019 07:35:31 -0800 (PST)
-Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
- ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id 83sm27883791pgh.12.2019.12.17.07.35.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Dec 2019 07:35:30 -0800 (PST)
-Subject: Re: [PATCH v1 03/16] travis.yml: Run tcg tests with tci
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191216110732.24027-1-alex.bennee@linaro.org>
- <20191216110732.24027-4-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5a37e644-c97e-a710-4947-aa18f04e70c9@linaro.org>
-Date: Tue, 17 Dec 2019 05:35:26 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jVwXCSmM8/TQE//M+K3tfvuIIchNfzOHhWN8mGYG+Wc=;
+ b=UBjAHHOSJYcQgmiZVmBD6dCQzIRtTGC19Js/bRKntCo/lCnZWEnD2uB9D3tnCxET3M
+ Px5LbZC53QDFg01hqEHfupI+6Fb4trmYU9mfn0RllEIqKq3A1gBEfC47v0JjSZsGWZvn
+ Jys/kUUJJzL0Mib4bjm6PIUMIdvL0BO2wkOw87LM8ApP/yzoT+oWw1SdZ3NIprwb0JTF
+ RxbYZiUdyzmxIDKqQRivyA2NUskGvGFbQvuE8CQdcHFBP9vRAWDp1s0X8VUOIxYRnkmb
+ Vq5LFEE7C4+p1/sDAkRHjU52bxjrAMAOZfaAc4PR70QgoN6XdsZssziTvGERKw2m6DiF
+ /ODQ==
+X-Gm-Message-State: APjAAAUH6aGg6pCM1/HfvGUb0iSBr5Ka9yjOseuEAncztnOliqHyd7UE
+ g36vquAWQxeX5Q8zeW70eRXt86S6Zz9IJTZ+J93QCw==
+X-Google-Smtp-Source: APXvYqyu/cuOS0wE4NnlfeMu/SrHm13jZa9pXhlpiGlIw8yqFBkR7QGsDCu938VSTp9B8lwTi7YhRcFqn1e7fEC1bdI=
+X-Received: by 2002:a05:6830:2001:: with SMTP id
+ e1mr36505610otp.97.1576597778423; 
+ Tue, 17 Dec 2019 07:49:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191216110732.24027-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20191217062651.9687-1-armbru@redhat.com>
+In-Reply-To: <20191217062651.9687-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Dec 2019 15:49:27 +0000
+Message-ID: <CAFEAcA8a=E9GLnAz+vFtSQ8w=5RJK5aZJvQhEzxsRrThvMT5FQ@mail.gmail.com>
+Subject: Re: [PULL 00/34] Error reporting patches for 2019-12-16
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,38 +72,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- stefanb@linux.vnet.ibm.com, Stefan Weil <sw@weilnetz.de>, f4bug@amsat.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/19 1:07 AM, Alex Bennée wrote:
-> From: Thomas Huth <thuth@redhat.com>
-> 
-> So far we only have compile coverage for tci. But since commit
-> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
-> for INDEX_op_ld16u_i64") has been included now, we can also run the
-> "tcg" and "qtest" tests with tci, so let's enable them in Travis now.
-> Since we don't gain much additional test coverage by compiling all
-> targets, and TCI is broken e.g. with the Sparc targets, we also limit
-> the target list to a reasonable subset now (which should still get us
-> test coverage by tests/boot-serial-test for example).
-> 
-> Tested-by: Stefan Weil <sw@weilnetz.de>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20191204083133.6198-1-thuth@redhat.com>
-> [AJB: just --enable-debug-tcg]
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  .travis.yml | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+On Tue, 17 Dec 2019 at 06:33, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit cb88904a54903ef6ba21a68a61d9cd51e2166304:
+>
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-dec-16-2019' into staging (2019-12-16 14:07:56 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-error-2019-12-16
+>
+> for you to fetch changes up to 0e7f83bab6559775cd71e418b12a49145e59faa7:
+>
+>   nbd: assert that Error** is not NULL in nbd_iter_channel_error (2019-12-16 20:50:16 +0100)
+>
+> ----------------------------------------------------------------
+> Error reporting patches for 2019-12-16
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This gets conflicts:
+diff --cc target/ppc/kvm.c
+index 7406d18945,27ea3ce535..0000000000
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@@ -2076,7 -2076,7 +2076,11 @@@ int kvmppc_set_smt_threads(int smt
+      return ret;
+  }
 
+++<<<<<<< HEAD
+ +void kvmppc_error_append_smt_possible_hint(Error **errp_in)
+++=======
++ void kvmppc_error_append_smt_possible_hint(Error *const *errp)
+++>>>>>>> remotes/armbru/tags/pull-error-2019-12-16
+  {
+      int i;
+      GString *g;
+diff --cc target/ppc/kvm_ppc.h
+index 47b08a4030,f22daabf51..0000000000
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@@ -28,7 -28,7 +28,11 @@@ void kvmppc_set_papr(PowerPCCPU *cpu)
+  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+  int kvmppc_smt_threads(void);
+++<<<<<<< HEAD
+ +void kvmppc_error_append_smt_possible_hint(Error **errp_in);
+++=======
++ void kvmppc_error_append_smt_possible_hint(Error *const *errp);
+++>>>>>>> remotes/armbru/tags/pull-error-2019-12-16
+  int kvmppc_set_smt_threads(int smt);
+  int kvmppc_clear_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
+  int kvmppc_or_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
+@@@ -164,7 -164,7 +168,11 @@@ static inline int kvmppc_smt_threads(vo
+      return 1;
+  }
 
-r~
+++<<<<<<< HEAD
+ +static inline void kvmppc_error_append_smt_possible_hint(Error **errp_in)
+++=======
++ static inline void kvmppc_error_append_smt_possible_hint(Error *const *errp)
+++>>>>>>> remotes/armbru/tags/pull-error-2019-12-16
+  {
+      return;
+  }
+
+Furthermore, it turns out that the conflicts are due to
+different patches from the same author to the same function
+("ppc: well form kvmppc_hint_smt_possible error hint helper"
+and "ppc: make Error **errp const where it is appropriate")
+which both seem to be addressing broadly the same thing
+but conflict with each other and arrived via different
+pull requests.
+
+So I'm just bouncing this one back for you to fix and
+figure out which version you want...
+
+thanks
+-- PMM
 
