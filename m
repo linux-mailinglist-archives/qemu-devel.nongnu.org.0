@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E80312238C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:21:04 +0100 (CET)
-Received: from localhost ([::1]:35696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CEB122382
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:16:16 +0100 (CET)
+Received: from localhost ([::1]:35562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5I6-00017U-P3
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:21:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35074)
+	id 1ih5DT-0002Ha-08
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:16:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34942)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ji-00027S-7Q
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:32 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jZ-000208-E8
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jf-0007Ul-Mk
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:30 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33205 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jX-0007Kq-Om
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:21 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46733 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4je-00070D-C9; Mon, 16 Dec 2019 23:45:26 -0500
+ id 1ih4jX-0006p1-DY; Mon, 16 Dec 2019 23:45:19 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWd03LLz9sTF; Tue, 17 Dec 2019 15:43:37 +1100 (AEDT)
+ id 47cQWc0jldz9sTD; Tue, 17 Dec 2019 15:43:37 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557821;
- bh=teDKDGq3dNeff5zj6qtCOnSpMhJGW5rjS89bzWKzkDA=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557820;
+ bh=hkPBn2/1LAP40JftgW8huc2iGZcCsof5koenWFEaSME=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M5UZYxJf0e5jTMYIEWYM6vyLSLTbF6kSn+ROf0UpdZTpUM2vKXYruHWIM5twlnb4y
- +ISC+Ib882K64EUA/Ioiix/Ck8/Sba/DDoqJzhv8KQq2Y8WVLkiJxsAlpk1FvycMAH
- DLflyAMfg/rUJT1ZfHzCLI1eW8fftV5iBeNoh+nc=
+ b=E8cuLaTsBop9RmepwipQMz1Z5B78KvXd+DkQCPlYW+abbSga+htxlaxzTR9+l+9jx
+ L1NGRmBfJG387Hothi8P+xLYtwBNNdB3DggKdPsUBLh0oQZqZakjaBS5ksXDrQVnEW
+ c4LaSY6shMQdwJXEVeAaLBw+RF4c5WBn61cQF6PM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 53/88] spapr: Improve handling of fdt buffer size
-Date: Tue, 17 Dec 2019 15:42:47 +1100
-Message-Id: <20191217044322.351838-54-david@gibson.dropbear.id.au>
+Subject: [PULL 54/88] spapr: Fold h_cas_compose_response() into
+ h_client_architecture_support()
+Date: Tue, 17 Dec 2019 15:42:48 +1100
+Message-Id: <20191217044322.351838-55-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -59,114 +60,243 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously, spapr_build_fdt() constructed the device tree in a fixed
-buffer of size FDT_MAX_SIZE.  This is a bit inflexible, but more
-importantly it's awkward for the case where we use it during CAS.  In
-that case the guest firmware supplies a buffer and we have to
-awkwardly check that what we generated fits into it afterwards, after
-doing a lot of size checks during spapr_build_fdt().
+spapr_h_cas_compose_response() handles the last piece of the PAPR feature
+negotiation process invoked via the ibm,client-architecture-support OF
+call.  Its only caller is h_client_architecture_support() which handles
+most of the rest of that process.
 
-Simplify this by having spapr_build_fdt() take a 'space' parameter.
-For the CAS case, we pass in the buffer size provided by SLOF, for the
-machine init case, we continue to pass FDT_MAX_SIZE.
+I believe it was placed in a separate file originally to handle some
+fiddly dependencies between functions, but mostly it's just confusing
+to have the CAS process split into two pieces like this.  Now that
+compose response is simplified (by just generating the whole device
+tree anew), it's cleaner to just fold it into
+h_client_architecture_support().
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Cedric Le Goater <clg@fr.ibm.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr.c | 33 +++++++++++----------------------
- 1 file changed, 11 insertions(+), 22 deletions(-)
+ hw/ppc/spapr.c         | 61 +-----------------------------------------
+ hw/ppc/spapr_hcall.c   | 55 ++++++++++++++++++++++++++++++++++---
+ include/hw/ppc/spapr.h |  4 +--
+ 3 files changed, 54 insertions(+), 66 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e3c7d487b8..df5bea1bd4 100644
+index df5bea1bd4..3dedb41d48 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -917,7 +917,8 @@ static bool spapr_hotplugged_dev_before_cas(void)
-     return false;
+@@ -76,7 +76,6 @@
+ #include "hw/nmi.h"
+ #include "hw/intc/intc.h"
+=20
+-#include "qemu/cutils.h"
+ #include "hw/ppc/spapr_cpu_core.h"
+ #include "hw/mem/memory-device.h"
+ #include "hw/ppc/spapr_tpm_proxy.h"
+@@ -897,63 +896,6 @@ out:
+     return ret;
  }
 =20
--static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset);
-+static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset,
-+                             size_t space);
-=20
- int spapr_h_cas_compose_response(SpaprMachineState *spapr,
-                                  target_ulong addr, target_ulong size,
-@@ -930,24 +931,17 @@ int spapr_h_cas_compose_response(SpaprMachineState =
-*spapr,
-         return 1;
-     }
-=20
--    if (size < sizeof(hdr) || size > FW_MAX_SIZE) {
--        error_report("SLOF provided an unexpected CAS buffer size "
--                     TARGET_FMT_lu " (min: %zu, max: %u)",
--                     size, sizeof(hdr), FW_MAX_SIZE);
-+    if (size < sizeof(hdr)) {
-+        error_report("SLOF provided insufficient CAS buffer "
-+                     TARGET_FMT_lu " (min: %zu)", size, sizeof(hdr));
-         exit(EXIT_FAILURE);
-     }
-=20
-     size -=3D sizeof(hdr);
-=20
--    fdt =3D spapr_build_fdt(spapr, false);
-+    fdt =3D spapr_build_fdt(spapr, false, size);
-     _FDT((fdt_pack(fdt)));
-=20
--    if (fdt_totalsize(fdt) + sizeof(hdr) > size) {
--        g_free(fdt);
--        trace_spapr_cas_failed(size);
--        return -1;
+-static bool spapr_hotplugged_dev_before_cas(void)
+-{
+-    Object *drc_container, *obj;
+-    ObjectProperty *prop;
+-    ObjectPropertyIterator iter;
+-
+-    drc_container =3D container_get(object_get_root(), "/dr-connector");
+-    object_property_iter_init(&iter, drc_container);
+-    while ((prop =3D object_property_iter_next(&iter))) {
+-        if (!strstart(prop->type, "link<", NULL)) {
+-            continue;
+-        }
+-        obj =3D object_property_get_link(drc_container, prop->name, NULL=
+);
+-        if (spapr_drc_needed(obj)) {
+-            return true;
+-        }
+-    }
+-    return false;
+-}
+-
+-static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset,
+-                             size_t space);
+-
+-int spapr_h_cas_compose_response(SpaprMachineState *spapr,
+-                                 target_ulong addr, target_ulong size,
+-                                 SpaprOptionVector *ov5_updates)
+-{
+-    void *fdt;
+-    SpaprDeviceTreeUpdateHeader hdr =3D { .version_id =3D 1 };
+-
+-    if (spapr_hotplugged_dev_before_cas()) {
+-        return 1;
 -    }
 -
-     cpu_physical_memory_write(addr, &hdr, sizeof(hdr));
-     cpu_physical_memory_write(addr + sizeof(hdr), fdt, fdt_totalsize(fdt=
+-    if (size < sizeof(hdr)) {
+-        error_report("SLOF provided insufficient CAS buffer "
+-                     TARGET_FMT_lu " (min: %zu)", size, sizeof(hdr));
+-        exit(EXIT_FAILURE);
+-    }
+-
+-    size -=3D sizeof(hdr);
+-
+-    fdt =3D spapr_build_fdt(spapr, false, size);
+-    _FDT((fdt_pack(fdt)));
+-
+-    cpu_physical_memory_write(addr, &hdr, sizeof(hdr));
+-    cpu_physical_memory_write(addr + sizeof(hdr), fdt, fdt_totalsize(fdt=
 ));
-     trace_spapr_cas_continue(fdt_totalsize(fdt) + sizeof(hdr));
-@@ -1197,7 +1191,8 @@ static void spapr_dt_hypervisor(SpaprMachineState *=
+-    trace_spapr_cas_continue(fdt_totalsize(fdt) + sizeof(hdr));
+-
+-    g_free(spapr->fdt_blob);
+-    spapr->fdt_size =3D fdt_totalsize(fdt);
+-    spapr->fdt_initial_size =3D spapr->fdt_size;
+-    spapr->fdt_blob =3D fdt;
+-
+-    return 0;
+-}
+-
+ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+ {
+     MachineState *ms =3D MACHINE(spapr);
+@@ -1191,8 +1133,7 @@ static void spapr_dt_hypervisor(SpaprMachineState *=
 spapr, void *fdt)
      }
  }
 =20
--static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset)
-+static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset,
-+                             size_t space)
+-static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset,
+-                             size_t space)
++void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space=
+)
  {
      MachineState *machine =3D MACHINE(spapr);
      MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-@@ -1207,8 +1202,8 @@ static void *spapr_build_fdt(SpaprMachineState *spa=
-pr, bool reset)
-     SpaprPhbState *phb;
-     char *buf;
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 05a7ca275b..0f19be794c 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1,4 +1,5 @@
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/runstate.h"
+@@ -15,6 +16,7 @@
+ #include "cpu-models.h"
+ #include "trace.h"
+ #include "kvm_ppc.h"
++#include "hw/ppc/fdt.h"
+ #include "hw/ppc/spapr_ovec.h"
+ #include "mmu-book3s-v3.h"
+ #include "hw/mem/memory-device.h"
+@@ -1638,6 +1640,26 @@ static uint32_t cas_check_pvr(SpaprMachineState *s=
+papr, PowerPCCPU *cpu,
+     return best_compat;
+ }
 =20
--    fdt =3D g_malloc0(FDT_MAX_SIZE);
--    _FDT((fdt_create_empty_tree(fdt, FDT_MAX_SIZE)));
-+    fdt =3D g_malloc0(space);
-+    _FDT((fdt_create_empty_tree(fdt, space)));
++static bool spapr_hotplugged_dev_before_cas(void)
++{
++    Object *drc_container, *obj;
++    ObjectProperty *prop;
++    ObjectPropertyIterator iter;
++
++    drc_container =3D container_get(object_get_root(), "/dr-connector");
++    object_property_iter_init(&iter, drc_container);
++    while ((prop =3D object_property_iter_next(&iter))) {
++        if (!strstart(prop->type, "link<", NULL)) {
++            continue;
++        }
++        obj =3D object_property_get_link(drc_container, prop->name, NULL=
+);
++        if (spapr_drc_needed(obj)) {
++            return true;
++        }
++    }
++    return false;
++}
++
+ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+                                                   SpaprMachineState *spa=
+pr,
+                                                   target_ulong opcode,
+@@ -1645,6 +1667,8 @@ static target_ulong h_client_architecture_support(P=
+owerPCCPU *cpu,
+ {
+     /* Working address in data buffer */
+     target_ulong addr =3D ppc64_phys_to_real(args[0]);
++    target_ulong fdt_buf =3D args[1];
++    target_ulong fdt_bufsize =3D args[2];
+     target_ulong ov_table;
+     uint32_t cas_pvr;
+     SpaprOptionVector *ov1_guest, *ov5_guest, *ov5_cas_old, *ov5_updates=
+;
+@@ -1788,16 +1812,41 @@ static target_ulong h_client_architecture_support=
+(PowerPCCPU *cpu,
 =20
-     /* Root node */
-     _FDT(fdt_setprop_string(fdt, 0, "device_type", "chrp"));
-@@ -1723,19 +1718,13 @@ static void spapr_machine_reset(MachineState *mac=
-hine)
-      */
-     fdt_addr =3D MIN(spapr->rma_size, RTAS_MAX_ADDR) - FDT_MAX_SIZE;
+     spapr_irq_update_active_intc(spapr);
 =20
--    fdt =3D spapr_build_fdt(spapr, true);
-+    fdt =3D spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
++    if (spapr_hotplugged_dev_before_cas()) {
++        spapr->cas_reboot =3D true;
++    }
++
+     if (!spapr->cas_reboot) {
++        void *fdt;
++        SpaprDeviceTreeUpdateHeader hdr =3D { .version_id =3D 1 };
++
+         /* If spapr_machine_reset() did not set up a HPT but one is nece=
+ssary
+          * (because the guest isn't going to use radix) then set it up h=
+ere. */
+         if ((spapr->patb_entry & PATE1_GR) && !guest_radix) {
+             /* legacy hash or new hash: */
+             spapr_setup_hpt_and_vrma(spapr);
+         }
+-        spapr->cas_reboot =3D
+-            (spapr_h_cas_compose_response(spapr, args[1], args[2],
+-                                          ov5_updates) !=3D 0);
++
++        if (fdt_bufsize < sizeof(hdr)) {
++            error_report("SLOF provided insufficient CAS buffer "
++                         TARGET_FMT_lu " (min: %zu)", fdt_bufsize, sizeo=
+f(hdr));
++            exit(EXIT_FAILURE);
++        }
++
++        fdt_bufsize -=3D sizeof(hdr);
++
++        fdt =3D spapr_build_fdt(spapr, false, fdt_bufsize);
++        _FDT((fdt_pack(fdt)));
++
++        cpu_physical_memory_write(fdt_buf, &hdr, sizeof(hdr));
++        cpu_physical_memory_write(fdt_buf + sizeof(hdr), fdt,
++                                  fdt_totalsize(fdt));
++        trace_spapr_cas_continue(fdt_totalsize(fdt) + sizeof(hdr));
++
++        g_free(spapr->fdt_blob);
++        spapr->fdt_size =3D fdt_totalsize(fdt);
++        spapr->fdt_initial_size =3D spapr->fdt_size;
++        spapr->fdt_blob =3D fdt;
+     }
 =20
-     rc =3D fdt_pack(fdt);
+     spapr_ovec_cleanup(ov5_updates);
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index d5ab5ea7b2..61f005c6f6 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -766,11 +766,9 @@ struct SpaprEventLogEntry {
+     QTAILQ_ENTRY(SpaprEventLogEntry) next;
+ };
 =20
-     /* Should only fail if we've built a corrupted tree */
-     assert(rc =3D=3D 0);
-=20
--    if (fdt_totalsize(fdt) > FDT_MAX_SIZE) {
--        error_report("FDT too big ! 0x%x bytes (max is 0x%x)",
--                     fdt_totalsize(fdt), FDT_MAX_SIZE);
--        exit(1);
--    }
--
-     /* Load the fdt */
-     qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
-     cpu_physical_memory_write(fdt_addr, fdt, fdt_totalsize(fdt));
++void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space=
+);
+ void spapr_events_init(SpaprMachineState *sm);
+ void spapr_dt_events(SpaprMachineState *sm, void *fdt);
+-int spapr_h_cas_compose_response(SpaprMachineState *sm,
+-                                 target_ulong addr, target_ulong size,
+-                                 SpaprOptionVector *ov5_updates);
+ void close_htab_fd(SpaprMachineState *spapr);
+ void spapr_setup_hpt_and_vrma(SpaprMachineState *spapr);
+ void spapr_free_hpt(SpaprMachineState *spapr);
 --=20
 2.23.0
 
