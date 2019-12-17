@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA941223DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:35:44 +0100 (CET)
-Received: from localhost ([::1]:35944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8363E1223F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:42:29 +0100 (CET)
+Received: from localhost ([::1]:36046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5WJ-0005e7-Iz
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:35:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35645)
+	id 1ih5cq-0006li-Fq
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:42:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kJ-0002ZL-Nd
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:09 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4k9-0002MD-G8
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kH-0008JC-Vr
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:07 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33581 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4k6-00082c-1m
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:55 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52743 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4kH-0007to-LV; Mon, 16 Dec 2019 23:46:05 -0500
+ id 1ih4k2-0007V9-3s; Mon, 16 Dec 2019 23:45:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWh4ZdJz9sTV; Tue, 17 Dec 2019 15:43:40 +1100 (AEDT)
+ id 47cQWg2mZKz9sTS; Tue, 17 Dec 2019 15:43:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557824;
- bh=YlK/tUICTVr5Vv0darORvjbxvkstbvsYCLK3WqmknOE=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557823;
+ bh=5/a5TMrvK4EzeFh6JE4d9uQG/td8uvROAlRqOMDCQng=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Noa+EfdlmFTvtU4hmt4Qyj256y8knXZXR7U60/ACQ3qAQd0YTIIUDxDVdsDBFymPI
- K89QRUzLrQ5UCdnX9rXgZk+aZGReWfhWOATAsWHK9RtrAxDj8z9g8HohomswkN3K1k
- DcDt3uUzRelbVV+9Ts3mnHI3QgCTI+nz71J22zJY=
+ b=pp3QAFPf4XCm3gCh3bHQR27GX9dZJPZt/k2mZ5ohGxI6JSZYnkOxB7SyrTZQSddI8
+ aJm4p2oXplpdp4uNxYXWvxSBOe27bCJkqdtdxqqyKa5pfTkLdWSrdhn8/c8mZYPX8y
+ GXri7XvK9GU4oQtxelFbqcn8KCcY+2Tc0hPgd6fk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 66/88] target/ppc: Implement the VTB for HV access
-Date: Tue, 17 Dec 2019 15:43:00 +1100
-Message-Id: <20191217044322.351838-67-david@gibson.dropbear.id.au>
+Subject: [PULL 68/88] target/ppc: Add SPR ASDR
+Date: Tue, 17 Dec 2019 15:43:02 +1100
+Message-Id: <20191217044322.351838-69-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -63,194 +63,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-The virtual timebase register (VTB) is a 64-bit register which
-increments at the same rate as the timebase register, present on POWER8
-and later processors.
+The Access Segment Descriptor Register (ASDR) provides information about
+the storage element when taking a hypervisor storage interrupt. When
+performing nested radix address translation, this is normally the guest
+real address. This register is present on POWER9 processors and later.
 
-The register is able to be read/written by the hypervisor and read by
-the supervisor. All other accesses are illegal.
-
-Currently the VTB is just an alias for the timebase (TB) register.
-
-Implement the VTB so that is can be read/written independent of the TB.
-Make use of the existing method for accessing timebase facilities where
-by the compensation is stored and used to compute the value on reads/is
-updated on writes.
+Implement the ADSR, note read and write access is limited to the
+hypervisor.
 
 Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-[ clg: rebased on current ppc tree ]
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191128134700.16091-2-clg@kaod.org>
+Message-Id: <20191128134700.16091-4-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc.c                    | 16 ++++++++++++++++
- include/hw/ppc/ppc.h            |  1 +
- linux-user/ppc/cpu_loop.c       |  5 +++++
- target/ppc/cpu.h                |  2 ++
- target/ppc/helper.h             |  2 ++
- target/ppc/timebase_helper.c    | 10 ++++++++++
- target/ppc/translate_init.inc.c | 19 +++++++++++++++----
- 7 files changed, 51 insertions(+), 4 deletions(-)
+ target/ppc/cpu.h                | 1 +
+ target/ppc/translate_init.inc.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 45834f98d1..d8c402811f 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -682,6 +682,22 @@ void cpu_ppc_store_atbu (CPUPPCState *env, uint32_t =
-value)
-                      &tb_env->atb_offset, ((uint64_t)value << 32) | tb);
- }
-=20
-+uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
-+{
-+    ppc_tb_t *tb_env =3D env->tb_env;
-+
-+    return cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                          tb_env->vtb_offset);
-+}
-+
-+void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value)
-+{
-+    ppc_tb_t *tb_env =3D env->tb_env;
-+
-+    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                     &tb_env->vtb_offset, value);
-+}
-+
- static void cpu_ppc_tb_stop (CPUPPCState *env)
- {
-     ppc_tb_t *tb_env =3D env->tb_env;
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index 89e1dd065a..d7a95608f6 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -24,6 +24,7 @@ struct ppc_tb_t {
-     /* Time base management */
-     int64_t  tb_offset;    /* Compensation                    */
-     int64_t  atb_offset;   /* Compensation                    */
-+    int64_t  vtb_offset;
-     uint32_t tb_freq;      /* TB frequency                    */
-     /* Decrementer management */
-     uint64_t decr_next;    /* Tick for next decr interrupt    */
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index d5704def29..5b27f8603e 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -47,6 +47,11 @@ uint32_t cpu_ppc_load_atbu(CPUPPCState *env)
-     return cpu_ppc_get_tb(env) >> 32;
- }
-=20
-+uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
-+{
-+    return cpu_ppc_get_tb(env);
-+}
-+
- uint32_t cpu_ppc601_load_rtcu(CPUPPCState *env)
- __attribute__ (( alias ("cpu_ppc_load_tbu") ));
-=20
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index fbec1b0cd5..eb7d2c7637 100644
+index da44cc8809..e99850c3ae 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -1303,6 +1303,8 @@ uint64_t cpu_ppc_load_atbl(CPUPPCState *env);
- uint32_t cpu_ppc_load_atbu(CPUPPCState *env);
- void cpu_ppc_store_atbl(CPUPPCState *env, uint32_t value);
- void cpu_ppc_store_atbu(CPUPPCState *env, uint32_t value);
-+uint64_t cpu_ppc_load_vtb(CPUPPCState *env);
-+void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value);
- bool ppc_decr_clear_on_delivery(CPUPPCState *env);
- target_ulong cpu_ppc_load_decr(CPUPPCState *env);
- void cpu_ppc_store_decr(CPUPPCState *env, target_ulong value);
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index f843814b8a..a5f53bb421 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -649,6 +649,7 @@ DEF_HELPER_FLAGS_1(load_tbl, TCG_CALL_NO_RWG, tl, env=
-)
- DEF_HELPER_FLAGS_1(load_tbu, TCG_CALL_NO_RWG, tl, env)
- DEF_HELPER_FLAGS_1(load_atbl, TCG_CALL_NO_RWG, tl, env)
- DEF_HELPER_FLAGS_1(load_atbu, TCG_CALL_NO_RWG, tl, env)
-+DEF_HELPER_FLAGS_1(load_vtb, TCG_CALL_NO_RWG, tl, env)
- DEF_HELPER_FLAGS_1(load_601_rtcl, TCG_CALL_NO_RWG, tl, env)
- DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, tl, env)
- #if !defined(CONFIG_USER_ONLY)
-@@ -669,6 +670,7 @@ DEF_HELPER_FLAGS_1(load_decr, TCG_CALL_NO_RWG, tl, en=
-v)
- DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
- DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
-+DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_2(store_hid0_601, void, env, tl)
- DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
- DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
-diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
-index 73363e08ae..8c3c2fe67c 100644
---- a/target/ppc/timebase_helper.c
-+++ b/target/ppc/timebase_helper.c
-@@ -45,6 +45,11 @@ target_ulong helper_load_atbu(CPUPPCState *env)
-     return cpu_ppc_load_atbu(env);
- }
-=20
-+target_ulong helper_load_vtb(CPUPPCState *env)
-+{
-+    return cpu_ppc_load_vtb(env);
-+}
-+
- #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
- target_ulong helper_load_purr(CPUPPCState *env)
- {
-@@ -113,6 +118,11 @@ void helper_store_hdecr(CPUPPCState *env, target_ulo=
-ng val)
-     cpu_ppc_store_hdecr(env, val);
- }
-=20
-+void helper_store_vtb(CPUPPCState *env, target_ulong val)
-+{
-+    cpu_ppc_store_vtb(env, val);
-+}
-+
- target_ulong helper_load_40x_pit(CPUPPCState *env)
- {
-     return load_40x_pit(env);
+@@ -1778,6 +1778,7 @@ typedef PowerPCCPU ArchCPU;
+ #define SPR_MPC_MD_DBRAM1     (0x32A)
+ #define SPR_RCPU_L2U_RA3      (0x32B)
+ #define SPR_TAR               (0x32F)
++#define SPR_ASDR              (0x330)
+ #define SPR_IC                (0x350)
+ #define SPR_VTB               (0x351)
+ #define SPR_MMCRC             (0x353)
 diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
 inc.c
-index 7364d36b07..226aecf8f4 100644
+index c5e4d45569..c850a9d065 100644
 --- a/target/ppc/translate_init.inc.c
 +++ b/target/ppc/translate_init.inc.c
-@@ -312,6 +312,16 @@ static void spr_write_hdecr(DisasContext *ctx, int s=
-prn, int gprn)
-     }
+@@ -8295,6 +8295,12 @@ static void gen_spr_power9_mmu(CPUPPCState *env)
+                         SPR_NOACCESS, SPR_NOACCESS,
+                         &spr_read_generic, &spr_write_ptcr,
+                         KVM_REG_PPC_PTCR, 0x00000000);
++    /* Address Segment Descriptor Register */
++    spr_register_hv(env, SPR_ASDR, "ASDR",
++                    SPR_NOACCESS, SPR_NOACCESS,
++                    SPR_NOACCESS, SPR_NOACCESS,
++                    &spr_read_generic, &spr_write_generic,
++                    0x0000000000000000);
+ #endif
  }
 =20
-+static void spr_read_vtb(DisasContext *ctx, int gprn, int sprn)
-+{
-+    gen_helper_load_vtb(cpu_gpr[gprn], cpu_env);
-+}
-+
-+static void spr_write_vtb(DisasContext *ctx, int sprn, int gprn)
-+{
-+    gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
-+}
-+
- #endif
- #endif
-=20
-@@ -8174,10 +8184,11 @@ static void gen_spr_power8_ebb(CPUPPCState *env)
- /* Virtual Time Base */
- static void gen_spr_vtb(CPUPPCState *env)
- {
--    spr_register_kvm(env, SPR_VTB, "VTB",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_tbl, SPR_NOACCESS,
--                 KVM_REG_PPC_VTB, 0x00000000);
-+    spr_register_kvm_hv(env, SPR_VTB, "VTB",
-+                        SPR_NOACCESS, SPR_NOACCESS,
-+                        &spr_read_vtb, SPR_NOACCESS,
-+                        &spr_read_vtb, &spr_write_vtb,
-+                        KVM_REG_PPC_VTB, 0x00000000);
- }
-=20
- static void gen_spr_power8_fscr(CPUPPCState *env)
 --=20
 2.23.0
 
