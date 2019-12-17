@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22E812234E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:55:30 +0100 (CET)
-Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E581122344
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:51:50 +0100 (CET)
+Received: from localhost ([::1]:35184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4tN-0006CU-Bg
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:55:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33295)
+	id 1ih4po-00014A-QL
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:51:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hv-0007yn-9j
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:40 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hv-000808-V8
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ht-0005JL-UT
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hu-0005K5-Ej
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:39 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45905 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:53943)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4ht-0005D5-K9; Mon, 16 Dec 2019 23:43:37 -0500
+ id 1ih4hu-0005Cm-2b; Mon, 16 Dec 2019 23:43:38 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWP6L6zz9sSQ; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
+ id 47cQWP3rR1z9sSL; Tue, 17 Dec 2019 15:43:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557809;
- bh=0Y4e9z7qnnI/ns1o/F7tXL36eNCsL0ItzSihF6vlJW8=;
+ bh=o607y6vGbDPx2ydgklkHMMijSMIsRAC5+3Ij0tB2wRc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TNbGcFFpLxa5zPgG11H1BiE4UQ9HJmwxZI9C7HNJNwQtKjwP+SfXc8VtVpyT67ykz
- bDc/ncs6AnzLTWBstENEOB+oCoWvtlkxu3xOdBGfLnfbjOkysA6SvrJ9eJH9t1K+Au
- +ytVoTryJM2iWt1ScssVCn+O/3OR+dJwbiGfh1kc=
+ b=Tgi+luE7yWf53Wf1kN5wg+yY6u+wLtXQNIDPyR43tU5/DSZMU1/FkDOt47+D5NOF4
+ 2+fzV8q1B2cxpZ3Pn0kLmYlWrwqsSD7qm77f0Ez5tzDDDRJUQtyMvOoHGR2SJMxVI2
+ dVlBEJkw2mizaI78JDviUB5/wjamuufapQLhHMpk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/88] ppc/pnv: Link "chip" property to PnvCore::chip pointer
-Date: Tue, 17 Dec 2019 15:42:04 +1100
-Message-Id: <20191217044322.351838-11-david@gibson.dropbear.id.au>
+Subject: [PULL 11/88] ppc/pnv: Link "chip" property to PnvXive::chip pointer
+Date: Tue, 17 Dec 2019 15:42:05 +1100
+Message-Id: <20191217044322.351838-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,66 +60,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The core object has both a pointer and a "chip" property pointing to the
+The XIVE object has both a pointer and a "chip" property pointing to the
 chip object. Confusing bugs could arise if these ever go out of sync.
 
 Change the property definition so that it explicitely sets the pointer.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157383336007.165747.1524120147081367440.stgit@bahia.lan>
+Message-Id: <157383336564.165747.10250365296928442882.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c      |  4 ++--
- hw/ppc/pnv_core.c | 10 ++--------
- 2 files changed, 4 insertions(+), 10 deletions(-)
+ hw/intc/pnv_xive.c | 13 +++----------
+ hw/ppc/pnv.c       |  4 ++--
+ 2 files changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 3fa24a2d60..2bf8a3b23b 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1327,8 +1327,8 @@ static void pnv_chip_core_realize(PnvChip *chip, Er=
-ror **errp)
-         object_property_set_int(OBJECT(pnv_core),
-                                 pcc->core_pir(chip, core_hwid),
-                                 "pir", &error_fatal);
--        object_property_add_const_link(OBJECT(pnv_core), "chip",
--                                       OBJECT(chip), &error_fatal);
-+        object_property_set_link(OBJECT(pnv_core), OBJECT(chip), "chip",
-+                                 &error_abort);
-         object_property_set_bool(OBJECT(pnv_core), true, "realized",
-                                  &error_fatal);
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 6aa7aeed6f..4e56c2e468 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -1675,17 +1675,8 @@ static void pnv_xive_realize(DeviceState *dev, Err=
+or **errp)
+     XiveSource *xsrc =3D &xive->ipi_source;
+     XiveENDSource *end_xsrc =3D &xive->end_source;
+     Error *local_err =3D NULL;
+-    Object *obj;
 =20
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 61b3d3ce22..5ab75bde6c 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -217,15 +217,8 @@ static void pnv_core_realize(DeviceState *dev, Error=
- **errp)
-     void *obj;
-     int i, j;
-     char name[32];
--    Object *chip;
-=20
--    chip =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
--    if (!chip) {
--        error_propagate_prepend(errp, local_err,
--                                "required link 'chip' not found: ");
+-    obj =3D object_property_get_link(OBJECT(dev), "chip", &local_err);
+-    if (!obj) {
+-        error_propagate(errp, local_err);
+-        error_prepend(errp, "required link 'chip' not found: ");
 -        return;
 -    }
--    pc->chip =3D PNV_CHIP(chip);
-+    assert(pc->chip);
+-
+-    /* The PnvChip id identifies the XIVE interrupt controller. */
+-    xive->chip =3D PNV_CHIP(obj);
++    assert(xive->chip);
 =20
-     pc->threads =3D g_new(PowerPCCPU *, cc->nr_threads);
-     for (i =3D 0; i < cc->nr_threads; i++) {
-@@ -297,6 +290,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
-r **errp)
-=20
- static Property pnv_core_properties[] =3D {
-     DEFINE_PROP_UINT32("pir", PnvCore, pir, 0),
-+    DEFINE_PROP_LINK("chip", PnvCore, chip, TYPE_PNV_CHIP, PnvChip *),
+     /*
+      * The XiveSource and XiveENDSource objects are realized with the
+@@ -1800,6 +1791,8 @@ static Property pnv_xive_properties[] =3D {
+     DEFINE_PROP_UINT64("vc-bar", PnvXive, vc_base, 0),
+     DEFINE_PROP_UINT64("pc-bar", PnvXive, pc_base, 0),
+     DEFINE_PROP_UINT64("tm-bar", PnvXive, tm_base, 0),
++    /* The PnvChip id identifies the XIVE interrupt controller. */
++    DEFINE_PROP_LINK("chip", PnvXive, chip, TYPE_PNV_CHIP, PnvChip *),
      DEFINE_PROP_END_OF_LIST(),
  };
 =20
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 2bf8a3b23b..a2a8b97330 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1091,8 +1091,6 @@ static void pnv_chip_power9_instance_init(Object *o=
+bj)
+=20
+     object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xiv=
+e),
+                             TYPE_PNV_XIVE, &error_abort, NULL);
+-    object_property_add_const_link(OBJECT(&chip9->xive), "chip", obj,
+-                                   &error_abort);
+=20
+     object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi)=
+,
+                             TYPE_PNV9_PSI, &error_abort, NULL);
+@@ -1172,6 +1170,8 @@ static void pnv_chip_power9_realize(DeviceState *de=
+v, Error **errp)
+                             "pc-bar", &error_fatal);
+     object_property_set_int(OBJECT(&chip9->xive), PNV9_XIVE_TM_BASE(chip=
+),
+                             "tm-bar", &error_fatal);
++    object_property_set_link(OBJECT(&chip9->xive), OBJECT(chip), "chip",
++                             &error_abort);
+     object_property_set_bool(OBJECT(&chip9->xive), true, "realized",
+                              &local_err);
+     if (local_err) {
 --=20
 2.23.0
 
