@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE19A1224BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:36:37 +0100 (CET)
-Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534CE1224B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 07:34:23 +0100 (CET)
+Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih6TE-0004gY-F3
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:36:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48877)
+	id 1ih6R4-0001AE-5R
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 01:34:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ih6Jx-0000iL-5C
+ (envelope-from <armbru@redhat.com>) id 1ih6Jx-0000iM-9G
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000w3-TK
+ (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000wr-VO
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:27:01 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32187
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41898
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000sZ-P2
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ih6Jv-0000tJ-Ro
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 01:26:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576564019;
@@ -27,41 +27,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tG58nF4sXqRdxJ0EBOKqq4NTFPvei9v1v/+uaiuykRE=;
- b=HPZPEuN2Qe/Gnq2oP4JvM3LmawKe7NyKGRzIH1x9kdKUQpk2cmoQPvhPVojaLFg5XkijMe
- 1QsomAL7cgPbQpfsxYQw5lbBxQnXwsQltkJcq3/jVVE8Xv9TlTyrT69QkjRaWqqIWqeCPK
- xwcf1DDHSe/cPr30mPLXCHSIqqmEfdM=
+ bh=7hO1UqZ0b1j8GIVSL9nVspdQXE4+Gtfy7HuRA1Jix1s=;
+ b=FDegCd5SiOqnTHlqYLMbDXWBmiGKHE6WWLPIDOXFkFVsWrzyPOMtxM9hRNgXu1ggp28zrd
+ G2AvLWWUD/knxGhKOdr+uwdghUerSzze4SockXsadS1szQfyYmYE6vFdewNtLAkBtwKBG4
+ NdbhEpqnKOd2DaG5f2pQPi0zbDqtILo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-TXC-CL-UOMukXlC7FfADhg-1; Tue, 17 Dec 2019 01:26:57 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-245-ejzsBx3GP-OehbjnzVHqXg-1; Tue, 17 Dec 2019 01:26:57 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E55271883521;
- Tue, 17 Dec 2019 06:26:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1FFF1883520
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 06:26:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E3F060484;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EEC75D9C9;
  Tue, 17 Dec 2019 06:26:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6531711384D2; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
+ id 6851611384D8; Tue, 17 Dec 2019 07:26:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/34] qga: Fix guest-get-fsinfo error API violations
-Date: Tue, 17 Dec 2019 07:26:27 +0100
-Message-Id: <20191217062651.9687-11-armbru@redhat.com>
+Subject: [PULL 11/34] memory-device: Fix memory pre-plug error API violations
+Date: Tue, 17 Dec 2019 07:26:28 +0100
+Message-Id: <20191217062651.9687-12-armbru@redhat.com>
 In-Reply-To: <20191217062651.9687-1-armbru@redhat.com>
 References: <20191217062651.9687-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: TXC-CL-UOMukXlC7FfADhg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: ejzsBx3GP-OehbjnzVHqXg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,59 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-build_guest_fsinfo_for_virtual_device() dereferences @errp when
-build_guest_fsinfo_for_device() fails.  That's wrong; see the big
-comment in error.h.  Introduced in commit 46d4c5723e "qga: Add
-guest-get-fsinfo command".
+memory_device_get_free_addr() dereferences @errp when
+memory_device_check_addable() fails.  That's wrong; see the big
+comment in error.h.  Introduced in commit 1b6d6af21b "pc-dimm: factor
+out capacity and slot checks into MemoryDevice".
 
 No caller actually passes null.
 
 Fix anyway: splice in a local Error *err, and error_propagate().
 
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: David Hildenbrand <david@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191204093625.14836-10-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20191204093625.14836-11-armbru@redhat.com>
 ---
- qga/commands-posix.c | 6 ++++--
+ hw/mem/memory-device.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 0be301a4ea..10d818c3b2 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -1060,6 +1060,7 @@ static void build_guest_fsinfo_for_virtual_device(cha=
-r const *syspath,
-                                                   GuestFilesystemInfo *fs,
-                                                   Error **errp)
+diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
+index aef148c1d7..4bc9cf0917 100644
+--- a/hw/mem/memory-device.c
++++ b/hw/mem/memory-device.c
+@@ -99,6 +99,7 @@ static uint64_t memory_device_get_free_addr(MachineState =
+*ms,
+                                             uint64_t align, uint64_t size,
+                                             Error **errp)
  {
 +    Error *err =3D NULL;
-     DIR *dir;
-     char *dirpath;
-     struct dirent *entry;
-@@ -1089,10 +1090,11 @@ static void build_guest_fsinfo_for_virtual_device(c=
-har const *syspath,
+     GSList *list =3D NULL, *item;
+     Range as, new =3D range_empty;
 =20
-             g_debug(" slave device '%s'", entry->d_name);
-             path =3D g_strdup_printf("%s/slaves/%s", syspath, entry->d_nam=
-e);
--            build_guest_fsinfo_for_device(path, fs, errp);
-+            build_guest_fsinfo_for_device(path, fs, &err);
-             g_free(path);
+@@ -123,8 +124,9 @@ static uint64_t memory_device_get_free_addr(MachineStat=
+e *ms,
+         return 0;
+     }
 =20
--            if (*errp) {
-+            if (err) {
-+                error_propagate(errp, err);
-                 break;
-             }
-         }
+-    memory_device_check_addable(ms, size, errp);
+-    if (*errp) {
++    memory_device_check_addable(ms, size, &err);
++    if (err) {
++        error_propagate(errp, err);
+         return 0;
+     }
+=20
 --=20
 2.21.0
 
