@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1101C122353
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:58:50 +0100 (CET)
-Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701D312234F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:57:00 +0100 (CET)
+Received: from localhost ([::1]:35256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4wa-0002cs-JV
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:58:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33474)
+	id 1ih4uo-0008KG-RC
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:56:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33491)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hz-00087W-Tu
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:44 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4i0-00088S-9m
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hy-0005Oy-Mg
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:43 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59887 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hz-0005Q5-8y
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:44 -0500
+Received: from ozlabs.org ([203.11.71.1]:44197)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4hy-0005JP-BC; Mon, 16 Dec 2019 23:43:42 -0500
+ id 1ih4hy-0005It-TO; Mon, 16 Dec 2019 23:43:43 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWR0Dtnz9sRX; Tue, 17 Dec 2019 15:43:29 +1100 (AEDT)
+ id 47cQWQ3Mvlz9sSc; Tue, 17 Dec 2019 15:43:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557811;
- bh=eIhwrx3OcXp3/wr/CB8zxrx4IUYT4c8un45IagMXKSk=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557810;
+ bh=XLlY5FBUcVMyrEFkz9vewlVb4cLY9FD8ynFlsFrhYL8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fwQ2P6NclKPnCR9V852flQoYRWui02gKSN/Q5y0Nt/K6hIQ9/lHjcpPk000eEMLP8
- GN9iG7yx5i9ffc21aE11dhZZla+nbrOKI9fpxy7rLNYcgilYt7Wb4Jc5y86HawdOTz
- JiKV8tsOxN73PxrkItO++Ef6gL/ibmOfaXLhQrFw=
+ b=KSKF80CaXWmW06rRmci+xEwVB+LYvGxtsvh3hzelY8T+Dd9SIZYtXbAbThavsbihv
+ ZK4xd0fHbPdra+NZVCXDxMYZ4lu0cqExqMecN3HM4ALgydCbNgPZUjZ/hIryxwHDrz
+ EQcy7JaDgk7sngoCe0DNHkEHCMo2/cGH3V1YzyDQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/88] spapr: Abort if XICS interrupt controller cannot be
- initialized
-Date: Tue, 17 Dec 2019 15:42:09 +1100
-Message-Id: <20191217044322.351838-16-david@gibson.dropbear.id.au>
+Subject: [PULL 16/88] ppc/pnv: Add a LPC "ranges" property
+Date: Tue, 17 Dec 2019 15:42:10 +1100
+Message-Id: <20191217044322.351838-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,62 +59,58 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Failing to set any of the ICS property should really never happen:
-- object_property_add_child() always succeed unless the child object
-  already has a parent, which isn't the case here obviously since the
-  ICS has just been created with object_new()
-- the ICS has an "nr-irqs" property than can be set as long as the ICS
-  isn't realized
+And fix a typo in the MEM address space definition.
 
-In both cases, an error indicates there is a bug in QEMU. Propagating the
-error, ie. exiting QEMU since spapr_irq_init() is called with &error_fata=
-l
-doesn't make much sense. Abort instead. This is consistent with what is
-done with XIVE : both qdev_create() and qdev_prop_set_uint32() abort QEMU
-on error.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157403285265.409804.8683093665795248192.stgit@bahia.lan>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20191118091908.15044-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_irq.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ hw/ppc/pnv_lpc.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index fbdda14372..d4a54afc86 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -313,20 +313,11 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
- **errp)
-         Object *obj;
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index fb9f930320..c5a85c38c7 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -86,7 +86,7 @@ enum {
+ #define ISA_FW_SIZE             0x10000000
+ #define LPC_IO_OPB_ADDR         0xd0010000
+ #define LPC_IO_OPB_SIZE         0x00010000
+-#define LPC_MEM_OPB_ADDR        0xe0010000
++#define LPC_MEM_OPB_ADDR        0xe0000000
+ #define LPC_MEM_OPB_SIZE        0x10000000
+ #define LPC_FW_OPB_ADDR         0xf0000000
+ #define LPC_FW_OPB_SIZE         0x10000000
+@@ -143,6 +143,16 @@ int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_of=
+fset)
+                             cpu_to_be32(PNV9_LPCM_SIZE >> 32),
+                             cpu_to_be32((uint32_t)PNV9_LPCM_SIZE),
+     };
++    uint32_t lpc_ranges[12] =3D { 0, 0,
++                                cpu_to_be32(LPC_MEM_OPB_ADDR),
++                                cpu_to_be32(LPC_MEM_OPB_SIZE),
++                                cpu_to_be32(1), 0,
++                                cpu_to_be32(LPC_IO_OPB_ADDR),
++                                cpu_to_be32(LPC_IO_OPB_SIZE),
++                                cpu_to_be32(3), 0,
++                                cpu_to_be32(LPC_FW_OPB_ADDR),
++                                cpu_to_be32(LPC_FW_OPB_SIZE),
++    };
+     uint32_t reg[2];
 =20
-         obj =3D object_new(TYPE_ICS_SPAPR);
--        object_property_add_child(OBJECT(spapr), "ics", obj, &local_err)=
-;
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return;
--        }
+     /*
+@@ -211,6 +221,8 @@ int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_off=
+set)
+     _FDT((fdt_setprop_cell(fdt, offset, "#size-cells", 1)));
+     _FDT((fdt_setprop(fdt, offset, "compatible", lpc_compat,
+                       sizeof(lpc_compat))));
++    _FDT((fdt_setprop(fdt, offset, "ranges", lpc_ranges,
++                      sizeof(lpc_ranges))));
 =20
-+        object_property_add_child(OBJECT(spapr), "ics", obj, &error_abor=
-t);
-         object_property_set_link(obj, OBJECT(spapr), ICS_PROP_XICS,
-                                  &error_abort);
--        object_property_set_int(obj, smc->nr_xirqs, "nr-irqs", &local_er=
-r);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return;
--        }
--
-+        object_property_set_int(obj, smc->nr_xirqs, "nr-irqs", &error_ab=
-ort);
-         object_property_set_bool(obj, true, "realized", &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
+     return 0;
+ }
 --=20
 2.23.0
 
