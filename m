@@ -2,112 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6F91239DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 23:22:11 +0100 (CET)
-Received: from localhost ([::1]:46830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE207123A19
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 23:35:12 +0100 (CET)
+Received: from localhost ([::1]:46962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihLEI-0001op-1M
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 17:22:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36357)
+	id 1ihLQt-0008Ix-7R
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 17:35:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <felipe@nutanix.com>) id 1ihLDK-0001NP-R9
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 17:21:13 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ihLPW-0007j4-Ew
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 17:33:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <felipe@nutanix.com>) id 1ihLDH-0007RX-20
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 17:21:09 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:53430)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1ihLDG-0007Nd-NW
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 17:21:07 -0500
-Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBHMKFn8017098; Tue, 17 Dec 2019 14:20:51 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=PB8lnr4SJqoLKxDLX/LF3u4hQXJupIffzZ2C+V87kHk=;
- b=W8BtBdh05tMy8Yavjy+Gab5JaIptQbt3u3szpdInWvTGD78bUPK1W6s8JUdGTOXJ5CD6
- dVZHbdIvnU/UV/cp6XxhJkpRO/uKkaOu6IYXvn7IT/p7qaYh5SdTrjQEMhLzGVi2QakT
- Ua3OlEs4BeHmSZ5SRKk3aMccGepZPow3qula1cc4I63VOmLwaZl//ax4HodPncOjd80w
- mfIhu1QN/1Q6J1Y+uEyvchGLMDYVF/MQz3yMVOhS0rCSpX/ytvv7sIeirRjuvwHwNHUA
- I3V5mK2bMAhhnOmQjrXAszAwQQtJstbLznCJLy5XwFvNhx36P8D8LhdUzGtrdIIhYVCZ 8w== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
- by mx0a-002c1b01.pphosted.com with ESMTP id 2wvyppps7v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Dec 2019 14:20:51 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BbR4hfb2xPrBOFCPgdyZCUgaiV4lY3wQc/I3iu/o6MkS/w6A4lISgPipMY2NxzruIJMlhA6+KPEua4CuR2kb2Ws/MfqWAy+dxO/f4oniePBTncNdLi3zWWO7J3WGBDecoN8HghUT7N/J7TBLSAxObzpniXRf4piv3+WJ2mO5BxK+me6VVY/OPbduUk58SswbctdB4miDx7scZapo5/DfvGTyb6ZukkBZL2++FMM4Fi9KDD0Tg4WEjucpcZ8rgW+nvEvmWgNIImg4XR7vyXx00O8XbeGbNoLUi26EUpwg0PsOnZ/MNCREhsCW/KLJ3FbhQXUBwqJxDijR/Y3Vp3rdkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PB8lnr4SJqoLKxDLX/LF3u4hQXJupIffzZ2C+V87kHk=;
- b=UzFBRLDGukUa2dZ+SewYjNLPrITNq/5H98Wmiggo1hNl953dayEYXp+mDqEp+hCVPMs5VnZhxti3sAPRReGEU0hgVNYilEyEF0IpFU9ur3uQEfK1bHjTXGRJ0DQwOJR9M5aPo3CrOmkMeC/zQSIcVDczqr8Sq65GlRXDaYVtEY+o7pxu3cYN5YM1AalPjFq0cmKX7R95qfxpVA8QpZ0fEw0JxtowcoHeflW5edGepDCY6UOD7fuC0swpB4f8I7TJLUNeZnnmuOzFfNcieXk098k1XBJX0A7teUuYisIrcCzWnMzOiiH9L3rsf5urH+ib3fsIbQOps9oUobJXbp+rrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
- MWHPR02MB2622.namprd02.prod.outlook.com (10.168.207.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.18; Tue, 17 Dec 2019 22:19:10 +0000
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::c8f8:4820:a24c:3029]) by MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::c8f8:4820:a24c:3029%10]) with mapi id 15.20.2559.012; Tue, 17 Dec
- 2019 22:19:09 +0000
-From: Felipe Franciosi <felipe@nutanix.com>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH v3 4/4] qom/object: Use common get/set uint helpers
-Thread-Topic: [PATCH v3 4/4] qom/object: Use common get/set uint helpers
-Thread-Index: AQHVptz985oxjq8vNkWSjwigP/vuiqemZqeAgAzvioCAC6wRgA==
-Date: Tue, 17 Dec 2019 22:19:09 +0000
-Message-ID: <5C28BA81-9EF0-4AA1-A04E-8F7B58E856FB@nutanix.com>
-References: <20191129174630.6922-1-felipe@nutanix.com>
- <20191129174630.6922-5-felipe@nutanix.com>
- <ef90cc03-7e72-2238-72c5-b531032208e2@ozlabs.ru>
- <894244E2-85E3-4779-A6A2-EC5192D504B7@nutanix.com>
-In-Reply-To: <894244E2-85E3-4779-A6A2-EC5192D504B7@nutanix.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [46.189.28.43]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1b739e37-9333-410d-4cd4-08d7833f2392
-x-ms-traffictypediagnostic: MWHPR02MB2622:
-x-microsoft-antispam-prvs: <MWHPR02MB262208DB30EFEEBFBB2502FED7500@MWHPR02MB2622.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 02543CD7CD
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(396003)(376002)(39860400002)(346002)(136003)(189003)(199004)(71200400001)(2906002)(6506007)(36756003)(186003)(53546011)(6916009)(30864003)(26005)(4326008)(5660300002)(478600001)(6512007)(66476007)(66556008)(64756008)(66446008)(91956017)(66946007)(76116006)(81166006)(81156014)(86362001)(33656002)(8676002)(8936002)(316002)(6486002)(2616005)(966005)(54906003)(64030200001)(579004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB2622;
- H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:3; A:1; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: b+xVWC30RuV2BGaT6ccLx49JclYEBMZKc4SckZomaY4vmWM0AyEPB4MCR8mUtXSI8QF3URwS4b9qZzOtcPKM9q1ayLljM/t8DbyZRhlklfbgLbngb8P6q+ERsFQPQrWlw4i9P2vD0mQj43JX72ayhRyMhxSdsXrvGABmoUp/YZx70vgPHWTfJdy7iqCX7KPtc8bEQA35jcGldlpdCB53EbqznEHzA9xrP6c0PBk9XxzNiJQJvPDxQ2qvf7xcA1FLtMUUEs9YDNph4RkUhtahJarNIm+aQNlNDyjJgJOt0TQ+XcileVRRzTA1y2HcnU/b7D4UwlyaH8y1dX5KwC3oJovv6yRDgU4NmffxRiS9ssq6M1Io+AzDNygmtsdEH1bBFyioYrPS2TFGmsbBWt+yK3kXtOydlXZ7GLjSTuaWefl8ePYtaskf5dVV+7rumy3AaPMOdn4S87n8Kb8y2UJUlPAzKSD3eS8WsC7kJqyEZDrfoIW5Lj8lkeAlDglIe6/zmbBOLpFqb5bxJUdieeyD6YZsjCvHkzpWoVj05jLiGHE=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7C8E2808F1C556488A97B03254939650@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ihLPS-0004fu-Jk
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 17:33:46 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33134)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ihLPS-0004fC-7w
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 17:33:42 -0500
+Received: by mail-oi1-x244.google.com with SMTP id v140so12612oie.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 14:33:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=oj9RS2kzxLmLOas4M6nnXhNZxulaCEpdkxVoLEh6gks=;
+ b=FSX63wznUo4AE+3EpzxlUUtO53vlloKE/uKz48JhfoeQ3MZMY5n07g/c2sra1P2bgE
+ 0pODXRnhF1bvy8sa4uh1Abh1xSnGMUMgXUYX4Z7NzRTjTRMh/UG0/S2ySu1qxbQ6lVXL
+ n4JTtX+3A+2hHECjwkKy+HvWk61q5SSnV7vcCqL7Y3yq8qwZjryn2K4F7JiOme3irhB7
+ MD+PKKbIjyFonqJXg2sKmHT6T+EnVHSlrVMouGYQq22X84paKchROiKsJMTQKniF610f
+ xLcWv2hODu46//8UXCZ6EFuU9hQr1jaP3WklibBAyur4oVVLfzsE656SsAHaPjFlybSL
+ uO7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=oj9RS2kzxLmLOas4M6nnXhNZxulaCEpdkxVoLEh6gks=;
+ b=JEYz+BQ/ni/01cZGD77g86H9oHlYhZauj5sJqN2pQ5IugetpNb5/jg0M9N3cv6sgIJ
+ 3TUB73WRVvepsGVknm65eqM1Mlt5R4WcFmFVzd1qi21x3zV+6ETTX0UCKx94jILkaW3D
+ pqZDUL2B82xPWJov8GWAll1dTldPua0+RgpvVWKnYroyHyfnXhXj95Jij8Nqvngmfa0d
+ ZUTOyaJkrunhDascDc+3rgcf/MVPKV/CugtUhZHPgB7NBuFId0eQDCrd+a9MnsjnDp2F
+ 4QMJ42A3ODvnTKC6tr1BDiHhxvs6ZwF2qZE5FBRtuPtMXnvYtUcW9YheI10J6stK7UZY
+ BW+w==
+X-Gm-Message-State: APjAAAUMCu6okfkQDB1mGFhgPmhDfX22xAvJrs4qOiftbGCk8Mj+cgH5
+ fTk6Oo/l/K4OXkbtbkRBHOPwcQ64932cYIIoW34=
+X-Google-Smtp-Source: APXvYqwezdv8G5o5ipDB0JiLY7jJcXT+suPCeiHv39bugskfwIWXToO6EHvSFEKWQP5Vaiukh1XfnbmyYo4rrZjN6XA=
+X-Received: by 2002:a05:6808:64e:: with SMTP id
+ z14mr2892891oih.79.1576622020896; 
+ Tue, 17 Dec 2019 14:33:40 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b739e37-9333-410d-4cd4-08d7833f2392
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2019 22:19:09.7973 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: f7QbM4VGrFk0LOPgsqRyqT2vXN7+wgAk2ZGPqz4IRvX0t1iO9GXsrO/R0TyxdjxCkz57kVdj2W1gTKbBCw3VxjdiQ4/g2AsgwaYbMBkoZi8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2622
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-17_04:2019-12-17,2019-12-17 signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.151.68
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Tue, 17 Dec 2019 14:33:40 -0800 (PST)
+In-Reply-To: <CAK4993iBnFL18MLr-v_cCkvnUmQ+nnmbs_HNgdPRSdPQNJvNng@mail.gmail.com>
+References: <20191208183922.13757-1-mrolnik@gmail.com>
+ <20191208183922.13757-12-mrolnik@gmail.com>
+ <CAL1e-=iPsFgtEmvT2xt-Fm8AiQBxq48_veVDcnnyMEqghF16hw@mail.gmail.com>
+ <CAK4993ipego3-ELy82A85Rcd=PDiqCF0M5-COpHPUTL6UjVQZQ@mail.gmail.com>
+ <CAL1e-=gkGa0GCjSMm1QK+KrsnSts_1ZgvcjjP6acCVt7xP3ZpQ@mail.gmail.com>
+ <CAK4993jAANG-P_FeWhzu0ncZdiDEn=moWQ=qPKjNS_7SxzPFUQ@mail.gmail.com>
+ <CAL1e-=i-PViLdw1bT2JXnMf_MdKdswAGBFvYsWSbCRrgcmd_tQ@mail.gmail.com>
+ <CAK4993iBnFL18MLr-v_cCkvnUmQ+nnmbs_HNgdPRSdPQNJvNng@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 17 Dec 2019 23:33:40 +0100
+Message-ID: <CAL1e-=jBSZ_KWB3Mf-ZZv4ac0d9OtzViXHF4JzAR4Ht7XDx+_Q@mail.gmail.com>
+Subject: Re: [PATCH v38 11/22] target/avr: Add instruction disassembly function
+To: Michael Rolnik <mrolnik@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000802ba80599edeb77"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,657 +81,1095 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Marc-Andre Lureau <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe Mathieu-Daude <philmd@redhat.com>
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "me@xcancerberox.com.ar" <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alexey,
+--000000000000802ba80599edeb77
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I don't know how, but somehow I didn't receive your reply:
-https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg02127.html
+On Tuesday, December 17, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
 
-(I was about to follow up, then I decided to look at the archives to
-make sure your response didn't get lost in my client somehow...)
+> Aleksandar.
+>
+> 1. inst.decode file
+> 2. avr features are not accessible from avr_print_insn as it does not
+> receive a pointer to CPU context. So, there is not way to inform the user
+> that some instructions are not supported unless I define several
+> different avr_print_insn functions.
+>
+>
+OK, this is not a crucial feature. If I were you, I would leave it for
+future, as one of "nice to have" things. It is possible to implement it, of
+course, with some additions to the decoder, but don't spend your energy on
+that now, that is my advice.
 
-Still not sure of what happened, lol, let's move on. :)
+But patch 1 restructuring is a must. You have to form several logical units
+out of it.
 
-I'm top-posting as I couldn't pull your response in for a proper reply.
+inst.decode is written to be convenient to the author (you), but it should
+be convenient to the reader, please rearrange items to be as in the ISA
+document (even though we both know it is not convenient to you).
 
-You said:
-> The franciozzy/autosetters branch with this on top -
-> https://github.com/aik/qemu/commit/94c33bb7debf
-> - works fine. Thanks,
+The review takes forever, but you are up to one of the most serious tasks
+in QEMU, so it is expected, no reason to worry.
 
-Your patch basically reverts a part of my commit and then makes the
-change Marc-Andre recommended (by dropping the (void *) cast).
+Best regards,
 
-Is it ok for me to just drop that part of my patch and send the v4?
-
-You can follow-up on the cast change afterwards.
-
-Thanks,
-F.
+Aleksandar
 
 
-> On Dec 10, 2019, at 1:04 PM, Felipe Franciosi <felipe@nutanix.com> wrote:
->=20
-> Hi
->=20
->> On Dec 2, 2019, at 6:31 AM, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
->>=20
->>=20
->>=20
->> On 30/11/2019 04:46, Felipe Franciosi wrote:
->>> Several objects implemented their own uint property getters and setters=
-,
->>> despite them being straightforward (without any checks/validations on
->>> the values themselves) and identical across objects. This makes use of
->>> an enhanced API for object_property_add_uintXX_ptr() which offers
->>> default setters.
->>>=20
->>> Some of these setters used to update the value even if the type visit
->>> failed (eg. because the value being set overflowed over the given type)=
-.
->>> The new setter introduces a check for these errors, not updating the
->>> value if an error occurred. The error is propagated.
->>>=20
->>> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
->>> ---
->>> hw/acpi/ich9.c       |  95 ++++----------------------------------
->>> hw/isa/lpc_ich9.c    |  12 +----
->>> hw/misc/edu.c        |  13 ++----
->>> hw/pci-host/q35.c    |  14 ++----
->>> hw/ppc/spapr.c       |  18 ++------
->>> hw/vfio/pci-quirks.c |  20 +++-----
->>> memory.c             |  15 +-----
->>> target/arm/cpu.c     |  22 ++-------
->>> target/i386/sev.c    | 106 ++++---------------------------------------
->>> 9 files changed, 40 insertions(+), 275 deletions(-)
->>>=20
->>> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
->>> index 742fb78226..d9305be891 100644
->>> --- a/hw/acpi/ich9.c
->>> +++ b/hw/acpi/ich9.c
->>> @@ -357,81 +357,6 @@ static void ich9_pm_set_cpu_hotplug_legacy(Object =
-*obj, bool value,
->>>    s->pm.cpu_hotplug_legacy =3D value;
->>> }
->>>=20
->>> -static void ich9_pm_get_disable_s3(Object *obj, Visitor *v, const char=
- *name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    ICH9LPCPMRegs *pm =3D opaque;
->>> -    uint8_t value =3D pm->disable_s3;
->>> -
->>> -    visit_type_uint8(v, name, &value, errp);
->>> -}
->>> -
->>> -static void ich9_pm_set_disable_s3(Object *obj, Visitor *v, const char=
- *name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    ICH9LPCPMRegs *pm =3D opaque;
->>> -    Error *local_err =3D NULL;
->>> -    uint8_t value;
->>> -
->>> -    visit_type_uint8(v, name, &value, &local_err);
->>> -    if (local_err) {
->>> -        goto out;
->>> -    }
->>> -    pm->disable_s3 =3D value;
->>> -out:
->>> -    error_propagate(errp, local_err);
->>> -}
->>> -
->>> -static void ich9_pm_get_disable_s4(Object *obj, Visitor *v, const char=
- *name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    ICH9LPCPMRegs *pm =3D opaque;
->>> -    uint8_t value =3D pm->disable_s4;
->>> -
->>> -    visit_type_uint8(v, name, &value, errp);
->>> -}
->>> -
->>> -static void ich9_pm_set_disable_s4(Object *obj, Visitor *v, const char=
- *name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    ICH9LPCPMRegs *pm =3D opaque;
->>> -    Error *local_err =3D NULL;
->>> -    uint8_t value;
->>> -
->>> -    visit_type_uint8(v, name, &value, &local_err);
->>> -    if (local_err) {
->>> -        goto out;
->>> -    }
->>> -    pm->disable_s4 =3D value;
->>> -out:
->>> -    error_propagate(errp, local_err);
->>> -}
->>> -
->>> -static void ich9_pm_get_s4_val(Object *obj, Visitor *v, const char *na=
-me,
->>> -                               void *opaque, Error **errp)
->>> -{
->>> -    ICH9LPCPMRegs *pm =3D opaque;
->>> -    uint8_t value =3D pm->s4_val;
->>> -
->>> -    visit_type_uint8(v, name, &value, errp);
->>> -}
->>> -
->>> -static void ich9_pm_set_s4_val(Object *obj, Visitor *v, const char *na=
-me,
->>> -                               void *opaque, Error **errp)
->>> -{
->>> -    ICH9LPCPMRegs *pm =3D opaque;
->>> -    Error *local_err =3D NULL;
->>> -    uint8_t value;
->>> -
->>> -    visit_type_uint8(v, name, &value, &local_err);
->>> -    if (local_err) {
->>> -        goto out;
->>> -    }
->>> -    pm->s4_val =3D value;
->>> -out:
->>> -    error_propagate(errp, local_err);
->>> -}
->>> -
->>> static bool ich9_pm_get_enable_tco(Object *obj, Error **errp)
->>> {
->>>    ICH9LPCState *s =3D ICH9_LPC_DEVICE(obj);
->>> @@ -468,18 +393,14 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCP=
-MRegs *pm, Error **errp)
->>>                             ich9_pm_get_cpu_hotplug_legacy,
->>>                             ich9_pm_set_cpu_hotplug_legacy,
->>>                             NULL);
->>> -    object_property_add(obj, ACPI_PM_PROP_S3_DISABLED, "uint8",
->>> -                        ich9_pm_get_disable_s3,
->>> -                        ich9_pm_set_disable_s3,
->>> -                        NULL, pm, NULL);
->>> -    object_property_add(obj, ACPI_PM_PROP_S4_DISABLED, "uint8",
->>> -                        ich9_pm_get_disable_s4,
->>> -                        ich9_pm_set_disable_s4,
->>> -                        NULL, pm, NULL);
->>> -    object_property_add(obj, ACPI_PM_PROP_S4_VAL, "uint8",
->>> -                        ich9_pm_get_s4_val,
->>> -                        ich9_pm_set_s4_val,
->>> -                        NULL, pm, NULL);
->>> +    object_property_add_uint8_ptr(obj, ACPI_PM_PROP_S3_DISABLED,
->>> +                                  &pm->disable_s3, OBJ_PROP_FLAG_READW=
-RITE,
->>> +                                  NULL);
->>> +    object_property_add_uint8_ptr(obj, ACPI_PM_PROP_S4_DISABLED,
->>> +                                  &pm->disable_s4, OBJ_PROP_FLAG_READW=
-RITE,
->>> +                                  NULL);
->>> +    object_property_add_uint8_ptr(obj, ACPI_PM_PROP_S4_VAL,
->>> +                                  &pm->s4_val, OBJ_PROP_FLAG_READWRITE=
-, NULL);
->>>    object_property_add_bool(obj, ACPI_PM_PROP_TCO_ENABLED,
->>>                             ich9_pm_get_enable_tco,
->>>                             ich9_pm_set_enable_tco,
->>> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
->>> index c40bb3c420..b99a613954 100644
->>> --- a/hw/isa/lpc_ich9.c
->>> +++ b/hw/isa/lpc_ich9.c
->>> @@ -627,13 +627,6 @@ static const MemoryRegionOps ich9_rst_cnt_ops =3D =
-{
->>>    .endianness =3D DEVICE_LITTLE_ENDIAN
->>> };
->>>=20
->>> -static void ich9_lpc_get_sci_int(Object *obj, Visitor *v, const char *=
-name,
->>> -                                 void *opaque, Error **errp)
->>> -{
->>> -    ICH9LPCState *lpc =3D ICH9_LPC_DEVICE(obj);
->>> -    visit_type_uint8(v, name, &lpc->sci_gsi, errp);
->>> -}
->>> -
->>> static void ich9_lpc_initfn(Object *obj)
->>> {
->>>    ICH9LPCState *lpc =3D ICH9_LPC_DEVICE(obj);
->>> @@ -641,9 +634,8 @@ static void ich9_lpc_initfn(Object *obj)
->>>    static const uint8_t acpi_enable_cmd =3D ICH9_APM_ACPI_ENABLE;
->>>    static const uint8_t acpi_disable_cmd =3D ICH9_APM_ACPI_DISABLE;
->>>=20
->>> -    object_property_add(obj, ACPI_PM_PROP_SCI_INT, "uint8",
->>> -                        ich9_lpc_get_sci_int,
->>> -                        NULL, NULL, NULL, NULL);
->>> +    object_property_add_uint8_ptr(obj, ACPI_PM_PROP_SCI_INT,
->>> +                                  &lpc->sci_gsi, OBJ_PROP_FLAG_READ, N=
-ULL);
->>>    object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_ENABLE_=
-CMD,
->>>                                  &acpi_enable_cmd, OBJ_PROP_FLAG_READ, =
-NULL);
->>>    object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_DISABLE=
-_CMD,
->>> diff --git a/hw/misc/edu.c b/hw/misc/edu.c
->>> index d5e2bdbb57..ff10f5b794 100644
->>> --- a/hw/misc/edu.c
->>> +++ b/hw/misc/edu.c
->>> @@ -396,21 +396,14 @@ static void pci_edu_uninit(PCIDevice *pdev)
->>>    msi_uninit(pdev);
->>> }
->>>=20
->>> -static void edu_obj_uint64(Object *obj, Visitor *v, const char *name,
->>> -                           void *opaque, Error **errp)
->>> -{
->>> -    uint64_t *val =3D opaque;
->>> -
->>> -    visit_type_uint64(v, name, val, errp);
->>> -}
->>> -
->>> static void edu_instance_init(Object *obj)
->>> {
->>>    EduState *edu =3D EDU(obj);
->>>=20
->>>    edu->dma_mask =3D (1UL << 28) - 1;
->>> -    object_property_add(obj, "dma_mask", "uint64", edu_obj_uint64,
->>> -                    edu_obj_uint64, NULL, &edu->dma_mask, NULL);
->>> +    object_property_add_uint64_ptr(obj, "dma_mask",
->>> +                                   &edu->dma_mask, OBJ_PROP_FLAG_READW=
-RITE,
->>> +                                   NULL);
->>> }
->>>=20
->>> static void edu_class_init(ObjectClass *class, void *data)
->>> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
->>> index 158d270b9f..f384ab95c6 100644
->>> --- a/hw/pci-host/q35.c
->>> +++ b/hw/pci-host/q35.c
->>> @@ -165,14 +165,6 @@ static void q35_host_get_pci_hole64_end(Object *ob=
-j, Visitor *v,
->>>    visit_type_uint64(v, name, &value, errp);
->>> }
->>>=20
->>> -static void q35_host_get_mmcfg_size(Object *obj, Visitor *v, const cha=
-r *name,
->>> -                                    void *opaque, Error **errp)
->>> -{
->>> -    PCIExpressHost *e =3D PCIE_HOST_BRIDGE(obj);
->>> -
->>> -    visit_type_uint64(v, name, &e->size, errp);
->>> -}
->>> -
->>> /*
->>> * NOTE: setting defaults for the mch.* fields in this table
->>> * doesn't work, because mch is a separate QOM object that is
->>> @@ -213,6 +205,7 @@ static void q35_host_initfn(Object *obj)
->>> {
->>>    Q35PCIHost *s =3D Q35_HOST_DEVICE(obj);
->>>    PCIHostState *phb =3D PCI_HOST_BRIDGE(obj);
->>> +    PCIExpressHost *pehb =3D PCIE_HOST_BRIDGE(obj);
->>>=20
->>>    memory_region_init_io(&phb->conf_mem, obj, &pci_host_conf_le_ops, ph=
-b,
->>>                          "pci-conf-idx", 4);
->>> @@ -242,9 +235,8 @@ static void q35_host_initfn(Object *obj)
->>>                        q35_host_get_pci_hole64_end,
->>>                        NULL, NULL, NULL, NULL);
->>>=20
->>> -    object_property_add(obj, PCIE_HOST_MCFG_SIZE, "uint64",
->>> -                        q35_host_get_mmcfg_size,
->>> -                        NULL, NULL, NULL, NULL);
->>> +    object_property_add_uint64_ptr(obj, PCIE_HOST_MCFG_SIZE,
->>> +                                   &pehb->size, OBJ_PROP_FLAG_READ, NU=
-LL);
->>>=20
->>>    object_property_add_link(obj, MCH_HOST_PROP_RAM_MEM, TYPE_MEMORY_REG=
-ION,
->>>                             (Object **) &s->mch.ram_memory,
->>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->>> index e076f6023c..668f045023 100644
->>> --- a/hw/ppc/spapr.c
->>> +++ b/hw/ppc/spapr.c
->>> @@ -3227,18 +3227,6 @@ static void spapr_set_resize_hpt(Object *obj, co=
-nst char *value, Error **errp)
->>>    }
->>> }
->>>=20
->>> -static void spapr_get_vsmt(Object *obj, Visitor *v, const char *name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
->>> -}
->>> -
->>> -static void spapr_set_vsmt(Object *obj, Visitor *v, const char *name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
->>> -}
->>> -
->>> static char *spapr_get_ic_mode(Object *obj, Error **errp)
->>> {
->>>    SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
->>> @@ -3336,8 +3324,10 @@ static void spapr_instance_init(Object *obj)
->>>    object_property_set_description(obj, "resize-hpt",
->>>                                    "Resizing of the Hash Page Table (en=
-abled, disabled, required)",
->>>                                    NULL);
->>> -    object_property_add(obj, "vsmt", "uint32", spapr_get_vsmt,
->>> -                        spapr_set_vsmt, NULL, &spapr->vsmt, &error_abo=
-rt);
->>> +    object_property_add_uint32_ptr(obj, "vsmt",
->>> +                                   &spapr->vsmt, OBJ_PROP_FLAG_READWRI=
-TE,
->>> +                                   &error_abort);
->>=20
->>=20
->> Ths looks alright but...
->=20
-> Ok.
->=20
->>=20
->>=20
->>> +
->>>    object_property_set_description(obj, "vsmt",
->>>                                    "Virtual SMT: KVM behaves as if this=
- were"
->>>                                    " the host's SMT mode", &error_abort=
-);
->>> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
->>> index 136f3a9ad6..d769c99bde 100644
->>> --- a/hw/vfio/pci-quirks.c
->>> +++ b/hw/vfio/pci-quirks.c
->>> @@ -2187,14 +2187,6 @@ int vfio_add_virt_caps(VFIOPCIDevice *vdev, Erro=
-r **errp)
->>>    return 0;
->>> }
->>>=20
->>> -static void vfio_pci_nvlink2_get_tgt(Object *obj, Visitor *v,
->>> -                                     const char *name,
->>> -                                     void *opaque, Error **errp)
->>> -{
->>> -    uint64_t tgt =3D (uintptr_t) opaque;
->>> -    visit_type_uint64(v, name, &tgt, errp);
->>> -}
->>> -
->>> static void vfio_pci_nvlink2_get_link_speed(Object *obj, Visitor *v,
->>>                                                 const char *name,
->>>                                                 void *opaque, Error **e=
-rrp)
->>> @@ -2240,9 +2232,9 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *=
-vdev, Error **errp)
->>>                               nv2reg->size, p);
->>>    QLIST_INSERT_HEAD(&vdev->bars[0].quirks, quirk, next);
->>>=20
->>> -    object_property_add(OBJECT(vdev), "nvlink2-tgt", "uint64",
->>> -                        vfio_pci_nvlink2_get_tgt, NULL, NULL,
->>> -                        (void *) (uintptr_t) cap->tgt, NULL);
->>> +    object_property_add_uint64_ptr(OBJECT(vdev), "nvlink2-tgt",
->>> +                                   (void *)(uintptr_t)cap->tgt,
->>=20
->>=20
->> ... this does not seem equalent. The getter will assume cap->tgt is an
->> userspace address which it is not. &cap->tgt would be QOM-correct but
->> won't work because of the lifetime of @cap but this is another story.
->=20
-> Maybe I just don't understand where this value comes from. It sounds
-> like you know what you are talking about :) so I'll send a v4 and
-> leave this method untouched, unless you have a chance to test this and
-> tell me that it still works.
->=20
->>=20
->> btw what is this patchset based on? I tried applying it on top of 3 week
->> old and today upstream and it failed. Thanks,
->=20
-> I'm not sure why there were problems. I just rebased my branch on top
-> of latest master (without issues). I pushed it to Github so you can
-> have a look. Let me know if you want to try it out or if I should just
-> send a v4 straight away dropping the changes immediately above.
->=20
-> https://github.com/franciozzy/qemu
->=20
-> Thanks!
-> F.
->=20
->>=20
->>=20
->>=20
->>=20
->>=20
->>> +                                   OBJ_PROP_FLAG_READ, NULL);
->>>    trace_vfio_pci_nvidia_gpu_setup_quirk(vdev->vbasedev.name, cap->tgt,
->>>                                          nv2reg->size);
->>> free_exit:
->>> @@ -2301,9 +2293,9 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Er=
-ror **errp)
->>>        QLIST_INSERT_HEAD(&vdev->bars[0].quirks, quirk, next);
->>>    }
->>>=20
->>> -    object_property_add(OBJECT(vdev), "nvlink2-tgt", "uint64",
->>> -                        vfio_pci_nvlink2_get_tgt, NULL, NULL,
->>> -                        (void *) (uintptr_t) captgt->tgt, NULL);
->>> +    object_property_add_uint64_ptr(OBJECT(vdev), "nvlink2-tgt",
->>> +                                   (void *)(uintptr_t)captgt->tgt,
->>> +                                   OBJ_PROP_FLAG_READ, NULL);
->>>    trace_vfio_pci_nvlink2_setup_quirk_ssatgt(vdev->vbasedev.name, captg=
-t->tgt,
->>>                                              atsdreg->size);
->>>=20
->>> diff --git a/memory.c b/memory.c
->>> index 06484c2bff..7dac2aa059 100644
->>> --- a/memory.c
->>> +++ b/memory.c
->>> @@ -1158,15 +1158,6 @@ void memory_region_init(MemoryRegion *mr,
->>>    memory_region_do_init(mr, owner, name, size);
->>> }
->>>=20
->>> -static void memory_region_get_addr(Object *obj, Visitor *v, const char=
- *name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    MemoryRegion *mr =3D MEMORY_REGION(obj);
->>> -    uint64_t value =3D mr->addr;
->>> -
->>> -    visit_type_uint64(v, name, &value, errp);
->>> -}
->>> -
->>> static void memory_region_get_container(Object *obj, Visitor *v,
->>>                                        const char *name, void *opaque,
->>>                                        Error **errp)
->>> @@ -1230,10 +1221,8 @@ static void memory_region_initfn(Object *obj)
->>>                             NULL, NULL, &error_abort);
->>>    op->resolve =3D memory_region_resolve_container;
->>>=20
->>> -    object_property_add(OBJECT(mr), "addr", "uint64",
->>> -                        memory_region_get_addr,
->>> -                        NULL, /* memory_region_set_addr */
->>> -                        NULL, NULL, &error_abort);
->>> +    object_property_add_uint64_ptr(OBJECT(mr), "addr",
->>> +                                   &mr->addr, OBJ_PROP_FLAG_READ, &err=
-or_abort);
->>>    object_property_add(OBJECT(mr), "priority", "uint32",
->>>                        memory_region_get_priority,
->>>                        NULL, /* memory_region_set_priority */
->>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->>> index 7a4ac9339b..bbe25a73c4 100644
->>> --- a/target/arm/cpu.c
->>> +++ b/target/arm/cpu.c
->>> @@ -1039,22 +1039,6 @@ static void arm_set_pmu(Object *obj, bool value,=
- Error **errp)
->>>    cpu->has_pmu =3D value;
->>> }
->>>=20
->>> -static void arm_get_init_svtor(Object *obj, Visitor *v, const char *na=
-me,
->>> -                               void *opaque, Error **errp)
->>> -{
->>> -    ARMCPU *cpu =3D ARM_CPU(obj);
->>> -
->>> -    visit_type_uint32(v, name, &cpu->init_svtor, errp);
->>> -}
->>> -
->>> -static void arm_set_init_svtor(Object *obj, Visitor *v, const char *na=
-me,
->>> -                               void *opaque, Error **errp)
->>> -{
->>> -    ARMCPU *cpu =3D ARM_CPU(obj);
->>> -
->>> -    visit_type_uint32(v, name, &cpu->init_svtor, errp);
->>> -}
->>> -
->>> void arm_cpu_post_init(Object *obj)
->>> {
->>>    ARMCPU *cpu =3D ARM_CPU(obj);
->>> @@ -1165,9 +1149,9 @@ void arm_cpu_post_init(Object *obj)
->>>         * a simple DEFINE_PROP_UINT32 for this because we want to permi=
+
+> Regards,
+> Michael Rolnik
+>
+>
+>
+> On Thu, Dec 12, 2019 at 11:12 AM Aleksandar Markovic <
+> aleksandar.m.mail@gmail.com> wrote:
+>
+>> On Tue, Dec 10, 2019 at 8:18 AM Michael Rolnik <mrolnik@gmail.com> wrote=
+:
+>> >
+>> > You are right. See at the bottom of the file. There is a comment about
+>> it
+>> >
+>>
+>> Sorry, what file?
+>>
+>> I also see that you disassemble instructions regardless of what AVR
+>> CPU the current executable is built for, don't you? OK, not a very big
+>> deal, but can be confusing for end user if disassembly text of an
+>> instruction that is not supported by a particular CPU is displayed as
+>> if it is supported.
+>>
+>> > Sent from my cell phone, please ignore typos
+>> >
+>> > On Tue, Dec 10, 2019, 6:21 AM Aleksandar Markovic <
+>> aleksandar.m.mail@gmail.com> wrote:
+>> >>
+>> >>
+>> >>
+>> >> On Monday, December 9, 2019, Michael Rolnik <mrolnik@gmail.com> wrote=
+:
+>> >>>
+>> >>> Hi Aleksandar.
+>> >>>
+>> >>> 1. all instructions are 16 bit long except CALL & JMP they are 32 bi=
 t
->>>         * the property to be set after realize.
->>>         */
->>> -        object_property_add(obj, "init-svtor", "uint32",
->>> -                            arm_get_init_svtor, arm_set_init_svtor,
->>> -                            NULL, NULL, &error_abort);
->>> +        object_property_add_uint32_ptr(obj, "init-svtor",
->>> +                                       &cpu->init_svtor,
->>> +                                       OBJ_PROP_FLAG_READWRITE, &error=
-_abort);
->>>    }
->>>=20
->>>    qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property,
->>> diff --git a/target/i386/sev.c b/target/i386/sev.c
->>> index 024bb24e51..846018a12d 100644
->>> --- a/target/i386/sev.c
->>> +++ b/target/i386/sev.c
->>> @@ -266,94 +266,6 @@ qsev_guest_class_init(ObjectClass *oc, void *data)
->>>            "guest owners session parameters (encoded with base64)", NUL=
-L);
->>> }
->>>=20
->>> -static void
->>> -qsev_guest_set_handle(Object *obj, Visitor *v, const char *name,
->>> -                      void *opaque, Error **errp)
->>> -{
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -    uint32_t value;
->>> -
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -    sev->handle =3D value;
->>> -}
->>> -
->>> -static void
->>> -qsev_guest_set_policy(Object *obj, Visitor *v, const char *name,
->>> -                      void *opaque, Error **errp)
->>> -{
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -    uint32_t value;
->>> -
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -    sev->policy =3D value;
->>> -}
->>> -
->>> -static void
->>> -qsev_guest_set_cbitpos(Object *obj, Visitor *v, const char *name,
->>> -                       void *opaque, Error **errp)
->>> -{
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -    uint32_t value;
->>> -
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -    sev->cbitpos =3D value;
->>> -}
->>> -
->>> -static void
->>> -qsev_guest_set_reduced_phys_bits(Object *obj, Visitor *v, const char *=
-name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -    uint32_t value;
->>> -
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -    sev->reduced_phys_bits =3D value;
->>> -}
->>> -
->>> -static void
->>> -qsev_guest_get_policy(Object *obj, Visitor *v, const char *name,
->>> -                      void *opaque, Error **errp)
->>> -{
->>> -    uint32_t value;
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -
->>> -    value =3D sev->policy;
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -}
->>> -
->>> -static void
->>> -qsev_guest_get_handle(Object *obj, Visitor *v, const char *name,
->>> -                      void *opaque, Error **errp)
->>> -{
->>> -    uint32_t value;
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -
->>> -    value =3D sev->handle;
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -}
->>> -
->>> -static void
->>> -qsev_guest_get_cbitpos(Object *obj, Visitor *v, const char *name,
->>> -                       void *opaque, Error **errp)
->>> -{
->>> -    uint32_t value;
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -
->>> -    value =3D sev->cbitpos;
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -}
->>> -
->>> -static void
->>> -qsev_guest_get_reduced_phys_bits(Object *obj, Visitor *v, const char *=
-name,
->>> -                                   void *opaque, Error **errp)
->>> -{
->>> -    uint32_t value;
->>> -    QSevGuestInfo *sev =3D QSEV_GUEST_INFO(obj);
->>> -
->>> -    value =3D sev->reduced_phys_bits;
->>> -    visit_type_uint32(v, name, &value, errp);
->>> -}
->>> -
->>> static void
->>> qsev_guest_init(Object *obj)
->>> {
->>> @@ -361,15 +273,15 @@ qsev_guest_init(Object *obj)
->>>=20
->>>    sev->sev_device =3D g_strdup(DEFAULT_SEV_DEVICE);
->>>    sev->policy =3D DEFAULT_GUEST_POLICY;
->>> -    object_property_add(obj, "policy", "uint32", qsev_guest_get_policy=
+>> long
+>> >>
+>> >>
+>> >> Accordingto the doc, LDS and STS also have 32-bit coding.
+>> >>
+>> >>
+>> >>>
+>> >>> 2. next_word_used is set to true by next_word when called by
+>> append_16 when CALL & JMP are parsed
+>> >>>
+>> >>> Regards,
+>> >>> Michael Rolnik
+>> >>>
+>> >>> On Mon, Dec 9, 2019 at 8:10 PM Aleksandar Markovic <
+>> aleksandar.m.mail@gmail.com> wrote:
+>> >>>>
+>> >>>>
+>> >>>>
+>> >>>> On Sunday, December 8, 2019, Michael Rolnik <mrolnik@gmail.com>
+>> wrote:
+>> >>>>>
+>> >>>>> Provide function disassembles executed instruction when `-d in_asm=
+`
+>> is
+>> >>>>> provided
+>> >>>>>
+>> >>>>> Example:
+>> >>>>> `./avr-softmmu/qemu-system-avr -bios free-rtos/Demo/AVR_ATMega2560=
+_GCC/demo.elf
+>> -d in_asm` will produce something like the following
+>> >>>>>
+>> >>>>> ```
+>> >>>>>     ...
+>> >>>>>     IN:
+>> >>>>>     0x0000014a:  CALL      0x3808
+>> >>>>>
+>> >>>>>     IN: main
+>> >>>>>     0x00003808:  CALL      0x4b4
+>> >>>>>
+>> >>>>>     IN: vParTestInitialise
+>> >>>>>     0x000004b4:  LDI       r24, 255
+>> >>>>>     0x000004b6:  STS       r24, 0
+>> >>>>>     0x000004b8:  MULS      r16, r20
+>> >>>>>     0x000004ba:  OUT       $1, r24
+>> >>>>>     0x000004bc:  LDS       r24, 0
+>> >>>>>     0x000004be:  MULS      r16, r20
+>> >>>>>     0x000004c0:  OUT       $2, r24
+>> >>>>>     0x000004c2:  RET
+>> >>>>>     ...
+>> >>>>> ```
+>> >>>>>
+>> >>>>> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+>> >>>>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+>> >>>>> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> >>>>> Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+>> >>>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> >>>>> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> >>>>> ---
+>> >>>>>  target/avr/cpu.h       |   1 +
+>> >>>>>  target/avr/cpu.c       |   2 +-
+>> >>>>>  target/avr/disas.c     | 226 ++++++++++++++++++++++++++++++
+>> +++++++++++
+>> >>>>>  target/avr/translate.c |  11 ++
+>> >>>>>  4 files changed, 239 insertions(+), 1 deletion(-)
+>> >>>>>  create mode 100644 target/avr/disas.c
+>> >>>>>
+>> >>>>> diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+>> >>>>> index c217eefeb4..a8a3e7ade6 100644
+>> >>>>> --- a/target/avr/cpu.h
+>> >>>>> +++ b/target/avr/cpu.h
+>> >>>>> @@ -178,6 +178,7 @@ bool avr_cpu_exec_interrupt(CPUState *cpu, int
+>> int_req);
+>> >>>>>  hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>> >>>>>  int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int
+>> reg);
+>> >>>>>  int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int
+>> reg);
+>> >>>>> +int avr_print_insn(bfd_vma addr, disassemble_info *info);
+>> >>>>>
+>> >>>>>  static inline int avr_feature(CPUAVRState *env, int feature)
+>> >>>>>  {
+>> >>>>> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+>> >>>>> index c5cafcae3c..be4b921e4d 100644
+>> >>>>> --- a/target/avr/cpu.c
+>> >>>>> +++ b/target/avr/cpu.c
+>> >>>>> @@ -83,7 +83,7 @@ static void avr_cpu_reset(CPUState *cs)
+>> >>>>>  static void avr_cpu_disas_set_info(CPUState *cpu,
+>> disassemble_info *info)
+>> >>>>>  {
+>> >>>>>      info->mach =3D bfd_arch_avr;
+>> >>>>> -    info->print_insn =3D NULL;
+>> >>>>> +    info->print_insn =3D avr_print_insn;
+>> >>>>>  }
+>> >>>>>
+>> >>>>>  static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
+>> >>>>> diff --git a/target/avr/disas.c b/target/avr/disas.c
+>> >>>>> new file mode 100644
+>> >>>>> index 0000000000..22863d2eb1
+>> >>>>> --- /dev/null
+>> >>>>> +++ b/target/avr/disas.c
+>> >>>>> @@ -0,0 +1,226 @@
+>> >>>>> +/*
+>> >>>>> + * AVR disassembler
+>> >>>>> + *
+>> >>>>> + * Copyright (c) 2019 Richard Henderson <rth@twiddle.net>
+>> >>>>> + * Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
+>> >>>>> + *
+>> >>>>> + * This program is free software: you can redistribute it and/or
+>> modify
+>> >>>>> + * it under the terms of the GNU General Public License as
+>> published by
+>> >>>>> + * the Free Software Foundation, either version 2 of the License,
+>> or
+>> >>>>> + * (at your option) any later version.
+>> >>>>> + *
+>> >>>>> + * This program is distributed in the hope that it will be useful=
 ,
->>> -                        qsev_guest_set_policy, NULL, NULL, NULL);
->>> -    object_property_add(obj, "handle", "uint32", qsev_guest_get_handle=
-,
->>> -                        qsev_guest_set_handle, NULL, NULL, NULL);
->>> -    object_property_add(obj, "cbitpos", "uint32", qsev_guest_get_cbitp=
-os,
->>> -                        qsev_guest_set_cbitpos, NULL, NULL, NULL);
->>> -    object_property_add(obj, "reduced-phys-bits", "uint32",
->>> -                        qsev_guest_get_reduced_phys_bits,
->>> -                        qsev_guest_set_reduced_phys_bits, NULL, NULL, =
-NULL);
->>> +    object_property_add_uint32_ptr(obj, "policy", &sev->policy,
->>> +                                   OBJ_PROP_FLAG_READWRITE, NULL);
->>> +    object_property_add_uint32_ptr(obj, "handle", &sev->handle,
->>> +                                   OBJ_PROP_FLAG_READWRITE, NULL);
->>> +    object_property_add_uint32_ptr(obj, "cbitpos", &sev->cbitpos,
->>> +                                   OBJ_PROP_FLAG_READWRITE, NULL);
->>> +    object_property_add_uint32_ptr(obj, "reduced-phys-bits",
->>> +                                   &sev->reduced_phys_bits,
->>> +                                   OBJ_PROP_FLAG_READWRITE, NULL);
->>> }
->>>=20
->>> /* sev guest info */
->>>=20
->>=20
->> --=20
->> Alexey
->=20
+>> >>>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> >>>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> >>>>> + * GNU General Public License for more details.
+>> >>>>> + *
+>> >>>>> + * You should have received a copy of the GNU General Public
+>> License
+>> >>>>> + * along with this program.  If not, see <
+>> http://www.gnu.org/licenses/>.
+>> >>>>> + */
+>> >>>>> +
+>> >>>>> +#include "qemu/osdep.h"
+>> >>>>> +#include "cpu.h"
+>> >>>>> +
+>> >>>>> +typedef struct {
+>> >>>>> +    disassemble_info *info;
+>> >>>>> +    uint16_t next_word;
+>> >>>>> +    bool next_word_used;
+>> >>>>> +} DisasContext;
+>> >>>>> +
+>> >>>>> +static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
+>> >>>>> +{
+>> >>>>> +    return 16 + (indx % 16);
+>> >>>>> +}
+>> >>>>> +
+>> >>>>> +static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
+>> >>>>> +{
+>> >>>>> +    return 16 + (indx % 8);
+>> >>>>> +}
+>> >>>>> +static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
+>> >>>>> +{
+>> >>>>> +    return 24 + (indx % 4) * 2;
+>> >>>>> +}
+>> >>>>> +static int to_regs_00_30_by_two(DisasContext *ctx, int indx)
+>> >>>>> +{
+>> >>>>> +    return (indx % 16) * 2;
+>> >>>>> +}
+>> >>>>> +
+>> >>>>> +static uint16_t next_word(DisasContext *ctx)
+>> >>>>> +{
+>> >>>>> +    ctx->next_word_used =3D true;
+>> >>>>> +    return ctx->next_word;
+>> >>>>> +}
+>> >>>>> +
+>> >>>>> +static int append_16(DisasContext *ctx, int x)
+>> >>>>> +{
+>> >>>>> +    return x << 16 | next_word(ctx);
+>> >>>>> +}
+>> >>>>> +
+>> >>>>> +
+>> >>>>> +/* Include the auto-generated decoder.  */
+>> >>>>> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
+>> >>>>> +#include "decode_insn.inc.c"
+>> >>>>> +
+>> >>>>> +#define output(mnemonic, format, ...) \
+>> >>>>> +    (pctx->info->fprintf_func(pctx->info->stream, "%-9s " format,
+>> \
+>> >>>>> +                        mnemonic, ##__VA_ARGS__))
+>> >>>>> +
+>> >>>>> +int avr_print_insn(bfd_vma addr, disassemble_info *info)
+>> >>>>> +{
+>> >>>>> +    DisasContext ctx;
+>> >>>>> +    DisasContext *pctx =3D &ctx;
+>> >>>>> +    bfd_byte buffer[4];
+>> >>>>> +    uint16_t insn;
+>> >>>>> +    int status;
+>> >>>>> +
+>> >>>>> +    ctx.info =3D info;
+>> >>>>> +
+>> >>>>> +    status =3D info->read_memory_func(addr, buffer, 4, info);
+>> >>>>> +    if (status !=3D 0) {
+>> >>>>> +        info->memory_error_func(status, addr, info);
+>> >>>>> +        return -1;
+>> >>>>> +    }
+>> >>>>> +    insn =3D bfd_getl16(buffer);
+>> >>>>> +    ctx.next_word =3D bfd_getl16(buffer + 2);
+>> >>>>> +    ctx.next_word_used =3D false;
+>> >>>>> +
+>> >>>>> +    if (!decode_insn(&ctx, insn)) {
+>> >>>>> +        output(".db", "0x%02x, 0x%02x", buffer[0], buffer[1]);
+>> >>>>> +    }
+>> >>>>> +
+>> >>>>> +    return ctx.next_word_used ? 4 : 2;
+>> >>>>> +}
+>> >>>>
+>> >>>>
+>> >>>> Hi, Michael,
+>> >>>>
+>> >>>> What is the role of ctx.next_word_used, if it looks it is always
+>> "false"?
+>> >>>>
+>> >>>> Related to this, how do you disassemble 32-bit-coded instructions?
+>> From this patch, it looks you treat all AVR instructions as 16-bit-coded=
+?
+>> >>>>
+>> >>>> Thanks,
+>> >>>> Aleksandar
+>> >>>>
+>> >>>>>
+>> >>>>> +
+>> >>>>> +
+>> >>>>> +#define INSN(opcode, format, ...)
+>>      \
+>> >>>>> +static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)
+>>       \
+>> >>>>> +{
+>>      \
+>> >>>>> +    output(#opcode, format, ##__VA_ARGS__);
+>>      \
+>> >>>>> +    return true;
+>>       \
+>> >>>>> +}
+>> >>>>> +
+>> >>>>> +#define INSN_MNEMONIC(opcode, mnemonic, format, ...)
+>>       \
+>> >>>>> +static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)
+>>       \
+>> >>>>> +{
+>>      \
+>> >>>>> +    output(mnemonic, format, ##__VA_ARGS__);
+>>       \
+>> >>>>> +    return true;
+>>       \
+>> >>>>> +}
+>> >>>>> +
+>> >>>>> +/*
+>> >>>>> + *   C       Z       N       V       S       H       T       I
+>> >>>>> + *   0       1       2       3       4       5       6       7
+>> >>>>> + */
+>> >>>>> +static const char *brbc[] =3D {
+>> >>>>> +    "BRCC", "BRNE", "BRPL", "BRVC", "BRGE", "BRHC", "BRTC", "BRID=
+"
+>> >>>>> +};
+>> >>>>> +
+>> >>>>> +static const char *brbs[] =3D {
+>> >>>>> +    "BRCS", "BREQ", "BRMI", "BRVS", "BRLT", "BRHS", "BRTS", "BRIE=
+"
+>> >>>>> +};
+>> >>>>> +
+>> >>>>> +static const char *bset[] =3D {
+>> >>>>> +    "SEC",  "SEZ",  "SEN",  "SEZ",  "SES",  "SEH",  "SET",  "SEI"
+>> >>>>> +};
+>> >>>>> +
+>> >>>>> +static const char *bclr[] =3D {
+>> >>>>> +    "CLC",  "CLZ",  "CLN",  "CLZ",  "CLS",  "CLH",  "CLT",  "CLI"
+>> >>>>> +};
+>> >>>>> +
+>> >>>>> +INSN(ADC,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(ADD,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(ADIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
+>> >>>>> +INSN(AND,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(ANDI,   "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(ASR,    "r%d", a->rd)
+>> >>>>> +INSN_MNEMONIC(BCLR,  bclr[a->bit], "")
+>> >>>>> +INSN(BLD,    "r%d, %d", a->rd, a->bit)
+>> >>>>> +INSN_MNEMONIC(BRBC,  brbc[a->bit], ".%+d", a->imm * 2)
+>> >>>>> +INSN_MNEMONIC(BRBS,  brbs[a->bit], ".%+d", a->imm * 2)
+>> >>>>> +INSN(BREAK,  "")
+>> >>>>> +INSN_MNEMONIC(BSET,  bset[a->bit], "")
+>> >>>>> +INSN(BST,    "r%d, %d", a->rd, a->bit)
+>> >>>>> +INSN(CALL,   "0x%x", a->imm * 2)
+>> >>>>> +INSN(CBI,    "%d, %d", a->reg, a->bit)
+>> >>>>> +INSN(COM,    "r%d", a->rd)
+>> >>>>> +INSN(CP,     "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(CPC,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(CPI,    "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(CPSE,   "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(DEC,    "r%d", a->rd)
+>> >>>>> +INSN(DES,    "%d", a->imm)
+>> >>>>> +INSN(EICALL, "")
+>> >>>>> +INSN(EIJMP,  "")
+>> >>>>> +INSN(ELPM1,  "")
+>> >>>>> +INSN(ELPM2,  "r%d, Z", a->rd)
+>> >>>>> +INSN(ELPMX,  "r%d, Z+", a->rd)
+>> >>>>> +INSN(EOR,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(FMUL,   "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(FMULS,  "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(FMULSU, "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(ICALL,  "")
+>> >>>>> +INSN(IJMP,   "")
+>> >>>>> +INSN(IN,     "r%d, $%d", a->rd, a->imm)
+>> >>>>> +INSN(INC,    "r%d", a->rd)
+>> >>>>> +INSN(JMP,    "0x%x", a->imm * 2)
+>> >>>>> +INSN(LAC,    "Z, r%d", a->rd)
+>> >>>>> +INSN(LAS,    "Z, r%d", a->rd)
+>> >>>>> +INSN(LAT,    "Z, r%d", a->rd)
+>> >>>>> +INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
+>> >>>>> +INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
+>> >>>>> +INSN(LDI,    "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(LDS,    "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(LDX1,   "r%d, X", a->rd)
+>> >>>>> +INSN(LDX2,   "r%d, X+", a->rd)
+>> >>>>> +INSN(LDX3,   "r%d, -X", a->rd)
+>> >>>>> +INSN(LDY2,   "r%d, Y+", a->rd)
+>> >>>>> +INSN(LDY3,   "r%d, -Y", a->rd)
+>> >>>>> +INSN(LDZ2,   "r%d, Z+", a->rd)
+>> >>>>> +INSN(LDZ3,   "r%d, -Z", a->rd)
+>> >>>>> +INSN(LPM1,   "")
+>> >>>>> +INSN(LPM2,   "r%d, Z", a->rd)
+>> >>>>> +INSN(LPMX,   "r%d, Z+", a->rd)
+>> >>>>> +INSN(LSR,    "r%d", a->rd)
+>> >>>>> +INSN(MOV,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(MOVW,   "r%d:r%d, r%d,r:r%d", a->rd + 1, a->rd, a->rr + 1,
+>> a->rr)
+>> >>>>> +INSN(MUL,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(MULS,   "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(MULSU,  "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(NEG,    "r%d", a->rd)
+>> >>>>> +INSN(NOP,    "")
+>> >>>>> +INSN(OR,     "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(ORI,    "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(OUT,    "$%d, r%d", a->imm, a->rd)
+>> >>>>> +INSN(POP,    "r%d", a->rd)
+>> >>>>> +INSN(PUSH,   "r%d", a->rd)
+>> >>>>> +INSN(RCALL,  ".%+d", a->imm * 2)
+>> >>>>> +INSN(RET,    "")
+>> >>>>> +INSN(RETI,   "")
+>> >>>>> +INSN(RJMP,   ".%+d", a->imm * 2)
+>> >>>>> +INSN(ROR,    "r%d", a->rd)
+>> >>>>> +INSN(SBC,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(SBCI,   "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(SBI,    "$%d, %d", a->reg, a->bit)
+>> >>>>> +INSN(SBIC,   "$%d, %d", a->reg, a->bit)
+>> >>>>> +INSN(SBIS,   "$%d, %d", a->reg, a->bit)
+>> >>>>> +INSN(SBIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
+>> >>>>> +INSN(SBRC,   "r%d, %d", a->rr, a->bit)
+>> >>>>> +INSN(SBRS,   "r%d, %d", a->rr, a->bit)
+>> >>>>> +INSN(SLEEP,  "")
+>> >>>>> +INSN(SPM,    "")
+>> >>>>> +INSN(SPMX,   "Z+")
+>> >>>>> +INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
+>> >>>>> +INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
+>> >>>>> +INSN(STS,    "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(STX1,   "r%d, X", a->rr)
+>> >>>>> +INSN(STX2,   "r%d, X+", a->rr)
+>> >>>>> +INSN(STX3,   "r%d, -X", a->rr)
+>> >>>>> +INSN(STY2,   "r%d, Y+", a->rd)
+>> >>>>> +INSN(STY3,   "r%d, -Y", a->rd)
+>> >>>>> +INSN(STZ2,   "r%d, Z+", a->rd)
+>> >>>>> +INSN(STZ3,   "r%d, -Z", a->rd)
+>> >>>>> +INSN(SUB,    "r%d, r%d", a->rd, a->rr)
+>> >>>>> +INSN(SUBI,   "r%d, %d", a->rd, a->imm)
+>> >>>>> +INSN(SWAP,   "r%d", a->rd)
+>> >>>>> +INSN(WDR,    "")
+>> >>>>> +INSN(XCH,    "Z, r%d", a->rd)
+>> >>>>> +
+>> >>>>> diff --git a/target/avr/translate.c b/target/avr/translate.c
+>> >>>>> index c8c6f798bf..a621195817 100644
+>> >>>>> --- a/target/avr/translate.c
+>> >>>>> +++ b/target/avr/translate.c
+>> >>>>> @@ -2917,6 +2917,17 @@ done_generating:
+>> >>>>>
+>> >>>>>      tb->size =3D (ctx.npc - pc_start) * 2;
+>> >>>>>      tb->icount =3D num_insns;
+>> >>>>> +
+>> >>>>> +#ifdef DEBUG_DISAS
+>> >>>>> +    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+>> >>>>> +        && qemu_log_in_addr_range(tb->pc)) {
+>> >>>>> +        qemu_log_lock();
+>> >>>>> +        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
+>> >>>>> +        log_target_disas(cs, tb->pc, tb->size);
+>> >>>>> +        qemu_log("\n");
+>> >>>>> +        qemu_log_unlock();
+>> >>>>> +    }
+>> >>>>> +#endif
+>> >>>>>  }
+>> >>>>>
+>> >>>>>  void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
+>> >>>>> --
+>> >>>>> 2.17.2 (Apple Git-113)
+>> >>>>>
+>> >>>
+>> >>>
+>> >>> --
+>> >>> Best Regards,
+>> >>> Michael Rolnik
+>>
+>
+>
+> --
+> Best Regards,
+> Michael Rolnik
+>
 
+--000000000000802ba80599edeb77
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, December 17, 2019, Michael Rolnik &lt;<a href=3D"mailto=
+:mrolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div dir=3D"ltr"><div>Aleksandar.</div><div><br></div><div>1.=
+ inst.decode file</div>2. avr features are not accessible from=C2=A0avr_pri=
+nt_insn as it does not receive a pointer to CPU context. So, there is not w=
+ay to inform the user that some instructions are not supported unless I def=
+ine several different=C2=A0avr_print_insn functions.<div><br></div></div></=
+blockquote><div><br></div><div>OK, this is not a crucial feature. If I were=
+ you, I would leave it for future, as one of &quot;nice to have&quot; thing=
+s. It is possible to implement it, of course, with some additions to the de=
+coder, but don&#39;t spend your energy on that now, that is my advice.</div=
+><div><br></div><div>But patch 1 restructuring is a must. You have to form =
+several logical units out of it.</div><div><br></div><div>inst.decode is wr=
+itten to be convenient to the author (you), but it should be convenient to =
+the reader, please rearrange items to be as in the ISA document (even thoug=
+h we both know it is not convenient to you).<br></div><div><br></div><div>T=
+he review takes forever, but you are up to one of the most serious tasks in=
+ QEMU, so it is expected, no reason to worry.</div><div><br></div><div>Best=
+ regards,</div><div><br></div><div>Aleksandar</div><div><br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>Regards,</div=
+><div>Michael Rolnik<br><div><br></div><div><br></div></div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 12,=
+ 2019 at 11:12 AM Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.m.ma=
+il@gmail.com" target=3D"_blank">aleksandar.m.mail@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, Dec 10, =
+2019 at 8:18 AM Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" tar=
+get=3D"_blank">mrolnik@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; You are right. See at the bottom of the file. There is a comment about=
+ it<br>
+&gt;<br>
+<br>
+Sorry, what file?<br>
+<br>
+I also see that you disassemble instructions regardless of what AVR<br>
+CPU the current executable is built for, don&#39;t you? OK, not a very big<=
+br>
+deal, but can be confusing for end user if disassembly text of an<br>
+instruction that is not supported by a particular CPU is displayed as<br>
+if it is supported.<br>
+<br>
+&gt; Sent from my cell phone, please ignore typos<br>
+&gt;<br>
+&gt; On Tue, Dec 10, 2019, 6:21 AM Aleksandar Markovic &lt;<a href=3D"mailt=
+o:aleksandar.m.mail@gmail.com" target=3D"_blank">aleksandar.m.mail@gmail.co=
+m</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; On Monday, December 9, 2019, Michael Rolnik &lt;<a href=3D"mailto:=
+mrolnik@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Hi Aleksandar.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; 1. all instructions are 16 bit long except CALL &amp; JMP they=
+ are 32 bit long<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Accordingto the doc, LDS and STS also have 32-bit coding.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; 2. next_word_used is set to true by next_word when called by a=
+ppend_16 when CALL &amp; JMP are parsed<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Regards,<br>
+&gt;&gt;&gt; Michael Rolnik<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; On Mon, Dec 9, 2019 at 8:10 PM Aleksandar Markovic &lt;<a href=
+=3D"mailto:aleksandar.m.mail@gmail.com" target=3D"_blank">aleksandar.m.mail=
+@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; On Sunday, December 8, 2019, Michael Rolnik &lt;<a href=3D=
+"mailto:mrolnik@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>&gt; wrot=
+e:<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Provide function disassembles executed instruction whe=
+n `-d in_asm` is<br>
+&gt;&gt;&gt;&gt;&gt; provided<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Example:<br>
+&gt;&gt;&gt;&gt;&gt; `./avr-softmmu/qemu-system-avr -bios free-rtos/Demo/AV=
+R_ATMega2560_<wbr>GCC/demo.elf -d in_asm` will produce something like the f=
+ollowing<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; ```<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0...<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0IN:<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x0000014a:=C2=A0 CALL=C2=A0 =C2=A0=
+ =C2=A0 0x3808<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0IN: main<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x00003808:=C2=A0 CALL=C2=A0 =C2=A0=
+ =C2=A0 0x4b4<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0IN: vParTestInitialise<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004b4:=C2=A0 LDI=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0r24, 255<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004b6:=C2=A0 STS=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0r24, 0<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004b8:=C2=A0 MULS=C2=A0 =C2=A0=
+ =C2=A0 r16, r20<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004ba:=C2=A0 OUT=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0$1, r24<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004bc:=C2=A0 LDS=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0r24, 0<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004be:=C2=A0 MULS=C2=A0 =C2=A0=
+ =C2=A0 r16, r20<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004c0:=C2=A0 OUT=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0$2, r24<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A00x000004c2:=C2=A0 RET<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0...<br>
+&gt;&gt;&gt;&gt;&gt; ```<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mr=
+olnik@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Suggested-by: Richard Henderson &lt;<a href=3D"mailto:=
+richard.henderson@linaro.org" target=3D"_blank">richard.henderson@linaro.or=
+g</a>&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Suggested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=
+=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<b=
+r>
+&gt;&gt;&gt;&gt;&gt; Suggested-by: Aleksandar Markovic &lt;<a href=3D"mailt=
+o:aleksandar.m.mail@gmail.com" target=3D"_blank">aleksandar.m.mail@gmail.co=
+m</a>&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=
+=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<b=
+r>
+&gt;&gt;&gt;&gt;&gt; Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"=
+mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+&gt;&gt;&gt;&gt;&gt; ---<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A01 +<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 target/avr/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A02 +-<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 target/avr/disas.c=C2=A0 =C2=A0 =C2=A0| 226 ++++=
+++++++++++++++++++++++++++<wbr>+++++++++++<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 target/avr/translate.c |=C2=A0 11 ++<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 4 files changed, 239 insertions(+), 1 deletion(-=
+)<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 create mode 100644 target/avr/disas.c<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; diff --git a/target/avr/cpu.h b/target/avr/cpu.h<br>
+&gt;&gt;&gt;&gt;&gt; index c217eefeb4..a8a3e7ade6 100644<br>
+&gt;&gt;&gt;&gt;&gt; --- a/target/avr/cpu.h<br>
+&gt;&gt;&gt;&gt;&gt; +++ b/target/avr/cpu.h<br>
+&gt;&gt;&gt;&gt;&gt; @@ -178,6 +178,7 @@ bool avr_cpu_exec_interrupt(<wbr>C=
+PUState *cpu, int int_req);<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 hwaddr avr_cpu_get_phys_page_debug(<wbr>CPUState=
+ *cpu, vaddr addr);<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 int avr_cpu_gdb_read_register(<wbr>CPUState *cpu=
+, uint8_t *buf, int reg);<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 int avr_cpu_gdb_write_register(<wbr>CPUState *cp=
+u, uint8_t *buf, int reg);<br>
+&gt;&gt;&gt;&gt;&gt; +int avr_print_insn(bfd_vma addr, disassemble_info *in=
+fo);<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 static inline int avr_feature(CPUAVRState *env, =
+int feature)<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 {<br>
+&gt;&gt;&gt;&gt;&gt; diff --git a/target/avr/cpu.c b/target/avr/cpu.c<br>
+&gt;&gt;&gt;&gt;&gt; index c5cafcae3c..be4b921e4d 100644<br>
+&gt;&gt;&gt;&gt;&gt; --- a/target/avr/cpu.c<br>
+&gt;&gt;&gt;&gt;&gt; +++ b/target/avr/cpu.c<br>
+&gt;&gt;&gt;&gt;&gt; @@ -83,7 +83,7 @@ static void avr_cpu_reset(CPUState *=
+cs)<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 static void avr_cpu_disas_set_info(<wbr>CPUState=
+ *cpu, disassemble_info *info)<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 {<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 info-&gt;mach =3D bfd_arch_avr;<br=
+>
+&gt;&gt;&gt;&gt;&gt; -=C2=A0 =C2=A0 info-&gt;print_insn =3D NULL;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 info-&gt;print_insn =3D avr_print_insn;=
+<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 }<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 static void avr_cpu_realizefn(DeviceState *dev, =
+Error **errp)<br>
+&gt;&gt;&gt;&gt;&gt; diff --git a/target/avr/disas.c b/target/avr/disas.c<b=
+r>
+&gt;&gt;&gt;&gt;&gt; new file mode 100644<br>
+&gt;&gt;&gt;&gt;&gt; index 0000000000..22863d2eb1<br>
+&gt;&gt;&gt;&gt;&gt; --- /dev/null<br>
+&gt;&gt;&gt;&gt;&gt; +++ b/target/avr/disas.c<br>
+&gt;&gt;&gt;&gt;&gt; @@ -0,0 +1,226 @@<br>
+&gt;&gt;&gt;&gt;&gt; +/*<br>
+&gt;&gt;&gt;&gt;&gt; + * AVR disassembler<br>
+&gt;&gt;&gt;&gt;&gt; + *<br>
+&gt;&gt;&gt;&gt;&gt; + * Copyright (c) 2019 Richard Henderson &lt;<a href=
+=3D"mailto:rth@twiddle.net" target=3D"_blank">rth@twiddle.net</a>&gt;<br>
+&gt;&gt;&gt;&gt;&gt; + * Copyright (c) 2019 Michael Rolnik &lt;<a href=3D"m=
+ailto:mrolnik@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
+&gt;&gt;&gt;&gt;&gt; + *<br>
+&gt;&gt;&gt;&gt;&gt; + * This program is free software: you can redistribut=
+e it and/or modify<br>
+&gt;&gt;&gt;&gt;&gt; + * it under the terms of the GNU General Public Licen=
+se as published by<br>
+&gt;&gt;&gt;&gt;&gt; + * the Free Software Foundation, either version 2 of =
+the License, or<br>
+&gt;&gt;&gt;&gt;&gt; + * (at your option) any later version.<br>
+&gt;&gt;&gt;&gt;&gt; + *<br>
+&gt;&gt;&gt;&gt;&gt; + * This program is distributed in the hope that it wi=
+ll be useful,<br>
+&gt;&gt;&gt;&gt;&gt; + * but WITHOUT ANY WARRANTY; without even the implied=
+ warranty of<br>
+&gt;&gt;&gt;&gt;&gt; + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOS=
+E.=C2=A0 See the<br>
+&gt;&gt;&gt;&gt;&gt; + * GNU General Public License for more details.<br>
+&gt;&gt;&gt;&gt;&gt; + *<br>
+&gt;&gt;&gt;&gt;&gt; + * You should have received a copy of the GNU General=
+ Public License<br>
+&gt;&gt;&gt;&gt;&gt; + * along with this program.=C2=A0 If not, see &lt;<a =
+href=3D"http://www.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">=
+http://www.gnu.org/licenses/</a>&gt;<wbr>.<br>
+&gt;&gt;&gt;&gt;&gt; + */<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +#include &quot;qemu/osdep.h&quot;<br>
+&gt;&gt;&gt;&gt;&gt; +#include &quot;cpu.h&quot;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +typedef struct {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 disassemble_info *info;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 uint16_t next_word;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 bool next_word_used;<br>
+&gt;&gt;&gt;&gt;&gt; +} DisasContext;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +static int to_regs_16_31_by_one(<wbr>DisasContext *ct=
+x, int indx)<br>
+&gt;&gt;&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return 16 + (indx % 16);<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +static int to_regs_16_23_by_one(<wbr>DisasContext *ct=
+x, int indx)<br>
+&gt;&gt;&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return 16 + (indx % 8);<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +static int to_regs_24_30_by_two(<wbr>DisasContext *ct=
+x, int indx)<br>
+&gt;&gt;&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return 24 + (indx % 4) * 2;<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +static int to_regs_00_30_by_two(<wbr>DisasContext *ct=
+x, int indx)<br>
+&gt;&gt;&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return (indx % 16) * 2;<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +static uint16_t next_word(DisasContext *ctx)<br>
+&gt;&gt;&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 ctx-&gt;next_word_used =3D true;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return ctx-&gt;next_word;<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +static int append_16(DisasContext *ctx, int x)<br>
+&gt;&gt;&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return x &lt;&lt; 16 | next_word(ctx);<=
+br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +/* Include the auto-generated decoder.=C2=A0 */<br>
+&gt;&gt;&gt;&gt;&gt; +static bool decode_insn(DisasContext *ctx, uint16_t i=
+nsn);<br>
+&gt;&gt;&gt;&gt;&gt; +#include &quot;decode_insn.inc.c&quot;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +#define output(mnemonic, format, ...) \<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 (pctx-&gt;info-&gt;fprintf_func(<wbr>pc=
+tx-&gt;info-&gt;stream, &quot;%-9s &quot; format, \<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mnemonic, ##__VA_ARGS__))<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +int avr_print_insn(bfd_vma addr, disassemble_info *in=
+fo)<br>
+&gt;&gt;&gt;&gt;&gt; +{<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 DisasContext ctx;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 DisasContext *pctx =3D &amp;ctx;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 bfd_byte buffer[4];<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 uint16_t insn;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 int status;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 <a href=3D"http://ctx.info" rel=3D"nore=
+ferrer" target=3D"_blank">ctx.info</a> =3D info;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 status =3D info-&gt;read_memory_func(ad=
+dr, buffer, 4, info);<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 if (status !=3D 0) {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;memory_error_fun=
+c(<wbr>status, addr, info);<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 insn =3D bfd_getl16(buffer);<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 ctx.next_word =3D bfd_getl16(buffer + 2=
+);<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 ctx.next_word_used =3D false;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 if (!decode_insn(&amp;ctx, insn)) {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 output(&quot;.db&quot;, &=
+quot;0x%02x, 0x%02x&quot;, buffer[0], buffer[1]);<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return ctx.next_word_used ? 4 : 2;<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Hi, Michael,<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; What is the role of ctx.next_word_used, if it looks it is =
+always &quot;false&quot;?<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Related to this, how do you disassemble 32-bit-coded instr=
+uctions? From this patch, it looks you treat all AVR instructions as 16-bit=
+-coded?<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Thanks,<br>
+&gt;&gt;&gt;&gt; Aleksandar<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +#define INSN(opcode, format, ...)=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt;&gt;&gt;&gt;&gt; +static bool trans_##opcode(DisasContext *pctx, arg_##=
+opcode * a)=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;&gt;&gt;&gt;&gt; +{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 output(#opcode, format, ##__VA_ARGS__);=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return true;=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +#define INSN_MNEMONIC(opcode, mnemonic, format, ...)=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;&gt;&gt;&gt;&gt; +static bool trans_##opcode(DisasContext *pctx, arg_##=
+opcode * a)=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;&gt;&gt;&gt;&gt; +{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 output(mnemonic, format, ##__VA_ARGS__)=
+;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 return true;=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 \<br>
+&gt;&gt;&gt;&gt;&gt; +}<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +/*<br>
+&gt;&gt;&gt;&gt;&gt; + *=C2=A0 =C2=A0C=C2=A0 =C2=A0 =C2=A0 =C2=A0Z=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0N=C2=A0 =C2=A0 =C2=A0 =C2=A0V=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0S=C2=A0 =C2=A0 =C2=A0 =C2=A0H=C2=A0 =C2=A0 =C2=A0 =C2=A0T=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0I<br>
+&gt;&gt;&gt;&gt;&gt; + *=C2=A0 =C2=A00=C2=A0 =C2=A0 =C2=A0 =C2=A01=C2=A0 =
+=C2=A0 =C2=A0 =C2=A02=C2=A0 =C2=A0 =C2=A0 =C2=A03=C2=A0 =C2=A0 =C2=A0 =C2=
+=A04=C2=A0 =C2=A0 =C2=A0 =C2=A05=C2=A0 =C2=A0 =C2=A0 =C2=A06=C2=A0 =C2=A0 =
+=C2=A0 =C2=A07<br>
+&gt;&gt;&gt;&gt;&gt; + */<br>
+&gt;&gt;&gt;&gt;&gt; +static const char *brbc[] =3D {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 &quot;BRCC&quot;, &quot;BRNE&quot;, &qu=
+ot;BRPL&quot;, &quot;BRVC&quot;, &quot;BRGE&quot;, &quot;BRHC&quot;, &quot;=
+BRTC&quot;, &quot;BRID&quot;<br>
+&gt;&gt;&gt;&gt;&gt; +};<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +static const char *brbs[] =3D {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 &quot;BRCS&quot;, &quot;BREQ&quot;, &qu=
+ot;BRMI&quot;, &quot;BRVS&quot;, &quot;BRLT&quot;, &quot;BRHS&quot;, &quot;=
+BRTS&quot;, &quot;BRIE&quot;<br>
+&gt;&gt;&gt;&gt;&gt; +};<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +static const char *bset[] =3D {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 &quot;SEC&quot;,=C2=A0 &quot;SEZ&quot;,=
+=C2=A0 &quot;SEN&quot;,=C2=A0 &quot;SEZ&quot;,=C2=A0 &quot;SES&quot;,=C2=A0=
+ &quot;SEH&quot;,=C2=A0 &quot;SET&quot;,=C2=A0 &quot;SEI&quot;<br>
+&gt;&gt;&gt;&gt;&gt; +};<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +static const char *bclr[] =3D {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 &quot;CLC&quot;,=C2=A0 &quot;CLZ&quot;,=
+=C2=A0 &quot;CLN&quot;,=C2=A0 &quot;CLZ&quot;,=C2=A0 &quot;CLS&quot;,=C2=A0=
+ &quot;CLH&quot;,=C2=A0 &quot;CLT&quot;,=C2=A0 &quot;CLI&quot;<br>
+&gt;&gt;&gt;&gt;&gt; +};<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ADC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ADD,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ADIW,=C2=A0 =C2=A0&quot;r%d:r%d, %d&quot;, a-&gt=
+;rd + 1, a-&gt;rd, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(AND,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ANDI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ASR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN_MNEMONIC(BCLR,=C2=A0 bclr[a-&gt;bit], &quot;&quo=
+t;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(BLD,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN_MNEMONIC(BRBC,=C2=A0 brbc[a-&gt;bit], &quot;.%+d=
+&quot;, a-&gt;imm * 2)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN_MNEMONIC(BRBS,=C2=A0 brbs[a-&gt;bit], &quot;.%+d=
+&quot;, a-&gt;imm * 2)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(BREAK,=C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN_MNEMONIC(BSET,=C2=A0 bset[a-&gt;bit], &quot;&quo=
+t;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(BST,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(CALL,=C2=A0 =C2=A0&quot;0x%x&quot;, a-&gt;imm * =
+2)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(CBI,=C2=A0 =C2=A0 &quot;%d, %d&quot;, a-&gt;reg,=
+ a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(COM,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(CP,=C2=A0 =C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&=
+gt;rd, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(CPC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(CPI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(CPSE,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(DEC,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(DES,=C2=A0 =C2=A0 &quot;%d&quot;, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(EICALL, &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(EIJMP,=C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ELPM1,=C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ELPM2,=C2=A0 &quot;r%d, Z&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ELPMX,=C2=A0 &quot;r%d, Z+&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(EOR,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(FMUL,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(FMULS,=C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&=
+gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(FMULSU, &quot;r%d, r%d&quot;, a-&gt;rd, a-&gt;rr=
+)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ICALL,=C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(IJMP,=C2=A0 =C2=A0&quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(IN,=C2=A0 =C2=A0 =C2=A0&quot;r%d, $%d&quot;, a-&=
+gt;rd, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(INC,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(JMP,=C2=A0 =C2=A0 &quot;0x%x&quot;, a-&gt;imm * =
+2)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LAC,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<=
+br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LAS,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<=
+br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LAT,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<=
+br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDDY,=C2=A0 =C2=A0&quot;r%d, Y+%d&quot;, a-&gt;r=
+d, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDDZ,=C2=A0 =C2=A0&quot;r%d, Z+%d&quot;, a-&gt;r=
+d, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDS,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDX1,=C2=A0 =C2=A0&quot;r%d, X&quot;, a-&gt;rd)<=
+br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDX2,=C2=A0 =C2=A0&quot;r%d, X+&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDX3,=C2=A0 =C2=A0&quot;r%d, -X&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDY2,=C2=A0 =C2=A0&quot;r%d, Y+&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDY3,=C2=A0 =C2=A0&quot;r%d, -Y&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDZ2,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LDZ3,=C2=A0 =C2=A0&quot;r%d, -Z&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LPM1,=C2=A0 =C2=A0&quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LPM2,=C2=A0 =C2=A0&quot;r%d, Z&quot;, a-&gt;rd)<=
+br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LPMX,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(LSR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(MOV,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(MOVW,=C2=A0 =C2=A0&quot;r%d:r%d, r%d,r:r%d&quot;=
+, a-&gt;rd + 1, a-&gt;rd, a-&gt;rr + 1, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(MUL,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(MULS,=C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(MULSU,=C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd, a-&=
+gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(NEG,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(NOP,=C2=A0 =C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(OR,=C2=A0 =C2=A0 =C2=A0&quot;r%d, r%d&quot;, a-&=
+gt;rd, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ORI,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(OUT,=C2=A0 =C2=A0 &quot;$%d, r%d&quot;, a-&gt;im=
+m, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(POP,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(PUSH,=C2=A0 =C2=A0&quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(RCALL,=C2=A0 &quot;.%+d&quot;, a-&gt;imm * 2)<br=
+>
+&gt;&gt;&gt;&gt;&gt; +INSN(RET,=C2=A0 =C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(RETI,=C2=A0 =C2=A0&quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(RJMP,=C2=A0 =C2=A0&quot;.%+d&quot;, a-&gt;imm * =
+2)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(ROR,=C2=A0 =C2=A0 &quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBC,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBCI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBI,=C2=A0 =C2=A0 &quot;$%d, %d&quot;, a-&gt;reg=
+, a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBIC,=C2=A0 =C2=A0&quot;$%d, %d&quot;, a-&gt;reg=
+, a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBIS,=C2=A0 =C2=A0&quot;$%d, %d&quot;, a-&gt;reg=
+, a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBIW,=C2=A0 =C2=A0&quot;r%d:r%d, %d&quot;, a-&gt=
+;rd + 1, a-&gt;rd, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBRC,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rr,=
+ a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SBRS,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rr,=
+ a-&gt;bit)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SLEEP,=C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SPM,=C2=A0 =C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SPMX,=C2=A0 =C2=A0&quot;Z+&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STDY,=C2=A0 =C2=A0&quot;r%d, Y+%d&quot;, a-&gt;r=
+d, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STDZ,=C2=A0 =C2=A0&quot;r%d, Z+%d&quot;, a-&gt;r=
+d, a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STS,=C2=A0 =C2=A0 &quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STX1,=C2=A0 =C2=A0&quot;r%d, X&quot;, a-&gt;rr)<=
+br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STX2,=C2=A0 =C2=A0&quot;r%d, X+&quot;, a-&gt;rr)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STX3,=C2=A0 =C2=A0&quot;r%d, -X&quot;, a-&gt;rr)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STY2,=C2=A0 =C2=A0&quot;r%d, Y+&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STY3,=C2=A0 =C2=A0&quot;r%d, -Y&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STZ2,=C2=A0 =C2=A0&quot;r%d, Z+&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(STZ3,=C2=A0 =C2=A0&quot;r%d, -Z&quot;, a-&gt;rd)=
+<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SUB,=C2=A0 =C2=A0 &quot;r%d, r%d&quot;, a-&gt;rd=
+, a-&gt;rr)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SUBI,=C2=A0 =C2=A0&quot;r%d, %d&quot;, a-&gt;rd,=
+ a-&gt;imm)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(SWAP,=C2=A0 =C2=A0&quot;r%d&quot;, a-&gt;rd)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(WDR,=C2=A0 =C2=A0 &quot;&quot;)<br>
+&gt;&gt;&gt;&gt;&gt; +INSN(XCH,=C2=A0 =C2=A0 &quot;Z, r%d&quot;, a-&gt;rd)<=
+br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; diff --git a/target/avr/translate.c b/target/avr/trans=
+late.c<br>
+&gt;&gt;&gt;&gt;&gt; index c8c6f798bf..a621195817 100644<br>
+&gt;&gt;&gt;&gt;&gt; --- a/target/avr/translate.c<br>
+&gt;&gt;&gt;&gt;&gt; +++ b/target/avr/translate.c<br>
+&gt;&gt;&gt;&gt;&gt; @@ -2917,6 +2917,17 @@ done_generating:<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 tb-&gt;size =3D (ctx.npc - pc_star=
+t) * 2;<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 tb-&gt;icount =3D num_insns;<br>
+&gt;&gt;&gt;&gt;&gt; +<br>
+&gt;&gt;&gt;&gt;&gt; +#ifdef DEBUG_DISAS<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 if (qemu_loglevel_mask(CPU_LOG_<wbr>TB_=
+IN_ASM)<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; qemu_log_in_ad=
+dr_range(tb-&gt;pc)<wbr>) {<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_lock();<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;IN: %s\n&q=
+uot;, lookup_symbol(tb-&gt;pc));<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 log_target_disas(cs, tb-&=
+gt;pc, tb-&gt;size);<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;\n&quot;);=
+<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_unlock();<br>
+&gt;&gt;&gt;&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;&gt;&gt;&gt;&gt; +#endif<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 }<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;=C2=A0 void restore_state_to_opc(<wbr>CPUAVRState *env,=
+ TranslationBlock *tb,<br>
+&gt;&gt;&gt;&gt;&gt; --<br>
+&gt;&gt;&gt;&gt;&gt; 2.17.2 (Apple Git-113)<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; Best Regards,<br>
+&gt;&gt;&gt; Michael Rolnik<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+>Best Regards,<br>Michael Rolnik</div>
+</blockquote>
+
+--000000000000802ba80599edeb77--
 
