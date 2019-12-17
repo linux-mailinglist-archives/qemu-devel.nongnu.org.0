@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A807412233F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:49:17 +0100 (CET)
-Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A94122338
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:46:37 +0100 (CET)
+Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4nM-0005YM-C4
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:49:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33155)
+	id 1ih4kl-0001aR-FF
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:46:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hr-0007ug-1d
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:36 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hq-0007uc-IN
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hp-0005Bc-Er
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hp-0005BR-AA
  for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:34 -0500
-Received: from ozlabs.org ([203.11.71.1]:47621)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46007 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4ho-00059L-Fj; Mon, 16 Dec 2019 23:43:33 -0500
+ id 1ih4ho-00059G-BO; Mon, 16 Dec 2019 23:43:33 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWN0bg8z9sRc; Tue, 17 Dec 2019 15:43:27 +1100 (AEDT)
+ id 47cQWN1j2Vz9sRl; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557808;
- bh=G3RlUE4GGV7WFPkmzMdVQo+5DIerYIqTacCbW7UfBhU=;
+ bh=QvZsbPbPTXJgbugyS+JXPXYYFX2UHblPzgJxd95tWIQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R808v/mBqidFhYvVtDY4uRannnAPpP0G345pDGEVhZhKrP85+i9FQAspsef/7zp8/
- 4H23Bk8hFS85C/6FWmJSmpmJu2ZjtRqdCznsARYqbuaB6WPm7ZsDHi5cHiAGzkguwC
- 2oM/HVI972Mf1sbx+BHBO1nHjw64LUavbC/zMgP0=
+ b=pIudIm2EW9b2PY9LE9wj407nP1c29ArCaz371V9KT3NSmlLQC4OXkKUEcUNiS4IVn
+ CgSnd143JXXrUHpxPet9NkFM/qOinxGPb/HC9+ArEvwa1YLGzQCfY0DhHN6mN9SL43
+ 7y+Z15WxlQ2Q4k7T8FJn0DW6uKue41m4o0Q20l/c=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/88] ppc/pnv: Add a PNOR model
-Date: Tue, 17 Dec 2019 15:41:55 +1100
-Message-Id: <20191217044322.351838-2-david@gibson.dropbear.id.au>
+Subject: [PULL 02/88] ppc/pnv: Add a "/qemu" device tree node
+Date: Tue, 17 Dec 2019 15:41:56 +1100
+Message-Id: <20191217044322.351838-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,281 +55,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@fr.ibm.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@fr.ibm.com>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-On a POWERPC PowerNV system, the host firmware is stored in a PNOR
-flash chip which contents is mapped on the LPC bus. This model adds a
-simple dummy device to map the contents of a block device in the host
-address space.
+It helps skiboot identifying that is running on a QEMU platform. The
+compatible string will define the POWERPC processor version.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191021131215.3693-2-clg@kaod.org>
+Message-Id: <20191106142129.4908-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/Makefile.objs      |   4 +-
- hw/ppc/pnv.c              |  14 ++++
- hw/ppc/pnv_pnor.c         | 135 ++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/pnv.h      |   3 +
- include/hw/ppc/pnv_pnor.h |  25 +++++++
- 5 files changed, 180 insertions(+), 1 deletion(-)
- create mode 100644 hw/ppc/pnv_pnor.c
- create mode 100644 include/hw/ppc/pnv_pnor.h
+ hw/ppc/pnv.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-index 580bb4f0dd..101e9fc591 100644
---- a/hw/ppc/Makefile.objs
-+++ b/hw/ppc/Makefile.objs
-@@ -9,7 +9,9 @@ obj-$(CONFIG_PSERIES) +=3D spapr_tpm_proxy.o
- obj-$(CONFIG_SPAPR_RNG) +=3D  spapr_rng.o
- # IBM PowerNV
- obj-$(CONFIG_POWERNV) +=3D pnv.o pnv_xscom.o pnv_core.o pnv_lpc.o pnv_ps=
-i.o pnv_occ.o pnv_bmc.o
--obj-$(CONFIG_POWERNV) +=3D pnv_homer.o
-+obj-$(CONFIG_POWERNV) +=3D pnv_homer.o pnv_pnor.o
-+
-+
- ifeq ($(CONFIG_PCI)$(CONFIG_PSERIES)$(CONFIG_LINUX), yyy)
- obj-y +=3D spapr_pci_vfio.o spapr_pci_nvlink2.o
- endif
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 627c08e5b9..d0c1d42277 100644
+index d0c1d42277..416caab6f6 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -44,6 +44,7 @@
- #include "hw/ppc/xics.h"
- #include "hw/qdev-properties.h"
- #include "hw/ppc/pnv_xscom.h"
-+#include "hw/ppc/pnv_pnor.h"
+@@ -480,6 +480,9 @@ static void *pnv_dt_create(MachineState *machine)
+     fdt =3D g_malloc0(FDT_MAX_SIZE);
+     _FDT((fdt_create_empty_tree(fdt, FDT_MAX_SIZE)));
 =20
- #include "hw/isa/isa.h"
- #include "hw/boards.h"
-@@ -633,6 +634,8 @@ static void pnv_init(MachineState *machine)
-     long fw_size;
-     int i;
-     char *chip_typename;
-+    DriveInfo *pnor =3D drive_get(IF_MTD, 0, 0);
-+    DeviceState *dev;
-=20
-     /* allocate RAM */
-     if (machine->ram_size < (1 * GiB)) {
-@@ -644,6 +647,17 @@ static void pnv_init(MachineState *machine)
-                                          machine->ram_size);
-     memory_region_add_subregion(get_system_memory(), 0, ram);
-=20
-+    /*
-+     * Create our simple PNOR device
-+     */
-+    dev =3D qdev_create(NULL, TYPE_PNV_PNOR);
-+    if (pnor) {
-+        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(pnor),
-+                            &error_abort);
-+    }
-+    qdev_init_nofail(dev);
-+    pnv->pnor =3D PNV_PNOR(dev);
++    /* /qemu node */
++    _FDT((fdt_add_subnode(fdt, 0, "qemu")));
 +
-     /* load skiboot firmware  */
-     if (bios_name =3D=3D NULL) {
-         bios_name =3D FW_FILE_NAME;
-diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
-new file mode 100644
-index 0000000000..bfb1e92b03
---- /dev/null
-+++ b/hw/ppc/pnv_pnor.c
-@@ -0,0 +1,135 @@
-+/*
-+ * QEMU PowerNV PNOR simple model
-+ *
-+ * Copyright (c) 2015-2019, IBM Corporation.
-+ *
-+ * This code is licensed under the GPL version 2 or later. See the
-+ * COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/log.h"
-+#include "sysemu/block-backend.h"
-+#include "sysemu/blockdev.h"
-+#include "hw/loader.h"
-+#include "hw/ppc/pnv_pnor.h"
-+#include "hw/qdev-properties.h"
-+
-+static uint64_t pnv_pnor_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    PnvPnor *s =3D PNV_PNOR(opaque);
-+    uint64_t ret =3D 0;
-+    int i;
-+
-+    for (i =3D 0; i < size; i++) {
-+        ret |=3D (uint64_t) s->storage[addr + i] << (8 * (size - i - 1))=
-;
-+    }
-+
-+    return ret;
-+}
-+
-+static void pnv_pnor_update(PnvPnor *s, int offset, int size)
-+{
-+    int offset_end;
-+
-+    if (s->blk) {
-+        return;
-+    }
-+
-+    offset_end =3D offset + size;
-+    offset =3D QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
-+    offset_end =3D QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
-+
-+    blk_pwrite(s->blk, offset, s->storage + offset,
-+               offset_end - offset, 0);
-+}
-+
-+static void pnv_pnor_write(void *opaque, hwaddr addr, uint64_t data,
-+                           unsigned size)
-+{
-+    PnvPnor *s =3D PNV_PNOR(opaque);
-+    int i;
-+
-+    for (i =3D 0; i < size; i++) {
-+        s->storage[addr + i] =3D (data >> (8 * (size - i - 1))) & 0xFF;
-+    }
-+    pnv_pnor_update(s, addr, size);
-+}
-+
-+/*
-+ * TODO: Check endianness: skiboot is BIG, Aspeed AHB is LITTLE, flash
-+ * is BIG.
-+ */
-+static const MemoryRegionOps pnv_pnor_ops =3D {
-+    .read =3D pnv_pnor_read,
-+    .write =3D pnv_pnor_write,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
-+    .valid =3D {
-+        .min_access_size =3D 1,
-+        .max_access_size =3D 4,
-+    },
-+};
-+
-+static void pnv_pnor_realize(DeviceState *dev, Error **errp)
-+{
-+    PnvPnor *s =3D PNV_PNOR(dev);
-+    int ret;
-+
-+    if (s->blk) {
-+        uint64_t perm =3D BLK_PERM_CONSISTENT_READ |
-+                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
-+        ret =3D blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
-+        if (ret < 0) {
-+            return;
-+        }
-+
-+        s->size =3D blk_getlength(s->blk);
-+        if (s->size <=3D 0) {
-+            error_setg(errp, "failed to get flash size");
-+            return;
-+        }
-+
-+        s->storage =3D blk_blockalign(s->blk, s->size);
-+
-+        if (blk_pread(s->blk, 0, s->storage, s->size) !=3D s->size) {
-+            error_setg(errp, "failed to read the initial flash content")=
-;
-+            return;
-+        }
-+    } else {
-+        s->storage =3D blk_blockalign(NULL, s->size);
-+        memset(s->storage, 0xFF, s->size);
-+    }
-+
-+    memory_region_init_io(&s->mmio, OBJECT(s), &pnv_pnor_ops, s,
-+                          TYPE_PNV_PNOR, s->size);
-+}
-+
-+static Property pnv_pnor_properties[] =3D {
-+    DEFINE_PROP_UINT32("size", PnvPnor, size, 128 << 20),
-+    DEFINE_PROP_DRIVE("drive", PnvPnor, blk),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pnv_pnor_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+
-+    dc->realize =3D pnv_pnor_realize;
-+    dc->props =3D pnv_pnor_properties;
-+}
-+
-+static const TypeInfo pnv_pnor_info =3D {
-+    .name          =3D TYPE_PNV_PNOR,
-+    .parent        =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_size =3D sizeof(PnvPnor),
-+    .class_init    =3D pnv_pnor_class_init,
-+};
-+
-+static void pnv_pnor_register_types(void)
-+{
-+    type_register_static(&pnv_pnor_info);
-+}
-+
-+type_init(pnv_pnor_register_types)
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 0b4c722e6b..5ecd3ba6ed 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -24,6 +24,7 @@
- #include "hw/sysbus.h"
- #include "hw/ipmi/ipmi.h"
- #include "hw/ppc/pnv_lpc.h"
-+#include "hw/ppc/pnv_pnor.h"
- #include "hw/ppc/pnv_psi.h"
- #include "hw/ppc/pnv_occ.h"
- #include "hw/ppc/pnv_homer.h"
-@@ -175,6 +176,8 @@ typedef struct PnvMachineState {
-=20
-     IPMIBmc      *bmc;
-     Notifier     powerdown_notifier;
-+
-+    PnvPnor      *pnor;
- } PnvMachineState;
-=20
- static inline bool pnv_chip_is_power9(const PnvChip *chip)
-diff --git a/include/hw/ppc/pnv_pnor.h b/include/hw/ppc/pnv_pnor.h
-new file mode 100644
-index 0000000000..dec811695c
---- /dev/null
-+++ b/include/hw/ppc/pnv_pnor.h
-@@ -0,0 +1,25 @@
-+/*
-+ * QEMU PowerNV PNOR simple model
-+ *
-+ * Copyright (c) 2019, IBM Corporation.
-+ *
-+ * This code is licensed under the GPL version 2 or later. See the
-+ * COPYING file in the top-level directory.
-+ */
-+#ifndef _PPC_PNV_PNOR_H
-+#define _PPC_PNV_PNOR_H
-+
-+#define TYPE_PNV_PNOR  "pnv-pnor"
-+#define PNV_PNOR(obj)  OBJECT_CHECK(PnvPnor, (obj), TYPE_PNV_PNOR)
-+
-+typedef struct PnvPnor {
-+    SysBusDevice   parent_obj;
-+
-+    BlockBackend   *blk;
-+
-+    uint8_t        *storage;
-+    uint32_t       size;
-+    MemoryRegion   mmio;
-+} PnvPnor;
-+
-+#endif /* _PPC_PNV_PNOR_H */
+     /* Root node */
+     _FDT((fdt_setprop_cell(fdt, 0, "#address-cells", 0x2)));
+     _FDT((fdt_setprop_cell(fdt, 0, "#size-cells", 0x2)));
 --=20
 2.23.0
 
