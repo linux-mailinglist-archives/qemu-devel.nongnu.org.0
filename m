@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F5C122336
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:46:33 +0100 (CET)
-Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF99E122342
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:50:44 +0100 (CET)
+Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4kh-0001Vu-OH
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:46:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33133)
+	id 1ih4ol-0007X0-FB
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:50:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33243)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hq-0007ud-MS
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:36 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hu-0007xh-1E
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4hp-0005BG-6B
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:34 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:37875)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4hs-0005Hj-QK
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:37 -0500
+Received: from ozlabs.org ([203.11.71.1]:48911)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4ho-00059K-BC; Mon, 16 Dec 2019 23:43:33 -0500
+ id 1ih4hs-0005C9-Er; Mon, 16 Dec 2019 23:43:36 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWN3wTjz9sRp; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
+ id 47cQWN6Sbzz9sSK; Tue, 17 Dec 2019 15:43:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557808;
- bh=UDfW8SoLIaylq9GKYZ8he7eeO/FI+2un69sC1ihH+ec=;
+ bh=3OB/+PigK7cKnLJGlLXLbBDqK/mIpgH/LS3KK12fuxY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Lpt77gIuRGAacdA/ktowzyKYGybwmTwq4h5iQv9kxbgdFrD/lhftE6aLoCNJXpTJj
- HJ2wWLatS8TVG5kYl1GTnorLsbBHaCMy9AYDg30qQVC/arfapU1vqP3vFKJmnahE/P
- a3wANWjP3ndhsqlaPaGjcBCCEFaML0AGvmS84gVw=
+ b=PAeF7c4+d9nDESaL37rmN2tFtoBquzv9Q+lUAIN/EmM3QGd/G/+oI+xSTPS7MzL5M
+ Szx2e5vM/SZwwRH1Km9vSKSp8bzGo8TQhqJNWmOuKvGOkNTbYpoAUpjmCuVogsb90I
+ QKm4bWAi0QyvwbHYrV+dBcAXPlnctzoChaRfaLg8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/88] xive: Link "cpu" property to XiveTCTX::cs pointer
-Date: Tue, 17 Dec 2019 15:41:58 +1100
-Message-Id: <20191217044322.351838-5-david@gibson.dropbear.id.au>
+Subject: [PULL 05/88] xive: Link "xive" property to XiveSource::xive pointer
+Date: Tue, 17 Dec 2019 15:41:59 +1100
+Message-Id: <20191217044322.351838-6-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,86 +60,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The TCTX object has both a pointer and a "cpu" property pointing to the
-vCPU object. Confusing bugs could arise if these ever go out of sync.
+The source object has both a pointer and a "xive" property pointing to th=
+e
+notifier object. Confusing bugs could arise if these ever go out of sync.
 
 Change the property definition so that it explicitely sets the pointer.
+The property isn't optional : not being able to set the link is a bug
+and QEMU should rather abort than exit in this case.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157383332669.165747.2484056603605646820.stgit@bahia.lan>
+Message-Id: <157383333227.165747.12901571295951957951.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ hw/intc/pnv_xive.c   |  4 ++--
+ hw/intc/spapr_xive.c |  4 ++--
+ hw/intc/xive.c       | 13 +++----------
+ hw/ppc/pnv_psi.c     |  3 +--
+ 4 files changed, 8 insertions(+), 16 deletions(-)
 
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 348f2fdd26..9e23dc705d 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -1695,8 +1695,8 @@ static void pnv_xive_realize(DeviceState *dev, Erro=
+r **errp)
+      */
+     object_property_set_int(OBJECT(xsrc), PNV_XIVE_NR_IRQS, "nr-irqs",
+                             &error_fatal);
+-    object_property_add_const_link(OBJECT(xsrc), "xive", OBJECT(xive),
+-                                   &error_fatal);
++    object_property_set_link(OBJECT(xsrc), OBJECT(xive), "xive",
++                             &error_abort);
+     object_property_set_bool(OBJECT(xsrc), true, "realized", &local_err)=
+;
+     if (local_err) {
+         error_propagate(errp, local_err);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 9cb8d38a3b..10890aeeeb 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -276,8 +276,8 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
+r **errp)
+      */
+     object_property_set_int(OBJECT(xsrc), xive->nr_irqs, "nr-irqs",
+                             &error_fatal);
+-    object_property_add_const_link(OBJECT(xsrc), "xive", OBJECT(xive),
+-                                   &error_fatal);
++    object_property_set_link(OBJECT(xsrc), OBJECT(xive), "xive",
++                             &error_abort);
+     object_property_set_bool(OBJECT(xsrc), true, "realized", &local_err)=
+;
+     if (local_err) {
+         error_propagate(errp, local_err);
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 75dce82fb2..9376e84aff 100644
+index 9376e84aff..2eac15efa6 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -580,19 +580,11 @@ static void xive_tctx_realize(DeviceState *dev, Err=
-or **errp)
-     XiveTCTX *tctx =3D XIVE_TCTX(dev);
-     PowerPCCPU *cpu;
-     CPUPPCState *env;
+@@ -1060,17 +1060,8 @@ static void xive_source_reset(void *dev)
+ static void xive_source_realize(DeviceState *dev, Error **errp)
+ {
+     XiveSource *xsrc =3D XIVE_SOURCE(dev);
 -    Object *obj;
-     Error *local_err =3D NULL;
-=20
--    obj =3D object_property_get_link(OBJECT(dev), "cpu", &local_err);
+-    Error *local_err =3D NULL;
+-
+-    obj =3D object_property_get_link(OBJECT(dev), "xive", &local_err);
 -    if (!obj) {
 -        error_propagate(errp, local_err);
--        error_prepend(errp, "required link 'cpu' not found: ");
+-        error_prepend(errp, "required link 'xive' not found: ");
 -        return;
 -    }
--
--    cpu =3D POWERPC_CPU(obj);
--    tctx->cs =3D CPU(obj);
-+    assert(tctx->cs);
 =20
-+    cpu =3D POWERPC_CPU(tctx->cs);
-     env =3D &cpu->env;
-     switch (PPC_INPUT(env)) {
-     case PPC_FLAGS_INPUT_POWER9:
-@@ -662,6 +654,11 @@ static const VMStateDescription vmstate_xive_tctx =3D=
- {
-     },
+-    xsrc->xive =3D XIVE_NOTIFIER(obj);
++    assert(xsrc->xive);
+=20
+     if (!xsrc->nr_irqs) {
+         error_setg(errp, "Number of interrupt needs to be greater than 0=
+");
+@@ -1116,6 +1107,8 @@ static Property xive_source_properties[] =3D {
+     DEFINE_PROP_UINT64("flags", XiveSource, esb_flags, 0),
+     DEFINE_PROP_UINT32("nr-irqs", XiveSource, nr_irqs, 0),
+     DEFINE_PROP_UINT32("shift", XiveSource, esb_shift, XIVE_ESB_64K_2PAG=
+E),
++    DEFINE_PROP_LINK("xive", XiveSource, xive, TYPE_XIVE_NOTIFIER,
++                     XiveNotifier *),
+     DEFINE_PROP_END_OF_LIST(),
  };
 =20
-+static Property xive_tctx_properties[] =3D {
-+    DEFINE_PROP_LINK("cpu", XiveTCTX, cs, TYPE_CPU, CPUState *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void xive_tctx_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -669,6 +666,7 @@ static void xive_tctx_class_init(ObjectClass *klass, =
-void *data)
-     dc->desc =3D "XIVE Interrupt Thread Context";
-     dc->realize =3D xive_tctx_realize;
-     dc->vmsd =3D &vmstate_xive_tctx;
-+    dc->props =3D xive_tctx_properties;
-     /*
-      * Reason: part of XIVE interrupt controller, needs to be wired up
-      * by xive_tctx_create().
-@@ -691,8 +689,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrt=
-r, Error **errp)
-     obj =3D object_new(TYPE_XIVE_TCTX);
-     object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
-     object_unref(obj);
--    object_ref(cpu);
--    object_property_add_const_link(obj, "cpu", cpu, &error_abort);
-+    object_property_set_link(obj, cpu, "cpu", &error_abort);
-     object_property_set_bool(obj, true, "realized", &local_err);
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index 68d0dfacfe..a360515a86 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -851,8 +851,7 @@ static void pnv_psi_power9_realize(DeviceState *dev, =
+Error **errp)
+                             &error_fatal);
+     object_property_set_int(OBJECT(xsrc), PSIHB9_NUM_IRQS, "nr-irqs",
+                             &error_fatal);
+-    object_property_add_const_link(OBJECT(xsrc), "xive", OBJECT(psi),
+-                                   &error_fatal);
++    object_property_set_link(OBJECT(xsrc), OBJECT(psi), "xive", &error_a=
+bort);
+     object_property_set_bool(OBJECT(xsrc), true, "realized", &local_err)=
+;
      if (local_err) {
-         goto error;
-@@ -710,7 +707,6 @@ void xive_tctx_destroy(XiveTCTX *tctx)
- {
-     Object *obj =3D OBJECT(tctx);
-=20
--    object_unref(object_property_get_link(obj, "cpu", &error_abort));
-     object_unparent(obj);
- }
-=20
+         error_propagate(errp, local_err);
 --=20
 2.23.0
 
