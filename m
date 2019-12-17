@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B00122350
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:57:32 +0100 (CET)
-Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC6312234C
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 05:55:02 +0100 (CET)
+Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih4vK-0000mq-Nx
-	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:57:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33710)
+	id 1ih4su-0005Gm-Om
+	for lists+qemu-devel@lfdr.de; Mon, 16 Dec 2019 23:55:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iG-0008JP-5U
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:02 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iI-0008KS-Jd
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4iB-0005Zs-S7
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:43:58 -0500
-Received: from ozlabs.org ([203.11.71.1]:34159)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iG-0005c0-49
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:02 -0500
+Received: from ozlabs.org ([203.11.71.1]:58735)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4iB-0005TW-BU; Mon, 16 Dec 2019 23:43:55 -0500
+ id 1ih4iB-0005Qq-Po; Mon, 16 Dec 2019 23:43:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWT6bt3z9sSk; Tue, 17 Dec 2019 15:43:31 +1100 (AEDT)
+ id 47cQWT2RXYz9sSn; Tue, 17 Dec 2019 15:43:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557813;
- bh=qLrrxGz/L7uIfowC5RKd93eD4t4+MzoytoM8oaYxtik=;
+ bh=KLAeVuzvCddEVuCYat0RW1q80cGghwTWyDDGVAH29qY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ejBv/UPj41KRJgeI9Ed4GCrnoIiNVoycWAnLumAStDEtYXfK52hW40S2OwHD5dSqy
- 7UX2ZlppC6sb8Apjsh1oIwkjS4LGrJa+Jqpz+Q9JcIXuoja+/S3eyQ8oj5IZUH3ycy
- AoUOimvg8qtFgE1QhY/yL1XQ7FxCpSIGaBIgkX84=
+ b=VmK3lUkza3DspA78aXn9Ta/ILd68fp+MyZiH0l1hPGgQnjIfRZUOS8B6V3U1FxDlU
+ +jGzoy0KSwsY9s17pm0NZ80XMwVJgNUxImfWTKWTKR9Ovpb8wkZosFEyuRAvU+TbwW
+ CWC2FCY0i4fIEnhsGbtMUXFWbtrOhPGt2sJesYjg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 27/88] ppc/xive: Introduce a XivePresenter interface
-Date: Tue, 17 Dec 2019 15:42:21 +1100
-Message-Id: <20191217044322.351838-28-david@gibson.dropbear.id.au>
+Subject: [PULL 28/88] ppc/xive: Implement the XivePresenter interface
+Date: Tue, 17 Dec 2019 15:42:22 +1100
+Message-Id: <20191217044322.351838-29-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -61,155 +61,245 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-When the XIVE IVRE sub-engine (XiveRouter) looks for a Notification
-Virtual Target (NVT) to notify, it broadcasts a message on the
-PowerBUS to find an XIVE IVPE sub-engine (Presenter) with the NVT
-dispatched on one of its HW threads, and then forwards the
-notification if any response was received.
+Each XIVE Router model, sPAPR and PowerNV, now implements the 'match_nvt'
+handler of the XivePresenter QOM interface. This is simply moving code
+and taking into account the new API.
 
-The current XIVE presenter model is sufficient for the pseries machine
-because it has a single interrupt controller device, but the PowerNV
-machine can have multiple chips each having its own interrupt
-controller. In this case, the XIVE presenter model is too simple and
-the CAM line matching should scan all chips of the system.
+To be noted that the xive_router_get_tctx() helper is not used anymore
+when doing CAM matching and will be removed later on after other changes.
 
-To start fixing this issue, we first extend the XIVE Router model with
-a new XivePresenter QOM interface representing the XIVE IVPE
-sub-engine. This interface exposes a 'match_nvt' handler which the
-sPAPR and PowerNV XIVE Router models will need to implement to perform
-the CAM line matching.
+The XIVE presenter model is still too simple for the PowerNV machine
+and the CAM matching algo is not correct on multichip system. Subsequent
+patches will introduce more changes to scan all chips of the system.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-2-clg@kaod.org>
+Message-Id: <20191125065820.927-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c        | 26 +++++++++++++++++---------
- include/hw/ppc/xive.h | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+), 9 deletions(-)
+ hw/intc/pnv_xive.c   | 41 +++++++++++++++++++++++++++++++++++
+ hw/intc/spapr_xive.c | 49 ++++++++++++++++++++++++++++++++++++++++++
+ hw/intc/xive.c       | 51 ++++++--------------------------------------
+ 3 files changed, 97 insertions(+), 44 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 511e1a9363..344bb3f3bc 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1363,9 +1363,10 @@ static uint32_t xive_tctx_hw_cam_line(XiveTCTX *tc=
-tx)
- /*
-  * The thread context register words are in big-endian format.
-  */
--static int xive_presenter_tctx_match(XiveTCTX *tctx, uint8_t format,
--                                     uint8_t nvt_blk, uint32_t nvt_idx,
--                                     bool cam_ignore, uint32_t logic_ser=
-v)
-+int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-+                              uint8_t format,
-+                              uint8_t nvt_blk, uint32_t nvt_idx,
-+                              bool cam_ignore, uint32_t logic_serv)
- {
-     uint32_t cam =3D xive_nvt_cam_line(nvt_blk, nvt_idx);
-     uint32_t qw3w2 =3D xive_tctx_word2(&tctx->regs[TM_QW3_HV_PHYS]);
-@@ -1422,11 +1423,6 @@ static int xive_presenter_tctx_match(XiveTCTX *tct=
-x, uint8_t format,
-     return -1;
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 9a771f6407..8055de89cf 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -372,6 +372,45 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+     return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
  }
 =20
--typedef struct XiveTCTXMatch {
--    XiveTCTX *tctx;
--    uint8_t ring;
--} XiveTCTXMatch;
--
- static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
-                                  uint8_t nvt_blk, uint32_t nvt_idx,
-                                  bool cam_ignore, uint8_t priority,
-@@ -1460,7 +1456,8 @@ static bool xive_presenter_match(XiveRouter *xrtr, =
-uint8_t format,
-          * Check the thread context CAM lines and record matches. We
-          * will handle CPU exception delivery later
-          */
--        ring =3D xive_presenter_tctx_match(tctx, format, nvt_blk, nvt_id=
-x,
-+        ring =3D xive_presenter_tctx_match(XIVE_PRESENTER(xrtr), tctx, f=
-ormat,
-+                                         nvt_blk, nvt_idx,
-                                          cam_ignore, logic_serv);
-         /*
-          * Save the context and follow on to catch duplicates, that we
-@@ -1754,6 +1751,7 @@ static const TypeInfo xive_router_info =3D {
-     .class_init    =3D xive_router_class_init,
-     .interfaces    =3D (InterfaceInfo[]) {
-         { TYPE_XIVE_NOTIFIER },
-+        { TYPE_XIVE_PRESENTER },
-         { }
-     }
- };
-@@ -1923,10 +1921,20 @@ static const TypeInfo xive_notifier_info =3D {
-     .class_size =3D sizeof(XiveNotifierClass),
- };
-=20
-+/*
-+ * XIVE Presenter
-+ */
-+static const TypeInfo xive_presenter_info =3D {
-+    .name =3D TYPE_XIVE_PRESENTER,
-+    .parent =3D TYPE_INTERFACE,
-+    .class_size =3D sizeof(XivePresenterClass),
-+};
-+
- static void xive_register_types(void)
- {
-     type_register_static(&xive_source_info);
-     type_register_static(&xive_notifier_info);
-+    type_register_static(&xive_presenter_info);
-     type_register_static(&xive_router_info);
-     type_register_static(&xive_end_source_info);
-     type_register_static(&xive_tctx_info);
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index fa7adf87fe..f9aa0fa0da 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -367,6 +367,38 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8_t =
-nvt_blk, uint32_t nvt_idx,
- XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs);
- void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
-=20
-+/*
-+ * XIVE Presenter
-+ */
-+
-+typedef struct XiveTCTXMatch {
-+    XiveTCTX *tctx;
-+    uint8_t ring;
-+} XiveTCTXMatch;
-+
-+typedef struct XivePresenter XivePresenter;
-+
-+#define TYPE_XIVE_PRESENTER "xive-presenter"
-+#define XIVE_PRESENTER(obj)                                     \
-+    INTERFACE_CHECK(XivePresenter, (obj), TYPE_XIVE_PRESENTER)
-+#define XIVE_PRESENTER_CLASS(klass)                                     =
-\
-+    OBJECT_CLASS_CHECK(XivePresenterClass, (klass), TYPE_XIVE_PRESENTER)
-+#define XIVE_PRESENTER_GET_CLASS(obj)                                   =
-\
-+    OBJECT_GET_CLASS(XivePresenterClass, (obj), TYPE_XIVE_PRESENTER)
-+
-+typedef struct XivePresenterClass {
-+    InterfaceClass parent;
-+    int (*match_nvt)(XivePresenter *xptr, uint8_t format,
-+                     uint8_t nvt_blk, uint32_t nvt_idx,
-+                     bool cam_ignore, uint8_t priority,
-+                     uint32_t logic_serv, XiveTCTXMatch *match);
-+} XivePresenterClass;
-+
-+int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-+                              uint8_t format,
++static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
 +                              uint8_t nvt_blk, uint32_t nvt_idx,
-+                              bool cam_ignore, uint32_t logic_serv);
++                              bool cam_ignore, uint8_t priority,
++                              uint32_t logic_serv, XiveTCTXMatch *match)
++{
++    CPUState *cs;
++    int count =3D 0;
 +
- /*
-  * XIVE END ESBs
-  */
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++        XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
++        int ring;
++
++        /*
++         * Check the thread context CAM lines and record matches.
++         */
++        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_blk, =
+nvt_idx,
++                                         cam_ignore, logic_serv);
++        /*
++         * Save the context and follow on to catch duplicates, that we
++         * don't support yet.
++         */
++        if (ring !=3D -1) {
++            if (match->tctx) {
++                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a "
++                              "thread context NVT %x/%x\n",
++                              nvt_blk, nvt_idx);
++                return -1;
++            }
++
++            match->ring =3D ring;
++            match->tctx =3D tctx;
++            count++;
++        }
++    }
++
++    return count;
++}
++
+ static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+ {
+     PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+@@ -1780,6 +1819,7 @@ static void pnv_xive_class_init(ObjectClass *klass,=
+ void *data)
+     PnvXScomInterfaceClass *xdc =3D PNV_XSCOM_INTERFACE_CLASS(klass);
+     XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
+     XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
++    XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
+=20
+     xdc->dt_xscom =3D pnv_xive_dt_xscom;
+=20
+@@ -1795,6 +1835,7 @@ static void pnv_xive_class_init(ObjectClass *klass,=
+ void *data)
+     xrc->get_tctx =3D pnv_xive_get_tctx;
+=20
+     xnc->notify =3D pnv_xive_notify;
++    xpc->match_nvt  =3D pnv_xive_match_nvt;
+ };
+=20
+ static const TypeInfo pnv_xive_info =3D {
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 729246e906..bb3b2dfdb7 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -405,6 +405,52 @@ static XiveTCTX *spapr_xive_get_tctx(XiveRouter *xrt=
+r, CPUState *cs)
+     return spapr_cpu_state(cpu)->tctx;
+ }
+=20
++static int spapr_xive_match_nvt(XivePresenter *xptr, uint8_t format,
++                                uint8_t nvt_blk, uint32_t nvt_idx,
++                                bool cam_ignore, uint8_t priority,
++                                uint32_t logic_serv, XiveTCTXMatch *matc=
+h)
++{
++    CPUState *cs;
++    int count =3D 0;
++
++    CPU_FOREACH(cs) {
++        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++        XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
++        int ring;
++
++        /*
++         * Skip partially initialized vCPUs. This can happen when
++         * vCPUs are hotplugged.
++         */
++        if (!tctx) {
++            continue;
++        }
++
++        /*
++         * Check the thread context CAM lines and record matches.
++         */
++        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_blk, =
+nvt_idx,
++                                         cam_ignore, logic_serv);
++        /*
++         * Save the matching thread interrupt context and follow on to
++         * check for duplicates which are invalid.
++         */
++        if (ring !=3D -1) {
++            if (match->tctx) {
++                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a th=
+read "
++                              "context NVT %x/%x\n", nvt_blk, nvt_idx);
++                return -1;
++            }
++
++            match->ring =3D ring;
++            match->tctx =3D tctx;
++            count++;
++        }
++    }
++
++    return count;
++}
++
+ static const VMStateDescription vmstate_spapr_xive_end =3D {
+     .name =3D TYPE_SPAPR_XIVE "/end",
+     .version_id =3D 1,
+@@ -684,6 +730,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
+     SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_CLASS(klass);
++    XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
+=20
+     dc->desc    =3D "sPAPR XIVE Interrupt Controller";
+     dc->props   =3D spapr_xive_properties;
+@@ -708,6 +755,8 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+     sicc->print_info =3D spapr_xive_print_info;
+     sicc->dt =3D spapr_xive_dt;
+     sicc->post_load =3D spapr_xive_post_load;
++
++    xpc->match_nvt  =3D spapr_xive_match_nvt;
+ }
+=20
+ static const TypeInfo spapr_xive_info =3D {
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 344bb3f3bc..da6196ca95 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1428,51 +1428,14 @@ static bool xive_presenter_match(XiveRouter *xrtr=
+, uint8_t format,
+                                  bool cam_ignore, uint8_t priority,
+                                  uint32_t logic_serv, XiveTCTXMatch *mat=
+ch)
+ {
+-    CPUState *cs;
++    XivePresenter *xptr =3D XIVE_PRESENTER(xrtr);
++    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
++    int count;
+=20
+-    /*
+-     * TODO (PowerNV): handle chip_id overwrite of block field for
+-     * hardwired CAM compares
+-     */
+-
+-    CPU_FOREACH(cs) {
+-        XiveTCTX *tctx =3D xive_router_get_tctx(xrtr, cs);
+-        int ring;
+-
+-        /*
+-         * Skip partially initialized vCPUs. This can happen when
+-         * vCPUs are hotplugged.
+-         */
+-        if (!tctx) {
+-            continue;
+-        }
+-
+-        /*
+-         * HW checks that the CPU is enabled in the Physical Thread
+-         * Enable Register (PTER).
+-         */
+-
+-        /*
+-         * Check the thread context CAM lines and record matches. We
+-         * will handle CPU exception delivery later
+-         */
+-        ring =3D xive_presenter_tctx_match(XIVE_PRESENTER(xrtr), tctx, f=
+ormat,
+-                                         nvt_blk, nvt_idx,
+-                                         cam_ignore, logic_serv);
+-        /*
+-         * Save the context and follow on to catch duplicates, that we
+-         * don't support yet.
+-         */
+-        if (ring !=3D -1) {
+-            if (match->tctx) {
+-                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a th=
+read "
+-                              "context NVT %x/%x\n", nvt_blk, nvt_idx);
+-                return false;
+-            }
+-
+-            match->ring =3D ring;
+-            match->tctx =3D tctx;
+-        }
++    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
++                           priority, logic_serv, match);
++    if (count < 0) {
++        return false;
+     }
+=20
+     if (!match->tctx) {
 --=20
 2.23.0
 
