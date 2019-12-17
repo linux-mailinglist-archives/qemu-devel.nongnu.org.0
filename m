@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353A2122365
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:10:53 +0100 (CET)
-Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1882122380
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:16:02 +0100 (CET)
+Received: from localhost ([::1]:35558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih58F-0002VD-QY
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:10:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34493)
+	id 1ih5DF-0001tX-Ka
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:16:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4j2-00018i-KC
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:50 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iy-00011S-FN
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4j1-0006Zz-0a
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:48 -0500
-Received: from ozlabs.org ([203.11.71.1]:56989)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4iw-0006SM-Se
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:44:44 -0500
+Received: from ozlabs.org ([203.11.71.1]:36259)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4j0-00061k-D8; Mon, 16 Dec 2019 23:44:46 -0500
+ id 1ih4iw-0005xo-Gs; Mon, 16 Dec 2019 23:44:42 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWY5xcqz9sTC; Tue, 17 Dec 2019 15:43:34 +1100 (AEDT)
+ id 47cQWY231Mz9sT8; Tue, 17 Dec 2019 15:43:35 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1576557817;
- bh=uUiqDKLLVTBBPiFHlPyXS5b1JgnGOzsSFBr2SRaf5go=;
+ bh=nv2sfMu4exbWQFeK7G3IiZ7uOvCpR+2vpj7MWBUe+D4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hOFpnWQlMFYLN0RdPJpRXybpptSxIj5G1JKBu3IAtaatvgV+Z+BYo4bGOAP6xuKF4
- 6iIkjjN36+1yg8xL6B/iIWc3j8PKBVUymDy6H5sZ01DXtRtPSClupFKqmPxdt4scjv
- Y2tFfn+NEYMttjp1FJunt9Bh69WbY7kzFlFNei/s=
+ b=JwQiLSDKsC3Uy0NpWG33BnYXxdOHij68wkos6zxswhGfd3WgsHlzPYRXsV3AzPN2K
+ xNBEJvOrR6eA8nUf+uu7jhw8ddTdSpdtZSeTFKanP1sYMhyN2aN6qoMNwggQmgCfXH
+ imgAKoJES6HCTe6TFZnN07Bt0VbTlB71fenOKzwo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 39/88] linux-headers: Update
-Date: Tue, 17 Dec 2019 15:42:33 +1100
-Message-Id: <20191217044322.351838-40-david@gibson.dropbear.id.au>
+Subject: [PULL 40/88] spapr: Pass the maximum number of vCPUs to the KVM
+ interrupt controller
+Date: Tue, 17 Dec 2019 15:42:34 +1100
+Message-Id: <20191217044322.351838-41-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,226 +62,215 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Update to mainline commit be2eca94d144 ("Merge tag 'for-linus-5.5-1'`
-of git://github.com/cminyard/linux-ipmi")
+The XIVE and XICS-on-XIVE KVM devices on POWER9 hosts can greatly reduce
+their consumption of some scarce HW resources, namely Virtual Presenter
+identifiers, if they know the maximum number of vCPUs that may run in the
+VM.
+
+Prepare ground for this by passing the value down to xics_kvm_connect()
+and kvmppc_xive_connect(). This is purely mechanical, no functional
+change.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157478677756.67101.11558821804418331832.stgit@bahia.tlslab.i=
-bm.com>
+Message-Id: <157478678301.67101.2717368060417156338.stgit@bahia.tlslab.ib=
+m.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/standard-headers/linux/ethtool.h     |  6 ++++++
- include/standard-headers/linux/virtio_ring.h |  2 +-
- linux-headers/asm-arm/kvm.h                  |  3 ++-
- linux-headers/asm-arm64/kvm.h                |  5 ++++-
- linux-headers/asm-mips/unistd_n32.h          |  1 +
- linux-headers/asm-mips/unistd_n64.h          |  1 +
- linux-headers/asm-mips/unistd_o32.h          |  1 +
- linux-headers/asm-powerpc/kvm.h              |  3 +++
- linux-headers/linux/kvm.h                    | 11 +++++++++++
- linux-headers/linux/psp-sev.h                |  3 +++
- 10 files changed, 33 insertions(+), 3 deletions(-)
+ hw/intc/spapr_xive.c        |  6 ++++--
+ hw/intc/spapr_xive_kvm.c    |  3 ++-
+ hw/intc/xics_kvm.c          |  3 ++-
+ hw/intc/xics_spapr.c        |  5 +++--
+ hw/ppc/spapr_irq.c          |  8 +++++---
+ include/hw/ppc/spapr_irq.h  | 10 ++++++++--
+ include/hw/ppc/spapr_xive.h |  3 ++-
+ include/hw/ppc/xics_spapr.h |  3 ++-
+ 8 files changed, 28 insertions(+), 13 deletions(-)
 
-diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-=
-headers/linux/ethtool.h
-index 4ff422b635..6e8a10ee10 100644
---- a/include/standard-headers/linux/ethtool.h
-+++ b/include/standard-headers/linux/ethtool.h
-@@ -1507,6 +1507,11 @@ enum ethtool_link_mode_bit_indices {
- 	ETHTOOL_LINK_MODE_200000baseCR4_Full_BIT	 =3D 66,
- 	ETHTOOL_LINK_MODE_100baseT1_Full_BIT		 =3D 67,
- 	ETHTOOL_LINK_MODE_1000baseT1_Full_BIT		 =3D 68,
-+	ETHTOOL_LINK_MODE_400000baseKR8_Full_BIT	 =3D 69,
-+	ETHTOOL_LINK_MODE_400000baseSR8_Full_BIT	 =3D 70,
-+	ETHTOOL_LINK_MODE_400000baseLR8_ER8_FR8_Full_BIT =3D 71,
-+	ETHTOOL_LINK_MODE_400000baseDR8_Full_BIT	 =3D 72,
-+	ETHTOOL_LINK_MODE_400000baseCR8_Full_BIT	 =3D 73,
-=20
- 	/* must be last entry */
- 	__ETHTOOL_LINK_MODE_MASK_NBITS
-@@ -1618,6 +1623,7 @@ enum ethtool_link_mode_bit_indices {
- #define SPEED_56000		56000
- #define SPEED_100000		100000
- #define SPEED_200000		200000
-+#define SPEED_400000		400000
-=20
- #define SPEED_UNKNOWN		-1
-=20
-diff --git a/include/standard-headers/linux/virtio_ring.h b/include/stand=
-ard-headers/linux/virtio_ring.h
-index 306cd41147..f230fed479 100644
---- a/include/standard-headers/linux/virtio_ring.h
-+++ b/include/standard-headers/linux/virtio_ring.h
-@@ -167,7 +167,7 @@ static inline void vring_init(struct vring *vr, unsig=
-ned int num, void *p,
- {
- 	vr->num =3D num;
- 	vr->desc =3D p;
--	vr->avail =3D p + num*sizeof(struct vring_desc);
-+	vr->avail =3D (struct vring_avail *)((char *)p + num * sizeof(struct vr=
-ing_desc));
- 	vr->used =3D (void *)(((uintptr_t)&vr->avail->ring[num] + sizeof(__virt=
-io16)
- 		+ align-1) & ~(align - 1));
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index bb3b2dfdb7..18a043a277 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -697,12 +697,14 @@ static void spapr_xive_dt(SpaprInterruptController =
+*intc, uint32_t nr_servers,
+                      plat_res_int_priorities, sizeof(plat_res_int_priori=
+ties)));
  }
-diff --git a/linux-headers/asm-arm/kvm.h b/linux-headers/asm-arm/kvm.h
-index 9d379d3372..0db5644e27 100644
---- a/linux-headers/asm-arm/kvm.h
-+++ b/linux-headers/asm-arm/kvm.h
-@@ -131,8 +131,9 @@ struct kvm_vcpu_events {
- 	struct {
- 		__u8 serror_pending;
- 		__u8 serror_has_esr;
-+		__u8 ext_dabt_pending;
- 		/* Align it to 8 bytes */
--		__u8 pad[6];
-+		__u8 pad[5];
- 		__u64 serror_esr;
- 	} exception;
- 	__u32 reserved[12];
-diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.=
-h
-index 0ce6e49f3a..920af01c8b 100644
---- a/linux-headers/asm-arm64/kvm.h
-+++ b/linux-headers/asm-arm64/kvm.h
-@@ -164,8 +164,9 @@ struct kvm_vcpu_events {
- 	struct {
- 		__u8 serror_pending;
- 		__u8 serror_has_esr;
-+		__u8 ext_dabt_pending;
- 		/* Align it to 8 bytes */
--		__u8 pad[6];
-+		__u8 pad[5];
- 		__u64 serror_esr;
- 	} exception;
- 	__u32 reserved[12];
-@@ -323,6 +324,8 @@ struct kvm_vcpu_events {
- #define KVM_ARM_VCPU_TIMER_CTRL		1
- #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
- #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
-+#define KVM_ARM_VCPU_PVTIME_CTRL	2
-+#define   KVM_ARM_VCPU_PVTIME_IPA	0
 =20
- /* KVM_IRQ_LINE irq field index values */
- #define KVM_ARM_IRQ_VCPU2_SHIFT		28
-diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips=
-/unistd_n32.h
-index 7dffe8e34e..659d5c9ade 100644
---- a/linux-headers/asm-mips/unistd_n32.h
-+++ b/linux-headers/asm-mips/unistd_n32.h
-@@ -364,6 +364,7 @@
- #define __NR_fsmount	(__NR_Linux + 432)
- #define __NR_fspick	(__NR_Linux + 433)
- #define __NR_pidfd_open	(__NR_Linux + 434)
-+#define __NR_clone3	(__NR_Linux + 435)
+-static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
+rrp)
++static int spapr_xive_activate(SpaprInterruptController *intc,
++                               uint32_t nr_servers, Error **errp)
+ {
+     SpaprXive *xive =3D SPAPR_XIVE(intc);
 =20
+     if (kvm_enabled()) {
+-        int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
++        int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, nr_serv=
+ers,
++                                    errp);
+         if (rc < 0) {
+             return rc;
+         }
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index 69e73552f1..46c7609bd8 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -728,7 +728,8 @@ static void *kvmppc_xive_mmap(SpaprXive *xive, int pg=
+off, size_t len,
+  * All the XIVE memory regions are now backed by mappings from the KVM
+  * XIVE device.
+  */
+-int kvmppc_xive_connect(SpaprInterruptController *intc, Error **errp)
++int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_serv=
+ers,
++                        Error **errp)
+ {
+     SpaprXive *xive =3D SPAPR_XIVE(intc);
+     XiveSource *xsrc =3D &xive->source;
+diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+index 954c424b36..a1f1b7b0d3 100644
+--- a/hw/intc/xics_kvm.c
++++ b/hw/intc/xics_kvm.c
+@@ -342,7 +342,8 @@ void ics_kvm_set_irq(ICSState *ics, int srcno, int va=
+l)
+     }
+ }
 =20
- #endif /* _ASM_MIPS_UNISTD_N32_H */
-diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips=
-/unistd_n64.h
-index f4592d6fc5..4b6310a05c 100644
---- a/linux-headers/asm-mips/unistd_n64.h
-+++ b/linux-headers/asm-mips/unistd_n64.h
-@@ -340,6 +340,7 @@
- #define __NR_fsmount	(__NR_Linux + 432)
- #define __NR_fspick	(__NR_Linux + 433)
- #define __NR_pidfd_open	(__NR_Linux + 434)
-+#define __NR_clone3	(__NR_Linux + 435)
+-int xics_kvm_connect(SpaprInterruptController *intc, Error **errp)
++int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers=
+,
++                     Error **errp)
+ {
+     ICSState *ics =3D ICS_SPAPR(intc);
+     int rc;
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index b3705dab0e..8ae4f41459 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -422,10 +422,11 @@ static int xics_spapr_post_load(SpaprInterruptContr=
+oller *intc, int version_id)
+     return 0;
+ }
 =20
+-static int xics_spapr_activate(SpaprInterruptController *intc, Error **e=
+rrp)
++static int xics_spapr_activate(SpaprInterruptController *intc,
++                               uint32_t nr_servers, Error **errp)
+ {
+     if (kvm_enabled()) {
+-        return spapr_irq_init_kvm(xics_kvm_connect, intc, errp);
++        return spapr_irq_init_kvm(xics_kvm_connect, intc, nr_servers, er=
+rp);
+     }
+     return 0;
+ }
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index d4a54afc86..07e08d6544 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -70,15 +70,16 @@ void spapr_irq_msi_free(SpaprMachineState *spapr, int=
+ irq, uint32_t num)
+     bitmap_clear(spapr->irq_map, irq - SPAPR_IRQ_MSI, num);
+ }
 =20
- #endif /* _ASM_MIPS_UNISTD_N64_H */
-diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips=
-/unistd_o32.h
-index 04c6728352..4ce7b4e288 100644
---- a/linux-headers/asm-mips/unistd_o32.h
-+++ b/linux-headers/asm-mips/unistd_o32.h
-@@ -410,6 +410,7 @@
- #define __NR_fsmount	(__NR_Linux + 432)
- #define __NR_fspick	(__NR_Linux + 433)
- #define __NR_pidfd_open	(__NR_Linux + 434)
-+#define __NR_clone3	(__NR_Linux + 435)
+-int spapr_irq_init_kvm(int (*fn)(SpaprInterruptController *, Error **),
++int spapr_irq_init_kvm(SpaprInterruptControllerInitKvm fn,
+                        SpaprInterruptController *intc,
++                       uint32_t nr_servers,
+                        Error **errp)
+ {
+     MachineState *machine =3D MACHINE(qdev_get_machine());
+     Error *local_err =3D NULL;
 =20
+     if (kvm_enabled() && machine_kernel_irqchip_allowed(machine)) {
+-        if (fn(intc, &local_err) < 0) {
++        if (fn(intc, nr_servers, &local_err) < 0) {
+             if (machine_kernel_irqchip_required(machine)) {
+                 error_prepend(&local_err,
+                               "kernel_irqchip requested but unavailable:=
+ ");
+@@ -481,6 +482,7 @@ static void set_active_intc(SpaprMachineState *spapr,
+                             SpaprInterruptController *new_intc)
+ {
+     SpaprInterruptControllerClass *sicc;
++    uint32_t nr_servers =3D spapr_max_server_number(spapr);
 =20
- #endif /* _ASM_MIPS_UNISTD_O32_H */
-diff --git a/linux-headers/asm-powerpc/kvm.h b/linux-headers/asm-powerpc/=
-kvm.h
-index b0f72dea8b..264e266a85 100644
---- a/linux-headers/asm-powerpc/kvm.h
-+++ b/linux-headers/asm-powerpc/kvm.h
-@@ -667,6 +667,8 @@ struct kvm_ppc_cpu_char {
+     assert(new_intc);
 =20
- /* PPC64 eXternal Interrupt Controller Specification */
- #define KVM_DEV_XICS_GRP_SOURCES	1	/* 64-bit source attributes */
-+#define KVM_DEV_XICS_GRP_CTRL		2
-+#define   KVM_DEV_XICS_NR_SERVERS	1
+@@ -498,7 +500,7 @@ static void set_active_intc(SpaprMachineState *spapr,
 =20
- /* Layout of 64-bit source attribute values */
- #define  KVM_XICS_DESTINATION_SHIFT	0
-@@ -683,6 +685,7 @@ struct kvm_ppc_cpu_char {
- #define KVM_DEV_XIVE_GRP_CTRL		1
- #define   KVM_DEV_XIVE_RESET		1
- #define   KVM_DEV_XIVE_EQ_SYNC		2
-+#define   KVM_DEV_XIVE_NR_SERVERS	3
- #define KVM_DEV_XIVE_GRP_SOURCE		2	/* 64-bit source identifier */
- #define KVM_DEV_XIVE_GRP_SOURCE_CONFIG	3	/* 64-bit source identifier */
- #define KVM_DEV_XIVE_GRP_EQ_CONFIG	4	/* 64-bit EQ identifier */
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 3d9b18f7f8..3b27a1ae85 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -235,6 +235,7 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_S390_STSI        25
- #define KVM_EXIT_IOAPIC_EOI       26
- #define KVM_EXIT_HYPERV           27
-+#define KVM_EXIT_ARM_NISV         28
+     sicc =3D SPAPR_INTC_GET_CLASS(new_intc);
+     if (sicc->activate) {
+-        sicc->activate(new_intc, &error_fatal);
++        sicc->activate(new_intc, nr_servers, &error_fatal);
+     }
 =20
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -394,6 +395,11 @@ struct kvm_run {
- 		} eoi;
- 		/* KVM_EXIT_HYPERV */
- 		struct kvm_hyperv_exit hyperv;
-+		/* KVM_EXIT_ARM_NISV */
-+		struct {
-+			__u64 esr_iss;
-+			__u64 fault_ipa;
-+		} arm_nisv;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
-@@ -1000,6 +1006,9 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_PMU_EVENT_FILTER 173
- #define KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 174
- #define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 175
-+#define KVM_CAP_PPC_GUEST_DEBUG_SSTEP 176
-+#define KVM_CAP_ARM_NISV_TO_USER 177
-+#define KVM_CAP_ARM_INJECT_EXT_DABT 178
+     spapr->active_intc =3D new_intc;
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index ff814d13de..ca8cb44213 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -43,7 +43,8 @@ typedef struct SpaprInterruptController SpaprInterruptC=
+ontroller;
+ typedef struct SpaprInterruptControllerClass {
+     InterfaceClass parent;
 =20
- #ifdef KVM_CAP_IRQ_ROUTING
+-    int (*activate)(SpaprInterruptController *intc, Error **errp);
++    int (*activate)(SpaprInterruptController *intc, uint32_t nr_servers,
++                    Error **errp);
+     void (*deactivate)(SpaprInterruptController *intc);
 =20
-@@ -1227,6 +1236,8 @@ enum kvm_device_type {
- #define KVM_DEV_TYPE_ARM_VGIC_ITS	KVM_DEV_TYPE_ARM_VGIC_ITS
- 	KVM_DEV_TYPE_XIVE,
- #define KVM_DEV_TYPE_XIVE		KVM_DEV_TYPE_XIVE
-+	KVM_DEV_TYPE_ARM_PV_TIME,
-+#define KVM_DEV_TYPE_ARM_PV_TIME	KVM_DEV_TYPE_ARM_PV_TIME
- 	KVM_DEV_TYPE_MAX,
- };
+     /*
+@@ -98,8 +99,13 @@ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)=
+;
+ int spapr_irq_post_load(SpaprMachineState *spapr, int version_id);
+ void spapr_irq_reset(SpaprMachineState *spapr, Error **errp);
+ int spapr_irq_get_phandle(SpaprMachineState *spapr, void *fdt, Error **e=
+rrp);
+-int spapr_irq_init_kvm(int (*fn)(SpaprInterruptController *, Error **),
++
++typedef int (*SpaprInterruptControllerInitKvm)(SpaprInterruptController =
+*,
++                                               uint32_t, Error **);
++
++int spapr_irq_init_kvm(SpaprInterruptControllerInitKvm fn,
+                        SpaprInterruptController *intc,
++                       uint32_t nr_servers,
+                        Error **errp);
 =20
-diff --git a/linux-headers/linux/psp-sev.h b/linux-headers/linux/psp-sev.=
-h
-index 34c39690c0..31f971e896 100644
---- a/linux-headers/linux/psp-sev.h
-+++ b/linux-headers/linux/psp-sev.h
-@@ -58,6 +58,9 @@ typedef enum {
- 	SEV_RET_HWSEV_RET_PLATFORM,
- 	SEV_RET_HWSEV_RET_UNSAFE,
- 	SEV_RET_UNSUPPORTED,
-+	SEV_RET_INVALID_PARAM,
-+	SEV_RET_RESOURCE_LIMIT,
-+	SEV_RET_SECURE_DATA_INVALID,
- 	SEV_RET_MAX,
- } sev_ret_code;
+ /*
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index 742b7e834f..3a103c224d 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -66,7 +66,8 @@ int spapr_xive_end_to_target(uint8_t end_blk, uint32_t =
+end_idx,
+ /*
+  * KVM XIVE device helpers
+  */
+-int kvmppc_xive_connect(SpaprInterruptController *intc, Error **errp);
++int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_serv=
+ers,
++                        Error **errp);
+ void kvmppc_xive_disconnect(SpaprInterruptController *intc);
+ void kvmppc_xive_reset(SpaprXive *xive, Error **errp);
+ void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveE=
+AS *eas,
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 28b87038c8..1c65c96e3c 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -32,7 +32,8 @@
+ #define TYPE_ICS_SPAPR "ics-spapr"
+ #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
+=20
+-int xics_kvm_connect(SpaprInterruptController *intc, Error **errp);
++int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers=
+,
++                     Error **errp);
+ void xics_kvm_disconnect(SpaprInterruptController *intc);
+ bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
 =20
 --=20
 2.23.0
