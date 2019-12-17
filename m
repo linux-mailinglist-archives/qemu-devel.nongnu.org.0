@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346B41223D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:31:15 +0100 (CET)
-Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80021223ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:39:12 +0100 (CET)
+Received: from localhost ([::1]:35996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Rx-0007kq-NO
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:31:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35489)
+	id 1ih5Zf-0002cK-K9
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:39:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35865)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4kB-0002Nh-4r
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:00 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kX-0002uQ-EZ
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4k9-00084n-Pj
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:58 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42157 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kW-0000EV-4t
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:21 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48539 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4k9-00082n-FN; Mon, 16 Dec 2019 23:45:57 -0500
+ id 1ih4kV-0000AG-Qc; Mon, 16 Dec 2019 23:46:20 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWj2Z0Gz9sTb; Tue, 17 Dec 2019 15:43:43 +1100 (AEDT)
+ id 47cQWl3KnJz9sRp; Tue, 17 Dec 2019 15:43:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557825;
- bh=APu7qN38GsprHR5Z7/xsS8JIgH+fS44UWNOeJDQ/e0Y=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557827;
+ bh=np9HcZx1KFwcdtSNbC/6aMTF85SHkdWiNq+VeNbUHxQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O1s4FwXLefvnUWEySZT10FYWSO2LKNQzGFSw9RFY/LHY2/C5J8XxZpRqpAbf74OsX
- 23rAsRyWcgtShfDduKlNBxesWjuoNGSDksJtLO2ELwnmCPzSsJlMI51lOTypPuAnaV
- nTY003ZDvw9Vr2BkeFRR47jg82O3UVhToon3SssA=
+ b=LUl5y+UsDMwQYqxEFOcV16ZS9koA9Tz8+pPDbG85i5MtOHrsBJnC+aISTYUzTNysj
+ +/zOWpd4gW6DbNwyokYI6lUTLoXCoQrbWb9ImjDG9Xm/XVGrv8lJvHsq6vrImedbmR
+ TA59GeT4QAePL0kt87Rdyt7z7sLGnitBROwY3gxw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 75/88] ppc: Drop useless extern annotation for functions
-Date: Tue, 17 Dec 2019 15:43:09 +1100
-Message-Id: <20191217044322.351838-76-david@gibson.dropbear.id.au>
+Subject: [PULL 76/88] ppc/pnv: Introduce PnvPsiClass::compat
+Date: Tue, 17 Dec 2019 15:43:10 +1100
+Message-Id: <20191217044322.351838-77-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -55,75 +55,134 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
+The Processor Service Interface (PSI) model has a chip_type class level
+attribute, which is used to generate the content of the "compatible" DT
+property according to the CPU type.
+
+Since the PSI model already has specialized classes for each supported
+CPU type, it seems cleaner to achieve this with QOM. Provide the content
+of the "compatible" property with a new class level attribute.
+
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <157623837421.360005.412120366652768311.stgit@bahia.lan>
+Message-Id: <157623837974.360005.14706607446188964477.stgit@bahia.lan>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/hw/ppc/pnv_xscom.h | 22 +++++++++++-----------
- include/hw/ppc/spapr_vio.h |  6 +++---
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ hw/ppc/pnv_psi.c         | 25 +++++++++++--------------
+ include/hw/ppc/pnv_psi.h |  2 ++
+ 2 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index 09188d74b0..2bdb7ae84f 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -113,16 +113,16 @@ typedef struct PnvXScomInterfaceClass {
- #define PNV10_XSCOM_PSIHB_BASE     0x3011D00
- #define PNV10_XSCOM_PSIHB_SIZE     0x100
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index 572924388b..98a82b25e0 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -536,10 +536,6 @@ static void pnv_psi_power8_realize(DeviceState *dev,=
+ Error **errp)
+     qemu_register_reset(pnv_psi_reset, dev);
+ }
 =20
--extern void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp=
-);
--extern int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
+-static const char compat_p8[] =3D "ibm,power8-psihb-x\0ibm,psihb-x";
+-static const char compat_p9[] =3D "ibm,power9-psihb-x\0ibm,psihb-x";
+-static const char compat_p10[] =3D "ibm,power10-psihb-x\0ibm,psihb-x";
 -
--extern void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
--                                    MemoryRegion *mr);
--extern void pnv_xscom_region_init(MemoryRegion *mr,
--                                  struct Object *owner,
--                                  const MemoryRegionOps *ops,
--                                  void *opaque,
--                                  const char *name,
--                                  uint64_t size);
-+void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp);
-+int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
-+
-+void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
-+                             MemoryRegion *mr);
-+void pnv_xscom_region_init(MemoryRegion *mr,
-+                           struct Object *owner,
-+                           const MemoryRegionOps *ops,
-+                           void *opaque,
-+                           const char *name,
-+                           uint64_t size);
-=20
- #endif /* PPC_PNV_XSCOM_H */
-diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-index 72762ed16b..ce6d9b0c66 100644
---- a/include/hw/ppc/spapr_vio.h
-+++ b/include/hw/ppc/spapr_vio.h
-@@ -80,10 +80,10 @@ struct SpaprVioBus {
-     uint32_t next_reg;
- };
-=20
--extern SpaprVioBus *spapr_vio_bus_init(void);
--extern SpaprVioDevice *spapr_vio_find_by_reg(SpaprVioBus *bus, uint32_t =
-reg);
-+SpaprVioBus *spapr_vio_bus_init(void);
-+SpaprVioDevice *spapr_vio_find_by_reg(SpaprVioBus *bus, uint32_t reg);
- void spapr_dt_vdevice(SpaprVioBus *bus, void *fdt);
--extern gchar *spapr_vio_stdout_path(SpaprVioBus *bus);
-+gchar *spapr_vio_stdout_path(SpaprVioBus *bus);
-=20
- static inline void spapr_vio_irq_pulse(SpaprVioDevice *dev)
+ static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, int xscom=
+_offset)
  {
+     PnvPsiClass *ppc =3D PNV_PSI_GET_CLASS(dev);
+@@ -558,16 +554,8 @@ static int pnv_psi_dt_xscom(PnvXScomInterface *dev, =
+void *fdt, int xscom_offset)
+     _FDT(fdt_setprop(fdt, offset, "reg", reg, sizeof(reg)));
+     _FDT(fdt_setprop_cell(fdt, offset, "#address-cells", 2));
+     _FDT(fdt_setprop_cell(fdt, offset, "#size-cells", 1));
+-    if (ppc->chip_type =3D=3D PNV_CHIP_POWER10) {
+-        _FDT(fdt_setprop(fdt, offset, "compatible", compat_p10,
+-                         sizeof(compat_p10)));
+-    } else if (ppc->chip_type =3D=3D PNV_CHIP_POWER9) {
+-        _FDT(fdt_setprop(fdt, offset, "compatible", compat_p9,
+-                         sizeof(compat_p9)));
+-    } else {
+-        _FDT(fdt_setprop(fdt, offset, "compatible", compat_p8,
+-                         sizeof(compat_p8)));
+-    }
++    _FDT(fdt_setprop(fdt, offset, "compatible", ppc->compat,
++                     ppc->compat_size));
+     return 0;
+ }
+=20
+@@ -581,6 +569,7 @@ static void pnv_psi_power8_class_init(ObjectClass *kl=
+ass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     PnvPsiClass *ppc =3D PNV_PSI_CLASS(klass);
++    static const char compat[] =3D "ibm,power8-psihb-x\0ibm,psihb-x";
+=20
+     dc->desc    =3D "PowerNV PSI Controller POWER8";
+     dc->realize =3D pnv_psi_power8_realize;
+@@ -590,6 +579,8 @@ static void pnv_psi_power8_class_init(ObjectClass *kl=
+ass, void *data)
+     ppc->xscom_size =3D PNV_XSCOM_PSIHB_SIZE;
+     ppc->bar_mask   =3D PSIHB_BAR_MASK;
+     ppc->irq_set    =3D pnv_psi_power8_irq_set;
++    ppc->compat     =3D compat;
++    ppc->compat_size =3D sizeof(compat);
+ }
+=20
+ static const TypeInfo pnv_psi_power8_info =3D {
+@@ -888,6 +879,7 @@ static void pnv_psi_power9_class_init(ObjectClass *kl=
+ass, void *data)
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     PnvPsiClass *ppc =3D PNV_PSI_CLASS(klass);
+     XiveNotifierClass *xfc =3D XIVE_NOTIFIER_CLASS(klass);
++    static const char compat[] =3D "ibm,power9-psihb-x\0ibm,psihb-x";
+=20
+     dc->desc    =3D "PowerNV PSI Controller POWER9";
+     dc->realize =3D pnv_psi_power9_realize;
+@@ -897,6 +889,8 @@ static void pnv_psi_power9_class_init(ObjectClass *kl=
+ass, void *data)
+     ppc->xscom_size =3D PNV9_XSCOM_PSIHB_SIZE;
+     ppc->bar_mask   =3D PSIHB9_BAR_MASK;
+     ppc->irq_set    =3D pnv_psi_power9_irq_set;
++    ppc->compat     =3D compat;
++    ppc->compat_size =3D sizeof(compat);
+=20
+     xfc->notify      =3D pnv_psi_notify;
+ }
+@@ -917,12 +911,15 @@ static void pnv_psi_power10_class_init(ObjectClass =
+*klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+     PnvPsiClass *ppc =3D PNV_PSI_CLASS(klass);
++    static const char compat[] =3D "ibm,power10-psihb-x\0ibm,psihb-x";
+=20
+     dc->desc    =3D "PowerNV PSI Controller POWER10";
+=20
+     ppc->chip_type  =3D PNV_CHIP_POWER10;
+     ppc->xscom_pcba =3D PNV10_XSCOM_PSIHB_BASE;
+     ppc->xscom_size =3D PNV10_XSCOM_PSIHB_SIZE;
++    ppc->compat     =3D compat;
++    ppc->compat_size =3D sizeof(compat);
+ }
+=20
+ static const TypeInfo pnv_psi_power10_info =3D {
+diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
+index a044aab304..fc068c95e5 100644
+--- a/include/hw/ppc/pnv_psi.h
++++ b/include/hw/ppc/pnv_psi.h
+@@ -83,6 +83,8 @@ typedef struct PnvPsiClass {
+     uint32_t xscom_pcba;
+     uint32_t xscom_size;
+     uint64_t bar_mask;
++    const char *compat;
++    int compat_size;
+=20
+     void (*irq_set)(PnvPsi *psi, int, bool state);
+ } PnvPsiClass;
 --=20
 2.23.0
 
