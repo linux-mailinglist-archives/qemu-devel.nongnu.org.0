@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317541223CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:28:59 +0100 (CET)
-Received: from localhost ([::1]:35835 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C59D122397
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:23:42 +0100 (CET)
+Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5Pl-0004Sx-RE
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:28:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
+	id 1ih5Kf-0004hG-3S
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:23:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jb-00022v-Cr
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:24 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4ji-00027R-7k
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jZ-0007OH-VL
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:23 -0500
-Received: from ozlabs.org ([203.11.71.1]:49633)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4jg-0007W6-Fb
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:30 -0500
+Received: from ozlabs.org ([203.11.71.1]:52363)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4jZ-0006st-JX; Mon, 16 Dec 2019 23:45:21 -0500
+ id 1ih4jf-00071S-If; Mon, 16 Dec 2019 23:45:28 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWc4gK7z9sTM; Tue, 17 Dec 2019 15:43:36 +1100 (AEDT)
+ id 47cQWd3lBSz9sTN; Tue, 17 Dec 2019 15:43:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557820;
- bh=5Qx9JZq/b4z8NuNNEqJb3p8l2efckqMTcq8O5CEPJfQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557821;
+ bh=vomrH429h1FwgoecOnUgRXJ8QtgZWOpq3eZ7u7hPP/s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ra8bUvVLF4bOicbS5uN224pSu12v4D6O9Ebdb9fmpZNBcIyoWiw1vB3WVZuoK8STb
- bHIgKeBa76w3+HDmbWnbIAQGe2WZ0xqWmouk1QKBePJqQFtaylKZjGxLD54/q3R1A+
- ochV9tmXMZkkCc9FS/H+wYV95CCSuvRztrKQtT6E=
+ b=T9DZMEm3MCNx9CWDB0KVOJh9NVkP1L9z6OzW3NWQVxmbbhOWTsjWGkQ8hDqNUorqE
+ x9wORSD8CGF1EQqMScc5YhXpLogDJmo5gf+iaKu51KmsH3p7hcq65wv7vEne+DsfBI
+ Nen+bPin2h6PUeU5159NJJ1JYYa45bUlSTj+8zVI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 49/88] ppc/pnv: Extend XiveRouter with a get_block_id() handler
-Date: Tue, 17 Dec 2019 15:42:43 +1100
-Message-Id: <20191217044322.351838-50-david@gibson.dropbear.id.au>
+Subject: [PULL 50/88] ppc/pnv: Dump the XIVE NVT table
+Date: Tue, 17 Dec 2019 15:42:44 +1100
+Message-Id: <20191217044322.351838-51-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -61,161 +61,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-When doing CAM line compares, fetch the block id from the interrupt
-controller which can have set the PC_TCTXT_CHIPID field.
+This is useful to dump the saved contexts of the vCPUs : configuration
+of the base END index of the vCPU and the Interrupt Pending Buffer
+register, which is updated when an interrupt can not be presented.
+
+When dumping the NVT table, we skip empty indirect pages which are not
+necessarily allocated.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191125065820.927-20-clg@kaod.org>
+Message-Id: <20191125065820.927-21-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c    |  6 ++++++
- hw/intc/spapr_xive.c  |  6 ++++++
- hw/intc/xive.c        | 21 ++++++++++++++++-----
- include/hw/ppc/xive.h |  2 +-
- 4 files changed, 29 insertions(+), 6 deletions(-)
+ hw/intc/pnv_xive.c         | 64 ++++++++++++++++++++++++++++++++++++++
+ include/hw/ppc/xive_regs.h |  3 ++
+ 2 files changed, 67 insertions(+)
 
 diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 23e73641f2..43c760efd1 100644
+index 43c760efd1..a0a69b98a7 100644
 --- a/hw/intc/pnv_xive.c
 +++ b/hw/intc/pnv_xive.c
-@@ -459,6 +459,11 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, u=
-int8_t format,
-     return count;
+@@ -527,6 +527,44 @@ static uint32_t pnv_xive_nr_ipis(PnvXive *xive, uint=
+8_t blk)
+     return VSD_INDIRECT & vsd ? 0 : vst_tsize * SBE_PER_BYTE;
  }
 =20
-+static uint8_t pnv_xive_get_block_id(XiveRouter *xrtr)
++/*
++ * Compute the number of entries per indirect subpage.
++ */
++static uint64_t pnv_xive_vst_per_subpage(PnvXive *xive, uint32_t type)
 +{
-+    return pnv_xive_block_id(PNV_XIVE(xrtr));
++    uint8_t blk =3D pnv_xive_block_id(xive);
++    uint64_t vsd =3D xive->vsds[type][blk];
++    const XiveVstInfo *info =3D &vst_infos[type];
++    uint64_t vsd_addr;
++    uint32_t page_shift;
++
++    /* For direct tables, fake a valid value */
++    if (!(VSD_INDIRECT & vsd)) {
++        return 1;
++    }
++
++    /* Get the page size of the indirect table. */
++    vsd_addr =3D vsd & VSD_ADDRESS_MASK;
++    vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
++
++    if (!(vsd & VSD_ADDRESS_MASK)) {
++#ifdef XIVE_DEBUG
++        xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
+;
++#endif
++        return 0;
++    }
++
++    page_shift =3D GETFIELD(VSD_TSIZE, vsd) + 12;
++
++    if (!pnv_xive_vst_page_size_allowed(page_shift)) {
++        xive_error(xive, "VST: invalid %s page shift %d", info->name,
++                   page_shift);
++        return 0;
++    }
++
++    return (1ull << page_shift) / info->size;
 +}
 +
  /*
-  * The TIMA MMIO space is shared among the chips and to identify the
-  * chip from which the access is being done, we extract the chip id
-@@ -1890,6 +1895,7 @@ static void pnv_xive_class_init(ObjectClass *klass,=
- void *data)
-     xrc->write_end =3D pnv_xive_write_end;
-     xrc->get_nvt =3D pnv_xive_get_nvt;
-     xrc->write_nvt =3D pnv_xive_write_nvt;
-+    xrc->get_block_id =3D pnv_xive_get_block_id;
-=20
-     xnc->notify =3D pnv_xive_notify;
-     xpc->match_nvt  =3D pnv_xive_match_nvt;
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index b785066da5..57305c56d7 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -473,6 +473,11 @@ static int spapr_xive_match_nvt(XivePresenter *xptr,=
- uint8_t format,
-     return count;
- }
-=20
-+static uint8_t spapr_xive_get_block_id(XiveRouter *xrtr)
-+{
-+    return SPAPR_XIVE_BLOCK_ID;
-+}
-+
- static const VMStateDescription vmstate_spapr_xive_end =3D {
-     .name =3D TYPE_SPAPR_XIVE "/end",
-     .version_id =3D 1,
-@@ -766,6 +771,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
- void *data)
-     xrc->write_end =3D spapr_xive_write_end;
-     xrc->get_nvt =3D spapr_xive_get_nvt;
-     xrc->write_nvt =3D spapr_xive_write_nvt;
-+    xrc->get_block_id =3D spapr_xive_get_block_id;
-=20
-     sicc->activate =3D spapr_xive_activate;
-     sicc->deactivate =3D spapr_xive_deactivate;
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index e022bb7afd..d4c6e21703 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1371,17 +1371,25 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8=
-_t nvt_blk, uint32_t nvt_idx,
-    return xrc->write_nvt(xrtr, nvt_blk, nvt_idx, nvt, word_number);
- }
-=20
-+static int xive_router_get_block_id(XiveRouter *xrtr)
-+{
-+   XiveRouterClass *xrc =3D XIVE_ROUTER_GET_CLASS(xrtr);
-+
-+   return xrc->get_block_id(xrtr);
-+}
-+
- /*
-  * Encode the HW CAM line in the block group mode format :
+  * EDT Table
   *
-  *   chip << 19 | 0000000 0 0001 thread (7Bit)
-  */
--static uint32_t xive_tctx_hw_cam_line(XiveTCTX *tctx)
-+static uint32_t xive_tctx_hw_cam_line(XivePresenter *xptr, XiveTCTX *tct=
-x)
+@@ -1665,6 +1703,21 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D {
+     },
+ };
+=20
++static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
++                                    Monitor *mon)
++{
++    uint8_t  eq_blk =3D xive_get_field32(NVT_W1_EQ_BLOCK, nvt->w1);
++    uint32_t eq_idx =3D xive_get_field32(NVT_W1_EQ_INDEX, nvt->w1);
++
++    if (!xive_nvt_is_valid(nvt)) {
++        return;
++    }
++
++    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x\n", nvt_idx,
++                   eq_blk, eq_idx,
++                   xive_get_field32(NVT_W4_IPB, nvt->w4));
++}
++
+ void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
  {
-     CPUPPCState *env =3D &POWERPC_CPU(tctx->cs)->env;
-     uint32_t pir =3D env->spr_cb[SPR_PIR].default_value;
-+    uint8_t blk =3D xive_router_get_block_id(XIVE_ROUTER(xptr));
+     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+@@ -1674,7 +1727,9 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
+ *mon)
+     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
+     XiveEAS eas;
+     XiveEND end;
++    XiveNVT nvt;
+     int i;
++    uint64_t xive_nvt_per_subpage;
 =20
--    return xive_nvt_cam_line((pir >> 8) & 0xf, 1 << 7 | (pir & 0x7f));
-+    return xive_nvt_cam_line(blk, 1 << 7 | (pir & 0x7f));
- }
-=20
- /*
-@@ -1418,7 +1426,7 @@ int xive_presenter_tctx_match(XivePresenter *xptr, =
-XiveTCTX *tctx,
-=20
-         /* PHYS ring */
-         if ((be32_to_cpu(qw3w2) & TM_QW3W2_VT) &&
--            cam =3D=3D xive_tctx_hw_cam_line(tctx)) {
-+            cam =3D=3D xive_tctx_hw_cam_line(xptr, tctx)) {
-             return TM_QW3_HV_PHYS;
-         }
-=20
-@@ -1755,7 +1763,11 @@ static uint64_t xive_end_source_read(void *opaque,=
- hwaddr addr, unsigned size)
-     uint8_t pq;
-     uint64_t ret =3D -1;
-=20
--    end_blk =3D xsrc->block_id;
-+    /*
-+     * The block id should be deduced from the load address on the END
-+     * ESB MMIO but our model only supports a single block per XIVE chip=
-.
-+     */
-+    end_blk =3D xive_router_get_block_id(xsrc->xrtr);
-     end_idx =3D addr >> (xsrc->esb_shift + 1);
-=20
-     if (xive_router_get_end(xsrc->xrtr, end_blk, end_idx, &end)) {
-@@ -1855,7 +1867,6 @@ static void xive_end_source_realize(DeviceState *de=
-v, Error **errp)
- }
-=20
- static Property xive_end_source_properties[] =3D {
--    DEFINE_PROP_UINT8("block-id", XiveENDSource, block_id, 0),
-     DEFINE_PROP_UINT32("nr-ends", XiveENDSource, nr_ends, 0),
-     DEFINE_PROP_UINT32("shift", XiveENDSource, esb_shift, XIVE_ESB_64K),
-     DEFINE_PROP_LINK("xive", XiveENDSource, xrtr, TYPE_XIVE_ROUTER,
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 9c0bf2c301..1b7b89098f 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -351,6 +351,7 @@ typedef struct XiveRouterClass {
-                    XiveNVT *nvt);
-     int (*write_nvt)(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nvt_idx=
+     monitor_printf(mon, "XIVE[%x] #%d Source %08x .. %08x\n", chip_id, b=
+lk,
+                    srcno0, srcno0 + nr_ipis - 1);
+@@ -1702,6 +1757,15 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monito=
+r *mon)
+     while (!xive_router_get_end(xrtr, blk, i, &end)) {
+         xive_end_eas_pic_print_info(&end, i++, mon);
+     }
++
++    monitor_printf(mon, "XIVE[%x] #%d NVTT %08x .. %08x\n", chip_id, blk=
 ,
-                      XiveNVT *nvt, uint8_t word_number);
-+    uint8_t (*get_block_id)(XiveRouter *xrtr);
- } XiveRouterClass;
++                   0, XIVE_NVT_COUNT - 1);
++    xive_nvt_per_subpage =3D pnv_xive_vst_per_subpage(xive, VST_TSEL_VPD=
+T);
++    for (i =3D 0; i < XIVE_NVT_COUNT; i +=3D xive_nvt_per_subpage) {
++        while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
++            xive_nvt_pic_print_info(&nvt, i++, mon);
++        }
++    }
+ }
 =20
- int xive_router_get_eas(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_=
-idx,
-@@ -431,7 +432,6 @@ typedef struct XiveENDSource {
-     DeviceState parent;
+ static void pnv_xive_reset(void *dev)
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index 1a5622f8de..09f243600c 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -252,6 +252,8 @@ typedef struct XiveNVT {
+         uint32_t        w0;
+ #define NVT_W0_VALID             PPC_BIT32(0)
+         uint32_t        w1;
++#define NVT_W1_EQ_BLOCK          PPC_BITMASK32(0, 3)
++#define NVT_W1_EQ_INDEX          PPC_BITMASK32(4, 31)
+         uint32_t        w2;
+         uint32_t        w3;
+         uint32_t        w4;
+@@ -277,6 +279,7 @@ typedef struct XiveNVT {
+  * field of the XIVE END
+  */
+ #define XIVE_NVT_SHIFT                19
++#define XIVE_NVT_COUNT                (1 << XIVE_NVT_SHIFT)
 =20
-     uint32_t        nr_ends;
--    uint8_t         block_id;
-=20
-     /* ESB memory region */
-     uint32_t        esb_shift;
+ static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
+ {
 --=20
 2.23.0
 
