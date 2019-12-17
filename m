@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F2A1223C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:26:29 +0100 (CET)
-Received: from localhost ([::1]:35798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115BD12238A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Dec 2019 06:19:22 +0100 (CET)
+Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ih5NM-0000UZ-E4
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:26:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35311)
+	id 1ih5GS-0006zq-Ei
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 00:19:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4jw-0002Is-6r
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:47 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kR-0002lY-Ay
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ih4ju-0007sk-Cm
- for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:45:43 -0500
-Received: from ozlabs.org ([203.11.71.1]:59281)
+ (envelope-from <dgibson@ozlabs.org>) id 1ih4kP-0008V0-N2
+ for qemu-devel@nongnu.org; Mon, 16 Dec 2019 23:46:15 -0500
+Received: from ozlabs.org ([203.11.71.1]:36349)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ih4ju-0007LS-0o; Mon, 16 Dec 2019 23:45:42 -0500
+ id 1ih4kP-0007zB-BG; Mon, 16 Dec 2019 23:46:13 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47cQWf1RW7z9sTd; Tue, 17 Dec 2019 15:43:40 +1100 (AEDT)
+ id 47cQWj0nyKz9sTg; Tue, 17 Dec 2019 15:43:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576557822;
- bh=64a+yA1L+5XUCbPgZCq1xv2EeBj3e0aHAOWcvpUe778=;
+ d=gibson.dropbear.id.au; s=201602; t=1576557825;
+ bh=A4wOr8sJUqg+WOlinsZsHjPg3iy96yxVrwBRRM8dIeM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LCAA6eFIi8hB8GS355V+2svtMaYyJG9kPrvMuKOTop+jPUpnW+j3GSGVf5DcyUUNR
- 6uPbpqORMxUzDwZ96TwixpjTtLAULN+bGadsbXz8yM6umLOCd/ZkLEbZyaLpajwrfJ
- G0m0dAmfgrDHiZ3qMGjKgt8sQUhOAqUIOXC6ZHuk=
+ b=dmLMQ+LCL9vTuZv7ayYr2uyG1d+tBbjgdcPOD9EOKKjzGK+D3MwaXJX8jcZfq7xzE
+ J0ustDbUMeB6+d9hSa2eDQmfEyBPa629OsKgKuI5uMX/RGiRDVvZ9fh1sNSXrb6zOH
+ 7J1pdEznkP+nhUhLAQrYHCckw0lE8IKKE68dUPSM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 65/88] ppc/pnv: add a LPC Controller model for POWER10
-Date: Tue, 17 Dec 2019 15:42:59 +1100
-Message-Id: <20191217044322.351838-66-david@gibson.dropbear.id.au>
+Subject: [PULL 67/88] target/ppc: Work [S]PURR implementation and add HV
+ support
+Date: Tue, 17 Dec 2019 15:43:01 +1100
+Message-Id: <20191217044322.351838-68-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191217044322.351838-1-david@gibson.dropbear.id.au>
 References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
@@ -55,221 +56,187 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-Same a POWER9, only the MMIO window changes.
+The Processor Utilisation of Resources Register (PURR) and Scaled
+Processor Utilisation of Resources Register (SPURR) provide an estimate
+of the resources used by the thread, present on POWER7 and later
+processors.
 
+Currently the [S]PURR registers simply count at the rate of the
+timebase.
+
+Preserve this behaviour but rework the implementation to store an offset
+like the timebase rather than doing the calculation manually. Also allow
+hypervisor write access to the register along with the currently
+available read access.
+
+Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+[ clg: rebased on current ppc tree ]
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20191205184454.10722-6-clg@kaod.org>
+Message-Id: <20191128134700.16091-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c             | 25 ++++++++++++++++++++++---
- hw/ppc/pnv_lpc.c         | 30 ++++++++++++++++++++++--------
- include/hw/ppc/pnv.h     |  4 ++++
- include/hw/ppc/pnv_lpc.h |  6 +++++-
- 4 files changed, 53 insertions(+), 12 deletions(-)
+ hw/ppc/ppc.c                    | 17 +++++++----------
+ include/hw/ppc/ppc.h            |  3 +--
+ target/ppc/cpu.h                |  1 +
+ target/ppc/helper.h             |  1 +
+ target/ppc/timebase_helper.c    |  5 +++++
+ target/ppc/translate_init.inc.c | 23 +++++++++++++++--------
+ 6 files changed, 30 insertions(+), 20 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 09263ab747..67d0ad55b8 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -314,7 +314,7 @@ static void pnv_chip_power9_dt_populate(PnvChip *chip=
-, void *fdt)
-         pnv_dt_memory(fdt, chip->chip_id, chip->ram_start, chip->ram_siz=
-e);
-     }
-=20
--    pnv_dt_lpc(chip, fdt, 0);
-+    pnv_dt_lpc(chip, fdt, 0, PNV9_LPCM_BASE(chip), PNV9_LPCM_SIZE);
- }
-=20
- static void pnv_chip_power10_dt_populate(PnvChip *chip, void *fdt)
-@@ -332,6 +332,8 @@ static void pnv_chip_power10_dt_populate(PnvChip *chi=
-p, void *fdt)
-     if (chip->ram_size) {
-         pnv_dt_memory(fdt, chip->chip_id, chip->ram_start, chip->ram_siz=
-e);
-     }
-+
-+    pnv_dt_lpc(chip, fdt, 0, PNV10_LPCM_BASE(chip), PNV10_LPCM_SIZE);
- }
-=20
- static void pnv_dt_rtc(ISADevice *d, void *fdt, int lpc_off)
-@@ -601,8 +603,8 @@ static ISABus *pnv_chip_power9_isa_create(PnvChip *ch=
-ip, Error **errp)
-=20
- static ISABus *pnv_chip_power10_isa_create(PnvChip *chip, Error **errp)
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index d8c402811f..2856d69495 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -809,12 +809,9 @@ target_ulong cpu_ppc_load_hdecr(CPUPPCState *env)
+ uint64_t cpu_ppc_load_purr (CPUPPCState *env)
  {
--    error_setg(errp, "No ISA bus!");
--    return NULL;
-+    Pnv10Chip *chip10 =3D PNV10_CHIP(chip);
-+    return pnv_lpc_isa_create(&chip10->lpc, false, errp);
+     ppc_tb_t *tb_env =3D env->tb_env;
+-    uint64_t diff;
+=20
+-    diff =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - tb_env->purr_start;
+-
+-    return tb_env->purr_load +
+-        muldiv64(diff, tb_env->tb_freq, NANOSECONDS_PER_SECOND);
++    return cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                          tb_env->purr_offset);
  }
 =20
- static ISABus *pnv_isa_create(PnvChip *chip, Error **errp)
-@@ -1315,6 +1317,8 @@ static void pnv_chip_power10_instance_init(Object *=
-obj)
-=20
-     object_initialize_child(obj, "psi",  &chip10->psi, sizeof(chip10->ps=
-i),
-                             TYPE_PNV10_PSI, &error_abort, NULL);
-+    object_initialize_child(obj, "lpc",  &chip10->lpc, sizeof(chip10->lp=
-c),
-+                            TYPE_PNV10_LPC, &error_abort, NULL);
+ /* When decrementer expires,
+@@ -973,12 +970,12 @@ static void cpu_ppc_hdecr_cb(void *opaque)
+     cpu_ppc_hdecr_excp(cpu);
  }
 =20
- static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-@@ -1349,6 +1353,21 @@ static void pnv_chip_power10_realize(DeviceState *=
-dev, Error **errp)
-     }
-     pnv_xscom_add_subregion(chip, PNV10_XSCOM_PSIHB_BASE,
-                             &PNV_PSI(&chip10->psi)->xscom_regs);
-+
-+    /* LPC */
-+    object_property_set_link(OBJECT(&chip10->lpc), OBJECT(&chip10->psi),=
- "psi",
-+                             &error_abort);
-+    object_property_set_bool(OBJECT(&chip10->lpc), true, "realized",
-+                             &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    memory_region_add_subregion(get_system_memory(), PNV10_LPCM_BASE(chi=
-p),
-+                                &chip10->lpc.xscom_regs);
-+
-+    chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
-@0",
-+                                            (uint64_t) PNV10_LPCM_BASE(c=
-hip));
- }
-=20
- static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index dd5374c838..18256d9ba3 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -122,26 +122,26 @@ static int pnv_lpc_dt_xscom(PnvXScomInterface *dev,=
- void *fdt, int xscom_offset)
- }
-=20
- /* POWER9 only */
--int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_offset)
-+int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_offset, uint64_t lpcm_=
-addr,
-+               uint64_t lpcm_size)
+-static void cpu_ppc_store_purr(PowerPCCPU *cpu, uint64_t value)
++void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value)
  {
-     const char compat[] =3D "ibm,power9-lpcm-opb\0simple-bus";
-     const char lpc_compat[] =3D "ibm,power9-lpc\0ibm,lpc";
-     char *name;
-     int offset, lpcm_offset;
--    uint64_t lpcm_addr =3D PNV9_LPCM_BASE(chip);
-     uint32_t opb_ranges[8] =3D { 0,
-                                cpu_to_be32(lpcm_addr >> 32),
-                                cpu_to_be32((uint32_t)lpcm_addr),
--                               cpu_to_be32(PNV9_LPCM_SIZE / 2),
--                               cpu_to_be32(PNV9_LPCM_SIZE / 2),
-+                               cpu_to_be32(lpcm_size / 2),
-+                               cpu_to_be32(lpcm_size / 2),
-                                cpu_to_be32(lpcm_addr >> 32),
--                               cpu_to_be32(PNV9_LPCM_SIZE / 2),
--                               cpu_to_be32(PNV9_LPCM_SIZE / 2),
-+                               cpu_to_be32(lpcm_size / 2),
-+                               cpu_to_be32(lpcm_size / 2),
-     };
-     uint32_t opb_reg[4] =3D { cpu_to_be32(lpcm_addr >> 32),
-                             cpu_to_be32((uint32_t)lpcm_addr),
--                            cpu_to_be32(PNV9_LPCM_SIZE >> 32),
--                            cpu_to_be32((uint32_t)PNV9_LPCM_SIZE),
-+                            cpu_to_be32(lpcm_size >> 32),
-+                            cpu_to_be32((uint32_t)lpcm_size),
-     };
-     uint32_t lpc_ranges[12] =3D { 0, 0,
-                                 cpu_to_be32(LPC_MEM_OPB_ADDR),
-@@ -691,6 +691,19 @@ static const TypeInfo pnv_lpc_power9_info =3D {
-     .class_init    =3D pnv_lpc_power9_class_init,
+-    ppc_tb_t *tb_env =3D cpu->env.tb_env;
++    ppc_tb_t *tb_env =3D env->tb_env;
+=20
+-    tb_env->purr_load =3D value;
+-    tb_env->purr_start =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                     &tb_env->purr_offset, value);
+ }
+=20
+ static void cpu_ppc_set_tb_clk (void *opaque, uint32_t freq)
+@@ -995,7 +992,7 @@ static void cpu_ppc_set_tb_clk (void *opaque, uint32_=
+t freq)
+      */
+     _cpu_ppc_store_decr(cpu, 0xFFFFFFFF, 0xFFFFFFFF, 32);
+     _cpu_ppc_store_hdecr(cpu, 0xFFFFFFFF, 0xFFFFFFFF, 32);
+-    cpu_ppc_store_purr(cpu, 0x0000000000000000ULL);
++    cpu_ppc_store_purr(env, 0x0000000000000000ULL);
+ }
+=20
+ static void timebase_save(PPCTimebase *tb)
+diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
+index d7a95608f6..4ea5436095 100644
+--- a/include/hw/ppc/ppc.h
++++ b/include/hw/ppc/ppc.h
+@@ -33,8 +33,7 @@ struct ppc_tb_t {
+     /* Hypervisor decrementer management */
+     uint64_t hdecr_next;    /* Tick for next hdecr interrupt  */
+     QEMUTimer *hdecr_timer;
+-    uint64_t purr_load;
+-    uint64_t purr_start;
++    int64_t purr_offset;
+     void *opaque;
+     uint32_t flags;
  };
-=20
-+static void pnv_lpc_power10_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index eb7d2c7637..da44cc8809 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1311,6 +1311,7 @@ void cpu_ppc_store_decr(CPUPPCState *env, target_ul=
+ong value);
+ target_ulong cpu_ppc_load_hdecr(CPUPPCState *env);
+ void cpu_ppc_store_hdecr(CPUPPCState *env, target_ulong value);
+ uint64_t cpu_ppc_load_purr(CPUPPCState *env);
++void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value);
+ uint32_t cpu_ppc601_load_rtcl(CPUPPCState *env);
+ uint32_t cpu_ppc601_load_rtcu(CPUPPCState *env);
+ #if !defined(CONFIG_USER_ONLY)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index a5f53bb421..356a14d8a6 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -655,6 +655,7 @@ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, tl=
+, env)
+ #if !defined(CONFIG_USER_ONLY)
+ #if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_1(load_purr, TCG_CALL_NO_RWG, tl, env)
++DEF_HELPER_FLAGS_2(store_purr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_2(store_ptcr, void, env, tl)
+ #endif
+ DEF_HELPER_2(store_sdr1, void, env, tl)
+diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+index 8c3c2fe67c..2395295b77 100644
+--- a/target/ppc/timebase_helper.c
++++ b/target/ppc/timebase_helper.c
+@@ -55,6 +55,11 @@ target_ulong helper_load_purr(CPUPPCState *env)
+ {
+     return (target_ulong)cpu_ppc_load_purr(env);
+ }
 +
-+    dc->desc =3D "PowerNV LPC Controller POWER10";
++void helper_store_purr(CPUPPCState *env, target_ulong val)
++{
++    cpu_ppc_store_purr(env, val);
++}
+ #endif
+=20
+ target_ulong helper_load_601_rtcl(CPUPPCState *env)
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index 226aecf8f4..c5e4d45569 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -287,6 +287,11 @@ static void spr_read_purr(DisasContext *ctx, int gpr=
+n, int sprn)
+     gen_helper_load_purr(cpu_gpr[gprn], cpu_env);
+ }
+=20
++static void spr_write_purr(DisasContext *ctx, int sprn, int gprn)
++{
++    gen_helper_store_purr(cpu_env, cpu_gpr[gprn]);
 +}
 +
-+static const TypeInfo pnv_lpc_power10_info =3D {
-+    .name          =3D TYPE_PNV10_LPC,
-+    .parent        =3D TYPE_PNV9_LPC,
-+    .class_init    =3D pnv_lpc_power10_class_init,
-+};
-+
- static void pnv_lpc_realize(DeviceState *dev, Error **errp)
+ /* HDECR */
+ static void spr_read_hdecr(DisasContext *ctx, int gprn, int sprn)
  {
-     PnvLpcController *lpc =3D PNV_LPC(dev);
-@@ -764,6 +777,7 @@ static void pnv_lpc_register_types(void)
-     type_register_static(&pnv_lpc_info);
-     type_register_static(&pnv_lpc_power8_info);
-     type_register_static(&pnv_lpc_power9_info);
-+    type_register_static(&pnv_lpc_power10_info);
+@@ -8013,14 +8018,16 @@ static void gen_spr_book3s_purr(CPUPPCState *env)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     /* PURR & SPURR: Hack - treat these as aliases for the TB for now */
+-    spr_register_kvm(env, SPR_PURR,   "PURR",
+-                     &spr_read_purr, SPR_NOACCESS,
+-                     &spr_read_purr, SPR_NOACCESS,
+-                     KVM_REG_PPC_PURR, 0x00000000);
+-    spr_register_kvm(env, SPR_SPURR,   "SPURR",
+-                     &spr_read_purr, SPR_NOACCESS,
+-                     &spr_read_purr, SPR_NOACCESS,
+-                     KVM_REG_PPC_SPURR, 0x00000000);
++    spr_register_kvm_hv(env, SPR_PURR,   "PURR",
++                        &spr_read_purr, SPR_NOACCESS,
++                        &spr_read_purr, SPR_NOACCESS,
++                        &spr_read_purr, &spr_write_purr,
++                        KVM_REG_PPC_PURR, 0x00000000);
++    spr_register_kvm_hv(env, SPR_SPURR,   "SPURR",
++                        &spr_read_purr, SPR_NOACCESS,
++                        &spr_read_purr, SPR_NOACCESS,
++                        &spr_read_purr, &spr_write_purr,
++                        KVM_REG_PPC_SPURR, 0x00000000);
+ #endif
  }
 =20
- type_init(pnv_lpc_register_types)
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 47b7370b27..56d1161515 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -115,6 +115,7 @@ typedef struct Pnv10Chip {
-=20
-     /*< public >*/
-     Pnv9Psi      psi;
-+    PnvLpcController lpc;
- } Pnv10Chip;
-=20
- typedef struct PnvChipClass {
-@@ -329,6 +330,9 @@ IPMIBmc *pnv_bmc_create(void);
- #define PNV10_XSCOM_SIZE             0x0000000400000000ull
- #define PNV10_XSCOM_BASE(chip)       PNV10_CHIP_BASE(chip, 0x00603fc0000=
-0000ull)
-=20
-+#define PNV10_LPCM_SIZE             0x0000000100000000ull
-+#define PNV10_LPCM_BASE(chip)       PNV10_CHIP_BASE(chip, 0x000603000000=
-0000ull)
-+
- #define PNV10_PSIHB_ESB_SIZE        0x0000000000100000ull
- #define PNV10_PSIHB_ESB_BASE(chip)  PNV10_CHIP_BASE(chip, 0x000603020200=
-0000ull)
-=20
-diff --git a/include/hw/ppc/pnv_lpc.h b/include/hw/ppc/pnv_lpc.h
-index f659410716..c1ec85d5e2 100644
---- a/include/hw/ppc/pnv_lpc.h
-+++ b/include/hw/ppc/pnv_lpc.h
-@@ -31,6 +31,9 @@
- #define TYPE_PNV9_LPC TYPE_PNV_LPC "-POWER9"
- #define PNV9_LPC(obj) OBJECT_CHECK(PnvLpcController, (obj), TYPE_PNV9_LP=
-C)
-=20
-+#define TYPE_PNV10_LPC TYPE_PNV_LPC "-POWER10"
-+#define PNV10_LPC(obj) OBJECT_CHECK(PnvLpcController, (obj), TYPE_PNV10_=
-LPC)
-+
- typedef struct PnvLpcController {
-     DeviceState parent;
-=20
-@@ -97,6 +100,7 @@ typedef struct PnvLpcClass {
- struct PnvChip;
-=20
- ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error *=
-*errp);
--int pnv_dt_lpc(struct PnvChip *chip, void *fdt, int root_offset);
-+int pnv_dt_lpc(struct PnvChip *chip, void *fdt, int root_offset,
-+               uint64_t lpcm_addr, uint64_t lpcm_size);
-=20
- #endif /* PPC_PNV_LPC_H */
 --=20
 2.23.0
 
