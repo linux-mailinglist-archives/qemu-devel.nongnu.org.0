@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13269123CD7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 03:04:36 +0100 (CET)
-Received: from localhost ([::1]:48418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B93123CE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 03:11:14 +0100 (CET)
+Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihOhW-000538-Mp
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 21:04:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52728)
+	id 1ihOnx-0005Yd-IP
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 21:11:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ihOes-00037H-Bx
+ (envelope-from <quintela@redhat.com>) id 1ihOet-00038z-N0
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ihOep-0005s7-GC
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26638
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1ihOes-0005wK-Hd
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:51 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42585
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihOep-0005qI-Bk
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:47 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihOes-0005vb-Df
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576634505;
+ s=mimecast20190719; t=1576634510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Me4XmzGVB9RFQGRy0j0KZ+xUAkGjfGYztPgLVWPqsT0=;
- b=WIVF2IVAOQ8j3TtSZrk+BTHofpVl5I69lLPCwhUXMrgBmBbrUapdI5xjWcAsQGMtw+fOu1
- qxf0Nu1Q3/UBJyxa+v/2O0+m3A37bJRv7HkEVmzSZu9dEYRtyxRndAz8tfw2XwY3sMxIG+
- ZGm7P5W00GXiY5DJ4GSPL/JvyBMMePQ=
+ bh=b2vemv0zRpYDz/uUdckp1sNwESkzjwYs9euWZf0G7CM=;
+ b=RLfoi1yT1XEqKX9K2iKqFTsQfDvnKYXWp3TwMnS1Mvn3TQNVYqcwMPi8nnv6gqNUMfQ7TE
+ qGeAJOpLoBDBbMjLJH9lMaLRb6EH7Z1c9D1RDT5f6AScGhR5nVic/vAi87NCuncDQsNoxr
+ 3Uz/N0/OnR0/UF06muvFQvLW5J2EXmA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-BsJfeguRP4ahMOpQwzO9cQ-1; Tue, 17 Dec 2019 21:01:44 -0500
+ us-mta-349-TJbZOpZnOUOg9uRxdwQerA-1; Tue, 17 Dec 2019 21:01:47 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1F441005502
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 02:01:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D112100550E
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 02:01:46 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-32.ams2.redhat.com [10.36.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7182A19C58;
- Wed, 18 Dec 2019 02:01:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E6CD19C58;
+ Wed, 18 Dec 2019 02:01:43 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/10] migration: Add zlib compression multifd support
-Date: Wed, 18 Dec 2019 03:01:17 +0100
-Message-Id: <20191218020119.3776-9-quintela@redhat.com>
+Subject: [PATCH v2 09/10] configure: Enable test and libs for zstd
+Date: Wed, 18 Dec 2019 03:01:18 +0100
+Message-Id: <20191218020119.3776-10-quintela@redhat.com>
 In-Reply-To: <20191218020119.3776-1-quintela@redhat.com>
 References: <20191218020119.3776-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: BsJfeguRP4ahMOpQwzO9cQ-1
+X-MC-Unique: TJbZOpZnOUOg9uRxdwQerA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,362 +80,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- hw/core/qdev-properties.c |   2 +-
- migration/ram.c           | 264 ++++++++++++++++++++++++++++++++++++++
- qapi/migration.json       |   2 +-
- tests/migration-test.c    |   6 +
- 4 files changed, 272 insertions(+), 2 deletions(-)
+ configure | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 644705235e..e8ff317a60 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -654,7 +654,7 @@ const PropertyInfo qdev_prop_fdc_drive_type =3D {
- const PropertyInfo qdev_prop_multifd_compress =3D {
-     .name =3D "MultifdCompress",
-     .description =3D "multifd_compress values, "
--                   "none",
-+                   "none/zlib",
-     .enum_table =3D &MultifdCompress_lookup,
-     .get =3D get_enum,
-     .set =3D set_enum,
-diff --git a/migration/ram.c b/migration/ram.c
-index 10661e03ae..5006d719b4 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -583,6 +583,7 @@ exit:
+diff --git a/configure b/configure
+index 84b413dbfc..a8f3027c67 100755
+--- a/configure
++++ b/configure
+@@ -447,6 +447,7 @@ lzo=3D""
+ snappy=3D""
+ bzip2=3D""
+ lzfse=3D""
++zstd=3D""
+ guest_agent=3D""
+ guest_agent_with_vss=3D"no"
+ guest_agent_ntddscsi=3D"no"
+@@ -1341,6 +1342,10 @@ for opt do
+   ;;
+   --disable-lzfse) lzfse=3D"no"
+   ;;
++  --disable-zstd) zstd=3D"no"
++  ;;
++  --enable-zstd) zstd=3D"yes"
++  ;;
+   --enable-guest-agent) guest_agent=3D"yes"
+   ;;
+   --disable-guest-agent) guest_agent=3D"no"
+@@ -1788,6 +1793,8 @@ disabled with --disable-FEATURE, default is enabled i=
+f available:
+                   (for reading bzip2-compressed dmg images)
+   lzfse           support of lzfse compression library
+                   (for reading lzfse-compressed dmg images)
++  zstd            support for zstd compression library
++                  (for migration compression)
+   seccomp         seccomp support
+   coroutine-pool  coroutine freelist (better performance)
+   glusterfs       GlusterFS backend
+@@ -2401,6 +2408,24 @@ EOF
+     fi
+ fi
 =20
- #define MULTIFD_FLAG_SYNC (1 << 0)
- #define MULTIFD_FLAG_NOCOMP (1 << 1)
-+#define MULTIFD_FLAG_ZLIB (1 << 2)
++##########################################
++# zstd check
++
++if test "$zstd" !=3D "no" ; then
++    if $pkg_config --exist libzstd ; then
++        zstd_cflags=3D"$($pkg_config --cflags libzstd)"
++        zstd_libs=3D"$($pkg_config --libs libzstd)"
++        LIBS=3D"$zstd_libs $LIBS"
++        QEMU_CFLAGS=3D"$QEMU_CFLAGS $zstd_cflags"
++        zstd=3D"yes"
++    else
++        if test "$zstd" =3D "yes" ; then
++            feature_not_found "libzstd" "Install libzstd devel"
++        fi
++        zstd=3D"no"
++    fi
++fi
++
+ ##########################################
+ # libseccomp check
 =20
- /* This value needs to be a multiple of qemu_target_page_size() */
- #define MULTIFD_PACKET_SIZE (512 * 1024)
-@@ -625,6 +626,15 @@ typedef struct {
-     RAMBlock *block;
- } MultiFDPages_t;
+@@ -6535,6 +6560,7 @@ echo "lzo support       $lzo"
+ echo "snappy support    $snappy"
+ echo "bzip2 support     $bzip2"
+ echo "lzfse support     $lzfse"
++echo "zstd support      $zstd"
+ echo "NUMA host support $numa"
+ echo "libxml2           $libxml2"
+ echo "tcmalloc support  $tcmalloc"
+@@ -7102,6 +7128,10 @@ if test "$lzfse" =3D "yes" ; then
+   echo "LZFSE_LIBS=3D-llzfse" >> $config_host_mak
+ fi
 =20
-+struct zlib_data {
-+    /* stream for compression */
-+    z_stream zs;
-+    /* compressed buffer */
-+    uint8_t *zbuff;
-+    /* size of compressed buffer */
-+    uint32_t zbuff_len;
-+};
++if test "$zstd" =3D "yes" ; then
++  echo "CONFIG_ZSTD=3Dy" >> $config_host_mak
++fi
 +
- typedef struct {
-     /* this fields are not changed once the thread is created */
-     /* channel number */
-@@ -846,8 +856,262 @@ static MultiFDMethods multifd_nocomp_ops =3D {
-     .recv_pages =3D nocomp_recv_pages
- };
-=20
-+/* Multifd zlib compression */
-+
-+/**
-+ * zlib_send_setup: setup send side
-+ *
-+ * Setup each channel with zlib compression.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-+ */
-+static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
-+{
-+    uint32_t page_count =3D MULTIFD_PACKET_SIZE / qemu_target_page_size();
-+    struct zlib_data *z =3D g_malloc0(sizeof(struct zlib_data));
-+    z_stream *zs =3D &z->zs;
-+
-+    p->data =3D z;
-+    zs->zalloc =3D Z_NULL;
-+    zs->zfree =3D Z_NULL;
-+    zs->opaque =3D Z_NULL;
-+    if (deflateInit(zs, migrate_compress_level()) !=3D Z_OK) {
-+        g_free(z);
-+        error_setg(errp, "multifd %d: deflate init failed", p->id);
-+        return -1;
-+    }
-+    /* We will never have more than page_count pages */
-+    z->zbuff_len =3D page_count * qemu_target_page_size();
-+    z->zbuff_len *=3D 2;
-+    z->zbuff =3D g_try_malloc(z->zbuff_len);
-+    if (!z->zbuff) {
-+        g_free(z);
-+        error_setg(errp, "multifd %d: out of memory for zbuff", p->id);
-+        return -1;
-+    }
-+    return 0;
-+}
-+
-+/**
-+ * zlib_send_cleanup: cleanup send side
-+ *
-+ * Close the channel and return memory.
-+ *
-+ * @p: Params for the channel that we are using
-+ */
-+static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
-+{
-+    struct zlib_data *z =3D p->data;
-+
-+    deflateEnd(&z->zs);
-+    g_free(z->zbuff);
-+    z->zbuff =3D NULL;
-+    g_free(p->data);
-+    p->data =3D NULL;
-+}
-+
-+/**
-+ * zlib_send_prepare: prepare date to be able to send
-+ *
-+ * Create a compressed buffer with all the pages that we are going to
-+ * send.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @used: number of pages used
-+ */
-+static int zlib_send_prepare(MultiFDSendParams *p, uint32_t used, Error **=
-errp)
-+{
-+    struct iovec *iov =3D p->pages->iov;
-+    struct zlib_data *z =3D p->data;
-+    z_stream *zs =3D &z->zs;
-+    uint32_t out_size =3D 0;
-+    int ret;
-+    uint32_t i;
-+
-+    for (i =3D 0; i < used; i++) {
-+        uint32_t available =3D z->zbuff_len - out_size;
-+        int flush =3D Z_NO_FLUSH;
-+
-+        if (i =3D=3D used  - 1) {
-+            flush =3D Z_SYNC_FLUSH;
-+        }
-+
-+        zs->avail_in =3D iov[i].iov_len;
-+        zs->next_in =3D iov[i].iov_base;
-+
-+        zs->avail_out =3D available;
-+        zs->next_out =3D z->zbuff + out_size;
-+
-+        ret =3D deflate(zs, flush);
-+        if (ret !=3D Z_OK) {
-+            error_setg(errp, "multifd %d: deflate returned %d instead of Z=
-_OK",
-+                       p->id, ret);
-+            return -1;
-+        }
-+        out_size +=3D available - zs->avail_out;
-+    }
-+    p->next_packet_size =3D out_size;
-+    p->flags |=3D MULTIFD_FLAG_ZLIB;
-+
-+    return 0;
-+}
-+
-+/**
-+ * zlib_send_write: do the actual write of the data
-+ *
-+ * Do the actual write of the comprresed buffer.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @used: number of pages used
-+ * @errp: pointer to an error
-+ */
-+static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **er=
-rp)
-+{
-+    struct zlib_data *z =3D p->data;
-+
-+    return qio_channel_write_all(p->c, (void *)z->zbuff, p->next_packet_si=
-ze,
-+                                 errp);
-+}
-+
-+/**
-+ * zlib_recv_setup: setup receive side
-+ *
-+ * Create the compressed channel and buffer.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @errp: pointer to an error
-+ */
-+static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
-+{
-+    uint32_t page_count =3D MULTIFD_PACKET_SIZE / qemu_target_page_size();
-+    struct zlib_data *z =3D g_malloc0(sizeof(struct zlib_data));
-+    z_stream *zs =3D &z->zs;
-+
-+    p->data =3D z;
-+    zs->zalloc =3D Z_NULL;
-+    zs->zfree =3D Z_NULL;
-+    zs->opaque =3D Z_NULL;
-+    zs->avail_in =3D 0;
-+    zs->next_in =3D Z_NULL;
-+    if (inflateInit(zs) !=3D Z_OK) {
-+        error_setg(errp, "multifd %d: inflate init failed", p->id);
-+        return -1;
-+    }
-+    /* We will never have more than page_count pages */
-+    z->zbuff_len =3D page_count * qemu_target_page_size();
-+    /* We know compression "could" use more space */
-+    z->zbuff_len *=3D 2;
-+    z->zbuff =3D g_try_malloc(z->zbuff_len);
-+    if (!z->zbuff) {
-+        error_setg(errp, "multifd %d: out of memory for zbuff", p->id);
-+        return -1;
-+    }
-+    return 0;
-+}
-+
-+/**
-+ * zlib_recv_cleanup: setup receive side
-+ *
-+ * For no compression this function does nothing.
-+ *
-+ * @p: Params for the channel that we are using
-+ */
-+static void zlib_recv_cleanup(MultiFDRecvParams *p)
-+{
-+    struct zlib_data *z =3D p->data;
-+
-+    inflateEnd(&z->zs);
-+    g_free(z->zbuff);
-+    z->zbuff =3D NULL;
-+    g_free(p->data);
-+    p->data =3D NULL;
-+}
-+
-+/**
-+ * zlib_recv_pages: read the data from the channel into actual pages
-+ *
-+ * Read the compressed buffer, and uncompress it into the actual
-+ * pages.
-+ *
-+ * Returns 0 for success or -1 for error
-+ *
-+ * @p: Params for the channel that we are using
-+ * @used: number of pages used
-+ * @errp: pointer to an error
-+ */
-+static int zlib_recv_pages(MultiFDRecvParams *p, uint32_t used, Error **er=
-rp)
-+{
-+    uint32_t in_size =3D p->next_packet_size;
-+    uint32_t out_size =3D 0;
-+    uint32_t expected_size =3D used * qemu_target_page_size();
-+    struct zlib_data *z =3D p->data;
-+    z_stream *zs =3D &z->zs;
-+    int ret;
-+    int i;
-+
-+    if (p->flags !=3D MULTIFD_FLAG_ZLIB) {
-+        error_setg(errp, "multifd %d: flags received %x flags expected %x"=
-,
-+                   p->id, MULTIFD_FLAG_ZLIB, p->flags);
-+        return -1;
-+    }
-+    ret =3D qio_channel_read_all(p->c, (void *)z->zbuff, in_size, errp);
-+
-+    if (ret !=3D 0) {
-+        return ret;
-+    }
-+
-+    zs->avail_in =3D in_size;
-+    zs->next_in =3D z->zbuff;
-+
-+    for (i =3D 0; i < used; i++) {
-+        struct iovec *iov =3D &p->pages->iov[i];
-+        int flush =3D Z_NO_FLUSH;
-+
-+        if (i =3D=3D used  - 1) {
-+            flush =3D Z_SYNC_FLUSH;
-+        }
-+
-+        zs->avail_out =3D iov->iov_len;
-+        zs->next_out =3D iov->iov_base;
-+
-+        ret =3D inflate(zs, flush);
-+        if (ret !=3D Z_OK) {
-+            error_setg(errp, "multifd %d: inflate returned %d instead of Z=
-_OK",
-+                       p->id, ret);
-+            return ret;
-+        }
-+        out_size +=3D iov->iov_len;
-+    }
-+    if (out_size !=3D expected_size) {
-+        error_setg(errp, "multifd %d: packet size received %d size expecte=
-d %d",
-+                   p->id, out_size, expected_size);
-+        return -1;
-+    }
-+    return 0;
-+}
-+
-+static MultiFDMethods multifd_zlib_ops =3D {
-+    .send_setup =3D zlib_send_setup,
-+    .send_cleanup =3D zlib_send_cleanup,
-+    .send_prepare =3D zlib_send_prepare,
-+    .send_write =3D zlib_send_write,
-+    .recv_setup =3D zlib_recv_setup,
-+    .recv_cleanup =3D zlib_recv_cleanup,
-+    .recv_pages =3D zlib_recv_pages
-+};
-+
- static MultiFDMethods *multifd_ops[MULTIFD_COMPRESS__MAX] =3D {
-     [MULTIFD_COMPRESS_NONE] =3D &multifd_nocomp_ops,
-+    [MULTIFD_COMPRESS_ZLIB] =3D &multifd_zlib_ops,
- };
-=20
- static int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp)
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 430a39382e..0e3a3db8d0 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -499,7 +499,7 @@
- #
- ##
- { 'enum': 'MultifdCompress',
--  'data': [ 'none' ] }
-+  'data': [ 'none', 'zlib' ] }
-=20
- ##
- # @MigrationParameter:
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index e5b6e54cfa..8985e05c69 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -1460,6 +1460,11 @@ static void test_multifd_tcp_none(void)
-     test_multifd_tcp("none");
- }
-=20
-+static void test_multifd_tcp_zlib(void)
-+{
-+    test_multifd_tcp("zlib");
-+}
-+
- int main(int argc, char **argv)
- {
-     char template[] =3D "/tmp/migration-test-XXXXXX";
-@@ -1525,6 +1530,7 @@ int main(int argc, char **argv)
-=20
-     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge)=
-;
-     qtest_add_func("/migration/multifd/tcp/none", test_multifd_tcp_none);
-+    qtest_add_func("/migration/multifd/tcp/zlib", test_multifd_tcp_zlib);
-=20
-     ret =3D g_test_run();
-=20
+ if test "$libiscsi" =3D "yes" ; then
+   echo "CONFIG_LIBISCSI=3Dm" >> $config_host_mak
+   echo "LIBISCSI_CFLAGS=3D$libiscsi_cflags" >> $config_host_mak
 --=20
 2.23.0
 
