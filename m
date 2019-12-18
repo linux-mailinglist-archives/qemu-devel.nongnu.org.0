@@ -2,65 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB601247BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:12:28 +0100 (CET)
-Received: from localhost ([::1]:54130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD531247D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:14:32 +0100 (CET)
+Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ7r-0008IR-IP
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:12:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46070)
+	id 1ihZ9q-0002jU-Rg
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:14:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ihYRZ-0007tR-AE
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:28:46 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihYrN-0002ks-82
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:55:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ihYRY-0001Qv-7T
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:28:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60323
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihYrL-0002yN-34
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:55:24 -0500
+Received: from relay.sw.ru ([185.231.240.75]:46600)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ihYRX-0001M2-Vx
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:28:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576672123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=abpb771Ls4PQvTTxdpAOrOXGfp0x2Azjpf5Xis36iwM=;
- b=Gh9ekUR+nbDFz6vdQ+Nn7pfkfXIHbAXsmw92ML+S069Pby1ytQYgx9O0znU20E3S5+IjSI
- xaqJqHvUL9VZ3BTtPdJ+8uw9MYOBpa+T8+yMWEtzaT7YrK8LvHjRXYu+6s/y/+IyOaz2OM
- uBAdSROj1mtQa0WfsvNOlC21nBOBubE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-QXB6fBuKMemAhMl-P6ZOSQ-1; Wed, 18 Dec 2019 07:28:41 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E864107B007;
- Wed, 18 Dec 2019 12:28:40 +0000 (UTC)
-Received: from gondolin (ovpn-117-253.ams2.redhat.com [10.36.117.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F044E5C1B0;
- Wed, 18 Dec 2019 12:28:38 +0000 (UTC)
-Date: Wed, 18 Dec 2019 13:28:36 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v3 4/4] pc-bios/s390x: Fix reset psw mask
-Message-ID: <20191218132836.6e0c334c.cohuck@redhat.com>
-In-Reply-To: <20191203132813.2734-5-frankja@linux.ibm.com>
-References: <20191203132813.2734-1-frankja@linux.ibm.com>
- <20191203132813.2734-5-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ihYrK-0002mv-Pa
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:55:23 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ihYrD-0005hS-5O; Wed, 18 Dec 2019 15:55:15 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC] migration: introduce failed-unrecovarable status
+Date: Wed, 18 Dec 2019 15:55:12 +0300
+Message-Id: <20191218125512.5446-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: QXB6fBuKMemAhMl-P6ZOSQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,25 +46,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com,
- qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, quintela@redhat.com, armbru@redhat.com,
+ dgilbert@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  3 Dec 2019 08:28:13 -0500
-Janosch Frank <frankja@linux.ibm.com> wrote:
+We should not start source vm automatically, if the error occured after
+target accessed disks, or if we failed to invalidate nodes.
 
-> We need to set the short psw indication bit in the reset psw, as it is
-> a short psw.
-> 
-> fixes: 9629823290 ("pc-bios/s390-ccw: do a subsystem reset before running the guest")
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  pc-bios/s390-ccw/jump2ipl.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
+Also, fix, that we need invalidate even if bdrv_inactivate_all()
+failed, as in this case it still may successfully inactivate some of
+the nodes.
 
-FWIW, I'll re-queue this patch (and the bios rebuild) in front of the
-short psw fix that exposed the problem, in order to preserve
-bisectability.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+
+Hi all!
+
+It's an investigation on top of old thread
+https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg02355.html
+
+Either I'm missing something, or we need this patch. It's a draft, may
+be need to split it into 2-3 small patches. Still I'd like to get
+general approval at first, may be I'm doing something wrong.
+
+Also, there may be other migration failure cases like this.
+
+ qapi/migration.json   |  7 +++++--
+ migration/migration.c | 36 ++++++++++++++++++++++++------------
+ 2 files changed, 29 insertions(+), 14 deletions(-)
+
+diff --git a/qapi/migration.json b/qapi/migration.json
+index b7348d0c8b..90fa625cbb 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -125,6 +125,9 @@
+ #
+ # @failed: some error occurred during migration process.
+ #
++# @failed-unrecoverable: postcopy failed after no return point, when disks may
++#                        already be accessed by target Qemu process. (since 5.0)
++#
+ # @colo: VM is in the process of fault tolerance, VM can not get into this
+ #        state unless colo capability is enabled for migration. (since 2.8)
+ #
+@@ -142,8 +145,8 @@
+ { 'enum': 'MigrationStatus',
+   'data': [ 'none', 'setup', 'cancelling', 'cancelled',
+             'active', 'postcopy-active', 'postcopy-paused',
+-            'postcopy-recover', 'completed', 'failed', 'colo',
+-            'pre-switchover', 'device', 'wait-unplug' ] }
++            'postcopy-recover', 'completed', 'failed', 'failed-unrecoverable',
++            'colo', 'pre-switchover', 'device', 'wait-unplug' ] }
+ 
+ ##
+ # @MigrationInfo:
+diff --git a/migration/migration.c b/migration/migration.c
+index 354ad072fa..00684fdef8 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2576,7 +2576,14 @@ static int postcopy_start(MigrationState *ms)
+     QEMUFile *fb;
+     int64_t time_at_stop = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+     int64_t bandwidth = migrate_max_postcopy_bandwidth();
+-    bool restart_block = false;
++
++    /*
++     * recoverable_failure
++     * A failure happened early enough that we know the destination hasn't
++     * accessed block devices, so we're safe to recover.
++     */
++    bool recoverable_failure = true;
++    bool inactivated = false;
+     int cur_state = MIGRATION_STATUS_ACTIVE;
+     if (!migrate_pause_before_switchover()) {
+         migrate_set_state(&ms->state, MIGRATION_STATUS_ACTIVE,
+@@ -2600,11 +2607,11 @@ static int postcopy_start(MigrationState *ms)
+         goto fail;
+     }
+ 
++    inactivated = true;
+     ret = bdrv_inactivate_all();
+     if (ret < 0) {
+         goto fail;
+     }
+-    restart_block = true;
+ 
+     /*
+      * Cause any non-postcopiable, but iterative devices to
+@@ -2682,7 +2689,7 @@ static int postcopy_start(MigrationState *ms)
+         goto fail_closefb;
+     }
+ 
+-    restart_block = false;
++    recoverable_failure = false;
+ 
+     /* Now send that blob */
+     if (qemu_savevm_send_packaged(ms->to_dst_file, bioc->data, bioc->usage)) {
+@@ -2716,26 +2723,28 @@ static int postcopy_start(MigrationState *ms)
+     ret = qemu_file_get_error(ms->to_dst_file);
+     if (ret) {
+         error_report("postcopy_start: Migration stream errored");
+-        migrate_set_state(&ms->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+-                              MIGRATION_STATUS_FAILED);
++        goto fail;
+     }
+ 
+-    return ret;
++    return 0;
+ 
+ fail_closefb:
+     qemu_fclose(fb);
+ fail:
+     migrate_set_state(&ms->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+-                          MIGRATION_STATUS_FAILED);
+-    if (restart_block) {
+-        /* A failure happened early enough that we know the destination hasn't
+-         * accessed block devices, so we're safe to recover.
+-         */
++                      recoverable_failure ? MIGRATION_STATUS_FAILED :
++                      MIGRATION_STATUS_FAILED_UNRECOVERABLE);
++    if (recoverable_failure && inactivated) {
+         Error *local_err = NULL;
+ 
+         bdrv_invalidate_cache_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
++            /*
++             * We failed to invalidate, so we must not start vm automatically.
++             * User may retry invalidation and start by cont qmp command.
++             */
++            ms->vm_was_running = false;
+         }
+     }
+     qemu_mutex_unlock_iothread();
+@@ -3194,9 +3203,12 @@ static void migration_iteration_finish(MigrationState *s)
+         s->vm_was_running = true;
+         /* Fallthrough */
+     case MIGRATION_STATUS_FAILED:
++    case MIGRATION_STATUS_FAILED_UNRECOVERABLE:
+     case MIGRATION_STATUS_CANCELLED:
+     case MIGRATION_STATUS_CANCELLING:
+-        if (s->vm_was_running) {
++        if (s->vm_was_running &&
++            s->state != MIGRATION_STATUS_FAILED_UNRECOVERABLE)
++        {
+             vm_start();
+         } else {
+             if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+-- 
+2.21.0
 
 
