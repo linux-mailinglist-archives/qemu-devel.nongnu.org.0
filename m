@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EC7124F69
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:34:51 +0100 (CET)
-Received: from localhost ([::1]:58338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623E1124F57
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:31:43 +0100 (CET)
+Received: from localhost ([::1]:58298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihdDm-0006XD-0A
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:34:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42159)
+	id 1ihdAk-0002ty-1M
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:31:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41992)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ihd0t-00008L-Ns
+ (envelope-from <philmd@redhat.com>) id 1ihd0s-00006c-7U
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ihd0r-0002gb-BO
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27897
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihd0q-0002ce-VQ
+ (envelope-from <philmd@redhat.com>) id 1ihd0q-0002eG-Vl
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:29 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27781
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihd0q-0002aF-IY
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576689688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PgWY8pvM33gKDqjh/x3hslhckBy9l8kZmncqEq3lHmU=;
- b=KtFMFgRRgHrhpJHVXNOT9WwJic214au9gBoJ7nMUDSJ3utu1iuWFsujudOYNdKjOKiAVdk
- NVPtSnsHx/uLYpXB/396t3edFbmgyw5lC6WHduOQJ/nkUqQtZ3Q8dctf43tUmKOFB51FZX
- i7Uu9SPCzNpeJxL6gdpb8SdvNmtai+s=
+ bh=mTCF7sW1w6Y2PZ1xCWcrAxTpx1mo+iIlUacORX0SktM=;
+ b=TxAhqH8WmIPeKteGNJ+OqPoZ5RaIaHZ2qS87EzIIo8GHUY5dz6wYyEwggWDLwY7Jnl4JpD
+ 52PQix8axMYQfsAY+KoDUFncmyjZLo9W3xRflO4QhIky70D8qk4zWxKZ07iDtfXNXGcCrF
+ gDWIPYU+QIG5ta+GSvIMteqoQbcg1YM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-tKUW57K8OrShzXT1Jp75EA-1; Wed, 18 Dec 2019 12:21:25 -0500
+ us-mta-405-zzWUmRjBOs6u1GiwVSbcHQ-1; Wed, 18 Dec 2019 12:21:26 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 619C1593A0
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:21:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B308C18543A1
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:21:25 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-116-235.ams2.redhat.com [10.36.116.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 166AB1000322;
- Wed, 18 Dec 2019 17:21:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA6F21000322;
+ Wed, 18 Dec 2019 17:21:24 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 11/14] monitor/qmp: Explicit we ignore few QEMUChrEvent
- in IOEventHandler
-Date: Wed, 18 Dec 2019 18:20:06 +0100
-Message-Id: <20191218172009.8868-12-philmd@redhat.com>
+Subject: [PATCH v2 12/14] monitor/hmp: Explicit we ignore a QEMUChrEvent in
+ IOEventHandler
+Date: Wed, 18 Dec 2019 18:20:07 +0100
+Message-Id: <20191218172009.8868-13-philmd@redhat.com>
 In-Reply-To: <20191218172009.8868-1-philmd@redhat.com>
 References: <20191218172009.8868-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: tKUW57K8OrShzXT1Jp75EA-1
+X-MC-Unique: zzWUmRjBOs6u1GiwVSbcHQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,48 +72,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The Chardev events are listed in the QEMUChrEvent enum. To be
 able to use this enum in the IOEventHandler typedef, we need to
-explicit all the events ignored by this frontend, to silent the
+explicit an event ignored by this frontend, to silent the
 following GCC warning:
 
-    CC      monitor/qmp.o
-  monitor/qmp.c: In function =E2=80=98monitor_qmp_event=E2=80=99:
-  monitor/qmp.c:345:5: error: enumeration value =E2=80=98CHR_EVENT_BREAK=E2=
-=80=99 not handled in switch [-Werror=3Dswitch]
-    345 |     switch (event) {
+    CC      monitor/hmp.o
+  monitor/hmp.c: In function =E2=80=98monitor_event=E2=80=99:
+  monitor/hmp.c:1330:5: error: enumeration value =E2=80=98CHR_EVENT_BREAK=
+=E2=80=99 not handled in switch [-Werror=3Dswitch]
+   1330 |     switch (event) {
         |     ^~~~~~
-  monitor/qmp.c:345:5: error: enumeration value =E2=80=98CHR_EVENT_MUX_IN=
-=E2=80=99 not handled in switch [-Werror=3Dswitch]
-  monitor/qmp.c:345:5: error: enumeration value =E2=80=98CHR_EVENT_MUX_OUT=
-=E2=80=99 not handled in switch [-Werror=3Dswitch]
   cc1: all warnings being treated as errors
 
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Add all missing enums
+v2: Add all missing values
 
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 ---
- monitor/qmp.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ monitor/hmp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index b67a8e7d1f..6c46be40f8 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -365,6 +365,11 @@ static void monitor_qmp_event(void *opaque, int event)
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index 8942e28933..706ebe7074 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1371,6 +1371,10 @@ static void monitor_event(void *opaque, int event)
          mon_refcount--;
          monitor_fdsets_cleanup();
          break;
++
 +    case CHR_EVENT_BREAK:
-+    case CHR_EVENT_MUX_IN:
-+    case CHR_EVENT_MUX_OUT:
-+        /* Ignore */
++        /* Ignored */
 +        break;
      }
  }
