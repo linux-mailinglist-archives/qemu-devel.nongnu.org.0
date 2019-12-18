@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0440F124694
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:14:55 +0100 (CET)
-Received: from localhost ([::1]:53288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352851246BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:24:28 +0100 (CET)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYE9-0004hv-LU
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:14:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47701)
+	id 1ihYNO-0000cP-RM
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:24:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY38-0006Ij-3z
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY38-0006J9-HQ
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY35-0000UK-SR
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:29 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42111)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY36-0000Ux-3v
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:30 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41745)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY35-0000S2-4b
+ id 1ihY35-0000Sh-Lf
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:27 -0500
-Received: by mail-wr1-x442.google.com with SMTP id q6so1979344wro.9
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:22 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id c9so1999185wrw.8
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=qHzAYil75oWgqUim8nsgFtlMQDggWDpdj4zdhH7uJus=;
- b=AfwqlyMePoFrXnYTXAao1184Gfqx9QXeSDYt0iZVA3f4JnTa2aCADz9195135gptbp
- CxnzdtxR9tfynaMgcvdyDTWVxGvBw3un+TRamLKaqDfc01hQQz3CV/UK4OZgMnCowTT7
- hBFdl5tKw6yxLHCOfZGTJcySvALWiFa1t5w8D8ixpfRXlaJ9FFdlNoKVDNpoDvgZVl9i
- yA36IGQSvg7OY4aqgK5pCTuLv3uoFNTx9eNtAsl6eUkBiWAWUHzsVRqWi7gjWp2673lt
- Q2h9j6ORBucWQmvQ3h2LDjW6ebgY6EtlMRPE8DgA/500W2SUmWGS3m49g4ZMQoEr5glA
- g7EA==
+ bh=fy+B/TRcCsC3WIuPseL3Gdys+E0bj/B1JxAW2ZkWrwk=;
+ b=cFjP8YNsCdrUqiRwtXHzwGI9hQ6m85yMviwW5hhjOTlIEr0oyuY85KEF8I41MBTlcn
+ LFKorWB5Q5gcpGOBMCsyIIYsrZCoxoZt/KWyrcHD2U2+qYfpbYeZtucVlkcew9BqXI9J
+ 0M46bsPoupyF4I9i6ueWjtrRULGQsHuk+3Ya2BxmN0NfGYjqueeFEfurvhh6IbuWnN5F
+ 3/YDuklE2V4yqQqaPbRrYZHlceHnSQ33d5Gekf6XG//6jsfKrKXiPWdC4/sXB1k7puc8
+ 0Ps3OkUfInjHQBDpyl7XGZMNjFU3nCtHYhQ1BHw4HHNkwONhWgIwWk2vF4sQskzlCYLh
+ MSmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=qHzAYil75oWgqUim8nsgFtlMQDggWDpdj4zdhH7uJus=;
- b=iDSznrG+t6B/KzLaxUVIPKlpjyt0dNrEDXtzi1oabXWg+nCO1Vm9zfKtKejVdBVYdp
- h5+TiB4Cdt2nZxa5+Q9QHcyRb5oPeeK78jZgo7itI723LK6X1MhsulaZCysqcsV7De6r
- wkWgFMs9LL9xsqdQgo9DmYplUQkm0YbfHPLG+CbW72EoLFGm2mM6MFSNswcHpKk+gVax
- qihy4V9iw3gjcVpRAaKIYM4MTdiSltwrR31gDrd1UyTXov2IKkv5jzOsW2zOtVMijmj3
- GeprAC+Jik/crYxtJ+pQdh+iEjlQX3HrY9Mxt7WXpALsWNsce2TuGuGMPzSxQiOQ716E
- 5zwQ==
-X-Gm-Message-State: APjAAAV9up282XW6yx89IJ0rxbOx4HQvu9EXCv9GfUcpXZSbq6P+MIus
- IN7El/zoIeuVCVuDFMv1xOHJPGCD
-X-Google-Smtp-Source: APXvYqzaKKYv15lcGA9UB6z/A+2hptCrImiWFa2PXvjW1SN6deL1S/uI7ODw5jGwQTc6z99kg/+1uQ==
-X-Received: by 2002:a5d:410e:: with SMTP id l14mr2413681wrp.238.1576670601352; 
- Wed, 18 Dec 2019 04:03:21 -0800 (PST)
+ bh=fy+B/TRcCsC3WIuPseL3Gdys+E0bj/B1JxAW2ZkWrwk=;
+ b=gFY+cRkvDsMBV9SmBf33cKIllnGTXcbMkipRbrKfJqPm7APx7aZw3ZCrjmjJPKIbSR
+ R3FqDl5QJbmzvxZgWRk7OB5HhgkgQnto07dV3fvP+kl6fxjY0KPnIswxXNnASr2R7wvR
+ hxUAScI09/9ZQPVt4Z4bZU9gPL5N2tEA9piYsg1xJndNA+nINukpRZCbCeocWOLKaL48
+ etjm47WJ/TqGa0l1xwNsqqMjEMhL3XmDXt2rjYtoi5X5H2KyH2Vrzu12xMUF4bhwGnZw
+ gee9jyHPM1Xl7M64o9BqEgJ3pfw9Bj+w43UShfSYkpat07o7gH84WZ11Q5+s6wMiAZYa
+ CT/g==
+X-Gm-Message-State: APjAAAXa3QGjEbHvTYpm5gSjhoA3Avw/dbeABP3xR3y2dFLkrvHAsb7i
+ uhQksvIJS/Vh1DBUY8yupgVlPDNZ
+X-Google-Smtp-Source: APXvYqxoObiN3zvHG7DH0ELngLpcm28bcGvl3F873+9alGcXlQgNGgifRE+NkcBgB5gx86ly7/Marg==
+X-Received: by 2002:a5d:5403:: with SMTP id g3mr2488643wrv.302.1576670602629; 
+ Wed, 18 Dec 2019 04:03:22 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.20
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:20 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:21 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/87] xen: convert "-machine igd-passthru" to an accelerator
+Subject: [PULL 27/87] kvm: convert "-machine kvm_shadow_mem" to an accelerator
  property
-Date: Wed, 18 Dec 2019 13:01:52 +0100
-Message-Id: <1576670573-48048-27-git-send-email-pbonzini@redhat.com>
+Date: Wed, 18 Dec 2019 13:01:53 +0100
+Message-Id: <1576670573-48048-28-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,210 +79,253 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The first machine property to fall is Xen's Intel integrated graphics
-passthrough.  The "-machine igd-passthru" option does not set anymore
-a property on the machine object, but desugars to a GlobalProperty on
-accelerator objects.
-
-The setter is very simple, since the value ends up in a
-global variable, so this patch also provides an example before the more
-complicated cases that follow it.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c   | 20 --------------------
- hw/xen/xen-common.c | 18 ++++++++++++++++++
- hw/xen/xen_pt.c     |  2 ++
- include/hw/boards.h |  1 -
- qemu-options.hx     |  7 ++++---
- vl.c                | 14 ++++----------
- 6 files changed, 28 insertions(+), 34 deletions(-)
+ accel/kvm/kvm-all.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+ hw/core/machine.c   | 39 ---------------------------------------
+ include/hw/boards.h |  2 --
+ qemu-options.hx     |  6 +++---
+ target/i386/kvm.c   |  2 +-
+ vl.c                |  4 ++++
+ 6 files changed, 51 insertions(+), 45 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index e661fa6..05cea3a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -417,20 +417,6 @@ static void machine_set_graphics(Object *obj, bool value, Error **errp)
-     ms->enable_graphics = value;
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 7b9f92d..4770dd8 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -41,6 +41,7 @@
+ #include "hw/irq.h"
+ #include "sysemu/sev.h"
+ #include "sysemu/balloon.h"
++#include "qapi/visitor.h"
+ 
+ #include "hw/boards.h"
+ 
+@@ -92,6 +93,7 @@ struct KVMState
+     int max_nested_state_len;
+     int many_ioeventfds;
+     int intx_set_mask;
++    int kvm_shadow_mem;
+     bool sync_mmu;
+     bool manual_dirty_log_protect;
+     /* The man page (and posix) say ioctl numbers are signed int, but
+@@ -2954,6 +2956,40 @@ static bool kvm_accel_has_memory(MachineState *ms, AddressSpace *as,
+     return false;
  }
  
--static bool machine_get_igd_gfx_passthru(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return ms->igd_gfx_passthru;
--}
--
--static void machine_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    ms->igd_gfx_passthru = value;
--}
--
- static char *machine_get_firmware(Object *obj, Error **errp)
++static void kvm_get_kvm_shadow_mem(Object *obj, Visitor *v,
++                                   const char *name, void *opaque,
++                                   Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    int64_t value = s->kvm_shadow_mem;
++
++    visit_type_int(v, name, &value, errp);
++}
++
++static void kvm_set_kvm_shadow_mem(Object *obj, Visitor *v,
++                                   const char *name, void *opaque,
++                                   Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    Error *error = NULL;
++    int64_t value;
++
++    visit_type_int(v, name, &value, &error);
++    if (error) {
++        error_propagate(errp, error);
++        return;
++    }
++
++    s->kvm_shadow_mem = value;
++}
++
++static void kvm_accel_instance_init(Object *obj)
++{
++    KVMState *s = KVM_STATE(obj);
++
++    s->kvm_shadow_mem = -1;
++}
++
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
  {
-     MachineState *ms = MACHINE(obj);
-@@ -867,12 +853,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "graphics",
-         "Set on/off to enable/disable graphics emulation", &error_abort);
+     AccelClass *ac = ACCEL_CLASS(oc);
+@@ -2961,11 +2997,18 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+     ac->init_machine = kvm_init;
+     ac->has_memory = kvm_accel_has_memory;
+     ac->allowed = &kvm_allowed;
++
++    object_class_property_add(oc, "kvm-shadow-mem", "int",
++        kvm_get_kvm_shadow_mem, kvm_set_kvm_shadow_mem,
++        NULL, NULL, &error_abort);
++    object_class_property_set_description(oc, "kvm-shadow-mem",
++        "KVM shadow MMU size", &error_abort);
+ }
  
--    object_class_property_add_bool(oc, "igd-passthru",
--        machine_get_igd_gfx_passthru, machine_set_igd_gfx_passthru,
--        &error_abort);
--    object_class_property_set_description(oc, "igd-passthru",
--        "Set on/off to enable/disable igd passthrou", &error_abort);
--
-     object_class_property_add_str(oc, "firmware",
-         machine_get_firmware, machine_set_firmware,
-         &error_abort);
-diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
-index 5284b0d..15650d7 100644
---- a/hw/xen/xen-common.c
-+++ b/hw/xen/xen-common.c
-@@ -11,7 +11,9 @@
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- #include "hw/xen/xen-legacy-backend.h"
-+#include "hw/xen/xen_pt.h"
- #include "chardev/char.h"
- #include "sysemu/accel.h"
- #include "sysemu/runstate.h"
-@@ -124,6 +126,16 @@ static void xen_change_state_handler(void *opaque, int running,
+ static const TypeInfo kvm_accel_type = {
+     .name = TYPE_KVM_ACCEL,
+     .parent = TYPE_ACCEL,
++    .instance_init = kvm_accel_instance_init,
+     .class_init = kvm_accel_class_init,
+     .instance_size = sizeof(KVMState),
+ };
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 05cea3a..9c93353 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -216,33 +216,6 @@ static void machine_set_kernel_irqchip(Object *obj, Visitor *v,
      }
  }
  
-+static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
-+{
-+    return has_igd_gfx_passthru;
-+}
-+
-+static void xen_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
-+{
-+    has_igd_gfx_passthru = value;
-+}
-+
- static void xen_setup_post(MachineState *ms, AccelState *accel)
+-static void machine_get_kvm_shadow_mem(Object *obj, Visitor *v,
+-                                       const char *name, void *opaque,
+-                                       Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
+-    int64_t value = ms->kvm_shadow_mem;
+-
+-    visit_type_int(v, name, &value, errp);
+-}
+-
+-static void machine_set_kvm_shadow_mem(Object *obj, Visitor *v,
+-                                       const char *name, void *opaque,
+-                                       Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
+-    Error *error = NULL;
+-    int64_t value;
+-
+-    visit_type_int(v, name, &value, &error);
+-    if (error) {
+-        error_propagate(errp, error);
+-        return;
+-    }
+-
+-    ms->kvm_shadow_mem = value;
+-}
+-
+ static char *machine_get_kernel(Object *obj, Error **errp)
  {
-     int rc;
-@@ -177,6 +189,12 @@ static void xen_accel_class_init(ObjectClass *oc, void *data)
-     ac->compat_props = g_ptr_array_new();
+     MachineState *ms = MACHINE(obj);
+@@ -790,12 +763,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "kernel-irqchip",
+         "Configure KVM in-kernel irqchip", &error_abort);
  
-     compat_props_add(ac->compat_props, compat, G_N_ELEMENTS(compat));
-+
-+    object_class_property_add_bool(oc, "igd-passthru",
-+        xen_get_igd_gfx_passthru, xen_set_igd_gfx_passthru,
-+        &error_abort);
-+    object_class_property_set_description(oc, "igd-passthru",
-+        "Set on/off to enable/disable igd passthrou", &error_abort);
+-    object_class_property_add(oc, "kvm-shadow-mem", "int",
+-        machine_get_kvm_shadow_mem, machine_set_kvm_shadow_mem,
+-        NULL, NULL, &error_abort);
+-    object_class_property_set_description(oc, "kvm-shadow-mem",
+-        "KVM shadow MMU size", &error_abort);
+-
+     object_class_property_add_str(oc, "kernel",
+         machine_get_kernel, machine_set_kernel, &error_abort);
+     object_class_property_set_description(oc, "kernel",
+@@ -897,7 +864,6 @@ static void machine_initfn(Object *obj)
+ 
+     ms->kernel_irqchip_allowed = true;
+     ms->kernel_irqchip_split = mc->default_kernel_irqchip_split;
+-    ms->kvm_shadow_mem = -1;
+     ms->dump_guest_core = true;
+     ms->mem_merge = true;
+     ms->enable_graphics = true;
+@@ -968,11 +934,6 @@ bool machine_kernel_irqchip_split(MachineState *machine)
+     return machine->kernel_irqchip_split;
  }
  
- #define TYPE_XEN_ACCEL ACCEL_CLASS_NAME("xen")
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 8fbaf2e..9e767d4 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -65,6 +65,8 @@
- #include "qemu/range.h"
- #include "exec/address-spaces.h"
- 
-+bool has_igd_gfx_passthru;
-+
- #define XEN_PT_NR_IRQS (256)
- static uint8_t xen_pt_mapped_machine_irq[XEN_PT_NR_IRQS] = {0};
- 
+-int machine_kvm_shadow_mem(MachineState *machine)
+-{
+-    return machine->kvm_shadow_mem;
+-}
+-
+ int machine_phandle_start(MachineState *machine)
+ {
+     return machine->phandle_start;
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 96f2084..5025c1a 100644
+index 5025c1a..6084e61 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -287,7 +287,6 @@ struct MachineState {
-     bool mem_merge;
-     bool usb;
-     bool usb_disabled;
--    bool igd_gfx_passthru;
-     char *firmware;
-     bool iommu;
-     bool suppress_vmdesc;
+@@ -66,7 +66,6 @@ bool machine_usb(MachineState *machine);
+ bool machine_kernel_irqchip_allowed(MachineState *machine);
+ bool machine_kernel_irqchip_required(MachineState *machine);
+ bool machine_kernel_irqchip_split(MachineState *machine);
+-int machine_kvm_shadow_mem(MachineState *machine);
+ int machine_phandle_start(MachineState *machine);
+ bool machine_dump_guest_core(MachineState *machine);
+ bool machine_mem_merge(MachineState *machine);
+@@ -278,7 +277,6 @@ struct MachineState {
+     bool kernel_irqchip_allowed;
+     bool kernel_irqchip_required;
+     bool kernel_irqchip_split;
+-    int kvm_shadow_mem;
+     char *dtb;
+     char *dumpdtb;
+     int phandle_start;
 diff --git a/qemu-options.hx b/qemu-options.hx
-index ee1f676..1535390 100644
+index 1535390..004370c 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -37,7 +37,6 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "                kvm_shadow_mem=size of KVM shadow MMU in bytes\n"
+@@ -34,7 +34,6 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "                supported accelerators are kvm, xen, hax, hvf, whpx or tcg (default: tcg)\n"
+     "                kernel_irqchip=on|off|split controls accelerated irqchip support (default=off)\n"
+     "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
+-    "                kvm_shadow_mem=size of KVM shadow MMU in bytes\n"
      "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
      "                mem-merge=on|off controls memory merge support (default: on)\n"
--    "                igd-passthru=on|off controls IGD GFX passthrough support (default=off)\n"
      "                aes-key-wrap=on|off controls support for AES key wrapping (default=on)\n"
-     "                dea-key-wrap=on|off controls support for DEA key wrapping (default=on)\n"
-     "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
-@@ -71,8 +70,6 @@ more than one accelerator specified, the next one is used if the previous one
- fails to initialize.
- @item kernel_irqchip=on|off
- Controls in-kernel irqchip support for the chosen accelerator when available.
--@item gfx_passthru=on|off
--Enables IGD GFX passthrough support for the chosen machine when available.
- @item vmport=on|off|auto
+@@ -74,8 +73,6 @@ Controls in-kernel irqchip support for the chosen accelerator when available.
  Enables emulation of VMWare IO port, for vmmouse etc. auto says to select the
  value based on accel. For accel=xen the default is off otherwise the default
-@@ -120,6 +117,7 @@ ETEXI
- DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+ is on.
+-@item kvm_shadow_mem=size
+-Defines the size of the KVM shadow MMU.
+ @item dump-guest-core=on|off
+ Include guest memory in a core dump. The default is on.
+ @item mem-merge=on|off
+@@ -118,6 +115,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
      "-accel [accel=]accelerator[,prop[=value][,...]]\n"
      "                select accelerator (kvm, xen, hax, hvf, whpx or tcg; use 'help' for a list)\n"
-+    "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
+     "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
++    "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
      "                tb-size=n (TCG translation block cache size)\n"
      "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
  STEXI
-@@ -130,6 +128,9 @@ kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used. If th
- more than one accelerator specified, the next one is used if the previous one
- fails to initialize.
- @table @option
-+@item igd-passthru=on|off
-+When Xen is in use, this option controls whether Intel integrated graphics
-+devices can be passed through to the guest (default=off)
+@@ -131,6 +129,8 @@ fails to initialize.
+ @item igd-passthru=on|off
+ When Xen is in use, this option controls whether Intel integrated graphics
+ devices can be passed through to the guest (default=off)
++@item kvm-shadow-mem=size
++Defines the size of the KVM shadow MMU.
  @item tb-size=@var{n}
  Controls the size (in MiB) of the TCG translation block cache.
  @item thread=single|multi
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 1d10046..62ce681 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -2163,7 +2163,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     }
+     qemu_register_reset(kvm_unpoison_all, NULL);
+ 
+-    shadow_mem = machine_kvm_shadow_mem(ms);
++    shadow_mem = object_property_get_int(OBJECT(s), "kvm-shadow-mem", &error_abort);
+     if (shadow_mem != -1) {
+         shadow_mem /= 4096;
+         ret = kvm_vm_ioctl(s, KVM_SET_NR_MMU_PAGES, shadow_mem);
 diff --git a/vl.c b/vl.c
-index 900f97a..774305c 100644
+index 774305c..8c6fcda 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -1133,13 +1133,6 @@ static void configure_msg(QemuOpts *opts)
- }
- 
- 
--/* Now we still need this for compatibility with XEN. */
--bool has_igd_gfx_passthru;
--static void igd_gfx_passthru(void)
--{
--    has_igd_gfx_passthru = current_machine->igd_gfx_passthru;
--}
--
- /***********************************************************/
- /* USB devices */
- 
-@@ -2517,6 +2510,10 @@ static int machine_set_property(void *opaque,
-     if (g_str_equal(qom_name, "accel")) {
+@@ -2514,6 +2514,10 @@ static int machine_set_property(void *opaque,
+         object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
          return 0;
      }
-+    if (g_str_equal(qom_name, "igd-passthru")) {
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
++    if (g_str_equal(qom_name, "kvm-shadow-mem")) {
++        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
 +        return 0;
 +    }
  
      return object_parse_property_opt(opaque, name, value, "type", errp);
  }
-@@ -4297,9 +4294,6 @@ int main(int argc, char **argv, char **envp)
-             exit(1);
-     }
- 
--    /* Check if IGD GFX passthrough. */
--    igd_gfx_passthru();
--
-     /* init generic devices */
-     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
-     qemu_opts_foreach(qemu_find_opts("device"),
 -- 
 1.8.3.1
 
