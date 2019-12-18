@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC621247D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:16:24 +0100 (CET)
-Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340E212477D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:01:48 +0100 (CET)
+Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZBf-0004kU-Ad
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:16:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59215)
+	id 1ihYxW-00014s-En
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:01:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY46-0007dd-Uj
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:32 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1ihY5B-0000nG-0Q
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:05:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY45-0004OJ-My
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:30 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53444)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY45-0004Kc-Fr
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:29 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id m24so1555627wmc.3
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Z/hXY9tyxJP4bVUicIuKlm95MuHXrp390uv2lcHmGj0=;
- b=rDm98M/WphT/aoL4zE4nk0r6gR+5HRziKtZ866QuYYuA3cibw3+t6BSAqVqSmZbrhZ
- T23VN4uTEXNWl+TmRIKI8l+fuvSK4STMI+PlBGCMpXPgAst7GRC4vnoeDql8LocC5Pn+
- 7VGS8sWHkqck/513Mf9tYsY9HngNbiS7mo7HQwF+OaDCJlNGheuhBmslmDPk3CZJegQy
- +L5iQMSjTrqfFRmHktS4pHZcZSHHReufxmM4HzyGoUNWBfm5gS9+x+VCWNCqBDMJ9eF5
- 9FWWcqjrL+/zrO8wHLIgjsRUCYR5N/1TLvZV0cwsm1qkHGk+Jt7VMKLIESo5MI49V6f7
- kkHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=Z/hXY9tyxJP4bVUicIuKlm95MuHXrp390uv2lcHmGj0=;
- b=sM051OuVn8duVZtNIHEySqd0Y1/eBsLPHaBiuz4UNQgJFKAB32X750TcHl4trqOkyA
- mFwUuy61HkDrblpbw1WQoEkniguZ3mBp+CPeWbHuSrT+xsN8WwlpV7acEJxGyL2f4DvO
- 0EA6zphYIhNNjzKY/pBihcV2HscqDo6jwe1OyyCmNj0OoLTasacH/iblJg75itBqWhJW
- jRzBAvnDMnisQ103rdSV6zkA+nEWVNZZYV5F2y3fxGu72Pk+1y6VO/LuflM2coPZdTPZ
- u10NVxGsRo3k2tF0jTPUXoAmjFvUXH4rkAVRCfOeH6j91sORbBUZTkjR9uzAg1vdoi80
- ActQ==
-X-Gm-Message-State: APjAAAVjB6mN8M4he4FxoLa1IE16FHmgEsoQlU3Cvw8fY8c8X5zv/huk
- dgYVA+d3kAHXZ/kjjz5VcAlPZLYY
-X-Google-Smtp-Source: APXvYqxlTm5T37D7m9hBcABsn5EHOcDW3+gEVEf/FS7wFKGKWh6MMV/CeRK3FlSPtvZVoqNboWbnAg==
-X-Received: by 2002:a1c:22c6:: with SMTP id i189mr3040979wmi.15.1576670668222; 
- Wed, 18 Dec 2019 04:04:28 -0800 (PST)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.27
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:27 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 86/87] hw/display: Remove "rombar" hack from vga-pci and
- vmware_vga
-Date: Wed, 18 Dec 2019 13:02:52 +0100
-Message-Id: <1576670573-48048-87-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+ (envelope-from <qemu_oss@crudebyte.com>) id 1ihY58-0007yE-OM
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:05:35 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:48601)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1ihY57-0007u0-08
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:05:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=CIxJPz3+X44gxsGWP51xO+Ec/TQPhRnMUQygBKvIAoc=; b=RbI7uhec19yVhOYxUVIKNgoBSA
+ LoKKZ7JgDIdl8mcnryaoCV89FkpRYpUahDKqK/rrHZtuNVOORN+UHPjiLUfAcUQHXdhL7zJHv41J5
+ gAqsSFxexKPy5rb+QJis51GG2NiugYaZ1Qbns79XH15CqaYOHhC3miXvjVXk2zWhfkC4quPetS3vp
+ MPyHu/6FXDu8apC0y+T2q7gw5bR2jxlChTNJb/sHyL0dYmlj0s+IFkwhUQO6UcQ+1T1qboHlAlSdy
+ sIGWR03//7/TEjqZfXO/cXrgCR6QS0a3/QyFSSA1nwnGF05C+k5J6a6GQIl4iTRllGBuLKAaaq1uX
+ 95mfwihLtgMuCo2sbidWGLmfoniWj5DaHT/oL/NJnS8qvhEi2r9v8suylvDxjMLL9HK1RKA9cxn9k
+ yOy826R2QqFADpZ59Nh44hxIoirKvryBxEHrlZXTbDiGzDklwku7E1zscbxl/A2r8B3tFrJCpbL6h
+ +GwrltZuadjxOzUwUbowbFiz4N79XwDPKvQMQgZnzN0M4vSDZMpJBaBiqXGSCkFqkL95coA5ifBcF
+ +V2O4nNbPt2mOZw0WpXwiy3ctPgK/8WC9TOmRtYU6cIojE5Z/LlO5Q1wU3c2//cggebLUp9I+6Yzu
+ ETXiqku1cZXeGSi3W7qcEzuiM6mdIjzIt28oOtVZM=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/9] 9pfs: readdir optimization
+Date: Wed, 18 Dec 2019 13:05:29 +0100
+Message-ID: <2173137.yh4lSEn6Y2@silver>
+In-Reply-To: <20191218085937.53a59594@bahia.lan>
+References: <E1ihMuX-00076B-Qf@lizzy.crudebyte.com>
+ <20191218085937.53a59594@bahia.lan>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,73 +61,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On Mittwoch, 18. Dezember 2019 08:59:37 CET you wrote:
+> Hi Christian,
+> 
+> It seems that there was an issue with the posting of these series. Threading
+> is inexistant. All the emails appear scattered and unsorted in my mailbox,
+> between 12/16 and 12/18... which is a bit painful. I'll try to find some
+> time to have a look anyway, but this greatly lowers the odds for these
+> series to get multiple reviews, which seems problematic given the ** NOTE:
+> ** section you've added to the cover. Please fix this.
 
-Now that the old pc-0.x machine types have been removed, we do not need
-the old "rombar" hacks anymore.
+Yeah, I accidentally dropped the --thread switch this night. Sorry for that.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191209125248.5849-5-thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/display/vga-pci.c    | 5 -----
- hw/display/vga.c        | 4 +---
- hw/display/vmware_vga.c | 5 -----
- 3 files changed, 1 insertion(+), 13 deletions(-)
+If you want I can resend these patches as v2 or something? Like mentioned, 
+except of fixing the threading, I won't have the time to do any more polishing 
+in the next few weeks at least.
 
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-index a27b881..cfe0957 100644
---- a/hw/display/vga-pci.c
-+++ b/hw/display/vga-pci.c
-@@ -264,11 +264,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
- 
-         pci_register_bar(&d->dev, 2, PCI_BASE_ADDRESS_SPACE_MEMORY, &d->mmio);
-     }
--
--    if (!dev->rom_bar) {
--        /* compatibility with pc-0.13 and older */
--        vga_init_vbe(s, OBJECT(dev), pci_address_space(dev));
--    }
- }
- 
- static void pci_std_vga_init(Object *obj)
-diff --git a/hw/display/vga.c b/hw/display/vga.c
-index 82ebe53..636586a 100644
---- a/hw/display/vga.c
-+++ b/hw/display/vga.c
-@@ -2304,9 +2304,7 @@ void vga_init(VGACommonState *s, Object *obj, MemoryRegion *address_space,
- 
- void vga_init_vbe(VGACommonState *s, Object *obj, MemoryRegion *system_memory)
- {
--    /* With pc-0.12 and below we map both the PCI BAR and the fixed VBE region,
--     * so use an alias to avoid double-mapping the same region.
--     */
-+    /* Use an alias to avoid double-mapping the same region */
-     memory_region_init_alias(&s->vram_vbe, obj, "vram.vbe",
-                              &s->vram, 0, memory_region_size(&s->vram));
-     /* XXX: use optimized standard vga accesses */
-diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-index 23dc891..ead754e 100644
---- a/hw/display/vmware_vga.c
-+++ b/hw/display/vmware_vga.c
-@@ -1312,11 +1312,6 @@ static void pci_vmsvga_realize(PCIDevice *dev, Error **errp)
-                      &s->chip.vga.vram);
-     pci_register_bar(dev, 2, PCI_BASE_ADDRESS_MEM_PREFETCH,
-                      &s->chip.fifo_ram);
--
--    if (!dev->rom_bar) {
--        /* compatibility with pc-0.13 and older */
--        vga_init_vbe(&s->chip.vga, OBJECT(dev), pci_address_space(dev));
--    }
- }
- 
- static Property vga_vmware_properties[] = {
--- 
-1.8.3.1
+Best regards,
+Christian Schoenebeck
 
 
 
