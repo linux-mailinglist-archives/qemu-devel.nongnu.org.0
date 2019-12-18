@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98200124E9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:01:39 +0100 (CET)
-Received: from localhost ([::1]:57379 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA1E124ECD
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:06:31 +0100 (CET)
+Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihchd-0001P0-L2
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:01:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41890)
+	id 1ihcmM-0000Mm-Jn
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:06:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihcfH-0000N3-TL
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 11:59:13 -0500
+ (envelope-from <wainersm@redhat.com>) id 1ihcgM-0001mR-Rz
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihcfE-0000gP-Kt
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 11:59:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39041
+ (envelope-from <wainersm@redhat.com>) id 1ihcgL-0006IB-5w
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20893
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihcfE-0000cw-AM
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 11:59:08 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ihcgK-0006Dq-Vm
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576688346;
+ s=mimecast20190719; t=1576688416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NHtMvc8pOS9oMKqhas0qXN9biWVGDi66zLq6x11zwZA=;
- b=BSfdP8khver27r6rRIfSLrfOuOjjLTKZuLFnWEqG4gvlG17pcQFgPC6xINzyZ/HBTt/Nah
- DZRjbU8AlFor4uDiwYe/t2b2d9lIUIgwPPFViNljku4+0DGu0abicSgERwif2s9JzJo+KR
- KjaUNv4L/QQG6haZ4jMgbKiptNsAwlQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UypVec3fvC++Brbm0L65MZ5PEBYGI6n1NS4zqNaIBKo=;
+ b=ZrkH8Lgq3xgycqW6hk3qgCoi6xLfvbJpMuBOmxfn9BeZrE15STdylteZJta9q0yNsQ/q62
+ C/HRKyKd0kFoqjc/26hQK7IjT5qokZ4fPzJ6Hz/I5GYJ6G52zlAhJHYeRKoLhgdCbZsWXG
+ 6oJ2UovyvUdalVKL++26eZRK02JShVE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-o3vWopENNKiE8WDlQOPG2w-1; Wed, 18 Dec 2019 11:59:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-322-R-wnel9yO9OxcsFIjFaccA-1; Wed, 18 Dec 2019 12:00:14 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D66A802CBF;
- Wed, 18 Dec 2019 16:59:02 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-210.ams2.redhat.com [10.36.116.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6767B60BC7;
- Wed, 18 Dec 2019 16:59:01 +0000 (UTC)
-Date: Wed, 18 Dec 2019 17:59:00 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/3] block/io: take bs->reqs_lock in
- bdrv_mark_request_serialising
-Message-ID: <20191218165847.GF4632@linux.fritz.box>
-References: <1576675026-25046-1-git-send-email-pbonzini@redhat.com>
- <1576675026-25046-4-git-send-email-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC030801E66
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:00:13 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-50.gru2.redhat.com
+ [10.97.116.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA46F5C1D4;
+ Wed, 18 Dec 2019 17:00:05 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] Acceptance tests: boot Linux with KVM test
+Date: Wed, 18 Dec 2019 14:00:00 -0300
+Message-Id: <20191218170003.31356-1-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1576675026-25046-4-git-send-email-pbonzini@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: o3vWopENNKiE8WDlQOPG2w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: R-wnel9yO9OxcsFIjFaccA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -74,27 +68,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: philmd@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.12.2019 um 14:17 hat Paolo Bonzini geschrieben:
-> bdrv_mark_request_serialising is writing the overlap_offset and
-> overlap_bytes fields of BdrvTrackedRequest.  Take bs->reqs_lock
-> for the whole direction of it, and not just when waiting for
+This adds boot Linux tests for x86_64, aarch64, ppc64, s390x
+targets which, unlike others, tell QEMU to use KVM. Likewise
+it was added cases for tcg.
 
-Is "direction" really the word you meant?
+The patch 01 introduce an infraestructure on avocado_qemu framework
+so that:
+a) simply tagging the test with `accel:kvm` (or `accel:tcg`) will
+   automatically set the corresponding '--accel' on the launched
+   QEMU;
+a) test is canceled if the accelerator is not enabled in QEMU
+   binary and not present in the host.
 
-> serialising requests, so that tracked_request_overlaps does not
-> look at a half-updated request.
->=20
-> The new code does not unlock/relock around retries.  This is unnecessary
-> because a retry is always preceded by a CoQueue wait, which already
-> releases and reacquired bs->reqs_lock.
->=20
-> Reported-by: Peter Lieven <pl@kamp.de>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Changes v1 -> v2:
+- old patch 01 was removed becase the same feature is merged on
+  commit 74b56bb55395.
+- old patch 02 became 01 on v2, and with a major re-implementation. The
+  bits that added the accel module is merged on commit 8b272e00186.
+- old patch 03 was removed. Based on comments of ehabkost and crosa,
+  instead the boot_linux_console test suite got new cases which uses
+  the 'accel' tag to specify the use of kvm or tcg.
+- Added patch 03 which refactor the handler of 'machine' tag that
+  was introduced on commit ba21bde930f.
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+v1: [PATCH 0/3] Acceptance tests: boot Linux with KVM test
+- https://www.mail-archive.com/qemu-devel@nongnu.org/msg627498.html
+
+Tree:
+- Git: https://github.com/wainersm/qemu
+- Branch: acceptance_kvm_test-v2
+
+CI:
+- Travis (FAIL): https://travis-ci.org/wainersm/qemu/builds/626703965
+  Not related with those change. Acceptance tests on Travis ran just
+fine.
+
+Wainer dos Santos Moschetta (3):
+  tests/acceptance: avocado_qemu: Introduce the 'accel' test parameter
+  tests/acceptance: boot_linux_console: Add boot Linux with kvm tests
+  tests/acceptance: avocado_qemu: Refactor the handler of 'machine'
+    parameter
+
+ docs/devel/testing.rst                    | 16 +++++
+ tests/acceptance/avocado_qemu/__init__.py | 27 ++++++-
+ tests/acceptance/boot_linux_console.py    | 88 +++++++++++++++++------
+ 3 files changed, 109 insertions(+), 22 deletions(-)
+
+--=20
+2.23.0
 
 
