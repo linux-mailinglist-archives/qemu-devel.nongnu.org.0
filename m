@@ -2,39 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD531247D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:14:32 +0100 (CET)
-Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0229612478C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:03:45 +0100 (CET)
+Received: from localhost ([::1]:53948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ9q-0002jU-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:14:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58708)
+	id 1ihYzP-0004Bk-9R
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:03:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51923)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihYrN-0002ks-82
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:55:27 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ihYx1-0001qQ-0m
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihYrL-0002yN-34
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:55:24 -0500
-Received: from relay.sw.ru ([185.231.240.75]:46600)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihYrK-0002mv-Pa
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:55:23 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihYrD-0005hS-5O; Wed, 18 Dec 2019 15:55:15 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+ (envelope-from <laurent@vivier.eu>) id 1ihYwz-0007bj-N9
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:14 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:43969)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1ihYwz-0007RE-CV; Wed, 18 Dec 2019 08:01:13 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MVe1U-1iIIsB22tQ-00RXmI; Wed, 18 Dec 2019 14:01:07 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [RFC] migration: introduce failed-unrecovarable status
-Date: Wed, 18 Dec 2019 15:55:12 +0300
-Message-Id: <20191218125512.5446-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
+Subject: [PULL 0/7] Trivial branch patches
+Date: Wed, 18 Dec 2019 14:00:58 +0100
+Message-Id: <20191218130105.125981-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+X-Provags-ID: V03:K1:B8ZplYw8Glwj/6TNTnw3i/jgYCZxpqTday4Nxs0wogksvukWWMY
+ 55PWF6TQMB+b+NphNvRtrnYVLpVevgFGnhdjS0YoYTuqIekxUyBTBxUnEqxSaor8O/9uVn1
+ pKkZsqj3jDorgb2iRTs0p3jpOfp4ApdvLsV6FRTO47CKKe8u74Mm6wPb+KBGmhE/92gZ3Qv
+ M4NYAzhzpxBLu31WZ5hhA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OA/PsERFB7c=:tMyEkbshoBsP+4fcxRK/gm
+ P/VdNt7Pi0emnb4sbmHUcjTn8sITNTTk8fuIe166ZRVvUZ0bMmr0n9oF4/fTm05Qp5+Xk8SNH
+ dNKhcGN3D61VUnWl2Nwdm4kLSKGf/7LZS+zp09Fw6vpeaedGF4wUzsSRUxfh6SDdWxkwFUCDW
+ PW6Lqv8Y6LjxuSOjd4rATzKOYD4pmQsEJ6z6QlwJP8v/J+xIpm3P6XaQAILqiZU97LTOw832Q
+ 5qt59DbSHk4ox/N9mKHMFEdFjDXbXEFUBfAk/JTTM+A78mOOZZazFAgBKy/Q7pLWQUaH8dx/+
+ SHItFqABWeoVkmmEiDk0MjgQSdj4ZTMdSX9Kcgtm6fI0RNU1o4mGkgoV4zjHkzsILcU93I27R
+ dcdvypagLNFzjj89x3ZNWDWisu5cE1rTOBvocoC8J8O51HAazfKbPdXBWfO/Mt1WhzYPiRdkG
+ DAQDVDlwRMxepiXTWM/SWit29SsEPMeLc0si/4wtQBYfnW8AU8HQOr77UmYwa5e6Cv0vXniA7
+ wqE3lnjaDaT2NxvdgMI2rPj0PgEvT5h6f7NKlxU/4fr76PtrTTXeYQOBubm3HvalKvpP/agLH
+ 5lkXupnzY6e8Xr/3jXnsOvgdEcbWuGUwonVq4SVXBFr9HzTppSCQwJKBQDyB2RFmfvn3GK48t
+ Da65+0TvT6K2ALdtPs0Bt6aTqwzWMVVesjMZPhiZbNpNdaBDKowsrrP9Dc1dzPUf0kxJXB/8K
+ 4piPMd1ChPR3V08zwnfac/O42QRaNGcKIXxmTmESy/9HX9rAyGeFMXitdNW4bPn8F414BdON1
+ 32QtBvI4mQ4vTKUa5ng84Z9A0cyHaSM6ZlS12+DUaFSvrXgEdZ6CPIh1dCWWQVfHAWpWzpHyD
+ gbdeA+2uJO1Ym5vUmENkdctNcVxqIQS+lvzzF8BE4=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,155 +64,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, quintela@redhat.com, armbru@redhat.com,
- dgilbert@redhat.com, den@openvz.org
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should not start source vm automatically, if the error occured after
-target accessed disks, or if we failed to invalidate nodes.
+The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681:
 
-Also, fix, that we need invalidate even if bdrv_inactivate_all()
-failed, as in this case it still may successfully inactivate some of
-the nodes.
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-12-17' into staging (2019-12-17 15:55:20 +0000)
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
+are available in the Git repository at:
 
-Hi all!
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
 
-It's an investigation on top of old thread
-https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg02355.html
+for you to fetch changes up to 80bc935eaaf93e5b9a4efe97abd7c51d645f2612:
 
-Either I'm missing something, or we need this patch. It's a draft, may
-be need to split it into 2-3 small patches. Still I'd like to get
-general approval at first, may be I'm doing something wrong.
+  qemu-doc: Remove the unused "Guest Agent" node (2019-12-18 13:31:01 +0100)
 
-Also, there may be other migration failure cases like this.
+----------------------------------------------------------------
+Trivial fixes (20191218)
 
- qapi/migration.json   |  7 +++++--
- migration/migration.c | 36 ++++++++++++++++++++++++------------
- 2 files changed, 29 insertions(+), 14 deletions(-)
+----------------------------------------------------------------
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index b7348d0c8b..90fa625cbb 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -125,6 +125,9 @@
- #
- # @failed: some error occurred during migration process.
- #
-+# @failed-unrecoverable: postcopy failed after no return point, when disks may
-+#                        already be accessed by target Qemu process. (since 5.0)
-+#
- # @colo: VM is in the process of fault tolerance, VM can not get into this
- #        state unless colo capability is enabled for migration. (since 2.8)
- #
-@@ -142,8 +145,8 @@
- { 'enum': 'MigrationStatus',
-   'data': [ 'none', 'setup', 'cancelling', 'cancelled',
-             'active', 'postcopy-active', 'postcopy-paused',
--            'postcopy-recover', 'completed', 'failed', 'colo',
--            'pre-switchover', 'device', 'wait-unplug' ] }
-+            'postcopy-recover', 'completed', 'failed', 'failed-unrecoverable',
-+            'colo', 'pre-switchover', 'device', 'wait-unplug' ] }
- 
- ##
- # @MigrationInfo:
-diff --git a/migration/migration.c b/migration/migration.c
-index 354ad072fa..00684fdef8 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2576,7 +2576,14 @@ static int postcopy_start(MigrationState *ms)
-     QEMUFile *fb;
-     int64_t time_at_stop = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-     int64_t bandwidth = migrate_max_postcopy_bandwidth();
--    bool restart_block = false;
-+
-+    /*
-+     * recoverable_failure
-+     * A failure happened early enough that we know the destination hasn't
-+     * accessed block devices, so we're safe to recover.
-+     */
-+    bool recoverable_failure = true;
-+    bool inactivated = false;
-     int cur_state = MIGRATION_STATUS_ACTIVE;
-     if (!migrate_pause_before_switchover()) {
-         migrate_set_state(&ms->state, MIGRATION_STATUS_ACTIVE,
-@@ -2600,11 +2607,11 @@ static int postcopy_start(MigrationState *ms)
-         goto fail;
-     }
- 
-+    inactivated = true;
-     ret = bdrv_inactivate_all();
-     if (ret < 0) {
-         goto fail;
-     }
--    restart_block = true;
- 
-     /*
-      * Cause any non-postcopiable, but iterative devices to
-@@ -2682,7 +2689,7 @@ static int postcopy_start(MigrationState *ms)
-         goto fail_closefb;
-     }
- 
--    restart_block = false;
-+    recoverable_failure = false;
- 
-     /* Now send that blob */
-     if (qemu_savevm_send_packaged(ms->to_dst_file, bioc->data, bioc->usage)) {
-@@ -2716,26 +2723,28 @@ static int postcopy_start(MigrationState *ms)
-     ret = qemu_file_get_error(ms->to_dst_file);
-     if (ret) {
-         error_report("postcopy_start: Migration stream errored");
--        migrate_set_state(&ms->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
--                              MIGRATION_STATUS_FAILED);
-+        goto fail;
-     }
- 
--    return ret;
-+    return 0;
- 
- fail_closefb:
-     qemu_fclose(fb);
- fail:
-     migrate_set_state(&ms->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
--                          MIGRATION_STATUS_FAILED);
--    if (restart_block) {
--        /* A failure happened early enough that we know the destination hasn't
--         * accessed block devices, so we're safe to recover.
--         */
-+                      recoverable_failure ? MIGRATION_STATUS_FAILED :
-+                      MIGRATION_STATUS_FAILED_UNRECOVERABLE);
-+    if (recoverable_failure && inactivated) {
-         Error *local_err = NULL;
- 
-         bdrv_invalidate_cache_all(&local_err);
-         if (local_err) {
-             error_report_err(local_err);
-+            /*
-+             * We failed to invalidate, so we must not start vm automatically.
-+             * User may retry invalidation and start by cont qmp command.
-+             */
-+            ms->vm_was_running = false;
-         }
-     }
-     qemu_mutex_unlock_iothread();
-@@ -3194,9 +3203,12 @@ static void migration_iteration_finish(MigrationState *s)
-         s->vm_was_running = true;
-         /* Fallthrough */
-     case MIGRATION_STATUS_FAILED:
-+    case MIGRATION_STATUS_FAILED_UNRECOVERABLE:
-     case MIGRATION_STATUS_CANCELLED:
-     case MIGRATION_STATUS_CANCELLING:
--        if (s->vm_was_running) {
-+        if (s->vm_was_running &&
-+            s->state != MIGRATION_STATUS_FAILED_UNRECOVERABLE)
-+        {
-             vm_start();
-         } else {
-             if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+Han Han (1):
+  Revert "qemu-options.hx: Update for reboot-timeout parameter"
+
+Markus Armbruster (2):
+  util/cutils: Turn FIXME comment into QEMU_BUILD_BUG_ON()
+  test-keyval: Tighten test of trailing crap after size
+
+Philippe Mathieu-Daudé (1):
+  MAINTAINERS: Add hw/sd/ssi-sd.c in the SD section
+
+Thomas Huth (2):
+  target/sparc: Remove old TODO file
+  qemu-doc: Remove the unused "Guest Agent" node
+
+Yury Kotov (1):
+  monitor: Remove unused define
+
+ MAINTAINERS         |  1 +
+ monitor/misc.c      |  3 --
+ qemu-doc.texi       |  1 -
+ qemu-options.hx     |  4 +--
+ target/sparc/TODO   | 88 ---------------------------------------------
+ tests/test-keyval.c |  2 +-
+ util/cutils.c       |  8 +++--
+ 7 files changed, 9 insertions(+), 98 deletions(-)
+ delete mode 100644 target/sparc/TODO
+
 -- 
-2.21.0
+2.24.1
 
 
