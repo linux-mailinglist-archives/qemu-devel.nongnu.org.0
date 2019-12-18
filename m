@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F135B124ED4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:08:28 +0100 (CET)
-Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C72124EC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:04:42 +0100 (CET)
+Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihcoF-00034V-QJ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:08:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47035)
+	id 1ihcka-0005Up-49
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:04:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1ihcgQ-0001pi-BY
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:23 -0500
+ (envelope-from <wainersm@redhat.com>) id 1ihcgZ-0001zO-8V
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1ihcgO-0006Yq-H8
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35831
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1ihcgT-0006yI-KA
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:31 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52577
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ihcgN-0006VE-UQ
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:20 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ihcgT-0006uP-8l
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576688419;
+ s=mimecast20190719; t=1576688424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e8VxWNigJK22AdQXGUxn5nMO3YEAAyyUQWBQykn5z9I=;
- b=QYDykkNVFHp0QRBEKrJxVPkYKMGSWQ7Y942D1L1HDhMer92+STOrCV5N/JBRsQki9NCW/w
- qobq/iPc4azA7GV72tMuwuGlG1jxbKrov47CV+/lImX9IXcdsWxsrvPTultDlN4f13otHS
- 7F/s6tQJcCwIiCoCvRDbB5il56yedkw=
+ bh=huUWadbrWDXfwDniwHZ+Gz0+zjfCRf6uUVCEk0EQzu4=;
+ b=Ck/BPBrSkB7GuegJ1YMFtNWGKD4kxs2rbhzHf202CxJ2+yYWhUr3lhTE4LBlZSfgK03JUJ
+ D4feFY2ZCPnxGAmr6xcWF/9BlqKyaFpA5Q0621/EvQNJQ+nJvUKF6lU3UBl7ERlj3FW9PW
+ CUOIAAi0CJWbiLLCr3Ge17PlGMSpZrc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-BMr5SpVlP86uzOH-YyJvUQ-1; Wed, 18 Dec 2019 12:00:17 -0500
+ us-mta-377-kOJ5j8RnOdGi1uDxmmQDMg-1; Wed, 18 Dec 2019 12:00:19 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36613100551A
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:00:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4A651B18BC3
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:00:18 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-50.gru2.redhat.com
  [10.97.116.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68DC65C1D4;
- Wed, 18 Dec 2019 17:00:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF1555C1D4;
+ Wed, 18 Dec 2019 17:00:16 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] tests/acceptance: avocado_qemu: Introduce the 'accel'
- test parameter
-Date: Wed, 18 Dec 2019 14:00:01 -0300
-Message-Id: <20191218170003.31356-2-wainersm@redhat.com>
+Subject: [PATCH v2 2/3] tests/acceptance: boot_linux_console: Add boot Linux
+ with kvm tests
+Date: Wed, 18 Dec 2019 14:00:02 -0300
+Message-Id: <20191218170003.31356-3-wainersm@redhat.com>
 In-Reply-To: <20191218170003.31356-1-wainersm@redhat.com>
 References: <20191218170003.31356-1-wainersm@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: BMr5SpVlP86uzOH-YyJvUQ-1
+X-MC-Unique: kOJ5j8RnOdGi1uDxmmQDMg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,117 +76,174 @@ Cc: philmd@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test case may need to boot the VM with an accelerator that
-isn't actually enabled on the QEMU binary and/or present in the host. In
-this case the test behavior is undefined, and the best course of
-action is to skip its execution.
-
-This change introduced the 'accel' parameter (and the handler of
-tag with same name) used to indicate the test case requires a
-given accelerator available. It was implemented a mechanism to
-skip the test case if the accelerator is not available. Moreover,
- the QEMU --accel argument is set automatically to any VM
-launched if the parameter is present.
+Added boot Linux test cases that launch QEMU with kvm
+enabled. Likewise it was added tests for tcg.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- docs/devel/testing.rst                    | 16 ++++++++++++++++
- tests/acceptance/avocado_qemu/__init__.py | 23 +++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ tests/acceptance/boot_linux_console.py | 88 ++++++++++++++++++++------
+ 1 file changed, 68 insertions(+), 20 deletions(-)
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 27f286858a..6c2e0718e1 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -757,6 +757,17 @@ name.  If one is not given explicitly, it will either =
-be set to
- ``None``, or, if the test is tagged with one (and only one)
- ``:avocado: tags=3Dmachine:VALUE`` tag, it will be set to ``VALUE``.
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
+_linux_console.py
+index 9c6aa2040a..d3730b43dc 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -51,11 +51,7 @@ class BootLinuxConsole(Test):
+         os.chdir(cwd)
+         return self.workdir + path
 =20
-+accel
-+~~~~~
-+The accelerator that will be set to all QEMUMachine instances created
-+by the test.
+-    def test_x86_64_pc(self):
+-        """
+-        :avocado: tags=3Darch:x86_64
+-        :avocado: tags=3Dmachine:pc
+-        """
++    def do_test_x86_64_pc(self):
+         kernel_url =3D ('https://archives.fedoraproject.org/pub/archive/fe=
+dora'
+                       '/linux/releases/29/Everything/x86_64/os/images/pxeb=
+oot'
+                       '/vmlinuz')
+@@ -70,6 +66,22 @@ class BootLinuxConsole(Test):
+         console_pattern =3D 'Kernel command line: %s' % kernel_command_lin=
+e
+         self.wait_for_console_pattern(console_pattern)
+=20
++    def test_x86_64_pc_kvm(self):
++        """
++        :avocado: tags=3Darch:x86_64
++        :avocado: tags=3Dmachine:pc
++        :avocado: tags=3Daccel:kvm
++        """
++        self.do_test_x86_64_pc()
 +
-+The ``accel`` attribute will be set to the test parameter of the same
-+name.  If one is not given explicitly, it will either be set to
-+``None``, or, if the test is tagged with one (and only one)
-+``:avocado: tags=3Daccel:VALUE`` tag, it will be set to ``VALUE``. Current=
-ly
-+``VALUE`` should be either ``kvm`` or ``tcg``.
++    def test_x86_64_pc_tcg(self):
++        """
++        :avocado: tags=3Darch:x86_64
++        :avocado: tags=3Dmachine:pc
++        :avocado: tags=3Daccel:tcg
++        """
++        self.do_test_x86_64_pc()
 +
- qemu_bin
- ~~~~~~~~
+     def test_mips_malta(self):
+         """
+         :avocado: tags=3Darch:mips
+@@ -258,11 +270,7 @@ class BootLinuxConsole(Test):
+         kernel_hash =3D '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
+         self.do_test_mips_malta32el_nanomips(kernel_url, kernel_hash)
 =20
-@@ -798,6 +809,11 @@ machine
- The machine type that will be set to all QEMUMachine instances created
- by the test.
+-    def test_aarch64_virt(self):
+-        """
+-        :avocado: tags=3Darch:aarch64
+-        :avocado: tags=3Dmachine:virt
+-        """
++    def do_test_aarch64_virt(self):
+         kernel_url =3D ('https://archives.fedoraproject.org/pub/archive/fe=
+dora'
+                       '/linux/releases/29/Everything/aarch64/os/images/pxe=
+boot'
+                       '/vmlinuz')
+@@ -279,6 +287,22 @@ class BootLinuxConsole(Test):
+         console_pattern =3D 'Kernel command line: %s' % kernel_command_lin=
+e
+         self.wait_for_console_pattern(console_pattern)
 =20
-+accel
-+~~~~~
-+The accelerator that will be set to all QEMUMachine instances created
-+by the test. In case the accelerator is not available (both QEMU
-+binary and the host system are checked) then the test is canceled.
-=20
- qemu_bin
- ~~~~~~~~
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
-vocado_qemu/__init__.py
-index 6618ea67c1..aff32668d9 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -20,6 +20,7 @@ SRC_ROOT_DIR =3D os.path.join(os.path.dirname(__file__), =
-'..', '..', '..')
- sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
-=20
- from qemu.machine import QEMUMachine
-+from qemu.accel import kvm_available, tcg_available
-=20
- def is_readable_executable_file(path):
-     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
-@@ -111,6 +112,8 @@ class Test(avocado.Test):
-=20
-     def setUp(self):
-         self._vms =3D {}
-+        # VM argumments that are mapped from parameters
-+        self._param_to_vm_args =3D []
-=20
-         self.arch =3D self.params.get('arch',
-                                     default=3Dself._get_unique_tag_val('ar=
-ch'))
-@@ -124,10 +127,30 @@ class Test(avocado.Test):
-         if self.qemu_bin is None:
-             self.cancel("No QEMU binary defined or found in the source tre=
-e")
-=20
-+        self.accel =3D self.params.get('accel',
-+                                     default=3Dself._get_unique_tag_val('a=
-ccel'))
-+        if self.accel:
-+            avail =3D False
-+            if self.accel =3D=3D 'kvm':
-+                if kvm_available(self.arch, self.qemu_bin):
-+                    self._param_to_vm_args.append('-enable-kvm')
-+                    avail =3D True
-+            elif self.accel =3D=3D 'tcg':
-+                if tcg_available(self.qemu_bin):
-+                    self._param_to_vm_args.extend(['--accel', 'tcg'])
-+                    avail =3D True
-+            else:
-+                self.cancel("Unknown accelerator: %s" % self.accel)
++    def test_aarch64_virt_kvm(self):
++        """
++        :avocado: tags=3Darch:aarch64
++        :avocado: tags=3Dmachine:virt
++        :avocado: tags=3Daccel:kvm
++        """
++        self.do_test_aarch64_virt()
 +
-+            if not avail:
-+                self.cancel("%s is not available" % self.accel)
++    def test_aarch64_virt_tcg(self):
++        """
++        :avocado: tags=3Darch:aarch64
++        :avocado: tags=3Dmachine:virt
++        :avocado: tags=3Daccel:tcg
++        """
++        self.do_test_aarch64_virt()
 +
-     def _new_vm(self, *args):
-         vm =3D QEMUMachine(self.qemu_bin, sock_dir=3Dtempfile.mkdtemp())
-         if args:
-             vm.add_args(*args)
-+        if self._param_to_vm_args:
-+            vm.add_args(*self._param_to_vm_args)
-         return vm
+     def test_arm_virt(self):
+         """
+         :avocado: tags=3Darch:arm
+@@ -400,11 +424,7 @@ class BootLinuxConsole(Test):
+         self.wait_for_console_pattern('Boot successful.')
+         # TODO user command, for now the uart is stuck
 =20
-     @property
+-    def test_s390x_s390_ccw_virtio(self):
+-        """
+-        :avocado: tags=3Darch:s390x
+-        :avocado: tags=3Dmachine:s390-ccw-virtio
+-        """
++    def do_test_s390x_s390_ccw_virtio(self):
+         kernel_url =3D ('https://archives.fedoraproject.org/pub/archive'
+                       '/fedora-secondary/releases/29/Everything/s390x/os/i=
+mages'
+                       '/kernel.img')
+@@ -420,6 +440,22 @@ class BootLinuxConsole(Test):
+         console_pattern =3D 'Kernel command line: %s' % kernel_command_lin=
+e
+         self.wait_for_console_pattern(console_pattern)
+=20
++    def test_s390x_s390_ccw_virtio_kvm(self):
++        """
++        :avocado: tags=3Darch:s390x
++        :avocado: tags=3Dmachine:s390-ccw-virtio
++        :avocado: tags=3Daccel:kvm
++        """
++        self.do_test_s390x_s390_ccw_virtio()
++
++    def test_s390x_s390_ccw_virtio_tcg(self):
++        """
++        :avocado: tags=3Darch:s390x
++        :avocado: tags=3Dmachine:s390-ccw-virtio
++        :avocado: tags=3Daccel:tcg
++        """
++        self.do_test_s390x_s390_ccw_virtio()
++
+     def test_alpha_clipper(self):
+         """
+         :avocado: tags=3Darch:alpha
+@@ -441,11 +477,7 @@ class BootLinuxConsole(Test):
+         console_pattern =3D 'Kernel command line: %s' % kernel_command_lin=
+e
+         self.wait_for_console_pattern(console_pattern)
+=20
+-    def test_ppc64_pseries(self):
+-        """
+-        :avocado: tags=3Darch:ppc64
+-        :avocado: tags=3Dmachine:pseries
+-        """
++    def do_test_ppc64_pseries(self):
+         kernel_url =3D ('https://archives.fedoraproject.org/pub/archive'
+                       '/fedora-secondary/releases/29/Everything/ppc64le/os=
+'
+                       '/ppc/ppc64/vmlinuz')
+@@ -460,6 +492,22 @@ class BootLinuxConsole(Test):
+         console_pattern =3D 'Kernel command line: %s' % kernel_command_lin=
+e
+         self.wait_for_console_pattern(console_pattern)
+=20
++    def test_ppc64le_pseries_kvm(self):
++        """
++        :avocado: tags=3Darch:ppc64
++        :avocado: tags=3Dmachine:pseries
++        :avocado: tags=3Daccel:kvm
++        """
++        self.do_test_ppc64_pseries()
++
++    def test_ppc64le_pseries_tcg(self):
++        """
++        :avocado: tags=3Darch:ppc64
++        :avocado: tags=3Dmachine:pseries
++        :avocado: tags=3Daccel:tcg
++        """
++        self.do_test_ppc64_pseries()
++
+     def test_m68k_q800(self):
+         """
+         :avocado: tags=3Darch:m68k
 --=20
 2.23.0
 
