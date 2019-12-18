@@ -2,61 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8744C1249FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 15:44:56 +0100 (CET)
-Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB6E124A33
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 15:50:55 +0100 (CET)
+Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihaZL-0004gV-42
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 09:44:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
+	id 1ihaf8-0007lU-5I
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 09:50:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ihaYV-0004H7-CY
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:44:04 -0500
+ (envelope-from <borntraeger@de.ibm.com>) id 1ihaeF-00070G-FX
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:50:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ihaYS-0007CB-OU
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:44:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43914
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ihaYS-000739-3u
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:44:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576680239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2arDANuKcCRoUOX9pzo6ycOeu9V/Wt7V7uq/JXcQjis=;
- b=JFGGdzbVPFqaHnaNgr4qUnExMFpRWnbh4UzKXrNJ+qF3CmNR7KXSkPdwXqgmOTU7ldtO7T
- LWfWStf0nCQhIr4E6Ky0YwvJXF53QhEvvQdBrI3+Bv2cnd7lC2vLXbgO23Dez0bjMy4y2v
- +k+oq/bXSgZfYy1ECyqUwi3y49+xKF8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-7C4Wyl9qOvmAUxHycJpizw-1; Wed, 18 Dec 2019 09:43:55 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63AFBCF1D2;
- Wed, 18 Dec 2019 14:43:54 +0000 (UTC)
-Received: from thuth.com (ovpn-116-150.ams2.redhat.com [10.36.116.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFF295D9E2;
- Wed, 18 Dec 2019 14:43:52 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Max Reitz <mreitz@redhat.com>
-Subject: [PATCH v2] iotests: Add more "skip_if_unsupported" statements to the
- python tests
-Date: Wed, 18 Dec 2019 15:43:49 +0100
-Message-Id: <20191218144349.19354-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 7C4Wyl9qOvmAUxHycJpizw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ (envelope-from <borntraeger@de.ibm.com>) id 1ihaeE-0007mS-5a
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:49:59 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55440
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1ihaeD-0007cB-S3
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:49:58 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBIEmrn7004011
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 09:49:56 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wykb7f52j-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 09:49:55 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Wed, 18 Dec 2019 14:49:54 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 18 Dec 2019 14:49:52 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBIEnpgx45613138
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Dec 2019 14:49:51 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 789964C04E;
+ Wed, 18 Dec 2019 14:49:51 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4AC624C044;
+ Wed, 18 Dec 2019 14:49:51 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.119])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 18 Dec 2019 14:49:51 +0000 (GMT)
+Subject: Re: [PATCH] tests/boot-sector: Fix the bad s390x assembler code
+To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191217150642.27946-1-thuth@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Wed, 18 Dec 2019 15:49:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
+MIME-Version: 1.0
+In-Reply-To: <20191217150642.27946-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19121814-0020-0000-0000-000003998B64
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19121814-0021-0000-0000-000021F0AEA9
+Message-Id: <2330d91b-783e-9605-e7b7-527c317670b1@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-18_04:2019-12-17,2019-12-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ mlxscore=0 adultscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912180123
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,99 +137,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-s390x@nongnu.org, Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The python code already contains a possibility to skip tests if the
-corresponding driver is not available in the qemu binary - use it
-in more spots to avoid that the tests are failing if the driver has
-been disabled.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Thanks to Max' "iotests: Allow skipping test cases" patch (see
-     commit 6be012252018249d3a), this patch has been greatly simplified
-     by only marking the setUp functions instead of all functions from
-     a class.
 
- tests/qemu-iotests/030 | 1 +
- tests/qemu-iotests/040 | 2 ++
- tests/qemu-iotests/041 | 1 +
- tests/qemu-iotests/245 | 2 ++
- 4 files changed, 6 insertions(+)
+On 17.12.19 16:06, Thomas Huth wrote:
+> There are currently two bugs in s390x_code[]: First, the initial jump
+> uses the wrong offset, so it was jumping to 0x1014 instead of 0x1010.
+                                              ^^^^    
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index f3766f2a81..a585554c61 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -530,6 +530,7 @@ class TestQuorum(iotests.QMPTestCase):
-     children =3D []
-     backing =3D []
-=20
-+    @iotests.skip_if_unsupported(['quorum'])
-     def setUp(self):
-         opts =3D ['driver=3Dquorum', 'vote-threshold=3D2']
-=20
-diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-index 762ad1ebcb..74f62c3c4a 100755
---- a/tests/qemu-iotests/040
-+++ b/tests/qemu-iotests/040
-@@ -106,6 +106,7 @@ class TestSingleDrive(ImageCommitTestCase):
-         self.assertEqual(-1, qemu_io('-f', 'raw', '-c', 'read -P 0xab 0 52=
-4288', backing_img).find("verification failed"))
-         self.assertEqual(-1, qemu_io('-f', 'raw', '-c', 'read -P 0xef 5242=
-88 524288', backing_img).find("verification failed"))
-=20
-+    @iotests.skip_if_unsupported(['throttle'])
-     def test_commit_with_filter_and_quit(self):
-         result =3D self.vm.qmp('object-add', qom_type=3D'throttle-group', =
-id=3D'tg')
-         self.assert_qmp(result, 'return', {})
-@@ -125,6 +126,7 @@ class TestSingleDrive(ImageCommitTestCase):
-         self.has_quit =3D True
-=20
-     # Same as above, but this time we add the filter after starting the jo=
-b
-+    @iotests.skip_if_unsupported(['throttle'])
-     def test_commit_plus_filter_and_quit(self):
-         result =3D self.vm.qmp('object-add', qom_type=3D'throttle-group', =
-id=3D'tg')
-         self.assert_qmp(result, 'return', {})
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 8568426311..ef95fba656 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -871,6 +871,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
-     image_len =3D 1 * 1024 * 1024 # MB
-     IMAGES =3D [ quorum_img1, quorum_img2, quorum_img3 ]
-=20
-+    @iotests.skip_if_unsupported(['quorum'])
-     def setUp(self):
-         self.vm =3D iotests.VM()
-=20
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index e66a23c5f0..36d7ca6ded 100644
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -478,6 +478,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-     # This test verifies that we can't change the children of a block
-     # device during a reopen operation in a way that would create
-     # cycles in the node graph
-+    @iotests.skip_if_unsupported(['blkverify'])
-     def test_graph_cycles(self):
-         opts =3D []
-=20
-@@ -534,6 +535,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-     # Misc reopen tests with different block drivers
-+    @iotests.skip_if_unsupported(['quorum'])
-     def test_misc_drivers(self):
-         ####################
-         ###### quorum ######
---=20
-2.18.1
+10014/10010 instead of 1014/1010
+
+
+> Second, LHI only loads the lower 32-bit of the register.
+> 
+> Everything worked fine as long as the s390-ccw bios code was jumping
+> here with r3 containing zeroes in the uppermost 48 bit - which just
+> happened to be the case so far by accident. But we can not rely on this
+> fact, and indeed one of the recent suggested patches to jump2ipl.c cause
+> the newer GCCs to put different values into r3. In that case the code
+> from s390x_code[] crashes very ungracefully.
+> 
+> Thus let's make sure to jump to the right instruction, and use LGHI
+> instead of LHI to make sure that we always zero out the upper bits
+> of the register.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+
+
+> ---
+>  tests/boot-sector.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/boot-sector.c b/tests/boot-sector.c
+> index 7824286b9a..9e66c6d013 100644
+> --- a/tests/boot-sector.c
+> +++ b/tests/boot-sector.c
+> @@ -75,11 +75,11 @@ static const uint8_t s390x_psw_and_magic[] = {
+>      0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40, 0x40   /* in the s390-ccw bios */
+>  };
+>  static const uint8_t s390x_code[] = {
+> -    0xa7, 0xf4, 0x00, 0x0a,                                /* j 0x10010 */
+> +    0xa7, 0xf4, 0x00, 0x08,                                /* j 0x10010 */
+>      0x00, 0x00, 0x00, 0x00,
+>      'S', '3', '9', '0',
+>      'E', 'P', 0x00, 0x01,
+> -    0xa7, 0x38, HIGH(SIGNATURE_ADDR), LOW(SIGNATURE_ADDR), /* lhi r3,0x7c10 */
+> +    0xa7, 0x39, HIGH(SIGNATURE_ADDR), LOW(SIGNATURE_ADDR), /* lghi r3,0x7c10 */
+>      0xa7, 0x48, LOW(SIGNATURE), HIGH(SIGNATURE),           /* lhi r4,0xadde */
+>      0x40, 0x40, 0x30, 0x00,                                /* sth r4,0(r3) */
+>      0xa7, 0xf4, 0xff, 0xfa                                 /* j 0x10010 */
+> 
 
 
