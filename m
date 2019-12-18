@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C717124176
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:19:35 +0100 (CET)
-Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12C6124187
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:22:20 +0100 (CET)
+Received: from localhost ([::1]:50952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihUYQ-0007pR-5e
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:19:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35295)
+	id 1ihUb5-00035A-BB
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:22:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ihUWP-0005wE-Gg
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:30 -0500
+ (envelope-from <armbru@redhat.com>) id 1ihUWR-0005wf-G0
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ihUWN-0002P3-K3
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:29 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40332
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1ihUWP-0002RT-Nw
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21728
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWN-0002NT-GR
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:27 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWP-0002PS-Gb
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576657046;
+ s=mimecast20190719; t=1576657047;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=762Vx2LMJUF0HARuDCs9/bQDEvW9w9fDjGoV8Fkl8cI=;
- b=W6JFKmBCKKnLVX8o66LbEjodbn5tFtnBCUt15EtIKaL9R0JOtDAmURCkfOxJRFdOSMe6q1
- 50YyFsdmt6GAFIHA7tQYZ0d146Rpbc5evepM9Bz34bhRcb+qW4KOSvAoOgidEdfDX3N64W
- a9IwhgN56sSvrqdJ0xpBa4CBu5iUYZY=
+ bh=KZJeOEY4eRF6InDe+J/5KZHJUaDHGpLvvRpZ4QkLj2o=;
+ b=VgD8SM+CT5qUU7x3ZrRX14wMO9tg1NdxubNxW66xoKoVWQxPm1/uwuPNDmkh3bZeZdF4qc
+ R4Krk/TbZRBzyNDdTGDmPwTiiQV3e7zxxUFs0h0lGrsBbUYIlAVt6tymb8uDwR7fbHGIIP
+ c6RurhdWAUEL78BwFgifAo60hlnNmO8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-rXvlsSR2OUW9I-uLqfIKnw-1; Wed, 18 Dec 2019 03:17:23 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-176-090fOCR_M5GJXuvH9cJS-Q-1; Wed, 18 Dec 2019 03:17:23 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01D5D800D50
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 08:17:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 049FB801E6C;
+ Wed, 18 Dec 2019 08:17:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C7E485C28D
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 08:17:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7ED05DA32;
+ Wed, 18 Dec 2019 08:17:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 531A811385EE; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
+ id 5765011385FD; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/35] error: Fix -msg timestamp default
-Date: Wed, 18 Dec 2019 09:16:47 +0100
-Message-Id: <20191218081721.23520-2-armbru@redhat.com>
+Subject: [PULL v2 02/35] crypto: Fix certificate file error handling crash bug
+Date: Wed, 18 Dec 2019 09:16:48 +0100
+Message-Id: <20191218081721.23520-3-armbru@redhat.com>
 In-Reply-To: <20191218081721.23520-1-armbru@redhat.com>
 References: <20191218081721.23520-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: rXvlsSR2OUW9I-uLqfIKnw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 090fOCR_M5GJXuvH9cJS-Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,112 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--msg parameter "timestamp" defaults to "off" if you don't specify msg,
-and to "on" if you do.  Messed up right in commit 5e2ac51917 "add
-timestamp to error_report()".  Mostly harmless, because "timestamp" is
-the only parameter, so "if you do" is "-msg ''", which nobody does.
+qcrypto_tls_creds_load_cert() passes uninitialized GError *gerr by
+reference to g_file_get_contents().  When g_file_get_contents() fails,
+it'll try to set a GError.  Unless @gerr is null by dumb luck, this
+logs a ERROR_OVERWRITTEN_WARNING warning message and leaves @gerr
+unchanged.  qcrypto_tls_creds_load_cert() then dereferences the
+uninitialized @gerr.
 
-Change the default to "off" no matter what.
+Fix by initializing @gerr properly.
 
-While there, rename enable_timestamp_msg to error_with_timestamp, and
-polish documentation.
-
+Fixes: 9a2fd4347c40321f5cbb4ab4220e759fcbf87d03
+Cc: "Daniel P. Berrang=C3=A9" <berrange@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20191010081508.8978-1-armbru@redhat.com>
+Message-Id: <20191204093625.14836-2-armbru@redhat.com>
+Acked-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/qemu/error-report.h |  3 ++-
- util/qemu-error.c           |  6 ++++--
- vl.c                        |  2 +-
- qemu-options.hx             | 10 +++++++---
- 4 files changed, 14 insertions(+), 7 deletions(-)
+ crypto/tlscredsx509.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/error-report.h b/include/qemu/error-report.h
-index 00d069b20f..87532d8596 100644
---- a/include/qemu/error-report.h
-+++ b/include/qemu/error-report.h
-@@ -73,6 +73,7 @@ void error_init(const char *argv0);
-     })
+diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+index 01fc304e5d..53a4368f49 100644
+--- a/crypto/tlscredsx509.c
++++ b/crypto/tlscredsx509.c
+@@ -380,7 +380,7 @@ qcrypto_tls_creds_load_cert(QCryptoTLSCredsX509 *creds,
+     gnutls_x509_crt_t cert =3D NULL;
+     g_autofree char *buf =3D NULL;
+     gsize buflen;
+-    GError *gerr;
++    GError *gerr =3D NULL;
+     int ret =3D -1;
+     int err;
 =20
- const char *error_get_progname(void);
--extern bool enable_timestamp_msg;
-+
-+extern bool error_with_timestamp;
-=20
- #endif
-diff --git a/util/qemu-error.c b/util/qemu-error.c
-index f373f3b3b0..dac7c7dc50 100644
---- a/util/qemu-error.c
-+++ b/util/qemu-error.c
-@@ -24,6 +24,9 @@ typedef enum {
-     REPORT_TYPE_INFO,
- } report_type;
-=20
-+/* Prepend timestamp to messages */
-+bool error_with_timestamp;
-+
- int error_printf(const char *fmt, ...)
- {
-     va_list ap;
-@@ -191,7 +194,6 @@ static void print_loc(void)
-     }
- }
-=20
--bool enable_timestamp_msg;
- /*
-  * Print a message to current monitor if we have one, else to stderr.
-  * @report_type is the type of message: error, warning or informational.
-@@ -204,7 +206,7 @@ static void vreport(report_type type, const char *fmt, =
-va_list ap)
-     GTimeVal tv;
-     gchar *timestr;
-=20
--    if (enable_timestamp_msg && !cur_mon) {
-+    if (error_with_timestamp && !cur_mon) {
-         g_get_current_time(&tv);
-         timestr =3D g_time_val_to_iso8601(&tv);
-         error_printf("%s ", timestr);
-diff --git a/vl.c b/vl.c
-index 94508300c3..908a9e1d1e 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1139,7 +1139,7 @@ static void realtime_init(void)
-=20
- static void configure_msg(QemuOpts *opts)
- {
--    enable_timestamp_msg =3D qemu_opt_get_bool(opts, "timestamp", true);
-+    error_with_timestamp =3D qemu_opt_get_bool(opts, "timestamp", false);
- }
-=20
-=20
-diff --git a/qemu-options.hx b/qemu-options.hx
-index c63e794b64..b2cb1debe6 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4167,13 +4167,17 @@ DEF("no-kvm", 0, QEMU_OPTION_no_kvm, "", QEMU_ARCH_=
-I386)
-=20
- DEF("msg", HAS_ARG, QEMU_OPTION_msg,
-     "-msg timestamp[=3Don|off]\n"
--    "                change the format of messages\n"
--    "                on|off controls leading timestamps (default:on)\n",
-+    "                control error message format\n"
-+    "                timestamp=3Don enables timestamps (default: off)\n",
-     QEMU_ARCH_ALL)
- STEXI
- @item -msg timestamp[=3Don|off]
- @findex -msg
--prepend a timestamp to each log message.(default:on)
-+Control error message format.
-+@table @option
-+@item timestamp=3Don|off
-+Prefix messages with a timestamp.  Default is off.
-+@end table
- ETEXI
-=20
- DEF("dump-vmstate", HAS_ARG, QEMU_OPTION_dump_vmstate,
 --=20
 2.21.0
 
