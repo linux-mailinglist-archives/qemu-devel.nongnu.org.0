@@ -2,85 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527C8124634
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 12:54:00 +0100 (CET)
-Received: from localhost ([::1]:53058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0455D124647
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 12:56:09 +0100 (CET)
+Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihXtv-0007RC-2v
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 06:53:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42625)
+	id 1ihXw0-00018w-3i
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 06:56:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54341)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihXsy-00072n-Fe
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 06:53:01 -0500
+ (envelope-from <tu.guoyi@h3c.com>) id 1ihXtq-0007nq-TQ
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 06:53:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihXsw-0002RE-9o
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 06:52:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37912
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihXsw-0002LB-1L
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 06:52:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576669977;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dAg+8tVPdsj7FCPPOqXhgam7WzTZUUQBbMEBaFocZmk=;
- b=K5icDWTS9yGVHqXstbPIVfgiQ4GPzYWuuMb7Efsrh0yanod/egQgxJsZ1DU3UB3/JOmavT
- BfybFG9Hkbd+ORF/vxXcDuTt8MrHn3K/jgEQ6LrhhBXd7ntRRiH81CS98/LjDiBMQxHVNq
- cOpxTsxV8lcSoQ96l3Q+oiTpCwKoNFw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-_KRCfvZ4Ntih4BcYpYPjvg-1; Wed, 18 Dec 2019 06:52:56 -0500
-Received: by mail-wm1-f72.google.com with SMTP id y125so1711879wmg.1
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 03:52:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dAg+8tVPdsj7FCPPOqXhgam7WzTZUUQBbMEBaFocZmk=;
- b=ltQlOapyprzq2qx3bcD5x02fMyd/BuNkyIAn1dTOQ/GYVBUmHi5/VWrZ+niqA3qFI+
- leL4qdH82nSU0T55HA2h3lopym2yp650IFre7744e7i6LLHaFrYatITlJi9+AeCzl+gR
- l5BWNGC9AJye7yA2CMvVSXfFq8XgA+jK5sdQP8g34gByrMqXjwzIdr0i7diCVMdNWoh1
- A9EBs4QMaMc02RRqwzmggweWNudmDmoWZQnepd7BX0+kF5EHuhE/JLQ+3b/pv3iIl4hy
- 9ey1Aeg0dpWIwWINTIYwA/7fUrQhDS/RRGTwQceSsMUTWtozY2gil1NK5ISR8VRIhMcH
- OdFg==
-X-Gm-Message-State: APjAAAUq53tQiPFXEcDiFtksrDwXV6NxgPqvTVIWu3POBiHkZNIzNbe3
- zQiFgCig/VaJC8oaLVJBvWel6+HbsXxmSJi7JkLixAzeWuiCJ20Iz1D9sFF0vSteJxwfSleBG/j
- JpB12urcVxRFUVv8=
-X-Received: by 2002:adf:e2cf:: with SMTP id d15mr2373774wrj.225.1576669974192; 
- Wed, 18 Dec 2019 03:52:54 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyb8HTUXUBI6AN8BsxVhbBbvgrJt1780aOMkhsMeOfR+5Pcl6Cn/QOu0rKYtHLG4vsWFx6nwA==
-X-Received: by 2002:adf:e2cf:: with SMTP id d15mr2373749wrj.225.1576669973934; 
- Wed, 18 Dec 2019 03:52:53 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:ac09:bce1:1c26:264c?
- ([2001:b07:6468:f312:ac09:bce1:1c26:264c])
- by smtp.gmail.com with ESMTPSA id h2sm2415840wrt.45.2019.12.18.03.52.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2019 03:52:53 -0800 (PST)
-Subject: Re: [PULL 00/62] Misc patches for 2019-12-16
-To: quintela@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <1576513726-53700-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA_kFsxDKY-ktQ5E4gHxpkQq0Go38DPevKxgf3pTimRxeg@mail.gmail.com>
- <20191217112236.GA2826@work-vm> <877e2u6mjr.fsf@trasno.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <63ea9d45-cf98-661a-8788-fbe0c17e9566@redhat.com>
-Date: Wed, 18 Dec 2019 12:53:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <tu.guoyi@h3c.com>) id 1ihXtp-0006EP-E2
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 06:53:54 -0500
+Received: from smtp.h3c.com ([60.191.123.56]:50602 helo=h3cspam01-ex.h3c.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tu.guoyi@h3c.com>)
+ id 1ihXto-0005bg-AM; Wed, 18 Dec 2019 06:53:53 -0500
+Received: from DAG2EX05-BASE.srv.huawei-3com.com ([10.8.0.68])
+ by h3cspam01-ex.h3c.com with ESMTPS id xBIBrVrZ003811
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 18 Dec 2019 19:53:31 +0800 (GMT-8)
+ (envelope-from tu.guoyi@h3c.com)
+Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
+ DAG2EX05-BASE.srv.huawei-3com.com (10.8.0.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 18 Dec 2019 19:53:35 +0800
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
+ by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%6])
+ with mapi id 15.01.1713.004; Wed, 18 Dec 2019 19:53:35 +0800
+From: Tuguoyi <tu.guoyi@h3c.com>
+To: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: [PATCH v2] qcow2: Move error check of local_err near its assignment
+Thread-Topic: [PATCH v2] qcow2: Move error check of local_err near its
+ assignment
+Thread-Index: AdW1mTSoOOuBNsNvTxeUrz3yzMUMzg==
+Date: Wed, 18 Dec 2019 11:53:35 +0000
+Message-ID: <d7301bf410e04b50a494a82679335158@h3c.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.125.108.112]
+x-sender-location: DAG2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <877e2u6mjr.fsf@trasno.org>
-Content-Language: en-US
-X-MC-Unique: _KRCfvZ4Ntih4BcYpYPjvg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-DNSRBL: 
+X-MAIL: h3cspam01-ex.h3c.com xBIBrVrZ003811
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 60.191.123.56
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,45 +65,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/19 09:54, Juan Quintela wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
->>> (and others similar)
->>>
->>> and in the migration-test:
->>> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
->>> QTEST_QEMU_BINARY=i386-softmmu/qemu-system-i386
->>> QTEST_QEMU_IMG=qemu-img tests/migration-test -m=quick -k --tap <
->>> /dev/null | ./scripts/tap-driver.pl --test-name="migration-test"
->>> PASS 1 migration-test /i386/migration/deprecated
->>> /home/petmay01/linaro/qemu-for-merges/tests/migration-test.c:689:15:
->>> runtime error: load of value 255, which is not a valid value for type
->>> 'bool'
->>> /home/petmay01/linaro/qemu-for-merges/tests/migration-test.c:690:16:
->>> runtime error: null pointer passed as argument 1, which is declared to
->>> never be null
->>> /usr/include/unistd.h:828:48: note: nonnull attribute specified here
->>
->> That's a use-after-free from Juan's 'migration-test: Use a struct for
->> test_migrate_start parameters';  it's calling migrate_start_destroy and
->> then checks args->use_shmem.
-> 
-> Hi
-> 
-> New series with the fix posted upstream.
-> 
-> Paolo, should I did the pull requset, or will you do it?
-
-I can do it.
-
-> PD.  Just curious, how should I launch clang to give me that error?
-
-"make docker-test-debug@fedora".
-
-Paolo
-
+VGhlIGxvY2FsX2VyciBjaGVjayBvdXRzaWRlIG9mIHRoZSBpZiBibG9jayB3YXMgbmVjZXNzYXJ5
+DQp3aGVuIGl0IHdhcyBpbnRyb2R1Y2VkIGluIGNvbW1pdCBkMTI1OGRkMGM4NyBiZWNhdXNlIGl0
+IG5lZWRlZCB0byBiZQ0KZXhlY3V0ZWQgZXZlbiBpZiBxY293Ml9sb2FkX2F1dG9sb2FkaW5nX2Rp
+cnR5X2JpdG1hcHMoKSByZXR1cm5lZCBmYWxzZS4NCg0KQWZ0ZXIgc29tZSBtb2RpZmljYXRpb25z
+IHRoYXQgYWxsIHJlcXVpcmVkIHRoZSBlcnJvciBjaGVjayB0byByZW1haW4NCndoZXJlIGl0IGlz
+LCBjb21taXQgOWM5OGYxNDVkZmIgZmluYWxseSBtb3ZlZCB0aGUNCnFjb3cyX2xvYWRfZGlydHlf
+Yml0bWFwcygpIGNhbGwgaW50byB0aGUgaWYgYmxvY2ssIHNvIG5vdyB0aGUgZXJyb3INCmNoZWNr
+IHNob3VsZCBiZSB0aGVyZSwgdG9vLg0KDQpTaWduZWQtb2ZmLWJ5OiBHdW95aSBUdSA8dHUuZ3Vv
+eWlAaDNjLmNvbT4NClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2
+c2VtZW50c292QHZpcnR1b3p6by5jb20+DQotLS0NCiBibG9jay9xY293Mi5jIHwgMTAgKysrKyst
+LS0tLQ0KIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQoN
+CmRpZmYgLS1naXQgYS9ibG9jay9xY293Mi5jIGIvYmxvY2svcWNvdzIuYw0KaW5kZXggN2MxODcy
+MS4uY2UzZGIyOSAxMDA2NDQNCi0tLSBhL2Jsb2NrL3Fjb3cyLmMNCisrKyBiL2Jsb2NrL3Fjb3cy
+LmMNCkBAIC0xNzA1LDE0ICsxNzA1LDE0IEBAIHN0YXRpYyBpbnQgY29yb3V0aW5lX2ZuIHFjb3cy
+X2RvX29wZW4oQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIFFEaWN0ICpvcHRpb25zLA0KICAgICBpZiAo
+IShiZHJ2X2dldF9mbGFncyhicykgJiBCRFJWX09fSU5BQ1RJVkUpKSB7DQogICAgICAgICAvKiBJ
+dCdzIGNhc2UgMSwgMiBvciAzLjIuIE9yIDMuMSB3aGljaCBpcyBCVUcgaW4gbWFuYWdlbWVudCBs
+YXllci4gKi8NCiAgICAgICAgIGJvb2wgaGVhZGVyX3VwZGF0ZWQgPSBxY293Ml9sb2FkX2RpcnR5
+X2JpdG1hcHMoYnMsICZsb2NhbF9lcnIpOw0KKyAgICAgICAgaWYgKGxvY2FsX2VyciAhPSBOVUxM
+KSB7DQorICAgICAgICAgICAgZXJyb3JfcHJvcGFnYXRlKGVycnAsIGxvY2FsX2Vycik7DQorICAg
+ICAgICAgICAgcmV0ID0gLUVJTlZBTDsNCisgICAgICAgICAgICBnb3RvIGZhaWw7DQorICAgICAg
+ICB9DQogDQogICAgICAgICB1cGRhdGVfaGVhZGVyID0gdXBkYXRlX2hlYWRlciAmJiAhaGVhZGVy
+X3VwZGF0ZWQ7DQogICAgIH0NCi0gICAgaWYgKGxvY2FsX2VyciAhPSBOVUxMKSB7DQotICAgICAg
+ICBlcnJvcl9wcm9wYWdhdGUoZXJycCwgbG9jYWxfZXJyKTsNCi0gICAgICAgIHJldCA9IC1FSU5W
+QUw7DQotICAgICAgICBnb3RvIGZhaWw7DQotICAgIH0NCiANCiAgICAgaWYgKHVwZGF0ZV9oZWFk
+ZXIpIHsNCiAgICAgICAgIHJldCA9IHFjb3cyX3VwZGF0ZV9oZWFkZXIoYnMpOw0KLS0gDQoyLjcu
+NA0KDQo=
 
