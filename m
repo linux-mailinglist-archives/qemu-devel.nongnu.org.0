@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46D3124664
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:02:44 +0100 (CET)
-Received: from localhost ([::1]:53144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C12124677
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:08:04 +0100 (CET)
+Received: from localhost ([::1]:53208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihY2N-0005Hr-La
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:02:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
+	id 1ihY7X-0003NU-F7
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:08:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihY1E-0004mx-HQ
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:01:33 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2g-0005xO-VU
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihY19-0002Kk-0e
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:01:31 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44873
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihY18-0002B3-Rr
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:01:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576670485;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nnTOVHuW87Jr/QF5nTyCZsFNBa9WxSkLxkS3rc7V324=;
- b=CMAcblrSa9quoeC6sxcghhVePalAQnrshpCYZYmxDr/Dx9pL7045+57pj9qgfmE/YgLTGK
- 4lbU2NOLl77eaWE8BeRLtJRU4HMYZK9DYPB75x6c9wtG0/fDWzAsLFLd2NXsy6cF+vzuKD
- 6R9q23BIAFHut9PF1SMNVMhUCFbCDZs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-G62gFVv_NAqS0LjzT4_onw-1; Wed, 18 Dec 2019 07:01:23 -0500
-Received: by mail-wm1-f70.google.com with SMTP id p5so434679wmc.4
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:01:23 -0800 (PST)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2f-0007tX-7b
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:02 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55116)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ihY2e-0007pi-SW
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:01 -0500
+Received: by mail-wm1-x332.google.com with SMTP id b19so1551179wmj.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=lQcQ8hHYJ9b8wR89sWSdLjNQioFt95lRtiBn1TJrwfs=;
+ b=r88j6abDZc5HEwSRSlVxzAneVWBsiD9Ng2qBsfy0cI+jEHdQsSbPgAjjqaeyk1XGs4
+ 4MPsNAfcEOHcJySK1qcwrQ6XIuXiH4OQR9sivlWQTnXDsjC/Xgo0rJgc2jU4//32YMx/
+ iU94PtQFXBiwLix987+umGllMMHdbaHA3PZi/AsF3IaVjkup9pYegqxqOp3KyKa3dkRm
+ JHgELlme/90pb5NDeGWuriz+BccQwvUsQVA+v8+DW3a9l0YZjn2QLEr31X1HGgBncGv/
+ BOeyKHP6/c3fJz3FD9i37ea6cIXsuP/ZdwK5Zwf9bmX14RybOWkVJ4POo1yuM4r+UMq+
+ p1+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vtprSGYHU4j197Ob5MFH6FDAhj99Ty+47OcaF4TZslQ=;
- b=MedRIOAlLZhhwnfvhGOrJ0LloPDIhDBjxRWGDdjjyHBx+sbo4UD5NlZi3dKT4eC92j
- Ug22meH/UwkbuZC17CKy/8m/r37Oj4VcWfDHkG39lmAZqzU75chzP1UzJTncIAdVbFuQ
- ir3UTpdodPZbWM0cb2qVEFz0l80vY98u/Z2aaZxTPHZq2wIW+8ScVYwfjK9H1GhmQF9P
- X0JcPIKJB32JRvVFvJAk8uZXLkGppSOha54WW71VV6mNcX+IoMIeuJavjLhIqyBDWgGC
- t/nK1iUO5EpjRucrDjAr0y62nIxmVi4G5tTGgSTATu1HIvC5ffph4oJKJuNuLZLzDrOC
- CgDw==
-X-Gm-Message-State: APjAAAV8Ol3QkrDC/qxydw77ZGESaD4qfEaM+5kF2fgS2F4AnTIW4tnx
- XTWz4YtrNkGzE9jUqKtN7e0q1FFjHR4mc9FS9NCcR+iX2GdPPFW/g72m1XoumQzzLWVZEXeHAvC
- BDx15kswmrKg2WRw=
-X-Received: by 2002:a05:6000:50:: with SMTP id
- k16mr2402936wrx.145.1576670482376; 
- Wed, 18 Dec 2019 04:01:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzP+Fh3tnwzAq8B8UcmM2mVBYjuJtoDSV8sbDFanUFk2f/c6bgGmh1sUtNsOgYBEFE0wS3EXA==
-X-Received: by 2002:a05:6000:50:: with SMTP id
- k16mr2402888wrx.145.1576670482076; 
- Wed, 18 Dec 2019 04:01:22 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:ac09:bce1:1c26:264c?
- ([2001:b07:6468:f312:ac09:bce1:1c26:264c])
- by smtp.gmail.com with ESMTPSA id s8sm2242512wrt.57.2019.12.18.04.01.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:01:21 -0800 (PST)
-Subject: Re: [PATCH-for-5.0 v3 3/6] hw/pci-host/i440fx: Use size_t to iterate
- over ARRAY_SIZE()
-To: Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191209095002.32194-1-philmd@redhat.com>
- <20191209095002.32194-4-philmd@redhat.com>
- <a4745134-47dc-ab8a-6009-69fcc9dfbb02@redhat.com>
- <46339299-e45b-79a3-5b45-f62fb5c7b26f@vivier.eu>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=lQcQ8hHYJ9b8wR89sWSdLjNQioFt95lRtiBn1TJrwfs=;
+ b=JJP2ApxFPHihed+C6/7zRLZjJSyLc8b9JD4lYp9vi57qVHFV3uItNiRpWW5C/42now
+ kuykLN3jn0ThGvOWdKbz/w/t97h17bRESLAgWnulY2414xneXBili4fTwAKBcnZj7M/k
+ smdtJ0RHkuEdmI0GZ6/zOleEOCFPp5I2Tq6CvkRzEiYe98RJPn37fdOYdTtFJNeOWDSq
+ 4YwgeDVn/yv+REaAlDGAKCGxwRlyzjKL2Hc1pCE1ckwLNKNdsD5CTBziX/vo8EvJLXJ3
+ 2AFg04mV5KTrvq6xXMAsnpJWfNpeRhfaw0m9lWbIEnf+OKBNOmaoxuoYlz1olAoNLZX5
+ 0RkA==
+X-Gm-Message-State: APjAAAU9c1IQgk9A9RDyeNkqAeYHDU1+SfB8H+mRt4oMpWBOSt1eWFYU
+ 9DdiVv/bKb05UopuRvK7zIhCR5MF
+X-Google-Smtp-Source: APXvYqwjcxTglWr+KY8LYDlrpO5+04SEvgB3V5jwKl/aeNtE86MGTyWM20++8CsfD+6w9ujKjxjG9g==
+X-Received: by 2002:a1c:7d92:: with SMTP id y140mr2635340wmc.145.1576670579430; 
+ Wed, 18 Dec 2019 04:02:59 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.02.58
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 18 Dec 2019 04:02:58 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b629cd94-95e9-d351-6e80-23594c2b6245@redhat.com>
-Date: Wed, 18 Dec 2019 13:01:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <46339299-e45b-79a3-5b45-f62fb5c7b26f@vivier.eu>
-Content-Language: en-US
-X-MC-Unique: G62gFVv_NAqS0LjzT4_onw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+To: qemu-devel@nongnu.org
+Subject: [PULL 04/87] migration-test: Move -machine to common commandline
+Date: Wed, 18 Dec 2019 13:01:30 +0100
+Message-Id: <1576670573-48048-5-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
+References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,57 +74,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/19 12:57, Laurent Vivier wrote:
-> Le 09/12/2019 =C3=A0 11:05, Thomas Huth a =C3=A9crit=C2=A0:
->> On 09/12/2019 10.49, Philippe Mathieu-Daud=C3=A9 wrote:
->>> We don't enforce the -Wsign-conversion CPPFLAG, but it doesn't hurt
->>> to avoid this warning:
->>>
->>>   warning: implicit conversion changes signedness: 'int' to 'size_t' (a=
-ka 'unsigned long') [-Wsign-conversion]
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>> ---
->>>  hw/pci-host/i440fx.c | 5 ++---
->>>  1 file changed, 2 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
->>> index fbdc563599..0cc80b276d 100644
->>> --- a/hw/pci-host/i440fx.c
->>> +++ b/hw/pci-host/i440fx.c
->>> @@ -419,12 +419,11 @@ out:
->>>  static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
->>>  {
->>>      uint32_t val =3D 0;
->>> -    int i, num;
->>> +    size_t i;
->>>      int pos, len;
->>>      Error *local_err =3D NULL;
->>> =20
->>> -    num =3D ARRAY_SIZE(igd_host_bridge_infos);
->>> -    for (i =3D 0; i < num; i++) {
->>> +    for (i =3D 0; i < ARRAY_SIZE(igd_host_bridge_infos); i++) {
->>>          pos =3D igd_host_bridge_infos[i].offset;
->>>          len =3D igd_host_bridge_infos[i].len;
->>>          host_pci_config_read(pos, len, &val, &local_err);
->>>
->>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>
->>
->=20
-> Applied to my trivial-patches branch.
+From: Juan Quintela <quintela@redhat.com>
 
-No need to, I've already queued the whole series.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Tested-by: Cornelia Huck <cohuck@redhat.com> #s390x
+Tested-by: Laurent Vivier <lvivier@redhat.com>
+---
+ tests/migration-test.c | 51 +++++++++++++++++++++++++++++---------------------
+ 1 file changed, 30 insertions(+), 21 deletions(-)
 
-Paolo
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index 0c01ed3..5a63158 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -563,7 +563,8 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+     char *extra_opts = NULL;
+     char *shmem_path = NULL;
+     const char *arch = qtest_get_arch();
+-    const char *accel = "kvm:tcg";
++    const char *machine_type;
++    const char *machine_args;
+ 
+     opts_src = opts_src ? opts_src : "";
+     opts_dst = opts_dst ? opts_dst : "";
+@@ -582,72 +583,78 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         /* the assembled x86 boot sector should be exactly one sector large */
+         assert(sizeof(x86_bootsect) == 512);
+         init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
++        machine_type = "";
++        machine_args = "";
+         extra_opts = use_shmem ? get_shmem_opts("150M", shmem_path) : NULL;
+-        cmd_src = g_strdup_printf("-machine accel=%s -m 150M"
++        cmd_src = g_strdup_printf("-m 150M"
+                                   " -name source,debug-threads=on"
+                                   " -serial file:%s/src_serial"
+                                   " -drive file=%s,format=raw %s",
+-                                  accel, tmpfs, bootpath,
++                                  tmpfs, bootpath,
+                                   extra_opts ? extra_opts : "");
+-        cmd_dst = g_strdup_printf("-machine accel=%s -m 150M"
++        cmd_dst = g_strdup_printf("-m 150M"
+                                   " -name target,debug-threads=on"
+                                   " -serial file:%s/dest_serial"
+                                   " -drive file=%s,format=raw"
+                                   " -incoming %s %s",
+-                                  accel, tmpfs, bootpath, uri,
++                                  tmpfs, bootpath, uri,
+                                   extra_opts ? extra_opts : "");
+         start_address = X86_TEST_MEM_START;
+         end_address = X86_TEST_MEM_END;
+     } else if (g_str_equal(arch, "s390x")) {
+         init_bootfile(bootpath, s390x_elf, sizeof(s390x_elf));
++        machine_type = "";
++        machine_args = "";
+         extra_opts = use_shmem ? get_shmem_opts("128M", shmem_path) : NULL;
+-        cmd_src = g_strdup_printf("-machine accel=%s -m 128M"
++        cmd_src = g_strdup_printf("-m 128M"
+                                   " -name source,debug-threads=on"
+                                   " -serial file:%s/src_serial -bios %s %s",
+-                                  accel, tmpfs, bootpath,
++                                  tmpfs, bootpath,
+                                   extra_opts ? extra_opts : "");
+-        cmd_dst = g_strdup_printf("-machine accel=%s -m 128M"
++        cmd_dst = g_strdup_printf("-m 128M"
+                                   " -name target,debug-threads=on"
+                                   " -serial file:%s/dest_serial -bios %s"
+                                   " -incoming %s %s",
+-                                  accel, tmpfs, bootpath, uri,
++                                  tmpfs, bootpath, uri,
+                                   extra_opts ? extra_opts : "");
+         start_address = S390_TEST_MEM_START;
+         end_address = S390_TEST_MEM_END;
+     } else if (strcmp(arch, "ppc64") == 0) {
++        machine_type = "";
++        machine_args = ",vsmt=8";
+         extra_opts = use_shmem ? get_shmem_opts("256M", shmem_path) : NULL;
+-        cmd_src = g_strdup_printf("-machine accel=%s,vsmt=8 -m 256M -nodefaults"
++        cmd_src = g_strdup_printf("-m 256M -nodefaults"
+                                   " -name source,debug-threads=on"
+                                   " -serial file:%s/src_serial"
+                                   " -prom-env 'use-nvramrc?=true' -prom-env "
+                                   "'nvramrc=hex .\" _\" begin %x %x "
+                                   "do i c@ 1 + i c! 1000 +loop .\" B\" 0 "
+-                                  "until' %s",  accel, tmpfs, end_address,
++                                  "until' %s", tmpfs, end_address,
+                                   start_address, extra_opts ? extra_opts : "");
+-        cmd_dst = g_strdup_printf("-machine accel=%s,vsmt=8 -m 256M"
++        cmd_dst = g_strdup_printf("-m 256M"
+                                   " -name target,debug-threads=on"
+                                   " -serial file:%s/dest_serial"
+                                   " -incoming %s %s",
+-                                  accel, tmpfs, uri,
++                                  tmpfs, uri,
+                                   extra_opts ? extra_opts : "");
+ 
+         start_address = PPC_TEST_MEM_START;
+         end_address = PPC_TEST_MEM_END;
+     } else if (strcmp(arch, "aarch64") == 0) {
+         init_bootfile(bootpath, aarch64_kernel, sizeof(aarch64_kernel));
++        machine_type = "virt,";
++        machine_args = "gic-version=max";
+         extra_opts = use_shmem ? get_shmem_opts("150M", shmem_path) : NULL;
+-        cmd_src = g_strdup_printf("-machine virt,accel=%s,gic-version=max "
+-                                  "-name vmsource,debug-threads=on -cpu max "
++        cmd_src = g_strdup_printf("-name vmsource,debug-threads=on -cpu max "
+                                   "-m 150M -serial file:%s/src_serial "
+                                   "-kernel %s %s",
+-                                  accel, tmpfs, bootpath,
++                                  tmpfs, bootpath,
+                                   extra_opts ? extra_opts : "");
+-        cmd_dst = g_strdup_printf("-machine virt,accel=%s,gic-version=max "
+-                                  "-name vmdest,debug-threads=on -cpu max "
++        cmd_dst = g_strdup_printf("-name vmdest,debug-threads=on -cpu max "
+                                   "-m 150M -serial file:%s/dest_serial "
+                                   "-kernel %s "
+                                   "-incoming %s %s",
+-                                  accel, tmpfs, bootpath, uri,
++                                  tmpfs, bootpath, uri,
+                                   extra_opts ? extra_opts : "");
+ 
+         start_address = ARM_TEST_MEM_START;
+@@ -667,13 +674,15 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         ignore_stderr = "";
+     }
+ 
+-    cmd_source = g_strdup_printf("%s %s %s",
++    cmd_source = g_strdup_printf("-machine %saccel=kvm:tcg%s %s %s %s",
++                                 machine_type, machine_args,
+                                  cmd_src, opts_src, ignore_stderr);
+     g_free(cmd_src);
+     *from = qtest_init(cmd_source);
+     g_free(cmd_source);
+ 
+-    cmd_target = g_strdup_printf("%s %s %s",
++    cmd_target = g_strdup_printf("-machine %saccel=kvm:tcg%s %s %s %s",
++                                 machine_type, machine_args,
+                                  cmd_dst, opts_dst, ignore_stderr);
+     g_free(cmd_dst);
+     *to = qtest_init(cmd_target);
+-- 
+1.8.3.1
+
 
 
