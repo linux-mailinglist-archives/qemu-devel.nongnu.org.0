@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D093F1241FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:42:27 +0100 (CET)
-Received: from localhost ([::1]:51240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9561241E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:37:07 +0100 (CET)
+Received: from localhost ([::1]:51150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihUuY-000699-TC
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:42:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35976)
+	id 1ihUpO-0005x5-Mr
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:37:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35842)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ihUWZ-000660-CS
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:40 -0500
+ (envelope-from <armbru@redhat.com>) id 1ihUWX-00061z-47
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ihUWX-0002Zr-0M
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40347
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWW-0002Xf-DG
+ (envelope-from <armbru@redhat.com>) id 1ihUWU-0002X6-Rs
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:36 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22358
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWT-0002SG-BT
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576657055;
+ s=mimecast20190719; t=1576657050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qRKfYDk0ubnQO6U4DC9O3vj4IfjkD4+ks4HjQEmHCHQ=;
- b=LZNzSbmy49BuMFRITKk+O+nnJ3bO7YfzAisWRLiTDdv/doczyBAzN30Z72zugZnZna0/WP
- ga7kbpFy9wwZchqoPie3dtyw9AJHKMI093/uo1Q8zZlE/6BtTIh9Tp5DOKL+ewKc2huJGn
- n4blzC7MkCL27YMrdssYPJik7rJDKbk=
+ bh=o6X5EBo5dshZ/LBY7+llNds3TSh1Xu5KuWlr5SUktLQ=;
+ b=S12HAy7RKSnI05k49he1u+hvKM2NBYMvLatd3u+2uApS2CQUGa7huL+fHrimg9DOIqD6+/
+ hZveThhLNwS9Vg/+FtJgUJ9YCipAAciC0c3Tpk9MQFAWohxiTlvqdVATPVP3ZS5G7ujqDa
+ NnteCbZ7UsVMTwe4anoEZtcQ76vhOHY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-op8Xn19HP4e4yAwnGRbwoA-1; Wed, 18 Dec 2019 03:17:31 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-178-63fbUR12Ozy-VxVCkGacsA-1; Wed, 18 Dec 2019 03:17:29 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8282107ACC5;
- Wed, 18 Dec 2019 08:17:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CAC3800D5A;
+ Wed, 18 Dec 2019 08:17:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22A601000329;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 286567D903;
  Wed, 18 Dec 2019 08:17:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C30C3113642C; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
+ id CB660113642E; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 28/35] hw/s390x: rename Error ** parameter to more common
- errp
-Date: Wed, 18 Dec 2019 09:17:14 +0100
-Message-Id: <20191218081721.23520-29-armbru@redhat.com>
+Subject: [PULL v2 30/35] hw/tpm: rename Error ** parameter to more common errp
+Date: Wed, 18 Dec 2019 09:17:16 +0100
+Message-Id: <20191218081721.23520-31-armbru@redhat.com>
 In-Reply-To: <20191218081721.23520-1-armbru@redhat.com>
 References: <20191218081721.23520-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: op8Xn19HP4e4yAwnGRbwoA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 63fbUR12Ozy-VxVCkGacsA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,56 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20191205174635.18758-15-vsementsov@virtuozzo.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Message-Id: <20191205174635.18758-17-vsementsov@virtuozzo.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/s390x/event-facility.c | 2 +-
- hw/s390x/s390-stattrib.c  | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/tpm/tpm_emulator.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-index cdcf9154c4..6afe278cad 100644
---- a/hw/s390x/event-facility.c
-+++ b/hw/s390x/event-facility.c
-@@ -441,7 +441,7 @@ static void sclp_event_set_allow_all_mask_sizes(Object =
-*obj, bool value,
-     ef->allow_all_mask_sizes =3D value;
- }
-=20
--static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **e)
-+static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **errp)
+diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
+index 22f9113432..10d587ed40 100644
+--- a/hw/tpm/tpm_emulator.c
++++ b/hw/tpm/tpm_emulator.c
+@@ -155,7 +155,7 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_e=
+mu,
+                                      const uint8_t *in, uint32_t in_len,
+                                      uint8_t *out, uint32_t out_len,
+                                      bool *selftest_done,
+-                                     Error **err)
++                                     Error **errp)
  {
-     SCLPEventFacility *ef =3D (SCLPEventFacility *)obj;
+     ssize_t ret;
+     bool is_selftest =3D false;
+@@ -165,20 +165,20 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm=
+_emu,
+         is_selftest =3D tpm_util_is_selftest(in, in_len);
+     }
 =20
-diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
-index bf5ac014c4..58121b9f68 100644
---- a/hw/s390x/s390-stattrib.c
-+++ b/hw/s390x/s390-stattrib.c
-@@ -352,7 +352,8 @@ static void s390_stattrib_class_init(ObjectClass *oc, v=
-oid *data)
-     dc->realize =3D s390_stattrib_realize;
- }
+-    ret =3D qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, e=
+rr);
++    ret =3D qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, e=
+rrp);
+     if (ret !=3D 0) {
+         return -1;
+     }
 =20
--static inline bool s390_stattrib_get_migration_enabled(Object *obj, Error =
-**e)
-+static inline bool s390_stattrib_get_migration_enabled(Object *obj,
-+                                                       Error **errp)
- {
-     S390StAttribState *s =3D S390_STATTRIB(obj);
+     ret =3D qio_channel_read_all(tpm_emu->data_ioc, (char *)out,
+-              sizeof(struct tpm_resp_hdr), err);
++              sizeof(struct tpm_resp_hdr), errp);
+     if (ret !=3D 0) {
+         return -1;
+     }
 =20
+     ret =3D qio_channel_read_all(tpm_emu->data_ioc,
+               (char *)out + sizeof(struct tpm_resp_hdr),
+-              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), err);
++              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), errp);
+     if (ret !=3D 0) {
+         return -1;
+     }
 --=20
 2.21.0
 
