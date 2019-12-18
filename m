@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB293125460
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:12:25 +0100 (CET)
-Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED4512546A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:14:29 +0100 (CET)
+Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihgcK-0002v9-F1
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:12:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48892)
+	id 1ihgeK-0005lh-Lo
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:14:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1ihgUt-0002CZ-Ju
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:44 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ihgUw-0002Hg-A5
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1ihgUs-0001Cg-7g
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:43 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40602)
+ (envelope-from <mrolnik@gmail.com>) id 1ihgUu-0001Gd-Rf
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:46 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38455)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgUs-0001BS-1Q
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:42 -0500
-Received: by mail-wr1-x444.google.com with SMTP id c14so3783497wrn.7
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:04:41 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgUu-0001Fr-LW
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:44 -0500
+Received: by mail-wr1-x444.google.com with SMTP id y17so3811936wrh.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:04:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VYm/XIqEVgZC6h11WJ3979IWXTcW8fTDJ44bzexd108=;
- b=ulLoCe3N4dhpcwrDuuGTHpnGdtdb8f/O1YHNj+jqJNhTSUd8R72ym4tXo2u7pvV2+B
- xPGtC7KRkh2ql4n8/asYZPIn2YocqQIC7eXJQrGoJTJIzR5bUgAKr+JKlZtDGkM5vtHm
- oofB943Ygiq17RZc641oPYaJAvrtzzF9ayWP15EBbcXhF8KOgDR1s+qjvvRd5kWouC6M
- Fwgbp+gfX+p17UvCIBmURyMgYUi48cdVjuSesNz6EE4HhBxaolTbsRTZqSRakjHDfE93
- 2sAxpri6V6xn102r70vyeO1SXRAfWZeW88R/DmV4ONSJoQVuSBdzSkXWiP9eJ8cs8BYn
- kd/Q==
+ bh=hG9yLpMv8x5JNCD55FMtjlk9oGFGwOQ+hU3EbJamgHk=;
+ b=s0sirjtAhn6pudAxqnA2Lbb9fOs5wfsfwPvDtT0uWzRjt0F427hzpaKABk5Vzy16gW
+ XvG8ay+5zXFqRZWj+U5slKb7X7TAxD+A6aKjSlipw072QzpnsF8PaZd3raHMizYzUij2
+ gJJkr0KkPqkdu8G+RamZj0s+dYcgOGYHlX4y/RIDBxys+xGRpbto/9Ayk9c2XDVhD2aH
+ 89H+SylxuGEifsXgXQyIGDtUxcYbclm87u6kA7u6uu7wUL41IAG97ly1zes3mSc27FHU
+ Bid1gWZVUNfY/LEEYCjA9LK1xX4wrmt1B/rFMw18H/+wBUcdUQPmVXClvdu5zqpEF2NW
+ 6qaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VYm/XIqEVgZC6h11WJ3979IWXTcW8fTDJ44bzexd108=;
- b=D+0Sf7dAZivOmsv6PVQ1kpOROpCjas/RJhNkBipk0I8n04Lrb4GV1CjvQo4qDFTEIe
- pBxyISUG8SXr6oxr6N74Z9tcXY9Cy7wZdXgA4kUFBgvKFF3IejlQlyixuvzztzra86yO
- bAqvljqwMI16h8fVcQJ8TDHcrbHCXJHch8ZpHuIlZQ4jfuei03v6Ze463KHGhMCYuvXS
- KATwmJl9zp5SJhe4E+d5EKSIG426iIwP2bS0x4RhY37CMfCIHzv7S2Dw/GjEIlNRrPa2
- CK4DJaGqBF3tcoLWjPpUA7icc8oNNdtAmyu2GpyMXFaSWGLkGAHHZKKsIVT7qLhD380w
- m2yw==
-X-Gm-Message-State: APjAAAUmwv0hovrIoNzheliWoRsL5MpGxwwMRKBlGmiq+9a9P7JEHD8I
- 3lqxZ5uTE8eXi1XV8B4mY0YTsNu7QbFeHg==
-X-Google-Smtp-Source: APXvYqzHRNaUTXQwJ+ncEbtxNp572WAaV3asLvATAheGadgPtdBsMwKntofRzVXCDHePUix8hGMFpw==
-X-Received: by 2002:adf:f605:: with SMTP id t5mr4926845wrp.282.1576703080691; 
- Wed, 18 Dec 2019 13:04:40 -0800 (PST)
+ bh=hG9yLpMv8x5JNCD55FMtjlk9oGFGwOQ+hU3EbJamgHk=;
+ b=iDstz6NQSyU0615lUuLjcRMRwqnIffeiX6LQhb4xsLdmdRCMwurC3qFmQRixjKhsuu
+ EJAyuiGeHuo5jNPYwO/Ek/qYcsWYv1AchfqEzk480XG7+ty5x8r8Y/R4IGzsrUd3OyjP
+ cqLg6bLHtp2mq0BoT89+sQd38Hwm7vWsT7heW7Gp0nbI1K3lPhd8tHr27jUCIWTFIZsg
+ pyuj7taR/XR/GK5RdublkqlCXUzmgDKk+BdCCNr6CMMAqqGgnPxI6VZ8tOWEqg6jjuRE
+ Mor7ZlQih9R/aauPKG6Jkb3bl1Mt326E7pKGqQELi+VQIHY+aVzeeGXeU22jtkAiTSlO
+ OX7g==
+X-Gm-Message-State: APjAAAXtJ7oAIfLn7EYZvziYLFw9Ngs8JDhD42Um22Y7Y1bn3Xu4XO1C
+ gQrilYN7ZHpMtMha2M9JlBfzjlBMA39AQA==
+X-Google-Smtp-Source: APXvYqxyr2Tm8Q6ELX0tkZodCYSqG/AaEGzIadiqAmOjwJHMaZlkR1KGBRhUHKP+qIkOv9h3CBJ/WA==
+X-Received: by 2002:a05:6000:1142:: with SMTP id
+ d2mr4755270wrx.253.1576703083323; 
+ Wed, 18 Dec 2019 13:04:43 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-109-65-2-109.red.bezeqint.net. [109.65.2.109])
- by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.04.37
+ by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.04.40
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 18 Dec 2019 13:04:40 -0800 (PST)
+ Wed, 18 Dec 2019 13:04:42 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v39 18/22] target/avr: Add machine none test
-Date: Wed, 18 Dec 2019 23:03:25 +0200
-Message-Id: <20191218210329.1960-19-mrolnik@gmail.com>
+Subject: [PATCH v39 19/22] target/avr: Update build system
+Date: Wed, 18 Dec 2019 23:03:26 +0200
+Message-Id: <20191218210329.1960-20-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20191218210329.1960-1-mrolnik@gmail.com>
 References: <20191218210329.1960-1-mrolnik@gmail.com>
@@ -84,25 +85,95 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Make AVR support buildable
+
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- tests/machine-none-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ configure                       |  7 +++++++
+ default-configs/avr-softmmu.mak |  5 +++++
+ target/avr/Makefile.objs        | 34 +++++++++++++++++++++++++++++++++
+ 3 files changed, 46 insertions(+)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 target/avr/Makefile.objs
 
-diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
-index 5953d31755..3e5c74e73e 100644
---- a/tests/machine-none-test.c
-+++ b/tests/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
+diff --git a/configure b/configure
+index 84b413dbfc..fb1823208f 100755
+--- a/configure
++++ b/configure
+@@ -7602,6 +7602,10 @@ case "$target_name" in
+     mttcg="yes"
+     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
+   ;;
++  avr)
++    gdb_xml_files="avr-cpu.xml"
++    target_compiler=$cross_cc_avr
++  ;;
+   cris)
+   ;;
+   hppa)
+@@ -7821,6 +7825,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
+       disas_config "ARM_A64"
+     fi
+   ;;
++  avr)
++    disas_config "AVR"
++  ;;
+   cris)
+     disas_config "CRIS"
+   ;;
+diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
+new file mode 100644
+index 0000000000..d1e1c28118
+--- /dev/null
++++ b/default-configs/avr-softmmu.mak
+@@ -0,0 +1,5 @@
++# Default configuration for avr-softmmu
++
++# Boards:
++#
++CONFIG_AVR_SAMPLE=y
+diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
+new file mode 100644
+index 0000000000..7523e0c6e2
+--- /dev/null
++++ b/target/avr/Makefile.objs
+@@ -0,0 +1,34 @@
++#
++#  QEMU AVR CPU
++#
++#  Copyright (c) 2019 Michael Rolnik
++#
++#  This library is free software; you can redistribute it and/or
++#  modify it under the terms of the GNU Lesser General Public
++#  License as published by the Free Software Foundation; either
++#  version 2.1 of the License, or (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++#  Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  License along with this library; if not, see
++#  <http://www.gnu.org/licenses/lgpl-2.1.html>
++#
++
++DECODETREE = $(SRC_PATH)/scripts/decodetree.py
++decode-y = $(SRC_PATH)/target/avr/insn.decode
++
++target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
++	$(call quiet-command, \
++	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
++	  "GEN", $(TARGET_DIR)$@)
++
++target/avr/translate.o: target/avr/decode_insn.inc.c
++
++obj-y += translate.o cpu.o helper.o
++obj-y += gdbstub.o
++obj-y += disas.o
++obj-$(CONFIG_SOFTMMU) += machine.o
 -- 
 2.17.2 (Apple Git-113)
 
