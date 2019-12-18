@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5812A12476F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:58:26 +0100 (CET)
-Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB985124725
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:44:35 +0100 (CET)
+Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYuH-0005wJ-Az
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:58:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57950)
+	id 1ihYgi-0004qV-AK
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:44:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58105)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY40-0007Uy-IZ
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:25 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY41-0007W6-Ce
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3z-0003y0-9M
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:24 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36648)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY40-00040l-4y
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:25 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44249)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3z-0003td-0j
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:23 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id z3so2026703wru.3
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:22 -0800 (PST)
+ id 1ihY3z-0003xl-SE
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:24 -0500
+Received: by mail-wr1-x436.google.com with SMTP id q10so1987069wrm.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x5YkySL2mKW7ugobt1wcSialbS2GyDoRr4H4ExH3cV0=;
- b=p3htYOC7NtF5niJ8rlL3I7KmzXXkvtsi4svvUyVMgQCIDxCCTTMnny27SuDI9vPu5O
- AMcmJ4dEbXk6GEy7LXrimjykMnkaHHwNO92oKq9qzBPU5JsL/Zgd9HoVqL82Ln8hkbvO
- gKSg9Tu1N9NQivThAvcuL7gHF9xMQ7D4JhS1hBY1ZDpvcVRaDM++/QB9qmk+cF82AxZU
- C6ZQAJeSRke+YzsIzGR511AmS0I1ZEur8NzX1zXUnOeOgykqwzFYjiT2Vw2Cp3tZ8i+l
- hhMDuhSzhEwBx2OKRnpxFiLBFZiwLrSQkEo8B0JFrxCf4rGMR0w1z8+dw/KDkJ5ohzxz
- uTVA==
+ bh=EfCRPrfO2biQWPtpACUiz6MHo21mxHWi/LuYvOKz/io=;
+ b=l3CNsr9XVQOvGzo+iTNPndyIiTg9tSm+V9fvgqXzwbTavnPr3MgW6EtpOGvHajk9x8
+ vIzBDaEQj0uN+QGUajjohzwjdf0C1D7vrRuNildl9hy+oSTRfklw9OFAYDXNE4+B/yjH
+ oUdGNM/C3MmGisj1Mw3xCNVUQVuOyxD2mq2NPmd+o/S+ASEpQWelCjGFAbJUWeU/uH1h
+ RlEOIzaC4o/TqDlRnJMyrpEa0ZEdPW1jMN1YA1owYM+RtybZlU4q6rd4GnBdZwPfA/nE
+ w7aqRfzfZWJ8LVLJ18EJnYp8pApjA7NxzVVuH+3ZsOz86D/Qsuc9zAwTLYy2ACCeAij6
+ CqgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=x5YkySL2mKW7ugobt1wcSialbS2GyDoRr4H4ExH3cV0=;
- b=s/6tsGZ4SEXDAjwEHicDgE6UJ8nwzoQIQYTQSHEdq0e6YV+5FQkr8cDU25UwQle4DE
- N+jxEilRwQsO60cOwQcpewePijHRM8F2FEinv145DDA0Z8iIuYnwNcUObscHrvn7bMle
- AQ17ZIc0w110xPtz/fOnN5XFjhU3rCJgsUVF55hmdstPZToaXRYBRpevPWrdcejqgNSi
- rJnf3Y116irD46GsfNuOpUuKL48eQ7b1KkHkGjfD0XPyz7gJZv1yRbJMncWu2+10niLp
- xzZuJrrUtOmPAkXYmjZOciGtC8HAmsqm5xGkmkIPpWa53wtk8cjc0o6/r6jaWFw+JLi3
- 16yA==
-X-Gm-Message-State: APjAAAXHGyLyXNw3LluPejPPSb0e3oc0on8lxHq+U96vSVj2jEZkuaYp
- VyjdI38kqXlo+ZtDeL2dnravVVoS
-X-Google-Smtp-Source: APXvYqyOHAPfHbUFPSYtK01Q3q/sbNgPqxi/I5tFkMB80eNkau7fv7oyVR/DQH4J1bXE8TsnqeRRpg==
-X-Received: by 2002:adf:f98c:: with SMTP id f12mr2374977wrr.138.1576670661771; 
- Wed, 18 Dec 2019 04:04:21 -0800 (PST)
+ bh=EfCRPrfO2biQWPtpACUiz6MHo21mxHWi/LuYvOKz/io=;
+ b=ivgJmyL4EsDd5+tm+luNIQbpozveaQbDO8qosCQJWzmn+FFB75zduttVRsMvAnTLee
+ OG0val/1ckb/krIMe1McwVJnLbTUvHnbb9wGroMezD7QhBiQvWJdO2ibPEQZpS8qc5jS
+ ZIOlM4Dd/T95w8vIPyEizOSNdQkEXdCrcUtKwkFcclsMcg7oIp1vUubT9rnqJ19KwbZh
+ bGxJiAz/D1KLJYouWxRMMIP9/1HzXFhytZJ7qRorVkSIfj7+5qXxxoIgJ0CP5nXZrmSi
+ bYFzIOM/bzlPMxV8hENrl7bMIBK69m75b3pdCX7GPM4+JdEUptyHRjPq5x4WpZzULs0w
+ VzwQ==
+X-Gm-Message-State: APjAAAU52R1o2C/OnUhExVL1LK5miqPR6184MvFeALQNyTOUj//3Q+Em
+ lF8YFW1ZyF76kodPmQRacyNG2feI
+X-Google-Smtp-Source: APXvYqxZUO2zDWWn/2bnhkHn1xZi6ua1ZMHUpSRgwk1f+sbPdc2jn6Q2LGM05qEVusJIxTEA7c7iBA==
+X-Received: by 2002:a5d:6ac5:: with SMTP id u5mr2436728wrw.271.1576670662551; 
+ Wed, 18 Dec 2019 04:04:22 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.20
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.21
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:21 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 79/87] hw/pci-host/i440fx: Use size_t to iterate over
- ARRAY_SIZE()
-Date: Wed, 18 Dec 2019 13:02:45 +0100
-Message-Id: <1576670573-48048-80-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 80/87] hw/pci-host/i440fx: Use definitions instead of magic
+ values
+Date: Wed, 18 Dec 2019 13:02:46 +0100
+Message-Id: <1576670573-48048-81-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,38 +85,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We don't enforce the -Wsign-conversion CPPFLAG, but it doesn't hurt
-to avoid this warning:
-
-  warning: implicit conversion changes signedness: 'int' to 'size_t' (aka 'unsigned long') [-Wsign-conversion]
+Use definitions from "hw/pci/pci_regs.h".
+This also helps when using git-grep.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191209095002.32194-4-philmd@redhat.com>
+Message-Id: <20191209095002.32194-5-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/pci-host/i440fx.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/pci-host/i440fx.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index fbdc563..0cc80b2 100644
+index 0cc80b2..4141385 100644
 --- a/hw/pci-host/i440fx.c
 +++ b/hw/pci-host/i440fx.c
-@@ -419,12 +419,11 @@ out:
- static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
- {
-     uint32_t val = 0;
--    int i, num;
-+    size_t i;
-     int pos, len;
-     Error *local_err = NULL;
+@@ -376,13 +376,13 @@ typedef struct {
  
--    num = ARRAY_SIZE(igd_host_bridge_infos);
--    for (i = 0; i < num; i++) {
-+    for (i = 0; i < ARRAY_SIZE(igd_host_bridge_infos); i++) {
-         pos = igd_host_bridge_infos[i].offset;
-         len = igd_host_bridge_infos[i].len;
-         host_pci_config_read(pos, len, &val, &local_err);
+ /* Here we just expose minimal host bridge offset subset. */
+ static const IGDHostInfo igd_host_bridge_infos[] = {
+-    {0x08, 2},  /* revision id */
+-    {0x2c, 2},  /* sybsystem vendor id */
+-    {0x2e, 2},  /* sybsystem id */
+-    {0x50, 2},  /* SNB: processor graphics control register */
+-    {0x52, 2},  /* processor graphics control register */
+-    {0xa4, 4},  /* SNB: graphics base of stolen memory */
+-    {0xa8, 4},  /* SNB: base of GTT stolen memory */
++    {PCI_REVISION_ID,         2},
++    {PCI_SUBSYSTEM_VENDOR_ID, 2},
++    {PCI_SUBSYSTEM_ID,        2},
++    {0x50,                    2}, /* SNB: processor graphics control register */
++    {0x52,                    2}, /* processor graphics control register */
++    {0xa4,                    4}, /* SNB: graphics base of stolen memory */
++    {0xa8,                    4}, /* SNB: base of GTT stolen memory */
+ };
+ 
+ static void host_pci_config_read(int pos, int len, uint32_t *val, Error **errp)
 -- 
 1.8.3.1
 
