@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9F6125705
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 23:38:02 +0100 (CET)
-Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C5312570B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 23:39:37 +0100 (CET)
+Received: from localhost ([::1]:33482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihhxB-0004td-86
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 17:38:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54325)
+	id 1ihhyi-0006pW-O5
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 17:39:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihhu8-0001TR-TG
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:53 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ihhuA-0001Up-F9
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihhu7-0003w1-7C
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:52 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:35925)
+ (envelope-from <richard.henderson@linaro.org>) id 1ihhu9-0003wn-0c
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:54 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:53196)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihhu7-0003vM-1l
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:51 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id n59so1547428pjb.1
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 14:34:50 -0800 (PST)
+ id 1ihhu8-0003wD-RA
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:52 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id w23so1538950pjd.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 14:34:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0o3CRcHml81TDDyh0N84h3eTIdNUcDVT7umUw0AUs+8=;
- b=HR2MfF44BxE7XuFsa+AGcR4X/1uC7IYEpME0y22N1LeDn3WNWepPKKTh2fXYxUtDvO
- c4gvIIBcxIWCXLYQbSITVbVEeQfCG3IRfWEz1oZnjSv5AsRDdatqvbnaKppLLNIKy5vx
- G3YrMM5akcZyuclfP2sjypwIWZILQQBvm2GlSGVFJuCny2fp3qMixumgb6gdpzidVnGy
- 0hLa8cP6MwZ/lVIp/iBu5PNFjF/GT3WzvErYUfj7zSlmN9YErrKw9iGpdIA1DKPRtivG
- AwIShAkgcZ0a8TGeW8m0fLShsShYwAkrvdzPAVEurBCYiIq9G7nzSnBeFfdum3r4AO/G
- KcXA==
+ bh=nApRZuyphk20QYsTZlcyHkybuciklnqNiVIxVWJIGrs=;
+ b=peic9dvHg0FZLS19Thrdo42vWWlyzsc1NRmi9oIJyqhEkzB4O52jcu4+qpBeqPcko8
+ G3P779Vn9oYD+1087jriTUnZR9YO5uiMAZcyRANWNrLg0FS9Fxmc01bP+AOcvohKUKt8
+ teFU2jNS3TbmACMZwqFTZzCW6cG7gWrVHY76DSRcfBVG3WbbACwE22G0bajiowLbtzzL
+ EMXzYPJFGdrjd4Jp0prybUjyWIicR4xbrKDUS3QKCvdSQZ0WrcZki3/vhjV2rK1M/48b
+ pnB+WzJFb5gAWgWmlXCJhwZaBWPTwRHU/NFXemGdBcDGOJTZmdNJdo92HxuZqyffHcUM
+ Ya9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0o3CRcHml81TDDyh0N84h3eTIdNUcDVT7umUw0AUs+8=;
- b=ech60G1Ee4M6z6y6kp6ZU4XDzhlwrI5TH5rdlElQoJfkFXCkEh005wI4cqLYFh78cC
- zE7lHpv1Is6SVcjUJqmh11OtX+KhAFEOYOdsBAkCOH1YY/2TXx7RYViAe1NpI5j5s7Cs
- dNJJfQBixtlj9wY4no91VDPk9g1Y7HUA+iTRJhf0ivA/DAysqzsf8zAyhLY3zLRow4Vy
- iQO5U87hktOgk9CGdK6Lq75YCZPo0s7xPggYQRPzQM8zXjA2ju66NGjiHt3NUOgMMYF9
- j/viCx3vR8O2EhODNcxJxX7hIj2tbs4Z5M6wiUxRoMOGO7P0ug8EZSo9MafGtqSvP71n
- Q8hw==
-X-Gm-Message-State: APjAAAWlmvXz1vIjWpF75jD/lZ/RgonTZILv+rwYwIjHRLj71asGABjK
- RZtxsrCTuTCpKr4jExWdNJHQX8SI3RA=
-X-Google-Smtp-Source: APXvYqw3kL3ECRLQ7wL/n4/DN+3SLMCi8JbA5ZQYCDUmNdtP5WVqRvFypX1JEzEB73kPVoi1NbI3ug==
-X-Received: by 2002:a17:90a:5217:: with SMTP id
- v23mr5607953pjh.121.1576708489521; 
- Wed, 18 Dec 2019 14:34:49 -0800 (PST)
+ bh=nApRZuyphk20QYsTZlcyHkybuciklnqNiVIxVWJIGrs=;
+ b=C1q4H5G+qSFLPmgVCvArGH+kIyVFA3IJ3S1H2Ocs31q3HnCKhKWXHc9yzI6tLVAw3E
+ pmUwS0fO0aZ6t/JDgJKP3/Cb2qPXLDlvFWcJlsEdr25lHI5jZ2CSSXEoXFIWKANXejd0
+ B/+ZBq3/p7ksaicEO50c1YVE2PxB7SFux/c4Ddx6GobZ0dZ4tcALRQStQAlbT1MK62Ba
+ 44YBexhO5mAAgwZcESbOsP3Ki29sVuE2oFyAhLfTnVHd+IAK651U2PPVHBvuTxfAGqdn
+ Ya2vS1ZALJj5eCPmQL6qdcMkkdSU3hgITPhI3L10iYU5vSc1o++G2fJ00Qxpr3EbTe8q
+ F/rg==
+X-Gm-Message-State: APjAAAUYaxeDHst3Uyc+C4i7S0SNQsZZ8PX3LfXLFzT4CvKhXL+RNUd9
+ QOpkv5FAzh1nbZb+TgDdKtIvsjBwyuA=
+X-Google-Smtp-Source: APXvYqxGiCZtuPCmngDvuKYoM9o8BlXeJMigZyhOWu3gnE9GUTrTjg8aPLoaltQ5VfLLcpoDhFCMzA==
+X-Received: by 2002:a17:90a:f494:: with SMTP id
+ bx20mr5727450pjb.60.1576708491152; 
+ Wed, 18 Dec 2019 14:34:51 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id j1sm4627779pff.107.2019.12.18.14.34.48
+ by smtp.gmail.com with ESMTPSA id j1sm4627779pff.107.2019.12.18.14.34.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2019 14:34:48 -0800 (PST)
+ Wed, 18 Dec 2019 14:34:50 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/7] configure: Do not force pie=no for non-x86
-Date: Wed, 18 Dec 2019 12:34:37 -1000
-Message-Id: <20191218223441.23852-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 4/7] configure: Always detect -no-pie toolchain support
+Date: Wed, 18 Dec 2019 12:34:38 -1000
+Message-Id: <20191218223441.23852-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191218223441.23852-1-richard.henderson@linaro.org>
 References: <20191218223441.23852-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -79,50 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, i@maskray.me, berrange@redhat.com
+Cc: philmd@redhat.com, Thomas Huth <thuth@redhat.com>, i@maskray.me,
+ berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PIE is supported on many other hosts besides x86.
+The CFLAGS_NOPIE and LDFLAGS_NOPIE variables are used
+in pc-bios/optionrom/Makefile, which has nothing to do
+with the PIE setting of the main qemu executables.
 
-The default for non-x86 is now the same as x86: pie is used
-if supported, and may be forced via --enable/--disable-pie.
+This overrides any operating system default to build
+all executables as PIE, which is important for ROMs.
 
-The original commit (40d6444e91c) said:
-
-  "Non-x86 are not changed, as they require TCG changes"
-
-but I think that's wrong -- there's nothing about PIE that
-affects TCG one way or another.
-
-Tested on aarch64 (bionic) and ppc64le (centos 7) hosts.
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure | 10 ----------
- 1 file changed, 10 deletions(-)
+ configure | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/configure b/configure
-index 30e3875c6b..99faf64a74 100755
+index 99faf64a74..7a646ec007 100755
 --- a/configure
 +++ b/configure
-@@ -2018,16 +2018,6 @@ if ! compile_prog "-Werror" "" ; then
+@@ -2018,26 +2018,24 @@ if ! compile_prog "-Werror" "" ; then
  	"Thread-Local Storage (TLS). Please upgrade to a version that does."
  fi
  
--if test "$pie" = ""; then
--  case "$cpu-$targetos" in
--    i386-Linux|x86_64-Linux|x32-Linux|i386-OpenBSD|x86_64-OpenBSD)
--      ;;
--    *)
--      pie="no"
--      ;;
--  esac
--fi
--
- if test "$pie" != "no" ; then
-   cat > $TMPC << EOF
+-if test "$pie" != "no" ; then
+-  cat > $TMPC << EOF
++cat > $TMPC << EOF
  
+ #ifdef __linux__
+ #  define THREAD __thread
+ #else
+ #  define THREAD
+ #endif
+-
+ static THREAD int tls_var;
+-
+ int main(void) { return tls_var; }
+-
+ EOF
+-  # check we support --no-pie first...
+-  if compile_prog "-Werror -fno-pie" "-no-pie"; then
+-    CFLAGS_NOPIE="-fno-pie"
+-    LDFLAGS_NOPIE="-nopie"
+-  fi
+ 
++# Check we support --no-pie first; we will need this for building ROMs.
++if compile_prog "-Werror -fno-pie" "-no-pie"; then
++  CFLAGS_NOPIE="-fno-pie"
++  LDFLAGS_NOPIE="-no-pie"
++fi
++
++if test "$pie" != "no" ; then
+   if compile_prog "-fPIE -DPIE" "-pie"; then
+     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+     LDFLAGS="-pie $LDFLAGS"
 -- 
 2.20.1
 
