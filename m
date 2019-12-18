@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909D8123DD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 04:23:51 +0100 (CET)
-Received: from localhost ([::1]:48990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41C5123DDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 04:25:12 +0100 (CET)
+Received: from localhost ([::1]:49022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihPwE-0000BC-Cn
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 22:23:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43923)
+	id 1ihPxX-0002TH-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 22:25:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihPrz-00042w-QA
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:29 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ihPs1-00043A-9F
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihPry-0002dn-Ld
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:27 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43048)
+ (envelope-from <richard.henderson@linaro.org>) id 1ihPs0-0002fY-28
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:29 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43050)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihPry-0002cz-Fv
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:26 -0500
-Received: by mail-pg1-x542.google.com with SMTP id k197so435061pga.10
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 19:19:26 -0800 (PST)
+ id 1ihPrz-0002eT-Sy
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:28 -0500
+Received: by mail-pg1-x544.google.com with SMTP id k197so435102pga.10
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 19:19:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+Toe6+kf85085QGBznhMe/ZC3IHb6MH8qdiKw5XlMFI=;
- b=ffmarJqSOoWRRJ5Qixi6fN4Y6Fx0Lh9cOfGrdDRa0B2w/drHIBmGHpPU018P36NEx+
- LJDfFwiMk+GWmrjheD59oPdZ7/Erer1TPxuWR4SUtHwiiJX/ATSccpifVIOucGMQSeTz
- 1m+BH7kq5AT33MXSEah3M+lnQu7ib6TFHb0SiAB5pahjKVTmKdLBkldDqX5dRNsBeJFl
- GBo2qZMSXttsKjpGixXbKYvkGvhkPtS2d9oLhIxeblfP+Xs/i8bOIBvzsgXGr1Od/Y7A
- jBS5cKBvJT10/ObOuCPMfF1XKAb4YalkR5BoFejcrq1JYLejccn1gQxGry3Gq65GnOpu
- D9fw==
+ bh=h8PHcS1tBBTVD9W0+xFnEcSw+EjWnL99+V49q3i39H0=;
+ b=TiDiSH0CzvqeeXBY6u5uqYBDzw+ukp20Troi0DWC5YiyN9eps5Gk51TO1dEiYqrALj
+ y+3JWVmb1TKwsyywrqz9TxjdvoJqf7SFodHAdib8JlrLi5flSNaJ80r0+CBfN/6NoqPp
+ +tZq27GLropxlZVQ44Jx/vI186h6KxmxPeGR3aTDxj69vEd60dUYz02S4O3DfR57UpKr
+ 8oplMbNfv0xhBOMI1yRs2RlnKX8/I0Mg1sY8Q0T7DvZHxXsdCqJPIEfKJV+tEcnmhFbg
+ Yws+Od9OPrtaWnS53f9qXtBiybDV3n1h064LITPgWv2qElmK6pbwIu9M5xzgstoNgUNp
+ 6+uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+Toe6+kf85085QGBznhMe/ZC3IHb6MH8qdiKw5XlMFI=;
- b=adJ4oZE66NZ8XdKgNporQim6QVnvzuG6VjHnpdZmynOY0NyCbdTjUEimRFzQW5RJRi
- r21qAs/mRK9AiDfu2sJ7u8s1NW5x/Hrb3LLjFRPW2tSdgZCtVugjxh824yDt2v5UK8pi
- tbj/lH0BdjozTcA3eTO+dOoR7hwSt543NFEc8wsJGXyxKFwDI2B37L8RJp1uHPqIoTny
- RjIlJ/M2sIfQPjK6ZrhOd84+H0SVZYMJ6sf9qHdMXIXTNWSK5BPD30BVIashXNZtJtjr
- U70RR1x56daqGay2vYBzkM3WSIfD1aYtL86+PmD23bS89yMRWJYWlJWXuMp+d2fegMvl
- Z2WA==
-X-Gm-Message-State: APjAAAW7UmhhQx7mgBMdgfrvF0NoNKkKPRI0WBA/De45n2T1js6xaIq4
- Cfisc4mZl+/76/Pp1fM7wuk8Fvpt8hg=
-X-Google-Smtp-Source: APXvYqzyoVU80nkVM6viZDd7ZtB0p0SrBMZyumo1mlLO5ihNbChTPwBahQXi90mgQe5g8ujkMk/d1Q==
-X-Received: by 2002:a63:4d5e:: with SMTP id n30mr288667pgl.275.1576639165011; 
- Tue, 17 Dec 2019 19:19:25 -0800 (PST)
+ bh=h8PHcS1tBBTVD9W0+xFnEcSw+EjWnL99+V49q3i39H0=;
+ b=Y6xUHWVhZtCUIMmtQV2/HBg73UanmpxrGWvS71ePCvN4pSyjrOdAn+sZk2CWl8QKQk
+ 7GQ1JzImyi8iQynY4hLVz4n2PDprWsOdmagmiTbUBoC0qNy1JVq2AQF1EidXkj8s3XAz
+ KMBv0sQiXwp5ytHczPs1x49RjEymAW3JGVf/z69rQ2TCON1yVDfitPHSB/STw4VfH48+
+ WefGTBTmNa8ncDBhQSHggOq2zajJNLs2XZJwn/CF97XI80b0uPN9FfMn4lcCCxfmsGNn
+ 7CSxBo48IXaabOZ0oZwoqp3Jo1269vXVL2jFUpoUSsYM0yt28/4v/H/BaHkbsi9O0qRU
+ K/2g==
+X-Gm-Message-State: APjAAAXPS+wn8wciLfPTtLmks3cu+556Oagghuk4uaDjHmSXzIZ2EFSs
+ lKjFJ0YNeWKOvzhEOgCJHAhJhEQF0aI=
+X-Google-Smtp-Source: APXvYqwe2x72/05jIOJeYOMIRFWSeh6d98ZCKwqk102Wd5QqpWzeUXBoKZelImajpcJezaTch3S50Q==
+X-Received: by 2002:a65:538b:: with SMTP id x11mr273892pgq.395.1576639166549; 
+ Tue, 17 Dec 2019 19:19:26 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id k27sm404870pfp.66.2019.12.17.19.19.23
+ by smtp.gmail.com with ESMTPSA id k27sm404870pfp.66.2019.12.17.19.19.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2019 19:19:24 -0800 (PST)
+ Tue, 17 Dec 2019 19:19:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] configure: Drop adjustment of textseg
-Date: Tue, 17 Dec 2019 17:19:14 -1000
-Message-Id: <20191218031920.6414-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/7] tcg: Remove softmmu code_gen_buffer fixed address
+Date: Tue, 17 Dec 2019 17:19:15 -1000
+Message-Id: <20191218031920.6414-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191218031920.6414-1-richard.henderson@linaro.org>
 References: <20191218031920.6414-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,84 +82,76 @@ Cc: philmd@redhat.com, i@maskray.me, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adjustment was random and unnecessary.  The user mode
-startup code in probe_guest_base() will choose a value for
-guest_base that allows the host qemu binary to not conflict
-with the guest binary.
+The commentary talks about "in concert with the addresses
+assigned in the relevant linker script", except there is no
+linker script for softmmu, nor has there been for some time.
 
-With modern distributions, this isn't even used, as the default
-is PIE, which does the same job in a more portable way.
+(Do not confuse the user-only linker script editing that was
+removed in the previous patch, because user-only does not
+use this code_gen_buffer allocation method.)
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure | 47 -----------------------------------------------
- 1 file changed, 47 deletions(-)
+ accel/tcg/translate-all.c | 37 +++++--------------------------------
+ 1 file changed, 5 insertions(+), 32 deletions(-)
 
-diff --git a/configure b/configure
-index 84b413dbfc..255ac432af 100755
---- a/configure
-+++ b/configure
-@@ -6292,49 +6292,6 @@ if test "$cpu" = "s390x" ; then
-   fi
- fi
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 9f48da9472..88468a1c08 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1032,47 +1032,20 @@ static inline void *alloc_code_gen_buffer(void)
+ {
+     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+     int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+-    uintptr_t start = 0;
+     size_t size = tcg_ctx->code_gen_buffer_size;
+     void *buf;
  
--# Probe for the need for relocating the user-only binary.
--if ( [ "$linux_user" = yes ] || [ "$bsd_user" = yes ] ) && [ "$pie" = no ]; then
--  textseg_addr=
--  case "$cpu" in
--    arm | i386 | ppc* | s390* | sparc* | x86_64 | x32)
--      # ??? Rationale for choosing this address
--      textseg_addr=0x60000000
--      ;;
--    mips)
--      # A 256M aligned address, high in the address space, with enough
--      # room for the code_gen_buffer above it before the stack.
--      textseg_addr=0x60000000
--      ;;
--  esac
--  if [ -n "$textseg_addr" ]; then
--    cat > $TMPC <<EOF
--    int main(void) { return 0; }
--EOF
--    textseg_ldflags="-Wl,-Ttext-segment=$textseg_addr"
--    if ! compile_prog "" "$textseg_ldflags"; then
--      # In case ld does not support -Ttext-segment, edit the default linker
--      # script via sed to set the .text start addr.  This is needed on FreeBSD
--      # at least.
--      if ! $ld --verbose >/dev/null 2>&1; then
--        error_exit \
--            "We need to link the QEMU user mode binaries at a" \
--            "specific text address. Unfortunately your linker" \
--            "doesn't support either the -Ttext-segment option or" \
--            "printing the default linker script with --verbose." \
--            "If you don't want the user mode binaries, pass the" \
--            "--disable-user option to configure."
--      fi
+-    /* Constrain the position of the buffer based on the host cpu.
+-       Note that these addresses are chosen in concert with the
+-       addresses assigned in the relevant linker script file.  */
+-# if defined(__PIE__) || defined(__PIC__)
+-    /* Don't bother setting a preferred location if we're building
+-       a position-independent executable.  We're more likely to get
+-       an address near the main executable if we let the kernel
+-       choose the address.  */
+-# elif defined(__x86_64__) && defined(MAP_32BIT)
+-    /* Force the memory down into low memory with the executable.
+-       Leave the choice of exact location with the kernel.  */
+-    flags |= MAP_32BIT;
+-    /* Cannot expect to map more than 800MB in low memory.  */
+-    if (size > 800u * 1024 * 1024) {
+-        tcg_ctx->code_gen_buffer_size = size = 800u * 1024 * 1024;
+-    }
+-# elif defined(__sparc__)
+-    start = 0x40000000ul;
+-# elif defined(__s390x__)
+-    start = 0x90000000ul;
+-# elif defined(__mips__)
+-#  if _MIPS_SIM == _ABI64
+-    start = 0x128000000ul;
+-#  else
+-    start = 0x08000000ul;
+-#  endif
+-# endif
 -
--      $ld --verbose | sed \
--        -e '1,/==================================================/d' \
--        -e '/==================================================/,$d' \
--        -e "s/[.] = [0-9a-fx]* [+] SIZEOF_HEADERS/. = $textseg_addr + SIZEOF_HEADERS/" \
--        -e "s/__executable_start = [0-9a-fx]*/__executable_start = $textseg_addr/" > config-host.ld
--      textseg_ldflags="-Wl,-T../config-host.ld"
--    fi
--  fi
--fi
--
- # Check that the C++ compiler exists and works with the C compiler.
- # All the QEMU_CXXFLAGS are based on QEMU_CFLAGS. Keep this at the end to don't miss any other that could be added.
- if has $cxx; then
-@@ -7897,10 +7854,6 @@ if test "$gprof" = "yes" ; then
-   fi
- fi
+-    buf = mmap((void *)start, size, prot, flags, -1, 0);
++    buf = mmap(NULL, size, prot, flags, -1, 0);
+     if (buf == MAP_FAILED) {
+         return NULL;
+     }
  
--if test "$target_linux_user" = "yes" || test "$target_bsd_user" = "yes" ; then
--  ldflags="$ldflags $textseg_ldflags"
--fi
--
- # Newer kernels on s390 check for an S390_PGSTE program header and
- # enable the pgste page table extensions in that case. This makes
- # the vm.allocate_pgste sysctl unnecessary. We enable this program
+ #ifdef __mips__
+     if (cross_256mb(buf, size)) {
+-        /* Try again, with the original still mapped, to avoid re-acquiring
+-           that 256mb crossing.  This time don't specify an address.  */
++        /*
++         * Try again, with the original still mapped, to avoid re-acquiring
++         * the same 256mb crossing.
++         */
+         size_t size2;
+         void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
+         switch ((int)(buf2 != MAP_FAILED)) {
 -- 
 2.20.1
 
