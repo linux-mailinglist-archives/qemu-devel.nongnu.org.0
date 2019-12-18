@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476251253BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 21:46:03 +0100 (CET)
-Received: from localhost ([::1]:60476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA6D1253C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 21:48:38 +0100 (CET)
+Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihgCn-0003rf-O1
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 15:46:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35836)
+	id 1ihgFJ-0005Fl-P8
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 15:48:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihgBO-0002ct-KG
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 15:44:35 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ihgET-0004rD-Li
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 15:47:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihgBN-0005zm-0I
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 15:44:34 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:45707)
+ (envelope-from <richard.henderson@linaro.org>) id 1ihgES-0005yC-Aw
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 15:47:45 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:44869)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihgBM-0005u6-El
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 15:44:32 -0500
-Received: by mail-pl1-x641.google.com with SMTP id b22so1492230pls.12
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 12:44:32 -0800 (PST)
+ id 1ihgES-0005xi-49
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 15:47:44 -0500
+Received: by mail-pf1-x441.google.com with SMTP id 195so1002873pfw.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 12:47:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hx95OyaG6MqHCdsFBIXIiXsvovMiVCSH3FKPDjN/6WY=;
- b=UsNnZgRbhrHE74s+Y0gT23UUgUs1jGC47yo1iLtrOGZpR4nYucTXmbtGGb5MHA8dIf
- 4RjYWukG1+PXQgM+WvoXqVwMd6dsnhsfeEMp88gTGi4zssIU56jIuRyN7bZikZvg2oY9
- 5QQuOB2CeEqjG58lsS8yJD/HI14Mceq4BGE4194tENFkxkdHkhutttnJWQ/maa/3v5hI
- xMwybm+viLIQQ7O1Gcl1QrHWU/IAjO25g2gWwUJOMsOfK1R/rsApvajg5atogy1fnnM1
- 9M2b7yzgi7/2Es3mOzVpzZnNu/farTn+N3wof0vTuOa2VGjnAwijYOV/f+sMP9a6wTKe
- WPSQ==
+ bh=i4aPcvt/DUFD1lLdm80hF2WY8bZ7IVoPYT7AlMw2cOE=;
+ b=A15XTM+sxmgK5SWvlH1ZACzKXa5BMuKgzA/5NUJIQbr0F6aE3kmuShBm19j15Ek9lA
+ Q9S/vRIksQA1C/BVWD8jD2H2Nl5AAcz8I96XXs6s/1wCAQLwhCjgtr5duGuplmRLjpXA
+ Xakb1I1HKt29WhP1Bvm0SorRqtQMbXQgbeRzlQTaBDxx6HzAvhdGEoTfGR1o2SKhO9la
+ fM8ZVq38lea35pC3mY6NaGZuozMaBzzUsb/4y1xUazzo6V/UfbZCnBulkrLGh/9Xy6al
+ bqUu0DcXGHFp5aLTpCv+01yJkRizt8iO/zvKIRLcjewSmDeb1Wz2zFLUjhc+KlFUC8gi
+ IT8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hx95OyaG6MqHCdsFBIXIiXsvovMiVCSH3FKPDjN/6WY=;
- b=QWfggdG12kPPuhcx4sBkE7rdu5jLxiSsyNAkFsCiUxkhLnMF+lt3ZhxYSoO3xIX8gn
- fKebBS+gc0LQorZk/xGzoSe4BIx0FOm93j273MLWri7siO//yeznJCqCbyO4ARrRVIx+
- i12l+OVz5w1cYXz4beTz3dn8kgIytDst+O+gsPVOsG3KoE3ZzlydOPrMW8LxPDGJyxh6
- a1CtoLkGWrObJmYMYLwBIltuWH5bS9lEjavYTHhFL5sb9rb110ijs7UrAEJo0o6pbcOK
- 8748bSBOAVIXGClIDiqM6WT7GKV52EkxHTNXmxdzIjg8/9SqxagT5mgylHL6Iwl+8OCF
- hHaQ==
-X-Gm-Message-State: APjAAAUihNxTKwVm8kHK6KdWom8ofdLL9WzVu/cg0e6oWMTcpdQmw+z4
- S0cKG9RuYvWs0AfmmIjjmION0w==
-X-Google-Smtp-Source: APXvYqwVxVL3Hy6fs5yv8x16VFaZHBLw+vLi/oQiTCjEj3vG/sK7eDsdh4TZ3GUPpQeDAknI3gdWsg==
-X-Received: by 2002:a17:902:363:: with SMTP id 90mr4845316pld.71.1576701871230; 
- Wed, 18 Dec 2019 12:44:31 -0800 (PST)
+ bh=i4aPcvt/DUFD1lLdm80hF2WY8bZ7IVoPYT7AlMw2cOE=;
+ b=of+rW8Wu8nAvEfoZvTyVHyuZ/AQw7W+DIKaP2FpkWVsuHOy00Z3pldg3blChP29+Pw
+ oPfbs7AUcwGnziNt+xC1hpQKTbPvBxJljEwh75kI8El0fscHJVCy0vRMiMN1KqMjwExR
+ T5fnQHdjOCf4do3DiFHkbuwomcxRzKEMCFI3HfxFBkMfY/ulJ8VJUSaOZqch9iGOUanF
+ l6HnkaezZNVLSGw/Sc5DN87klKUnHrPciUMYC0f+26GVMyJyDvkHJPHyVO1FtKay6pOA
+ nXcTneV+ARLqC6U6ENJvqg4LF8wNsvOKwwV7dNRANvRy6mTn64QZx9WekJGQuQ9Rvyex
+ eBog==
+X-Gm-Message-State: APjAAAXZABZD74JxqQvGkG/JmwXZFE0i9WAbzhw+5aEyv9VDRhy9qS4b
+ 9qL5TDyAwK75ytQj4jzY5S5YGQ==
+X-Google-Smtp-Source: APXvYqzC5D9ufEAB/R6+ClqYnUnTGb0Ua407OzxkC1PHwg/QyM1H6CATHCDNeVam5N7LKaXghwIpfA==
+X-Received: by 2002:a63:5d4d:: with SMTP id o13mr5061766pgm.182.1576702062551; 
+ Wed, 18 Dec 2019 12:47:42 -0800 (PST)
 Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id ep12sm2325545pjb.7.2019.12.18.12.44.26
+ by smtp.gmail.com with ESMTPSA id l21sm3826170pjq.23.2019.12.18.12.47.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2019 12:44:30 -0800 (PST)
-Subject: Re: [RFC PATCH v2 14/14] chardev: Use QEMUChrEvent enum in
- IOEventHandler typedef
+ Wed, 18 Dec 2019 12:47:41 -0800 (PST)
+Subject: Re: [RFC PATCH v2 02/14] hw/ipmi: Explicit we ignore some
+ QEMUChrEvent in IOEventHandler
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20191218172009.8868-1-philmd@redhat.com>
- <20191218172009.8868-15-philmd@redhat.com>
+ <20191218172009.8868-3-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a733dce0-4a2e-c0d7-38d5-2ab64ca4d968@linaro.org>
-Date: Wed, 18 Dec 2019 10:44:23 -1000
+Message-ID: <f2dbed9f-1e0b-9a21-202b-b1ad34069bd9@linaro.org>
+Date: Wed, 18 Dec 2019 10:47:39 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191218172009.8868-15-philmd@redhat.com>
+In-Reply-To: <20191218172009.8868-3-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,89 +85,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Alberto Garcia <berto@igalia.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Corey Minyard <minyard@acm.org>, Amit Shah <amit@kernel.org>,
- Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-riscv@nongnu.org,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>, Michael Walle <michael@walle.cc>,
- Palmer Dabbelt <palmer@dabbelt.com>, Thomas Huth <huth@tuxfamily.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Corey Minyard <minyard@acm.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/18/19 7:20 AM, Philippe Mathieu-Daudé wrote:
-> The Chardev events are listed in the QEMUChrEvent enum.
-> 
-> By using the enum in the IOEventHandler typedef we:
-> 
-> - make the IOEventHandler type more explicit (this handler
->   process out-of-band information, while the IOReadHandler
->   is in-band),
-> - help static code analyzers.
-> 
-> This patch was produced with the following spatch script:
-> 
->   @match@
->   expression backend, opaque, context, set_open;
->   identifier fd_can_read, fd_read, fd_event, be_change;
->   @@
->   qemu_chr_fe_set_handlers(backend, fd_can_read, fd_read, fd_event,
->                            be_change, opaque, context, set_open);
-> 
->   @depends on match@
->   identifier opaque, event;
->   identifier match.fd_event;
->   @@
->    static
->   -void fd_event(void *opaque, int event)
->   +void fd_event(void *opaque, QEMUChrEvent event)
->    {
->    ...
->    }
-> 
-> Then the following files were manually modified:
-> 
->   - include/chardev/char-fe.h
->   - include/chardev/char.h
->   - include/chardev/char-mux.h
->   - chardev/char.c
->   - chardev/char-mux.c
+On 12/18/19 7:19 AM, Philippe Mathieu-Daudé wrote:
+> The Chardev events are listed in the QEMUChrEvent enum. To be
+> able to use this enum in the IOEventHandler typedef, we need to
+> explicit all the events ignored by this frontend, to silent the
+> following GCC warning:
 
-My guess is that the only change that must be done at the same time as the
-spatch is the typedef in char-fe.h.
+In the title, s/Explicit we/Explicitly/.
 
-In particular,
+Here in the body, "need to be explicit about all the events ignored", "to silence".
 
-> -static void mux_chr_send_event(MuxChardev *d, int mux_nr, int event)
-> +static void mux_chr_send_event(MuxChardev *d, int mux_nr, QEMUChrEvent event)
+This same grammar cleanup applies to patches 2-13.
 
-this doesn't appear to be required -- int will implicitly convert to enum when
-performing the call, and it can't be related to the typedef.
-
-Yes, we do want to propagate the type up the call stack, but it would be nice
-to see the spatch results on their own.
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+for all of 2-13.
 
 
 r~
