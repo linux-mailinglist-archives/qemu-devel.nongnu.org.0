@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C4812475C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:56:25 +0100 (CET)
-Received: from localhost ([::1]:53806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB4212476D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:58:17 +0100 (CET)
+Received: from localhost ([::1]:53834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYsJ-0002kM-Tj
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:56:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57275)
+	id 1ihYu8-0005lI-8B
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:58:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57329)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3x-0007QR-3S
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:22 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3x-0007Ql-Eb
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3v-0003ij-FT
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:20 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40972)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3v-0003ik-FE
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:21 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38576)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3v-0003ao-5M
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:19 -0500
-Received: by mail-wr1-x442.google.com with SMTP id c9so2002162wrw.8
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:18 -0800 (PST)
+ id 1ihY3v-0003ej-4Z; Wed, 18 Dec 2019 07:04:19 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id y17so2013266wrh.5;
+ Wed, 18 Dec 2019 04:04:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=oWlQxy3gHFTwYR2OAKyR7heGQKIg7ID0fB2XfRVmZV0=;
- b=VAFtmbG1WmEbcoy3vxWyuytJK8xTNRjZ3LPZmlxs4bNP17hyqUAYSK04S46ixZenOQ
- l4WAw1NHT9rafXGePdqZCUW2OFy2M+jBOW3OZc9NIIlNO48HZMxSP0cCCSPhnzZWv08U
- ZJAt3jvxTHrfKq37P7IbKhWpEf80PPoTZkZoN5+GgycqhBqV3Qx+5SrXW4g8acbOjrvv
- XXbKLbilJnhZu/pRVXWz8q8PawgL6Q9apxthW1bhWFAU8WF/jSooShqm4T2Lw0/LsdAw
- GFlK5F3tuA/n2siBvkx68whLf9ygks193af8qQn8Ew/W/XPbu5g/QxblV+8utjRmutHO
- 6UeA==
+ bh=xoiVKpP9hu9WCjJ4oCdzKyi18D0F4vTbBwktrThFJeE=;
+ b=YJ/uJLWBZxg8la5DghZ0zMXGKR5HMj1GVEIdeEtmw33/h0A01X1zSkGPSJhiAo/QnC
+ iYpPkAZRjlMuW2tsAAhfwgKl86G+qkz30RLZz3x1mbZiwcvxsvc0YZS6PeIXkwqYYo8X
+ v+D1whVCvQkpiYVTKzhvOlXlJRHKEv/aGJ35OLOC3Ezi2f3qY16HUZFhCELSGVqcyVHa
+ txTmgBaR7UhCy5eltJGFF+4gh254h+IxpQO1xZRWqXbCsxZf5HBswWjrgRBxUFJI7ciF
+ xxCi8q/tzsiYewZ/5IoOtqbXVXZd6XtSR1X/QAWde2t6XVFAaXFgXHFHl4i11CeXjRQT
+ V7Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=oWlQxy3gHFTwYR2OAKyR7heGQKIg7ID0fB2XfRVmZV0=;
- b=twvufvffqheUJiqOz5t072rlAM6aWHLDKOgeKlp28ZWk87bRA09oIfCMErbcv9cYHl
- cAZESep8rhBmSawyPeNzKF8HtMgQPUh64t2zed1XqyXIvE/KyQEYi/Da0litrNoPUEuS
- AsGgjgWu6wzUAsNJcEALasym723KmzdIWti5Jgzh8SqrkyS0ah13GfDMWcR5ShZmg/CR
- iBQRm+2tgpDDSolHCpc3Y+OZbWCd6SyCdXl1mC5XoQj8fgymzP0scjuKpDqz/Wrlmb4o
- Vg8oNih83nEfs/3fSFe0B28LlBPd0hoFeYqXJjywnxu3flGmH/U3o+7s5Mq2UkvkCsBb
- ZGqg==
-X-Gm-Message-State: APjAAAX+APdd4oQ4S04tzBXdKyFe+po0DcwKXU6bxyf/GM6kDVAIW4jM
- oaOhRK5h4sEGoP4rH9yzGiPoWT9j
-X-Google-Smtp-Source: APXvYqyP29bwoVRnmYf5nsse0VFydatCcPFA+YCLCC3tbR3L9s+fhUFv3rntzcKIHhkkwSmrCx3SgQ==
-X-Received: by 2002:a5d:5403:: with SMTP id g3mr2494282wrv.302.1576670656716; 
- Wed, 18 Dec 2019 04:04:16 -0800 (PST)
+ bh=xoiVKpP9hu9WCjJ4oCdzKyi18D0F4vTbBwktrThFJeE=;
+ b=JJKf7Ul9x3dDIudosdgIn+UnSN+Y8nsxwDeLwTb9Uu0egEpQB66YtNqO9HEMQsJPHq
+ ksmm/0ZcK9q8hpHJiAfZfxBKtqMgz239WnraPncm8hSEhtVGX0zmHMTiDbqu0OJljgPN
+ 2F7KWC8DDPu4ljJOAbN6CoPx1JHksqeB3aPT1kKUg3QoDetuOOT2SevvDyDvjYgwphDC
+ 9aQtv4qnTJdwZ2tBOaBbash0qHiq5AmZdHqftj1fdLNziJnJrZzSJyS6UrQMsLjmDSjO
+ u6FVs7gHWzmK724XQmTv9u4RU86Ai/ZKjaCElo1KSFkjceudT0AmX1o+kNZv048Fzsb1
+ H2Bg==
+X-Gm-Message-State: APjAAAUS5dwll4wueu4r05dDfDUITYEYGRA8U23WLhdSDbwLx5q2pHsN
+ sABUeLYV5NBbgOypP9YEMMlKi+6k
+X-Google-Smtp-Source: APXvYqyp14ZH+erO5k4m5jU7LCGriOlnOIxoJRZ9U9/WBknXiG8DLtoyeYIL01UWssLyDgh6SJ9uqA==
+X-Received: by 2002:adf:f508:: with SMTP id q8mr2449904wro.334.1576670657870; 
+ Wed, 18 Dec 2019 04:04:17 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.15
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:16 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 74/87] WHPX: refactor load library
-Date: Wed, 18 Dec 2019 13:02:40 +0100
-Message-Id: <1576670573-48048-75-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 75/87] target/i386: remove unused pci-assign codes
+Date: Wed, 18 Dec 2019 13:02:41 +0100
+Message-Id: <1576670573-48048-76-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,160 +73,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
+Cc: qemu-trivial@nongnu.org, Eiichi Tsukata <devel@etsukata.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sunil Muthuswamy <sunilmut@microsoft.com>
+From: Eiichi Tsukata <devel@etsukata.com>
 
-This refactors the load library of WHV libraries to make it more
-modular. It makes a helper routine that can be called on demand.
-This allows future expansion of load library/functions to support
-functionality that is dependent on some feature being available.
+Legacy PCI device assignment has been already removed in commit ab37bfc7d641
+("pci-assign: Remove"), but some codes remain unused.
 
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Message-Id: <MW2PR2101MB1116578040BE1F0C1B662318C0760@MW2PR2101MB1116.namprd21.prod.outlook.com>
+CC: qemu-trivial@nongnu.org
+Signed-off-by: Eiichi Tsukata <devel@etsukata.com>
+Message-Id: <20191209072932.313056-1-devel@etsukata.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/whp-dispatch.h |  4 +++
- target/i386/whpx-all.c     | 85 +++++++++++++++++++++++++++++++---------------
- 2 files changed, 62 insertions(+), 27 deletions(-)
+ target/i386/kvm.c      | 140 -------------------------------------------------
+ target/i386/kvm_i386.h |  20 -------
+ 2 files changed, 160 deletions(-)
 
-diff --git a/target/i386/whp-dispatch.h b/target/i386/whp-dispatch.h
-index 23791fb..87d049c 100644
---- a/target/i386/whp-dispatch.h
-+++ b/target/i386/whp-dispatch.h
-@@ -50,5 +50,9 @@ extern struct WHPDispatch whp_dispatch;
- 
- bool init_whp_dispatch(void);
- 
-+typedef enum WHPFunctionList {
-+    WINHV_PLATFORM_FNS_DEFAULT,
-+    WINHV_EMULATION_FNS_DEFAULT,
-+} WHPFunctionList;
- 
- #endif /* WHP_DISPATCH_H */
-diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
-index def0c28..3ed2aa1 100644
---- a/target/i386/whpx-all.c
-+++ b/target/i386/whpx-all.c
-@@ -1356,6 +1356,58 @@ static void whpx_handle_interrupt(CPUState *cpu, int mask)
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 55e6265..0b51190 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -4512,146 +4512,6 @@ int kvm_arch_irqchip_create(KVMState *s)
+     }
  }
  
- /*
-+ * Load the functions from the given library, using the given handle. If a
-+ * handle is provided, it is used, otherwise the library is opened. The
-+ * handle will be updated on return with the opened one.
-+ */
-+static bool load_whp_dispatch_fns(HMODULE *handle,
-+    WHPFunctionList function_list)
-+{
-+    HMODULE hLib = *handle;
-+
-+    #define WINHV_PLATFORM_DLL "WinHvPlatform.dll"
-+    #define WINHV_EMULATION_DLL "WinHvEmulation.dll"
-+    #define WHP_LOAD_FIELD(return_type, function_name, signature) \
-+        whp_dispatch.function_name = \
-+            (function_name ## _t)GetProcAddress(hLib, #function_name); \
-+        if (!whp_dispatch.function_name) { \
-+            error_report("Could not load function %s", #function_name); \
-+            goto error; \
-+        } \
-+
-+    #define WHP_LOAD_LIB(lib_name, handle_lib) \
-+    if (!handle_lib) { \
-+        handle_lib = LoadLibrary(lib_name); \
-+        if (!handle_lib) { \
-+            error_report("Could not load library %s.", lib_name); \
-+            goto error; \
-+        } \
-+    } \
-+
-+    switch (function_list) {
-+    case WINHV_PLATFORM_FNS_DEFAULT:
-+        WHP_LOAD_LIB(WINHV_PLATFORM_DLL, hLib)
-+        LIST_WINHVPLATFORM_FUNCTIONS(WHP_LOAD_FIELD)
-+        break;
-+
-+    case WINHV_EMULATION_FNS_DEFAULT:
-+        WHP_LOAD_LIB(WINHV_EMULATION_DLL, hLib)
-+        LIST_WINHVEMULATION_FUNCTIONS(WHP_LOAD_FIELD)
-+        break;
-+    }
-+
-+    *handle = hLib;
-+    return true;
-+
-+error:
-+    if (hLib) {
-+        FreeLibrary(hLib);
-+    }
-+
-+    return false;
-+}
-+
-+/*
-  * Partition support
-  */
- 
-@@ -1490,51 +1542,30 @@ static void whpx_type_init(void)
- 
- bool init_whp_dispatch(void)
+-/* Classic KVM device assignment interface. Will remain x86 only. */
+-int kvm_device_pci_assign(KVMState *s, PCIHostDeviceAddress *dev_addr,
+-                          uint32_t flags, uint32_t *dev_id)
+-{
+-    struct kvm_assigned_pci_dev dev_data = {
+-        .segnr = dev_addr->domain,
+-        .busnr = dev_addr->bus,
+-        .devfn = PCI_DEVFN(dev_addr->slot, dev_addr->function),
+-        .flags = flags,
+-    };
+-    int ret;
+-
+-    dev_data.assigned_dev_id =
+-        (dev_addr->domain << 16) | (dev_addr->bus << 8) | dev_data.devfn;
+-
+-    ret = kvm_vm_ioctl(s, KVM_ASSIGN_PCI_DEVICE, &dev_data);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    *dev_id = dev_data.assigned_dev_id;
+-
+-    return 0;
+-}
+-
+-int kvm_device_pci_deassign(KVMState *s, uint32_t dev_id)
+-{
+-    struct kvm_assigned_pci_dev dev_data = {
+-        .assigned_dev_id = dev_id,
+-    };
+-
+-    return kvm_vm_ioctl(s, KVM_DEASSIGN_PCI_DEVICE, &dev_data);
+-}
+-
+-static int kvm_assign_irq_internal(KVMState *s, uint32_t dev_id,
+-                                   uint32_t irq_type, uint32_t guest_irq)
+-{
+-    struct kvm_assigned_irq assigned_irq = {
+-        .assigned_dev_id = dev_id,
+-        .guest_irq = guest_irq,
+-        .flags = irq_type,
+-    };
+-
+-    if (kvm_check_extension(s, KVM_CAP_ASSIGN_DEV_IRQ)) {
+-        return kvm_vm_ioctl(s, KVM_ASSIGN_DEV_IRQ, &assigned_irq);
+-    } else {
+-        return kvm_vm_ioctl(s, KVM_ASSIGN_IRQ, &assigned_irq);
+-    }
+-}
+-
+-int kvm_device_intx_assign(KVMState *s, uint32_t dev_id, bool use_host_msi,
+-                           uint32_t guest_irq)
+-{
+-    uint32_t irq_type = KVM_DEV_IRQ_GUEST_INTX |
+-        (use_host_msi ? KVM_DEV_IRQ_HOST_MSI : KVM_DEV_IRQ_HOST_INTX);
+-
+-    return kvm_assign_irq_internal(s, dev_id, irq_type, guest_irq);
+-}
+-
+-int kvm_device_intx_set_mask(KVMState *s, uint32_t dev_id, bool masked)
+-{
+-    struct kvm_assigned_pci_dev dev_data = {
+-        .assigned_dev_id = dev_id,
+-        .flags = masked ? KVM_DEV_ASSIGN_MASK_INTX : 0,
+-    };
+-
+-    return kvm_vm_ioctl(s, KVM_ASSIGN_SET_INTX_MASK, &dev_data);
+-}
+-
+-static int kvm_deassign_irq_internal(KVMState *s, uint32_t dev_id,
+-                                     uint32_t type)
+-{
+-    struct kvm_assigned_irq assigned_irq = {
+-        .assigned_dev_id = dev_id,
+-        .flags = type,
+-    };
+-
+-    return kvm_vm_ioctl(s, KVM_DEASSIGN_DEV_IRQ, &assigned_irq);
+-}
+-
+-int kvm_device_intx_deassign(KVMState *s, uint32_t dev_id, bool use_host_msi)
+-{
+-    return kvm_deassign_irq_internal(s, dev_id, KVM_DEV_IRQ_GUEST_INTX |
+-        (use_host_msi ? KVM_DEV_IRQ_HOST_MSI : KVM_DEV_IRQ_HOST_INTX));
+-}
+-
+-int kvm_device_msi_assign(KVMState *s, uint32_t dev_id, int virq)
+-{
+-    return kvm_assign_irq_internal(s, dev_id, KVM_DEV_IRQ_HOST_MSI |
+-                                              KVM_DEV_IRQ_GUEST_MSI, virq);
+-}
+-
+-int kvm_device_msi_deassign(KVMState *s, uint32_t dev_id)
+-{
+-    return kvm_deassign_irq_internal(s, dev_id, KVM_DEV_IRQ_GUEST_MSI |
+-                                                KVM_DEV_IRQ_HOST_MSI);
+-}
+-
+-bool kvm_device_msix_supported(KVMState *s)
+-{
+-    /* The kernel lacks a corresponding KVM_CAP, so we probe by calling
+-     * KVM_ASSIGN_SET_MSIX_NR with an invalid parameter. */
+-    return kvm_vm_ioctl(s, KVM_ASSIGN_SET_MSIX_NR, NULL) == -EFAULT;
+-}
+-
+-int kvm_device_msix_init_vectors(KVMState *s, uint32_t dev_id,
+-                                 uint32_t nr_vectors)
+-{
+-    struct kvm_assigned_msix_nr msix_nr = {
+-        .assigned_dev_id = dev_id,
+-        .entry_nr = nr_vectors,
+-    };
+-
+-    return kvm_vm_ioctl(s, KVM_ASSIGN_SET_MSIX_NR, &msix_nr);
+-}
+-
+-int kvm_device_msix_set_vector(KVMState *s, uint32_t dev_id, uint32_t vector,
+-                               int virq)
+-{
+-    struct kvm_assigned_msix_entry msix_entry = {
+-        .assigned_dev_id = dev_id,
+-        .gsi = virq,
+-        .entry = vector,
+-    };
+-
+-    return kvm_vm_ioctl(s, KVM_ASSIGN_SET_MSIX_ENTRY, &msix_entry);
+-}
+-
+-int kvm_device_msix_assign(KVMState *s, uint32_t dev_id)
+-{
+-    return kvm_assign_irq_internal(s, dev_id, KVM_DEV_IRQ_HOST_MSIX |
+-                                              KVM_DEV_IRQ_GUEST_MSIX, 0);
+-}
+-
+-int kvm_device_msix_deassign(KVMState *s, uint32_t dev_id)
+-{
+-    return kvm_deassign_irq_internal(s, dev_id, KVM_DEV_IRQ_GUEST_MSIX |
+-                                                KVM_DEV_IRQ_HOST_MSIX);
+-}
+-
+ int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
+                              uint64_t address, uint32_t data, PCIDevice *dev)
  {
--    const char *lib_name;
--    HMODULE hLib;
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+index 06fe06b..7d0242f 100644
+--- a/target/i386/kvm_i386.h
++++ b/target/i386/kvm_i386.h
+@@ -40,26 +40,6 @@ void kvm_synchronize_all_tsc(void);
+ void kvm_arch_reset_vcpu(X86CPU *cs);
+ void kvm_arch_do_init_vcpu(X86CPU *cs);
+ 
+-int kvm_device_pci_assign(KVMState *s, PCIHostDeviceAddress *dev_addr,
+-                          uint32_t flags, uint32_t *dev_id);
+-int kvm_device_pci_deassign(KVMState *s, uint32_t dev_id);
 -
-     if (whp_dispatch_initialized) {
-         return true;
-     }
- 
--    #define WHP_LOAD_FIELD(return_type, function_name, signature) \
--        whp_dispatch.function_name = \
--            (function_name ## _t)GetProcAddress(hLib, #function_name); \
--        if (!whp_dispatch.function_name) { \
--            error_report("Could not load function %s from library %s.", \
--                         #function_name, lib_name); \
--            goto error; \
--        } \
+-int kvm_device_intx_assign(KVMState *s, uint32_t dev_id,
+-                           bool use_host_msi, uint32_t guest_irq);
+-int kvm_device_intx_set_mask(KVMState *s, uint32_t dev_id, bool masked);
+-int kvm_device_intx_deassign(KVMState *s, uint32_t dev_id, bool use_host_msi);
 -
--    lib_name = "WinHvPlatform.dll";
--    hWinHvPlatform = LoadLibrary(lib_name);
--    if (!hWinHvPlatform) {
--        error_report("Could not load library %s.", lib_name);
-+    if (!load_whp_dispatch_fns(&hWinHvPlatform, WINHV_PLATFORM_FNS_DEFAULT)) {
-         goto error;
-     }
--    hLib = hWinHvPlatform;
--    LIST_WINHVPLATFORM_FUNCTIONS(WHP_LOAD_FIELD)
- 
--    lib_name = "WinHvEmulation.dll";
--    hWinHvEmulation = LoadLibrary(lib_name);
--    if (!hWinHvEmulation) {
--        error_report("Could not load library %s.", lib_name);
-+    if (!load_whp_dispatch_fns(&hWinHvEmulation, WINHV_EMULATION_FNS_DEFAULT)) {
-         goto error;
-     }
--    hLib = hWinHvEmulation;
--    LIST_WINHVEMULATION_FUNCTIONS(WHP_LOAD_FIELD)
- 
-     whp_dispatch_initialized = true;
--    return true;
+-int kvm_device_msi_assign(KVMState *s, uint32_t dev_id, int virq);
+-int kvm_device_msi_deassign(KVMState *s, uint32_t dev_id);
 -
--    error:
+-bool kvm_device_msix_supported(KVMState *s);
+-int kvm_device_msix_init_vectors(KVMState *s, uint32_t dev_id,
+-                                 uint32_t nr_vectors);
+-int kvm_device_msix_set_vector(KVMState *s, uint32_t dev_id, uint32_t vector,
+-                               int virq);
+-int kvm_device_msix_assign(KVMState *s, uint32_t dev_id);
+-int kvm_device_msix_deassign(KVMState *s, uint32_t dev_id);
+-
+ void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
  
-+    return true;
-+error:
-     if (hWinHvPlatform) {
-         FreeLibrary(hWinHvPlatform);
-     }
-+
-     if (hWinHvEmulation) {
-         FreeLibrary(hWinHvEmulation);
-     }
-+
-     return false;
- }
- 
+ bool kvm_enable_x2apic(void);
 -- 
 1.8.3.1
 
