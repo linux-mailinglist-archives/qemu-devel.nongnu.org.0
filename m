@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82ECF1246FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:38:46 +0100 (CET)
-Received: from localhost ([::1]:53592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF7912475D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:56:43 +0100 (CET)
+Received: from localhost ([::1]:53820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYbE-0004lX-Va
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:38:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
+	id 1ihYsc-0003Rp-2s
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:56:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56399)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3s-0007LL-Sd
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3s-0007KY-Cj
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3r-0003SA-E9
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3r-0003R6-95
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:16 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43642)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45272)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3q-0003Jb-4D
+ id 1ihY3q-0003N5-VM
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:15 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id d16so1986191wre.10
+Received: by mail-wr1-x42b.google.com with SMTP id j42so1975332wrj.12
  for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=OQTWLYrlwKCqlPGQTAn1oHemTcy+syR9pMtUyWDmhSc=;
- b=ri8SSylw4YiYtS8bWeiSP4xSuDAL59nETQl5WxRtvXZSCjStDyPhBvikBxiOhyaqSW
- rSzL/8glez6HcsaB8TtR9wdLbxnCbjCPXfoSQc5ZGyhnH9h5rydPYmOLYcFffB3ZqMNU
- vQs8Q746xQQKjjitpoJZHvX+WaDnidRiEFJUaB3qgILwMb7QqSnZ2YcniftT24RmPxiU
- DKIobMSN7ATBpl7OMHSUB94tAF/OYzqj+MDKxh6P4jxR23KKLwqw8XIruWh7MWUznKi4
- XHfSPMst9QccECCDB/fu7ldBUK+WvZNCPyZOO2cOxvkLTjqKOm6sV/OP13Cj4mI/LOtd
- IXjQ==
+ bh=OjMB1EI/hWRJqhSpYyL+FZY8NSTWMA7fRjTMsv4X++c=;
+ b=d1G4NhaJkpPtP161Y6mCgwK1HpeptY7sBTWJM19uRPyJORa/iU9gllx8UVP2Vekohq
+ wdSJL5pMJ8RW5P1/Dn6yiymqfSWORK53QBfeYUQWXDI0DTAtfoFBNuz8ju9HdWlrbtEi
+ eAmfQFfvz2I/Kum5gCr4lw6Hby6xWzijFROo4zXiefCY215IDsAg9lvVWLgoW2CI9qlQ
+ CXsaZwopJmnD1jt87Cx6fLRYuovcHs7/2bSb79sMZ8katcyObs5/dqPNDvIEmcSLOrRv
+ JNI0M985/2jZ6EPz571tInHR5BzGqJMJN1c+eIZpwUwUS3crrZfxVHO7+bsmV3tlVkmg
+ RQCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=OQTWLYrlwKCqlPGQTAn1oHemTcy+syR9pMtUyWDmhSc=;
- b=rTkdhK1q2zujNnbhW0ZMxut0ssOW2F8zvCZUBDESaFUM10kZ5CRwvCbqkuxVfAH44i
- tDQwv9/lMDpvpoQIPzGjDaqAMUR9U61BAoWb6lEiHMMHywqPmanPlXDt5E1lD0zpkjpM
- 2i7e3/TDFdO0eLfbCNBOrAlHHZV1UHLhWB8GO3d2CQkwaUR8aHWfUHn3I2YWSDHPL7ex
- KE5HQ9jbzUtizFHVjzW0bOZgw/jL9mb0jIvgYUcD6RRu7QkHEkEBJweeShZ/CXknSeaV
- 9mpBPDvOZSxBTVxioXljPbjFd+izC5OGEIKNngqMESpnLLoVs/HEK1TCKRGngEQJswBI
- YoTw==
-X-Gm-Message-State: APjAAAU7mref1RnARsYaYWqFsAzzvJa3/eW8NJ0ITW6sbTt6pKSuXlL0
- 7Z5vPI2bUktzZ3NXYBbtmuRtz24E
-X-Google-Smtp-Source: APXvYqxXLUH4tGe2UXggD2UOwTa5rUJg3c5ElKbcQQvUJWD2Av969lmUGZdDo+7VNYjBwAQ0EemUvA==
-X-Received: by 2002:adf:f98c:: with SMTP id f12mr2374120wrr.138.1576670652810; 
- Wed, 18 Dec 2019 04:04:12 -0800 (PST)
+ bh=OjMB1EI/hWRJqhSpYyL+FZY8NSTWMA7fRjTMsv4X++c=;
+ b=FtylJM9ym9bpWInvqwsKXoa9lY7NZvY1PF6nI0kf0/onr7TMF8s9w+vme5PvqqWNG/
+ msSwy/iouVW1PHXADxTcq9BnSyMgRU+XLEPd1yuPVZ7gLjGphB/lxgQ8sDymfLvJAeY4
+ XZDZhbrXr+pBV6a0NTCDzkJ94VNLAqH9s+4ya0/aPU04V0+ChH9OZNOMfvyXny5mwWz8
+ Ml2085doGTTf19XZyAlE0s6/IpBSfy6JqXHJoGMW79hFf/BT0RArev6CdxdK7wwoQ5dT
+ Yjq/Iew87vJ58JrwpjC+hqAm1W5UH5Z+Yj021eA1AT4827TAfZwnrrUYXCerMWVmu6L5
+ F5lA==
+X-Gm-Message-State: APjAAAVvzE5jL76V7WbX3zNqyneO3cUbkyy29Uv+MAhN8+IDmXlIfNKA
+ VfAwRN/pyeKGAcV1yHDHxMAbAVy2
+X-Google-Smtp-Source: APXvYqxKGm+IzzpbwMffSczasJrnAoDWetkchP3rPpS5G1r6TzgVKVQgRv5retP0M7/Iebt+0mIhZw==
+X-Received: by 2002:adf:81e3:: with SMTP id 90mr2437543wra.23.1576670653826;
+ Wed, 18 Dec 2019 04:04:13 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:12 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:13 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 70/87] memory.h: Silence kernel-doc complaints
-Date: Wed, 18 Dec 2019 13:02:36 +0100
-Message-Id: <1576670573-48048-71-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 71/87] docs: add memory API reference
+Date: Wed, 18 Dec 2019 13:02:37 +0100
+Message-Id: <1576670573-48048-72-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -78,65 +78,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a few instances where kernel-doc complains about doc comments
-in memory.h.
+Add kernel-doc directive to parse and include doc comments from
+include/exec/memory.h.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/exec/memory.h | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ docs/devel/memory.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 9d3fdb5..4754749 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -360,10 +360,14 @@ typedef struct IOMMUMemoryRegionClass {
- typedef struct CoalescedMemoryRange CoalescedMemoryRange;
- typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
- 
-+/** MemoryRegion:
-+ *
-+ * A struct representing a memory region.
-+ */
- struct MemoryRegion {
-     Object parent_obj;
- 
--    /* All fields are private - violators will be prosecuted */
-+    /* private: */
- 
-     /* The following fields should fit in a cache line */
-     bool romd_mode;
-@@ -452,7 +456,7 @@ struct MemoryListener {
-  * AddressSpace: describes a mapping of addresses to #MemoryRegion objects
-  */
- struct AddressSpace {
--    /* All fields are private. */
-+    /* private: */
-     struct rcu_head rcu;
-     char *name;
-     MemoryRegion *root;
-@@ -1679,8 +1683,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
-  *
-  * Returns a #MemoryRegionSection that describes a contiguous overlap.
-  * It will have the following characteristics:
-- *    .@size = 0 iff no overlap was found
-- *    .@mr is non-%NULL iff an overlap was found
-+ * - @size = 0 iff no overlap was found
-+ * - @mr is non-%NULL iff an overlap was found
-  *
-  * Remember that in the return value the @offset_within_region is
-  * relative to the returned region (in the .@mr field), not to the
-@@ -1691,8 +1695,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
-  * returned one.  However, in the special case where the @mr argument
-  * has no container (and thus is the root of the address space), the
-  * following will hold:
-- *    .@offset_within_address_space >= @addr
-- *    .@offset_within_address_space + .@size <= @addr + @size
-+ * - @offset_within_address_space >= @addr
-+ * - @offset_within_address_space + .@size <= @addr + @size
-  *
-  * @mr: a MemoryRegion within which @addr is a relative address
-  * @addr: start of the area within @as to be searched
+diff --git a/docs/devel/memory.rst b/docs/devel/memory.rst
+index b6a4c37..5dc8a12 100644
+--- a/docs/devel/memory.rst
++++ b/docs/devel/memory.rst
+@@ -361,3 +361,8 @@ callbacks are called:
+ - .impl.unaligned specifies that the *implementation* supports unaligned
+   accesses; if false, unaligned accesses will be emulated by two aligned
+   accesses.
++
++API Reference
++-------------
++
++.. kernel-doc:: include/exec/memory.h
 -- 
 1.8.3.1
 
