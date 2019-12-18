@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D117124688
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:11:30 +0100 (CET)
-Received: from localhost ([::1]:53236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2A4124699
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:15:35 +0100 (CET)
+Received: from localhost ([::1]:53290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYAq-00085X-Sj
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:11:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46215)
+	id 1ihYEn-0005T6-Kc
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:15:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46041)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2q-00067B-JD
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:14 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2p-00066E-WA
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2o-0008Pa-MO
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:12 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54493)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2o-0008PG-Mx
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:11 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33357)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY2o-0008Mi-Bb
+ id 1ihY2o-0008Mn-AF
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:10 -0500
-Received: by mail-wm1-x341.google.com with SMTP id b19so1551536wmj.4
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:07 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id b6so2028887wrq.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ef/FO6qoNGMLr8f5Vz4w7Or3wCDjsjS3iUWUZAId/HY=;
- b=eTvrffLxlaX3tv1AZe1Ck3pvc62zwHDQnSELzOfP+G57cxQu7G2QmBbG27O+OVjOf7
- nP5vbE3RFNxcPL4CBPdBy++Ow6b4JWrINC40a6SnrWA9XMBdF5BTFtxfv9uELpqMKoLm
- NeYwjZjg9JO2ekv5/zxkimre/Td3sSwONW2qcQ6N09La4TZkD9CXqst2GixJxCvnInsB
- yfFAabYfT7HXSSmWlksIH5r/uLlgnx7oTt85TYZzscFPRyGpwBMpgpYIKoT4F5/xH3Gr
- OExuAE/cgmutJ5pVx2GSN06ID8RTSn0ZS5dTcGMS5zwFUExvfKIPqKXxKqD6ZU7rCUAP
- jV5g==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TAsGaMkNvgX/1PLIh8rhtcIKT0XZhmfnt+sThwwjUYM=;
+ b=J/7utKiPuH2S7OdchHgT5h5XYsAukmf4Dd/hSJ9kwhxhyRetf6KaphydiOKijXLdzF
+ eGw4mX0sgIF/2b/uykbjCk5fxmBErSbpsKRgfP7dMEcPHdAsuID7jNP+QO5BmXLUYWkH
+ UTI3qaqh3uQtBaER0O6fDLQXFDe215vhOEQjrtNkIjzOOOwb5d0Ym8Y7a0wmUx58XoEo
+ 2XfV4Yu2z+XwfzDRm/QV73IvZtkYXRMiqjOx/bGS405H0uz/5Xx7V+aTbCHF2jRDcoKj
+ RY3JqcWCM0bzuXcZa6vboR8XQ1WaHnKou+1vaKfYvzykfwxxn7YX8uNg9PzcZWwkqUNs
+ vHCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=ef/FO6qoNGMLr8f5Vz4w7Or3wCDjsjS3iUWUZAId/HY=;
- b=oZ6bBSM/iJYQ9GXsuZAGCoZ3h34AJmWbPwXzutDtuygPx2t/SKjpoPduqBC1P9vc6p
- UktYuut7CCZ7+6DqRm0N8eA6xhWDZN15m4Aif961DjQgNnof7j4VaQ8+3ZfF+AW8J5mw
- K/+hy7mpsnCfa06ALuDmiEiH6s033Qr8DQBKRxUO058qtcpaxQbmidtcAzM1vq3gghmB
- UN9ciK2F4EqRREzuIjkCFIk/O8gv1miNQw3A8zwcKVia+sY4p22CCISMAl9wpj9yIC9b
- EdXPh2JGzJ4rbVzjS3XZaMtl66XYtZXcs5uHxiwsV6w+M5RCd3hLDUmQSfOhUojKQxjF
- UNuw==
-X-Gm-Message-State: APjAAAUrdHofrs9IKOtZpgdvN9fWsfwEetkGfXlCXdKvi+UmPoFOA+B0
- kxJiVoThHdAdehkoQrxuiI5RtlMI
-X-Google-Smtp-Source: APXvYqx+Fhbcnj3Sz5sajxBJy1sVHmrQH1uhQ1/x45m06ugL+mDFYGkMhC1dw4jUyzjN9ZtQ8068aw==
-X-Received: by 2002:a1c:9e4c:: with SMTP id h73mr2794428wme.177.1576670586403; 
- Wed, 18 Dec 2019 04:03:06 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=TAsGaMkNvgX/1PLIh8rhtcIKT0XZhmfnt+sThwwjUYM=;
+ b=i9W3JRGlH8YZFAEtxjL5K1vavXqaVhhgAV9HkRYQkHQJ3EjbKNjQlChxg7ZcEDD2te
+ Q+4+7eK4XT4qfdN2TYXpAm5vYO9BFeYxIGQTO+LCENqD2YuTP+jIAp/zGTL9kFxP9o+J
+ 8Ojz7gihV7QyYZyJi0GA2tOudLkilbNDXyCl904mrRD991mZkrXZbv4TpwmakSzdyPgS
+ GjgGlEK9ddGYW4pXDwNidr+W6bJzDNd1oZllt4PJ/kzX/Hefh5wJw8mWK7RmGYtzpbUf
+ sWnSjSrgGITMHvWAtivgZfaoO9G4TRZcIvz8iX7AKrRNEElQ2ecVYb1ZozSXkRT6NOev
+ myvg==
+X-Gm-Message-State: APjAAAVh7RixjcXpWXOUhKlPfNVnTHy6HFGlbu35kGvrHgw93E/9R9VV
+ 6ne6Ynn9lxWP2dbbB1RniweStYLf
+X-Google-Smtp-Source: APXvYqzcdlIELg70iyA5ZS8mpkes5PYtTnsSAuilVVpEinWuhGz/7q0O3TCEqMDO9eCke68kGDCKTw==
+X-Received: by 2002:a5d:6a83:: with SMTP id s3mr2344446wru.99.1576670587594;
+ Wed, 18 Dec 2019 04:03:07 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.05
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.06
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:05 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:06 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/87] migration-test: Use a struct for test_migrate_start
- parameters
-Date: Wed, 18 Dec 2019 13:01:37 +0100
-Message-Id: <1576670573-48048-12-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 12/87] memory: do not look at current_machine->accel
+Date: Wed, 18 Dec 2019 13:01:38 +0100
+Message-Id: <1576670573-48048-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,319 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Juan Quintela <quintela@redhat.com>
+"info mtree -f" prints the wrong accelerator name if used with for example
+"-machine accel=kvm:tcg".  The right thing to do is to fetch the name
+from the AccelClass, which will also work nicely once
+current_machine->accel stops existing.
 
-It has two bools and two strings, it is very difficult to remember
-which does what.  And it makes very difficult to add new parameters as
-we need to modify all the callers.
-
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Tested-by: Cornelia Huck <cohuck@redhat.com> #s390x
-Tested-by: Laurent Vivier <lvivier@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/migration-test.c | 118 ++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 78 insertions(+), 40 deletions(-)
+ memory.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 37e9663..dbe25b8 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -544,10 +544,31 @@ static void migrate_postcopy_start(QTestState *from, QTestState *to)
-     qtest_qmp_eventwait(to, "RESUME");
- }
+diff --git a/memory.c b/memory.c
+index 0228cad..d7b9bb6 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2991,7 +2991,6 @@ struct FlatViewInfo {
+     bool dispatch_tree;
+     bool owner;
+     AccelClass *ac;
+-    const char *ac_name;
+ };
  
-+typedef struct {
-+    bool hide_stderr;
-+    bool use_shmem;
-+    char *opts_source;
-+    char *opts_target;
-+} MigrateStart;
-+
-+static MigrateStart *migrate_start_new(void)
-+{
-+    MigrateStart *args = g_new0(MigrateStart, 1);
-+
-+    args->opts_source = g_strdup("");
-+    args->opts_target = g_strdup("");
-+    return args;
-+}
-+
-+static void migrate_start_destroy(MigrateStart *args)
-+{
-+    g_free(args->opts_source);
-+    g_free(args->opts_target);
-+    g_free(args);
-+}
-+
- static int test_migrate_start(QTestState **from, QTestState **to,
--                               const char *uri, bool hide_stderr,
--                               bool use_shmem, const char *opts_src,
--                               const char *opts_dst)
-+                              const char *uri, MigrateStart *args)
- {
-     gchar *arch_source, *arch_target;
-     gchar *cmd_source, *cmd_target;
-@@ -560,10 +581,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-     const char *machine_args;
-     const char *memory_size;
+ static void mtree_print_flatview(gpointer key, gpointer value,
+@@ -3061,7 +3060,7 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+                 if (fvi->ac->has_memory(current_machine, as,
+                                         int128_get64(range->addr.start),
+                                         MR_SIZE(range->addr.size) + 1)) {
+-                    qemu_printf(" %s", fvi->ac_name);
++                    qemu_printf(" %s", fvi->ac->name);
+                 }
+             }
+         }
+@@ -3109,8 +3108,6 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner)
  
--    opts_src = opts_src ? opts_src : "";
--    opts_dst = opts_dst ? opts_dst : "";
--
--    if (use_shmem) {
-+    if (args->use_shmem) {
-         if (!g_file_test("/dev/shm", G_FILE_TEST_IS_DIR)) {
-             g_test_skip("/dev/shm is not supported");
-             return -1;
-@@ -623,13 +641,13 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         if (ac->has_memory) {
+             fvi.ac = ac;
+-            fvi.ac_name = current_machine->accel ? current_machine->accel :
+-                object_class_get_name(OBJECT_CLASS(ac));
+         }
  
-     g_free(bootpath);
- 
--    if (hide_stderr) {
-+    if (args->hide_stderr) {
-         ignore_stderr = "2>/dev/null";
-     } else {
-         ignore_stderr = "";
-     }
- 
--    if (use_shmem) {
-+    if (args->use_shmem) {
-         shmem_path = g_strdup_printf("/dev/shm/qemu-%d", getpid());
-         shmem_opts = g_strdup_printf(
-             "-object memory-backend-file,id=mem0,size=%s"
-@@ -647,7 +665,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-                                  "%s %s %s %s",
-                                  machine_type, machine_args,
-                                  memory_size, tmpfs,
--                                 arch_source, shmem_opts, opts_src,
-+                                 arch_source, shmem_opts, args->opts_source,
-                                  ignore_stderr);
-     g_free(arch_source);
-     *from = qtest_init(cmd_source);
-@@ -661,8 +679,8 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-                                  "%s %s %s %s",
-                                  machine_type, machine_args,
-                                  memory_size, tmpfs, uri,
--                                 arch_target, shmem_opts, opts_dst,
--                                 ignore_stderr);
-+                                 arch_target, shmem_opts,
-+                                 args->opts_target, ignore_stderr);
-     g_free(arch_target);
-     *to = qtest_init(cmd_target);
-     g_free(cmd_target);
-@@ -672,11 +690,12 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-      * Remove shmem file immediately to avoid memory leak in test failed case.
-      * It's valid becase QEMU has already opened this file
-      */
--    if (use_shmem) {
-+    if (args->use_shmem) {
-         unlink(shmem_path);
-         g_free(shmem_path);
-     }
- 
-+    migrate_start_destroy(args);
-     return 0;
- }
- 
-@@ -762,13 +781,13 @@ static void test_deprecated(void)
- }
- 
- static int migrate_postcopy_prepare(QTestState **from_ptr,
--                                     QTestState **to_ptr,
--                                     bool hide_error)
-+                                    QTestState **to_ptr,
-+                                    MigrateStart *args)
- {
-     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     QTestState *from, *to;
- 
--    if (test_migrate_start(&from, &to, uri, hide_error, false, NULL, NULL)) {
-+    if (test_migrate_start(&from, &to, uri, args)) {
-         return -1;
-     }
- 
-@@ -813,9 +832,10 @@ static void migrate_postcopy_complete(QTestState *from, QTestState *to)
- 
- static void test_postcopy(void)
- {
-+    MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
- 
--    if (migrate_postcopy_prepare(&from, &to, false)) {
-+    if (migrate_postcopy_prepare(&from, &to, args)) {
-         return;
-     }
-     migrate_postcopy_start(from, to);
-@@ -824,10 +844,13 @@ static void test_postcopy(void)
- 
- static void test_postcopy_recovery(void)
- {
-+    MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
-     char *uri;
- 
--    if (migrate_postcopy_prepare(&from, &to, true)) {
-+    args->hide_stderr = true;
-+
-+    if (migrate_postcopy_prepare(&from, &to, args)) {
-         return;
-     }
- 
-@@ -910,9 +933,12 @@ static void wait_for_migration_fail(QTestState *from, bool allow_active)
- 
- static void test_baddest(void)
- {
-+    MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
- 
--    if (test_migrate_start(&from, &to, "tcp:0:0", true, false, NULL, NULL)) {
-+    args->hide_stderr = true;
-+
-+    if (test_migrate_start(&from, &to, "tcp:0:0", args)) {
-         return;
-     }
-     migrate(from, "tcp:0:0", "{}");
-@@ -923,9 +949,10 @@ static void test_baddest(void)
- static void test_precopy_unix(void)
- {
-     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
- 
--    if (test_migrate_start(&from, &to, uri, false, false, NULL, NULL)) {
-+    if (test_migrate_start(&from, &to, uri, args)) {
-         return;
-     }
- 
-@@ -1001,9 +1028,10 @@ static void test_ignore_shared(void)
- 
- static void test_xbzrle(const char *uri)
- {
-+    MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
- 
--    if (test_migrate_start(&from, &to, uri, false, false, NULL, NULL)) {
-+    if (test_migrate_start(&from, &to, uri, args)) {
-         return;
-     }
- 
-@@ -1052,11 +1080,11 @@ static void test_xbzrle_unix(void)
- 
- static void test_precopy_tcp(void)
- {
-+    MigrateStart *args = migrate_start_new();
-     char *uri;
-     QTestState *from, *to;
- 
--    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", false, false,
--                           NULL, NULL)) {
-+    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
-         return;
-     }
- 
-@@ -1096,13 +1124,14 @@ static void test_precopy_tcp(void)
- 
- static void test_migrate_fd_proto(void)
- {
-+    MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
-     int ret;
-     int pair[2];
-     QDict *rsp;
-     const char *error_desc;
- 
--    if (test_migrate_start(&from, &to, "defer", false, false, NULL, NULL)) {
-+    if (test_migrate_start(&from, &to, "defer", args)) {
-         return;
-     }
- 
-@@ -1178,15 +1207,12 @@ static void test_migrate_fd_proto(void)
-     test_migrate_end(from, to, true);
- }
- 
--static void do_test_validate_uuid(const char *uuid_arg_src,
--                                  const char *uuid_arg_dst,
--                                  bool should_fail, bool hide_stderr)
-+static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
- {
-     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     QTestState *from, *to;
- 
--    if (test_migrate_start(&from, &to, uri, hide_stderr, false,
--                           uuid_arg_src, uuid_arg_dst)) {
-+    if (test_migrate_start(&from, &to, uri, args)) {
-         return;
-     }
- 
-@@ -1216,33 +1242,45 @@ static void do_test_validate_uuid(const char *uuid_arg_src,
- 
- static void test_validate_uuid(void)
- {
--    do_test_validate_uuid("-uuid 11111111-1111-1111-1111-111111111111",
--                          "-uuid 11111111-1111-1111-1111-111111111111",
--                          false, false);
-+    MigrateStart *args = migrate_start_new();
-+
-+    args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
-+    args->opts_target = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
-+    do_test_validate_uuid(args, false);
- }
- 
- static void test_validate_uuid_error(void)
- {
--    do_test_validate_uuid("-uuid 11111111-1111-1111-1111-111111111111",
--                          "-uuid 22222222-2222-2222-2222-222222222222",
--                          true, true);
-+    MigrateStart *args = migrate_start_new();
-+
-+    args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
-+    args->opts_target = g_strdup("-uuid 22222222-2222-2222-2222-222222222222");
-+    args->hide_stderr = true;
-+    do_test_validate_uuid(args, true);
- }
- 
- static void test_validate_uuid_src_not_set(void)
- {
--    do_test_validate_uuid(NULL, "-uuid 11111111-1111-1111-1111-111111111111",
--                          false, true);
-+    MigrateStart *args = migrate_start_new();
-+
-+    args->opts_target = g_strdup("-uuid 22222222-2222-2222-2222-222222222222");
-+    args->hide_stderr = true;
-+    do_test_validate_uuid(args, false);
- }
- 
- static void test_validate_uuid_dst_not_set(void)
- {
--    do_test_validate_uuid("-uuid 11111111-1111-1111-1111-111111111111", NULL,
--                          false, true);
-+    MigrateStart *args = migrate_start_new();
-+
-+    args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
-+    args->hide_stderr = true;
-+    do_test_validate_uuid(args, false);
- }
- 
- static void test_migrate_auto_converge(void)
- {
-     char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
-     int64_t remaining, percentage;
- 
-@@ -1261,7 +1299,7 @@ static void test_migrate_auto_converge(void)
-      */
-     const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
- 
--    if (test_migrate_start(&from, &to, uri, false, false, NULL, NULL)) {
-+    if (test_migrate_start(&from, &to, uri, args)) {
-         return;
-     }
- 
+         /* Gather all FVs in one table */
 -- 
 1.8.3.1
 
