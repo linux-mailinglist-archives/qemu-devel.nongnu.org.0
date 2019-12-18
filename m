@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52A21254EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:40:21 +0100 (CET)
-Received: from localhost ([::1]:32848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C94312554C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:56:10 +0100 (CET)
+Received: from localhost ([::1]:32996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihh3M-0001xq-Fw
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:40:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57645)
+	id 1ihhIe-0002xI-Ol
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:56:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1ihh2J-00013c-8X
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:39:16 -0500
+ (envelope-from <bounces@canonical.com>) id 1ihhHM-0002Mp-LZ
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:54:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1ihh2F-0006jw-Tk
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:39:12 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46325
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1ihh2F-0006iG-Is
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:39:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576705150;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u9TtCci2FuLajUtFOw5B/HodtCZRSzWxgnpe0HYK4bg=;
- b=e/PHyS+WzhcioDHG9fRTHI83wk3APbJCx+9CCS8qu8du02DJwvLP3D9rCEsvsBFrmXZ3ie
- 5FQ0lMlfvJiayczd6EVY1XceHcKAxru0qqGHeeS4HxDiZaFdRshbIobdZ1G91NThJKBjJz
- 9g616ZkG29WSP1yAiZZ40+Ze2nJnNoA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-TtPgruxiOy2jW2yv518w1w-1; Wed, 18 Dec 2019 16:39:07 -0500
-X-MC-Unique: TtPgruxiOy2jW2yv518w1w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08FF7801E6D;
- Wed, 18 Dec 2019 21:39:05 +0000 (UTC)
-Received: from x1.home (ovpn-116-26.phx2.redhat.com [10.3.116.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36C0426DEC;
- Wed, 18 Dec 2019 21:39:03 +0000 (UTC)
-Date: Wed, 18 Dec 2019 14:39:02 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v10 Kernel 4/5] vfio iommu: Implementation of ioctl to
- for dirty pages tracking.
-Message-ID: <20191218143902.3c9b06df@x1.home>
-In-Reply-To: <17ac4c3b-5f7c-0e52-2c2b-d847d4d4e3b1@nvidia.com>
-References: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
- <1576527700-21805-5-git-send-email-kwankhede@nvidia.com>
- <20191217051513.GE21868@joy-OptiPlex-7040>
- <17ac4c3b-5f7c-0e52-2c2b-d847d4d4e3b1@nvidia.com>
-Organization: Red Hat
+ (envelope-from <bounces@canonical.com>) id 1ihhHL-0007iM-8Q
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:54:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60338)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ihhHL-0007gD-22
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:54:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ihhHJ-0006Yt-E7
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 21:54:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 577B32E807B
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 21:54:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Dec 2019 21:45:29 -0000
+From: ecsdn <1596832@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andree182 ecsdn
+X-Launchpad-Bug-Reporter: Andrej Krutak (andree182)
+X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
+References: <20160628075027.23593.17849.malonedeb@gac.canonical.com>
+Message-Id: <157670552938.15344.4033961201302554366.malone@wampee.canonical.com>
+Subject: [Bug 1596832] Re: e500 -bios/-kernel broken with big images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 558aa5482bb3e933410c9e361abac6c5ee1803c1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,78 +66,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
- Yan Zhao <yan.y.zhao@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
- "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Reply-To: Bug 1596832 <1596832@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Dec 2019 14:54:14 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+Curious: Is your guest kernel >=3D3.6 with qemu-ppce500 config ie qemu_ppce=
+500 defined etc? =
 
-> On 12/17/2019 10:45 AM, Yan Zhao wrote:
-> > On Tue, Dec 17, 2019 at 04:21:39AM +0800, Kirti Wankhede wrote:  
-> >> +		} else if (range.flags &
-> >> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
-> >> +			uint64_t iommu_pgmask;
-> >> +			unsigned long pgshift = __ffs(range.pgsize);
-> >> +			unsigned long *bitmap;
-> >> +			long bsize;
-> >> +
-> >> +			iommu_pgmask =
-> >> +			 ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
-> >> +
-> >> +			if (((range.pgsize - 1) & iommu_pgmask) !=
-> >> +			    (range.pgsize - 1))
-> >> +				return -EINVAL;
-> >> +
-> >> +			if (range.iova & iommu_pgmask)
-> >> +				return -EINVAL;
-> >> +			if (!range.size || range.size > SIZE_MAX)
-> >> +				return -EINVAL;
-> >> +			if (range.iova + range.size < range.iova)
-> >> +				return -EINVAL;
-> >> +
-> >> +			bsize = verify_bitmap_size(range.size >> pgshift,
-> >> +						   range.bitmap_size);
-> >> +			if (bsize)
-> >> +				return ret;
-> >> +
-> >> +			bitmap = kmalloc(bsize, GFP_KERNEL);
-> >> +			if (!bitmap)
-> >> +				return -ENOMEM;
-> >> +
-> >> +			ret = copy_from_user(bitmap,
-> >> +			     (void __user *)range.bitmap, bsize) ? -EFAULT : 0;
-> >> +			if (ret)
-> >> +				goto bitmap_exit;
-> >> +
-> >> +			iommu->dirty_page_tracking = false;  
-> > why iommu->dirty_page_tracking is false here?
-> > suppose this ioctl can be called several times.
-> >   
-> 
-> This ioctl can be called several times, but once this ioctl is called 
-> that means vCPUs are stopped and VFIO devices are stopped (i.e. in 
-> stop-and-copy phase) and dirty pages bitmap are being queried by user.
+In case u-boot loads/maps uImage format kernel differently have you tried u=
+Image vs vmlinux?
 
-Do not assume how userspace works or its intent.  If dirty tracking is
-on, it should remain on until the user turns it off.  We cannot assume
-userspace uses a one-shot approach.  Thanks,
+And are you able to boot ok with an mpc... machine instead of ppce500 by
+specifying a dtb file or dtb compatibility? Do you know if more recent
+qemu (2.8 or 3 or 4.2) has same issue for you?
 
-Alex
+Oh wow I just noticed this is from 2016! It would be nice for such bugs
+to have follow-up, closure, or summary of
+solution/circumvention/workaround taken by those who posted them :)
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1596832
+
+Title:
+  e500 -bios/-kernel broken with big images
+
+Status in QEMU:
+  New
+
+Bug description:
+  This is tested using qemu 2.4.1, but it looks like the code
+  qemu/hw/ppc/e500.c has not changed since. This looks like the source
+  of the problem:
+  http://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D3812c71ffaa2cf733c30=
+87792b859fef30b7545f
+
+  =
+
+  What works:
+  ----------
+
+  Basic invocation qemu-system-ppc -machine ppce500  -monitor stdio
+  -bios u-boot.e500 works, I get the uboot prompt and this:
+
+  (qemu) info roms
+  addr=3D0000000000f00000 size=3D0x044b8c mem=3Dram name=3D"phdr #0: .../qe=
+mu/share/qemu/u-boot.e500"
+  addr=3D0000000000f81000 size=3D0x006b00 mem=3Dram name=3D"phdr #1: .../qe=
+mu/share/qemu/u-boot.e500"
+
+  =
+
+  Passing u-boot.e500 image as kernel (-bios u-boot.e500 -kernel u-boot.e50=
+0) appears to work, $qemu_kernel_addr is filled in, though (as expected) ub=
+oot complains about the image format.
+
+  (qemu) info roms
+  addr=3D0000000000f00000 size=3D0x044b8c mem=3Dram name=3D"phdr #0: .../qe=
+mu/share/qemu/u-boot.e500"
+  addr=3D0000000000f81000 size=3D0x006b00 mem=3Dram name=3D"phdr #1: .../qe=
+mu/share/qemu/u-boot.e500"
+  addr=3D0000000002000000 size=3D0x054e8c mem=3Dram name=3D".../qemu/share/=
+qemu/u-boot.e500
+
+
+  What doesn't work:
+  -----------------
+
+  However, once I try to load a big image (>=3D32 MiB), uboot doesn't even
+  show anything:
+
+  qemu-system-ppc -machine ppce500  -monitor stdio -bios u-boot.e500
+  -kernel boot/vmlinux -m 1024
+
+  (qemu) info roms
+  addr=3D0000000000f00000 size=3D0x044b8c mem=3Dram name=3D"phdr #0: .../qe=
+mu/share/qemu/u-boot.e500"
+  addr=3D0000000000f81000 size=3D0x006b00 mem=3Dram name=3D"phdr #1: .../qe=
+mu/share/qemu/u-boot.e500"
+  addr=3D0000000002000000 size=3D0x27aeedc mem=3Dram name=3D"boot/vmlinux"
+
+  ...
+  (gdb) bt
+  #0  0x00f2efcc in ?? ()
+  #1  0x00f31554 in ?? ()
+  #2  0x00f03f4c in ?? ()
+  #3  0x00f04458 in ?? ()
+  #4  0x00f028dc in ?? ()
+  #5  0x00f01080 in ?? ()
+
+
+  The thing is, this used to work +- before the commit, where I'd just
+  pass the image as -kernel option, and it booted.
+
+  =
+
+  If I do that now (w/o the -bios option, using the exact same image), the =
+kernel gets loaded twice, only at different addresses (the cause is obvious=
+ from the commit), causing overlap error:
+
+  qemu-system-ppc -machine ppce500  -monitor stdio  -kernel boot/vmlinux -m=
+ 1024
+  QEMU 2.4.1 monitor - type 'help' for more information
+  (qemu) rom: requested regions overlap (rom boot/vmlinux. free=3D0x0000000=
+0027492fc, addr=3D0x0000000002000000)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1596832/+subscriptions
 
