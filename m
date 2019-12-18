@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63A8123EB1
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 06:06:44 +0100 (CET)
-Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B27123EB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 06:08:13 +0100 (CET)
+Received: from localhost ([::1]:49742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihRXn-0008Ho-6a
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 00:06:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48060)
+	id 1ihRZE-0002Av-VO
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 00:08:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ihRW1-0006vX-QD
+ (envelope-from <quintela@redhat.com>) id 1ihRW1-0006vW-Rt
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 00:04:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ihRVv-0003Yy-Ej
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 00:04:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52872
+ (envelope-from <quintela@redhat.com>) id 1ihRVv-0003Z4-FZ
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 00:04:51 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34513
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihRVu-0003TN-A6
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihRVv-0003XK-2v
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 00:04:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576645485;
+ s=mimecast20190719; t=1576645486;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=hq6TJ2Uoyd/yqte+nyc3zm5lw9I9CJr9XVb2+n1ZxLA=;
- b=NcDUy48bnrd9k93njyHk/L39ewWDhAj5h+ct5Qzq2t/Y5sgYxw6w/ZC5prWZTrru8lRL+K
- pZiDiuXUl6Y/DNTYtKKw8g3XVOVhdHTgzJ5A5iqGt4iR5KMg2t/Ap0pBnQ8Kb3u2RfokoM
- t9ZdkJ+ER+1ZCFlFpsVwYMB8CTjOcWo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f8pG+ePynhpBGfAMaIg4eXtSkCZio1rbAzzHRQGEB9s=;
+ b=BDbN3Glo1+2y9k0W8gd57FPVfTyO61e80YCaWqqgbB2Qcg+IArLP13NnNEREH4BnsXegQz
+ Ws9wapY8R3DsQf4ZOopv5XQ09L18XiTZnmVD7ZEzEZ52FYIQ+355n6ERAXbSecmPGzilLc
+ sO5nQ2u8ba9zdI9Ru2IcnezZ4UUFRw8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-vNdKWz_ZOsqFHLQE4UYs9g-1; Wed, 18 Dec 2019 00:04:43 -0500
+ us-mta-24-BneBhDcoOXeCM9MFALv5wg-1; Wed, 18 Dec 2019 00:04:45 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82CD164A84
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 05:04:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57D6910CE7A9
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 05:04:44 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-32.ams2.redhat.com [10.36.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0923A5D9E1;
- Wed, 18 Dec 2019 05:04:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D53575D9E1;
+ Wed, 18 Dec 2019 05:04:42 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] Fix multifd + cancel + multifd
-Date: Wed, 18 Dec 2019 06:04:35 +0100
-Message-Id: <20191218050439.5989-1-quintela@redhat.com>
+Subject: [PATCH 1/4] qemu-file: Don't do IO after shutdown
+Date: Wed, 18 Dec 2019 06:04:36 +0100
+Message-Id: <20191218050439.5989-2-quintela@redhat.com>
+In-Reply-To: <20191218050439.5989-1-quintela@redhat.com>
+References: <20191218050439.5989-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: vNdKWz_ZOsqFHLQE4UYs9g-1
+X-MC-Unique: BneBhDcoOXeCM9MFALv5wg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -73,32 +76,67 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Be sure that we are not doing neither read/write after shutdown of the
+QEMUFile.
 
-This series:
-- create a test that does:
-  launch multifd on target
-  migrate to target
-  cancel on source
-  create another target
-  migrate again
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/qemu-file.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-- And fixes the cases that made it fail:
-* Make sure that we don't try ever IO after shutdown/error
-
-Please, review.
-
-Juan Quintela (4):
-  qemu-file: Don't do IO after shutdown
-  multifd: Make sure that we don't do any IO after an error
-  migration-test: Make sure that multifd and cancel works
-  migration: Make sure that we don't call write() in case of error
-
- migration/qemu-file.c  |  13 +++++
- migration/ram.c        |  41 ++++++++++++----
- tests/migration-test.c | 108 ++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 152 insertions(+), 10 deletions(-)
-
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 26fb25ddc1..1e5543a279 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -53,6 +53,8 @@ struct QEMUFile {
+=20
+     int last_error;
+     Error *last_error_obj;
++    /* has the file has been shutdown */
++    bool shutdown;
+ };
+=20
+ /*
+@@ -61,6 +63,7 @@ struct QEMUFile {
+  */
+ int qemu_file_shutdown(QEMUFile *f)
+ {
++    f->shutdown =3D true;
+     if (!f->ops->shut_down) {
+         return -ENOSYS;
+     }
+@@ -214,6 +217,9 @@ void qemu_fflush(QEMUFile *f)
+         return;
+     }
+=20
++    if (f->shutdown) {
++        return;
++    }
+     if (f->iovcnt > 0) {
+         expect =3D iov_size(f->iov, f->iovcnt);
+         ret =3D f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt, f->pos=
+,
+@@ -328,6 +334,10 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+     f->buf_index =3D 0;
+     f->buf_size =3D pending;
+=20
++    if (f->shutdown) {
++        return 0;
++    }
++
+     len =3D f->ops->get_buffer(f->opaque, f->buf + pending, f->pos,
+                              IO_BUF_SIZE - pending, &local_error);
+     if (len > 0) {
+@@ -642,6 +652,9 @@ int64_t qemu_ftell(QEMUFile *f)
+=20
+ int qemu_file_rate_limit(QEMUFile *f)
+ {
++    if (f->shutdown) {
++        return 1;
++    }
+     if (qemu_file_get_error(f)) {
+         return 1;
+     }
 --=20
 2.23.0
 
