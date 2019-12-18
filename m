@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8482812500A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 19:03:44 +0100 (CET)
-Received: from localhost ([::1]:58696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E063412500D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 19:03:47 +0100 (CET)
+Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihdfi-0006XW-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 13:03:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
+	id 1ihdfm-0006ld-D0
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 13:03:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihdcg-0004q0-UU
+ (envelope-from <alex.bennee@linaro.org>) id 1ihdcj-0004q1-0V
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 13:00:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihdcf-0002Lj-Lr
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 13:00:34 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36534)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihdcg-0002Pj-HU
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 13:00:36 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54019)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihdcf-0002Hj-9L
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 13:00:33 -0500
-Received: by mail-wm1-x344.google.com with SMTP id p17so2946897wma.1
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 10:00:33 -0800 (PST)
+ id 1ihdcg-0002Kr-7N
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 13:00:34 -0500
+Received: by mail-wm1-x341.google.com with SMTP id m24so2786339wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 10:00:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dEJElyVqy6KQVYSRgad8NqQZOp0Lzh3BaRgS4yZ5EiY=;
- b=ykCY5eBzZ6vsSkanHnBx6PL3MrUuRsH/WNQWnsJtMwlvae1cFTZu4G2yVUzWT25B3a
- XmY7gNrux8TZJqLWnzDCnZcVna3wtclve85UG4BD4Eltd30+DeaQnP/G0BpPMaqfpY6D
- ZD9NfzFhVgu6P1B4l7HiHecvQdC9sl7ZeJSyNcFzHKp9zGGPrt2zocoZ20YCFg6WC3g5
- 5gA2QcEujxsqwAbpD/keCNPFDu+b4uNm7q0PxMWvCFnURvphvp3BqQj+auO7v2WkEeso
- /3d6yXE4yHT+Pg6MeTgXKph2wjEv0GQ+A7Niq3mrT5eYLXxGjoxmaPxOoLWZgxl/+s8F
- uWHg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1imCrcgM5GABSpEnuVHZaVNMhwJCUodjjwEZVVhX2x8=;
+ b=EMOwENtq4MXI8hlYodzhel4IydXy+3VrYIiKguE0ZYOdK5eGZVWd4OjcvNtVo++KBp
+ Ea0bRmKkrMQipAjILsWMWK70CG863YL60cwDCRHd2QwemXcuD0THWS4HxkfTP823BzSo
+ AXlKKqqXGp8/oeWFsnTr3/V8BtwNfOVz9BSoBfgdN6/ow365mytg64I1qxyZbsNzpAAh
+ wZBNxhhy4IZM12gT9z5PFgEyQ+gEGCh1ofUqVjLAbvEjkxHCxGw59SvUNjyPQ1qWKq/n
+ YbNNNB8+Xq3qjFF0Ys8pzYAwK9tvA5NE85+Uv2LxXcZ25t+/jrav9Y3yBNfTwZE35Nk6
+ OU5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dEJElyVqy6KQVYSRgad8NqQZOp0Lzh3BaRgS4yZ5EiY=;
- b=f6IMsl1DjCh14WYz2+iWP3wUiXOcuo9ofPzm7fKv6aTwUcQgPENbEcg0IJq12Ss3Eu
- zfcw6VK0qmB/yzAvUNuG3CJCeAnCafMBeMYbZrkAGmTlwtKL/HxnA0llGciLMiKHmk2O
- /kCXOCeTqTeL/N0t1FhZ96N+9n9xA7O1+EeveH5hzngpfyDmPhorCKt+DtPaqamnqSb4
- GoJ/BC3s0f2+4mk6rRknXMxJ2C8dDIaYZsKfwjXlDS7GDfzazLRoIy8m/PVU9j/MB+G7
- 0kLkbc/x0gotgZxn2GAzQhDq64a26Q8iZVmW8RCqzTWi0H1tgohXHZbuEfNTCdKJdm9P
- /IFw==
-X-Gm-Message-State: APjAAAWbrM6/9dtR2s5KdelV74zKM6y0i/XEWoXuIO0//Xm97hx5VgqQ
- Y4ssJCaAjvt1Eqy1uWEJqOAK/A==
-X-Google-Smtp-Source: APXvYqzRdvxdmp3jqIcJU/ECM+qZXo9IOuaEQUx/SXb9WuqqWLEJDig09Iuhea6+NMRirqNdIu5dfA==
-X-Received: by 2002:a1c:3d07:: with SMTP id k7mr4989988wma.79.1576692031987;
- Wed, 18 Dec 2019 10:00:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1imCrcgM5GABSpEnuVHZaVNMhwJCUodjjwEZVVhX2x8=;
+ b=UI9HQJKo6UsT5by3LcQw6krVqO8vm/nuIytDxavTvTsrMDlj8LhNrDnJv7ajin2lqt
+ jH9pNZWba5+fm98QbBcefJEkV1py8c6XAZOEFuntRq9JM/yaeKVjKEbh4Xg5W9Zdt7S6
+ TvBU04CcY2tlLzhLaBuhd/pILnPr7Nr0Q6oE1m5ZEJRqqpm0SFX8yWA3AEY8pY9CxY1x
+ epl0sReJTuxvXS6UyZm4WEcYjvcBNoFFnFbI3PHDPUYx7QZTv6aOvVbBVwgA80sIHdmV
+ ZXRaT62zDSJGxj4wFeZM5mag12B0z5dbLXIdePg091fwrt1cEDozAHLGlG9A2ZlbMkVZ
+ 09GQ==
+X-Gm-Message-State: APjAAAUTxQfVfogWbWUXHutlTuPTTEtJ5wjonOZWRQP7ZFQloP6wUWGj
+ IUR5HlC44Q1QvY4/lIBvWgSgV1wddmQ=
+X-Google-Smtp-Source: APXvYqyB2e7O6uLViS9FZKWHLP1SIBzw+sueD6XYHlO+8LzW4Edt2dNwpJH5YxNXHN6I7J7SKDVd2A==
+X-Received: by 2002:a1c:9e58:: with SMTP id h85mr4811878wme.77.1576692033082; 
+ Wed, 18 Dec 2019 10:00:33 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p15sm3217610wma.40.2019.12.18.10.00.30
+ by smtp.gmail.com with ESMTPSA id v83sm3304469wmg.16.2019.12.18.10.00.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 18 Dec 2019 10:00:30 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DAFD41FF87;
- Wed, 18 Dec 2019 18:00:29 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0EEB91FF8C;
+ Wed, 18 Dec 2019 18:00:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 0/4] semihosting read console support
-Date: Wed, 18 Dec 2019 18:00:25 +0000
-Message-Id: <20191218180029.6744-1-alex.bennee@linaro.org>
+Subject: [PATCH  v1 1/4] target/arm: remove unused EXCP_SEMIHOST leg
+Date: Wed, 18 Dec 2019 18:00:26 +0000
+Message-Id: <20191218180029.6744-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191218180029.6744-1-alex.bennee@linaro.org>
+References: <20191218180029.6744-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,49 +82,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: pbonzini@redhat.com, keithp@keithp.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+All semihosting exceptions are dealt with earlier in the common code
+so we should never get here.
 
-This series introduces a new "blocking" console read function for
-semihosting and plumbs it in to the ARM semihosting code. The main bit
-of work is Keith's patch (with a few tweaks by me). The other
-preparatory patches make sure the PC is updated after semihosting
-succeeds and a little bit of clean-up.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ target/arm/helper.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-The following patches need review
-   01 - target arm remove unused EXCP_SEMIHOST leg
-   02 - target arm only update pc after semihosting compl
-   04 - tests tcg add a dumb as bricks semihosting consol
-
-Alex Bennée (3):
-  target/arm: remove unused EXCP_SEMIHOST leg
-  target/arm: only update pc after semihosting completes
-  tests/tcg: add a dumb-as-bricks semihosting console test
-
-Keith Packard (1):
-  semihosting: add qemu_semihosting_console_inc for SYS_READC
-
- include/hw/semihosting/console.h          | 16 +++++
- include/hw/semihosting/semihost.h         |  4 ++
- hw/semihosting/console.c                  | 78 +++++++++++++++++++++++
- linux-user/aarch64/cpu_loop.c             |  1 +
- linux-user/arm/cpu_loop.c                 |  1 +
- linux-user/arm/semihost.c                 | 23 +++++++
- stubs/semihost.c                          |  4 ++
- target/arm/arm-semi.c                     |  3 +-
- target/arm/helper.c                       |  8 +--
- target/arm/m_helper.c                     |  1 +
- target/arm/translate-a64.c                |  2 +-
- target/arm/translate.c                    |  6 +-
- tests/tcg/aarch64/system/semiconsole.c    | 36 +++++++++++
- vl.c                                      |  3 +
- tests/tcg/aarch64/Makefile.softmmu-target |  9 ++-
- 15 files changed, 182 insertions(+), 13 deletions(-)
- create mode 100644 tests/tcg/aarch64/system/semiconsole.c
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 5074b5f69ca..b4dc2274c8b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8554,12 +8554,6 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+     case EXCP_VFIQ:
+         addr += 0x100;
+         break;
+-    case EXCP_SEMIHOST:
+-        qemu_log_mask(CPU_LOG_INT,
+-                      "...handling as semihosting call 0x%" PRIx64 "\n",
+-                      env->xregs[0]);
+-        env->xregs[0] = do_arm_semihosting(env);
+-        return;
+     default:
+         cpu_abort(cs, "Unhandled exception 0x%x\n", cs->exception_index);
+     }
 -- 
 2.20.1
 
