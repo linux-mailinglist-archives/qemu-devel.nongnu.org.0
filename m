@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BBB12474E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:53:48 +0100 (CET)
-Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A72124742
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:51:19 +0100 (CET)
+Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYpn-0007nM-25
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:53:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55114)
+	id 1ihYnN-0004Lh-0I
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:51:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3l-0007CM-G2
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:10 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3n-0007EU-2c
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3k-0002va-4u
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:09 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51150)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3l-00033o-Nd
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:10 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52347)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3j-0002sn-Fz
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:07 -0500
-Received: by mail-wm1-x342.google.com with SMTP id a5so1564591wmb.0
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:07 -0800 (PST)
+ id 1ihY3l-0002zW-Em
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:09 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p9so1563865wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=JkFx8EZyku6wPBzGFRNiCBerrbPJdOzb00ZCzJtUmrE=;
- b=IRastHimq8NodMQwvTjCQtfstnwpS8wSDRCnbDFjf5BjyIgO/XxicxKMoRMHy9/HqU
- gq8FdEdfaDFw8yuKp/IWnJL+HDvliw00v72NOvNynSEJUvD+QGJZwij5UiWDFy+fipaV
- RuM9h6i/ly23bEqjCLTBMj2jqk8RXqMb/6A/PJFNRp9YaFdMJmH/EaHH8b9lpsDg6Y39
- QZCQT7VdACLmqIW8aLqZkmBZ016jAI1emSKTOAkbp3j1SEUgNNjGCzxtTDj/bkjZW3eR
- 4ObRlBnjE3gG89E7j7Tol9yOivfcUcrJo6NIBzowax7iMTZAyxiDkdiNhNPO4whoo8/8
- 7jng==
+ bh=KB33/P7pdd5zyToITAll1MNS1ualBhVbh7OSCHIhH1g=;
+ b=a5KkxY0GKUs696wveW2SDwo8j8SUpugFuqA5PWnurYSrKg1fPmFGrSXTNx9MXRhJNi
+ 92ML/clLkiG6j66Xb1HsdRK0Svxl3wbgdjfGZfj6S/3ESt+6mmOfC7QvdJZ0pMFdGjL1
+ SrHcjuh7GaUbVqvus/XZWDun1WaXygFLXmQn1BdOy6sHBrJal1Go6ewACO8HosFGnTOR
+ 2m/duyWLQdER82AZigpu0XVNQ7xBV+z2s2eGtnAak0Jh3LNeY6SSODxwTjEX9sTdaDVJ
+ nKKzFTXcVNkD4idsbPfNORE/xwQQ71poGenLoSw//qxYYgaNF3Ps9GII/2U4xjrDPmt5
+ ECyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=JkFx8EZyku6wPBzGFRNiCBerrbPJdOzb00ZCzJtUmrE=;
- b=N6UFHJHgyM+9TtAMMNpqZvD0aiGmei54Bf+ExJAD7yCAqK6sFDFPBN3uwoMHZmiBXn
- tnsh4oOq19Bw7DFEpuKrM3jop0aIzrvF2gRXM09O+Qjt9yH6hXo+YHL76mMLyLIbtn51
- +iaB1s1I809Q1oxI95kOma5GEZhoIG1HDl6S/+p8/M74yoekT2d4z+eEsJWd2WM49NMW
- WFdvqVUaXapTSuAiM/VM8uI08RS4b/zwuKtTQg/c46Q/emOtq11s0xxYRSNU2528NNzt
- v+SMrEvFjpk6O5NJ8yJY6X9AsEBPIGZ7ki7zduS0GZasXbOUY1scdHfNYTf9Qd5d1Mzy
- i9ag==
-X-Gm-Message-State: APjAAAXJtelilsH3KQaeBeOOT1TwWl1DA6Y7O/xeWU1p89pNj/7sQ6Vy
- 9vnG6eJsoUzEBxZ50VHlRqpMEiGO
-X-Google-Smtp-Source: APXvYqzREdO5W8uimBYCK6b3rsb8V40ZSn+HD4WSgGazObGIndzKuM50BLT8k2NeMgJ1JrFqO842Xg==
-X-Received: by 2002:a1c:6809:: with SMTP id d9mr2926060wmc.70.1576670646215;
- Wed, 18 Dec 2019 04:04:06 -0800 (PST)
+ bh=KB33/P7pdd5zyToITAll1MNS1ualBhVbh7OSCHIhH1g=;
+ b=gI18tC95cNrnPLmCfMYV0QmNLlRN9Ox9GfKwax15B7EVinN61sBdmbU4MixyA5JH8i
+ HgJeF9GBKecqbiIYZ4GpZbSPR17MV9TiAAW6XKPM36Pk6baZ9J0sUCbWqBXvKQqZTRap
+ 5BicvynWmmqNLRkMdRtSa5nar0xFMKqnqqQrhI8GzShqPkK+4PEqLSFrGShXtKC2SMC2
+ rlvzXrav5Z/XhcKDMThRa+lwi4lRgU3+Svkj0K7G3WtLkdGaA4DoTiGH+/WaUZmLNv2n
+ YH/EcLX/EDw3w8wZnKwzG07JxAH/Ufpm7LidfTdnNjmz/nuVt5nPxgBvtO3Lz03svE/6
+ KZrA==
+X-Gm-Message-State: APjAAAUvSLrTIhda6rBm8LN25tZGV3/+7vK5EBEzknuzUD2clJ1n9veU
+ z3IWCj0S2F//dJ0ei4aTdjkeOa/F
+X-Google-Smtp-Source: APXvYqzVdydMVMI3qwU86/NfcSMDBIwbXJ2bSKYBFhntj02NZmJFTnLxKeRxdvbQcPm0C5JRB/UtFw==
+X-Received: by 2002:a1c:7d92:: with SMTP id y140mr2641764wmc.145.1576670648148; 
+ Wed, 18 Dec 2019 04:04:08 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.05
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:05 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:07 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 63/87] build: rename CONFIG_LIBCAP to CONFIG_LIBCAP_NG
-Date: Wed, 18 Dec 2019 13:02:29 +0100
-Message-Id: <1576670573-48048-64-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 65/87] docs: tweak kernel-doc for QEMU coding standards
+Date: Wed, 18 Dec 2019 13:02:31 +0100
+Message-Id: <1576670573-48048-66-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,119 +78,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we are actually testing for the newer capng library, rename the
-symbol to match.
+Surprisingly, QEMU does have a pretty consistent doc comment style and
+it is not very different from the Linux kernel's.  Of the documentation
+"sigils", only "#" separates the QEMU doc comment style from Linux's,
+and it has 200+ instances vs. 6 for the kernel's '&struct foo' (all in
+accel/tcg/translate-all.c), so it's clear that the two standards are
+different in this respect.  In addition, our structs are typedefed and
+recognized by CamelCase names.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Adjust kernel-doc's parser for these two aspects of the QEMU coding
+standards.  The patch has been valid, with hardly any change, for over
+two years, so it should not be an issue to keep kernel-doc in sync with
+the Linux copy.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure             |  2 +-
- qemu-bridge-helper.c  |  6 +++---
- scsi/qemu-pr-helper.c | 12 ++++++------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ scripts/kernel-doc | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/configure b/configure
-index 2943f5d..5723a29 100755
---- a/configure
-+++ b/configure
-@@ -6720,7 +6720,7 @@ if test "$l2tpv3" = "yes" ; then
-   echo "CONFIG_L2TPV3=y" >> $config_host_mak
- fi
- if test "$cap_ng" = "yes" ; then
--  echo "CONFIG_LIBCAP=y" >> $config_host_mak
-+  echo "CONFIG_LIBCAP_NG=y" >> $config_host_mak
- fi
- echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
- for drv in $audio_drv_list; do
-diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
-index 3d50ec0..88b2674 100644
---- a/qemu-bridge-helper.c
-+++ b/qemu-bridge-helper.c
-@@ -43,7 +43,7 @@
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 81dc917..af470eb 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -215,12 +215,12 @@ my $type_func = '(\w+)\(\)';
+ my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+ my $type_env = '(\$\w+)';
+-my $type_enum = '\&(enum\s*([_\w]+))';
+-my $type_struct = '\&(struct\s*([_\w]+))';
+-my $type_typedef = '\&(typedef\s*([_\w]+))';
+-my $type_union = '\&(union\s*([_\w]+))';
+-my $type_member = '\&([_\w]+)(\.|->)([_\w]+)';
+-my $type_fallback = '\&([_\w]+)';
++my $type_enum = '#(enum\s*([_\w]+))';
++my $type_struct = '#(struct\s*([_\w]+))';
++my $type_typedef = '#(([A-Z][_\w]*))';
++my $type_union = '#(union\s*([_\w]+))';
++my $type_member = '#([_\w]+)(\.|->)([_\w]+)';
++my $type_fallback = '(?!)';    # this never matches
+ my $type_member_func = $type_member . '\(\)';
  
- #include "net/tap-linux.h"
- 
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
- #include <cap-ng.h>
- #endif
- 
-@@ -207,7 +207,7 @@ static int send_fd(int c, int fd)
-     return sendmsg(c, &msg, 0);
+ # Output conversion substitutions.
+@@ -1050,6 +1050,14 @@ sub output_blockhead {
+ sub dump_declaration($$) {
+     no strict 'refs';
+     my ($prototype, $file) = @_;
++    if ($decl_type eq 'type name') {
++       if ($prototype =~ /^(enum|struct|union)\s+/) {
++	   $decl_type = $1;
++	} else {
++	   return;
++       }
++    }
++
+     my $func = "dump_" . $decl_type;
+     &$func(@_);
  }
- 
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
- static int drop_privileges(void)
- {
-     /* clear all capabilities */
-@@ -246,7 +246,7 @@ int main(int argc, char **argv)
-     int access_allowed, access_denied;
-     int ret = EXIT_SUCCESS;
- 
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
-     /* if we're run from an suid binary, immediately drop privileges preserving
-      * cap_net_admin */
-     if (geteuid() == 0 && getuid() != geteuid()) {
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index debb18f..0659cee 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -24,7 +24,7 @@
- #include <linux/dm-ioctl.h>
- #include <scsi/sg.h>
- 
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
- #include <cap-ng.h>
- #endif
- #include <pwd.h>
-@@ -70,7 +70,7 @@ static int num_active_sockets = 1;
- static int noisy;
- static int verbose;
- 
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
- static int uid = -1;
- static int gid = -1;
- #endif
-@@ -97,7 +97,7 @@ static void usage(const char *name)
- "                            (default '%s')\n"
- "  -T, --trace [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
- "                            specify tracing options\n"
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
- "  -u, --user=USER           user to drop privileges to\n"
- "  -g, --group=GROUP         group to drop privileges to\n"
- #endif
-@@ -827,7 +827,7 @@ static void close_server_socket(void)
-     num_active_sockets--;
- }
- 
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
- static int drop_privileges(void)
- {
-     /* clear all capabilities */
-@@ -920,7 +920,7 @@ int main(int argc, char **argv)
-             pidfile = g_strdup(optarg);
-             pidfile_specified = true;
-             break;
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
-         case 'u': {
-             unsigned long res;
-             struct passwd *userinfo = getpwnam(optarg);
-@@ -1056,7 +1056,7 @@ int main(int argc, char **argv)
-         exit(EXIT_FAILURE);
+@@ -1878,7 +1886,7 @@ sub process_name($$) {
      }
+     elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+-	if (/\s*([\w\s]+?)(\(\))?\s*-/) {
++	if (/\s*([\w\s]+?)(\s*-|:)/) {
+ 	    $identifier = $1;
+ 	}
  
--#ifdef CONFIG_LIBCAP
-+#ifdef CONFIG_LIBCAP_NG
-     if (drop_privileges() < 0) {
-         error_report("Failed to drop privileges: %s", strerror(errno));
-         exit(EXIT_FAILURE);
+@@ -1888,7 +1896,7 @@ sub process_name($$) {
+ 	$contents = "";
+ 	$section = $section_default;
+ 	$new_start_line = $. + 1;
+-	if (/-(.*)/) {
++	if (/[-:](.*)/) {
+ 	    # strip leading/trailing/multiple spaces
+ 	    $descr= $1;
+ 	    $descr =~ s/^\s*//;
+@@ -1906,7 +1914,9 @@ sub process_name($$) {
+ 	    ++$warnings;
+ 	}
+ 
+-	if ($identifier =~ m/^struct\b/) {
++	if ($identifier =~ m/^[A-Z]/) {
++	    $decl_type = 'type name';
++	} elsif ($identifier =~ m/^struct\b/) {
+ 	    $decl_type = 'struct';
+ 	} elsif ($identifier =~ m/^union\b/) {
+ 	    $decl_type = 'union';
 -- 
 1.8.3.1
 
