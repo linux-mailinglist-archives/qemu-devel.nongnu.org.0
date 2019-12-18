@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C061246E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:31:44 +0100 (CET)
-Received: from localhost ([::1]:53492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3804A1246EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:34:21 +0100 (CET)
+Received: from localhost ([::1]:53534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYUQ-0001lx-Mc
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:31:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48267)
+	id 1ihYWx-0005jN-Tf
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:34:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3A-0006MZ-Q8
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:33 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3C-0006OX-5p
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY39-0000hv-Ju
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:32 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37766)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3B-0000nq-0j
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:33 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45269)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY39-0000eD-9l
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:31 -0500
-Received: by mail-wm1-x332.google.com with SMTP id f129so1611039wmf.2
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:31 -0800 (PST)
+ id 1ihY3A-0000jx-PY
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:32 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id j42so1972988wrj.12
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M7st8zYRftA//6nYaWbb7lkO5v3FUGpG+F+usf39Ve4=;
- b=YfRJFl5VtYNlKCyjkld3TPF8k1UR3owE4ZgFqyH+mbdGd2b1eRM0XOaJQtgvyMH/lH
- mxPTB+J9CQ2c/4RORI8w3+TdZ6TgF8t9nV6PwCgyK59J0HljDMoC3umWYNbJqtlxCOcm
- /mLJxqy/WgWA1+6PU+L91+8G+rSqEThDJ/ybVXVU2K/CBuVDYpdvV/YRd5s8x4CmsN9s
- 78hGFpfqklfWyYQJweSn291wubwrsuKFNRRTg21BfcxoBmIfciCwabnwKwRX8OAWZrdw
- DRZKQgOi/4JuwuHRQvjFjlF16TRj1WE9ZYyZ3706KoW4q1bOaNufB13p/9goNHip1YBx
- 4/lA==
+ bh=G3GeihMZT3FWsjutpTGVLlWKTkWWsva27E3p012qRdM=;
+ b=CFS9oj86sUF7LLkO19IkaBH++BMSH/tS5zPzmnbTWi/nSZ1FNFqbRjJZj/T9AYBctp
+ e2TBe2xlsj8BiB9AHXVssQyno5WmQ7cinRWQQOeANh5JT+TVmXZtPJLI39cPzh9Ve/wQ
+ bSWCNCKqsQhHTZcyCRGdQyhFCMTNqSobr4UBg2osxzWC7BWDnXeeISyxFQ9bcRvZbys7
+ NGnghwQhHRVVmGbRBhhiHGAK1JwDOKUH7q/Lq0iX6bw0aB+mn0KBZZJacqNjz4ORB7xX
+ VbB8+mW8q6wJHDQlVWETp0ua+kGu5fQAyFs6ah1mIutWSpBUtH7geWau91zsfz6AmXmi
+ mCHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=M7st8zYRftA//6nYaWbb7lkO5v3FUGpG+F+usf39Ve4=;
- b=lBONz5Bf/8rbUHKVIkBa15uaSFSMDitEOuFHdvtkSrX385yTL19BMnzp3vY+vsdBMB
- 4Pm+lIKOvD1BPD8ERlAJYqr4iHtuC0ygd7KnmHCJewvOX3CWnEn2xG5psCL7TyUqyV0u
- Dmhp+MOBiUCZsIGmhagpuDbDp3sjaRo0UNV6Z/UUdVo9AL0iEdMNDNl2HPwzh5sggzNY
- zmcNO0MavOS9bogZ5zSRV5EA2qbppoykGC22tpBedHvWfIEkf8MsKI6AP+QoKUB3kvxl
- +T7PtlBwJqWlb2p9Od0fw3xcOqUXGNIJfI/fRY+rGfDdjqXhRFBbEq936O0FdSQ753e4
- fPTA==
-X-Gm-Message-State: APjAAAVGLp7zXSEckiD443rMp96hD73ZbVVoMJB/zgs0+4Y0xk4elN0d
- 6VYpMomwJM9Igk87q7nLrzMc1jVY
-X-Google-Smtp-Source: APXvYqxC01kCDU71i1V4ZVX8np9KmBC21m9bVHDEXAardiJnHHkPeLxsj9uRKiVYKV+mVkZq0zIhow==
-X-Received: by 2002:a7b:c317:: with SMTP id k23mr2887169wmj.75.1576670609806; 
- Wed, 18 Dec 2019 04:03:29 -0800 (PST)
+ bh=G3GeihMZT3FWsjutpTGVLlWKTkWWsva27E3p012qRdM=;
+ b=XY0wvyew5Y0827EZ8MaMxVPKwFVqKsJuXVUmDbUSBJvYc7tHoZYq8/ZOafX8UxphZ/
+ AKFdSXItO0/nXVtzTL+6Y2GnoGb5BJKqMQhgGaepcMQ/3kuklDsX7RYK04VmMJ3OKBz+
+ Ion8W5jc4YPLixjpOeqyxD7+K47w43oWMZwuqtwD8FUqFCjD4Av99tifsOQ1B/yjH2Cs
+ letG2Qy5krBRip9dTwWXtCJu6YXb7appxbmk33LwdRQg/2ot0O+zrn/Yl9EFvmQ6B66E
+ iWDqrooGsp3QjxxMeSeE9SATu2fnKOo+u4Azw/bI3bwQF0UYn9XaTCL0uwKi0KyKZyy4
+ Diiw==
+X-Gm-Message-State: APjAAAX8SsRfMBu0F72TH0K3qkOoIteXHerrUH6cmy/Lw3LCVlUpLxOR
+ oIX7YsOx13uKke7NjUknkmD4VqFI
+X-Google-Smtp-Source: APXvYqxbXVP6KGME1HcVxEnFzGiQTlOVs+3UObyZ4mUqY6Qs4LcKRpCSACNh3r/9tB1Xae9XbIaBkQ==
+X-Received: by 2002:adf:dd52:: with SMTP id u18mr2454929wrm.131.1576670611454; 
+ Wed, 18 Dec 2019 04:03:31 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.28
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.30
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:29 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/87] migration: fix maybe-uninitialized warning
-Date: Wed, 18 Dec 2019 13:02:00 +0100
-Message-Id: <1576670573-48048-35-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 36/87] vhost-user-scsi: fix printf format warning
+Date: Wed, 18 Dec 2019 13:02:02 +0100
+Message-Id: <1576670573-48048-37-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,51 +84,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-../migration/ram.c: In function ‘multifd_recv_thread’:
-/home/elmarco/src/qq/include/qapi/error.h:165:5: error: ‘block’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  165 |     error_setg_internal((errp), __FILE__, __LINE__, __func__,   \
-      |     ^~~~~~~~~~~~~~~~~~~
-../migration/ram.c:818:15: note: ‘block’ was declared here
-  818 |     RAMBlock *block;
-      |               ^~~~~
+Fixes:
+../contrib/vhost-user-scsi/vhost-user-scsi.c:118:57: error: format specifies
+      type 'unsigned char' but the argument has type 'int' [-Werror,-Wformat]
+    g_warning("Unable to determine cdb len (0x%02hhX)", cdb[0] >> 5);
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- migration/ram.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ contrib/vhost-user-scsi/vhost-user-scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 38070f1..219e3ca 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -863,15 +863,17 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-     p->next_packet_size = be32_to_cpu(packet->next_packet_size);
-     p->packet_num = be64_to_cpu(packet->packet_num);
- 
--    if (p->pages->used) {
--        /* make sure that ramblock is 0 terminated */
--        packet->ramblock[255] = 0;
--        block = qemu_ram_block_by_name(packet->ramblock);
--        if (!block) {
--            error_setg(errp, "multifd: unknown ram block %s",
--                       packet->ramblock);
--            return -1;
--        }
-+    if (p->pages->used == 0) {
-+        return 0;
-+    }
-+
-+    /* make sure that ramblock is 0 terminated */
-+    packet->ramblock[255] = 0;
-+    block = qemu_ram_block_by_name(packet->ramblock);
-+    if (!block) {
-+        error_setg(errp, "multifd: unknown ram block %s",
-+                   packet->ramblock);
-+        return -1;
+diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
+index 0fc14d7..7a1db16 100644
+--- a/contrib/vhost-user-scsi/vhost-user-scsi.c
++++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
+@@ -115,7 +115,7 @@ static int get_cdb_len(uint8_t *cdb)
+     case 4: return 16;
+     case 5: return 12;
      }
+-    g_warning("Unable to determine cdb len (0x%02hhX)", cdb[0] >> 5);
++    g_warning("Unable to determine cdb len (0x%02hhX)", (uint8_t)(cdb[0] >> 5));
+     return -1;
+ }
  
-     for (i = 0; i < p->pages->used; i++) {
 -- 
 1.8.3.1
 
