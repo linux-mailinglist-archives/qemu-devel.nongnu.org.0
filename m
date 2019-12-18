@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC22124861
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:29:40 +0100 (CET)
-Received: from localhost ([::1]:54514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A2A1247F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:19:41 +0100 (CET)
+Received: from localhost ([::1]:54294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZOU-0001pn-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:29:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57652)
+	id 1ihZEq-0000Ij-9A
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:19:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihZCR-0006bQ-Ob
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:12 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihZCT-0006eP-N7
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihZCQ-0008Jc-JT
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:11 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35100)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihZCS-0008SS-3k
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:13 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42339)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihZCQ-0008CR-9n
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:10 -0500
-Received: by mail-wr1-x434.google.com with SMTP id g17so2277583wro.2
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 05:17:10 -0800 (PST)
+ id 1ihZCR-0008N8-Ov
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:11 -0500
+Received: by mail-wr1-x444.google.com with SMTP id q6so2233958wro.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 05:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=qUVNMny0iXUgGdtuz3IrTcDIv1gr6mfwBXXEaqnH0mo=;
- b=E/aGf/ZYKI4wIv2QVi0j+2dcDSjOcVE1rLVPGEF1ibvzSvP2+yFaZBj8A9ljqGKp02
- G453kC02Fg5mRlNSEWBcLv82+GohGmh2nkRMF7U/1iHJO/jtp+PGUf8H3SIHEPvZtLY+
- fwNxXiGyO4/6KvnfswD4k1n8604D3Spb8+NQVYdc/oOPpkcX85/F2UJYmystgsgxaLPK
- qpfQEKaKpx7wrrlL3Qr4RtKrOPeLV7cdZ5Kw9siMpWshbUakxHwVHskjcuidZSlPfDSl
- m2KkRkHp8O1VhZn3FR8/e2OQPaqe2Bya9iWF440Xt5vXbw9Mxqh9oAT+Y4Y9g8VFEdvT
- AaxA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=PF8I7FZW+7c2/GhkZAcchyjFmjb92r8OfobN2d5ZEso=;
+ b=EW0AQ5C1YKJ/ezeaRBPj08rHHhXExVrOBK53W7G+XvKb+Bb7XaM3MBxYx+9lkWEFF6
+ TTs1qzRSyEOr7tIfHghvab6EFkuIIoTBvnlH+t+ofKGRvyqv3b3uWLGwCGbuvGIw2ls2
+ G3XrUZEPq5SqxNxKWidAdXzmSFlIyI/MPxZkYL1vrueJU+KYkiCZ8YBEFIOGZhJizuT6
+ VOn2fPxdtYHvMSk95vpw+1T/xmHH+/DDD12TcBBbT83r4Nc1BIZyf8sl+ZJZtJa7d3Dn
+ 7i8ZMVCKK1Cs0MMrc+vtCz944gF+BJjONhh1VBwjIijPrY2HX5wdkQgszcKL90nyTbbk
+ lOzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=qUVNMny0iXUgGdtuz3IrTcDIv1gr6mfwBXXEaqnH0mo=;
- b=dch6OQomyZmN/7fa5JWbOMm+d1yaI5gjy9hvofI3fhKv9lng29g7cbn+Ax1JlBLwld
- 4Y59RJ8oMOZV6OWweMUP7cHcUPJufH/H2PYr0sB8cTDwsja0HfDayT0999Rr/qBEGVde
- atij449i+bhCCXDVi9wuvNueTKiutB44zZ1FHT5aaMhtIJ4vCkgftb84N/bg53B1tfHx
- 6lhio2iajctaV07qoAmSlFRGwgMq5YJzn44HxXMUqdqk+nHxonCx1eg6JtLjLCBFLCie
- SFqi+4dSBAn2fQQkNZu7SBJtWe9NmP9ScbH8SvhBauvKRD2hM/bYzLOhzlG4ParXvcLu
- cr9g==
-X-Gm-Message-State: APjAAAWH+xWhbUer5Z7ffrOavn34lEJZbIrJ3j+QfXJ9/fdi1+2MFKOg
- 1O0gECsNOdTLxYZ1GIPhJpy0x1kP
-X-Google-Smtp-Source: APXvYqyZ1B8wce7RkBqU8fSc+MZpjYBz3XSzY8fIwq/3n3nXcGWBznDSQDt19W+UmoM/Ni9cNgENnQ==
-X-Received: by 2002:a5d:4b88:: with SMTP id b8mr2782394wrt.343.1576675028734; 
- Wed, 18 Dec 2019 05:17:08 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=PF8I7FZW+7c2/GhkZAcchyjFmjb92r8OfobN2d5ZEso=;
+ b=qL5BSWRfXVcqMvtVY6KjqD+dmVkU3yGaCET5FoqSEyTmjLNKWYtrhBtjyw8R4iVsLl
+ fSnJjtA0uMIdL3bs6ImnYVrRQWlw9UUZXFHJ1i2O5FlufkKJW/X+6efqwvna9VodEKAo
+ QYMVTAMoPa2sOP7BzRyAWnA/iZTBgkI529J12yailR++N2i7XeK8I6QnhzK9UmSDXqUK
+ bGmlwZRZPjKY3FQq5fBFnDpVxOJBfOTJsqD0xmgbPIyv2wJdaMk7FTXCrrc9tgDJKDHY
+ IoZBHoh9e95LeO1J79HcJdPrv0rcMuKtK/fzskr1O9wIXDPa49iLeOfLx6Q18ypYxBsJ
+ 3pRg==
+X-Gm-Message-State: APjAAAWgAF20XNUqnAcaBmrFPjCLTjyKqJoOO7B5ESMtK1lddKo5I9ss
+ VQfLZRB2KYYJ7LM3ZplW6Jel10fh
+X-Google-Smtp-Source: APXvYqy2T5dzAYCmYEame9xa2bfhwxWRXiIvme4LVmKUsAF4yNyt2hVSw5kVjAdi8+l9aRD/AwOtPg==
+X-Received: by 2002:a5d:538e:: with SMTP id d14mr2912584wrv.358.1576675030489; 
+ Wed, 18 Dec 2019 05:17:10 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id t1sm2447980wma.43.2019.12.18.05.17.07
+ by smtp.gmail.com with ESMTPSA id t1sm2447980wma.43.2019.12.18.05.17.09
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 05:17:08 -0800 (PST)
+ Wed, 18 Dec 2019 05:17:10 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] block/io: serialising request clean up and locking fix
-Date: Wed, 18 Dec 2019 14:17:03 +0100
-Message-Id: <1576675026-25046-1-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 2/3] block/io: wait for serialising requests when a request
+ becomes serialising
+Date: Wed, 18 Dec 2019 14:17:05 +0100
+Message-Id: <1576675026-25046-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1576675026-25046-1-git-send-email-pbonzini@redhat.com>
+References: <1576675026-25046-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,23 +79,148 @@ Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-block@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Lieven noticed that reqs->overlap_offset and reqs->overlap_bytes
-are written outside bs->reqs_lock.  Patch 3 fixes it, while patches 1
-and 2 are preparatory cleanups.
+Marking without waiting would not result in actual serialising behavior.
+Thus, make a call bdrv_mark_request_serialising sufficient for
+serialisation to happen.
 
-Paolo Bonzini (3):
-  block: eliminate BDRV_REQ_NO_SERIALISING
-  block/io: wait for serialising requests when a request becomes
-    serialising
-  block/io: take bs->reqs_lock in bdrv_mark_request_serialising
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/file-posix.c        |  1 -
+ block/io.c                | 39 ++++++++++++++++-----------------------
+ include/block/block_int.h |  3 +--
+ 3 files changed, 17 insertions(+), 26 deletions(-)
 
- block/file-posix.c        |   1 -
- block/io.c                | 161 +++++++++++++++++++++++-----------------------
- include/block/block.h     |  12 ----
- include/block/block_int.h |   3 +-
- 4 files changed, 80 insertions(+), 97 deletions(-)
-
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 1b805bd..2b08b02 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2753,7 +2753,6 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int bytes,
+         req->overlap_bytes = req->bytes;
+ 
+         bdrv_mark_request_serialising(req, bs->bl.request_alignment);
+-        bdrv_wait_serialising_requests(req);
+     }
+ #endif
+ 
+diff --git a/block/io.c b/block/io.c
+index b3a67fe..e844c4b 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -41,6 +41,7 @@
+ #define MAX_BOUNCE_BUFFER (32768 << BDRV_SECTOR_BITS)
+ 
+ static void bdrv_parent_cb_resize(BlockDriverState *bs);
++static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self);
+ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+     int64_t offset, int bytes, BdrvRequestFlags flags);
+ 
+@@ -715,7 +716,7 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
+     qemu_co_mutex_unlock(&bs->reqs_lock);
+ }
+ 
+-void bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
++bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
+ {
+     int64_t overlap_offset = req->offset & ~(align - 1);
+     uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
+@@ -728,18 +729,7 @@ void bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
+ 
+     req->overlap_offset = MIN(req->overlap_offset, overlap_offset);
+     req->overlap_bytes = MAX(req->overlap_bytes, overlap_bytes);
+-}
+-
+-static bool is_request_serialising_and_aligned(BdrvTrackedRequest *req)
+-{
+-    /*
+-     * If the request is serialising, overlap_offset and overlap_bytes are set,
+-     * so we can check if the request is aligned. Otherwise, don't care and
+-     * return false.
+-     */
+-
+-    return req->serialising && (req->offset == req->overlap_offset) &&
+-           (req->bytes == req->overlap_bytes);
++    return bdrv_wait_serialising_requests(req);
+ }
+ 
+ /**
+@@ -823,7 +813,7 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
+     bdrv_wakeup(bs);
+ }
+ 
+-bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
++static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
+ {
+     BlockDriverState *bs = self->bs;
+     BdrvTrackedRequest *req;
+@@ -1455,10 +1445,10 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+          * it ensures that the CoR read and write operations are atomic and
+          * guest writes cannot interleave between them. */
+         bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++    } else {
++        bdrv_wait_serialising_requests(req);
+     }
+ 
+-    bdrv_wait_serialising_requests(req);
+-
+     if (flags & BDRV_REQ_COPY_ON_READ) {
+         int64_t pnum;
+ 
+@@ -1851,13 +1841,18 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
+     assert(!(flags & ~BDRV_REQ_MASK));
+ 
+     if (flags & BDRV_REQ_SERIALISING) {
+-        bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++        waited = bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++        /*
++         * For a misaligned request, we should have already waited
++         * in bdrv_padding_rmw_read and locked out concurrent writers.
++         */
++        assert(!waited ||
++               (req->offset == req->overlap_offset &&
++                req->bytes == req->overlap_bytes));
++    } else {
++        bdrv_wait_serialising_requests(req);
+     }
+ 
+-    waited = bdrv_wait_serialising_requests(req);
+-
+-    assert(!waited || !req->serialising ||
+-           is_request_serialising_and_aligned(req));
+     assert(req->overlap_offset <= offset);
+     assert(offset + bytes <= req->overlap_offset + req->overlap_bytes);
+     assert(end_sector <= bs->total_sectors || child->perm & BLK_PERM_RESIZE);
+@@ -2019,7 +2014,6 @@ static int coroutine_fn bdrv_co_do_zero_pwritev(BdrvChild *child,
+     padding = bdrv_init_padding(bs, offset, bytes, &pad);
+     if (padding) {
+         bdrv_mark_request_serialising(req, align);
+-        bdrv_wait_serialising_requests(req);
+ 
+         bdrv_padding_rmw_read(child, req, &pad, true);
+ 
+@@ -2122,7 +2116,6 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
+ 
+     if (bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad)) {
+         bdrv_mark_request_serialising(&req, align);
+-        bdrv_wait_serialising_requests(&req);
+         bdrv_padding_rmw_read(child, &req, &pad, false);
+     }
+ 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index dd033d0..640fb82 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -999,8 +999,7 @@ extern unsigned int bdrv_drain_all_count;
+ void bdrv_apply_subtree_drain(BdrvChild *child, BlockDriverState *new_parent);
+ void bdrv_unapply_subtree_drain(BdrvChild *child, BlockDriverState *old_parent);
+ 
+-bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self);
+-void bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align);
++bool coroutine_fn bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align);
+ BdrvTrackedRequest *coroutine_fn bdrv_co_get_self_request(BlockDriverState *bs);
+ 
+ int get_tmp_filename(char *filename, int size);
 -- 
 1.8.3.1
+
 
 
