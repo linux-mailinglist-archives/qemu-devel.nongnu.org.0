@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49861247D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:13:55 +0100 (CET)
-Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC621247D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:16:24 +0100 (CET)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ9G-0001iK-FP
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:13:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59012)
+	id 1ihZBf-0004kU-Ad
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:16:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY46-0007cF-0F
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:31 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY46-0007dd-Uj
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY44-0004KI-Pi
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:29 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:56106)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY45-0004OJ-My
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:30 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53444)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY44-0004H4-Go
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:28 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id q9so1556643wmj.5
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:28 -0800 (PST)
+ id 1ihY45-0004Kc-Fr
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:29 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id m24so1555627wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=beFvSsXmScK7eTwdxPz2BvPM7K8KAbUI0Ch3SEZ3qI0=;
- b=aq5yCIOvPEMLaWeHwWf+h8E/rnUhq1Eavqa2FoN1GgFP/6clgkoKBC056Usfj95Oph
- nMIz6q7OOlNiFVbGaU+f1ft7pA6/EpPB0vLNqXQIFAMT4YxaT8S0FYr5jF9vIb9Vv9tD
- pdJfosrS5wvfBy5WTY/mRQTL8gdI/TbCJireBVYxRA6zRLZps4+LZSUSmsrp0QG42+9d
- oVfo51E4E1Rg2Xdey4zTX8Vxbhinf6azft0/U7seh8gmNsUWBG8KEKYqX9JaMEEnnqKQ
- eHDPhXnwYx84boaPOVRJRtRvtUrWb3zdiEpb6hkERrfE770BFsUJ57Jc8c4ov/LPaG5I
- iEww==
+ bh=Z/hXY9tyxJP4bVUicIuKlm95MuHXrp390uv2lcHmGj0=;
+ b=rDm98M/WphT/aoL4zE4nk0r6gR+5HRziKtZ866QuYYuA3cibw3+t6BSAqVqSmZbrhZ
+ T23VN4uTEXNWl+TmRIKI8l+fuvSK4STMI+PlBGCMpXPgAst7GRC4vnoeDql8LocC5Pn+
+ 7VGS8sWHkqck/513Mf9tYsY9HngNbiS7mo7HQwF+OaDCJlNGheuhBmslmDPk3CZJegQy
+ +L5iQMSjTrqfFRmHktS4pHZcZSHHReufxmM4HzyGoUNWBfm5gS9+x+VCWNCqBDMJ9eF5
+ 9FWWcqjrL+/zrO8wHLIgjsRUCYR5N/1TLvZV0cwsm1qkHGk+Jt7VMKLIESo5MI49V6f7
+ kkHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=beFvSsXmScK7eTwdxPz2BvPM7K8KAbUI0Ch3SEZ3qI0=;
- b=Fg+462++FSXw9VHaKKLR10i1aPniwpRJdAFF63eG6QGrGQOToiCgk4vjB/hofszZsx
- HyZxAPpYqf9tRujRgU4hqg/LeOZLHfrytNd8TpBodHTBMICMW/W3U0tPfcneR1QCudjE
- 6VF2J9tNITEX6BnIqXfDRYQJXxhoxHZ97EsZOZOFZIL7VwBxbQhn1ROj9th8+fN/HvGN
- 40q/6rkDvQT492lTOz2XDYen4e7mLQLoQtxuAz9MgjJlt7e/4eTVTAIyoCrJY5p9/PCf
- oCPktQwBO/GAB5bUtTCi9+WObchDJZ8yMCXIv/x0ghAG1WGa0u42cTu1YGwecbvRWA75
- CRJw==
-X-Gm-Message-State: APjAAAVnnnV8mSXazPvA3/SsUTLba2mwG3k6FglzozM1cmAJj4IGHSOS
- P+MMjE1VocGTQEYyX/N6FZKXik4R
-X-Google-Smtp-Source: APXvYqxWvSB7li+NvGovYJCdsD5PbgGzzcRUnocG4vwCp3qRqK/4bQeOUZkWlKuTHw5xYqyjaNpaUQ==
-X-Received: by 2002:a7b:c00c:: with SMTP id c12mr2849806wmb.174.1576670667380; 
- Wed, 18 Dec 2019 04:04:27 -0800 (PST)
+ bh=Z/hXY9tyxJP4bVUicIuKlm95MuHXrp390uv2lcHmGj0=;
+ b=sM051OuVn8duVZtNIHEySqd0Y1/eBsLPHaBiuz4UNQgJFKAB32X750TcHl4trqOkyA
+ mFwUuy61HkDrblpbw1WQoEkniguZ3mBp+CPeWbHuSrT+xsN8WwlpV7acEJxGyL2f4DvO
+ 0EA6zphYIhNNjzKY/pBihcV2HscqDo6jwe1OyyCmNj0OoLTasacH/iblJg75itBqWhJW
+ jRzBAvnDMnisQ103rdSV6zkA+nEWVNZZYV5F2y3fxGu72Pk+1y6VO/LuflM2coPZdTPZ
+ u10NVxGsRo3k2tF0jTPUXoAmjFvUXH4rkAVRCfOeH6j91sORbBUZTkjR9uzAg1vdoi80
+ ActQ==
+X-Gm-Message-State: APjAAAVjB6mN8M4he4FxoLa1IE16FHmgEsoQlU3Cvw8fY8c8X5zv/huk
+ dgYVA+d3kAHXZ/kjjz5VcAlPZLYY
+X-Google-Smtp-Source: APXvYqxlTm5T37D7m9hBcABsn5EHOcDW3+gEVEf/FS7wFKGKWh6MMV/CeRK3FlSPtvZVoqNboWbnAg==
+X-Received: by 2002:a1c:22c6:: with SMTP id i189mr3040979wmi.15.1576670668222; 
+ Wed, 18 Dec 2019 04:04:28 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.26
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.27
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:26 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 85/87] hw/pci: Remove the "command_serr_enable" property
-Date: Wed, 18 Dec 2019 13:02:51 +0100
-Message-Id: <1576670573-48048-86-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 86/87] hw/display: Remove "rombar" hack from vga-pci and
+ vmware_vga
+Date: Wed, 18 Dec 2019 13:02:52 +0100
+Message-Id: <1576670573-48048-87-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,54 +81,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Now that the old pc-0.x machine types have been removed, this config
-knob is not required anymore.
+Now that the old pc-0.x machine types have been removed, we do not need
+the old "rombar" hacks anymore.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191209125248.5849-4-thuth@redhat.com>
+Message-Id: <20191209125248.5849-5-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/pci/pci.c         | 6 +-----
- include/hw/pci/pci.h | 2 +-
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/display/vga-pci.c    | 5 -----
+ hw/display/vga.c        | 4 +---
+ hw/display/vmware_vga.c | 5 -----
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index cbc7a32..e3d31036 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -69,8 +69,6 @@ static Property pci_props[] = {
-     DEFINE_PROP_UINT32("rombar",  PCIDevice, rom_bar, 1),
-     DEFINE_PROP_BIT("multifunction", PCIDevice, cap_present,
-                     QEMU_PCI_CAP_MULTIFUNCTION_BITNR, false),
--    DEFINE_PROP_BIT("command_serr_enable", PCIDevice, cap_present,
--                    QEMU_PCI_CAP_SERR_BITNR, true),
-     DEFINE_PROP_BIT("x-pcie-lnksta-dllla", PCIDevice, cap_present,
-                     QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
-     DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
-@@ -751,9 +749,7 @@ static void pci_init_wmask(PCIDevice *dev)
-     pci_set_word(dev->wmask + PCI_COMMAND,
-                  PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER |
-                  PCI_COMMAND_INTX_DISABLE);
--    if (dev->cap_present & QEMU_PCI_CAP_SERR) {
--        pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_SERR);
+diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
+index a27b881..cfe0957 100644
+--- a/hw/display/vga-pci.c
++++ b/hw/display/vga-pci.c
+@@ -264,11 +264,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
+ 
+         pci_register_bar(&d->dev, 2, PCI_BASE_ADDRESS_SPACE_MEMORY, &d->mmio);
+     }
+-
+-    if (!dev->rom_bar) {
+-        /* compatibility with pc-0.13 and older */
+-        vga_init_vbe(s, OBJECT(dev), pci_address_space(dev));
 -    }
-+    pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_SERR);
+ }
  
-     memset(dev->wmask + PCI_CONFIG_HEADER_SIZE, 0xff,
-            config_size - PCI_CONFIG_HEADER_SIZE);
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index db75c6d..2acd832 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -174,7 +174,7 @@ enum {
- #define QEMU_PCI_CAP_MULTIFUNCTION_BITNR        3
-     QEMU_PCI_CAP_MULTIFUNCTION = (1 << QEMU_PCI_CAP_MULTIFUNCTION_BITNR),
+ static void pci_std_vga_init(Object *obj)
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 82ebe53..636586a 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -2304,9 +2304,7 @@ void vga_init(VGACommonState *s, Object *obj, MemoryRegion *address_space,
  
--    /* command register SERR bit enabled */
-+    /* command register SERR bit enabled - unused since QEMU v5.0 */
- #define QEMU_PCI_CAP_SERR_BITNR 4
-     QEMU_PCI_CAP_SERR = (1 << QEMU_PCI_CAP_SERR_BITNR),
-     /* Standard hot plug controller. */
+ void vga_init_vbe(VGACommonState *s, Object *obj, MemoryRegion *system_memory)
+ {
+-    /* With pc-0.12 and below we map both the PCI BAR and the fixed VBE region,
+-     * so use an alias to avoid double-mapping the same region.
+-     */
++    /* Use an alias to avoid double-mapping the same region */
+     memory_region_init_alias(&s->vram_vbe, obj, "vram.vbe",
+                              &s->vram, 0, memory_region_size(&s->vram));
+     /* XXX: use optimized standard vga accesses */
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index 23dc891..ead754e 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -1312,11 +1312,6 @@ static void pci_vmsvga_realize(PCIDevice *dev, Error **errp)
+                      &s->chip.vga.vram);
+     pci_register_bar(dev, 2, PCI_BASE_ADDRESS_MEM_PREFETCH,
+                      &s->chip.fifo_ram);
+-
+-    if (!dev->rom_bar) {
+-        /* compatibility with pc-0.13 and older */
+-        vga_init_vbe(&s->chip.vga, OBJECT(dev), pci_address_space(dev));
+-    }
+ }
+ 
+ static Property vga_vmware_properties[] = {
 -- 
 1.8.3.1
 
