@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258751254AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:31:59 +0100 (CET)
-Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C395F1254CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:37:04 +0100 (CET)
+Received: from localhost ([::1]:32796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihgvG-0005GH-7d
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:31:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40317)
+	id 1ihh0B-0007px-Jp
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:37:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ihgu8-0004ku-7e
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:30:50 -0500
+ (envelope-from <bounces@canonical.com>) id 1ihgyj-0006u6-5R
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:35:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ihgu6-0005B8-Ry
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:30:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56182)
+ (envelope-from <bounces@canonical.com>) id 1ihgyh-0002F6-Ru
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:35:33 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56420)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ihgu6-00058e-LR
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:30:46 -0500
+ id 1ihgyh-0002DC-J3
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:35:31 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ihgu4-0003tS-Oo
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 21:30:44 +0000
+ id 1ihgyg-00048w-7C
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 21:35:30 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BA24C2E805D
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 21:30:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2A46D2E8079
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 21:35:30 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Dec 2019 21:17:27 -0000
+Date: Wed, 18 Dec 2019 21:28:44 -0000
 From: ecsdn <1856834@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,7 @@ X-Launchpad-Bug-Commenters: ecsdn
 X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
 X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
 References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
-Message-Id: <157670384760.5755.14040225279506609686.launchpad@gac.canonical.com>
+Message-Id: <157670452478.5510.9482875911654695038.launchpad@gac.canonical.com>
 Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
  versions
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: aaf8f19850f531ca549934e84e1a11f2beb5eba8
+X-Launchpad-Hash: 902e75f3169609f51fd1b8891643bea8303fb503
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -71,14 +71,7 @@ Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Summary changed:
-
-- softmmu qemu-system-ppc freezes at virtio vda
-+ Virtio broken in qemu ppc in 4.2.0 and other versions
-
-** Tags added: virtio
-
-** Tags added: powerpc softmmu
+** Tags added: ppc
 
 -- =
 
