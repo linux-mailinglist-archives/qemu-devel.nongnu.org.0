@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FEE1247AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:08:28 +0100 (CET)
-Received: from localhost ([::1]:54020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8141247BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:11:59 +0100 (CET)
+Received: from localhost ([::1]:54128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ3z-0002Vi-Ai
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:08:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58527)
+	id 1ihZ7O-0007SS-4p
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:11:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58861)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY43-0007Z5-I3
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:28 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY45-0007bG-7i
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY42-00049s-9e
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:27 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39541)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY43-0004EI-8c
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:29 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46600)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY42-000475-1L
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:26 -0500
-Received: by mail-wm1-x333.google.com with SMTP id 20so1485472wmj.4
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:25 -0800 (PST)
+ id 1ihY42-0004AE-UA
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:27 -0500
+Received: by mail-wr1-x433.google.com with SMTP id z7so1965963wrl.13
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RqZ6EtuRaEedpHWuCxAMFOQ9c7FiAv/LhujsQ09biqY=;
- b=bnUPh49REdb5UYwxnJyJq3R2GGpHWfII7Hl5hO9viXcccHW2FZwV4zKSmCm0+jedbr
- 5hoRmdxS4stlEgOqNwNUe5ybXMF7s3hyP4XkOqGlyEXNilhTVaJH88wRFqWv5Oi/jj1t
- 65YxhEGfpCuMS9+pB4/TA0PVhAw3KrbRdBLbf1mSwwzaWolbhCQ2O9xxzX+L/VQTWbOr
- o7yZ7qKG6oXxnmzD4XQ9kCw+ArbIjW1S4tLx0+w/xR/hJKzk/Vb3qBC3SGVqnZQ8Avkt
- kSQv7hyanzk9Gna3g5kGydnrOo+NmM7NWt+Rk5ECb+Pan4VKv/11ZySdVxm7b4m91672
- +/FQ==
+ bh=f03cV1xZMlUyzeguprQnKHNJAtwUBVsYj3upmIv2MNo=;
+ b=C9E/eNuX0u/6KxxqEUSL4OSCf5GM5sRaZW37Sw2bVK9ZQfcXOFOTHSQhr2mqGTY6aJ
+ PQkw1YViEw1ZaI1XJ0Fxae84HVW2VwShRovb7EOE46djkCrVwhS29MZU+VwrfMt9OF10
+ q+rljaxc1Chch9Gr9p6z1n+Psnv2dvkvJNg4KUGfUi1GvpVSeU7wJtAkql59LOYy1IRg
+ PniQWjZ3fAq+PE1xqUIaxb0yBv2fEnND6hbvnGJ9PwEY8jKLb3upc4IC/mQGN4ZoR/p9
+ pbjjBWV3xxOlww4ldBFcgwx9gg0PlOWJywZ55jDG7IiU/mvg2Xq/NBiurJ3o/MQ5CCp2
+ bZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RqZ6EtuRaEedpHWuCxAMFOQ9c7FiAv/LhujsQ09biqY=;
- b=ReAIG7W4po8xK7xW2pUZDZvg60MxOhmqUxrGONxcBtxWW63HAfSQLFRD+uCaD0EELf
- t3ByeJ1sohMxDh3qyqP7D7R8dj4SoprOxip2naz0FfZFS3T0WNSm0gwkONqy9c0HrNm7
- PCiCRX0uQt5HrwQEOrPnifBDGORf9tFH9h/kc0oxIrJKCLmxJl9OnquEkCwb8BIj8qPs
- WDgRs3AolYpCs2N6Xrk6ovDm/1WMgH5OVvzOelZzfoWuWRz+dRA/AfrAn5ENYacY4/Ec
- dpFYzFetsnfo5f+UVknFR2iQk52riBp7lGpwkYUVOgaj3V7enCfUhUbX3fQw08+LZjyL
- EJqQ==
-X-Gm-Message-State: APjAAAXZ9vD7sKxzUYIJljoYx6bz5cdQWktUtMMGoaj2XlPkIM78fExS
- ZW+z9YxPR9/NLIHLOGGf8WWeP0n7
-X-Google-Smtp-Source: APXvYqwL+K5r9yIeL6/zLurLszf+jK8yLl3+g74D7D3p5YdsM77snXttRg+Ilc0Itzm7qwW7eLLUiQ==
-X-Received: by 2002:a1c:7d93:: with SMTP id y141mr2957558wmc.111.1576670664758; 
- Wed, 18 Dec 2019 04:04:24 -0800 (PST)
+ bh=f03cV1xZMlUyzeguprQnKHNJAtwUBVsYj3upmIv2MNo=;
+ b=iQsTn7led247ELlS+UgF/w3Nsq69YTpcurM151VUmNxwh9FBlZAhArrT6FZjB/jGyg
+ aUxBqgjrW9oln7SmSKkJSWrMszexLP/X9sb2iltIvJ7TMV33iABRLyGBytHKtdRIu1d1
+ Jk6aSbq4DSoKnZk8Eqv1J3OwWj8tHJ3ef+hQcsFqVdgEk6oLOm/bZJNgVvZ5ETLqHCuH
+ XRiDAvCKwoavYFxVYaszaRHLWm9ugs5m5nwZHTkYyf+5PkDO5WYhVMbCVdxcndkyhXMd
+ DDxmyG0I11X3GPOytLhNgZbjWAbZ3TwiSLdmEyy7SDJvhYkA4TP3pW2WFVEIHHcX2XQo
+ abLw==
+X-Gm-Message-State: APjAAAXua+DtvkmfQOfsjQFFG1WhwgGyhoATGAS3EhGAZWzD6LUFf8up
+ KochJleir0vx+VC/DtGo1SDMwgJ0
+X-Google-Smtp-Source: APXvYqwYrKy4pDL/rg63/uQw/XxfP1JszfQW8hGIgw7RjuiZyON7hgvye/8FkxnPPfvlZfv2SVzdNA==
+X-Received: by 2002:a5d:4085:: with SMTP id o5mr2392019wrp.321.1576670665687; 
+ Wed, 18 Dec 2019 04:04:25 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.23
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.24
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:23 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 82/87] hw/pci-host: Add Kconfig entry to select the IGD
- Passthrough Host Bridge
-Date: Wed, 18 Dec 2019 13:02:48 +0100
-Message-Id: <1576670573-48048-83-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 83/87] hw/i386: Remove the deprecated machines 0.12 up to 0.15
+Date: Wed, 18 Dec 2019 13:02:49 +0100
+Message-Id: <1576670573-48048-84-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,55 +78,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Add the XEN_IGD_PASSTHROUGH Kconfig option.
+These machines can't be used reliably for migration anymore, quoting
+https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg04516.html :
 
-Xen build has that option selected by default. Non-Xen builds now
-have to select this feature manually.
+"
+ due to the introduction of the memory API, the firmware is not
+ migrated correctly from source to destination.  On QEMU <1.3 the
+ 0xf0000-0xfffff area is basically a copy of the higher
+ 0xffff0000-0xffffffff area, while on more recent versions it is
+ initialized with zeroes and the firmware copies from 0xffff0000 to
+ 0xf0000.  When you migrate from old to new QEMU, after reboot there's
+ nothing at 0xf0000 and bugs ensue.
+"
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191209095002.32194-7-philmd@redhat.com>
-Acked-by: Paul Durrant <paul@xen.org>
+The pc-0.x machines have been marked as deprecated since QEMU v4.0, so
+it is time to remove them now.
+
+And while we're at it, mark the remaining pc-1.x machine types
+as deprecated now, too, so that we finally only have "pc-i440fx"
+and "pc-q35" machine types left (apart from the non-versioned
+"isapc" and "microvm") once we remove them in a couple of releases.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191209125248.5849-2-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/pci-host/Kconfig       | 5 +++++
- hw/pci-host/Makefile.objs | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ hw/i386/pc_piix.c     | 85 ++-------------------------------------------------
+ qemu-deprecated.texi  |  2 +-
+ tests/cpu-plug-test.c |  6 +---
+ 3 files changed, 4 insertions(+), 89 deletions(-)
 
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index b0aa835..9642c77 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -1,6 +1,11 @@
- config PAM
-     bool
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index b3f0304..721c7aa 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -357,19 +357,13 @@ static void pc_compat_1_3(MachineState *machine)
+     pc_compat_1_4_fn(machine);
+ }
  
-+config XEN_IGD_PASSTHROUGH
-+    bool
-+    default y
-+    depends on XEN && PCI_I440FX
-+
- config PREP_PCI
-     bool
-     select PCI
-diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
-index fa6d155..9c466fa 100644
---- a/hw/pci-host/Makefile.objs
-+++ b/hw/pci-host/Makefile.objs
-@@ -14,7 +14,7 @@ common-obj-$(CONFIG_VERSATILE_PCI) += versatile.o
- common-obj-$(CONFIG_PCI_SABRE) += sabre.o
- common-obj-$(CONFIG_FULONG) += bonito.o
- common-obj-$(CONFIG_PCI_I440FX) += i440fx.o
--common-obj-$(CONFIG_PCI_I440FX) += xen_igd_pt.o
-+common-obj-$(CONFIG_XEN_IGD_PASSTHROUGH) += xen_igd_pt.o
- common-obj-$(CONFIG_PCI_EXPRESS_Q35) += q35.o
- common-obj-$(CONFIG_PCI_EXPRESS_GENERIC_BRIDGE) += gpex.o
- common-obj-$(CONFIG_PCI_EXPRESS_XILINX) += xilinx-pcie.o
+-/* PC compat function for pc-0.14 to pc-1.2 */
++/* PC compat function for pc-1.0 to pc-1.2 */
+ static void pc_compat_1_2(MachineState *machine)
+ {
+     pc_compat_1_3(machine);
+     x86_cpu_change_kvm_default("kvm-pv-eoi", NULL);
+ }
+ 
+-/* PC compat function for pc-0.12 and pc-0.13 */
+-static void pc_compat_0_13(MachineState *machine)
+-{
+-    pc_compat_1_2(machine);
+-}
+-
+ static void pc_init_isa(MachineState *machine)
+ {
+     pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVICE);
+@@ -745,6 +739,7 @@ static void pc_i440fx_1_3_machine_options(MachineClass *m)
+ 
+     pc_i440fx_1_4_machine_options(m);
+     m->hw_version = "1.3.0";
++    m->deprecation_reason = "use a newer machine type instead";
+     x86mc->compat_apic_id_mode = true;
+     compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+ }
+@@ -813,82 +808,6 @@ DEFINE_I440FX_MACHINE(v1_0, "pc-1.0", pc_compat_1_2,
+                       pc_i440fx_1_0_machine_options);
+ 
+ 
+-static void pc_i440fx_0_15_machine_options(MachineClass *m)
+-{
+-    static GlobalProperty compat[] = {
+-        PC_CPU_MODEL_IDS("0.15")
+-    };
+-
+-    pc_i440fx_1_0_machine_options(m);
+-    m->hw_version = "0.15";
+-    m->deprecation_reason = "use a newer machine type instead";
+-    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+-}
+-
+-DEFINE_I440FX_MACHINE(v0_15, "pc-0.15", pc_compat_1_2,
+-                      pc_i440fx_0_15_machine_options);
+-
+-
+-static void pc_i440fx_0_14_machine_options(MachineClass *m)
+-{
+-    static GlobalProperty compat[] = {
+-        PC_CPU_MODEL_IDS("0.14")
+-        { "virtio-blk-pci", "event_idx", "off" },
+-        { "virtio-serial-pci", "event_idx", "off" },
+-        { "virtio-net-pci", "event_idx", "off" },
+-        { "virtio-balloon-pci", "event_idx", "off" },
+-        { "qxl", "revision", "2" },
+-        { "qxl-vga", "revision", "2" },
+-    };
+-
+-    pc_i440fx_0_15_machine_options(m);
+-    m->hw_version = "0.14";
+-    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+-}
+-
+-DEFINE_I440FX_MACHINE(v0_14, "pc-0.14", pc_compat_1_2,
+-                      pc_i440fx_0_14_machine_options);
+-
+-static void pc_i440fx_0_13_machine_options(MachineClass *m)
+-{
+-    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+-    static GlobalProperty compat[] = {
+-        PC_CPU_MODEL_IDS("0.13")
+-        { TYPE_PCI_DEVICE, "command_serr_enable", "off" },
+-        { "AC97", "use_broken_id", "1" },
+-        { "virtio-9p-pci", "vectors", "0" },
+-        { "VGA", "rombar", "0" },
+-        { "vmware-svga", "rombar", "0" },
+-    };
+-
+-    pc_i440fx_0_14_machine_options(m);
+-    m->hw_version = "0.13";
+-    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+-    pcmc->kvmclock_enabled = false;
+-}
+-
+-DEFINE_I440FX_MACHINE(v0_13, "pc-0.13", pc_compat_0_13,
+-                      pc_i440fx_0_13_machine_options);
+-
+-static void pc_i440fx_0_12_machine_options(MachineClass *m)
+-{
+-    static GlobalProperty compat[] = {
+-        PC_CPU_MODEL_IDS("0.12")
+-        { "virtio-serial-pci", "max_ports", "1" },
+-        { "virtio-serial-pci", "vectors", "0" },
+-        { "usb-mouse", "serial", "1" },
+-        { "usb-tablet", "serial", "1" },
+-        { "usb-kbd", "serial", "1" },
+-    };
+-
+-    pc_i440fx_0_13_machine_options(m);
+-    m->hw_version = "0.12";
+-    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+-}
+-
+-DEFINE_I440FX_MACHINE(v0_12, "pc-0.12", pc_compat_0_13,
+-                      pc_i440fx_0_12_machine_options);
+-
+ typedef struct {
+     uint16_t gpu_device_id;
+     uint16_t pch_device_id;
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index e88f6d1..97ba3cb 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -265,7 +265,7 @@ The 'scsi-disk' device is deprecated. Users should use 'scsi-hd' or
+ This machine type is very old and unmaintained. Users should use the 'malta'
+ machine type instead.
+ 
+-@subsection pc-0.12, pc-0.13, pc-0.14 and pc-0.15 (since 4.0)
++@subsection pc-1.0, pc-1.1, pc-1.2 and pc-1.3 (since 5.0)
+ 
+ These machine types are very old and likely can not be used for live migration
+ from old QEMU versions anymore. A newer machine type should be used instead.
+diff --git a/tests/cpu-plug-test.c b/tests/cpu-plug-test.c
+index 30e514b..e8ffbbc 100644
+--- a/tests/cpu-plug-test.c
++++ b/tests/cpu-plug-test.c
+@@ -148,11 +148,7 @@ static void add_pc_test_case(const char *mname)
+         (strcmp(mname, "pc-1.3") == 0) ||
+         (strcmp(mname, "pc-1.2") == 0) ||
+         (strcmp(mname, "pc-1.1") == 0) ||
+-        (strcmp(mname, "pc-1.0") == 0) ||
+-        (strcmp(mname, "pc-0.15") == 0) ||
+-        (strcmp(mname, "pc-0.14") == 0) ||
+-        (strcmp(mname, "pc-0.13") == 0) ||
+-        (strcmp(mname, "pc-0.12") == 0)) {
++        (strcmp(mname, "pc-1.0") == 0)) {
+         path = g_strdup_printf("cpu-plug/%s/init/%ux%ux%u&maxcpus=%u",
+                                mname, data->sockets, data->cores,
+                                data->threads, data->maxcpus);
 -- 
 1.8.3.1
 
