@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C442F12479B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:06:21 +0100 (CET)
-Received: from localhost ([::1]:53990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4481C12484E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:25:59 +0100 (CET)
+Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ1w-0007Yu-E1
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:06:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
+	id 1ihZKw-0006i6-Ae
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:25:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ihYx2-0001sB-6h
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:17 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ihYx2-0001sm-L1
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ihYx0-0007iN-V9
+ (envelope-from <laurent@vivier.eu>) id 1ihYx1-0007jg-60
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:16 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:36705)
+Received: from mout.kundenserver.de ([212.227.126.187]:49423)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1ihYx0-0007bd-IX; Wed, 18 Dec 2019 08:01:14 -0500
+ id 1ihYx0-0007cr-Qr; Wed, 18 Dec 2019 08:01:15 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M2Nm2-1ifvK72kxS-003v1g; Wed, 18 Dec 2019 14:01:09 +0100
+ id 1MV5nC-1iHkdk1Ik2-00S5k4; Wed, 18 Dec 2019 14:01:10 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] util/cutils: Turn FIXME comment into QEMU_BUILD_BUG_ON()
-Date: Wed, 18 Dec 2019 14:01:01 +0100
-Message-Id: <20191218130105.125981-4-laurent@vivier.eu>
+Subject: [PULL 4/7] test-keyval: Tighten test of trailing crap after size
+Date: Wed, 18 Dec 2019 14:01:02 +0100
+Message-Id: <20191218130105.125981-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191218130105.125981-1-laurent@vivier.eu>
 References: <20191218130105.125981-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Z6qpvgpRgK83bqqxGDdS0W/GT+hXJdPgM7idN7ExVcjSrrL//C2
- tn5OhPvbociww0aXhH4Pf5bXN5KhtRWHc/XxB/+PpVaV+HR7mf6IYuF8HbhOKdohsvmC04J
- MQFOGwfr0u+Pc9MUGjdOfI6cFJwg54pv79YxwY+AE/p08+W8Y08Jfj5vwHg0YcJJDA4AvFl
- Mgewp8i1DTbm9c4Hsz4Zg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zcLUXBW2HKA=:kpjk1LjmQDFmlvqAOhgqpb
- 1qdYQf7rnTmTxhMbbFEPw4Q5y3b2J4xuqpp/W3zz0voxrik2vy+llwQX+R67hhsbOG+sSqoQd
- dSb4AdFvTWEomCrj/ybc8RUgv4dbDiqlPWmdNb7hMFyjj+ycDdWn9wLrsHodi1YbmfCFhzcyg
- zl2iC2IPje4h8bl4WY7ieWhDUCosnoY4HPJ1HLtjLKtQVNSaDCY2Nieed9xdA546/oqPRFIph
- WlBCAjBqEh6l9on3ngnmsHF6bSeQ/TXX1/wiIUEwg+qD2qZ612/5jQ8fyzJJmgubnBZ46NTdF
- g4jLxR1nDe/QtW3/3bHTm1753DvDCglPzrcIKyBu4UGz5QCNtJ9gAyuQnq/28JH6D1EDULj5S
- L0XZYtwUTxBtdOufmbaTNclf0A6rckUXVBo9teAGbyNCwQ7HYWfCsqr3boDmwY2urFuVu8C5t
- xsJTZ5ub/8hfvP5p5sFudcwD338UmfqYGVcKz0qpiXYanZ+IA9dscBQ40VzqmzygDc1O4YQSK
- PHR+YFoOq1q9WaIneZl0yAVhp4bJ0YfvkddrsLhBOnHZSku/7BD2VByRmypuztyZYV2+utG35
- aYaKSxmXL1Hkrx6CSzIlnK8f5Wyc0IX/GvWUFylgDNXTTNKaQi0JPC6MnQGKsDiaZmwObdDef
- CRCERRAyJI7MCSlu0ycLJzDz2AcS5/Fgk67zew6NGpLvzpMDKPo164SGEXoCVLnAXZBjHlY+H
- +oGfikhEjVEtpajeghT+Tg31S+p1/M1jeuj4tw4d0tnzk/5yJwqpvspVABj1va10+umYbK+lS
- YladQckGLYMvlOHCZDfyabZq88a5S6NK41dsel5+5KC/1Z44xFiB0KBSZDlUPPY+U2agSNXQo
- lM75J6ZXT/rInm9SYsjSBuuDW26smvYKTg3EphjeE=
+X-Provags-ID: V03:K1:/KwXnYruHhuy/nH1ojY3/1GqzJ0WO4MwEZBbVG6GDOboRV3htPd
+ cAZ+QVOaOBp6mCWigTaXDp/d9P9qDsOYVJ2eWQZ0fFE+Y6qc/MvwirsyHmM82AlfZnYJH6p
+ DP1pGiHI0YQ9nr11ruVHSdsX+FdsqriAbsS45idRMq5noF3VIwkwAgu9K5G4VSzUKJawO3B
+ pEi2zq/+5FjFLFAbcrkjg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Fa4ROuDO5+A=:vyJqNNO23C6nehVvmfnHA8
+ euqJL7y7ELHyi0oxpoIiGT6jOaoKyu0g/Cy0UkOdbu2jROvwR750hbK2ERnc3fUhEkuV2NnzG
+ 9M2IE4s/L7fLGBFc6IUMquM6Yyti1Wx2EWo1bwBUg1tJZ0riTzCujQF+O4hr1uz2fMPYWB8lj
+ mP/XciNJkg/pgqUdEzkcfoD780teVd7i7e1bHrzOoe/LqMmZG02GuDI8NRChNwHlZKyfvmjY3
+ TrBD8b74IwDsfzLmSJ4T4obn/H9O1j4ib9ioQXZ/FnG5omHMh7hgUM2Ca2FRoZmvB1GpWPyGf
+ X+a7RxZm9XsIedhoYYeEtqD462cehzxBVGulDe22/1DEOg6XQ62ogaIIjrUgs2SLfriga2geT
+ Y8QtekViipLVMy82qolZWsNFVZAWEd8ncU16jVrw5O0OyS6gAFJkCoFiSqHZZ0zeN9vXP3baP
+ 7nUwiO8j6uWHUJc35blo8trwSlvWOEqDZc8sI5+G1oMWZe0iVyqBiGfV5wvAuKrOqZt7CkCNZ
+ KxnCqkee44y5UFZOIy/f2NLRIr3vDvBA1i5rprzd4x2H/YbSO65k6YYUZ3x7ypUDPe/6Tf+KQ
+ oizzPBrEyAhbZFP/N/2p9djxxbGcSgXf30vZRIyZq2tRPDfuUkeANthu6eRXyB4t+qsMFyy4H
+ c8UefFPkNp47Pwv6So2od1qqrUX8hZe9iRhZXQyE/65drcyxPe1Nw4z9p9HGovSgYzIKHSzOz
+ yFC/a84irI/Z1EIRMGtw5fV42MVrtbonFZEkxCSnKuuVVcHVYnu4VXmmLu9S/c1SnUZxKQ8C3
+ e4uNkquxaDJtmNAHUsdTHPLCO9gM2NzT8BECmr8lUusqHrl3gF3goxkkPNGpCjaQINN5i3JWa
+ vcQ6/Hc/NmfkvC5LqgEA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.134
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,64 +67,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-qemu_strtoi64() assumes int64_t is long long.  This is marked FIXME.
-Replace by a QEMU_BUILD_BUG_ON() to avoid surprises.
-
-Same for qemu_strtou64().
-
-Fix a typo in qemu_strtoul()'s contract while there.
+test_keyval_visit_size() should test for trailing crap after size with
+and without suffix.  It does test the latter: "sz2=16Gi" has size
+"16G" followed by crap "i".  It fails to test the former "sz1=16E" is
+a syntactically valid size that overflows uint64_t.  Replace by
+"sz1=0Z".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191125133846.27790-2-armbru@redhat.com>
-[lv: removed trailing whitespace]
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20191125133846.27790-3-armbru@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- util/cutils.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ tests/test-keyval.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/cutils.c b/util/cutils.c
-index 238016523039..36ce712271f1 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -542,7 +542,7 @@ int qemu_strtoul(const char *nptr, const char **endptr, int base,
-  * Convert string @nptr to an int64_t.
-  *
-  * Works like qemu_strtol(), except it stores INT64_MAX on overflow,
-- * and INT_MIN on underflow.
-+ * and INT64_MIN on underflow.
-  */
- int qemu_strtoi64(const char *nptr, const char **endptr, int base,
-                  int64_t *result)
-@@ -557,8 +557,9 @@ int qemu_strtoi64(const char *nptr, const char **endptr, int base,
-         return -EINVAL;
-     }
+diff --git a/tests/test-keyval.c b/tests/test-keyval.c
+index 09b0ae3c68fb..e331a84149d3 100644
+--- a/tests/test-keyval.c
++++ b/tests/test-keyval.c
+@@ -478,7 +478,7 @@ static void test_keyval_visit_size(void)
+     visit_free(v);
  
-+    /* This assumes int64_t is long long TODO relax */
-+    QEMU_BUILD_BUG_ON(sizeof(int64_t) != sizeof(long long));
-     errno = 0;
--    /* FIXME This assumes int64_t is long long */
-     *result = strtoll(nptr, &ep, base);
-     return check_strtox_error(nptr, ep, endptr, errno);
- }
-@@ -581,8 +582,9 @@ int qemu_strtou64(const char *nptr, const char **endptr, int base,
-         return -EINVAL;
-     }
- 
-+    /* This assumes uint64_t is unsigned long long TODO relax */
-+    QEMU_BUILD_BUG_ON(sizeof(uint64_t) != sizeof(unsigned long long));
-     errno = 0;
--    /* FIXME This assumes uint64_t is unsigned long long */
-     *result = strtoull(nptr, &ep, base);
-     /* Windows returns 1 for negative out-of-range values.  */
-     if (errno == ERANGE) {
+     /* Trailing crap */
+-    qdict = keyval_parse("sz1=16E,sz2=16Gi", NULL, &error_abort);
++    qdict = keyval_parse("sz1=0Z,sz2=16Gi", NULL, &error_abort);
+     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
+     qobject_unref(qdict);
+     visit_start_struct(v, NULL, NULL, 0, &error_abort);
 -- 
 2.24.1
 
