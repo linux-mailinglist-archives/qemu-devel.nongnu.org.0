@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962CF12474F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:53:50 +0100 (CET)
-Received: from localhost ([::1]:53773 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82ECF1246FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:38:46 +0100 (CET)
+Received: from localhost ([::1]:53592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYpp-0007py-8c
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:53:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56311)
+	id 1ihYbE-0004lX-Va
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:38:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3s-0007Jz-0L
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:17 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3s-0007LL-Sd
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3p-0003Kj-Nc
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:15 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33369)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3r-0003SA-E9
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:16 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43642)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3p-0003GE-Bg
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:13 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b6so2032556wrq.0
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:13 -0800 (PST)
+ id 1ihY3q-0003Jb-4D
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:15 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id d16so1986191wre.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=0RravkZg4GJs8al28mPtQXZKMfdxgs/SErQE/3uoU0E=;
- b=bSaeIsvZJdjx874TaEqBWWL/9Y8tw0cc0u6FXF8Ee+pY6FvPkG1GU7Ia0hyR8oA+WX
- EmRAFioB0+alCZz6UvtgGRIgP2hiqXAfDPDLw5U8MIcPEWJ/ZKOi9Fi9ZYOX6EEODa9n
- SWxQffs3P8tnRFrfaj0685/XAcHQZ9WyC5Ge/u7oZtySWhQMnRklegn5cYRtDfRJBsge
- e9JbYQGl6dGU3WcA+Hf4NywdM9qMIUWf+fBJrP0x6Voqyo7TwWjEe05bI/ZhGIotFlDA
- gxr3mQFFFgDbTcnIMJY0tRHscY8WB1xLh6L/ZME2C6yzwM1kobqq5p7hGlFUstiP8ag5
- fSzA==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=OQTWLYrlwKCqlPGQTAn1oHemTcy+syR9pMtUyWDmhSc=;
+ b=ri8SSylw4YiYtS8bWeiSP4xSuDAL59nETQl5WxRtvXZSCjStDyPhBvikBxiOhyaqSW
+ rSzL/8glez6HcsaB8TtR9wdLbxnCbjCPXfoSQc5ZGyhnH9h5rydPYmOLYcFffB3ZqMNU
+ vQs8Q746xQQKjjitpoJZHvX+WaDnidRiEFJUaB3qgILwMb7QqSnZ2YcniftT24RmPxiU
+ DKIobMSN7ATBpl7OMHSUB94tAF/OYzqj+MDKxh6P4jxR23KKLwqw8XIruWh7MWUznKi4
+ XHfSPMst9QccECCDB/fu7ldBUK+WvZNCPyZOO2cOxvkLTjqKOm6sV/OP13Cj4mI/LOtd
+ IXjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=0RravkZg4GJs8al28mPtQXZKMfdxgs/SErQE/3uoU0E=;
- b=N6s+ty/Ek0ihCF+KJS+AUhc+w8yxUZXi5Yf/0SvSew4jsevmoY2/3n7ceV8TyUxe+S
- Wcz+MpIrZLYBvJOadraLE54jsQ1TjAN8RzfBwA3jTLBpLkm43iDU6AbbMizhZ5glLqog
- c7+jA1BQBlbYM4swDhCqvdrwahV+FuU5w/YuO6g/0gLJhwYaEB5k8Cxh7LSNq2KEEsst
- XbW10uP4JTBOEl/gnohtZQN6gVHsk8Ex4+y/NI5LYi6GjWtAdNCDW9ArwvsEdxJx/2/f
- 65W21NKGOKF1H2q4raBb0l2rg2xuit1KBgINccjX2op2H5X7Do6n3+JAPYgLh99MA58h
- 0yLA==
-X-Gm-Message-State: APjAAAXen0yobGVgf+EuxBeUjLRfVg7nqhbEnMUFoLnxaW0eIp/sLtBI
- /hzVZD7KA/UyGM7t+hYycTOUj5yp
-X-Google-Smtp-Source: APXvYqztM9aA5KO+EQm15CgOWoGN8+2UfpqlGGOIfJMu5YK/Jq1ue/ta1h5HWkZONVUyGtih8Tr8Nw==
-X-Received: by 2002:adf:e984:: with SMTP id h4mr2384917wrm.275.1576670652036; 
+ bh=OQTWLYrlwKCqlPGQTAn1oHemTcy+syR9pMtUyWDmhSc=;
+ b=rTkdhK1q2zujNnbhW0ZMxut0ssOW2F8zvCZUBDESaFUM10kZ5CRwvCbqkuxVfAH44i
+ tDQwv9/lMDpvpoQIPzGjDaqAMUR9U61BAoWb6lEiHMMHywqPmanPlXDt5E1lD0zpkjpM
+ 2i7e3/TDFdO0eLfbCNBOrAlHHZV1UHLhWB8GO3d2CQkwaUR8aHWfUHn3I2YWSDHPL7ex
+ KE5HQ9jbzUtizFHVjzW0bOZgw/jL9mb0jIvgYUcD6RRu7QkHEkEBJweeShZ/CXknSeaV
+ 9mpBPDvOZSxBTVxioXljPbjFd+izC5OGEIKNngqMESpnLLoVs/HEK1TCKRGngEQJswBI
+ YoTw==
+X-Gm-Message-State: APjAAAU7mref1RnARsYaYWqFsAzzvJa3/eW8NJ0ITW6sbTt6pKSuXlL0
+ 7Z5vPI2bUktzZ3NXYBbtmuRtz24E
+X-Google-Smtp-Source: APXvYqxXLUH4tGe2UXggD2UOwTa5rUJg3c5ElKbcQQvUJWD2Av969lmUGZdDo+7VNYjBwAQ0EemUvA==
+X-Received: by 2002:adf:f98c:: with SMTP id f12mr2374120wrr.138.1576670652810; 
  Wed, 18 Dec 2019 04:04:12 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.10
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.12
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:11 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:12 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 69/87] docs: Create bitops.rst as example of kernel-docs
-Date: Wed, 18 Dec 2019 13:02:35 +0100
-Message-Id: <1576670573-48048-70-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 70/87] memory.h: Silence kernel-doc complaints
+Date: Wed, 18 Dec 2019 13:02:36 +0100
+Message-Id: <1576670573-48048-71-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,49 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+Fix a few instances where kernel-doc complains about doc comments
+in memory.h.
 
-Create a bitops.rst which is just a container for the
-kernel-doc comments in qemu/bitops.h.
-
-This is mostly a test of the kernel-doc extension machinery.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20190521122519.12573-7-peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/bitops.rst | 8 ++++++++
- docs/devel/index.rst  | 1 +
- 2 files changed, 9 insertions(+)
- create mode 100644 docs/devel/bitops.rst
+ include/exec/memory.h | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/docs/devel/bitops.rst b/docs/devel/bitops.rst
-new file mode 100644
-index 0000000..6addaec
---- /dev/null
-+++ b/docs/devel/bitops.rst
-@@ -0,0 +1,8 @@
-+==================
-+Bitwise operations
-+==================
-+
-+The header ``qemu/bitops.h`` provides utility functions for
-+performing bitwise operations.
-+
-+.. kernel-doc:: include/qemu/bitops.h
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index c86a3cd..ac86215 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -23,3 +23,4 @@ Contents:
-    secure-coding-practices
-    tcg
-    tcg-plugins
-+   bitops
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 9d3fdb5..4754749 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -360,10 +360,14 @@ typedef struct IOMMUMemoryRegionClass {
+ typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+ typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
+ 
++/** MemoryRegion:
++ *
++ * A struct representing a memory region.
++ */
+ struct MemoryRegion {
+     Object parent_obj;
+ 
+-    /* All fields are private - violators will be prosecuted */
++    /* private: */
+ 
+     /* The following fields should fit in a cache line */
+     bool romd_mode;
+@@ -452,7 +456,7 @@ struct MemoryListener {
+  * AddressSpace: describes a mapping of addresses to #MemoryRegion objects
+  */
+ struct AddressSpace {
+-    /* All fields are private. */
++    /* private: */
+     struct rcu_head rcu;
+     char *name;
+     MemoryRegion *root;
+@@ -1679,8 +1683,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
+  *
+  * Returns a #MemoryRegionSection that describes a contiguous overlap.
+  * It will have the following characteristics:
+- *    .@size = 0 iff no overlap was found
+- *    .@mr is non-%NULL iff an overlap was found
++ * - @size = 0 iff no overlap was found
++ * - @mr is non-%NULL iff an overlap was found
+  *
+  * Remember that in the return value the @offset_within_region is
+  * relative to the returned region (in the .@mr field), not to the
+@@ -1691,8 +1695,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
+  * returned one.  However, in the special case where the @mr argument
+  * has no container (and thus is the root of the address space), the
+  * following will hold:
+- *    .@offset_within_address_space >= @addr
+- *    .@offset_within_address_space + .@size <= @addr + @size
++ * - @offset_within_address_space >= @addr
++ * - @offset_within_address_space + .@size <= @addr + @size
+  *
+  * @mr: a MemoryRegion within which @addr is a relative address
+  * @addr: start of the area within @as to be searched
 -- 
 1.8.3.1
 
