@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0229612478C
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:03:45 +0100 (CET)
-Received: from localhost ([::1]:53948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614071247F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:19:31 +0100 (CET)
+Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYzP-0004Bk-9R
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:03:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51923)
+	id 1ihZEf-00008f-Qf
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:19:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ihYx1-0001qQ-0m
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:16 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ihYxD-00027x-Cp
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ihYwz-0007bj-N9
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:14 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:43969)
+ (envelope-from <laurent@vivier.eu>) id 1ihYxC-0000CE-8r
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:27 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:42271)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1ihYwz-0007RE-CV; Wed, 18 Dec 2019 08:01:13 -0500
+ id 1ihYxB-00005n-TW; Wed, 18 Dec 2019 08:01:26 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MVe1U-1iIIsB22tQ-00RXmI; Wed, 18 Dec 2019 14:01:07 +0100
+ id 1MsqIi-1homXU0ebo-00t8pm; Wed, 18 Dec 2019 14:01:08 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] Trivial branch patches
-Date: Wed, 18 Dec 2019 14:00:58 +0100
-Message-Id: <20191218130105.125981-1-laurent@vivier.eu>
+Subject: [PULL 1/7] MAINTAINERS: Add hw/sd/ssi-sd.c in the SD section
+Date: Wed, 18 Dec 2019 14:00:59 +0100
+Message-Id: <20191218130105.125981-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20191218130105.125981-1-laurent@vivier.eu>
+References: <20191218130105.125981-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:B8ZplYw8Glwj/6TNTnw3i/jgYCZxpqTday4Nxs0wogksvukWWMY
- 55PWF6TQMB+b+NphNvRtrnYVLpVevgFGnhdjS0YoYTuqIekxUyBTBxUnEqxSaor8O/9uVn1
- pKkZsqj3jDorgb2iRTs0p3jpOfp4ApdvLsV6FRTO47CKKe8u74Mm6wPb+KBGmhE/92gZ3Qv
- M4NYAzhzpxBLu31WZ5hhA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OA/PsERFB7c=:tMyEkbshoBsP+4fcxRK/gm
- P/VdNt7Pi0emnb4sbmHUcjTn8sITNTTk8fuIe166ZRVvUZ0bMmr0n9oF4/fTm05Qp5+Xk8SNH
- dNKhcGN3D61VUnWl2Nwdm4kLSKGf/7LZS+zp09Fw6vpeaedGF4wUzsSRUxfh6SDdWxkwFUCDW
- PW6Lqv8Y6LjxuSOjd4rATzKOYD4pmQsEJ6z6QlwJP8v/J+xIpm3P6XaQAILqiZU97LTOw832Q
- 5qt59DbSHk4ox/N9mKHMFEdFjDXbXEFUBfAk/JTTM+A78mOOZZazFAgBKy/Q7pLWQUaH8dx/+
- SHItFqABWeoVkmmEiDk0MjgQSdj4ZTMdSX9Kcgtm6fI0RNU1o4mGkgoV4zjHkzsILcU93I27R
- dcdvypagLNFzjj89x3ZNWDWisu5cE1rTOBvocoC8J8O51HAazfKbPdXBWfO/Mt1WhzYPiRdkG
- DAQDVDlwRMxepiXTWM/SWit29SsEPMeLc0si/4wtQBYfnW8AU8HQOr77UmYwa5e6Cv0vXniA7
- wqE3lnjaDaT2NxvdgMI2rPj0PgEvT5h6f7NKlxU/4fr76PtrTTXeYQOBubm3HvalKvpP/agLH
- 5lkXupnzY6e8Xr/3jXnsOvgdEcbWuGUwonVq4SVXBFr9HzTppSCQwJKBQDyB2RFmfvn3GK48t
- Da65+0TvT6K2ALdtPs0Bt6aTqwzWMVVesjMZPhiZbNpNdaBDKowsrrP9Dc1dzPUf0kxJXB/8K
- 4piPMd1ChPR3V08zwnfac/O42QRaNGcKIXxmTmESy/9HX9rAyGeFMXitdNW4bPn8F414BdON1
- 32QtBvI4mQ4vTKUa5ng84Z9A0cyHaSM6ZlS12+DUaFSvrXgEdZ6CPIh1dCWWQVfHAWpWzpHyD
- gbdeA+2uJO1Ym5vUmENkdctNcVxqIQS+lvzzF8BE4=
+X-Provags-ID: V03:K1:H0iJ5V14a+z9VxdL4py7Qe+joQunLfLWCTfWcdla0vw7mCe3RtU
+ iZIYtCMXyPuoBuFDGja5xtjkwu++5mLSTNBMJnD2IPKbLXe3g+zJ59dgCnkUnMks0DkegkW
+ TXFuJXJcp550EqQnuy5BYE/GEFJyRuq16ZeNtYJJn76mu/g0BSBZJAaNrbLih3clACc6alm
+ 5tBitA1YHXvrYdKKtVsSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0ikTxwVX5PA=:pqMEtogl00ZGefZ3YcksLG
+ 58xGlG0axzH2Praegv9H22ABJv3FCt5mKdQ5nW+83MF97PNPY6ypSrZ7T243mgA0r7c9O689K
+ uJkqU6xpiAeRd7pX/ChEsGakJser0s8JeApsiIMSynzDbWXjCVUyu4jI0fj0JrkUHEjrtGiB3
+ fRR+BZ1clKKq1AExRpYuQ9VMMNua4xUFI5nfL7PDonEPIESSrFhm//IrOLgMCV1XqhDJvAzfq
+ quJW4kVwWRCmcI2ORrJ52/cqitIs7Mvel+iED3mU2gLes0xOAgRimZTkMoPpWvq2qOcxNtyvP
+ 2o33DLc/hGZY85vITDFozP8BSYyXxahRZFFWbRZJgN4mGcJkwhfos1eXVx7Rmt+wB3XJddGoK
+ JWtWd4mvIY+c0zCwYL6OdZl6K2Q7K6CbH9EMTv2X79iAXjGjGIZov9Z7vIF72dMON2vt33OG2
+ Q8D1M+AADgcVHyqQLWGBSnFUo2eHODnrwbVY6HD5JsZoclGnKilnl5hHbJh593ggiAAgjXsgX
+ GFRQw4kAg7eoEpIWjx1EnsbvpXr6Mv2GPX7nCAXfdqmQyZMs8mfbMeMU4ttqzeHfG+k9S71Ns
+ +I8tOM1MsEl8iBrsTtci2QvFRvwFX4jEL5RMi+cU6WwdklGNWbDlZhozKRR1YzFHYp23X5ZVL
+ sRDNR1Fe/lhcpPveVSHLdluLg6B5V2jb4+N7pMjnagRtLnS6VRJKoXKb+0LZTkJ5HT6MF1Skr
+ hbB8yLkCsKSntdnavZsR8yUwELXihMWnQWHnhCRF8YpYJf3ssv0XjqAMQ1xWfGgb6ZTHtzGUH
+ 3lFmPcrrvGVh/65jQa4MxFOKindEnaQ64cDIFp2SYBljco8ZLnRTR/HlEymf7UOCTYsSlrOBI
+ 5H19DSl1dNDRUs7ZwgJA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.126.131
@@ -64,57 +66,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-12-17' into staging (2019-12-17 15:55:20 +0000)
+The hw/sd/ssi-sd.c file is orphean, add it to the SD section.
 
-are available in the Git repository at:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191012065426.10772-2-philmd@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
-
-for you to fetch changes up to 80bc935eaaf93e5b9a4efe97abd7c51d645f2612:
-
-  qemu-doc: Remove the unused "Guest Agent" node (2019-12-18 13:31:01 +0100)
-
-----------------------------------------------------------------
-Trivial fixes (20191218)
-
-----------------------------------------------------------------
-
-Han Han (1):
-  Revert "qemu-options.hx: Update for reboot-timeout parameter"
-
-Markus Armbruster (2):
-  util/cutils: Turn FIXME comment into QEMU_BUILD_BUG_ON()
-  test-keyval: Tighten test of trailing crap after size
-
-Philippe Mathieu-Daudé (1):
-  MAINTAINERS: Add hw/sd/ssi-sd.c in the SD section
-
-Thomas Huth (2):
-  target/sparc: Remove old TODO file
-  qemu-doc: Remove the unused "Guest Agent" node
-
-Yury Kotov (1):
-  monitor: Remove unused define
-
- MAINTAINERS         |  1 +
- monitor/misc.c      |  3 --
- qemu-doc.texi       |  1 -
- qemu-options.hx     |  4 +--
- target/sparc/TODO   | 88 ---------------------------------------------
- tests/test-keyval.c |  2 +-
- util/cutils.c       |  8 +++--
- 7 files changed, 9 insertions(+), 98 deletions(-)
- delete mode 100644 target/sparc/TODO
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 740401bcbb86..388415bb592e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1482,6 +1482,7 @@ S: Odd Fixes
+ F: include/hw/sd/sd*
+ F: hw/sd/core.c
+ F: hw/sd/sd*
++F: hw/sd/ssi-sd.c
+ F: tests/sd*
+ 
+ USB
 -- 
 2.24.1
 
