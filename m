@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A626E1251C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 20:24:17 +0100 (CET)
-Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983101251D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 20:28:23 +0100 (CET)
+Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihevg-0006w4-Ff
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 14:24:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
+	id 1iheze-0001Pt-Iw
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 14:28:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60382)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iheuY-0006Kx-FL
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:23:08 -0500
+ (envelope-from <philmd@redhat.com>) id 1ihexM-0007wK-Rb
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:26:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iheuX-00010N-7m
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:23:06 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46527)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iheuW-0000uK-OQ
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:23:05 -0500
-Received: by mail-pf1-x443.google.com with SMTP id y14so1734921pfm.13
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 11:23:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0LaDis55yTgfxkxt4kH4JxiDjjx7xs1BGFeMPP9ls4k=;
- b=GdbO/SBcj+w1mRUJJZnwlayR/OK6KNlV6PttRKqKAXdHxOg+AV3ai6NBooP7GHVmfV
- jb+qYF5wOE3vVShz36Xs9swNhi/9EG13OgCc+d8ygR1+f4ce93X5lI7wckuiJc1divLP
- NC4xXIh3HQ1aJqK/jI2reszoy0BhVhaiOLhhhrJPggefQm5Ee9BIT+VV1F7B7GejjDnZ
- BHwDWX9h2oPFGmh9J02y/GbIAqvgZ8EQfUhtd9l/j6HRJwi2jpPdBBbFpUWuGp9xilvf
- zKHaGRw4A0//uuPvzZC80QRfC1jUI6aB4+VUk+RCZf9CG9wO+KZaf4lFNbK+KpksB4zd
- jFVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0LaDis55yTgfxkxt4kH4JxiDjjx7xs1BGFeMPP9ls4k=;
- b=a0yuTDwT9vyc04W+ExZwl86s6VaOab+1bCgPAkOpG5RC6H3wqNLqcNWSHCnsIMQUl4
- RAPishVxzr7EVDsRgfNKyiv3lY1bGEruTAAIRkm2hqtjtGnqtThNKwBONMDb7XrKBKHH
- Ieq6Jg2bwEbwAfYmkg1HW/QDh2fjsw4c1Wd9i2jrkipUFoNjZNfxPhhUT5Hs3LWZ65sJ
- JL7GLbDEbPdJXcJWpbFHsRUMjSifDJNqn4c8GMY7K1nOi2uO4xRpKlGB/65iR6kmoVFe
- DX4yk2CZtAixJ874korRYwxDXrzZVtlNt6dfzIK+Y532xYABKbhVMeHn20tpAfPlE20Y
- N3tQ==
-X-Gm-Message-State: APjAAAUWFvozeILQEgYNqEc8P3f7orgQWfsrCheIpUW+fHXfJkP58arf
- 32WwdTVH/46NKcmXRe2apd0TVQ==
-X-Google-Smtp-Source: APXvYqybLE8+gjgKM71h8YTE5qzKgmHmveeum7USJal9uWOJROTrl0fzLVML3WjLs0oDEPqzV5qGzw==
-X-Received: by 2002:a62:1d52:: with SMTP id d79mr4843359pfd.144.1576696983535; 
- Wed, 18 Dec 2019 11:23:03 -0800 (PST)
-Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
- ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id q22sm4473049pfg.170.2019.12.18.11.23.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2019 11:23:02 -0800 (PST)
-Subject: Re: [PATCH 3/7] configure: Do not force pie=no for non-x86
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20191218031920.6414-1-richard.henderson@linaro.org>
- <20191218031920.6414-4-richard.henderson@linaro.org>
- <19a90c1c-3407-522c-72c7-1612ba66147c@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <73905ca5-bc1f-27ed-8315-c8b73c58cabc@linaro.org>
-Date: Wed, 18 Dec 2019 09:23:00 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <philmd@redhat.com>) id 1ihexK-00035C-NJ
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:25:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28098
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihexK-0002yv-6a
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:25:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576697157;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=d8d3NOr/AJwNt7vzL94QAStUbvgp3xH1pd/+9y3hkZ0=;
+ b=ek+mjTLHTOQcNSHk/dHQvj4eR83KV93+73b8c+gTvPprYH3OZw3El78yWY8okKL286EHuD
+ yIFGAaSJ846GkBREMeXUTFUowvd8TuugzVJ3nxepl/dtuPmTugHQpZ10qyK0up3Cf2OB+s
+ F3XNI4+Jetq50fEalq6qALa6bGotRzQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-Q_lPehRgNsK5fS0IdCXJ9Q-1; Wed, 18 Dec 2019 14:25:55 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B8A6107ACC4;
+ Wed, 18 Dec 2019 19:25:52 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-116-235.ams2.redhat.com [10.36.116.235])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1697D60C81;
+ Wed, 18 Dec 2019 19:25:40 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] Fix more GCC9 -O3 warnings
+Date: Wed, 18 Dec 2019 20:25:20 +0100
+Message-Id: <20191218192526.13845-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <19a90c1c-3407-522c-72c7-1612ba66147c@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Q_lPehRgNsK5fS0IdCXJ9Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,27 +67,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, i@maskray.me, philmd@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Olivier Danet <odanet@caramail.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Joel Stanley <joel@jms.id.au>, Markus Armbruster <armbru@redhat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?= <dirty.ice.hu@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/19 9:05 PM, Thomas Huth wrote:
-> On 18/12/2019 04.19, Richard Henderson wrote:
->> PIE is supported on many other hosts besides x86.
->>
->> The default for non-x86 is now the same as x86: pie is used
->> if supported, and may be forced via --enable/--disable-pie.
-> 
-> The original commit that introduce this code (40d6444e91c) said:
-> 
->  "Non-x86 are not changed, as they require TCG changes"
-> 
-> ... are these "TCG changes" in place nowadays? Did you check on non-x86
-> systems? If so, please mention this in the commit message.
+Fix some trivial warnings when building with -O3.
 
-I have no idea what those "tcg changes" would be.  I have checked aarch64
-(bionic) and ppc64le (centos 7).  I'll update the commit message.
+v2:
+- addressed Thomas and Aleksandar comments
+- dropped 'hw/scsi/megasas: Silent GCC9 duplicated-cond warning'
+- dropped 'qemu-io-cmds: Silent GCC9 format-overflow warning'
 
+Philippe Mathieu-Daud=C3=A9 (6):
+  audio/audio: Add missing fall through comment
+  hw/display/tcx: Add missing fall through comments
+  hw/timer/aspeed_timer: Add a fall through comment
+  hw/net/imx_fec: Rewrite fall through comments
+  hw/net/imx_fec: Remove unuseful FALLTHROUGH comments
+  hw/pci-host/designware: Remove unuseful FALLTHROUGH comment
 
-r~
+ audio/audio.c            | 1 +
+ hw/display/tcx.c         | 2 ++
+ hw/net/imx_fec.c         | 7 ++++---
+ hw/pci-host/designware.c | 2 +-
+ hw/timer/aspeed_timer.c  | 2 +-
+ 5 files changed, 9 insertions(+), 5 deletions(-)
+
+Cc: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc: "C=C3=A9dric Le Goater" <clg@kaod.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: "K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Olivier Danet <odanet@caramail.com>
+Cc: Peter Chubb <peter.chubb@nicta.com.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
+--=20
+2.21.0
+
 
