@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3AC612478F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:04:23 +0100 (CET)
-Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE421247A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:06:57 +0100 (CET)
+Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ02-0004u4-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:04:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57817)
+	id 1ihZ2V-0008PV-St
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:06:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58478)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3z-0007U5-ST
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:25 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY43-0007Yl-9U
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3y-0003u3-FP
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:23 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37406)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY41-000464-9E
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:27 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37777)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3y-0003qW-5T
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:22 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id w15so2021378wru.4
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:22 -0800 (PST)
+ id 1ihY40-00041i-Tr
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:25 -0500
+Received: by mail-wm1-x335.google.com with SMTP id f129so1614180wmf.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9X2hwIcj1HfDRf0oxNBJGWqhVs/TtZghOe20kMkyMnU=;
- b=Dn7qkoTmDoUzeKuFtsG+cWcMUN6DDzC1jO2ABvt5EOX15rOezvx7A5am6XK+/rUgVl
- btsUHy5SuPcaKHi2cNitTyNiR65L8sYEzAHA2gNsni6JE0KfzW/Tw8dhSscpkTvtTO2O
- yOO/YLSj64btK+L7jwkcuMRr+KhJxQxobz86eYlkSFFmKWOGd/bje8lXYt58ZB/H9h+Z
- bkyUeEHRlvYFV4sNqBxWZIuwjoJFjB0hm4aRNXiQavxe/otwCFF0+UzEsy20l7tf+uEo
- dQ1yxI7tdarJkNi3L8MMOReMzs1EI5lpid3LhNNGB9f4o7l9pkPDUVyx3L3gwC2jV64O
- +WiA==
+ bh=BMprzZ05gfG3DwfidaFtIVUxsm/A7BywNPdloh21sNo=;
+ b=PwFvLoel5J33QGC9d8RQ1gD4hw05pLh8sL7Z5v8a1arj2hBV5x2bi5R+GNeuSg6S+4
+ JviRmODY4ejnFyFtycfMvao0Bc3Y1MxoY3VKBkrmyaQu8C0581seGNRnFHjRTOTXChyC
+ PFUsoKgwC+979erTB1IMGOY5hQLc1kKQos4n7infC4JiMu0dtk2wpQikYhTkELGYGXdj
+ WReg6dStNlg5Z/dCLIu/u8D/Q0//RvxZZl5YYp/dOZ9TWVRjua4xqE2xOvYUC93HvB91
+ eIBMKhddzERsnxNomSYNQaZY9AxDz6FUWZK91c6KhDUMYG7vQOxQ39jK4u2ZYeN0Ifb8
+ OZiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9X2hwIcj1HfDRf0oxNBJGWqhVs/TtZghOe20kMkyMnU=;
- b=b0m4ESc6jo9zFI/qWJrjeMQVhfDJkf5HAGGEqgFihBWZiTrwosIzHaNCLdmiIknXMS
- cmNkx7HufW7nfwTIM/q0EMnpuM2ondjIRNlcDwiKZU4OQ0/vWBmM+cjkwhT+49ChQ+TL
- GzPgq/hCkDvhHGhlX1eqtg8o/23mSXyuA78ckuLFidukMOkulhijnoGdvUmZ+v44I+5J
- 13iOuWUia8Q0dY9piwwUYMNWn3d3UCBtP77PjQFX+wNdiyBIXlPqW7vCjHazH2pidU3I
- RO0uAnQ5k2qdyRzD2n+IrbOMqz0C/teF11v0pZSFRtmykBD6flR4XpzhntDMicDTrMbe
- Qtyw==
-X-Gm-Message-State: APjAAAWDdyXFuDlkU1lC+uDRiZjSiPFw2zF8QxC5Vtr+sOtTNtLCK32V
- TF170bt4xaiPIVSyc+IuPcSPm4Jo
-X-Google-Smtp-Source: APXvYqxdmywXKDo9QTvLUgq3fSKIBzUWEKXbb2M59mu5EPlveScqCXneyGGp19EPOuuq/3JBzds82A==
-X-Received: by 2002:adf:e984:: with SMTP id h4mr2385793wrm.275.1576670660909; 
- Wed, 18 Dec 2019 04:04:20 -0800 (PST)
+ bh=BMprzZ05gfG3DwfidaFtIVUxsm/A7BywNPdloh21sNo=;
+ b=Q/Tjg3giGTTfwxPWk1BqzGRo3irGcH2iM4TUKOvgNvXxb2axAPC6Dh3mh3dkNdnYeM
+ w6zxwQXvFRbt44LsD16yz6DJePrwouz09r8RF21KidMrzyM8A5V3EqYv5z/SEalPLGNo
+ YFyezEJ6x2S6UDK3dNkMxZ1TfVV+GcuTKrYt5q8diLlD/QGIoBAKrA3iIZlvtgEb3CMj
+ g+jnVdea7VBs95bHDMHDE7zQI/RUyZu0jm+mTaTvKG+GVeEAB84mvl1Wi2NRrQgrw167
+ G245B4KfoMYVYk5pcrM9vl3UlALncpA+LqZ9uKx9Ixk84x62Chqm0L6/hGDl0BKLkaU2
+ r93g==
+X-Gm-Message-State: APjAAAViETaAQtcsMucHnAlJNGKFIHkfPi8UmzKYnP/EROG24K6Puf+P
+ exnc4EzElWqxHlIWtp+/M5cZuzBt
+X-Google-Smtp-Source: APXvYqyV2UzYHZkFX688M5P5cNPdG5G8+JycZfBliQw0UjfEXSwgAFxUwBQL6XHTc7yUboiIaY44oQ==
+X-Received: by 2002:a7b:c759:: with SMTP id w25mr2963563wmk.15.1576670663622; 
+ Wed, 18 Dec 2019 04:04:23 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.20
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.22
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:20 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 78/87] hw/pci-host/i440fx: Extract PCII440FXState to
- "hw/pci-host/i440fx.h"
-Date: Wed, 18 Dec 2019 13:02:44 +0100
-Message-Id: <1576670573-48048-79-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 81/87] hw/pci-host/i440fx: Extract the IGD passthrough host
+ bridge device
+Date: Wed, 18 Dec 2019 13:02:47 +0100
+Message-Id: <1576670573-48048-82-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,89 +85,273 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Make the PCII440FXState structure public, so it can be used out of
-this source file. This will allow us to extract the IGD Passthrough
-Host Bridge, which is a children of the TYPE_I440FX_PCI_DEVICE.
+We can use a i440FX without the IGD passthrough host bridge.
+Extract it into a new file, 'hw/pci-host/xen_igd_pt.c'.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191209095002.32194-3-philmd@redhat.com>
+Message-Id: <20191209095002.32194-6-philmd@redhat.com>
+Acked-by: Paul Durrant <paul@xen.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/pci-host/i440fx.c         | 18 ------------------
- include/hw/pci-host/i440fx.h | 19 +++++++++++++++++--
- 2 files changed, 17 insertions(+), 20 deletions(-)
+ MAINTAINERS               |   1 +
+ hw/pci-host/Makefile.objs |   1 +
+ hw/pci-host/i440fx.c      |  84 --------------------------------
+ hw/pci-host/xen_igd_pt.c  | 120 ++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 122 insertions(+), 84 deletions(-)
+ create mode 100644 hw/pci-host/xen_igd_pt.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 740401b..0c36106 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -420,6 +420,7 @@ F: hw/block/dataplane/xen*
+ F: hw/xen/
+ F: hw/xenpv/
+ F: hw/i386/xen/
++F: hw/pci-host/xen_igd_pt.c
+ F: include/hw/block/dataplane/xen*
+ F: include/hw/xen/
+ F: include/sysemu/xen-mapcache.h
+diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
+index efd752b..fa6d155 100644
+--- a/hw/pci-host/Makefile.objs
++++ b/hw/pci-host/Makefile.objs
+@@ -14,6 +14,7 @@ common-obj-$(CONFIG_VERSATILE_PCI) += versatile.o
+ common-obj-$(CONFIG_PCI_SABRE) += sabre.o
+ common-obj-$(CONFIG_FULONG) += bonito.o
+ common-obj-$(CONFIG_PCI_I440FX) += i440fx.o
++common-obj-$(CONFIG_PCI_I440FX) += xen_igd_pt.o
+ common-obj-$(CONFIG_PCI_EXPRESS_Q35) += q35.o
+ common-obj-$(CONFIG_PCI_EXPRESS_GENERIC_BRIDGE) += gpex.o
+ common-obj-$(CONFIG_PCI_EXPRESS_XILINX) += xilinx-pcie.o
 diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 3fc9442..fbdc563 100644
+index 4141385..bae7b42 100644
 --- a/hw/pci-host/i440fx.c
 +++ b/hw/pci-host/i440fx.c
-@@ -31,7 +31,6 @@
- #include "hw/sysbus.h"
- #include "qapi/error.h"
- #include "migration/vmstate.h"
--#include "hw/pci-host/pam.h"
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
+@@ -368,89 +368,6 @@ static const TypeInfo i440fx_info = {
+     },
+ };
  
-@@ -51,23 +50,6 @@ typedef struct I440FXState {
-     uint32_t short_root_bus;
- } I440FXState;
- 
--#define I440FX_PCI_DEVICE(obj) \
--    OBJECT_CHECK(PCII440FXState, (obj), TYPE_I440FX_PCI_DEVICE)
+-/* IGD Passthrough Host Bridge. */
+-typedef struct {
+-    uint8_t offset;
+-    uint8_t len;
+-} IGDHostInfo;
 -
--struct PCII440FXState {
--    /*< private >*/
--    PCIDevice parent_obj;
--    /*< public >*/
--
--    MemoryRegion *system_memory;
--    MemoryRegion *pci_address_space;
--    MemoryRegion *ram_memory;
--    PAMMemoryRegion pam_regions[13];
--    MemoryRegion smram_region;
--    MemoryRegion smram, low_smram;
+-/* Here we just expose minimal host bridge offset subset. */
+-static const IGDHostInfo igd_host_bridge_infos[] = {
+-    {PCI_REVISION_ID,         2},
+-    {PCI_SUBSYSTEM_VENDOR_ID, 2},
+-    {PCI_SUBSYSTEM_ID,        2},
+-    {0x50,                    2}, /* SNB: processor graphics control register */
+-    {0x52,                    2}, /* processor graphics control register */
+-    {0xa4,                    4}, /* SNB: graphics base of stolen memory */
+-    {0xa8,                    4}, /* SNB: base of GTT stolen memory */
 -};
 -
+-static void host_pci_config_read(int pos, int len, uint32_t *val, Error **errp)
+-{
+-    int rc, config_fd;
+-    /* Access real host bridge. */
+-    char *path = g_strdup_printf("/sys/bus/pci/devices/%04x:%02x:%02x.%d/%s",
+-                                 0, 0, 0, 0, "config");
 -
- #define I440FX_PAM      0x59
- #define I440FX_PAM_SIZE 7
- #define I440FX_SMRAM    0x72
-diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
-index f54e646..cc58d82 100644
---- a/include/hw/pci-host/i440fx.h
-+++ b/include/hw/pci-host/i440fx.h
-@@ -13,12 +13,27 @@
- 
- #include "hw/hw.h"
- #include "hw/pci/pci_bus.h"
+-    config_fd = open(path, O_RDWR);
+-    if (config_fd < 0) {
+-        error_setg_errno(errp, errno, "Failed to open: %s", path);
+-        goto out;
+-    }
 -
--typedef struct PCII440FXState PCII440FXState;
-+#include "hw/pci-host/pam.h"
+-    if (lseek(config_fd, pos, SEEK_SET) != pos) {
+-        error_setg_errno(errp, errno, "Failed to seek: %s", path);
+-        goto out_close_fd;
+-    }
+-
+-    do {
+-        rc = read(config_fd, (uint8_t *)val, len);
+-    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
+-    if (rc != len) {
+-        error_setg_errno(errp, errno, "Failed to read: %s", path);
+-    }
+-
+-out_close_fd:
+-    close(config_fd);
+-out:
+-    g_free(path);
+-}
+-
+-static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
+-{
+-    uint32_t val = 0;
+-    size_t i;
+-    int pos, len;
+-    Error *local_err = NULL;
+-
+-    for (i = 0; i < ARRAY_SIZE(igd_host_bridge_infos); i++) {
+-        pos = igd_host_bridge_infos[i].offset;
+-        len = igd_host_bridge_infos[i].len;
+-        host_pci_config_read(pos, len, &val, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
+-        }
+-        pci_default_write_config(pci_dev, pos, val, len);
+-    }
+-}
+-
+-static void igd_passthrough_i440fx_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+-
+-    k->realize = igd_pt_i440fx_realize;
+-    dc->desc = "IGD Passthrough Host bridge";
+-}
+-
+-static const TypeInfo igd_passthrough_i440fx_info = {
+-    .name          = TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE,
+-    .parent        = TYPE_I440FX_PCI_DEVICE,
+-    .instance_size = sizeof(PCII440FXState),
+-    .class_init    = igd_passthrough_i440fx_class_init,
+-};
+-
+ static const char *i440fx_pcihost_root_bus_path(PCIHostState *host_bridge,
+                                                 PCIBus *rootbus)
+ {
+@@ -495,7 +412,6 @@ static const TypeInfo i440fx_pcihost_info = {
+ static void i440fx_register_types(void)
+ {
+     type_register_static(&i440fx_info);
+-    type_register_static(&igd_passthrough_i440fx_info);
+     type_register_static(&i440fx_pcihost_info);
+ }
  
- #define TYPE_I440FX_PCI_HOST_BRIDGE "i440FX-pcihost"
- #define TYPE_I440FX_PCI_DEVICE "i440FX"
- 
-+#define I440FX_PCI_DEVICE(obj) \
-+    OBJECT_CHECK(PCII440FXState, (obj), TYPE_I440FX_PCI_DEVICE)
+diff --git a/hw/pci-host/xen_igd_pt.c b/hw/pci-host/xen_igd_pt.c
+new file mode 100644
+index 0000000..efcc934
+--- /dev/null
++++ b/hw/pci-host/xen_igd_pt.c
+@@ -0,0 +1,120 @@
++/*
++ * QEMU Intel IGD Passthrough Host Bridge Emulation
++ *
++ * Copyright (c) 2006 Fabrice Bellard
++ *
++ * SPDX-License-Identifier: MIT
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
-+typedef struct PCII440FXState {
-+    /*< private >*/
-+    PCIDevice parent_obj;
-+    /*< public >*/
++#include "qemu/osdep.h"
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_host.h"
++#include "hw/pci-host/i440fx.h"
++#include "qapi/error.h"
 +
-+    MemoryRegion *system_memory;
-+    MemoryRegion *pci_address_space;
-+    MemoryRegion *ram_memory;
-+    PAMMemoryRegion pam_regions[13];
-+    MemoryRegion smram_region;
-+    MemoryRegion smram, low_smram;
-+} PCII440FXState;
++typedef struct {
++    uint8_t offset;
++    uint8_t len;
++} IGDHostInfo;
 +
- #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
- 
- PCIBus *i440fx_init(const char *host_type, const char *pci_type,
++/* Here we just expose minimal host bridge offset subset. */
++static const IGDHostInfo igd_host_bridge_infos[] = {
++    {PCI_REVISION_ID,         2},
++    {PCI_SUBSYSTEM_VENDOR_ID, 2},
++    {PCI_SUBSYSTEM_ID,        2},
++    {0x50,                    2}, /* SNB: processor graphics control register */
++    {0x52,                    2}, /* processor graphics control register */
++    {0xa4,                    4}, /* SNB: graphics base of stolen memory */
++    {0xa8,                    4}, /* SNB: base of GTT stolen memory */
++};
++
++static void host_pci_config_read(int pos, int len, uint32_t *val, Error **errp)
++{
++    int rc, config_fd;
++    /* Access real host bridge. */
++    char *path = g_strdup_printf("/sys/bus/pci/devices/%04x:%02x:%02x.%d/%s",
++                                 0, 0, 0, 0, "config");
++
++    config_fd = open(path, O_RDWR);
++    if (config_fd < 0) {
++        error_setg_errno(errp, errno, "Failed to open: %s", path);
++        goto out;
++    }
++
++    if (lseek(config_fd, pos, SEEK_SET) != pos) {
++        error_setg_errno(errp, errno, "Failed to seek: %s", path);
++        goto out_close_fd;
++    }
++
++    do {
++        rc = read(config_fd, (uint8_t *)val, len);
++    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
++    if (rc != len) {
++        error_setg_errno(errp, errno, "Failed to read: %s", path);
++    }
++
++ out_close_fd:
++    close(config_fd);
++ out:
++    g_free(path);
++}
++
++static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
++{
++    uint32_t val = 0;
++    size_t i;
++    int pos, len;
++    Error *local_err = NULL;
++
++    for (i = 0; i < ARRAY_SIZE(igd_host_bridge_infos); i++) {
++        pos = igd_host_bridge_infos[i].offset;
++        len = igd_host_bridge_infos[i].len;
++        host_pci_config_read(pos, len, &val, &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            return;
++        }
++        pci_default_write_config(pci_dev, pos, val, len);
++    }
++}
++
++static void igd_passthrough_i440fx_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = igd_pt_i440fx_realize;
++    dc->desc = "IGD Passthrough Host bridge";
++}
++
++static const TypeInfo igd_passthrough_i440fx_info = {
++    .name          = TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE,
++    .parent        = TYPE_I440FX_PCI_DEVICE,
++    .instance_size = sizeof(PCII440FXState),
++    .class_init    = igd_passthrough_i440fx_class_init,
++};
++
++static void igd_pt_i440fx_register_types(void)
++{
++    type_register_static(&igd_passthrough_i440fx_info);
++}
++
++type_init(igd_pt_i440fx_register_types)
 -- 
 1.8.3.1
 
