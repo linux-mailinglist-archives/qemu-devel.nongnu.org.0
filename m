@@ -2,49 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEC7124ADD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 16:11:56 +0100 (CET)
-Received: from localhost ([::1]:55492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8473C124A95
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 16:02:48 +0100 (CET)
+Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihazT-00070J-E8
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 10:11:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
+	id 1ihaqd-00024x-2n
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 10:02:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37308)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <e5a2d769867134908e0e5530e1743ed9366cf762@lizzy.crudebyte.com>)
- id 1ihayF-0005zw-Aj
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:10:40 -0500
+ (envelope-from <bounces@canonical.com>) id 1ihapC-0001V0-AX
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:01:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <e5a2d769867134908e0e5530e1743ed9366cf762@lizzy.crudebyte.com>)
- id 1ihayC-0007jD-K4
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:10:38 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:41569)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <e5a2d769867134908e0e5530e1743ed9366cf762@lizzy.crudebyte.com>)
- id 1ihayC-0001jF-AC
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:10:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=xB5nDUai3x8uOUkmS81PvHKbTLLxkdWC5+Wpk/EGVoE=; b=ew1ny
- q9nI7IxnXpz6OCDbOadD9BClX6/fxGXhjrN4kMu+yKF4X10Vy3sKqxDKWNbTRlsvK3IjHjM4aXHWu
- 9xUsaBIeo8aRvwBfD5wdsGTJLaXptsP+OlXeuGCm0cvC85XBJAuLWLeTG5+JQC92iuYb0ukTCLfcM
- E72nLKf6vw+10PjFb9VB5Br2Rge/suJD/yLmSD5fjZj00E/se9cQBVTxXRCPPsdWDf248EkGmdcNp
- wNfyfJiaU3ukknOdA82xIfg9qSbDqH+5VJaVYMZWEa7MV2kFb6/dpKVRa4ndrhv5/8lsSR4Q08fuH
- JiUjAsL2unbWmJYwcZKKi94YKq1YA==;
-Message-Id: <cover.1576678644.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (envelope-from <bounces@canonical.com>) id 1ihapA-00013z-Kh
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:01:18 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48158)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ihapA-0000vA-DO
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:01:16 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ihap7-00071H-V9
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 15:01:14 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DE10C2E8085
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 15:01:13 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Dec 2019 14:52:52 -0000
+From: dann frazier <dann.frazier@canonical.com>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Date: Wed, 18 Dec 2019 15:17:24 +0100
-Subject: [PATCH v2 0/9] 9pfs: readdir optimization
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=In Progress; importance=Medium;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dannf iveskim jan-glauber-i jnsnow kongzizaixian
+ lizhengui rafaeldtinoco
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: dann frazier (dannf)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <157668077280.27579.9524960567961950431.malone@chaenomeles.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b98b23d3b2b60cc5e001f43157f0e1714f69471f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.194.90.13
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,74 +85,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As previously mentioned, I was investigating performance issues with 9pfs.
-Raw file read/write of 9pfs is actually quite good, provided that client
-picked a reasonable high msize (maximum message size). I would recommend
-to log a warning on 9p server side if a client attached with a small msize
-that would cause performance issues for that reason.
+fyi, what I tested in Comment #35 was upstream QEMU (@ aceeaa69d2) with
+a port of the patch in Comment #34 applied. I've attached that patch
+here. While it did avoid the issue in my testing, I agree with Rafael's
+Comment #36 that it does not appear to address the root cause (as I
+understand it), and is therefore unlikely something we'd ship in Ubuntu.
 
-However there other aspects where 9pfs currently performs suboptimally,
-especially readdir handling of 9pfs is extremely slow, a simple readdir
-request of a guest typically blocks for several hundred milliseconds or
-even several seconds, no matter how powerful the underlying hardware is.
-The reason for this performance issue: latency.
-Currently 9pfs is heavily dispatching a T_readdir request numerous times
-between main I/O thread and a background I/O thread back and forth; in fact
-it is actually hopping between threads even multiple times for every single
-directory entry during T_readdir request handling which leads in total to
-huge latencies for a single T_readdir request.
+** Patch added: "comment-34-ported-to-upstream.patch"
+   https://bugs.launchpad.net/qemu/+bug/1805256/+attachment/5313631/+files/=
+comment-34-ported-to-upstream.patch
 
-This patch series aims to address this severe performance issue of 9pfs
-T_readdir request handling. The actual performance fix is patch 8. I also
-provided a convenient benchmark for comparing the performance improvements
-by using the 9pfs "synth" driver (see patch 6 for instructions how to run
-the benchmark), so no guest OS installation is required to peform this
-benchmark A/B comparison. With patch 8 I achieved a performance improvement
-of factor 40 on my test machine.
+-- =
 
-** NOTE: ** These patches are not heavily tested yet, nor thouroughly
-reviewed for potential security issues yet. I decided to post them already
-though, because I won't have the time in the next few weeks for polishing
-them. The benchmark results should demonstrate though that it is worth the
-hassle. So any testing/reviews/fixes appreciated!
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
 
-v1->v2:
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
 
-  * Fixed missing email threading of this patch set.
+Status in kunpeng920:
+  Confirmed
+Status in QEMU:
+  In Progress
+Status in qemu package in Ubuntu:
+  Confirmed
+Status in qemu source package in Bionic:
+  Confirmed
+Status in qemu source package in Disco:
+  Confirmed
+Status in qemu source package in Eoan:
+  In Progress
+Status in qemu source package in Focal:
+  Confirmed
 
-  * Fixed code style issues.
+Bug description:
+  Command:
 
-  * No need to check for NULL when calling g_free() [patch 4] and
-    [patch 8].
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
 
-  * No need to initialize static variable with NULL [patch 7].
+  Hangs indefinitely approximately 30% of the runs.
 
-  * Adjustments to commit log messages.
+  ----
 
-Christian Schoenebeck (9):
-  tests/virtio-9p: add terminating null in v9fs_string_read()
-  9pfs: validate count sent by client with T_readdir
-  hw/9pfs/9p-synth: added directory for readdir test
-  tests/virtio-9p: added readdir test
-  tests/virtio-9p: check file names of R_readdir response
-  9pfs: readdir benchmark
-  hw/9pfs/9p-synth: avoid n-square issue in synth_readdir()
-  9pfs: T_readdir latency optimization
-  hw/9pfs/9p.c: benchmark time on T_readdir request
+  Workaround:
 
- hw/9pfs/9p-synth.c     |  48 ++++++++++-
- hw/9pfs/9p-synth.h     |   5 ++
- hw/9pfs/9p.c           | 151 ++++++++++++++++++---------------
- hw/9pfs/9p.h           |  23 +++++
- hw/9pfs/codir.c        | 183 +++++++++++++++++++++++++++++++++++++---
- hw/9pfs/coth.h         |   3 +
- tests/virtio-9p-test.c | 186 ++++++++++++++++++++++++++++++++++++++++-
- 7 files changed, 516 insertions(+), 83 deletions(-)
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
 
--- 
-2.20.1
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
 
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  [ Original Description ]
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
