@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB5D12520B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 20:42:01 +0100 (CET)
-Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29107125205
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 20:40:21 +0100 (CET)
+Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihfCp-0007w9-Qb
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 14:42:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
+	id 1ihfBE-00068b-3M
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 14:40:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ihf7k-0002Er-2I
+ (envelope-from <richard.henderson@linaro.org>) id 1ihf7k-0002ED-2n
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:36:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ihf7i-0007F0-PF
+ (envelope-from <richard.henderson@linaro.org>) id 1ihf7i-0007Dp-JP
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:36:43 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43639)
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37956)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ihf7i-0007B3-EZ
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1ihf7i-00079J-71
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:36:42 -0500
-Received: by mail-oi1-x241.google.com with SMTP id x14so1729851oic.10
+Received: by mail-pl1-x643.google.com with SMTP id f20so1429904plj.5
  for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 11:36:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zMRM82fuISdTXQ2oCk9rZrPdp71flIE7raxY+pJuYXk=;
- b=QjhAPuZDdlOJLpIBeU6tW8FOG0zC2M7Ea72/EO8pvfjlw5MvRMuN7hvazOyc6hr23L
- rBHdGC0cHK801cod2ehDIIvlVNQgjkIWYr4c1qDv0oUog4KfZYnEG8yPjUSia9BvSrwz
- l93rpJ3fW4MujkyEDhUMojpN8ugN7hDpyb3OD0/8zjW6+gyh9QZahPs6alC5am91x0gH
- 93OkAgGem6DfUV1eZdt4+40Ve//DJpzsLqHiRNhDOJK6RGlP57rreH13f+gXR/LvvPQu
- kq8DmoKcihp2g41uzvOY/NdCb7EEt8ZmuCoQ0k5y8BBLRlOy4ZCPM2xEodOHJHYsM4O0
- A5Vg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sRHieOSR3HlzGdhhed9nfbAikdwFTYjQYoiiClYl444=;
+ b=fDfj6yADO6rO4uIFXtkFxOJicFei2WTlMVoKjaKb8ww0P3a6TlL+CJ6sm20376Xq10
+ fQ8gw34VUyvGt+VaURNiCVLYXSHTl5l4BTJjg+CeJ3eLHtOcNj7Tp5HfVBmnnz076n+A
+ y6kxxPM16U4WB/jpkwodANmRGp9sHfM50xJExKBT8vAo5TiRFxR6hz/8nrTNZbGt68UL
+ Cf2ckMGtO8LKztfcrSPuFUsX68iGSx3UQjJdMNyb4FqbGmqEtJTik7jepvjGRfJqUV8u
+ po2UfvNQqXcNMoHuIRKHdcTCXzDkGUZ4pR1Q1KBQC563/AlLvNiCkWBPHNTB3eVnjyHj
+ JiPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zMRM82fuISdTXQ2oCk9rZrPdp71flIE7raxY+pJuYXk=;
- b=R2xoCqXcae6ormvk1x2FSd+K5SvCsGmLDkczOLMGfk++y+QpDkBPHvDg1MbN67FO8f
- CQReYxzrqebRkvPoiAY0IxzRcdg6Fzy4RfCuwOnArM4i95IK1YmwM3qNSmk5BRQOl7SA
- usfaCfrTMEfenJW2fv3EDeDGkqCI//ilXvDehwBPQF1zf17X8VHPMFeLLFJNu0/+rv8a
- LJeVNcMLHWe/iCkamEIWfLRFQJ1O78ukTwlT4sKvxOjH2e9FT6JADR4Qjc1KuMvejVLg
- 9NyWBbCBsljxHlCzljJ9GcCwhVK0694ZfqKiGI4gNAww5AWympiJ2s2vj0q+mOH2YeEY
- 9Mgw==
-X-Gm-Message-State: APjAAAWCYh9nmW8x/IAqY7JsvvbzPh/mnIXneaql/bL5pDVtelVjGeQZ
- XMoWE2Am+SxK7Ft2wE9lHkBIBBXAJVdXuAbjFNQ=
-X-Google-Smtp-Source: APXvYqzzezAh6rRUoD4ux7uDVmWind6RXCS9r2Wb5LmBWE4ayishj9Nqw/FdgBxWWqKqrlDYI/1A4jkI+n0yISp73lc=
-X-Received: by 2002:aca:bbc6:: with SMTP id l189mr1331670oif.53.1576697801751; 
- Wed, 18 Dec 2019 11:36:41 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sRHieOSR3HlzGdhhed9nfbAikdwFTYjQYoiiClYl444=;
+ b=Iat4IjbIPJ+LjnzDoS+h+xD7u3OxOT/qhrGYdtGsuwzGDDsSq/cHJY4j3O2y3oK74G
+ GRnwA3+aa/ioMl8tq6cwFbC9kl5dm243hbSLEEApMLfHALqpO6jsfmNe2/FxjpkoZGdg
+ az9X7QBXtsZumDDFD5G4NV/1Lp11bd4YsDI7lNfx2MCKbzymCGCQjV/Z4XWZoG9Cti19
+ sAf5ljQOd02NDBRFbq1WY65yZqeGi4D/EBji6feFgx6uW/DHMaN5kptFlLMG+Wcg3ubN
+ xvBG3Biy060bJ0MS013zHXzej3I51hiDVl21OKigZP25+/kLIsh/heuVWGiZhOGuFA5n
+ pAnA==
+X-Gm-Message-State: APjAAAUM4NvMqM3HDviAYXhnaex+GbX3AEeD+rzzywcCj3m8YkA2RjJl
+ iqHB5ZxV7rOKvYCefuxCqDZbvXeKTPI=
+X-Google-Smtp-Source: APXvYqy1kY/i4HckQ+nlqH1wN3lmBescX8cVsHa9qasVQCLi4mXY1TiYGHV79z7dMNCauQ694T7frA==
+X-Received: by 2002:a17:90a:e98a:: with SMTP id
+ v10mr4818303pjy.67.1576697800988; 
+ Wed, 18 Dec 2019 11:36:40 -0800 (PST)
+Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
+ ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
+ by smtp.gmail.com with ESMTPSA id z13sm3893825pjz.15.2019.12.18.11.36.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Dec 2019 11:36:40 -0800 (PST)
+Subject: Re: [PATCH v1 1/4] target/arm: remove unused EXCP_SEMIHOST leg
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191218180029.6744-1-alex.bennee@linaro.org>
+ <20191218180029.6744-2-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <23ab51e5-12fc-fa62-b8ca-942089bd7bec@linaro.org>
+Date: Wed, 18 Dec 2019 09:36:37 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191218192526.13845-1-philmd@redhat.com>
- <20191218192526.13845-2-philmd@redhat.com>
-In-Reply-To: <20191218192526.13845-2-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 18 Dec 2019 20:36:30 +0100
-Message-ID: <CAL1e-=j2j5O2CZvXPBZa2Sg6Ah8_MjjJjf6Fb2bAFMfR7Bowpw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] audio/audio: Add missing fall through comment
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191218180029.6744-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,60 +85,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: pbonzini@redhat.com, keithp@keithp.com,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 18, 2019 at 8:26 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> When building with GCC9 using CFLAG -Wimplicit-fallthrough=3D2 we get:
->
->   audio/audio.c: In function =E2=80=98audio_pcm_init_info=E2=80=99:
->   audio/audio.c:306:14: error: this statement may fall through [-Werror=
-=3Dimplicit-fallthrough=3D]
->     306 |         sign =3D 1;
->         |         ~~~~~^~~
->   audio/audio.c:307:5: note: here
->     307 |     case AUDIO_FORMAT_U8:
->         |     ^~~~
->   cc1: all warnings being treated as errors
->
-> Similarly to e46349414, add the missing fall through comment to
-> hint GCC.
->
-> Fixes: 2b9cce8c8c
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 12/18/19 8:00 AM, Alex Bennée wrote:
+> All semihosting exceptions are dealt with earlier in the common code
+> so we should never get here.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
-> v2: Reword the description (Aleksandar)
->
+>  target/arm/helper.c | 6 ------
+>  1 file changed, 6 deletions(-)
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> Cc: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: "K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com>
-> ---
->  audio/audio.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 56fae55047..57daf3f620 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -304,6 +304,7 @@ void audio_pcm_init_info (struct audio_pcm_info *info=
-, struct audsettings *as)
->      switch (as->fmt) {
->      case AUDIO_FORMAT_S8:
->          sign =3D 1;
-> +        /* fall through */
->      case AUDIO_FORMAT_U8:
->          mul =3D 1;
->          break;
-> --
-> 2.21.0
->
+
+r~
 
