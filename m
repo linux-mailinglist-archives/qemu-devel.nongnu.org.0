@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED4512546A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:14:29 +0100 (CET)
-Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1ECA12546C
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:14:39 +0100 (CET)
+Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihgeK-0005lh-Lo
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:14:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48975)
+	id 1ihgeU-00063T-F0
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:14:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1ihgUw-0002Hg-A5
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:48 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ihgV1-0002RJ-9p
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1ihgUu-0001Gd-Rf
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:46 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38455)
+ (envelope-from <mrolnik@gmail.com>) id 1ihgUz-0001JI-1N
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:50 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41187)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgUu-0001Fr-LW
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:44 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y17so3811936wrh.5
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:04:44 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgUx-0001IX-G1
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:47 -0500
+Received: by mail-wr1-x442.google.com with SMTP id c9so3782788wrw.8
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hG9yLpMv8x5JNCD55FMtjlk9oGFGwOQ+hU3EbJamgHk=;
- b=s0sirjtAhn6pudAxqnA2Lbb9fOs5wfsfwPvDtT0uWzRjt0F427hzpaKABk5Vzy16gW
- XvG8ay+5zXFqRZWj+U5slKb7X7TAxD+A6aKjSlipw072QzpnsF8PaZd3raHMizYzUij2
- gJJkr0KkPqkdu8G+RamZj0s+dYcgOGYHlX4y/RIDBxys+xGRpbto/9Ayk9c2XDVhD2aH
- 89H+SylxuGEifsXgXQyIGDtUxcYbclm87u6kA7u6uu7wUL41IAG97ly1zes3mSc27FHU
- Bid1gWZVUNfY/LEEYCjA9LK1xX4wrmt1B/rFMw18H/+wBUcdUQPmVXClvdu5zqpEF2NW
- 6qaA==
+ bh=p+r84vU2MHCDeOWkxehyW8ncP9LqWpMrZCi9EfOXalc=;
+ b=PNTfMrQNm7O5dFc+Oc1AJhmTunaTMBhqsvBR8k1Hl2E44I8usoVA4voz+5NrXPWn41
+ FLP65Zy02GKcXFpQzRFzfDXnluF2ryWU64Oo28im+Ygy7bJd9rp4d09rhR1PQnRX/lGe
+ JKmNIj8WQTwn8MxTrOClMX1T1ntZoKTMYdfyvh+Tmtub1yAfHP9zepcZnSz+Nm8l1FMn
+ Qpt1l0aUzjc+iASV3wF9mcvghNB7wbKL2QKGITKJRr0UsMteFLzGAEMv6w2E/3igv0fV
+ AWRuq4OpIkS3qGyRllvYOIiFZbtH+fD1pRpRdqqOBAX9rP6kAykHpQHAlhNOp3NTI+iC
+ I65A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hG9yLpMv8x5JNCD55FMtjlk9oGFGwOQ+hU3EbJamgHk=;
- b=iDstz6NQSyU0615lUuLjcRMRwqnIffeiX6LQhb4xsLdmdRCMwurC3qFmQRixjKhsuu
- EJAyuiGeHuo5jNPYwO/Ek/qYcsWYv1AchfqEzk480XG7+ty5x8r8Y/R4IGzsrUd3OyjP
- cqLg6bLHtp2mq0BoT89+sQd38Hwm7vWsT7heW7Gp0nbI1K3lPhd8tHr27jUCIWTFIZsg
- pyuj7taR/XR/GK5RdublkqlCXUzmgDKk+BdCCNr6CMMAqqGgnPxI6VZ8tOWEqg6jjuRE
- Mor7ZlQih9R/aauPKG6Jkb3bl1Mt326E7pKGqQELi+VQIHY+aVzeeGXeU22jtkAiTSlO
- OX7g==
-X-Gm-Message-State: APjAAAXtJ7oAIfLn7EYZvziYLFw9Ngs8JDhD42Um22Y7Y1bn3Xu4XO1C
- gQrilYN7ZHpMtMha2M9JlBfzjlBMA39AQA==
-X-Google-Smtp-Source: APXvYqxyr2Tm8Q6ELX0tkZodCYSqG/AaEGzIadiqAmOjwJHMaZlkR1KGBRhUHKP+qIkOv9h3CBJ/WA==
-X-Received: by 2002:a05:6000:1142:: with SMTP id
- d2mr4755270wrx.253.1576703083323; 
- Wed, 18 Dec 2019 13:04:43 -0800 (PST)
+ bh=p+r84vU2MHCDeOWkxehyW8ncP9LqWpMrZCi9EfOXalc=;
+ b=ewP3b+xQCCrIJ6gH8Uq1seZPbVDR73FS6gVApKqjXfVtlRpYmTV819v+3MabzcCjHV
+ eHCBcW2Y6gZURpV7rro9c1AlNoIPlfnAuhP4rXZGNLU3PjTR5bL2hmVnRTxh7oSLoAn/
+ no8BOHOhKxwm/uWrPQcP3tndQw+O9UUFvqRtfonAhUNToTz7ZywMK1PoBLo9mNUfmfHg
+ Vm2jueb0XL/mUG9XyP2/ZNDMMTVjixA2TFAYh9Kd81poovHuelOzmkfWAARwKxLOM4M4
+ aEwqyMvHEqFsmBOjzPflVfRxWcEq6JK+YXiMrCvEpDIFW7o6/HJng/8EA2+JPBzu16rL
+ Dklw==
+X-Gm-Message-State: APjAAAUXUkMzZQQTF2JePJfrhHLhkEPbjN/9A0QGOcY07y9wmvCpeKwV
+ inh2x7TBZZOYBORGLT502fMY5DorqvxotQ==
+X-Google-Smtp-Source: APXvYqzBVXd7q3vrbW+GqqrKgt1X+awVKITCVIASZjuHpGaQNNIbStaVhggZNmeWexXoxlvoa/1NKg==
+X-Received: by 2002:a5d:4d4a:: with SMTP id a10mr5127833wru.220.1576703086087; 
+ Wed, 18 Dec 2019 13:04:46 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-109-65-2-109.red.bezeqint.net. [109.65.2.109])
- by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.04.40
+ by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.04.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 18 Dec 2019 13:04:42 -0800 (PST)
+ Wed, 18 Dec 2019 13:04:45 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v39 19/22] target/avr: Update build system
-Date: Wed, 18 Dec 2019 23:03:26 +0200
-Message-Id: <20191218210329.1960-20-mrolnik@gmail.com>
+Subject: [PATCH v39 20/22] target/avr: Add boot serial test
+Date: Wed, 18 Dec 2019 23:03:27 +0200
+Message-Id: <20191218210329.1960-21-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20191218210329.1960-1-mrolnik@gmail.com>
 References: <20191218210329.1960-1-mrolnik@gmail.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,95 +84,58 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make AVR support buildable
+Print out 'T' through serial port
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- configure                       |  7 +++++++
- default-configs/avr-softmmu.mak |  5 +++++
- target/avr/Makefile.objs        | 34 +++++++++++++++++++++++++++++++++
- 3 files changed, 46 insertions(+)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+ tests/boot-serial-test.c | 10 ++++++++++
+ tests/Makefile.include   |  2 ++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/configure b/configure
-index 84b413dbfc..fb1823208f 100755
---- a/configure
-+++ b/configure
-@@ -7602,6 +7602,10 @@ case "$target_name" in
-     mttcg="yes"
-     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
-   ;;
-+  avr)
-+    gdb_xml_files="avr-cpu.xml"
-+    target_compiler=$cross_cc_avr
-+  ;;
-   cris)
-   ;;
-   hppa)
-@@ -7821,6 +7825,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
-new file mode 100644
-index 0000000000..d1e1c28118
---- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
+diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
+index d3a54a0ba5..1121ed0db2 100644
+--- a/tests/boot-serial-test.c
++++ b/tests/boot-serial-test.c
+@@ -16,6 +16,15 @@
+ #include "qemu/osdep.h"
+ #include "libqtest.h"
+ 
++static const uint8_t bios_avr[] = {
++    0x88, 0xe0,             /* ldi r24, 0x08   */
++    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
++    0x86, 0xe0,             /* ldi r24, 0x06   */
++    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
++    0x84, 0xe5,             /* ldi r24, 0x54   */
++    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
++};
 +
-+# Boards:
-+#
-+CONFIG_AVR_SAMPLE=y
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000000..7523e0c6e2
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,34 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2019 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
+ static const uint8_t kernel_mcf5208[] = {
+     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
+     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
+@@ -103,6 +112,7 @@ typedef struct testdef {
+ 
+ static testdef_t tests[] = {
+     { "alpha", "clipper", "", "PCI:" },
++    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
+     { "ppc", "ppce500", "", "U-Boot" },
+     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
+     { "ppc", "g3beige", "", "PowerPC,750" },
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index b381387048..86ace719dc 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -206,6 +206,8 @@ check-qtest-i386-y += tests/test-x86-cpuid-compat$(EXESUF)
+ check-qtest-i386-y += tests/numa-test$(EXESUF)
+ check-qtest-x86_64-y += $(check-qtest-i386-y)
+ 
++check-qtest-avr-y += tests/boot-serial-test$(EXESUF)
 +
-+DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-+decode-y = $(SRC_PATH)/target/avr/insn.decode
-+
-+target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn.inc.c
-+
-+obj-y += translate.o cpu.o helper.o
-+obj-y += gdbstub.o
-+obj-y += disas.o
-+obj-$(CONFIG_SOFTMMU) += machine.o
+ check-qtest-alpha-y += tests/boot-serial-test$(EXESUF)
+ check-qtest-alpha-$(CONFIG_VGA) += tests/display-vga-test$(EXESUF)
+ 
 -- 
 2.17.2 (Apple Git-113)
 
