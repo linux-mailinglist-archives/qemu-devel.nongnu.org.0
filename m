@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7A0124724
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:44:34 +0100 (CET)
-Received: from localhost ([::1]:53656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877D71246E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:31:38 +0100 (CET)
+Received: from localhost ([::1]:53490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYgr-0004wk-4F
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:44:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53345)
+	id 1ihYUK-0001fM-SG
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:31:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3c-0006y8-9v
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3c-0006z8-Sj
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3a-0002Lc-VJ
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3b-0002OI-MH
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:00 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43642)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44164)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3a-0002HG-JR
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:58 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d16so1985298wre.10
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:58 -0800 (PST)
+ id 1ihY3b-0002Kb-Ba
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:59 -0500
+Received: by mail-wr1-x441.google.com with SMTP id q10so1985680wrm.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WOlXgr5dZa9g4c2a4JN2toyyzN/vi7Wxgjlick+Xxu0=;
- b=DXgcoH4l/3iV6ULg2ZN9xXRCxKgJI5KNZKomQXqwcZ5abiD9twAZm8gQtET2AioCg6
- e72bXRE9yUvoQpPZ90McmauI7bMiZiKtHtVoZiB6WPRQfOcPJ5fDC/yllzE/scPUwoQk
- 4IKKE58NAM1PKHH9Ah+j6ARdPy8tEm8VLQQm87ePMkqpw9CKQgKdZ1V6655L4vsO90A9
- qNjNV166ZE1AbuXS+i2azlJe7Yx+olB8PsO0hSb5EF8L1mX9GVl0LfML9ZgEpjpzYSHd
- DzjXB/88nQoouM/5G6PgHvzsykfPp0zGIIYxceAfT8zE+Re7wu8ieaoN/5YUwslBKmLB
- pxlA==
+ bh=3xRW0dWjMhO1EPoHD9jweteGOAO0mpniEjjgSK1VhoQ=;
+ b=sFTJiknWNhiykVK/xkhmcw8lZI9VIXn95ayasZ9wFxUJuU0LhINvDhuxe0EtqFp6CQ
+ Ov1b+eAj4AgUcWf5LDOeBm2WJkXX9AG1f1O7U6IozW3poC+lk1CuYZu2WaOzbodo+HZg
+ FKpyKBluJd9fgWAbgueTndi4TcoeIyDZDM83d/UL6C+J+GZqcRatRiykhuTfVbRc/CEk
+ B75dum2GbrlYS0mB9WMes4aI+xN2sILSgiBJ5merz7fVdZ3T5tGLbNAWKb9T4iTbm6Of
+ bP1VcPlUzm6mtxqzc1LIhxFZnCMS09xv0RW+mXGfPfzCMdsm3AyqU2pVUHnZxNgDgb/T
+ Xclw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WOlXgr5dZa9g4c2a4JN2toyyzN/vi7Wxgjlick+Xxu0=;
- b=P2GBCDEc2RrKEX+b46l0L0CGkuV4vHc/z2Z7IxVIyzifH44jVC+fgYSZcplGyS18xg
- IV6CiUi0fC5LKnOXOK2N6DDywsLq59vxnRmLntwhmgcflXVh6bhSbC2/QnAv5Be8rplt
- PgbEUHJo1Ix9u4PQ85o+tihHLsqZiDsSAAuHqI8rgIKCwif9L2JDaUAUgnwazyt53Jxz
- wzIF7G9AYZ65TYxAE/83PFpafOAfFQ4/fJw6Wd2vVVDk4ojukkdebVfaivHIsRfJkyc+
- hI+Z4b2SPN2lpjCbVchFBtiJjVPaNu/z/2GKXsrglSoqKmdBwHI7XTkYyyaEWlTauTyZ
- BdPA==
-X-Gm-Message-State: APjAAAVUhB6k3bkQQ07ZzNcdhqx+Q+W2OEeiUPil0EJRUDMVoAS1QD1Z
- Eogwh18VW9Dzk2kkX8gpEWmqo63O
-X-Google-Smtp-Source: APXvYqzUknMQshY2w4SQ6DOB8HB53WnZnAnVge94gTia/SrQJhy7k9U1hwonEKAftJDTZzt0ITE2zQ==
-X-Received: by 2002:a5d:5403:: with SMTP id g3mr2492287wrv.302.1576670637404; 
- Wed, 18 Dec 2019 04:03:57 -0800 (PST)
+ bh=3xRW0dWjMhO1EPoHD9jweteGOAO0mpniEjjgSK1VhoQ=;
+ b=AEscerwK97i3QaKdFMeC7ltJmBowP/Kl/b1bMcchcFBgTgHAb/DJ0MvA3gczXcERYo
+ wJ3XNgPkscgQB9JFGswKxQpRbwLnn1BERmrWy6xSB46yTKO/leD7USWoUS7JYH6dorUV
+ 7ejAJ36EXC7tcd4FBibHLVFqb5DGJ+OpKNu6WAG92GNQEUg88hnRerpcoWnp6gtdhEAU
+ boBLqR3SB5V1fK+9xjDHhsTLtLWVAQh/WYPhJqIhVwYKdN05zjeASviOgo2h0Xlg6XYJ
+ 2sLEyb3kNmtWkzVzeVIhD2CaUIW9bV+cErLACyphwqtlmT4r1uTdF0ciRlrVVAt0EL+I
+ dx6Q==
+X-Gm-Message-State: APjAAAWQ65p1wgSLonKx5sC9alBV1X5RzkW8rKD8/g65logyt92YHyJa
+ jMa8F7EFbuBFoISu9pPyu5q8fv7a
+X-Google-Smtp-Source: APXvYqwQ2tpoJX5QYmArLnVaHhW47aKaLqZdz5fQVaSh5OLJN2hIbwraUJQDqERCaCqhDT8elja8CQ==
+X-Received: by 2002:adf:f508:: with SMTP id q8mr2447900wro.334.1576670638175; 
+ Wed, 18 Dec 2019 04:03:58 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.56
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.57
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:56 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:57 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 53/87] hw/i386: De-duplicate gsi_handler() to remove
- kvm_pc_gsi_handler()
-Date: Wed, 18 Dec 2019 13:02:19 +0100
-Message-Id: <1576670573-48048-54-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 54/87] hw/i386: Simplify ioapic_init_gsi()
+Date: Wed, 18 Dec 2019 13:02:20 +0100
+Message-Id: <1576670573-48048-55-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,81 +84,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Both gsi_handler() and kvm_pc_gsi_handler() have the same content,
-except one comment. Move the comment, and de-duplicate the code.
+All callers of ioapic_init_gsi() provide a parent. We want new
+uses to follow the same good practice and provide the parent
+name, so do not make this optional: assert the parent name is
+provided, and simplify the code.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/kvm/ioapic.c | 12 ------------
- hw/i386/pc.c         |  4 +---
- hw/i386/x86.c        |  1 +
- include/sysemu/kvm.h |  1 -
- 4 files changed, 2 insertions(+), 16 deletions(-)
+ hw/i386/x86.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
-index 8703f19..973e2b2 100644
---- a/hw/i386/kvm/ioapic.c
-+++ b/hw/i386/kvm/ioapic.c
-@@ -48,18 +48,6 @@ void kvm_pc_setup_irq_routing(bool pci_enabled)
-     }
- }
- 
--void kvm_pc_gsi_handler(void *opaque, int n, int level)
--{
--    GSIState *s = opaque;
--
--    if (n < ISA_NUM_IRQS) {
--        /* Kernel will forward to both PIC and IOAPIC */
--        qemu_set_irq(s->i8259_irq[n], level);
--    } else {
--        qemu_set_irq(s->ioapic_irq[n], level);
--    }
--}
--
- typedef struct KVMIOAPICState KVMIOAPICState;
- 
- struct KVMIOAPICState {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index dff09e4..ea7320b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -344,10 +344,8 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
-     s = g_new0(GSIState, 1);
-     if (kvm_ioapic_in_kernel()) {
-         kvm_pc_setup_irq_routing(pci_enabled);
--        *irqs = qemu_allocate_irqs(kvm_pc_gsi_handler, s, GSI_NUM_PINS);
--    } else {
--        *irqs = qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
-     }
-+    *irqs = qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
- 
-     return s;
- }
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 80e33be..d18a3ef 100644
+index d18a3ef..d8bb5c2 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
-@@ -295,6 +295,7 @@ void gsi_handler(void *opaque, int n, int level)
+@@ -307,15 +307,14 @@ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
+     SysBusDevice *d;
+     unsigned int i;
  
-     trace_x86_gsi_interrupt(n, level);
-     if (n < ISA_NUM_IRQS) {
-+        /* Under KVM, Kernel will forward to both PIC and IOAPIC */
-         qemu_set_irq(s->i8259_irq[n], level);
++    assert(parent_name);
+     if (kvm_ioapic_in_kernel()) {
+         dev = qdev_create(NULL, TYPE_KVM_IOAPIC);
+     } else {
+         dev = qdev_create(NULL, TYPE_IOAPIC);
      }
-     qemu_set_irq(s->ioapic_irq[n], level);
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index aaf2a50..141342d 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -515,7 +515,6 @@ int kvm_irqchip_add_irqfd_notifier(KVMState *s, EventNotifier *n,
- int kvm_irqchip_remove_irqfd_notifier(KVMState *s, EventNotifier *n,
-                                       qemu_irq irq);
- void kvm_irqchip_set_qemuirq_gsi(KVMState *s, qemu_irq irq, int gsi);
--void kvm_pc_gsi_handler(void *opaque, int n, int level);
- void kvm_pc_setup_irq_routing(bool pci_enabled);
- void kvm_init_irq_routing(KVMState *s);
- 
+-    if (parent_name) {
+-        object_property_add_child(object_resolve_path(parent_name, NULL),
+-                                  "ioapic", OBJECT(dev), NULL);
+-    }
++    object_property_add_child(object_resolve_path(parent_name, NULL),
++                              "ioapic", OBJECT(dev), NULL);
+     qdev_init_nofail(dev);
+     d = SYS_BUS_DEVICE(dev);
+     sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
 -- 
 1.8.3.1
 
