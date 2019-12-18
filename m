@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E6E123CEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 03:12:11 +0100 (CET)
-Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F4E123CDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 03:07:07 +0100 (CET)
+Received: from localhost ([::1]:48458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihOos-0006mE-5G
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 21:12:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52489)
+	id 1ihOjx-0000Hq-KD
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 21:07:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ihOem-00031m-H8
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:45 -0500
+ (envelope-from <quintela@redhat.com>) id 1ihOem-00031u-JE
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ihOek-0005ku-56
+ (envelope-from <quintela@redhat.com>) id 1ihOek-0005lX-9j
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:44 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23705
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47259
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihOef-0005e2-NO
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:40 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihOek-0005gR-5Y
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 21:01:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576634493;
+ s=mimecast20190719; t=1576634497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mv2SnFdQsuqDIHEqHijU1eHiBdKn1tQVskm301BhwCk=;
- b=ZIHdWjkEwV7d6/10zPiHwxPBLeSg/TG0vrjiXkL6LTKRc8sZNCuWVqQt1mFyvxvfElPDL+
- 8hNscP6OK4wXjhGmPZqZeLGgAhRw15ZquqKnyopuhf+DdDXXyHtk3hyMDPbOGAddne2USk
- /9DR0y1PhdhM4W8LBVKfTmHfRu5CNjw=
+ bh=gvvZhu/xFvz1U3Hf+/Yigdo8O7qRPkr3UgL8NVTZMng=;
+ b=iGyuN4/8Ys5k5Xv79oJxTnsBOp1cEZ6WRzTDF8vk1cVUaLqoyfq5kaMarRptJyQh6pWTHo
+ doH9Z7OEFb822JAVAZpXV98jVK1LfOz/tDY/W8ip3MA+G7ifaIhwSkpS51qRx1cdQFFsB3
+ EQvLfYg+6gVOkaMPH2Udu8+rWQWuEIQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-45RvbkazPh6US4hTj1AkbQ-1; Tue, 17 Dec 2019 21:01:31 -0500
+ us-mta-401-dB8nvs-CMRKPZv6uDflWKg-1; Tue, 17 Dec 2019 21:01:34 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48671005502
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 02:01:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50715107ACC4
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 02:01:33 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-32.ams2.redhat.com [10.36.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72C8919C58;
- Wed, 18 Dec 2019 02:01:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1265619C58;
+ Wed, 18 Dec 2019 02:01:30 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/10] migration-test: introduce functions to handle string
- parameters
-Date: Wed, 18 Dec 2019 03:01:12 +0100
-Message-Id: <20191218020119.3776-4-quintela@redhat.com>
+Subject: [PATCH v2 04/10] migration: Make multifd_save_setup() get an Error
+ parameter
+Date: Wed, 18 Dec 2019 03:01:13 +0100
+Message-Id: <20191218020119.3776-5-quintela@redhat.com>
 In-Reply-To: <20191218020119.3776-1-quintela@redhat.com>
 References: <20191218020119.3776-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 45RvbkazPh6US4hTj1AkbQ-1
+X-MC-Unique: dB8nvs-CMRKPZv6uDflWKg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,61 +81,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- tests/migration-test.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ migration/migration.c | 2 +-
+ migration/ram.c       | 2 +-
+ migration/ram.h       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 1c9f2c4e6a..fc221f172a 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -460,6 +460,43 @@ static void migrate_set_parameter_int(QTestState *who,=
- const char *parameter,
-     migrate_check_parameter_int(who, parameter, value);
+diff --git a/migration/migration.c b/migration/migration.c
+index e7f707e033..5a56bd0c91 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3400,7 +3400,7 @@ void migrate_fd_connect(MigrationState *s, Error *err=
+or_in)
+         return;
+     }
+=20
+-    if (multifd_save_setup() !=3D 0) {
++    if (multifd_save_setup(&error_in) !=3D 0) {
+         migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+                           MIGRATION_STATUS_FAILED);
+         migrate_fd_cleanup(s);
+diff --git a/migration/ram.c b/migration/ram.c
+index 38070f1bb2..1f364cc23d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1208,7 +1208,7 @@ static void multifd_new_send_channel_async(QIOTask *t=
+ask, gpointer opaque)
+     }
  }
 =20
-+static char *migrate_get_parameter_str(QTestState *who,
-+                                       const char *parameter)
-+{
-+    QDict *rsp;
-+    char *result;
-+
-+    rsp =3D wait_command(who, "{ 'execute': 'query-migrate-parameters' }")=
-;
-+    result =3D g_strdup(qdict_get_str(rsp, parameter));
-+    qobject_unref(rsp);
-+    return result;
-+}
-+
-+static void migrate_check_parameter_str(QTestState *who, const char *param=
-eter,
-+                                        const char *value)
-+{
-+    char *result;
-+
-+    result =3D migrate_get_parameter_str(who, parameter);
-+    g_assert_cmpstr(result, =3D=3D, value);
-+    g_free(result);
-+}
-+
-+__attribute__((unused))
-+static void migrate_set_parameter_str(QTestState *who, const char *paramet=
-er,
-+                                      const char *value)
-+{
-+    QDict *rsp;
-+
-+    rsp =3D qtest_qmp(who,
-+                    "{ 'execute': 'migrate-set-parameters',"
-+                    "'arguments': { %s: %s } }",
-+                    parameter, value);
-+    g_assert(qdict_haskey(rsp, "return"));
-+    qobject_unref(rsp);
-+    migrate_check_parameter_str(who, parameter, value);
-+}
-+
- static void migrate_pause(QTestState *who)
+-int multifd_save_setup(void)
++int multifd_save_setup(Error **errp)
  {
-     QDict *rsp;
+     int thread_count;
+     uint32_t page_count =3D MULTIFD_PACKET_SIZE / qemu_target_page_size();
+diff --git a/migration/ram.h b/migration/ram.h
+index bd0eee79b6..da22a417ea 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -41,7 +41,7 @@ int xbzrle_cache_resize(int64_t new_size, Error **errp);
+ uint64_t ram_bytes_remaining(void);
+ uint64_t ram_bytes_total(void);
+=20
+-int multifd_save_setup(void);
++int multifd_save_setup(Error **errp);
+ void multifd_save_cleanup(void);
+ int multifd_load_setup(void);
+ int multifd_load_cleanup(Error **errp);
 --=20
 2.23.0
 
