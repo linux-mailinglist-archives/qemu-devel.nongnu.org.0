@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F591241AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:30:10 +0100 (CET)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1705612419B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:27:25 +0100 (CET)
+Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihUie-0005Kt-QY
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:30:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35836)
+	id 1ihUfz-0001n4-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:27:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35815)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ihUWX-00061q-1i
+ (envelope-from <armbru@redhat.com>) id 1ihUWW-00061o-N6
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ihUWV-0002Xl-80
+ (envelope-from <armbru@redhat.com>) id 1ihUWU-0002XU-Ss
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31572
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48871
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWT-0002Tg-E3
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:34 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWT-0002Td-AB
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576657052;
+ s=mimecast20190719; t=1576657051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lE2ASXi1Xmz2/vAd9C/cYNmssgI7GdbEFzurPjciP4E=;
- b=KJ0drI4fXKPUeqFYowuVJgjh23blpblYekvLxsbNg9nIDz5KDupAjWn32iyK1WNHkLBp3/
- Yf1XGslcb4WDMlGnyc7S57FCd0wD8QJYP1g89UrHVzBzdKZl2EBnVastuCzd0IxcHHoa81
- k6dZm2XN/hKuXm/l0AyVSdkrvVTCfsU=
+ bh=DOX0W++XheYbWovQdyx7jBTjYUart7a6NK1qrHLKgJw=;
+ b=DCPYZbbH/97erwpCDbZMGWKOHiC9ATrGydPNenR8Ky4GgEsvRzXq9+9vUvINHCewKIXVsS
+ /lK5F7dAd2X8AJcjz3wyLKV93fYrUL2QMg59gann8bFeOTHuMTjECh35hVePbdyNU7/+EB
+ kIF9coGDjZ6ZiLbxvhSmaTFsMQ/DxjU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-kG3TeBskM7WZkI9UkkYGJw-1; Wed, 18 Dec 2019 03:17:28 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-310-7h-tuwlNOXym9lhvwVJCvA-1; Wed, 18 Dec 2019 03:17:30 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90A03801E77;
- Wed, 18 Dec 2019 08:17:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA388800D55;
+ Wed, 18 Dec 2019 08:17:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 609761001281;
- Wed, 18 Dec 2019 08:17:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FE5D5D9E5;
+ Wed, 18 Dec 2019 08:17:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AA13E1136426; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
+ id BED75113642B; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 22/35] 9pfs: make Error **errp const where it is appropriate
-Date: Wed, 18 Dec 2019 09:17:08 +0100
-Message-Id: <20191218081721.23520-23-armbru@redhat.com>
+Subject: [PULL v2 27/35] monitor/qmp-cmds: rename Error ** parameter to more
+ common errp
+Date: Wed, 18 Dec 2019 09:17:13 +0100
+Message-Id: <20191218081721.23520-28-armbru@redhat.com>
 In-Reply-To: <20191218081721.23520-1-armbru@redhat.com>
 References: <20191218081721.23520-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: kG3TeBskM7WZkI9UkkYGJw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 7h-tuwlNOXym9lhvwVJCvA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,60 +75,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Mostly, Error ** is for returning error from the function, so the
-callee sets it. However error_append_security_model_hint and
-error_append_socket_sockfd_hint get already filled errp
-parameter. They don't change the pointer itself, only change the
-internal state of referenced Error object. So we can make it Error
-*const * errp, to stress the behavior. It will also help coccinelle
-script (in future) to distinguish such cases from common errp usage.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20191205174635.18758-9-vsementsov@virtuozzo.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Commit message replaced]
+Message-Id: <20191205174635.18758-14-vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/9pfs/9p-local.c | 2 +-
- hw/9pfs/9p-proxy.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ monitor/qmp-cmds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 4708c0bd89..ca641390fb 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1473,7 +1473,7 @@ static void local_cleanup(FsContext *ctx)
-     g_free(data);
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 0880341a2d..c6faa3eaf0 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -109,7 +109,7 @@ void qmp_system_reset(Error **errp)
+     qemu_system_reset_request(SHUTDOWN_CAUSE_HOST_QMP_SYSTEM_RESET);
  }
 =20
--static void error_append_security_model_hint(Error **errp)
-+static void error_append_security_model_hint(Error *const *errp)
+-void qmp_system_powerdown(Error **erp)
++void qmp_system_powerdown(Error **errp)
  {
-     error_append_hint(errp, "Valid options are: security_model=3D"
-                       "[passthrough|mapped-xattr|mapped-file|none]\n");
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index 97ab9c58a5..8136e1342d 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -1114,7 +1114,7 @@ static int connect_namedsocket(const char *path, Erro=
-r **errp)
-     return sockfd;
+     qemu_system_powerdown_request();
  }
-=20
--static void error_append_socket_sockfd_hint(Error **errp)
-+static void error_append_socket_sockfd_hint(Error *const *errp)
- {
-     error_append_hint(errp, "Either specify socket=3D/some/path where /som=
-e/path"
-                       " points to a listening AF_UNIX socket or sock_fd=3D=
-fd"
 --=20
 2.21.0
 
