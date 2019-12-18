@@ -2,48 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCED124A23
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 15:49:11 +0100 (CET)
-Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23001249D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 15:36:26 +0100 (CET)
+Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihadS-0006UA-4C
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 09:49:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51383)
+	id 1ihaR7-0002cV-9u
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 09:36:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <e5a2d769867134908e0e5530e1743ed9366cf762@lizzy.crudebyte.com>)
- id 1ihacS-00062h-TQ
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:48:10 -0500
+ (envelope-from <quintela@redhat.com>) id 1ihaQD-0002BC-Oo
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:35:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <e5a2d769867134908e0e5530e1743ed9366cf762@lizzy.crudebyte.com>)
- id 1ihacQ-00012I-N2
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:48:08 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42647)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <e5a2d769867134908e0e5530e1743ed9366cf762@lizzy.crudebyte.com>)
- id 1ihacQ-0005m7-5p
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:48:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=iK1ghDnL3doRVpTkI0ecqERy9JQWkEzcyIFDl/0Jn9g=; b=cOTW7
- say2fBIeq/ANafmE3xAkYsFxCmSjI87oStQWt5vd/cYLcwZv26edeQ9Z3UHU3jjdOH6iXWru8M3oo
- 3sTZy1b+9V5GVJy4el8+KU8ZBPqNSQP7WetY3S8doOnoVvPyGuRHU76GOpfS04lP+EbSshI4aVdXc
- 8zPuYIQRvZAxjxOOoD/UQG0qVkOevl3mLnk1VicpcW4peXT8X7hCZ+iU52c6pjfPjT8lAeuEt2vC8
- mQH1TGsyzsro5d0aBc320K5UnuZoJ22ZE7w9hurxF7wPKnQbuuEpIz2pTpLEbIjbq9jmzoN2+C3k2
- Pgh0LZPdoW9lYoeM/qpKLgWRZkAAA==;
-Message-Id: <e5a2d769867134908e0e5530e1743ed9366cf762.1576678644.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1576678644.git.qemu_oss@crudebyte.com>
-References: <cover.1576678644.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Date: Wed, 18 Dec 2019 15:10:46 +0100
-Subject: [PATCH v2 9/9] hw/9pfs/9p.c: benchmark time on T_readdir request
+ (envelope-from <quintela@redhat.com>) id 1ihaQA-00066L-KE
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:35:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28262
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihaQA-0005x0-28
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 09:35:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576679724;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=chc+NO6EzxR3Xe+tFW07bj3ra1eKkJrJFk5+HMRqEPk=;
+ b=OkASNTd1RNTY+IyRfXwRyNGwUdAf9mlC3znEzmoZsXd3FLNuyEI1D/SVX2swKQMzDVOuGG
+ w5KZP0O8tg0qImJAo4G7yb+gqCezF508EiwjmO2DKH2Vw/IXlvZ5B0Khu5z4go5gw47E0j
+ BdojAPLtNOl5FdSZwPCW0wqHSdGghnc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-cvFH1N7jOGeWRRgatz-CQA-1; Wed, 18 Dec 2019 09:35:22 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A72BB1011EB2
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 14:35:21 +0000 (UTC)
+Received: from redhat.com (ovpn-117-244.ams2.redhat.com [10.36.117.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 24B3260303;
+ Wed, 18 Dec 2019 14:35:20 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 1/4] qemu-file: Don't do IO after shutdown
+In-Reply-To: <20191218122702.GF3707@work-vm> (David Alan Gilbert's message of
+ "Wed, 18 Dec 2019 12:27:02 +0000")
+References: <20191218050439.5989-1-quintela@redhat.com>
+ <20191218050439.5989-2-quintela@redhat.com>
+ <20191218122702.GF3707@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Wed, 18 Dec 2019 15:35:17 +0100
+Message-ID: <87d0cl66sa.fsf@trasno.org>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: cvFH1N7jOGeWRRgatz-CQA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.194.90.13
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,81 +75,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is not intended to be merged, it measures
-and prints the time the 9p server spends on handling
-a T_readdir request. It prints the total time it spent
-on handling the request, and also the time it spent
-on I/O (fs driver) only.
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> Be sure that we are not doing neither read/write after shutdown of the
+>> QEMUFile.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  migration/qemu-file.c | 13 +++++++++++++
+>>  1 file changed, 13 insertions(+)
+>>=20
+>> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+>> index 26fb25ddc1..1e5543a279 100644
+>> --- a/migration/qemu-file.c
+>> +++ b/migration/qemu-file.c
+>> @@ -53,6 +53,8 @@ struct QEMUFile {
+>> =20
+>>      int last_error;
+>>      Error *last_error_obj;
+>> +    /* has the file has been shutdown */
+>> +    bool shutdown;
+>>  };
+>> =20
+>>  /*
+>> @@ -61,6 +63,7 @@ struct QEMUFile {
+>>   */
+>>  int qemu_file_shutdown(QEMUFile *f)
+>>  {
+>> +    f->shutdown =3D true;
+>>      if (!f->ops->shut_down) {
+>>          return -ENOSYS;
+>>      }
+>> @@ -214,6 +217,9 @@ void qemu_fflush(QEMUFile *f)
+>>          return;
+>>      }
+>> =20
+>> +    if (f->shutdown) {
+>> +        return;
+>> +    }
+>
+> OK, I did wonder if you need to free the iovec.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/9p.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+I will think about this one.
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index a7d36b6350..c6f70b96ee 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2299,6 +2299,15 @@ static void v9fs_free_dirents(struct V9fsDirEnt *e)
-     }
- }
- 
-+static double wall_time(void)
-+{
-+    struct timeval t;
-+    struct timezone tz;
-+    gettimeofday(&t, &tz);
-+    return t.tv_sec + t.tv_usec * 0.000001;
-+}
-+
-+
- static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-                                         int32_t max_count)
- {
-@@ -2318,6 +2327,8 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-      */
-     const bool dostat = pdu->s->ctx.export_flags & V9FS_REMAP_INODES;
- 
-+    const double start = wall_time();
-+
-     /*
-      * Fetch all required directory entries altogether on a background IO
-      * thread from fs driver. We don't want to do that for each entry
-@@ -2332,6 +2343,10 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-     }
-     count = 0;
- 
-+    const double end = wall_time();
-+    printf("\n\nTime 9p server spent on synth_readdir() I/O only (synth "
-+           "driver): %fs\n", end - start);
-+
-     for (struct V9fsDirEnt *e = entries; e; e = e->next) {
-         dent = e->dent;
- 
-@@ -2404,6 +2419,8 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     V9fsPDU *pdu = opaque;
-     V9fsState *s = pdu->s;
- 
-+    const double start = wall_time();
-+
-     retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
-                            &initial_offset, &max_count);
-     if (retval < 0) {
-@@ -2447,6 +2464,10 @@ out:
-     put_fid(pdu, fidp);
- out_nofid:
-     pdu_complete(pdu, retval);
-+
-+    const double end = wall_time();
-+    printf("Time 9p server spent on entire T_readdir request: %fs "
-+           "[IMPORTANT]\n", end - start);
- }
- 
- static int v9fs_xattr_write(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
--- 
-2.20.1
+>>      if (f->iovcnt > 0) {
+>>          expect =3D iov_size(f->iov, f->iovcnt);
+>>          ret =3D f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt, f->=
+pos,
+>> @@ -328,6 +334,10 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+>>      f->buf_index =3D 0;
+>>      f->buf_size =3D pending;
+>> =20
+>> +    if (f->shutdown) {
+>> +        return 0;
+>> +    }
+>
+> I also wondered if perhaps an error would be reasonable here; but I'm
+> not sure what a read(2) does after a shutdown(2).
+
+A fast google shows that it is .... implementation dependant.  And
+worse, only really works for sockets.
+
+
+> Still,
+>
+>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Thanks.
 
 
