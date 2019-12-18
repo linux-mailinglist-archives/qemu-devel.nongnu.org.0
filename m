@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606891246BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:24:09 +0100 (CET)
-Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFB812468F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:13:12 +0100 (CET)
+Received: from localhost ([::1]:53272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYN4-0000E8-M4
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:24:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47208)
+	id 1ihYCU-0002Us-VJ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:13:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47222)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2z-0006F4-Ts
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2z-0006F6-VJ
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2x-0000M4-LT
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2x-0000N8-Pr
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:21 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37760)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36348)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY2w-0000Ks-Oa
+ id 1ihY2x-0000L2-97
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:19 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id f129so1610322wmf.2
+Received: by mail-wm1-x330.google.com with SMTP id p17so1618462wma.1
  for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=O2k/K3Tg/TtNp6VLEfh3O4q9xXs1rgDoImCIOl/OQ3M=;
- b=GQtHMx4HVC6KY3ksnD5vi92QIUeninhKkamP7hk6g8Ow7mEof4HwdRMwCAIW8QSjYA
- nDCA3Vy/mCR0b+P09apHJT9W5CDZXfkEKFJmT67K3qTuVYjG/ZVpAheYgtHEvQEoj2cC
- QOCqyW1yMMiZUKf42W1H+aWzTLt4BuGEJH6RE1rFyZWTEQICfLMWniIghSFKBpGz2TKy
- OFbrmBSbTed0PO05vReMw4ExPqn+mk3wH75/v4QeFiuY2wPb2SqHJPxpL/QRpdnXo1HO
- Pz6lwcKYMl5cFdWGFNroAMtWsRMDuFXXNgM/KWEht72PVgyYnjXq2uRhuo5qR4Tk/zq+
- Kliw==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3WRnncE6Xv1vFi9oT2WvIobLxUM3RsPPFBEVRSOhGZo=;
+ b=q+21bkDe8EJfA6/igHJN7CBs+7C3RTaJ0sUHdUQTdAWHiLYj2WJ6KRKPLCmofRkYc4
+ OlRunhh2rsfryzbiM63RYtgN/yfT+rksRhBOfpf7d1lS1vW9MxsmoJgapEvq4Z3utevU
+ 3wO69bv5zMNxN4NYskYbyl7xcPGgt6wlsXvBGzf76r6rurZTXrtLN9tdyM1j8TIqVQJX
+ SmD3pijYsdEaiaVbgH2L6hJgJiZBbc7wXmVUMvDRngN/u0gj5gYrZ05y8QQxxiMgycyj
+ h4eG4sAMv6I+rX1rihODWK6UydhAPbTtzL65/d9k5EyQ0kvgL3yDgsA/WGEjtMpyBjvf
+ vVTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=O2k/K3Tg/TtNp6VLEfh3O4q9xXs1rgDoImCIOl/OQ3M=;
- b=KL5pZljBopznJsJXW+9HLn08jVUSLlo5MFdWYE9Z2kOz2dOg6pj+ElZuAcuIdehSTq
- vFFRKiFk8ASlwf3fivisOTcWFFjl5Z6Bazd7z1sMZXyh5Mk43YMAhnXC7eEKQGubFSV0
- 4XUxrzWhaBEF5KXuk+RkfiU/U5voQspeRiXqDCZrQzWQeMet+Xk5LnCHCYb9RXKxK9Gy
- S2XaBpvYjLomSynZdEi0CL0neXxiofBN2rZXD0nbuglPtS2WMm/LI/WfTjAIEMLzfD8d
- J/DWLctWB97h1HI1273sAFmi4afnZLkoc8Kdx8QoV1spBPuZGOtZJXvP5yzmGeMIFa6T
- fK+g==
-X-Gm-Message-State: APjAAAVSjvVBA6tUWF84KjqSiy8dHGIUDC1lFwofOXA68sloPVA2Oh6j
- HftBxZtkQZeMVhe3vV++GD5rYziW
-X-Google-Smtp-Source: APXvYqzpOx3BS8qljdA/RoYWSMM7/Ek7x94MaexAS0yrGnT1J6UJZ3PFD75e3trpfzrPCS8SVCJa2w==
-X-Received: by 2002:a1c:bbc3:: with SMTP id l186mr2865186wmf.101.1576670596528; 
- Wed, 18 Dec 2019 04:03:16 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=3WRnncE6Xv1vFi9oT2WvIobLxUM3RsPPFBEVRSOhGZo=;
+ b=O24xtFT0OCE3CMKBIbP/s0hZfQHORxV+iPJJLhL/X/CBZnVX/emZv8cerL2RAmubHK
+ 6wQ09BVwPHjLni733cVFMqHuibJ+aGIPQSv2mVr7DqzByTskJtP+uWRHnpBVK+UKl93q
+ h8FcvLz9H0bJdhsuDBqKdLStVR+N5P5ndvwCmzM8oFVCRxM/epHWaDYZkrY/+Cjk/2jm
+ PyBfwAUNIflFf4fmkoKMdqvojymF/KLo2uUAsPIwsQP+KmuPuCZ3rXy2rxladaAR5VdK
+ bnBM0mLAEUlKl5X8x/af3lGzegh6mGNOZa2FNAZ202htlNhCGqxrOjq4GrOTN5Tjxs4c
+ OrDQ==
+X-Gm-Message-State: APjAAAX14f1/UD17SSbXuC1sZWZPjup1hFnAnpYUoxhANKgsqxN+8EDb
+ qMvLAodYBBWXgSAZYUAXV4kYI4eF
+X-Google-Smtp-Source: APXvYqy3FS1RxeLcAhiZNgia8I5FX+tB821vn1Fp0BDEaMtmesmHoDujwuAaC+3CQmESZMPVdbvAOQ==
+X-Received: by 2002:a7b:c851:: with SMTP id c17mr2941339wml.71.1576670597336; 
+ Wed, 18 Dec 2019 04:03:17 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.15
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:15 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:16 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/87] qom: introduce object_register_sugar_prop
-Date: Wed, 18 Dec 2019 13:01:47 +0100
-Message-Id: <1576670573-48048-22-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 22/87] qom: add object_new_with_class
+Date: Wed, 18 Dec 2019 13:01:48 +0100
+Message-Id: <1576670573-48048-23-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,96 +82,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to the existing "-rtc driftfix" option, we will convert some
-legacy "-machine" command line options to global properties on accelerators.
-Because accelerators are not devices, we cannot use qdev_prop_register_global.
-Instead, provide a slot in the generic object_compat_props arrays for
-command line syntactic sugar.
+Similar to CPU and machine classes, "-accel" class names are mangled,
+so we have to first get a class via accel_find and then instantiate it.
+Provide a new function to instantiate a class without going through
+object_class_get_name, and use it for CPUs and machines already.
 
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h |  1 +
- qom/object.c         | 23 +++++++++++++++++++++--
- vl.c                 | 10 +++-------
- 3 files changed, 25 insertions(+), 9 deletions(-)
+ accel/accel.c             |  4 +---
+ include/qom/object.h      | 12 ++++++++++++
+ qom/object.c              |  5 +++++
+ target/i386/cpu.c         |  8 ++++----
+ target/s390x/cpu_models.c |  4 ++--
+ vl.c                      |  3 +--
+ 6 files changed, 25 insertions(+), 11 deletions(-)
 
+diff --git a/accel/accel.c b/accel/accel.c
+index 60c3827..dd38a46 100644
+--- a/accel/accel.c
++++ b/accel/accel.c
+@@ -48,9 +48,7 @@ AccelClass *accel_find(const char *opt_name)
+ 
+ int accel_init_machine(AccelClass *acc, MachineState *ms)
+ {
+-    ObjectClass *oc = OBJECT_CLASS(acc);
+-    const char *cname = object_class_get_name(oc);
+-    AccelState *accel = ACCEL(object_new(cname));
++    AccelState *accel = ACCEL(object_new_with_class(OBJECT_CLASS(acc)));
+     int ret;
+     ms->accelerator = accel;
+     *(acc->allowed) = true;
 diff --git a/include/qom/object.h b/include/qom/object.h
-index 128d00c..230b18f 100644
+index 230b18f..f9ad692 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -679,6 +679,7 @@ void object_apply_global_props(Object *obj, const GPtrArray *props,
-                                Error **errp);
- void object_set_machine_compat_props(GPtrArray *compat_props);
- void object_set_accelerator_compat_props(GPtrArray *compat_props);
-+void object_register_sugar_prop(const char *driver, const char *prop, const char *value);
- void object_apply_compat_props(Object *obj);
+@@ -593,6 +593,18 @@ struct InterfaceClass
+                                              __FILE__, __LINE__, __func__))
  
  /**
++ * object_new_with_class:
++ * @klass: The class to instantiate.
++ *
++ * This function will initialize a new object using heap allocated memory.
++ * The returned object has a reference count of 1, and will be freed when
++ * the last reference is dropped.
++ *
++ * Returns: The newly allocated and instantiated object.
++ */
++Object *object_new_with_class(ObjectClass *klass);
++
++/**
+  * object_new:
+  * @typename: The name of the type of the object to instantiate.
+  *
 diff --git a/qom/object.c b/qom/object.c
-index d51b57f..e7b72f7 100644
+index e7b72f7..0d971ca 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -414,10 +414,29 @@ void object_apply_global_props(Object *obj, const GPtrArray *props, Error **errp
-  * Global property defaults
-  * Slot 0: accelerator's global property defaults
-  * Slot 1: machine's global property defaults
-+ * Slot 2: global properties from legacy command line option
-  * Each is a GPtrArray of of GlobalProperty.
-  * Applied in order, later entries override earlier ones.
-  */
--static GPtrArray *object_compat_props[2];
-+static GPtrArray *object_compat_props[3];
-+
-+/*
-+ * Retrieve @GPtrArray for global property defined with options
-+ * other than "-global".  These are generally used for syntactic
-+ * sugar and legacy command line options.
-+ */
-+void object_register_sugar_prop(const char *driver, const char *prop, const char *value)
-+{
-+    GlobalProperty *g;
-+    if (!object_compat_props[2]) {
-+        object_compat_props[2] = g_ptr_array_new();
-+    }
-+    g = g_new0(GlobalProperty, 1);
-+    g->driver = g_strdup(driver);
-+    g->property = g_strdup(prop);
-+    g->value = g_strdup(value);
-+    g_ptr_array_add(object_compat_props[2], g);
-+}
- 
- /*
-  * Set machine's global property defaults to @compat_props.
-@@ -445,7 +464,7 @@ void object_apply_compat_props(Object *obj)
- 
-     for (i = 0; i < ARRAY_SIZE(object_compat_props); i++) {
-         object_apply_global_props(obj, object_compat_props[i],
--                                  &error_abort);
-+                                  i == 2 ? &error_fatal : &error_abort);
-     }
+@@ -658,6 +658,11 @@ static Object *object_new_with_type(Type type)
+     return obj;
  }
  
++Object *object_new_with_class(ObjectClass *klass)
++{
++    return object_new_with_type(klass->type);
++}
++
+ Object *object_new(const char *typename)
+ {
+     TypeImpl *ti = type_get_by_name(typename);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 0a9ac65..e1eb9f4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4695,7 +4695,7 @@ static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
+         return;
+     }
+ 
+-    xc = X86_CPU(object_new(object_class_get_name(OBJECT_CLASS(xcc))));
++    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
+ 
+     x86_cpu_expand_features(xc, &err);
+     if (err) {
+@@ -4763,7 +4763,7 @@ static GSList *get_sorted_cpu_model_list(void)
+ 
+ static char *x86_cpu_class_get_model_id(X86CPUClass *xc)
+ {
+-    Object *obj = object_new(object_class_get_name(OBJECT_CLASS(xc)));
++    Object *obj = object_new_with_class(OBJECT_CLASS(xc));
+     char *r = object_property_get_str(obj, "model-id", &error_abort);
+     object_unref(obj);
+     return r;
+@@ -5141,7 +5141,7 @@ static X86CPU *x86_cpu_from_model(const char *model, QDict *props, Error **errp)
+         goto out;
+     }
+ 
+-    xc = X86_CPU(object_new(object_class_get_name(OBJECT_CLASS(xcc))));
++    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
+     if (props) {
+         object_apply_props(OBJECT(xc), props, &err);
+         if (err) {
+@@ -5983,7 +5983,7 @@ static void x86_cpu_apic_create(X86CPU *cpu, Error **errp)
+     APICCommonState *apic;
+     ObjectClass *apic_class = OBJECT_CLASS(apic_get_class());
+ 
+-    cpu->apic_state = DEVICE(object_new(object_class_get_name(apic_class)));
++    cpu->apic_state = DEVICE(object_new_with_class(apic_class));
+ 
+     object_property_add_child(OBJECT(cpu), "lapic",
+                               OBJECT(cpu->apic_state), &error_abort);
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 547bab8..7c32180 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -440,7 +440,7 @@ static void create_cpu_model_list(ObjectClass *klass, void *opaque)
+     if (cpu_list_data->model) {
+         Object *obj;
+         S390CPU *sc;
+-        obj = object_new(object_class_get_name(klass));
++        obj = object_new_with_class(klass);
+         sc = S390_CPU(obj);
+         if (sc->model) {
+             info->has_unavailable_features = true;
+@@ -498,7 +498,7 @@ static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *info,
+         error_setg(errp, "The CPU definition '%s' requires KVM", info->name);
+         return;
+     }
+-    obj = object_new(object_class_get_name(oc));
++    obj = object_new_with_class(oc);
+     cpu = S390_CPU(obj);
+ 
+     if (!cpu->model) {
 diff --git a/vl.c b/vl.c
-index c350eef..b95c161 100644
+index b95c161..65e6b75 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -895,13 +895,9 @@ static void configure_rtc(QemuOpts *opts)
-     value = qemu_opt_get(opts, "driftfix");
-     if (value) {
-         if (!strcmp(value, "slew")) {
--            static GlobalProperty slew_lost_ticks = {
--                .driver   = "mc146818rtc",
--                .property = "lost_tick_policy",
--                .value    = "slew",
--            };
--
--            qdev_prop_register_global(&slew_lost_ticks);
-+            object_register_sugar_prop("mc146818rtc",
-+                                       "lost_tick_policy",
-+                                       "slew");
-         } else if (!strcmp(value, "none")) {
-             /* discard is default */
-         } else {
+@@ -3834,8 +3834,7 @@ int main(int argc, char **argv, char **envp)
+                       cleanup_add_fd, NULL, &error_fatal);
+ #endif
+ 
+-    current_machine = MACHINE(object_new(object_class_get_name(
+-                          OBJECT_CLASS(machine_class))));
++    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
+     if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
+         exit(0);
+     }
 -- 
 1.8.3.1
 
