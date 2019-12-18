@@ -2,46 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B455123BB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 01:40:13 +0100 (CET)
-Received: from localhost ([::1]:47772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EBD123C33
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 02:04:15 +0100 (CET)
+Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihNNs-0007Sg-1a
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 19:40:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51547)
+	id 1ihNl8-0005pX-8B
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 20:04:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <635bff3afd59345eba95cd27a0e03968179764ac@lizzy.crudebyte.com>)
- id 1ihNKL-0003r6-C9
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:36:34 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ihNkL-0005Ik-Hk
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:03:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <635bff3afd59345eba95cd27a0e03968179764ac@lizzy.crudebyte.com>)
- id 1ihNKK-0005IO-9O
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:36:33 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:46013)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <635bff3afd59345eba95cd27a0e03968179764ac@lizzy.crudebyte.com>)
- id 1ihNKK-00048f-2q
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 19:36:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Message-Id:Subject:Date:Cc:To:From:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=cJlfQbe7xfGurhgRrxYQj+1JsYaE4tQ3mtI3xEdhVUQ=; b=hQwDv
- Z5nDKRKYFUy9KuIbqenLs2q2LgFy37LlidhIPiKPE+A3sl0aNgDu79X9Tcc45WSWkFipp1af1D8N0
- lP2vqEeOmcHBwiVbj1+2PRM7F/WBYo2anF7rvhYJ9d8dQzJvHbZz4pMXNdF+7/JmLAbH7AM3GslR+
- 6XA2h8YOj9ZN+idBPMiwGdK9VlAeAzd7FRBk5kypLWaNr3J8qwXoaAN/qaYNqpVYzVXJWbRFAGcbl
- 1IDItzjMEchz5rMP5bDRmM8fQpiOKUgmABGnbBV5NRlbiCCEEhKCWO+zaErL5A1rQFqkXvQ2osmOc
- 1+7bc+zW/mcCP8slTZ3LAkCYADiQQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Date: Wed, 18 Dec 2019 00:11:10 +0100
-Subject: [PATCH 0/9] 9pfs: readdir optimization
-Message-Id: <E1ihMuX-00076B-Qf@lizzy.crudebyte.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.194.90.13
+ (envelope-from <richard.henderson@linaro.org>) id 1ihNkI-000050-9g
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:03:24 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:55160)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1ihNkI-0008Ux-25
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:03:22 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id ep17so58477pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 17:03:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qDktnqJFILHEe9UmAzxJWXQjAQ6RxhjYlF1ehUzBsNk=;
+ b=lJUv67jzPq4LKQonclJjvnnyhUhhAIy9tGQrdLTOsjQxF7iZbkt84zeRZhP3d1tBcv
+ k85ICsohSFopESlOZuQjOItYNN1d94TIG/yKM6l2mIwGYpuSfB2Z6cQOxcBEIZtACicG
+ 12Ilzr6J7TVL8yLGG29S2Q9Ynpk6q8u/BO2UB6s+k1duiyuZ+4gP4TBOx+tZXL2SOqw8
+ ZzksMZvD7bPG4LvzW069p/Ls1+f/6Oo3POaJnVyLU3Pz/nXgAUUJf+yenw5RB+l0JWc7
+ eMXC8Jn26fDDq7uqzvXsLQ6IiFuQWdRubbUAMI+FF9vDj8TA+zkDnYn4u7ln9WHeV5d/
+ ozwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qDktnqJFILHEe9UmAzxJWXQjAQ6RxhjYlF1ehUzBsNk=;
+ b=iJJmvFzAi32k4kdlfcW04XoX+oJk1MfUIfhxq+2Kp1dmLmnz6r6FzzZigYjj1Wb926
+ v/FqEdJp379va5fzELV5cF9+pLlRdiiB/hAxCUL9A5jPrcsMh7IK32GlkUcaLaeol4WD
+ MQKq+R2otACOr7dbv02/d6H6znMORPe9az+9WmewH84E7X9ZoMnkOB38LZDYoeb9387F
+ GebNaXUr1HODe5EtAAhFRkY76h2J//raNnbBP7rLFMFLtEi3E+P08ohTFAQSfaQtSboO
+ rquIvVKYr6vfaMqVJhG/2LM09uz+DUWlM67q9K0MWlopFBffRrQfZ3V/k9sdijiDsO7D
+ 8skg==
+X-Gm-Message-State: APjAAAXynr91RRIXNVrQTmX1zfpwyc3Cs6qC6Cubfv2hzqI28AvRU8BR
+ AM0d1cpBIQvsql2SuAdmCX7Zug==
+X-Google-Smtp-Source: APXvYqxnZmkqQRgcxw31QdkFyaBeasPChr58EeAao/NwDX9By51ZylYy6wOPucD7LXGKKnGCIl/GTg==
+X-Received: by 2002:a17:90a:26ec:: with SMTP id
+ m99mr279651pje.130.1576631000487; 
+ Tue, 17 Dec 2019 17:03:20 -0800 (PST)
+Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
+ ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
+ by smtp.gmail.com with ESMTPSA id o8sm177926pjo.7.2019.12.17.17.03.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Dec 2019 17:03:19 -0800 (PST)
+Subject: Re: [PATCH] target/arm: fix IL bit for data abort exceptions
+To: Jeff Kubascik <jeff.kubascik@dornerworks.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20191217210230.99559-1-jeff.kubascik@dornerworks.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7a274247-e593-5828-73f8-2042971e8633@linaro.org>
+Date: Tue, 17 Dec 2019 15:03:16 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20191217210230.99559-1-jeff.kubascik@dornerworks.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,61 +85,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>,
+ Jarvis Roach <Jarvis.Roach@dornerworks.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As previously mentioned, I was investigating performance issues with 9pfs.
-Raw file read/write of 9pfs is actually quite good, provided that client
-picked a reasonable high msize (maximum message size). I would recommend
-to log a warning on 9p server side if a client attached with a small msize
-that would cause performance issues for that reason.
+On 12/17/19 11:02 AM, Jeff Kubascik wrote:
+> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+> index 5feb312941..e63f8bda29 100644
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -44,7 +44,7 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
+>          syn = syn_data_abort_with_iss(same_el,
+>                                        0, 0, 0, 0, 0,
+>                                        ea, 0, s1ptw, is_write, fsc,
+> -                                      false);
+> +                                      true);
+>          /* Merge the runtime syndrome with the template syndrome.  */
+>          syn |= template_syn;
 
-However there other aspects where 9pfs currently performs suboptimally,
-especially readdir handling of 9pfs is extremely slow, a simple readdir
-request of a guest typically blocks for several hundred milliseconds or
-even several seconds, no matter how powerful the underlying hardware is.
-The reason for this performance issue: latency.
-Currently 9pfs is heavily dispatching a T_readdir request numerous times
-between main I/O thread and a background I/O thread back and forth; in fact
-it is actually hopping between threads even multiple times for every single
-directory entry during T_readdir request handling which leads in total to
-huge latencies for a single T_readdir request.
+This doesn't look correct.  Surely the IL bit should come from template_syn?
 
-This patch series aims to address this severe performance issue of 9pfs
-T_readdir request handling. The actual performance fix is patch 8. I also
-provided a convenient benchmark for comparing the performance improvements
-by using the 9pfs "synth" driver (see patch 6 for instructions how to run
-the benchmark), so no guest OS installation is required to peform this
-benchmark A/B comparison. With patch 8 I achieved a performance improvement
-of factor 40 on my test machine.
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index d4bebbe629..a3c618fdd9 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -14045,6 +14045,7 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
+>      s->pc_curr = s->base.pc_next;
+>      insn = arm_ldl_code(env, s->base.pc_next, s->sctlr_b);
+>      s->insn = insn;
+> +    s->is_16bit = false;
+>      s->base.pc_next += 4;
 
-** NOTE: ** These patches are not heavily tested yet, nor thouroughly
-reviewed for potential security issues yet. I decided to post them already
-though, because I won't have the time in the next few weeks for polishing
-them. The benchmark results should demonstrate though that it is worth the
-hassle. So any testing/reviews/fixes appreciated!
+Should not be necessary, as the field is not read along any a64 path.  (Also,
+while it's not yet in master, there's a patch on list that zero initializes the
+entire structure.)
 
-Christian Schoenebeck (9):
-  tests/virtio-9p: v9fs_string_read() didn't terminate string
-  9pfs: validate count sent by client with T_readdir
-  hw/9pfs/9p-synth: added directory for readdir test
-  tests/virtio-9p: added READDIR test
-  tests/virtio-9p: check file names of READDIR response
-  9pfs: READDIR benchmark
-  hw/9pfs/9p-synth: avoid n-square issue in synth_readdir()
-  9pfs: T_readdir latency optimization
-  hw/9pfs/9p.c: benchmark time on T_readdir request
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index 2b6c1f91bf..300480f1b7 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -8555,7 +8555,7 @@ static ISSInfo make_issinfo(DisasContext *s, int rd, bool p, bool w)
+>  
+>      /* ISS not valid if writeback */
+>      if (p && !w) {
+> -        ret = rd;
+> +        ret = rd | (s->is_16bit ? ISSIs16Bit : 0);
+>      } else {
+>          ret = ISSInvalid;
+>      }
+> @@ -11057,6 +11057,7 @@ static void arm_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>      dc->pc_curr = dc->base.pc_next;
+>      insn = arm_ldl_code(env, dc->base.pc_next, dc->sctlr_b);
+>      dc->insn = insn;
+> +    dc->is_16bit = false;
+>      dc->base.pc_next += 4;
+>      disas_arm_insn(dc, insn);
+>  
+> @@ -11126,6 +11127,7 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>      dc->pc_curr = dc->base.pc_next;
+>      insn = arm_lduw_code(env, dc->base.pc_next, dc->sctlr_b);
+>      is_16bit = thumb_insn_is_16bit(dc, dc->base.pc_next, insn);
+> +    dc->is_16bit = is_16bit;
+>      dc->base.pc_next += 2;
+>      if (!is_16bit) {
+>          uint32_t insn2 = arm_lduw_code(env, dc->base.pc_next, dc->sctlr_b);
+> diff --git a/target/arm/translate.h b/target/arm/translate.h
+> index b837b7fcbf..c16f434477 100644
+> --- a/target/arm/translate.h
+> +++ b/target/arm/translate.h
+> @@ -14,6 +14,8 @@ typedef struct DisasContext {
+>      target_ulong pc_curr;
+>      target_ulong page_start;
+>      uint32_t insn;
+> +    /* 16-bit instruction flag */
+> +    bool is_16bit;
+>      /* Nonzero if this instruction has been conditionally skipped.  */
+>      int condjmp;
+>      /* The label that will be jumped to when the instruction is skipped.  */
 
- hw/9pfs/9p-synth.c     |  46 ++++++++++-
- hw/9pfs/9p-synth.h     |   5 ++
- hw/9pfs/9p.c           | 150 ++++++++++++++++++---------------
- hw/9pfs/9p.h           |  23 ++++++
- hw/9pfs/codir.c        | 183 ++++++++++++++++++++++++++++++++++++++---
- hw/9pfs/coth.h         |   3 +
- tests/virtio-9p-test.c | 182 +++++++++++++++++++++++++++++++++++++++-
- 7 files changed, 509 insertions(+), 83 deletions(-)
+The rest of this looks both correct and necessary.
 
--- 
-2.20.1
 
+r~
 
