@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D4B1246D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:28:45 +0100 (CET)
-Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9843D1246EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:32:24 +0100 (CET)
+Received: from localhost ([::1]:53510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYRY-0006ek-4c
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52935)
+	id 1ihYV5-0002gj-2d
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:32:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3a-0006vE-BN
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:59 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3A-0006Lh-4Z
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3Z-0002DF-4s
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:58 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35439)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY38-0000ej-IC
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:31 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37887)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3Y-00029i-TP
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:57 -0500
-Received: by mail-wr1-x430.google.com with SMTP id g17so2024596wro.2
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:56 -0800 (PST)
+ id 1ihY38-0000az-9L
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:30 -0500
+Received: by mail-wm1-x342.google.com with SMTP id f129so1610982wmf.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=bCglA2xU8XIovJ5evRIXUQsgqKR2GztUSfl273PP6MA=;
- b=r1OTnd6TgT0Odu3JhHL/KfCZ9Luq7IFhzSJeMIL6T4OJTeLtfn8W5jrdpLGmUTvU5+
- aFJ42fVxm1mZUbIvzbBON+WDHv6CuayWsJHeF2vSJp70gPEjJFHs//DgksAPToX2iWz5
- iCsq02SBRkJsUWH7mtbsFtKuiV+H6oWdlT8DY18avA/ZMZ372QEEEK/qaxfdMuByAPXc
- OGJc4DrMPi7UvW/6GZpnRmckrYekr/IvmTD0jYkK6Tf9ZrbqhVYQB7E/KNjZsB+Kk7iK
- bwYG8HuMLeDVtQGSmJBulWCd4VAYtZILvLAi2ylxd1s4X4E7Exl6hOvPbbwiLNzzk3vU
- s3Pg==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3VnxJZY4tD2v4gsJNEYlwpenNaYCda4MoHpaOzUowl4=;
+ b=p3nODk+2jHEUOc4dsL39MrnoixejOfyMPbgVtW4GFUV76pRDQp+my4Ym7kRnW0wuQ/
+ /fN2Q2lsk50Qv8gDffHgC9io/ofBvZrQO8dHlQsMFLl4N/ipw6rLv7ZRF0227zis+aR6
+ 8VY/x+pNLJsf2Kh3Akak3wwRmv7gmhH+uXC5ckHLlDaZ2hEy2k5C8VaiQ7aOi8VPEqwW
+ +XNo9kabhSLOBhJ7SzK8G8I4jMHis5IThNd1UB4lVdbvBexeij76xPnqzXIwsEUo9QVt
+ xzjTmLnxee3J1Ywos58Ja0eLh6dYDS/G/XjAP259F3LBswgswgpM+2UYne7zwyV181m4
+ hITg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=bCglA2xU8XIovJ5evRIXUQsgqKR2GztUSfl273PP6MA=;
- b=fjczZMsjJhxaO/wwdn2Mo6T2VlUxDeXSN9cRha8CGKa9Q4qtDWMqeEXC/YdBN85uqy
- RzdMARDRQ7xlWhHIMNoa3wGvy41uFVDJSEibgfCWQ6RLeIhrzmG5htSYRnIfeLXFMnCX
- swnLv8/HvOR8ETcMJLYRskjiAGeecajLH4BSulT1M1eMiLwb7VgAtSGizEiTv2ljjPMa
- AgHPUoOHyplT1U5Te19M/NPk2Hr53zG+4auOGzREMTA2kbjuojLXicPeH/ewOF0C3jOG
- mOlkRVVGELwHyAKu/cuYqxQerszudfl1iTy5FpEZNojQV3eNJ/wJ1VIMB22NahlH5LR+
- bsWw==
-X-Gm-Message-State: APjAAAWakiCuwJ66Iujq0r4z9t95tYjUU3aUYWaWyqhxPJTtOJWqwQ95
- HSevlQMAiTi0sCxbojG1xHQgqHY5
-X-Google-Smtp-Source: APXvYqzHvZ/AvLx1bHzYeyMa8Hur/16+RSPt+GGl9/GYI5FoGbiCQfD+732ird3QAgqgCH4fsiMfGg==
-X-Received: by 2002:adf:c147:: with SMTP id w7mr2500529wre.389.1576670635635; 
- Wed, 18 Dec 2019 04:03:55 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=3VnxJZY4tD2v4gsJNEYlwpenNaYCda4MoHpaOzUowl4=;
+ b=E4DdhGymASa1mTNWhXJBFontRp1xF4oDjw3eb3wkfsLTjKypDL1msvA0oGECNfzzwf
+ ubgC8L1bsHV5JmXgq+frxuwBTShegME7WV7FJazFjWtytQIRnROwnfS9nXht9haA241e
+ vHOxTv4RTN/Sb+6uDTuyjBb1tqYxBm2KHvMrftAzM5OJMFQyiUXGuCvTsG3WM+dmh8Kr
+ 4BLYjPySh2mWC7eurAJG1opEcbFzRtuWKqJKoKU3abr3QcFPTX67vwiOwjr3T40FbBlo
+ DydNJ8vDbxo7STq0t/VXjotsmRc3A6tx17FKw1hatR0jVXYiGX1rKoHVlveHhjQmryt0
+ 3stQ==
+X-Gm-Message-State: APjAAAXODekHOlGQG4G0w4OsZALLBxnogA/EJZXw49MhIzi42O+CI8fY
+ kWQ9Xvi8ST9Sr8GWOZK67WfaPO2j
+X-Google-Smtp-Source: APXvYqz75hNPofecjyvZyeKJPfEJkrYw0UbOMRD9lRxrHneYDOkYkp5uYGsC2BUGTOKSeN6NWG8nUA==
+X-Received: by 2002:a1c:1bc3:: with SMTP id b186mr2852139wmb.79.1576670608922; 
+ Wed, 18 Dec 2019 04:03:28 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.48
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:49 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 51/87] acpi: move PC stubs out of stubs/
-Date: Wed, 18 Dec 2019 13:02:17 +0100
-Message-Id: <1576670573-48048-52-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 33/87] build-sys: do not include Windows SLIRP dependencies in
+ $LIBS
+Date: Wed, 18 Dec 2019 13:01:59 +0100
+Message-Id: <1576670573-48048-34-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,51 +83,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a small cleanup that lets microvm build entirely without
-include/hw/i386/pc.h.
+When including the internal SLIRP library, we should add all the libraries that
+it needs for the build.  Right now they are all included by QEMU, but -liphlpapi
+is not needed without slirp.  Move it from LIBS to slirp_libs.
 
+Based on a patch by Marc-André Lureau.
+
+Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/acpi/Makefile.objs                                | 3 ++-
- stubs/pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c | 0
- stubs/Makefile.objs                                  | 1 -
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename stubs/pc_madt_cpu_entry.c => hw/acpi/acpi-x86-stub.c (100%)
+ configure | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-index 655a9c1..9925305 100644
---- a/hw/acpi/Makefile.objs
-+++ b/hw/acpi/Makefile.objs
-@@ -8,6 +8,7 @@ common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
- common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
- common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
- common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
-+common-obj-$(call lnot,$(CONFIG_PC)) += acpi-x86-stub.o
+diff --git a/configure b/configure
+index 84b413d..55d386c 100755
+--- a/configure
++++ b/configure
+@@ -925,7 +925,7 @@ if test "$mingw32" = "yes" ; then
+   DSOSUF=".dll"
+   # MinGW needs -mthreads for TLS and macro _MT.
+   QEMU_CFLAGS="-mthreads $QEMU_CFLAGS"
+-  LIBS="-lwinmm -lws2_32 -liphlpapi $LIBS"
++  LIBS="-lwinmm -lws2_32 $LIBS"
+   write_c_skeleton;
+   if compile_prog "" "-liberty" ; then
+     LIBS="-liberty $LIBS"
+@@ -6027,6 +6027,9 @@ case "$slirp" in
+     mkdir -p slirp
+     slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
+     slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
++    if test "$mingw32" = "yes" ; then
++      slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
++    fi
+     ;;
  
- common-obj-y += acpi_interface.o
- common-obj-y += bios-linker-loader.o
-@@ -20,4 +21,4 @@ common-obj-$(call lnot,$(CONFIG_IPMI)) += ipmi-stub.o
- else
- common-obj-y += acpi-stub.o
- endif
--common-obj-$(CONFIG_ALL) += acpi-stub.o ipmi-stub.o
-+common-obj-$(CONFIG_ALL) += acpi-stub.o acpi-x86-stub.o ipmi-stub.o
-diff --git a/stubs/pc_madt_cpu_entry.c b/hw/acpi/acpi-x86-stub.c
-similarity index 100%
-rename from stubs/pc_madt_cpu_entry.c
-rename to hw/acpi/acpi-x86-stub.c
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 4a50e95..8b0ff25 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -33,7 +33,6 @@ stub-obj-y += fd-register.o
- stub-obj-y += qmp_memory_device.o
- stub-obj-y += target-monitor-defs.o
- stub-obj-y += target-get-monitor-def.o
--stub-obj-y += pc_madt_cpu_entry.o
- stub-obj-y += vmgenid.o
- stub-obj-y += xen-common.o
- stub-obj-y += xen-hvm.o
+   system)
 -- 
 1.8.3.1
 
