@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5EF91246C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:26:15 +0100 (CET)
-Received: from localhost ([::1]:53422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329BA1246D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:28:53 +0100 (CET)
+Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYP8-0003F8-D9
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:26:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47689)
+	id 1ihYRf-0006vG-M5
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:28:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY38-0006Ic-0m
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY38-0006JN-Jj
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY36-0000WM-EX
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:29 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38306)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY37-0000Yq-8F
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:30 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37759)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY35-0000T7-P1
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:27 -0500
-Received: by mail-wr1-x441.google.com with SMTP id y17so2010285wrh.5
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:27 -0800 (PST)
+ id 1ihY36-0000VH-Rn
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:29 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id f129so1610891wmf.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0e9iZbZwVOF2w7GIO2zU28bMFshOQAQOAmPOJxZU0us=;
- b=rCSv5bNzkE6a+ZVDTCqrxIsa2bGL3+gU5ilt1Am50Q5Eb+IWwWppIypqbzIpBzxCHE
- /kTrmSd+dvqim7HDCtGvCK6+N1sONdc7uN6R0T7Je/jmwscCb+N4MA/NeNBvrOryOjXE
- Unwl5M4jAeiMn1IsTcHAOhWYYB1XA3EgAA205mzd9fe57zoZebayOfnCjXAMb/m1Bf4o
- URTaBGJfp9t+G+y3u0EYgbUHQaA+IGxQ6QWn6m1jP0l49ZzugUB79ZGhjvIZhz3ITz8r
- i+QHN3y+HzQSuAt63qVhQLqtCy7UrSwVXH7s9L1S/siyw9rOXpWfosvoZrPORk467naJ
- ZGyg==
+ bh=S3pmMgcEmeHBtI4+AVbPDjiFOAavVsNacKUoCx6hTZI=;
+ b=S0faSzCrrz5Wrn9iD03aP5O5HxAyfBRFtFZko6bx/Ix6vJow5wEdBg8kxjzRE3Wnim
+ HwohNFi7h3J3joRstetjogFGJxNUrDIxw5kFJLUE3AN8g183oGaFWLWfsikvEGPBtcdf
+ 9Kh95ziGsZZx6Ac/tWDe0Meqhk7F2f7ru7uWvaJ4yM44f1XElQYbMpxheSE6lT1PcXeP
+ jydlX9J5thtW61iiisE+nWKOHQknLqhRip+87L4cxmIlcr1zco9z252yxr2qffmeZj2d
+ WCQwQp1+EDAyqctj9eSB0ccJFA8/Z+PwGNQPU2FSlee8WFRTvwzA8z3YjyYO4A3c/E4L
+ U6hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0e9iZbZwVOF2w7GIO2zU28bMFshOQAQOAmPOJxZU0us=;
- b=JAg0JeJfgoXvMy/m2i1AZ9sdmc5OolBKWL8p50WUzloryF3R+jZcL6vMAOBb4ROuAM
- sJpCkkp+1KDzT3cKmiJB/OXcUZDaE0HhTtoVFRXrppduJBsBPH1znxabrOHOc3U88KB9
- ZlryT+EkcsWxKOpRThQgRx/B7HZhCWom/LyH8Zbz12wIsGtqDK2y0rllX1gKlxin+4dz
- fkkWVM+MwLu0QFV+q7iFfheQQycu8H9ueDOSl3et4MPsiU4WoVz5ZPQGFm0cwx23NFD/
- DRMw6S8vTWYFiDyOTU87FVc5f425MuncR28qhLYnrvGEx6XPP3eDQ6NYnC+tyNvoZAJV
- pQDg==
-X-Gm-Message-State: APjAAAUdsCrE2dvxOVTY6zbRb1JWB8lfkdgJ9y404Ih1KHMpePHdbyWU
- SmhuHniFeTssko5GaQrqAG35Q/xo
-X-Google-Smtp-Source: APXvYqyfDgicVsOuPxkMeKjpzWR4ecSzCY7LsGkprmQxaJp4aNKPZ0CK2/LpMbP2cqIeZmUruYGvFw==
-X-Received: by 2002:adf:e984:: with SMTP id h4mr2380406wrm.275.1576670606354; 
- Wed, 18 Dec 2019 04:03:26 -0800 (PST)
+ bh=S3pmMgcEmeHBtI4+AVbPDjiFOAavVsNacKUoCx6hTZI=;
+ b=hCeU7c66AgmBaetlCGdU6XKSS2apWqtEHnGXqWLPe8cCt60MkLs0kB/M2N6lAxuWzo
+ 0rEOo/Y3RglCsa+G9hPlJ2zSahQb6vMV9Jbu5qEx0ciiIAXnzv/QuK4JjF3u/NmFtzLC
+ VdtMEW8xnJ9Nur4/T1jUU0xCtlWO1ElxDZCbqUnx13yZgpicNWF6jkWN3QcbS78xDVgE
+ 1Tt/1jrkm/Vg4Qn45nArPhuamXbLQgrMzWyuGI88s+gUtJIKjLcMSSOqb7YfUAszh9ZO
+ vEOqc4xn8izQiNtCTjSK7ikdsmEYWJRKE4PLeYQOi9OFuIt8ummw2zPH9GU1m2I++erG
+ s1VA==
+X-Gm-Message-State: APjAAAUYGeaPrtPwlvuiskdHMuT4bhkz4LoOk9oMLC+jSAQC9MBKfxf5
+ dYw9NQ34B6xjd3tGLWeFQfa4Gp8C
+X-Google-Smtp-Source: APXvYqzdLnUnWaYZsp/oZwhgry3e4iYvvb9r6dK9sodNHG+DxsvsmyuQDQQBoZq1e/shEzyNGlqj3w==
+X-Received: by 2002:a1c:bbc3:: with SMTP id l186mr2866346wmf.101.1576670607463; 
+ Wed, 18 Dec 2019 04:03:27 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.25
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:25 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:26 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/87] object: Improve documentation of interfaces
-Date: Wed, 18 Dec 2019 13:01:57 +0100
-Message-Id: <1576670573-48048-32-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 32/87] build-sys: build vhost-user-gpu only if CONFIG_TOOLS
+Date: Wed, 18 Dec 2019 13:01:58 +0100
+Message-Id: <1576670573-48048-33-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,59 +78,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-QOM interfaces allow a limited form of multiple inheritance, at the
-condition of being stateless. That is, they cannot be instantiated
-and a pointer to an interface shouldn't be dereferenceable in any way.
-This is achieved by making the QOM instance type an incomplete type,
-which is, as mentioned by Markus Armbruster, the closest you can get
-to abstract class in C.
+vhost-user-gpu is always built and installed, but it is not part of the emulator
+proper.  Cut it if --disable-tools is specified.
 
-Incomplete types are widely used to hide implementation details, but
-people usually expect to find at least one place where the type is
-fully defined. The fact that it doesn't happen with QOM interfaces is
-quite disturbing, especially since it isn't documented anywhere as
-recently discussed in this thread:
-
-https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg01579.html
-
-Amend the documentation in the object.h header file to provide more
-details about why and how to implement QOM interfaces using incomplete
-types.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ Makefile | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index f9ad692..bd68d19 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -200,8 +200,14 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *
-  * Interfaces allow a limited form of multiple inheritance.  Instances are
-  * similar to normal types except for the fact that are only defined by
-- * their classes and never carry any state.  You can dynamically cast an object
-- * to one of its #Interface types and vice versa.
-+ * their classes and never carry any state.  As a consequence, a pointer to
-+ * an interface instance should always be of incomplete type in order to be
-+ * sure it cannot be dereferenced.  That is, you should define the
-+ * 'typedef struct SomethingIf SomethingIf' so that you can pass around
-+ * 'SomethingIf *si' arguments, but not define a 'struct SomethingIf { ... }'.
-+ * The only things you can validly do with a 'SomethingIf *' are to pass it as
-+ * an argument to a method on its corresponding SomethingIfClass, or to
-+ * dynamically cast it to an object that implements the interface.
-  *
-  * # Methods #
-  *
+diff --git a/Makefile b/Makefile
+index a2acef3..bfd8ba3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -321,14 +321,10 @@ HELPERS-y =
+ 
+ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
+ 
+-ifdef CONFIG_LINUX
+-ifdef CONFIG_VIRGL
+-ifdef CONFIG_GBM
++ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
+ HELPERS-y += vhost-user-gpu$(EXESUF)
+ vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
+ endif
+-endif
+-endif
+ 
+ # Sphinx does not allow building manuals into the same directory as
+ # the source files, so if we're doing an in-tree QEMU build we must
 -- 
 1.8.3.1
 
