@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACA5124F3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:27:23 +0100 (CET)
-Received: from localhost ([::1]:58227 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89180124F37
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:26:51 +0100 (CET)
+Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihd6X-0005ya-Ix
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:27:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39062)
+	id 1ihd62-0005Xe-5F
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:26:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39762)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ihd0V-0007wS-7w
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:08 -0500
+ (envelope-from <philmd@redhat.com>) id 1ihd0Z-00084F-Pd
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ihd0S-0000lm-R5
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:06 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39595
+ (envelope-from <philmd@redhat.com>) id 1ihd0Y-0001Gt-GV
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:11 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45494
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihd0S-0000i2-Kw
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:04 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihd0X-0001D6-V8
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:21:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576689664;
+ s=mimecast20190719; t=1576689669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CoOrTKj3h9+tvWmM1nSYpX3LSWNw7p9uAeDqW51BO5k=;
- b=g+RCm+OR5e3LKQ2irn6ZlLXcSlB6r2tl8rmYqJ8ZyOhtBb2qGT31IVcJkiIDBh6RCOezxQ
- DkV1pJlvSichC2jhPla28Tvw1wWBNc2+Q3Cm4OthsBEAVWqXWIahBMjH3uMyZZpEXJZGSD
- OMUBPXLLjixWnNtuxnpiIrKGZX/38OU=
+ bh=ZDnsYuHXcA5F8gE2N73wPFpPTrE4itMcCBaT7un2uo4=;
+ b=HFMeUIQOFxor/XWBjAxueHBJQ0ybS4oDD/mz7RHhMlnfmWv87ngV5e5F2pQV6wULymIXFS
+ 43SQeMGlxC7e+yEjt/tvu+Ozd1oTCRxHXs8yZR9DkpXFGOacFkTbfYs6yPCy3okhR8Tr2e
+ s+vGlLy0hBBxAhgKvq6WUR+iXRWh1f4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-U6jhqM2pPy6AbGHctHoo2w-1; Wed, 18 Dec 2019 12:21:02 -0500
+ us-mta-393-BtuITw_uP1CcHTYkWpaBgQ-1; Wed, 18 Dec 2019 12:21:08 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20E1D801E66;
- Wed, 18 Dec 2019 17:21:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B16218543A1
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:21:07 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-116-235.ams2.redhat.com [10.36.116.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9D4010018FF;
- Wed, 18 Dec 2019 17:20:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64FD11000322;
+ Wed, 18 Dec 2019 17:21:05 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 04/14] hw/usb/dev-serial: Explicit we ignore few
+Subject: [RFC PATCH v2 06/14] ccid-card-passthru: Explicit we ignore
  QEMUChrEvent in IOEventHandler
-Date: Wed, 18 Dec 2019 18:19:59 +0100
-Message-Id: <20191218172009.8868-5-philmd@redhat.com>
+Date: Wed, 18 Dec 2019 18:20:01 +0100
+Message-Id: <20191218172009.8868-7-philmd@redhat.com>
 In-Reply-To: <20191218172009.8868-1-philmd@redhat.com>
 References: <20191218172009.8868-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: U6jhqM2pPy6AbGHctHoo2w-1
+X-MC-Unique: BtuITw_uP1CcHTYkWpaBgQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,8 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -82,13 +81,16 @@ able to use this enum in the IOEventHandler typedef, we need to
 explicit all the events ignored by this frontend, to silent the
 following GCC warning:
 
-  hw/usb/dev-serial.c: In function =E2=80=98usb_serial_event=E2=80=99:
-  hw/usb/dev-serial.c:468:5: error: enumeration value =E2=80=98CHR_EVENT_MU=
-X_IN=E2=80=99 not handled in switch [-Werror=3Dswitch]
-    468 |     switch (event) {
+  hw/usb/ccid-card-passthru.c: In function =E2=80=98ccid_card_vscard_event=
+=E2=80=99:
+  hw/usb/ccid-card-passthru.c:314:5: error: enumeration value =E2=80=98CHR_=
+EVENT_MUX_IN=E2=80=99 not handled in switch [-Werror=3Dswitch]
+    314 |     switch (event) {
         |     ^~~~~~
-  hw/usb/dev-serial.c:468:5: error: enumeration value =E2=80=98CHR_EVENT_MU=
-X_OUT=E2=80=99 not handled in switch [-Werror=3Dswitch]
+  hw/usb/ccid-card-passthru.c:314:5: error: enumeration value =E2=80=98CHR_=
+EVENT_MUX_OUT=E2=80=99 not handled in switch [-Werror=3Dswitch]
+  hw/usb/ccid-card-passthru.c:314:5: error: enumeration value =E2=80=98CHR_=
+EVENT_CLOSED=E2=80=99 not handled in switch [-Werror=3Dswitch]
   cc1: all warnings being treated as errors
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
@@ -96,23 +98,24 @@ Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 v2: Add all missing enums
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
 ---
- hw/usb/dev-serial.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/usb/ccid-card-passthru.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 45cc74128a..2ba6870b37 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -479,6 +479,10 @@ static void usb_serial_event(void *opaque, int event)
-                 usb_device_detach(&s->dev);
-             }
-             break;
-+        case CHR_EVENT_MUX_IN:
-+        case CHR_EVENT_MUX_OUT:
-+            /* Ignore */
-+            break;
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index 267ed9a8a0..e53696c07a 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -318,6 +318,11 @@ static void ccid_card_vscard_event(void *opaque, int e=
+vent)
+     case CHR_EVENT_OPENED:
+         DPRINTF(card, D_INFO, "%s: CHR_EVENT_OPENED\n", __func__);
+         break;
++    case CHR_EVENT_MUX_IN:
++    case CHR_EVENT_MUX_OUT:
++    case CHR_EVENT_CLOSED:
++        /* Ignore */
++        break;
      }
  }
 =20
