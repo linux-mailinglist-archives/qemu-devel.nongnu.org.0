@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F267F125519
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 22:51:45 +0100 (CET)
-Received: from localhost ([::1]:32938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D7E125659
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 23:13:25 +0100 (CET)
+Received: from localhost ([::1]:33148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihhEO-0007QJ-8M
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 16:51:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48264)
+	id 1ihhZM-0002jB-6k
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 17:13:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ihhCT-000635-GN
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:49:47 -0500
+ (envelope-from <keithp@keithp.com>) id 1ihhYV-0002Cx-Mm
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:12:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ihhCQ-000264-U1
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:49:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25966
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <keithp@keithp.com>) id 1ihhYO-0008ES-Nd
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:12:30 -0500
+Received: from home.keithp.com ([63.227.221.253]:34876 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ihhCQ-00021s-GS
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:49:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576705780;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P4LLQEEaHKWC7dIhIlwqqKtf4yL6SGhTK7vyFmfwb58=;
- b=GwOpIh6VuQB4YuGoP16Sn0lKsuddvsxyRkae9eC3Jyor1vQDyir4WuGBqTPXtbwp//hk0C
- rrNNDyB9WxSp2vJ1quzl/r2FenZf/rgJzojPt9E3VjC3k2SMATSASPsW0inmO7tGN4bJO6
- XcqXdkHgbpPrbp5HO8EgNYj84FfwAnw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-usSB4n3bMIWEG98yHqfFoQ-1; Wed, 18 Dec 2019 16:49:37 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3D08107ACC4;
- Wed, 18 Dec 2019 21:49:35 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 423B7620BC;
- Wed, 18 Dec 2019 21:49:35 +0000 (UTC)
-Subject: Re: [PATCH] util/cutils: Expand do_strtosz parsing precision to 64
- bits
-To: Tao Xu <tao3.xu@intel.com>, Markus Armbruster <armbru@redhat.com>
-References: <20191205021459.29920-1-tao3.xu@intel.com>
- <87a786sse9.fsf@dusky.pond.sub.org>
- <b7c442e3-cc7e-155e-5370-db9a371928a6@intel.com>
- <87y2vbgsf0.fsf@dusky.pond.sub.org>
- <e731445a-4461-3212-c08d-05dc7ad2b742@intel.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <c19efe27-5a61-100f-7b9b-bbac50209f94@redhat.com>
-Date: Wed, 18 Dec 2019 15:49:34 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <keithp@keithp.com>) id 1ihhYO-0008BC-Hf
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:12:24 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id B0B513F2A0A6;
+ Wed, 18 Dec 2019 14:12:12 -0800 (PST)
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id ERxuSXDkITRp; Wed, 18 Dec 2019 14:12:12 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id 4F9723F2A0A4;
+ Wed, 18 Dec 2019 14:12:12 -0800 (PST)
+Received: by keithp.com (Postfix, from userid 1000)
+ id 094161582169; Wed, 18 Dec 2019 14:12:12 -0800 (PST)
+From: "Keith Packard" <keithp@keithp.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH  v1 0/4] semihosting read console support
+In-Reply-To: <20191218180029.6744-1-alex.bennee@linaro.org>
+References: <20191218180029.6744-1-alex.bennee@linaro.org>
+Date: Wed, 18 Dec 2019 14:12:11 -0800
+Message-ID: <87h81xz3k4.fsf@keithp.com>
 MIME-Version: 1.0
-In-Reply-To: <e731445a-4461-3212-c08d-05dc7ad2b742@intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: usSB4n3bMIWEG98yHqfFoQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 63.227.221.253
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,34 +57,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/19 7:33 PM, Tao Xu wrote:
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
->> Also fun: for "0123", we use uint64_t 83, not double 123.0.=C2=A0 But fo=
-r
->> "0123.", we use 123.0, not 83.
->>
->> Do we really want to accept octal and hexadecimal integers?
->>
->=20
-> Thank you for reminding me. Octal and hexadecimal may bring more=20
-> confusion. I will use qemu_strtou64(nptr, &suffixu, 10, &valu) and add=20
-> test for input like "0123".
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Note that JSON does not permit octal numbers, but ALSO does not permit=20
-'0123' as a valid JSON number.  Of course, this parser is intended for=20
-human users rather than a JSON parser, so silently accepting it as=20
-decimal 123 is probably okay, but it is worth remembering that decisions=20
-are not trivial here.
+> Hi,
+>
+> This series introduces a new "blocking" console read function for
+> semihosting and plumbs it in to the ARM semihosting code. The main bit
+> of work is Keith's patch (with a few tweaks by me). The other
+> preparatory patches make sure the PC is updated after semihosting
+> succeeds and a little bit of clean-up.
+>
+> The following patches need review
+>    01 - target arm remove unused EXCP_SEMIHOST leg
+>    02 - target arm only update pc after semihosting compl
+>    04 - tests tcg add a dumb as bricks semihosting consol
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I've reviewed all four of these patches to the best of my (limited)
+ability. I've also tested this with picolibc's semihosting support for
+cortex-m3
 
+Reviewed-by: Keith Packard <keithp@keithp.com>
+Tested-by: Keith Packard <keithp@keithp.com>
+
+Thanks much for the rework, definitely beyond my understanding of QEMU
+internals.
+
+=2D-=20
+=2Dkeith
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl36pDsACgkQ2yIaaQAA
+ABH56Q/7B6cTe7VThnjjyW+LuuKgsdIBo7Ikigg8F6DBhoVIs8UdJJMsLRe/VYej
+k9eWwFs/btgzG26p6aL1LClCTo0iElHnkcMqaLq1V2zE4gdga0oWYUQ9qjtycACL
+1kAUD8iluZbf91lmU+OO8bTEtaqZ894Ig6lah53glGDkfTfDX0q+skn3rhW97jvQ
+b12BMuFMahFt2QpOmv5XMpFPqhqoLjm4XSGdeykIVDsyke+0o0lJRPD9RKMAMlAI
+iixM3nERO5eho1BbgJHNS4Th7tOixxclRjy4NRUZOZvULbbshxpqtETRze+RvhEB
+Bv1caDSFX7ESFtVuhp/JzA9QXFvlp0hHXnbW5mGdp6ox4d84ArJYkd6Qz5mGG3Ls
+YXTIa4KGGWawC7KLHRgNqsodRd07Q8JTDBtLCmZJ0SvJBwaMRpXIgGjpYIYIpIif
+jPqqrTXvMfTyE/Wzsbp4SH4J+bn1EMo2kH2b2uklfWVw9imJ9DiqJcEeeZNkAFCN
+IA+g1qZz95biI5GMBlnafkCB58o0S38KypgY7hLtaykEzqEmSrTsn15RTVI6HQxu
+L4nYDBFUIvpucQeE5dj38dlic89XvurjNq6qsdgFu83Zloy0Bnz7/i/DsjfUK/w1
+h5ABliSyIFsZFdfD+Jraww09HiatdP0iYCb1wZTS5xfkIlVUVk8=
+=wx7h
+-----END PGP SIGNATURE-----
+--=-=-=--
 
