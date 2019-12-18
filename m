@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A586D1241AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:30:01 +0100 (CET)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8E0124188
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:22:21 +0100 (CET)
+Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihUiW-0005G2-5E
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:30:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35838)
+	id 1ihUb6-00034n-3u
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:22:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ihUWX-00061v-2M
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:39 -0500
+ (envelope-from <armbru@redhat.com>) id 1ihUWT-0005yh-Ae
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ihUWU-0002WT-Hp
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40986
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1ihUWR-0002TA-Fd
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:32 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22262
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWT-0002Rj-9t
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:33 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWQ-0002Qf-Rw
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576657050;
+ s=mimecast20190719; t=1576657049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kwVgQiqUas/9oZI843AIMDOvEyABlfBpXV+9isyvvAE=;
- b=CRzwO3KlYQ9UPxitFNjZy2/DKfsAHmf7pSwiar0ryrwXeTVs8wpFnykoQeVa+SG3oD1SSc
- lBOBkRj9Kk4iBVXPnylCx/EKxT9XSkSh65a33eG7UJlP5M3Oxxv1c61PzxhIIpNC1JtYBo
- sdnb38PyO7VYzRQJ3fDNw+UaE6jEtD8=
+ bh=qFYCZKR/a0tM8e6dHaEcw7hFOz0p6BlQSbWjBry2PJw=;
+ b=FcS0nMhCpyACsyJ5h4nROQgWepO7+uBkcweNQkcnA7wil4zUeCQvUIf4ABcxGvYhO67wki
+ +Y+7/9F1ReFukNAJJZVrb/+/eIt+PzBhL5ZK6ORH0ikOwTVPwfzM5ZNaT8+NY9EtwJy093
+ roiVOOajOGHqJxDVD41uW6DCT9BLTPY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-mlMcEDwwMy-m1LzNcVaO8g-1; Wed, 18 Dec 2019 03:17:28 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-47-NXx13aaIMgKEGeY8cnz_YQ-1; Wed, 18 Dec 2019 03:17:28 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F32131854331;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03D44DB22;
  Wed, 18 Dec 2019 08:17:27 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C79E160C84;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE5F31001281;
  Wed, 18 Dec 2019 08:17:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 90A881136420; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
+ id 997201136422; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 16/35] error: make Error **errp const where it is appropriate
-Date: Wed, 18 Dec 2019 09:17:02 +0100
-Message-Id: <20191218081721.23520-17-armbru@redhat.com>
+Subject: [PULL v2 18/35] vnc: drop Error pointer indirection in
+ vnc_client_io_error
+Date: Wed, 18 Dec 2019 09:17:04 +0100
+Message-Id: <20191218081721.23520-19-armbru@redhat.com>
 In-Reply-To: <20191218081721.23520-1-armbru@redhat.com>
 References: <20191218081721.23520-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: mlMcEDwwMy-m1LzNcVaO8g-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: NXx13aaIMgKEGeY8cnz_YQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,87 +81,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Mostly, Error ** is for returning error from the function, so the
-callee sets it. However these three functions get already filled errp
-parameter. They don't change the pointer itself, only change the
-internal state of referenced Error object. So we can make it
-Error *const * errp, to stress the behavior. It will also help
-coccinelle script (in future) to distinguish such cases from common
-errp usage.
+We don't need Error **, as all callers pass local Error object, which
+isn't used after the call, or NULL. Use Error * instead.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20191205174635.18758-4-vsementsov@virtuozzo.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Commit message typo fixed]
+Message-Id: <20191205174635.18758-6-vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/qapi/error.h | 6 +++---
- util/error.c         | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ ui/vnc.h |  2 +-
+ ui/vnc.c | 20 +++++++-------------
+ 2 files changed, 8 insertions(+), 14 deletions(-)
 
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index 3f95141a01..ad5b6e896d 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -233,13 +233,13 @@ void error_propagate_prepend(Error **dst_errp, Error =
-*local_err,
-  * Prepend some text to @errp's human-readable error message.
-  * The text is made by formatting @fmt, @ap like vprintf().
-  */
--void error_vprepend(Error **errp, const char *fmt, va_list ap);
-+void error_vprepend(Error *const *errp, const char *fmt, va_list ap);
+diff --git a/ui/vnc.h b/ui/vnc.h
+index fea79c2fc9..4e2637ce6c 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
 =20
- /*
-  * Prepend some text to @errp's human-readable error message.
-  * The text is made by formatting @fmt, ... like printf().
-  */
--void error_prepend(Error **errp, const char *fmt, ...)
-+void error_prepend(Error *const *errp, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
+ /* Protocol stage functions */
+ void vnc_client_error(VncState *vs);
+-size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
++size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err);
 =20
- /*
-@@ -256,7 +256,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
-  * May be called multiple times.  The resulting hint should end with a
-  * newline.
-  */
--void error_append_hint(Error **errp, const char *fmt, ...)
-+void error_append_hint(Error *const *errp, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
-=20
- /*
-diff --git a/util/error.c b/util/error.c
-index d4532ce318..b6c89d1412 100644
---- a/util/error.c
-+++ b/util/error.c
-@@ -121,7 +121,7 @@ void error_setg_file_open_internal(Error **errp,
-                               "Could not open '%s'", filename);
+ void start_client_init(VncState *vs);
+ void start_auth_vnc(VncState *vs);
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 87b8045afe..4100d6e404 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
+     g_free(vs);
  }
 =20
--void error_vprepend(Error **errp, const char *fmt, va_list ap)
-+void error_vprepend(Error *const *errp, const char *fmt, va_list ap)
+-size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
++size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err)
  {
-     GString *newmsg;
+     if (ret <=3D 0) {
+         if (ret =3D=3D 0) {
+@@ -1320,15 +1320,11 @@ size_t vnc_client_io_error(VncState *vs, ssize_t re=
+t, Error **errp)
+             vnc_disconnect_start(vs);
+         } else if (ret !=3D QIO_CHANNEL_ERR_BLOCK) {
+             trace_vnc_client_io_error(vs, vs->ioc,
+-                                      errp ? error_get_pretty(*errp) :
+-                                      "Unknown");
++                                      err ? error_get_pretty(err) : "Unkno=
+wn");
+             vnc_disconnect_start(vs);
+         }
 =20
-@@ -136,7 +136,7 @@ void error_vprepend(Error **errp, const char *fmt, va_l=
-ist ap)
-     (*errp)->msg =3D g_string_free(newmsg, 0);
+-        if (errp) {
+-            error_free(*errp);
+-            *errp =3D NULL;
+-        }
++        error_free(err);
+         return 0;
+     }
+     return ret;
+@@ -1361,10 +1357,9 @@ size_t vnc_client_write_buf(VncState *vs, const uint=
+8_t *data, size_t datalen)
+ {
+     Error *err =3D NULL;
+     ssize_t ret;
+-    ret =3D qio_channel_write(
+-        vs->ioc, (const char *)data, datalen, &err);
++    ret =3D qio_channel_write(vs->ioc, (const char *)data, datalen, &err);
+     VNC_DEBUG("Wrote wire %p %zd -> %ld\n", data, datalen, ret);
+-    return vnc_client_io_error(vs, ret, &err);
++    return vnc_client_io_error(vs, ret, err);
  }
 =20
--void error_prepend(Error **errp, const char *fmt, ...)
-+void error_prepend(Error *const *errp, const char *fmt, ...)
- {
-     va_list ap;
 =20
-@@ -145,7 +145,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
-     va_end(ap);
+@@ -1488,10 +1483,9 @@ size_t vnc_client_read_buf(VncState *vs, uint8_t *da=
+ta, size_t datalen)
+ {
+     ssize_t ret;
+     Error *err =3D NULL;
+-    ret =3D qio_channel_read(
+-        vs->ioc, (char *)data, datalen, &err);
++    ret =3D qio_channel_read(vs->ioc, (char *)data, datalen, &err);
+     VNC_DEBUG("Read wire %p %zd -> %ld\n", data, datalen, ret);
+-    return vnc_client_io_error(vs, ret, &err);
++    return vnc_client_io_error(vs, ret, err);
  }
 =20
--void error_append_hint(Error **errp, const char *fmt, ...)
-+void error_append_hint(Error *const *errp, const char *fmt, ...)
- {
-     va_list ap;
-     int saved_errno =3D errno;
+=20
 --=20
 2.21.0
 
