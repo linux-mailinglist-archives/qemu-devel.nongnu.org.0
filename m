@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424A7123DFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 04:33:25 +0100 (CET)
-Received: from localhost ([::1]:49076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BD9123DFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 04:33:30 +0100 (CET)
+Received: from localhost ([::1]:49080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihQ5T-0005PJ-FH
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 22:33:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37407)
+	id 1ihQ5Z-0005XR-7N
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 22:33:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ihQ3d-000473-IX
+ (envelope-from <dgibson@ozlabs.org>) id 1ihQ3d-000474-Hh
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:31:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ihQ3c-0005R7-6O
+ (envelope-from <dgibson@ozlabs.org>) id 1ihQ3c-0005R1-59
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:31:29 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:34617)
+Received: from ozlabs.org ([2401:3900:2:1::2]:48519)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ihQ3b-0005N2-Qq; Tue, 17 Dec 2019 22:31:28 -0500
+ id 1ihQ3b-0005N0-Kv; Tue, 17 Dec 2019 22:31:28 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47d0sk69ywz9sRv; Wed, 18 Dec 2019 14:31:22 +1100 (AEDT)
+ id 47d0sl09Lpz9sS6; Wed, 18 Dec 2019 14:31:22 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576639882;
- bh=vt0fN7mX9qEeZ0/8qi4UwGYqTMbHJRKAmwOxq91Ackg=;
+ d=gibson.dropbear.id.au; s=201602; t=1576639883;
+ bh=Gss6K6ltp6AQ4fparrvxWMr2b7gq/MsAJysRiya3ZsM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oe4w/6c7Cwfhd2DRrfbBI0gOUF//JMeps28nF7DvlCbRbaJO4UWnraYo32Z2oFkJW
- G0XfJzyw4TbVJCQ5FUWpHf2keVHvgRxKww5Rw7hPkzqWd7vDoIlULNHAudyEBh+BSQ
- P2qC7BuledSeQ1AcheHR/h67SfsxCp1U+KgsNOSE=
-Date: Wed, 18 Dec 2019 14:11:45 +1100
+ b=CUHCqvr9q3afxbZTU+VGi9mK5kcW14Agl7B1S3mdKpooKg8IRM2bKgv50sQe6ikI3
+ IynPHSbHzcQ45vhvGDQcnVZyt0ZG7mUWw8+oK5q++eIkAzJoIMY8oUEYVSnjVwa9Gq
+ 1nCaGjxyhQVQVOUj5378fGPrnPZ4rYCQUWFvJsv8=
+Date: Wed, 18 Dec 2019 14:12:48 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH] target/ppc: Handle AIL=0 in ppc_excp_vector_offset
-Message-ID: <20191218031145.GP6242@umbus.fritz.box>
-References: <20191217142512.574075-1-farosas@linux.ibm.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PULL 51/88] ppc: well form kvmppc_hint_smt_possible error hint
+ helper
+Message-ID: <20191218031248.GQ6242@umbus.fritz.box>
+References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
+ <20191217044322.351838-52-david@gibson.dropbear.id.au>
+ <877e2vpimo.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Pk/CTwBz1VvfPIDp"
+ protocol="application/pgp-signature"; boundary="OwXh6gFRjCd3qPCM"
 Content-Disposition: inline
-In-Reply-To: <20191217142512.574075-1-farosas@linux.ibm.com>
+In-Reply-To: <877e2vpimo.fsf@dusky.pond.sub.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -54,53 +57,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, peter.maydell@linaro.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, aik@ozlabs.ru,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Pk/CTwBz1VvfPIDp
-Content-Type: text/plain; charset=us-ascii
+--OwXh6gFRjCd3qPCM
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 17, 2019 at 11:25:12AM -0300, Fabiano Rosas wrote:
-> The exception vector offset calculation was moved into a function but
-> the case when AIL=3D0 was not checked.
+On Tue, Dec 17, 2019 at 07:32:15AM +0100, Markus Armbruster wrote:
+> David Gibson <david@gibson.dropbear.id.au> writes:
 >=20
-> The reason we got away with this is that the sole caller of
-> ppc_excp_vector_offset checks the AIL before calling the function:
+> > From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >
+> > Make kvmppc_hint_smt_possible hint append helper well formed:
+> > rename errp to errp_in, as it is IN-parameter here (which is unusual
+> > for errp), rename function to be kvmppc_error_append_*_hint.
+> >
+> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > Reviewed-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+> > Message-Id: <20191127191434.20945-1-vsementsov@virtuozzo.com>
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 >=20
->     /* Handle AIL */
->     if (ail) {
->         ...
->         vector |=3D ppc_excp_vector_offset(cs, ail);
->     }
->=20
-> Fixes: 2586a4d7a0 ("target/ppc: Move exception vector offset computation =
-into a function")
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Review led to the commit message to be replaced for this and related
+> patches.  It's in my "[PULL 00/34] Error reporting patches for
+> 2019-12-16".  No big deal, but if you respin, either steal that message
+> or drop this patch.
 
-Applied to ppc-for-5.0, thanks.
-
-> ---
->  target/ppc/excp_helper.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 50b004d00d..5752ed4a4d 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -112,6 +112,8 @@ static uint64_t ppc_excp_vector_offset(CPUState *cs, =
-int ail)
->      uint64_t offset =3D 0;
-> =20
->      switch (ail) {
-> +    case AIL_NONE:
-> +        break;
->      case AIL_0001_8000:
->          offset =3D 0x18000;
->          break;
+Uh, sorry.  I realized moments before sending this that this patch had
+been updated.  I didn't want to re-do all my pre-pull testing, though
+and it's not actually harmful, so I left it.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -108,25 +100,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Pk/CTwBz1VvfPIDp
+--OwXh6gFRjCd3qPCM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl35mOwACgkQbDjKyiDZ
-s5IYwRAAoeOo8ZzkwwtYHvqOP1VRTs0gm/q6xpPcaC7Nf5c8X2C5YwPN+uIislKp
-C0MM3+5phGrNTADl4O8TxZeHwF4tLbjFwajZl/It/QIYDYS+f4qSEtquFM9itQpp
-WE13leZhVKBtiK5meCojBi2GYRy8BrgCQ7kPWXZqzcgsG0TPfLowRty/6sx0nbFd
-mFHqL62sxfGodD7lHv5pdXddeqnwdx0z2+BU9u62tLPR1fK5ESMzgWUsA291Z+ju
-T8A/CwYsQfqyW8/d8f42QwWoL7eos16NxFhotx4BYytf9vfM05g9XWtTJ+LIMV/M
-tmubSbyOnBLGG05g7lqHxixUlre777AwQSaPE7gzSzsywI+DgZEn/91IJF0TZGRk
-Xu9JU7XGobi878VR27BBtguLJqqKsiYmvpBhSXIyue329NOrwPNOo/1WDV7aLSpZ
-wIPAZ8nyndcYgLTjjTYjEGCDlg6GBcs5RXcKKmCXbfJQrORGghbahFY8C2yeJVbk
-MQsv7nNW/ymhv9bBwZvBBlYPC+PrrHKPJ5wmEZ/dwptOGmbzcY57g+lJDvQl/HTW
-GUT3zJqRQ0owRQyY7z/vigl73jqd3NHBYuvznzgmTidfY8mHGgDgJWYZAKNeNtYt
-0aZ+XRBNKLmFhCL5MT1A5kkJp/mJ6WUkdlCBQxASLlSgg6LfTX8=
-=NC9I
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl35mTAACgkQbDjKyiDZ
+s5KILA//el4VU4R1/43j+4M7ZKoK3IdrQd5kAlmaDa/Qnu3v4QawucngpIbPJyTz
+21IVoATfnfl/TIHGMPLUvh9NbWTH0QjVuOEVWTwQj+MLOCcs/UdWFCQDX3nrKK8i
+nfWblsdpftG2hsEtFwATa+CyLrZ9lwvQSY1ankkL9F45ufmBn+UOke+ofdvPBQ7w
+sjFypEpUvVP3wULalnOIdxVBZPtzKdKEsEYtfQEfKi5ROkoqAznqbUzFpM7jWes3
+naSxRrEFzLqpfSfgAhhRqlo6n3P7HucgpsJX+e0RtiP2Lio0TOnU5OLYLbrAbv2f
+kYZVbAf6xUR1CNcsSjOSRtVCCYpYm/xvjsqcBLFY+gUiZU9I8Aq0jFk0/S9LcONh
+BtZzWPJTj1M+iWEmop61XI8zTFo9ma2XYxmLFTioKWQC4qpU0z7j7vOz8nWF0hEJ
+tHr7vQTjBfHoqBOSD1x6keToMU0tKipTzzQUArKMRSZbe8vB3/QQNwJQQxY/Nn1W
+hegox8/ck99iJ37FwOOQ1rbY+yiiWEr8o4I1p1vDNNO39Xz6GQIFy38aSIbYhILt
+8lCz3ygCtyHW5yIpI672SzXHAR/gW/Be9vAHAtMkfu89+o75BKKmNuu+IbdlkPp1
+stLKp0Gh8a4IvNHydlZmeZxB0WjQtCrqw5NJ68TGYIN6Kh1qW+I=
+=55vT
 -----END PGP SIGNATURE-----
 
---Pk/CTwBz1VvfPIDp--
+--OwXh6gFRjCd3qPCM--
 
