@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200C712469F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:18:07 +0100 (CET)
-Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF8B1246A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:21:11 +0100 (CET)
+Received: from localhost ([::1]:53354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYHF-0000Nc-NO
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:18:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48418)
+	id 1ihYKE-0004CV-Fp
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:21:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3B-0006NX-H5
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:34 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3D-0006QG-D7
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3A-0000kh-9p
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:33 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46592)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3C-0000s2-3r
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:35 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45881)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3A-0000hB-1i
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:32 -0500
-Received: by mail-wr1-x434.google.com with SMTP id z7so1963174wrl.13
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:31 -0800 (PST)
+ id 1ihY3B-0000oB-M4
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:33 -0500
+Received: by mail-wr1-x442.google.com with SMTP id j42so1973029wrj.12
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SnbM4HZb29FsG4J6fiW5WwWfE0ShjwYvCK5bmD3CYRU=;
- b=k74tXKopfKzRPy/wQkZEPWyGWwStkA7fEXXEmn2NxdV+grs0EapWmEJ2Afonm/eJjG
- GkX8+L6pr4Qc4wm3C06iM8VDGpyTTNIiF9J+qDZRcAkcpbJZbBs/OK/ta/szGZprBnLH
- nqksaUXuMKIxwElnc41+AiJ2zodKk3LfArk2WRzZ019vMN+nC/3WOavUwqdRGP6BUoat
- 2OYZQ1ErBOtXnpakoXJkddVW82XjuobCy/E4DSxayZDR14Qxc2LS/MAKFKG/wczXLaSF
- 6cyDX+EmSmR4tP2f+gkkbNgwQLVHp6s9Q2HSWBpdJT9ZVfFoBle/iFH4hku1VtEEGYaw
- l0Pg==
+ bh=6P+O7fP7RdRxtrVlibSaBNIUsO6tN03n2SE/FwGlPpk=;
+ b=miA0lSclqjGTCqb16hKq7TUktdbqTH6EHMZ0cO9YhwK56Tet4Lpkad0yOMsLx3o35B
+ EbPjQmLDuREmFaFc5yblwlVZWLTMo6l3c7ggiTUEusGORrmb3Y/3WYaUWkdGsEbTuu5U
+ mXh7BPUqnuR0ueMPyXVrIMrJE4ppSal7s03CquV8N4PfJ1UQezfnSNrOw5V6lDzZ7RIw
+ rE16sda+6sJwEyNKXI4ZcQk/1jMtKwJO88kMLvEDq/HR8Ags07+9as3xTVyAIax32h6v
+ 9jL6yu4g0Pcy2kdJqjWEEsEaDYSLC+UoelYWVrD1l0YCZU3yjnVoj+cn1DM07wdFUplF
+ uHVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SnbM4HZb29FsG4J6fiW5WwWfE0ShjwYvCK5bmD3CYRU=;
- b=iNzep+bK90HrmKgTDTbnrX0+E+tGSAFJK84lMBvL42rZAx19g8aQzYBhjutIfraTD+
- 0CFtX39tg+I3YHPYrBqiLvyAwu4+DEcC2UFGOCeug4x/qiXYGdsigj5q9agayp+16h1D
- xxwMA3G05t6Ii9kU+vkmXUjyO0ph0WQ076zFBDeKQ4pxY803E/Q5NmJckHJ7DgU1Ajg/
- C6xaJt4BpOuKYc5z44UdhGvo3hnERMmCrC/n4yr07BFw0ROXA467seiwHhBw0o+TDyT7
- GLA6oriwq2bUFDec05wMU5Tdx5UTkav7U0o+u2xTvoF84sDHe3X6+hAxkH02IkjBLJt8
- iBhw==
-X-Gm-Message-State: APjAAAVd+lSMSEDTu7UC3URWQ1yHF+ustkCbKTLzWz3e9aqsB1G45NCo
- 1UXgp4MiGMZgPjvUGFrfTBg4ehT7
-X-Google-Smtp-Source: APXvYqwE3r6OKAQOed6N+x8WWR8x6cTahbcHKP9KJJXfsw2dJMOzZ5XKEkY0k4YyE6MjKJSoGZ6F9A==
-X-Received: by 2002:a5d:6a8e:: with SMTP id s14mr2543802wru.150.1576670610728; 
- Wed, 18 Dec 2019 04:03:30 -0800 (PST)
+ bh=6P+O7fP7RdRxtrVlibSaBNIUsO6tN03n2SE/FwGlPpk=;
+ b=M+JgVYP595UoQPOlJx9Z5tj42srwJLLp1CrFlLN+Tdf38ZUfCQLXgT1S3w9sXgje+6
+ I66bcf/oonU5VclmPGdKUEOv1jKkxd/3He5ujn+FXk2F7zZeKrmP/BkkD/m7Pfpg36P8
+ kBLyzqElK9vedO0ZuUBJ7qWa1GdKtxGtm1KAIe2i1DgI2rip1k7mBM7whh5mZkhs/v7Z
+ 9YcOB208V5xhd4mTKqZLnZeZTYZ7MhB2ImFVTQvlDpseSqUKR5HWDEmANw+tVIxtN2gb
+ H6i9r75NW5k05k+nFEFX9MJjr6cDzf3BHs5eEL+7i1xPQn+urrjl1GkXVtQ51bGiK8iK
+ rbqQ==
+X-Gm-Message-State: APjAAAVP6dor6LT2jugh9rprRSpt0kdPfOIhDsJxebCsgOF3hf6FJknM
+ TvP1WnJO+0K/LXk4RdMXHbx8QUJV
+X-Google-Smtp-Source: APXvYqxoQCnU/nZNlnbJF3WG5vf098NEyOV8+e4CbePt/kVlJvX8VOvZm1T6AWMumYA5rSrXynUJ8g==
+X-Received: by 2002:a5d:50cf:: with SMTP id f15mr2430490wrt.381.1576670612469; 
+ Wed, 18 Dec 2019 04:03:32 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.29
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.31
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:30 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/87] monitor: fix maybe-uninitialized
-Date: Wed, 18 Dec 2019 13:02:01 +0100
-Message-Id: <1576670573-48048-36-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 37/87] os-posix: simplify os_find_datadir
+Date: Wed, 18 Dec 2019 13:02:03 +0100
+Message-Id: <1576670573-48048-38-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,41 +84,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-../monitor/misc.c: In function ‘mon_get_cpu_sync’:
-/home/elmarco/src/qq/include/sysemu/hw_accel.h:22:9: error: ‘cpu’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-   22 |         kvm_cpu_synchronize_state(cpu);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../monitor/misc.c:397:15: note: ‘cpu’ was declared here
-  397 |     CPUState *cpu;
-      |               ^~~
+Use g_build_filename instead of sprintf, and g_autofree instead of
+manual freeing.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- monitor/misc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ os-posix.c | 41 +++++++++++++----------------------------
+ 1 file changed, 13 insertions(+), 28 deletions(-)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 3baa15f..a74cff3 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -394,7 +394,7 @@ int monitor_set_cpu(int cpu_index)
- /* Callers must hold BQL. */
- static CPUState *mon_get_cpu_sync(bool synchronize)
- {
--    CPUState *cpu;
-+    CPUState *cpu = NULL;
+diff --git a/os-posix.c b/os-posix.c
+index 86cffd2..3cd52e1 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -80,41 +80,26 @@ void os_setup_signal_handling(void)
+     sigaction(SIGTERM, &act, NULL);
+ }
  
-     if (cur_mon->mon_cpu_path) {
-         cpu = (CPUState *) object_resolve_path_type(cur_mon->mon_cpu_path,
-@@ -411,6 +411,7 @@ static CPUState *mon_get_cpu_sync(bool synchronize)
-         monitor_set_cpu(first_cpu->cpu_index);
-         cpu = first_cpu;
+-/* Find a likely location for support files using the location of the binary.
+-   For installed binaries this will be "$bindir/../share/qemu".  When
+-   running from the build tree this will be "$bindir/../pc-bios".  */
+-#define SHARE_SUFFIX "/share/qemu"
+-#define BUILD_SUFFIX "/pc-bios"
++/*
++ * Find a likely location for support files using the location of the binary.
++ * When running from the build tree this will be "$bindir/../pc-bios".
++ * Otherwise, this is CONFIG_QEMU_DATADIR.
++ */
+ char *os_find_datadir(void)
+ {
+-    char *dir, *exec_dir;
+-    char *res;
+-    size_t max_len;
++    g_autofree char *exec_dir = NULL;
++    g_autofree char *dir = NULL;
+ 
+     exec_dir = qemu_get_exec_dir();
+-    if (exec_dir == NULL) {
+-        return NULL;
+-    }
+-    dir = g_path_get_dirname(exec_dir);
+-
+-    max_len = strlen(dir) +
+-        MAX(strlen(SHARE_SUFFIX), strlen(BUILD_SUFFIX)) + 1;
+-    res = g_malloc0(max_len);
+-    snprintf(res, max_len, "%s%s", dir, SHARE_SUFFIX);
+-    if (access(res, R_OK)) {
+-        snprintf(res, max_len, "%s%s", dir, BUILD_SUFFIX);
+-        if (access(res, R_OK)) {
+-            g_free(res);
+-            res = NULL;
+-        }
++    g_return_val_if_fail(exec_dir != NULL, NULL);
++
++    dir = g_build_filename(exec_dir, "..", "pc-bios", NULL);
++    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
++        return g_steal_pointer(&dir);
      }
-+    assert(cpu != NULL);
-     if (synchronize) {
-         cpu_synchronize_state(cpu);
-     }
+ 
+-    g_free(dir);
+-    g_free(exec_dir);
+-    return res;
++    return g_strdup(CONFIG_QEMU_DATADIR);
+ }
+-#undef SHARE_SUFFIX
+-#undef BUILD_SUFFIX
+ 
+ void os_set_proc_name(const char *s)
+ {
 -- 
 1.8.3.1
 
