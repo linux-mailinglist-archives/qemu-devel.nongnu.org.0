@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EF61246EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:34:20 +0100 (CET)
-Received: from localhost ([::1]:53532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B6B124741
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:51:15 +0100 (CET)
+Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYWx-0005cl-Db
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:34:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54294)
+	id 1ihYnK-0004Bc-2m
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:51:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3h-00076L-8K
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:07 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3h-00076e-E8
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3f-0002dK-Ex
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3g-0002fp-4e
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:05 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39898)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51515)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3f-0002XT-5M
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:03 -0500
-Received: by mail-wm1-x344.google.com with SMTP id 20so1484074wmj.4
+ id 1ihY3f-0002cR-Q1
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:04 -0500
+Received: by mail-wm1-x344.google.com with SMTP id d73so1564076wmd.1
  for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rDif3jIy3NQWrPrWp+OG7Re6McoAeV4H/8rGZ5nE6Ss=;
- b=OBzDOfj9RfWITy9p4YQA6RTKYI6Fxw9CapJ2CCN5wsUyLKZcCVUxf12hjExF6q9E93
- 2UtLbVruCIUs+AD03oog+vxuvuXUv0Xz/HlEy2QVS+zdFJyceaoh5A+ZRid4rM1+2Wea
- ZGp7BAMtLV/ibYnuWFcztwUB4gJB2FgAav27jEZYfa0tcb4SuCbW29ySIhF5Adh58xd5
- nYPFVXqrNyBWrtjbZlkLX1wP5u8p2cnhi1aIuQ9ZzTaz7oUd7SdSNOLKQJpeQMVEvKUn
- ASPiGSqAIxlCg1hl1XGg8kDSfVkpJjkj2AVryduF1DQdEuw9vn4WkZDWT1LSIYcBSy0X
- aDLQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=PMUWoCpuqKP+tFU4xIk4lPZAxU6QOkIu0guoobq7qFU=;
+ b=ZkbC5IyIou4nJ01fjN74/JoWx54TLPr4hibIPZ9IlIO6EykiHaQVukqbynsiwioBPU
+ 9xiM1B6LVfUfciOSHraHB1LRK+2Pnit/KymcWhDTEDAHT3WDOXIgv/qKIgvZpvTxxnN4
+ tnLh58yrdCxFpSTzEpLBWe0RKi9gXq6m89o5svWe6jmd0UYy2pId3J4zplxrSfUsM4j8
+ lUmINcHq6OmVhn7DIOj3sGvJIGzxj95Cj4ljQsxg7g3270raIEyuosEplJy4D4HBKpfz
+ 0Be8/XGl+oPNYRQr7sUD8lM0grjduYvjNoM5yPOnacI7NIKSG6Ff8smRGW9XIc9XFp1f
+ MUHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rDif3jIy3NQWrPrWp+OG7Re6McoAeV4H/8rGZ5nE6Ss=;
- b=tMPZpAAOMoPd9UPG7hfbFmowwuytMGXSPZNHy2E+6JAkSTdGJauGJw86LRx4msu6Dv
- 26T15Xmx7pqf8WSpZXk8DfizJt+mZuW0sp5tVd5NyWjTPDtcm3mbhts717rdQjoaYHE9
- wYqbT5/haB8uw2GMS+diuwqWvac8MehOmy1kG+lnxSaoMk1t6rWyZy6w4xT6ByphNymI
- 1StXH7Y/R58+0WmljxGDruwmcQLgMlrIyj8Y4TMIT0GfRz/yQwdZxVunkzE/ONdzKJsg
- ltt6msfv3R4akdf1iPxEqfR+YAt5fZvsHWL1ot0yfdEChXJHVlTE9ZVqGqcdQARj79jj
- 3pMA==
-X-Gm-Message-State: APjAAAVPcIoqCniWTGzVy+DPOX7735RCS6qOd3FP9OskRHncyQFhMq9e
- 4GIh71rM5+v//e5oJbMcWcc+T+Rb
-X-Google-Smtp-Source: APXvYqw0UiYshy3Tu1qaEpr79/rkDbueK2ncAWYeC+eE1BiRIJ55nPdWWAw6bITv8tfJB1Y5a+ZUDQ==
-X-Received: by 2002:a1c:9e4c:: with SMTP id h73mr2799982wme.177.1576670641580; 
- Wed, 18 Dec 2019 04:04:01 -0800 (PST)
+ :in-reply-to:references;
+ bh=PMUWoCpuqKP+tFU4xIk4lPZAxU6QOkIu0guoobq7qFU=;
+ b=Gb/SzHNs81Vxf8SkMxF1mFBb+eyhSLMvEBUxqj4YON1M7noF9cbm76upJyr+5EleA6
+ b7IcAy8UzFWFszv85gSIYu9Rb6hcq9TpL9eWPE688RfLe21rh4/oj/YT4HIB64zgatm0
+ f8LBsOh9duXH9a5kfx6d73ECBaXVHK3MiT2lDbAxlN+PCq7+I2MtQLdYv3bPFN3ql8Qk
+ pK8YmV1Fu9/V142c9iNzxpWXvp6/nHmTN08iep9utIgTB+WnaAq3777IDuXO0iEY/LK4
+ w12ekr53HnRX24YXmjX7436yUzblonVVSqGTYhMBxe63qExzKZmbjYtl3HHqdSYSoTzt
+ mxYg==
+X-Gm-Message-State: APjAAAWp+oPv2XZhaKv1j20lK+PHKrwksNZqPeN0E5uA1HiWMEu0UtBp
+ nSlGvbkHJs+YI/3O/7bmIcO8PJjx
+X-Google-Smtp-Source: APXvYqydfsrLM1JR2rtTjcc0ucVHhvXnxLajZqRezAQz+XkwORV7OdQkWhneuFpqzki6TE7Fk4BTdA==
+X-Received: by 2002:a1c:dcd5:: with SMTP id t204mr3026723wmg.34.1576670642647; 
+ Wed, 18 Dec 2019 04:04:02 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.00
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.01
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Wed, 18 Dec 2019 04:04:01 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 58/87] hw/i386/pc: Extract the port92 device
-Date: Wed, 18 Dec 2019 13:02:24 +0100
-Message-Id: <1576670573-48048-59-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 59/87] hyperv: Use auto rcu_read macros
+Date: Wed, 18 Dec 2019 13:02:25 +0100
+Message-Id: <1576670573-48048-60-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::344
@@ -78,324 +74,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-This device is only used by the PC machines. The pc.c file is
-already big enough, with 2255 lines. By removing 113 lines of
-it, we reduced it by 5%. It is now a bit easier to navigate
-the file.
+Use RCU_READ_LOCK_GUARD and WITH_RCU_READ_LOCK_GUARD
+to replace the manual rcu_read_(un)lock calls.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/Makefile.objs |   1 +
- hw/i386/pc.c          | 113 --------------------------------------------
- hw/i386/port92.c      | 126 ++++++++++++++++++++++++++++++++++++++++++++++++++
- hw/i386/trace-events  |   2 +-
- include/hw/i386/pc.h  |   3 ++
- 5 files changed, 131 insertions(+), 114 deletions(-)
- create mode 100644 hw/i386/port92.c
+ hw/hyperv/hyperv.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index 1236c3b..8ce1b26 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -13,6 +13,7 @@ obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o
- obj-$(CONFIG_XEN) += ../xenpv/ xen/
- obj-$(CONFIG_VMPORT) += vmport.o
- obj-$(CONFIG_VMMOUSE) += vmmouse.o
-+obj-$(CONFIG_PC) += port92.o
+diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+index 6ebf31c..da8ce82 100644
+--- a/hw/hyperv/hyperv.c
++++ b/hw/hyperv/hyperv.c
+@@ -546,14 +546,14 @@ uint16_t hyperv_hcall_post_message(uint64_t param, bool fast)
+     }
  
- obj-y += kvmvapic.o
- obj-$(CONFIG_PC) += acpi-build.o
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e36053f..42014b0 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -673,119 +673,6 @@ void pc_cmos_init(PCMachineState *pcms,
-     qemu_register_reset(pc_cmos_init_late, &arg);
- }
+     ret = HV_STATUS_INVALID_CONNECTION_ID;
+-    rcu_read_lock();
+-    QLIST_FOREACH_RCU(mh, &msg_handlers, link) {
+-        if (mh->conn_id == (msg->connection_id & HV_CONNECTION_ID_MASK)) {
+-            ret = mh->handler(msg, mh->data);
+-            break;
++    WITH_RCU_READ_LOCK_GUARD() {
++        QLIST_FOREACH_RCU(mh, &msg_handlers, link) {
++            if (mh->conn_id == (msg->connection_id & HV_CONNECTION_ID_MASK)) {
++                ret = mh->handler(msg, mh->data);
++                break;
++            }
+         }
+     }
+-    rcu_read_unlock();
  
--#define TYPE_PORT92 "port92"
--#define PORT92(obj) OBJECT_CHECK(Port92State, (obj), TYPE_PORT92)
--
--/* port 92 stuff: could be split off */
--typedef struct Port92State {
--    ISADevice parent_obj;
--
--    MemoryRegion io;
--    uint8_t outport;
--    qemu_irq a20_out;
--} Port92State;
--
--static void port92_write(void *opaque, hwaddr addr, uint64_t val,
--                         unsigned size)
--{
--    Port92State *s = opaque;
--    int oldval = s->outport;
--
--    trace_port92_write(val);
--    s->outport = val;
--    qemu_set_irq(s->a20_out, (val >> 1) & 1);
--    if ((val & 1) && !(oldval & 1)) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    }
--}
--
--static uint64_t port92_read(void *opaque, hwaddr addr,
--                            unsigned size)
--{
--    Port92State *s = opaque;
--    uint32_t ret;
--
--    ret = s->outport;
--    trace_port92_read(ret);
--    return ret;
--}
--
--static const VMStateDescription vmstate_port92_isa = {
--    .name = "port92",
--    .version_id = 1,
--    .minimum_version_id = 1,
--    .fields = (VMStateField[]) {
--        VMSTATE_UINT8(outport, Port92State),
--        VMSTATE_END_OF_LIST()
--    }
--};
--
--static void port92_reset(DeviceState *d)
--{
--    Port92State *s = PORT92(d);
--
--    s->outport &= ~1;
--}
--
--static const MemoryRegionOps port92_ops = {
--    .read = port92_read,
--    .write = port92_write,
--    .impl = {
--        .min_access_size = 1,
--        .max_access_size = 1,
--    },
--    .endianness = DEVICE_LITTLE_ENDIAN,
--};
--
--static void port92_initfn(Object *obj)
--{
--    Port92State *s = PORT92(obj);
--
--    memory_region_init_io(&s->io, OBJECT(s), &port92_ops, s, "port92", 1);
--
--    s->outport = 0;
--
--    qdev_init_gpio_out_named(DEVICE(obj), &s->a20_out, PORT92_A20_LINE, 1);
--}
--
--static void port92_realizefn(DeviceState *dev, Error **errp)
--{
--    ISADevice *isadev = ISA_DEVICE(dev);
--    Port92State *s = PORT92(dev);
--
--    isa_register_ioport(isadev, &s->io, 0x92);
--}
--
--static void port92_class_initfn(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = port92_realizefn;
--    dc->reset = port92_reset;
--    dc->vmsd = &vmstate_port92_isa;
--    /*
--     * Reason: unlike ordinary ISA devices, this one needs additional
--     * wiring: its A20 output line needs to be wired up with
--     * qdev_connect_gpio_out_named().
--     */
--    dc->user_creatable = false;
--}
--
--static const TypeInfo port92_info = {
--    .name          = TYPE_PORT92,
--    .parent        = TYPE_ISA_DEVICE,
--    .instance_size = sizeof(Port92State),
--    .instance_init = port92_initfn,
--    .class_init    = port92_class_initfn,
--};
--
--static void port92_register_types(void)
--{
--    type_register_static(&port92_info);
--}
--
--type_init(port92_register_types)
--
- static void handle_a20_line_change(void *opaque, int irq, int level)
+ unmap:
+     cpu_physical_memory_unmap(msg, len, 0, 0);
+@@ -619,7 +619,6 @@ int hyperv_set_event_flag_handler(uint32_t conn_id, EventNotifier *notifier)
+ 
+ uint16_t hyperv_hcall_signal_event(uint64_t param, bool fast)
  {
-     X86CPU *cpu = opaque;
-diff --git a/hw/i386/port92.c b/hw/i386/port92.c
-new file mode 100644
-index 0000000..19866c4
---- /dev/null
-+++ b/hw/i386/port92.c
-@@ -0,0 +1,126 @@
-+/*
-+ * QEMU I/O port 0x92 (System Control Port A, to handle Fast Gate A20)
-+ *
-+ * Copyright (c) 2003-2004 Fabrice Bellard
-+ *
-+ * SPDX-License-Identifier: MIT
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "sysemu/runstate.h"
-+#include "migration/vmstate.h"
-+#include "hw/irq.h"
-+#include "hw/i386/pc.h"
-+#include "trace.h"
-+
-+#define PORT92(obj) OBJECT_CHECK(Port92State, (obj), TYPE_PORT92)
-+
-+typedef struct Port92State {
-+    ISADevice parent_obj;
-+
-+    MemoryRegion io;
-+    uint8_t outport;
-+    qemu_irq a20_out;
-+} Port92State;
-+
-+static void port92_write(void *opaque, hwaddr addr, uint64_t val,
-+                         unsigned size)
-+{
-+    Port92State *s = opaque;
-+    int oldval = s->outport;
-+
-+    trace_port92_write(val);
-+    s->outport = val;
-+    qemu_set_irq(s->a20_out, (val >> 1) & 1);
-+    if ((val & 1) && !(oldval & 1)) {
-+        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+    }
-+}
-+
-+static uint64_t port92_read(void *opaque, hwaddr addr,
-+                            unsigned size)
-+{
-+    Port92State *s = opaque;
-+    uint32_t ret;
-+
-+    ret = s->outport;
-+    trace_port92_read(ret);
-+
-+    return ret;
-+}
-+
-+static const VMStateDescription vmstate_port92_isa = {
-+    .name = "port92",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(outport, Port92State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void port92_reset(DeviceState *d)
-+{
-+    Port92State *s = PORT92(d);
-+
-+    s->outport &= ~1;
-+}
-+
-+static const MemoryRegionOps port92_ops = {
-+    .read = port92_read,
-+    .write = port92_write,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void port92_initfn(Object *obj)
-+{
-+    Port92State *s = PORT92(obj);
-+
-+    memory_region_init_io(&s->io, OBJECT(s), &port92_ops, s, "port92", 1);
-+
-+    s->outport = 0;
-+
-+    qdev_init_gpio_out_named(DEVICE(obj), &s->a20_out, PORT92_A20_LINE, 1);
-+}
-+
-+static void port92_realizefn(DeviceState *dev, Error **errp)
-+{
-+    ISADevice *isadev = ISA_DEVICE(dev);
-+    Port92State *s = PORT92(dev);
-+
-+    isa_register_ioport(isadev, &s->io, 0x92);
-+}
-+
-+static void port92_class_initfn(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = port92_realizefn;
-+    dc->reset = port92_reset;
-+    dc->vmsd = &vmstate_port92_isa;
-+    /*
-+     * Reason: unlike ordinary ISA devices, this one needs additional
-+     * wiring: its A20 output line needs to be wired up with
-+     * qdev_connect_gpio_out_named().
-+     */
-+    dc->user_creatable = false;
-+}
-+
-+static const TypeInfo port92_info = {
-+    .name          = TYPE_PORT92,
-+    .parent        = TYPE_ISA_DEVICE,
-+    .instance_size = sizeof(Port92State),
-+    .instance_init = port92_initfn,
-+    .class_init    = port92_class_initfn,
-+};
-+
-+static void port92_register_types(void)
-+{
-+    type_register_static(&port92_info);
-+}
-+
-+type_init(port92_register_types)
-diff --git a/hw/i386/trace-events b/hw/i386/trace-events
-index a9b6437..e48bef2 100644
---- a/hw/i386/trace-events
-+++ b/hw/i386/trace-events
-@@ -116,6 +116,6 @@ vmport_command(unsigned char command) "command: 0x%02x"
- x86_gsi_interrupt(int irqn, int level) "GSI interrupt #%d level:%d"
- x86_pic_interrupt(int irqn, int level) "PIC interrupt #%d level:%d"
+-    uint16_t ret;
+     EventFlagHandler *handler;
  
--# pc.c
-+# port92.c
- port92_read(uint8_t val) "port92: read 0x%02x"
- port92_write(uint8_t val) "port92: write 0x%02x"
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 58aaa23..d5ac76d 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -196,8 +196,11 @@ void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs);
- ISADevice *pc_find_fdc0(void);
- int cmos_get_fd_drive_type(FloppyDriveType fd0);
+     if (unlikely(!fast)) {
+@@ -645,15 +644,12 @@ uint16_t hyperv_hcall_signal_event(uint64_t param, bool fast)
+         return HV_STATUS_INVALID_HYPERCALL_INPUT;
+     }
  
-+/* port92.c */
- #define PORT92_A20_LINE "a20"
- 
-+#define TYPE_PORT92 "port92"
-+
- /* pc_sysfw.c */
- void pc_system_flash_create(PCMachineState *pcms);
- void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
+-    ret = HV_STATUS_INVALID_CONNECTION_ID;
+-    rcu_read_lock();
++    RCU_READ_LOCK_GUARD();
+     QLIST_FOREACH_RCU(handler, &event_flag_handlers, link) {
+         if (handler->conn_id == param) {
+             event_notifier_set(handler->notifier);
+-            ret = 0;
+-            break;
++            return 0;
+         }
+     }
+-    rcu_read_unlock();
+-    return ret;
++    return HV_STATUS_INVALID_CONNECTION_ID;
+ }
 -- 
 1.8.3.1
 
