@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095FF125876
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 01:29:41 +0100 (CET)
-Received: from localhost ([::1]:34364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB441258DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 01:50:44 +0100 (CET)
+Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihjhE-0004jd-4A
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 19:29:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44333)
+	id 1ihk1Z-0005li-Vp
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 19:50:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihjgK-0004L1-QH
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:28:46 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ihk0h-0005CS-TN
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:49:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihjgJ-0004gL-6R
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:28:44 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35986)
+ (envelope-from <mrolnik@gmail.com>) id 1ihk0g-0004oB-EO
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:49:47 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55213)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihjgI-0004fP-Um
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:28:43 -0500
-Received: by mail-pl1-x641.google.com with SMTP id a6so986820plm.3
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 16:28:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JbkfDVWSu+M6UJQZ/Gt0n8G3RKhqnHX377YF6un5mdw=;
- b=K1xkeuVnXWfp+ueAYjUj6utDVpbn899K7Hwc7FWEBiSeaT1P/jkHQYc8qudEx2exha
- lajkuxpRfXBAwCaO29O55cgA0dX+5VeXJtI9vRlXvvRCINMR2IjxtHuw1IHlO2xCB8LD
- QbxwDi8lkIxuQgPlDu6pFHpAc4mTB5xyp4wMFaRpy+9pHSGYrwf9bWjFhJPLNImaNZpx
- XxsVZfn2BHCGqbfysEcCfrE9T2f4aRZ07LE2Cy7fnt8X5T6ZBT59BD5lm3uxIEnwZ72q
- nepUg4s2MnXvTXbzI/h0CYVjMN17+hOotN6oI49og2Dm0CR6gFXrFFoOvUdT7GLWmvZg
- 00SQ==
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgUH-0000kf-6P
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:05 -0500
+Received: by mail-wm1-x336.google.com with SMTP id b19so3291776wmj.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:04:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7ACWPIiwb1OnjUxWJCNQY1YhmvZfMvPFy7qV6Dou5t8=;
+ b=mo8MSyIXkYZW3J6GnGfkVnKGugI84Fj31EuY39HldRt7aaWlwzkFos6Gz74wtIZTQW
+ 5SzyM/ztso7utMHjSXq4v7paMHlcwyzbkkZ/l3P65n1+jOcdVIeaHV5z5BNNfkZzlxSb
+ vzQwhnoJG/4t5aaReTFy68AgDbL+ixbZJnx9JcWOP80JitxiYQa821m06ICuWV4ZXTts
+ QHjl7FmpsARzkaxm/c8990uMCOJCEZ1ANNuaczlE7b/WMCHhVgv1SJlxqcdbVfJe+61J
+ VH2WObKynpbi9pbh6rbGGZvrHgGvrDKen5493ofiPi02S4CXvcYcpeA5VQt/vbJXqt7e
+ OQWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JbkfDVWSu+M6UJQZ/Gt0n8G3RKhqnHX377YF6un5mdw=;
- b=F9HISuDggxbCk5q2cBJSvtqKCq+sUDshxO5wfKFZcpwVnMvt8PuK/nTtCN4I74J+Lh
- BEMlTmYnnPQI6bGyKqSlN3qd4W9Fg455lk+RxslVKShGbS13jfhaYFkPM+S3bM62vi4v
- 38Abq9feuob6UZD9Ay4Rtnu76R0nxvEGq7O2Jy4wtUFQb4lq2k7GeO3d8euTdqaOCGgr
- p0a9+WZqk3Ft0tbrFT3uvN2e+O+QlNFNKOmw/YAQwQ0P5CfrvJsIG36c0fccJqybQbgX
- jknSYhwyfijs6kI5GLOatIviNPRptjkIEHeGHFpKgXVO6+SBG2LZkffhddjW/5XJYyJ7
- lDyQ==
-X-Gm-Message-State: APjAAAV2CjOPEaP6YsmwV5uBQvj4hZcCzcgvy4CjVpd+9b8TJxR94VVu
- gB5J9cZEsK/bgMEZdmU3r+wYo0cgdh4=
-X-Google-Smtp-Source: APXvYqxq5x9ORatf/QmuDjs071OxruRYOcyQYpIwu2mGZm3l8PT8yS0824fYCac3er99Wh7p/uQrOw==
-X-Received: by 2002:a17:90a:9bc7:: with SMTP id
- b7mr6166955pjw.72.1576715321500; 
- Wed, 18 Dec 2019 16:28:41 -0800 (PST)
-Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
- ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id e10sm5106655pfj.7.2019.12.18.16.28.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2019 16:28:40 -0800 (PST)
-Subject: Re: [PATCH v4 5/6] hppa: Add emulation of Artist graphics
-To: Sven Schnelle <svens@stackframe.org>, Richard Henderson <rth@twiddle.net>
-References: <20191103205607.6590-1-svens@stackframe.org>
- <20191103205607.6590-6-svens@stackframe.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8a34a5a3-eb8f-c600-b17e-f9b448ea0925@linaro.org>
-Date: Wed, 18 Dec 2019 14:28:37 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7ACWPIiwb1OnjUxWJCNQY1YhmvZfMvPFy7qV6Dou5t8=;
+ b=kSy7PvvY3iNtgPIEZq/ZipqXyrcgFpiI6ty2BpCvk+zpHqYbbXHP2GR/n/A82GQr9s
+ 7oBd93wmN2mmjEna9j8MUDgDPX9F4Feawg0SxhbNGuNR2grTR3dWzm/m2Riw1v226hqV
+ hUC7oYn01FG76GF7m2S/sHPc10ZcG0Ri+v/TYiuWcDUrAEFT3LsMQjJ5fqqcQPNTccxU
+ g60cOhbOhvEMJ1NO2gp7y++ugLU3IHR+aPo30HzfY4d+EZmhvRFXC6EDKZOpssnjHuqw
+ NM6O5WW7OLFFEsc8g68oZTtZtdPGgi3Z2gS7/bzI5Cge043EFzEnwaZnFb90tT3OlcaZ
+ paXA==
+X-Gm-Message-State: APjAAAVdlts4zEbXIGunDjmymA5Vswq9wI5sKumiALrSlXAhzP9VTBmI
+ Lnpwe6XkhWyAZmYbKGy1Enee+UFe6pKCMw==
+X-Google-Smtp-Source: APXvYqxo3ifGnPnj6G2N1i7NBeCaQc4ecPQxiR0KzaOJmdaaRIMSnyUIsWO4Aj3h0shoeUiB0+nO/g==
+X-Received: by 2002:a05:600c:d6:: with SMTP id
+ u22mr5781281wmm.77.1576703043638; 
+ Wed, 18 Dec 2019 13:04:03 -0800 (PST)
+Received: from 8c859074c0ff.ant.amazon.com.com
+ (bzq-109-65-2-109.red.bezeqint.net. [109.65.2.109])
+ by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.04.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Wed, 18 Dec 2019 13:04:03 -0800 (PST)
+From: Michael Rolnik <mrolnik@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v39 04/22] target/avr: Add instruction translation - Registers
+ definition
+Date: Wed, 18 Dec 2019 23:03:11 +0200
+Message-Id: <20191218210329.1960-5-mrolnik@gmail.com>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
+In-Reply-To: <20191218210329.1960-1-mrolnik@gmail.com>
+References: <20191218210329.1960-1-mrolnik@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191103205607.6590-6-svens@stackframe.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,60 +80,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
+ me@xcancerberox.com.ar, richard.henderson@linaro.org, dovgaluk@ispras.ru,
+ imammedo@redhat.com, philmd@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/3/19 10:56 AM, Sven Schnelle wrote:
-> This adds emulation of Artist graphics good enough
-> to get a Text console on both Linux and HP-UX. The
-> X11 server from HP-UX also works.
-> 
-> Signed-off-by: Sven Schnelle <svens@stackframe.org>
-> ---
->  hw/display/Kconfig       |    4 +
->  hw/display/Makefile.objs |    1 +
->  hw/display/artist.c      | 1449 ++++++++++++++++++++++++++++++++++++++
->  hw/display/trace-events  |    9 +
->  hw/hppa/Kconfig          |    1 +
->  hw/hppa/hppa_hardware.h  |    1 +
->  hw/hppa/machine.c        |    9 +
->  7 files changed, 1474 insertions(+)
->  create mode 100644 hw/display/artist.c
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ target/avr/translate.c | 143 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 143 insertions(+)
+ create mode 100644 target/avr/translate.c
 
-Seems to have some problems rebased upon master:
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+new file mode 100644
+index 0000000000..0139bcabb1
+--- /dev/null
++++ b/target/avr/translate.c
+@@ -0,0 +1,143 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2019 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/qemu-print.h"
++#include "tcg/tcg.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "tcg-op.h"
++#include "exec/cpu_ldst.h"
++#include "exec/helper-proto.h"
++#include "exec/helper-gen.h"
++#include "exec/log.h"
++#include "exec/translator.h"
++#include "exec/gen-icount.h"
++
++/*
++ *  Define if you want a BREAK instruction translated to a breakpoint
++ *  Active debugging connection is assumed
++ *  This is for
++ *  https://github.com/seharris/qemu-avr-tests/tree/master/instruction-tests
++ *  tests
++ */
++#undef BREAKPOINT_ON_BREAK
++
++static TCGv cpu_pc;
++
++static TCGv cpu_Cf;
++static TCGv cpu_Zf;
++static TCGv cpu_Nf;
++static TCGv cpu_Vf;
++static TCGv cpu_Sf;
++static TCGv cpu_Hf;
++static TCGv cpu_Tf;
++static TCGv cpu_If;
++
++static TCGv cpu_rampD;
++static TCGv cpu_rampX;
++static TCGv cpu_rampY;
++static TCGv cpu_rampZ;
++
++static TCGv cpu_r[NUMBER_OF_CPU_REGISTERS];
++static TCGv cpu_eind;
++static TCGv cpu_sp;
++
++static TCGv cpu_skip;
++
++static const char reg_names[NUMBER_OF_CPU_REGISTERS][8] = {
++    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
++    "r8",  "r9",  "r10", "r11", "r12", "r13", "r14", "r15",
++    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
++    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
++};
++#define REG(x) (cpu_r[x])
++
++enum {
++    DISAS_EXIT   = DISAS_TARGET_0,  /* We want return to the cpu main loop.  */
++    DISAS_LOOKUP = DISAS_TARGET_1,  /* We have a variable condition exit.  */
++    DISAS_CHAIN  = DISAS_TARGET_2,  /* We have a single condition exit.  */
++};
++
++typedef struct DisasContext DisasContext;
++
++/* This is the state at translation time. */
++struct DisasContext {
++    TranslationBlock *tb;
++
++    CPUAVRState *env;
++    CPUState *cs;
++
++    target_long npc;
++    uint32_t opcode;
++
++    /* Routine used to access memory */
++    int memidx;
++    int bstate;
++    int singlestep;
++
++    TCGv skip_var0;
++    TCGv skip_var1;
++    TCGCond skip_cond;
++    bool free_skip_var0;
++};
++
++static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
++{
++    return 16 + (indx % 16);
++}
++
++static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
++{
++    return 16 + (indx % 8);
++}
++static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
++{
++    return 24 + (indx % 4) * 2;
++}
++static int to_regs_00_30_by_two(DisasContext *ctx, int indx)
++{
++    return (indx % 16) * 2;
++}
++
++static uint16_t next_word(DisasContext *ctx)
++{
++    return cpu_lduw_code(ctx->env, ctx->npc++ * 2);
++}
++
++static int append_16(DisasContext *ctx, int x)
++{
++    return x << 16 | next_word(ctx);
++}
++
++
++static bool avr_have_feature(DisasContext *ctx, int feature)
++{
++    if (!avr_feature(ctx->env, feature)) {
++        gen_helper_unsupported(cpu_env);
++        ctx->bstate = DISAS_NORETURN;
++        return false;
++    }
++    return true;
++}
++
++static bool decode_insn(DisasContext *ctx, uint16_t insn);
++#include "decode_insn.inc.c"
++
+-- 
+2.17.2 (Apple Git-113)
 
-
-> Thread 6 "qemu-system-hpp" received signal SIGSEGV, Segmentation fault.
-> [Switching to Thread 0x7fffee3b6700 (LWP 11752)]
-> 0x00005555558bba54 in artist_rop8 (s=s@entry=0x555556105400, 
->     dst=dst@entry=0x7fffed740000 "", val=0 '\000')
->     at /home/rth/qemu/qemu/hw/display/artist.c:288
-> 288	        *dst |= val & plane_mask;
-> (gdb) where
-> #0  0x00005555558bba54 in artist_rop8
->     (s=s@entry=0x555556105400, dst=dst@entry=0x7fffed740000 "", val=0 '\000')
->     at /home/rth/qemu/qemu/hw/display/artist.c:288
-> #1  0x00005555558bc145 in vram_bit_write
->     (s=s@entry=0x555556105400, posx=<optimized out>, posy=<optimized out>, incr_x=incr_x@entry=false, size=size@entry=4, data=<optimized out>, data@entry=0)
->     at /home/rth/qemu/qemu/hw/display/artist.c:430
-> #2  0x00005555558bd33b in artist_reg_write
->     (opaque=0x555556105400, addr=1050144, val=0, size=4)
->     at /home/rth/qemu/qemu/hw/display/artist.c:862
-> #3  0x00005555557b271b in memory_region_write_accessor
->     (mr=mr@entry=0x5555561058f0, addr=addr@entry=1050144, value=value@entry=0x7fffee3b4f08, size=size@entry=4, shift=shift@entry=0, mask=mask@entry=4294967295, attrs=...) at /home/rth/qemu/qemu/memory.c:483
-> #4  0x00005555557b03d3 in access_with_adjusted_size
->     (addr=addr@entry=1050144, value=value@entry=0x7fffee3b4f08, size=size@entry=4, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=access_fn@entry=
->     0x5555557b25f0 <memory_region_write_accessor>, mr=0x5555561058f0, attrs=...) at /home/rth/qemu/qemu/memory.c:539
-> #5  0x00005555557b4b34 in memory_region_dispatch_write
->     (mr=mr@entry=0x5555561058f0, addr=addr@entry=1050144, data=<optimized out>, data@entry=0, op=op@entry=MO_BEUL, attrs=...)
->     at /home/rth/qemu/qemu/memory.c:1475
-> #6  0x00005555557c18ed in io_writex
->     (env=env@entry=0x5555563a6b60, mmu_idx=mmu_idx@entry=4, val=val@entry=0, addr=addr@entry=4161799712, retaddr=140736415114886, op=MO_BEUL, iotlbentry=<optimized out>, iotlbentry=<optimized out>)
->     at /home/rth/qemu/qemu/accel/tcg/cputlb.c:977
-> #7  0x00005555557c77bc in store_helper
->     (op=MO_BEUL, retaddr=140736415114886, oi=<optimized out>, val=0, addr=4161799712, env=0x5555563a6b60) at /home/rth/qemu/qemu/accel/tcg/cputlb.c:1716
-> #8  0x00005555557c77bc in helper_be_stl_mmu
->     (env=0x5555563a6b60, addr=4161799712, val=0, oi=<optimized out>, retaddr=140736415114886) at /home/rth/qemu/qemu/accel/tcg/cputlb.c:1842
-> #9  0x00007fffc007a686 in code_gen_buffer ()
 
