@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C031251E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 20:31:35 +0100 (CET)
-Received: from localhost ([::1]:59546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1CD1251E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 20:31:32 +0100 (CET)
+Received: from localhost ([::1]:59538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihf2k-0004UQ-4n
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 14:31:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34322)
+	id 1ihf2g-0004PB-AP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 14:31:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ihexZ-00088w-31
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:26:17 -0500
+ (envelope-from <philmd@redhat.com>) id 1ihexi-0008IQ-7c
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:26:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ihexW-0003ub-4v
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:26:12 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22077
+ (envelope-from <philmd@redhat.com>) id 1ihexf-00044U-S3
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:26:21 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40347
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihexV-0003ry-SY
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:26:09 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihexe-0003yK-Kg
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 14:26:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576697169;
+ s=mimecast20190719; t=1576697172;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TdxvmB9Qgxghb+PTOnONzrGSfc8UbEoa7GDLETeQHLY=;
- b=FufARakBJ6wVGTURsUbZuLvPkirJJDQxQJge8R0RQmPigHYH/y+6vxG76xeKjsWjJR1FPh
- nOmwEny/dQhdpH+fXgSSKVBLal6K3Adheb/8I/OUqFFC0fOzGvz/pNVyImiK8wuoXq9QEr
- jfCnWIY8CeYd7+KjKXmhOo/ddJ3p/E8=
+ bh=vYieTMV2GGryjAYltk1B6hSeskuepnCEd/upKBPg6sc=;
+ b=M6fdaq1Yt4oPBsyMg23IXo+khTps7qQ4oAiOYM7Jdk3A8HUd74Bdk2qMjW3oCyyHMyeUIC
+ o6hGUi3YanVcgqP6rWNsMaNwjWh1cQx/xHmwDlki4FN5OpSwV+cWMNXVv8pulelNWpxQeB
+ Npcv9svB4bLl2xw7SfZ1UyODNFM+2y8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-xXWuz7rlM1Cc8jiMhQbi7g-1; Wed, 18 Dec 2019 14:26:08 -0500
+ us-mta-223-GKU3JQVBO16wNXnwHLjn3A-1; Wed, 18 Dec 2019 14:26:11 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FB5D8024D3;
- Wed, 18 Dec 2019 19:26:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3E60801E6C;
+ Wed, 18 Dec 2019 19:26:09 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-116-235.ams2.redhat.com [10.36.116.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 98C6B60C81;
- Wed, 18 Dec 2019 19:26:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 002A260C84;
+ Wed, 18 Dec 2019 19:26:06 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] hw/net/imx_fec: Rewrite fall through comments
-Date: Wed, 18 Dec 2019 20:25:24 +0100
-Message-Id: <20191218192526.13845-5-philmd@redhat.com>
+Subject: [RFC PATCH v2 5/6] hw/net/imx_fec: Remove unuseful FALLTHROUGH
+ comments
+Date: Wed, 18 Dec 2019 20:25:25 +0100
+Message-Id: <20191218192526.13845-6-philmd@redhat.com>
 In-Reply-To: <20191218192526.13845-1-philmd@redhat.com>
 References: <20191218192526.13845-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: xXWuz7rlM1Cc8jiMhQbi7g-1
+X-MC-Unique: GKU3JQVBO16wNXnwHLjn3A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -70,57 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GCC9 is confused by this comment when building with CFLAG
--Wimplicit-fallthrough=3D2:
+We don't need to explicit these obvious switch fall through
+comments. Stay consistent with the rest of the codebase.
 
-  hw/net/imx_fec.c: In function =E2=80=98imx_eth_write=E2=80=99:
-  hw/net/imx_fec.c:906:12: error: this statement may fall through [-Werror=
-=3Dimplicit-fallthrough=3D]
-    906 |         if (unlikely(single_tx_ring)) {
-        |            ^
-  hw/net/imx_fec.c:912:5: note: here
-    912 |     case ENET_TDAR:     /* FALLTHROUGH */
-        |     ^~~~
-  cc1: all warnings being treated as errors
-
-Rewrite the comments in the correct place,  using 'fall through'
-which is recognized by GCC and static analyzers.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
 Cc: Peter Chubb <peter.chubb@nicta.com.au>
+Cc: Markus Armbruster <armbru@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Jason Wang <jasowang@redhat.com>
 Cc: qemu-arm@nongnu.org
 ---
- hw/net/imx_fec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/net/imx_fec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index bd99236864..c01ce4f078 100644
+index c01ce4f078..5a83678f64 100644
 --- a/hw/net/imx_fec.c
 +++ b/hw/net/imx_fec.c
-@@ -909,7 +909,8 @@ static void imx_eth_write(void *opaque, hwaddr offset, =
+@@ -901,8 +901,8 @@ static void imx_eth_write(void *opaque, hwaddr offset, =
 uint64_t value,
-                           TYPE_IMX_FEC, __func__);
-             return;
+             s->regs[index] =3D 0;
          }
--    case ENET_TDAR:     /* FALLTHROUGH */
-+        /* fall through */
-+    case ENET_TDAR:
-         if (s->regs[ENET_ECR] & ENET_ECR_ETHEREN) {
-             s->regs[index] =3D ENET_TDAR_TDAR;
-             imx_eth_do_tx(s, index);
+         break;
+-    case ENET_TDAR1:    /* FALLTHROUGH */
+-    case ENET_TDAR2:    /* FALLTHROUGH */
++    case ENET_TDAR1:
++    case ENET_TDAR2:
+         if (unlikely(single_tx_ring)) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "[%s]%s: trying to access TDAR2 or TDAR1\n",
 --=20
 2.21.0
 
