@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F338124B68
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 16:17:34 +0100 (CET)
-Received: from localhost ([::1]:55614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE12B124AB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 16:09:25 +0100 (CET)
+Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihb4v-0005oY-CE
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 10:17:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51702)
+	id 1ihax2-0003vB-BZ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 10:09:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60021)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <91905ff817851a76d3becaf27208007dfdbf22e1@lizzy.crudebyte.com>)
- id 1ihb3D-0004Lo-Nq
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:15:48 -0500
+ (envelope-from <a8d6dab2625554d425bd44a4d54d84459f083b18@lizzy.crudebyte.com>)
+ id 1ihawF-0003Tf-Nw
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:08:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <91905ff817851a76d3becaf27208007dfdbf22e1@lizzy.crudebyte.com>)
- id 1ihb3C-0006aN-EG
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:15:47 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:45427)
+ (envelope-from <a8d6dab2625554d425bd44a4d54d84459f083b18@lizzy.crudebyte.com>)
+ id 1ihawE-0003SZ-4y
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:08:35 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:52141)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <91905ff817851a76d3becaf27208007dfdbf22e1@lizzy.crudebyte.com>)
- id 1ihb3C-0001qy-5G
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:15:46 -0500
+ (envelope-from <a8d6dab2625554d425bd44a4d54d84459f083b18@lizzy.crudebyte.com>)
+ id 1ihawD-0006FQ-KN
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 10:08:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=hLrT/cei1Ph+HSrT13ZTQqozjrT7hfRJvI7gt4DQDjo=; b=M3kdj
- 1lzwa7L/qwDHY4tJNp69RXnlkjcRy4PyWOAZsAAQShfis4OFwzrrzmPz8auUT1SnnWo0goHg9EXqR
- RoH6VHzcIF0n4K87bN0QK5Vbkko4+lsVpjotpjxZQZY4wMAbjXGu/7SoCGn1su81h6561zh5gcmKI
- AWApp01u4oQTgXjkEElCLfHsyO6xliRQBUi9Xx6i59Y4UVU1uIlaR/cMnEP+Y9WW33f2/mBQJt+If
- eHMzGtE8r4LHEkTThIDQvBNMPKY1nRMm47TVovuO7usvzq3DMxrbiinjV41JEgdas9D8jqfaV6+qq
- n+QraHt5RAMof1D9eBUVRU0JA5iUQ==;
-Message-Id: <91905ff817851a76d3becaf27208007dfdbf22e1.1576678644.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=qIKNwOBYoiZIKrTToOWeUyN8KcypATIyiBDvg/u2X54=; b=LxsxY
+ t1CG7a8ljFxs3XKf9WXE0AHpMn3T9oQsPUpzVppgMFPLI5ZJb/JHhjbvUEKl+YBx85fD5BodTKWdE
+ 8OxlK2XjynbpY/be5f7Q71xTqv8Sjg8/21f1/XZvx0MbttADP04QhOsvmNuDX7+uxuXCDaY4FNLvY
+ GUjURJRQs7J5sLxt1CNVv5hcnuS4Hs5n9jVJd2BQjxVeb6ux6ZELgq/NQp09m++chFWclzkciZSJW
+ XdNL1Nk6/JFr6VPh0deYdW4H/ipEUonIcfKWEX7ulFRM3zPBqUu2kHuTJWg6eWhRNAHxCqPIjWjas
+ 6enTWuGGpJs9vlHrizkjBlb9XTkiw==;
+Message-Id: <a8d6dab2625554d425bd44a4d54d84459f083b18.1576678644.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1576678644.git.qemu_oss@crudebyte.com>
 References: <cover.1576678644.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
-Date: Wed, 18 Dec 2019 14:23:48 +0100
-Subject: [PATCH v2 3/9] hw/9pfs/9p-synth: added directory for readdir test
+Date: Wed, 18 Dec 2019 14:30:43 +0100
+Subject: [PATCH v2 4/9] tests/virtio-9p: added readdir test
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.194.90.13
@@ -58,70 +58,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will provide the following virtual files by the 9pfs
-synth driver:
-
-  - /ReadDirDir/ReadDirFile99
-  - /ReadDirDir/ReadDirFile98
-  ...
-  - /ReadDirDir/ReadDirFile1
-  - /ReadDirDir/ReadDirFile0
-
-This virtual directory and its virtual 100 files will be
-used by the upcoming 9pfs readdir tests.
+This first readdir test simply checks the amount of directory
+entries returned by 9pfs server, according to the created amount
+of virtual files on 9pfs synth driver side.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-synth.c | 19 +++++++++++++++++++
- hw/9pfs/9p-synth.h |  5 +++++
- 2 files changed, 24 insertions(+)
+ tests/virtio-9p-test.c | 124 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
 
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index 54239c9bbf..7eb210ffa8 100644
---- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -578,6 +578,25 @@ static int synth_init(FsContext *ctx, Error **errp)
-                                        NULL, v9fs_synth_qtest_flush_write,
-                                        ctx);
-         assert(!ret);
+diff --git a/tests/virtio-9p-test.c b/tests/virtio-9p-test.c
+index 06263edb53..48c0eca292 100644
+--- a/tests/virtio-9p-test.c
++++ b/tests/virtio-9p-test.c
+@@ -68,6 +68,11 @@ static void v9fs_memread(P9Req *req, void *addr, size_t len)
+     req->r_off += len;
+ }
+ 
++static void v9fs_uint8_read(P9Req *req, uint8_t *val)
++{
++    v9fs_memread(req, val, 1);
++}
 +
-+        /* Directory for READDIR test */
-+        {
-+            V9fsSynthNode *dir = NULL;
-+            ret = qemu_v9fs_synth_mkdir(
-+                NULL, 0700, QTEST_V9FS_SYNTH_READDIR_DIR, &dir
-+            );
-+            assert(!ret);
-+            for (i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
-+                char *name = g_strdup_printf(
-+                    QTEST_V9FS_SYNTH_READDIR_FILE, i
-+                );
-+                ret = qemu_v9fs_synth_add_file(
-+                    dir, 0, name, NULL, NULL, ctx
-+                );
-+                assert(!ret);
-+                g_free(name);
-+            }
+ static void v9fs_uint16_write(P9Req *req, uint16_t val)
+ {
+     uint16_t le_val = cpu_to_le16(val);
+@@ -101,6 +106,12 @@ static void v9fs_uint32_read(P9Req *req, uint32_t *val)
+     le32_to_cpus(val);
+ }
+ 
++static void v9fs_uint64_read(P9Req *req, uint64_t *val)
++{
++    v9fs_memread(req, val, 8);
++    le64_to_cpus(val);
++}
++
+ /* len[2] string[len] */
+ static uint16_t v9fs_string_size(const char *string)
+ {
+@@ -191,6 +202,7 @@ static const char *rmessage_name(uint8_t id)
+         id == P9_RLOPEN ? "RLOPEN" :
+         id == P9_RWRITE ? "RWRITE" :
+         id == P9_RFLUSH ? "RFLUSH" :
++        id == P9_RREADDIR ? "READDIR" :
+         "<unknown>";
+ }
+ 
+@@ -348,6 +360,79 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+     v9fs_req_free(req);
+ }
+ 
++/* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
++static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offset,
++                            uint32_t count, uint16_t tag)
++{
++    P9Req *req;
++
++    req = v9fs_req_init(v9p, 4 + 8 + 4, P9_TREADDIR, tag);
++    v9fs_uint32_write(req, fid);
++    v9fs_uint64_write(req, offset);
++    v9fs_uint32_write(req, count);
++    v9fs_req_send(req);
++    return req;
++}
++
++struct v9fs_dirent {
++    v9fs_qid qid;
++    uint64_t offset;
++    uint8_t type;
++    char *name;
++    struct v9fs_dirent *next;
++};
++
++/* size[4] Rreaddir tag[2] count[4] data[count] */
++static void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t *nentries,
++                          struct v9fs_dirent **entries)
++{
++    uint32_t sz;
++    struct v9fs_dirent *e = NULL;
++    uint16_t slen;
++    uint32_t n = 0;
++
++    v9fs_req_recv(req, P9_RREADDIR);
++    v9fs_uint32_read(req, &sz);
++
++    if (count) {
++        *count = sz;
++    }
++
++    for (int32_t togo = (int32_t)sz;
++         togo >= 13 + 8 + 1 + 2;
++         togo -= 13 + 8 + 1 + 2 + slen, ++n)
++    {
++        if (!e) {
++            e = g_malloc(sizeof(struct v9fs_dirent));
++            if (entries)
++                *entries = e;
++        } else {
++            e = e->next = g_malloc(sizeof(struct v9fs_dirent));
 +        }
-     }
- 
-     return 0;
-diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
-index af7a993a1e..036d7e4a5b 100644
---- a/hw/9pfs/9p-synth.h
-+++ b/hw/9pfs/9p-synth.h
-@@ -55,6 +55,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
- #define QTEST_V9FS_SYNTH_LOPEN_FILE "LOPEN"
- #define QTEST_V9FS_SYNTH_WRITE_FILE "WRITE"
- 
-+/* for READDIR test */
-+#define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
-+#define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
-+#define QTEST_V9FS_SYNTH_READDIR_NFILES 100
++        e->next = NULL;
++        /* qid[13] offset[8] type[1] name[s] */
++        v9fs_memread(req, &e->qid, 13);
++        v9fs_uint64_read(req, &e->offset);
++        v9fs_uint8_read(req, &e->type);
++        v9fs_string_read(req, &slen, &e->name);
++    }
 +
- /* Any write to the "FLUSH" file is handled one byte at a time by the
-  * backend. If the byte is zero, the backend returns success (ie, 1),
-  * otherwise it forces the server to try again forever. Thus allowing
++    if (nentries) {
++        *nentries = n;
++    }
++}
++
++static void v9fs_free_dirents(struct v9fs_dirent *e)
++{
++    struct v9fs_dirent *next = NULL;
++
++    for (; e; e = next) {
++        next = e->next;
++        g_free(e->name);
++        g_free(e);
++    }
++}
++
+ /* size[4] Tlopen tag[2] fid[4] flags[4] */
+ static P9Req *v9fs_tlopen(QVirtio9P *v9p, uint32_t fid, uint32_t flags,
+                           uint16_t tag)
+@@ -480,6 +565,44 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(wqid);
+ }
+ 
++static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
++{
++    QVirtio9P *v9p = obj;
++    alloc = t_alloc;
++    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
++    uint16_t nqid;
++    v9fs_qid qid;
++    uint32_t count, nentries;
++    struct v9fs_dirent *entries = NULL;
++    P9Req *req;
++
++    fs_attach(v9p, NULL, t_alloc);
++    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rwalk(req, &nqid, NULL);
++    g_assert_cmpint(nqid, ==, 1);
++
++    req = v9fs_tlopen(v9p, 1, O_DIRECTORY, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rlopen(req, &qid, NULL);
++
++    req = v9fs_treaddir(v9p, 1, 0, P9_MAX_SIZE - P9_IOHDRSZ, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rreaddir(req, &count, &nentries, &entries);
++
++    /*
++     * Assuming msize (P9_MAX_SIZE) is large enough so we can retrieve all
++     * dir entries with only one readdir request.
++     */
++    g_assert_cmpint(
++        nentries, ==,
++        QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
++    );
++
++    v9fs_free_dirents(entries);
++    g_free(wnames[0]);
++}
++
+ static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+@@ -658,6 +781,7 @@ static void register_virtio_9p_test(void)
+                  NULL);
+     qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
+                  NULL);
++    qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
+ }
+ 
+ libqos_init(register_virtio_9p_test);
 -- 
 2.20.1
 
