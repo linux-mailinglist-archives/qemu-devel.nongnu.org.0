@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97941247A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:07:16 +0100 (CET)
-Received: from localhost ([::1]:53995 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB601247BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:12:28 +0100 (CET)
+Received: from localhost ([::1]:54130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ2p-0000Zv-FK
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:07:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33761)
+	id 1ihZ7r-0008IR-IP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:12:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ihYQ5-0005z7-Rq
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:27:15 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ihYRZ-0007tR-AE
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:28:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ihYQ2-0005MU-Ay
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:27:11 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30575
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1ihYRY-0001Qv-7T
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:28:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60323
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ihYQ1-0005Gi-PG
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:27:10 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ihYRX-0001M2-Vx
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:28:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576672028;
+ s=mimecast20190719; t=1576672123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eY6sTNMi4ypiygjdxSG6FWqJfzN//VgRFgNTClFRDpM=;
- b=NS+dhSb7Swb4JfpBxWTRzfqc5lxcMC2t5wbrm6VZOdoZe4HzYTnSHtD/es5NKmmnzbME5x
- HdVTYQTENF2PVNcKykFeNfSk3GeOl/SL681M6MLbVOUEUMuFVI79Gl1WPz269r8Wx1wm8d
- IGPt2dzQYwpUzW1ringxfy/w+CqvcYQ=
+ bh=abpb771Ls4PQvTTxdpAOrOXGfp0x2Azjpf5Xis36iwM=;
+ b=Gh9ekUR+nbDFz6vdQ+Nn7pfkfXIHbAXsmw92ML+S069Pby1ytQYgx9O0znU20E3S5+IjSI
+ xaqJqHvUL9VZ3BTtPdJ+8uw9MYOBpa+T8+yMWEtzaT7YrK8LvHjRXYu+6s/y/+IyOaz2OM
+ uBAdSROj1mtQa0WfsvNOlC21nBOBubE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-YCmp4DdzPHC8HHD5xiF7kA-1; Wed, 18 Dec 2019 07:27:06 -0500
+ us-mta-35-QXB6fBuKMemAhMl-P6ZOSQ-1; Wed, 18 Dec 2019 07:28:41 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B195E8D5730
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 12:27:05 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 861365C1B0;
- Wed, 18 Dec 2019 12:27:04 +0000 (UTC)
-Date: Wed, 18 Dec 2019 12:27:02 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 1/4] qemu-file: Don't do IO after shutdown
-Message-ID: <20191218122702.GF3707@work-vm>
-References: <20191218050439.5989-1-quintela@redhat.com>
- <20191218050439.5989-2-quintela@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E864107B007;
+ Wed, 18 Dec 2019 12:28:40 +0000 (UTC)
+Received: from gondolin (ovpn-117-253.ams2.redhat.com [10.36.117.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F044E5C1B0;
+ Wed, 18 Dec 2019 12:28:38 +0000 (UTC)
+Date: Wed, 18 Dec 2019 13:28:36 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v3 4/4] pc-bios/s390x: Fix reset psw mask
+Message-ID: <20191218132836.6e0c334c.cohuck@redhat.com>
+In-Reply-To: <20191203132813.2734-5-frankja@linux.ibm.com>
+References: <20191203132813.2734-1-frankja@linux.ibm.com>
+ <20191203132813.2734-5-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20191218050439.5989-2-quintela@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: YCmp4DdzPHC8HHD5xiF7kA-1
+X-MC-Unique: QXB6fBuKMemAhMl-P6ZOSQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,88 +72,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Be sure that we are not doing neither read/write after shutdown of the
-> QEMUFile.
->=20
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Tue,  3 Dec 2019 08:28:13 -0500
+Janosch Frank <frankja@linux.ibm.com> wrote:
+
+> We need to set the short psw indication bit in the reset psw, as it is
+> a short psw.
+> 
+> fixes: 9629823290 ("pc-bios/s390-ccw: do a subsystem reset before running the guest")
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->  migration/qemu-file.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 26fb25ddc1..1e5543a279 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -53,6 +53,8 @@ struct QEMUFile {
-> =20
->      int last_error;
->      Error *last_error_obj;
-> +    /* has the file has been shutdown */
-> +    bool shutdown;
->  };
-> =20
->  /*
-> @@ -61,6 +63,7 @@ struct QEMUFile {
->   */
->  int qemu_file_shutdown(QEMUFile *f)
->  {
-> +    f->shutdown =3D true;
->      if (!f->ops->shut_down) {
->          return -ENOSYS;
->      }
-> @@ -214,6 +217,9 @@ void qemu_fflush(QEMUFile *f)
->          return;
->      }
-> =20
-> +    if (f->shutdown) {
-> +        return;
-> +    }
+>  pc-bios/s390-ccw/jump2ipl.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 
-OK, I did wonder if you need to free the iovec.
-
->      if (f->iovcnt > 0) {
->          expect =3D iov_size(f->iov, f->iovcnt);
->          ret =3D f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt, f->p=
-os,
-> @@ -328,6 +334,10 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
->      f->buf_index =3D 0;
->      f->buf_size =3D pending;
-> =20
-> +    if (f->shutdown) {
-> +        return 0;
-> +    }
-
-I also wondered if perhaps an error would be reasonable here; but I'm
-not sure what a read(2) does after a shutdown(2).
-
-Still,
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
->      len =3D f->ops->get_buffer(f->opaque, f->buf + pending, f->pos,
->                               IO_BUF_SIZE - pending, &local_error);
->      if (len > 0) {
-> @@ -642,6 +652,9 @@ int64_t qemu_ftell(QEMUFile *f)
-> =20
->  int qemu_file_rate_limit(QEMUFile *f)
->  {
-> +    if (f->shutdown) {
-> +        return 1;
-> +    }
->      if (qemu_file_get_error(f)) {
->          return 1;
->      }
-> --=20
-> 2.23.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+FWIW, I'll re-queue this patch (and the bios rebuild) in front of the
+short psw fix that exposed the problem, in order to preserve
+bisectability.
 
 
