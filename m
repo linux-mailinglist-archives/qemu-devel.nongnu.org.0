@@ -2,106 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDE91258CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 01:45:31 +0100 (CET)
-Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19A4125935
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 02:27:23 +0100 (CET)
+Received: from localhost ([::1]:34764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihjwY-0003xE-AS
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 19:45:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
+	id 1ihkb4-0001o5-5k
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 20:27:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rth7680@gmail.com>) id 1ihjve-0003Vl-3j
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:44:35 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ihkaA-0001H5-Ig
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:26:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rth7680@gmail.com>) id 1ihjvd-0000nB-0p
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:44:34 -0500
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35471)
+ (envelope-from <mrolnik@gmail.com>) id 1ihka7-0007Th-PX
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:26:26 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43867)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rth7680@gmail.com>) id 1ihjvc-0000l4-Q7
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:44:32 -0500
-Received: by mail-pj1-x1043.google.com with SMTP id s7so1673522pjc.0
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 16:44:31 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgUJ-0000lG-TS
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:08 -0500
+Received: by mail-wr1-x431.google.com with SMTP id d16so3769860wre.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:04:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8Ea9yJMC/Mvb159Sm2Rikuzc1m0q1bIE/j1QdjG+kPQ=;
- b=DxhoIER1KeMim/AUATUaE2l/F55P4lTh1Wl145led60H8GxkX+O4uVyCe+qsSJ5qp4
- 5Niu80bK02ts/Xf4YdQDkPgFOS2ORg7fSUcHJ/WpL5xnPih6wspmREkTflUwAwL+wwn8
- VsPEk28rZ5eSwwiRD0bWcgXkskBMRI/VmVz57aYCQYBrHMyoykd3rAFPtcO5UUSmAK+C
- VA+YRtqHuMak6NbAnVfARh7qnI0JsvcgwlcS9GPjGI9H1ZF6v8g7GQXXCvZAPUEKkzpo
- h3y+PV0ZLW4Zy262OvD1jZmZITmDw7Fq04o99e/80hWM81iw0bmoHlmT4Gk075U7LWTR
- XggQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0uGtrptjea9bpIoHDch8PdYtGpHBlQhBl1lOd3+EAVQ=;
+ b=Ew7VirY+M7Wsq5KD7yg/tPz5+9Xtrc3P4C3HQO3gg1zNcfPmt/5cfmhBsESgOW47uQ
+ dLr7ukIvWLAe0HN4h2CbnG7JLndume1sVfKbYYAacw4VAt3e7TpLh7EDdrfyGs6nvFou
+ TnlXah0njkvEuwAvmcx8QcQywDtHi+9uWJ56CEZqGcQAhVbI3BYu38t2IEEsRdZ9PZz9
+ F0XKsMXHJalHBvYGD0aNXcTj/BkvAzm8KGOegFL3wAPTw+WeFCJVYPWdtR0bSdugkLAx
+ ECEWTEqFZicy6mYnIBPlAdqvDd8nlAq+KLOmd6KweO0g41hvln+cO1e0pZ8NaTQiE7Od
+ 8CSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=8Ea9yJMC/Mvb159Sm2Rikuzc1m0q1bIE/j1QdjG+kPQ=;
- b=mX8R0ZP75sVhkPwJWV89t8Vg1WrNGv5+i5vCkiUQ0whP1gnWMQGvhnfBbxVXKfWCGt
- z0L7mFlXza6FLBEhqZMRkNLrU6XNQYuQVY0d0eTN1aNLtxUqqDZLqAAxzKDxnmvMgo7M
- DrZE6AW9399CauBStgIRzQNgvk8Q+qlq61ZcwDn3uxyfrU0sXRqCyPTL0qkA4OBntZJi
- 5WP2evB+bhuxIkZ/nhredcjscX6gcF1NUrOpD1NI4OZSmRZErvgezNjpdXhwxJIYNmkN
- DCEVsam4/lEPVQm8cjTseK0ewqb7WuwYDNvX/daI512yD2993JmkHBh4O2eOG+gecumm
- 5DEw==
-X-Gm-Message-State: APjAAAVCdy2ukg49WE/VD7aft270c0bVzNOY2J1MqutpseCvfZZlBurr
- XorX+4X/6Y24vqYdAAdXtzoalaQZ
-X-Google-Smtp-Source: APXvYqy+0WkiTJQ9VCgUYfefin3cUJ4osPHPLaRd81Jj/vwq+InPvf7tGJCwICK0x0PsFKS7Gc6wFg==
-X-Received: by 2002:a17:902:6a87:: with SMTP id
- n7mr5708679plk.273.1576716270171; 
- Wed, 18 Dec 2019 16:44:30 -0800 (PST)
-Received: from ?IPv6:2605:e000:c74f:dc00:6838:d2b2:17e2:8445?
- ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.googlemail.com with ESMTPSA id i22sm3121453pfd.19.2019.12.18.16.44.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2019 16:44:28 -0800 (PST)
-Subject: Re: [PATCH v4 0/6] HPPA: i82596, PS/2 and graphics emulation
-To: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Sven Schnelle <svens@stackframe.org>
-References: <20191103205607.6590-1-svens@stackframe.org>
- <20191123135928.GA5553@stackframe.org>
- <4848d948-063c-826a-a3f3-9bdbad04f9ac@linaro.org>
- <5ce01ea9-3cab-c774-41b1-25dcdc1b6aff@gmx.de>
-From: Richard Henderson <rth@twiddle.net>
-Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
- mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
- n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
- rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
- Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
- n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
- AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFYBBMBAgBCAhsDBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAIZARYhBJyxjdr46EmtKvwWpK0ScMxN0CebBQJdweUY
- BQkP1h/pAAoJEK0ScMxN0CebqDsH/0YyfnXk+Dc++H37VCEKgRet2i1ATFzxRnifkvmdxha0
- V+PVptQ2fwSe+w3KxoFecD8W75nysmUjrU/FicW9yU5YRlGONPZjruG02/KzmhA5PzWJdYO3
- i/t0qRayvWIcX2qA/flsXEbmb/BbAFM05LQIdcOu74eiBFe5CBCOWBDJeneE1urIE0hSYxoh
- nCcG60ULrNj13ohZ4zAEluoY32qIo7/OPWmtR88cPrEbZT8k+RqgZbsotzaPT1/RlL74fL8k
- ofYfTgKAFH7eEy6fF2nzDp2GThVn+3sA62xtpSXUf/X1m75B40KOcq1EQbHypNTmBc1wt13e
- ibhPNEVX2am5AQ0EUa4sLwEIALITHfH3gciRNfQIe7awDTDvn6H3C6gDyCAnv5LiuLTLZiyK
- NZp3lNO3rPowyKrGT2RIDlumlqPgdeHzqEEX91YK0yk2vdFvwU04rJ4D+qRgdUPoeICLD1zo
- PwOv2FaY6Tf8dKYas1RHF5QU5yQNey8j7IYYoE2yGPn2PtBmvtmK4iLataUEvx0U385Zr+jf
- HscqwTiToryeDC8Io/9BsMvAssE5Yf5URS2nJ7LFOvc4njsQJPF1i9egBXaIloqv7p2hVCKJ
- Hl5UWIxitQ9QQIl6iU4LCpz8mVYTXwv48IAVpbUf7+ak9V9Kk3jCeQnlxCJBUHjUhoIzinbS
- JHPHtkkAEQEAAYkBPAQYAQIAJgIbDBYhBJyxjdr46EmtKvwWpK0ScMxN0CebBQJdweVIBQkP
- 1iAZAAoJEK0ScMxN0CebGHUH/RtouOlWl6To97tQsTJUq/2YwmRpFOsvV0/zCX4fKBGAbeZi
- VaELSt2+3UEErA+n8HwbQmjJ6IrdhA9GustOpOyCcbLVSMwql/OlAwBtDzCcC8dTU4zcuY2a
- rGG2A8i5krU85G9r1wowVcWZBsdmW7/dKiNoadLQiig4bHNiSaV4ograas5efyEjqTxiY+yG
- hzPw5DK2kbp2co8iDF1vW0LWPeLFBinCgItcI9LvgHWaB3rwjOfvNpMn5m64SoQYHB8wbnid
- erAjOzkBzmqnfS1tAUr8mtESStEwrEmNv0ZoA6S0Wt+c9pyTr+BpG4OFlhj7ZI+Eh7zOrr33
- q9OBIdA=
-Message-ID: <d71df5d1-e949-aa61-bff4-a09170c6171d@twiddle.net>
-Date: Wed, 18 Dec 2019 14:44:25 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0uGtrptjea9bpIoHDch8PdYtGpHBlQhBl1lOd3+EAVQ=;
+ b=cgu/8rXlwwaAUCQhr5IjQwYZ/LnIW4Pb7DVoW79DeP3D80Y1YDWx8EdLdT4trotRPH
+ a1r4nq9JIIRFPEjYH0fhiDw/F5vEaNjwMIFCSYjLdYloqwweeOSkW4rF4xVSbdg0zugL
+ YwP4mkHXdSL5sN6DpE2qRAkGIsD/RqLdnM57PWTJQTv1feoSHz0W1VoBXJLo/BVLWC0N
+ YsobtdsV14qgncaOfT8eHwZ1XKXzutzjnsvVdYrJetr9ZaRpBnBc/i3W858mwVyetl1l
+ 4/Vi1XhxiAKf9EgiO/0nZxsg3ae3xEKZZBD6+S4on3EQA+kpx85BGZ6mZDSnuPFwaR/F
+ paQw==
+X-Gm-Message-State: APjAAAUJIcIMhNkvcb/wOjbeD7r33h+88fqLv6RaEFPLDz8vB0MNIqvq
+ TpnICu8CsgQcCC+BqxFkPQy61BQhLUuXxA==
+X-Google-Smtp-Source: APXvYqwvCXl6UWw+jV/H6rpkjBt6yOvLvp/DDNL20fl8xPwhGZiWMlsKa0cfAmdLQJLoGKFjHi0P/w==
+X-Received: by 2002:a5d:4281:: with SMTP id k1mr5268598wrq.72.1576703046202;
+ Wed, 18 Dec 2019 13:04:06 -0800 (PST)
+Received: from 8c859074c0ff.ant.amazon.com.com
+ (bzq-109-65-2-109.red.bezeqint.net. [109.65.2.109])
+ by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.04.03
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Wed, 18 Dec 2019 13:04:05 -0800 (PST)
+From: Michael Rolnik <mrolnik@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v39 05/22] target/avr: Add instruction translation -
+ Arithmetic and Logic Instructions
+Date: Wed, 18 Dec 2019 23:03:12 +0200
+Message-Id: <20191218210329.1960-6-mrolnik@gmail.com>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
+In-Reply-To: <20191218210329.1960-1-mrolnik@gmail.com>
+References: <20191218210329.1960-1-mrolnik@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5ce01ea9-3cab-c774-41b1-25dcdc1b6aff@gmx.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,23 +79,752 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
+ me@xcancerberox.com.ar, richard.henderson@linaro.org, dovgaluk@ispras.ru,
+ imammedo@redhat.com, philmd@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/13/19 10:40 AM, Helge Deller wrote:
-> To avoid confusion because we missed qemu 4.2, I've deleted the
-> parisc-qemu-4.2 branch at the parisc-seabios git repo [1].
-> Instead I've created a parisc-qemu-5.0 branch.
-> Please use that instead if you push the prebuilt seabios rom and
-> git submodule references.
-> 
-> Helge
-> 
-> [1] https://github.com/hdeller/seabios-hppa/tree/parisc-qemu-5.0
+This includes:
+- ADD, ADC, ADIW
+- SBIW, SUB, SUBI, SBC, SBCI
+- AND, ANDI
+- OR, ORI, EOR
+- COM, NEG
+- INC, DEC
+- MUL, MULS, MULSU
+- FMUL, FMULS, FMULSU
+- DES
 
-I've re-generated patch 6 using the head of that branch.
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ target/avr/translate.c | 714 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 714 insertions(+)
 
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index 0139bcabb1..b8867e3b65 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -141,3 +141,717 @@ static bool avr_have_feature(DisasContext *ctx, int feature)
+ static bool decode_insn(DisasContext *ctx, uint16_t insn);
+ #include "decode_insn.inc.c"
+ 
++/*
++ * Arithmetic Instructions
++ */
++
++static void gen_add_CHf(TCGv R, TCGv Rd, TCGv Rr)
++{
++    TCGv t1 = tcg_temp_new_i32();
++    TCGv t2 = tcg_temp_new_i32();
++    TCGv t3 = tcg_temp_new_i32();
++
++    tcg_gen_and_tl(t1, Rd, Rr); /* t1 = Rd & Rr */
++    tcg_gen_andc_tl(t2, Rd, R); /* t2 = Rd & ~R */
++    tcg_gen_andc_tl(t3, Rr, R); /* t3 = Rr & ~R */
++    tcg_gen_or_tl(t1, t1, t2); /* t1 = t1 | t2 | t3 */
++    tcg_gen_or_tl(t1, t1, t3);
++    tcg_gen_shri_tl(cpu_Cf, t1, 7); /* Cf = t1(7) */
++    tcg_gen_shri_tl(cpu_Hf, t1, 3); /* Hf = t1(3) */
++    tcg_gen_andi_tl(cpu_Hf, cpu_Hf, 1);
++
++    tcg_temp_free_i32(t3);
++    tcg_temp_free_i32(t2);
++    tcg_temp_free_i32(t1);
++}
++
++
++static void gen_add_Vf(TCGv R, TCGv Rd, TCGv Rr)
++{
++    TCGv t1 = tcg_temp_new_i32();
++    TCGv t2 = tcg_temp_new_i32();
++
++    /* t1 = Rd & Rr & ~R | ~Rd & ~Rr & R */
++    /*    = (Rd ^ R) & ~(Rd ^ Rr) */
++    tcg_gen_xor_tl(t1, Rd, R);
++    tcg_gen_xor_tl(t2, Rd, Rr);
++    tcg_gen_andc_tl(t1, t1, t2);
++    tcg_gen_shri_tl(cpu_Vf, t1, 7); /* Vf = t1(7) */
++
++    tcg_temp_free_i32(t2);
++    tcg_temp_free_i32(t1);
++}
++
++
++static void gen_sub_CHf(TCGv R, TCGv Rd, TCGv Rr)
++{
++    TCGv t1 = tcg_temp_new_i32();
++    TCGv t2 = tcg_temp_new_i32();
++    TCGv t3 = tcg_temp_new_i32();
++
++    tcg_gen_not_tl(t1, Rd); /* t1 = ~Rd */
++    tcg_gen_and_tl(t2, t1, Rr); /* t2 = ~Rd & Rr */
++    tcg_gen_or_tl(t3, t1, Rr); /* t3 = (~Rd | Rr) & R */
++    tcg_gen_and_tl(t3, t3, R);
++    tcg_gen_or_tl(t2, t2, t3); /* t2 = ~Rd & Rr | ~Rd & R | R & Rr */
++    tcg_gen_shri_tl(cpu_Cf, t2, 7); /* Cf = t2(7) */
++    tcg_gen_shri_tl(cpu_Hf, t2, 3); /* Hf = t2(3) */
++    tcg_gen_andi_tl(cpu_Hf, cpu_Hf, 1);
++
++    tcg_temp_free_i32(t3);
++    tcg_temp_free_i32(t2);
++    tcg_temp_free_i32(t1);
++}
++
++
++static void gen_sub_Vf(TCGv R, TCGv Rd, TCGv Rr)
++{
++    TCGv t1 = tcg_temp_new_i32();
++    TCGv t2 = tcg_temp_new_i32();
++
++    /* t1 = Rd & ~Rr & ~R | ~Rd & Rr & R */
++    /*    = (Rd ^ R) & (Rd ^ R) */
++    tcg_gen_xor_tl(t1, Rd, R);
++    tcg_gen_xor_tl(t2, Rd, Rr);
++    tcg_gen_and_tl(t1, t1, t2);
++    tcg_gen_shri_tl(cpu_Vf, t1, 7); /* Vf = t1(7) */
++
++    tcg_temp_free_i32(t2);
++    tcg_temp_free_i32(t1);
++}
++
++
++static void gen_NSf(TCGv R)
++{
++    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
++    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
++}
++
++
++static void gen_ZNSf(TCGv R)
++{
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
++    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
++}
++
++/*
++ *  Adds two registers without the C Flag and places the result in the
++ *  destination register Rd.
++ */
++static bool trans_ADD(DisasContext *ctx, arg_ADD *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_add_tl(R, Rd, Rr); /* Rd = Rd + Rr */
++    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
++    gen_add_CHf(R, Rd, Rr);
++    gen_add_Vf(R, Rd, Rr);
++    gen_ZNSf(R);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Adds two registers and the contents of the C Flag and places the result in
++ *  the destination register Rd.
++ */
++static bool trans_ADC(DisasContext *ctx, arg_ADC *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_add_tl(R, Rd, Rr); /* R = Rd + Rr + Cf */
++    tcg_gen_add_tl(R, R, cpu_Cf);
++    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
++    gen_add_CHf(R, Rd, Rr);
++    gen_add_Vf(R, Rd, Rr);
++    gen_ZNSf(R);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Adds an immediate value (0 - 63) to a register pair and places the result
++ *  in the register pair. This instruction operates on the upper four register
++ *  pairs, and is well suited for operations on the pointer registers.  This
++ *  instruction is not available in all devices. Refer to the device specific
++ *  instruction set summary.
++ */
++static bool trans_ADIW(DisasContext *ctx, arg_ADIW *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_ADIW_SBIW)) {
++        return true;
++    }
++
++    TCGv RdL = cpu_r[a->rd];
++    TCGv RdH = cpu_r[a->rd + 1];
++    int Imm = (a->imm);
++    TCGv R = tcg_temp_new_i32();
++    TCGv Rd = tcg_temp_new_i32();
++
++    tcg_gen_deposit_tl(Rd, RdL, RdH, 8, 8); /* Rd = RdH:RdL */
++    tcg_gen_addi_tl(R, Rd, Imm); /* R = Rd + Imm */
++    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
++
++    tcg_gen_andc_tl(cpu_Cf, Rd, R); /* Cf = Rd & ~R */
++    tcg_gen_shri_tl(cpu_Cf, cpu_Cf, 15);
++    tcg_gen_andc_tl(cpu_Vf, R, Rd); /* Vf = R & ~Rd */
++    tcg_gen_shri_tl(cpu_Vf, cpu_Vf, 15);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++    tcg_gen_shri_tl(cpu_Nf, R, 15); /* Nf = R(15) */
++    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf);/* Sf = Nf ^ Vf */
++    tcg_gen_andi_tl(RdL, R, 0xff);
++    tcg_gen_shri_tl(RdH, R, 8);
++
++    tcg_temp_free_i32(Rd);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Subtracts two registers and places the result in the destination
++ *  register Rd.
++ */
++static bool trans_SUB(DisasContext *ctx, arg_SUB *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr */
++    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
++    gen_sub_CHf(R, Rd, Rr);
++    gen_sub_Vf(R, Rd, Rr);
++    gen_ZNSf(R);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Subtracts a register and a constant and places the result in the
++ *  destination register Rd. This instruction is working on Register R16 to R31
++ *  and is very well suited for operations on the X, Y, and Z-pointers.
++ */
++static bool trans_SUBI(DisasContext *ctx, arg_SUBI *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = tcg_const_i32(a->imm);
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Imm */
++    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
++    gen_sub_CHf(R, Rd, Rr);
++    gen_sub_Vf(R, Rd, Rr);
++    gen_ZNSf(R);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(R);
++    tcg_temp_free_i32(Rr);
++
++    return true;
++}
++
++/*
++ *  Subtracts two registers and subtracts with the C Flag and places the
++ *  result in the destination register Rd.
++ */
++static bool trans_SBC(DisasContext *ctx, arg_SBC *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++    TCGv zero = tcg_const_i32(0);
++
++    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
++    tcg_gen_sub_tl(R, R, cpu_Cf);
++    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
++    gen_sub_CHf(R, Rd, Rr);
++    gen_sub_Vf(R, Rd, Rr);
++    gen_NSf(R);
++
++    /*
++     * Previous value remains unchanged when the result is zero;
++     * cleared otherwise.
++     */
++    tcg_gen_movcond_tl(TCG_COND_EQ, cpu_Zf, R, zero, cpu_Zf, zero);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(zero);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  SBCI -- Subtract Immediate with Carry
++ */
++static bool trans_SBCI(DisasContext *ctx, arg_SBCI *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = tcg_const_i32(a->imm);
++    TCGv R = tcg_temp_new_i32();
++    TCGv zero = tcg_const_i32(0);
++
++    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
++    tcg_gen_sub_tl(R, R, cpu_Cf);
++    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
++    gen_sub_CHf(R, Rd, Rr);
++    gen_sub_Vf(R, Rd, Rr);
++    gen_NSf(R);
++
++    /*
++     * Previous value remains unchanged when the result is zero;
++     * cleared otherwise.
++     */
++    tcg_gen_movcond_tl(TCG_COND_EQ, cpu_Zf, R, zero, cpu_Zf, zero);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(zero);
++    tcg_temp_free_i32(R);
++    tcg_temp_free_i32(Rr);
++
++    return true;
++}
++
++/*
++ *  Subtracts an immediate value (0-63) from a register pair and places the
++ *  result in the register pair. This instruction operates on the upper four
++ *  register pairs, and is well suited for operations on the Pointer Registers.
++ *  This instruction is not available in all devices. Refer to the device
++ *  specific instruction set summary.
++ */
++static bool trans_SBIW(DisasContext *ctx, arg_SBIW *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_ADIW_SBIW)) {
++        return true;
++    }
++
++    TCGv RdL = cpu_r[a->rd];
++    TCGv RdH = cpu_r[a->rd + 1];
++    int Imm = (a->imm);
++    TCGv R = tcg_temp_new_i32();
++    TCGv Rd = tcg_temp_new_i32();
++
++    tcg_gen_deposit_tl(Rd, RdL, RdH, 8, 8); /* Rd = RdH:RdL */
++    tcg_gen_subi_tl(R, Rd, Imm); /* R = Rd - Imm */
++    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
++    tcg_gen_andc_tl(cpu_Cf, R, Rd);
++    tcg_gen_shri_tl(cpu_Cf, cpu_Cf, 15); /* Cf = R & ~Rd */
++    tcg_gen_andc_tl(cpu_Vf, Rd, R);
++    tcg_gen_shri_tl(cpu_Vf, cpu_Vf, 15); /* Vf = Rd & ~R */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++    tcg_gen_shri_tl(cpu_Nf, R, 15); /* Nf = R(15) */
++    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
++    tcg_gen_andi_tl(RdL, R, 0xff);
++    tcg_gen_shri_tl(RdH, R, 8);
++
++    tcg_temp_free_i32(Rd);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Performs the logical AND between the contents of register Rd and register
++ *  Rr and places the result in the destination register Rd.
++ */
++static bool trans_AND(DisasContext *ctx, arg_AND *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_and_tl(R, Rd, Rr); /* Rd = Rd and Rr */
++    tcg_gen_movi_tl(cpu_Vf, 0); /* Vf = 0 */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++    gen_ZNSf(R);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Performs the logical AND between the contents of register Rd and a constant
++ *  and places the result in the destination register Rd.
++ */
++static bool trans_ANDI(DisasContext *ctx, arg_ANDI *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    int Imm = (a->imm);
++
++    tcg_gen_andi_tl(Rd, Rd, Imm); /* Rd = Rd & Imm */
++    tcg_gen_movi_tl(cpu_Vf, 0x00); /* Vf = 0 */
++    gen_ZNSf(Rd);
++
++    return true;
++}
++
++/*
++ *  Performs the logical OR between the contents of register Rd and register
++ *  Rr and places the result in the destination register Rd.
++ */
++static bool trans_OR(DisasContext *ctx, arg_OR *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_or_tl(R, Rd, Rr);
++    tcg_gen_movi_tl(cpu_Vf, 0);
++    gen_ZNSf(R);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Performs the logical OR between the contents of register Rd and a
++ *  constant and places the result in the destination register Rd.
++ */
++static bool trans_ORI(DisasContext *ctx, arg_ORI *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    int Imm = (a->imm);
++
++    tcg_gen_ori_tl(Rd, Rd, Imm); /* Rd = Rd | Imm */
++    tcg_gen_movi_tl(cpu_Vf, 0x00); /* Vf = 0 */
++    gen_ZNSf(Rd);
++
++    return true;
++}
++
++/*
++ *  Performs the logical EOR between the contents of register Rd and
++ *  register Rr and places the result in the destination register Rd.
++ */
++static bool trans_EOR(DisasContext *ctx, arg_EOR *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++
++    tcg_gen_xor_tl(Rd, Rd, Rr);
++    tcg_gen_movi_tl(cpu_Vf, 0);
++    gen_ZNSf(Rd);
++
++    return true;
++}
++
++/*
++ *  Clears the specified bits in register Rd. Performs the logical AND
++ *  between the contents of register Rd and the complement of the constant mask
++ *  K. The result will be placed in register Rd.
++ */
++static bool trans_COM(DisasContext *ctx, arg_COM *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_xori_tl(Rd, Rd, 0xff);
++    tcg_gen_movi_tl(cpu_Cf, 1); /* Cf = 1 */
++    tcg_gen_movi_tl(cpu_Vf, 0); /* Vf = 0 */
++    gen_ZNSf(Rd);
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Replaces the contents of register Rd with its two's complement; the
++ *  value $80 is left unchanged.
++ */
++static bool trans_NEG(DisasContext *ctx, arg_NEG *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++    TCGv t0 = tcg_const_i32(0);
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_sub_tl(R, t0, Rd); /* R = 0 - Rd */
++    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
++    gen_sub_CHf(R, t0, Rd);
++    gen_sub_Vf(R, t0, Rd);
++    gen_ZNSf(R);
++    tcg_gen_mov_tl(Rd, R);
++
++    tcg_temp_free_i32(t0);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  Adds one -1- to the contents of register Rd and places the result in the
++ *  destination register Rd.  The C Flag in SREG is not affected by the
++ *  operation, thus allowing the INC instruction to be used on a loop counter in
++ *  multiple-precision computations.  When operating on unsigned numbers, only
++ *  BREQ and BRNE branches can be expected to perform consistently. When
++ *  operating on two's complement values, all signed branches are available.
++ */
++static bool trans_INC(DisasContext *ctx, arg_INC *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++
++    tcg_gen_addi_tl(Rd, Rd, 1);
++    tcg_gen_andi_tl(Rd, Rd, 0xff);
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Vf, Rd, 0x80); /* Vf = Rd == 0x80 */
++    gen_ZNSf(Rd);
++
++    return true;
++}
++
++/*
++ *  Subtracts one -1- from the contents of register Rd and places the result
++ *  in the destination register Rd.  The C Flag in SREG is not affected by the
++ *  operation, thus allowing the DEC instruction to be used on a loop counter in
++ *  multiple-precision computations.  When operating on unsigned values, only
++ *  BREQ and BRNE branches can be expected to perform consistently.  When
++ *  operating on two's complement values, all signed branches are available.
++ */
++static bool trans_DEC(DisasContext *ctx, arg_DEC *a)
++{
++    TCGv Rd = cpu_r[a->rd];
++
++    tcg_gen_subi_tl(Rd, Rd, 1); /* Rd = Rd - 1 */
++    tcg_gen_andi_tl(Rd, Rd, 0xff); /* make it 8 bits */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Vf, Rd, 0x7f); /* Vf = Rd == 0x7f */
++    gen_ZNSf(Rd);
++
++    return true;
++}
++
++/*
++ *  This instruction performs 8-bit x 8-bit -> 16-bit unsigned multiplication.
++ */
++static bool trans_MUL(DisasContext *ctx, arg_MUL *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
++        return true;
++    }
++
++    TCGv R0 = cpu_r[0];
++    TCGv R1 = cpu_r[1];
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_mul_tl(R, Rd, Rr); /* R = Rd * Rr */
++    tcg_gen_andi_tl(R0, R, 0xff);
++    tcg_gen_shri_tl(R1, R, 8);
++    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication.
++ */
++static bool trans_MULS(DisasContext *ctx, arg_MULS *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
++        return true;
++    }
++
++    TCGv R0 = cpu_r[0];
++    TCGv R1 = cpu_r[1];
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++    TCGv t0 = tcg_temp_new_i32();
++    TCGv t1 = tcg_temp_new_i32();
++
++    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
++    tcg_gen_ext8s_tl(t1, Rr); /* make Rr full 32 bit signed */
++    tcg_gen_mul_tl(R, t0, t1); /* R = Rd * Rr */
++    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
++    tcg_gen_andi_tl(R0, R, 0xff);
++    tcg_gen_shri_tl(R1, R, 8);
++    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t0);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  This instruction performs 8-bit x 8-bit -> 16-bit multiplication of a
++ *  signed and an unsigned number.
++ */
++static bool trans_MULSU(DisasContext *ctx, arg_MULSU *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
++        return true;
++    }
++
++    TCGv R0 = cpu_r[0];
++    TCGv R1 = cpu_r[1];
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++    TCGv t0 = tcg_temp_new_i32();
++
++    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
++    tcg_gen_mul_tl(R, t0, Rr); /* R = Rd * Rr */
++    tcg_gen_andi_tl(R, R, 0xffff); /* make R 16 bits */
++    tcg_gen_andi_tl(R0, R, 0xff);
++    tcg_gen_shri_tl(R1, R, 8);
++    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++
++    tcg_temp_free_i32(t0);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  This instruction performs 8-bit x 8-bit -> 16-bit unsigned
++ *  multiplication and shifts the result one bit left.
++ */
++static bool trans_FMUL(DisasContext *ctx, arg_FMUL *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
++        return true;
++    }
++
++    TCGv R0 = cpu_r[0];
++    TCGv R1 = cpu_r[1];
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++
++    tcg_gen_mul_tl(R, Rd, Rr); /* R = Rd * Rr */
++    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++    tcg_gen_shli_tl(R, R, 1);
++    tcg_gen_andi_tl(R0, R, 0xff);
++    tcg_gen_shri_tl(R1, R, 8);
++    tcg_gen_andi_tl(R1, R1, 0xff);
++
++
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication
++ *  and shifts the result one bit left.
++ */
++static bool trans_FMULS(DisasContext *ctx, arg_FMULS *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
++        return true;
++    }
++
++    TCGv R0 = cpu_r[0];
++    TCGv R1 = cpu_r[1];
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++    TCGv t0 = tcg_temp_new_i32();
++    TCGv t1 = tcg_temp_new_i32();
++
++    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
++    tcg_gen_ext8s_tl(t1, Rr); /* make Rr full 32 bit signed */
++    tcg_gen_mul_tl(R, t0, t1); /* R = Rd * Rr */
++    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
++    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++    tcg_gen_shli_tl(R, R, 1);
++    tcg_gen_andi_tl(R0, R, 0xff);
++    tcg_gen_shri_tl(R1, R, 8);
++    tcg_gen_andi_tl(R1, R1, 0xff);
++
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t0);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication
++ *  and shifts the result one bit left.
++ */
++static bool trans_FMULSU(DisasContext *ctx, arg_FMULSU *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
++        return true;
++    }
++
++    TCGv R0 = cpu_r[0];
++    TCGv R1 = cpu_r[1];
++    TCGv Rd = cpu_r[a->rd];
++    TCGv Rr = cpu_r[a->rr];
++    TCGv R = tcg_temp_new_i32();
++    TCGv t0 = tcg_temp_new_i32();
++
++    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
++    tcg_gen_mul_tl(R, t0, Rr); /* R = Rd * Rr */
++    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
++    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
++    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
++    tcg_gen_shli_tl(R, R, 1);
++    tcg_gen_andi_tl(R0, R, 0xff);
++    tcg_gen_shri_tl(R1, R, 8);
++    tcg_gen_andi_tl(R1, R1, 0xff);
++
++    tcg_temp_free_i32(t0);
++    tcg_temp_free_i32(R);
++
++    return true;
++}
++
++/*
++ *  The module is an instruction set extension to the AVR CPU, performing
++ *  DES iterations. The 64-bit data block (plaintext or ciphertext) is placed in
++ *  the CPU register file, registers R0-R7, where LSB of data is placed in LSB
++ *  of R0 and MSB of data is placed in MSB of R7. The full 64-bit key (including
++ *  parity bits) is placed in registers R8- R15, organized in the register file
++ *  with LSB of key in LSB of R8 and MSB of key in MSB of R15. Executing one DES
++ *  instruction performs one round in the DES algorithm. Sixteen rounds must be
++ *  executed in increasing order to form the correct DES ciphertext or
++ *  plaintext. Intermediate results are stored in the register file (R0-R15)
++ *  after each DES instruction. The instruction's operand (K) determines which
++ *  round is executed, and the half carry flag (H) determines whether encryption
++ *  or decryption is performed.  The DES algorithm is described in
++ *  "Specifications for the Data Encryption Standard" (Federal Information
++ *  Processing Standards Publication 46). Intermediate results in this
++ *  implementation differ from the standard because the initial permutation and
++ *  the inverse initial permutation are performed each iteration. This does not
++ *  affect the result in the final ciphertext or plaintext, but reduces
++ *  execution time.
++ */
++static bool trans_DES(DisasContext *ctx, arg_DES *a)
++{
++    /* TODO */
++    if (!avr_have_feature(ctx, AVR_FEATURE_DES)) {
++        return true;
++    }
++
++    return true;
++}
+-- 
+2.17.2 (Apple Git-113)
 
-r~
 
