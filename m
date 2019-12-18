@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1311246F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:37:12 +0100 (CET)
-Received: from localhost ([::1]:53576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E31246F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:34:55 +0100 (CET)
+Received: from localhost ([::1]:53540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYZi-0002LD-TG
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:37:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49683)
+	id 1ihYXV-0006ka-Lg
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:34:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3K-0006Y1-Li
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3K-0006Y0-N6
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3J-00019V-DQ
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3J-00019Q-DF
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:42 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35429)
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35506)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3J-00017U-3S
+ id 1ihY3J-00017X-4O
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:41 -0500
-Received: by mail-wr1-x429.google.com with SMTP id g17so2023536wro.2
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:38 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id p17so1621139wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=waJxQlBb94XR6Ggskx6BDndQcoTTNWF9QTJRASbqMgE=;
- b=DaLHz5W4puy/asKxGWx0ACkDk32e/Sd5YW8FDKPC4wlKsF2xtoBQA/1P8AJqLD/Qiw
- EoEm8zWwGbAM8uw6DEL4JhW70uMhrsudFEg+dK9w8y/9jftGzFybxlFGlfoFBFz4XL33
- 9LJfH2gmqNY4zfTLk+CTvqXMC+87T4TprlgYByry1RQg0n215gsmwN0iyUYFzl3U7o9v
- 9TWgu0v0ZVcEedsaKkZRruG8cu9SuytiP4wYUJM5FLmRJta/c8JlKv5EpvMc+DSeXY+i
- 7ZqIGjXnLA8QYBJ4NknpFd7yFoDMt2cIyhWBpBUVCB4chgTIYB0VQSj6hX6N7kpbfqx6
- co4Q==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=X8qg4vC4u62X+krIpf2n1pZJRXcVq9s/dN9HuyUC68E=;
+ b=CC+F/sAP858AlRVRbSe3byqpaKoSnJwT/jqPPbtHyCyLFU4SX+yuTHnKyeR7RPyPeM
+ Q8JXelV/EmsQ1H3Pw2rv6COcRVxKdsoRPzYLqMcUsdJ7s9aBmwxkUygv/Zy/Md3OZuq1
+ 26DZB+dLiGzT73DyO1DBDYhdY2ehLfdayb4oDP6qqz9rdnJf7+oMIZJsjDmnYUAggZa3
+ Ydo0aOgRAsfupHOpvOqFqw7/BiGlJ1ps2nNhpZsZcm0rhcRLEOA1tVKod6lfdTi6T+fL
+ 6uR639YPuOUl79bFb1cb8UEeBmV2a6HUiUGORDng6p33EC15VLu0rbJJIXIkcr2hLGw6
+ g0AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=waJxQlBb94XR6Ggskx6BDndQcoTTNWF9QTJRASbqMgE=;
- b=rSWU74Ob4+AjwGNdQ4iU5Z15w6g70ZZ0OwEq/6OYVrhVF3roZykoqj4Cd4K59Af+KV
- GQ+ncKneKG6mDmB+5HnTkTHFMQcZ4DQmCqUD1ytKkTzMgezHTpwkgh3DAzigiKJU2Utr
- ZUqaefCVINm7fsVzchPjNvZ9tmiHLJUqAkroRl5/hHVJfscCdkGu9/tvcuDMl/0X7a8r
- 8YDbK1TWQcJ+vyhHzijAv+xkZ+VZjNkxnMAawdfcm6Swf7h7M8oj8ISVEsr9NhgWeejM
- 4UMAT0mcFgQtMAZGKKytfMLBPRpXxZHqd/ugauVmucVUVtyRdMF76bwk27J89Gpd/dlK
- Z2ng==
-X-Gm-Message-State: APjAAAUbrLEEm/0aMJqNWaHFkFUzKGWbr9AmXyjEBlukPbi2VEj5DNka
- HWurDo5Sgvx6GobTH8pTJyl8mgXv
-X-Google-Smtp-Source: APXvYqxBjtQH9Rsg1JeFhwS96pnfu1FIg7A4V0XX37EumhxAfa1DQrHdGrwwy+dYEmNwADQkcDJ+GA==
-X-Received: by 2002:adf:c147:: with SMTP id w7mr2498695wre.389.1576670617638; 
- Wed, 18 Dec 2019 04:03:37 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=X8qg4vC4u62X+krIpf2n1pZJRXcVq9s/dN9HuyUC68E=;
+ b=H4cYaM5ErXBv25z6/J7nnMBnSxeOnuoYHrrL0x7tGbrj5eH95cTs1PR47ldhYRD0fI
+ 6HZpx9S2Jyj5EU5s1vfbaRsgWzxzmheAD8See5y5j5S4+RG/cqD/SfS8Z6fucq5XkLJ0
+ Bdlg0j7dRW6M80ALcSi9kQ+TcOiTmTsawb0ZfS2yKSlbD/K3inBNbML3MQYQQT/ezHIk
+ OithOl2iFm/pUzwwgLXKztrgGHP9mBgc5nxbfJdWtypomoZWkBYKO1mZXTUDn+zxV+DC
+ XVTQ/seGmo4ynq82U4WX3HvlxtH6AEGDK7kREYiWujH6ARNN7lCqyzGVuQHR0Zgh1N1e
+ c+aA==
+X-Gm-Message-State: APjAAAW0zyYjslp3kmZCGGXYdHCi5evrTQ4516m3ISo43xNds0uwjlC1
+ Yxyq0KfHRPaoNWKaAbkpbWxAEFxs
+X-Google-Smtp-Source: APXvYqyWEo6Ixn8GYQMsTtI7R/9TEMehZmysdbvBLJOlF3Z0A6tDKeAmok5Ye+g0CAAFKFQpmi5DRg==
+X-Received: by 2002:a7b:c759:: with SMTP id w25mr2958815wmk.15.1576670618753; 
+ Wed, 18 Dec 2019 04:03:38 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.36
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.37
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Wed, 18 Dec 2019 04:03:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/87] configure: simplify vhost condition with Kconfig
-Date: Wed, 18 Dec 2019 13:02:09 +0100
-Message-Id: <1576670573-48048-44-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 44/87] i386: conditionally compile more files
+Date: Wed, 18 Dec 2019 13:02:10 +0100
+Message-Id: <1576670573-48048-45-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,75 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Kconfig.host            | 5 +++++
- Makefile                | 1 +
- hw/virtio/Kconfig       | 3 +++
- hw/virtio/Makefile.objs | 4 ++--
- 4 files changed, 11 insertions(+), 2 deletions(-)
+ hw/i386/Makefile.objs     | 6 +++---
+ hw/i386/kvm/Makefile.objs | 6 +++++-
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/Kconfig.host b/Kconfig.host
-index bb6e116..55136e0 100644
---- a/Kconfig.host
-+++ b/Kconfig.host
-@@ -25,6 +25,11 @@ config TPM
+diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+index 0d195b5..01ae202 100644
+--- a/hw/i386/Makefile.objs
++++ b/hw/i386/Makefile.objs
+@@ -1,11 +1,11 @@
+ obj-$(CONFIG_KVM) += kvm/
+ obj-y += e820_memory_layout.o multiboot.o
+ obj-y += x86.o
+-obj-y += pc.o
++obj-$(CONFIG_PC) += pc.o pc_sysfw.o
+ obj-$(CONFIG_I440FX) += pc_piix.o
+ obj-$(CONFIG_Q35) += pc_q35.o
+ obj-$(CONFIG_MICROVM) += microvm.o
+-obj-y += fw_cfg.o pc_sysfw.o
++obj-y += fw_cfg.o
+ obj-y += x86-iommu.o
+ obj-$(CONFIG_VTD) += intel_iommu.o
+ obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o
+@@ -14,4 +14,4 @@ obj-$(CONFIG_VMPORT) += vmport.o
+ obj-$(CONFIG_VMMOUSE) += vmmouse.o
  
- config VHOST_USER
-     bool
-+    select VHOST
-+
-+config VHOST_KERNEL
-+    bool
-+    select VHOST
- 
- config XEN
-     bool
-diff --git a/Makefile b/Makefile
-index fb1728e..531e955 100644
---- a/Makefile
-+++ b/Makefile
-@@ -382,6 +382,7 @@ MINIKCONF_ARGS = \
-     CONFIG_OPENGL=$(CONFIG_OPENGL) \
-     CONFIG_X11=$(CONFIG_X11) \
-     CONFIG_VHOST_USER=$(CONFIG_VHOST_USER) \
-+    CONFIG_VHOST_KERNEL=$(CONFIG_VHOST_KERNEL) \
-     CONFIG_VIRTFS=$(CONFIG_VIRTFS) \
-     CONFIG_LINUX=$(CONFIG_LINUX) \
-     CONFIG_PVRDMA=$(CONFIG_PVRDMA)
-diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
-index 3724ff8..f87def2 100644
---- a/hw/virtio/Kconfig
-+++ b/hw/virtio/Kconfig
-@@ -1,3 +1,6 @@
-+config VHOST
-+    bool
-+
- config VIRTIO
-     bool
- 
-diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
-index e2f70fb..de0f5fc 100644
---- a/hw/virtio/Makefile.objs
-+++ b/hw/virtio/Makefile.objs
-@@ -2,8 +2,8 @@ ifeq ($(CONFIG_VIRTIO),y)
- common-obj-y += virtio-bus.o
- obj-y += virtio.o
- 
--obj-$(call lor,$(CONFIG_VHOST_USER),$(CONFIG_VHOST_KERNEL)) += vhost.o vhost-backend.o
--common-obj-$(call lnot,$(call lor,$(CONFIG_VHOST_USER),$(CONFIG_VHOST_KERNEL))) += vhost-stub.o
-+obj-$(CONFIG_VHOST) += vhost.o vhost-backend.o
-+common-obj-$(call lnot,$(CONFIG_VHOST)) += vhost-stub.o
- obj-$(CONFIG_VHOST_USER) += vhost-user.o
- 
- common-obj-$(CONFIG_VIRTIO_RNG) += virtio-rng.o
+ obj-y += kvmvapic.o
+-obj-y += acpi-build.o
++obj-$(CONFIG_PC) += acpi-build.o
+diff --git a/hw/i386/kvm/Makefile.objs b/hw/i386/kvm/Makefile.objs
+index 4224ed9..0c8d5f2 100644
+--- a/hw/i386/kvm/Makefile.objs
++++ b/hw/i386/kvm/Makefile.objs
+@@ -1 +1,5 @@
+-obj-y += clock.o apic.o i8259.o ioapic.o i8254.o
++obj-y += clock.o
++obj-$(CONFIG_APIC) += apic.o
++obj-$(CONFIG_IOAPIC) += ioapic.o
++obj-$(CONFIG_I8254) += i8254.o
++obj-$(CONFIG_I8259) += i8259.o
 -- 
 1.8.3.1
 
