@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F063D124713
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:41:52 +0100 (CET)
-Received: from localhost ([::1]:53630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDD9124771
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:58:49 +0100 (CET)
+Received: from localhost ([::1]:53838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYeF-0000nh-MA
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:41:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57069)
+	id 1ihYue-0006MG-0h
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:58:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3w-0007Ol-1h
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:22 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3v-0007O0-Fx
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3s-0003XM-IG
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3t-0003Zw-B0
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:19 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42346)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45893)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3s-0003Sd-91
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:16 -0500
-Received: by mail-wr1-x433.google.com with SMTP id q6so1982349wro.9
+ id 1ihY3t-0003Wx-11
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:17 -0500
+Received: by mail-wr1-x441.google.com with SMTP id j42so1975432wrj.12
  for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=wKT5fGLcBjweK2g0j9x3iDEnS480C/vWZj9Pg704MW0=;
- b=uBFEGF9cpKGqQQW24pCETvFvKQe01KIQ50Ckw6KE2SiW5QFuItoyeNHQwLgz6riuLL
- MwKZZaw2f/UHk1JQC+L/iFzB0P11KDEkxRsP3VM9z+X/kY1QP6dImo3d0cmXr3p2dKWN
- eN9DhiHEF/GUWvyWGMuJCzbVjvVd8pZvQj6/jnFIbrRS7itTO0MwEk5Ycg43QCfFKgsb
- Od4CPz8HhB0QsfeRjzbt4798usSPNJ1QpYET2fu+TTRa5M1QrCvGuX8pzOW1tr6AyoHD
- ZjGpKf5A8lbj598Xm/ac1WIANB5D2BuZem6JBaumyUeEstZQ/PKrtnnFd+8ltLIgsZFi
- MGBw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=YpJua1nbXfmWc7u8N3DBv+ySntOx6HMwLCHAHrE1P9g=;
+ b=Y8zLeZhMXuV6LESFo43F7ppdRQTj0tlpPmttnlNqhdDRS2Q44UNVS5093K/V8GD2Et
+ g4KCGgmNOICwy8slW0GFd9Rqt8VRcHGyf6R7BvLA9jDA9H6TlIZoXsrVBkHNhjpG6lGy
+ LCKu+UlzCRNQ3ZvHBcQQ83IjK+4OVysfkJ/ri4TwX+44p8/UWi9/afMtQjEBuO2Ufh1G
+ S8daZa9aFpiJxSd2dc21lCDasZwjtF/oU1iQCsy0fpFjMqPc8K/mp14Ni14PlhFkPpMP
+ RgMWNRA9z39qjXG+0waAgUlKg1WY49B59BEgyNQJbVpVc+jiBLsQ6qYBPUGfgOXklhiW
+ GJzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=wKT5fGLcBjweK2g0j9x3iDEnS480C/vWZj9Pg704MW0=;
- b=gLmKPxB5foap3hlQQfYDbmonmmuhODxph5UAkX+KszIjmqtHVHzkMKGluRoXJl1W+U
- +xeNUx3JIvb99rrXQtfG/s6hX1toh+jv2WDPcGoOi7xHBXVBOqvnentiyjfesbhU8JvW
- 9oaPItMYbpPQ5BDxud+eV27L8H20ivOtALDtVrUSdOsrTQsIrmRekNm9scazMDpQPieQ
- 8ImTwNJy0pkLWLJgmwmnTqUnrg4FFB4WpPQIA26y4IG3uoE5WNUfQF40JdQ4FH+zQ+EF
- LwqaKS0YpV4VBXASjQSahRxB1yNsiHOEpTJU5xYV4TnPbQzLXpNRP+PLfrSg8T3IQw4e
- lMHg==
-X-Gm-Message-State: APjAAAUmGmahhjFNRdr9T4klME8NZcVfjffFDh7O3vSjSbmFXssEhU5G
- ITCfuGtriWrmJR860Vm3P8W90dCq
-X-Google-Smtp-Source: APXvYqyPnT4GBD2x23hiCCRvwgJzih3+z8nN6BygoY6e2h9shmBuQ8Fkrb9CL7f5ApMV8VA2VgCOgQ==
-X-Received: by 2002:a5d:6901:: with SMTP id t1mr2334165wru.94.1576670654720;
- Wed, 18 Dec 2019 04:04:14 -0800 (PST)
+ bh=YpJua1nbXfmWc7u8N3DBv+ySntOx6HMwLCHAHrE1P9g=;
+ b=d1oN0a40UFG8iv15ZcYnaxcv19/1sOvWRxVvQzJLVXMCZM7cZNf4XHM66Gi/ilJwkX
+ 82qxqbxEQlObgsFNU/EPtpD5I4HRlm9ucTJS22eVOprp5ie4U6l2AKYAkKj5kHpKbVzY
+ hvrEiaM3HNWJPX3eO5SMMNyetEU/x7xnshXUCMYw1hTlsaA7FFeVY/dOzAjRONC3VgFE
+ J2Qyy2t8nh2gCOPEHcDtDS3nrfpSrd9yq8BOntqibg4g/m832I5EW/DrUv6IYMZ/S1IJ
+ gXCXj+h0WJ68rSlZMAsy8v1tr39UTidP6guyyGUAeBxhbTE2HFZhwkTqcbphcZA6AvyN
+ REYw==
+X-Gm-Message-State: APjAAAVTqnhdjp8QGOoxyD4b2Vb584TScJMJE1b2TUJrWuWCpZcBCxAE
+ CgmLXJmBErL4t5G8ldhy9rvul7m6
+X-Google-Smtp-Source: APXvYqya2I6NXy72fHMxn0RkQnK2PkVGtLNQGFYrpvm+mMhU8sJYlKv4RIAU/XT4sB+SyZ0+5MPXjQ==
+X-Received: by 2002:a5d:6a83:: with SMTP id s3mr2351075wru.99.1576670655834;
+ Wed, 18 Dec 2019 04:04:15 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.13
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.14
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Wed, 18 Dec 2019 04:04:14 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 72/87] memory: include MemoryListener documentation and some
- missing function parameters
-Date: Wed, 18 Dec 2019 13:02:38 +0100
-Message-Id: <1576670573-48048-73-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 73/87] migration: check length directly to make sure the range
+ is aligned
+Date: Wed, 18 Dec 2019 13:02:39 +0100
+Message-Id: <1576670573-48048-74-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,313 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These cover the remaining warnings from kernel-doc.
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20191029162248.13383-7-pbonzini@redhat.com>
+Since the start addr is already checked, to make sure the range is
+aligned, checking the length is enough.
+
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20190712032704.7826-1-richardw.yang@linux.intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/exec/memory.h | 218 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 214 insertions(+), 4 deletions(-)
+ exec.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 4754749..e85b7de 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -423,30 +423,232 @@ struct IOMMUMemoryRegion {
-  * Use with memory_listener_register() and memory_listener_unregister().
-  */
- struct MemoryListener {
-+    /**
-+     * @begin:
-+     *
-+     * Called at the beginning of an address space update transaction.
-+     * Followed by calls to #MemoryListener.region_add(),
-+     * #MemoryListener.region_del(), #MemoryListener.region_nop(),
-+     * #MemoryListener.log_start() and #MemoryListener.log_stop() in
-+     * increasing address order.
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-     void (*begin)(MemoryListener *listener);
-+
-+    /**
-+     * @commit:
-+     *
-+     * Called at the end of an address space update transaction,
-+     * after the last call to #MemoryListener.region_add(),
-+     * #MemoryListener.region_del() or #MemoryListener.region_nop(),
-+     * #MemoryListener.log_start() and #MemoryListener.log_stop().
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-     void (*commit)(MemoryListener *listener);
-+
-+    /**
-+     * @region_add:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that is new in this address space
-+     * space since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The new #MemoryRegionSection.
-+     */
-     void (*region_add)(MemoryListener *listener, MemoryRegionSection *section);
-+
-+    /**
-+     * @region_del:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that has disappeared in the address
-+     * space since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The old #MemoryRegionSection.
-+     */
-     void (*region_del)(MemoryListener *listener, MemoryRegionSection *section);
-+
-+    /**
-+     * @region_nop:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that is in the same place in the address
-+     * space as in the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The #MemoryRegionSection.
-+     */
-     void (*region_nop)(MemoryListener *listener, MemoryRegionSection *section);
-+
-+    /**
-+     * @log_start:
-+     *
-+     * Called during an address space update transaction, after
-+     * one of #MemoryListener.region_add(),#MemoryListener.region_del() or
-+     * #MemoryListener.region_nop(), if dirty memory logging clients have
-+     * become active since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The #MemoryRegionSection.
-+     * @old: A bitmap of dirty memory logging clients that were active in
-+     * the previous transaction.
-+     * @new: A bitmap of dirty memory logging clients that are active in
-+     * the current transaction.
-+     */
-     void (*log_start)(MemoryListener *listener, MemoryRegionSection *section,
-                       int old, int new);
-+
-+    /**
-+     * @log_stop:
-+     *
-+     * Called during an address space update transaction, after
-+     * one of #MemoryListener.region_add(), #MemoryListener.region_del() or
-+     * #MemoryListener.region_nop() and possibly after
-+     * #MemoryListener.log_start(), if dirty memory logging clients have
-+     * become inactive since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The #MemoryRegionSection.
-+     * @old: A bitmap of dirty memory logging clients that were active in
-+     * the previous transaction.
-+     * @new: A bitmap of dirty memory logging clients that are active in
-+     * the current transaction.
-+     */
-     void (*log_stop)(MemoryListener *listener, MemoryRegionSection *section,
-                      int old, int new);
-+
-+    /**
-+     * @log_sync:
-+     *
-+     * Called by memory_region_snapshot_and_clear_dirty() and
-+     * memory_global_dirty_log_sync(), before accessing QEMU's "official"
-+     * copy of the dirty memory bitmap for a #MemoryRegionSection.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The #MemoryRegionSection.
-+     */
-     void (*log_sync)(MemoryListener *listener, MemoryRegionSection *section);
-+
-+    /**
-+     * @log_clear:
-+     *
-+     * Called before reading the dirty memory bitmap for a
-+     * #MemoryRegionSection.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The #MemoryRegionSection.
-+     */
-     void (*log_clear)(MemoryListener *listener, MemoryRegionSection *section);
-+
-+    /**
-+     * @log_global_start:
-+     *
-+     * Called by memory_global_dirty_log_start(), which
-+     * enables the %DIRTY_LOG_MIGRATION client on all memory regions in
-+     * the address space.  #MemoryListener.log_global_start() is also
-+     * called when a #MemoryListener is added, if global dirty logging is
-+     * active at that time.
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-     void (*log_global_start)(MemoryListener *listener);
-+
-+    /**
-+     * @log_global_stop:
-+     *
-+     * Called by memory_global_dirty_log_stop(), which
-+     * disables the %DIRTY_LOG_MIGRATION client on all memory regions in
-+     * the address space.
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-     void (*log_global_stop)(MemoryListener *listener);
-+
-+    /**
-+     * @log_global_after_sync:
-+     *
-+     * Called after reading the dirty memory bitmap
-+     * for any #MemoryRegionSection.
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-     void (*log_global_after_sync)(MemoryListener *listener);
-+
-+    /**
-+     * @eventfd_add:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that has had a new ioeventfd
-+     * registration since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The new #MemoryRegionSection.
-+     * @match_data: The @match_data parameter for the new ioeventfd.
-+     * @data: The @data parameter for the new ioeventfd.
-+     * @e: The #EventNotifier parameter for the new ioeventfd.
-+     */
-     void (*eventfd_add)(MemoryListener *listener, MemoryRegionSection *section,
-                         bool match_data, uint64_t data, EventNotifier *e);
-+
-+    /**
-+     * @eventfd_del:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that has dropped an ioeventfd
-+     * registration since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The new #MemoryRegionSection.
-+     * @match_data: The @match_data parameter for the dropped ioeventfd.
-+     * @data: The @data parameter for the dropped ioeventfd.
-+     * @e: The #EventNotifier parameter for the dropped ioeventfd.
-+     */
-     void (*eventfd_del)(MemoryListener *listener, MemoryRegionSection *section,
-                         bool match_data, uint64_t data, EventNotifier *e);
-+
-+    /**
-+     * @coalesced_io_add:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that has had a new coalesced
-+     * MMIO range registration since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The new #MemoryRegionSection.
-+     * @addr: The starting address for the coalesced MMIO range.
-+     * @len: The length of the coalesced MMIO range.
-+     */
-     void (*coalesced_io_add)(MemoryListener *listener, MemoryRegionSection *section,
-                                hwaddr addr, hwaddr len);
-+
-+    /**
-+     * @coalesced_io_del:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that has dropped a coalesced
-+     * MMIO range since the last transaction.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The new #MemoryRegionSection.
-+     * @addr: The starting address for the coalesced MMIO range.
-+     * @len: The length of the coalesced MMIO range.
-+     */
-     void (*coalesced_io_del)(MemoryListener *listener, MemoryRegionSection *section,
-                                hwaddr addr, hwaddr len);
--    /* Lower = earlier (during add), later (during del) */
-+    /**
-+     * @priority:
-+     *
-+     * Govern the order in which memory listeners are invoked. Lower priorities
-+     * are invoked earlier for "add" or "start" callbacks, and later for "delete"
-+     * or "stop" callbacks.
-+     */
-     unsigned priority;
-+
-+    /* private: */
-     AddressSpace *address_space;
-     QTAILQ_ENTRY(MemoryListener) link;
-     QTAILQ_ENTRY(MemoryListener) link_as;
-@@ -940,6 +1142,7 @@ void memory_region_init_rom(MemoryRegion *mr,
-  * @mr: the #MemoryRegion to be initialized.
-  * @owner: the object that tracks the region's reference count
-  * @ops: callbacks for write access handling (must not be NULL).
-+ * @opaque: passed to the read and write callbacks of the @ops structure.
-  * @name: Region name, becomes part of RAMBlock name used in migration stream
-  *        must be unique within any device
-  * @size: size of the region.
-@@ -1028,7 +1231,7 @@ static inline IOMMUMemoryRegion *memory_region_get_iommu(MemoryRegion *mr)
-  * Returns pointer to IOMMUMemoryRegionClass if a memory region is an iommu,
-  * otherwise NULL. This is fast path avoiding QOM checking, use with caution.
-  *
-- * @mr: the memory region being queried
-+ * @iommu_mr: the memory region being queried
-  */
- static inline IOMMUMemoryRegionClass *memory_region_get_iommu_class_nocheck(
-         IOMMUMemoryRegion *iommu_mr)
-@@ -1098,6 +1301,7 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
-  * @n: the IOMMUNotifier to be added; the notify callback receives a
-  *     pointer to an #IOMMUTLBEntry as the opaque value; the pointer
-  *     ceases to be valid on exit from the notifier.
-+ * @errp: pointer to Error*, to store an error if it happens.
-  */
- int memory_region_register_iommu_notifier(MemoryRegion *mr,
-                                           IOMMUNotifier *n, Error **errp);
-@@ -1270,9 +1474,12 @@ void *memory_region_get_ram_ptr(MemoryRegion *mr);
- void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize,
-                               Error **errp);
- /**
-- * memory_region_do_writeback: Trigger writeback for selected address range
-- * [addr, addr + size]
-+ * memory_region_do_writeback: Trigger cache writeback or msync for
-+ * selected address range
-  *
-+ * @mr: the memory region to be updated
-+ * @addr: the initial address of the range to be written back
-+ * @size: the size of the range to be written back
-  */
- void memory_region_do_writeback(MemoryRegion *mr, hwaddr addr, hwaddr size);
+diff --git a/exec.c b/exec.c
+index a34c348..dfe2096 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3901,10 +3901,9 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
  
-@@ -1591,6 +1798,8 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
- /**
-  * memory_region_get_ram_addr: Get the ram address associated with a memory
-  *                             region
-+ *
-+ * @mr: the region to be queried
-  */
- ram_addr_t memory_region_get_ram_addr(MemoryRegion *mr);
+     if ((start + length) <= rb->used_length) {
+         bool need_madvise, need_fallocate;
+-        uint8_t *host_endaddr = host_startaddr + length;
+-        if ((uintptr_t)host_endaddr & (rb->page_size - 1)) {
+-            error_report("ram_block_discard_range: Unaligned end address: %p",
+-                         host_endaddr);
++        if (length & (rb->page_size - 1)) {
++            error_report("ram_block_discard_range: Unaligned length: %zx",
++                         length);
+             goto err;
+         }
  
-@@ -2161,6 +2370,7 @@ static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
-  * @addr: address within that address space
-  * @attrs: memory transaction attributes
-  * @buf: buffer with the data transferred
-+ * @len: length of the data transferred
-  */
- static inline __attribute__((__always_inline__))
- MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
 -- 
 1.8.3.1
 
