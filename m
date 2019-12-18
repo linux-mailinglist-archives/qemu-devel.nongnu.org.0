@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168FE124675
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:08:02 +0100 (CET)
-Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46D3124664
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:02:44 +0100 (CET)
+Received: from localhost ([::1]:53144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihY7U-0003Jm-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:08:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44328)
+	id 1ihY2N-0005Hr-La
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:02:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2f-0005vl-KD
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:02 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihY1E-0004mx-HQ
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:01:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY2e-0007pX-90
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:01 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36348)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY2d-0007kr-T8
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:00 -0500
-Received: by mail-wm1-x333.google.com with SMTP id p17so1617332wma.1
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:02:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ievJYPkFEpwy+miP6JKeICVpFi5b+iJvMsgIGat87Fg=;
- b=ArCDdoeIkfi05KhsYAFuItNji8W/U6OpTzqtI86JGgWUzgncSEmbv01UBEy4Sv60Nd
- xNMd6JNFPLHU81Un5GCzmBfAHPHQjmDOzv1GMFZwsjLcVrlyFNfBU/zpLl4DtaCWCdKO
- 2/kfEFaICnjhhPoxzfFBtXzkwrLxao7ZcIu6WCDlV9iOuBpPVdPvZ10UXT0EjCMX4sKe
- 5LmPFy6F3YRDDv/iUox4LxoyqDWFWg6pMzTt0RrJQTpsKFDhI7mxZeDu71qChQcqmqgF
- 3ir2E6Re0RsTJcosBFUIaU9RktDOSmHv9V95tUDaRcqU7NApMmtGFbEGi3qD7pswAz85
- AhxQ==
+ (envelope-from <pbonzini@redhat.com>) id 1ihY19-0002Kk-0e
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:01:31 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44873
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihY18-0002B3-Rr
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:01:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576670485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nnTOVHuW87Jr/QF5nTyCZsFNBa9WxSkLxkS3rc7V324=;
+ b=CMAcblrSa9quoeC6sxcghhVePalAQnrshpCYZYmxDr/Dx9pL7045+57pj9qgfmE/YgLTGK
+ 4lbU2NOLl77eaWE8BeRLtJRU4HMYZK9DYPB75x6c9wtG0/fDWzAsLFLd2NXsy6cF+vzuKD
+ 6R9q23BIAFHut9PF1SMNVMhUCFbCDZs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-G62gFVv_NAqS0LjzT4_onw-1; Wed, 18 Dec 2019 07:01:23 -0500
+Received: by mail-wm1-f70.google.com with SMTP id p5so434679wmc.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:01:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=ievJYPkFEpwy+miP6JKeICVpFi5b+iJvMsgIGat87Fg=;
- b=qiZIfXxt/+0W+Qmnn5J8M6ve3Kiiu4s4zm7vcWj6z7RujmLnkqF4Q1G6iKCE1FvQtH
- WnRqXuRK7AJ2l+gGIEBq1PCV6xUuo2KqxvaFAdWacoXAkmp5ho+SRNL7GUibfGBVWeAz
- dnkKN75NS+WKPMRZf27j/a4xXOY2WXnv8a8cjFhpNqY1ZEZoNJy1AI7JJrgg2LaQi8TK
- p7YJjZPAHJFU6bvqx/9ZmVlIbMHk2H1npWQFVXEwvLSAPxXwijKIa1DH9adQie/9RF7R
- ZYDN/5TDpCvhlx6eo4S5pUxD4mUHcA81xZwWVi6UoZkqcsVnzVUm2KKuRThnTgG8URhb
- Z6aA==
-X-Gm-Message-State: APjAAAW/bzy72A9o0slsd3Cy8kTwZz3iNFhQR37LuyBRB5faZ172FNDR
- ndaSAoNBpZJ4zIZTeehXgcm5i9UE
-X-Google-Smtp-Source: APXvYqw0Whx9Y3w5YJoDKCSkav07LFoCV4bDGRSeBBpzSQzTPp54ZwI+SwI/vR+Ql8aKyViFt8omLg==
-X-Received: by 2002:a05:600c:246:: with SMTP id
- 6mr2639177wmj.122.1576670578547; 
- Wed, 18 Dec 2019 04:02:58 -0800 (PST)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.02.57
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:02:58 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vtprSGYHU4j197Ob5MFH6FDAhj99Ty+47OcaF4TZslQ=;
+ b=MedRIOAlLZhhwnfvhGOrJ0LloPDIhDBjxRWGDdjjyHBx+sbo4UD5NlZi3dKT4eC92j
+ Ug22meH/UwkbuZC17CKy/8m/r37Oj4VcWfDHkG39lmAZqzU75chzP1UzJTncIAdVbFuQ
+ ir3UTpdodPZbWM0cb2qVEFz0l80vY98u/Z2aaZxTPHZq2wIW+8ScVYwfjK9H1GhmQF9P
+ X0JcPIKJB32JRvVFvJAk8uZXLkGppSOha54WW71VV6mNcX+IoMIeuJavjLhIqyBDWgGC
+ t/nK1iUO5EpjRucrDjAr0y62nIxmVi4G5tTGgSTATu1HIvC5ffph4oJKJuNuLZLzDrOC
+ CgDw==
+X-Gm-Message-State: APjAAAV8Ol3QkrDC/qxydw77ZGESaD4qfEaM+5kF2fgS2F4AnTIW4tnx
+ XTWz4YtrNkGzE9jUqKtN7e0q1FFjHR4mc9FS9NCcR+iX2GdPPFW/g72m1XoumQzzLWVZEXeHAvC
+ BDx15kswmrKg2WRw=
+X-Received: by 2002:a05:6000:50:: with SMTP id
+ k16mr2402936wrx.145.1576670482376; 
+ Wed, 18 Dec 2019 04:01:22 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzP+Fh3tnwzAq8B8UcmM2mVBYjuJtoDSV8sbDFanUFk2f/c6bgGmh1sUtNsOgYBEFE0wS3EXA==
+X-Received: by 2002:a05:6000:50:: with SMTP id
+ k16mr2402888wrx.145.1576670482076; 
+ Wed, 18 Dec 2019 04:01:22 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:ac09:bce1:1c26:264c?
+ ([2001:b07:6468:f312:ac09:bce1:1c26:264c])
+ by smtp.gmail.com with ESMTPSA id s8sm2242512wrt.57.2019.12.18.04.01.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Dec 2019 04:01:21 -0800 (PST)
+Subject: Re: [PATCH-for-5.0 v3 3/6] hw/pci-host/i440fx: Use size_t to iterate
+ over ARRAY_SIZE()
+To: Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191209095002.32194-1-philmd@redhat.com>
+ <20191209095002.32194-4-philmd@redhat.com>
+ <a4745134-47dc-ab8a-6009-69fcc9dfbb02@redhat.com>
+ <46339299-e45b-79a3-5b45-f62fb5c7b26f@vivier.eu>
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 03/87] migration-test: Move hide_stderr to common commandline
+Message-ID: <b629cd94-95e9-d351-6e80-23594c2b6245@redhat.com>
 Date: Wed, 18 Dec 2019 13:01:29 +0100
-Message-Id: <1576670573-48048-4-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::333
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <46339299-e45b-79a3-5b45-f62fb5c7b26f@vivier.eu>
+Content-Language: en-US
+X-MC-Unique: G62gFVv_NAqS0LjzT4_onw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,65 +98,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Juan Quintela <quintela@redhat.com>
+On 18/12/19 12:57, Laurent Vivier wrote:
+> Le 09/12/2019 =C3=A0 11:05, Thomas Huth a =C3=A9crit=C2=A0:
+>> On 09/12/2019 10.49, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> We don't enforce the -Wsign-conversion CPPFLAG, but it doesn't hurt
+>>> to avoid this warning:
+>>>
+>>>   warning: implicit conversion changes signedness: 'int' to 'size_t' (a=
+ka 'unsigned long') [-Wsign-conversion]
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> ---
+>>>  hw/pci-host/i440fx.c | 5 ++---
+>>>  1 file changed, 2 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+>>> index fbdc563599..0cc80b276d 100644
+>>> --- a/hw/pci-host/i440fx.c
+>>> +++ b/hw/pci-host/i440fx.c
+>>> @@ -419,12 +419,11 @@ out:
+>>>  static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
+>>>  {
+>>>      uint32_t val =3D 0;
+>>> -    int i, num;
+>>> +    size_t i;
+>>>      int pos, len;
+>>>      Error *local_err =3D NULL;
+>>> =20
+>>> -    num =3D ARRAY_SIZE(igd_host_bridge_infos);
+>>> -    for (i =3D 0; i < num; i++) {
+>>> +    for (i =3D 0; i < ARRAY_SIZE(igd_host_bridge_infos); i++) {
+>>>          pos =3D igd_host_bridge_infos[i].offset;
+>>>          len =3D igd_host_bridge_infos[i].len;
+>>>          host_pci_config_read(pos, len, &val, &local_err);
+>>>
+>>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>
+>>
+>=20
+> Applied to my trivial-patches branch.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Tested-by: Cornelia Huck <cohuck@redhat.com> #s390x
-Tested-by: Laurent Vivier <lvivier@redhat.com>
----
- tests/migration-test.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+No need to, I've already queued the whole series.
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index fbddcf2..0c01ed3 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -558,6 +558,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
- {
-     gchar *cmd_src, *cmd_dst;
-     gchar *cmd_source, *cmd_target;
-+    const gchar *ignore_stderr;
-     char *bootpath = NULL;
-     char *extra_opts = NULL;
-     char *shmem_path = NULL;
-@@ -661,24 +662,19 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-     g_free(extra_opts);
- 
-     if (hide_stderr) {
--        gchar *tmp;
--        tmp = g_strdup_printf("%s 2>/dev/null", cmd_src);
--        g_free(cmd_src);
--        cmd_src = tmp;
--
--        tmp = g_strdup_printf("%s 2>/dev/null", cmd_dst);
--        g_free(cmd_dst);
--        cmd_dst = tmp;
-+        ignore_stderr = "2>/dev/null";
-+    } else {
-+        ignore_stderr = "";
-     }
- 
--    cmd_source = g_strdup_printf("%s %s",
--                                 cmd_src, opts_src);
-+    cmd_source = g_strdup_printf("%s %s %s",
-+                                 cmd_src, opts_src, ignore_stderr);
-     g_free(cmd_src);
-     *from = qtest_init(cmd_source);
-     g_free(cmd_source);
- 
--    cmd_target = g_strdup_printf("%s %s",
--                                 cmd_dst, opts_dst);
-+    cmd_target = g_strdup_printf("%s %s %s",
-+                                 cmd_dst, opts_dst, ignore_stderr);
-     g_free(cmd_dst);
-     *to = qtest_init(cmd_target);
-     g_free(cmd_target);
--- 
-1.8.3.1
-
+Paolo
 
 
