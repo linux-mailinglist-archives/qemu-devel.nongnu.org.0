@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DC81247C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:12:38 +0100 (CET)
-Received: from localhost ([::1]:54132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC22124861
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:29:40 +0100 (CET)
+Received: from localhost ([::1]:54514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ81-0008VR-At
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:12:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53469)
+	id 1ihZOU-0001pn-UJ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:29:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ihYx8-00020s-E8
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:23 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihZCR-0006bQ-Ob
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ihYx7-0008CS-8s
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:22 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:34643)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1ihYx3-0007q8-GG; Wed, 18 Dec 2019 08:01:17 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N8XkP-1he1yD1VAH-014TUZ; Wed, 18 Dec 2019 14:01:12 +0100
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihZCQ-0008Jc-JT
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:11 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35100)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ihZCQ-0008CR-9n
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:17:10 -0500
+Received: by mail-wr1-x434.google.com with SMTP id g17so2277583wro.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 05:17:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=qUVNMny0iXUgGdtuz3IrTcDIv1gr6mfwBXXEaqnH0mo=;
+ b=E/aGf/ZYKI4wIv2QVi0j+2dcDSjOcVE1rLVPGEF1ibvzSvP2+yFaZBj8A9ljqGKp02
+ G453kC02Fg5mRlNSEWBcLv82+GohGmh2nkRMF7U/1iHJO/jtp+PGUf8H3SIHEPvZtLY+
+ fwNxXiGyO4/6KvnfswD4k1n8604D3Spb8+NQVYdc/oOPpkcX85/F2UJYmystgsgxaLPK
+ qpfQEKaKpx7wrrlL3Qr4RtKrOPeLV7cdZ5Kw9siMpWshbUakxHwVHskjcuidZSlPfDSl
+ m2KkRkHp8O1VhZn3FR8/e2OQPaqe2Bya9iWF440Xt5vXbw9Mxqh9oAT+Y4Y9g8VFEdvT
+ AaxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=qUVNMny0iXUgGdtuz3IrTcDIv1gr6mfwBXXEaqnH0mo=;
+ b=dch6OQomyZmN/7fa5JWbOMm+d1yaI5gjy9hvofI3fhKv9lng29g7cbn+Ax1JlBLwld
+ 4Y59RJ8oMOZV6OWweMUP7cHcUPJufH/H2PYr0sB8cTDwsja0HfDayT0999Rr/qBEGVde
+ atij449i+bhCCXDVi9wuvNueTKiutB44zZ1FHT5aaMhtIJ4vCkgftb84N/bg53B1tfHx
+ 6lhio2iajctaV07qoAmSlFRGwgMq5YJzn44HxXMUqdqk+nHxonCx1eg6JtLjLCBFLCie
+ SFqi+4dSBAn2fQQkNZu7SBJtWe9NmP9ScbH8SvhBauvKRD2hM/bYzLOhzlG4ParXvcLu
+ cr9g==
+X-Gm-Message-State: APjAAAWH+xWhbUer5Z7ffrOavn34lEJZbIrJ3j+QfXJ9/fdi1+2MFKOg
+ 1O0gECsNOdTLxYZ1GIPhJpy0x1kP
+X-Google-Smtp-Source: APXvYqyZ1B8wce7RkBqU8fSc+MZpjYBz3XSzY8fIwq/3n3nXcGWBznDSQDt19W+UmoM/Ni9cNgENnQ==
+X-Received: by 2002:a5d:4b88:: with SMTP id b8mr2782394wrt.343.1576675028734; 
+ Wed, 18 Dec 2019 05:17:08 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id t1sm2447980wma.43.2019.12.18.05.17.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 18 Dec 2019 05:17:08 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] qemu-doc: Remove the unused "Guest Agent" node
-Date: Wed, 18 Dec 2019 14:01:05 +0100
-Message-Id: <20191218130105.125981-8-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191218130105.125981-1-laurent@vivier.eu>
-References: <20191218130105.125981-1-laurent@vivier.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OoM52WcD+7hA490CeupEbe9AmoiALHAO381+nS6jDBKFFoONge9
- /+O3m2dnz2Wu5rNh8VFk8DA0bGrT1kHMOBZYAeShApYc2IZb93M93EYLbmwStUfV6LUOmAF
- nRAr2MJAJvNdnFXQhDxkm1gaDyA2H0QyarUsRDcN3+uSSjE8xk5jWohK1zHNsrOVt/qo7aY
- hyo/MWORXiCSbitVfSduw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RwNdeAo+slw=:X9sff6sd/GVtZmjfFHA4Gv
- O3lvZhI+1dqamncpLlJDCqRH3LjVIw5iKn4WAYtHOWLf3z+t+Asw9hallyunccZEBMEMYNED/
- yXWnFwrQ9rRlnAxIlEapS+ZeXK1moeg/nemQhvZ0Ou8mfPBMjaOdp6lYr6pSsX9IAGvuLPNf9
- ybux64lubRNjjzhUcfrUHk+ufhuqWKTdHAfsJ9wi2Lxjw+2GXDJTW+++i1olgmtlIKT2AyhYp
- PLiU1MTk8VjgwRadhwUiyx+1hRxGxQgieCumb07r0olpdBJVHwPUsw9gsKuKlrn7DGLaOyBVE
- bUZOTahdjclf7IPxVrYEFllknDLGPTYWnkzc/C+hYXuhOlcQ3BiVvD0kGW2y0VwS/gs9UOjap
- +osgE2Y6fV6MA5ALzHaBWX6Lu9FfFZ2ie50E9xX5L1HgkRyXsYziN1rUScjuKvGSwkMwbR8su
- WNGr+wCYAkcohtVPbrIj8SMaNFS1ZyOXkwooAqJHxLa/+Ei2SK7xBSSbp7VBFIjGXYMZhoMUF
- DEY41xvd5RVXXAdfletNDFU2L7yJ6BQb6KI7Jf6UZkQVARB56lJJ3wVtfVnZyzBRAt+TLSKVM
- J4M9/9grPmtZFSylnHTc9zRmwTLKwKo830LL4tJCdm7aUMlxoCh/vvBqTWpLS9DpEguFKYdaD
- UeImpaUtw16KEI43evUwHTGzV6ufBBsCN9Pc3lFQjM2xLvE/mXXT0pUoWOGGTpALYhHY0MSsL
- +3ZFY1TiTKf/E/08BcgBsvHHjH84D0XAeDeK7vxIb04IHmlC3ekeGKdq1mE9GZwcyRErRYT1L
- 7LfSl0UbRQ7psL1mzXVZ+YfkWV8/Y3gWlwyF6OIulGDri1Jzpe95QvW+x8WO4hYcRhrLLvkWK
- lFBeSoT3NIAIGISDY8UQ==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.126.131
+Subject: [PATCH 0/3] block/io: serialising request clean up and locking fix
+Date: Wed, 18 Dec 2019 14:17:03 +0100
+Message-Id: <1576675026-25046-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,41 +71,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-block@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Peter Lieven noticed that reqs->overlap_offset and reqs->overlap_bytes
+are written outside bs->reqs_lock.  Patch 3 fixes it, while patches 1
+and 2 are preparatory cleanups.
 
-The node has been removed from the texi file some months ago, so we
-should remove it from the menu section, too.
+Paolo Bonzini (3):
+  block: eliminate BDRV_REQ_NO_SERIALISING
+  block/io: wait for serialising requests when a request becomes
+    serialising
+  block/io: take bs->reqs_lock in bdrv_mark_request_serialising
 
-Fixes: 27a296fce982 ("qemu-ga: Convert invocation documentation to rST")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191216132941.25729-1-thuth@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- qemu-doc.texi | 1 -
- 1 file changed, 1 deletion(-)
+ block/file-posix.c        |   1 -
+ block/io.c                | 161 +++++++++++++++++++++++-----------------------
+ include/block/block.h     |  12 ----
+ include/block/block_int.h |   3 +-
+ 4 files changed, 80 insertions(+), 97 deletions(-)
 
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index eea91a2d1efd..39f950471f28 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -38,7 +38,6 @@
- * Introduction::
- * QEMU PC System emulator::
- * QEMU System emulator for non PC targets::
--* QEMU Guest Agent::
- * QEMU User space emulator::
- * System requirements::
- * Security::
 -- 
-2.24.1
+1.8.3.1
 
 
