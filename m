@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBED1257C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 00:29:06 +0100 (CET)
-Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF651257BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 00:27:51 +0100 (CET)
+Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihikc-0003bi-0k
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 18:29:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35093)
+	id 1ihijN-00010l-W4
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 18:27:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1ihih4-0007Cu-NN
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 18:25:27 -0500
+ (envelope-from <crosa@redhat.com>) id 1ihih8-0007Jd-HC
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 18:25:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1ihih3-0003cp-Kg
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 18:25:26 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46647
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1ihih7-0003ec-AK
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 18:25:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29304
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ihih3-0003ch-Gg
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 18:25:25 -0500
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1ihih7-0003eF-6w
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 18:25:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576711525;
+ s=mimecast20190719; t=1576711528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HeLcqgAJ0jMqwtYDErQXdX2IVnm/UfYy9v1fDBynv5E=;
- b=f3wrjEZV4e0HReNyASuRP5qCWiJ6lZg+ME00nb1UH5Bds8Wkp3F2tElZEcgm1VArIIEZtu
- FIJbtQLb4PEAA0n6YpBWP7y4siY+ygVZNW+H/kxfVjO5pZhZMF2cML+r0lqKc+Abs8aPfH
- XBxShp0it3kLsOR/nOnX1bJSwwcDQS0=
+ bh=AuU4ET+EY1+mdQGt4F3MdOgpFkwTRzSVdQfzcekob6M=;
+ b=SGEJxjHf3cPV8CgN7ulFHoKtv9+ak1j/ieOpBMI7Ah0PN9fBKBsA33NGsr2gOEyE5dKh6o
+ 3y35CV0I/7FoBc3fsGAF6gEvmrvQJLQFen8295MO5qQ6lmhc4xwr04h4bQnGdzpOOw6ZF6
+ a3Eh0yicy5WWSpfQQ4MAYQIgDdYSLuQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-CmnEsEOjMhe6kY_rhWczlA-1; Wed, 18 Dec 2019 18:25:21 -0500
+ us-mta-257-W-7EwnLJP_S39MqMme4YVw-1; Wed, 18 Dec 2019 18:25:25 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A73CEDBE6;
- Wed, 18 Dec 2019 23:25:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44C46477;
+ Wed, 18 Dec 2019 23:25:23 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-25.gru2.redhat.com
  [10.97.116.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D46A1001281;
- Wed, 18 Dec 2019 23:25:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C43310001AE;
+ Wed, 18 Dec 2019 23:25:20 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 3/4] Acceptance tests: add make targets to download images
-Date: Wed, 18 Dec 2019 18:24:59 -0500
-Message-Id: <20191218232500.23530-4-crosa@redhat.com>
+Subject: [PATCH v8 4/4] [TO BE REMOVED] Use Avocado master branch + vmimage fix
+Date: Wed, 18 Dec 2019 18:25:00 -0500
+Message-Id: <20191218232500.23530-5-crosa@redhat.com>
 In-Reply-To: <20191218232500.23530-1-crosa@redhat.com>
 References: <20191218232500.23530-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: CmnEsEOjMhe6kY_rhWczlA-1
+X-MC-Unique: W-7EwnLJP_S39MqMme4YVw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,61 +80,30 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The newly introduced "boot linux" tests make use of Linux images that
-are larger than usual, and fall into what Avocado calls "vmimages",
-and can be referred to by name, version and architecture.
+This uses the Avocado from a custom branch that contains a fix, and is
+proposed on the upstream Avocado project as pull request #3406.
 
-The images can be downloaded automatically during the test. But, to
-make for more reliable test results, this introduces a target that
-will download the vmimages for the architectures that have been
-configured and are available for the currently used distro (Fedora
-31).
+Upon inclusion and a new release, this should be dropped and the
+Avocado version bumped to 74.0.
 
+Reference: https://github.com/avocado-framework/avocado/pull/3406
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/Makefile.include | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ tests/requirements.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index b381387048..78a6f089ff 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1177,7 +1177,20 @@ $(TESTS_RESULTS_DIR):
-=20
- check-venv: $(TESTS_VENV_DIR)
-=20
--check-acceptance: check-venv $(TESTS_RESULTS_DIR)
-+FEDORA_31_ARCHES_CANDIDATES=3D$(patsubst ppc64,ppc64le,$(TARGETS))
-+FEDORA_31_ARCHES :=3D x86_64 aarch64 ppc64le s390x
-+FEDORA_31_DOWNLOAD=3D$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDI=
-DATES))
-+
-+# download one specific Fedora 31 image
-+get-vmimage-fedora-31-%: $(check-venv)
-+=09$(call quiet-command, \
-+             $(TESTS_VENV_DIR)/bin/python -m avocado vmimage get \
-+             --distro=3Dfedora --distro-version=3D31 --arch=3D$*)
-+
-+# download all vm images, according to defined targets
-+get-vmimage: $(patsubst %,get-vmimage-fedora-31-%, $(FEDORA_31_DOWNLOAD))
-+
-+check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vmimage
- =09$(call quiet-command, \
-             $(TESTS_VENV_DIR)/bin/python -m avocado \
-             --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_RESUL=
-TS_DIR) \
-@@ -1188,7 +1201,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
-=20
- # Consolidated targets
-=20
--.PHONY: check-block check-qapi-schema check-qtest check-unit check check-c=
-lean
-+.PHONY: check-block check-qapi-schema check-qtest check-unit check check-c=
-lean get-vmimage
- check-qapi-schema: check-tests/qapi-schema/frontend check-tests/qapi-schem=
-a/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- check-block: $(patsubst %,check-%, $(check-block-y))
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 0192c352cd..ed99c25d03 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,5 +1,5 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework=3D=3D73.0
++-e git+https://github.com/clebergnu/avocado@vmimage_lazy_no_snapshot#egg=
+=3Davocado_framework
+ pycdlib=3D=3D1.8.0
 --=20
 2.21.0
 
