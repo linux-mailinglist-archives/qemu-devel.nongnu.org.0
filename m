@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462921256F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 23:36:34 +0100 (CET)
-Received: from localhost ([::1]:33430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9F6125705
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 23:38:02 +0100 (CET)
+Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihhvl-0002pd-5c
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 17:36:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54291)
+	id 1ihhxB-0004td-86
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 17:38:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihhu7-0001TH-3c
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:52 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ihhu8-0001TR-TG
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihhu5-0003ub-G1
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:51 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37919)
+ (envelope-from <richard.henderson@linaro.org>) id 1ihhu7-0003w1-7C
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:52 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:35925)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihhu5-0003ty-A8
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:49 -0500
-Received: by mail-pg1-x543.google.com with SMTP id a33so2030337pgm.5
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 14:34:49 -0800 (PST)
+ id 1ihhu7-0003vM-1l
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 17:34:51 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id n59so1547428pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 14:34:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M89NR5346hcsRB2SUkQwEfQ5idMR/OARU10zt8sGydk=;
- b=x3aoTvBdaO578ZgCkCRuB0yRK+lJgM0k+ebUU7JwVoU4ixYOvNbAWMgor1/uLQAY0y
- KCTJ0bFqjEiUyvgGigEGFc2YQcBFNCBJoLKR4Z9sk23zCtrUS2FWwx06YGflycnJiMHp
- ZcdtxB/iXP+mHiA9mJR9tF0FpLjLgAbPvpYXX4yOTAK+C7no+yBIBCenwYbVr5ZK2Kwc
- qcqsSVIVG8FQX19MJSJvyTUwuQAuo8rQznCoyHVUTmuwMNcO+oQRcEyFyUuqJRWxvcRO
- Dh7NgorLwbJYrZyTEwYuMcrDbCKUfTW4wPtZqg+QzpGoxVTesitF4yk3vYDpwNRdSGH0
- DkTw==
+ bh=0o3CRcHml81TDDyh0N84h3eTIdNUcDVT7umUw0AUs+8=;
+ b=HR2MfF44BxE7XuFsa+AGcR4X/1uC7IYEpME0y22N1LeDn3WNWepPKKTh2fXYxUtDvO
+ c4gvIIBcxIWCXLYQbSITVbVEeQfCG3IRfWEz1oZnjSv5AsRDdatqvbnaKppLLNIKy5vx
+ G3YrMM5akcZyuclfP2sjypwIWZILQQBvm2GlSGVFJuCny2fp3qMixumgb6gdpzidVnGy
+ 0hLa8cP6MwZ/lVIp/iBu5PNFjF/GT3WzvErYUfj7zSlmN9YErrKw9iGpdIA1DKPRtivG
+ AwIShAkgcZ0a8TGeW8m0fLShsShYwAkrvdzPAVEurBCYiIq9G7nzSnBeFfdum3r4AO/G
+ KcXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M89NR5346hcsRB2SUkQwEfQ5idMR/OARU10zt8sGydk=;
- b=kbRl3pJrHIKkCfKxLpeNVymRTEFWuONTdwcuVs+kqPz2FP5xqK4BBrHrVAb9kKj2Pz
- mx9bzx5tdJlDUP2WSyVknZOmeY71ctkPR1shFOnU7FycNN6Ou/EzzNimwpJi4dUxET9P
- BdpCQgiepy3QZAFQVYP4smrbGJj8bt0jLKPVeiaUGqIZZfXhf2acpqHf46RA10OTo9AW
- OOH26oaDUZZYYMVt32LKoGeKRh0G6PVyzJ2k7C9/t0o9t+1dgHA3XzDKi73XEnTHOnsL
- To4QE9uJuzV5SELSCxY4tG/ItQFB04wFwMuZMvzIAS6us3IhWZBhtj5Edyaswj4oG2LH
- hZhQ==
-X-Gm-Message-State: APjAAAV15zbH6O/afwIk+PM9Zcwvkbx7A7/jHpLvGLxk/081vlI51QN1
- ba40ICJb/IFt+09rFy/abnvFdQ0+CSY=
-X-Google-Smtp-Source: APXvYqwhQxe5p8Ly8ZhgZcfBzf8D85LYBxGa/P2YXidEiJOFI5wArS//a2b0oO9tr32QXkCc3RapgA==
-X-Received: by 2002:a63:d047:: with SMTP id s7mr5495335pgi.81.1576708487922;
- Wed, 18 Dec 2019 14:34:47 -0800 (PST)
+ bh=0o3CRcHml81TDDyh0N84h3eTIdNUcDVT7umUw0AUs+8=;
+ b=ech60G1Ee4M6z6y6kp6ZU4XDzhlwrI5TH5rdlElQoJfkFXCkEh005wI4cqLYFh78cC
+ zE7lHpv1Is6SVcjUJqmh11OtX+KhAFEOYOdsBAkCOH1YY/2TXx7RYViAe1NpI5j5s7Cs
+ dNJJfQBixtlj9wY4no91VDPk9g1Y7HUA+iTRJhf0ivA/DAysqzsf8zAyhLY3zLRow4Vy
+ iQO5U87hktOgk9CGdK6Lq75YCZPo0s7xPggYQRPzQM8zXjA2ju66NGjiHt3NUOgMMYF9
+ j/viCx3vR8O2EhODNcxJxX7hIj2tbs4Z5M6wiUxRoMOGO7P0ug8EZSo9MafGtqSvP71n
+ Q8hw==
+X-Gm-Message-State: APjAAAWlmvXz1vIjWpF75jD/lZ/RgonTZILv+rwYwIjHRLj71asGABjK
+ RZtxsrCTuTCpKr4jExWdNJHQX8SI3RA=
+X-Google-Smtp-Source: APXvYqw3kL3ECRLQ7wL/n4/DN+3SLMCi8JbA5ZQYCDUmNdtP5WVqRvFypX1JEzEB73kPVoi1NbI3ug==
+X-Received: by 2002:a17:90a:5217:: with SMTP id
+ v23mr5607953pjh.121.1576708489521; 
+ Wed, 18 Dec 2019 14:34:49 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id j1sm4627779pff.107.2019.12.18.14.34.46
+ by smtp.gmail.com with ESMTPSA id j1sm4627779pff.107.2019.12.18.14.34.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2019 14:34:47 -0800 (PST)
+ Wed, 18 Dec 2019 14:34:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] tcg: Remove softmmu code_gen_buffer fixed address
-Date: Wed, 18 Dec 2019 12:34:36 -1000
-Message-Id: <20191218223441.23852-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 3/7] configure: Do not force pie=no for non-x86
+Date: Wed, 18 Dec 2019 12:34:37 -1000
+Message-Id: <20191218223441.23852-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191218223441.23852-1-richard.henderson@linaro.org>
 References: <20191218223441.23852-1-richard.henderson@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,82 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, Thomas Huth <thuth@redhat.com>, i@maskray.me,
- berrange@redhat.com
+Cc: philmd@redhat.com, i@maskray.me, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The commentary talks about "in concert with the addresses
-assigned in the relevant linker script", except there is no
-linker script for softmmu, nor has there been for some time.
+PIE is supported on many other hosts besides x86.
 
-(Do not confuse the user-only linker script editing that was
-removed in the previous patch, because user-only does not
-use this code_gen_buffer allocation method.)
+The default for non-x86 is now the same as x86: pie is used
+if supported, and may be forced via --enable/--disable-pie.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+The original commit (40d6444e91c) said:
+
+  "Non-x86 are not changed, as they require TCG changes"
+
+but I think that's wrong -- there's nothing about PIE that
+affects TCG one way or another.
+
+Tested on aarch64 (bionic) and ppc64le (centos 7) hosts.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 37 +++++--------------------------------
- 1 file changed, 5 insertions(+), 32 deletions(-)
+ configure | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 9f48da9472..88468a1c08 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1032,47 +1032,20 @@ static inline void *alloc_code_gen_buffer(void)
- {
-     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
-     int flags = MAP_PRIVATE | MAP_ANONYMOUS;
--    uintptr_t start = 0;
-     size_t size = tcg_ctx->code_gen_buffer_size;
-     void *buf;
+diff --git a/configure b/configure
+index 30e3875c6b..99faf64a74 100755
+--- a/configure
++++ b/configure
+@@ -2018,16 +2018,6 @@ if ! compile_prog "-Werror" "" ; then
+ 	"Thread-Local Storage (TLS). Please upgrade to a version that does."
+ fi
  
--    /* Constrain the position of the buffer based on the host cpu.
--       Note that these addresses are chosen in concert with the
--       addresses assigned in the relevant linker script file.  */
--# if defined(__PIE__) || defined(__PIC__)
--    /* Don't bother setting a preferred location if we're building
--       a position-independent executable.  We're more likely to get
--       an address near the main executable if we let the kernel
--       choose the address.  */
--# elif defined(__x86_64__) && defined(MAP_32BIT)
--    /* Force the memory down into low memory with the executable.
--       Leave the choice of exact location with the kernel.  */
--    flags |= MAP_32BIT;
--    /* Cannot expect to map more than 800MB in low memory.  */
--    if (size > 800u * 1024 * 1024) {
--        tcg_ctx->code_gen_buffer_size = size = 800u * 1024 * 1024;
--    }
--# elif defined(__sparc__)
--    start = 0x40000000ul;
--# elif defined(__s390x__)
--    start = 0x90000000ul;
--# elif defined(__mips__)
--#  if _MIPS_SIM == _ABI64
--    start = 0x128000000ul;
--#  else
--    start = 0x08000000ul;
--#  endif
--# endif
+-if test "$pie" = ""; then
+-  case "$cpu-$targetos" in
+-    i386-Linux|x86_64-Linux|x32-Linux|i386-OpenBSD|x86_64-OpenBSD)
+-      ;;
+-    *)
+-      pie="no"
+-      ;;
+-  esac
+-fi
 -
--    buf = mmap((void *)start, size, prot, flags, -1, 0);
-+    buf = mmap(NULL, size, prot, flags, -1, 0);
-     if (buf == MAP_FAILED) {
-         return NULL;
-     }
+ if test "$pie" != "no" ; then
+   cat > $TMPC << EOF
  
- #ifdef __mips__
-     if (cross_256mb(buf, size)) {
--        /* Try again, with the original still mapped, to avoid re-acquiring
--           that 256mb crossing.  This time don't specify an address.  */
-+        /*
-+         * Try again, with the original still mapped, to avoid re-acquiring
-+         * the same 256mb crossing.
-+         */
-         size_t size2;
-         void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
-         switch ((int)(buf2 != MAP_FAILED)) {
 -- 
 2.20.1
 
