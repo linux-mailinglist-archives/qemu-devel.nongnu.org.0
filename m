@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA1E124ECD
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:06:31 +0100 (CET)
-Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F135B124ED4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 18:08:28 +0100 (CET)
+Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihcmM-0000Mm-Jn
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:06:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46772)
+	id 1ihcoF-00034V-QJ
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 12:08:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1ihcgM-0001mR-Rz
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:20 -0500
+ (envelope-from <wainersm@redhat.com>) id 1ihcgQ-0001pi-BY
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1ihcgL-0006IB-5w
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20893
+ (envelope-from <wainersm@redhat.com>) id 1ihcgO-0006Yq-H8
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35831
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ihcgK-0006Dq-Vm
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:17 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ihcgN-0006VE-UQ
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 12:00:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576688416;
+ s=mimecast20190719; t=1576688419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UypVec3fvC++Brbm0L65MZ5PEBYGI6n1NS4zqNaIBKo=;
- b=ZrkH8Lgq3xgycqW6hk3qgCoi6xLfvbJpMuBOmxfn9BeZrE15STdylteZJta9q0yNsQ/q62
- C/HRKyKd0kFoqjc/26hQK7IjT5qokZ4fPzJ6Hz/I5GYJ6G52zlAhJHYeRKoLhgdCbZsWXG
- 6oJ2UovyvUdalVKL++26eZRK02JShVE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e8VxWNigJK22AdQXGUxn5nMO3YEAAyyUQWBQykn5z9I=;
+ b=QYDykkNVFHp0QRBEKrJxVPkYKMGSWQ7Y942D1L1HDhMer92+STOrCV5N/JBRsQki9NCW/w
+ qobq/iPc4azA7GV72tMuwuGlG1jxbKrov47CV+/lImX9IXcdsWxsrvPTultDlN4f13otHS
+ 7F/s6tQJcCwIiCoCvRDbB5il56yedkw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-R-wnel9yO9OxcsFIjFaccA-1; Wed, 18 Dec 2019 12:00:14 -0500
+ us-mta-306-BMr5SpVlP86uzOH-YyJvUQ-1; Wed, 18 Dec 2019 12:00:17 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC030801E66
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:00:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36613100551A
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 17:00:16 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-50.gru2.redhat.com
  [10.97.116.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA46F5C1D4;
- Wed, 18 Dec 2019 17:00:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68DC65C1D4;
+ Wed, 18 Dec 2019 17:00:14 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] Acceptance tests: boot Linux with KVM test
-Date: Wed, 18 Dec 2019 14:00:00 -0300
-Message-Id: <20191218170003.31356-1-wainersm@redhat.com>
+Subject: [PATCH v2 1/3] tests/acceptance: avocado_qemu: Introduce the 'accel'
+ test parameter
+Date: Wed, 18 Dec 2019 14:00:01 -0300
+Message-Id: <20191218170003.31356-2-wainersm@redhat.com>
+In-Reply-To: <20191218170003.31356-1-wainersm@redhat.com>
+References: <20191218170003.31356-1-wainersm@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: R-wnel9yO9OxcsFIjFaccA-1
+X-MC-Unique: BMr5SpVlP86uzOH-YyJvUQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -72,52 +76,117 @@ Cc: philmd@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds boot Linux tests for x86_64, aarch64, ppc64, s390x
-targets which, unlike others, tell QEMU to use KVM. Likewise
-it was added cases for tcg.
+The test case may need to boot the VM with an accelerator that
+isn't actually enabled on the QEMU binary and/or present in the host. In
+this case the test behavior is undefined, and the best course of
+action is to skip its execution.
 
-The patch 01 introduce an infraestructure on avocado_qemu framework
-so that:
-a) simply tagging the test with `accel:kvm` (or `accel:tcg`) will
-   automatically set the corresponding '--accel' on the launched
-   QEMU;
-a) test is canceled if the accelerator is not enabled in QEMU
-   binary and not present in the host.
+This change introduced the 'accel' parameter (and the handler of
+tag with same name) used to indicate the test case requires a
+given accelerator available. It was implemented a mechanism to
+skip the test case if the accelerator is not available. Moreover,
+ the QEMU --accel argument is set automatically to any VM
+launched if the parameter is present.
 
-Changes v1 -> v2:
-- old patch 01 was removed becase the same feature is merged on
-  commit 74b56bb55395.
-- old patch 02 became 01 on v2, and with a major re-implementation. The
-  bits that added the accel module is merged on commit 8b272e00186.
-- old patch 03 was removed. Based on comments of ehabkost and crosa,
-  instead the boot_linux_console test suite got new cases which uses
-  the 'accel' tag to specify the use of kvm or tcg.
-- Added patch 03 which refactor the handler of 'machine' tag that
-  was introduced on commit ba21bde930f.
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+---
+ docs/devel/testing.rst                    | 16 ++++++++++++++++
+ tests/acceptance/avocado_qemu/__init__.py | 23 +++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-v1: [PATCH 0/3] Acceptance tests: boot Linux with KVM test
-- https://www.mail-archive.com/qemu-devel@nongnu.org/msg627498.html
-
-Tree:
-- Git: https://github.com/wainersm/qemu
-- Branch: acceptance_kvm_test-v2
-
-CI:
-- Travis (FAIL): https://travis-ci.org/wainersm/qemu/builds/626703965
-  Not related with those change. Acceptance tests on Travis ran just
-fine.
-
-Wainer dos Santos Moschetta (3):
-  tests/acceptance: avocado_qemu: Introduce the 'accel' test parameter
-  tests/acceptance: boot_linux_console: Add boot Linux with kvm tests
-  tests/acceptance: avocado_qemu: Refactor the handler of 'machine'
-    parameter
-
- docs/devel/testing.rst                    | 16 +++++
- tests/acceptance/avocado_qemu/__init__.py | 27 ++++++-
- tests/acceptance/boot_linux_console.py    | 88 +++++++++++++++++------
- 3 files changed, 109 insertions(+), 22 deletions(-)
-
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 27f286858a..6c2e0718e1 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -757,6 +757,17 @@ name.  If one is not given explicitly, it will either =
+be set to
+ ``None``, or, if the test is tagged with one (and only one)
+ ``:avocado: tags=3Dmachine:VALUE`` tag, it will be set to ``VALUE``.
+=20
++accel
++~~~~~
++The accelerator that will be set to all QEMUMachine instances created
++by the test.
++
++The ``accel`` attribute will be set to the test parameter of the same
++name.  If one is not given explicitly, it will either be set to
++``None``, or, if the test is tagged with one (and only one)
++``:avocado: tags=3Daccel:VALUE`` tag, it will be set to ``VALUE``. Current=
+ly
++``VALUE`` should be either ``kvm`` or ``tcg``.
++
+ qemu_bin
+ ~~~~~~~~
+=20
+@@ -798,6 +809,11 @@ machine
+ The machine type that will be set to all QEMUMachine instances created
+ by the test.
+=20
++accel
++~~~~~
++The accelerator that will be set to all QEMUMachine instances created
++by the test. In case the accelerator is not available (both QEMU
++binary and the host system are checked) then the test is canceled.
+=20
+ qemu_bin
+ ~~~~~~~~
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
+vocado_qemu/__init__.py
+index 6618ea67c1..aff32668d9 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -20,6 +20,7 @@ SRC_ROOT_DIR =3D os.path.join(os.path.dirname(__file__), =
+'..', '..', '..')
+ sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
+=20
+ from qemu.machine import QEMUMachine
++from qemu.accel import kvm_available, tcg_available
+=20
+ def is_readable_executable_file(path):
+     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+@@ -111,6 +112,8 @@ class Test(avocado.Test):
+=20
+     def setUp(self):
+         self._vms =3D {}
++        # VM argumments that are mapped from parameters
++        self._param_to_vm_args =3D []
+=20
+         self.arch =3D self.params.get('arch',
+                                     default=3Dself._get_unique_tag_val('ar=
+ch'))
+@@ -124,10 +127,30 @@ class Test(avocado.Test):
+         if self.qemu_bin is None:
+             self.cancel("No QEMU binary defined or found in the source tre=
+e")
+=20
++        self.accel =3D self.params.get('accel',
++                                     default=3Dself._get_unique_tag_val('a=
+ccel'))
++        if self.accel:
++            avail =3D False
++            if self.accel =3D=3D 'kvm':
++                if kvm_available(self.arch, self.qemu_bin):
++                    self._param_to_vm_args.append('-enable-kvm')
++                    avail =3D True
++            elif self.accel =3D=3D 'tcg':
++                if tcg_available(self.qemu_bin):
++                    self._param_to_vm_args.extend(['--accel', 'tcg'])
++                    avail =3D True
++            else:
++                self.cancel("Unknown accelerator: %s" % self.accel)
++
++            if not avail:
++                self.cancel("%s is not available" % self.accel)
++
+     def _new_vm(self, *args):
+         vm =3D QEMUMachine(self.qemu_bin, sock_dir=3Dtempfile.mkdtemp())
+         if args:
+             vm.add_args(*args)
++        if self._param_to_vm_args:
++            vm.add_args(*self._param_to_vm_args)
+         return vm
+=20
+     @property
 --=20
 2.23.0
 
