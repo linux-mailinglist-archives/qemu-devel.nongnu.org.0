@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4043D1247E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:17:11 +0100 (CET)
-Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897861247D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:15:06 +0100 (CET)
+Received: from localhost ([::1]:54172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZCQ-0005hK-0A
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:17:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
+	id 1ihZAP-0003ZJ-0U
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:15:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ihYx6-0001xm-6b
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:21 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ihYxn-0002vZ-3E
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:02:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ihYx4-0007zW-MR
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:01:19 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:40751)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (envelope-from <laurent@vivier.eu>) id 1ihYxl-0003En-Pd
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 08:02:02 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:41079)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1ihYx1-0007ge-AA; Wed, 18 Dec 2019 08:01:15 -0500
+ id 1ihYxh-0002v8-Ng; Wed, 18 Dec 2019 08:01:57 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mt7Pt-1hp3WQ00z3-00tPoh; Wed, 18 Dec 2019 14:01:11 +0100
+ id 1MMG6Y-1iQaKP2iuM-00JG3Q; Wed, 18 Dec 2019 14:01:11 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] target/sparc: Remove old TODO file
-Date: Wed, 18 Dec 2019 14:01:03 +0100
-Message-Id: <20191218130105.125981-6-laurent@vivier.eu>
+Subject: [PULL 6/7] Revert "qemu-options.hx: Update for reboot-timeout
+ parameter"
+Date: Wed, 18 Dec 2019 14:01:04 +0100
+Message-Id: <20191218130105.125981-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191218130105.125981-1-laurent@vivier.eu>
 References: <20191218130105.125981-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bKfy2QzkGVq3B4KwCkJG1BCHQ+Kwx6GjFWipxIkeISNUQQDSx9G
- 276T34V+p2WSG/jLpk12hDfm1jV9GslZNcMY8wlZyYnv1P9rj+s9B2c8eQXD0On9dxxSSWw
- 1CGjwIj278Z0zFHbuaU+a5+GjfxiOyuwb8gFiLem1uvmCYzk21YIxXQzY5g06zVMEdugaF9
- wbxK/girfkTH+M/9mQLsQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TkUqZgL0x6M=:p+TwhpnT4CR5kRLMQREU57
- aKdQI3glGwzh80N96ZWLj9A0W20Np+YfNn35m4tpeX0afX37orfSpwWda2LDH8h5GPP2hak9f
- cjgL5Ux4Q5tn7/5ws3qJxU8kS9czAe+/hkI8XIg2GTgFy5z+dMKDiJznoP3N/cACtflAyzJHr
- zjn1KXtFCFu5OGqiDmvRz8LFCQaq/Uf3E3POu+bQZpt8LYLPIHb2R4SxEGsmxLCO5bWeZDXzF
- ShgbJEONF0kWFu3lGFqajB2CuMjPEMbx45ncy+CD9DHP9ytjdwZkiA4bIWppoxZArH9xuMaiS
- X7p3yPFovKfeMSUeCEy6fxU9m9+9U9Fe8FxgO9QJ9o3sZcg/9N6yHixh57iZCSb9WkJEUdi8T
- PmGfwypUF4IzmKmghLsjZ6iB082BLeavB8HqTt41dFL69KsACYiFYfVOBlsExpF4oDh3fjkPx
- 7iHgCpfgle4sSA9PpJLsTwxn8ygujlKv614U6EsxIKbmxq+E/OKRx/7QjG6kO6UUfIiCMVq1o
- OC+OpWw713dnezdCQM5IoWq0+5fYJqsPPSo1GfTWjl6QKQT6xHNPeMfi8LlqCay/ivIInIu0K
- +d3AyUhE2hEiu8rbqiJBNyH3B7VJoF5OMUvXZ07lYyntNB3Wk3zr/LfLxuFEWhrqoUZ4pC0Yi
- C8SYKmXi5nSl7/zyRXqxpllffj/++T5wHddOLitwbmh/H6gFq+J5tioeYd8/pHJPbj4ZGnApo
- q5MDVlVbU+9WEAaoSmacnWnVOySVYI71rxAVv7B02Nq1tZypra0F5S9bNt9r2shZl9HCZWil+
- dEtF2lEpEHa9EBjIdbL5hypYrr8u0EC1SdQ/6OUkOLN1YjCbfLW09F2TCgngYDt+KK4C5qTmq
- sz6B4lALCS+JUiUs+cwg==
+X-Provags-ID: V03:K1:mcINSF27Ad3PpojdTOFXImedKdWrSkp4lRQlQEQPRNorzg6cSVt
+ PNBhvXzM2VVHOrgRr7D+hqGgkJ9f37XdGTnM+IguV7Onb9NzJ6QU+V5la56i181nxyCYE6V
+ 67e3ujiczjUagp6jXiJMz3fIuhQo8f0u8GcdHOqLzzwthwrKWVk1odeiddE4RxWYXdz9b6p
+ OD/10IC1lYTtZmVuDi8AA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NMPZbsILd54=:B/PKMxEryt3tbvJqUWW60O
+ Wb4kfka84dbjW5kcgQDKkP6XUrxNLx7RlaUxQUFQ93wreeEqjOdKnBxGSP4IcnFYoexbgQGxQ
+ PnpMO/YNKLs/dKAKWXp1Sa7aNXmHNP0DFywYKvg3sA0eQ38N98LKTEjCAsbl5+mDh/UM17OU9
+ f14mXTiE78HWHr89upTvdAzkBV//6Qry634MUTaG4KPORh+1en18DPIOfUmMCxZ2TI6TIkMlJ
+ 7/fZ8pzPkU8jeA4/BBPu/HIu3Io/uk+1mzkShEiMm6ZCFExqV05xYcgngHKWv525BoxBoG4aw
+ fVPZig2tq708eEJJrWlZCfCZb+QCpwEsjgC3yBSDm1pbAAWN4ERqolqBz1zuf1nFv/NaQiuNj
+ TFea1hpYhAFc4nsdt/4qgKJV25mF1Eb6y1WoxYEChC4D+J/5I87+pLOflq4k2AZ+Xi1b/XSu0
+ Qs2e5YEcigbbI4/Vio4xPJ0FIZNourG6b830SpdzDGl0m7FbHHQlV507Jy1V3yIQ+0c/gdldg
+ pB6nkgu+MCCxUq37ou02SzgMaH5DeG7dRmwUZDK5xoQmnNmwZy673W6+1CoeYuCYt7NUXNwnR
+ AHyL8GtaOmEVr4mf74JQ9Ey+qCV78LCLAfNafgayLSzedZ7PraRcVAx+HmWEuBYbs2dKAD1ed
+ Zj0AWJqkAG2L+6f0+nlDqGZUcw8/kMHVaLIko2r8gmUw6PDI54nUUhcNy1/HhOVY8ZJjhiH9w
+ HwhwhhJ6UPeYElSDZWlxwMV0A1q/4aqKf+wVgWuyM11iuK5luMIGTZdBVJGW2WByNb3YZU++V
+ M5sYhZQHSuF0nQlbzrZSJ0EfBFhvFEMF5J+Gykz9zsG/+g2nx+b3zZjUEFqyARrz2zQXr3A4F
+ XGiDlMv187D9L5prwwjg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.130
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,123 +66,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Han Han <hhan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Han Han <hhan@redhat.com>
 
-This file hasn't seen a real (non-trivial) update since 2008 anymore,
-so we can assume that it is pretty much out of date and nobody cares
-for it anymore. Let's simply remove it.
+This reverts commit bbd9e6985ff342cbe15b9cb7eb30e842796fbbe8.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
-Message-Id: <20190930171044.25312-1-thuth@redhat.com>
+In 20a1922032 we allowed reboot-timeout=-1 again, so update the doc
+accordingly.
+
+Signed-off-by: Han Han <hhan@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20191205024821.245435-1-hhan@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/sparc/TODO | 88 -----------------------------------------------
- 1 file changed, 88 deletions(-)
- delete mode 100644 target/sparc/TODO
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/sparc/TODO b/target/sparc/TODO
-deleted file mode 100644
-index b8c727e85846..000000000000
---- a/target/sparc/TODO
-+++ /dev/null
-@@ -1,88 +0,0 @@
--TODO-list:
--
--CPU common:
--- Unimplemented features/bugs:
-- - Delay slot handling may fail sometimes (branch end of page, delay
-- slot next page)
-- - Atomical instructions
-- - CPU features should match real CPUs (also ASI selection)
--- Optimizations/improvements:
-- - Condition code/branch handling like x86, also for FPU?
-- - Remove remaining explicit alignment checks
-- - Global register for regwptr, so that windowed registers can be
-- accessed directly
-- - Improve Sparc32plus addressing
-- - NPC/PC static optimisations (use JUMP_TB when possible)? (Is this
-- obsolete?)
-- - Synthetic instructions
-- - MMU model dependent on CPU model
-- - Select ASI helper at translation time (on V9 only if known)
-- - KQemu/KVM support for VM only
-- - Hardware breakpoint/watchpoint support
-- - Cache emulation mode
-- - Reverse-endian pages
-- - Faster FPU emulation
-- - Busy loop detection
--
--Sparc32 CPUs:
--- Unimplemented features/bugs:
-- - Sun4/Sun4c MMUs
-- - Some V8 ASIs
--
--Sparc64 CPUs:
--- Unimplemented features/bugs:
-- - Interrupt handling
-- - Secondary address space, other MMU functions
-- - Many V9/UA2005/UA2007 ASIs
-- - Rest of V9 instructions, missing VIS instructions
-- - IG/MG/AG vs. UA2007 globals
-- - Full hypervisor support
-- - SMP/CMT
-- - Sun4v CPUs
--
--Sun4:
--- To be added
--
--Sun4c:
--- A lot of unimplemented features
--- Maybe split from Sun4m
--
--Sun4m:
--- Unimplemented features/bugs:
-- - Hardware devices do not match real boards
-- - Floppy does not work
-- - CS4231: merge with cs4231a, add DMA
-- - Add cg6, bwtwo
-- - Arbitrary resolution support
-- - PCI for MicroSparc-IIe
-- - JavaStation machines
-- - SBus slot probing, FCode ROM support
-- - SMP probing support
-- - Interrupt routing does not match real HW
-- - SuSE 7.3 keyboard sometimes unresponsive
-- - Gentoo 2004.1 SMP does not work
-- - SS600MP ledma -> lebuffer
-- - Type 5 keyboard
-- - Less fixed hardware choices
-- - DBRI audio (Am7930)
-- - BPP parallel
-- - Diagnostic switch
-- - ESP PIO mode
--
--Sun4d:
--- A lot of unimplemented features:
-- - SBI
-- - IO-unit
--- Maybe split from Sun4m
--
--Sun4u:
--- Unimplemented features/bugs:
-- - Interrupt controller
-- - PCI/IOMMU support (Simba, JIO, Tomatillo, Psycho, Schizo, Safari...)
-- - SMP
-- - Happy Meal Ethernet, flash, I2C, GPIO
-- - A lot of real machine types
--
--Sun4v:
--- A lot of unimplemented features
-- - A lot of real machine types
+diff --git a/qemu-options.hx b/qemu-options.hx
+index c63e794b64d1..6cbbefd08169 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -327,8 +327,8 @@ format(true color). The resolution should be supported by the SVGA mode, so
+ the recommended is 320x240, 640x480, 800x640.
+ 
+ A timeout could be passed to bios, guest will pause for @var{rb_timeout} ms
+-when boot failed, then reboot. If @option{reboot-timeout} is not set,
+-guest will not reboot by default. Currently Seabios for X86
++when boot failed, then reboot. If @var{rb_timeout} is '-1', guest will not
++reboot, qemu passes '-1' to bios by default. Currently Seabios for X86
+ system support it.
+ 
+ Do strict boot via @option{strict=on} as far as firmware/BIOS
 -- 
 2.24.1
 
