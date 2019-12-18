@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EAD1246F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:36:39 +0100 (CET)
-Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614541246E3
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:30:31 +0100 (CET)
+Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYZB-0001W1-Kz
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:36:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49176)
+	id 1ihYTF-0000cA-RA
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:30:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3E-0006SO-Pm
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:41 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3J-0006Vy-7k
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3D-0000zF-Iw
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:36 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33882)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3E-00015G-UO
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:40 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39061)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3D-0000vL-AQ
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:35 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id t2so2029455wrr.1
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:35 -0800 (PST)
+ id 1ihY3E-00011a-Li
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:36 -0500
+Received: by mail-wr1-x441.google.com with SMTP id y11so2003902wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=L79BeMo6HCbokM7jk/FE+RUtQdWgo2iqz0AB4yqz6vk=;
- b=UV9lOaC5XmWEP5z0PqS0z0dx1KheABVCpwVFnzDTXvYdAwiXvA5rX14si+dl1DpazR
- 6g2DzxJrzJ3VQtcuYJQ5l0P89MU8lUivf67txxNCZz743we/k315KVvc3oPdz5e0S9gB
- Y97n5e9cOQfRapWl+5geu8Yy/QSnhdoe/egvZHnCalLkUpE2khXpUoGqyZoMQsGzJck3
- THyy1teXcl2wSM4wUnokRl5IzqpFM7JMpk8ptfPl8MpOB0ljNRlH5Bh4JNqodAx2NMNM
- v1QLuTPPzX8PDLjzjentTip9qTBNMoXQtk/+P0B3kImp2SybhMPqgTK4OGz9C8Jj6Jxh
- aBDw==
+ bh=GM9FF6o5yd7hCzXYevTaivpadzWj/BJulQGpyMX5be0=;
+ b=Sd2g5GXftq3YafHZXwxF5XxdTHv6loIrpwFQftLKC9j425UPulQ1y5Uz9HBXu875yz
+ wHnW2ZqxpIqbIdFvdsZRClhx+CmqPFTb2i8TjBnCEpKcessCnN4Iv4iIa02znGKFiG87
+ ogQSpaOFhIkkcFKjM4NKuk3B/jBWp/5uRMUECE57SS5ga8tjGc/kIwf1GhpHLASbunnI
+ p3cah7ncht3cpDH4IyETu67i62e0luJxcV6XiMDSK1C9ASpqYvOp6iP2MGnBLzsa9b25
+ J4Z8Eddb4eaoOZTlQaZerncch3AgkiYRIldi8fq4+Ye0X6idpWBSt7qErbosmWGvIzZ8
+ 5qYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=L79BeMo6HCbokM7jk/FE+RUtQdWgo2iqz0AB4yqz6vk=;
- b=JAoG3A2Zav8dTzPLmsIjcHHbTcR6MtVrIhnRrDXfr4NMdpF1W3EIP6q5CUB1vuSQDm
- GTvH65jknPH9q3zcA4SUS7J5RGpnt+LuAL93ntMgdKbh6RuxCYeCIzjy8QGgT1CHBWJi
- Tr5rqESAtmNImkA+b/CmqbRfcSm2jyeUkeebqFbU404rkieW07lMoP8ySLsKz9rqB2s1
- LnPCRRq6tDe5RAlUjoUfGuY54stLd3FhPC+gp+O0CA7VNFrM+FhDrHukpD2R8Y9Dljos
- bhVFe6tYZXFGpb1zDzAo1CVuwxg4CzGrk5Mf9siSmuQ+zQUFg39N5jC1z5/tsCdQW4/t
- kd4A==
-X-Gm-Message-State: APjAAAURNMpTVoQNPRO3o6ff1GCVsLdeOz4l6b5ry+FFS6WAokQSbrjY
- OaR2rCycQcc+E397KUG+BwizoyUC
-X-Google-Smtp-Source: APXvYqwwEzEurWIm97zSIrJpEdZtBWNFRphdyJeuKJlhyeP0SapFX2dkvGYb0EOsXWqYDes2kb4DzQ==
-X-Received: by 2002:adf:f605:: with SMTP id t5mr2405919wrp.282.1576670614055; 
- Wed, 18 Dec 2019 04:03:34 -0800 (PST)
+ bh=GM9FF6o5yd7hCzXYevTaivpadzWj/BJulQGpyMX5be0=;
+ b=Mh2ukou1K38fQvHCLPMiJhcYp+EQtJNI9OgYKPrqP9bfmt5GUAs1jp04GM3rTpnzxr
+ pVehp71LwCC3uZBjGIugCb6tSSM0wXM6Oz+Q4jQcb6RLH7FzRhuHDN327NRswJbqiHde
+ Pg3JKP+i634sH9MQKN0UgnwxToC1AVoGw7xX+d6dSHIxJiSPV1i61yuGPqXFvr0GyeIj
+ JmjrzcswX3RsphSFAQ0wjfKaz/cCkrGauAJDHhJrF0tWbYQX2bNwFdnTSW/0dVmia+mS
+ tmI9V7g/ZhjlnI/6oF3MxMe+AaWw08w7+RK3Px2/i7Z+u6psFki0375vBeX+yJQYkn3K
+ Rx8A==
+X-Gm-Message-State: APjAAAVvn68N1oKfqbfELYL02rvZZvPX2YcMYiFlnBIZ9zYrYOyR+XSR
+ B9GxJJ13pvhukZW/lH+gN0yyK2Af
+X-Google-Smtp-Source: APXvYqypfWrJkjuvA0SSLA0CPvpwE0cjY+hdqVH8jXaoSClh+yIMZR0c7xF1I6ZW/QaX4mbWdnqgNA==
+X-Received: by 2002:adf:f98c:: with SMTP id f12mr2370586wrr.138.1576670615018; 
+ Wed, 18 Dec 2019 04:03:35 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.33
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:33 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:34 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/87] libvixl: remove per-target compiler flags
-Date: Wed, 18 Dec 2019 13:02:05 +0100
-Message-Id: <1576670573-48048-40-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 40/87] crypto: move common bits for all emulators to libqemuutil
+Date: Wed, 18 Dec 2019 13:02:06 +0100
+Message-Id: <1576670573-48048-41-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,60 +78,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are already including -D__STDC_LIMIT_MACROS in the global CXXFLAGS,
-so it makes sense to do the same for -D__STDC_CONSTANT_MACROS and
--D__STDC_FORMAT_MACROS instead of limiting that to libvixl.
-
-The -Wno-sign-compare option can also be removed since GCC 4.6 is not
-supported anymore.
+qcrypto_random_*, AES and qcrypto_init do not need to be linked as a whole
+and are the only parts that are used by user-mode emulation.  Place them
+in libqemuutil, so that whatever needs them will pick them up automatically.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                   |  3 ++-
- disas/libvixl/Makefile.objs | 11 +----------
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ Makefile             |  3 +--
+ Makefile.objs        |  3 +--
+ Makefile.target      |  2 --
+ crypto/Makefile.objs | 12 +++++-------
+ 4 files changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/configure b/configure
-index 55d386c..0a63c75 100755
---- a/configure
-+++ b/configure
-@@ -101,7 +101,7 @@ update_cxxflags() {
-     # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
-     # options which some versions of GCC's C++ compiler complain about
-     # because they only make sense for C programs.
--    QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS"
-+    QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
+diff --git a/Makefile b/Makefile
+index bfd8ba3..fb1728e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -436,7 +436,6 @@ dummy := $(call unnest-vars,, \
+                 block-obj-y \
+                 block-obj-m \
+                 crypto-obj-y \
+-                crypto-user-obj-y \
+                 qom-obj-y \
+                 io-obj-y \
+                 common-obj-y \
+@@ -524,7 +523,7 @@ subdir-capstone: capstone/all
+ subdir-slirp: slirp/all
  
-     for arg in $QEMU_CFLAGS; do
-         case $arg in
-@@ -595,6 +595,7 @@ QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
- QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
-+QEMU_INCLUDES="$QEMU_INCLUDES -iquote \$(SRC_PATH)/disas/libvixl"
- if test "$debug_info" = "yes"; then
-     CFLAGS="-g $CFLAGS"
-     LDFLAGS="-g $LDFLAGS"
-diff --git a/disas/libvixl/Makefile.objs b/disas/libvixl/Makefile.objs
-index 27183b7..99a637f 100644
---- a/disas/libvixl/Makefile.objs
-+++ b/disas/libvixl/Makefile.objs
-@@ -1,14 +1,5 @@
--libvixl_OBJS = vixl/utils.o \
-+common-obj-$(CONFIG_ARM_A64_DIS) = vixl/utils.o \
-                vixl/compiler-intrinsics.o \
-                vixl/a64/instructions-a64.o \
-                vixl/a64/decoder-a64.o \
-                vixl/a64/disasm-a64.o
+ $(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
+-	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
++	$(qom-obj-y)
+ 
+ ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
+ ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+diff --git a/Makefile.objs b/Makefile.objs
+index c4bc783..6807c8b 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -1,7 +1,7 @@
+ #######################################################################
+ # Common libraries for tools and emulators
+ stub-obj-y = stubs/ util/ crypto/
+-util-obj-y = util/ qobject/ qapi/
++util-obj-y = crypto/ util/ qobject/ qapi/
+ 
+ chardev-obj-y = chardev/
+ 
+@@ -25,7 +25,6 @@ block-obj-m = block/
+ # crypto-obj-y is code used by both qemu system emulation and qemu-img
+ 
+ crypto-obj-y = crypto/
+-crypto-user-obj-y = crypto/
+ 
+ #######################################################################
+ # qom-obj-y is code used by both qemu system emulation and qemu-img
+diff --git a/Makefile.target b/Makefile.target
+index 24d79d2..6e61f60 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -184,7 +184,6 @@ dummy := $(call unnest-vars,.., \
+                block-obj-m \
+                chardev-obj-y \
+                crypto-obj-y \
+-               crypto-user-obj-y \
+                qom-obj-y \
+                io-obj-y \
+                common-obj-y \
+@@ -193,7 +192,6 @@ all-obj-y += $(common-obj-y)
+ all-obj-y += $(qom-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(authz-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(block-obj-y) $(chardev-obj-y)
+-all-obj-$(CONFIG_USER_ONLY) += $(crypto-user-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(crypto-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(io-obj-y)
+ 
+diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+index cdb01f9..58014d1 100644
+--- a/crypto/Makefile.objs
++++ b/crypto/Makefile.objs
+@@ -19,10 +19,6 @@ crypto-obj-y += tlscredspsk.o
+ crypto-obj-y += tlscredsx509.o
+ crypto-obj-y += tlssession.o
+ crypto-obj-y += secret.o
+-crypto-rng-obj-$(CONFIG_GCRYPT) += random-gcrypt.o
+-crypto-rng-obj-$(if $(CONFIG_GCRYPT),n,$(CONFIG_GNUTLS)) += random-gnutls.o
+-crypto-rng-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,y)) += random-platform.o
+-crypto-obj-y += $(crypto-rng-obj-y)
+ crypto-obj-y += pbkdf.o
+ crypto-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
+ crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
+@@ -36,7 +32,9 @@ crypto-obj-y += block.o
+ crypto-obj-y += block-qcow.o
+ crypto-obj-y += block-luks.o
+ 
+-# Let the userspace emulators avoid linking stuff they won't use.
+-crypto-user-obj-y = aes.o $(crypto-rng-obj-y) init.o
 -
--# The -Wno-sign-compare is needed only for gcc 4.6, which complains about
--# some signed-unsigned equality comparisons which later gcc versions do not.
--$(addprefix $(obj)/,$(libvixl_OBJS)): QEMU_CXXFLAGS := -I$(SRC_PATH)/disas/libvixl $(QEMU_CXXFLAGS) -Wno-sign-compare
--# Ensure that C99 macros are defined regardless of the inclusion order of
--# headers in vixl. This is required at least on NetBSD.
--$(addprefix $(obj)/,$(libvixl_OBJS)): QEMU_CXXFLAGS += -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS
--
--common-obj-$(CONFIG_ARM_A64_DIS) += $(libvixl_OBJS)
+ stub-obj-y += pbkdf-stub.o
++
++util-obj-$(CONFIG_GCRYPT) += random-gcrypt.o
++util-obj-$(if $(CONFIG_GCRYPT),n,$(CONFIG_GNUTLS)) += random-gnutls.o
++util-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,y)) += random-platform.o
++util-obj-y += aes.o init.o
 -- 
 1.8.3.1
 
