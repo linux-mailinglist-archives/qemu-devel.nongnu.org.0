@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3BB1246B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:23:37 +0100 (CET)
-Received: from localhost ([::1]:53392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBAC1246C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 13:26:07 +0100 (CET)
+Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihYMZ-0007qb-Ha
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:23:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49088)
+	id 1ihYP0-00032T-Bl
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 07:26:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3E-0006Rp-DV
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:41 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3J-0006Vx-5r
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3D-0000xs-93
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:36 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35430)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY3F-00016n-8b
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:40 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44234)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY3C-0000sr-Tc
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:35 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id g17so2023311wro.2
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:34 -0800 (PST)
+ id 1ihY3E-000138-Up
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:03:37 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id q10so1984378wrm.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:03:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mfpu4YCJ7dJvQ7hqXOMh4Cdm0EQQJgAWWvy/fePDydo=;
- b=eY4dAjrR4BenAwAvVqApiGbu2+qico3fnFjfdModZaarIiZ+R+lmSw45PfQfbTikKo
- iXL0PgWG7R9H2UmRZPgkEI2Sqa+um/iEGRnd4n9+/x6r13yGR9WfFyNgU107MM9k7Cjb
- Mg6nP/RcEn+gXMdP+ibc6lIkjD51ua9UXYSPoD66iKX4wb8wrLubA1fbcam3kWKbvP2H
- Jtn+ITNvfvynWwBt2glIXGFzjpPDxWHwtU2o2vf8vthvTQvUrXIX6L1aFWe42xyEecw5
- VpQ+fdTw0ukqrkOPG4j32mSTKyQO/8jj30WIMeGjyXRcSDS98cyqXvQcfz3OzNkiM4I5
- TS/A==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=eX9q8umIrXfd/sk2F6QDWc9JJlH4gBHHbDDQi+DXr74=;
+ b=WF2pFPF6046r/94+RXAsFrjvf99tn68ygwUA/3wE+AXgvZgD5C3NbfjkQPJQd+9pS5
+ hbhGOS3s3D/BEG+zyaLlyjDFxZsKSpoLcxG26BaW47xGLoYm3WVW8dgKAgVff4D7ow3D
+ jPqkBM73c0oMKfTE17GEtXRa6/q7ZOAlvfBjQ3nwDJ37Gjri3qJ2jwJYwGFwceeyMAqC
+ 4UvKdM4Xbv5Ng3G41HmGhzexqDGe+3fAGEod9tFsSe4ah4gCSITV/IJZtsLc5OcnY/69
+ 9G6jivNK6TGBgDJVnGfA5wMvG1OMMP44aZJsrQjjoRXB80+jmI/Tw2dRuMMRI5gA3sCc
+ b6OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mfpu4YCJ7dJvQ7hqXOMh4Cdm0EQQJgAWWvy/fePDydo=;
- b=I/LXfAM0kJ2+S4BrusmdVJOTIvuDuMTQ/47mN6w1fHjEPt06H6O2xoW3xYbKR8t9bJ
- dnI8+d203Zb73SS0F0o1vEJHZqIZax1R1MpmqoMTXNOoTevFj3lOPyO9dFCqZiHbQ2Mn
- PA2eTkVweVT/rRw8dct1BA5AkxnrgUF84m5ayiGY7daBEuvOXzrMCOjeTTa64znlTEe9
- 0K+pESkt5pSffJGNyxPgI4VfDQlyl5naKUgaLlegsNSqayTOPOwIDtu0/+yJcQgC2V0g
- NiPI3uUIaB1BGpRHfD0NGAyw6VMHwEQL1oFv99tgSBVkCcEQcwC5NSg63L8l2vNtHnWG
- MX8A==
-X-Gm-Message-State: APjAAAVk3ww0HUnyuVQ0ELwgQ+RfOyrEU50axWrFeUKp2sDu5lEk+Aq9
- +FmdVI/mCW742WfO4d2WmKHiCutt
-X-Google-Smtp-Source: APXvYqzOPeJDy3NTt/HGG/6KwgbqOa88zuH2ot01zUAVuW0PbtlPQrT/SXwryZkjSoIjzicox8ecCg==
-X-Received: by 2002:a05:6000:f:: with SMTP id h15mr2361840wrx.90.1576670613222; 
- Wed, 18 Dec 2019 04:03:33 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=eX9q8umIrXfd/sk2F6QDWc9JJlH4gBHHbDDQi+DXr74=;
+ b=H7USb3bs4OqnKHfXh7t3lCqudMB1DOW3Z7pc01b5pdzOc65bRb1JjB3GO1FnQH5QT6
+ GcjbOVwFzco3fuQd5bBmqfGLkYP/OZN0HaM/DsxLXW9U6sh+VbN90tqruADMsgr5JwYF
+ FxnQCa/QijK6XZpt2E6OKHiG8J23qwIl6fWIwzLLWk2cy/1fVqdNlMNDLtcHv2gU0+Kw
+ QoZylaeyXpOT+XEws/4txjOFB2nLjbptAN02MtBsKy6Y14U1MLJz+iGO2AZRUYoDATs2
+ sXo4YN14TUOAl1ZrUz9hdmdOtR5ANetI+l967BNhPlE7Y6M8L8THiVug6upfkYeWE9Rw
+ 39QA==
+X-Gm-Message-State: APjAAAXzKKMVDCcK000Vk/oJ2Br4cqX/e/vG1P0AkeBrbBLUEK6d+kwq
+ dViddAgOwAGMMltqeNHRh/uAsO0U
+X-Google-Smtp-Source: APXvYqwWIGQadIUjviFhD2SIc7xN7alqSD5fNrkcwVRIGIhWuEFN76RXxmcM/mjDBRZZZsOQITYUJQ==
+X-Received: by 2002:adf:d184:: with SMTP id v4mr2489334wrc.76.1576670615832;
+ Wed, 18 Dec 2019 04:03:35 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.32
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.03.35
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:03:32 -0800 (PST)
+ Wed, 18 Dec 2019 04:03:35 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/87] tests: skip block layer tests if !CONFIG_TOOLS
-Date: Wed, 18 Dec 2019 13:02:04 +0100
-Message-Id: <1576670573-48048-39-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 41/87] stubs: replace stubs with lnot if applicable
+Date: Wed, 18 Dec 2019 13:02:07 +0100
+Message-Id: <1576670573-48048-42-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,44 +75,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+The stubs mechanism relies on static libraries and compilation order,
+which is a bit brittle and should be avoided unless necessary.
+Replace it with Boolean operations on CONFIG_* symbols.
 
-The block tests, as well as ahci-test needs qemu-img.  Do not run
-them if it wasn't built.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/Makefile.include | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Makefile.objs        | 2 +-
+ crypto/Makefile.objs | 3 +--
+ util/Makefile.objs   | 3 +--
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index b381387..31b8667 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -167,7 +167,7 @@ check-qtest-pci-$(CONFIG_IVSHMEM_DEVICE) += tests/ivshmem-test$(EXESUF)
- check-qtest-i386-$(CONFIG_ISA_TESTDEV) = tests/endianness-test$(EXESUF)
- check-qtest-i386-y += tests/fdc-test$(EXESUF)
- check-qtest-i386-y += tests/ide-test$(EXESUF)
--check-qtest-i386-y += tests/ahci-test$(EXESUF)
-+check-qtest-i386-$(CONFIG_TOOLS) += tests/ahci-test$(EXESUF)
- check-qtest-i386-y += tests/hd-geo-test$(EXESUF)
- check-qtest-i386-y += tests/boot-order-test$(EXESUF)
- check-qtest-i386-y += tests/bios-tables-test$(EXESUF)
-@@ -1191,7 +1191,9 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
- .PHONY: check-block check-qapi-schema check-qtest check-unit check check-clean
- check-qapi-schema: check-tests/qapi-schema/frontend check-tests/qapi-schema/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
-+ifeq ($(CONFIG_TOOLS),y)
- check-block: $(patsubst %,check-%, $(check-block-y))
-+endif
- check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
+diff --git a/Makefile.objs b/Makefile.objs
+index 6807c8b..02bf5ce 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -1,6 +1,6 @@
+ #######################################################################
+ # Common libraries for tools and emulators
+-stub-obj-y = stubs/ util/ crypto/
++stub-obj-y = stubs/
+ util-obj-y = crypto/ util/ qobject/ qapi/
+ 
+ chardev-obj-y = chardev/
+diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+index 58014d1..c2a371b 100644
+--- a/crypto/Makefile.objs
++++ b/crypto/Makefile.objs
+@@ -22,6 +22,7 @@ crypto-obj-y += secret.o
+ crypto-obj-y += pbkdf.o
+ crypto-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
+ crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
++crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT),n,y)) += pbkdf-stub.o
+ crypto-obj-y += ivgen.o
+ crypto-obj-y += ivgen-essiv.o
+ crypto-obj-y += ivgen-plain.o
+@@ -32,8 +33,6 @@ crypto-obj-y += block.o
+ crypto-obj-y += block-qcow.o
+ crypto-obj-y += block-luks.o
+ 
+-stub-obj-y += pbkdf-stub.o
+-
+ util-obj-$(CONFIG_GCRYPT) += random-gcrypt.o
+ util-obj-$(if $(CONFIG_GCRYPT),n,$(CONFIG_GNUTLS)) += random-gnutls.o
+ util-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,y)) += random-platform.o
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+index df124af..63599d6 100644
+--- a/util/Makefile.objs
++++ b/util/Makefile.objs
+@@ -52,8 +52,7 @@ util-obj-y += stats64.o
+ util-obj-y += systemd.o
+ util-obj-y += iova-tree.o
+ util-obj-$(CONFIG_INOTIFY1) += filemonitor-inotify.o
++util-obj-$(call lnot,$(CONFIG_INOTIFY1)) += filemonitor-stub.o
+ util-obj-$(CONFIG_LINUX) += vfio-helpers.o
+ util-obj-$(CONFIG_POSIX) += drm.o
+ util-obj-y += guest-random.o
+-
+-stub-obj-y += filemonitor-stub.o
 -- 
 1.8.3.1
 
