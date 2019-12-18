@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E997124226
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:45:52 +0100 (CET)
-Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEFE1241EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 09:40:28 +0100 (CET)
+Received: from localhost ([::1]:51188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihUxr-00031c-4M
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:45:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47681)
+	id 1ihUsd-0003Id-AN
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 03:40:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35971)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ihUbo-0005Bv-TU
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:23:05 -0500
+ (envelope-from <armbru@redhat.com>) id 1ihUWZ-00065y-C0
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ihUbn-0003su-2m
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:23:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53754
+ (envelope-from <armbru@redhat.com>) id 1ihUWW-0002Yl-Jr
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39103
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUbm-0003qp-VU
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:23:03 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihUWU-0002VT-L8
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 03:17:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576657382;
+ s=mimecast20190719; t=1576657053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HktqrVv0Tt2FKK/0WSo+4o3EvZ+0VSPvuEV+CM3+v8Q=;
- b=Q658exgyFu4ewYpvJh7InZgtRwDG1LAjXfNTiJOoI40lRhkNALx/j7CJUAjPnsq7QKX2ka
- 5J8YefA9Owzs6rv9f1iaj5+my98J9IfuleBUEaMzed7s+/TuVVcMAPLQFQN42dl/qHHzNm
- ohgdaKwUpcnq9/GKKEPFxBRJ9ou+TTE=
+ bh=+WIgv+99fVQZsaEz7YPvw8reoHX0PjBuDeUHEDbQX4o=;
+ b=hnDBefIQt6GXVsM643PMDaWveVZL46qdzrCAPPfpbOea8XtQmCtw5ZFn+UeyrdL5lAlM3H
+ +Bf3F5yKou7VhUgEqoThECZy3mzhTQyui5UzWbI6qL7ryJt31lhgApMEOMsh6RrYdCoHCQ
+ zTm1dgZmwyT+uDqzQ+UxyV/LTIrS5t0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-GOH8EWd-MkqOup3JYwhUAA-1; Wed, 18 Dec 2019 03:17:29 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-23-U3Y3aGt1MUK62gKRYmYCfg-1; Wed, 18 Dec 2019 03:17:29 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC455107ACCD;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B809DB2B;
  Wed, 18 Dec 2019 08:17:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
  [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47D945DA70;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A1A468888;
  Wed, 18 Dec 2019 08:17:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DC2421136432; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
+ id E03591136433; Wed, 18 Dec 2019 09:17:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 34/35] hw/vfio/ap: drop local_err from vfio_ap_realize
-Date: Wed, 18 Dec 2019 09:17:20 +0100
-Message-Id: <20191218081721.23520-35-armbru@redhat.com>
+Subject: [PULL v2 35/35] nbd: assert that Error** is not NULL in
+ nbd_iter_channel_error
+Date: Wed, 18 Dec 2019 09:17:21 +0100
+Message-Id: <20191218081721.23520-36-armbru@redhat.com>
 In-Reply-To: <20191218081721.23520-1-armbru@redhat.com>
 References: <20191218081721.23520-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: GOH8EWd-MkqOup3JYwhUAA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: U3Y3aGt1MUK62gKRYmYCfg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,67 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Cornelia Huck <cohuck@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-No reason for local_err here, use errp directly instead.
+All callers of nbd_iter_channel_error() pass the address of a
+local_err variable, and only call this function if an error has
+already occurred, using this function to propagate that error.
+This is already implied by its name (local_err instead of the classic
+errp), but it is worth additionally stressing this by adding an
+assertion to make it part of the function contract.
+
+The local_err parameter is not here to return information about
+nbd_iter_channel_error failure. Instead it's assumed to be filled when
+passed to the function. This is already stressed by its name
+(local_err, instead of classic errp). Stress it additionally by
+assertion.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20191205174635.18758-22-vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20191205174635.18758-21-vsementsov@virtuozzo.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/vfio/ap.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ block/nbd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-index da6a20669d..8fbaa724c2 100644
---- a/hw/vfio/ap.c
-+++ b/hw/vfio/ap.c
-@@ -89,14 +89,13 @@ static void vfio_ap_realize(DeviceState *dev, Error **e=
-rrp)
+diff --git a/block/nbd.c b/block/nbd.c
+index 5f18f78a94..d085554f21 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -866,6 +866,7 @@ typedef struct NBDReplyChunkIter {
+ static void nbd_iter_channel_error(NBDReplyChunkIter *iter,
+                                    int ret, Error **local_err)
  {
-     int ret;
-     char *mdevid;
--    Error *local_err =3D NULL;
-     VFIOGroup *vfio_group;
-     APDevice *apdev =3D AP_DEVICE(dev);
-     VFIOAPDevice *vapdev =3D VFIO_AP_DEVICE(apdev);
++    assert(local_err && *local_err);
+     assert(ret < 0);
 =20
--    vfio_group =3D vfio_ap_get_group(vapdev, &local_err);
-+    vfio_group =3D vfio_ap_get_group(vapdev, errp);
-     if (!vfio_group) {
--        goto out_err;
-+        return;
-     }
-=20
-     vapdev->vdev.ops =3D &vfio_ap_ops;
-@@ -113,7 +112,7 @@ static void vfio_ap_realize(DeviceState *dev, Error **e=
-rrp)
-      */
-     vapdev->vdev.balloon_allowed =3D true;
-=20
--    ret =3D vfio_get_device(vfio_group, mdevid, &vapdev->vdev, &local_err)=
-;
-+    ret =3D vfio_get_device(vfio_group, mdevid, &vapdev->vdev, errp);
-     if (ret) {
-         goto out_get_dev_err;
-     }
-@@ -123,8 +122,6 @@ static void vfio_ap_realize(DeviceState *dev, Error **e=
-rrp)
- out_get_dev_err:
-     vfio_ap_put_device(vapdev);
-     vfio_put_group(vfio_group);
--out_err:
--    error_propagate(errp, local_err);
- }
-=20
- static void vfio_ap_unrealize(DeviceState *dev, Error **errp)
+     if (!iter->ret) {
 --=20
 2.21.0
 
