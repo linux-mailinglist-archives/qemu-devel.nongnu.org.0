@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E2E123CC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 02:57:19 +0100 (CET)
-Received: from localhost ([::1]:48314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86562123CD0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 03:02:06 +0100 (CET)
+Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihOaU-0005Yy-3a
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 20:57:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37792)
+	id 1ihOf5-0002Bp-RN
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 21:02:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ihOYu-0004LT-4c
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:55:42 -0500
+ (envelope-from <quintela@redhat.com>) id 1ihOYt-0004Kt-Kr
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:55:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ihOYs-0004Wp-Jo
+ (envelope-from <quintela@redhat.com>) id 1ihOYr-0004Uf-G2
  for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:55:39 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46267
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28929
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihOYq-0004S2-Nn
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:55:37 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ihOYq-0004Q2-8Z
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 20:55:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576634135;
+ s=mimecast20190719; t=1576634133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e6M9ZYPAd5b2ngSaOUhCXNlAyhIB+hjXtewLr2+i5ak=;
- b=eT1E18MMpDROPIptFxXs1UuidY2izr4Pxh1H5atvVxvQbYSfZ3vVUegK8ZpLz7b+FFGWQY
- hjxdULtsggyac6Gj8AS0lFUIF/luv23cBT7RaXAUnugNGzfZCi/Hn+9dur3dbMWuaGARv/
- 1FMnBpx6JH3JVPbglM1Bt4TUGqXmxoQ=
+ bh=iRr1OF3viO0bKBaEWJ541LZGqs1yYMlaX+6gEdOJo1c=;
+ b=UEEeY0o510p8b/Z30w4h/yv8mb61tZbf6Blknk8rJ1BpsgRUPQhTZkR50rjHZciWQpY5ZN
+ H1xJIPFyGqeL5nEvc1lHdBa7T/7w7DGOM3Y7s6oin5Z+S6ZRMjj+RsuYuTk/10aLZEw8O3
+ x4s5FSbxEj99oAh6BDIjpxEU4h4MLrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-jo5znXNnOqOpIv_3G8o1nQ-1; Tue, 17 Dec 2019 20:55:33 -0500
+ us-mta-366-dHE5zYfBNk-MFeWT656n_A-1; Tue, 17 Dec 2019 20:55:31 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B399010054E3
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 01:55:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5DAF800EBF
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 01:55:30 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-32.ams2.redhat.com [10.36.116.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3823868880;
- Wed, 18 Dec 2019 01:55:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B8356886F;
+ Wed, 18 Dec 2019 01:55:29 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/10] migration-test: Move shmem handling to common
+Subject: [PATCH v2 04/10] migration-test: Move memory size to common
  commandline
-Date: Wed, 18 Dec 2019 02:55:15 +0100
-Message-Id: <20191218015520.2881-6-quintela@redhat.com>
+Date: Wed, 18 Dec 2019 02:55:14 +0100
+Message-Id: <20191218015520.2881-5-quintela@redhat.com>
 In-Reply-To: <20191218015520.2881-1-quintela@redhat.com>
 References: <20191218015520.2881-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: jo5znXNnOqOpIv_3G8o1nQ-1
+X-MC-Unique: dHE5zYfBNk-MFeWT656n_A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -79,209 +79,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- tests/migration-test.c | 76 +++++++++++++++++++-----------------------
- 1 file changed, 34 insertions(+), 42 deletions(-)
+ tests/migration-test.c | 44 ++++++++++++++++++++++++------------------
+ 1 file changed, 25 insertions(+), 19 deletions(-)
 
 diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 9d40f2d30c..e17d432043 100644
+index 5a63158872..9d40f2d30c 100644
 --- a/tests/migration-test.c
 +++ b/tests/migration-test.c
-@@ -380,13 +380,6 @@ static void cleanup(const char *filename)
-     g_free(path);
- }
-=20
--static char *get_shmem_opts(const char *mem_size, const char *shmem_path)
--{
--    return g_strdup_printf("-object memory-backend-file,id=3Dmem0,size=3D%=
-s"
--                           ",mem-path=3D%s,share=3Don -numa node,memdev=3D=
-mem0",
--                           mem_size, shmem_path);
--}
--
- static char *SocketAddress_to_str(SocketAddress *addr)
- {
-     switch (addr->type) {
-@@ -560,8 +553,8 @@ static int test_migrate_start(QTestState **from, QTestS=
+@@ -565,6 +565,7 @@ static int test_migrate_start(QTestState **from, QTestS=
 tate **to,
-     gchar *cmd_source, *cmd_target;
-     const gchar *ignore_stderr;
-     char *bootpath =3D NULL;
--    char *extra_opts =3D NULL;
--    char *shmem_path =3D NULL;
-+    char *shmem_opts;
-+    char *shmem_path;
      const char *arch =3D qtest_get_arch();
      const char *machine_type;
      const char *machine_args;
-@@ -575,7 +568,6 @@ static int test_migrate_start(QTestState **from, QTestS=
-tate **to,
-             g_test_skip("/dev/shm is not supported");
-             return -1;
-         }
--        shmem_path =3D g_strdup_printf("/dev/shm/qemu-%d", getpid());
-     }
++    const char *memory_size;
 =20
-     got_stop =3D false;
-@@ -587,18 +579,15 @@ static int test_migrate_start(QTestState **from, QTes=
+     opts_src =3D opts_src ? opts_src : "";
+     opts_dst =3D opts_dst ? opts_dst : "";
+@@ -585,15 +586,14 @@ static int test_migrate_start(QTestState **from, QTes=
 tState **to,
+         init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
          machine_type =3D "";
          machine_args =3D "";
-         memory_size =3D "150M";
--        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
+-        extra_opts =3D use_shmem ? get_shmem_opts("150M", shmem_path) : NU=
+LL;
+-        cmd_src =3D g_strdup_printf("-m 150M"
+-                                  " -name source,debug-threads=3Don"
++        memory_size =3D "150M";
++        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
  : NULL;
-         cmd_src =3D g_strdup_printf(" -name source,debug-threads=3Don"
++        cmd_src =3D g_strdup_printf(" -name source,debug-threads=3Don"
                                    " -serial file:%s/src_serial"
--                                  " -drive file=3D%s,format=3Draw %s",
--                                  tmpfs, bootpath,
--                                  extra_opts ? extra_opts : "");
-+                                  " -drive file=3D%s,format=3Draw",
-+                                  tmpfs, bootpath);
-         cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
+                                   " -drive file=3D%s,format=3Draw %s",
+                                   tmpfs, bootpath,
+                                   extra_opts ? extra_opts : "");
+-        cmd_dst =3D g_strdup_printf("-m 150M"
+-                                  " -name target,debug-threads=3Don"
++        cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
                                    " -serial file:%s/dest_serial"
                                    " -drive file=3D%s,format=3Draw"
--                                  " -incoming %s %s",
--                                  tmpfs, bootpath, uri,
--                                  extra_opts ? extra_opts : "");
-+                                  " -incoming %s",
-+                                  tmpfs, bootpath, uri);
-         start_address =3D X86_TEST_MEM_START;
-         end_address =3D X86_TEST_MEM_END;
-     } else if (g_str_equal(arch, "s390x")) {
-@@ -606,36 +595,31 @@ static int test_migrate_start(QTestState **from, QTes=
+                                   " -incoming %s %s",
+@@ -605,14 +605,13 @@ static int test_migrate_start(QTestState **from, QTes=
 tState **to,
+         init_bootfile(bootpath, s390x_elf, sizeof(s390x_elf));
          machine_type =3D "";
          machine_args =3D "";
-         memory_size =3D "128M";
--        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
+-        extra_opts =3D use_shmem ? get_shmem_opts("128M", shmem_path) : NU=
+LL;
+-        cmd_src =3D g_strdup_printf("-m 128M"
+-                                  " -name source,debug-threads=3Don"
++        memory_size =3D "128M";
++        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
  : NULL;
-         cmd_src =3D g_strdup_printf(" -name source,debug-threads=3Don"
--                                  " -serial file:%s/src_serial -bios %s %s=
++        cmd_src =3D g_strdup_printf(" -name source,debug-threads=3Don"
+                                   " -serial file:%s/src_serial -bios %s %s=
 ",
--                                  tmpfs, bootpath,
--                                  extra_opts ? extra_opts : "");
-+                                  " -serial file:%s/src_serial -bios %s",
-+                                  tmpfs, bootpath);
-         cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
+                                   tmpfs, bootpath,
+                                   extra_opts ? extra_opts : "");
+-        cmd_dst =3D g_strdup_printf("-m 128M"
+-                                  " -name target,debug-threads=3Don"
++        cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
                                    " -serial file:%s/dest_serial -bios %s"
--                                  " -incoming %s %s",
--                                  tmpfs, bootpath, uri,
--                                  extra_opts ? extra_opts : "");
-+                                  " -incoming %s",
-+                                  tmpfs, bootpath, uri);
-         start_address =3D S390_TEST_MEM_START;
-         end_address =3D S390_TEST_MEM_END;
+                                   " -incoming %s %s",
+                                   tmpfs, bootpath, uri,
+@@ -622,8 +621,9 @@ static int test_migrate_start(QTestState **from, QTestS=
+tate **to,
      } else if (strcmp(arch, "ppc64") =3D=3D 0) {
          machine_type =3D "";
          machine_args =3D ",vsmt=3D8";
-         memory_size =3D "256M";
--        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
+-        extra_opts =3D use_shmem ? get_shmem_opts("256M", shmem_path) : NU=
+LL;
+-        cmd_src =3D g_strdup_printf("-m 256M -nodefaults"
++        memory_size =3D "256M";
++        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
  : NULL;
-         cmd_src =3D g_strdup_printf("-nodefaults"
++        cmd_src =3D g_strdup_printf("-nodefaults"
                                    " -name source,debug-threads=3Don"
                                    " -serial file:%s/src_serial"
                                    " -prom-env 'use-nvramrc?=3Dtrue' -prom-=
 env "
-                                   "'nvramrc=3Dhex .\" _\" begin %x %x "
+@@ -631,8 +631,7 @@ static int test_migrate_start(QTestState **from, QTestS=
+tate **to,
                                    "do i c@ 1 + i c! 1000 +loop .\" B\" 0 "
--                                  "until' %s", tmpfs, end_address,
--                                  start_address, extra_opts ? extra_opts :=
+                                   "until' %s", tmpfs, end_address,
+                                   start_address, extra_opts ? extra_opts :=
  "");
-+                                  "until'", tmpfs, end_address,
-+                                  start_address);
-         cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
+-        cmd_dst =3D g_strdup_printf("-m 256M"
+-                                  " -name target,debug-threads=3Don"
++        cmd_dst =3D g_strdup_printf(" -name target,debug-threads=3Don"
                                    " -serial file:%s/dest_serial"
--                                  " -incoming %s %s",
--                                  tmpfs, uri,
--                                  extra_opts ? extra_opts : "");
-+                                  " -incoming %s",
-+                                  tmpfs, uri);
-=20
-         start_address =3D PPC_TEST_MEM_START;
-         end_address =3D PPC_TEST_MEM_END;
-@@ -644,18 +628,15 @@ static int test_migrate_start(QTestState **from, QTes=
+                                   " -incoming %s %s",
+                                   tmpfs, uri,
+@@ -644,14 +643,15 @@ static int test_migrate_start(QTestState **from, QTes=
 tState **to,
+         init_bootfile(bootpath, aarch64_kernel, sizeof(aarch64_kernel));
          machine_type =3D "virt,";
          machine_args =3D "gic-version=3Dmax";
-         memory_size =3D "150M";
--        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
+-        extra_opts =3D use_shmem ? get_shmem_opts("150M", shmem_path) : NU=
+LL;
++        memory_size =3D "150M";
++        extra_opts =3D use_shmem ? get_shmem_opts(memory_size, shmem_path)=
  : NULL;
          cmd_src =3D g_strdup_printf("-name vmsource,debug-threads=3Don -cp=
 u max "
-                                   "-serial file:%s/src_serial "
--                                  "-kernel %s %s",
--                                  tmpfs, bootpath,
--                                  extra_opts ? extra_opts : "");
-+                                  "-kernel %s",
-+                                  tmpfs, bootpath);
+-                                  "-m 150M -serial file:%s/src_serial "
++                                  "-serial file:%s/src_serial "
+                                   "-kernel %s %s",
+                                   tmpfs, bootpath,
+                                   extra_opts ? extra_opts : "");
          cmd_dst =3D g_strdup_printf("-name vmdest,debug-threads=3Don -cpu =
 max "
-                                   "-serial file:%s/dest_serial "
+-                                  "-m 150M -serial file:%s/dest_serial "
++                                  "-serial file:%s/dest_serial "
                                    "-kernel %s "
--                                  "-incoming %s %s",
--                                  tmpfs, bootpath, uri,
--                                  extra_opts ? extra_opts : "");
-+                                  "-incoming %s",
-+                                  tmpfs, bootpath, uri);
-=20
-         start_address =3D ARM_TEST_MEM_START;
-         end_address =3D ARM_TEST_MEM_END;
-@@ -666,7 +647,6 @@ static int test_migrate_start(QTestState **from, QTestS=
-tate **to,
-     }
-=20
-     g_free(bootpath);
--    g_free(extra_opts);
-=20
-     if (hide_stderr) {
-         ignore_stderr =3D "2>/dev/null";
-@@ -674,26 +654,38 @@ static int test_migrate_start(QTestState **from, QTes=
+                                   "-incoming %s %s",
+                                   tmpfs, bootpath, uri,
+@@ -674,15 +674,21 @@ static int test_migrate_start(QTestState **from, QTes=
 tState **to,
          ignore_stderr =3D "";
      }
 =20
-+    if (use_shmem) {
-+        shmem_path =3D g_strdup_printf("/dev/shm/qemu-%d", getpid());
-+        shmem_opts =3D g_strdup_printf(
-+            "-object memory-backend-file,id=3Dmem0,size=3D%s"
-+            ",mem-path=3D%s,share=3Don -numa node,memdev=3Dmem0",
-+            memory_size, shmem_path);
-+    } else {
-+        shmem_path =3D NULL;
-+        shmem_opts =3D g_strdup("");
-+    }
-+
-     cmd_source =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s "
-                                  "-m %s "
--                                 "%s %s %s",
-+                                 "%s %s %s %s",
+-    cmd_source =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s %s %s %s"=
+,
++    cmd_source =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s "
++                                 "-m %s "
++                                 "%s %s %s",
                                   machine_type, machine_args,
-                                  memory_size,
--                                 cmd_src, opts_src, ignore_stderr);
-+                                 cmd_src, shmem_opts, opts_src, ignore_std=
-err);
++                                 memory_size,
+                                  cmd_src, opts_src, ignore_stderr);
      g_free(cmd_src);
      *from =3D qtest_init(cmd_source);
      g_free(cmd_source);
 =20
-     cmd_target =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s "
-                                  "-m %s "
--                                 "%s %s %s",
-+                                 "%s %s %s %s",
+-    cmd_target =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s %s %s %s"=
+,
++    cmd_target =3D g_strdup_printf("-machine %saccel=3Dkvm:tcg%s "
++                                 "-m %s "
++                                 "%s %s %s",
                                   machine_type, machine_args,
-                                  memory_size,
--                                 cmd_dst, opts_dst, ignore_stderr);
-+                                 cmd_dst, shmem_opts, opts_dst, ignore_std=
-err);
++                                 memory_size,
+                                  cmd_dst, opts_dst, ignore_stderr);
      g_free(cmd_dst);
      *to =3D qtest_init(cmd_target);
-     g_free(cmd_target);
-=20
-+    g_free(shmem_opts);
-     /*
-      * Remove shmem file immediately to avoid memory leak in test failed c=
-ase.
-      * It's valid becase QEMU has already opened this file
 --=20
 2.23.0
 
