@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5719C123DC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 04:21:49 +0100 (CET)
-Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C850A123DD4
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 04:24:05 +0100 (CET)
+Received: from localhost ([::1]:48994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihPuE-0005rI-LT
-	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 22:21:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
+	id 1ihPwS-0000VD-KO
+	for lists+qemu-devel@lfdr.de; Tue, 17 Dec 2019 22:24:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihPs4-00046m-6N
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:33 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ihPs6-00049R-SO
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihPs3-0002ic-71
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:32 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45480)
+ (envelope-from <richard.henderson@linaro.org>) id 1ihPs4-0002kL-Oz
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:34 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42840)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihPs3-0002i3-1j
- for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:31 -0500
-Received: by mail-pf1-x443.google.com with SMTP id 2so378268pfg.12
- for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 19:19:30 -0800 (PST)
+ id 1ihPs4-0002jj-JW
+ for qemu-devel@nongnu.org; Tue, 17 Dec 2019 22:19:32 -0500
+Received: by mail-pf1-x441.google.com with SMTP id 4so385241pfz.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Dec 2019 19:19:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SWmO1kQqi8bfr8nyMbMf0tsp3eELnVxdGpB7UInxtBo=;
- b=EGVqbIdRGvMaQXdeWAJtbMzNpZwwWlC76YQ0QG9FY3huacb+X6IX14INLFeYaFFwOh
- JvDxBO4K1V1D8dZW15AzVdFJqdhyEpXB+Wb9GnllpzRhgquuxARiijJ62HM8XO6iHP4M
- EIlkNdVZBMBDtNr0tGoUQLtg++K45HjFayOfSmpdkabTvkglk1KM2bYXilGwYZM61AV3
- PD1HK3RjOMF/v1GTp+oBIFFOYmd0U3wuvKVNpOahK4VjjVPbsncmjSGz0Hn0EUEvEDDx
- Sid6xMrg6u9o8rj88+606e1zICTGUYOrM2SeeQhZicMS7yylfcOFbCi1J5O7fs+NpX1M
- Z66w==
+ bh=IVABMN0hJYlQXO1glbSSBN/F4pdMjp3DIhyEvyino7c=;
+ b=SSDo/qpYhLTxx5ztb+3nRQGRrHrPeNn6y4BeS90fRI+xFdHV3IXpC8lVNzQ095sSwE
+ 0R82gSpua4KmLmJN1WnTc8PYHeRlLHnv7fT/1GB/R4XqMre5+FhUE/qAjHAMqe83TOin
+ VXWkPEb3X5MZdVg3tfrBL/G7JH4QGDdEgXBc8t1SYWPRhej5bXSaAxfIYB+MP/J0BAVr
+ kC3J/oJwtw+uF9VbKdGZeHMOU4fOfYtMLZOp/czIcl1HxugSBJVnXox/Fl6+85ozjopm
+ Huo/504ckZIvREvtng90CwtPJ4uhbwOfszfudb6EwXs7rxMEKXTPuHL8QJ967OdbNuJ9
+ ph8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SWmO1kQqi8bfr8nyMbMf0tsp3eELnVxdGpB7UInxtBo=;
- b=avyeDd54soICOOErE+becu9JHICnaHw7S1QTO6s3LH+2pB+xByob4W0I+K4Du+RimN
- DRtr4KpVoBatvGth60pmeTGoKMCETodt/FdKoLGv/KcXIjVFTrR/56jHisdXqr7urPGU
- 2IY9QeLC4pJDGa2I8hFILTmwrmRFJBvguKjwPZc5qoLGusfVX2U5a0fVKnlZFWSVcwcW
- TgYyNRLQ/7XEP4WfuaejUxnxHoh9xrPnnYMI7Ida9abJ7qSzYfxOaAw/RCnd20tUzd+F
- IVwhX329ja4jNxx3Q2/SGGzcSTa/HwCXBpt+y27ijjYlcNXBPYSsFD8gf7zXHfd8CMSV
- nIOw==
-X-Gm-Message-State: APjAAAXpekkiBewtzJLon5ox6ab56BTYrq1W1mbJybUILUGBjyWxBEVh
- bZKWLgeVOtfhSntTZf9Rg4qYfneg5iE=
-X-Google-Smtp-Source: APXvYqzNkP2ktpfX4dgcQmKYgSda8d77FTds98YszTjvtTcBdJwsfwUQfUse+KvHHSq8o5jc3JjvOA==
-X-Received: by 2002:a65:49ca:: with SMTP id t10mr324831pgs.37.1576639169720;
- Tue, 17 Dec 2019 19:19:29 -0800 (PST)
+ bh=IVABMN0hJYlQXO1glbSSBN/F4pdMjp3DIhyEvyino7c=;
+ b=DMC1uDRgxHdyIG/rCRdPNko8dpt4KblRlqdCYUCkJsB7CLsmFtf9g5bbcM4xyoEDZw
+ Nws93BUnzUv//+3qpngNXberPOouX4epVZrS6pPjtuEIdXWo6QwSpM5cMKHsVfWoLEfA
+ 2TMPMLVKRj/aoauITNNcq2O0dwaRtF4qXgm7VPQaCRCNVeKh8usvAmqxgfKp4oLAp8cd
+ 4Kr1/97Q+7xHPYqoM6p+/4O9+PWxkrNzlmlLIBbybMsLIEvMyGwnqF59YHQs6jhGN0lK
+ Gh15jgIEEuRHh+EGxfKGVz4YG3E9GtTzzaGiqRNsIkQ85rnLNDnkaK1pFNSt+nDssrmd
+ TH3g==
+X-Gm-Message-State: APjAAAUXnnJ0BOPlaZTjvhEKTN/ukrfTQ51g4eb0rzWqYQTsThEQUCf6
+ Bl7zzxOPA/+TnI+DETD68/kTCIOztHw=
+X-Google-Smtp-Source: APXvYqw9lrS94GUPXHsMFF5nhNCcSXjGjJ2r6QqfUTbHKsk0WYkWLYHBMlP3/esnNBQB/dPv1PJGSA==
+X-Received: by 2002:a63:4b48:: with SMTP id k8mr326832pgl.362.1576639171240;
+ Tue, 17 Dec 2019 19:19:31 -0800 (PST)
 Received: from localhost.localdomain
  ([2605:e000:c74f:dc00:6838:d2b2:17e2:8445])
- by smtp.gmail.com with ESMTPSA id k27sm404870pfp.66.2019.12.17.19.19.28
+ by smtp.gmail.com with ESMTPSA id k27sm404870pfp.66.2019.12.17.19.19.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2019 19:19:29 -0800 (PST)
+ Tue, 17 Dec 2019 19:19:30 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] configure: Always detect -no-pie toolchain support
-Date: Tue, 17 Dec 2019 17:19:17 -1000
-Message-Id: <20191218031920.6414-5-richard.henderson@linaro.org>
+Subject: [PATCH 5/7] configure: Unnest detection of -z,relro and -z,now
+Date: Tue, 17 Dec 2019 17:19:18 -1000
+Message-Id: <20191218031920.6414-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191218031920.6414-1-richard.henderson@linaro.org>
 References: <20191218031920.6414-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,57 +82,46 @@ Cc: philmd@redhat.com, i@maskray.me, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CFLAGS_NOPIE and LDFLAGS_NOPIE variables are used
-in pc-bios/optionrom/Makefile, which has nothing to do
-with the PIE setting of the main qemu executables.
-
-This overrides any operating system default to build
-all executables as PIE, which is important for ROMs.
+There is nothing about these options that is related to PIE.
+Nor is there anything that specifically ties them to each other.
+Use them unconditionally.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ configure | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/configure b/configure
-index 2fb4457d7c..972ce7396f 100755
+index 972ce7396f..f8981eec15 100755
 --- a/configure
 +++ b/configure
-@@ -2012,26 +2012,24 @@ if ! compile_prog "-Werror" "" ; then
- 	"Thread-Local Storage (TLS). Please upgrade to a version that does."
- fi
- 
--if test "$pie" != "no" ; then
--  cat > $TMPC << EOF
-+cat > $TMPC << EOF
- 
- #ifdef __linux__
- #  define THREAD __thread
- #else
- #  define THREAD
- #endif
--
- static THREAD int tls_var;
--
- int main(void) { return tls_var; }
--
- EOF
--  # check we support --no-pie first...
--  if compile_prog "-Werror -fno-pie" "-no-pie"; then
--    CFLAGS_NOPIE="-fno-pie"
--    LDFLAGS_NOPIE="-nopie"
--  fi
- 
-+# Check we support --no-pie first; we will need this for building ROMs.
-+if compile_prog "-Werror -fno-pie" "-no-pie"; then
-+  CFLAGS_NOPIE="-fno-pie"
-+  LDFLAGS_NOPIE="-no-pie"
-+fi
-+
-+if test "$pie" != "no" ; then
-   if compile_prog "-fPIE -DPIE" "-pie"; then
+@@ -2034,9 +2034,6 @@ if test "$pie" != "no" ; then
      QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
      LDFLAGS="-pie $LDFLAGS"
+     pie="yes"
+-    if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
+-      LDFLAGS="-Wl,-z,relro -Wl,-z,now $LDFLAGS"
+-    fi
+   else
+     if test "$pie" = "yes"; then
+       error_exit "PIE not available due to missing toolchain support"
+@@ -2047,6 +2044,16 @@ if test "$pie" != "no" ; then
+   fi
+ fi
+ 
++# Detect support for DT_BIND_NOW.
++if compile_prog "" "-Wl,-z,now" ; then
++  LDFLAGS="-Wl,-z,now $LDFLAGS"
++fi
++
++# Detect support for PT_GNU_RELRO.
++if compile_prog "" "-Wl,-z,relro" ; then
++  LDFLAGS="-Wl,-z,relro $LDFLAGS"
++fi
++
+ ##########################################
+ # __sync_fetch_and_and requires at least -march=i486. Many toolchains
+ # use i686 as default anyway, but for those that don't, an explicit
 -- 
 2.20.1
 
