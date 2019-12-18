@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F1C1247AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:09:45 +0100 (CET)
-Received: from localhost ([::1]:54044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49861247D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 14:13:55 +0100 (CET)
+Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihZ5D-0004EH-Ll
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:09:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58904)
+	id 1ihZ9G-0001iK-FP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 08:13:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59012)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY45-0007bZ-Dz
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:30 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY46-0007cF-0F
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ihY44-0004Ie-Da
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ihY44-0004KI-Pi
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:29 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53047)
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:56106)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ihY44-0004FT-4W
+ id 1ihY44-0004H4-Go
  for qemu-devel@nongnu.org; Wed, 18 Dec 2019 07:04:28 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p9so1564832wmc.2
+Received: by mail-wm1-x32b.google.com with SMTP id q9so1556643wmj.5
  for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 04:04:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4Jcio20l5vVSzyGNtxWMBugfhVYAAbulnAjuFKBNWM4=;
- b=mq5L19V0ZHFuiicTUsfVFMTyM6RuxfHwe0xcELs1xuxKY53/j5EcKh/Fia8ZiJ162M
- 3LHpVyWYUHk2YxFol1ykdOa39FYil51xs766QZGEj7rnRLnTM6TxC4IfetS/Xra4TFw1
- mfX8A91MIl+WabrnFJ5xTpGJz7QNBUPNTT+yaHlBoGQ9bFnG4zorkaGN55IJl3KPm5f5
- Rb4CKbeDNG9UL/+kIWumnTMNVguz+U2DEEbeCpxnycKEY1zsqacc+36fOyux45sA9BhD
- btqY02oEVk4k91iRoxvYetFzlCVYeOEPx7TduSGTi0TCBFwKI2cRgCnBBZsOMwMbyPsa
- OzYQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=beFvSsXmScK7eTwdxPz2BvPM7K8KAbUI0Ch3SEZ3qI0=;
+ b=aq5yCIOvPEMLaWeHwWf+h8E/rnUhq1Eavqa2FoN1GgFP/6clgkoKBC056Usfj95Oph
+ nMIz6q7OOlNiFVbGaU+f1ft7pA6/EpPB0vLNqXQIFAMT4YxaT8S0FYr5jF9vIb9Vv9tD
+ pdJfosrS5wvfBy5WTY/mRQTL8gdI/TbCJireBVYxRA6zRLZps4+LZSUSmsrp0QG42+9d
+ oVfo51E4E1Rg2Xdey4zTX8Vxbhinf6azft0/U7seh8gmNsUWBG8KEKYqX9JaMEEnnqKQ
+ eHDPhXnwYx84boaPOVRJRtRvtUrWb3zdiEpb6hkERrfE770BFsUJ57Jc8c4ov/LPaG5I
+ iEww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4Jcio20l5vVSzyGNtxWMBugfhVYAAbulnAjuFKBNWM4=;
- b=FFwT+/Ysb6zaR4qqxaIDrDZ9bjcFOeqj1RTKG54y13Q5l5lUboU9/HHJ74FHM5vnet
- BYgdNDsy8DXczF074wWrJW0cQ1KHvsRaINAeo63KxTTWDH0Tv9m8z1GL4sKCFY+DW0RK
- GW4gWKKqb9CvdqALt5rMlHizj67VvXPL7iRctT+JzneK30foAe0nRRdMiRmI2ykDxnpB
- ZLUXnpENidcAwHkcVShA3MdCewwcyhEgf2EZL2/mrRK8mmh+DuA6jcsoHTU0yb8+2pMJ
- q++csRBhm9l/sqfKuciQMCLO8rtP8FkOKLwn9Ii6jHRr9J0W1FdRz3E663zQnYpnqYvR
- ojMw==
-X-Gm-Message-State: APjAAAWGC1lI9P9dIst6UIFmxM2xMufTpy3sPHeMEzl6KNWnkxff/WBc
- bh5fts43j7ol6tH82i+DDmwq/WtT
-X-Google-Smtp-Source: APXvYqxzO5fY0CBPMS2zueh/qSwr65wu3l5iiJfxDJ9iA3p2mCQ6+Dol6NydpK69KoLGgWcxRF40Bg==
-X-Received: by 2002:a1c:f008:: with SMTP id a8mr2794675wmb.81.1576670666579;
- Wed, 18 Dec 2019 04:04:26 -0800 (PST)
+ :in-reply-to:references;
+ bh=beFvSsXmScK7eTwdxPz2BvPM7K8KAbUI0Ch3SEZ3qI0=;
+ b=Fg+462++FSXw9VHaKKLR10i1aPniwpRJdAFF63eG6QGrGQOToiCgk4vjB/hofszZsx
+ HyZxAPpYqf9tRujRgU4hqg/LeOZLHfrytNd8TpBodHTBMICMW/W3U0tPfcneR1QCudjE
+ 6VF2J9tNITEX6BnIqXfDRYQJXxhoxHZ97EsZOZOFZIL7VwBxbQhn1ROj9th8+fN/HvGN
+ 40q/6rkDvQT492lTOz2XDYen4e7mLQLoQtxuAz9MgjJlt7e/4eTVTAIyoCrJY5p9/PCf
+ oCPktQwBO/GAB5bUtTCi9+WObchDJZ8yMCXIv/x0ghAG1WGa0u42cTu1YGwecbvRWA75
+ CRJw==
+X-Gm-Message-State: APjAAAVnnnV8mSXazPvA3/SsUTLba2mwG3k6FglzozM1cmAJj4IGHSOS
+ P+MMjE1VocGTQEYyX/N6FZKXik4R
+X-Google-Smtp-Source: APXvYqxWvSB7li+NvGovYJCdsD5PbgGzzcRUnocG4vwCp3qRqK/4bQeOUZkWlKuTHw5xYqyjaNpaUQ==
+X-Received: by 2002:a7b:c00c:: with SMTP id c12mr2849806wmb.174.1576670667380; 
+ Wed, 18 Dec 2019 04:04:27 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.25
+ by smtp.gmail.com with ESMTPSA id n67sm2236838wmf.46.2019.12.18.04.04.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Dec 2019 04:04:25 -0800 (PST)
+ Wed, 18 Dec 2019 04:04:26 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 84/87] hw/audio: Remove the "use_broken_id" hack from the AC97
- device
-Date: Wed, 18 Dec 2019 13:02:50 +0100
-Message-Id: <1576670573-48048-85-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 85/87] hw/pci: Remove the "command_serr_enable" property
+Date: Wed, 18 Dec 2019 13:02:51 +0100
+Message-Id: <1576670573-48048-86-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
 References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,51 +80,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Now that the old pc-0.x machine types are gone, we do not need
-the "use_broken_id" hack anymore.
+Now that the old pc-0.x machine types have been removed, this config
+knob is not required anymore.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191209125248.5849-3-thuth@redhat.com>
+Message-Id: <20191209125248.5849-4-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/audio/ac97.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ hw/pci/pci.c         | 6 +-----
+ include/hw/pci/pci.h | 2 +-
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index a136b97..78cda88 100644
---- a/hw/audio/ac97.c
-+++ b/hw/audio/ac97.c
-@@ -161,7 +161,6 @@ typedef struct AC97BusMasterRegs {
- typedef struct AC97LinkState {
-     PCIDevice dev;
-     QEMUSoundCard card;
--    uint32_t use_broken_id;
-     uint32_t glob_cnt;
-     uint32_t glob_sta;
-     uint32_t cas;
-@@ -1373,13 +1372,6 @@ static void ac97_realize(PCIDevice *dev, Error **errp)
-     c[PCI_BASE_ADDRESS_0 + 6] = 0x00;
-     c[PCI_BASE_ADDRESS_0 + 7] = 0x00;
- 
--    if (s->use_broken_id) {
--        c[PCI_SUBSYSTEM_VENDOR_ID] = 0x86;
--        c[PCI_SUBSYSTEM_VENDOR_ID + 1] = 0x80;
--        c[PCI_SUBSYSTEM_ID] = 0x00;
--        c[PCI_SUBSYSTEM_ID + 1] = 0x00;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index cbc7a32..e3d31036 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -69,8 +69,6 @@ static Property pci_props[] = {
+     DEFINE_PROP_UINT32("rombar",  PCIDevice, rom_bar, 1),
+     DEFINE_PROP_BIT("multifunction", PCIDevice, cap_present,
+                     QEMU_PCI_CAP_MULTIFUNCTION_BITNR, false),
+-    DEFINE_PROP_BIT("command_serr_enable", PCIDevice, cap_present,
+-                    QEMU_PCI_CAP_SERR_BITNR, true),
+     DEFINE_PROP_BIT("x-pcie-lnksta-dllla", PCIDevice, cap_present,
+                     QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
+     DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
+@@ -751,9 +749,7 @@ static void pci_init_wmask(PCIDevice *dev)
+     pci_set_word(dev->wmask + PCI_COMMAND,
+                  PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER |
+                  PCI_COMMAND_INTX_DISABLE);
+-    if (dev->cap_present & QEMU_PCI_CAP_SERR) {
+-        pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_SERR);
 -    }
--
-     c[PCI_INTERRUPT_LINE] = 0x00;      /* intr_ln interrupt line rw */
-     c[PCI_INTERRUPT_PIN] = 0x01;      /* intr_pn interrupt pin ro */
++    pci_word_test_and_set_mask(dev->wmask + PCI_COMMAND, PCI_COMMAND_SERR);
  
-@@ -1411,7 +1403,6 @@ static int ac97_init (PCIBus *bus)
+     memset(dev->wmask + PCI_CONFIG_HEADER_SIZE, 0xff,
+            config_size - PCI_CONFIG_HEADER_SIZE);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index db75c6d..2acd832 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -174,7 +174,7 @@ enum {
+ #define QEMU_PCI_CAP_MULTIFUNCTION_BITNR        3
+     QEMU_PCI_CAP_MULTIFUNCTION = (1 << QEMU_PCI_CAP_MULTIFUNCTION_BITNR),
  
- static Property ac97_properties[] = {
-     DEFINE_AUDIO_PROPERTIES(AC97LinkState, card),
--    DEFINE_PROP_UINT32 ("use_broken_id", AC97LinkState, use_broken_id, 0),
-     DEFINE_PROP_END_OF_LIST (),
- };
- 
+-    /* command register SERR bit enabled */
++    /* command register SERR bit enabled - unused since QEMU v5.0 */
+ #define QEMU_PCI_CAP_SERR_BITNR 4
+     QEMU_PCI_CAP_SERR = (1 << QEMU_PCI_CAP_SERR_BITNR),
+     /* Standard hot plug controller. */
 -- 
 1.8.3.1
 
