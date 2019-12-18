@@ -2,65 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671EA124350
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 10:34:00 +0100 (CET)
-Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14009124374
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Dec 2019 10:39:14 +0100 (CET)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihViR-0004VE-Er
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 04:33:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44337)
+	id 1ihVnU-0001dB-QB
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 04:39:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihVhW-0003wJ-9S
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 04:33:03 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1ihVjw-0005QK-7e
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 04:35:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihVhS-0001EM-O8
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 04:32:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47892
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1ihVju-0001Aq-AF
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 04:35:31 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:34118 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihVhS-00018i-7K
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 04:32:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576661577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pfoRo5KRxYSKs9LinVK0+21c+9/p5zdHPvKdelxjoX8=;
- b=AZPo+m0nxDO+8gePy5fjjswanhtyauTG3P9JHtI0ak6WBzTnhk4CgaQ8k+7E6oeJJk1NIh
- iS+n+7fT0+wXSgNYvjmkTCfea9PJsDD+v/vLImkUhakZMWHtrzJwEoXbxebCmENzoxW8pY
- 4qwsw5ukUGikjfm5lOnbQ9uK/Igo9U8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-srk2Q29lPk6vGKK87eSMTQ-1; Wed, 18 Dec 2019 04:32:55 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1945940D8;
- Wed, 18 Dec 2019 09:32:54 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-210.ams2.redhat.com [10.36.116.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B55C68889;
- Wed, 18 Dec 2019 09:32:53 +0000 (UTC)
-Date: Wed, 18 Dec 2019 10:32:52 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Tuguoyi <tu.guoyi@h3c.com>
-Subject: Re: [PATCH] qcow2: Move error check of local_err near its assignment
-Message-ID: <20191218093252.GB4632@linux.fritz.box>
-References: <c9d3fc7246ec4c1f9a6cde9ed3c3ae57@h3c.com>
-MIME-Version: 1.0
-In-Reply-To: <c9d3fc7246ec4c1f9a6cde9ed3c3ae57@h3c.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: srk2Q29lPk6vGKK87eSMTQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
+ id 1ihVjt-0005f3-UK
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 04:35:30 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 20F861A2248;
+ Wed, 18 Dec 2019 10:34:20 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
+ [10.10.14.93])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id D551B1A153B;
+ Wed, 18 Dec 2019 10:34:19 +0100 (CET)
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/6] linux-user: Add support for real time clock ioctls
+Date: Wed, 18 Dec 2019 10:34:06 +0100
+Message-Id: <1576661652-2870-1-git-send-email-Filip.Bozuta@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,66 +48,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.12.2019 um 03:26 hat Tuguoyi geschrieben:
->=20
-> Signed-off-by: Guoyi Tu <tu.guoyi@h3c.com>
+Add ioctls for all RTC features that are currently supported in linux kernel.
 
-Empty commit messages are rarely acceptable. You should explain here
-why you are making the change and why it's correct (for example by
-comparing with when it was introduced).
+This series covers following 22 iocts:
 
-In this case, the local_err check outside of the if block was necessary
-when it was introduced in commit d1258dd0c87 because it needed to be
-executed even if qcow2_load_autoloading_dirty_bitmaps() returned false.
+    * RTC_AIE_ON          * RTC_ALM_SET         * RTC_WKALM_SET
+    * RTC_AIE_OFF         * RTC_ALM_READ        * RTC_WKALM_RD
+    * RTC_UIE_ON          * RTC_RD_TIME         * RTC_PLL_GET
+    * RTC_UIE_OFF         * RTC_SET_TIME        * RTC_PLL_SET
+    * RTC_PIE_ON          * RTC_IRQP_READ       * RTC_VL_READ
+    * RTC_PIE_OFF         * RTC_IRQP_SET        * RTC_VL_CLR
+    * RTC_WIE_ON          * RTC_EPOCH_READ
+    * RTC_WIE_OFF         * RTC_EPOCH_SET
 
-After some modifications that all required the error check to remain
-where it is, commit 9c98f145dfb finally moved the
-qcow2_load_dirty_bitmaps() call into the if block, so now the error
-check should be there, too.
 
-This is information that should be in the commit message rather than
-requiring each reader to do the research.
+The functionalities of individual ioctls were described in this series
+patch commit messages.
 
-Please also make sure to CC the author of the code that you're
-modifying, in this case Vladimir.
+Testing method:
 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index 7c18721..ce3db29 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -1705,14 +1705,14 @@ static int coroutine_fn qcow2_do_open(BlockDriver=
-State *bs, QDict *options,
->      if (!(bdrv_get_flags(bs) & BDRV_O_INACTIVE)) {
->          /* It's case 1, 2 or 3.2. Or 3.1 which is BUG in management laye=
-r. */
->          bool header_updated =3D qcow2_load_dirty_bitmaps(bs, &local_err)=
-;
-> +        if (local_err !=3D NULL) {
-> +            error_propagate(errp, local_err);
-> +            ret =3D -EINVAL;
-> +            goto fail;
-> +        }
-> =20
->          update_header =3D update_header && !header_updated;
->      }
-> -    if (local_err !=3D NULL) {
-> -        error_propagate(errp, local_err);
-> -        ret =3D -EINVAL;
-> -        goto fail;
-> -    }
-> =20
->      if (update_header) {
->          ret =3D qcow2_update_header(bs);
+    Mini test programs were written for each ioctl. Those programs were
+    compiled (sometimes using cross-compilers) for the following
+    architectures:
 
-The change itself looks good to me, but I'll let Vladimir have a look as
-well. If there are no more comments, I'm looking forward to a v2 patch
-with a non-empty commit message.
+        * Intel 64-bit (little endian)
+        * Power pc 32-bit (big endian)
+        * Power pc 64-bit (big endian)
 
-Kevin
+    The corresponding native programs were executed without using
+    QEMU on following hosts:
+
+        * Intel Core i7-4790K (x86_64 host)
+        * Power 7447A (ppc32 host)
+
+    All applicable compiled programs were in turn executed through QEMU
+    and the results obtained were the same ones gotten for native
+    execution.
+
+Example of a test program:
+
+    For ioctl RTC_RD_TIME the following test program was used:
+
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <linux/rtc.h>
+    #include <fcntl.h>
+    #include <linux/input.h>
+    #include <sys/types.h>
+    #include <unistd.h>
+
+    #define ERROR -1
+
+    int main()
+    {
+
+        int fd = open("/dev/rtc", O_RDWR | O_NONBLOCK);
+
+        if(fd == ERROR)
+        {
+            perror("open");
+            return -1;
+        }
+
+        struct rtc_time cur_time;
+
+        if(ioctl(fd, RTC_RD_TIME, &cur_time) < 0)
+        {
+            perror("ioctl");
+            return -1;
+        }
+
+        printf("Second: %d, Minute: %d, Hour: %d, Day: %d, Month: %d, Year: %d,",
+            cur_time.tm_sec, cur_time.tm_min, cur_time.tm_hour, 
+            cur_time.tm_mday, cur_time.tm_mon, cur_time.tm_year);
+
+        return 0;
+    }
+
+Limitations of testing:
+    
+    The test host pc that was used for testing (intel pc) has RTC
+    that doesn't support all RTC features that are accessible
+    through ioctls. This means that testing can't discover
+    functionality errors related to the third argument of ioctls
+    that are used for features which are not supported. For example,
+    running the test program for ioctl RTC_EPOCH_READ gives
+    the error output: inappropriate ioctl for device. As expected,
+    the same output was obtained through QEMU which means that this
+    ioctl is recognized in QEMU but doesn't really do anything
+    because it is not supported in the host computer's RTC.
+
+    Conclusion: Some RTC ioctls need to be tested on computers
+    that support their functionalities so that it can be inferred
+    that they are really supported in QEMU. In absence of such
+    test hosts, the specifications of those ioctls need to be
+    carefully checked manually and the implementations should be
+    updated accordingly.
+
+v4:
+
+    * changed patch descriptions so that they are better
+      formatted and more cemprehensible
+
+v3:
+
+    * changed two instances of MK_PTR(TYPE_ULONG) to TYPE_ULONG
+
+v2:
+
+    * added description of each ioctl in patches
+    * wrote a more detailed cover letter with description of testing
+    * changed one instance of TYPE_INT to MK_PTR(TYPE_INT)
+
+Filip Bozuta (6):
+  linux-user: Add support for enabling/disabling RTC features using
+    ioctls
+  linux-user: Add support for getting/setting RTC time and alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC periodic interrupt and
+    epoch using ioctls
+  linux-user: Add support for getting/setting RTC wakeup alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC PLL correction using
+    ioctls
+  linux-user: Add support for read/clear RTC voltage low detector using
+    ioctls
+
+ linux-user/ioctls.h        | 23 +++++++++++++++++++++++
+ linux-user/syscall.c       |  1 +
+ linux-user/syscall_defs.h  | 36 ++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_types.h | 25 +++++++++++++++++++++++++
+ 4 files changed, 85 insertions(+)
+
+-- 
+2.7.4
 
 
