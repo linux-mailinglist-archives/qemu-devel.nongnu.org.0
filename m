@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545F6125968
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 02:55:22 +0100 (CET)
-Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60F812597E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 03:10:19 +0100 (CET)
+Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihl29-0003dm-D9
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 20:55:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48604)
+	id 1ihlGc-0007jt-Pq
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 21:10:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ihl1H-0002ma-GG
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:54:29 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ihlFX-0007In-IA
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 21:09:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ihl1F-0007a9-SG
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:54:27 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:47733 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ihl1F-0007V0-11; Wed, 18 Dec 2019 20:54:25 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47dZgK4ZgXz9sPh; Thu, 19 Dec 2019 12:54:21 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576720461;
- bh=Avr8Aoh7KspcQ0ZcczQlY0smkIoUvCXEsgEDxwwkzJ4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mbqHWKtfqMBJJ1/EaTKeYEAPiiuAI7j31+2+cNxp6pJB2vjxdjy5+2hHRo50il+ZX
- iP1e9ZqBr+6IPhxbPNA/GB6FWinyqP5htyzaF/PkD8hUBmquqx18t8z9wxeLle9CAn
- 9ROV7rNiywNzdxsIIQwbVuqgQWZU008KXTrOq+UI=
-Date: Thu, 19 Dec 2019 12:54:14 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v5 1/5] tpm_spapr: Support TPM for ppc64 using CRQ based
- interface
-Message-ID: <20191219015414.GC2321@umbus.fritz.box>
-References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
- <20191212202430.1079725-2-stefanb@linux.vnet.ibm.com>
- <20191213053453.GD207300@umbus.fritz.box>
- <75fd3e95-d72f-069b-22ce-f354e1c34660@linux.ibm.com>
- <20191217002954.GH6242@umbus.fritz.box>
- <1efef315-cb85-79ea-9c46-ff318e05a543@linux.ibm.com>
+ (envelope-from <mrolnik@gmail.com>) id 1ihlFU-0002wC-Pe
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 21:09:11 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50704)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgU7-0000gg-2c
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:03:55 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a5so3303630wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:03:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OhhvA59vCwh8W0/YTlNYSFO9XdvvIqKo1Tp16n/rEoM=;
+ b=my3+VPk6jgNgp1ZD32Lhn8U4oL9Lu6Xr1tevfzbrCuRAK8J62GC1vKy6N5xPvZwNRO
+ 3tSCVHx+JE1DimiSRaJRdTR9OKMFNoE82G3GCTRxWWjlu+xZZy6GHgAjCD5fBXnINyum
+ dwh69BzCZLCfC19EBU4aqYzdTw7rei2XP/vY9RihfWJ3zMZBxNzQA9Unhdeh8+ZvOq76
+ xB12QwyIImuP4PT6ST6W5f6ktiBgta1UVGOAGhyLEx5ffQdHQeiPJ6oHFC2CHMH/Y3OS
+ LbB81u2KtLk3X03fYxr5pkr4YjvogMGUc8HQEpYln9fYmzES1Pwa7LfSV1X+vgjZ9yvi
+ 5EUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OhhvA59vCwh8W0/YTlNYSFO9XdvvIqKo1Tp16n/rEoM=;
+ b=LQXwArjIFAijkjIn6Vq0UQfV8YyM51HQn4FFsYHeEn8qOd8Nxacn9a+tUUHgpVGU9w
+ XrUPqaOMXgTLsFHDgLfb0iUe5lgTjQlwhwKVw3QQp7+iieC6X603op+2E8RdKHAvZnxZ
+ ead2ycnfAZBe9N+ghYNiID66fI/QAgnWkC8g/BZwhu0tDUlrshoktiLyNIXATGIl2EEU
+ w3WvrcAsFluPU8Fdwg5EodiWKMdq6Xeyd0u0lHjNI7bJdMpyC/VHlHnsJm2NeNL/pzkw
+ H6VlXCE0XEOzxIcRdkv4LvcJ5J92qZOUko8K+WZ6lp0qLu85Jbbh70CkqPPFhUvf2hzy
+ XeCQ==
+X-Gm-Message-State: APjAAAXo9vXreKu66DNIOLqCxaB3F7HFTPWIJbjhAWzQwLLdKgRVyrTi
+ paAIaV9DGRAABbRN6BWaAOJeInTu8Z0hiA==
+X-Google-Smtp-Source: APXvYqwae8PvywAXshGHDj8RHbPhwj3ii2ZABKIiLz3gpdeD3UxuTwmzobs0ge8SJivCiwvbFiJ9gg==
+X-Received: by 2002:a1c:6308:: with SMTP id x8mr3979140wmb.80.1576703032675;
+ Wed, 18 Dec 2019 13:03:52 -0800 (PST)
+Received: from 8c859074c0ff.ant.amazon.com.com
+ (bzq-109-65-2-109.red.bezeqint.net. [109.65.2.109])
+ by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.03.48
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Wed, 18 Dec 2019 13:03:51 -0800 (PST)
+From: Michael Rolnik <mrolnik@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v39 00/22] QEMU AVR 8 bit cores
+Date: Wed, 18 Dec 2019 23:03:07 +0200
+Message-Id: <20191218210329.1960-1-mrolnik@gmail.com>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZwgA9U+XZDXt4+m+"
-Content-Disposition: inline
-In-Reply-To: <1efef315-cb85-79ea-9c46-ff318e05a543@linux.ibm.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,134 +76,414 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
+ me@xcancerberox.com.ar, richard.henderson@linaro.org, dovgaluk@ispras.ru,
+ imammedo@redhat.com, philmd@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series of patches adds 8bit AVR cores to QEMU.
+All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully tested yet.
+However I was able to execute simple code with functions. e.g fibonacci calculation.
+This series of patches include a non real, sample board.
+No fuses support yet. PC is set to 0 at reset.
 
---ZwgA9U+XZDXt4+m+
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Following are examples of possible usages, assuming program.elf is compiled for AVR cpu
+1.  Continious non interrupted execution
+    run `qemu-system-avr -kernel program.elf` 
+2.  Continious non interrupted execution with serial output into telnet window
+    run `qemu-system-avr -kernel program.elf -serial tcp::5678,server,nowait -nographic `
+    run `telent localhost 5678`
+3.  Continious non interrupted execution with serial output into stdout
+    run `qemu-system-avr -kernel program.elf -serial stdio`
+4.  Debugging wit GDB debugger
+    run `qemu-system-avr -kernel program.elf -s -S`
+    run `avr-gdb program.elf` and then within GDB shell `target remote :1234`
+5.  Print out executed instructions
+    run `qemu-system-avr -kernel program.elf -d in_asm` 
 
-On Tue, Dec 17, 2019 at 02:44:04PM -0500, Stefan Berger wrote:
-> On 12/16/19 7:29 PM, David Gibson wrote:
-> > On Fri, Dec 13, 2019 at 08:03:36AM -0500, Stefan Berger wrote:
-> > > On 12/13/19 12:34 AM, David Gibson wrote:
-> > >=20
-> > > The existing one looks like this:
-> > >=20
-> > > typedef struct SpaprVioCrq {
-> > >  =A0=A0=A0 uint64_t qladdr;
-> > >  =A0=A0=A0 uint32_t qsize;
-> > >  =A0=A0=A0 uint32_t qnext;
-> > >  =A0=A0=A0 int(*SendFunc)(struct SpaprVioDevice *vdev, uint8_t *crq);
-> > > } SpaprVioCrq;
-> > >=20
-> > > I don't seem to find the fields there that we need for vTPM support.
-> > Yeah, I can see the difference in the structures.  What I'm after is
-> > what is the difference in purpose which means they have different
-> > content.
-> >=20
-> > Having read through the whole series now, I *think* the answer is that
-> > the tpm specific structure is one entry in the request queue for the
-> > vtpm, whereas the VioCrq structure is a handle on an entire queue.
-> >=20
-> > I think the tpm one needs a rename to reflect that a) it's vtpm
-> > specific and b) it's not actually a queue, just part of it.
->=20
->=20
-> v6 has it as TpmCrq. It's local to the file, so from that perspective it's
-> specific to (v)TPM.
 
-Ok.
+the patches include the following
+1. just a basic 8bit AVR CPU, without instruction decoding or translation
+2. CPU features which allow define the following 8bit AVR cores
+     avr1
+     avr2 avr25
+     avr3 avr31 avr35
+     avr4
+     avr5 avr51
+     avr6
+     xmega2 xmega4 xmega5 xmega6 xmega7
+3. a definition of sample machine with SRAM, FLASH and CPU which allows to execute simple code
+4. encoding for all AVR instructions
+5. interrupt handling
+6. helpers for IN, OUT, SLEEP, WBR & unsupported instructions
+7. a decoder which given an opcode decides what istruction it is
+8. translation of AVR instruction into TCG
+9. all features together
 
-> > > This is a 1:1 copy from the existing TIS driver.
-> > Hm, right.  Probably not a bad idea to move that out as a helper
-> > function then.
->=20
->=20
-> In V7 then.
+changes since v3
+1. rampD/X/Y/Z registers are encoded as 0x00ff0000 (instead of 0x000000ff) for faster address manipulaton
+2. ffs changed to ctz32
+3. duplicate code removed at avr_cpu_do_interrupt
+4. using andc instead of not + and
+5. fixing V flag calculation in varios instructions
+6. freeing local variables in PUSH
+7. tcg_const_local_i32 -> tcg_const_i32
+8. using sextract32 instead of my implementation
+9. fixing BLD instruction
+10.xor(r) instead of 0xff - r at COM
+11.fixing MULS/MULSU not to modify inputs' content
+12.using SUB for NEG
+13.fixing tcg_gen_qemu_ld/st call in XCH
 
-Ok.
+changes since v4
+1. target is now defined as big endian in order to optimize push_ret/pop_ret
+2. all style warnings are fixed
+3. adding cpu_set/get_sreg functions
+4. simplifying gen_goto_tb as there is no real paging
+5. env->pc -> env->pc_w
+6. making flag dump more compact
+7. more spacing
+8. renaming CODE/DATA_INDEX -> MMU_CODE/DATA_IDX
+9. removing avr_set_feature
+10. SPL/SPH set bug fix
+11. switching stb_phys to cpu_stb_data
+12. cleaning up avr_decode
+13. saving sreg, rampD/X/Y/Z, eind in HW format (savevm)
+14. saving CPU features (savevm)
 
-> > > > > +static void tpm_spapr_update_deviceclass(SpaprVioDevice *dev)
-> > > > > +{
-> > > > > +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
-> > > > > +    SpaprVioDeviceClass *k =3D VIO_SPAPR_DEVICE_GET_CLASS(dev);
-> > > > > +
-> > > > > +    switch (s->be_tpm_version) {
-> > > > > +    case TPM_VERSION_UNSPEC:
-> > > > > +        assert(false);
-> > > > > +        break;
-> > > > > +    case TPM_VERSION_1_2:
-> > > > > +        k->dt_name =3D "vtpm";
-> > > > > +        k->dt_type =3D "IBM,vtpm";
-> > > > > +        k->dt_compatible =3D "IBM,vtpm";
-> > > > > +        break;
-> > > > > +    case TPM_VERSION_2_0:
-> > > > > +        k->dt_name =3D "vtpm";
-> > > > > +        k->dt_type =3D "IBM,vtpm";
-> > > > > +        k->dt_compatible =3D "IBM,vtpm20";
-> > > > > +        break;
-> > > > Erk.  Updating DeviceClass structures on the fly is hideously ugly.
-> > > > We might need to take a different approach for this.
-> > > Make a suggestion... Obviously, we can hard-initialize dt_name and dt=
-_type
-> > > but dt_compatible can only be set after we have determined the versio=
-n of
-> > > TPM.
-> > As you say name and type can just be put into the class statically.
->=20
->=20
-> I did this in v6.
->=20
->=20
-> > Since you need to change compatible based on an internal variable,
-> > we'd need to replace the static dt_compatible in the class with a
-> > callback.
->=20
->=20
-> Why can we not initialize it once we know the version of TPM? From the
-> perspective of SLOF at least this seems to be building the device tree fi=
-ne
-> since it sees the proper value...
+changes since v5
+1. BLD bug fix
+2. decoder generator is added
 
-Because it's a serious layering / isolation violation.  You're
-modifying QOM type information from the runtime code of a specific
-instance.  You get away with it (now) because there's only one
-instance and the ordering of things happens to let it work, but that's
-assuming way too much about QOM's implementation details.
+chages since v6
+1. using cpu_get_sreg/cpu_set_sreg in avr_cpu_gdb_read_register/avr_cpu_gdb_write_register
+2. configure the target as little endian because otherwise GDB does not work
+3. fixing and testing gen_push_ret/gen_pop_ret
 
-As a rule, once the QOM classes are set up with their class_init
-function, they should never be modified.
+changes since v7
+1. folding back v6
+2. logging at helper_outb and helper_inb are done for non supported yet registers only
+3. MAINTAINERS updated
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+changes since v8
+1. removing hw/avr from hw/Makefile.obj as it should not be built for all
+2. making linux compilable
+3. testing on
+    a. Mac, Apple LLVM version 7.0.0
+    b. Ubuntu 12.04, gcc 4.9.2
+    c. Fedora 23, gcc 5.3.1
+4. folding back some patches
+5. translation bug fixes for ORI, CPI, XOR instructions
+6. propper handling of cpu register writes though memory
 
---ZwgA9U+XZDXt4+m+
-Content-Type: application/pgp-signature; name="signature.asc"
+changes since v9
+1. removing forward declarations of static functions
+2. disabling debug prints
+3. switching to case range instead of if else if ...
+4. LD/ST IN/OUT accessing CPU maintainder registers are not routed to any device
+5. commenst about sample board and sample IO device added
+6. sample board description is more descriptive now
+7. memory_region_allocate_system_memory is used to create RAM
+8. now there are helper_fullrd & helper_fullwr when LD/ST try to access registers
 
------BEGIN PGP SIGNATURE-----
+changes since v10
+1. movig back fullwr & fullrd into the commit where outb and inb were introduced
+2. changing tlb_fill function signature
+3. adding empty line between functions
+4. adding newline on the last line of the file
+5. using tb->flags to generae full access ST/LD instructions
+6. fixing SBRC bug
+7. folding back 10th commit
+8. whenever a new file is introduced it's added to Makefile.objs
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl362EQACgkQbDjKyiDZ
-s5LGrBAA4sZIJsoSQofpPcPud+uJmR6XLUxWV6ArcFnX2PEYODgKnp16Fp/dsqay
-wL+BBvgBK7DuXCWpI1x+/MGOhmvwgM72iaIghUTv+PYkboASv28tgYg4nmWxJVNS
-yZmJra4DB9hnLHpPQJpdAJy7tOI9YfUO3UUSzZolgzR2z2/q0GgZiAfjqHzmUmr+
-cODNYCspRRj4HLCk7zrOwLawgzaE4bQDVCLkYQkQUk8M6cusFVx2PdOO1SjVIlaG
-+bPRkK0q/jsguNZmb/AEsAfuUYcuBz8ea1krNTED0R2MBwi+iysTv9FiBg+LzmIH
-Wuo635bsNZtDWQJO76Xqy1R0hXE3BcC3WUX4x6+rSWXQHjh7FLqHW+ZoPAJsqXtm
-SCVfxBz6PiKmJDwRpaW7Y/mmsSckLm83rEIWK6W8/z7ibI9UnGxvtXvchMr+lqsS
-qdtuykTlT2FDzezxnyr98C4zC5AyNQ5xDJCYNC1HU40ab+pXgSraRAtNrh4MuCKt
-Czudk4DdtfMa+m7Bv6ydVw7Q3ov64eF9FUNrwNq1jWmjmqg2yWdeu1goWdZ9kUjt
-HwaMYaVuRpGSmw3T3bd7vgbWrXBN+dLRYIiK/od2/LmILdB1+QqLNfWkrLYJmSyA
-cD4Zff5O7LEMR5L+fcoTqAxoOFPClZqMxg02CfVc+mnf4qGsN6s=
-=D3Vs
------END PGP SIGNATURE-----
+changes since v11
+1. updating to v2.7.0-rc
+2. removing assignment to env->fullacc from gen_intermediate_code
 
---ZwgA9U+XZDXt4+m+--
+changes since v12
+1. fixing spacing
+2. fixing get/put_segment functions
+3. removing target-avr/machine.h file
+4. VMSTATE_SINGLE_TEST -> VMSTATE_SINGLE
+5. comment spelling
+6. removing hw/avr/sample_io.c
+7. char const* -> const char*
+8. proper ram allocation
+9. fixing breakpoint functionality.
+10.env1 -> env
+11.fixing avr_cpu_gdb_write_register & avr_cpu_gdb_read_register functions
+12.any cpu is removed
+12.feature bits are not saved into vm state
+
+changes since v13
+1. rebasing to v2.7.0-rc1
+
+changes since v14
+1. I made self review with git gui tool. (I did not know such a thing exists)
+2. removing all double/tripple spaces
+3. removing comment reference to SampleIO
+4. folding back some changes, so there is not deleted lines in my code
+5. moving avr configuration, within configure file, before chris
+
+changes since v15
+1. removing IO registers cache from CPU
+2. implementing CBI/SBI as read(helper_inb), modify, write(helper_outb)
+3. implementing CBIC/SBIC as read(helper_inb), check, branch
+4. adding missing tcg_temp_free_i32 for tcg_const_i32
+
+changes since v16
+1. removing EXT IO registers knoledge from CPU. These registers are accessible
+   by LD/ST only. CPU has no interest in them
+
+changes since v17 (by Richard Henderson)
+This is Michael's v17, with some adjustments of my own:
+
+1. Fix the whitespace errors reported by "git am",
+2. Replace the utf-8 characters with normal ascii,
+3. Ditch the separate compilation of translate.c.
+
+I retained the two separate files that could be regenerated
+from the included cpugen program, but merged in translate-insn.c.
+Not that it matters, but the code generated is about 3k smaller.
+
+changes since v18
+1.  moving target-avr into target/avr
+2.  do not call cpu_exec_initfn function from avr_cpu_initfn
+3.  call cpu_exec_realizefn avr_cpu_realizefn
+4.  do not fail sample machine creation if no rom is suplied
+5.  add tcg_gen_exit_tb(0) for BS_BRANCH in gen_intermediate_code
+6.  fix a register getters/setters in machine.c
+7.  changing QEMU_ARCH_AVR from 1<<17 to 1<<18
+
+changes since v19
+1.  use decodetree.py tool to decode instructions
+2.  adding USART
+3.  adding 16 bit timer peripherals
+4.  changing QEMU_ARCH_AVR from 1<<18 to 1<<20
+5.  renaming tlb_fill to avr_cpu_tlb_fill
+
+changes since v20
+1.  use one CPU naming convention
+2.  merging insn16.decode & insn32.decode files
+3.  modifying skip next instruction mechanizm
+4.  translate BREAK as NOP for now
+
+changes since v21
+1.  Reorganize bstate.
+    This will make transition to <exec/translator.h> easier, and fixes a couple of bugs wrt single stepping
+    by richard.henderson@linaro.org
+2.  Drop cpc and fix page cross condition.
+    by richard.henderson@linaro.org
+3.  Refactor checking supported/unsupported instructions
+4.  Add gdb-xml/avr-cpu.xml
+
+changes since v22
+1.  Rebase
+2.  Split long comment
+
+changes since v23
+1.  remove avr_cpu_list_compare function
+2.  modify avr_cpu_class_by_name function
+3.  modify avr_cpu_list_entry function
+4.  modify avr_cpu_list function
+
+changes since v24
+1.  remove AVR_CPU_TYPE_NAME macro
+
+changes since v25
+1.  fix patches. every file belong to one patch only
+2.  change copyright year from 2016 to 2019
+3.  create mask device to emulate prr0/prr1
+
+changes since v26
+1.  add avocado acceptence test
+2.  add boot serial test
+
+changes since v27
+1.  list atmel2560 devices as unimplemented
+2.  fix sram base/size
+
+changes since v28
+1.  rebase
+2.  fix includes & build
+
+changes since v29
+1.  fixing ownership
+2.  using 'since' instread of 'added in'
+
+changes since v30
+1.  rebase
+
+changes since v31
+1.  splitting 'Add instruction translation' commit
+2.  fixing typo in qapi/machine.json sicne -> since
+3.  removing unintended changes in configure file
+4.  adding Richard Henderson as a co developer to 'Add instruction translation - CPU main translation funcions' commit
+
+changes since v32
+1.  modify cpu_get_sreg to treat sreg C as other flags, except sreg Z
+
+changes since v33
+1.  ensure flag C is always calculated as one bit
+2.  calculate flag Z as one bit, without using inverse logic
+
+changes since v34
+1.  rebase
+
+changes since v35
+1.  rebase
+2.  use NANOSECONDS_PER_SECOND instead of 1000000000 in avr_timer16.c
+3.  split "target/avr: Register AVR support with the rest of QEMU" into three patches
+    1.  "target/avr: Register AVR support with the rest of QEMU"
+    2.  "target/avr: Update build system"
+    3.  "target/avr: Update MAINTAINERS file"
+4.  split "target/avr: Add tests" patch into two patches
+    1.  "target/avr: Add Avocado test"
+    2.  "target/avr: Add boot serial test"
+5.  Add instruction disassembly function
+6.  change "since 4.2" to "since 5.0"
+
+changes since v36
+1.  rebase
+2.  rename
+    1.  NO_CPU_REGISTERS    -> NUMBER_OF_CPU_REGISTERS
+    2.  NO_IO_REGISTERS     -> NUMBER_OF_IO_REGISTERS
+    3.  to_A                -> to_regs_16_31_by_one
+    4.  to_B                -> to_regs_16_23_by_one
+    5.  to_C                -> to_regs_24_30_by_two
+    6.  to_D                -> to_regs_00_30_by_two
+3.  add missing licences
+4.  add usage example (see above)
+5.  ass Sarah Harris <S.E.Harris@kent.ac.uk> as a reviewer to MAINTAINERS
+7.  use git commit sha1 instead of `master`` in avocado test
+
+changes since v37
+1.  rebase
+2.  moving all data transfer instructions into a separate commit
+3.  splitting tests into 
+    1.  avocado test
+    2.  boot serial test
+    3.  machine none test
+4.  split periperals commit into 
+    1.  timer
+    2.  usart
+    3.  mask
+5.  add function `avr_flags_to_cpu_type` that translates ELF flags into core name
+6.  add avrtiny, xmega3 cores
+7.  remove unnecessary includes from target/avr/helper.c file
+8.  remove empty lines from target/avr/translate.c file
+9.  set number of interrupt lines to 64
+10. determine cpu type by reading ELF flags
+11. update license of all new files to be LGPL
+12. udpate QEMU documentation
+
+changes since v38
+1.  rebase
+2.  add examples of AVR emulator invokation into the QEMU doc
+3.  reorder instructions to match AVR documentation
+4.  fix elf loader function bug introduced by prev version
+
+Michael Rolnik (22):
+  target/avr: Add outward facing interfaces and core CPU logic
+  target/avr: Add instruction helpers
+  target/avr: Add instruction decoding
+  target/avr: Add instruction translation - Registers definition
+  target/avr: Add instruction translation - Arithmetic and Logic
+    Instructions
+  target/avr: Add instruction translation - Branch Instructions
+  target/avr: Add instruction translation - Data Transfer Instructions
+  target/avr: Add instruction translation - Bit and Bit-test
+    Instructions
+  target/avr: Add instruction translation - MCU Control Instructions
+  target/avr: Add instruction translation - CPU main translation
+    function
+  target/avr: Add instruction disassembly function
+  target/avr: Add limited support for USART peripheral
+  target/avr: Add limited support for 16 bit timer peripheral
+  target/avr: Add dummy mask device
+  target/avr: Add example board configuration
+  target/avr: Add section about AVR into QEMU documentation
+  target/avr: Register AVR support with the rest of QEMU
+  target/avr: Add machine none test
+  target/avr: Update build system
+  target/avr: Add boot serial test
+  target/avr: Add Avocado test
+  target/avr: Update MAINTAINERS file
+
+ qemu-doc.texi                    |   51 +
+ configure                        |    7 +
+ default-configs/avr-softmmu.mak  |    5 +
+ qapi/machine.json                |    3 +-
+ include/disas/dis-asm.h          |   19 +
+ include/elf.h                    |    2 +
+ include/hw/char/avr_usart.h      |   93 +
+ include/hw/elf_ops.h             |    6 +-
+ include/hw/loader.h              |    6 +-
+ include/hw/misc/avr_mask.h       |   47 +
+ include/hw/timer/avr_timer16.h   |   93 +
+ include/sysemu/arch_init.h       |    1 +
+ target/avr/cpu-param.h           |   37 +
+ target/avr/cpu-qom.h             |   54 +
+ target/avr/cpu.h                 |  259 +++
+ target/avr/helper.h              |   29 +
+ arch_init.c                      |    2 +
+ hw/avr/sample.c                  |  293 +++
+ hw/char/avr_usart.c              |  320 ++++
+ hw/core/loader.c                 |   15 +-
+ hw/misc/avr_mask.c               |  112 ++
+ hw/riscv/boot.c                  |    2 +-
+ hw/timer/avr_timer16.c           |  601 ++++++
+ target/avr/cpu.c                 |  654 +++++++
+ target/avr/disas.c               |  245 +++
+ target/avr/gdbstub.c             |   84 +
+ target/avr/helper.c              |  347 ++++
+ target/avr/machine.c             |  121 ++
+ target/avr/translate.c           | 2921 ++++++++++++++++++++++++++++++
+ tests/boot-serial-test.c         |   10 +
+ tests/machine-none-test.c        |    1 +
+ MAINTAINERS                      |   21 +
+ gdb-xml/avr-cpu.xml              |   49 +
+ hw/Kconfig                       |    1 +
+ hw/avr/Kconfig                   |    6 +
+ hw/avr/Makefile.objs             |    1 +
+ hw/char/Kconfig                  |    3 +
+ hw/char/Makefile.objs            |    1 +
+ hw/misc/Kconfig                  |    3 +
+ hw/misc/Makefile.objs            |    2 +
+ hw/timer/Kconfig                 |    3 +
+ hw/timer/Makefile.objs           |    2 +
+ target/avr/Makefile.objs         |   34 +
+ target/avr/insn.decode           |  183 ++
+ tests/Makefile.include           |    2 +
+ tests/acceptance/machine_avr6.py |   58 +
+ 46 files changed, 6797 insertions(+), 12 deletions(-)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 include/hw/char/avr_usart.h
+ create mode 100644 include/hw/misc/avr_mask.h
+ create mode 100644 include/hw/timer/avr_timer16.h
+ create mode 100644 target/avr/cpu-param.h
+ create mode 100644 target/avr/cpu-qom.h
+ create mode 100644 target/avr/cpu.h
+ create mode 100644 target/avr/helper.h
+ create mode 100644 hw/avr/sample.c
+ create mode 100644 hw/char/avr_usart.c
+ create mode 100644 hw/misc/avr_mask.c
+ create mode 100644 hw/timer/avr_timer16.c
+ create mode 100644 target/avr/cpu.c
+ create mode 100644 target/avr/disas.c
+ create mode 100644 target/avr/gdbstub.c
+ create mode 100644 target/avr/helper.c
+ create mode 100644 target/avr/machine.c
+ create mode 100644 target/avr/translate.c
+ create mode 100644 gdb-xml/avr-cpu.xml
+ create mode 100644 hw/avr/Kconfig
+ create mode 100644 hw/avr/Makefile.objs
+ create mode 100644 target/avr/Makefile.objs
+ create mode 100644 target/avr/insn.decode
+ create mode 100644 tests/acceptance/machine_avr6.py
+
+-- 
+2.17.2 (Apple Git-113)
+
 
