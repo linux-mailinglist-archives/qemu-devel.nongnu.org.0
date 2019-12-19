@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331B112652B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:49:14 +0100 (CET)
-Received: from localhost ([::1]:43030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36671126506
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:42:02 +0100 (CET)
+Received: from localhost ([::1]:42900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihx72-00026O-TD
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:49:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58344)
+	id 1ihx04-0008Of-PP
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:42:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ihwxD-0005EW-U2
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:06 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ihwxD-0005EV-Tg
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ihwxC-0006UP-JF
+ (envelope-from <mreitz@redhat.com>) id 1ihwxC-0006Ud-Jx
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53867
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49780
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwxC-0006SH-AE
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwxC-0006R9-BQ
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1576766341;
@@ -27,38 +27,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tfhGiypQeqs35v6eObMG4DYHcsbQYJ76xth2sg4Mu+k=;
- b=RjpvCKDC8NDLFUb2K2Ee3byoG5rAglidSOk2Id9f/WI1MTljtHZQL9UwAHuKDv1VxWFsxu
- yXZ8j9iS9KW3SlcsnNTPOuWGoBSbJTPA188WR7oqJvBBNBFnN4OHNJv9feZLmsY+XVSE1S
- wxzM3lpFNJxikJdqjX8yEy7kFJ3QYkM=
+ bh=M/pJpY3hwV5shIFKMRgTnTwl2AlilUWuNs4OgURWtNI=;
+ b=VgbwKUegGGosw690yvSbHlxIpI/c3io8y4lmZTjXptzsqHwLdTjw1nGaoscY2/hG921izE
+ icc8wXECwT8cOePf7TcqX5G6m7OB/DmWQ1gvNEv1C9FNZzBljUEwKApoHTB0lm6u5glnGv
+ qvYXJrkA+QeQr0gwzkBsQZSgRGS4cpE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-SErQlF2FPni3_U0-uM7kSQ-1; Thu, 19 Dec 2019 09:38:57 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-100-QSrVHNymN3iIKDLOFINBAg-1; Thu, 19 Dec 2019 09:38:58 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 075CADB6E;
- Thu, 19 Dec 2019 14:38:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF021007251;
+ Thu, 19 Dec 2019 14:38:57 +0000 (UTC)
 Received: from localhost (ovpn-205-138.brq.redhat.com [10.40.205.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A39EE26FA3;
- Thu, 19 Dec 2019 14:38:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DFA6D5D9E2;
+ Thu, 19 Dec 2019 14:38:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 08/18] iotests: Do not needlessly filter _make_test_img
-Date: Thu, 19 Dec 2019 15:38:08 +0100
-Message-Id: <20191219143818.1646168-9-mreitz@redhat.com>
+Subject: [PATCH 09/18] iotests: Do not pipe _make_test_img
+Date: Thu, 19 Dec 2019 15:38:09 +0100
+Message-Id: <20191219143818.1646168-10-mreitz@redhat.com>
 In-Reply-To: <20191219143818.1646168-1-mreitz@redhat.com>
 References: <20191219143818.1646168-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: SErQlF2FPni3_U0-uM7kSQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: QSrVHNymN3iIKDLOFINBAg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,101 +75,88 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In most cases, _make_test_img does not need a _filter_imgfmt on top.  It
-does that by itself.
+Executing _make_test_img as part of a pipe will undo all variable
+changes it has done.  As such, this could not work with FUSE (because
+we want to remember all of our exports and their qemu instances).
 
-(The exception is when IMGFMT has been overwritten but TEST_IMG has not.
-In such cases, we do need a _filter_imgfmt on top to filter the test's
-original IMGFMT from TEST_IMG.)
+Replace the pipe by a temporary file in 071 and 174 (the two tests that
+can run on FUSE).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/161 | 12 ++++++------
- tests/qemu-iotests/175 |  6 +++---
- tests/qemu-iotests/249 |  6 +++---
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/071 | 19 +++++++++++++++----
+ tests/qemu-iotests/174 | 10 +++++++++-
+ 2 files changed, 24 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/161 b/tests/qemu-iotests/161
-index f572a19af2..f9b44e52cf 100755
---- a/tests/qemu-iotests/161
-+++ b/tests/qemu-iotests/161
-@@ -48,9 +48,9 @@ _supported_os Linux
- IMG_SIZE=3D1M
-=20
- # Create the images
--TEST_IMG=3D"$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
--TEST_IMG=3D"$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" | _filter_im=
-gfmt
--_make_test_img -b "$TEST_IMG.int" | _filter_imgfmt
-+TEST_IMG=3D"$TEST_IMG.base" _make_test_img $IMG_SIZE
-+TEST_IMG=3D"$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base"
-+_make_test_img -b "$TEST_IMG.int"
-=20
- # First test: reopen $TEST.IMG changing the detect-zeroes option on
- # its backing file ($TEST_IMG.int).
-@@ -105,9 +105,9 @@ echo
- echo "*** Commit and then change an option on the backing file"
+diff --git a/tests/qemu-iotests/071 b/tests/qemu-iotests/071
+index 88faebcc1d..18fe9054b0 100755
+--- a/tests/qemu-iotests/071
++++ b/tests/qemu-iotests/071
+@@ -61,8 +61,17 @@ echo
+ echo "=3D=3D=3D Testing blkverify through filename =3D=3D=3D"
  echo
- # Create the images again
--TEST_IMG=3D"$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
--TEST_IMG=3D"$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" | _filter_im=
-gfmt
--_make_test_img -b "$TEST_IMG.int" | _filter_imgfmt
-+TEST_IMG=3D"$TEST_IMG.base" _make_test_img $IMG_SIZE
-+TEST_IMG=3D"$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base"
-+_make_test_img -b "$TEST_IMG.int"
 =20
- _launch_qemu -drive if=3Dnone,file=3D"${TEST_IMG}"
- _send_qemu_cmd $QEMU_HANDLE \
-diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
-index 020ed8e61f..2d164b6b5d 100755
---- a/tests/qemu-iotests/175
-+++ b/tests/qemu-iotests/175
-@@ -89,20 +89,20 @@ min_blocks=3D$(stat -c '%b' "$TEST_DIR/empty")
+-TEST_IMG=3D"$TEST_IMG.base" IMGFMT=3D"raw" _make_test_img --no-opts $IMG_S=
+IZE |\
+-    _filter_imgfmt
++# _make_test_img may set variables that we need to retain.  Everything
++# in a pipe is executed in a subshell, so doing so would throw away
++# all changes.  Therefore, we have to store the output in some temp
++# file and filter that.
++scratch_out=3D"$TEST_DIR/img-create.out"
++
++TEST_IMG=3D"$TEST_IMG.base" IMGFMT=3D"raw" _make_test_img --no-opts $IMG_S=
+IZE \
++    >"$scratch_out"
++_filter_imgfmt <"$scratch_out"
++rm -f "$scratch_out"
++
+ _make_test_img $IMG_SIZE
+ $QEMU_IO -c "open -o driver=3Draw,file.driver=3Dblkverify,file.raw.filenam=
+e=3D$TEST_IMG.base $TEST_IMG" \
+          -c 'read 0 512' -c 'write -P 42 0x38000 512' -c 'read -P 42 0x380=
+00 512' | _filter_qemu_io
+@@ -76,8 +85,10 @@ echo
+ echo "=3D=3D=3D Testing blkverify through file blockref =3D=3D=3D"
+ echo
+=20
+-TEST_IMG=3D"$TEST_IMG.base" IMGFMT=3D"raw" _make_test_img --no-opts $IMG_S=
+IZE |\
+-    _filter_imgfmt
++TEST_IMG=3D"$TEST_IMG.base" IMGFMT=3D"raw" _make_test_img --no-opts $IMG_S=
+IZE \
++    >"$scratch_out"
++_filter_imgfmt <"$scratch_out"
++
+ _make_test_img $IMG_SIZE
+ $QEMU_IO -c "open -o driver=3Draw,file.driver=3Dblkverify,file.raw.filenam=
+e=3D$TEST_IMG.base,file.test.driver=3D$IMGFMT,file.test.file.filename=3D$TE=
+ST_IMG" \
+          -c 'read 0 512' -c 'write -P 42 0x38000 512' -c 'read -P 42 0x380=
+00 512' | _filter_qemu_io
+diff --git a/tests/qemu-iotests/174 b/tests/qemu-iotests/174
+index e2f14a38c6..1b0dd2e8b7 100755
+--- a/tests/qemu-iotests/174
++++ b/tests/qemu-iotests/174
+@@ -40,7 +40,15 @@ _unsupported_fmt raw
+=20
+=20
+ size=3D256K
+-IMGFMT=3Draw IMGKEYSECRET=3D _make_test_img --no-opts $size | _filter_imgf=
+mt
++
++# _make_test_img may set variables that we need to retain.  Everything
++# in a pipe is executed in a subshell, so doing so would throw away
++# all changes.  Therefore, we have to store the output in some temp
++# file and filter that.
++scratch_out=3D"$TEST_DIR/img-create.out"
++IMGFMT=3Draw IMGKEYSECRET=3D _make_test_img --no-opts $size >"$scratch_out=
+"
++_filter_imgfmt <"$scratch_out"
++rm -f "$scratch_out"
 =20
  echo
- echo "=3D=3D creating image with default preallocation =3D=3D"
--_make_test_img $size | _filter_imgfmt
-+_make_test_img $size
- stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_blocks =
-$min_blocks $size
-=20
- for mode in off full falloc; do
-     echo
-     echo "=3D=3D creating image with preallocation $mode =3D=3D"
--    _make_test_img -o preallocation=3D$mode $size | _filter_imgfmt
-+    _make_test_img -o preallocation=3D$mode $size
-     stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_blo=
-cks $min_blocks $size
- done
-=20
- for new_size in 4096 1048576; do
-     echo
-     echo "=3D=3D resize empty image with block_resize =3D=3D"
--    _make_test_img 0 | _filter_imgfmt
-+    _make_test_img 0
-     _block_resize $TEST_IMG $new_size >/dev/null
-     stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_blo=
-cks $min_blocks $new_size
- done
-diff --git a/tests/qemu-iotests/249 b/tests/qemu-iotests/249
-index 2b99c9789e..4b0f810795 100755
---- a/tests/qemu-iotests/249
-+++ b/tests/qemu-iotests/249
-@@ -48,9 +48,9 @@ _supported_os Linux
- IMG_SIZE=3D1M
-=20
- # Create the images: base <- int <- active
--TEST_IMG=3D"$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
--TEST_IMG=3D"$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" | _filter_im=
-gfmt
--_make_test_img -b "$TEST_IMG.int" | _filter_imgfmt
-+TEST_IMG=3D"$TEST_IMG.base" _make_test_img $IMG_SIZE
-+TEST_IMG=3D"$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base"
-+_make_test_img -b "$TEST_IMG.int"
-=20
- # Launch QEMU with these two drives:
- # none0: base (read-only)
+ echo "=3D=3D reading wrong format should fail =3D=3D"
 --=20
 2.23.0
 
