@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795AA125D09
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 09:55:34 +0100 (CET)
-Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E38125D02
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 09:53:05 +0100 (CET)
+Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihran-000473-Cx
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 03:55:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36599)
+	id 1ihrYO-0000Fy-GE
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 03:53:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWk-00071h-4l
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 03:51:23 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWj-00070w-Nb
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 03:51:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWi-00051d-N8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWi-00050U-Fu
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 03:51:21 -0500
-Received: from relay.sw.ru ([185.231.240.75]:55348)
+Received: from relay.sw.ru ([185.231.240.75]:55344)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihrWf-0004Xk-5s; Thu, 19 Dec 2019 03:51:17 -0500
+ id 1ihrWf-0004Xh-6D; Thu, 19 Dec 2019 03:51:17 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihrWU-0004DF-UN; Thu, 19 Dec 2019 11:51:07 +0300
+ id 1ihrWV-0004DF-7o; Thu, 19 Dec 2019 11:51:07 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 2/5] migretion/block-dirty-bitmap: refactor
- init_dirty_bitmap_migration
-Date: Thu, 19 Dec 2019 11:51:03 +0300
-Message-Id: <20191219085106.22309-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 3/5] block/dirty-bitmap: add bdrv_has_named_bitmaps helper
+Date: Thu, 19 Dec 2019 11:51:04 +0300
+Message-Id: <20191219085106.22309-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191219085106.22309-1-vsementsov@virtuozzo.com>
 References: <20191219085106.22309-1-vsementsov@virtuozzo.com>
@@ -54,125 +53,50 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out handling one bs, it is needed for the following commit, which
-will handle BlockBackends in separate.
+To be used for bitmap migration in further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/block-dirty-bitmap.c | 89 +++++++++++++++++++---------------
- 1 file changed, 49 insertions(+), 40 deletions(-)
+ include/block/dirty-bitmap.h |  1 +
+ block/dirty-bitmap.c         | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 7eafface61..7e93718086 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -268,57 +268,66 @@ static void dirty_bitmap_mig_cleanup(void)
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index e2b20ecab9..d93a38c7bc 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -94,6 +94,7 @@ int64_t bdrv_get_dirty_count(BdrvDirtyBitmap *bitmap);
+ void bdrv_dirty_bitmap_truncate(BlockDriverState *bs, int64_t bytes);
+ bool bdrv_dirty_bitmap_readonly(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs);
++bool bdrv_has_named_bitmaps(BlockDriverState *bs);
+ bool bdrv_dirty_bitmap_get_autoload(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap);
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 7039e82520..9117556095 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -809,6 +809,19 @@ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs)
+     return false;
  }
  
- /* Called with iothread lock taken. */
--static int init_dirty_bitmap_migration(void)
-+static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
- {
--    BlockDriverState *bs;
-     BdrvDirtyBitmap *bitmap;
-     DirtyBitmapMigBitmapState *dbms;
-     Error *local_err = NULL;
- 
--    dirty_bitmap_mig_state.bulk_completed = false;
--    dirty_bitmap_mig_state.prev_bs = NULL;
--    dirty_bitmap_mig_state.prev_bitmap = NULL;
--    dirty_bitmap_mig_state.no_bitmaps = false;
-+    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
-+        if (!bdrv_dirty_bitmap_name(bitmap)) {
-+            continue;
-+        }
- 
--    for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
--        const char *name = bdrv_get_device_or_node_name(bs);
-+        if (!bs_name || strcmp(bs_name, "") == 0) {
-+            error_report("Found bitmap '%s' in unnamed node %p. It can't "
-+                         "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
-+            return -1;
-+        }
- 
--        FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
--            if (!bdrv_dirty_bitmap_name(bitmap)) {
--                continue;
--            }
-+        if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT, &local_err)) {
-+            error_report_err(local_err);
-+            return -1;
-+        }
- 
--            if (!name || strcmp(name, "") == 0) {
--                error_report("Found bitmap '%s' in unnamed node %p. It can't "
--                             "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
--                goto fail;
--            }
-+        bdrv_ref(bs);
-+        bdrv_dirty_bitmap_set_busy(bitmap, true);
++bool bdrv_has_named_bitmaps(BlockDriverState *bs)
++{
++    BdrvDirtyBitmap *bm;
 +
-+        dbms = g_new0(DirtyBitmapMigBitmapState, 1);
-+        dbms->bs = bs;
-+        dbms->node_name = bs_name;
-+        dbms->bitmap = bitmap;
-+        dbms->total_sectors = bdrv_nb_sectors(bs);
-+        dbms->sectors_per_chunk = CHUNK_SIZE * 8 *
-+            bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS;
-+        if (bdrv_dirty_bitmap_enabled(bitmap)) {
-+            dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
++    QLIST_FOREACH(bm, &bs->dirty_bitmaps, list) {
++        if (bdrv_dirty_bitmap_name(bm)) {
++            return true;
 +        }
-+        if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
-+            dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
-+        }
- 
--            if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT,
--                                        &local_err)) {
--                error_report_err(local_err);
--                goto fail;
--            }
-+        QSIMPLEQ_INSERT_TAIL(&dirty_bitmap_mig_state.dbms_list,
-+                             dbms, entry);
 +    }
- 
--            bdrv_ref(bs);
--            bdrv_dirty_bitmap_set_busy(bitmap, true);
--
--            dbms = g_new0(DirtyBitmapMigBitmapState, 1);
--            dbms->bs = bs;
--            dbms->node_name = name;
--            dbms->bitmap = bitmap;
--            dbms->total_sectors = bdrv_nb_sectors(bs);
--            dbms->sectors_per_chunk = CHUNK_SIZE * 8 *
--                bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS;
--            if (bdrv_dirty_bitmap_enabled(bitmap)) {
--                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
--            }
--            if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
--                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
--            }
-+    return 0;
++
++    return false;
 +}
 +
-+/* Called with iothread lock taken. */
-+static int init_dirty_bitmap_migration(void)
-+{
-+    BlockDriverState *bs;
-+    DirtyBitmapMigBitmapState *dbms;
-+
-+    dirty_bitmap_mig_state.bulk_completed = false;
-+    dirty_bitmap_mig_state.prev_bs = NULL;
-+    dirty_bitmap_mig_state.prev_bitmap = NULL;
-+    dirty_bitmap_mig_state.no_bitmaps = false;
- 
--            QSIMPLEQ_INSERT_TAIL(&dirty_bitmap_mig_state.dbms_list,
--                                 dbms, entry);
-+    for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
-+        if (add_bitmaps_to_list(bs, bdrv_get_device_or_node_name(bs))) {
-+            goto fail;
-         }
-     }
- 
+ /* Called with BQL taken. */
+ void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap, bool persistent)
+ {
 -- 
 2.21.0
 
