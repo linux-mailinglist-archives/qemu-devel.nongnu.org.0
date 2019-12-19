@@ -2,118 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8EA126452
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:10:53 +0100 (CET)
-Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7C112647B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:21:43 +0100 (CET)
+Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwVw-0005mE-17
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:10:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36205)
+	id 1ihwgQ-0005eJ-Nf
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:21:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <k.jensen@samsung.com>) id 1ihvZE-0001xy-7w
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:14 -0500
+ (envelope-from <bounces@canonical.com>) id 1ihwRH-0008Dn-Dc
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:06:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <k.jensen@samsung.com>) id 1ihvZC-0007WX-6M
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:11 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:56030)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <k.jensen@samsung.com>)
- id 1ihvZA-00077r-P0
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:09 -0500
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20191219130951euoutp02d79c121f5ecc1c99efc67b0c02e90c15~hx8SFKxcM0697606976euoutp02c
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 13:09:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20191219130951euoutp02d79c121f5ecc1c99efc67b0c02e90c15~hx8SFKxcM0697606976euoutp02c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1576760991;
- bh=JSHPvLNtx7G+B0/+Jvm7M8JS310fB0IfwpO9b9Vnmdo=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=N5EeoiACuLaBRL3eLzgwW+Y55c76YykIofgsHgm7heNJVp0EXwaOJZFZp+b9RB1l1
- fkFVM3jOixOY+3GkTeV1dyRv5f37E+80dnzoq5dvcN9xKC3GxXutcvdJRObcj3Elwh
- Nj/LyZuQWCa23PDskGv0bkxAyB1L++bdMuc5d30A=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20191219130951eucas1p27f1a357b37fca17752489632d9411629~hx8R4Tur11986019860eucas1p2U;
- Thu, 19 Dec 2019 13:09:51 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id C5.00.61286.F967BFD5; Thu, 19
- Dec 2019 13:09:51 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130950eucas1p14932d144e3e12fb98a6ec685cf616701~hx8RjpczZ1260812608eucas1p1q;
- Thu, 19 Dec 2019 13:09:50 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20191219130950eusmtrp2ad69a17dfc74bb9cc10555ace1ea1dac~hx8RjHPy03120131201eusmtrp2g;
- Thu, 19 Dec 2019 13:09:50 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-80-5dfb769f1e74
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 80.5D.08375.E967BFD5; Thu, 19
- Dec 2019 13:09:50 +0000 (GMT)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130950eusmtip2284512c395b6cfc6cdb45d33ad71d3ea~hx8RcSxrT3240732407eusmtip28;
- Thu, 19 Dec 2019 13:09:50 +0000 (GMT)
-Received: from CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) by
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
- Server (TLS) id 15.0.1320.4; Thu, 19 Dec 2019 13:09:50 +0000
-Received: from apples.local (106.110.32.41) by CAMSVWEXC01.scsc.local
- (106.1.227.71) with Microsoft SMTP Server id 15.0.1320.4 via Frontend
- Transport; Thu, 19 Dec 2019 13:09:49 +0000
-From: Klaus Jensen <k.jensen@samsung.com>
-To: <qemu-block@nongnu.org>
-Subject: [PATCH v4 24/24] nvme: make lba data size configurable
-Date: Thu, 19 Dec 2019 14:09:21 +0100
-Message-ID: <20191219130921.309264-25-k.jensen@samsung.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191219130921.309264-1-k.jensen@samsung.com>
+ (envelope-from <bounces@canonical.com>) id 1ihwRC-0007Nq-C9
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:06:03 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53914)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ihwRC-0007F7-1N
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:05:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ihwRA-00066S-6v
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 14:05:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 32D432E80C8
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 14:05:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUhTYRjl3d2ud6PJdQo+aSHMDBPSpIhFUoYFI1AK/0mrpt6muU3b3NSC
- sDRnhtP8o5uRoqJhOND5sdmQvIXDL8TSJdMySmgVmrNWiSvbdif575znOec854WXwASNnCgi
- X1lMqZRSuRDnsQfHNmcOt2i3JEe8s7jIXKdDogbagUQds5TosTNWZFzT4SJ7rYWdiov7uu/j
- 4iWHDRevOMws8beRefwCO4uXkkvJ87WUKunUVV6eyVZaNMYvtQy7Q8rROq8GcQkgj8HHGQ9W
- g3iEgHyCwOteDmHIDwQblfWIId8RLHTR7B2L+Y6bwyy6EPxea/6vcs1VBjdTCCb03iAZRtD9
- 9BPH78fJQzDk3Q5kRZDRoJtvCIgw8g0CemvWd54gwsnTsNae4NewyTh4MbzE8mM+eRIMcyM4
- 0yMGBn5uBDK5vnl/7SJiNGEwblgJ5GM+TcVAM8ZggFGXK/BUIE0hMPmwl8UEnYW2IWswNBy+
- 2PtDGLwPtq0tLMbwAIF+3RN0NyFo7PyF+5uC77R+Ss4YzoD7vTk4DoWF1TDmcCg0DDZizJgP
- 1VUCRn0QLHcHUD2KNe6qbdxV27irdivCulEkpVErZJQ6WUmVJKqlCrVGKUvMKVT0Id93mfxr
- 37Agz6tsGpEEEu7hp17bkgg4Uq26TEEjIDBhBH+xelMi4OdKy25SqsIrKo2cUtMommALI/lH
- 2z5LBKRMWkwVUFQRpdrZsghuVDnqxFcT0jd74/54pp1J12mr6l3VjYrs9vnInLaXl55dnBFn
- 0E+OW+tu6/RDrmm8uu611FCyCoPx9nyDw/y2auHrqOyeoClHEbO/puf5iaylvc404lbKxPlz
- KemXbSZtgSSzNZR0mDImPmi4mfKOzDQIcz2yeeOXk8bNzgOoR8hW50mTEzCVWvoPF9MHfioD
- AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsVy+t/xe7rzyn7HGvw9YWixub+d0WLSoWuM
- FksuplrMu6VsMetdO5vF8d4dLA5sHptWdbJ53Lm2h83jybXNTB7v911lC2CJ0rMpyi8tSVXI
- yC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MtYt6ei4BhvxY5dH9kb
- GD9wdTFyckgImEhsbvzI2sXIxSEksJRR4veKe4wQCRmJT1c+skPYwhJ/rnWxQRR9ZJS4tmI5
- C4RzBsh5fJgZwtnFKPFm/z02kBY2AU2J7X/+s4DYIgLSEu1XJ4HtYBa4zihx6PdFoLkcHMIC
- 9hLvFmuB1LAIqEoc3nWHCcTmFbCWmHllHxvEanmJrd8+sYLYnEDxLb23wc4TErCSePzzIwtE
- vaDEyZlPwGxmoPrmrbOZIWwJiYMvXjBPYBSehaRsFpKyWUjKFjAyr2IUSS0tzk3PLTbUK07M
- LS7NS9dLzs/dxAiMsG3Hfm7ewXhpY/AhRgEORiUe3pfJv2OFWBPLiitzDzFKcDArifDe7vgZ
- K8SbklhZlVqUH19UmpNafIjRFOi5icxSosn5wOjPK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMk
- kJ5YkpqdmlqQWgTTx8TBKdXAOPXmtCmGT/mffWaT9/TvMBHvmXmpuHvKRr51b1bbnFvR1+IQ
- No399P3bW9qt3/HfufTk5UGjd6fUPL0bfAXnmjfa3fBkTXQsal+xb1tRXeLllNYjSr/eSntF
- T7dsvuS0cc9y2+sHv6aXWlz6dauM00/4+Pzd82MtlxlsK3mbsOHB/buHL6Y9ZFJiKc5INNRi
- LipOBAA0SgTyxgIAAA==
-X-CMS-MailID: 20191219130950eucas1p14932d144e3e12fb98a6ec685cf616701
-X-Msg-Generator: CA
-X-RootMTR: 20191219130950eucas1p14932d144e3e12fb98a6ec685cf616701
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20191219130950eucas1p14932d144e3e12fb98a6ec685cf616701
-References: <20191219130921.309264-1-k.jensen@samsung.com>
- <CGME20191219130950eucas1p14932d144e3e12fb98a6ec685cf616701@eucas1p1.samsung.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 210.118.77.12
-X-Mailman-Approved-At: Thu, 19 Dec 2019 08:56:47 -0500
+Date: Thu, 19 Dec 2019 13:52:15 -0000
+From: Florensa Florian <1843941@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: rbd
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fflorensa gsoneill
+X-Launchpad-Bug-Reporter: Gregory O'Neill (gsoneill)
+X-Launchpad-Bug-Modifier: Florensa Florian (fflorensa)
+References: <156840017982.27082.9691017826426087373.malonedeb@soybean.canonical.com>
+Message-Id: <157676353579.27180.7056204341846697883.malone@chaenomeles.canonical.com>
+Subject: [Bug 1843941] Re: RBD Namespaces are not supported
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: badd671a658a93154dad6773fdf42e811cd4c1f7
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -122,64 +66,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Reply-To: Bug 1843941 <1843941@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme-ns.c | 2 +-
- hw/block/nvme-ns.h | 4 +++-
- hw/block/nvme.c    | 1 +
- 3 files changed, 5 insertions(+), 2 deletions(-)
+I just posted a patch today on the qemu-devel mailing list, you can find
+it there : https://lists.gnu.org/archive/html/qemu-
+devel/2019-12/msg04344.html
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 36deedee07a6..dc7e63b01037 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -18,7 +18,7 @@ static int nvme_ns_init(NvmeNamespace *ns)
- {
-     NvmeIdNs *id_ns =3D &ns->id_ns;
-=20
--    id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
-+    id_ns->lbaf[0].ds =3D ns->params.lbads;
-     id_ns->nuse =3D id_ns->ncap =3D id_ns->nsze =3D
-         cpu_to_le64(nvme_ns_nlbas(ns));
-=20
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index b564bac25f6d..f1fe4db78b41 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -7,10 +7,12 @@
-=20
- #define DEFINE_NVME_NS_PROPERTIES(_state, _props) \
-     DEFINE_PROP_DRIVE("drive", _state, blk), \
--    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0)
-+    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0), \
-+    DEFINE_PROP_UINT8("lbads", _state, _props.lbads, BDRV_SECTOR_BITS)
-=20
- typedef struct NvmeNamespaceParams {
-     uint32_t nsid;
-+    uint8_t  lbads;
- } NvmeNamespaceParams;
-=20
- typedef struct NvmeNamespace {
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 0ebb9aabbeb2..a7d32b230ad7 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2605,6 +2605,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-     if (n->namespace.blk) {
-         ns =3D &n->namespace;
-         ns->params.nsid =3D 1;
-+        ns->params.lbads =3D BDRV_SECTOR_BITS;
-=20
-         if (nvme_ns_setup(n, ns, &local_err)) {
-             error_propagate_prepend(errp, local_err, "nvme_ns_setup: ");
---=20
-2.24.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1843941
+
+Title:
+  RBD Namespaces are not supported
+
+Status in QEMU:
+  New
+
+Bug description:
+  Ceph Nautilus (v14.2.0) introduced the Namespaces concept for RADOS
+  Block Devices. This provides a logical separation within a RADOS Pool
+  for RBD images which enables granular access control. See
+  https://docs.ceph.com/docs/nautilus/releases/nautilus/ for additional
+  details.
+
+  librados and librbd support this, however qemu does not. The rbd man
+  page defines how rbd images within a namespace can be referenced.
+  https://docs.ceph.com/docs/nautilus/man/8/rbd/#image-snap-group-and-
+  journal-specs
+
+  Adding support for RBD namespaces would be beneficial for security and
+  reducing the impact of a hypervisor being compromised and putting an
+  entire Ceph pool or cluster at risk.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1843941/+subscriptions
 
