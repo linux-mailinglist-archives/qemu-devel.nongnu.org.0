@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D8A1262E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:06:20 +0100 (CET)
-Received: from localhost ([::1]:40657 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB841262E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:08:35 +0100 (CET)
+Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvVR-0003TQ-D2
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:06:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
+	id 1ihvXe-0007en-Cr
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:08:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38701)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ihuwf-00077t-Ce
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:30:26 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ihuxE-0007pj-0a
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:30:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ihuwd-0005SC-R4
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:30:21 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37753
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ihuxC-0007PD-6s
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:30:55 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47186
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ihuwd-0005Nd-Co
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:30:19 -0500
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ihuxA-0007Ks-Bl
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:30:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758618;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TNwSKJD78rwK+EHWGg1sHT+Cu2BH3QWSwHo3oo9JqzM=;
- b=NZ1Y8/3rBld7MSeF/aZfFJL/PMORshnjHY2ML18zZu3bVL+MIFpJ7HXSkVO0xgFRgHu8Mw
- wc2MRuonYnLvGzqhhBtOGlqyLUkWE9G2rz5NnIJPRR3UXOzw326jKxj+0i4yOpTQhUNDYV
- 6Nhh+5s4IcFdtb6poRCwuMm/Oqjyio8=
+ s=mimecast20190719; t=1576758650;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uQrK8BLt6FtOFxS1SL03fl3thAvL2ksFKfJco8A6dB0=;
+ b=fOKK1uiVDczgEHZxqA6a0p6005Myh+0mBKxa5tyazoxKgejby2grV/g4VnMtlo40NH+6Qs
+ eb01iCOv+jINDGfQCEZqNX1f+O+SvcS0iocZSUvPI05LUYQT/EDJRwxkdwQIu5fLxZSWot
+ rQT39fxL6F38GrH1H6kncMUwFspw4UY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-xR5MGyouPFmHE05V-QyhXw-1; Thu, 19 Dec 2019 07:30:09 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-23-Xal_y18aNZ6NBTam-or3fw-1; Thu, 19 Dec 2019 07:30:45 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D365D184BEC0;
- Thu, 19 Dec 2019 12:30:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AEA260C18;
- Thu, 19 Dec 2019 12:30:04 +0000 (UTC)
-Date: Thu, 19 Dec 2019 12:30:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v6 7/8] dockerfiles: add dbus-daemon to some of latest
- distributions
-Message-ID: <20191219123002.GG1190276@redhat.com>
-References: <20191211134506.1803403-1-marcandre.lureau@redhat.com>
- <20191211134506.1803403-8-marcandre.lureau@redhat.com>
- <20191212120642.GK1829331@redhat.com>
- <CAJ+F1CK7KynVifnO_G7VOWURYyXQgyZX+jNzXwN6-m-Gh6SmhQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF74EDB60
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:30:44 +0000 (UTC)
+Received: from localhost (ovpn-112-22.ams2.redhat.com [10.36.112.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9936326E46;
+ Thu, 19 Dec 2019 12:30:37 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/9] Add dbus-vmstate
+Date: Thu, 19 Dec 2019 16:30:20 +0400
+Message-Id: <20191219123029.200788-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CK7KynVifnO_G7VOWURYyXQgyZX+jNzXwN6-m-Gh6SmhQ@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: xR5MGyouPFmHE05V-QyhXw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Xal_y18aNZ6NBTam-or3fw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -77,68 +68,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
+ dgilbert@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 04:23:48PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> Hi
->=20
-> On Thu, Dec 12, 2019 at 4:07 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
-com> wrote:
-> >
-> > On Wed, Dec 11, 2019 at 05:45:05PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> > > To get dbus-vmstate test covered.
-> > >
-> > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > > ---
-> > >  tests/docker/dockerfiles/centos7.docker  | 1 +
-> > >  tests/docker/dockerfiles/debian10.docker | 1 +
-> > >  tests/docker/dockerfiles/fedora.docker   | 1 +
-> > >  tests/docker/dockerfiles/ubuntu.docker   | 1 +
-> > >  4 files changed, 4 insertions(+)
-> >
-> > For docker
-> >
-> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> >
-> >
-> > Does it need adding to travis, gitlab, shippable, etc CI configs
-> > too ?
->=20
-> Those are all good, only shippable has an issue with w64 build:
->=20
-> backends/dbus-vmstate.c:313:22: error: format '%u' expects argument of
-> type 'unsigned int', but argument 3 has type 'gsize {aka long long
-> unsigned int}' [-Werror=3Dformat=3D]
-> error_report("%s: Too large vmstate data to save: %" G_GSIZE_FORMAT,
->=20
-> This seems to be a MXE build issue, since build correctly includes
-> "/usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/glib-2.0", and
-> fedora mingw works. Philippe, any idea?
+Hi,
 
-There was a bug with one release of glib where they changed the
-printf function annotations, but messed up so G_*_FORMAT was
-changed when built with meson, but not changed when built with
-autotools.
+With external processes or helpers participating to the VM support, it
+becomes necessary to handle their migration. Various options exist to
+transfer their state:
+1) as the VM memory, RAM or devices (we could say that's how
+   vhost-user devices can be handled today, they are expected to
+   restore from ring state)
+2) other "vmstate" (as with TPM emulator state blobs)
+3) left to be handled by management layer
 
-So if MXE uses that broken glib version & builds mingw with
-autotools instead of meson it will be impacted:
+1) is not practical, since an external processes may legitimatelly
+need arbitrary state date to back a device or a service, or may not
+even have an associated device.
 
-  https://gitlab.gnome.org/GNOME/glib/issues/1497
+2) needs ad-hoc code for each helper, but is simple and working
 
-Regards,
-Daniel
+3) is complicated for management layer, QEMU has the migration timing
+
+The proposed "dbus-vmstate" object will connect to a given D-Bus
+address, and save/load from org.qemu.VMState1 owners on migration.
+
+Thus helpers can easily have their state migrated with QEMU, without
+implementing ad-hoc support (such as done for TPM emulation)
+
+D-Bus is ubiquitous on Linux (it is systemd IPC), and can be made to
+work on various other OSes. There are several implementations and good
+bindings for various languages.  (the tests/dbus-vmstate-test.c is a
+good example of how simple the implementation of services can be, even
+in C)
+
+dbus-vmstate is put into use by the libvirt series "[PATCH 00/23] Use
+a slirp helper process".
+
+v7: after Daniel & David reviews
+- some docs improvements
+- changed qemu_dbus_get_queued_owners() to take errp
+- added __func__ to error_report() and some traces
+- new patch "tests: add migration-helpers unit" and adapt
+  dbus-vmstate-test to use it
+- use dbus-vmstate-test temporary directory for dbus listen path
+
+v6:
+- rebased (minor change in patch 2)
+
+v5:
+- trying to fix patchew/ci: install dbus-daemon in containers, skip
+  test if unavailable
+
+v4:
+- add Daniel security scenarios to the D-Bus document
+- misc doc improvements
+- add "util: add dbus helper unit" patch, with
+  qemu_dbus_get_queued_owners()
+- add "configure: add GDBUS_CODEGEN", explaining why gio-unix is
+  required when available
+- silence the expected failing tests
+- update copyright headers, MAINTAINERS
+- add r-b/a-b tags
+- rebased
+
+(Note: patchew dbus test fails for unclear reasons, but I can't
+reproduce locally nor on travis)
+
+v3:
+- after various discussions on helper processes, we settled on a
+  preference for having a bus for communications. This version is
+  actually v1 updated.
+- added a dbus.rst document to describe D-Bus recommendations for QEMU
+- added dbus-vmstate-daemon.sh to play with the dbus-daemon configuration
+  (although it is not very useful in the context of a single UID)
+- added a new vmstate interface, so that any object can implement
+  VMStateDescription, and converted dbus-vmstate
+- added "migration: fix vmdesc leak on vmstate_save() error"
+- convert to g_auto
+
+v2:
+- D-Bus is most common and practical through a bus, but it requires a
+  daemon to be running. I argue that the benefits outweight the cost
+  of running an extra daemon in v1 in the context of multi-process
+  qemu, but it is also possible to connect in p2p mode as done in this
+  new version.
+
+Marc-Andr=C3=A9 Lureau (9):
+  vmstate: add qom interface to get id
+  vmstate: replace DeviceState with VMStateIf
+  docs: start a document to describe D-Bus usage
+  util: add dbus helper unit
+  Add dbus-vmstate object
+  configure: add GDBUS_CODEGEN
+  dockerfiles: add dbus-daemon to some of latest distributions
+  tests: add migration-helpers unit
+  tests: add dbus-vmstate-test
+
+ MAINTAINERS                              |  12 +
+ Makefile.objs                            |   1 +
+ backends/Makefile.objs                   |   4 +
+ backends/dbus-vmstate.c                  | 510 +++++++++++++++++++++++
+ backends/trace-events                    |   7 +
+ configure                                |   7 +
+ docs/interop/dbus-vmstate.rst            |  74 ++++
+ docs/interop/dbus.rst                    | 110 +++++
+ docs/interop/index.rst                   |   2 +
+ hw/block/onenand.c                       |   2 +-
+ hw/core/Makefile.objs                    |   1 +
+ hw/core/qdev.c                           |  21 +-
+ hw/core/vmstate-if.c                     |  23 +
+ hw/ide/cmd646.c                          |   2 +-
+ hw/ide/isa.c                             |   2 +-
+ hw/ide/piix.c                            |   2 +-
+ hw/ide/via.c                             |   2 +-
+ hw/misc/max111x.c                        |   2 +-
+ hw/net/eepro100.c                        |   4 +-
+ hw/net/virtio-net.c                      |   3 +-
+ hw/nvram/eeprom93xx.c                    |   4 +-
+ hw/ppc/spapr_drc.c                       |   9 +-
+ hw/ppc/spapr_iommu.c                     |   4 +-
+ hw/s390x/s390-skeys.c                    |   2 +-
+ include/hw/vmstate-if.h                  |  40 ++
+ include/migration/register.h             |   4 +-
+ include/migration/vmstate.h              |  10 +-
+ include/qemu/dbus.h                      |  19 +
+ migration/savevm.c                       |  20 +-
+ roms/SLOF                                |   2 +-
+ stubs/vmstate.c                          |   4 +-
+ tests/Makefile.include                   |  25 +-
+ tests/dbus-vmstate-daemon.sh             |  95 +++++
+ tests/dbus-vmstate-test.c                | 382 +++++++++++++++++
+ tests/dbus-vmstate1.xml                  |  12 +
+ tests/docker/dockerfiles/centos7.docker  |   1 +
+ tests/docker/dockerfiles/debian10.docker |   1 +
+ tests/docker/dockerfiles/fedora.docker   |   1 +
+ tests/docker/dockerfiles/ubuntu.docker   |   1 +
+ tests/migration-helpers.c                | 167 ++++++++
+ tests/migration-helpers.h                |  37 ++
+ tests/migration-test.c                   | 176 +-------
+ util/Makefile.objs                       |   3 +
+ util/dbus.c                              |  57 +++
+ 44 files changed, 1661 insertions(+), 206 deletions(-)
+ create mode 100644 backends/dbus-vmstate.c
+ create mode 100644 backends/trace-events
+ create mode 100644 docs/interop/dbus-vmstate.rst
+ create mode 100644 docs/interop/dbus.rst
+ create mode 100644 hw/core/vmstate-if.c
+ create mode 100644 include/hw/vmstate-if.h
+ create mode 100644 include/qemu/dbus.h
+ create mode 100755 tests/dbus-vmstate-daemon.sh
+ create mode 100644 tests/dbus-vmstate-test.c
+ create mode 100644 tests/dbus-vmstate1.xml
+ create mode 100644 tests/migration-helpers.c
+ create mode 100644 tests/migration-helpers.h
+ create mode 100644 util/dbus.c
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+2.24.0.308.g228f53135a
 
 
