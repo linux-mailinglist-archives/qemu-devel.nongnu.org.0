@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303CB126840
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:36:37 +0100 (CET)
-Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2892E12685B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:46:36 +0100 (CET)
+Received: from localhost ([::1]:45550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihzj2-0000zn-3A
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:36:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45363)
+	id 1ihzsh-0005zu-57
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:46:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihzY1-0006YM-Tr
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:15 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ihzY5-0006cH-Ch
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihzY0-0006sv-6M
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20007
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1ihzY2-00072s-Gj
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:15 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51868
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzXz-0006px-W1
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:12 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzY2-000718-Ci
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576776311;
+ s=mimecast20190719; t=1576776313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/TwCJpHfViZxCTvm6acdY8G48cikhN1vzfsDhDwmhZM=;
- b=UEyamfecF32WuDm1mhy6eM8DTR5EvZY1/GD0ZX2lFSOlKYSEOtg4CbQLgksGZrppDTBt+C
- SWtG7OSqZBJ/Lfsqbcs2uEt5nph2AmRPRCCOmZgOy0Pu2QsOLfFNMlquF+LcFVTVApRCO7
- PGoA3EgNIOwMINyGv2uZRWm8EU67L/w=
+ bh=Zh/uEnfpcdXuhvmMKgELcN8eOKfIOwzcm1GbF3BqXwI=;
+ b=S6ycmLZKmTJV4NkI94GeVqSnwVaL++NvYelZRKj6+XGjljg7z/v6PRQkk7hOrL2D/CJOhH
+ bfzQht5XJLGRZCc05Aj7smdVMcE+dJQX8ZuVAFGUluY0OAm9PhOxDSSr4K9F9zzz7LXQ1L
+ HoqzdemGgbI3U/qqbIxdlC9wiBDbhVs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-dMAmk2geMDCDgewU0PkGIQ-1; Thu, 19 Dec 2019 12:25:09 -0500
+ us-mta-285-KuDg2OjpPCC11fieIAjWaA-1; Thu, 19 Dec 2019 12:25:10 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6928100550E;
- Thu, 19 Dec 2019 17:25:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4192E107ACC7;
+ Thu, 19 Dec 2019 17:25:09 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CD0A5C7DD;
- Thu, 19 Dec 2019 17:25:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4905063B9F;
+ Thu, 19 Dec 2019 17:25:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/30] MAINTAINERS: fix qcow2-bitmap.c under Dirty Bitmaps
- header
-Date: Thu, 19 Dec 2019 18:24:24 +0100
-Message-Id: <20191219172441.7289-14-kwolf@redhat.com>
+Subject: [PULL 14/30] iotests: Add more "_require_drivers" checks to the
+ shell-based tests
+Date: Thu, 19 Dec 2019 18:24:25 +0100
+Message-Id: <20191219172441.7289-15-kwolf@redhat.com>
 In-Reply-To: <20191219172441.7289-1-kwolf@redhat.com>
 References: <20191219172441.7289-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: dMAmk2geMDCDgewU0PkGIQ-1
+X-MC-Unique: KuDg2OjpPCC11fieIAjWaA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,40 +75,44 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Somehow I wrote not full path to the file. Fix that.
+Test 051 should be skipped if nbd is not available, and 267 should
+be skipped if copy-on-read is not enabled.
 
-Also, while being here, rearrange entries, so that includes go first,
-then block, than migration, than util.
-
-Fixes: 052db8e71444d
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- MAINTAINERS | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/051 | 1 +
+ tests/qemu-iotests/267 | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 740401bcbb..dc81c89ccb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1870,12 +1870,12 @@ M: John Snow <jsnow@redhat.com>
- R: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
- L: qemu-block@nongnu.org
- S: Supported
--F: util/hbitmap.c
--F: block/dirty-bitmap.c
- F: include/qemu/hbitmap.h
- F: include/block/dirty-bitmap.h
--F: qcow2-bitmap.c
-+F: block/dirty-bitmap.c
-+F: block/qcow2-bitmap.c
- F: migration/block-dirty-bitmap.c
-+F: util/hbitmap.c
- F: tests/test-hbitmap.c
- F: docs/interop/bitmaps.rst
- T: git https://github.com/jnsnow/qemu.git bitmaps
+diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+index 53bcdbc911..a13bce2fd0 100755
+--- a/tests/qemu-iotests/051
++++ b/tests/qemu-iotests/051
+@@ -41,6 +41,7 @@ _supported_proto file
+ # A compat=3D0.10 image is created in this test which does not support any=
+thing
+ # other than refcount_bits=3D16
+ _unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++_require_drivers nbd
+=20
+ do_run_qemu()
+ {
+diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
+index 170e173c0a..b823668e29 100755
+--- a/tests/qemu-iotests/267
++++ b/tests/qemu-iotests/267
+@@ -40,6 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++_require_drivers copy-on-read
+=20
+ # Internal snapshots are (currently) impossible with refcount_bits=3D1
+ _unsupported_imgopts 'refcount_bits=3D1[^0-9]'
 --=20
 2.20.1
 
