@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581121262D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:03:18 +0100 (CET)
-Received: from localhost ([::1]:40576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9072D1262E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:07:14 +0100 (CET)
+Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvSW-0007vr-P1
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:03:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37324)
+	id 1ihvWL-0004wL-AD
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:07:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihusR-000114-70
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:26:01 -0500
+ (envelope-from <mst@redhat.com>) id 1ihuu1-0003h6-Hy
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:27:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihusO-0003Wc-Na
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25815
+ (envelope-from <mst@redhat.com>) id 1ihutz-0002u2-Ja
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:27:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54840
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihusO-0003UM-AR
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:56 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihutz-0002qv-Ad
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:27:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758355;
+ s=mimecast20190719; t=1576758454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iU9ljBKf9gxVwbpcHOGcW99UWNhyv6Vn2rEiVL5EXUs=;
- b=UV43LydeaWnccfztX//6jVKl1YQEEwpVttFzeHIlnd7Ykd+YF15AdCPIMogWXbYrfaft2l
- epeqIrYft4Q1NBv4LQK8iJMscEsi3+fp5h5+/ZgR+irtSZiJ3iLxzPgFQ92xGKTYxwrpg0
- YZ1Q7Zr790gVQ+GH5pNZ8KZ8jnU2IFQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-SOusPYY-NMmQDA9U-CN5JA-1; Thu, 19 Dec 2019 07:25:46 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 529551005502
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:25:45 +0000 (UTC)
-Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
- [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B53C060C18;
- Thu, 19 Dec 2019 12:25:40 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 130/132] meson: convert pc-bios/s390-ccw
-Date: Thu, 19 Dec 2019 13:23:50 +0100
-Message-Id: <1576758232-12439-39-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
-References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
+ bh=5C7QphVUaIbUFjXQN3OkjmPailuVPiOvXc/TAy/Ydlc=;
+ b=QStekn1WZ8njQ12Xfhfx/tF34HhJ3N3NyjYneNZPGszGsPRfOlP5aza4PFvmtgcv3IBp/D
+ AgGICGrwOh/+foDhLz8kUzvlLPr6OuGVc6q1v2bhcrENSDc/WW4Q5pIZZiiecc7sMuvdO8
+ nIOt9j/R3qmx/bbSuP/gKn8qzm1r3Aw=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-irL4ZCEwPGKTrel2NSfM5Q-1; Thu, 19 Dec 2019 07:27:32 -0500
+Received: by mail-qt1-f200.google.com with SMTP id 69so3546793qtb.15
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 04:27:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=p4olYuUtDS2uS84RVZcHbV8OmtQVV8X41cOMgowNCcc=;
+ b=IcrCtsNRkb3ezp++PyajZ+GGLVabtNZjZtm5wxM6mTcC5Ij5YH25ppxAEFj5wy2ZCH
+ wXoKuAl+K9sniUyD2Ehkwa7/Vyg3+D4RuCNXdFbnNrwzXXshj8jr+A7AAuZGYPTBaBeS
+ J9sg7blNC6QyiCBg0h55Ub00RU6Cj4QRX+HqU4ZfhZu90d0m28CNxVQLGptsTsudQlcT
+ XWgi5OKUi3oMXNdidc2CcSfz86H+yazqFKibkkSyDnKrwZCR6OYw0wcHO9/zkW9vDt/k
+ ewpRr9WYOZy4POqXiAh7aF1wrheg6Sj1cKCxYJOibmDmOb25EHdb4bioHKJbwmzXF6Kb
+ jr+Q==
+X-Gm-Message-State: APjAAAV3Ru9RO77VcTio1D8TPIP6rAF3HpA4Yu7q0juJGdwZRW2w+y3V
+ QhaUkIBXrx8cSnCz5eDsxxln77kVLHc1tmaa0oD/19qaMX9vG6k3yIzERxUnTsu6ZqU7b1BQQHc
+ D7nokDFOvag/26+c=
+X-Received: by 2002:a0c:a998:: with SMTP id a24mr963155qvb.11.1576758452101;
+ Thu, 19 Dec 2019 04:27:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyxlqz0QRYcuzsLh3ZnnfaFY31uoMAll3746OInCjzdwoQXL7fk1Wr/XmXdSjFmabzLLPaXwA==
+X-Received: by 2002:a0c:a998:: with SMTP id a24mr963128qvb.11.1576758451735;
+ Thu, 19 Dec 2019 04:27:31 -0800 (PST)
+Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
+ by smtp.gmail.com with ESMTPSA id u57sm1822551qth.68.2019.12.19.04.27.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 04:27:30 -0800 (PST)
+Date: Thu, 19 Dec 2019 07:27:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v4 1/2] virtio: make seg_max virtqueue size dependent
+Message-ID: <20191219072648-mutt-send-email-mst@kernel.org>
+References: <20191216100451.28060-1-dplotnikov@virtuozzo.com>
+ <20191216100451.28060-2-dplotnikov@virtuozzo.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: SOusPYY-NMmQDA9U-CN5JA-1
+In-Reply-To: <20191216100451.28060-2-dplotnikov@virtuozzo.com>
+X-MC-Unique: irL4ZCEwPGKTrel2NSfM5Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,367 +87,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On Mon, Dec 16, 2019 at 01:04:50PM +0300, Denis Plotnikov wrote:
+> Before the patch, seg_max parameter was immutable and hardcoded
+> to 126 (128 - 2) without respect to queue size. This has two negative eff=
+ects:
+>=20
+> 1. when queue size is < 128, we have Virtio 1.1 specfication violation:
+>    (2.6.5.3.1 Driver Requirements) seq_max must be <=3D queue_size.
+>    This violation affects the old Linux guests (ver < 4.14). These guests
+>    crash on these queue_size setups.
+>=20
+> 2. when queue_size > 128, as was pointed out by Denis Lunev <den@virtuozz=
+o.com>,
+>    seg_max restrics guest's block request length which affects guests'
+>    performance making them issues more block request than needed.
+>    https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
+>=20
+> To mitigate this two effects, the patch adds the property adjusting seg_m=
+ax
+> to queue size automaticaly. Since seg_max is a guest visible parameter,
+> the property is machine type managable and allows to choose between
+> old (seg_max =3D 126 always) and new (seg_max =3D queue_size - 2) behavio=
+rs.
+>=20
+> Not to change the behavior of the older VMs, prevent setting the default
+> seg_max_adjust value for older machine types.
+>=20
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- configure                    |   8 --
- pc-bios/meson.build          |   5 ++
- pc-bios/s390-ccw/Makefile    | 103 -------------------------
- pc-bios/s390-ccw/meson.build | 175 +++++++++++++++++++++++++++++++++++++++=
-++++
- 4 files changed, 180 insertions(+), 111 deletions(-)
- delete mode 100644 pc-bios/s390-ccw/Makefile
- create mode 100644 pc-bios/s390-ccw/meson.build
+Stefan I think you acked this already? Could you ack?
 
-diff --git a/configure b/configure
-index f6e3b0a..a1b71b9 100755
---- a/configure
-+++ b/configure
-@@ -6173,14 +6173,6 @@ if { test "$cpu" =3D "i386" || test "$cpu" =3D "x86_=
-64"; } && \
-     done
- fi
-=20
--# Only build s390-ccw bios if we're on s390x and the compiler has -march=
-=3Dz900
--if test "$cpu" =3D "s390x" ; then
--  write_c_skeleton
--  if compile_prog "-march=3Dz900" ""; then
--    roms=3D"$roms s390-ccw"
--  fi
--fi
--
- # Probe for the need for relocating the user-only binary.
- if ( [ "$linux_user" =3D yes ] || [ "$bsd_user" =3D yes ] ) && [ "$pie" =
-=3D no ]; then
-   textseg_addr=3D
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index def68a4..1697c55 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -99,3 +99,8 @@ if dtc.found()
-   endforeach
-   alias_target('update-dtb', t)
- endif
-+
-+cc =3D meson.get_compiler('c')
-+if host_machine.cpu_family() =3D=3D 's390x' and cc.has_argument('-march=3D=
-z900')
-+  subdir('s390-ccw')
-+endif
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-deleted file mode 100644
-index b512074..0000000
---- a/pc-bios/s390-ccw/Makefile
-+++ /dev/null
-@@ -1,103 +0,0 @@
--CURRENT_MAKEFILE :=3D $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFI=
-LE_LIST)))
--SRC_DIR :=3D $(dir $(CURRENT_MAKEFILE))
--TOPSRC_DIR :=3D $(SRC_DIR)/../..
--VPATH =3D $(SRC_DIR)
--
--all:
--# Dummy command so that make thinks it has done something
--=09@true
--
--include ../../config-host.mak
--
--quiet-command =3D $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1=
-, @$1))
--cc-option =3D $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/nu=
-ll 2>&1 && echo OK), $1, $2)
--
--override CFLAGS +=3D $(filter -W%, $(QEMU_CFLAGS))
--override CFLAGS +=3D -ffreestanding -fno-delete-null-pointer-checks -msoft=
--float
--override CFLAGS +=3D -march=3Dz900 -fPIE -fno-strict-aliasing
--override CFLAGS +=3D -fno-asynchronous-unwind-tables
--override CFLAGS +=3D $(call cc-option, -fno-stack-protector)
--LDFLAGS +=3D -Wl,-pie -nostdlib
--
--OBJECTS =3D start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
--=09  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
--
--STRIP ?=3D strip
--
--$(OBJECTS): Makefile
--
--SLOF_DIR :=3D $(SRC_PATH)/roms/SLOF
--
--NETOBJS :=3D start.o sclp.o cio.o virtio.o virtio-net.o jump2ipl.o netmain=
-.o \
--=09   libnet.a libc.a
--
--LIBC_INC :=3D -nostdinc -I$(SLOF_DIR)/lib/libc/include
--LIBNET_INC :=3D -I$(SLOF_DIR)/lib/libnet
--
--$(NETOBJS): QEMU_CFLAGS +=3D $(LIBC_INC) $(LIBNET_INC)
--
--# libc files:
--
--LIBC_CFLAGS :=3D  $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC)
--
--CTYPE_OBJS =3D isdigit.o isxdigit.o toupper.o
--$(CTYPE_OBJS) : %.o : $(SLOF_DIR)/lib/libc/ctype/%.c
--=09$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DI=
-R)$@")
--
--STRING_OBJS =3D strcat.o strchr.o strrchr.o strcpy.o strlen.o strncpy.o \
--=09      strcmp.o strncmp.o strcasecmp.o strncasecmp.o strstr.o \
--=09      memset.o memcpy.o memmove.o memcmp.o
--$(STRING_OBJS) : %.o : $(SLOF_DIR)/lib/libc/string/%.c
--=09$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DI=
-R)$@")
--
--STDLIB_OBJS =3D atoi.o atol.o strtoul.o strtol.o rand.o malloc.o free.o
--$(STDLIB_OBJS) : %.o : $(SLOF_DIR)/lib/libc/stdlib/%.c
--=09$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DI=
-R)$@")
--
--STDIO_OBJS =3D sprintf.o snprintf.o vfprintf.o vsnprintf.o vsprintf.o fpri=
-ntf.o \
--=09     printf.o putc.o puts.o putchar.o stdchnls.o fileno.o
--$(STDIO_OBJS) : %.o : $(SLOF_DIR)/lib/libc/stdio/%.c
--=09$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DI=
-R)$@")
--
--sbrk.o: $(SLOF_DIR)/slof/sbrk.c
--=09$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DI=
-R)$@")
--
--LIBCOBJS :=3D $(STRING_OBJS) $(CTYPE_OBJS) $(STDLIB_OBJS) $(STDIO_OBJS) sb=
-rk.o
--
--libc.a: $(LIBCOBJS)
--=09$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
--
--# libnet files:
--
--LIBNETOBJS :=3D args.o dhcp.o dns.o icmpv6.o ipv6.o tcp.o udp.o bootp.o \
--=09      dhcpv6.o ethernet.o ipv4.o ndp.o tftp.o pxelinux.o
--LIBNETCFLAGS :=3D $(CFLAGS) -DDHCPARCH=3D0x1F $(LIBC_INC) $(LIBNET_INC)
--
--$(LIBNETOBJS) : %.o : $(SLOF_DIR)/lib/libnet/%.c
--=09$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,"CC","$(TARGET_D=
-IR)$@")
--
--libnet.a: $(LIBNETOBJS)
--=09$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
--
--%.elf:
--=09$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@=
-")
--
--%.img: %.elf
--=09$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARG=
-ET_DIR)$@")
--
--s390-ccw.elf: $(OBJECTS)
--s390-ccw.img: s390-ccw.elf
--all: s390-ccw.img
--
--ifneq ($(wildcard $(SLOF_DIR)/lib/libnet),)
--s390-netboot.elf: $(NETOBJS)
--s390-netboot.elf: LDFLAGS +=3D -Ttext=3D0x7800000
--
--s390-netboot.img: s390-netboot.elf
--all: s390-netboot.img
--endif
--
--clean:
--=09rm -f *.o *.d *.img *.elf *~ *.a
--
--.PHONY : all clean
-diff --git a/pc-bios/s390-ccw/meson.build b/pc-bios/s390-ccw/meson.build
-new file mode 100644
-index 0000000..a4e0e3b
---- /dev/null
-+++ b/pc-bios/s390-ccw/meson.build
-@@ -0,0 +1,175 @@
-+strip =3D find_program('strip')
-+cc =3D meson.get_compiler('c')
-+link_args =3D ['-Wl,-pie', '-nostdlib']
-+
-+# FIXME: find a better way to check/enable slof
-+slof =3D '../../roms/SLOF'
-+has_slof =3D cc.has_header('libnet/tftp.h', args: '-I' + meson.current_sou=
-rce_dir() / slof / 'lib')
-+
-+s390_cargs =3D [
-+  '-ffreestanding',
-+  '-fno-delete-null-pointer-checks',
-+  '-msoft-float',
-+  '-march=3Dz900',
-+  '-fPIE',
-+  '-fno-strict-aliasing',
-+  '-fno-asynchronous-unwind-tables',
-+  cc.get_supported_arguments('-fno-stack-protector')
-+]
-+
-+s390_incs =3D []
-+
-+s390_srcs =3D [
-+  'bootmap.c',
-+  'cio.c',
-+  'dasd-ipl.c',
-+  'jump2ipl.c',
-+  'libc.c',
-+  'main.c',
-+  'menu.c',
-+  'sclp.c',
-+  'start.S',
-+  'virtio-blkdev.c',
-+  'virtio-scsi.c',
-+  'virtio.c',
-+]
-+
-+if has_slof
-+  s390_srcs +=3D [
-+    'netmain.c',
-+    'virtio-net.c',
-+  ]
-+  s390_incs +=3D include_directories(slof / 'lib/libnet')
-+  s390_incs +=3D include_directories(slof / 'lib/libc/include')
-+  s390_cargs +=3D '-nostdinc'
-+endif
-+
-+s390_lib =3D static_library(
-+  's390', s390_srcs,
-+  c_args: s390_cargs,
-+  include_directories: s390_incs,
-+)
-+
-+s390_ccw_elf =3D executable(
-+  's390-ccw.elf',
-+  link_args: link_args,
-+  objects: s390_lib.extract_objects([
-+    'bootmap.c',
-+    'cio.c',
-+    'dasd-ipl.c',
-+    'jump2ipl.c',
-+    'libc.c',
-+    'main.c',
-+    'menu.c',
-+    'sclp.c',
-+    'start.S',
-+    'virtio-blkdev.c',
-+    'virtio-scsi.c',
-+    'virtio.c',
-+  ]),
-+)
-+
-+custom_target(
-+  's390-ccw.img',
-+  output: 's390-ccw.img',
-+  input: s390_ccw_elf,
-+  command: [strip, '--strip-unneeded', '@INPUT@', '-o', '@OUTPUT@'],
-+  build_by_default: true,
-+)
-+
-+if has_slof
-+  slof_ctype =3D slof / 'lib/libc/ctype'
-+  slof_str =3D slof / 'lib/libc/string'
-+  slof_stdlib =3D slof / 'lib/libc/stdlib'
-+  slof_stdio =3D slof / 'lib/libc/stdio'
-+
-+  s390_libc =3D static_library(
-+    's390-libc', files(
-+      slof_ctype / 'isdigit.c',
-+      slof_ctype / 'isxdigit.c',
-+      slof_ctype / 'toupper.c',
-+      slof_str / 'strcat.c',
-+      slof_str / 'strchr.c',
-+      slof_str / 'strrchr.c',
-+      slof_str / 'strcpy.c',
-+      slof_str / 'strlen.c',
-+      slof_str / 'strncpy.c',
-+      slof_str / 'strcmp.c',
-+      slof_str / 'strncmp.c',
-+      slof_str / 'strcasecmp.c',
-+      slof_str / 'strncasecmp.c',
-+      slof_str / 'strstr.c',
-+      slof_str / 'memset.c',
-+      slof_str / 'memcpy.c',
-+      slof_str / 'memmove.c',
-+      slof_str / 'memcmp.c',
-+      slof_stdlib / 'atoi.c',
-+      slof_stdlib / 'atol.c',
-+      slof_stdlib / 'strtoul.c',
-+      slof_stdlib / 'strtol.c',
-+      slof_stdlib / 'rand.c',
-+      slof_stdlib / 'malloc.c',
-+      slof_stdlib / 'free.c',
-+      slof_stdio / 'sprintf.c',
-+      slof_stdio / 'snprintf.c',
-+      slof_stdio / 'vfprintf.c',
-+      slof_stdio / 'vsnprintf.c',
-+      slof_stdio / 'vsprintf.c',
-+      slof_stdio / 'fprintf.c',
-+      slof_stdio / 'printf.c',
-+      slof_stdio / 'putc.c',
-+      slof_stdio / 'puts.c',
-+      slof_stdio / 'putchar.c',
-+      slof_stdio / 'stdchnls.c',
-+      slof_stdio / 'fileno.c',
-+      slof / 'slof/sbrk.c',
-+    ),
-+    c_args: s390_cargs,
-+    include_directories: s390_incs,
-+  )
-+
-+  slof_libnet =3D slof / 'lib/libnet'
-+  s390_libnet =3D static_library(
-+    's390-libnet', files(
-+      slof_libnet / 'args.c',
-+      slof_libnet / 'dhcp.c',
-+      slof_libnet / 'dns.c',
-+      slof_libnet / 'icmpv6.c',
-+      slof_libnet / 'ipv6.c',
-+      slof_libnet / 'tcp.c',
-+      slof_libnet / 'udp.c',
-+      slof_libnet / 'bootp.c',
-+      slof_libnet / 'dhcpv6.c',
-+      slof_libnet / 'ethernet.c',
-+      slof_libnet / 'ipv4.c',
-+      slof_libnet / 'ndp.c',
-+      slof_libnet / 'tftp.c',
-+      slof_libnet / 'pxelinux.c',
-+    ),
-+    c_args: [s390_cargs, '-DDHCPARCH=3D0x1F'],
-+    include_directories: s390_incs,
-+  )
-+
-+  s390_netboot_elf =3D executable(
-+    's390-netboot.elf',
-+    link_with: [s390_libc, s390_libnet],
-+    link_args: [link_args, '-Ttext=3D0x7800000'],
-+    objects: s390_lib.extract_objects([
-+      'cio.c',
-+      'jump2ipl.c',
-+      'netmain.c',
-+      'sclp.c',
-+      'start.S',
-+      'virtio-net.c',
-+      'virtio.c',
-+    ]),
-+  )
-+
-+  custom_target(
-+    's390-netboot.img',
-+    output: 's390-netboot.img',
-+    input: s390_netboot_elf,
-+    command: [strip, '--strip-unneeded', '@INPUT@', '-o', '@OUTPUT@'],
-+    build_by_default: true,
-+  )
-+endif
---=20
-1.8.3.1
+Denis could you rebase on latest master pls so I can apply?
 
+Thanks!
+
+> ---
+>  hw/block/virtio-blk.c           |  9 ++++++++-
+>  hw/core/machine.c               |  3 +++
+>  hw/scsi/vhost-scsi.c            |  2 ++
+>  hw/scsi/virtio-scsi.c           | 10 +++++++++-
+>  include/hw/virtio/virtio-blk.h  |  1 +
+>  include/hw/virtio/virtio-scsi.h |  1 +
+>  6 files changed, 24 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> index d62e6377c2..0f6f8113b7 100644
+> --- a/hw/block/virtio-blk.c
+> +++ b/hw/block/virtio-blk.c
+> @@ -908,7 +908,8 @@ static void virtio_blk_update_config(VirtIODevice *vd=
+ev, uint8_t *config)
+>      blk_get_geometry(s->blk, &capacity);
+>      memset(&blkcfg, 0, sizeof(blkcfg));
+>      virtio_stq_p(vdev, &blkcfg.capacity, capacity);
+> -    virtio_stl_p(vdev, &blkcfg.seg_max, 128 - 2);
+> +    virtio_stl_p(vdev, &blkcfg.seg_max,
+> +                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 -=
+ 2);
+>      virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
+>      virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
+>      virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size=
+);
+> @@ -1133,6 +1134,11 @@ static void virtio_blk_device_realize(DeviceState =
+*dev, Error **errp)
+>          error_setg(errp, "num-queues property must be larger than 0");
+>          return;
+>      }
+> +    if (conf->queue_size <=3D 2) {
+> +        error_setg(errp, "invalid queue-size property (%" PRIu16 "), "
+> +                   "must be > 2", conf->queue_size);
+> +        return;
+> +    }
+>      if (!is_power_of_2(conf->queue_size) ||
+>          conf->queue_size > VIRTQUEUE_MAX_SIZE) {
+>          error_setg(errp, "invalid queue-size property (%" PRIu16 "), "
+> @@ -1262,6 +1268,7 @@ static Property virtio_blk_properties[] =3D {
+>                      true),
+>      DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
+>      DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
+> +    DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust,=
+ true),
+>      DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHRE=
+AD,
+>                       IOThread *),
+>      DEFINE_PROP_BIT64("discard", VirtIOBlock, host_features,
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 023548b4f3..bfa320387e 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -29,6 +29,9 @@
+> =20
+>  GlobalProperty hw_compat_4_2[] =3D {
+>      { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
+> +    { "virtio-blk-device", "seg-max-adjust", "off"},
+> +    { "virtio-scsi-device", "seg_max_adjust", "off"},
+> +    { "vhost-blk-device", "seg_max_adjust", "off"},
+>  };
+>  const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
+> =20
+> diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
+> index c693fc748a..26f710d3ec 100644
+> --- a/hw/scsi/vhost-scsi.c
+> +++ b/hw/scsi/vhost-scsi.c
+> @@ -275,6 +275,8 @@ static Property vhost_scsi_properties[] =3D {
+>      DEFINE_PROP_UINT32("num_queues", VirtIOSCSICommon, conf.num_queues, =
+1),
+>      DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSICommon, conf.virtqueu=
+e_size,
+>                         128),
+> +    DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSICommon, conf.seg_max_ad=
+just,
+> +                      true),
+>      DEFINE_PROP_UINT32("max_sectors", VirtIOSCSICommon, conf.max_sectors=
+,
+>                         0xFFFF),
+>      DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSICommon, conf.cmd_per_lun=
+, 128),
+> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+> index e8b2b64d09..405cb6c953 100644
+> --- a/hw/scsi/virtio-scsi.c
+> +++ b/hw/scsi/virtio-scsi.c
+> @@ -654,7 +654,8 @@ static void virtio_scsi_get_config(VirtIODevice *vdev=
+,
+>      VirtIOSCSICommon *s =3D VIRTIO_SCSI_COMMON(vdev);
+> =20
+>      virtio_stl_p(vdev, &scsiconf->num_queues, s->conf.num_queues);
+> -    virtio_stl_p(vdev, &scsiconf->seg_max, 128 - 2);
+> +    virtio_stl_p(vdev, &scsiconf->seg_max,
+> +                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 : 1=
+28 - 2);
+>      virtio_stl_p(vdev, &scsiconf->max_sectors, s->conf.max_sectors);
+>      virtio_stl_p(vdev, &scsiconf->cmd_per_lun, s->conf.cmd_per_lun);
+>      virtio_stl_p(vdev, &scsiconf->event_info_size, sizeof(VirtIOSCSIEven=
+t));
+> @@ -893,6 +894,11 @@ void virtio_scsi_common_realize(DeviceState *dev,
+>          virtio_cleanup(vdev);
+>          return;
+>      }
+> +    if (s->conf.virtqueue_size <=3D 2) {
+> +        error_setg(errp, "invalid virtqueue_size property (=3D %" PRIu16=
+ "), "
+> +                   "must be > 2", s->conf.virtqueue_size);
+> +        return;
+> +    }
+>      s->cmd_vqs =3D g_new0(VirtQueue *, s->conf.num_queues);
+>      s->sense_size =3D VIRTIO_SCSI_SENSE_DEFAULT_SIZE;
+>      s->cdb_size =3D VIRTIO_SCSI_CDB_DEFAULT_SIZE;
+> @@ -949,6 +955,8 @@ static Property virtio_scsi_properties[] =3D {
+>      DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_que=
+ues, 1),
+>      DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
+>                                           parent_obj.conf.virtqueue_size,=
+ 128),
+> +    DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
+> +                      parent_obj.conf.seg_max_adjust, true),
+>      DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_se=
+ctors,
+>                                                    0xFFFF),
+>      DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSI, parent_obj.conf.cmd_pe=
+r_lun,
+> diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-bl=
+k.h
+> index 9c19f5b634..1e62f869b2 100644
+> --- a/include/hw/virtio/virtio-blk.h
+> +++ b/include/hw/virtio/virtio-blk.h
+> @@ -38,6 +38,7 @@ struct VirtIOBlkConf
+>      uint32_t request_merging;
+>      uint16_t num_queues;
+>      uint16_t queue_size;
+> +    bool seg_max_adjust;
+>      uint32_t max_discard_sectors;
+>      uint32_t max_write_zeroes_sectors;
+>      bool x_enable_wce_if_config_wce;
+> diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-s=
+csi.h
+> index 122f7c4b6f..24e768909d 100644
+> --- a/include/hw/virtio/virtio-scsi.h
+> +++ b/include/hw/virtio/virtio-scsi.h
+> @@ -48,6 +48,7 @@ typedef struct virtio_scsi_config VirtIOSCSIConfig;
+>  struct VirtIOSCSIConf {
+>      uint32_t num_queues;
+>      uint32_t virtqueue_size;
+> +    bool seg_max_adjust;
+>      uint32_t max_sectors;
+>      uint32_t cmd_per_lun;
+>  #ifdef CONFIG_VHOST_SCSI
+> --=20
+> 2.17.0
 
 
