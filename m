@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29965126CDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 20:07:14 +0100 (CET)
-Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73289126D16
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 20:08:44 +0100 (CET)
+Received: from localhost ([::1]:46884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii18j-0007cv-5j
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 14:07:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40084)
+	id 1ii1AB-0001Fy-Gg
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 14:08:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ii0tj-0007AO-JS
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:51:44 -0500
+ id 1ii0tn-0007Ib-5k
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:51:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ii0ti-0008BU-5L
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:51:43 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45868)
+ id 1ii0tl-00005z-T8
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:51:46 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45869)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ii0th-00085U-R3; Thu, 19 Dec 2019 13:51:42 -0500
-Received: by mail-wr1-x442.google.com with SMTP id j42so7020432wrj.12;
- Thu, 19 Dec 2019 10:51:41 -0800 (PST)
+ id 1ii0tl-0008Rd-H0; Thu, 19 Dec 2019 13:51:45 -0500
+Received: by mail-wr1-x442.google.com with SMTP id j42so7020594wrj.12;
+ Thu, 19 Dec 2019 10:51:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xqTqck0MunQzlvW3fvG1Eh5JVsO+310wsc6ir4XWOg8=;
- b=DbT48iy/7ZvB5pfzW11tJNj8wYlfwPabB00bOKJ0VQCM46ByzLZ4a49Xm0UmmMz/Gk
- BGzwYIr+W3WolPSvYe9MMm2oHybcm/jmi0jszdd7i557I3GQ8/ltFe9RruaamPmLfoT4
- 4K9qkxJazaD2em1FwLUI1ZgEiOG4Xr8mXmYLBhkIZwAX/ZGsvPCvMEa8vu6jWHGFP0PL
- O+xvyO5ZZTE8Hes37CPKCnSis217ZDk27eSmewXK8UAnA3FEL4qSTxfQfTJda/nPg9P8
- yaXQlotZOlEeiz77X81NBHRWjEV+39FKZ1wBvsb8kXvsvscMZ6XMp5zazNLXq+f9fbf2
- bY7A==
+ bh=qyhQROH0zglq4XFW1HtOmFf0aWLykn31mbrW4dYgWlw=;
+ b=i5YwH8bvSKpQxpoKJrLWZAqXtF9THcvR3lEO9kEGOQsJFg93pncnTmCvOGe+0LRMJI
+ VJNcEjLRMfudXXBAbr5e0GFY2tuLHKzM5A44Jve7P5OjusD5ul3eNGhz3vb+TZADDYmC
+ GAwl7ozdCO+amGeMBP604ChVmVJRjW3EGR/HBGTQLJVcrjr+06dNRXmAa5oNLt3MY80l
+ OYIZi/TW95hb5+pOXo4zTRoks3G7IUPkIkT7Oo2/9RynfzlEf6gZD1tYm4EdzG49Cod0
+ mqJdH1feN8TDjQ8vRZyJQT87WxD8135vpWsbOb8osGZOeK2IjFJoO+zaBjxF5XcN5JSH
+ +Bjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xqTqck0MunQzlvW3fvG1Eh5JVsO+310wsc6ir4XWOg8=;
- b=d2OQgjyq82a1PfZoGPtPp3E0PZoBd+NU15oX7Yxg0aKBoWwPbtEWxH/SLftSsNIUgf
- 3b/xdxUqhcjxrNtvWM857PcTeKAGtWoQJiZo9YlZzdE8h6RG/UbvZqN5sI98hpH8olDq
- Pq7wlLJ53QaneO4IhYMV0x9Q18EcgAfs+wyShfJTCOIKcP3et0zx9HuDs3QAEVF3Wrhu
- 7F7pwsO35d/6IPWU0KQ5Ho1QMSPxpJu1RQ8Zl3S9sOfBKUMrPqJRivaurVKhKA3dTAam
- oDw+J38GqZaspBh1xk25rPIeYgOgEV+BC3SrrH5jS3bZNpeSqzzf5KLLr828AufvYeFV
- qfLQ==
-X-Gm-Message-State: APjAAAUn3ZFZnEY+xycK7s/WBPyufXVtWZIsYIeVwJg8MlSFM+4NG6T6
- U9FTqCdIMIoVKWbC73/Gla6VDdQu
-X-Google-Smtp-Source: APXvYqx/VGHdVWsKIJFPURExgJ03KjIrRp4uQuR5eGkcfc5bbnhAU+9EE5LXjLtXy9fSJPgB7ME4Ig==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr11215374wrt.367.1576781500573; 
- Thu, 19 Dec 2019 10:51:40 -0800 (PST)
+ bh=qyhQROH0zglq4XFW1HtOmFf0aWLykn31mbrW4dYgWlw=;
+ b=Q6L3yPFW83z/JeKG5NkXpFEXrMD7UpMUQAG3fs8ZbqcrQ6NHlfyjvMRFooQmTReIKP
+ 3rk9diS17YzXubB/zGsTtzlc6+Tv0Ix3ebDKsxl0K1EG9RvaxyYLqRlOMOoOfdzoY22+
+ n/LJOK7bz8kRrEW2zbgkpiEnZA5BdV00qm40Xtrn10PMnZqEPILNjeG5G7CUCP3yBnh5
+ Es6MSuPgIqRzHHd5/txNkhxllIdIb/rIxPWNRQHo43IN1HEwx+VBEoh7ElFgyh9AwoRh
+ Oc8O2L04T5zAEUV7XJKc88fmimboHKztZ/Td190f3kxkQ2K83Z9Dh4toJdongtrSyZ+s
+ xH4Q==
+X-Gm-Message-State: APjAAAVH62bM50N9Cd9FyPHIbA6oItdYdRNX8Sj0K1WYjVgSuws0B0E8
+ y4uEUBEe7CAaCKX6sna36FD11G56
+X-Google-Smtp-Source: APXvYqwfViom5RRGMotWWzFz7ZtejLLvnO4yQepB8PTG9RICXrSIdBWCsQnRweCWjT0yyeFDztq8Pg==
+X-Received: by 2002:a5d:4807:: with SMTP id l7mr11320272wrq.64.1576781504198; 
+ Thu, 19 Dec 2019 10:51:44 -0800 (PST)
 Received: from x1w.redhat.com (34.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id b67sm7435494wmc.38.2019.12.19.10.51.39
+ by smtp.gmail.com with ESMTPSA id b67sm7435494wmc.38.2019.12.19.10.51.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 10:51:40 -0800 (PST)
+ Thu, 19 Dec 2019 10:51:43 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Niek Linnenbank <nieklinnenbank@gmail.com>
-Subject: [RFC PATCH 09/13] hw/timer/allwinner: Rename AwA10TimerContext as
- AllwinnerTmrState
-Date: Thu, 19 Dec 2019 19:51:23 +0100
-Message-Id: <20191219185127.24388-10-f4bug@amsat.org>
+Subject: [RFC PATCH 12/13] hw/timer/allwinner: Rename AW_A10_PIT() as
+ AW_TIMER_CTRL()
+Date: Thu, 19 Dec 2019 19:51:26 +0100
+Message-Id: <20191219185127.24388-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191219185127.24388-1-f4bug@amsat.org>
 References: <20191219185127.24388-1-f4bug@amsat.org>
@@ -89,91 +89,74 @@ Cc: Beniamino Galvani <b.galvani@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This structure will be common to various Allwinner timer
-controllers, rename it.
+This macro is now used by different Allwinner timer controllers,
+rename it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/timer/allwinner-a10-pit.h |  6 +++---
- hw/timer/allwinner-a10-pit.c         | 14 +++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ hw/timer/allwinner-a10-pit.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/timer/allwinner-a10-pit.h b/include/hw/timer/allwinner-a10-pit.h
-index 8c64c33f01..3a47633cc4 100644
---- a/include/hw/timer/allwinner-a10-pit.h
-+++ b/include/hw/timer/allwinner-a10-pit.h
-@@ -10,7 +10,7 @@
- 
- typedef struct AwA10PITState AwA10PITState;
- 
--typedef struct AwA10TimerContext {
-+typedef struct AllwinnerTmrState {
-     AwA10PITState *container;
-     int index;
-     ptimer_state *ptimer;
-@@ -18,14 +18,14 @@ typedef struct AwA10TimerContext {
-     uint32_t control;
-     uint32_t interval;
-     uint32_t count;
--} AwA10TimerContext;
-+} AllwinnerTmrState;
- 
- struct AwA10PITState {
-     /*< private >*/
-     SysBusDevice parent_obj;
-     /*< public >*/
-     size_t timer_count;
--    AwA10TimerContext timer[AW_PIT_TIMER_MAX];
-+    AllwinnerTmrState timer[AW_PIT_TIMER_MAX];
-     MemoryRegion iomem;
-     uint32_t clk_freq[4];
- 
 diff --git a/hw/timer/allwinner-a10-pit.c b/hw/timer/allwinner-a10-pit.c
-index 3f47588703..ecfc198937 100644
+index ad409b96a1..7413f046cc 100644
 --- a/hw/timer/allwinner-a10-pit.c
 +++ b/hw/timer/allwinner-a10-pit.c
-@@ -234,10 +234,10 @@ static const VMStateDescription vmstate_aw_timer = {
-     .version_id = 0,
-     .minimum_version_id = 0,
-     .fields = (VMStateField[]) {
--        VMSTATE_UINT32(control, AwA10TimerContext),
--        VMSTATE_UINT32(interval, AwA10TimerContext),
--        VMSTATE_UINT32(count, AwA10TimerContext),
--        VMSTATE_PTIMER(ptimer, AwA10TimerContext),
-+        VMSTATE_UINT32(control, AllwinnerTmrState),
-+        VMSTATE_UINT32(interval, AllwinnerTmrState),
-+        VMSTATE_UINT32(count, AllwinnerTmrState),
-+        VMSTATE_PTIMER(ptimer, AllwinnerTmrState),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -252,7 +252,7 @@ static const VMStateDescription vmstate_a10_pit = {
-         VMSTATE_STRUCT_ARRAY(timer, AwA10PITState,
-                              AW_PIT_TIMER_MAX,
-                              0, vmstate_aw_timer,
--                             AwA10TimerContext),
-+                             AllwinnerTmrState),
-         VMSTATE_UINT32(watch_dog_mode, AwA10PITState),
-         VMSTATE_UINT32(watch_dog_control, AwA10PITState),
-         VMSTATE_UINT32(count_lo, AwA10PITState),
-@@ -289,7 +289,7 @@ static void a10_pit_reset(DeviceState *dev)
+@@ -51,8 +51,8 @@
  
- static void a10_pit_timer_cb(void *opaque)
+ #define AW_A10_PIT_DEFAULT_CLOCK    0x4
+ 
+-#define AW_A10_PIT(obj) \
+-    OBJECT_CHECK(AllwinnerTmrCtrlState, (obj), TYPE_AW_A10_PIT)
++#define AW_TIMER_CTRL(obj) \
++    OBJECT_CHECK(AllwinnerTmrCtrlState, (obj), TYPE_AW_COMMON_PIT)
+ 
+ typedef struct AllwinnerTmrCtrlClass {
+     /*< private >*/
+@@ -80,7 +80,7 @@ static void a10_pit_update_irq(AllwinnerTmrCtrlState *s)
+ 
+ static uint64_t a10_pit_read(void *opaque, hwaddr offset, unsigned size)
  {
--    AwA10TimerContext *tc = opaque;
-+    AllwinnerTmrState *tc = opaque;
-     AwA10PITState *s = tc->container;
-     uint8_t i = tc->index;
+-    AllwinnerTmrCtrlState *s = AW_A10_PIT(opaque);
++    AllwinnerTmrCtrlState *s = AW_TIMER_CTRL(opaque);
+     uint8_t index;
  
-@@ -319,7 +319,7 @@ static void a10_pit_init(Object *obj)
+     switch (offset) {
+@@ -144,7 +144,7 @@ static void a10_pit_set_freq(AllwinnerTmrCtrlState *s, int index)
+ static void a10_pit_write(void *opaque, hwaddr offset, uint64_t value,
+                             unsigned size)
+ {
+-     AllwinnerTmrCtrlState *s = AW_A10_PIT(opaque);
++     AllwinnerTmrCtrlState *s = AW_TIMER_CTRL(opaque);
+      uint8_t index;
+ 
+     switch (offset) {
+@@ -278,7 +278,7 @@ static const VMStateDescription vmstate_a10_pit = {
+ 
+ static void a10_pit_reset(DeviceState *dev)
+ {
+-    AllwinnerTmrCtrlState *s = AW_A10_PIT(dev);
++    AllwinnerTmrCtrlState *s = AW_TIMER_CTRL(dev);
+     uint8_t i;
+ 
+     s->irq_enable = 0;
+@@ -319,7 +319,7 @@ static void a10_pit_timer_cb(void *opaque)
+ 
+ static void aw_pit_instance_init(Object *obj)
+ {
+-    AllwinnerTmrCtrlState *s = AW_A10_PIT(obj);
++    AllwinnerTmrCtrlState *s = AW_TIMER_CTRL(obj);
+     AllwinnerTmrCtrlClass *c = AW_TIMER_GET_CLASS(s);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+     uint8_t i;
+@@ -330,7 +330,7 @@ static void aw_pit_instance_init(Object *obj)
+         sysbus_init_irq(sbd, &s->timer[i].irq);
+     }
+     memory_region_init_io(&s->iomem, OBJECT(s), &a10_pit_ops, s,
+-                          TYPE_AW_A10_PIT, c->region_size);
++                          TYPE_AW_COMMON_PIT, c->region_size);
      sysbus_init_mmio(sbd, &s->iomem);
  
      for (i = 0; i < s->timer_count; i++) {
--        AwA10TimerContext *tc = &s->timer[i];
-+        AllwinnerTmrState *tc = &s->timer[i];
- 
-         tc->container = s;
-         tc->index = i;
 -- 
 2.21.0
 
