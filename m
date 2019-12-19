@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C7E1262D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:04:32 +0100 (CET)
-Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0C4126352
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:20:25 +0100 (CET)
+Received: from localhost ([::1]:41208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvTj-0000t6-0S
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:04:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47099)
+	id 1ihvj6-0004vj-4s
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:20:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34299)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nirsof@gmail.com>) id 1ihvHa-0002ka-Jd
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:51:59 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ihvK0-0006ff-Ui
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:54:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nirsof@gmail.com>) id 1ihvHZ-0008Oo-3E
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:51:58 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43795)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ihvJz-0002kJ-FP
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:54:28 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44990)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nirsof@gmail.com>)
- id 1ihvHY-0008FD-NX; Thu, 19 Dec 2019 07:51:56 -0500
-Received: by mail-wr1-x441.google.com with SMTP id d16so5837482wre.10;
- Thu, 19 Dec 2019 04:51:56 -0800 (PST)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ihvJz-0002eg-5H
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:54:27 -0500
+Received: by mail-wr1-x444.google.com with SMTP id q10so5853959wrm.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 04:54:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mJYRaB+zXX5eueh7N2Sh8nJY2+XkOOgPVXg9m3dGKP8=;
- b=AlXyv9M1OgC/F8VAPj6chtsFmQFfuxmW8t0+9EKvEZc40ZoG3SvCraYJKF51AwRip4
- /qC6uxrnskkBCLpDKpxKnOkrGqvq3JK6xPF7F3JI6wskVp/3XbjFDqbYqNppWJXB7icT
- K9BC92mgu06MCpt4EWSC3jrFEt24Wbuh1knTghaNI7jQtQlOfjDeCkUX9ICbn3RJxrgR
- INSjoIPOmX8UtP0TRoxjNTYvGkkp28qV2thQ9IrE+jrpfPoVfUtLS5Ei/iE6ONo4kVyM
- cJ8tTGPmMt176zFYPbUwDt7lcPUaPPwWPMvnhdAwhiUiGzoFyuGRBnV+zNT3jDaIX3Ad
- EuAQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=574+0hMfTGTneBk5ZMCU2i5zduKJQvEXlGD9zX/SOEQ=;
+ b=sxjJNQvJ/7Jf3HM5iKke/cvkaOjMvh/9xoxvUIc+7bB25O9gunTl1ejbrbfTUEDKx/
+ 2Lwg9vgEGvr3E5AY1rHQcDVv+8SdLN1EXCAU84YqZQzOKbMFkWhv0pAQssJgKNe6I7JA
+ /nfdaB3cE4jgym+ojGQTjuYOIlJWeOTuX4PR6NB75Jw3XFt9iOIa05GrmDVRQUT3bxSy
+ uUvCG9bmqNar2NtddxmR9gvqNGHVPu82b0r75Y5yu0OB3tiwbm9/NGXTMaPYjkXueqn2
+ nidAIIlp4QlkjVvK/B78qu5+bZZYEpHq1AEa72MJoHJ9u1NCNtCxEmBUUetJR04lu1Jm
+ E3OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mJYRaB+zXX5eueh7N2Sh8nJY2+XkOOgPVXg9m3dGKP8=;
- b=KfRv4obpbnUzbDIUhTa8e9SHcfurt6+nawqQTa/rgUbKojQ6bLPhudfb4j1jPiAuCR
- r6ZpjrpHv+UUNlVV9lCAL9SdkE3/8hmtbuVR1jxtW6t8fSAENN13xxznoQxyOS7UmOmY
- YzbVQHHY2YUoIQr6pEq5Gmc6euxA/dR0Qo17Mdpd5HZp+q8ZhkwIikgrvbDVYrjD680N
- JWh2Yf76bJc/RclymEgHtptSooXShMxScDAJrHU7r+JEhsUsT1flL0E9sdnhZpHbYzbU
- /GJHIt0unDK86j97yMIGXh3BEW4Y4Fi9qf5zUEuOHkfNXU8XUwjcJqUhP+qikos6w3ev
- 3Cdg==
-X-Gm-Message-State: APjAAAWErmQCOqSRlHxQtaE8mgYWM7rQ0ImJwglMGGpOCwcOMdgqO0Px
- xRgBu6qua/+aAsiw44b2Agt4utaz
-X-Google-Smtp-Source: APXvYqzinrpi6iA2CvgidZwVtKV6Ssg3m+QtLJRUNFLseRiawl+JAB0e3oHFjZFZUn24lz62uSW1cQ==
-X-Received: by 2002:a05:6000:118e:: with SMTP id
- g14mr9244602wrx.39.1576759914512; 
- Thu, 19 Dec 2019 04:51:54 -0800 (PST)
-Received: from sparse-local.redhat.com (93-173-2-23.bb.netvision.net.il.
- [93.173.2.23])
- by smtp.gmail.com with ESMTPSA id s65sm6207905wmf.48.2019.12.19.04.51.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 04:51:53 -0800 (PST)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block: nbd: Fix dirty bitmap context name
-Date: Thu, 19 Dec 2019 14:51:51 +0200
-Message-Id: <20191219125151.21482-1-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=574+0hMfTGTneBk5ZMCU2i5zduKJQvEXlGD9zX/SOEQ=;
+ b=BR0LwicA5nTeyD3rlo1xlaBPl/3yDZgfTb8UPF+afZ9VeIWaLm3RtWATFFF4eSbG9U
+ 0nRibOskJtTzcbP2PW96b5x4Qk7dxvryaFE1pDv4ETMesYbbkq0fnQKcsTxQSfoMI2Pn
+ 1rof9vq5irKqdpWIACvfOpy99OtWhHj+lQZ365Sx6At62Iq/VDapZLSMRNjuVUbQhDFy
+ dsWHF8+4Mj1QzbCSGP+xkFavST9r9papLoTgvxYOeiVnq2MhmIhyslBH5j0/NPWmMBcU
+ DaPCUAmxq/fFMP327PtQmUzzGnsiz59vW0w7NTv07PaO60Qf11tuV0xKJ+aiueBF+mQY
+ 22Lw==
+X-Gm-Message-State: APjAAAVE95Z0GPbXFNsh4azMibJwl5auffE7CH+heQknYI94S+ctx65m
+ heXLvUFQFqL9AhKduxV0DOw8UawsXBKS/xxv+9YuEq0M
+X-Google-Smtp-Source: APXvYqwYpHkzCSQZ6vcqzCML7oGjYUbA2eN/0DZ/8XIAbwegOLc3UoUFCPDw3gl1HH4G0YIngEM7bUoF9KnTm0tMoUk=
+X-Received: by 2002:adf:f10a:: with SMTP id r10mr9301585wro.202.1576760065894; 
+ Thu, 19 Dec 2019 04:54:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191211134506.1803403-1-marcandre.lureau@redhat.com>
+ <20191211134506.1803403-7-marcandre.lureau@redhat.com>
+ <20191212120520.GJ1829331@redhat.com>
+In-Reply-To: <20191212120520.GJ1829331@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 19 Dec 2019 16:54:12 +0400
+Message-ID: <CAJ+F1C+rPfZ76-=XtUB5GBEVFE931+G286XA6M4K2J5zOZgaAg@mail.gmail.com>
+Subject: Re: [PATCH v6 6/8] configure: add GDBUS_CODEGEN
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,133 +75,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When adding an export with a dirty bitmap, expose the bitmap at:
+Hi
 
-    qemu:dirty-bitmap:export-name
+On Thu, Dec 12, 2019 at 4:05 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Wed, Dec 11, 2019 at 05:45:04PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> > gdbus-codegen generated code requires gio-unix on Unix, so add it to
+> > GIO libs/cflags.
+>
+> What is the situation on Windows, is it still supported ?
 
-This matches qapi documentation, and user expectations.
+Yes, it should build fine. Only fd-passing related code is missing.
 
-Without this, qemu leaks libvirt implementations details to clients by
-exposing the bitmap using the actual bitmap name:
+>
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  configure | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/configure b/configure
+> > index 6099be1d84..68a7705df7 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -3720,10 +3720,16 @@ if $pkg_config --atleast-version=3D$glib_req_ve=
+r gio-2.0; then
+> >      gio=3Dyes
+> >      gio_cflags=3D$($pkg_config --cflags gio-2.0)
+> >      gio_libs=3D$($pkg_config --libs gio-2.0)
+> > +    gdbus_codegen=3D$($pkg_config --variable=3Dgdbus_codegen gio-2.0)
+> >  else
+> >      gio=3Dno
+> >  fi
+> >
+> > +if $pkg_config --atleast-version=3D$glib_req_ver gio-unix-2.0; then
+> > +    gio_cflags=3D"$gio_cflags $($pkg_config --cflags gio-unix-2.0)"
+> > +    gio_libs=3D"$gio_libs $($pkg_config --libs gio-unix-2.0)"
+> > +fi
+> > +
+> >  # Sanity check that the current size_t matches the
+> >  # size that glib thinks it should be. This catches
+> >  # problems on multi-arch where people try to build
+> > @@ -6949,6 +6955,7 @@ if test "$gio" =3D "yes" ; then
+> >      echo "CONFIG_GIO=3Dy" >> $config_host_mak
+> >      echo "GIO_CFLAGS=3D$gio_cflags" >> $config_host_mak
+> >      echo "GIO_LIBS=3D$gio_libs" >> $config_host_mak
+> > +    echo "GDBUS_CODEGEN=3D$gdbus_codegen" >> $config_host_mak
+> >  fi
+> >  echo "CONFIG_TLS_PRIORITY=3D\"$tls_priority\"" >> $config_host_mak
+> >  if test "$gnutls" =3D "yes" ; then
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+>
 
-    qemu:dirty-bitmap:bitmap-name
 
-And all clients need to duplicate code like:
-
-    meta_context = "qemu:dirty-bitmap:backup-" + export_name
-
-NBD allows exposing multiple bitmaps under "qemu:dirty-bitmap:"
-namespace, and clients can query the available bitmaps, but it is not
-clear what a client should do if a server provides multiple bitmaps.
----
- nbd/server.c               |  2 +-
- tests/qemu-iotests/223     | 16 ++++++++--------
- tests/qemu-iotests/223.out |  8 ++++----
- 3 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/nbd/server.c b/nbd/server.c
-index 24ebc1a805..f20f2994c0 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1574,7 +1574,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-         exp->export_bitmap = bm;
-         assert(strlen(bitmap) <= BDRV_BITMAP_MAX_NAME_SIZE);
-         exp->export_bitmap_context = g_strdup_printf("qemu:dirty-bitmap:%s",
--                                                     bitmap);
-+                                                     name);
-         assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SIZE);
-     }
- 
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index ea69cd4b8b..3068a7c280 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -167,7 +167,7 @@ $QEMU_IO -r -c 'r -P 0x22 512 512' -c 'r -P 0 512k 512k' -c 'r -P 0x11 1m 1m' \
- $QEMU_IMG map --output=json --image-opts \
-   "$IMG" | _filter_qemu_img_map
- $QEMU_IMG map --output=json --image-opts \
--  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b" | _filter_qemu_img_map
-+  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:n" | _filter_qemu_img_map
- 
- echo
- echo "=== Contrast to small granularity dirty-bitmap ==="
-@@ -175,7 +175,7 @@ echo
- 
- IMG="driver=nbd,export=n2,server.type=unix,server.path=$SOCK_DIR/nbd"
- $QEMU_IMG map --output=json --image-opts \
--  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
-+  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:n2" | _filter_qemu_img_map
- 
- echo
- echo "=== End qemu NBD server ==="
-@@ -199,15 +199,15 @@ echo
- echo "=== Use qemu-nbd as server ==="
- echo
- 
--nbd_server_start_unix_socket -r -f $IMGFMT -B b "$TEST_IMG"
--IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
-+nbd_server_start_unix_socket -r -f $IMGFMT -x n -B b "$TEST_IMG"
-+IMG="driver=nbd,export=n,server.type=unix,server.path=$nbd_unix_socket"
- $QEMU_IMG map --output=json --image-opts \
--  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b" | _filter_qemu_img_map
-+  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:n" | _filter_qemu_img_map
- 
--nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
--IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
-+nbd_server_start_unix_socket -f $IMGFMT -x n -B b2 "$TEST_IMG"
-+IMG="driver=nbd,export=n,server.type=unix,server.path=$nbd_unix_socket"
- $QEMU_IMG map --output=json --image-opts \
--  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
-+  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:n" | _filter_qemu_img_map
- 
- # success, all done
- echo '*** done'
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index f175598802..9f879add60 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -61,7 +61,7 @@ exports available: 2
-   max block: 33554432
-   available meta contexts: 2
-    base:allocation
--   qemu:dirty-bitmap:b
-+   qemu:dirty-bitmap:n
-  export: 'n2'
-   size:  4194304
-   flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-@@ -70,7 +70,7 @@ exports available: 2
-   max block: 33554432
-   available meta contexts: 2
-    base:allocation
--   qemu:dirty-bitmap:b2
-+   qemu:dirty-bitmap:n2
- 
- === Contrast normal status to large granularity dirty-bitmap ===
- 
-@@ -141,7 +141,7 @@ exports available: 2
-   max block: 33554432
-   available meta contexts: 2
-    base:allocation
--   qemu:dirty-bitmap:b
-+   qemu:dirty-bitmap:n
-  export: 'n2'
-   size:  4194304
-   flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-@@ -150,7 +150,7 @@ exports available: 2
-   max block: 33554432
-   available meta contexts: 2
-    base:allocation
--   qemu:dirty-bitmap:b2
-+   qemu:dirty-bitmap:n2
- 
- === Contrast normal status to large granularity dirty-bitmap ===
- 
--- 
-2.21.0
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
