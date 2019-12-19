@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4908E125D01
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 09:53:04 +0100 (CET)
-Received: from localhost ([::1]:37382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77553125D07
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 09:54:24 +0100 (CET)
+Received: from localhost ([::1]:37406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihrYM-0000Ag-EU
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 03:53:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36621)
+	id 1ihrZf-0002Vk-DF
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 03:54:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWk-000726-8u
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWj-00071B-Re
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 03:51:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWi-00051M-NN
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 03:51:22 -0500
-Received: from relay.sw.ru ([185.231.240.75]:55358)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihrWi-00050Y-HY
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 03:51:21 -0500
+Received: from relay.sw.ru ([185.231.240.75]:55346)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihrWf-0004Xm-6B; Thu, 19 Dec 2019 03:51:17 -0500
+ id 1ihrWf-0004Xj-67; Thu, 19 Dec 2019 03:51:17 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihrWU-0004DF-AF; Thu, 19 Dec 2019 11:51:06 +0300
+ id 1ihrWU-0004DF-KO; Thu, 19 Dec 2019 11:51:06 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 0/5] fix migration with bitmaps and mirror
-Date: Thu, 19 Dec 2019 11:51:01 +0300
-Message-Id: <20191219085106.22309-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 1/5] block: Mark commit and mirror as filter drivers
+Date: Thu, 19 Dec 2019 11:51:02 +0300
+Message-Id: <20191219085106.22309-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191219085106.22309-1-vsementsov@virtuozzo.com>
+References: <20191219085106.22309-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
@@ -51,41 +53,65 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+From: Max Reitz <mreitz@redhat.com>
 
-It's a continuation for
-"bitmap migration bug with -drive while block mirror runs"
-<315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg07241.html
+The commit and mirror block nodes are filters, so they should be marked
+as such.
 
-The problem is that bitmaps migrated to node with same node-name or
-blk-parent name. And currently only the latter actually work in libvirt.
-And with mirror-top filter it doesn't work, because
-bdrv_get_device_or_node_name don't go through filters.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+   [squash comment fix from another Max's patch and adjust commit msg]
+---
+ include/block/block_int.h | 8 +++++---
+ block/commit.c            | 2 ++
+ block/mirror.c            | 2 ++
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
-Fix this by handling filtered children of block backends in separate.
-
-v2: rebase on current master
-
-Max Reitz (1):
-  block: Mark commit and mirror as filter drivers
-
-Vladimir Sementsov-Ogievskiy (4):
-  migretion/block-dirty-bitmap: refactor init_dirty_bitmap_migration
-  block/dirty-bitmap: add bdrv_has_named_bitmaps helper
-  migration/block-dirty-bitmap: fix bitmaps migration during mirror job
-  iotests: 194: test also migration of dirty bitmap
-
- include/block/block_int.h      |   8 ++-
- include/block/dirty-bitmap.h   |   1 +
- block/commit.c                 |   2 +
- block/dirty-bitmap.c           |  13 ++++
- block/mirror.c                 |   2 +
- migration/block-dirty-bitmap.c | 114 +++++++++++++++++++++++----------
- tests/qemu-iotests/194         |  14 ++--
- tests/qemu-iotests/194.out     |   6 ++
- 8 files changed, 119 insertions(+), 41 deletions(-)
-
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index dd033d0b37..964ce58481 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -89,9 +89,11 @@ struct BlockDriver {
+     int instance_size;
+ 
+     /* set to true if the BlockDriver is a block filter. Block filters pass
+-     * certain callbacks that refer to data (see block.c) to their bs->file if
+-     * the driver doesn't implement them. Drivers that do not wish to forward
+-     * must implement them and return -ENOTSUP.
++     * certain callbacks that refer to data (see block.c) to their bs->file
++     * or bs->backing (whichever one exists) if the driver doesn't implement
++     * them. Drivers that do not wish to forward must implement them and return
++     * -ENOTSUP.
++     * Note that filters are not allowed to modify data.
+      */
+     bool is_filter;
+     /* for snapshots block filter like Quorum can implement the
+diff --git a/block/commit.c b/block/commit.c
+index 23c90b3b91..9b455c4285 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -253,6 +253,8 @@ static BlockDriver bdrv_commit_top = {
+     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
+     .bdrv_refresh_filename      = bdrv_commit_top_refresh_filename,
+     .bdrv_child_perm            = bdrv_commit_top_child_perm,
++
++    .is_filter                  = true,
+ };
+ 
+ void commit_start(const char *job_id, BlockDriverState *bs,
+diff --git a/block/mirror.c b/block/mirror.c
+index f0f2d9dff1..8cbbe1e065 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1505,6 +1505,8 @@ static BlockDriver bdrv_mirror_top = {
+     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
+     .bdrv_refresh_filename      = bdrv_mirror_top_refresh_filename,
+     .bdrv_child_perm            = bdrv_mirror_top_child_perm,
++
++    .is_filter                  = true,
+ };
+ 
+ static BlockJob *mirror_start_job(
 -- 
 2.21.0
 
