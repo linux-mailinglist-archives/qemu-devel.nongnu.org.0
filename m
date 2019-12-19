@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DC71264FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:41:12 +0100 (CET)
-Received: from localhost ([::1]:42894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663FD12651B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:45:57 +0100 (CET)
+Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwzG-000787-NR
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:41:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56286)
+	id 1ihx3r-0005fG-UP
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:45:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ihwwn-0004Xj-IC
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:39 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ihwwp-0004aX-9A
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ihwwl-0004l6-DB
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:37 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25894
+ (envelope-from <mreitz@redhat.com>) id 1ihwwn-0004yD-Pm
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40371
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwwl-0004iM-7N
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:35 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwwn-0004uk-IL
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576766314;
+ s=mimecast20190719; t=1576766317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=coegx/pIA0zy5+KREfWxNhE3iKutdC0/rC+UH09VWA0=;
- b=LUBPku5uOXK8L1K5ygrO2VMcKlwqU8vckkxb4EKVbPPbtL8ZxtHEaAoN+NiDet+xQo/xdZ
- Cl1bWITn6XbTjcg8lleu7MU12YuMODPW+wTwzE2rOU5d38yE71o5sf8dVmx4PEXLiKInGY
- uA29aGpaTNcqgw0oqvRO8gWtjH037TA=
+ bh=xPZWJr8c0vzG4cTx41oq/Hlj8AqoZ0t1ftb+p2sG3LI=;
+ b=L0Yx7tjsvlAvOPjw712HCfr/ZCHC97qtp7aI1BpLf1Q7nxHxowuThTdDihcLq+zWyv+cH7
+ 2DWBE0BOYMrh/csJgZpEhmCplJdLOcxybn9lHWulfgR89nLQqB1S/RCEEjVJZ8Xm8rsZdV
+ RxBs07ri4VWbDlC4jGfNCAGyyqe5xJs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-fgkZZZZoNr6opmvUjBAxAw-1; Thu, 19 Dec 2019 09:38:31 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-368-HjcTPbstMQa5GTPxse1f5w-1; Thu, 19 Dec 2019 09:38:35 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F84B800D5A;
- Thu, 19 Dec 2019 14:38:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC818801E72;
+ Thu, 19 Dec 2019 14:38:34 +0000 (UTC)
 Received: from localhost (ovpn-205-138.brq.redhat.com [10.40.205.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04DB25DE52;
- Thu, 19 Dec 2019 14:38:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 472BF7574A;
+ Thu, 19 Dec 2019 14:38:32 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 02/18] fuse: Allow exporting BDSs via FUSE
-Date: Thu, 19 Dec 2019 15:38:02 +0100
-Message-Id: <20191219143818.1646168-3-mreitz@redhat.com>
+Subject: [PATCH 03/18] fuse: Implement standard FUSE operations
+Date: Thu, 19 Dec 2019 15:38:03 +0100
+Message-Id: <20191219143818.1646168-4-mreitz@redhat.com>
 In-Reply-To: <20191219143818.1646168-1-mreitz@redhat.com>
 References: <20191219143818.1646168-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: fgkZZZZoNr6opmvUjBAxAw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: HjcTPbstMQa5GTPxse1f5w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,406 +75,261 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fuse-export-add allows mounting block graph nodes via FUSE on some
-existing regular file.  That file should then appears like a raw disk
-image, and accesses to it result in accesses to the exported BDS.
-
-Right now, we only set up the mount point and tear all mount points down
-in bdrv_close_all().  We do not implement any access functions, so
-accessing the mount point only results in errors.  This will be
-addressed by a followup patch.
-
-The set of exported nodes is kept in a hash table so we can later add a
-fuse-export-remove that allows unmounting.
+This makes the export actually useful instead of only producing errors
+whenever it is accessed.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c              |   4 +
- block/Makefile.objs  |   3 +
- block/fuse.c         | 260 +++++++++++++++++++++++++++++++++++++++++++
- include/block/fuse.h |  24 ++++
- qapi/block.json      |  23 ++++
- 5 files changed, 314 insertions(+)
- create mode 100644 block/fuse.c
- create mode 100644 include/block/fuse.h
+ block/fuse.c | 222 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 222 insertions(+)
 
-diff --git a/block.c b/block.c
-index c390ec6461..887c0b105e 100644
---- a/block.c
-+++ b/block.c
-@@ -26,6 +26,7 @@
- #include "block/trace.h"
- #include "block/block_int.h"
- #include "block/blockjob.h"
-+#include "block/fuse.h"
- #include "block/nbd.h"
- #include "block/qdict.h"
- #include "qemu/error-report.h"
-@@ -4077,6 +4078,9 @@ void bdrv_close_all(void)
- {
-     assert(job_next(NULL) =3D=3D NULL);
-     nbd_export_close_all();
-+#ifdef CONFIG_FUSE
-+    fuse_export_close_all();
-+#endif
-=20
-     /* Drop references from requests still in flight, such as canceled blo=
-ck
-      * jobs whose AIO context has not been polled yet */
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index e394fe0b6c..b02846a6e7 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -43,6 +43,7 @@ block-obj-y +=3D crypto.o
-=20
- block-obj-y +=3D aio_task.o
- block-obj-y +=3D backup-top.o
-+block-obj-$(CONFIG_FUSE) +=3D fuse.o
-=20
- common-obj-y +=3D stream.o
-=20
-@@ -67,3 +68,5 @@ qcow.o-libs        :=3D -lz
- linux-aio.o-libs   :=3D -laio
- parallels.o-cflags :=3D $(LIBXML2_CFLAGS)
- parallels.o-libs   :=3D $(LIBXML2_LIBS)
-+fuse.o-cflags      :=3D $(FUSE_CFLAGS)
-+fuse.o-libs        :=3D $(FUSE_LIBS)
 diff --git a/block/fuse.c b/block/fuse.c
-new file mode 100644
-index 0000000000..3a22579dca
---- /dev/null
+index 3a22579dca..f18e8e7591 100644
+--- a/block/fuse.c
 +++ b/block/fuse.c
-@@ -0,0 +1,260 @@
-+/*
-+ * Present a block device as a raw image through FUSE
-+ *
-+ * Copyright (c) 2019 Max Reitz <mreitz@redhat.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; under version 2 or later of the License.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
+@@ -31,6 +31,10 @@
+ #include <fuse_lowlevel.h>
+=20
+=20
++/* Prevent overly long bounce buffer allocations */
++#define FUSE_MAX_BOUNCE_BYTES (MIN(BDRV_REQUEST_MAX_BYTES, 64 * 1024 * 102=
+4))
++
++
+ typedef struct BdrvFuseSession {
+     struct fuse_session *fuse_session;
+     struct fuse_buf fuse_buf;
+@@ -256,5 +260,223 @@ static bool is_regular_file(const char *path, Error *=
+*errp)
+     return true;
+ }
+=20
++
++/**
++ * Let clients look up files.  Always return ENOENT because we only
++ * care about the mountpoint itself.
 + */
-+
-+#define FUSE_USE_VERSION 31
-+
-+#include "qemu/osdep.h"
-+#include "block/aio.h"
-+#include "block/block.h"
-+#include "block/fuse.h"
-+#include "block/qapi.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-block.h"
-+#include "sysemu/block-backend.h"
-+
-+#include <fuse.h>
-+#include <fuse_lowlevel.h>
-+
-+
-+typedef struct BdrvFuseSession {
-+    struct fuse_session *fuse_session;
-+    struct fuse_buf fuse_buf;
-+    BlockBackend *blk;
-+    uint64_t perm, shared_perm;
-+    bool mounted, fd_handler_set_up;
-+    bool writable;
-+} BdrvFuseSession;
-+
-+static GHashTable *sessions;
-+static const struct fuse_lowlevel_ops fuse_ops;
-+
-+static void init_fuse(void);
-+static int setup_fuse_session(BdrvFuseSession *session, const char *mountp=
-oint,
-+                              Error **errp);
-+static void read_from_fuse_session(void *opaque);
-+static void close_fuse_session(BdrvFuseSession *session);
-+static void drop_fuse_session_from_hash_table(gpointer value);
-+
-+static bool is_regular_file(const char *path, Error **errp);
-+
-+
-+void qmp_fuse_export_add(const char *node_name, const char *mountpoint,
-+                         bool has_writable, bool writable,
-+                         Error **errp)
++static void fuse_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
+e)
 +{
-+    BlockDriverState *bs;
-+    BdrvFuseSession *session =3D NULL;
-+
-+    if (!has_writable) {
-+        writable =3D false;
-+    }
-+
-+    init_fuse();
-+
-+    /*
-+     * It is important to do this check before calling is_regular_file() -=
--
-+     * that function will do a stat(), which we would have to handle if we
-+     * already exported something on @mountpoint.  But we cannot, because
-+     * we are currently caught up here.
-+     */
-+    if (g_hash_table_contains(sessions, mountpoint)) {
-+        error_setg(errp, "There already is a FUSE export on '%s'", mountpo=
-int);
-+        goto fail;
-+    }
-+
-+    if (!is_regular_file(mountpoint, errp)) {
-+        goto fail;
-+    }
-+
-+    bs =3D bdrv_find_node(node_name);
-+    if (!bs) {
-+        error_setg(errp, "Node '%s' not found", node_name);
-+        goto fail;
-+    }
-+
-+    session =3D g_new(BdrvFuseSession, 1);
-+    *session =3D (BdrvFuseSession){
-+        .fuse_buf =3D {
-+            .mem =3D NULL,
-+        },
-+
-+        .writable =3D writable,
-+    };
-+
-+    session->perm =3D BLK_PERM_CONSISTENT_READ;
-+    if (writable) {
-+        session->perm |=3D BLK_PERM_WRITE;
-+    }
-+    session->shared_perm =3D BLK_PERM_ALL;
-+
-+    session->blk =3D blk_new(bdrv_get_aio_context(bs),
-+                           session->perm, session->shared_perm);
-+    if (blk_insert_bs(session->blk, bs, errp) < 0) {
-+        goto fail;
-+    }
-+
-+    if (setup_fuse_session(session, mountpoint, errp) < 0) {
-+        goto fail;
-+    }
-+
-+    g_hash_table_insert(sessions, g_strdup(mountpoint), session);
-+    return;
-+
-+fail:
-+    close_fuse_session(session);
++    fuse_reply_err(req, ENOENT);
 +}
 +
 +/**
-+ * Drop all FUSE exports.
++ * Let clients get file attributes (i.e., stat() the file).
 + */
-+void fuse_export_close_all(void)
-+{
-+    if (sessions) {
-+        g_hash_table_destroy(sessions);
-+    }
-+}
-+
-+
-+/**
-+ * Ensure that the global FUSE context is set up.
-+ */
-+static void init_fuse(void)
-+{
-+    if (sessions) {
-+        return;
-+    }
-+
-+    sessions =3D g_hash_table_new_full(g_str_hash, g_str_equal, g_free,
-+                                     drop_fuse_session_from_hash_table);
-+}
-+
-+/**
-+ * Create session->fuse_session and mount it.
-+ */
-+static int setup_fuse_session(BdrvFuseSession *session, const char *mountp=
-oint,
-+                              Error **errp)
-+{
-+    const char *fuse_argv[2];
-+    struct fuse_args fuse_args;
-+    int ret;
-+
-+    fuse_argv[0] =3D ""; /* Dummy program name */
-+    fuse_argv[1] =3D NULL;
-+    fuse_args =3D (struct fuse_args)FUSE_ARGS_INIT(1, (char **)fuse_argv);
-+
-+    session->fuse_session =3D fuse_session_new(&fuse_args, &fuse_ops,
-+                                             sizeof(fuse_ops), session);
-+    if (!session->fuse_session) {
-+        error_setg(errp, "Failed to set up FUSE session");
-+        return -EIO;
-+    }
-+
-+    ret =3D fuse_session_mount(session->fuse_session, mountpoint);
-+    if (ret < 0) {
-+        error_setg(errp, "Failed to mount FUSE session to export");
-+        return -EIO;
-+    }
-+    session->mounted =3D true;
-+
-+    aio_set_fd_handler(blk_get_aio_context(session->blk),
-+                       fuse_session_fd(session->fuse_session), true,
-+                       read_from_fuse_session, NULL, NULL, session);
-+    session->fd_handler_set_up =3D true;
-+
-+    return 0;
-+}
-+
-+/**
-+ * Callback to be invoked when the FUSE session FD can be read from.
-+ * (This is basically the FUSE event loop.)
-+ */
-+static void read_from_fuse_session(void *opaque)
-+{
-+    BdrvFuseSession *session =3D opaque;
-+    int ret;
-+
-+    ret =3D fuse_session_receive_buf(session->fuse_session, &session->fuse=
-_buf);
-+    if (ret < 0) {
-+        return;
-+    }
-+
-+    fuse_session_process_buf(session->fuse_session, &session->fuse_buf);
-+}
-+
-+/**
-+ * Drop a FUSE session (unmount it and free all associated resources).
-+ * It is not removed from the @sessions hash table.
-+ */
-+static void close_fuse_session(BdrvFuseSession *session)
-+{
-+    if (!session) {
-+        return;
-+    }
-+
-+    if (session->fuse_session) {
-+        if (session->mounted) {
-+            fuse_session_unmount(session->fuse_session);
-+        }
-+        if (session->fd_handler_set_up) {
-+            aio_set_fd_handler(blk_get_aio_context(session->blk),
-+                               fuse_session_fd(session->fuse_session), tru=
-e,
-+                               NULL, NULL, NULL, NULL);
-+        }
-+        fuse_session_destroy(session->fuse_session);
-+    }
-+    blk_unref(session->blk);
-+
-+    g_free(session);
-+}
-+
-+/**
-+ * Wrapper around close_fuse_session() for use with
-+ * g_hash_table_new_full().  This allows dropping sessions by removing
-+ * them from the @sessions hash table.
-+ */
-+static void drop_fuse_session_from_hash_table(gpointer value)
-+{
-+    return close_fuse_session(value);
-+}
-+
-+
-+/**
-+ * Check whether @path points to a regular file.  If not, put an
-+ * appropriate message into *errp.
-+ */
-+static bool is_regular_file(const char *path, Error **errp)
++static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
++                         struct fuse_file_info *fi)
 +{
 +    struct stat statbuf;
-+    int ret;
++    int64_t length, allocated_blocks;
++    time_t now =3D time(NULL);
++    ImageInfo *info;
++    BdrvFuseSession *session =3D fuse_req_userdata(req);
++    mode_t mode;
++    Error *local_error =3D NULL;
 +
-+    ret =3D stat(path, &statbuf);
-+    if (ret < 0) {
-+        error_setg_errno(errp, errno, "Failed to stat '%s'", path);
-+        return false;
++    length =3D blk_getlength(session->blk);
++    if (length < 0) {
++        fuse_reply_err(req, -length);
++        return;
 +    }
 +
-+    if (!S_ISREG(statbuf.st_mode)) {
-+        error_setg(errp, "'%s' is not a regular file", path);
-+        return false;
++    bdrv_query_image_info(blk_bs(session->blk), &info, &local_error);
++    if (local_error) {
++        error_free(local_error);
++        allocated_blocks =3D DIV_ROUND_UP(length, 512);
++    } else {
++        allocated_blocks =3D DIV_ROUND_UP(info->actual_size, 512);
++        qapi_free_ImageInfo(info);
 +    }
 +
-+    return true;
++    mode =3D S_IFREG | 0400;
++    if (session->writable) {
++        mode |=3D 0200;
++    }
++
++    statbuf =3D (struct stat) {
++        .st_ino     =3D inode,
++        .st_mode    =3D mode,
++        .st_nlink   =3D 1,
++        .st_uid     =3D getuid(),
++        .st_gid     =3D getgid(),
++        .st_size    =3D length,
++        .st_blksize =3D blk_bs(session->blk)->bl.request_alignment,
++        .st_blocks  =3D allocated_blocks,
++        .st_atime   =3D now,
++        .st_mtime   =3D now,
++        .st_ctime   =3D now,
++    };
++
++    fuse_reply_attr(req, &statbuf, 1.);
 +}
 +
-+static const struct fuse_lowlevel_ops fuse_ops =3D {
-+};
-diff --git a/include/block/fuse.h b/include/block/fuse.h
-new file mode 100644
-index 0000000000..1d24dded50
---- /dev/null
-+++ b/include/block/fuse.h
-@@ -0,0 +1,24 @@
-+/*
-+ * Present a block device as a raw image through FUSE
-+ *
-+ * Copyright (c) 2019 Max Reitz <mreitz@redhat.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; under version 2 or later of the License.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
++static int fuse_do_truncate(const BdrvFuseSession *session, int64_t size,
++                            PreallocMode prealloc)
++{
++    int ret;
++
++    ret =3D blk_set_perm(session->blk, session->perm | BLK_PERM_RESIZE,
++                       session->shared_perm, NULL);
++    if (ret < 0) {
++        return ret;
++    }
++
++    ret =3D blk_truncate(session->blk, size, true, prealloc, NULL);
++
++    /* Must succeed, because we are only giving up the RESIZE permission *=
+/
++    blk_set_perm(session->blk, session->perm, session->shared_perm,
++                 &error_abort);
++
++    return ret;
++}
++
++/**
++ * Let clients set file attributes.  Only resizing is supported.
 + */
++static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *st=
+atbuf,
++                         int to_set, struct fuse_file_info *fi)
++{
++    BdrvFuseSession *session =3D fuse_req_userdata(req);
++    int ret;
 +
-+#ifndef BLOCK_FUSE_H
-+#define BLOCK_FUSE_H
++    if (!session->writable) {
++        fuse_reply_err(req, EACCES);
++        return;
++    }
 +
-+void fuse_export_close_all(void);
++    if (to_set & ~FUSE_SET_ATTR_SIZE) {
++        fuse_reply_err(req, ENOTSUP);
++        return;
++    }
 +
-+#endif
-diff --git a/qapi/block.json b/qapi/block.json
-index 145c268bb6..03f8d1b537 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -317,6 +317,29 @@
- ##
- { 'command': 'nbd-server-stop' }
-=20
-+##
-+# @fuse-export-add:
-+#
-+# Exports a block graph node on some (file) mountpoint as a raw image.
-+#
-+# @node-name: Node to be exported
-+#
-+# @mountpoint: Path on which to export the block device via FUSE.
-+#              This must point to an existing regular file.
-+#
-+# @writable: Whether clients should be able to write to the block
-+#            device via the FUSE export. (default: false)
-+#
-+# Since: 5.0
-+##
-+{ 'command': 'fuse-export-add',
-+  'data': {
-+      'node-name': 'str',
-+      'mountpoint': 'str',
-+      '*writable': 'bool'
-+  },
-+  'if': 'defined(CONFIG_FUSE)' }
++    ret =3D fuse_do_truncate(session, statbuf->st_size, PREALLOC_MODE_OFF)=
+;
++    if (ret < 0) {
++        fuse_reply_err(req, -ret);
++        return;
++    }
 +
- ##
- # @DEVICE_TRAY_MOVED:
- #
++    fuse_getattr(req, inode, fi);
++}
++
++/**
++ * Let clients open a file (i.e., the exported image).
++ */
++static void fuse_open(fuse_req_t req, fuse_ino_t inode,
++                      struct fuse_file_info *fi)
++{
++    fuse_reply_open(req, fi);
++}
++
++/**
++ * Handle client reads from the exported image.
++ */
++static void fuse_read(fuse_req_t req, fuse_ino_t inode,
++                      size_t size, off_t offset, struct fuse_file_info *fi=
+)
++{
++    BdrvFuseSession *session =3D fuse_req_userdata(req);
++    int64_t length;
++    void *buf;
++    int ret;
++
++    /**
++     * Clients will expect short reads at EOF, so we have to limit
++     * offset+size to the image length.
++     */
++    length =3D blk_getlength(session->blk);
++    if (length < 0) {
++        fuse_reply_err(req, -length);
++        return;
++    }
++
++    size =3D MIN(size, FUSE_MAX_BOUNCE_BYTES);
++    if (offset + size > length) {
++        size =3D length - offset;
++    }
++
++    buf =3D qemu_try_blockalign(blk_bs(session->blk), size);
++    if (!buf) {
++        fuse_reply_err(req, ENOMEM);
++        return;
++    }
++
++    ret =3D blk_pread(session->blk, offset, buf, size);
++    if (ret >=3D 0) {
++        fuse_reply_buf(req, buf, size);
++    } else {
++        fuse_reply_err(req, -ret);
++    }
++
++    qemu_vfree(buf);
++}
++
++/**
++ * Handle client writes to the exported image.
++ */
++static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
++                       size_t size, off_t offset, struct fuse_file_info *f=
+i)
++{
++    BdrvFuseSession *session =3D fuse_req_userdata(req);
++    int64_t length;
++    int ret;
++
++    if (!session->writable) {
++        fuse_reply_err(req, EACCES);
++        return;
++    }
++
++    /**
++     * Clients will expect short writes at EOF, so we have to limit
++     * offset+size to the image length.
++     */
++    length =3D blk_getlength(session->blk);
++    if (length < 0) {
++        fuse_reply_err(req, -length);
++        return;
++    }
++
++    size =3D MIN(size, BDRV_REQUEST_MAX_BYTES);
++    if (offset + size > length) {
++        size =3D length - offset;
++    }
++
++    ret =3D blk_pwrite(session->blk, offset, buf, size, 0);
++    if (ret >=3D 0) {
++        fuse_reply_write(req, size);
++    } else {
++        fuse_reply_err(req, -ret);
++    }
++}
++
++/**
++ * Let clients flush the exported image.
++ */
++static void fuse_flush(fuse_req_t req, fuse_ino_t inode,
++                       struct fuse_file_info *fi)
++{
++    BdrvFuseSession *session =3D fuse_req_userdata(req);
++    int ret;
++
++    ret =3D blk_flush(session->blk);
++    fuse_reply_err(req, ret < 0 ? -ret : 0);
++}
++
+ static const struct fuse_lowlevel_ops fuse_ops =3D {
++    .lookup     =3D fuse_lookup,
++    .getattr    =3D fuse_getattr,
++    .setattr    =3D fuse_setattr,
++    .open       =3D fuse_open,
++    .read       =3D fuse_read,
++    .write      =3D fuse_write,
++    .flush      =3D fuse_flush,
+ };
 --=20
 2.23.0
 
