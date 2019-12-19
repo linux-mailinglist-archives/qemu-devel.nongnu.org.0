@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA64D1263FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:50:37 +0100 (CET)
-Received: from localhost ([::1]:41840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044A9126406
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:54:12 +0100 (CET)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwCK-00075R-Hh
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:50:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45724)
+	id 1ihwFn-0003Fs-4A
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:54:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ihw4M-0004Qa-Ic
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:42:27 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ihwEy-0002os-2p
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:53:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ihw4K-0007Om-1x
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:42:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26242
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ihw4J-0007Ic-QP
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:42:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576762938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mlF+ruUrfIzeWXyr2bW4B8+XSuSxJurnJTbcrMLPShg=;
- b=UP33kVx+YSGyecE05ooIAB3DyvNwJUJ8aKaESaIhRSAOyzDAQhACUV/JdQEFMq9XqxOJxl
- FImD8dmYDBQeHs2RXeWpikR5lNOWjxc7TWiPR9DZnlgyfhlKS+zrCk5wtHTQ5QoDAUOZF1
- ksM8GMFMBx1UzmYWDRZvK5BWn5Z/fD0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-TdnHyEPMM2SDAQQBjcfxMw-1; Thu, 19 Dec 2019 08:42:15 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 948AD18552AA;
- Thu, 19 Dec 2019 13:42:14 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CEDB60C87;
- Thu, 19 Dec 2019 13:42:10 +0000 (UTC)
-Date: Thu, 19 Dec 2019 14:42:09 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 0/2] numa: stop abusing numa_mem_supported
-Message-ID: <20191219144209.3c80dd69@redhat.com>
-In-Reply-To: <20191219083024-mutt-send-email-mst@kernel.org>
-References: <1576154936-178362-1-git-send-email-imammedo@redhat.com>
- <20191219142851.42cd33ff@redhat.com>
- <20191219083024-mutt-send-email-mst@kernel.org>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ihwEw-0000DS-T1
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:53:19 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43679)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ihwEw-00006E-IJ
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:53:18 -0500
+Received: by mail-wr1-x443.google.com with SMTP id d16so6035366wre.10
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:53:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Hg+oOcpP5bFaYXf4GJ1sLxu4YJq+UZWaCc3c9eYBEbk=;
+ b=YjCU03iqKBwK1Kiz0PuVjVNWBZm8Jbky3MQOz970b5+KNUtOVJlEhwskcj4Wpf/55E
+ aisaJCTO9V8ruXjI1jPP9hReT+cTrMN21F1bQKEzOLeRjnkiH0f3iyG/jhqglSNCygIM
+ ITLluO2UfL7YP8YnLmH8kV8PXct8CSeTTmHNVtnlNq4LSRNsbDGpSJ4AHv3/nCsaOVXq
+ od2CYRd+ni0MrGw64ucELd0cEX/Rr04m0Ujzdr+lULg/ywj7t7s0YoQNuw6/vyxElhtu
+ clbsd4MdewwP+ftOaX4fQLk5QOsFVxvuAJo+6sXb1NGrUd4UugkvbVjqYvQxIg1XnYxq
+ RYRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Hg+oOcpP5bFaYXf4GJ1sLxu4YJq+UZWaCc3c9eYBEbk=;
+ b=RhEOHX41eoJQb+9wWcXllM2aoD03L/HUXo/DI1sWhoIrmQieRpCnYNje2u/BHo+LYb
+ A1p11fSXTJhOcp6ygjCwRIhVZiaJTA7yHYa+hAP0tw+iulV5Q5W0PbQ4UM8c8grLzPfZ
+ wn5ZEKRzETi+HvERCArkn1M83zOsJ0TXN5j9hEiomtuCe6u91CbAX3P5Z1zjwT6z2cl+
+ hRX06t3OCSAHkNXyfhzH4aiiy0TdpUVyDF3amK1XeMK7aVhuxvtfiYP+OEcUZOcYe+l7
+ /EYTfe4vFt0ShcCZQOjY9oREjeTJ7NarW/YUyOj9+dwO80DnTEcAKPf7bluIQWyHIpIz
+ 9Qiw==
+X-Gm-Message-State: APjAAAVZ3jAzCR4yivMXz8s7pJbUVQj+EJyGEgxKUi0Dn7467HqMQvNG
+ IUhvMGX5lX9KkEqnsr6B/ZrwT1rNDghzPyhgGM2t7hdkmfE=
+X-Google-Smtp-Source: APXvYqztexRD0eGlxy5byPO+pFhOHh4rS6BZ/0RCw5uUbgQRB7Ww3S5Cg7g8gMUcFF3p6HT2Kqg6N0QgFtxqLhxYFKE=
+X-Received: by 2002:a5d:66c3:: with SMTP id k3mr8993194wrw.370.1576763596044; 
+ Thu, 19 Dec 2019 05:53:16 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: TdnHyEPMM2SDAQQBjcfxMw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <CAJ+F1CLV_JRhXX=tB7ZXYxa1En4LzYgJr+7egKzVRNBOLY2nSA@mail.gmail.com>
+ <CAJ+F1CLS4HV-SckggfYNRKXxPa0R2BxSQrpPv8CRVkfvRB3E4w@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLS4HV-SckggfYNRKXxPa0R2BxSQrpPv8CRVkfvRB3E4w@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 19 Dec 2019 17:53:03 +0400
+Message-ID: <CAJ+F1CJO7wsz7WaxZybasWj9H8m1sbwtQBvVjG1cuOPH3MECnQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/37] Clean-ups: qom-ify serial and remove
+ QDEV_PROP_PTR
+To: QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,50 +76,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Dec 2019 08:30:34 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+Hi
 
-> On Thu, Dec 19, 2019 at 02:28:51PM +0100, Igor Mammedov wrote:
-> > On Thu, 12 Dec 2019 13:48:54 +0100
-> > Igor Mammedov <imammedo@redhat.com> wrote:
-> >   
-> > > A fix  and cleanup for a mistakes that slipped by me in
-> > >   aa57020774 (numa: move numa global variable nb_numa_nodes into MachineState)  
-> > 
-> > ping,
-> > 
-> > could someone pick it up please?  
-> 
-> Looks more like Eduardo's thing.
+Still trying to make progress on this series (which is preliminary to
+other pending work..):
 
-Yep if he is still available,
-but I wasn't sure with coming winter break.
+On Wed, Dec 11, 2019 at 4:01 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Sun, Dec 1, 2019 at 2:19 PM Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> >
+> > - "chardev: generate an internal id when none given"
+> >
+> > As explained, this is necessary for qdev_prop_set_chr()
+>
+> ping
+>
 
-In addition, this patch will be prerequisite for disabling
-deprecated '-numa node,mem'
-hence broadcast ping to make sure it won't get lost.
+ping
 
-> 
-> > > 
-> > > 
-> > > CC: Eduardo Habkost <ehabkost@redhat.com>
-> > > CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > > CC: Tao Xu <tao3.xu@intel.com>
-> > > 
-> > > Igor Mammedov (2):
-> > >   numa: remove not needed check
-> > >   numa: properly check if numa is supported
-> > > 
-> > >  hw/arm/sbsa-ref.c | 1 -
-> > >  hw/core/machine.c | 4 ++--
-> > >  hw/core/numa.c    | 7 +------
-> > >  3 files changed, 3 insertions(+), 9 deletions(-)
-> > >   
-> 
+> >
+> > - "serial: register vmsd with DeviceClass"
+> >
+> > This is standard qdev-ification, however it breaks backward migration,
+> > but that's just how qdev_set_legacy_instance_id() works.
+>
+> See thread, someone could review or nack (if backward migration is a prob=
+lem).
+>
 
+ping
+
+> >
+> > - "sm501: make SerialMM a child, export chardev property"
+> >
+> > review?
+>
+> ping
+>
+
+rebased on top of "hw/display/sm501: Always map the UART0" as
+requested by Philippe. Can wait for v5 to get review.
+
+
+> >
+> > - "qdev/qom: remove some TODO limitations now that PROP_PTR is gone"
+> >
+> > This should be straightforward.
+>
+> ping
+
+ping
+
+
+thanks
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
