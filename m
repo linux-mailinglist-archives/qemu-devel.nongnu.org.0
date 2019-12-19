@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCB7126082
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:08:45 +0100 (CET)
-Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD6612605E
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:02:13 +0100 (CET)
+Received: from localhost ([::1]:39000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtfg-0007Sx-O0
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:08:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56983)
+	id 1ihtZM-0005xv-E7
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:02:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56603)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWd-0003oB-6a
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:24 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtWa-0003io-Ao
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWb-0000tP-AS
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:22 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33213)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtWZ-0000gz-1f
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:20 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40350)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtWb-0000nx-0z
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:21 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id d139so6769579wmd.0
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:20 -0800 (PST)
+ id 1ihtWY-0000a6-Ny
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:18 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id t14so5122389wmi.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G90giGYO7nxhno/z+r32FbzYuyDm/iXKiuSb+w5/6TE=;
- b=Ult61Fm21X6ymHJREtKIA8UBETAmW2Icw7I366D2pGafyp1LJxA/R0HwNdoVb11Bb5
- zP4tECh/PmgT+hTPCbBsELje9aUI8Z+ul4SztgJ7o7Vb866u9oYhBZ4VmzlwIiWhdQtR
- P5PuBTNIyIYl/+bxUOwilqMGVSD9VGSanjhFxZoQlYaJMGSv/NXHaZsf0c29wZKUEPSl
- /mu5xZ/j135Ktw/2uH3Oxj0Jki+jyEt7HTvHbSZJKTXMnc3qXebniGE/VCFg9IqTnlov
- 2TdoxvfCI4CayAOMoeTK5EjTPhxnkmNMEIo5uwdQtpqLvgU0Yo+FM9NJZZH90agUjCS3
- cQLQ==
+ bh=19SBTiRGWbT4vIjJk9Btd3tdZPysUx36M7Ps9JJHnt4=;
+ b=ip/iydWfZAwQtCTh9V5ZyVbRlA6tbMomQDS9Qrd388MqjwC0pa1PDBE9N3U//ZpMNY
+ Zmwpa/wmaeGDVbbKCklHDUVrR98T3pXDSxVIaLIVBanCzrwZMwJToMBtPnIXGFbqMXqH
+ PmeEUN17iadP49iYyXJlwmvCJS1dhvZE6+GuidpgJ1D7+/CBXzKmr+2XjWJop8higKN8
+ XPBVUdMgk5mi9mtzHji7uDFvK6DaY8p+d2aABuNcU5ejM9dkKKsJd68B9m1MZ1rP4UCL
+ EA7nf5ymgqtWD4qzdPpTuXa6XqOiKbpYomRhvciDUqA6OqxiSXKzgeOq4A4oVTe0BEJp
+ 4YHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=G90giGYO7nxhno/z+r32FbzYuyDm/iXKiuSb+w5/6TE=;
- b=WIjWJT9YgqqaCjopCTGYPXTK0MPFajcpQhdxc2oT8qPiWXCK6Ij2nesa2IPUrbdsV3
- 6mm0kfbzxND9LhABZA4Ur43IhDZVqmaPYEEtmYqvzZUXRCwoF0hFutCLJ+AJqwcoImfl
- sd9So5cSLS3WGPZzYI86YepmpUgKN+33neJ5BuH3o9U0HArRWqF09bKhn2im7rk2tA+U
- oAwyqHog+2e98mofChVp/5LB3Mgh2XydS4z+6vfTRoOZsZyjEc7cPwUPa+XsbxUG72eh
- c9p9cs+uyPIOXwCJUSGRnYiJ/xo6oGl7OhTvhgEqX5KCnTYV+VbRmOrfdn50lkCwnd9B
- W9Yw==
-X-Gm-Message-State: APjAAAVCXzHfuUCes/nLQHZSP1nETZJ9OJK5OqBKkZwKCudSQPiBX1ts
- 7UF4AvejxB4B593GaEJHwjSZDQ==
-X-Google-Smtp-Source: APXvYqwojuo0XdrLYS97dVXcCO/RMykts5+FBIqT9bOP62vXJ7HbqxAEBGJ3X7JluowcOsgJh9kyKw==
-X-Received: by 2002:a05:600c:248:: with SMTP id
- 8mr9583046wmj.175.1576753159844; 
- Thu, 19 Dec 2019 02:59:19 -0800 (PST)
+ bh=19SBTiRGWbT4vIjJk9Btd3tdZPysUx36M7Ps9JJHnt4=;
+ b=oaoHwGjhUzov0pT6C8RP6e/Up6KQzOwFd6w7+WO1Feer9USXamFCUN9DXp6S0kSkOR
+ bgWEimnnV0HrmhiGtr8wD9ANtkXZ/eEdmJFe98boBjKfP2AEVqShLJDLVgjd/qpuL3gh
+ Wn/WbB3JHR8Q4ENhvwcaiwSvYITUoxNiGbeP4ZF2PZ3p+5zJkCXxj+/eSpvLxAv+3pon
+ /OmcNEJ97FMU7gVgVGRkF6ZGaEhWDSFdkEskWZhZ95/+WVBfJmNZYE7+aMZIXmV93lCw
+ /VF03OpALSyI/6U1pC41MysoyPDBT4hGxTOeyb4remdC7eFOwkv6WIsClEEfYrtqb3s2
+ +yCw==
+X-Gm-Message-State: APjAAAVRjN3oa8gF0kSyFfKlKiAIyLMqAfZI1mEF/vjAlqw60141pPH6
+ 013FzSVcnqQOPqJ8X8KPjFzJNA==
+X-Google-Smtp-Source: APXvYqxyIr5owHGb0sZJEhjvLecVg8LKDTiPGu7p5bVH2HpkVR3QlpZmTlASQyrALHCcOiJnPn2BdQ==
+X-Received: by 2002:a05:600c:20f:: with SMTP id
+ 15mr9373206wmi.128.1576753157565; 
+ Thu, 19 Dec 2019 02:59:17 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g7sm6091077wrq.21.2019.12.19.02.59.15
+ by smtp.gmail.com with ESMTPSA id v8sm6121247wrw.2.2019.12.19.02.59.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 02:59:16 -0800 (PST)
+ Thu, 19 Dec 2019 02:59:15 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0725F1FFA3;
+ by zen.linaroharston (Postfix) with ESMTP id 1C85A1FFA5;
  Thu, 19 Dec 2019 10:49:36 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 16/25] Added tests for close and change of logfile.
-Date: Thu, 19 Dec 2019 10:49:25 +0000
-Message-Id: <20191219104934.866-17-alex.bennee@linaro.org>
+Subject: [PULL 17/25] docker: gtester is no longer used
+Date: Thu, 19 Dec 2019 10:49:26 +0000
+Message-Id: <20191219104934.866-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
 References: <20191219104934.866-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,121 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Robert Foley <robert.foley@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Foley <robert.foley@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-One test ensures that the logfile handle is still valid even if
-the logfile is changed during logging.
-The other test validates that the logfile handle remains valid under
-the logfile lock even if the logfile is closed.
+We are using tap-driver.pl, do not require anymore gtester to be installed
+to run the testsuite in docker-based tests.
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191118211528.3221-7-robert.foley@linaro.org>
+Message-Id: <1576632611-55032-1-git-send-email-pbonzini@redhat.com>
 
-diff --git a/tests/test-logging.c b/tests/test-logging.c
-index a12585f70af..1e646f045dc 100644
---- a/tests/test-logging.c
-+++ b/tests/test-logging.c
-@@ -108,6 +108,82 @@ static void test_parse_path(gconstpointer data)
-     error_free_or_abort(&err);
+diff --git a/tests/docker/common.rc b/tests/docker/common.rc
+index 512202b0a19..02cd67a8c5e 100755
+--- a/tests/docker/common.rc
++++ b/tests/docker/common.rc
+@@ -53,12 +53,7 @@ check_qemu()
+         INVOCATION="$@"
+     fi
+ 
+-    if command -v gtester > /dev/null 2>&1 && \
+-           gtester --version > /dev/null 2>&1; then
+-        make $MAKEFLAGS $INVOCATION
+-    else
+-        echo "No working gtester, skipping make $INVOCATION"
+-    fi
++    make $MAKEFLAGS $INVOCATION
  }
  
-+static void test_logfile_write(gconstpointer data)
-+{
-+    QemuLogFile *logfile;
-+    QemuLogFile *logfile2;
-+    gchar const *dir = data;
-+    Error *err = NULL;
-+    g_autofree gchar *file_path;
-+    g_autofree gchar *file_path1;
-+    FILE *orig_fd;
-+
-+    /*
-+     * Before starting test, set log flags, to ensure the file gets
-+     * opened below with the call to qemu_set_log_filename().
-+     * In cases where a logging backend other than log is used,
-+     * this is needed.
-+     */
-+    qemu_set_log(CPU_LOG_TB_OUT_ASM);
-+    file_path = g_build_filename(dir, "qemu_test_log_write0.log", NULL);
-+    file_path1 = g_build_filename(dir, "qemu_test_log_write1.log", NULL);
-+
-+    /*
-+     * Test that even if an open file handle is changed,
-+     * our handle remains valid due to RCU.
-+     */
-+    qemu_set_log_filename(file_path, &err);
-+    g_assert(!err);
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    orig_fd = logfile->fd;
-+    g_assert(logfile && logfile->fd);
-+    fprintf(logfile->fd, "%s 1st write to file\n", __func__);
-+    fflush(logfile->fd);
-+
-+    /* Change the logfile and ensure that the handle is still valid. */
-+    qemu_set_log_filename(file_path1, &err);
-+    g_assert(!err);
-+    logfile2 = atomic_rcu_read(&qemu_logfile);
-+    g_assert(logfile->fd == orig_fd);
-+    g_assert(logfile2->fd != logfile->fd);
-+    fprintf(logfile->fd, "%s 2nd write to file\n", __func__);
-+    fflush(logfile->fd);
-+    rcu_read_unlock();
-+}
-+
-+static void test_logfile_lock(gconstpointer data)
-+{
-+    FILE *logfile;
-+    gchar const *dir = data;
-+    Error *err = NULL;
-+    g_autofree gchar *file_path;
-+
-+    file_path = g_build_filename(dir, "qemu_test_logfile_lock0.log", NULL);
-+
-+    /*
-+     * Test the use of the logfile lock, such
-+     * that even if an open file handle is closed,
-+     * our handle remains valid for use due to RCU.
-+     */
-+    qemu_set_log_filename(file_path, &err);
-+    logfile = qemu_log_lock();
-+    g_assert(logfile);
-+    fprintf(logfile, "%s 1st write to file\n", __func__);
-+    fflush(logfile);
-+
-+    /*
-+     * Initiate a close file and make sure our handle remains
-+     * valid since we still have the logfile lock.
-+     */
-+    qemu_log_close();
-+    fprintf(logfile, "%s 2nd write to file\n", __func__);
-+    fflush(logfile);
-+    qemu_log_unlock(logfile);
-+
-+    g_assert(!err);
-+}
-+
- /* Remove a directory and all its entries (non-recursive). */
- static void rmdir_full(gchar const *root)
- {
-@@ -134,6 +210,10 @@ int main(int argc, char **argv)
- 
-     g_test_add_func("/logging/parse_range", test_parse_range);
-     g_test_add_data_func("/logging/parse_path", tmp_path, test_parse_path);
-+    g_test_add_data_func("/logging/logfile_write_path",
-+                         tmp_path, test_logfile_write);
-+    g_test_add_data_func("/logging/logfile_lock_path",
-+                         tmp_path, test_logfile_lock);
- 
-     rc = g_test_run();
- 
+ test_fail()
 -- 
 2.20.1
 
