@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B04E1264E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:35:06 +0100 (CET)
-Received: from localhost ([::1]:42678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3C51264F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:37:06 +0100 (CET)
+Received: from localhost ([::1]:42742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwtN-0007Jf-1w
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:35:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39800)
+	id 1ihwvJ-0002BU-CG
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:37:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1ihwoq-0002lp-GY
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:30:26 -0500
+ (envelope-from <stefanha@gmail.com>) id 1ihwqC-0004pu-5Q
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:31:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1ihwok-0002Q2-L9
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:30:24 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23527
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1ihwok-0002MR-AX
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:30:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576765817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=28rSLX4X8eSxZ8C3IwwotEZqVgOkmB31hF2ovohmpwg=;
- b=DFck97H6c2dZQ0jkNrDfAESajZuT6sjjZy/uUuTVh4TqD4YvOZ5/IxudMJmD3RniPes2nn
- f67YNoO/+Cry/LdrNn/bGQtRpf3XI63d9PBryCih0p6HahPSz7qv/EhnVbB6U+s/b7YS9b
- KKtuP+KI4dKsdSo0PwVLKcm8P6EG5WY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-t6Nxs0jWMMOjzt_qKRNfUg-1; Thu, 19 Dec 2019 09:30:14 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6EE81005502;
- Thu, 19 Dec 2019 14:30:12 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.36.118.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41F816B566;
- Thu, 19 Dec 2019 14:30:08 +0000 (UTC)
-Date: Thu, 19 Dec 2019 15:30:05 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH v2 3/5] target/arm/kvm: Implement virtual time
- adjustment
-Message-ID: <20191219143005.gw43k2hug2n5nvto@kamzik.brq.redhat.com>
-References: <20191212173320.11610-1-drjones@redhat.com>
- <20191212173320.11610-4-drjones@redhat.com>
- <CAFEAcA_u94O8WYLgB8DF=pu-3V7LrNWpiQFV5mDYeeqLj1Ee2Q@mail.gmail.com>
- <CAFEAcA9ZoOZt6Jh42hi6q91=kRM9T9z436J99NF+Ns5KVKUYow@mail.gmail.com>
- <20191216164355.i5rpfuqlfqv2z7m7@kamzik.brq.redhat.com>
- <CAFEAcA8NzQ8QYE2NMnviPPnmBn1Dwm4W_KvhMbwCNwFzkurK-Q@mail.gmail.com>
+ (envelope-from <stefanha@gmail.com>) id 1ihwqA-0000S4-GV
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:31:47 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40420)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ihwqA-0000HG-1D
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:31:46 -0500
+Received: by mail-wm1-x341.google.com with SMTP id t14so5819897wmi.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:31:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=L1XHzR3L0UKWQWfjmW2ug1sO8EYNVNufKA/2pud2anY=;
+ b=Z+pb/ta8AkUNy98XvBuvvkKM5fcx2EwXCm+QpGrQx+8qr87l4Urrqz7HrXkIvVB7D9
+ cKHnbfqaeNPgDuZqKQkTRJiWfyK00mfv3B/2HUOVH5CSVREFYl6MJVTlVwBH1Y8yYOM6
+ /ysOtY+aQQ/iYF7X7IJveM0AMrX0tQWfIfR+Ff2W5nmZgqfmzMegAYW+usojfte+ti9j
+ /1/N2IjjS96s/vNpCaC8YwQ1xhXu3h8hOkL0XxdZwaa61SPhY2dgQk54SKqcSSXVtpdN
+ QDy67eAuJIB4gyBRmh78F/UCeEEzr8QkAq3yCc6W03TGYdN9qyO8wYHGyXsZ9P49eCYq
+ 7T4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=L1XHzR3L0UKWQWfjmW2ug1sO8EYNVNufKA/2pud2anY=;
+ b=jH0VISJNPLm8aFIbzduCs0QS1BhZ+OBThXHHeAnGGkJlonvO1udHQFt2xTuFryroxS
+ KwmcDC23kCtAxV7QZUHhmoG+x/Nh6ttb1WdJWkpeH2g6QQ8qv4Na9bSl40a++cSYoxc8
+ so0HbOqO8O6gNnEUrThkPxNr8rv0nTmX2TFAiXXYtex+HGESwhHlNNV/5DEm7xlaO1Dn
+ X+Hp5lNX71U/DR0ZPyMplzh3Ss7yYSfiN3GZSkcVazY7WVRv8wt9lHu/c3ptACV0ZCfc
+ 3yGkxLiA/x8uu02u0tPRl3GHaW0iOzn6NCGqZbWZQMMHVlrFLOOeWx47WQKcmdQVaoav
+ FtyQ==
+X-Gm-Message-State: APjAAAXDAdxhsC2r6t/sdMid/r7bZwGhd1ZI/F5wI+P/MhpOszibQjMC
+ Htzd7BMrJ9YcrLWi77AoqXE=
+X-Google-Smtp-Source: APXvYqyO3Bq33GKouNG8LDJHsqu2POyyDNRpDLJuBtWjrMtfFsWHitF52j+qkn6wS6G4CG3M01H/Xg==
+X-Received: by 2002:a1c:e90e:: with SMTP id q14mr10485058wmc.108.1576765904102; 
+ Thu, 19 Dec 2019 06:31:44 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id d12sm6503974wrp.62.2019.12.19.06.31.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 06:31:43 -0800 (PST)
+Date: Thu, 19 Dec 2019 14:31:41 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Subject: Re: [RFC] Implementing vhost-user-blk device backend
+Message-ID: <20191219143141.GF1624084@stefanha-x1.localdomain>
+References: <CAJAkqrWm28qXtsFmaENAcsDNQV7gE=sd+YyA5ADmm2Vo9DKrUQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8NzQ8QYE2NMnviPPnmBn1Dwm4W_KvhMbwCNwFzkurK-Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: t6Nxs0jWMMOjzt_qKRNfUg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="z0eOaCaDLjvTGF2l"
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <CAJAkqrWm28qXtsFmaENAcsDNQV7gE=sd+YyA5ADmm2Vo9DKrUQ@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,136 +78,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bijan.mottahedeh@oracle.com, Marc Zyngier <maz@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Heyi Guo <guoheyi@huawei.com>, msys.mizuma@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Bharat Singh <bharatlkmlkvm@gmail.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 16, 2019 at 06:06:30PM +0000, Peter Maydell wrote:
-> On Mon, 16 Dec 2019 at 16:44, Andrew Jones <drjones@redhat.com> wrote:
-> >
-> > On Mon, Dec 16, 2019 at 03:40:16PM +0000, Peter Maydell wrote:
-> > > On Mon, 16 Dec 2019 at 15:14, Peter Maydell <peter.maydell@linaro.org=
-> wrote:
-> > > > How does this interact with the usual register sync to/from
-> > > > KVM (ie kvm_arch_get_registers(), which I think will do a
-> > > > GET_ONE_REG read of the TIMER_CNT register the way it does
-> > > > any other sysreg, inside write_kvmstate_to_list(), plus
-> > > > kvm_arch_set_registers() which does the write back to the
-> > > > kernel in write_list_to_kvmstate()) ? Presumably we want this
-> > > > version to take precedence by the set_virtual_time call
-> > > > happening after the kvm_arch_set_registers, but is this
-> > > > guaranteed ?
-> > >
-> > > ...you might also want to look at the effects of simply
-> > > removing the KVM_REG_ARM_TIMER_CNT entry from the
-> > > 'non_runtime_cpregs[]' array -- in commit 4b7a6bf402bd064
-> > > we explicitly stopped reading/writing this register's value
-> > > to/from the kernel except for inbound migration, and it
-> > > feels like this patchset is now rolling back that approach,
-> > > so maybe we should also be (configurably) rolling back some
-> > > of its implementation rather than just leaving it in place.
-> >
-> > I feel like I already considered that, maybe even tried it, a few month=
-s
-> > ago when I first looked at this. I must have decided against it for som=
-e
-> > reason at the time, but I don't recall what. Now I can say the reason i=
-s
-> > because we only do this save/restore when we transition to/from paused
-> > state, though.
->=20
-> I found the thread which discussed the bug which originally
-> caused us to add commit 4b7a6bf402bd064:
-> https://lists.cs.columbia.edu/pipermail/kvmarm/2015-July/015665.html
->  -- there are some codepaths which cause us to do a sync from/to
-> KVM for one VCPU while others are still running. If we do a
-> read-CNT-and-write-back then we effectively cause time to jump
-> backwards for the other still-running CPUs.
->=20
-> So we do still want to have TIMER_CNT listed as being KVM_PUT_FULL_STATE
-> regardless, or we re-introduce that bug.
 
-Thanks for digging that up. I now recall also having read that history
-back when I first discovered KVM_REG_ARM_TIMER_CNT was special.
+--z0eOaCaDLjvTGF2l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Nov 18, 2019 at 10:27:28PM +0800, Coiby Xu wrote:
+> Hi all,
 >=20
-> Your approach in this patchset reads and writes on vm-paused,
-> so it won't have the pre-2015 problems.
->=20
-> It still feels odd that we're storing this bit of guest state
-> in two places now though -- in kvm_vtime, and also in its usual
-> place in the cpreg_array data structures (we write back the
-> value from kvm_vtime when the VM starts running, and we write
-> back the value from the cpreg_array for a PUT_FULL_STATE, which
-> the comments claim is only on startup or when we just loaded
-> migration state (and also undocumentedly but reasonably on
-> cpu-hotplug, which arm doesn't have yet).
->=20
-> I've just spent a little while digging through code, and
-> haven't been able to satisfy myself on the ordering of which
-> writeback wins: for a loadvm I think we first do a
-> cpu_synchronize_all_post_init() (writing back the counter
-> value from the migration data) and then after than we will
-> unpause the VM -- why doesn't this overwrite the correct
-> value with the wrong value from kvm_vtime ?
+> This is an implementation of vhost-user-blk device backend by
+> following https://wiki.qemu.org/Google_Summer_of_Code_2019#vhost-user-blk=
+_device_backend.
+> raw/qcow2 disk images can now be shared via vhost user protocol. In
+> this way, it could provide better performance than QEMU's existing NBD
+> support.
 
-Hmm... I think I may have gotten lost when I went through this before.
-I just went through again, and still won't claim that I'm not a bit
-lost, but it does appear I got it backwards. When I get a chance I'll
-try to test this properly.
+Thank you for working on this feature!
 
-We could use the same location as normal, in the cpreg_array. I'd just
-need to add a search of cpreg_indexes[] in order to get the index
-needed for cpreg_values[].=20
+> +static size_t vub_iov_to_buf(const struct iovec *iov,
+> +                             const unsigned int iov_cnt, void *buf)
 
->=20
-> I just noticed also that the logic used in this patch
-> doesn't match what other architectures do in their vm_state_change
-> function -- eg cpu_ppc_clock_vm_state_change() has an
-> "if (running) { load } else { save }", and kvmclock_vm_state_change()
-> for i386 also has "if (running) { ... } else { ... }", though
-> it has an extra wrinkle where it captures "are we PAUSED?"
-> to use in the pre_save function; the comment above
-> kvmclock_pre_save() suggests maybe that would be useful for other
-> than x86, too. kvm_s390_tod_vm_state_change() has
-> logic that's a slightly more complicated variation on just
-> testing the 'running' flag, but it doesn't look at the
-> specific new state.
+Please take a look at utils/iov.c.  iov_to_buf_full() can be used
+instead of defining this function.
 
-Yes, originally I had just if (running) {} else {}, but after looking at
-https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg03695.html and
-seeing that the other architectures were careful to track the "are we
-paused" state, I got the feeling that we should be more specific and
-changed to if (running) {} else if (paused) {}. That's probably wrong,
-though, if we want to track all vm-stopped time.
+> +{
+> +    size_t len;
+> +    unsigned int i;
+> +
+> +    len =3D 0;
+> +    for (i =3D 0; i < iov_cnt; i++) {
+> +        memcpy(buf + len,  iov[i].iov_base, iov[i].iov_len);
+> +        len +=3D iov[i].iov_len;
+> +    }
+> +    return len;
+> +}
+> +
+> +static  VubDev *vub_device;
 
->=20
-> > > I note also that the commit message there had a remark
-> > > about inconsistencies between VCPUs -- is the right thing
-> > > to handle this per-VM rather than per-VCPU somehow?
-> >
-> > per-VM would make sense, because the counters should be synchronized
-> > among the VCPUs. KVM does that for us, though, so whichever VCPU last
-> > restores its counter is the one that will determine the final value.
-> >
-> > Maybe we should have a VM ioctl instead, but ATM we only have VCPU ioct=
-ls.
->=20
-> I meant more "only do the save/load once per VM in QEMU but
-> do it by working with just one VCPU". But I guess since migration
-> works on all the VCPUs we're ok to do pause-resume the same way
-> (and I've now tracked down what the 'inconsistentencies between VCPUs'
-> were: they're when we were syncing the CNT value for one vCPU when
-> others were still running.)
->=20
-> thanks
-> -- PMM
->=20
+If you switch to -object (see below) then this global pointer will go
+away so I won't comment on it throughout this patch.
 
-Thanks,
-drew
+> +static void vub_accept(QIONetListener *listener, QIOChannelSocket *sioc,
+> +                       gpointer opaque)
+> +{
+> +    /* only one connection */
+> +    if (vub_device->sioc) {
+> +        return;
+> +    }
+> +
+> +    vub_device->sioc =3D sioc;
+> +    vub_device->listener =3D listener;
+> +    /*
+> +     * increase the object reference, so cioc will not freeed by
+> +     * qio_net_listener_channel_func which will call object_unref(OBJECT=
+(sioc))
+> +     */
+> +    object_ref(OBJECT(sioc));
+> +
+> +    qio_channel_set_name(QIO_CHANNEL(sioc), "vhost-server");
+> +    if (!vug_init(&vub_device->parent, VHOST_USER_BLK_MAX_QUEUES, sioc->=
+fd,
+> +                  vub_panic_cb, &vub_iface)) {
+> +        fprintf(stderr, "Failed to initialized libvhost-user-glib\n");
+> +    }
 
+vug_init() uses the default GMainContext, which is bad for performance
+when there are many devices because it cannot take advantage of
+multi-core CPUs.  vhost-user-server should support IOThread so that
+devices can be run in dedicated threads.
+
+The nbd/server.c:NBDExport->ctx field serves this purpose in the NBD
+server.  It's a little trickier with libvhost-user-glib because the API
+currently doesn't allow passing in a GMainContext and will need to be
+extended.
+
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index cfcc044ce4..d8de179747 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1614,6 +1614,33 @@ STEXI
+>  @findex acl_reset
+>  Remove all matches from the access control list, and set the default
+>  policy back to @code{deny}.
+> +ETEXI
+> +
+> +    {
+> +        .name       =3D "vhost_user_server_stop",
+> +        .args_type  =3D "",
+> +        .params     =3D "vhost_user_server_stop",
+> +        .help       =3D "stop vhost-user-blk device backend",
+> +        .cmd        =3D hmp_vhost_user_server_stop,
+> +    },
+> +STEXI
+> +@item vhost_user_server_stop
+> +@findex vhost_user_server_stop
+> +Stop the QEMU embedded vhost-user-blk device backend server.
+> +ETEXI
+
+The NBD server supports multiple client connections and exports
+(drives).  A vhost-user socket only supports one connection and one
+device.  I think it will be necessary to assign a unique identifier to
+every vhost-user server.
+
+By the way, I think the server should be a UserCreatable Object so the
+following syntax works:
+
+  $ qemu -object vhost-user-server,id=3DID,chardev=3DCHARDEV,writable=3Don|=
+off
+
+And existing HMP/QMP commands can be used:
+
+  (qemu) object_add vhost-user-server,id=3DID,chardev=3DCHARDEV,writable=3D=
+on|off
+  (qemu) object_del ID
+
+This way we don't need to define new HMP/QMP/command-line syntax for
+vhost-user-server.
+
+If you grep for UserCreatable you'll find examples like "iothread",
+"secret", "throttle-group", etc.
+
+--z0eOaCaDLjvTGF2l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl37ic0ACgkQnKSrs4Gr
+c8jnswf9HhH67QT9cBavA2DzBhCpkMTYNJcKeybYFM6omrZZesQJGjU1xfte4F2h
+Dbk5WEvrRnCV6+p1UC2PsuC7sCEOImjVdIrTSW/JmgEWYMGMac7RWCOLhP5+J9PA
+I4P3wtW7lUBv9Kf2jWrGOlleJZ0QvASk1RcXEL3wr0Bv5rToYPnz4rKQp9vxCusC
+ptIaEoCLiux8DGkbAELh7+ewHyBpBURFqWnW0+mV5I1NtNRolHAvvyTa82rI1qzX
+X8j5HQnpvASzQkcMQML0yI2RtByMQEFVBX9ssygmoEh2ypnklQ1Qk+XJp2sqBjnN
+XRu5ZplMb4BNV/gfbUUTDH26UxqkNA==
+=Qa3N
+-----END PGP SIGNATURE-----
+
+--z0eOaCaDLjvTGF2l--
 
