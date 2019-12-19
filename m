@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12AF1268D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:19:40 +0100 (CET)
-Received: from localhost ([::1]:46274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162531268F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:23:53 +0100 (CET)
+Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii0Oh-0007kw-4P
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
+	id 1ii0Sl-00051P-Rt
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:23:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ii0Hw-0000UW-M4
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:41 -0500
+ (envelope-from <clg@kaod.org>) id 1ii0I0-0000bN-FQ
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ii0Hv-0003xT-BJ
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:40 -0500
-Received: from 20.mo4.mail-out.ovh.net ([46.105.33.73]:60448)
+ (envelope-from <clg@kaod.org>) id 1ii0Hz-0004HZ-5a
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:44 -0500
+Received: from 4.mo173.mail-out.ovh.net ([46.105.34.219]:54552)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ii0Hv-0003iz-4G
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:39 -0500
-Received: from player734.ha.ovh.net (unknown [10.108.35.110])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 2DCC021BE3F
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 19:12:35 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ii0Hy-0004CE-Rl
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:43 -0500
+Received: from player734.ha.ovh.net (unknown [10.108.54.97])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 60CCE129E37
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 19:12:41 +0100 (CET)
 Received: from kaod.org (lfbn-tou-1-1227-223.w90-76.abo.wanadoo.fr
  [90.76.50.223]) (Authenticated sender: clg@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id 87F0ED6D637D;
- Thu, 19 Dec 2019 18:12:30 +0000 (UTC)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id E93AFD6D6398;
+ Thu, 19 Dec 2019 18:12:35 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 05/13] spapr/xive: Use device_class_set_parent_realize()
-Date: Thu, 19 Dec 2019 19:11:47 +0100
-Message-Id: <20191219181155.32530-6-clg@kaod.org>
+Subject: [PATCH v2 06/13] pnv/xive: Use device_class_set_parent_realize()
+Date: Thu, 19 Dec 2019 19:11:48 +0100
+Message-Id: <20191219181155.32530-7-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191219181155.32530-1-clg@kaod.org>
 References: <20191219181155.32530-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 13660262095190133734
+X-Ovh-Tracer-Id: 13661950946887699430
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepud
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.33.73
+X-Received-From: 46.105.34.219
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,83 +71,82 @@ to have it called.
 Signed-off-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/spapr_xive.h | 10 ++++++++++
- hw/intc/spapr_xive.c        | 12 +++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ include/hw/ppc/pnv_xive.h | 10 ++++++++++
+ hw/intc/pnv_xive.c        | 10 ++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 3a103c224d44..93d09d68deb7 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -15,6 +15,10 @@
+diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
+index 4d641db691c8..ba9bbeab88c3 100644
+--- a/include/hw/ppc/pnv_xive.h
++++ b/include/hw/ppc/pnv_xive.h
+@@ -16,6 +16,10 @@ struct PnvChip;
 =20
- #define TYPE_SPAPR_XIVE "spapr-xive"
- #define SPAPR_XIVE(obj) OBJECT_CHECK(SpaprXive, (obj), TYPE_SPAPR_XIVE)
-+#define SPAPR_XIVE_CLASS(klass)                                         =
-\
-+    OBJECT_CLASS_CHECK(SpaprXiveClass, (klass), TYPE_SPAPR_XIVE)
-+#define SPAPR_XIVE_GET_CLASS(obj)                               \
-+    OBJECT_GET_CLASS(SpaprXiveClass, (obj), TYPE_SPAPR_XIVE)
+ #define TYPE_PNV_XIVE "pnv-xive"
+ #define PNV_XIVE(obj) OBJECT_CHECK(PnvXive, (obj), TYPE_PNV_XIVE)
++#define PNV_XIVE_CLASS(klass)                                   \
++    OBJECT_CLASS_CHECK(PnvXiveClass, (klass), TYPE_PNV_XIVE)
++#define PNV_XIVE_GET_CLASS(obj)                                 \
++    OBJECT_GET_CLASS(PnvXiveClass, (obj), TYPE_PNV_XIVE)
 =20
- typedef struct SpaprXive {
-     XiveRouter    parent;
-@@ -47,6 +51,12 @@ typedef struct SpaprXive {
-     VMChangeStateEntry *change;
- } SpaprXive;
+ #define XIVE_BLOCK_MAX      16
 =20
-+typedef struct SpaprXiveClass {
-+    XiveRouterClass parent;
+@@ -87,6 +91,12 @@ typedef struct PnvXive {
+     uint64_t      edt[XIVE_TABLE_EDT_MAX];
+ } PnvXive;
+=20
++typedef struct PnvXiveClass {
++    XiveRouterClass parent_class;
 +
 +    DeviceRealize parent_realize;
-+} SpaprXiveClass;
++} PnvXiveClass;
 +
- /*
-  * The sPAPR machine has a unique XIVE IC device. Assign a fixed value
-  * to the controller block id value. It can nevertheless be changed
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 57305c56d707..32322470a8b8 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -286,10 +286,17 @@ static void spapr_xive_instance_init(Object *obj)
- static void spapr_xive_realize(DeviceState *dev, Error **errp)
+ void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon);
+=20
+ #endif /* PPC_PNV_XIVE_H */
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 66970a60733b..1962f884d6de 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -1816,10 +1816,17 @@ static void pnv_xive_init(Object *obj)
+ static void pnv_xive_realize(DeviceState *dev, Error **errp)
  {
-     SpaprXive *xive =3D SPAPR_XIVE(dev);
-+    SpaprXiveClass *sxc =3D SPAPR_XIVE_GET_CLASS(xive);
-     XiveSource *xsrc =3D &xive->source;
+     PnvXive *xive =3D PNV_XIVE(dev);
++    PnvXiveClass *pxc =3D PNV_XIVE_GET_CLASS(dev);
+     XiveSource *xsrc =3D &xive->ipi_source;
      XiveENDSource *end_xsrc =3D &xive->end_source;
      Error *local_err =3D NULL;
 =20
-+    sxc->parent_realize(dev, &local_err);
++    pxc->parent_realize(dev, &local_err);
 +    if (local_err) {
 +        error_propagate(errp, local_err);
 +        return;
 +    }
 +
-     if (!xive->nr_irqs) {
-         error_setg(errp, "Number of interrupt needs to be greater 0");
-         return;
-@@ -760,10 +767,12 @@ static void spapr_xive_class_init(ObjectClass *klas=
+     assert(xive->chip);
+     assert(xive->system_memory);
+=20
+@@ -1950,10 +1957,12 @@ static void pnv_xive_class_init(ObjectClass *klas=
 s, void *data)
      XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
-     SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_CLASS(klass);
+     XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
      XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
-+    SpaprXiveClass *sxc =3D SPAPR_XIVE_CLASS(klass);
++    PnvXiveClass *pxc =3D PNV_XIVE_CLASS(klass);
 =20
-     dc->desc    =3D "sPAPR XIVE Interrupt Controller";
-     dc->props   =3D spapr_xive_properties;
--    dc->realize =3D spapr_xive_realize;
-+    device_class_set_parent_realize(dc, spapr_xive_realize,
-+                                    &sxc->parent_realize);
-     dc->vmsd    =3D &vmstate_spapr_xive;
+     xdc->dt_xscom =3D pnv_xive_dt_xscom;
 =20
-     xrc->get_eas =3D spapr_xive_get_eas;
-@@ -794,6 +803,7 @@ static const TypeInfo spapr_xive_info =3D {
-     .instance_init =3D spapr_xive_instance_init,
-     .instance_size =3D sizeof(SpaprXive),
-     .class_init =3D spapr_xive_class_init,
-+    .class_size =3D sizeof(SpaprXiveClass),
-     .interfaces =3D (InterfaceInfo[]) {
-         { TYPE_SPAPR_INTC },
+     dc->desc =3D "PowerNV XIVE Interrupt Controller";
++    device_class_set_parent_realize(dc, pnv_xive_realize, &pxc->parent_r=
+ealize);
+     dc->realize =3D pnv_xive_realize;
+     dc->props =3D pnv_xive_properties;
+=20
+@@ -1974,6 +1983,7 @@ static const TypeInfo pnv_xive_info =3D {
+     .instance_init =3D pnv_xive_init,
+     .instance_size =3D sizeof(PnvXive),
+     .class_init    =3D pnv_xive_class_init,
++    .class_size    =3D sizeof(PnvXiveClass),
+     .interfaces    =3D (InterfaceInfo[]) {
+         { TYPE_PNV_XSCOM_INTERFACE },
          { }
 --=20
 2.21.0
