@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B2D12622A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:31:11 +0100 (CET)
-Received: from localhost ([::1]:40106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D45CE12623D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:36:00 +0100 (CET)
+Received: from localhost ([::1]:40202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihuxS-0006hq-6R
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:31:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56860)
+	id 1ihv27-0004Y8-HL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihuqe-0007AR-Cm
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:10 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihuqm-0007MR-Mg
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihuqc-0005L0-Mr
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:08 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43639
+ (envelope-from <pbonzini@redhat.com>) id 1ihuql-000669-0k
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:16 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33034
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihuqc-0005HZ-Gw
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:06 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihuqk-00062j-OA
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758245;
+ s=mimecast20190719; t=1576758254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7gWYMTZampjPsNJm58M4yt8F4jJFZ6y7TePX+di3XQE=;
- b=NOY0gTT5rCVVR03qMGlCtnvgdsa034s8fl4OjuTUz5q35plGdVBTtV1Ku02UYlAMavsFVa
- p+lcjXocaD3nUcST9mYCFzELxKN6REzKsojLUs5fzOpW3AAT68ieEbQi+wFyvWj9PZFTjd
- Ng+vGdQdm41z6XekWOtFqlVpNG/b1Yg=
+ bh=CqV/6Dei8VWL9nSm69LPJTUO2Sf2TZXXU7e/2BX6ZfI=;
+ b=aga2F9dU4WVLzvqDwXR9TXyohX0eYb57gfCsUodRqNyz5SZYpPGl/ZBLQs34yx3oVDW5gJ
+ 3EA5Bntpnjc8nU/lPWJJdEFuWfApJEl4xU1rabsRj38qyenf8/n1LQmMtpptW3Hs5v/HUk
+ /xjSG3vlEsGZQEU/y7hwMTwQfGfckqI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-UMUlwgjkNh2b9K7LBiS0oA-1; Thu, 19 Dec 2019 07:24:04 -0500
+ us-mta-129-Yt5cnHP6P-Sj6wQWb7hPBA-1; Thu, 19 Dec 2019 07:24:13 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93165107ACC5
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24668801E6C
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:12 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66E6160C18;
- Thu, 19 Dec 2019 12:24:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51F7B60C18;
+ Thu, 19 Dec 2019 12:24:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 095/132] meson: convert hw/display
-Date: Thu, 19 Dec 2019 13:23:15 +0100
-Message-Id: <1576758232-12439-4-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 097/132] meson: convert hw/char
+Date: Thu, 19 Dec 2019 13:23:17 +0100
+Message-Id: <1576758232-12439-6-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: UMUlwgjkNh2b9K7LBiS0oA-1
+X-MC-Unique: Yt5cnHP6P-Sj6wQWb7hPBA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -79,196 +79,126 @@ From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.target          |  1 +
- hw/Makefile.objs         |  1 -
- hw/display/Makefile.objs | 59 --------------------------------------------=
-----
- hw/display/meson.build   | 54 ++++++++++++++++++++++++++++++++++++++++++++
- hw/meson.build           |  1 +
- 5 files changed, 56 insertions(+), 60 deletions(-)
- delete mode 100644 hw/display/Makefile.objs
- create mode 100644 hw/display/meson.build
+ hw/Makefile.objs      |  1 -
+ hw/char/Makefile.objs | 36 ------------------------------------
+ hw/char/meson.build   | 34 ++++++++++++++++++++++++++++++++++
+ hw/meson.build        |  1 +
+ 4 files changed, 35 insertions(+), 37 deletions(-)
+ delete mode 100644 hw/char/Makefile.objs
+ create mode 100644 hw/char/meson.build
 
-diff --git a/Makefile.target b/Makefile.target
-index a41e4e5..82f384c 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -168,6 +168,7 @@ LIBS :=3D $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LI=
-BS) $(OPENGL_LIBS) $(SECCOM
- LIBS :=3D $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
- LIBS :=3D $(LIBS) $(VDE_LIBS) $(SLIRP_LIBS)
- LIBS :=3D $(LIBS) $(LIBUSB_LIBS) $(SMARTCARD_LIBS) $(USB_REDIR_LIBS)
-+LIBS :=3D $(LIBS) $(VIRGL_LIBS)
-=20
- # Hardware support
- ifeq ($(TARGET_NAME), sparc64)
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index f5fd490..acc6bee 100644
+index 67a2bb5..6752297 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -7,7 +7,6 @@ devices-dirs-y +=3D block/
+@@ -5,7 +5,6 @@ devices-dirs-y +=3D adc/
+ devices-dirs-y +=3D audio/
+ devices-dirs-y +=3D block/
  devices-dirs-y +=3D bt/
- devices-dirs-y +=3D char/
- devices-dirs-y +=3D cpu/
--devices-dirs-y +=3D display/
+-devices-dirs-y +=3D char/
  endif
 =20
  common-obj-y +=3D $(devices-dirs-y)
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
+diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
 deleted file mode 100644
-index 0f11d55..0000000
---- a/hw/display/Makefile.objs
+index 02d8a66..0000000
+--- a/hw/char/Makefile.objs
 +++ /dev/null
-@@ -1,59 +0,0 @@
--common-obj-$(CONFIG_DDC) +=3D i2c-ddc.o
--common-obj-$(CONFIG_EDID) +=3D edid-generate.o edid-region.o
+@@ -1,36 +0,0 @@
+-common-obj-$(CONFIG_IPACK) +=3D ipoctal232.o
+-common-obj-$(CONFIG_ESCC) +=3D escc.o
+-common-obj-$(CONFIG_NRF51_SOC) +=3D nrf51_uart.o
+-common-obj-$(CONFIG_PARALLEL) +=3D parallel.o
+-common-obj-$(CONFIG_ISA_BUS) +=3D parallel-isa.o
+-common-obj-$(CONFIG_PL011) +=3D pl011.o
+-common-obj-$(CONFIG_SERIAL) +=3D serial.o
+-common-obj-$(CONFIG_SERIAL_ISA) +=3D serial-isa.o
+-common-obj-$(CONFIG_SERIAL_PCI) +=3D serial-pci.o
+-common-obj-$(CONFIG_SERIAL_PCI_MULTI) +=3D serial-pci-multi.o
+-common-obj-$(CONFIG_VIRTIO_SERIAL) +=3D virtio-console.o
+-common-obj-$(CONFIG_XILINX) +=3D xilinx_uartlite.o
+-common-obj-$(CONFIG_XEN) +=3D xen_console.o
+-common-obj-$(CONFIG_CADENCE) +=3D cadence_uart.o
 -
--common-obj-$(CONFIG_FW_CFG_DMA) +=3D ramfb.o
--common-obj-$(CONFIG_FW_CFG_DMA) +=3D ramfb-standalone.o
+-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_uart.o
+-obj-$(CONFIG_COLDFIRE) +=3D mcf_uart.o
+-obj-$(CONFIG_OMAP) +=3D omap_uart.o
+-obj-$(CONFIG_SH4) +=3D sh_serial.o
+-obj-$(CONFIG_PSERIES) +=3D spapr_vty.o
+-obj-$(CONFIG_DIGIC) +=3D digic-uart.o
+-obj-$(CONFIG_STM32F2XX_USART) +=3D stm32f2xx_usart.o
+-obj-$(CONFIG_RASPI) +=3D bcm2835_aux.o
 -
--common-obj-$(CONFIG_ADS7846) +=3D ads7846.o
--common-obj-$(CONFIG_VGA_CIRRUS) +=3D cirrus_vga.o
--common-obj-$(call land,$(CONFIG_VGA_CIRRUS),$(CONFIG_VGA_ISA))+=3Dcirrus_v=
-ga_isa.o
--common-obj-$(CONFIG_G364FB) +=3D g364fb.o
--common-obj-$(CONFIG_JAZZ_LED) +=3D jazz_led.o
--common-obj-$(CONFIG_PL110) +=3D pl110.o
--common-obj-$(CONFIG_SII9022) +=3D sii9022.o
--common-obj-$(CONFIG_SSD0303) +=3D ssd0303.o
--common-obj-$(CONFIG_SSD0323) +=3D ssd0323.o
--common-obj-$(CONFIG_XEN) +=3D xenfb.o
+-common-obj-$(CONFIG_CMSDK_APB_UART) +=3D cmsdk-apb-uart.o
+-common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_ser.o
+-common-obj-$(CONFIG_ISA_DEBUG) +=3D debugcon.o
+-common-obj-$(CONFIG_GRLIB) +=3D grlib_apbuart.o
+-common-obj-$(CONFIG_IMX) +=3D imx_serial.o
+-common-obj-$(CONFIG_LM32) +=3D lm32_juart.o
+-common-obj-$(CONFIG_LM32) +=3D lm32_uart.o
+-common-obj-$(CONFIG_MILKYMIST) +=3D milkymist-uart.o
+-common-obj-$(CONFIG_SCLPCONSOLE) +=3D sclpconsole.o sclpconsole-lm.o
 -
--common-obj-$(CONFIG_VGA_PCI) +=3D vga-pci.o
--common-obj-$(CONFIG_VGA_ISA) +=3D vga-isa.o
--common-obj-$(CONFIG_VGA_ISA_MM) +=3D vga-isa-mm.o
--common-obj-$(CONFIG_VMWARE_VGA) +=3D vmware_vga.o
--common-obj-$(CONFIG_BOCHS_DISPLAY) +=3D bochs-display.o
--
--common-obj-$(CONFIG_BLIZZARD) +=3D blizzard.o
--common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_fimd.o
--common-obj-$(CONFIG_FRAMEBUFFER) +=3D framebuffer.o
--obj-$(CONFIG_MILKYMIST) +=3D milkymist-vgafb.o
--common-obj-$(CONFIG_ZAURUS) +=3D tc6393xb.o
--
--obj-$(CONFIG_MILKYMIST_TMU2) +=3D milkymist-tmu2.o
--milkymist-tmu2.o-cflags :=3D $(X11_CFLAGS) $(OPENGL_CFLAGS)
--milkymist-tmu2.o-libs :=3D $(X11_LIBS) $(OPENGL_LIBS)
--
--common-obj-$(CONFIG_OMAP) +=3D omap_dss.o
--obj-$(CONFIG_OMAP) +=3D omap_lcdc.o
--common-obj-$(CONFIG_PXA2XX) +=3D pxa2xx_lcd.o
--common-obj-$(CONFIG_RASPI) +=3D bcm2835_fb.o
--common-obj-$(CONFIG_SM501) +=3D sm501.o
--common-obj-$(CONFIG_TCX) +=3D tcx.o
--common-obj-$(CONFIG_CG3) +=3D cg3.o
--
--obj-$(CONFIG_VGA) +=3D vga.o
--
--common-obj-$(CONFIG_QXL) +=3D qxl.o qxl-logger.o qxl-render.o
--
--obj-$(CONFIG_VIRTIO_GPU) +=3D virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d=
-.o
--obj-$(CONFIG_VHOST_USER_GPU) +=3D vhost-user-gpu.o
--obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) +=3D virtio-gpu=
--pci.o
--obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) +=3D vhost-=
-user-gpu-pci.o
--obj-$(CONFIG_VIRTIO_VGA) +=3D virtio-vga.o
--obj-$(CONFIG_VHOST_USER_VGA) +=3D vhost-user-vga.o
--virtio-gpu.o-cflags :=3D $(VIRGL_CFLAGS)
--virtio-gpu.o-libs +=3D $(VIRGL_LIBS)
--virtio-gpu-3d.o-cflags :=3D $(VIRGL_CFLAGS)
--virtio-gpu-3d.o-libs +=3D $(VIRGL_LIBS)
--common-obj-$(CONFIG_DPCD) +=3D dpcd.o
--common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx_dp.o
--
--common-obj-$(CONFIG_ATI_VGA) +=3D ati.o ati_2d.o ati_dbg.o
-diff --git a/hw/display/meson.build b/hw/display/meson.build
+-obj-$(CONFIG_VIRTIO) +=3D virtio-serial-bus.o
+-obj-$(CONFIG_TERMINAL3270) +=3D terminal3270.o
+diff --git a/hw/char/meson.build b/hw/char/meson.build
 new file mode 100644
-index 0000000..248510a
+index 0000000..002e5d0
 --- /dev/null
-+++ b/hw/display/meson.build
-@@ -0,0 +1,54 @@
-+softmmu_ss.add(when: 'CONFIG_DDC', if_true: files('i2c-ddc.c'))
-+softmmu_ss.add(when: 'CONFIG_EDID', if_true: files('edid-generate.c', 'edi=
-d-region.c'))
++++ b/hw/char/meson.build
+@@ -0,0 +1,34 @@
++softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_uart.c'))
++softmmu_ss.add(when: 'CONFIG_CMSDK_APB_UART', if_true: files('cmsdk-apb-ua=
+rt.c'))
++softmmu_ss.add(when: 'CONFIG_ESCC', if_true: files('escc.c'))
++softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_ser.c'))
++softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_apbuart.c'))
++softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_serial.c'))
++softmmu_ss.add(when: 'CONFIG_IPACK', if_true: files('ipoctal232.c'))
++softmmu_ss.add(when: 'CONFIG_ISA_BUS', if_true: files('parallel-isa.c'))
++softmmu_ss.add(when: 'CONFIG_ISA_DEBUG', if_true: files('debugcon.c'))
++softmmu_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_juart.c'))
++softmmu_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_uart.c'))
++softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-uart.c'=
+))
++softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_uart.c'))
++softmmu_ss.add(when: 'CONFIG_PARALLEL', if_true: files('parallel.c'))
++softmmu_ss.add(when: 'CONFIG_PL011', if_true: files('pl011.c'))
++softmmu_ss.add(when: 'CONFIG_SCLPCONSOLE', if_true: files('sclpconsole.c',=
+ 'sclpconsole-lm.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL', if_true: files('serial.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL_ISA', if_true: files('serial-isa.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL_PCI', if_true: files('serial-pci.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL_PCI_MULTI', if_true: files('serial-pci=
+-multi.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-consol=
+e.c'))
++softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen_console.c'))
++softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'))
 +
-+softmmu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('ramfb.c'))
-+softmmu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('ramfb-standalone=
-.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_ADS7846', if_true: files('ads7846.c'))
-+softmmu_ss.add(when: 'CONFIG_VGA_CIRRUS', if_true: files('cirrus_vga.c'))
-+softmmu_ss.add(when: ['CONFIG_VGA_CIRRUS', 'CONFIG_VGA_ISA'], if_true: fil=
-es('cirrus_vga_isa.c'))
-+softmmu_ss.add(when: 'CONFIG_G364FB', if_true: files('g364fb.c'))
-+softmmu_ss.add(when: 'CONFIG_JAZZ_LED', if_true: files('jazz_led.c'))
-+softmmu_ss.add(when: 'CONFIG_PL110', if_true: files('pl110.c'))
-+softmmu_ss.add(when: 'CONFIG_SII9022', if_true: files('sii9022.c'))
-+softmmu_ss.add(when: 'CONFIG_SSD0303', if_true: files('ssd0303.c'))
-+softmmu_ss.add(when: 'CONFIG_SSD0323', if_true: files('ssd0323.c'))
-+softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xenfb.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_VGA_PCI', if_true: files('vga-pci.c'))
-+softmmu_ss.add(when: 'CONFIG_VGA_ISA', if_true: files('vga-isa.c'))
-+softmmu_ss.add(when: 'CONFIG_VGA_ISA_MM', if_true: files('vga-isa-mm.c'))
-+softmmu_ss.add(when: 'CONFIG_VMWARE_VGA', if_true: files('vmware_vga.c'))
-+softmmu_ss.add(when: 'CONFIG_BOCHS_DISPLAY', if_true: files('bochs-display=
-.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_BLIZZARD', if_true: files('blizzard.c'))
-+softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_fimd.c')=
-)
-+softmmu_ss.add(when: 'CONFIG_FRAMEBUFFER', if_true: files('framebuffer.c')=
-)
-+specific_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-vgafb.=
++specific_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_uart.c'))
++specific_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic-uart.c'))
++specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_uart.c'=
+))
++specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_uart.c'))
++specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
++specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
++specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
++specific_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_=
+usart.c'))
++specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.=
 c'))
-+softmmu_ss.add(when: 'CONFIG_ZAURUS', if_true: files('tc6393xb.c'))
-+
-+specific_ss.add(when: [x11, opengl, 'CONFIG_MILKYMIST_TMU2'], if_true: fil=
-es('milkymist-tmu2.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dss.c'))
-+specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
-+softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_lcd.c'))
-+softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_fb.c'))
-+softmmu_ss.add(when: 'CONFIG_SM501', if_true: files('sm501.c'))
-+softmmu_ss.add(when: 'CONFIG_TCX', if_true: files('tcx.c'))
-+softmmu_ss.add(when: 'CONFIG_CG3', if_true: files('cg3.c'))
-+
-+specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_QXL', if_true: files('qxl.c', 'qxl-logger.c',=
- 'qxl-render.c'))
-+
-+specific_ss.add(when: [pixman, 'CONFIG_VIRTIO_GPU'], if_true: [files('virt=
-io-gpu-base.c', 'virtio-gpu.c', 'virtio-gpu-3d.c'), virgl])
-+specific_ss.add(when: [pixman, 'CONFIG_VHOST_USER_GPU'], if_true: files('v=
-host-user-gpu.c'))
-+specific_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI'], if_true:=
- files('virtio-gpu-pci.c'))
-+specific_ss.add(when: ['CONFIG_VHOST_USER_GPU', 'CONFIG_VIRTIO_PCI'], if_t=
-rue: files('vhost-user-gpu-pci.c'))
-+specific_ss.add(when: 'CONFIG_VIRTIO_VGA', if_true: files('virtio-vga.c'))
-+specific_ss.add(when: 'CONFIG_VHOST_USER_VGA', if_true: files('vhost-user-=
-vga.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_DPCD', if_true: files('dpcd.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx_dp.c')=
-)
-+
-+softmmu_ss.add(when: [pixman, 'CONFIG_ATI_VGA'], if_true: files('ati.c', '=
-ati_2d.c', 'ati_dbg.c'))
++specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c=
+'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 3263f33..3f40df2 100644
+index 5850b07..d8a7493 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,4 +1,5 @@
+@@ -1,3 +1,4 @@
++subdir('char')
  subdir('core')
-+subdir('display')
- subdir('dma')
- subdir('gpio')
- subdir('hyperv')
+ subdir('cpu')
+ subdir('display')
 --=20
 1.8.3.1
 
