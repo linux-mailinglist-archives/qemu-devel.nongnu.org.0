@@ -2,115 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74433126420
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:59:50 +0100 (CET)
-Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8277812638B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:32:00 +0100 (CET)
+Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwLD-00081T-Sy
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:59:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34478)
+	id 1ihvuI-0005RF-OU
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:31:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <k.jensen@samsung.com>) id 1ihvYn-0001Ub-6i
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:47 -0500
+ (envelope-from <mst@redhat.com>) id 1ihvpb-0000RH-RB
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <k.jensen@samsung.com>) id 1ihvYk-0006Ke-7o
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:44 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:55848)
+ (envelope-from <mst@redhat.com>) id 1ihvpa-0001C9-NW
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:07 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27655
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <k.jensen@samsung.com>)
- id 1ihvYj-0006Fc-JW
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:41 -0500
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20191219130938euoutp02f73317f633f300198c919ed55a028632~hx8Ft2C9-0729207292euoutp02i
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 13:09:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20191219130938euoutp02f73317f633f300198c919ed55a028632~hx8Ft2C9-0729207292euoutp02i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1576760978;
- bh=IhArvh8wsatoKg68q7q++7YYyroe8ry44zVhMwiTbLA=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=qh/utKe3UMAST9QOJBr9CuiH3S5BlGvIYIOf8Q9Xz8tn1O5uKBknltVf1UOSGuErS
- pcvSRrWeugIX3aPIy9nCA4G4YI0qRSF8P9vpF9+JC+NUMad4OAlSeRjsrxEN5qKivf
- B0COgMjZiY1QzmLgAEB+0JoJ//4sYQ0XsSNYFC+4=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20191219130937eucas1p2177fdc2d0b6314b5d611f58e1a56976f~hx8Fh63G03259332593eucas1p2b;
- Thu, 19 Dec 2019 13:09:37 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 83.05.60679.1967BFD5; Thu, 19
- Dec 2019 13:09:37 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130937eucas1p26be4db4b75dc87168bceff37f4fd5588~hx8FQMb_T3066330663eucas1p2U;
- Thu, 19 Dec 2019 13:09:37 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20191219130937eusmtrp1660186267703d8b1ac8abc8bd99ef125~hx8FPnjg62186021860eusmtrp13;
- Thu, 19 Dec 2019 13:09:37 +0000 (GMT)
-X-AuditID: cbfec7f4-0cbff7000001ed07-ca-5dfb769196af
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 91.4D.08375.1967BFD5; Thu, 19
- Dec 2019 13:09:37 +0000 (GMT)
-Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130937eusmtip1aa70315cbd6f799e14ced6a57bf3979a~hx8FIccMq2511425114eusmtip1g;
- Thu, 19 Dec 2019 13:09:37 +0000 (GMT)
-Received: from CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) by
- CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
- Server (TLS) id 15.0.1320.4; Thu, 19 Dec 2019 13:09:36 +0000
-Received: from apples.local (106.110.32.41) by CAMSVWEXC01.scsc.local
- (106.1.227.71) with Microsoft SMTP Server id 15.0.1320.4 via Frontend
- Transport; Thu, 19 Dec 2019 13:09:36 +0000
-From: Klaus Jensen <k.jensen@samsung.com>
-To: <qemu-block@nongnu.org>
-Subject: [PATCH v4 05/24] nvme: populate the mandatory subnqn and ver fields
-Date: Thu, 19 Dec 2019 14:09:02 +0100
-Message-ID: <20191219130921.309264-6-k.jensen@samsung.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191219130921.309264-1-k.jensen@samsung.com>
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihvpa-00017u-IQ
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576762025;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ky3AoPDK1Dl90THjFQNp/2P2m3Le5A8fcjpKsYSUby0=;
+ b=Kzb45lGVVn+8JEIOR0qj5WbLgl/AYQ9fk9v9bfiMhe8PMyIO4wJH4Fb2tid+AxafWqeTI/
+ wSqE15eSKFTx8hHw+hS0weSMNhfde9niJKU9LAJ/b5D4Te8b2TESkQoVS90YYG3cfPbRk5
+ 4NsX3bGoP9G7OB6PDuzwhtrKi5vZl2w=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-mxoiEXsIPfCC_AdFbdEjJg-1; Thu, 19 Dec 2019 08:27:02 -0500
+Received: by mail-qt1-f198.google.com with SMTP id d9so3653605qtq.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:27:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=S797ekb1koe77yVikHhjJoQQO+mcOVBkg02x1T+LNQw=;
+ b=GVo8bFEjjWacauG18Md/4SmIXtSctaKyt9FftWt7owK/QqCKvuJ/HhgiTSNQxE0mmc
+ G3ehvH34EaJj55nGwFoVxr0Ipqqh8tTYHGY/rFxngStNiUWmv3fa5AHDOgiyjOL7OtW4
+ fnHvi7V8wUk6u26DU0rTwY5bp8vQeApPN6p2f6NXpSEXgqGztBEO2Qs7q1W1w1rjsQAk
+ iN4iCVI/XS7jEXibq0SPA0/XHfAmMOmT/qeTBK9SyZfCj2YDtVs10tSyWQyRQmsfCBfa
+ kjxJcQm9i/CgjH9ieXzB/e5hhzD4q95qlKAJnOk2qFJz1XZeOSei9WRJiMJYaWhK3VOF
+ KUfg==
+X-Gm-Message-State: APjAAAWpPC83iI0XCxsQhBT7d1UKEULOd2Db7hBxdJ/6VX7D5CPxDRXs
+ kyQhyx6kcQQ8/rrIvUFPt5Wlm0CgBIuCBeHVjcTNoboc1gASF3ztsHHvPSJlIu7DjoOBdJcf5yy
+ EQt3Kn6rUAJvpXDI=
+X-Received: by 2002:a05:620a:13e3:: with SMTP id
+ h3mr7884033qkl.319.1576762022013; 
+ Thu, 19 Dec 2019 05:27:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxP5nXIgzLiDhJp7TyIiAZd7j377ox4jE3fyAsWjIbW1+ja4EK4UWWXxAYOaiTuxN96v7RURA==
+X-Received: by 2002:a05:620a:13e3:: with SMTP id
+ h3mr7884017qkl.319.1576762021793; 
+ Thu, 19 Dec 2019 05:27:01 -0800 (PST)
+Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
+ by smtp.gmail.com with ESMTPSA id u15sm1699900qku.67.2019.12.19.05.26.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 05:27:01 -0800 (PST)
+Date: Thu, 19 Dec 2019 08:26:57 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 01/24] virtio: add ability to delete vq through a pointer
+Message-ID: <20191219132621.16595-2-mst@redhat.com>
+References: <20191219132621.16595-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGKsWRmVeSWpSXmKPExsWy7djPc7oTy37HGjz4bGqxub+d0WLSoWuM
- FksuplrMu6VsMetdO5vF8d4dLA5sHptWdbJ53Lm2h83jybXNTB7v911lC2CJ4rJJSc3JLEst
- 0rdL4MpY2/mYvWC1QMW76awNjD95uhg5OSQETCR6j+9j72Lk4hASWMEo8fDSZzYI5wujxNLp
- v1ghnM+MEqf2zGCDaVnz6jIjiC0ksJxRYvYzbbiirf//s0A4ZxglfqxsYoZwdjFKTD/yih2k
- hU1AU2L7H5AqTg4RAWmJ9quTwHYwC1xnlDj0+yJYkbCAj0Tb62XMIDaLgKrEtPNdQA0cHLwC
- VhLvDvhBnCEvsfXbJ1YQm1PAWmJL722wk3gFBCVOznwCNp8ZqKZ562xmCFtC4uCLF2AHSQis
- YpdYfKaTGWKQi0TTk+uMELawxKvjW9ghbBmJ05N7WCAauhkl+j58heqeAfTOsu9sIBdJAK3u
- O5MD0eAoMfnjaUaIMJ/EjbeCEIv5JCZtm84MEeaV6GgTgqhWk9jRtJVxAqPyLCRnz0Jy9iwk
- Zy9gZF7FKJ5aWpybnlpslJdarlecmFtcmpeul5yfu4kRmFpO/zv+ZQfjrj9JhxgFOBiVeHhf
- JP+OFWJNLCuuzD3EKMHBrCTCe7vjZ6wQb0piZVVqUX58UWlOavEhRmkOFiVxXuNFL2OFBNIT
- S1KzU1MLUotgskwcnFINjCw/9Vhnrz01axZTxPwzdzzlG04dOlc4NdL966NppvMXXvU8sinz
- YpQjC09G//z3hnMe3XAy2JN8wNxaMXBrj8FxkwVXQ8K5k2x1DRt7VyWr3Wfkf1GU/E7EtSB/
- sdXia2q/J6ZPuvlfTGzpdW+JlyplWcV/t4rNMsv+2Bu8QcfRaL2y+ERpOyWW4oxEQy3mouJE
- AKKoM1opAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsVy+t/xu7oTy37HGqxco2Kxub+d0WLSoWuM
- FksuplrMu6VsMetdO5vF8d4dLA5sHptWdbJ53Lm2h83jybXNTB7v911lC2CJ0rMpyi8tSVXI
- yC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MtY2/mYvWC1QMW76awN
- jD95uhg5OSQETCTWvLrM2MXIxSEksJRR4sjf64wQCRmJT1c+skPYwhJ/rnWxQRR9ZJQ4dHYp
- lHOGUeLA29NMEM4uRonTX74xg7SwCWhKbP/znwXEFhGQlmi/OokVpIhZ4DpQ+++LYHOFBXwk
- 2l4vA2tgEVCVmHa+C6iBg4NXwEri3QE/iNXyElu/fWIFsTkFrCW29N4GO08IqOTxz49g83kF
- BCVOznwCZjMD1Tdvnc0MYUtIHHzxgnkCo/AsJGWzkJTNQlK2gJF5FaNIamlxbnpusaFecWJu
- cWleul5yfu4mRmCEbTv2c/MOxksbgw8xCnAwKvHwvkz+HSvEmlhWXJl7iFGCg1lJhPd2x89Y
- Id6UxMqq1KL8+KLSnNTiQ4ymQL9NZJYSTc4HRn9eSbyhqaG5haWhubG5sZmFkjhvh8DBGCGB
- 9MSS1OzU1ILUIpg+Jg5OqQZGgTt3VinaT9l22uHnZoG/Sw8ZT8r7f5fh8rIW2bkr47QKtbb1
- Kj3Tbf3/wlB8pYpc1VnXs0Kb15fc/CY3fWKVtfZyL/2fX1cXCVh/fuJ68WCfp6do4L0bfReC
- mc/0qoVvqBC7sPjvc5Hb5W+kF5/ebya9Yu7Bx4Gc2Uw/pSVbeG6pf0q7HzxHU4mlOCPRUIu5
- qDgRABIqc03GAgAA
-X-CMS-MailID: 20191219130937eucas1p26be4db4b75dc87168bceff37f4fd5588
-X-Msg-Generator: CA
-X-RootMTR: 20191219130937eucas1p26be4db4b75dc87168bceff37f4fd5588
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20191219130937eucas1p26be4db4b75dc87168bceff37f4fd5588
-References: <20191219130921.309264-1-k.jensen@samsung.com>
- <CGME20191219130937eucas1p26be4db4b75dc87168bceff37f4fd5588@eucas1p2.samsung.com>
+In-Reply-To: <20191219132621.16595-1-mst@redhat.com>
+X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
+X-Mutt-Fcc: =sent
+X-MC-Unique: mxoiEXsIPfCC_AdFbdEjJg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 210.118.77.12
-X-Mailman-Approved-At: Thu, 19 Dec 2019 08:56:47 -0500
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -122,81 +90,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Required for compliance with NVMe revision 1.2.1 or later. See NVM
-Express 1.2.1, Section 5.11 ("Identify command"), Figure 90 and Section
-7.9 ("NVMe Qualified Names").
+Devices tend to maintain vq pointers, allow deleting them trough a vq point=
+er.
 
-This also bumps the supported version to 1.2.1.
-
-Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- hw/block/nvme.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ include/hw/virtio/virtio.h |  2 ++
+ hw/virtio/virtio.c         | 15 ++++++++++-----
+ 2 files changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index e458b8292ac0..8f7049dc2dd5 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -9,9 +9,9 @@
-  */
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index c32a815303..e18756d50d 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -183,6 +183,8 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int que=
+ue_size,
 =20
- /**
-- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
-+ * Reference Specification: NVM Express 1.2.1
-  *
-- *  http://www.nvmexpress.org/resources/
-+ *   https://nvmexpress.org/resources/specifications/
-  */
+ void virtio_del_queue(VirtIODevice *vdev, int n);
 =20
- /**
-@@ -43,6 +43,8 @@
- #include "trace.h"
- #include "nvme.h"
-=20
-+#define NVME_SPEC_VER 0x00010201
++void virtio_delete_queue(VirtQueue *vq);
 +
- #define NVME_GUEST_ERR(trace, fmt, ...) \
-     do { \
-         (trace_##trace)(__VA_ARGS__); \
-@@ -1365,6 +1367,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-     id->ieee[0] =3D 0x00;
-     id->ieee[1] =3D 0x02;
-     id->ieee[2] =3D 0xb3;
-+    id->ver =3D cpu_to_le32(NVME_SPEC_VER);
-     id->oacs =3D cpu_to_le16(0);
-     id->frmw =3D 7 << 1;
-     id->lpa =3D 1 << 0;
-@@ -1372,6 +1375,10 @@ static void nvme_realize(PCIDevice *pci_dev, Error=
- **errp)
-     id->cqes =3D (0x4 << 4) | 0x4;
-     id->nn =3D cpu_to_le32(n->num_namespaces);
-     id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP=
-);
-+
-+    strcpy((char *) id->subnqn, "nqn.2019-08.org.qemu:");
-+    pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
-+
-     id->psd[0].mp =3D cpu_to_le16(0x9c4);
-     id->psd[0].enlat =3D cpu_to_le32(0x10);
-     id->psd[0].exlat =3D cpu_to_le32(0x4);
-@@ -1386,7 +1393,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-     NVME_CAP_SET_CSS(n->bar.cap, 1);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+ void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
+                     unsigned int len);
+ void virtqueue_flush(VirtQueue *vq, unsigned int count);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 04716b5f6c..31dd140990 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2330,17 +2330,22 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int=
+ queue_size,
+     return &vdev->vq[i];
+ }
 =20
--    n->bar.vs =3D 0x00010200;
-+    n->bar.vs =3D NVME_SPEC_VER;
-     n->bar.intmc =3D n->bar.intms =3D 0;
++void virtio_delete_queue(VirtQueue *vq)
++{
++    vq->vring.num =3D 0;
++    vq->vring.num_default =3D 0;
++    vq->handle_output =3D NULL;
++    vq->handle_aio_output =3D NULL;
++    g_free(vq->used_elems);
++}
++
+ void virtio_del_queue(VirtIODevice *vdev, int n)
+ {
+     if (n < 0 || n >=3D VIRTIO_QUEUE_MAX) {
+         abort();
+     }
 =20
-     if (n->params.cmb_size_mb) {
+-    vdev->vq[n].vring.num =3D 0;
+-    vdev->vq[n].vring.num_default =3D 0;
+-    vdev->vq[n].handle_output =3D NULL;
+-    vdev->vq[n].handle_aio_output =3D NULL;
+-    g_free(vdev->vq[n].used_elems);
++    virtio_delete_queue(&vdev->vq[n]);
+ }
+=20
+ static void virtio_set_isr(VirtIODevice *vdev, int value)
 --=20
-2.24.1
+MST
 
 
