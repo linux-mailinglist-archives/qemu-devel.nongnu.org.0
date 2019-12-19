@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AEE12652D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:49:25 +0100 (CET)
-Received: from localhost ([::1]:43032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D52126543
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:54:51 +0100 (CET)
+Received: from localhost ([::1]:43134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihx7E-0002OF-0q
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:49:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58630)
+	id 1ihxCU-0002Ze-GL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:54:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ihwxP-0005Rt-MK
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:16 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ihwxY-0005Zz-14
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ihwxO-0006kX-Jk
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:15 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21387
+ (envelope-from <mreitz@redhat.com>) id 1ihwxV-0006tr-NN
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:23 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52057
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwxO-0006iJ-6x
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:14 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwxR-0006q6-QC
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576766353;
+ s=mimecast20190719; t=1576766357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GQbKr/sniJEZGRDbZ7AH+J3gho1VvW8izxsWmwQypRw=;
- b=EDSrq+oRmjh3PxaqCzhtTMli0sIY2i9VJXOKZ2U5OPKROwWWJQh8VY/B3otdZgqB5NqALC
- vnvWwbUAANuus87//oWSaC+BQREtZ3q0CfXNwOA/SUfreQKVI7TsjQyhe1jLCwFb36pk9q
- o8+SyrVCb/YJYumYhM5aXhaaTWIvLsA=
+ bh=ZfbWLLi0eC0FB0r0SaxA61U7hFeSImfNrdw/Lz5zxZc=;
+ b=TJNmo3dDy5zteOLdRoL+9ma8iZZdwpGyWTn435lFl3n6X25yZnwIGMnXyRqMiPLlN4t6jJ
+ 9Dj3wZCA1JEsxEjsYpPMz+fgewTinbdRd5wSq9pRtkuzhMN3M60FJrishGyFbqJmRhVEYz
+ N1l1M+1rgBGrufNULvcmrWyH3nywa5Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-dROfp2bCMb-VP4ftyuhRUw-1; Thu, 19 Dec 2019 09:39:12 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-313-sxlIX28dPwWXQRpbkSHS7w-1; Thu, 19 Dec 2019 09:39:16 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 873CD7A12A;
- Thu, 19 Dec 2019 14:39:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11ED91061E4E;
+ Thu, 19 Dec 2019 14:39:15 +0000 (UTC)
 Received: from localhost (ovpn-205-138.brq.redhat.com [10.40.205.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0978163BB3;
- Thu, 19 Dec 2019 14:39:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EB1B5DA7D;
+ Thu, 19 Dec 2019 14:39:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 14/18] iotests: Restrict some Python tests to file
-Date: Thu, 19 Dec 2019 15:38:14 +0100
-Message-Id: <20191219143818.1646168-15-mreitz@redhat.com>
+Subject: [PATCH 15/18] iotests: Let _make_test_img guess $TEST_IMG_FILE
+Date: Thu, 19 Dec 2019 15:38:15 +0100
+Message-Id: <20191219143818.1646168-16-mreitz@redhat.com>
 In-Reply-To: <20191219143818.1646168-1-mreitz@redhat.com>
 References: <20191219143818.1646168-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: dROfp2bCMb-VP4ftyuhRUw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: sxlIX28dPwWXQRpbkSHS7w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -75,41 +75,110 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most Python tests are restricted to the file protocol (without
-explicitly saying so), but these are the ones that would break
-./check -fuse -qcow2.
+When most iotests want to create a test image that is named differently
+from the default $TEST_IMG, they do something like this:
+
+    TEST_IMG=3D"$TEST_IMG.base" _make_test_img $options
+
+This works fine with the "file" protocol, but not so much for anything
+else: _make_test_img tries to create an image under $TEST_IMG_FILE
+first, and only under $TEST_IMG if the former is not set; and on
+everything but "file", $TEST_IMG_FILE is set.
+
+There are two ways we can fix this: First, we could make all tests
+adjust not only TEST_IMG, but also TEST_IMG_FILE if that is present
+(e.g. with something like _set_test_img_suffix $suffix that would affect
+not only TEST_IMG but also TEST_IMG_FILE, if necessary).  This is a
+pretty clean solution, and this is maybe what we should have done from
+the start.
+
+But it would also require changes to most existing bash tests.  So the
+alternative is this: Let _make_test_img see whether $TEST_IMG_FILE still
+points to the original value.  If so, it is possible that the caller has
+adjusted $TEST_IMG but not $TEST_IMG_FILE.  In such a case, we can (for
+most protocols) derive the corresponding $TEST_IMG_FILE value from
+$TEST_IMG value and thus work around what technically is the caller
+misbehaving.
+
+This second solution is less clean, but it is robust against people
+keeping their old habit of adjusting TEST_IMG only, and requires much
+less changes.  So this patch implements it.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/206 | 1 +
- tests/qemu-iotests/242 | 1 +
- 2 files changed, 2 insertions(+)
+ tests/qemu-iotests/common.rc | 42 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/206 b/tests/qemu-iotests/206
-index 5bb738bf23..b3e8c5bb96 100755
---- a/tests/qemu-iotests/206
-+++ b/tests/qemu-iotests/206
-@@ -24,6 +24,7 @@ import iotests
- from iotests import imgfmt
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index d088392ab6..192c988401 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -250,6 +250,7 @@ else
+         TEST_IMG=3D$IMGPROTO:$TEST_DIR/t.$IMGFMT
+     fi
+ fi
++ORIG_TEST_IMG_FILE=3D$TEST_IMG_FILE
+ ORIG_TEST_IMG=3D"$TEST_IMG"
 =20
- iotests.verify_image_format(supported_fmts=3D['qcow2'])
-+iotests.verify_protocol(supported=3D['file'])
+ if [ -z "$TEST_DIR" ]; then
+@@ -312,6 +313,33 @@ _get_data_file()
+                     | sed -e "s#\\\$TEST_IMG#$1#"
+ }
 =20
- def blockdev_create(vm, options):
-     result =3D vm.qmp_log('blockdev-create',
-diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
-index c176e92da6..452fbb7b80 100755
---- a/tests/qemu-iotests/242
-+++ b/tests/qemu-iotests/242
-@@ -25,6 +25,7 @@ from iotests import qemu_img_create, qemu_io, qemu_img_pi=
-pe, \
-     file_path, img_info_log, log, filter_qemu_io
++# Translate a $TEST_IMG to its corresponding $TEST_IMG_FILE for
++# different protocols
++_test_img_to_test_img_file()
++{
++    case "$IMGPROTO" in
++        file)
++            echo "$1"
++            ;;
++
++        nfs)
++            echo "$1" | sed -e "s#nfs://127.0.0.1##"
++            ;;
++
++        ssh)
++            echo "$1" | sed -e "s#ssh://127.0.0.1##"
++            ;;
++
++        vxhs)
++            echo "$1" | sed -e "s#vxhs://127.0.0.1:9999#$TEST_DIR#"
++            ;;
++
++        *)
++            return 1
++            ;;
++    esac
++}
++
+ _make_test_img()
+ {
+     # extra qemu-img options can be added by tests
+@@ -325,10 +353,18 @@ _make_test_img()
+     local opts_param=3Dfalse
+     local misc_params=3D()
 =20
- iotests.verify_image_format(supported_fmts=3D['qcow2'])
-+iotests.verify_protocol(supported=3D['file'])
+-    if [ -n "$TEST_IMG_FILE" ]; then
+-        img_name=3D$TEST_IMG_FILE
+-    else
++    if [ -z "$TEST_IMG_FILE" ]; then
+         img_name=3D$TEST_IMG
++    elif [ "$TEST_IMG_FILE" =3D "$ORIG_TEST_IMG_FILE" ]; then
++        # Handle cases of tests only updating TEST_IMG, but not TEST_IMG_F=
+ILE
++        img_name=3D$(_test_img_to_test_img_file "$TEST_IMG")
++        if [ "$?" !=3D 0 ]; then
++            img_name=3D$TEST_IMG_FILE
++        fi
++    else
++        # $TEST_IMG_FILE is not the default value, so it definitely has be=
+en
++        # modified by the test
++        img_name=3D$TEST_IMG_FILE
+     fi
 =20
- disk =3D file_path('disk')
- chunk =3D 256 * 1024
+     if [ -n "$IMGOPTS" ]; then
 --=20
 2.23.0
 
