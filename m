@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D05125F4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:38:14 +0100 (CET)
-Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538FF125FE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:51:45 +0100 (CET)
+Received: from localhost ([::1]:38724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtC9-0002iP-JY
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:38:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55964)
+	id 1ihtPE-0000KI-2R
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:51:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1ihtB3-0002Cr-5U
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:37:06 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNF-0006Xq-Rk
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1ihtB1-0004fh-Ry
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:37:04 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59749
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1ihtB1-0004bK-Lm
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:37:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576751822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5GxWRsMAGxSYQBDlubMsUyZyKi3tB62KASjv84VCzVs=;
- b=aTfJXR5ydPh4UZbtX/IpHX6M1bTAaAx9jaRJ5xoucBn/sX3u9JAEzPgb7QJPED+TAC0j/x
- h8xU0kTpQYvFAU1hxBZfMWaFmPp4Mv1HsQTgFpvqcdPzIMAWxqddIkz167NoqZrYFcM5p+
- zsfgy//NeHcfwfBgQO0CkW1lR1768Bs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-CUvZJHmeOK6kORC1mHIlmQ-1; Thu, 19 Dec 2019 05:36:48 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 397E52EDA;
- Thu, 19 Dec 2019 10:36:47 +0000 (UTC)
-Received: from andariel.pipo.sk (ovpn-205-6.brq.redhat.com [10.40.205.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FCA419C5B;
- Thu, 19 Dec 2019 10:36:41 +0000 (UTC)
-Date: Thu, 19 Dec 2019 11:36:38 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 0/5] fix migration with bitmaps and mirror
-Message-ID: <20191219103638.GJ4914@andariel.pipo.sk>
-References: <20191219085106.22309-1-vsementsov@virtuozzo.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtND-0007z0-Au
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:41 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37088)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ihtND-0007t5-1r
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:39 -0500
+Received: by mail-wm1-x335.google.com with SMTP id f129so5106965wmf.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ejtvT2GEst/Jf6ZZBqZIeJaPXeRI7sIRFGbYoqeTEu4=;
+ b=XiHyCyaU0NtNMmC0flV8OlbZFoGZjUQpAuQzni+2Ukp1BQf5mjbdukFtxblwTDLzI5
+ yyzos0b/vUFlDiHSM1705NOFQvv96DIA0nD5aOsfTf6yUOoKa8snq2gVFIw7e5xVsH0a
+ lCLmO9fzlMr231gshJECavR5hGHc66oV9APpuq3ODfbfvHFSScszjoRJyY7YT6sO9iXX
+ W+dm/TNz7tFr+7jeB3GvEqIJVx/SXW99KwwbPxX1kHNDezTZvMVZwMpXSBT6JtFh/6Ja
+ Fj7aVP3F5qWD3pAVWNk3MH3dMtLSLmXMDdEj4zVSdGhNR5xV2HAvXDGEHEck+OFBf8Qs
+ SdCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ejtvT2GEst/Jf6ZZBqZIeJaPXeRI7sIRFGbYoqeTEu4=;
+ b=RDLPiY8fdhQheFpHP/AcuFchYBOqg76T9YO7PFr9qxVei/pPJFvO87Hqq4CO722leL
+ W5+P7ljXrg6cjgwA57r+JoTl1quefQZyHsE5xZ/0javuIV3YmZ8L7430veAxZDBfWYB4
+ A4sQRSVbzlNXDdP3wrWbC62XoiKO4uqv7iPcNsJFDb1GFdk2IvnDi7zwTVr6T8uYWdSP
+ 7fkPSqJDPa3GjApJF9kzsazeY/m3Vj3J1Cz38mhTE7rjddLFKNT4aEo+l3MVngaBTSD4
+ +NiGvc6v+n9Xb5ztB0RGyKYaTWKK0P3W1Js2Rv/myOwt48rgb5RvIZ2dyuJ5kToGgVWm
+ Xngw==
+X-Gm-Message-State: APjAAAWKnxDPFO4txZEC5YrN3Hpg1Xlp9JkUYc2oCPpLr6bGvm0uh1Ao
+ YNxwSb9a8/0KycSVLLiTGPDMKg==
+X-Google-Smtp-Source: APXvYqyhTZteXKLg9evugx6vUwrf2eYi6CVQIjVALvK7W/xkfyyQNX2f+nlAvR3MFg8M/1jlSniAwg==
+X-Received: by 2002:a7b:c342:: with SMTP id l2mr9821893wmj.159.1576752577830; 
+ Thu, 19 Dec 2019 02:49:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x17sm5878585wrt.74.2019.12.19.02.49.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 02:49:35 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 692E81FF87;
+ Thu, 19 Dec 2019 10:49:34 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/25] testing and logging updates
+Date: Thu, 19 Dec 2019 10:49:09 +0000
+Message-Id: <20191219104934.866-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191219085106.22309-1-vsementsov@virtuozzo.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: CUvZJHmeOK6kORC1mHIlmQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,42 +79,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- quintela@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, den@openvz.org, mreitz@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 11:51:01 +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
->=20
-> It's a continuation for
-> "bitmap migration bug with -drive while block mirror runs"
-> <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
-> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg07241.html
->=20
-> The problem is that bitmaps migrated to node with same node-name or
-> blk-parent name. And currently only the latter actually work in libvirt.
-> And with mirror-top filter it doesn't work, because
-> bdrv_get_device_or_node_name don't go through filters.
+The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681:
 
-I want to point out that since libvirt-5.10 we use -blockdev to
-configure the backend of storage devices with qemu-4.2 and later. This
-means unfortunately that the BlockBackend of the drive does not have a
-name any more and thus the above will not work even if you make the
-lookup code to see through filters.
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-12-17' into staging (2019-12-17 15:55:20 +0000)
 
-As I've pointed out separately node-names are not good idea to use for
-matching either as they can be distinct on the destination of migration.
+are available in the Git repository at:
 
-Having same node names for images during migration was not documented as
-a requiremend and even if it was the case when the mirror job is used
-the destination is a different image and thus having a different node
-name is expected.
+  https://github.com/stsquad/qemu.git tags/pull-tesing-and-misc-191219-1
 
-Since it's not documented, expect the same situation as with
-autogenerated nodenames, the destination may have different node-names
-and the same node-name may refer to a different image. Implicit matching
-based on node-names is thus impossible.
+for you to fetch changes up to 380976f40f909b735acb60d5d424de7eb1b7107e:
+
+  tests/tcg: ensure we re-configure if configure.sh is updated (2019-12-19 08:20:16 +0000)
+
+----------------------------------------------------------------
+Various testing and logging updates
+
+  - test tci with Travis
+  - enable multiarch testing in Travis
+  - default to out-of-tree builds
+  - make changing logfile safe via RCU
+  - remove redundant tests
+  - remove gtester test from docker
+  - convert DEBUG_MMAP to tracepoints
+  - remove hand rolled glob function
+  - trigger tcg re-configure when needed
+
+----------------------------------------------------------------
+Alex Bennée (8):
+      configure: allow disable of cross compilation containers
+      linux-user: convert target_mprotect debug to tracepoint
+      linux-user: convert target_mmap debug to tracepoint
+      linux-user: add target_mmap_complete tracepoint
+      linux-user: log page table changes under -d page
+      linux-user: convert target_munmap debug to a tracepoint
+      trace: replace hand-crafted pattern_glob with g_pattern_match_simple
+      tests/tcg: ensure we re-configure if configure.sh is updated
+
+Paolo Bonzini (2):
+      ci: build out-of-tree
+      docker: gtester is no longer used
+
+Robert Foley (6):
+      Fix double free issue in qemu_set_log_filename().
+      Cleaned up flow of code in qemu_set_log(), to simplify and clarify.
+      Add a mutex to guarantee single writer to qemu_logfile handle.
+      qemu_log_lock/unlock now preserves the qemu_logfile handle.
+      Add use of RCU for qemu_logfile.
+      Added tests for close and change of logfile.
+
+Thomas Huth (8):
+      travis.yml: Run tcg tests with tci
+      iotests: Provide a function for checking the creation of huge files
+      iotests: Skip test 060 if it is not possible to create large files
+      iotests: Skip test 079 if it is not possible to create large files
+      tests/hd-geo-test: Skip test when images can not be created
+      tests/test-util-filemonitor: Skip test on non-x86 Travis containers
+      travis.yml: Enable builds on arm64, ppc64le and s390x
+      travis.yml: Remove the redundant clang-with-MAIN_SOFTMMU_TARGETS entry
+
+Wainer dos Santos Moschetta (1):
+      tests/vm: Allow to set qemu-img path
+
+ docs/devel/testing.rst        |   6 ++-
+ configure                     |   9 +++-
+ include/exec/log.h            |  34 +++++++++++--
+ include/qemu/log.h            |  48 +++++++++++++++---
+ accel/tcg/cpu-exec.c          |   4 +-
+ accel/tcg/translate-all.c     |   4 +-
+ accel/tcg/translator.c        |   4 +-
+ bsd-user/main.c               |   2 +-
+ exec.c                        |   4 +-
+ hw/net/can/can_sja1000.c      |   4 +-
+ linux-user/main.c             |   2 +-
+ linux-user/mmap.c             |  56 ++++-----------------
+ net/can/can_socketcan.c       |   5 +-
+ target/cris/translate.c       |   4 +-
+ target/i386/translate.c       |   5 +-
+ target/lm32/translate.c       |   4 +-
+ target/microblaze/translate.c |   4 +-
+ target/nios2/translate.c      |   4 +-
+ target/tilegx/translate.c     |   6 ---
+ target/unicore32/translate.c  |   4 +-
+ tcg/tcg.c                     |  28 +++++++----
+ tests/hd-geo-test.c           |  12 ++++-
+ tests/test-logging.c          |  80 ++++++++++++++++++++++++++++++
+ tests/test-util-filemonitor.c |  11 +++++
+ trace/control.c               |  35 +------------
+ util/log.c                    | 100 ++++++++++++++++++++++++++++---------
+ .cirrus.yml                   |   8 ++-
+ .gitlab-ci.yml                |  28 ++++++++---
+ .shippable.yml                |   4 +-
+ .travis.yml                   | 112 ++++++++++++++++++++++++++++++++++++------
+ linux-user/trace-events       |   6 +++
+ tests/docker/common.rc        |   7 +--
+ tests/qemu-iotests/005        |   5 +-
+ tests/qemu-iotests/060        |   3 ++
+ tests/qemu-iotests/079        |   3 ++
+ tests/qemu-iotests/220        |   6 +--
+ tests/qemu-iotests/common.rc  |  10 ++++
+ tests/tcg/Makefile.prereqs    |   2 +-
+ tests/tcg/configure.sh        |   6 ++-
+ tests/vm/Makefile.include     |   1 +
+ tests/vm/basevm.py            |   5 ++
+ tests/vm/centos               |   2 +-
+ tests/vm/fedora               |   4 +-
+ tests/vm/freebsd              |   3 +-
+ tests/vm/netbsd               |   3 +-
+ tests/vm/openbsd              |   3 +-
+ tests/vm/ubuntu.i386          |   2 +-
+ 47 files changed, 486 insertions(+), 216 deletions(-)
+
+-- 
+2.20.1
 
 
