@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C6412609E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:15:54 +0100 (CET)
-Received: from localhost ([::1]:39326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C855D1260AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:19:39 +0100 (CET)
+Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtmb-00008h-F6
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:15:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54467)
+	id 1ihtqE-0003cT-UC
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:19:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtku-0006ye-5q
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:14:09 -0500
+ (envelope-from <stefanha@gmail.com>) id 1ihtpO-0002wp-5b
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:18:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtks-0001oG-Fs
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:14:07 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43436)
+ (envelope-from <stefanha@gmail.com>) id 1ihtpM-0005HG-Og
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:18:45 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37835)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtks-0001ge-3N
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:14:06 -0500
-Received: by mail-wr1-x444.google.com with SMTP id d16so5535735wre.10
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 03:14:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=VchYwTa2XZqXtmbNsj17z0nYkcR5SFWBD4w1ltQiuOs=;
- b=giXFkS34AnJyf72FIsuqEn1+uy5V3xNnK5y9ZDzXmwpM/iqIRnAE6WhQElQPQZ+EXk
- ZxhZFmS7k9gTPxQ3zp8VUIHtLO61MFxcvjTxgSAVj9VV+h9BvGl9/tcTgtKnwMUytxkH
- 9bAleAaGRNusAmRrRQcylQiEwYIlitMlmixUZOhUfiPDhKdJVlepbo8E6bAX58AkIAM9
- Jkwdg1V/qCvhU9KEjmtDdlw6P78ajHDwb8n3sMBlxYr1sCL9erfqv0o66RPdeU5WSZ6y
- 3YpGgF6k49lBaUnNjE441ZUQJuUauiMJDNvahKOGcNAE5Z+IZfdQszJWwDStN0qoR0il
- pmdA==
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ihtpM-00058b-9A
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:18:44 -0500
+Received: by mail-wm1-x341.google.com with SMTP id f129so5204165wmf.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 03:18:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=zJAgS20/zs8QilluW3kAGxec4zM74Hea/FaQMFwELkU=;
+ b=bAyKbypr719QhiPNt2EHlym/iDDGumrd7duWFje5u0N9ZOxDOZoBk0SnZhQL0fe3NZ
+ N/ubSR9RVeVg8V2DV9Jxs9sMdTJwYiHwZGzCGRatJ+SaoI1o/GDcq11m+jI160pEVrFk
+ DQuraa9B1cOoydshNKKKSkgsdmqHVuYKveagqswWPkf293vtk+17bBNsSJQEkEjZ3VBa
+ 0zbRJ2aLnTT4QiAfzVk/LisraiHl9gYk28l5/Hsq3mRxavns60E8cHXP1bLupAhHx/9V
+ T610PEqZxZvilmI9fdoA/dR51dW8EbnOfqBMlEBpNFnvne955zDwdcyQxdmKygj4McSG
+ TuyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=VchYwTa2XZqXtmbNsj17z0nYkcR5SFWBD4w1ltQiuOs=;
- b=fqIPF63zuLi5cc9NFNiPq6YM4+Ncluni8ZdCvd9uLhhnCCR6qVxcBV00tXPD+FLAFt
- TO9ILba2PUrkGoDXVIAEVA8YNEMEgkc98/lA2Of9Oy/liFJBVzLrql7ugUMX22UJeuvv
- BE3+72TyLNw8NnRa32a77AZ6oxXGpY4LvflYI9QC+OlxLIuPbatXhSF9Cj8I06WiIeWI
- ZbYT6AEv+h7ZYZBM6pGFwqH8XgTVJTVKKrII3RzkPczY94w+me7dHckLf9iMa2hbsjSE
- bmZv0RiLLdX+rTzDD9AZWOFCxySW0ynSeqPgrNpz96ipq3lwol31Nb+hEPc0RscpJzL4
- +wyA==
-X-Gm-Message-State: APjAAAU0ssmvzn6hcRm5nwIYGr8g3KBQP32xOoVK+XHe4wL4D4+zFx8E
- yXOgOoRnV36aOgNLIgb2PF5ZNw==
-X-Google-Smtp-Source: APXvYqwpvNuavAY7KsgD9NvMVbGYQI7HztWiALQ3LAp5QxUVp8JeIiYqxIaFuMCcopa9zpZb1DxogA==
-X-Received: by 2002:adf:f6c1:: with SMTP id y1mr9417416wrp.17.1576754044251;
- Thu, 19 Dec 2019 03:14:04 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c15sm6022465wrt.1.2019.12.19.03.14.02
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=zJAgS20/zs8QilluW3kAGxec4zM74Hea/FaQMFwELkU=;
+ b=dFn6dz3ecxTFLeqXM7av/7Sf45IwNBV4WP/+l/h0oTjMxd6LXw5pesvGxEpgst90L3
+ FGpBzB4otdw1Jx86+lvU7DHdkqQK5bWJalD82pE1U0eNf1RO4ddJ7l/K7lLoQuZxxwLd
+ gNvMBbneI0wZDUw97Dlgc4I5NNrdls046oXqS55rHjoJYIebJUz6Ahyaxr9flC0jdwBr
+ isDyr2WrZbfidmUu1fAsTHm8wpVGNXPKCY8F0fiffu+szFGx4ZJnIDyBVsMAsVYX8vNM
+ 8JrRgxiVRvowamYDCY7mqVk1nmBxSwoHgdA/1XcaotqRFOS/ypeazvJb3A8cs1z6yzrh
+ PwqQ==
+X-Gm-Message-State: APjAAAV6m/6o5wji82S8UZE2WecFjGv8cBw7Eu4W76Ost+VLAQ8hSyVP
+ l3NknAvMQKAx5APlYI8Ngw4=
+X-Google-Smtp-Source: APXvYqxgvms0C1gkR8LRvY3QS6ujHiYY7uAUmU4uch4r+u0w0IKIxlkIdJkbT9kvp8kxfw530yqxBw==
+X-Received: by 2002:a7b:cc6a:: with SMTP id n10mr9770455wmj.170.1576754322593; 
+ Thu, 19 Dec 2019 03:18:42 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id n1sm5982902wrw.52.2019.12.19.03.18.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 03:14:02 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA3A81FF87;
- Thu, 19 Dec 2019 11:14:01 +0000 (GMT)
-References: <20191218180029.6744-1-alex.bennee@linaro.org>
- <20191218180029.6744-4-alex.bennee@linaro.org>
- <5ca1462e-5129-2b32-f014-a732a26a0587@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 3/4] semihosting: add qemu_semihosting_console_inc
- for SYS_READC
-In-reply-to: <5ca1462e-5129-2b32-f014-a732a26a0587@linaro.org>
-Date: Thu, 19 Dec 2019 11:14:01 +0000
-Message-ID: <87v9qcefeu.fsf@linaro.org>
+ Thu, 19 Dec 2019 03:18:41 -0800 (PST)
+Date: Thu, 19 Dec 2019 11:18:39 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v2] vhost-vsock: report QMP event when
+ setrunning
+Message-ID: <20191219111839.GB1624084@stefanha-x1.localdomain>
+References: <20190809134134.GA8594@stefanha-x1.localdomain>
+ <201911281926474453744@zte.com.cn>
+ <20191212110525.GA1141992@stefanha-x1.localdomain>
+ <20191212062328-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pvezYHf7grwyp3Bc"
+Content-Disposition: inline
+In-Reply-To: <20191212062328-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,150 +82,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, keithp@keithp.com,
- Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, pbonzini@redhat.com
+Cc: ning.bo9@zte.com.cn, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+--pvezYHf7grwyp3Bc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 12/18/19 8:00 AM, Alex Benn=C3=A9e wrote:
->> From: Keith Packard <keithp@keithp.com>
->>=20
->> Provides a blocking call to read a character from the console using
->> semihosting.chardev, if specified. This takes some careful command
->> line options to use stdio successfully as the serial ports, monitor
->> and semihost all want to use stdio. Here's a sample set of command
->> line options which share stdio betwen semihost, monitor and serial
->
-> between.
->
->> +/**
->> + * qemu_semihosting_console_inc:
->> + * @env: CPUArchState
->> + *
->> + * Receive single character from debug console. This may be the remote
->> + * gdb session if a softmmu guest is currently being debugged. As this
->> + * call may block if no data is available we suspend the CPU and will
->> + * rexecute the instruction when data is there. Therefor two
->
-> re-execute, Therefore
->
->> + * conditions must be met:
->> + *   - CPUState is syncronised before callinging this function
->
-> synchronized, calling
->
->> + *   - pc is only updated once the character is succesfully returned
->
-> successfully.
->
->
->> +static int console_can_read(void *opaque)
->> +{
->> +    SemihostingConsole *c =3D opaque;
->> +    int ret;
->> +    g_assert(qemu_mutex_iothread_locked());
->> +    ret =3D (int) fifo8_num_free(&c->fifo);
->> +    return ret;
->> +}
->
-> Boolean result; better as
->
->   return fifo8_num_free(&c->fifo) > 0
->
-> (We could usefully change IOCanReadHandler to return bool to emphasize
-> this.)
+On Thu, Dec 12, 2019 at 06:24:55AM -0500, Michael S. Tsirkin wrote:
+> On Thu, Dec 12, 2019 at 11:05:25AM +0000, Stefan Hajnoczi wrote:
+> > On Thu, Nov 28, 2019 at 07:26:47PM +0800, ning.bo9@zte.com.cn wrote:
+> > > Let me describe the issue with an example via `nc-vsock`:
+> > >=20
+> > > Let's assume the Guest cid is 3.
+> > > execute 'rmmod vmw_vsock_virtio_transport' in Guest,
+> > > then execute 'while true; do nc-vsock 3 1234' in Host.
+> > >=20
+> > > Host                             Guest
+> > >                                  # rmmod vmw_vsock_virtio_transport
+> > >=20
+> > > # while true; do ./nc-vsock 3 1234; done
+> > > (after 2 second)
+> > > connect: Connection timed out
+> > > (after 2 second)
+> > > connect: Connection timed out
+> > > ...
+> > >=20
+> > >                                  # modprobe vmw_vsock_virtio_transport
+> > >=20
+> > > connect: Connection reset by peer
+> > > connect: Connection reset by peer
+> > > connect: Connection reset by peer
+> > > ...
+> > >=20
+> > >                                  # nc-vsock -l 1234
+> > >                                  Connetion from cid 2 port ***...
+> > > (stop printing)
+> > >=20
+> > >=20
+> > > The above process simulates the communication process between
+> > > the `kata-runtime` and `kata-agent` after starting the Guest.
+> > > In order to connect to `kata-agent` as soon as possible,=20
+> > > `kata-runtime` will continuously try to connect to `kata-agent` in a =
+loop.
+> > > see https://github.com/kata-containers/runtime/blob/d054556f60f092335=
+a22a288011fa29539ad4ccc/vendor/github.com/kata-containers/agent/protocols/c=
+lient/client.go#L327
+> > > But when the vsock device in the Guest is not ready, the connection
+> > > will block for 2 seconds. This situation actually slows down
+> > > the entire startup time of `kata-runtime`.
+> >=20
+> > This can be done efficiently as follows:
+> > 1. kata-runtime listens on a vsock port
+> > 2. kata-agent-port=3DPORT is added to the kernel command-line options
+> > 3. kata-agent parses the port number and connects to the host
+> >=20
+> > This eliminates the reconnection attempts.
+>=20
+> Then we'll get the same problem in reverse, won't we?
+> Agent must now be running before guest can boot ...
+> Or did I miss anything?
 
-It's documented as the amount you can read and other handlers return
-amounts as well. I'm not sure I want to go messing with the chardev code
-in this series (although I need to look at Phillipe's series).
+kata-runtime launches QEMU.  The QEMU guest runs kata-agent.  Therefore
+it is guaranteed that kata-runtime's listen socket will be set up before
+the agent executes.
 
->
->> +static void console_wake_up(gpointer data, gpointer user_data)
->> +{
->> +    CPUState *cs =3D (CPUState *) data;
->> +    /* cpu_handle_halt won't know we have work so just unbung here */
->> +    cs->halted =3D 0;
->> +    qemu_cpu_kick(cs);
->> +}
->> +
->> +static void console_read(void *opaque, const uint8_t *buf, int size)
->> +{
->> +    SemihostingConsole *c =3D opaque;
->> +    g_assert(qemu_mutex_iothread_locked());
->> +    while (size-- && !fifo8_is_full(&c->fifo)) {
->> +        fifo8_push(&c->fifo, *buf++);
->> +    }
->> +    g_slist_foreach(c->sleeping_cpus, console_wake_up, NULL);
->> +}
->
-> I think you should be clearing sleeping_cpus here, after they've all been=
- kicked.
->
->> +target_ulong qemu_semihosting_console_inc(CPUArchState *env)
->> +{
->> +    uint8_t ch;
->> +    SemihostingConsole *c =3D &console;
->> +    g_assert(qemu_mutex_iothread_locked());
->> +    g_assert(current_cpu);
->> +    if (fifo8_is_empty(&c->fifo)) {
->> +        c->sleeping_cpus =3D g_slist_prepend(c->sleeping_cpus, current_=
-cpu);
->> +        current_cpu->halted =3D 1;
->> +        current_cpu->exception_index =3D EXCP_HALTED;
->> +        cpu_loop_exit(current_cpu);
->> +        /* never returns */
->> +    }
->> +    c->sleeping_cpus =3D g_slist_remove_all(c->sleeping_cpus, current_c=
-pu);
->
-> Which would mean you would not have to do this, because current_cpu is on=
-ly on
-> the list when it is halted.
->
-> I presume all semihosting holds the BQL before we reach here, and we are =
-not
-> racing on this datastructure?
+Stefan
 
-Yeah this is all under BQL - which I assert is the case. I'll add a
-comment to the structure.
+--pvezYHf7grwyp3Bc
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
->> +target_ulong qemu_semihosting_console_inc(CPUArchState *env)
->> +{
->> +    uint8_t c;
->> +    struct pollfd pollfd =3D {
->> +        .fd =3D STDIN_FILENO,
->> +        .events =3D POLLIN
->> +    };
->> +
->> +    if (poll(&pollfd, 1, -1) !=3D 1) {
->> +        qemu_log_mask(LOG_UNIMP, "%s: unexpected read from stdin failur=
-e",
->> +                      __func__);
->> +        return (target_ulong) -1;
->> +    }
->
-> Why are you polling stdin?  linux-user isn't system mode, there isn't a
-> separate monitor thread to get blocked, and you aren't even blocking the =
-thread
-> to try again just returning -1 to the guest.
+-----BEGIN PGP SIGNATURE-----
 
-Hmm not sure - I guess we should just bite the bullet and potentially
-block here. semihosting is linux-user is a bit of a weird use case
-because we are not providing "hardware" but it seems it is used by a
-bunch of testcases that want to test things like M-profile non-glibc
-binaries without the baggage of a full simulation.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl37XI8ACgkQnKSrs4Gr
+c8g2PAf9GwgOAoV6/Y/YUe2hJE2bn9gADOHqia3+F7XU5/Lh2382j4iTcQXy9Q6Q
+3/GPcTqkiMI9D4HM3VmEYm8ZARJc8+15jDS9k3ZrDmW9RpS7hHMVv54DLzUSlVJV
+0d10voEZNFZJ5IF9rXRTXYBO1AUMH3F+uBWfGveLVkwaXY6U1lsmjH61web/6BIb
+6JALNCwagrVBObOtloCFDvDff3eKGpJtglc8Wf2B4B+ZBbgeCGugv2aMBIBzEBYt
+AhrpH/wu2+DgUihP9n+z4O1JUi0Z33h0Ocl8fMbWWJgGpQBIoj6KBxDky0eluCeC
+kPp/ZW5tvldZkEqyqFQe005gffCOlw==
+=Ro50
+-----END PGP SIGNATURE-----
 
->
->
-> r~
-
-
---=20
-Alex Benn=C3=A9e
+--pvezYHf7grwyp3Bc--
 
