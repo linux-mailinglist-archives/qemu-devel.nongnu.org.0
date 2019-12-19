@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD5712583F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 01:12:05 +0100 (CET)
-Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40333125834
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 01:04:06 +0100 (CET)
+Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihjQC-0006Aj-7T
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 19:12:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
+	id 1ihjIS-00027K-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 19:04:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ihjPG-0005hj-Cm
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:11:07 -0500
+ (envelope-from <philmd@redhat.com>) id 1ihjHH-00017h-58
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:02:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ihgSg-0007Ol-6V
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:02:27 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:39167)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1ihgSV-0006dK-23; Wed, 18 Dec 2019 16:02:16 -0500
-Received: by mail-il1-x143.google.com with SMTP id x5so2914653ila.6;
- Wed, 18 Dec 2019 13:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZHGtntswR8W4mR3O18kwKAC9ejq3lYrTZEGigFPxDeI=;
- b=aIMhcUuwnOSRH7aLtb/p3PcYjjrEgbuqUXOC+Mg9eopCE6A5B3tQe4R594GTjYvJEy
- T5OzfzkxnQZwlx0Zq6z18tHfH0wpcir65t3cIdmiN8wyFyxxD/RTcTOjot0r7cxpKuwd
- Uu6bT9qafpeNaLNuwtEKhBo4gFpSe8ulYIHiZWTKOv6vqrCQvSs1VL7hCtrXGhHbG9oO
- oS1oLnrVNxXzsprcS6u8iEAnm7a3S5Gjb1bhq92TDsuCjrogTOfp4sIv9c+LP0K+Neo7
- 2h1dlv49e/1qgKzy1Sx7SrFnP5cItyA5ekE7K6s2NBkIxJqKqOBiZytF5ZyRZuhkI5wd
- Apgw==
+ (envelope-from <philmd@redhat.com>) id 1ihjHD-0001Lv-Ed
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:02:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25853
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihjHB-0001Jx-CR
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 19:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576713764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WHsFh5eJSfMeu4wPfvJ+K1fpKQDGAOLYcMoi3cHlETA=;
+ b=aeXqIazZcnu55GspQV3SZiUE9H1+59/3ukff3pk9FHD68sJfaf6IeGDEHZkeAmUpxdPQrk
+ cw67GWZhktBmFLYb5Mbl9I0+19QSEAokJHIqjZE3uZxkrP4A1p2qG7fmkxiCLY7bHqMoqM
+ oY5+CsvN1XFhN2znhppowPqHC1JHSJU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-4d7TVy19PcacewJKqYFOqA-1; Wed, 18 Dec 2019 19:02:42 -0500
+Received: by mail-wr1-f72.google.com with SMTP id z10so241955wrt.21
+ for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 16:02:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZHGtntswR8W4mR3O18kwKAC9ejq3lYrTZEGigFPxDeI=;
- b=NUKDFlKLqs9UQW7l4+5MsoqNbK7T2weMRebb0Pr8p4dMs2eEN33BhHUQi/ZrSKa+fv
- pqtKMTEcbLNmg3XLWraa3YbMElQIuGJKixAtn6gRv4ne8/DjdM8Ti9sDqrNfKWuo55W4
- 4wgarpeoUpqTXyqirc45a490KhbxH5FuYN+vEMRD7fJBbSs3lUZPMImyXGEjUc54+Wq0
- LZ8HACxERL41IOflEgHGzekQLdphAYkTd9PnD+sRixm+V7Rtgm6AC4HJfSi6zDbKWlh+
- BPIGYElWLDFa+2H44hL4VkzrjzawWn+32rl/5PbejgXkfbNyKiqXXKMLjZSLCr/npplU
- ghTw==
-X-Gm-Message-State: APjAAAVCKGFZdnMN6qw1ELV9miRvnFB55BFNwOIME7pnDN6hIbTe+kDR
- yNYwmdAK1P1tMC+yKkqg/e7QsAavFYoZ1T4Zetg=
-X-Google-Smtp-Source: APXvYqzEdHEXc8x71A7Lpg+O8/J2t/UQpCJw7Pvw0MsGMq9LcLw2529wHUXGewWV/tUwdU/h2fs1Tloh6y3sII83o9I=
-X-Received: by 2002:a92:5a45:: with SMTP id o66mr3672544ilb.67.1576702925654; 
- Wed, 18 Dec 2019 13:02:05 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WHsFh5eJSfMeu4wPfvJ+K1fpKQDGAOLYcMoi3cHlETA=;
+ b=nK20dCvGbU8Tfcykv1U5yvEToi3cQU7DppJgYjRTeL5o+oQad2yUoy/rz6qpvMEb/T
+ Wi59X1CL5NofkmRsNT2AifmWsDqa2g9wYxipHlTP64bEZSOYvMskIxJw6TX3bofmtfm8
+ oe8XZaKSqFWwu9UuGIQsaK5pkTm1orP0+0DGFR9Xz/05t+WQ0CZX9lDqG2uYD/kY4OKg
+ sQxOYYU0KhEevgmvOt9x4YRnGDjKi5QTbHk+yNJnAADYObTt/DTC2aX7db//VCwMoyc5
+ PswHgkPGpy2Yr5OQnRZLn3ArizpuZk3+xMGasWag4lndrFikx63iK/sw5wPVJVZyjETe
+ W93w==
+X-Gm-Message-State: APjAAAWIx0lb5ogFY5dPKQcWb9ViRwxIumP9cjgnlcz5srndmcxC43jw
+ frwxmpPhfuIZQkjMtqt9+h10NQuXRRB3tLo7woxRaBk1qoxILQqBgIoGJ9xOzYWFvGnrEsyXUBy
+ dLhnv5N8MzlmxoUU=
+X-Received: by 2002:a5d:4a91:: with SMTP id o17mr6158475wrq.232.1576713761455; 
+ Wed, 18 Dec 2019 16:02:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwyXVlbK6SedZTYLGPyXfMtx1BsyfwMTJb2VhglaAecSctx7rR3OHHOOGUwW0jc0+S8TYq5gQ==
+X-Received: by 2002:a5d:4a91:: with SMTP id o17mr6158448wrq.232.1576713761179; 
+ Wed, 18 Dec 2019 16:02:41 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id j130sm4518107wmb.18.2019.12.18.16.02.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Dec 2019 16:02:40 -0800 (PST)
+Subject: Re: [PATCH v8 1/4] Acceptance tests: introduce BLD_DIR, SRC_DIR and
+ LNK_DIR
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20191218232500.23530-1-crosa@redhat.com>
+ <20191218232500.23530-2-crosa@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3362e435-73be-f5c3-a672-6208f2bacd95@redhat.com>
+Date: Thu, 19 Dec 2019 01:02:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191216233519.29030-1-nieklinnenbank@gmail.com>
- <20191216233519.29030-7-nieklinnenbank@gmail.com>
- <CAPan3WpW1Q3zpnqgk=MWRWe99=MQ4XoW2kw8L3tioFxfEBXd+Q@mail.gmail.com>
- <CAFEAcA8Viii4Em_bf4Y=AG0jU+EFFFTX6dO-52qd=RT4uHbCVw@mail.gmail.com>
- <19e4f2ac-6067-f61f-f340-108545fb0f02@linaro.org>
-In-Reply-To: <19e4f2ac-6067-f61f-f340-108545fb0f02@linaro.org>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Wed, 18 Dec 2019 22:01:54 +0100
-Message-ID: <CAPan3WrcvE_43=3+b4Ybn==TEQcKj+F_VWjJRBJ6MyXNrcpUbw@mail.gmail.com>
-Subject: Re: [PATCH v2 06/10] arm/arm-powerctl: rebuild hflags after setting
- CP15 bits in arm_set_cpu_on()
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000cccf81059a00c1c9"
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Received-From: 2607:f8b0:4864:20::143
+In-Reply-To: <20191218232500.23530-2-crosa@redhat.com>
+Content-Language: en-US
+X-MC-Unique: 4d7TVy19PcacewJKqYFOqA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,211 +92,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cccf81059a00c1c9
-Content-Type: text/plain; charset="UTF-8"
+On 12/19/19 12:24 AM, Cleber Rosa wrote:
+> Some tests may benefit from using resources from a build directory.
+> This introduces three variables that can help tests find resources in
+> those directories.
+> 
+> First, a BLD_DIR is assumed to exist, given that the primary form of
+> running the acceptance tests is from a build directory (which may or
+> may not be the same as the source tree, that is, the SRC_DIR).
 
-Hello Richard,
+Can we name this BUILD_DIR?
 
-On Tue, Dec 17, 2019 at 5:41 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+This would be more in line with the other buildsys files (configure/make).
 
-> On 12/17/19 6:12 AM, Peter Maydell wrote:
-> > Cc'ing Richard : this is one for you I think... (surely we
-> > need to rebuild the hflags from scratch when we power up
-> > a CPU anyway?)
->
-> We do compute hflags from scratch in reset.
->
-> It has also turned out that there were a few board models that poked at the
-> contents of the cpu and needed special help.  Some of that I would imagine
-> would be fixed properly with the multi-phase reset patches, where we could
-> rebuild hflags when *leaving* reset.
->
-> In arm_set_cpu_on_async_work, we start by resetting the cpu and then start
-> poking at the contents of some system registers.  So, yes, we do need to
-> rebuild after doing that.  Also, I'm not sure how this function should fit
-> into
-> the multi-phase reset future.
->
+> If the directory containing the acceptance tests happens to be a link
+> to a directory (kept as LNK_DIR), it's assumed to it points to the
+> source tree (SRC_DIR), which is the behavior defined on the QEMU
+> Makefiles.  If the directory containing the acceptance tests is not a
+> link, then a in-tree build is assumed, and the BLD_DIR and SRC_DIR are
+> the same and LNK_DIR is set None.
 
-Great, thanks a lot for confirming and clarifying this!
-You mention the multi-phase reset feature, is that going to replace the
-arm_set_cpu_on() functionality?
-Currently I chose to use this function for implementing the CPU
-configuration module in the Allwinner H3 Soc.
-U-Boot needs the CPU configuration module to provide PSCI which Linux uses
-to bring up the secondary cores.
-And basically the CPU configuration module needs something to let the
-secondary CPUs power on, reset and start executing at some address.
+Similarly, can we name this CURRENT_DIR instead of LNK_DIR?
 
-Would you suggest to keep using arm_set_cpu_on() for this, or should I
-instead use a different function?
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   tests/acceptance/avocado_qemu/__init__.py | 27 ++++++++++++++++++-----
+>   1 file changed, 21 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index 6618ea67c1..ac7597f7fe 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -16,8 +16,23 @@ import tempfile
+>   
+>   import avocado
+>   
+> -SRC_ROOT_DIR = os.path.join(os.path.dirname(__file__), '..', '..', '..')
+> -sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
+> +#: The QEMU build root directory.  It may also be the source directory
+> +#: if building from the source dir, but it's safer to use BLD_DIR for
+> +#: that purpose.  Be aware that if this code is moved outside of a source
+> +#: and build tree, it will not be accurate.
+> +BLD_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+> +
+> +if os.path.islink(os.path.dirname(os.path.dirname(__file__))):
+> +    #: The link to the acceptance tests dir in the source code directory.  If
+> +    #: build dir is the same as the source dir, this is set to None
+> +    LNK_DIR = os.path.dirname(os.path.dirname(__file__))
+> +    #: The QEMU root source directory
+> +    SRC_DIR = os.path.dirname(os.path.dirname(os.readlink(LNK_DIR)))
+> +else:
+> +    LNK_DIR = None
+> +    SRC_DIR = BLD_DIR
+> +
+> +sys.path.append(os.path.join(SRC_DIR, 'python'))
+>   
+>   from qemu.machine import QEMUMachine
+>   
+> @@ -49,10 +64,10 @@ def pick_default_qemu_bin(arch=None):
+>       if is_readable_executable_file(qemu_bin_relative_path):
+>           return qemu_bin_relative_path
+>   
+> -    qemu_bin_from_src_dir_path = os.path.join(SRC_ROOT_DIR,
+> +    qemu_bin_from_bld_dir_path = os.path.join(BLD_DIR,
+>                                                 qemu_bin_relative_path)
+> -    if is_readable_executable_file(qemu_bin_from_src_dir_path):
+> -        return qemu_bin_from_src_dir_path
+> +    if is_readable_executable_file(qemu_bin_from_bld_dir_path):
+> +        return qemu_bin_from_bld_dir_path
+>   
+>   
+>   def wait_for_console_pattern(test, success_message, failure_message=None):
+> @@ -122,7 +137,7 @@ class Test(avocado.Test):
+>           self.qemu_bin = self.params.get('qemu_bin',
+>                                           default=default_qemu_bin)
+>           if self.qemu_bin is None:
+> -            self.cancel("No QEMU binary defined or found in the source tree")
+> +            self.cancel("No QEMU binary defined or found in the build tree")
+>   
+>       def _new_vm(self, *args):
+>           vm = QEMUMachine(self.qemu_bin, sock_dir=tempfile.mkdtemp())
+> 
 
-Regards,
-Niek
-
->
-> So:
->
-> >> On Tue, Dec 17, 2019 at 12:36 AM Niek Linnenbank <
-> nieklinnenbank@gmail.com> wrote:
-> >>>
-> >>> After setting CP15 bits in arm_set_cpu_on() the cached hflags must
-> >>> be rebuild to reflect the changed processor state. Without rebuilding,
-> >>> the cached hflags would be inconsistent until the next call to
-> >>> arm_rebuild_hflags(). When QEMU is compiled with debugging enabled
-> >>> (--enable-debug), this problem is captured shortly after the first
-> >>> call to arm_set_cpu_on() for CPUs running in ARM 32-bit non-secure
-> mode:
-> >>>
-> >>>   qemu-system-arm: target/arm/helper.c:11359: cpu_get_tb_cpu_state:
-> >>>   Assertion `flags == rebuild_hflags_internal(env)' failed.
-> >>>   Aborted (core dumped)
-> >>>
-> >>> Fixes: 0c7f8c43daf65
-> >>> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> >>> ---
-> >>>  target/arm/arm-powerctl.c | 3 +++
-> >>>  1 file changed, 3 insertions(+)
-> >>>
-> >>> diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-> >>> index b064513d44..b75f813b40 100644
-> >>> --- a/target/arm/arm-powerctl.c
-> >>> +++ b/target/arm/arm-powerctl.c
-> >>> @@ -127,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUState
-> *target_cpu_state,
-> >>>          target_cpu->env.regs[0] = info->context_id;
-> >>>      }
-> >>>
-> >>> +    /* CP15 update requires rebuilding hflags */
-> >>> +    arm_rebuild_hflags(&target_cpu->env);
-> >>> +
-> >>>      /* Start the new CPU at the requested address */
-> >>>      cpu_set_pc(target_cpu_state, info->entry);
-> >>>
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
->
-> r~
->
-
-
--- 
-Niek Linnenbank
-
---000000000000cccf81059a00c1c9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello Richard,<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 17, 2019 at 5:41 PM Ric=
-hard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.=
-henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">On 12/17/19 6:12 AM, Peter Maydell wrote:<br>
-&gt; Cc&#39;ing Richard : this is one for you I think... (surely we<br>
-&gt; need to rebuild the hflags from scratch when we power up<br>
-&gt; a CPU anyway?)<br>
-<br>
-We do compute hflags from scratch in reset.<br>
-<br>
-It has also turned out that there were a few board models that poked at the=
-<br>
-contents of the cpu and needed special help.=C2=A0 Some of that I would ima=
-gine<br>
-would be fixed properly with the multi-phase reset patches, where we could<=
-br>
-rebuild hflags when *leaving* reset.<br>
-<br>
-In arm_set_cpu_on_async_work, we start by resetting the cpu and then start<=
-br>
-poking at the contents of some system registers.=C2=A0 So, yes, we do need =
-to<br>
-rebuild after doing that.=C2=A0 Also, I&#39;m not sure how this function sh=
-ould fit into<br>
-the multi-phase reset future.<br></blockquote><div><br></div><div>Great, th=
-anks a lot for confirming and clarifying this!</div><div>You mention the mu=
-lti-phase reset feature, is that going to replace the arm_set_cpu_on() func=
-tionality?</div><div>Currently I chose to use this function for implementin=
-g the CPU configuration module in the Allwinner H3 Soc.</div><div><div>U-Bo=
-ot needs the CPU configuration module to provide PSCI which Linux uses to b=
-ring up the secondary cores.</div></div><div>And basically the CPU configur=
-ation module needs something to let the secondary CPUs power on, reset and =
-start executing at some address.</div><div><br></div><div>Would you suggest=
- to keep using arm_set_cpu_on() for this, or should I instead use a differe=
-nt function?<br></div><div><br></div><div>Regards,</div><div>Niek<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-So:<br>
-<br>
-&gt;&gt; On Tue, Dec 17, 2019 at 12:36 AM Niek Linnenbank &lt;<a href=3D"ma=
-ilto:nieklinnenbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</=
-a>&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; After setting CP15 bits in arm_set_cpu_on() the cached hflags =
-must<br>
-&gt;&gt;&gt; be rebuild to reflect the changed processor state. Without reb=
-uilding,<br>
-&gt;&gt;&gt; the cached hflags would be inconsistent until the next call to=
-<br>
-&gt;&gt;&gt; arm_rebuild_hflags(). When QEMU is compiled with debugging ena=
-bled<br>
-&gt;&gt;&gt; (--enable-debug), this problem is captured shortly after the f=
-irst<br>
-&gt;&gt;&gt; call to arm_set_cpu_on() for CPUs running in ARM 32-bit non-se=
-cure mode:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0qemu-system-arm: target/arm/helper.c:11359: cpu_ge=
-t_tb_cpu_state:<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0Assertion `flags =3D=3D rebuild_hflags_internal(en=
-v)&#39; failed.<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0Aborted (core dumped)<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Fixes: 0c7f8c43daf65<br>
-&gt;&gt;&gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinne=
-nbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;=C2=A0 target/arm/arm-powerctl.c | 3 +++<br>
-&gt;&gt;&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerc=
-tl.c<br>
-&gt;&gt;&gt; index b064513d44..b75f813b40 100644<br>
-&gt;&gt;&gt; --- a/target/arm/arm-powerctl.c<br>
-&gt;&gt;&gt; +++ b/target/arm/arm-powerctl.c<br>
-&gt;&gt;&gt; @@ -127,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUS=
-tate *target_cpu_state,<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_cpu-&gt;env.regs[0] =
-=3D info-&gt;context_id;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 /* CP15 update requires rebuilding hflags */<br=
->
-&gt;&gt;&gt; +=C2=A0 =C2=A0 arm_rebuild_hflags(&amp;target_cpu-&gt;env);<br=
->
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 /* Start the new CPU at the requested addr=
-ess */<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 cpu_set_pc(target_cpu_state, info-&gt;entr=
-y);<br>
-&gt;&gt;&gt;<br>
-<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-<br>
-<br>
-r~<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
-
---000000000000cccf81059a00c1c9--
 
