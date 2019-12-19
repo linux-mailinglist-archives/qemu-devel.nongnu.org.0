@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395C912655D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:03:56 +0100 (CET)
-Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1CC126576
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:13:47 +0100 (CET)
+Received: from localhost ([::1]:43456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxLG-0006Hi-Qa
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:03:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46615)
+	id 1ihxUo-000684-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:13:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihxJN-0004TC-6z
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:01:58 -0500
+ (envelope-from <bounces@canonical.com>) id 1ihxTi-0005B2-Av
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:12:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihxJL-0003vh-HL
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:01:56 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58326
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihxJL-0003qg-AM
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:01:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576767714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+c3Csgiy8XrqVIovrFnIQNfUMw744CUdjxYMx3rnCbg=;
- b=gq3hrRt4ZAf+TyFk731HwrTOTfqftL5UNOqLRgt187gUnY2y05HD8Hsk9+9Vpy+T0Z2dzc
- C1V3b0f/cGvJCxqaT6osmyNcH7a/7BCjJX0KHIhyiRgKbVnfpJWQAu5uvnS2MYz6NQz+wG
- TPapN5HxLCuwe4OO/XI7XKXh7YWgJao=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-aie19yPZOw-SX_aROIVZcA-1; Thu, 19 Dec 2019 10:01:51 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 633D419057AA;
- Thu, 19 Dec 2019 15:01:48 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C2FA6E3F7;
- Thu, 19 Dec 2019 15:01:38 +0000 (UTC)
-Date: Thu, 19 Dec 2019 16:01:36 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alexander Popov <alex.popov@linux.com>
-Subject: Re: [PATCH v2 2/2] ide: Fix incorrect handling of some PRDTs in
- ide_dma_cb()
-Message-ID: <20191219150136.GL5230@linux.fritz.box>
-References: <20191216181405.462292-1-alex.popov@linux.com>
- <20191216181405.462292-2-alex.popov@linux.com>
+ (envelope-from <bounces@canonical.com>) id 1ihxTg-0005u6-OO
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:12:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37180)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ihxTg-0005qf-GU
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:12:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ihxTe-0000oo-42
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 15:12:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0C44F2E80D2
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 15:12:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191216181405.462292-2-alex.popov@linux.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: aie19yPZOw-SX_aROIVZcA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Thu, 19 Dec 2019 15:04:21 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell soso7885
+X-Launchpad-Bug-Reporter: Phil.Chang (soso7885)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <157512714096.22533.6951833586552059273.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157676786125.28173.10172593326175598738.malone@chaenomeles.canonical.com>
+Subject: [Bug 1854577] Re: unable to boot arm64 image
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c4ca178f06a31ab05b954f273077d6ce3dd50be9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,119 +66,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, sstabellini@kernel.org,
- pmatouse@redhat.com, mdroth@linux.vnet.ibm.com, qemu-block@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, Kashyap Chamarthy <kashyap.cv@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, pjp@redhat.com
+Reply-To: Bug 1854577 <1854577@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.12.2019 um 19:14 hat Alexander Popov geschrieben:
-> The commit a718978ed58a from July 2015 introduced the assertion which
-> implies that the size of successful DMA transfers handled in ide_dma_cb()
-> should be multiple of 512 (the size of a sector). But guest systems can
-> initiate DMA transfers that don't fit this requirement.
->=20
-> For fixing that let's check the number of bytes prepared for the transfer
-> by the prepare_buf() handler. The code in ide_dma_cb() must behave
-> according to the Programming Interface for Bus Master IDE Controller
-> (Revision 1.0 5/16/94):
-> 1. If PRDs specified a smaller size than the IDE transfer
->    size, then the Interrupt and Active bits in the Controller
->    status register are not set (Error Condition).
-> 2. If the size of the physical memory regions was equal to
->    the IDE device transfer size, the Interrupt bit in the
->    Controller status register is set to 1, Active bit is set to 0.
-> 3. If PRDs specified a larger size than the IDE transfer size,
->    the Interrupt and Active bits in the Controller status register
->    are both set to 1.
->=20
-> Signed-off-by: Alexander Popov <alex.popov@linux.com>
-> ---
->  hw/ide/core.c | 30 ++++++++++++++++++++++--------
->  1 file changed, 22 insertions(+), 8 deletions(-)
->=20
-> diff --git a/hw/ide/core.c b/hw/ide/core.c
-> index 754ff4dc34..171831c7bd 100644
-> --- a/hw/ide/core.c
-> +++ b/hw/ide/core.c
-> @@ -849,6 +849,7 @@ static void ide_dma_cb(void *opaque, int ret)
->      int64_t sector_num;
->      uint64_t offset;
->      bool stay_active =3D false;
-> +    int32_t prep_size =3D 0;
-> =20
->      if (ret =3D=3D -EINVAL) {
->          ide_dma_error(s);
-> @@ -863,13 +864,15 @@ static void ide_dma_cb(void *opaque, int ret)
->          }
->      }
-> =20
-> -    n =3D s->io_buffer_size >> 9;
-> -    if (n > s->nsector) {
-> -        /* The PRDs were longer than needed for this request. Shorten th=
-em so
-> -         * we don't get a negative remainder. The Active bit must remain=
- set
-> -         * after the request completes. */
-> +    if (s->io_buffer_size > s->nsector * 512) {
-> +        /*
-> +         * The PRDs were longer than needed for this request.
-> +         * The Active bit must remain set after the request completes.
-> +         */
->          n =3D s->nsector;
->          stay_active =3D true;
-> +    } else {
-> +        n =3D s->io_buffer_size >> 9;
->      }
-> =20
->      sector_num =3D ide_get_sector(s);
-> @@ -892,9 +895,20 @@ static void ide_dma_cb(void *opaque, int ret)
->      n =3D s->nsector;
->      s->io_buffer_index =3D 0;
->      s->io_buffer_size =3D n * 512;
-> -    if (s->bus->dma->ops->prepare_buf(s->bus->dma, s->io_buffer_size) < =
-512) {
-> -        /* The PRDs were too short. Reset the Active bit, but don't rais=
-e an
-> -         * interrupt. */
-> +    prep_size =3D s->bus->dma->ops->prepare_buf(s->bus->dma, s->io_buffe=
-r_size);
-> +    /* prepare_buf() must succeed and respect the limit */
-> +    assert(prep_size > 0 && prep_size <=3D n * 512);
+You don't say anything about the kernel image you're trying to boot, but
+"nothing happens" is the expected result of trying to run a kernel which
+is not correctly configured to run on QEMU. You can debug in the same
+way you would debug "my kernel didn't boot on real hardware": try the
+gdb debugstub, try looking at the kernel config and comparing against a
+working version, etc.
 
-Hm, I'm not sure about prep_size > 0. Maybe it's true for
-bmdma_prepare_buf() for PCI (I'm not even sure there: What happens if we
-pass a PRDT with 0 entries? Should we have another test case for this?),
-but other controllers like AHCI don't seem to interpret an entry with
-size 0 as maximum size.
+https://translatedcode.wordpress.com/2017/07/24/installing-debian-on-
+qemus-64-bit-arm-virt-board/ is an example of a working setup of an
+aarch64 guest, which is probably a good place to start.
 
-John, what do you think?
 
-> +    /*
-> +     * Now prep_size stores the number of bytes in the sglist, and
-> +     * s->io_buffer_size stores the number of bytes described by the PRD=
-s.
-> +     */
-> +
-> +    if (prep_size < n * 512) {
-> +        /*
-> +         * The PRDs are too short for this request. Error condition!
-> +         * Reset the Active bit and don't raise the interrupt.
-> +         */
->          s->status =3D READY_STAT | SEEK_STAT;
->          dma_buf_commit(s, 0);
->          goto eot;
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-Here you decided that we don't need to do partial I/O for short PRDTs. I
-think my conclusion was that the spec doesn't really say what we need to
-do, so this is fine with me.
+-- =
 
-Apart from the assertion above, the patch looks good to me.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1854577
 
-Kevin
+Title:
+  unable to boot arm64 image
 
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Hi
+
+  Now I facing boot linux-5.3 arm64 image failed, without any log, just
+  hang here.
+
+  Host machine: ubuntu-18.04 with 4.15.0-70-generic kernel
+  Qemu version: qemu-system-aarch64-version 4.1.0
+  use command: qemu-system-aarch64 -kernel <IAMGE> -append "console=3DttyAM=
+A0" -m 2048M -smp 2 -M virt -cpu cortex-a57 -nographic
+
+  could anyone teach me how to debug this?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1854577/+subscriptions
 
