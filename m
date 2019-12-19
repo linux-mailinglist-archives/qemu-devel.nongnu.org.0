@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06AF125A6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 06:14:31 +0100 (CET)
-Received: from localhost ([::1]:35788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07356125A7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 06:17:03 +0100 (CET)
+Received: from localhost ([::1]:35822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iho8s-0007s4-GF
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 00:14:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38240)
+	id 1ihoBJ-0001HP-Qb
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 00:17:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50143)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iho7w-0007GL-S4
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:13:35 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iho9O-00009F-8a
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:15:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iho7u-0005Sj-VW
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:13:32 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:34085)
+ (envelope-from <dgibson@ozlabs.org>) id 1iho9M-000300-SO
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:15:02 -0500
+Received: from ozlabs.org ([203.11.71.1]:52071)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iho7t-00055L-Ly; Thu, 19 Dec 2019 00:13:30 -0500
+ id 1iho9M-0002jv-ES; Thu, 19 Dec 2019 00:15:00 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47dg5064hZz9sPn; Thu, 19 Dec 2019 16:13:24 +1100 (AEDT)
+ id 47dg6n2Z4mz9sPh; Thu, 19 Dec 2019 16:14:57 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576732404;
- bh=UhXCYKgw7/UveJokhep2YGNvAchLjshpN099Qqzw3Kg=;
+ d=gibson.dropbear.id.au; s=201602; t=1576732497;
+ bh=PEdzqCLmj1ylRXrUzoLhQ9R0MFzB7Jy1nWj8wfZkOfU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dus+SQrktWxZMcDna7pLFhqH0+1UGAouu1s+5O1zVXF9/WJTnR4LpODvSYWIKS8GM
- C42gq9tz2EtwITbheq/yrgVcAbsMIbu2PLlk4WILHP8JsbOCfuzYNAQ8GKlp+SnEm6
- oirw3rLpWnNX+IvaNRjxP8giRcEZTq1Gy06j1Lkg=
-Date: Thu, 19 Dec 2019 16:12:46 +1100
+ b=k4oeFBIstRFySwVbL7Q2H2ZClO+jJVkyO4c7RH5HnIEOa05uqwrJsqQfRHtVkKVTm
+ RUj4Lg2pl47GVcPWgHrwLUgfYZUXtBySaaljiyyFvqIDlXlGwrycZeqRCXmjhvLlf4
+ YwtuC80Fmqvu8pCX+r4FIevrrt0ImdcoI+EmUZQg=
+Date: Thu, 19 Dec 2019 16:13:57 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 6/7] target/ppc: add support for Hypervisor Facility
- Unavailable Exception
-Message-ID: <20191219051246.GF2321@umbus.fritz.box>
-References: <20191128134700.16091-1-clg@kaod.org>
- <20191128134700.16091-7-clg@kaod.org>
+To: Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [PATCH v5 1/5] tpm_spapr: Support TPM for ppc64 using CRQ based
+ interface
+Message-ID: <20191219051357.GG2321@umbus.fritz.box>
+References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
+ <20191212202430.1079725-2-stefanb@linux.vnet.ibm.com>
+ <20191213053453.GD207300@umbus.fritz.box>
+ <75fd3e95-d72f-069b-22ce-f354e1c34660@linux.ibm.com>
+ <20191217002954.GH6242@umbus.fritz.box>
+ <1efef315-cb85-79ea-9c46-ff318e05a543@linux.ibm.com>
+ <20191219015414.GC2321@umbus.fritz.box>
+ <db0d3dbe-3b01-e62b-2cf0-3d0c50e3c4fb@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="L2Brqb15TUChFOBK"
+ protocol="application/pgp-signature"; boundary="reI/iBAAp9kzkmX4"
 Content-Disposition: inline
-In-Reply-To: <20191128134700.16091-7-clg@kaod.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <db0d3dbe-3b01-e62b-2cf0-3d0c50e3c4fb@linux.ibm.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,232 +62,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---L2Brqb15TUChFOBK
-Content-Type: text/plain; charset=iso-8859-1
+--reI/iBAAp9kzkmX4
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 28, 2019 at 02:46:59PM +0100, C=E9dric Le Goater wrote:
-> The privileged message send and clear instructions (msgsndp & msgclrp)
-> are privileged, but will generate a hypervisor facility unavailable
-> exception if not enabled in the HFSCR and executed in privileged
-> non-hypervisor state.
+On Wed, Dec 18, 2019 at 08:59:18PM -0500, Stefan Berger wrote:
+> On 12/18/19 8:54 PM, David Gibson wrote:
+> > On Tue, Dec 17, 2019 at 02:44:04PM -0500, Stefan Berger wrote:
+> > > On 12/16/19 7:29 PM, David Gibson wrote:
+> > >=20
+> > >=20
+> > > > Since you need to change compatible based on an internal variable,
+> > > > we'd need to replace the static dt_compatible in the class with a
+> > > > callback.
+> > >=20
+> > > Why can we not initialize it once we know the version of TPM? From the
+> > > perspective of SLOF at least this seems to be building the device tre=
+e fine
+> > > since it sees the proper value...
+> > Because it's a serious layering / isolation violation.  You're
+> > modifying QOM type information from the runtime code of a specific
+> > instance.  You get away with it (now) because there's only one
+> > instance and the ordering of things happens to let it work, but that's
+> > assuming way too much about QOM's implementation details.
+> >=20
+> > As a rule, once the QOM classes are set up with their class_init
+> > function, they should never be modified.
 >=20
-> Add checks when accessing the DPDES register and when using the
-> msgsndp and msgclrp isntructions.
 >=20
-> Based on previous work from Suraj Jitindar Singh.
->=20
-> Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> ---
->  target/ppc/cpu.h                |  6 ++++++
->  target/ppc/helper.h             |  1 +
->  target/ppc/excp_helper.c        |  9 +++++++++
->  target/ppc/misc_helper.c        | 24 ++++++++++++++++++++++++
->  target/ppc/translate.c          |  4 ++++
->  target/ppc/translate_init.inc.c | 18 ++++++++++++++++++
->  6 files changed, 62 insertions(+)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 8ffcfa0ea162..52608dfe6ff4 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -397,6 +397,10 @@ typedef struct ppc_v3_pate_t {
->  #define PSSCR_ESL         PPC_BIT(42) /* Enable State Loss */
->  #define PSSCR_EC          PPC_BIT(43) /* Exit Criterion */
-> =20
-> +/* HFSCR bits */
-> +#define HFSCR_MSGP     PPC_BIT(53) /* Privileged Message Send Facilities=
- */
-> +#define HFSCR_IC_MSGP  0xA
-> +
->  #define msr_sf   ((env->msr >> MSR_SF)   & 1)
->  #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
->  #define msr_shv  ((env->msr >> MSR_SHV)  & 1)
-> @@ -1333,6 +1337,8 @@ void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHy=
-pervisor *vhyp);
->  #endif
-> =20
->  void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask);
-> +void gen_hfscr_facility_check(DisasContext *ctx, int facility_sprn, int =
-bit,
-> +                              int sprn, int cause);
-> =20
->  static inline uint64_t ppc_dump_gpr(CPUPPCState *env, int gprn)
->  {
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 76518a1df6f0..14c9a30a45c9 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -643,6 +643,7 @@ DEF_HELPER_3(store_dcr, void, env, tl, tl)
-> =20
->  DEF_HELPER_2(load_dump_spr, void, env, i32)
->  DEF_HELPER_2(store_dump_spr, void, env, i32)
-> +DEF_HELPER_4(hfscr_facility_check, void, env, i32, i32, i32)
->  DEF_HELPER_4(fscr_facility_check, void, env, i32, i32, i32)
->  DEF_HELPER_4(msr_facility_check, void, env, i32, i32, i32)
->  DEF_HELPER_FLAGS_1(load_tbl, TCG_CALL_NO_RWG, tl, env)
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 5a247945e97f..17dad626b74e 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -469,6 +469,15 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
->      case POWERPC_EXCP_FU:         /* Facility unavailable exception     =
-     */
->  #ifdef TARGET_PPC64
->          env->spr[SPR_FSCR] |=3D ((target_ulong)env->error_code << 56);
-> +#endif
-> +        break;
-> +    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exce=
-ption */
-> +#ifdef TARGET_PPC64
-> +        env->spr[SPR_HFSCR] |=3D ((target_ulong)env->error_code << FSCR_=
-IC_POS);
-> +        srr0 =3D SPR_HSRR0;
-> +        srr1 =3D SPR_HSRR1;
-> +        new_msr |=3D (target_ulong)MSR_HVB;
-> +        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
->  #endif
->          break;
->      case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
-t    */
-> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index a0e7bd9c32d3..0cd44c6edd82 100644
-> --- a/target/ppc/misc_helper.c
-> +++ b/target/ppc/misc_helper.c
-> @@ -41,6 +41,17 @@ void helper_store_dump_spr(CPUPPCState *env, uint32_t =
-sprn)
->  }
-> =20
->  #ifdef TARGET_PPC64
-> +static void raise_hv_fu_exception(CPUPPCState *env, uint32_t bit,
-> +                                  uint32_t sprn, uint32_t cause,
-> +                                  uintptr_t raddr)
-> +{
-> +    qemu_log("Facility SPR %d is unavailable (SPR HFSCR:%d)\n", sprn, bi=
-t);
+> If we now add a get_dt_compatible() callback to the class that gets invok=
+ed
+> when dt_compatible is NULL, does this then solve the issue?
 
-That looks overly verbose.  Leftover debugging?
-
-> +    env->spr[SPR_HFSCR] &=3D ~((target_ulong)FSCR_IC_MASK << FSCR_IC_POS=
-);
-> +
-> +    raise_exception_err_ra(env, POWERPC_EXCP_HV_FU, cause, raddr);
-> +}
-> +
->  static void raise_fu_exception(CPUPPCState *env, uint32_t bit,
->                                 uint32_t sprn, uint32_t cause,
->                                 uintptr_t raddr)
-> @@ -55,6 +66,17 @@ static void raise_fu_exception(CPUPPCState *env, uint3=
-2_t bit,
->  }
->  #endif
-> =20
-> +void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-> +                                 uint32_t sprn, uint32_t cause)
-> +{
-> +#ifdef TARGET_PPC64
-> +    if ((env->msr_mask & MSR_HVB) && !msr_hv &&
-> +                                     !(env->spr[SPR_HFSCR] & (1UL << bit=
-))) {
-> +        raise_hv_fu_exception(env, bit, sprn, cause, GETPC());
-> +    }
-> +#endif
-> +}
-> +
->  void helper_fscr_facility_check(CPUPPCState *env, uint32_t bit,
->                                  uint32_t sprn, uint32_t cause)
->  {
-> @@ -108,6 +130,8 @@ void helper_store_pcr(CPUPPCState *env, target_ulong =
-value)
-> =20
->  target_ulong helper_load_dpdes(CPUPPCState *env)
->  {
-> +    helper_hfscr_facility_check(env, HFSCR_MSGP, SPR_DPDES,
-> +                                HFSCR_IC_MSGP);
->      if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
->          return 1;
->      }
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index ba759ab2bb0f..e9e70ca149fd 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -6652,6 +6652,8 @@ static void gen_msgclrp(DisasContext *ctx)
->      GEN_PRIV;
->  #else
->      CHK_SV;
-> +    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, 0,
-> +                             HFSCR_IC_MSGP);
->      gen_helper_book3s_msgclrp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
-
-Calling a helper for the facility check, then another helper for the
-actual instruction is a bit yucky.  I'd prefer if you either call out
-for the facility check within the instruction helper, or generate the
-instructions necessary for the HFSCR check
-
->  #endif /* defined(CONFIG_USER_ONLY) */
->  }
-> @@ -6662,6 +6664,8 @@ static void gen_msgsndp(DisasContext *ctx)
->      GEN_PRIV;
->  #else
->      CHK_SV;
-> +    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, 0,
-> +                             HFSCR_IC_MSGP);
->      gen_helper_book3s_msgsndp(cpu_gpr[rB(ctx->opcode)]);
->  #endif /* defined(CONFIG_USER_ONLY) */
->  }
-> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-> index 7c74a763ba66..154e01451270 100644
-> --- a/target/ppc/translate_init.inc.c
-> +++ b/target/ppc/translate_init.inc.c
-> @@ -468,11 +468,15 @@ static void spr_write_pcr(DisasContext *ctx, int sp=
-rn, int gprn)
->  /* DPDES */
->  static void spr_read_dpdes(DisasContext *ctx, int gprn, int sprn)
->  {
-> +    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, sprn,
-> +                             HFSCR_IC_MSGP);
->      gen_helper_load_dpdes(cpu_gpr[gprn], cpu_env);
->  }
-> =20
->  static void spr_write_dpdes(DisasContext *ctx, int sprn, int gprn)
->  {
-> +    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, sprn,
-> +                             HFSCR_IC_MSGP);
->      gen_helper_store_dpdes(cpu_env, cpu_gpr[gprn]);
->  }
->  #endif
-> @@ -7523,6 +7527,20 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
->  #define POWERPC970_HID5_INIT 0x00000000
->  #endif
-> =20
-> +void gen_hfscr_facility_check(DisasContext *ctx, int facility_sprn, int =
-bit,
-> +                              int sprn, int cause)
-> +{
-> +    TCGv_i32 t1 =3D tcg_const_i32(bit);
-> +    TCGv_i32 t2 =3D tcg_const_i32(sprn);
-> +    TCGv_i32 t3 =3D tcg_const_i32(cause);
-> +
-> +    gen_helper_hfscr_facility_check(cpu_env, t1, t2, t3);
-> +
-> +    tcg_temp_free_i32(t3);
-> +    tcg_temp_free_i32(t2);
-> +    tcg_temp_free_i32(t1);
-> +}
-> +
->  static void gen_fscr_facility_check(DisasContext *ctx, int facility_sprn,
->                                      int bit, int sprn, int cause)
->  {
+Yes, that's what I'm suggesting.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -289,25 +109,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---L2Brqb15TUChFOBK
+--reI/iBAAp9kzkmX4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl37BswACgkQbDjKyiDZ
-s5LM0BAAu56MZvBonhUOqpQH268MovmQSQKc4MniJjp1nRP5S8KF4luVTl6kPfVf
-GHromd5DZI+P8YtC8xfATm1+sKH9ZBR5gDZDN1/AXsS3DiJNKCx5aoedSrtx4uWa
-nVsxJks97biixVgQjqx7YMB4EpfWYF04rEDKIYI8DL+qT2EAxCiaBHKUIRlo0cQj
-qfXz2w1RACjz3h+8my/9wMm+IzZjagxut95CAO1NQZT7UEnnsMRlUA1I4JSc1hVb
-Rs5S/vPkYpFYkHPnNXB0Tf0cKTVrPguE07BFNwY0HD446i2FQFyNCCYN9fAjSOmb
-HfVzouS5M0KrRXgRug3gXAFJl7W9Oh/BXH3TleUMJC7YVz5ZSM2V0NKejqd0QDAw
-Z2TPpWPEhwN84TdmDesWkjxkJ6ru5RFVTjTjCF203hupGrd64aJadE6/kdWN/JuT
-s2GnY/V4tztBilYqEFo/CGA70ObNHSh0HGMJW0qmDuHrk1qQjEAyarvkwbZpsb1V
-svQI8blXJgP9OM3yD+l2vPEUt5sxWcI1WQ0WsXg70AXbBP2iGr0WSqKOHwQ+fq+v
-2ikfZrCA3AHWwusIE8Axhd7ZVCb9ETkezvfezkwMmcTOapOUM9zVWuq+0n4gqN+l
-2QO2BVcoq8ZAhZAle80HgMaPKmx2F06lOqbUfDHdvJdyeMS4ImA=
-=Sb5v
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl37BxUACgkQbDjKyiDZ
+s5J7FhAAwbbNugdWDl+Fyg7ffBmIDBl02mlNjFdIMOiGVoU6tkXc/ONSRZJYJUT+
+MJq1Xh/KJCLUEV4HjAsFZq9uKYfeo8dlIWD8rq663VMGuFkiR3tBPKLg1V9E2XH6
+p4hBLioPAOUN73XMUXbUZoK383Glmbykx6SfEE6oYbcOQeJ7W83YVIp1Vcll0n7c
+NDzRXFMhmQzXiWH20ePnWuxh1g/VOsiAK106L+/gm87G/uND0CZM88vOuOdDA4JU
+f1FPskktk98MOx9Z9lWVL/m6Jmu9ok9Auyis7+M4AFvd43pb0yp2F6YTojq5wZRt
+MZgDcVNGIRetT7ET8eBuchLURSjQNtteVXaeyw/lmXFPJhSuEix4eFRnA5TkYM7j
+QR7tspE2TI2oW22h4q4VGGtl1vnI/SW47IC1pwnU/SAUufhdi4ir4Jdad/Rq/L1/
+kGcD/IgmgCmetcwOhYGSbM00ebDb5CaPz2ecImzc9BAoAueBraQoUxcbWk/dimC+
+E5xXDrA6n6Xaji/5Upvt4AvRA0FNKbCiycz3NCvkF1lsFZiGKXqViMJe0kzbM23a
+NHmnIrGSYPtp173b2bGDgjqYVBKDbyNwgkG9RBtDhUuAkHpUhqN9nmC97SQI4oTM
+hYcqY25sKKdYmvPlj5drwgT9xVUS1xrIxj4qtM8zxOGKgzQFPpw=
+=naMA
 -----END PGP SIGNATURE-----
 
---L2Brqb15TUChFOBK--
+--reI/iBAAp9kzkmX4--
 
