@@ -2,77 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBAF1264AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:29:38 +0100 (CET)
-Received: from localhost ([::1]:42574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E005A126497
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:25:59 +0100 (CET)
+Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwo5-0000u4-3o
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:29:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57199)
+	id 1ihwkY-0003qY-Dl
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:25:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jdillama@redhat.com>) id 1ihwbx-0000hK-BS
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:17:06 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihwic-00025h-LS
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:23:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jdillama@redhat.com>) id 1ihwbu-00024k-AQ
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:17:03 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44564
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jdillama@redhat.com>) id 1ihwbu-0001zJ-22
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:17:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576765021;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uooxkqH2nyWECXtMlX6ftfcOa0F/AD8GNe/PvHDGn7c=;
- b=GVeD7oCHCp3jZi82E0yHqIxA0bKPc1bthJRhloXx+jbTkh8XIc+r9Vtv2JRsET91hFxLlG
- HpLODV/JgIRp9mTxJ2hAQdumSLOBsZzXm7IGJztZty0HPumDsiQlkdS2OkPD7sckBn1P7o
- +mekQ5FR+NXP37RA9Fn3mIQeInEMy08=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-06d6FGeKOHykSegcl1J5NA-1; Thu, 19 Dec 2019 09:15:50 -0500
-Received: by mail-ed1-f69.google.com with SMTP id b13so3612215edf.0
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:15:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=2uBBYDIAK5Wt7vNMTKeCu7nJZC0ff8rpQ4m04RVR/uQ=;
- b=rROBRA/Om7tktkLTDqnJYCj/LuZmZ1yhkKIvnAAPe4ZhnL37XSzr58es69r4K7bKrT
- uFi1BIoHgQ/bvq0WCBcTpcINVvdwz2Y50LPi+6YJfMZWZXRTl3eQczexsPAgQjNfkFhW
- RG5w2yt1Qf+Gcvy+3utwz+nZma3HnFxI/xnAUZh75zLQPASM0CikB7DMdkv2oL8S30WN
- eZVvNjv5pW9CzIutbNoWncwowze0S3H2/pnDWXuV+uhJDHfa4S2Nk+fARWAcsAP3im0f
- no4hApHx9Kzj7emVIz9GZmK5YVLy8+y7hs6PlmXwmZXJkmyj0DYIhdS6TyOTAKxd+QRA
- bK9A==
-X-Gm-Message-State: APjAAAXX9+JeMue9I/Ur7eATXNkMJuOPER2c312ti9WX7gIiEp56XqmS
- 2kG0MKGZrAkHwuLxYLs8YQNwnFjn0TlouDVdv6+y2/PDFeYmpDVZOunEyADyf8XO5ou4kEHVfxc
- mn/cAO+6+GZsFggejV0rWiCXmHYNxC/A=
-X-Received: by 2002:a17:906:e0d7:: with SMTP id
- gl23mr9431612ejb.230.1576764949047; 
- Thu, 19 Dec 2019 06:15:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwUHEpuaY51K0Smvm0mYECwQdFiH5UFARDeKqLsbhlq/wxCin8JmTLl+0tR3oojBOmUBJxvF+cmWdr8ZUNsl0w=
-X-Received: by 2002:a17:906:e0d7:: with SMTP id
- gl23mr9431573ejb.230.1576764948700; 
- Thu, 19 Dec 2019 06:15:48 -0800 (PST)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ihwib-0008Gj-Bq
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:23:58 -0500
+Received: from mail-eopbgr70134.outbound.protection.outlook.com
+ ([40.107.7.134]:29636 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ihwiW-0007jG-WE; Thu, 19 Dec 2019 09:23:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iQke/UrL/pJy3YxxqmlC5nacAlbjjTv1e4ZNI5b/EeJRE55215Rs6HfgtOAOZHPuGntV8t4eC2ERGorpnPgl05b8ZMcAMBDbHglNC7rNB5objN2kfuPG0aWZsKx5vgahtDeVpJ5N5GZlI205WgwIXvufaFQXQ9V4HDRzQ0iTnrNinZ03LjkZIGVbVJHLlVgKt0Svlx2NXCNeKnSwD58/203FfkXTm/5KYASAM1Oua3v4qn9MOuamvUQDYEFEilujny6Z5LTR0mnHDz9l70oEhRwn9jy+zWuEWERE86Ki8MthlaDGUTDrQtjCJpFYheY9ZrC79N3kEkXUCQehg4mLvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BIEDZ7bGhWZDP7W59uMBvzgUUMPxkofkLqpWX4MJHi8=;
+ b=YM6ioml0G/tl8/GTRdk1bnViFt+PlLp+d0cxVZUl4F0efGLI/wTl+LFX3cygfdUu3Mg9Sv9xoDF2Ghccdgf7nkp8bciJ5TZhtelhRbXmTbNdKK7KHkclyVgOrtTpJep6NdDZmoGuZgNdSqhFs9bINBIzqX2LHHEmzo+3ryYrxMYxCm7h1N7Y0NhWTNId5ydfd3Krx4JZ4DPRudNyT1vfdJk8U3cgv5PpeCTSjBCwZY1bgyskiZ/TGxJplcuZLvWGkNjrMUwAmnHRhZaZveLKhOvsjGyvNJ+ew5Sa8yb0a2gYKqGUDUKN2SElFdtyKeK6ZCRBTuyulDvhS9UxZDZgzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BIEDZ7bGhWZDP7W59uMBvzgUUMPxkofkLqpWX4MJHi8=;
+ b=puNiVLtmVMR7amO+SpyaK9bumtpx3w3HK5IPLjFuf7Q/1mSThs9wSwmwdh/ZkyDHayt7tFW5z6yuKtoWoZ4EeWhfUANQ3exJM2b1ujLXruwm1Nq33oJNogGwEEnEo55JV0DeQ45Cc/gkzHMcfiGV6vGO65gj1tF8NwlUMlw9nC0=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3655.eurprd08.prod.outlook.com (20.177.113.153) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2559.14; Thu, 19 Dec 2019 14:23:50 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2559.012; Thu, 19 Dec 2019
+ 14:23:50 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] block: nbd: Fix dirty bitmap context name
+Thread-Topic: [PATCH] block: nbd: Fix dirty bitmap context name
+Thread-Index: AQHVtmzMtpyWQS3Bp0OaQNZadGqOP6fBd04AgAAGUoCAAAVhAA==
+Date: Thu, 19 Dec 2019 14:23:49 +0000
+Message-ID: <96b56762-21ad-13ea-9474-ecaca9276fe1@virtuozzo.com>
+References: <20191219125151.21482-1-nsoffer@redhat.com>
+ <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
+ <20191219140433.GK5230@linux.fritz.box>
+In-Reply-To: <20191219140433.GK5230@linux.fritz.box>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P195CA0011.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::21)
+ To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191219172348099
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3204399d-67ab-4d4b-bc5c-08d7848f1115
+x-ms-traffictypediagnostic: AM6PR08MB3655:
+x-microsoft-antispam-prvs: <AM6PR08MB3655DA89E49CAD493411D74EC1520@AM6PR08MB3655.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-forefront-prvs: 0256C18696
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(366004)(396003)(346002)(39840400004)(376002)(199004)(189003)(31696002)(26005)(81156014)(2616005)(2906002)(8936002)(81166006)(186003)(52116002)(8676002)(6506007)(6486002)(36756003)(478600001)(6916009)(31686004)(86362001)(316002)(64756008)(66556008)(5660300002)(6512007)(4326008)(66476007)(71200400001)(66446008)(54906003)(66946007)(14143004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3655;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nNzNy13oOOs1kIFPNi9YbnR98Jn1Lu1ZXYviCaWlKzaMG9hCdgEuNg9d27q/50wGGYLfnCx7mTHxAmRmd55cQec/os+Fihpz7wnPEvsklg2K7/Y7Hke0rM7frm4RAddibIAZHzAeUPz2EceEDEgTMxnlh6X7EtDLeVZN7nR7lZWEO1VGfUs7d5Jxif/JXuV9uMiFDCZ738136E+Zw901E9XS/2WscfjDqyCF9VF2sTNweE5W7vhpd0FMOCR7bhOSh+kh7C+NW78tuaqKmQSxFaG977q//sX/lpj6t9ggRCyX4lfAYdGWG6SjKThMygbpg3pTt2Y8AcfVXxadXfekTswHamdBFsEqMmce1Yz4JvAmjUgbuPEsJIFRlo4cYp7rl5HDNOOzWscbZES+9bWXz4BO5BIY3SrRXmmj4phMnaON5O5nJxC6PL9/nUZO9QB0MjG7ij7SV89zQmFjmHUmR4j84a8rcIdCvXs3SfZ6Lxw=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <44C062E7A6000940941E8058348ADEC5@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20191219133416.671431-1-fflorensa@online.net>
-In-Reply-To: <20191219133416.671431-1-fflorensa@online.net>
-From: Jason Dillaman <jdillama@redhat.com>
-Date: Thu, 19 Dec 2019 09:15:37 -0500
-Message-ID: <CA+aFP1Dc0kP1jebqmbQXo=zLgwQsBoEq2GLRtaNgrw6XMf_EOg@mail.gmail.com>
-Subject: Re: [PATCH] block/rbd: Add support for ceph namespaces
-To: Florian Florensa <fflorensa@online.net>
-X-MC-Unique: 06d6FGeKOHykSegcl1J5NA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3204399d-67ab-4d4b-bc5c-08d7848f1115
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2019 14:23:50.0639 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Jv/egSruXypv6EUQNCmzp7Vt5dkRRenh0KENXWc/0MNOCHtPWG4ipDapb6crR03tzuelRr48FcXK0O9szuWcufRnIYK+SY1Vx0vTSZaXbMg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3655
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.7.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,160 +109,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: dillaman@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, dillaman <dillaman@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+Cc: Nir Soffer <nsoffer@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Nir Soffer <nirsof@gmail.com>,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 8:44 AM Florian Florensa <fflorensa@online.net> wro=
-te:
->
-> Starting from ceph Nautilus, RBD has support for namespaces, allowing
-> for finer grain ACLs on images inside a pool, and tenant isolation.
->
-> In the rbd cli tool documentation, the new image-spec and snap-spec are :
->  - [pool-name/[namespace-name/]]image-name
->  - [pool-name/[namespace-name/]]image-name@snap-name
->
-> When using an non namespace's enabled qemu, it complains about not
-> finding the image called namespace-name/image-name, thus we only need to
-> parse the image once again to find if there is a '/' in its name, and if
-> there is, use what is before it as the name of the namespace to later
-> pass it to rados_ioctx_set_namespace.
-> rados_ioctx_set_namespace if called with en empty string or a null
-> pointer as the namespace parameters pretty much does nothing, as it then
-> defaults to the default namespace.
->
-> The namespace is extracted inside qemu_rbd_parse_filename, stored in the
-> qdict, and used in qemu_rbd_connect to make it work with both qemu-img,
-> and qemu itself.
->
-> Signed-off-by: Florian Florensa <fflorensa@online.net>
-> ---
->  block/rbd.c          | 30 ++++++++++++++++++++++++------
->  qapi/block-core.json |  3 +++
->  2 files changed, 27 insertions(+), 6 deletions(-)
->
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 027cbcc695..e43099fc75 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -104,6 +104,7 @@ typedef struct BDRVRBDState {
->      rbd_image_t image;
->      char *image_name;
->      char *snap;
-> +    char *nspace;
->      uint64_t image_size;
->  } BDRVRBDState;
->
-> @@ -152,7 +153,7 @@ static void qemu_rbd_parse_filename(const char *filen=
-ame, QDict *options,
->      const char *start;
->      char *p, *buf;
->      QList *keypairs =3D NULL;
-> -    char *found_str;
-> +    char *found_str, *image_name;
->
->      if (!strstart(filename, "rbd:", &start)) {
->          error_setg(errp, "File name must start with 'rbd:'");
-> @@ -171,18 +172,24 @@ static void qemu_rbd_parse_filename(const char *fil=
-ename, QDict *options,
->      qdict_put_str(options, "pool", found_str);
->
->      if (strchr(p, '@')) {
-> -        found_str =3D qemu_rbd_next_tok(p, '@', &p);
-> -        qemu_rbd_unescape(found_str);
-> -        qdict_put_str(options, "image", found_str);
-> +        image_name =3D qemu_rbd_next_tok(p, '@', &p);
->
->          found_str =3D qemu_rbd_next_tok(p, ':', &p);
->          qemu_rbd_unescape(found_str);
->          qdict_put_str(options, "snapshot", found_str);
->      } else {
-> -        found_str =3D qemu_rbd_next_tok(p, ':', &p);
-> +        image_name =3D qemu_rbd_next_tok(p, ':', &p);
-> +    }
-> +    /* Check for namespace in the image_name */
-> +    if (strchr(image_name, '/')) {
-> +        found_str =3D qemu_rbd_next_tok(image_name, '/', &image_name);
->          qemu_rbd_unescape(found_str);
-> -        qdict_put_str(options, "image", found_str);
-> +        qdict_put_str(options, "nspace", found_str);
-> +    } else {
-> +        qdict_put_str(options, "nspace", "");
->      }
-> +    qemu_rbd_unescape(image_name);
-> +    qdict_put_str(options, "image", image_name);
->      if (!p) {
->          goto done;
->      }
-> @@ -343,6 +350,11 @@ static QemuOptsList runtime_opts =3D {
->              .type =3D QEMU_OPT_STRING,
->              .help =3D "Rados pool name",
->          },
-> +        {
-> +            .name =3D "nspace",
-> +            .type =3D QEMU_OPT_STRING,
-> +            .help =3D "Rados namespace name in the pool",
-> +        },
->          {
->              .name =3D "image",
->              .type =3D QEMU_OPT_STRING,
-> @@ -472,6 +484,7 @@ static int coroutine_fn qemu_rbd_co_create_opts(const=
- char *filename,
->      loc->has_conf =3D !!loc->conf;
->      loc->user     =3D g_strdup(qdict_get_try_str(options, "user"));
->      loc->has_user =3D !!loc->user;
-> +    loc->nspace   =3D g_strdup(qdict_get_try_str(options, "nspace"));
->      loc->image    =3D g_strdup(qdict_get_try_str(options, "image"));
->      keypairs      =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs");
->
-> @@ -648,6 +661,11 @@ static int qemu_rbd_connect(rados_t *cluster, rados_=
-ioctx_t *io_ctx,
->          error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
->          goto failed_shutdown;
->      }
-> +    /*
-> +     * Set the namespace after opening the io context on the pool,
-> +     * if nspace =3D=3D NULL or if nspace =3D=3D "", it is just as we di=
-d nothing
-> +     */
-> +    rados_ioctx_set_namespace(*io_ctx, opts->nspace);
->
->      return 0;
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 0cf68fea14..9ebc020e93 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -3657,6 +3657,8 @@
->  #
->  # @pool:               Ceph pool name.
->  #
-> +# @nspace:             Rados namespace name in the Ceph pool.
-> +#
->  # @image:              Image name in the Ceph pool.
->  #
->  # @conf:               path to Ceph configuration file.  Values
-> @@ -3683,6 +3685,7 @@
->  ##
->  { 'struct': 'BlockdevOptionsRbd',
->    'data': { 'pool': 'str',
-> +            'nspace': 'str',
->              'image': 'str',
->              '*conf': 'str',
->              '*snapshot': 'str',
-> --
-> 2.24.1
->
-
-Thanks for tackling this. I had this and msgr v2 support on my todo
-list for QEMU but I haven't had a chance to work on them yet. The
-changes look good to me and it works as expected during CLI
-play-testing.
-
-Reviewed-by: Jason Dillaman <dillaman@redhat.com>
-
+MTkuMTIuMjAxOSAxNzowNCwgS2V2aW4gV29sZiB3cm90ZToNCj4gQW0gMTkuMTIuMjAxOSB1bSAx
+NDo0MSBoYXQgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSBnZXNjaHJpZWJlbjoNCj4+IEFo
+aCwgSSBzZWUsIGl0J3MgZG9jdW1lbnRlZCBhcw0KPj4NCj4+ICsjIEBiaXRtYXA6IEFsc28gZXhw
+b3J0IHRoZSBkaXJ0eSBiaXRtYXAgcmVhY2hhYmxlIGZyb20gQGRldmljZSwgc28gdGhlDQo+PiAr
+IyAgICAgICAgICBOQkQgY2xpZW50IGNhbiB1c2UgTkJEX09QVF9TRVRfTUVUQV9DT05URVhUIHdp
+dGgNCj4+ICsjICAgICAgICAgICJxZW11OmRpcnR5LWJpdG1hcDpOQU1FIiB0byBpbnNwZWN0IHRo
+ZSBiaXRtYXAuIChzaW5jZSA0LjApDQo+Pg0KPj4gYW5kIGl0IGlzIGxvZ2ljYWwgdG8gYXNzdW1l
+IHRoYXQgZXhwb3J0IG5hbWUgKHdoaWNoIGlzIEBuYW1lIGFyZ3VtZW50KSBpcw0KPj4gbWVudGlv
+bmVkLiBCdXQgd2UgbmV2ZXIgbWVudGlvbmVkIGl0LiBUaGlzIGlzIGp1c3QgZG9jdW1lbnRlZCBh
+ZnRlcg0KPj4gcmVtb3ZlZCBleHBlcmltZW5hdGwgY29tbWFuZCB4LW5iZC1zZXJ2ZXItYWRkLWJp
+dG1hcCwNCj4+DQo+PiBsb29rIGF0DQo+Pg0KPj4gY29tbWl0IDdkYzU3MGIzODA2ZTViMGE0Yzky
+MTkwNjE1NTZlZDVhNGEwZGU4MGMNCj4+IEF1dGhvcjogRXJpYyBCbGFrZSA8ZWJsYWtlQHJlZGhh
+dC5jb20+DQo+PiBEYXRlOiAgIEZyaSBKYW4gMTEgMTM6NDc6MTggMjAxOSAtMDYwMA0KPj4NCj4+
+ICAgICAgIG5iZDogUmVtb3ZlIHgtbmJkLXNlcnZlci1hZGQtYml0bWFwDQo+Pg0KPj4gLi4uDQo+
+Pg0KPj4gLSMgQGJpdG1hcC1leHBvcnQtbmFtZTogSG93IHRoZSBiaXRtYXAgd2lsbCBiZSBzZWVu
+IGJ5IG5iZCBjbGllbnRzDQo+PiAtIyAgICAgICAgICAgICAgICAgICAgICAoZGVmYXVsdCBAYml0
+bWFwKQ0KPj4gLSMNCj4+IC0jIE5vdGU6IHRoZSBjbGllbnQgbXVzdCB1c2UgTkJEX09QVF9TRVRf
+TUVUQV9DT05URVhUIHdpdGggYSBxdWVyeSBvZg0KPj4gLSMgInFlbXU6ZGlydHktYml0bWFwOk5B
+TUUiICh3aGVyZSBOQU1FIG1hdGNoZXMgQGJpdG1hcC1leHBvcnQtbmFtZSkgdG8gYWNjZXNzDQo+
+PiAtIyB0aGUgZXhwb3NlZCBiaXRtYXAuDQo+Pg0KPj4NCj4+IFNvLCB0aGlzICJOQU1FIiBpcyBz
+YXZlZCBhbmQgbm93IGxvb2tzIGluY29ycmVjdC4gV2hhdCBzaG91bGQgYmUgZml4ZWQsIGlzIFFh
+cGkNCj4+IGRvY3VtZW50YXRpb24uDQo+IA0KPiBIbSwgSSBkb24ndCBrbm93IHRoZXNlIGludGVy
+ZmFjZXMgdmVyeSB3ZWxsLCBidXQgZnJvbSB5b3UgZXhwbGFuYXRpb24gaXQNCj4gbG9va3MgdG8g
+bWUgYXMgaWYgaGF2aW5nIGEgYml0bWFwIG5hbWUgbWFkZSBzZW5zZSB3aXRoDQo+IHgtbmJkLXNl
+cnZlci1hZGQtYml0bWFwIGJlY2F1c2UgaXQgY291bGQgYmUgY2FsbGVkIG1vcmUgdGhhbiBvbmNl
+IGZvcg0KPiBleHBvcnRpbmcgbXVsdGlwbGUgYml0bWFwcy4NCj4gDQo+IEJ1dCBub3csIHdlIGhh
+dmUgb25seSBuYmQtc2VydmVyLWFkZCwgd2hpY2ggdGFrZXMgYSBzaW5nbGUgYml0bWFwIG5hbWUu
+DQo+IEFzIHdlIGRvbid0IGhhdmUgdG8gZGlzdGluZ3Vpc2ggbXVsdGlwbGUgYml0bWFwcyBhbnkg
+bW9yZSwgd291bGRuJ3QgaXQNCj4gbWFrZSBtb3JlIHNlbnNlIHRvIHVzZSAicWVtdTpkaXJ0eS1i
+aXRtYXAiIHdpdGhvdXQgYW55IG90aGVyDQo+IGluZm9ybWF0aW9uPyBCb3RoIGV4cG9ydCBuYW1l
+IGFuZCBiaXRtYXAgbmFtZSBhcmUgYWxyZWFkeSBpZGVudGlmaWVkIGJ5DQo+IHRoZSBjb25uZWN0
+aW9uLg0KDQpJIHRoaW5rLCBpdCB3aWxsIGEgYml0IGluIGNvbmZsaWN0IHdpdGggYWxyZWFkeSBk
+b2N1bWVudGVkDQoNCiogInFlbXU6ZGlydHktYml0bWFwOiIgLSByZXR1cm5zIGxpc3Qgb2YgYWxs
+IGF2YWlsYWJsZSBkaXJ0eS1iaXRtYXANCiAgICAgICAgICAgICAgICAgICAgICAgICAgbWV0YWRh
+dGEgY29udGV4dHMuDQoNClNvLCBpZiB3ZSB3YW50IHNvbWUgImRlZmF1bHQgZGlydHkgYml0bWFw
+Iiwgd2UnZCBiZXR0ZXIgdXNlIHNvbWV0aGluZyBkaWZmZXJlbnQNCmZyb20ganVzdCBkaXJ0eS1i
+aXRtYXAuIEZvciBleGFtcGxlLA0KDQogICAgInFlbXU6ZGVmYXVsdC1kaXJ0eS1iaXRtYXAiDQoN
+Cj4gQnV0IGlmIHdlIGhhdmUgdG8gaGF2ZSBzb21ldGhpbmcgdGhlcmUsIHVzaW5nIHRoZSBiaXRt
+YXAgbmFtZSAod2hpY2ggbWF5DQo+IG9yIG1heSBub3QgYmUgdGhlIHNhbWUgYXMgdXNlZCBpbiB0
+aGUgaW1hZ2UgZmlsZSkgbWFrZXMgYSBsaXR0bGUgbW9yZQ0KPiBzZW5zZSBiZWNhdXNlIGl0IG1h
+a2VzIHRoZSBpbnRlcmZhY2UgZXh0ZW5zaWJsZSBmb3IgdGhlIGNhc2UgdGhhdCB3ZQ0KPiBldmVy
+IHdhbnQgdG8gcmUtaW50cm9kdWNlIGFuIG5iZC1zZXJ2ZXItYWRkLWJpdG1hcC4NCg0KQWdyZWUN
+Cg0KDQo+IA0KPiAoQnkgdGhlIHdheSwgZXZlbiBpZiB0aGUgcGF0Y2ggd2VyZSBjb3JyZWN0LCBp
+dCBsYWNrcyBhIFNpZ25lZC1vZmYtYnkuKQ0KPiANCj4gS2V2aW4NCj4gDQoNCg0KLS0gDQpCZXN0
+IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
