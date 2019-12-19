@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9789C125C23
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 08:42:56 +0100 (CET)
-Received: from localhost ([::1]:36892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8B5125C29
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 08:45:04 +0100 (CET)
+Received: from localhost ([::1]:36918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihqSV-000260-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 02:42:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54280)
+	id 1ihqUZ-0004Qo-Fw
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 02:45:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47561)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ihqRQ-000146-Hm
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 02:41:49 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1ihqTh-0003uQ-N0
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 02:44:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ihqRN-00027I-94
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 02:41:46 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42489
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <tao3.xu@intel.com>) id 1ihqTf-0005dk-8s
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 02:44:08 -0500
+Received: from mga11.intel.com ([192.55.52.93]:5534)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ihqRM-00020h-QT
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 02:41:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576741303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xt5LG8xKjhrNhju7YIWIAcPmEbmJqchRvZPPSWm1G/g=;
- b=bNTAWU11tIhk5SRqwywbVNPDZ03r4mqUfZOEH1KgC7YU6fKdjOQyt2GPimLuuXBEIlvEhq
- DRh5oz5snwFhqgDmGaOWZb+4hYx3njP5wz1BlqENkahzA+76Mv9BPCnI0peu1mJO7ciXcz
- lS+RG4kjQvPqoExnVd72wRmL3f/zlyg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-xVPf6yhWMAm6MXS93fkIBA-1; Thu, 19 Dec 2019 02:41:41 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98A30800EBF
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 07:41:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
- [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60DAB10013A1;
- Thu, 19 Dec 2019 07:41:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EA28B11386A7; Thu, 19 Dec 2019 08:41:37 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2 06/10] migration: Add multifd-compress parameter
-References: <20191218020119.3776-1-quintela@redhat.com>
- <20191218020119.3776-7-quintela@redhat.com>
-Date: Thu, 19 Dec 2019 08:41:37 +0100
-In-Reply-To: <20191218020119.3776-7-quintela@redhat.com> (Juan Quintela's
- message of "Wed, 18 Dec 2019 03:01:15 +0100")
-Message-ID: <87d0cku5hq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1ihqTe-0005JL-PP
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 02:44:07 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2019 23:43:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="218403261"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.238])
+ ([10.239.196.238])
+ by orsmga003.jf.intel.com with ESMTP; 18 Dec 2019 23:43:57 -0800
+Subject: Re: [PATCH] util/cutils: Expand do_strtosz parsing precision to 64
+ bits
+To: Markus Armbruster <armbru@redhat.com>
+References: <20191205021459.29920-1-tao3.xu@intel.com>
+ <87a786sse9.fsf@dusky.pond.sub.org>
+ <b7c442e3-cc7e-155e-5370-db9a371928a6@intel.com>
+ <87y2vbgsf0.fsf@dusky.pond.sub.org>
+ <e731445a-4461-3212-c08d-05dc7ad2b742@intel.com>
+ <52a11f3a-f2c8-26e9-b823-0093cfe91fdc@intel.com>
+ <87y2v9zdzv.fsf@dusky.pond.sub.org>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <d2e95d06-5328-dc48-30fa-a811a6371d4d@intel.com>
+Date: Thu, 19 Dec 2019 15:43:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: xVPf6yhWMAm6MXS93fkIBA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <87y2v9zdzv.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,33 +64,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Juan Quintela <quintela@redhat.com> writes:
+On 12/19/2019 2:26 AM, Markus Armbruster wrote:
+> Tao Xu <tao3.xu@intel.com> writes:
+> 
+>> On 12/18/2019 9:33 AM, Tao Xu wrote:
+>>> On 12/17/2019 6:25 PM, Markus Armbruster wrote:
+> [...]
+>>>> Also fun: for "0123", we use uint64_t 83, not double 123.0.  But for
+>>>> "0123.", we use 123.0, not 83.
+>>>>
+>>>> Do we really want to accept octal and hexadecimal integers?
+>>>>
+>>>
+>>> Thank you for reminding me. Octal and hexadecimal may bring more
+>>> confusion. I will use qemu_strtou64(nptr, &suffixu, 10, &valu) and
+>>> add test for input like "0123".
+>>>
+>>
+>> Hi Markus,
+>>
+>> After I use qemu_strtou64(nptr, &suffixu, 10, &valu), it cause another
+>> question. Because qemu_strtod_finite support hexadecimal input, so in
+>> this situation, it will parsed as double. It will also let large
+>> hexadecimal integers be rounded. So there may be two solution:
+>>
+>> 1: use qemu_strtou64(nptr, &suffixu, 0, &valu) and parse octal as
+>> decimal. This will keep hexadecimal valid as now.
+>>
+>> "0123" --> 123; "0x123" --> 291
+> 
+> How would you make qemu_strtou64() parse octal as decimal?
 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
->
-> ---
-> Rename it to NONE
-> Fix typos (dave)
-> We don't need to chek values returned by visit_type_MultifdCompress (mark=
-us)
-> Fix yet more typos (wei)
-> ---
->  hw/core/qdev-properties.c    | 13 +++++++++++++
->  include/hw/qdev-properties.h |  3 +++
->  migration/migration.c        | 13 +++++++++++++
->  monitor/hmp-cmds.c           | 13 +++++++++++++
->  qapi/migration.json          | 30 +++++++++++++++++++++++++++---
->  tests/migration-test.c       | 13 ++++++++++---
->  6 files changed, 79 insertions(+), 6 deletions(-)
+How about this solution, set @base as variable, if we detect 
+hexadecimal, we use 0, then can prase decimal as u64, else we use 10, 
+then can prase octal as decimal, because 0 prefix will be ignored in 
+qemu_strtou64(nptr, &suffixu, 10, &valu);
 
-For QAPI:
-Acked-by: Markus Armbruster <armbru@redhat.com>
+     const char *p = nptr;
+     while (qemu_isspace(*p)) {
+        p++;
+     }
+     if (*p == '0' && (qemu_toupper(*(p+1)) == 'X' ||) {
+         base = 0;
+     } else {
+         base = 10;
+     }
 
+     retd = qemu_strtod_finite(nptr, &suffixd, &vald);
+     retu = qemu_strtou64(nptr, &suffixu, base, &valu);
+     use_strtod = strlen(suffixd) < strlen(suffixu);
+
+     if (use_strtod) {
+         endptr = suffixd;
+         retval = retd;
+     } else {
+         endptr = suffixu;
+         retval = retu;
+     }
+> 
+>> 2: use qemu_strtou64(nptr, &suffixu, 10, &valu) and reject octal and
+>> decimal.
+>>
+>> "0123" --> Error; "0x123" --> Error
+> 
+> How would you reject the 0x prefix?
+> 
+How about check the first&second character is '0' and 'x' and then 
+return -EINVAL.
 
