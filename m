@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A287C126838
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:36:04 +0100 (CET)
-Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B37126826
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:32:03 +0100 (CET)
+Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihziU-00005D-Rn
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:36:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43526)
+	id 1ihzeb-0004mu-Ey
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:32:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihzXm-00067j-C5
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:59 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ihzXs-0006Ja-GW
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihzXl-0005l9-98
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59578
+ (envelope-from <kwolf@redhat.com>) id 1ihzXq-00069O-Gz
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56670
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzXk-0005hf-VF
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:57 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzXq-00066M-4b
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576776296;
+ s=mimecast20190719; t=1576776301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3eY7agRu1Bt1uazChG+gikshqr3IfI6j+Fl6tLEcA3Y=;
- b=H36HjDYk5K2Tdfq/YeWyDHT+giROQPmhURy5yD7XHf+nAhANShFT1cVOAgjyzwhVNe/eFv
- EZxGbIDGADWnCgrOoBHToojKlo899Wmz47/hpWLFc4X3bMFR/Dde8lag8TxA/25Okkpcks
- /HJE0fQ0Go4MrJe/TCost7u7FbPSNCE=
+ bh=0DpfEMkeVoxAUi4VCciCaV9lm9Ejo8S0Ej9ZdoEnI1s=;
+ b=DPMu/mZN++ImI0YX/FEPBYMwTz6hzSDJ1pz4aD0sBj9nOjcEq9CpGgXSFuh+BgbSvIVdNh
+ waEarPFzhGdOLSEd6Af8T4h3oH8So5/MP09+dh7nTBRPkgTPDWd1QrWgWkBe3UyqDyInbX
+ uzPIRb/KRxb1VIuqbL8qVUPI1u+HooA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-KALX4k9CMPqgG4tdcjjroQ-1; Thu, 19 Dec 2019 12:24:54 -0500
+ us-mta-325-W1iOC1-aML2lesrhHS6KGA-1; Thu, 19 Dec 2019 12:24:58 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB76C1005502;
- Thu, 19 Dec 2019 17:24:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F650DB60;
+ Thu, 19 Dec 2019 17:24:56 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF98963B8A;
- Thu, 19 Dec 2019 17:24:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FB2A620C0;
+ Thu, 19 Dec 2019 17:24:55 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/30] qapi: better document NVMe blockdev @device parameter
-Date: Thu, 19 Dec 2019 18:24:15 +0100
-Message-Id: <20191219172441.7289-5-kwolf@redhat.com>
+Subject: [PULL 06/30] block: Error out on image creation with conflicting size
+ options
+Date: Thu, 19 Dec 2019 18:24:17 +0100
+Message-Id: <20191219172441.7289-7-kwolf@redhat.com>
 In-Reply-To: <20191219172441.7289-1-kwolf@redhat.com>
 References: <20191219172441.7289-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: KALX4k9CMPqgG4tdcjjroQ-1
+X-MC-Unique: W1iOC1-aML2lesrhHS6KGA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -74,39 +75,87 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+If both the create options (qemu-img create -o ...) and the size
+parameter were given, the size parameter was silently ignored. Instead,
+make specifying two sizes an error.
 
-Mention that this is a PCI device address & give the format it is
-expected in. Also mention that it must be first unbound from any
-host kernel driver.
-
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/block-core.json | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ block.c                    | 10 ++++++++--
+ tests/qemu-iotests/049     |  5 +++++
+ tests/qemu-iotests/049.out |  5 +++++
+ 3 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0cf68fea14..fcb52ec24f 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2963,9 +2963,13 @@
- #
- # Driver specific block device options for the NVMe backend.
- #
--# @device:    controller address of the NVMe device.
-+# @device:    PCI controller address of the NVMe device in
-+#             format hhhh:bb:ss.f (host:bus:slot.function)
- # @namespace: namespace number of the device, starting from 1.
- #
-+# Note that the PCI @device must have been unbound from any host
-+# kernel driver before instructing QEMU to add the blockdev.
-+#
- # Since: 2.12
- ##
- { 'struct': 'BlockdevOptionsNVMe',
+diff --git a/block.c b/block.c
+index 473eb6eeaa..73029fad64 100644
+--- a/block.c
++++ b/block.c
+@@ -5751,12 +5751,11 @@ void bdrv_img_create(const char *filename, const ch=
+ar *fmt,
+         return;
+     }
+=20
++    /* Create parameter list */
+     create_opts =3D qemu_opts_append(create_opts, drv->create_opts);
+     create_opts =3D qemu_opts_append(create_opts, proto_drv->create_opts);
+=20
+-    /* Create parameter list with default values */
+     opts =3D qemu_opts_create(create_opts, NULL, 0, &error_abort);
+-    qemu_opt_set_number(opts, BLOCK_OPT_SIZE, img_size, &error_abort);
+=20
+     /* Parse -o options */
+     if (options) {
+@@ -5766,6 +5765,13 @@ void bdrv_img_create(const char *filename, const cha=
+r *fmt,
+         }
+     }
+=20
++    if (!qemu_opt_get(opts, BLOCK_OPT_SIZE)) {
++        qemu_opt_set_number(opts, BLOCK_OPT_SIZE, img_size, &error_abort);
++    } else if (img_size !=3D UINT64_C(-1)) {
++        error_setg(errp, "The image size must be specified only once");
++        goto out;
++    }
++
+     if (base_filename) {
+         qemu_opt_set(opts, BLOCK_OPT_BACKING_FILE, base_filename, &local_e=
+rr);
+         if (local_err) {
+diff --git a/tests/qemu-iotests/049 b/tests/qemu-iotests/049
+index c100d30ed0..051a1c79e0 100755
+--- a/tests/qemu-iotests/049
++++ b/tests/qemu-iotests/049
+@@ -78,6 +78,11 @@ for s in $sizes; do
+     test_qemu_img create -f $IMGFMT -o size=3D$s "$TEST_IMG"
+ done
+=20
++echo "=3D=3D 4. Specify size twice (-o and traditional parameter) =3D=3D"
++echo
++
++test_qemu_img create -f $IMGFMT -o size=3D10M "$TEST_IMG" 20M
++
+ echo "=3D=3D Check correct interpretation of suffixes for cluster size =3D=
+=3D"
+ echo
+ sizes=3D"1024 1024b 1k 1K 1M "
+diff --git a/tests/qemu-iotests/049.out b/tests/qemu-iotests/049.out
+index 6b505408dd..affa55b341 100644
+--- a/tests/qemu-iotests/049.out
++++ b/tests/qemu-iotests/049.out
+@@ -121,6 +121,11 @@ qemu-img: TEST_DIR/t.qcow2: Parameter 'size' expects a=
+ non-negative number below
+ Optional suffix k, M, G, T, P or E means kilo-, mega-, giga-, tera-, peta-
+ and exabytes, respectively.
+=20
++=3D=3D 4. Specify size twice (-o and traditional parameter) =3D=3D
++
++qemu-img create -f qcow2 -o size=3D10M TEST_DIR/t.qcow2 20M
++qemu-img: TEST_DIR/t.qcow2: The image size must be specified only once
++
+ =3D=3D Check correct interpretation of suffixes for cluster size =3D=3D
+=20
+ qemu-img create -f qcow2 -o cluster_size=3D1024 TEST_DIR/t.qcow2 64M
 --=20
 2.20.1
 
