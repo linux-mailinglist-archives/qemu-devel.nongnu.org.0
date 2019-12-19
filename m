@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3139E126240
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:37:08 +0100 (CET)
-Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D8C126255
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:39:49 +0100 (CET)
+Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihv3C-0006WW-PC
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:37:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33107)
+	id 1ihv5o-0001xY-EL
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:39:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihurK-0008A8-NI
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:52 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihurZ-0008Tb-TA
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihurI-0000HN-TX
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:50 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31913
+ (envelope-from <pbonzini@redhat.com>) id 1ihurY-0001HB-9w
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:05 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32145
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihurI-0000FT-Ib
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:48 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihurX-0001Dj-V2
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758287;
+ s=mimecast20190719; t=1576758303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LQZDIc3n2Tb43fnushtjf+kc25/BGN65mq3k8eHW6+E=;
- b=DNirbZwbSllE+enwDz4IHoQIREQtKqZaHEFD7F05Goj8QROoF6sH0e3ZRoqUp0ag6K8xNw
- jJVrXtDq7G5Bw0i8dYNsE68XC9su57BQMk477DdiU41w3tyTpkA2oTWpEhtPM7ePwlVZO6
- Md+Yp2YRYTs6E+swfUlyIix0ukef9S8=
+ bh=qf0EzKe6oLRsH/L+PXJBFfkGsboS7PCszn0vT0Ecovc=;
+ b=RYBIQcLrteGmsE3O5fjpQzYBb+b05dFM72KuR2UN2i2id5jt++5hZ6O7rFrT+r+NDJwf/n
+ OpwBOZeLToGXyJttK6hnkbJqDl9Q7oA5JPrig657Vnf4EL/vIx5UTj7sz1JP6uYF5Lepme
+ 7+A2ROb7s5JmjRj5KLwHfXRw805/m4k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-kRu0lpW7OZeNrIcl4uQ5Ig-1; Thu, 19 Dec 2019 07:24:46 -0500
+ us-mta-113-Mpwd7xGmOmS5pwUudlOfOg-1; Thu, 19 Dec 2019 07:24:48 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24A5B107ACC4
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21487107ACC9
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:47 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02DE160C18;
- Thu, 19 Dec 2019 12:24:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A927060C18;
+ Thu, 19 Dec 2019 12:24:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 107/132] meson: accel
-Date: Thu, 19 Dec 2019 13:23:27 +0100
-Message-Id: <1576758232-12439-16-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 108/132] meson: linux-user
+Date: Thu, 19 Dec 2019 13:23:28 +0100
+Message-Id: <1576758232-12439-17-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: kRu0lpW7OZeNrIcl4uQ5Ig-1
+X-MC-Unique: Mpwd7xGmOmS5pwUudlOfOg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -79,148 +79,116 @@ From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.target           |  1 -
- accel/Makefile.objs       |  5 -----
- accel/kvm/Makefile.objs   |  2 --
- accel/kvm/meson.build     |  5 +++++
- accel/meson.build         |  6 ++++++
- accel/stubs/Makefile.objs |  5 -----
- accel/stubs/meson.build   |  5 +++++
- accel/tcg/Makefile.objs   |  8 --------
- accel/tcg/meson.build     | 14 ++++++++++++++
- meson.build               |  1 +
- 10 files changed, 31 insertions(+), 21 deletions(-)
- delete mode 100644 accel/Makefile.objs
- delete mode 100644 accel/kvm/Makefile.objs
- create mode 100644 accel/kvm/meson.build
- create mode 100644 accel/meson.build
- delete mode 100644 accel/stubs/Makefile.objs
- create mode 100644 accel/stubs/meson.build
- delete mode 100644 accel/tcg/Makefile.objs
- create mode 100644 accel/tcg/meson.build
+ Makefile.target                    |  3 ---
+ linux-user/Makefile.objs           | 10 ----------
+ linux-user/arm/nwfpe/Makefile.objs |  2 --
+ linux-user/arm/nwfpe/meson.build   | 10 ++++++++++
+ linux-user/meson.build             | 22 ++++++++++++++++++++++
+ meson.build                        |  4 ++++
+ 6 files changed, 36 insertions(+), 15 deletions(-)
+ delete mode 100644 linux-user/Makefile.objs
+ delete mode 100644 linux-user/arm/nwfpe/Makefile.objs
+ create mode 100644 linux-user/arm/nwfpe/meson.build
+ create mode 100644 linux-user/meson.build
 
 diff --git a/Makefile.target b/Makefile.target
-index bc5a019..438d27b 100644
+index 438d27b..a8e6a28 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -110,7 +110,6 @@ obj-y +=3D trace/
+@@ -128,9 +128,6 @@ QEMU_CFLAGS+=3D-I$(SRC_PATH)/linux-user/$(TARGET_ABI_DI=
+R) \
+              -I$(SRC_PATH)/linux-user/host/$(ARCH) \
+              -I$(SRC_PATH)/linux-user
+=20
+-obj-y +=3D linux-user/
+-obj-y +=3D gdbstub.o thunk.o
+-
+ endif #CONFIG_LINUX_USER
+=20
  #########################################################
- # cpu emulator library
- obj-y +=3D exec.o
--obj-y +=3D accel/
- obj-$(CONFIG_TCG) +=3D tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-=
-gvec.o
- obj-$(CONFIG_TCG) +=3D tcg/tcg-common.o tcg/optimize.o
- obj-$(CONFIG_TCG_INTERPRETER) +=3D tcg/tci.o
-diff --git a/accel/Makefile.objs b/accel/Makefile.objs
+diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
 deleted file mode 100644
-index 8b498d3..0000000
---- a/accel/Makefile.objs
+index d2f33be..0000000
+--- a/linux-user/Makefile.objs
 +++ /dev/null
-@@ -1,5 +0,0 @@
--obj-$(CONFIG_SOFTMMU) +=3D accel.o
--obj-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_POSIX)) +=3D qtest.o
--obj-$(CONFIG_KVM) +=3D kvm/
--obj-$(CONFIG_TCG) +=3D tcg/
--obj-y +=3D stubs/
-diff --git a/accel/kvm/Makefile.objs b/accel/kvm/Makefile.objs
+@@ -1,10 +0,0 @@
+-obj-y =3D main.o syscall.o strace.o mmap.o signal.o \
+-=09elfload.o linuxload.o uaccess.o uname.o \
+-=09safe-syscall.o $(TARGET_ABI_DIR)/signal.o \
+-        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o
+-
+-obj-$(TARGET_HAS_BFLT) +=3D flatload.o
+-obj-$(TARGET_I386) +=3D vm86.o
+-obj-$(TARGET_ARM) +=3D arm/nwfpe/
+-obj-$(TARGET_ARM) +=3D arm/semihost.o
+-obj-$(TARGET_AARCH64) +=3D arm/semihost.o
+diff --git a/linux-user/arm/nwfpe/Makefile.objs b/linux-user/arm/nwfpe/Make=
+file.objs
 deleted file mode 100644
-index fdfa481..0000000
---- a/accel/kvm/Makefile.objs
+index 51b0c32..0000000
+--- a/linux-user/arm/nwfpe/Makefile.objs
 +++ /dev/null
 @@ -1,2 +0,0 @@
--obj-y +=3D kvm-all.o
--obj-$(call lnot,$(CONFIG_SEV)) +=3D sev-stub.o
-diff --git a/accel/kvm/meson.build b/accel/kvm/meson.build
+-obj-y =3D fpa11.o fpa11_cpdo.o fpa11_cpdt.o fpa11_cprt.o fpopcode.o
+-obj-y +=3D single_cpdo.o double_cpdo.o extended_cpdo.o
+diff --git a/linux-user/arm/nwfpe/meson.build b/linux-user/arm/nwfpe/meson.=
+build
 new file mode 100644
-index 0000000..4db2388
+index 0000000..1c27e55
 --- /dev/null
-+++ b/accel/kvm/meson.build
-@@ -0,0 +1,5 @@
-+kvm_ss =3D ss.source_set()
-+kvm_ss.add(files('kvm-all.c'))
-+kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
-+
-+specific_ss.add_all(when: 'CONFIG_KVM', if_true: kvm_ss)
-diff --git a/accel/meson.build b/accel/meson.build
-new file mode 100644
-index 0000000..c356284
---- /dev/null
-+++ b/accel/meson.build
-@@ -0,0 +1,6 @@
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('accel.c'))
-+specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: files('=
-qtest.c'))
-+
-+subdir('kvm')
-+subdir('tcg')
-+subdir('stubs')
-diff --git a/accel/stubs/Makefile.objs b/accel/stubs/Makefile.objs
-deleted file mode 100644
-index 3894caf..0000000
---- a/accel/stubs/Makefile.objs
-+++ /dev/null
-@@ -1,5 +0,0 @@
--obj-$(call lnot,$(CONFIG_HAX))  +=3D hax-stub.o
--obj-$(call lnot,$(CONFIG_HVF))  +=3D hvf-stub.o
--obj-$(call lnot,$(CONFIG_WHPX)) +=3D whpx-stub.o
--obj-$(call lnot,$(CONFIG_KVM))  +=3D kvm-stub.o
--obj-$(call lnot,$(CONFIG_TCG))  +=3D tcg-stub.o
-diff --git a/accel/stubs/meson.build b/accel/stubs/meson.build
-new file mode 100644
-index 0000000..8456de4
---- /dev/null
-+++ b/accel/stubs/meson.build
-@@ -0,0 +1,5 @@
-+specific_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
-+specific_ss.add(when: 'CONFIG_HVF', if_false: files('hvf-stub.c'))
-+specific_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
-+specific_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
-+specific_ss.add(when: 'CONFIG_WHPX', if_false: files('whpx-stub.c'))
-diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
-deleted file mode 100644
-index d381a02..0000000
---- a/accel/tcg/Makefile.objs
-+++ /dev/null
-@@ -1,8 +0,0 @@
--obj-$(CONFIG_SOFTMMU) +=3D tcg-all.o
--obj-$(CONFIG_SOFTMMU) +=3D cputlb.o
--obj-y +=3D tcg-runtime.o tcg-runtime-gvec.o
--obj-y +=3D cpu-exec.o cpu-exec-common.o translate-all.o
--obj-y +=3D translator.o
--
--obj-$(CONFIG_USER_ONLY) +=3D user-exec.o
--obj-$(call lnot,$(CONFIG_SOFTMMU)) +=3D user-exec-stub.o
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-new file mode 100644
-index 0000000..605810a
---- /dev/null
-+++ b/accel/tcg/meson.build
-@@ -0,0 +1,14 @@
-+tcg_ss =3D ss.source_set()
-+tcg_ss.add(files(
-+  'cpu-exec-common.c',
-+  'cpu-exec.c',
-+  'tcg-runtime-gvec.c',
-+  'tcg-runtime.c',
-+  'translate-all.c',
-+  'translator.c',
++++ b/linux-user/arm/nwfpe/meson.build
+@@ -0,0 +1,10 @@
++linux_user_ss.add(when: 'TARGET_ARM', if_true: files(
++  'double_cpdo.c',
++  'extended_cpdo.c',
++  'fpa11.c',
++  'fpa11_cpdo.c',
++  'fpa11_cpdt.c',
++  'fpa11_cprt.c',
++  'fpopcode.c',
++  'single_cpdo.c',
 +))
-+tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
-+tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
-+specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+new file mode 100644
+index 0000000..b5711d9
+--- /dev/null
++++ b/linux-user/meson.build
+@@ -0,0 +1,22 @@
++linux_user_ss.add(files(
++  'elfload.c',
++  'exit.c',
++  'fd-trans.c',
++  'linuxload.c',
++  'main.c',
++  'mmap.c',
++  'safe-syscall.S',
++  'signal.c',
++  'strace.c',
++  'syscall.c',
++  'uaccess.c',
++  'uname.c',
++))
++linux_user_ss.add(rt)
 +
-+specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files('tc=
-g-all.c', 'cputlb.c'))
++linux_user_ss.add(when: 'TARGET_AARCH64', if_true: files('arm/semihost.c')=
+)
++linux_user_ss.add(when: 'TARGET_ARM', if_true: files('arm/semihost.c'))
++linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
++linux_user_ss.add(when: 'TARGET_I386', if_true: files('vm86.c'))
++
++subdir('arm/nwfpe')
 diff --git a/meson.build b/meson.build
-index c8428c0..1c9a941 100644
+index 1c9a941..64cbab1 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -645,6 +645,7 @@ subdir('replay')
- subdir('hw')
+@@ -646,6 +646,10 @@ subdir('hw')
  subdir('libdecnumber')
  subdir('target')
-+subdir('accel')
+ subdir('accel')
++subdir('linux-user')
++
++linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
++specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
 =20
  mods =3D []
  block_mods =3D []
