@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EDA126391
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:32:31 +0100 (CET)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623FB12639B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:35:21 +0100 (CET)
+Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvun-00065p-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:32:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50992)
+	id 1ihvxX-0001mE-P5
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:35:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51735)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ihvpx-0000y4-D2
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:30 -0500
+ (envelope-from <mst@redhat.com>) id 1ihvq3-000185-Uy
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ihvpw-00033Q-5t
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:29 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46574
+ (envelope-from <mst@redhat.com>) id 1ihvq2-0003f9-T7
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:35 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31228
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihvpv-0002zo-UC
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:28 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihvq2-0003cQ-Mn
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576762047;
+ s=mimecast20190719; t=1576762054;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K9epneyHKkAEq5gGDVE/gbeFue8BzwP7OkBM6QzY9Yk=;
- b=bPvoIaMU5QATgf+yXgsF1nIXWpi9E4STfdLNJ+Oz6E7DU+I0T1R/t+FBVWQvJVZYTnaQ8x
- 1/yCti0v5AAW4K6oQ+19pXIXwfFXY2Le1pXC+JtY/6x3BJFA5Wo9sPL1qeg11Lre6vrqzT
- LfbS8tkShq7hUNtgLEX+DrId1O/W1kY=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-Evpot7u6NaCjp8aT6n3wnw-1; Thu, 19 Dec 2019 08:27:23 -0500
-Received: by mail-qv1-f71.google.com with SMTP id l1so3607705qvu.13
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:27:23 -0800 (PST)
+ bh=zj2wVrIh8KQNhFA65bESMfJP7roYgy+mFo3n5QglPhQ=;
+ b=HwhU+lhSzy2xJNfzn8StHrNOmV2fplVMQYJCl7Xi9Dt09g0/TVW1ofpoUIDfT3QMqjy0uT
+ tFOOGWs7WJlgHQyNg9QL9o3H59yyPTwhmMYD21mcTF0ROAg4n4WzTHuqAFSt+qI6oOKjT9
+ Rf8y3lk+USaAVmkUjVPVlw84wcINkjY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-4BquQgKdOXqGIWJJ4J27Fg-1; Thu, 19 Dec 2019 08:27:33 -0500
+Received: by mail-qk1-f199.google.com with SMTP id 12so3575745qkf.20
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:27:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=iiaP0RxMw50Y4u2HruPOoUKc+xP0ZRMmYrMUAAr8Wgg=;
- b=hg0tGMT3xb6lHAjYqRLGFr3Gr4AiipMqYjRLGyiAmYBoU1n50aW4VzjszjPU1JHqFt
- OK4lp79aH31UUMBpF4JTq0q9zb4GWjQCNWAZ+NomsmldadZKOFpR5UobqxN6srKz6kfE
- g8IvzEGT2jYgHGm9SB+HFNMfaVWB2hKXqoLrCzcO/1miDRlt0lk1Axs1g03km5q0FfXn
- 3OR/PCRq5nePrNkBfxIthG4gjg26EDP313Gy1smwwbkVza9dc6ZnoCoFuuV5Mdm/z3rn
- wy59eWgzNYQR1z9xl2TYum15m1DoXZMHGyjlBWlwqkubJJs3S23d+pgE37uYfkjQHSAB
- WS6A==
-X-Gm-Message-State: APjAAAUhT3m7S6uGkr7mua7jcHR71XnHMUsaeSzqL384HAxXhGggYP2Q
- 9TX5Jbb0vbdCD7KO6luDapl+IoLEnbr0SOaxN6n++EGv8c37qiKehnFsTivlaeFwOt/cvooeNk9
- yRgpN54UWtL607Ng=
-X-Received: by 2002:ac8:43ce:: with SMTP id w14mr6840876qtn.256.1576762042565; 
- Thu, 19 Dec 2019 05:27:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwfZ/tO72wFxLEI4JPFGcBIyC19eV+6gmBShoKgxCk8r0R2N5885i8e+ggVHP+x7XMqa8Qsrw==
-X-Received: by 2002:ac8:43ce:: with SMTP id w14mr6840863qtn.256.1576762042403; 
- Thu, 19 Dec 2019 05:27:22 -0800 (PST)
+ bh=sanExUpcAf7TPhNumiJmyXjhA8u9u6QpSUASPDnjn/0=;
+ b=jTCSfoNiPHPfVs68xEs9ttEAyVA9pM8uWmvIaPbL7YYT+FDiCd2EJHQUlkuEwvWLNM
+ yUPFS7W2dX5XfN1a9eoHqTkxszEzp1Mct1AdB2mSxL4DhlsHNcsjt0YeU04VVOPpfcy6
+ enq4hzqlSU4FJuMpCEzyrwxbVFOl/lYE0v9Gr3rMrlfGiVm9kP1PEURC0bRmLXnjVRAx
+ r0RT8YoutQyF+fVX2HyQvvx0Fs9mZCZ/Z6s7WkagF/VNPDea2ejHquQyWMFKkjuZW8Qp
+ KHlVSd0IjASY++ccfAiqQiWcbQxd+jTzH0qDFJHNTquPY3qE7in9G89oCI+Cqq9jnezW
+ 0KEQ==
+X-Gm-Message-State: APjAAAUDSo5tXs9uQXaBPfrng+o8LAK/1sqQZ8TNyNHwB9X+UtU/zkRS
+ g+NjjgnavbkV8yAyxml+jroXAcqvDgzJmPydViuatWaVq2SvGSB9XbrXGvxeQ3TImUdftmHTQxB
+ wAioaDh1yg4nTDJY=
+X-Received: by 2002:ac8:709a:: with SMTP id y26mr7000067qto.304.1576762052420; 
+ Thu, 19 Dec 2019 05:27:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzkA5yqJEFgrmZxI0g2Lrazb3uSDg2jMPT3Sp/NwzeIe2D+Z8sQlqs1fSN/YO0FvJGnFVn9MQ==
+X-Received: by 2002:ac8:709a:: with SMTP id y26mr7000056qto.304.1576762052277; 
+ Thu, 19 Dec 2019 05:27:32 -0800 (PST)
 Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
- by smtp.gmail.com with ESMTPSA id o33sm1897762qta.27.2019.12.19.05.27.20
+ by smtp.gmail.com with ESMTPSA id g53sm443675qtk.76.2019.12.19.05.27.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 05:27:21 -0800 (PST)
-Date: Thu, 19 Dec 2019 08:27:18 -0500
+ Thu, 19 Dec 2019 05:27:31 -0800 (PST)
+Date: Thu, 19 Dec 2019 08:27:28 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/24] virtio-input: convert to new virtio_delete_queue
-Message-ID: <20191219132621.16595-6-mst@redhat.com>
+Subject: [PULL 07/24] virtio: update queue size on guest write
+Message-ID: <20191219132621.16595-8-mst@redhat.com>
 References: <20191219132621.16595-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20191219132621.16595-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: Evpot7u6NaCjp8aT6n3wnw-1
+X-MC-Unique: 4BquQgKdOXqGIWJJ4J27Fg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
@@ -88,42 +88,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Seems cleaner than using VQ index values.
+Some guests read back queue size after writing it.
+Update the size immediatly upon write otherwise
+they get confused.
 
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/input/virtio-input.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
-index ec54e46ad6..9c013afddb 100644
---- a/hw/input/virtio-input.c
-+++ b/hw/input/virtio-input.c
-@@ -280,6 +280,7 @@ static void virtio_input_device_unrealize(DeviceState *=
-dev, Error **errp)
- {
-     VirtIOInputClass *vic =3D VIRTIO_INPUT_GET_CLASS(dev);
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-+    VirtIOInput *vinput =3D VIRTIO_INPUT(dev);
-     Error *local_err =3D NULL;
-=20
-     if (vic->unrealize) {
-@@ -289,8 +290,8 @@ static void virtio_input_device_unrealize(DeviceState *=
-dev, Error **errp)
-             return;
-         }
-     }
--    virtio_del_queue(vdev, 0);
--    virtio_del_queue(vdev, 1);
-+    virtio_delete_queue(vinput->evt);
-+    virtio_delete_queue(vinput->sts);
-     virtio_cleanup(vdev);
- }
-=20
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index c6b47a9c73..e5c759e19e 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1256,6 +1256,8 @@ static void virtio_pci_common_write(void *opaque, hwa=
+ddr addr,
+         break;
+     case VIRTIO_PCI_COMMON_Q_SIZE:
+         proxy->vqs[vdev->queue_sel].num =3D val;
++        virtio_queue_set_num(vdev, vdev->queue_sel,
++                             proxy->vqs[vdev->queue_sel].num);
+         break;
+     case VIRTIO_PCI_COMMON_Q_MSIX:
+         msix_vector_unuse(&proxy->pci_dev,
 --=20
 MST
 
