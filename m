@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2710F126D01
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 20:08:09 +0100 (CET)
-Received: from localhost ([::1]:46882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F862126DD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 20:17:18 +0100 (CET)
+Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii19c-0000UN-2l
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 14:08:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51835)
+	id 1ii1IT-0007sI-5k
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 14:17:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ii18K-0007oc-U3
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 14:06:50 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ii1Gy-0007L3-4D
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 14:15:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ii18J-0007MM-03
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 14:06:48 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54373
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ii18I-0007J4-R2
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 14:06:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576782406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TynpDEwj2AG/Pgz/mZbQv9Qkv++l8kSA22+NdVyZDnw=;
- b=Iu3yQQsdZA2GCJd8P8l3XPMOmHGWK5ppz7DXVLs39m+yJRkqzUdke64WW4Uv5Va8Sx0XGj
- TwJeigCjRCWuXl788ctCrT9tYHvm8cMi1+LyHvHr1yLgepkUEJH44S7yjsbmaP6ozXVJrA
- Txz7Fk/KN9kvDvOiE9xaC7yaV/W10gQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-xLR4i6IGNN6AWyXtSAS1fw-1; Thu, 19 Dec 2019 14:06:39 -0500
-Received: by mail-wm1-f69.google.com with SMTP id t16so1724374wmt.4
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 11:06:39 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1ii1Gr-0002Es-8R
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 14:15:40 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40714)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ii1Go-0002Cl-2g
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 14:15:34 -0500
+Received: by mail-wr1-x442.google.com with SMTP id c14so7108707wrn.7
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 11:15:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=WdFoefIyBmEmGr0Uzh61Q3jXTyhvbdrVyQ7nh5f6AmE=;
+ b=C9l4Gt7B4s4ujVu/sTR17tZJvFCbVod5yGQZXUDFST5By834c+cvnLPyTMSi4wciWU
+ 24F3RS+iGOupASA61Dt15SWuUmwmI8QcklBAcKIytGQ+FInly4TIU9dWj1oUj265K1Tt
+ HJlxULyTY98IBvmcMAvNMkN/GnNGz4525Xy6KDVJ70Kh6WExvnuM+i9GfizMTxKyFvwk
+ QKTh6fDyJrno6FwPK57kBd4rFMF7DivHjqDLiHidU6gLUTti8svTMLLIFtZlTS5fi2RY
+ o5fmd4TLGU2o0AqwEhBl6reFkuwRajyouNmL0p4C1Fi0zqLqkIEcOHxjgCIgUuC1bu7/
+ gocQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o2OSrHs0YUZFw1j6IF6ir4xvmI4fQhqh/dV7Wa/zFdE=;
- b=AZAOPP6jpCitYdUyj/flCxpVVIGIA0PSEA5PjLnqIck1p5NO0buvH4eLGhvlTdlanu
- dpmx8nguo8NH/aWsDlXN+GNVEbJvqJBaQOAdKRuPJWUW0u3UV+futnrlJeVCyqfj49Gv
- OOoF6el03idQk5IJsm6tph1NHi0aZmuP9kKoYD28hDrhkNsJ2LO2dVWf4NgNTeHk49h6
- yI6k+rq4HRJGYZuCl53OALW30zCUHBF5hXUszREg7PDeUmwFci3j1n5lLCr7DNB5QGH/
- L3p6WU7iFTNKHTX0NH421XlwRjliiT8roYWuOyXUHvc6Y4Pc6siBSSNkNrGfHJUXFDhy
- DI6A==
-X-Gm-Message-State: APjAAAWbiSMMCKAaCVTw3S8qDWpAwd1jWtoobKTfxEZwh+P/FcCb94PG
- lF8otEfT4e/PrnXBf/ee+vOvSFe7lPfV0djz+Fd2XeB9TbIDlYfjgh3dZZKc72YnVHPcoEzvdSu
- IZRM1X4Av4UdUrVQ=
-X-Received: by 2002:a5d:51c1:: with SMTP id n1mr10913421wrv.335.1576782398795; 
- Thu, 19 Dec 2019 11:06:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwDhbbY2fdFhiVISXAHn1Xk0xWzpnvXYVSVMqYZA+q/n2fGZMUMemAviigoTCvPDfodbZjiDg==
-X-Received: by 2002:a5d:51c1:: with SMTP id n1mr10913386wrv.335.1576782398422; 
- Thu, 19 Dec 2019 11:06:38 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id g7sm7360592wrq.21.2019.12.19.11.06.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Dec 2019 11:06:37 -0800 (PST)
-Subject: Re: [PATCH v2 02/10] hw: arm: add Xunlong Orange Pi PC machine
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-References: <20191216233519.29030-1-nieklinnenbank@gmail.com>
- <20191216233519.29030-3-nieklinnenbank@gmail.com>
- <e66415e1-7dcc-9fa3-7ff3-6526087be799@redhat.com>
- <CAPan3Wq6iM1k=UBP7kFUF-hYuSu836VLH+_YNFwdWAffbmnvYQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fd3359ca-cbfb-5491-37e7-cf4fe3e783f8@redhat.com>
-Date: Thu, 19 Dec 2019 20:06:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=WdFoefIyBmEmGr0Uzh61Q3jXTyhvbdrVyQ7nh5f6AmE=;
+ b=nyHj+P2n/xAOGTYS5SLUGnSpc0f1sjF0ISCOLTxlND9E7VArfap9nVsEjf/wwx/Qv8
+ eAnx15K3nrlyhyH9Il9Mq4c+cs7yGp5DizibyejE+p/K61ViOlL8URHvaZetvywnIHqe
+ h+0zw55KkKm3snRfn949Bwl9i3f7mbnolm+aAeW0cbxoTachQohrhJ10omivhAiSukq3
+ t1fa3wKlGZiaeAF5vODslPO/hQid8Vp/8Fls7++chS+RVLBf5hjoA4BMaroo8pSxYDxg
+ TGFmUB5aTLa6iq2JnecBDeQu+GAOCyzHIX/3v5RErlNwNQiXSxdZ8Ig21JkD5yUKMsow
+ FV9A==
+X-Gm-Message-State: APjAAAWnb7RSFdASPi5VguF8WZlbshAdYAAPEbBhw7skOt2Z67Z3B8jU
+ 9R3jm4b5eB3kNm/muISFY5H4Xg==
+X-Google-Smtp-Source: APXvYqyEJhgNDMsqninN1OqJnsXLx2jpKOkQEorDzivi5zZj0b5CNTZSN9BFcNTv60HjWjBpSI/QWw==
+X-Received: by 2002:adf:a308:: with SMTP id c8mr10908033wrb.240.1576782932498; 
+ Thu, 19 Dec 2019 11:15:32 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x17sm7156560wrt.74.2019.12.19.11.15.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 11:15:31 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7919E1FF87;
+ Thu, 19 Dec 2019 19:15:30 +0000 (GMT)
+References: <20191211170520.7747-1-alex.bennee@linaro.org>
+ <20191211170520.7747-13-alex.bennee@linaro.org>
+ <69e10c48-8bdf-cbe0-3372-815b647f8312@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 12/20] target/arm: generate xml description of our
+ SVE registers
+In-reply-to: <69e10c48-8bdf-cbe0-3372-815b647f8312@linaro.org>
+Date: Thu, 19 Dec 2019 19:15:30 +0000
+Message-ID: <87k16sdt4d.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAPan3Wq6iM1k=UBP7kFUF-hYuSu836VLH+_YNFwdWAffbmnvYQ@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: xLR4i6IGNN6AWyXtSAS1fw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,178 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
+ luis.machado@linaro.org, qemu-devel@nongnu.org,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/18/19 9:14 PM, Niek Linnenbank wrote:
-> Hi Philippe,
->=20
-> Thanks again for your quick and helpful feedback! :-)
->=20
-> On Tue, Dec 17, 2019 at 8:31 AM Philippe Mathieu-Daud=C3=A9=20
-> <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
->=20
->     Hi Niek,
->=20
->     On 12/17/19 12:35 AM, Niek Linnenbank wrote:
->      > The Xunlong Orange Pi PC is an Allwinner H3 System on Chip
->      > based embedded computer with mainline support in both U-Boot
->      > and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,
->      > 512MB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and
->      > various other I/O. This commit add support for the Xunlong
->      > Orange Pi PC machine.
->      >
->      > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com
->     <mailto:nieklinnenbank@gmail.com>>
->      > Tested-by: KONRAD Frederic <frederic.konrad@adacore.com
->     <mailto:frederic.konrad@adacore.com>>
->      > ---
->      >=C2=A0 =C2=A0hw/arm/orangepi.c=C2=A0 =C2=A0 | 101
->     +++++++++++++++++++++++++++++++++++++++++++
->      >=C2=A0 =C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A01 +
->      >=C2=A0 =C2=A0hw/arm/Makefile.objs |=C2=A0 =C2=A02 +-
->      >=C2=A0 =C2=A03 files changed, 103 insertions(+), 1 deletion(-)
->      >=C2=A0 =C2=A0create mode 100644 hw/arm/orangepi.c
->      >
->      > diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
->      > new file mode 100644
->      > index 0000000000..62cefc8c06
->      > --- /dev/null
->      > +++ b/hw/arm/orangepi.c
->      > @@ -0,0 +1,101 @@
->      > +/*
->      > + * Orange Pi emulation
->      > + *
->      > + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com
->     <mailto:nieklinnenbank@gmail.com>>
->      > + *
->      > + * This program is free software: you can redistribute it and/or
->     modify
->      > + * it under the terms of the GNU General Public License as
->     published by
->      > + * the Free Software Foundation, either version 2 of the License,=
- or
->      > + * (at your option) any later version.
->      > + *
->      > + * This program is distributed in the hope that it will be useful=
-,
->      > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->      > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See=
- the
->      > + * GNU General Public License for more details.
->      > + *
->      > + * You should have received a copy of the GNU General Public Lice=
-nse
->      > + * along with this program.=C2=A0 If not, see
->     <http://www.gnu.org/licenses/>.
->      > + */
->      > +
->      > +#include "qemu/osdep.h"
->      > +#include "exec/address-spaces.h"
->      > +#include "qapi/error.h"
->      > +#include "cpu.h"
->      > +#include "hw/sysbus.h"
->      > +#include "hw/boards.h"
->      > +#include "hw/qdev-properties.h"
->      > +#include "hw/arm/allwinner-h3.h"
->      > +
->      > +static struct arm_boot_info orangepi_binfo =3D {
->      > +=C2=A0 =C2=A0 .board_id =3D -1,
->      > +};
->      > +
->      > +typedef struct OrangePiState {
->      > +=C2=A0 =C2=A0 AwH3State *h3;
->      > +=C2=A0 =C2=A0 MemoryRegion sdram;
->      > +} OrangePiState;
->      > +
->      > +static void orangepi_init(MachineState *machine)
->      > +{
->      > +=C2=A0 =C2=A0 OrangePiState *s =3D g_new(OrangePiState, 1);
->      > +
->      > +=C2=A0 =C2=A0 /* Only allow Cortex-A7 for this board */
->      > +=C2=A0 =C2=A0 if (strcmp(machine->cpu_type,
->     ARM_CPU_TYPE_NAME("cortex-a7")) !=3D 0) {
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report("This board can only be =
-used with cortex-a7
->     CPU");
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);
->      > +=C2=A0 =C2=A0 }
->      > +
->      > +=C2=A0 =C2=A0 s->h3 =3D AW_H3(object_new(TYPE_AW_H3));
->      > +
->      > +=C2=A0 =C2=A0 /* Setup timer properties */
->      > +=C2=A0 =C2=A0 object_property_set_int(OBJECT(&s->h3->timer), 3276=
-8,
->     "clk0-freq",
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &error_abort);
->=20
->     You access the timer object which is contained inside the soc object,
->     but the soc isn't realized yet... I wonder if this is OK. Usually wha=
-t
->     we do is, either:
->     - add a 'xtal-freq-hz' property to the SoC, set it here in the board,
->     then in soc::realize() set the property to the timer
->     - add an alias in the SoC to the timer 'freq-hz' property:
->      =C2=A0 =C2=A0 =C2=A0object_property_add_alias(soc, "xtal-freq-hz", O=
-BJECT(&s->timer),
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "freq-hz", &err=
-or_abort);
->=20
-> Good point. I shall rework that part using your suggestion.
-> Actually, I copied the timer support code from the existing cubieboard.c=
-=20
-> that has
-> the Allwinner A10, so potentially the same problem is there.
->=20
-> While looking more closer at this part, I now also discovered that the=20
-> timer module from the Allwinner H3 is
-> mostly a stripped down version of the timer module in the Allwinner A10:
->=20
->  =C2=A0 Allwinner A10, 10.2 Timer Register List, page 85:
-> https://linux-sunxi.org/images/1/1e/Allwinner_A10_User_manual_V1.5.pdf
->=20
-> The A10 version has six timers, where the H3 has only two. That should=20
-> be fine I would say, the guest would simply
-> use those available on H3 and ignore the rest. There is however one=20
-> conflicting difference: the WDOG0 registers in the Allwinner H3 start
-> at a different offset and are also different. The current A10 timer does=
-=20
-> not currently implement the watchdog part.
->=20
-> The watchdog part of this timer is relevant for the 'reset' command in=20
-> U-Boot: that does not work right now, because
-> U-Boot implements the reset for the Allwinner H3 boards by letting this=
-=20
-> watchdog expire (and we dont emulate it).
-> Also, this timer module is required for booting Linux, without it the=20
-> kernel crashes using the sunxi_defconfig:
->=20
-> [    0.000000] PC is at sun4i_timer_init+0x34/0x168
-> [    0.000000] LR is at sun4i_timer_init+0x2c/0x168
-> [    0.000000] pc : [<c07fa634>]    lr : [<c07fa62c>]    psr: 600000d3
-> [    0.000000] sp : c0a03f70  ip : eec00188  fp : ef7ed040
-> ...
-> [    0.000000] [<c07fa634>] (sun4i_timer_init) from [<c07fa4e8>] (timer_p=
-robe+0x74/0xe4)
-> [    0.000000] [<c07fa4e8>] (timer_probe) from [<c07d9c10>] (start_kernel=
-+0x2e0/0x440)
-> [    0.000000] [<c07d9c10>] (start_kernel) from [<00000000>] (0x0)
->=20
->=20
-> So in my opinion its a bit of a trade off here: we can keep it like this=
-=20
-> and re-use the A10 timer for now, and perhaps
-> attempt to generalize that module for proper use in both SoCs. Or we can=
-=20
-> introduce a new H3 specific timer module.
-> What do you think?
 
-See my answer about generalize/reuse here:
-http://mid.mail-archive.com/20191219185127.24388-1-f4bug@amsat.org
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> On 12/11/19 9:05 AM, Alex Benn=C3=A9e wrote:
+>> +static struct TypeSize vec_lanes[] =3D {
+>
+> const.
+>
+>> +    case 51:
+>> +        return gdb_get_reg64(buf, (cpu->env.vfp.zcr_el[1] & 0xf) + 1);
+>
+> You need to use sve_zcr_len_for_el to get the effective vq.
+> Also, I thought vg =3D=3D 2 * vq.
+>  > +    case 51:
+>> +    {
+>> +        uint64_t val =3D *(uint64_t *) buf;
+>> +        cpu->env.vfp.zcr_el[1] =3D (val - 1) & 0xf;
+>
+> You cannot hard-code EL1 without ifdef CONFIG_USER_ONLY.  If the effectiv=
+e vq
+> decreases, you must call aarch64_sve_narrow_vq.  You must call arm_rebuil=
+d_hflags.
+
+I'm just going to drop vg (and therefor the ability to set it) from the
+regset. It was only meant to be an indicator and gdb doesn't actually
+look to it to size it's output. The likely dynamic extension will just
+re-transmit the whole XML when a change occurs.
+
+--=20
+Alex Benn=C3=A9e
 
