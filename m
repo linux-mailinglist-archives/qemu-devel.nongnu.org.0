@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87158126298
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:51:35 +0100 (CET)
-Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B15126292
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:48:37 +0100 (CET)
+Received: from localhost ([::1]:40384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvHC-0000bP-60
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:51:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35674)
+	id 1ihvEJ-0004rj-SI
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:48:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihurt-0000RU-7W
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:28 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihurt-0000RT-7j
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihurr-0002KJ-EP
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:25 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52167
+ (envelope-from <pbonzini@redhat.com>) id 1ihurr-0002KR-Ey
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:24 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51852
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihurq-0002Em-LC
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihurq-0002FU-Kw
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758318;
+ s=mimecast20190719; t=1576758319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6vJv+3RorrvWn+cJmBlppbndFpDtm/N3rUqEtwJZ7Wg=;
- b=R5xIQHofTi8Gb+MT2/V/BTGFe/Z5DU8vRBLrQ9Pc/QSCPgFoplRmtBBIOUoRcBIqnM1sx1
- IOdUu/Iq4M5WBxoIiouiVsB56kv88mYaH6z12kelF/NCW1V0aWbIvD+dmIuQN4REkJFpcs
- W4vQHxjyYj2otoRwOIRpCmWIl4bp2Fw=
+ bh=ib+TBuTaCY7leyC0IVdfkkv8AGpLyv11gaAtA9leCd8=;
+ b=UWmOrhne5hqLey7UTkcliEJfdXLLQ8MLj0DCvNPs/D21/hi9JNv0C2H/3PAJfo/wdZ93CQ
+ RKCB48Jx938otUXyBwZ+1/o626y/mFj+27aVyHZLcJKNtivU5pRDVKKLyHXY45p99BnTbD
+ /d4zNawYB+7RSljOygEQXXtbm6FSoMY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-AmuHFdzxNwaCa9qX9pS_bw-1; Thu, 19 Dec 2019 07:25:16 -0500
+ us-mta-307-xk-_F9cmOn-ccIbo_mpErw-1; Thu, 19 Dec 2019 07:25:18 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20773800EBF
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:25:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0B9BDB60
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:25:17 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E87B260C18;
- Thu, 19 Dec 2019 12:25:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC65B60C18;
+ Thu, 19 Dec 2019 12:25:16 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 119/132] meson: add NSIS building
-Date: Thu, 19 Dec 2019 13:23:39 +0100
-Message-Id: <1576758232-12439-28-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 120/132] meson: install some scripts
+Date: Thu, 19 Dec 2019 13:23:40 +0100
+Message-Id: <1576758232-12439-29-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: AmuHFdzxNwaCa9qX9pS_bw-1
+X-MC-Unique: xk-_F9cmOn-ccIbo_mpErw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,185 +79,48 @@ From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile        | 57 -----------------------------------------------------=
----
- meson.build     | 23 +++++++++++++++++++++++
- scripts/nsis.sh | 58 +++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++
- 3 files changed, 81 insertions(+), 57 deletions(-)
- create mode 100755 scripts/nsis.sh
+ Makefile            | 3 ---
+ meson.build         | 1 +
+ scripts/meson.build | 3 +++
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+ create mode 100644 scripts/meson.build
 
 diff --git a/Makefile b/Makefile
-index ac21e14..710659b 100644
+index 710659b..d64e481 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -335,62 +335,6 @@ cscope:
- =09find "$(SRC_PATH)/" -name "*.[chsS]" -print | sed 's,^\./,,' > "$(SRC_P=
-ATH)/cscope.files"
- =09cscope -b -i"$(SRC_PATH)/cscope.files"
-=20
--ifdef CONFIG_WIN32
--
--INSTALLER =3D qemu-setup-$(VERSION)$(EXESUF)
--
--nsisflags =3D -V2 -NOCD
--
--ifneq ($(wildcard $(SRC_PATH)/dll),)
--ifeq ($(ARCH),x86_64)
--# 64 bit executables
--DLL_PATH =3D $(SRC_PATH)/dll/w64
--nsisflags +=3D -DW64
--else
--# 32 bit executables
--DLL_PATH =3D $(SRC_PATH)/dll/w32
--endif
--endif
--
--.PHONY: installer
--installer: $(INSTALLER)
--
--INSTDIR=3D/tmp/qemu-nsis
--
--$(INSTALLER): $(SRC_PATH)/qemu.nsi
--=09$(MAKE) install prefix=3D${INSTDIR}
--ifdef SIGNCODE
--=09(cd ${INSTDIR}; \
--         for i in *.exe; do \
--           $(SIGNCODE) $${i}; \
--         done \
--        )
--endif # SIGNCODE
--=09(cd ${INSTDIR}; \
--         for i in qemu-system-*.exe; do \
--           arch=3D$${i%.exe}; \
--           arch=3D$${arch#qemu-system-}; \
--           echo Section \"$$arch\" Section_$$arch; \
--           echo SetOutPath \"\$$INSTDIR\"; \
--           echo File \"\$${BINDIR}\\$$i\"; \
--           echo SectionEnd; \
--         done \
--        ) >${INSTDIR}/system-emulations.nsh
--=09makensis $(nsisflags) \
--                $(if $(BUILD_DOCS),-DCONFIG_DOCUMENTATION=3D"y") \
--                $(if $(CONFIG_GTK),-DCONFIG_GTK=3D"y") \
--                -DBINDIR=3D"${INSTDIR}" \
--                $(if $(DLL_PATH),-DDLLDIR=3D"$(DLL_PATH)") \
--                -DSRCDIR=3D"$(SRC_PATH)" \
--                -DOUTFILE=3D"$(INSTALLER)" \
--                -DDISPLAYVERSION=3D"$(VERSION)" \
--                $(SRC_PATH)/qemu.nsi
--=09rm -r ${INSTDIR}
--ifdef SIGNCODE
--=09$(SIGNCODE) $(INSTALLER)
--endif # SIGNCODE
--endif # CONFIG_WIN
--
- # Add a dependency on the generated files, so that they are always
- # rebuilt before other object files
- ifneq ($(wildcard config-host.mak),)
-@@ -430,7 +374,6 @@ endif
- =09@echo  ''
- ifdef CONFIG_WIN32
- =09@echo  'Windows targets:'
--=09@echo  '  installer       - Build NSIS-based installer for QEMU'
- ifdef QEMU_GA_MSI_ENABLED
- =09@echo  '  msi             - Build MSI-based installer for qemu-ga'
+@@ -275,9 +275,6 @@ ifneq ($(vhost-user-json-y),)
+ =09=09$(INSTALL_DATA) $$x "$(DESTDIR)$(qemu_datadir)/vhost-user/"; \
+ =09done
  endif
+-ifdef CONFIG_TRACE_SYSTEMTAP
+-=09$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
+-endif
+ ifneq ($(BLOBS),)
+ =09set -e; for x in $(BLOBS); do \
+ =09=09$(INSTALL_DATA) $(SRC_PATH)/pc-bios/$$x "$(DESTDIR)$(qemu_datadir)";=
+ \
 diff --git a/meson.build b/meson.build
-index 40ba735..ce67e4c 100644
+index ce67e4c..32b9430 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1040,3 +1040,26 @@ if pod2man.found() and build_docs
-                                   '--release=3D" "', '@INPUT@'])
-   endforeach
+@@ -943,6 +943,7 @@ if have_tools
+   endif
  endif
-+
-+if host_machine.system() =3D=3D 'windows'
-+  nsis_cmd =3D [
-+    find_program('scripts/nsis.sh'),
-+    '@OUTPUT@',
-+    get_option('prefix'),
-+    meson.current_source_dir(),
-+    host_machine.cpu_family(),
-+    '-DDISPLAYVERSION=3D@0@'.format(config_host['VERSION']),
-+  ]
-+  if build_docs
-+    nsis_cmd +=3D '-DCONFIG_DOCUMENTATION=3Dy'
-+  endif
-+  if 'CONFIG_GTK' in config_host
-+    nsis_cmd +=3D '-DCONFIG_GTK=3Dy'
-+  endif
-+
-+  custom_target('nsis',
-+                output: 'qemu-setup-' + config_host['VERSION'] + '.exe',
-+                input: files('qemu.nsi'),
-+                build_always_stale: true,
-+                command: nsis_cmd + ['@INPUT@'])
-+endif
-diff --git a/scripts/nsis.sh b/scripts/nsis.sh
-new file mode 100755
-index 0000000..ad23708
+=20
++subdir('scripts')
+ subdir('pc-bios')
+ subdir('docs')
+=20
+diff --git a/scripts/meson.build b/scripts/meson.build
+new file mode 100644
+index 0000000..e8cc638
 --- /dev/null
-+++ b/scripts/nsis.sh
-@@ -0,0 +1,58 @@
-+#!/bin/bash
-+
-+OUTFILE=3D"$1"
-+shift
-+PREFIX=3D"$1"
-+shift
-+SRCDIR=3D"$1"
-+shift
-+CPU=3D"$1"
-+shift
-+
-+DESTDIR=3D$(mktemp -d)
-+trap "rm -rf $DESTDIR" EXIT
-+make DESTDIR=3D"$DESTDIR" install
-+
-+signcode() {
-+    if [ -z "$SIGNCODE" ]; then
-+        return
-+    fi
-+    "$SIGNCODE" "$@"
-+}
-+
-+shopt -s nullglob
-+
-+(
-+    cd "$DESTDIR$PREFIX"
-+    for i in qemu-system-*.exe; do
-+        arch=3D${i%.exe}
-+        arch=3D${arch#qemu-system-}
-+        echo Section \"$arch\" Section_$arch
-+        echo SetOutPath \"\$INSTDIR\"
-+        echo File \"\${BINDIR}\\$i\"
-+        echo SectionEnd
-+    done
-+) > "$DESTDIR$PREFIX/system-emulations.nsh"
-+
-+(
-+    cd "$DESTDIR$PREFIX"
-+    for i in *.exe; do
-+        signcode "$i"
-+    done
-+)
-+
-+if [ "$CPU" =3D "x86_64" ]; then
-+    CPUARG=3D"-DW64"
-+    DLLDIR=3D"w64"
-+else
-+    DLLDIR=3D"w32"
-+fi
-+
-+if [ -d "$SRCDIR/dll" ]; then
-+   DLLARG=3D"-DDLLDIR=3D$SRCDIR/dll/$DLLDIR"
-+fi
-+
-+makensis -V2 -NOCD -DSRCDIR=3D"$SRCDIR" -DBINDIR=3D"$DESTDIR$PREFIX" \
-+         $CPUARG $DLLARG -DOUTFILE=3D"$OUTFILE" "$@"
-+
-+signcode "$OUTFILE"
++++ b/scripts/meson.build
+@@ -0,0 +1,3 @@
++if 'CONFIG_TRACE_SYSTEMTAP' in config_host
++  install_data('qemu-trace-stap', install_dir: get_option('bindir'))
++endif
 --=20
 1.8.3.1
 
