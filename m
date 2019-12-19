@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C54126234
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:34:16 +0100 (CET)
-Received: from localhost ([::1]:40180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138A0126231
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:32:50 +0100 (CET)
+Received: from localhost ([::1]:40150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihv0R-0002Ac-1V
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:34:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59943)
+	id 1ihuz2-0000FV-Qa
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:32:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihur2-0007mu-PC
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:33 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihurC-0007zx-7U
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihur1-0007aN-6r
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25490
+ (envelope-from <pbonzini@redhat.com>) id 1ihurA-0008Ck-Na
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32727
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihur0-0007XJ-VH
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:31 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihurA-00089S-H2
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758270;
+ s=mimecast20190719; t=1576758280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hzzv/OgiqADH7KAChwWwmBUi+2fw7rFny0fFHFYO0ng=;
- b=iW7WWw8qDViqjWNnPJe84ylulm8z8wz9UiVR+kXQ2I5Z+baAjNNNBvsoDYqnBtjW/SYBdL
- dXiD738JTtGigRDMTCOhIT9K6Y8HaBIrlmdajXY3/FWSEx1ZvR/8mJi7g1b9Rc1NXNdCaR
- Kjw7RsKUYK8RyD93imLQ6XKGHsdA5pk=
+ bh=fnnXPT/mDA3xX40/wFT9/3Y27tp8pejr/mUmdgIE2Y4=;
+ b=gb0eEH56mAdURHFyWx0Ua+6ZlMYdsZPThuwYT0gQn8+bM6K0B2+qlucvKTKDfwE86YaLhm
+ +Nwj+ot2orSWefWV4SXSifxSuVHTUeYOo1aYo+mOMpsUpJ1upy1YUVutYg1Hcso2pr3WeP
+ V2R08Ly/5OkuWr4/ar40JbwvtRNpbNQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-Kq-17XzfN6CKUCb9DcxLFA-1; Thu, 19 Dec 2019 07:24:29 -0500
+ us-mta-102-ksIJyq-vMv2wQxIs1HJ6mw-1; Thu, 19 Dec 2019 07:24:35 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A3AA1005514
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ED36107AD45
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:35 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1DF760C18;
- Thu, 19 Dec 2019 12:24:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DDA860C18;
+ Thu, 19 Dec 2019 12:24:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 102/132] meson: convert hw/acpi
-Date: Thu, 19 Dec 2019 13:23:22 +0100
-Message-Id: <1576758232-12439-11-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 104/132] meson: convert target/s390x/gen-features.h
+Date: Thu, 19 Dec 2019 13:23:24 +0100
+Message-Id: <1576758232-12439-13-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Kq-17XzfN6CKUCb9DcxLFA-1
+X-MC-Unique: ksIJyq-vMv2wQxIs1HJ6mw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,98 +77,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+Needed already by tracepoints.
+
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/acpi/Makefile.objs | 22 ----------------------
- hw/acpi/meson.build   | 21 +++++++++++++++++++++
- hw/meson.build        |  1 +
- 4 files changed, 22 insertions(+), 23 deletions(-)
- delete mode 100644 hw/acpi/Makefile.objs
- create mode 100644 hw/acpi/meson.build
+ meson.build                 |  1 +
+ target/meson.build          |  1 +
+ target/s390x/Makefile.objs  | 20 --------------------
+ target/s390x/cpu_features.h |  2 +-
+ target/s390x/cpu_models.h   |  2 +-
+ target/s390x/meson.build    |  8 ++++++++
+ 6 files changed, 12 insertions(+), 22 deletions(-)
+ create mode 100644 target/meson.build
+ create mode 100644 target/s390x/meson.build
 
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 5823867..3dc4dec 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -1,6 +1,5 @@
- ifeq ($(CONFIG_SOFTMMU), y)
- devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$=
-(CONFIG_XEN))) +=3D 9pfs/
--devices-dirs-y +=3D acpi/
- endif
+diff --git a/meson.build b/meson.build
+index 58bc25c..378d2c0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -639,6 +639,7 @@ subdir('monitor')
+ subdir('net')
+ subdir('replay')
+ subdir('hw')
++subdir('target')
 =20
- common-obj-y +=3D $(devices-dirs-y)
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-deleted file mode 100644
-index 9bb2101..0000000
---- a/hw/acpi/Makefile.objs
-+++ /dev/null
-@@ -1,22 +0,0 @@
--ifeq ($(CONFIG_ACPI),y)
--common-obj-$(CONFIG_ACPI_X86) +=3D core.o piix4.o pcihp.o
--common-obj-$(CONFIG_ACPI_X86_ICH) +=3D ich9.o tco.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) +=3D cpu_hotplug.o
--common-obj-$(CONFIG_ACPI_MEMORY_HOTPLUG) +=3D memory_hotplug.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) +=3D cpu.o
--common-obj-$(CONFIG_ACPI_NVDIMM) +=3D nvdimm.o
--common-obj-$(CONFIG_ACPI_VMGENID) +=3D vmgenid.o
--common-obj-$(call lnot,$(CONFIG_ACPI_X86)) +=3D acpi-stub.o
--
--common-obj-y +=3D acpi_interface.o
--common-obj-y +=3D bios-linker-loader.o
--common-obj-y +=3D aml-build.o utils.o
--common-obj-$(CONFIG_ACPI_PCI) +=3D pci.o
--common-obj-$(CONFIG_TPM) +=3D tpm.o
--
--common-obj-$(CONFIG_IPMI) +=3D ipmi.o
--common-obj-$(call lnot,$(CONFIG_IPMI)) +=3D ipmi-stub.o
--else
--common-obj-y +=3D acpi-stub.o
--endif
--common-obj-$(CONFIG_ALL) +=3D acpi-stub.o ipmi-stub.o
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+ mods =3D []
+ block_mods =3D []
+diff --git a/target/meson.build b/target/meson.build
 new file mode 100644
-index 0000000..7d160c2
+index 0000000..e29dd3e
 --- /dev/null
-+++ b/hw/acpi/meson.build
-@@ -0,0 +1,21 @@
-+acpi_ss =3D ss.source_set()
-+acpi_ss.add(files(
-+  'acpi_interface.c',
-+  'aml-build.c',
-+  'bios-linker-loader.c',
-+  'utils.c',
-+))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c=
-'))
-+acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hot=
-plug.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', '=
-pcihp.c'), if_false: files('acpi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c')=
++++ b/target/meson.build
+@@ -0,0 +1 @@
++subdir('s390x')
+diff --git a/target/s390x/Makefile.objs b/target/s390x/Makefile.objs
+index 3e27455..9b9accc 100644
+--- a/target/s390x/Makefile.objs
++++ b/target/s390x/Makefile.objs
+@@ -8,23 +8,3 @@ obj-$(CONFIG_SOFTMMU) +=3D sigp.o
+ obj-$(CONFIG_KVM) +=3D kvm.o
+ obj-$(call lnot,$(CONFIG_KVM)) +=3D kvm-stub.o
+ obj-$(call lnot,$(CONFIG_TCG)) +=3D tcg-stub.o
+-
+-# build and run feature list generator
+-feat-src =3D $(SRC_PATH)/target/$(TARGET_BASE_ARCH)/
+-feat-dst =3D $(BUILD_DIR)/$(TARGET_DIR)
+-ifneq ($(MAKECMDGOALS),clean)
+-generated-files-y +=3D $(feat-dst)gen-features.h
+-endif
+-
+-$(feat-dst)gen-features.h: $(feat-dst)gen-features.h-timestamp
+-=09@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-$(feat-dst)gen-features.h-timestamp: $(feat-dst)gen-features
+-=09$(call quiet-command,$< >$@,"GEN","$(TARGET_DIR)gen-features.h")
+-
+-$(feat-dst)gen-features: $(feat-src)gen-features.c
+-=09$(call quiet-command,$(HOST_CC) $(QEMU_INCLUDES) -o $@ $<,"CC","$(TARGE=
+T_DIR)gen-features")
+-
+-clean-target:
+-=09rm -f gen-features.h-timestamp
+-=09rm -f gen-features.h
+-=09rm -f gen-features
+diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
+index da695a8..2a29475 100644
+--- a/target/s390x/cpu_features.h
++++ b/target/s390x/cpu_features.h
+@@ -16,7 +16,7 @@
+=20
+ #include "qemu/bitmap.h"
+ #include "cpu_features_def.h"
+-#include "gen-features.h"
++#include "target/s390x/gen-features.h"
+=20
+ /* CPU features are announced via different ways */
+ typedef enum {
+diff --git a/target/s390x/cpu_models.h b/target/s390x/cpu_models.h
+index 88bd01a6..74d1f87 100644
+--- a/target/s390x/cpu_models.h
++++ b/target/s390x/cpu_models.h
+@@ -14,7 +14,7 @@
+ #define TARGET_S390X_CPU_MODELS_H
+=20
+ #include "cpu_features.h"
+-#include "gen-features.h"
++#include "target/s390x/gen-features.h"
+ #include "hw/core/cpu.h"
+=20
+ /* static CPU definition */
+diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+new file mode 100644
+index 0000000..980f67c
+--- /dev/null
++++ b/target/s390x/meson.build
+@@ -0,0 +1,8 @@
++gen_features =3D executable('gen-features', 'gen-features.c', native: true=
 )
-+acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files=
-('ipmi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
-+softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
 +
-+softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'ipmi-stu=
-b.c'))
-diff --git a/hw/meson.build b/hw/meson.build
-index 33d5f9f..b2f8d6c 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -1,3 +1,4 @@
-+subdir('acpi')
- subdir('adc')
- subdir('audio')
- subdir('block')
++gen_features_h =3D custom_target('gen-features.h',
++                               output: 'gen-features.h',
++                               capture: true,
++                               command: gen_features)
++
++specific_ss.add(gen_features_h)
 --=20
 1.8.3.1
 
