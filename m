@@ -2,104 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CF8126559
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:02:34 +0100 (CET)
-Received: from localhost ([::1]:43284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875DD126577
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:13:58 +0100 (CET)
+Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxJx-00041y-BS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:02:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39711)
+	id 1ihxUz-0006Lo-G6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:13:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43109)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihxIB-00036J-1P
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:00:48 -0500
+ (envelope-from <bounces@canonical.com>) id 1ihxSm-0004Ed-0W
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:11:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihxI9-00077T-4V
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:00:42 -0500
-Received: from mail-eopbgr60107.outbound.protection.outlook.com
- ([40.107.6.107]:28640 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihxI1-0006oV-4c; Thu, 19 Dec 2019 10:00:33 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=axdReCiymLhoqgCFpnQ9ouVUqjU9t7Q/TwAdQUVY+JpE7h937PWD2Hnb4am3W/VUzNE8gfYm/vm2AHH/JFxWSHV03HeEze+4c4maS7g0WZNRoBvzWSjzpEGy0rBORxJV/A4R8i1lx4TOUwk3kVdvaT498c3dKgbYg7a7xDR68+AmXhuNSyos1gZs5sIEJzXNSG0SR+33Rzq++HVOByDJm+mPPkJ2jPJdjWszWp5W+E+Yf5SGAvCMAxBmmcr1uY8MFbLA4FEXV7bqTIu/7kXfHGF8A5MkrPsufX7wAVsdMjmnGzmRhE9Pz0jxbyKF86XIxQ9Uq/Dm7A8+Ny2x7KMadA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QShgkqC20xTj+ty44Q/F9h5e6+EKcZJfTaLNp9vgN1I=;
- b=egfJQD+7fif/lTx6LBs0eQA+GX96bjfjwtmM7c9nhNlcLiFaCUNXUzgMdPZCNwQGF3N1rIevgfwSh+bqk/p4+yvQ6BOy6+E5Z6En8s5FfWHMn+RGrJ8jrGZ6y/xnts36QW/NPx/de0XXMOBcYZy2m/iZ2g/lpauCJuvR4/JQeUG1oTO51oOQRRZTCdat08dLvoawpjAPSe0zJZG2kt2x7OvoAETo5yODf3G10/m3S+uJFDsVvg9VBgELOiy0DU9TomWa6wVYmD3KL1r8dvySTSVZSGuasZgt8VRmlq+B+xy45NS384gVUt7c4BKu6LdyfXD0yx0QgiK/6O1ygs7zRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QShgkqC20xTj+ty44Q/F9h5e6+EKcZJfTaLNp9vgN1I=;
- b=g43mhvZMOiOYO9twe7ScF6vzfsd5b19ZwlkiMbqr+8RQk1q1ihCaB5YlVCgm0EeRwmMVAFA/0L2ajLElaJpbXGAfOSYcnDEohO6ipuE7zxKLhfYrzCO3HQIyR1YIHCfg0uN8/XojU7Buggemq0I/xzy/dfligG/S1x47TLcM+e4=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3718.eurprd08.prod.outlook.com (20.178.88.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2559.14; Thu, 19 Dec 2019 15:00:30 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2559.012; Thu, 19 Dec 2019
- 15:00:30 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Nir Soffer <nsoffer@redhat.com>
-Subject: Re: [PATCH] qapi/block: fix nbd-server-add spec
-Thread-Topic: [PATCH] qapi/block: fix nbd-server-add spec
-Thread-Index: AQHVtnnxYNIeaG1fgkq9lkIsLWKUC6fBiECAgAAE4wA=
-Date: Thu, 19 Dec 2019 15:00:29 +0000
-Message-ID: <c97f28de-c924-bc42-4725-09b633a28674@virtuozzo.com>
-References: <20191219143415.28490-1-vsementsov@virtuozzo.com>
- <CAMRbyyt8Y8DFV5=72+GvHrAWbdUO5Mys5JGn7D8es+w2SVcRMA@mail.gmail.com>
-In-Reply-To: <CAMRbyyt8Y8DFV5=72+GvHrAWbdUO5Mys5JGn7D8es+w2SVcRMA@mail.gmail.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0401CA0082.eurprd04.prod.outlook.com
- (2603:10a6:3:19::50) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191219180026305
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2fcfa8e5-0d34-4b00-3697-08d784943061
-x-ms-traffictypediagnostic: AM6PR08MB3718:
-x-microsoft-antispam-prvs: <AM6PR08MB371802926A8BB01ABBF139FFC1520@AM6PR08MB3718.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0256C18696
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(346002)(366004)(396003)(376002)(136003)(53754006)(199004)(189003)(8936002)(86362001)(316002)(36756003)(2906002)(6512007)(5660300002)(26005)(53546011)(2616005)(54906003)(71200400001)(52116002)(8676002)(6506007)(966005)(81166006)(6916009)(31696002)(81156014)(4326008)(66476007)(64756008)(66556008)(66446008)(66946007)(6486002)(478600001)(186003)(31686004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3718;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fjUv8qVBR+Db57z15ypzHW7ctIoUUsET+W6exURFwuK4E9FEZv3nkXQ6+YQeFTqZMUVv1SYbU3+MYI1pixY7WKFy/CiZ3IrX8JXco6eCa9zjZgkqTThqVMF0+ub1gJfaAPt7FvuxzNVaxeBQMHMwPJJ/Xa7cYqQJ4LLheyJj6mWFhH5vkCxdDxq98NV+R/scW/6Wm3s6LtCyhGbo3a/ly6rr7NxqZQ5Ga6shrINpl+/gNwy15tySMSvf+i5AW4s7uQ8yynTZZ5SWr8BIy0WN5GHoGtDgXv2OuOIeXgxvgRdPiKAXJNhDnO2GQNH6EJfnO2hU25647th2yLNu+mpFXhfz5U/NHqqN3oKhosfvScNpS/olMmk3JK+3TUAraC8N//6xZenvHom0/VGGr9XewhucSvhYQwZ6SpBPD0sGJ/SMq431zzoMpalzFRhK611hWxhLMJ1yHkiFXDzJOmyDtQcYY85wHnbD6hq6LwkufuLDxi1LbAW1tJUoftdWOKagb4tB4JgjpmW23W8JGlNuCQIW5xUA8Nw2EcLAoJ/qJGo=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1FF4E8F965DC63419571B4D38A750FE0@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1ihxSk-0001aJ-Ny
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:11:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34006)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ihxSk-0001Rz-GQ
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:11:38 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ihxSi-0007jc-NP
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 15:11:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B029F2E80C0
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 15:11:36 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fcfa8e5-0d34-4b00-3697-08d784943061
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2019 15:00:29.9667 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tX4OwylxfzFvPGoptyQ8NCguUBRMXVs9yotCulB0OHdQC/0oXBhlpdL6H/tZI2MLZ0jxioCS5OEO/pKRL7rngN/zfjk5lIZ843Z1HQYw6OA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3718
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.6.107
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Dec 2019 15:01:02 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm gcc9.2 segfault
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fgodeh pmaydell
+X-Launchpad-Bug-Reporter: Fabian Godehardt (fgodeh)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <157666594314.15384.3778802807711797985.malonedeb@wampee.canonical.com>
+Message-Id: <157676766263.28116.6999489953399425403.malone@chaenomeles.canonical.com>
+Subject: [Bug 1856837] Re: qemu 4.2.0 arm  segmentation fault with gcc 9.2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2a744ed9bc35b5cb029b46b059ac13c9116471e3
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -108,60 +66,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1856837 <1856837@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTkuMTIuMjAxOSAxNzo0MiwgTmlyIFNvZmZlciB3cm90ZToNCj4gT24gVGh1LCBEZWMgMTksIDIw
-MTkgYXQgNDozNCBQTSBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5DQo+IDx2c2VtZW50c292
-QHZpcnR1b3p6by5jb20+IHdyb3RlOg0KPj4NCj4+ICJOQU1FIiBoZXJlIG1heSBiZSBpbnRlcnBy
-ZXRlZCBsaWtlIGl0IHNob3VsZCBtYXRjaCBAbmFtZSwgd2hpY2ggaXMNCj4+IGV4cG9ydCBuYW1l
-LiBCdXQgaXQgd2FzIG5ldmVyIG1lbnRpb25lZCBpbiBzdWNoIHdheS4gTWFrZSBpdCBvYnZpb3Vz
-LA0KPj4gdGhhdCBhY3R1YWwgIjxkaXJ0eS1iaXRtYXAtZXhwb3J0LW5hbWU+IiAoc2VlIGRvY3Mv
-aW50ZXJvcC9uYmQudHh0KQ0KPj4gd2lsbCBtYXRjaCBAYml0bWFwIHBhcmFtZXRlci4NCj4gDQo+
-IEJ1dCB0aGlzIGlzIHdyb25nLCBkaXJ0eS1iaXRtYXAtZXhwb3J0LW5hbWUgZG9lcyBub3QgbWVh
-biB0aGUgYWN0dWFsIGJpdG1hcA0KPiBuYW1lIGJ1dCB0aGUgbmFtZSBleHBvc2VkIHRvIHRoZSBO
-QkQgY2xpZW50LCB3aGljaCBjYW4gYmUgYW55dGhpbmcuDQoNClllcy4gV2hhdCBpcyB3cm9uZz8g
-SXQgY2FuIGJlIGVueXRoaW5nLiBDdXJyZW50bHkgYnkgZGVmYXVsdCBpdCBpcyBiaXRtYXAgbmFt
-ZS4NCkl0IHB1cmVseSBkb2N1bWVudGVkIChva2F5LCBldmVuIGNvbmZ1c2luZ2x5IGRvY3VtZW50
-ZWQpLCBidXQgaXQgd2FzIHNvIHNpbmNlDQo0LjAuIEFuZCBleGlzdGluZyB1c2VycyBvYnZpb3Vz
-bHkga25vd3MgaG93IGl0IHdvcmsgKG90aGVyd2lzZSwgdGhleSBjYW4ndCB1c2UNCnRoZSBmZWF0
-dXJlKQ0KDQpTbywgSSB0aGluayBpdCdzIE9LIHRvIGZpeCBzcGVjIHRvIGRpcmVjdGx5IHNob3cg
-aW1wbGVtZW50YXRpb24sIHRoYXQgd2FzIGhlcmUNCnNpbmNlIGZlYXR1cmUgaW50cm9kdWNpbmcu
-DQoNCj4gDQo+PiBGaXhlczogNWZjYmViMDY4MTI2ODVhMg0KPj4gU2lnbmVkLW9mZi1ieTogVmxh
-ZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KPj4g
-LS0tDQo+Pg0KPj4gSGkgYWxsLg0KPj4NCj4+IFRoaXMgcGF0Y2ggZm9sbG93cyBkaXNjdXNzaW9u
-IG9uIE5pcidzIHBhdGNoDQo+PiAgIFtQQVRDSF0gYmxvY2s6IG5iZDogRml4IGRpcnR5IGJpdG1h
-cCBjb250ZXh0IG5hbWUNCj4+ICAgKCBodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1s
-L3FlbXUtZGV2ZWwvMjAxOS0xMi9tc2cwNDMwOS5odG1sICkNCj4+DQo+PiBMZXQncyBqdXN0IGZp
-eCBxYXBpIHNwZWMgbm93Lg0KPiANCj4gQnV0IHFhcGkgZG9jdW1lbnRzIGEgYmV0dGVyIGJlaGF2
-aW9yIGZvciB1c2Vycy4gV2Ugc2hvdWxkIGZpeCB0aGUgY29kZSBpbnN0ZWFkDQo+IHRvIG1hY2gg
-dGhlIGRvY3MuDQoNCjEuIFVzaW5nIGRpc2sgbmFtZSBhcyBhIGJpdG1hcCBuYW1lIGlzIGEgYmFk
-IGJlaGF2aW9yLCBhcyB0aGV5IGFyZSBjb21wbGV0ZWx5DQpkaWZmZXJlbnQgY29uY2VwdHMuIEVz
-cGVjaWFsbHkga2VlcGluZyBpbiBtaW5kIHRoYXQgdXNlciBhbHJlYWR5IGtub3dzIGRpc2sgbmFt
-ZSBhbnl3YXkNCmFuZCBubyByZWFzb24gdG8gd3JpdGUgdGhpcyBleHBvcnQgbmFtZSBpbnNpZGUg
-bWV0YWRhdGEgY29udGV4dCBvZiB0aGlzIGV4cG9ydC4NCg0KMi4gSXQncyBub3QgZGlyZWN0bHkg
-ZG9jdW1lbnRlZC4gWW91IGFzc3VtZSB0aGF0IE5BTUUgPT0gQG5hbWUuIEkgdW5kZXJzdGFuZCB0
-aGF0DQppdCBtYXkgYmUgYXNzdW1lZC4uIEJ1dCBpdCdzIG5vdCBkb2N1bWVudGVkLg0KDQozLiBJ
-dCdzIG5ldmVyIHdvcmtlZCBsaWtlIHlvdSB3cml0ZS4gU28gaWYgd2UgY2hhbmdlIHRoZSBiZWhh
-dmlvciwgd2UnbGwgYnJlYWsNCmV4aXN0aW5nIHVzZXJzLg0KDQoNCj4gDQo+IFdpdGggdGhpcyB3
-ZSBzdGlsbCBoYXZlIHRoZSBpc3N1ZSBvZiBsZWFraW5nIGludGVybmFsIGJpdG1hcCBuYW1lIHRv
-DQo+IHVzZXJzIHdobyBkbyBub3QNCj4gY29udHJvbCB0aGUgbmFtZSwgYW5kIGRvIG5vdCBjYXJl
-IGFib3V0IGl0Lg0KPiANCj4+ICAgcWFwaS9ibG9jay5qc29uIHwgMyArKy0NCj4+ICAgMSBmaWxl
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1n
-aXQgYS9xYXBpL2Jsb2NrLmpzb24gYi9xYXBpL2Jsb2NrLmpzb24NCj4+IGluZGV4IDE0NWMyNjhi
-YjYuLjgwNDJlZjc4ZjAgMTAwNjQ0DQo+PiAtLS0gYS9xYXBpL2Jsb2NrLmpzb24NCj4+ICsrKyBi
-L3FhcGkvYmxvY2suanNvbg0KPj4gQEAgLTI1NSw3ICsyNTUsOCBAQA0KPj4NCj4+ICAgIyBAYml0
-bWFwOiBBbHNvIGV4cG9ydCB0aGUgZGlydHkgYml0bWFwIHJlYWNoYWJsZSBmcm9tIEBkZXZpY2Us
-IHNvIHRoZQ0KPj4gICAjICAgICAgICAgIE5CRCBjbGllbnQgY2FuIHVzZSBOQkRfT1BUX1NFVF9N
-RVRBX0NPTlRFWFQgd2l0aA0KPj4gLSMgICAgICAgICAgInFlbXU6ZGlydHktYml0bWFwOk5BTUUi
-IHRvIGluc3BlY3QgdGhlIGJpdG1hcC4gKHNpbmNlIDQuMCkNCj4+ICsjICAgICAgICAgICJxZW11
-OmRpcnR5LWJpdG1hcDpCSVRNQVAiIHRvIGluc3BlY3QgdGhlIGJpdG1hcCAoQklUTUFQIGhlcmUN
-Cj4+ICsjICAgICAgICAgIG1hdGNoZXMgQGJpdG1hcCBwYXJhbWV0ZXIpLiAoc2luY2UgNC4wKQ0K
-Pj4gICAjDQo+PiAgICMgUmV0dXJuczogZXJyb3IgaWYgdGhlIHNlcnZlciBpcyBub3QgcnVubmlu
-Zywgb3IgZXhwb3J0IHdpdGggdGhlIHNhbWUgbmFtZQ0KPj4gICAjICAgICAgICAgIGFscmVhZHkg
-ZXhpc3RzLg0KPj4gLS0NCj4+IDIuMjEuMA0KPj4NCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMs
-DQpWbGFkaW1pcg0K
+Can you provide a repro case (attach binary/etc to the bug) so we can
+investigate?
+
+Note that QEMU will produce that segfault message both for bugs in QEMU
+(where it unexpectedly segfaults) but also for bugs in the guest binary
+itself where we're correctly emulating "guest did something causing a
+segfault".
+
+
+** Tags added: arm
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856837
+
+Title:
+  qemu 4.2.0 arm  segmentation fault with gcc 9.2
+
+Status in QEMU:
+  New
+
+Bug description:
+  As discussed with f4bug yesterday on IRC here comes the bug
+  description.
+
+  I'm building/configured qemu-4.2.0 on an x86_64 (gcc (Debian
+  6.3.0-18+deb9u1) 6.3.0 20170516) with target-list "arm-softmmu,arm-
+  linux-user" and debug enabled. I use the arm-linux-user variant,
+  "qemu-arm".
+
+  Then i'm trying to cross-compile (arm gcc) an old version of googles
+  v8 (as i need this version of the lib for binary compatibility) which
+  uses qemu during build.
+
+  It worked with gcc 5.4.0 but not with 9.2.0. I also tried with 6.5.0,
+  7.4.0 and 8.3.0 but those are also causing the same segmentation
+  fault.
+
+  The executed command wich breaks qemu is:
+
+   qemu-arm /tmp/build/out/arm.release/mksnapshot.arm --log-snapshot-
+  positions --logfile
+  /tmp/build/out/arm.release/obj.host/v8_snapshot/geni/snapshot.log
+  --random-seed 314159265 /tmp/build/out/arm.release/obj.host/v8_snap
+
+  The printed error message is:
+
+  ARMv7=3D1 VFP3=3D1 VFP32DREGS=3D1 NEON=3D0 SUDIV=3D0 UNALIGNED_ACCESSES=
+=3D1 MOVW_MOVT_IMMEDIATE_LOADS=3D0 USE_EABI_HARDFLOAT=3D1
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+
+  Calling qemu with gdb gives the following information:
+
+   Thread 1 "qemu-arm" received signal SIGSEGV, Segmentation fault.
+   0x0000555555d63d11 in static_code_gen_buffer ()
+
+  and
+
+   (gdb) bt
+   #0  0x0000555555d63d11 in static_code_gen_buffer ()
+   #1  0x0000555555628d58 in cpu_tb_exec (itb=3D<optimized out>, cpu=3D0x55=
+5557c33930) at =
+
+   /tmp/build/qemu/accel/tcg/cpu-exec.c:172
+   #2  cpu_loop_exec_tb (tb_exit=3D<synthetic pointer>, last_tb=3D<syntheti=
+c pointer>, tb=3D<optimized out>, =
+
+   cpu=3D0x555557c33930) at /tmp/build/qemu/accel/tcg/cpu-exec.c:618
+   #3  cpu_exec (cpu=3Dcpu@entry=3D0x555557c2b660) at /tmp/build/qemu/accel=
+/tcg/cpu-exec.c:731
+   #4  0x0000555555661578 in cpu_loop (env=3D0x555557c33930) at /tmp/build/=
+qemu/linux-user/arm/cpu_loop.c:219
+  #5  0x00005555555d6d76 in main (argc=3D<optimized out>, argv=3D<optimized=
+ out>, envp=3D<optimized out>) at /tmp/build/qemu/linux-user/main.c:865
+
+  Calling qemu-arm with debug switch "-d in_asm,int,op_opt" shows the
+  log in the attached file.
+
+  Thanks for any hints!
+  Fabian
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856837/+subscriptions
 
