@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843A01263DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:46:28 +0100 (CET)
-Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705F51263EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:48:39 +0100 (CET)
+Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihw8J-0000dF-1J
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:46:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60363)
+	id 1ihwAP-0003X7-AU
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:48:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fflorensa@online.net>) id 1ihvwl-0001qH-Ma
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:34:33 -0500
+ (envelope-from <stefanha@gmail.com>) id 1ihvz6-0005X2-Md
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:36:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fflorensa@online.net>) id 1ihvwi-0007BH-Pi
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:34:30 -0500
-Received: from mail.online.net ([62.210.16.11]:36794)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fflorensa@online.net>)
- id 1ihvwi-0006RG-6q
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:34:28 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id 8FA2CF2B8A08;
- Thu, 19 Dec 2019 14:34:19 +0100 (CET)
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id bzkUma66zduY; Thu, 19 Dec 2019 14:34:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id 6F0C6F2B8A0A;
- Thu, 19 Dec 2019 14:34:19 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.online.net 6F0C6F2B8A0A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=online.net;
- s=4EC61654-9574-11E8-870F-3D38CA7095BF; t=1576762459;
- bh=a0I7hFFELdVsAx+PG2ZFH1pfCJfmk/WJNz43mGA6uCQ=;
- h=From:To:Date:Message-Id:MIME-Version;
- b=sapPLG5kceeAv1HquI1nv8fWLgO7RhpTofj+8+bLfuDMKiKBf9X7iMg6RSvkXGJQF
- YkeO5cFt5YHPNswLZX3KLv32jHwVkRHr+mjn0bOajjZ0yKRXWQthXiU+EqCnbHP9rE
- P52xRt66ZwQI9ERJLmdG8uCPURSyBpWf5negt9/lrgwJC0U/haV4CPTiGMIodHlfkS
- ytWDZTr9rgtjxqhsXJ53edpz/hQHKf11ZJYVlugV9gap6TVaUXMCuvlJJNZID6jK+u
- PvENiUVFzQWuc9UZsfLWxVg5fq5uhYZ4Ch3Jn5XHS0dwGlbmk9uOfxegUNVQwTtb0D
- uvaGKMznLVu7w==
-X-Virus-Scanned: amavisd-new at mail.online.net
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id y0l66eNQ0-H8; Thu, 19 Dec 2019 14:34:19 +0100 (CET)
-Received: from flash.online.net (unknown [195.154.229.35])
- by mail.online.net (Postfix) with ESMTPSA id 563D5F2B8A08;
- Thu, 19 Dec 2019 14:34:19 +0100 (CET)
-From: Florian Florensa <fflorensa@online.net>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block/rbd: Add support for ceph namespaces
-Date: Thu, 19 Dec 2019 14:34:16 +0100
-Message-Id: <20191219133416.671431-1-fflorensa@online.net>
-X-Mailer: git-send-email 2.24.1
+ (envelope-from <stefanha@gmail.com>) id 1ihvz5-0001l1-Ee
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:36:56 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38240)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ihvz5-0001eH-23
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:36:55 -0500
+Received: by mail-wm1-x342.google.com with SMTP id u2so5642365wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=jUQDJhjTKos/ja3q3ysZsORRNM7M0DZ4wPgbcb2YqUo=;
+ b=UNbxgJV4BcB6xZl4b5Lso04oPwHsaETIbNUNlD/xA9qOFnXy6K0nFeyrnJQY+2n+AJ
+ 67oa5NvvD67njrEzOyf0mpMdMPDmRtOUAe51Kdjg6lqiZ49u6Tt6rgcPECdwYLGuSyM6
+ nWLM9bw/RkVwBryCNGtweglqH61p/YOCpuSUaNM2e1FZ4FIciOkHUletUP+wIeziLWVY
+ ux2nZCIhNjmkamonhqSBCllpR1jocZ+fM6SUfKHLkrhp30S8xbbw+L06fUS8oLtxMFEd
+ PJ/mtZB0n0ULDSC/e51WQvRm+Kkvtk9pZNsPEnlmv2gauNPdoZ2FgVzGw7iAtYN2tA7w
+ O8Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=jUQDJhjTKos/ja3q3ysZsORRNM7M0DZ4wPgbcb2YqUo=;
+ b=qLJDilOOF64LxpCsQnKEh3zpQvbvwI8JGUEfkZbJ/rh1olhLPZ+GiMnonKcgOyvZGx
+ vPdDkTVOigZZA5yqW2YcGdeQ7uD2l/GKkcfVjjkMOwDchenYP0UlbdUQHjKTqOzPR38K
+ 8YMRAXAg3QQhZ+V7z5GJkvSW5zyXPdIX1LdSLMBiG/xXMQxiwMCfXWrTaZvRNFLFjxV0
+ W8079HWhcj1SJgl+kH7fahL+Or2OBxRW2E3SNM4x+CmhFaWwIJD5owVBxls8C3J/7Zvb
+ rCTE+/+xpkwd4UO42FwcfbPAebs7kPnBnKad2gsA2nocrt0SVNMmzcCGW47LbQdpjddQ
+ J69A==
+X-Gm-Message-State: APjAAAV1zsUVAznCKiM5uy8Ww36EWcUoGePi2SGZmftdqyFeWo7Ioa1M
+ jfDJxaxva7I+ccw1Js4pIpQ=
+X-Google-Smtp-Source: APXvYqw7U4kCIRGRBQ9fPfbEO42PBwhXlbgKG1UEmrdhOVssLKUz2XGXonv+T6pFw3s/kjtkkclaZg==
+X-Received: by 2002:a1c:2e91:: with SMTP id u139mr9698801wmu.154.1576762613799; 
+ Thu, 19 Dec 2019 05:36:53 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id c9sm5931384wmc.47.2019.12.19.05.36.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 05:36:51 -0800 (PST)
+Date: Thu, 19 Dec 2019 13:36:50 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
+ status update
+Message-ID: <20191219133650.GE1624084@stefanha-x1.localdomain>
+References: <cover.1571905346.git.jag.raman@oracle.com>
+ <20191210064716.GA6401@flaka>
+ <20191213104116.GB1180977@stefanha-x1.localdomain>
+ <20191216194655.GA5922@flaka>
+ <AFBAD3A1-0E22-4E22-AF22-C56794929D87@nutanix.com>
+ <20191217163316.GB1333385@stefanha-x1.localdomain>
+ <DDE3DA62-31DD-437B-8392-CAD505253EED@nutanix.com>
+ <4a302c6d-e2c8-0c3e-43d2-946e1fafea5d@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 62.210.16.11
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wchHw8dVAp53YPj8"
+Content-Disposition: inline
+In-Reply-To: <4a302c6d-e2c8-0c3e-43d2-946e1fafea5d@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,146 +86,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, dillaman@redhat.com, armbru@redhat.com, mreitz@redhat.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "fam@euphon.net" <fam@euphon.net>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "jag.raman@oracle.com" <jag.raman@oracle.com>,
+ "quintela@redhat.com" <quintela@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "kanth.ghatraju@oracle.com" <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "liran.alon@oracle.com" <liran.alon@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>,
+ "kwolf@redhat.com" <kwolf@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
+ "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Starting from ceph Nautilus, RBD has support for namespaces, allowing
-for finer grain ACLs on images inside a pool, and tenant isolation.
 
-In the rbd cli tool documentation, the new image-spec and snap-spec are :
- - [pool-name/[namespace-name/]]image-name
- - [pool-name/[namespace-name/]]image-name@snap-name
+--wchHw8dVAp53YPj8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-When using an non namespace's enabled qemu, it complains about not
-finding the image called namespace-name/image-name, thus we only need to
-parse the image once again to find if there is a '/' in its name, and if
-there is, use what is before it as the name of the namespace to later
-pass it to rados_ioctx_set_namespace.
-rados_ioctx_set_namespace if called with en empty string or a null
-pointer as the namespace parameters pretty much does nothing, as it then
-defaults to the default namespace.
+On Wed, Dec 18, 2019 at 01:00:55AM +0100, Paolo Bonzini wrote:
+> On 17/12/19 23:57, Felipe Franciosi wrote:
+> > Doing it in userspace was the flow we proposed back in last year's KVM
+> > Forum (Edinburgh), but it got turned down.
+>=20
+> I think the time since then has shown that essentially the cat is out of
+> the bag.  I didn't really like the idea of devices outside QEMU---and I
+> still don't---but if something like "VFIO over AF_UNIX" turns out to be
+> the cleanest way to implement multi-process QEMU device models, I am not
+> going to pull an RMS and block that from happening.  Assuming I could
+> even do so!
 
-The namespace is extracted inside qemu_rbd_parse_filename, stored in the
-qdict, and used in qemu_rbd_connect to make it work with both qemu-img,
-and qemu itself.
+There are a range of approaches that will influence how out-of-process
+devices can be licensed and distributed.
 
-Signed-off-by: Florian Florensa <fflorensa@online.net>
----
- block/rbd.c          | 30 ++++++++++++++++++++++++------
- qapi/block-core.json |  3 +++
- 2 files changed, 27 insertions(+), 6 deletions(-)
+A VFIO-over-UNIX domain sockets approach means a stable API so that any
+license (including proprietary) is possible.
 
-diff --git a/block/rbd.c b/block/rbd.c
-index 027cbcc695..e43099fc75 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -104,6 +104,7 @@ typedef struct BDRVRBDState {
-     rbd_image_t image;
-     char *image_name;
-     char *snap;
-+    char *nspace;
-     uint64_t image_size;
- } BDRVRBDState;
-=20
-@@ -152,7 +153,7 @@ static void qemu_rbd_parse_filename(const char *filen=
-ame, QDict *options,
-     const char *start;
-     char *p, *buf;
-     QList *keypairs =3D NULL;
--    char *found_str;
-+    char *found_str, *image_name;
-=20
-     if (!strstart(filename, "rbd:", &start)) {
-         error_setg(errp, "File name must start with 'rbd:'");
-@@ -171,18 +172,24 @@ static void qemu_rbd_parse_filename(const char *fil=
-ename, QDict *options,
-     qdict_put_str(options, "pool", found_str);
-=20
-     if (strchr(p, '@')) {
--        found_str =3D qemu_rbd_next_tok(p, '@', &p);
--        qemu_rbd_unescape(found_str);
--        qdict_put_str(options, "image", found_str);
-+        image_name =3D qemu_rbd_next_tok(p, '@', &p);
-=20
-         found_str =3D qemu_rbd_next_tok(p, ':', &p);
-         qemu_rbd_unescape(found_str);
-         qdict_put_str(options, "snapshot", found_str);
-     } else {
--        found_str =3D qemu_rbd_next_tok(p, ':', &p);
-+        image_name =3D qemu_rbd_next_tok(p, ':', &p);
-+    }
-+    /* Check for namespace in the image_name */
-+    if (strchr(image_name, '/')) {
-+        found_str =3D qemu_rbd_next_tok(image_name, '/', &image_name);
-         qemu_rbd_unescape(found_str);
--        qdict_put_str(options, "image", found_str);
-+        qdict_put_str(options, "nspace", found_str);
-+    } else {
-+        qdict_put_str(options, "nspace", "");
-     }
-+    qemu_rbd_unescape(image_name);
-+    qdict_put_str(options, "image", image_name);
-     if (!p) {
-         goto done;
-     }
-@@ -343,6 +350,11 @@ static QemuOptsList runtime_opts =3D {
-             .type =3D QEMU_OPT_STRING,
-             .help =3D "Rados pool name",
-         },
-+        {
-+            .name =3D "nspace",
-+            .type =3D QEMU_OPT_STRING,
-+            .help =3D "Rados namespace name in the pool",
-+        },
-         {
-             .name =3D "image",
-             .type =3D QEMU_OPT_STRING,
-@@ -472,6 +484,7 @@ static int coroutine_fn qemu_rbd_co_create_opts(const=
- char *filename,
-     loc->has_conf =3D !!loc->conf;
-     loc->user     =3D g_strdup(qdict_get_try_str(options, "user"));
-     loc->has_user =3D !!loc->user;
-+    loc->nspace   =3D g_strdup(qdict_get_try_str(options, "nspace"));
-     loc->image    =3D g_strdup(qdict_get_try_str(options, "image"));
-     keypairs      =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs");
-=20
-@@ -648,6 +661,11 @@ static int qemu_rbd_connect(rados_t *cluster, rados_=
-ioctx_t *io_ctx,
-         error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
-         goto failed_shutdown;
-     }
-+    /*
-+     * Set the namespace after opening the io context on the pool,
-+     * if nspace =3D=3D NULL or if nspace =3D=3D "", it is just as we di=
-d nothing
-+     */
-+    rados_ioctx_set_namespace(*io_ctx, opts->nspace);
-=20
-     return 0;
-=20
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0cf68fea14..9ebc020e93 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3657,6 +3657,8 @@
- #
- # @pool:               Ceph pool name.
- #
-+# @nspace:             Rados namespace name in the Ceph pool.
-+#
- # @image:              Image name in the Ceph pool.
- #
- # @conf:               path to Ceph configuration file.  Values
-@@ -3683,6 +3685,7 @@
- ##
- { 'struct': 'BlockdevOptionsRbd',
-   'data': { 'pool': 'str',
-+            'nspace': 'str',
-             'image': 'str',
-             '*conf': 'str',
-             '*snapshot': 'str',
---=20
-2.24.1
+Another approach is a QEMU-centric unstable protocol.  I'll call this
+the qdev-over-UNIX domain sockets approach.  Maintaining an out-of-tree
+device is expensive and ugly since the protocol changes between QEMU
+versions in ways that are incompatible and undetectable.
 
+On top of that, the initialization protocol message could include the
+QEMU version string that the device was compiled against.  If the
+version string doesn't match then QEMU will refuse to talk to the
+device.
+
+Distributing a single device executable that works with many QEMUs (e.g.
+CentOS, Ubuntu) and versions becomes difficult.
+
+I want to mention that we have the option of doing this if there are
+strong concerns about out-of-tree devices.  It does have downsides:
+1. Inability to share devices with other VMMs.
+2. Probably won't replace vhost-user due to the out-of-tree limitations.
+3. Can still be circumvented by a motivated device author.
+
+Stefan
+
+--wchHw8dVAp53YPj8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl37fPEACgkQnKSrs4Gr
+c8iuGwgAqWnPKbBTJiOWhlGo3gw81pEUq1dOXAnKW/zietsudXTRLvN0arn3zAj5
+i6mdCRPhkoO7fbZMJirkqovKhMnuosYo+zQK3lWTl2pRAQ0d+pknSuFISbilMQnv
+YlS9iZxEZGrhIMP8bAJLhtI6/HkbJRBX3Jw0Iuk13d728DGipB9FLemHZhP5ytcZ
+Y0KIIw6EQCUqZ53Hsl32g/OM8ys6pZqVQOKPjpFTFMwea+aTZWi2Aneh3ym1yR7a
+uaQaXPUzisyJDKn6dcRxX7y3f6M1GWNDMd1vH/CFJNpwzsQ+0b9f4wirYmX6nLsH
+wj7GlhwofBHyxp3Zyul2ahtD3TYyNA==
+=jmaY
+-----END PGP SIGNATURE-----
+
+--wchHw8dVAp53YPj8--
 
