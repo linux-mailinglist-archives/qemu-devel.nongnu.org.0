@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7054212645A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:13:00 +0100 (CET)
-Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA8012648F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:24:39 +0100 (CET)
+Received: from localhost ([::1]:42462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwXz-0002QC-2h
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:12:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37197)
+	id 1ihwjE-0001wY-Vz
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:24:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37854)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ihwSU-0001fa-Mp
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:07:19 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ihwSb-0001qX-QF
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:07:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ihwST-0006Hu-Au
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:07:18 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17138
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ihwST-0006El-0h; Thu, 19 Dec 2019 09:07:17 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBJE2QqW078467; Thu, 19 Dec 2019 09:07:13 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2x0a9nh62s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Dec 2019 09:07:13 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBJE2xKQ081616;
- Thu, 19 Dec 2019 09:06:58 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2x0a9nh5x6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Dec 2019 09:06:58 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBJE1cvW002789;
- Thu, 19 Dec 2019 14:06:56 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma02dal.us.ibm.com with ESMTP id 2wvqc7ahur-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Dec 2019 14:06:56 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xBJE6tFG51118546
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Dec 2019 14:06:55 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8D75EAC05B;
- Thu, 19 Dec 2019 14:06:55 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 76ACFAC059;
- Thu, 19 Dec 2019 14:06:55 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 19 Dec 2019 14:06:55 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH v7 6/6] docs: tpm: Add example command line for ppc64 and
- tpm-spapr
-Date: Thu, 19 Dec 2019 09:06:05 -0500
-Message-Id: <20191219140605.3243321-7-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191219140605.3243321-1-stefanb@linux.vnet.ibm.com>
-References: <20191219140605.3243321-1-stefanb@linux.vnet.ibm.com>
+ (envelope-from <imammedo@redhat.com>) id 1ihwSa-0006xb-92
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:07:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51739
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ihwSa-0006ru-2W
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:07:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576764443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SqoSMzLDlL3wLJKh6HrH27gujBLmBTsdgMl7Z+oYXF0=;
+ b=Zq/wg0zBpRrLPmekf3UUvTdL7wanoPh835a7MRs8kcoGDQeFvnG1KdzOn/OJ3oGI1L8mrP
+ F1NUuYwi/l5qmUnVZNDZoO7Pom82pj7Ro1xk6sYoJgTn+IBauwn7TnE79qoo64kL5ANJMZ
+ hpQba/xjeZ4VUwcs3eBtzuW5q9Gk7oY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-4FqTxm2_PFqUZF3rUG0Fgg-1; Thu, 19 Dec 2019 09:07:19 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B0A0107ACC7
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 14:07:19 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB11E620BE;
+ Thu, 19 Dec 2019 14:07:12 +0000 (UTC)
+Date: Thu, 19 Dec 2019 15:07:11 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org, mst@redhat.com
+Subject: Re: [PATCH for-5.0 v2 0/9] q35: CPU hotplug with secure boot, part 1+2
+Message-ID: <20191219150711.244ebbf3@redhat.com>
+In-Reply-To: <20191219143051.506bf945@redhat.com>
+References: <1575896942-331151-1-git-send-email-imammedo@redhat.com>
+ <20191219143051.506bf945@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-19_01:2019-12-17,2019-12-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- phishscore=0 spamscore=0 suspectscore=1 bulkscore=0 impostorscore=0
- priorityscore=1501 mlxscore=0 clxscore=1015 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912190119
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 4FqTxm2_PFqUZF3rUG0Fgg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,66 +71,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: pbonzini@redhat.com, philmd@redhat.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an example to the TPM docs for how to add a TPM SPAPR
-device model to a QEMU VM emulating a pSeries machine.
+On Thu, 19 Dec 2019 14:30:51 +0100
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- docs/specs/tpm.txt | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+> On Mon,  9 Dec 2019 14:08:53 +0100
+> Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+> > ChangeLog:
+> >   * since v1:
+> >       - include "hw: add compat machines for 5.0" to provide
+> >         compat context for 4.2 machine types
+> >       - add comment that SMRAM at SMBASE is QEMU hack
+> >         and why it was used
+> >       - split command data 2 into a separate patch
+> >           "acpi: cpuhp: introduce 'Command data 2' field"
+> >       - rewrite enabling/detecting modern CPU hotplug interface
+> >         to use existing CPHP_GET_NEXT_CPU_WITH_EVENT_CMD and
+> >         squash it into "acpi: cpuhp: spec: add typical usecases" patch
+> >       - "acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command"
+> >         modulo 'Command data 2' being moved out into separate patch,
+> >         rewrite commit message to explain better why new command is needed.
+> >   
+> > 
+> > Series consists of 2 parts: 1st is lockable SMRAM at SMBASE
+> > and the 2nd better documents interface and adds means to
+> > enumerate APIC IDs for possible CPUs.
+> > 
+> > 1st part [1-2/9]:
+> >  In order to support CPU hotplug in secure boot mode,
+> >  UEFI firmware needs to relocate SMI handler of hotplugged CPU,
+> >  in a way that won't allow ring 0 user to break in priveleged
+> >  SMM mode that firmware maintains during runtime.
+> >  Used approach allows to hide RAM at default SMBASE to make it
+> >  accessible only to SMM mode, which lets us to make sure that
+> >  SMI handler installed by firmware can not be hijacked by
+> >  unpriveleged user (similar to TSEG behavior). 
+> > 
+> > 2nd part:
+> >  mostly fixes and extra documentation on how to detect and use
+> >  modern CPU hotplug interface (MMIO block).
+> >  So firmware could reuse it for enumerating possible CPUs and
+> >  detecting hotplugged CPU(s). It also adds support for
+> >  CPHP_GET_CPU_ID_CMD command [7/8], which should allow firmware
+> >  to fetch APIC IDs for possible CPUs which is necessary for
+> >  initializing internal structures for possible CPUs on boot.  
+> 
+> Michael,
+> 
+> could you pick it up please?
 
-diff --git a/docs/specs/tpm.txt b/docs/specs/tpm.txt
-index 9c8cca042d..9c3e67d8a7 100644
---- a/docs/specs/tpm.txt
-+++ b/docs/specs/tpm.txt
-@@ -34,6 +34,12 @@ The CRB interface makes a memory mapped IO region in the area 0xfed40000 -
- QEMU files related to TPM CRB interface:
-  - hw/tpm/tpm_crb.c
- 
-+
-+pSeries (ppc64) machines offer a tpm-spapr device model.
-+
-+QEMU files related to the SPAPR interface:
-+ - hw/tpm/tpm_spapr.c
-+
- = fw_cfg interface =
- 
- The bios/firmware may read the "etc/tpm/config" fw_cfg entry for
-@@ -281,7 +287,7 @@ swtpm socket --tpmstate dir=/tmp/mytpm1 \
-   --log level=20
- 
- Command line to start QEMU with the TPM emulator device communicating with
--the swtpm:
-+the swtpm (x86):
- 
- qemu-system-x86_64 -display sdl -accel kvm \
-   -m 1024 -boot d -bios bios-256k.bin -boot menu=on \
-@@ -289,6 +295,18 @@ qemu-system-x86_64 -display sdl -accel kvm \
-   -tpmdev emulator,id=tpm0,chardev=chrtpm \
-   -device tpm-tis,tpmdev=tpm0 test.img
- 
-+In case a pSeries machine is emulated, use the following command line:
-+
-+qemu-system-ppc64 -display sdl -machine pseries,accel=kvm \
-+  -m 1024 -bios slof.bin -boot menu=on \
-+  -nodefaults -device VGA -device pci-ohci -device usb-kbd \
-+  -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
-+  -tpmdev emulator,id=tpm0,chardev=chrtpm \
-+  -device tpm-spapr,tpmdev=tpm0 \
-+  -device spapr-vscsi,id=scsi0,reg=0x00002000 \
-+  -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
-+  -drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
-+
- 
- In case SeaBIOS is used as firmware, it should show the TPM menu item
- after entering the menu with 'ESC'.
--- 
-2.21.0
+modulo 1/9 which has been merged via s390 tree,
+the rest still applies fine current master
+
+> 
+> > 
+> > CC: mst@redhat.com
+> > CC: pbonzini@redhat.com
+> > CC: lersek@redhat.com
+> > CC: philmd@redhat.com
+> > 
+> > 
+> > Cornelia Huck (1):
+> >   hw: add compat machines for 5.0
+> > 
+> > Igor Mammedov (8):
+> >   q35: implement 128K SMRAM at default SMBASE address
+> >   tests: q35: MCH: add default SMBASE SMRAM lock test
+> >   acpi: cpuhp: spec: clarify 'CPU selector' register usage and
+> >     endianness
+> >   acpi: cpuhp: spec: fix 'Command data' description
+> >   acpi: cpuhp: spec: clarify store into 'Command data' when 'Command
+> >     field' == 0
+> >   acpi: cpuhp: introduce 'Command data 2' field
+> >   acpi: cpuhp: spec: add typical usecases
+> >   acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
+> > 
+> >  include/hw/boards.h             |   3 ++
+> >  include/hw/i386/pc.h            |   3 ++
+> >  include/hw/pci-host/q35.h       |  10 ++++
+> >  docs/specs/acpi_cpu_hotplug.txt |  89 +++++++++++++++++++++++++++-------
+> >  hw/acpi/cpu.c                   |  18 +++++++
+> >  hw/acpi/trace-events            |   1 +
+> >  hw/arm/virt.c                   |   7 ++-
+> >  hw/core/machine.c               |   3 ++
+> >  hw/i386/pc.c                    |   5 ++
+> >  hw/i386/pc_piix.c               |  14 +++++-
+> >  hw/i386/pc_q35.c                |  13 ++++-
+> >  hw/pci-host/q35.c               |  84 +++++++++++++++++++++++++++++---
+> >  hw/ppc/spapr.c                  |  15 +++++-
+> >  hw/s390x/s390-virtio-ccw.c      |  14 +++++-
+> >  tests/q35-test.c                | 105 ++++++++++++++++++++++++++++++++++++++++
+> >  15 files changed, 354 insertions(+), 30 deletions(-)
+> >   
+> 
+> 
 
 
