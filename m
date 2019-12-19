@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB99812594A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 02:36:37 +0100 (CET)
-Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545F6125968
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 02:55:22 +0100 (CET)
+Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihkk0-0004rg-Gn
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 20:36:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52085)
+	id 1ihl29-0003dm-D9
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 20:55:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ihkiw-0003xO-Nk
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:35:34 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ihl1H-0002ma-GG
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:54:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ihkiu-0001Ul-Cl
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:35:30 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:59041 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ihl1F-0007a9-SG
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:54:27 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47733 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ihkip-0001M6-Gv; Wed, 18 Dec 2019 20:35:24 -0500
+ id 1ihl1F-0007V0-11; Wed, 18 Dec 2019 20:54:25 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47dZFD1wccz9sP3; Thu, 19 Dec 2019 12:35:12 +1100 (AEDT)
+ id 47dZgK4ZgXz9sPh; Thu, 19 Dec 2019 12:54:21 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576719312;
- bh=yBVFp5h4djotC6XSWt5jHHe55Jux5li9vAYC0lGcPu4=;
+ d=gibson.dropbear.id.au; s=201602; t=1576720461;
+ bh=Avr8Aoh7KspcQ0ZcczQlY0smkIoUvCXEsgEDxwwkzJ4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fNy6yF46TDCBc1mhEMqdMR/iOry6ORQyMjSRzKQg/rak9xka4bMd/7vCxOJNUsEFO
- avTS+ELRFzGy0I2101lFXmrlKjtIol3rn1gMn2p7MQqRKMX8wVKOPb0WKR48IkvRiL
- Fi63cd9fdzTYVR6QohFGq+z2i6Iph80og2Nj5ZtI=
-Date: Thu, 19 Dec 2019 12:35:05 +1100
+ b=mbqHWKtfqMBJJ1/EaTKeYEAPiiuAI7j31+2+cNxp6pJB2vjxdjy5+2hHRo50il+ZX
+ iP1e9ZqBr+6IPhxbPNA/GB6FWinyqP5htyzaF/PkD8hUBmquqx18t8z9wxeLle9CAn
+ 9ROV7rNiywNzdxsIIQwbVuqgQWZU008KXTrOq+UI=
+Date: Thu, 19 Dec 2019 12:54:14 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 ppc-for-5.0 2/2] ppc/spapr: Support reboot of secure
- pseries guest
-Message-ID: <20191219013505.GB2321@umbus.fritz.box>
-References: <20191218043208.28613-1-bharata@linux.ibm.com>
- <20191218043208.28613-3-bharata@linux.ibm.com>
- <20191218142249.6bcf5ab4@bahia.lan>
+To: Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [PATCH v5 1/5] tpm_spapr: Support TPM for ppc64 using CRQ based
+ interface
+Message-ID: <20191219015414.GC2321@umbus.fritz.box>
+References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
+ <20191212202430.1079725-2-stefanb@linux.vnet.ibm.com>
+ <20191213053453.GD207300@umbus.fritz.box>
+ <75fd3e95-d72f-069b-22ce-f354e1c34660@linux.ibm.com>
+ <20191217002954.GH6242@umbus.fritz.box>
+ <1efef315-cb85-79ea-9c46-ff318e05a543@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BwCQnh7xodEAoBMC"
+ protocol="application/pgp-signature"; boundary="ZwgA9U+XZDXt4+m+"
 Content-Disposition: inline
-In-Reply-To: <20191218142249.6bcf5ab4@bahia.lan>
+In-Reply-To: <1efef315-cb85-79ea-9c46-ff318e05a543@linux.ibm.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -57,114 +60,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, linuxram@us.ibm.com,
- qemu-devel@nongnu.org, Bharata B Rao <bharata@linux.ibm.com>
+Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---BwCQnh7xodEAoBMC
-Content-Type: text/plain; charset=us-ascii
+--ZwgA9U+XZDXt4+m+
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 18, 2019 at 02:22:49PM +0100, Greg Kurz wrote:
-> On Wed, 18 Dec 2019 10:02:08 +0530
-> Bharata B Rao <bharata@linux.ibm.com> wrote:
+On Tue, Dec 17, 2019 at 02:44:04PM -0500, Stefan Berger wrote:
+> On 12/16/19 7:29 PM, David Gibson wrote:
+> > On Fri, Dec 13, 2019 at 08:03:36AM -0500, Stefan Berger wrote:
+> > > On 12/13/19 12:34 AM, David Gibson wrote:
+> > >=20
+> > > The existing one looks like this:
+> > >=20
+> > > typedef struct SpaprVioCrq {
+> > >  =A0=A0=A0 uint64_t qladdr;
+> > >  =A0=A0=A0 uint32_t qsize;
+> > >  =A0=A0=A0 uint32_t qnext;
+> > >  =A0=A0=A0 int(*SendFunc)(struct SpaprVioDevice *vdev, uint8_t *crq);
+> > > } SpaprVioCrq;
+> > >=20
+> > > I don't seem to find the fields there that we need for vTPM support.
+> > Yeah, I can see the difference in the structures.  What I'm after is
+> > what is the difference in purpose which means they have different
+> > content.
+> >=20
+> > Having read through the whole series now, I *think* the answer is that
+> > the tpm specific structure is one entry in the request queue for the
+> > vtpm, whereas the VioCrq structure is a handle on an entire queue.
+> >=20
+> > I think the tpm one needs a rename to reflect that a) it's vtpm
+> > specific and b) it's not actually a queue, just part of it.
 >=20
-> > A pseries guest can be run as a secure guest on Ultravisor-enabled
-> > POWER platforms. When such a secure guest is reset, we need to
-> > release/reset a few resources both on ultravisor and hypervisor side.
-> > This is achieved by invoking this new ioctl KVM_PPC_SVM_OFF from the
-> > machine reset path.
-> >=20
-> > As part of this ioctl, the secure guest is essentially transitioned
-> > back to normal mode so that it can reboot like a regular guest and
-> > become secure again.
-> >=20
-> > This ioctl has no effect when invoked for a normal guest. If this ioctl
-> > fails for a secure guest, the guest is terminated.
-> >=20
-> > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
-> > ---
-> >  hw/ppc/spapr.c       |  1 +
-> >  target/ppc/kvm.c     | 15 +++++++++++++++
-> >  target/ppc/kvm_ppc.h |  6 ++++++
-> >  3 files changed, 22 insertions(+)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index f11422fc41..e62c89b3dd 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -1597,6 +1597,7 @@ static void spapr_machine_reset(MachineState *mac=
-hine)
-> >      void *fdt;
-> >      int rc;
-> > =20
-> > +    kvmppc_svm_off(&error_fatal);
-> >      spapr_caps_apply(spapr);
-> > =20
-> >      first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-> > diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> > index 7406d18945..ae920ec310 100644
-> > --- a/target/ppc/kvm.c
-> > +++ b/target/ppc/kvm.c
-> > @@ -2900,3 +2900,18 @@ void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, i=
-nt64_t tb_offset)
-> >          kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
-> >      }
-> >  }
-> > +
-> > +/*
-> > + * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
-> > + * that don't support this ioctl.
-> > + */
-> > +void kvmppc_svm_off(Error **errp)
-> > +{
-> > +    int rc;
-> > +    KVMState *s =3D KVM_STATE(current_machine->accelerator);
-> > +
-> > +    rc =3D kvm_vm_ioctl(s, KVM_PPC_SVM_OFF);
-> > +    if (rc && rc !=3D -ENOTTY) {
-> > +        error_setg(errp, "KVM_PPC_SVM_OFF ioctl failed");
 >=20
-> It could have made sense to use error_setg_errno(errp, -rc, ...) here
-> but never mind.
+> v6 has it as TpmCrq. It's local to the file, so from that perspective it's
+> specific to (v)TPM.
 
-Please update for this.  Otherwise we get no indication of what the
-kernel level error was in the qemu error.
+Ok.
 
+> > > This is a 1:1 copy from the existing TIS driver.
+> > Hm, right.  Probably not a bad idea to move that out as a helper
+> > function then.
 >=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
 >=20
-> > +    }
-> > +}
-> > diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> > index 47b08a4030..9a9bca1b72 100644
-> > --- a/target/ppc/kvm_ppc.h
-> > +++ b/target/ppc/kvm_ppc.h
-> > @@ -37,6 +37,7 @@ int kvmppc_booke_watchdog_enable(PowerPCCPU *cpu);
-> >  target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
-> >                                       bool radix, bool gtse,
-> >                                       uint64_t proc_tbl);
-> > +void kvmppc_svm_off(Error **errp);
-> >  #ifndef CONFIG_USER_ONLY
-> >  bool kvmppc_spapr_use_multitce(void);
-> >  int kvmppc_spapr_enable_inkernel_multitce(void);
-> > @@ -201,6 +202,11 @@ static inline target_ulong kvmppc_configure_v3_mmu=
-(PowerPCCPU *cpu,
-> >      return 0;
-> >  }
-> > =20
-> > +static inline void kvmppc_svm_off(Error **errp)
-> > +{
-> > +    return;
-> > +}
-> > +
-> >  static inline void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu,
-> >                                               unsigned int online)
-> >  {
+> In V7 then.
+
+Ok.
+
+> > > > > +static void tpm_spapr_update_deviceclass(SpaprVioDevice *dev)
+> > > > > +{
+> > > > > +    SPAPRvTPMState *s =3D VIO_SPAPR_VTPM(dev);
+> > > > > +    SpaprVioDeviceClass *k =3D VIO_SPAPR_DEVICE_GET_CLASS(dev);
+> > > > > +
+> > > > > +    switch (s->be_tpm_version) {
+> > > > > +    case TPM_VERSION_UNSPEC:
+> > > > > +        assert(false);
+> > > > > +        break;
+> > > > > +    case TPM_VERSION_1_2:
+> > > > > +        k->dt_name =3D "vtpm";
+> > > > > +        k->dt_type =3D "IBM,vtpm";
+> > > > > +        k->dt_compatible =3D "IBM,vtpm";
+> > > > > +        break;
+> > > > > +    case TPM_VERSION_2_0:
+> > > > > +        k->dt_name =3D "vtpm";
+> > > > > +        k->dt_type =3D "IBM,vtpm";
+> > > > > +        k->dt_compatible =3D "IBM,vtpm20";
+> > > > > +        break;
+> > > > Erk.  Updating DeviceClass structures on the fly is hideously ugly.
+> > > > We might need to take a different approach for this.
+> > > Make a suggestion... Obviously, we can hard-initialize dt_name and dt=
+_type
+> > > but dt_compatible can only be set after we have determined the versio=
+n of
+> > > TPM.
+> > As you say name and type can just be put into the class statically.
 >=20
+>=20
+> I did this in v6.
+>=20
+>=20
+> > Since you need to change compatible based on an internal variable,
+> > we'd need to replace the static dt_compatible in the class with a
+> > callback.
+>=20
+>=20
+> Why can we not initialize it once we know the version of TPM? From the
+> perspective of SLOF at least this seems to be building the device tree fi=
+ne
+> since it sees the proper value...
+
+Because it's a serious layering / isolation violation.  You're
+modifying QOM type information from the runtime code of a specific
+instance.  You get away with it (now) because there's only one
+instance and the ordering of things happens to let it work, but that's
+assuming way too much about QOM's implementation details.
+
+As a rule, once the QOM classes are set up with their class_init
+function, they should never be modified.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -172,25 +169,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---BwCQnh7xodEAoBMC
+--ZwgA9U+XZDXt4+m+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3608kACgkQbDjKyiDZ
-s5LU2Q//bNHq16dIsp6R/LQqA7ibOkzaUbzg9yeHeb4Qys0zoKLe/dhJhpOf7u/P
-0GKcw46v2KmKWY9ZE+Oyeg2H1GHrkUl/8l6+ZVodqjzeywutDJBKXSMHikkgakPg
-rSM8pS7UgNVOBPVPYc4+nuE/TnWbhXaNjWQ8+M+awUvrtXGVC48n5f9jdmS7O1LT
-rY1CNp0RuRrs1z8wahIrjdp81xUvxD/T9jBMDEL8Im2ah/LGyyvTa/vculTP2IjX
-svrsNwqvdsfQZoqPoQCNAAUc5aKnmYgPxnbvweepOA7171dyhLRKiWfmDWzsCyK8
-5mWVhvGKVTolUu4tsf7FG7YR37lXINPvXS09Qcm9qlqmdHvnfYDABwtR6PSaYMRV
-fny02dIbRZJRZmDmuRf4YruLTlMxniF+AzNuMatKBJPMFD3fmgyTCz03KkjjV2rL
-VoQr21Qksh59bN2QkBLZrLkfrup8VBrOChCQA8KpBWtC7rMd3WcabtEmbOTfN2yF
-YN59OdfSR9Vv3HKtkdyRmv46tkyiIpt332dEFq3wrCqig8Z6v6lzx9pwkAaEv+xS
-5nScdJc58Ya7pzLzMIqcM74uUPI0CYBi+K2q2a/MJwNCmBdxPejmnYWglmwWWOtX
-h66vyw3ww2cQBFupk2LR/NwiKErP+qeZMbfEJVKEWM22213VB7g=
-=8hSS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl362EQACgkQbDjKyiDZ
+s5LGrBAA4sZIJsoSQofpPcPud+uJmR6XLUxWV6ArcFnX2PEYODgKnp16Fp/dsqay
+wL+BBvgBK7DuXCWpI1x+/MGOhmvwgM72iaIghUTv+PYkboASv28tgYg4nmWxJVNS
+yZmJra4DB9hnLHpPQJpdAJy7tOI9YfUO3UUSzZolgzR2z2/q0GgZiAfjqHzmUmr+
+cODNYCspRRj4HLCk7zrOwLawgzaE4bQDVCLkYQkQUk8M6cusFVx2PdOO1SjVIlaG
++bPRkK0q/jsguNZmb/AEsAfuUYcuBz8ea1krNTED0R2MBwi+iysTv9FiBg+LzmIH
+Wuo635bsNZtDWQJO76Xqy1R0hXE3BcC3WUX4x6+rSWXQHjh7FLqHW+ZoPAJsqXtm
+SCVfxBz6PiKmJDwRpaW7Y/mmsSckLm83rEIWK6W8/z7ibI9UnGxvtXvchMr+lqsS
+qdtuykTlT2FDzezxnyr98C4zC5AyNQ5xDJCYNC1HU40ab+pXgSraRAtNrh4MuCKt
+Czudk4DdtfMa+m7Bv6ydVw7Q3ov64eF9FUNrwNq1jWmjmqg2yWdeu1goWdZ9kUjt
+HwaMYaVuRpGSmw3T3bd7vgbWrXBN+dLRYIiK/od2/LmILdB1+QqLNfWkrLYJmSyA
+cD4Zff5O7LEMR5L+fcoTqAxoOFPClZqMxg02CfVc+mnf4qGsN6s=
+=D3Vs
 -----END PGP SIGNATURE-----
 
---BwCQnh7xodEAoBMC--
+--ZwgA9U+XZDXt4+m+--
 
