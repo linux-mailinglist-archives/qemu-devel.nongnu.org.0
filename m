@@ -2,58 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE3B126E8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 21:16:35 +0100 (CET)
-Received: from localhost ([::1]:47448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3C3126EFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 21:35:44 +0100 (CET)
+Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii2Dq-0002Np-Ch
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 15:16:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39483)
+	id 1ii2WM-0003Ck-Q1
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 15:35:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ii2CA-0001I2-BB
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 15:14:51 -0500
+ (envelope-from <vr_qemu@t-online.de>) id 1ii2V8-0002S9-OZ
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 15:34:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ii2C8-0004Nh-Cs
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 15:14:49 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:36095)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1ii2C6-0004JE-SV
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 15:14:47 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mo6zD-1hsU0n0LxT-00pdSf; Thu, 19 Dec 2019 21:14:42 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] q800: add a block backend to the PRAM
-Date: Thu, 19 Dec 2019 21:14:39 +0100
-Message-Id: <20191219201439.84804-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191219201439.84804-1-laurent@vivier.eu>
-References: <20191219201439.84804-1-laurent@vivier.eu>
+ (envelope-from <vr_qemu@t-online.de>) id 1ii2V6-0004zl-Ag
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 15:34:25 -0500
+Received: from mailout10.t-online.de ([194.25.134.21]:55858)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vr_qemu@t-online.de>) id 1ii2V5-0004vV-Ji
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 15:34:24 -0500
+Received: from fwd08.aul.t-online.de (fwd08.aul.t-online.de [172.20.26.151])
+ by mailout10.t-online.de (Postfix) with SMTP id 635EC41AB6CA;
+ Thu, 19 Dec 2019 21:34:20 +0100 (CET)
+Received: from [192.168.211.200]
+ (ZwFKR-ZbZh+aWuW6Nnr+CUc6kXWuikxlDcXi2nzflh-LMBG+3W-8K0b5AbkWw5sQnC@[46.86.55.2])
+ by fwd08.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1ii2Uo-2y5gzw0; Thu, 19 Dec 2019 21:34:06 +0100
+To: Gerd Hoffmann <kraxel@redhat.com>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: [PATCH] audio: fix integer overflow
+Message-ID: <8893a235-66a8-8fbe-7d95-862e29da90b1@t-online.de>
+Date: Thu, 19 Dec 2019 21:34:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dGGNl1CfEnXbkwvBBKymQbm0Hoia5yJdMX6tyMvkG3bxVoDyRVl
- dYGE7yYx6MX+gXjunfyt/T88oaKtXIf5MI35a6Zj6RotmI3/khK6wAYKzgHAOUF7x/HR8bP
- JsLHGY+n4XavFfBKF78LRqkkkjvCw65TFLcqvwQ0HMMNGgSkGvwdez2Y6om9epEe7X55frb
- WWycDSWhWvYrRd3aiikBg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6QPa6aGw7gw=:fC3HpLbCZD+CMaGsCGMGXR
- xSO0chSu0KTEH1XhEpBUmBQpqDjY4UpG+aZ0Y9xJ0cmVQKoIN4ZXlpwU5o82VTK3IgPRtKUBD
- 0e1lufTEmCGTGs8O7FPG+McaRyoJlCoDn8FwAmgXjTAbN8LKRrs4YA4YoRH+KZ6NI5igznLjf
- Xb3e9HOqk9Gsq2uwg6kgDlIFcNUqC/lhkhJ4eNEe4I+FIqZLLbKeRkTDCTkQAj/eYVzf/kHvT
- soVlfKoUemv20wfGEX3aK95YKBRVjVa4RHTNolejqmCjefbWXof66PPPofZqysWmaofkZKkCe
- N6pNsYNHEFvpfY1pBRhQ9A0l7UHgeLzMnejBG5wHjTO5Ne8Djyt3E/9PM7xpDeTPWPiDi+1ed
- fj/8w9wXlHOld45jeNHJ/FHGF9vQ5DiAuTaq2Wu0y8pGekGNLg89u/TA9h7DB8ZW7XzpFphjA
- p/xD9wd0JYv0zoQAhYKjFujsFAzTQtuh92uv8NZQOUgNbyNyKtZf0dgwukvBtflBsGgxk6sEr
- 8gGCohHwe8d8kxxqPm14ffnaqAeHKbhl3aaOKtj9jhv5uDRMKmNqP01MUth7lxbTpzCbiI02u
- 38XPe69qoTNx4afqB0kSE9r0eMUrXpWifJQx7N65jusvpi1QwfI6P2L4ZXdvcj274b16qwKsv
- qnVV2Srm2rIKlHcRT2XPgPb8j/W1dvKXHLsslLPgc0bSGeJPqPhgvALmsvdUzaLHYHB7O2uaH
- 3g0M3FSCa77IRWmnVVt4Aett8ZrbnnIltz3jkT6Sz8B5eeKpQp1JLPvBnsQliXYwbsHRzIGCx
- G8w5Sq8zVgRqRfr98tBqbX67b9mn9Xa0VTACpZmkRRbl5gYJkxXPUdO47j/N8AJnaPrQUlFzh
- 0q1gwR5Ni3JAwzYZLFtQ==
+Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+X-ID: ZwFKR-ZbZh+aWuW6Nnr+CUc6kXWuikxlDcXi2nzflh-LMBG+3W-8K0b5AbkWw5sQnC
+X-TOI-MSGID: 47af9478-51e0-4a74-b0b0-ea4497754600
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.131
+X-Received-From: 194.25.134.21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,211 +55,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows to save and restore the content of the PRAM.
-It may be useful if we want to check the configuration or to change it.
+Tell the compiler to do a 32bit * 32bit -> 64bit multiplication
+because period_ticks is a 64bit variable. The overflow occurs
+for audio timer periods larger than 4294967us.
 
-The backend is added using mtd interface, for instance:
+Fixes: be1092afa0 "audio: fix audio timer rate conversion bug"
 
-    ... -drive file=pram.img,format=raw,if=mtd ...
-
-where pram.img is the file where the data will be stored, its size must
-be 256 bytes.
-
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 ---
- hw/m68k/q800.c            |  6 ++++
- hw/misc/mac_via.c         | 65 +++++++++++++++++++++++++++++++++++++++
- include/hw/misc/mac_via.h |  3 ++
- 3 files changed, 74 insertions(+)
+ audio/audio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 4ca8678007..0c445c74bf 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -158,6 +158,7 @@ static void q800_init(MachineState *machine)
-     NubusBus *nubus;
-     GLUEState *irq;
-     qemu_irq *pic;
-+    DriveInfo *dinfo;
- 
-     linux_boot = (kernel_filename != NULL);
- 
-@@ -200,6 +201,11 @@ static void q800_init(MachineState *machine)
-     /* VIA */
- 
-     via_dev = qdev_create(NULL, TYPE_MAC_VIA);
-+    dinfo = drive_get(IF_MTD, 0, 0);
-+    if (dinfo) {
-+        qdev_prop_set_drive(via_dev, "drive", blk_by_legacy_dinfo(dinfo),
-+                            &error_abort);
-+    }
-     qdev_init_nofail(via_dev);
-     sysbus = SYS_BUS_DEVICE(via_dev);
-     sysbus_mmio_map(sysbus, 0, VIA_BASE);
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index e5658af922..e9e6a95eab 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -27,6 +27,8 @@
- #include "sysemu/runstate.h"
- #include "qapi/error.h"
- #include "qemu/cutils.h"
-+#include "hw/qdev-properties.h"
-+#include "sysemu/block-backend.h"
- #include "trace.h"
- 
- /*
-@@ -375,6 +377,15 @@ static void via2_irq_request(void *opaque, int irq, int level)
-     mdc->update_irq(s);
- }
- 
-+
-+static void pram_update(MacVIAState *m)
-+{
-+    if (m->blk) {
-+        blk_pwrite(m->blk, 0, m->mos6522_via1.PRAM,
-+                   sizeof(m->mos6522_via1.PRAM), 0);
-+    }
-+}
-+
- /*
-  * RTC Commands
-  *
-@@ -547,6 +558,7 @@ static void via1_rtc_update(MacVIAState *m)
-             /* PRAM address 0x00 -> 0x13 */
-             trace_via1_rtc_cmd_pram_write(m->cmd - REG_PRAM_ADDR, m->data_out);
-             v1s->PRAM[m->cmd - REG_PRAM_ADDR] = m->data_out;
-+            pram_update(m);
-             m->cmd = REG_EMPTY;
-             break;
-         case REG_PRAM_SECT...REG_PRAM_SECT_LAST:
-@@ -577,6 +589,7 @@ static void via1_rtc_update(MacVIAState *m)
-     g_assert(REG_PRAM_SECT <= m->cmd && m->cmd <= REG_PRAM_SECT_LAST);
-     sector = m->cmd - REG_PRAM_SECT;
-     v1s->PRAM[sector * 32 + m->alt] = m->data_out;
-+    pram_update(m);
-     trace_via1_rtc_cmd_pram_sect_write(sector, m->alt, sector * 32 + m->alt,
-                                        m->data_out);
-     m->alt = REG_EMPTY;
-@@ -857,6 +870,7 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     MacVIAState *m = MAC_VIA(dev);
-     MOS6522State *ms;
-     struct tm tm;
-+    int ret;
- 
-     /* Init VIAs 1 and 2 */
-     sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
-@@ -890,6 +904,28 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     m->adb_poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via_adb_poll, m);
-     m->adb_data_ready = qdev_get_gpio_in_named(dev, "via1-irq",
-                                                VIA1_IRQ_ADB_READY_BIT);
-+
-+    if (m->blk) {
-+        int64_t len = blk_getlength(m->blk);
-+        if (len < 0) {
-+            error_setg_errno(errp, -len,
-+                             "could not get length of backing image");
-+            return;
-+        }
-+        ret = blk_set_perm(m->blk,
-+                           BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-+                           BLK_PERM_ALL, errp);
-+        if (ret < 0) {
-+            return;
-+        }
-+
-+        len = blk_pread(m->blk, 0, m->mos6522_via1.PRAM,
-+                        sizeof(m->mos6522_via1.PRAM));
-+        if (len != sizeof(m->mos6522_via1.PRAM)) {
-+            error_setg(errp, "can't read PRAM contents");
-+            return;
-+        }
-+    }
- }
- 
- static void mac_via_init(Object *obj)
-@@ -914,10 +950,33 @@ static void mac_via_init(Object *obj)
-                         TYPE_ADB_BUS, DEVICE(obj), "adb.0");
- }
- 
-+static void postload_update_cb(void *opaque, int running, RunState state)
-+{
-+    MacVIAState *m = MAC_VIA(opaque);
-+
-+    qemu_del_vm_change_state_handler(m->vmstate);
-+    m->vmstate = NULL;
-+
-+    pram_update(m);
-+}
-+
-+static int mac_via_post_load(void *opaque, int version_id)
-+{
-+    MacVIAState *m = MAC_VIA(opaque);
-+
-+    if (m->blk) {
-+        m->vmstate = qemu_add_vm_change_state_handler(postload_update_cb,
-+                                                      m);
-+    }
-+
-+    return 0;
-+}
-+
- static const VMStateDescription vmstate_mac_via = {
-     .name = "mac-via",
-     .version_id = 1,
-     .minimum_version_id = 1,
-+    .post_load = mac_via_post_load,
-     .fields = (VMStateField[]) {
-         /* VIAs */
-         VMSTATE_STRUCT(mos6522_via1.parent_obj, MacVIAState, 0, vmstate_mos6522,
-@@ -950,6 +1009,11 @@ static const VMStateDescription vmstate_mac_via = {
+diff --git a/audio/audio.c b/audio/audio.c
+index 56fae55047..abea027fdf 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1738,7 +1738,7 @@ static AudioState *audio_init(Audiodev *dev, const =
+char *name)
+     if (dev->timer_period <=3D 0) {
+         s->period_ticks =3D 1;
+     } else {
+-        s->period_ticks =3D dev->timer_period * SCALE_US;
++        s->period_ticks =3D dev->timer_period * (int64_t)SCALE_US;
      }
- };
- 
-+static Property mac_via_properties[] = {
-+    DEFINE_PROP_DRIVE("drive", MacVIAState, blk),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void mac_via_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -957,6 +1021,7 @@ static void mac_via_class_init(ObjectClass *oc, void *data)
-     dc->realize = mac_via_realize;
-     dc->reset = mac_via_reset;
-     dc->vmsd = &vmstate_mac_via;
-+    dc->props = mac_via_properties;
- }
- 
- static TypeInfo mac_via_info = {
-diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-index 3f86fcb7e1..e74f85be0f 100644
---- a/include/hw/misc/mac_via.h
-+++ b/include/hw/misc/mac_via.h
-@@ -81,6 +81,8 @@ typedef struct MOS6522Q800VIA2State {
- typedef struct MacVIAState {
-     SysBusDevice busdev;
- 
-+    VMChangeStateEntry *vmstate;
-+
-     /* MMIO */
-     MemoryRegion mmio;
-     MemoryRegion via1mem;
-@@ -100,6 +102,7 @@ typedef struct MacVIAState {
-     uint8_t cmd;
-     int wprotect;
-     int alt;
-+    BlockBackend *blk;
- 
-     /* ADB */
-     ADBBusState adb_bus;
--- 
-2.24.1
+=20
+     e =3D qemu_add_vm_change_state_handler (audio_vm_change_state_handle=
+r, s);
+--=20
+2.16.4
 
 
