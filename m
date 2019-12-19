@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC220126548
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:57:07 +0100 (CET)
-Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EAF126552
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:59:30 +0100 (CET)
+Received: from localhost ([::1]:43220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxEg-0005u5-N8
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:57:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33679)
+	id 1ihxGz-0001Al-W0
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:59:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53773)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ihxCH-000340-KV
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:54:38 -0500
+ (envelope-from <stefanha@gmail.com>) id 1ihxFv-0008DT-Qd
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:58:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ihxCG-0004uZ-6f
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:54:37 -0500
-Received: from 2.mo5.mail-out.ovh.net ([178.33.109.111]:50113)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ihxCF-00048d-U2
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:54:36 -0500
-Received: from player732.ha.ovh.net (unknown [10.109.143.246])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 3CF0E263632
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 15:54:27 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player732.ha.ovh.net (Postfix) with ESMTPSA id 046EFD62E5A1;
- Thu, 19 Dec 2019 14:54:21 +0000 (UTC)
-Date: Thu, 19 Dec 2019 15:54:19 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 01/10] ppc/pnv: Modify the powerdown notifier to get the
- PowerNV machine
-Message-ID: <20191219155419.70d3c764@bahia.lan>
-In-Reply-To: <20191219073001.26790-2-clg@kaod.org>
-References: <20191219073001.26790-1-clg@kaod.org>
- <20191219073001.26790-2-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <stefanha@gmail.com>) id 1ihxFu-0004U8-3M
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:58:23 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36194)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ihxFt-0004N0-M3
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:58:21 -0500
+Received: by mail-wr1-x441.google.com with SMTP id z3so6308670wru.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:58:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=iWxIA9v3JBKdGB24qiv57BiWb+aWm2DNvPVi7odlH5I=;
+ b=kY3oJ07V2xRC6Ov/NR1uVipi85eqoTEvmGm47lOxJosfFESHDJFPg80q8c6mJ8ttJ8
+ b3q6sDZ8V+p1l0aqAjTO3pj6GZvpGYiiBSrYuCOcvk3fHRwPZE3I7rP0sAXpIWdDFTd2
+ wbgZeiJYArRK/ttZMLdsuilVm4hBaaG4ISNajXIelwUEEIeweJIwrCDcifqb89QprFJG
+ HQgQTTWN6O4BxXPlwH1zFRYk3m0X0JOYGaC3V3exZd8mheFYLCTSkSIHaEkGFmyE3GPq
+ y0cCTaLJ3eq0vnXlARmSOVRf6YLxLmoUX4q95VqsIzPgmBxl2vfXdDTiFgHJrk39jo2m
+ cnTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=iWxIA9v3JBKdGB24qiv57BiWb+aWm2DNvPVi7odlH5I=;
+ b=g8c7JkQsca4cRCDUK+79TNWwUvZvyUzAZj0lO8/10W+uuJ7K2UNJVz46U2t97wShPt
+ XoaKE+KKjVrxmzzAHTwkxi1pnfZSsxEdIEJ5LPQI3PPy5GHGtyXw/7jVrQjPLhI8wSdi
+ rmOyNEx8RTiNgsmeem66N8RPU4/DWgQEwszFx9y4aNNOeSNgoPlf3ADVOFJHRs1UHaRW
+ o9B/UklgT95YIcdDr9WchZXk5fxL0v9oJAqMuFxGJi2c2jlck/9GrF5zvA4SPjthnaK7
+ T6zI3gINtav1DyJkwHGeQq85kiU/hLa8rKxV/Ql+6uYbrPpphU0UbOEVfSl47XJ4I7Cf
+ bSew==
+X-Gm-Message-State: APjAAAXTj/0748jMkx7YoX6JNh36qjaQqK7FqVh777nDiKhPgXMU517E
+ ynHe3PlIPkqOn+M3M5pMIA0=
+X-Google-Smtp-Source: APXvYqzMmpnF81DUnnKGm4R+vvvfuGWmX4rP1gKU36S2XbJyZaRXmYpR3XeEpBk8ZcAKyb+u/jbNUg==
+X-Received: by 2002:a5d:53c1:: with SMTP id a1mr9441761wrw.373.1576767500130; 
+ Thu, 19 Dec 2019 06:58:20 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id n10sm6524540wrt.14.2019.12.19.06.58.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 06:58:18 -0800 (PST)
+Date: Thu, 19 Dec 2019 14:58:17 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: ASM <asm@asm.pp.ru>
+Subject: Re: PCI memory sync question (kvm,dpdk,e1000,packet stalled)
+Message-ID: <20191219145817.GG1624084@stefanha-x1.localdomain>
+References: <CAMmAVbWzrYWZBXwKxSd-f5SXmq6qP1ok8abvyKJhp3=REEaMPA@mail.gmail.com>
+ <CAMmAVbXNMjk=FasuySEcUa0U8CqGkCghehsJsWbVV2VHCAPA-w@mail.gmail.com>
+ <20191121140502.GX439743@stefanha-x1.localdomain>
+ <CAMmAVbW5a+v_dJ6NM3erwouOqpXyTzL36_W566SL1KuPFPFSEw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 10313806100162386315
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 178.33.109.111
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="z9ECzHErBrwFF8sy"
+Content-Disposition: inline
+In-Reply-To: <CAMmAVbW5a+v_dJ6NM3erwouOqpXyTzL36_W566SL1KuPFPFSEw@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,37 +81,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, dmitry.fleytman@gmail.com,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Dec 2019 08:29:52 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-> Use container_of() instead of qdev_get_machine()
+--z9ECzHErBrwFF8sy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 27, 2019 at 03:39:03PM +0300, ASM wrote:
+> When the packet is received, e1000 writes it to memory directrly
+> without any RCU.
+> The address of memory for writing is set by the driver from dpdk driver.
+> Driver writes to RDBA (RDBAH,RDBAL) base address of ring.
 >=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> It turns out that MMIO RCU (mentioned from e1000_mmio_setup) does not
+> protect, and can't protect the ring descriptors.
+> The area for protection may be any area of operational memory. And it
+> becomes famous when writing to registers RDBA by driver.
+> (see datasheet 82574 GbE Controller "7.1.8 Receive Descriptor Queue Struc=
+ture")
+>=20
+> How can this memory be protected? As I understand it, the e1000 should
+> track the record in RDBA and enable memory protection in this region.
+> But how to do it right?
+
+I misunderstood the issue and you can probably ignore my comments about
+coalesced MMIO.  You quoted descriptor DMA code below so coalesced MMIO
+shouldn't be relevant since desc->status isn't an MMIO register.
+
+>=20
+> Source code qemu:
+> hw/net/e1000.c:954 (version master)
+>=20
+>  954         base =3D rx_desc_base(s) + sizeof(desc) * s->mac_reg[RDH];
+> where rx_desc_base -- address RDBAH regs. It address no have RCU protect.
+> ...
+> 955         pci_dma_read(d, base, &desc, sizeof(desc));
+> ...
+> 957         desc.status |=3D (vlan_status | E1000_RXD_STAT_DD);
+> ...
+> 990         pci_dma_write(d, base, &desc, sizeof(desc));
+> ->
+> exec.c:
+> 3111 static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+> 3112                                            MemTxAttrs attrs,
+> 3113                                            const uint8_t *buf,
+> 3114                                            hwaddr len, hwaddr addr1,
+> 3115                                            hwaddr l, MemoryRegion *m=
+r)
+> 3116 {
+> ...
+> 3123         if (!memory_access_is_direct(mr, true)) {
+> (false)
+> 3131         } else {
+> 3132             /* RAM case */
+> 3133             ptr =3D qemu_ram_ptr_length(mr->ram_block, addr1, &l, fa=
+lse);
+> 3134             memcpy(ptr, buf, l);
+>=20
+> where I be seeing weird behavior with KVM due to MMIO write coalescing
+>=20
+> 3135             invalidate_and_set_dirty(mr, addr1, l);
+> 3136         }
+> 3137
+>=20
+> Source code dpdk(e1000): (version dpdk-stable-17.11.9)
+> drivers/net/e1000/em_rxtx.c:
+>=20
+> 699 uint16_t
+> 700 eth_em_recv_pkts(void *rx_queue, struct rte_mbuf **rx_pkts,
+> 701                 uint16_t nb_pkts)
+> ...
+> 718         rxq =3D rx_queue
+> ...
+> 722         rx_id =3D rxq->rx_tail;
+> 723         rx_ring =3D rxq->rx_ring
+> ...
+> 734                 rxdp =3D &rx_ring[rx_id];
+> 735                 status =3D rxdp->status;
+> 736                 if (! (status & E1000_RXD_STAT_DD))
+> 737                         break;
+> ...
+> 807                 rxdp->buffer_addr =3D dma_addr;
+> 808                 rxdp->status =3D 0;
+> where I be seeing weird behavior with KVM due to MMIO write
+> coalescing
+
+It could be a bug in QEMU's e1000 emulation - maybe it's not doing
+things in the correct order and causes a race condition with the DPDK
+polling driver - or it could be a bug in the DPDK e1000 driver regarding
+the order in which the descriptor ring and RX Head/Tail MMIO registers
+are updated.
+
+Did you find the root cause?
+
+> P.S.
+> > Also, is DPDK accessing the e1000 device from more than 1 vCPU?
+>  All tests on single virtual CPU.
+>=20
+> I created github project for quick reproduction of this error:
+> https://github.com/BASM/qemu_dpdk_e1000_test
+>=20
 > ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/ppc/pnv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Best regards,
+> Leonid Myravjev
 >=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index f77e7ca84ede..855254f28263 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -561,7 +561,7 @@ static void *pnv_dt_create(MachineState *machine)
-> =20
->  static void pnv_powerdown_notify(Notifier *n, void *opaque)
->  {
-> -    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-> +    PnvMachineState *pnv =3D container_of(n, PnvMachineState, powerdown_=
-notifier);
-> =20
->      if (pnv->bmc) {
->          pnv_bmc_powerdown(pnv->bmc);
+> On Thu, 21 Nov 2019 at 17:05, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> >
+> > On Wed, Nov 20, 2019 at 08:36:32PM +0300, ASM wrote:
+> > > I trying solve the problem, with packets stopping (e1000,tap,kvm).
+> > > My studies led to the following:
+> > > 1. From flatview_write_continue() I see, what e1000 writes the number
+> > > "7" to the STAT register.
+> > > 2. The driver from target OS reads STAT register with number "7" and
+> > > writes to the register the number "0".
+> > > 3. From flatview_write_continue() (I make edits):
+> > >             memcpy(ptr, buf, l);
+> > >             new1=3Dptr[0xc];
+> > >             usleep(100);
+> > >             new2=3Dptr[0xc];
+> > >             invalidate_and_set_dirty(mr, addr1, l);
+> > >             new3=3Dptr[0xc];
+> > > printf("Old: %i, new1, %i, new2: %i, new3: %i\n", old,new1,new2,new3);
+> > >
+> > > I see what memory in first printf is "7", but after usleep() is "0".
+> > > Do I understand correctly that this should not be? Or RCU lock
+> > > suggests the ability to the multiple writers?
+> > >
+> > > The problem is that qemu(e1000) writes the number 7, after which
+> > > target(dpdk driver) reads 7, on the basis of this it writes the number
+> > > 0, but as a result (extremely rarely), the value STATUS still remains
+> > > 7. Therefore, packet processing is interrupted. This behavior is
+> > > observed only on kvm (it is not observed on tcg).
+> > >
+> > > Please help with advice or ideas.
+> >
+> > Hi Leonid,
+> > Could you be seeing weird behavior with KVM due to MMIO write
+> > coalescing?
+> >
+> >   static void e1000_mmio_setup(E1000State *d)
+> >   {
+> >       int i;
+> >       const uint32_t excluded_regs[] =3D {
+> >           E1000_MDIC, E1000_ICR, E1000_ICS, E1000_IMS,
+> >           E1000_IMC, E1000_TCTL, E1000_TDT, PNPMMIO_SIZE
+> >       };
+> >
+> >       memory_region_init_io(&d->mmio, OBJECT(d), &e1000_mmio_ops, d,
+> >                             "e1000-mmio", PNPMMIO_SIZE);
+> >       memory_region_add_coalescing(&d->mmio, 0, excluded_regs[0]);
+> >       for (i =3D 0; excluded_regs[i] !=3D PNPMMIO_SIZE; i++)
+> >           memory_region_add_coalescing(&d->mmio, excluded_regs[i] + 4,
+> >                                        excluded_regs[i+1] - excluded_re=
+gs[i] - 4);
+> >       memory_region_init_io(&d->io, OBJECT(d), &e1000_io_ops, d, "e1000=
+-io", IOPORT_SIZE);
+> >   }
+> >
+> > MMIO write coalescing means that QEMU doesn't see the register writes
+> > immediately.  Instead kvm.ko records them into a ring buffer and QEMU
+> > processes the ring when the next ioctl(KVM_RUN) exit occurs.
+> >
+> > See Linux Documentation/virt/kvm/api.txt "4.116
+> > KVM_(UN)REGISTER_COALESCED_MMIO" for more details.
+> >
+> > I don't really understand your printf debugging explanation.  It would
+> > help to see the DPDK code and the exact printf() output.
+> >
+> > Also, is DPDK accessing the e1000 device from more than 1 vCPU?
+> >
+> > Stefan
 
+--z9ECzHErBrwFF8sy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl37kAkACgkQnKSrs4Gr
+c8htqAgAsABQPqmdj1DS2NpLYahHjjDR6W4ClGKftRbAfB5xBd/RLKsafFwwQ4Gz
+vCtziFttcM7QcZtYPBRxqWlyX3W4ngus20EdqBP0urgjFy2ehW8yB5udvlNrzJwL
+efxr7chbv5oF7t3b2IAH8ymvPIi72E62F+6kEcFnSwn5xYQsMTWDjR+RVko34zvy
+jCenoADl+xXd3RjnE9eMjp31UKAVmN0r1iZD4TM4a2AyfUWnpOt34ugJG6ehMaFV
+WpQ4ThERBha/ytzP9q5V3/vLNZ55nYJHbgb9IEQmXv5arKisbL8Jk14Cun6zhm/B
+24gz2LHv8ziB5nwuORfd6rUN0EPwyw==
+=E7Y9
+-----END PGP SIGNATURE-----
+
+--z9ECzHErBrwFF8sy--
 
