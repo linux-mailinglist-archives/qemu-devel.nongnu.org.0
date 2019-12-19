@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C663126551
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:59:25 +0100 (CET)
-Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F4D126545
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:55:30 +0100 (CET)
+Received: from localhost ([::1]:43138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxGu-00012f-KZ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:59:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59064)
+	id 1ihxD7-0003RQ-67
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:55:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1ihx7Y-0003qr-7o
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:45 -0500
+ (envelope-from <sgarzare@redhat.com>) id 1ihx9L-0006pe-Ey
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:51:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1ihx7V-0004NZ-Uh
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:43 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59872
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <sgarzare@redhat.com>) id 1ihx9J-0005EG-Q8
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:51:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54277
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1ihx7V-0004GI-MG
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:41 -0500
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1ihx9J-0005Ax-JY
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:51:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576766980;
+ s=mimecast20190719; t=1576767093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m1ipqa5OHZtHNf2lKB/75/Pigv0YWOWhwRNr4xbpilQ=;
- b=CITP3TJIohlfTftxnxuF2Pz6PpaG7rmNYVoBRLIzv886As+OHTPaLSCBcFmZtnd5iKyYO2
- U8Y5munFavU78mwqUEBRi8KBulQvq3lUcD9yHEqZbe0HaE0GPaKsK3d2Ai5AmXP7IB9nMR
- jMVjZQgiJH+uMLzLjyOmBuhF0EEp4f4=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-UkTv5fTTOMiISPdmqxqOdA-1; Thu, 19 Dec 2019 09:49:39 -0500
-Received: by mail-qv1-f72.google.com with SMTP id v3so778731qvm.2
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:49:39 -0800 (PST)
+ bh=6aIrsNoj4Dbcj+IopTqq17uJWh1SL+C95Q6EbmE3ZRo=;
+ b=Jweknhh//x4t78DBoH62qAXndixIPNqd6C+LjRZN/slbGlCXh4GzP+PsRQ/ktj9mTFl50Z
+ 7jEYBjDsbYEnz/qVzOgYwWZQ/og+gKbmOcjwyA3r5DAxzq7JMlFXw60t02bE0UN7iQDQQ7
+ NUe22yRyzCc6nzx1sjyIRqyIDpAMAlM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-CHGZctxLPFSiHaoBeIf_XA-1; Thu, 19 Dec 2019 09:51:29 -0500
+Received: by mail-wm1-f70.google.com with SMTP id t16so1457206wmt.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:51:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=QcEDdS4yPAEfgnuLolXGQpaGkrW+DFNO/rchi1OL1H8=;
- b=TE2N5zhWqlnHrknsndnWEGdoSH1B1KA+ELYjtmy/iY/G4ldDTL2gF/qEB3iDvxFqqf
- iiezQtECadUe+dVqI98Pr4TLwT1iPP89A2jNUopNZtGgTiYDxN4iT9JCs2atmmfDhl5j
- XEKBjj6PpSyiVoST3sIWCcENxT3szEkSyuY+C36FzTQ00/Usrjuiot+8WNCmyr3gubdr
- /fXjeo8oJZS9Sxs/pSQwHK6dpj+PUL0PO68RV5qP8Sa5WxMf0gG8GykfPY1DOb5uDYdO
- 0uZlAR2GIFpI7T7qLojqB4rT4IGHHnU/OdYtY5QPqahRbZmzn+Rni8h/yfmrARcqv+6Z
- 3UbA==
-X-Gm-Message-State: APjAAAWim/UZ5NjxpRmcqvLNeMHBlLREeXgXlgRD95v+iMrBvUWWVcpy
- l5/uR/Ds3gcgigmI1kvUmwgFspmZ4IUTldV3cf7ur0TvqStOkq7qlF4eNNlaWZjOLxpmXZnkH8k
- RC7kU1wtYetvkSXw=
-X-Received: by 2002:ac8:7b9b:: with SMTP id p27mr7455839qtu.2.1576766978592;
- Thu, 19 Dec 2019 06:49:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzDSmMC1/uJcrp/vMGki65iYTB2oZsfrn+xtKSFdAmqx+R5HSXTeKZNXOkI5VZxj1YfU58TRg==
-X-Received: by 2002:ac8:7b9b:: with SMTP id p27mr7455812qtu.2.1576766978297;
- Thu, 19 Dec 2019 06:49:38 -0800 (PST)
-Received: from xz-x1 ([104.156.64.74])
- by smtp.gmail.com with ESMTPSA id f42sm1969151qta.0.2019.12.19.06.49.36
+ bh=+Tr9qi9sJMs2xjz13zFJJnBncNlflx4iz80NU36XKiw=;
+ b=I12ks8oJNk+YOtiHhf6rD+WB85iu1iXYVEnI9P02mnjl1DtDVRE5w+FoHM9aSCncB+
+ x5DzdBModGK/RtmSYjAUbj5n/AIxft3dWmOvkKKXab48SVKWoDPZoNEjTfZA9aFGBujJ
+ uRTdFlPwa8gtaPa/DpSm9FxLUKlcubqpq3luQLTKLZEOp/NjFiKZZcxKB8lCc4UUcPzM
+ pgIfKmmMCKIvufU3pOhZz/Ltm1XX7uAyn9Y9hohLjKCiz404/2Wp4g8ZrlVeIsYP2va0
+ aqQj/21TKBFfgNJJ3QUbLDLOqqHW9wXQp8JInrhhUsU2iv+ebyF6KhraQiZr6LLotEUO
+ GEYQ==
+X-Gm-Message-State: APjAAAUGm/Mh+jVLsWo32Zt2/o/b2fUwJh3gZqI8bxcBIW/TfmDGp0Fk
+ bRvaf9O64wDm4qTDPC2J36Sx03jAmDZIQyYqg186Gz+VuFejS1+fmmmLBDZhV5ZxBPXB1+h7QE4
+ 6++pUAQjeqPRgYmo=
+X-Received: by 2002:adf:9427:: with SMTP id 36mr9861381wrq.166.1576767088734; 
+ Thu, 19 Dec 2019 06:51:28 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw3yKJF9JTUxI0xdyvfm9q7X65vYl7gdWohqX9OUkD4vKYo1xNnnkItgSU8zsIguwbOu8vKPQ==
+X-Received: by 2002:adf:9427:: with SMTP id 36mr9861360wrq.166.1576767088443; 
+ Thu, 19 Dec 2019 06:51:28 -0800 (PST)
+Received: from steredhat ([95.235.120.92])
+ by smtp.gmail.com with ESMTPSA id 60sm6829161wrn.86.2019.12.19.06.51.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 06:49:37 -0800 (PST)
-Date: Thu, 19 Dec 2019 09:49:36 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
-Message-ID: <20191219144936.GB50561@xz-x1>
-References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-9-eric.auger@redhat.com>
- <20191210193342.GJ3352@xz-x1>
- <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
- <20191219133308.GA4246@xz-x1>
- <9d58b293-ada0-353e-bba2-ad1f538dfc62@redhat.com>
+ Thu, 19 Dec 2019 06:51:27 -0800 (PST)
+Date: Thu, 19 Dec 2019 15:51:25 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Florian Florensa <fflorensa@online.net>
+Subject: Re: [PATCH] block/rbd: Add support for ceph namespaces
+Message-ID: <20191219145125.iwhxhzmt5mow5pea@steredhat>
+References: <20191219133416.671431-1-fflorensa@online.net>
 MIME-Version: 1.0
-In-Reply-To: <9d58b293-ada0-353e-bba2-ad1f538dfc62@redhat.com>
-X-MC-Unique: UkTv5fTTOMiISPdmqxqOdA-1
+In-Reply-To: <20191219133416.671431-1-fflorensa@online.net>
+X-MC-Unique: CHGZctxLPFSiHaoBeIf_XA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,140 +86,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
- quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- bharatb.linux@gmail.com, qemu-arm@nongnu.org, dgilbert@redhat.com,
- eric.auger.pro@gmail.com
+Cc: kwolf@redhat.com, mreitz@redhat.com, dillaman@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 03:38:34PM +0100, Auger Eric wrote:
-> Hi Peter,
->=20
-> On 12/19/19 2:33 PM, Peter Xu wrote:
-> > On Thu, Dec 19, 2019 at 11:30:40AM +0100, Auger Eric wrote:
-> >> Hi Peter,
-> >> On 12/10/19 8:33 PM, Peter Xu wrote:
-> >>> On Fri, Nov 22, 2019 at 07:29:31PM +0100, Eric Auger wrote:
-> >>>> This patch implements the translate callback
-> >>>>
-> >>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> >>>>
-> >>>> ---
-> >>>>
-> >>>> v10 -> v11:
-> >>>> - take into account the new value struct and use
-> >>>>   g_tree_lookup_extended
-> >>>> - switched to error_report_once
-> >>>>
-> >>>> v6 -> v7:
-> >>>> - implemented bypass-mode
-> >>>>
-> >>>> v5 -> v6:
-> >>>> - replace error_report by qemu_log_mask
-> >>>>
-> >>>> v4 -> v5:
-> >>>> - check the device domain is not NULL
-> >>>> - s/printf/error_report
-> >>>> - set flags to IOMMU_NONE in case of all translation faults
-> >>>> ---
-> >>>>  hw/virtio/trace-events   |  1 +
-> >>>>  hw/virtio/virtio-iommu.c | 63 +++++++++++++++++++++++++++++++++++++=
-++-
-> >>>>  2 files changed, 63 insertions(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> >>>> index f25359cee2..de7cbb3c8f 100644
-> >>>> --- a/hw/virtio/trace-events
-> >>>> +++ b/hw/virtio/trace-events
-> >>>> @@ -72,3 +72,4 @@ virtio_iommu_get_endpoint(uint32_t ep_id) "Alloc e=
-ndpoint=3D%d"
-> >>>>  virtio_iommu_put_endpoint(uint32_t ep_id) "Free endpoint=3D%d"
-> >>>>  virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=3D%d"
-> >>>>  virtio_iommu_put_domain(uint32_t domain_id) "Free domain=3D%d"
-> >>>> +virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, =
-uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"
-> >>>> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> >>>> index f0a56833a2..a83666557b 100644
-> >>>> --- a/hw/virtio/virtio-iommu.c
-> >>>> +++ b/hw/virtio/virtio-iommu.c
-> >>>> @@ -412,19 +412,80 @@ static IOMMUTLBEntry virtio_iommu_translate(IO=
-MMUMemoryRegion *mr, hwaddr addr,
-> >>>>                                              int iommu_idx)
-> >>>>  {
-> >>>>      IOMMUDevice *sdev =3D container_of(mr, IOMMUDevice, iommu_mr);
-> >>>> +    viommu_interval interval, *mapping_key;
-> >>>> +    viommu_mapping *mapping_value;
-> >>>> +    VirtIOIOMMU *s =3D sdev->viommu;
-> >>>> +    viommu_endpoint *ep;
-> >>>> +    bool bypass_allowed;
-> >>>>      uint32_t sid;
-> >>>> +    bool found;
-> >>>> +
-> >>>> +    interval.low =3D addr;
-> >>>> +    interval.high =3D addr + 1;
-> >>>> =20
-> >>>>      IOMMUTLBEntry entry =3D {
-> >>>>          .target_as =3D &address_space_memory,
-> >>>>          .iova =3D addr,
-> >>>>          .translated_addr =3D addr,
-> >>>> -        .addr_mask =3D ~(hwaddr)0,
-> >>>> +        .addr_mask =3D (1 << ctz32(s->config.page_size_mask)) - 1,
-> >>>>          .perm =3D IOMMU_NONE,
-> >>>>      };
-> >>>> =20
-> >>>> +    bypass_allowed =3D virtio_has_feature(s->acked_features,
-> >>>> +                                        VIRTIO_IOMMU_F_BYPASS);
-> >>>> +
-> >>>
-> >>> Would it be easier to check bypass_allowed here once and then drop th=
-e
-> >>> latter [1] and [2] check?
-> >> bypass_allowed does not mean you systematically bypass. You bypass if
-> >> the SID is unknown or if the device is not attached to any domain.
-> >> Otherwise you translate. But maybe I miss your point.
-> >=20
-> > Ah ok, then could I ask how will this VIRTIO_IOMMU_F_BYPASS be used?
-> > For example, I think VT-d defines passthrough in a totally different
-> > way in that the PT mark will be stored in the per-device context
-> > entries, then we can allow a specific device to be pass-through when
-> > doing DMA.  That information is explicit (e.g., unknown SID will
-> > always fail the DMA), and per-device.
-> >=20
-> > Here do you mean that you just don't put a device into any domain to
-> > show it wants to use PT?  Then I'm not sure how do you identify
-> > whether this is a legal PT or a malicious device (e.g., an unknown
-> > device that even does not have any driver bound to it, which will also
-> > satisfy "unknown SID" and "not attached to any domain", iiuc).
->=20
-> The virtio-iommu spec currently says:
->=20
-> "If the VIRTIO_IOMMU_F_BYPASS feature is negotiated, all accesses from
-> unattached endpoints are
-> allowed and translated by the IOMMU using the identity function. If the
-> feature is not negotiated, any
-> memory access from an unattached endpoint fails. Upon attaching an
-> endpoint in bypass mode to a new
-> domain, any memory access from the endpoint fails, since the domain does
-> not contain any mapping.
-> "
->=20
-> I guess this can serve the purpose of devices doing early accesses,
-> before the guest OS gets the hand and maps them?
+Hi Florian,
 
-OK, so there's no global enablement knob for virtio-iommu? Hmm... Then:
+On Thu, Dec 19, 2019 at 02:34:16PM +0100, Florian Florensa wrote:
+> Starting from ceph Nautilus, RBD has support for namespaces, allowing
+> for finer grain ACLs on images inside a pool, and tenant isolation.
+>=20
+> In the rbd cli tool documentation, the new image-spec and snap-spec are :
+>  - [pool-name/[namespace-name/]]image-name
+>  - [pool-name/[namespace-name/]]image-name@snap-name
+>=20
+> When using an non namespace's enabled qemu, it complains about not
+> finding the image called namespace-name/image-name, thus we only need to
+> parse the image once again to find if there is a '/' in its name, and if
+> there is, use what is before it as the name of the namespace to later
+> pass it to rados_ioctx_set_namespace.
+> rados_ioctx_set_namespace if called with en empty string or a null
+> pointer as the namespace parameters pretty much does nothing, as it then
+> defaults to the default namespace.
+>=20
+> The namespace is extracted inside qemu_rbd_parse_filename, stored in the
+> qdict, and used in qemu_rbd_connect to make it work with both qemu-img,
+> and qemu itself.
+>=20
+> Signed-off-by: Florian Florensa <fflorensa@online.net>
+> ---
+>  block/rbd.c          | 30 ++++++++++++++++++++++++------
+>  qapi/block-core.json |  3 +++
+>  2 files changed, 27 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/block/rbd.c b/block/rbd.c
+> index 027cbcc695..e43099fc75 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -104,6 +104,7 @@ typedef struct BDRVRBDState {
+>      rbd_image_t image;
+>      char *image_name;
+>      char *snap;
+> +    char *nspace;
+>      uint64_t image_size;
+>  } BDRVRBDState;
+> =20
+> @@ -152,7 +153,7 @@ static void qemu_rbd_parse_filename(const char *filen=
+ame, QDict *options,
+>      const char *start;
+>      char *p, *buf;
+>      QList *keypairs =3D NULL;
+> -    char *found_str;
+> +    char *found_str, *image_name;
+> =20
+>      if (!strstart(filename, "rbd:", &start)) {
+>          error_setg(errp, "File name must start with 'rbd:'");
+> @@ -171,18 +172,24 @@ static void qemu_rbd_parse_filename(const char *fil=
+ename, QDict *options,
+>      qdict_put_str(options, "pool", found_str);
+> =20
+>      if (strchr(p, '@')) {
+> -        found_str =3D qemu_rbd_next_tok(p, '@', &p);
+> -        qemu_rbd_unescape(found_str);
+> -        qdict_put_str(options, "image", found_str);
+> +        image_name =3D qemu_rbd_next_tok(p, '@', &p);
+> =20
+>          found_str =3D qemu_rbd_next_tok(p, ':', &p);
+>          qemu_rbd_unescape(found_str);
+>          qdict_put_str(options, "snapshot", found_str);
+>      } else {
+> -        found_str =3D qemu_rbd_next_tok(p, ':', &p);
+> +        image_name =3D qemu_rbd_next_tok(p, ':', &p);
+> +    }
+> +    /* Check for namespace in the image_name */
+> +    if (strchr(image_name, '/')) {
+> +        found_str =3D qemu_rbd_next_tok(image_name, '/', &image_name);
+>          qemu_rbd_unescape(found_str);
+> -        qdict_put_str(options, "image", found_str);
+> +        qdict_put_str(options, "nspace", found_str);
+> +    } else {
+> +        qdict_put_str(options, "nspace", "");
+>      }
+> +    qemu_rbd_unescape(image_name);
+> +    qdict_put_str(options, "image", image_name);
+>      if (!p) {
+>          goto done;
+>      }
+> @@ -343,6 +350,11 @@ static QemuOptsList runtime_opts =3D {
+>              .type =3D QEMU_OPT_STRING,
+>              .help =3D "Rados pool name",
+>          },
+> +        {
+> +            .name =3D "nspace",
+> +            .type =3D QEMU_OPT_STRING,
+> +            .help =3D "Rados namespace name in the pool",
+> +        },
+>          {
+>              .name =3D "image",
+>              .type =3D QEMU_OPT_STRING,
+> @@ -472,6 +484,7 @@ static int coroutine_fn qemu_rbd_co_create_opts(const=
+ char *filename,
+>      loc->has_conf =3D !!loc->conf;
+>      loc->user     =3D g_strdup(qdict_get_try_str(options, "user"));
+>      loc->has_user =3D !!loc->user;
+> +    loc->nspace   =3D g_strdup(qdict_get_try_str(options, "nspace"));
+>      loc->image    =3D g_strdup(qdict_get_try_str(options, "image"));
+>      keypairs      =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs");
+> =20
+> @@ -648,6 +661,11 @@ static int qemu_rbd_connect(rados_t *cluster, rados_=
+ioctx_t *io_ctx,
+>          error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
+>          goto failed_shutdown;
+>      }
+> +    /*
+> +     * Set the namespace after opening the io context on the pool,
+> +     * if nspace =3D=3D NULL or if nspace =3D=3D "", it is just as we di=
+d nothing
+> +     */
+> +    rados_ioctx_set_namespace(*io_ctx, opts->nspace);
+> =20
+>      return 0;
+> =20
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 0cf68fea14..9ebc020e93 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -3657,6 +3657,8 @@
+>  #
+>  # @pool:               Ceph pool name.
+>  #
+> +# @nspace:             Rados namespace name in the Ceph pool.
+> +#
 
-  - This flag is a must for all virtio-iommu emulation, right?
-    (otherwise I can't see how system bootstraps..)
+I think we need to add (Since: 5.0).
 
-  - Should this flag be gone right after OS starts (otherwise I think
-    we still have the issue that any malicious device can be seen as
-    in PT mode as default)?  How is that done?
+The patch LGTM, but I'd like to use 'namespace' instead of cryptic
+'nspace'. (as BlockdevOptionsNVMe did)
+What do you think?
+
+
+With those fixed:
+
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 Thanks,
+Stefano
 
---=20
-Peter Xu
+>  # @image:              Image name in the Ceph pool.
+>  #
+>  # @conf:               path to Ceph configuration file.  Values
+> @@ -3683,6 +3685,7 @@
+>  ##
+>  { 'struct': 'BlockdevOptionsRbd',
+>    'data': { 'pool': 'str',
+> +            'nspace': 'str',
+>              'image': 'str',
+>              '*conf': 'str',
+>              '*snapshot': 'str',
+> --=20
+> 2.24.1
+>=20
+>=20
 
 
