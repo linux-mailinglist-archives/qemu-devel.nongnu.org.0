@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6A91262C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:59:20 +0100 (CET)
-Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57842126281
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:46:52 +0100 (CET)
+Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvOh-0003t4-5I
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:59:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36573)
+	id 1ihvCc-0002NX-T2
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:46:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihusC-0000kc-Ar
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:45 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihusX-00013B-1f
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:26:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihusA-00030G-Iv
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:43 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44251
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1ihusT-0003dF-Hq
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:26:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22521
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihus8-0002xr-MF
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:40 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihusS-0003bG-T5
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:26:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758340;
+ s=mimecast20190719; t=1576758359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t7UDH8pkl4r3jOup0r+QeLxo6bRKR2Bxv6cfZ6kMSKk=;
- b=WCiY7KuUg9Em+K4SBoA+w2qLn4cPk0PuE5nKmF7TDHnCD3XexiMbjUZM96Oq7/rb4Yyuoq
- 2cyytYzG4ZfT3sOhRTLXOACRuTOFB+X4KXpDy6cIxrkyccFqHfNbRKPo9zwniEbgNO047o
- 9Qvl58IYyh0yVZ9yUZSsIfViMGS38Ws=
+ bh=d4VG0A2LeMVyZ2tnEceHhryyGS+Rkr3VA6D1UZnTY4Q=;
+ b=SH6X7FpIRt6y9Uq7F3oZqrgQfdjmhqGq/9+/IOMURPt7stIdKvZkAWF8t9Yf8S2PLqomep
+ 9g4sctPRMLlBqQHjL+YyBFL3I4WC2gqrqN7JUd3vb+c4/oqD6ljgYaaopoY7ujNd2uRsbk
+ 6VRZdgaV/86f/qOy6PNw8BGx4cMKkFw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-qgR8pb5gPQaNywiR3xrQ5A-1; Thu, 19 Dec 2019 07:25:38 -0500
+ us-mta-329-uH7uqXlPOtqb1jvAzGBApQ-1; Thu, 19 Dec 2019 07:25:50 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA05D1005516
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:25:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C61F477
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:25:49 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4396460C18;
- Thu, 19 Dec 2019 12:25:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD3BD60C18;
+ Thu, 19 Dec 2019 12:25:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 128/132] meson: replace pc-bios/keymaps/Makefile
-Date: Thu, 19 Dec 2019 13:23:48 +0100
-Message-Id: <1576758232-12439-37-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 131/132] meson: convert pc-bios/optionrom
+Date: Thu, 19 Dec 2019 13:23:51 +0100
+Message-Id: <1576758232-12439-40-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: qgR8pb5gPQaNywiR3xrQ5A-1
+X-MC-Unique: uH7uqXlPOtqb1jvAzGBApQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,214 +79,300 @@ From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build                 | 13 ++++---
- pc-bios/keymaps/Makefile    | 56 ---------------------------
- pc-bios/keymaps/meson.build | 94 +++++++++++++++++++++++++++--------------=
+ Makefile                      | 12 -------
+ configure                     | 20 +----------
+ pc-bios/meson.build           |  4 +++
+ pc-bios/optionrom/Makefile    | 77 ---------------------------------------=
 ----
- 3 files changed, 65 insertions(+), 98 deletions(-)
- delete mode 100644 pc-bios/keymaps/Makefile
+ pc-bios/optionrom/meson.build | 72 +++++++++++++++++++++++++++++++++++++++=
++
+ scripts/signrom.py            |  2 ++
+ 6 files changed, 79 insertions(+), 108 deletions(-)
+ delete mode 100644 pc-bios/optionrom/Makefile
+ create mode 100644 pc-bios/optionrom/meson.build
 
-diff --git a/meson.build b/meson.build
-index 9a5b9d9..884aa6c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -897,6 +897,14 @@ if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
+diff --git a/Makefile b/Makefile
+index 0493a3b..1bc219a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -158,18 +158,6 @@ subdir-dtc: dtc/all
+ subdir-capstone: capstone/all
+ subdir-slirp: slirp/all
+=20
+-ROM_DIRS =3D $(addprefix pc-bios/, $(ROMS))
+-ROM_DIRS_RULES=3D$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+-# Only keep -O and -g cflags
+-.PHONY: $(ROM_DIRS_RULES)
+-$(ROM_DIRS_RULES):
+-=09$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(V)=
+" TARGET_DIR=3D"$(dir $@)" CFLAGS=3D"$(filter -O% -g%,$(CFLAGS))" $(notdir =
+$@),)
+-
+-.PHONY: recurse-all recurse-clean recurse-install
+-recurse-all: $(ROM_DIRS)
+-recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
+-recurse-install:
+-
+ ######################################################################
+=20
+ COMMON_LDADDS =3D libqemuutil.a
+diff --git a/configure b/configure
+index a1b71b9..9d4974e 100755
+--- a/configure
++++ b/configure
+@@ -6156,23 +6156,6 @@ if test "$guest_agent_msi" =3D "yes"; then
+   esac
+ fi
+=20
+-# Mac OS X ships with a broken assembler
+-roms=3D
+-if { test "$cpu" =3D "i386" || test "$cpu" =3D "x86_64"; } && \
+-        test "$targetos" !=3D "Darwin" && test "$targetos" !=3D "SunOS" &&=
+ \
+-        test "$softmmu" =3D yes ; then
+-    # Different host OS linkers have different ideas about the name of the=
+ ELF
+-    # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the =
+_fbsd
+-    # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386p=
+e.
+-    for emu in elf_i386 elf_i386_fbsd elf_i386_obsd i386pe; do
+-        if "$ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$";=
+ then
+-            ld_i386_emulation=3D"$emu"
+-            roms=3D"optionrom"
+-            break
+-        fi
+-    done
+-fi
+-
+ # Probe for the need for relocating the user-only binary.
+ if ( [ "$linux_user" =3D yes ] || [ "$bsd_user" =3D yes ] ) && [ "$pie" =
+=3D no ]; then
+   textseg_addr=3D
+@@ -7302,7 +7285,6 @@ else
+ fi
+ QEMU_INCLUDES=3D"-iquote ${source_path}/tcg $QEMU_INCLUDES"
+=20
+-echo "ROMS=3D$roms" >> $config_host_mak
+ echo "MAKE=3D$make" >> $config_host_mak
+ echo "INSTALL=3D$install" >> $config_host_mak
+ echo "INSTALL_DIR=3D$install -d -m 0755" >> $config_host_mak
+@@ -7824,7 +7806,7 @@ DIRS=3D"$DIRS roms/seabios roms/vgabios"
+ LINKS=3D"Makefile"
+ LINKS=3D"$LINKS tests/tcg/lm32/Makefile po/Makefile"
+ LINKS=3D"$LINKS tests/tcg/Makefile.target tests/fp/Makefile"
+-LINKS=3D"$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
++LINKS=3D"$LINKS pc-bios/keymaps"
+ LINKS=3D"$LINKS pc-bios/s390-ccw/Makefile"
+ LINKS=3D"$LINKS roms/seabios/Makefile roms/vgabios/Makefile"
+ LINKS=3D"$LINKS pc-bios/qemu-icon.bmp"
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index 1697c55..ff1eebf 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -100,6 +100,10 @@ if dtc.found()
+   alias_target('update-dtb', t)
  endif
 =20
-+# used for the update-keymaps target
-+if xkbcommon.found()
-+  qemu_keymap =3D executable('qemu-keymap', files('qemu-keymap.c', 'ui/inp=
-ut-keymap.c'),
-+                           dependencies: [qemuutil, xkbcommon], install: h=
-ave_tools)
-+else
-+  qemu_keymap =3D disabler()
++if host_machine.cpu_family() in ['x86', 'x86_64']
++  subdir('optionrom')
 +endif
 +
- if have_tools
-   executable('qemu-img', [files('qemu-img.c'), hxdep], dependencies: [bloc=
-k, qemuutil], install: true)
-   if host_machine.system() =3D=3D 'linux' or host_machine.system() =3D=3D =
-'sunos' or host_machine.system().endswith('bsd')
-@@ -907,11 +915,6 @@ if have_tools
-   subdir('contrib/rdmacm-mux')
-   subdir('contrib/elf2dmp')
-=20
--  if xkbcommon.found()
--    executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c'),
--               dependencies: [qemuutil, xkbcommon], install: true)
--  endif
--
-   executable('qemu-edid', files('qemu-edid.c', 'hw/display/edid-generate.c=
-'),
-              dependencies: qemuutil)
-=20
-diff --git a/pc-bios/keymaps/Makefile b/pc-bios/keymaps/Makefile
+ cc =3D meson.get_compiler('c')
+ if host_machine.cpu_family() =3D=3D 's390x' and cc.has_argument('-march=3D=
+z900')
+   subdir('s390-ccw')
+diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
 deleted file mode 100644
-index 76217b0..0000000
---- a/pc-bios/keymaps/Makefile
+index 51cb6ca..0000000
+--- a/pc-bios/optionrom/Makefile
 +++ /dev/null
-@@ -1,56 +0,0 @@
+@@ -1,77 +0,0 @@
+-CURRENT_MAKEFILE :=3D $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFI=
+LE_LIST)))
+-SRC_DIR :=3D $(dir $(CURRENT_MAKEFILE))
+-TOPSRC_DIR :=3D $(SRC_DIR)/../..
+-VPATH =3D $(SRC_DIR)
 -
--KEYMAP=09:=3D $(shell which qemu-keymap 2>/dev/null)
+-all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
+-# Dummy command so that make thinks it has done something
+-=09@true
 -
--MAPS=09:=3D ar bepo cz da de de-ch en-us en-gb es et fi fo \
--=09   fr fr-be fr-ca fr-ch \
--=09   hr hu is it ja lt lv mk nl no pl pt pt-br ru th tr
+-include ../../config-host.mak
 -
--ar=09: MAP_FLAGS :=3D=09-l ar
--bepo=09: MAP_FLAGS :=3D=09-l fr -v dvorak
--cz=09: MAP_FLAGS :=3D=09-l cz
--da=09: MAP_FLAGS :=3D=09-l dk
--de=09: MAP_FLAGS :=3D=09-l de -v nodeadkeys
--de-ch=09: MAP_FLAGS :=3D=09-l ch
--en-us=09: MAP_FLAGS :=3D=09-l us
--en-gb=09: MAP_FLAGS :=3D=09-l gb
--es=09: MAP_FLAGS :=3D=09-l es
--et=09: MAP_FLAGS :=3D=09-l et
--fi=09: MAP_FLAGS :=3D=09-l fi
--fo=09: MAP_FLAGS :=3D=09-l fo
--fr=09: MAP_FLAGS :=3D=09-l fr -v nodeadkeys
--fr-be=09: MAP_FLAGS :=3D=09-l be
--fr-ca=09: MAP_FLAGS :=3D=09-l ca -v fr
--fr-ch=09: MAP_FLAGS :=3D=09-l ch -v fr
--hr=09: MAP_FLAGS :=3D=09-l hr
--hu=09: MAP_FLAGS :=3D=09-l hu
--is=09: MAP_FLAGS :=3D=09-l is
--it=09: MAP_FLAGS :=3D=09-l it
--ja=09: MAP_FLAGS :=3D=09-l jp -m jp106
--lt=09: MAP_FLAGS :=3D=09-l lt
--lv=09: MAP_FLAGS :=3D=09-l lv
--mk=09: MAP_FLAGS :=3D=09-l mk
--nl=09: MAP_FLAGS :=3D=09-l nl
--no=09: MAP_FLAGS :=3D=09-l no
--pl=09: MAP_FLAGS :=3D=09-l pl
--pt=09: MAP_FLAGS :=3D=09-l pt
--pt-br=09: MAP_FLAGS :=3D=09-l br
--ru=09: MAP_FLAGS :=3D=09-l ru
--th=09: MAP_FLAGS :=3D=09-l th
--tr=09: MAP_FLAGS :=3D=09-l tr
+-quiet-command =3D $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1=
+, @$1))
+-cc-option =3D $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/nu=
+ll 2>&1 && echo OK), $1, $2)
 -
--ifeq ($(KEYMAP),)
+-# Compiling with no optimization creates ROMs that are too large
+-ifeq ($(lastword $(filter -O%, -O0 $(CFLAGS))),-O0)
+-override CFLAGS +=3D -O2
+-endif
+-override CFLAGS +=3D -march=3Di486
 -
--all:
--=09@echo "nothing to do (qemu-keymap not found)"
+-# Flags for dependency generation
+-override CPPFLAGS +=3D -MMD -MP -MT $@ -MF $(@D)/$(*F).d
 -
--else
+-override CFLAGS +=3D $(filter -W%, $(QEMU_CFLAGS))
+-override CFLAGS +=3D $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/includ=
+e
+-override CFLAGS +=3D $(call cc-option, -fno-stack-protector)
+-override CFLAGS +=3D $(call cc-option, -m16)
 -
--all: $(MAPS)
+-ifeq ($(filter -m16, $(CFLAGS)),)
+-# Attempt to work around compilers that lack -m16 (GCC <=3D 4.8, clang <=
+=3D ??)
+-# On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
+-# respect to the rest of the code.  clang does not have -fno-toplevel-reor=
+der,
+-# but it places all asm blocks at the beginning and we're relying on it fo=
+r
+-# the option ROM header.  So just force clang not to use the integrated
+-# assembler, which doesn't support .code16gcc.
+-override CFLAGS +=3D $(call cc-option, -fno-toplevel-reorder)
+-override CFLAGS +=3D $(call cc-option, -no-integrated-as)
+-override CFLAGS +=3D -m32 -include $(SRC_DIR)/code16gcc.h
+-endif
+-
+-Wa =3D -Wa,
+-override ASFLAGS +=3D -32
+-override CFLAGS +=3D $(call cc-option, $(Wa)-32)
+-
+-
+-LD_I386_EMULATION ?=3D elf_i386
+-override LDFLAGS =3D -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
+-override LDFLAGS +=3D $(LDFLAGS_NOPIE)
+-
+-all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
+-
+-pvh.img: pvh.o pvh_main.o
+-
+-%.o: %.S
+-=09$(call quiet-command,$(CPP) $(CPPFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -=
+o $@,"AS","$@")
+-
+-%.o: %.c
+-=09$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
+-
+-%.img: %.o
+-=09$(call quiet-command,$(LD) $(LDFLAGS) -s -o $@ $^,"BUILD","$@")
+-
+-%.raw: %.img
+-=09$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$@")
+-
+-%.bin: %.raw
+-=09$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,"=
+SIGN","$@")
+-
+-include $(wildcard *.d)
 -
 -clean:
--=09rm -f $(MAPS)
+-=09rm -f *.o *.d *.raw *.img *.bin *~
 -
--$(MAPS): $(KEYMAP) Makefile
--=09$(KEYMAP) -f $@ $(MAP_FLAGS)
+-# suppress auto-removal of intermediate files
+-.SECONDARY:
 -
--endif
-diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
-index 04c2a17..99cccd7 100644
---- a/pc-bios/keymaps/meson.build
-+++ b/pc-bios/keymaps/meson.build
-@@ -1,38 +1,58 @@
--keymaps =3D [
--  'ar',
--  'bepo',
--  'cz',
--  'da',
--  'de',
--  'de-ch',
--  'en-gb',
--  'en-us',
--  'es',
--  'et',
--  'fi',
--  'fo',
--  'fr',
--  'fr-be',
--  'fr-ca',
--  'fr-ch',
--  'hr',
--  'hu',
--  'is',
--  'it',
--  'ja',
--  'lt',
--  'lv',
--  'mk',
--  'nl',
--  'no',
--  'pl',
--  'pt',
--  'pt-br',
--  'ru',
--  'sl',
--  'sv',
--  'th',
--  'tr',
--]
-+keymaps =3D {
-+  'ar': '-l ar',
-+  'bepo': '-l fr -v dvorak',
-+  'cz': '-l cz',
-+  'da': '-l dk',
-+  'de': '-l de -v nodeadkeys',
-+  'de-ch': '-l ch',
-+  'en-gb': '-l us',
-+  'en-us': '-l gb',
-+  'es': '-l es',
-+  'et': '-l et',
-+  'fi': '-l fi',
-+  'fo': '-l fo',
-+  'fr': '-l fr -v nodeadkeys',
-+  'fr-be': '-l be',
-+  'fr-ca': '-l ca -v fr',
-+  'fr-ch': '-l ch -v fr',
-+  'hr': '-l hr',
-+  'hu': '-l hu',
-+  'is': '-l is',
-+  'it': '-l it',
-+  'ja': '-l jp -m jp106',
-+  'lt': '-l lt',
-+  'lv': '-l lv',
-+  'mk': '-l mk',
-+  'nl': '-l nl',
-+  'no': '-l no',
-+  'pl': '-l pl',
-+  'pt': '-l pt',
-+  'pt-br': '-l br',
-+  'ru': '-l ru',
-+  'sl': '',
-+  'sv': '',
-+  'th': '-l th',
-+  'tr': '-l tr',
-+}
-=20
--install_data(keymaps, install_dir: config_host['qemu_datadir'] / 'keymaps'=
-)
-+install_data(keymaps.keys(), install_dir: config_host['qemu_datadir'] / 'k=
-eymaps')
+-.PHONY: all clean
+diff --git a/pc-bios/optionrom/meson.build b/pc-bios/optionrom/meson.build
+new file mode 100644
+index 0000000..5761736
+--- /dev/null
++++ b/pc-bios/optionrom/meson.build
+@@ -0,0 +1,72 @@
++cc =3D meson.get_compiler('c')
++objcopy =3D find_program('objcopy')
++signrom =3D find_program(meson.current_source_dir() / '../../scripts/signr=
+om.py')
 +
-+if meson.is_cross_build()
-+  native_qemu_keymap =3D find_program('qemu-keymap', required: false)
-+  have_qemu_keymap =3D native_qemu_keymap.found()
-+else
-+  native_qemu_keymap =3D qemu_keymap
-+  # disabler disables everything below
-+  have_qemu_keymap =3D true
-+endif
-+if have_qemu_keymap
-+  t =3D []
-+  foreach km, args: keymaps
-+    t +=3D custom_target(km,
-+                       output: km,
-+                       command: [qemu_keymap, '-f', '@OUTPUT@', args.split=
-()])
-+  endforeach
-+  if t.length() > 0
-+    alias_target('update-keymaps', t)
++emu =3D ''
++foreach e: ['elf_i386', 'elf_i386_fbsd', 'elf_i386_obsd', 'i386pe']
++  if cc.has_multi_link_arguments('-m32', '-Wl,-m' + e)
++    emu =3D e
++    break
 +  endif
++endforeach
++
++if emu =3D=3D ''
++  message('No suitable compiler/linker found to build optionrom')
++else
++  link_args =3D ['-nostdlib', '-m32', '-Wl,-m' + e]
++  link_args +=3D cc.get_supported_link_arguments('-Wl,--build-id=3Dnone')
++  if cc.has_multi_link_arguments('-fno-pie', '-no-pie')
++    link_args +=3D ['-no-pie']
++  endif
++
++  link_args +=3D '-Wl,-T' + meson.current_source_dir() / 'flat.lds'
++
++  c_args =3D ['-ffreestanding', '-march=3Di486']
++  c_args +=3D cc.get_supported_arguments('-fno-pie', '-fno-stack-protector=
+', '-m32')
++
++  # Compiling with no optimization creates ROMs that are too large
++  code16_c_args =3D ['-O2']
++  if cc.has_argument('-m16')
++    code16_c_args +=3D '-m16'
++  else
++    # Attempt to work around compilers that lack -m16 (GCC <=3D 4.8, clang=
+ <=3D ??)
++    # On GCC we add -fno-toplevel-reorder to keep the order of asm blocks =
+with
++    # respect to the rest of the code.  clang does not have -fno-toplevel-=
+reorder,
++    # but it places all asm blocks at the beginning and we're relying on i=
+t for
++    # the option ROM header.  So just force clang not to use the integrate=
+d
++    # assembler, which doesn't support .code16gcc.
++    code16_c_args +=3D cc.get_supported_arguments('-fno-toplevel-reorder',=
+ '-no-integrated-as')
++    code16_c_args +=3D ['-m32', '-include', meson.current_source_dir() / '=
+code16gcc.h']
++  endif
++
++  foreach target, opt: {
++    'multiboot': {'src': ['multiboot.S'], 'cargs': ['-m32', '-g0']},
++    'linuxboot_dma': {'src': ['linuxboot_dma.c'], 'cargs': code16_c_args},
++    'linuxboot': {'src': ['linuxboot.S']},
++    'kvmvapic': {'src': ['kvmvapic.S']},
++    'pvh': {'src': ['pvh.S', 'pvh_main.c']},
++   }
++    img =3D executable(
++      target + '.img',
++      opt['src'],
++      c_args: [c_args, opt.get('cargs', [])],
++      include_directories: include_directories('../../include'),
++      link_args: link_args,
++    )
++
++    raw =3D custom_target(
++      target + '.raw',
++      output: target + '.raw',
++      input: img,
++      command: [objcopy, '-O', 'binary', '-j', '.text', '@INPUT@', '@OUTPU=
+T@'],
++    )
++
++    bin =3D custom_target(
++      target + '.bin',
++      output: target + '.bin',
++      input: raw,
++      command: [signrom, '@INPUT@', '@OUTPUT@'],
++      build_by_default: true,
++    )
++  endforeach
 +endif
+diff --git a/scripts/signrom.py b/scripts/signrom.py
+index 313ee28..ba9ac03 100644
+--- a/scripts/signrom.py
++++ b/scripts/signrom.py
+@@ -1,3 +1,5 @@
++#!/usr/bin/env python
++
+ from __future__ import print_function
+ #
+ # Option ROM signing utility
 --=20
 1.8.3.1
 
