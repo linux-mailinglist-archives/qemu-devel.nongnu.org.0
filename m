@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19A4125935
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 02:27:23 +0100 (CET)
-Received: from localhost ([::1]:34764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2CD125911
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 02:07:28 +0100 (CET)
+Received: from localhost ([::1]:34608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihkb4-0001o5-5k
-	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 20:27:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39999)
+	id 1ihkHn-00021Z-Pj
+	for lists+qemu-devel@lfdr.de; Wed, 18 Dec 2019 20:07:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1ihkaA-0001H5-Ig
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:26:29 -0500
+ (envelope-from <yan.y.zhao@intel.com>) id 1ihkGf-0000vD-BJ
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:06:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1ihka7-0007Th-PX
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:26:26 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43867)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ihgUJ-0000lG-TS
- for qemu-devel@nongnu.org; Wed, 18 Dec 2019 16:04:08 -0500
-Received: by mail-wr1-x431.google.com with SMTP id d16so3769860wre.10
- for <qemu-devel@nongnu.org>; Wed, 18 Dec 2019 13:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0uGtrptjea9bpIoHDch8PdYtGpHBlQhBl1lOd3+EAVQ=;
- b=Ew7VirY+M7Wsq5KD7yg/tPz5+9Xtrc3P4C3HQO3gg1zNcfPmt/5cfmhBsESgOW47uQ
- dLr7ukIvWLAe0HN4h2CbnG7JLndume1sVfKbYYAacw4VAt3e7TpLh7EDdrfyGs6nvFou
- TnlXah0njkvEuwAvmcx8QcQywDtHi+9uWJ56CEZqGcQAhVbI3BYu38t2IEEsRdZ9PZz9
- F0XKsMXHJalHBvYGD0aNXcTj/BkvAzm8KGOegFL3wAPTw+WeFCJVYPWdtR0bSdugkLAx
- ECEWTEqFZicy6mYnIBPlAdqvDd8nlAq+KLOmd6KweO0g41hvln+cO1e0pZ8NaTQiE7Od
- 8CSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0uGtrptjea9bpIoHDch8PdYtGpHBlQhBl1lOd3+EAVQ=;
- b=cgu/8rXlwwaAUCQhr5IjQwYZ/LnIW4Pb7DVoW79DeP3D80Y1YDWx8EdLdT4trotRPH
- a1r4nq9JIIRFPEjYH0fhiDw/F5vEaNjwMIFCSYjLdYloqwweeOSkW4rF4xVSbdg0zugL
- YwP4mkHXdSL5sN6DpE2qRAkGIsD/RqLdnM57PWTJQTv1feoSHz0W1VoBXJLo/BVLWC0N
- YsobtdsV14qgncaOfT8eHwZ1XKXzutzjnsvVdYrJetr9ZaRpBnBc/i3W858mwVyetl1l
- 4/Vi1XhxiAKf9EgiO/0nZxsg3ae3xEKZZBD6+S4on3EQA+kpx85BGZ6mZDSnuPFwaR/F
- paQw==
-X-Gm-Message-State: APjAAAUJIcIMhNkvcb/wOjbeD7r33h+88fqLv6RaEFPLDz8vB0MNIqvq
- TpnICu8CsgQcCC+BqxFkPQy61BQhLUuXxA==
-X-Google-Smtp-Source: APXvYqwvCXl6UWw+jV/H6rpkjBt6yOvLvp/DDNL20fl8xPwhGZiWMlsKa0cfAmdLQJLoGKFjHi0P/w==
-X-Received: by 2002:a5d:4281:: with SMTP id k1mr5268598wrq.72.1576703046202;
- Wed, 18 Dec 2019 13:04:06 -0800 (PST)
-Received: from 8c859074c0ff.ant.amazon.com.com
- (bzq-109-65-2-109.red.bezeqint.net. [109.65.2.109])
- by smtp.gmail.com with ESMTPSA id a133sm3808933wme.29.2019.12.18.13.04.03
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 18 Dec 2019 13:04:05 -0800 (PST)
-From: Michael Rolnik <mrolnik@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v39 05/22] target/avr: Add instruction translation -
- Arithmetic and Logic Instructions
-Date: Wed, 18 Dec 2019 23:03:12 +0200
-Message-Id: <20191218210329.1960-6-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <20191218210329.1960-1-mrolnik@gmail.com>
-References: <20191218210329.1960-1-mrolnik@gmail.com>
+ (envelope-from <yan.y.zhao@intel.com>) id 1ihkGc-0003Al-6e
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:06:16 -0500
+Received: from mga04.intel.com ([192.55.52.120]:28593)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1ihkGb-00034H-ON
+ for qemu-devel@nongnu.org; Wed, 18 Dec 2019 20:06:14 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2019 17:06:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="248093681"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga002.fm.intel.com with ESMTP; 18 Dec 2019 17:06:03 -0800
+Date: Wed, 18 Dec 2019 19:57:49 -0500
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v10 Kernel 4/5] vfio iommu: Implementation of ioctl to
+ for dirty pages tracking.
+Message-ID: <20191219005749.GJ21868@joy-OptiPlex-7040>
+References: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
+ <1576527700-21805-5-git-send-email-kwankhede@nvidia.com>
+ <20191217051513.GE21868@joy-OptiPlex-7040>
+ <17ac4c3b-5f7c-0e52-2c2b-d847d4d4e3b1@nvidia.com>
+ <20191217095110.GH21868@joy-OptiPlex-7040>
+ <0d9604d9-3bb2-6944-9858-983366f332bb@nvidia.com>
+ <20191218010451.GI21868@joy-OptiPlex-7040>
+ <20191218200552.GX3707@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191218200552.GX3707@work-vm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,752 +65,504 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
- me@xcancerberox.com.ar, richard.henderson@linaro.org, dovgaluk@ispras.ru,
- imammedo@redhat.com, philmd@redhat.com, aleksandar.m.mail@gmail.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
-- ADD, ADC, ADIW
-- SBIW, SUB, SUBI, SBC, SBCI
-- AND, ANDI
-- OR, ORI, EOR
-- COM, NEG
-- INC, DEC
-- MUL, MULS, MULSU
-- FMUL, FMULS, FMULSU
-- DES
+On Thu, Dec 19, 2019 at 04:05:52AM +0800, Dr. David Alan Gilbert wrote:
+> * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> > On Tue, Dec 17, 2019 at 07:47:05PM +0800, Kirti Wankhede wrote:
+> > > 
+> > > 
+> > > On 12/17/2019 3:21 PM, Yan Zhao wrote:
+> > > > On Tue, Dec 17, 2019 at 05:24:14PM +0800, Kirti Wankhede wrote:
+> > > >>
+> > > >>
+> > > >> On 12/17/2019 10:45 AM, Yan Zhao wrote:
+> > > >>> On Tue, Dec 17, 2019 at 04:21:39AM +0800, Kirti Wankhede wrote:
+> > > >>>> VFIO_IOMMU_DIRTY_PAGES ioctl performs three operations:
+> > > >>>> - Start unpinned pages dirty pages tracking while migration is active and
+> > > >>>>     device is running, i.e. during pre-copy phase.
+> > > >>>> - Stop unpinned pages dirty pages tracking. This is required to stop
+> > > >>>>     unpinned dirty pages tracking if migration failed or cancelled during
+> > > >>>>     pre-copy phase. Unpinned pages tracking is clear.
+> > > >>>> - Get dirty pages bitmap. Stop unpinned dirty pages tracking and clear
+> > > >>>>     unpinned pages information on bitmap read. This ioctl returns bitmap of
+> > > >>>>     dirty pages, its user space application responsibility to copy content
+> > > >>>>     of dirty pages from source to destination during migration.
+> > > >>>>
+> > > >>>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> > > >>>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> > > >>>> ---
+> > > >>>>    drivers/vfio/vfio_iommu_type1.c | 210 ++++++++++++++++++++++++++++++++++++++--
+> > > >>>>    1 file changed, 203 insertions(+), 7 deletions(-)
+> > > >>>>
+> > > >>>> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> > > >>>> index 3f6b04f2334f..264449654d3f 100644
+> > > >>>> --- a/drivers/vfio/vfio_iommu_type1.c
+> > > >>>> +++ b/drivers/vfio/vfio_iommu_type1.c
+> > > >>>> @@ -70,6 +70,7 @@ struct vfio_iommu {
+> > > >>>>    	unsigned int		dma_avail;
+> > > >>>>    	bool			v2;
+> > > >>>>    	bool			nesting;
+> > > >>>> +	bool			dirty_page_tracking;
+> > > >>>>    };
+> > > >>>>    
+> > > >>>>    struct vfio_domain {
+> > > >>>> @@ -112,6 +113,7 @@ struct vfio_pfn {
+> > > >>>>    	dma_addr_t		iova;		/* Device address */
+> > > >>>>    	unsigned long		pfn;		/* Host pfn */
+> > > >>>>    	atomic_t		ref_count;
+> > > >>>> +	bool			unpinned;
+> > > >>>>    };
+> > > >>>>    
+> > > >>>>    struct vfio_regions {
+> > > >>>> @@ -244,6 +246,32 @@ static void vfio_remove_from_pfn_list(struct vfio_dma *dma,
+> > > >>>>    	kfree(vpfn);
+> > > >>>>    }
+> > > >>>>    
+> > > >>>> +static void vfio_remove_unpinned_from_pfn_list(struct vfio_dma *dma, bool warn)
+> > > >>>> +{
+> > > >>>> +	struct rb_node *n = rb_first(&dma->pfn_list);
+> > > >>>> +
+> > > >>>> +	for (; n; n = rb_next(n)) {
+> > > >>>> +		struct vfio_pfn *vpfn = rb_entry(n, struct vfio_pfn, node);
+> > > >>>> +
+> > > >>>> +		if (warn)
+> > > >>>> +			WARN_ON_ONCE(vpfn->unpinned);
+> > > >>>> +
+> > > >>>> +		if (vpfn->unpinned)
+> > > >>>> +			vfio_remove_from_pfn_list(dma, vpfn);
+> > > >>>> +	}
+> > > >>>> +}
+> > > >>>> +
+> > > >>>> +static void vfio_remove_unpinned_from_dma_list(struct vfio_iommu *iommu)
+> > > >>>> +{
+> > > >>>> +	struct rb_node *n = rb_first(&iommu->dma_list);
+> > > >>>> +
+> > > >>>> +	for (; n; n = rb_next(n)) {
+> > > >>>> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> > > >>>> +
+> > > >>>> +		vfio_remove_unpinned_from_pfn_list(dma, false);
+> > > >>>> +	}
+> > > >>>> +}
+> > > >>>> +
+> > > >>>>    static struct vfio_pfn *vfio_iova_get_vfio_pfn(struct vfio_dma *dma,
+> > > >>>>    					       unsigned long iova)
+> > > >>>>    {
+> > > >>>> @@ -254,13 +282,17 @@ static struct vfio_pfn *vfio_iova_get_vfio_pfn(struct vfio_dma *dma,
+> > > >>>>    	return vpfn;
+> > > >>>>    }
+> > > >>>>    
+> > > >>>> -static int vfio_iova_put_vfio_pfn(struct vfio_dma *dma, struct vfio_pfn *vpfn)
+> > > >>>> +static int vfio_iova_put_vfio_pfn(struct vfio_dma *dma, struct vfio_pfn *vpfn,
+> > > >>>> +				  bool dirty_tracking)
+> > > >>>>    {
+> > > >>>>    	int ret = 0;
+> > > >>>>    
+> > > >>>>    	if (atomic_dec_and_test(&vpfn->ref_count)) {
+> > > >>>>    		ret = put_pfn(vpfn->pfn, dma->prot);
+> > > >>> if physical page here is put, it may cause problem when pin this iova
+> > > >>> next time:
+> > > >>> vfio_iommu_type1_pin_pages {
+> > > >>>       ...
+> > > >>>       vpfn = vfio_iova_get_vfio_pfn(dma, iova);
+> > > >>>       if (vpfn) {
+> > > >>>           phys_pfn[i] = vpfn->pfn;
+> > > >>>           continue;
+> > > >>>       }
+> > > >>>       ...
+> > > >>> }
+> > > >>>
+> > > >>
+> > > >> Good point. Fixing it as:
+> > > >>
+> > > >>                   vpfn = vfio_iova_get_vfio_pfn(dma, iova);
+> > > >>                   if (vpfn) {
+> > > >> -                       phys_pfn[i] = vpfn->pfn;
+> > > >> -                       continue;
+> > > >> +                       if (vpfn->unpinned)
+> > > >> +                               vfio_remove_from_pfn_list(dma, vpfn);
+> > > > what about updating vpfn instead?
+> > > > 
+> > > 
+> > > vfio_pin_page_external() takes care of verification checks and mem lock 
+> > > accounting. I prefer to free existing and add new node with existing 
+> > > functions.
+> > > 
+> > > >> +                       else {
+> > > >> +                               phys_pfn[i] = vpfn->pfn;
+> > > >> +                               continue;
+> > > >> +                       }
+> > > >>                   }
+> > > >>
+> > > >>
+> > > >>
+> > > >>>> -		vfio_remove_from_pfn_list(dma, vpfn);
+> > > >>>> +		if (dirty_tracking)
+> > > >>>> +			vpfn->unpinned = true;
+> > > >>>> +		else
+> > > >>>> +			vfio_remove_from_pfn_list(dma, vpfn);
+> > > >>> so the unpinned pages before dirty page tracking is not treated as
+> > > >>> dirty?
+> > > >>>
+> > > >>
+> > > >> Yes. That's we agreed on previous version:
+> > > >> https://www.mail-archive.com/qemu-devel@nongnu.org/msg663157.html
+> > > >>
+> > > >>>>    	}
+> > > >>>>    	return ret;
+> > > >>>>    }
+> > > >>>> @@ -504,7 +536,7 @@ static int vfio_pin_page_external(struct vfio_dma *dma, unsigned long vaddr,
+> > > >>>>    }
+> > > >>>>    
+> > > >>>>    static int vfio_unpin_page_external(struct vfio_dma *dma, dma_addr_t iova,
+> > > >>>> -				    bool do_accounting)
+> > > >>>> +				    bool do_accounting, bool dirty_tracking)
+> > > >>>>    {
+> > > >>>>    	int unlocked;
+> > > >>>>    	struct vfio_pfn *vpfn = vfio_find_vpfn(dma, iova);
+> > > >>>> @@ -512,7 +544,10 @@ static int vfio_unpin_page_external(struct vfio_dma *dma, dma_addr_t iova,
+> > > >>>>    	if (!vpfn)
+> > > >>>>    		return 0;
+> > > >>>>    
+> > > >>>> -	unlocked = vfio_iova_put_vfio_pfn(dma, vpfn);
+> > > >>>> +	if (vpfn->unpinned)
+> > > >>>> +		return 0;
+> > > >>>> +
+> > > >>>> +	unlocked = vfio_iova_put_vfio_pfn(dma, vpfn, dirty_tracking);
+> > > >>>>    
+> > > >>>>    	if (do_accounting)
+> > > >>>>    		vfio_lock_acct(dma, -unlocked, true);
+> > > >>>> @@ -583,7 +618,8 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+> > > >>>>    
+> > > >>>>    		ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
+> > > >>>>    		if (ret) {
+> > > >>>> -			vfio_unpin_page_external(dma, iova, do_accounting);
+> > > >>>> +			vfio_unpin_page_external(dma, iova, do_accounting,
+> > > >>>> +						 false);
+> > > >>>>    			goto pin_unwind;
+> > > >>>>    		}
+> > > >>>>    	}
+> > > >>>> @@ -598,7 +634,7 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+> > > >>>>    
+> > > >>>>    		iova = user_pfn[j] << PAGE_SHIFT;
+> > > >>>>    		dma = vfio_find_dma(iommu, iova, PAGE_SIZE);
+> > > >>>> -		vfio_unpin_page_external(dma, iova, do_accounting);
+> > > >>>> +		vfio_unpin_page_external(dma, iova, do_accounting, false);
+> > > >>>>    		phys_pfn[j] = 0;
+> > > >>>>    	}
+> > > >>>>    pin_done:
+> > > >>>> @@ -632,7 +668,8 @@ static int vfio_iommu_type1_unpin_pages(void *iommu_data,
+> > > >>>>    		dma = vfio_find_dma(iommu, iova, PAGE_SIZE);
+> > > >>>>    		if (!dma)
+> > > >>>>    			goto unpin_exit;
+> > > >>>> -		vfio_unpin_page_external(dma, iova, do_accounting);
+> > > >>>> +		vfio_unpin_page_external(dma, iova, do_accounting,
+> > > >>>> +					 iommu->dirty_page_tracking);
+> > > >>>>    	}
+> > > >>>>    
+> > > >>>>    unpin_exit:
+> > > >>>> @@ -850,6 +887,88 @@ static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu)
+> > > >>>>    	return bitmap;
+> > > >>>>    }
+> > > >>>>    
+> > > >>>> +/*
+> > > >>>> + * start_iova is the reference from where bitmaping started. This is called
+> > > >>>> + * from DMA_UNMAP where start_iova can be different than iova
+> > > >>>> + */
+> > > >>>> +
+> > > >>>> +static void vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
+> > > >>>> +				  size_t size, uint64_t pgsize,
+> > > >>>> +				  dma_addr_t start_iova, unsigned long *bitmap)
+> > > >>>> +{
+> > > >>>> +	struct vfio_dma *dma;
+> > > >>>> +	dma_addr_t i = iova;
+> > > >>>> +	unsigned long pgshift = __ffs(pgsize);
+> > > >>>> +
+> > > >>>> +	while ((dma = vfio_find_dma(iommu, i, pgsize))) {
+> > > >>>> +		/* mark all pages dirty if all pages are pinned and mapped. */
+> > > >>>> +		if (dma->iommu_mapped) {
+> > > >>> This prevents pass-through devices from calling vfio_pin_pages to do
+> > > >>> fine grained log dirty.
+> > > >>
+> > > >> Yes, I mentioned that in yet TODO item in cover letter:
+> > > >>
+> > > >> "If IOMMU capable device is present in the container, then all pages are
+> > > >> marked dirty. Need to think smart way to know if IOMMU capable device's
+> > > >> driver is smart to report pages to be marked dirty by pinning those
+> > > >> pages externally."
+> > > >>
+> > > > why not just check first if any vpfn present for IOMMU capable devices?
+> > > > 
+> > > 
+> > > vfio_pin_pages(dev, ...) calls driver->ops->pin_pages(iommu, ...)
+> > > 
+> > > In vfio_iommu_type1 module, vfio_iommu_type1_pin_pages() doesn't know 
+> > > the device. vpfn are tracked against container->iommu, not against 
+> > > device. Need to think of smart way to know if devices in container are 
+> > > all smart which report pages dirty ny pinning those pages manually.
+> > >
+> > I believe in such case, the mdev on top of device is in the same iommu
+> > group (i.e. 1:1 mdev on top of device).
+> > device vendor driver calls vfio_pin_pages to notify vfio which pages are dirty. 
+> > > 
+> > > >>
+> > > >>>> +			dma_addr_t iova_limit;
+> > > >>>> +
+> > > >>>> +			iova_limit = (dma->iova + dma->size) < (iova + size) ?
+> > > >>>> +				     (dma->iova + dma->size) : (iova + size);
+> > > >>>> +
+> > > >>>> +			for (; i < iova_limit; i += pgsize) {
+> > > >>>> +				unsigned int start;
+> > > >>>> +
+> > > >>>> +				start = (i - start_iova) >> pgshift;
+> > > >>>> +
+> > > >>>> +				__bitmap_set(bitmap, start, 1);
+> > > >>>> +			}
+> > > >>>> +			if (i >= iova + size)
+> > > >>>> +				return;
+> > > >>>> +		} else {
+> > > >>>> +			struct rb_node *n = rb_first(&dma->pfn_list);
+> > > >>>> +			bool found = false;
+> > > >>>> +
+> > > >>>> +			for (; n; n = rb_next(n)) {
+> > > >>>> +				struct vfio_pfn *vpfn = rb_entry(n,
+> > > >>>> +							struct vfio_pfn, node);
+> > > >>>> +				if (vpfn->iova >= i) {
+> > > >>>> +					found = true;
+> > > >>>> +					break;
+> > > >>>> +				}
+> > > >>>> +			}
+> > > >>>> +
+> > > >>>> +			if (!found) {
+> > > >>>> +				i += dma->size;
+> > > >>>> +				continue;
+> > > >>>> +			}
+> > > >>>> +
+> > > >>>> +			for (; n; n = rb_next(n)) {
+> > > >>>> +				unsigned int start;
+> > > >>>> +				struct vfio_pfn *vpfn = rb_entry(n,
+> > > >>>> +							struct vfio_pfn, node);
+> > > >>>> +
+> > > >>>> +				if (vpfn->iova >= iova + size)
+> > > >>>> +					return;
+> > > >>>> +
+> > > >>>> +				start = (vpfn->iova - start_iova) >> pgshift;
+> > > >>>> +
+> > > >>>> +				__bitmap_set(bitmap, start, 1);
+> > > >>>> +
+> > > >>>> +				i = vpfn->iova + pgsize;
+> > > >>>> +			}
+> > > >>>> +		}
+> > > >>>> +		vfio_remove_unpinned_from_pfn_list(dma, false);
+> > > >>>> +	}
+> > > >>>> +}
+> > > >>>> +
+> > > >>>> +static long verify_bitmap_size(unsigned long npages, unsigned long bitmap_size)
+> > > >>>> +{
+> > > >>>> +	long bsize;
+> > > >>>> +
+> > > >>>> +	if (!bitmap_size || bitmap_size > SIZE_MAX)
+> > > >>>> +		return -EINVAL;
+> > > >>>> +
+> > > >>>> +	bsize = ALIGN(npages, BITS_PER_LONG) / sizeof(unsigned long);
+> > > >>>> +
+> > > >>>> +	if (bitmap_size < bsize)
+> > > >>>> +		return -EINVAL;
+> > > >>>> +
+> > > >>>> +	return bsize;
+> > > >>>> +}
+> > > >>>> +
+> > > >>>>    static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+> > > >>>>    			     struct vfio_iommu_type1_dma_unmap *unmap)
+> > > >>>>    {
+> > > >>>> @@ -2298,6 +2417,83 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+> > > >>>>    
+> > > >>>>    		return copy_to_user((void __user *)arg, &unmap, minsz) ?
+> > > >>>>    			-EFAULT : 0;
+> > > >>>> +	} else if (cmd == VFIO_IOMMU_DIRTY_PAGES) {
+> > > >>>> +		struct vfio_iommu_type1_dirty_bitmap range;
+> > > >>>> +		uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
+> > > >>>> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP |
+> > > >>>> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
+> > > >>>> +		int ret;
+> > > >>>> +
+> > > >>>> +		if (!iommu->v2)
+> > > >>>> +			return -EACCES;
+> > > >>>> +
+> > > >>>> +		minsz = offsetofend(struct vfio_iommu_type1_dirty_bitmap,
+> > > >>>> +				    bitmap);
+> > > >>>> +
+> > > >>>> +		if (copy_from_user(&range, (void __user *)arg, minsz))
+> > > >>>> +			return -EFAULT;
+> > > >>>> +
+> > > >>>> +		if (range.argsz < minsz || range.flags & ~mask)
+> > > >>>> +			return -EINVAL;
+> > > >>>> +
+> > > >>>> +		if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
+> > > >>>> +			iommu->dirty_page_tracking = true;
+> > > >>>> +			return 0;
+> > > >>>> +		} else if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
+> > > >>>> +			iommu->dirty_page_tracking = false;
+> > > >>>> +
+> > > >>>> +			mutex_lock(&iommu->lock);
+> > > >>>> +			vfio_remove_unpinned_from_dma_list(iommu);
+> > > >>>> +			mutex_unlock(&iommu->lock);
+> > > >>>> +			return 0;
+> > > >>>> +
+> > > >>>> +		} else if (range.flags &
+> > > >>>> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
+> > > >>>> +			uint64_t iommu_pgmask;
+> > > >>>> +			unsigned long pgshift = __ffs(range.pgsize);
+> > > >>>> +			unsigned long *bitmap;
+> > > >>>> +			long bsize;
+> > > >>>> +
+> > > >>>> +			iommu_pgmask =
+> > > >>>> +			 ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
+> > > >>>> +
+> > > >>>> +			if (((range.pgsize - 1) & iommu_pgmask) !=
+> > > >>>> +			    (range.pgsize - 1))
+> > > >>>> +				return -EINVAL;
+> > > >>>> +
+> > > >>>> +			if (range.iova & iommu_pgmask)
+> > > >>>> +				return -EINVAL;
+> > > >>>> +			if (!range.size || range.size > SIZE_MAX)
+> > > >>>> +				return -EINVAL;
+> > > >>>> +			if (range.iova + range.size < range.iova)
+> > > >>>> +				return -EINVAL;
+> > > >>>> +
+> > > >>>> +			bsize = verify_bitmap_size(range.size >> pgshift,
+> > > >>>> +						   range.bitmap_size);
+> > > >>>> +			if (bsize)
+> > > >>>> +				return ret;
+> > > >>>> +
+> > > >>>> +			bitmap = kmalloc(bsize, GFP_KERNEL);
+> > > >>>> +			if (!bitmap)
+> > > >>>> +				return -ENOMEM;
+> > > >>>> +
+> > > >>>> +			ret = copy_from_user(bitmap,
+> > > >>>> +			     (void __user *)range.bitmap, bsize) ? -EFAULT : 0;
+> > > >>>> +			if (ret)
+> > > >>>> +				goto bitmap_exit;
+> > > >>>> +
+> > > >>>> +			iommu->dirty_page_tracking = false;
+> > > >>> why iommu->dirty_page_tracking is false here?
+> > > >>> suppose this ioctl can be called several times.
+> > > >>>
+> > > >>
+> > > >> This ioctl can be called several times, but once this ioctl is called
+> > > >> that means vCPUs are stopped and VFIO devices are stopped (i.e. in
+> > > >> stop-and-copy phase) and dirty pages bitmap are being queried by user.
+> > > >>
+> > > > can't agree that VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP can only be
+> > > > called in stop-and-copy phase.
+> > > > As stated in last version, this will cause QEMU to get a wrong expectation
+> > > > of VM downtime and this is also the reason for previously pinned pages
+> > > > before log_sync cannot be treated as dirty. If this get bitmap ioctl can
+> > > > be called early in save_setup phase, then it's no problem even all ram
+> > > > is dirty.
+> > > > 
+> > > 
+> > > Device can also write to pages which are pinned, and then there is no 
+> > > way to know pages dirtied by device during pre-copy phase.
+> > > If user ask dirty bitmap in per-copy phase, even then user will have to 
+> > > query dirty bitmap in stop-and-copy phase where this will be superset 
+> > > including all pages reported during pre-copy. Then instead of copying 
+> > > all pages twice, its better to do it once during stop-and-copy phase.
+> > >
+> > I think the flow should be like this:
+> > 1. save_setup --> GET_BITMAP ioctl --> return bitmap for currently + previously
+> > pinned pages and clean all previously pinned pages
+> > 
+> > 2. save_pending --> GET_BITMAP ioctl  --> return bitmap of (currently
+> > pinned pages + previously pinned pages since last clean) and clean all
+> > previously pinned pages
+> > 
+> > 3. save_complete_precopy --> GET_BITMAP ioctl --> return bitmap of (currently
+> > pinned pages + previously pinned pages since last clean) and clean all
+> > previously pinned pages
+> > 
+> > 
+> > Copying pinned pages multiple times is unavoidable because those pinned pages
+> > are always treated as dirty. That's per vendor's implementation.
+> > But if the pinned pages are not reported as dirty before stop-and-copy phase,
+> > QEMU would think dirty pages has converged
+> > and enter blackout phase, making downtime_limit severely incorrect.
+> 
+> I'm not sure it's any worse.
+> I *think* we do a last sync after we've decided to go to stop-and-copy;
+> wont that then mark all those pages as dirty again, so it'll have the
+> same behaviour?
+No. something will be different.
+currently, in kirti's implementation, if GET_BITMAP ioctl is called only
+once in stop-and-copy phase, then before that phase, QEMU does not know those
+pages are dirty. 
+If we can report those dirty pages earlier before stop-and-copy phase,
+QEMU can at least copy other pages to reduce dirty pages to below threshold.
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- target/avr/translate.c | 714 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 714 insertions(+)
+Take a example, let's assume those vfio dirty pages is 1Gb, and network speed is
+also 1Gb. Expected vm downtime is 1s.
+If before stop-and-copy phase, dirty pages produced by other pages is
+also 1Gb. To meet the expected vm downtime, QEMU should copy pages to
+let dirty pages be less than 1Gb, otherwise, it should not complete live
+migration.
+If vfio does not report this 1Gb dirty pages, QEMU would think there's
+only 1Gb and stop the vm. It would then find out there's actually 2Gb and vm
+downtime is 2s.
+Though the expected vm downtime is always not exactly the same as the
+true vm downtime, it should be caused by rapid dirty page rate, which is
+not predictable.
+Right?
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 0139bcabb1..b8867e3b65 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -141,3 +141,717 @@ static bool avr_have_feature(DisasContext *ctx, int feature)
- static bool decode_insn(DisasContext *ctx, uint16_t insn);
- #include "decode_insn.inc.c"
- 
-+/*
-+ * Arithmetic Instructions
-+ */
-+
-+static void gen_add_CHf(TCGv R, TCGv Rd, TCGv Rr)
-+{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
-+    TCGv t3 = tcg_temp_new_i32();
-+
-+    tcg_gen_and_tl(t1, Rd, Rr); /* t1 = Rd & Rr */
-+    tcg_gen_andc_tl(t2, Rd, R); /* t2 = Rd & ~R */
-+    tcg_gen_andc_tl(t3, Rr, R); /* t3 = Rr & ~R */
-+    tcg_gen_or_tl(t1, t1, t2); /* t1 = t1 | t2 | t3 */
-+    tcg_gen_or_tl(t1, t1, t3);
-+    tcg_gen_shri_tl(cpu_Cf, t1, 7); /* Cf = t1(7) */
-+    tcg_gen_shri_tl(cpu_Hf, t1, 3); /* Hf = t1(3) */
-+    tcg_gen_andi_tl(cpu_Hf, cpu_Hf, 1);
-+
-+    tcg_temp_free_i32(t3);
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
-+}
-+
-+
-+static void gen_add_Vf(TCGv R, TCGv Rd, TCGv Rr)
-+{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
-+
-+    /* t1 = Rd & Rr & ~R | ~Rd & ~Rr & R */
-+    /*    = (Rd ^ R) & ~(Rd ^ Rr) */
-+    tcg_gen_xor_tl(t1, Rd, R);
-+    tcg_gen_xor_tl(t2, Rd, Rr);
-+    tcg_gen_andc_tl(t1, t1, t2);
-+    tcg_gen_shri_tl(cpu_Vf, t1, 7); /* Vf = t1(7) */
-+
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
-+}
-+
-+
-+static void gen_sub_CHf(TCGv R, TCGv Rd, TCGv Rr)
-+{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
-+    TCGv t3 = tcg_temp_new_i32();
-+
-+    tcg_gen_not_tl(t1, Rd); /* t1 = ~Rd */
-+    tcg_gen_and_tl(t2, t1, Rr); /* t2 = ~Rd & Rr */
-+    tcg_gen_or_tl(t3, t1, Rr); /* t3 = (~Rd | Rr) & R */
-+    tcg_gen_and_tl(t3, t3, R);
-+    tcg_gen_or_tl(t2, t2, t3); /* t2 = ~Rd & Rr | ~Rd & R | R & Rr */
-+    tcg_gen_shri_tl(cpu_Cf, t2, 7); /* Cf = t2(7) */
-+    tcg_gen_shri_tl(cpu_Hf, t2, 3); /* Hf = t2(3) */
-+    tcg_gen_andi_tl(cpu_Hf, cpu_Hf, 1);
-+
-+    tcg_temp_free_i32(t3);
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
-+}
-+
-+
-+static void gen_sub_Vf(TCGv R, TCGv Rd, TCGv Rr)
-+{
-+    TCGv t1 = tcg_temp_new_i32();
-+    TCGv t2 = tcg_temp_new_i32();
-+
-+    /* t1 = Rd & ~Rr & ~R | ~Rd & Rr & R */
-+    /*    = (Rd ^ R) & (Rd ^ R) */
-+    tcg_gen_xor_tl(t1, Rd, R);
-+    tcg_gen_xor_tl(t2, Rd, Rr);
-+    tcg_gen_and_tl(t1, t1, t2);
-+    tcg_gen_shri_tl(cpu_Vf, t1, 7); /* Vf = t1(7) */
-+
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
-+}
-+
-+
-+static void gen_NSf(TCGv R)
-+{
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
-+}
-+
-+
-+static void gen_ZNSf(TCGv R)
-+{
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
-+}
-+
-+/*
-+ *  Adds two registers without the C Flag and places the result in the
-+ *  destination register Rd.
-+ */
-+static bool trans_ADD(DisasContext *ctx, arg_ADD *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_add_tl(R, Rd, Rr); /* Rd = Rd + Rr */
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+    gen_add_CHf(R, Rd, Rr);
-+    gen_add_Vf(R, Rd, Rr);
-+    gen_ZNSf(R);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Adds two registers and the contents of the C Flag and places the result in
-+ *  the destination register Rd.
-+ */
-+static bool trans_ADC(DisasContext *ctx, arg_ADC *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_add_tl(R, Rd, Rr); /* R = Rd + Rr + Cf */
-+    tcg_gen_add_tl(R, R, cpu_Cf);
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+    gen_add_CHf(R, Rd, Rr);
-+    gen_add_Vf(R, Rd, Rr);
-+    gen_ZNSf(R);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Adds an immediate value (0 - 63) to a register pair and places the result
-+ *  in the register pair. This instruction operates on the upper four register
-+ *  pairs, and is well suited for operations on the pointer registers.  This
-+ *  instruction is not available in all devices. Refer to the device specific
-+ *  instruction set summary.
-+ */
-+static bool trans_ADIW(DisasContext *ctx, arg_ADIW *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_ADIW_SBIW)) {
-+        return true;
-+    }
-+
-+    TCGv RdL = cpu_r[a->rd];
-+    TCGv RdH = cpu_r[a->rd + 1];
-+    int Imm = (a->imm);
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv Rd = tcg_temp_new_i32();
-+
-+    tcg_gen_deposit_tl(Rd, RdL, RdH, 8, 8); /* Rd = RdH:RdL */
-+    tcg_gen_addi_tl(R, Rd, Imm); /* R = Rd + Imm */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+
-+    tcg_gen_andc_tl(cpu_Cf, Rd, R); /* Cf = Rd & ~R */
-+    tcg_gen_shri_tl(cpu_Cf, cpu_Cf, 15);
-+    tcg_gen_andc_tl(cpu_Vf, R, Rd); /* Vf = R & ~Rd */
-+    tcg_gen_shri_tl(cpu_Vf, cpu_Vf, 15);
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shri_tl(cpu_Nf, R, 15); /* Nf = R(15) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf);/* Sf = Nf ^ Vf */
-+    tcg_gen_andi_tl(RdL, R, 0xff);
-+    tcg_gen_shri_tl(RdH, R, 8);
-+
-+    tcg_temp_free_i32(Rd);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Subtracts two registers and places the result in the destination
-+ *  register Rd.
-+ */
-+static bool trans_SUB(DisasContext *ctx, arg_SUB *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr */
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+    gen_sub_CHf(R, Rd, Rr);
-+    gen_sub_Vf(R, Rd, Rr);
-+    gen_ZNSf(R);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Subtracts a register and a constant and places the result in the
-+ *  destination register Rd. This instruction is working on Register R16 to R31
-+ *  and is very well suited for operations on the X, Y, and Z-pointers.
-+ */
-+static bool trans_SUBI(DisasContext *ctx, arg_SUBI *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = tcg_const_i32(a->imm);
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Imm */
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+    gen_sub_CHf(R, Rd, Rr);
-+    gen_sub_Vf(R, Rd, Rr);
-+    gen_ZNSf(R);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+    tcg_temp_free_i32(Rr);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Subtracts two registers and subtracts with the C Flag and places the
-+ *  result in the destination register Rd.
-+ */
-+static bool trans_SBC(DisasContext *ctx, arg_SBC *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv zero = tcg_const_i32(0);
-+
-+    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
-+    tcg_gen_sub_tl(R, R, cpu_Cf);
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+    gen_sub_CHf(R, Rd, Rr);
-+    gen_sub_Vf(R, Rd, Rr);
-+    gen_NSf(R);
-+
-+    /*
-+     * Previous value remains unchanged when the result is zero;
-+     * cleared otherwise.
-+     */
-+    tcg_gen_movcond_tl(TCG_COND_EQ, cpu_Zf, R, zero, cpu_Zf, zero);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(zero);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  SBCI -- Subtract Immediate with Carry
-+ */
-+static bool trans_SBCI(DisasContext *ctx, arg_SBCI *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = tcg_const_i32(a->imm);
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv zero = tcg_const_i32(0);
-+
-+    tcg_gen_sub_tl(R, Rd, Rr); /* R = Rd - Rr - Cf */
-+    tcg_gen_sub_tl(R, R, cpu_Cf);
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+    gen_sub_CHf(R, Rd, Rr);
-+    gen_sub_Vf(R, Rd, Rr);
-+    gen_NSf(R);
-+
-+    /*
-+     * Previous value remains unchanged when the result is zero;
-+     * cleared otherwise.
-+     */
-+    tcg_gen_movcond_tl(TCG_COND_EQ, cpu_Zf, R, zero, cpu_Zf, zero);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(zero);
-+    tcg_temp_free_i32(R);
-+    tcg_temp_free_i32(Rr);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Subtracts an immediate value (0-63) from a register pair and places the
-+ *  result in the register pair. This instruction operates on the upper four
-+ *  register pairs, and is well suited for operations on the Pointer Registers.
-+ *  This instruction is not available in all devices. Refer to the device
-+ *  specific instruction set summary.
-+ */
-+static bool trans_SBIW(DisasContext *ctx, arg_SBIW *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_ADIW_SBIW)) {
-+        return true;
-+    }
-+
-+    TCGv RdL = cpu_r[a->rd];
-+    TCGv RdH = cpu_r[a->rd + 1];
-+    int Imm = (a->imm);
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv Rd = tcg_temp_new_i32();
-+
-+    tcg_gen_deposit_tl(Rd, RdL, RdH, 8, 8); /* Rd = RdH:RdL */
-+    tcg_gen_subi_tl(R, Rd, Imm); /* R = Rd - Imm */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+    tcg_gen_andc_tl(cpu_Cf, R, Rd);
-+    tcg_gen_shri_tl(cpu_Cf, cpu_Cf, 15); /* Cf = R & ~Rd */
-+    tcg_gen_andc_tl(cpu_Vf, Rd, R);
-+    tcg_gen_shri_tl(cpu_Vf, cpu_Vf, 15); /* Vf = Rd & ~R */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shri_tl(cpu_Nf, R, 15); /* Nf = R(15) */
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
-+    tcg_gen_andi_tl(RdL, R, 0xff);
-+    tcg_gen_shri_tl(RdH, R, 8);
-+
-+    tcg_temp_free_i32(Rd);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical AND between the contents of register Rd and register
-+ *  Rr and places the result in the destination register Rd.
-+ */
-+static bool trans_AND(DisasContext *ctx, arg_AND *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_and_tl(R, Rd, Rr); /* Rd = Rd and Rr */
-+    tcg_gen_movi_tl(cpu_Vf, 0); /* Vf = 0 */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    gen_ZNSf(R);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical AND between the contents of register Rd and a constant
-+ *  and places the result in the destination register Rd.
-+ */
-+static bool trans_ANDI(DisasContext *ctx, arg_ANDI *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    int Imm = (a->imm);
-+
-+    tcg_gen_andi_tl(Rd, Rd, Imm); /* Rd = Rd & Imm */
-+    tcg_gen_movi_tl(cpu_Vf, 0x00); /* Vf = 0 */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical OR between the contents of register Rd and register
-+ *  Rr and places the result in the destination register Rd.
-+ */
-+static bool trans_OR(DisasContext *ctx, arg_OR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_or_tl(R, Rd, Rr);
-+    tcg_gen_movi_tl(cpu_Vf, 0);
-+    gen_ZNSf(R);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical OR between the contents of register Rd and a
-+ *  constant and places the result in the destination register Rd.
-+ */
-+static bool trans_ORI(DisasContext *ctx, arg_ORI *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    int Imm = (a->imm);
-+
-+    tcg_gen_ori_tl(Rd, Rd, Imm); /* Rd = Rd | Imm */
-+    tcg_gen_movi_tl(cpu_Vf, 0x00); /* Vf = 0 */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Performs the logical EOR between the contents of register Rd and
-+ *  register Rr and places the result in the destination register Rd.
-+ */
-+static bool trans_EOR(DisasContext *ctx, arg_EOR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+
-+    tcg_gen_xor_tl(Rd, Rd, Rr);
-+    tcg_gen_movi_tl(cpu_Vf, 0);
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Clears the specified bits in register Rd. Performs the logical AND
-+ *  between the contents of register Rd and the complement of the constant mask
-+ *  K. The result will be placed in register Rd.
-+ */
-+static bool trans_COM(DisasContext *ctx, arg_COM *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_xori_tl(Rd, Rd, 0xff);
-+    tcg_gen_movi_tl(cpu_Cf, 1); /* Cf = 1 */
-+    tcg_gen_movi_tl(cpu_Vf, 0); /* Vf = 0 */
-+    gen_ZNSf(Rd);
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Replaces the contents of register Rd with its two's complement; the
-+ *  value $80 is left unchanged.
-+ */
-+static bool trans_NEG(DisasContext *ctx, arg_NEG *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_const_i32(0);
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_sub_tl(R, t0, Rd); /* R = 0 - Rd */
-+    tcg_gen_andi_tl(R, R, 0xff); /* make it 8 bits */
-+    gen_sub_CHf(R, t0, Rd);
-+    gen_sub_Vf(R, t0, Rd);
-+    gen_ZNSf(R);
-+    tcg_gen_mov_tl(Rd, R);
-+
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Adds one -1- to the contents of register Rd and places the result in the
-+ *  destination register Rd.  The C Flag in SREG is not affected by the
-+ *  operation, thus allowing the INC instruction to be used on a loop counter in
-+ *  multiple-precision computations.  When operating on unsigned numbers, only
-+ *  BREQ and BRNE branches can be expected to perform consistently. When
-+ *  operating on two's complement values, all signed branches are available.
-+ */
-+static bool trans_INC(DisasContext *ctx, arg_INC *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+
-+    tcg_gen_addi_tl(Rd, Rd, 1);
-+    tcg_gen_andi_tl(Rd, Rd, 0xff);
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Vf, Rd, 0x80); /* Vf = Rd == 0x80 */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Subtracts one -1- from the contents of register Rd and places the result
-+ *  in the destination register Rd.  The C Flag in SREG is not affected by the
-+ *  operation, thus allowing the DEC instruction to be used on a loop counter in
-+ *  multiple-precision computations.  When operating on unsigned values, only
-+ *  BREQ and BRNE branches can be expected to perform consistently.  When
-+ *  operating on two's complement values, all signed branches are available.
-+ */
-+static bool trans_DEC(DisasContext *ctx, arg_DEC *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+
-+    tcg_gen_subi_tl(Rd, Rd, 1); /* Rd = Rd - 1 */
-+    tcg_gen_andi_tl(Rd, Rd, 0xff); /* make it 8 bits */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Vf, Rd, 0x7f); /* Vf = Rd == 0x7f */
-+    gen_ZNSf(Rd);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit unsigned multiplication.
-+ */
-+static bool trans_MUL(DisasContext *ctx, arg_MUL *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_mul_tl(R, Rd, Rr); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication.
-+ */
-+static bool trans_MULS(DisasContext *ctx, arg_MULS *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_ext8s_tl(t1, Rr); /* make Rr full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, t1); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit multiplication of a
-+ *  signed and an unsigned number.
-+ */
-+static bool trans_MULSU(DisasContext *ctx, arg_MULSU *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, Rr); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make R 16 bits */
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit unsigned
-+ *  multiplication and shifts the result one bit left.
-+ */
-+static bool trans_FMUL(DisasContext *ctx, arg_FMUL *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+
-+    tcg_gen_mul_tl(R, Rd, Rr); /* R = Rd * Rr */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shli_tl(R, R, 1);
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_andi_tl(R1, R1, 0xff);
-+
-+
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication
-+ *  and shifts the result one bit left.
-+ */
-+static bool trans_FMULS(DisasContext *ctx, arg_FMULS *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_ext8s_tl(t1, Rr); /* make Rr full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, t1); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shli_tl(R, R, 1);
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_andi_tl(R1, R1, 0xff);
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  This instruction performs 8-bit x 8-bit -> 16-bit signed multiplication
-+ *  and shifts the result one bit left.
-+ */
-+static bool trans_FMULSU(DisasContext *ctx, arg_FMULSU *a)
-+{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_MUL)) {
-+        return true;
-+    }
-+
-+    TCGv R0 = cpu_r[0];
-+    TCGv R1 = cpu_r[1];
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv Rr = cpu_r[a->rr];
-+    TCGv R = tcg_temp_new_i32();
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext8s_tl(t0, Rd); /* make Rd full 32 bit signed */
-+    tcg_gen_mul_tl(R, t0, Rr); /* R = Rd * Rr */
-+    tcg_gen_andi_tl(R, R, 0xffff); /* make it 16 bits */
-+    tcg_gen_shri_tl(cpu_Cf, R, 15); /* Cf = R(15) */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shli_tl(R, R, 1);
-+    tcg_gen_andi_tl(R0, R, 0xff);
-+    tcg_gen_shri_tl(R1, R, 8);
-+    tcg_gen_andi_tl(R1, R1, 0xff);
-+
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(R);
-+
-+    return true;
-+}
-+
-+/*
-+ *  The module is an instruction set extension to the AVR CPU, performing
-+ *  DES iterations. The 64-bit data block (plaintext or ciphertext) is placed in
-+ *  the CPU register file, registers R0-R7, where LSB of data is placed in LSB
-+ *  of R0 and MSB of data is placed in MSB of R7. The full 64-bit key (including
-+ *  parity bits) is placed in registers R8- R15, organized in the register file
-+ *  with LSB of key in LSB of R8 and MSB of key in MSB of R15. Executing one DES
-+ *  instruction performs one round in the DES algorithm. Sixteen rounds must be
-+ *  executed in increasing order to form the correct DES ciphertext or
-+ *  plaintext. Intermediate results are stored in the register file (R0-R15)
-+ *  after each DES instruction. The instruction's operand (K) determines which
-+ *  round is executed, and the half carry flag (H) determines whether encryption
-+ *  or decryption is performed.  The DES algorithm is described in
-+ *  "Specifications for the Data Encryption Standard" (Federal Information
-+ *  Processing Standards Publication 46). Intermediate results in this
-+ *  implementation differ from the standard because the initial permutation and
-+ *  the inverse initial permutation are performed each iteration. This does not
-+ *  affect the result in the final ciphertext or plaintext, but reduces
-+ *  execution time.
-+ */
-+static bool trans_DES(DisasContext *ctx, arg_DES *a)
-+{
-+    /* TODO */
-+    if (!avr_have_feature(ctx, AVR_FEATURE_DES)) {
-+        return true;
-+    }
-+
-+    return true;
-+}
--- 
-2.17.2 (Apple Git-113)
+Thanks
+Yan
 
+
+
+> Anyway, it seems wrong to repeatedly send pages that you know are
+> pointless - but that probably means we need a way to mark those somehow
+> to avoid it.
+> 
+> Dave
+> 
+> > Thanks
+> > Yan
+> > 
+> > > >>>> +			mutex_lock(&iommu->lock);
+> > > >>>> +			vfio_iova_dirty_bitmap(iommu, range.iova, range.size,
+> > > >>>> +					     range.pgsize, range.iova, bitmap);
+> > > >>>> +			mutex_unlock(&iommu->lock);
+> > > >>>> +
+> > > >>>> +			ret = copy_to_user((void __user *)range.bitmap, bitmap,
+> > > >>>> +					   range.bitmap_size) ? -EFAULT : 0;
+> > > >>>> +bitmap_exit:
+> > > >>>> +			kfree(bitmap);
+> > > >>>> +			return ret;
+> > > >>>> +		}
+> > > >>>>    	}
+> > > >>>>    
+> > > >>>>    	return -ENOTTY;
+> > > >>>> -- 
+> > > >>>> 2.7.0
+> > > >>>>
+> > 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
 
