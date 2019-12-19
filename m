@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B611E126574
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:12:40 +0100 (CET)
-Received: from localhost ([::1]:43434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1147D12657A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:15:25 +0100 (CET)
+Received: from localhost ([::1]:43474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxTj-0004g5-NB
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:12:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
+	id 1ihxWN-00006c-O6
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:15:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mprivozn@redhat.com>) id 1ihxSg-00049H-Sn
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:11:35 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ihxTe-00058R-P3
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:12:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mprivozn@redhat.com>) id 1ihxSe-00010F-Gx
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:11:34 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30468
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1ihxTb-0005pP-OC
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:12:34 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42331
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1ihxSe-0000vz-9o
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:11:32 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihxTZ-0005oa-QE
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:12:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576768291;
+ s=mimecast20190719; t=1576768347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C7czjTp7x/yiEPS+02pmTgXC092Pnw48urUtOrypPCw=;
- b=NSyrqQibvnj+RzrqnKWKPOfiiIYP2qWJbpyHkvz88uQUor3z7qOs1e4JbRKkSKTiYH3tsA
- E9IJ/gcM2WLC7FfbCXqQ+sBt192SO5CppLXFwzdhVsoMCE4WgnarxOdljpkwQfDpd3me47
- XNjjYPDv2VG19H+J9iH1R9oXjXLZJh0=
+ bh=6LCoPZ0ez041qk/fHC9tNbysyUQKyQN+XnRJpzHZTCw=;
+ b=iCd1IIc2cPpAoUOSBZ4SjmAq3Ic99VTbP8u68lGF28VhqRsCcPLGNt9Y248eANQhpEGyz4
+ hS2ZLhISvLNkL1hsdpg4MaTcgCjpL/3Rh4fh/pVaZkV3ca5PcIHKQFSknAz3LdMgwaM13h
+ zKfcVSXfHm1Qflz0MB/3WLAGZeh4jPY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-siBpZ25pOpiIhqluqGxtgg-1; Thu, 19 Dec 2019 10:11:26 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-11-7iPn_yUEP3mceYi19jwL8w-1; Thu, 19 Dec 2019 10:12:22 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59CC910C6229;
- Thu, 19 Dec 2019 15:11:24 +0000 (UTC)
-Received: from [10.40.204.155] (ovpn-204-155.brq.redhat.com [10.40.204.155])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEC1669416;
- Thu, 19 Dec 2019 15:11:22 +0000 (UTC)
-Subject: Re: [PATCH v4 21/24] nvme: support multiple namespaces
-To: Klaus Jensen <k.jensen@samsung.com>, qemu-block@nongnu.org
-References: <20191219130921.309264-1-k.jensen@samsung.com>
- <CGME20191219130948eucas1p2cfed0da65071fd76446daecbb217e86e@eucas1p2.samsung.com>
- <20191219130921.309264-22-k.jensen@samsung.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-Message-ID: <6f2fe19f-c832-032a-e898-cbe385f709ac@redhat.com>
-Date: Thu, 19 Dec 2019 16:11:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F22058D8A38;
+ Thu, 19 Dec 2019 15:12:20 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-53.ams2.redhat.com [10.36.117.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 638AC10013A7;
+ Thu, 19 Dec 2019 15:12:10 +0000 (UTC)
+Date: Thu, 19 Dec 2019 16:12:03 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alexander Popov <alex.popov@linux.com>
+Subject: Re: [PATCH v2 1/2] tests/ide-test: Create a single unit-test
+ covering more PRDT cases
+Message-ID: <20191219151203.GM5230@linux.fritz.box>
+References: <20191216181405.462292-1-alex.popov@linux.com>
 MIME-Version: 1.0
-In-Reply-To: <20191219130921.309264-22-k.jensen@samsung.com>
-Content-Language: sk-SK
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: siBpZ25pOpiIhqluqGxtgg-1
+In-Reply-To: <20191216181405.462292-1-alex.popov@linux.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 7iPn_yUEP3mceYi19jwL8w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -75,46 +73,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Cc: Andrea Arcangeli <aarcange@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, sstabellini@kernel.org,
+ pmatouse@redhat.com, mdroth@linux.vnet.ibm.com, qemu-block@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Kashyap Chamarthy <kashyap.cv@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, pjp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/19/19 2:09 PM, Klaus Jensen wrote:
-> This adds support for multiple namespaces by introducing a new 'nvme-ns'
-> device model. The nvme device creates a bus named from the device name
-> ('id'). The nvme-ns devices then connect to this and registers
-> themselves with the nvme device.
-> 
-> This changes how an nvme device is created. Example with two namespaces:
-> 
->   -drive file=nvme0n1.img,if=none,id=disk1
->   -drive file=nvme0n2.img,if=none,id=disk2
->   -device nvme,serial=deadbeef,id=nvme0
->   -device nvme-ns,drive=disk1,bus=nvme0,nsid=1
->   -device nvme-ns,drive=disk2,bus=nvme0,nsid=2
-> 
-> The drive property is kept on the nvme device to keep the change
-> backward compatible, but the property is now optional. Specifying a
-> drive for the nvme device will always create the namespace with nsid 1.
-> 
-> Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Am 16.12.2019 um 19:14 hat Alexander Popov geschrieben:
+> Fuzzing the Linux kernel with syzkaller allowed to find how to crash qemu
+> using a special SCSI_IOCTL_SEND_COMMAND. It hits the assertion in
+> ide_dma_cb() introduced in the commit a718978ed58a in July 2015.
+> Currently this bug is not reproduced by the unit tests.
+>=20
+> Let's improve the ide-test to cover more PRDT cases including one
+> that causes this particular qemu crash.
+>=20
+> The test is developed according to the Programming Interface for
+> Bus Master IDE Controller (Revision 1.0 5/16/94).
+>=20
+> Signed-off-by: Alexander Popov <alex.popov@linux.com>
 
-Klaus, just to make sure I understand correctly, this implements
-multiple namespaces for *emulated* NVMe, right? I'm asking because I
-just merged libvirt patches to support:
+Looks mostly good to me, but I have a few comments.
 
--drive
-file.driver=nvme,file.device=0000:01:00.0,file.namespace=1,format=raw,if=none,id=drive-virtio-disk0
--device
-virtio-blk-pci,scsi=off,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1
+First of all, the patch order needs to be reversed to keep the tree
+bisectable (first fix the bug, then test that it's fixed).
 
-and seeing these patches made me doubt my design. But if your patches
-touch emulated NVMe only, then libvirt's fine because it doesn't expose
-that just yet.
+> +/*
+> + * This test is developed according to the Programming Interface for
+> + * Bus Master IDE Controller (Revision 1.0 5/16/94)
+> + */
+> +static void test_bmdma_various_prdts(void)
+>  {
+> -    QTestState *qts;
+> -    QPCIDevice *dev;
+> -    QPCIBar bmdma_bar, ide_bar;
+> -    uint8_t status;
+> -
+> -    PrdtEntry prdt[] =3D {
+> -        {
+> -            .addr =3D 0,
+> -            .size =3D cpu_to_le32(0x1000 | PRDT_EOT),
+> -        },
+> -    };
+> -
+> -    qts =3D test_bmdma_setup();
+> -
+> -    dev =3D get_pci_device(qts, &bmdma_bar, &ide_bar);
+> -
+> -    /* Normal request */
+> -    status =3D send_dma_request(qts, CMD_READ_DMA, 0, 1,
+> -                              prdt, ARRAY_SIZE(prdt), NULL);
+> -    g_assert_cmphex(status, =3D=3D, BM_STS_ACTIVE | BM_STS_INTR);
+> -    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
+> +    uint32_t size =3D 0;
+> +    uint32_t prd_size =3D 0;
+> +    int req_sectors =3D 0;
+> +    uint32_t req_size =3D 0;
+> +    uint8_t s1 =3D 0, s2 =3D 0;
+> +
+> +    for (size =3D 0; size < 65536; size +=3D 256) {
 
-Michal
+We're testing 64 * 4 =3D 256 cases here, each of them starting a new qemu
+process. Do we actually test anything new after the first couple of
+requests or does this just make the test slower than it needs to be?
+
+This test case really takes a long time for me (minutes), whereas all
+other cases in ide-test combined run in like a second.
+
+I would either test much less different sizes or at least run them in
+the same qemu process. Or both, of course.
+
+> +        /*
+> +         * Two bytes specify the count of the region in bytes.
+> +         * The bit 0 is always set to 0.
+> +         * A value of zero in these two bytes indicates 64K.
+> +         */
+> +        prd_size =3D size & 0xfffe;
+> +        if (prd_size =3D=3D 0) {
+> +            prd_size =3D 65536;
+> +        }
+> =20
+> -    /* Abort the request before it completes */
+> -    status =3D send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0, 1,
+> -                              prdt, ARRAY_SIZE(prdt), NULL);
+> -    g_assert_cmphex(status, =3D=3D, BM_STS_INTR);
+> -    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
+> -    free_pci_device(dev);
+> -    test_bmdma_teardown(qts);
+> +        for (req_sectors =3D 1; req_sectors <=3D 256; req_sectors *=3D 2=
+) {
+> +            req_size =3D req_sectors * 512;
+> +
+> +            /*
+> +             * 1. If PRDs specified a smaller size than the IDE transfer
+> +             * size, then the Interrupt and Active bits in the Controlle=
+r
+> +             * status register are not set (Error Condition).
+> +             *
+> +             * 2. If the size of the physical memory regions was equal t=
+o
+> +             * the IDE device transfer size, the Interrupt bit in the
+> +             * Controller status register is set to 1, Active bit is set=
+ to 0.
+> +             *
+> +             * 3. If PRDs specified a larger size than the IDE transfer =
+size,
+> +             * the Interrupt and Active bits in the Controller status re=
+gister
+> +             * are both set to 1.
+> +             */
+> +            if (prd_size < req_size) {
+> +                s1 =3D 0;
+> +                s2 =3D 0;
+> +            } else if (prd_size =3D=3D req_size) {
+> +                s1 =3D BM_STS_INTR;
+> +                s2 =3D BM_STS_INTR;
+> +            } else {
+> +                s1 =3D BM_STS_ACTIVE | BM_STS_INTR;
+> +                s2 =3D BM_STS_INTR;
+> +            }
+> +            test_bmdma_prdt(size, req_sectors, s1, s2);
+> +        }
+> +    }
+>  }
+
+And finally, as mentioned in the reply for patch 2, I wonder if we
+should add a case with an empty PRDT (passing 0 as the PRDT size). This
+would be a separate patch, though.
+
+Kevin
 
 
