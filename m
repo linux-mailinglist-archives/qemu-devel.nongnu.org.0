@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F074F126217
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:23:23 +0100 (CET)
-Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D48E12621D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:25:12 +0100 (CET)
+Received: from localhost ([::1]:39970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihupu-0005Ld-7h
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:23:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43725)
+	id 1ihure-0007PC-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:25:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ihuof-0004RZ-AR
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:22:06 -0500
+ (envelope-from <mst@redhat.com>) id 1ihuor-0004kf-Lr
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:22:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ihuoe-0004aT-6Y
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:22:05 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40920
+ (envelope-from <mst@redhat.com>) id 1ihuoq-0005h0-El
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:22:17 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32938
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihuoe-0004Vn-0G
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:22:04 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihuoq-0005cT-74
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:22:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758123;
+ s=mimecast20190719; t=1576758135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Ht4xqZ3f80DGNrWGzGa4+GwX1kQvkBSb9km/FUCRzk=;
- b=Es3f6xwbdHPn0JTQmzT86OetEr9ns3QVzGCTha3r0fCakys/X8thoP7yqjRQ4El1CeZDlX
- sCZpZwtK7ml5KLEWor34OHJJSpULvnAE4kEPDbq6jFbdcTOaOSiEhg5KqwM6/d+o+zDPlk
- mvxYJN9ykW7k9BB+8xlKhygf7gxR498=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-I-ANPH8iPNOVl3UiEeNF9A-1; Thu, 19 Dec 2019 07:22:01 -0500
-Received: by mail-qv1-f72.google.com with SMTP id c22so3529977qvc.1
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 04:22:01 -0800 (PST)
+ bh=mykNxRokFfeiWSocSQ+QyCiIaNXut8etci4IhLewmnc=;
+ b=C4HgzpEK58yCicsAtYpP06Ci3iSXDxT4m8SjSgjyK3kMzATbG4UhnUfRFA4jm4/pG9dd6c
+ YwjWeCCkvtJM+s6vbjxBhjK21WZJml4pNe+UMopXz5GwF8V5PDaLeud4AVC5Zb40fpSJFy
+ MctBdD6vBE1yIoLzMi5y7dtZcMFHmes=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-qhaN0gx6OSGkbm4fNlb3Xw-1; Thu, 19 Dec 2019 07:22:14 -0500
+Received: by mail-qk1-f198.google.com with SMTP id 143so3483575qkg.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 04:22:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=NXui19PzcjC71zCulM1IJPucMPXEXQvwPvwuDLhGzdM=;
- b=T0xBrTKi+xetq5GLpfBUUGxj13f0SUm8SiSLigzzbNFcOW3R1XKIDeXsNNqEhB1xZT
- 5eQdXqRxbaTRb7VbfJDbT+TOmDf2p/bNCkjezF7EWdDh2kh014HeAn5rUzB/vrXdG6A/
- zo78CFg8DLWE+gRsO80wNMwLSNtXO06NY5j4GMtqa/L04cLdiZpf7JZQiHK4qAm5Noo7
- ICMBOO6/DnOdXEdSvLLqQOtb5jlNhszoT/2e5rsymCNz3oObK0/MhlOTUs+5dsdjU0sm
- 5OP8kli+hqWJgHJ4v2Y/TVoORSEqFRHRGeK4qe3+jHO5kaO5I9QhekoqlL1Dn9D8PXhe
- ZLyA==
-X-Gm-Message-State: APjAAAXW62qdhslbiSk35hmmO20OJfQXLjM1njrpKcpn2W+NvroIhUbS
- GZG8aVD/4Jo4oMKyH8wWfqMDUjqwZQNdE/OyExXnQHpeYhZDiq1VuzB9csOzZz4etb10J3xID2R
- r2EbPtSm4HCq4V3o=
-X-Received: by 2002:ae9:c317:: with SMTP id n23mr7832872qkg.356.1576758121444; 
- Thu, 19 Dec 2019 04:22:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzULj0a1x9tkYMm7MJi/b9Xlv/AKNalOhKvj08nXsezHd5VwM1TRNkSXd/QqIqAswGCw9nr5Q==
-X-Received: by 2002:ae9:c317:: with SMTP id n23mr7832852qkg.356.1576758121204; 
- Thu, 19 Dec 2019 04:22:01 -0800 (PST)
+ bh=dYmJmwr+JHIzIM49SSWWyD96bOQbA2BPR1Ye5EXEH6I=;
+ b=qVHcVNCJpc8a9dg46Jt1K4RSzdMGUmI5/rs9zkrMMwUXUokkkrqR5wEeBahq3xDOJe
+ O6JOV8KykbpfHMfOvtLT7sH5aZxBOC50Wznx98mDeXiACThPqiSutafb+UXdg7qClA8+
+ th2EXEgy4z7EDl4JoU5pRGmFjeCtNfb5YyqV3LwTehh8t35fQZwLxj9yTvjgE5YNjX/B
+ 8KUjKBUenSVTaU2r5f4iMuTq/rzGVPFfJbEZFC2jz8g+W7BaSR0Rvjs3SO1cr4ValRDR
+ Ie/JXjxM06P8Qp13rjAiIPiHBmMa3u0GhCK8nWIZA3yDYDtJSk3SlDMob3JjZsTKlPuk
+ n6Mg==
+X-Gm-Message-State: APjAAAUiH6zQu52EjePdA6Z6lkfN/IXI6kSsyaqdZm4VtOSC20e8bf/J
+ HWizUogO2ZSiBPvftgUUc0bkaMjCxQE6EOo9Zy0nXdhHw+QEkjNObhkff/bW+hZz0swYBdgiauE
+ 6w4bP8zS+8NOsk8Y=
+X-Received: by 2002:a05:620a:1010:: with SMTP id
+ z16mr6175165qkj.237.1576758133758; 
+ Thu, 19 Dec 2019 04:22:13 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw6TrNLgKcpfV+4fst6v2LkHF79HCtaYBbNW0tQPfOxUf9u/oqj6j0d4zCV1yv42EMgearNDg==
+X-Received: by 2002:a05:620a:1010:: with SMTP id
+ z16mr6175144qkj.237.1576758133543; 
+ Thu, 19 Dec 2019 04:22:13 -0800 (PST)
 Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
- by smtp.gmail.com with ESMTPSA id q34sm1831012qtc.33.2019.12.19.04.21.58
+ by smtp.gmail.com with ESMTPSA id m68sm1209115qke.17.2019.12.19.04.22.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 04:22:00 -0800 (PST)
-Date: Thu, 19 Dec 2019 07:21:55 -0500
+ Thu, 19 Dec 2019 04:22:12 -0800 (PST)
+Date: Thu, 19 Dec 2019 07:22:08 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH v2 08/14] vhost-user-net: Explicit we ignore few
+Subject: Re: [RFC PATCH v2 09/14] vhost-user-blk: Explicit we ignore few
  QEMUChrEvent in IOEventHandler
-Message-ID: <20191219072144-mutt-send-email-mst@kernel.org>
+Message-ID: <20191219072203-mutt-send-email-mst@kernel.org>
 References: <20191218172009.8868-1-philmd@redhat.com>
- <20191218172009.8868-9-philmd@redhat.com>
+ <20191218172009.8868-10-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191218172009.8868-9-philmd@redhat.com>
-X-MC-Unique: I-ANPH8iPNOVl3UiEeNF9A-1
+In-Reply-To: <20191218172009.8868-10-philmd@redhat.com>
+X-MC-Unique: qhaN0gx6OSGkbm4fNlb3Xw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,27 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 18, 2019 at 06:20:03PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+On Wed, Dec 18, 2019 at 06:20:04PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
 :
 > The Chardev events are listed in the QEMUChrEvent enum. To be
 > able to use this enum in the IOEventHandler typedef, we need to
 > explicit all the events ignored by this frontend, to silent the
 > following GCC warning:
 >=20
->     CC      net/vhost-user.o
->   net/vhost-user.c: In function =E2=80=98net_vhost_user_event=E2=80=99:
->   net/vhost-user.c:269:5: error: enumeration value =E2=80=98CHR_EVENT_BRE=
-AK=E2=80=99 not handled in switch [-Werror=3Dswitch]
->     269 |     switch (event) {
+>     CC      s390x-softmmu/hw/block/vhost-user-blk.o
+>   hw/block/vhost-user-blk.c: In function =E2=80=98vhost_user_blk_event=E2=
+=80=99:
+>   hw/block/vhost-user-blk.c:370:5: error: enumeration value =E2=80=98CHR_=
+EVENT_BREAK=E2=80=99 not handled in switch [-Werror=3Dswitch]
+>     370 |     switch (event) {
 >         |     ^~~~~~
->   net/vhost-user.c:269:5: error: enumeration value =E2=80=98CHR_EVENT_MUX=
-_IN=E2=80=99 not handled in switch [-Werror=3Dswitch]
->   net/vhost-user.c:269:5: error: enumeration value =E2=80=98CHR_EVENT_MUX=
-_OUT=E2=80=99 not handled in switch [-Werror=3Dswitch]
+>   hw/block/vhost-user-blk.c:370:5: error: enumeration value =E2=80=98CHR_=
+EVENT_MUX_IN=E2=80=99 not handled in switch [-Werror=3Dswitch]
+>   hw/block/vhost-user-blk.c:370:5: error: enumeration value =E2=80=98CHR_=
+EVENT_MUX_OUT=E2=80=99 not handled in switch [-Werror=3Dswitch]
 >   cc1: all warnings being treated as errors
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
@@ -117,21 +121,23 @@ _OUT=E2=80=99 not handled in switch [-Werror=3Dswitch]
 > v2: Add all missing enums
 >=20
 > Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: qemu-block@nongnu.org
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
 > ---
->  net/vhost-user.c | 5 +++++
+>  hw/block/vhost-user-blk.c | 5 +++++
 >  1 file changed, 5 insertions(+)
 >=20
-> diff --git a/net/vhost-user.c b/net/vhost-user.c
-> index 014199d600..c54c9c7d4c 100644
-> --- a/net/vhost-user.c
-> +++ b/net/vhost-user.c
-> @@ -294,6 +294,11 @@ static void net_vhost_user_event(void *opaque, int e=
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 63da9bb619..ccaf2ad978 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -383,6 +383,11 @@ static void vhost_user_blk_event(void *opaque, int e=
 vent)
->              aio_bh_schedule_oneshot(ctx, chr_closed_bh, opaque);
+>              s->watch =3D 0;
 >          }
 >          break;
 > +    case CHR_EVENT_BREAK:
@@ -140,8 +146,8 @@ vent)
 > +        /* Ignore */
 > +        break;
 >      }
+>  }
 > =20
->      if (err) {
 > --=20
 > 2.21.0
 
