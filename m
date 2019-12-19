@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A01126299
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:51:37 +0100 (CET)
-Received: from localhost ([::1]:40428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1341262B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:56:31 +0100 (CET)
+Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvHD-0000ne-Tp
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:51:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36425)
+	id 1ihvLx-0000Dd-GO
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:56:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihus6-0000eY-L6
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:40 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihus8-0000gn-PA
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihus4-0002rr-Rd
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38157
+ (envelope-from <pbonzini@redhat.com>) id 1ihus6-0002vq-RT
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:40 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46044
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihus2-0002oa-Tp
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:36 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihus6-0002rY-Iu
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:25:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758333;
+ s=mimecast20190719; t=1576758336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AlyXS8W7jZG4G49HK6DELfSaAvnHNqjMCw5GQGS2QZo=;
- b=ggHHCtsIPkp1tM5kZD2N0kpSKitcojZSGuQ7Jht5GG6ghNklxNEg5SSBCyGsOK9BryKBxL
- bN7gHbr0H9DJ7NUQR+wbkYZ+1palUMqJJ0FWM4E1D84aG6in2CHtU5ivu1S0WUTTiysxXv
- 9RkCE29eMnAUDq35qngZWn7KSj2OhJQ=
+ bh=t4jqXLhrAZcU4UANvFHVeNjc+sMakXQe/HeeoQkr3so=;
+ b=Y2zrBTUliBqmAGzR4ADNwx1992ixYp5lMlhOYApqXC85nevw/hqSzE8Mz/NFgCiLObhd0J
+ Ovqhe/sN2q7oUdfs7qBTP7IJ7tulM4bgw2sDR+8hroF2LdeC+BuXS9/9qTh+zSyITky9wr
+ VGLFalIGEw6tfYd7DeCmisDSiTYYnw8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196--FK_vlH0NwGBG0e6F630-Q-1; Thu, 19 Dec 2019 07:25:31 -0500
+ us-mta-323-gRAcQTfxP5Sy4EMyvBCSWw-1; Thu, 19 Dec 2019 07:25:33 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E40D4DB61
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:25:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B8DD801E6D
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:25:32 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F1F560C81;
- Thu, 19 Dec 2019 12:25:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7530D60C18;
+ Thu, 19 Dec 2019 12:25:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 125/132] meson: install desktop file
-Date: Thu, 19 Dec 2019 13:23:45 +0100
-Message-Id: <1576758232-12439-34-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 126/132] meson: install keymaps
+Date: Thu, 19 Dec 2019 13:23:46 +0100
+Message-Id: <1576758232-12439-35-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: -FK_vlH0NwGBG0e6F630-Q-1
+X-MC-Unique: gRAcQTfxP5Sy4EMyvBCSWw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,34 +79,97 @@ From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile       | 2 --
- ui/meson.build | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Makefile                    |  9 ---------
+ pc-bios/keymaps/meson.build | 38 ++++++++++++++++++++++++++++++++++++++
+ pc-bios/meson.build         |  1 +
+ 3 files changed, 39 insertions(+), 9 deletions(-)
+ create mode 100644 pc-bios/keymaps/meson.build
 
 diff --git a/Makefile b/Makefile
-index 04a7d00..8ebaacf 100644
+index 8ebaacf..3faf6a4 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -240,8 +240,6 @@ ifneq ($(vhost-user-json-y),)
- =09=09$(INSTALL_DATA) $$x "$(DESTDIR)$(qemu_datadir)/vhost-user/"; \
- =09done
- endif
--=09$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
--=09=09"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
+@@ -217,11 +217,6 @@ distclean: clean
+ =09rm -Rf .sdk
+ =09if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
+=20
+-KEYMAPS=3Dda     en-gb  et  fr     fr-ch  is  lt  no  pt-br  sv \
+-ar      de     en-us  fi  fr-be  hr     it  lv  nl         pl  ru     th \
+-de-ch  es     fo  fr-ca  hu     ja  mk  pt  sl     tr \
+-bepo    cz
+-
+ install-datadir:
+ =09$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
+=20
+@@ -243,10 +238,6 @@ endif
  ifdef CONFIG_GTK
  =09$(MAKE) -C po $@
  endif
-diff --git a/ui/meson.build b/ui/meson.build
-index 22923e3..e8b94ca 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -109,4 +109,6 @@ endforeach
- subdir('shader')
- subdir('icons')
+-=09$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/keymaps"
+-=09set -e; for x in $(KEYMAPS); do \
+-=09=09$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_da=
+tadir)/keymaps"; \
+-=09done
 =20
-+install_data('qemu.desktop', install_dir: config_host['qemu_desktopdir'])
+ .PHONY: ctags
+ ctags:
+diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+new file mode 100644
+index 0000000..04c2a17
+--- /dev/null
++++ b/pc-bios/keymaps/meson.build
+@@ -0,0 +1,38 @@
++keymaps =3D [
++  'ar',
++  'bepo',
++  'cz',
++  'da',
++  'de',
++  'de-ch',
++  'en-gb',
++  'en-us',
++  'es',
++  'et',
++  'fi',
++  'fo',
++  'fr',
++  'fr-be',
++  'fr-ca',
++  'fr-ch',
++  'hr',
++  'hu',
++  'is',
++  'it',
++  'ja',
++  'lt',
++  'lv',
++  'mk',
++  'nl',
++  'no',
++  'pl',
++  'pt',
++  'pt-br',
++  'ru',
++  'sl',
++  'sv',
++  'th',
++  'tr',
++]
 +
- modules +=3D {'ui': ui_modules}
++install_data(keymaps, install_dir: config_host['qemu_datadir'] / 'keymaps'=
+)
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index 75475a6..9a46a8c 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -25,6 +25,7 @@ foreach f: fds
+ endforeach
+=20
+ subdir('descriptors')
++subdir('keymaps')
+=20
+ blobs =3D files(
+   'QEMU,cgthree.bin',
 --=20
 1.8.3.1
 
