@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D671126067
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:04:04 +0100 (CET)
-Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8039312605F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:02:20 +0100 (CET)
+Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtb8-0000j2-RS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:04:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56776)
+	id 1ihtZS-0006FS-VH
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:02:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56551)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWb-0003lR-M1
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:23 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWa-0000nH-81
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtWa-0003i9-7I
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:21 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36783)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtWY-0000eQ-NE
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:19 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45671)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtWZ-0000iG-Vn
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:20 -0500
-Received: by mail-wm1-x332.google.com with SMTP id p17so5154272wma.1
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:19 -0800 (PST)
+ id 1ihtWY-0000VY-F5
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:18 -0500
+Received: by mail-wr1-x433.google.com with SMTP id j42so5479467wrj.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KM2z5lJatvSo38TN3JEp2tBoGC1lMW5rj5gagTwUU00=;
- b=ZnEnwskn0ws31+evRZJXKY5mZ+iCjYMuIC0PeZtrjOoUapF2ygtXdzTuGgLhYuK/q2
- Q1TlPaTKrcKAvIOP+1T2ch+lmZv/IQ8DNkrFgSdpJdoox9XzdzWgvv4X1iLiDj2doQ3S
- lXUS8q3HqT1dIUxRVw1xEcA3tzJJLvzCRPrrziRxg7cdWJfoWymJYKmBbcn2UnZ2i27c
- dnm+A9DKaF4MmZOEYw9yHg9fcxgG+48qtPYsGkehYrnOmefbAk3oNwpUXXUrnIbFyFDj
- NfUw0Eaqe+vQKALBBGzZXfUsNCp19Kz4uyFztRvp9BwnW8mi+OttvSmTpYqQmdFGSpHT
- uyZw==
+ bh=vwsTQPLMkDuqXqnHi4Oibs2v+97DJuoFfknErpqUpNE=;
+ b=Af9MJSlwmcFM1EyaVAjOHCcP/0vc/RH8OufuqYNjr+v2PEiw92eL/9YcIkadDD7Ecc
+ 1h66rs5r/VGb0d6uV3foNFneNrrizUXCxJD9FuHje+VelPLuQLMbUsnahZutIQ1EGbdx
+ knOTwHpLSVrlrO6eDPm5Ha10a5DrvBVsV5lkNZe4xS7lFlFJBNXLKp1MVD12QBpqVcKD
+ 6u01T4ZtrrZXmwkn6WFETBMtwY4QrdkchxzJVGvcht5D07RMimy2rBkzb46qMZSQ3xs2
+ m1AMlgxUjnxtetxF6rfFi3zFt2363OqpBM7KymSR5Zvowa6/+zXC86mq+ISlAdVb4AHs
+ Gxgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KM2z5lJatvSo38TN3JEp2tBoGC1lMW5rj5gagTwUU00=;
- b=GmS7mUeY3yFw4LtOLfrGkBKjZbFxbwjAdR3Xn4PUYok9/oauG/uFCX1MpqI7nRpcm7
- 7PlGfIxlOhhItnb2bVhcp+O2tEnZAKHfuQFkUIEY0WlfTNiOvCcA2xPPx4YLeuuH8uew
- B7WgV/cFJGbn4ZyMgSwCRuj6Et+7r0s9l5RkvtXstFU+DPIEHUvS1NWn+WDB+rWv6wwZ
- zpJPwMB9qAB6Sigz1H9xhYTNUIU6pYb7jUrw8frKQDj8XTrhsYzHr4nw3qL22obLhsU0
- ekdPugOnKaVYDNT7yifztrZZWQRtPX/8VvPOn1uMQwPUNG2fQdH0V8dJS6TpnaAW7rSa
- HS/A==
-X-Gm-Message-State: APjAAAXzGvwIGHDmMkSHqJgB3Gf9YOL6TwtAYjxh37HwUVD8t6yFFF2i
- K9uzdQE0CVEBegCH+cE2jXGS1g==
-X-Google-Smtp-Source: APXvYqyLc4LLS65QuaEHBxTf7DS/v/BOWe06+DOgtv0dsL3400f/yp5FQ89iOv8ORTWV9xLB0/4cRQ==
-X-Received: by 2002:a1c:2187:: with SMTP id h129mr3304548wmh.44.1576753158797; 
- Thu, 19 Dec 2019 02:59:18 -0800 (PST)
+ bh=vwsTQPLMkDuqXqnHi4Oibs2v+97DJuoFfknErpqUpNE=;
+ b=st2iEteRYDY1clSdNfGD6eSZo8tol8+jWCSQ0MLhGUv/KUm/WW3J4f5hiee57Q3hAN
+ YQNe3ldRCrhszVX5+wcAzuNELDw2nbzVfOzxhClKbVsPUCwz9LcRMPsn4F+vhr4WmHH0
+ tYZ0wKP6izdzNNzy8N7KRWeU8kLoEFy+RecpBy/UsvXnhzy0bI8UnRo7xHJ1RUmHxzOg
+ y05XaEjqRy9rOCO4McdmU1oGQgENi29wbicWrTjXu4howGPEyUYw8wS2jm1uRZWn6WM2
+ rakPIea3ehMgB7b4RfOen7zBRMTp8AyyxIqrErYPZiHLb9mBDjP23OxOtWVIZNV0kyRC
+ 04iQ==
+X-Gm-Message-State: APjAAAUVaKtZB562e5ZXGQbGGx8Kf8B9Ta38EXlypiL5f6sDedFw3XfO
+ u+y2UbkGf74JMX29u/ByDwk4+Q==
+X-Google-Smtp-Source: APXvYqzsYQgMZ2y5JSVz2/J3WIuRGW5TLXFsuCtMHHfCcRTlmMnOS9/2Br5f7LhRCcXUlbGbGyMzng==
+X-Received: by 2002:a5d:55d1:: with SMTP id i17mr8496917wrw.165.1576753156608; 
+ Thu, 19 Dec 2019 02:59:16 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g7sm6091078wrq.21.2019.12.19.02.59.15
+ by smtp.gmail.com with ESMTPSA id f1sm5962764wru.6.2019.12.19.02.59.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Dec 2019 02:59:15 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 45D501FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id 5C5DF1FFAA;
  Thu, 19 Dec 2019 10:49:36 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 19/25] linux-user: convert target_mprotect debug to tracepoint
-Date: Thu, 19 Dec 2019 10:49:28 +0000
-Message-Id: <20191219104934.866-20-alex.bennee@linaro.org>
+Subject: [PULL 20/25] linux-user: convert target_mmap debug to tracepoint
+Date: Thu, 19 Dec 2019 10:49:29 +0000
+Message-Id: <20191219104934.866-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
 References: <20191219104934.866-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,47 +94,55 @@ a fairly low impact way to instrument QEMU.
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191205122518.10010-2-alex.bennee@linaro.org>
+Message-Id: <20191205122518.10010-3-alex.bennee@linaro.org>
 
 diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 46a6e3a761a..26a83e74069 100644
+index 26a83e74069..f4f10deaeac 100644
 --- a/linux-user/mmap.c
 +++ b/linux-user/mmap.c
-@@ -17,7 +17,7 @@
-  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
- #include "qemu/osdep.h"
--
-+#include "trace.h"
- #include "qemu.h"
+@@ -363,32 +363,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+     abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len;
  
- //#define DEBUG_MMAP
-@@ -66,13 +66,7 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
-     abi_ulong end, host_start, host_end, addr;
-     int prot1, ret;
- 
+     mmap_lock();
 -#ifdef DEBUG_MMAP
--    printf("mprotect: start=0x" TARGET_ABI_FMT_lx
--           "len=0x" TARGET_ABI_FMT_lx " prot=%c%c%c\n", start, len,
--           prot & PROT_READ ? 'r' : '-',
--           prot & PROT_WRITE ? 'w' : '-',
--           prot & PROT_EXEC ? 'x' : '-');
+-    {
+-        printf("mmap: start=0x" TARGET_ABI_FMT_lx
+-               " len=0x" TARGET_ABI_FMT_lx " prot=%c%c%c flags=",
+-               start, len,
+-               prot & PROT_READ ? 'r' : '-',
+-               prot & PROT_WRITE ? 'w' : '-',
+-               prot & PROT_EXEC ? 'x' : '-');
+-        if (flags & MAP_FIXED)
+-            printf("MAP_FIXED ");
+-        if (flags & MAP_ANONYMOUS)
+-            printf("MAP_ANON ");
+-        switch(flags & MAP_TYPE) {
+-        case MAP_PRIVATE:
+-            printf("MAP_PRIVATE ");
+-            break;
+-        case MAP_SHARED:
+-            printf("MAP_SHARED ");
+-            break;
+-        default:
+-            printf("[MAP_TYPE=0x%x] ", flags & MAP_TYPE);
+-            break;
+-        }
+-        printf("fd=%d offset=" TARGET_ABI_FMT_lx "\n", fd, offset);
+-    }
 -#endif
-+    trace_target_mprotect(start, len, prot);
++    trace_target_mmap(start, len, prot, flags, fd, offset);
  
-     if ((start & ~TARGET_PAGE_MASK) != 0)
-         return -TARGET_EINVAL;
+     if (!len) {
+         errno = EINVAL;
 diff --git a/linux-user/trace-events b/linux-user/trace-events
-index 6df234bbb67..8419243de4e 100644
+index 8419243de4e..8d8d4c3c68c 100644
 --- a/linux-user/trace-events
 +++ b/linux-user/trace-events
-@@ -11,3 +11,6 @@ user_handle_signal(void *env, int target_sig) "env=%p signal %d"
- user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d("
- user_queue_signal(void *env, int target_sig) "env=%p signal %d"
- user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_addr) "env=%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx64
-+
-+# mmap.c
-+target_mprotect(uint64_t start, uint64_t len, int flags) "start=0x%"PRIx64 " len=0x%"PRIx64 " prot=0x%x"
+@@ -14,3 +14,4 @@ user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_add
+ 
+ # mmap.c
+ target_mprotect(uint64_t start, uint64_t len, int flags) "start=0x%"PRIx64 " len=0x%"PRIx64 " prot=0x%x"
++target_mmap(uint64_t start, uint64_t len, int pflags, int mflags, int fd, uint64_t offset) "start=0x%"PRIx64 " len=0x%"PRIx64 " prot=0x%x flags=0x%x fd=%d offset=0x%"PRIx64
 -- 
 2.20.1
 
