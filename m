@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8F7126230
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:32:47 +0100 (CET)
-Received: from localhost ([::1]:40154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0262126247
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 13:38:23 +0100 (CET)
+Received: from localhost ([::1]:40236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihuz0-0000I9-5R
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:32:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58387)
+	id 1ihv4Q-0008Jh-Dp
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 07:38:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ihuqq-0007Sn-Fw
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:21 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ihuqt-0007YQ-U9
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ihuqp-0006VM-De
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22959
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1ihuqs-0006nJ-GE
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:23 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45188
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihuqp-0006Qq-44
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:19 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ihuqs-0006k7-9j
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:24:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576758258;
+ s=mimecast20190719; t=1576758261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NCLdwUIVuOPMbdMCzMWR2b7tM2z9RzERTpsHQIVUq8c=;
- b=XZTQnJkJy40ITJoeW3PqiArrlQEeqnzpKPxBbwtHzcGoS3Ib6u1xrCj9srY9kl0SIBxTIa
- /qlBVTH8HxEzpoFKoSul5WjtcntAkSD+7YyznkB7XWv4KVejiEL4YOvOkDdLHmxMq/ncgc
- nukmPSFxZtiD65ydsdKGhU18bL9gMds=
+ bh=GY8eV7vOM/DBZpy9+Eb4dk6x6aTcb4shyecE+wleKs4=;
+ b=GgiKpaj9gyyqfEpKCnLva6abs2i5CcNw4VD3ulylZE6s2eGts4SOIeX1fviMFkxV4WSIpk
+ OM4GR56ljskujEEqM3FgS1zNDr02vwXgXeU3vk/lseFHrUOkPbS18psExT4KlBrDRlMl7v
+ /5aWtuDGynAcr6DBbdLMChAD7VQFci8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-vh5K73xzM8yG2Tbf2exQUA-1; Thu, 19 Dec 2019 07:24:17 -0500
+ us-mta-32-cgb9Z8Z1NGiAdYf0UkuNFA-1; Thu, 19 Dec 2019 07:24:20 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C1AB801E6C
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B98E6107ACC5
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 12:24:19 +0000 (UTC)
 Received: from 640k.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4AFF60C18;
- Thu, 19 Dec 2019 12:24:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DAAB60C18;
+ Thu, 19 Dec 2019 12:24:16 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 098/132] meson: convert hw/bt
-Date: Thu, 19 Dec 2019 13:23:18 +0100
-Message-Id: <1576758232-12439-7-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 099/132] meson: convert hw/block
+Date: Thu, 19 Dec 2019 13:23:19 +0100
+Message-Id: <1576758232-12439-8-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: vh5K73xzM8yG2Tbf2exQUA-1
+X-MC-Unique: cgb9Z8Z1NGiAdYf0UkuNFA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,58 +79,110 @@ From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs    | 1 -
- hw/bt/Makefile.objs | 3 ---
- hw/bt/meson.build   | 8 ++++++++
- hw/meson.build      | 1 +
- 4 files changed, 9 insertions(+), 4 deletions(-)
- delete mode 100644 hw/bt/Makefile.objs
- create mode 100644 hw/bt/meson.build
+ hw/Makefile.objs                 |  1 -
+ hw/block/Makefile.objs           | 17 -----------------
+ hw/block/dataplane/Makefile.objs |  2 --
+ hw/block/dataplane/meson.build   |  2 ++
+ hw/block/meson.build             | 20 ++++++++++++++++++++
+ hw/meson.build                   |  1 +
+ 6 files changed, 23 insertions(+), 20 deletions(-)
+ delete mode 100644 hw/block/Makefile.objs
+ delete mode 100644 hw/block/dataplane/Makefile.objs
+ create mode 100644 hw/block/dataplane/meson.build
+ create mode 100644 hw/block/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 6752297..6ddffce 100644
+index 6ddffce..0c92a04 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -4,7 +4,6 @@ devices-dirs-y +=3D acpi/
+@@ -3,7 +3,6 @@ devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(C=
+ONFIG_VIRTFS),$(CONFI
+ devices-dirs-y +=3D acpi/
  devices-dirs-y +=3D adc/
  devices-dirs-y +=3D audio/
- devices-dirs-y +=3D block/
--devices-dirs-y +=3D bt/
+-devices-dirs-y +=3D block/
  endif
 =20
  common-obj-y +=3D $(devices-dirs-y)
-diff --git a/hw/bt/Makefile.objs b/hw/bt/Makefile.objs
+diff --git a/hw/block/Makefile.objs b/hw/block/Makefile.objs
 deleted file mode 100644
-index 867a7d2..0000000
---- a/hw/bt/Makefile.objs
+index f5f643f..0000000
+--- a/hw/block/Makefile.objs
 +++ /dev/null
-@@ -1,3 +0,0 @@
--common-obj-y +=3D core.o l2cap.o sdp.o hci.o hid.o
--common-obj-y +=3D hci-csr.o
+@@ -1,17 +0,0 @@
+-common-obj-y +=3D block.o cdrom.o hd-geometry.o
+-common-obj-$(CONFIG_FDC) +=3D fdc.o
+-common-obj-$(CONFIG_SSI_M25P80) +=3D m25p80.o
+-common-obj-$(CONFIG_NAND) +=3D nand.o
+-common-obj-$(CONFIG_PFLASH_CFI01) +=3D pflash_cfi01.o
+-common-obj-$(CONFIG_PFLASH_CFI02) +=3D pflash_cfi02.o
+-common-obj-$(CONFIG_XEN) +=3D xen-block.o
+-common-obj-$(CONFIG_ECC) +=3D ecc.o
+-common-obj-$(CONFIG_ONENAND) +=3D onenand.o
+-common-obj-$(CONFIG_NVME_PCI) +=3D nvme.o
 -
-diff --git a/hw/bt/meson.build b/hw/bt/meson.build
+-obj-$(CONFIG_SH4) +=3D tc58128.o
+-
+-obj-$(CONFIG_VIRTIO_BLK) +=3D virtio-blk.o
+-obj-$(CONFIG_VHOST_USER_BLK) +=3D vhost-user-blk.o
+-
+-obj-y +=3D dataplane/
+diff --git a/hw/block/dataplane/Makefile.objs b/hw/block/dataplane/Makefile=
+.objs
+deleted file mode 100644
+index 0c52702..0000000
+--- a/hw/block/dataplane/Makefile.objs
++++ /dev/null
+@@ -1,2 +0,0 @@
+-obj-$(CONFIG_VIRTIO_BLK) +=3D virtio-blk.o
+-obj-$(CONFIG_XEN) +=3D xen-block.o
+diff --git a/hw/block/dataplane/meson.build b/hw/block/dataplane/meson.buil=
+d
 new file mode 100644
-index 0000000..ab45116
+index 0000000..12c6a26
 --- /dev/null
-+++ b/hw/bt/meson.build
-@@ -0,0 +1,8 @@
++++ b/hw/block/dataplane/meson.build
+@@ -0,0 +1,2 @@
++specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
++specific_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
+diff --git a/hw/block/meson.build b/hw/block/meson.build
+new file mode 100644
+index 0000000..a435ab4
+--- /dev/null
++++ b/hw/block/meson.build
+@@ -0,0 +1,20 @@
 +softmmu_ss.add(files(
-+  'core.c',
-+  'hci-csr.c',
-+  'hci.c',
-+  'hid.c',
-+  'l2cap.c',
-+  'sdp.c',
++  'block.c',
++  'cdrom.c',
++  'hd-geometry.c'
 +))
++softmmu_ss.add(when: 'CONFIG_ECC', if_true: files('ecc.c'))
++softmmu_ss.add(when: 'CONFIG_FDC', if_true: files('fdc.c'))
++softmmu_ss.add(when: 'CONFIG_NAND', if_true: files('nand.c'))
++softmmu_ss.add(when: 'CONFIG_NVME_PCI', if_true: files('nvme.c'))
++softmmu_ss.add(when: 'CONFIG_ONENAND', if_true: files('onenand.c'))
++softmmu_ss.add(when: 'CONFIG_PFLASH_CFI01', if_true: files('pflash_cfi01.c=
+'))
++softmmu_ss.add(when: 'CONFIG_PFLASH_CFI02', if_true: files('pflash_cfi02.c=
+'))
++softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80.c'))
++softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
++
++specific_ss.add(when: 'CONFIG_SH4', if_true: files('tc58128.c'))
++specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
++specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-=
+blk.c'))
++
++subdir('dataplane')
 diff --git a/hw/meson.build b/hw/meson.build
-index d8a7493..54414a6 100644
+index 54414a6..a6782a5 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,3 +1,4 @@
-+subdir('bt')
++subdir('block')
+ subdir('bt')
  subdir('char')
  subdir('core')
- subdir('cpu')
 --=20
 1.8.3.1
 
