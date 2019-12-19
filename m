@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891D41263C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:40:14 +0100 (CET)
-Received: from localhost ([::1]:41661 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B961263CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:43:24 +0100 (CET)
+Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihw2H-0000IO-3T
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:40:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32902)
+	id 1ihw5K-0004Le-Em
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:43:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ihvrY-0003ZD-Hi
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:29:09 -0500
+ (envelope-from <mst@redhat.com>) id 1ihvrZ-0003bP-T1
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:29:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ihvrT-0002GD-8Y
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:29:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47495
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1ihvrY-0002iF-2M
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:29:09 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47983
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihvrT-0002E8-3M
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:29:03 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihvrX-0002fJ-SO
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:29:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576762142;
+ s=mimecast20190719; t=1576762147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=51WDbq+PBwGZb4DLRjFJvXY/baMy4xbXgzhN6b6J6AM=;
- b=N5xDHfB7D+JqMHPbGTNaHLGYlmzTsg3gqzQcDzWgLcXiwohW/tjFL9wnIWJ9LZSTOUv8mO
- 73KC/hEO9vUlsoh/LF3Pa9l/Hh81hBl0G341H6Ui71g9jx2g+XfeSFiyG7f0yZKB5LVLVc
- lj9p9k9v88GVPmqs8H7j/eRC4eXkimM=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-1OYjnvGtMUmTZlmTY2eMWA-1; Thu, 19 Dec 2019 08:29:01 -0500
-Received: by mail-qv1-f70.google.com with SMTP id v3so623742qvm.2
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:29:01 -0800 (PST)
+ bh=5EhLJ8ESaItKzPeue3PIZ6PBy1w7sicN5shNVXQfGIo=;
+ b=Yhj0kd6WPbP/r7kv1gboGQcIx7FiBmsa6wL8UpeN9P0FH3jNhXDprmbKB5iqInfpPbEXo4
+ w/VHyXy/iBHHsEeDBVhzWpt40570XdCzF+LJeUdUHFZKZlfRJyoPGLnJLHMpMDP0Pjsohf
+ L9ycjqaO8BaGp1k0F+G0SzLzDKnJH5Y=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-gTKy-oztPteuJYrrVEe3jw-1; Thu, 19 Dec 2019 08:29:06 -0500
+Received: by mail-qt1-f200.google.com with SMTP id e8so3667291qtg.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:29:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=o8odu1UwTWT4bWPiNG9EYA27yURxcpg5mIlh0CMeiVA=;
- b=SXBaLYxVmU8K9Vj8j2+8PSNx//3Tnn+lDtTsNHjH9ulFlS2+RKVkKdJX5R89rWP29x
- zBM+EbxwazDiSVj9ThXyxjn1SVX1T86A6qvqXNklEili9sYr0elhfq3eXsD490FO+5NT
- /vQoLcQLOhg/Cw1U7/YUpSsTN3WM8BZVoEnlOMMzWPXUJECwf9J+rBTTHxe0roqY0meJ
- uEeBPefYpWmrQlOeDlM6C7OGr3rXQUwjqomGoQo6zQhfFW/bfNUcLJ+ce9ef8+Q5qiM+
- hzmCSAjoRYUXDqfcATb70dCWarwNNx0hYXWzHs774hgpp3lXk66jsRJPT/4cN4cUZaCm
- il2Q==
-X-Gm-Message-State: APjAAAXgcmLkueT5ZiayJB2ugSzMoUTfoz+jrrRrImrzcxnwtDGnKfBD
- vG2hfqzX++q86rT0ni7kiAh9N9oZS6BIRW0pmeRufdyKwu+zwjVjlG4L/+quWbCwd9rRia7VP3A
- ZCRFWuIDZ7nKmH+U=
-X-Received: by 2002:a37:98c6:: with SMTP id a189mr8136605qke.500.1576762140420; 
- Thu, 19 Dec 2019 05:29:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz9fPT3y+a9XwjOCQhYfL9erAj7ft8zFn5rKGEOB4gKChIFoyuY4Y/fIXkKRJgkdWeX4Guc8w==
-X-Received: by 2002:a37:98c6:: with SMTP id a189mr8136579qke.500.1576762140173; 
- Thu, 19 Dec 2019 05:29:00 -0800 (PST)
+ bh=wp7IEacTPDnbh2fT1ey9LJUjRbVmj0GN0bCAT90OXe4=;
+ b=f8DZhq9Bi9Ujsd+FTbvLrO85Lk96iS9VcpuK/UqK7JrCKZtsfFW8E6kZS2GSWywMU3
+ yUYsgAL/o8FGEcW2PzZJC9eHJxG1T47CKk2dUYVdF78CfKpwwtVPb9Ak+tmcuJlKB6A/
+ gS0pf//GqH7iv2MsaF20o3fXRkXdBdJHYT2mu5C9k7pGq/Z4aVKHQByWj8P8etvhJukQ
+ MqcmYQHag3MIpnNS3O57VI0SKmQP7c87sTCGMxh18BIRmP3KNC+U/MoWuDTQuOY5CRqG
+ FX9M0i5WnIZCNAtWwozXIZES8wcQrMp7eXNrdCswzwtRmYbff3BAPCTpHZ8TloHCjcdu
+ Jv/A==
+X-Gm-Message-State: APjAAAWVmulEqBxiFh57OiRvh6xzVn3d0ryb9r2p5HKWrdboKSln0dr2
+ GyfV/umGn3Y4CaBuC+tPF39l0ghovEYvw+BOR7KS4ck7rsKPN4hxlMUp4i+U0XpfTvfQUy984li
+ IFXketM5BymrxYIo=
+X-Received: by 2002:ac8:768d:: with SMTP id g13mr6948166qtr.7.1576762145447;
+ Thu, 19 Dec 2019 05:29:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzdL66iSvydYXqYxiJeIDCxy3TRsQOjcbzZ/o/Mu03gw2y8M2HbJDzdMk+ZcMkjzOh3QrCtIw==
+X-Received: by 2002:ac8:768d:: with SMTP id g13mr6948145qtr.7.1576762145270;
+ Thu, 19 Dec 2019 05:29:05 -0800 (PST)
 Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
- by smtp.gmail.com with ESMTPSA id d8sm1802324qtr.53.2019.12.19.05.28.58
+ by smtp.gmail.com with ESMTPSA id 124sm1755170qkn.58.2019.12.19.05.29.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 05:28:59 -0800 (PST)
-Date: Thu, 19 Dec 2019 08:28:56 -0500
+ Thu, 19 Dec 2019 05:29:04 -0800 (PST)
+Date: Thu, 19 Dec 2019 08:29:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/24] vhost-user: add VHOST_USER_RESET_DEVICE to reset devices
-Message-ID: <20191219132621.16595-24-mst@redhat.com>
+Subject: [PULL 24/24] vhost-user-scsi: reset the device if supported
+Message-ID: <20191219132621.16595-25-mst@redhat.com>
 References: <20191219132621.16595-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20191219132621.16595-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: 1OYjnvGtMUmTZlmTY2eMWA-1
+X-MC-Unique: gTKy-oztPteuJYrrVEe3jw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,103 +88,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Vrabel <david.vrabel@nutanix.com>,
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Vrabel <david.vrabel@nutanix.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-Add a VHOST_USER_RESET_DEVICE message which will reset the vhost user
-backend. Disabling all rings, and resetting all internal state, ready
-for the backend to be reinitialized.
+If the vhost-user-scsi backend supports the VHOST_USER_F_RESET_DEVICE
+protocol feature, then the device can be reset when requested.
 
-A backend has to report it supports this features with the
-VHOST_USER_PROTOCOL_F_RESET_DEVICE protocol feature bit. If it does
-so, the new message is used instead of sending a RESET_OWNER which has
-had inconsistent implementations.
+If this feature is not supported, do not try a reset as this will send
+a VHOST_USER_RESET_OWNER that the backend is not expecting,
+potentially putting into an inoperable state.
 
 Signed-off-by: David Vrabel <david.vrabel@nutanix.com>
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1572385083-5254-2-git-send-email-raphael.norwitz@nutanix.com>
+Message-Id: <1572385083-5254-3-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-user.c      |  8 +++++++-
- docs/interop/vhost-user.rst | 15 +++++++++++++++
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ hw/scsi/vhost-user-scsi.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 02a9b25199..d27a10fcc6 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -58,6 +58,7 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD =3D 10,
-     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER =3D 11,
-     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD =3D 12,
-+    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
-     VHOST_USER_PROTOCOL_F_MAX
+diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+index 6a6c15dd32..23f972df59 100644
+--- a/hw/scsi/vhost-user-scsi.c
++++ b/hw/scsi/vhost-user-scsi.c
+@@ -39,6 +39,10 @@ static const int user_feature_bits[] =3D {
+     VHOST_INVALID_FEATURE_BIT
  };
 =20
-@@ -98,6 +99,7 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GET_INFLIGHT_FD =3D 31,
-     VHOST_USER_SET_INFLIGHT_FD =3D 32,
-     VHOST_USER_GPU_SET_SOCKET =3D 33,
-+    VHOST_USER_RESET_DEVICE =3D 34,
-     VHOST_USER_MAX
- } VhostUserRequest;
-=20
-@@ -890,10 +892,14 @@ static int vhost_user_set_owner(struct vhost_dev *dev=
-)
- static int vhost_user_reset_device(struct vhost_dev *dev)
++enum VhostUserProtocolFeature {
++    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
++};
++
+ static void vhost_user_scsi_set_status(VirtIODevice *vdev, uint8_t status)
  {
-     VhostUserMsg msg =3D {
--        .hdr.request =3D VHOST_USER_RESET_OWNER,
-         .hdr.flags =3D VHOST_USER_VERSION,
-     };
-=20
-+    msg.hdr.request =3D virtio_has_feature(dev->protocol_features,
-+                                         VHOST_USER_PROTOCOL_F_RESET_DEVIC=
-E)
-+        ? VHOST_USER_RESET_DEVICE
-+        : VHOST_USER_RESET_OWNER;
-+
-     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
-         return -1;
+     VHostUserSCSI *s =3D (VHostUserSCSI *)vdev;
+@@ -62,6 +66,25 @@ static void vhost_user_scsi_set_status(VirtIODevice *vde=
+v, uint8_t status)
      }
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 015ac08177..5f8b3a456b 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -785,6 +785,7 @@ Protocol features
-   #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD  10
-   #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER  11
-   #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD 12
-+  #define VHOST_USER_PROTOCOL_F_RESET_DEVICE   13
+ }
 =20
- Master message types
- --------------------
-@@ -1190,6 +1191,20 @@ Master message types
-   ancillary data. The GPU protocol is used to inform the master of
-   rendering state and updates. See vhost-user-gpu.rst for details.
-=20
-+``VHOST_USER_RESET_DEVICE``
-+  :id: 34
-+  :equivalent ioctl: N/A
-+  :master payload: N/A
-+  :slave payload: N/A
++static void vhost_user_scsi_reset(VirtIODevice *vdev)
++{
++    VHostSCSICommon *vsc =3D VHOST_SCSI_COMMON(vdev);
++    struct vhost_dev *dev =3D &vsc->dev;
 +
-+  Ask the vhost user backend to disable all rings and reset all
-+  internal device state to the initial state, ready to be
-+  reinitialized. The backend retains ownership of the device
-+  throughout the reset operation.
++    /*
++     * Historically, reset was not implemented so only reset devices
++     * that are expecting it.
++     */
++    if (!virtio_has_feature(dev->protocol_features,
++                            VHOST_USER_PROTOCOL_F_RESET_DEVICE)) {
++        return;
++    }
 +
-+  Only valid if the ``VHOST_USER_PROTOCOL_F_RESET_DEVICE`` protocol
-+  feature is set by the backend.
++    if (dev->vhost_ops->vhost_reset_device) {
++        dev->vhost_ops->vhost_reset_device(dev);
++    }
++}
 +
- Slave message types
- -------------------
+ static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+ {
+ }
+@@ -182,6 +205,7 @@ static void vhost_user_scsi_class_init(ObjectClass *kla=
+ss, void *data)
+     vdc->get_features =3D vhost_scsi_common_get_features;
+     vdc->set_config =3D vhost_scsi_common_set_config;
+     vdc->set_status =3D vhost_user_scsi_set_status;
++    vdc->reset =3D vhost_user_scsi_reset;
+     fwc->get_dev_path =3D vhost_scsi_common_get_fw_dev_path;
+ }
 =20
 --=20
 MST
