@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5761268CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:17:40 +0100 (CET)
-Received: from localhost ([::1]:46251 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 954D71268FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:24:38 +0100 (CET)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii0Mk-0005Lz-KO
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:17:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
+	id 1ii0TV-0006Lz-KB
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:24:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ii0IY-0001Sx-CO
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:13:19 -0500
+ (envelope-from <clg@kaod.org>) id 1ii0Id-0001aK-36
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:13:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ii0IX-00072G-27
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:13:18 -0500
-Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:41536)
+ (envelope-from <clg@kaod.org>) id 1ii0Ib-0007Si-S2
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:13:22 -0500
+Received: from 14.mo6.mail-out.ovh.net ([46.105.56.113]:48771)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ii0IW-0006t0-Pb
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:13:16 -0500
-Received: from player734.ha.ovh.net (unknown [10.108.57.95])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id C6EADB0D78
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 19:13:14 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ii0Ib-0007L4-Ki
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:13:21 -0500
+Received: from player734.ha.ovh.net (unknown [10.108.16.7])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 31AD11F5A7B
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 19:13:20 +0100 (CET)
 Received: from kaod.org (lfbn-tou-1-1227-223.w90-76.abo.wanadoo.fr
  [90.76.50.223]) (Authenticated sender: clg@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id DD5A4D6D6417;
- Thu, 19 Dec 2019 18:13:08 +0000 (UTC)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id BC265D6D642F;
+ Thu, 19 Dec 2019 18:13:14 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 12/13] spapr/xive: Deduce the SpaprXive pointer from
+Subject: [PATCH v2 13/13] pnv/xive: Deduce the PnvXive pointer from
  XiveTCTX::xptr
-Date: Thu, 19 Dec 2019 19:11:54 +0100
-Message-Id: <20191219181155.32530-13-clg@kaod.org>
+Date: Thu, 19 Dec 2019 19:11:55 +0100
+Message-Id: <20191219181155.32530-14-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191219181155.32530-1-clg@kaod.org>
 References: <20191219181155.32530-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 13671239620888988646
+X-Ovh-Tracer-Id: 13672928469033454566
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepge
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepvd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.44.159
+X-Received-From: 46.105.56.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,65 +64,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-And use it instead of reaching out to the machine. This allows to get rid
-of a call to qdev_get_machine() and to reduce the scope of another one so
-that it is only used within the argument list of error_append_hint(). Thi=
-s
-is an acceptable tradeoff compared to all it would require to know about
-the maximum number of CPUs here without calling qdev_get_machine().
+And use it instead of reaching out to the machine. This allows to get
+rid of pnv_get_chip().
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/intc/spapr_xive_kvm.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ include/hw/ppc/pnv.h |  2 --
+ hw/intc/pnv_xive.c   |  8 ++------
+ hw/ppc/pnv.c         | 14 --------------
+ 3 files changed, 2 insertions(+), 22 deletions(-)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 32b2809210a0..edb7ee0e74f1 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -75,7 +75,7 @@ static void kvm_cpu_disable_all(void)
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index d016ab0d0319..5f0b7d3374ef 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -221,8 +221,6 @@ struct PnvMachineState {
+     PnvPnor      *pnor;
+ };
 =20
- void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **errp)
+-PnvChip *pnv_get_chip(uint32_t chip_id);
+-
+ #define PNV_FDT_ADDR          0x01000000
+ #define PNV_TIMEBASE_FREQ     512000000ULL
+=20
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 1962f884d6de..79a5dfe9a858 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -472,12 +472,8 @@ static uint8_t pnv_xive_get_block_id(XiveRouter *xrt=
+r)
+ static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu)
  {
--    SpaprXive *xive =3D SPAPR_MACHINE(qdev_get_machine())->xive;
-+    SpaprXive *xive =3D SPAPR_XIVE(tctx->xptr);
-     uint64_t state[2];
-     int ret;
+     int pir =3D ppc_cpu_pir(cpu);
+-    PnvChip *chip;
+-    PnvXive *xive;
+-
+-    chip =3D pnv_get_chip(PNV9_PIR2CHIP(pir));
+-    assert(chip);
+-    xive =3D &PNV9_CHIP(chip)->xive;
++    XivePresenter *xptr =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc)->xptr;
++    PnvXive *xive =3D PNV_XIVE(xptr);
 =20
-@@ -97,7 +97,7 @@ void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, Error **=
-errp)
+     if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
+         xive_error(xive, "IC: CPU %x is not enabled", pir);
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index d100b6f559e2..e1c218dc03f5 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1724,20 +1724,6 @@ static int pnv_match_nvt(XiveFabric *xfb, uint8_t =
+format,
+     return total_count;
+ }
 =20
- void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp)
+-PnvChip *pnv_get_chip(uint32_t chip_id)
+-{
+-    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
+-    int i;
+-
+-    for (i =3D 0; i < pnv->num_chips; i++) {
+-        PnvChip *chip =3D pnv->chips[i];
+-        if (chip->chip_id =3D=3D chip_id) {
+-            return chip;
+-        }
+-    }
+-    return NULL;
+-}
+-
+ static void pnv_get_num_chips(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp)
  {
--    SpaprXive *xive =3D SPAPR_MACHINE(qdev_get_machine())->xive;
-+    SpaprXive *xive =3D SPAPR_XIVE(tctx->xptr);
-     uint64_t state[2] =3D { 0 };
-     int ret;
-=20
-@@ -152,8 +152,7 @@ void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx=
-, Error **errp)
-=20
- void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
- {
--    MachineState *ms =3D MACHINE(qdev_get_machine());
--    SpaprXive *xive =3D SPAPR_MACHINE(ms)->xive;
-+    SpaprXive *xive =3D SPAPR_XIVE(tctx->xptr);
-     unsigned long vcpu_id;
-     int ret;
-=20
-@@ -179,7 +178,7 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **=
-errp)
-                    vcpu_id, strerror(errno));
-         if (errno =3D=3D ENOSPC) {
-             error_append_hint(&local_err, "Try -smp maxcpus=3DN with N <=
- %u\n",
--                              ms->smp.max_cpus);
-+                              MACHINE(qdev_get_machine())->smp.max_cpus)=
-;
-         }
-         error_propagate(errp, local_err);
-         return;
 --=20
 2.21.0
 
