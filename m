@@ -2,48 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84C5125A7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 06:18:57 +0100 (CET)
-Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED6F125A85
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 06:24:56 +0100 (CET)
+Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihoDA-0002zs-P1
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 00:18:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40614)
+	id 1ihoIx-00066i-Jm
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 00:24:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ihoCM-0002JQ-3L
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:18:07 -0500
+ (envelope-from <alistair@alistair23.me>) id 1ihoGv-0004RC-T1
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:22:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ihoCK-0005QU-VV
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:18:06 -0500
-Received: from ozlabs.org ([203.11.71.1]:51909)
+ (envelope-from <alistair@alistair23.me>) id 1ihoGu-0002KV-NN
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:22:49 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:34549)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ihoCK-0005CJ-Hd; Thu, 19 Dec 2019 00:18:04 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47dgBJ60mcz9sPn; Thu, 19 Dec 2019 16:17:59 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576732680;
- bh=NQiSztyPAbPgulkIn1a2Wkf8nWAKJwxdUxEUoj2JqM0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c71gdxJIO2ZIkVGT+4TFUuYhTmRxhjZsdaHAEewpfjjnxlEmqVN0KfS1SwpxkEVkK
- +p+DL8fiL5S/WU2amHM3DUyFMne/Y6L2NMRqFz6dZuDhncpslRRSVlrkvVIQpF9naN
- VdFv4zhln0IOzo65jHH1GXEZ3Bs9NqPiT9TOlcVA=
-Date: Thu, 19 Dec 2019 16:15:57 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bharata B Rao <bharata@linux.ibm.com>
-Subject: Re: [PATCH v4 ppc-for-5.0 0/2] ppc/spapr: Support reboot of secure
- pseries guest
-Message-ID: <20191219051557.GI2321@umbus.fritz.box>
-References: <20191219031445.8949-1-bharata@linux.ibm.com>
+ (Exim 4.71) (envelope-from <alistair@alistair23.me>)
+ id 1ihoGr-0001qh-W4; Thu, 19 Dec 2019 00:22:46 -0500
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id 484BA48A;
+ Thu, 19 Dec 2019 00:22:43 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Thu, 19 Dec 2019 00:22:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=zuKq+gd9kj0a7Z5OXk24TRnL90
+ uej/6n5NSnAPMTh4c=; b=1dfiysmAdVuiW+H66a6TqaGgwVWjvabLUNhHHumdEb
+ /9ayqvF2MNj6IBKpPYPv0rc/NhVPsGDkFCJmGLxNsdgZkqUdHTRFbNHupccMKlsu
+ KHl9N4vp0sjkSjLcABgJ0neOsUiD6SVaLbMJzo9AwkyInY5RaB6IbEUUx6VYhYDI
+ dQaegEovgEtllR6NDETrnT1s682eG7dhpbCfk6XQ8bZmcF+mBzKJ/9baF6/JWKS0
+ bdQUnxF5RNfwFJiRUThrbP8A2gRCjcum5rWi6O/1mYt737rB5HIL2h/Rgpq38Sm4
+ 5pARGrI3KfHxe+Fl5mvW3aQMTQfpjQSv7j/yypT8wcMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zuKq+gd9kj0a7Z5OX
+ k24TRnL90uej/6n5NSnAPMTh4c=; b=r3gMZ47kv3tQrmEtcnaNIYTYgmhp2ulM2
+ IHKyA5K1lU5Cf8coVGSIRfhmM461VKMhJwFqXE3wy5JAirp0ljJ55tcY3sdxJyWN
+ 02uhoNIi/Exep7/8VYiOEzW9NKhVlo94SZwen/4DsWJZrpt0r1cmYqDcqAEadRby
+ TvSM/sV9QZw1iV/S0QZkEEXzY81ADoTKG71rtJP7YclHsa77W4Amp9PCpf+jsR3S
+ 9Aum2jerrZeysMvZN7tcC/4wrPRcrL9jMy1LGehMjLOCBcxmcyAtQCV1jURMstdW
+ ZbKMmMjHcEQ+v0YMhu7E/aB47OYmLCSen6/mQkuMyLQdM0VC/F3TQ==
+X-ME-Sender: <xms:Ign7XXIyXBQwFZ_NELCMiIuuuCdmqBqJwKJ7OdwIR-Y9PUUOqoTdfg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddutddgkeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+ segrlhhishhtrghirhdvfedrmhgvqeenucfkphepjeefrdelfedrkeegrddvtdeknecurf
+ grrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhm
+ vgenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:Ign7Xfbb0H71SLmHnMVVMJPZZw4MSW54M2AR3c6nKCCKJT7fjncXgQ>
+ <xmx:Ign7XauY_4CcWk8R8aW7BuggLo1PxECHbVjx1Od4Ba0MG2rgAb1goQ>
+ <xmx:Ign7XUusoKZdNYGg89sNuBSXqgqhjg8PV1qe5jC9_uxzMwcZ-ur3QQ>
+ <xmx:Ign7XcYUJC6UGH0rvLE3yVQei7mhyNSHEOZgac_KA6RiQ-TBLQoNmg>
+Received: from alistair-xps-14z.alistair23.me
+ (c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
+ by mail.messagingengine.com (Postfix) with ESMTPA id AAF028005C;
+ Thu, 19 Dec 2019 00:22:41 -0500 (EST)
+From: Alistair Francis <alistair@alistair23.me>
+To: qemu-devel@nongnu.org, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ philmd@redhat.com
+Subject: [PATCH v7 0/4]  Add the STM32F405 and Netduino Plus 2 machine
+Date: Wed, 18 Dec 2019 21:22:40 -0800
+Message-Id: <cover.1576658572.git.alistair@alistair23.me>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="X0cz4bGbQuRbxrVl"
-Content-Disposition: inline
-In-Reply-To: <20191219031445.8949-1-bharata@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 64.147.123.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,74 +83,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, linuxram@us.ibm.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Now that the Arm-M4 CPU has been added to QEMU we can add the Netduino
+Plus 2 machine. This is very similar to the STM32F205 and Netduino 2 SoC
+and machine.
 
---X0cz4bGbQuRbxrVl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v7:
+ - Fix the EXTI IRQ
+ - Remove the duplicate configs
+v6:
+ - Remove machine specific reset code
+ - Rebase on master
+v5:
+ - Fix checkpatch failures
+ - Add mising includes
+v4:
+ - Rebase on master
+v3:
+ - Remove custom reset handler
+ - Add init-entry and init-sp properties
+ - Rebase on master (including Kconfig changes)
+v2:
+ - Reorder patchset
+ - Return the kernel entry point instead of using a pointer
+ - Address Peter's comments
 
-On Thu, Dec 19, 2019 at 08:44:43AM +0530, Bharata B Rao wrote:
-> This patchset adds KVM_PPC_SVM_OFF ioctl which is required to support
-> reset of secure guest. This includes linux-headers update so that we get
-> the newly introduced ioctl.
->=20
-> v3:
-> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg03685.html
+Alistair Francis (4):
+  hw/misc: Add the STM32F4xx Sysconfig device
+  hw/misc: Add the STM32F4xx EXTI device
+  hw/arm: Add the STM32F4xx SoC
+  hw/arm: Add the Netduino Plus 2
 
-Applied to ppc-for-5.0, thanks.
+ MAINTAINERS                        |  14 ++
+ default-configs/arm-softmmu.mak    |   1 +
+ hw/arm/Kconfig                     |  10 +
+ hw/arm/Makefile.objs               |   2 +
+ hw/arm/netduinoplus2.c             |  52 +++++
+ hw/arm/stm32f405_soc.c             | 302 +++++++++++++++++++++++++++++
+ hw/misc/Kconfig                    |   6 +
+ hw/misc/Makefile.objs              |   2 +
+ hw/misc/stm32f4xx_exti.c           | 188 ++++++++++++++++++
+ hw/misc/stm32f4xx_syscfg.c         | 171 ++++++++++++++++
+ hw/misc/trace-events               |  11 ++
+ include/hw/arm/stm32f405_soc.h     |  73 +++++++
+ include/hw/misc/stm32f4xx_exti.h   |  60 ++++++
+ include/hw/misc/stm32f4xx_syscfg.h |  61 ++++++
+ 14 files changed, 953 insertions(+)
+ create mode 100644 hw/arm/netduinoplus2.c
+ create mode 100644 hw/arm/stm32f405_soc.c
+ create mode 100644 hw/misc/stm32f4xx_exti.c
+ create mode 100644 hw/misc/stm32f4xx_syscfg.c
+ create mode 100644 include/hw/arm/stm32f405_soc.h
+ create mode 100644 include/hw/misc/stm32f4xx_exti.h
+ create mode 100644 include/hw/misc/stm32f4xx_syscfg.h
 
->=20
-> Changes in v4:
-> -------------
-> - s/error_setg/error_setg_errno (Greg Kurz)
->=20
-> Bharata B Rao (2):
->   linux-headers: Update
->   ppc/spapr: Support reboot of secure pseries guest
->=20
->  hw/ppc/spapr.c                                |  1 +
->  include/standard-headers/asm-x86/bootparam.h  |  7 +-
->  .../infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h | 15 +++-
->  include/standard-headers/drm/drm_fourcc.h     | 28 ++++++-
->  .../linux/input-event-codes.h                 | 77 +++++++++++++++++++
->  include/standard-headers/linux/pci_regs.h     |  3 +
->  .../standard-headers/rdma/vmw_pvrdma-abi.h    |  5 ++
->  linux-headers/linux/kvm.h                     |  1 +
->  target/ppc/kvm.c                              | 15 ++++
->  target/ppc/kvm_ppc.h                          |  6 ++
->  10 files changed, 154 insertions(+), 4 deletions(-)
->=20
+-- 
+2.24.0
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---X0cz4bGbQuRbxrVl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl37B40ACgkQbDjKyiDZ
-s5KWnA//edH8hqUlSLT9TaATQlqSx7OBOookvCHD4e7FPem1CrDmTACq74MxGG2c
-+UBUrD+N0WXEz65sUNp8evCv+k1yTD30TlWY+HtNlsieau4whesQpZwhiMywNIbv
-WW93hRnj+53GW0ldm673h8TmtM0EBAyh7KZY6PRQXmFBfwIbd9Bt/T3o6KPk6aMR
-Ky51NhZyvqwPMX1WIUjqgcYDOnyZDEvUHbEA8IZQe4wpr5c871qR+LZ7Yn8vna+3
-0SFIw2NLkAC7PPqWItrUOlx6+Dpaw0pJm3FAMKR/M2fY3VNAsNG5wC8PKtZVtZus
-aIINmGCZxAvpW5Dvhhv7/9JlQ1bBvHdAJETFX9fquLhIbaEENb+DOCWHB+WGqGHb
-vVL+f94h5Z41LniTWBtGn6NlD7TD4tP8MVZdryEucCqTj+2xD2siAzZ9OM+OxNno
-lA+JRg3gZupj78mbVtm+eb8v2m2FET4wc/wSgjoKy/Nvkuj4r2fWeeXZSISXtao3
-MaGVkHsXIaD1Wj+GxZgF0s+xSNhGfNbFp07I4d7urS5pZ/M9iQRqJSqt1uUIaq1b
-sqNekhZlFNggcSmcYaG5KxdJ7EeYiqmMr2RzzAZ7+NVsYLuFODHojT3CfWZwPa50
-qisQtVzHNkedD7x6ViHd1t2qDNg9JtSBJlhAK68+fTR80Pg7zH0=
-=AlLs
------END PGP SIGNATURE-----
-
---X0cz4bGbQuRbxrVl--
 
