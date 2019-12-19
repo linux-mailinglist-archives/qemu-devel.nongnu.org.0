@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538FF125FE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:51:45 +0100 (CET)
-Received: from localhost ([::1]:38724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC727125FFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:53:58 +0100 (CET)
+Received: from localhost ([::1]:38768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtPE-0000KI-2R
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:51:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38220)
+	id 1ihtRN-0003of-Hs
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:53:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38079)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtNF-0006Xq-Rk
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:43 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNF-0006Xo-Di
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtND-0007z0-Au
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtND-0007x3-0K
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:41 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37088)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56156)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtND-0007t5-1r
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:39 -0500
-Received: by mail-wm1-x335.google.com with SMTP id f129so5106965wmf.2
+ id 1ihtNC-0007pp-Mk
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:38 -0500
+Received: by mail-wm1-x333.google.com with SMTP id q9so4939770wmj.5
  for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ejtvT2GEst/Jf6ZZBqZIeJaPXeRI7sIRFGbYoqeTEu4=;
- b=XiHyCyaU0NtNMmC0flV8OlbZFoGZjUQpAuQzni+2Ukp1BQf5mjbdukFtxblwTDLzI5
- yyzos0b/vUFlDiHSM1705NOFQvv96DIA0nD5aOsfTf6yUOoKa8snq2gVFIw7e5xVsH0a
- lCLmO9fzlMr231gshJECavR5hGHc66oV9APpuq3ODfbfvHFSScszjoRJyY7YT6sO9iXX
- W+dm/TNz7tFr+7jeB3GvEqIJVx/SXW99KwwbPxX1kHNDezTZvMVZwMpXSBT6JtFh/6Ja
- Fj7aVP3F5qWD3pAVWNk3MH3dMtLSLmXMDdEj4zVSdGhNR5xV2HAvXDGEHEck+OFBf8Qs
- SdCA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=d+Pda+ZdRPcyYkSjIEt1t/uTnpjt9VwcL/O1cE3PJHI=;
+ b=tQ/bknCAq+PpnYB7kbXeP4NjPYiW/CwVoYYMVxVjktHTyxk0BNO3JulfdMxU3Z7FzN
+ Ku1HRRzJgACzIJp2ZOF/3TJczpsDEtdepaYFhDOWW8OQBcA3NWC2QZdUQF6mLyAZrQp9
+ PtG3Ecu1/g/fjG+RdnZkkiFuTa4JyoAr6o+1YBnxZdTSx0DidcsEEfiAgtqGIyJHIvni
+ FTV3BBrqkVieItxjsLW+2rEPA1APj3/LyYRNZuItNSV+VFJp4fhuoHYkRq08W3P1mW8J
+ KTXov3IxcHV89oQ6NNkz73vFdbTvXnHSZ1s2FvvZ/xQnpoCKvepxaAtYqLTrsX8rkW1B
+ EizQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ejtvT2GEst/Jf6ZZBqZIeJaPXeRI7sIRFGbYoqeTEu4=;
- b=RDLPiY8fdhQheFpHP/AcuFchYBOqg76T9YO7PFr9qxVei/pPJFvO87Hqq4CO722leL
- W5+P7ljXrg6cjgwA57r+JoTl1quefQZyHsE5xZ/0javuIV3YmZ8L7430veAxZDBfWYB4
- A4sQRSVbzlNXDdP3wrWbC62XoiKO4uqv7iPcNsJFDb1GFdk2IvnDi7zwTVr6T8uYWdSP
- 7fkPSqJDPa3GjApJF9kzsazeY/m3Vj3J1Cz38mhTE7rjddLFKNT4aEo+l3MVngaBTSD4
- +NiGvc6v+n9Xb5ztB0RGyKYaTWKK0P3W1Js2Rv/myOwt48rgb5RvIZ2dyuJ5kToGgVWm
- Xngw==
-X-Gm-Message-State: APjAAAWKnxDPFO4txZEC5YrN3Hpg1Xlp9JkUYc2oCPpLr6bGvm0uh1Ao
- YNxwSb9a8/0KycSVLLiTGPDMKg==
-X-Google-Smtp-Source: APXvYqyhTZteXKLg9evugx6vUwrf2eYi6CVQIjVALvK7W/xkfyyQNX2f+nlAvR3MFg8M/1jlSniAwg==
-X-Received: by 2002:a7b:c342:: with SMTP id l2mr9821893wmj.159.1576752577830; 
- Thu, 19 Dec 2019 02:49:37 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=d+Pda+ZdRPcyYkSjIEt1t/uTnpjt9VwcL/O1cE3PJHI=;
+ b=hULz8Qf4jqx0xShhE4BKr/xC+0TLo7n5EHTkA7/74xIHs8nY6adlBQrpAkrHsRa1m3
+ PLKEJmT3tWXhxF89QtlBihW+at4BJeeqv8p0myL7+vUTRvN30vzu9/AnaOpRHCFKYyzS
+ D5N3NWyA27j6bSyyU0Ph3uxWNRe5RReApwEzFL0NV4ykY0ZJ1wXLTGrnaabmvKxNyVQl
+ Z0K3h+JKkW99+XRbcNb1uMsdAvoacT1M46En8H8+dK6HvLFNDiwKzjd4vSjE4qJ4p1Tz
+ KbtP2qxGbMuUnJEypPxWw83vsXykN9Ds+3nTvjwLzAmLxjiofYhSwLwRNa/z1U3HaSOR
+ 0ZdQ==
+X-Gm-Message-State: APjAAAV561rtH0s1QOjpZsLOxQifu/Jaos+OrPRb+ORYtX3htocG1AUn
+ lYaOwC92aUHrPCeS8tMhNhvbVg==
+X-Google-Smtp-Source: APXvYqyOlbiRHcRcTOggup4wtytu9l0sKcr+3hm0NTgofQxfNTj20OGold+p3sE0xOJipq3j8NoDzw==
+X-Received: by 2002:a7b:cd91:: with SMTP id y17mr8990781wmj.140.1576752576877; 
+ Thu, 19 Dec 2019 02:49:36 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x17sm5878585wrt.74.2019.12.19.02.49.35
+ by smtp.gmail.com with ESMTPSA id f1sm5938897wru.6.2019.12.19.02.49.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Dec 2019 02:49:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 692E81FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 7F9001FF8C;
  Thu, 19 Dec 2019 10:49:34 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/25] testing and logging updates
-Date: Thu, 19 Dec 2019 10:49:09 +0000
-Message-Id: <20191219104934.866-1-alex.bennee@linaro.org>
+Subject: [PULL 01/25] configure: allow disable of cross compilation containers
+Date: Thu, 19 Dec 2019 10:49:10 +0000
+Message-Id: <20191219104934.866-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
+References: <20191219104934.866-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,121 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681:
+Our docker infrastructure isn't quite as multiarch as we would wish so
+lets allow the user to disable it if they want. This will allow us to
+use still run check-tcg on non-x86 CI setups.
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-12-17' into staging (2019-12-17 15:55:20 +0000)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Richard Henderson <richard.henderson@linaro.org>
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-tesing-and-misc-191219-1
-
-for you to fetch changes up to 380976f40f909b735acb60d5d424de7eb1b7107e:
-
-  tests/tcg: ensure we re-configure if configure.sh is updated (2019-12-19 08:20:16 +0000)
-
-----------------------------------------------------------------
-Various testing and logging updates
-
-  - test tci with Travis
-  - enable multiarch testing in Travis
-  - default to out-of-tree builds
-  - make changing logfile safe via RCU
-  - remove redundant tests
-  - remove gtester test from docker
-  - convert DEBUG_MMAP to tracepoints
-  - remove hand rolled glob function
-  - trigger tcg re-configure when needed
-
-----------------------------------------------------------------
-Alex Bennée (8):
-      configure: allow disable of cross compilation containers
-      linux-user: convert target_mprotect debug to tracepoint
-      linux-user: convert target_mmap debug to tracepoint
-      linux-user: add target_mmap_complete tracepoint
-      linux-user: log page table changes under -d page
-      linux-user: convert target_munmap debug to a tracepoint
-      trace: replace hand-crafted pattern_glob with g_pattern_match_simple
-      tests/tcg: ensure we re-configure if configure.sh is updated
-
-Paolo Bonzini (2):
-      ci: build out-of-tree
-      docker: gtester is no longer used
-
-Robert Foley (6):
-      Fix double free issue in qemu_set_log_filename().
-      Cleaned up flow of code in qemu_set_log(), to simplify and clarify.
-      Add a mutex to guarantee single writer to qemu_logfile handle.
-      qemu_log_lock/unlock now preserves the qemu_logfile handle.
-      Add use of RCU for qemu_logfile.
-      Added tests for close and change of logfile.
-
-Thomas Huth (8):
-      travis.yml: Run tcg tests with tci
-      iotests: Provide a function for checking the creation of huge files
-      iotests: Skip test 060 if it is not possible to create large files
-      iotests: Skip test 079 if it is not possible to create large files
-      tests/hd-geo-test: Skip test when images can not be created
-      tests/test-util-filemonitor: Skip test on non-x86 Travis containers
-      travis.yml: Enable builds on arm64, ppc64le and s390x
-      travis.yml: Remove the redundant clang-with-MAIN_SOFTMMU_TARGETS entry
-
-Wainer dos Santos Moschetta (1):
-      tests/vm: Allow to set qemu-img path
-
- docs/devel/testing.rst        |   6 ++-
- configure                     |   9 +++-
- include/exec/log.h            |  34 +++++++++++--
- include/qemu/log.h            |  48 +++++++++++++++---
- accel/tcg/cpu-exec.c          |   4 +-
- accel/tcg/translate-all.c     |   4 +-
- accel/tcg/translator.c        |   4 +-
- bsd-user/main.c               |   2 +-
- exec.c                        |   4 +-
- hw/net/can/can_sja1000.c      |   4 +-
- linux-user/main.c             |   2 +-
- linux-user/mmap.c             |  56 ++++-----------------
- net/can/can_socketcan.c       |   5 +-
- target/cris/translate.c       |   4 +-
- target/i386/translate.c       |   5 +-
- target/lm32/translate.c       |   4 +-
- target/microblaze/translate.c |   4 +-
- target/nios2/translate.c      |   4 +-
- target/tilegx/translate.c     |   6 ---
- target/unicore32/translate.c  |   4 +-
- tcg/tcg.c                     |  28 +++++++----
- tests/hd-geo-test.c           |  12 ++++-
- tests/test-logging.c          |  80 ++++++++++++++++++++++++++++++
- tests/test-util-filemonitor.c |  11 +++++
- trace/control.c               |  35 +------------
- util/log.c                    | 100 ++++++++++++++++++++++++++++---------
- .cirrus.yml                   |   8 ++-
- .gitlab-ci.yml                |  28 ++++++++---
- .shippable.yml                |   4 +-
- .travis.yml                   | 112 ++++++++++++++++++++++++++++++++++++------
- linux-user/trace-events       |   6 +++
- tests/docker/common.rc        |   7 +--
- tests/qemu-iotests/005        |   5 +-
- tests/qemu-iotests/060        |   3 ++
- tests/qemu-iotests/079        |   3 ++
- tests/qemu-iotests/220        |   6 +--
- tests/qemu-iotests/common.rc  |  10 ++++
- tests/tcg/Makefile.prereqs    |   2 +-
- tests/tcg/configure.sh        |   6 ++-
- tests/vm/Makefile.include     |   1 +
- tests/vm/basevm.py            |   5 ++
- tests/vm/centos               |   2 +-
- tests/vm/fedora               |   4 +-
- tests/vm/freebsd              |   3 +-
- tests/vm/netbsd               |   3 +-
- tests/vm/openbsd              |   3 +-
- tests/vm/ubuntu.i386          |   2 +-
- 47 files changed, 486 insertions(+), 216 deletions(-)
-
+diff --git a/configure b/configure
+index 84b413dbfcf..e0c66ee9b68 100755
+--- a/configure
++++ b/configure
+@@ -302,6 +302,7 @@ audio_win_int=""
+ libs_qga=""
+ debug_info="yes"
+ stack_protector=""
++use_containers="yes"
+ 
+ if test -e "$source_path/.git"
+ then
+@@ -1534,6 +1535,10 @@ for opt do
+   ;;
+   --disable-plugins) plugins="no"
+   ;;
++  --enable-containers) use_containers="yes"
++  ;;
++  --disable-containers) use_containers="no"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1717,6 +1722,7 @@ Advanced options (experts only):
+                            track the maximum stack usage of stacks created by qemu_alloc_stack
+   --enable-plugins
+                            enable plugins via shared library loading
++  --disable-containers     don't use containers for cross-building
+ 
+ Optional features, enabled with --enable-FEATURE and
+ disabled with --disable-FEATURE, default is enabled if available:
+@@ -7992,7 +7998,7 @@ done
+ (for i in $cross_cc_vars; do
+   export $i
+ done
+-export target_list source_path
++export target_list source_path use_containers
+ $source_path/tests/tcg/configure.sh)
+ 
+ # temporary config to build submodules
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 6c4a471aeae..210e68396f2 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -36,8 +36,10 @@ TMPC="${TMPDIR1}/qemu-conf.c"
+ TMPE="${TMPDIR1}/qemu-conf.exe"
+ 
+ container="no"
+-if has "docker" || has "podman"; then
+-  container=$($python $source_path/tests/docker/docker.py probe)
++if test $use_containers = "yes"; then
++    if has "docker" || has "podman"; then
++        container=$($python $source_path/tests/docker/docker.py probe)
++    fi
+ fi
+ 
+ # cross compilers defaults, can be overridden with --cross-cc-ARCH
 -- 
 2.20.1
 
