@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7088126911
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:28:34 +0100 (CET)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2BA12691D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:32:55 +0100 (CET)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii0XJ-0004F2-W7
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:28:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58885)
+	id 1ii0bW-0007LP-Ao
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:32:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ii0Vd-0001mh-5h
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:26:50 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1ii0aB-0006nM-93
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:31:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ii0Vb-0004j6-CU
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:26:48 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36480
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1ii0a7-0007nj-6J
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:31:28 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45570
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ii0Vb-0004gI-63
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:26:47 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1ii0a5-0007kd-GB
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:31:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576780005;
+ s=mimecast20190719; t=1576780284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rHq23gHd9yh/abFMqeLs1LBOHvt7+MdU7phdRBDBCVU=;
- b=EEW4FG/Tht2o1w8RAtYXzlg2DQEKMQm8qJQviJfxaKX1yp3PADaYmW1snJ4TBZbnsu8tPB
- VzEM0Ytog+OQnFgXxZ8vGxx58aynrpHCLqP6EOLIRF+4OOGhV3FzUKtXlyNcgc/EITHNXr
- BCGXKVrkjIml8E21eNe45mAi/HB/qdk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L9FWGWBUkF9tQ616rpbMJG8NkogpoEn8oAXnWBtYw1A=;
+ b=Laf8Y/ehnldXarz2/eDStd39h2f//hiKD1Py7GDUCOneN5/FflwFKvDoFAtXiNTooWWiYx
+ xc4Mx38K1RTMueowc7MiCCR9Y4lL9Kz+HlmFzRLkXi6lOSOvhVLgaKLbYLLu57l4h/VDeh
+ xIDABnkW6qhNWHo5zWxGc8+RPZgqNcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-4oOZOP34Pielir1ycW--_A-1; Thu, 19 Dec 2019 13:26:42 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-379-z_A4zvb8OBGejzTjLIywcQ-1; Thu, 19 Dec 2019 13:31:23 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 090F218D4C0;
- Thu, 19 Dec 2019 18:26:41 +0000 (UTC)
-Received: from localhost (ovpn-205-138.brq.redhat.com [10.40.205.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A95A100032E;
- Thu, 19 Dec 2019 18:26:40 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] backup-top: Begin drain earlier
-Date: Thu, 19 Dec 2019 19:26:38 +0100
-Message-Id: <20191219182638.104621-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D572800D48;
+ Thu, 19 Dec 2019 18:31:21 +0000 (UTC)
+Received: from [10.36.116.117] (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E833E5C1B0;
+ Thu, 19 Dec 2019 18:31:10 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v11 05/20] virtio-iommu: Endpoint and domains
+ structs and helpers
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-6-eric.auger@redhat.com>
+ <20191210163716.GD277340@myrica>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <28597404-b9ac-8c16-e9e8-ad5793f2f5a3@redhat.com>
+Date: Thu, 19 Dec 2019 19:31:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 4oOZOP34Pielir1ycW--_A-1
+In-Reply-To: <20191210163716.GD277340@myrica>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: z_A4zvb8OBGejzTjLIywcQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,44 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ dgilbert@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When dropping backup-top, we need to drain the node before freeing the
-BlockCopyState.  Otherwise, requests may still be in flight and then the
-assertion in shres_destroy() will fail.
+Hi Jean,
 
-(This becomes visible in intermittent failure of 056.)
+On 12/10/19 5:37 PM, Jean-Philippe Brucker wrote:
+> On Fri, Nov 22, 2019 at 07:29:28PM +0100, Eric Auger wrote:
+>> +typedef struct viommu_domain {
+>> +    uint32_t id;
+>> +    GTree *mappings;
+>> +    QLIST_HEAD(, viommu_endpoint) endpoint_list;
+>> +} viommu_domain;
+>> +
+>> +typedef struct viommu_endpoint {
+>> +    uint32_t id;
+>> +    viommu_domain *domain;
+>> +    QLIST_ENTRY(viommu_endpoint) next;
+>> +} viommu_endpoint;
+> 
+> There might be a way to merge viommu_endpoint and the IOMMUDevice
+> structure introduced in patch 4, since they both represent one endpoint.
+> Maybe virtio_iommu_find_add_pci_as() could add the IOMMUDevice to
+> s->endpoints, and IOMMUDevice could store the endpoint ID rather than bus
+> and devfn.
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/backup-top.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On PCI bus enumeration we locally store the PCI bus hierarchy under the
+form of GHashTable of IOMMUDevice indexed by iommu_pci_bus pointer.
+Those are all the devices attached to the downstream buses. We also use
+an array of iommu pci bus pointers indexed by bus number that is lazily
+populated due to the fact, at enumeration time we do know the bus number
+yet. As you pointed, I haven't used the array of iommu pci bus pointers
+indexed by bus number in this series and I should actually. Currently I
+am not checking on attach that the sid effectively corresponds to a sid
+protected by this iommu. I will add this in my next version. The above
+structures are used in intel_iommu and smmu code as well and I think
+eventually this may be factorized a common base class..
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 7cdb1f8eba..818d3f26b4 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -257,12 +257,12 @@ void bdrv_backup_top_drop(BlockDriverState *bs)
-     BDRVBackupTopState *s =3D bs->opaque;
-     AioContext *aio_context =3D bdrv_get_aio_context(bs);
-=20
--    block_copy_state_free(s->bcs);
--
-     aio_context_acquire(aio_context);
-=20
-     bdrv_drained_begin(bs);
-=20
-+    block_copy_state_free(s->bcs);
-+
-     s->active =3D false;
-     bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
-     bdrv_replace_node(bs, backing_bs(bs), &error_abort);
---=20
-2.23.0
+on the other hand the gtree of viommu_endpoint - soon renamed in
+CamelCase form ;-) - corresponds to the EPs that are actually attached
+to any domain. It is indexed by sid and not by bus pointer. This is more
+adapted to the virtio-iommu case.
+
+So, despite your suggestion, I am tempted to keep the different
+structures as the first ones are common to all iommu emulation code and
+the last is adapted to the virtio-iommu operations.
+
+Thoughts?
+
+Eric
+
+> 
+>> +typedef struct viommu_interval {
+>> +    uint64_t low;
+>> +    uint64_t high;
+>> +} viommu_interval;
+> 
+> I guess these should be named in CamelCase? Although if we're allowed to
+> choose my vote goes to underscores :)
+> 
+> Thanks,
+> Jean
+> 
 
 
