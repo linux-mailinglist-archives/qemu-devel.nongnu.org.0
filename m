@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD6612605E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:02:13 +0100 (CET)
-Received: from localhost ([::1]:39000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137BF126066
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:03:51 +0100 (CET)
+Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtZM-0005xv-E7
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:02:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56603)
+	id 1ihtav-0000Qd-Oa
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:03:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40781)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWa-0003io-Ao
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:21 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNV-0006xW-O1
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWZ-0000gz-1f
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:20 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40350)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNU-00014M-AH
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:57 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34156)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtWY-0000a6-Ny
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:18 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id t14so5122389wmi.5
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:18 -0800 (PST)
+ id 1ihtNT-0000zS-VD
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:56 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t2so5504069wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=19SBTiRGWbT4vIjJk9Btd3tdZPysUx36M7Ps9JJHnt4=;
- b=ip/iydWfZAwQtCTh9V5ZyVbRlA6tbMomQDS9Qrd388MqjwC0pa1PDBE9N3U//ZpMNY
- Zmwpa/wmaeGDVbbKCklHDUVrR98T3pXDSxVIaLIVBanCzrwZMwJToMBtPnIXGFbqMXqH
- PmeEUN17iadP49iYyXJlwmvCJS1dhvZE6+GuidpgJ1D7+/CBXzKmr+2XjWJop8higKN8
- XPBVUdMgk5mi9mtzHji7uDFvK6DaY8p+d2aABuNcU5ejM9dkKKsJd68B9m1MZ1rP4UCL
- EA7nf5ymgqtWD4qzdPpTuXa6XqOiKbpYomRhvciDUqA6OqxiSXKzgeOq4A4oVTe0BEJp
- 4YHQ==
+ bh=in0oC21NDNK40en2dSlsiyVxI60+V0LERywCr1z/Gwc=;
+ b=sVau0Z5Vq5xOq0XZV132kxd5OtLfww/BWQu8tUX8W1ifnPZqtyPwufyfGDqFxJdmCq
+ sGo5VKxoFypJcCLAm6Rw+/RP+4VAq9VfS9VsbBQHbrSlXji32xra9WbBAwR/KjJWNWgL
+ ABDpJnaLmChU2u0SmMSybzzF6miwLgvLc5jK/w9O3lN27zEgMPUJ/npxDKCRGkLKS9da
+ 9f1kUAmlvSMhmhaCxB2SglHBLlSyio5U/AqyWWLkoiZeHjtgy6sCs1Pg+1N3eJI5CKZ3
+ 8rvdNhRTP64jfLPXX1gp8EiTQ39uBI44iSckVDxjvgnSiLZLnndt1hQZCN2KA3RMz2Y8
+ U7CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=19SBTiRGWbT4vIjJk9Btd3tdZPysUx36M7Ps9JJHnt4=;
- b=oaoHwGjhUzov0pT6C8RP6e/Up6KQzOwFd6w7+WO1Feer9USXamFCUN9DXp6S0kSkOR
- bgWEimnnV0HrmhiGtr8wD9ANtkXZ/eEdmJFe98boBjKfP2AEVqShLJDLVgjd/qpuL3gh
- Wn/WbB3JHR8Q4ENhvwcaiwSvYITUoxNiGbeP4ZF2PZ3p+5zJkCXxj+/eSpvLxAv+3pon
- /OmcNEJ97FMU7gVgVGRkF6ZGaEhWDSFdkEskWZhZ95/+WVBfJmNZYE7+aMZIXmV93lCw
- /VF03OpALSyI/6U1pC41MysoyPDBT4hGxTOeyb4remdC7eFOwkv6WIsClEEfYrtqb3s2
- +yCw==
-X-Gm-Message-State: APjAAAVRjN3oa8gF0kSyFfKlKiAIyLMqAfZI1mEF/vjAlqw60141pPH6
- 013FzSVcnqQOPqJ8X8KPjFzJNA==
-X-Google-Smtp-Source: APXvYqxyIr5owHGb0sZJEhjvLecVg8LKDTiPGu7p5bVH2HpkVR3QlpZmTlASQyrALHCcOiJnPn2BdQ==
-X-Received: by 2002:a05:600c:20f:: with SMTP id
- 15mr9373206wmi.128.1576753157565; 
- Thu, 19 Dec 2019 02:59:17 -0800 (PST)
+ bh=in0oC21NDNK40en2dSlsiyVxI60+V0LERywCr1z/Gwc=;
+ b=aI5YVCm+cGxwKdfbvRNw043IfKb/Txc5YTgGFiP67LIaZfRk30w/pFf5+K1kJHu8pF
+ Wu4ZF3lPUr+Oof6IS6R+22d9/vJ9MF8p9JUoMuaGRI9Wih4C+GJONW7FVZ96HvUsbITq
+ zZC4QasfRnViHumSqoeFdG+2/hOVGqOiFnGLsUFcqIRqJKaRnWQA76YGeN+CjoPtHwDm
+ hSmLtTVElYMvHgQNr24kmFnVrJF+upz63Zb4IRJLu7L3zrc/J+9Jc0rBROSPky+ujKp1
+ 2JAL47k8cohpFFM7aGm2+Ysv0aEPJggNByg39OP8w7gNbptnq7u1FgRXEz5ReE4mbub8
+ tmWQ==
+X-Gm-Message-State: APjAAAVjQreYQCIj9bV100htrVPTQwa5v1KrZNC/iWXSBHbIzjxVlknH
+ 1aJ9OfiZLXDYtxwQ0FKm4CdAew==
+X-Google-Smtp-Source: APXvYqy2KNpqCDjNJqW7PmXDfnMCUvpXTDSKAsJEIT08heCn0+CMltcU5Q+ZKg38fUfQZ14BK4yzxQ==
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr8601969wrn.155.1576752594921; 
+ Thu, 19 Dec 2019 02:49:54 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v8sm6121247wrw.2.2019.12.19.02.59.15
+ by smtp.gmail.com with ESMTPSA id j12sm6375968wrw.54.2019.12.19.02.49.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 02:59:15 -0800 (PST)
+ Thu, 19 Dec 2019 02:49:51 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1C85A1FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 3095D1FFA6;
  Thu, 19 Dec 2019 10:49:36 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 17/25] docker: gtester is no longer used
-Date: Thu, 19 Dec 2019 10:49:26 +0000
-Message-Id: <20191219104934.866-18-alex.bennee@linaro.org>
+Subject: [PULL 18/25] travis.yml: Remove the redundant
+ clang-with-MAIN_SOFTMMU_TARGETS entry
+Date: Thu, 19 Dec 2019 10:49:27 +0000
+Message-Id: <20191219104934.866-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
 References: <20191219104934.866-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,40 +83,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-We are using tap-driver.pl, do not require anymore gtester to be installed
-to run the testsuite in docker-based tests.
+We test clang with the MAIN_SOFTMMU_TARGETS twice, once without
+sanitizers and once with sanitizers enabled. That's somewhat redundant
+since if compilation and tests succeeded with sanitizers enabled, it
+should also work fine without sanitizers. Thus remove the clang entry
+without sanitizers to speed up the CI testing a little bit.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <1576632611-55032-1-git-send-email-pbonzini@redhat.com>
+Message-Id: <20191119092147.4260-1-thuth@redhat.com>
 
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index 512202b0a19..02cd67a8c5e 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -53,12 +53,7 @@ check_qemu()
-         INVOCATION="$@"
-     fi
+diff --git a/.travis.yml b/.travis.yml
+index d673ee219e7..376b7d6dfa8 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -180,12 +180,6 @@ matrix:
+       compiler: clang
  
--    if command -v gtester > /dev/null 2>&1 && \
--           gtester --version > /dev/null 2>&1; then
--        make $MAKEFLAGS $INVOCATION
--    else
--        echo "No working gtester, skipping make $INVOCATION"
--    fi
-+    make $MAKEFLAGS $INVOCATION
- }
  
- test_fail()
+-    - env:
+-        - CONFIG="--disable-user --target-list=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-default"
+-      compiler: clang
+-
+-
+     - env:
+         - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS} "
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-sanitize"
 -- 
 2.20.1
 
