@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DED41265F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:44:31 +0100 (CET)
-Received: from localhost ([::1]:43744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B70126609
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 16:46:05 +0100 (CET)
+Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxyX-0003GN-RX
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:44:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
+	id 1ihy04-0004ul-0F
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 10:46:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60815)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1ihxwW-0001sK-Hh
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:42:25 -0500
+ (envelope-from <anthony.perard@citrix.com>) id 1ihxxX-00037x-NK
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:43:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1ihxwU-0005A5-3M
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:42:23 -0500
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:20753)
+ (envelope-from <anthony.perard@citrix.com>) id 1ihxxW-0008C2-Ff
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:43:27 -0500
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:20805)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1ihxwT-00054r-Es
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:42:21 -0500
+ id 1ihxxW-000869-21
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 10:43:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1576770141;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=3GXTE9X22nST6sgApHMiGLF3yvqR1/NQKmZYwDz61Fc=;
- b=LKShuh3fQ+LfIU6NOdTNw1y4p70qRvFljWok7eGrw3aX2uctKbL+cfri
- m+7tFgBX1eK8DuGnOIWTurBE6Av5SwuaIhfNihRptYk58Mo123nBCc/C1
- 6DYMuTGYHLQIH6sSfvD0f5khWBneZTCRNUBsi6t4dF9d5rsCsEPwAUZbT k=;
+ d=citrix.com; s=securemail; t=1576770205;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=y7fwudxgkIds2Qb1jkwHJ9r4KqFTmmYu+7+g2UvLzUA=;
+ b=hzXFEWmUdtV750uVRcudi5UdaeBIrQ9+ZDHpqMphpivzwqP3rXG78qRK
+ bGcbK/u0+1ekb4CyyRQl2finPs9PGPGXrQASLy2IFbkb/+PHGItbz67u+
+ iBZSWtxQyRC0gG2nw3VMYHxEd3zQ6f2WHXNCDhdIcyP6UFkS/S8K8/2ss o=;
 Authentication-Results: esa4.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -59,25 +60,29 @@ Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: g9HeQq2hxlTUZpDC3ca1g3e4NGLqvGoXmQ+kP6NTRVyISp3xmd2TA7/e+/E/ZevcoXzr64GI9y
- L2T0qgynYgGF1ZzL1xOUTZLQPyU5H9USRDmbPdkJmruriDIB0zyS6dodS2feK/2/pTc1+VnYEQ
- p/2ietqjrBdCwgMml/qfgJhj1WRP/cNOGZFqIjesF0PinqsgLHHSCqFbvx33vKv2WccYJp6n6p
- tTQqm7t8Nnqgb/5ZDdPtxJ0Ae2+HdsqgSdraQHO0b7hIVdzrKHaDp0eTZxtSXmt+YNA/M3A70q
- 980=
+IronPort-SDR: F7szevxQkwNrX8SOBIkJdBpeLxxiMmQ9GviujiFRU+qC2QIw/juQwwrcrl0p49O164G4nikYZY
+ xyu8K0Wi6za7fJnJH2WK8gamOutSfE1vWJcpKsfEljCAgUthQM3L8JY590maYBVamnybdBPflw
+ pAOLivf4cFDNQb7pSHEhzHqOGlw6SNU6YMnKGArKaQgGJiCjAysZcGQn2MXBritai4tc/aBCjR
+ 2GgPUvA2x21fC3bUC7B5osZBY/rpTvw1rpM5GSARxSzi7sWq40owprg1+89RexbbJq1aVfRz2J
+ 0mA=
 X-SBRS: 2.7
-X-MesageID: 10528467
+X-MesageID: 10528545
 X-Ironport-Server: esa4.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.69,332,1571716800"; d="scan'208";a="10528467"
-Date: Thu, 19 Dec 2019 15:42:14 +0000
+X-IronPort-AV: E=Sophos;i="5.69,332,1571716800"; d="scan'208";a="10528545"
 From: Anthony PERARD <anthony.perard@citrix.com>
-To: <qemu-devel@nongnu.org>, Beata Michalska <beata.michalska@linaro.org>
-Subject: Recent change pmem related breaks Xen migration
-Message-ID: <20191219154214.GE1267@perard.uk.xensource.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] Memory: Only call ramblock_ptr when needed in
+ qemu_ram_writeback
+Date: Thu, 19 Dec 2019 15:43:22 +0000
+Message-ID: <20191219154323.325255-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20191219154214.GE1267@perard.uk.xensource.com>
+References: <20191219154214.GE1267@perard.uk.xensource.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
 X-Received-From: 216.71.155.144
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,70 +96,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Beata Michalska <beata.michalska@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Anthony
+ PERARD <anthony.perard@citrix.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+It is possible that a ramblock doesn't have memory that QEMU can
+access, this is the case with the Xen hypervisor.
 
-Commit bd108a44bc29 ("migration: ram: Switch to ram block writeback")
-breaks migration on Xen. We have:
-  ramblock_ptr: Assertion `offset_in_ramblock(block, offset)' failed.
+In order to avoid to trigger an assert, only call ramblock_ptr() when
+needed in qemu_ram_writeback(). This should fix migration of Xen
+guests that was broken with bd108a44bc29 ("migration: ram: Switch to
+ram block writeback").
 
-I've track it down to qemu_ram_writeback() calling ramblock_ptr()
-unconditionally, even when the result will not be used.
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+ exec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Maybe we could call ramblock_ptr() twice in that function? I've prepared
-a patch.
-
-
-FYI, full-ish trace on restore of a xen guest:
-#3  0x00007f82d0848526 in __assert_fail () from /usr/lib/libc.so.6
-#4  0x0000562dc4578122 in ramblock_ptr (block=0x562dc5ebe2a0, offset=0) at /root/build/qemu/include/exec/ram_addr.h:120
-#5  0x0000562dc457d1b7 in qemu_ram_writeback (block=0x562dc5ebe2a0, start=0, length=515899392) at /root/build/qemu/exec.c:2169
-#6  0x0000562dc45e8941 in qemu_ram_block_writeback (block=0x562dc5ebe2a0) at /root/build/qemu/include/exec/ram_addr.h:182
-#7  0x0000562dc45f0b56 in ram_load_cleanup (opaque=0x562dc510fe00 <ram_state>) at /root/build/qemu/migration/ram.c:3983
-#8  0x0000562dc49970b6 in qemu_loadvm_state_cleanup () at migration/savevm.c:2415
-#9  0x0000562dc4997548 in qemu_loadvm_state (f=0x562dc6a1c600) at migration/savevm.c:2597
-#10 0x0000562dc4987be7 in process_incoming_migration_co (opaque=0x0) at migration/migration.c:454
-#11 0x0000562dc4b907e5 in coroutine_trampoline (i0=-962514432, i1=22061) at util/coroutine-ucontext.c:115
-
-And *block in ramblock_ptr():
-(gdb) p *block
-$2 = {
-  rcu = {
-    next = 0x0, 
-    func = 0x0
-  }, 
-  mr = 0x562dc512e140 <ram_memory>, 
-  host = 0x0, 
-  colo_cache = 0x0, 
-  offset = 0, 
-  used_length = 515899392, 
-  max_length = 515899392, 
-  resized = 0x0, 
-  flags = 16, 
-  idstr = "xen.ram", '\000' <repeats 248 times>, 
-  next = {
-    le_next = 0x562dc67bf7e0, 
-    le_prev = 0x562dc510f1a0 <ram_list+64>
-  }, 
-  ramblock_notifiers = {
-    lh_first = 0x0
-  }, 
-  fd = -1, 
-  page_size = 4096, 
-  bmap = 0x0, 
-  receivedmap = 0x562dc6a24a60, 
-  clear_bmap = 0x0, 
-  clear_bmap_shift = 0 '\000'
-}
-
-Cheers,
-
+diff --git a/exec.c b/exec.c
+index a34c34818404..b11010e0cb4c 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2166,14 +2166,13 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
+  */
+ void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length)
+ {
+-    void *addr = ramblock_ptr(block, start);
+-
+     /* The requested range should fit in within the block range */
+     g_assert((start + length) <= block->used_length);
+ 
+ #ifdef CONFIG_LIBPMEM
+     /* The lack of support for pmem should not block the sync */
+     if (ramblock_is_pmem(block)) {
++        void *addr = ramblock_ptr(block, start);
+         pmem_persist(addr, length);
+         return;
+     }
+@@ -2184,6 +2183,7 @@ void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length)
+          * specified as persistent (or is not one) - use the msync.
+          * Less optimal but still achieves the same goal
+          */
++        void *addr = ramblock_ptr(block, start);
+         if (qemu_msync(addr, length, block->fd)) {
+             warn_report("%s: failed to sync memory range: start: "
+                     RAM_ADDR_FMT " length: " RAM_ADDR_FMT,
 -- 
 Anthony PERARD
+
 
