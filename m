@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55041126074
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:06:57 +0100 (CET)
-Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E7612609D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:15:54 +0100 (CET)
+Received: from localhost ([::1]:39332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtdv-00049F-W4
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:06:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57071)
+	id 1ihtmb-0000E2-F4
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:15:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWd-0003pN-N8
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:24 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ihtYc-0006X0-V2
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:01:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWc-00010q-Is
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:23 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44595)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtWc-0000uz-AC
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:22 -0500
-Received: by mail-wr1-x429.google.com with SMTP id q10so5493753wrm.11
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5wZWaLRvYvZmLIMHo5Ts618uNlIbDVM0vsHKMJtTzPM=;
- b=a7u7AhMRQ7JvoMkVctN7MwzSHwdmI2dvIPrInk/CzKQA4ESw8rAdEBbfYWz5dkSFNc
- vS4wVcjVatLj6btwpz58zB/5yYRVt/FQPlL19ePqvWJkrj42N8SHFiV81mQAaetvjj7M
- zSgvRiCz9O3WY5OEKXVyzk6S0+9Ofl+Rc5l+eCIP6wENA8U2N2Hjl8mKB5Zsed+n5hHO
- Wdu5NO80QWrbiruRXawX66qxAM51ZMpXYEdJ4jKtx+q/gk0rsY1J4FWEigGNogC3dmVr
- 3YDqnE6xixCS+u6Ke7ip8R4tsLKq6jOKlYM6kfeQYRxUhyj5Vc6Uj4Er/lRctyic0LFx
- HLfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5wZWaLRvYvZmLIMHo5Ts618uNlIbDVM0vsHKMJtTzPM=;
- b=rQPep7QWV9erphQwoIRaV6q2xXrXpAONVx9fZxzOXDvdt9vedSKgJEjkIjV8/kkcjJ
- qxat4ga+Cq6Dg9bhyDwnLasLZG3hEj2SirIbX+ulUnbQLIAfHmhDZozAWW+Lp4v61E04
- i+WjqkmpyBJq4sjEsd62P13cQ9MjAtgRxF7mG/1rHxKvtku6vXHYQDaAtitckKv0Sftl
- FWyPD3NlUE5mdRz23rYrnnwHbLAExfB/3rcr64p1R35wlweZUXiAqu1mgaXoxaz1x56W
- qwKy7Nf1GkbvNnMQSHjZ1RsSUa8FJdfqT6ZPIpbguVlVC6hRk8Kqid1SYrHn1idpScc3
- lRBQ==
-X-Gm-Message-State: APjAAAUAMo0/Qk+EGjwmZKS1q1aPtApSFo1mM8bD6zWmTKq9UpeDcRzB
- UDkYrliHDVQeTqDUyXKHkj7L6Q==
-X-Google-Smtp-Source: APXvYqxgfQFQU7rag4zN8EmDoylBgeZGBduNLDO6cV/ytxnbKg7Nof1r0VDs4MA2QHzbOSY43N2BMw==
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr8702460wrr.116.1576753161269; 
- Thu, 19 Dec 2019 02:59:21 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 60sm6200327wrn.86.2019.12.19.02.59.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 02:59:18 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D132C1FFB1;
- Thu, 19 Dec 2019 10:49:36 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 25/25] tests/tcg: ensure we re-configure if configure.sh is
- updated
-Date: Thu, 19 Dec 2019 10:49:34 +0000
-Message-Id: <20191219104934.866-26-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
-References: <20191219104934.866-1-alex.bennee@linaro.org>
+ (envelope-from <cohuck@redhat.com>) id 1ihtYX-0007xz-KL
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:01:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21865
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ihtYX-0007ur-DN
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:01:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576753280;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+iI+yTIHoswKNRLQylDMklwGHzsDkc4EzVyDczCsXEI=;
+ b=Ggo/qAL+Sz29KsKONNI0LuxY72ybAdZPA6x/KN5y/m1qoZHanUqQmt7u+repHxglVK5mYo
+ +N6S+bFTur5mSwkjqFexZNQEKh2VWukUmxbvW0Y30b19Vwwy0d2/XFIMniZHKElx28sj+f
+ 8FC0STjcTIE+U3fAr+8odtAGwaSHAVw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-zNTuvbRAMcaDDESRHnpICQ-1; Thu, 19 Dec 2019 06:01:17 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB46C1005502;
+ Thu, 19 Dec 2019 11:01:16 +0000 (UTC)
+Received: from localhost (ovpn-117-134.ams2.redhat.com [10.36.117.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D4C763B8A;
+ Thu, 19 Dec 2019 11:01:16 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/6] more s390x patches
+Date: Thu, 19 Dec 2019 12:01:06 +0100
+Message-Id: <20191219110112.8343-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: zNTuvbRAMcaDDESRHnpICQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,32 +67,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were only doing this if docker was enabled which isn't quite right.
+The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681=
+:
 
-Fixes: fc76c56d3f47
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191211170520.7747-17-alex.bennee@linaro.org>
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-=
+12-17' into staging (2019-12-17 15:55:20 +0000)
 
-diff --git a/tests/tcg/Makefile.prereqs b/tests/tcg/Makefile.prereqs
-index 7494b31b952..9a29604a839 100644
---- a/tests/tcg/Makefile.prereqs
-+++ b/tests/tcg/Makefile.prereqs
-@@ -13,6 +13,6 @@ DOCKER_IMAGE:=
- 
- ifneq ($(DOCKER_IMAGE),)
- build-tcg-tests-$(PROBE_TARGET): docker-image-$(DOCKER_IMAGE)
-+endif
- $(BUILD_DIR)/tests/tcg/config_$(PROBE_TARGET).mak: config-host.mak
- config-host.mak: $(SRC_PATH)/tests/tcg/configure.sh
--endif
--- 
-2.20.1
+are available in the Git repository at:
+
+  https://github.com/cohuck/qemu tags/s390x-20191219
+
+for you to fetch changes up to 104130cb7c106378dab944397c6a455c4a6d552f:
+
+  s390x: Properly fetch and test the short psw on diag308 subc 0/1 (2019-12=
+-18 15:54:24 +0100)
+
+----------------------------------------------------------------
+More s390x patches:
+- tcg: implement LOAD/STORE TO REAL ADDRESS inline
+- fixes in tests, the bios, and diag308 handling
+
+----------------------------------------------------------------
+
+Cornelia Huck (1):
+  pc-bios/s390: Update firmware images
+
+Janosch Frank (2):
+  pc-bios/s390x: Fix reset psw mask
+  s390x: Properly fetch and test the short psw on diag308 subc 0/1
+
+Richard Henderson (2):
+  target/s390x: Split out helper_per_store_real
+  target/s390x: Implement LOAD/STORE TO REAL ADDRESS inline
+
+Thomas Huth (1):
+  tests/boot-sector: Fix the bad s390x assembler code
+
+ pc-bios/s390-ccw.img        | Bin 42608 -> 42608 bytes
+ pc-bios/s390-ccw/jump2ipl.c |  12 +++++++-----
+ pc-bios/s390-netboot.img    | Bin 67232 -> 67232 bytes
+ target/s390x/cpu.c          |  12 ++++++++++--
+ target/s390x/cpu.h          |   1 +
+ target/s390x/helper.h       |   5 +----
+ target/s390x/insn-data.def  |   8 ++++----
+ target/s390x/mem_helper.c   |  38 ------------------------------------
+ target/s390x/misc_helper.c  |  10 ++++++++++
+ target/s390x/translate.c    |  21 ++++++++------------
+ tests/boot-sector.c         |   4 ++--
+ 11 files changed, 43 insertions(+), 68 deletions(-)
+
+--=20
+2.21.0
 
 
