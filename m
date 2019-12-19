@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC727125FFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:53:58 +0100 (CET)
-Received: from localhost ([::1]:38768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3DE125FDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:51:40 +0100 (CET)
+Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtRN-0003of-Hs
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:53:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38079)
+	id 1ihtP8-0000B8-GJ
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:51:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtNF-0006Xo-Di
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:42 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNH-0006Y4-DD
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtND-0007x3-0K
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:41 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:56156)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNF-0008CI-Pu
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:43 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35739)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtNC-0007pp-Mk
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:38 -0500
-Received: by mail-wm1-x333.google.com with SMTP id q9so4939770wmj.5
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:38 -0800 (PST)
+ id 1ihtNF-00086j-Eb
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:41 -0500
+Received: by mail-wr1-x431.google.com with SMTP id g17so5492959wro.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d+Pda+ZdRPcyYkSjIEt1t/uTnpjt9VwcL/O1cE3PJHI=;
- b=tQ/bknCAq+PpnYB7kbXeP4NjPYiW/CwVoYYMVxVjktHTyxk0BNO3JulfdMxU3Z7FzN
- Ku1HRRzJgACzIJp2ZOF/3TJczpsDEtdepaYFhDOWW8OQBcA3NWC2QZdUQF6mLyAZrQp9
- PtG3Ecu1/g/fjG+RdnZkkiFuTa4JyoAr6o+1YBnxZdTSx0DidcsEEfiAgtqGIyJHIvni
- FTV3BBrqkVieItxjsLW+2rEPA1APj3/LyYRNZuItNSV+VFJp4fhuoHYkRq08W3P1mW8J
- KTXov3IxcHV89oQ6NNkz73vFdbTvXnHSZ1s2FvvZ/xQnpoCKvepxaAtYqLTrsX8rkW1B
- EizQ==
+ bh=710LliMJ7HC+nQ3MEl8A/s79QTfM7VktgrS1QINsiB4=;
+ b=wPSsy7gaeRL+3R5VQKzqXRB/nlmvwPzSAKe1N0PSeGa1Bc7XE2TflSt2kAPrz4RkOC
+ fFZpcPYWKXV4GdWCFNFdJLshzO5aqN2KP/CdXqZbTjfad8ausTxKf+VFCQkcqvB43hj5
+ i+z5Nbq5ScOcPMBs+VT5XqZBd6kpodWp3C/h+Ducib46VXqKUHr8FZbuxzV+dGpYP5iK
+ fW2dgcmwDBDT+eD4grxBnUzJSI1ESIt4dkEtvSx9IiH9TjJCdPjkXk+cuQdxfZY5lPK1
+ eDmXOWobTcOCxOq/+gr1onRGtgVBQPk0UzVU/i0o7KJSlLs8cYDGlx+qnzQC/K2alOkq
+ v0Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d+Pda+ZdRPcyYkSjIEt1t/uTnpjt9VwcL/O1cE3PJHI=;
- b=hULz8Qf4jqx0xShhE4BKr/xC+0TLo7n5EHTkA7/74xIHs8nY6adlBQrpAkrHsRa1m3
- PLKEJmT3tWXhxF89QtlBihW+at4BJeeqv8p0myL7+vUTRvN30vzu9/AnaOpRHCFKYyzS
- D5N3NWyA27j6bSyyU0Ph3uxWNRe5RReApwEzFL0NV4ykY0ZJ1wXLTGrnaabmvKxNyVQl
- Z0K3h+JKkW99+XRbcNb1uMsdAvoacT1M46En8H8+dK6HvLFNDiwKzjd4vSjE4qJ4p1Tz
- KbtP2qxGbMuUnJEypPxWw83vsXykN9Ds+3nTvjwLzAmLxjiofYhSwLwRNa/z1U3HaSOR
- 0ZdQ==
-X-Gm-Message-State: APjAAAV561rtH0s1QOjpZsLOxQifu/Jaos+OrPRb+ORYtX3htocG1AUn
- lYaOwC92aUHrPCeS8tMhNhvbVg==
-X-Google-Smtp-Source: APXvYqyOlbiRHcRcTOggup4wtytu9l0sKcr+3hm0NTgofQxfNTj20OGold+p3sE0xOJipq3j8NoDzw==
-X-Received: by 2002:a7b:cd91:: with SMTP id y17mr8990781wmj.140.1576752576877; 
- Thu, 19 Dec 2019 02:49:36 -0800 (PST)
+ bh=710LliMJ7HC+nQ3MEl8A/s79QTfM7VktgrS1QINsiB4=;
+ b=rSyW5GOxHyNfTPOy7JgyP6GUvtFpIn54fEBIQVNJ/xSyMxWwH7op07MJeHFvWVfptD
+ IuZk4Sk7QzdGqRMr7vM424o7FxATjoCdTM2cCMnDZZhppOjOBNhMuZ03/lE8Nmp30SuB
+ zAiQv/V+GbfHmwKQDCErMkcmSsscLSCu7m0XIdtIqYnSkOHO0GtLkoTDuzX6UwdKHRGU
+ yUHDkQNoxdX65TgHsnS3nz/+MyrP6AE52VPQAL/UAyppxh9vjWYonIPdWixrue4KgeK2
+ 08ZfKXMmwlQC+8C0Q1KMMcl66bsG9RL9Ee0IppqXBXTQxB3xTNb6fUm2KUxSyZ3VjO8i
+ SwzQ==
+X-Gm-Message-State: APjAAAVgAzjVI2U5OSY2ZWUuyozRSXqu2PeB6RnCFiPiK4AKw8eCwnVU
+ dWxcWW0wdedSnY5KxkI9qeKmHg==
+X-Google-Smtp-Source: APXvYqzjVrKLSFH8SUA+nzq5x19Hezam5UFa0hnIyBFsYJtuuGXsKX56eri6Ya7sns+DBDKOwgH93Q==
+X-Received: by 2002:adf:eb46:: with SMTP id u6mr8877397wrn.239.1576752580326; 
+ Thu, 19 Dec 2019 02:49:40 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f1sm5938897wru.6.2019.12.19.02.49.35
+ by smtp.gmail.com with ESMTPSA id p5sm5891469wrt.79.2019.12.19.02.49.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Dec 2019 02:49:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7F9001FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id A18C71FF8F;
  Thu, 19 Dec 2019 10:49:34 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/25] configure: allow disable of cross compilation containers
-Date: Thu, 19 Dec 2019 10:49:10 +0000
-Message-Id: <20191219104934.866-2-alex.bennee@linaro.org>
+Subject: [PULL 02/25] tests/vm: Allow to set qemu-img path
+Date: Thu, 19 Dec 2019 10:49:11 +0000
+Message-Id: <20191219104934.866-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
 References: <20191219104934.866-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,83 +81,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our docker infrastructure isn't quite as multiarch as we would wish so
-lets allow the user to disable it if they want. This will allow us to
-use still run check-tcg on non-x86 CI setups.
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
+By default VM build test use qemu-img from system's PATH to
+create the image disk. Due the lack of qemu-img on the system
+or the desire to simply use a version built with QEMU, it would
+be nice to allow one to set its path. So this patch makes that
+possible by reading the path to qemu-img from QEMU_IMG if set,
+otherwise it fallback to default behavior.
+
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20191114134246.12073-2-wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/configure b/configure
-index 84b413dbfcf..e0c66ee9b68 100755
---- a/configure
-+++ b/configure
-@@ -302,6 +302,7 @@ audio_win_int=""
- libs_qga=""
- debug_info="yes"
- stack_protector=""
-+use_containers="yes"
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 27f286858ad..ab5be0c7299 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -418,13 +418,15 @@ access, so they SHOULD NOT be exposed to external interfaces if you are
+ concerned about attackers taking control of the guest and potentially
+ exploiting a QEMU security bug to compromise the host.
  
- if test -e "$source_path/.git"
- then
-@@ -1534,6 +1535,10 @@ for opt do
-   ;;
-   --disable-plugins) plugins="no"
-   ;;
-+  --enable-containers) use_containers="yes"
-+  ;;
-+  --disable-containers) use_containers="no"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1717,6 +1722,7 @@ Advanced options (experts only):
-                            track the maximum stack usage of stacks created by qemu_alloc_stack
-   --enable-plugins
-                            enable plugins via shared library loading
-+  --disable-containers     don't use containers for cross-building
+-QEMU binary
+------------
++QEMU binaries
++-------------
  
- Optional features, enabled with --enable-FEATURE and
- disabled with --disable-FEATURE, default is enabled if available:
-@@ -7992,7 +7998,7 @@ done
- (for i in $cross_cc_vars; do
-   export $i
- done
--export target_list source_path
-+export target_list source_path use_containers
- $source_path/tests/tcg/configure.sh)
+ By default, qemu-system-x86_64 is searched in $PATH to run the guest. If there
+ isn't one, or if it is older than 2.10, the test won't work. In this case,
+ provide the QEMU binary in env var: ``QEMU=/path/to/qemu-2.10+``.
  
- # temporary config to build submodules
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 6c4a471aeae..210e68396f2 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -36,8 +36,10 @@ TMPC="${TMPDIR1}/qemu-conf.c"
- TMPE="${TMPDIR1}/qemu-conf.exe"
++Likewise the path to qemu-img can be set in QEMU_IMG environment variable.
++
+ Make jobs
+ ---------
  
- container="no"
--if has "docker" || has "podman"; then
--  container=$($python $source_path/tests/docker/docker.py probe)
-+if test $use_containers = "yes"; then
-+    if has "docker" || has "podman"; then
-+        container=$($python $source_path/tests/docker/docker.py probe)
-+    fi
- fi
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index fea348e845c..9e7c46a4735 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -34,6 +34,7 @@ vm-help vm-test:
+ 	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
+ 	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
+ 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
++	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
  
- # cross compilers defaults, can be overridden with --cross-cc-ARCH
+ vm-build-all: $(addprefix vm-build-, $(IMAGES))
+ 
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 53b9515ee22..ed5dd4f3d0e 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -152,6 +152,11 @@ class BaseVM(object):
+     def build_image(self, img):
+         raise NotImplementedError
+ 
++    def exec_qemu_img(self, *args):
++        cmd = [os.environ.get("QEMU_IMG", "qemu-img")]
++        cmd.extend(list(args))
++        subprocess.check_call(cmd)
++
+     def add_source_dir(self, src_dir):
+         name = "data-" + hashlib.sha1(src_dir.encode("utf-8")).hexdigest()[:5]
+         tarfile = os.path.join(self._tmpdir, name + ".tar")
+diff --git a/tests/vm/centos b/tests/vm/centos
+index b9e851f2d33..f2f0befd845 100755
+--- a/tests/vm/centos
++++ b/tests/vm/centos
+@@ -68,7 +68,7 @@ class CentosVM(basevm.BaseVM):
+         sys.stderr.write("Extracting the image...\n")
+         subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
+         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
+-        subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
++        self.exec_qemu_img("resize", img_tmp, "50G")
+         self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
+         self.wait_ssh()
+         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+diff --git a/tests/vm/fedora b/tests/vm/fedora
+index 7fec1479fb7..8e270fc0f03 100755
+--- a/tests/vm/fedora
++++ b/tests/vm/fedora
+@@ -74,9 +74,7 @@ class FedoraVM(basevm.BaseVM):
+ 
+         self.print_step("Preparing iso and disk image")
+         subprocess.check_call(["cp", "-f", cimg, iso])
+-        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+-                               img_tmp, self.size])
+-
++        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+             "-bios", "pc-bios/bios-256k.bin",
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 2a19461a909..1825cc58218 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -82,8 +82,7 @@ class FreeBSDVM(basevm.BaseVM):
+         self.print_step("Preparing iso and disk image")
+         subprocess.check_call(["cp", "-f", cimg, iso_xz])
+         subprocess.check_call(["xz", "-dvf", iso_xz])
+-        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+-                               img_tmp, self.size])
++        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 611e6cc5b5c..ec6f3563b25 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -77,8 +77,7 @@ class NetBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Preparing iso and disk image")
+         subprocess.check_call(["ln", "-f", cimg, iso])
+-        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+-                               img_tmp, self.size])
++        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index b92c39f89a6..6df5162dbf4 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -73,8 +73,7 @@ class OpenBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Preparing iso and disk image")
+         subprocess.check_call(["cp", "-f", cimg, iso])
+-        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+-                               img_tmp, self.size])
++        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+index f611bebdc9d..3834cd7a8df 100755
+--- a/tests/vm/ubuntu.i386
++++ b/tests/vm/ubuntu.i386
+@@ -70,7 +70,7 @@ class UbuntuX86VM(basevm.BaseVM):
+             sha256sum="28969840626d1ea80bb249c08eef1a4533e8904aa51a327b40f37ac4b4ff04ef")
+         img_tmp = img + ".tmp"
+         subprocess.check_call(["cp", "-f", cimg, img_tmp])
+-        subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
++        self.exec_qemu_img("resize", img_tmp, "50G")
+         self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
+         self.wait_ssh()
+         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
 -- 
 2.20.1
 
