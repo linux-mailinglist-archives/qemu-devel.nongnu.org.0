@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A2F126317
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:13:47 +0100 (CET)
-Received: from localhost ([::1]:40894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB02126378
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:28:49 +0100 (CET)
+Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvcg-0006Mk-Dr
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:13:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35607)
+	id 1ihvrD-0001ff-PP
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:28:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ihvZ2-0001o7-Q4
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:06 -0500
+ (envelope-from <mst@redhat.com>) id 1ihvpY-0000Qc-Ss
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ihvYy-00076g-9t
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32275
+ (envelope-from <mst@redhat.com>) id 1ihvpV-0000iO-BU
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23929
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihvYx-0006tS-0n
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:55 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ihvpU-0000bI-VG
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:27:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576760992;
+ s=mimecast20190719; t=1576762019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SuzS+0RI392neHe9EkEjexF+DgTfoqg6pQIc+0/RiGk=;
- b=Ht6Um4DcfzoWXsPGSX4hFs1vv6E6QTiaxwxbilqHMg3GXAXA9hcDs/lVEkYJCmU/Y30EOO
- KH7j6imdcapUkkjwxdI69Ey14WsarBsZpCbJIN5UqHRhsGWCIS8AlxZwWLCF6o2gMJ6FPM
- hzm5VR/+V3XNDTrbtP6Qd38XYLk98Us=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-zq8ZJQeAMX-O3qNq0BF-SA-1; Thu, 19 Dec 2019 08:09:48 -0500
-Received: by mail-ed1-f70.google.com with SMTP id g20so3441073edt.18
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:09:48 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IcwZF0QtWV86KcwXCV3cG//AYJLYIsKy266gGlXTyFE=;
+ b=YX9HdqNEsMaGJCySPw9UEGAyZ54IzE69ABoUNrylmKd4rWV1uqkZV3xc85aKK13JSHOw/R
+ K5+Ex+8yuhtED6FAKeGKPahwThfg1AWxtTvSMNdxXZwQxffcJVBE45ibbWhmsoW6VaPYFT
+ VJUE4+hd78cM7qzOVOW07RIiuzhsEXk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-2BP3XsR9PsCN-2nElraNsw-1; Thu, 19 Dec 2019 08:26:58 -0500
+Received: by mail-qk1-f197.google.com with SMTP id m13so1260304qka.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:26:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ni05vfEtEsgSJx+IszN8ATEGfrX2nnauYNLHkipway8=;
- b=ZgeFv1fL3trgjAH0K6QFfNxuJmeHcMriGoRG8kxNUk5MP/MAMA550agaW7h+ntwc/6
- fTwE9u7B5pz77wxla0b9vhqdsFj93P/DZ+leZscIHUeT/b5SHcgTD2LsTRj/yK8+tdQ3
- fO8YdueD2gn4s5RozRR8qNIkm6XYSRTadKqCCz49gqtjpvsNniz4wXTVl9MulrTKMzZ4
- mLiVz96Xi7sb+C/7SWmT/vu23b1Hf+NFgPm0UC6mJJBh7Z7ooOAZS12dyR8XjPwN7xlj
- 8iPmy2D88oVrqLJ0p/vBG+2CD58gHkv5j1H/9f7cKAHyKcG1hiCwQSSRM7LXKN8c6N8v
- 4j1A==
-X-Gm-Message-State: APjAAAXmqRJAB1daaGqDa6uwzqsjzsVQ5yZApDPiPqcYTnCQVmTGhb0t
- dYhHM41xSkQ+lPfCu5OTQ2WvZ6U8fEkxxyI7nK6m+LnElKmEGpQf9zl9R7m7KOuMhVxEAhjWXgh
- CxwrW14JynH9vm6A=
-X-Received: by 2002:a50:8522:: with SMTP id 31mr9076200edr.237.1576760987694; 
- Thu, 19 Dec 2019 05:09:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz/adgrbgJoCgmy56SiGC2LIO/SZZdbSv5QlB93ULWzoIEaQX5tN2zW1BKIP1XXj+7bB7rUng==
-X-Received: by 2002:a50:8522:: with SMTP id 31mr9076104edr.237.1576760986995; 
- Thu, 19 Dec 2019 05:09:46 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id e2sm474808eja.37.2019.12.19.05.09.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Dec 2019 05:09:46 -0800 (PST)
-Subject: Re: [RFC PATCH 13/14] hw/char/terminal3270: Explicit ignored
- QEMUChrEvent in IOEventHandler
-To: Markus Armbruster <armbru@redhat.com>
-References: <20191217163808.20068-1-philmd@redhat.com>
- <20191217163808.20068-14-philmd@redhat.com>
- <87sglgx0w1.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <214a1da6-d974-4f98-0113-ea0b1ea9f244@redhat.com>
-Date: Thu, 19 Dec 2019 14:09:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=QEtM1YSF08IkspTR+p6BEKPx2BZs1ZgvOdf43fGyXbA=;
+ b=imZFWSfsGYPN6pEyqQ0XlwPmT+Z7p8Z24HyYhMttkIYi1AvMbh7X+gNCOUwG9PYBx8
+ 6kY4HS3x/cSLzCGqKvKNJ/ywqXGFzGh9haxXeECxCFW0E01KQ4JYPOhPJkJ06K/JKZKs
+ AEjl1w+6oXSnqEWkAMZqE9gvAfrU9MyjYSHW/vGQW1CaGVPHYX8W95ny5+C3St/sF81V
+ lLU/vOLaV6Dxb0Bd8Xy2b7+8eVgh4FNx4ctL/6pmmFdPrUju35Oy0Nr3pUEJfu2QNaYc
+ Up35V8QR8wovnnYG13aoqWR/tOcbTJLIFQAkAv4eq5rs2l7Bnwp0BomzfTd5Kor87NNG
+ i93Q==
+X-Gm-Message-State: APjAAAX9DaUpIf6ZXwei9g4ojJGWinCQ0uWO8OLrkYg49zYX+Fsk+MlW
+ H/lhcB24DBsQ/szhkC/X2CzcA+cOAqbRj6dXdYTi92lmaMqh5cK7vIJFv5CfNvRZcOFJd65JnVH
+ pNRVc+81UWt9vhnI=
+X-Received: by 2002:a37:a042:: with SMTP id j63mr8074162qke.156.1576762017415; 
+ Thu, 19 Dec 2019 05:26:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzaqRClnoL3yozE5yKtPkjuKh9/bufGqGDVRQtuC/PNHHfOmM6CXJz+4fuyi6SDFRYOPyw9gQ==
+X-Received: by 2002:a37:a042:: with SMTP id j63mr8074138qke.156.1576762017082; 
+ Thu, 19 Dec 2019 05:26:57 -0800 (PST)
+Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
+ by smtp.gmail.com with ESMTPSA id m68sm1253489qke.17.2019.12.19.05.26.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 05:26:56 -0800 (PST)
+Date: Thu, 19 Dec 2019 08:26:52 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/24] virtio, pci, pc: fixes, features
+Message-ID: <20191219132621.16595-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87sglgx0w1.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-MC-Unique: zq8ZJQeAMX-O3qNq0BF-SA-1
+X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
+X-Mutt-Fcc: =sent
+X-MC-Unique: 2BP3XsR9PsCN-2nElraNsw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,101 +85,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Paul Burton <pburton@wavecomp.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, KONRAD Frederic <frederic.konrad@adacore.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alberto Garcia <berto@igalia.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, Joel Stanley <joel@jms.id.au>,
- Laurent Vivier <lvivier@redhat.com>, Corey Minyard <minyard@acm.org>,
- Amit Shah <amit@kernel.org>, Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-riscv@nongnu.org,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>, Michael Walle <michael@walle.cc>,
- Palmer Dabbelt <palmer@dabbelt.com>, Thomas Huth <huth@tuxfamily.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+The following changes since commit b0ca999a43a22b38158a222233d3f5881648bb4f=
+:
 
-On 12/19/19 7:52 AM, Markus Armbruster wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->=20
->> The Chardev events are listed in the QEMUChrEvent enum. To be
->> able to use this enum in the IOEventHandler typedef, we need to
->> explicit when frontends ignore some events, to silent GCC the
->> following warnings:
->>
->>      CC      s390x-softmmu/hw/char/terminal3270.o
->>    hw/char/terminal3270.c: In function =E2=80=98chr_event=E2=80=99:
->>    hw/char/terminal3270.c:156:5: error: enumeration value =E2=80=98CHR_E=
-VENT_BREAK=E2=80=99 not handled in switch [-Werror=3Dswitch]
->>      156 |     switch (event) {
->>          |     ^~~~~~
->>    hw/char/terminal3270.c:156:5: error: enumeration value =E2=80=98CHR_E=
-VENT_MUX_IN=E2=80=99 not handled in switch [-Werror=3Dswitch]
->>    hw/char/terminal3270.c:156:5: error: enumeration value =E2=80=98CHR_E=
-VENT_MUX_OUT=E2=80=99 not handled in switch [-Werror=3Dswitch]
->>    cc1: all warnings being treated as errors
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> Cc: Cornelia Huck <cohuck@redhat.com>
->> Cc: Halil Pasic <pasic@linux.ibm.com>
->> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
->> Cc: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: qemu-s390x@nongnu.org
->> ---
->>   hw/char/terminal3270.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
->> index 6859c1bcb2..9e59a2d92b 100644
->> --- a/hw/char/terminal3270.c
->> +++ b/hw/char/terminal3270.c
->> @@ -166,6 +166,9 @@ static void chr_event(void *opaque, int event)
->>           sch->curr_status.scsw.dstat =3D SCSW_DSTAT_DEVICE_END;
->>           css_conditional_io_interrupt(sch);
->>           break;
->> +    default:
->> +        /* Ignore */
->> +        break;
->>       }
->>   }
->=20
-> I doubt the /* Ignore */ comment is worth its keep.
+  Update version for v4.2.0 release (2019-12-12 16:45:57 +0000)
 
-OK I don't mind dropping it.
+are available in the Git repository at:
 
-> Splitting PATCH 02-13 feels excessive to me.
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-I agree, but I have the feeling when a patch touch many subsystems, we=20
-don't wait for all the maintainers to Ack it, we are fine with 2 or 3.
-In this case, maybe a subsystem neglected a QEMUChrEvent case, so I=20
-prefer to have each of them to confirm we can ignore the missing cases.
+for you to fetch changes up to d4fbea918a37c0586f1a0e15ac6ef04c9fc7b96b:
 
-In v2 I don't replace by a 'default' entry, all the cases are explicit.
+  vhost-user-scsi: reset the device if supported (2019-12-19 08:25:35 -0500=
+)
 
-Regards,
+----------------------------------------------------------------
+virtio, pci, pc: fixes, features
 
-Phil.
+Bugfixes all over the place.
+HMAT support.
+New flags for vhost-user-blk utility.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Jean-Philippe Brucker (1):
+      virtio-mmio: Clear v2 transport state on soft reset
+
+Liu Jingqi (5):
+      numa: Extend CLI to provide memory latency and bandwidth information
+      numa: Extend CLI to provide memory side cache information
+      hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+      hmat acpi: Build System Locality Latency and Bandwidth Information St=
+ructure(s)
+      hmat acpi: Build Memory Side Cache Information Structure(s)
+
+Michael Roth (1):
+      virtio-pci: disable vring processing when bus-mastering is disabled
+
+Michael S. Tsirkin (5):
+      virtio: add ability to delete vq through a pointer
+      virtio: make virtio_delete_queue idempotent
+      virtio-input: convert to new virtio_delete_queue
+      virtio: update queue size on guest write
+      ACPI: add expected files for HMAT tests (acpihmat)
+
+Micky Yun Chan (1):
+      Implement backend program convention command for vhost-user-blk
+
+Pan Nengyuan (2):
+      virtio-balloon: fix memory leak while attach virtio-balloon device
+      virtio-serial-bus: fix memory leak while attach virtio-serial-bus
+
+Philippe Mathieu-Daud=C3=A9 (2):
+      hw/pci/pci_host: Remove redundant PCI_DPRINTF()
+      hw/pci/pci_host: Let pci_data_[read/write] use unsigned 'size' argume=
+nt
+
+Raphael Norwitz (2):
+      vhost-user: add VHOST_USER_RESET_DEVICE to reset devices
+      vhost-user-scsi: reset the device if supported
+
+Stefan Hajnoczi (1):
+      virtio: don't enable notifications during polling
+
+Tao Xu (3):
+      numa: Extend CLI to provide initiator information for numa nodes
+      tests/numa: Add case for QMP build HMAT
+      tests/bios-tables-test: add test cases for ACPI HMAT
+
+Yi Sun (1):
+      intel_iommu: fix bug to read DMAR_RTADDR_REG
+
+ docs/interop/vhost-user.json            |  31 ++++
+ qapi/machine.json                       | 180 ++++++++++++++++++-
+ hw/acpi/hmat.h                          |  42 +++++
+ include/hw/pci/pci_host.h               |   4 +-
+ include/hw/virtio/virtio.h              |  18 ++
+ include/sysemu/numa.h                   |  63 +++++++
+ contrib/vhost-user-blk/vhost-user-blk.c | 108 +++++++-----
+ hw/acpi/hmat.c                          | 268 ++++++++++++++++++++++++++++
+ hw/block/virtio-blk.c                   |   9 +-
+ hw/char/virtio-serial-bus.c             |   8 +
+ hw/core/machine.c                       |  65 +++++++
+ hw/core/numa.c                          | 297 ++++++++++++++++++++++++++++=
+++++
+ hw/i386/acpi-build.c                    |   5 +
+ hw/i386/intel_iommu.c                   |   7 +-
+ hw/input/virtio-input.c                 |   5 +-
+ hw/pci/pci_host.c                       |  25 +--
+ hw/scsi/vhost-user-scsi.c               |  24 +++
+ hw/scsi/virtio-scsi.c                   |   9 +-
+ hw/virtio/vhost-user.c                  |   8 +-
+ hw/virtio/virtio-balloon.c              |   7 +
+ hw/virtio/virtio-mmio.c                 |  14 ++
+ hw/virtio/virtio-pci.c                  |  14 +-
+ hw/virtio/virtio.c                      |  63 +++++--
+ tests/bios-tables-test.c                |  44 +++++
+ tests/numa-test.c                       | 213 +++++++++++++++++++++++
+ docs/interop/vhost-user.rst             |  32 ++++
+ hw/acpi/Kconfig                         |   7 +-
+ hw/acpi/Makefile.objs                   |   1 +
+ qemu-options.hx                         |  95 +++++++++-
+ tests/data/acpi/pc/APIC.acpihmat        | Bin 0 -> 128 bytes
+ tests/data/acpi/pc/DSDT.acpihmat        | Bin 0 -> 6455 bytes
+ tests/data/acpi/pc/HMAT.acpihmat        | Bin 0 -> 280 bytes
+ tests/data/acpi/pc/SRAT.acpihmat        | Bin 0 -> 280 bytes
+ tests/data/acpi/q35/APIC.acpihmat       | Bin 0 -> 128 bytes
+ tests/data/acpi/q35/DSDT.acpihmat       | Bin 0 -> 9203 bytes
+ tests/data/acpi/q35/HMAT.acpihmat       | Bin 0 -> 280 bytes
+ tests/data/acpi/q35/SRAT.acpihmat       | Bin 0 -> 280 bytes
+ 37 files changed, 1558 insertions(+), 108 deletions(-)
+ create mode 100644 hw/acpi/hmat.h
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+ create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
 
 
