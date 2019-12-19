@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D52126543
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:54:51 +0100 (CET)
-Received: from localhost ([::1]:43134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73840126514
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:44:31 +0100 (CET)
+Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxCU-0002Ze-GL
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:54:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
+	id 1ihx2T-0003uN-UC
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:44:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ihwxY-0005Zz-14
+ (envelope-from <mreitz@redhat.com>) id 1ihwxX-0005ZR-OA
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ihwxV-0006tr-NN
+ (envelope-from <mreitz@redhat.com>) id 1ihwxV-0006vJ-Ux
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:23 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52057
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60582
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwxR-0006q6-QC
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:17 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwxV-0006tY-Qh
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:39:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576766357;
+ s=mimecast20190719; t=1576766361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZfbWLLi0eC0FB0r0SaxA61U7hFeSImfNrdw/Lz5zxZc=;
- b=TJNmo3dDy5zteOLdRoL+9ma8iZZdwpGyWTn435lFl3n6X25yZnwIGMnXyRqMiPLlN4t6jJ
- 9Dj3wZCA1JEsxEjsYpPMz+fgewTinbdRd5wSq9pRtkuzhMN3M60FJrishGyFbqJmRhVEYz
- N1l1M+1rgBGrufNULvcmrWyH3nywa5Y=
+ bh=WBELDc5M371DDIRCGrCXO5FnpOT5UWTnl2wTWpCAp2Q=;
+ b=cjFfm/PBC6kraerXZqmT1gmAbZmbYCm1zkBAN1T+F0py/QtSdGEt98+CqGVDciuXTeLX/l
+ NMgyo8RFfFfG7l1y9wnL0SY/ShV5cNCoLD2JN7JZGPJjwEaJ0La/5sCOE1/2kj+Oqy8SIR
+ XHRNqYn7zyiyr7TE6c6Lui0IBVC9zuU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-sxlIX28dPwWXQRpbkSHS7w-1; Thu, 19 Dec 2019 09:39:16 -0500
+ us-mta-395-vH3lxPP0MH2e2H7eJp2EPQ-1; Thu, 19 Dec 2019 09:39:19 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11ED91061E4E;
- Thu, 19 Dec 2019 14:39:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5744108326B;
+ Thu, 19 Dec 2019 14:39:18 +0000 (UTC)
 Received: from localhost (ovpn-205-138.brq.redhat.com [10.40.205.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EB1B5DA7D;
- Thu, 19 Dec 2019 14:39:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6DD25DA80;
+ Thu, 19 Dec 2019 14:39:16 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 15/18] iotests: Let _make_test_img guess $TEST_IMG_FILE
-Date: Thu, 19 Dec 2019 15:38:15 +0100
-Message-Id: <20191219143818.1646168-16-mreitz@redhat.com>
+Subject: [PATCH 16/18] iotests: Allow testing FUSE exports
+Date: Thu, 19 Dec 2019 15:38:16 +0100
+Message-Id: <20191219143818.1646168-17-mreitz@redhat.com>
 In-Reply-To: <20191219143818.1646168-1-mreitz@redhat.com>
 References: <20191219143818.1646168-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: sxlIX28dPwWXQRpbkSHS7w-1
+X-MC-Unique: vH3lxPP0MH2e2H7eJp2EPQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,110 +75,299 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When most iotests want to create a test image that is named differently
-from the default $TEST_IMG, they do something like this:
-
-    TEST_IMG=3D"$TEST_IMG.base" _make_test_img $options
-
-This works fine with the "file" protocol, but not so much for anything
-else: _make_test_img tries to create an image under $TEST_IMG_FILE
-first, and only under $TEST_IMG if the former is not set; and on
-everything but "file", $TEST_IMG_FILE is set.
-
-There are two ways we can fix this: First, we could make all tests
-adjust not only TEST_IMG, but also TEST_IMG_FILE if that is present
-(e.g. with something like _set_test_img_suffix $suffix that would affect
-not only TEST_IMG but also TEST_IMG_FILE, if necessary).  This is a
-pretty clean solution, and this is maybe what we should have done from
-the start.
-
-But it would also require changes to most existing bash tests.  So the
-alternative is this: Let _make_test_img see whether $TEST_IMG_FILE still
-points to the original value.  If so, it is possible that the caller has
-adjusted $TEST_IMG but not $TEST_IMG_FILE.  In such a case, we can (for
-most protocols) derive the corresponding $TEST_IMG_FILE value from
-$TEST_IMG value and thus work around what technically is the caller
-misbehaving.
-
-This second solution is less clean, but it is robust against people
-keeping their old habit of adjusting TEST_IMG only, and requires much
-less changes.  So this patch implements it.
+This pretends FUSE exports are a kind of protocol.  As such, they are
+always tested under the format node.  This is probably the best way to
+test them, actually, because this will generate more I/O load and more
+varied patterns.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.rc | 42 +++++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/check         |   6 ++
+ tests/qemu-iotests/common.filter |   5 +-
+ tests/qemu-iotests/common.rc     | 148 +++++++++++++++++++++++++++++++
+ 3 files changed, 158 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index d088392ab6..192c988401 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -250,6 +250,7 @@ else
-         TEST_IMG=3D$IMGPROTO:$TEST_DIR/t.$IMGFMT
-     fi
- fi
-+ORIG_TEST_IMG_FILE=3D$TEST_IMG_FILE
- ORIG_TEST_IMG=3D"$TEST_IMG"
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 90970b0549..dcb725e4eb 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -263,6 +263,7 @@ image protocol options
+     -rbd                test rbd
+     -sheepdog           test sheepdog
+     -nbd                test nbd
++    -fuse               test fuse
+     -ssh                test ssh
+     -nfs                test nfs
+     -vxhs               test vxhs
+@@ -375,6 +376,11 @@ testlist options
+             xpand=3Dfalse
+             ;;
 =20
- if [ -z "$TEST_DIR" ]; then
-@@ -312,6 +313,33 @@ _get_data_file()
-                     | sed -e "s#\\\$TEST_IMG#$1#"
++        -fuse)
++            IMGPROTO=3Dfuse
++            xpand=3Dfalse
++            ;;
++
+         -vxhs)
+             IMGPROTO=3Dvxhs
+             xpand=3Dfalse
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.f=
+ilter
+index 3f8ee3e5f7..5f48351cae 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -44,7 +44,8 @@ _filter_qom_path()
+ _filter_testdir()
+ {
+     $SED -e "s#$TEST_DIR/#TEST_DIR/#g" \
+-         -e "s#$SOCK_DIR/#SOCK_DIR/#g"
++         -e "s#$SOCK_DIR/#SOCK_DIR/#g" \
++         -e "s#SOCK_DIR/fuse-#TEST_DIR/#g"
  }
 =20
-+# Translate a $TEST_IMG to its corresponding $TEST_IMG_FILE for
-+# different protocols
-+_test_img_to_test_img_file()
-+{
-+    case "$IMGPROTO" in
-+        file)
-+            echo "$1"
+ # replace occurrences of the actual IMGFMT value with IMGFMT
+@@ -135,6 +136,7 @@ _filter_img_create()
+         -e "s#$IMGFMT#IMGFMT#g" \
+         -e 's#nbd:127.0.0.1:[0-9]\\+#TEST_DIR/t.IMGFMT#g' \
+         -e 's#nbd+unix:///\??socket=3DSOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g' \
++        -e 's#SOCK_DIR/fuse-#TEST_DIR/#g' \
+         -e "s# encryption=3Doff##g" \
+         -e "s# cluster_size=3D[0-9]\\+##g" \
+         -e "s# table_size=3D[0-9]\\+##g" \
+@@ -173,6 +175,7 @@ _filter_img_info()
+         -e "s#$IMGFMT#IMGFMT#g" \
+         -e 's#nbd://127.0.0.1:[0-9]\\+$#TEST_DIR/t.IMGFMT#g' \
+         -e 's#nbd+unix:///\??socket=3DSOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g' \
++        -e 's#SOCK_DIR/fuse-#TEST_DIR/#g' \
+         -e 's#json.*vdisk-id.*vxhs"}}#TEST_DIR/t.IMGFMT#' \
+         -e "/encrypted: yes/d" \
+         -e "/cluster_size: [0-9]\\+/d" \
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 192c988401..fbd8fb7309 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -219,6 +219,9 @@ if [ "$IMGOPTSSYNTAX" =3D "true" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+         TEST_IMG=3D"$DRIVER,file.driver=3Dnbd,file.type=3Dunix"
+         TEST_IMG=3D"$TEST_IMG,file.path=3D$SOCK_DIR/nbd"
++    elif [ "$IMGPROTO" =3D "fuse" ]; then
++        TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
++        TEST_IMG=3D"$DRIVER,file.filename=3D$SOCK_DIR/fuse-t.$IMGFMT"
+     elif [ "$IMGPROTO" =3D "ssh" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+         TEST_IMG=3D"$DRIVER,file.driver=3Dssh,file.host=3D127.0.0.1,file.p=
+ath=3D$TEST_IMG_FILE"
+@@ -235,6 +238,9 @@ else
+     elif [ "$IMGPROTO" =3D "nbd" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+         TEST_IMG=3D"nbd+unix:///?socket=3D$SOCK_DIR/nbd"
++    elif [ "$IMGPROTO" =3D "fuse" ]; then
++        TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
++        TEST_IMG=3D"$SOCK_DIR/fuse-t.$IMGFMT"
+     elif [ "$IMGPROTO" =3D "ssh" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+         REMOTE_TEST_DIR=3D"ssh://\\($USER@\\)\\?127.0.0.1\\(:[0-9]\\+\\)\\=
+?$TEST_DIR"
+@@ -253,6 +259,9 @@ fi
+ ORIG_TEST_IMG_FILE=3D$TEST_IMG_FILE
+ ORIG_TEST_IMG=3D"$TEST_IMG"
+=20
++FUSE_PIDS=3D()
++FUSE_EXPORTS=3D()
++
+ if [ -z "$TEST_DIR" ]; then
+         TEST_DIR=3D$PWD/scratch
+ fi
+@@ -322,6 +331,10 @@ _test_img_to_test_img_file()
+             echo "$1"
+             ;;
+=20
++        fuse)
++            echo "$1" | sed -e "s#$SOCK_DIR/fuse-#$TEST_DIR/#"
 +            ;;
 +
-+        nfs)
-+            echo "$1" | sed -e "s#nfs://127.0.0.1##"
-+            ;;
-+
-+        ssh)
-+            echo "$1" | sed -e "s#ssh://127.0.0.1##"
-+            ;;
-+
-+        vxhs)
-+            echo "$1" | sed -e "s#vxhs://127.0.0.1:9999#$TEST_DIR#"
-+            ;;
-+
-+        *)
-+            return 1
-+            ;;
-+    esac
-+}
-+
- _make_test_img()
- {
-     # extra qemu-img options can be added by tests
-@@ -325,10 +353,18 @@ _make_test_img()
+         nfs)
+             echo "$1" | sed -e "s#nfs://127.0.0.1##"
+             ;;
+@@ -353,6 +366,11 @@ _make_test_img()
      local opts_param=3Dfalse
      local misc_params=3D()
 =20
--    if [ -n "$TEST_IMG_FILE" ]; then
--        img_name=3D$TEST_IMG_FILE
--    else
-+    if [ -z "$TEST_IMG_FILE" ]; then
++    if [[ $IMGPROTO =3D=3D fuse && $TEST_IMG =3D=3D $SOCK_DIR/fuse-* ]]; t=
+hen
++        # The caller may be trying to overwrite an existing image
++        _rm_test_img "$TEST_IMG"
++    fi
++
+     if [ -z "$TEST_IMG_FILE" ]; then
          img_name=3D$TEST_IMG
-+    elif [ "$TEST_IMG_FILE" =3D "$ORIG_TEST_IMG_FILE" ]; then
-+        # Handle cases of tests only updating TEST_IMG, but not TEST_IMG_F=
-ILE
-+        img_name=3D$(_test_img_to_test_img_file "$TEST_IMG")
-+        if [ "$?" !=3D 0 ]; then
-+            img_name=3D$TEST_IMG_FILE
-+        fi
-+    else
-+        # $TEST_IMG_FILE is not the default value, so it definitely has be=
-en
-+        # modified by the test
-+        img_name=3D$TEST_IMG_FILE
+     elif [ "$TEST_IMG_FILE" =3D "$ORIG_TEST_IMG_FILE" ]; then
+@@ -437,6 +455,68 @@ _make_test_img()
+         sleep 1 # FIXME: qemu-nbd needs to be listening before we continue
      fi
 =20
-     if [ -n "$IMGOPTS" ]; then
++    if [ $IMGPROTO =3D "fuse" -a -f "$img_name" ]; then
++        local export_mp
++        local pid
++        local pidfile
++        local timeout
++
++        export_mp=3D$(echo "$img_name" | sed -e "s#$TEST_DIR/#$SOCK_DIR/fu=
+se-#")
++        if ! echo "$export_mp" | grep -q "^$SOCK_DIR"; then
++            echo 'Cannot use FUSE exports with images outside of TEST_DIR'=
+ >&2
++            return 1
++        fi
++
++        touch "$export_mp"
++        rm -f "$SOCK_DIR/fuse-output"
++
++        # Usually, users would export formatted nodes.  But we present fus=
+e as a
++        # protocol-level driver here, so we have to leave the format to th=
+e
++        # client.
++        echo "{'execute': 'qmp_capabilities'}
++              {'execute': 'fuse-export-add',
++               'arguments': { 'node-name': 'export-node',
++                              'mountpoint': '$export_mp',
++                              'writable': true,
++                              'growable': true }}" | \
++        QEMU_NEED_PID=3Dy _QEMU_HANDLE=3Dfuse $QEMU -qmp stdio \
++              -M none,accel=3Dqtest -qtest null \
++              -blockdev file,node-name=3Dexport-node,filename=3D$img_name,=
+discard=3Dunmap \
++              >$SOCK_DIR/fuse-output &
++
++        pidfile=3D"$QEMU_TEST_DIR/qemu-fuse.pid"
++
++        # Wait for the PID file
++        while [ ! -f "$pidfile" ]; do
++            sleep 0.5
++        done
++
++        pid=3D$(cat "$pidfile")
++        rm -f "$pidfile"
++
++        # Wait until the node is exported (i.e., both QMP commands
++        # have been completed)
++        timeout=3D10 # *0.5 s
++        while [ "$(grep -c return "$SOCK_DIR/fuse-output" 2>/dev/null)" !=
+=3D 2 ]; do
++            sleep 0.5
++
++            timeout=3D$((timeout - 1))
++            if [ "$timeout" =3D 0 ]; then
++                kill -SIGTERM $pid
++                echo 'Failed to set up FUSE export:' >&2
++                cat "$SOCK_DIR/fuse-output" >&2
++                rm -f "$export_mp"
++                break
++            fi
++        done
++        rm -f "$SOCK_DIR/fuse-output"
++
++        if [ "$timeout" -gt 0 ]; then
++            FUSE_PIDS+=3D($pid)
++            FUSE_EXPORTS+=3D("$export_mp")
++        fi
++    fi
++
+     # Start QNIO server on image directory for vxhs protocol
+     if [ $IMGPROTO =3D "vxhs" ]; then
+         eval "$QEMU_VXHS -d  $TEST_DIR > /dev/null &"
+@@ -447,6 +527,63 @@ _make_test_img()
+ _rm_test_img()
+ {
+     local img=3D$1
++
++    if [[ $IMGPROTO =3D=3D fuse && $img =3D=3D $SOCK_DIR/fuse-* ]]; then
++        # Drop a FUSE export
++        local df_output
++        local i
++        local image_file
++        local index=3D''
++        local timeout
++
++        for i in "${!FUSE_EXPORTS[@]}"; do
++            if [ "${FUSE_EXPORTS[i]}" =3D "$img" ]; then
++                index=3D$i
++                break
++            fi
++        done
++
++        if [ -z "$index" ]; then
++            # Probably gone already
++            return 0
++        fi
++
++        kill "${FUSE_PIDS[index]}"
++
++        # Wait until the mount is gone
++        timeout=3D10 # *0.5 s
++        while true; do
++            # Will show the mount point; if the mount is still there,
++            # it will be $img.
++            df_output=3D$(df -T "$img" 2>/dev/null)
++
++            # But df may also show an error ("Transpoint endpoint not
++            # connected"), so retry in such cases
++            if [ -n "$df_output" ]; then
++                if ! echo "$df_output" | grep -q "$img"; then
++                    break
++                fi
++            fi
++
++            sleep 0.5
++
++            timeout=3D$((timeout - 1))
++            if [ "$timeout" =3D 0 ]; then
++                echo 'Failed to take down FUSE export' >&2
++                return 1
++            fi
++        done
++
++        rm -f "$img"
++
++        unset "FUSE_PIDS[$index]"
++        unset "FUSE_EXPORTS[$index]"
++
++        image_file=3D$(echo "$img" | sed -e "s#$SOCK_DIR/fuse-#$TEST_DIR/#=
+")
++        _rm_test_img "$image_file"
++        return
++    fi
++
+     if [ "$IMGFMT" =3D "vmdk" ]; then
+         # Remove all the extents for vmdk
+         "$QEMU_IMG" info "$img" 2>/dev/null | grep 'filename:' | cut -f 2 =
+-d: \
+@@ -468,6 +605,16 @@ _cleanup_test_img()
+             _stop_nbd_server
+             rm -f "$TEST_IMG_FILE"
+             ;;
++        fuse)
++            local mp
++
++            for mp in "${FUSE_EXPORTS[@]}"; do
++                _rm_test_img "$mp"
++            done
++
++            FUSE_PIDS=3D()
++            FUSE_EXPORTS=3D()
++            ;;
+         vxhs)
+             if [ -f "${TEST_DIR}/qemu-vxhs.pid" ]; then
+                 local QEMU_VXHS_PID
+@@ -544,6 +691,7 @@ _img_info()
+         sed -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
+             -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
+             -e "s#$TEST_DIR#TEST_DIR#g" \
++            -e "s#$SOCK_DIR/fuse-#TEST_DIR/#g" \
+             -e "s#$IMGFMT#IMGFMT#g" \
+             -e "/^disk size:/ D" \
+             -e "/actual-size/ D" | \
 --=20
 2.23.0
 
