@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD624126007
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:55:58 +0100 (CET)
-Received: from localhost ([::1]:38830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2912A12600A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:56:09 +0100 (CET)
+Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtTJ-00073J-KJ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:55:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39543)
+	id 1ihtTU-0007Oy-7P
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:56:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtNO-0006kt-8Q
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:51 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNL-0006gm-RY
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtNN-0000QR-0p
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:50 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35830)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNK-0000CL-MV
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:47 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35736)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtNM-0000Ca-Ms
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:48 -0500
-Received: by mail-wm1-x330.google.com with SMTP id p17so5127426wmb.0
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:48 -0800 (PST)
+ id 1ihtNK-00006z-BP
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:46 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id g17so5493194wro.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O/LDCXsheLvMycNdYAZzehR+/HRrv8aczpwXJp22nJc=;
- b=eZmFWH30IrBfN1MziG/qW+3RWVe/g4NkTMXUkb1xBkeBUAsVgVtaLQEqrrVG8h/PRr
- rm2YilrGBrpZyXdJTihaipMzia76CJq9TNHxjE3KCI84vTseTO9b3tkuLKRlXGpIR99q
- h2D+RCFDQlak7QTY8nGqQr34sbEtl3+vzsz7SPC0Mwgy81n5j1x+HU/d8O7xlMlk2VOF
- jbE11X4kWWLZgvKY28x3OCnbU0gtm3OH9MCVG5Zu7Q/WSzU0V8ATfm10qD4HRomf8KOW
- NZjcfYn9I7e6WB80wR6RtRsc149SFkHREVrjdSvtpb1i/0d0YACRWMwgpuexzKzKCCy8
- pEig==
+ bh=q6QACTT6MNs1QawRF/X6ryVYhQD/X9R+o2LVrD4Tw14=;
+ b=I7TgzPE0szFXokiwAgTKTkzrbZlqX49gLuMLtx84rOsOV0Fmev+rmvopGBVxFnZMSJ
+ ofTsAkyx1sdEgtnwliYCbSOTTrr+R0Ya2maRQ0moIx9MF09IwFgNOXglTGise1K2SNDS
+ VQ/265mb8pT/LC6+RuQnOujs68JL4FlCIM6fV05rvBO6OS1wyc0NzzRedPdvR5wrrdBK
+ Ipz23ptRCUa+Y6CODQJrWrwk30CxGMDQQhCGvtBX0X2FWAyTywpC4mtSJeNavXMuEEbf
+ OFMtFqa/BqMiQLvZEXVrmJO9NpH+ZvRjroS8w6kDr6eaZdkYXMN7b0Ztz5sT4J3iv5vq
+ GCOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O/LDCXsheLvMycNdYAZzehR+/HRrv8aczpwXJp22nJc=;
- b=MFL5t2Wex4HOLaRxlCl7zoeD478zISbnII6tgLbuwWwQ3iLdP0GOKo37rL+Hc4IhRH
- UvJA0f5NReo3QJN+PE4XtMNnAR+Ym1nt86IU4DAAXCU0bd8chWDR13buqUo/P4TkZZmy
- DqEDE7iLfpT1VQASPewXyrpxFpaAEzt9EQoBDMHfxOkhWinSgJU5mNcc/9ke70AJUjgu
- 2q9Xx55XnDf4R5bz6xAs7dCbulfMRgVlqSR253Kw3v+HCLl8TA7rWnY9EAQGIyXbX1NZ
- JACPlGs9E79poGbm5mmdJJ29FrlRCYoQ9YQjDBqS0ojeb0o9ukhpCy2QK3UmtJd+WADr
- qP5A==
-X-Gm-Message-State: APjAAAUJr5/3SgHa/LvLacrA4JSFlQrj6vTgJE/+k8Cnc5guiZQw4iw9
- qkeRyA9In6BpD3ZVCM0k7AA0G3eXse0=
-X-Google-Smtp-Source: APXvYqzKjjJ2emoTnzoQp+IXOCjSFM9eHe6pucfG8fE4hDgwdmAZXjfSWQUMGUsAHH1rBWvowCqP9g==
-X-Received: by 2002:a1c:41c4:: with SMTP id o187mr9248520wma.24.1576752586289; 
- Thu, 19 Dec 2019 02:49:46 -0800 (PST)
+ bh=q6QACTT6MNs1QawRF/X6ryVYhQD/X9R+o2LVrD4Tw14=;
+ b=NHtDm+K0/Th4Sp6IpUk/jEEWZrv11cX2Vs8FX9XJ0y13wzh2fkjMP5vYw9+F/C38w+
+ NVaXdtl1F6l5RThjQiu9jeBr5P9S0GfKfCCJJHaJnEDLP4tKA2+qGVQ+aKsAVuVVbP/U
+ 4G87JEjAl/sgA26RR93+GG22AUydG2FqPEAsFGv4i0BfRl6XiWkbWG9nHneEXTE6q78M
+ rfWR9vneZahxLpOux7ZqtVMlUh4GeKQcN9q1ruwRFu/cZF1sTGGtct4bC6oKsWNtVQfm
+ grPVuWyVtTFyn/h9/tzCkrs4ElRhtTYc4iqBUaC25DKqjUK67QrUAIba858POOjC81A/
+ k0Fg==
+X-Gm-Message-State: APjAAAWHOo7lVkh/msVgubVXBamn6Hzq5t8XW5zbWoI2PbDXMzqgqaZN
+ 3YoOm2xc/txVEXgAGPoy5VF6uw==
+X-Google-Smtp-Source: APXvYqy0o1B+EyjrQyCAHwDYykLJBRR0gKUIA+wUXz3Aoy3AUiVCS/X4b2HZSk12R3w2ECb99Elweg==
+X-Received: by 2002:adf:e78a:: with SMTP id n10mr9036693wrm.62.1576752585299; 
+ Thu, 19 Dec 2019 02:49:45 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e6sm5932997wru.44.2019.12.19.02.49.38
+ by smtp.gmail.com with ESMTPSA id s82sm6075064wms.28.2019.12.19.02.49.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Dec 2019 02:49:41 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 179341FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 2C2021FF98;
  Thu, 19 Dec 2019 10:49:35 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/25] tests/hd-geo-test: Skip test when images can not be
- created
-Date: Thu, 19 Dec 2019 10:49:16 +0000
-Message-Id: <20191219104934.866-8-alex.bennee@linaro.org>
+Subject: [PULL 08/25] tests/test-util-filemonitor: Skip test on non-x86 Travis
+ containers
+Date: Thu, 19 Dec 2019 10:49:17 +0000
+Message-Id: <20191219104934.866-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
 References: <20191219104934.866-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,64 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-In certain environments like restricted containers, we can not create
-huge test images. To be able to use "make check" in such container
-environments, too, let's skip the hd-geo-test instead of failing when
-the test images could not be created.
+test-util-filemonitor fails in restricted non-x86 Travis containers
+since they apparently blacklisted some required system calls there.
+Let's simply skip the test if we detect such an environment.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191204154618.23560-5-thuth@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20191204154618.23560-6-thuth@redhat.com>
 
-diff --git a/tests/hd-geo-test.c b/tests/hd-geo-test.c
-index 7e86c5416cc..a2498005440 100644
---- a/tests/hd-geo-test.c
-+++ b/tests/hd-geo-test.c
-@@ -34,8 +34,13 @@ static char *create_test_img(int secs)
-     fd = mkstemp(template);
-     g_assert(fd >= 0);
-     ret = ftruncate(fd, (off_t)secs * 512);
--    g_assert(ret == 0);
-     close(fd);
-+
-+    if (ret) {
-+        free(template);
-+        template = NULL;
+diff --git a/tests/test-util-filemonitor.c b/tests/test-util-filemonitor.c
+index 301cd2db619..45009c69f41 100644
+--- a/tests/test-util-filemonitor.c
++++ b/tests/test-util-filemonitor.c
+@@ -406,10 +406,21 @@ test_file_monitor_events(void)
+     char *pathdst = NULL;
+     QFileMonitorTestData data;
+     GHashTable *ids = g_hash_table_new(g_int64_hash, g_int64_equal);
++    char *travis_arch;
+ 
+     qemu_mutex_init(&data.lock);
+     data.records = NULL;
+ 
++    /*
++     * This test does not work on Travis LXD containers since some
++     * syscalls are blocked in that environment.
++     */
++    travis_arch = getenv("TRAVIS_ARCH");
++    if (travis_arch && !g_str_equal(travis_arch, "x86_64")) {
++        g_test_skip("Test does not work on non-x86 Travis containers.");
++        return;
 +    }
 +
-     return template;
- }
- 
-@@ -934,6 +939,10 @@ int main(int argc, char **argv)
-     for (i = 0; i < backend_last; i++) {
-         if (img_secs[i] >= 0) {
-             img_file_name[i] = create_test_img(img_secs[i]);
-+            if (!img_file_name[i]) {
-+                g_test_message("Could not create test images.");
-+                goto test_add_done;
-+            }
-         } else {
-             img_file_name[i] = NULL;
-         }
-@@ -965,6 +974,7 @@ int main(int argc, char **argv)
-                        "skipping hd-geo/override/* tests");
-     }
- 
-+test_add_done:
-     ret = g_test_run();
- 
-     for (i = 0; i < backend_last; i++) {
+     /*
+      * The file monitor needs the main loop running in
+      * order to receive events from inotify. We must
 -- 
 2.20.1
 
