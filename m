@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A71126547
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:56:49 +0100 (CET)
-Received: from localhost ([::1]:43172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A26126524
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:47:41 +0100 (CET)
+Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxEO-0005NW-LP
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:56:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50728)
+	id 1ihx5X-0007xd-PV
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:47:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ihx0u-0002eL-8Y
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:42:53 -0500
+ (envelope-from <nsoffer@redhat.com>) id 1ihx1K-0003OR-8a
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:43:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ihx0t-0007NL-1S
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:42:52 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46309
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <nsoffer@redhat.com>) id 1ihx1I-0001EB-Tv
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:43:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35318
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihx0s-0007LA-U9
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:42:50 -0500
+ (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1ihx1I-00019q-Of
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:43:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576766570;
+ s=mimecast20190719; t=1576766596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wNmQiC9ZrGOdwt0701lLFiP+74WWu7YPslv0UzWz0UM=;
- b=jL2nCr1IkcbS/xUI6JfS8/q1AcXE94wbB51ktlt/W39Z0SEE53NmgJeAGnMo6kL3rsDQ0B
- DlgKNywrMT2Fd1C/YYNnrGV0ZNH2KxExj1Lx6+b1yl9Bu+99ZixzxPACQHM83Dv+Hx3lMn
- Q576tXqDKFfh76qxcYcsle1zYPP7Rng=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-86tSfXpJMQSZSp7cHxAtfQ-1; Thu, 19 Dec 2019 09:42:47 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27D0D8005B5;
- Thu, 19 Dec 2019 14:42:46 +0000 (UTC)
-Received: from localhost (ovpn-205-138.brq.redhat.com [10.40.205.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B36055D9CD;
- Thu, 19 Dec 2019 14:42:45 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] iotests/279: Fix for non-qcow2 formats
-Date: Thu, 19 Dec 2019 15:42:43 +0100
-Message-Id: <20191219144243.1763246-1-mreitz@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=erkSz+YjOcxD9hoxkh75y2eS8R+7oFeg6AqjUVlzhVo=;
+ b=ceMyhTXqRq2mtyM3q+Tl6iq9dBnS/f5riJuK7iIL3NP/Liwc20T58loUyZMKhVnmMz8CnU
+ b7LZ7nXPmkDwFVQEII5mvds2tSB3a9OD7YQkTM4wBV2MQNeBGGPPAt7/rA3xNPyfW3vw91
+ bLG8kQlQVivROkn9KTj2xlsfUIO8Z18=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-9GJJfrWbOfWiDBq__ZCRXw-1; Thu, 19 Dec 2019 09:43:14 -0500
+Received: by mail-ot1-f71.google.com with SMTP id r19so2790489otd.23
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:43:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gvjOYuUdJPHyDyFzNO/gSvPxIqiLMb+5q2r6eyRFJK8=;
+ b=gKLQ1oB3d480QHpE4YAP0hUe8EZld+YcdGqrlRkfAP4K5pW6SqU7UEfZvLZtBRPXYf
+ tOXCWnBOA+cm0JG1IfKkjoYTEvPuMrEEYzlNHEGSEUQX9So/GmrmPcGUWORfEsNnJFyi
+ JjGYRbnw4fQ4cUVtfOR9x5VVXB50cV1gNeM21vJuNt2h8xZwR9ADsYlqPowiS2/m7hgk
+ zV9hUL8sDGQbSJmOAxhHj0JUWQeFaBfvK8Kf6yIrZBP33RUPNElSZBQfkp6u/3h6bMRu
+ SixufJs2WIrlKvKTenNCcP7m98om9jciXVnz3g9qi0Ru9B8/WJbCX3GCEp3EbquGPsl3
+ gI2Q==
+X-Gm-Message-State: APjAAAX+asvZIIuFDCDQ55h9E476DQQ8OiPzXZUtIV4jUKfViBy4Xpqc
+ Vc3n8NXNseQDch7AwUG3JJmZjiJROIxbc5q5i4Hks14VuhuyHLwQPOsXXRQDy772qK2Wo+HITDO
+ nd0uMYIBo2JkUIkTds9K5W4qNubMvZ4M=
+X-Received: by 2002:a9d:75da:: with SMTP id c26mr9221976otl.40.1576766593713; 
+ Thu, 19 Dec 2019 06:43:13 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwAuULuqCae3aPoUX7SDaDeEP2jSRlSmiHWNpBPkq+AMVJM6tImnEhPWqxgv80QB7EI+M6wwThqcooX4Bqm+ZY=
+X-Received: by 2002:a9d:75da:: with SMTP id c26mr9221954otl.40.1576766593412; 
+ Thu, 19 Dec 2019 06:43:13 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 86tSfXpJMQSZSp7cHxAtfQ-1
+References: <20191219143415.28490-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20191219143415.28490-1-vsementsov@virtuozzo.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Thu, 19 Dec 2019 16:42:57 +0200
+Message-ID: <CAMRbyyt8Y8DFV5=72+GvHrAWbdUO5Mys5JGn7D8es+w2SVcRMA@mail.gmail.com>
+Subject: Re: [PATCH] qapi/block: fix nbd-server-add spec
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-MC-Unique: 9GJJfrWbOfWiDBq__ZCRXw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,57 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First, driver=3Dqcow2 will not work so well with non-qcow2 formats (and
-this test claims to support qcow, qed, and vmdk).
+On Thu, Dec 19, 2019 at 4:34 PM Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
+>
+> "NAME" here may be interpreted like it should match @name, which is
+> export name. But it was never mentioned in such way. Make it obvious,
+> that actual "<dirty-bitmap-export-name>" (see docs/interop/nbd.txt)
+> will match @bitmap parameter.
 
-Second, vmdk will always report the backing file format to be vmdk.
-Filter that out so the output looks like for all other formats.
+But this is wrong, dirty-bitmap-export-name does not mean the actual bitmap
+name but the name exposed to the NBD client, which can be anything.
 
-Third, the flat vmdk subformats do not support backing files, so they
-will not work with this test.
+> Fixes: 5fcbeb06812685a2
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>
+> Hi all.
+>
+> This patch follows discussion on Nir's patch
+>  [PATCH] block: nbd: Fix dirty bitmap context name
+>  ( https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg04309.html )
+>
+> Let's just fix qapi spec now.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/279 | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+But qapi documents a better behavior for users. We should fix the code inst=
+ead
+to mach the docs.
 
-diff --git a/tests/qemu-iotests/279 b/tests/qemu-iotests/279
-index 6682376808..30d29b1cb2 100755
---- a/tests/qemu-iotests/279
-+++ b/tests/qemu-iotests/279
-@@ -38,6 +38,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow qcow2 vmdk qed
- _supported_proto file
- _supported_os Linux
-+_unsupported_imgopts "subformat=3DmonolithicFlat" \
-+                     "subformat=3DtwoGbMaxExtentFlat" \
-=20
- TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
- TEST_IMG=3D"$TEST_IMG.mid" _make_test_img -b "$TEST_IMG.base"
-@@ -45,11 +47,12 @@ _make_test_img -b "$TEST_IMG.mid"
-=20
- echo
- echo '=3D=3D qemu-img info --backing-chain =3D=3D'
--_img_info --backing-chain | _filter_img_info
-+_img_info --backing-chain | _filter_img_info | grep -v 'backing file forma=
-t'
-=20
- echo
- echo '=3D=3D qemu-img info --backing-chain --image-opts =3D=3D'
--TEST_IMG=3D"driver=3Dqcow2,file.driver=3Dfile,file.filename=3D$TEST_IMG" _=
-img_info --backing-chain --image-opts | _filter_img_info
-+TEST_IMG=3D"driver=3D$IMGFMT,file.driver=3Dfile,file.filename=3D$TEST_IMG"=
- _img_info --backing-chain --image-opts \
-+    | _filter_img_info | grep -v 'backing file format'
-=20
- # success, all done
- echo "*** done"
---=20
-2.23.0
+With this we still have the issue of leaking internal bitmap name to
+users who do not
+control the name, and do not care about it.
+
+>  qapi/block.json | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/qapi/block.json b/qapi/block.json
+> index 145c268bb6..8042ef78f0 100644
+> --- a/qapi/block.json
+> +++ b/qapi/block.json
+> @@ -255,7 +255,8 @@
+>
+>  # @bitmap: Also export the dirty bitmap reachable from @device, so the
+>  #          NBD client can use NBD_OPT_SET_META_CONTEXT with
+> -#          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
+> +#          "qemu:dirty-bitmap:BITMAP" to inspect the bitmap (BITMAP here
+> +#          matches @bitmap parameter). (since 4.0)
+>  #
+>  # Returns: error if the server is not running, or export with the same n=
+ame
+>  #          already exists.
+> --
+> 2.21.0
+>
 
 
