@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA2B126086
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:10:12 +0100 (CET)
-Received: from localhost ([::1]:39212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55041126074
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:06:57 +0100 (CET)
+Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihth5-0001Df-Kv
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:10:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57449)
+	id 1ihtdv-00049F-W4
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:06:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57071)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWg-0003u5-HM
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:27 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtWd-0003pN-N8
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtWf-0001G8-9F
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:26 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53579)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtWc-00010q-Is
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:23 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44595)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtWf-0001A5-08
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:25 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id m24so4960932wmc.3
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:24 -0800 (PST)
+ id 1ihtWc-0000uz-AC
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:59:22 -0500
+Received: by mail-wr1-x429.google.com with SMTP id q10so5493753wrm.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uLKaiiVcWx70eG0qkNbXF+zMJscr1d+jtw4eifA48Xc=;
- b=gN1LN8vooBN7X/EDhpq1QpMUPDE6G8qMh6rpyNzcJSlQ480NdO4ap8W615ibJn6ekE
- +XFcQiCMxDIeOXdVmVEmktX2Q+bt1E7bRpRpxAWNKfLEKvX05j+fWCGSxZNOMP3geCEo
- fJkQDVB0ViPpz4u9Y2irlLaGt2UbQM9sDeaCk1yMvDgHzV4BgmGVVfr5C8ZHE7ujdntW
- JvmWN1w0ZGcd7giCvE6xAUEw0H43r2WaO5odMmb+eRhhn3zdYBZIfZhyxVc4KzCUDY5R
- W6zJlFXiWHSbVAWt523ebGjrGHqWbxGr5vLFXaEiy/lKlDx6AeeM6orKN9gbHXK428b/
- /2lw==
+ bh=5wZWaLRvYvZmLIMHo5Ts618uNlIbDVM0vsHKMJtTzPM=;
+ b=a7u7AhMRQ7JvoMkVctN7MwzSHwdmI2dvIPrInk/CzKQA4ESw8rAdEBbfYWz5dkSFNc
+ vS4wVcjVatLj6btwpz58zB/5yYRVt/FQPlL19ePqvWJkrj42N8SHFiV81mQAaetvjj7M
+ zSgvRiCz9O3WY5OEKXVyzk6S0+9Ofl+Rc5l+eCIP6wENA8U2N2Hjl8mKB5Zsed+n5hHO
+ Wdu5NO80QWrbiruRXawX66qxAM51ZMpXYEdJ4jKtx+q/gk0rsY1J4FWEigGNogC3dmVr
+ 3YDqnE6xixCS+u6Ke7ip8R4tsLKq6jOKlYM6kfeQYRxUhyj5Vc6Uj4Er/lRctyic0LFx
+ HLfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uLKaiiVcWx70eG0qkNbXF+zMJscr1d+jtw4eifA48Xc=;
- b=EycCdFD++7h97fyQFYr4QeQfR/x9FSy27eka7NHHEEIh8Cuxt8LyZ6vclXMWcZ6l49
- kQfZzdML01qb+XB98kXY1pun7maqaCK2b89SgtKDdeica8Fz/vDpcSeZ7CYC9pHLxQ0p
- BwMvpB62YJBlsHoENT5EWOO12RJoCNVI4bMX65EgebCuVzQUoU+yF9G49eSGhqcLgVLv
- RaQGLT2I6SLmKZBiq+StArIXfIGtygopq/GL2ePJfIRsnmrOBgExhF3K+QbD+bcgu6Xr
- PVjJFyr/GGyowbvBv50ESVYlmd/dG7VkOV/AAOkFip1X4g3LO1L58dI8KxEc5wcbDljK
- oPsg==
-X-Gm-Message-State: APjAAAV29IFKjo+tU2D0eYEUc6frEa8f0b5U5qW8RrP+IhVd4E1DNLFt
- v/AC43Y9Rq0NpGro2tPjAtVBzA==
-X-Google-Smtp-Source: APXvYqwnaE5sMeLuoo/v5TTY3yD+2d2J1CbG209PjiTK+beCUxeE0Swy6AeYffsmCIp30AmnfrpNag==
-X-Received: by 2002:a1c:4907:: with SMTP id w7mr9067854wma.106.1576753163816; 
- Thu, 19 Dec 2019 02:59:23 -0800 (PST)
+ bh=5wZWaLRvYvZmLIMHo5Ts618uNlIbDVM0vsHKMJtTzPM=;
+ b=rQPep7QWV9erphQwoIRaV6q2xXrXpAONVx9fZxzOXDvdt9vedSKgJEjkIjV8/kkcjJ
+ qxat4ga+Cq6Dg9bhyDwnLasLZG3hEj2SirIbX+ulUnbQLIAfHmhDZozAWW+Lp4v61E04
+ i+WjqkmpyBJq4sjEsd62P13cQ9MjAtgRxF7mG/1rHxKvtku6vXHYQDaAtitckKv0Sftl
+ FWyPD3NlUE5mdRz23rYrnnwHbLAExfB/3rcr64p1R35wlweZUXiAqu1mgaXoxaz1x56W
+ qwKy7Nf1GkbvNnMQSHjZ1RsSUa8FJdfqT6ZPIpbguVlVC6hRk8Kqid1SYrHn1idpScc3
+ lRBQ==
+X-Gm-Message-State: APjAAAUAMo0/Qk+EGjwmZKS1q1aPtApSFo1mM8bD6zWmTKq9UpeDcRzB
+ UDkYrliHDVQeTqDUyXKHkj7L6Q==
+X-Google-Smtp-Source: APXvYqxgfQFQU7rag4zN8EmDoylBgeZGBduNLDO6cV/ytxnbKg7Nof1r0VDs4MA2QHzbOSY43N2BMw==
+X-Received: by 2002:adf:fe0e:: with SMTP id n14mr8702460wrr.116.1576753161269; 
+ Thu, 19 Dec 2019 02:59:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y20sm5545442wmi.25.2019.12.19.02.59.17
+ by smtp.gmail.com with ESMTPSA id 60sm6200327wrn.86.2019.12.19.02.59.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 02:59:19 -0800 (PST)
+ Thu, 19 Dec 2019 02:59:18 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BB09B1FFAF;
+ by zen.linaroharston (Postfix) with ESMTP id D132C1FFB1;
  Thu, 19 Dec 2019 10:49:36 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 24/25] trace: replace hand-crafted pattern_glob with
- g_pattern_match_simple
-Date: Thu, 19 Dec 2019 10:49:33 +0000
-Message-Id: <20191219104934.866-25-alex.bennee@linaro.org>
+Subject: [PULL 25/25] tests/tcg: ensure we re-configure if configure.sh is
+ updated
+Date: Thu, 19 Dec 2019 10:49:34 +0000
+Message-Id: <20191219104934.866-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
 References: <20191219104934.866-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,70 +84,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already use g_pattern_match elsewhere so remove the duplication.
+We were only doing this if docker was enabled which isn't quite right.
 
+Fixes: fc76c56d3f47
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20191205122518.10010-7-alex.bennee@linaro.org>
+Message-Id: <20191211170520.7747-17-alex.bennee@linaro.org>
 
-diff --git a/trace/control.c b/trace/control.c
-index d9cafc161bb..0fb81241607 100644
---- a/trace/control.c
-+++ b/trace/control.c
-@@ -98,38 +98,6 @@ TraceEvent *trace_event_name(const char *name)
-     return NULL;
- }
+diff --git a/tests/tcg/Makefile.prereqs b/tests/tcg/Makefile.prereqs
+index 7494b31b952..9a29604a839 100644
+--- a/tests/tcg/Makefile.prereqs
++++ b/tests/tcg/Makefile.prereqs
+@@ -13,6 +13,6 @@ DOCKER_IMAGE:=
  
--static bool pattern_glob(const char *pat, const char *ev)
--{
--    while (*pat != '\0' && *ev != '\0') {
--        if (*pat == *ev) {
--            pat++;
--            ev++;
--        }
--        else if (*pat == '*') {
--            if (pattern_glob(pat, ev+1)) {
--                return true;
--            } else if (pattern_glob(pat+1, ev)) {
--                return true;
--            } else {
--                return false;
--            }
--        } else {
--            return false;
--        }
--    }
--
--    while (*pat == '*') {
--        pat++;
--    }
--
--    if (*pat == '\0' && *ev == '\0') {
--        return true;
--    } else {
--        return false;
--    }
--}
--
--
- void trace_event_iter_init(TraceEventIter *iter, const char *pattern)
- {
-     iter->event = 0;
-@@ -148,8 +116,7 @@ TraceEvent *trace_event_iter_next(TraceEventIter *iter)
-             iter->group++;
-         }
-         if (!iter->pattern ||
--            pattern_glob(iter->pattern,
--                         trace_event_get_name(ev))) {
-+            g_pattern_match_simple(iter->pattern, trace_event_get_name(ev))) {
-             return ev;
-         }
-     }
+ ifneq ($(DOCKER_IMAGE),)
+ build-tcg-tests-$(PROBE_TARGET): docker-image-$(DOCKER_IMAGE)
++endif
+ $(BUILD_DIR)/tests/tcg/config_$(PROBE_TARGET).mak: config-host.mak
+ config-host.mak: $(SRC_PATH)/tests/tcg/configure.sh
+-endif
 -- 
 2.20.1
 
