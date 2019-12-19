@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFD2126400
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:53:01 +0100 (CET)
-Received: from localhost ([::1]:41880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D641263D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:44:17 +0100 (CET)
+Received: from localhost ([::1]:41720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwEe-0002Js-8u
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:53:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51030)
+	id 1ihw6C-0005Xn-56
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:44:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53210)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihvv6-0007nT-Uq
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:32:50 -0500
+ (envelope-from <peterx@redhat.com>) id 1ihvva-0000AJ-1o
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:33:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihvv4-0008FI-Ep
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:32:48 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28140
+ (envelope-from <peterx@redhat.com>) id 1ihvvX-0001OJ-Iv
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:33:17 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49544
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihvv4-0008AJ-9F
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:32:46 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1ihvvX-0001Lm-CN
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:33:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576762365;
+ s=mimecast20190719; t=1576762394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UbBKytEdEEGRHx3+BjPaI+XkJq85rItn/54wFTPJnxE=;
- b=Psx1/QapimmP+3+MrsdGY8T+blPZ0u9kytKpnyr7p7CbpoL9Co1qW/kfZJs/gA5E8vgHJd
- F9dtytbHYgwQyJAuiCURtUbEzQyCbGT/8ieL4UmpwyC5Ot10yNqe1WgmeY5GkjrFdFqM5n
- ovTD3lGGnKY9VzIXiNEMk/jQTvNRaI4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-U-aHLfASNJS6cQXuTzRSuw-1; Thu, 19 Dec 2019 08:32:42 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 174A41009607;
- Thu, 19 Dec 2019 13:32:41 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DF5087D97D;
- Thu, 19 Dec 2019 13:32:39 +0000 (UTC)
-Date: Thu, 19 Dec 2019 14:32:37 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Tuguoyi <tu.guoyi@h3c.com>
-Subject: Re: [PATCH v2] qcow2: Move error check of local_err near its
- assignment
-Message-ID: <20191219133237.GJ5230@linux.fritz.box>
-References: <d7301bf410e04b50a494a82679335158@h3c.com>
+ bh=TK4RywertGHU5YvngQqidrycj5zwSBQzF1+NiySvZmY=;
+ b=IkLh3MXYoooAUK6HIBAgqQTC+VwQYviky9kriXPmzg8HuIhE71lpYEq3wlBIQ/YM5jEhze
+ PUFUG9lK+yGLOnWkbt6d1LtAfxoHfgTDltPAXMaLUAxyv7uLs6Av4Pk/il2kvvSqMRZcaM
+ YVJvE+D+BObPn9duOrPjpNwLJXyEgO8=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-CDxVGYiRMlCipkBidCqlaQ-1; Thu, 19 Dec 2019 08:33:14 -0500
+Received: by mail-qk1-f200.google.com with SMTP id g28so3604339qkl.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:33:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+VFciNyicxTJ/a/4QmIxoALs8sCDRyGU5BBU/c2HPL0=;
+ b=r47MsRQf2ypfIRUgMa93klK5EmLTXQ/YqNmUe9FAgLlhui/cDysW2mZCM6OukAsWMN
+ ABfaiYtZqoiRPXOXBAlUErJjffZFhykRNS6OSJhihULrFUSyMfsGPqhVbxDIIYlfn4Ce
+ OWguSWDMbs+jJAfzm66AW6Pyk8R8pEkQmc3huFEnOYgDeU7eW7QweQDZ3cShoT1PluzO
+ K2eWikx6gd34bS4fEYyEi8hPRlV6TBVXHYv+N3M+8WCbmWOw2/0Q615sbR8j2ghn4F0D
+ DGXjxpRXV3Q4oPlJR/mg7J6u9pxvFbcRoRCSH92hjoVfTdch6k/AYOTV3ddmeBCQh0Bg
+ Sc5w==
+X-Gm-Message-State: APjAAAXEMa3+IPxJnrKD1AYSd9FRoT3CvSwRAHD2FF4M4foRKlbE1PAd
+ /zIFGhEciB2/qXqtvT3R3v1noH2vI39z79M0rpm3CnPDy7ErmebNVrdbSfI1F1uBNgdMIlUnMnU
+ A/sey5HibZAn1zfg=
+X-Received: by 2002:ac8:461a:: with SMTP id p26mr6702212qtn.317.1576762390803; 
+ Thu, 19 Dec 2019 05:33:10 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy+Y10/rRZvyBzfotd49vjBuDPt/SmkpwCsOiXKB3hnaDeEBf6axwtUUnl1kQv4fFZv7T7trQ==
+X-Received: by 2002:ac8:461a:: with SMTP id p26mr6702178qtn.317.1576762390528; 
+ Thu, 19 Dec 2019 05:33:10 -0800 (PST)
+Received: from xz-x1 ([2607:9880:19c0:3f::2])
+ by smtp.gmail.com with ESMTPSA id j7sm1735320qkd.46.2019.12.19.05.33.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 05:33:09 -0800 (PST)
+Date: Thu, 19 Dec 2019 08:33:08 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
+Message-ID: <20191219133308.GA4246@xz-x1>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-9-eric.auger@redhat.com>
+ <20191210193342.GJ3352@xz-x1>
+ <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d7301bf410e04b50a494a82679335158@h3c.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: U-aHLfASNJS6cQXuTzRSuw-1
+In-Reply-To: <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
+X-MC-Unique: CDxVGYiRMlCipkBidCqlaQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -73,27 +89,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ bharatb.linux@gmail.com, qemu-arm@nongnu.org, dgilbert@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.12.2019 um 12:53 hat Tuguoyi geschrieben:
-> The local_err check outside of the if block was necessary
-> when it was introduced in commit d1258dd0c87 because it needed to be
-> executed even if qcow2_load_autoloading_dirty_bitmaps() returned false.
->=20
-> After some modifications that all required the error check to remain
-> where it is, commit 9c98f145dfb finally moved the
-> qcow2_load_dirty_bitmaps() call into the if block, so now the error
-> check should be there, too.
->=20
-> Signed-off-by: Guoyi Tu <tu.guoyi@h3c.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Thu, Dec 19, 2019 at 11:30:40AM +0100, Auger Eric wrote:
+> Hi Peter,
+> On 12/10/19 8:33 PM, Peter Xu wrote:
+> > On Fri, Nov 22, 2019 at 07:29:31PM +0100, Eric Auger wrote:
+> >> This patch implements the translate callback
+> >>
+> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >>
+> >> ---
+> >>
+> >> v10 -> v11:
+> >> - take into account the new value struct and use
+> >>   g_tree_lookup_extended
+> >> - switched to error_report_once
+> >>
+> >> v6 -> v7:
+> >> - implemented bypass-mode
+> >>
+> >> v5 -> v6:
+> >> - replace error_report by qemu_log_mask
+> >>
+> >> v4 -> v5:
+> >> - check the device domain is not NULL
+> >> - s/printf/error_report
+> >> - set flags to IOMMU_NONE in case of all translation faults
+> >> ---
+> >>  hw/virtio/trace-events   |  1 +
+> >>  hw/virtio/virtio-iommu.c | 63 +++++++++++++++++++++++++++++++++++++++=
+-
+> >>  2 files changed, 63 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> >> index f25359cee2..de7cbb3c8f 100644
+> >> --- a/hw/virtio/trace-events
+> >> +++ b/hw/virtio/trace-events
+> >> @@ -72,3 +72,4 @@ virtio_iommu_get_endpoint(uint32_t ep_id) "Alloc end=
+point=3D%d"
+> >>  virtio_iommu_put_endpoint(uint32_t ep_id) "Free endpoint=3D%d"
+> >>  virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=3D%d"
+> >>  virtio_iommu_put_domain(uint32_t domain_id) "Free domain=3D%d"
+> >> +virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, ui=
+nt32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"
+> >> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> >> index f0a56833a2..a83666557b 100644
+> >> --- a/hw/virtio/virtio-iommu.c
+> >> +++ b/hw/virtio/virtio-iommu.c
+> >> @@ -412,19 +412,80 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMM=
+UMemoryRegion *mr, hwaddr addr,
+> >>                                              int iommu_idx)
+> >>  {
+> >>      IOMMUDevice *sdev =3D container_of(mr, IOMMUDevice, iommu_mr);
+> >> +    viommu_interval interval, *mapping_key;
+> >> +    viommu_mapping *mapping_value;
+> >> +    VirtIOIOMMU *s =3D sdev->viommu;
+> >> +    viommu_endpoint *ep;
+> >> +    bool bypass_allowed;
+> >>      uint32_t sid;
+> >> +    bool found;
+> >> +
+> >> +    interval.low =3D addr;
+> >> +    interval.high =3D addr + 1;
+> >> =20
+> >>      IOMMUTLBEntry entry =3D {
+> >>          .target_as =3D &address_space_memory,
+> >>          .iova =3D addr,
+> >>          .translated_addr =3D addr,
+> >> -        .addr_mask =3D ~(hwaddr)0,
+> >> +        .addr_mask =3D (1 << ctz32(s->config.page_size_mask)) - 1,
+> >>          .perm =3D IOMMU_NONE,
+> >>      };
+> >> =20
+> >> +    bypass_allowed =3D virtio_has_feature(s->acked_features,
+> >> +                                        VIRTIO_IOMMU_F_BYPASS);
+> >> +
+> >=20
+> > Would it be easier to check bypass_allowed here once and then drop the
+> > latter [1] and [2] check?
+> bypass_allowed does not mean you systematically bypass. You bypass if
+> the SID is unknown or if the device is not attached to any domain.
+> Otherwise you translate. But maybe I miss your point.
 
-Thanks, applied to the block branch.
+Ah ok, then could I ask how will this VIRTIO_IOMMU_F_BYPASS be used?
+For example, I think VT-d defines passthrough in a totally different
+way in that the PT mark will be stored in the per-device context
+entries, then we can allow a specific device to be pass-through when
+doing DMA.  That information is explicit (e.g., unknown SID will
+always fail the DMA), and per-device.
 
-Kevin
+Here do you mean that you just don't put a device into any domain to
+show it wants to use PT?  Then I'm not sure how do you identify
+whether this is a legal PT or a malicious device (e.g., an unknown
+device that even does not have any driver bound to it, which will also
+satisfy "unknown SID" and "not attached to any domain", iiuc).
+
+Thanks,
+
+--=20
+Peter Xu
 
 
