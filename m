@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8A212607B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:07:52 +0100 (CET)
-Received: from localhost ([::1]:39170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8884126070
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 12:06:28 +0100 (CET)
+Received: from localhost ([::1]:39122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtep-00065t-Cq
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:07:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45538)
+	id 1ihtdT-0003Q5-Fv
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 06:06:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59685)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ihtZ5-0007Aa-Ti
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:01:57 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1ihtb4-0001ee-Qw
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:03:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ihtZ4-00028C-AH
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:01:55 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48837
+ (envelope-from <eric.auger@redhat.com>) id 1ihtb3-0001fh-Fj
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:03:58 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28883
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ihtZ3-00024I-Tv
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:01:54 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1ihtb3-0001d2-9j
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 06:03:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576753313;
+ s=mimecast20190719; t=1576753436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SsKlgFVaY90ZmdAuFQza/rRwJIEq8CzteF4gT9FMQ5M=;
- b=B5hplWzTXmW3F+upJC0aDUMTVFMVpMrcqVuEciRvXPqi+wkc32L1dLoN+2Aj2qotd+kosb
- z8+kq0uog/IamsoxhfX6TtAnhBQJvWKfciNMpJn6kMZ6CKCaTtJDAexLKfmrZhRlSIdGss
- GlsgOOZwK8WlegsavQpAPTdHpN1MhaM=
+ bh=c/XZkYHGQZ+Qe6fjvAxBLlDlAWbyR1Du9b+N0e7LYn8=;
+ b=PH49SUkWg4v3BmkHzTGlKbqi5azeAcvwBST8URaMxvgqtcycSQzEB5dll8o99mGe7jV7Ch
+ rgQi4I81u8B4p5z21T7y862UejjbRVCTYhJGeCqMPVuwerLaC+qHErUJHgniNmkk2fHXK+
+ 8e0MmIFOYyjF8M4EgkM7kfQtAOMyqmA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-5yEOigs-N6yhXwYy-pobyw-1; Thu, 19 Dec 2019 06:01:49 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-420-3ze0b_d8Pu6b0pOpxszu2w-1; Thu, 19 Dec 2019 06:03:55 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AD871005510;
- Thu, 19 Dec 2019 11:01:48 +0000 (UTC)
-Received: from localhost (ovpn-117-134.ams2.redhat.com [10.36.117.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE92D63B89;
- Thu, 19 Dec 2019 11:01:45 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/6] s390x: Properly fetch and test the short psw on diag308
- subc 0/1
-Date: Thu, 19 Dec 2019 12:01:12 +0100
-Message-Id: <20191219110112.8343-7-cohuck@redhat.com>
-In-Reply-To: <20191219110112.8343-1-cohuck@redhat.com>
-References: <20191219110112.8343-1-cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D962477;
+ Thu, 19 Dec 2019 11:03:53 +0000 (UTC)
+Received: from [10.36.116.117] (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DFA3A6889D;
+ Thu, 19 Dec 2019 11:03:43 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v11 18/20] virtio-iommu: Support migration
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-19-eric.auger@redhat.com>
+ <20191210165006.GP277340@myrica>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <a8b88770-c70e-3e41-7e57-9f17ef21feaf@redhat.com>
+Date: Thu, 19 Dec 2019 12:03:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 5yEOigs-N6yhXwYy-pobyw-1
+In-Reply-To: <20191210165006.GP277340@myrica>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 3ze0b_d8Pu6b0pOpxszu2w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -71,63 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Janosch Frank <frankja@linux.ibm.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ dgilbert@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Janosch Frank <frankja@linux.ibm.com>
+Hi Jean,
 
-We need to actually fetch the cpu mask and set it. As we invert the
-short psw indication in the mask, SIE will report a specification
-exception, if it wasn't present in the reset psw.
+On 12/10/19 5:50 PM, Jean-Philippe Brucker wrote:
+> On Fri, Nov 22, 2019 at 07:29:41PM +0100, Eric Auger wrote:
+>> +static const VMStateDescription vmstate_virtio_iommu_device = {
+>> +    .name = "virtio-iommu-device",
+>> +    .minimum_version_id = 1,
+>> +    .version_id = 1,
+>> +    .post_load = iommu_post_load,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_GTREE_DIRECT_KEY_V(domains, VirtIOIOMMU, 1,
+>> +                                   &vmstate_domain, viommu_domain),
+>> +        VMSTATE_GTREE_DIRECT_KEY_V(endpoints, VirtIOIOMMU, 1,
+>> +                                   &vmstate_endpoint, viommu_endpoint),
+> 
+> So if I understand correctly these fields are state that is modified by
+> the guest? We don't need to save/load fields that cannot be modified by
+> the guest, static information that is created from the QEMU command-line. 
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20191129142025.21453-2-frankja@linux.ibm.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- target/s390x/cpu.c | 12 ++++++++++--
- target/s390x/cpu.h |  1 +
- 2 files changed, 11 insertions(+), 2 deletions(-)
+Yes that's correct.
+> 
+> I think the above covers everything we need to migrate in VirtIOIOMMU
+> then, except for acked_features, which (as I pointed out on another patch)
+> seems redundant anyway since there is vdev->guest_features.
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 99ea09085a30..625daeedd133 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -76,8 +76,16 @@ static bool s390_cpu_has_work(CPUState *cs)
- static void s390_cpu_load_normal(CPUState *s)
- {
-     S390CPU *cpu =3D S390_CPU(s);
--    cpu->env.psw.addr =3D ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
--    cpu->env.psw.mask =3D PSW_MASK_32 | PSW_MASK_64;
-+    uint64_t spsw =3D ldq_phys(s->as, 0);
-+
-+    cpu->env.psw.mask =3D spsw & 0xffffffff80000000ULL;
-+    /*
-+     * Invert short psw indication, so SIE will report a specification
-+     * exception if it was not set.
-+     */
-+    cpu->env.psw.mask ^=3D PSW_MASK_SHORTPSW;
-+    cpu->env.psw.addr =3D spsw & 0x7fffffffULL;
-+
-     s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
- }
- #endif
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index aa829e954cbf..e195e5c7c8bb 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -269,6 +269,7 @@ extern const VMStateDescription vmstate_s390_cpu;
- #define PSW_MASK_EXT            0x0100000000000000ULL
- #define PSW_MASK_KEY            0x00F0000000000000ULL
- #define PSW_SHIFT_KEY           52
-+#define PSW_MASK_SHORTPSW       0x0008000000000000ULL
- #define PSW_MASK_MCHECK         0x0004000000000000ULL
- #define PSW_MASK_WAIT           0x0002000000000000ULL
- #define PSW_MASK_PSTATE         0x0001000000000000ULL
---=20
-2.21.0
+you're right, acked features were not properly migrated.
+> 
+> Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Thanks!
+
+Eric
+> 
+>> +        VMSTATE_END_OF_LIST()
+>> +    },
+>> +};
+>> +
+>> +
+>>  static const VMStateDescription vmstate_virtio_iommu = {
+>>      .name = "virtio-iommu",
+>>      .minimum_version_id = 1,
+>> -- 
+>> 2.20.1
+>>
+>>
+> 
 
 
