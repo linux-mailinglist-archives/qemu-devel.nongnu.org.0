@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A978E12646F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:18:55 +0100 (CET)
-Received: from localhost ([::1]:42344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619F0126462
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:16:00 +0100 (CET)
+Received: from localhost ([::1]:42256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwdi-0001a0-4x
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:18:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51373)
+	id 1ihwat-0006TZ-3k
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:15:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihwQ4-0006QV-V3
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:04:50 -0500
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ihwSU-0001em-6k
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:07:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihwPz-0000zg-RU
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:04:48 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31066
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihwPz-0000wq-LC
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:04:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576764283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zRavHMNMrAnCq6s1aCzlexZE1Ud+L01GZLTpSyv3La0=;
- b=GAtRlNdfnLxx8GQLYTUSUoBddP1DwWisqBuNcdendgtpNESKy6BM1kFsVlQEMaSG8R37Gv
- oQJrh0S+o66cWQVvS9NYTCoezpkY48G2KfdfnA4Dy+zZr3wvJ/wLVw8OHj2nozzBlmuohl
- i392hP8KvUPzKgRLP+V79Gkpao4ZThs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-dE3Xrr-jOq-xOhgNJkq2oQ-1; Thu, 19 Dec 2019 09:04:40 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2074107ACC4;
- Thu, 19 Dec 2019 14:04:38 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C2176940E;
- Thu, 19 Dec 2019 14:04:37 +0000 (UTC)
-Date: Thu, 19 Dec 2019 15:04:33 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] block: nbd: Fix dirty bitmap context name
-Message-ID: <20191219140433.GK5230@linux.fritz.box>
-References: <20191219125151.21482-1-nsoffer@redhat.com>
- <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1ihwSS-0006EX-NG
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:07:18 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8762
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1ihwSS-00069N-Ea; Thu, 19 Dec 2019 09:07:16 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBJE3DsS028662; Thu, 19 Dec 2019 09:07:12 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2x04mafqn8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Dec 2019 09:07:10 -0500
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBJE3DQI028688;
+ Thu, 19 Dec 2019 09:07:03 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2x04mafqaa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Dec 2019 09:07:03 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBJE43eD025868;
+ Thu, 19 Dec 2019 14:06:55 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma05wdc.us.ibm.com with ESMTP id 2wvqc6prpu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Dec 2019 14:06:55 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBJE6sYP41353684
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Dec 2019 14:06:55 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E3351AC060;
+ Thu, 19 Dec 2019 14:06:54 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CBD68AC059;
+ Thu, 19 Dec 2019 14:06:54 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Dec 2019 14:06:54 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v7 0/6] Add vTPM emulator support for ppc64 platform
+Date: Thu, 19 Dec 2019 09:05:59 -0500
+Message-Id: <20191219140605.3243321-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: dE3Xrr-jOq-xOhgNJkq2oQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-19_01:2019-12-17,2019-12-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0
+ mlxscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 adultscore=0 clxscore=1015
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912190119
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,65 +88,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Nir Soffer <nirsof@gmail.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.12.2019 um 14:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Ahh, I see, it's documented as
->=20
-> +# @bitmap: Also export the dirty bitmap reachable from @device, so the
-> +#          NBD client can use NBD_OPT_SET_META_CONTEXT with
-> +#          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
->=20
-> and it is logical to assume that export name (which is @name argument) is
-> mentioned. But we never mentioned it. This is just documented after
-> removed experimenatl command x-nbd-server-add-bitmap,
->=20
-> look at
->=20
-> commit 7dc570b3806e5b0a4c9219061556ed5a4a0de80c
-> Author: Eric Blake <eblake@redhat.com>
-> Date:   Fri Jan 11 13:47:18 2019 -0600
->=20
->      nbd: Remove x-nbd-server-add-bitmap
->=20
-> ...
->=20
-> -# @bitmap-export-name: How the bitmap will be seen by nbd clients
-> -#                      (default @bitmap)
-> -#
-> -# Note: the client must use NBD_OPT_SET_META_CONTEXT with a query of
-> -# "qemu:dirty-bitmap:NAME" (where NAME matches @bitmap-export-name) to a=
-ccess
-> -# the exposed bitmap.
->=20
->=20
-> So, this "NAME" is saved and now looks incorrect. What should be fixed, i=
-s Qapi
-> documentation.
+The following series of patches adds vTPM emulator support for the
+ppc64 platform (pSeries). 
 
-Hm, I don't know these interfaces very well, but from you explanation it
-looks to me as if having a bitmap name made sense with
-x-nbd-server-add-bitmap because it could be called more than once for
-exporting multiple bitmaps.
+It can be tested as follows with swtpm/libtpms:
 
-But now, we have only nbd-server-add, which takes a single bitmap name.
-As we don't have to distinguish multiple bitmaps any more, wouldn't it
-make more sense to use "qemu:dirty-bitmap" without any other
-information? Both export name and bitmap name are already identified by
-the connection.
+mkdir /tmp/mytpm1
+swtpm socket --tpmstate dir=/tmp/mytpm1 \
+  --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
+  --log level=20
 
-But if we have to have something there, using the bitmap name (which may
-or may not be the same as used in the image file) makes a little more
-sense because it makes the interface extensible for the case that we
-ever want to re-introduce an nbd-server-add-bitmap.
+If TPM 2 is desired, add --tpm2 as parameter to the above.
 
-(By the way, even if the patch were correct, it lacks a Signed-off-by.)
+In another terminal start QEMU:
 
-Kevin
+sudo ./ppc64-softmmu/qemu-system-ppc64 -display sdl \
+	-machine pseries,accel=kvm \
+	-m 1024 -bios slof.bin -boot menu=on \
+	-nodefaults -device VGA -device pci-ohci -device usb-kbd \
+	-chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+	-tpmdev emulator,id=tpm0,chardev=chrtpm \
+	-device tpm-spapr,tpmdev=tpm0 \
+	-device spapr-vscsi,id=scsi0,reg=0x00002000 \
+	-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
+	-drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
+
+Links:
+ - libtpms: https://github.com/stefanberger/libtpms/wiki
+ - swtpm: https://github.com/stefanberger/swtpm/wiki
+
+Changes:
+ v6->v7:
+  - Implemented get_dt_compatible() and using it
+  - Moved tpm_this_show_buffer to tpm_util.c
+
+ v5->v6:
+  - adjusted names of structures and simplified
+  - only transmitting min. necessary bytes to pass to VM after resume
+  - addressed other issues pointed out by D. Gibson
+
+ v4->v5:
+  - use runstate_check(RUN_STATE_FINISH_MIGRATE) to check whether devices
+    are suspending; ditch 3 patches in this series that tried to do similar
+
+ v3->v4:
+  - addressed comments to v3
+  - reworked suspend/resume support that requires extensions to backends
+
+ v2->v3:
+  - patch 1: a TPM 2 is identified by IBM,vtpm20 in the compatible node
+  - patch 1: convert to tracing to display Tx and Rx buffers
+  - added documentation patch
+  - added patch to enable TPM device as part of pSeries
+
+ v1->v2:
+  - followed Cedric Le Goater's suggestions to patch 1
+  - send appropriate CRQ error responses if DMA read or write fails
+  - renamed tpm_spapr_got_payload to tpm_spapr_process_cmd and
+    pass endianess-adjusted data pointer from CRQ to it
+
+Regards,
+    Stefan
+
+
+
+Stefan Berger (6):
+  tpm: Move tpm_tis_show_buffer to tpm_util.c
+  spapr: Implement get_dt_compatible() callback
+  tpm_spapr: Support TPM for ppc64 using CRQ based interface
+  tpm_spapr: Support suspend and resume
+  hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES config
+  docs: tpm: Add example command line for ppc64 and tpm-spapr
+
+ docs/specs/tpm.txt         |  20 +-
+ hw/ppc/Kconfig             |   1 +
+ hw/ppc/spapr_vio.c         |  11 +-
+ hw/tpm/Kconfig             |   6 +
+ hw/tpm/Makefile.objs       |   1 +
+ hw/tpm/tpm_spapr.c         | 443 +++++++++++++++++++++++++++++++++++++
+ hw/tpm/tpm_tis.c           |  32 +--
+ hw/tpm/tpm_util.c          |  25 +++
+ hw/tpm/tpm_util.h          |   3 +
+ hw/tpm/trace-events        |  16 +-
+ include/hw/ppc/spapr_vio.h |   1 +
+ include/sysemu/tpm.h       |   3 +
+ qapi/tpm.json              |   6 +-
+ 13 files changed, 533 insertions(+), 35 deletions(-)
+ create mode 100644 hw/tpm/tpm_spapr.c
+
+-- 
+2.21.0
 
 
