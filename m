@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07426126001
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:54:05 +0100 (CET)
-Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668EA126008
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 11:56:02 +0100 (CET)
+Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihtRT-00040O-L2
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:54:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
+	id 1ihtTN-0007AT-9W
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 05:56:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38990)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtNJ-0006dR-PH
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNK-0006f7-Vw
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihtNI-0008S8-Mo
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:45 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33720)
+ (envelope-from <alex.bennee@linaro.org>) id 1ihtNJ-00007B-PI
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:46 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41089)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihtNI-0008NM-E3
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:44 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id b6so5516305wrq.0
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:44 -0800 (PST)
+ id 1ihtNJ-0008SO-DV
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 05:49:45 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c9so5472611wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 02:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=903ieA21LmcrJVAsLL1LFphWZ9y7liPxJNyTsqIDuUs=;
- b=yk3jf9+4el4JsIh3kBJo7wFoxtSkjc9VVNRqehA+FL/FAsNad/qRHPe4W8n6R6IYDt
- utdt2eFfNnpEPBSI7lY5MBRS8osAnlNZ+XsYMMRes6SYP0qEhtN2FHXZZMzqRlQCYX5P
- bJU8oyvHz33djfkHE/UoYwRVumaDE3L3+brcCyG7GOpeFRWoF4apCEVuJsm3C4omRtdz
- m/rxoWcqwT6sGYOeCYT+RBeqifKJ7deaAGDbiuY0Ak9X0dFDzCT2xGYq/UvNbKPvmvYj
- 9BfBDZyk57KUQz41W0HBqqPRBhHLicna4ZINLcDq3sbT3CuIAA6x+c0P7jg/mvns2Y41
- 49EA==
+ bh=ppf+32iUYT5wLQ7K4SiHbEd1II5Q2/neiLzdRWS+Cpo=;
+ b=oMZwvs0qYvo5sD2b7x6Sum0AjDageW28Uht7zW+iAotGfwDakn83a8S3zxw3Lzbias
+ WPgK4MRu354i8nUM7T3+0fuyD8lG9ILafGSd9gGZNi3Z0kRUWWoiup+V68AYjC/OvXEe
+ Fb6HgwZMDiw6MNnXyWIvAcm14nvdMlx4KuOFlerja17IIP4zNjmCq9aiW7pOhQTohwqV
+ kmCglnVL10fJR8E5L64LUnu0652EFE3+aXik1PFNvc+RihX4jE4G5qABbJG7eRz4IUfo
+ LnU3RCGzXJl6/YraUuvGb1I8klXP8YLXqVstolOmrO8jqDmeEaz/t9XiMPTFy/sBqWme
+ Awng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=903ieA21LmcrJVAsLL1LFphWZ9y7liPxJNyTsqIDuUs=;
- b=M64Xl3DAP92T8yOqtNxItvELdlKVylCo7iy/j5LSKdpUSv/ubA/odCuxDtJda+3DGo
- 8eezm9UFskxLSpcioGsUYB3FNikWBxeuOEr3L20LNK7MC6aKJwlR5m0xoSmc4AiPdk8f
- d7qYQgw3po4aj92HogYO48bzCR1V0LZ73qOfaaKGXfzl0Tn/VB6qnRvSNPKCn4ajH19K
- cqaYjDor7iukj6vwQz6AcPOfvNo2vp49FOvQVjQk/pCW8UjNLUhadwqq3WZ3dv5W6Ock
- sc4ju3dAvXFczeUoxxqKpsQ/d/9jE9pN0utW13brJlTGiehKK0HXvuuij1MK4kSEZlWy
- NFcQ==
-X-Gm-Message-State: APjAAAW2YInTPD3nMtCZsLsra/aN8XyxEQ0E2gEKoth6zR2QU5x5yLmT
- +BEdkMNTf8gtdwSTd276P8K+OA==
-X-Google-Smtp-Source: APXvYqxa7tX+9dLTADX/pQ7y7+uIbvwQf0YU0+Y4cygV0ErGGDPovQT0xiyZx/4SKxMWV0Kx78wzgg==
-X-Received: by 2002:adf:f3d0:: with SMTP id g16mr9043454wrp.2.1576752583259;
- Thu, 19 Dec 2019 02:49:43 -0800 (PST)
+ bh=ppf+32iUYT5wLQ7K4SiHbEd1II5Q2/neiLzdRWS+Cpo=;
+ b=b5qDtYBAYR74NJXSJgyQ49LPx3G4aXYUXb4kikW0i7A2+tQITiVePO7hT6Cqo3Md8C
+ UFVzunDHEGEIATPnEDj3K5vr48m/LdXjYoWA3vaf+ff5ioLhB5HY/vN+EjObI6pJYhcV
+ pd+MMZr3Q8d2SI1oA3mk3WMpdUQq2RW2TQ02E3b66PHEFndcYsDbHg4xvQvgPRcUnz4o
+ ViSaddokBm/dFWmU0hzDrE8wRgL5X8tZvPMzXzufYcVXAi7IBoMVKo20IZgJHUBSPYij
+ HIhbrWsMuG0bOG8ki0qZ+Mdcrqcu/V/1rYo5161a853VKKepo4vC+iplS6A/B12s511F
+ GbMA==
+X-Gm-Message-State: APjAAAXREkyQlvzM8Z+VIklkDAbkVvKJQt7OPH4+b/gSkay1/+KNOEzK
+ +5tNWYuBArr3ubQVPKowuYa3Xg==
+X-Google-Smtp-Source: APXvYqxGdgNd6DTBp1h3MTxTV3h9kd0iVtsIBs8b17qlTZgAiDpdlyjksus9mKa6iKB+kfJRNVL84w==
+X-Received: by 2002:a5d:4fd0:: with SMTP id h16mr8292145wrw.255.1576752584321; 
+ Thu, 19 Dec 2019 02:49:44 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x14sm5620446wmj.42.2019.12.19.02.49.37
+ by smtp.gmail.com with ESMTPSA id a1sm5676904wmj.40.2019.12.19.02.49.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Dec 2019 02:49:41 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E3F251FF92;
- Thu, 19 Dec 2019 10:49:34 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 03BEF1FF93;
+ Thu, 19 Dec 2019 10:49:35 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/25] iotests: Skip test 060 if it is not possible to create
+Subject: [PULL 06/25] iotests: Skip test 079 if it is not possible to create
  large files
-Date: Thu, 19 Dec 2019 10:49:14 +0000
-Message-Id: <20191219104934.866-6-alex.bennee@linaro.org>
+Date: Thu, 19 Dec 2019 10:49:15 +0000
+Message-Id: <20191219104934.866-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191219104934.866-1-alex.bennee@linaro.org>
 References: <20191219104934.866-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,39 +84,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "open list:Block layer core" <qemu-block@nongnu.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Test 060 fails in the arm64, s390x and ppc64le LXD containers on Travis
+Test 079 fails in the arm64, s390x and ppc64le LXD containers on Travis
 (which we will hopefully enable in our CI soon). These containers
-apparently do not allow large files to be created. The repair process
-in test 060 creates a file of 64 GiB, so test first whether such large
-files are possible and skip the test if that's not the case.
+apparently do not allow large files to be created. Test 079 tries to
+create a 4G sparse file, which is apparently already too big for these
+containers, so check first whether we can really create such files before
+executing the test.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191204154618.23560-3-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191204154618.23560-4-thuth@redhat.com>
 
-diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
-index b91d8321bb8..d96f17a4846 100755
---- a/tests/qemu-iotests/060
-+++ b/tests/qemu-iotests/060
-@@ -49,6 +49,9 @@ _supported_fmt qcow2
- _supported_proto file
- _supported_os Linux
+diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
+index 81f0c21f530..78536d3bbfa 100755
+--- a/tests/qemu-iotests/079
++++ b/tests/qemu-iotests/079
+@@ -39,6 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file nfs
  
-+# The repair process will create a large file - so check for availability first
-+_require_large_file 64G
++# Some containers (e.g. non-x86 on Travis) do not allow large files
++_require_large_file 4G
 +
- rt_offset=65536  # 0x10000 (XXX: just an assumption)
- rb_offset=131072 # 0x20000 (XXX: just an assumption)
- l1_offset=196608 # 0x30000 (XXX: just an assumption)
+ echo "=== Check option preallocation and cluster_size ==="
+ echo
+ cluster_sizes="16384 32768 65536 131072 262144 524288 1048576 2097152 4194304"
 -- 
 2.20.1
 
