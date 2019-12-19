@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0EA126513
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:43:43 +0100 (CET)
-Received: from localhost ([::1]:42929 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9761C12651F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:46:35 +0100 (CET)
+Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihx1i-0002aP-DD
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:43:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
+	id 1ihx4T-0006VE-VK
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:46:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ihwx3-0004xs-TG
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:55 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ihwx5-00051o-Ny
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ihwwy-0005t3-Nn
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46915
+ (envelope-from <mreitz@redhat.com>) id 1ihwx4-00060k-3s
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26436
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwwy-0005pz-GG
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:48 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ihwx3-0005z8-T5
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:38:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576766328;
+ s=mimecast20190719; t=1576766331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hDiFPHbOFpju66FawHjji7Do0ZeX+r8QrT3pt5/E+10=;
- b=LF8R0xLMD4GX+c7JOHJiCO2j+VtwnTTGJTo9iwORLyx72Fw8Izd7+7nNa3LZReStdVEkfr
- b5Ht67fqMjLnwiSYQ06N82Yn3t5cpRPrT+y6y09SHqnuECkS9qiA0BKNcOEl2V2tfZy2cR
- wU7KJOgkdvjG6nTIOBDd8ByEb9sDVqw=
+ bh=vLOks+qv1M1T2afZOLBNYfeBUjGSG7lcEpu4Yb4Mnlw=;
+ b=TA0xeA2qX+PIH2Yb80N14721Vux3ciyCz6Hx1GincMwD3Djo9RiVSJykjPo8W3f7JM9d9p
+ OA2PWcfasHylkzIiW9Z5bFCww7fEniSECA0av07Hn8wm5krsY/9Sj0KRKy2Fq0CUA+ahcP
+ rUSxmqSoWMj4rmpCpPvqe5V8xxWp1tg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-ohbq6LxyP3e-E3DjW1elIA-1; Thu, 19 Dec 2019 09:38:44 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-132-CFEpgPflN42VzCjv0B6mBg-1; Thu, 19 Dec 2019 09:38:48 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3A77DBEE;
- Thu, 19 Dec 2019 14:38:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8B82800D50;
+ Thu, 19 Dec 2019 14:38:47 +0000 (UTC)
 Received: from localhost (ovpn-205-138.brq.redhat.com [10.40.205.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E80F4808EE;
- Thu, 19 Dec 2019 14:38:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9E6F5D9E2;
+ Thu, 19 Dec 2019 14:38:45 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 05/18] fuse: Allow growable exports
-Date: Thu, 19 Dec 2019 15:38:05 +0100
-Message-Id: <20191219143818.1646168-6-mreitz@redhat.com>
+Subject: [PATCH 06/18] fuse: (Partially) implement fallocate()
+Date: Thu, 19 Dec 2019 15:38:06 +0100
+Message-Id: <20191219143818.1646168-7-mreitz@redhat.com>
 In-Reply-To: <20191219143818.1646168-1-mreitz@redhat.com>
 References: <20191219143818.1646168-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ohbq6LxyP3e-E3DjW1elIA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: CFEpgPflN42VzCjv0B6mBg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -75,98 +75,113 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These will behave more like normal files in that writes beyond the EOF
-will automatically grow the export size.
+This allows allocating areas after the EOF, writing zeroes, and
+discarding.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/fuse.c    | 16 +++++++++++++++-
- qapi/block.json |  6 +++++-
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ block/fuse.c | 79 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
 diff --git a/block/fuse.c b/block/fuse.c
-index 4e662e6dfb..d7c7824815 100644
+index d7c7824815..018afee6cd 100644
 --- a/block/fuse.c
 +++ b/block/fuse.c
-@@ -42,6 +42,7 @@ typedef struct BdrvFuseSession {
-     uint64_t perm, shared_perm;
-     bool mounted, fd_handler_set_up;
-     bool writable;
-+    bool growable;
- } BdrvFuseSession;
-=20
- static GHashTable *sessions;
-@@ -59,6 +60,7 @@ static bool is_regular_file(const char *path, Error **err=
-p);
-=20
- void qmp_fuse_export_add(const char *node_name, const char *mountpoint,
-                          bool has_writable, bool writable,
-+                         bool has_growable, bool growable,
-                          Error **errp)
- {
-     BlockDriverState *bs;
-@@ -67,6 +69,9 @@ void qmp_fuse_export_add(const char *node_name, const cha=
-r *mountpoint,
-     if (!has_writable) {
-         writable =3D false;
-     }
-+    if (!has_growable) {
-+        growable =3D false;
-+    }
-=20
-     init_fuse();
-=20
-@@ -98,6 +103,7 @@ void qmp_fuse_export_add(const char *node_name, const ch=
-ar *mountpoint,
-         },
-=20
-         .writable =3D writable,
-+        .growable =3D growable,
-     };
-=20
-     session->perm =3D BLK_PERM_CONSISTENT_READ;
-@@ -463,7 +469,15 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inod=
+@@ -488,6 +488,84 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inod=
 e, const char *buf,
+     }
+ }
 =20
-     size =3D MIN(size, BDRV_REQUEST_MAX_BYTES);
-     if (offset + size > length) {
--        size =3D length - offset;
-+        if (session->growable) {
-+            ret =3D fuse_do_truncate(session, offset + size, PREALLOC_MODE=
-_OFF);
++/**
++ * Let clients perform various fallocate() operations.
++ */
++static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
++                           off_t offset, off_t length,
++                           struct fuse_file_info *fi)
++{
++    BdrvFuseSession *session =3D fuse_req_userdata(req);
++    int64_t blk_len;
++    int ret;
++
++    if (!session->writable) {
++        fuse_reply_err(req, EACCES);
++        return;
++    }
++
++    blk_len =3D blk_getlength(session->blk);
++    if (blk_len < 0) {
++        fuse_reply_err(req, -blk_len);
++        return;
++    }
++
++    if (mode & FALLOC_FL_KEEP_SIZE) {
++        length =3D MIN(length, blk_len - offset);
++    }
++
++    if (mode & FALLOC_FL_PUNCH_HOLE) {
++        if (!(mode & FALLOC_FL_KEEP_SIZE)) {
++            fuse_reply_err(req, EINVAL);
++            return;
++        }
++
++        do {
++            int size =3D MIN(length, BDRV_REQUEST_MAX_BYTES);
++
++            ret =3D blk_pdiscard(session->blk, offset, size);
++            length -=3D size;
++        } while (ret =3D=3D 0 && length > 0);
++    } else if (mode & FALLOC_FL_ZERO_RANGE) {
++        if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
++            ret =3D fuse_do_truncate(session, offset + length, PREALLOC_MO=
+DE_OFF);
 +            if (ret < 0) {
 +                fuse_reply_err(req, -ret);
 +                return;
 +            }
-+        } else {
-+            size =3D length - offset;
 +        }
-     }
-=20
-     ret =3D blk_pwrite(session->blk, offset, buf, size, 0);
-diff --git a/qapi/block.json b/qapi/block.json
-index 26768dc8ef..039cbc6773 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -330,13 +330,17 @@
- # @writable: Whether clients should be able to write to the block
- #            device via the FUSE export. (default: false)
- #
-+# @growable: Whether writes beyond the EOF should grow the block node
-+#            fit. (default: false)
-+#
- # Since: 5.0
- ##
- { 'command': 'fuse-export-add',
-   'data': {
-       'node-name': 'str',
-       'mountpoint': 'str',
--      '*writable': 'bool'
-+      '*writable': 'bool',
-+      '*growable': 'bool'
-   },
-   'if': 'defined(CONFIG_FUSE)' }
-=20
++
++        do {
++            int size =3D MIN(length, BDRV_REQUEST_MAX_BYTES);
++
++            ret =3D blk_pwrite_zeroes(session->blk,
++                                    offset, size, 0);
++            length -=3D size;
++        } while (ret =3D=3D 0 && length > 0);
++    } else if (!mode) {
++        /* We can only fallocate at the EOF with a truncate */
++        if (offset < blk_len) {
++            fuse_reply_err(req, EOPNOTSUPP);
++            return;
++        }
++
++        if (offset > blk_len) {
++            /* No preallocation needed here */
++            ret =3D fuse_do_truncate(session, offset, PREALLOC_MODE_OFF);
++            if (ret < 0) {
++                fuse_reply_err(req, -ret);
++                return;
++            }
++        }
++
++        ret =3D fuse_do_truncate(session, offset + length, PREALLOC_MODE_F=
+ALLOC);
++    } else {
++        ret =3D -EOPNOTSUPP;
++    }
++
++    fuse_reply_err(req, ret < 0 ? -ret : 0);
++}
++
+ /**
+  * Let clients flush the exported image.
+  */
+@@ -508,5 +586,6 @@ static const struct fuse_lowlevel_ops fuse_ops =3D {
+     .open       =3D fuse_open,
+     .read       =3D fuse_read,
+     .write      =3D fuse_write,
++    .fallocate  =3D fuse_fallocate,
+     .flush      =3D fuse_flush,
+ };
 --=20
 2.23.0
 
