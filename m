@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B03D126855
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:43:09 +0100 (CET)
-Received: from localhost ([::1]:45522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303CB126840
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:36:37 +0100 (CET)
+Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihzpM-0001iB-2y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:43:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45654)
+	id 1ihzj2-0000zn-3A
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:36:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihzY5-0006c6-BM
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:18 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihzY3-00076c-AP
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:16 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21819
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzY2-00073b-UF
+ (envelope-from <kwolf@redhat.com>) id 1ihzY1-0006YM-Tr
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:15 -0500
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kwolf@redhat.com>) id 1ihzY0-0006sv-6M
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20007
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzXz-0006px-W1
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576776314;
+ s=mimecast20190719; t=1576776311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NUTCLFW3Yth22AoaoD0n40NJcS3KSifraPDy20bZCjo=;
- b=P5RVGWNumwKBbq4xmZC9Im50KEr0kHDrQAfrnVBcCdTOuL7CqJ4LPvoDs4GgZtw2CrpX11
- 35FgpzjA/T8Ybu1LNPlV8WmsvbuOwz0autxpsrvWN4aIVkag9cBXAuLazBYUOMpkm0Fgpb
- V/SSuTl2YZDIl/qdSnSeAljtPCTopvg=
+ bh=/TwCJpHfViZxCTvm6acdY8G48cikhN1vzfsDhDwmhZM=;
+ b=UEyamfecF32WuDm1mhy6eM8DTR5EvZY1/GD0ZX2lFSOlKYSEOtg4CbQLgksGZrppDTBt+C
+ SWtG7OSqZBJ/Lfsqbcs2uEt5nph2AmRPRCCOmZgOy0Pu2QsOLfFNMlquF+LcFVTVApRCO7
+ PGoA3EgNIOwMINyGv2uZRWm8EU67L/w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-bwOZaFOwMoKru7AMvRhkVA-1; Thu, 19 Dec 2019 12:25:07 -0500
+ us-mta-32-dMAmk2geMDCDgewU0PkGIQ-1; Thu, 19 Dec 2019 12:25:09 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A3C410054E3;
- Thu, 19 Dec 2019 17:25:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6928100550E;
+ Thu, 19 Dec 2019 17:25:07 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F346D63B8A;
- Thu, 19 Dec 2019 17:25:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CD0A5C7DD;
+ Thu, 19 Dec 2019 17:25:06 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 12/30] qcow2: Use offset_into_cluster()
-Date: Thu, 19 Dec 2019 18:24:23 +0100
-Message-Id: <20191219172441.7289-13-kwolf@redhat.com>
+Subject: [PULL 13/30] MAINTAINERS: fix qcow2-bitmap.c under Dirty Bitmaps
+ header
+Date: Thu, 19 Dec 2019 18:24:24 +0100
+Message-Id: <20191219172441.7289-14-kwolf@redhat.com>
 In-Reply-To: <20191219172441.7289-1-kwolf@redhat.com>
 References: <20191219172441.7289-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: bwOZaFOwMoKru7AMvRhkVA-1
+X-MC-Unique: dMAmk2geMDCDgewU0PkGIQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,58 +75,40 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-There's a couple of places left in the qcow2 code that still do the
-calculation manually, so let's replace them.
+Somehow I wrote not full path to the file. Fix that.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Also, while being here, rearrange entries, so that includes go first,
+then block, than migration, than util.
+
+Fixes: 052db8e71444d
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ MAINTAINERS | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index de0e89cf25..375bbd0ad3 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -367,7 +367,7 @@ static int qcow2_read_extensions(BlockDriverState *bs, =
-uint64_t start_offset,
-                 return -EINVAL;
-             }
-=20
--            if (bitmaps_ext.bitmap_directory_offset & (s->cluster_size - 1=
-)) {
-+            if (offset_into_cluster(s, bitmaps_ext.bitmap_directory_offset=
-)) {
-                 error_setg(errp, "bitmaps_ext: "
-                                  "invalid bitmap directory offset");
-                 return -EINVAL;
-@@ -1959,9 +1959,8 @@ static int coroutine_fn qcow2_co_block_status(BlockDr=
-iverState *bs,
- {
-     BDRVQcow2State *s =3D bs->opaque;
-     uint64_t cluster_offset;
--    int index_in_cluster, ret;
-     unsigned int bytes;
--    int status =3D 0;
-+    int ret, status =3D 0;
-=20
-     qemu_co_mutex_lock(&s->lock);
-=20
-@@ -1982,8 +1981,7 @@ static int coroutine_fn qcow2_co_block_status(BlockDr=
-iverState *bs,
-=20
-     if ((ret =3D=3D QCOW2_CLUSTER_NORMAL || ret =3D=3D QCOW2_CLUSTER_ZERO_=
-ALLOC) &&
-         !s->crypto) {
--        index_in_cluster =3D offset & (s->cluster_size - 1);
--        *map =3D cluster_offset | index_in_cluster;
-+        *map =3D cluster_offset | offset_into_cluster(s, offset);
-         *file =3D s->data_file->bs;
-         status |=3D BDRV_BLOCK_OFFSET_VALID;
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 740401bcbb..dc81c89ccb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1870,12 +1870,12 @@ M: John Snow <jsnow@redhat.com>
+ R: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+ L: qemu-block@nongnu.org
+ S: Supported
+-F: util/hbitmap.c
+-F: block/dirty-bitmap.c
+ F: include/qemu/hbitmap.h
+ F: include/block/dirty-bitmap.h
+-F: qcow2-bitmap.c
++F: block/dirty-bitmap.c
++F: block/qcow2-bitmap.c
+ F: migration/block-dirty-bitmap.c
++F: util/hbitmap.c
+ F: tests/test-hbitmap.c
+ F: docs/interop/bitmaps.rst
+ T: git https://github.com/jnsnow/qemu.git bitmaps
 --=20
 2.20.1
 
