@@ -2,60 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C94912641D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:58:58 +0100 (CET)
-Received: from localhost ([::1]:41996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB5A126426
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:02:41 +0100 (CET)
+Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwKO-0006gh-L2
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:58:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38293)
+	id 1ihwNz-0002Qr-Pk
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:02:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ihwI7-0004Kd-4V
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:56:36 -0500
+ (envelope-from <k.jensen@samsung.com>) id 1ihvYk-0001OG-Da
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ihwI3-0006R6-BL
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:56:32 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32560
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <k.jensen@samsung.com>) id 1ihvYi-0006Eo-B5
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:42 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:55783)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ihwI2-0006JA-V8
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:56:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576763789;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Xu2SS5d3B9ghiw5I2mwzyuILj2kDLW9L9c3Ai/O7Ass=;
- b=SU2Q5kkL1HGVkxA/ufqGqOj0T3dqvzzpaCwtmYi75sxtO4w37FiKUiGKGoYk6n3fxwba6j
- Bi9ddZEjOnA/M3hDYhpd3+QW7BcHZEf+zengWWA1zhswiSwOZkz/gno0fJCAMcy0Sr7yKY
- vUP6i4hGZE6Ntjz23zSflecAtOg4f7k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-gWy7XR_ANCK0BeoPuIn2RQ-1; Thu, 19 Dec 2019 08:56:25 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A770DB61;
- Thu, 19 Dec 2019 13:56:24 +0000 (UTC)
-Received: from localhost (ovpn-117-102.ams2.redhat.com [10.36.117.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B69417C823;
- Thu, 19 Dec 2019 13:56:21 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] docs: build an index page for the HTML docs
-Date: Thu, 19 Dec 2019 13:56:20 +0000
-Message-Id: <20191219135620.1626608-1-stefanha@redhat.com>
+ (Exim 4.71) (envelope-from <k.jensen@samsung.com>)
+ id 1ihvYh-0005pY-Tl
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:40 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20191219130934euoutp02570bbb299876ebb6a91e7c3814c35527~hx8CpvRjn0700607006euoutp022
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 13:09:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20191219130934euoutp02570bbb299876ebb6a91e7c3814c35527~hx8CpvRjn0700607006euoutp022
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1576760974;
+ bh=N+L5zQ/BE7WGEP2zj2y7xXkVts5GT6G6CCiuGTHLnOg=;
+ h=From:To:CC:Subject:Date:References:From;
+ b=bIVYHQa0Q9C/3gg06NhMd24XVRrsV5QcNHrDEPUvfRrLBhFHvTZqNI8lUIyolHY2X
+ hd3yLHBZVCkEQJ87mhIKxX7cFqhOK+AVcHhNS2PI59LF20mkYTALnLG7dTRfFhuBf9
+ siiKD7/bc3qdSXdj8mQ2l3nJ/YkiISJwJoFrMwvs=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20191219130934eucas1p29352e8e9cb2bb9182a2c0612ae1713ba~hx8ChsNpA0349703497eucas1p28;
+ Thu, 19 Dec 2019 13:09:34 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id D4.FF.61286.E867BFD5; Thu, 19
+ Dec 2019 13:09:34 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20191219130934eucas1p256e1c97e6f16a85c8da4a107d9047f53~hx8COSbTz1986619866eucas1p2T;
+ Thu, 19 Dec 2019 13:09:34 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20191219130934eusmtrp298342cf1829bf9c2d7f9f3b3569a7147~hx8CNntpn3097130971eusmtrp2w;
+ Thu, 19 Dec 2019 13:09:34 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-43-5dfb768eb06a
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id D2.BE.07950.E867BFD5; Thu, 19
+ Dec 2019 13:09:34 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20191219130934eusmtip211b5c171af57bdbf94cd59d1a64be03b~hx8CCEPCr2492624926eusmtip2S;
+ Thu, 19 Dec 2019 13:09:34 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) by
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) with Microsoft SMTP
+ Server (TLS) id 15.0.1320.4; Thu, 19 Dec 2019 13:09:33 +0000
+Received: from apples.local (106.110.32.41) by CAMSVWEXC01.scsc.local
+ (106.1.227.71) with Microsoft SMTP Server id 15.0.1320.4 via Frontend
+ Transport; Thu, 19 Dec 2019 13:09:33 +0000
+From: Klaus Jensen <k.jensen@samsung.com>
+To: <qemu-block@nongnu.org>
+Subject: [PATCH v4 00/24] nvme: support NVMe v1.3d, SGLs and multiple
+ namespaces
+Date: Thu, 19 Dec 2019 14:08:57 +0100
+Message-ID: <20191219130921.309264-1-k.jensen@samsung.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: gWy7XR_ANCK0BeoPuIn2RQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsWy7djPc7p9Zb9jDU4/0rTY3N/OaDHp0DVG
+ iyUXUy3m3VK2mPWunc3ieO8OFgc2j02rOtk87lzbw+bx5NpmJo/3+66yBbBEcdmkpOZklqUW
+ 6dslcGVcXv2QteCcQsXxt7+ZGxinSnUxcnJICJhIrDu1nRnEFhJYwShxZQt/FyMXkP2FUWLW
+ 4UeMEM5nRomL/7awwXTc3ruPHSKxnFGioXUTC1zVwXNvoDJnGCVO/ZvKBOHsYpTYs3E9E0g/
+ m4CmxPY//1lAbBEBaYn2q5NYQYqYBa4zShz6fZEdJCEsECRxcMVVMJtFQFVi1s2NjCA2r4CV
+ RO+vBawQh8hLbP32iRUiLihxcuYTsKHMQPHmrbOZIWr62SU2b8qDsF0kHqyaDdUrLPHq+BZ2
+ CFtG4v/O+WCXSgh0M0r0ffjKDOHMYJSYvuw70NscQI61RN+ZHBCTGeiD9bv0IXodJY78esoI
+ UcEnceOtIMQJfBKTtk1nhgjzSnS0CUFUq0nsaNoKVS0j8XSNwgRGpVlI7p+F5P5ZCKsWMDKv
+ YhRPLS3OTU8tNsxLLdcrTswtLs1L10vOz93ECEwrp/8d/7SD8eulpEOMAhyMSjy8Dmm/Y4VY
+ E8uKK3MPMUpwMCuJ8N7u+BkrxJuSWFmVWpQfX1Sak1p8iFGag0VJnNd40ctYIYH0xJLU7NTU
+ gtQimCwTB6dUAyODd79zGM8Erdu7fKQmn090nLPAs9M77v7vjW02x86kLg3LevXZSPHXDTf+
+ jVXt55/Y7/VrPhAiv6Oer4FFJWqreciuDVz7+o2Tbt15l7nWKHjSXrHQA8d23jfOSD7NuqU0
+ L+PioxcyO9e7NXfJpc8VLWjP67Nd/fzVQbkn4YrO/53t9df8clZiKc5INNRiLipOBADxIzTQ
+ JwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLIsWRmVeSWpSXmKPExsVy+t/xe7p9Zb9jDa6sEbbY3N/OaDHp0DVG
+ iyUXUy3m3VK2mPWunc3ieO8OFgc2j02rOtk87lzbw+bx5NpmJo/3+66yBbBE6dkU5ZeWpCpk
+ 5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GVcXv2QteCcQsXxt7+Z
+ GxinSnUxcnJICJhI3N67j72LkYtDSGApo8TU5vPsEAkZiU9XPkLZwhJ/rnWxQRR9ZJT43TKD
+ CcI5wyixf107lLOLUWLd85VMIC1sApoS2//8ZwGxRQSkJdqvTmIFKWIWuM4ocej3RbC5wgIB
+ Eiv/bgBrYBFQlZh1cyMjiM0rYCXR+2sBK8RueYmt3z6xQsQFJU7OfAI2lBloQev23+wQtrxE
+ 89bZzBMYBWchKZuFpGwWkrIFjMyrGEVSS4tz03OLjfSKE3OLS/PS9ZLzczcxAqNm27GfW3Yw
+ dr0LPsQowMGoxMPrkPY7Vog1say4MvcQowQHs5II7+2On7FCvCmJlVWpRfnxRaU5qcWHGE2B
+ npjILCWanA+M6LySeENTQ3MLS0NzY3NjMwslcd4OgYMxQgLpiSWp2ampBalFMH1MHJxSDYyH
+ mbaeEnITKX0mt07h7aN19deWXFB5tTmLIddDNfJI73UD8Q8HT/m8mD5dcOmzY+f+qydJbXOc
+ JcfUIaSdMPHh0qdB62sz7yXOX/vh5YzNZ+dwSZZ5hbl8PJV9RUPOuuJhTEpqi/R21avyrzRS
+ xFcUx9/1Ufb74fw1L4LF/mJm6e2Sx9l3/LYosRRnJBpqMRcVJwIAhp/w8LACAAA=
+X-CMS-MailID: 20191219130934eucas1p256e1c97e6f16a85c8da4a107d9047f53
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20191219130934eucas1p256e1c97e6f16a85c8da4a107d9047f53
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20191219130934eucas1p256e1c97e6f16a85c8da4a107d9047f53
+References: <CGME20191219130934eucas1p256e1c97e6f16a85c8da4a107d9047f53@eucas1p2.samsung.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 210.118.77.12
+X-Mailman-Approved-At: Thu, 19 Dec 2019 08:56:47 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,97 +120,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no index.html start page for the QEMU HTML documentation.  An
-index page is needed so that documentation can be browsed easily on the
-web.
+Hi,
 
-This patch adds an index.html.in template file where the QEMU version
-number is expanded.  It is written in HTML instead of using the existing
-sphinx (rST) and texi documentation generators because they are
-heavyweight and would make this harder.
+This is v4 of my nvme patches.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
-v3:
- * Add <html lang=3D"en"> attribute to satisfy the W3 Validator [Thomas Hut=
-h]
----
- Makefile           |  6 ++++++
- docs/index.html.in | 17 +++++++++++++++++
- 2 files changed, 23 insertions(+)
- create mode 100644 docs/index.html.in
+This is mostly changes related to Beatas review (thanks again). Some of
+the comments led to some refactoring, so the changes trickled down
+through the series. That is why the backport diff show a lot of changes.
 
-diff --git a/Makefile b/Makefile
-index 1361def144..9da9cfda73 100644
---- a/Makefile
-+++ b/Makefile
-@@ -347,6 +347,7 @@ DOCS+=3Ddocs/interop/qemu-qmp-ref.html docs/interop/qem=
-u-qmp-ref.txt docs/interop/
- DOCS+=3Ddocs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/in=
-terop/qemu-ga-ref.7
- DOCS+=3Ddocs/qemu-block-drivers.7
- DOCS+=3Ddocs/qemu-cpu-models.7
-+DOCS+=3D$(MANUAL_BUILDDIR)/index.html
- ifdef CONFIG_VIRTFS
- DOCS+=3Dfsdev/virtfs-proxy-helper.1
- endif
-@@ -819,6 +820,7 @@ install-sphinxdocs: sphinxdocs
-=20
- install-doc: $(DOCS) install-sphinxdocs
- =09$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
-+=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/index.html "$(DESTDIR)$(qemu_docdir)=
-"
- =09$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
- =09$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
- =09$(INSTALL_DATA) docs/interop/qemu-qmp-ref.html "$(DESTDIR)$(qemu_docdir=
-)"
-@@ -1025,6 +1027,10 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-d=
-eps,specs)
- $(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
- =09$(call build-manual,interop,man)
-=20
-+$(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version=
-.h
-+=09$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
-+             "GEN","$@")
-+
- qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
- =09$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","=
-$@")
-=20
-diff --git a/docs/index.html.in b/docs/index.html.in
-new file mode 100644
-index 0000000000..94eb782cf7
---- /dev/null
-+++ b/docs/index.html.in
-@@ -0,0 +1,17 @@
-+<!DOCTYPE html>
-+<html lang=3D"en">
-+    <head>
-+        <meta charset=3D"UTF-8">
-+        <title>QEMU @@VERSION@@ Documentation</title>
-+    </head>
-+    <body>
-+        <h1>QEMU @@VERSION@@ Documentation</h1>
-+        <ul>
-+            <li><a href=3D"qemu-doc.html">User Documentation</a></li>
-+            <li><a href=3D"qemu-qmp-ref.html">QMP Reference Manual</a></li=
->
-+            <li><a href=3D"qemu-ga-ref.html">Guest Agent Protocol Referenc=
-e</a></li>
-+            <li><a href=3D"interop/index.html">System Emulation Management=
- and Interoperability Guide</a></li>
-+            <li><a href=3D"specs/index.html">System Emulation Guest Hardwa=
-re Specifications</a></li>
-+        </ul>
-+    </body>
-+</html>
+I dropped 'nvme: allow completion queues in the cmb' from the series as
+it is not well tested. And there are no real users for this right now.
+p2p might use it, but the support can be added if/when needed.
+
+I ran into some trace event names clashing with the nvme block driver,
+so I have included a patch that changes all trace events to use the
+`nvme_dev` prefix instead.
+
+I split 'nvme: add support for the get log page command' up to move
+adding of the temperature threshold feature to its own commit.
+
+Happy holidays everyone!
+
+
+
+git-backport-diff -S -n -r upstream/master.. -u for-upstream/nvme/master/=
+v3
+
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/24:[down]      'nvme: rename trace events to nvme_dev'
+002/24:[----] [-C] 'nvme: remove superfluous breaks'
+003/24:[0006] [FC] 'nvme: move device parameters to separate struct'
+004/24:[down]      'nvme: add missing fields in the identify data structu=
+res'
+005/24:[0006] [FC] 'nvme: populate the mandatory subnqn and ver fields'
+006/24:[down]      'nvme: refactor nvme_addr_read'
+007/24:[0012] [FC] 'nvme: add support for the abort command'
+008/24:[0006] [FC] 'nvme: refactor device realization'
+009/24:[down]      'nvme: add temperature threshold feature'
+010/24:[0070] [FC] 'nvme: add support for the get log page command'
+011/24:[0177] [FC] 'nvme: add support for the asynchronous event request =
+command'
+012/24:[0017] [FC] 'nvme: add missing mandatory features'
+013/24:[down]      'nvme: additional tracing'
+014/24:[down]      'nvme: make sure ncqr and nsqr is valid'
+015/24:[down]      'nvme: bump supported specification to 1.3'
+016/24:[0233] [FC] 'nvme: refactor prp mapping'
+017/24:[0464] [FC] 'nvme: allow multiple aios per command'
+018/24:[----] [--] 'pci: pass along the return value of dma_memory_rw'
+019/24:[0058] [FC] 'nvme: handle dma errors'
+020/24:[0315] [FC] 'nvme: add support for scatter gather lists'
+021/24:[0140] [FC] 'nvme: support multiple namespaces'
+022/24:[----] [--] 'nvme: bump controller pci device id'
+023/24:[0110] [FC] 'nvme: remove redundant NvmeCmd pointer parameter'
+024/24:[0004] [FC] 'nvme: make lba data size configurable'
+
+
+
+Klaus Jensen (24):
+  nvme: rename trace events to nvme_dev
+  nvme: remove superfluous breaks
+  nvme: move device parameters to separate struct
+  nvme: add missing fields in the identify data structures
+  nvme: populate the mandatory subnqn and ver fields
+  nvme: refactor nvme_addr_read
+  nvme: add support for the abort command
+  nvme: refactor device realization
+  nvme: add temperature threshold feature
+  nvme: add support for the get log page command
+  nvme: add support for the asynchronous event request command
+  nvme: add missing mandatory features
+  nvme: additional tracing
+  nvme: make sure ncqr and nsqr is valid
+  nvme: bump supported specification to 1.3
+  nvme: refactor prp mapping
+  nvme: allow multiple aios per command
+  pci: pass along the return value of dma_memory_rw
+  nvme: handle dma errors
+  nvme: add support for scatter gather lists
+  nvme: support multiple namespaces
+  nvme: bump controller pci device id
+  nvme: remove redundant NvmeCmd pointer parameter
+  nvme: make lba data size configurable
+
+ block/nvme.c           |   18 +-
+ hw/block/Makefile.objs |    2 +-
+ hw/block/nvme-ns.c     |  158 ++++
+ hw/block/nvme-ns.h     |   62 ++
+ hw/block/nvme.c        | 1983 ++++++++++++++++++++++++++++++++--------
+ hw/block/nvme.h        |  191 +++-
+ hw/block/trace-events  |  203 ++--
+ include/block/nvme.h   |  143 ++-
+ include/hw/pci/pci.h   |    3 +-
+ 9 files changed, 2231 insertions(+), 532 deletions(-)
+ create mode 100644 hw/block/nvme-ns.c
+ create mode 100644 hw/block/nvme-ns.h
+
 --=20
-2.23.0
+2.24.1
 
 
