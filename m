@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895F81267F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:27:51 +0100 (CET)
-Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5E31267F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:27:50 +0100 (CET)
+Received: from localhost ([::1]:45302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihzaX-0008Os-Jl
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:27:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42942)
+	id 1ihzaV-0008ML-Rj
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:27:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43267)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihzXj-000671-EC
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:56 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ihzXk-000677-De
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihzXg-0005Pl-Oc
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31129
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1ihzXj-0005bz-44
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:56 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39326
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzXg-0005Jo-IA
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:52 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzXi-0005Z7-SO
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:24:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576776291;
+ s=mimecast20190719; t=1576776294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FC+5ANwUnUTOhltzSZFm3ttJ4/0HCjiTAYrnNTZpJCE=;
- b=LMvnBkQZ3AN36maydWI8THoNjys3cnhW1a/XphF3vdOSwK8h1r7auORE/CHrxrrc+DSWwi
- 4afCPYxDKp+lsss3+LtBIFOU4102oqtbln4qE5jysxQXJIoep9JDdeR0tBFXTyw8FI+gYl
- SJAaHVtGMXKn06BhHW7G2ER4RTdFCBk=
+ bh=LzbbgxIoL1hfzmiAQvdOupOmZIWsJahvvA0A3jOjjeU=;
+ b=BOd5nQFpswhbuIzoeqd37MBFFLT+SVPX1mvg4qvJpXQ9jdnTVSnkbx+6LaowEPCT0og2f+
+ bE/JrjPeAI2ehC36gc89n8jDARGCVA7aJaWLfcE4y+Ila3Cbwd5lq2qQPV3B61m+0m9MSe
+ fcVjK5VC65/knYen/jU9J9PqHCTheKg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-aCypv3kqNf6YLYW5L-bihA-1; Thu, 19 Dec 2019 12:24:49 -0500
+ us-mta-323-hgS6ckNhPIigxS9syKAojA-1; Thu, 19 Dec 2019 12:24:52 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3B28DB64;
- Thu, 19 Dec 2019 17:24:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C045107ACC4;
+ Thu, 19 Dec 2019 17:24:51 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE39C620C0;
- Thu, 19 Dec 2019 17:24:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92F315C7DD;
+ Thu, 19 Dec 2019 17:24:50 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/30] iotests: Provide a function for checking the creation of
- huge files
-Date: Thu, 19 Dec 2019 18:24:12 +0100
-Message-Id: <20191219172441.7289-2-kwolf@redhat.com>
+Subject: [PULL 03/30] iotests: Skip test 079 if it is not possible to create
+ large files
+Date: Thu, 19 Dec 2019 18:24:14 +0100
+Message-Id: <20191219172441.7289-4-kwolf@redhat.com>
 In-Reply-To: <20191219172441.7289-1-kwolf@redhat.com>
 References: <20191219172441.7289-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: aCypv3kqNf6YLYW5L-bihA-1
+X-MC-Unique: hgS6ckNhPIigxS9syKAojA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,79 +77,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Some tests create huge (but sparse) files, and to be able to run those
-tests in certain limited environments (like CI containers), we have to
-check for the possibility to create such files first. Thus let's introduce
-a common function to check for large files, and replace the already
-existing checks in the iotests 005 and 220 with this function.
+Test 079 fails in the arm64, s390x and ppc64le LXD containers on Travis
+(which we will hopefully enable in our CI soon). These containers
+apparently do not allow large files to be created. Test 079 tries to
+create a 4G sparse file, which is apparently already too big for these
+containers, so check first whether we can really create such files before
+executing the test.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/005       |  5 +----
- tests/qemu-iotests/220       |  6 ++----
- tests/qemu-iotests/common.rc | 10 ++++++++++
- 3 files changed, 13 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/079 | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
-index 58442762fe..b6d03ac37d 100755
---- a/tests/qemu-iotests/005
-+++ b/tests/qemu-iotests/005
-@@ -59,10 +59,7 @@ fi
- # Sanity check: For raw, we require a file system that permits the creatio=
-n
- # of a HUGE (but very sparse) file. Check we can create it before continui=
-ng.
- if [ "$IMGFMT" =3D "raw" ]; then
--    if ! truncate --size=3D5T "$TEST_IMG"; then
--        _notrun "file system on $TEST_DIR does not support large enough fi=
-les"
--    fi
--    rm "$TEST_IMG"
-+    _require_large_file 5T
- fi
+diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
+index 81f0c21f53..78536d3bbf 100755
+--- a/tests/qemu-iotests/079
++++ b/tests/qemu-iotests/079
+@@ -39,6 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file nfs
 =20
++# Some containers (e.g. non-x86 on Travis) do not allow large files
++_require_large_file 4G
++
+ echo "=3D=3D=3D Check option preallocation and cluster_size =3D=3D=3D"
  echo
-diff --git a/tests/qemu-iotests/220 b/tests/qemu-iotests/220
-index 2d62c5dcac..15159270d3 100755
---- a/tests/qemu-iotests/220
-+++ b/tests/qemu-iotests/220
-@@ -42,10 +42,8 @@ echo "=3D=3D Creating huge file =3D=3D"
-=20
- # Sanity check: We require a file system that permits the creation
- # of a HUGE (but very sparse) file.  tmpfs works, ext4 does not.
--if ! truncate --size=3D513T "$TEST_IMG"; then
--    _notrun "file system on $TEST_DIR does not support large enough files"
--fi
--rm "$TEST_IMG"
-+_require_large_file 513T
-+
- IMGOPTS=3D'cluster_size=3D2M,refcount_bits=3D1' _make_test_img 513T
-=20
- echo "=3D=3D Populating refcounts =3D=3D"
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 0cc8acc9ed..6f0582c79a 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -643,5 +643,15 @@ _require_drivers()
-     done
- }
-=20
-+# Check that we have a file system that allows huge (but very sparse) file=
-s
-+#
-+_require_large_file()
-+{
-+    if ! truncate --size=3D"$1" "$TEST_IMG"; then
-+        _notrun "file system on $TEST_DIR does not support large enough fi=
-les"
-+    fi
-+    rm "$TEST_IMG"
-+}
-+
- # make sure this script returns success
- true
+ cluster_sizes=3D"16384 32768 65536 131072 262144 524288 1048576 2097152 41=
+94304"
 --=20
 2.20.1
 
