@@ -2,82 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D641263D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:44:17 +0100 (CET)
-Received: from localhost ([::1]:41720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 843A01263DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:46:28 +0100 (CET)
+Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihw6C-0005Xn-56
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:44:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53210)
+	id 1ihw8J-0000dF-1J
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:46:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1ihvva-0000AJ-1o
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:33:19 -0500
+ (envelope-from <fflorensa@online.net>) id 1ihvwl-0001qH-Ma
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:34:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1ihvvX-0001OJ-Iv
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:33:17 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49544
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <fflorensa@online.net>) id 1ihvwi-0007BH-Pi
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:34:30 -0500
+Received: from mail.online.net ([62.210.16.11]:36794)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1ihvvX-0001Lm-CN
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:33:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576762394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TK4RywertGHU5YvngQqidrycj5zwSBQzF1+NiySvZmY=;
- b=IkLh3MXYoooAUK6HIBAgqQTC+VwQYviky9kriXPmzg8HuIhE71lpYEq3wlBIQ/YM5jEhze
- PUFUG9lK+yGLOnWkbt6d1LtAfxoHfgTDltPAXMaLUAxyv7uLs6Av4Pk/il2kvvSqMRZcaM
- YVJvE+D+BObPn9duOrPjpNwLJXyEgO8=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-CDxVGYiRMlCipkBidCqlaQ-1; Thu, 19 Dec 2019 08:33:14 -0500
-Received: by mail-qk1-f200.google.com with SMTP id g28so3604339qkl.6
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:33:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+VFciNyicxTJ/a/4QmIxoALs8sCDRyGU5BBU/c2HPL0=;
- b=r47MsRQf2ypfIRUgMa93klK5EmLTXQ/YqNmUe9FAgLlhui/cDysW2mZCM6OukAsWMN
- ABfaiYtZqoiRPXOXBAlUErJjffZFhykRNS6OSJhihULrFUSyMfsGPqhVbxDIIYlfn4Ce
- OWguSWDMbs+jJAfzm66AW6Pyk8R8pEkQmc3huFEnOYgDeU7eW7QweQDZ3cShoT1PluzO
- K2eWikx6gd34bS4fEYyEi8hPRlV6TBVXHYv+N3M+8WCbmWOw2/0Q615sbR8j2ghn4F0D
- DGXjxpRXV3Q4oPlJR/mg7J6u9pxvFbcRoRCSH92hjoVfTdch6k/AYOTV3ddmeBCQh0Bg
- Sc5w==
-X-Gm-Message-State: APjAAAXEMa3+IPxJnrKD1AYSd9FRoT3CvSwRAHD2FF4M4foRKlbE1PAd
- /zIFGhEciB2/qXqtvT3R3v1noH2vI39z79M0rpm3CnPDy7ErmebNVrdbSfI1F1uBNgdMIlUnMnU
- A/sey5HibZAn1zfg=
-X-Received: by 2002:ac8:461a:: with SMTP id p26mr6702212qtn.317.1576762390803; 
- Thu, 19 Dec 2019 05:33:10 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy+Y10/rRZvyBzfotd49vjBuDPt/SmkpwCsOiXKB3hnaDeEBf6axwtUUnl1kQv4fFZv7T7trQ==
-X-Received: by 2002:ac8:461a:: with SMTP id p26mr6702178qtn.317.1576762390528; 
- Thu, 19 Dec 2019 05:33:10 -0800 (PST)
-Received: from xz-x1 ([2607:9880:19c0:3f::2])
- by smtp.gmail.com with ESMTPSA id j7sm1735320qkd.46.2019.12.19.05.33.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 05:33:09 -0800 (PST)
-Date: Thu, 19 Dec 2019 08:33:08 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
-Message-ID: <20191219133308.GA4246@xz-x1>
-References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-9-eric.auger@redhat.com>
- <20191210193342.GJ3352@xz-x1>
- <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
+ (Exim 4.71) (envelope-from <fflorensa@online.net>)
+ id 1ihvwi-0006RG-6q
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:34:28 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.online.net (Postfix) with ESMTP id 8FA2CF2B8A08;
+ Thu, 19 Dec 2019 14:34:19 +0100 (CET)
+Received: from mail.online.net ([127.0.0.1])
+ by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id bzkUma66zduY; Thu, 19 Dec 2019 14:34:19 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.online.net (Postfix) with ESMTP id 6F0C6F2B8A0A;
+ Thu, 19 Dec 2019 14:34:19 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.online.net 6F0C6F2B8A0A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=online.net;
+ s=4EC61654-9574-11E8-870F-3D38CA7095BF; t=1576762459;
+ bh=a0I7hFFELdVsAx+PG2ZFH1pfCJfmk/WJNz43mGA6uCQ=;
+ h=From:To:Date:Message-Id:MIME-Version;
+ b=sapPLG5kceeAv1HquI1nv8fWLgO7RhpTofj+8+bLfuDMKiKBf9X7iMg6RSvkXGJQF
+ YkeO5cFt5YHPNswLZX3KLv32jHwVkRHr+mjn0bOajjZ0yKRXWQthXiU+EqCnbHP9rE
+ P52xRt66ZwQI9ERJLmdG8uCPURSyBpWf5negt9/lrgwJC0U/haV4CPTiGMIodHlfkS
+ ytWDZTr9rgtjxqhsXJ53edpz/hQHKf11ZJYVlugV9gap6TVaUXMCuvlJJNZID6jK+u
+ PvENiUVFzQWuc9UZsfLWxVg5fq5uhYZ4Ch3Jn5XHS0dwGlbmk9uOfxegUNVQwTtb0D
+ uvaGKMznLVu7w==
+X-Virus-Scanned: amavisd-new at mail.online.net
+Received: from mail.online.net ([127.0.0.1])
+ by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id y0l66eNQ0-H8; Thu, 19 Dec 2019 14:34:19 +0100 (CET)
+Received: from flash.online.net (unknown [195.154.229.35])
+ by mail.online.net (Postfix) with ESMTPSA id 563D5F2B8A08;
+ Thu, 19 Dec 2019 14:34:19 +0100 (CET)
+From: Florian Florensa <fflorensa@online.net>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] block/rbd: Add support for ceph namespaces
+Date: Thu, 19 Dec 2019 14:34:16 +0100
+Message-Id: <20191219133416.671431-1-fflorensa@online.net>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
-X-MC-Unique: CDxVGYiRMlCipkBidCqlaQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 62.210.16.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,111 +70,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
- quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- bharatb.linux@gmail.com, qemu-arm@nongnu.org, dgilbert@redhat.com,
- eric.auger.pro@gmail.com
+Cc: kwolf@redhat.com, dillaman@redhat.com, armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 11:30:40AM +0100, Auger Eric wrote:
-> Hi Peter,
-> On 12/10/19 8:33 PM, Peter Xu wrote:
-> > On Fri, Nov 22, 2019 at 07:29:31PM +0100, Eric Auger wrote:
-> >> This patch implements the translate callback
-> >>
-> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> >>
-> >> ---
-> >>
-> >> v10 -> v11:
-> >> - take into account the new value struct and use
-> >>   g_tree_lookup_extended
-> >> - switched to error_report_once
-> >>
-> >> v6 -> v7:
-> >> - implemented bypass-mode
-> >>
-> >> v5 -> v6:
-> >> - replace error_report by qemu_log_mask
-> >>
-> >> v4 -> v5:
-> >> - check the device domain is not NULL
-> >> - s/printf/error_report
-> >> - set flags to IOMMU_NONE in case of all translation faults
-> >> ---
-> >>  hw/virtio/trace-events   |  1 +
-> >>  hw/virtio/virtio-iommu.c | 63 +++++++++++++++++++++++++++++++++++++++=
--
-> >>  2 files changed, 63 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> >> index f25359cee2..de7cbb3c8f 100644
-> >> --- a/hw/virtio/trace-events
-> >> +++ b/hw/virtio/trace-events
-> >> @@ -72,3 +72,4 @@ virtio_iommu_get_endpoint(uint32_t ep_id) "Alloc end=
-point=3D%d"
-> >>  virtio_iommu_put_endpoint(uint32_t ep_id) "Free endpoint=3D%d"
-> >>  virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=3D%d"
-> >>  virtio_iommu_put_domain(uint32_t domain_id) "Free domain=3D%d"
-> >> +virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, ui=
-nt32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"
-> >> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> >> index f0a56833a2..a83666557b 100644
-> >> --- a/hw/virtio/virtio-iommu.c
-> >> +++ b/hw/virtio/virtio-iommu.c
-> >> @@ -412,19 +412,80 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMM=
-UMemoryRegion *mr, hwaddr addr,
-> >>                                              int iommu_idx)
-> >>  {
-> >>      IOMMUDevice *sdev =3D container_of(mr, IOMMUDevice, iommu_mr);
-> >> +    viommu_interval interval, *mapping_key;
-> >> +    viommu_mapping *mapping_value;
-> >> +    VirtIOIOMMU *s =3D sdev->viommu;
-> >> +    viommu_endpoint *ep;
-> >> +    bool bypass_allowed;
-> >>      uint32_t sid;
-> >> +    bool found;
-> >> +
-> >> +    interval.low =3D addr;
-> >> +    interval.high =3D addr + 1;
-> >> =20
-> >>      IOMMUTLBEntry entry =3D {
-> >>          .target_as =3D &address_space_memory,
-> >>          .iova =3D addr,
-> >>          .translated_addr =3D addr,
-> >> -        .addr_mask =3D ~(hwaddr)0,
-> >> +        .addr_mask =3D (1 << ctz32(s->config.page_size_mask)) - 1,
-> >>          .perm =3D IOMMU_NONE,
-> >>      };
-> >> =20
-> >> +    bypass_allowed =3D virtio_has_feature(s->acked_features,
-> >> +                                        VIRTIO_IOMMU_F_BYPASS);
-> >> +
-> >=20
-> > Would it be easier to check bypass_allowed here once and then drop the
-> > latter [1] and [2] check?
-> bypass_allowed does not mean you systematically bypass. You bypass if
-> the SID is unknown or if the device is not attached to any domain.
-> Otherwise you translate. But maybe I miss your point.
+Starting from ceph Nautilus, RBD has support for namespaces, allowing
+for finer grain ACLs on images inside a pool, and tenant isolation.
 
-Ah ok, then could I ask how will this VIRTIO_IOMMU_F_BYPASS be used?
-For example, I think VT-d defines passthrough in a totally different
-way in that the PT mark will be stored in the per-device context
-entries, then we can allow a specific device to be pass-through when
-doing DMA.  That information is explicit (e.g., unknown SID will
-always fail the DMA), and per-device.
+In the rbd cli tool documentation, the new image-spec and snap-spec are :
+ - [pool-name/[namespace-name/]]image-name
+ - [pool-name/[namespace-name/]]image-name@snap-name
 
-Here do you mean that you just don't put a device into any domain to
-show it wants to use PT?  Then I'm not sure how do you identify
-whether this is a legal PT or a malicious device (e.g., an unknown
-device that even does not have any driver bound to it, which will also
-satisfy "unknown SID" and "not attached to any domain", iiuc).
+When using an non namespace's enabled qemu, it complains about not
+finding the image called namespace-name/image-name, thus we only need to
+parse the image once again to find if there is a '/' in its name, and if
+there is, use what is before it as the name of the namespace to later
+pass it to rados_ioctx_set_namespace.
+rados_ioctx_set_namespace if called with en empty string or a null
+pointer as the namespace parameters pretty much does nothing, as it then
+defaults to the default namespace.
 
-Thanks,
+The namespace is extracted inside qemu_rbd_parse_filename, stored in the
+qdict, and used in qemu_rbd_connect to make it work with both qemu-img,
+and qemu itself.
 
+Signed-off-by: Florian Florensa <fflorensa@online.net>
+---
+ block/rbd.c          | 30 ++++++++++++++++++++++++------
+ qapi/block-core.json |  3 +++
+ 2 files changed, 27 insertions(+), 6 deletions(-)
+
+diff --git a/block/rbd.c b/block/rbd.c
+index 027cbcc695..e43099fc75 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -104,6 +104,7 @@ typedef struct BDRVRBDState {
+     rbd_image_t image;
+     char *image_name;
+     char *snap;
++    char *nspace;
+     uint64_t image_size;
+ } BDRVRBDState;
+=20
+@@ -152,7 +153,7 @@ static void qemu_rbd_parse_filename(const char *filen=
+ame, QDict *options,
+     const char *start;
+     char *p, *buf;
+     QList *keypairs =3D NULL;
+-    char *found_str;
++    char *found_str, *image_name;
+=20
+     if (!strstart(filename, "rbd:", &start)) {
+         error_setg(errp, "File name must start with 'rbd:'");
+@@ -171,18 +172,24 @@ static void qemu_rbd_parse_filename(const char *fil=
+ename, QDict *options,
+     qdict_put_str(options, "pool", found_str);
+=20
+     if (strchr(p, '@')) {
+-        found_str =3D qemu_rbd_next_tok(p, '@', &p);
+-        qemu_rbd_unescape(found_str);
+-        qdict_put_str(options, "image", found_str);
++        image_name =3D qemu_rbd_next_tok(p, '@', &p);
+=20
+         found_str =3D qemu_rbd_next_tok(p, ':', &p);
+         qemu_rbd_unescape(found_str);
+         qdict_put_str(options, "snapshot", found_str);
+     } else {
+-        found_str =3D qemu_rbd_next_tok(p, ':', &p);
++        image_name =3D qemu_rbd_next_tok(p, ':', &p);
++    }
++    /* Check for namespace in the image_name */
++    if (strchr(image_name, '/')) {
++        found_str =3D qemu_rbd_next_tok(image_name, '/', &image_name);
+         qemu_rbd_unescape(found_str);
+-        qdict_put_str(options, "image", found_str);
++        qdict_put_str(options, "nspace", found_str);
++    } else {
++        qdict_put_str(options, "nspace", "");
+     }
++    qemu_rbd_unescape(image_name);
++    qdict_put_str(options, "image", image_name);
+     if (!p) {
+         goto done;
+     }
+@@ -343,6 +350,11 @@ static QemuOptsList runtime_opts =3D {
+             .type =3D QEMU_OPT_STRING,
+             .help =3D "Rados pool name",
+         },
++        {
++            .name =3D "nspace",
++            .type =3D QEMU_OPT_STRING,
++            .help =3D "Rados namespace name in the pool",
++        },
+         {
+             .name =3D "image",
+             .type =3D QEMU_OPT_STRING,
+@@ -472,6 +484,7 @@ static int coroutine_fn qemu_rbd_co_create_opts(const=
+ char *filename,
+     loc->has_conf =3D !!loc->conf;
+     loc->user     =3D g_strdup(qdict_get_try_str(options, "user"));
+     loc->has_user =3D !!loc->user;
++    loc->nspace   =3D g_strdup(qdict_get_try_str(options, "nspace"));
+     loc->image    =3D g_strdup(qdict_get_try_str(options, "image"));
+     keypairs      =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs");
+=20
+@@ -648,6 +661,11 @@ static int qemu_rbd_connect(rados_t *cluster, rados_=
+ioctx_t *io_ctx,
+         error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
+         goto failed_shutdown;
+     }
++    /*
++     * Set the namespace after opening the io context on the pool,
++     * if nspace =3D=3D NULL or if nspace =3D=3D "", it is just as we di=
+d nothing
++     */
++    rados_ioctx_set_namespace(*io_ctx, opts->nspace);
+=20
+     return 0;
+=20
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0cf68fea14..9ebc020e93 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3657,6 +3657,8 @@
+ #
+ # @pool:               Ceph pool name.
+ #
++# @nspace:             Rados namespace name in the Ceph pool.
++#
+ # @image:              Image name in the Ceph pool.
+ #
+ # @conf:               path to Ceph configuration file.  Values
+@@ -3683,6 +3685,7 @@
+ ##
+ { 'struct': 'BlockdevOptionsRbd',
+   'data': { 'pool': 'str',
++            'nspace': 'str',
+             'image': 'str',
+             '*conf': 'str',
+             '*snapshot': 'str',
 --=20
-Peter Xu
+2.24.1
 
 
