@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68628126359
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:21:27 +0100 (CET)
-Received: from localhost ([::1]:41230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323E11262E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 14:07:23 +0100 (CET)
+Received: from localhost ([::1]:40690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihvk6-0005te-GI
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40966)
+	id 1ihvWU-0005O0-3c
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 08:07:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ihvKw-0008TU-Ve
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:55:28 -0500
+ (envelope-from <philmd@redhat.com>) id 1ihvUL-0002zj-Bk
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:05:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ihvKu-0007qv-3T
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:55:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33124
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ihvUI-0002a2-Eo
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:05:07 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30652
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ihvKt-0007k3-Qs
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 07:55:23 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihvUI-0002TG-8V
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:05:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576760122;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1576760705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yNLIioBNk1ZT8TeNI7etG3H5ZLGg4OnPEuqSZfTU9Zc=;
- b=EpcbAeoG9709Naw1e2/RehgaqANcSsCfoK8YtrdrdwaoWe3RKtrZqlsF0X/xtiStlelxfD
- eWY7ZabAi/wQEyIZ4h36nSREpz9Yvgvjq/sqskjj/Rw4z1VtdfctgK2uv4oAByQZjM787x
- EohWpMfhxgo1wTSgJeLSDpIVvuPz4yI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236--BSBZ28FP5i7PB46SixUOA-1; Thu, 19 Dec 2019 07:55:18 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D0841083E84;
- Thu, 19 Dec 2019 12:55:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3FE1675B8;
- Thu, 19 Dec 2019 12:55:06 +0000 (UTC)
-Date: Thu, 19 Dec 2019 12:55:04 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Felipe Franciosi <felipe@nutanix.com>
-Subject: Re: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
- status update
-Message-ID: <20191219125504.GI1190276@redhat.com>
-References: <cover.1571905346.git.jag.raman@oracle.com>
- <20191210064716.GA6401@flaka>
- <20191213104116.GB1180977@stefanha-x1.localdomain>
- <20191216194655.GA5922@flaka>
- <AFBAD3A1-0E22-4E22-AF22-C56794929D87@nutanix.com>
- <20191217163316.GB1333385@stefanha-x1.localdomain>
- <DDE3DA62-31DD-437B-8392-CAD505253EED@nutanix.com>
- <20191219115545.GD1624084@stefanha-x1.localdomain>
- <772D9CF3-D15D-42D1-B9CF-1279619D7C20@nutanix.com>
+ bh=ZgBCxUVb0Libd/JSUw7uTFBdCttTbaWw1zp84vhxh60=;
+ b=Pe3vdkpvcVLg4ud/7kPwo15AZdXE2lsG5RDlmw9pR2hYBMOU0+ECsPj8tpONK0yyTTJ0yo
+ FGJJdJ40Ia706n/Sz1PjC16pLVAI5y+DxUPVEGtDzFpLvc4xWy9K1KFNBE0yxRpvM+gcoU
+ bxVRLC4TQb72Uv6CTGHFq3u62sR++PA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-KhIvQYykMQabm04tz9ccsQ-1; Thu, 19 Dec 2019 08:04:59 -0500
+Received: by mail-ed1-f69.google.com with SMTP id cy24so1225824edb.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 05:04:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JSHBYqZNJp+jEmSTQKaaXlWnb6FSSnjROA/aDLpAI6Y=;
+ b=bciKsCiPw/oiL51PapRPAQ7JR55xBXc0kWRzt5C6E5eRTS7orIpDDNBe9+syVXdfVL
+ Sngno2YkhnE3hOfoZkrvjwsBxhMj7UGxJkgh+db37InWGHKolN5VW/kiJy7+Loume/XB
+ x1P3ojKqQu8XFK6gRNosbRYELt0qhV94wNeT/IyJrAnl3NL4EWPCa8YdnuMr8khWufh1
+ 9nntsGJk18P4af4IzZ7aeY/pdzyoGlyxfW/vOUvgD+A1kmrirwamLIWNEtT4q8qFZISO
+ AGHMO26XwC9Ee98upDo64N9/PU096ca1VXjB1Lnm8BlaQdgOblMVa6Aor9RpYY8gUP71
+ KAzA==
+X-Gm-Message-State: APjAAAWHsBgekx8IB84nN1yBqIqfuS1SFSj/h1YwAR6gGnCBUQo44cQ5
+ G0vDrm7CNf5WWOHT5va1xbEa84ALwGU5OB7QMA26vIW+APIEmLMBtkkTxfC93R/c43bdhE9N2PT
+ JNAJEbntrkGYFWhQ=
+X-Received: by 2002:a17:906:bcf5:: with SMTP id
+ op21mr9151065ejb.160.1576760697621; 
+ Thu, 19 Dec 2019 05:04:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzbqqm/wuRTCpiPRFG2W42OQ7zBnrwcJiefEA+USi8Tn8NMcbXHFzOwNx4YmzYWvtOlC7JYbQ==
+X-Received: by 2002:a17:906:bcf5:: with SMTP id
+ op21mr9151038ejb.160.1576760697384; 
+ Thu, 19 Dec 2019 05:04:57 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id bs4sm475652ejb.39.2019.12.19.05.04.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Dec 2019 05:04:56 -0800 (PST)
+Subject: Re: [EXTERNAL]Re: [PATCH v4 29/37] RFC: mips/cps: fix setting saar
+ property
+To: Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <20191120152442.26657-30-marcandre.lureau@redhat.com>
+ <41a2531e-b887-6f72-fd51-a7e1d5688670@redhat.com>
+ <BN6PR2201MB1251016B3D5948ABEFAAC117C6510@BN6PR2201MB1251.namprd22.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ed819b44-fd59-46c0-d6ea-4f162d564209@redhat.com>
+Date: Thu, 19 Dec 2019 14:04:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <772D9CF3-D15D-42D1-B9CF-1279619D7C20@nutanix.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: -BSBZ28FP5i7PB46SixUOA-1
+In-Reply-To: <BN6PR2201MB1251016B3D5948ABEFAAC117C6510@BN6PR2201MB1251.namprd22.prod.outlook.com>
+Content-Language: en-US
+X-MC-Unique: KhIvQYykMQabm04tz9ccsQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,172 +98,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- "fam@euphon.net" <fam@euphon.net>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
- "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Walker,
- Benjamin" <benjamin.walker@intel.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "jag.raman@oracle.com" <jag.raman@oracle.com>, "Harris,
- James R" <james.r.harris@intel.com>,
- "quintela@redhat.com" <quintela@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "kanth.ghatraju@oracle.com" <kanth.ghatraju@oracle.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "liran.alon@oracle.com" <liran.alon@oracle.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
- "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 12:33:15PM +0000, Felipe Franciosi wrote:
-> Hello,
+On 12/16/19 8:36 PM, Aleksandar Markovic wrote:
+>> From: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+>> Sent: Sunday, December 15, 2019 6:56 AM
+>>> On 11/20/19 4:24 PM, Marc-Andr=E9 Lureau wrote:
+>>> There is no "saar" property. Note: I haven't been able to test this
+>>> code. Help welcome.
+>>>
+>>> May fix commit 043715d1e0fbb3e3411be3f898c5b77b7f90327a ("target/mips:
+>>> Update ITU to utilize SAARI and SAAR CP0 registers")
+>>>
+>>> Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
+>>> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+>>> ---
+>>>    hw/mips/cps.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+>>> index 1660f86908..c49868d5da 100644
+>>> --- a/hw/mips/cps.c
+>>> +++ b/hw/mips/cps.c
+>>> @@ -106,7 +106,7 @@ static void mips_cps_realize(DeviceState *dev, Erro=
+r **errp)
+>>>            object_property_set_bool(OBJECT(&s->itu), saar_present, "saa=
+r-present",
+>>>                                     &err);
+>>>            if (saar_present) {
+>>> -            qdev_prop_set_ptr(DEVICE(&s->itu), "saar", (void *)&env->C=
+P0_SAAR);
+>>> +            s->itu.saar =3D &env->CP0_SAAR;
+>>
+>> Hmmm this could be what the author of 043715d1e wanted to do indeed.
+>>
+>> Since this feature is incomplete (see comments in previous versions of
+>> this series:
+>>     $ git grep saarp
+>>     hw/mips/cps.c:98:    saar_present =3D (bool)env->saarp;
+>>     target/mips/cpu.h:1103:    int saarp;
+>> and I don't know how to test this, I'll defer to Aleksandar regarding
+>> this patch.
 >=20
-> (I've added Jim and Ben from the SPDK team to the thread.)
+> Hello, Philippe,
 >=20
-> > On Dec 19, 2019, at 11:55 AM, Stefan Hajnoczi <stefanha@gmail.com> wrot=
-e:
-> >=20
-> > On Tue, Dec 17, 2019 at 10:57:17PM +0000, Felipe Franciosi wrote:
-> >>> On Dec 17, 2019, at 5:33 PM, Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> >>> On Mon, Dec 16, 2019 at 07:57:32PM +0000, Felipe Franciosi wrote:
-> >>>>> On 16 Dec 2019, at 20:47, Elena Ufimtseva <elena.ufimtseva@oracle.c=
-om> wrote:
-> >>>>> =EF=BB=BFOn Fri, Dec 13, 2019 at 10:41:16AM +0000, Stefan Hajnoczi =
-wrote:
-> >>> Questions I've seen when discussing muser with people have been:
-> >>>=20
-> >>> 1. Can unprivileged containers create muser devices?  If not, this is=
- a
-> >>>  blocker for use cases that want to avoid root privileges entirely.
-> >>=20
-> >> Yes you can. Muser device creation follows the same process as general
-> >> mdev device creation (ie. you write to a sysfs path). That creates an
-> >> entry in /dev/vfio and the control plane can further drop privileges
-> >> there (set selinux contexts, &c.)
-> >=20
-> > In this case there is still a privileged step during setup.  What about
-> > completely unprivileged scenarios like a regular user without root or a
-> > rootless container?
+> Good that you brought this to my attention - but Marc-Andr=E9 and
+> I already had a discussion about this in this series' cover letter
+> responses (unfortunately not followed up by me as a response to
+> this patch, sorry about that):
 >=20
-> Oh, I see what you are saying. I suppose we need to investigate
-> adjusting the privileges of the sysfs path correctly beforehand to
-> allow devices to be created by non-root users. The credentials used on
-> creation should be reflected on the vfio endpoint (ie. /dev/fio/<group>).
+> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00056.html
 >=20
-> I need to look into that and get back to you.
->=20
-> >=20
-> >>> 2. Does muser need to be in the kernel (e.g. slower to develop/ship,
-> >>>  security reasons)?  A similar library could be implemented in
-> >>>  userspace along the lines of the vhost-user protocol.  Although VMMs
-> >>>  would then need to use a new libmuser-client library instead of
-> >>>  reusing their VFIO code to access the device.
-> >>=20
-> >> Doing it in userspace was the flow we proposed back in last year's KVM
-> >> Forum (Edinburgh), but it got turned down. That's why we procured the
-> >> kernel approach, which turned out to have some advantages:
-> >> - No changes needed to Qemu
-> >> - No Qemu needed at all for userspace drivers
-> >> - Device emulation process restart is trivial
-> >>  (it therefore makes device code upgrades much easier)
-> >>=20
-> >> Having said that, nothing stops us from enhancing libmuser to talk
-> >> directly to Qemu (for the Qemu case). I envision at least two ways of
-> >> doing that:
-> >> - Hooking up libmuser with Qemu directly (eg. over a unix socket)
-> >> - Hooking Qemu with CUSE and implementing the muser.ko interface
-> >>=20
-> >> For the latter, libmuser would talk to a character device just like it
-> >> talks to the vfio character device. We "just" need to implement that
-> >> backend in Qemu. :)
-> >=20
-> > What about:
-> > * libmuser's API stays mostly unchanged but the library speaks a
-> >   VFIO-over-UNIX domain sockets protocol instead of talking to
-> >   mdev/vfio in the host kernel.
->=20
-> As I said above, there are advantages to the kernel model. The key one
-> is transparent device emulation restarts. Today, muser.ko keeps the
-> "device memory" internally in a prefix tree. Upon restart, a new
-> device emulator can recover state (eg. from a state file in /dev/shm
-> or similar) and remap the same memory that is already configured to
-> the guest via Qemu. We have a pending work item for muser.ko to also
-> keep the eventfds so we can recover those, too. Another advantage is
-> working with any userspace driver and not requiring a VMM at all.
->=20
-> If done entirely in userspace, the device emulator needs to allocate
-> the device memory somewhere that remains accessible (eg. tmpfs), with
-> the difference that now we may be talking about non-trivial amounts of
-> memory. Also, that may not be the kind of content you want lingering
-> around the filesystem (for the same reasons Qemu unlinks memory files
-> from /dev/hugepages after mmap'ing it).
->=20
-> That's why I'd prefer to rephrase what you said to "in addition"
-> instead of "instead".
->=20
-> > * VMMs can implement this protocol directly for POSIX-portable and
-> >   unprivileged operation.
-> > * A CUSE VFIO adapter simulates /dev/vfio so that VFIO-only VMMs can
-> >   still take advantage of libmuser devices.
->=20
-> I'm happy with that.
-> We need to think the credential aspect throughout to ensure nodes can
-> be created in the right places with the right privileges.
->=20
-> >=20
-> > Assuming this is feasible, would you lose any important
-> > features/advantages of the muser.ko approach?  I don't know enough abou=
-t
-> > VFIO to identify any blocker or obvious performance problems.
->=20
-> That's what I elaborated above. The fact that muser.ko can keep
-> various metadata (and other resources) about the device in the kernel
-> and grant it back to userspace as needed. There are ways around it,
-> but it requires some orchestration with tmpfs and the VMM (only so
-> much can be kept in tmpfs; the eventfds need to be retransmitted from
-> the machine emulator on request).
->=20
-> Restarting is a critical aspect of this. One key use case for the
-> project is to be able to emulate various devices from one process (for
-> polling). That must be able to restart for upgrades or recovery.
->=20
-> >=20
-> > Regarding recovery, it seems straightforward to keep state in a tmpfs
-> > file that can be reopened when the device is restarted.  I don't think
-> > kernel code is necessary?
->=20
-> It adds a dependency, but isn't a show stopper. If we can work through
-> permission issues, making sure the VMM can reconnect and retransmit
-> eventfds and other state, then it should be ok.
->=20
-> To be clear: I'm very happy to have a userspace-only option for this,
-> I just don't want to ditch the kernel module (yet, anyway). :)
+> In essence, our conclusion was that the real fix would be certainly
+> outside of the scope of this series, since it requires some really
+> (non-straightforward) mips-specific code changes, so we agreed
+> that Marc-Andr=E9 submit this patch as-is, and later on (certainly
+> within timeframe of 5.0) I will submit the fix addressing the root
+> cause (absence of "saar" property, and incomplete handling of
+> SAAR and SAARI config registers).
 
-If it doesn't create too large of a burden to support both, then I think
-it is very desirable. IIUC, this is saying a kernel based solution as the
-optimized/optimal solution, and userspace UNIX socket based option as the
-generic "works everywhere" fallback solution.
+OK, thanks for clarifying again!
 
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+> In other words, this patch is fine at this moment, and formally:
+>=20
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+>=20
+> (Marc-Andr=E9, just please remove "RFC" from the title, and remove
+> the sentence "Note: I haven't been able to test this code. Help
+> welcome." from the commit message, since we have the deal on
+> how and who will fix the underlining problem.)
+>=20
+> Thanks to both of you!
+>=20
+> Aleksandar
+>=20
 
 
