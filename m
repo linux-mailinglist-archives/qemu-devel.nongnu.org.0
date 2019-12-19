@@ -2,56 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDF9125A78
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 06:16:59 +0100 (CET)
-Received: from localhost ([::1]:35820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84C5125A7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 06:18:57 +0100 (CET)
+Received: from localhost ([::1]:35838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihoBG-0001FL-HS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 00:16:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49915)
+	id 1ihoDA-0002zs-P1
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 00:18:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iho9N-00008y-2p
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:15:02 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ihoCM-0002JQ-3L
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:18:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iho9L-0002vR-Vm
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:15:01 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:46339)
+ (envelope-from <dgibson@ozlabs.org>) id 1ihoCK-0005QU-VV
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 00:18:06 -0500
+Received: from ozlabs.org ([203.11.71.1]:51909)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iho9L-0002k2-It; Thu, 19 Dec 2019 00:14:59 -0500
+ id 1ihoCK-0005CJ-Hd; Thu, 19 Dec 2019 00:18:04 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47dg6n3QhHz9sPc; Thu, 19 Dec 2019 16:14:57 +1100 (AEDT)
+ id 47dgBJ60mcz9sPn; Thu, 19 Dec 2019 16:17:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1576732497;
- bh=oFzpFz9kbAh9ftjRFcAXMzOLF1wdcKWmMQxb1S17Q14=;
+ d=gibson.dropbear.id.au; s=201602; t=1576732680;
+ bh=NQiSztyPAbPgulkIn1a2Wkf8nWAKJwxdUxEUoj2JqM0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aazYsJr/7CKYAAS/BvxQj2iNcBSPTQ7hONld9P5keh4MGzmFhMldwKg0SNM3b/TWH
- dppMQoihOrv6/ctis0oNZoKGB7IvqwdbCN2cHpYO0orwGGwvi5WKlzbnKegWNu+G3P
- mngp3SK7sDK7RXM7J13E2CiTUCuRF3hyIFCkRnF4=
-Date: Thu, 19 Dec 2019 16:14:44 +1100
+ b=c71gdxJIO2ZIkVGT+4TFUuYhTmRxhjZsdaHAEewpfjjnxlEmqVN0KfS1SwpxkEVkK
+ +p+DL8fiL5S/WU2amHM3DUyFMne/Y6L2NMRqFz6dZuDhncpslRRSVlrkvVIQpF9naN
+ VdFv4zhln0IOzo65jHH1GXEZ3Bs9NqPiT9TOlcVA=
+Date: Thu, 19 Dec 2019 16:15:57 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v5 1/5] tpm_spapr: Support TPM for ppc64 using CRQ based
- interface
-Message-ID: <20191219051444.GH2321@umbus.fritz.box>
-References: <20191212202430.1079725-1-stefanb@linux.vnet.ibm.com>
- <20191212202430.1079725-2-stefanb@linux.vnet.ibm.com>
- <20191213053453.GD207300@umbus.fritz.box>
- <75fd3e95-d72f-069b-22ce-f354e1c34660@linux.ibm.com>
- <20191217002954.GH6242@umbus.fritz.box>
- <1efef315-cb85-79ea-9c46-ff318e05a543@linux.ibm.com>
- <20191219015414.GC2321@umbus.fritz.box>
- <db0d3dbe-3b01-e62b-2cf0-3d0c50e3c4fb@linux.ibm.com>
- <20191219051357.GG2321@umbus.fritz.box>
+To: Bharata B Rao <bharata@linux.ibm.com>
+Subject: Re: [PATCH v4 ppc-for-5.0 0/2] ppc/spapr: Support reboot of secure
+ pseries guest
+Message-ID: <20191219051557.GI2321@umbus.fritz.box>
+References: <20191219031445.8949-1-bharata@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="N8ia4yKhAKKETby7"
+ protocol="application/pgp-signature"; boundary="X0cz4bGbQuRbxrVl"
 Content-Disposition: inline
-In-Reply-To: <20191219051357.GG2321@umbus.fritz.box>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <20191219031445.8949-1-bharata@linux.ibm.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,51 +55,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: paulus@ozlabs.org, linuxram@us.ibm.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---N8ia4yKhAKKETby7
+--X0cz4bGbQuRbxrVl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 19, 2019 at 04:13:57PM +1100, David Gibson wrote:
-> On Wed, Dec 18, 2019 at 08:59:18PM -0500, Stefan Berger wrote:
-> > On 12/18/19 8:54 PM, David Gibson wrote:
-> > > On Tue, Dec 17, 2019 at 02:44:04PM -0500, Stefan Berger wrote:
-> > > > On 12/16/19 7:29 PM, David Gibson wrote:
-> > > >=20
-> > > >=20
-> > > > > Since you need to change compatible based on an internal variable,
-> > > > > we'd need to replace the static dt_compatible in the class with a
-> > > > > callback.
-> > > >=20
-> > > > Why can we not initialize it once we know the version of TPM? From =
-the
-> > > > perspective of SLOF at least this seems to be building the device t=
-ree fine
-> > > > since it sees the proper value...
-> > > Because it's a serious layering / isolation violation.  You're
-> > > modifying QOM type information from the runtime code of a specific
-> > > instance.  You get away with it (now) because there's only one
-> > > instance and the ordering of things happens to let it work, but that's
-> > > assuming way too much about QOM's implementation details.
-> > >=20
-> > > As a rule, once the QOM classes are set up with their class_init
-> > > function, they should never be modified.
-> >=20
-> >=20
-> > If we now add a get_dt_compatible() callback to the class that gets inv=
-oked
-> > when dt_compatible is NULL, does this then solve the issue?
+On Thu, Dec 19, 2019 at 08:44:43AM +0530, Bharata B Rao wrote:
+> This patchset adds KVM_PPC_SVM_OFF ioctl which is required to support
+> reset of secure guest. This includes linux-headers update so that we get
+> the newly introduced ioctl.
 >=20
-> Yes, that's what I'm suggesting.
+> v3:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg03685.html
 
-Well, almost.  Actually I'd suggest the other way around - call the
-callback method, but if that's NULL, fallback to the static value.
+Applied to ppc-for-5.0, thanks.
+
+>=20
+> Changes in v4:
+> -------------
+> - s/error_setg/error_setg_errno (Greg Kurz)
+>=20
+> Bharata B Rao (2):
+>   linux-headers: Update
+>   ppc/spapr: Support reboot of secure pseries guest
+>=20
+>  hw/ppc/spapr.c                                |  1 +
+>  include/standard-headers/asm-x86/bootparam.h  |  7 +-
+>  .../infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h | 15 +++-
+>  include/standard-headers/drm/drm_fourcc.h     | 28 ++++++-
+>  .../linux/input-event-codes.h                 | 77 +++++++++++++++++++
+>  include/standard-headers/linux/pci_regs.h     |  3 +
+>  .../standard-headers/rdma/vmw_pvrdma-abi.h    |  5 ++
+>  linux-headers/linux/kvm.h                     |  1 +
+>  target/ppc/kvm.c                              | 15 ++++
+>  target/ppc/kvm_ppc.h                          |  6 ++
+>  10 files changed, 154 insertions(+), 4 deletions(-)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -115,25 +104,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---N8ia4yKhAKKETby7
+--X0cz4bGbQuRbxrVl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl37B0MACgkQbDjKyiDZ
-s5JVow//Wv2G2Nk0aJkR5w7LieY6qxJdXXKlSixTNWCLoivOf7Uw4HN0pGwhSYSz
-MAGNbhQT4sTJR6zbY1KeQFTjwdheNO5w3U/vDxMoHHGYqr+ZzXHtJuuOHUZHqhex
-lFLTgyM3SS9uua7/1eNi/PqRVJlSV2NaPydqFqf4j47n0MGDmVDLnRx9SxE806Bw
-xgwbvcHvTaDd7N8FICNCyDtFB7ezO+vRdzibywdEa6wOzvSlstQ5+Hj+LbPY44Ag
-D+XSm7a1o/3IRAtcSTEXvULkROd5p/MRmHAgNaTV8pp1WiGU7iSTreHvLPY/tbIj
-WnB3aAjErGUaZ4eKNitRLRqiAttZrkGKIfHi9Rs1lrNinROMl5q9trnnWUr21Dma
-MXMnin45OskY7ap9NX4rIeRdOSSnSVO8JFDUNKRV+UWroX0f/X2CgoCBRIqU2TG0
-nbA2jQCggVg1/lhMYX9TITRmVg2KWX2t4TGHQh1sL5gaBRzSfFTsNniZ+qaVhWb+
-72F0llNBJefddKt+UBk1TZNQ0fNJYNb4o1YZWknix70uDKQEmWagCO0AZmBmUob+
-4oDlv+ejJJOGIKVT4wTI6t0nzhJgfy6okzxc5KMORV6pS7JCqu7cZWybesZiqeQn
-/0Oy5I7/VyE9pqDF4R7eOe1n4XCz7OHRSk7w1nLlHeoGuXcPFzY=
-=Y+SI
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl37B40ACgkQbDjKyiDZ
+s5KWnA//edH8hqUlSLT9TaATQlqSx7OBOookvCHD4e7FPem1CrDmTACq74MxGG2c
++UBUrD+N0WXEz65sUNp8evCv+k1yTD30TlWY+HtNlsieau4whesQpZwhiMywNIbv
+WW93hRnj+53GW0ldm673h8TmtM0EBAyh7KZY6PRQXmFBfwIbd9Bt/T3o6KPk6aMR
+Ky51NhZyvqwPMX1WIUjqgcYDOnyZDEvUHbEA8IZQe4wpr5c871qR+LZ7Yn8vna+3
+0SFIw2NLkAC7PPqWItrUOlx6+Dpaw0pJm3FAMKR/M2fY3VNAsNG5wC8PKtZVtZus
+aIINmGCZxAvpW5Dvhhv7/9JlQ1bBvHdAJETFX9fquLhIbaEENb+DOCWHB+WGqGHb
+vVL+f94h5Z41LniTWBtGn6NlD7TD4tP8MVZdryEucCqTj+2xD2siAzZ9OM+OxNno
+lA+JRg3gZupj78mbVtm+eb8v2m2FET4wc/wSgjoKy/Nvkuj4r2fWeeXZSISXtao3
+MaGVkHsXIaD1Wj+GxZgF0s+xSNhGfNbFp07I4d7urS5pZ/M9iQRqJSqt1uUIaq1b
+sqNekhZlFNggcSmcYaG5KxdJ7EeYiqmMr2RzzAZ7+NVsYLuFODHojT3CfWZwPa50
+qisQtVzHNkedD7x6ViHd1t2qDNg9JtSBJlhAK68+fTR80Pg7zH0=
+=AlLs
 -----END PGP SIGNATURE-----
 
---N8ia4yKhAKKETby7--
+--X0cz4bGbQuRbxrVl--
 
