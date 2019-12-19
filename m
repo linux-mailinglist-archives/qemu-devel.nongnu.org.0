@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148BE1268CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:17:52 +0100 (CET)
-Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB901268C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:14:53 +0100 (CET)
+Received: from localhost ([::1]:46216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii0Mv-0005gt-Du
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:17:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37275)
+	id 1ii0K4-0002IL-1K
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:14:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37758)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ii0HW-0008KG-AK
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:15 -0500
+ (envelope-from <clg@kaod.org>) id 1ii0Ha-0008Pb-3y
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ii0HT-0001Qv-V1
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:13 -0500
-Received: from 13.mo7.mail-out.ovh.net ([87.98.150.175]:59804)
+ (envelope-from <clg@kaod.org>) id 1ii0HX-0001ml-Rx
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:16 -0500
+Received: from 4.mo7.mail-out.ovh.net ([178.32.122.254]:42614)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ii0HT-0001BW-Lo
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:11 -0500
-Received: from player734.ha.ovh.net (unknown [10.108.16.187])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id BE0B9136407
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 19:12:08 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ii0HX-0001dC-Ka
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 13:12:15 -0500
+Received: from player734.ha.ovh.net (unknown [10.108.16.68])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id E09A2147AA3
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 19:12:13 +0100 (CET)
 Received: from kaod.org (lfbn-tou-1-1227-223.w90-76.abo.wanadoo.fr
  [90.76.50.223]) (Authenticated sender: clg@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id CBC01D6D6210;
- Thu, 19 Dec 2019 18:12:03 +0000 (UTC)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id 63298D6D6255;
+ Thu, 19 Dec 2019 18:12:08 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 00/13] ppc/pnv: remove the use of qdev_get_machine() and
- get_system_memory()
-Date: Thu, 19 Dec 2019 19:11:42 +0100
-Message-Id: <20191219181155.32530-1-clg@kaod.org>
+Subject: [PATCH v2 01/13] ppc/pnv: Modify the powerdown notifier to get the
+ PowerNV machine
+Date: Thu, 19 Dec 2019 19:11:43 +0100
+Message-Id: <20191219181155.32530-2-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191219181155.32530-1-clg@kaod.org>
+References: <20191219181155.32530-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 13652662271723408358
+X-Ovh-Tracer-Id: 13654069647169588198
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.150.175
+X-Received-From: 178.32.122.254
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,55 +62,29 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Use container_of() instead of qdev_get_machine()
 
-The PowerNV and sPAPR machine use qdev_get_machine() and
-get_system_memory() in some places. This is not a good modeling
-pratice and it should be avoided. This series replaces the uses of
-these routines with a set of QOM properties and aliases.
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/ppc/pnv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-
-C.
-
-Changes since v1:
-
- - fixed a missing assert(chip->system_memory)
- - introduced a XivePresenter link under XiveTCTX
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index f77e7ca84ede..855254f28263 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -561,7 +561,7 @@ static void *pnv_dt_create(MachineState *machine)
 =20
-C=C3=A9dric Le Goater (5):
-  ppc/pnv: Modify the powerdown notifier to get the PowerNV machine
-  ppc/pnv: Introduce a "system-memory" property
-  ppc/pnv: Introduce a "xics" property alias under the PSI model
-  ppc/pnv: Introduce a "xics" property under the POWER8 chip
-  xive: Add a "presenter" link property to the TCTX object
-
-Greg Kurz (8):
-  spapr/xive: Use device_class_set_parent_realize()
-  pnv/xive: Use device_class_set_parent_realize()
-  spapr, pnv, xive: Add a "xive-fabric" link to the XIVE router
-  xive: Use the XIVE fabric link under the XIVE router
-  ppc/pnv: Add an "nr-threads" property to the base chip class
-  ppc/pnv: Add a "pnor" const link property to the BMC internal
-    simulator
-  spapr/xive: Deduce the SpaprXive pointer from XiveTCTX::xptr
-  pnv/xive: Deduce the PnvXive pointer from XiveTCTX::xptr
-
- include/hw/ppc/pnv.h        |  9 ++--
- include/hw/ppc/pnv_psi.h    |  1 +
- include/hw/ppc/pnv_xive.h   | 12 +++++
- include/hw/ppc/spapr_xive.h | 10 ++++
- include/hw/ppc/xive.h       | 13 +++--
- hw/intc/pnv_xive.c          | 23 ++++++---
- hw/intc/spapr_xive.c        | 14 +++++-
- hw/intc/spapr_xive_kvm.c    |  9 ++--
- hw/intc/xive.c              | 28 +++++++++--
- hw/ppc/pnv.c                | 94 ++++++++++++++++++++++++-------------
- hw/ppc/pnv_bmc.c            |  8 ++--
- hw/ppc/pnv_psi.c            | 22 ++++-----
- hw/ppc/spapr_irq.c          |  2 +
- 13 files changed, 172 insertions(+), 73 deletions(-)
-
+ static void pnv_powerdown_notify(Notifier *n, void *opaque)
+ {
+-    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
++    PnvMachineState *pnv =3D container_of(n, PnvMachineState, powerdown_=
+notifier);
+=20
+     if (pnv->bmc) {
+         pnv_bmc_powerdown(pnv->bmc);
 --=20
 2.21.0
 
