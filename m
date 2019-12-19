@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CD412654A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:58:06 +0100 (CET)
-Received: from localhost ([::1]:43200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93DF9126544
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:55:21 +0100 (CET)
+Received: from localhost ([::1]:43136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxFd-0007S2-64
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:58:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59532)
+	id 1ihxCy-0003HO-Fx
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:55:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60639)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ihx2U-0005DE-IH
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:44:31 -0500
+ (envelope-from <nsoffer@redhat.com>) id 1ihx7l-0004Cz-Vv
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ihx2S-0006HR-Vz
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:44:30 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37159)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ihx2S-00069p-HK
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:44:28 -0500
-Received: by mail-wr1-x442.google.com with SMTP id w15so6260463wru.4
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:44:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=eoZ+3T8SHVP1YZ3CtrSrrOzb74U6DpoOKtkYh3ULrSw=;
- b=pHMQkhSq0lSR4mGh3Wc4w76i27tVc/97gTef+7cE4jIWfn5td+ozJdLCQkw7U3rdu7
- E6w0dwVJZ4ayUvrN64lC6GAUqBK8PEceKKTmWmSI1w3iaHsEc+BYPn+SpBt1quuP3fsO
- iR/fzReUnN3cYLtiVthgA6qnjsBHOwAFQLmMzJH93qA9zO3dzxzJDcfrSWxcdZPevuDz
- 2hxlZsP/R678YYNfCB6IAewZPhIIkC0fSq58gcDf3gjoSCnSHTO5gBCFKsqcgshsLwdH
- t/7rcWi1dqkDCLQy7MqVB2By7iL/53/OnLbtrMUg6XKf20maNnD66jUEJk8qSwxP3OGw
- ygpQ==
+ (envelope-from <nsoffer@redhat.com>) id 1ihx7k-0005eG-5e
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:57 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53601
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1ihx7j-0005by-VF
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576766995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2jL9y9Irc9aF4WE6Bv2hasioUx0bagEywYcLr/1Y8SQ=;
+ b=IenbsFkxWvB7rKOYPoKYWsPZdlrCtXTnCmdp4osgj6k2mgw1EnmyFqoXeyIV8ets0+C53s
+ Z4haYsiY1S5MBeBZC8cSL7OwDuqk0UEz9FfOzUSTQBot1dqYnlmd3xTW0Hwkv2zLiwtSI0
+ tX628b+YHyWcM5WOY1HQFg9HHHQhQug=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-WZ4ZwiSZOGW7HikR88JtAQ-1; Thu, 19 Dec 2019 09:49:52 -0500
+Received: by mail-oi1-f197.google.com with SMTP id c137so1953864oib.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:49:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=eoZ+3T8SHVP1YZ3CtrSrrOzb74U6DpoOKtkYh3ULrSw=;
- b=HKfE72KHHafn3VeGcv4vZgfl0kS0PCW22ivDnicb7Z1HX2WN4O3XPp3+B9M8No5Qq/
- 1sG8WzPuWEZeEnmS2xu9/Dz0LVj+jHrPbZoZRfOtMmnqy6rbM/dheveE5hqeWvCm5cMK
- NxWcf7E9Rz0+XEKkiFdW5YYiKmoqgzOuyuWI4Ylqzg1ott6eq+4Wqe8UetVTJptsRc+l
- mqBzead5HbI8Y4LRmwpQ7S19cVLOtmQEinp7xL49DAXSuDDPhFLshq6j9nuuR1jnZjta
- xo1T3LFZ60P6YLEvD5Gl1a9Ls0sR4DvrXSOGhceCkSMYewKAb02wn709wLGeoiwhMNb5
- Wkvg==
-X-Gm-Message-State: APjAAAVnjNhxJhpkrVZNgRl7vZNHfpiy3beVJdZ3VN4FYICUa/7F5Jys
- o5dTubkoEIebqpEu11HYqN8gdQ==
-X-Google-Smtp-Source: APXvYqy/HNIlGtSY/5dO6qCMM71vUt0CgX4kZ0HW2A9VCcruwelbh9a0tez1KuEz6s2S99/EhRc43A==
-X-Received: by 2002:adf:9427:: with SMTP id 36mr9826595wrq.166.1576766667084; 
- Thu, 19 Dec 2019 06:44:27 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y6sm6499831wrl.17.2019.12.19.06.44.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 06:44:25 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A52F81FF87;
- Thu, 19 Dec 2019 14:44:24 +0000 (GMT)
-References: <20191211170520.7747-1-alex.bennee@linaro.org>
- <20191211170520.7747-5-alex.bennee@linaro.org>
- <b5cfb77b-b969-f7e8-fb7f-a2eddd394578@greensocs.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: [PATCH v3 04/20] gdbstub: move mem_buf to GDBState and use
- GByteArray
-In-reply-to: <b5cfb77b-b969-f7e8-fb7f-a2eddd394578@greensocs.com>
-Date: Thu, 19 Dec 2019 14:44:24 +0000
-Message-ID: <87sglge5o7.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q2heyqxOxFRRm7uWCGEs4npzMF4RHI6SCahtegVTv98=;
+ b=bxN3ngD/WzUnZcI03RN7KAIwK4M9WA6rqI7F/MrKXSkvsEW2wZOtilruvmdtOo5S6d
+ qcdN73T47cMibnpqGOjxsmp3hEjsLBMOS98fomYEbBKTkAhSaLRCIWfUGUYOZq4+mpDh
+ ROHEo+P8T+Us8cHI8jOZG3cxeAr0ljGrtw3MwUSzSV3WJ+SPoAtUkC79wmaYnGqvVZ4A
+ cyHAea0TnFVoGcS/Jef/6B73abfyHr15OlfJjLtThqUc93rxiNl3NT1zKgro5rpvf3A0
+ ByBLUuvbzVaI22WHKdEkn5xsZApN9cfA3fftc1Ha2pkYH5xRhmG1hl52R2DwWhfP2iiz
+ hYFw==
+X-Gm-Message-State: APjAAAWU2D7FeEZYMQt3tjLWnKS1sv0uLulK5ifXboEnEM0YddbEu3KM
+ c8b5pq38ENTL7Vz/WlJuFOo9Ln0a67P6kDrT03SQZ8JE4pvS4QE3FGWDfnA+xNgB4dpU64/Hehu
+ SygJu91oBNrRPGzYu6X6GH0mxvsb1Fvg=
+X-Received: by 2002:a9d:5885:: with SMTP id x5mr9002008otg.132.1576766991215; 
+ Thu, 19 Dec 2019 06:49:51 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzJ2YVPP2q++PffR82vzMYM6evSuuNMfDVn+4Xh45GWhck689hdYMkkKnPZf7czLvD0S9KRK51gtlsNYq8eaL0=
+X-Received: by 2002:a9d:5885:: with SMTP id x5mr9001968otg.132.1576766990834; 
+ Thu, 19 Dec 2019 06:49:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20191219125151.21482-1-nsoffer@redhat.com>
+ <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
+In-Reply-To: <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Thu, 19 Dec 2019 16:49:10 +0200
+Message-ID: <CAMRbyyurHvOo5hWSScSGdfiB4i11jXKED=4FtWvxUSAcCefJVQ@mail.gmail.com>
+Subject: Re: [PATCH] block: nbd: Fix dirty bitmap context name
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-MC-Unique: WZ4ZwiSZOGW7HikR88JtAQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,72 +82,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.machado@linaro.org,
- Philippe =?utf-8?Q?Mathieu?= =?utf-8?Q?-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, alan.hayward@arm.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Nir Soffer <nirsof@gmail.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Damien Hedde <damien.hedde@greensocs.com> writes:
-
-> On 12/11/19 6:05 PM, Alex Benn=C3=A9e wrote:
->> This is in preparation for further re-factoring of the register API
->> with the rest of the code. Theoretically the read register function
->> could overwrite the MAX_PACKET_LENGTH buffer although currently all
->> registers are well within the size range.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
->> Tested-by: Damien Hedde <damien.hedde@greensocs.com>
->>=20
->> ---
->> v3
->>   - fixed up email on Damien's tags
->> ---
->>  gdbstub.c | 56 ++++++++++++++++++++++++++++++++++---------------------
->>  1 file changed, 35 insertions(+), 21 deletions(-)
->>=20
+On Thu, Dec 19, 2019 at 3:42 PM Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
 >
->> @@ -2092,11 +2105,12 @@ static void handle_query_rcmd(GdbCmdContext *gdb=
-_ctx, void *user_ctx)
->>      }
->>=20=20
->>      len =3D len / 2;
->> -    hextomem(gdb_ctx->mem_buf, gdb_ctx->params[0].data, len);
->> -    gdb_ctx->mem_buf[len++] =3D 0;
->> -    qemu_chr_be_write(gdbserver_state.mon_chr, gdb_ctx->mem_buf, len);
->> +    g_byte_array_set_size(gdbserver_state.mem_buf, len);
+> I'd not call it a "fix".. As it implies something broken.
 >
-> Hi Alex,
+> [edit: OK, now I see that something is broken, and why you called it "fix=
+",
+>   see below]
 >
-> Just found out that the g_byte_array_set_size() above should be removed.
-> hextomem() will append data starting at offset [len] instead of [0] and
-> we end up with an uninitialized prefix in the array.
+> 19.12.2019 15:51, Nir Soffer wrote:
+> > When adding an export with a dirty bitmap, expose the bitmap at:
+> >
+> >      qemu:dirty-bitmap:export-name
+>
+> export-name? But it would be extra information, as client already knows
+> with which export it works.
 
-Oops, fixed. I should assert len is 0 before we start.
+Right, using empty string would be good as well.
 
+> NBD commands NBD_OPT_GET/SET_META_CONTEXT includes export name as a
+> parameter, so, any queried metadata (bitmaps, etc) is always bound to
+> specified export.
 >
->> +    hextomem(gdbserver_state.mem_buf, gdb_ctx->params[0].data, len);
->> +    g_byte_array_append(gdbserver_state.mem_buf, &zero, 1);
->> +    qemu_chr_be_write(gdbserver_state.mon_chr, gdbserver_state.mem_buf-=
->data,
->> +                      gdbserver_state.mem_buf->len);
->>      put_packet("OK");
->> -
->>  }
->>  #endif
->>=20=20
->>=20
+> >
+> > This matches qapi documentation, and user expectations.
 >
-> I did double-checked the rest of the patch and it is it the only resize
-> that passed through v2 review.
+> Hmmm,
+> "qemu" namespace is documented in docs/interop/nbd.txt, not in Qapi,
+> which is also mention in official NBD spec.
 >
-> Regards,
-> Damien
+>
+> Ahh, I see, it's documented as
+>
+> +# @bitmap: Also export the dirty bitmap reachable from @device, so the
+> +#          NBD client can use NBD_OPT_SET_META_CONTEXT with
+> +#          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
+>
+> and it is logical to assume that export name (which is @name argument) is
+> mentioned. But we never mentioned it. This is just documented after
+> removed experimenatl command x-nbd-server-add-bitmap,
+>
+> look at
+>
+> commit 7dc570b3806e5b0a4c9219061556ed5a4a0de80c
+> Author: Eric Blake <eblake@redhat.com>
+> Date:   Fri Jan 11 13:47:18 2019 -0600
+>
+>      nbd: Remove x-nbd-server-add-bitmap
+>
+> ...
+>
+> -# @bitmap-export-name: How the bitmap will be seen by nbd clients
+> -#                      (default @bitmap)
+> -#
+> -# Note: the client must use NBD_OPT_SET_META_CONTEXT with a query of
+> -# "qemu:dirty-bitmap:NAME" (where NAME matches @bitmap-export-name) to a=
+ccess
+> -# the exposed bitmap.
+>
+>
+> So, this "NAME" is saved and now looks incorrect. What should be fixed, i=
+s Qapi
+> documentation.
+>
+>
+> >
+> > Without this, qemu leaks libvirt implementations details to clients by
+> > exposing the bitmap using the actual bitmap name:
+> >
+> >      qemu:dirty-bitmap:bitmap-name
+>
+> Yes, "qemu" namespace specification says:
+> qemu:dirty-bitmap:<dirty-bitmap-export-name>
+>
+> so, <dirty-bitmap-export-name> may be exact bitmap name or may be somethi=
+ng other.
+>
+> We just don't have an interface to set such name. It was in removed
+> x-nbd-server-add-bitmap
+>
+> So, if you need this possibility now, the correct way is to add 'export-b=
+itmap-name'
+> optional parameter to nbd-server-add, like it was in x-nbd-server-add-bit=
+map
 
+I don't think we need such API. How would it help users trying to get
+dirty extents
+from an image?
 
---=20
-Alex Benn=C3=A9e
+> > And all clients need to duplicate code like:
+> >
+> >      meta_context =3D "qemu:dirty-bitmap:backup-" + export_name
+> >
+> > NBD allows exposing multiple bitmaps under "qemu:dirty-bitmap:"
+> > namespace, and clients can query the available bitmaps, but it is not
+> > clear what a client should do if a server provides multiple bitmaps.
+> > ---
+> >   nbd/server.c               |  2 +-
+> >   tests/qemu-iotests/223     | 16 ++++++++--------
+> >   tests/qemu-iotests/223.out |  8 ++++----
+> >   3 files changed, 13 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/nbd/server.c b/nbd/server.c
+> > index 24ebc1a805..f20f2994c0 100644
+> > --- a/nbd/server.c
+> > +++ b/nbd/server.c
+> > @@ -1574,7 +1574,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, u=
+int64_t dev_offset,
+> >           exp->export_bitmap =3D bm;
+> >           assert(strlen(bitmap) <=3D BDRV_BITMAP_MAX_NAME_SIZE);
+> >           exp->export_bitmap_context =3D g_strdup_printf("qemu:dirty-bi=
+tmap:%s",
+> > -                                                     bitmap);
+> > +                                                     name);
+>
+> I think it's a bad idea to automatically name bitmap after export. Actual=
+ly export may
+> have several bitmaps (we just don't support it).
+
+What are the semantics of multiple dirty bitmaps for same export? How
+users are going
+to use this?
+
+>  "NAME" in Qapi spec is a mistake.
+>
+> >           assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SI=
+ZE);
+> >       }
+> >
+> > diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
+> > index ea69cd4b8b..3068a7c280 100755
+> > --- a/tests/qemu-iotests/223
+> > +++ b/tests/qemu-iotests/223
+> > @@ -167,7 +167,7 @@ $QEMU_IO -r -c 'r -P 0x22 512 512' -c 'r -P 0 512k =
+512k' -c 'r -P 0x11 1m 1m' \
+> >   $QEMU_IMG map --output=3Djson --image-opts \
+> >     "$IMG" | _filter_qemu_img_map
+> >   $QEMU_IMG map --output=3Djson --image-opts \
+> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b" | _filter_qemu_img_map
+> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n" | _filter_qemu_img_map
+> >
+> >   echo
+> >   echo "=3D=3D=3D Contrast to small granularity dirty-bitmap =3D=3D=3D"
+> > @@ -175,7 +175,7 @@ echo
+> >
+> >   IMG=3D"driver=3Dnbd,export=3Dn2,server.type=3Dunix,server.path=3D$SOC=
+K_DIR/nbd"
+> >   $QEMU_IMG map --output=3Djson --image-opts \
+> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b2" | _filter_qemu_img_map
+> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n2" | _filter_qemu_img_map
+> >
+> >   echo
+> >   echo "=3D=3D=3D End qemu NBD server =3D=3D=3D"
+> > @@ -199,15 +199,15 @@ echo
+> >   echo "=3D=3D=3D Use qemu-nbd as server =3D=3D=3D"
+> >   echo
+> >
+> > -nbd_server_start_unix_socket -r -f $IMGFMT -B b "$TEST_IMG"
+> > -IMG=3D"driver=3Dnbd,server.type=3Dunix,server.path=3D$nbd_unix_socket"
+> > +nbd_server_start_unix_socket -r -f $IMGFMT -x n -B b "$TEST_IMG"
+> > +IMG=3D"driver=3Dnbd,export=3Dn,server.type=3Dunix,server.path=3D$nbd_u=
+nix_socket"
+> >   $QEMU_IMG map --output=3Djson --image-opts \
+> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b" | _filter_qemu_img_map
+> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n" | _filter_qemu_img_map
+> >
+> > -nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
+> > -IMG=3D"driver=3Dnbd,server.type=3Dunix,server.path=3D$nbd_unix_socket"
+> > +nbd_server_start_unix_socket -f $IMGFMT -x n -B b2 "$TEST_IMG"
+> > +IMG=3D"driver=3Dnbd,export=3Dn,server.type=3Dunix,server.path=3D$nbd_u=
+nix_socket"
+> >   $QEMU_IMG map --output=3Djson --image-opts \
+> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b2" | _filter_qemu_img_map
+> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n" | _filter_qemu_img_map
+> >
+> >   # success, all done
+> >   echo '*** done'
+> > diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+> > index f175598802..9f879add60 100644
+> > --- a/tests/qemu-iotests/223.out
+> > +++ b/tests/qemu-iotests/223.out
+> > @@ -61,7 +61,7 @@ exports available: 2
+> >     max block: 33554432
+> >     available meta contexts: 2
+> >      base:allocation
+> > -   qemu:dirty-bitmap:b
+> > +   qemu:dirty-bitmap:n
+> >    export: 'n2'
+> >     size:  4194304
+> >     flags: 0xced ( flush fua trim zeroes df cache fast-zero )
+> > @@ -70,7 +70,7 @@ exports available: 2
+> >     max block: 33554432
+> >     available meta contexts: 2
+> >      base:allocation
+> > -   qemu:dirty-bitmap:b2
+> > +   qemu:dirty-bitmap:n2
+> >
+> >   =3D=3D=3D Contrast normal status to large granularity dirty-bitmap =
+=3D=3D=3D
+> >
+> > @@ -141,7 +141,7 @@ exports available: 2
+> >     max block: 33554432
+> >     available meta contexts: 2
+> >      base:allocation
+> > -   qemu:dirty-bitmap:b
+> > +   qemu:dirty-bitmap:n
+> >    export: 'n2'
+> >     size:  4194304
+> >     flags: 0xced ( flush fua trim zeroes df cache fast-zero )
+> > @@ -150,7 +150,7 @@ exports available: 2
+> >     max block: 33554432
+> >     available meta contexts: 2
+> >      base:allocation
+> > -   qemu:dirty-bitmap:b2
+> > +   qemu:dirty-bitmap:n2
+> >
+> >   =3D=3D=3D Contrast normal status to large granularity dirty-bitmap =
+=3D=3D=3D
+> >
+> >
+>
+>
+> --
+> Best regards,
+> Vladimir
+
 
