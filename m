@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DF9126544
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:55:21 +0100 (CET)
-Received: from localhost ([::1]:43136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C663126551
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:59:25 +0100 (CET)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihxCy-0003HO-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:55:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60639)
+	id 1ihxGu-00012f-KZ
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:59:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nsoffer@redhat.com>) id 1ihx7l-0004Cz-Vv
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:59 -0500
+ (envelope-from <peterx@redhat.com>) id 1ihx7Y-0003qr-7o
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nsoffer@redhat.com>) id 1ihx7k-0005eG-5e
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:57 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53601
+ (envelope-from <peterx@redhat.com>) id 1ihx7V-0004NZ-Uh
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:43 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59872
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1ihx7j-0005by-VF
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:56 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1ihx7V-0004GI-MG
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:49:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576766995;
+ s=mimecast20190719; t=1576766980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2jL9y9Irc9aF4WE6Bv2hasioUx0bagEywYcLr/1Y8SQ=;
- b=IenbsFkxWvB7rKOYPoKYWsPZdlrCtXTnCmdp4osgj6k2mgw1EnmyFqoXeyIV8ets0+C53s
- Z4haYsiY1S5MBeBZC8cSL7OwDuqk0UEz9FfOzUSTQBot1dqYnlmd3xTW0Hwkv2zLiwtSI0
- tX628b+YHyWcM5WOY1HQFg9HHHQhQug=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-WZ4ZwiSZOGW7HikR88JtAQ-1; Thu, 19 Dec 2019 09:49:52 -0500
-Received: by mail-oi1-f197.google.com with SMTP id c137so1953864oib.11
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:49:52 -0800 (PST)
+ bh=m1ipqa5OHZtHNf2lKB/75/Pigv0YWOWhwRNr4xbpilQ=;
+ b=CITP3TJIohlfTftxnxuF2Pz6PpaG7rmNYVoBRLIzv886As+OHTPaLSCBcFmZtnd5iKyYO2
+ U8Y5munFavU78mwqUEBRi8KBulQvq3lUcD9yHEqZbe0HaE0GPaKsK3d2Ai5AmXP7IB9nMR
+ jMVjZQgiJH+uMLzLjyOmBuhF0EEp4f4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-UkTv5fTTOMiISPdmqxqOdA-1; Thu, 19 Dec 2019 09:49:39 -0500
+Received: by mail-qv1-f72.google.com with SMTP id v3so778731qvm.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:49:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q2heyqxOxFRRm7uWCGEs4npzMF4RHI6SCahtegVTv98=;
- b=bxN3ngD/WzUnZcI03RN7KAIwK4M9WA6rqI7F/MrKXSkvsEW2wZOtilruvmdtOo5S6d
- qcdN73T47cMibnpqGOjxsmp3hEjsLBMOS98fomYEbBKTkAhSaLRCIWfUGUYOZq4+mpDh
- ROHEo+P8T+Us8cHI8jOZG3cxeAr0ljGrtw3MwUSzSV3WJ+SPoAtUkC79wmaYnGqvVZ4A
- cyHAea0TnFVoGcS/Jef/6B73abfyHr15OlfJjLtThqUc93rxiNl3NT1zKgro5rpvf3A0
- ByBLUuvbzVaI22WHKdEkn5xsZApN9cfA3fftc1Ha2pkYH5xRhmG1hl52R2DwWhfP2iiz
- hYFw==
-X-Gm-Message-State: APjAAAWU2D7FeEZYMQt3tjLWnKS1sv0uLulK5ifXboEnEM0YddbEu3KM
- c8b5pq38ENTL7Vz/WlJuFOo9Ln0a67P6kDrT03SQZ8JE4pvS4QE3FGWDfnA+xNgB4dpU64/Hehu
- SygJu91oBNrRPGzYu6X6GH0mxvsb1Fvg=
-X-Received: by 2002:a9d:5885:: with SMTP id x5mr9002008otg.132.1576766991215; 
- Thu, 19 Dec 2019 06:49:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzJ2YVPP2q++PffR82vzMYM6evSuuNMfDVn+4Xh45GWhck689hdYMkkKnPZf7czLvD0S9KRK51gtlsNYq8eaL0=
-X-Received: by 2002:a9d:5885:: with SMTP id x5mr9001968otg.132.1576766990834; 
- Thu, 19 Dec 2019 06:49:50 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QcEDdS4yPAEfgnuLolXGQpaGkrW+DFNO/rchi1OL1H8=;
+ b=TE2N5zhWqlnHrknsndnWEGdoSH1B1KA+ELYjtmy/iY/G4ldDTL2gF/qEB3iDvxFqqf
+ iiezQtECadUe+dVqI98Pr4TLwT1iPP89A2jNUopNZtGgTiYDxN4iT9JCs2atmmfDhl5j
+ XEKBjj6PpSyiVoST3sIWCcENxT3szEkSyuY+C36FzTQ00/Usrjuiot+8WNCmyr3gubdr
+ /fXjeo8oJZS9Sxs/pSQwHK6dpj+PUL0PO68RV5qP8Sa5WxMf0gG8GykfPY1DOb5uDYdO
+ 0uZlAR2GIFpI7T7qLojqB4rT4IGHHnU/OdYtY5QPqahRbZmzn+Rni8h/yfmrARcqv+6Z
+ 3UbA==
+X-Gm-Message-State: APjAAAWim/UZ5NjxpRmcqvLNeMHBlLREeXgXlgRD95v+iMrBvUWWVcpy
+ l5/uR/Ds3gcgigmI1kvUmwgFspmZ4IUTldV3cf7ur0TvqStOkq7qlF4eNNlaWZjOLxpmXZnkH8k
+ RC7kU1wtYetvkSXw=
+X-Received: by 2002:ac8:7b9b:: with SMTP id p27mr7455839qtu.2.1576766978592;
+ Thu, 19 Dec 2019 06:49:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzDSmMC1/uJcrp/vMGki65iYTB2oZsfrn+xtKSFdAmqx+R5HSXTeKZNXOkI5VZxj1YfU58TRg==
+X-Received: by 2002:ac8:7b9b:: with SMTP id p27mr7455812qtu.2.1576766978297;
+ Thu, 19 Dec 2019 06:49:38 -0800 (PST)
+Received: from xz-x1 ([104.156.64.74])
+ by smtp.gmail.com with ESMTPSA id f42sm1969151qta.0.2019.12.19.06.49.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 06:49:37 -0800 (PST)
+Date: Thu, 19 Dec 2019 09:49:36 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
+Message-ID: <20191219144936.GB50561@xz-x1>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-9-eric.auger@redhat.com>
+ <20191210193342.GJ3352@xz-x1>
+ <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
+ <20191219133308.GA4246@xz-x1>
+ <9d58b293-ada0-353e-bba2-ad1f538dfc62@redhat.com>
 MIME-Version: 1.0
-References: <20191219125151.21482-1-nsoffer@redhat.com>
- <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
-In-Reply-To: <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Thu, 19 Dec 2019 16:49:10 +0200
-Message-ID: <CAMRbyyurHvOo5hWSScSGdfiB4i11jXKED=4FtWvxUSAcCefJVQ@mail.gmail.com>
-Subject: Re: [PATCH] block: nbd: Fix dirty bitmap context name
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-MC-Unique: WZ4ZwiSZOGW7HikR88JtAQ-1
+In-Reply-To: <9d58b293-ada0-353e-bba2-ad1f538dfc62@redhat.com>
+X-MC-Unique: UkTv5fTTOMiISPdmqxqOdA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -82,237 +91,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Nir Soffer <nirsof@gmail.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ bharatb.linux@gmail.com, qemu-arm@nongnu.org, dgilbert@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 3:42 PM Vladimir Sementsov-Ogievskiy
-<vsementsov@virtuozzo.com> wrote:
->
-> I'd not call it a "fix".. As it implies something broken.
->
-> [edit: OK, now I see that something is broken, and why you called it "fix=
-",
->   see below]
->
-> 19.12.2019 15:51, Nir Soffer wrote:
-> > When adding an export with a dirty bitmap, expose the bitmap at:
-> >
-> >      qemu:dirty-bitmap:export-name
->
-> export-name? But it would be extra information, as client already knows
-> with which export it works.
+On Thu, Dec 19, 2019 at 03:38:34PM +0100, Auger Eric wrote:
+> Hi Peter,
+>=20
+> On 12/19/19 2:33 PM, Peter Xu wrote:
+> > On Thu, Dec 19, 2019 at 11:30:40AM +0100, Auger Eric wrote:
+> >> Hi Peter,
+> >> On 12/10/19 8:33 PM, Peter Xu wrote:
+> >>> On Fri, Nov 22, 2019 at 07:29:31PM +0100, Eric Auger wrote:
+> >>>> This patch implements the translate callback
+> >>>>
+> >>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >>>>
+> >>>> ---
+> >>>>
+> >>>> v10 -> v11:
+> >>>> - take into account the new value struct and use
+> >>>>   g_tree_lookup_extended
+> >>>> - switched to error_report_once
+> >>>>
+> >>>> v6 -> v7:
+> >>>> - implemented bypass-mode
+> >>>>
+> >>>> v5 -> v6:
+> >>>> - replace error_report by qemu_log_mask
+> >>>>
+> >>>> v4 -> v5:
+> >>>> - check the device domain is not NULL
+> >>>> - s/printf/error_report
+> >>>> - set flags to IOMMU_NONE in case of all translation faults
+> >>>> ---
+> >>>>  hw/virtio/trace-events   |  1 +
+> >>>>  hw/virtio/virtio-iommu.c | 63 +++++++++++++++++++++++++++++++++++++=
+++-
+> >>>>  2 files changed, 63 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> >>>> index f25359cee2..de7cbb3c8f 100644
+> >>>> --- a/hw/virtio/trace-events
+> >>>> +++ b/hw/virtio/trace-events
+> >>>> @@ -72,3 +72,4 @@ virtio_iommu_get_endpoint(uint32_t ep_id) "Alloc e=
+ndpoint=3D%d"
+> >>>>  virtio_iommu_put_endpoint(uint32_t ep_id) "Free endpoint=3D%d"
+> >>>>  virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=3D%d"
+> >>>>  virtio_iommu_put_domain(uint32_t domain_id) "Free domain=3D%d"
+> >>>> +virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, =
+uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"
+> >>>> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> >>>> index f0a56833a2..a83666557b 100644
+> >>>> --- a/hw/virtio/virtio-iommu.c
+> >>>> +++ b/hw/virtio/virtio-iommu.c
+> >>>> @@ -412,19 +412,80 @@ static IOMMUTLBEntry virtio_iommu_translate(IO=
+MMUMemoryRegion *mr, hwaddr addr,
+> >>>>                                              int iommu_idx)
+> >>>>  {
+> >>>>      IOMMUDevice *sdev =3D container_of(mr, IOMMUDevice, iommu_mr);
+> >>>> +    viommu_interval interval, *mapping_key;
+> >>>> +    viommu_mapping *mapping_value;
+> >>>> +    VirtIOIOMMU *s =3D sdev->viommu;
+> >>>> +    viommu_endpoint *ep;
+> >>>> +    bool bypass_allowed;
+> >>>>      uint32_t sid;
+> >>>> +    bool found;
+> >>>> +
+> >>>> +    interval.low =3D addr;
+> >>>> +    interval.high =3D addr + 1;
+> >>>> =20
+> >>>>      IOMMUTLBEntry entry =3D {
+> >>>>          .target_as =3D &address_space_memory,
+> >>>>          .iova =3D addr,
+> >>>>          .translated_addr =3D addr,
+> >>>> -        .addr_mask =3D ~(hwaddr)0,
+> >>>> +        .addr_mask =3D (1 << ctz32(s->config.page_size_mask)) - 1,
+> >>>>          .perm =3D IOMMU_NONE,
+> >>>>      };
+> >>>> =20
+> >>>> +    bypass_allowed =3D virtio_has_feature(s->acked_features,
+> >>>> +                                        VIRTIO_IOMMU_F_BYPASS);
+> >>>> +
+> >>>
+> >>> Would it be easier to check bypass_allowed here once and then drop th=
+e
+> >>> latter [1] and [2] check?
+> >> bypass_allowed does not mean you systematically bypass. You bypass if
+> >> the SID is unknown or if the device is not attached to any domain.
+> >> Otherwise you translate. But maybe I miss your point.
+> >=20
+> > Ah ok, then could I ask how will this VIRTIO_IOMMU_F_BYPASS be used?
+> > For example, I think VT-d defines passthrough in a totally different
+> > way in that the PT mark will be stored in the per-device context
+> > entries, then we can allow a specific device to be pass-through when
+> > doing DMA.  That information is explicit (e.g., unknown SID will
+> > always fail the DMA), and per-device.
+> >=20
+> > Here do you mean that you just don't put a device into any domain to
+> > show it wants to use PT?  Then I'm not sure how do you identify
+> > whether this is a legal PT or a malicious device (e.g., an unknown
+> > device that even does not have any driver bound to it, which will also
+> > satisfy "unknown SID" and "not attached to any domain", iiuc).
+>=20
+> The virtio-iommu spec currently says:
+>=20
+> "If the VIRTIO_IOMMU_F_BYPASS feature is negotiated, all accesses from
+> unattached endpoints are
+> allowed and translated by the IOMMU using the identity function. If the
+> feature is not negotiated, any
+> memory access from an unattached endpoint fails. Upon attaching an
+> endpoint in bypass mode to a new
+> domain, any memory access from the endpoint fails, since the domain does
+> not contain any mapping.
+> "
+>=20
+> I guess this can serve the purpose of devices doing early accesses,
+> before the guest OS gets the hand and maps them?
 
-Right, using empty string would be good as well.
+OK, so there's no global enablement knob for virtio-iommu? Hmm... Then:
 
-> NBD commands NBD_OPT_GET/SET_META_CONTEXT includes export name as a
-> parameter, so, any queried metadata (bitmaps, etc) is always bound to
-> specified export.
->
-> >
-> > This matches qapi documentation, and user expectations.
->
-> Hmmm,
-> "qemu" namespace is documented in docs/interop/nbd.txt, not in Qapi,
-> which is also mention in official NBD spec.
->
->
-> Ahh, I see, it's documented as
->
-> +# @bitmap: Also export the dirty bitmap reachable from @device, so the
-> +#          NBD client can use NBD_OPT_SET_META_CONTEXT with
-> +#          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
->
-> and it is logical to assume that export name (which is @name argument) is
-> mentioned. But we never mentioned it. This is just documented after
-> removed experimenatl command x-nbd-server-add-bitmap,
->
-> look at
->
-> commit 7dc570b3806e5b0a4c9219061556ed5a4a0de80c
-> Author: Eric Blake <eblake@redhat.com>
-> Date:   Fri Jan 11 13:47:18 2019 -0600
->
->      nbd: Remove x-nbd-server-add-bitmap
->
-> ...
->
-> -# @bitmap-export-name: How the bitmap will be seen by nbd clients
-> -#                      (default @bitmap)
-> -#
-> -# Note: the client must use NBD_OPT_SET_META_CONTEXT with a query of
-> -# "qemu:dirty-bitmap:NAME" (where NAME matches @bitmap-export-name) to a=
-ccess
-> -# the exposed bitmap.
->
->
-> So, this "NAME" is saved and now looks incorrect. What should be fixed, i=
-s Qapi
-> documentation.
->
->
-> >
-> > Without this, qemu leaks libvirt implementations details to clients by
-> > exposing the bitmap using the actual bitmap name:
-> >
-> >      qemu:dirty-bitmap:bitmap-name
->
-> Yes, "qemu" namespace specification says:
-> qemu:dirty-bitmap:<dirty-bitmap-export-name>
->
-> so, <dirty-bitmap-export-name> may be exact bitmap name or may be somethi=
-ng other.
->
-> We just don't have an interface to set such name. It was in removed
-> x-nbd-server-add-bitmap
->
-> So, if you need this possibility now, the correct way is to add 'export-b=
-itmap-name'
-> optional parameter to nbd-server-add, like it was in x-nbd-server-add-bit=
-map
+  - This flag is a must for all virtio-iommu emulation, right?
+    (otherwise I can't see how system bootstraps..)
 
-I don't think we need such API. How would it help users trying to get
-dirty extents
-from an image?
+  - Should this flag be gone right after OS starts (otherwise I think
+    we still have the issue that any malicious device can be seen as
+    in PT mode as default)?  How is that done?
 
-> > And all clients need to duplicate code like:
-> >
-> >      meta_context =3D "qemu:dirty-bitmap:backup-" + export_name
-> >
-> > NBD allows exposing multiple bitmaps under "qemu:dirty-bitmap:"
-> > namespace, and clients can query the available bitmaps, but it is not
-> > clear what a client should do if a server provides multiple bitmaps.
-> > ---
-> >   nbd/server.c               |  2 +-
-> >   tests/qemu-iotests/223     | 16 ++++++++--------
-> >   tests/qemu-iotests/223.out |  8 ++++----
-> >   3 files changed, 13 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/nbd/server.c b/nbd/server.c
-> > index 24ebc1a805..f20f2994c0 100644
-> > --- a/nbd/server.c
-> > +++ b/nbd/server.c
-> > @@ -1574,7 +1574,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, u=
-int64_t dev_offset,
-> >           exp->export_bitmap =3D bm;
-> >           assert(strlen(bitmap) <=3D BDRV_BITMAP_MAX_NAME_SIZE);
-> >           exp->export_bitmap_context =3D g_strdup_printf("qemu:dirty-bi=
-tmap:%s",
-> > -                                                     bitmap);
-> > +                                                     name);
->
-> I think it's a bad idea to automatically name bitmap after export. Actual=
-ly export may
-> have several bitmaps (we just don't support it).
+Thanks,
 
-What are the semantics of multiple dirty bitmaps for same export? How
-users are going
-to use this?
-
->  "NAME" in Qapi spec is a mistake.
->
-> >           assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SI=
-ZE);
-> >       }
-> >
-> > diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-> > index ea69cd4b8b..3068a7c280 100755
-> > --- a/tests/qemu-iotests/223
-> > +++ b/tests/qemu-iotests/223
-> > @@ -167,7 +167,7 @@ $QEMU_IO -r -c 'r -P 0x22 512 512' -c 'r -P 0 512k =
-512k' -c 'r -P 0x11 1m 1m' \
-> >   $QEMU_IMG map --output=3Djson --image-opts \
-> >     "$IMG" | _filter_qemu_img_map
-> >   $QEMU_IMG map --output=3Djson --image-opts \
-> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b" | _filter_qemu_img_map
-> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n" | _filter_qemu_img_map
-> >
-> >   echo
-> >   echo "=3D=3D=3D Contrast to small granularity dirty-bitmap =3D=3D=3D"
-> > @@ -175,7 +175,7 @@ echo
-> >
-> >   IMG=3D"driver=3Dnbd,export=3Dn2,server.type=3Dunix,server.path=3D$SOC=
-K_DIR/nbd"
-> >   $QEMU_IMG map --output=3Djson --image-opts \
-> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b2" | _filter_qemu_img_map
-> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n2" | _filter_qemu_img_map
-> >
-> >   echo
-> >   echo "=3D=3D=3D End qemu NBD server =3D=3D=3D"
-> > @@ -199,15 +199,15 @@ echo
-> >   echo "=3D=3D=3D Use qemu-nbd as server =3D=3D=3D"
-> >   echo
-> >
-> > -nbd_server_start_unix_socket -r -f $IMGFMT -B b "$TEST_IMG"
-> > -IMG=3D"driver=3Dnbd,server.type=3Dunix,server.path=3D$nbd_unix_socket"
-> > +nbd_server_start_unix_socket -r -f $IMGFMT -x n -B b "$TEST_IMG"
-> > +IMG=3D"driver=3Dnbd,export=3Dn,server.type=3Dunix,server.path=3D$nbd_u=
-nix_socket"
-> >   $QEMU_IMG map --output=3Djson --image-opts \
-> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b" | _filter_qemu_img_map
-> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n" | _filter_qemu_img_map
-> >
-> > -nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
-> > -IMG=3D"driver=3Dnbd,server.type=3Dunix,server.path=3D$nbd_unix_socket"
-> > +nbd_server_start_unix_socket -f $IMGFMT -x n -B b2 "$TEST_IMG"
-> > +IMG=3D"driver=3Dnbd,export=3Dn,server.type=3Dunix,server.path=3D$nbd_u=
-nix_socket"
-> >   $QEMU_IMG map --output=3Djson --image-opts \
-> > -  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:b2" | _filter_qemu_img_map
-> > +  "$IMG,x-dirty-bitmap=3Dqemu:dirty-bitmap:n" | _filter_qemu_img_map
-> >
-> >   # success, all done
-> >   echo '*** done'
-> > diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-> > index f175598802..9f879add60 100644
-> > --- a/tests/qemu-iotests/223.out
-> > +++ b/tests/qemu-iotests/223.out
-> > @@ -61,7 +61,7 @@ exports available: 2
-> >     max block: 33554432
-> >     available meta contexts: 2
-> >      base:allocation
-> > -   qemu:dirty-bitmap:b
-> > +   qemu:dirty-bitmap:n
-> >    export: 'n2'
-> >     size:  4194304
-> >     flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-> > @@ -70,7 +70,7 @@ exports available: 2
-> >     max block: 33554432
-> >     available meta contexts: 2
-> >      base:allocation
-> > -   qemu:dirty-bitmap:b2
-> > +   qemu:dirty-bitmap:n2
-> >
-> >   =3D=3D=3D Contrast normal status to large granularity dirty-bitmap =
-=3D=3D=3D
-> >
-> > @@ -141,7 +141,7 @@ exports available: 2
-> >     max block: 33554432
-> >     available meta contexts: 2
-> >      base:allocation
-> > -   qemu:dirty-bitmap:b
-> > +   qemu:dirty-bitmap:n
-> >    export: 'n2'
-> >     size:  4194304
-> >     flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-> > @@ -150,7 +150,7 @@ exports available: 2
-> >     max block: 33554432
-> >     available meta contexts: 2
-> >      base:allocation
-> > -   qemu:dirty-bitmap:b2
-> > +   qemu:dirty-bitmap:n2
-> >
-> >   =3D=3D=3D Contrast normal status to large granularity dirty-bitmap =
-=3D=3D=3D
-> >
-> >
->
->
-> --
-> Best regards,
-> Vladimir
+--=20
+Peter Xu
 
 
