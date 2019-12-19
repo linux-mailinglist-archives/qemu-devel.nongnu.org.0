@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23A012686D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:50:10 +0100 (CET)
-Received: from localhost ([::1]:45602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E894126875
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 18:53:03 +0100 (CET)
+Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihzw9-0001PP-IG
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:50:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46774)
+	id 1ihzyw-0005d7-72
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 12:53:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ihzYJ-0006ug-L0
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:33 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ihzYT-00071X-R0
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ihzYI-0007jv-37
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:31 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41951
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1ihzYL-0007sD-Be
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47358
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzYH-0007gd-U7
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:29 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihzYL-0007qu-6t
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:25:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576776329;
+ s=mimecast20190719; t=1576776331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U04431BIeN0FzPjbcC98pWRFVUrdHv07OhSxu9XIOqY=;
- b=HKd2TtDDuvNniVyIOGLbVdVrDLtGkdCb3RW5Ik5qq5OGaZ90Ra+x3XCOIgyQochUQX0RVv
- zAEp0ADfZnr6nC96UE2bo5hRAc855UtN5/lR+2kA9unrZtXH7d6iAiPB15fUsrDEAz3+SM
- wNfSVW2wO5qwld4wS9VB3b/mKcb//3c=
+ bh=FEhUuCcQRA4LeWBGXMjUbkFOU0DMtH4AppbK9cHRxWA=;
+ b=CZ6LbqP0T8zJhDPtny2b+xw2nuKbJykzbUV2axlcmPm+HlEo7e72cJ1xYfGFFjDfu4thue
+ Tf5D35vakabd1nnuZ6IYftNA0AdnBUQTUeDco2Pn0QTneD2i3ZofJCqeEeysdgDAPGU/vw
+ EnAROrtUtuaF4ut8ffhbcb5cSEX0n1U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-vWQQS20QNe-13krOr3MLug-1; Thu, 19 Dec 2019 12:25:26 -0500
+ us-mta-14-1V0YNZJoPpKrQ3VR4xDFLw-1; Thu, 19 Dec 2019 12:25:28 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06EC7107ACC4;
- Thu, 19 Dec 2019 17:25:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F03E800D48;
+ Thu, 19 Dec 2019 17:25:27 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C64F620C0;
- Thu, 19 Dec 2019 17:25:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D37E620C0;
+ Thu, 19 Dec 2019 17:25:25 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/30] iotests: 210: Convert to VM.blockdev_create()
-Date: Thu, 19 Dec 2019 18:24:32 +0100
-Message-Id: <20191219172441.7289-22-kwolf@redhat.com>
+Subject: [PULL 22/30] iotests: 212: Convert to VM.blockdev_create()
+Date: Thu, 19 Dec 2019 18:24:33 +0100
+Message-Id: <20191219172441.7289-23-kwolf@redhat.com>
 In-Reply-To: <20191219172441.7289-1-kwolf@redhat.com>
 References: <20191219172441.7289-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: vWQQS20QNe-13krOr3MLug-1
+X-MC-Unique: 1V0YNZJoPpKrQ3VR4xDFLw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,15 +79,15 @@ VM.blockdev_create() offered by iotests.py.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/210 | 81 +++++++++++++++++++-----------------------
- 1 file changed, 36 insertions(+), 45 deletions(-)
+ tests/qemu-iotests/212 | 101 +++++++++++++++++++----------------------
+ 1 file changed, 46 insertions(+), 55 deletions(-)
 
-diff --git a/tests/qemu-iotests/210 b/tests/qemu-iotests/210
-index 565e3b7b9b..4ca0fe26ef 100755
---- a/tests/qemu-iotests/210
-+++ b/tests/qemu-iotests/210
+diff --git a/tests/qemu-iotests/212 b/tests/qemu-iotests/212
+index 42b74f208b..8f3ccc7b15 100755
+--- a/tests/qemu-iotests/212
++++ b/tests/qemu-iotests/212
 @@ -26,15 +26,6 @@ from iotests import imgfmt
- iotests.verify_image_format(supported_fmts=3D['luks'])
+ iotests.verify_image_format(supported_fmts=3D['parallels'])
  iotests.verify_protocol(supported=3D['file'])
 =20
 -def blockdev_create(vm, options):
@@ -100,10 +100,10 @@ tions,
 -        vm.run_job('job0')
 -    iotests.log("")
 -
- with iotests.FilePath('t.luks') as disk_path, \
+ with iotests.FilePath('t.parallels') as disk_path, \
       iotests.VM() as vm:
 =20
-@@ -49,18 +40,18 @@ with iotests.FilePath('t.luks') as disk_path, \
+@@ -47,16 +38,16 @@ with iotests.FilePath('t.parallels') as disk_path, \
      size =3D 128 * 1024 * 1024
 =20
      vm.launch()
@@ -120,19 +120,14 @@ les])
 =20
 -    blockdev_create(vm, { 'driver': imgfmt,
 -                          'file': 'imgfile',
--                          'key-secret': 'keysec0',
--                          'size': size,
--                          'iter-time': 10 })
+-                          'size': size })
 +    vm.blockdev_create({ 'driver': imgfmt,
 +                         'file': 'imgfile',
-+                         'key-secret': 'keysec0',
-+                         'size': size,
-+                         'iter-time': 10 })
++                         'size': size })
      vm.shutdown()
 =20
-     # TODO Proper support for images to be used with imgopts and/or protoc=
-ols
-@@ -79,22 +70,22 @@ with iotests.FilePath('t.luks') as disk_path, \
+     iotests.img_info_log(disk_path)
+@@ -71,16 +62,16 @@ with iotests.FilePath('t.parallels') as disk_path, \
      size =3D 64 * 1024 * 1024
 =20
      vm.launch()
@@ -145,13 +140,7 @@ ols
 -                              'filename': disk_path,
 -                          },
 -                          'size': size,
--                          'key-secret': 'keysec0',
--                          'cipher-alg': 'twofish-128',
--                          'cipher-mode': 'ctr',
--                          'ivgen-alg': 'plain64',
--                          'ivgen-hash-alg': 'md5',
--                          'hash-alg': 'sha1',
--                          'iter-time': 10 })
+-                          'cluster-size': 1048576 })
 +    vm.blockdev_create({ 'driver': 'file',
 +                         'filename': disk_path,
 +                         'size': 0 })
@@ -161,19 +150,39 @@ ols
 +                             'filename': disk_path,
 +                         },
 +                         'size': size,
-+                         'key-secret': 'keysec0',
-+                         'cipher-alg': 'twofish-128',
-+                         'cipher-mode': 'ctr',
-+                         'ivgen-alg': 'plain64',
-+                         'ivgen-hash-alg': 'md5',
-+                         'hash-alg': 'sha1',
-+                         'iter-time': 10 })
++                         'cluster-size': 1048576 })
      vm.shutdown()
 =20
-     # TODO Proper support for images to be used with imgopts and/or protoc=
-ols
-@@ -113,9 +104,9 @@ with iotests.FilePath('t.luks') as disk_path, \
-     size =3D 64 * 1024 * 1024
+     iotests.img_info_log(disk_path)
+@@ -95,16 +86,16 @@ with iotests.FilePath('t.parallels') as disk_path, \
+     size =3D 32 * 1024 * 1024
+=20
+     vm.launch()
+-    blockdev_create(vm, { 'driver': 'file',
+-                          'filename': disk_path,
+-                          'size': 0 })
+-    blockdev_create(vm, { 'driver': imgfmt,
+-                          'file': {
+-                              'driver': 'file',
+-                              'filename': disk_path,
+-                          },
+-                          'size': size,
+-                          'cluster-size': 65536 })
++    vm.blockdev_create({ 'driver': 'file',
++                         'filename': disk_path,
++                         'size': 0 })
++    vm.blockdev_create({ 'driver': imgfmt,
++                         'file': {
++                             'driver': 'file',
++                             'filename': disk_path,
++                         },
++                         'size': size,
++                         'cluster-size': 65536 })
+     vm.shutdown()
+=20
+     iotests.img_info_log(disk_path)
+@@ -116,9 +107,9 @@ with iotests.FilePath('t.parallels') as disk_path, \
+     iotests.log("")
 =20
      vm.launch()
 -    blockdev_create(vm, { 'driver': imgfmt,
@@ -185,41 +194,67 @@ ols
      vm.shutdown()
 =20
      #
-@@ -126,11 +117,11 @@ with iotests.FilePath('t.luks') as disk_path, \
+@@ -129,9 +120,9 @@ with iotests.FilePath('t.parallels') as disk_path, \
 =20
      vm.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3Dnode0' % (dis=
 k_path))
      vm.launch()
 -    blockdev_create(vm, { 'driver': imgfmt,
 -                          'file': 'node0',
--                          'key-secret': 'keysec0',
--                          'size': 0,
--                          'iter-time': 10 })
+-                          'size': 0 })
 +    vm.blockdev_create({ 'driver': imgfmt,
 +                         'file': 'node0',
-+                         'key-secret': 'keysec0',
-+                         'size': 0,
-+                         'iter-time': 10 })
++                         'size': 0 })
      vm.shutdown()
 =20
-     # TODO Proper support for images to be used with imgopts and/or protoc=
-ols
-@@ -157,10 +148,10 @@ with iotests.FilePath('t.luks') as disk_path, \
+     iotests.img_info_log(disk_path)
+@@ -143,9 +134,9 @@ with iotests.FilePath('t.parallels') as disk_path, \
+     iotests.log("")
 =20
      vm.launch()
-     for size in [ 18446744073709551104, 9223372036854775808, 9223372036854=
-775296 ]:
+-    blockdev_create(vm, { 'driver': imgfmt,
+-                          'file': 'node0',
+-                          'size': 4503599627369984})
++    vm.blockdev_create({ 'driver': imgfmt,
++                         'file': 'node0',
++                         'size': 4503599627369984})
+     vm.shutdown()
+=20
+     iotests.img_info_log(disk_path)
+@@ -171,9 +162,9 @@ with iotests.FilePath('t.parallels') as disk_path, \
+     vm.launch()
+     for size in [ 1234, 18446744073709551104, 9223372036854775808,
+                   9223372036854775296, 4503599627370497 ]:
 -        blockdev_create(vm, { 'driver': imgfmt,
 -                              'file': 'node0',
--                              'key-secret': 'keysec0',
 -                              'size': size })
 +        vm.blockdev_create({ 'driver': imgfmt,
 +                             'file': 'node0',
-+                             'key-secret': 'keysec0',
 +                             'size': size })
      vm.shutdown()
 =20
      #
+@@ -185,12 +176,12 @@ with iotests.FilePath('t.parallels') as disk_path, \
+     vm.launch()
+     for csize in [ 1234, 128, 4294967296, 9223372036854775808,
+                    18446744073709551104, 0 ]:
+-        blockdev_create(vm, { 'driver': imgfmt,
+-                              'file': 'node0',
+-                              'size': 67108864,
+-                              'cluster-size': csize })
+-    blockdev_create(vm, { 'driver': imgfmt,
+-                          'file': 'node0',
+-                          'size': 281474976710656,
+-                          'cluster-size': 512 })
++        vm.blockdev_create({ 'driver': imgfmt,
++                             'file': 'node0',
++                             'size': 67108864,
++                             'cluster-size': csize })
++    vm.blockdev_create({ 'driver': imgfmt,
++                         'file': 'node0',
++                         'size': 281474976710656,
++                         'cluster-size': 512 })
+     vm.shutdown()
 --=20
 2.20.1
 
