@@ -2,114 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3143C126470
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:19:01 +0100 (CET)
-Received: from localhost ([::1]:42346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB2D126446
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:08:22 +0100 (CET)
+Received: from localhost ([::1]:42128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwdn-0001fv-MW
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:18:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
+	id 1ihwTV-00025Q-2F
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:08:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <k.jensen@samsung.com>) id 1ihvZ8-0001qu-EF
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:08 -0500
+ (envelope-from <k.jensen@samsung.com>) id 1ihvZA-0001th-Rv
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <k.jensen@samsung.com>) id 1ihvZ5-0007IS-9J
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:05 -0500
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:47937)
+ (envelope-from <k.jensen@samsung.com>) id 1ihvZ6-0007Js-Mx
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:07 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:55952)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <k.jensen@samsung.com>)
- id 1ihvZ3-0006bY-26
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:02 -0500
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20191219130947euoutp01904fb500e16c563e4a75c064add32e7b~hx8OLargS1365313653euoutp01x
+ id 1ihvZ4-0006d8-Ut
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:10:03 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20191219130947euoutp02e3aa583cee7b9a214c7d0923ba16f985~hx8OubyVs0729207292euoutp022
  for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 13:09:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20191219130947euoutp01904fb500e16c563e4a75c064add32e7b~hx8OLargS1365313653euoutp01x
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20191219130947euoutp02e3aa583cee7b9a214c7d0923ba16f985~hx8OubyVs0729207292euoutp022
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1576760987;
- bh=jpBBUmXuEntRtAATca5MMmA233TrPWVY0pW4njezoZk=;
+ bh=J52Ee8yLVwFFWFbwVb/4hamNSwJ9OrM7CimFMdsvtE4=;
  h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=MclTpL028qTk+BeTwDYRnvn7J9ACjoNBbJH2l18sUJE4goIPb8UaY5YkKyYinnufN
- Ol6LCC704wh0iZq34NMW6e/01tC4psT1+lyP5KXb5hP/sQXTEU8BBFgbVko6AJgOCJ
- 2ZRQolDn78R6pyBEolG/QVHOszalEsgxz40rF5Zc=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20191219130946eucas1p1d909f0c5084481e3718d943989fc8908~hx8N9I4BY1798017980eucas1p17;
- Thu, 19 Dec 2019 13:09:46 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 79.5F.60698.A967BFD5; Thu, 19
- Dec 2019 13:09:46 +0000 (GMT)
+ b=VDKTptXYr39pTQt7S1+qLyxrK27N431mr7pXGS5GIrLs/OZdOL3EatEiMt8wKWCxi
+ J6f7RJ/MeRmFBr54MwU3Z31GmNRX/9sTMGnkCFZmyit5zxszbBQtHOiSssueiKNeBL
+ zAEl8TwF9GYTcX6Vmin1QwTYz2G5ROnG31Latv2s=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20191219130947eucas1p21f710fe384e7474038daa513cd31d056~hx8OjyWYC0340903409eucas1p2R;
+ Thu, 19 Dec 2019 13:09:47 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 4A.05.60679.B967BFD5; Thu, 19
+ Dec 2019 13:09:47 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130946eucas1p1f58691ec4abdc3b1f42a082450758a72~hx8NjMZMj1459314593eucas1p1P;
- Thu, 19 Dec 2019 13:09:46 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20191219130947eucas1p21cf4cec3d0b63850ab0e35aa5fab62b8~hx8OS3ZT30340903409eucas1p2Q;
+ Thu, 19 Dec 2019 13:09:47 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20191219130946eusmtrp231dac4571352dd77864faa6dbbde5597~hx8NiqWDP3120131201eusmtrp2H;
- Thu, 19 Dec 2019 13:09:46 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-6f-5dfb769a7eb8
+ 20191219130947eusmtrp24a4e05405dde87c05fa03375162911aa~hx8OSVQYV3120131201eusmtrp2M;
+ Thu, 19 Dec 2019 13:09:47 +0000 (GMT)
+X-AuditID: cbfec7f4-0e5ff7000001ed07-ef-5dfb769bc9c1
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id DC.4D.08375.A967BFD5; Thu, 19
- Dec 2019 13:09:46 +0000 (GMT)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id CD.4D.08375.B967BFD5; Thu, 19
+ Dec 2019 13:09:47 +0000 (GMT)
 Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130946eusmtip249537aee15a02bb8693ab15d862616e2~hx8Na3Ej43240732407eusmtip24;
- Thu, 19 Dec 2019 13:09:46 +0000 (GMT)
+ 20191219130947eusmtip250e71a982efa454b5556bf7f7797212c~hx8OJR6K30178401784eusmtip2B;
+ Thu, 19 Dec 2019 13:09:47 +0000 (GMT)
 Received: from CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) by
  CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
- Server (TLS) id 15.0.1320.4; Thu, 19 Dec 2019 13:09:45 +0000
+ Server (TLS) id 15.0.1320.4; Thu, 19 Dec 2019 13:09:46 +0000
 Received: from apples.local (106.110.32.41) by CAMSVWEXC01.scsc.local
  (106.1.227.71) with Microsoft SMTP Server id 15.0.1320.4 via Frontend
- Transport; Thu, 19 Dec 2019 13:09:45 +0000
+ Transport; Thu, 19 Dec 2019 13:09:46 +0000
 From: Klaus Jensen <k.jensen@samsung.com>
 To: <qemu-block@nongnu.org>
-Subject: [PATCH v4 18/24] pci: pass along the return value of dma_memory_rw
-Date: Thu, 19 Dec 2019 14:09:15 +0100
-Message-ID: <20191219130921.309264-19-k.jensen@samsung.com>
+Subject: [PATCH v4 19/24] nvme: handle dma errors
+Date: Thu, 19 Dec 2019 14:09:16 +0100
+Message-ID: <20191219130921.309264-20-k.jensen@samsung.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219130921.309264-1-k.jensen@samsung.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCKsWRmVeSWpSXmKPExsWy7djPc7qzyn7HGvSfsbDY3N/OaDHp0DVG
+Content-Type: text/plain
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOKsWRmVeSWpSXmKPExsWy7djP87qzy37HGjSfU7HY3N/OaDHp0DVG
  iyUXUy3m3VK2mPWunc3ieO8OFgc2j02rOtk87lzbw+bx5NpmJo/3+66yBbBEcdmkpOZklqUW
- 6dslcGXMOzyNqeAqR8Xbme+YGhjb2bsYOTkkBEwk9t0+yAhiCwmsYJQ4sqqwi5ELyP7CKPF0
- 8xMmCOczo8TJk4uZYTr+nD7GBtGxnFFi0ilJuKIjXS/YIZwzjBKHN9xigajaxSixb78iiM0m
- oCmx/c9/sLiIgLRE+9VJrCANzALXGSUO/b4IdpSwgLfEvSNrwFawCKhKPHu2DexAXgFribmv
- p7FCnCEvsfXbJzCbEyi+pfc2VI2gxMmZT8AWMAPVNG+dzQyyQEJgFbvE8eX9bBDNLhJvvkyD
- hoCwxKvjW6BsGYn/O+czQTR0M0r0ffgK1T2DUWL6su9A3RxAjrVE35kcEJMZ6J31u/Qheh0l
- Jn48wwpRwSdx460gxA18EpO2TWeGCPNKdLQJQVSrSexo2so4gVF5FpKrZyG5ehbC/AWMzKsY
- xVNLi3PTU4uN81LL9YoTc4tL89L1kvNzNzEC08rpf8e/7mDc9yfpEKMAB6MSD69D2u9YIdbE
- suLK3EOMEhzMSiK8tzt+xgrxpiRWVqUW5ccXleakFh9ilOZgURLnNV70MlZIID2xJDU7NbUg
- tQgmy8TBKdXAqJeWOm1vZKyxdFLAXYWqaz47+E7+M/hzf7bXZul6+STuW/7b8v6eypdp2HZ/
- z8bUtZ837lB9wXX5ig/zweT4xIlTZi05tzvt2eeSly0hdwvWda+YcnoN7zTZc/+aDVn/x1k9
- /NTI8MfokdFix8JXRukyQTXfDsj4pArrLPp+R0HF3Jit/vdEbiWW4oxEQy3mouJEAN5b45cn
- AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRmVeSWpSXmKPExsVy+t/xe7qzyn7HGty8JGuxub+d0WLSoWuM
+ 6dslcGVse3uIveCDfsWRW8+YGxj3KHcxcnJICJhINF7dydbFyMUhJLCCUeLp7sWMEM4XRomX
+ 55vYIZzPjBI3p7WwdjFygLVMm+AEEV/OKPFl0TaEoh9/bzBBOGcYJU51fYOatYtRYu+zaSwg
+ G9kENCW2//kPZosISEu0X53EClLELHCdUeLQ74vsIDuEBQwlfm+IAalhEVCVeHBtNhuIzStg
+ LXHlymNmiMvlJbZ++8QKYnMCxbf03maEqBGUODnzCdh8ZqCa5q2zmSFsCYmDL14wg+ySEFjH
+ LnH+9WcmiEEuEtt+d7FD2MISr45vgbJlJP7vnM8E0dDNKNH34StU9wxGienLvrNBQsNaou9M
+ DkSDo8TPiQ+hgcQnceOtIMRiPolJ26YzQ4R5JTrahCCq1SR2NG1lnMCoPAvJ2bOQnD0LydkL
+ GJlXMYqnlhbnpqcWG+WllusVJ+YWl+al6yXn525iBCaX0/+Of9nBuOtP0iFGAQ5GJR7eF8m/
+ Y4VYE8uKK3MPMUpwMCuJ8N7u+BkrxJuSWFmVWpQfX1Sak1p8iFGag0VJnNd40ctYIYH0xJLU
+ 7NTUgtQimCwTB6dUAyOTo1edXxWzUzkbq8ie+YpP/YROnlstbmN2y8X2p/1Sd7umv6veGnKf
+ 6A9nXTuj2yy+TmjFLjaz1UzGb1VCwr2Odt7fLnW+Jsl57vYrG87Pk4p/YG8npbhk9bnt1RdC
+ 9gpUfSu5Y+V7xGKSYNvLaSYs16c+qiw8nrIjaqI1m/vB5bONC/+9X6bEUpyRaKjFXFScCAA5
+ eNQ5KgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRmVeSWpSXmKPExsVy+t/xe7qzy37HGvz4IGCxub+d0WLSoWuM
  FksuplrMu6VsMetdO5vF8d4dLA5sHptWdbJ53Lm2h83jybXNTB7v911lC2CJ0rMpyi8tSVXI
- yC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MuYd3gaU8FVjoq3M98x
- NTC2s3cxcnJICJhI/Dl9jK2LkYtDSGApo8SJXe+ZIBIyEp+ufIQqEpb4c60Lqugjo8TeLZtY
- IJwzjBJLpp2GyuxilLjx/RIrSAubgKbE9j//WUBsEQFpifark1hBipgFrjNKHPp9EWyusIC3
- xL0ja9hAbBYBVYlnz7Yxgti8AtYSc19PY4XYLS+x9dsnMJsTKL6l9zZYjZCAlcTjnx9ZIOoF
- JU7OfAJmMwMtbt3+mx3Clpdo3jqbeQKj8CwkZbOQlM1CUraAkXkVo0hqaXFuem6xoV5xYm5x
- aV66XnJ+7iZGYJRtO/Zz8w7GSxuDDzEKcDAq8fC+TP4dK8SaWFZcmXuIUYKDWUmE93bHz1gh
- 3pTEyqrUovz4otKc1OJDjKZAz01klhJNzgcmgLySeENTQ3MLS0NzY3NjMwslcd4OgYMxQgLp
- iSWp2ampBalFMH1MHJxSDYzMu+TNPU//tcp6LnPts0Wq+66ThrwezmJvt5dMPX1R4Nsjpe18
- zb3HhPn7XnYmzI4JSThzbId1vOoknzYmvfYVbX/dPXskt4tdiOxi+35SJihAaPUBvkVTV51j
- q2EPPvpnqk/nHCmN7BdO0vJTxPZZLCiPXrh4yvTlr48/zl23qFXmveliR3clluKMREMt5qLi
- RACWxKZkyAIAAA==
-X-CMS-MailID: 20191219130946eucas1p1f58691ec4abdc3b1f42a082450758a72
+ yC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MvY9vYQe8EH/Yojt54x
+ NzDuUe5i5OCQEDCRmDbBqYuRi0NIYCmjxMeZb9i7GDmB4jISn658hLKFJf5c62KDKPrIKHGh
+ aycTSEJI4AyjxLZPkRD2LkaJF6vKQGw2AU2J7X/+s4DYIgLSEu1XJ7GCNDMLXGeUOPT7IjvI
+ ZmEBQ4nfG2JAalgEVCUeXJvNBmLzClhLXLnymBlisbzE1m+fWEFsTqD4lt7bjBC7rCQe//zI
+ AlEvKHFy5hMwmxmovnnrbGYIW0Li4IsXzBMYhWchKZuFpGwWkrIFjMyrGEVSS4tz03OLDfWK
+ E3OLS/PS9ZLzczcxAqNr27Gfm3cwXtoYfIhRgINRiYf3ZfLvWCHWxLLiytxDjBIczEoivLc7
+ fsYK8aYkVlalFuXHF5XmpBYfYjQFem4is5Rocj4w8vNK4g1NDc0tLA3Njc2NzSyUxHk7BA7G
+ CAmkJ5akZqemFqQWwfQxcXBKNTBOMuip+RKf3c3Q9sg/wsR4gf791iRNoz6V/1c3fN+5VzhT
+ r7xp0+FTrfGPCyf/5p6Ud/vSIlvOkw/2zBLf+bBf7EtkR+PGZ+/n2W/tvcH03ZOVa1/KhUX3
+ OowOuVW6O5Zv3CeyUNBwG9f39T3rD7ZMfsJ3xWlvlamn4p3IAxsPTV1eMePZ+7ZVSizFGYmG
+ WsxFxYkA3WRMUcQCAAA=
+X-CMS-MailID: 20191219130947eucas1p21cf4cec3d0b63850ab0e35aa5fab62b8
 X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20191219130946eucas1p1f58691ec4abdc3b1f42a082450758a72
+X-RootMTR: 20191219130947eucas1p21cf4cec3d0b63850ab0e35aa5fab62b8
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20191219130946eucas1p1f58691ec4abdc3b1f42a082450758a72
+X-CMS-RootMailID: 20191219130947eucas1p21cf4cec3d0b63850ab0e35aa5fab62b8
 References: <20191219130921.309264-1-k.jensen@samsung.com>
- <CGME20191219130946eucas1p1f58691ec4abdc3b1f42a082450758a72@eucas1p1.samsung.com>
+ <CGME20191219130947eucas1p21cf4cec3d0b63850ab0e35aa5fab62b8@eucas1p2.samsung.com>
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 210.118.77.11
+X-Received-From: 210.118.77.12
 X-Mailman-Approved-At: Thu, 19 Dec 2019 08:56:47 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,36 +128,155 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nvme device needs to know the return value of dma_memory_rw to pass
-block/011 from blktests. So pass it along instead of ignoring it.
+Handling DMA errors gracefully is required for the device to pass the
+block/011 test ("disable PCI device while doing I/O") in the blktests
+suite.
 
-There are no existing users of the return value, so this patch should be
-safe.
+With this patch the device passes the test by retrying "critical"
+transfers (posting of completion entries and processing of submission
+queue entries).
+
+If DMA errors occur at any other point in the execution of the command
+(say, while mapping the PRPs), the command is aborted with a Data
+Transfer Error status code.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pci.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/block/nvme.c       | 37 +++++++++++++++++++++++++++++--------
+ hw/block/trace-events |  2 ++
+ include/block/nvme.h  |  2 +-
+ 3 files changed, 32 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index db75c6dfd05e..4d6f2b48a7f7 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -783,8 +783,7 @@ static inline AddressSpace *pci_get_address_space(PCI=
-Device *dev)
- static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                              void *buf, dma_addr_t len, DMADirection dir=
-)
- {
--    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
--    return 0;
-+    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir=
-);
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 56659bbe263a..f6591285b504 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -71,14 +71,14 @@ static inline bool nvme_addr_is_cmb(NvmeCtrl *n, hwad=
+dr addr)
+     return addr >=3D low && addr < hi;
  }
 =20
- static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
+-static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size=
+)
++static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+ {
+     if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
+         memcpy(buf, (void *) &n->cmbuf[addr - n->ctrl_mem.addr], size);
+-        return;
++        return 0;
+     }
+=20
+-    pci_dma_read(&n->parent_obj, addr, buf, size);
++    return pci_dma_read(&n->parent_obj, addr, buf, size);
+ }
+=20
+ static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+@@ -216,7 +216,11 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList=
+ *qsg, QEMUIOVector *iov,
+=20
+             nents =3D (len + n->page_size - 1) >> n->page_bits;
+             prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(uint64_t)=
+;
+-            nvme_addr_read(n, prp2, (void *) prp_list, prp_trans);
++            if (nvme_addr_read(n, prp2, (void *) prp_list, prp_trans)) {
++                trace_nvme_dev_err_addr_read(prp2);
++                status =3D NVME_DATA_TRANSFER_ERROR;
++                goto unmap;
++            }
+             while (len !=3D 0) {
+                 uint64_t prp_ent =3D le64_to_cpu(prp_list[i]);
+=20
+@@ -235,7 +239,11 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList=
+ *qsg, QEMUIOVector *iov,
+                     i =3D 0;
+                     nents =3D (len + n->page_size - 1) >> n->page_bits;
+                     prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(u=
+int64_t);
+-                    nvme_addr_read(n, prp_ent, (void *) prp_list, prp_tr=
+ans);
++                    if (nvme_addr_read(n, prp_ent, (void *) prp_list, pr=
+p_trans)) {
++                        trace_nvme_dev_err_addr_read(prp_ent);
++                        status =3D NVME_DATA_TRANSFER_ERROR;
++                        goto unmap;
++                    }
+                     prp_ent =3D le64_to_cpu(prp_list[i]);
+                 }
+=20
+@@ -456,6 +464,7 @@ static void nvme_post_cqes(void *opaque)
+     NvmeCQueue *cq =3D opaque;
+     NvmeCtrl *n =3D cq->ctrl;
+     NvmeRequest *req, *next;
++    int ret;
+=20
+     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+         NvmeSQueue *sq;
+@@ -471,9 +480,16 @@ static void nvme_post_cqes(void *opaque)
+         req->cqe.sq_id =3D cpu_to_le16(sq->sqid);
+         req->cqe.sq_head =3D cpu_to_le16(sq->head);
+         addr =3D cq->dma_addr + cq->tail * n->cqe_size;
+-        nvme_inc_cq_tail(cq);
+-        pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
++        ret =3D pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
+             sizeof(req->cqe));
++        if (ret) {
++            trace_nvme_dev_err_addr_write(addr);
++            QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
++            timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++                100 * SCALE_MS);
++            break;
++        }
++        nvme_inc_cq_tail(cq);
+         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+     }
+     if (cq->tail !=3D cq->head) {
+@@ -1595,7 +1611,12 @@ static void nvme_process_sq(void *opaque)
+=20
+     while (!(nvme_sq_empty(sq) || QTAILQ_EMPTY(&sq->req_list))) {
+         addr =3D sq->dma_addr + sq->head * n->sqe_size;
+-        nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd));
++        if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd))) {
++            trace_nvme_dev_err_addr_read(addr);
++            timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++                100 * SCALE_MS);
++            break;
++        }
+         nvme_inc_sq_head(sq);
+=20
+         req =3D QTAILQ_FIRST(&sq->req_list);
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 90a57fb6099a..09bfb3782dd0 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -83,6 +83,8 @@ nvme_dev_mmio_shutdown_cleared(void) "shutdown bit clea=
+red"
+ nvme_dev_err_mdts(uint16_t cid, size_t mdts, size_t len) "cid %"PRIu16" =
+mdts %"PRIu64" len %"PRIu64""
+ nvme_dev_err_prinfo(uint16_t cid, uint16_t ctrl) "cid %"PRIu16" ctrl %"P=
+RIu16""
+ nvme_dev_err_aio(uint16_t cid, void *aio, const char *blkname, uint64_t =
+offset, const char *opc, void *req, uint16_t status) "cid %"PRIu16" aio %=
+p blk \"%s\" offset %"PRIu64" opc \"%s\" req %p status 0x%"PRIx16""
++nvme_dev_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
++nvme_dev_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
+ nvme_dev_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
+ nvme_dev_err_invalid_prplist_ent(uint64_t prplist) "PRP list entry is nu=
+ll or not page aligned: 0x%"PRIx64""
+ nvme_dev_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned=
+: 0x%"PRIx64""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index c1de92179596..a873776d98b8 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -418,7 +418,7 @@ enum NvmeStatusCodes {
+     NVME_INVALID_OPCODE         =3D 0x0001,
+     NVME_INVALID_FIELD          =3D 0x0002,
+     NVME_CID_CONFLICT           =3D 0x0003,
+-    NVME_DATA_TRAS_ERROR        =3D 0x0004,
++    NVME_DATA_TRANSFER_ERROR    =3D 0x0004,
+     NVME_POWER_LOSS_ABORT       =3D 0x0005,
+     NVME_INTERNAL_DEV_ERROR     =3D 0x0006,
+     NVME_CMD_ABORT_REQ          =3D 0x0007,
 --=20
 2.24.1
 
