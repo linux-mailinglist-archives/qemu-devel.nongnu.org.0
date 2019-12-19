@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FB41264CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:32:08 +0100 (CET)
-Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B04E1264E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:35:06 +0100 (CET)
+Received: from localhost ([::1]:42678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwqU-0003tj-P0
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:32:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37623)
+	id 1ihwtN-0007Jf-1w
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:35:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ihwoR-0002DU-Sg
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:30:01 -0500
+ (envelope-from <drjones@redhat.com>) id 1ihwoq-0002lp-GY
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:30:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ihwoP-00010M-N8
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:29:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42546
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1ihwok-0002Q2-L9
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:30:24 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23527
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ihwoP-0000yA-Gu
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:29:57 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1ihwok-0002MR-AX
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:30:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576765795;
+ s=mimecast20190719; t=1576765817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=escURGXfnHgsch0E80jJ2eEwQJeqFZwXo6xIZRFk2kY=;
- b=FqebAyZ6nAYF/HH72U/DPgRLO7hI/TDjq+xuvfZ6gXwakOg43s+Dhmns4tc4n7yTady2O6
- q7qnRE5b9TDkknezmhc9gZXqjriDxICNB2uZjnmPjlC1O3sMLj+zDmjLKUF1OogkMpMUUZ
- o09wFDFOaDn7DJuNqMiE0F9CX2cDk7c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-4xBCsJo3PZ21Dx8_E3T5Ew-1; Thu, 19 Dec 2019 09:29:54 -0500
-Received: by mail-wr1-f70.google.com with SMTP id d8so2421298wrq.12
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 06:29:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a4zd+Em2BHjrJRW8Kfqkpun58oCyjYMX0hbWmYhVvOY=;
- b=GumccfFVJYgAw+dfMQU2gS28Rf2iTaFsdacvSTPKKFDjbOnqtMNA+ruYYvL5eacGS1
- NepubohfXOsekLBAARbknGyY/fCcifUKpkpsyoFqcx9gunmLYplDXBwwomg86w1udGah
- mgNCSI/Ut8/nOASZdKJ99++XaYIYu912zhEN3tHpmiJibORZoYzyTcqmsDm5O0yE1Qc6
- IqsmG7EwokthVTQKNpYgGjoSY6Fx4frl9cEHXLW4jKARcX0GNqv8YrFgsNPvreN2TIjW
- xu4Rp4wDUNE3TeGhxpftWf7a8aU8RQJL6xZKNnqlTRGlkzdpr8BY3E9J2i8EGM83iXNU
- ID1A==
-X-Gm-Message-State: APjAAAWWKnwd3IBerYXUxTtP3hG+GVure0EgO0ntrClPjeuL9tj3xFd5
- TmRueN6v81G8n1RBRu4aYpjT0cu5dd0tcnQSDp6Jp+/MMDAn9ERoHx902EzBDkjYQcsEBAE3Cem
- SyQdvSKxTv0UgOf8=
-X-Received: by 2002:a5d:6901:: with SMTP id t1mr9179351wru.94.1576765793221;
- Thu, 19 Dec 2019 06:29:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyfg7Bbe6Bt/pEWDC5dK+ZBIXZ4A86HwdeEom4b/7+XnGaTqMak53eId3bFhz90AFsoPqVbGA==
-X-Received: by 2002:a5d:6901:: with SMTP id t1mr9179328wru.94.1576765792937;
- Thu, 19 Dec 2019 06:29:52 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id 4sm5997830wmg.22.2019.12.19.06.29.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Dec 2019 06:29:52 -0800 (PST)
-Subject: Re: [PATCH v7 1/6] tpm: Move tpm_tis_show_buffer to tpm_util.c
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-ppc@nongnu.org
-References: <20191219140605.3243321-1-stefanb@linux.vnet.ibm.com>
- <20191219140605.3243321-2-stefanb@linux.vnet.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c37216fe-6370-b42c-5ca4-b9e6a68d49aa@redhat.com>
-Date: Thu, 19 Dec 2019 15:29:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=28rSLX4X8eSxZ8C3IwwotEZqVgOkmB31hF2ovohmpwg=;
+ b=DFck97H6c2dZQ0jkNrDfAESajZuT6sjjZy/uUuTVh4TqD4YvOZ5/IxudMJmD3RniPes2nn
+ f67YNoO/+Cry/LdrNn/bGQtRpf3XI63d9PBryCih0p6HahPSz7qv/EhnVbB6U+s/b7YS9b
+ KKtuP+KI4dKsdSo0PwVLKcm8P6EG5WY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-t6Nxs0jWMMOjzt_qKRNfUg-1; Thu, 19 Dec 2019 09:30:14 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6EE81005502;
+ Thu, 19 Dec 2019 14:30:12 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.36.118.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41F816B566;
+ Thu, 19 Dec 2019 14:30:08 +0000 (UTC)
+Date: Thu, 19 Dec 2019 15:30:05 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH v2 3/5] target/arm/kvm: Implement virtual time
+ adjustment
+Message-ID: <20191219143005.gw43k2hug2n5nvto@kamzik.brq.redhat.com>
+References: <20191212173320.11610-1-drjones@redhat.com>
+ <20191212173320.11610-4-drjones@redhat.com>
+ <CAFEAcA_u94O8WYLgB8DF=pu-3V7LrNWpiQFV5mDYeeqLj1Ee2Q@mail.gmail.com>
+ <CAFEAcA9ZoOZt6Jh42hi6q91=kRM9T9z436J99NF+Ns5KVKUYow@mail.gmail.com>
+ <20191216164355.i5rpfuqlfqv2z7m7@kamzik.brq.redhat.com>
+ <CAFEAcA8NzQ8QYE2NMnviPPnmBn1Dwm4W_KvhMbwCNwFzkurK-Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191219140605.3243321-2-stefanb@linux.vnet.ibm.com>
-Content-Language: en-US
-X-MC-Unique: 4xBCsJo3PZ21Dx8_E3T5Ew-1
+In-Reply-To: <CAFEAcA8NzQ8QYE2NMnviPPnmBn1Dwm4W_KvhMbwCNwFzkurK-Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: t6Nxs0jWMMOjzt_qKRNfUg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,155 +77,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, david@gibson.dropbear.id.au,
- qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>
+Cc: bijan.mottahedeh@oracle.com, Marc Zyngier <maz@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Heyi Guo <guoheyi@huawei.com>, msys.mizuma@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/19/19 3:06 PM, Stefan Berger wrote:
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> ---
->   hw/tpm/tpm_tis.c    | 32 ++++----------------------------
->   hw/tpm/tpm_util.c   | 25 +++++++++++++++++++++++++
->   hw/tpm/tpm_util.h   |  3 +++
->   hw/tpm/trace-events |  2 +-
->   4 files changed, 33 insertions(+), 29 deletions(-)
+On Mon, Dec 16, 2019 at 06:06:30PM +0000, Peter Maydell wrote:
+> On Mon, 16 Dec 2019 at 16:44, Andrew Jones <drjones@redhat.com> wrote:
+> >
+> > On Mon, Dec 16, 2019 at 03:40:16PM +0000, Peter Maydell wrote:
+> > > On Mon, 16 Dec 2019 at 15:14, Peter Maydell <peter.maydell@linaro.org=
+> wrote:
+> > > > How does this interact with the usual register sync to/from
+> > > > KVM (ie kvm_arch_get_registers(), which I think will do a
+> > > > GET_ONE_REG read of the TIMER_CNT register the way it does
+> > > > any other sysreg, inside write_kvmstate_to_list(), plus
+> > > > kvm_arch_set_registers() which does the write back to the
+> > > > kernel in write_list_to_kvmstate()) ? Presumably we want this
+> > > > version to take precedence by the set_virtual_time call
+> > > > happening after the kvm_arch_set_registers, but is this
+> > > > guaranteed ?
+> > >
+> > > ...you might also want to look at the effects of simply
+> > > removing the KVM_REG_ARM_TIMER_CNT entry from the
+> > > 'non_runtime_cpregs[]' array -- in commit 4b7a6bf402bd064
+> > > we explicitly stopped reading/writing this register's value
+> > > to/from the kernel except for inbound migration, and it
+> > > feels like this patchset is now rolling back that approach,
+> > > so maybe we should also be (configurably) rolling back some
+> > > of its implementation rather than just leaving it in place.
+> >
+> > I feel like I already considered that, maybe even tried it, a few month=
+s
+> > ago when I first looked at this. I must have decided against it for som=
+e
+> > reason at the time, but I don't recall what. Now I can say the reason i=
+s
+> > because we only do this save/restore when we transition to/from paused
+> > state, though.
 >=20
-> diff --git a/hw/tpm/tpm_tis.c b/hw/tpm/tpm_tis.c
-> index 7aaf9b946d..5b17c88a7d 100644
-> --- a/hw/tpm/tpm_tis.c
-> +++ b/hw/tpm/tpm_tis.c
-> @@ -107,30 +107,6 @@ static uint8_t tpm_tis_locality_from_addr(hwaddr add=
-r)
->       return (uint8_t)((addr >> TPM_TIS_LOCALITY_SHIFT) & 0x7);
->   }
->  =20
-> -static void tpm_tis_show_buffer(const unsigned char *buffer,
-> -                                size_t buffer_size, const char *string)
-> -{
-> -    size_t len, i;
-> -    char *line_buffer, *p;
-> -
-> -    len =3D MIN(tpm_cmd_get_size(buffer), buffer_size);
-> -
-> -    /*
-> -     * allocate enough room for 3 chars per buffer entry plus a
-> -     * newline after every 16 chars and a final null terminator.
-> -     */
-> -    line_buffer =3D g_malloc(len * 3 + (len / 16) + 1);
-> -
-> -    for (i =3D 0, p =3D line_buffer; i < len; i++) {
-> -        if (i && !(i % 16)) {
-> -            p +=3D sprintf(p, "\n");
-> -        }
-> -        p +=3D sprintf(p, "%.2X ", buffer[i]);
-> -    }
-> -    trace_tpm_tis_show_buffer(string, len, line_buffer);
-> -
-> -    g_free(line_buffer);
-> -}
->  =20
->   /*
->    * Set the given flags in the STS register by clearing the register but
-> @@ -156,8 +132,8 @@ static void tpm_tis_sts_set(TPMLocality *l, uint32_t =
-flags)
->    */
->   static void tpm_tis_tpm_send(TPMState *s, uint8_t locty)
->   {
-> -    if (trace_event_get_state_backends(TRACE_TPM_TIS_SHOW_BUFFER)) {
-> -        tpm_tis_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
-> +    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
-> +        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
->       }
->  =20
->       /*
-> @@ -325,8 +301,8 @@ static void tpm_tis_request_completed(TPMIf *ti, int =
-ret)
->       s->loc[locty].state =3D TPM_TIS_STATE_COMPLETION;
->       s->rw_offset =3D 0;
->  =20
-> -    if (trace_event_get_state_backends(TRACE_TPM_TIS_SHOW_BUFFER)) {
-> -        tpm_tis_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
-> +    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
-> +        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
->       }
->  =20
->       if (TPM_TIS_IS_VALID_LOCTY(s->next_locty)) {
-> diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
-> index 62b091f0c0..c0a0f3d71f 100644
-> --- a/hw/tpm/tpm_util.c
-> +++ b/hw/tpm/tpm_util.c
-> @@ -350,3 +350,28 @@ void tpm_sized_buffer_reset(TPMSizedBuffer *tsb)
->       tsb->buffer =3D NULL;
->       tsb->size =3D 0;
->   }
-> +
-> +void tpm_util_show_buffer(const unsigned char *buffer,
-> +                          size_t buffer_size, const char *string)
-> +{
-> +    size_t len, i;
-> +    char *line_buffer, *p;
-> +
-> +    len =3D MIN(tpm_cmd_get_size(buffer), buffer_size);
-> +
-> +    /*
-> +     * allocate enough room for 3 chars per buffer entry plus a
-> +     * newline after every 16 chars and a final null terminator.
-> +     */
-> +    line_buffer =3D g_malloc(len * 3 + (len / 16) + 1);
-> +
-> +    for (i =3D 0, p =3D line_buffer; i < len; i++) {
-> +        if (i && !(i % 16)) {
-> +            p +=3D sprintf(p, "\n");
-> +        }
-> +        p +=3D sprintf(p, "%.2X ", buffer[i]);
-> +    }
-> +    trace_tpm_util_show_buffer(string, len, line_buffer);
-> +
-> +    g_free(line_buffer);
-> +}
-> diff --git a/hw/tpm/tpm_util.h b/hw/tpm/tpm_util.h
-> index f397ac21b8..7889081fba 100644
-> --- a/hw/tpm/tpm_util.h
-> +++ b/hw/tpm/tpm_util.h
-> @@ -79,4 +79,7 @@ typedef struct TPMSizedBuffer {
->  =20
->   void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
->  =20
-> +void tpm_util_show_buffer(const unsigned char *buffer,
-> +                          size_t buffer_size, const char *string);
-> +
->   #endif /* TPM_TPM_UTIL_H */
-> diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
-> index 89804bcd64..357c9e9a84 100644
-> --- a/hw/tpm/trace-events
-> +++ b/hw/tpm/trace-events
-> @@ -14,6 +14,7 @@ tpm_util_get_buffer_size_len(uint32_t len, size_t expec=
-ted) "tpm_resp->len =3D %u,
->   tpm_util_get_buffer_size_hdr_len2(uint32_t len, size_t expected) "tpm2_=
-resp->hdr.len =3D %u, expected =3D %zu"
->   tpm_util_get_buffer_size_len2(uint32_t len, size_t expected) "tpm2_resp=
-->len =3D %u, expected =3D %zu"
->   tpm_util_get_buffer_size(size_t len) "buffersize of device: %zu"
-> +tpm_util_show_buffer(const char *direction, size_t len, const char *buf)=
- "direction: %s len: %zu\n%s"
-
-Please avoid multi-line trace formats if possible.
-Since this is a pre-existing issue:
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
->  =20
->   # tpm_emulator.c
->   tpm_emulator_set_locality(uint8_t locty) "setting locality to %d"
-> @@ -36,7 +37,6 @@ tpm_emulator_pre_save(void) ""
->   tpm_emulator_inst_init(void) ""
->  =20
->   # tpm_tis.c
-> -tpm_tis_show_buffer(const char *direction, size_t len, const char *buf) =
-"direction: %s len: %zu\nbuf: %s"
->   tpm_tis_raise_irq(uint32_t irqmask) "Raising IRQ for flag 0x%08x"
->   tpm_tis_new_active_locality(uint8_t locty) "Active locality is now %d"
->   tpm_tis_abort(uint8_t locty) "New active locality is %d"
+> I found the thread which discussed the bug which originally
+> caused us to add commit 4b7a6bf402bd064:
+> https://lists.cs.columbia.edu/pipermail/kvmarm/2015-July/015665.html
+>  -- there are some codepaths which cause us to do a sync from/to
+> KVM for one VCPU while others are still running. If we do a
+> read-CNT-and-write-back then we effectively cause time to jump
+> backwards for the other still-running CPUs.
 >=20
+> So we do still want to have TIMER_CNT listed as being KVM_PUT_FULL_STATE
+> regardless, or we re-introduce that bug.
+
+Thanks for digging that up. I now recall also having read that history
+back when I first discovered KVM_REG_ARM_TIMER_CNT was special.
+
+>=20
+> Your approach in this patchset reads and writes on vm-paused,
+> so it won't have the pre-2015 problems.
+>=20
+> It still feels odd that we're storing this bit of guest state
+> in two places now though -- in kvm_vtime, and also in its usual
+> place in the cpreg_array data structures (we write back the
+> value from kvm_vtime when the VM starts running, and we write
+> back the value from the cpreg_array for a PUT_FULL_STATE, which
+> the comments claim is only on startup or when we just loaded
+> migration state (and also undocumentedly but reasonably on
+> cpu-hotplug, which arm doesn't have yet).
+>=20
+> I've just spent a little while digging through code, and
+> haven't been able to satisfy myself on the ordering of which
+> writeback wins: for a loadvm I think we first do a
+> cpu_synchronize_all_post_init() (writing back the counter
+> value from the migration data) and then after than we will
+> unpause the VM -- why doesn't this overwrite the correct
+> value with the wrong value from kvm_vtime ?
+
+Hmm... I think I may have gotten lost when I went through this before.
+I just went through again, and still won't claim that I'm not a bit
+lost, but it does appear I got it backwards. When I get a chance I'll
+try to test this properly.
+
+We could use the same location as normal, in the cpreg_array. I'd just
+need to add a search of cpreg_indexes[] in order to get the index
+needed for cpreg_values[].=20
+
+>=20
+> I just noticed also that the logic used in this patch
+> doesn't match what other architectures do in their vm_state_change
+> function -- eg cpu_ppc_clock_vm_state_change() has an
+> "if (running) { load } else { save }", and kvmclock_vm_state_change()
+> for i386 also has "if (running) { ... } else { ... }", though
+> it has an extra wrinkle where it captures "are we PAUSED?"
+> to use in the pre_save function; the comment above
+> kvmclock_pre_save() suggests maybe that would be useful for other
+> than x86, too. kvm_s390_tod_vm_state_change() has
+> logic that's a slightly more complicated variation on just
+> testing the 'running' flag, but it doesn't look at the
+> specific new state.
+
+Yes, originally I had just if (running) {} else {}, but after looking at
+https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg03695.html and
+seeing that the other architectures were careful to track the "are we
+paused" state, I got the feeling that we should be more specific and
+changed to if (running) {} else if (paused) {}. That's probably wrong,
+though, if we want to track all vm-stopped time.
+
+>=20
+> > > I note also that the commit message there had a remark
+> > > about inconsistencies between VCPUs -- is the right thing
+> > > to handle this per-VM rather than per-VCPU somehow?
+> >
+> > per-VM would make sense, because the counters should be synchronized
+> > among the VCPUs. KVM does that for us, though, so whichever VCPU last
+> > restores its counter is the one that will determine the final value.
+> >
+> > Maybe we should have a VM ioctl instead, but ATM we only have VCPU ioct=
+ls.
+>=20
+> I meant more "only do the save/load once per VM in QEMU but
+> do it by working with just one VCPU". But I guess since migration
+> works on all the VCPUs we're ok to do pause-resume the same way
+> (and I've now tracked down what the 'inconsistentencies between VCPUs'
+> were: they're when we were syncing the CNT value for one vCPU when
+> others were still running.)
+>=20
+> thanks
+> -- PMM
+>=20
+
+Thanks,
+drew
 
 
