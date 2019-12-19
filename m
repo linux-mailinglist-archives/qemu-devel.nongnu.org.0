@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7C112647B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:21:43 +0100 (CET)
-Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A978E12646F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:18:55 +0100 (CET)
+Received: from localhost ([::1]:42344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwgQ-0005eJ-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:21:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58630)
+	id 1ihwdi-0001a0-4x
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:18:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ihwRH-0008Dn-Dc
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:06:04 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ihwQ4-0006QV-V3
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:04:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ihwRC-0007Nq-C9
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:06:03 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53914)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ihwRC-0007F7-1N
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:05:58 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ihwRA-00066S-6v
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 14:05:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 32D432E80C8
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 14:05:56 +0000 (UTC)
+ (envelope-from <kwolf@redhat.com>) id 1ihwPz-0000zg-RU
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:04:48 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31066
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ihwPz-0000wq-LC
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:04:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576764283;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zRavHMNMrAnCq6s1aCzlexZE1Ud+L01GZLTpSyv3La0=;
+ b=GAtRlNdfnLxx8GQLYTUSUoBddP1DwWisqBuNcdendgtpNESKy6BM1kFsVlQEMaSG8R37Gv
+ oQJrh0S+o66cWQVvS9NYTCoezpkY48G2KfdfnA4Dy+zZr3wvJ/wLVw8OHj2nozzBlmuohl
+ i392hP8KvUPzKgRLP+V79Gkpao4ZThs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-dE3Xrr-jOq-xOhgNJkq2oQ-1; Thu, 19 Dec 2019 09:04:40 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2074107ACC4;
+ Thu, 19 Dec 2019 14:04:38 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-53.ams2.redhat.com [10.36.117.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C2176940E;
+ Thu, 19 Dec 2019 14:04:37 +0000 (UTC)
+Date: Thu, 19 Dec 2019 15:04:33 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] block: nbd: Fix dirty bitmap context name
+Message-ID: <20191219140433.GK5230@linux.fritz.box>
+References: <20191219125151.21482-1-nsoffer@redhat.com>
+ <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: dE3Xrr-jOq-xOhgNJkq2oQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Dec 2019 13:52:15 -0000
-From: Florensa Florian <1843941@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: rbd
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fflorensa gsoneill
-X-Launchpad-Bug-Reporter: Gregory O'Neill (gsoneill)
-X-Launchpad-Bug-Modifier: Florensa Florian (fflorensa)
-References: <156840017982.27082.9691017826426087373.malonedeb@soybean.canonical.com>
-Message-Id: <157676353579.27180.7056204341846697883.malone@chaenomeles.canonical.com>
-Subject: [Bug 1843941] Re: RBD Namespaces are not supported
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: badd671a658a93154dad6773fdf42e811cd4c1f7
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,42 +73,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1843941 <1843941@bugs.launchpad.net>
+Cc: Nir Soffer <nsoffer@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Nir Soffer <nirsof@gmail.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I just posted a patch today on the qemu-devel mailing list, you can find
-it there : https://lists.gnu.org/archive/html/qemu-
-devel/2019-12/msg04344.html
+Am 19.12.2019 um 14:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Ahh, I see, it's documented as
+>=20
+> +# @bitmap: Also export the dirty bitmap reachable from @device, so the
+> +#          NBD client can use NBD_OPT_SET_META_CONTEXT with
+> +#          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
+>=20
+> and it is logical to assume that export name (which is @name argument) is
+> mentioned. But we never mentioned it. This is just documented after
+> removed experimenatl command x-nbd-server-add-bitmap,
+>=20
+> look at
+>=20
+> commit 7dc570b3806e5b0a4c9219061556ed5a4a0de80c
+> Author: Eric Blake <eblake@redhat.com>
+> Date:   Fri Jan 11 13:47:18 2019 -0600
+>=20
+>      nbd: Remove x-nbd-server-add-bitmap
+>=20
+> ...
+>=20
+> -# @bitmap-export-name: How the bitmap will be seen by nbd clients
+> -#                      (default @bitmap)
+> -#
+> -# Note: the client must use NBD_OPT_SET_META_CONTEXT with a query of
+> -# "qemu:dirty-bitmap:NAME" (where NAME matches @bitmap-export-name) to a=
+ccess
+> -# the exposed bitmap.
+>=20
+>=20
+> So, this "NAME" is saved and now looks incorrect. What should be fixed, i=
+s Qapi
+> documentation.
 
--- =
+Hm, I don't know these interfaces very well, but from you explanation it
+looks to me as if having a bitmap name made sense with
+x-nbd-server-add-bitmap because it could be called more than once for
+exporting multiple bitmaps.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1843941
+But now, we have only nbd-server-add, which takes a single bitmap name.
+As we don't have to distinguish multiple bitmaps any more, wouldn't it
+make more sense to use "qemu:dirty-bitmap" without any other
+information? Both export name and bitmap name are already identified by
+the connection.
 
-Title:
-  RBD Namespaces are not supported
+But if we have to have something there, using the bitmap name (which may
+or may not be the same as used in the image file) makes a little more
+sense because it makes the interface extensible for the case that we
+ever want to re-introduce an nbd-server-add-bitmap.
 
-Status in QEMU:
-  New
+(By the way, even if the patch were correct, it lacks a Signed-off-by.)
 
-Bug description:
-  Ceph Nautilus (v14.2.0) introduced the Namespaces concept for RADOS
-  Block Devices. This provides a logical separation within a RADOS Pool
-  for RBD images which enables granular access control. See
-  https://docs.ceph.com/docs/nautilus/releases/nautilus/ for additional
-  details.
+Kevin
 
-  librados and librbd support this, however qemu does not. The rbd man
-  page defines how rbd images within a namespace can be referenced.
-  https://docs.ceph.com/docs/nautilus/man/8/rbd/#image-snap-group-and-
-  journal-specs
-
-  Adding support for RBD namespaces would be beneficial for security and
-  reducing the impact of a hypervisor being compromised and putting an
-  entire Ceph pool or cluster at risk.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1843941/+subscriptions
 
