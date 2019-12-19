@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB7C1268B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:09:26 +0100 (CET)
-Received: from localhost ([::1]:46072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900341268A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 19:03:17 +0100 (CET)
+Received: from localhost ([::1]:45910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii0ET-00035E-Ul
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:09:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54715)
+	id 1ii08p-0003bf-Ff
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 13:03:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ihzx4-0003yv-P0
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:51:08 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1ii03g-00065D-Vc
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:57:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ihzx3-000500-Lj
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:51:06 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46023)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ihzx3-0004td-9G
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:51:05 -0500
-Received: by mail-pg1-x541.google.com with SMTP id b9so3481899pgk.12
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 09:51:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4r1dJHdQo0OjsGUYx+/2Vrzn84OYJujOtfe17Ka8aVE=;
- b=R7m8dzSXDXUEWY8YDLMUipwCYPic6/eXVvFpCcf+FFwBSwrjL/GH3xJrXv8E+nq6C9
- xxrPvYbL8zbsWC9TijBP5toRPx7yXUKrnYuPRJsAG5rfGquefKqCs4QSLE7kiR5h0Zgv
- +Hq88OpkYenBEYgaoOh3dTkb488LL/wKRgOO+vwhUO5DFBYp73iaqHDLoVIJxKKl/fP5
- RSJDFbSmqXTzKWsfeGHvuAAyovmTfTBm2HfrLu1zKwuDZ6OQBhdN+aycelVE/0L3fsgj
- EXOgBIKOkkBQBMR8qHfo/Zp9y5dbfqPp+C0x+sV5+/HHz9xmwR81jhqSDOofnV9paz89
- SVmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4r1dJHdQo0OjsGUYx+/2Vrzn84OYJujOtfe17Ka8aVE=;
- b=uX9JWe/FsqNLKwrQOx1w5/K6CasARVOY8eKvuNvJdkIUJFA/5UOpQCoEAiDVV9KA0+
- 2vm/gUzeVOHI9PUw+SMXAgbPjGW31EMgoYK6MZpcyO9xJcZFGx4nWxngnTgCdLapnwZ4
- BaVuZ3PpO5BuI1KQR9LrKwsI8MjibaaSFRi1qfQ+fhU/f1FahGYHuTcf2W6+gLuE6m5h
- SDMoGNylcpl6/8HdTbJmsDoTDrcEonIIuyljaP0xmywLfvlv7C8iV9uPx/PvjJg9CUjS
- w7lFVxinRBLzleCGVlTc+VPP/4fc9Yl4BTssyNZy/UQfFL6oLW6o6H7RpNP4mSxPpHUt
- aVCA==
-X-Gm-Message-State: APjAAAXLKhj3rPNZKz0aqlFep8mdO8LvW9sOAjNv0De888J2c+fBkmEB
- UAVwElKD/JaLNLjzt6CWMRk/hQ==
-X-Google-Smtp-Source: APXvYqy8h6VOJ/GQhC0URqg5jF1nyaMRXxNe5Kj9AWDZBeTP2bQJINRIN6Mxve2qOXc9j8iqfPuViQ==
-X-Received: by 2002:a63:4d4c:: with SMTP id n12mr10509796pgl.212.1576777863828; 
- Thu, 19 Dec 2019 09:51:03 -0800 (PST)
-Received: from ?IPv6:2605:e000:c74f:dc00:9de9:bce2:6ae3:53c4?
- ([2605:e000:c74f:dc00:9de9:bce2:6ae3:53c4])
- by smtp.gmail.com with ESMTPSA id r1sm8091054pgp.15.2019.12.19.09.51.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Dec 2019 09:51:03 -0800 (PST)
-Subject: Re: [PATCH] target/arm: fix IL bit for data abort exceptions
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191217210230.99559-1-jeff.kubascik@dornerworks.com>
- <7a274247-e593-5828-73f8-2042971e8633@linaro.org>
- <CAFEAcA8Egy=Jkw8yKSumkeX=+Qxi8bPy-0fJjopHR6gCmz3FLQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <64d31889-6269-1f6d-6aad-8e863310cf79@linaro.org>
-Date: Thu, 19 Dec 2019 07:50:59 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <ehabkost@redhat.com>) id 1ii03f-0000dG-1P
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:57:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57959
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1ii03e-0000Y4-PU
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 12:57:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576778273;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vgoAJPsyBWGNUC0qdNBP37n+f8fXPIZIj+IKfmqzm1g=;
+ b=GBSANB5ksrEh6jKz5CUcCVySYFLVzDUCqCqWQaiZvwUnTfRGxraOMG5qFdngCp4G5U/Cwx
+ mH9COQLmIU74YN5IoL8a6mJSfU22gLiNLd9yDbsMXUP/RUDv7M99uZqe38PS+VdM8ZBB7d
+ K14SWsrQaZ/8gYD9ohSKG5+7BZ5JB9U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-OuNnLlQAMuKqHMASxHVo6w-1; Thu, 19 Dec 2019 12:57:44 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58A481856A8A;
+ Thu, 19 Dec 2019 17:57:43 +0000 (UTC)
+Received: from localhost (ovpn-116-90.gru2.redhat.com [10.97.116.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE2707EB64;
+ Thu, 19 Dec 2019 17:57:42 +0000 (UTC)
+Date: Thu, 19 Dec 2019 14:57:41 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 2/2] numa: properly check if numa is supported
+Message-ID: <20191219175741.GT498046@habkost.net>
+References: <1576154936-178362-1-git-send-email-imammedo@redhat.com>
+ <1576154936-178362-3-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Egy=Jkw8yKSumkeX=+Qxi8bPy-0fJjopHR6gCmz3FLQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+In-Reply-To: <1576154936-178362-3-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: OuNnLlQAMuKqHMASxHVo6w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,35 +72,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Jeff Kubascik <jeff.kubascik@dornerworks.com>,
- Jarvis Roach <Jarvis.Roach@dornerworks.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>, Tao Xu <tao3.xu@intel.com>,
+ qemu-devel@nongnu.org, Leif Lindholm <leif.lindholm@linaro.org>,
+ qemu-stable@nongnu.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/19/19 2:43 AM, Peter Maydell wrote:
-> I think this is a regression introduced in commit 46beb58efbb8a2a32
-> when we converted the Thumb decoder over to decodetree. Before that
-> 16 bit Thumb insns were in a different place in the old decoder and
-> the 16-bit Thumb path passed ISSIs16Bit in with its issflags.
-> (We should cc: qemu-stable@nongnu.org on the fix for this.)
+On Thu, Dec 12, 2019 at 01:48:56PM +0100, Igor Mammedov wrote:
+> Commit aa57020774b, by mistake used MachineClass::numa_mem_supported
+> to check if NUMA is supported by machine and also as unrelated change
+> set it to true for sbsa-ref board.
+>=20
+> Luckily change didn't break machines that support NUMA, as the field
+> is set to true for them.
+>=20
+> But the field is not intended for checking if NUMA is supported and
+> will be flipped to false within this release for new machine types.
+>=20
+> Fix it:
+>  - by using previously used condition
+>       !mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id
+>    the first time and then use MachineState::numa_state down the road
+>    to check if NUMA is supported
+>  - dropping stray sbsa-ref chunk
+>=20
+> Fixes: aa57020774b690a22be72453b8e91c9b5a68c516
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
-Oops, yes, that would be my fault.
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
->>>      /* ISS not valid if writeback */
->>>      if (p && !w) {
->>> -        ret = rd;
->>> +        ret = rd | (s->is_16bit ? ISSIs16Bit : 0);
->>>      } else {
->>>          ret = ISSInvalid;
->>>      }
-> 
-> Rather than setting an is_16bit flag, we could just use
-> "dc->base.pc_next - dc->pc_curr == 2", couldn't we?
+I'm queueing this and plan to submit a pull request soon.
 
-We could, yes.
+--=20
+Eduardo
 
-
-r~
 
