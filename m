@@ -2,102 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E005A126497
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:25:59 +0100 (CET)
-Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A14D1264E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:35:17 +0100 (CET)
+Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwkY-0003qY-Dl
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:25:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35638)
+	id 1ihwtX-0007fV-V8
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:35:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihwic-00025h-LS
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:23:59 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ihwba-0000BG-Nr
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:16:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ihwib-0008Gj-Bq
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:23:58 -0500
-Received: from mail-eopbgr70134.outbound.protection.outlook.com
- ([40.107.7.134]:29636 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ihwiW-0007jG-WE; Thu, 19 Dec 2019 09:23:53 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iQke/UrL/pJy3YxxqmlC5nacAlbjjTv1e4ZNI5b/EeJRE55215Rs6HfgtOAOZHPuGntV8t4eC2ERGorpnPgl05b8ZMcAMBDbHglNC7rNB5objN2kfuPG0aWZsKx5vgahtDeVpJ5N5GZlI205WgwIXvufaFQXQ9V4HDRzQ0iTnrNinZ03LjkZIGVbVJHLlVgKt0Svlx2NXCNeKnSwD58/203FfkXTm/5KYASAM1Oua3v4qn9MOuamvUQDYEFEilujny6Z5LTR0mnHDz9l70oEhRwn9jy+zWuEWERE86Ki8MthlaDGUTDrQtjCJpFYheY9ZrC79N3kEkXUCQehg4mLvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BIEDZ7bGhWZDP7W59uMBvzgUUMPxkofkLqpWX4MJHi8=;
- b=YM6ioml0G/tl8/GTRdk1bnViFt+PlLp+d0cxVZUl4F0efGLI/wTl+LFX3cygfdUu3Mg9Sv9xoDF2Ghccdgf7nkp8bciJ5TZhtelhRbXmTbNdKK7KHkclyVgOrtTpJep6NdDZmoGuZgNdSqhFs9bINBIzqX2LHHEmzo+3ryYrxMYxCm7h1N7Y0NhWTNId5ydfd3Krx4JZ4DPRudNyT1vfdJk8U3cgv5PpeCTSjBCwZY1bgyskiZ/TGxJplcuZLvWGkNjrMUwAmnHRhZaZveLKhOvsjGyvNJ+ew5Sa8yb0a2gYKqGUDUKN2SElFdtyKeK6ZCRBTuyulDvhS9UxZDZgzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BIEDZ7bGhWZDP7W59uMBvzgUUMPxkofkLqpWX4MJHi8=;
- b=puNiVLtmVMR7amO+SpyaK9bumtpx3w3HK5IPLjFuf7Q/1mSThs9wSwmwdh/ZkyDHayt7tFW5z6yuKtoWoZ4EeWhfUANQ3exJM2b1ujLXruwm1Nq33oJNogGwEEnEo55JV0DeQ45Cc/gkzHMcfiGV6vGO65gj1tF8NwlUMlw9nC0=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3655.eurprd08.prod.outlook.com (20.177.113.153) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2559.14; Thu, 19 Dec 2019 14:23:50 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2559.012; Thu, 19 Dec 2019
- 14:23:50 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] block: nbd: Fix dirty bitmap context name
-Thread-Topic: [PATCH] block: nbd: Fix dirty bitmap context name
-Thread-Index: AQHVtmzMtpyWQS3Bp0OaQNZadGqOP6fBd04AgAAGUoCAAAVhAA==
-Date: Thu, 19 Dec 2019 14:23:49 +0000
-Message-ID: <96b56762-21ad-13ea-9474-ecaca9276fe1@virtuozzo.com>
-References: <20191219125151.21482-1-nsoffer@redhat.com>
- <443c32b3-0e0c-ef9e-4d5b-9404b16eaa02@virtuozzo.com>
- <20191219140433.GK5230@linux.fritz.box>
-In-Reply-To: <20191219140433.GK5230@linux.fritz.box>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P195CA0011.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::21)
- To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191219172348099
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3204399d-67ab-4d4b-bc5c-08d7848f1115
-x-ms-traffictypediagnostic: AM6PR08MB3655:
-x-microsoft-antispam-prvs: <AM6PR08MB3655DA89E49CAD493411D74EC1520@AM6PR08MB3655.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
-x-forefront-prvs: 0256C18696
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(366004)(396003)(346002)(39840400004)(376002)(199004)(189003)(31696002)(26005)(81156014)(2616005)(2906002)(8936002)(81166006)(186003)(52116002)(8676002)(6506007)(6486002)(36756003)(478600001)(6916009)(31686004)(86362001)(316002)(64756008)(66556008)(5660300002)(6512007)(4326008)(66476007)(71200400001)(66446008)(54906003)(66946007)(14143004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3655;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nNzNy13oOOs1kIFPNi9YbnR98Jn1Lu1ZXYviCaWlKzaMG9hCdgEuNg9d27q/50wGGYLfnCx7mTHxAmRmd55cQec/os+Fihpz7wnPEvsklg2K7/Y7Hke0rM7frm4RAddibIAZHzAeUPz2EceEDEgTMxnlh6X7EtDLeVZN7nR7lZWEO1VGfUs7d5Jxif/JXuV9uMiFDCZ738136E+Zw901E9XS/2WscfjDqyCF9VF2sTNweE5W7vhpd0FMOCR7bhOSh+kh7C+NW78tuaqKmQSxFaG977q//sX/lpj6t9ggRCyX4lfAYdGWG6SjKThMygbpg3pTt2Y8AcfVXxadXfekTswHamdBFsEqMmce1Yz4JvAmjUgbuPEsJIFRlo4cYp7rl5HDNOOzWscbZES+9bWXz4BO5BIY3SrRXmmj4phMnaON5O5nJxC6PL9/nUZO9QB0MjG7ij7SV89zQmFjmHUmR4j84a8rcIdCvXs3SfZ6Lxw=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <44C062E7A6000940941E8058348ADEC5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3204399d-67ab-4d4b-bc5c-08d7848f1115
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2019 14:23:50.0639 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Jv/egSruXypv6EUQNCmzp7Vt5dkRRenh0KENXWc/0MNOCHtPWG4ipDapb6crR03tzuelRr48FcXK0O9szuWcufRnIYK+SY1Vx0vTSZaXbMg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3655
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.134
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ihwbZ-00007c-1e
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:16:42 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:60266 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1ihwbY-0003zI-KA
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 09:16:40 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 6F2571A2277;
+ Thu, 19 Dec 2019 15:15:37 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 4E0D11A2190;
+ Thu, 19 Dec 2019 15:15:37 +0100 (CET)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] target/mips: Add support for MIPS<32|64>R6 CRC32 ISA
+Date: Thu, 19 Dec 2019 15:15:19 +0100
+Message-Id: <1576764920-24514-2-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1576764920-24514-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1576764920-24514-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,56 +50,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Nir Soffer <nirsof@gmail.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: aleksandar.rikalo@rt-rk.com, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTkuMTIuMjAxOSAxNzowNCwgS2V2aW4gV29sZiB3cm90ZToNCj4gQW0gMTkuMTIuMjAxOSB1bSAx
-NDo0MSBoYXQgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSBnZXNjaHJpZWJlbjoNCj4+IEFo
-aCwgSSBzZWUsIGl0J3MgZG9jdW1lbnRlZCBhcw0KPj4NCj4+ICsjIEBiaXRtYXA6IEFsc28gZXhw
-b3J0IHRoZSBkaXJ0eSBiaXRtYXAgcmVhY2hhYmxlIGZyb20gQGRldmljZSwgc28gdGhlDQo+PiAr
-IyAgICAgICAgICBOQkQgY2xpZW50IGNhbiB1c2UgTkJEX09QVF9TRVRfTUVUQV9DT05URVhUIHdp
-dGgNCj4+ICsjICAgICAgICAgICJxZW11OmRpcnR5LWJpdG1hcDpOQU1FIiB0byBpbnNwZWN0IHRo
-ZSBiaXRtYXAuIChzaW5jZSA0LjApDQo+Pg0KPj4gYW5kIGl0IGlzIGxvZ2ljYWwgdG8gYXNzdW1l
-IHRoYXQgZXhwb3J0IG5hbWUgKHdoaWNoIGlzIEBuYW1lIGFyZ3VtZW50KSBpcw0KPj4gbWVudGlv
-bmVkLiBCdXQgd2UgbmV2ZXIgbWVudGlvbmVkIGl0LiBUaGlzIGlzIGp1c3QgZG9jdW1lbnRlZCBh
-ZnRlcg0KPj4gcmVtb3ZlZCBleHBlcmltZW5hdGwgY29tbWFuZCB4LW5iZC1zZXJ2ZXItYWRkLWJp
-dG1hcCwNCj4+DQo+PiBsb29rIGF0DQo+Pg0KPj4gY29tbWl0IDdkYzU3MGIzODA2ZTViMGE0Yzky
-MTkwNjE1NTZlZDVhNGEwZGU4MGMNCj4+IEF1dGhvcjogRXJpYyBCbGFrZSA8ZWJsYWtlQHJlZGhh
-dC5jb20+DQo+PiBEYXRlOiAgIEZyaSBKYW4gMTEgMTM6NDc6MTggMjAxOSAtMDYwMA0KPj4NCj4+
-ICAgICAgIG5iZDogUmVtb3ZlIHgtbmJkLXNlcnZlci1hZGQtYml0bWFwDQo+Pg0KPj4gLi4uDQo+
-Pg0KPj4gLSMgQGJpdG1hcC1leHBvcnQtbmFtZTogSG93IHRoZSBiaXRtYXAgd2lsbCBiZSBzZWVu
-IGJ5IG5iZCBjbGllbnRzDQo+PiAtIyAgICAgICAgICAgICAgICAgICAgICAoZGVmYXVsdCBAYml0
-bWFwKQ0KPj4gLSMNCj4+IC0jIE5vdGU6IHRoZSBjbGllbnQgbXVzdCB1c2UgTkJEX09QVF9TRVRf
-TUVUQV9DT05URVhUIHdpdGggYSBxdWVyeSBvZg0KPj4gLSMgInFlbXU6ZGlydHktYml0bWFwOk5B
-TUUiICh3aGVyZSBOQU1FIG1hdGNoZXMgQGJpdG1hcC1leHBvcnQtbmFtZSkgdG8gYWNjZXNzDQo+
-PiAtIyB0aGUgZXhwb3NlZCBiaXRtYXAuDQo+Pg0KPj4NCj4+IFNvLCB0aGlzICJOQU1FIiBpcyBz
-YXZlZCBhbmQgbm93IGxvb2tzIGluY29ycmVjdC4gV2hhdCBzaG91bGQgYmUgZml4ZWQsIGlzIFFh
-cGkNCj4+IGRvY3VtZW50YXRpb24uDQo+IA0KPiBIbSwgSSBkb24ndCBrbm93IHRoZXNlIGludGVy
-ZmFjZXMgdmVyeSB3ZWxsLCBidXQgZnJvbSB5b3UgZXhwbGFuYXRpb24gaXQNCj4gbG9va3MgdG8g
-bWUgYXMgaWYgaGF2aW5nIGEgYml0bWFwIG5hbWUgbWFkZSBzZW5zZSB3aXRoDQo+IHgtbmJkLXNl
-cnZlci1hZGQtYml0bWFwIGJlY2F1c2UgaXQgY291bGQgYmUgY2FsbGVkIG1vcmUgdGhhbiBvbmNl
-IGZvcg0KPiBleHBvcnRpbmcgbXVsdGlwbGUgYml0bWFwcy4NCj4gDQo+IEJ1dCBub3csIHdlIGhh
-dmUgb25seSBuYmQtc2VydmVyLWFkZCwgd2hpY2ggdGFrZXMgYSBzaW5nbGUgYml0bWFwIG5hbWUu
-DQo+IEFzIHdlIGRvbid0IGhhdmUgdG8gZGlzdGluZ3Vpc2ggbXVsdGlwbGUgYml0bWFwcyBhbnkg
-bW9yZSwgd291bGRuJ3QgaXQNCj4gbWFrZSBtb3JlIHNlbnNlIHRvIHVzZSAicWVtdTpkaXJ0eS1i
-aXRtYXAiIHdpdGhvdXQgYW55IG90aGVyDQo+IGluZm9ybWF0aW9uPyBCb3RoIGV4cG9ydCBuYW1l
-IGFuZCBiaXRtYXAgbmFtZSBhcmUgYWxyZWFkeSBpZGVudGlmaWVkIGJ5DQo+IHRoZSBjb25uZWN0
-aW9uLg0KDQpJIHRoaW5rLCBpdCB3aWxsIGEgYml0IGluIGNvbmZsaWN0IHdpdGggYWxyZWFkeSBk
-b2N1bWVudGVkDQoNCiogInFlbXU6ZGlydHktYml0bWFwOiIgLSByZXR1cm5zIGxpc3Qgb2YgYWxs
-IGF2YWlsYWJsZSBkaXJ0eS1iaXRtYXANCiAgICAgICAgICAgICAgICAgICAgICAgICAgbWV0YWRh
-dGEgY29udGV4dHMuDQoNClNvLCBpZiB3ZSB3YW50IHNvbWUgImRlZmF1bHQgZGlydHkgYml0bWFw
-Iiwgd2UnZCBiZXR0ZXIgdXNlIHNvbWV0aGluZyBkaWZmZXJlbnQNCmZyb20ganVzdCBkaXJ0eS1i
-aXRtYXAuIEZvciBleGFtcGxlLA0KDQogICAgInFlbXU6ZGVmYXVsdC1kaXJ0eS1iaXRtYXAiDQoN
-Cj4gQnV0IGlmIHdlIGhhdmUgdG8gaGF2ZSBzb21ldGhpbmcgdGhlcmUsIHVzaW5nIHRoZSBiaXRt
-YXAgbmFtZSAod2hpY2ggbWF5DQo+IG9yIG1heSBub3QgYmUgdGhlIHNhbWUgYXMgdXNlZCBpbiB0
-aGUgaW1hZ2UgZmlsZSkgbWFrZXMgYSBsaXR0bGUgbW9yZQ0KPiBzZW5zZSBiZWNhdXNlIGl0IG1h
-a2VzIHRoZSBpbnRlcmZhY2UgZXh0ZW5zaWJsZSBmb3IgdGhlIGNhc2UgdGhhdCB3ZQ0KPiBldmVy
-IHdhbnQgdG8gcmUtaW50cm9kdWNlIGFuIG5iZC1zZXJ2ZXItYWRkLWJpdG1hcC4NCg0KQWdyZWUN
-Cg0KDQo+IA0KPiAoQnkgdGhlIHdheSwgZXZlbiBpZiB0aGUgcGF0Y2ggd2VyZSBjb3JyZWN0LCBp
-dCBsYWNrcyBhIFNpZ25lZC1vZmYtYnkuKQ0KPiANCj4gS2V2aW4NCj4gDQoNCg0KLS0gDQpCZXN0
-IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
+
+Add support for eight CRC-related MIPS<32|64>R6 instructions.
+
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ disas/mips.c            |   8 +++
+ target/mips/helper.h    |   2 +
+ target/mips/op_helper.c |  19 ++++++++
+ target/mips/translate.c | 127 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 156 insertions(+)
+
+diff --git a/disas/mips.c b/disas/mips.c
+index dfefe5e..75c48b3 100644
+--- a/disas/mips.c
++++ b/disas/mips.c
+@@ -1409,6 +1409,14 @@ const struct mips_opcode mips_builtin_opcodes[] =
+ {"dvp",        "t",     0x41600024, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
+ {"evp",        "",      0x41600004, 0xffffffff, TRAP,                 0, I32R6},
+ {"evp",        "t",     0x41600004, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
++{"crc32b",     "t,v,t", 0x7c00000f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32h",     "t,v,t", 0x7c00004f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32w",     "t,v,t", 0x7c00008f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32d",     "t,v,t", 0x7c0000cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
++{"crc32cb",    "t,v,t", 0x7c00010f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32ch",    "t,v,t", 0x7c00014f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32cw",    "t,v,t", 0x7c00018f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
++{"crc32cd",    "t,v,t", 0x7c0001cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
+ 
+ /* MSA */
+ {"sll.b",   "+d,+e,+f", 0x7800000d, 0xffe0003f, WR_VD|RD_VS|RD_VT,  0, MSA},
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index 7b8ad74..2095330 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -40,6 +40,8 @@ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_1(dbitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+ #endif
+ 
++DEF_HELPER_3(crc32, tl, tl, tl, i32)
++DEF_HELPER_3(crc32c, tl, tl, tl, i32)
+ DEF_HELPER_FLAGS_4(rotx, TCG_CALL_NO_RWG_SE, tl, tl, i32, i32, i32)
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index 18fcee4..5cd396d 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -27,6 +27,8 @@
+ #include "exec/memop.h"
+ #include "sysemu/kvm.h"
+ #include "fpu/softfloat.h"
++#include "qemu/crc32c.h"
++#include <zlib.h>
+ 
+ /*****************************************************************************/
+ /* Exceptions processing helpers */
+@@ -350,6 +352,23 @@ target_ulong helper_rotx(target_ulong rs, uint32_t shift, uint32_t shiftx,
+     return (int64_t)(int32_t)(uint32_t)tmp5;
+ }
+ 
++/* these crc32 functions are based on target/arm/helper-a64.c */
++target_ulong helper_crc32(target_ulong val, target_ulong m, uint32_t sz)
++{
++    uint8_t buf[8];
++
++    stq_le_p(buf, m);
++    return (int32_t) (crc32(val ^ 0xffffffff, buf, sz) ^ 0xffffffff);
++}
++
++target_ulong helper_crc32c(target_ulong val, target_ulong m, uint32_t sz)
++{
++    uint8_t buf[8];
++
++    stq_le_p(buf, m);
++    return (int32_t) (crc32c(val, buf, sz) ^ 0xffffffff);
++}
++
+ #ifndef CONFIG_USER_ONLY
+ 
+ static inline hwaddr do_translate_address(CPUMIPSState *env,
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 4bff585..1b38356 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -451,6 +451,7 @@ enum {
+     OPC_LWE            = 0x2F | OPC_SPECIAL3,
+ 
+     /* R6 */
++    OPC_CRC32          = 0x0F | OPC_SPECIAL3,
+     R6_OPC_PREF        = 0x35 | OPC_SPECIAL3,
+     R6_OPC_CACHE       = 0x25 | OPC_SPECIAL3,
+     R6_OPC_LL          = 0x36 | OPC_SPECIAL3,
+@@ -2547,6 +2548,7 @@ typedef struct DisasContext {
+     bool nan2008;
+     bool abs2008;
+     bool saar;
++    bool crcp;
+ } DisasContext;
+ 
+ #define DISAS_STOP       DISAS_TARGET_0
+@@ -27117,11 +27119,96 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+     }
+ }
+ 
++static void gen_crc32(DisasContext *ctx, int rd, int rs, int rt, int sz,
++                      int crc32c)
++{
++    TCGv t0;
++    TCGv t1;
++    TCGv_i32 tsz = tcg_const_i32(1 << sz);
++    uint64_t mask = 0;
++
++    if (rd == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++
++    gen_load_gpr(t0, rt);
++    gen_load_gpr(t1, rs);
++
++    if (sz != 3) {
++        switch (sz) {
++        case 0:
++            mask = 0xFF;
++            break;
++        case 1:
++            mask = 0xFFFF;
++            break;
++        case 2:
++            mask = 0xFFFFFFFF;
++            break;
++        }
++        tcg_gen_andi_tl(t1, t1, mask);
++    }
++
++    if (crc32c) {
++        gen_helper_crc32c(cpu_gpr[rd], t0, t1, tsz);
++    } else {
++        gen_helper_crc32(cpu_gpr[rd], t0, t1, tsz);
++    }
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    tcg_temp_free_i32(tsz);
++}
++
++static void gen_crc32b(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 0, 0);
++}
++
++static void gen_crc32h(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 1, 0);
++}
++
++static void gen_crc32w(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 2, 0);
++}
++
++static void gen_crc32d(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 3, 0);
++}
++
++static void gen_crc32cb(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 0, 1);
++}
++
++static void gen_crc32ch(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 1, 1);
++}
++
++static void gen_crc32cw(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 2, 1);
++}
++
++static void gen_crc32cd(DisasContext *ctx, int rd, int rs, int rt)
++{
++    gen_crc32(ctx, rd, rs, rt, 3, 1);
++}
++
+ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
+ {
+     int rs, rt, rd, sa;
+     uint32_t op1, op2;
+     int16_t imm;
++    int sz, crc32c;
+ 
+     rs = (ctx->opcode >> 21) & 0x1f;
+     rt = (ctx->opcode >> 16) & 0x1f;
+@@ -27131,6 +27218,45 @@ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
+ 
+     op1 = MASK_SPECIAL3(ctx->opcode);
+     switch (op1) {
++    case OPC_CRC32:
++        sz = extract32(ctx->opcode, 6, 2);
++        crc32c = extract32(ctx->opcode, 8, 3);
++        if (unlikely(!ctx->crcp) ||
++            unlikely((sz == 3) && (!(ctx->hflags & MIPS_HFLAG_64))) ||
++            unlikely((crc32c >= 2))) {
++            generate_exception_end(ctx, EXCP_RI);
++        }
++        switch (sz) {
++        case 0:
++            if (crc32c) {
++                gen_crc32cb(ctx, rt, rs, rt);
++            } else {
++                gen_crc32b(ctx, rt, rs, rt);
++            }
++            break;
++        case 1:
++            if (crc32c) {
++                gen_crc32ch(ctx, rt, rs, rt);
++            } else {
++                gen_crc32h(ctx, rt, rs, rt);
++            }
++            break;
++        case 2:
++            if (crc32c) {
++                gen_crc32cw(ctx, rt, rs, rt);
++            } else {
++                gen_crc32w(ctx, rt, rs, rt);
++            }
++            break;
++        case 3:
++            if (crc32c) {
++                gen_crc32cd(ctx, rt, rs, rt);
++            } else {
++                gen_crc32d(ctx, rt, rs, rt);
++            }
++            break;
++        }
++        break;
+     case R6_OPC_PREF:
+         if (rt >= 24) {
+             /* hint codes 24-31 are reserved and signal RI */
+@@ -30727,6 +30853,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->mrp = (env->CP0_Config5 >> CP0C5_MRP) & 1;
+     ctx->nan2008 = (env->active_fpu.fcr31 >> FCR31_NAN2008) & 1;
+     ctx->abs2008 = (env->active_fpu.fcr31 >> FCR31_ABS2008) & 1;
++    ctx->crcp = (env->CP0_Config5 >> CP0C5_CRCP) & 1;
+     restore_cpu_state(env, ctx);
+ #ifdef CONFIG_USER_ONLY
+         ctx->mem_idx = MIPS_HFLAG_UM;
+-- 
+2.7.4
+
 
