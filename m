@@ -2,111 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C78126441
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:07:34 +0100 (CET)
-Received: from localhost ([::1]:42120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31FE12643A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 15:05:12 +0100 (CET)
+Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihwSj-0000rI-0O
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:07:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34687)
+	id 1ihwQQ-0005d1-Vw
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 09:05:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <k.jensen@samsung.com>) id 1ihvYq-0001ZE-0S
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:51 -0500
+ (envelope-from <k.jensen@samsung.com>) id 1ihvYo-0001XH-S4
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <k.jensen@samsung.com>) id 1ihvYk-0006M3-H4
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:47 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:55855)
+ (envelope-from <k.jensen@samsung.com>) id 1ihvYl-0006P0-EP
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:46 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:55863)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <k.jensen@samsung.com>)
- id 1ihvYj-0006GY-QB
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:42 -0500
+ id 1ihvYk-0006It-Vv
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 08:09:43 -0500
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20191219130940euoutp02a9c58bb8fa58a88fc57142631cc94eb7~hx8H3QEpe0729207292euoutp02n
- for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 13:09:40 +0000 (GMT)
+ 20191219130941euoutp02765f9b765b4a79e09a1fdc76fb382510~hx8IqVB1V0697606976euoutp02I
+ for <qemu-devel@nongnu.org>; Thu, 19 Dec 2019 13:09:41 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20191219130940euoutp02a9c58bb8fa58a88fc57142631cc94eb7~hx8H3QEpe0729207292euoutp02n
+ 20191219130941euoutp02765f9b765b4a79e09a1fdc76fb382510~hx8IqVB1V0697606976euoutp02I
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1576760980;
- bh=/udWAF5+K1DbSYjeVakspEVrNJzRWgme4+n05lR93yE=;
+ s=mail20170921; t=1576760981;
+ bh=1Vx5l5dqYuHG6gTUMzpASbOeY3/CxjIqdBbYMM6xbJ0=;
  h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=h6IhQVxzRbBCDroKcu2nZGZtje2FrAaCWRYwEBBc949xZzF8XlKZP4LO3SMSNqsh7
- erXVhQ2M22SzH//WmLqZMnW9cc5vOa8gd2qmP/HyVXFcaOzjPkkgYuwYTNh5XDmQSk
- hh2USqfbnlDE7YCE73nK4/ck3udUvyvMz3DbLB8Y=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20191219130940eucas1p1ea31c0c64956e6c426e179712ab9644e~hx8Hv4pZ41797517975eucas1p1Y;
- Thu, 19 Dec 2019 13:09:40 +0000 (GMT)
+ b=LSMyQNI/VUoVPm1B1xLwv8Qz9RRQaoT6WMo6VknX2VNwYJLoScgeeg9GGO6MIoLDe
+ a0q/ZwieofMpE+yDVwFxvq6h815o2aWt9BerZKiTcQ/ACP3dEjwGNz+IZLKdOGH+ka
+ Ws9xJcr6b2ChE1edRw8xk5xQrdTl4gA+lxB+BS9w=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20191219130941eucas1p23830aae141acacc13f90d65ae6687895~hx8Ia0jC93066830668eucas1p2g;
+ Thu, 19 Dec 2019 13:09:41 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 85.05.60679.4967BFD5; Thu, 19
- Dec 2019 13:09:40 +0000 (GMT)
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id B5.5F.60698.4967BFD5; Thu, 19
+ Dec 2019 13:09:41 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130939eucas1p1faaa8a7ebfd3fc40ca8cd72dca1a6682~hx8HZaGWx1459314593eucas1p1E;
- Thu, 19 Dec 2019 13:09:39 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20191219130940eucas1p2ed4053766595fbef6b5ddee13565f22f~hx8IDHK820341303413eucas1p2x;
+ Thu, 19 Dec 2019 13:09:40 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20191219130939eusmtrp26b896a195516087d591bac3b9f883b8c~hx8HY18DW3097130971eusmtrp2C;
- Thu, 19 Dec 2019 13:09:39 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-d5-5dfb76945c29
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 73.4D.08375.3967BFD5; Thu, 19
- Dec 2019 13:09:39 +0000 (GMT)
+ 20191219130940eusmtrp26e9a9b2d56c946cd2043559e7df8a8ba~hx8ICkKAQ3097130971eusmtrp2G;
+ Thu, 19 Dec 2019 13:09:40 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-5d-5dfb76942c74
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 04.4D.08375.4967BFD5; Thu, 19
+ Dec 2019 13:09:40 +0000 (GMT)
 Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20191219130939eusmtip22fe7a40cd03c9f9509b6b3eae9465245~hx8HMyuUi2680126801eusmtip2S;
- Thu, 19 Dec 2019 13:09:39 +0000 (GMT)
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20191219130940eusmtip1e706f12adce089f511e2dccfd9d85b21~hx8H5I9dP2511425114eusmtip1h;
+ Thu, 19 Dec 2019 13:09:40 +0000 (GMT)
 Received: from CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) by
  CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
  Server (TLS) id 15.0.1320.4; Thu, 19 Dec 2019 13:09:39 +0000
 Received: from apples.local (106.110.32.41) by CAMSVWEXC01.scsc.local
  (106.1.227.71) with Microsoft SMTP Server id 15.0.1320.4 via Frontend
- Transport; Thu, 19 Dec 2019 13:09:38 +0000
+ Transport; Thu, 19 Dec 2019 13:09:39 +0000
 From: Klaus Jensen <k.jensen@samsung.com>
 To: <qemu-block@nongnu.org>
-Subject: [PATCH v4 08/24] nvme: refactor device realization
-Date: Thu, 19 Dec 2019 14:09:05 +0100
-Message-ID: <20191219130921.309264-9-k.jensen@samsung.com>
+Subject: [PATCH v4 09/24] nvme: add temperature threshold feature
+Date: Thu, 19 Dec 2019 14:09:06 +0100
+Message-ID: <20191219130921.309264-10-k.jensen@samsung.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219130921.309264-1-k.jensen@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOKsWRmVeSWpSXmKPExsWy7djPc7pTyn7HGvz4wmexub+d0WLSoWuM
- FksuplrMu6VsMetdO5vF8d4dLA5sHptWdbJ53Lm2h83jybXNTB7v911lC2CJ4rJJSc3JLEst
- 0rdL4MrY1NvEVHDWs+LBnIQGxn6LLkZODgkBE4mJv26wdTFycQgJrGCU6HrWzA7hfGGU2LJy
- JyNIlZDAZ0aJr30pMB0Htu5jgihazijR9vA0K4QDVHT63VVGCOcMo8Syn5OZIZxdjBIntl1k
- B+lnE9CU2P7nPwuILSIgLdF+dRJYO7PAdUaJQ78hioQFrCWWPXoHVsQioCrxddEGMJtXwEri
- 7o2XjBCHyEts/faJFcTmBKrf0nubEaJGUOLkzCdg9cxANc1bZzND2BISB1+8ALtIQmARu8TB
- nj4WiEEuEv2PT7JD2MISr45vgbJlJP7vnM8E0dDNKNH34StU9wxGienLvgNDjQPIsZboO5MD
- 0eAosePUTyaIMJ/EjbeCEIv5JCZtm84MEeaV6GgTgqhWk9jRtJVxAqPyLCRnz0Jy9iwkZy9g
- ZF7FKJ5aWpybnlpslJdarlecmFtcmpeul5yfu4kRmFxO/zv+ZQfjrj9JhxgFOBiVeHhfJP+O
- FWJNLCuuzD3EKMHBrCTCe7vjZ6wQb0piZVVqUX58UWlOavEhRmkOFiVxXuNFL2OFBNITS1Kz
- U1MLUotgskwcnFINjGli3qbZR+aaaW891SWw+1LA4637sy+mT1i5ebXx+XBZ9rMXU6+eYpTZ
- 9+fOltUJCZenfLDmrVpdmfXcQ7FfsKJ0yYpDR/Sm3xes7zt+jOVyUuSk9Sw+VxcKfV+ftyhT
- 85Pr1rrs1vQIiy8eKvJPUrsWsm3VOrbxgHaHwvZdngd57pqxTmG/sEGJpTgj0VCLuag4EQAo
- Az6gKgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsVy+t/xe7qTy37HGjx5ZGSxub+d0WLSoWuM
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SXUhTcRjG+e+cnR1Hk9MUfFNDmmgYZYkShxylILHLbgyJhk096mqbY0ct
+ u0mm+YlWZswmfiTmbBHR5pZlGo3IIhGtNMtgjKRm2fIjnUtxbR4N7573fZ7n/f8u/iQmNvAj
+ SaWmmNFpFCoJIcTtr3yjh26VrsmPGK2Itl6rRnSTYxLR3eMM3f45ljZ6qgl6uKEfTyNkFnMt
+ Ifsy+YyQzUxaebLfQxPEKfyMUJrHqJSljO7w8XPCwrHuB7jWGn+pzXODV46ao+tQCAlUCrge
+ mVAdEpJiqheB3rLE44Y/CD4sDuDcsITg3tde/nbFduf+lmFC0O7yYf9TCxtuATeMIOjx3dxy
+ niL46fTygn2CSoDH6348qMOpKKieaOIHQxj1EYFjbVwQNMKodLBbVgNcJIlTcWA0KoJrEZUK
+ c852jOOIAdvK4iZTSGDf1zCNuMxueHN7ZvM+FshU2FoxTgO8cLs3gYAyC2B+8DvBHcqASu8c
+ 4nQY/BjuE3A6GvxPOnhcoR5B4/zyVrsFgaHHSwTpIPB044iKk+nw3JvFyVCY+rWbezcUmuwG
+ jFuLoKZKzF2Ph369DV1HscYd1MYd1MYd1J0IM6MIpoRVFzBssoa5mMgq1GyJpiAxt0htQYHv
+ 8nZjeLkfDa3nOBBFIskuUVr+mlzMV5SyZWoHAhKThIuma3xysShPUXaZ0RVl60pUDOtAUSQu
+ iRAld83KxVSBopi5wDBaRrft8siQyHKk7hB3vZy92tX6Or/hbptUcl55YuVKdnEm7dqLPSyL
+ S8pV6t9p9dHuo/565+zYuJKeapa6UpNM0o33RdNVWTl7Kvd5eirnTw+uns2oT/hr8H86ZvbY
+ nZ0Gcj9/6GBLMy/vJDJV6HrTRyMXhI4UIlXKZkZpY2r98YMxA99atRKcLVQkHcB0rOIfJ2qU
+ lioDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsVy+t/xu7pTyn7HGkydpmSxub+d0WLSoWuM
  FksuplrMu6VsMetdO5vF8d4dLA5sHptWdbJ53Lm2h83jybXNTB7v911lC2CJ0rMpyi8tSVXI
- yC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0MvY1NvEVHDWs+LBnIQG
- xn6LLkZODgkBE4kDW/cxdTFycQgJLGWUWHvhBhNEQkbi05WP7BC2sMSfa11sEEUfGSU29K9m
- hnDOMErcOPmSHcLZxShx/sR/FpAWNgFNie1/IGwRAWmJ9quTWEGKmAWuM0oc+n0RbK6wgLXE
- skfvwIpYBFQlvi7aAGbzClhJ3L3xkhFit7zE1m+fWEFsTqD6Lb23weJCQDWPf36EqheUODnz
- CZjNDFTfvHU2M4QtIXHwxQvmCYzCs5CUzUJSNgtJ2QJG5lWMIqmlxbnpucWGesWJucWleel6
- yfm5mxiBMbbt2M/NOxgvbQw+xCjAwajEw/sy+XesEGtiWXFl7iFGCQ5mJRHe2x0/Y4V4UxIr
- q1KL8uOLSnNSiw8xmgI9N5FZSjQ5Hxj/eSXxhqaG5haWhubG5sZmFkrivB0CB2OEBNITS1Kz
- U1MLUotg+pg4OKUaGNMWcK3/zRm3KK/4T0D65i2+kRHSxw7zBWZJZNRM+1IpFrA6W5bnBd9j
- jeJbPxltAyUcjL/JHWy73d6pdMay7OZF32MNZ6QfJ3o+W2Qd7pSnevzgcbZvRrMFaixUzXbu
- qYyUOsLv8nSy44O0DcmTjlq88+OYdin+xEJ7/tLbG5PF3Hdvk53DqcRSnJFoqMVcVJwIADn6
- YeDHAgAA
-X-CMS-MailID: 20191219130939eucas1p1faaa8a7ebfd3fc40ca8cd72dca1a6682
+ yC8usVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0Mu4sGQtS8FmtYq57yYy
+ NTBOkeli5OSQEDCR2LpwNUsXIxeHkMBSRok3P16wQiRkJD5d+cgOYQtL/LnWxQZR9JFRYtqH
+ NijnDKPEjZMv2SGcXYwSs5pWM4K0sAloSmz/858FxBYRkJZovzqJFaSIWeA6o8Sh3xfB5goL
+ OEps2/QDqIGDg0VAVWLWrESQMK+AtcSb+/OYIVbLS2z99gnsJE6g+Jbe22DzhQSsJB7//MgC
+ US8ocXLmEzCbGai+eetsZghbQuLgixfMExiFZyEpm4WkbBaSsgWMzKsYRVJLi3PTc4sN9YoT
+ c4tL89L1kvNzNzECY2zbsZ+bdzBe2hh8iFGAg1GJh/dl8u9YIdbEsuLK3EOMEhzMSiK8tzt+
+ xgrxpiRWVqUW5ccXleakFh9iNAX6bSKzlGhyPjD+80riDU0NzS0sDc2NzY3NLJTEeTsEDsYI
+ CaQnlqRmp6YWpBbB9DFxcEo1MC7SvTbl0Zd/fI3pnxUzqjzOhxxKnRwVeP7Y49tPBOrDCt+X
+ XtjxcMWl/gS9gqudF73t/W5slNwWv9svNe20x4HkX/aexeaJK1cZcQvKfexa5X9d/zmT51ov
+ u9pam+ZzG5hEi4Q5cheu+zlHvnAHr+uBtUuTztvoxZzx9xVwZA+qkBGPP+XtocRSnJFoqMVc
+ VJwIADCn7z3HAgAA
+X-CMS-MailID: 20191219130940eucas1p2ed4053766595fbef6b5ddee13565f22f
 X-Msg-Generator: CA
-X-RootMTR: 20191219130939eucas1p1faaa8a7ebfd3fc40ca8cd72dca1a6682
+X-RootMTR: 20191219130940eucas1p2ed4053766595fbef6b5ddee13565f22f
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20191219130939eucas1p1faaa8a7ebfd3fc40ca8cd72dca1a6682
+X-CMS-RootMailID: 20191219130940eucas1p2ed4053766595fbef6b5ddee13565f22f
 References: <20191219130921.309264-1-k.jensen@samsung.com>
- <CGME20191219130939eucas1p1faaa8a7ebfd3fc40ca8cd72dca1a6682@eucas1p1.samsung.com>
+ <CGME20191219130940eucas1p2ed4053766595fbef6b5ddee13565f22f@eucas1p2.samsung.com>
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 210.118.77.12
@@ -128,302 +128,153 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch splits up nvme_realize into multiple individual functions,
-each initializing a different subset of the device.
+It might seem wierd to implement this feature for an emulated device,
+but it is mandatory to support and the feature is useful for testing
+asynchronous event request support, which will be added in a later
+patch.
 
-Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 175 +++++++++++++++++++++++++++++++-----------------
- hw/block/nvme.h |  21 ++++++
- 2 files changed, 133 insertions(+), 63 deletions(-)
+ hw/block/nvme.c      | 47 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/block/nvme.h      |  2 ++
+ include/block/nvme.h |  7 ++++++-
+ 3 files changed, 55 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index d41ea5beab08..f9b9344f1376 100644
+index f9b9344f1376..13d412d76c8e 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -44,6 +44,7 @@
- #include "nvme.h"
+@@ -45,6 +45,7 @@
 =20
  #define NVME_SPEC_VER 0x00010201
-+#define NVME_MAX_QS PCI_MSIX_FLAGS_QSIZE
+ #define NVME_MAX_QS PCI_MSIX_FLAGS_QSIZE
++#define NVME_TEMPERATURE 0x143
 =20
  #define NVME_GUEST_ERR(trace, fmt, ...) \
      do { \
-@@ -1325,67 +1326,106 @@ static const MemoryRegionOps nvme_cmb_ops =3D {
-     },
- };
+@@ -801,6 +802,27 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCm=
+d *cmd, NvmeRequest *req)
+     uint32_t result;
 =20
--static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+static int nvme_check_constraints(NvmeCtrl *n, Error **errp)
- {
--    NvmeCtrl *n =3D NVME(pci_dev);
--    NvmeIdCtrl *id =3D &n->id_ctrl;
--
--    int i;
--    int64_t bs_size;
--    uint8_t *pci_conf;
--
--    if (!n->params.num_queues) {
--        error_setg(errp, "num_queues can't be zero");
--        return;
--    }
-+    NvmeParams *params =3D &n->params;
-=20
-     if (!n->conf.blk) {
--        error_setg(errp, "drive property not set");
--        return;
-+        error_setg(errp, "nvme: block backend not configured");
-+        return 1;
-     }
-=20
--    bs_size =3D blk_getlength(n->conf.blk);
--    if (bs_size < 0) {
--        error_setg(errp, "could not get backing file size");
--        return;
-+    if (!params->serial) {
-+        error_setg(errp, "nvme: serial not configured");
-+        return 1;
-     }
-=20
--    if (!n->params.serial) {
--        error_setg(errp, "serial property not set");
--        return;
-+    if ((params->num_queues < 1 || params->num_queues > NVME_MAX_QS)) {
-+        error_setg(errp, "nvme: invalid queue configuration");
-+        return 1;
-     }
+     switch (dw10) {
++    case NVME_TEMPERATURE_THRESHOLD:
++        result =3D 0;
 +
-+    return 0;
-+}
++        /*
++         * The controller only implements the Composite Temperature sens=
+or, so
++         * return 0 for all other sensors.
++         */
++        if (NVME_TEMP_TMPSEL(dw10)) {
++            break;
++        }
 +
-+static int nvme_init_blk(NvmeCtrl *n, Error **errp)
-+{
-     blkconf_blocksizes(&n->conf);
-     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->con=
-f.blk),
--                                       false, errp)) {
--        return;
-+        false, errp)) {
-+        return 1;
-     }
++        switch (NVME_TEMP_THSEL(dw10)) {
++        case 0x0:
++            result =3D cpu_to_le16(n->features.temp_thresh_hi);
++            break;
++        case 0x1:
++            result =3D cpu_to_le16(n->features.temp_thresh_low);
++            break;
++        }
++
++        break;
+     case NVME_VOLATILE_WRITE_CACHE:
+         result =3D blk_enable_write_cache(n->conf.blk);
+         trace_nvme_dev_getfeat_vwcache(result ? "enabled" : "disabled");
+@@ -845,6 +867,23 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCm=
+d *cmd, NvmeRequest *req)
+     uint32_t dw11 =3D le32_to_cpu(cmd->cdw11);
 =20
--    pci_conf =3D pci_dev->config;
--    pci_conf[PCI_INTERRUPT_PIN] =3D 1;
--    pci_config_set_prog_interface(pci_dev->config, 0x2);
--    pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
--    pcie_endpoint_cap_init(pci_dev, 0x80);
-+    return 0;
-+}
-=20
-+static void nvme_init_state(NvmeCtrl *n)
-+{
-     n->num_namespaces =3D 1;
-     n->reg_size =3D pow2ceil(0x1004 + 2 * (n->params.num_queues + 1) * 4=
-);
--    n->ns_size =3D bs_size / (uint64_t)n->num_namespaces;
--
+     switch (dw10) {
++    case NVME_TEMPERATURE_THRESHOLD:
++        if (NVME_TEMP_TMPSEL(dw11)) {
++            break;
++        }
++
++        switch (NVME_TEMP_THSEL(dw11)) {
++        case 0x0:
++            n->features.temp_thresh_hi =3D NVME_TEMP_TMPTH(dw11);
++            break;
++        case 0x1:
++            n->features.temp_thresh_low =3D NVME_TEMP_TMPTH(dw11);
++            break;
++        default:
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
++
++        break;
+     case NVME_VOLATILE_WRITE_CACHE:
+         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
+         break;
+@@ -1366,6 +1405,9 @@ static void nvme_init_state(NvmeCtrl *n)
      n->namespaces =3D g_new0(NvmeNamespace, n->num_namespaces);
      n->sq =3D g_new0(NvmeSQueue *, n->params.num_queues);
      n->cq =3D g_new0(NvmeCQueue *, n->params.num_queues);
-+}
 +
-+static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-+{
-+    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
-+    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-+
-+    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
-+    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
-+    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2);
-+    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-+
-+    n->cmbloc =3D n->bar.cmbloc;
-+    n->cmbsz =3D n->bar.cmbsz;
-+
-+    n->cmbuf =3D g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-+    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
-+                            "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz)=
-);
-+    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
-+        PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
-+        PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
-+}
-+
-+static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
-+{
-+    uint8_t *pci_conf =3D pci_dev->config;
-=20
--    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
--                          "nvme", n->reg_size);
-+    pci_conf[PCI_INTERRUPT_PIN] =3D 1;
-+    pci_config_set_prog_interface(pci_conf, 0x2);
-+    pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
-+    pci_config_set_device_id(pci_conf, 0x5845);
-+    pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
-+    pcie_endpoint_cap_init(pci_dev, 0x80);
-+
-+    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme=
-",
-+        n->reg_size);
-     pci_register_bar(pci_dev, 0,
-         PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
-         &n->iomem);
-     msix_init_exclusive_bar(pci_dev, n->params.num_queues, 4, NULL);
-=20
-+    if (n->params.cmb_size_mb) {
-+        nvme_init_cmb(n, pci_dev);
-+    }
-+}
-+
-+static void nvme_init_ctrl(NvmeCtrl *n)
-+{
-+    NvmeIdCtrl *id =3D &n->id_ctrl;
-+    NvmeParams *params =3D &n->params;
-+    uint8_t *pci_conf =3D n->parent_obj.config;
-+
-     id->vid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VEND=
-OR_ID));
-     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
-     strpadcpy((char *)id->fr, sizeof(id->fr), "1.0", ' ');
--    strpadcpy((char *)id->sn, sizeof(id->sn), n->params.serial, ' ');
-+    strpadcpy((char *)id->sn, sizeof(id->sn), params->serial, ' ');
-     id->rab =3D 6;
-     id->ieee[0] =3D 0x00;
-     id->ieee[1] =3D 0x02;
-@@ -1431,46 +1471,55 @@ static void nvme_realize(PCIDevice *pci_dev, Erro=
-r **errp)
-=20
-     n->bar.vs =3D NVME_SPEC_VER;
-     n->bar.intmc =3D n->bar.intms =3D 0;
-+}
-=20
--    if (n->params.cmb_size_mb) {
-+static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **e=
-rrp)
-+{
-+    int64_t bs_size;
-+    NvmeIdNs *id_ns =3D &ns->id_ns;
-+
-+    bs_size =3D blk_getlength(n->conf.blk);
-+    if (bs_size < 0) {
-+        error_setg_errno(errp, -bs_size, "blk_getlength");
-+        return 1;
-+    }
-+
-+    id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
-+    n->ns_size =3D bs_size;
-+
-+    id_ns->ncap =3D id_ns->nuse =3D id_ns->nsze =3D
-+        cpu_to_le64(nvme_ns_nlbas(n, ns));
-=20
--        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
--        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-+    return 0;
-+}
-=20
--        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
--        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
--        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
--        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-+static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+{
-+    NvmeCtrl *n =3D NVME(pci_dev);
-+    Error *local_err =3D NULL;
-+    int i;
-=20
--        n->cmbloc =3D n->bar.cmbloc;
--        n->cmbsz =3D n->bar.cmbsz;
-+    if (nvme_check_constraints(n, &local_err)) {
-+        error_propagate_prepend(errp, local_err, "nvme_check_constraints=
-: ");
-+        return;
-+    }
-=20
--        n->cmbuf =3D g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
--        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
--                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbs=
-z));
--        pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
--            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64=
- |
--            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
-+    nvme_init_state(n);
-=20
-+    if (nvme_init_blk(n, &local_err)) {
-+        error_propagate_prepend(errp, local_err, "nvme_init_blk: ");
-+        return;
-     }
-=20
-     for (i =3D 0; i < n->num_namespaces; i++) {
--        NvmeNamespace *ns =3D &n->namespaces[i];
--        NvmeIdNs *id_ns =3D &ns->id_ns;
--        id_ns->nsfeat =3D 0;
--        id_ns->nlbaf =3D 0;
--        id_ns->flbas =3D 0;
--        id_ns->mc =3D 0;
--        id_ns->dpc =3D 0;
--        id_ns->dps =3D 0;
--        id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
--        id_ns->ncap  =3D id_ns->nuse =3D id_ns->nsze =3D
--            cpu_to_le64(n->ns_size >>
--                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds)=
-;
-+        if (nvme_init_namespace(n, &n->namespaces[i], &local_err)) {
-+            error_propagate_prepend(errp, local_err, "nvme_init_namespac=
-e: ");
-+            return;
-+        }
-     }
-+
-+    nvme_init_pci(n, pci_dev);
-+    nvme_init_ctrl(n);
++    n->temperature =3D NVME_TEMPERATURE;
++    n->features.temp_thresh_hi =3D le16_to_cpu(n->id_ctrl.wctemp);
  }
 =20
- static void nvme_exit(PCIDevice *pci_dev)
+ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -1447,6 +1489,11 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+     id->acl =3D 3;
+     id->frmw =3D 7 << 1;
+     id->lpa =3D 1 << 0;
++
++    /* recommended default value (~70 C) */
++    id->wctemp =3D cpu_to_le16(0x157);
++    id->cctemp =3D cpu_to_le16(0x175);
++
+     id->sqes =3D (0x6 << 4) | 0x6;
+     id->cqes =3D (0x4 << 4) | 0x4;
+     id->nn =3D cpu_to_le32(n->num_namespaces);
 diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 9957c4a200e2..a867bdfabafd 100644
+index a867bdfabafd..1518f32557a3 100644
 --- a/hw/block/nvme.h
 +++ b/hw/block/nvme.h
-@@ -65,6 +65,22 @@ typedef struct NvmeNamespace {
-     NvmeIdNs        id_ns;
- } NvmeNamespace;
+@@ -108,6 +108,7 @@ typedef struct NvmeCtrl {
+     uint64_t    irq_status;
+     uint64_t    host_timestamp;                 /* Timestamp sent by the=
+ host */
+     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
++    uint16_t    temperature;
 =20
-+static inline NvmeLBAF nvme_ns_lbaf(NvmeNamespace *ns)
-+{
-+    NvmeIdNs *id_ns =3D &ns->id_ns;
-+    return id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
-+}
-+
-+static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
-+{
-+    return nvme_ns_lbaf(ns).ds;
-+}
-+
-+static inline size_t nvme_ns_lbads_bytes(NvmeNamespace *ns)
-+{
-+    return 1 << nvme_ns_lbads(ns);
-+}
-+
- #define TYPE_NVME "nvme"
- #define NVME(obj) \
-         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
-@@ -101,4 +117,9 @@ typedef struct NvmeCtrl {
+     NvmeNamespace   *namespaces;
+     NvmeSQueue      **sq;
+@@ -115,6 +116,7 @@ typedef struct NvmeCtrl {
+     NvmeSQueue      admin_sq;
+     NvmeCQueue      admin_cq;
      NvmeIdCtrl      id_ctrl;
++    NvmeFeatureVal  features;
  } NvmeCtrl;
 =20
-+static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
-+{
-+    return n->ns_size >> nvme_ns_lbads(ns);
-+}
+ static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index d2f65e8fe496..ff31cb32117c 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -616,7 +616,8 @@ enum NvmeIdCtrlOncs {
+ typedef struct NvmeFeatureVal {
+     uint32_t    arbitration;
+     uint32_t    power_mgmt;
+-    uint32_t    temp_thresh;
++    uint16_t    temp_thresh_hi;
++    uint16_t    temp_thresh_low;
+     uint32_t    err_rec;
+     uint32_t    volatile_wc;
+     uint32_t    num_queues;
+@@ -635,6 +636,10 @@ typedef struct NvmeFeatureVal {
+ #define NVME_INTC_THR(intc)     (intc & 0xff)
+ #define NVME_INTC_TIME(intc)    ((intc >> 8) & 0xff)
+=20
++#define NVME_TEMP_THSEL(temp)  ((temp >> 20) & 0x3)
++#define NVME_TEMP_TMPSEL(temp) ((temp >> 16) & 0xf)
++#define NVME_TEMP_TMPTH(temp)  (temp & 0xffff)
 +
- #endif /* HW_NVME_H */
+ enum NvmeFeatureIds {
+     NVME_ARBITRATION                =3D 0x1,
+     NVME_POWER_MANAGEMENT           =3D 0x2,
 --=20
 2.24.1
 
