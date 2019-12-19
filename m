@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C294812666E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 17:11:46 +0100 (CET)
-Received: from localhost ([::1]:44120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556C1126668
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Dec 2019 17:09:57 +0100 (CET)
+Received: from localhost ([::1]:44082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ihyOv-0007aL-LN
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 11:11:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41104)
+	id 1ihyNA-0005J3-3M
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 11:09:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1ihyLc-0003uA-MS
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1ihyLc-0003uS-Na
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 11:08:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1ihyLZ-0006Fn-Nu
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1ihyLZ-0006Fl-Ns
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 11:08:19 -0500
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:46850)
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:46866)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
- id 1ihyLZ-0005yF-7H
+ id 1ihyLZ-000615-3b
  for qemu-devel@nongnu.org; Thu, 19 Dec 2019 11:08:17 -0500
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id BAFA42E147A;
- Thu, 19 Dec 2019 19:08:13 +0300 (MSK)
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
+ [IPv6:2a02:6b8:0:1a2d::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 81BF52E1493;
+ Thu, 19 Dec 2019 19:08:14 +0300 (MSK)
 Received: from vla5-58875c36c028.qloud-c.yandex.net
  (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- nwcp3tAqvu-8Dr0S5Zt; Thu, 19 Dec 2019 19:08:13 +0300
+ by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 0yeyPctI5T-8DHaLskw; Thu, 19 Dec 2019 19:08:14 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1576771693; bh=H9TZtWHJVRxS3TvRnjYanFb1oNTF0ttl18nsyYJzQx8=;
+ t=1576771694; bh=z2hT4uxB4lgvxQPgqzPtE0H3GBeW1yfyZNoga34aikw=;
  h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=UwXpEUT8/k8A/yEyMZ+NiPX+C9MLEegFmNUCW2lWUQWwPOPOurfXBi/Ead+hqjKRh
- NQhMdgB9TugrtkPZSXa9F9BZSQYAAIZFjrGmAW008/jh3N6vUTMeJ3GdJKgy7i0BT2
- /ivz753X0DvDflJY6zTtep47VJKn1cuz2eBLEIj0=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ b=OopHGsxZLH5Gp5DC6zKNHy/fW949kWjMzxzYet1qIeni5M4XxQUqOuyXMX7bJ9M2x
+ VzIsP/xNXjBeQipuKiS9YHLwLEQJywc8LxgP1wpFtSF+pHmZlr202RpNoWYiGWCERq
+ +nIDwqyO6vi+8S9iQWFPJJXbiZWetZgDWBAQ3rbM=
+Authentication-Results: mxbackcorp1o.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
  [2a02:6b8:0:408:9915:7a93:bd7b:686c])
  by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- FfZMqtXGzo-8DWeZQtc; Thu, 19 Dec 2019 19:08:13 +0300
+ FfZMqtXGzo-8DWengHw; Thu, 19 Dec 2019 19:08:13 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Yury Kotov <yury-kotov@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] monitor: Split monitor_can_read for QMP and HMP
-Date: Thu, 19 Dec 2019 19:07:55 +0300
-Message-Id: <20191219160756.22389-2-yury-kotov@yandex-team.ru>
+Subject: [PATCH 2/2] monitor: Add an input buffer for QMP reading
+Date: Thu, 19 Dec 2019 19:07:56 +0300
+Message-Id: <20191219160756.22389-3-yury-kotov@yandex-team.ru>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219160756.22389-1-yury-kotov@yandex-team.ru>
 References: <20191219160756.22389-1-yury-kotov@yandex-team.ru>
@@ -77,103 +77,143 @@ Cc: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch itself doesn't make sense, it is needed for the next patch.
+The monitor_qmp_can_read (as a callback of qemu_chr_fe_set_handlers)
+should return size of buffer which monitor_qmp_read can process.
+Currently, monitor_can_read returns 1, because it guarantees that
+only one QMP command can be handled at a time.
+Thus, for each QMP command, len(QMD) iterations of the main loop
+are required to handle a command.
+
+This patch adds an input buffer to speed up reading and to keep
+the guarantee of executing one command at a time.
 
 Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 ---
- monitor/hmp.c              |  7 +++++++
- monitor/monitor-internal.h |  1 -
- monitor/monitor.c          |  7 -------
- monitor/qmp.c              | 11 +++++++++--
- 4 files changed, 16 insertions(+), 10 deletions(-)
+ monitor/monitor-internal.h | 11 +++++++++++
+ monitor/monitor.c          | 27 +++++++++++++++++++++++++++
+ monitor/qmp.c              | 17 +++++++++++++++--
+ 3 files changed, 53 insertions(+), 2 deletions(-)
 
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 8942e28933..6f0e29dece 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1322,6 +1322,13 @@ static void monitor_read(void *opaque, const uint8=
-_t *buf, int size)
-     cur_mon =3D old_mon;
- }
-=20
-+static int monitor_can_read(void *opaque)
-+{
-+    Monitor *mon =3D opaque;
-+
-+    return !atomic_mb_read(&mon->suspend_cnt);
-+}
-+
- static void monitor_event(void *opaque, int event)
- {
-     Monitor *mon =3D opaque;
 diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index d78f5ca190..c0ba29abf1 100644
+index c0ba29abf1..22983b9dda 100644
 --- a/monitor/monitor-internal.h
 +++ b/monitor/monitor-internal.h
-@@ -166,7 +166,6 @@ int monitor_puts(Monitor *mon, const char *str);
- void monitor_data_init(Monitor *mon, bool is_qmp, bool skip_flush,
-                        bool use_io_thread);
- void monitor_data_destroy(Monitor *mon);
--int monitor_can_read(void *opaque);
+@@ -32,6 +32,8 @@
+ #include "qemu/readline.h"
+ #include "sysemu/iothread.h"
+=20
++#define MON_INPUT_BUFFER_SIZE   1024
++
+ /*
+  * Supported types:
+  *
+@@ -93,6 +95,11 @@ struct Monitor {
+     gchar *mon_cpu_path;
+     QTAILQ_ENTRY(Monitor) entry;
+=20
++    /* Must be accessed only by monitor's iothread */
++    char inbuf[MON_INPUT_BUFFER_SIZE];
++    int inbuf_pos;
++    int inbuf_len;
++
+     /*
+      * The per-monitor lock. We can't access guest memory when holding
+      * the lock.
+@@ -169,9 +176,13 @@ void monitor_data_destroy(Monitor *mon);
  void monitor_list_append(Monitor *mon);
  void monitor_fdsets_cleanup(void);
 =20
++void monitor_inbuf_write(Monitor *mon, const char *buf, int size);
++int monitor_inbuf_read(Monitor *mon, char *buf, int size);
++
+ void qmp_send_response(MonitorQMP *mon, const QDict *rsp);
+ void monitor_data_destroy_qmp(MonitorQMP *mon);
+ void monitor_qmp_bh_dispatcher(void *data);
++void monitor_qmp_handle_inbuf(Monitor *mon);
+=20
+ int get_monitor_def(int64_t *pval, const char *name);
+ void help_cmd(Monitor *mon, const char *name);
 diff --git a/monitor/monitor.c b/monitor/monitor.c
-index 12898b6448..d25cc8ea4a 100644
+index d25cc8ea4a..9eb258ac2f 100644
 --- a/monitor/monitor.c
 +++ b/monitor/monitor.c
-@@ -494,13 +494,6 @@ void monitor_resume(Monitor *mon)
-     trace_monitor_suspend(mon, -1);
+@@ -440,6 +440,29 @@ static gboolean qapi_event_throttle_equal(const void=
+ *a, const void *b)
+     return TRUE;
  }
 =20
--int monitor_can_read(void *opaque)
--{
--    Monitor *mon =3D opaque;
--
--    return !atomic_mb_read(&mon->suspend_cnt);
--}
--
- void monitor_list_append(Monitor *mon)
- {
-     qemu_mutex_lock(&monitor_lock);
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index b67a8e7d1f..37884c6c43 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -311,6 +311,13 @@ static void handle_qmp_command(void *opaque, QObject=
- *req, Error *err)
-     qemu_bh_schedule(qmp_dispatcher_bh);
- }
-=20
-+static int monitor_qmp_can_read(void *opaque)
++void monitor_inbuf_write(Monitor *mon, const char *buf, int size)
 +{
-+    Monitor *mon =3D opaque;
++    int pos =3D mon->inbuf_pos + mon->inbuf_len;
 +
-+    return !atomic_mb_read(&mon->suspend_cnt);
++    assert(size <=3D sizeof(mon->inbuf) - mon->inbuf_len);
++    while (size-- > 0) {
++        mon->inbuf[pos++ % sizeof(mon->inbuf)] =3D *buf++;
++        mon->inbuf_len++;
++    }
 +}
 +
++int monitor_inbuf_read(Monitor *mon, char *buf, int size)
++{
++    int read_bytes =3D 0;
++
++    while (read_bytes < size && mon->inbuf_len > 0) {
++        buf[read_bytes++] =3D mon->inbuf[mon->inbuf_pos++];
++        mon->inbuf_pos %=3D sizeof(mon->inbuf);
++        mon->inbuf_len--;
++    }
++    return read_bytes;
++}
++
+ int monitor_suspend(Monitor *mon)
+ {
+     if (monitor_is_hmp_non_interactive(mon)) {
+@@ -465,6 +488,10 @@ static void monitor_accept_input(void *opaque)
+     Monitor *mon =3D opaque;
+=20
+     qemu_chr_fe_accept_input(&mon->chr);
++
++    if (mon->is_qmp) {
++        monitor_qmp_handle_inbuf(mon);
++    }
+ }
+=20
+ void monitor_resume(Monitor *mon)
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 37884c6c43..9d2634eeb3 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -315,14 +315,27 @@ static int monitor_qmp_can_read(void *opaque)
+ {
+     Monitor *mon =3D opaque;
+=20
+-    return !atomic_mb_read(&mon->suspend_cnt);
++    return sizeof(mon->inbuf) - mon->inbuf_len;
++}
++
++void monitor_qmp_handle_inbuf(Monitor *mon)
++{
++    MonitorQMP *mon_qmp =3D container_of(mon, MonitorQMP, common);
++    char ch;
++
++    /* Handle only one byte at a time, because monitor may become suspen=
+ed */
++    while (!atomic_mb_read(&mon->suspend_cnt) &&
++           monitor_inbuf_read(mon, &ch, 1)) {
++        json_message_parser_feed(&mon_qmp->parser, &ch, 1);
++    }
+ }
+=20
  static void monitor_qmp_read(void *opaque, const uint8_t *buf, int size)
  {
      MonitorQMP *mon =3D opaque;
-@@ -384,7 +391,7 @@ static void monitor_qmp_setup_handlers_bh(void *opaqu=
-e)
-     assert(mon->common.use_io_thread);
-     context =3D iothread_get_g_main_context(mon_iothread);
-     assert(context);
--    qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-+    qemu_chr_fe_set_handlers(&mon->common.chr, monitor_qmp_can_read,
-                              monitor_qmp_read, monitor_qmp_event,
-                              NULL, &mon->common, context, true);
-     monitor_list_append(&mon->common);
-@@ -422,7 +429,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty)
-                                 monitor_qmp_setup_handlers_bh, mon);
-         /* The bottom half will add @mon to @mon_list */
-     } else {
--        qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
-+        qemu_chr_fe_set_handlers(&mon->common.chr, monitor_qmp_can_read,
-                                  monitor_qmp_read, monitor_qmp_event,
-                                  NULL, &mon->common, NULL, true);
-         monitor_list_append(&mon->common);
+=20
+-    json_message_parser_feed(&mon->parser, (const char *) buf, size);
++    monitor_inbuf_write(&mon->common, (const char *)buf, size);
++    monitor_qmp_handle_inbuf(&mon->common);
+ }
+=20
+ static QDict *qmp_greeting(MonitorQMP *mon)
 --=20
 2.24.1
 
