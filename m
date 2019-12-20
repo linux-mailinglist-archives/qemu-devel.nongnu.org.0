@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04E9127DAF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:38:10 +0100 (CET)
-Received: from localhost ([::1]:57310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE618127E26
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:41:02 +0100 (CET)
+Received: from localhost ([::1]:57390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJPt-0003xn-Pr
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:38:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60901)
+	id 1iiJSf-00009L-Lv
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:41:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iiJ3d-0005J9-MG
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:15:10 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iiJEx-0004fu-TG
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:26:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iiJ3c-0000CT-AG
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:15:09 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38528)
+ (envelope-from <peter.maydell@linaro.org>) id 1iiJEw-0006pN-4r
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:26:51 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34882)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iiJ3b-00009T-OW
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:15:07 -0500
-Received: by mail-wm1-x344.google.com with SMTP id u2so9384687wmc.3
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:15:07 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iiJEv-0006mQ-Ng
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:26:49 -0500
+Received: by mail-wr1-x432.google.com with SMTP id g17so9612453wro.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:26:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=sK71ZzdC0Xdg4oImE2x3EkUlnXucYhoEV5hIXb2aFBM=;
- b=xBPtiOQmOa8ce0sgop4hBXqusg8TLmJE3JvcNJvj84JcAbQEQKV2qLC1vXj1ehCRUG
- Egj4TSgLUoNZP4RsEnO8FDszyIsf62e5a47vdgyfa78TY+v42K9fIPabGbnZ6OgdDLXI
- /BFazpB/28So1IzSE4LVLpMfy2aJiwU0Dja6744uKRwU/wo84C/cVOlyWSXas/D+7j7f
- y//lD2hpLezzagYL/fkEQWOGnTaoKkkPNSKUtkQzwNcp9e+4k1POoiXJPx0Pfw4joGlV
- FrZ+sqf1czC0VoPMkC2fUkLjVL1JDS2vsgrYYTcReiOhR5juuqlJSbNHX62ZxTdfdjyT
- lqbQ==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WlE9SHjyOwKrzPjcb1LpM+O4CTPzniLXv8Mlk3tbLyA=;
+ b=qHH8Brp4LhXcILR+fsHrEmxcSBnDlTJVnB9K5LSwZxM0kci4c8l1mO3EVq8YgiudZF
+ 76pysrQeZ8+XGykZ2fcAobunuBvTQgEINI5EDNAwpaUl3p6RDKdxKilkTOxEnVY582jG
+ K2GB+gPxEI7PdIqENK9sm42YjUrydsGuauvFcyN26EfVCbGOqCHhT+E6NlBbxVd2WYCn
+ IxbL6uz65K4Ld9H+4pCjGrKwAZ2w306HtRBPbxVJj7cqePIGObxBcL8fZAKXQ54XZ0Nu
+ 3zS984WfEP5aT4K1d58VhrizHcYq4gyVK+C+jMbCcfzx1neBy8nIVXV9hWxcuopltRu2
+ 5ofQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=sK71ZzdC0Xdg4oImE2x3EkUlnXucYhoEV5hIXb2aFBM=;
- b=HPOfUs8c8MoucWbSud397xa8FlShGJmZYOucf+jSl9/qdIG0iE0uRnFEGljsN+z+YE
- dFoNMLkTxhxubGUaWanGzG6fomrn/X9n164eCoWsAybEG/zKpl3iG4wRbeYvyCBEu8kO
- rbd17XXC6+c5czV0NnBIsvIDpZC7Hb5HjnUcjcoYrV+CNsnHPh7a+Shv9qp3TyPbowZ0
- R/Dz6cfYi93AdN+huaY7ndBMOhqumyD5cS5XVTLr4dXlTnZTJbL3bv6/qP3nHwgyushW
- BHQQNU5DrYQYH2rW5daHmuPPBoL2alA5nKaGR+O02LA42mPCluhao4OcySzSqpJXjjyl
- hnMQ==
-X-Gm-Message-State: APjAAAU8bCUkbuxlUMDa5J2jhIUhlI5qM1YxoFsKkpIHdplaMa//0pEc
- OwBI/cHQPDueKWWUYkMdACFdTA==
-X-Google-Smtp-Source: APXvYqxq9E5MagbM9dz40HNpykcKND/58oG9ZbSuuYMSYQDGcSf2VTaXMhG7EpCF/w+hHwI1EXq1DQ==
-X-Received: by 2002:a1c:a9c6:: with SMTP id
- s189mr17155793wme.151.1576851306342; 
- Fri, 20 Dec 2019 06:15:06 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a14sm10371202wrx.81.2019.12.20.06.15.05
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WlE9SHjyOwKrzPjcb1LpM+O4CTPzniLXv8Mlk3tbLyA=;
+ b=M+N6CVDcwXER79Z8HTraizmVbumc5yQe5J1tPh899HT03roRER5Hy3QXqEyHFolAUq
+ uHVTfdKjID9VX/oMVvL5LO/oooBt6YtNpFpt6on301aO0+yMveEXLnIuC+7g17qBvgiA
+ t8dBMxZ78wKXsTXRUSAfwz2ccGhrJpteGqebv6R64rKZyQ06glsX1hp3JMk23kCEH1qr
+ ryZR8FDUezWZUbjnqWlVGq10eM2lh3xgyVYKGOKgkzfE4PgPPWUQrl22lY/Hgs9TkzkJ
+ obHr93Q1EeN4HdsNtwjWzdbMf0zFTOjGaeJf/kJHGVlrfIth+fnIgwP1Z5lJV5u8A43K
+ iclA==
+X-Gm-Message-State: APjAAAV9jR5cep9OIh+7lNXxABF7BQ7tEvusaAmTnpPKGnLnKLn/7pFQ
+ GU4vwHK3AT+pbYfC50lNUZASOss0ByUBMQ==
+X-Google-Smtp-Source: APXvYqx4sC4T6LTu+9PXnWEDWsrrObdLv0In7IfY8QlR7G0QpyXIeBxFag1camZKZZW/ZcLAaRdrEQ==
+X-Received: by 2002:adf:a285:: with SMTP id s5mr15476791wra.118.1576852007584; 
+ Fri, 20 Dec 2019 06:26:47 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id t5sm9741814wrr.35.2019.12.20.06.26.46
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 06:15:05 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 74C821FF87;
- Fri, 20 Dec 2019 14:15:04 +0000 (GMT)
-References: <20191216221158.29572-1-richard.henderson@linaro.org>
- <20191216221158.29572-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Fri, 20 Dec 2019 06:26:46 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 01/28] target/xtensa: Use probe_access for itlb_hit_test
-In-reply-to: <20191216221158.29572-2-richard.henderson@linaro.org>
-Date: Fri, 20 Dec 2019 14:15:04 +0000
-Message-ID: <878sn7dqxj.fsf@linaro.org>
+Subject: [PULL 00/12] target-arm queue
+Date: Fri, 20 Dec 2019 14:26:32 +0000
+Message-Id: <20191220142644.31076-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,48 +77,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+One last arm pullreq before I stop work for the end of the year...
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+-- PMM
 
-> We don't actually need the result of the read, only to probe that the
-> memory mapping exists.  This is exactly what probe_access does.
->
-> This is also the only user of any cpu_ld*_code_ra function.
-> Removing this allows the interface to be removed shortly.
->
-> Acked-by: Max Filippov <jcmvbkbc@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+The following changes since commit 8e5943260a8f765216674ee87ce8588cc4e7463e:
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-12-20 12:46:10 +0000)
 
-> ---
->  target/xtensa/mmu_helper.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/target/xtensa/mmu_helper.c b/target/xtensa/mmu_helper.c
-> index f15bff306f..b01ff9399a 100644
-> --- a/target/xtensa/mmu_helper.c
-> +++ b/target/xtensa/mmu_helper.c
-> @@ -63,10 +63,11 @@
->  void HELPER(itlb_hit_test)(CPUXtensaState *env, uint32_t vaddr)
->  {
->      /*
-> -     * Attempt the memory load; we don't care about the result but
-> +     * Probe the memory; we don't care about the result but
->       * only the side-effects (ie any MMU or other exception)
->       */
-> -    cpu_ldub_code_ra(env, vaddr, GETPC());
-> +    probe_access(env, vaddr, 1, MMU_INST_FETCH,
-> +                 cpu_mmu_index(env, true), GETPC());
->  }
->=20=20
->  void HELPER(wsr_rasid)(CPUXtensaState *env, uint32_t v)
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191220
 
---=20
-Alex Benn=C3=A9e
+for you to fetch changes up to c8fa6079eb35888587f1be27c1590da4edcc5098:
+
+  arm/arm-powerctl: rebuild hflags after setting CP15 bits in arm_set_cpu_on() (2019-12-20 14:03:00 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Support emulating the generic timers at frequencies other than 62.5MHz
+ * Various fixes for SMMUv3 emulation bugs
+ * Improve assert error message for hflags mismatches
+ * arm-powerctl: rebuild hflags after setting CP15 bits in arm_set_cpu_on()
+
+----------------------------------------------------------------
+Andrew Jeffery (4):
+      target/arm: Remove redundant scaling of nexttick
+      target/arm: Abstract the generic timer frequency
+      target/arm: Prepare generic timer for per-platform CNTFRQ
+      ast2600: Configure CNTFRQ at 1125MHz
+
+Niek Linnenbank (1):
+      arm/arm-powerctl: rebuild hflags after setting CP15 bits in arm_set_cpu_on()
+
+Philippe Mathieu-Daudé (1):
+      target/arm: Display helpful message when hflags mismatch
+
+Simon Veith (6):
+      hw/arm/smmuv3: Apply address mask to linear strtab base address
+      hw/arm/smmuv3: Correct SMMU_BASE_ADDR_MASK value
+      hw/arm/smmuv3: Check stream IDs against actual table LOG2SIZE
+      hw/arm/smmuv3: Align stream table base address to table size
+      hw/arm/smmuv3: Use correct bit positions in EVT_SET_ADDR2 macro
+      hw/arm/smmuv3: Report F_STE_FETCH fault address in correct word position
+
+ hw/arm/smmuv3-internal.h  |  6 ++---
+ target/arm/cpu.h          |  5 ++++
+ hw/arm/aspeed_ast2600.c   |  3 +++
+ hw/arm/smmuv3.c           | 28 +++++++++++++++-----
+ target/arm/arm-powerctl.c |  3 +++
+ target/arm/cpu.c          | 65 +++++++++++++++++++++++++++++++++++++++++------
+ target/arm/helper.c       | 42 +++++++++++++++++++++++-------
+ 7 files changed, 125 insertions(+), 27 deletions(-)
 
