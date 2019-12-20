@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F90E127C74
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:23:48 +0100 (CET)
-Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BF4127C6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:22:28 +0100 (CET)
+Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJBz-0000MM-Hh
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:23:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45705)
+	id 1iiJAh-000685-GW
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:22:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vkuznets@redhat.com>) id 1iiJ1d-0001UO-9V
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:13:06 -0500
+ (envelope-from <fflorensa@online.net>) id 1iiJ0W-0008Ph-OI
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:11:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vkuznets@redhat.com>) id 1iiJ1b-0001ta-67
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:13:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40395
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <fflorensa@online.net>) id 1iiJ0U-0007gr-22
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:11:55 -0500
+Received: from mail.online.net ([62.210.16.11]:40652)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1iiJ1a-0001rv-IP
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:13:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576851181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=twfYvP7Rti+Ll6qhjoYOHdpbOLgfz64KQuSFiOtxCqs=;
- b=HRklYU2FwYdBOiFRoOYITQNZuzgA+tanH2UzXydh+g/tqEgrMaTTHUTVBGY/WkcW89+tpX
- IL/BHEzwMoCJtgFFmouTtAxQSXtN7f3lnoSMjQnrcQG7zSJWxHts/z3vjtTLJJfh79AQwe
- XJt9dZIiWesM4fCxKm6bNDGG0mTvan4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-Kck_GJ98MuWwA9m5W8nBWg-1; Fri, 20 Dec 2019 09:11:30 -0500
-Received: by mail-wr1-f72.google.com with SMTP id b13so3815595wrx.22
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:11:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
- bh=rSstiuPwsxCdOdbtt6QYA+NFPFZfCutVCRv5Y4LrQtg=;
- b=Z5qAdvJuVTWL6UdWxxFC3jn9knR/0blS4u/7rE0Pc7hsEirFzOjgiCX+ffM2A/+GnB
- zj19Qzp+yz7YWlOjxo8kpZsJrzOaDBjCr1OiAqn1Xf0wGTzoSUTTsesUuTGUKyVGcCQZ
- Md8jMEBH3e+E4gqFVUqVBw5jnd4wa64mcGaZzCe4BdR3JH3FQZgpXxV0vFh0t+u7X4b7
- H9pobkMc0qZBzHfcwrZ8h9Qce1CO1tQVz5iWM19vZ0p9y6T2dUjcZCEjRQbGiGfRPBbr
- eVrlu5e/2kdq4+XFWApgDqkTz3dsq2VSAs5sshhfT8i9bpRxS7fsTQuZDJ5RqdbUGbJ5
- wT/w==
-X-Gm-Message-State: APjAAAUlQR07hGFkKZp8oyGzT3DCj30iHB1rSfUCAWNJ0FnmGG92yjxq
- BYkEyCuwbfgHxgnqiVDNzvyxi86Cb2B8URASt9RRXXSBpirmYUeDKfmYKR5jzKVBeS++y544qiJ
- bn6PPJqJngna4nFk=
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr16345963wrr.82.1576851089424; 
- Fri, 20 Dec 2019 06:11:29 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwMUu7aoQKbmLpTX1OqBrK+7q5P8Ruf92MUKJlD/sDm5ZPDJF+w+Y74x7f+sZjaU0bPtkdPzw==
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr16345938wrr.82.1576851089223; 
- Fri, 20 Dec 2019 06:11:29 -0800 (PST)
-Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id z124sm3083131wmc.20.2019.12.20.06.11.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 06:11:28 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [BUG] No irqchip created after commit 11bc4a13d1f4 ("kvm: convert
- "-machine kernel_irqchip" to an accelerator property")
-Date: Fri, 20 Dec 2019 15:11:27 +0100
-Message-ID: <87eewz84ts.fsf@vitty.brq.redhat.com>
+ (Exim 4.71) (envelope-from <fflorensa@online.net>)
+ id 1iiJ0T-0007DW-Cn
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:11:53 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.online.net (Postfix) with ESMTP id 0F5C9F2B8EE7;
+ Fri, 20 Dec 2019 15:11:44 +0100 (CET)
+Received: from mail.online.net ([127.0.0.1])
+ by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id pBWjTJF8EUsn; Fri, 20 Dec 2019 15:11:43 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.online.net (Postfix) with ESMTP id DDDC8F2B8EF4;
+ Fri, 20 Dec 2019 15:11:43 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.online.net DDDC8F2B8EF4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=online.net;
+ s=4EC61654-9574-11E8-870F-3D38CA7095BF; t=1576851103;
+ bh=uQKTz+m17UgmuM1riCjXzfNLa6yToMAbxf5Xpz7d5rE=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=Jz0eNdTsCOA5RX8nyJLb9sMSSCr/bSPaXSE5kHBB+mEpzgNwgi5WWhZC3cgiF+DNg
+ ZWIT6Ipibw4lyXvDASH6tKrCx847BDZYLjrNtoY7I5FsfqYETyrTNlu3PLbrH5xXDA
+ gPrs9kBszq8zpP8Nv5iihf2goyo99NWUszk9Z5fH1+9UZ2nkX5Y0Uojn9YrY2GoJhf
+ cqD5XXk6pRl6Wf6442BvK4yauC5YZr5UeK9vyBSbfLG0w4n6ipBI//8jNLZz9MoyHa
+ 5camiwHxnwbzSJHrHr/18vDU9eBGwuD3Tr85bkyBIMM62GVBgcs/RG+3+Bx+LTmzhn
+ LQp/iVvZQcQKA==
+X-Virus-Scanned: amavisd-new at mail.online.net
+Received: from mail.online.net ([127.0.0.1])
+ by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id wmm2gbK6O5CN; Fri, 20 Dec 2019 15:11:43 +0100 (CET)
+Received: from localhost (unknown [195.154.229.35])
+ by mail.online.net (Postfix) with ESMTPSA id AFD9AF2B8EE7;
+ Fri, 20 Dec 2019 15:11:43 +0100 (CET)
+Date: Fri, 20 Dec 2019 15:11:43 +0100
+From: Florian Florensa <fflorensa@online.net>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH] block/rbd: Add support for ceph namespaces
+Message-ID: <20191220141125.wxlm4eizbwie6522@flash.localdomain>
+References: <20191219133416.671431-1-fflorensa@online.net>
+ <20191219145125.iwhxhzmt5mow5pea@steredhat>
 MIME-Version: 1.0
-X-MC-Unique: Kck_GJ98MuWwA9m5W8nBWg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gjof4rc3co56ykfg"
+Content-Disposition: inline
+In-Reply-To: <20191219145125.iwhxhzmt5mow5pea@steredhat>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 62.210.16.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,34 +74,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, mreitz@redhat.com, dillaman@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I apologize if this was already reported,
 
-I just noticed that with the latest updates QEMU doesn't start with the
-following configuration:
+--gjof4rc3co56ykfg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-qemu-system-x86_64 -name guest=3Dwin10 -machine pc,accel=3Dkvm -cpu host,hv=
-_vpindex,hv_synic ...
+Hello Stefano and Jason,
 
-qemu-system-x86_64: failed to turn on HyperV SynIC in KVM: Invalid argument
-qemu-system-x86_64: kvm_init_vcpu failed: Invalid argument
+First of all thanks for the quick reply,
+Response inline belowe
+> Hi Florian,
+>=20
+> I think we need to add (Since: 5.0).
 
-If I add 'kernel-irqchip=3Dsplit' or ',kernel-irqchip=3Don' it starts as
-usual. I bisected this to the following commit:
+Are you implying by that (Since: 5.0) that we need to specify its
+availability target is qemu 5.0 ?
+I guess that maybe a version check would be better ? Like try to do
+namespaces stuff only if we have a recent enough librbd in the system ?
+Using something like :
 
-commit 11bc4a13d1f4b07dafbd1dda4d4bf0fdd7ad65f2 (HEAD, refs/bisect/bad)
-Author: Paolo Bonzini <pbonzini@redhat.com>
-Date:   Wed Nov 13 10:56:53 2019 +0100
+int rbd_major;
 
-    kvm: convert "-machine kernel_irqchip" to an accelerator property
-   =20
-so aparently we now default to 'kernel_irqchip=3Doff'. Is this the desired
-behavior?
+rbd_version(&rbd_major, NULL, NULL);
+/*
+ * Target only nautilus+ librbd for namespace support
+*/
+if (rbd_major >=3D 14) // tar
+ <process namespace>
 
---=20
-Vitaly
+>=20
+> The patch LGTM, but I'd like to use 'namespace' instead of cryptic
+> 'nspace'. (as BlockdevOptionsNVMe did)
+> What do you think?
+>=20
+Yes no worries, I can rename it to 'rbd_namespace' to avoid any possible
+confusion, is this Ok for you ?
+>=20
+> With those fixed:
+>=20
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+>=20
+> Thanks,
+> Stefano
 
+Regards,
+Florian
+
+--gjof4rc3co56ykfg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEENMOcO22p59MYDr5mpFTgAOO+N4gFAl381p8ACgkQpFTgAOO+
+N4jBphAAq9AvF8GjSzoqmFWJb5HmhKkIPHFsGVFTwF+xHq9P+hOlyFY1zfMEPKF9
+jJQTqI128+runAtVaZhTYn7EEvBlESMUqGvSFrhhPl52w8Z9c1VJfKoQ33uhjjC2
+s81fAH5ZXGKIraZb0YO9xi8gB37/bRUZF25w6VX5yUJF7EWrDS2/7vE5mt+ybtKA
+JqczOOHVfYszEcG267x/Y1g284E7BXESH/asq7FvP3eoFqAupHxMqU8qwXYBc8qK
+vUQHXFBi7l5GmmNHCpW6ThtKbMLrYrW0p70v2zBE14kADBlmILCHhgVWockcCAnB
+sNlLtYAdK3ikKt9p1nCARchU+sVCEBgFieF5UF6ZVFsleRYVIenQV3WKk6z7idLq
+xCL9KCwSP3JvwO8B8AZK4Che69VZSve1DoBlOEA6Relnj6JVeVbQkGoW8axt9ZE+
+pXY6f3eCi7Zv+aTRfwQ87utCjWmB/aCe2ItPHNbrUiomx1WehQKfnNjxhLe+i3og
+nZ0P7xGWGfAB0hj6oSwc7ONL1BIgmR+A10BRJk9vjrN9UPpdzKjFPWudCVvnMUzx
+oPIzwhj+JoZeOaoKCeIhF8U3b+P/ahj5zCA7/RV35vETUIdM6N4NsDy4JnfkOyax
+/Lhm2kgvyVDNQ1EhK09AIRf9QZfdq6nOAHpAxDzGyIUSFT/ei5Y=
+=hCeZ
+-----END PGP SIGNATURE-----
+
+--gjof4rc3co56ykfg--
 
