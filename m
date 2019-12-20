@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764B2127C51
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:12:12 +0100 (CET)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EFB127C4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:10:04 +0100 (CET)
+Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJ0l-0007Ur-CD
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:12:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40289)
+	id 1iiIyh-0004VO-FL
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:10:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40475)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIgp-0002LI-7F
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:51:36 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIgz-0002kV-PA
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:51:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIgn-0004oR-4h
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:51:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44867
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIgx-0004tZ-6g
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:51:45 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46096
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iiIgl-0004mx-Gf
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:51:31 -0500
+ id 1iiIgw-0004s7-Ef
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:51:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576849891;
+ s=mimecast20190719; t=1576849900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=seUv81PPqDXJefiGlBZFQYkFmzBhDZ7nbB04X8mdrrU=;
- b=JioO+cyrpSaWA64rZ0f48diZj+z00SO7Vx9SwGjTJUnwM4DNbQNLnbyB9laoqru4jt/y+D
- F58DcOOwJe48maqIDUKu87c7JE3yYKBck2CQ4g2XxSxPvA0E+DwDCeRYg0ciyZY7UMuEwm
- Y3YRE+bpsXDPlLeerg7iYzq0o6NTHzg=
+ bh=gm3pPe9kJKXbgbMduC+s+fPdcaSSBqfEaV54R3uzB2s=;
+ b=GymEHY4LzAL6nRU8nefpH47qbNg5qZekDPCzwHd7AHQzg81Oa6Rsh7TH0+EKt3WUyEEIz0
+ 8RzvA9935P0a71rkJ8B6MfsaQ06rs8qF5db6WukOXdQc3u1X3s6HfxuFgcQtRy4E8sWIQn
+ yOLjsGZ4jgCWGZSrUMKPAH/7k6JzpNo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-A9V5SP1HMKytGFf4W7QhGA-1; Fri, 20 Dec 2019 08:51:29 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-248-bAeovYU4OLuC_YX4O8ygyw-1; Fri, 20 Dec 2019 08:51:39 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8254391232;
- Fri, 20 Dec 2019 13:51:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7903C800053;
+ Fri, 20 Dec 2019 13:51:38 +0000 (UTC)
 Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B4D95DA32;
- Fri, 20 Dec 2019 13:51:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FCFC63BB7;
+ Fri, 20 Dec 2019 13:51:33 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 31/37] smbus-eeprom: remove PROP_PTR
-Date: Fri, 20 Dec 2019 17:45:55 +0400
-Message-Id: <20191220134601.571905-32-marcandre.lureau@redhat.com>
+Subject: [PATCH v5 32/37] omap-intc: remove PROP_PTR
+Date: Fri, 20 Dec 2019 17:45:56 +0400
+Message-Id: <20191220134601.571905-33-marcandre.lureau@redhat.com>
 In-Reply-To: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: A9V5SP1HMKytGFf4W7QhGA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: bAeovYU4OLuC_YX4O8ygyw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,74 +76,139 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead, set the initial data field directly.
+Since clocks are not QOM objects, replace PROP_PTR of clocks with
+setters methods.
 
-(the initial data is an array of 256 bytes. As I don't know if it may
-change over time, I keep the pointer to original buffer as is, but it
-might be worth to consider to copy it instead)
+(in theory there should probably be different methods for omap1 &
+omap2 intc, but this is left as a future improvement)
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/i2c/smbus_eeprom.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ hw/arm/omap1.c        |  4 ++--
+ hw/arm/omap2.c        |  4 ++--
+ hw/intc/omap_intc.c   | 17 ++++++++++-------
+ include/hw/arm/omap.h | 14 ++++++++++++++
+ 4 files changed, 28 insertions(+), 11 deletions(-)
 
-diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
-index 54c86a0112..5adf3b15b5 100644
---- a/hw/i2c/smbus_eeprom.c
-+++ b/hw/i2c/smbus_eeprom.c
-@@ -44,7 +44,7 @@
- typedef struct SMBusEEPROMDevice {
-     SMBusDevice smbusdev;
-     uint8_t data[SMBUS_EEPROM_SIZE];
--    void *init_data;
-+    uint8_t *init_data;
-     uint8_t offset;
-     bool accessed;
- } SMBusEEPROMDevice;
-@@ -129,14 +129,14 @@ static void smbus_eeprom_reset(DeviceState *dev)
+diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
+index 6ce038a453..1afd1d3d7f 100644
+--- a/hw/arm/omap1.c
++++ b/hw/arm/omap1.c
+@@ -3889,7 +3889,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
+n *dram,
 =20
- static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
- {
-+    SMBusEEPROMDevice *eeprom =3D SMBUS_EEPROM(dev);
-+
-     smbus_eeprom_reset(dev);
-+    if (eeprom->init_data =3D=3D NULL) {
-+        error_setg(errp, "init_data cannot be NULL");
-+    }
- }
+     s->ih[0] =3D qdev_create(NULL, "omap-intc");
+     qdev_prop_set_uint32(s->ih[0], "size", 0x100);
+-    qdev_prop_set_ptr(s->ih[0], "clk", omap_findclk(s, "arminth_ck"));
++    omap_intc_set_iclk(OMAP_INTC(s->ih[0]), omap_findclk(s, "arminth_ck"))=
+;
+     qdev_init_nofail(s->ih[0]);
+     busdev =3D SYS_BUS_DEVICE(s->ih[0]);
+     sysbus_connect_irq(busdev, 0,
+@@ -3899,7 +3899,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
+n *dram,
+     sysbus_mmio_map(busdev, 0, 0xfffecb00);
+     s->ih[1] =3D qdev_create(NULL, "omap-intc");
+     qdev_prop_set_uint32(s->ih[1], "size", 0x800);
+-    qdev_prop_set_ptr(s->ih[1], "clk", omap_findclk(s, "arminth_ck"));
++    omap_intc_set_iclk(OMAP_INTC(s->ih[1]), omap_findclk(s, "arminth_ck"))=
+;
+     qdev_init_nofail(s->ih[1]);
+     busdev =3D SYS_BUS_DEVICE(s->ih[1]);
+     sysbus_connect_irq(busdev, 0,
+diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
+index 457f152bac..1d7cc435ef 100644
+--- a/hw/arm/omap2.c
++++ b/hw/arm/omap2.c
+@@ -2308,8 +2308,8 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegi=
+on *sdram,
+     /* Actually mapped at any 2K boundary in the ARM11 private-peripheral =
+if */
+     s->ih[0] =3D qdev_create(NULL, "omap2-intc");
+     qdev_prop_set_uint8(s->ih[0], "revision", 0x21);
+-    qdev_prop_set_ptr(s->ih[0], "fclk", omap_findclk(s, "mpu_intc_fclk"));
+-    qdev_prop_set_ptr(s->ih[0], "iclk", omap_findclk(s, "mpu_intc_iclk"));
++    omap_intc_set_fclk(OMAP_INTC(s->ih[0]), omap_findclk(s, "mpu_intc_fclk=
+"));
++    omap_intc_set_iclk(OMAP_INTC(s->ih[0]), omap_findclk(s, "mpu_intc_iclk=
+"));
+     qdev_init_nofail(s->ih[0]);
+     busdev =3D SYS_BUS_DEVICE(s->ih[0]);
+     sysbus_connect_irq(busdev, 0,
+diff --git a/hw/intc/omap_intc.c b/hw/intc/omap_intc.c
+index 854b709ca0..73bb1c2af4 100644
+--- a/hw/intc/omap_intc.c
++++ b/hw/intc/omap_intc.c
+@@ -38,10 +38,6 @@ struct omap_intr_handler_bank_s {
+     unsigned char priority[32];
+ };
 =20
--static Property smbus_eeprom_properties[] =3D {
--    DEFINE_PROP_PTR("data", SMBusEEPROMDevice, init_data),
--    DEFINE_PROP_END_OF_LIST(),
--};
+-#define TYPE_OMAP_INTC "common-omap-intc"
+-#define OMAP_INTC(obj) \
+-    OBJECT_CHECK(struct omap_intr_handler_s, (obj), TYPE_OMAP_INTC)
 -
- static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -146,9 +146,8 @@ static void smbus_eeprom_class_initfn(ObjectClass *klas=
-s, void *data)
-     dc->reset =3D smbus_eeprom_reset;
-     sc->receive_byte =3D eeprom_receive_byte;
-     sc->write_data =3D eeprom_write_data;
--    dc->props =3D smbus_eeprom_properties;
-     dc->vmsd =3D &vmstate_smbus_eeprom;
--    /* Reason: pointer property "data" */
-+    /* Reason: init_data */
-     dc->user_creatable =3D false;
+ struct omap_intr_handler_s {
+     SysBusDevice parent_obj;
+=20
+@@ -391,9 +387,18 @@ static void omap_intc_realize(DeviceState *dev, Error =
+**errp)
+     }
  }
 =20
-@@ -172,7 +171,8 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t addre=
-ss, uint8_t *eeprom_buf)
++void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk)
++{
++    intc->iclk =3D clk;
++}
++
++void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk)
++{
++    intc->fclk =3D clk;
++}
++
+ static Property omap_intc_properties[] =3D {
+     DEFINE_PROP_UINT32("size", struct omap_intr_handler_s, size, 0x100),
+-    DEFINE_PROP_PTR("clk", struct omap_intr_handler_s, iclk),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 =20
-     dev =3D qdev_create((BusState *) smbus, TYPE_SMBUS_EEPROM);
-     qdev_prop_set_uint8(dev, "address", address);
--    qdev_prop_set_ptr(dev, "data", eeprom_buf);
-+    /* FIXME: use an array of byte or block backend property? */
-+    SMBUS_EEPROM(dev)->init_data =3D eeprom_buf;
-     qdev_init_nofail(dev);
- }
+@@ -647,8 +652,6 @@ static void omap2_intc_realize(DeviceState *dev, Error =
+**errp)
+ static Property omap2_intc_properties[] =3D {
+     DEFINE_PROP_UINT8("revision", struct omap_intr_handler_s,
+     revision, 0x21),
+-    DEFINE_PROP_PTR("iclk", struct omap_intr_handler_s, iclk),
+-    DEFINE_PROP_PTR("fclk", struct omap_intr_handler_s, fclk),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 =20
+diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
+index f3aa670036..bcecf19f89 100644
+--- a/include/hw/arm/omap.h
++++ b/include/hw/arm/omap.h
+@@ -67,6 +67,20 @@ void omap_clk_setrate(omap_clk clk, int divide, int mult=
+iply);
+ int64_t omap_clk_getrate(omap_clk clk);
+ void omap_clk_reparent(omap_clk clk, omap_clk parent);
+=20
++/* omap_intc.c */
++#define TYPE_OMAP_INTC "common-omap-intc"
++#define OMAP_INTC(obj)                                              \
++    OBJECT_CHECK(omap_intr_handler, (obj), TYPE_OMAP_INTC)
++
++typedef struct omap_intr_handler_s omap_intr_handler;
++
++/*
++ * TODO: Ideally we should have a clock framework that
++ * let us wire these clocks up with QOM properties or links.
++ */
++void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk);
++void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk);
++
+ /* OMAP2 l4 Interconnect */
+ struct omap_l4_s;
+ struct omap_l4_region_s {
 --=20
 2.24.0.308.g228f53135a
 
