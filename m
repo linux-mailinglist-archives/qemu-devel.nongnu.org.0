@@ -2,74 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0DD127B25
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:36:33 +0100 (CET)
-Received: from localhost ([::1]:54636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B93127B0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:31:58 +0100 (CET)
+Received: from localhost ([::1]:54548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiHWC-0002fr-8C
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:36:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
+	id 1iiHRl-0005Ti-6w
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:31:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iiHAu-0000jj-RM
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:14:34 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iiH6M-0002YP-G7
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:09:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iiHAt-0001Q9-39
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:14:32 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34042)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iiHAs-0001M9-Oa
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:14:30 -0500
-Received: by mail-wm1-x343.google.com with SMTP id c127so1632092wme.1
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 04:14:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oMQw6t6tRzlw6HQPCH1hJECHMvald9wcRxGqG3qpIY0=;
- b=qA2Nbbnkf7t7LSKkmijtFigfij9EhBRtlf6+zLdSkH420XupqFUbMgVl9WcotKQEir
- fQYZXiwOwqXHl89D5VpT2YUiZK23e1DYjanfr7ZN4N2+JIOLltDI2tEx+Hel7HmfOakt
- ngHiiPj1zFQx5T8UFC9WvVXxphsrCHps0FzUznXpSsTf2DUPXut5jBeQQoZMB4i9ELGh
- rDLF6ELs8bZObKdDbNrU21jjHbV0Bkwjm2Vn36a1zANq2zbvk2xcbraG4XxL5GHhGZyQ
- Hv1ZiF3c2ReAx3O/Gbi9duUuFjpeaEFKa+ccTVpAPzWlM14mh7zUFzU3ak5iQEW7icOI
- kNtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oMQw6t6tRzlw6HQPCH1hJECHMvald9wcRxGqG3qpIY0=;
- b=hXMRQuLQ3FOCB5cdbII9D2bV4o41R+MUwV/L7ZRWLapFUbNrrUkQpZHAsvYv5g+vcy
- 8buCAuNLLbx4Z6Ql/JlHKYJzcChiqOWMz+s2bZJYZh4ScnEDb7xSkMV4wNoet55GDnDZ
- oKgvgu/QiotzTqSsgoFuXKG7M+iOfdELz3nHjYgQJLukv8kmwM4Od4w3iwqal7b8Cgtn
- emk6DeQdePYYYnTcgtqJi8Uadgx2CsOt2KwhIKPMWPWgcyybWnezNgnd6NYUGC4M/QVG
- pJrFa+aZqCV5BPGA/XdNPz3Yv8O7f8lyEiNDHdi7ppop4Cu2s65Mqrsbaj3T2n8LQYHF
- b8Vw==
-X-Gm-Message-State: APjAAAW7tfzy1CtDDcVN1XRtbAvruNf8xvAlsE3uY3DrxDAC/4od7Bo7
- I7ZLqQW9nVmfWhWsR7B4z/opaA==
-X-Google-Smtp-Source: APXvYqz2KFWAVDMx6rIGJxR4Rpz3GK8a75aRWcEmmGM3w2lvzgLhn+N1hOmT4VT+K0VgSWJYqvZr7A==
-X-Received: by 2002:a7b:cd0a:: with SMTP id f10mr16703426wmj.56.1576844069376; 
- Fri, 20 Dec 2019 04:14:29 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s10sm9517124wrw.12.2019.12.20.04.14.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 04:14:25 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 00A021FFAA;
- Fri, 20 Dec 2019 12:04:41 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v4 20/21] gdbstub: change GDBState.last_packet to GByteArray
-Date: Fri, 20 Dec 2019 12:04:37 +0000
-Message-Id: <20191220120438.16114-21-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191220120438.16114-1-alex.bennee@linaro.org>
-References: <20191220120438.16114-1-alex.bennee@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1iiH6I-000466-Dn
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:09:48 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20199
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iiH6H-00040e-SE
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:09:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576843784;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZRqxg4jzyd9qbid/kjBvm+qghL7VCGpqXcohMXHAaCY=;
+ b=ZNYLwFOpnWMpRGo/RW/F4tX70rW0FbrOIOr60hbA4RAZnlVMQMtPrVgqNbO5e2OMA4ytof
+ rc9qOzYMNwdyaqn7ggy5JmuYo8b1CdelY+1xrFZbt2DBHeVGxBG6pQwlPJUGO1xNG4FONH
+ QfG+Y0NpTF0TR3xYLy57u7ydAi6nt10=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-lAiL9e2HNwa3roqVZ68f5w-1; Fri, 20 Dec 2019 07:09:42 -0500
+X-MC-Unique: lAiL9e2HNwa3roqVZ68f5w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9AD5184BEC6;
+ Fri, 20 Dec 2019 12:09:41 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-205-117.brq.redhat.com
+ [10.40.205.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E32126FB9;
+ Fri, 20 Dec 2019 12:09:40 +0000 (UTC)
+Subject: Re: [PATCH 02/18] fuse: Allow exporting BDSs via FUSE
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20191219143818.1646168-1-mreitz@redhat.com>
+ <20191219143818.1646168-3-mreitz@redhat.com>
+ <20191220102656.GD4019@dhcp-200-226.str.redhat.com>
+ <1812e968-1197-523e-7039-caf29e3bbc4b@redhat.com>
+ <20191220112402.GE4019@dhcp-200-226.str.redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <3840096c-55a9-58df-4320-8394492fb387@redhat.com>
+Date: Fri, 20 Dec 2019 13:09:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <20191220112402.GE4019@dhcp-200-226.str.redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,130 +101,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- luis.machado@linaro.org, alan.hayward@arm.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Damien Hedde <damien.hedde@greensocs.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH
+Content-Type: multipart/mixed; boundary="Mo1mgEk2ea8Ys7uBZwucum51DivYgBs1p"
 
-Remove the packet size upper limit by using a GByteArray
-instead of a statically allocated array for last_packet.
-Thus we can now send big packets.
+--Mo1mgEk2ea8Ys7uBZwucum51DivYgBs1p
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Also remove the last_packet_len field and use last_packet->len
-instead.
+On 20.12.19 12:24, Kevin Wolf wrote:
+> Am 20.12.2019 um 11:48 hat Max Reitz geschrieben:
+>> On 20.12.19 11:26, Kevin Wolf wrote:
+>>> Am 19.12.2019 um 15:38 hat Max Reitz geschrieben:
+>>>> fuse-export-add allows mounting block graph nodes via FUSE on some
+>>>> existing regular file.  That file should then appears like a raw disk
+>>>> image, and accesses to it result in accesses to the exported BDS.
+>>>>
+>>>> Right now, we only set up the mount point and tear all mount points do=
+wn
+>>>> in bdrv_close_all().  We do not implement any access functions, so
+>>>> accessing the mount point only results in errors.  This will be
+>>>> addressed by a followup patch.
+>>>>
+>>>> The set of exported nodes is kept in a hash table so we can later add =
+a
+>>>> fuse-export-remove that allows unmounting.
+>>>>
+>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>
+>>>> diff --git a/qapi/block.json b/qapi/block.json
+>>>> index 145c268bb6..03f8d1b537 100644
+>>>> --- a/qapi/block.json
+>>>> +++ b/qapi/block.json
+>>>> @@ -317,6 +317,29 @@
+>>>>  ##
+>>>>  { 'command': 'nbd-server-stop' }
+>>>> =20
+>>>> +##
+>>>> +# @fuse-export-add:
+>>>> +#
+>>>> +# Exports a block graph node on some (file) mountpoint as a raw image=
+.
+>>>> +#
+>>>> +# @node-name: Node to be exported
+>>>> +#
+>>>> +# @mountpoint: Path on which to export the block device via FUSE.
+>>>> +#              This must point to an existing regular file.
+>>>> +#
+>>>> +# @writable: Whether clients should be able to write to the block
+>>>> +#            device via the FUSE export. (default: false)
+>>>> +#
+>>>> +# Since: 5.0
+>>>> +##
+>>>> +{ 'command': 'fuse-export-add',
+>>>> +  'data': {
+>>>> +      'node-name': 'str',
+>>>> +      'mountpoint': 'str',
+>>>> +      '*writable': 'bool'
+>>>> +  },
+>>>> +  'if': 'defined(CONFIG_FUSE)' }
+>>>
+>>> Can this use a BlockExport union from the start like I'm introducing in
+>>> the storage daemon series, together with a generic block-export-add?
+>>
+>> Hm, you mean still adding a FuseExport structure that would be part of
+>> BlockExport and then dropping fuse-export-add in favor of a
+>> block-export-add that we want anyway?
+>=20
+> Yes.
+>=20
+>>> It also looks like node-name and writable should be part of the common
+>>> base of BlockExport.
+>>
+>> node-name definitely, I=E2=80=99m not so sure about writable.  Or, to be=
+ more
+>> precise, I think that if we want writable to be in the base, we also
+>> want growable to be there: Both are primarily options for the
+>> BlockBackend that the exports use.
+>>
+>> But both of course also need to be supported by the export
+>> implementation.  nbd can make its BB growable all it wants, but that
+>> doesn=E2=80=99t make it work.
+>=20
+> Right. Pragmatically, I think exports are very like to support writable,
+> but probably rather unlikely to support growable. So I do think there
+> would be a point for making writable part of the common base, but not
+> growable.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191211160514.58373-2-damien.hedde@greensocs.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- gdbstub.c | 39 +++++++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 18 deletions(-)
+True.
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 287d0535b12..49e760283db 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -351,8 +351,7 @@ typedef struct GDBState {
-     int line_buf_index;
-     int line_sum; /* running checksum */
-     int line_csum; /* checksum at the end of the packet */
--    uint8_t last_packet[MAX_PACKET_LENGTH + 4];
--    int last_packet_len;
-+    GByteArray *last_packet;
-     int signal;
- #ifdef CONFIG_USER_ONLY
-     int fd;
-@@ -384,6 +383,7 @@ static void init_gdbserver_state(void)
-     gdbserver_state.init = true;
-     gdbserver_state.str_buf = g_string_new(NULL);
-     gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
-+    gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
- }
- 
- #ifndef CONFIG_USER_ONLY
-@@ -626,28 +626,29 @@ static void hexdump(const char *buf, int len,
- static int put_packet_binary(const char *buf, int len, bool dump)
- {
-     int csum, i;
--    uint8_t *p;
--    uint8_t *ps = &gdbserver_state.last_packet[0];
-+    uint8_t footer[3];
- 
-     if (dump && trace_event_get_state_backends(TRACE_GDBSTUB_IO_BINARYREPLY)) {
-         hexdump(buf, len, trace_gdbstub_io_binaryreply);
-     }
- 
-     for(;;) {
--        p = ps;
--        *(p++) = '$';
--        memcpy(p, buf, len);
--        p += len;
-+        g_byte_array_set_size(gdbserver_state.last_packet, 0);
-+        g_byte_array_append(gdbserver_state.last_packet,
-+                            (const uint8_t *) "$", 1);
-+        g_byte_array_append(gdbserver_state.last_packet,
-+                            (const uint8_t *) buf, len);
-         csum = 0;
-         for(i = 0; i < len; i++) {
-             csum += buf[i];
-         }
--        *(p++) = '#';
--        *(p++) = tohex((csum >> 4) & 0xf);
--        *(p++) = tohex((csum) & 0xf);
-+        footer[0] = '#';
-+        footer[1] = tohex((csum >> 4) & 0xf);
-+        footer[2] = tohex((csum) & 0xf);
-+        g_byte_array_append(gdbserver_state.last_packet, footer, 3);
- 
--        gdbserver_state.last_packet_len = p - ps;
--        put_buffer(ps, gdbserver_state.last_packet_len);
-+        put_buffer(gdbserver_state.last_packet->data,
-+                   gdbserver_state.last_packet->len);
- 
- #ifdef CONFIG_USER_ONLY
-         i = get_char();
-@@ -2812,20 +2813,22 @@ static void gdb_read_byte(uint8_t ch)
-     uint8_t reply;
- 
- #ifndef CONFIG_USER_ONLY
--    if (gdbserver_state.last_packet_len) {
-+    if (gdbserver_state.last_packet->len) {
-         /* Waiting for a response to the last packet.  If we see the start
-            of a new command then abandon the previous response.  */
-         if (ch == '-') {
-             trace_gdbstub_err_got_nack();
--            put_buffer((uint8_t *)gdbserver_state.last_packet, gdbserver_state.last_packet_len);
-+            put_buffer(gdbserver_state.last_packet->data,
-+                       gdbserver_state.last_packet->len);
-         } else if (ch == '+') {
-             trace_gdbstub_io_got_ack();
-         } else {
-             trace_gdbstub_io_got_unexpected(ch);
-         }
- 
--        if (ch == '+' || ch == '$')
--            gdbserver_state.last_packet_len = 0;
-+        if (ch == '+' || ch == '$') {
-+            g_byte_array_set_size(gdbserver_state.last_packet, 0);
-+        }
-         if (ch != '$')
-             return;
-     }
-@@ -3209,7 +3212,7 @@ static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
-     const char *p = (const char *)buf;
-     int max_sz;
- 
--    max_sz = (sizeof(gdbserver_state.last_packet) - 2) / 2;
-+    max_sz = (MAX_PACKET_LENGTH / 2) + 1;
-     for (;;) {
-         if (len <= max_sz) {
-             gdb_monitor_output(p, len);
--- 
-2.20.1
+But there=E2=80=99s nothing that inherently binds it to FUSE, so I think bo=
+th
+from an implementation=E2=80=99s POV and from a user=E2=80=99s POV, it look=
+s just as
+generic as =E2=80=9Cwritable=E2=80=9D.  But that=E2=80=99s theory.  I agree=
+ that in practice, it
+won=E2=80=99t be as generic.
+
+(I realize this doesn=E2=80=99t help much in finding out what we should do.=
+)
+
+>> So if we kept writable and growable in the common base, then the schema
+>> would give no information about what exports actually support them.
+>>
+>> On one hand, I don=E2=80=99t know whether it=E2=80=99s important to have=
+ this
+>> information in a static form, or whether it=E2=80=99s sufficient to lear=
+n at
+>> runtime.
+>>
+>> On the other, I don=E2=80=99t know whether it=E2=80=99s important to hav=
+e those fields
+>> in the base or not.  Would it make a difference on the wire?
+>=20
+> Not for the command itself, so I think we're free to change it later. It
+> might make a difference for introspection, though, not sure. Markus?
+
+Yes, I asked because I=E2=80=99m wondering whether it would be more cumbers=
+ome
+to users if we didn=E2=80=99t keep it in the base structure.
+
+The duplication depends on how we want to design the command.  Should
+the export implementations receive a ready-to-use BB?  Or just a
+node-name?  In the latter case, we wouldn=E2=80=99t get rid of duplicated c=
+ode
+by having writable/growable in the base.  For the former, it could, but
+then again, just taking the WRITE permission and making the BB growable
+isn=E2=80=99t that bad to duplicate.
+
+Something to consider is that of course the current NBD code wants a
+node-name and not a BB.  So if we decided to generally give export
+implementations a BB, then the initial implementation of
+qmp_block_export_add() would look a bit freaky: It would first branch
+off to qmp_nbd_server_add(), and then open the BB for the =E2=80=9Ccommon=
+=E2=80=9D case,
+but this common case only exists for FUSE (right now).
+
+OTOH, right now we=E2=80=99re free to decide whether we open the BB in
+qmp_block_export_add() or fuse.c, and so we might as well just do it in
+the former.  If we later find out that this was a stupid idea, we can
+always move it into fuse.c.
+
+
+Now I don=E2=80=99t quite know where I=E2=80=99m trying to get with this.
+
+I suppose it means that we should start with qmp_block_export_add()
+creating the BB and handing it over to the export implementation.
+
+Then it makes sense to me that the BB should be ready to go, i.e. have
+all the necessary flags and permissions set.  If so, writable and
+growable should be part of the base, so the WRITE permission can be
+taken and allow_write_beyond_eof can be set.
+
+But there=E2=80=99s a catch: The common code actually cannot pass on a
+ready-to-go BB, because it depends on the export type what kinds of
+permissions can be shared.  FUSE exports are fine with sharing the
+RESIZE permission, but NBD can=E2=80=99t do that.  And, well, if we require=
+ the
+export implementation to adjust the permissions anyway, we might as well
+require it to take WRITE if necessary.  And then the argument for
+avoiding duplication is gone.
+
+> Having it in the base might allow us to remove some duplication in the
+> code. Probably not much, though, so not too important.
+>=20
+>>> Unfortunately this would mean that I can't use the
+>>> same BlockExportNbd for the existing nbd-server-add command any more. I
+>>> guess I could somehow get a shared base type for both, though.
+>>
+>> Hm.  This sounds like you want to make it your problem.  Can I take that
+>> to mean that you want to implement block-export-add and I can wait with
+>> v2 until that=E2=80=99s done? :-)
+>=20
+> The NBD integration, yes. I already added the BlockExport type to my
+> patches, too, but I expect you would beat me to it. I'm not currently
+> planning to write a block-export-add because it doesn't add anything new
+> for the storage daemon, so FuseExport and the command this is your part.
+> The type currently only exists for --export.
+
+That=E2=80=99s too bad. ;-)
+
+I was mostly asking because I imagine it would actually make more sense
+to add block-export-add in a seperate (prerequisite) series.
+
+Max
+
+
+--Mo1mgEk2ea8Ys7uBZwucum51DivYgBs1p--
+
+--G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl38ugIACgkQ9AfbAGHV
+z0A/lQf8COk6SVH1YnxVNVmmUfKkG3z2XPVNk0KIFlzfijFvyACtVqUEL4s/uIGh
+EM/4e7H1JmmxthXNBMjtRP78ntx8iTnEeRdcx5mA19lfmrl7rRwKwAcw/aQ12tPs
+o7oDgUr+R8PH/rChHbTg2g9YXU1YYL5gOZqgl6dhWZp76vgxIMVlUvvkrVJNx+pe
+X6HIWgxEl+pTc7p+VdqbgvBpEjL/BNto4JzsIddYyONWVt8+uENEUX2S8q8uf31+
+NAS6iCn+pVOiYRxjna1PxbPbpAChO+BBNrhgBOaKYBcE7E8vPRdEYRR1dNXfVxw4
+v53ka3GZY6h/Qk4pXaRL1J6CTZmTog==
+=JT3m
+-----END PGP SIGNATURE-----
+
+--G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH--
 
 
