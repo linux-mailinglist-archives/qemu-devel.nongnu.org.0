@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABCB127C05
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:54:03 +0100 (CET)
-Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C9F127C0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:56:36 +0100 (CET)
+Received: from localhost ([::1]:56270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiIjC-0005Lc-Bz
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:54:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36212)
+	id 1iiIle-00014b-V2
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:56:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIcz-0003tC-IJ
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:47:38 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIdC-00048J-9O
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:47:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIcy-0008W3-5E
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:47:37 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39664
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIdA-0000gI-Gu
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:47:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34784
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iiIcx-0008U4-Uq
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:47:36 -0500
+ id 1iiIdA-0000em-B9
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:47:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576849655;
+ s=mimecast20190719; t=1576849666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=trohubcB+l/ZA+9i9PZqlz4RM2grBdGpv/nN0C6XYvs=;
- b=eJkvOG5TDgyYbYTs9wOM6jYzlL94go7zBfpuNzh3HpgcRPBoMdr/kJocSAqRIkkwOBI5W1
- lAKXtAMF6SnFkJI/dR+HGKMsPf4EE3i85YCNN29qSTvUhpWPHo9BlTSWDjehi2bywpCUb7
- eKFckjKjx8i3vtK+ZyUSbqwH2ybP6GA=
+ bh=OozN9IdXbzYikbY0vcB6F7rZ/9QvMwXvXxBYIqWfGgc=;
+ b=ggpTSAtayGBCpXEnPJOhbVFBMbNA0sxtgSfhHT7GGK/2M3gtZ0ohQG8vjz2x5vaIu4h0N5
+ qOGqmngtpn/fv0yGolp+fqc2/qJMannKwm36ATXkIJhl1EbHH4qqtxrBPDW4OUa0pCYqdA
+ cn8DaxDzrQJ6waYFFmt9YW+1lqPOhGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-IqVr2KTjM1G7M5YI3NhS-Q-1; Fri, 20 Dec 2019 08:47:34 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-149--RUF5h0oMx-I4hYFl1Bipg-1; Fri, 20 Dec 2019 08:47:44 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56901800D5C;
- Fri, 20 Dec 2019 13:47:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 363508024D4;
+ Fri, 20 Dec 2019 13:47:43 +0000 (UTC)
 Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6687310027AE;
- Fri, 20 Dec 2019 13:47:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A27A726FC8;
+ Fri, 20 Dec 2019 13:47:39 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/37] serial: realize the serial device
-Date: Fri, 20 Dec 2019 17:45:34 +0400
-Message-Id: <20191220134601.571905-11-marcandre.lureau@redhat.com>
+Subject: [PATCH v5 11/37] serial: replace serial_exit_core() with unrealize
+Date: Fri, 20 Dec 2019 17:45:35 +0400
+Message-Id: <20191220134601.571905-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: IqVr2KTjM1G7M5YI3NhS-Q-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: -RUF5h0oMx-I4hYFl1Bipg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,120 +76,83 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of calling serial_realize_core(), use the QDev realize
+Instead of calling serial_exit_core() directly, use the QDev unrealize
 callback.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/char/serial-isa.c       | 2 +-
  hw/char/serial-pci-multi.c | 2 +-
  hw/char/serial-pci.c       | 2 +-
- hw/char/serial.c           | 8 ++++----
+ hw/char/serial.c           | 5 ++++-
  include/hw/char/serial.h   | 1 -
- 5 files changed, 7 insertions(+), 8 deletions(-)
+ 4 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
-index 2a4c8de1bf..db8644551e 100644
---- a/hw/char/serial-isa.c
-+++ b/hw/char/serial-isa.c
-@@ -74,7 +74,7 @@ static void serial_isa_realizefn(DeviceState *dev, Error =
-**errp)
-     index++;
-=20
-     isa_init_irq(isadev, &s->irq, isa->isairq);
--    serial_realize_core(s, errp);
-+    object_property_set_bool(OBJECT(s), true, "realized", errp);
-     qdev_set_legacy_instance_id(dev, isa->iobase, 3);
-=20
-     memory_region_init_io(&s->io, OBJECT(isa), &serial_io_ops, s, "serial"=
-, 8);
 diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-index 4891f32230..0e1fdb75d2 100644
+index 0e1fdb75d2..e343a1235c 100644
 --- a/hw/char/serial-pci-multi.c
 +++ b/hw/char/serial-pci-multi.c
-@@ -106,7 +106,7 @@ static void multi_serial_pci_realize(PCIDevice *dev, Er=
-ror **errp)
+@@ -56,7 +56,7 @@ static void multi_serial_pci_exit(PCIDevice *dev)
 =20
-     for (i =3D 0; i < nports; i++) {
+     for (i =3D 0; i < pci->ports; i++) {
          s =3D pci->state + i;
--        serial_realize_core(s, &err);
-+        object_property_set_bool(OBJECT(s), true, "realized", &err);
-         if (err !=3D NULL) {
-             error_propagate(errp, err);
-             multi_serial_pci_exit(dev);
+-        serial_exit_core(s);
++        object_property_set_bool(OBJECT(s), false, "realized", NULL);
+         memory_region_del_subregion(&pci->iobar, &s->io);
+         g_free(pci->name[i]);
+     }
 diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
-index db2c17aafd..4b6a217365 100644
+index 4b6a217365..b6a73c65a9 100644
 --- a/hw/char/serial-pci.c
 +++ b/hw/char/serial-pci.c
-@@ -49,7 +49,7 @@ static void serial_pci_realize(PCIDevice *dev, Error **er=
-rp)
+@@ -68,7 +68,7 @@ static void serial_pci_exit(PCIDevice *dev)
+     PCISerialState *pci =3D DO_UPCAST(PCISerialState, dev, dev);
      SerialState *s =3D &pci->state;
-     Error *err =3D NULL;
 =20
--    serial_realize_core(s, &err);
-+    object_property_set_bool(OBJECT(s), true, "realized", &err);
-     if (err !=3D NULL) {
-         error_propagate(errp, err);
-         return;
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index a4f0566865..8328cc62c3 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -934,8 +934,10 @@ static int serial_be_change(void *opaque)
-     return 0;
+-    serial_exit_core(s);
++    object_property_set_bool(OBJECT(s), false, "realized", NULL);
+     qemu_free_irq(s->irq);
  }
 =20
--void serial_realize_core(SerialState *s, Error **errp)
-+static void serial_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 8328cc62c3..ec388f3876 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -950,8 +950,10 @@ static void serial_realize(DeviceState *dev, Error **e=
+rrp)
+     serial_reset(s);
+ }
+=20
+-void serial_exit_core(SerialState *s)
++static void serial_unrealize(DeviceState *dev, Error **errp)
  {
 +    SerialState *s =3D SERIAL(dev);
 +
-     s->modem_status_poll =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, (QEMUTimerCB=
- *) serial_update_msl, s);
+     qemu_chr_fe_deinit(&s->chr, false);
 =20
-     s->fifo_timeout_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, (QEMUTimerC=
-B *) fifo_timeout_int, s);
-@@ -990,7 +992,6 @@ SerialState *serial_init(int base, qemu_irq irq, int ba=
-udbase,
-     s->irq =3D irq;
-     qdev_prop_set_uint32(dev, "baudbase", baudbase);
-     qdev_prop_set_chr(dev, "chardev", chr);
--    serial_realize_core(s, &error_fatal);
-     qdev_set_legacy_instance_id(dev, base, 2);
-     qdev_init_nofail(dev);
-=20
-@@ -1012,6 +1013,7 @@ static void serial_class_init(ObjectClass *klass, voi=
+     timer_del(s->modem_status_poll);
+@@ -1014,6 +1016,7 @@ static void serial_class_init(ObjectClass *klass, voi=
 d* data)
-=20
      /* internal device for serialio/serialmm, not user-creatable */
      dc->user_creatable =3D false;
-+    dc->realize =3D serial_realize;
+     dc->realize =3D serial_realize;
++    dc->unrealize =3D serial_unrealize;
      dc->vmsd =3D &vmstate_serial;
      dc->props =3D serial_properties;
  }
-@@ -1075,8 +1077,6 @@ SerialState *serial_mm_init(MemoryRegion *address_spa=
-ce,
-     s->irq =3D irq;
-     qdev_prop_set_uint32(dev, "baudbase", baudbase);
-     qdev_prop_set_chr(dev, "chardev", chr);
--
--    serial_realize_core(s, &error_fatal);
-     qdev_set_legacy_instance_id(dev, base, 2);
-     qdev_init_nofail(dev);
-=20
 diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index 3dc618598e..571aab97c8 100644
+index 571aab97c8..548944b06a 100644
 --- a/include/hw/char/serial.h
 +++ b/include/hw/char/serial.h
 @@ -83,7 +83,6 @@ typedef struct SerialState {
  extern const VMStateDescription vmstate_serial;
  extern const MemoryRegionOps serial_io_ops;
 =20
--void serial_realize_core(SerialState *s, Error **errp);
- void serial_exit_core(SerialState *s);
+-void serial_exit_core(SerialState *s);
  void serial_set_frequency(SerialState *s, uint32_t frequency);
 =20
+ #define TYPE_SERIAL "serial"
 --=20
 2.24.0.308.g228f53135a
 
