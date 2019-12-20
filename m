@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A097812813D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 18:18:40 +0100 (CET)
-Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05690128159
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 18:26:47 +0100 (CET)
+Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiLvD-0000CQ-2H
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 12:18:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48842)
+	id 1iiM33-00069h-Vk
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 12:26:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fflorensa@online.net>) id 1iiLtm-0007v5-5D
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:17:11 -0500
+ (envelope-from <bounces@canonical.com>) id 1iiM1y-000562-9V
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:25:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fflorensa@online.net>) id 1iiLtj-0000p6-GH
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:17:08 -0500
-Received: from mail.online.net ([62.210.16.11]:46008)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fflorensa@online.net>)
- id 1iiLti-0000lZ-T4
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:17:07 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id C0CFDF2B8D49;
- Fri, 20 Dec 2019 18:17:04 +0100 (CET)
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id CrzPPqzoe8AR; Fri, 20 Dec 2019 18:17:04 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id 9A4D0F2B8E53;
- Fri, 20 Dec 2019 18:17:04 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.online.net 9A4D0F2B8E53
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=online.net;
- s=4EC61654-9574-11E8-870F-3D38CA7095BF; t=1576862224;
- bh=zF2MAAx0O3svkEJw/YRXxOrkJrjWtsJISKf1mWOx3DA=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=WplczBaH3vqxLVaUYRZG30Hj4jCX1HDS1bp52schnr2k5z/naax6enl2Lnkr70x0W
- G5foS09Nq768LnHpTqSQZ7y5d/co66KZ1RSN9YFPp9c6HXjLWP41CfWOojnhARF/b/
- 4oHgs6R8ECp1e6ZgZDA4pLdRNJxZuk6sj8zm4QZAKv5+cVK/ljW0TofLf51xmJLp2O
- lLuCKXRpIE+G/yef0mjdqJFpNRY3Fl008Cfj1pqLe9Db0Llt4CUkborarjJ/zmU7WK
- s+I8JqpZGeICbp0S/BUs1XOY14nVGWhm7BqDFUpIS/pUI101gb1ianyTjnl5HVFWwg
- YPpGQied+21HA==
-X-Virus-Scanned: amavisd-new at mail.online.net
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id yxWJ6v_7i0_U; Fri, 20 Dec 2019 18:17:04 +0100 (CET)
-Received: from localhost (unknown [195.154.229.35])
- by mail.online.net (Postfix) with ESMTPSA id 6EEC1F2B8D49;
- Fri, 20 Dec 2019 18:17:04 +0100 (CET)
-Date: Fri, 20 Dec 2019 18:17:04 +0100
-From: Florian Florensa <fflorensa@online.net>
-To: dillaman@redhat.com
-Subject: Re: [PATCH] block/rbd: Add support for ceph namespaces
-Message-ID: <20191220171704.7qlh6gmulsvj45db@flash.localdomain>
-References: <20191219133416.671431-1-fflorensa@online.net>
- <20191219145125.iwhxhzmt5mow5pea@steredhat>
- <20191220141125.wxlm4eizbwie6522@flash.localdomain>
- <CA+aFP1DuNzvWZo7d8sFX6UEYV175HKm0Wo9PJWyHs91dA_WkHQ@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1iiM1w-0003cH-Vn
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:25:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37814)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iiM1w-0003ZS-O9
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:25:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iiM1u-0001IJ-Q4
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:25:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B9D1E2E80C7
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:25:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="j5dba3slve6pqkyu"
-Content-Disposition: inline
-In-Reply-To: <CA+aFP1DuNzvWZo7d8sFX6UEYV175HKm0Wo9PJWyHs91dA_WkHQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Dec 2019 17:20:27 -0000
+From: ecsdn <1856834@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
+X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
+X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
+References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
+Message-Id: <157686242759.27888.12117324708588697372.malone@chaenomeles.canonical.com>
+Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
+ versions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1a3eabfaf11557ad56f93adddde12f2f6dd2d173
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 62.210.16.11
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,111 +67,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+fyi from what I recall guest kernel was built using mpc85xx_defconfig
+with some additions like virtio etc. If virtio is working for you just
+fine using same command as mine, then perhaps its some peculiarity to do
+with my specific guest kernel or kernel version? (uImage is about 3.4M
+with equivalent vmlinux about 72M)
 
---j5dba3slve6pqkyu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-- =
 
-On Fri, Dec 20, 2019 at 09:56:51AM -0500, Jason Dillaman wrote:
-> On Fri, Dec 20, 2019 at 9:11 AM Florian Florensa <fflorensa@online.net> w=
-rote:
-> >
-> > Hello Stefano and Jason,
-> >
-> > First of all thanks for the quick reply,
-> > Response inline belowe
-> > > Hi Florian,
-> > >
-> > > I think we need to add (Since: 5.0).
-> >
-> > Are you implying by that (Since: 5.0) that we need to specify its
-> > availability target is qemu 5.0 ?
->=20
-> FWIW, I took this as just a comment to add some documentation that the
-> field is only valid starting w/ qemu v5.
->=20
-Works for me, will add this in v2.
-> > I guess that maybe a version check would be better ? Like try to do
-> > namespaces stuff only if we have a recent enough librbd in the system ?
-> > Using something like :
-> >
-> > int rbd_major;
-> >
-> > rbd_version(&rbd_major, NULL, NULL);
-> > /*
-> >  * Target only nautilus+ librbd for namespace support
-> > */
-> > if (rbd_major >=3D 14) // tar
-> >  <process namespace>
->=20
-> Unfortunately, those versions weren't updated in the Mimic nor
-> Nautilus release so it would still return 1/12 (whoops). I think that
-> means you would need to add a probe in "configure" to test for librbd
-> namespace support (e.g. test for the existence of the `rbd_list2`
-> function or the `rbd_linked_image_spec_t` structure). I'll fix this
-> before the forthcoming Octopus release.
-Will see to do this, I originally wanted to do this at runtime so a Qemu
-built against an older librbd would work if the library was updated.
-Else some dlopen + dlsym trickery would work by checking for the
-existence of rbd_list2 in librbd.so, but I guess this might be a bad
-idea, as it would add code that would be useless in sometime
->=20
-> > > The patch LGTM, but I'd like to use 'namespace' instead of cryptic
-> > > 'nspace'. (as BlockdevOptionsNVMe did)
-> > > What do you think?
-> > >
-> > Yes no worries, I can rename it to 'rbd_namespace' to avoid any possible
-> > confusion, is this Ok for you ?
->=20
-> We use "pool_namespace" in the rbd CLI if you are trying to avoid the
-> word "namespace".
->=20
-Yes I wanted to avoid namespace because it looks like the qapi generated
-code changes the name to something like q_namespace, will use
-pool_namespace in the v2.
-> > > With those fixed:
-> > >
-> > > Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-> > >
-> > > Thanks,
-> > > Stefano
-> >
-> > Regards,
-> > Florian
->=20
-> --=20
-> Jason
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856834
 
-Regards,
-Florian
+Title:
+  Virtio broken in qemu ppc in 4.2.0 and other versions
 
---j5dba3slve6pqkyu
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  The same qemu -M mpc... command that works on qemu-system-ppc version
+  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
+  version 4.2.0release and 4.19dirtygit:
 
-iQIzBAEBCAAdFiEENMOcO22p59MYDr5mpFTgAOO+N4gFAl39AgsACgkQpFTgAOO+
-N4jjXhAAgSVYWGfpQBWX/pUFLhpiQHBC+PfW9lJQqjy7ka1P7JIEAUdLh6uPg0s3
-XX6dAU4TgYbaxt/zQlqn1grNk1MZP2HD/20mFTAftXEwHedf4dYrDW8RIsrYKKJ5
-Lk3SWwMeyNtFhDcKc+5sZA6ldN9vDhlpve8gUUf/QEe95cq9ubFjm1k7WuS/mWtP
-YRo+EYSiPc6+r6Iyzo+QSzgqrhJWuAdxOha4AzyivI3GUxyT6o+MdHSfCPKxLcOa
-Pt21B72eOT7NYubNzsqNWM+c0fPLYKGxKMRE/Zbq6MSYp6bMXMbEWG4+c/x+6v91
-sEEclLmpXMO1cN7Xy6Fb20AXm6zr2VS3Z6DW0cU/K78+w+oaRiFi8JjKPL5kOmpc
-n0Ni0wxatNTKPwCK5+L5nMFQNfPz+Yp+y0EiaUYKTksa9tkXdHTfZ6D4xVYHx32p
-sDzpCXqy6pKKl1w2xrnF/HfyzZoukRldUuW0MidIu+xJuZyzs1JsK2uutpUQrHQ5
-AEMudrX5+pqUUgG/e+AMssV0Un6IDlnYpSolymxTZ1BoMHDzPMlJavmQ00+eUvGo
-x9mB0DOZpkpvYiY1kMHsr4+Ge7QM133TtHDHYn9/gUFfy4B6zxHa6nJ5+L2MUKZM
-OR1V6+WXyrDz3mhaJa/Wv8jXA3cjEZNZgBeKi4LQFJkasP6hgxQ=
-=/dox
------END PGP SIGNATURE-----
+  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
+ccel kvm is set.
+  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
+e (slower).
 
---j5dba3slve6pqkyu--
+  ends/freezes at:
+  nbd: registered device at major 43
+  =C2=A0vda:
+
+  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
+  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
+  with 2.8.0 official release from git/github that I compiled/built
+  myself. But both of the newer releases fail on the same exact machine
+  same config.
+
+  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
+ed weren't, ie gave
+  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
+bus=3D0,unit=3D0
+  (but I removed -drive if=3Dmtd since wasn't using it anyway)
+
+  I also tried on windows but I think virtio doesn't work on windows
+  hosts at all? On windows host it fails the same way, even version 2.12
+  as well as 4.1.10...
+
+  used:
+  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
+
+  (basically all steps the same on same exact system same config, yet
+  2.8.0 works fine whether apt-get installed or built from source while
+  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
+
+  In case newer qemu versions act weird on various kernels, I did try with =
+both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
+ compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
+_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
+ich is why I can't use -M ppce500 instead..)
+  tx
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
