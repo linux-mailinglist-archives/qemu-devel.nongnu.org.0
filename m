@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974541281DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 19:05:58 +0100 (CET)
-Received: from localhost ([::1]:60216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DFE1281DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 19:05:03 +0100 (CET)
+Received: from localhost ([::1]:60176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiMez-0005XP-Mi
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 13:05:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55424)
+	id 1iiMe6-0003hE-81
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 13:05:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iiMbp-0002LP-Qx
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:02:42 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iiMc0-0002Tk-NM
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:02:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iiMbo-00007i-Pp
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:02:41 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38668)
+ (envelope-from <alex.bennee@linaro.org>) id 1iiMbz-0000L5-M7
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:02:52 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37738)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iiMbo-00005y-JS
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:02:40 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y17so10290077wrh.5
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 10:02:40 -0800 (PST)
+ id 1iiMbz-0000Ig-Fd
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:02:51 -0500
+Received: by mail-wm1-x341.google.com with SMTP id f129so10131107wmf.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 10:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:subject:in-reply-to:date:message-id
- :mime-version:content-transfer-encoding;
- bh=pf89wRkTJiUJlp2XpdoX78Ro9ZTlWmpCqC08QP+SGHU=;
- b=eBR3QkwB5oKdXCPze7uVI7Jnyw3IxGpIrwswdMHMfd0LEO6X7j7MX7MZj3Vubkf+k0
- W5kr9BmO5VB+BprzWq2pxP3vvENVu+Qk3eBiGe75bQQM3zfjYuHKpPADXJB+OlWfKWFb
- nPUMxiQe4Jw9BqkuUR7F12tCIAaSzV1lpKozA51SocJvEpL/v3dYKEhioOi6z+nWSh0X
- s+sCOl48n7/E/XZ6tDEbU2hIj2f6tp76EBPDErx6u6jv+xxuHS41STSwQN2UryMqjqC/
- 8gUoiVROc9J7f59u6DdkefW1hpR0iqNx1RXLOvilhGjnPHzM4j8n40/VKQXuXPPkMV4v
- SDJg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7kDmZhoO5/bznVBD81W5KeIm1h45FhLlVidRUE2YIrw=;
+ b=hOcpVv4RDFqTdsrbhnw7Cg72oeHU6obx5y1b0mkOyiSsgv1MPe2S4gS1SjCa3RNqIc
+ DgQRhAqdzWElTuyOvDioByimPeVJuuRFVfCkYClLKAI25v0kgzzPGUmHXcbNqK/wsTs1
+ Z5AQ2B14dEqHU6OoL3CxIktuScrOa6OKjymrkcZm3RdIjSweCVJzGPTHiGN6a5cJ7w8d
+ owZ3DhiM4zhfSq72aXaMYaN7HHddt9f/Q3UUb2Npm1CEOBWDL1tXX6b/BldR1xUzKUW6
+ StKJWQKUHQxIKdaCNAo4LVexGhSz8AjBmS+0EBUWANITak2CZxKkJPnqr/GKriWFQjbF
+ bwdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:subject
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=pf89wRkTJiUJlp2XpdoX78Ro9ZTlWmpCqC08QP+SGHU=;
- b=gLErxrze2hj6OUt3hcOzQUszdTC7OFwdKsUzvmMWfETP0Yl+ly4Fb375794nO+BRhz
- NXTWJEYZr5WJIgo7ia32G6ey7q+Emo2Vm6Cn3JYR5O+MqZcXjISPo9uh9dPumELDaRc/
- bzVnyYRoGWMsM0F4ial3l3hz3TsaiSD7/JPrSvmj1GAq/Xr0583AhpH2al1H4FtZqSZJ
- rwhgXkGz1mU1rsvYs+MKR8ZbMd4LiUvij4kpzmX00vksNYXXoOwZFDG46P2T38ug8j7V
- lhipBsxt69p5U+ScxgFc0licQbFTkUCEbb0lmurwXY2nlLFpb1DzLG29lhunHHyOG1/a
- DODQ==
-X-Gm-Message-State: APjAAAWYc1EeVU3Bz5EZPZYbr23zbJI6sVKsZ/hZUq0D/WXHUDtIW3Uz
- UX6HvM5BxhSUmnETJBc3W6kKZKjKnpI=
-X-Google-Smtp-Source: APXvYqyxL5Y6fOPeCWlzgKPawpZyhI2C+vvgnYZONogWTa/qSt2xM9jV6qdUbj2XENcAmmKTYP9wRA==
-X-Received: by 2002:a5d:5307:: with SMTP id e7mr17066615wrv.146.1576864959045; 
- Fri, 20 Dec 2019 10:02:39 -0800 (PST)
+ bh=7kDmZhoO5/bznVBD81W5KeIm1h45FhLlVidRUE2YIrw=;
+ b=cGrwEhqJw9Db4CxvHGIjv63bhB7FdoXPmQQC179dQwgzo6eQQsRDdiOgpkzmIxb5ok
+ wpfgoQAsssieU9ae4+DaVK4sO/OJuIIORts/f+jSmPvBhp3Ath7YT2yk9IvJ6QfMEbaw
+ dG3YeeRvW1I1pIRgFgJV/6XjFKAzY8AkdH1d0GTtrF6t/SQVjYLGpZtawnEfJO9EXRD0
+ NamHhR75wAIq6/EIZLbePeEr96+3uJmnyWAReYSAGmhbl4zoY/R6ZKjwwMaTmYHio1Fb
+ ijQuCdixt6xYtZvi+iJBbKZ3qCRd7Rpigui3gdxQCK+rbKgx0Z72fUo6If+x9BB90cyt
+ +kDw==
+X-Gm-Message-State: APjAAAUTHHVbk/sKB15U5w2OD74U5LdT5UbXyOJaFrqbg0yWcgjgVh6b
+ QIMHVWDvy0O9B8GsqnktQuTv2Q==
+X-Google-Smtp-Source: APXvYqyyodcMWSplnIyI6dPYkb0jjNZCxyFvyQvRdDHr/4OxckyjYLMtQIxbKIBDwLfZAYLAgOdPuw==
+X-Received: by 2002:a7b:cbd6:: with SMTP id n22mr17431333wmi.118.1576864967808; 
+ Fri, 20 Dec 2019 10:02:47 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d16sm11730708wrg.27.2019.12.20.10.02.37
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id b68sm10762848wme.6.2019.12.20.10.02.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 10:02:37 -0800 (PST)
+ Fri, 20 Dec 2019 10:02:46 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 140F01FF87
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 18:02:37 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id BD6981FF87;
+ Fri, 20 Dec 2019 18:02:45 +0000 (GMT)
 References: <20191216221158.29572-1-richard.henderson@linaro.org>
- <20191216221158.29572-17-richard.henderson@linaro.org>
+ <20191216221158.29572-18-richard.henderson@linaro.org>
 User-agent: mu4e 1.3.5; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 16/28] target/alpha: Remove MMU_MODE{0,1}_SUFFIX
-In-reply-to: <20191216221158.29572-17-richard.henderson@linaro.org>
-Date: Fri, 20 Dec 2019 18:02:37 +0000
-Message-ID: <874kxudgea.fsf@linaro.org>
+Subject: Re: [PATCH v2 17/28] target/cris: Remove MMU_MODE{0,1}_SUFFIX
+In-reply-to: <20191216221158.29572-18-richard.henderson@linaro.org>
+Date: Fri, 20 Dec 2019 18:02:45 +0000
+Message-ID: <871rsydge2.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,6 +82,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,28 +91,28 @@ Richard Henderson <richard.henderson@linaro.org> writes:
 
 > The functions generated by these macros are unused.
 >
+> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  target/alpha/cpu.h | 2 --
+>  target/cris/cpu.h | 2 --
 >  1 file changed, 2 deletions(-)
 >
-> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-> index a530249a5b..3f782c0efe 100644
-> --- a/target/alpha/cpu.h
-> +++ b/target/alpha/cpu.h
-> @@ -193,8 +193,6 @@ enum {
->     PALcode cheats and usees the KSEG mapping for its code+data rather th=
-an
->     physical addresses.  */
+> diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+> index aba0a66474..bc43bc23a1 100644
+> --- a/target/cris/cpu.h
+> +++ b/target/cris/cpu.h
+> @@ -252,8 +252,6 @@ enum {
+>  #define cpu_signal_handler cpu_cris_signal_handler
 >=20=20
+>  /* MMU modes definitions */
 > -#define MMU_MODE0_SUFFIX _kernel
 > -#define MMU_MODE1_SUFFIX _user
->  #define MMU_KERNEL_IDX   0
->  #define MMU_USER_IDX     1
->  #define MMU_PHYS_IDX     2
+>  #define MMU_USER_IDX 1
+>  static inline int cpu_mmu_index (CPUCRISState *env, bool ifetch)
+>  {
 
 
 --=20
