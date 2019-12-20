@@ -2,50 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463BB127391
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 03:41:13 +0100 (CET)
-Received: from localhost ([::1]:50014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2705D127495
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 05:27:42 +0100 (CET)
+Received: from localhost ([::1]:50570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii8E3-0002y0-RK
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 21:41:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
+	id 1ii9t6-0007sA-NF
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 23:27:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ning.bo9@zte.com.cn>) id 1ii8Cq-0002XB-Fv
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 21:39:57 -0500
+ (envelope-from <fthain@telegraphics.com.au>) id 1ii9o0-0000bh-On
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:22:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ning.bo9@zte.com.cn>) id 1ii8Co-0006Dy-7g
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 21:39:56 -0500
-Received: from mx7.zte.com.cn ([202.103.147.169]:5018 helo=mxct.zte.com.cn)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ning.bo9@zte.com.cn>) id 1ii8Cn-0005YJ-Rc
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 21:39:54 -0500
-Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
- by Forcepoint Email with ESMTPS id 884F47E6A7F72D6A751D;
- Fri, 20 Dec 2019 10:39:41 +0800 (CST)
-Received: from kjyxapp03.zte.com.cn ([10.30.12.202])
- by mse-fl1.zte.com.cn with SMTP id xBK2cCuB097580;
- Fri, 20 Dec 2019 10:38:12 +0800 (GMT-8)
- (envelope-from ning.bo9@zte.com.cn)
-Received: from mapi (kjyxapp05[null]) by mapi (Zmail) with MAPI id mid14;
- Fri, 20 Dec 2019 10:38:12 +0800 (CST)
-Date: Fri, 20 Dec 2019 10:38:12 +0800 (CST)
-X-Zmail-TransId: 2b075dfc34144d4845c7
-X-Mailer: Zmail v1.0
-Message-ID: <201912201038127222527@zte.com.cn>
-In-Reply-To: <20191219113503.GC1624084@stefanha-x1.localdomain>
-References: 20191212110525.GA1141992@stefanha-x1.localdomain,
- 20191219113503.GC1624084@stefanha-x1.localdomain
-Mime-Version: 1.0
-From: <ning.bo9@zte.com.cn>
-To: <stefanha@gmail.com>
-Subject: =?UTF-8?B?UmU6W1FlbXUtZGV2ZWxdIFtQQVRDSCB2Ml0gdmhvc3QtdnNvY2s6IHJlcG9ydCBRTVAgZXZlbnR3aGVuc2V0cnVubmluZw==?=
-Content-Type: multipart/mixed;
-	boundary="=====_001_next====="
-X-MAIL: mse-fl1.zte.com.cn xBK2cCuB097580
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 202.103.147.169
+ (envelope-from <fthain@telegraphics.com.au>) id 1ii9nz-0003Pt-Pk
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:22:24 -0500
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:34470)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <fthain@telegraphics.com.au>)
+ id 1ii9nz-00022I-GW; Thu, 19 Dec 2019 23:22:23 -0500
+Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
+ id F10F128D4D; Thu, 19 Dec 2019 23:22:02 -0500 (EST)
+To: Jason Wang <jasowang@redhat.com>,
+    qemu-devel@nongnu.org
+Message-Id: <05a689e082735b2ad972b3372ceeb7cfe47d4bd4.1576815466.git.fthain@telegraphics.com.au>
+In-Reply-To: <cover.1576815466.git.fthain@telegraphics.com.au>
+References: <cover.1576815466.git.fthain@telegraphics.com.au>
+From: Finn Thain <fthain@telegraphics.com.au>
+Subject: [PATCH v2 13/13] dp8393x: Correctly advance RRP
+Date: Fri, 20 Dec 2019 15:17:46 +1100
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 98.124.60.144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,50 +43,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The last entry in the RRA is at the address given by the REA register.
+The address wrap-around logic is off-by-one entry. The last resource
+never gets used and RRP can jump over the RWP. The guest driver fails
+badly because the SONIC starts re-using old buffer addresses. Fix this.
 
+Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
+---
+ hw/net/dp8393x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=====_001_next=====
-Content-Type: multipart/alternative;
-	boundary="=====_003_next====="
-
-
---=====_003_next=====
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-PiA+IFRoZXJlIHdpbGwgYmUgYW4gYWRkaXRpb25hbCBwcm9ibGVtIGlmIGRvIHRoaXM6Cj4gPiBX
-aG8gZGVjaWRlcyB3aGljaCBwb3J0IHRoZSBgcnVudGltZWAgc2hvdWxkIGxpc3Rlbj8KPiAKPiBM
-ZXQgdGhlIGhvc3Qga2VybmVsIGF1dG9tYXRpY2FsbHkgYXNzaWduIGEgcG9ydCB1c2luZyBWTUFE
-RFJfUE9SVF9BTlkuCj4gSXQgd29ya3MgbGlrZSB0aGlzOgo+IAo+ICAgc3RydWN0IHNvY2thZGRy
-X3ZtIHN2bSA9IHsKPiAgICAgICAuc3ZtX2ZhbWlseSA9IEFGX1ZTT0NLLAo+ICAgICAgIC5zdm1f
-cG9ydCA9IFZNQUREUl9QT1JUX0FOWSwKPiAgICAgICAuc3ZtX2NpZCA9IFZNQUREUl9DSURfQU5Z
-LAo+ICAgfTsKPiAKPiAgIGludCBmZCA9IHNvY2tldChBRl9WU09DSywgU09DS19TVFJFQU0sIDAp
-Owo+ICAgLi4uCj4gICBpZiAoYmluZChmZCwgKGNvbnN0IHN0cnVjdCBzb2NrYWRkciAgKSZzdm0s
-IHNpemVvZihzdm0pKSA8IDApIHsKPiAgICAgICAuLi4KPiAgIH0KPiAKPiAgIHNvY2tsZW5fdCBz
-b2NrbGVuID0gc2l6ZW9mKHN2bSk7Cj4gICBpZiAoZ2V0c29ja25hbWUoZmQsIChzdHJ1Y3Qgc29j
-a2FkZHIgKikmc3ZtLCAmc29ja2xlbikgPCAwKSB7Cj4gICAgICAgLi4uCj4gICB9Cj4gCj4gICBw
-cmludGYoImNpZCAldSBwb3J0ICV1XG4iLCBzdm0uc3ZtX2NpZCwgc3ZtLnN2bV9wb3J0KTsKPiAK
-PiA+IENvbnNpZGVyIHRoZSB3b3JzdCBjYXNlOiAKPiA+IFRoZSBwb3J0cyBzZWxlY3RlZCBieSB0
-d28gYHJ1bnRpbWVgIHJ1bm5pbmcgaW4gcGFyYWxsZWwgYWx3YXlzIGNvbmZsaWN0LCAKPiA+IGFu
-ZCB0aGlzIGNhc2UgaXMgdW5hdm9pZGFibGUsIGV2ZW4gaWYgd2UgY2FuIHJlZHVjZSB0aGUgcG9z
-c2liaWxpdHkgb2YgCj4gPiBjb25mbGljdHMgdGhyb3VnaCBhbGdvcml0aG1zLgo+ID4gQmVjYXVz
-ZSB3ZSBkb24ndCBoYXZlIGEgZGFlbW9uIHRoYXQgY2FuIGFsbG9jYXRlIHVuaXF1ZSBwb3J0IHRv
-IGBydW50aW1lYC4KPiAKPiBUaGUga2VybmVsIGFzc2lnbnMgdW5pcXVlIHBvcnRzIGFuZCBvbmx5
-IGZhaWxzIGlmIHRoZSBlbnRpcmUgcG9ydAo+IG5hbWVzcGFjZSBpcyBleGhhdXN0ZWQuICBUaGUg
-cG9ydCBuYW1lc3BhY2UgaXMgMzItYml0cyBzbyB0aGlzIGlzIG5vdCBhCj4gcmVhbC13b3JsZCBj
-b25jZXJuLgo+IAo+IERvZXMgdGhpcyBpbmZvcm1hdGlvbiBjbGFyaWZ5IGhvdyB0aGUgcnVudGlt
-ZSBjYW4gY29ubmVjdCB0byB0aGUgZ3Vlc3QKPiBhZ2VudCB3aXRob3V0IGxvb3BzIG9yIGRlbGF5
-cz8KClRoYW5rIHlvdSB2ZXJ5IG11Y2guIEkgd2lsbCBkbyBhcyB5b3UgaW5zdHJ1Y3RlZCBhYm92
-ZQ==
-
-
---=====_003_next=====--
-
---=====_001_next=====--
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index bd92fa28f6..92a30f9f69 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -340,7 +340,7 @@ static void dp8393x_do_read_rra(dp8393xState *s)
+     s->regs[SONIC_RRP] += size;
+ 
+     /* Handle wrap */
+-    if (s->regs[SONIC_RRP] == s->regs[SONIC_REA]) {
++    if (s->regs[SONIC_RRP] == s->regs[SONIC_REA] + size) {
+         s->regs[SONIC_RRP] = s->regs[SONIC_RSA];
+     }
+ 
+-- 
+2.23.0
 
 
