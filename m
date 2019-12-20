@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCE3127C78
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:24:59 +0100 (CET)
-Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4456127C82
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:29:01 +0100 (CET)
+Received: from localhost ([::1]:57108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJD8-000281-Kb
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:24:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60278)
+	id 1iiJH2-0006h4-9a
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:29:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iiJ3V-00052E-MH
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:15:02 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iiJEz-0004kE-Pz
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:26:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iiJ3U-0008LU-3w
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:15:01 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46511
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iiJ3T-0008GA-Qy
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:14:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576851298;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9jxY4miomDHkY4F0FFdrif+0ChwGYNeHA+/kgneSacg=;
- b=WjnSp6imOnLG+B6GmHi32rPF7dN+oCTWjC1N4j7mdcDCcGTB78fUxcaUlLahVzIiRNyKBI
- ENlvk3/AMB7gQVM+DMD1bhgDmQ/OfHdDoVvPZgfczegLBIUouMN9KPKsmc/KXdE4wl+XFK
- Lc1in7v7GJUqMUgpVv6H14sZsO0Cuy0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-8pMd4ZJrMvyZQndvrZuotQ-1; Fri, 20 Dec 2019 09:14:57 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1B41DB60
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 14:14:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D91D6FDCE;
- Fri, 20 Dec 2019 14:14:53 +0000 (UTC)
-Date: Fri, 20 Dec 2019 14:14:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v7 9/9] tests: add dbus-vmstate-test
-Message-ID: <20191220141452.GP1699760@redhat.com>
-References: <20191219123029.200788-1-marcandre.lureau@redhat.com>
- <20191219123029.200788-10-marcandre.lureau@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iiJEx-0006rv-V4
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:26:53 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41229)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iiJEx-0006qK-K9
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:26:51 -0500
+Received: by mail-wr1-x443.google.com with SMTP id c9so9604649wrw.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:26:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=GWiMxTEjs1K381f2nVjRWYY51/PQXmyOS4rDiBkvF/0=;
+ b=kLnPJayxqP72w5mBX4IXo1EFXPA6KdNLdeY6v6EdNT0vwpclJIXpTSgUu24oa9nB3o
+ S1bZlcUwhfO6M8yYiRV9FIxi9d/erbPS0YM15y2RZrLqFiYaITLPSqFZWjKbg+g+v+qw
+ ex4p9M7Zj/XVObYEC5T3uoTa6jm5GUhsp5dBejb0QXFS0dETVbCzXQ9ubeL3aR0YyfU3
+ ImbstMQKTxuB6myWbWVWQq4E9u8KUtUjvY3Ehhicq/lP4XYlpgzZNBMZxW9mJJo3uJ6X
+ BRHk3Sde8eRQoVrG3Fp5uNDvQyHZ+VF0lVUSbDpQb6/SlAUvdJNfaEnaL94Vgni6wRKZ
+ IJaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GWiMxTEjs1K381f2nVjRWYY51/PQXmyOS4rDiBkvF/0=;
+ b=mSRWjD6asduSIDpJ0vX6YXQzNCXPvOkQtdInem7FMiOq4Xu0XNIYf+5Q3ipkvkB2IP
+ zMtIIK7MXoYNNLNB2kShuSDF7rHk6W0yUmnI1/1EXwsGX12TrIxjoCNvMl2iwJkoor1M
+ cp3ScJUQSAehMO5hxEUOSi5rXofQZfHVMzoTFwNYs9GC2fc1svQz/FaJuQCybmD1go6n
+ cEMZ0cmL1EI3caH5ls201rZ0o9euC37plaKIVPUVQWFVBeHkzl2ZsS32ojGgXPKo+g8z
+ w5Qt+AdV8YXecHdsOJxW2KeNBynyIE5etp9AupEj8NRQ+qsNKTrup6XgwccXmMuX0/nE
+ xJWA==
+X-Gm-Message-State: APjAAAWUr2sn9OQps8tKuKpte5GtLIclc4e96KQ44t+s2iy5Z9Rbpa6v
+ zalbUfB3hYPCf8GgBTErYvIwv67xLQpClA==
+X-Google-Smtp-Source: APXvYqw9rVIjfX44o1XXfAXzC3dMgGlpkXtEGgKnTwMotak4ie62XYTeg+oWalScQGGjTt3jPP+Hlw==
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr15493960wrn.155.1576852009870; 
+ Fri, 20 Dec 2019 06:26:49 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id t5sm9741814wrr.35.2019.12.20.06.26.48
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Dec 2019 06:26:49 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 02/12] target/arm: Abstract the generic timer frequency
+Date: Fri, 20 Dec 2019 14:26:34 +0000
+Message-Id: <20191220142644.31076-3-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191220142644.31076-1-peter.maydell@linaro.org>
+References: <20191220142644.31076-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191219123029.200788-10-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 8pMd4ZJrMvyZQndvrZuotQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,48 +79,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: mprivozn@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 04:30:29PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  MAINTAINERS                  |   1 +
->  roms/SLOF                    |   2 +-
->  tests/Makefile.include       |  22 +-
->  tests/dbus-vmstate-daemon.sh |  95 +++++++++
->  tests/dbus-vmstate-test.c    | 382 +++++++++++++++++++++++++++++++++++
->  tests/dbus-vmstate1.xml      |  12 ++
->  6 files changed, 512 insertions(+), 2 deletions(-)
->  create mode 100755 tests/dbus-vmstate-daemon.sh
->  create mode 100644 tests/dbus-vmstate-test.c
->  create mode 100644 tests/dbus-vmstate1.xml
+From: Andrew Jeffery <andrew@aj.id.au>
 
+Prepare for SoCs such as the ASPEED AST2600 whose firmware configures
+CNTFRQ to values significantly larger than the static 62.5MHz value
+currently derived from GTIMER_SCALE. As the OS potentially derives its
+timer periods from the CNTFRQ value the lack of support for running
+QEMUTimers at the appropriate rate leads to sticky behaviour in the
+guest.
 
-> diff --git a/roms/SLOF b/roms/SLOF
-> index 9546892a80..8ebf2f55e1 160000
-> --- a/roms/SLOF
-> +++ b/roms/SLOF
-> @@ -1 +1 @@
-> -Subproject commit 9546892a80d5a4c73deea6719de46372f007f4a6
-> +Subproject commit 8ebf2f55e1ba1492b942ba4b682160e644fc0f98
+Substitute the GTIMER_SCALE constant with use of a helper to derive the
+period from gt_cntfrq_hz stored in struct ARMCPU. Initially set
+gt_cntfrq_hz to the frequency associated with GTIMER_SCALE so current
+behaviour is maintained.
 
-Accidental change. With that removed
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 40bd8df043f66e1ccfb3e9482999d099ac72bb2e.1576215453.git-series.andrew@aj.id.au
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.h    |  5 +++++
+ target/arm/cpu.c    |  8 ++++++++
+ target/arm/helper.c | 10 +++++++---
+ 3 files changed, 20 insertions(+), 3 deletions(-)
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 5f70e9e0438..40f2c45e17e 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -932,8 +932,13 @@ struct ARMCPU {
+      */
+     DECLARE_BITMAP(sve_vq_map, ARM_MAX_VQ);
+     DECLARE_BITMAP(sve_vq_init, ARM_MAX_VQ);
++
++    /* Generic timer counter frequency, in Hz */
++    uint64_t gt_cntfrq_hz;
+ };
+ 
++unsigned int gt_cntfrq_period_ns(ARMCPU *cpu);
++
+ void arm_cpu_post_init(Object *obj);
+ 
+ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index dd51adac059..0abe288e38c 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -974,6 +974,8 @@ static void arm_cpu_initfn(Object *obj)
+     if (tcg_enabled()) {
+         cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
+     }
++
++    cpu->gt_cntfrq_hz = NANOSECONDS_PER_SECOND / GTIMER_SCALE;
+ }
+ 
+ static Property arm_cpu_reset_cbar_property =
+@@ -1055,6 +1057,12 @@ static void arm_set_init_svtor(Object *obj, Visitor *v, const char *name,
+     visit_type_uint32(v, name, &cpu->init_svtor, errp);
+ }
+ 
++unsigned int gt_cntfrq_period_ns(ARMCPU *cpu)
++{
++    return NANOSECONDS_PER_SECOND > cpu->gt_cntfrq_hz ?
++      NANOSECONDS_PER_SECOND / cpu->gt_cntfrq_hz : 1;
++}
++
+ void arm_cpu_post_init(Object *obj)
+ {
+     ARMCPU *cpu = ARM_CPU(obj);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 31fab098c55..85963789f7d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2449,7 +2449,9 @@ static CPAccessResult gt_stimer_access(CPUARMState *env,
+ 
+ static uint64_t gt_get_countervalue(CPUARMState *env)
+ {
+-    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / GTIMER_SCALE;
++    ARMCPU *cpu = env_archcpu(env);
++
++    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / gt_cntfrq_period_ns(cpu);
+ }
+ 
+ static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
+@@ -2485,7 +2487,7 @@ static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
+          * set the timer for as far in the future as possible. When the
+          * timer expires we will reset the timer for any remaining period.
+          */
+-        if (nexttick > INT64_MAX / GTIMER_SCALE) {
++        if (nexttick > INT64_MAX / gt_cntfrq_period_ns(cpu)) {
+             timer_mod_ns(cpu->gt_timer[timeridx], INT64_MAX);
+         } else {
+             timer_mod(cpu->gt_timer[timeridx], nexttick);
+@@ -2914,11 +2916,13 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
+ 
+ static uint64_t gt_virt_cnt_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
++    ARMCPU *cpu = env_archcpu(env);
++
+     /* Currently we have no support for QEMUTimer in linux-user so we
+      * can't call gt_get_countervalue(env), instead we directly
+      * call the lower level functions.
+      */
+-    return cpu_get_clock() / GTIMER_SCALE;
++    return cpu_get_clock() / gt_cntfrq_period_ns(cpu);
+ }
+ 
+ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
+-- 
+2.20.1
 
 
