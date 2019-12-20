@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C635128111
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 18:05:10 +0100 (CET)
-Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB428128128
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 18:12:47 +0100 (CET)
+Received: from localhost ([::1]:59490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiLi8-0004Ji-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 12:05:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40073)
+	id 1iiLpW-0004Cs-Gh
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 12:12:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56703)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1iiLdm-0000CZ-4Y
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:00:39 -0500
+ (envelope-from <bounces@canonical.com>) id 1iiLoY-0003FG-NX
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:11:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1iiLdk-0007jz-Ep
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:00:37 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33700)
+ (envelope-from <bounces@canonical.com>) id 1iiLoX-0003SK-AM
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:11:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33970)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1iiLdk-0007hw-3E
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:00:36 -0500
-Received: by mail-wr1-x441.google.com with SMTP id b6so10130677wrq.0
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 09:00:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=WS8ChejV4YO4dWg6kHYPfKg+xFnECZ3CCJJ2MBa8TKg=;
- b=R6Wb0GI3tLLJX1jKbcK6dL58ItO88nB1eLyPF9Xal+jobILpJSw3vgUjiZjljSuPKe
- j2xj5ZZDj1fBgRP1ge6bMhNq6Pa57PW5XG/S55HtjqxPX1/KqiVWr14CdiZQOwaBhbou
- e9CL5yV3YzWwb1CINwwlTS18Y8ZGo9fg75fPqdCojqI/4UdHHlcBsudznM82wbntNJ2H
- hWjCrtmnmMkdZmmL9ZUpWqtl6uUZft91JFAWwJCMojwRgIFvy4G5pgClZeX8EJYd77R0
- hd5la9W/Ys14oieLR8SYbYFM7cSaNG7qG+cCojMEA9AT03FogkPuev5C5iT5oROZVxXE
- rpLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=WS8ChejV4YO4dWg6kHYPfKg+xFnECZ3CCJJ2MBa8TKg=;
- b=dlcHXLyIEtW18bwtnyGD4YiEbNg6syw1eB+1dOUaXSbiJZWKwl6+M57p7bhoM9x4yS
- fHDErqR/dGLhrYSSYKaWtsGdAhOf5EUFkSeGs/atVFngcJdN2TmlRvZNBWacNiEXEtP+
- spER8ZJAxpCUJ67V+sOwP/obLoPD6imgya8bFHlO4CAz3vpDyO14Xnd1yjE46nYMfYcO
- 9813F8TZr6Sju7wtaPB5l44h5D5u3hP+0pNETG16ShndwFVozjf4MtRfx0hsRDR/qiBK
- aXcbmxDXlZDb14oVC1EKBmwNHMPawFZkSk7uqY2D+dZtVY2L6k84+vd1waacMx3eu3GB
- MkFg==
-X-Gm-Message-State: APjAAAXnyQbVW36IgqrgoswloYWpGhDoxY4RRTrqFZk/VvONe0rU0/iY
- c3bcmO8lWotANSLd1U9gU/hl8Q==
-X-Google-Smtp-Source: APXvYqwnZvVHn8hXeig+Bwh4VMxvawK2cCdKC7uN3pVtR2RbsYsuU75RJD75st50/HbgS3s0iPUbJQ==
-X-Received: by 2002:a5d:6a83:: with SMTP id s3mr15575656wru.99.1576861234459; 
- Fri, 20 Dec 2019 09:00:34 -0800 (PST)
-Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id x11sm10337438wmg.46.2019.12.20.09.00.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 09:00:33 -0800 (PST)
-Date: Fri, 20 Dec 2019 18:00:28 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 05/20] virtio-iommu: Endpoint and domains
- structs and helpers
-Message-ID: <20191220170028.GB2626852@myrica>
-References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-6-eric.auger@redhat.com>
- <20191210163716.GD277340@myrica>
- <28597404-b9ac-8c16-e9e8-ad5793f2f5a3@redhat.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iiLoX-0003QQ-0a
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:11:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iiLoU-0007mk-Nd
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:11:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id ACE092E80CE
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:11:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28597404-b9ac-8c16-e9e8-ad5793f2f5a3@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Dec 2019 17:02:28 -0000
+From: ecsdn <1856834@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
+X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
+X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
+References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
+Message-Id: <157686134861.27735.4167922142644220101.malone@chaenomeles.canonical.com>
+Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
+ versions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0d58c874ea626c549d4eee5ebdbb596155dfbd56
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,67 +67,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
- quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
- dgilbert@redhat.com, eric.auger.pro@gmail.com
+Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 07:31:08PM +0100, Auger Eric wrote:
-> Hi Jean,
-> 
-> On 12/10/19 5:37 PM, Jean-Philippe Brucker wrote:
-> > On Fri, Nov 22, 2019 at 07:29:28PM +0100, Eric Auger wrote:
-> >> +typedef struct viommu_domain {
-> >> +    uint32_t id;
-> >> +    GTree *mappings;
-> >> +    QLIST_HEAD(, viommu_endpoint) endpoint_list;
-> >> +} viommu_domain;
-> >> +
-> >> +typedef struct viommu_endpoint {
-> >> +    uint32_t id;
-> >> +    viommu_domain *domain;
-> >> +    QLIST_ENTRY(viommu_endpoint) next;
-> >> +} viommu_endpoint;
-> > 
-> > There might be a way to merge viommu_endpoint and the IOMMUDevice
-> > structure introduced in patch 4, since they both represent one endpoint.
-> > Maybe virtio_iommu_find_add_pci_as() could add the IOMMUDevice to
-> > s->endpoints, and IOMMUDevice could store the endpoint ID rather than bus
-> > and devfn.
-> 
-> On PCI bus enumeration we locally store the PCI bus hierarchy under the
-> form of GHashTable of IOMMUDevice indexed by iommu_pci_bus pointer.
-> Those are all the devices attached to the downstream buses. We also use
-> an array of iommu pci bus pointers indexed by bus number that is lazily
-> populated due to the fact, at enumeration time we do know the bus number
-> yet. As you pointed, I haven't used the array of iommu pci bus pointers
-> indexed by bus number in this series and I should actually. Currently I
-> am not checking on attach that the sid effectively corresponds to a sid
-> protected by this iommu. I will add this in my next version. The above
-> structures are used in intel_iommu and smmu code as well and I think
-> eventually this may be factorized a common base class..
-> 
-> on the other hand the gtree of viommu_endpoint - soon renamed in
-> CamelCase form ;-) - corresponds to the EPs that are actually attached
-> to any domain. It is indexed by sid and not by bus pointer. This is more
-> adapted to the virtio-iommu case.
-> 
-> So, despite your suggestion, I am tempted to keep the different
-> structures as the first ones are common to all iommu emulation code and
-> the last is adapted to the virtio-iommu operations.
-> 
-> Thoughts?
+Thanks I tried with:
 
-Makes sense, it seems better to keep them separate. I had missed that the
-PCI bus number is resolved later, and started to move the endpoint ID into
-IOMMUDevice when adding MMIO support, but I'll need to revisit this.
+/root/QEMU/qemu-git-4.2.0rc4/qemu/build/ppc-softmmu/qemu-system-ppc -M
+mpc8544ds -nographic -kernel /home/me/boot/uImage-2.6.32 -append
+"root=3D/dev/vda rw" -device virtio-blk-pci,drive=3Ddrive0,disable-
+modern=3Dtrue -drive
+file=3D/home/me/mmcblk0p2.dd,if=3Dnone,id=3Ddrive0,format=3Draw
 
-I'll be off for two weeks, have a nice holiday!
+And again it worked with qemu 2.8.1 but failed with the above 4.2.0rc4
+on the same x86_64 host.
 
-Thanks,
-Jean
+On another x86_64 host I confirmed that the below works with qemu 2.8.0
 
+root@myserver:~# qemu-system-ppc -M mpc8544ds -nographic -kernel
+/home/me/boot/uImage-2.6.32 -append "root=3D/dev/vda rw" -device virtio-
+blk-pci,drive=3Ddrive0,disable-modern=3Dtrue -drive
+file=3D/home/me/mmcblk0p2.dd,if=3Dnone,id=3Ddrive0,format=3Draw
+
+But again even on this system 4.2.0 failes with that same command:
+root@myserver:~# /root/QEMU/qemu-4.2.0/build/ppc-softmmu/qemu-system-ppc -M=
+ mpc8544ds -nographic -kernel /home/me/boot/uImage-2.6.32 -append "root=3D/=
+dev/vda rw" -device virtio-blk-pci,drive=3Ddrive0,disable-modern=3Dtrue -dr=
+ive file=3D/home/me/mmcblk0p2.dd,if=3Dnone,id=3Ddrive0,format=3Draw
+
+Fails/freezes at the same vda: location.
+
+Running it from its installed location didn't help, the following still
+failed at vda: also.
+
+root@myserver:/opt/qemu4.2.0/bin# ./qemu-system-ppc -M mpc8544ds
+-nographic -kernel /home/me/boot/uImage-2.6.32 -append "root=3D/dev/vda
+rw" -device virtio-blk-pci,drive=3Ddrive0,disable-modern=3Dtrue -drive
+file=3D/home/me/mmcblk0p2.dd,if=3Dnone,id=3Ddrive0,format=3Draw
+
+Although I didn't think its required for the softmmu qemu "emulation"
+only, ie not "kvm", I even enabled kvm as well as DMAR+IOMMU on the
+kernel and recompiled 4.2.0 but had same vda: failure.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856834
+
+Title:
+  Virtio broken in qemu ppc in 4.2.0 and other versions
+
+Status in QEMU:
+  New
+
+Bug description:
+  The same qemu -M mpc... command that works on qemu-system-ppc version
+  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
+  version 4.2.0release and 4.19dirtygit:
+
+  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
+ccel kvm is set.
+  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
+e (slower).
+
+  ends/freezes at:
+  nbd: registered device at major 43
+  =C2=A0vda:
+
+  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
+  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
+  with 2.8.0 official release from git/github that I compiled/built
+  myself. But both of the newer releases fail on the same exact machine
+  same config.
+
+  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
+ed weren't, ie gave
+  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
+bus=3D0,unit=3D0
+  (but I removed -drive if=3Dmtd since wasn't using it anyway)
+
+  I also tried on windows but I think virtio doesn't work on windows
+  hosts at all? On windows host it fails the same way, even version 2.12
+  as well as 4.1.10...
+
+  used:
+  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
+
+  (basically all steps the same on same exact system same config, yet
+  2.8.0 works fine whether apt-get installed or built from source while
+  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
+
+  In case newer qemu versions act weird on various kernels, I did try with =
+both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
+ compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
+_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
+ich is why I can't use -M ppce500 instead..)
+  tx
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
