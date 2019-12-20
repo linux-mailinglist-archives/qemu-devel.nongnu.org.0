@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A606127BB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:32:27 +0100 (CET)
-Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAF2127BE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:41:44 +0100 (CET)
+Received: from localhost ([::1]:55976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiIOI-0002yC-5m
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:32:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36429)
+	id 1iiIXH-0008AJ-DI
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:41:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iiIHt-0003KR-7H
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:25:51 -0500
+ (envelope-from <bounces@canonical.com>) id 1iiIWT-0007g0-Eu
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:40:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iiIHr-0006Oj-5l
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:25:47 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45805
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iiIHo-0006Id-Ij
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:25:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576848341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xP6ZNvU3p4VNzD0xUSwdP2abxVGRKcAb23hyeO2ftw4=;
- b=JgWmrhjTF/b5PP1BF9JCqKjAwuzXi6dR3AYsq2JDRt1crurzMyxYA26Z/xv4rJDFJu/sE5
- eRBiSteSsbq9Z5DVLuj9ZkhfGEhiGwtEliqDz2Ly21LhJ74rmJFS3/hiS2v3+PJeKoRM/l
- UYUeE9grku1pjVE91R0eZWH4jcechNI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-h_EWPvN1MISkdbs-vqsIgw-1; Fri, 20 Dec 2019 08:25:37 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD473800D4C;
- Fri, 20 Dec 2019 13:25:36 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-42.ams2.redhat.com
- [10.36.116.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC72210016E8;
- Fri, 20 Dec 2019 13:25:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A0F2911386A7; Fri, 20 Dec 2019 14:25:34 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 02/18] fuse: Allow exporting BDSs via FUSE
-References: <20191219143818.1646168-1-mreitz@redhat.com>
- <20191219143818.1646168-3-mreitz@redhat.com>
- <20191220102656.GD4019@dhcp-200-226.str.redhat.com>
- <1812e968-1197-523e-7039-caf29e3bbc4b@redhat.com>
- <20191220112402.GE4019@dhcp-200-226.str.redhat.com>
- <87pngjgo2h.fsf@dusky.pond.sub.org>
- <20191220125839.GG4019@dhcp-200-226.str.redhat.com>
-Date: Fri, 20 Dec 2019 14:25:34 +0100
-In-Reply-To: <20191220125839.GG4019@dhcp-200-226.str.redhat.com> (Kevin Wolf's
- message of "Fri, 20 Dec 2019 13:58:39 +0100")
-Message-ID: <877e2rf7sh.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <bounces@canonical.com>) id 1iiIWS-0002Cc-3r
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:40:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59294)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iiIWR-00024Z-NO
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:40:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iiIWP-0006gC-D3
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 13:40:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 470682E80C9
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 13:40:49 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: h_EWPvN1MISkdbs-vqsIgw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Dec 2019 13:30:32 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
+X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
+Message-Id: <157684863274.5627.16928559793514414622.malone@gac.canonical.com>
+Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
+ versions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d626bc562c220accd01ead983f8d7c5bb56ef3c0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,56 +67,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Perhaps you can try to disable the "modern" mode of virtio (The
+endianness of the API has been changed):
 
-> Am 20.12.2019 um 13:48 hat Markus Armbruster geschrieben:
->> Kevin Wolf <kwolf@redhat.com> writes:
->>=20
->> > Am 20.12.2019 um 11:48 hat Max Reitz geschrieben:
->> >> So if we kept writable and growable in the common base, then the sche=
-ma
->> >> would give no information about what exports actually support them.
->> >>=20
->> >> On one hand, I don=E2=80=99t know whether it=E2=80=99s important to h=
-ave this
->> >> information in a static form, or whether it=E2=80=99s sufficient to l=
-earn at
->> >> runtime.
->> >>=20
->> >> On the other, I don=E2=80=99t know whether it=E2=80=99s important to =
-have those fields
->> >> in the base or not.  Would it make a difference on the wire?
->> >
->> > Not for the command itself, so I think we're free to change it later. =
-It
->> > might make a difference for introspection, though, not sure. Markus?
->>=20
->> QAPI schema introspection is designed to hide the difference between
->> local members and base members.  You can move members to or from a base
->> type freely without affecting introspection.  Even if that creates or
->> deletes the base type.
->
-> Good, that's helpful. So I can split the nbd-server-add argument type
-> into a base that is reused as a union branch and the rest without
-> potentially breaking anything.
->
-> I suppose moving a field between a union base and all variants does
-> still result in different introspection even though the accepted inputs
-> are the same.
+replace
 
-Correct.  A common member (whether it's local or from the base) is in
-SchemaInfoObject.members[].  Moving it to all the variants moves it to
-the variant types' .members[].
+  -drive file=3D/home/me/mmcblk0p2.dd,if=3Dvirtio
 
->               Is this kind of movement still allowed unconditionally or
-> should we be more careful with something like this?
+by
 
-QMP's backward compatibility promise does not include "introspection
-value won't change".  Still, such changes can conceivably confuse
-clients.  Care is advisable.  But it's not a hard "no".
+  -device virtio-blk-pci,drive=3Ddrive0,disable-modern=3Dtrue \
+  -drive file=3Dmmcblk0p2.dd,if=3Dnone,id=3Ddrive0,format=3Draw
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856834
+
+Title:
+  Virtio broken in qemu ppc in 4.2.0 and other versions
+
+Status in QEMU:
+  New
+
+Bug description:
+  The same qemu -M mpc... command that works on qemu-system-ppc version
+  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
+  version 4.2.0release and 4.19dirtygit:
+
+  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
+ccel kvm is set.
+  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
+e (slower).
+
+  ends/freezes at:
+  nbd: registered device at major 43
+  =C2=A0vda:
+
+  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
+  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
+  with 2.8.0 official release from git/github that I compiled/built
+  myself. But both of the newer releases fail on the same exact machine
+  same config.
+
+  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
+ed weren't, ie gave
+  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
+bus=3D0,unit=3D0
+  (but I removed -drive if=3Dmtd since wasn't using it anyway)
+
+  I also tried on windows but I think virtio doesn't work on windows
+  hosts at all? On windows host it fails the same way, even version 2.12
+  as well as 4.1.10...
+
+  used:
+  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
+
+  (basically all steps the same on same exact system same config, yet
+  2.8.0 works fine whether apt-get installed or built from source while
+  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
+
+  In case newer qemu versions act weird on various kernels, I did try with =
+both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
+ compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
+_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
+ich is why I can't use -M ppce500 instead..)
+  tx
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
