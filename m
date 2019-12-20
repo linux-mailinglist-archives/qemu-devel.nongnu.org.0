@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B93127B0E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:31:58 +0100 (CET)
-Received: from localhost ([::1]:54548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82395127B15
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:33:22 +0100 (CET)
+Received: from localhost ([::1]:54570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiHRl-0005Ti-6w
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:31:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1iiHT7-00079n-Ib
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:33:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iiH6M-0002YP-G7
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:09:52 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iiH7K-0003yX-4r
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:10:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iiH6I-000466-Dn
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:09:48 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20199
+ (envelope-from <mreitz@redhat.com>) id 1iiH7H-0006Vp-UZ
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:10:49 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21476
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iiH6H-00040e-SE
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:09:46 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iiH7H-0006TT-Mb
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:10:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576843784;
+ s=mimecast20190719; t=1576843847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZRqxg4jzyd9qbid/kjBvm+qghL7VCGpqXcohMXHAaCY=;
- b=ZNYLwFOpnWMpRGo/RW/F4tX70rW0FbrOIOr60hbA4RAZnlVMQMtPrVgqNbO5e2OMA4ytof
- rc9qOzYMNwdyaqn7ggy5JmuYo8b1CdelY+1xrFZbt2DBHeVGxBG6pQwlPJUGO1xNG4FONH
- QfG+Y0NpTF0TR3xYLy57u7ydAi6nt10=
+ bh=O2qg2K1k9AOXxhc66Bi/fNg+DIKixfLL/+dbkEgp0XA=;
+ b=cFaWSBAhEtVloIW5/GF2o/0+2kh8CddWF66WzedeAUqYbPjxQhPLGJ+NCsTO2QW2cixFZO
+ IS/wQTiCppwUV0Hmq4xe0CUFJLsHaNr2wq5hNgf30+Kd7ZmwWZpsnEl81UO5rUapLvlmeG
+ MRtyNpbF+wJlsbSYD+oFkjhFhfCbeyI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-lAiL9e2HNwa3roqVZ68f5w-1; Fri, 20 Dec 2019 07:09:42 -0500
-X-MC-Unique: lAiL9e2HNwa3roqVZ68f5w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-309-kdccCwtiPTu6pKZ6npT8YQ-1; Fri, 20 Dec 2019 07:10:42 -0500
+X-MC-Unique: kdccCwtiPTu6pKZ6npT8YQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9AD5184BEC6;
- Fri, 20 Dec 2019 12:09:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E39810054E3;
+ Fri, 20 Dec 2019 12:10:41 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-205-117.brq.redhat.com
  [10.40.205.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E32126FB9;
- Fri, 20 Dec 2019 12:09:40 +0000 (UTC)
-Subject: Re: [PATCH 02/18] fuse: Allow exporting BDSs via FUSE
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20191219143818.1646168-1-mreitz@redhat.com>
- <20191219143818.1646168-3-mreitz@redhat.com>
- <20191220102656.GD4019@dhcp-200-226.str.redhat.com>
- <1812e968-1197-523e-7039-caf29e3bbc4b@redhat.com>
- <20191220112402.GE4019@dhcp-200-226.str.redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B0D87E473;
+ Fri, 20 Dec 2019 12:10:39 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v2 15/23] mirror: Prevent loops
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-16-mreitz@redhat.com>
+ <7f50c050-38ca-a7f2-361b-a08e82b420af@virtuozzo.com>
+ <c2fde7aa-21fc-f8bb-02fa-af28ddd297f7@redhat.com>
+ <9c1b3378-3509-23cc-a83a-f34d39fef239@virtuozzo.com>
+ <0ef67269-4744-dc1e-cc71-09d947d8635b@redhat.com>
+ <e2e89921-9121-a67a-474c-1f7f11a305ef@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -76,17 +79,17 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <3840096c-55a9-58df-4320-8394492fb387@redhat.com>
-Date: Fri, 20 Dec 2019 13:09:38 +0100
+Message-ID: <2ff9a984-7f7c-82fd-57e6-f0c93d44ded0@redhat.com>
+Date: Fri, 20 Dec 2019 13:10:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191220112402.GE4019@dhcp-200-226.str.redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <e2e89921-9121-a67a-474c-1f7f11a305ef@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH"
+ boundary="wmjnaCnnUjtPRM2rl5th8ILLnkfTnFl5N"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -101,216 +104,346 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH
-Content-Type: multipart/mixed; boundary="Mo1mgEk2ea8Ys7uBZwucum51DivYgBs1p"
+--wmjnaCnnUjtPRM2rl5th8ILLnkfTnFl5N
+Content-Type: multipart/mixed; boundary="Z2kVsMmVIAvTDMuNkkUjDWxDO7wMfA4ZV"
 
---Mo1mgEk2ea8Ys7uBZwucum51DivYgBs1p
-Content-Type: text/plain; charset=utf-8
+--Z2kVsMmVIAvTDMuNkkUjDWxDO7wMfA4ZV
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 20.12.19 12:24, Kevin Wolf wrote:
-> Am 20.12.2019 um 11:48 hat Max Reitz geschrieben:
->> On 20.12.19 11:26, Kevin Wolf wrote:
->>> Am 19.12.2019 um 15:38 hat Max Reitz geschrieben:
->>>> fuse-export-add allows mounting block graph nodes via FUSE on some
->>>> existing regular file.  That file should then appears like a raw disk
->>>> image, and accesses to it result in accesses to the exported BDS.
+On 20.12.19 12:55, Vladimir Sementsov-Ogievskiy wrote:
+> 20.12.2019 14:39, Max Reitz wrote:
+>> On 13.12.19 12:18, Vladimir Sementsov-Ogievskiy wrote:
+>>> 09.12.2019 17:43, Max Reitz wrote:
+>>>> On 02.12.19 13:12, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> 11.11.2019 19:02, Max Reitz wrote:
+>>>>>> While bdrv_replace_node() will not follow through with it, a specifi=
+c
+>>>>>> @replaces asks the mirror job to create a loop.
+>>>>>>
+>>>>>> For example, say both the source and the target share a child where =
+the
+>>>>>> source is a filter; by letting @replaces point to the common child, =
+you
+>>>>>> ask for a loop.
+>>>>>>
+>>>>>> Or if you use @replaces in drive-mirror with sync=3Dnone and
+>>>>>> mode=3Dabsolute-paths, you generally ask for a loop (@replaces must =
+point
+>>>>>> to a child of the source, and sync=3Dnone makes the source the backi=
+ng
+>>>>>> file of the target after the job).
+>>>>>>
+>>>>>> bdrv_replace_node() will not create those loops, but by doing so, it
+>>>>>> ignores the user-requested configuration, which is not ideally eithe=
+r.
+>>>>>> (In the first example above, the target's child will remain what it =
+was,
+>>>>>> which may still be reasonable.  But in the second example, the targe=
+t
+>>>>>> will just not become a child of the source, which is precisely what =
+was
+>>>>>> requested with @replaces.)
+>>>>>>
+>>>>>> So prevent such configurations, both before the job, and before it
+>>>>>> actually completes.
+>>>>>>
+>>>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>>>> ---
+>>>>>>     block.c                   | 30 ++++++++++++++++++++++++
+>>>>>>     block/mirror.c            | 19 +++++++++++++++-
+>>>>>>     blockdev.c                | 48 +++++++++++++++++++++++++++++++++=
++++++-
+>>>>>>     include/block/block_int.h |  3 +++
+>>>>>>     4 files changed, 98 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/block.c b/block.c
+>>>>>> index 0159f8e510..e3922a0474 100644
+>>>>>> --- a/block.c
+>>>>>> +++ b/block.c
+>>>>>> @@ -6259,6 +6259,36 @@ out:
+>>>>>>         return to_replace_bs;
+>>>>>>     }
+>>>>>>    =20
+>>>>>> +/*
+>>>>>> + * Return true iff @child is a (recursive) child of @parent, with a=
+t
+>>>>>> + * least @min_level edges between them.
+>>>>>> + *
+>>>>>> + * (If @min_level =3D=3D 0, return true if @child =3D=3D @parent.  =
+For
+>>>>>> + * @min_level =3D=3D 1, @child needs to be at least a real child; f=
+or
+>>>>>> + * @min_level =3D=3D 2, it needs to be at least a grand-child; and =
+so on.)
+>>>>>> + */
+>>>>>> +bool bdrv_is_child_of(BlockDriverState *child, BlockDriverState *pa=
+rent,
+>>>>>> +                      int min_level)
+>>>>>> +{
+>>>>>> +    BdrvChild *c;
+>>>>>> +
+>>>>>> +    if (child =3D=3D parent && min_level <=3D 0) {
+>>>>>> +        return true;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    if (!parent) {
+>>>>>> +        return false;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    QLIST_FOREACH(c, &parent->children, next) {
+>>>>>> +        if (bdrv_is_child_of(child, c->bs, min_level - 1)) {
+>>>>>> +            return true;
+>>>>>> +        }
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    return false;
+>>>>>> +}
+>>>>>> +
+>>>>>>     /**
+>>>>>>      * Iterates through the list of runtime option keys that are sai=
+d to
+>>>>>>      * be "strong" for a BDS.  An option is called "strong" if it ch=
+anges
+>>>>>> diff --git a/block/mirror.c b/block/mirror.c
+>>>>>> index 68a4404666..b258c7e98b 100644
+>>>>>> --- a/block/mirror.c
+>>>>>> +++ b/block/mirror.c
+>>>>>> @@ -701,7 +701,24 @@ static int mirror_exit_common(Job *job)
+>>>>>>              * there.
+>>>>>>              */
+>>>>>>             if (bdrv_recurse_can_replace(src, to_replace)) {
+>>>>>> -            bdrv_replace_node(to_replace, target_bs, &local_err);
+>>>>>> +            /*
+>>>>>> +             * It is OK for @to_replace to be an immediate child of
+>>>>>> +             * @target_bs, because that is what happens with
+>>>>>> +             * drive-mirror sync=3Dnone mode=3Dabsolute-paths: targ=
+et_bs's
+>>>>>> +             * backing file will be the source node, which is also
+>>>>>> +             * to_replace (by default).
+>>>>>> +             * bdrv_replace_node() handles this case by not letting
+>>>>>> +             * target_bs->backing point to itself, but to the sourc=
+e
+>>>>>> +             * still.
+>>>>>> +             */
+>>>>>> +            if (!bdrv_is_child_of(to_replace, target_bs, 2)) {
+>>>>>> +                bdrv_replace_node(to_replace, target_bs, &local_err=
+);
+>>>>>> +            } else {
+>>>>>> +                error_setg(&local_err, "Can no longer replace '%s' =
+by '%s', "
+>>>>>> +                           "because the former is now a child of th=
+e latter, "
+>>>>>> +                           "and doing so would thus create a loop",
+>>>>>> +                           to_replace->node_name, target_bs->node_n=
+ame);
+>>>>>> +            }
+>>>>>
+>>>>> you may swap if and else branch, dropping "!" mark..
 >>>>
->>>> Right now, we only set up the mount point and tear all mount points do=
-wn
->>>> in bdrv_close_all().  We do not implement any access functions, so
->>>> accessing the mount point only results in errors.  This will be
->>>> addressed by a followup patch.
+>>>> Yes, but I just personally prefer to have the error case in the else b=
+ranch.
 >>>>
->>>> The set of exported nodes is kept in a hash table so we can later add =
-a
->>>> fuse-export-remove that allows unmounting.
+>>>>>>             } else {
+>>>>>>                 error_setg(&local_err, "Can no longer replace '%s' b=
+y '%s', "
+>>>>>>                            "because it can no longer be guaranteed t=
+hat doing so "
+>>>>>> diff --git a/blockdev.c b/blockdev.c
+>>>>>> index 9dc2238bf3..d29f147f72 100644
+>>>>>> --- a/blockdev.c
+>>>>>> +++ b/blockdev.c
+>>>>>> @@ -3824,7 +3824,7 @@ static void blockdev_mirror_common(const char =
+*job_id, BlockDriverState *bs,
+>>>>>>         }
+>>>>>>    =20
+>>>>>>         if (has_replaces) {
+>>>>>> -        BlockDriverState *to_replace_bs;
+>>>>>> +        BlockDriverState *to_replace_bs, *target_backing_bs;
+>>>>>>             AioContext *replace_aio_context;
+>>>>>>             int64_t bs_size, replace_size;
+>>>>>>    =20
+>>>>>> @@ -3839,6 +3839,52 @@ static void blockdev_mirror_common(const char=
+ *job_id, BlockDriverState *bs,
+>>>>>>                 return;
+>>>>>>             }
+>>>>>>    =20
+>>>>>> +        if (bdrv_is_child_of(to_replace_bs, target, 1)) {
+>>>>>> +            error_setg(errp, "Replacing %s by %s would result in a =
+loop, "
+>>>>>> +                       "because the former is a child of the latter=
+",
+>>>>>> +                       to_replace_bs->node_name, target->node_name)=
+;
+>>>>>> +            return;
+>>>>>> +        }
+>>>>>
+>>>>> here min_level=3D1, so we don't handle the case, described in mirror_=
+exit_common..
+>>>>> I don't see why.. blockdev_mirror_common is called from qmp_drive_mir=
+ror,
+>>>>> including the case with MIRROR_SYNC_MODE_NONE and NEW_IMAGE_MODE_ABSO=
+LUTE_PATHS..
+>>>>>
+>>>>> What I'm missing?
 >>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>> Hmm.  Well.
+>>>>
+>>>> If it broke drive-mirror sync=3Dnone, I suppose I would have noticed b=
+y
+>>>> running the iotests.  But I didn=92t, and that=92s because this code h=
+ere is
+>>>> reached only if the user actually specified @replaces.  (As opposed to
+>>>> the mirror_exit_common code, where @to_replace may simply be @src if n=
+ot
+>>>> overridden by the user.)
+>>>>
+>>>> The only reason why I allow it in mirror_exit_common is because we hav=
+e
+>>>> to.  But if the user manually specifies this configuration, we can=92t
+>>>> guarantee it=92s safe.
+>>>>
+>>>> OTOH, well, if we allow it for drive-mirror sync=3Dnone, why not allow=
+ it
+>>>> when manually specified with blockdev-mirror?
+>>>>
+>>>> What=92s your opinion?
 >>>
->>>> diff --git a/qapi/block.json b/qapi/block.json
->>>> index 145c268bb6..03f8d1b537 100644
->>>> --- a/qapi/block.json
->>>> +++ b/qapi/block.json
->>>> @@ -317,6 +317,29 @@
->>>>  ##
->>>>  { 'command': 'nbd-server-stop' }
->>>> =20
->>>> +##
->>>> +# @fuse-export-add:
->>>> +#
->>>> +# Exports a block graph node on some (file) mountpoint as a raw image=
-.
->>>> +#
->>>> +# @node-name: Node to be exported
->>>> +#
->>>> +# @mountpoint: Path on which to export the block device via FUSE.
->>>> +#              This must point to an existing regular file.
->>>> +#
->>>> +# @writable: Whether clients should be able to write to the block
->>>> +#            device via the FUSE export. (default: false)
->>>> +#
->>>> +# Since: 5.0
->>>> +##
->>>> +{ 'command': 'fuse-export-add',
->>>> +  'data': {
->>>> +      'node-name': 'str',
->>>> +      'mountpoint': 'str',
->>>> +      '*writable': 'bool'
->>>> +  },
->>>> +  'if': 'defined(CONFIG_FUSE)' }
+>>> Hmm, I think, that allowing to_replaces to be direct backing child of t=
+arget
+>>> (like in mirror_exit_common) is safe enough. User doesn't know that
+>>> such replacing includes also replacing own child of the target,
+>>> which leads to the loop.. It's not obvious. And behavior of
+>>> bdrv_replace_node() which just doesn't create this loop, doesn't
+>>> seem something too tricky. Hmm..
 >>>
->>> Can this use a BlockExport union from the start like I'm introducing in
->>> the storage daemon series, together with a generic block-export-add?
+>>> We could mention in qapi spec, that replacing doesn't break backing
+>>> link of the target, for it to be absolutely defined.
+>>>
+>>> But should we allow replaces to be some other (not backing and not filt=
+ered)
+>>> child of target?..
 >>
->> Hm, you mean still adding a FuseExport structure that would be part of
->> BlockExport and then dropping fuse-export-add in favor of a
->> block-export-add that we want anyway?
->=20
-> Yes.
->=20
->>> It also looks like node-name and writable should be part of the common
->>> base of BlockExport.
+>> Well, my opinion is that this is a bit of weird thing to do and that it
+>> basically does ask for a loop.
 >>
->> node-name definitely, I=E2=80=99m not so sure about writable.  Or, to be=
- more
->> precise, I think that if we want writable to be in the base, we also
->> want growable to be there: Both are primarily options for the
->> BlockBackend that the exports use.
+>> I=92m OK with excluding the sync=3Dnone case, because (1) that=92s so
+>> obviously a loop that it can=92t be what the user honestly wants; (2) ho=
+w
+>> it=92s resolved is rather obvious, too: There is exactly one edge that
+>> causes the loop, so you simply don=92t change that one; (3) drive-mirror
+>> sync=3Dnone does this case automatically, so we should probably allow
+>> users to do it manually with blockdev-mirror, too.
 >>
->> But both of course also need to be supported by the export
->> implementation.  nbd can make its BB growable all it wants, but that
->> doesn=E2=80=99t make it work.
->=20
-> Right. Pragmatically, I think exports are very like to support writable,
-> but probably rather unlikely to support growable. So I do think there
-> would be a point for making writable part of the common base, but not
-> growable.
-
-True.
-
-But there=E2=80=99s nothing that inherently binds it to FUSE, so I think bo=
-th
-from an implementation=E2=80=99s POV and from a user=E2=80=99s POV, it look=
-s just as
-generic as =E2=80=9Cwritable=E2=80=9D.  But that=E2=80=99s theory.  I agree=
- that in practice, it
-won=E2=80=99t be as generic.
-
-(I realize this doesn=E2=80=99t help much in finding out what we should do.=
-)
-
->> So if we kept writable and growable in the common base, then the schema
->> would give no information about what exports actually support them.
+>>>>>> +
+>>>>>> +        if (backing_mode =3D=3D MIRROR_SOURCE_BACKING_CHAIN ||
+>>>>>> +            backing_mode =3D=3D MIRROR_OPEN_BACKING_CHAIN)
+>>>>>> +        {
+>>>>>> +            /*
+>>>>>> +             * While we do not quite know what OPEN_BACKING_CHAIN
+>>>>>> +             * (used for mode=3Dexisting) will yield, it is probabl=
+y
+>>>>>> +             * best to restrict it exactly like SOURCE_BACKING_CHAI=
+N,
+>>>>>> +             * because that is our best guess.
+>>>>>> +             */
+>>>>>> +            switch (sync) {
+>>>>>> +            case MIRROR_SYNC_MODE_FULL:
+>>>>>> +                target_backing_bs =3D NULL;
+>>>>>> +                break;
+>>>>>> +
+>>>>>> +            case MIRROR_SYNC_MODE_TOP:
+>>>>>> +                target_backing_bs =3D backing_bs(bs);
+>>>>>> +                break;
+>>>>>> +
+>>>>>> +            case MIRROR_SYNC_MODE_NONE:
+>>>>>> +                target_backing_bs =3D bs;
+>>>>>> +                break;
+>>>>>> +
+>>>>>> +            default:
+>>>>>> +                abort();
+>>>>>> +            }
+>>>>>> +        } else {
+>>>>>> +            assert(backing_mode =3D=3D MIRROR_LEAVE_BACKING_CHAIN);
+>>>>>> +            target_backing_bs =3D backing_bs(target);
+>>>>>> +        }
+>>>>>> +
+>>>>>> +        if (bdrv_is_child_of(to_replace_bs, target_backing_bs, 0)) =
+{
+>>>>>> +            error_setg(errp, "Replacing '%s' by '%s' with this sync=
+ mode would "
+>>>>>> +                       "result in a loop, because the former would =
+be a child "
+>>>>>> +                       "of the latter's backing file ('%s') after t=
+he mirror "
+>>>>>> +                       "job", to_replace_bs->node_name, target->nod=
+e_name,
+>>>>>> +                       target_backing_bs->node_name);
+>>>>>> +            return;
+>>>>>> +        }
+>>>>>
+>>>>> hmm.. so for MODE_NONE we disallow to_replace =3D=3D src?
+>>>>
+>>>> I suppose that=92s basically the same as above.  Should we allow this =
+case
+>>>> when specified explicitly by the user?
+>>>>
+>>>
+>>> I'm a bit more closer to allowing it, for consistency with automatic pa=
+th, with
+>>> unspecified replaces. Are we sure that nobody uses it?
 >>
->> On one hand, I don=E2=80=99t know whether it=E2=80=99s important to have=
- this
->> information in a static form, or whether it=E2=80=99s sufficient to lear=
-n at
->> runtime.
+>> Well, there are multiple cases, as shown in the commit message.  I think
+>> that for drive-mirror sync=3Dnone, nobody uses @replaces, because it jus=
+t
+>> doesn=92t work.
 >>
->> On the other, I don=E2=80=99t know whether it=E2=80=99s important to hav=
-e those fields
->> in the base or not.  Would it make a difference on the wire?
->=20
-> Not for the command itself, so I think we're free to change it later. It
-> might make a difference for introspection, though, not sure. Markus?
-
-Yes, I asked because I=E2=80=99m wondering whether it would be more cumbers=
-ome
-to users if we didn=E2=80=99t keep it in the base structure.
-
-The duplication depends on how we want to design the command.  Should
-the export implementations receive a ready-to-use BB?  Or just a
-node-name?  In the latter case, we wouldn=E2=80=99t get rid of duplicated c=
-ode
-by having writable/growable in the base.  For the former, it could, but
-then again, just taking the WRITE permission and making the BB growable
-isn=E2=80=99t that bad to duplicate.
-
-Something to consider is that of course the current NBD code wants a
-node-name and not a BB.  So if we decided to generally give export
-implementations a BB, then the initial implementation of
-qmp_block_export_add() would look a bit freaky: It would first branch
-off to qmp_nbd_server_add(), and then open the BB for the =E2=80=9Ccommon=
-=E2=80=9D case,
-but this common case only exists for FUSE (right now).
-
-OTOH, right now we=E2=80=99re free to decide whether we open the BB in
-qmp_block_export_add() or fuse.c, and so we might as well just do it in
-the former.  If we later find out that this was a stupid idea, we can
-always move it into fuse.c.
-
-
-Now I don=E2=80=99t quite know where I=E2=80=99m trying to get with this.
-
-I suppose it means that we should start with qmp_block_export_add()
-creating the BB and handing it over to the export implementation.
-
-Then it makes sense to me that the BB should be ready to go, i.e. have
-all the necessary flags and permissions set.  If so, writable and
-growable should be part of the base, so the WRITE permission can be
-taken and allow_write_beyond_eof can be set.
-
-But there=E2=80=99s a catch: The common code actually cannot pass on a
-ready-to-go BB, because it depends on the export type what kinds of
-permissions can be shared.  FUSE exports are fine with sharing the
-RESIZE permission, but NBD can=E2=80=99t do that.  And, well, if we require=
- the
-export implementation to adjust the permissions anyway, we might as well
-require it to take WRITE if necessary.  And then the argument for
-avoiding duplication is gone.
-
-> Having it in the base might allow us to remove some duplication in the
-> code. Probably not much, though, so not too important.
->=20
->>> Unfortunately this would mean that I can't use the
->>> same BlockExportNbd for the existing nbd-server-add command any more. I
->>> guess I could somehow get a shared base type for both, though.
+>> But, well, that=92s just because drive-mirror does graph manipulation th=
+at
+>> blockdev-mirror doesn=92t (i.e., changing the target=92s backing file on
+>> completion).  So maybe we should just prevent loops for drive-mirror,
+>> but let the user do what they want when they use blockdev-mirror?
 >>
->> Hm.  This sounds like you want to make it your problem.  Can I take that
->> to mean that you want to implement block-export-add and I can wait with
->> v2 until that=E2=80=99s done? :-)
 >=20
-> The NBD integration, yes. I already added the BlockExport type to my
-> patches, too, but I expect you would beat me to it. I'm not currently
-> planning to write a block-export-add because it doesn't add anything new
-> for the storage daemon, so FuseExport and the command this is your part.
-> The type currently only exists for --export.
+> Well, the question finally is, how much to restrict from things for which=
+ we
+> don't know are they useful or not. I don't know) I think, finally, I'm OK=
+ with
+> either way we discussed, or with this patch as is. If it breaks some exis=
+ting
+> scenario it will be easy to fix.
 
-That=E2=80=99s too bad. ;-)
-
-I was mostly asking because I imagine it would actually make more sense
-to add block-export-add in a seperate (prerequisite) series.
+OK.  I hope next-year-me has a good and consistent idea on what to do.
 
 Max
 
 
---Mo1mgEk2ea8Ys7uBZwucum51DivYgBs1p--
+--Z2kVsMmVIAvTDMuNkkUjDWxDO7wMfA4ZV--
 
---G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH
+--wmjnaCnnUjtPRM2rl5th8ILLnkfTnFl5N
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl38ugIACgkQ9AfbAGHV
-z0A/lQf8COk6SVH1YnxVNVmmUfKkG3z2XPVNk0KIFlzfijFvyACtVqUEL4s/uIGh
-EM/4e7H1JmmxthXNBMjtRP78ntx8iTnEeRdcx5mA19lfmrl7rRwKwAcw/aQ12tPs
-o7oDgUr+R8PH/rChHbTg2g9YXU1YYL5gOZqgl6dhWZp76vgxIMVlUvvkrVJNx+pe
-X6HIWgxEl+pTc7p+VdqbgvBpEjL/BNto4JzsIddYyONWVt8+uENEUX2S8q8uf31+
-NAS6iCn+pVOiYRxjna1PxbPbpAChO+BBNrhgBOaKYBcE7E8vPRdEYRR1dNXfVxw4
-v53ka3GZY6h/Qk4pXaRL1J6CTZmTog==
-=JT3m
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl38uj0ACgkQ9AfbAGHV
+z0AW3Af/RbmzqONn5CmrpTP+2YRTGTbxXvBqQcS5+81mSFp8qTNZpb/CPJJF8cl1
+3SsUtkuFD4KfNGaMKY+QU7URdDWWPUqq5VVsJp7ouCjBdhWB+SfnBX7geiJYcz3s
+NYw+ci24RT1+pmn5LmaQVwwQJ65WOEeo4JYBsO2Qw7R3/4+oF9XrKJC1bCJGeQDF
+/ocJeqBRFe/pno0iDuJWPr/HOaZutrGtTbIFCMMqLTq+lDohFuclCtfCmIOm31ZM
+sOC/eWuWOUf+AEZi79MDYPHYrzzzNI9TVngz1Vm8HJduAG5KAZZyZA1Vf7y144M9
+URBHO1YFQ7veoMfCpgZl9ETN42ysTA==
+=U58C
 -----END PGP SIGNATURE-----
 
---G0uH2Sg7f6QUp1BGvsmGZAhZmwSp5oCiH--
+--wmjnaCnnUjtPRM2rl5th8ILLnkfTnFl5N--
 
 
