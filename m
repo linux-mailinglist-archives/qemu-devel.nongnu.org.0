@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E70D9127F1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 16:14:13 +0100 (CET)
-Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0C8127F17
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 16:12:22 +0100 (CET)
+Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJyn-0001ZI-1N
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 10:14:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53729)
+	id 1iiJwz-0006vQ-Sg
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 10:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iiJuN-00042a-Oc
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:09:40 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iiJvv-00065K-6M
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:11:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iiJuM-0004CP-LX
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:09:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20664
+ (envelope-from <imammedo@redhat.com>) id 1iiJvu-0006P1-3a
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:11:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43492
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iiJuM-0004Bk-Gd
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:09:38 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iiJvt-0006OE-VP
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:11:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576854578;
+ s=mimecast20190719; t=1576854673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bdnXmdNDgkw+WhqkUwonjZgeZY3MdsFbxNe6Gdz1TUc=;
- b=czoNfX2ZDQ4GLzxCXohivEP8JD3+7p8DiSWLP+c/BfPn+RZS3CRQRwouKjbrFl/VxUSzTU
- AU++MD0YZCKAyNfF48WCFS4Ogzimche7EubXCrZ6XgJ6KqKAVPPKQD5qoOi3pVIp9IPxnz
- LZ5bjoKkNAK7EXD7hWv7GsML0w1oac4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-Tta8HcvoPr-dmFBxdrjlPw-1; Fri, 20 Dec 2019 10:09:36 -0500
-Received: by mail-wr1-f70.google.com with SMTP id t3so3181180wrm.23
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 07:09:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tKBsLtGhO6JFcJuJYey6uXwanmMO3IwP55PfE7j3f84=;
- b=svOOpolD+jDTmFvqqrjUhEXpEMtES3N7TFUDScXC/k9QWqA/dfgKO00xtgLK92kZ8t
- /qbNpByZnj9OvX6kpfEO3OUw7HS1rh61+vJ+NHoN/hWcAb81QpP/F8ObgBT4f7NWXn+n
- fe4zAirqAXGeZCGcWnlxcgVDt28OMa4WA3SeRbovrS2me1IhK6MTb2mtE+Aa9q8GjZEl
- YOFf5wA6AR1NDLFttFcCeUt3yM4TlUfBlZ2ix7fJXIC8MXvwI9y4FcYO/qB0Iq7414ve
- xbzndGzYLzRSeP5TE8hLO42vtWGddroSIGUncVLlGk3RIYFbSxRpQEAy0wuKajLII3o6
- wcPw==
-X-Gm-Message-State: APjAAAUzMbqQwqgOjP+yES8rXhvabdjEz+FWJekCCRnSFalmPWStuvhY
- 4tAvFV3GWRmJbqOdoGJD469Ec+hArFhzZVZnLY4boZNTaXPxHtzOTB2sVK++Xb597ee7Bhf/vrJ
- H4Onfkl1sII7Zmoo=
-X-Received: by 2002:adf:f3d0:: with SMTP id g16mr16483309wrp.2.1576854575476; 
- Fri, 20 Dec 2019 07:09:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzzOHiXyIqzN3N2Omo4XXhxlqGZhh8Ie8RJqGX1TzJud/Y5S5lgk9DEOWcWjS7nduJljVJJ1g==
-X-Received: by 2002:adf:f3d0:: with SMTP id g16mr16483278wrp.2.1576854575212; 
- Fri, 20 Dec 2019 07:09:35 -0800 (PST)
-Received: from steredhat (host219-64-dynamic.11-87-r.retail.telecomitalia.it.
- [87.11.64.219])
- by smtp.gmail.com with ESMTPSA id o15sm10361136wra.83.2019.12.20.07.09.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 07:09:34 -0800 (PST)
-Date: Fri, 20 Dec 2019 16:09:31 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Florian Florensa <fflorensa@online.net>
-Subject: Re: [PATCH] block/rbd: Add support for ceph namespaces
-Message-ID: <20191220150931.hiaopmv72xax3ek5@steredhat>
-References: <20191219133416.671431-1-fflorensa@online.net>
- <20191219145125.iwhxhzmt5mow5pea@steredhat>
- <20191220141125.wxlm4eizbwie6522@flash.localdomain>
- <CA+aFP1DuNzvWZo7d8sFX6UEYV175HKm0Wo9PJWyHs91dA_WkHQ@mail.gmail.com>
+ bh=T/wJ35DxM2xmeO1Wa+ZN1owhD9BNtgECXYe/PT51g94=;
+ b=Fe/JrVT7LKG9CUDwpQuL9HSD7X5x3bKVQqdzvzTLbuU187cOWXKhwvlzskQhXEL1yZSPaa
+ EKXcxRyh/s44L2L8ykIBGz4w3qnBquLMnmf+Ez3kaTND7vaijN2dpVutRmOdEBWdf4T/mD
+ nKzjX6x0+GIKA/I0e1y6GrPP5xB+Y00=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-Vj5xFYlhMLGQ1vUIbB_a1w-1; Fri, 20 Dec 2019 10:11:09 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05B8B100550E;
+ Fri, 20 Dec 2019 15:11:08 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52E3F5D72A;
+ Fri, 20 Dec 2019 15:11:04 +0000 (UTC)
+Date: Fri, 20 Dec 2019 16:11:02 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/2] numa: stop abusing numa_mem_supported
+Message-ID: <20191220161102.5a3e7748@redhat.com>
+In-Reply-To: <465595b7-eadd-7fb7-deba-fee7b0ae1440@redhat.com>
+References: <1576154936-178362-1-git-send-email-imammedo@redhat.com>
+ <20191219142851.42cd33ff@redhat.com>
+ <20191219083024-mutt-send-email-mst@kernel.org>
+ <20191219144209.3c80dd69@redhat.com>
+ <465595b7-eadd-7fb7-deba-fee7b0ae1440@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+aFP1DuNzvWZo7d8sFX6UEYV175HKm0Wo9PJWyHs91dA_WkHQ@mail.gmail.com>
-X-MC-Unique: Tta8HcvoPr-dmFBxdrjlPw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: Vj5xFYlhMLGQ1vUIbB_a1w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -90,85 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- dillaman@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 20, 2019 at 09:56:51AM -0500, Jason Dillaman wrote:
-> On Fri, Dec 20, 2019 at 9:11 AM Florian Florensa <fflorensa@online.net> w=
-rote:
-> >
-> > Hello Stefano and Jason,
-> >
-> > First of all thanks for the quick reply,
-> > Response inline belowe
-> > > Hi Florian,
-> > >
-> > > I think we need to add (Since: 5.0).
-> >
-> > Are you implying by that (Since: 5.0) that we need to specify its
-> > availability target is qemu 5.0 ?
+On Fri, 20 Dec 2019 14:14:58 +0100
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Exactly, as Jason suggested is part of documentation,
+> On 19/12/19 14:42, Igor Mammedov wrote:
+> > On Thu, 19 Dec 2019 08:30:34 -0500
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> >> On Thu, Dec 19, 2019 at 02:28:51PM +0100, Igor Mammedov wrote:  
+> >>> On Thu, 12 Dec 2019 13:48:54 +0100
+> >>> Igor Mammedov <imammedo@redhat.com> wrote:
+> >>>     
+> >>>> A fix  and cleanup for a mistakes that slipped by me in
+> >>>>   aa57020774 (numa: move numa global variable nb_numa_nodes into MachineState)    
+> >>>
+> >>> ping,
+> >>>
+> >>> could someone pick it up please?    
+> >>
+> >> Looks more like Eduardo's thing.  
+> > 
+> > Yep if he is still available,
+> > but I wasn't sure with coming winter break.
+> > 
+> > In addition, this patch will be prerequisite for disabling
+> > deprecated '-numa node,mem'
+> > hence broadcast ping to make sure it won't get lost.  
+> 
+> I'll take care of it (after new year).
 
-Following the file, I mean something like that:
-
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0cf68fea14..9ebc020e93 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3657,6 +3657,8 @@
- #
- # @pool:               Ceph pool name.
- #
-+# @namespace:          Rados namespace name in the Ceph pool. (Since: 5.0)
-+#
- # @image:              Image name in the Ceph pool.
- #
- # @conf:               path to Ceph configuration file.  Values
+It' looks like Eduardo already picked it up.
+(meanwhile I'm preparing to post mem-path patch bomb with these included)
 
 
->=20
-> FWIW, I took this as just a comment to add some documentation that the
-> field is only valid starting w/ qemu v5.
->=20
-> > I guess that maybe a version check would be better ? Like try to do
-> > namespaces stuff only if we have a recent enough librbd in the system ?
-> > Using something like :
-> >
-> > int rbd_major;
-> >
-> > rbd_version(&rbd_major, NULL, NULL);
-> > /*
-> >  * Target only nautilus+ librbd for namespace support
-> > */
-> > if (rbd_major >=3D 14) // tar
-> >  <process namespace>
->=20
-> Unfortunately, those versions weren't updated in the Mimic nor
-> Nautilus release so it would still return 1/12 (whoops). I think that
-> means you would need to add a probe in "configure" to test for librbd
-> namespace support (e.g. test for the existence of the `rbd_list2`
-> function or the `rbd_linked_image_spec_t` structure). I'll fix this
-> before the forthcoming Octopus release.
->=20
-> > > The patch LGTM, but I'd like to use 'namespace' instead of cryptic
-> > > 'nspace'. (as BlockdevOptionsNVMe did)
-> > > What do you think?
-> > >
-> > Yes no worries, I can rename it to 'rbd_namespace' to avoid any possibl=
-e
-> > confusion, is this Ok for you ?
->=20
-> We use "pool_namespace" in the rbd CLI if you are trying to avoid the
-> word "namespace".
->=20
+Though it would be nice is you could take a look at another series
+  [PATCH for-5.0 v2 0/9] q35: CPU hotplug with secure boot, part 1+2
+especially 2/9 patch
 
-Agree, I'd avoid the 'rbd_' prefix.
-
-Thanks,
-Stefano
+> 
+> Paolo
+> 
+> 
 
 
