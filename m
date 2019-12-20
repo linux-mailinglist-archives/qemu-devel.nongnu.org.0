@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA08912786A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 10:48:20 +0100 (CET)
-Received: from localhost ([::1]:52372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CF6127879
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 10:51:55 +0100 (CET)
+Received: from localhost ([::1]:52408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiEtP-0006uq-N9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 04:48:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57344)
+	id 1iiEws-0000rW-G7
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 04:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33773)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iiEsQ-0006TD-G2
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 04:47:23 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iiEw3-0000SJ-Iy
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 04:51:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iiEsP-0005dv-9A
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 04:47:18 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34424)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iiEsO-0005Ye-S4
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 04:47:17 -0500
-Received: by mail-wr1-x443.google.com with SMTP id t2so8792871wrr.1
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 01:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9QxWq1hMacd2puPuLJJXjSGabCbl3k25kyXNCn9z0hQ=;
- b=UP9V8+3/5b2/9Jx3x6F1fuVH9okI6AAme18V2OlJehfzpZ5zUW+hyMI3YeO5VykrCA
- I35TcgMvBoam3gEl9wNhzCYZehp5iAW90fBQJBK7hcg1l9Xfz25kdKudPOn3oM84hj0u
- 3IL9mf8wJZ6rGKhGv7e1eYYKJpFDFuXCgcX3slr5j6mVCB+SvUcv+0PNXeRzLwrLM2QP
- Hn4OdFI0BxcDHMogYc5sVTA+HtFiSGaPGfclOS3rW9S2eyLTBLMmQv3cno3nS9TscB+d
- IU1X59Md7YGZ12dS9i2ftvp/A5ozR8oQSHJqEMcZ8OphwtORbQo7QWpUwCBhnvXIjWNq
- ka1w==
+ (envelope-from <pbonzini@redhat.com>) id 1iiEw1-0001Xa-5V
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 04:51:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45793
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iiEw0-0001PR-P2
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 04:51:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576835459;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0zIxTk0slJfUnk07+ZV/fe/msT2krwtpPsCbvM8+O0Y=;
+ b=LooRiTLNH5ztsgw+wm5zX+5KVwzAN6ALjP9z+ptL7F6Grj/NUOEb0TSmlyZEHkJ7pJptf7
+ rV4Je0Agw6nppGKVndeQX1BFy7yw3o2CaIGJn+9ogjMz3bxikW0Nvz5Ync3roBV81ArSc1
+ u9XCttNMgdp1Ox060KGsI0Gr0DxqCOU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-sbHB-6jgOC-hjQ2GOCMFSQ-1; Fri, 20 Dec 2019 04:50:55 -0500
+Received: by mail-wm1-f71.google.com with SMTP id f25so2334602wmb.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 01:50:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9QxWq1hMacd2puPuLJJXjSGabCbl3k25kyXNCn9z0hQ=;
- b=MRfgSU4r0JF2Rsr3S6EAwIcjU09LQY9HB3nP7r5yt+CHTOryn281q7vEMv71iecAis
- FBGxAg+2M1Q9RmZQS7MOpN8SkUuZ/VkyxJrGYygJuqXPCFdXmUnJNhtAinK6jH4pjxab
- n81ppgPsjKtrp3tA5nYUDkeyI955Qgh0yRSQQvhdMvzgLGrE6DESoiQldQfVHMa7zaNi
- ibLo3CJKF3FJj6AISmAdjeBNr3To9c1WZDCZRrQjOcpFf7yyGVa/ijsv1GWeTZbsh9FC
- G4m6cRV/3UpEOZ5uQ77Bi1SkZS8CUrWC6O2podVoUEYSRXyphJPZKdAiau3wfEP8wDhh
- LIDA==
-X-Gm-Message-State: APjAAAVf7F06C9UswzIthMSApGqi2FHS3GvgubUvzZhKXn03xtEiN9Ld
- F2E35xHhFnaarAmByP01gdM=
-X-Google-Smtp-Source: APXvYqz+x4bsUrzWI2YmKHqmNljMMqUgB6Onld8NeAapcsjZVt+LtB78AiKkfIDd90pcbodVI+0V0g==
-X-Received: by 2002:adf:f411:: with SMTP id g17mr13988392wro.89.1576835234884; 
- Fri, 20 Dec 2019 01:47:14 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id w13sm9512048wru.38.2019.12.20.01.47.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 01:47:13 -0800 (PST)
-Date: Fri, 20 Dec 2019 09:47:12 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Z9D8jA2JMJXEn3XVDO8OVymfGlzwydcWfuDID65Adgs=;
+ b=qK8u+We7Lw785f0c4JBqC10I5J82lX3N0H6RwRvDgbJz817pB9xPFrCiQdiZiTQOQz
+ TnewHrtMr3FQAKgh+CV70oeFem904s/AIFykETvjfnTxA9e6M4f9ugaWvQW7lmMg0sKZ
+ Fqr9XxNIJTinotKPwPFk8fC4VAsxuaOc7+ChBvvQisQY+aSjxd5AUtdxf+pWOoAMX3Ml
+ yk+u/r+AxFj1NrDhT98J2g2MtnMP+L/VS23ipyjg974hONmiogJnEBFTm9Wu7XXjITW3
+ yehPnsEz5f9pEYvwnxXVYoztr2wmtbcZV7RZwd/8YZIAYasEfy/jtmzK74Zh0CPkAZiT
+ CI0w==
+X-Gm-Message-State: APjAAAXgswffxfO2mCn8SmmjUW1BNHb3SEzS3f8qg9P8bHc2bXtm92EO
+ xhbvlSgjbzzSWRdkp4DIb6pYmpbP33PWeCfMsS63n6M4B0q84Ug9AWJs2fc6Jdq/FYlB5TtlxH2
+ mDMzMjXCxuhhLxCI=
+X-Received: by 2002:adf:fc08:: with SMTP id i8mr15007075wrr.82.1576835454287; 
+ Fri, 20 Dec 2019 01:50:54 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy2wj0dTn5bPj70ytRjonVB3xVEhOij1uBwfsnyfQpwB3QHyEpMzTMSJjXlsyX9Q9Lb0Iu+Xg==
+X-Received: by 2002:adf:fc08:: with SMTP id i8mr15007032wrr.82.1576835454032; 
+ Fri, 20 Dec 2019 01:50:54 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:7009:9cf0:6204:f570?
+ ([2001:b07:6468:f312:7009:9cf0:6204:f570])
+ by smtp.gmail.com with ESMTPSA id u18sm9565548wrt.26.2019.12.20.01.50.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Dec 2019 01:50:53 -0800 (PST)
 Subject: Re: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
  status update
-Message-ID: <20191220094712.GA1635864@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
  <20191210064716.GA6401@flaka>
  <20191213104116.GB1180977@stefanha-x1.localdomain>
@@ -68,15 +75,22 @@ References: <cover.1571905346.git.jag.raman@oracle.com>
  <20191219115545.GD1624084@stefanha-x1.localdomain>
  <772D9CF3-D15D-42D1-B9CF-1279619D7C20@nutanix.com>
  <20191219125504.GI1190276@redhat.com>
+ <20191220094712.GA1635864@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bfaf0b42-513c-08f2-2d4f-d99437b7041d@redhat.com>
+Date: Fri, 20 Dec 2019 10:50:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
-Content-Disposition: inline
-In-Reply-To: <20191219125504.GI1190276@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <20191220094712.GA1635864@stefanha-x1.localdomain>
+Content-Language: en-US
+X-MC-Unique: sbHB-6jgOC-hjQ2GOCMFSQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,7 +117,6 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
  "dgilbert@redhat.com" <dgilbert@redhat.com>,
  "liran.alon@oracle.com" <liran.alon@oracle.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
  "rth@twiddle.net" <rth@twiddle.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
  "mreitz@redhat.com" <mreitz@redhat.com>,
  "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
@@ -112,57 +125,24 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 20/12/19 10:47, Stefan Hajnoczi wrote:
+>> If it doesn't create too large of a burden to support both, then I think
+>> it is very desirable. IIUC, this is saying a kernel based solution as th=
+e
+>> optimized/optimal solution, and userspace UNIX socket based option as th=
+e
+>> generic "works everywhere" fallback solution.
+> I'm slightly in favor of the kernel implementation because it keeps us
+> better aligned with VFIO.  That means solving problems in one place only
+> and less reinventing the wheel.
 
---ibTvN161/egqYuK8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think there are anyway going to be some differences with VFIO.
 
-On Thu, Dec 19, 2019 at 12:55:04PM +0000, Daniel P. Berrang=C3=A9 wrote:
-> On Thu, Dec 19, 2019 at 12:33:15PM +0000, Felipe Franciosi wrote:
-> > > On Dec 19, 2019, at 11:55 AM, Stefan Hajnoczi <stefanha@gmail.com> wr=
-ote:
-> > > On Tue, Dec 17, 2019 at 10:57:17PM +0000, Felipe Franciosi wrote:
-> > >>> On Dec 17, 2019, at 5:33 PM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
-> > >>> On Mon, Dec 16, 2019 at 07:57:32PM +0000, Felipe Franciosi wrote:
-> > >>>>> On 16 Dec 2019, at 20:47, Elena Ufimtseva <elena.ufimtseva@oracle=
-=2Ecom> wrote:
-> > >>>>> =EF=BB=BFOn Fri, Dec 13, 2019 at 10:41:16AM +0000, Stefan Hajnocz=
-i wrote:
-> > To be clear: I'm very happy to have a userspace-only option for this,
-> > I just don't want to ditch the kernel module (yet, anyway). :)
->=20
-> If it doesn't create too large of a burden to support both, then I think
-> it is very desirable. IIUC, this is saying a kernel based solution as the
-> optimized/optimal solution, and userspace UNIX socket based option as the
-> generic "works everywhere" fallback solution.
+For example, currently VFIO requires pinning user memory.  Is that a
+limitation for muser too?  If so, that would be a big disadvantage; if
+not, however, management tools need to learn that muser devices unlike
+other VFIO devices do not prevent overcommit.
 
-I'm slightly in favor of the kernel implementation because it keeps us
-better aligned with VFIO.  That means solving problems in one place only
-and less reinventing the wheel.
+Paolo
 
-Knowing that a userspace implementation is possible is a plus though.
-Maybe that option will become attractive in the future and someone will
-develop it.  In fact, a userspace implementation may be a cool Google
-Summer of Code project idea that I'd like to co-mentor.
-
-Stefan
-
---ibTvN161/egqYuK8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl38mKAACgkQnKSrs4Gr
-c8gF0gf7BRVzK5DHFCHOtHeATqhLfAMgCbDlliBLm5e3yXZRcMX/lFwhPzaCdWQ1
-L51oblPFFL+Hjm2SHPzwQ56gLgFZC3H5w65UC7rOs3bjDMFAYPIZ7SrXq7hSan5X
-mHJb9EihDRROBh78IxiGnq1jKFAbIyzg0BKsrsx8qxGVORoi5LxenrXBbDZXZKrk
-AF3MP0X6tHsZ9v3/I9vNznufHL2fq93/K1Gh3h7dcSd561E/vVza3+MM5LbwmeCq
-uG8eFcFTR4H3sTJdiInv3TBRn+uCdSrjJnfZmF8wsqsw2iSmUn+zTD4dBqgT4oHD
-sLFr2a4LS8cBpp/PqyWfhjYkVOtkIQ==
-=lW5D
------END PGP SIGNATURE-----
-
---ibTvN161/egqYuK8--
 
