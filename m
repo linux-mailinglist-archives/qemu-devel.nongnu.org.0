@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5C2128285
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 20:01:31 +0100 (CET)
-Received: from localhost ([::1]:60720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6231282A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 20:22:44 +0100 (CET)
+Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiNWk-0007fC-3U
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 14:01:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32965)
+	id 1iiNrG-0000Ar-HC
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 14:22:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iiNUz-0006eT-Jh
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:59:42 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iiNpN-00072t-7k
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iiNUy-00036r-AI
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:59:41 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31727
+ (envelope-from <ehabkost@redhat.com>) id 1iiNpK-0005ZH-IG
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30969
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iiNUy-000354-75
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 13:59:40 -0500
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iiNpJ-0005P3-UV
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576868379;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D4AqWqefP0JwjVnCwFXCfweJnNCPq7aXkakT2Ovekpw=;
- b=HYqd6OXGlJ1YaQkpRvwRPX8wL7Zzy+IArgNpm0xkPy6hKtRhhpK1kVt0/6ZtYS2DKWxspj
- 0pKRYPcVp97GTQoLcy+AaDsZtgx/H74sQCgGG6PzasbWRmQzoXvmr5Aqg3M+qXStqgDTo7
- llyu4S549llAPnm2cg5+7sxhUajbaz4=
+ s=mimecast20190719; t=1576869638;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=d2vTMfR4E7yWfrxQkKKpcYriQWv1QDai/DgNgMjAEiM=;
+ b=gp74AoZ+QntNlhVE/L2E1V3BhelTC2Urgqvn4OD0wqTWpjsq4IfCi0JVJGteaRSYXVIVHO
+ JRDWxI5RxcovlA7UDqSMVL4mraMLhMFpk+mC4Mz5/oA88wsxxWQiE6fXT3p6SckMEd1YZD
+ gZLeNTf0pm2pVMpVyDA9cjkt8iWDW34=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51--oFvazA4Nz6xlLWaFqWktA-1; Fri, 20 Dec 2019 13:59:37 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-195-f2gNktTlNIeov6dn_AOVLA-1; Fri, 20 Dec 2019 14:20:37 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E30E2275;
- Fri, 20 Dec 2019 18:59:36 +0000 (UTC)
-Received: from redhat.com (ovpn-116-65.ams2.redhat.com [10.36.116.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96B245D72B;
- Fri, 20 Dec 2019 18:59:30 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PULL 2/2] configure: Require Python >= 3.5
-In-Reply-To: <20191220165141.2207058-3-ehabkost@redhat.com> (Eduardo Habkost's
- message of "Fri, 20 Dec 2019 13:51:41 -0300")
-References: <20191220165141.2207058-1-ehabkost@redhat.com>
- <20191220165141.2207058-3-ehabkost@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Fri, 20 Dec 2019 19:59:28 +0100
-Message-ID: <8736deakmn.fsf@trasno.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47F83801E6D;
+ Fri, 20 Dec 2019 19:20:36 +0000 (UTC)
+Received: from localhost (ovpn-116-10.gru2.redhat.com [10.97.116.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CCE710013A7;
+ Fri, 20 Dec 2019 19:20:33 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/3] x86 and machine queue, 2019-12-20
+Date: Fri, 20 Dec 2019 16:20:28 -0300
+Message-Id: <20191220192031.2226378-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: -oFvazA4Nz6xlLWaFqWktA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: f2gNktTlNIeov6dn_AOVLA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -74,33 +68,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> wrote:
-> Python 3.5 is the oldest Python version available on our
-> supported build platforms, and Python 2 end of life will be 3
-> weeks after the planned release date of QEMU 4.2.0.  Drop Python
-> 2 support from configure completely, and require Python 3.5 or
-> newer.
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> Message-Id: <20191016224237.26180-1-ehabkost@redhat.com>
-> Reviewed-by: John Snow <jsnow@redhat.com>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681=
+:
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-=
+12-17' into staging (2019-12-17 15:55:20 +0000)
 
-But once here, a comment telling why we want 3.5, not 3.4 or 3.6 will
-have been helpful.
+are available in the Git repository at:
 
-Later, Juan.
+  git://github.com/ehabkost/qemu.git tags/x86-and-machine-pull-request
+
+for you to fetch changes up to fcd3f2cc124600385dba46c69a80626985c15b50:
+
+  numa: properly check if numa is supported (2019-12-19 14:57:14 -0300)
+
+----------------------------------------------------------------
+x86 and machine queue, 2019-12-20
+
+Bug fix:
+* Resolve CPU models to v1 by default (Eduardo Habkost)
+
+Cleanup:
+* Remove incorrect numa_mem_supported checks (Igor Mammedov)
+
+----------------------------------------------------------------
+
+Eduardo Habkost (1):
+  i386: Resolve CPU models to v1 by default
+
+Igor Mammedov (2):
+  numa: remove not needed check
+  numa: properly check if numa is supported
+
+ hw/arm/sbsa-ref.c    | 1 -
+ hw/core/machine.c    | 4 ++--
+ hw/core/numa.c       | 7 +------
+ qemu-deprecated.texi | 8 ++++++++
+ target/i386/cpu.c    | 8 +++++++-
+ 5 files changed, 18 insertions(+), 10 deletions(-)
+
+--=20
+2.23.0
 
 
