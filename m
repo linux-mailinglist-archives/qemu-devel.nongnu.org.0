@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAF8127D50
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:37:27 +0100 (CET)
-Received: from localhost ([::1]:57306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C40127E01
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:38:49 +0100 (CET)
+Received: from localhost ([::1]:57330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJPC-0003Bz-NP
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:37:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41899)
+	id 1iiJQV-0004zh-Vs
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:38:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59823)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iiJFB-00050d-UL
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:27:06 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iiJHF-0000UJ-8N
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:29:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iiJFA-0007hU-IE
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:27:05 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41232)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iiJHD-0007Cp-Pj
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:29:12 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45073)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iiJFA-0007dk-9u
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:27:04 -0500
-Received: by mail-wr1-x444.google.com with SMTP id c9so9605286wrw.8
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:27:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=dTAik/55XqF6jZEApcTun6adu0lplKSvcNyPRiElySM=;
- b=jbBrSTaS/8Jnb7aAX3hzxvXCKcQoCm0mmQ9lhRbfudQxTvEdkSTbxtMgQo2peeoYsB
- DBut85jeI7qeFJOeJaHlDEQX6kuWDW3ijetIxwbIulDbmj+pQ1sUw048Ma/CDfWt0ioQ
- meMV6yabMAZ+vNpeXWHybprgOkdkJjE8PWT9zyJ0DBa/kwPXJwxt2Hs2JLQRMT3sU1jF
- 3AmBMawNSES4r28OmyFvaXdRcmvA91M2pYFpI8IONAXzPgtSVUW41dDoP1pl9+0KofXh
- jee94JCEhhs0+nZVeUtjyMPu3KkOU6fVRll3DM+Q8C22+z6JM9616N0Ar3assPWYFw5h
- rfdA==
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iiJHD-00076m-Fw
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:29:11 -0500
+Received: by mail-wr1-x443.google.com with SMTP id j42so9574880wrj.12
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=G9Aw4/kNg3vcw8vax8uibZv8AAkyijCI6PeyUx9IoSE=;
+ b=j/q6dP0dzWp/3lQm02lEburUE39mKqImuDYfSwA16cZ7GrkMu3g9+HzkKNgkPbJjTQ
+ 2DPz0pp33Z4qBDRlWLkJDPhufOEN23MlCZOzY49Z+Uym0Dof3xSphaSo3frIGRy/ynF+
+ ao/SDRmMxy9P9sqUNbktQI3RxcjsbumHDq4x/9pNL5P38yVEidMCwpjD544x52hFCYpU
+ kmvoGxTC7oSQxbxBDuncoXTm4JKRNnvUTAoLnpD+ndb8RvhdrvVm2EUzKdB1Ckb8s3T0
+ xxoNbfthCmQ4Ihkckmo8lK49PGJe2XUSxC/xgQmyg2rh60H3ntoXmnm/BQR842K7w+e3
+ +rQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dTAik/55XqF6jZEApcTun6adu0lplKSvcNyPRiElySM=;
- b=UEk/jZUHKGgZr5OvnZHLgUnF30wUvL730d18H5G7MYmXxB//26NVQq5Aalid4lQwhR
- +k32ePbWAvBhob1VoZbIYz7izx+VT54FFYQc5ZS+DI2b7KsJ9ObXyDlEGPCIr+3jzs0l
- SGvJ+AUFw5FoHsLv8hCcVhnRchMbtQ0QFjYoDqVyevGpMJtqsGn0o2kEDbM5C3F1MilN
- f/WytB9SIxpMmLSFN95ADij9sq7GteMzzTVhg5iJAibLUJa3B0nQlKL5D4Ja94FHTXt9
- /iabpOBvYW+ohPUYHQDw4L9jElJne0hRtGjFCXsJo9x1rF2jCsWx6ybalAC89usuvll7
- 4NuQ==
-X-Gm-Message-State: APjAAAXvstJTS7BmP9D+XVqPfF171bOgwZsJAU/ubPcbNlAeQr91ZpNI
- rSyPaudtvSAxcfLUXul1yoCb7nasxM7SuA==
-X-Google-Smtp-Source: APXvYqy/AasgQHzF4RgNYOlpa4nCvkQsnrgtuONRyDjR09EuFg1SPJWScsjrUxGnZUTF6XEBqBH8fg==
-X-Received: by 2002:a5d:5267:: with SMTP id l7mr16799576wrc.84.1576852022990; 
- Fri, 20 Dec 2019 06:27:02 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t5sm9741814wrr.35.2019.12.20.06.27.01
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 06:27:02 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] arm/arm-powerctl: rebuild hflags after setting CP15 bits
- in arm_set_cpu_on()
-Date: Fri, 20 Dec 2019 14:26:44 +0000
-Message-Id: <20191220142644.31076-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191220142644.31076-1-peter.maydell@linaro.org>
-References: <20191220142644.31076-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=G9Aw4/kNg3vcw8vax8uibZv8AAkyijCI6PeyUx9IoSE=;
+ b=JdBuAUiMAwzhGb2OOto7kizJ3ylew3M6701uE7y7r3NRwBTvqyf5psgU5L/WjMtRJl
+ 3clU1OaSAH4wCiJFjlIP/asCA4rg0mHwc8CVs/txLGEn2tvpe2KHcN4HxuDKNw4JFbWG
+ oxJ+DA4RLKPwrhaBPVzvV8zagPcDy0qtTy0KULMP3N4bByhzYmvabc/qLxypMRboJFTc
+ uCKE1uhtljJEOb95qEBS1oXTKkJVOSLbmskmPw6/GpMTs9LATCUMDKpSbLi7i5GJEEKm
+ RX+PxrdhkdOgjNXkk8K+Z38Mrw9m5VX7a3t5A+sPjfvye6Zgm8lUQ6Io98CMXSqYasaW
+ HiEg==
+X-Gm-Message-State: APjAAAWkSmsVH591F1ibxhVOb8XsEA6XxETc4Da3XWIZT/OI6ERc8tmG
+ ON44JG7LGbGgr9wtSy5DUBs9j5uWqgX7gkwlcew=
+X-Google-Smtp-Source: APXvYqzmWRGO4qUN4k/JBpDAX10a9aQ+tJkCT9jAFjHzkrb2SiK8TH4kIUDHCjegUVG6+JT4C8UXTS4+ET1yRm2F6Jk=
+X-Received: by 2002:a5d:4a84:: with SMTP id o4mr15452496wrq.396.1576852150100; 
+ Fri, 20 Dec 2019 06:29:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191219123029.200788-1-marcandre.lureau@redhat.com>
+ <20191219123029.200788-10-marcandre.lureau@redhat.com>
+ <20191220141452.GP1699760@redhat.com>
+In-Reply-To: <20191220141452.GP1699760@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 20 Dec 2019 18:28:54 +0400
+Message-ID: <CAJ+F1CJmj6eJcbd0faGRA+wp=06zVprR2HBkiNmLeBPdGdXtOg@mail.gmail.com>
+Subject: Re: [PATCH v7 9/9] tests: add dbus-vmstate-test
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,46 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michal Privoznik <mprivozn@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
+On Fri, Dec 20, 2019 at 6:24 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Thu, Dec 19, 2019 at 04:30:29PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  MAINTAINERS                  |   1 +
+> >  roms/SLOF                    |   2 +-
+> >  tests/Makefile.include       |  22 +-
+> >  tests/dbus-vmstate-daemon.sh |  95 +++++++++
+> >  tests/dbus-vmstate-test.c    | 382 +++++++++++++++++++++++++++++++++++
+> >  tests/dbus-vmstate1.xml      |  12 ++
+> >  6 files changed, 512 insertions(+), 2 deletions(-)
+> >  create mode 100755 tests/dbus-vmstate-daemon.sh
+> >  create mode 100644 tests/dbus-vmstate-test.c
+> >  create mode 100644 tests/dbus-vmstate1.xml
+>
+>
+> > diff --git a/roms/SLOF b/roms/SLOF
+> > index 9546892a80..8ebf2f55e1 160000
+> > --- a/roms/SLOF
+> > +++ b/roms/SLOF
+> > @@ -1 +1 @@
+> > -Subproject commit 9546892a80d5a4c73deea6719de46372f007f4a6
+> > +Subproject commit 8ebf2f55e1ba1492b942ba4b682160e644fc0f98
+>
+> Accidental change. With that removed
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-After setting CP15 bits in arm_set_cpu_on() the cached hflags must
-be rebuild to reflect the changed processor state. Without rebuilding,
-the cached hflags would be inconsistent until the next call to
-arm_rebuild_hflags(). When QEMU is compiled with debugging enabled
-(--enable-debug), this problem is captured shortly after the first
-call to arm_set_cpu_on() for CPUs running in ARM 32-bit non-secure mode:
+argh, removed, thanks
 
-  qemu-system-arm: target/arm/helper.c:11359: cpu_get_tb_cpu_state:
-  Assertion `flags == rebuild_hflags_internal(env)' failed.
-  Aborted (core dumped)
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+>
 
-Fixes: 0c7f8c43daf65
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/arm-powerctl.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index b064513d44a..b75f813b403 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -127,6 +127,9 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
-         target_cpu->env.regs[0] = info->context_id;
-     }
- 
-+    /* CP15 update requires rebuilding hflags */
-+    arm_rebuild_hflags(&target_cpu->env);
-+
-     /* Start the new CPU at the requested address */
-     cpu_set_pc(target_cpu_state, info->entry);
- 
--- 
-2.20.1
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
