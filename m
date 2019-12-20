@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBEC12754D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 06:31:46 +0100 (CET)
-Received: from localhost ([::1]:50942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 241CC12758A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 07:09:01 +0100 (CET)
+Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiAt7-0000H8-4H
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 00:31:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
+	id 1iiBTA-0002wb-1n
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 01:09:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iiAsA-0008Bt-Vp
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 00:30:48 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iiBQp-0000kq-1q
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:06:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iiAs9-00020L-BG
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 00:30:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38380)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iiAs8-0001uu-Uv
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 00:30:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iiAs7-0000eM-PL
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:30:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A03152E80C8
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:30:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Dec 2019 05:23:35 -0000
-From: ecsdn <1856834@bugs.launchpad.net>
+ (envelope-from <kraxel@redhat.com>) id 1iiBQm-00034p-Oj
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:06:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60258
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iiBQm-00030W-Cc
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:06:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576821989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rrQOg/LX/wuTe63KX5H8FR2nEWLAaMlvtEe059zjNjs=;
+ b=DZJDOcgwow9pNe1VO3wcdld4i1uui4KuQxfCOEzQq+CE36/42qSZpV5UF3OLsxq+16asL4
+ VBuzbel5MQK+5qF+P1gSCoVbkjJ7iWEyl72UebkqYYvK7qfEzY5mbrscz70O5qcBnFUKLN
+ he7Nrr/dVVAnNW010PVMsFXN1Bn96Mk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-NwHtXemNMX-EQu8mMO3xAw-1; Fri, 20 Dec 2019 01:06:26 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AAFF800D4E
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:06:25 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
+ [10.36.116.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC3947E474;
+ Fri, 20 Dec 2019 06:06:17 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0AA479DA5; Fri, 20 Dec 2019 07:06:17 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
-X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
-X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
-References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
-Message-Id: <157681941517.27324.18130021744303628129.malone@chaenomeles.canonical.com>
-Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
- versions
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7310479b87774a03f185180a6cba3dafb99a9266
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Received-From: 91.189.90.7
+Subject: [PULL 0/2] Vga 20191220 patches
+Date: Fri, 20 Dec 2019 07:06:14 +0100
+Message-Id: <20191220060617.32326-1-kraxel@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: NwHtXemNMX-EQu8mMO3xAw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,105 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Did you try with just a basic virtio disk and it works for you?
+The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681=
+:
 
-Because even a basic virtio drive addition fails for me, even this fails
-on higher than 2.8.1
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-=
+12-17' into staging (2019-12-17 15:55:20 +0000)
 
-For example:
-qemu-system-ppc -M mpc8544ds -nographic -kernel /home/me/boot/uImage-2.6.32=
- -append "root=3D/dev/vda rw" -drive file=3D/home/me/mmcblk0p2.dd,if=3Dvirt=
-io
+are available in the Git repository at:
 
-The only thing I can think of, is if somehow vda fails due to me running
-the higher version qemu binaries from their build locations/paths
-without actually "installing" them in usual paths etc.
+  git://git.kraxel.org/qemu tags/vga-20191220-pull-request
 
-But I ran the 2.8 version from build location I compiled it from and it
-worked from there, but perhaps the 2.8 version was also the distro
-installed default one so maybe it found dependencies it needed?
+for you to fetch changes up to 0d82411d0e38a0de7829f97d04406765c8d2210d:
 
-Anyway I just now reconfigured 4.2.0 with --prefix /opt/qemu4.2.0 and
-ran it from installed dir:
+  display/bochs-display: fix memory leak (2019-12-20 07:05:46 +0100)
 
-root@myserver:/opt/qemu4.2.0/bin# ./qemu-system-ppc -M mpc8544ds
--nographic -kernel /home/me/boot/uImage-2.6.32 -append "root=3D/dev/vda
-rw" -drive file=3D/home/me/mmcblk0p2.dd,if=3Dvirtio
+----------------------------------------------------------------
+vga: two little bugfixes.
 
-But it still fails even after make install and running it from the /opt/qem=
-u4.2.0/bin directory.
-Is it somehow conflicting with the other qemu version 2.8.. installed by us=
-ual apt-get install?
+----------------------------------------------------------------
 
-Regardless of how I start them, version 3.1.0 and 4.2.0rc4 and some other 4=
-.19git and 4.2.0final all fail/freeze at:
-"
-....
-nbd: registered device at major 43
- vda:
-"
+Cameron Esfahani (1):
+  display/bochs-display: fix memory leak
 
--- =
+Cole Robinson (1):
+  vhost-user-gpu: Drop trailing json comma
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856834
+ hw/display/bochs-display.c                 | 2 ++
+ contrib/vhost-user-gpu/50-qemu-gpu.json.in | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Title:
-  Virtio broken in qemu ppc in 4.2.0 and other versions
+--=20
+2.18.1
 
-Status in QEMU:
-  New
-
-Bug description:
-  The same qemu -M mpc... command that works on qemu-system-ppc version
-  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
-  version 4.2.0release and 4.19dirtygit:
-
-  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
-ccel kvm is set.
-  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
-e (slower).
-
-  ends/freezes at:
-  nbd: registered device at major 43
-  =C2=A0vda:
-
-  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
-  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
-  with 2.8.0 official release from git/github that I compiled/built
-  myself. But both of the newer releases fail on the same exact machine
-  same config.
-
-  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
-ed weren't, ie gave
-  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
-bus=3D0,unit=3D0
-  (but I removed -drive if=3Dmtd since wasn't using it anyway)
-
-  I also tried on windows but I think virtio doesn't work on windows
-  hosts at all? On windows host it fails the same way, even version 2.12
-  as well as 4.1.10...
-
-  used:
-  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
-
-  (basically all steps the same on same exact system same config, yet
-  2.8.0 works fine whether apt-get installed or built from source while
-  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
-
-  In case newer qemu versions act weird on various kernels, I did try with =
-both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
- compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
-_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
-ich is why I can't use -M ppce500 instead..)
-  tx
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
