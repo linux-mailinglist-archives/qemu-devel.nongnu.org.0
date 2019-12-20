@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726B2127F0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 16:09:23 +0100 (CET)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70D9127F1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 16:14:13 +0100 (CET)
+Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJu6-0002SJ-AU
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 10:09:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48291)
+	id 1iiJyn-0001ZI-1N
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 10:14:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiJsF-0000b2-KH
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:07:30 -0500
+ (envelope-from <sgarzare@redhat.com>) id 1iiJuN-00042a-Oc
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:09:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiJsC-0001Zq-Vv
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:07:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32409
+ (envelope-from <sgarzare@redhat.com>) id 1iiJuM-0004CP-LX
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:09:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20664
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iiJsC-0001YX-Q1
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:07:24 -0500
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iiJuM-0004Bk-Gd
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 10:09:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576854444;
+ s=mimecast20190719; t=1576854578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oCN6AWpp2hNLAGtYEL73GrgbBT7lKn8ezjdwPWS24AQ=;
- b=OCsgnrdSHDJAUozIuO43feM1lRvxRpDsovviqmdNCW2zeR6rmox+4yx4I7XigvEnuV7fQu
- 6dK9oEWl6tG4gMfCP31bd7jYjCtsMwyzKaClE5OeKSA0qX+ZyVme57WAywpJXgVOSgu+rO
- 6eIzzn04D09F2qf6pWTRonJBnN4gdjg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-R94eXRN3P3KQhnniJUU1eg-1; Fri, 20 Dec 2019 10:07:17 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FB3E1005510;
- Fri, 20 Dec 2019 15:07:17 +0000 (UTC)
-Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB8976058D;
- Fri, 20 Dec 2019 15:07:10 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 9/9] tests: add dbus-vmstate-test
-Date: Fri, 20 Dec 2019 19:05:22 +0400
-Message-Id: <20191220150522.633032-10-marcandre.lureau@redhat.com>
-In-Reply-To: <20191220150522.633032-1-marcandre.lureau@redhat.com>
-References: <20191220150522.633032-1-marcandre.lureau@redhat.com>
+ bh=bdnXmdNDgkw+WhqkUwonjZgeZY3MdsFbxNe6Gdz1TUc=;
+ b=czoNfX2ZDQ4GLzxCXohivEP8JD3+7p8DiSWLP+c/BfPn+RZS3CRQRwouKjbrFl/VxUSzTU
+ AU++MD0YZCKAyNfF48WCFS4Ogzimche7EubXCrZ6XgJ6KqKAVPPKQD5qoOi3pVIp9IPxnz
+ LZ5bjoKkNAK7EXD7hWv7GsML0w1oac4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-Tta8HcvoPr-dmFBxdrjlPw-1; Fri, 20 Dec 2019 10:09:36 -0500
+Received: by mail-wr1-f70.google.com with SMTP id t3so3181180wrm.23
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 07:09:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tKBsLtGhO6JFcJuJYey6uXwanmMO3IwP55PfE7j3f84=;
+ b=svOOpolD+jDTmFvqqrjUhEXpEMtES3N7TFUDScXC/k9QWqA/dfgKO00xtgLK92kZ8t
+ /qbNpByZnj9OvX6kpfEO3OUw7HS1rh61+vJ+NHoN/hWcAb81QpP/F8ObgBT4f7NWXn+n
+ fe4zAirqAXGeZCGcWnlxcgVDt28OMa4WA3SeRbovrS2me1IhK6MTb2mtE+Aa9q8GjZEl
+ YOFf5wA6AR1NDLFttFcCeUt3yM4TlUfBlZ2ix7fJXIC8MXvwI9y4FcYO/qB0Iq7414ve
+ xbzndGzYLzRSeP5TE8hLO42vtWGddroSIGUncVLlGk3RIYFbSxRpQEAy0wuKajLII3o6
+ wcPw==
+X-Gm-Message-State: APjAAAUzMbqQwqgOjP+yES8rXhvabdjEz+FWJekCCRnSFalmPWStuvhY
+ 4tAvFV3GWRmJbqOdoGJD469Ec+hArFhzZVZnLY4boZNTaXPxHtzOTB2sVK++Xb597ee7Bhf/vrJ
+ H4Onfkl1sII7Zmoo=
+X-Received: by 2002:adf:f3d0:: with SMTP id g16mr16483309wrp.2.1576854575476; 
+ Fri, 20 Dec 2019 07:09:35 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzzOHiXyIqzN3N2Omo4XXhxlqGZhh8Ie8RJqGX1TzJud/Y5S5lgk9DEOWcWjS7nduJljVJJ1g==
+X-Received: by 2002:adf:f3d0:: with SMTP id g16mr16483278wrp.2.1576854575212; 
+ Fri, 20 Dec 2019 07:09:35 -0800 (PST)
+Received: from steredhat (host219-64-dynamic.11-87-r.retail.telecomitalia.it.
+ [87.11.64.219])
+ by smtp.gmail.com with ESMTPSA id o15sm10361136wra.83.2019.12.20.07.09.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Dec 2019 07:09:34 -0800 (PST)
+Date: Fri, 20 Dec 2019 16:09:31 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Florian Florensa <fflorensa@online.net>
+Subject: Re: [PATCH] block/rbd: Add support for ceph namespaces
+Message-ID: <20191220150931.hiaopmv72xax3ek5@steredhat>
+References: <20191219133416.671431-1-fflorensa@online.net>
+ <20191219145125.iwhxhzmt5mow5pea@steredhat>
+ <20191220141125.wxlm4eizbwie6522@flash.localdomain>
+ <CA+aFP1DuNzvWZo7d8sFX6UEYV175HKm0Wo9PJWyHs91dA_WkHQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: R94eXRN3P3KQhnniJUU1eg-1
+In-Reply-To: <CA+aFP1DuNzvWZo7d8sFX6UEYV175HKm0Wo9PJWyHs91dA_WkHQ@mail.gmail.com>
+X-MC-Unique: Tta8HcvoPr-dmFBxdrjlPw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -72,628 +90,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
- dgilbert@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ dillaman@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- MAINTAINERS                  |   1 +
- tests/Makefile.include       |  22 +-
- tests/dbus-vmstate-daemon.sh |  95 +++++++++
- tests/dbus-vmstate-test.c    | 382 +++++++++++++++++++++++++++++++++++
- tests/dbus-vmstate1.xml      |  12 ++
- 5 files changed, 511 insertions(+), 1 deletion(-)
- create mode 100755 tests/dbus-vmstate-daemon.sh
- create mode 100644 tests/dbus-vmstate-test.c
- create mode 100644 tests/dbus-vmstate1.xml
+On Fri, Dec 20, 2019 at 09:56:51AM -0500, Jason Dillaman wrote:
+> On Fri, Dec 20, 2019 at 9:11 AM Florian Florensa <fflorensa@online.net> w=
+rote:
+> >
+> > Hello Stefano and Jason,
+> >
+> > First of all thanks for the quick reply,
+> > Response inline belowe
+> > > Hi Florian,
+> > >
+> > > I think we need to add (Since: 5.0).
+> >
+> > Are you implying by that (Since: 5.0) that we need to specify its
+> > availability target is qemu 5.0 ?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d19b9de064..72c541ea80 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2210,6 +2210,7 @@ D-Bus
- M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
- S: Maintained
- F: backends/dbus-vmstate.c
-+F: tests/dbus-vmstate*
- F: util/dbus.c
- F: include/qemu/dbus.h
- F: docs/interop/dbus.rst
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 933eef4127..77564eae72 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -158,12 +158,17 @@ check-qtest-generic-$(CONFIG_MODULES) +=3D tests/modu=
-les-test$(EXESUF)
-=20
- check-qtest-generic-y +=3D tests/device-introspect-test$(EXESUF)
- check-qtest-generic-y +=3D tests/cdrom-test$(EXESUF)
-+DBUS_DAEMON :=3D $(shell which dbus-daemon 2>/dev/null)
-+ifneq ($(GDBUS_CODEGEN),)
-+ifneq ($(DBUS_DAEMON),)
-+check-qtest-pci-$(CONFIG_GIO) +=3D tests/dbus-vmstate-test$(EXESUF)
-+endif
-+endif
-=20
- check-qtest-pci-$(CONFIG_RTL8139_PCI) +=3D tests/rtl8139-test$(EXESUF)
- check-qtest-pci-$(CONFIG_VGA) +=3D tests/display-vga-test$(EXESUF)
- check-qtest-pci-$(CONFIG_HDA) +=3D tests/intel-hda-test$(EXESUF)
- check-qtest-pci-$(CONFIG_IVSHMEM_DEVICE) +=3D tests/ivshmem-test$(EXESUF)
--
- check-qtest-i386-$(CONFIG_ISA_TESTDEV) =3D tests/endianness-test$(EXESUF)
- check-qtest-i386-y +=3D tests/fdc-test$(EXESUF)
- check-qtest-i386-y +=3D tests/ide-test$(EXESUF)
-@@ -634,6 +639,19 @@ tests/qapi-schema/doc-good.test.texi: $(SRC_PATH)/test=
-s/qapi-schema/doc-good.jso
- =09@mv tests/qapi-schema/doc-good-qapi-doc.texi $@
- =09@rm -f tests/qapi-schema/doc-good-qapi-*.[ch] tests/qapi-schema/doc-goo=
-d-qmp-*.[ch]
-=20
-+tests/dbus-vmstate1.h tests/dbus-vmstate1.c: tests/dbus-vmstate1-gen-times=
-tamp ;
-+tests/dbus-vmstate1-gen-timestamp: $(SRC_PATH)/tests/dbus-vmstate1.xml
-+=09$(call quiet-command,$(GDBUS_CODEGEN) $< \
-+=09=09--interface-prefix org.qemu --generate-c-code tests/dbus-vmstate1, \
-+=09=09"GEN","$(@:%-timestamp=3D%)")
-+=09@>$@
-+
-+tests/dbus-vmstate-test.o-cflags :=3D -DSRCDIR=3D"$(SRC_PATH)"
-+tests/dbus-vmstate1.o-cflags :=3D $(GIO_CFLAGS)
-+tests/dbus-vmstate1.o-libs :=3D $(GIO_LIBS)
-+
-+tests/dbus-vmstate-test.o: tests/dbus-vmstate1.h
-+
- tests/test-string-output-visitor$(EXESUF): tests/test-string-output-visito=
-r.o $(test-qapi-obj-y)
- tests/test-string-input-visitor$(EXESUF): tests/test-string-input-visitor.=
-o $(test-qapi-obj-y)
- tests/test-qmp-event$(EXESUF): tests/test-qmp-event.o $(test-qapi-obj-y) t=
-ests/test-qapi-events.o
-@@ -837,6 +855,7 @@ tests/test-filter-mirror$(EXESUF): tests/test-filter-mi=
-rror.o $(qtest-obj-y)
- tests/test-filter-redirector$(EXESUF): tests/test-filter-redirector.o $(qt=
-est-obj-y)
- tests/test-x86-cpuid-compat$(EXESUF): tests/test-x86-cpuid-compat.o $(qtes=
-t-obj-y)
- tests/ivshmem-test$(EXESUF): tests/ivshmem-test.o contrib/ivshmem-server/i=
-vshmem-server.o $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
-+tests/dbus-vmstate-test$(EXESUF): tests/dbus-vmstate-test.o tests/migratio=
-n-helpers.o tests/dbus-vmstate1.o $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
- tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-ob=
-j-y) libvhost-user.a
- tests/test-uuid$(EXESUF): tests/test-uuid.o $(test-util-obj-y)
- tests/test-arm-mptimer$(EXESUF): tests/test-arm-mptimer.o
-@@ -1200,6 +1219,7 @@ check-clean:
- =09rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
- =09rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(t=
-arget)-y)) $(check-qtest-generic-y))
- =09rm -f tests/test-qapi-gen-timestamp
-+=09rm -f tests/dbus-vmstate1-gen-timestamp
- =09rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
-=20
- clean: check-clean
-diff --git a/tests/dbus-vmstate-daemon.sh b/tests/dbus-vmstate-daemon.sh
-new file mode 100755
-index 0000000000..474e250154
---- /dev/null
-+++ b/tests/dbus-vmstate-daemon.sh
-@@ -0,0 +1,95 @@
-+#!/bin/sh
-+
-+# dbus-daemon wrapper script for dbus-vmstate testing
+Exactly, as Jason suggested is part of documentation,
+
+Following the file, I mean something like that:
+
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0cf68fea14..9ebc020e93 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3657,6 +3657,8 @@
+ #
+ # @pool:               Ceph pool name.
+ #
++# @namespace:          Rados namespace name in the Ceph pool. (Since: 5.0)
 +#
-+# This script allows to tweak the dbus-daemon policy during the test
-+# to test different configurations.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, see <http://www.gnu.org/licenses/>.
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+
-+write_config()
-+{
-+    CONF=3D"$1"
-+    cat > "$CONF" <<EOF
-+<busconfig>
-+  <type>session</type>
-+  <listen>unix:tmpdir=3D$DBUS_VMSTATE_TEST_TMPDIR</listen>
-+
-+  <policy context=3D"default">
-+     <!-- Holes must be punched in service configuration files for
-+          name ownership and sending method calls -->
-+     <deny own=3D"*"/>
-+     <deny send_type=3D"method_call"/>
-+
-+     <!-- Signals and reply messages (method returns, errors) are allowed
-+          by default -->
-+     <allow send_type=3D"signal"/>
-+     <allow send_requested_reply=3D"true" send_type=3D"method_return"/>
-+     <allow send_requested_reply=3D"true" send_type=3D"error"/>
-+
-+     <!-- All messages may be received by default -->
-+     <allow receive_type=3D"method_call"/>
-+     <allow receive_type=3D"method_return"/>
-+     <allow receive_type=3D"error"/>
-+     <allow receive_type=3D"signal"/>
-+
-+     <!-- Allow anyone to talk to the message bus -->
-+     <allow send_destination=3D"org.freedesktop.DBus"
-+            send_interface=3D"org.freedesktop.DBus" />
-+     <allow send_destination=3D"org.freedesktop.DBus"
-+            send_interface=3D"org.freedesktop.DBus.Introspectable"/>
-+     <allow send_destination=3D"org.freedesktop.DBus"
-+            send_interface=3D"org.freedesktop.DBus.Properties"/>
-+     <!-- But disallow some specific bus services -->
-+     <deny send_destination=3D"org.freedesktop.DBus"
-+           send_interface=3D"org.freedesktop.DBus"
-+           send_member=3D"UpdateActivationEnvironment"/>
-+     <deny send_destination=3D"org.freedesktop.DBus"
-+           send_interface=3D"org.freedesktop.DBus.Debug.Stats"/>
-+     <deny send_destination=3D"org.freedesktop.DBus"
-+           send_interface=3D"org.freedesktop.systemd1.Activator"/>
-+
-+     <allow own=3D"org.qemu.VMState1"/>
-+     <allow send_destination=3D"org.qemu.VMState1"/>
-+     <allow receive_sender=3D"org.qemu.VMState1"/>
-+
-+  </policy>
-+
-+  <include if_selinux_enabled=3D"yes"
-+   selinux_root_relative=3D"yes">contexts/dbus_contexts</include>
-+
-+</busconfig>
-+EOF
-+}
-+
-+ARGS=3D
-+for arg in "$@"
-+do
-+    case $arg in
-+        --config-file=3D*)
-+          CONF=3D"${arg#*=3D}"
-+          write_config "$CONF"
-+          ARGS=3D"$ARGS $1"
-+          shift
-+        ;;
-+        *)
-+          ARGS=3D"$ARGS $1"
-+          shift
-+        ;;
-+    esac
-+done
-+
-+exec dbus-daemon $ARGS
-diff --git a/tests/dbus-vmstate-test.c b/tests/dbus-vmstate-test.c
-new file mode 100644
-index 0000000000..2e5e47dec2
---- /dev/null
-+++ b/tests/dbus-vmstate-test.c
-@@ -0,0 +1,382 @@
-+#include "qemu/osdep.h"
-+#include <glib/gstdio.h>
-+#include <gio/gio.h>
-+#include "libqtest.h"
-+#include "qemu-common.h"
-+#include "dbus-vmstate1.h"
-+#include "migration-helpers.h"
-+
-+static char *workdir;
-+
-+typedef struct TestServerId {
-+    const char *name;
-+    const char *data;
-+    size_t size;
-+} TestServerId;
-+
-+static const TestServerId idA =3D {
-+    "idA", "I'am\0idA!", sizeof("I'am\0idA!")
-+};
-+
-+static const TestServerId idB =3D {
-+    "idB", "I'am\0idB!", sizeof("I'am\0idB!")
-+};
-+
-+typedef struct TestServer {
-+    const TestServerId *id;
-+    bool save_called;
-+    bool load_called;
-+} TestServer;
-+
-+typedef struct Test {
-+    const char *id_list;
-+    bool migrate_fail;
-+    bool without_dst_b;
-+    TestServer srcA;
-+    TestServer dstA;
-+    TestServer srcB;
-+    TestServer dstB;
-+    GMainLoop *loop;
-+    QTestState *src_qemu;
-+} Test;
-+
-+static gboolean
-+vmstate_load(VMState1 *object, GDBusMethodInvocation *invocation,
-+             const gchar *arg_data, gpointer user_data)
-+{
-+    TestServer *h =3D user_data;
-+    g_autoptr(GVariant) var =3D NULL;
-+    GVariant *args;
-+    const uint8_t *data;
-+    size_t size;
-+
-+    args =3D g_dbus_method_invocation_get_parameters(invocation);
-+    var =3D g_variant_get_child_value(args, 0);
-+    data =3D g_variant_get_fixed_array(var, &size, sizeof(char));
-+    g_assert_cmpuint(size, =3D=3D, h->id->size);
-+    g_assert(!memcmp(data, h->id->data, h->id->size));
-+    h->load_called =3D true;
-+
-+    g_dbus_method_invocation_return_value(invocation, g_variant_new("()"))=
-;
-+    return TRUE;
-+}
-+
-+static gboolean
-+vmstate_save(VMState1 *object, GDBusMethodInvocation *invocation,
-+             gpointer user_data)
-+{
-+    TestServer *h =3D user_data;
-+    GVariant *var;
-+
-+    var =3D g_variant_new_fixed_array(G_VARIANT_TYPE_BYTE,
-+                                    h->id->data, h->id->size, sizeof(char)=
-);
-+    g_dbus_method_invocation_return_value(invocation,
-+                                          g_variant_new("(@ay)", var));
-+    h->save_called =3D true;
-+
-+    return TRUE;
-+}
-+
-+typedef struct WaitNamed {
-+    GMainLoop *loop;
-+    bool named;
-+} WaitNamed;
-+
-+static void
-+named_cb(GDBusConnection *connection,
-+         const gchar *name,
-+         gpointer user_data)
-+{
-+    WaitNamed *t =3D user_data;
-+
-+    t->named =3D true;
-+    g_main_loop_quit(t->loop);
-+}
-+
-+static GDBusConnection *
-+get_connection(Test *test, guint *ownid)
-+{
-+    g_autofree gchar *addr =3D NULL;
-+    WaitNamed *wait;
-+    GError *err =3D NULL;
-+    GDBusConnection *c;
-+
-+    wait =3D g_new0(WaitNamed, 1);
-+    wait->loop =3D test->loop;
-+    addr =3D g_dbus_address_get_for_bus_sync(G_BUS_TYPE_SESSION, NULL, &er=
-r);
-+    g_assert_no_error(err);
-+
-+    c =3D g_dbus_connection_new_for_address_sync(
-+        addr,
-+        G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION |
-+        G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT,
-+        NULL, NULL, &err);
-+    g_assert_no_error(err);
-+    *ownid =3D g_bus_own_name_on_connection(c, "org.qemu.VMState1",
-+                                          G_BUS_NAME_OWNER_FLAGS_NONE,
-+                                          named_cb, named_cb, wait, g_free=
-);
-+    if (!wait->named) {
-+        g_main_loop_run(wait->loop);
-+    }
-+
-+    return c;
-+}
-+
-+static GDBusObjectManagerServer *
-+get_server(GDBusConnection *conn, TestServer *s, const TestServerId *id)
-+{
-+    g_autoptr(GDBusObjectSkeleton) sk =3D NULL;
-+    g_autoptr(VMState1Skeleton) v =3D NULL;
-+    GDBusObjectManagerServer *os;
-+
-+    s->id =3D id;
-+    os =3D g_dbus_object_manager_server_new("/org/qemu");
-+    sk =3D g_dbus_object_skeleton_new("/org/qemu/VMState1");
-+
-+    v =3D VMSTATE1_SKELETON(vmstate1_skeleton_new());
-+    g_object_set(v, "id", id->name, NULL);
-+
-+    g_signal_connect(v, "handle-load", G_CALLBACK(vmstate_load), s);
-+    g_signal_connect(v, "handle-save", G_CALLBACK(vmstate_save), s);
-+
-+    g_dbus_object_skeleton_add_interface(sk, G_DBUS_INTERFACE_SKELETON(v))=
-;
-+    g_dbus_object_manager_server_export(os, sk);
-+    g_dbus_object_manager_server_set_connection(os, conn);
-+
-+    return os;
-+}
-+
-+static void
-+set_id_list(Test *test, QTestState *s)
-+{
-+    if (!test->id_list) {
-+        return;
-+    }
-+
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(s,
-+        "{ 'execute': 'qom-set', 'arguments': "
-+        "{ 'path': '/objects/dv', 'property': 'id-list', 'value': %s } }",
-+        test->id_list)));
-+}
-+
-+static gpointer
-+dbus_vmstate_thread(gpointer data)
-+{
-+    GMainLoop *loop =3D data;
-+
-+    g_main_loop_run(loop);
-+
-+    return NULL;
-+}
-+
-+static void
-+test_dbus_vmstate(Test *test)
-+{
-+    g_autofree char *src_qemu_args =3D NULL;
-+    g_autofree char *dst_qemu_args =3D NULL;
-+    g_autoptr(GTestDBus) srcbus =3D NULL;
-+    g_autoptr(GTestDBus) dstbus =3D NULL;
-+    g_autoptr(GDBusConnection) srcconnA =3D NULL;
-+    g_autoptr(GDBusConnection) srcconnB =3D NULL;
-+    g_autoptr(GDBusConnection) dstconnA =3D NULL;
-+    g_autoptr(GDBusConnection) dstconnB =3D NULL;
-+    g_autoptr(GDBusObjectManagerServer) srcserverA =3D NULL;
-+    g_autoptr(GDBusObjectManagerServer) srcserverB =3D NULL;
-+    g_autoptr(GDBusObjectManagerServer) dstserverA =3D NULL;
-+    g_autoptr(GDBusObjectManagerServer) dstserverB =3D NULL;
-+    g_auto(GStrv) srcaddr =3D NULL;
-+    g_auto(GStrv) dstaddr =3D NULL;
-+    g_autoptr(GThread) thread =3D NULL;
-+    g_autoptr(GMainLoop) loop =3D NULL;
-+    g_autofree char *uri =3D NULL;
-+    QTestState *src_qemu =3D NULL, *dst_qemu =3D NULL;
-+    guint ownsrcA, ownsrcB, owndstA, owndstB;
-+
-+    uri =3D g_strdup_printf("unix:%s/migsocket", workdir);
-+
-+    loop =3D g_main_loop_new(NULL, FALSE);
-+    test->loop =3D loop;
-+
-+    srcbus =3D g_test_dbus_new(G_TEST_DBUS_NONE);
-+    g_test_dbus_up(srcbus);
-+    srcconnA =3D get_connection(test, &ownsrcA);
-+    srcserverA =3D get_server(srcconnA, &test->srcA, &idA);
-+    srcconnB =3D get_connection(test, &ownsrcB);
-+    srcserverB =3D get_server(srcconnB, &test->srcB, &idB);
-+
-+    /* remove ,guid=3Dfoo part */
-+    srcaddr =3D g_strsplit(g_test_dbus_get_bus_address(srcbus), ",", 2);
-+    src_qemu_args =3D
-+        g_strdup_printf("-object dbus-vmstate,id=3Ddv,addr=3D%s", srcaddr[=
-0]);
-+
-+    dstbus =3D g_test_dbus_new(G_TEST_DBUS_NONE);
-+    g_test_dbus_up(dstbus);
-+    dstconnA =3D get_connection(test, &owndstA);
-+    dstserverA =3D get_server(dstconnA, &test->dstA, &idA);
-+    if (!test->without_dst_b) {
-+        dstconnB =3D get_connection(test, &owndstB);
-+        dstserverB =3D get_server(dstconnB, &test->dstB, &idB);
-+    }
-+
-+    dstaddr =3D g_strsplit(g_test_dbus_get_bus_address(dstbus), ",", 2);
-+    dst_qemu_args =3D
-+        g_strdup_printf("-object dbus-vmstate,id=3Ddv,addr=3D%s -incoming =
-%s",
-+                        dstaddr[0], uri);
-+
-+    src_qemu =3D qtest_init(src_qemu_args);
-+    dst_qemu =3D qtest_init(dst_qemu_args);
-+    set_id_list(test, src_qemu);
-+    set_id_list(test, dst_qemu);
-+
-+    thread =3D g_thread_new("dbus-vmstate-thread", dbus_vmstate_thread, lo=
-op);
-+
-+    migrate_qmp(src_qemu, uri, "{}");
-+    test->src_qemu =3D src_qemu;
-+    if (test->migrate_fail) {
-+        wait_for_migration_fail(src_qemu, true);
-+        qtest_set_expected_status(dst_qemu, 1);
-+    } else {
-+        wait_for_migration_complete(src_qemu);
-+    }
-+
-+    qtest_quit(dst_qemu);
-+    qtest_quit(src_qemu);
-+    g_bus_unown_name(ownsrcA);
-+    g_bus_unown_name(ownsrcB);
-+    g_bus_unown_name(owndstA);
-+    if (!test->without_dst_b) {
-+        g_bus_unown_name(owndstB);
-+    }
-+
-+    g_main_loop_quit(test->loop);
-+}
-+
-+static void
-+check_not_migrated(TestServer *s, TestServer *d)
-+{
-+    assert(!s->save_called);
-+    assert(!s->load_called);
-+    assert(!d->save_called);
-+    assert(!d->load_called);
-+}
-+
-+static void
-+check_migrated(TestServer *s, TestServer *d)
-+{
-+    assert(s->save_called);
-+    assert(!s->load_called);
-+    assert(!d->save_called);
-+    assert(d->load_called);
-+}
-+
-+static void
-+test_dbus_vmstate_without_list(void)
-+{
-+    Test test =3D { 0, };
-+
-+    test_dbus_vmstate(&test);
-+
-+    check_migrated(&test.srcA, &test.dstA);
-+    check_migrated(&test.srcB, &test.dstB);
-+}
-+
-+static void
-+test_dbus_vmstate_with_list(void)
-+{
-+    Test test =3D { .id_list =3D "idA,idB" };
-+
-+    test_dbus_vmstate(&test);
-+
-+    check_migrated(&test.srcA, &test.dstA);
-+    check_migrated(&test.srcB, &test.dstB);
-+}
-+
-+static void
-+test_dbus_vmstate_only_a(void)
-+{
-+    Test test =3D { .id_list =3D "idA" };
-+
-+    test_dbus_vmstate(&test);
-+
-+    check_migrated(&test.srcA, &test.dstA);
-+    check_not_migrated(&test.srcB, &test.dstB);
-+}
-+
-+static void
-+test_dbus_vmstate_missing_src(void)
-+{
-+    Test test =3D { .id_list =3D "idA,idC", .migrate_fail =3D true };
-+
-+    /* run in subprocess to silence QEMU error reporting */
-+    if (g_test_subprocess()) {
-+        test_dbus_vmstate(&test);
-+        check_not_migrated(&test.srcA, &test.dstA);
-+        check_not_migrated(&test.srcB, &test.dstB);
-+        return;
-+    }
-+
-+    g_test_trap_subprocess(NULL, 0, 0);
-+    g_test_trap_assert_passed();
-+}
-+
-+static void
-+test_dbus_vmstate_missing_dst(void)
-+{
-+    Test test =3D { .id_list =3D "idA,idB",
-+                  .without_dst_b =3D true,
-+                  .migrate_fail =3D true };
-+
-+    /* run in subprocess to silence QEMU error reporting */
-+    if (g_test_subprocess()) {
-+        test_dbus_vmstate(&test);
-+        assert(test.srcA.save_called);
-+        assert(test.srcB.save_called);
-+        assert(!test.dstB.save_called);
-+        return;
-+    }
-+
-+    g_test_trap_subprocess(NULL, 0, 0);
-+    g_test_trap_assert_passed();
-+}
-+
-+int
-+main(int argc, char **argv)
-+{
-+    GError *err =3D NULL;
-+    g_autofree char *dbus_daemon =3D NULL;
-+    int ret;
-+
-+    dbus_daemon =3D g_build_filename(G_STRINGIFY(SRCDIR),
-+                                   "tests",
-+                                   "dbus-vmstate-daemon.sh",
-+                                   NULL);
-+    g_setenv("G_TEST_DBUS_DAEMON", dbus_daemon, true);
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    workdir =3D g_dir_make_tmp("dbus-vmstate-test-XXXXXX", &err);
-+    if (!workdir) {
-+        g_error("Unable to create temporary dir: %s\n", err->message);
-+        exit(1);
-+    }
-+
-+    g_setenv("DBUS_VMSTATE_TEST_TMPDIR", workdir, true);
-+
-+    qtest_add_func("/dbus-vmstate/without-list",
-+                   test_dbus_vmstate_without_list);
-+    qtest_add_func("/dbus-vmstate/with-list",
-+                   test_dbus_vmstate_with_list);
-+    qtest_add_func("/dbus-vmstate/only-a",
-+                   test_dbus_vmstate_only_a);
-+    qtest_add_func("/dbus-vmstate/missing-src",
-+                   test_dbus_vmstate_missing_src);
-+    qtest_add_func("/dbus-vmstate/missing-dst",
-+                   test_dbus_vmstate_missing_dst);
-+
-+    ret =3D g_test_run();
-+
-+    rmdir(workdir);
-+    g_free(workdir);
-+
-+    return ret;
-+}
-diff --git a/tests/dbus-vmstate1.xml b/tests/dbus-vmstate1.xml
-new file mode 100644
-index 0000000000..cc8563be4c
---- /dev/null
-+++ b/tests/dbus-vmstate1.xml
-@@ -0,0 +1,12 @@
-+<?xml version=3D"1.0"?>
-+<node name=3D"/" xmlns:doc=3D"http://www.freedesktop.org/dbus/1.0/doc.dtd"=
->
-+  <interface name=3D"org.qemu.VMState1">
-+    <property name=3D"Id" type=3D"s" access=3D"read"/>
-+    <method name=3D"Load">
-+      <arg type=3D"ay" name=3D"data" direction=3D"in"/>
-+    </method>
-+    <method name=3D"Save">
-+      <arg type=3D"ay" name=3D"data" direction=3D"out"/>
-+    </method>
-+  </interface>
-+</node>
---=20
-2.24.0.308.g228f53135a
+ # @image:              Image name in the Ceph pool.
+ #
+ # @conf:               path to Ceph configuration file.  Values
+
+
+>=20
+> FWIW, I took this as just a comment to add some documentation that the
+> field is only valid starting w/ qemu v5.
+>=20
+> > I guess that maybe a version check would be better ? Like try to do
+> > namespaces stuff only if we have a recent enough librbd in the system ?
+> > Using something like :
+> >
+> > int rbd_major;
+> >
+> > rbd_version(&rbd_major, NULL, NULL);
+> > /*
+> >  * Target only nautilus+ librbd for namespace support
+> > */
+> > if (rbd_major >=3D 14) // tar
+> >  <process namespace>
+>=20
+> Unfortunately, those versions weren't updated in the Mimic nor
+> Nautilus release so it would still return 1/12 (whoops). I think that
+> means you would need to add a probe in "configure" to test for librbd
+> namespace support (e.g. test for the existence of the `rbd_list2`
+> function or the `rbd_linked_image_spec_t` structure). I'll fix this
+> before the forthcoming Octopus release.
+>=20
+> > > The patch LGTM, but I'd like to use 'namespace' instead of cryptic
+> > > 'nspace'. (as BlockdevOptionsNVMe did)
+> > > What do you think?
+> > >
+> > Yes no worries, I can rename it to 'rbd_namespace' to avoid any possibl=
+e
+> > confusion, is this Ok for you ?
+>=20
+> We use "pool_namespace" in the rbd CLI if you are trying to avoid the
+> word "namespace".
+>=20
+
+Agree, I'd avoid the 'rbd_' prefix.
+
+Thanks,
+Stefano
 
 
