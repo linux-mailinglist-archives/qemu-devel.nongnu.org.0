@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37EDB127C10
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:57:05 +0100 (CET)
-Received: from localhost ([::1]:56274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42F7127C18
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:59:30 +0100 (CET)
+Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiIm7-0001y3-RH
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:57:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54081)
+	id 1iiIoT-0005cc-5O
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:59:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIf8-0007IG-E5
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:49:51 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIfH-0007ab-HJ
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:50:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIf6-0007NH-Ro
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:49:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52710
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIfG-0007z0-0u
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:49:59 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59484
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iiIf6-0007KJ-Jd
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:49:48 -0500
+ id 1iiIfF-0007we-Ql
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:49:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576849788;
+ s=mimecast20190719; t=1576849797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CAcsZWUKwMhWdniMWvfwgFVvBAcGa6uh4615zUNOliE=;
- b=hRp5um9zwmFR4+bA8IZ9k4DQA7MsQwgG2E9xLqA8hXH/WROxGRBwAyOBn/6U+4g+e1lFMm
- wC90hUbxo33vI6NuSodEDEtKaFRdSV9/i6/i+xCnU4gqbB9cDF5BJkpN9qR20dQgMredNi
- AkzGAgc5ld3Ybb/I7zmTx0CzX/Iye5w=
+ bh=e8K/FLULfXHTN5ZAN9Exbeupoe9LUHxcOqfCTxUQKNg=;
+ b=eas/QRLPJDoIeB0EUo6uQ6/J0Ggqw2K0Q6nLHMhKKns5OX3GZVVvSHVGHI8U/VXIUL+B3L
+ tAePNsNn8P/cC7DBNpycHBdLxv0T4gADKCpV8CcjnRmg51OxhCRGjb23oNgl1k3+VYwB3l
+ ilEBPpa4Fz6K+UezBwNgOuk98ilkFVA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-lJpZOt5LP6mcEaAbkMT1Bw-1; Fri, 20 Dec 2019 08:49:44 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-68-vI5AOhaXM2m4gEJhL_n7Qg-1; Fri, 20 Dec 2019 08:49:55 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E55F108BC2E;
- Fri, 20 Dec 2019 13:49:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8B31107B7F4;
+ Fri, 20 Dec 2019 13:49:54 +0000 (UTC)
 Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B3865F700;
- Fri, 20 Dec 2019 13:49:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A0776B56C;
+ Fri, 20 Dec 2019 13:49:49 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 21/37] sm501: make SerialMM a child, export chardev property
-Date: Fri, 20 Dec 2019 17:45:45 +0400
-Message-Id: <20191220134601.571905-22-marcandre.lureau@redhat.com>
+Subject: [PATCH v5 22/37] vmmouse: replace PROP_PTR with PROP_LINK
+Date: Fri, 20 Dec 2019 17:45:46 +0400
+Message-Id: <20191220134601.571905-23-marcandre.lureau@redhat.com>
 In-Reply-To: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: lJpZOt5LP6mcEaAbkMT1Bw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: vI5AOhaXM2m4gEJhL_n7Qg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,106 +76,124 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Embed the SerialMM sybus device, and re-export its "chardev" property.
-That way, we can get rid of PROP_PTR "chr-state" and better track
-devices relationship.
+While at it, use the expected type.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/display/sm501.c | 29 +++++++++++++++++++++--------
- hw/sh4/r2d.c       |  2 +-
- 2 files changed, 22 insertions(+), 9 deletions(-)
+ hw/i386/pc.c             | 6 +++---
+ hw/i386/vmmouse.c        | 8 +++-----
+ hw/input/pckbd.c         | 8 +++-----
+ include/hw/input/i8042.h | 4 +++-
+ 4 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 79bd7bc2d1..66a1bfbe60 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1930,7 +1930,7 @@ typedef struct {
-     SM501State state;
-     uint32_t vram_size;
-     uint32_t base;
--    void *chr_state;
-+    SerialMM serial;
- } SM501SysBusState;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index a4fda69b49..8054bc4147 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1156,9 +1156,9 @@ static void pc_superio_init(ISABus *isa_bus, bool cre=
+ate_fdctrl, bool no_vmport)
+         vmmouse =3D NULL;
+     }
+     if (vmmouse) {
+-        DeviceState *dev =3D DEVICE(vmmouse);
+-        qdev_prop_set_ptr(dev, "ps2_mouse", i8042);
+-        qdev_init_nofail(dev);
++        object_property_set_link(OBJECT(vmmouse), OBJECT(i8042),
++                                 "i8042", &error_abort);
++        qdev_init_nofail(DEVICE(vmmouse));
+     }
+     port92 =3D isa_create_simple(isa_bus, TYPE_PORT92);
 =20
- static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
-@@ -1938,6 +1938,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Er=
-ror **errp)
-     SM501SysBusState *s =3D SYSBUS_SM501(dev);
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-     DeviceState *usb_dev;
-+    MemoryRegion *mr;
+diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
+index 41ad91ad53..c0c329f817 100644
+--- a/hw/i386/vmmouse.c
++++ b/hw/i386/vmmouse.c
+@@ -66,7 +66,7 @@ typedef struct VMMouseState
+     uint16_t status;
+     uint8_t absolute;
+     QEMUPutMouseEntry *entry;
+-    void *ps2_mouse;
++    ISAKBDState *i8042;
+ } VMMouseState;
 =20
-     sm501_init(&s->state, dev, s->vram_size);
-     if (get_local_mem_size(&s->state) !=3D s->vram_size) {
-@@ -1958,15 +1959,15 @@ static void sm501_realize_sysbus(DeviceState *dev, =
-Error **errp)
-     sysbus_pass_irq(sbd, SYS_BUS_DEVICE(usb_dev));
+ static uint32_t vmmouse_get_status(VMMouseState *s)
+@@ -105,7 +105,7 @@ static void vmmouse_mouse_event(void *opaque, int x, in=
+t y, int dz, int buttons_
 =20
-     /* bridge to serial emulation module */
--    serial_mm_init(&s->state.mmio_region, SM501_UART0, 2,
--                   NULL, /* TODO : chain irq to IRL */
--                   115200, s->chr_state, DEVICE_LITTLE_ENDIAN);
-+    qdev_init_nofail(DEVICE(&s->serial));
-+    mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->serial), 0);
-+    memory_region_add_subregion(&s->state.mmio_region, SM501_UART0, mr);
-+    /* TODO : chain irq to IRL */
+     /* need to still generate PS2 events to notify driver to
+        read from queue */
+-    i8042_isa_mouse_fake_event(s->ps2_mouse);
++    i8042_isa_mouse_fake_event(s->i8042);
  }
 =20
- static Property sm501_sysbus_properties[] =3D {
-     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
-     DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
--    DEFINE_PROP_PTR("chr-state", SM501SysBusState, chr_state),
+ static void vmmouse_remove_handler(VMMouseState *s)
+@@ -275,7 +275,7 @@ static void vmmouse_realizefn(DeviceState *dev, Error *=
+*errp)
+ }
+=20
+ static Property vmmouse_properties[] =3D {
+-    DEFINE_PROP_PTR("ps2_mouse", VMMouseState, ps2_mouse),
++    DEFINE_PROP_LINK("i8042", VMMouseState, i8042, TYPE_I8042, ISAKBDState=
+ *),
      DEFINE_PROP_END_OF_LIST(),
  };
 =20
-@@ -1997,9 +1998,20 @@ static void sm501_sysbus_class_init(ObjectClass *kla=
-ss, void *data)
-     dc->props =3D sm501_sysbus_properties;
-     dc->reset =3D sm501_reset_sysbus;
-     dc->vmsd =3D &vmstate_sm501_sysbus;
--    /* Note: pointer property "chr-state" may remain null, thus
--     * no need for dc->user_creatable =3D false;
--     */
-+}
-+
-+static void sm501_sysbus_init(Object *o)
-+{
-+    SM501SysBusState *sm501 =3D SYSBUS_SM501(o);
-+    SerialMM *smm =3D &sm501->serial;
-+
-+    sysbus_init_child_obj(o, "serial", smm, sizeof(SerialMM), TYPE_SERIAL_=
-MM);
-+    qdev_set_legacy_instance_id(DEVICE(smm), SM501_UART0, 2);
-+    qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
-+    qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
-+
-+    object_property_add_alias(o, "chardev",
-+                              OBJECT(smm), "chardev", &error_abort);
+@@ -287,8 +287,6 @@ static void vmmouse_class_initfn(ObjectClass *klass, vo=
+id *data)
+     dc->reset =3D vmmouse_reset;
+     dc->vmsd =3D &vmstate_vmmouse;
+     dc->props =3D vmmouse_properties;
+-    /* Reason: pointer property "ps2_mouse" */
+-    dc->user_creatable =3D false;
  }
 =20
- static const TypeInfo sm501_sysbus_info =3D {
-@@ -2007,6 +2019,7 @@ static const TypeInfo sm501_sysbus_info =3D {
-     .parent        =3D TYPE_SYS_BUS_DEVICE,
-     .instance_size =3D sizeof(SM501SysBusState),
-     .class_init    =3D sm501_sysbus_class_init,
-+    .instance_init =3D sm501_sysbus_init,
- };
+ static const TypeInfo vmmouse_info =3D {
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index 2f09f780ba..60a4130320 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -482,17 +482,15 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_i=
+rq,
 =20
- #define TYPE_PCI_SM501 "sm501"
-diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-index ee0840f380..72bb5285cc 100644
---- a/hw/sh4/r2d.c
-+++ b/hw/sh4/r2d.c
-@@ -272,7 +272,7 @@ static void r2d_init(MachineState *machine)
-     busdev =3D SYS_BUS_DEVICE(dev);
-     qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
-     qdev_prop_set_uint32(dev, "base", 0x10000000);
--    qdev_prop_set_ptr(dev, "chr-state", serial_hd(2));
-+    qdev_prop_set_chr(dev, "chardev", serial_hd(2));
-     qdev_init_nofail(dev);
-     sysbus_mmio_map(busdev, 0, 0x10000000);
-     sysbus_mmio_map(busdev, 1, 0x13e00000);
+ #define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
+=20
+-typedef struct ISAKBDState {
++struct ISAKBDState {
+     ISADevice parent_obj;
+=20
+     KBDState kbd;
+     MemoryRegion io[2];
+-} ISAKBDState;
++};
+=20
+-void i8042_isa_mouse_fake_event(void *opaque)
++void i8042_isa_mouse_fake_event(ISAKBDState *isa)
+ {
+-    ISADevice *dev =3D opaque;
+-    ISAKBDState *isa =3D I8042(dev);
+     KBDState *s =3D &isa->kbd;
+=20
+     ps2_mouse_fake_event(s->mouse);
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index 246e6f3335..8eaebf50ce 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -14,10 +14,12 @@
+=20
+ #define I8042_A20_LINE "a20"
+=20
++typedef struct ISAKBDState ISAKBDState;
++
+ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+                    MemoryRegion *region, ram_addr_t size,
+                    hwaddr mask);
+-void i8042_isa_mouse_fake_event(void *opaque);
++void i8042_isa_mouse_fake_event(ISAKBDState *isa);
+ void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
+=20
+ #endif /* HW_INPUT_I8042_H */
 --=20
 2.24.0.308.g228f53135a
 
