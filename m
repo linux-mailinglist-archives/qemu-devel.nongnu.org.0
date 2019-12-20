@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7B512812D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 18:13:30 +0100 (CET)
-Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC83B128141
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 18:20:07 +0100 (CET)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiLqD-0005UM-Aj
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 12:13:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59631)
+	id 1iiLwc-0001xI-Tx
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 12:20:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iiLpD-0004J4-VR
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:12:29 -0500
+ (envelope-from <john.g.johnson@oracle.com>) id 1iiLug-0000HT-E4
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:18:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iiLpC-0004I4-CA
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:12:27 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37930)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iiLpC-0004G1-2P
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:12:26 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y17so10146663wrh.5
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 09:12:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:subject:in-reply-to:date:message-id
- :mime-version:content-transfer-encoding;
- bh=kDBaAcVOCGfiNZOMydGsbOx+i/UwgMxst3L8rRjBDKM=;
- b=JBxpMjpoSUqabqxyjVhip4UhXJNYlbAlT0w6wghF6+S+aycZu60AShxQ8ZJ3CT1ZBM
- N/VjL44csVBSiJPjkyiqTeP7CN5IlvwOfYC+olFh2UMNhgZ1SAJzEAdrPFvb2xcEKiET
- pSnK1DzmuP2/gpnlba7z5YYAL8iqw6FloKaLp3DdHU0z7o0GW6bf3XJK6Wb0dzEqXvbK
- AtDg78TfRMJhc5tSO3BF+oUu1WIhwQtSjYmcIXB5Omc3A6zo1TPP8/bX5EWpDmqSzLGY
- 8aL8Sp71Ll7zS80HBScaDw3LifhioTGCCiK88G5w8EAvTo8Krpr28HuOcJygCo7S57P7
- G8cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=kDBaAcVOCGfiNZOMydGsbOx+i/UwgMxst3L8rRjBDKM=;
- b=CRtKaQ8ZB+jBIRwx7hmpdMhdORXB+iHL6N4QZgNq83TZsjER1tTa0BS8VO8igFQiiz
- jqhN8a9fjn72pkCVilkcJWNJ1etrQ2E6LLHQOMnMvFHJBQgXZ/dzTKH/MGukY4vrlPR8
- wBeWecHdZgt+qNRIGNojMTaDvQne6eTddqKFVUmFgmJ+3DhOEs+pIOmGT3H+f3W2HKcR
- 2CcFgm5M/WMZDXFtK/W3kNeRk9dFe7kQdPU/yZEn/JeLbjdOBe6ZMLa7nyu2EHrXK9Y+
- rmDqYyULRcZEnRBquFIh5n1OIiAC9outohQ/gsEohvn7gHyR4GrtFKFks7XmqXxQBK3M
- Seiw==
-X-Gm-Message-State: APjAAAXdm1bSmPVNWH0S0QuHmuCmgn38fU0TPTcD2iujsI2SJz+KEgeU
- o8uMUcIFON5ld25rXOF8/ykMzKfzyKo=
-X-Google-Smtp-Source: APXvYqwp6U3nzT6GxJ3/fFqOE8wirMreSyoePNH8qELDaVIbtuYHM6TpsvG7WQ/QjfHDYKZ6tKFEQw==
-X-Received: by 2002:adf:f80c:: with SMTP id s12mr16160908wrp.1.1576861943629; 
- Fri, 20 Dec 2019 09:12:23 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x10sm10927373wrp.58.2019.12.20.09.12.22
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 09:12:22 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 97C081FF87
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:12:21 +0000 (GMT)
-References: <20191216221158.29572-1-richard.henderson@linaro.org>
- <20191216221158.29572-6-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 05/28] translator: Use cpu_ld*_code instead of
- open-coding
-In-reply-to: <20191216221158.29572-6-richard.henderson@linaro.org>
-Date: Fri, 20 Dec 2019 17:12:21 +0000
-Message-ID: <87woaqdiq2.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <john.g.johnson@oracle.com>) id 1iiLuf-00025l-1g
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:18:06 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:55646)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <john.g.johnson@oracle.com>)
+ id 1iiLud-00023X-GC
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 12:18:04 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBKH9I2V078948;
+ Fri, 20 Dec 2019 17:17:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2019-08-05; bh=kVLC8a4v2EQr3qIDaGe0PANJ3a4LFt8Ni7OvrDOfjOU=;
+ b=kLr4ctHYCETtzITB9+OowlNGjgG7EbBRy4GZY4+qG7C1K71k3mYnqPHIWfIIGggX3xyX
+ NGHN52lS3MM4HFAl7qpiEiQ+988LbOgYJvIc0lkXydzK0U0JtUSvDMwl3ALjqyZgNbmh
+ 5zhhH526C5f8Wi3gveeinGB2FXufUoQzB1mvG6NHkBqCdaG2LH2m8hY+3y1OzmRnt9SC
+ EXmY4LRiqTdvbUvnifGID414J4I7QfSnp3VnVWjLtneLemsnwuDyirEoBMH7TrsK/KS6
+ us/OvQL5v63551jf12b+gVTu4xFxpzXF0TmAXKo0T3+EnO3HpD2sFS3Yq7f5ms7F/IBT IQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 2x0ag170fx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Dec 2019 17:17:47 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xBKHEHOV171971;
+ Fri, 20 Dec 2019 17:15:46 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 2x0pcc68qe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Dec 2019 17:15:45 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xBKHFg7V007522;
+ Fri, 20 Dec 2019 17:15:42 GMT
+Received: from [192.168.10.3] (/24.5.35.151)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 20 Dec 2019 09:15:42 -0800
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
+ status update
+From: John G Johnson <john.g.johnson@oracle.com>
+In-Reply-To: <20191219133650.GE1624084@stefanha-x1.localdomain>
+Date: Fri, 20 Dec 2019 09:15:40 -0800
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Message-Id: <D60846D3-5434-4EF8-B25F-7C70F4FA5367@oracle.com>
+References: <cover.1571905346.git.jag.raman@oracle.com>
+ <20191210064716.GA6401@flaka>
+ <20191213104116.GB1180977@stefanha-x1.localdomain>
+ <20191216194655.GA5922@flaka>
+ <AFBAD3A1-0E22-4E22-AF22-C56794929D87@nutanix.com>
+ <20191217163316.GB1333385@stefanha-x1.localdomain>
+ <DDE3DA62-31DD-437B-8392-CAD505253EED@nutanix.com>
+ <4a302c6d-e2c8-0c3e-43d2-946e1fafea5d@redhat.com>
+ <20191219133650.GE1624084@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9477
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1912200130
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9477
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1912200130
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,131 +100,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "fam@euphon.net" <fam@euphon.net>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "jag.raman@oracle.com" <jag.raman@oracle.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "kanth.ghatraju@oracle.com" <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "liran.alon@oracle.com" <liran.alon@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ "rth@twiddle.net" <rth@twiddle.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
+ "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
 
-> The DO_LOAD macros replicate the distinction already performed
-> by the cpu_ldst.h functions.  Use them.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> On Dec 19, 2019, at 5:36 AM, Stefan Hajnoczi <stefanha@gmail.com> =
+wrote:
+>=20
+> On Wed, Dec 18, 2019 at 01:00:55AM +0100, Paolo Bonzini wrote:
+>> On 17/12/19 23:57, Felipe Franciosi wrote:
+>>> Doing it in userspace was the flow we proposed back in last year's =
+KVM
+>>> Forum (Edinburgh), but it got turned down.
+>>=20
+>> I think the time since then has shown that essentially the cat is out =
+of
+>> the bag.  I didn't really like the idea of devices outside QEMU---and =
+I
+>> still don't---but if something like "VFIO over AF_UNIX" turns out to =
+be
+>> the cleanest way to implement multi-process QEMU device models, I am =
+not
+>> going to pull an RMS and block that from happening.  Assuming I could
+>> even do so!
+>=20
+> There are a range of approaches that will influence how out-of-process
+> devices can be licensed and distributed.
+>=20
+> A VFIO-over-UNIX domain sockets approach means a stable API so that =
+any
+> license (including proprietary) is possible.
+>=20
+> Another approach is a QEMU-centric unstable protocol.  I'll call this
+> the qdev-over-UNIX domain sockets approach.  Maintaining an =
+out-of-tree
+> device is expensive and ugly since the protocol changes between QEMU
+> versions in ways that are incompatible and undetectable.
+>=20
+> On top of that, the initialization protocol message could include the
+> QEMU version string that the device was compiled against.  If the
+> version string doesn't match then QEMU will refuse to talk to the
+> device.
+>=20
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+	This is very similar to our multi-process QEMU implementation =
+before
+we looked into using muser.  The differences are:
 
-> ---
->  include/exec/cpu_ldst.h   | 11 ---------
->  include/exec/translator.h | 48 +++++++++++----------------------------
->  2 files changed, 13 insertions(+), 46 deletions(-)
->
-> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-> index cf8af36dbc..399ff6c3da 100644
-> --- a/include/exec/cpu_ldst.h
-> +++ b/include/exec/cpu_ldst.h
-> @@ -129,11 +129,6 @@ static inline void clear_helper_retaddr(void)
->  #include "exec/cpu_ldst_useronly_template.h"
->  #undef MEMSUFFIX
->=20=20
-> -/*
-> - * Code access is deprecated in favour of translator_ld* functions
-> - * (see translator.h). However there are still users that need to
-> - * converted so for now these stay.
-> - */
->  #define MEMSUFFIX _code
->  #define CODE_ACCESS
->  #define DATA_SIZE 1
-> @@ -455,12 +450,6 @@ void cpu_stq_mmuidx_ra(CPUArchState *env, abi_ptr ad=
-dr, uint64_t val,
->  #undef CPU_MMU_INDEX
->  #undef MEMSUFFIX
->=20=20
-> -/*
-> - * Code access is deprecated in favour of translator_ld* functions
-> - * (see translator.h). However there are still users that need to
-> - * converted so for now these stay.
-> - */
-> -
->  #define CPU_MMU_INDEX (cpu_mmu_index(env, true))
->  #define MEMSUFFIX _code
->  #define SOFTMMU_CODE_ACCESS
-> diff --git a/include/exec/translator.h b/include/exec/translator.h
-> index 459dd72aab..638e1529c5 100644
-> --- a/include/exec/translator.h
-> +++ b/include/exec/translator.h
-> @@ -148,41 +148,19 @@ void translator_loop_temp_check(DisasContextBase *d=
-b);
->  /*
->   * Translator Load Functions
->   *
-> - * These are intended to replace the old cpu_ld*_code functions and
-> - * are mandatory for front-ends that have been migrated to the common
-> - * translator_loop. These functions are only intended to be called
-> - * from the translation stage and should not be called from helper
-> - * functions. Those functions should be converted to encode the
-> - * relevant information at translation time.
-> + * These are intended to replace the direct usage of the cpu_ld*_code
-> + * functions and are mandatory for front-ends that have been migrated
-> + * to the common translator_loop. These functions are only intended
-> + * to be called from the translation stage and should not be called
-> + * from helper functions. Those functions should be converted to encode
-> + * the relevant information at translation time.
->   */
->=20=20
-> -#ifdef CONFIG_USER_ONLY
-> -
-> -#define DO_LOAD(type, name, shift)               \
-> -    do {                                         \
-> -        set_helper_retaddr(1);                   \
-> -        ret =3D name ## _p(g2h(pc));               \
-> -        clear_helper_retaddr();                  \
-> -    } while (0)
-> -
-> -#else
-> -
-> -#define DO_LOAD(type, name, shift)                          \
-> -    do {                                                    \
-> -        int mmu_idx =3D cpu_mmu_index(env, true);             \
-> -        TCGMemOpIdx oi =3D make_memop_idx(shift, mmu_idx);    \
-> -        ret =3D helper_ret_ ## name ## _cmmu(env, pc, oi, 0); \
-> -    } while (0)
-> -
-> -#endif
-> -
-> -#define GEN_TRANSLATOR_LD(fullname, name, type, shift, swap_fn)         \
-> +#define GEN_TRANSLATOR_LD(fullname, type, load_fn, swap_fn)             \
->      static inline type                                                  \
->      fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
->      {                                                                   \
-> -        type ret;                                                       \
-> -        DO_LOAD(type, name, shift);                                     \
-> -                                                                        \
-> +        type ret =3D load_fn(env, pc);                                  =
-  \
->          if (do_swap) {                                                  \
->              ret =3D swap_fn(ret);                                       =
-  \
->          }                                                               \
-> @@ -195,11 +173,11 @@ void translator_loop_temp_check(DisasContextBase *d=
-b);
->          return fullname ## _swap(env, pc, false);                       \
->      }
->=20=20
-> -GEN_TRANSLATOR_LD(translator_ldub, ldub, uint8_t, 0, /* no swap */ )
-> -GEN_TRANSLATOR_LD(translator_ldsw, ldsw, int16_t, 1, bswap16)
-> -GEN_TRANSLATOR_LD(translator_lduw, lduw, uint16_t, 1, bswap16)
-> -GEN_TRANSLATOR_LD(translator_ldl, ldl, uint32_t, 2, bswap32)
-> -GEN_TRANSLATOR_LD(translator_ldq, ldq, uint64_t, 3, bswap64)
-> +GEN_TRANSLATOR_LD(translator_ldub, uint8_t, cpu_ldub_code, /* no swap */)
-> +GEN_TRANSLATOR_LD(translator_ldsw, int16_t, cpu_ldsw_code, bswap16)
-> +GEN_TRANSLATOR_LD(translator_lduw, uint16_t, cpu_lduw_code, bswap16)
-> +GEN_TRANSLATOR_LD(translator_ldl, uint32_t, cpu_ldl_code, bswap32)
-> +GEN_TRANSLATOR_LD(translator_ldq, uint64_t, cpu_ldq_code, bswap64)
->  #undef GEN_TRANSLATOR_LD
->=20=20
->  #endif  /* EXEC__TRANSLATOR_H */
+We use one object per emulated device type in QEMU rather than having a =
+single
+VFIO type that can masquerade as any PCI device.
+
+We don=E2=80=99t pin guest memory; we pass the QEMU file descriptors =
+used to create
+guest memory to the emulation program, and it mmap()s them itself. (ala
+vhost-user).
+
+								JJ
 
 
---=20
-Alex Benn=C3=A9e
+
+> Distributing a single device executable that works with many QEMUs =
+(e.g.
+> CentOS, Ubuntu) and versions becomes difficult.
+>=20
+> I want to mention that we have the option of doing this if there are
+> strong concerns about out-of-tree devices.  It does have downsides:
+> 1. Inability to share devices with other VMMs.
+> 2. Probably won't replace vhost-user due to the out-of-tree =
+limitations.
+> 3. Can still be circumvented by a motivated device author.
+>=20
+> Stefan
+
 
