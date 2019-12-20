@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BF4127C6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:22:28 +0100 (CET)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCE3127C78
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:24:59 +0100 (CET)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJAh-000685-GW
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:22:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39847)
+	id 1iiJD8-000281-Kb
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:24:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fflorensa@online.net>) id 1iiJ0W-0008Ph-OI
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:11:58 -0500
+ (envelope-from <berrange@redhat.com>) id 1iiJ3V-00052E-MH
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:15:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fflorensa@online.net>) id 1iiJ0U-0007gr-22
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:11:55 -0500
-Received: from mail.online.net ([62.210.16.11]:40652)
+ (envelope-from <berrange@redhat.com>) id 1iiJ3U-0008LU-3w
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:15:01 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46511
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fflorensa@online.net>)
- id 1iiJ0T-0007DW-Cn
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:11:53 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id 0F5C9F2B8EE7;
- Fri, 20 Dec 2019 15:11:44 +0100 (CET)
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id pBWjTJF8EUsn; Fri, 20 Dec 2019 15:11:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id DDDC8F2B8EF4;
- Fri, 20 Dec 2019 15:11:43 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.online.net DDDC8F2B8EF4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=online.net;
- s=4EC61654-9574-11E8-870F-3D38CA7095BF; t=1576851103;
- bh=uQKTz+m17UgmuM1riCjXzfNLa6yToMAbxf5Xpz7d5rE=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=Jz0eNdTsCOA5RX8nyJLb9sMSSCr/bSPaXSE5kHBB+mEpzgNwgi5WWhZC3cgiF+DNg
- ZWIT6Ipibw4lyXvDASH6tKrCx847BDZYLjrNtoY7I5FsfqYETyrTNlu3PLbrH5xXDA
- gPrs9kBszq8zpP8Nv5iihf2goyo99NWUszk9Z5fH1+9UZ2nkX5Y0Uojn9YrY2GoJhf
- cqD5XXk6pRl6Wf6442BvK4yauC5YZr5UeK9vyBSbfLG0w4n6ipBI//8jNLZz9MoyHa
- 5camiwHxnwbzSJHrHr/18vDU9eBGwuD3Tr85bkyBIMM62GVBgcs/RG+3+Bx+LTmzhn
- LQp/iVvZQcQKA==
-X-Virus-Scanned: amavisd-new at mail.online.net
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id wmm2gbK6O5CN; Fri, 20 Dec 2019 15:11:43 +0100 (CET)
-Received: from localhost (unknown [195.154.229.35])
- by mail.online.net (Postfix) with ESMTPSA id AFD9AF2B8EE7;
- Fri, 20 Dec 2019 15:11:43 +0100 (CET)
-Date: Fri, 20 Dec 2019 15:11:43 +0100
-From: Florian Florensa <fflorensa@online.net>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH] block/rbd: Add support for ceph namespaces
-Message-ID: <20191220141125.wxlm4eizbwie6522@flash.localdomain>
-References: <20191219133416.671431-1-fflorensa@online.net>
- <20191219145125.iwhxhzmt5mow5pea@steredhat>
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iiJ3T-0008GA-Qy
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:14:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576851298;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9jxY4miomDHkY4F0FFdrif+0ChwGYNeHA+/kgneSacg=;
+ b=WjnSp6imOnLG+B6GmHi32rPF7dN+oCTWjC1N4j7mdcDCcGTB78fUxcaUlLahVzIiRNyKBI
+ ENlvk3/AMB7gQVM+DMD1bhgDmQ/OfHdDoVvPZgfczegLBIUouMN9KPKsmc/KXdE4wl+XFK
+ Lc1in7v7GJUqMUgpVv6H14sZsO0Cuy0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-8pMd4ZJrMvyZQndvrZuotQ-1; Fri, 20 Dec 2019 09:14:57 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1B41DB60
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 14:14:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D91D6FDCE;
+ Fri, 20 Dec 2019 14:14:53 +0000 (UTC)
+Date: Fri, 20 Dec 2019 14:14:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v7 9/9] tests: add dbus-vmstate-test
+Message-ID: <20191220141452.GP1699760@redhat.com>
+References: <20191219123029.200788-1-marcandre.lureau@redhat.com>
+ <20191219123029.200788-10-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gjof4rc3co56ykfg"
+In-Reply-To: <20191219123029.200788-10-marcandre.lureau@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 8pMd4ZJrMvyZQndvrZuotQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20191219145125.iwhxhzmt5mow5pea@steredhat>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 62.210.16.11
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,77 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mreitz@redhat.com, dillaman@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: mprivozn@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Dec 19, 2019 at 04:30:29PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  MAINTAINERS                  |   1 +
+>  roms/SLOF                    |   2 +-
+>  tests/Makefile.include       |  22 +-
+>  tests/dbus-vmstate-daemon.sh |  95 +++++++++
+>  tests/dbus-vmstate-test.c    | 382 +++++++++++++++++++++++++++++++++++
+>  tests/dbus-vmstate1.xml      |  12 ++
+>  6 files changed, 512 insertions(+), 2 deletions(-)
+>  create mode 100755 tests/dbus-vmstate-daemon.sh
+>  create mode 100644 tests/dbus-vmstate-test.c
+>  create mode 100644 tests/dbus-vmstate1.xml
 
---gjof4rc3co56ykfg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello Stefano and Jason,
+> diff --git a/roms/SLOF b/roms/SLOF
+> index 9546892a80..8ebf2f55e1 160000
+> --- a/roms/SLOF
+> +++ b/roms/SLOF
+> @@ -1 +1 @@
+> -Subproject commit 9546892a80d5a4c73deea6719de46372f007f4a6
+> +Subproject commit 8ebf2f55e1ba1492b942ba4b682160e644fc0f98
 
-First of all thanks for the quick reply,
-Response inline belowe
-> Hi Florian,
->=20
-> I think we need to add (Since: 5.0).
+Accidental change. With that removed
 
-Are you implying by that (Since: 5.0) that we need to specify its
-availability target is qemu 5.0 ?
-I guess that maybe a version check would be better ? Like try to do
-namespaces stuff only if we have a recent enough librbd in the system ?
-Using something like :
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-int rbd_major;
-
-rbd_version(&rbd_major, NULL, NULL);
-/*
- * Target only nautilus+ librbd for namespace support
-*/
-if (rbd_major >=3D 14) // tar
- <process namespace>
-
->=20
-> The patch LGTM, but I'd like to use 'namespace' instead of cryptic
-> 'nspace'. (as BlockdevOptionsNVMe did)
-> What do you think?
->=20
-Yes no worries, I can rename it to 'rbd_namespace' to avoid any possible
-confusion, is this Ok for you ?
->=20
-> With those fixed:
->=20
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
->=20
-> Thanks,
-> Stefano
 
 Regards,
-Florian
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
---gjof4rc3co56ykfg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEENMOcO22p59MYDr5mpFTgAOO+N4gFAl381p8ACgkQpFTgAOO+
-N4jBphAAq9AvF8GjSzoqmFWJb5HmhKkIPHFsGVFTwF+xHq9P+hOlyFY1zfMEPKF9
-jJQTqI128+runAtVaZhTYn7EEvBlESMUqGvSFrhhPl52w8Z9c1VJfKoQ33uhjjC2
-s81fAH5ZXGKIraZb0YO9xi8gB37/bRUZF25w6VX5yUJF7EWrDS2/7vE5mt+ybtKA
-JqczOOHVfYszEcG267x/Y1g284E7BXESH/asq7FvP3eoFqAupHxMqU8qwXYBc8qK
-vUQHXFBi7l5GmmNHCpW6ThtKbMLrYrW0p70v2zBE14kADBlmILCHhgVWockcCAnB
-sNlLtYAdK3ikKt9p1nCARchU+sVCEBgFieF5UF6ZVFsleRYVIenQV3WKk6z7idLq
-xCL9KCwSP3JvwO8B8AZK4Che69VZSve1DoBlOEA6Relnj6JVeVbQkGoW8axt9ZE+
-pXY6f3eCi7Zv+aTRfwQ87utCjWmB/aCe2ItPHNbrUiomx1WehQKfnNjxhLe+i3og
-nZ0P7xGWGfAB0hj6oSwc7ONL1BIgmR+A10BRJk9vjrN9UPpdzKjFPWudCVvnMUzx
-oPIzwhj+JoZeOaoKCeIhF8U3b+P/ahj5zCA7/RV35vETUIdM6N4NsDy4JnfkOyax
-/Lhm2kgvyVDNQ1EhK09AIRf9QZfdq6nOAHpAxDzGyIUSFT/ei5Y=
-=hCeZ
------END PGP SIGNATURE-----
-
---gjof4rc3co56ykfg--
 
