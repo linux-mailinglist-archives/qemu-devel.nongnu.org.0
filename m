@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7E2127491
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 05:26:18 +0100 (CET)
-Received: from localhost ([::1]:50540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A6E127490
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 05:24:36 +0100 (CET)
+Received: from localhost ([::1]:50514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii9rk-0005Uq-RW
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 23:26:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55882)
+	id 1ii9q7-00034Z-04
+	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 23:24:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1ii9nh-0008UY-8A
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:22:06 -0500
+ (envelope-from <fthain@telegraphics.com.au>) id 1ii9ng-0008TI-4H
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:22:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1ii9nf-00024L-Oi
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:22:04 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:34456)
+ (envelope-from <fthain@telegraphics.com.au>) id 1ii9ne-0001yi-E5
+ for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:22:03 -0500
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:34416)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <fthain@telegraphics.com.au>)
- id 1ii9nf-000214-3S; Thu, 19 Dec 2019 23:22:03 -0500
+ id 1ii9ne-0001xK-6E; Thu, 19 Dec 2019 23:22:02 -0500
 Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id BF0D828D48; Thu, 19 Dec 2019 23:22:02 -0500 (EST)
+ id EE6062829C; Thu, 19 Dec 2019 23:22:01 -0500 (EST)
 To: Jason Wang <jasowang@redhat.com>,
     qemu-devel@nongnu.org
-Message-Id: <d399b2248d6bf2b43fff916aa5d7f7d2d27edd0a.1576815466.git.fthain@telegraphics.com.au>
+Message-Id: <e44d136b8b71414e17200bb1b7edfd94fe866705.1576815466.git.fthain@telegraphics.com.au>
 In-Reply-To: <cover.1576815466.git.fthain@telegraphics.com.au>
 References: <cover.1576815466.git.fthain@telegraphics.com.au>
 From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH v2 10/13] dp8393x: Pad frames to word or long word boundary
+Subject: [PATCH v2 02/13] dp8393x: Clean up endianness hacks
 Date: Fri, 20 Dec 2019 15:17:46 +1100
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 98.124.60.144
@@ -49,96 +49,63 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing code has a bug where the Remaining Buffer Word Count (RBWC)
-is calculated with a truncating division, which gives the wrong result
-for odd-sized packets.
-
-Section 1.4.1 of the datasheet says,
-
-    Once the end of the packet has been reached, the serializer will
-    fill out the last word (16-bit mode) or long word (32-bit mode)
-    if the last byte did not end on a word or long word boundary
-    respectively. The fill byte will be 0FFh.
-
-Implement buffer padding so that buffer limits are correctly enforced.
+The in_use field is no different to the other words handled using
+dp8393x_put() and dp8393x_get(). Use the same technique for in_use
+that is used everywhere else.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
 ---
- hw/net/dp8393x.c | 39 ++++++++++++++++++++++++++++-----------
- 1 file changed, 28 insertions(+), 11 deletions(-)
+Changed since v1:
+ - Use existing 'address' variable rather than declare a new one.
+
+Laurent tells me that this clean-up has been tried before. He referred
+me to commit c744cf7879 ("dp8393x: fix dp8393x_receive()") and
+commit 409b52bfe1 ("net/dp8393x: correctly reset in_use field").
+
+Both of those patches look wrong to me because they both pass the wrong
+byte count to address_space_rw(). It's possible that those patches were
+needed to work around some kind of bug elsewhere, for example, an
+off-by-one result from dp8393x_crda(). The preceding patch in this series
+might help there.
+---
+ hw/net/dp8393x.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index a3936d3b7b..f35b8b48aa 100644
+index 1957bd391e..b2cc768d9b 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -763,16 +763,23 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     dp8393xState *s = qemu_get_nic_opaque(nc);
-     int packet_type;
-     uint32_t available, address;
--    int width, rx_len = pkt_size;
-+    int width, rx_len, padded_len;
-     uint32_t checksum;
-     int size;
+@@ -765,8 +765,6 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         return -1;
+     }
  
--    width = (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
+-    /* XXX: Check byte ordering */
 -
-     s->regs[SONIC_RCR] &= ~(SONIC_RCR_PRX | SONIC_RCR_LBK | SONIC_RCR_FAER |
-         SONIC_RCR_CRCR | SONIC_RCR_LPKT | SONIC_RCR_BC | SONIC_RCR_MC);
- 
--    if (pkt_size + 4 > dp8393x_rbwc(s) * 2) {
-+    rx_len = pkt_size + sizeof(checksum);
-+    if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
-+        width = 2;
-+        padded_len = ((rx_len - 1) | 3) + 1;
-+    } else {
-+        width = 1;
-+        padded_len = ((rx_len - 1) | 1) + 1;
-+    }
-+
-+    if (padded_len > dp8393x_rbwc(s) * 2) {
-         DPRINTF("oversize packet, pkt_size is %d\n", pkt_size);
-         s->regs[SONIC_ISR] |= SONIC_ISR_RBAE;
-         dp8393x_update_irq(s);
-@@ -807,22 +814,32 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     s->regs[SONIC_TRBA0] = s->regs[SONIC_CRBA0];
- 
-     /* Calculate the ethernet checksum */
--    checksum = cpu_to_le32(crc32(0, buf, rx_len));
-+    checksum = cpu_to_le32(crc32(0, buf, pkt_size));
- 
-     /* Put packet into RBA */
-     DPRINTF("Receive packet at %08x\n", dp8393x_crba(s));
-     address = dp8393x_crba(s);
-     address_space_rw(&s->as, address,
--        MEMTXATTRS_UNSPECIFIED, (uint8_t *)buf, rx_len, 1);
--    address += rx_len;
-+        MEMTXATTRS_UNSPECIFIED, (uint8_t *)buf, pkt_size, 1);
-+    address += pkt_size;
-+
-+    /* Put frame checksum into RBA */
-     address_space_rw(&s->as, address,
--        MEMTXATTRS_UNSPECIFIED, (uint8_t *)&checksum, 4, 1);
--    address += 4;
--    rx_len += 4;
-+        MEMTXATTRS_UNSPECIFIED, (uint8_t *)&checksum, sizeof(checksum), 1);
-+    address += sizeof(checksum);
-+
-+    /* Pad short packets to keep pointers aligned */
-+    if (rx_len < padded_len) {
-+        size = padded_len - rx_len;
+     /* Check for EOL */
+     if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
+         /* Are we still in resource exhaustion? */
+@@ -836,15 +834,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         /* EOL detected */
+         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
+     } else {
+-        /* Clear in_use, but it is always 16bit wide */
+-        int offset = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
+-        if (s->big_endian && width == 2) {
+-            /* we need to adjust the offset of the 16bit field */
+-            offset += sizeof(uint16_t);
+-        }
+-        s->data[0] = 0;
+-        address_space_rw(&s->as, offset, MEMTXATTRS_UNSPECIFIED,
+-                         (uint8_t *)s->data, sizeof(uint16_t), 1);
++        /* Clear in_use */
++        address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
++        size = sizeof(uint16_t) * width;
++        dp8393x_put(s, width, 0, 0);
 +        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-+            (uint8_t *)"\xFF\xFF\xFF", size, 1);
-+        address += size;
-+    }
-+
-     s->regs[SONIC_CRBA1] = address >> 16;
-     s->regs[SONIC_CRBA0] = address & 0xffff;
-     available = dp8393x_rbwc(s);
--    available -= rx_len / 2;
-+    available -= padded_len >> 1;
-     s->regs[SONIC_RBWC1] = available >> 16;
-     s->regs[SONIC_RBWC0] = available & 0xffff;
- 
++                         (uint8_t *)s->data, size, 1);
+         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
+         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
 -- 
 2.23.0
 
