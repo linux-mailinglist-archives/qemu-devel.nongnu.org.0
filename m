@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D551280FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 17:58:12 +0100 (CET)
-Received: from localhost ([::1]:59092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13B11280F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 17:53:35 +0100 (CET)
+Received: from localhost ([::1]:59004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiLbP-0005TR-V2
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 11:58:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32932)
+	id 1iiLWw-0006t5-PN
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 11:53:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iiLVU-0005vr-Sm
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:52:06 -0500
+ (envelope-from <groug@kaod.org>) id 1iiLVH-0005Zr-0n
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iiLVT-0005b6-JO
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:52:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46637
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iiLVT-0005aR-El
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:52:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576860723;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZO3A9x6Z5IrKB672Yanf42gW4KGAYB1T2LPZ+UvO970=;
- b=fyl/WUeYoL43GW4j+6CZt88w/mb2+Gop6hnmr8g4XtzmWtZftc5ES7OQm8eV3nUtQ+vtLV
- u+HuYo+0TdKh4Xb73oWb6ofx+lA1vMWFdNexMJHkZnU5axbQJR2L06TOQgUPCTEWMfZxA7
- 0uFBfpfoKguilR3K4lo/dyxB/4CT584=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-b66nyt8LPYieU_6GNcOOEw-1; Fri, 20 Dec 2019 11:52:00 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D16C18B9FD3;
- Fri, 20 Dec 2019 16:51:59 +0000 (UTC)
-Received: from localhost (ovpn-116-10.gru2.redhat.com [10.97.116.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2D906F12E;
- Fri, 20 Dec 2019 16:51:53 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/2] configure: Require Python >= 3.5
-Date: Fri, 20 Dec 2019 13:51:41 -0300
-Message-Id: <20191220165141.2207058-3-ehabkost@redhat.com>
-In-Reply-To: <20191220165141.2207058-1-ehabkost@redhat.com>
-References: <20191220165141.2207058-1-ehabkost@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1iiLVF-0005Ls-V8
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:50 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63328
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iiLVF-0005L7-Nc
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:49 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBKGRgV2069204
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 11:51:49 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2x0xcdrmpj-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 11:51:49 -0500
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 20 Dec 2019 16:51:47 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 20 Dec 2019 16:51:44 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id xBKGphLs45547956
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Dec 2019 16:51:43 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 269C65204E;
+ Fri, 20 Dec 2019 16:51:43 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.169.241])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E938C52051;
+ Fri, 20 Dec 2019 16:51:42 +0000 (GMT)
+Subject: [PATCH 1/2] ppc/pnv: Exit gracefully if CPU topology doesn't match
+ the machine capacities
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Date: Fri, 20 Dec 2019 17:51:42 +0100
+In-Reply-To: <157686069624.97184.12603452056634667288.stgit@bahia.lan>
+References: <157686069624.97184.12603452056634667288.stgit@bahia.lan>
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: b66nyt8LPYieU_6GNcOOEw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19122016-0008-0000-0000-00000342FD0C
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19122016-0009-0000-0000-00004A631B52
+Message-Id: <157686070223.97184.882725559353545017.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-20_04:2019-12-17,2019-12-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 spamscore=0 clxscore=1034 bulkscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 mlxscore=0 suspectscore=0
+ malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1912200127
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,111 +89,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Python 3.5 is the oldest Python version available on our
-supported build platforms, and Python 2 end of life will be 3
-weeks after the planned release date of QEMU 4.2.0.  Drop Python
-2 support from configure completely, and require Python 3.5 or
-newer.
+QEMU crashes when started with:
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20191016224237.26180-1-ehabkost@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+   -machine powernv,num-chips=2 -smp cores=2 -accel tcg,thread=multi
+
+ERROR:
+tcg/tcg.c:789:tcg_register_thread: assertion failed: (n < ms->smp.max_cpus)
+Aborted (core dumped)
+
+This happens because the powernv machine creates num-chips * smp.cores
+CPUs, which might exceed the maximum number of CPUs of the CPU topology
+as computed by smp_parse().
+
+Check the CPU topology in pnv_set_num_chips().
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- configure              | 18 ++++--------------
- tests/Makefile.include |  5 -----
- 2 files changed, 4 insertions(+), 19 deletions(-)
+ hw/ppc/pnv.c |   10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 940bf9e87a..747d3b4120 100755
---- a/configure
-+++ b/configure
-@@ -903,9 +903,9 @@ fi
- : ${install=3D${INSTALL-install}}
- # We prefer python 3.x. A bare 'python' is traditionally
- # python 2.x, but some distros have it as python 3.x, so
--# we check that before python2
-+# we check that too
- python=3D
--for binary in "${PYTHON-python3}" python python2
-+for binary in "${PYTHON-python3}" python
- do
-     if has "$binary"
-     then
-@@ -1842,8 +1842,8 @@ fi
-=20
- # Note that if the Python conditional here evaluates True we will exit
- # with status 1 which is a shell 'false' value.
--if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
--  error_exit "Cannot use '$python', Python 2 >=3D 2.7 or Python 3 is requi=
-red." \
-+if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
-+  error_exit "Cannot use '$python', Python >=3D 3.5 is required." \
-       "Use --python=3D/path/to/python to specify a supported Python."
- fi
-=20
-@@ -6594,15 +6594,6 @@ if test "$supported_os" =3D "no"; then
-     echo "us upstream at qemu-devel@nongnu.org."
- fi
-=20
--# Note that if the Python conditional here evaluates True we will exit
--# with status 1 which is a shell 'false' value.
--if ! $python -c 'import sys; sys.exit(sys.version_info < (3,0))'; then
--  echo
--  echo "warning: Python 2 support is deprecated" >&2
--  echo "warning: Python 3 will be required for building future versions of=
- QEMU" >&2
--  python2=3D"y"
--fi
--
- config_host_mak=3D"config-host.mak"
-=20
- echo "# Automatically generated by configure - do not modify" >config-all-=
-disas.mak
-@@ -7447,7 +7438,6 @@ echo "INSTALL_DATA=3D$install -c -m 0644" >> $config_=
-host_mak
- echo "INSTALL_PROG=3D$install -c -m 0755" >> $config_host_mak
- echo "INSTALL_LIB=3D$install -c -m 0644" >> $config_host_mak
- echo "PYTHON=3D$python" >> $config_host_mak
--echo "PYTHON2=3D$python2" >> $config_host_mak
- echo "CC=3D$cc" >> $config_host_mak
- if $iasl -h > /dev/null 2>&1; then
-   echo "IASL=3D$iasl" >> $config_host_mak
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 31b86674e5..9146e1bdee 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1157,7 +1157,6 @@ TESTS_RESULTS_DIR=3D$(BUILD_DIR)/tests/results
- AVOCADO_SHOW=3Dapp
- AVOCADO_TAGS=3D$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGET=
-_DIRS)))
-=20
--ifneq ($(PYTHON2),y)
- $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
- =09$(call quiet-command, \
-             $(PYTHON) -m venv --system-site-packages $@, \
-@@ -1166,10 +1165,6 @@ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
-             $(TESTS_VENV_DIR)/bin/python -m pip -q install -r $(TESTS_VENV=
-_REQ), \
-             PIP, $(TESTS_VENV_REQ))
- =09$(call quiet-command, touch $@)
--else
--$(TESTS_VENV_DIR):
--=09$(error "venv directory for tests requires Python 3")
--endif
-=20
- $(TESTS_RESULTS_DIR):
- =09$(call quiet-command, mkdir -p $@, \
---=20
-2.23.0
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index f77e7ca84ede..f8cf2b6d760f 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1706,7 +1706,8 @@ static void pnv_set_num_chips(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp)
+ {
+     PnvMachineState *pnv = PNV_MACHINE(obj);
+-    uint32_t num_chips;
++    MachineState *ms = MACHINE(pnv);
++    uint32_t num_chips, num_cpus;
+     Error *local_err = NULL;
+ 
+     visit_type_uint32(v, name, &num_chips, &local_err);
+@@ -1724,6 +1725,13 @@ static void pnv_set_num_chips(Object *obj, Visitor *v, const char *name,
+         return;
+     }
+ 
++    num_cpus = num_chips * ms->smp.cores * ms->smp.threads;
++    if (num_cpus > ms->smp.max_cpus) {
++        error_setg(errp, "%d chips don't fit in the CPU topology", num_chips);
++        error_append_hint(errp, "Try -smp sockets=%d.\n", num_chips);
++        return;
++    }
++
+     pnv->num_chips = num_chips;
+ }
+ 
 
 
