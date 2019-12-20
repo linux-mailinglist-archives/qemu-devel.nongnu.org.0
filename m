@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EC5127BA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:25:28 +0100 (CET)
-Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BACE127BAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:30:50 +0100 (CET)
+Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiIHX-0001mQ-6E
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:25:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43245)
+	id 1iiIMj-0000B8-8v
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:30:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iiIF8-0007aP-O4
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:22:59 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iiIF7-0005jj-EP
+ (envelope-from <alex.bennee@linaro.org>) id 1iiIF7-0007Wz-2w
  for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:22:58 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51079)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iiIF5-0005dH-Hx
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:22:56 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46275)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iiIF6-0005fe-Ta
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:22:57 -0500
-Received: by mail-wm1-x332.google.com with SMTP id a5so8924090wmb.0
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:22:56 -0800 (PST)
+ id 1iiIF5-0005Yf-58
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:22:55 -0500
+Received: by mail-wr1-x442.google.com with SMTP id z7so9361041wrl.13
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:22:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=06XcrWFNlcIoXvMNfQG79LGFIvgNsdfFUwprXyUXHHk=;
- b=BJZ6TIXhZiMuci54F//kmtNJyI9a8Qfq7aXKUYE2HiTdFLJ5SQyge6LGDKSo76ka/I
- +gyflGd0LltpF4bcNJ4YAAOcliYbDN+JytvtbNFy/MlcfhgQ+g0f+yLYzqwdH7YWinC8
- 1sqN3hJ6MmWWgP5OKItYdamq8eOq2MhUIttW5x9yJ8QEIwqxGbHOWnj9jJIE/vugj93+
- fWW7BqSSYgfu62Ube+TKCr2LnsdICrIUypUOsCX05j9XptDJtn74NKGko+fY5Q500lvd
- Ar7BP5ZeTtIc5aHdnh18+0Jx6SGWMfT2VVoSc4CNjzAlMFpHfVYtVA5Pl6rAwRODJ1A/
- mtjQ==
+ bh=tWCHuSggB5szQdLA+HidJI7cGodm3lgcmToLZIxmHFk=;
+ b=V3ktwIJCtO2n9oJK7KwaYijwukdLxDfE24R88UvTsU3NDWkbMn/So8kJg0gq3Q0fMD
+ /QN4lV9GaKWwd5Z8h5qR3gZ2Qr8xGQVDHRXIMKbomug9YfrwqP+YVy8a1O3plJYTTxZL
+ 9PPf3cfWhxH2VLSq6g171VNZSK7ZzXSD5CNvM60CN4vVc05sLiHgrT7j9ri7GKklgY0p
+ xM4p51wo1VwTpLKxluqGfIrPcVbTYLWuwFjnV2RiOf5ZX+0EFSl/lSfKRKIEHdFpfzso
+ B0rPP95jSvsZDi22kfoQdTXjmEU4K7Fq3uKsMG3F+TVvx4ZwtQoWfPLRg+G4b/6a15JF
+ Obaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=06XcrWFNlcIoXvMNfQG79LGFIvgNsdfFUwprXyUXHHk=;
- b=KomLBhV0X+AuqZqyjx4Okm9rAPe8Yajq5LdGTRHZ3T8KN1gHauzc9EYZGyC/gH0sn/
- dFrMZNuqHMYdZ8oE6Ju5BQRIF5cczVCb2iUAn27LrVzs3/Xvfd/2PbX6oEVayt6nFzR+
- lJNtNHpFThyP2X1yRmrS7Hy6V3SPFb4QfJeQonMDT1/gEarxFPWF4DRRjTzsowkpGsnP
- 61vqvrL2SCDY2jBteEBG80+2TDw/FWd2vB92CTywaZma40Ff+lL8OVe5HaSaNRVuWl3P
- c9dXAo6aeJhXM0YXxIQkuU+7qeffErfwObRs6mC4Kx3W3xckZ0/SLfnf+YjMCGwiWcAh
- P2Yw==
-X-Gm-Message-State: APjAAAWuB3afo2LgWg7Jvk4ac4IoJ6kxfkCBVXlEYnJMBwU5NtJ5gSGN
- s8aw2AR9w5NWgE7y2x4rZlW6fA==
-X-Google-Smtp-Source: APXvYqy+imwWgoxl3NSahuYuepF+nQFzo3osPvHv/D3n6Kviu43fMGBRDuHPwFxE7PBMUNXvZNC7FA==
-X-Received: by 2002:a7b:c001:: with SMTP id c1mr16623663wmb.96.1576848175612; 
- Fri, 20 Dec 2019 05:22:55 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x132sm13756583wmg.0.2019.12.20.05.22.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=tWCHuSggB5szQdLA+HidJI7cGodm3lgcmToLZIxmHFk=;
+ b=m9sApvWawVKWCo0taqzbW3ceiYBinSZ/Sg0W8++OKj6CyyoJKc28ujagxwybKWGXav
+ wC8YvJmqRWo8gSqC3Tv9GtucKpoENBJ1vY8HMc+U3sl9MQVvKUX6eeIz4XfZ/Mu3JJTK
+ 2Kdn4ipCVszW92pNpBdZ7lzhpabmsxjeO7PgYHDjDsNwUstz/ACACFmz4zltfYo+aN7R
+ 0r05zS7wp4ZqZM9mqQ1m7HngftfGT58u2HLIMwzao0T+nF7Vn5aIHtpe7Y/oHpmS+Jy+
+ OGpYMqBy6U37mS4nx2hfK8DEqI1B/isPunuJbz+t4EU3z88etpjGsIs9Ubp7CICTQ+W7
+ 659Q==
+X-Gm-Message-State: APjAAAUq5BxAYcVVmoHKha0bcxyjzbd/9rZFVqXMKxE4zSmy8bqh6LtP
+ UD6RBr2q9Kl9fCAlb1n7nDxVwQ==
+X-Google-Smtp-Source: APXvYqxUKjMRQFj6C9Oe7b6xQzSLyDeyPE3MHbkZsmx/Km5T19B17j9M9tRSMYwDSYGXH68I2gMXbg==
+X-Received: by 2002:a5d:5091:: with SMTP id a17mr15166170wrt.362.1576848173831; 
  Fri, 20 Dec 2019 05:22:53 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n16sm9986070wro.88.2019.12.20.05.22.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Dec 2019 05:22:47 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 259591FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 0C7811FF91;
  Fri, 20 Dec 2019 13:22:47 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] tests/tcg: add user version of dumb-as-bricks
- semiconsole test
-Date: Fri, 20 Dec 2019 13:22:46 +0000
-Message-Id: <20191220132246.6759-6-alex.bennee@linaro.org>
+Subject: [PATCH v2 4/5] tests/tcg: add a dumb-as-bricks semihosting console
+ test
+Date: Fri, 20 Dec 2019 13:22:45 +0000
+Message-Id: <20191220132246.6759-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191220132246.6759-1-alex.bennee@linaro.org>
 References: <20191220132246.6759-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,57 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, keithp@keithp.com,
+Cc: Richard Henderson <richard.henderson@linaro.org>, keithp@keithp.com,
  "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are linux-user users of semihosting so we'd better check things
-work for them as well.
+We don't run this during check-tcg as we would need to check stuff is
+echoed back. However we can still build the binary so people can test
+it manually.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/arm/semiconsole.c   | 47 +++++++++++++++++++++++++++++++++++
- tests/tcg/arm/Makefile.target |  7 ++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 tests/tcg/arm/semiconsole.c
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/tcg/arm/semiconsole.c b/tests/tcg/arm/semiconsole.c
+---
+v8
+  - actually return the result!
+---
+ tests/tcg/aarch64/system/semiconsole.c    | 38 +++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.softmmu-target |  9 +++++-
+ 2 files changed, 46 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/aarch64/system/semiconsole.c
+
+diff --git a/tests/tcg/aarch64/system/semiconsole.c b/tests/tcg/aarch64/system/semiconsole.c
 new file mode 100644
-index 00000000000..cc9266b87df
+index 00000000000..bfe7c9e26b4
 --- /dev/null
-+++ b/tests/tcg/arm/semiconsole.c
-@@ -0,0 +1,47 @@
++++ b/tests/tcg/aarch64/system/semiconsole.c
+@@ -0,0 +1,38 @@
 +/*
-+ * linux-user semihosting console
++ * Semihosting Console Test
 + *
-+ * Copyright (c) 2019
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
++ * Copyright (c) 2019 Linaro Ltd
 + *
-+ * SPDX-License-Identifier: GPL-3.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
 +
-+#include <stdio.h>
-+#include <stdint.h>
++#include <inttypes.h>
++#include <minilib.h>
 +
-+#define SYS_READC  0x7
++#define SYS_READC 0x7
 +
 +uintptr_t __semi_call(uintptr_t type, uintptr_t arg0)
 +{
-+#if defined(__arm__)
-+    register uintptr_t t asm("r0") = type;
-+    register uintptr_t a0 asm("r1") = arg0;
-+    asm("svc 0xab"
-+        : "=r" (t)
-+        : "r" (t), "r" (a0));
-+#else
 +    register uintptr_t t asm("x0") = type;
 +    register uintptr_t a0 asm("x1") = arg0;
 +    asm("hlt 0xf000"
 +        : "=r" (t)
 +        : "r" (t), "r" (a0));
-+#endif
 +
 +    return t;
 +}
@@ -141,34 +139,36 @@ index 00000000000..cc9266b87df
 +{
 +    char c;
 +
-+    printf("Semihosting Console Test\n");
-+    printf("hit X to exit:");
++    ml_printf("Semihosting Console Test\n");
++    ml_printf("hit X to exit:");
 +
 +    do {
 +        c = __semi_call(SYS_READC, 0);
-+        printf("got '%c'\n", c);
++        __sys_outc(c);
 +    } while (c != 'X');
 +
 +    return 0;
 +}
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 0765f37ff04..997e6e78ed9 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -40,6 +40,13 @@ run-plugin-semihosting-with-%:
- 		 $(call strip-plugin,$<) 2> $<.err, \
- 		"$< on $(TARGET_NAME) with $*")
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index 950dbb4bac2..9bdcfd9e7e4 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -31,7 +31,14 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
  
-+ARM_TESTS += semiconsole
+ # Running
+-QEMU_OPTS+=-M virt -cpu max -display none -semihosting-config enable=on,target=native,chardev=output -kernel
++QEMU_BASE_MACHINE=-M virt -cpu max -display none
++QEMU_OPTS+=$(QEMU_BASE_MACHINE) -semihosting-config enable=on,target=native,chardev=output -kernel
++
++# console test is manual only
++QEMU_SEMIHOST=-chardev stdio,mux=on,id=stdio0 -semihosting-config enable=on,chardev=stdio0 -mon chardev=stdio0,mode=readline
++run-semiconsole: QEMU_OPTS=$(QEMU_BASE_MACHINE) $(QEMU_SEMIHOST)  -kernel
 +run-semiconsole: semiconsole
 +	$(call skip-test, $<, "MANUAL ONLY")
-+
-+run-semiconsole-with-%:
-+	$(call skip-test, $<, "MANUAL ONLY")
-+
- TESTS += $(ARM_TESTS)
  
- # On ARM Linux only supports 4k pages
+ # Simple Record/Replay Test
+ .PHONY: memory-record
 -- 
 2.20.1
 
