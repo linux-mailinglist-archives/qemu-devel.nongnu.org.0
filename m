@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437CB127AD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:15:48 +0100 (CET)
-Received: from localhost ([::1]:54178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF135127AE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:20:27 +0100 (CET)
+Received: from localhost ([::1]:54286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiHC7-00012L-84
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:15:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53713)
+	id 1iiHGc-0007rB-Lp
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:20:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iiH1k-0004rq-0x
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:05:05 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iiH1y-000587-SF
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:05:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iiH1f-0008E2-JN
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:05:03 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38697)
+ (envelope-from <alex.bennee@linaro.org>) id 1iiH1q-0008SZ-5X
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:05:15 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52406)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iiH1f-00089i-6k
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:04:59 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y17so9206945wrh.5
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 04:04:59 -0800 (PST)
+ id 1iiH1o-0008Oj-O0
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:05:09 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p9so8694650wmc.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 04:05:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=frx1aURZvMjiv5Ib6mAusHFiIu8eDIVWmRgHjBz837s=;
- b=zEOXQ3ypHQuLtrfxR0Q4lqmX6p8ZLE7D8i/NgyItrA85Sd5CnbuDRtnX/v6nyC1FNl
- 1ohtO6OhK3Q0MR40wRBO8MKy3joQ8oEDDPikRjMUnL98n8OQ6/2zHHUXJ4fmJdnglmm4
- BozmDTsyik1HEiw8HwQCWTN686TTKefXkG0Y0aPHRRooslhCiygnDqpuoQQj9yXWxkaY
- BOZCO2XmC3KFLaeUh87M1qduz0TQozDEFGLJl6cmfSLmf77fZHq4q8K22pTbxr2T2ji5
- tUEqqNaf6vRkiM/KJXPe/JbzcPmt6Hw3bTjdOaq/F0zcBMgopWD3+n3Jn8kHw1x3Q8W9
- as3w==
+ bh=YX/3QlJb96xuPlFrDu4WTqDveBFpdotwZIYVwV0XY7M=;
+ b=KZafxjOH1S30qEh72GnMUHe2Au3BKIRFNGoG+fusNFoSXd61bMzh2txwNDqIhUrWQ8
+ lsrFGNfq94RRztbZSLmBp1IZazWVx1xgFb4Nlu+kauZ+ZoCEoh6d2zZZOjzPf3q7sGH+
+ fupYZcO6tS99qPBjwTnrreimuBWw6KkOc4ym3r07qndFNjQxi9h2UMruWlaTDBeWXBL7
+ d5Wahcms/WP45ndLpzTUGYw9DXWohfk2QxMDaFzg2w7VMtCgvwHYZ7NkCNbFc/Sk5nvU
+ LOMfb3qzVxp09VdCibz878qyKu36LPWOMQaBj9tr0luSw6I4m4xUGuo0h5KYP/enWVb/
+ F3Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=frx1aURZvMjiv5Ib6mAusHFiIu8eDIVWmRgHjBz837s=;
- b=TVa5PeiCMmrrr5c6gmZihSalVN97zrTgfdVzvA5liVlQLAOdV/Z0fa9QyMo31DHveR
- TWyuZNEB1aJwO8o6aVNfnQlQbyKFdwdaC8zf9yzDF2cOtbmlNHeQAtzhzO/bEbLkmIeQ
- SDXKrfUEkyRiYkglROK55GnTFm1DWyiv+LE/vp2aqH/sSe4obLjHbKaDLKm1AvskyG21
- /Ckygw4GqkvNQX0P90vGuIiNvd4PufFLbTtiw2J5XEi/txqX7l9+ggrJuY2Bp85AkFtR
- 1kA4r6S0KO3JZFu6A7SpJ4HQqmOiiVbdsvKjiU3MVF3dwC9R4YRmuEYogf8Pi0YM/xO0
- ZbPg==
-X-Gm-Message-State: APjAAAWgSD/peroCD8iqrq8Jg1MiNlxqaZXhd9h/VBbr9NnOsJCMFI6d
- NyMlJaJ3hEMUMWQXYHCgal1E+g==
-X-Google-Smtp-Source: APXvYqx+Wq3ggHBCk2QFZd1OjG8r7kEdZieoC2zqIdFZBrZcyHVMn9G0UdJGj3lSzucmhQdBiJnDxw==
-X-Received: by 2002:a5d:4847:: with SMTP id n7mr14991390wrs.30.1576843498083; 
- Fri, 20 Dec 2019 04:04:58 -0800 (PST)
+ bh=YX/3QlJb96xuPlFrDu4WTqDveBFpdotwZIYVwV0XY7M=;
+ b=AkBNO/DlnZBChzzVyYVoDLQOnVs2dHj+8/HzhXpfRNGxMoL9CFKBb8+9FcwliaNlYu
+ HeqzF4O1zNIt+un/468R2GcJm8RQUhDoPEAsF+DT2Vafr/cejJmGnssOQwqOVoAjdheL
+ ugnpSWjdiMhMSsxwubQK1e+J/7rECyatC5rStDIVTR2LsALu9GCCBiamZJvXwhRd4cbN
+ lCK4OkpRh7Omkigb30i/wt4xaj15R3AVOIp9CmZSjToT+On5VE8CN1cw2c6bAgjqwXyx
+ oxGdzfZSltKpZltWD66vT45gEkZYZUijnS0rR+RwFWTcodRtUnPeAm0wcps7Bc2zTz9u
+ hu8g==
+X-Gm-Message-State: APjAAAWM7rbgDVEg7W/GQ/4vwt5sDpo6mbmoxnKHccqok2dGiLDYIPIq
+ fN/t4WloUK7CUVidAKuSEZtwVA==
+X-Google-Smtp-Source: APXvYqzMteUC02PV+0/r2/S45UUYqfEQ/Cs/MC4qnm8xsmsJqbt8UeCUp4Q1YJDZu8bB2u+RzfAxMA==
+X-Received: by 2002:a1c:7419:: with SMTP id p25mr15515137wmc.129.1576843507082; 
+ Fri, 20 Dec 2019 04:05:07 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u14sm9777423wrm.51.2019.12.20.04.04.44
+ by smtp.gmail.com with ESMTPSA id x18sm9681364wrr.75.2019.12.20.04.04.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 04:04:48 -0800 (PST)
+ Fri, 20 Dec 2019 04:04:51 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1760C1FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id 2C4A81FF9B;
  Fri, 20 Dec 2019 12:04:40 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v4 10/21] target/arm: explicitly encode regnum in our XML
-Date: Fri, 20 Dec 2019 12:04:27 +0000
-Message-Id: <20191220120438.16114-11-alex.bennee@linaro.org>
+Subject: [PATCH v4 11/21] target/arm: default SVE length to 64 bytes for
+ linux-user
+Date: Fri, 20 Dec 2019 12:04:28 +0000
+Message-Id: <20191220120438.16114-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191220120438.16114-1-alex.bennee@linaro.org>
 References: <20191220120438.16114-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,109 +89,40 @@ Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is described as optional but I'm not convinced of the numbering
-when multiple target fragments are sent.
+The Linux kernel chooses the default of 64 bytes for SVE registers on
+the basis that it is the largest size on known hardware that won't
+grow the signal frame. We still honour the sve-max-vq property and
+userspace can expand the number of lanes by calling PR_SVE_SET_VL.
+
+This should not make any difference to SVE enabled software as the SVE
+is of course vector length agnostic.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 ---
 v2
-  - post inc param->n in place so we don't get out count wrong
+  - tweak zcr_el[1] instead
 ---
- target/arm/cpu.h     |  2 +-
- target/arm/gdbstub.c | 17 +++++++++++------
- target/arm/helper.c  |  2 +-
- 3 files changed, 13 insertions(+), 8 deletions(-)
+ target/arm/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 59d5dbae31f..40591b5dc70 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -961,7 +961,7 @@ int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- /* Dynamically generates for gdb stub an XML description of the sysregs from
-  * the cp_regs hashtable. Returns the registered sysregs number.
-  */
--int arm_gen_dynamic_sysreg_xml(CPUState *cpu);
-+int arm_gen_dynamic_sysreg_xml(CPUState *cpu, int base_reg);
- 
- /* Returns the dynamically generated XML for the gdb stub.
-  * Returns a pointer to the XML contents for the specified XML file or NULL
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 1f68ab98c3b..69c35462a63 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -24,6 +24,7 @@
- typedef struct RegisterSysregXmlParam {
-     CPUState *cs;
-     GString *s;
-+    int n;
- } RegisterSysregXmlParam;
- 
- /* Old gdb always expect FPA registers.  Newer (xml-aware) gdb only expect
-@@ -108,10 +109,11 @@ int arm_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- 
- static void arm_gen_one_xml_sysreg_tag(GString *s, DynamicGDBXMLInfo *dyn_xml,
-                                        ARMCPRegInfo *ri, uint32_t ri_key,
--                                       int bitsize)
-+                                       int bitsize, int regnum)
- {
-     g_string_append_printf(s, "<reg name=\"%s\"", ri->name);
-     g_string_append_printf(s, " bitsize=\"%d\"", bitsize);
-+    g_string_append_printf(s, " regnum=\"%d\"", regnum);
-     g_string_append_printf(s, " group=\"cp_regs\"/>");
-     dyn_xml->data.cpregs.keys[dyn_xml->num] = ri_key;
-     dyn_xml->num++;
-@@ -131,7 +133,8 @@ static void arm_register_sysreg_for_xml(gpointer key, gpointer value,
-     if (!(ri->type & (ARM_CP_NO_RAW | ARM_CP_NO_GDB))) {
-         if (arm_feature(env, ARM_FEATURE_AARCH64)) {
-             if (ri->state == ARM_CP_STATE_AA64) {
--                arm_gen_one_xml_sysreg_tag(s , dyn_xml, ri, ri_key, 64);
-+                arm_gen_one_xml_sysreg_tag(s , dyn_xml, ri, ri_key, 64,
-+                                           param->n++);
-             }
-         } else {
-             if (ri->state == ARM_CP_STATE_AA32) {
-@@ -140,20 +143,22 @@ static void arm_register_sysreg_for_xml(gpointer key, gpointer value,
-                     return;
-                 }
-                 if (ri->type & ARM_CP_64BIT) {
--                    arm_gen_one_xml_sysreg_tag(s , dyn_xml, ri, ri_key, 64);
-+                    arm_gen_one_xml_sysreg_tag(s , dyn_xml, ri, ri_key, 64,
-+                                               param->n++);
-                 } else {
--                    arm_gen_one_xml_sysreg_tag(s , dyn_xml, ri, ri_key, 32);
-+                    arm_gen_one_xml_sysreg_tag(s , dyn_xml, ri, ri_key, 32,
-+                                               param->n++);
-                 }
-             }
-         }
-     }
- }
- 
--int arm_gen_dynamic_sysreg_xml(CPUState *cs)
-+int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-     GString *s = g_string_new(NULL);
--    RegisterSysregXmlParam param = {cs, s};
-+    RegisterSysregXmlParam param = {cs, s, base_reg};
- 
-     cpu->dyn_sysreg_xml.num = 0;
-     cpu->dyn_sysreg_xml.data.cpregs.keys = g_new(uint32_t, g_hash_table_size(cpu->cp_regs));
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0a3bc53124e..488fdbf61a9 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7129,7 +7129,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                                  19, "arm-vfp.xml", 0);
-     }
-     gdb_register_coprocessor(cs, arm_gdb_get_sysreg, arm_gdb_set_sysreg,
--                             arm_gen_dynamic_sysreg_xml(cs),
-+                             arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
-                              "system-registers.xml", 0);
- }
- 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index dd51adac059..2d2e786245b 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -199,9 +199,9 @@ static void arm_cpu_reset(CPUState *s)
+         /* and to the SVE instructions */
+         env->cp15.cpacr_el1 = deposit64(env->cp15.cpacr_el1, 16, 2, 3);
+         env->cp15.cptr_el[3] |= CPTR_EZ;
+-        /* with maximum vector length */
++        /* with reasonable vector length */
+         env->vfp.zcr_el[1] = cpu_isar_feature(aa64_sve, cpu) ?
+-                             cpu->sve_max_vq - 1 : 0;
++            MIN(cpu->sve_max_vq - 1, 3) : 0;
+         env->vfp.zcr_el[2] = env->vfp.zcr_el[1];
+         env->vfp.zcr_el[3] = env->vfp.zcr_el[1];
+         /*
 -- 
 2.20.1
 
