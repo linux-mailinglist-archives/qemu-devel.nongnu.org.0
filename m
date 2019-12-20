@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754CA127AD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:16:55 +0100 (CET)
-Received: from localhost ([::1]:54210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4A4127AED
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:23:47 +0100 (CET)
+Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiHDB-0002qU-W0
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:16:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36324)
+	id 1iiHJq-00046V-9Q
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:23:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iiHAs-0000eI-41
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:14:32 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iiHAr-0000dv-VU
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:14:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iiHAq-0001Hi-Rc
+ (envelope-from <alex.bennee@linaro.org>) id 1iiHAq-0001FF-9b
  for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:14:29 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55698)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46382)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iiHAq-0001D4-DQ
+ id 1iiHAp-00019u-Uj
  for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:14:28 -0500
-Received: by mail-wm1-x342.google.com with SMTP id q9so8723044wmj.5
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 04:14:28 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id z7so9163500wrl.13
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 04:14:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Mqhw4oMb9/NPBlcysMR2z8rn68YPooniQZ6sAVo6tJ0=;
- b=ZjNjiRx8twV7r7+gDAfFetdXMlwhJqPIbx6ucz1bkg2WTBQ65zsfXdZ6bWzGg75osI
- RveYQ69dK0KRWzVlr3gAANejDTCO64FH6EL9b2yVg0r6cxKTVjJmKgalnVs/ItXs/ntF
- ZiVEUaxfhtoseX0kfUa/hRkvCcR850ZvKCguWrAhZVzC29VPnHB+5/+aRgH82mguyjlZ
- l7tTyKH0C6cpSl16+rcUKLr+yPYwZQXlNJ2j2gff//6IOWb+yDcTnM105NcBEpg8gxNW
- Xrst8kRSTF6jTMtz0VrZrKr2LG83544ls95VrKT5lihLI9ozgPGjgPR/9S0TFyHcgQVc
- NQ3w==
+ bh=KRu49EbgGVQ7V2rxhXNHs855imxrN5MTwZSo9giC7oo=;
+ b=H7fqNRwdjB5hRPbOqjSzn3+92GkPWo2OL6At9HiFJ849JvF6TXaExMH38Jhn65KSh1
+ qoPED6b3NLZASeBJKKMcPoWXptmNZglhfPOaQxVR6gLA6Ao5So503ISzRoJZxqKm4PVX
+ X1Qgk/bP5I2fSIFfCxTWiKGLvuYlkan7LYKxQDYCVj+hibAwZ6oThn5C9j5xoh9Wjvl0
+ 3Y60fPxB28nL2F0HMdn1xQgKBOy1ofEXAuapr+thnXdzyMidic8Y125WGysvN1pAD57m
+ PGNArncAjLnLlNYOD2qlV7DZcPbfZHvlNNQGfjXfAqHmBS/35mG2COdGwcLe3XzjFhP9
+ D1qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Mqhw4oMb9/NPBlcysMR2z8rn68YPooniQZ6sAVo6tJ0=;
- b=PeNL8FJUbIDxiZ8cnwsvwjygV8fT6pakWnCNNrAdnVJTqvzCwgmuzKOUkwAf/lfnE2
- 8DLahxGOU2VQqWGL96YxAvmoSwLM7ujWAiSOYwPvKBkeC4Cb5bNKpWEhAxHxT0bXSZN/
- r2oLndpNA460N5TxCZExYPjfe0S/B6ui/HzLU/gk0oT53cUnbvhiWNUX1S6d1cXMcimX
- JqIBg44Z1jsL05Es4BlqWpzyBvYLQpQDzeL8BVBrZ5iWblUxgj0EjvXfPOU5or8dnDRn
- TaxWxBSLkaY+QX8IEo6ZfJwDZkoniOShWzM2bvBz6b4H+hJcowMWa8nKD6hyACnnbtVJ
- kc3g==
-X-Gm-Message-State: APjAAAUTvKpQS9mMGQuls4NP/dBiU3XasGFq0e+p0lglbkBrs3X/WmFE
- l78EVlufT1aYZtqX5eK/yspJqQ==
-X-Google-Smtp-Source: APXvYqz3zKpcyP9wMce69R4A7l/cxBKZ8dSDb/dkeA+A0nj9+W4tUOSWZQkpxTtcP1Y+94wzhehxkw==
-X-Received: by 2002:a05:600c:54b:: with SMTP id
- k11mr15752965wmc.63.1576844067287; 
- Fri, 20 Dec 2019 04:14:27 -0800 (PST)
+ bh=KRu49EbgGVQ7V2rxhXNHs855imxrN5MTwZSo9giC7oo=;
+ b=J74Qu25/7jnSjsjQK0SLThR53zaEekvqv1Q6NjXmgMt+3sLVjeM/622eWWQ2ZrZgUv
+ QIvK/17m9qoLLnqeSrugxU24Ot1xPGHSdBy06HuHEgg/GRrhxhEdzADprYP7v+tprFGE
+ O2kpBXubVHVjjEAimpd9JZ/2VJXDebmxzH5zanNDwIMhcJDl4RdMh1SYHPa66juhfwld
+ s19iJzypHqgwRuaz7AL7X0k6xA4cOOgTUDfHLcgXKIeDsHTJAEv6npwHEPtXNxI8KQ4b
+ SgAx5AWUnzMxgPyEkVUD8XJwgs4qiJ53jNSsme2g/tE8bAaLyYxFFZBT6hlosIRt2tJH
+ mbbA==
+X-Gm-Message-State: APjAAAVlDOGmmH/Mh03qwFpmq7Haj7SHgeVzzOnYkPU0LOV1ZZetbYpZ
+ RmI0DoThcwu2/iDLk0weY6Mwsg==
+X-Google-Smtp-Source: APXvYqwG1E79S18wR/U2W5oNawtlyC/jVDVN0LjN5nXvRKi5Yb44+oYVxdxib3HrqULreqS1hJ/W0A==
+X-Received: by 2002:adf:93c5:: with SMTP id 63mr15130458wrp.236.1576844066353; 
+ Fri, 20 Dec 2019 04:14:26 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o4sm9334239wrx.25.2019.12.20.04.14.25
+ by smtp.gmail.com with ESMTPSA id f207sm10901781wme.9.2019.12.20.04.14.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 20 Dec 2019 04:14:25 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 585F51FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 6CBB11FF9E;
  Fri, 20 Dec 2019 12:04:40 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/21] tests/tcg: add a configure compiler check for
- ARMv8.1 and SVE
-Date: Fri, 20 Dec 2019 12:04:30 +0000
-Message-Id: <20191220120438.16114-14-alex.bennee@linaro.org>
+Subject: [PATCH v4 14/21] target/arm: don't bother with id_aa64pfr0_read for
+ USER_ONLY
+Date: Fri, 20 Dec 2019 12:04:31 +0000
+Message-Id: <20191220120438.16114-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191220120438.16114-1-alex.bennee@linaro.org>
 References: <20191220120438.16114-1-alex.bennee@linaro.org>
@@ -71,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,45 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- luis.machado@linaro.org, alan.hayward@arm.com
+Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
+ luis.machado@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need this for some tests later. The docker images already
-support it by default.
+For system emulation we need to check the state of the GIC before we
+report the value. However this isn't relevant to exporting of the
+value to linux-user and indeed breaks the exported value as set by
+modify_arm_cp_regs.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/configure.sh | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 210e68396f2..e0d1fbb182f 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -216,6 +216,20 @@ for target in $target_list; do
-       echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
-     fi
-     echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
-+
-+    # Test for compiler features for optional tests. We only do this
-+    # for cross compilers because ensuring the docker containers based
-+    # compilers is a requirememt for adding a new test that needs a
-+    # compiler feature.
-+    case $target in
-+        aarch64-*)
-+            if do_compiler "$target_compiler" $target_compiler_cflags \
-+               -march=armv8.1-a+sve -o $TMPE $TMPC; then
-+                echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
-+            fi
-+        ;;
-+    esac
-+
-     enabled_cross_compilers="$enabled_cross_compilers $target_compiler"
-     got_cross_cc=yes
-     break
+---
+v2
+  - extend the ifdef and make type CONST with no accessfn
+---
+ target/arm/helper.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 857581feba4..23de21f8820 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -5912,6 +5912,7 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     return pfr1;
+ }
+ 
++#ifndef CONFIG_USER_ONLY
+ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -5922,6 +5923,7 @@ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     }
+     return pfr0;
+ }
++#endif
+ 
+ /* Shared logic between LORID and the rest of the LOR* registers.
+  * Secure state has already been delt with.
+@@ -6414,16 +6416,24 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+          * define new registers here.
+          */
+         ARMCPRegInfo v8_idregs[] = {
+-            /* ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST because we don't
+-             * know the right value for the GIC field until after we
+-             * define these regs.
++            /*
++             * ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST in system
++             * emulation because we don't know the right value for the
++             * GIC field until after we define these regs.
+              */
+             { .name = "ID_AA64PFR0_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 0,
+-              .access = PL1_R, .type = ARM_CP_NO_RAW,
++              .access = PL1_R,
++#ifdef CONFIG_USER_ONLY
++              .type = ARM_CP_CONST,
++              .resetvalue = cpu->isar.id_aa64pfr0
++#else
++              .type = ARM_CP_NO_RAW,
+               .accessfn = access_aa64_tid3,
+               .readfn = id_aa64pfr0_read,
+-              .writefn = arm_cp_write_ignore },
++              .writefn = arm_cp_write_ignore
++#endif
++            },
+             { .name = "ID_AA64PFR1_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 1,
+               .access = PL1_R, .type = ARM_CP_CONST,
 -- 
 2.20.1
 
