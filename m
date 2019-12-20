@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5700127BF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:49:05 +0100 (CET)
-Received: from localhost ([::1]:56090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF64127BFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:51:18 +0100 (CET)
+Received: from localhost ([::1]:56150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiIeN-0004Xv-HL
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:49:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56634)
+	id 1iiIgX-0008GB-5k
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:51:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIc2-0002dX-CU
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:46:39 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIc8-0002oI-F3
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:46:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIc0-0005AZ-3u
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:46:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42591
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iiIc7-0005hp-2d
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:46:44 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24334
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iiIbz-00058e-TA
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:46:36 -0500
+ id 1iiIc6-0005dk-Sh
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:46:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576849595;
+ s=mimecast20190719; t=1576849602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JU9WSm/Ebtg+kGcnii2zxW3xshOKUTAzloix/p4/H98=;
- b=fmS0GOiYAv7XcLmKtXLH96ajIBvAvpadgwYJD/2eUa47ras7v2Osp7KH/S/esHRaQGvC9M
- O5h8nkvfZGn7K78PgHblb4vvfqMa2cOfxaJvOhnHqpi52iyZugYPmg5HVq7mlc7HK580KH
- +He6qKnaFSDzds6NMfqmRyWO7P4N8ug=
+ bh=BRFY1VkkPB2r+9GUFBRiM+ygTc7inJj6x2CysBHWHLw=;
+ b=dtdnZgjPK07lym2trUFBEYUwSWMwyJux3SYJsmOpkO4F4T2EgfJYAxuNDJGPc0Ppnnl8sF
+ 45qgxDwegPrxtdr1evVAiHIeYB/nC9AQ5NlZai523YWb1ypcNpcemuOClToywI9YmjEBGt
+ igQ87x5Q5sUI7SYlNNTGSkn0yzYTKMI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-nz5lnsxYNeylCbJWRxwNPQ-1; Fri, 20 Dec 2019 08:46:32 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-228-Uay24QYPMzibKBKl2JUmHw-1; Fri, 20 Dec 2019 08:46:39 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F841109C121;
- Fri, 20 Dec 2019 13:46:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD9AF109D368;
+ Fri, 20 Dec 2019 13:46:38 +0000 (UTC)
 Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 772C65DA70;
- Fri, 20 Dec 2019 13:46:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A80926FB3;
+ Fri, 20 Dec 2019 13:46:36 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 03/37] sysbus: remove outdated comment
-Date: Fri, 20 Dec 2019 17:45:27 +0400
-Message-Id: <20191220134601.571905-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v5 04/37] chardev: generate an internal id when none given
+Date: Fri, 20 Dec 2019 17:45:28 +0400
+Message-Id: <20191220134601.571905-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: nz5lnsxYNeylCbJWRxwNPQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Uay24QYPMzibKBKl2JUmHw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,32 +76,117 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The init callback is no more since commit
-817a17fc60f44e29a1944b60d32f45ea127f0cf9 ("core/sysbus: remove the
-SysBusDeviceClass::init path")
+Internally, qemu may create chardev without ID. Those will not be
+looked up with qemu_chr_find(), which prevents using qdev_prop_set_chr().
+
+Use id_generate(), to generate an internal name (prefixed with #), so
+no conflict exist with user-named chardev.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/sysbus.h | 4 ----
- 1 file changed, 4 deletions(-)
+ chardev/char.c    | 32 ++++++++++++++++++++++++--------
+ include/qemu/id.h |  1 +
+ util/id.c         |  1 +
+ 3 files changed, 26 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-index 2eb0484388..c4a1c0adfa 100644
---- a/include/hw/sysbus.h
-+++ b/include/hw/sysbus.h
-@@ -24,10 +24,6 @@ typedef struct SysBusDevice SysBusDevice;
+diff --git a/chardev/char.c b/chardev/char.c
+index 7b6b2cb123..e7e7492b0e 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -37,6 +37,7 @@
+ #include "qemu/help_option.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
++#include "qemu/id.h"
 =20
- /**
-  * SysBusDeviceClass:
-- * @init: Callback function invoked when the #DeviceState.realized propert=
-y
-- * is changed to %true. Deprecated, new types inheriting directly from
-- * TYPE_SYS_BUS_DEVICE should use #DeviceClass.realize instead, new leaf
-- * types should consult their respective parent type.
-  *
-  * SysBusDeviceClass is not overriding #DeviceClass.realize, so derived
-  * classes overriding it are not required to invoke its implementation.
+ #include "chardev/char-mux.h"
+=20
+@@ -944,10 +945,10 @@ void qemu_chr_set_feature(Chardev *chr,
+     return set_bit(feature, chr->features);
+ }
+=20
+-Chardev *qemu_chardev_new(const char *id, const char *typename,
+-                          ChardevBackend *backend,
+-                          GMainContext *gcontext,
+-                          Error **errp)
++static Chardev *chardev_new(const char *id, const char *typename,
++                            ChardevBackend *backend,
++                            GMainContext *gcontext,
++                            Error **errp)
+ {
+     Object *obj;
+     Chardev *chr =3D NULL;
+@@ -991,6 +992,21 @@ end:
+     return chr;
+ }
+=20
++Chardev *qemu_chardev_new(const char *id, const char *typename,
++                          ChardevBackend *backend,
++                          GMainContext *gcontext,
++                          Error **errp)
++{
++    g_autofree char *genid =3D NULL;
++
++    if (!id) {
++        genid =3D id_generate(ID_CHR);
++        id =3D genid;
++    }
++
++    return chardev_new(id, typename, backend, gcontext, errp);
++}
++
+ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+                                Error **errp)
+ {
+@@ -1003,8 +1019,8 @@ ChardevReturn *qmp_chardev_add(const char *id, Charde=
+vBackend *backend,
+         return NULL;
+     }
+=20
+-    chr =3D qemu_chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+-                           backend, NULL, errp);
++    chr =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
++                      backend, NULL, errp);
+     if (!chr) {
+         return NULL;
+     }
+@@ -1061,8 +1077,8 @@ ChardevReturn *qmp_chardev_change(const char *id, Cha=
+rdevBackend *backend,
+         return NULL;
+     }
+=20
+-    chr_new =3D qemu_chardev_new(NULL, object_class_get_name(OBJECT_CLASS(=
+cc)),
+-                               backend, chr->gcontext, errp);
++    chr_new =3D chardev_new(NULL, object_class_get_name(OBJECT_CLASS(cc)),
++                          backend, chr->gcontext, errp);
+     if (!chr_new) {
+         return NULL;
+     }
+diff --git a/include/qemu/id.h b/include/qemu/id.h
+index 40c70103e4..b55c406e69 100644
+--- a/include/qemu/id.h
++++ b/include/qemu/id.h
+@@ -4,6 +4,7 @@
+ typedef enum IdSubSystems {
+     ID_QDEV,
+     ID_BLOCK,
++    ID_CHR,
+     ID_MAX      /* last element, used as array size */
+ } IdSubSystems;
+=20
+diff --git a/util/id.c b/util/id.c
+index af1c5f1b81..5addb4460e 100644
+--- a/util/id.c
++++ b/util/id.c
+@@ -34,6 +34,7 @@ bool id_wellformed(const char *id)
+ static const char *const id_subsys_str[ID_MAX] =3D {
+     [ID_QDEV]  =3D "qdev",
+     [ID_BLOCK] =3D "block",
++    [ID_CHR] =3D "chr",
+ };
+=20
+ /*
 --=20
 2.24.0.308.g228f53135a
 
