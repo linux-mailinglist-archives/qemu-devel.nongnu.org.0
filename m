@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BD1127C6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:21:42 +0100 (CET)
-Received: from localhost ([::1]:56836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F90E127C74
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:23:48 +0100 (CET)
+Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJ9x-0004uQ-NP
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:21:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59318)
+	id 1iiJBz-0000MM-Hh
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:23:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45705)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iiIzO-0006qW-F0
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:10:47 -0500
+ (envelope-from <vkuznets@redhat.com>) id 1iiJ1d-0001UO-9V
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:13:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iiIzM-00040t-If
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:10:46 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30508
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <vkuznets@redhat.com>) id 1iiJ1b-0001ta-67
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:13:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40395
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iiIzK-0003zB-QG
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:10:44 -0500
+ (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1iiJ1a-0001rv-IP
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:13:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576851041;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V8+UZygBtHDPknkB2JS64RDvGVAaCeRXBajYnp8Oi4w=;
- b=KsLPHJ+D3phKFnySiOO/wFNBwmvdd7L3thB7oRaCDWOMNY/L59R79gyB9NmDG4I8uxbzJR
- HPxGppPmp1vsde+U92cKS3luxox/Xmh1osnwEHcoAzIRUro4gMfrZxWRzY4tXjzfRui5RA
- cgs3vP5zJzmW8JffaA/pMt4GCxaiQIc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-lunk3_AvPjSyCIi8JFEBmA-1; Fri, 20 Dec 2019 09:10:40 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77540801E66
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 14:10:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6458C10021B2;
- Fri, 20 Dec 2019 14:10:33 +0000 (UTC)
-Date: Fri, 20 Dec 2019 14:10:32 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v7 8/9] tests: add migration-helpers unit
-Message-ID: <20191220141032.GO1699760@redhat.com>
-References: <20191219123029.200788-1-marcandre.lureau@redhat.com>
- <20191219123029.200788-9-marcandre.lureau@redhat.com>
+ s=mimecast20190719; t=1576851181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=twfYvP7Rti+Ll6qhjoYOHdpbOLgfz64KQuSFiOtxCqs=;
+ b=HRklYU2FwYdBOiFRoOYITQNZuzgA+tanH2UzXydh+g/tqEgrMaTTHUTVBGY/WkcW89+tpX
+ IL/BHEzwMoCJtgFFmouTtAxQSXtN7f3lnoSMjQnrcQG7zSJWxHts/z3vjtTLJJfh79AQwe
+ XJt9dZIiWesM4fCxKm6bNDGG0mTvan4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-Kck_GJ98MuWwA9m5W8nBWg-1; Fri, 20 Dec 2019 09:11:30 -0500
+Received: by mail-wr1-f72.google.com with SMTP id b13so3815595wrx.22
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:11:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version;
+ bh=rSstiuPwsxCdOdbtt6QYA+NFPFZfCutVCRv5Y4LrQtg=;
+ b=Z5qAdvJuVTWL6UdWxxFC3jn9knR/0blS4u/7rE0Pc7hsEirFzOjgiCX+ffM2A/+GnB
+ zj19Qzp+yz7YWlOjxo8kpZsJrzOaDBjCr1OiAqn1Xf0wGTzoSUTTsesUuTGUKyVGcCQZ
+ Md8jMEBH3e+E4gqFVUqVBw5jnd4wa64mcGaZzCe4BdR3JH3FQZgpXxV0vFh0t+u7X4b7
+ H9pobkMc0qZBzHfcwrZ8h9Qce1CO1tQVz5iWM19vZ0p9y6T2dUjcZCEjRQbGiGfRPBbr
+ eVrlu5e/2kdq4+XFWApgDqkTz3dsq2VSAs5sshhfT8i9bpRxS7fsTQuZDJ5RqdbUGbJ5
+ wT/w==
+X-Gm-Message-State: APjAAAUlQR07hGFkKZp8oyGzT3DCj30iHB1rSfUCAWNJ0FnmGG92yjxq
+ BYkEyCuwbfgHxgnqiVDNzvyxi86Cb2B8URASt9RRXXSBpirmYUeDKfmYKR5jzKVBeS++y544qiJ
+ bn6PPJqJngna4nFk=
+X-Received: by 2002:adf:fc08:: with SMTP id i8mr16345963wrr.82.1576851089424; 
+ Fri, 20 Dec 2019 06:11:29 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwMUu7aoQKbmLpTX1OqBrK+7q5P8Ruf92MUKJlD/sDm5ZPDJF+w+Y74x7f+sZjaU0bPtkdPzw==
+X-Received: by 2002:adf:fc08:: with SMTP id i8mr16345938wrr.82.1576851089223; 
+ Fri, 20 Dec 2019 06:11:29 -0800 (PST)
+Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id z124sm3083131wmc.20.2019.12.20.06.11.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Dec 2019 06:11:28 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [BUG] No irqchip created after commit 11bc4a13d1f4 ("kvm: convert
+ "-machine kernel_irqchip" to an accelerator property")
+Date: Fri, 20 Dec 2019 15:11:27 +0100
+Message-ID: <87eewz84ts.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191219123029.200788-9-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: lunk3_AvPjSyCIi8JFEBmA-1
+X-MC-Unique: Kck_GJ98MuWwA9m5W8nBWg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,35 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: mprivozn@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 19, 2019 at 04:30:28PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> Move a few helper functions from migration-test.c to migration-helpers.c
->=20
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  tests/Makefile.include    |   2 +-
->  tests/migration-helpers.c | 167 ++++++++++++++++++++++++++++++++++++
->  tests/migration-helpers.h |  37 ++++++++
->  tests/migration-test.c    | 176 +++-----------------------------------
->  4 files changed, 216 insertions(+), 166 deletions(-)
->  create mode 100644 tests/migration-helpers.c
->  create mode 100644 tests/migration-helpers.h
+I apologize if this was already reported,
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+I just noticed that with the latest updates QEMU doesn't start with the
+following configuration:
 
-Regards,
-Daniel
+qemu-system-x86_64 -name guest=3Dwin10 -machine pc,accel=3Dkvm -cpu host,hv=
+_vpindex,hv_synic ...
+
+qemu-system-x86_64: failed to turn on HyperV SynIC in KVM: Invalid argument
+qemu-system-x86_64: kvm_init_vcpu failed: Invalid argument
+
+If I add 'kernel-irqchip=3Dsplit' or ',kernel-irqchip=3Don' it starts as
+usual. I bisected this to the following commit:
+
+commit 11bc4a13d1f4b07dafbd1dda4d4bf0fdd7ad65f2 (HEAD, refs/bisect/bad)
+Author: Paolo Bonzini <pbonzini@redhat.com>
+Date:   Wed Nov 13 10:56:53 2019 +0100
+
+    kvm: convert "-machine kernel_irqchip" to an accelerator property
+   =20
+so aparently we now default to 'kernel_irqchip=3Doff'. Is this the desired
+behavior?
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Vitaly
 
 
