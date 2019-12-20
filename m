@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB23E127EC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:51:46 +0100 (CET)
-Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7D0127EBC
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:50:29 +0100 (CET)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJd3-0001tX-Q6
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:51:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50634)
+	id 1iiJbn-0000r4-JU
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:50:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iiJY0-0006lh-S9
+ (envelope-from <damien.hedde@greensocs.com>) id 1iiJY1-0006no-R5
  for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:46:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iiJXz-0008AL-I0
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:46:32 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:52552)
+ (envelope-from <damien.hedde@greensocs.com>) id 1iiJY0-0008FG-OC
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:46:33 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:52566)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iiJXw-0007yN-Qr; Fri, 20 Dec 2019 09:46:29 -0500
+ id 1iiJXy-00081w-7P; Fri, 20 Dec 2019 09:46:30 -0500
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 94A7396EF2;
- Fri, 20 Dec 2019 14:46:27 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id F2B3796F50;
+ Fri, 20 Dec 2019 14:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1576853187;
+ s=mail; t=1576853189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SbgvYJhx6Lit3rs3j+nNkUTo6mP2ku7nAV624s9t11k=;
- b=pLxt1y8YeyRjjFOiEwU4gagAknZGqxqWTGjKTT9U+mWGN0sXPLzYwIHeDIGucqkrUrT+qd
- tATMQgU+kdBTh8aOnIKeASvvTlqhte4XIqfNk4lO3BiH1Ch49ugeQNZqg/z3TFYrq2yc4l
- TpEfot6HSwDHUQj0hnm8vP2R/m5QIJ0=
+ bh=lM12RI0EHDUNjslinRXmoW1BfejdQGdartCVRRzWAmE=;
+ b=Vvt1dya3SavXYQzVTEWVATCFU2MszH4rUbjkT4YbxDGgkf40K/XO1F7h5sImmdoN2GO9Hl
+ LrW5VV8RMsWTRaigIu6Y3ez9+fh5i8aqTvzv0itAzmbBbpI77Glhwgachzbdxma3lfeFvS
+ kAmKnZWC/V0e1HLdtQIBYJ+rXlvMD9k=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] hw/arm/bcm2835: remove gpio/sd-bus
-Date: Fri, 20 Dec 2019 15:46:14 +0100
-Message-Id: <20191220144616.911466-2-damien.hedde@greensocs.com>
+Subject: [PATCH 2/3] hw/gpio/bcm2835_gpio: Isolate sdbus reparenting
+Date: Fri, 20 Dec 2019 15:46:15 +0100
+Message-Id: <20191220144616.911466-3-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191220144616.911466-1-damien.hedde@greensocs.com>
 References: <20191220144616.911466-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1576853187;
+ s=mail; t=1576853189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SbgvYJhx6Lit3rs3j+nNkUTo6mP2ku7nAV624s9t11k=;
- b=MI6qLUDmaWiMtZ3wTmX4U+UnYBrHtvhcLZ+Zh6LmHC+M4LB6m2UPZwYqRBXRv0lnrVWsqk
- nHhdJIQc3cHFoA4M4H/cKVszyxb2K6mC9EWgDlFbJMuMyelG80EtIcDI76nG1BfmPsYla2
- ElP6436uEPVv9LCeG9VwkdH7Ahc7Slc=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1576853187; a=rsa-sha256; cv=none;
- b=MxI/C14GDculPwqELFq5jEitYIDfAKg3A5TE7rxod3NVWQ2WuOakifmty2f/MXV+a29S3B
- P7fm0WjKiybmRabInhNXuzBYXpdxZBuB34q5Ld8nzw7mtJawAdWUxEcEPHVIWcWbYUlfOl
- 4A7kNuLl3YtmwU9y/cVKiC09jR+2KcQ=
+ bh=lM12RI0EHDUNjslinRXmoW1BfejdQGdartCVRRzWAmE=;
+ b=s6FLgPAzjEcjCAtj001VhqG2TKWSG5pmbxIE+28yQNdPwGhqGH/KLK3VrkHqKduY3HjurT
+ 0I42w+jQ/AcxuxmpuruyuezSUFLtlqefcLTwkex7q5vBCyhA6ScOTpZr1T6eo8ebj8+ywA
+ HmHnDzYQJPs7Km7q4hEhHEtzfOO3r4k=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1576853189; a=rsa-sha256; cv=none;
+ b=HzoF3GU8k2kXjvUvNfjETN56zrIEk8EPSW3bPdUOGCTXALu92UkvUp4QgdiyLf+65T3Gpe
+ hpSNrQ03jZKWwNz56v2E4O7e+ItvzIUh/PZY/SGN3+9EFKqk9FooKswhtDC4duPs7Xjh5N
+ /U8DEqJO/IZmAsoSln0ruGB8nFxNvqU=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -80,72 +80,62 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove gpio/sdbus which is only used to host the sd card before reset.
+Split gpfsel_set() in 2 so that the sdbus reparenting is done
+in a dedicated function: gpfsel_update_sdbus().
 
-Instead directly we exhibit the sdhci bus to the soc and machine. Thus
-the sd card is created on the sdhci bus and do not need to be moved
-during first reset.
+Update call sites of gpfsel_set() to also call gpfsel_update_sdbus().
+
+This commit is a preparation to switch to multiphase reset.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- include/hw/gpio/bcm2835_gpio.h | 1 -
- hw/arm/bcm2835_peripherals.c   | 2 +-
- hw/gpio/bcm2835_gpio.c         | 6 ------
- 3 files changed, 1 insertion(+), 8 deletions(-)
+ hw/gpio/bcm2835_gpio.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/gpio/bcm2835_gpio.h b/include/hw/gpio/bcm2835_gpi=
-o.h
-index b0de0a3c74..f8416d43d3 100644
---- a/include/hw/gpio/bcm2835_gpio.h
-+++ b/include/hw/gpio/bcm2835_gpio.h
-@@ -23,7 +23,6 @@ typedef struct BCM2835GpioState {
-     MemoryRegion iomem;
-=20
-     /* SDBus selector */
--    SDBus sdbus;
-     SDBus *sdbus_sdhci;
-     SDBus *sdbus_sdhost;
-=20
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 17207ae07e..93477c5b2f 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -360,7 +360,7 @@ static void bcm2835_peripherals_realize(DeviceState *=
-dev, Error **errp)
-     memory_region_add_subregion(&s->peri_mr, GPIO_OFFSET,
-                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->gpio), 0));
-=20
--    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->gpio), "sd=
--bus",
-+    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->sdhci), "s=
-d-bus",
-                               &err);
-     if (err) {
-         error_propagate(errp, err);
 diff --git a/hw/gpio/bcm2835_gpio.c b/hw/gpio/bcm2835_gpio.c
-index 91ce3d10cc..25c180423f 100644
+index 25c180423f..88dc652018 100644
 --- a/hw/gpio/bcm2835_gpio.c
 +++ b/hw/gpio/bcm2835_gpio.c
-@@ -267,9 +267,6 @@ static void bcm2835_gpio_reset(DeviceState *dev)
+@@ -75,7 +75,10 @@ static void gpfsel_set(BCM2835GpioState *s, uint8_t re=
+g, uint32_t value)
+             s->fsel[index] =3D fsel;
+         }
+     }
++}
 =20
-     s->sd_fsel =3D 0;
++static void gpfsel_update_sdbus(BCM2835GpioState *s)
++{
+     /* SD controller selection (48-53) */
+     if (s->sd_fsel !=3D 0
+             && (s->fsel[48] =3D=3D 0) /* SD_CLK_R */
+@@ -210,6 +213,7 @@ static void bcm2835_gpio_write(void *opaque, hwaddr o=
+ffset,
+     case GPFSEL4:
+     case GPFSEL5:
+         gpfsel_set(s, offset / 4, value);
++        gpfsel_update_sdbus(s);
+         break;
+     case GPSET0:
+         gpset(s, value, 0, 32, &s->lev0);
+@@ -261,11 +265,15 @@ static void bcm2835_gpio_reset(DeviceState *dev)
+     BCM2835GpioState *s =3D BCM2835_GPIO(dev);
 =20
--    /* SDHCI is selected by default */
--    sdbus_reparent_card(&s->sdbus, s->sdbus_sdhci);
+     int i;
++    /*
++     * Initialize the gpfsel registers. In particular, it selects the SD=
+HCI bus
++     * for the sd card.
++     */
+     for (i =3D 0; i < 6; i++) {
+         gpfsel_set(s, i, 0);
+     }
 -
+-    s->sd_fsel =3D 0;
++    /* Update s->sd_fsel and move the sd card */
++    gpfsel_update_sdbus(s);
+=20
      s->lev0 =3D 0;
      s->lev1 =3D 0;
- }
-@@ -299,9 +296,6 @@ static void bcm2835_gpio_init(Object *obj)
-     DeviceState *dev =3D DEVICE(obj);
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-=20
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
--                        TYPE_SD_BUS, DEVICE(s), "sd-bus");
--
-     memory_region_init_io(&s->iomem, obj,
-             &bcm2835_gpio_ops, s, "bcm2835_gpio", 0x1000);
-     sysbus_init_mmio(sbd, &s->iomem);
 --=20
 2.24.0
 
