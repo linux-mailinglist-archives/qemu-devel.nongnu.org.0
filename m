@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14631280F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 17:53:43 +0100 (CET)
-Received: from localhost ([::1]:59007 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA451280FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 17:57:04 +0100 (CET)
+Received: from localhost ([::1]:59070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiLX4-00075R-Jx
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 11:53:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60593)
+	id 1iiLaJ-0003WY-8l
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 11:57:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iiLVL-0005g5-H2
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:56 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iiLVM-0005i6-Om
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iiLVK-0005Re-FV
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60907
+ (envelope-from <ehabkost@redhat.com>) id 1iiLVL-0005Sx-Og
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49783
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iiLVK-0005Qo-C9
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:54 -0500
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iiLVL-0005S4-L0
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:51:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576860713;
+ s=mimecast20190719; t=1576860714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BIW2ofsh+9yupKvIEl6YUdx4NiYu0P/YW5UE9eORwrw=;
- b=Fv4qTB5enUQ/W3XzFl0P3CvuXetx1kxCoY66BUav/78ELpAYrgBXVEkqzjZxIGnDjxi7l3
- PA/nta/0knyOnuRnNaEV8737+fnxECQwSA7WWgRo3yyMVOFI6AEOLKKYkiFU9nDjtsU1Rw
- 1ij5fcAKNIcy7qzao5ljyg8K1GaTbuQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YrYAVZ3YLKTYmqALHwjhC1cru2s0XHlIS9MAWl9OWag=;
+ b=DNetnrBlAelDolBEPCoSs2juZtdioR2IjSkL/0PLV/ezd5Z8ecbu7J25Ga7+E+ytyolNk1
+ g2iepDEn1FdIugKSUZY2p4IdbGMP0ERoT6visOeV2p3BM3GBZju8D8TdX6otzqFpkkes0v
+ /eGtYobwKhepeWkHOdZkmOsUZ0rT3CU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-U_vBHCgLPqqgO-O7kSeLiA-1; Fri, 20 Dec 2019 11:51:49 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-244-PY0RtlOYNSizWEQhvsOriA-1; Fri, 20 Dec 2019 11:51:53 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1557B800D48;
- Fri, 20 Dec 2019 16:51:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F936107ACC4;
+ Fri, 20 Dec 2019 16:51:52 +0000 (UTC)
 Received: from localhost (ovpn-116-10.gru2.redhat.com [10.97.116.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3D975F77C;
- Fri, 20 Dec 2019 16:51:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 364FF6056A;
+ Fri, 20 Dec 2019 16:51:48 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/2] Require Python >= 3.5 to build QEMU
-Date: Fri, 20 Dec 2019 13:51:39 -0300
-Message-Id: <20191220165141.2207058-1-ehabkost@redhat.com>
+Subject: [PULL 1/2] travis: Replace Python 3.4 build with 3.5
+Date: Fri, 20 Dec 2019 13:51:40 -0300
+Message-Id: <20191220165141.2207058-2-ehabkost@redhat.com>
+In-Reply-To: <20191220165141.2207058-1-ehabkost@redhat.com>
+References: <20191220165141.2207058-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: U_vBHCgLPqqgO-O7kSeLiA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: PY0RtlOYNSizWEQhvsOriA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,43 +80,26 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Differences from the previous Python 3.5 pull request
-that was rejected:
+We'll start requiring Python 3.5 to build QEMU.
 
-* Now tests/vm/netbsd was fixed
-* .travis.yml is being updated to replace Python 3.4 job with 3.5
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ .travis.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit f59b31e6d0c69792b5d817c5aa0a6ed64fba42e0=
-:
-
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-tesing-and-misc-1=
-91219-1' into staging (2019-12-20 14:00:49 +0000)
-
-are available in the Git repository at:
-
-  git://github.com/ehabkost/qemu.git tags/python-next-pull-request
-
-for you to fetch changes up to ddf90699631db53c981b6a5a63d31c08e0eaeec7:
-
-  configure: Require Python >=3D 3.5 (2019-12-20 13:45:59 -0300)
-
-----------------------------------------------------------------
-Require Python >=3D 3.5 to build QEMU
-
-Python 2 EOL is 11 days away, we will stop supporting
-it in QEMU 5.0.
-
-----------------------------------------------------------------
-
-Eduardo Habkost (2):
-  travis: Replace Python 3.4 build with 3.5
-  configure: Require Python >=3D 3.5
-
- .travis.yml            |  2 +-
- configure              | 18 ++++--------------
- tests/Makefile.include |  5 -----
- 3 files changed, 5 insertions(+), 20 deletions(-)
-
+diff --git a/.travis.yml b/.travis.yml
+index 376b7d6dfa..638fba4799 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -247,7 +247,7 @@ matrix:
+         - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
+       language: python
+       python:
+-        - "3.4"
++        - "3.5"
+=20
+=20
+     - env:
 --=20
 2.23.0
 
