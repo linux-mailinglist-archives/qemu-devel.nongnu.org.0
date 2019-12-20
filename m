@@ -2,46 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBEE1274A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 05:32:21 +0100 (CET)
-Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBEC12754D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 06:31:46 +0100 (CET)
+Received: from localhost ([::1]:50942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ii9xc-0006w8-Dw
-	for lists+qemu-devel@lfdr.de; Thu, 19 Dec 2019 23:32:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1iiAt7-0000H8-4H
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 00:31:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1ii9qM-0004aq-QM
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:24:51 -0500
+ (envelope-from <bounces@canonical.com>) id 1iiAsA-0008Bt-Vp
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 00:30:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1ii9qL-00059m-JM
- for qemu-devel@nongnu.org; Thu, 19 Dec 2019 23:24:50 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:34570)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>)
- id 1ii9qL-00058O-D5; Thu, 19 Dec 2019 23:24:49 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by kvm5.telegraphics.com.au (Postfix) with ESMTP id 6735A2290B;
- Thu, 19 Dec 2019 23:24:47 -0500 (EST)
-Date: Fri, 20 Dec 2019 15:24:48 +1100 (AEDT)
-From: Finn Thain <fthain@telegraphics.com.au>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>, 
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: Re: [PATCH 00/10] Fixes for DP8393X SONIC device emulation
-In-Reply-To: <CAL1e-=iTBxqCsNCbGpONdewE4uTDG=OAV36fF_Cq9=i6KQhMaA@mail.gmail.com>
-Message-ID: <alpine.LNX.2.21.1.1912200912360.8@nippy.intranet>
-References: <cover.1576286757.git.fthain@telegraphics.com.au>
- <CAL1e-=gwxSDa1NSevcCbjG1r5vg6A49Kg_FP2EL1jW+BMn7Ghw@mail.gmail.com>
- <alpine.LNX.2.21.1.1912150915460.8@nippy.intranet>
- <CAL1e-=hRs0EMz7ZTt+GXMfyHW8arq-h-m1Dzd3jz+vqP82+zjA@mail.gmail.com>
- <CAL1e-=iTBxqCsNCbGpONdewE4uTDG=OAV36fF_Cq9=i6KQhMaA@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1iiAs9-00020L-BG
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 00:30:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38380)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iiAs8-0001uu-Uv
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 00:30:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iiAs7-0000eM-PL
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:30:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A03152E80C8
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:30:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 98.124.60.144
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Dec 2019 05:23:35 -0000
+From: ecsdn <1856834@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
+X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
+X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
+References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
+Message-Id: <157681941517.27324.18130021744303628129.malone@chaenomeles.canonical.com>
+Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
+ versions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7310479b87774a03f185180a6cba3dafb99a9266
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -50,39 +67,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 15 Dec 2019, Aleksandar Markovic wrote:
+Did you try with just a basic virtio disk and it works for you?
 
-> 
-> Herve,
-> 
-> Is there any way for us to come up with an equivalent or at least
-> approximate scenario for Jazz machines?
-> 
-> Regards,
-> Aleksandar
-> 
+Because even a basic virtio drive addition fails for me, even this fails
+on higher than 2.8.1
 
-That would be useful in general, but in this case I think it might be 
-better to test NetBSD, since I have already tested Linux. (I had to fix 
-some bugs in the Linux sonic driver.)
+For example:
+qemu-system-ppc -M mpc8544ds -nographic -kernel /home/me/boot/uImage-2.6.32=
+ -append "root=3D/dev/vda rw" -drive file=3D/home/me/mmcblk0p2.dd,if=3Dvirt=
+io
 
-I tried to boot NetBSD/arc but failed. I got a blue screen when I typed 
-"cd:boot" at the "Run A Program" prompt in the ARC menu.
+The only thing I can think of, is if somehow vda fails due to me running
+the higher version qemu binaries from their build locations/paths
+without actually "installing" them in usual paths etc.
 
-$ ln -s NTPROM.RAW mipsel_bios.bin
-$ mips64el-softmmu/qemu-system-mips64el -M magnum -L . 
--drive if=scsi,unit=2,media=cdrom,format=raw,file=NetBSD-8.1-arc.iso 
--global ds1225y.filename=nvram -global ds1225y.size=8200
-qemu-system-mips64el: g364: invalid read at [0000000000102000]
-$ 
+But I ran the 2.8 version from build location I compiled it from and it
+worked from there, but perhaps the 2.8 version was also the distro
+installed default one so maybe it found dependencies it needed?
 
-Any help would be appreciated.
+Anyway I just now reconfigured 4.2.0 with --prefix /opt/qemu4.2.0 and
+ran it from installed dir:
+
+root@myserver:/opt/qemu4.2.0/bin# ./qemu-system-ppc -M mpc8544ds
+-nographic -kernel /home/me/boot/uImage-2.6.32 -append "root=3D/dev/vda
+rw" -drive file=3D/home/me/mmcblk0p2.dd,if=3Dvirtio
+
+But it still fails even after make install and running it from the /opt/qem=
+u4.2.0/bin directory.
+Is it somehow conflicting with the other qemu version 2.8.. installed by us=
+ual apt-get install?
+
+Regardless of how I start them, version 3.1.0 and 4.2.0rc4 and some other 4=
+.19git and 4.2.0final all fail/freeze at:
+"
+....
+nbd: registered device at major 43
+ vda:
+"
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856834
+
+Title:
+  Virtio broken in qemu ppc in 4.2.0 and other versions
+
+Status in QEMU:
+  New
+
+Bug description:
+  The same qemu -M mpc... command that works on qemu-system-ppc version
+  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
+  version 4.2.0release and 4.19dirtygit:
+
+  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
+ccel kvm is set.
+  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
+e (slower).
+
+  ends/freezes at:
+  nbd: registered device at major 43
+  =C2=A0vda:
+
+  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
+  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
+  with 2.8.0 official release from git/github that I compiled/built
+  myself. But both of the newer releases fail on the same exact machine
+  same config.
+
+  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
+ed weren't, ie gave
+  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
+bus=3D0,unit=3D0
+  (but I removed -drive if=3Dmtd since wasn't using it anyway)
+
+  I also tried on windows but I think virtio doesn't work on windows
+  hosts at all? On windows host it fails the same way, even version 2.12
+  as well as 4.1.10...
+
+  used:
+  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
+
+  (basically all steps the same on same exact system same config, yet
+  2.8.0 works fine whether apt-get installed or built from source while
+  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
+
+  In case newer qemu versions act weird on various kernels, I did try with =
+both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
+ compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
+_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
+ich is why I can't use -M ppce500 instead..)
+  tx
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
