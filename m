@@ -2,43 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A4A12790C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 11:15:17 +0100 (CET)
-Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E7A1278F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 11:13:18 +0100 (CET)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiFJU-0002dD-O8
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 05:15:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33930)
+	id 1iiFHZ-0008NO-RF
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 05:13:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iiFDi-0003SD-0J
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:20 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iiFDv-0003k9-Kn
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iiFDc-0006bY-7n
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:17 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:33387 helo=mail.rt-rk.com)
+ (envelope-from <imammedo@redhat.com>) id 1iiFDs-0007n2-NY
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55232
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iiFDb-0006UP-JP
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:12 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 265541A20C7;
- Fri, 20 Dec 2019 11:09:09 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id E07EA1A211E;
- Fri, 20 Dec 2019 11:09:08 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] target/mips: Add implementation of GINVT instruction
-Date: Fri, 20 Dec 2019 11:08:51 +0100
-Message-Id: <1576836531-2392-5-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1576836531-2392-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1576836531-2392-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iiFDs-0007fh-FE
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576836567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LUOuu6YqRrvUiJpwYiLpQ6UM4GGuLQsA/409ddwty3k=;
+ b=ARhvYNEqGamw9PLktOLjiyuHa1EO6j1CN2E/3oUoXaLx1qc3bIknc7Z/LtmbXp7X7EiwAz
+ xN9QjMSnTrza2NDzPnSGgT0g7ac3kHzJo4kXS9jhLDra7J69FaBvXUhw+T0Z91IFvlQH8/
+ WXcG2Iia5V6seDaoHzKf65HUYIOJT9o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-3AVgHgzjOIC8TIICCQ0oOA-1; Fri, 20 Dec 2019 05:09:25 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32677800D41;
+ Fri, 20 Dec 2019 10:09:24 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FB275DA2C;
+ Fri, 20 Dec 2019 10:09:19 +0000 (UTC)
+Date: Fri, 20 Dec 2019 11:09:17 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 06/10] hw/avr: Add ATmega microcontrollers
+Message-ID: <20191220110917.3fccb284@redhat.com>
+In-Reply-To: <20191128015030.27543-7-f4bug@amsat.org>
+References: <20191128015030.27543-1-f4bug@amsat.org>
+ <20191128015030.27543-7-f4bug@amsat.org>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 3AVgHgzjOIC8TIICCQ0oOA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,500 +71,523 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@rt-rk.com, Yongbok Kim <yongbok.kim@mips.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, aurelien@aurel32.net
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yongbok Kim <yongbok.kim@mips.com>
+On Thu, 28 Nov 2019 02:50:26 +0100
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
-Implement emulation of GINVT instruction. As QEMU doesn't support
-caches and virtualization, this implementation covers only GINVT
-(Global Invalidate TLB) instruction among TLB-related instructions.
+> Add famous ATmega MCUs:
+>=20
+> - middle range: ATmega168 and ATmega328
+> - high range: ATmega1280 and ATmega2560
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/avr/atmega.h      |  58 +++++++
+>  hw/avr/atmega.c      | 379 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/avr/Makefile.objs |   1 +
+>  3 files changed, 438 insertions(+)
+>  create mode 100644 hw/avr/atmega.h
+>  create mode 100644 hw/avr/atmega.c
+>=20
+> diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
+> new file mode 100644
+> index 0000000000..d22d90a962
+> --- /dev/null
+> +++ b/hw/avr/atmega.h
+> @@ -0,0 +1,58 @@
+> +/*
+> + * QEMU ATmega MCU
+> + *
+> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
+> + *
+> + * This work is licensed under the terms of the GNU GPLv2 or later.
+> + * See the COPYING file in the top-level directory.
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef HW_AVR_ATMEGA_H
+> +#define HW_AVR_ATMEGA_H
+> +
+> +#include "hw/char/avr_usart.h"
+> +#include "hw/char/avr_usart.h"
+> +#include "hw/timer/avr_timer16.h"
+> +#include "hw/misc/avr_mask.h"
+> +#include "target/avr/cpu.h"
+> +
+> +#define TYPE_ATMEGA     "ATmega"
+> +#define TYPE_ATMEGA168  "ATmega168"
+> +#define TYPE_ATMEGA328  "ATmega328"
+> +#define TYPE_ATMEGA1280 "ATmega1280"
+> +#define TYPE_ATMEGA2560 "ATmega2560"
+> +#define ATMEGA(obj)     OBJECT_CHECK(AtmegaState, (obj), TYPE_ATMEGA)
+> +
+> +#define USART_MAX 4
+> +#define TIMER_MAX 6
+> +
+> +typedef struct AtmegaState {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +    /*< public >*/
+> +
+> +    AVRCPU cpu;
+> +    MemoryRegion flash;
+> +    MemoryRegion eeprom;
+> +    MemoryRegion sram;
+> +    DeviceState *io;
+> +    AVRMaskState pwr[2];
+> +    AVRUsartState usart[USART_MAX];
+> +    AVRTimer16State timer[TIMER_MAX];
+> +    uint64_t xtal_freq_hz;
+> +} AtmegaState;
+> +
+> +typedef struct AtmegaInfo AtmegaInfo;
+> +
+> +typedef struct AtmegaClass {
+> +    SysBusDeviceClass parent_class;
+> +    const AtmegaInfo *info;
+> +} AtmegaClass;
+> +
+> +#define ATMEGA_CLASS(klass) \
+> +    OBJECT_CLASS_CHECK(AtmegaClass, (klass), TYPE_ATMEGA)
+> +#define ATMEGA_GET_CLASS(obj) \
+> +    OBJECT_GET_CLASS(AtmegaClass, (obj), TYPE_ATMEGA)
+> +
+> +#endif /* HW_AVR_ATMEGA_H */
+> diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+> new file mode 100644
+> index 0000000000..1f1b1246ef
+> --- /dev/null
+> +++ b/hw/avr/atmega.c
+> @@ -0,0 +1,379 @@
+> +/*
+> + * QEMU ATmega MCU
+> + *
+> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
+> + *
+> + * This work is licensed under the terms of the GNU GPLv2 or later.
+> + * See the COPYING file in the top-level directory.
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/module.h"
+> +#include "qemu/units.h"
+> +#include "qapi/error.h"
+> +#include "exec/memory.h"
+> +#include "exec/address-spaces.h"
+> +#include "sysemu/sysemu.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/boards.h" /* FIXME memory_region_allocate_system_memory for=
+ sram */
+> +#include "hw/misc/unimp.h"
+> +#include "atmega.h"
+> +
+> +enum AtmegaIrq {
+> +    USART0_RXC_IRQ, USART0_DRE_IRQ, USART0_TXC_IRQ,
+> +    USART1_RXC_IRQ, USART1_DRE_IRQ, USART1_TXC_IRQ,
+> +    USART2_RXC_IRQ, USART2_DRE_IRQ, USART2_TXC_IRQ,
+> +    USART3_RXC_IRQ, USART3_DRE_IRQ, USART3_TXC_IRQ,
+> +    TIMER0_CAPT_IRQ, TIMER0_COMPA_IRQ, TIMER0_COMPB_IRQ,
+> +        TIMER0_COMPC_IRQ, TIMER0_OVF_IRQ,
+> +    TIMER1_CAPT_IRQ, TIMER1_COMPA_IRQ, TIMER1_COMPB_IRQ,
+> +        TIMER1_COMPC_IRQ, TIMER1_OVF_IRQ,
+> +    TIMER2_CAPT_IRQ, TIMER2_COMPA_IRQ, TIMER2_COMPB_IRQ,
+> +        TIMER2_COMPC_IRQ, TIMER2_OVF_IRQ,
+> +    TIMER3_CAPT_IRQ, TIMER3_COMPA_IRQ, TIMER3_COMPB_IRQ,
+> +        TIMER3_COMPC_IRQ, TIMER3_OVF_IRQ,
+> +    TIMER4_CAPT_IRQ, TIMER4_COMPA_IRQ, TIMER4_COMPB_IRQ,
+> +        TIMER4_COMPC_IRQ, TIMER4_OVF_IRQ,
+> +    TIMER5_CAPT_IRQ, TIMER5_COMPA_IRQ, TIMER5_COMPB_IRQ,
+> +        TIMER5_COMPC_IRQ, TIMER5_OVF_IRQ,
+> +};
+> +#define IRQ_MAX             64
+> +
+> +#define USART_RXC_IRQ(n)    (3 * n + USART0_RXC_IRQ)
+> +#define USART_DRE_IRQ(n)    (3 * n + USART0_DRE_IRQ)
+> +#define USART_TXC_IRQ(n)    (3 * n + USART0_TXC_IRQ)
+> +#define TIMER_CAPT_IRQ(n)   (5 * n + TIMER0_CAPT_IRQ)
+> +#define TIMER_COMPA_IRQ(n)  (5 * n + TIMER0_COMPA_IRQ)
+> +#define TIMER_COMPB_IRQ(n)  (5 * n + TIMER0_COMPB_IRQ)
+> +#define TIMER_COMPC_IRQ(n)  (5 * n + TIMER0_COMPC_IRQ)
+> +#define TIMER_OVF_IRQ(n)    (5 * n + TIMER0_OVF_IRQ)
+> +
+> +static const uint8_t irq168_328[IRQ_MAX] =3D {
+> +    [TIMER2_COMPA_IRQ]      =3D 8,
+> +    [TIMER2_COMPB_IRQ]      =3D 9,
+> +    [TIMER2_OVF_IRQ]        =3D 10,
+> +    [TIMER1_CAPT_IRQ]       =3D 11,
+> +    [TIMER1_COMPA_IRQ]      =3D 12,
+> +    [TIMER1_COMPB_IRQ]      =3D 13,
+> +    [TIMER1_OVF_IRQ]        =3D 14,
+> +    [TIMER0_COMPA_IRQ]      =3D 15,
+> +    [TIMER0_COMPB_IRQ]      =3D 16,
+> +    [TIMER0_OVF_IRQ]        =3D 17,
+> +    [USART0_RXC_IRQ]        =3D 19,
+> +    [USART0_DRE_IRQ]        =3D 20,
+> +    [USART0_TXC_IRQ]        =3D 21,
+> +}, irq1280_2560[IRQ_MAX] =3D {
+> +    [TIMER2_COMPA_IRQ]      =3D 14,
+> +    [TIMER2_COMPB_IRQ]      =3D 15,
+> +    [TIMER2_OVF_IRQ]        =3D 16,
+> +    [TIMER1_CAPT_IRQ]       =3D 17,
+> +    [TIMER1_COMPA_IRQ]      =3D 18,
+> +    [TIMER1_COMPB_IRQ]      =3D 19,
+> +    [TIMER1_COMPC_IRQ]      =3D 20,
+> +    [TIMER1_OVF_IRQ]        =3D 21,
+> +    [TIMER0_COMPA_IRQ]      =3D 22,
+> +    [TIMER0_COMPB_IRQ]      =3D 23,
+> +    [TIMER0_OVF_IRQ]        =3D 24,
+> +    [USART0_RXC_IRQ]        =3D 26,
+> +    [USART0_DRE_IRQ]        =3D 27,
+> +    [USART0_TXC_IRQ]        =3D 28,
+> +    [TIMER3_CAPT_IRQ]       =3D 32,
+> +    [TIMER3_COMPA_IRQ]      =3D 33,
+> +    [TIMER3_COMPB_IRQ]      =3D 34,
+> +    [TIMER3_COMPC_IRQ]      =3D 35,
+> +    [TIMER3_OVF_IRQ]        =3D 36,
+> +    [USART1_RXC_IRQ]        =3D 37,
+> +    [USART1_DRE_IRQ]        =3D 38,
+> +    [USART1_TXC_IRQ]        =3D 39,
+> +    [USART2_RXC_IRQ]        =3D 52,
+> +    [USART2_DRE_IRQ]        =3D 53,
+> +    [USART2_TXC_IRQ]        =3D 54,
+> +    [USART3_RXC_IRQ]        =3D 55,
+> +    [USART3_DRE_IRQ]        =3D 56,
+> +    [USART3_TXC_IRQ]        =3D 57,
+> +};
+> +
+> +enum AtmegaPeripheralAddress {
+> +    USART0, USART1, USART2, USART3,
+> +    TIMER0, TIMER1, TIMER2, TIMER3, TIMER4, TIMER5,
+> +    DEV_MAX
+> +};
+> +
+> +#define USART_ADDR(n)       (n + USART0)
+> +#define TIMER_ADDR(n)       (n + TIMER0)
+> +
+> +typedef struct {
+> +    uint16_t addr;
+> +    uint16_t prr_addr;
+> +    uint8_t prr_bit;
+> +    /* timer specific */
+> +    uint16_t intmask_addr;
+> +    uint16_t intflag_addr;
+> +    bool is_timer16;
+> +} peripheral_cfg;
+> +
+> +static const peripheral_cfg dev168_328[DEV_MAX] =3D {
+> +    [TIMER0]        =3D {  0x24, 0x64, 5, 0x6e, 0x35, false },
+> +    [TIMER1]        =3D {  0x80, 0x64, 3, 0x6f, 0x36, true },
+> +    [TIMER2]        =3D {  0xb0, 0x64, 6, 0x70, 0x37, false },
+> +    [USART0]        =3D {  0xc0, 0x64, 1 },
+> +}, dev1280_2560[DEV_MAX] =3D {
+> +    [TIMER0]        =3D {  0x24, 0x64, 5, 0x6e, 0x35, false },
+> +    [TIMER1]        =3D {  0x80, 0x64, 3, 0x6f, 0x36, true },
+> +    [TIMER3]        =3D {  0x90, 0x65, 3, 0x71, 0x38, true },
+> +    [TIMER4]        =3D {  0xa0, 0x65, 4, 0x72, 0x39, true },
+> +    [TIMER2]        =3D {  0xb0, 0x64, 6, 0x70, 0x37, false },
+> +    [USART0]        =3D {  0xc0, 0x64, 1 },
+> +    [USART1]        =3D {  0xc8, 0x65, 0 },
+> +    [USART2]        =3D {  0xd0, 0x65, 1 },
+> +    [TIMER5]        =3D { 0x120, 0x65, 5, 0x73, 0x3a, true },
+> +    [USART3]        =3D { 0x130, 0x65, 2 },
+> +};
+> +
+> +struct AtmegaInfo {
+> +    const char *uc_name;
+> +    const char *cpu_type;
+> +    size_t flash_size;
+> +    size_t eeprom_size;
+> +    size_t sram_size;
+> +    size_t io_size;
+> +    size_t uart_count;
+> +    size_t timer_count;
+> +    size_t gpio_count;
+> +    size_t adc_count;
+> +    const uint8_t *irq;
+> +    const peripheral_cfg *dev;
+> +};
+> +
+> +static const AtmegaInfo atmega_mcu[] =3D {
+> +    {
+> +        .uc_name =3D TYPE_ATMEGA168,
+> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr5"),
+> +        .flash_size =3D 16 * KiB,
+> +        .eeprom_size =3D 512,
+> +        .sram_size =3D 1 * KiB,
+> +        .io_size =3D 256,
+> +        .uart_count =3D 1,
+> +        .gpio_count =3D 23,
+> +        .adc_count =3D 6,
+> +        .irq =3D irq168_328,
+> +        .dev =3D dev168_328,
+> +    },
+> +    {
+> +        .uc_name =3D TYPE_ATMEGA328,
+> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr5"),
+> +        .flash_size =3D 32 * KiB,
+> +        .eeprom_size =3D 1 * KiB,
+> +        .sram_size =3D 2 * KiB,
+> +        .io_size =3D 256,
+> +        .uart_count =3D 1,
+> +        .timer_count =3D 3,
+> +        .gpio_count =3D 23,
+> +        .adc_count =3D 6,
+> +        .irq =3D irq168_328,
+> +        .dev =3D dev168_328,
+> +    },
+> +    {
+> +        .uc_name =3D TYPE_ATMEGA1280,
+> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr6"),
+> +        .flash_size =3D 128 * KiB,
+> +        .eeprom_size =3D 4 * KiB,
+> +        .sram_size =3D 8 * KiB,
+> +        .io_size =3D 512,
+> +        .uart_count =3D 4,
+> +        .timer_count =3D 6,
+> +        .gpio_count =3D 86,
+> +        .adc_count =3D 16,
+> +        .irq =3D irq1280_2560,
+> +        .dev =3D dev1280_2560,
+> +    },
+> +    {
+> +        .uc_name =3D TYPE_ATMEGA2560,
+> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr6"),
+> +        .flash_size =3D 256 * KiB,
+> +        .eeprom_size =3D 4 * KiB,
+> +        .sram_size =3D 8 * KiB,
+> +        .io_size =3D 512,
+> +        .uart_count =3D 4,
+> +        .timer_count =3D 6,
+> +        .gpio_count =3D 54,
+> +        .adc_count =3D 16,
+> +        .irq =3D irq1280_2560,
+> +        .dev =3D dev1280_2560,
+> +    },
+> +};
+> +
+> +static void connect_nonnull_irq(SysBusDevice *sbd, DeviceState *dev,
+> +                                int n, int irq)
+> +{
+> +    if (irq) {
+> +        sysbus_connect_irq(sbd, n, qdev_get_gpio_in(dev, irq));
+> +    }
+> +}
+> +
+> +static void connect_pr_irq(AtmegaState *s, const AtmegaInfo *info,
+> +                           DeviceState *dev, int index)
+> +{
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->pwr[info->dev[index].prr_addr =
+& 1]),
+> +                       info->dev[index].prr_bit,
+> +                       qdev_get_gpio_in(dev, 0));
+> +}
+> +
+> +static void atmega_realize(DeviceState *dev, Error **errp)
+> +{
+> +    AtmegaState *s =3D ATMEGA(dev);
+> +    AtmegaClass *bc =3D ATMEGA_GET_CLASS(dev);
+> +    const AtmegaInfo *info =3D bc->info;
+> +    DeviceState *cpudev;
+> +    SysBusDevice *sbd;
+> +    Error *err =3D NULL;
+> +    char *devname;
+> +    size_t i;
+> +
+> +    if (!s->xtal_freq_hz) {
+> +        error_setg(errp, "\"xtal-frequency-hz\" property must be provide=
+d.");
+> +        return;
+> +    }
+> +
+> +    /* CPU */
+> +    object_initialize_child(OBJECT(dev), "cpu", &s->cpu, sizeof(s->cpu),
+> +                            info->cpu_type, &err, NULL);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +    object_property_set_bool(OBJECT(&s->cpu), true, "realized", &error_a=
+bort);
+> +    cpudev =3D DEVICE(&s->cpu);
+> +
+> +    /* SRAM */
+> +    memory_region_allocate_system_memory(&s->sram, OBJECT(dev),
+> +                                         "sram", info->sram_size);
+with main RAM conversion to hostmem backend, this API will go away
+and RAM memory region will be allocated by generic machine code
+and shall be treated as backend. Users would be able to access it
+via MachineState::ram memory region.
 
-Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- disas/mips.c            |   2 +
- target/mips/cpu.h       |   2 +-
- target/mips/helper.c    |  20 ++++++--
- target/mips/helper.h    |   2 +
- target/mips/internal.h  |   1 +
- target/mips/op_helper.c | 129 +++++++++++++++++++++++++++++++++++++++++-------
- target/mips/translate.c |  46 ++++++++++++++++-
- 7 files changed, 176 insertions(+), 26 deletions(-)
+Meanwhile I'd suggest to move this line to arduino_machine_init()
+and pass it to MCU as a link property.
 
-diff --git a/disas/mips.c b/disas/mips.c
-index 75c48b3..cedfbf8 100644
---- a/disas/mips.c
-+++ b/disas/mips.c
-@@ -1417,6 +1417,8 @@ const struct mips_opcode mips_builtin_opcodes[] =
- {"crc32ch",    "t,v,t", 0x7c00014f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
- {"crc32cw",    "t,v,t", 0x7c00018f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
- {"crc32cd",    "t,v,t", 0x7c0001cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
-+{"ginvi",      "v",     0x7c00003d, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
-+{"ginvt",      "v",     0x7c0000bd, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
- 
- /* MSA */
- {"sll.b",   "+d,+e,+f", 0x7800000d, 0xffe0003f, WR_VD|RD_VS|RD_VT,  0, MSA},
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index a7e9857..fdab989 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -309,7 +309,7 @@ typedef struct mips_def_t mips_def_t;
- #define CP0_REG04__USERLOCAL       2
- #define CP0_REG04__XCONTEXTCONFIG  3
- #define CP0_REG04__DBGCONTEXTID    4
--#define CP0_REG00__MMID            5
-+#define CP0_REG04__MMID            5
- /* CP0 Register 05 */
- #define CP0_REG05__PAGEMASK        0
- #define CP0_REG05__PAGEGRAIN       1
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 781930a..afd78b1 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -72,8 +72,13 @@ int r4k_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
-                     target_ulong address, int rw, int access_type)
- {
-     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-+    uint32_t tlb_mmid;
-     int i;
- 
-+    MMID = mi ? MMID : (uint32_t) ASID;
-+
-     for (i = 0; i < env->tlb->tlb_in_use; i++) {
-         r4k_tlb_t *tlb = &env->tlb->mmu.r4k.tlb[i];
-         /* 1k pages are not supported. */
-@@ -84,8 +89,9 @@ int r4k_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
-         tag &= env->SEGMask;
- #endif
- 
--        /* Check ASID, virtual page number & size */
--        if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag && !tlb->EHINV) {
-+        /* Check ASID/MMID, virtual page number & size */
-+        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+        if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag && !tlb->EHINV) {
-             /* TLB match */
-             int n = !!(address & mask & ~(mask >> 1));
-             /* Check access rights */
-@@ -1418,14 +1424,20 @@ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
-     target_ulong addr;
-     target_ulong end;
-     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-+    uint32_t tlb_mmid;
-     target_ulong mask;
- 
-+    MMID = mi ? MMID : (uint32_t) ASID;
-+
-     tlb = &env->tlb->mmu.r4k.tlb[idx];
-     /*
--     * The qemu TLB is flushed when the ASID changes, so no need to
-+     * The qemu TLB is flushed when the ASID/MMID changes, so no need to
-      * flush these entries again.
-      */
--    if (tlb->G == 0 && tlb->ASID != ASID) {
-+    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+    if (tlb->G == 0 && tlb_mmid != MMID) {
-         return;
-     }
- 
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index 032ea8a..acf7b82 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -122,6 +122,7 @@ DEF_HELPER_2(mtc0_tcschefback, void, env, tl)
- DEF_HELPER_2(mttc0_tcschefback, void, env, tl)
- DEF_HELPER_2(mtc0_entrylo1, void, env, tl)
- DEF_HELPER_2(mtc0_context, void, env, tl)
-+DEF_HELPER_2(mtc0_memorymapid, void, env, tl)
- DEF_HELPER_2(mtc0_pagemask, void, env, tl)
- DEF_HELPER_2(mtc0_pagegrain, void, env, tl)
- DEF_HELPER_2(mtc0_segctl0, void, env, tl)
-@@ -378,6 +379,7 @@ DEF_HELPER_1(ei, tl, env)
- DEF_HELPER_1(eret, void, env)
- DEF_HELPER_1(eretnc, void, env)
- DEF_HELPER_1(deret, void, env)
-+DEF_HELPER_3(ginvt, void, env, tl, i32)
- #endif /* !CONFIG_USER_ONLY */
- DEF_HELPER_1(rdhwr_cpunum, tl, env)
- DEF_HELPER_1(rdhwr_synci_step, tl, env)
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 3f435b5..df55f84 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -95,6 +95,7 @@ struct r4k_tlb_t {
-     target_ulong VPN;
-     uint32_t PageMask;
-     uint16_t ASID;
-+    uint32_t MMID;
-     unsigned int G:1;
-     unsigned int C0:3;
-     unsigned int C1:3;
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index bcff2f9..a331d9d 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -1470,6 +1470,17 @@ void helper_mtc0_context(CPUMIPSState *env, target_ulong arg1)
-     env->CP0_Context = (env->CP0_Context & 0x007FFFFF) | (arg1 & ~0x007FFFFF);
- }
- 
-+void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
-+{
-+    int32_t old;
-+    old = env->CP0_MemoryMapID;
-+    env->CP0_MemoryMapID = (int32_t) arg1;
-+    /* If the MemoryMapID changes, flush qemu's TLB.  */
-+    if (old != env->CP0_MemoryMapID) {
-+        cpu_mips_tlb_flush(env);
-+    }
-+}
-+
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
- {
-     uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
-@@ -1906,6 +1917,8 @@ void helper_mtc0_config5(CPUMIPSState *env, target_ulong arg1)
- {
-     env->CP0_Config5 = (env->CP0_Config5 & (~env->CP0_Config5_rw_bitmask)) |
-                        (arg1 & env->CP0_Config5_rw_bitmask);
-+    env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
-+            0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
-     compute_hflags(env);
- }
- 
-@@ -2349,6 +2362,7 @@ static void r4k_fill_tlb(CPUMIPSState *env, int idx)
-     tlb->VPN &= env->SEGMask;
- #endif
-     tlb->ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    tlb->MMID = env->CP0_MemoryMapID;
-     tlb->PageMask = env->CP0_PageMask;
-     tlb->G = env->CP0_EntryLo0 & env->CP0_EntryLo1 & 1;
-     tlb->V0 = (env->CP0_EntryLo0 & 2) != 0;
-@@ -2367,13 +2381,18 @@ static void r4k_fill_tlb(CPUMIPSState *env, int idx)
- 
- void r4k_helper_tlbinv(CPUMIPSState *env)
- {
--    int idx;
--    r4k_tlb_t *tlb;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-+    r4k_tlb_t *tlb;
-+    int idx;
- 
-+    MMID = mi ? MMID : (uint32_t) ASID;
-     for (idx = 0; idx < env->tlb->nb_tlb; idx++) {
-         tlb = &env->tlb->mmu.r4k.tlb[idx];
--        if (!tlb->G && tlb->ASID == ASID) {
-+        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+        if (!tlb->G && tlb_mmid == MMID) {
-             tlb->EHINV = 1;
-         }
-     }
-@@ -2392,11 +2411,16 @@ void r4k_helper_tlbinvf(CPUMIPSState *env)
- 
- void r4k_helper_tlbwi(CPUMIPSState *env)
- {
--    r4k_tlb_t *tlb;
--    int idx;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-     target_ulong VPN;
--    uint16_t ASID;
-+    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-     bool EHINV, G, V0, D0, V1, D1, XI0, XI1, RI0, RI1;
-+    r4k_tlb_t *tlb;
-+    int idx;
-+
-+    MMID = mi ? MMID : (uint32_t) ASID;
- 
-     idx = (env->CP0_Index & ~0x80000000) % env->tlb->nb_tlb;
-     tlb = &env->tlb->mmu.r4k.tlb[idx];
-@@ -2404,7 +2428,6 @@ void r4k_helper_tlbwi(CPUMIPSState *env)
- #if defined(TARGET_MIPS64)
-     VPN &= env->SEGMask;
- #endif
--    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-     EHINV = (env->CP0_EntryHi & (1 << CP0EnHi_EHINV)) != 0;
-     G = env->CP0_EntryLo0 & env->CP0_EntryLo1 & 1;
-     V0 = (env->CP0_EntryLo0 & 2) != 0;
-@@ -2416,11 +2439,12 @@ void r4k_helper_tlbwi(CPUMIPSState *env)
-     XI1 = (env->CP0_EntryLo1 >> CP0EnLo_XI) &1;
-     RI1 = (env->CP0_EntryLo1 >> CP0EnLo_RI) &1;
- 
-+    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-     /*
-      * Discard cached TLB entries, unless tlbwi is just upgrading access
-      * permissions on the current entry.
-      */
--    if (tlb->VPN != VPN || tlb->ASID != ASID || tlb->G != G ||
-+    if (tlb->VPN != VPN || tlb_mmid != MMID || tlb->G != G ||
-         (!tlb->EHINV && EHINV) ||
-         (tlb->V0 && !V0) || (tlb->D0 && !D0) ||
-         (!tlb->XI0 && XI0) || (!tlb->RI0 && RI0) ||
-@@ -2443,14 +2467,17 @@ void r4k_helper_tlbwr(CPUMIPSState *env)
- 
- void r4k_helper_tlbp(CPUMIPSState *env)
- {
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-     r4k_tlb_t *tlb;
-     target_ulong mask;
-     target_ulong tag;
-     target_ulong VPN;
--    uint16_t ASID;
-+    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-     int i;
- 
--    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    MMID = mi ? MMID : (uint32_t) ASID;
-     for (i = 0; i < env->tlb->nb_tlb; i++) {
-         tlb = &env->tlb->mmu.r4k.tlb[i];
-         /* 1k pages are not supported. */
-@@ -2460,8 +2487,9 @@ void r4k_helper_tlbp(CPUMIPSState *env)
- #if defined(TARGET_MIPS64)
-         tag &= env->SEGMask;
- #endif
--        /* Check ASID, virtual page number & size */
--        if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag && !tlb->EHINV) {
-+        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+        /* Check ASID/MMID, virtual page number & size */
-+        if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag && !tlb->EHINV) {
-             /* TLB match */
-             env->CP0_Index = i;
-             break;
-@@ -2478,8 +2506,9 @@ void r4k_helper_tlbp(CPUMIPSState *env)
- #if defined(TARGET_MIPS64)
-             tag &= env->SEGMask;
- #endif
--            /* Check ASID, virtual page number & size */
--            if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag) {
-+            tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+            /* Check ASID/MMID, virtual page number & size */
-+            if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag) {
-                 r4k_mips_tlb_flush_extra(env, i);
-                 break;
-             }
-@@ -2501,16 +2530,20 @@ static inline uint64_t get_entrylo_pfn_from_tlb(uint64_t tlb_pfn)
- 
- void r4k_helper_tlbr(CPUMIPSState *env)
- {
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-+    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-     r4k_tlb_t *tlb;
--    uint16_t ASID;
-     int idx;
- 
--    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    MMID = mi ? MMID : (uint32_t) ASID;
-     idx = (env->CP0_Index & ~0x80000000) % env->tlb->nb_tlb;
-     tlb = &env->tlb->mmu.r4k.tlb[idx];
- 
--    /* If this will change the current ASID, flush qemu's TLB.  */
--    if (ASID != tlb->ASID) {
-+    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+    /* If this will change the current ASID/MMID, flush qemu's TLB.  */
-+    if (MMID != tlb_mmid) {
-         cpu_mips_tlb_flush(env);
-     }
- 
-@@ -2522,7 +2555,8 @@ void r4k_helper_tlbr(CPUMIPSState *env)
-         env->CP0_EntryLo0 = 0;
-         env->CP0_EntryLo1 = 0;
-     } else {
--        env->CP0_EntryHi = tlb->VPN | tlb->ASID;
-+        env->CP0_EntryHi = mi ? tlb->VPN : tlb->VPN | tlb->ASID;
-+        env->CP0_MemoryMapID = tlb->MMID;
-         env->CP0_PageMask = tlb->PageMask;
-         env->CP0_EntryLo0 = tlb->G | (tlb->V0 << 1) | (tlb->D0 << 2) |
-                         ((uint64_t)tlb->RI0 << CP0EnLo_RI) |
-@@ -2565,6 +2599,63 @@ void helper_tlbinvf(CPUMIPSState *env)
-     env->tlb->helper_tlbinvf(env);
- }
- 
-+static void global_invalidate_tlb(CPUMIPSState *env,
-+                           uint32_t invMsgVPN2,
-+                           uint8_t invMsgR,
-+                           uint32_t invMsgMMid,
-+                           bool invAll,
-+                           bool invVAMMid,
-+                           bool invMMid,
-+                           bool invVA)
-+{
-+
-+    int idx;
-+    r4k_tlb_t *tlb;
-+    bool VAMatch;
-+    bool MMidMatch;
-+
-+    for (idx = 0; idx < env->tlb->nb_tlb; idx++) {
-+        tlb = &env->tlb->mmu.r4k.tlb[idx];
-+        VAMatch =
-+            (((tlb->VPN & ~tlb->PageMask) == (invMsgVPN2 & ~tlb->PageMask))
-+#ifdef TARGET_MIPS64
-+            &&
-+            (extract64(env->CP0_EntryHi, 62, 2) == invMsgR)
-+#endif
-+            );
-+        MMidMatch = tlb->MMID == invMsgMMid;
-+        if ((invAll && (idx > env->CP0_Wired)) ||
-+            (VAMatch && invVAMMid && (tlb->G || MMidMatch)) ||
-+            (VAMatch && invVA) ||
-+            (MMidMatch && !(tlb->G) && invMMid)) {
-+            tlb->EHINV = 1;
-+        }
-+    }
-+    cpu_mips_tlb_flush(env);
-+}
-+
-+void helper_ginvt(CPUMIPSState *env, target_ulong arg, uint32_t type)
-+{
-+    bool invAll = type == 0;
-+    bool invVA = type == 1;
-+    bool invMMid = type == 2;
-+    bool invVAMMid = type == 3;
-+    uint32_t invMsgVPN2 = arg & (TARGET_PAGE_MASK << 1);
-+    uint8_t invMsgR = 0;
-+    uint32_t invMsgMMid = env->CP0_MemoryMapID;
-+    CPUState *other_cs = first_cpu;
-+
-+#ifdef TARGET_MIPS64
-+    invMsgR = extract64(arg, 62, 2);
-+#endif
-+
-+    CPU_FOREACH(other_cs) {
-+        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
-+        global_invalidate_tlb(&other_cpu->env, invMsgVPN2, invMsgR, invMsgMMid,
-+                              invAll, invVAMMid, invMMid, invVA);
-+    }
-+}
-+
- /* Specials */
- target_ulong helper_di(CPUMIPSState *env)
- {
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 7cda5c7..b3c177f 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -388,6 +388,7 @@ enum {
-     OPC_BSHFL    = 0x20 | OPC_SPECIAL3,
-     OPC_DBSHFL   = 0x24 | OPC_SPECIAL3,
-     OPC_RDHWR    = 0x3B | OPC_SPECIAL3,
-+    OPC_GINV     = 0x3D | OPC_SPECIAL3,
- 
-     /* Loongson 2E */
-     OPC_MULT_G_2E   = 0x18 | OPC_SPECIAL3,
-@@ -2550,6 +2551,7 @@ typedef struct DisasContext {
-     bool saar;
-     bool crcp;
-     bool mi;
-+    int gi;
- } DisasContext;
- 
- #define DISAS_STOP       DISAS_TARGET_0
-@@ -7133,6 +7135,11 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_helper_mtc0_memorymapid(cpu_env, arg);
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -7873,6 +7880,11 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -8631,6 +8643,11 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_helper_mtc0_memorymapid(cpu_env, arg);
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -9353,6 +9370,11 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -27335,6 +27357,25 @@ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
-             }
-         }
-         break;
-+#ifndef CONFIG_USER_ONLY
-+    case OPC_GINV:
-+        if (unlikely(ctx->gi <= 1)) {
-+            generate_exception_end(ctx, EXCP_RI);
-+        }
-+        check_cp0_enabled(ctx);
-+        switch ((ctx->opcode >> 6) & 3) {
-+        case 0:    /* GINVI */
-+            /* Treat as NOP. */
-+            break;
-+        case 2:    /* GINVT */
-+            gen_helper_0e1i(ginvt, cpu_gpr[rs], extract32(ctx->opcode, 8, 2));
-+            break;
-+        default:
-+            generate_exception_end(ctx, EXCP_RI);
-+            break;
-+        }
-+        break;
-+#endif
- #if defined(TARGET_MIPS64)
-     case R6_OPC_SCD:
-         gen_st_cond(ctx, rt, rs, imm, MO_TEQ, false);
-@@ -30894,6 +30935,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->abs2008 = (env->active_fpu.fcr31 >> FCR31_ABS2008) & 1;
-     ctx->crcp = (env->CP0_Config5 >> CP0C5_CRCP) & 1;
-     ctx->mi = (env->CP0_Config5 >> CP0C5_MI) & 1;
-+    ctx->gi = (env->CP0_Config5 >> CP0C5_GI) & 3;
-     restore_cpu_state(env, ctx);
- #ifdef CONFIG_USER_ONLY
-         ctx->mem_idx = MIPS_HFLAG_UM;
-@@ -31354,8 +31396,8 @@ void cpu_state_reset(CPUMIPSState *env)
-     if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
-         env->CP0_CMGCRBase = 0x1fbf8000 >> 4;
-     }
--    env->CP0_EntryHi_ASID_mask = (env->CP0_Config4 & (1 << CP0C4_AE)) ?
--                                 0x3ff : 0xff;
-+    env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
-+            0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
-     env->CP0_Status = (1 << CP0St_BEV) | (1 << CP0St_ERL);
-     /*
-      * Vectored interrupts not implemented, timer on int 7,
--- 
-2.7.4
+Also use MachineState::ram_size and add check that it matches mc->default_r=
+am_size.
+Ex: https://github.com/imammedo/qemu/commit/241c65d506ccba1e0239a2bc0632d7d=
+c9c3517c1
+
+> +    memory_region_add_subregion(get_system_memory(),
+> +                                OFFSET_DATA + 0x200, &s->sram);
+> +
+> +    /* Flash */
+> +    memory_region_init_rom(&s->flash, OBJECT(dev),
+> +                           "flash", info->flash_size, &error_fatal);
+> +    memory_region_add_subregion(get_system_memory(), OFFSET_CODE, &s->fl=
+ash);
+> +
+> +    /* I/O */
+> +    s->io =3D qdev_create(NULL, TYPE_UNIMPLEMENTED_DEVICE);
+> +    qdev_prop_set_string(s->io, "name", "I/O");
+> +    qdev_prop_set_uint64(s->io, "size", info->io_size);
+> +    qdev_init_nofail(s->io);
+> +    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(s->io), 0, OFFSET_DATA, -1234=
+);
+> +
+> +    /* Power */
+> +    for (i =3D 0; i < ARRAY_SIZE(s->pwr); i++) {
+> +        devname =3D g_strdup_printf("pwr%zu", i);
+> +        object_initialize_child(OBJECT(dev), devname,
+> +                                &s->pwr[i], sizeof(s->pwr[i]),
+> +                                TYPE_AVR_MASK, &error_abort, NULL);
+> +        object_property_set_bool(OBJECT(&s->pwr[i]), true, "realized",
+> +                                 &error_abort);
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->pwr[i]), 0, OFFSET_DATA + 0x6=
+4 + i);
+> +        g_free(devname);
+> +    }
+> +
+> +    /* USART */
+> +    for (i =3D 0; i < info->uart_count; i++) {
+> +        devname =3D g_strdup_printf("usart%zu", i);
+> +        object_initialize_child(OBJECT(dev), devname,
+> +                                &s->usart[i], sizeof(s->usart[i]),
+> +                                TYPE_AVR_USART, &error_abort, NULL);
+> +        qdev_prop_set_chr(DEVICE(&s->usart[i]), "chardev", serial_hd(i))=
+;
+> +        object_property_set_bool(OBJECT(&s->usart[i]), true, "realized",
+> +                                 &error_abort);
+> +        sbd =3D SYS_BUS_DEVICE(&s->usart[i]);
+> +        sysbus_mmio_map(sbd, 0, OFFSET_DATA + info->dev[USART_ADDR(i)].a=
+ddr);
+> +        connect_nonnull_irq(sbd, cpudev, 0, info->irq[USART_RXC_IRQ(i)])=
+;
+> +        connect_nonnull_irq(sbd, cpudev, 1, info->irq[USART_DRE_IRQ(i)])=
+;
+> +        connect_nonnull_irq(sbd, cpudev, 2, info->irq[USART_TXC_IRQ(i)])=
+;
+> +        connect_pr_irq(s, info, DEVICE(&s->usart[i]), 0);
+> +        g_free(devname);
+> +    }
+> +
+> +    /* Timer */
+> +    for (i =3D 0; i < info->timer_count; i++) {
+> +        int idx =3D TIMER_ADDR(i);
+> +        if (!info->dev[idx].is_timer16) {
+> +            create_unimplemented_device("avr-timer8",
+> +                                        OFFSET_DATA + info->dev[idx].add=
+r, 7);
+> +            create_unimplemented_device("avr-timer8-intmask",
+> +                                        OFFSET_DATA
+> +                                        + info->dev[idx].intmask_addr, 1=
+);
+> +            create_unimplemented_device("avr-timer8-intflag",
+> +                                        OFFSET_DATA
+> +                                        + info->dev[idx].intflag_addr, 1=
+);
+> +            continue;
+> +        }
+> +        devname =3D g_strdup_printf("timer%zu", i);
+> +        object_initialize_child(OBJECT(dev), devname,
+> +                                &s->timer[i], sizeof(s->timer[i]),
+> +                                TYPE_AVR_TIMER16, &error_abort, NULL);
+> +        object_property_set_uint(OBJECT(&s->timer[i]), s->xtal_freq_hz,
+> +                                 "cpu-frequency-hz", &error_abort);
+> +        object_property_set_bool(OBJECT(&s->timer[i]), true, "realized",
+> +                                 &error_abort);
+> +        sbd =3D SYS_BUS_DEVICE(&s->timer[i]);
+> +        sysbus_mmio_map(sbd, 0, OFFSET_DATA + info->dev[idx].addr);
+> +        sysbus_mmio_map(sbd, 1, OFFSET_DATA + info->dev[idx].intmask_add=
+r);
+> +        sysbus_mmio_map(sbd, 2, OFFSET_DATA + info->dev[idx].intflag_add=
+r);
+> +        connect_nonnull_irq(sbd, cpudev, 0, info->irq[TIMER_CAPT_IRQ(i)]=
+);
+> +        connect_nonnull_irq(sbd, cpudev, 1, info->irq[TIMER_COMPA_IRQ(i)=
+]);
+> +        connect_nonnull_irq(sbd, cpudev, 2, info->irq[TIMER_COMPB_IRQ(i)=
+]);
+> +        connect_nonnull_irq(sbd, cpudev, 3, info->irq[TIMER_COMPC_IRQ(i)=
+]);
+> +        connect_nonnull_irq(sbd, cpudev, 4, info->irq[TIMER_OVF_IRQ(i)])=
+;
+> +        connect_pr_irq(s, info, DEVICE(&s->timer[i]), 0);
+> +        g_free(devname);
+> +    }
+> +}
+> +
+> +static Property atmega_props[] =3D {
+> +    DEFINE_PROP_UINT64("xtal-frequency-hz", AtmegaState,
+> +                       xtal_freq_hz, 0),
+> +    DEFINE_PROP_END_OF_LIST()
+> +};
+> +
+> +static void atmega_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
+> +    AtmegaClass *bc =3D ATMEGA_CLASS(oc);
+> +
+> +    bc->info =3D data;
+> +    dc->realize =3D atmega_realize;
+> +    dc->props =3D atmega_props;
+> +    /* Reason: Mapped at fixed location on the system bus */
+> +    dc->user_creatable =3D false;
+> +}
+> +
+> +static const TypeInfo atmega_type_info =3D {
+> +    .name =3D TYPE_ATMEGA,
+> +    .parent =3D TYPE_SYS_BUS_DEVICE,
+> +    .instance_size =3D sizeof(AtmegaState),
+> +    .class_size =3D sizeof(AtmegaClass),
+> +    .abstract =3D true,
+> +};
+> +
+> +static void atmega_register_types(void)
+> +{
+> +    size_t i;
+> +
+> +    type_register_static(&atmega_type_info);
+> +    for (i =3D 0; i < ARRAY_SIZE(atmega_mcu); i++) {
+> +        assert(atmega_mcu[i].io_size <=3D 0x200);
+> +        assert(atmega_mcu[i].uart_count <=3D USART_MAX);
+> +        assert(atmega_mcu[i].timer_count <=3D TIMER_MAX);
+> +        TypeInfo ti =3D {
+> +            .name =3D atmega_mcu[i].uc_name,
+> +            .parent =3D TYPE_ATMEGA,
+> +            .class_init =3D atmega_class_init,
+> +            .class_data =3D (void *) &atmega_mcu[i],
+> +        };
+> +        type_register(&ti);
+> +    }
+> +}
+> +
+> +type_init(atmega_register_types)
+> diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
+> index 626b7064b3..4b6b911820 100644
+> --- a/hw/avr/Makefile.objs
+> +++ b/hw/avr/Makefile.objs
+> @@ -1 +1,2 @@
+>  obj-y +=3D sample.o
+> +obj-y +=3D atmega.o
 
 
