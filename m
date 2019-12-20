@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E7A1278F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 11:13:18 +0100 (CET)
-Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F2D127911
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 11:16:34 +0100 (CET)
+Received: from localhost ([::1]:52708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiFHZ-0008NO-RF
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 05:13:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36471)
+	id 1iiFKj-0003sB-F6
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 05:16:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36865)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iiFDv-0003k9-Kn
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:34 -0500
+ (envelope-from <stefanha@gmail.com>) id 1iiFHE-0000PP-Ns
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:12:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iiFDs-0007n2-NY
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55232
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iiFDs-0007fh-FE
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:09:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576836567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LUOuu6YqRrvUiJpwYiLpQ6UM4GGuLQsA/409ddwty3k=;
- b=ARhvYNEqGamw9PLktOLjiyuHa1EO6j1CN2E/3oUoXaLx1qc3bIknc7Z/LtmbXp7X7EiwAz
- xN9QjMSnTrza2NDzPnSGgT0g7ac3kHzJo4kXS9jhLDra7J69FaBvXUhw+T0Z91IFvlQH8/
- WXcG2Iia5V6seDaoHzKf65HUYIOJT9o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-3AVgHgzjOIC8TIICCQ0oOA-1; Fri, 20 Dec 2019 05:09:25 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32677800D41;
- Fri, 20 Dec 2019 10:09:24 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FB275DA2C;
- Fri, 20 Dec 2019 10:09:19 +0000 (UTC)
-Date: Fri, 20 Dec 2019 11:09:17 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 06/10] hw/avr: Add ATmega microcontrollers
-Message-ID: <20191220110917.3fccb284@redhat.com>
-In-Reply-To: <20191128015030.27543-7-f4bug@amsat.org>
-References: <20191128015030.27543-1-f4bug@amsat.org>
- <20191128015030.27543-7-f4bug@amsat.org>
+ (envelope-from <stefanha@gmail.com>) id 1iiFHD-0001Yk-DF
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:12:56 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33798)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iiFHC-0001SW-Te
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 05:12:55 -0500
+Received: by mail-wr1-x444.google.com with SMTP id t2so8872729wrr.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 02:12:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=SDuSraUbXfMK73m0WsNxh0mAANi4/0sUr1G8JBsGIzs=;
+ b=iTquE5mimPupMiyngTkHHsG0T3C+tixB6MPskd6ckk8LEvo3p9K0vDRfxy6OYZ1MQK
+ hdL3qAMewzlpp5G36Jfb0Vn/uyDeur6kd4IxpwSw7DD7KX7OqzdyNhPP9Q307V8QN9n7
+ HCQLtqeZmZpEVsfNpjlRC9q7zRQPspiUqSy5vJkQSGA0Fs1BEbBRiYBgiHjA28e14F7X
+ Qt19xHdSmKEkI8qBLcc23SI4pSOv1m5HmHlr5gb+IWv541rYavXp8XuzziaUQGWwahuN
+ fdLXXpljDbDcibPmAOH4iHv8Cu7svVxTBlyA9DneItpIOFeav2UTJ1NpIdSKqGdh5pDt
+ C+uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=SDuSraUbXfMK73m0WsNxh0mAANi4/0sUr1G8JBsGIzs=;
+ b=dxRXgnDCx2UQY6Uib8BpbZuIji1AVQoVlV+JAcJA4WQKAqNqYoVrGkeZCcJ05Jnyg5
+ a4RIdN6v5NlBGqKOWKBuQ9doiiCx1ZEi/55uy27feVlxNKZrySWE5jbll/MbszVFAgeM
+ 6ipmkXVwZNtlKwecnUWA8zvYUAG2lZHiP/ff8kaOcDYQUaPAFjU6Qug+OaUQAn2wwnGV
+ t8F61OjwS2x72Zl3xKfAXL5U/TFPRj9HtA/ZtdnrN4DsomSnh9mThi1333pjwO02TJkV
+ HdGwcb7+MPnq6NGEb9e7GXP8JxEBqQfqHGkRe1s9u3VYMherYdhI1kg1YOf4z02Sm78y
+ RYjw==
+X-Gm-Message-State: APjAAAXjSSpZTRkHPiHXFdQGR16zY4HuANc+9MRJg9TrGzdoWGklqaxI
+ EuVfgfnJOdDz78CWQNMGAhk=
+X-Google-Smtp-Source: APXvYqwmw7mm308LGXuLlYOteHywnhm8Veps/v3iJZQHAUw9qDd3u3P0iF7DOL+4scoqL4sHaptc2Q==
+X-Received: by 2002:a5d:62d0:: with SMTP id o16mr14049038wrv.197.1576836773581; 
+ Fri, 20 Dec 2019 02:12:53 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id 25sm8739825wmi.32.2019.12.20.02.12.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Dec 2019 02:12:52 -0800 (PST)
+Date: Fri, 20 Dec 2019 10:12:51 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Felipe Franciosi <felipe@nutanix.com>
+Subject: Re: [PATCH v4 0/4] Improve default object property_add uint helpers
+Message-ID: <20191220101251.GD1635864@stefanha-x1.localdomain>
+References: <20191219180205.25191-1-felipe@nutanix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 3AVgHgzjOIC8TIICCQ0oOA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="veXX9dWIonWZEC6h"
+Content-Disposition: inline
+In-Reply-To: <20191219180205.25191-1-felipe@nutanix.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,523 +78,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Marc-Andre Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Phillipe Mathieu-Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Nov 2019 02:50:26 +0100
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
-> Add famous ATmega MCUs:
+--veXX9dWIonWZEC6h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Dec 19, 2019 at 06:02:28PM +0000, Felipe Franciosi wrote:
+> This improves the family of object_property_add_uintXX_ptr helpers by ena=
+bling
+> a default getter/setter only when desired. To prevent an API behavioural =
+change
+> (from clients that already used these helpers and did not want a setter),=
+ we
+> add a OBJ_PROP_FLAG_READ flag that allow clients to only have a getter. P=
+atch 1
+> enhances the API and modify current users.
 >=20
-> - middle range: ATmega168 and ATmega328
-> - high range: ATmega1280 and ATmega2560
+> While modifying the clients of the API, a couple of improvement opportuni=
+ties
+> were observed in ich9. These were added in separate patches (2 and 3).
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/avr/atmega.h      |  58 +++++++
->  hw/avr/atmega.c      | 379 +++++++++++++++++++++++++++++++++++++++++++
->  hw/avr/Makefile.objs |   1 +
->  3 files changed, 438 insertions(+)
->  create mode 100644 hw/avr/atmega.h
->  create mode 100644 hw/avr/atmega.c
+> Patch 3 cleans up a lot of existing code by moving various objects to the
+> enhanced API. Previously, those objects had their own getters/setters tha=
+t only
+> updated the values without further checks. Some of them actually lacked a=
+ check
+> for setting overflows, which could have resulted in undesired values bein=
+g set.
+> The new default setters include a check for that, not updating the values=
+ in
+> case of errors (and propagating them). If they did not provide an error
+> pointer, then that behaviour was maintained.
 >=20
-> diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
-> new file mode 100644
-> index 0000000000..d22d90a962
-> --- /dev/null
-> +++ b/hw/avr/atmega.h
-> @@ -0,0 +1,58 @@
-> +/*
-> + * QEMU ATmega MCU
-> + *
-> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-> + *
-> + * This work is licensed under the terms of the GNU GPLv2 or later.
-> + * See the COPYING file in the top-level directory.
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#ifndef HW_AVR_ATMEGA_H
-> +#define HW_AVR_ATMEGA_H
-> +
-> +#include "hw/char/avr_usart.h"
-> +#include "hw/char/avr_usart.h"
-> +#include "hw/timer/avr_timer16.h"
-> +#include "hw/misc/avr_mask.h"
-> +#include "target/avr/cpu.h"
-> +
-> +#define TYPE_ATMEGA     "ATmega"
-> +#define TYPE_ATMEGA168  "ATmega168"
-> +#define TYPE_ATMEGA328  "ATmega328"
-> +#define TYPE_ATMEGA1280 "ATmega1280"
-> +#define TYPE_ATMEGA2560 "ATmega2560"
-> +#define ATMEGA(obj)     OBJECT_CHECK(AtmegaState, (obj), TYPE_ATMEGA)
-> +
-> +#define USART_MAX 4
-> +#define TIMER_MAX 6
-> +
-> +typedef struct AtmegaState {
-> +    /*< private >*/
-> +    SysBusDevice parent_obj;
-> +    /*< public >*/
-> +
-> +    AVRCPU cpu;
-> +    MemoryRegion flash;
-> +    MemoryRegion eeprom;
-> +    MemoryRegion sram;
-> +    DeviceState *io;
-> +    AVRMaskState pwr[2];
-> +    AVRUsartState usart[USART_MAX];
-> +    AVRTimer16State timer[TIMER_MAX];
-> +    uint64_t xtal_freq_hz;
-> +} AtmegaState;
-> +
-> +typedef struct AtmegaInfo AtmegaInfo;
-> +
-> +typedef struct AtmegaClass {
-> +    SysBusDeviceClass parent_class;
-> +    const AtmegaInfo *info;
-> +} AtmegaClass;
-> +
-> +#define ATMEGA_CLASS(klass) \
-> +    OBJECT_CLASS_CHECK(AtmegaClass, (klass), TYPE_ATMEGA)
-> +#define ATMEGA_GET_CLASS(obj) \
-> +    OBJECT_GET_CLASS(AtmegaClass, (obj), TYPE_ATMEGA)
-> +
-> +#endif /* HW_AVR_ATMEGA_H */
-> diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-> new file mode 100644
-> index 0000000000..1f1b1246ef
-> --- /dev/null
-> +++ b/hw/avr/atmega.c
-> @@ -0,0 +1,379 @@
-> +/*
-> + * QEMU ATmega MCU
-> + *
-> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-> + *
-> + * This work is licensed under the terms of the GNU GPLv2 or later.
-> + * See the COPYING file in the top-level directory.
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/module.h"
-> +#include "qemu/units.h"
-> +#include "qapi/error.h"
-> +#include "exec/memory.h"
-> +#include "exec/address-spaces.h"
-> +#include "sysemu/sysemu.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/boards.h" /* FIXME memory_region_allocate_system_memory for=
- sram */
-> +#include "hw/misc/unimp.h"
-> +#include "atmega.h"
-> +
-> +enum AtmegaIrq {
-> +    USART0_RXC_IRQ, USART0_DRE_IRQ, USART0_TXC_IRQ,
-> +    USART1_RXC_IRQ, USART1_DRE_IRQ, USART1_TXC_IRQ,
-> +    USART2_RXC_IRQ, USART2_DRE_IRQ, USART2_TXC_IRQ,
-> +    USART3_RXC_IRQ, USART3_DRE_IRQ, USART3_TXC_IRQ,
-> +    TIMER0_CAPT_IRQ, TIMER0_COMPA_IRQ, TIMER0_COMPB_IRQ,
-> +        TIMER0_COMPC_IRQ, TIMER0_OVF_IRQ,
-> +    TIMER1_CAPT_IRQ, TIMER1_COMPA_IRQ, TIMER1_COMPB_IRQ,
-> +        TIMER1_COMPC_IRQ, TIMER1_OVF_IRQ,
-> +    TIMER2_CAPT_IRQ, TIMER2_COMPA_IRQ, TIMER2_COMPB_IRQ,
-> +        TIMER2_COMPC_IRQ, TIMER2_OVF_IRQ,
-> +    TIMER3_CAPT_IRQ, TIMER3_COMPA_IRQ, TIMER3_COMPB_IRQ,
-> +        TIMER3_COMPC_IRQ, TIMER3_OVF_IRQ,
-> +    TIMER4_CAPT_IRQ, TIMER4_COMPA_IRQ, TIMER4_COMPB_IRQ,
-> +        TIMER4_COMPC_IRQ, TIMER4_OVF_IRQ,
-> +    TIMER5_CAPT_IRQ, TIMER5_COMPA_IRQ, TIMER5_COMPB_IRQ,
-> +        TIMER5_COMPC_IRQ, TIMER5_OVF_IRQ,
-> +};
-> +#define IRQ_MAX             64
-> +
-> +#define USART_RXC_IRQ(n)    (3 * n + USART0_RXC_IRQ)
-> +#define USART_DRE_IRQ(n)    (3 * n + USART0_DRE_IRQ)
-> +#define USART_TXC_IRQ(n)    (3 * n + USART0_TXC_IRQ)
-> +#define TIMER_CAPT_IRQ(n)   (5 * n + TIMER0_CAPT_IRQ)
-> +#define TIMER_COMPA_IRQ(n)  (5 * n + TIMER0_COMPA_IRQ)
-> +#define TIMER_COMPB_IRQ(n)  (5 * n + TIMER0_COMPB_IRQ)
-> +#define TIMER_COMPC_IRQ(n)  (5 * n + TIMER0_COMPC_IRQ)
-> +#define TIMER_OVF_IRQ(n)    (5 * n + TIMER0_OVF_IRQ)
-> +
-> +static const uint8_t irq168_328[IRQ_MAX] =3D {
-> +    [TIMER2_COMPA_IRQ]      =3D 8,
-> +    [TIMER2_COMPB_IRQ]      =3D 9,
-> +    [TIMER2_OVF_IRQ]        =3D 10,
-> +    [TIMER1_CAPT_IRQ]       =3D 11,
-> +    [TIMER1_COMPA_IRQ]      =3D 12,
-> +    [TIMER1_COMPB_IRQ]      =3D 13,
-> +    [TIMER1_OVF_IRQ]        =3D 14,
-> +    [TIMER0_COMPA_IRQ]      =3D 15,
-> +    [TIMER0_COMPB_IRQ]      =3D 16,
-> +    [TIMER0_OVF_IRQ]        =3D 17,
-> +    [USART0_RXC_IRQ]        =3D 19,
-> +    [USART0_DRE_IRQ]        =3D 20,
-> +    [USART0_TXC_IRQ]        =3D 21,
-> +}, irq1280_2560[IRQ_MAX] =3D {
-> +    [TIMER2_COMPA_IRQ]      =3D 14,
-> +    [TIMER2_COMPB_IRQ]      =3D 15,
-> +    [TIMER2_OVF_IRQ]        =3D 16,
-> +    [TIMER1_CAPT_IRQ]       =3D 17,
-> +    [TIMER1_COMPA_IRQ]      =3D 18,
-> +    [TIMER1_COMPB_IRQ]      =3D 19,
-> +    [TIMER1_COMPC_IRQ]      =3D 20,
-> +    [TIMER1_OVF_IRQ]        =3D 21,
-> +    [TIMER0_COMPA_IRQ]      =3D 22,
-> +    [TIMER0_COMPB_IRQ]      =3D 23,
-> +    [TIMER0_OVF_IRQ]        =3D 24,
-> +    [USART0_RXC_IRQ]        =3D 26,
-> +    [USART0_DRE_IRQ]        =3D 27,
-> +    [USART0_TXC_IRQ]        =3D 28,
-> +    [TIMER3_CAPT_IRQ]       =3D 32,
-> +    [TIMER3_COMPA_IRQ]      =3D 33,
-> +    [TIMER3_COMPB_IRQ]      =3D 34,
-> +    [TIMER3_COMPC_IRQ]      =3D 35,
-> +    [TIMER3_OVF_IRQ]        =3D 36,
-> +    [USART1_RXC_IRQ]        =3D 37,
-> +    [USART1_DRE_IRQ]        =3D 38,
-> +    [USART1_TXC_IRQ]        =3D 39,
-> +    [USART2_RXC_IRQ]        =3D 52,
-> +    [USART2_DRE_IRQ]        =3D 53,
-> +    [USART2_TXC_IRQ]        =3D 54,
-> +    [USART3_RXC_IRQ]        =3D 55,
-> +    [USART3_DRE_IRQ]        =3D 56,
-> +    [USART3_TXC_IRQ]        =3D 57,
-> +};
-> +
-> +enum AtmegaPeripheralAddress {
-> +    USART0, USART1, USART2, USART3,
-> +    TIMER0, TIMER1, TIMER2, TIMER3, TIMER4, TIMER5,
-> +    DEV_MAX
-> +};
-> +
-> +#define USART_ADDR(n)       (n + USART0)
-> +#define TIMER_ADDR(n)       (n + TIMER0)
-> +
-> +typedef struct {
-> +    uint16_t addr;
-> +    uint16_t prr_addr;
-> +    uint8_t prr_bit;
-> +    /* timer specific */
-> +    uint16_t intmask_addr;
-> +    uint16_t intflag_addr;
-> +    bool is_timer16;
-> +} peripheral_cfg;
-> +
-> +static const peripheral_cfg dev168_328[DEV_MAX] =3D {
-> +    [TIMER0]        =3D {  0x24, 0x64, 5, 0x6e, 0x35, false },
-> +    [TIMER1]        =3D {  0x80, 0x64, 3, 0x6f, 0x36, true },
-> +    [TIMER2]        =3D {  0xb0, 0x64, 6, 0x70, 0x37, false },
-> +    [USART0]        =3D {  0xc0, 0x64, 1 },
-> +}, dev1280_2560[DEV_MAX] =3D {
-> +    [TIMER0]        =3D {  0x24, 0x64, 5, 0x6e, 0x35, false },
-> +    [TIMER1]        =3D {  0x80, 0x64, 3, 0x6f, 0x36, true },
-> +    [TIMER3]        =3D {  0x90, 0x65, 3, 0x71, 0x38, true },
-> +    [TIMER4]        =3D {  0xa0, 0x65, 4, 0x72, 0x39, true },
-> +    [TIMER2]        =3D {  0xb0, 0x64, 6, 0x70, 0x37, false },
-> +    [USART0]        =3D {  0xc0, 0x64, 1 },
-> +    [USART1]        =3D {  0xc8, 0x65, 0 },
-> +    [USART2]        =3D {  0xd0, 0x65, 1 },
-> +    [TIMER5]        =3D { 0x120, 0x65, 5, 0x73, 0x3a, true },
-> +    [USART3]        =3D { 0x130, 0x65, 2 },
-> +};
-> +
-> +struct AtmegaInfo {
-> +    const char *uc_name;
-> +    const char *cpu_type;
-> +    size_t flash_size;
-> +    size_t eeprom_size;
-> +    size_t sram_size;
-> +    size_t io_size;
-> +    size_t uart_count;
-> +    size_t timer_count;
-> +    size_t gpio_count;
-> +    size_t adc_count;
-> +    const uint8_t *irq;
-> +    const peripheral_cfg *dev;
-> +};
-> +
-> +static const AtmegaInfo atmega_mcu[] =3D {
-> +    {
-> +        .uc_name =3D TYPE_ATMEGA168,
-> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr5"),
-> +        .flash_size =3D 16 * KiB,
-> +        .eeprom_size =3D 512,
-> +        .sram_size =3D 1 * KiB,
-> +        .io_size =3D 256,
-> +        .uart_count =3D 1,
-> +        .gpio_count =3D 23,
-> +        .adc_count =3D 6,
-> +        .irq =3D irq168_328,
-> +        .dev =3D dev168_328,
-> +    },
-> +    {
-> +        .uc_name =3D TYPE_ATMEGA328,
-> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr5"),
-> +        .flash_size =3D 32 * KiB,
-> +        .eeprom_size =3D 1 * KiB,
-> +        .sram_size =3D 2 * KiB,
-> +        .io_size =3D 256,
-> +        .uart_count =3D 1,
-> +        .timer_count =3D 3,
-> +        .gpio_count =3D 23,
-> +        .adc_count =3D 6,
-> +        .irq =3D irq168_328,
-> +        .dev =3D dev168_328,
-> +    },
-> +    {
-> +        .uc_name =3D TYPE_ATMEGA1280,
-> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr6"),
-> +        .flash_size =3D 128 * KiB,
-> +        .eeprom_size =3D 4 * KiB,
-> +        .sram_size =3D 8 * KiB,
-> +        .io_size =3D 512,
-> +        .uart_count =3D 4,
-> +        .timer_count =3D 6,
-> +        .gpio_count =3D 86,
-> +        .adc_count =3D 16,
-> +        .irq =3D irq1280_2560,
-> +        .dev =3D dev1280_2560,
-> +    },
-> +    {
-> +        .uc_name =3D TYPE_ATMEGA2560,
-> +        .cpu_type =3D AVR_CPU_TYPE_NAME("avr6"),
-> +        .flash_size =3D 256 * KiB,
-> +        .eeprom_size =3D 4 * KiB,
-> +        .sram_size =3D 8 * KiB,
-> +        .io_size =3D 512,
-> +        .uart_count =3D 4,
-> +        .timer_count =3D 6,
-> +        .gpio_count =3D 54,
-> +        .adc_count =3D 16,
-> +        .irq =3D irq1280_2560,
-> +        .dev =3D dev1280_2560,
-> +    },
-> +};
-> +
-> +static void connect_nonnull_irq(SysBusDevice *sbd, DeviceState *dev,
-> +                                int n, int irq)
-> +{
-> +    if (irq) {
-> +        sysbus_connect_irq(sbd, n, qdev_get_gpio_in(dev, irq));
-> +    }
-> +}
-> +
-> +static void connect_pr_irq(AtmegaState *s, const AtmegaInfo *info,
-> +                           DeviceState *dev, int index)
-> +{
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->pwr[info->dev[index].prr_addr =
-& 1]),
-> +                       info->dev[index].prr_bit,
-> +                       qdev_get_gpio_in(dev, 0));
-> +}
-> +
-> +static void atmega_realize(DeviceState *dev, Error **errp)
-> +{
-> +    AtmegaState *s =3D ATMEGA(dev);
-> +    AtmegaClass *bc =3D ATMEGA_GET_CLASS(dev);
-> +    const AtmegaInfo *info =3D bc->info;
-> +    DeviceState *cpudev;
-> +    SysBusDevice *sbd;
-> +    Error *err =3D NULL;
-> +    char *devname;
-> +    size_t i;
-> +
-> +    if (!s->xtal_freq_hz) {
-> +        error_setg(errp, "\"xtal-frequency-hz\" property must be provide=
-d.");
-> +        return;
-> +    }
-> +
-> +    /* CPU */
-> +    object_initialize_child(OBJECT(dev), "cpu", &s->cpu, sizeof(s->cpu),
-> +                            info->cpu_type, &err, NULL);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> +    object_property_set_bool(OBJECT(&s->cpu), true, "realized", &error_a=
-bort);
-> +    cpudev =3D DEVICE(&s->cpu);
-> +
-> +    /* SRAM */
-> +    memory_region_allocate_system_memory(&s->sram, OBJECT(dev),
-> +                                         "sram", info->sram_size);
-with main RAM conversion to hostmem backend, this API will go away
-and RAM memory region will be allocated by generic machine code
-and shall be treated as backend. Users would be able to access it
-via MachineState::ram memory region.
+> Felipe Franciosi (4):
+>   qom/object: enable setter for uint types
+>   ich9: fix getter type for sci_int property
+>   ich9: Simplify ich9_lpc_initfn
+>   qom/object: Use common get/set uint helpers
+>=20
+>  hw/acpi/ich9.c       |  99 ++------------------
+>  hw/acpi/pcihp.c      |   7 +-
+>  hw/acpi/piix4.c      |  12 +--
+>  hw/isa/lpc_ich9.c    |  27 ++----
+>  hw/misc/edu.c        |  13 +--
+>  hw/pci-host/q35.c    |  14 +--
+>  hw/ppc/spapr.c       |  18 +---
+>  hw/ppc/spapr_drc.c   |   3 +-
+>  include/qom/object.h |  44 +++++++--
+>  memory.c             |  15 +--
+>  qom/object.c         | 216 ++++++++++++++++++++++++++++++++++++++-----
+>  target/arm/cpu.c     |  22 +----
+>  target/i386/sev.c    | 106 ++-------------------
+>  ui/console.c         |   4 +-
+>  14 files changed, 282 insertions(+), 318 deletions(-)
+>=20
+> --=20
+> 2.20.1
+>=20
+> Changelog:
+> v1->v2:
+> - Update sci_int directly instead of using stack variable
+> - Defining an enhanced ObjectPropertyFlags instead of just 'readonly'
+> - Erroring out directly (instead of using gotos) on default setters
+> - Retaining lack of errp passing when it wasn't there
+> v2->v3:
+> - Rename flags _RD to _READ and _WR to _WRITE
+> - Add a convenience _READWRITE flag
+> - Drop the usage of UL in the bit flag definitions
+> v3->v4:
+> - Drop changes to hw/vfio/pci-quirks.c
 
-Meanwhile I'd suggest to move this line to arduino_machine_init()
-and pass it to MCU as a link property.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Also use MachineState::ram_size and add check that it matches mc->default_r=
-am_size.
-Ex: https://github.com/imammedo/qemu/commit/241c65d506ccba1e0239a2bc0632d7d=
-c9c3517c1
+--veXX9dWIonWZEC6h
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +    memory_region_add_subregion(get_system_memory(),
-> +                                OFFSET_DATA + 0x200, &s->sram);
-> +
-> +    /* Flash */
-> +    memory_region_init_rom(&s->flash, OBJECT(dev),
-> +                           "flash", info->flash_size, &error_fatal);
-> +    memory_region_add_subregion(get_system_memory(), OFFSET_CODE, &s->fl=
-ash);
-> +
-> +    /* I/O */
-> +    s->io =3D qdev_create(NULL, TYPE_UNIMPLEMENTED_DEVICE);
-> +    qdev_prop_set_string(s->io, "name", "I/O");
-> +    qdev_prop_set_uint64(s->io, "size", info->io_size);
-> +    qdev_init_nofail(s->io);
-> +    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(s->io), 0, OFFSET_DATA, -1234=
-);
-> +
-> +    /* Power */
-> +    for (i =3D 0; i < ARRAY_SIZE(s->pwr); i++) {
-> +        devname =3D g_strdup_printf("pwr%zu", i);
-> +        object_initialize_child(OBJECT(dev), devname,
-> +                                &s->pwr[i], sizeof(s->pwr[i]),
-> +                                TYPE_AVR_MASK, &error_abort, NULL);
-> +        object_property_set_bool(OBJECT(&s->pwr[i]), true, "realized",
-> +                                 &error_abort);
-> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->pwr[i]), 0, OFFSET_DATA + 0x6=
-4 + i);
-> +        g_free(devname);
-> +    }
-> +
-> +    /* USART */
-> +    for (i =3D 0; i < info->uart_count; i++) {
-> +        devname =3D g_strdup_printf("usart%zu", i);
-> +        object_initialize_child(OBJECT(dev), devname,
-> +                                &s->usart[i], sizeof(s->usart[i]),
-> +                                TYPE_AVR_USART, &error_abort, NULL);
-> +        qdev_prop_set_chr(DEVICE(&s->usart[i]), "chardev", serial_hd(i))=
-;
-> +        object_property_set_bool(OBJECT(&s->usart[i]), true, "realized",
-> +                                 &error_abort);
-> +        sbd =3D SYS_BUS_DEVICE(&s->usart[i]);
-> +        sysbus_mmio_map(sbd, 0, OFFSET_DATA + info->dev[USART_ADDR(i)].a=
-ddr);
-> +        connect_nonnull_irq(sbd, cpudev, 0, info->irq[USART_RXC_IRQ(i)])=
-;
-> +        connect_nonnull_irq(sbd, cpudev, 1, info->irq[USART_DRE_IRQ(i)])=
-;
-> +        connect_nonnull_irq(sbd, cpudev, 2, info->irq[USART_TXC_IRQ(i)])=
-;
-> +        connect_pr_irq(s, info, DEVICE(&s->usart[i]), 0);
-> +        g_free(devname);
-> +    }
-> +
-> +    /* Timer */
-> +    for (i =3D 0; i < info->timer_count; i++) {
-> +        int idx =3D TIMER_ADDR(i);
-> +        if (!info->dev[idx].is_timer16) {
-> +            create_unimplemented_device("avr-timer8",
-> +                                        OFFSET_DATA + info->dev[idx].add=
-r, 7);
-> +            create_unimplemented_device("avr-timer8-intmask",
-> +                                        OFFSET_DATA
-> +                                        + info->dev[idx].intmask_addr, 1=
-);
-> +            create_unimplemented_device("avr-timer8-intflag",
-> +                                        OFFSET_DATA
-> +                                        + info->dev[idx].intflag_addr, 1=
-);
-> +            continue;
-> +        }
-> +        devname =3D g_strdup_printf("timer%zu", i);
-> +        object_initialize_child(OBJECT(dev), devname,
-> +                                &s->timer[i], sizeof(s->timer[i]),
-> +                                TYPE_AVR_TIMER16, &error_abort, NULL);
-> +        object_property_set_uint(OBJECT(&s->timer[i]), s->xtal_freq_hz,
-> +                                 "cpu-frequency-hz", &error_abort);
-> +        object_property_set_bool(OBJECT(&s->timer[i]), true, "realized",
-> +                                 &error_abort);
-> +        sbd =3D SYS_BUS_DEVICE(&s->timer[i]);
-> +        sysbus_mmio_map(sbd, 0, OFFSET_DATA + info->dev[idx].addr);
-> +        sysbus_mmio_map(sbd, 1, OFFSET_DATA + info->dev[idx].intmask_add=
-r);
-> +        sysbus_mmio_map(sbd, 2, OFFSET_DATA + info->dev[idx].intflag_add=
-r);
-> +        connect_nonnull_irq(sbd, cpudev, 0, info->irq[TIMER_CAPT_IRQ(i)]=
-);
-> +        connect_nonnull_irq(sbd, cpudev, 1, info->irq[TIMER_COMPA_IRQ(i)=
-]);
-> +        connect_nonnull_irq(sbd, cpudev, 2, info->irq[TIMER_COMPB_IRQ(i)=
-]);
-> +        connect_nonnull_irq(sbd, cpudev, 3, info->irq[TIMER_COMPC_IRQ(i)=
-]);
-> +        connect_nonnull_irq(sbd, cpudev, 4, info->irq[TIMER_OVF_IRQ(i)])=
-;
-> +        connect_pr_irq(s, info, DEVICE(&s->timer[i]), 0);
-> +        g_free(devname);
-> +    }
-> +}
-> +
-> +static Property atmega_props[] =3D {
-> +    DEFINE_PROP_UINT64("xtal-frequency-hz", AtmegaState,
-> +                       xtal_freq_hz, 0),
-> +    DEFINE_PROP_END_OF_LIST()
-> +};
-> +
-> +static void atmega_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +    AtmegaClass *bc =3D ATMEGA_CLASS(oc);
-> +
-> +    bc->info =3D data;
-> +    dc->realize =3D atmega_realize;
-> +    dc->props =3D atmega_props;
-> +    /* Reason: Mapped at fixed location on the system bus */
-> +    dc->user_creatable =3D false;
-> +}
-> +
-> +static const TypeInfo atmega_type_info =3D {
-> +    .name =3D TYPE_ATMEGA,
-> +    .parent =3D TYPE_SYS_BUS_DEVICE,
-> +    .instance_size =3D sizeof(AtmegaState),
-> +    .class_size =3D sizeof(AtmegaClass),
-> +    .abstract =3D true,
-> +};
-> +
-> +static void atmega_register_types(void)
-> +{
-> +    size_t i;
-> +
-> +    type_register_static(&atmega_type_info);
-> +    for (i =3D 0; i < ARRAY_SIZE(atmega_mcu); i++) {
-> +        assert(atmega_mcu[i].io_size <=3D 0x200);
-> +        assert(atmega_mcu[i].uart_count <=3D USART_MAX);
-> +        assert(atmega_mcu[i].timer_count <=3D TIMER_MAX);
-> +        TypeInfo ti =3D {
-> +            .name =3D atmega_mcu[i].uc_name,
-> +            .parent =3D TYPE_ATMEGA,
-> +            .class_init =3D atmega_class_init,
-> +            .class_data =3D (void *) &atmega_mcu[i],
-> +        };
-> +        type_register(&ti);
-> +    }
-> +}
-> +
-> +type_init(atmega_register_types)
-> diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-> index 626b7064b3..4b6b911820 100644
-> --- a/hw/avr/Makefile.objs
-> +++ b/hw/avr/Makefile.objs
-> @@ -1 +1,2 @@
->  obj-y +=3D sample.o
-> +obj-y +=3D atmega.o
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl38nqMACgkQnKSrs4Gr
+c8hD7AgAhcPlQkegib+rnJw0CeRKD0EW/HOZ/qTGJpjVHBqZaqhTwOavQ4lxSX6h
+33A7WlGGGSFNmFNCKt/r32o2Mou/RCYBOQAJ053NNK22EwIsgY/j2gmJq2H4MacC
+to9lQu0bKNnNjhPx8bMttwQIiiaItEoJ05gcQPMAv4+2g8TQPDfhHL2Lj01LdweQ
+jzry3q5H+KCZz7IQB+jep9U8kncuw2SLC+gfDBB1ZEz8yswaJ8gnoDkcIyYRjsIF
+aBeniM+vc9q6MYfqWlzVpsD+KrtnV3D/C7Y+JT079jI1yrZoxfqZtNasTiirPy7u
+9hsZYmVXBN9Cq0XBDN+vtwMNhg3CPQ==
+=XPmb
+-----END PGP SIGNATURE-----
+
+--veXX9dWIonWZEC6h--
 
