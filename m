@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDDB127E69
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:47:13 +0100 (CET)
-Received: from localhost ([::1]:57500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA807127EC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:51:01 +0100 (CET)
+Received: from localhost ([::1]:57524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJYe-00079d-Ci
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:47:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44571)
+	id 1iiJcK-0001Dq-NI
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:51:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iiJTy-0001sP-VN
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:42:24 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1iiJY0-0006kz-HT
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:46:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iiJTx-0001Jw-S1
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:42:22 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:36883)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1iiJTx-0001Bl-Be
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:42:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=gIZMH5ZTrXvAP1Rz9HE8IqlS0/3Jb4nNgyaeweODaHo=; b=PJGAO8xdooXxKwo/Sc3kDOzFPa
- DdYCG0IRxgXGKn+l3fuUlhKdg+YaYvmA3qLEPT9JFm/Ys9Sl1MLOKBZsQpMeqOQtD0z2gytLheyvZ
- 4Wmn1o0NFAUNYKBi+8OlYjv96EmNoF5D1R0tiVYSl198b3fjNQdpyqewKFNZ762y9HMKFlJ6iZ6pa
- 60Ch2IpCYrij5S0sqvYDAHN41cTIfADqeN1eY/G8/6Pud1JPkzNBdLD9UefJ7d9ApIS4MVJQmdR+O
- 8aiExGvB6GVlodJHif7ExNspN88CdjYwItkMXzrhIUwEMCMVxdENQ7bbZfWaJ4rMpI8Hg4bQaL7aS
- vPWGp2Hb1oFfGbq7zCQk7pfcxbarUj61aW3pkDkFxCgczPwTsYk+eeJVKKtbXJ9HWGec/6+hjYI7C
- vCSq7kpvQOrqkENrHr5xcmmDqsK/tua8EmxcvkowmK4lBoH/4KEODvyeSPZiiT3r+OQn2AsC4eozH
- J9aNEQy+QeFMUAJ+Gu2hn52pE9tGXRyvztMzBARniw8Lp2bgcYEqWyd+ESCMmVJjDFIPirnvreVB/
- +/Xd6ps4bsOyvAnivcnPtO5D718QgICGlDToj5+4uUUxNoaTIOPA7XaNrJiaecTC4zJzefTyYYiE/
- 6bWYUFRBFIw2AFsRcMyWaofcumZS222dxJyCv6ECc=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (envelope-from <damien.hedde@greensocs.com>) id 1iiJXz-000897-84
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:46:32 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:52538)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1iiJXv-0007wL-18; Fri, 20 Dec 2019 09:46:27 -0500
+Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
+ [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPS id D0BA996EF0;
+ Fri, 20 Dec 2019 14:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1576853185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UeyalBXBvVZ3C0vBcE1FLzrTdcmMSL8XKpGFDkbsK7s=;
+ b=Mz9ExDYFMGYz+PeNHRzPLCYksUn7MOsvWoJtyiZjAqVgo+C3Sa1PpJSqLceW1fEI+xQJCi
+ qFmaMTII1wdzynDzBE6ATJrVfzKQndTOcrD4qsEw8pcLTwG5x4MWm2Cdcr8imcmGGxF/iF
+ wd/4Yb58z0a03zeXY1fd+KePhhgR4QQ=
+From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Cc: Jiajun Chen <chenjiajun8@huawei.com>, Greg Kurz <groug@kaod.org>,
- xiexiangyou@huawei.com
-Subject: Re: [PATCH] 9pfs: local: Fix possible memory leak in local_link()
-Date: Fri, 20 Dec 2019 15:42:17 +0100
-Message-ID: <38461169.jQibMN2RfJ@silver>
-In-Reply-To: <20191220094934.21232-1-chenjiajun8@huawei.com>
-References: <20191220094934.21232-1-chenjiajun8@huawei.com>
+Subject: [PATCH 0/3] Raspi sd-bus cleanup and multiphase reset
+Date: Fri, 20 Dec 2019 15:46:13 +0100
+Message-Id: <20191220144616.911466-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1576853185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UeyalBXBvVZ3C0vBcE1FLzrTdcmMSL8XKpGFDkbsK7s=;
+ b=5a2nOH7WTm9TEMUOH3NWeCEAUJaaEmRMS0hO4H1ulFUsMJ/E1Wwi63QhH9Z00QJNXSi40Z
+ R8SJ44oMFUg1DQnH1MMu12TDwQd+MfOBsYtD95h3vCEBUJRsM5pR7B0bVlYRRAKQzHpy4N
+ ruenPZtLD2dNggqk3KrANOma1I2S/ss=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1576853185; a=rsa-sha256; cv=none;
+ b=sYUV/YeUGgYWhFcvqWKWCvOkFbgaJ77/29kbXOMLsUZkC1yGO7q337fBDA9kViR+O8RB/l
+ mFNLEcBvURob2x0DIeE1mysXu5ybLXiRaM9lT1WHiC1FdFXDfA6vdSvrmDbc2NIxEq8bEs
+ t3IdI59a4tu48btmtAncpOLnrI9NimI=
+ARC-Authentication-Results: i=1;
+	beetle.greensocs.com;
+	none
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.189.157.229
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,39 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, philmd@redhat.com, Andrew.Baumann@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 20. Dezember 2019 10:49:34 CET Jiajun Chen wrote:
-> There is a possible memory leak while local_link return -1 without free
-> odirpath and oname.
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Jaijun Chen <chenjiajun8@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+Hi All,
 
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+This series is a follow-up of my reset series,
+https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg04664.html
 
-> ---
->  hw/9pfs/9p-local.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index 4708c0bd89..491b08aee8 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -947,7 +947,7 @@ static int local_link(FsContext *ctx, V9fsPath *oldpath,
-> if (ctx->export_flags & V9FS_SM_MAPPED_FILE &&
->          local_is_mapped_file_metadata(ctx, name)) {
->          errno = EINVAL;
-> -        return -1;
-> +        goto out;
->      }
-> 
->      odirfd = local_opendir_nofollow(ctx, odirpath);
+I've extracted the raspberry-pi related patches. As suggested by Peter
+in the previous version of the reset serie, these patches do a cleanup
+of the raspberry-pi sd-bus then does the multiphase reset switch of the
+gpio soc part.
 
-Best regards,
-Christian Schoenebeck
+Patch 1 remove the bcm2835_gpio sd-bus which is only used to host the
+sd-card before the machine initial reset. As the soc exhibits the "defaul=
+t"
+sd-bus to the machine using an alias, we can simply exhibit the sdhci ins=
+tead.
+Patch 2 prepare the multiphase reset switch by isolating the sd-card pare=
+nt
+change. Patch 3 finally does the multiphase transition of the bcm2835_gpi=
+o.
 
+Thanks for your feedback,
+Damien
+
+Based-on: <20191220115035.709876-1-damien.hedde@greensocs.com>
+
+Damien Hedde (3):
+  hw/arm/bcm2835: remove gpio/sd-bus
+  hw/gpio/bcm2835_gpio: Isolate sdbus reparenting
+  hw/gpio/bcm2835_gpio: Update to resettable
+
+ include/hw/gpio/bcm2835_gpio.h |  1 -
+ hw/arm/bcm2835_peripherals.c   |  2 +-
+ hw/gpio/bcm2835_gpio.c         | 35 +++++++++++++++++++++++-----------
+ 3 files changed, 25 insertions(+), 13 deletions(-)
+
+--=20
+2.24.0
 
 
