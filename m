@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8134F1282A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 20:22:42 +0100 (CET)
-Received: from localhost ([::1]:60838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0401282AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 20:22:57 +0100 (CET)
+Received: from localhost ([::1]:60842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiNrE-0000DK-Gd
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 14:22:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60748)
+	id 1iiNrU-0000ac-Jo
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 14:22:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iiNpQ-00073P-Pz
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:50 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iiNpX-0007FH-9P
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iiNpP-0005of-Oq
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:48 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26596
+ (envelope-from <ehabkost@redhat.com>) id 1iiNpV-00065p-KV
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:55 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26314
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iiNpP-0005ma-Kf
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:47 -0500
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iiNpV-00064N-GU
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 14:20:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576869646;
+ s=mimecast20190719; t=1576869652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zETl4ubOq+A35YsHo8u3TdJ3UnMGQKtYOawhE190Qs8=;
- b=XKNq0E99mMmMLnAjsdQGG6tvREHkJ1fYczITMhWhtCeIGhewDOUYpswPRbA6T78UBA7iWO
- XGAjFroOQoU5FTYDv8mw2UF7ez4Zmn3ejbseciTvQgPjd7BzgVNXMHIMmVGtcLTZFA14tS
- UTbjBywjMpsW/CSF5gfFR79iciQ8imQ=
+ bh=047QDZ7MEcEODejWVJcX4yQRTyXLQpY0SHXb+5Ij/5M=;
+ b=QvXKhYs1H9rIt2uJb9JxtLJuQe47FwbdDdPwGCR+yRGA88LOFgeCg3rMTlpvWkpqjcs+q3
+ zzLn+nQ8W9wboCf/HYJyU7CgXXVyuwgTJT/sVyDFac7lO3ixO/1WUBa8sjnDm8/KltWntp
+ BFYXuAFwRkAoL1oHSz4OWIepNq7jHko=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-FnyqBFRGNju0BkwNDN0c6w-1; Fri, 20 Dec 2019 14:20:45 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-344-85yPauv1MeKXac_BPKRh8Q-1; Fri, 20 Dec 2019 14:20:51 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29F27107ACC5;
- Fri, 20 Dec 2019 19:20:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60D6C1883522;
+ Fri, 20 Dec 2019 19:20:49 +0000 (UTC)
 Received: from localhost (ovpn-116-10.gru2.redhat.com [10.97.116.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 820A25C1B0;
- Fri, 20 Dec 2019 19:20:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 490DE60BEC;
+ Fri, 20 Dec 2019 19:20:45 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/3] numa: remove not needed check
-Date: Fri, 20 Dec 2019 16:20:30 -0300
-Message-Id: <20191220192031.2226378-3-ehabkost@redhat.com>
+Subject: [PULL 3/3] numa: properly check if numa is supported
+Date: Fri, 20 Dec 2019 16:20:31 -0300
+Message-Id: <20191220192031.2226378-4-ehabkost@redhat.com>
 In-Reply-To: <20191220192031.2226378-1-ehabkost@redhat.com>
 References: <20191220192031.2226378-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: FnyqBFRGNju0BkwNDN0c6w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 85yPauv1MeKXac_BPKRh8Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,46 +78,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Currently parse_numa_node() is always called from already numa
-enabled context.
-Drop unnecessary check if numa is supported.
+Commit aa57020774b, by mistake used MachineClass::numa_mem_supported
+to check if NUMA is supported by machine and also as unrelated change
+set it to true for sbsa-ref board.
 
+Luckily change didn't break machines that support NUMA, as the field
+is set to true for them.
+
+But the field is not intended for checking if NUMA is supported and
+will be flipped to false within this release for new machine types.
+
+Fix it:
+ - by using previously used condition
+      !mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id
+   the first time and then use MachineState::numa_state down the road
+   to check if NUMA is supported
+ - dropping stray sbsa-ref chunk
+
+Fixes: aa57020774b690a22be72453b8e91c9b5a68c516
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1576154936-178362-2-git-send-email-imammedo@redhat.com>
+Message-Id: <1576154936-178362-3-git-send-email-imammedo@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/core/numa.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ hw/arm/sbsa-ref.c | 1 -
+ hw/core/machine.c | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index e3332a984f..19f082de12 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -83,10 +83,6 @@ static void parse_numa_node(MachineState *ms, NumaNodeOp=
-tions *node,
-         return;
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 5853bdee5c..9b5bcb5634 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -789,7 +789,6 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *=
+data)
+     mc->possible_cpu_arch_ids =3D sbsa_ref_possible_cpu_arch_ids;
+     mc->cpu_index_to_instance_props =3D sbsa_ref_cpu_index_to_props;
+     mc->get_default_cpu_node_id =3D sbsa_ref_get_default_cpu_node_id;
+-    mc->numa_mem_supported =3D true;
+ }
+=20
+ static const TypeInfo sbsa_ref_info =3D {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 023548b4f3..e81f43cd0b 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -963,7 +963,7 @@ static void machine_initfn(Object *obj)
+                                         NULL);
      }
 =20
--    if (!mc->cpu_index_to_instance_props || !mc->get_default_cpu_node_id) =
-{
--        error_setg(errp, "NUMA is not supported by this machine-type");
--        return;
--    }
-     for (cpus =3D node->cpus; cpus; cpus =3D cpus->next) {
-         CpuInstanceProperties props;
-         if (cpus->value >=3D max_cpus) {
-@@ -178,9 +174,8 @@ void parse_numa_distance(MachineState *ms, NumaDistOpti=
-ons *dist, Error **errp)
- void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
+-    if (mc->numa_mem_supported) {
++    if (mc->cpu_index_to_instance_props && mc->get_default_cpu_node_id) {
+         ms->numa_state =3D g_new0(NumaState, 1);
+     }
+=20
+@@ -1107,7 +1107,7 @@ void machine_run_board_init(MachineState *machine)
  {
-     Error *err =3D NULL;
--    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
+     MachineClass *machine_class =3D MACHINE_GET_CLASS(machine);
 =20
--    if (!mc->numa_mem_supported) {
-+    if (!ms->numa_state) {
-         error_setg(errp, "NUMA is not supported by this machine-type");
-         goto end;
-     }
+-    if (machine_class->numa_mem_supported) {
++    if (machine->numa_state) {
+         numa_complete_configuration(machine);
+         if (machine->numa_state->num_nodes) {
+             machine_numa_finish_cpu_init(machine);
 --=20
 2.23.0
 
