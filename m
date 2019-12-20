@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72095127C81
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:28:17 +0100 (CET)
-Received: from localhost ([::1]:57098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E205127C5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:17:35 +0100 (CET)
+Received: from localhost ([::1]:56766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJGK-0005bD-4d
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:28:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43469)
+	id 1iiJ5x-0006z4-Sy
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:17:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iiIuE-0006Om-MO
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:05:28 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iiIy0-0004n8-WB
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:09:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iiIuC-00023e-J2
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:05:26 -0500
-Received: from relay.sw.ru ([185.231.240.75]:58172)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iiIxz-0000Pu-DR
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:09:20 -0500
+Received: from relay.sw.ru ([185.231.240.75]:58374)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iiIuC-0001qs-39
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:05:24 -0500
+ id 1iiIxz-0000J3-1x
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:09:19 -0500
 Received: from dptest2.qa.sw.ru ([10.94.4.71])
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iiIte-0007S2-Mh; Fri, 20 Dec 2019 17:04:50 +0300
+ id 1iiIxm-0007UT-Ji; Fri, 20 Dec 2019 17:09:06 +0300
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH v5 2/2] tests: add virtio-scsi and virtio-blk seg_max_adjust
  test
-Date: Fri, 20 Dec 2019 17:04:43 +0300
-Message-Id: <20191220140443.1399-3-dplotnikov@virtuozzo.com>
+Date: Fri, 20 Dec 2019 17:09:05 +0300
+Message-Id: <20191220140905.1718-3-dplotnikov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20191220140443.1399-1-dplotnikov@virtuozzo.com>
-References: <20191220140443.1399-1-dplotnikov@virtuozzo.com>
+In-Reply-To: <20191220140905.1718-1-dplotnikov@virtuozzo.com>
+References: <20191220140905.1718-1-dplotnikov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
@@ -47,8 +47,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, ehabkost@redhat.com, kwolf@radhat.com, mreitz@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mst@radhat.com, den@virtuozzo.com
+Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com, mst@redhat.com,
+ mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
