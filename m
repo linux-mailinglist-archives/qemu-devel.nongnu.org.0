@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2779F128108
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 17:59:44 +0100 (CET)
-Received: from localhost ([::1]:59100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664061280FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 17:57:57 +0100 (CET)
+Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiLct-0007VK-85
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 11:59:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39260)
+	id 1iiLbA-00053v-C8
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 11:57:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50939)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iiLX9-00084Q-CV
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:53:48 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iiLa1-0003ny-NM
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:56:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iiLX8-0007YP-Aj
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:53:47 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21041
+ (envelope-from <ehabkost@redhat.com>) id 1iiLa0-0002oy-81
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:56:45 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23576
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iiLX8-0007Xk-5r
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:53:46 -0500
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iiLa0-0002my-36
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 11:56:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576860825;
+ s=mimecast20190719; t=1576861003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fp5Omub8AuN7t5W84nXIABU4uqK0fYoWUw5C+nS7Zms=;
- b=gH4xHANsWvLZD1TqUa8NrYnEd8p3oKlO/j/OF5do+isTVpfoYFdk2PWqWf/3n82mgzGOoE
- vFEFcUux0QPrGIdANiLm7esHLWriTytuEP2ndCNWjLsUXlFx57Za0cBLgrXNVuJtXq1YAe
- xaa4UOhSLWlmVjJdOUwGs+WPTGvnUTk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-IwuMTj3-NLuUOYvfIwP7gw-1; Fri, 20 Dec 2019 11:53:44 -0500
-Received: by mail-wr1-f71.google.com with SMTP id o6so159721wrp.8
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 08:53:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Fp5Omub8AuN7t5W84nXIABU4uqK0fYoWUw5C+nS7Zms=;
- b=XMXLBSczRn2c1gtuJnOCmr6siSCMVJm/G9f0xuVdiNU28rkYy7+MYotRDpgpM39tzz
- XupUWwIFMfZz4Cw8mH9PMvaVVg1xYwfLKIHepPCPnHvLQbGnceaIqvvwERSVvNF8aQfd
- r269LLMmvmUUlcOMw2sOZCVB2mEnZN7tU6yZJAFZAKV9JA3D8SDa42EpR2v55avrtS0F
- EQvxDnx14VdNigp3M0+fvUj1SvrBy6Xt6l4qm76wYF39OQ1NlDA/Y3NiPpft5uSlysJ7
- a5k/n6nnaE38bQQKZjMCeJzMEsWyGUCAbKw0opLVvJJgXLe2qvaw1P75nKc46jEKOb3+
- Zm+w==
-X-Gm-Message-State: APjAAAXvk7knG5EWvn4bnmNaJqiuuR49ks3hO4sSKyDljPnAzbRD2mQ1
- rFUjDp5toMXKWR/oD3ljk4n3e/pEV02LnnB/SJ3xMa4Ya2N0WCOK9hW4mJD5lJcxjKvAVXLDsli
- +6VQdZdUKChpbnfI=
-X-Received: by 2002:a1c:a543:: with SMTP id o64mr16673268wme.73.1576860822584; 
- Fri, 20 Dec 2019 08:53:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzEdF68cWwBpVOnOdZ97eRNbkK7LkN21Wo/vA3AQbuisSi/YUCCywAYoBWfCxMclYrTWhkw5Q==
-X-Received: by 2002:a1c:a543:: with SMTP id o64mr16673253wme.73.1576860822370; 
- Fri, 20 Dec 2019 08:53:42 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id d14sm10985725wru.9.2019.12.20.08.53.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Dec 2019 08:53:41 -0800 (PST)
-Subject: Re: [PULL 0/2] Require Python >= 3.5 to build QEMU
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20191220165141.2207058-1-ehabkost@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5c6ea1a0-44dc-fa8e-f0d0-c0b139c9da11@redhat.com>
-Date: Fri, 20 Dec 2019 17:53:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=IpdkpY65tRP8q7UJ0txP3ogqAmfPMz5QOEyWm9W9H1I=;
+ b=AeitFl6hRIY6FzOh93rgKaxMEGqPSLBvwLfHtlrkYWpMzDDZdCk2CP9n9HUfpRcOVkEbsM
+ bJ1XnZBK/uDwVkLQl2Zp16TDziV0kHItEUIaBIp8z8t0orFzNKERuU1ZrJD3zn0+KBexg+
+ 6udI7X5kLBss3z2aOK2lVVAWwHF5WXQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-66-xKmCvYakPP2xar0kbbZ_kw-1; Fri, 20 Dec 2019 11:56:39 -0500
+X-MC-Unique: xKmCvYakPP2xar0kbbZ_kw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01EC5800D48;
+ Fri, 20 Dec 2019 16:56:37 +0000 (UTC)
+Received: from localhost (ovpn-116-10.gru2.redhat.com [10.97.116.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D80D25C1B2;
+ Fri, 20 Dec 2019 16:56:28 +0000 (UTC)
+Date: Fri, 20 Dec 2019 13:56:27 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Can we retire Python 2 now?
+Message-ID: <20191220165627.GV498046@habkost.net>
+References: <8736dfdkph.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20191220165141.2207058-1-ehabkost@redhat.com>
-Content-Language: en-US
-X-MC-Unique: IwuMTj3-NLuUOYvfIwP7gw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8736dfdkph.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -91,50 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+ Fabien Chouteau <chouteau@adacore.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/19 5:51 PM, Eduardo Habkost wrote:
-> Differences from the previous Python 3.5 pull request
-> that was rejected:
-> 
-> * Now tests/vm/netbsd was fixed
-> * .travis.yml is being updated to replace Python 3.4 job with 3.5
-> 
-> The following changes since commit f59b31e6d0c69792b5d817c5aa0a6ed64fba42e0:
-> 
->    Merge remote-tracking branch 'remotes/stsquad/tags/pull-tesing-and-misc-191219-1' into staging (2019-12-20 14:00:49 +0000)
-> 
-> are available in the Git repository at:
-> 
->    git://github.com/ehabkost/qemu.git tags/python-next-pull-request
-> 
-> for you to fetch changes up to ddf90699631db53c981b6a5a63d31c08e0eaeec7:
-> 
->    configure: Require Python >= 3.5 (2019-12-20 13:45:59 -0300)
-> 
-> ----------------------------------------------------------------
-> Require Python >= 3.5 to build QEMU
-> 
-> Python 2 EOL is 11 days away, we will stop supporting
-> it in QEMU 5.0.
+On Fri, Dec 20, 2019 at 05:29:30PM +0100, Markus Armbruster wrote:
+> Python 2 EOL is only a few days away[*].  We made configure bitch about
+> it in commit e5abf59eae "Deprecate Python 2 support", 2019-07-01.  Any
+> objections to retiring it now, i.e. in 5.0?
 
-That was quick! Thanks for sending it again today :)
+Thanks for the reminder!
 
-> ----------------------------------------------------------------
+I'll be honest: even if somebody in this list objects to dropping
+Python 2 support, I'm not willing to be maintainer of a Python 2
+codebase in 2020.  The only reason for not doing it in 4.1 was
+the tests/vm/netbsd breakage we took very long to debug and fix.
+
+I have just submitted this pull request:
+
+  Subject: [PULL 0/2] Require Python >= 3.5 to build QEMU
+  https://lore.kernel.org/qemu-devel/20191220165141.2207058-1-ehabkost@redhat.com/
+
 > 
-> Eduardo Habkost (2):
->    travis: Replace Python 3.4 build with 3.5
->    configure: Require Python >= 3.5
+> Cc'ing everyone who appears to be maintaining something that looks like
+> a Python script.
 > 
->   .travis.yml            |  2 +-
->   configure              | 18 ++++--------------
->   tests/Makefile.include |  5 -----
->   3 files changed, 5 insertions(+), 20 deletions(-)
-> 
+> [*] https://pythonclock.org/
+
+-- 
+Eduardo
 
 
