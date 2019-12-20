@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97599127C75
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:23:51 +0100 (CET)
-Received: from localhost ([::1]:56896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61B1127C56
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:15:55 +0100 (CET)
+Received: from localhost ([::1]:56627 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJC2-0000Qq-KP
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:23:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58762)
+	id 1iiJ4M-0004Ev-5g
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:15:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iiIow-0007fP-Tq
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:00:00 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iiIph-00009A-HH
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:00:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iiIov-0001l2-Kl
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:59:58 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33822)
+ (envelope-from <peter.maydell@linaro.org>) id 1iiIpg-0003pD-31
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:00:45 -0500
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:42932)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iiIou-0001fN-W4
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:59:57 -0500
-Received: by mail-ot1-x341.google.com with SMTP id a15so12008858otf.1
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:59:56 -0800 (PST)
+ id 1iiIpf-0003n0-Qg
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:00:43 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id 18so3784032oin.9
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:00:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ELpgbcB63eyC8D0t7Z4Fvx7gbMm7zBoq3zJjp0z7mJs=;
- b=C2WsHvtXy749gvkXphiJQTFHdm/9pOO9gjYmzXfaMLqdg68HFmS3occ6TK1MSzXdyb
- uUmtq1l2Po1yfQpIgwdvSzEpC1uFhJAh+kyjBMD+mNCVzYn6dXscMcqBrGEh3zzEnZsO
- 8JyRWZtXbDIB5QdXXP2eFjy4UT5TlMOPrJZUCExUXpdPXMejY+y9M+Xwr0Vvkd4AxszA
- z28XwAmP270e3O4nXANpuVyISK8HH/ZfARLCWsT8YvVejQkspcLyKx/t/uPMDb6bULvj
- P6l0OlDwUPI+f/VomsNt6imSbigMkNHTUseeuFb0hbKpa91s00rtXGiGZOTJcW9tAMTr
- jATw==
+ :cc; bh=7tYwsPLRFtYT+gosi+FZ9G04KAY4ATDB/3QakomYNjY=;
+ b=tP/XeM9OYBCQD8W+9kQndcPQUcZKsCTTHQwc254gfMkxjm4Bit5Jd4ob4uAwttQX27
+ Nd8euWQK9P+ntfHkm0ex17IvWcTzMziQ5xaoBLzhwBX9ja5pej6elk8sTdYJ/lUcxBZI
+ qihPYkJtUfWt0gtkltQXfTCadf0FEg2bljMSaNGYzJHPvtiED2dn2J737iUP38k7MB6F
+ 9Bews8hbZA8PK+w26S7K3TBi0+qv2Kwm6DDjyTtyYtaOJEf3wawIIF+BoIeCr9FzJ25W
+ UmrS2UqxIpT6Xn3wfc7wvwU5jjZZ2UJYlY6hCFBGuE0ip34rjTOAPbA7rmAsSp/OyQKm
+ FQWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ELpgbcB63eyC8D0t7Z4Fvx7gbMm7zBoq3zJjp0z7mJs=;
- b=O2MI0MciVvvCYPpv2/MX+7GFURzwDFBs8nPIDvyJuTUgq3rXA8xxazNQ4Xp7Qo+Uub
- j3gk7WnAh+psJWiHWFWo70PeAbblrqtpYrJl8leYxGEzdTcQoH7um9ytrpsZJAL9LIZb
- Xp7mXncoZ6UmDJbDV9YYGiAJF9pfZrya35kK3ESYcs1KjhXqhg7nnavEINAXVfKhsEx1
- Pfplou7wUl56zUm2yPwpG00wnNFtuVAUnkQ7KxgA3sFcCjXNJl3cNHsbuihV9slfovIJ
- a/p2cXZWuGHqf+qtuC3Zj7C2H49YXaHQiugSMcdB1uwNSTeKcFFac/p75+WgLVDR3Y8v
- QQDA==
-X-Gm-Message-State: APjAAAUB2F/Vze583Ok8IIMB55xhzC/IC7HyXWPx8ABAnAIIHM5oygeA
- Re3NvejNKfihU8Qn5VajPQZkqPZWgr0A8j6IgM1dog==
-X-Google-Smtp-Source: APXvYqx7n0BA5B96/Ii01kjGjFm+xgRen7pmR5PfmX7v1txRP32lWTBvNQpd//WBSZzfX7adDf5Ee80hbYzlEgEMyeU=
-X-Received: by 2002:a9d:8cb:: with SMTP id 69mr1308538otf.221.1576850395953;
- Fri, 20 Dec 2019 05:59:55 -0800 (PST)
+ bh=7tYwsPLRFtYT+gosi+FZ9G04KAY4ATDB/3QakomYNjY=;
+ b=IZ57pj/gKkW9f3MAax/0tknIHzyGV+KmIlUndULhmlKFcU2tYmhq3gEzpRjJodUo9K
+ Y0GrGYjaWi16pP8t7mqY9ujtXRQDJFWngo+YvJvmKhyw/EKFXcl4X4/iZdHKowSc7EfF
+ ll4RI60CNAOvPXSUyQvE2AprsPn3i0EQstK45bIz40sb71ArUoFubRxnTL2Yi4FvkjQz
+ vkjuNJtKQBHLRnRmCdK+Vfk3DD51yhvUmwknh64+l5ki26JfaWy0Kkbbo1bFDlVnwcOB
+ jVcjObe/QPX7ljSgl7BJJIpoeR8zB4Gp/jUAtUTmT0IiJnZzhcozREwPx9NJyj50ayuu
+ TR9w==
+X-Gm-Message-State: APjAAAVpMl4zVUiPuCqbVQ98cr93EuHqSM83PMsKQZDdsS+DuFXWee4B
+ h156D3rKdKV2otfVxzeOMhK1JKW0CShaxVn870+Blmuh
+X-Google-Smtp-Source: APXvYqzEdTf5R6y51LQzsdcn3m6qUo+eRMdrICORD/yeyZOFGKjIC13QtKIdokED53WP3om4kbY3kty/FL8cCyQZq3c=
+X-Received: by 2002:aca:3d7:: with SMTP id 206mr360707oid.98.1576850442632;
+ Fri, 20 Dec 2019 06:00:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20191217210230.99559-1-jeff.kubascik@dornerworks.com>
- <7a274247-e593-5828-73f8-2042971e8633@linaro.org>
- <CAFEAcA8Egy=Jkw8yKSumkeX=+Qxi8bPy-0fJjopHR6gCmz3FLQ@mail.gmail.com>
- <e8daa5c4-ba9a-a6dc-1037-7eec6335ad0b@dornerworks.com>
-In-Reply-To: <e8daa5c4-ba9a-a6dc-1037-7eec6335ad0b@dornerworks.com>
+References: <20191218130105.125981-1-laurent@vivier.eu>
+In-Reply-To: <20191218130105.125981-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Dec 2019 13:59:45 +0000
-Message-ID: <CAFEAcA8Dxwsx4dUuq4YjD9zYCJEW5gsYc=99nH=YgZTF4Ay2aw@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: fix IL bit for data abort exceptions
-To: Jeff Kubascik <jeff.kubascik@dornerworks.com>
+Date: Fri, 20 Dec 2019 14:00:31 +0000
+Message-ID: <CAFEAcA-k+aahB2Sn+ON9T71HHwKa_vgcmtc8tkwMASx1tfoZgA@mail.gmail.com>
+Subject: Re: [PULL 0/7] Trivial branch patches
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::22b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,56 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
  QEMU Developers <qemu-devel@nongnu.org>,
- Jarvis Roach <Jarvis.Roach@dornerworks.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Dec 2019 at 13:53, Jeff Kubascik
-<jeff.kubascik@dornerworks.com> wrote:
+On Wed, 18 Dec 2019 at 13:03, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> On 12/19/2019 7:43 AM, Peter Maydell wrote:
-> > On Wed, 18 Dec 2019 at 01:03, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> On 12/17/19 11:02 AM, Jeff Kubascik wrote:
-> >>> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-> >>> index 5feb312941..e63f8bda29 100644
-> >>> --- a/target/arm/tlb_helper.c
-> >>> +++ b/target/arm/tlb_helper.c
-> >>> @@ -44,7 +44,7 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
-> >>>          syn = syn_data_abort_with_iss(same_el,
-> >>>                                        0, 0, 0, 0, 0,
-> >>>                                        ea, 0, s1ptw, is_write, fsc,
-> >>> -                                      false);
-> >>> +                                      true);
-> >>>          /* Merge the runtime syndrome with the template syndrome.  */
-> >>>          syn |= template_syn;
-> >>
-> >> This doesn't look correct.  Surely the IL bit should come from template_syn?
-> >
-> > Yes. In translate.c we put it into the syndrome information by
-> > passing true/false to syn_data_abort_with_iss() depending on
-> > whether the issinfo passed in to disas_set_da_iss() has the
-> > ISSIs16Bit flag set.
-> >
-> > I think this is a regression introduced in commit 46beb58efbb8a2a32
-> > when we converted the Thumb decoder over to decodetree. Before that
-> > 16 bit Thumb insns were in a different place in the old decoder and
-> > the 16-bit Thumb path passed ISSIs16Bit in with its issflags.
-> > (We should cc: qemu-stable@nongnu.org on the fix for this.)
+> The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681:
 >
-> The problem here was syn_data_abort_with_iss would return syn with the IL bit
-> set, which carries through when it gets or'd with template_syn. I had to change
-> the is_16bit argument to true so that it clear the IL bit.
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-12-17' into staging (2019-12-17 15:55:20 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+>
+> for you to fetch changes up to 80bc935eaaf93e5b9a4efe97abd7c51d645f2612:
+>
+>   qemu-doc: Remove the unused "Guest Agent" node (2019-12-18 13:31:01 +0100)
+>
+> ----------------------------------------------------------------
+> Trivial fixes (20191218)
+>
 
-Interesting. I think that's an entirely separate (and long
-standing) bug to the regression where we forgot to fill in ISSIs16Bit
-in the issinfo field, and it masks the other bug...
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
 -- PMM
 
