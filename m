@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD417127589
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 07:07:50 +0100 (CET)
-Received: from localhost ([::1]:51082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6C912758E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 07:10:13 +0100 (CET)
+Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiBS1-0001dV-QH
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 01:07:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56362)
+	id 1iiBUK-0004qX-O7
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 01:10:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iiBQp-0000ks-1d
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:06:36 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iiBSO-0002ht-PA
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:08:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iiBQn-00035v-1I
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:06:33 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20822
+ (envelope-from <kraxel@redhat.com>) id 1iiBSN-0000ZT-Jp
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:08:12 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33698
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iiBQm-00030O-CQ
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:06:32 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iiBSN-0000Wv-Fu
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 01:08:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576821988;
+ s=mimecast20190719; t=1576822090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z+ZPvh9iN/3dF/yX7R8cNJRFnsOYiCE6G0wjnkePrTY=;
- b=iloz8r4S+6/Vc39HjByhcvXDhSG9HYVSgOjAg0YiHZcOV7BkW7iGc8MNEIbz1Ya7ZMmbpG
- qn4gE0Tlk5tzixDmzpOSSDsEPsK40KzmWSudMuh8bBISSId4a7yTg0nAU2EFWufc5hzRzW
- GDKWNHTVnLwYGvc/uVWmtTfZ5OM+U3Y=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=57mmJdnPxDt0v4VDLtuZ1dom29KjWKfgfVh6VdGPcYk=;
+ b=ONDW0wnCK8UiqTWl93fuJnc+mTVJQZR97uxX1AcnmmZXg/NpmYClnUw4rfHrLzPcYTjktZ
+ hG/e9srAeotcxI2oMjOYr5Aw05vitsud8mrNpnb0xWYL9fB6tl//SzurDflSmomj3ntbdO
+ 5MlL3z/zFNTOU69Mu8ax9Ng0BOeumbM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-ZTuITmQJPLuLu8H-KwgkNQ-1; Fri, 20 Dec 2019 01:06:26 -0500
+ us-mta-257-qc1CsPV7PP28vR1yAdSxOw-1; Fri, 20 Dec 2019 01:08:09 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 569DADBA5;
- Fri, 20 Dec 2019 06:06:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 679B71005513
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:08:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
  [10.36.116.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D145B5C548;
- Fri, 20 Dec 2019 06:06:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBE3C5C548;
+ Fri, 20 Dec 2019 06:08:05 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 229079AFB; Fri, 20 Dec 2019 07:06:17 +0100 (CET)
+ id 184729ADD; Fri, 20 Dec 2019 07:08:05 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] display/bochs-display: fix memory leak
-Date: Fri, 20 Dec 2019 07:06:16 +0100
-Message-Id: <20191220060617.32326-3-kraxel@redhat.com>
-In-Reply-To: <20191220060617.32326-1-kraxel@redhat.com>
-References: <20191220060617.32326-1-kraxel@redhat.com>
-MIME-Version: 1.0
+Subject: [PULL 0/1] Seabios 20191220 patches
+Date: Fri, 20 Dec 2019 07:08:04 +0100
+Message-Id: <20191220060805.1741-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: ZTuITmQJPLuLu8H-KwgkNQ-1
+X-MC-Unique: qc1CsPV7PP28vR1yAdSxOw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,39 +69,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cameron Esfahani <dirty@apple.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cameron Esfahani <dirty@apple.com>
+The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681=
+:
 
-Fix memory leak in bochs_display_update().  Leaks 304 bytes per frame.
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-=
+12-17' into staging (2019-12-17 15:55:20 +0000)
 
-Fixes: 33ebad54056
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
-Message-Id: <d6c26e68db134c7b0c7ce8b61596ca2e65e01e12.1576013209.git.dirty@=
-apple.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/bochs-display.c | 2 ++
- 1 file changed, 2 insertions(+)
+are available in the Git repository at:
 
-diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
-index dc1bd1641d34..215db9a231d3 100644
---- a/hw/display/bochs-display.c
-+++ b/hw/display/bochs-display.c
-@@ -252,6 +252,8 @@ static void bochs_display_update(void *opaque)
-             dpy_gfx_update(s->con, 0, ys,
-                            mode.width, y - ys);
-         }
-+
-+        g_free(snap);
-     }
- }
-=20
+  git://git.kraxel.org/qemu tags/seabios-20191220-pull-request
+
+for you to fetch changes up to db211f245b76193f7ce2cf7ebed8a0b3cb321c37:
+
+  seabios: update to 1.13.0 final (2019-12-20 07:06:39 +0100)
+
+----------------------------------------------------------------
+seabios: update to 1.13.0 final
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (1):
+  seabios: update to 1.13.0 final
+
+ pc-bios/bios-256k.bin             | Bin 262144 -> 262144 bytes
+ pc-bios/bios.bin                  | Bin 131072 -> 131072 bytes
+ pc-bios/vgabios-ati.bin           | Bin 39424 -> 39424 bytes
+ pc-bios/vgabios-bochs-display.bin | Bin 28672 -> 28672 bytes
+ pc-bios/vgabios-cirrus.bin        | Bin 38912 -> 38912 bytes
+ pc-bios/vgabios-qxl.bin           | Bin 39424 -> 39424 bytes
+ pc-bios/vgabios-ramfb.bin         | Bin 28672 -> 28672 bytes
+ pc-bios/vgabios-stdvga.bin        | Bin 39424 -> 39424 bytes
+ pc-bios/vgabios-virtio.bin        | Bin 39424 -> 39424 bytes
+ pc-bios/vgabios-vmware.bin        | Bin 39424 -> 39424 bytes
+ pc-bios/vgabios.bin               | Bin 38912 -> 38912 bytes
+ roms/config.seabios-128k          |   1 +
+ roms/seabios                      |   2 +-
+ 13 files changed, 2 insertions(+), 1 deletion(-)
+
 --=20
 2.18.1
 
