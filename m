@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61B1127C56
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:15:55 +0100 (CET)
-Received: from localhost ([::1]:56627 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F698127C5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:18:40 +0100 (CET)
+Received: from localhost ([::1]:56784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJ4M-0004Ev-5g
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:15:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35576)
+	id 1iiJ71-0008R2-2Y
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:18:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iiIph-00009A-HH
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:00:46 -0500
+ (envelope-from <berrange@redhat.com>) id 1iiIr9-0002CA-3f
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:02:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iiIpg-0003pD-31
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:00:45 -0500
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:42932)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iiIpf-0003n0-Qg
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:00:43 -0500
-Received: by mail-oi1-x22b.google.com with SMTP id 18so3784032oin.9
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 06:00:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7tYwsPLRFtYT+gosi+FZ9G04KAY4ATDB/3QakomYNjY=;
- b=tP/XeM9OYBCQD8W+9kQndcPQUcZKsCTTHQwc254gfMkxjm4Bit5Jd4ob4uAwttQX27
- Nd8euWQK9P+ntfHkm0ex17IvWcTzMziQ5xaoBLzhwBX9ja5pej6elk8sTdYJ/lUcxBZI
- qihPYkJtUfWt0gtkltQXfTCadf0FEg2bljMSaNGYzJHPvtiED2dn2J737iUP38k7MB6F
- 9Bews8hbZA8PK+w26S7K3TBi0+qv2Kwm6DDjyTtyYtaOJEf3wawIIF+BoIeCr9FzJ25W
- UmrS2UqxIpT6Xn3wfc7wvwU5jjZZ2UJYlY6hCFBGuE0ip34rjTOAPbA7rmAsSp/OyQKm
- FQWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7tYwsPLRFtYT+gosi+FZ9G04KAY4ATDB/3QakomYNjY=;
- b=IZ57pj/gKkW9f3MAax/0tknIHzyGV+KmIlUndULhmlKFcU2tYmhq3gEzpRjJodUo9K
- Y0GrGYjaWi16pP8t7mqY9ujtXRQDJFWngo+YvJvmKhyw/EKFXcl4X4/iZdHKowSc7EfF
- ll4RI60CNAOvPXSUyQvE2AprsPn3i0EQstK45bIz40sb71ArUoFubRxnTL2Yi4FvkjQz
- vkjuNJtKQBHLRnRmCdK+Vfk3DD51yhvUmwknh64+l5ki26JfaWy0Kkbbo1bFDlVnwcOB
- jVcjObe/QPX7ljSgl7BJJIpoeR8zB4Gp/jUAtUTmT0IiJnZzhcozREwPx9NJyj50ayuu
- TR9w==
-X-Gm-Message-State: APjAAAVpMl4zVUiPuCqbVQ98cr93EuHqSM83PMsKQZDdsS+DuFXWee4B
- h156D3rKdKV2otfVxzeOMhK1JKW0CShaxVn870+Blmuh
-X-Google-Smtp-Source: APXvYqzEdTf5R6y51LQzsdcn3m6qUo+eRMdrICORD/yeyZOFGKjIC13QtKIdokED53WP3om4kbY3kty/FL8cCyQZq3c=
-X-Received: by 2002:aca:3d7:: with SMTP id 206mr360707oid.98.1576850442632;
- Fri, 20 Dec 2019 06:00:42 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1iiIr6-0000iE-E9
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:02:13 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36522
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iiIr6-0000ez-42
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:02:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576850530;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mTmiHQwcBvvc3cTyqXZExLE/y8hDL8xRa3W3LjCvCLY=;
+ b=bs7X7yEAaskQ93YESomTLq1YNXiHQaRVuM/n5vaa+/OXlixY0feOadjCIeHy/ZaL+g/nC4
+ SlSmHuNlq+uDarAFP9sSXNHvxMwnXvU1A985plcfZiBLsREjjZLiNs4epHxPOzXx/2PPC8
+ fiq91wt+MaXudAp3YW6k1DUCLVBpABE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-aVeK_8hbMgu9PrPrQ_UdxA-1; Fri, 20 Dec 2019 09:02:09 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97B1F8024DC
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 14:02:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81D0A60BEC;
+ Fri, 20 Dec 2019 14:02:04 +0000 (UTC)
+Date: Fri, 20 Dec 2019 14:02:04 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v7 3/9] docs: start a document to describe D-Bus usage
+Message-ID: <20191220140204.GL1699760@redhat.com>
+References: <20191219123029.200788-1-marcandre.lureau@redhat.com>
+ <20191219123029.200788-4-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20191218130105.125981-1-laurent@vivier.eu>
-In-Reply-To: <20191218130105.125981-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Dec 2019 14:00:31 +0000
-Message-ID: <CAFEAcA-k+aahB2Sn+ON9T71HHwKa_vgcmtc8tkwMASx1tfoZgA@mail.gmail.com>
-Subject: Re: [PULL 0/7] Trivial branch patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::22b
+In-Reply-To: <20191219123029.200788-4-marcandre.lureau@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: aVeK_8hbMgu9PrPrQ_UdxA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +74,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: mprivozn@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Dec 2019 at 13:03, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit aceeaa69d28e6f08a24395d0aa6915b687d0a681:
->
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-12-17' into staging (2019-12-17 15:55:20 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
->
-> for you to fetch changes up to 80bc935eaaf93e5b9a4efe97abd7c51d645f2612:
->
->   qemu-doc: Remove the unused "Guest Agent" node (2019-12-18 13:31:01 +0100)
->
-> ----------------------------------------------------------------
-> Trivial fixes (20191218)
->
+On Thu, Dec 19, 2019 at 04:30:23PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  MAINTAINERS            |   5 ++
+>  docs/interop/dbus.rst  | 105 +++++++++++++++++++++++++++++++++++++++++
+>  docs/interop/index.rst |   1 +
+>  3 files changed, 111 insertions(+)
+>  create mode 100644 docs/interop/dbus.rst
+
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
-Applied, thanks.
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
-
--- PMM
 
