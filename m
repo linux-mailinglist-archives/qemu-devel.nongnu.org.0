@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D48127C16
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:59:10 +0100 (CET)
-Received: from localhost ([::1]:56300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21735127C14
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 14:58:35 +0100 (CET)
+Received: from localhost ([::1]:56294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiIo9-0004tY-Er
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:59:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57006)
+	id 1iiInZ-00041R-Ro
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 08:58:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIfQ-0007s2-Ui
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:50:10 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iiIdk-0004rt-I6
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:48:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iiIfP-0000Bm-G0
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:50:08 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21172
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iiIfP-00009d-AU
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:50:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576849806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2yGtEFvHZyPhxjV2eitHNZAvo2erIGYNh8Mdr4PSirk=;
- b=B9bR/gra63/mhJoYrrOIiO/uKewbr86HVC9hN3Sq7ucTQon8nk98cBG20yUsgLRLShl9Hr
- VuuvNi3WT6TIN5whgXOH9gXrXXUJNUQpBqdo6WT0SPh/gZozBFRdQzZOYtnXDtNzJthFYT
- Xaki0sq59CoSPpUl3qyVzMvO7EmgSuI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-K6UJg4DHMauidMAs-HEthA-1; Fri, 20 Dec 2019 08:50:03 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55D07802CB6;
- Fri, 20 Dec 2019 13:50:02 +0000 (UTC)
-Received: from localhost (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A747E6B566;
- Fri, 20 Dec 2019 13:50:00 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 23/37] lance: replace PROP_PTR with PROP_LINK
-Date: Fri, 20 Dec 2019 17:45:47 +0400
-Message-Id: <20191220134601.571905-24-marcandre.lureau@redhat.com>
-In-Reply-To: <20191220134601.571905-1-marcandre.lureau@redhat.com>
-References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iiIdj-0002PE-6w
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:48:24 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38765)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iiIdi-0002LG-UA
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 08:48:23 -0500
+Received: by mail-oi1-x241.google.com with SMTP id l9so1759265oii.5
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 05:48:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LkCvHbS5kGTiB9GuTFKXBUKdxx6n7jSKXqEpRcQfp0A=;
+ b=L+JTNyHYp1r4mlY0GR8CB64A+jutF6GSRvtv6KQiNl/ghBgHjtUnl2+YEExPevy3BM
+ Q6ZAI1d/w/q40bRpGbKM0+hrZ8d7lTTx0ZLjtvVX76iyeNlKZRCy6RemZas2dxmkBBk1
+ a6LsZn3HA3kLus3QsZz4Ob9eBwOpvzi+UX8kLn449Pb7/HZLnBLqPAMkDgaV+PHDw8At
+ /xI69EhFQobJU3ezcVHt7oa+gUuZb0gjsEzkbOqeGrFqSG4amGoEd4Y/AlwBFuTrLcCv
+ 2yYDVkYOOBBRIe/HJKANSqnrvQwnJRymFsfe5F9Mh8gOni/i2Qjuw9u8q7MjM9sNHHCJ
+ vT3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LkCvHbS5kGTiB9GuTFKXBUKdxx6n7jSKXqEpRcQfp0A=;
+ b=eKiLmydTLy6X5LPHnSq8I0NLiyFv0Dfo7LiQC8fEfs4BO1ldKa5GTl/08ZvXwEYCFt
+ jNob/97cFmyINDLDxo4KcNDzLapfzY0KWq+TbvUU5c9h+lX3QRTxgXByE5pf1n1KHsLE
+ M7kLOYBe5z+G87mXCu0MhRt+2xdEcq/gNyXR5vRKptY/gYdfHwxww1UlioVhPMwOGsMB
+ Ier4BNSE/tGCibm7vsDAFXeLCHpcOfy2w2qyFJ8e6tTNd48usAj3wFNWB1vXslCW+Qbh
+ IRqVauLq9acsSXuoCTnqwMmT2yKnylZgIXeoIwrwigGRl9RpeS8T9EMsPB1aHZOwLEbM
+ cGRA==
+X-Gm-Message-State: APjAAAUKufgg9zsKfN3mT841Y5qmnujE9/cRyhqc7ngxuIq0mHVVRJ0U
+ pOs1Oau+1Mr5ilM/ZdHHv1c80IAztUu9jMHIMAJlHA==
+X-Google-Smtp-Source: APXvYqxyCWQ7In/8LrivDfVo4hX/+20AGWHTVZx/IgPkXG9i6nXr6FccqP8/0jbJ985k3fBmBaWWGKZtZOfJsRNcPNY=
+X-Received: by 2002:aca:3182:: with SMTP id x124mr3945658oix.170.1576849701925; 
+ Fri, 20 Dec 2019 05:48:21 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: K6UJg4DHMauidMAs-HEthA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+References: <20191219185609.16748-1-richard.henderson@linaro.org>
+ <87bls3dsrk.fsf@linaro.org>
+In-Reply-To: <87bls3dsrk.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Dec 2019 13:48:11 +0000
+Message-ID: <CAFEAcA8ZyDeFt-PY53Dysf+wiNpUkBk=v+sHG9huUR4awsef7g@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Set ISSIs16Bit in make_issinfo
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,89 +74,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Jeff Kubascik <jeff.kubascik@dornerworks.com>,
+ qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The device remains non-user creatable since it is a sysbus device.
+On Fri, 20 Dec 2019 at 13:35, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Richard Henderson <richard.henderson@linaro.org> writes:
+>
+> > During the conversion to decodetree, the setting of
+> > ISSIs16Bit got lost.  This causes the guest os to
+> > incorrectly adjust trapping memory operations.
+> >
+> > Fixes: 46beb58efbb8a2a32
+>
+> It's not really obvious from this commit where we end up now calling...
+>
+>
+> > Cc: qemu-stable@nongnu.org
+> > Reported-by: Jeff Kubascik <jeff.kubascik@dornerworks.com>
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  target/arm/translate.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/target/arm/translate.c b/target/arm/translate.c
+> > index 2b6c1f91bf..9f0afbdb75 100644
+> > --- a/target/arm/translate.c
+> > +++ b/target/arm/translate.c
+> > @@ -8556,6 +8556,9 @@ static ISSInfo make_issinfo(DisasContext *s, int =
+rd, bool p, bool w)
+> >      /* ISS not valid if writeback */
+> >      if (p && !w) {
+> >          ret =3D rd;
+> > +        if (s->base.pc_next - s->pc_curr =3D=3D 2) {
+> > +            ret |=3D ISSIs16Bit;
+> > +        }
+>
+> this function.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/dma/sparc32_dma.c | 2 +-
- hw/net/lance.c       | 5 ++---
- hw/net/pcnet-pci.c   | 2 +-
- hw/net/pcnet.h       | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
+Yeah, the combination of decodetree and the C preprocessor
+is pretty confusing. There's a macro DO_LDST in translate.c
+which creates trans_LDR_rr() functions which call op_load_rr()
+which then calls make_issinfo(); and the decodetree generator
+is what generates the code that calls trans_LDR_rr() and friends.
 
-diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index 0e5bbcdc7f..3e4da0c47f 100644
---- a/hw/dma/sparc32_dma.c
-+++ b/hw/dma/sparc32_dma.c
-@@ -346,7 +346,7 @@ static void sparc32_ledma_device_realize(DeviceState *d=
-ev, Error **errp)
-     d =3D qdev_create(NULL, TYPE_LANCE);
-     object_property_add_child(OBJECT(dev), "lance", OBJECT(d), errp);
-     qdev_set_nic_properties(d, nd);
--    qdev_prop_set_ptr(d, "dma", dev);
-+    object_property_set_link(OBJECT(d), OBJECT(dev), "dma", errp);
-     qdev_init_nofail(d);
- }
-=20
-diff --git a/hw/net/lance.c b/hw/net/lance.c
-index 6631e2a4e0..4d96299041 100644
---- a/hw/net/lance.c
-+++ b/hw/net/lance.c
-@@ -138,7 +138,8 @@ static void lance_instance_init(Object *obj)
- }
-=20
- static Property lance_properties[] =3D {
--    DEFINE_PROP_PTR("dma", SysBusPCNetState, state.dma_opaque),
-+    DEFINE_PROP_LINK("dma", SysBusPCNetState, state.dma_opaque,
-+                     TYPE_DEVICE, DeviceState *),
-     DEFINE_NIC_PROPERTIES(SysBusPCNetState, state.conf),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -153,8 +154,6 @@ static void lance_class_init(ObjectClass *klass, void *=
-data)
-     dc->reset =3D lance_reset;
-     dc->vmsd =3D &vmstate_lance;
-     dc->props =3D lance_properties;
--    /* Reason: pointer property "dma" */
--    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo lance_info =3D {
-diff --git a/hw/net/pcnet-pci.c b/hw/net/pcnet-pci.c
-index 4723c30c79..d067d21e2c 100644
---- a/hw/net/pcnet-pci.c
-+++ b/hw/net/pcnet-pci.c
-@@ -231,7 +231,7 @@ static void pci_pcnet_realize(PCIDevice *pci_dev, Error=
- **errp)
-     s->irq =3D pci_allocate_irq(pci_dev);
-     s->phys_mem_read =3D pci_physical_memory_read;
-     s->phys_mem_write =3D pci_physical_memory_write;
--    s->dma_opaque =3D pci_dev;
-+    s->dma_opaque =3D DEVICE(pci_dev);
-=20
-     pcnet_common_init(DEVICE(pci_dev), s, &net_pci_pcnet_info);
- }
-diff --git a/hw/net/pcnet.h b/hw/net/pcnet.h
-index 28d19a5c6f..f49b213c57 100644
---- a/hw/net/pcnet.h
-+++ b/hw/net/pcnet.h
-@@ -50,7 +50,7 @@ struct PCNetState_st {
-                          uint8_t *buf, int len, int do_bswap);
-     void (*phys_mem_write)(void *dma_opaque, hwaddr addr,
-                           uint8_t *buf, int len, int do_bswap);
--    void *dma_opaque;
-+    DeviceState *dma_opaque;
-     int tx_busy;
-     int looptest;
- };
---=20
-2.24.0.308.g228f53135a
-
+thanks
+-- PMM
 
