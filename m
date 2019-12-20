@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA31127ACE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:14:25 +0100 (CET)
-Received: from localhost ([::1]:54122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E20A127AAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 13:07:13 +0100 (CET)
+Received: from localhost ([::1]:53980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiHAm-0007yq-Ru
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:14:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37784)
+	id 1iiH3o-0005yR-1J
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 07:07:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iiH00-0003pe-EN
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:03:17 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iiH1R-0004YL-PS
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:04:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iiGzz-00022B-4I
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:03:16 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35025)
+ (envelope-from <alex.bennee@linaro.org>) id 1iiH1P-0007Ho-TB
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:04:45 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44620)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iiGzy-0001yC-QT; Fri, 20 Dec 2019 07:03:14 -0500
-Received: by mail-ot1-x344.google.com with SMTP id k16so7057474otb.2;
- Fri, 20 Dec 2019 04:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8C7TuX1X1U9ocuMoYVdHEe4iBdnQlGcycyiXt2bsoMs=;
- b=K68Vn8WFOv2wBjZtN/poDXieWbC3Jlb9bOYo1Q6yZh3mTS+qhJ2k+t46OM6XtfxAkc
- 48dXYRHjN2UtY+KOR+FTwYnh/aBlfcXaZC+HktwscAC+M+dtddI0QnbdMRnIv+G0wm5r
- cDrkXW/cSAp78xVdU8BG33T3CM06G/7QUyT2DKeqluFT7z0+ecX5PhT2gNLR33UaKUs2
- kaCw+He2Nid0kPYjfhNKKGrKfUBGOKNvN576T3PySGg2ryR4rmvQ7DLgpYiNyMAsrIvD
- vaCzxT0pzIs/+Q7PdhumyrFunJJA3rf6fSERWU+EXHi3Ua4x/hAz3vF6Ax0e5+VpWcoN
- Atlw==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iiH1P-0007D3-Iy
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 07:04:43 -0500
+Received: by mail-wr1-x432.google.com with SMTP id q10so9168472wrm.11
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 04:04:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=seZxIJJzrC8aUFeIHKs7Llt2Klfs5NAbt8G7XufUqSc=;
+ b=A3RQ9f4+WDMTYxBWQnLzU1VlVY4mLxHrhqqx8v/sr4kCFvpi4kjsJV+ZiUuYGYPSfT
+ Oe3XJCZce1zy8JpupLk7DfBqxJHnsBi3zClsiHCKE5RlZChoyQiuK203jzHC6C/jjh1J
+ UtRyoIV4K7+bMzbQaYCE6/IB0xpuPQW3jlymKkwrJVycxrR7RA5Nf3tTu+ror3/9Hdel
+ wGcPYSRY8q8DLma98V2BnHsBWgxpqkWHcAo2acz7eIV/DOxj6Jgcc7i3Ju4bX/OM7a1D
+ AzsjE4fJV1HzYbXCbVW5PZlNZ62xJBfxFEESp/Z2PWiuTJZix7PmrbKNHejDQ0KqP+HH
+ cRTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8C7TuX1X1U9ocuMoYVdHEe4iBdnQlGcycyiXt2bsoMs=;
- b=hUYuE6Gb0QxyTw4SnsOGQ0p+5LTRrs/47XzT9ClaXQf2XGcFTdnA+WtmpUFXbcy7ZV
- +Sg+bJwvq/MLSsjg0sHe9JFu0b/0AvzjwaVluRkc5G7mN6u24lXi4AS1f5YWyWsIW8FK
- 2MKwXJOUhBxNHxIpJaFPWM/ozP9Vi1IzwtiESJ8GBTyzEnw8yL/JtXgOYqp44h+aXlla
- dxG3za0sBsFwizCtJyVTLhejOHyOFge8feJWULUne2OO01xwwf5/oPOKOWnQjlzrcrLb
- jTKbr0QKDAzx/n4x2EimeldX2dPquGjskfMZzDAnS7T2vbccvSG0XXOLhOtjn+FLE9MS
- 8acg==
-X-Gm-Message-State: APjAAAVnUqNQWFUaRev+8CJGU76rIAC1jfYiSEbrJYar7V4mVxHfeteh
- 0lD2Z7cqZ2nXYhcSVKiWoIvFAES5eZehwIHN5vA=
-X-Google-Smtp-Source: APXvYqzsLrDlft+ir8y6+sld7djDMUGFV5iCIIIZgjx2ypKQO4wInQsGoQpU2TxMQHYU524lzhKZt1GRiu/XVK+fTnc=
-X-Received: by 2002:a05:6830:1042:: with SMTP id
- b2mr14582032otp.306.1576843393733; 
- Fri, 20 Dec 2019 04:03:13 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=seZxIJJzrC8aUFeIHKs7Llt2Klfs5NAbt8G7XufUqSc=;
+ b=HqmDueWv5IH7lVGm8DIS1EqOg1LN0rHV/hNOwmJ2LnsVg9b12DBl7y5gOhLn7ZmWtU
+ mdERQJQBCsrEAodPgWNSTR4CcEj1wk5Kc5Pmn8Q+xHWm6JKScKDA6HazgYgSdDNa5apQ
+ 2S7frTXObWeq36F311eTfczKlNIQc1YFNaVdAKEP+lDmud23Rhw+hQuE6GHUUm0cnUEy
+ ceJM+3aUdbmHyctWz9HPR3CpRAWgrvCrrZgqnVxKKUOY9+VvojXLf1xIa1W5UV6PQbQR
+ jojyZKFNahXHxSnZyOeFGA61uFqgintuvH5FbN6q7HVw2LksgdYoLyIUR8U7uXfweCH+
+ z6mw==
+X-Gm-Message-State: APjAAAUkUmIhaB+NpV0Q8FsZx3FEGaq+8VAqhBbDFUi8fCf9uF0X5zJi
+ 1lfK9VPXolW4G1TMBQycu6RgQA==
+X-Google-Smtp-Source: APXvYqxdR6zgmqIvREpux2s1AHcUIRprjFUjCi336LKlYzP34FZfv3/gyi13lB4gAFEMVQRwGYme2w==
+X-Received: by 2002:adf:90e1:: with SMTP id i88mr14223975wri.95.1576843482265; 
+ Fri, 20 Dec 2019 04:04:42 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z8sm9597209wrq.22.2019.12.20.04.04.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Dec 2019 04:04:39 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D0F0E1FF87;
+ Fri, 20 Dec 2019 12:04:38 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/21] gdbstub refactor and SVE support (+check-tcg tweaks)
+Date: Fri, 20 Dec 2019 12:04:17 +0000
+Message-Id: <20191220120438.16114-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <cover.1576286757.git.fthain@telegraphics.com.au>
- <CAL1e-=jN-8zEnCvxq4actoBcrjBviqfxBjGCTT7mBxmSPhiF3w@mail.gmail.com>
-In-Reply-To: <CAL1e-=jN-8zEnCvxq4actoBcrjBviqfxBjGCTT7mBxmSPhiF3w@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 20 Dec 2019 13:03:02 +0100
-Message-ID: <CAL1e-=ggoQg5WTWvTHcdyrfLvFpVP9k1-30Hb6jcOP4W67PeoA@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Fixes for DP8393X SONIC device emulation
-To: Finn Thain <fthain@telegraphics.com.au>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,61 +79,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org, Herve Poussineau <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: damien.hedde@greensocs.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ luis.machado@linaro.org, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 20, 2019 at 12:38 PM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
->
-> On Sat, Dec 14, 2019 at 2:29 AM Finn Thain <fthain@telegraphics.com.au> wrote:
-> >
-> > Hi All,
-> >
-> > There is a bug in the DP8393X emulation that can stop packet reception.
-> >
-> > Whilst debugging that issue I found that the receiver algorithm differs
-> > from the one described in the National Semiconductor datasheet.
-> >
->
-> Finn, could you please provide the link to the exact datasheet that
+Hi,
 
-or, several datasheets...
+This is the current iteration of gdbstub refactoring and SVE support.
+I've fixed a few of the bugs caught up in review and dropped the
+pseudo VG register. You can still read the state of zcr_el1 via the
+existing sysreg support (which doesn't allow writing). I've also
+included a couple of Damian's fixes to the gdbstub which I'll include
+in the final PR.
 
-> you used for reference, so that we are on the same page while looking
-> at your code?
->
-> Best regards,
-> Aleksandar
->
-> > These issues and others are addressed by this patch series.
-> >
-> > This series has only been tested with Linux/m68k guests. It needs further
-> > testing with MIPS Jazz guests such as NetBSD or Windows NT.
-> >
-> > Thanks.
-> >
-> >
-> > Finn Thain (10):
-> >   dp8393x: Mask EOL bit from descriptor addresses
-> >   dp8393x: Clean up endianness hacks
-> >   dp8393x: Have dp8393x_receive() return the packet size
-> >   dp8393x: Don't advance RX descriptor twice
-> >   dp8393x: Update LLFA register
-> >   dp8393x: Clear RRRA command register bit only when appropriate
-> >   dp8393x: Implement TBWC0 and TBWC1 registers to restore buffer state
-> >   dp8393x: Implement packet size limit and RBAE interrupt
-> >   dp8393x: Don't stop reception upon RBE interrupt assertion
-> >   dp8393x: Don't clobber packet checksum
-> >
-> >  hw/net/dp8393x.c | 80 +++++++++++++++++++++++++++++++-----------------
-> >  1 file changed, 52 insertions(+), 28 deletions(-)
-> >
-> > --
-> > 2.23.0
-> >
-> >
+The following patches need review
+  08 - gdbstub extend GByteArray to read register helper
+  09 - target arm prepare for multiple dynamic XMLs
+  12 - target arm generate xml description of our SVE re
+  13 - tests tcg add a configure compiler check for ARMv
+  15 - tests tcg aarch64 userspace system register test
+  16 - tests guest debug add a simple test runner
+  17 - tests tcg aarch64 add a gdbstub testcase for SVE 
+  18 - tests tcg aarch64 add SVE iotcl test
+  19 - tests tcg aarch64 add test sve ioctl guest debug 
+
+Alex Bennée (19):
+  gdbstub: make GDBState static and have common init function
+  gdbstub: stop passing GDBState * around and use global
+  gdbstub: move str_buf to GDBState and use GString
+  gdbstub: move mem_buf to GDBState and use GByteArray
+  gdbstub: add helper for 128 bit registers
+  target/arm: use gdb_get_reg helpers
+  target/m68k: use gdb_get_reg helpers
+  gdbstub: extend GByteArray to read register helpers
+  target/arm: prepare for multiple dynamic XMLs
+  target/arm: explicitly encode regnum in our XML
+  target/arm: default SVE length to 64 bytes for linux-user
+  target/arm: generate xml description of our SVE registers
+  tests/tcg: add a configure compiler check for ARMv8.1 and SVE
+  target/arm: don't bother with id_aa64pfr0_read for USER_ONLY
+  tests/tcg/aarch64: userspace system register test
+  tests/guest-debug: add a simple test runner
+  tests/tcg/aarch64: add a gdbstub testcase for SVE registers
+  tests/tcg/aarch64: add SVE iotcl test
+  tests/tcg/aarch64: add test-sve-ioctl guest-debug test
+
+Damien Hedde (2):
+  gdbstub: change GDBState.last_packet to GByteArray
+  gdbstub: do not split gdb_monitor_write payload
+
+ include/exec/gdbstub.h                      |  49 +-
+ include/hw/core/cpu.h                       |   2 +-
+ target/alpha/cpu.h                          |   2 +-
+ target/arm/cpu.h                            |  31 +-
+ target/cris/cpu.h                           |   4 +-
+ target/hppa/cpu.h                           |   2 +-
+ target/i386/cpu.h                           |   2 +-
+ target/lm32/cpu.h                           |   2 +-
+ target/m68k/cpu.h                           |   2 +-
+ target/microblaze/cpu.h                     |   2 +-
+ target/mips/internal.h                      |   2 +-
+ target/openrisc/cpu.h                       |   2 +-
+ target/ppc/cpu.h                            |   4 +-
+ target/riscv/cpu.h                          |   2 +-
+ target/s390x/internal.h                     |   2 +-
+ target/sh4/cpu.h                            |   2 +-
+ target/sparc/cpu.h                          |   2 +-
+ target/xtensa/cpu.h                         |   2 +-
+ gdbstub.c                                   | 936 ++++++++++----------
+ hw/core/cpu.c                               |   2 +-
+ target/alpha/gdbstub.c                      |   2 +-
+ target/arm/cpu.c                            |   4 +-
+ target/arm/gdbstub.c                        | 168 +++-
+ target/arm/gdbstub64.c                      |   2 +-
+ target/arm/helper.c                         | 174 +++-
+ target/cris/gdbstub.c                       |   4 +-
+ target/hppa/gdbstub.c                       |   2 +-
+ target/i386/gdbstub.c                       |   2 +-
+ target/lm32/gdbstub.c                       |   2 +-
+ target/m68k/gdbstub.c                       |   2 +-
+ target/m68k/helper.c                        |  33 +-
+ target/microblaze/gdbstub.c                 |   2 +-
+ target/mips/gdbstub.c                       |   2 +-
+ target/nios2/cpu.c                          |   2 +-
+ target/openrisc/gdbstub.c                   |   2 +-
+ target/ppc/gdbstub.c                        |  48 +-
+ target/ppc/translate_init.inc.c             |  54 +-
+ target/riscv/gdbstub.c                      |  18 +-
+ target/s390x/gdbstub.c                      |  30 +-
+ target/sh4/gdbstub.c                        |   2 +-
+ target/sparc/gdbstub.c                      |   2 +-
+ target/xtensa/gdbstub.c                     |   2 +-
+ tests/tcg/aarch64/sve-ioctls.c              |  77 ++
+ tests/tcg/aarch64/sysregs.c                 | 172 ++++
+ tests/.gitignore                            |   1 +
+ tests/guest-debug/run-test.py               |  57 ++
+ tests/tcg/aarch64/Makefile.target           |  10 +
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py |  71 ++
+ tests/tcg/aarch64/gdbstub/test-sve.py       |  75 ++
+ tests/tcg/configure.sh                      |  14 +
+ 50 files changed, 1410 insertions(+), 680 deletions(-)
+ create mode 100644 tests/tcg/aarch64/sve-ioctls.c
+ create mode 100644 tests/tcg/aarch64/sysregs.c
+ create mode 100755 tests/guest-debug/run-test.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+ create mode 100644 tests/tcg/aarch64/gdbstub/test-sve.py
+
+-- 
+2.20.1
+
 
