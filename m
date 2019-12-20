@@ -2,39 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6158127D19
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:33:07 +0100 (CET)
-Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E798127D2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Dec 2019 15:36:37 +0100 (CET)
+Received: from localhost ([::1]:57280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiJL0-0004FN-Ih
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:33:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49547)
+	id 1iiJOO-0001Zu-AK
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 09:36:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59720)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iiIxr-0004Xk-64
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:09:12 -0500
+ (envelope-from <felipe@nutanix.com>) id 1iiJ3S-0004ua-HP
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:14:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iiIxp-00088e-7d
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:09:10 -0500
-Received: from relay.sw.ru ([185.231.240.75]:58358)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iiIxo-0007zM-Tt
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:09:09 -0500
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iiIxm-0007UT-Ec; Fri, 20 Dec 2019 17:09:06 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/2] virtio: make seg_max virtqueue size dependent
-Date: Fri, 20 Dec 2019 17:09:04 +0300
-Message-Id: <20191220140905.1718-2-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20191220140905.1718-1-dplotnikov@virtuozzo.com>
-References: <20191220140905.1718-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <felipe@nutanix.com>) id 1iiJ3Q-00085l-EF
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:14:57 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:2584)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1iiJ3P-00082y-OR
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 09:14:56 -0500
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBKE9WMr017105; Fri, 20 Dec 2019 06:14:35 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=ATyMGJaXO8V5VDmSGSPmaHHFn8V34ABTTM9iQ1QWhYw=;
+ b=ToFcqBQE/189MDHJ6TQ8WCoTKvOTOW+fWFh+4aHEiUIayIAV4xCzgWgeONfZpO6Lf3yl
+ XS89ff0I2l0W1+W+eBHjr9uWteqlUNSb49zzm4trawjTRJDaHwTauOuCNaEiCbJ87oRQ
+ 9jXx6v5nu09Q/ragB4xupTzO47wIgLglvGO7N1nnb++jtI8SV8sqwMw41ACnsbYRxKp4
+ wRGYyRji3r37Mu++rH+z02vUTzypNgCi9W4+Fb1Lh58BRrL+8wQmD0mhwRjgdednA0fS
+ 4lu6nv3MWURbq6rhIIFBTYRpG1ycRmeEnDmFAHI2hL3iTDkOBOtwECBNTR/UQXrLkCn/ 6w== 
+Received: from nam04-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1nam04lp2055.outbound.protection.outlook.com [104.47.44.55])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 2wvyppwcj6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Dec 2019 06:14:35 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=emw4T2jcy+wv44HvQtPfN5ydnrhDVIhQeE2+s6CNA/n2GRijl/c6yVNUS/4x8H+6LbUEyFibxX6uhhvVnTNEpKOR+1T0S1rXRp5d2HA3BT5yrMgyvtaMPAwOu8cqGQqOxZwCJfjTk3h2AdsWMZT5YRKuKOhQPh2kmxJPactApHnJcmWSrvUHril5KDimQzzqPyz2DQAvpLXKPiejPH90CFl1HQnKhkR/aHoKZgXMSeHV8f2+Q+WkYsQjBEN3e/bZX/tHXL9KWD06hZRPeLN8/nXw1CqhASIMtRphd98l+FtoUZue0wF47f7h0LGapJJFbhW35UotqCMiGbrgJxo9Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ATyMGJaXO8V5VDmSGSPmaHHFn8V34ABTTM9iQ1QWhYw=;
+ b=g7v0dk8ahAq5CacVZzgpJZL7eUIx2p6wvnvNI/0kzSQhIgCYHhUS5aIkubjOfrJ1UXHDQu0DWrMlp/ZHj646/ct4WCBoz3ypy0YEU7QIO77pD50FyYiGEYlaXTBg38VFaCLmg6iGh+PsnA0QmZE3P1l/S8zGzt1UBBg+z+Ez15fVFC4LLtntBy6EamaPWX7obhjLLC9HDAFJWXK7hoEBaY3WqHHdhE+mFNg7ZUwsaOPDbgreQ18ccdLjsXPvqFdDdNJbmkMNzCRRhZ2B8R7281AcLQEEYv6RZ8lNQFD1YsYMT7E6c/Ys5UUfSPDHNpuHJkZobP+vwSEojaFOSyQrfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
+ MWHPR02MB2671.namprd02.prod.outlook.com (10.175.49.148) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2559.14; Fri, 20 Dec 2019 14:14:33 +0000
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::c8f8:4820:a24c:3029]) by MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::c8f8:4820:a24c:3029%10]) with mapi id 15.20.2559.016; Fri, 20 Dec
+ 2019 14:14:33 +0000
+From: Felipe Franciosi <felipe@nutanix.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
+ status update
+Thread-Topic: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
+ status update
+Thread-Index: AQHVryW4uEZJ1V/hTUic5+7Y9QnlRqe35WUAgAVPdACAAAL3CIABWUIAgABrS4CAAmvVgIAACnqAgAAGGACAAV3YAIAAAQkAgABJqAA=
+Date: Fri, 20 Dec 2019 14:14:33 +0000
+Message-ID: <9540FF2A-FC7E-40AE-9259-46EF431ED65F@nutanix.com>
+References: <cover.1571905346.git.jag.raman@oracle.com>
+ <20191210064716.GA6401@flaka>
+ <20191213104116.GB1180977@stefanha-x1.localdomain>
+ <20191216194655.GA5922@flaka>
+ <AFBAD3A1-0E22-4E22-AF22-C56794929D87@nutanix.com>
+ <20191217163316.GB1333385@stefanha-x1.localdomain>
+ <DDE3DA62-31DD-437B-8392-CAD505253EED@nutanix.com>
+ <20191219115545.GD1624084@stefanha-x1.localdomain>
+ <772D9CF3-D15D-42D1-B9CF-1279619D7C20@nutanix.com>
+ <20191219125504.GI1190276@redhat.com>
+ <20191220094712.GA1635864@stefanha-x1.localdomain>
+ <bfaf0b42-513c-08f2-2d4f-d99437b7041d@redhat.com>
+In-Reply-To: <bfaf0b42-513c-08f2-2d4f-d99437b7041d@redhat.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c51303d2-b421-4c69-8d30-08d78556efea
+x-ms-traffictypediagnostic: MWHPR02MB2671:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR02MB2671641DD87CC24C41B193B2D72D0@MWHPR02MB2671.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 025796F161
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39860400002)(376002)(346002)(136003)(366004)(396003)(189003)(199004)(6512007)(6486002)(81166006)(478600001)(8676002)(316002)(6506007)(5660300002)(71200400001)(36756003)(2616005)(54906003)(2906002)(6916009)(4326008)(66446008)(64756008)(66556008)(66476007)(7416002)(33656002)(53546011)(81156014)(8936002)(26005)(966005)(86362001)(186003)(76116006)(66946007)(91956017)(64030200001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB2671;
+ H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DcEkFby5/B88cVX7apGUwjM+cLgYGXWRvjLN3Jhxfosg2oLtpl1rDL1Wl3GG9DdhCZC0EamwZfsmaO1q9iddhBSdoxJMOV5NtEH/dddaXX1k+QfwAt/0eK0qAI69BxX4enqCLVQ854fI47wfhgO9UGY10IfelCL7Rut+hThDLWTOStWC/3zRGVP1OgvCdVaj/EQ7zHEz/xEg27wtbyT9+/5CWHepraMMDS4ZeTdVHwjiRHTB2T1DqVjyWpkPQ1ApZfuoGeW+ZiUFCjchv7vD/jKZUXpBbGAEWnHsvChWsheWNSdope6TaChkRrLpMI8mbFJlhRkPd6heUIUCA7YmXbCYJOcNUjcr3D/mSGGFsi4CR+Gy3r5qnPf7zXcCJT8jsttPWyYwP4gYiFAY5mv/xtfVdzPODciOt5RIl6KtGnnehoJTdm6A+XMdnfcqsnQDv0Wmu2W5ovVqByyXBYJNOH+nt5vMZWErheQx/UryGq1/SuWt88H59eUda0RNMreENRiZ7MrA7r12eRFd5EfCPe8jkQfoZa4Pg4f49KEZwWQ=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <E0CA95550333C644BC2EA16140B23D98@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c51303d2-b421-4c69-8d30-08d78556efea
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Dec 2019 14:14:33.3363 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1yagQgTs7y+FG2BBiyCGMYSz3460HP0Cv1IrPgdXZsM3vUFMwU5UctEjOkrSSqqhYdr/P2qOcv53D+OEPdIPqHBWT92VGIkjSB2di5guOJc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2671
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-20_02:2019-12-17,2019-12-20 signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.151.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,164 +129,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com, mst@redhat.com,
- mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@virtuozzo.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "fam@euphon.net" <fam@euphon.net>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Walker,
+ Benjamin" <benjamin.walker@intel.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
+ "jag.raman@oracle.com" <jag.raman@oracle.com>, "Harris,
+ James R" <james.r.harris@intel.com>,
+ "quintela@redhat.com" <quintela@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "kanth.ghatraju@oracle.com" <kanth.ghatraju@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "liran.alon@oracle.com" <liran.alon@oracle.com>,
+ "rth@twiddle.net" <rth@twiddle.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
+ "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before the patch, seg_max parameter was immutable and hardcoded
-to 126 (128 - 2) without respect to queue size. This has two negative effects:
 
-1. when queue size is < 128, we have Virtio 1.1 specfication violation:
-   (2.6.5.3.1 Driver Requirements) seq_max must be <= queue_size.
-   This violation affects the old Linux guests (ver < 4.14). These guests
-   crash on these queue_size setups.
 
-2. when queue_size > 128, as was pointed out by Denis Lunev <den@virtuozzo.com>,
-   seg_max restrics guest's block request length which affects guests'
-   performance making them issues more block request than needed.
-   https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
+> On Dec 20, 2019, at 9:50 AM, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> On 20/12/19 10:47, Stefan Hajnoczi wrote:
+>>> If it doesn't create too large of a burden to support both, then I thin=
+k
+>>> it is very desirable. IIUC, this is saying a kernel based solution as t=
+he
+>>> optimized/optimal solution, and userspace UNIX socket based option as t=
+he
+>>> generic "works everywhere" fallback solution.
+>> I'm slightly in favor of the kernel implementation because it keeps us
+>> better aligned with VFIO.  That means solving problems in one place only
+>> and less reinventing the wheel.
+>=20
+> I think there are anyway going to be some differences with VFIO.
+>=20
+> For example, currently VFIO requires pinning user memory.  Is that a
+> limitation for muser too?  If so, that would be a big disadvantage; if
+> not, however, management tools need to learn that muser devices unlike
+> other VFIO devices do not prevent overcommit.
 
-To mitigate this two effects, the patch adds the property adjusting seg_max
-to queue size automaticaly. Since seg_max is a guest visible parameter,
-the property is machine type managable and allows to choose between
-old (seg_max = 126 always) and new (seg_max = queue_size - 2) behaviors.
+More or less. We pin them today, but I think we don't really have to.
+I created an issue to look into it:
+https://github.com/nutanix/muser/issues/28
 
-Not to change the behavior of the older VMs, prevent setting the default
-seg_max_adjust value for older machine types.
+In any case, if Qemu is ballooning and calls UNMAP_DMA for memory that
+has been ballooned out, then we would release it.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- hw/block/virtio-blk.c           |  9 ++++++++-
- hw/core/machine.c               |  3 +++
- hw/scsi/vhost-scsi.c            |  2 ++
- hw/scsi/virtio-scsi.c           | 10 +++++++++-
- include/hw/virtio/virtio-blk.h  |  1 +
- include/hw/virtio/virtio-scsi.h |  1 +
- 6 files changed, 24 insertions(+), 2 deletions(-)
+The reason we keep it pinned is to support libmuser restarts. IIRC,
+VFIO doesn't need to pin pages for mdev devices (that's the job of the
+mdev driver on the other end via vfio_pin_pages()). It only keeps the
+DMA entries in a RB tree.
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index d62e6377c2..0f6f8113b7 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -908,7 +908,8 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     blk_get_geometry(s->blk, &capacity);
-     memset(&blkcfg, 0, sizeof(blkcfg));
-     virtio_stq_p(vdev, &blkcfg.capacity, capacity);
--    virtio_stl_p(vdev, &blkcfg.seg_max, 128 - 2);
-+    virtio_stl_p(vdev, &blkcfg.seg_max,
-+                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 - 2);
-     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
-     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
-     virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
-@@ -1133,6 +1134,11 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "num-queues property must be larger than 0");
-         return;
-     }
-+    if (conf->queue_size <= 2) {
-+        error_setg(errp, "invalid queue-size property (%" PRIu16 "), "
-+                   "must be > 2", conf->queue_size);
-+        return;
-+    }
-     if (!is_power_of_2(conf->queue_size) ||
-         conf->queue_size > VIRTQUEUE_MAX_SIZE) {
-         error_setg(errp, "invalid queue-size property (%" PRIu16 "), "
-@@ -1262,6 +1268,7 @@ static Property virtio_blk_properties[] = {
-                     true),
-     DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
-     DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
-+    DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, true),
-     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD,
-                      IOThread *),
-     DEFINE_PROP_BIT64("discard", VirtIOBlock, host_features,
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 023548b4f3..bfa320387e 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -29,6 +29,9 @@
- 
- GlobalProperty hw_compat_4_2[] = {
-     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
-+    { "virtio-blk-device", "seg-max-adjust", "off"},
-+    { "virtio-scsi-device", "seg_max_adjust", "off"},
-+    { "vhost-blk-device", "seg_max_adjust", "off"},
- };
- const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
- 
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index c693fc748a..26f710d3ec 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -275,6 +275,8 @@ static Property vhost_scsi_properties[] = {
-     DEFINE_PROP_UINT32("num_queues", VirtIOSCSICommon, conf.num_queues, 1),
-     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSICommon, conf.virtqueue_size,
-                        128),
-+    DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSICommon, conf.seg_max_adjust,
-+                      true),
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSICommon, conf.max_sectors,
-                        0xFFFF),
-     DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSICommon, conf.cmd_per_lun, 128),
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index e8b2b64d09..405cb6c953 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -654,7 +654,8 @@ static void virtio_scsi_get_config(VirtIODevice *vdev,
-     VirtIOSCSICommon *s = VIRTIO_SCSI_COMMON(vdev);
- 
-     virtio_stl_p(vdev, &scsiconf->num_queues, s->conf.num_queues);
--    virtio_stl_p(vdev, &scsiconf->seg_max, 128 - 2);
-+    virtio_stl_p(vdev, &scsiconf->seg_max,
-+                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 : 128 - 2);
-     virtio_stl_p(vdev, &scsiconf->max_sectors, s->conf.max_sectors);
-     virtio_stl_p(vdev, &scsiconf->cmd_per_lun, s->conf.cmd_per_lun);
-     virtio_stl_p(vdev, &scsiconf->event_info_size, sizeof(VirtIOSCSIEvent));
-@@ -893,6 +894,11 @@ void virtio_scsi_common_realize(DeviceState *dev,
-         virtio_cleanup(vdev);
-         return;
-     }
-+    if (s->conf.virtqueue_size <= 2) {
-+        error_setg(errp, "invalid virtqueue_size property (= %" PRIu16 "), "
-+                   "must be > 2", s->conf.virtqueue_size);
-+        return;
-+    }
-     s->cmd_vqs = g_new0(VirtQueue *, s->conf.num_queues);
-     s->sense_size = VIRTIO_SCSI_SENSE_DEFAULT_SIZE;
-     s->cdb_size = VIRTIO_SCSI_CDB_DEFAULT_SIZE;
-@@ -949,6 +955,8 @@ static Property virtio_scsi_properties[] = {
-     DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_queues, 1),
-     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
-                                          parent_obj.conf.virtqueue_size, 128),
-+    DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
-+                      parent_obj.conf.seg_max_adjust, true),
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_sectors,
-                                                   0xFFFF),
-     DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSI, parent_obj.conf.cmd_per_lun,
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
-index 9c19f5b634..1e62f869b2 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -38,6 +38,7 @@ struct VirtIOBlkConf
-     uint32_t request_merging;
-     uint16_t num_queues;
-     uint16_t queue_size;
-+    bool seg_max_adjust;
-     uint32_t max_discard_sectors;
-     uint32_t max_write_zeroes_sectors;
-     bool x_enable_wce_if_config_wce;
-diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
-index 122f7c4b6f..24e768909d 100644
---- a/include/hw/virtio/virtio-scsi.h
-+++ b/include/hw/virtio/virtio-scsi.h
-@@ -48,6 +48,7 @@ typedef struct virtio_scsi_config VirtIOSCSIConfig;
- struct VirtIOSCSIConf {
-     uint32_t num_queues;
-     uint32_t virtqueue_size;
-+    bool seg_max_adjust;
-     uint32_t max_sectors;
-     uint32_t cmd_per_lun;
- #ifdef CONFIG_VHOST_SCSI
--- 
-2.17.0
+If my understanding is right, then we can probably just keep the map
+Qemu registered (without holding the pages) and call vfio_pin_pages()
+on demand when libmuser restarts.
+
+For context, this is how the DMA memory registration works today:
+
+1) Qemu calls ioctl(vfio_fd, IOMMU_MAP_DMA, &vm_map);
+
+2) The iommu driver notifies muser.ko
+
+3) Muser.ko pins the pages (in get_dma_map(), called from below)
+(https://github.com/nutanix/muser/blob/master/kmod/muser.c#L711)
+
+4) Muser.ko notifies libmuser about the memory registration
+(The iommu driver context goes to sleep, hence the pinning)
+
+5) Libmuser wakes up and calls mmap() on muser.ko
+
+6) Muser.ko inserts the VM memory in libmuser's context
+(https://github.com/nutanix/muser/blob/master/kmod/muser.c#L543)
+
+7) Libmuser tells muser.ko that it's done
+
+8) Muser.ko iommu callback context that was sleeping wakes up
+
+9) Muser.ko places the memory in a "dma_list" for the mudev and returns.
+
+We could potentially modify the last step to unpin and keep only what
+we need for a future call to vfio_pin_pages(), but I need to check if
+that works.
+
+Cheers,
+Felipe
+
+>=20
+> Paolo
+>=20
 
 
