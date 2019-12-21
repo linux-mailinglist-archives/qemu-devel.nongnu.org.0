@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038AF128643
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 02:04:51 +0100 (CET)
-Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97CB12864E
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 02:08:48 +0100 (CET)
+Received: from localhost ([::1]:35756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiTCL-0004K1-Kb
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 20:04:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58480)
+	id 1iiTGB-0003Ya-Oe
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 20:08:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iiTAT-0002dl-2m
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:54 -0500
+ id 1iiTCk-00065U-EE
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:05:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iiTAR-000766-GV
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:52 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54162)
+ id 1iiTCi-0008TV-Tx
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:05:14 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:38403)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iiTAR-000719-3y
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:51 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id m24so10637384wmc.3
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:02:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nPuTG4M7TlE5s+bjNAWfFW0OnOD1cQftLBezPWuqO9o=;
- b=OvKDze3F/TiO4HEA99+JGqdsI95BU3jLpWXfm/+6tu9yZmI6ijRdpRpyaJYMBL1DB5
- TXiy45rKggsS2Fsu6nKJ6BhFautUQoumnDq/VISjHSOqK11m6FaOjOjf8bz5VhOctL1j
- tlSNYnQwPGbRLsb3SUsv+6HJTMxQiVvDUgEPA75N5Qf0G7y8z5icV/61CC00Z3CBpws2
- 4N13A/aPkt/7+h3pDSj5Lz7k9JkUfeukd3whrK4noei/3DyuTCU+q7/Cmu6Yt9GY7qaY
- 9b2WHIDnsmTf26hIwU/+xw0FF3RLpBbaThhLRvDSCX8SJ+ynvXxyHpXbrS9ks7mcB5yR
- +LDA==
+ id 1iiTCi-0008Qv-JX
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:05:12 -0500
+Received: by mail-yw1-f67.google.com with SMTP id 10so4595242ywv.5
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:05:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nPuTG4M7TlE5s+bjNAWfFW0OnOD1cQftLBezPWuqO9o=;
- b=uBQVfAVHqL0NMNrKz687UmaL4vh2ntMEiBw5wPMgBAxuNO2ydZZgpEsm7WAj5fRUav
- aJjCzp+dwIEzSEy1L4VqYvnxTozcgS8nSiqKb5sQR+fdzyMPZJXUwTW4CWfk52YT+5yA
- lGrvxx4uP3ndS0g19jd9DSAFd5uK8C17WMZ6WSxoJhVdjAurX/4T4LMX3p4TR0cnNlnR
- 5ar8R6lI7Df5Kw9X62LZSTTyvz4/+YcIIbZJWdBg8nRZ8pqFWkn1yx3bmFnB8kJ0/pup
- vz4QO1YHTVnSWte97RI/lDh3ze//wvGAhdo/q9KLca/WfN3z2xkJuR9raYhDC0AAcAt0
- RNww==
-X-Gm-Message-State: APjAAAXth4pFco8f2IKi/SJEyeCvKv4/CRhO6DDi6Nbx+s9sQ1wztvJY
- u2Gp6ZKbXDZEl6hcf9VmEu9OvZ47
-X-Google-Smtp-Source: APXvYqw0ffRFPTObIqdhijZVltP6JCsWY4cfxPhdhJc/CfMLXPwkPDEpZCvNKW/AxL8f7eMAn0R4cg==
-X-Received: by 2002:a05:600c:230d:: with SMTP id
- 13mr18898970wmo.12.1576890169858; 
- Fri, 20 Dec 2019 17:02:49 -0800 (PST)
-Received: from x1w.redhat.com (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id t125sm8449596wmf.17.2019.12.20.17.02.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 17:02:49 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	Michael Rolnik <mrolnik@gmail.com>
-Subject: [PATCH v2 8/8] tests/acceptance: Test the Arduino MEGA2560 board
-Date: Sat, 21 Dec 2019 02:02:26 +0100
-Message-Id: <20191221010226.9230-9-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191221010226.9230-1-f4bug@amsat.org>
-References: <20191221010226.9230-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rfZd3X4kFZ8+r7BcBBI0XVWCOdXjW2lSAaUxJ5cf304=;
+ b=OzqCHB2CD2iLylu8W4SRqVYmhDtUfwWOUp3HTjbmXFK9ie0Pd6JuLFS6y4Wpib1JTp
+ BGPej6QuWzUYSisK01kq6p/bUAnvOMSGY98cEtUah2S9Ce8JKFrZZDFm5iU2ote5dtxK
+ NgWxawdnqafKlHe4ZxQBrLoJcZK5SOtyo+eYsT41IKB+ho+rji4j5hgfrDsk9QtjGjTa
+ bATcRIhAbUo/r3afn4B7kFhLtMzB/57T3TcA+Uf1QpIcjYm5dq9S5sPSgm2aNw18sQr2
+ 940vGBG++l3kYeaCEJzGOvsrk9cH0V113RUGuTTZ1MfXaC46Vnj+xChOyyFNFFobS4h/
+ qVpQ==
+X-Gm-Message-State: APjAAAVskd6C9fvP1HJpd5p4F8Rym+NW9piMFKF2WkA3g9VrJfGnZ4fI
+ p5AS4zqhPQye+p93g1w/p3O9v7YgUccBybI4aiPWPlO9
+X-Google-Smtp-Source: APXvYqxnc6mlbFry0Aw2uRItq8HlYIqUsMgzMH4qbS33mEWuA+95x5r3lpdxMJq5VvH02C7GtEDwAfVvTHymwlcOdzY=
+X-Received: by 2002:a0d:d84b:: with SMTP id a72mr12746924ywe.33.1576890311686; 
+ Fri, 20 Dec 2019 17:05:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+References: <20191221010226.9230-1-f4bug@amsat.org>
+In-Reply-To: <20191221010226.9230-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Sat, 21 Dec 2019 02:05:00 +0100
+Message-ID: <CAAdtpL6nxYySPX77o31iWgTD2tGrigs2KSvA_nVEjM3drxQ7AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] hw/avr: Introduce the Arduino boards
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.161.67
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,44 +69,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
  Joaquin de Andres <me@xcancerberox.com.ar>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Stefan Hajnoczi <stefanha@redhat.com>,
  Phillip Stevens <phillip.stevens@gmail.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the path name demonstrates, the FreeRTOS tests target a
-board based on a ATMega2560 MCU. We have one, the Arduino
-MEGA2560.
+On Sat, Dec 21, 2019 at 2:02 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Hi,
+>
+> This series add the arduino boards, aiming at removing the
+> 'sample' board that doesn't follow any specification.
+>
+> Since v1:
+> - Addressed Igor comments
+> - Addressed Aleksandar comments
+> - Fixed UART issue (was due to IRQ shifted by 2 in CPU)
+>
+> TODO after merge is:
+> - Extract Timer8 common parts from Timer16
+> - Add GPIOs
+> - Connect LED to GPIO on Arduino
+> - Plug to Scratch (See http://s4a.cat/).
+>   (I plan to purpose that as a GSoC idea).
+>
+> Thank you for having insisted with this port during so long!
+(This comment is for Michael)
 
-Complementary documentation:
+I forgot to amend this series (including Michael patches) is available here=
+:
+https://gitlab.com/philmd/qemu/commits/arduino-v2
 
-https://feilipu.me/2012/01/15/ethermega-arduino-mega-2560-and-freertos/
-https://feilipu.me/2015/11/24/arduino_freertos/ (see 'Compatibility')
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Cc: Cleber Rosa <crosa@redhat.com>
-Cc: Phillip Stevens <phillip.stevens@gmail.com> (for FreeRTOS example)
----
- tests/acceptance/machine_avr6.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
-index 94a8004e94..c5ff423e50 100644
---- a/tests/acceptance/machine_avr6.py
-+++ b/tests/acceptance/machine_avr6.py
-@@ -31,7 +31,7 @@ class AVR6Machine(Test):
-     def test_freertos(self):
-         """
-         :avocado: tags=arch:avr
--        :avocado: tags=machine:sample
-+        :avocado: tags=machine:arduino-mega-2560-v3
-         """
-         """
-         https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
--- 
-2.21.0
-
+> Regards,
+>
+> Phil.
+>
+> Based-on: <20191218210329.1960-1-mrolnik@gmail.com>
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg666384.html
 
