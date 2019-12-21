@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB83412864F
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 02:09:19 +0100 (CET)
-Received: from localhost ([::1]:35764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56396128651
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 02:11:17 +0100 (CET)
+Received: from localhost ([::1]:35790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiTGg-0004ay-RP
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 20:09:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57931)
+	id 1iiTIa-0006zU-FD
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 20:11:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iiTAO-0002Vb-3l
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:48 -0500
+ id 1iiTAP-0002Zd-Mj
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iiTAN-0006m9-5r
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:48 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42456)
+ id 1iiTAO-0006tP-ID
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:49 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:33899)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iiTAM-0006i3-Tr
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:47 -0500
-Received: by mail-wr1-x442.google.com with SMTP id q6so11029941wro.9
- for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:02:46 -0800 (PST)
+ id 1iiTAO-0006ot-9n
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:48 -0500
+Received: by mail-wm1-x334.google.com with SMTP id c127so2930345wme.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Dec 2019 17:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=khfObrraH+OQVE05FoSKKYYMBZ+cKKyCWdxbeBJAw0M=;
- b=YOilrbL2O+wNeSpvGc88MosSSkbHNltFcklOYqGLle6y8YW/z5qoKNoPxpVHk/VHhh
- x2EI+v+S52zBnHo/zsK2Sd63ya83PejGmnpBfuGU7ZU/x3hY0raMwHzsSgJLc/cMUx0a
- TJbhpi86sngngiCO5os1zaZdsSmQcXJOAubkw/J22aEUfshILOEC6sqpYtDn281Ph66+
- 6oT5zobWvfCGhtmfJA0mzwuZHhal2FXYezPMB557jm+eQLYLwRiSgvfaRMZBhUQ9OHAX
- SvwX97pfXeoZsJMAoeH+fQ+09tZSVQZVLfMKhc4LO3h+4EwDPiF9dKK9vmlAG9QRxeF6
- 7ZdA==
+ bh=nNUQ1Y4cRjYakwD1/VEaESjAd4g6LoxnSk/siZZWkF8=;
+ b=BBzsahkYMHN1bUqaKimPLIy5lUpTNyMdXxIMLP2VDf+O4snVM/luAnOzmmQKdH/0f+
+ 22S7h7SP7Apd7k687MSH7rnH4nh1q1ocjSHdRZyP+v9pHNSPT4p71HhWMfWO4iK4mmF9
+ qRxBOlmH1BhqlMueIwsq7lCaMyouvxhjj9KHdZhe0MxNkpkmQs7chARtKHqwg9J61rs5
+ 6Y9TLgmMRFHLqZ1PRdWK7qwC7vJSTuVWrF50UHtQjRhzezDMcKxdLkaqVqsurgd9OTNu
+ 7ibRzGQEozqElkkDJ6Un1V168tBNAC0SrQu2q7VobjE5N5seqT4PtHJdShLv6HfFueJ6
+ v+YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=khfObrraH+OQVE05FoSKKYYMBZ+cKKyCWdxbeBJAw0M=;
- b=lBYK6uluH/JJe+EBUK7LOD+kVx49xIdk7xSDRH7/JS3VhEwLT5A2f6Yj6y1ls8KAxW
- jqMqikiZfnnuiNh1z+SEKeyleol3w7RxdLB9bdcAjlmgnVAfLk/Eh4cjP9B/HBdSKarg
- YLtGv7F3BbsXzXEolEpyN4hAkO+9StvLkNGA/gQL7bIluy1N1WaIiP1/3zw136VP8TYk
- HwCqGAmwwmU7bQRzZPuCxBX2nhC8UOInicZREh3qmIwkg0y/9cErfcgbhJPo7oF7SJsT
- s4B2QjD9iTytjXVbIx4g90Llo9M7v0hnIdNnm8Qjel1w11WZ06awMb1xHSamlSWZNKdI
- oD5w==
-X-Gm-Message-State: APjAAAXXnU/e4BT1iRX4Wonm3G+WJFu13/OUDY7Gu2py7zVp2ji6TR2f
- 0s4orcyheXkiwAVsfPv3QIBW1tbI
-X-Google-Smtp-Source: APXvYqx7d4klmo+ZIjBhYMkWiTDXx3DchmLli0P/CM+xCdEWtNFFY64PcYQXDmLNmYKp2EWZ4+YUsQ==
-X-Received: by 2002:a5d:538e:: with SMTP id d14mr18335447wrv.358.1576890165717; 
- Fri, 20 Dec 2019 17:02:45 -0800 (PST)
+ bh=nNUQ1Y4cRjYakwD1/VEaESjAd4g6LoxnSk/siZZWkF8=;
+ b=MfVsvtfKPKfrpaC7pR8Y7YY+Y90ogQrwwD3LHPjSIIUgzbq8EclKHaHvf0jh4B9cev
+ jMHWfXkXASFErzJi1wi611uAXsKJojqwOktEfDItWTLQX34OL4xJczlPtxqY7ec5qElE
+ 3wst6wnXouXZI1NfXgcV6JS8dV7B9HjXRLSDVC9tJ5Fx/QzUw45aUVK71on5CAxuquG7
+ lsOCde9SO4QBgh4pMSrgrgkJDUOGd9N8kd6mueia97yDO/09AKPIPAg6MOAIBv4nyy/4
+ BLWxOn590/2uY2aOFkq8cIpC6Vf1qE48ICLQSdKaZcwrH+VaSWYEQOiSr9xSC6ftK6gA
+ x2Bw==
+X-Gm-Message-State: APjAAAXzApMrEGzOaDtPU5MRY7RaRLJxTp3ZR0gTSoh6OaG4IKkMxJcl
+ fyaBmq+mmax8SoYNWZ/q1AcmdHVv
+X-Google-Smtp-Source: APXvYqw6n+L+VBESTBif0ChLZ6cbcL8eWgaYVUc2Md0wAs5ROxaKo5qHJPrTCaPLuIMguDWP6FlfZQ==
+X-Received: by 2002:a7b:c954:: with SMTP id i20mr7316668wml.154.1576890167125; 
+ Fri, 20 Dec 2019 17:02:47 -0800 (PST)
 Received: from x1w.redhat.com (34.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id t125sm8449596wmf.17.2019.12.20.17.02.44
+ by smtp.gmail.com with ESMTPSA id t125sm8449596wmf.17.2019.12.20.17.02.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2019 17:02:45 -0800 (PST)
+ Fri, 20 Dec 2019 17:02:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Michael Rolnik <mrolnik@gmail.com>
-Subject: [PATCH v2 5/8] tests/boot-serial-test: Test some Arduino boards (AVR
- based)
-Date: Sat, 21 Dec 2019 02:02:23 +0100
-Message-Id: <20191221010226.9230-6-f4bug@amsat.org>
+Subject: [PATCH v2 6/8] tests/acceptance: Do not set the machine type manually
+Date: Sat, 21 Dec 2019 02:02:24 +0100
+Message-Id: <20191221010226.9230-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191221010226.9230-1-f4bug@amsat.org>
 References: <20191221010226.9230-1-f4bug@amsat.org>
@@ -72,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,32 +87,32 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
  Joaquin de Andres <me@xcancerberox.com.ar>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Arduino Duemilanove is based on a AVR5 CPU, while the
-Arduino MEGA2560 on a AVR6 CPU.
+Since commit ba21bde93 we don't need to set the machine type
+manually, the one set by the ":avocado: tags=machine" will be used.
 
+Suggested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/boot-serial-test.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/acceptance/machine_avr6.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
-index e556f09db8..582a497963 100644
---- a/tests/boot-serial-test.c
-+++ b/tests/boot-serial-test.c
-@@ -113,6 +113,8 @@ typedef struct testdef {
- static testdef_t tests[] = {
-     { "alpha", "clipper", "", "PCI:" },
-     { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
-+    { "avr", "arduino-duemilanove", "", "T", sizeof(bios_avr), NULL, bios_avr },
-+    { "avr", "arduino-mega-2560-v3", "", "T", sizeof(bios_avr), NULL, bios_avr},
-     { "ppc", "ppce500", "", "U-Boot" },
-     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
-     { "ppc", "g3beige", "", "PowerPC,750" },
+diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
+index 7a7d8afc29..394b3d4f8f 100644
+--- a/tests/acceptance/machine_avr6.py
++++ b/tests/acceptance/machine_avr6.py
+@@ -45,7 +45,6 @@ class AVR6Machine(Test):
+         rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
+         rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
+ 
+-        self.vm.set_machine('sample')
+         self.vm.add_args('-bios', rom_path)
+         self.vm.add_args('-nographic')
+         self.vm.launch()
 -- 
 2.21.0
 
