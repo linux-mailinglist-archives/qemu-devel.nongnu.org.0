@@ -2,40 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5521112857E
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 00:22:55 +0100 (CET)
-Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C4612864C
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 02:06:56 +0100 (CET)
+Received: from localhost ([::1]:35730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiRbi-0001e4-5C
-	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 18:22:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37876)
+	id 1iiTEM-0007dN-Se
+	for lists+qemu-devel@lfdr.de; Fri, 20 Dec 2019 20:06:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58473)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1iiRav-0000gU-J3
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 18:22:06 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iiTAT-0002dg-Ca
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1iiRat-0006bH-Uo
- for qemu-devel@nongnu.org; Fri, 20 Dec 2019 18:22:05 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:47666)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>)
- id 1iiRat-0006Vb-PE; Fri, 20 Dec 2019 18:22:03 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by kvm5.telegraphics.com.au (Postfix) with ESMTP id 0307A28D35;
- Fri, 20 Dec 2019 18:21:58 -0500 (EST)
-Date: Sat, 21 Dec 2019 10:22:00 +1100 (AEDT)
-From: Finn Thain <fthain@telegraphics.com.au>
+ (envelope-from <dgibson@ozlabs.org>) id 1iiTAR-00076T-HC
+ for qemu-devel@nongnu.org; Fri, 20 Dec 2019 20:02:52 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:58299)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iiTAQ-0006mT-AR; Fri, 20 Dec 2019 20:02:51 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47fnQs5Dbgz9sPW; Sat, 21 Dec 2019 12:02:45 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1576890165;
+ bh=ZMlODfpKIOt63T3fWQzG2RqghsW3+FZEp59QpxFhjFA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=U8gspHDyyWLRp9+r67UNbranb1OH4sjQxlh5/QZNK3u6LO7RsvjyFUt8FNeDfkXrt
+ Rbt7Cixcwe2+6Uoxz9XTlwkGVCIJM59/l/ioBi+6iCvO8F+rMlPDFwvqvOwP6ZUA8J
+ sGvpCzx9HEgqV9hL4XbreP1vOyuCYMr7oM89pqH0=
+Date: Sat, 21 Dec 2019 11:33:43 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
 To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 00/10] Fixes for DP8393X SONIC device emulation
-In-Reply-To: <067319c3-b426-bb83-56da-6612180d35c5@vivier.eu>
-Message-ID: <alpine.LNX.2.21.1.1912210941150.53@nippy.intranet>
-References: <cover.1576286757.git.fthain@telegraphics.com.au>
- <CAL1e-=jN-8zEnCvxq4actoBcrjBviqfxBjGCTT7mBxmSPhiF3w@mail.gmail.com>
- <067319c3-b426-bb83-56da-6612180d35c5@vivier.eu>
+Subject: Re: [PATCH v2] mos6522: remove anh register
+Message-ID: <20191221003343.GB15511@umbus.fritz.box>
+References: <20191220214054.76525-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 98.124.60.144
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dTy3Mrz/UPE2dbVg"
+Content-Disposition: inline
+In-Reply-To: <20191220214054.76525-1-laurent@vivier.eu>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,55 +54,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org, Herve Poussineau <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Dec 2019, Laurent Vivier wrote:
 
-> Le 20/12/2019 ? 12:38, Aleksandar Markovic a ?crit?:
-> > On Sat, Dec 14, 2019 at 2:29 AM Finn Thain <fthain@telegraphics.com.au> wrote:
-> >>
-> >> Hi All,
-> >>
-> >> There is a bug in the DP8393X emulation that can stop packet reception.
-> >>
-> >> Whilst debugging that issue I found that the receiver algorithm differs
-> >> from the one described in the National Semiconductor datasheet.
-> >>
-> > 
-> > Finn, could you please provide the link to the exact datasheet that
-> > you used for reference, so that we are on the same page while looking
-> > at your code?
-> 
-> According to his comments ,"National Semiconductor DP83932C" and
-> sections seem to be the same, I think the datasheet is:
-> 
-> https://www.eit.lth.se/fileadmin/eit/courses/datablad/Periphery/Communication/DP83932C.pdf
-> 
+--dTy3Mrz/UPE2dbVg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes. I know of 3 datasheets from National Semiconductor,
+On Fri, Dec 20, 2019 at 10:40:54PM +0100, Laurent Vivier wrote:
+> Register addr 1 is defined as buffer A with handshake (vBufAH),
+> register addr 15 is also defined as buffer A without handshake (vBufA).
+>=20
+> As both addresses access the same register, remove the definition of
+> 'anh' and use only 'a' (with VIA_REG_ANH and VIA_REG_A).
+>=20
+> Fixes: 51f233ec92cd ("misc: introduce new mos6522 VIA device and enable i=
+t for ppc builds")
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 
-11719  DP83934CVUL-20/25 MHz SONIC-T Systems-Oriented Network Interface 
-Controller with Twisted Pair Interface
-10492  DP83932C-20/25/33 MHz SONIC Systems-Oriented Network Interface 
-Controller
-11722  DP83916 SONIC-16 Systems-Oriented Network Interface Controller
+Applied to ppc-for-5.0, thanks.
 
-The publication numbered 10492 is the one that Laurent linked to. It and 
-11722 both have the same table of contents. The references I gave in the 
-patch descriptions are applicable to these. (Having said that, I see now 
-that I did mess up one reference. I'll fix it.)
+> ---
+>=20
+> Notes:
+>     v2: update commit message (remove reference to linux)
+>         add LOG_UNIMP for VIA_REG_A access
+>=20
+>  hw/misc/mos6522.c         | 16 ++++++++--------
+>  include/hw/misc/mos6522.h |  1 -
+>  2 files changed, 8 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+> index cecf0be59e..10b85bf751 100644
+> --- a/hw/misc/mos6522.c
+> +++ b/hw/misc/mos6522.c
+> @@ -244,6 +244,9 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsi=
+gned size)
+>          val =3D s->b;
+>          break;
+>      case VIA_REG_A:
+> +       qemu_log_mask(LOG_UNIMP, "Read access to register A with handshak=
+e");
+> +       /* fall through */
+> +    case VIA_REG_ANH:
+>          val =3D s->a;
+>          break;
+>      case VIA_REG_DIRB:
+> @@ -297,9 +300,7 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsi=
+gned size)
+>          val =3D s->ier | 0x80;
+>          break;
+>      default:
+> -    case VIA_REG_ANH:
+> -        val =3D s->anh;
+> -        break;
+> +        g_assert_not_reached();
+>      }
+> =20
+>      if (addr !=3D VIA_REG_IFR || val !=3D 0) {
+> @@ -322,6 +323,9 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_=
+t val, unsigned size)
+>          mdc->portB_write(s);
+>          break;
+>      case VIA_REG_A:
+> +       qemu_log_mask(LOG_UNIMP, "Write access to register A with handsha=
+ke");
+> +       /* fall through */
+> +    case VIA_REG_ANH:
+>          s->a =3D (s->a & ~s->dira) | (val & s->dira);
+>          mdc->portA_write(s);
+>          break;
+> @@ -395,9 +399,7 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_=
+t val, unsigned size)
+>                                qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+>          break;
+>      default:
+> -    case VIA_REG_ANH:
+> -        s->anh =3D val;
+> -        break;
+> +        g_assert_not_reached();
+>      }
+>  }
+> =20
+> @@ -439,7 +441,6 @@ const VMStateDescription vmstate_mos6522 =3D {
+>          VMSTATE_UINT8(pcr, MOS6522State),
+>          VMSTATE_UINT8(ifr, MOS6522State),
+>          VMSTATE_UINT8(ier, MOS6522State),
+> -        VMSTATE_UINT8(anh, MOS6522State),
+>          VMSTATE_STRUCT_ARRAY(timers, MOS6522State, 2, 0,
+>                               vmstate_mos6522_timer, MOS6522Timer),
+>          VMSTATE_END_OF_LIST()
+> @@ -460,7 +461,6 @@ static void mos6522_reset(DeviceState *dev)
+>      s->ifr =3D 0;
+>      s->ier =3D 0;
+>      /* s->ier =3D T1_INT | SR_INT; */
+> -    s->anh =3D 0;
+> =20
+>      s->timers[0].frequency =3D s->frequency;
+>      s->timers[0].latch =3D 0xffff;
+> diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+> index 493c907537..97384c6e02 100644
+> --- a/include/hw/misc/mos6522.h
+> +++ b/include/hw/misc/mos6522.h
+> @@ -115,7 +115,6 @@ typedef struct MOS6522State {
+>      uint8_t pcr;
+>      uint8_t ifr;
+>      uint8_t ier;
+> -    uint8_t anh;
+> =20
+>      MOS6522Timer timers[2];
+>      uint64_t frequency;
 
-The "1995 National Ethernet Databook" on bitsavers has more information. 
-https://mirrorservice.org/sites/www.bitsavers.org/components/national/_dataBooks/1995_National_Ethernet_Databook.pdf
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
--- 
+--dTy3Mrz/UPE2dbVg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Thanks,
-> Laurent
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl39aGQACgkQbDjKyiDZ
+s5KF6w//Xf/WTzjQ54gHFF7DsJDPhKeq7fBRJeZcrlBDxr7KQ8BMfYw0adyPXkvI
+uJfzFj8rT7QlCjH7FzTYQrvbYtNVI2AfQsqIvuCdCAgXShgLMGX+cLRqUAP0jlwM
+h35KVrVAk+xn/zb7AvThdKSjWtIi9rLhO8V5o0CCmGGFIU+yWp7E7QBXdO8DFERi
+9qPCNGIu/38rCu/UHXk43Z/iUdu1wd4mstdkxlzHS/3YSInhxGmprcL7Zqu0/qfL
+fZjhvwkZlmiFQHHD+OhS0iDFzu8Ku/0UsUan8365G7hxrFE8RdAfRMY3lA8lF3d0
+BeCRZGannX8qgDZAbzmkUkxJs60HwDeMNxw0Y3PaAKT0j4IDVS4EDpdHWNNJm+do
+f7FWQIsE5D9fMbLqY/YjtiQz5NkNBLPqmHo05BYYOiWQDXESxxIn1DAYXt+AtPnJ
++2Q7H6MmDS7rwh88TeHVOE8X/FZyJO3v83Dzi1YaIKtRebT60xDiUbDZ4+VEn43R
++biOm3ObsccyRfV8lN1UZy5aqnLmm35l+l/qbNdudxX1sN8OBVtSqhPNqwrHdnu+
+A2dCULA+vr38SyIbV3FtTKv9GjLSc7LPHRV8VMHj9JsOlNug9Lprh/x9pSoH8pMr
+Jx1PCRKLTWKL65lHey4hft5MhwFp2UskszVBH+0XvZeHgM3//iQ=
+=0tzF
+-----END PGP SIGNATURE-----
+
+--dTy3Mrz/UPE2dbVg--
 
