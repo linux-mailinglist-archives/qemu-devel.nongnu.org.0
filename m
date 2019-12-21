@@ -2,61 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C5F128A56
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 17:16:37 +0100 (CET)
-Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845A8128A65
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Dec 2019 17:25:18 +0100 (CET)
+Received: from localhost ([::1]:40526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iihQi-00050D-53
-	for lists+qemu-devel@lfdr.de; Sat, 21 Dec 2019 11:16:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
+	id 1iihZ7-0007fw-Ff
+	for lists+qemu-devel@lfdr.de; Sat, 21 Dec 2019 11:25:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56441)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iihPl-0004YQ-1l
- for qemu-devel@nongnu.org; Sat, 21 Dec 2019 11:15:38 -0500
+ (envelope-from <peter@lekensteyn.nl>) id 1iihVW-0006D6-1i
+ for qemu-devel@nongnu.org; Sat, 21 Dec 2019 11:21:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iihPj-0006pR-NI
- for qemu-devel@nongnu.org; Sat, 21 Dec 2019 11:15:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42158)
+ (envelope-from <peter@lekensteyn.nl>) id 1iihVU-0003iy-1g
+ for qemu-devel@nongnu.org; Sat, 21 Dec 2019 11:21:33 -0500
+Received: from mail.lekensteyn.nl ([2a02:2308::360:1:25]:55261)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iihPj-0006hC-FA
- for qemu-devel@nongnu.org; Sat, 21 Dec 2019 11:15:35 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iihPh-00051l-DJ
- for <qemu-devel@nongnu.org>; Sat, 21 Dec 2019 16:15:33 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 348212E80C9
- for <qemu-devel@nongnu.org>; Sat, 21 Dec 2019 16:15:33 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Dec 2019 16:10:20 -0000
-From: Anastasios Vacharakis <1856724@bugs.launchpad.net>
+ (Exim 4.71) (envelope-from <peter@lekensteyn.nl>) id 1iihVT-0003UU-GW
+ for qemu-devel@nongnu.org; Sat, 21 Dec 2019 11:21:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=lekensteyn.nl; s=s2048-2015-q1; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=0ISQZaogL7p0l6Pcf319hHDRm/Mr9e12UiuUyUubt9k=; 
+ b=VJYeFlYd2mi5Nur8d5RjUHWevgmN+adLZc1GGphFbIHvW3ok5KbuaxGXW1k6ewzfwkGZTbItgjmqdmqqVTFmm1e/zpynrzZQoU0oEQCGHZAuQsG1TU4MeYbuAeMMIkZCsRLsSH54N/QdVzbOxogZ2xJW8lSgkxDqirfs3PQmnluCrjADSz6Brjff4PuTo/ZCpJ0Uuw8YaX38OBvwudkcDya8r7gxjWbMhSAY6D8g9rc6XbSv58HRQReNvUnZBPQdDy1hhBnkTfV4AEL/AO6g1ZmutMW9zHXrSswTh3t7VJ2BaIwPe/WSCyK4gdKabtuS/3qSShwrJB9vUOfdCU8caw==;
+Received: by lekensteyn.nl with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
+ (envelope-from <peter@lekensteyn.nl>)
+ id 1iihVO-0005LB-W3; Sat, 21 Dec 2019 17:21:27 +0100
+From: Peter Wu <peter@lekensteyn.nl>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: belliash docmax3
-X-Launchpad-Bug-Reporter: Rafal Kupiec (belliash)
-X-Launchpad-Bug-Modifier: Anastasios Vacharakis (docmax3)
-References: <157659673737.27526.16943710669363851261.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157694462046.28116.1070785121776220476.malone@chaenomeles.canonical.com>
-Subject: [Bug 1856724] Re: SB.PCI0.SMB0 device drivers unavailable
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 53d8b4f85df1d8784ffdc80a8913a213fb16c01a
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Subject: [PATCH] hw/i386/pc: fix regression in parsing vga cmdline parameter
+Date: Sat, 21 Dec 2019 17:21:24 +0100
+Message-Id: <20191221162124.1159291-1-peter@lekensteyn.nl>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a02:2308::360:1:25
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,44 +51,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856724 <1856724@bugs.launchpad.net>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-what is this shit?
+When the 'vga=' parameter is succeeded by another parameter, QEMU 4.2.0
+would refuse to start with a rather cryptic message:
 
--- =
+    $ qemu-system-x86_64 -kernel /boot/vmlinuz-linux -append 'vga=792 quiet'
+    qemu: can't parse 'vga' parameter: Invalid argument
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856724
+It was not clear whether this applied to the '-vga std' parameter or the
+'-append' one. Fix the parsing regression and clarify the error.
 
-Title:
-  SB.PCI0.SMB0 device drivers unavailable
+Fixes: 133ef074bd ("hw/i386/pc: replace use of strtol with qemu_strtoui in x86_load_linux()")
+Cc: Sergio Lopez <slp@redhat.com>
+Signed-off-by: Peter Wu <peter@lekensteyn.nl>
+---
+Hi,
 
-Status in QEMU:
-  New
+This fixes a regression in QEMU 4.2.0 where my existing scripts would
+fail to boot while it worked fine with QEMU 4.1.1.
 
-Bug description:
-  QEMU 4.2 introduces new device with this code:
+I do wonder whether QEMU has any business in strictly enforcing the
+contents of the kernel command line. Perhaps it should only warn about
+the issue, and not exit? Previously it would silently ignore bad values.
 
-  static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
-  {
-      Aml *scope =3D aml_scope("_SB.PCI0");
-      Aml *dev =3D aml_device("SMB0");
+Kind regards,
+Peter
+---
+ hw/i386/x86.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-      aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0005")));
-      aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
-      build_acpi_ipmi_devices(dev, BUS(smbus), "\\_SB.PCI0.SMB0");
-      aml_append(scope, dev);
-      aml_append(table, scope);
-  }
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 394edc2f72..121650ae51 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -508,6 +508,7 @@ void x86_load_linux(X86MachineState *x86ms,
+     vmode = strstr(kernel_cmdline, "vga=");
+     if (vmode) {
+         unsigned int video_mode;
++        const char *end;
+         int ret;
+         /* skip "vga=" */
+         vmode += 4;
+@@ -518,10 +519,9 @@ void x86_load_linux(X86MachineState *x86ms,
+         } else if (!strncmp(vmode, "ask", 3)) {
+             video_mode = 0xfffd;
+         } else {
+-            ret = qemu_strtoui(vmode, NULL, 0, &video_mode);
+-            if (ret != 0) {
+-                fprintf(stderr, "qemu: can't parse 'vga' parameter: %s\n",
+-                        strerror(-ret));
++            ret = qemu_strtoui(vmode, &end, 0, &video_mode);
++            if (ret != 0 || (*end && *end != ' ')) {
++                fprintf(stderr, "qemu: invalid 'vga=' kernel parameter.\n");
+                 exit(1);
+             }
+         }
+-- 
+2.24.1
 
-  It is detected by Windows 10 as 'Unknown Device' and there is no driver a=
-vailable.
-  Please provide a working Windows driver or give ability to disable this d=
-evice.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856724/+subscriptions
 
