@@ -2,49 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE80128DCF
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 13:03:56 +0100 (CET)
-Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3074128DDF
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 13:12:13 +0100 (CET)
+Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iizxj-0004JD-OD
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 07:03:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44317)
+	id 1ij05l-00021k-3C
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 07:12:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43371)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iizZE-0003Vj-Li
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:37 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iizxN-0004Yt-P6
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 07:03:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iizZC-00075A-6v
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:36 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:35048)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iizxI-0001qU-El
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 07:03:33 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37585)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iizZB-0004nz-JE; Sun, 22 Dec 2019 06:38:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=E+SoyxPLvlWargalWgxEbk+TBsEEMcY7UkhPnTR5WLU=; 
- b=IdeYm4BNIW3A/RXjsU5kpk/IYwbTICe1ijNea21/YLu9lsWcs23+QjU1q7CsF675y1GIXUfB7C8FKFrwDpPqDyHjU+tsPemiAI1sLOcfDMTbI3NGdrnEU88h9z0yKqYRV3OpVWYGMMJE+yeNPVM+RIYgMw4zOk/pftbNHPmVxHu++9tNEkd/08O+Rv4xPm7I518cRdJMfU0PxzGxP9oUauhABWT+Ondr9k7eaFrUEGCV0EuQPMYua7iVNBIBUODr7QrRAiUh8AG/IFuxEaluKC7pviNSRJFl4kFRjJLGhe1K+NM4/6/y63q4CuCfdzIgpTaL3AQbDmA7JbKXpZhMxQ==;
-Received: from [80.30.182.172] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iizYV-0005dS-41; Sun, 22 Dec 2019 12:37:52 +0100
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1iizXv-0001WQ-0s; Sun, 22 Dec 2019 12:37:15 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 26/27] qcow2: Add subcluster support to qcow2_measure()
-Date: Sun, 22 Dec 2019 12:37:07 +0100
-Message-Id: <9fadbca0b9fc6d7a5c8b1dc4cda53d45a4d37c25.1577014346.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1577014346.git.berto@igalia.com>
-References: <cover.1577014346.git.berto@igalia.com>
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iizxI-0001l9-6Z
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 07:03:28 -0500
+Received: by mail-wr1-x442.google.com with SMTP id w15so1135958wru.4
+ for <qemu-devel@nongnu.org>; Sun, 22 Dec 2019 04:03:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kEkfZBbwI9UW4FGLzbID4Jbcu/JHYiQ20+8enz8Ziv4=;
+ b=RWTX0HQjA48xU0ZF63Tl5/RxWZ4/X0M7SL+XZHNsMuFx5ItvuZQyCsRwSlzAYVNrx+
+ KeRdoJmbecmnn7PRMzloPGykCtDyTeJ6jFQb6cRcebIfRK6Op8s/HRXHzUnMTayISVTh
+ d9WhRO0b+ntuXXksCtEbMmC6j9yBCVchxnpc2CcbCuGU6pcTL8dB3TDiD4K1iWbzVPA7
+ nVs1k3MZU4EUzU3SEl0CFkVCF/RVoNS2uJ5P+heFMvTn37dMq+RvQDtQfUwFaB7wgwJw
+ EbXHhDgcMXJkJb7TjvFGcPwjxdD8V4hohyyRXGPO6lTbSe78LSDfMo1VQXakwuN29udD
+ 34MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=kEkfZBbwI9UW4FGLzbID4Jbcu/JHYiQ20+8enz8Ziv4=;
+ b=HnJhw17z3iXlU5oHrqRD8LB+CtoyShikDCRkm1K0mT2UTm2OvGs7hU95MacwKg/7+P
+ 2klc6hVjSLKEy9k2z+kl8AqKp498NU25tKBD+3vdYjG0Y1y3kyyglSQ3ZiSjyUjtBwI4
+ PvzQqDlvSX3K7B/kPsWTgOjCfkpmpaMUrSjab32eIjcvoaJX6048Am4gQElD86/6mnUO
+ xwl0M3opX7PtRZdCan/6yJ+G13XyS/TFD2XKfBPu3nHwwGuNunokeRsfPlbXoiadU29S
+ 8JwbombyjjwhbLDLlP1LG5vGmWWaQ81IaKPMaqePqe/MKFfcwIYC7030b1lLJ08AWyKH
+ y3mQ==
+X-Gm-Message-State: APjAAAWiUidUNBA58ISjUyDXcn2Nfqo30jRsZb+5hj0/D3EE7mvKahMI
+ OjjJF+OPO7XNOHfXi7M2lXY=
+X-Google-Smtp-Source: APXvYqwGAp7NpWAK2clTSW857AVRa6CSMbIcmxlqZZ1iwpG0BAN9rzCHupJm6llM+87NG4593ngbfA==
+X-Received: by 2002:a5d:4983:: with SMTP id r3mr25443373wrq.134.1577016206771; 
+ Sun, 22 Dec 2019 04:03:26 -0800 (PST)
+Received: from [10.0.0.124] ([185.102.219.36])
+ by smtp.gmail.com with ESMTPSA id f65sm16134375wmf.2.2019.12.22.04.03.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 22 Dec 2019 04:03:26 -0800 (PST)
+Subject: Re: [Qemu-devel] Maintainers, please tell us how to boot your
+ machines!
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <87d0mwatbu.fsf@dusky.pond.sub.org>
+ <3c7c7980-bb0a-c6f5-1f7d-56054190bb25@redhat.com>
+ <87a7flf04y.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <49740883-eb5a-1f6d-8dd4-9de1982aa6b1@amsat.org>
+Date: Sun, 22 Dec 2019 13:03:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <87a7flf04y.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,94 +113,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: Paul Burton <pburton@wavecomp.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Jan Kiszka <jan.kiszka@web.de>, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Rob Herring <robh@kernel.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Jia Liu <proljc@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Helge Deller <deller@gmx.de>, David Hildenbrand <david@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Paul Durrant <paul.durrant@citrix.com>, Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stafford Horne <shorne@gmail.com>, Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Michael Walle <michael@walle.cc>,
+ Thomas Huth <huth@tuxfamily.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extended L2 entries are bigger than normal L2 entries so this has an
-impact on the amount of metadata needed for a qcow2 file.
+On 5/17/19 7:42 PM, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+> 
+>> How do you want to proceed with all the information provided in this
+>> thread? I think a big table in the wiki collecting the answers is ideal.
+>> What do you think?
+> 
+> Yes, please!  I haven't been able to find the time...
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+I gathered all the information from this thread here:
+https://wiki.qemu.org/Testing/Acceptance#Machines
+(with a link in https://wiki.qemu.org/Testing#System_emulation).
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 4f26953b1e..62093de1c6 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3162,28 +3162,31 @@ int64_t qcow2_refcount_metadata_size(int64_t clusters, size_t cluster_size,
-  * @total_size: virtual disk size in bytes
-  * @cluster_size: cluster size in bytes
-  * @refcount_order: refcount bits power-of-2 exponent
-+ * @extended_l2: true if the image has extended L2 entries
-  *
-  * Returns: Total number of bytes required for the fully allocated image
-  * (including metadata).
-  */
- static int64_t qcow2_calc_prealloc_size(int64_t total_size,
-                                         size_t cluster_size,
--                                        int refcount_order)
-+                                        int refcount_order,
-+                                        bool extended_l2)
- {
-     int64_t meta_size = 0;
-     uint64_t nl1e, nl2e;
-     int64_t aligned_total_size = ROUND_UP(total_size, cluster_size);
-+    size_t l2e_size = extended_l2 ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
- 
-     /* header: 1 cluster */
-     meta_size += cluster_size;
- 
-     /* total size of L2 tables */
-     nl2e = aligned_total_size / cluster_size;
--    nl2e = ROUND_UP(nl2e, cluster_size / sizeof(uint64_t));
--    meta_size += nl2e * sizeof(uint64_t);
-+    nl2e = ROUND_UP(nl2e, cluster_size / l2e_size);
-+    meta_size += nl2e * l2e_size;
- 
-     /* total size of L1 tables */
--    nl1e = nl2e * sizeof(uint64_t) / cluster_size;
-+    nl1e = nl2e * l2e_size / cluster_size;
-     nl1e = ROUND_UP(nl1e, cluster_size / sizeof(uint64_t));
-     meta_size += nl1e * sizeof(uint64_t);
- 
-@@ -4704,6 +4707,7 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
-     bool has_backing_file;
-     bool has_luks;
-     bool extended_l2;
-+    size_t l2e_size;
- 
-     /* Parse image creation options */
-     extended_l2 = qemu_opt_get_bool_del(opts, BLOCK_OPT_EXTL2, false);
-@@ -4754,8 +4758,9 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
-     virtual_size = ROUND_UP(virtual_size, cluster_size);
- 
-     /* Check that virtual disk size is valid */
-+    l2e_size = extended_l2 ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
-     l2_tables = DIV_ROUND_UP(virtual_size / cluster_size,
--                             cluster_size / sizeof(uint64_t));
-+                             cluster_size / l2e_size);
-     if (l2_tables * sizeof(uint64_t) > QCOW_MAX_L1_SIZE) {
-         error_setg(&local_err, "The image size is too large "
-                                "(try using a larger cluster size)");
-@@ -4818,9 +4823,9 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
-     }
- 
-     info = g_new(BlockMeasureInfo, 1);
--    info->fully_allocated =
-+    info->fully_allocated = luks_payload_size +
-         qcow2_calc_prealloc_size(virtual_size, cluster_size,
--                                 ctz32(refcount_bits)) + luks_payload_size;
-+                                 ctz32(refcount_bits), extended_l2);
- 
-     /* Remove data clusters that are not required.  This overestimates the
-      * required size because metadata needed for the fully allocated file is
--- 
-2.20.1
+I also added other info I collected during 4.2 merge window.
 
+Should we suggest a new policy that new machines must have a test?
+I'll later purpose some idea to deal with machines only running non
+opensource code.
+
+I think most of the data from the acceptance tests we have could be
+generated (json?) and we could concat with another manual maintained
+json (or yaml to json?) to have this table easily updatable on the wiki.
+Now I remember why I had forgotten about HTML, it is painful to edit.
+
+Thanks all for sharing this information.
+
+Regards,
+
+Phil.
 
