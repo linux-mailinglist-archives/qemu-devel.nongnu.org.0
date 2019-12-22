@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB44128D58
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 11:22:00 +0100 (CET)
-Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A7D128D59
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 11:22:01 +0100 (CET)
+Received: from localhost ([::1]:46004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iiyN5-0005bX-1d
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 05:21:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36759)
+	id 1iiyN6-0005dm-QN
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 05:22:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iiyLs-0004mj-PZ
+ (envelope-from <bounces@canonical.com>) id 1iiyLt-0004mq-BN
  for qemu-devel@nongnu.org; Sun, 22 Dec 2019 05:20:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iiyLr-0002YI-AG
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 05:20:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59268)
+ (envelope-from <bounces@canonical.com>) id 1iiyLr-0002aZ-Q1
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 05:20:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59290)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iiyLr-0002Um-4A
+ id 1iiyLr-0002Wg-Ih
  for qemu-devel@nongnu.org; Sun, 22 Dec 2019 05:20:43 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iiyLq-0008Nc-49
+ id 1iiyLq-0008Nc-K9
  for <qemu-devel@nongnu.org>; Sun, 22 Dec 2019 10:20:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 126A72E80CB
+ by loganberry.canonical.com (Postfix) with ESMTP id 96A0E2E80C0
  for <qemu-devel@nongnu.org>; Sun, 22 Dec 2019 10:20:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Dec 2019 10:09:16 -0000
+Date: Sun, 22 Dec 2019 10:10:52 -0000
 From: Damir <1856335@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: djdatte
 X-Launchpad-Bug-Reporter: Damir (djdatte)
 X-Launchpad-Bug-Modifier: Damir (djdatte)
 References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <157700935685.14604.1750416496384003913.malone@wampee.canonical.com>
+Message-Id: <157700945245.5281.12405009113393436406.malone@gac.canonical.com>
 Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b333bb36a24008fb7b37e5128f254849bf782c6e
+X-Launchpad-Hash: 022a3e6762a27ef76f78c82c376690ead618bd22
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -69,21 +69,9 @@ Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-I've since confirmed that this bug also exist (as expected) on Linux
-guests, as well as Zen1 EPYC 7401 CPUs, to make sure this wasn't a
-problem with the detection of the newer consumer platform.
-
-Basically it seems (looking at the code with layman eyes) that as long
-as you have a topology that is dividable by 4 or 8, it will always
-result in the wrong topology being exposed to the guest, even when the
-correct option can be built (12, 24 core CPUs, although, it would be
-great if we could support 9 Core VM CPus as that is a reasonable use
-case for VMs (3 CCXs of 3 Cores for a total of 9 (or 18 SMT threads)).
-
-Pinging the author and committer of the TopoEXT feature / EPYC cpu model
-as they should probably know best how to solve this issue.
+This is the commit I am referencing:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D8f4202fb1080f86958782=
+b1fca0bf0279f67d136
 
 -- =
 
