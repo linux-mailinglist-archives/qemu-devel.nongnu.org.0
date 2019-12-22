@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B439128DC7
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 12:56:53 +0100 (CET)
-Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C21128DBD
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 12:46:50 +0100 (CET)
+Received: from localhost ([::1]:46766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iizqt-0004iI-W8
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 06:56:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43685)
+	id 1iizhA-0004BU-FL
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 06:46:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iizZ9-0003Lm-0J
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:32 -0500
+ (envelope-from <berto@igalia.com>) id 1iizZD-0003UD-Si
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iizZ7-0006o6-Mp
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:30 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:34972)
+ (envelope-from <berto@igalia.com>) id 1iizZC-000759-6c
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:35 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:35042)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iizZ7-0004V1-A0; Sun, 22 Dec 2019 06:38:29 -0500
+ id 1iizZB-0004nS-JD; Sun, 22 Dec 2019 06:38:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=AkPLgWeXD8Sp8Vv4WDnQhlr8ICgxnf9zj64xPn9SawY=; 
- b=ozO1RPtFOyCCHRRi7ZUwrFjmlZZtZb5mDupZh0aPyv5ufp0csfCFDkoPHRnnfpXzXKNDuxctw6UTKMaD25gVv9uF50YmqjHg9tDooSUQpOYoXOLohrzjpWstJDDsL0ttLQVksdP4aFaIDuUyfLntG4GFDyMZ+hj2DgN0p0xSSMjRkhtC2Tqk6cKPmE4Nw3hpKVx39i5iB7Km7tnoT/HmEIyXIyjl6v6DoTDQZoab5Nn/wWX9bqoAEqeqti1UU54fgr/nNIJ2FN83GdA6YVbP4avnrV3X3lxlR9myVN5hwLELUaYKWEYCjSSY7i9K7iOny+8JN81zOoUrXgRLBFoTug==;
+ bh=FfRwlFoUXwcSP1PUYtt1ApuHt/UcQFWHMXoKMvFasHA=; 
+ b=Vd9T794WPeEoNkJP48CItIAD0AP/Shc/0+3bItdcHMbbG/LgbN+D4XYmOf1PFbxWnoyRpvu1mdacu992dQHJf2+Iq7u9bqK+EQnaKC23ANyd7HNgOxvP3D3mtW6OuJDTfPpaMf7mwG2gT3oMosIK3sy/mtQuojIV1dTFMp/0j3Kr5w99oc2kpg2IHidGHwGZcPtReQEvEuU74Uhe8tQvI5hWAZJUfy2hUxpl44UyclFOR61IhHqHPN7w1fbfOMX8R9RgdaHffBdvZcN8cxPHCdvWu56DdqVov0cJW+fiVJn/MuHeM20thlYYP3jmG9Vl3xGcs+2t6+pL8VfLl/1iXA==;
 Received: from [80.30.182.172] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iizYU-0005dL-VE; Sun, 22 Dec 2019 12:37:52 +0100
+ id 1iizYV-0005dM-01; Sun, 22 Dec 2019 12:37:52 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1iizXu-0001W4-QE; Sun, 22 Dec 2019 12:37:14 +0100
+ id 1iizXu-0001W7-RE; Sun, 22 Dec 2019 12:37:14 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 19/27] qcow2: Add subcluster support to
- expand_zero_clusters_in_l1()
-Date: Sun, 22 Dec 2019 12:37:00 +0100
-Message-Id: <d7c9c2d54c7be83eda854db37e54dd7aabb1a1e1.1577014346.git.berto@igalia.com>
+Subject: [RFC PATCH v3 20/27] qcow2: Fix offset calculation in
+ handle_dependencies()
+Date: Sun, 22 Dec 2019 12:37:01 +0100
+Message-Id: <655e0ce198903682430272f6cfecb08afee6667c.1577014346.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1577014346.git.berto@igalia.com>
 References: <cover.1577014346.git.berto@igalia.com>
@@ -65,39 +65,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two changes are needed in order to add subcluster support to this
-function: deallocated clusters must have their bitmaps cleared, and
-expanded clusters must have all the "subcluster allocated" bits set.
+l2meta_cow_start() and l2meta_cow_end() are not necessarily
+cluster-aligned if the image has subclusters, so update the
+calculation of old_start and old_end to guarantee that no two requests
+try to write on the same cluster.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2-cluster.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ block/qcow2-cluster.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 207f670c94..ede75138d2 100644
+index ede75138d2..0a40944667 100644
 --- a/block/qcow2-cluster.c
 +++ b/block/qcow2-cluster.c
-@@ -2054,6 +2054,9 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                         /* not backed; therefore we can simply deallocate the
-                          * cluster */
-                         set_l2_entry(s, l2_slice, j, 0);
-+                        if (has_subclusters(s)) {
-+                            set_l2_bitmap(s, l2_slice, j, 0);
-+                        }
-                         l2_dirty = true;
-                         continue;
-                     }
-@@ -2120,6 +2123,9 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                 } else {
-                     set_l2_entry(s, l2_slice, j, offset);
-                 }
-+                if (has_subclusters(s)) {
-+                    set_l2_bitmap(s, l2_slice, j, QCOW_L2_BITMAP_ALL_ALLOC);
-+                }
-                 l2_dirty = true;
-             }
+@@ -1279,8 +1279,8 @@ static int handle_dependencies(BlockDriverState *bs, uint64_t guest_offset,
  
+         uint64_t start = guest_offset;
+         uint64_t end = start + bytes;
+-        uint64_t old_start = l2meta_cow_start(old_alloc);
+-        uint64_t old_end = l2meta_cow_end(old_alloc);
++        uint64_t old_start = start_of_cluster(s, l2meta_cow_start(old_alloc));
++        uint64_t old_end = ROUND_UP(l2meta_cow_end(old_alloc), s->cluster_size);
+ 
+         if (end <= old_start || start >= old_end) {
+             /* No intersection */
 -- 
 2.20.1
 
