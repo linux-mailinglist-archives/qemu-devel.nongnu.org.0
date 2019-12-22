@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C50F128D87
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 12:17:01 +0100 (CET)
-Received: from localhost ([::1]:46304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA2E128DC6
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 12:56:13 +0100 (CET)
+Received: from localhost ([::1]:46917 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iizEK-00008D-DF
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 06:17:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37099)
+	id 1iizqG-0003uS-S3
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 06:56:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41594)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iizC6-00077v-3K
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:14:43 -0500
+ (envelope-from <berto@igalia.com>) id 1iizYq-0002o1-3c
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iizC4-0008V7-Jt
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:14:41 -0500
-Received: from mail.ilande.co.uk ([46.43.2.167]:35948
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iizC4-0008Op-B9
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:14:40 -0500
-Received: from host86-191-82-191.range86-191.btcentralplus.com
- ([86.191.82.191] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1iizAn-0002Ze-AU; Sun, 22 Dec 2019 11:13:26 +0000
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191218192526.13845-1-philmd@redhat.com>
- <20191218192526.13845-3-philmd@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <089161ef-b68a-0e0a-f77d-c4a0217c6ad7@ilande.co.uk>
-Date: Sun, 22 Dec 2019 11:12:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (envelope-from <berto@igalia.com>) id 1iizYn-0005bh-ST
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 06:38:11 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:34963)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iizYn-0004Uo-Di; Sun, 22 Dec 2019 06:38:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=1kZJRo3wW2UbPV35/G27GSXgeH07jQhURSsYzZKVWsY=; 
+ b=FKJnxEuW+D+atiGt0f7cwZfClVgHH66zv7PxQW99kumlb/AWOROV6+gpdoEn3tE4Tczly0gI5rigaSX903DGew3+FkRZwJ67rQC20lPA+eelddLYZdQhP5LbgTI5Pse13RscPAna6x8d+Ku3g2lSgB9JhZ4Dw31A1eu+cxekm5p5910dKfIqN5RQvC1i6IlFPjaZDoSPIm/yYSmwvqxA+6kgsji+3EJrhKtbKgYMg06rsYGFEM2ywXo369EYCWnDz2oCPrH1Z0eJHNJCIeOY76g7r1POCqBXReBW8RRLAgUMkOZ2IIIUhNIrWxUWeUVMznzc30UVZ3oe4VO008Mj2g==;
+Received: from [80.30.182.172] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1iizYU-0005d2-DC; Sun, 22 Dec 2019 12:37:51 +0100
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1iizXu-0001VS-6p; Sun, 22 Dec 2019 12:37:14 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v3 00/27] Add subcluster allocation to qcow2
+Date: Sun, 22 Dec 2019 12:36:41 +0100
+Message-Id: <cover.1577014346.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191218192526.13845-3-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.191.82.191
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 2/6] hw/display/tcx: Add missing fall through comments
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.43.2.167
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,72 +54,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Olivier Danet <odanet@caramail.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/2019 19:25, Philippe Mathieu-Daudé wrote:
+Hi,
 
-> When building with GCC9 using CFLAG -Wimplicit-fallthrough=2 we get:
-> 
->   hw/display/tcx.c: In function ‘tcx_dac_writel’:
->   hw/display/tcx.c:453:26: error: this statement may fall through [-Werror=implicit-fallthrough=]
->     453 |             s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
->         |             ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
->   hw/display/tcx.c:454:9: note: here
->     454 |         default:
->         |         ^~~~~~~
->   hw/display/tcx.c: In function ‘tcx_dac_readl’:
->   hw/display/tcx.c:412:22: error: this statement may fall through [-Werror=implicit-fallthrough=]
->     412 |         s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
->         |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
->   hw/display/tcx.c:413:5: note: here
->     413 |     default:
->         |     ^~~~~~~
->   cc1: all warnings being treated as errors
-> 
-> Give a hint to GCC by adding the missing fall through comments.
-> 
-> Fixes: 55d7bfe22
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> v2: Reword the description (Aleksandar)
-> 
-> Cc: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> Cc: Olivier Danet <odanet@caramail.com>
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/display/tcx.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-> index 14e829d3fa..abbeb30284 100644
-> --- a/hw/display/tcx.c
-> +++ b/hw/display/tcx.c
-> @@ -410,6 +410,7 @@ static uint64_t tcx_dac_readl(void *opaque, hwaddr addr,
->      case 2:
->          val = s->b[s->dac_index] << 24;
->          s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
-> +        /* fall through */
->      default:
->          s->dac_state = 0;
->          break;
-> @@ -451,6 +452,7 @@ static void tcx_dac_writel(void *opaque, hwaddr addr, uint64_t val,
->              s->b[index] = val >> 24;
->              update_palette_entries(s, index, index + 1);
->              s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
-> +            /* fall through */
->          default:
->              s->dac_state = 0;
->              break;
+here's the new version of the patches to add subcluster allocation
+support to qcow2.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Please refer to the cover letter of the first version for a full
+description of the patches:
 
+   https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
-ATB,
+This version fixes many of the problems highlighted by Max. I decided
+not to replace completely the cluster logic with subcluster logic in
+all cases because I felt that sometimes it only complicated the code.
+Let's see what you think :-)
 
-Mark.
+Berto
+
+v3:
+- Patch 01: Rename host_offset to host_cluster_offset and make 'bytes'
+            an unsigned int [Max]
+- Patch 03: Rename cluster_needs_cow to cluster_needs_new_alloc and
+            count_cow_clusters to count_single_write_clusters. Update
+            documentation and add more assertions and checks [Max]
+- Patch 09: Update qcow2_co_truncate() to properly support extended L2
+            entries [Max]
+- Patch 10: Forbid calling set_l2_bitmap() if the image does not have
+            extended L2 entries [Max]
+- Patch 11 (new): Add QCow2SubclusterType [Max]
+- Patch 12 (new): Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
+- Patch 13 (new): Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
+- Patch 14: Use QCow2SubclusterType instead of QCow2ClusterType [Max]
+- Patch 15: Use QCow2SubclusterType instead of QCow2ClusterType [Max]
+- Patch 19: Don't call set_l2_bitmap() if the image does not have
+            extended L2 entries [Max]
+- Patch 21: Use smaller data types.
+- Patch 22: Don't call set_l2_bitmap() if the image does not have
+            extended L2 entries [Max]
+- Patch 23: Use smaller data types.
+- Patch 25: Update test results and documentation. Move the check for
+            the minimum subcluster size to validate_cluster_size().
+- Patch 26 (new): Add subcluster support to qcow2_measure()
+- Patch 27: Add more tests
+
+v2: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg01642.html
+- Patch 12: Update after the changes in 88f468e546.
+- Patch 21 (new): Clear the L2 bitmap when allocating a compressed
+  cluster. Compressed clusters should have the bitmap all set to 0.
+- Patch 24: Document the new fields in the QAPI documentation [Eric].
+- Patch 25: Allow qcow2 preallocation with backing files.
+- Patch 26: Add some tests for qcow2 images with extended L2 entries.
+
+v1: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
+
+Output of git backport-diff against v2:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/27:[0013] [FC] 'qcow2: Add calculate_l2_meta()'
+002/27:[----] [-C] 'qcow2: Split cluster_needs_cow() out of count_cow_clusters()'
+003/27:[0083] [FC] 'qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()'
+004/27:[----] [-C] 'qcow2: Add get_l2_entry() and set_l2_entry()'
+005/27:[----] [--] 'qcow2: Document the Extended L2 Entries feature'
+006/27:[----] [--] 'qcow2: Add dummy has_subclusters() function'
+007/27:[----] [--] 'qcow2: Add subcluster-related fields to BDRVQcow2State'
+008/27:[----] [--] 'qcow2: Add offset_to_sc_index()'
+009/27:[0008] [FC] 'qcow2: Add l2_entry_size()'
+010/27:[0008] [FC] 'qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()'
+011/27:[down] 'qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()'
+012/27:[down] 'qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*'
+013/27:[down] 'qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC'
+014/27:[0060] [FC] 'qcow2: Add subcluster support to calculate_l2_meta()'
+015/27:[0091] [FC] 'qcow2: Add subcluster support to qcow2_get_cluster_offset()'
+016/27:[----] [--] 'qcow2: Add subcluster support to zero_in_l2_slice()'
+017/27:[----] [--] 'qcow2: Add subcluster support to discard_in_l2_slice()'
+018/27:[----] [--] 'qcow2: Add subcluster support to check_refcounts_l2()'
+019/27:[0008] [FC] 'qcow2: Add subcluster support to expand_zero_clusters_in_l1()'
+020/27:[----] [--] 'qcow2: Fix offset calculation in handle_dependencies()'
+021/27:[0007] [FC] 'qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()'
+022/27:[0004] [FC] 'qcow2: Clear the L2 bitmap when allocating a compressed cluster'
+023/27:[0002] [FC] 'qcow2: Add subcluster support to handle_alloc_space()'
+024/27:[----] [-C] 'qcow2: Restrict qcow2_co_pwrite_zeroes() to full clusters only'
+025/27:[0049] [FC] 'qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit'
+026/27:[down] 'qcow2: Add subcluster support to qcow2_measure()'
+027/27:[0046] [FC] 'iotests: Add tests for qcow2 images with extended L2 entries'
+
+Alberto Garcia (27):
+  qcow2: Add calculate_l2_meta()
+  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
+  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
+  qcow2: Add get_l2_entry() and set_l2_entry()
+  qcow2: Document the Extended L2 Entries feature
+  qcow2: Add dummy has_subclusters() function
+  qcow2: Add subcluster-related fields to BDRVQcow2State
+  qcow2: Add offset_to_sc_index()
+  qcow2: Add l2_entry_size()
+  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
+  qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()
+  qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
+  qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
+  qcow2: Add subcluster support to calculate_l2_meta()
+  qcow2: Add subcluster support to qcow2_get_cluster_offset()
+  qcow2: Add subcluster support to zero_in_l2_slice()
+  qcow2: Add subcluster support to discard_in_l2_slice()
+  qcow2: Add subcluster support to check_refcounts_l2()
+  qcow2: Add subcluster support to expand_zero_clusters_in_l1()
+  qcow2: Fix offset calculation in handle_dependencies()
+  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
+  qcow2: Clear the L2 bitmap when allocating a compressed cluster
+  qcow2: Add subcluster support to handle_alloc_space()
+  qcow2: Restrict qcow2_co_pwrite_zeroes() to full clusters only
+  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
+  qcow2: Add subcluster support to qcow2_measure()
+  iotests: Add tests for qcow2 images with extended L2 entries
+
+ block/qcow2-cluster.c            | 645 ++++++++++++++++++++-----------
+ block/qcow2-refcount.c           |  38 +-
+ block/qcow2.c                    | 200 +++++++---
+ block/qcow2.h                    | 150 ++++++-
+ docs/interop/qcow2.txt           |  68 +++-
+ docs/qcow2-cache.txt             |  19 +-
+ include/block/block_int.h        |   1 +
+ qapi/block-core.json             |   7 +
+ tests/qemu-iotests/031.out       |   8 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++---
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  20 +-
+ tests/qemu-iotests/065           |  18 +-
+ tests/qemu-iotests/082.out       |  48 ++-
+ tests/qemu-iotests/085.out       |  38 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/198.out       |   2 +
+ tests/qemu-iotests/206.out       |   4 +
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/271           | 256 ++++++++++++
+ tests/qemu-iotests/271.out       | 208 ++++++++++
+ tests/qemu-iotests/273.out       |   9 +-
+ tests/qemu-iotests/common.filter |   1 +
+ tests/qemu-iotests/group         |   1 +
+ 28 files changed, 1455 insertions(+), 420 deletions(-)
+ create mode 100755 tests/qemu-iotests/271
+ create mode 100644 tests/qemu-iotests/271.out
+
+-- 
+2.20.1
+
 
