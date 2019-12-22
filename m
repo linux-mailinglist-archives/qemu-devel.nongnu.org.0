@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543A9128DFE
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 14:04:08 +0100 (CET)
-Received: from localhost ([::1]:47629 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EEA128E43
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Dec 2019 14:53:07 +0100 (CET)
+Received: from localhost ([::1]:47880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ij0tz-00066o-03
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 08:04:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
+	id 1ij1fN-0004BR-Ul
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 08:53:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ij0sr-0005Yo-9U
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 08:02:58 -0500
+ (envelope-from <bounces@canonical.com>) id 1iiyLp-0004mW-0Y
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 05:20:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ij0sn-00067Z-0c
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 08:02:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58561
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ij0sk-00065T-St
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 08:02:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577019769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EF+cOW1aj50YsyXYYtuJvPS3mzBxL+FrYzYr7AmWXPI=;
- b=D+l482XGaUlZXeGzat1+0DJ8DDoJrgtc6abv+c5dvRk6EUUYUS+i2WbB6R81NBT0iRp/TS
- ba80z7Jv3UMTPq5RUwlqnt9ywmbNimEt1koLPGS77Gq3YjXlAAtus2qfD6pPosAVIFifgg
- OBnYn1GVRt5rITCgwq+eePb88/E5MNE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-jR9Zh94ZMLK0_vnHh2Qyzw-1; Sun, 22 Dec 2019 08:02:47 -0500
-Received: by mail-qt1-f198.google.com with SMTP id k27so9367472qtu.12
- for <qemu-devel@nongnu.org>; Sun, 22 Dec 2019 05:02:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iUMpv90PlaAzMPnNvwWcKkD23S9vzhuQNx+pI7uOLio=;
- b=bHPtn5G8Ce8pyqZ0eUvSZIrtPpvO26MFlXbpIfcaDvFbgHaGf8i5aHA6QSL+vyPXDY
- RlzZkRPU2hyBadr4FHjLrbESWatsPUEzepciXvfknQ6n/2wjghn5wSrVTgxdoz2M7S3X
- OAKJPUW//exK+tcT/MtRfffIpYGj8TwFzYyFMDwgrT2fpoW/wQBhHRoiAl8qi4+RYZl9
- W/rGWrH6w7Qisy8cc+HfH7CVSWtHFnyHnoU2Ne0mvhF/Q/oQbXfAhg6yF0jMa1DwDbK7
- xP5W7oukK+qTIfiUXR35+m/ltHVm/ijKxqpAfn1OyUsoWMyUXeHQiJYOvWZDxOcBfFIL
- mHuw==
-X-Gm-Message-State: APjAAAWInLTZdMV5XXmBfAOXpzKy4mLghiU16voOEvPaFR8k8ldkzSiJ
- MNrJoqaIZ4H3PQ0HJKRPnZK1S1DRM2w+j+0BEelsdNvquW7Ym1n2L7cCzi5b7z+pIxwardT513j
- SAvKva8DaIIJnNS8=
-X-Received: by 2002:ae9:c205:: with SMTP id j5mr20680933qkg.58.1577019767320; 
- Sun, 22 Dec 2019 05:02:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzdFGjsctw3UskRmkfEulBQoeui/U96h6HA1SQNpIKQ+1m1grddfPxX3FLm6Yic8WyP8DCLSA==
-X-Received: by 2002:ae9:c205:: with SMTP id j5mr20680914qkg.58.1577019767091; 
- Sun, 22 Dec 2019 05:02:47 -0800 (PST)
-Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
- by smtp.gmail.com with ESMTPSA id j185sm4779167qkc.96.2019.12.22.05.02.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Dec 2019 05:02:45 -0800 (PST)
-Date: Sun, 22 Dec 2019 08:02:41 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/24] virtio, pci, pc: fixes, features
-Message-ID: <20191222080202-mutt-send-email-mst@kernel.org>
-References: <20191219132621.16595-1-mst@redhat.com>
- <CAFEAcA9HVKxVi4vg7F4ELRpjgk=vFtREXRfJySGy5mdjsJuj9A@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1iiyLn-0002IV-KP
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 05:20:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59092)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iiyLn-0002Fv-Dz
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 05:20:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iiyLl-0008M3-H5
+ for <qemu-devel@nongnu.org>; Sun, 22 Dec 2019 10:20:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7CAFE2E80C0
+ for <qemu-devel@nongnu.org>; Sun, 22 Dec 2019 10:20:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9HVKxVi4vg7F4ELRpjgk=vFtREXRfJySGy5mdjsJuj9A@mail.gmail.com>
-X-MC-Unique: jR9Zh94ZMLK0_vnHh2Qyzw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Sun, 22 Dec 2019 10:14:00 -0000
+From: Jannik <me@exploide.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: exploide
+X-Launchpad-Bug-Reporter: Jannik (exploide)
+X-Launchpad-Bug-Modifier: Jannik (exploide)
+Message-Id: <157700964058.28040.6250427039167117245.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1857226] [NEW] 'set_link net0 off' not working with e1000e driver
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8cd09dbb72502cca26d413881ec7a60460a0e320
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Sun, 22 Dec 2019 08:52:11 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,64 +65,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1857226 <1857226@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 20, 2019 at 06:24:43PM +0000, Peter Maydell wrote:
-> On Thu, 19 Dec 2019 at 13:27, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > The following changes since commit b0ca999a43a22b38158a222233d3f5881648=
-bb4f:
-> >
-> >   Update version for v4.2.0 release (2019-12-12 16:45:57 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to d4fbea918a37c0586f1a0e15ac6ef04c9fc7b96b=
-:
-> >
-> >   vhost-user-scsi: reset the device if supported (2019-12-19 08:25:35 -=
-0500)
-> >
-> > ----------------------------------------------------------------
-> > virtio, pci, pc: fixes, features
-> >
-> > Bugfixes all over the place.
-> > HMAT support.
-> > New flags for vhost-user-blk utility.
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
->=20
-> Compile failure on OSX:
-> /Users/pm215/src/qemu-for-merges/hw/core/numa.c:427:20: error: format
-> specifies type 'unsigned char' but the argument has type 'int'
-> [-Werror,-Wformat]
->                    node->level - 1);
-> ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-> /Users/pm215/src/qemu-for-merges/include/qapi/error.h:166:35: note:
-> expanded from macro 'error_setg'
->                         (fmt), ## __VA_ARGS__)
->                                   ^~~~~~~~~~~
-> /Users/pm215/src/qemu-for-merges/hw/core/numa.c:440:20: error: format
-> specifies type 'unsigned char' but the argument has type 'int'
-> [-Werror,-Wformat]
->                    node->level + 1);
-> ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-> /Users/pm215/src/qemu-for-merges/include/qapi/error.h:166:35: note:
-> expanded from macro 'error_setg'
->                         (fmt), ## __VA_ARGS__)
->                                   ^~~~~~~~~~~
-> 2 errors generated.
->=20
-> thanks
-> -- PMM
+Public bug reported:
 
+I'm encountering a bug with the e1000e network driver, that appears to
+got previously reported at rhbz. Steps to reproduce are provided in
+detail there:
 
-I think I fixed this up, can you try again with
-new for_upstream at cd8b62554728373e3dcdbc450a3d76a9ce4e7beb please?
+https://bugzilla.redhat.com/show_bug.cgi?id=3D1707646
 
+It is about switching off network link state (set_link net0 off) having
+no effect when using the e1000e driver.
+
+Version details:
+QEMU emulator version 4.1.1 (qemu-4.1.1-1.fc31)
+Fedora 31
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1857226
+
+Title:
+  'set_link net0 off' not working with e1000e driver
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm encountering a bug with the e1000e network driver, that appears to
+  got previously reported at rhbz. Steps to reproduce are provided in
+  detail there:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1707646
+
+  It is about switching off network link state (set_link net0 off)
+  having no effect when using the e1000e driver.
+
+  Version details:
+  QEMU emulator version 4.1.1 (qemu-4.1.1-1.fc31)
+  Fedora 31
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1857226/+subscriptions
 
