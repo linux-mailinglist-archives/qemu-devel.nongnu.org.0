@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D763129150
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 05:31:55 +0100 (CET)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63491129153
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 05:33:43 +0100 (CET)
+Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijFNp-0003JN-G0
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 23:31:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41602)
+	id 1ijFPa-00068C-Er
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 23:33:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45508)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ijFLX-0001pW-6L
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:29:32 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ijFO3-0004rp-SE
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:32:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ijFLV-0007NC-RM
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:29:31 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:45483)
+ (envelope-from <dgibson@ozlabs.org>) id 1ijFO2-0000ft-EV
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:32:07 -0500
+Received: from ozlabs.org ([203.11.71.1]:47023)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ijFLV-000765-Ei; Sun, 22 Dec 2019 23:29:29 -0500
+ id 1ijFO1-0000N0-0W; Sun, 22 Dec 2019 23:32:06 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47h5wN24csz9sPV; Mon, 23 Dec 2019 15:29:24 +1100 (AEDT)
+ id 47h5zP6JL9z9sR4; Mon, 23 Dec 2019 15:32:01 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1577075364;
- bh=fmb0DE2CBeWWI1ALJRBmpy/QeOgzr+ncJKIpBZlGuRw=;
+ d=gibson.dropbear.id.au; s=201602; t=1577075521;
+ bh=rWBh9NATchNjgmyVoTHNjlEx4v4QytYxANno8qT3v4A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dsR6ZPuOurbPd6H/QvEPYQT9XuJwDgL4mIxh2DxDBtuig869latVK+GXM7/NJpaq0
- DGA7YrtHSOeAGIHJMil9obVKEN0pnq4+wQQdhX0vAuApRZERypdq6EKdUtFIrysbTS
- DVdSPoPxMc6+azfSGAtvZAKwXB+Gpbc9JffD4DG8=
-Date: Mon, 23 Dec 2019 15:29:11 +1100
+ b=k1bx7h9Y+tdPXMHiZwOOAROG6mdhZwhQHxhNk6TthNMXh9xO3wpBw9sPjUKrsruCI
+ dHxQKBmUWg4AvJqsrYolAs4DGI7MERzX9jU8TJIMACBU4YjSFx1dkV4OIfrFOjv2fI
+ 7A+FzeyNpA8Nu1aZBIyVGC14FazicC9X5doaKs9k=
+Date: Mon, 23 Dec 2019 15:31:40 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 06/13] pnv/xive: Use device_class_set_parent_realize()
-Message-ID: <20191223042911.GE21569@umbus.fritz.box>
-References: <20191219181155.32530-1-clg@kaod.org>
- <20191219181155.32530-7-clg@kaod.org>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Subject: Re: [PATCH v4 1/4] mem: move nvdimm_device_list to utilities
+Message-ID: <20191223043140.GA38380@umbus.modem>
+References: <157657241446.53829.7078678659499762596.stgit@lep8c.aus.stglabs.ibm.com>
+ <157657248567.53829.16210727613973616224.stgit@lep8c.aus.stglabs.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ytoMbUMiTKPMT3hY"
+ protocol="application/pgp-signature"; boundary="AhhlLboLdkugWU4S"
 Content-Disposition: inline
-In-Reply-To: <20191219181155.32530-7-clg@kaod.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <157657248567.53829.16210727613973616224.stgit@lep8c.aus.stglabs.ibm.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,109 +55,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, imammedo@redhat.com, qemu-ppc@nongnu.org,
+ xiaoguangrong.eric@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ytoMbUMiTKPMT3hY
-Content-Type: text/plain; charset=iso-8859-1
+--AhhlLboLdkugWU4S
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 19, 2019 at 07:11:48PM +0100, C=E9dric Le Goater wrote:
-> From: Greg Kurz <groug@kaod.org>
+On Tue, Dec 17, 2019 at 02:48:20AM -0600, Shivaprasad G Bhat wrote:
+> nvdimm_device_list is required for parsing the list for devices
+> in subsequent patches. Move it to common utility area.
 >=20
-> The XIVE router base class currently inherits an empty realize hook
-> from the sysbus device base class, but it will soon implement one
-> of its own to perform some sanity checks. Do the preliminary plumbing
-> to have it called.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-But will need a rebase due to changes earlier in the series.
-
 > ---
->  include/hw/ppc/pnv_xive.h | 10 ++++++++++
->  hw/intc/pnv_xive.c        | 10 ++++++++++
->  2 files changed, 20 insertions(+)
+>  hw/acpi/nvdimm.c            |   28 +---------------------------
+>  include/qemu/nvdimm-utils.h |    7 +++++++
+>  util/Makefile.objs          |    1 +
+>  util/nvdimm-utils.c         |   29 +++++++++++++++++++++++++++++
+>  4 files changed, 38 insertions(+), 27 deletions(-)
+>  create mode 100644 include/qemu/nvdimm-utils.h
+>  create mode 100644 util/nvdimm-utils.c
 >=20
-> diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
-> index 4d641db691c8..ba9bbeab88c3 100644
-> --- a/include/hw/ppc/pnv_xive.h
-> +++ b/include/hw/ppc/pnv_xive.h
-> @@ -16,6 +16,10 @@ struct PnvChip;
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index 9fdad6dc3f..5219dd0e2e 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -32,33 +32,7 @@
+>  #include "hw/acpi/bios-linker-loader.h"
+>  #include "hw/nvram/fw_cfg.h"
+>  #include "hw/mem/nvdimm.h"
+> -
+> -static int nvdimm_device_list(Object *obj, void *opaque)
+> -{
+> -    GSList **list =3D opaque;
+> -
+> -    if (object_dynamic_cast(obj, TYPE_NVDIMM)) {
+> -        *list =3D g_slist_append(*list, DEVICE(obj));
+> -    }
+> -
+> -    object_child_foreach(obj, nvdimm_device_list, opaque);
+> -    return 0;
+> -}
+> -
+> -/*
+> - * inquire NVDIMM devices and link them into the list which is
+> - * returned to the caller.
+> - *
+> - * Note: it is the caller's responsibility to free the list to avoid
+> - * memory leak.
+> - */
+> -static GSList *nvdimm_get_device_list(void)
+> -{
+> -    GSList *list =3D NULL;
+> -
+> -    object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
+> -    return list;
+> -}
+> +#include "qemu/nvdimm-utils.h"
 > =20
->  #define TYPE_PNV_XIVE "pnv-xive"
->  #define PNV_XIVE(obj) OBJECT_CHECK(PnvXive, (obj), TYPE_PNV_XIVE)
-> +#define PNV_XIVE_CLASS(klass)                                   \
-> +    OBJECT_CLASS_CHECK(PnvXiveClass, (klass), TYPE_PNV_XIVE)
-> +#define PNV_XIVE_GET_CLASS(obj)                                 \
-> +    OBJECT_GET_CLASS(PnvXiveClass, (obj), TYPE_PNV_XIVE)
-> =20
->  #define XIVE_BLOCK_MAX      16
-> =20
-> @@ -87,6 +91,12 @@ typedef struct PnvXive {
->      uint64_t      edt[XIVE_TABLE_EDT_MAX];
->  } PnvXive;
-> =20
-> +typedef struct PnvXiveClass {
-> +    XiveRouterClass parent_class;
+>  #define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)         =
+    \
+>     { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0x=
+ff, \
+> diff --git a/include/qemu/nvdimm-utils.h b/include/qemu/nvdimm-utils.h
+> new file mode 100644
+> index 0000000000..4b8b198ba7
+> --- /dev/null
+> +++ b/include/qemu/nvdimm-utils.h
+> @@ -0,0 +1,7 @@
+> +#ifndef NVDIMM_UTILS_H
+> +#define NVDIMM_UTILS_H
 > +
-> +    DeviceRealize parent_realize;
-> +} PnvXiveClass;
+> +#include "qemu/osdep.h"
 > +
->  void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon);
-> =20
->  #endif /* PPC_PNV_XIVE_H */
-> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index 66970a60733b..1962f884d6de 100644
-> --- a/hw/intc/pnv_xive.c
-> +++ b/hw/intc/pnv_xive.c
-> @@ -1816,10 +1816,17 @@ static void pnv_xive_init(Object *obj)
->  static void pnv_xive_realize(DeviceState *dev, Error **errp)
->  {
->      PnvXive *xive =3D PNV_XIVE(dev);
-> +    PnvXiveClass *pxc =3D PNV_XIVE_GET_CLASS(dev);
->      XiveSource *xsrc =3D &xive->ipi_source;
->      XiveENDSource *end_xsrc =3D &xive->end_source;
->      Error *local_err =3D NULL;
-> =20
-> +    pxc->parent_realize(dev, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
+> +GSList *nvdimm_get_device_list(void);
+> +#endif
+> diff --git a/util/Makefile.objs b/util/Makefile.objs
+> index df124af1c5..2a096fe190 100644
+> --- a/util/Makefile.objs
+> +++ b/util/Makefile.objs
+> @@ -20,6 +20,7 @@ util-obj-y +=3D envlist.o path.o module.o
+>  util-obj-y +=3D host-utils.o
+>  util-obj-y +=3D bitmap.o bitops.o hbitmap.o
+>  util-obj-y +=3D fifo8.o
+> +util-obj-y +=3D nvdimm-utils.o
+>  util-obj-y +=3D cacheinfo.o
+>  util-obj-y +=3D error.o qemu-error.o
+>  util-obj-y +=3D qemu-print.o
+> diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
+> new file mode 100644
+> index 0000000000..5cc768ca47
+> --- /dev/null
+> +++ b/util/nvdimm-utils.c
+> @@ -0,0 +1,29 @@
+> +#include "qemu/nvdimm-utils.h"
+> +#include "hw/mem/nvdimm.h"
+> +
+> +static int nvdimm_device_list(Object *obj, void *opaque)
+> +{
+> +    GSList **list =3D opaque;
+> +
+> +    if (object_dynamic_cast(obj, TYPE_NVDIMM)) {
+> +        *list =3D g_slist_append(*list, DEVICE(obj));
 > +    }
 > +
->      assert(xive->chip);
->      assert(xive->system_memory);
-> =20
-> @@ -1950,10 +1957,12 @@ static void pnv_xive_class_init(ObjectClass *klas=
-s, void *data)
->      XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
->      XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
->      XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
-> +    PnvXiveClass *pxc =3D PNV_XIVE_CLASS(klass);
-> =20
->      xdc->dt_xscom =3D pnv_xive_dt_xscom;
-> =20
->      dc->desc =3D "PowerNV XIVE Interrupt Controller";
-> +    device_class_set_parent_realize(dc, pnv_xive_realize, &pxc->parent_r=
-ealize);
->      dc->realize =3D pnv_xive_realize;
->      dc->props =3D pnv_xive_properties;
-> =20
-> @@ -1974,6 +1983,7 @@ static const TypeInfo pnv_xive_info =3D {
->      .instance_init =3D pnv_xive_init,
->      .instance_size =3D sizeof(PnvXive),
->      .class_init    =3D pnv_xive_class_init,
-> +    .class_size    =3D sizeof(PnvXiveClass),
->      .interfaces    =3D (InterfaceInfo[]) {
->          { TYPE_PNV_XSCOM_INTERFACE },
->          { }
+> +    object_child_foreach(obj, nvdimm_device_list, opaque);
+> +    return 0;
+> +}
+> +
+> +/*
+> + * inquire NVDIMM devices and link them into the list which is
+> + * returned to the caller.
+> + *
+> + * Note: it is the caller's responsibility to free the list to avoid
+> + * memory leak.
+> + */
+> +GSList *nvdimm_get_device_list(void)
+> +{
+> +    GSList *list =3D NULL;
+> +
+> +    object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
+> +    return list;
+> +}
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -165,25 +193,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ytoMbUMiTKPMT3hY
+--AhhlLboLdkugWU4S
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4AQpYACgkQbDjKyiDZ
-s5JDkQ//dH14bgohbgk9r6rnqMZJBHzZ1DKoo1cnVmCopmmFtRVP4pHT7Cb9UpUX
-tQ3nuWQITvQt6yMN0hIvgEX2MnUc99qsByD+mVYYv7jDqy90/w1pb/HYEYa8Y0It
-71Jmfi7n0jh94YVt9oRKZ6CnL7S7D3Xb5RQD8dXsXfu5BsO4q3zsF9wGLgShP09S
-N8DCOhcxbKxfaYi0cGxNHHoNqypfhUK+eiOCuqGQQe5OVdz4JDD2Ic1+wtdd5FZ9
-Wr4txRPhjWzXzMZs2K2I8N/hx5s+tHHbE6hOkxWqwmp9mh8FTrLn8WrdHZ6GA7nr
-GRCpZAE7yHh/7Q+SETDXwAXuuBGXpFRPnSDuVwDffFrFki7M2jZvm5OtM+jg9hxZ
-JdFzpEit/k/kmjyXzwpEuUUfI+7MuAXXKFPunrug0SJPGJZme36BLvNaheh2xNJR
-wX6SgZRjYV1DEocFiAsgBsk40+P6POcDvX93uwPOzI/1+Mr4kScyiJGOeOUbOw9B
-4rGMdTsXBDZYGfXLrJ4sq3sS5dQtPbEBtPLohi0ags7hNb0jO8CAvqqpq80V7mOJ
-oemSgHzYqxoZ4Ih4rPew/ia/HG3l6xVBasORgFea7C/IGaLYZFunpGsnlv5NMOo/
-S+6aQ4OsfkQS9xyGavNH/KytPT0FddtF2vU4HrhCHdEmA7yCFJQ=
-=dL72
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4AQywACgkQbDjKyiDZ
+s5Ibxw//VUVJTmAX5nFX5Y3cwRCtiey0ZhH9UTPaPV2/N0O/A3YvyPoA5YjdsCpQ
+3oCVqZTOayNUQj+IeDePulD+EuEzZ7rc/4sSfltJ9BlpPJonVbbHncZVYb8bxYyY
+4hBQZL1qBQYZQHh4KihoPtBnGmgNRFN7tY7OY8ycdcDvFNL5D5qCZmDwTBQmCfIN
+oh8EwQmqGuqpAGyDfWvxy3UypY9gyvxNSld1NrVz4yz4YiNtqUhq4P1geZ/jGRxc
+CmEyv+GDuL6xXJpVlwTx/uN97uferQH31EXkiiE2rrMxnkpFVN8cqyUGNEllxWoH
+tkHx9zw6uhBR3WghJDltk4a5EL28haU1eFwne/0BLcYZW/eXghUx9ZbFaPcZx90Q
+78K0Vv9uoCgtvh3cq/aU4POfMcaXbeVMgh5P0cu/4t/Mg1kPlAVe6/yS6d6N1nQt
+/L2qHYaN0wNMA74sRhHCMd2kKxbCMBi4aSW6u43IE5vHmOSB3g42d2ji4S66LWWi
+Frm9p0vetJIuJ/1HYSth2fIfbltVnqsA4k7leYywsLygZNbPYPyvMjRmSfeEUrl4
+frQu9h408xHb5+8Z9fDv5eZnppKUXMQdaOtg3IjnCW08PQmipkMcPFsTafz444Ua
+I5WBiNEjEnODoBOmb9PuxkNqxgw/nkreHSuO3zSqOZpgFwAUvAA=
+=jIbH
 -----END PGP SIGNATURE-----
 
---ytoMbUMiTKPMT3hY--
+--AhhlLboLdkugWU4S--
 
