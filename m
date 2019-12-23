@@ -2,63 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B697129152
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 05:32:31 +0100 (CET)
-Received: from localhost ([::1]:53270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F7412914F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 05:31:54 +0100 (CET)
+Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijFOP-0004Aw-GR
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 23:32:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42332)
+	id 1ijFNo-0003Jr-JA
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 23:31:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ijFM3-0002Nj-7Y
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:30:06 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ijFLX-0001pX-9K
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:29:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ijFM0-0000ym-Fl
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:30:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45524)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ijFLz-0000u8-8D
- for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:29:59 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ijFLw-0006ln-TG
- for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 04:29:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D2EC82E80C3
- for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 04:29:56 +0000 (UTC)
+ (envelope-from <dgibson@ozlabs.org>) id 1ijFLV-0007NI-Rm
+ for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:29:31 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37513 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ijFLV-00075N-F1; Sun, 22 Dec 2019 23:29:29 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47h5wN176rz9sPW; Mon, 23 Dec 2019 15:29:24 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1577075364;
+ bh=g2KDzkROhaybfsWmvXyxrw6BnR7UGVWiyEOfZYrWIoE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Uyfqu+jTW1dOprlrjzfJBsVgOj7QgVn352/8ufS/UB3/1jg0zpsRfHuiGk+TK1p+x
+ H/13B9hhtXn0x/LP5VkAycfGyFj0DJpiiaFpYf9LqokTSCMa1c19ubybZ7JJxP2jKx
+ famNZoT6XXFJZwFJYMxj3fHQxvS44OqESHvp4nrw=
+Date: Mon, 23 Dec 2019 15:27:50 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 05/13] spapr/xive: Use device_class_set_parent_realize()
+Message-ID: <20191223042750.GD21569@umbus.fritz.box>
+References: <20191219181155.32530-1-clg@kaod.org>
+ <20191219181155.32530-6-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Dec 2019 04:17:31 -0000
-From: Launchpad Bug Tracker <1605506@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: qemu
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor justcaca th-huth
-X-Launchpad-Bug-Reporter: lisiheng (justcaca)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160722071222.4694.55918.malonedeb@wampee.canonical.com>
-Message-Id: <157707465149.29966.6155556800251106417.malone@loganberry.canonical.com>
-Subject: [Bug 1605506] Re: qemu driver_mirror error "Operation not permitted"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7fd668f2568d64a514929ed950f85495dd129e73
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jCrbxBqMcLqd4mOl"
+Content-Disposition: inline
+In-Reply-To: <20191219181155.32530-6-clg@kaod.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,225 +55,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1605506 <1605506@bugs.launchpad.net>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+--jCrbxBqMcLqd4mOl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Thu, Dec 19, 2019 at 07:11:47PM +0100, C=E9dric Le Goater wrote:
+> From: Greg Kurz <groug@kaod.org>
+>=20
+> The XIVE router base class currently inherits an empty realize hook
+> from the sysbus device base class, but it will soon implement one
+> of its own to perform some sanity checks. Do the preliminary plumbing
+> to have it called.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1605506
+Applied to ppc-for-5.0, thanks.
 
-Title:
-  qemu driver_mirror error "Operation not permitted"
+> ---
+>  include/hw/ppc/spapr_xive.h | 10 ++++++++++
+>  hw/intc/spapr_xive.c        | 12 +++++++++++-
+>  2 files changed, 21 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> index 3a103c224d44..93d09d68deb7 100644
+> --- a/include/hw/ppc/spapr_xive.h
+> +++ b/include/hw/ppc/spapr_xive.h
+> @@ -15,6 +15,10 @@
+> =20
+>  #define TYPE_SPAPR_XIVE "spapr-xive"
+>  #define SPAPR_XIVE(obj) OBJECT_CHECK(SpaprXive, (obj), TYPE_SPAPR_XIVE)
+> +#define SPAPR_XIVE_CLASS(klass)                                         \
+> +    OBJECT_CLASS_CHECK(SpaprXiveClass, (klass), TYPE_SPAPR_XIVE)
+> +#define SPAPR_XIVE_GET_CLASS(obj)                               \
+> +    OBJECT_GET_CLASS(SpaprXiveClass, (obj), TYPE_SPAPR_XIVE)
+> =20
+>  typedef struct SpaprXive {
+>      XiveRouter    parent;
+> @@ -47,6 +51,12 @@ typedef struct SpaprXive {
+>      VMChangeStateEntry *change;
+>  } SpaprXive;
+> =20
+> +typedef struct SpaprXiveClass {
+> +    XiveRouterClass parent;
+> +
+> +    DeviceRealize parent_realize;
+> +} SpaprXiveClass;
+> +
+>  /*
+>   * The sPAPR machine has a unique XIVE IC device. Assign a fixed value
+>   * to the controller block id value. It can nevertheless be changed
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index 57305c56d707..32322470a8b8 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -286,10 +286,17 @@ static void spapr_xive_instance_init(Object *obj)
+>  static void spapr_xive_realize(DeviceState *dev, Error **errp)
+>  {
+>      SpaprXive *xive =3D SPAPR_XIVE(dev);
+> +    SpaprXiveClass *sxc =3D SPAPR_XIVE_GET_CLASS(xive);
+>      XiveSource *xsrc =3D &xive->source;
+>      XiveENDSource *end_xsrc =3D &xive->end_source;
+>      Error *local_err =3D NULL;
+> =20
+> +    sxc->parent_realize(dev, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +
+>      if (!xive->nr_irqs) {
+>          error_setg(errp, "Number of interrupt needs to be greater 0");
+>          return;
+> @@ -760,10 +767,12 @@ static void spapr_xive_class_init(ObjectClass *klas=
+s, void *data)
+>      XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
+>      SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_CLASS(klass);
+>      XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
+> +    SpaprXiveClass *sxc =3D SPAPR_XIVE_CLASS(klass);
+> =20
+>      dc->desc    =3D "sPAPR XIVE Interrupt Controller";
+>      dc->props   =3D spapr_xive_properties;
+> -    dc->realize =3D spapr_xive_realize;
+> +    device_class_set_parent_realize(dc, spapr_xive_realize,
+> +                                    &sxc->parent_realize);
+>      dc->vmsd    =3D &vmstate_spapr_xive;
+> =20
+>      xrc->get_eas =3D spapr_xive_get_eas;
+> @@ -794,6 +803,7 @@ static const TypeInfo spapr_xive_info =3D {
+>      .instance_init =3D spapr_xive_instance_init,
+>      .instance_size =3D sizeof(SpaprXive),
+>      .class_init =3D spapr_xive_class_init,
+> +    .class_size =3D sizeof(SpaprXiveClass),
+>      .interfaces =3D (InterfaceInfo[]) {
+>          { TYPE_SPAPR_INTC },
+>          { }
 
-Status in QEMU:
-  Expired
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Bug description:
-  I use libvirtd to call qemu drive_mirror return error message "Operation =
-not permitted", But directly run qemu and call drive_mirror is OK;
-  when drive_mirror target is logic device return error message "Operation =
-not permitted",But the file is OK;
+--jCrbxBqMcLqd4mOl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Operating Environment=EF=BC=9A
-  OS:ubuntu 14.04
-  kernel:3.16.0-28-generic
-  libvirt-bin version: 1.2.2-0ubuntu13.1.17
-  qemu:2.5.0 or 2.6.0
-  run vm user: root
-  =EF=BC=88retry in redhat7.2 have the same problem=EF=BC=81=EF=BC=89
+-----BEGIN PGP SIGNATURE-----
 
-  Here is my running process:
-  libvirtd call
-  prepare libvirt xml   libvirt.xml
-  <?xml version=3D"1.0"?><domain type=3D"kvm">
-      <name>i-745F35DC</name>
-      <memory>65536</memory>
-      <vcpu>1</vcpu>
-      <cpu mode=3D"host-model"><model fallback=3D"allow"/><topology sockets=
-=3D"1" threads=3D"1" cores=3D"1"/></cpu>
-      <os><type>hvm</type><boot dev=3D"cdrom"/><boot dev=3D"hd"/></os>
-      <features><acpi/><apic/><pae/></features>
-      <on_poweroff>destroy</on_poweroff>
-      <on_reboot>restart</on_reboot>
-      <on_crash>destroy</on_crash>
-      <devices>
-          <emulator>/usr/local/qemu-2.5.0-20160720/bin/qemu-system-x86_64</=
-emulator>
-          <graphics type=3D"vnc" passwd=3D"" autoport=3D"yes" keymap=3D"en-=
-us" listen=3D"0.0.0.0"/>
-          <disk type=3D"file" device=3D"disk">
-              <driver name=3D"qemu" type=3D"raw" cache=3D"none"/>
-              <source file=3D"/tmp/image.raw"/>
-              <target dev=3D"hda" bus=3D"ide"/>
-              <serial>bc-system</serial>
-          </disk>
-      </devices>
-      <clock offset=3D"localtime"/>
-  </domain>
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4AQkYACgkQbDjKyiDZ
+s5J9UhAAt9KBo9evUrcmxmkzYThacn6ULapTdurFXs6+QJVVSRHoYq8pHuuH/wZa
+/I+hg8HW2NQBawfl3iBn4cqdY8vne5nm5FpfsF8hUdK9JuvCk9pyhwZup0Bi/yim
+64bmXaQSO9wHskUKGILrUcs6wVTp7785KbU9xw1lnAcdb3XRYMjOwKAAMCMpsZ/1
+B7DKrKLAKIGzJCJY/+uQna+LhU6JD/Qt+zmc0+HxnkJh0FQv2WG3mgbUQwWZZuTU
+//Zt1Yn5FvhwntoDUjMxwabd2VJ4lWcecupI6BSfj5eYpz7ofeYJz4FckrH7xEiT
+JzU0oc6pw3csIutoSLw5eNiY7airJuadOFL0IZfcqu6HWCtq3P2qlt5BIwlc5Qxd
+1qeCDLz4kP+o+14Skfk2+/Hd+tkz97Zs9a0q2ibXg5+QMJvv4hK+gVhCHlH48nYQ
+OVnG3yWlI7ullkTSLQHrABkwWBmtg92GnXRBaRcpOh3hEgB8jBVriFBdxyMwP0Nj
+jtlpr1sPdnzgo20P8upmm1LuSTJGqnRZLSPaAdMrRae4y3PC9MTvBrj2I4VD25tt
+tTeQDW4WbvP4RTcEUf//Ux8bzWnqdTARNczUAmUTbkJ92xt8BjpvtaTAnjPI87Uv
+WTGJ4HTNSld4tNE/0fVDPciH20qTM+o4FdFm968OB/VajBJBFQw=
+=4kXe
+-----END PGP SIGNATURE-----
 
-  virsh create libvirt.xml
-  root@test:/opt/run/instance/i-745F35DC# virsh list
-   Id    Name                           State
-  ----------------------------------------------------
-   2     i-745F35DC                     running
-  call drive_mirror:
-  virsh qemu-monitor-command --hmp i-745F35DC 'drive_mirror -n -f drive-ide=
-0-0-0 /dev/vg_bc_local/test raw'
-  Could not open '/dev/vg_bc_local/test': Operation not permitted
-
-  directly run qemu and call drive_mirror:
-  /usr/local/qemu-2.5.0-20160720/bin/qemu-system-x86_64 -hda /tmp/image.raw=
- -m 64 --enable-kvm -vnc :51 -monitor stdio
-  QEMU 2.5.0 monitor - type 'help' for more information
-  (qemu) info block
-  ide0-hd0 (#block135): /tmp/image.raw (raw)
-      Cache mode:       writeback
-  (qemu) drive_mirror -n -f ide0-hd0 /dev/vg_bc_local/test raw
-  (qemu) info block-jobs
-  Type mirror, device ide0-hd0: Completed 41126400 of 41126400 bytes, speed=
- limit 0 bytes/s
-  (qemu) block_job_cancel ide0-hd0
-  (qemu) info block-jobs
-  No active jobs
-
-  It is OK!!!
-
-  =
-
-  Here is my debugging process:
-  Recompile qemu-2.5.0 to  enable debug
-  ../configure --prefix=3D/usr/local/qemu-2.5.0-20160720 --enable-trace-bac=
-kend=3Dsimple --enable-werror --disable-xen --disable-virtfs --enable-kvm -=
--enable-seccomp --enable-docs --enable-debug-tcg --enable-vnc-sasl --enable=
--linux-aio --enable-lzo --enable-snappy --enable-usb-redir --enable-vnc-png=
- --disable-vnc-jpeg --enable-uuid --disable-vhost-scsi --enable-rbd --block=
--drv-rw-whitelist=3Dqcow2,raw,file,host_device,blkdebug,nbd,iscsi,rbd,cdp -=
--block-drv-ro-whitelist=3Dvmdk,vhdx,vpc --target-list=3Dx86_64-softmmu CFLA=
-GS=3D-O0
-
-  Use libvirtd to Re-run VM and debug by gdb
-  VM process info:
-  root      7804     1  0 10:45 ?        00:00:10 /usr/local/qemu-2.5.0-201=
-60720/bin/qemu-system-x86_64 -name i-745F35DC -S -machine pc-i440fx-2.5,acc=
-el=3Dkvm,usb=3Doff -cpu Westmere,+invpcid,+erms,+bmi2,+smep,+avx2,+bmi1,+fs=
-gsbase,+abm,+rdtscp,+pdpe1gb,+rdrand,+f16c,+avx,+osxsave,+xsave,+tsc-deadli=
-ne,+movbe,+pcid,+pdcm,+xtpr,+fma,+tm2,+est,+vmx,+ds_cpl,+monitor,+dtes64,+p=
-clmuldq,+pbe,+tm,+ht,+ss,+acpi,+ds,+vme -m 64 -realtime mlock=3Doff -smp 1,=
-sockets=3D1,cores=3D1,threads=3D1 -uuid ef55dfa6-b82e-488d-a7fc-4c882f8091a=
-b -no-user-config -nodefaults -chardev socket,id=3Dcharmonitor,path=3D/var/=
-lib/libvirt/qemu/i-745F35DC.monitor,server,nowait -mon chardev=3Dcharmonito=
-r,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dlocaltime -no-shutdown -boot stri=
-ct=3Don -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive f=
-ile=3D/tmp/image.raw,if=3Dnone,id=3Ddrive-ide0-0-0,format=3Draw,serial=3Dbc=
--system,cache=3Dnone -device ide-hd,bus=3Dide.0,unit=3D0,drive=3Ddrive-ide0=
--0-0,id=3Dide0-0-0,bootindex=3D2 -vnc 0.0.0.0:0,password -k en-us -device c=
-irrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D0x2 -device virtio-balloon-pci,id=
-=3Dballoon0,bus=3Dpci.0,addr=3D0x3
-
-  gdb -p  7804
-  set breakpoint
-  (gdb) i b
-  Num     Type           Disp Enb Address            What
-  1       breakpoint     keep y   0x00007f51d9e92cb1 in qmp_drive_mirror at=
- /opt/qemu/qemu-2.5.0/blockdev.c:3310
-  2       breakpoint     keep y   0x00007f51da1252f2 in raw_open_common at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:457
-  3       breakpoint     keep y   0x00007f51da12500f in raw_parse_flags at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:358
-  (gdb)
-
-  call drive_mirror and debug:
-
-  (gdb)
-  raw_open_common (bs=3D0x7f4b27259ab0, options=3D0x7f4b27480290, bdrv_flag=
-s=3D24674, open_flags=3D0, errp=3D0x7fff4a19f548)
-      at /opt/qemu/qemu-2.5.0/block/raw-posix.c:484
-  484        s->fd =3D -1;
-  (gdb) n
-  485        fd =3D qemu_open(filename, s->open_flags, 0644);
-  (gdb) s
-  qemu_open (name=3D0x7f4b2642b5c0 "/dev/vg_bc_local/test", flags=3D2) at /=
-opt/qemu/qemu-2.5.0/util/osdep.c:177
-  177        int mode =3D 0;
-  (gdb) n
-  183        if (strstart(name, "/dev/fdset/", &fdset_id_str)) {
-  (gdb)
-  214        if (flags & O_CREAT) {
-  (gdb)
-  223    char arg[1000] =3D {0};
-  (gdb)
-  227        ret =3D open(name, flags , mode);
-  (gdb) p name
-  $1 =3D 0x7f4b2642b5c0 "/dev/vg_bc_local/test"
-  (gdb) p flags
-  $2 =3D 2
-  (gdb) p mode
-  $3 =3D 0
-  (gdb) n
-  (gdb) p ret
-  $4 =3D -1
-
-  get system erroron is :Operation not permitted  =
-
-  !!!!!!!!!!!!!!
-
-  =
-
-  Re-run VM Directly  and debug by gdb
-  /usr/local/qemu-2.5.0-20160720/bin/qemu-system-x86_64 -hda /tmp/image.raw=
- -m 64 --enable-kvm -vnc :51 -monitor stdio
-  (qemu) info block
-  ide0-hd0 (#block135): /tmp/image.raw (raw)
-      Cache mode:       writeback
-  (qemu) drive_mirror -n -f ide0-hd0 /dev/vg_bc_local/test raw
-
-  gdb debug:
-  (gdb) i b
-  Num     Type           Disp Enb Address            What
-  1       breakpoint     keep y   0x00007f51d9e92cb1 in qmp_drive_mirror at=
- /opt/qemu/qemu-2.5.0/blockdev.c:3310
-  2       breakpoint     keep y   0x00007f51da1252f2 in raw_open_common at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:457
-  3       breakpoint     keep y   0x00007f51da12500f in raw_parse_flags at =
-/opt/qemu/qemu-2.5.0/block/raw-posix.c:358
-  (gdb)
-  raw_open_common (bs=3D0x7f51dc15d350, options=3D0x7f51dc083110, bdrv_flag=
-s=3D24642, open_flags=3D0, errp=3D0x7fff5aaa9738)
-      at /opt/qemu/qemu-2.5.0/block/raw-posix.c:484
-  484        s->fd =3D -1;
-  (gdb) n
-  485        fd =3D qemu_open(filename, s->open_flags, 0644);
-  (gdb) s
-  qemu_open (name=3D0x7f51dca09230 "/dev/vg_bc_local/test", flags=3D2) at /=
-opt/qemu/qemu-2.5.0/util/osdep.c:177
-  177        int mode =3D 0;
-  (gdb) n
-  183        if (strstart(name, "/dev/fdset/", &fdset_id_str)) {
-  (gdb)
-  214        if (flags & O_CREAT) {
-  (gdb)
-  223    char arg[1000] =3D {0};
-  (gdb)
-  227        ret =3D open(name, flags , mode);
-  (gdb) p name
-  $1 =3D 0x7f51dca09230 "/dev/vg_bc_local/test"
-  (gdb) p flags
-  $2 =3D 2
-  (gdb) p mode
-  $3 =3D 0
-  (gdb) n
-  (gdb) p ret
-  $4 =3D 16
-  (gdb)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1605506/+subscriptions
+--jCrbxBqMcLqd4mOl--
 
