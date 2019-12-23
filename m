@@ -2,48 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7273C129322
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 09:22:21 +0100 (CET)
-Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E0C129325
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 09:26:57 +0100 (CET)
+Received: from localhost ([::1]:54606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijIyq-00030n-I9
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 03:22:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38491)
+	id 1ijJ3I-0005Hl-S5
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 03:26:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57195)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1ijIxr-00025O-Oq
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:21:21 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ijJ2V-0004qX-2w
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:26:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1ijIxp-0006D4-KF
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:21:19 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2227 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1ijIxl-0005RB-OP; Mon, 23 Dec 2019 03:21:14 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id E3E14B45958003554A93;
- Mon, 23 Dec 2019 16:21:05 +0800 (CST)
-Received: from [127.0.0.1] (10.133.216.73) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Mon, 23 Dec 2019
- 16:20:56 +0800
-Subject: Re: [RFC v2 00/14] Add SDEI support for arm64
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191105091056.9541-1-guoheyi@huawei.com>
- <CAFEAcA-+tAbb9h2wZOm56TqUvjQJT0OYFLwTVS-UxKrF5PO3mQ@mail.gmail.com>
-From: Guoheyi <guoheyi@huawei.com>
-Message-ID: <5aece614-4341-35e5-53a6-2f3d788e6e8d@huawei.com>
-Date: Mon, 23 Dec 2019 16:20:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ijJ2T-0008TV-Tv
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:26:06 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41195)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ijJ2T-0008PE-N1
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:26:05 -0500
+Received: by mail-ot1-x344.google.com with SMTP id r27so21139955otc.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 00:26:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=MRmUQvhP1Pnnmc+7KZjjGUkKW3/QynPJbZv0u9XwEZY=;
+ b=REeQndf0bWxKk9pTETwwvAV0aNp7lTl4Ly0O+N850bYxGID5ZdI4dMfWWGhyipt0lv
+ IOStOVtc1rhhrOxLGpDRHpugDNX5oyCKaID+PXIQ0YdKDMmNKklEkI7bX8sGQ9UcL1+K
+ iMCZ3rCk2gjEhtzWMeaAfDZ+54eVjm3G7kNhg5AZ+NYfgbegEcB8CDOqmDGieQaDS0Hp
+ DsPbuk/jWrE1CDt6iluyYJNJITcU/l9XOKSFf9FbBOLit9RpLQMtnuWImtcefHKRzqYs
+ Ai/SHghDWPyFL8qJ3x8fIK3MydwkXpGl2erhBgnpFYD/K3uKCn2r0IEIQHwyKilMaXWc
+ +gbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=MRmUQvhP1Pnnmc+7KZjjGUkKW3/QynPJbZv0u9XwEZY=;
+ b=fEk38tcGF9gr4QwMdcX966ce6VERa9vMYDoL9TUshnVnHi60gXzN/JmhfUSoY1baW9
+ Iu5NwfbK7WjF6fFbYgL+CZNtCrJi/8oqkdeklBLgB+wMAQAVEfMVb7+gDxUPZcV4/fpj
+ M90xtZOuurjJ1x+bjbsFeECNmbo9/Mlt7flJs9f4/V4INg8vHUZ/jJ9D2SLpWU2R3Hn/
+ pJlW3EjY9b3bhOTw8fulUSrzsBWzn587z0DJEAtOJX0xY62HR6k/cAi+f1ESv1hpBqeV
+ rQMBQEMOEj4EuOPXCAYijdt5wdlh7E6y/y9yLvYkf00FCtsTlRqVTLHSr/FBau/Exbpg
+ 4Y0w==
+X-Gm-Message-State: APjAAAVWKID64A1guwC6HHiKmCrMDbZLca7ITpSX9F6JOumwXQ55lkWN
+ 8Ejp+XQ3Yk5QIcAHygMwvxfuQmfb+8lrNemLN/hz6w==
+X-Google-Smtp-Source: APXvYqzNkKBiljuDMwMCwF1iWu1sBDz+qrvzL6ERHLjZuQ6bKCcPn8vUmNwrCrKVadXA2GJQNOY2DB8PedqG1pSk4b0=
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr29893256otk.64.1577089564491; 
+ Mon, 23 Dec 2019 00:26:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-+tAbb9h2wZOm56TqUvjQJT0OYFLwTVS-UxKrF5PO3mQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-X-Originating-IP: [10.133.216.73]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.190
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Mon, 23 Dec 2019 00:26:03 -0800 (PST)
+In-Reply-To: <20191222172913.10419-1-hpoussin@reactos.org>
+References: <20191222172913.10419-1-hpoussin@reactos.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 23 Dec 2019 09:26:03 +0100
+Message-ID: <CAL1e-=jXsLpvWe8RjEPSj7yWYqWv7mT4Db+hjBqy71=7SLbUcg@mail.gmail.com>
+Subject: Re: [PATCH] dma/rc4030: correctly reset DMA translation table at reset
+To: =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
+Content-Type: multipart/alternative; boundary="000000000000454438059a5ac7fd"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,110 +73,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marc Zyngier <marc.zyngier@arm.com>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, James Morse <james.morse@arm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, wanghaibin.wang@huawei.com,
- Dave Martin <Dave.Martin@arm.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+--000000000000454438059a5ac7fd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Really appreciate your comments.
+On Sunday, December 22, 2019, Herv=C3=A9 Poussineau <hpoussin@reactos.org> =
+wrote:
 
-For other platforms/boards emulated in qemu, like omap, imx*, etc, are=20
-they just TCG platforms? Can we just enable security and EL3 emulation=20
-for these platforms instead of implementing copies of firmware=20
-interfaces in qemu? Also I think it is possible to optimize the code to=20
-support all KVM enabled virtual boards with one single copy of SDEI=20
-code, so at least the duplication of code inside qemu might be avoided.
-
-I can understand your concerns; the exsiting SDEI code in ARM Trusted=20
-Firmware also tempted me when I started to writing the code in qemu. I=20
-agree the ideal way is to use the existing firmware directly, but how=20
-can we achieve that? Either I don't think it is good to modify the=20
-firmware code too much, for firmware should be kept simple and reliable.
-
-Does James or Marc have any idea?
-
-Thanks,
-
-Heyi
-
-=E5=9C=A8 2019/12/20 21:44, Peter Maydell =E5=86=99=E9=81=93:
-> On Tue, 5 Nov 2019 at 09:12, Heyi Guo <guoheyi@huawei.com> wrote:
->> SDEI is for ARM "Software Delegated Exception Interface". AS ARM64 doe=
-sn't have
->> native non-maskable interrupt (NMI), we rely on higher privileged (lar=
-ger
->> exception level) software to change the execution flow of lower privil=
-eged
->> (smaller exception level) software when certain events occur, to emula=
-te NMI
->> mechanism, and SDEI is the standard interfaces between the two levels =
-of
->> privileged software. It is based on SMC/HVC calls.
->>
->> The higher privileged software implements an SDEI dispatcher to handle=
- SDEI
->> related SMC/HVC calls and trigger SDEI events; the lower privileged so=
-ftware
->> implements an SDEI client to request SDEI services and handle SDEI eve=
-nts.
-> Hi; I read through these patches last week, but I didn't reply
-> then because although there are some aspects to the design that
-> I don't like, I don't have a clear idea of what a better approach
-> to the problems it's trying to solve would be. However I didn't
-> want to go home for the end of the year without providing at
-> least some response. So I'm going to lay out the parts I have
-> issues with and perhaps somebody else will have a good idea.
+> This fixes a freeze at reboot, introduced in c627e7526a902dd5bb1907dbbd5c=
+f9
+> 61679dfa68
 >
-> The first part that I dislike here is that this is implementing
-> an entire ABI which in real hardware is provided by firmware. I
-> think that QEMU's design works best when QEMU provides emulation of
-> hardware or hardware-like facilities, which guest code (either
-> in the kernel, or firmware/bios running in the guest) can then
-> make use of. Once we start getting into implementing firmware
-> interfaces directly in QEMU this rapidly becomes a large amount
-> of work and code, and it's unclear where it should stop. Should
-> we implement also the equivalent of firmware for omap boards?
-> For imx* boards? For the raspberry pi? For xilinx boards?
-> Are we going to end up reimplementing more of ARM Trusted Firmware
-> functionality inside QEMU? The code to implement firmware-equivalent
-> ABIs in all these boards would I think quickly become a large part
-> of the codebase.
+> Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+> ---
+>  hw/dma/rc4030.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> My second concern is that to do the things it wants to do,
-> the implementation here does some pretty invasive things:
->   * intercepting interrupt lines which ought to just be
->     emulated hardware signals between devices and the GIC
->   * capturing register values of other CPUs, and arbitrarily
->     stopping those other CPUs and making them run other code
->     at a later point in time
-> I'm really uncomfortable with what's just an 'emulated firmware'
-> interface for one specific board model doing this kind of thing.
 >
-> Finally, the stated rationale for the patchset ("we'd like an
-> emulated NMI equivalent") doesn't really feel to me like it's
-> strong enough to counterbalance the amount of code here and
-> the degree to which it's moving us into a swamp I'd prefer
-> it if we could stay out of.
->
-> I'd be much happier with a design where QEMU provides simple
-> facilities to the guest and the guest firmware and kernel
-> deal with making use of them. I appreciate that it's not
-> clear how that would work though, given that in real hardware
-> this works by the firmware running at EL3 and KVM not
-> providing a mechanism that allows guest code that runs at
-> a higher (effective or emulated) privilege level than the
-> guest kernel...
->
-> thanks
-> -- PMM
->
-> .
+Hi, Herve,
 
+Very good that you found the fix, but I would really appreciate if you
+provide the details on repro procedure.
+
+One more thing, does this have anything to do eith the Finn's attempt to
+start Jazz machine with:
+
+Quote:
+
+I tried to boot NetBSD/arc but failed. I got a blue screen when I typed
+"cd:boot" at the "Run A Program" prompt in the ARC menu.
+
+$ ln -s NTPROM.RAW mipsel_bios.bin
+$ mips64el-softmmu/qemu-system-mips64el -M magnum -L .
+-drive if=3Dscsi,unit=3D2,media=3Dcdrom,format=3Draw,file=3DNetBSD-8.1-arc.=
+iso
+-global ds1225y.filename=3Dnvram -global ds1225y.size=3D8200
+qemu-system-mips64el: g364: invalid read at [0000000000102000]
+$
+
+Best regards,
+Alekssndar
+
+
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+> index c4cf8236f4..76302fe431 100644
+> --- a/hw/dma/rc4030.c
+> +++ b/hw/dma/rc4030.c
+> @@ -534,6 +534,7 @@ static void rc4030_reset(DeviceState *dev)
+>
+>      memset(s->dma_regs, 0, sizeof(s->dma_regs));
+>
+> +    s->dma_tl_base =3D s->dma_tl_limit =3D 0;
+>      s->remote_failed_address =3D s->memory_failed_address =3D 0;
+>      s->cache_maint =3D 0;
+>      s->cache_ptag =3D s->cache_ltag =3D 0;
+> --
+> 2.19.2
+>
+>
+>
+
+--000000000000454438059a5ac7fd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Sunday, December 22, 2019, Herv=C3=A9 Poussineau &lt;<a href=3D"=
+mailto:hpoussin@reactos.org">hpoussin@reactos.org</a>&gt; wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">This fixes a freeze at reboot, introduced in c627e7=
+526a902dd5bb1907dbbd5cf9<wbr>61679dfa68<br>
+<br>
+Signed-off-by: Herv=C3=A9 Poussineau &lt;<a href=3D"mailto:hpoussin@reactos=
+.org">hpoussin@reactos.org</a>&gt;<br>
+---<br>
+=C2=A0hw/dma/rc4030.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br></blockquote><div><br></div><div>Hi, Herve,</div><div><br></div><div>Ve=
+ry good that you found the fix, but I would really appreciate if you provid=
+e the details on repro procedure.</div><div><br></div><div>One more thing, =
+does this have anything to do eith the Finn&#39;s attempt to start Jazz mac=
+hine with:</div><div><br></div><div>Quote:</div><div><br></div><span style=
+=3D"color:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px">I tr=
+ied to boot NetBSD/arc but failed. I got a blue screen when I typed=C2=A0</=
+span><br style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.1200008=
+392334px"><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.=
+1200008392334px">&quot;cd:boot&quot; at the &quot;Run A Program&quot; promp=
+t in the ARC menu.</span><br style=3D"color:rgb(34,34,34);font-size:14px;li=
+ne-height:22.1200008392334px"><br style=3D"color:rgb(34,34,34);font-size:14=
+px;line-height:22.1200008392334px"><span style=3D"color:rgb(34,34,34);font-=
+size:14px;line-height:22.1200008392334px">$ ln -s NTPROM.RAW mipsel_bios.bi=
+n</span><br style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.1200=
+008392334px"><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:=
+22.1200008392334px">$ mips64el-softmmu/qemu-system-</span><wbr style=3D"col=
+or:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px"><span style=
+=3D"color:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px">mips=
+64el -M magnum -L .=C2=A0</span><br style=3D"color:rgb(34,34,34);font-size:=
+14px;line-height:22.1200008392334px"><span style=3D"color:rgb(34,34,34);fon=
+t-size:14px;line-height:22.1200008392334px">-drive if=3Dscsi,unit=3D2,media=
+=3Dcdrom,</span><wbr style=3D"color:rgb(34,34,34);font-size:14px;line-heigh=
+t:22.1200008392334px"><span style=3D"color:rgb(34,34,34);font-size:14px;lin=
+e-height:22.1200008392334px">format=3Draw,file=3DNetBSD-8.1-</span><wbr sty=
+le=3D"color:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px"><s=
+pan style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.120000839233=
+4px">arc.iso=C2=A0</span><br style=3D"color:rgb(34,34,34);font-size:14px;li=
+ne-height:22.1200008392334px"><span style=3D"color:rgb(34,34,34);font-size:=
+14px;line-height:22.1200008392334px">-global ds1225y.filename=3Dnvram -glob=
+al ds1225y.size=3D8200</span><br style=3D"color:rgb(34,34,34);font-size:14p=
+x;line-height:22.1200008392334px"><span style=3D"color:rgb(34,34,34);font-s=
+ize:14px;line-height:22.1200008392334px">qemu-system-mips64el: g364: invali=
+d read at [0000000000102000]</span><br style=3D"color:rgb(34,34,34);font-si=
+ze:14px;line-height:22.1200008392334px"><span style=3D"color:rgb(34,34,34);=
+font-size:14px;line-height:22.1200008392334px">$=C2=A0</span><br style=3D"c=
+olor:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px"><div>=C2=
+=A0<br></div><div>Best regards,</div><div>Alekssndar</div><div><br></div><d=
+iv><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c<br>
+index c4cf8236f4..76302fe431 100644<br>
+--- a/hw/dma/rc4030.c<br>
++++ b/hw/dma/rc4030.c<br>
+@@ -534,6 +534,7 @@ static void rc4030_reset(DeviceState *dev)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0memset(s-&gt;dma_regs, 0, sizeof(s-&gt;dma_regs));<br>
+<br>
++=C2=A0 =C2=A0 s-&gt;dma_tl_base =3D s-&gt;dma_tl_limit =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;remote_failed_address =3D s-&gt;memory_failed_add=
+ress =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;cache_maint =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;cache_ptag =3D s-&gt;cache_ltag =3D 0;<br>
+-- <br>
+2.19.2<br>
+<br>
+<br>
+</blockquote>
+
+--000000000000454438059a5ac7fd--
 
