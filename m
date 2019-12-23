@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEA6129AEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 21:56:24 +0100 (CET)
-Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9F1129AF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 22:07:01 +0100 (CET)
+Received: from localhost ([::1]:33154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijUkZ-0005lY-5u
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 15:56:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48390)
+	id 1ijUuq-0008NO-5S
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 16:07:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54365)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ijUjq-0005Jm-4D
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 15:55:39 -0500
+ (envelope-from <bounces@canonical.com>) id 1ijUtj-0007RT-1Q
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 16:05:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ijUjo-0007a7-S3
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 15:55:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47770)
+ (envelope-from <bounces@canonical.com>) id 1ijUth-0007IY-Kq
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 16:05:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48682)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ijUjo-0007Yk-MH
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 15:55:36 -0500
+ id 1ijUth-0007Hz-F5
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 16:05:49 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ijUjn-00074B-3t
- for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 20:55:35 +0000
+ id 1ijUtg-0007ZC-ER
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 21:05:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0645B2E80C0
- for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 20:55:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4F3252E80C9
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 21:05:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Dec 2019 20:45:54 -0000
-From: John Snow <1808928@bugs.launchpad.net>
+Date: Mon, 23 Dec 2019 20:56:14 -0000
+From: John Snow <1719282@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=jsnow@redhat.com; 
-X-Launchpad-Bug-Tags: bitmaps block dirt qcow2
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: drive-mirror
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: catborise jnsnow
-X-Launchpad-Bug-Reporter: Ali Sag (catborise)
+X-Launchpad-Bug-Commenters: farid67z jnsnow
+X-Launchpad-Bug-Reporter: Farid Zarazvand (farid67z)
 X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <154511858636.8591.3431958243733477284.malonedeb@gac.canonical.com>
-Message-Id: <157713395504.27144.6964390047628970306.malone@chaenomeles.canonical.com>
-Subject: [Bug 1808928] Re: Bitmap Extra data is not supported
+References: <150633291490.21822.10650098875082014124.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157713457405.2407.13331923547667071028.malone@soybean.canonical.com>
+Subject: [Bug 1719282] Re: Unable to boot after drive-mirror
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e833cf832a707161ea6009415344746614badf91
+X-Launchpad-Hash: 305b5634d189588926acef0dfe335e63f0c51c7a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -67,58 +67,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1808928 <1808928@bugs.launchpad.net>
+Reply-To: Bug 1719282 <1719282@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now, QEMU cannot accept images with extra bitmap data, because QEMU
-isn't aware of the semantics of those fields, so we cannot even allow
-the image to load, just in case.
-
-However, we SHOULD allow qemu-img check --repair to detect such bitmaps
-as corruption so that images can be scrubbed and recovered. I will add
-that to my TODO list.
-
-Meanwhile, I believe the root cause of your problem here is a data
-corruption event, but it's hard to tell exactly what it might be because
-of the extra_data flag ... I can try to have some patches ready for you
-in January that try to "ignore" the data and analyze the rest of the
-image as best as possible, which might help us see what else went wrong.
+OK, so we're only talking about migrating a disk and not a whole VM, I
+misunderstood. However... are you using qemu *2.7*? That's quite old!
+Before digging into this further I need to insist that you try on a
+supported release, either 4.0.1, 4.1.1, or 4.2.0.
 
 ** Changed in: qemu
-     Assignee: (unassigned) =3D> John Snow (jnsnow)
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1808928
+https://bugs.launchpad.net/bugs/1719282
 
 Title:
-  Bitmap Extra data is not supported
+  Unable to boot after drive-mirror
 
 Status in QEMU:
-  New
+  Incomplete
 
 Bug description:
-  i am using dirty bitmaps and drive-backup. It works as aspected.
+  Hi,
+  I am using "drive-mirror" qmp block-job command to transfer VM disk image=
+ to other path (different physical disk on host).
+  Unfortunately after shutting down and starting from new image, VM is unab=
+le to boot and qrub enters rescue mode displaying following error:
+  ```
+  error: file '/grub/i386-pc/normal.mod' not found.
+  Entering rescue mode...
+  grub rescue>
+  ```
 
-  Lately, i encounter a disastrous error. There is not any information
-  about that situation. I cannot reach/open/attach/info or anything with
-  a qcow2 file.
+  To investigate the problem, I compared both RAW images using linux
+  "cmp -l" command and found out that they differ in 569028 bytes
+  starting from address 185598977 to 252708864 which are located on
+  /boot partition.
 
-  virsh version
-  Compiled against library: libvirt 4.10.0
-  Using library: libvirt 4.10.0
-  Using API: QEMU 4.10.0
-  Running hypervisor: QEMU 2.12.0
+  So I mounted /boot partition of mirrored RAW image on host OS and it
+  seems that file-system is broken and grub folder is not recognized.
+  But /boot on original RAW image has no problem.
 
-  "qemu-img: Could not open '/var/lib/libvirt/images/test.qcow2': Bitmap
-  extra data is not supported"
+  Mirrored Image:
+  ls -l /mnt/vm-boot/
+  ls: cannot access /mnt/vm-boot/grub: Structure needs cleaning
+  total 38168
+  -rw-r--r-- 1 root root   157721 Oct 19  2016 config-3.16.0-4-amd64
+  -rw-r--r-- 1 root root   129281 Sep 20  2015 config-3.2.0-4-amd64
+  d????????? ? ?    ?           ?            ? grub
+  -rw-r--r-- 1 root root 15739360 Nov  2  2016 initrd.img-3.16.0-4-amd64
+  -rw-r--r-- 1 root root 12115412 Oct 10  2015 initrd.img-3.2.0-4-amd64
+  drwxr-xr-x 2 root root    12288 Oct  7  2013 lost+found
+  -rw-r--r-- 1 root root  2679264 Oct 19  2016 System.map-3.16.0-4-amd64
+  -rw-r--r-- 1 root root  2114662 Sep 20  2015 System.map-3.2.0-4-amd64
+  -rw-r--r-- 1 root root  3126448 Oct 19  2016 vmlinuz-3.16.0-4-amd64
+  -rw-r--r-- 1 root root  2842592 Sep 20  2015 vmlinuz-3.2.0-4-amd64
 
-  what is that mean? what should i do?
-  i cannot remove bitmap. i cannot open image or query.
+  Original Image:
+  ls /mnt/vm-boot/ -l
+  total 38173
+  -rw-r--r-- 1 root root   157721 Oct 19  2016 config-3.16.0-4-amd64
+  -rw-r--r-- 1 root root   129281 Sep 20  2015 config-3.2.0-4-amd64
+  drwxr-xr-x 5 root root     5120 Nov  2  2016 grub
+  -rw-r--r-- 1 root root 15739360 Nov  2  2016 initrd.img-3.16.0-4-amd64
+  -rw-r--r-- 1 root root 12115412 Oct 10  2015 initrd.img-3.2.0-4-amd64
+  drwxr-xr-x 2 root root    12288 Oct  7  2013 lost+found
+  -rw-r--r-- 1 root root  2679264 Oct 19  2016 System.map-3.16.0-4-amd64
+  -rw-r--r-- 1 root root  2114662 Sep 20  2015 System.map-3.2.0-4-amd64
+  -rw-r--r-- 1 root root  3126448 Oct 19  2016 vmlinuz-3.16.0-4-amd64
+  -rw-r--r-- 1 root root  2842592 Sep 20  2015 vmlinuz-3.2.0-4-amd64
+
+  ls /mnt/vm-boot/grub/ -l
+  total 2376
+  -rw-r--r-- 1 root root      48 Oct  7  2013 device.map
+  drwxr-xr-x 2 root root    1024 Oct 10  2015 fonts
+  -r--r--r-- 1 root root    9432 Nov  2  2016 grub.cfg
+  -rw-r--r-- 1 root root    1024 Oct  7  2013 grubenv
+  drwxr-xr-x 2 root root    6144 Aug  6  2016 i386-pc
+  drwxr-xr-x 2 root root    1024 Aug  6  2016 locale
+  -rw-r--r-- 1 root root 2400500 Aug  6  2016 unicode.pf2
+
+  qemu Version: 2.7.0-10
+
+  Host OS: Debian 8x64
+  Guest OS: Debian 8x64
+
+  QMP Commands log:
+  socat UNIX-CONNECT:/var/run/qemu-server/48016.qmp STDIO
+  {"QMP": {"version": {"qemu": {"micro": 0, "minor": 7, "major": 2}, "packa=
+ge": "pve-qemu-kvm_2.7.0-10"}, "capabilities": []}}
+  { "execute": "qmp_capabilities" }
+  {"return": {}}
+  { "execute": "drive-mirror",
+    "arguments": {
+      "device": "drive-ide0",
+      "target": "/diskc/48016/vm-48016-disk-2.raw",
+      "sync": "full",
+      "mode": "absolute-paths",
+      "speed": 0
+    }
+  }
+  {"return": {}}
+  {"timestamp": {"seconds": 1506331591, "microseconds": 623095}, "event": "=
+BLOCK_JOB_READY", "data": {"device": "drive-ide0", "len": 269445758976, "of=
+fset": 269445758976, "speed": 0, "type": "mirror"}}
+  {"timestamp": {"seconds": 1506332641, "microseconds": 245272}, "event": "=
+SHUTDOWN"}
+  {"timestamp": {"seconds": 1506332641, "microseconds": 377751}, "event": "=
+BLOCK_JOB_COMPLETED", "data": {"device": "drive-ide0", "len": 271707340800,=
+ "offset": 271707340800, "speed": 0, "type": "mirror"}}
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1808928/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1719282/+subscriptions
 
