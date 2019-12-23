@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBC0129914
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 18:06:44 +0100 (CET)
-Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A30129908
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 18:01:31 +0100 (CET)
+Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijRAJ-0008Sf-Dp
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 12:06:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41717)
+	id 1ijR5F-0001Uw-Hz
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 12:01:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ijQnP-0005bs-UV
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:05 -0500
+ (envelope-from <mst@redhat.com>) id 1ijQnX-0005n3-KG
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ijQnO-0005oZ-2W
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:03 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25242
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1ijQnW-0005uL-65
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38193
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ijQnN-0005oQ-UX
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:02 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ijQnW-0005uD-23
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577119381;
+ s=mimecast20190719; t=1577119389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Ylx5GMCaMZp5iEuVGZsy2s+VkTVg2pcAcgR2+7fYJ0=;
- b=UVN2JaR2HU9bN74GP0rWyQcDAkm6j2Jd7qTZnVP2gxlI8H3j9ljfW3Zhu7XeRz9ikQS1Vo
- 1qc5gAUOebL+3mht/WIyZuhorFkSkOv0f/wPksjxdIn5iTqlJH5Xwj8f7ptEtv5PQw1B99
- LrpemrI34ssuKszyBOfUcxp/uk8FYcA=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-DCVJjMxvMaytHvJExmkQlA-1; Mon, 23 Dec 2019 11:42:59 -0500
-Received: by mail-qv1-f72.google.com with SMTP id r9so11653401qvs.19
- for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:42:59 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=k9+gzlx294oW9w4JOk3CBVAZ2rl3jEfAGRzU1EfTm6U=;
+ b=EBMo0dGqOLBCfEWIbMomAkmnZgm0YTvsuJl991s78czrP+VZ6XvHx02HNRs4iJAedSfPcD
+ b2TFtg0i1Bm7mlqRO3Euxg4uuRiJAWD6okzzMjW/xm3Ut7Bua/mVztuxv/K/B/GX9bklMm
+ qpZsqOUVpChsFNu7XycLBrU4UMAu+MM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-VWjQlXQdPcmxfKHeV6Mg6g-1; Mon, 23 Dec 2019 11:43:08 -0500
+Received: by mail-qk1-f198.google.com with SMTP id 143so11436815qkg.12
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:43:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SzSzAFhPxlDqQXytAG1grvJYugc66X5amic6XLexT1c=;
- b=evSH6ncAZ/DR2dqHZOt0n4kfcBtVg+r09uZr3GqLbElh2ZIKtgUvXXYsV+rx+Cerjs
- oRET5nmY92WK93AxY+PWgeM04Xz2FwtTz9dBHA7UEkedYM52JYdpDT3siSG9ta0ZK412
- 2OiMlR1Xgo1SGVDNIuaj/DMEEXW2KEqJJ+DNH0vuuJhCqncpHXHv0dkO5Drz18hCWPno
- 4WIlkqNgIF6lBN1n4VqtloOQowHjXUXA73V++Gg2uv2uGNj1FcttrWBbJV1qPMlSae+7
- qnLuauA1Kx28c/XAFQ1LiGdJdU0Qe4nf2v6XqsAQcY2Y1Mr4YtTA3A66zqPODnAoNdsQ
- clFg==
-X-Gm-Message-State: APjAAAWpanKMXrmQE+HSY6Cgph+hEuBxW+oVr3Uc1NczZhLjmp2lYRJW
- Pq0R1VpQIHCvSKjgmb2uiHS7B6FuR0yxHIUdgtPpB7mUoHhZwpmw2YU+1jp8eB2xuK8zGhL1ZRO
- EB2dvWwMpjP5DECs=
-X-Received: by 2002:ae9:e607:: with SMTP id z7mr27205522qkf.378.1577119377449; 
- Mon, 23 Dec 2019 08:42:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwPby93m8DmkTM+Jx30mB2kNnDbuzxfH/yuAMKca4/8oaABa902CEJZOKTnF4D2qxemLmtVfg==
-X-Received: by 2002:ae9:e607:: with SMTP id z7mr27205501qkf.378.1577119377194; 
- Mon, 23 Dec 2019 08:42:57 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=mef0O+8v+v2QwTMkvtiYxZXIRG7/ZbAgvOePkaVbC0s=;
+ b=hqvemc4WamAfqS/J0wJU9KzS0UegXktGkdOyWe12fmbkUb205K6G58Kt0dDBZHB64Y
+ 4qkFPLooK71RgrNDfKWwmqVs7GaAqlbC0HfxPRAFZRQAd1+wdgzHRjG/rIizds9bam3e
+ QUpXypbkxudh+hyiiqPxa3JmOhvC6jP835n46/NgDR6UdB84HcyNf8Zp5bAiuVhPGuqA
+ rGMjFvwl+OjoohRjumFpTOiCFAINfIfvgzoRRcFV/LLoQfyJhc90L5gL2sIad4C5Ox/w
+ pa+kpehbqSx4qo89eWtH3uIeoX9EBuBbxNKeiwXh3F05G/urmHVITqNyKYv3npxQShE/
+ +ddw==
+X-Gm-Message-State: APjAAAU8q6d8ELx9dgJcmcMFlXoQ0iOLrZonXo6lVxKUDccnf0jG2OUB
+ cg/w4U8V1y0q195q3AxfBxFR3iEyrPeEvKgrzM+9Om026sVcquJc3PajprUvn1U3GZrOgq1ka52
+ DYvFiNn2pO47d2iM=
+X-Received: by 2002:a0c:edc2:: with SMTP id i2mr25438652qvr.62.1577119386478; 
+ Mon, 23 Dec 2019 08:43:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyFcNEBNaORtAkh1Cz2IWvCrJjjBlj1H9dLsKfxg6EL4aLTT0MPJglWG/L0CWegTxKYBBDRGw==
+X-Received: by 2002:a0c:edc2:: with SMTP id i2mr25438541qvr.62.1577119384724; 
+ Mon, 23 Dec 2019 08:43:04 -0800 (PST)
 Received: from redhat.com (bzq-109-64-31-13.red.bezeqint.net. [109.64.31.13])
  by smtp.gmail.com with ESMTPSA id
- e130sm5871087qkb.72.2019.12.23.08.42.54
+ q5sm5873521qkf.14.2019.12.23.08.43.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Dec 2019 08:42:56 -0800 (PST)
-Date: Mon, 23 Dec 2019 11:42:52 -0500
+ Mon, 23 Dec 2019 08:43:03 -0800 (PST)
+Date: Mon, 23 Dec 2019 11:43:01 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 26/27] virtio: make seg_max virtqueue size dependent
-Message-ID: <20191223141536.72682-27-mst@redhat.com>
-References: <20191223141536.72682-1-mst@redhat.com>
+Subject: [PULL v2 00/27] virtio, pci, pc: fixes, features
+Message-ID: <20191223141536.72682-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191223141536.72682-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: DCVJjMxvMaytHvJExmkQlA-1
+X-MC-Unique: VWjQlXQdPcmxfKHeV6Mg6g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,193 +86,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+The following changes since commit dd5b0f95490883cd8bc7d070db8de70d5c979cbc=
+:
 
-Before the patch, seg_max parameter was immutable and hardcoded
-to 126 (128 - 2) without respect to queue size. This has two negative effec=
-ts:
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20191219' into st=
+aging (2019-12-20 16:37:07 +0000)
 
-1. when queue size is < 128, we have Virtio 1.1 specfication violation:
-   (2.6.5.3.1 Driver Requirements) seq_max must be <=3D queue_size.
-   This violation affects the old Linux guests (ver < 4.14). These guests
-   crash on these queue_size setups.
+are available in the Git repository at:
 
-2. when queue_size > 128, as was pointed out by Denis Lunev <den@virtuozzo.=
-com>,
-   seg_max restrics guest's block request length which affects guests'
-   performance making them issues more block request than needed.
-   https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-To mitigate this two effects, the patch adds the property adjusting seg_max
-to queue size automaticaly. Since seg_max is a guest visible parameter,
-the property is machine type managable and allows to choose between
-old (seg_max =3D 126 always) and new (seg_max =3D queue_size - 2) behaviors=
-.
+for you to fetch changes up to 585c70da17395114e5ec4f6f3f9f5068ae1ff0f3:
 
-Not to change the behavior of the older VMs, prevent setting the default
-seg_max_adjust value for older machine types.
+  tests: add virtio-scsi and virtio-blk seg_max_adjust test (2019-12-23 09:=
+12:30 -0500)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-Id: <20191220140905.1718-2-dplotnikov@virtuozzo.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+----------------------------------------------------------------
+virtio, pci, pc: fixes, features
+
+Bugfixes all over the place.
+HMAT support.
+New flags for vhost-user-blk utility.
+Auto-tuning of seg max for virtio storage.
+
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- include/hw/virtio/virtio-blk.h  |  1 +
- include/hw/virtio/virtio-scsi.h |  1 +
- hw/block/virtio-blk.c           |  9 ++++++++-
- hw/core/machine.c               |  3 +++
- hw/scsi/vhost-scsi.c            |  2 ++
- hw/scsi/virtio-scsi.c           | 10 +++++++++-
- 6 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.=
-h
-index 9c19f5b634..1e62f869b2 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -38,6 +38,7 @@ struct VirtIOBlkConf
-     uint32_t request_merging;
-     uint16_t num_queues;
-     uint16_t queue_size;
-+    bool seg_max_adjust;
-     uint32_t max_discard_sectors;
-     uint32_t max_write_zeroes_sectors;
-     bool x_enable_wce_if_config_wce;
-diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scs=
-i.h
-index 122f7c4b6f..24e768909d 100644
---- a/include/hw/virtio/virtio-scsi.h
-+++ b/include/hw/virtio/virtio-scsi.h
-@@ -48,6 +48,7 @@ typedef struct virtio_scsi_config VirtIOSCSIConfig;
- struct VirtIOSCSIConf {
-     uint32_t num_queues;
-     uint32_t virtqueue_size;
-+    bool seg_max_adjust;
-     uint32_t max_sectors;
-     uint32_t cmd_per_lun;
- #ifdef CONFIG_VHOST_SCSI
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index b12157b5eb..9bee514c4e 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -913,7 +913,8 @@ static void virtio_blk_update_config(VirtIODevice *vdev=
-, uint8_t *config)
-     blk_get_geometry(s->blk, &capacity);
-     memset(&blkcfg, 0, sizeof(blkcfg));
-     virtio_stq_p(vdev, &blkcfg.capacity, capacity);
--    virtio_stl_p(vdev, &blkcfg.seg_max, 128 - 2);
-+    virtio_stl_p(vdev, &blkcfg.seg_max,
-+                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 - 2=
-);
-     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
-     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
-     virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
-@@ -1138,6 +1139,11 @@ static void virtio_blk_device_realize(DeviceState *d=
-ev, Error **errp)
-         error_setg(errp, "num-queues property must be larger than 0");
-         return;
-     }
-+    if (conf->queue_size <=3D 2) {
-+        error_setg(errp, "invalid queue-size property (%" PRIu16 "), "
-+                   "must be > 2", conf->queue_size);
-+        return;
-+    }
-     if (!is_power_of_2(conf->queue_size) ||
-         conf->queue_size > VIRTQUEUE_MAX_SIZE) {
-         error_setg(errp, "invalid queue-size property (%" PRIu16 "), "
-@@ -1267,6 +1273,7 @@ static Property virtio_blk_properties[] =3D {
-                     true),
-     DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
-     DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
-+    DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, t=
-rue),
-     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD=
-,
-                      IOThread *),
-     DEFINE_PROP_BIT64("discard", VirtIOBlock, host_features,
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index f5e2b32b3b..ec2e3fcb61 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -29,6 +29,9 @@
-=20
- GlobalProperty hw_compat_4_2[] =3D {
-     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
-+    { "virtio-blk-device", "seg-max-adjust", "off"},
-+    { "virtio-scsi-device", "seg_max_adjust", "off"},
-+    { "vhost-blk-device", "seg_max_adjust", "off"},
- };
- const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
-=20
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index c693fc748a..26f710d3ec 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -275,6 +275,8 @@ static Property vhost_scsi_properties[] =3D {
-     DEFINE_PROP_UINT32("num_queues", VirtIOSCSICommon, conf.num_queues, 1)=
-,
-     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSICommon, conf.virtqueue_=
-size,
-                        128),
-+    DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSICommon, conf.seg_max_adju=
-st,
-+                      true),
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSICommon, conf.max_sectors,
-                        0xFFFF),
-     DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSICommon, conf.cmd_per_lun, =
-128),
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index f080545f48..9e343f241a 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -659,7 +659,8 @@ static void virtio_scsi_get_config(VirtIODevice *vdev,
-     VirtIOSCSICommon *s =3D VIRTIO_SCSI_COMMON(vdev);
-=20
-     virtio_stl_p(vdev, &scsiconf->num_queues, s->conf.num_queues);
--    virtio_stl_p(vdev, &scsiconf->seg_max, 128 - 2);
-+    virtio_stl_p(vdev, &scsiconf->seg_max,
-+                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 : 128=
- - 2);
-     virtio_stl_p(vdev, &scsiconf->max_sectors, s->conf.max_sectors);
-     virtio_stl_p(vdev, &scsiconf->cmd_per_lun, s->conf.cmd_per_lun);
-     virtio_stl_p(vdev, &scsiconf->event_info_size, sizeof(VirtIOSCSIEvent)=
-);
-@@ -898,6 +899,11 @@ void virtio_scsi_common_realize(DeviceState *dev,
-         virtio_cleanup(vdev);
-         return;
-     }
-+    if (s->conf.virtqueue_size <=3D 2) {
-+        error_setg(errp, "invalid virtqueue_size property (=3D %" PRIu16 "=
-), "
-+                   "must be > 2", s->conf.virtqueue_size);
-+        return;
-+    }
-     s->cmd_vqs =3D g_new0(VirtQueue *, s->conf.num_queues);
-     s->sense_size =3D VIRTIO_SCSI_SENSE_DEFAULT_SIZE;
-     s->cdb_size =3D VIRTIO_SCSI_CDB_DEFAULT_SIZE;
-@@ -954,6 +960,8 @@ static Property virtio_scsi_properties[] =3D {
-     DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_queue=
-s, 1),
-     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
-                                          parent_obj.conf.virtqueue_size, 1=
-28),
-+    DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
-+                      parent_obj.conf.seg_max_adjust, true),
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_sect=
-ors,
-                                                   0xFFFF),
-     DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSI, parent_obj.conf.cmd_per_=
-lun,
---=20
-MST
+----------------------------------------------------------------
+
+Changes since v1:
+    - (hopefully) fix build on Mac OSX
+    - fix up 5.0 compat for pc
+    - seg_max auto-config
+
+Denis Plotnikov (3):
+      hw: fix using 4.2 compat in 5.0 machine types for i440fx/q35
+      virtio: make seg_max virtqueue size dependent
+      tests: add virtio-scsi and virtio-blk seg_max_adjust test
+
+Jean-Philippe Brucker (1):
+      virtio-mmio: Clear v2 transport state on soft reset
+
+Liu Jingqi (5):
+      numa: Extend CLI to provide memory latency and bandwidth information
+      numa: Extend CLI to provide memory side cache information
+      hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+      hmat acpi: Build System Locality Latency and Bandwidth Information St=
+ructure(s)
+      hmat acpi: Build Memory Side Cache Information Structure(s)
+
+Michael Roth (1):
+      virtio-pci: disable vring processing when bus-mastering is disabled
+
+Michael S. Tsirkin (5):
+      virtio: add ability to delete vq through a pointer
+      virtio: make virtio_delete_queue idempotent
+      virtio-input: convert to new virtio_delete_queue
+      virtio: update queue size on guest write
+      ACPI: add expected files for HMAT tests (acpihmat)
+
+Micky Yun Chan (1):
+      Implement backend program convention command for vhost-user-blk
+
+Pan Nengyuan (2):
+      virtio-balloon: fix memory leak while attach virtio-balloon device
+      virtio-serial-bus: fix memory leak while attach virtio-serial-bus
+
+Philippe Mathieu-Daud=C3=A9 (2):
+      hw/pci/pci_host: Remove redundant PCI_DPRINTF()
+      hw/pci/pci_host: Let pci_data_[read/write] use unsigned 'size' argume=
+nt
+
+Raphael Norwitz (2):
+      vhost-user: add VHOST_USER_RESET_DEVICE to reset devices
+      vhost-user-scsi: reset the device if supported
+
+Stefan Hajnoczi (1):
+      virtio: don't enable notifications during polling
+
+Tao Xu (3):
+      numa: Extend CLI to provide initiator information for numa nodes
+      tests/numa: Add case for QMP build HMAT
+      tests/bios-tables-test: add test cases for ACPI HMAT
+
+Yi Sun (1):
+      intel_iommu: fix bug to read DMAR_RTADDR_REG
+
+ docs/interop/vhost-user.json              |  31 ++++
+ qapi/machine.json                         | 180 +++++++++++++++++-
+ hw/acpi/hmat.h                            |  42 +++++
+ include/hw/pci/pci_host.h                 |   4 +-
+ include/hw/virtio/virtio-blk.h            |   1 +
+ include/hw/virtio/virtio-scsi.h           |   1 +
+ include/hw/virtio/virtio.h                |  18 ++
+ include/sysemu/numa.h                     |  63 +++++++
+ contrib/vhost-user-blk/vhost-user-blk.c   | 108 ++++++-----
+ hw/acpi/hmat.c                            | 268 ++++++++++++++++++++++++++=
++
+ hw/block/virtio-blk.c                     |  18 +-
+ hw/char/virtio-serial-bus.c               |   8 +
+ hw/core/machine.c                         |  68 +++++++
+ hw/core/numa.c                            | 297 ++++++++++++++++++++++++++=
+++++
+ hw/i386/acpi-build.c                      |   5 +
+ hw/i386/intel_iommu.c                     |   7 +-
+ hw/i386/pc_piix.c                         |   1 -
+ hw/i386/pc_q35.c                          |   1 -
+ hw/input/virtio-input.c                   |   5 +-
+ hw/pci/pci_host.c                         |  25 +--
+ hw/scsi/vhost-scsi.c                      |   2 +
+ hw/scsi/vhost-user-scsi.c                 |  24 +++
+ hw/scsi/virtio-scsi.c                     |  19 +-
+ hw/virtio/vhost-user.c                    |   8 +-
+ hw/virtio/virtio-balloon.c                |   7 +
+ hw/virtio/virtio-mmio.c                   |  14 ++
+ hw/virtio/virtio-pci.c                    |  14 +-
+ hw/virtio/virtio.c                        |  63 +++++--
+ tests/bios-tables-test.c                  |  44 +++++
+ tests/numa-test.c                         | 213 +++++++++++++++++++++
+ docs/interop/vhost-user.rst               |  32 ++++
+ hw/acpi/Kconfig                           |   7 +-
+ hw/acpi/Makefile.objs                     |   1 +
+ qemu-options.hx                           |  95 +++++++++-
+ tests/acceptance/virtio_seg_max_adjust.py | 134 ++++++++++++++
+ tests/data/acpi/pc/APIC.acpihmat          | Bin 0 -> 128 bytes
+ tests/data/acpi/pc/DSDT.acpihmat          | Bin 0 -> 6455 bytes
+ tests/data/acpi/pc/HMAT.acpihmat          | Bin 0 -> 280 bytes
+ tests/data/acpi/pc/SRAT.acpihmat          | Bin 0 -> 280 bytes
+ tests/data/acpi/q35/APIC.acpihmat         | Bin 0 -> 128 bytes
+ tests/data/acpi/q35/DSDT.acpihmat         | Bin 0 -> 9203 bytes
+ tests/data/acpi/q35/HMAT.acpihmat         | Bin 0 -> 280 bytes
+ tests/data/acpi/q35/SRAT.acpihmat         | Bin 0 -> 280 bytes
+ 43 files changed, 1716 insertions(+), 112 deletions(-)
+ create mode 100644 hw/acpi/hmat.h
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100755 tests/acceptance/virtio_seg_max_adjust.py
+ create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+ create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
 
 
