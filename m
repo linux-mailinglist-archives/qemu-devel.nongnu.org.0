@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F7412914F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 05:31:54 +0100 (CET)
-Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D763129150
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 05:31:55 +0100 (CET)
+Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijFNo-0003Jr-JA
-	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 23:31:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41610)
+	id 1ijFNp-0003JN-G0
+	for lists+qemu-devel@lfdr.de; Sun, 22 Dec 2019 23:31:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ijFLX-0001pX-9K
+ (envelope-from <dgibson@ozlabs.org>) id 1ijFLX-0001pW-6L
  for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:29:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ijFLV-0007NI-Rm
+ (envelope-from <dgibson@ozlabs.org>) id 1ijFLV-0007NC-RM
  for qemu-devel@nongnu.org; Sun, 22 Dec 2019 23:29:31 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37513 helo=ozlabs.org)
+Received: from ozlabs.org ([2401:3900:2:1::2]:45483)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ijFLV-00075N-F1; Sun, 22 Dec 2019 23:29:29 -0500
+ id 1ijFLV-000765-Ei; Sun, 22 Dec 2019 23:29:29 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47h5wN176rz9sPW; Mon, 23 Dec 2019 15:29:24 +1100 (AEDT)
+ id 47h5wN24csz9sPV; Mon, 23 Dec 2019 15:29:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1577075364;
- bh=g2KDzkROhaybfsWmvXyxrw6BnR7UGVWiyEOfZYrWIoE=;
+ bh=fmb0DE2CBeWWI1ALJRBmpy/QeOgzr+ncJKIpBZlGuRw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Uyfqu+jTW1dOprlrjzfJBsVgOj7QgVn352/8ufS/UB3/1jg0zpsRfHuiGk+TK1p+x
- H/13B9hhtXn0x/LP5VkAycfGyFj0DJpiiaFpYf9LqokTSCMa1c19ubybZ7JJxP2jKx
- famNZoT6XXFJZwFJYMxj3fHQxvS44OqESHvp4nrw=
-Date: Mon, 23 Dec 2019 15:27:50 +1100
+ b=dsR6ZPuOurbPd6H/QvEPYQT9XuJwDgL4mIxh2DxDBtuig869latVK+GXM7/NJpaq0
+ DGA7YrtHSOeAGIHJMil9obVKEN0pnq4+wQQdhX0vAuApRZERypdq6EKdUtFIrysbTS
+ DVdSPoPxMc6+azfSGAtvZAKwXB+Gpbc9JffD4DG8=
+Date: Mon, 23 Dec 2019 15:29:11 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 05/13] spapr/xive: Use device_class_set_parent_realize()
-Message-ID: <20191223042750.GD21569@umbus.fritz.box>
+Subject: Re: [PATCH v2 06/13] pnv/xive: Use device_class_set_parent_realize()
+Message-ID: <20191223042911.GE21569@umbus.fritz.box>
 References: <20191219181155.32530-1-clg@kaod.org>
- <20191219181155.32530-6-clg@kaod.org>
+ <20191219181155.32530-7-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jCrbxBqMcLqd4mOl"
+ protocol="application/pgp-signature"; boundary="ytoMbUMiTKPMT3hY"
 Content-Disposition: inline
-In-Reply-To: <20191219181155.32530-6-clg@kaod.org>
+In-Reply-To: <20191219181155.32530-7-clg@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -60,12 +60,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jCrbxBqMcLqd4mOl
+--ytoMbUMiTKPMT3hY
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 19, 2019 at 07:11:47PM +0100, C=E9dric Le Goater wrote:
+On Thu, Dec 19, 2019 at 07:11:48PM +0100, C=E9dric Le Goater wrote:
 > From: Greg Kurz <groug@kaod.org>
 >=20
 > The XIVE router base class currently inherits an empty realize hook
@@ -76,85 +76,87 @@ On Thu, Dec 19, 2019 at 07:11:47PM +0100, C=E9dric Le Goater wrote:
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Applied to ppc-for-5.0, thanks.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+But will need a rebase due to changes earlier in the series.
 
 > ---
->  include/hw/ppc/spapr_xive.h | 10 ++++++++++
->  hw/intc/spapr_xive.c        | 12 +++++++++++-
->  2 files changed, 21 insertions(+), 1 deletion(-)
+>  include/hw/ppc/pnv_xive.h | 10 ++++++++++
+>  hw/intc/pnv_xive.c        | 10 ++++++++++
+>  2 files changed, 20 insertions(+)
 >=20
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index 3a103c224d44..93d09d68deb7 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -15,6 +15,10 @@
+> diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
+> index 4d641db691c8..ba9bbeab88c3 100644
+> --- a/include/hw/ppc/pnv_xive.h
+> +++ b/include/hw/ppc/pnv_xive.h
+> @@ -16,6 +16,10 @@ struct PnvChip;
 > =20
->  #define TYPE_SPAPR_XIVE "spapr-xive"
->  #define SPAPR_XIVE(obj) OBJECT_CHECK(SpaprXive, (obj), TYPE_SPAPR_XIVE)
-> +#define SPAPR_XIVE_CLASS(klass)                                         \
-> +    OBJECT_CLASS_CHECK(SpaprXiveClass, (klass), TYPE_SPAPR_XIVE)
-> +#define SPAPR_XIVE_GET_CLASS(obj)                               \
-> +    OBJECT_GET_CLASS(SpaprXiveClass, (obj), TYPE_SPAPR_XIVE)
+>  #define TYPE_PNV_XIVE "pnv-xive"
+>  #define PNV_XIVE(obj) OBJECT_CHECK(PnvXive, (obj), TYPE_PNV_XIVE)
+> +#define PNV_XIVE_CLASS(klass)                                   \
+> +    OBJECT_CLASS_CHECK(PnvXiveClass, (klass), TYPE_PNV_XIVE)
+> +#define PNV_XIVE_GET_CLASS(obj)                                 \
+> +    OBJECT_GET_CLASS(PnvXiveClass, (obj), TYPE_PNV_XIVE)
 > =20
->  typedef struct SpaprXive {
->      XiveRouter    parent;
-> @@ -47,6 +51,12 @@ typedef struct SpaprXive {
->      VMChangeStateEntry *change;
->  } SpaprXive;
+>  #define XIVE_BLOCK_MAX      16
 > =20
-> +typedef struct SpaprXiveClass {
-> +    XiveRouterClass parent;
+> @@ -87,6 +91,12 @@ typedef struct PnvXive {
+>      uint64_t      edt[XIVE_TABLE_EDT_MAX];
+>  } PnvXive;
+> =20
+> +typedef struct PnvXiveClass {
+> +    XiveRouterClass parent_class;
 > +
 > +    DeviceRealize parent_realize;
-> +} SpaprXiveClass;
+> +} PnvXiveClass;
 > +
->  /*
->   * The sPAPR machine has a unique XIVE IC device. Assign a fixed value
->   * to the controller block id value. It can nevertheless be changed
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 57305c56d707..32322470a8b8 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -286,10 +286,17 @@ static void spapr_xive_instance_init(Object *obj)
->  static void spapr_xive_realize(DeviceState *dev, Error **errp)
+>  void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon);
+> =20
+>  #endif /* PPC_PNV_XIVE_H */
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 66970a60733b..1962f884d6de 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -1816,10 +1816,17 @@ static void pnv_xive_init(Object *obj)
+>  static void pnv_xive_realize(DeviceState *dev, Error **errp)
 >  {
->      SpaprXive *xive =3D SPAPR_XIVE(dev);
-> +    SpaprXiveClass *sxc =3D SPAPR_XIVE_GET_CLASS(xive);
->      XiveSource *xsrc =3D &xive->source;
+>      PnvXive *xive =3D PNV_XIVE(dev);
+> +    PnvXiveClass *pxc =3D PNV_XIVE_GET_CLASS(dev);
+>      XiveSource *xsrc =3D &xive->ipi_source;
 >      XiveENDSource *end_xsrc =3D &xive->end_source;
 >      Error *local_err =3D NULL;
 > =20
-> +    sxc->parent_realize(dev, &local_err);
+> +    pxc->parent_realize(dev, &local_err);
 > +    if (local_err) {
 > +        error_propagate(errp, local_err);
 > +        return;
 > +    }
 > +
->      if (!xive->nr_irqs) {
->          error_setg(errp, "Number of interrupt needs to be greater 0");
->          return;
-> @@ -760,10 +767,12 @@ static void spapr_xive_class_init(ObjectClass *klas=
+>      assert(xive->chip);
+>      assert(xive->system_memory);
+> =20
+> @@ -1950,10 +1957,12 @@ static void pnv_xive_class_init(ObjectClass *klas=
 s, void *data)
 >      XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
->      SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_CLASS(klass);
+>      XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
 >      XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
-> +    SpaprXiveClass *sxc =3D SPAPR_XIVE_CLASS(klass);
+> +    PnvXiveClass *pxc =3D PNV_XIVE_CLASS(klass);
 > =20
->      dc->desc    =3D "sPAPR XIVE Interrupt Controller";
->      dc->props   =3D spapr_xive_properties;
-> -    dc->realize =3D spapr_xive_realize;
-> +    device_class_set_parent_realize(dc, spapr_xive_realize,
-> +                                    &sxc->parent_realize);
->      dc->vmsd    =3D &vmstate_spapr_xive;
+>      xdc->dt_xscom =3D pnv_xive_dt_xscom;
 > =20
->      xrc->get_eas =3D spapr_xive_get_eas;
-> @@ -794,6 +803,7 @@ static const TypeInfo spapr_xive_info =3D {
->      .instance_init =3D spapr_xive_instance_init,
->      .instance_size =3D sizeof(SpaprXive),
->      .class_init =3D spapr_xive_class_init,
-> +    .class_size =3D sizeof(SpaprXiveClass),
->      .interfaces =3D (InterfaceInfo[]) {
->          { TYPE_SPAPR_INTC },
+>      dc->desc =3D "PowerNV XIVE Interrupt Controller";
+> +    device_class_set_parent_realize(dc, pnv_xive_realize, &pxc->parent_r=
+ealize);
+>      dc->realize =3D pnv_xive_realize;
+>      dc->props =3D pnv_xive_properties;
+> =20
+> @@ -1974,6 +1983,7 @@ static const TypeInfo pnv_xive_info =3D {
+>      .instance_init =3D pnv_xive_init,
+>      .instance_size =3D sizeof(PnvXive),
+>      .class_init    =3D pnv_xive_class_init,
+> +    .class_size    =3D sizeof(PnvXiveClass),
+>      .interfaces    =3D (InterfaceInfo[]) {
+>          { TYPE_PNV_XSCOM_INTERFACE },
 >          { }
 
 --=20
@@ -163,25 +165,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---jCrbxBqMcLqd4mOl
+--ytoMbUMiTKPMT3hY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4AQkYACgkQbDjKyiDZ
-s5J9UhAAt9KBo9evUrcmxmkzYThacn6ULapTdurFXs6+QJVVSRHoYq8pHuuH/wZa
-/I+hg8HW2NQBawfl3iBn4cqdY8vne5nm5FpfsF8hUdK9JuvCk9pyhwZup0Bi/yim
-64bmXaQSO9wHskUKGILrUcs6wVTp7785KbU9xw1lnAcdb3XRYMjOwKAAMCMpsZ/1
-B7DKrKLAKIGzJCJY/+uQna+LhU6JD/Qt+zmc0+HxnkJh0FQv2WG3mgbUQwWZZuTU
-//Zt1Yn5FvhwntoDUjMxwabd2VJ4lWcecupI6BSfj5eYpz7ofeYJz4FckrH7xEiT
-JzU0oc6pw3csIutoSLw5eNiY7airJuadOFL0IZfcqu6HWCtq3P2qlt5BIwlc5Qxd
-1qeCDLz4kP+o+14Skfk2+/Hd+tkz97Zs9a0q2ibXg5+QMJvv4hK+gVhCHlH48nYQ
-OVnG3yWlI7ullkTSLQHrABkwWBmtg92GnXRBaRcpOh3hEgB8jBVriFBdxyMwP0Nj
-jtlpr1sPdnzgo20P8upmm1LuSTJGqnRZLSPaAdMrRae4y3PC9MTvBrj2I4VD25tt
-tTeQDW4WbvP4RTcEUf//Ux8bzWnqdTARNczUAmUTbkJ92xt8BjpvtaTAnjPI87Uv
-WTGJ4HTNSld4tNE/0fVDPciH20qTM+o4FdFm968OB/VajBJBFQw=
-=4kXe
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4AQpYACgkQbDjKyiDZ
+s5JDkQ//dH14bgohbgk9r6rnqMZJBHzZ1DKoo1cnVmCopmmFtRVP4pHT7Cb9UpUX
+tQ3nuWQITvQt6yMN0hIvgEX2MnUc99qsByD+mVYYv7jDqy90/w1pb/HYEYa8Y0It
+71Jmfi7n0jh94YVt9oRKZ6CnL7S7D3Xb5RQD8dXsXfu5BsO4q3zsF9wGLgShP09S
+N8DCOhcxbKxfaYi0cGxNHHoNqypfhUK+eiOCuqGQQe5OVdz4JDD2Ic1+wtdd5FZ9
+Wr4txRPhjWzXzMZs2K2I8N/hx5s+tHHbE6hOkxWqwmp9mh8FTrLn8WrdHZ6GA7nr
+GRCpZAE7yHh/7Q+SETDXwAXuuBGXpFRPnSDuVwDffFrFki7M2jZvm5OtM+jg9hxZ
+JdFzpEit/k/kmjyXzwpEuUUfI+7MuAXXKFPunrug0SJPGJZme36BLvNaheh2xNJR
+wX6SgZRjYV1DEocFiAsgBsk40+P6POcDvX93uwPOzI/1+Mr4kScyiJGOeOUbOw9B
+4rGMdTsXBDZYGfXLrJ4sq3sS5dQtPbEBtPLohi0ags7hNb0jO8CAvqqpq80V7mOJ
+oemSgHzYqxoZ4Ih4rPew/ia/HG3l6xVBasORgFea7C/IGaLYZFunpGsnlv5NMOo/
+S+6aQ4OsfkQS9xyGavNH/KytPT0FddtF2vU4HrhCHdEmA7yCFJQ=
+=dL72
 -----END PGP SIGNATURE-----
 
---jCrbxBqMcLqd4mOl--
+--ytoMbUMiTKPMT3hY--
 
