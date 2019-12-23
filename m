@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A62129289
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 08:51:59 +0100 (CET)
-Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B40129321
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 09:21:52 +0100 (CET)
+Received: from localhost ([::1]:54548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijIVS-0003D9-Qc
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 02:51:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53599)
+	id 1ijIyN-00024g-EG
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 03:21:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zxq_yx_007@163.com>) id 1ijIUY-0002oW-0O
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 02:51:02 -0500
+ (envelope-from <bounces@canonical.com>) id 1ijIxH-0001Kd-3Q
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:20:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zxq_yx_007@163.com>) id 1ijIUW-0001GV-OD
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 02:51:01 -0500
-Received: from m12-18.163.com ([220.181.12.18]:60823)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zxq_yx_007@163.com>) id 1ijIUW-0000cE-4I
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 02:51:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=1bINh
- Y7hA91hovWzQKpUkwB6QVSkzLOzzUBmNlRW7yA=; b=Gp3/sz2v65gdgKmN5b9MW
- VXAWzpE8Ad2ZYfFgevjEGSS1Wgp/xn8hPiiw9Hjym3E0XsqDlykboHgZwdJ/sDed
- pZb17EIEgpSZMEiiQ4L/SwBUJdsi2yxeSZEVauaHD5ybEeNcrSrjRftAyS+Yg7Vf
- GKgGHo9yeur0CUoVIu8oCg=
-Received: from [10.11.32.153] (unknown [39.155.168.46])
- by smtp14 (Coremail) with SMTP id EsCowACnr3O+cQBeqrnrNQ--.1920S2;
- Mon, 23 Dec 2019 15:50:23 +0800 (CST)
-Subject: Re: [PATCH v5 07/37] serial: register vmsd with DeviceClass
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
- <20191220134601.571905-8-marcandre.lureau@redhat.com>
-From: xiaoqiang zhao <zxq_yx_007@163.com>
-Message-ID: <f12117af-6f1b-d81c-46e8-847e895364ba@163.com>
-Date: Mon, 23 Dec 2019 15:50:22 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (envelope-from <bounces@canonical.com>) id 1ijIxF-0003XB-Lw
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:20:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57746)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ijIxF-0003RI-Dn
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 03:20:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ijIxD-0003fd-Re
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C0D222E802B
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:20:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191220134601.571905-8-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: EsCowACnr3O+cQBeqrnrNQ--.1920S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uw4Uuw4UXr4rWFy3uFW3Wrg_yoW8ZF47pr
- 98KFZ8KFy5tr9rWw43uw4YvFy8WF4DKa1UCr43G34aqr4Fkr1Syr4xGw1avFyUXFZ7tF15
- XF4UurykCan5trJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jgrc-UUUUU=
-X-Originating-IP: [39.155.168.46]
-X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/xtbBEh+UxlZYGvvLzgAAs1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 220.181.12.18
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Dec 2019 08:13:33 -0000
+From: =?utf-8?q?N=C4=83stasie_Ion_Octavian?= <1857143@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gschafer noctavian
+X-Launchpad-Bug-Reporter: =?utf-8?q?N=C4=83stasie_Ion_Octavian_=28noctavian?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?N=C4=83stasie_Ion_Octavian_=28noctavian?=
+ =?utf-8?q?=29?=
+References: <157685586097.27697.14145668174002417681.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157708881343.5755.13580578910011330665.malone@gac.canonical.com>
+Subject: [Bug 1857143] Re: VMs won't boot from external snapshots on qemu 4.2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 708938a0b50a9238a246f8fd4756a76b7bb6b928
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,59 +67,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Reply-To: Bug 1857143 <1857143@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I've rebased all my snapshots using '-F' and now everything boots
+properly.
 
-在 2019/12/20 下午9:45, Marc-André Lureau 写道:
-> Migration from old to new code works, however the other way fails for
-> devices that use serial_init/serial_mm_init with "base", used as
-> instance_id previously.
->
-> (with qdev_set_legacy_instance_id, the alias_id is only used in
-> savevm.c:find_se(), and thus can only be used to match against
-> "legacy" instance id values. On new code, instance_id is generated
-> incrementally from 0 with calculate_new_instance_id(), based on
-> "qdev-path/vmsd-name")
->
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   hw/char/serial.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/char/serial.c b/hw/char/serial.c
-> index 233a9e2076..e926845843 100644
-> --- a/hw/char/serial.c
-> +++ b/hw/char/serial.c
-> @@ -990,8 +990,7 @@ SerialState *serial_init(int base, qemu_irq irq, int baudbase,
->       s->baudbase = baudbase;
->       qemu_chr_fe_init(&s->chr, chr, &error_abort);
->       serial_realize_core(s, &error_fatal);
-> -
-> -    vmstate_register(NULL, base, &vmstate_serial, s);
-> +    qdev_set_legacy_instance_id(dev, base, 2);
->       qdev_init_nofail(dev);
->   
->       memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
-> @@ -1006,6 +1005,7 @@ static void serial_class_init(ObjectClass *klass, void *data)
->   
->       /* internal device for serialio/serialmm, not user-creatable */
->       dc->user_creatable = false;
-> +    dc->vmsd = &vmstate_serial;
->   }
->   
->   static const TypeInfo serial_info = {
-> @@ -1069,7 +1069,7 @@ SerialState *serial_mm_init(MemoryRegion *address_space,
->       qemu_chr_fe_init(&s->chr, chr, &error_abort);
->   
->       serial_realize_core(s, &error_fatal);
-> -    vmstate_register(NULL, base, &vmstate_serial, s);
-> +    qdev_set_legacy_instance_id(dev, base, 2);
->       qdev_init_nofail(dev);
->   
->       memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], s,
-Resend, cc peter
-Reviewed-by: xiaoqiang zhao <zxq_yx_007@163.com>
+Thank you.
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1857143
+
+Title:
+  VMs won't boot from external snapshots on qemu 4.2
+
+Status in QEMU:
+  New
+
+Bug description:
+  After upgrading from qemu 4.1.1-1 to 4.2.0-1, VMs that were set to use
+  an external snapshot as their disk failed to boot.
+
+  Depending on the guest OS and other VM settings the boot fails and you
+  get either the "Boot failed: not a bootable drive" message or the grub
+  rescue shell or the EFI shell. Downgrading back to qemu 4.1 allows the
+  VMs to boot from the external snapshots without any problem and the
+  disk images doesn't appear to be corrupted afterwards.
+
+  From my testing this bug is easily reproducible. Create a VM, install
+  a guest os, confirm that the VM boots the guest os without problems,
+  shutdown the VM, create an external snapshot of the VM disk, set the
+  VM to boot from the snapshot, try to boot the VM with qemu 4.2 and see
+  it fail, try to boot it with qemu 4.1 and see it succeed.
+
+  In my case, to test that this bug is reproducible, I used virt-manager
+  to install Xubuntu 19.10 on a qcow2 disk image, and then used qemu-img
+  create -f qcow2 -b base_image.qcow2 snapshot_image.qcow2 to create the
+  external snapshot and edited the xml in virt-manager to point the VM's
+  disk to snapshot_image.qcow2. It failed to boot with qemu 4.2, but it
+  was working fine with 4.1.
+
+  I booted this test VM off a live distro using the virtual CDROM and
+  fdisk can't seem to find a partition table on the VM disk when qemu
+  4.2 is used, with 4.1 it can see the partition table just fine.
+
+  Internal snapshots don't seem to have this problem.
+
+  I'm using Archlinux, virt-manager 2.2.1-2, libvirt 5.10.0-1, qemu
+  4.2.0-1.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1857143/+subscriptions
 
