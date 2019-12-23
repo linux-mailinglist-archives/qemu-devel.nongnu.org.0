@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9C61293CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 10:51:37 +0100 (CET)
-Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8921293D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 10:53:46 +0100 (CET)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijKNE-00079c-6P
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 04:51:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45485)
+	id 1ijKPJ-00016C-2G
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 04:53:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKJ8-0003Sw-1D
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:47:23 -0500
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKJH-0003bZ-HC
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:47:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKJ6-0000as-Ej
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:47:21 -0500
-Received: from mail.ispras.ru ([83.149.199.45]:50762)
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKJD-0001Mh-5Q
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:47:29 -0500
+Received: from mail.ispras.ru ([83.149.199.45]:50812)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKJ6-0000Ss-38
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:47:20 -0500
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKJC-0001HE-Mz
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:47:27 -0500
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id A16B754006B;
- Mon, 23 Dec 2019 12:47:01 +0300 (MSK)
-Subject: [for-5.0 PATCH 03/11] migration: introduce icount field for snapshots
+ by mail.ispras.ru (Postfix) with ESMTPSA id 11CB254007B;
+ Mon, 23 Dec 2019 12:47:22 +0300 (MSK)
+Subject: [for-5.0 PATCH 04/11] qapi: introduce replay.json for
+ record/replay-related stuff
 From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 23 Dec 2019 12:47:01 +0300
-Message-ID: <157709442133.12933.4291167191595240519.stgit@pasha-Precision-3630-Tower>
+Date: Mon, 23 Dec 2019 12:47:21 +0300
+Message-ID: <157709444173.12933.11929129160088601926.stgit@pasha-Precision-3630-Tower>
 In-Reply-To: <157709434917.12933.4351155074716553976.stgit@pasha-Precision-3630-Tower>
 References: <157709434917.12933.4351155074716553976.stgit@pasha-Precision-3630-Tower>
 User-Agent: StGit/0.17.1-dirty
@@ -59,216 +60,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-Saving icount as a parameters of the snapshot allows navigation between
-them in the execution replay scenario.
-This information can be used for finding a specific snapshot for proceeding
-the recorded execution to the specific moment of the time.
-E.g., 'reverse step' action (introduced in one of the following patches)
-needs to load the nearest snapshot which is prior to the current moment
-of time.
+This patch adds replay.json file. It will be
+used for adding record/replay-related data structures and commands.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 --
 
-v2:
- - made icount in SnapshotInfo optional (suggested by Eric Blake)
-v7:
- - added more comments for icount member (suggested by Markus Armbruster)
-v9:
- - updated icount comment
 v10:
- - updated icount comment again
+ - minor changes
+v13:
+ - rebased to the new QAPI files
 ---
- block/qapi.c             |   18 ++++++++++++++----
- block/qcow2-snapshot.c   |    2 ++
- blockdev.c               |   10 ++++++++++
- include/block/snapshot.h |    1 +
- migration/savevm.c       |    5 +++++
- qapi/block-core.json     |    7 ++++++-
- qapi/block.json          |    3 ++-
- 7 files changed, 40 insertions(+), 6 deletions(-)
+ MAINTAINERS             |    1 +
+ include/sysemu/replay.h |    1 +
+ qapi/Makefile.objs      |    2 +-
+ qapi/misc.json          |   18 ------------------
+ qapi/qapi-schema.json   |    1 +
+ qapi/replay.json        |   26 ++++++++++++++++++++++++++
+ 6 files changed, 30 insertions(+), 19 deletions(-)
+ create mode 100644 qapi/replay.json
 
-diff --git a/block/qapi.c b/block/qapi.c
-index 9a5d0c9b27..110ac253ab 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -219,6 +219,8 @@ int bdrv_query_snapshot_info_list(BlockDriverState *bs,
-         info->date_nsec     = sn_tab[i].date_nsec;
-         info->vm_clock_sec  = sn_tab[i].vm_clock_nsec / 1000000000;
-         info->vm_clock_nsec = sn_tab[i].vm_clock_nsec % 1000000000;
-+        info->icount        = sn_tab[i].icount;
-+        info->has_icount    = sn_tab[i].icount != -1ULL;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 387879aebc..7ad3001b0e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2311,6 +2311,7 @@ F: net/filter-replay.c
+ F: include/sysemu/replay.h
+ F: docs/replay.txt
+ F: stubs/replay.c
++F: qapi/replay.json
  
-         info_list = g_new0(SnapshotInfoList, 1);
-         info_list->value = info;
-@@ -651,14 +653,15 @@ BlockStatsList *qmp_query_blockstats(bool has_query_nodes,
- void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
- {
-     char date_buf[128], clock_buf[128];
-+    char icount_buf[128] = {0};
-     struct tm tm;
-     time_t ti;
-     int64_t secs;
-     char *sizing = NULL;
+ IOVA Tree
+ M: Peter Xu <peterx@redhat.com>
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index c9c896ae8d..e00ed2f4a5 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -14,6 +14,7 @@
  
-     if (!sn) {
--        qemu_printf("%-10s%-20s%7s%20s%15s",
--                    "ID", "TAG", "VM SIZE", "DATE", "VM CLOCK");
-+        qemu_printf("%-10s%-18s%7s%20s%13s%11s",
-+                    "ID", "TAG", "VM SIZE", "DATE", "VM CLOCK", "ICOUNT");
-     } else {
-         ti = sn->date_sec;
-         localtime_r(&ti, &tm);
-@@ -672,11 +675,16 @@ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
-                  (int)(secs % 60),
-                  (int)((sn->vm_clock_nsec / 1000000) % 1000));
-         sizing = size_to_str(sn->vm_state_size);
--        qemu_printf("%-10s%-20s%7s%20s%15s",
-+        if (sn->icount != -1ULL) {
-+            snprintf(icount_buf, sizeof(icount_buf),
-+                "%"PRId64, sn->icount);
-+        }
-+        qemu_printf("%-10s%-18s%7s%20s%13s%11s",
-                     sn->id_str, sn->name,
-                     sizing,
-                     date_buf,
--                    clock_buf);
-+                    clock_buf,
-+                    icount_buf);
-     }
-     g_free(sizing);
- }
-@@ -838,6 +846,8 @@ void bdrv_image_info_dump(ImageInfo *info)
-                 .date_nsec = elem->value->date_nsec,
-                 .vm_clock_nsec = elem->value->vm_clock_sec * 1000000000ULL +
-                                  elem->value->vm_clock_nsec,
-+                .icount = elem->value->has_icount ?
-+                          elem->value->icount : -1ULL,
-             };
+ #include "qapi/qapi-types-misc.h"
+ #include "qapi/qapi-types-run-state.h"
++#include "qapi/qapi-types-replay.h"
+ #include "qapi/qapi-types-ui.h"
+ #include "block/aio.h"
  
-             pstrcpy(sn.id_str, sizeof(sn.id_str), elem->value->id);
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index b04b3e1634..2c003514ef 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -662,6 +662,7 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
-     sn->date_sec = sn_info->date_sec;
-     sn->date_nsec = sn_info->date_nsec;
-     sn->vm_clock_nsec = sn_info->vm_clock_nsec;
-+    sn->icount = sn_info->icount;
-     sn->extra_data_size = sizeof(QCowSnapshotExtraData);
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index dd3f5e6f94..4e84247d0c 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -7,7 +7,7 @@ util-obj-y += qapi-util.o
  
-     /* Allocate the L1 table of the snapshot and copy the current one there. */
-@@ -995,6 +996,7 @@ int qcow2_snapshot_list(BlockDriverState *bs, QEMUSnapshotInfo **psn_tab)
-         sn_info->date_sec = sn->date_sec;
-         sn_info->date_nsec = sn->date_nsec;
-         sn_info->vm_clock_nsec = sn->vm_clock_nsec;
-+        sn_info->icount = sn->icount;
-     }
-     *psn_tab = sn_tab;
-     return s->nb_snapshots;
-diff --git a/blockdev.c b/blockdev.c
-index 8e029e9c01..6383a64ddd 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -59,6 +59,7 @@
- #include "sysemu/arch_init.h"
- #include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
-+#include "sysemu/replay.h"
- #include "qemu/cutils.h"
- #include "qemu/help_option.h"
- #include "qemu/main-loop.h"
-@@ -1242,6 +1243,10 @@ SnapshotInfo *qmp_blockdev_snapshot_delete_internal_sync(const char *device,
-     info->vm_state_size = sn.vm_state_size;
-     info->vm_clock_nsec = sn.vm_clock_nsec % 1000000000;
-     info->vm_clock_sec = sn.vm_clock_nsec / 1000000000;
-+    if (sn.icount != -1ULL) {
-+        info->icount = sn.icount;
-+        info->has_icount = true;
-+    }
+ QAPI_COMMON_MODULES = audio authz block-core block char common crypto
+ QAPI_COMMON_MODULES += dump error introspect job machine migration misc net
+-QAPI_COMMON_MODULES += qdev qom rdma rocker run-state sockets tpm
++QAPI_COMMON_MODULES += qdev qom rdma replay rocker run-state sockets tpm
+ QAPI_COMMON_MODULES += trace transaction ui
+ QAPI_TARGET_MODULES = machine-target misc-target
+ QAPI_MODULES = $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 33b94e3589..76a5f86e7f 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -1694,24 +1694,6 @@
+ { 'event': 'ACPI_DEVICE_OST',
+      'data': { 'info': 'ACPIOSTInfo' } }
  
-     return info;
- 
-@@ -1449,6 +1454,11 @@ static void internal_snapshot_prepare(BlkActionState *common,
-     sn->date_sec = tv.tv_sec;
-     sn->date_nsec = tv.tv_usec * 1000;
-     sn->vm_clock_nsec = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        sn->icount = replay_get_current_icount();
-+    } else {
-+        sn->icount = -1ULL;
-+    }
- 
-     ret1 = bdrv_snapshot_create(bs, sn);
-     if (ret1 < 0) {
-diff --git a/include/block/snapshot.h b/include/block/snapshot.h
-index 2bfcd57578..b0fe42993d 100644
---- a/include/block/snapshot.h
-+++ b/include/block/snapshot.h
-@@ -42,6 +42,7 @@ typedef struct QEMUSnapshotInfo {
-     uint32_t date_sec; /* UTC date of the snapshot */
-     uint32_t date_nsec;
-     uint64_t vm_clock_nsec; /* VM clock relative to boot */
-+    uint64_t icount; /* record/replay step */
- } QEMUSnapshotInfo;
- 
- int bdrv_snapshot_find(BlockDriverState *bs, QEMUSnapshotInfo *sn_info,
-diff --git a/migration/savevm.c b/migration/savevm.c
-index a71b930b91..ae84bf6ab0 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2681,6 +2681,11 @@ int save_snapshot(const char *name, Error **errp)
-     sn->date_sec = tv.tv_sec;
-     sn->date_nsec = tv.tv_usec * 1000;
-     sn->vm_clock_nsec = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        sn->icount = replay_get_current_icount();
-+    } else {
-+        sn->icount = -1ULL;
-+    }
- 
-     if (name) {
-         ret = bdrv_snapshot_find(bs, old_sn, name);
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0cf68fea14..db3e435c74 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -26,13 +26,18 @@
+-##
+-# @ReplayMode:
+-#
+-# Mode of the replay subsystem.
+-#
+-# @none: normal execution mode. Replay or record are not enabled.
+-#
+-# @record: record mode. All non-deterministic data is written into the
+-#          replay log.
+-#
+-# @play: replay mode. Non-deterministic data required for system execution
+-#        is read from the log.
+-#
+-# Since: 2.5
+-##
+-{ 'enum': 'ReplayMode',
+-  'data': [ 'none', 'record', 'play' ] }
+-
+ ##
+ # @xen-load-devices-state:
  #
- # @vm-clock-nsec: fractional part in nano seconds to be used with vm-clock-sec
- #
-+# @icount: Current instruction count. Appears when execution record/replay
-+#          is enabled. Used for "time-traveling" to match the moment
-+#          in the recorded execution with the snapshots. (since 5.0)
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 9751b11f8f..62f425410c 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -103,6 +103,7 @@
+ { 'include': 'qdev.json' }
+ { 'include': 'machine.json' }
+ { 'include': 'machine-target.json' }
++{ 'include': 'replay.json' }
+ { 'include': 'misc.json' }
+ { 'include': 'misc-target.json' }
+ { 'include': 'audio.json' }
+diff --git a/qapi/replay.json b/qapi/replay.json
+new file mode 100644
+index 0000000000..9e13551d20
+--- /dev/null
++++ b/qapi/replay.json
+@@ -0,0 +1,26 @@
++# -*- Mode: Python -*-
 +#
- # Since: 1.3
- #
- ##
- { 'struct': 'SnapshotInfo',
-   'data': { 'id': 'str', 'name': 'str', 'vm-state-size': 'int',
-             'date-sec': 'int', 'date-nsec': 'int',
--            'vm-clock-sec': 'int', 'vm-clock-nsec': 'int' } }
-+            'vm-clock-sec': 'int', 'vm-clock-nsec': 'int',
-+            '*icount': 'int' } }
- 
- ##
- # @ImageInfoSpecificQCow2EncryptionBase:
-diff --git a/qapi/block.json b/qapi/block.json
-index 145c268bb6..f389bb6f1a 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -176,7 +176,8 @@
- #                    "date-sec": 1000012,
- #                    "date-nsec": 10,
- #                    "vm-clock-sec": 100,
--#                    "vm-clock-nsec": 20
-+#                    "vm-clock-nsec": 20,
-+#                    "icount": 220414
- #      }
- #    }
- #
++
++##
++# = Record/replay
++##
++
++{ 'include': 'common.json' }
++
++##
++# @ReplayMode:
++#
++# Mode of the replay subsystem.
++#
++# @none: normal execution mode. Replay or record are not enabled.
++#
++# @record: record mode. All non-deterministic data is written into the
++#          replay log.
++#
++# @play: replay mode. Non-deterministic data required for system execution
++#        is read from the log.
++#
++# Since: 2.5
++##
++{ 'enum': 'ReplayMode',
++  'data': [ 'none', 'record', 'play' ] }
 
 
