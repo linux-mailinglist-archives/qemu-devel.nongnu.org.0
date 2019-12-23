@@ -2,69 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A54A1293B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 10:44:00 +0100 (CET)
-Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B4D1293BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 10:47:47 +0100 (CET)
+Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijKFq-0001kf-Nk
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 04:43:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43610)
+	id 1ijKJW-0003GE-BE
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 04:47:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1ijKEr-0001EY-O1
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:42:59 -0500
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKHt-0002ZJ-A5
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:46:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1ijKEp-0001er-9m
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:42:56 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59099
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1ijKEo-0001Uj-UF
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:42:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577094173;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p5WFdi2YPr6EXHNmft+uuLWxzpFSEFohSYCFOmJOj0M=;
- b=GG7t1jzpeBHtxecBK7SQzKw9tdNHimfnoq5n/fIT9X4T+uJnVOpx4GomNdcKfh0+Yx8rhX
- lMFh7MkPN4jT55EiQLX6LxAth1AmDO+3d/cTuXlf+yIAfc9A9ztAbY1NafvWA1ww3Qnm+i
- TeNcA4dFVEuQeFqd14IklBpfLQPXSTA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-3yZPyScBOgK4c8ouKzDSjw-1; Mon, 23 Dec 2019 04:42:52 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E6C5184B44D;
- Mon, 23 Dec 2019 09:42:51 +0000 (UTC)
-Received: from [10.36.116.117] (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC49360BF1;
- Mon, 23 Dec 2019 09:42:39 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v11 07/20] virtio-iommu: Implement map/unmap
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-8-eric.auger@redhat.com>
- <20191210164328.GF277340@myrica>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <aae1cdeb-523e-99d2-e4ad-e2e07359c2bd@redhat.com>
-Date: Mon, 23 Dec 2019 10:42:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKHr-00035I-RD
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:46:05 -0500
+Received: from mail.ispras.ru ([83.149.199.45]:50610)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1ijKHr-0002iR-Aj
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 04:46:03 -0500
+Received: from [127.0.1.1] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 9F9C754006B;
+ Mon, 23 Dec 2019 12:45:49 +0300 (MSK)
+Subject: [for-5.0 PATCH 00/11] Support for reverse debugging with GDB
+From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 23 Dec 2019 12:45:49 +0300
+Message-ID: <157709434917.12933.4351155074716553976.stgit@pasha-Precision-3630-Tower>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <20191210164328.GF277340@myrica>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 3yZPyScBOgK4c8ouKzDSjw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 83.149.199.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,75 +45,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
- quintela@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
- dgilbert@redhat.com, eric.auger.pro@gmail.com
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
+ pbonzini@redhat.com, quintela@redhat.com, ciro.santilli@gmail.com,
+ jasowang@redhat.com, crosthwaite.peter@gmail.com, armbru@redhat.com,
+ mreitz@redhat.com, alex.bennee@linaro.org, maria.klimushenkova@ispras.ru,
+ mst@redhat.com, kraxel@redhat.com, boost.lists@gmail.com,
+ thomas.dullien@googlemail.com, dovgaluk@ispras.ru, artem.k.pisarenko@gmail.com,
+ dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi jean,
+GDB remote protocol supports reverse debugging of the targets.
+It includes 'reverse step' and 'reverse continue' operations.
+The first one finds the previous step of the execution,
+and the second one is intended to stop at the last breakpoint that
+would happen when the program is executed normally.
 
-On 12/10/19 5:43 PM, Jean-Philippe Brucker wrote:
-> On Fri, Nov 22, 2019 at 07:29:30PM +0100, Eric Auger wrote:
->> @@ -238,10 +244,35 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
->>      uint64_t virt_start = le64_to_cpu(req->virt_start);
->>      uint64_t virt_end = le64_to_cpu(req->virt_end);
->>      uint32_t flags = le32_to_cpu(req->flags);
->> +    viommu_domain *domain;
->> +    viommu_interval *interval;
->> +    viommu_mapping *mapping;
-> 
-> Additional checks would be good. Most importantly we need to return
-> S_INVAL if we don't recognize a bit in flags (a MUST in the spec). 
-Sure
+Reverse debugging is possible in the replay mode, when at least
+one snapshot was created at the record or replay phase.
+QEMU can use these snapshots for travelling back in time with GDB.
 
-It
-> might be good to check that addresses are aligned on the page granule as
-> well, and return S_RANGE if they aren't (a SHOULD in the spec), but I
-> don't care as much.
-with KVM accelerated guest I don't have access to the guest page size,
-hence the choice of not checking it.
-> 
->> +
->> +    interval = g_malloc0(sizeof(*interval));
->> +
->> +    interval->low = virt_start;
->> +    interval->high = virt_end;
->> +
->> +    domain = g_tree_lookup(s->domains, GUINT_TO_POINTER(domain_id));
->> +    if (!domain) {
->> +        return VIRTIO_IOMMU_S_NOENT;
-> 
-> Leaks interval, I guess you could allocate it after this block.
-Sure
+Running the execution in replay mode allows using GDB reverse debugging
+commands:
+ - reverse-stepi (or rsi): Steps one instruction to the past.
+   QEMU loads on of the prior snapshots and proceeds to the desired
+   instruction forward. When that step is reaches, execution stops.
+ - reverse-continue (or rc): Runs execution "backwards".
+   QEMU tries to find breakpoint or watchpoint by loaded prior snapshot
+   and replaying the execution. Then QEMU loads snapshots again and
+   replays to the latest breakpoint. When there are no breakpoints in
+   the examined section of the execution, QEMU finds one more snapshot
+   and tries again. After the first snapshot is processed, execution
+   stops at this snapshot.
 
-Thanks!
+The set of patches include the following modifications:
+ - gdbstub update for reverse debugging support
+ - functions that automatically perform reverse step and reverse
+   continue operations
+ - hmp/qmp commands for manipulating the replay process
+ - improvement of the snapshotting for saving the execution step
+   in the snapshot parameters
 
-Eric
-> 
-> Thanks,
-> Jean
-> 
->> +    }
->> +
->> +    mapping = g_tree_lookup(domain->mappings, (gpointer)interval);
->> +    if (mapping) {
->> +        g_free(interval);
->> +        return VIRTIO_IOMMU_S_INVAL;
->> +    }
->>  
->>      trace_virtio_iommu_map(domain_id, virt_start, virt_end, phys_start, flags);
->>  
->> -    return VIRTIO_IOMMU_S_UNSUPP;
->> +    mapping = g_malloc0(sizeof(*mapping));
->> +    mapping->phys_addr = phys_start;
->> +    mapping->flags = flags;
->> +
->> +    g_tree_insert(domain->mappings, interval, mapping);
->> +
->> +    return VIRTIO_IOMMU_S_OK;
-> 
+The patches are available in the repository:
+https://github.com/ispras/qemu/tree/rr-191223
 
+---
+
+Pavel Dovgaluk (11):
+      replay: provide an accessor for rr filename
+      qcow2: introduce icount field for snapshots
+      migration: introduce icount field for snapshots
+      qapi: introduce replay.json for record/replay-related stuff
+      replay: introduce info hmp/qmp command
+      replay: introduce breakpoint at the specified step
+      replay: implement replay-seek command
+      replay: flush rr queue before loading the vmstate
+      gdbstub: add reverse step support in replay mode
+      gdbstub: add reverse continue support in replay mode
+      replay: describe reverse debugging in docs/replay.txt
+
+
+ MAINTAINERS               |    1 
+ accel/tcg/translator.c    |    1 
+ block/qapi.c              |   18 ++
+ block/qcow2-snapshot.c    |    9 +
+ block/qcow2.h             |    3 
+ blockdev.c                |   10 +
+ cpus.c                    |   19 ++-
+ docs/interop/qcow2.txt    |    4 +
+ docs/replay.txt           |   33 +++++
+ exec.c                    |    8 +
+ gdbstub.c                 |   64 ++++++++-
+ hmp-commands-info.hx      |   14 ++
+ hmp-commands.hx           |   53 +++++++
+ include/block/snapshot.h  |    1 
+ include/monitor/hmp.h     |    4 +
+ include/sysemu/replay.h   |   24 +++
+ migration/savevm.c        |   17 ++
+ qapi/Makefile.objs        |    2 
+ qapi/block-core.json      |    8 +
+ qapi/block.json           |    3 
+ qapi/misc.json            |   18 --
+ qapi/qapi-schema.json     |    1 
+ qapi/replay.json          |  121 +++++++++++++++++
+ replay/Makefile.objs      |    1 
+ replay/replay-debugging.c |  325 +++++++++++++++++++++++++++++++++++++++++++++
+ replay/replay-internal.h  |    6 +
+ replay/replay.c           |   22 +++
+ stubs/replay.c            |   10 +
+ 28 files changed, 761 insertions(+), 39 deletions(-)
+ create mode 100644 qapi/replay.json
+ create mode 100644 replay/replay-debugging.c
+
+-- 
+Pavel Dovgalyuk
 
