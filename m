@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DAB129901
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 18:00:01 +0100 (CET)
-Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FACC1298FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 17:58:37 +0100 (CET)
+Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijR3o-00007S-1M
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 12:00:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
+	id 1ijR2R-0006US-Rv
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 11:58:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ijQnH-0005Nj-CM
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:42:56 -0500
+ (envelope-from <mst@redhat.com>) id 1ijQnV-0005is-0J
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ijQnG-0005kn-9Y
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:42:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21149
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1ijQnS-0005pw-FT
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:08 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23532
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ijQnG-0005kc-5V
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:42:54 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ijQnS-0005ph-9r
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:43:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577119373;
+ s=mimecast20190719; t=1577119385;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5EhLJ8ESaItKzPeue3PIZ6PBy1w7sicN5shNVXQfGIo=;
- b=f0gI4+LK67qu+t2Qg4dHUj7pFtSVtKArf00iRZWLn3BULR26SOFdexEew+vASvOahWdewp
- LLsuDajoqyVjv9H43D0QyjTXQXiDSkiQ/A0gCDxpV9T7YemOicjLPZP/1hYtpy6om44Ai1
- EKm3lixzgSHG2+TQAnm0USCOn9xqhzE=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-pRUb5IqHMMqGAjhghtOc4Q-1; Mon, 23 Dec 2019 11:42:52 -0500
-Received: by mail-qt1-f197.google.com with SMTP id t4so11457044qtd.3
- for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:42:48 -0800 (PST)
+ bh=HtbxL2MG3al1vaYV6o8j0WZPnL+D8nNZeJUMf96yEUQ=;
+ b=eO6/amZF7mNBLBmEAlBCSKRarAIVznbIfWHog7P5Y6My4At3njHE7zaYB8QyKxllhCighF
+ Csxx2847kVfcJY2AcIlfUuiHABYefBAQG4KCE30bofvnEffASHndF+4j+sM2EEfLp7wbXh
+ vJa/VgBc1jUabANbJ+eMq4yqYoYKsBM=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-fj87q8gVMtiuB6FQ00WM6g-1; Mon, 23 Dec 2019 11:43:02 -0500
+Received: by mail-qk1-f197.google.com with SMTP id m13so4555777qka.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:43:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wp7IEacTPDnbh2fT1ey9LJUjRbVmj0GN0bCAT90OXe4=;
- b=RXGBF2DNiW54aySBSW1poRvA4kMBqFHdHZd53AKcfwJ5LvpS+C8cM09c9MOGRjZYL7
- geizZ/LWm4/HjngU1mEQ1B5h649lwKAQHbeCM/zlfNmo9oMLeTIojyy+D8/HzwjrDQzm
- Npq3h9cLVhxjxyF1XHaDRmXGWEcBfe1723y6klKjNpU1JeQERKoXUEAw+G13I+qIYk+j
- 2GbgEQlo9kAWGaywfg3P1Bf8xquWVfz9FWvbGdKpFFxeeCkPfADp9zWxNPOC0lzyWQEm
- We7SvaqQTb3ziqv6S/8s4n9MNHRgVHg8GUdKx7geEYoMITkwM7EqKBaRqxTE+/gnemVL
- eh7g==
-X-Gm-Message-State: APjAAAWIe9f5LchspIFKXywxtXRFJfgbcaos/39trb4i095n8flba30K
- oJno0wcgD4C0LwNNn+kxHrHexVY2QrilpWFhexbwS+WdcfgXBO5FTzUZns20WbUQoVSC6CmK9+x
- I8aqRzk0xgfCNfZo=
-X-Received: by 2002:a37:b883:: with SMTP id i125mr27519335qkf.64.1577119367930; 
- Mon, 23 Dec 2019 08:42:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwozH4OtCoy0x2AgfUxgBHMnJywwgYsXUh4kJoVIGFsjkhEqvKobXUFs40GZa1nWkPvqMQ75g==
-X-Received: by 2002:a37:b883:: with SMTP id i125mr27519307qkf.64.1577119367695; 
- Mon, 23 Dec 2019 08:42:47 -0800 (PST)
+ bh=ukejZrijNO6M+6ThiPk3cjbO646qqmDoI6mt9ROtSGs=;
+ b=sbkrD7d3+cxSqJNNritHAZxpreEaDDyPaTuR0IMonSHIITzocnIRy6JeMYwS4pQ8Px
+ GAD9IaJ1rD35A4P1PMPqSLOkdVXiwQQ2LIEMPaZmB7yrRlCU2rSGjXutaopFhVrLWc2Y
+ uKF8wNje+KrPTvIi7LUJPe3afCgDRYQSiH4DtvYxNYetauk2432Sjk8X12QoYi4YhEn6
+ 8tPkNhVeCnNQi7FiNULofA3+cjbkRYz/cHgb9HA3O6/Os067NmKN3EAhjeblPrXkFfi7
+ jr6RkcwS4yg36Jk7MCZ9XVTwXEP+TnRRf3Fi8dCYdgW+Oy9aX3PJ9bllx8Ru9FNSJM0O
+ pvvg==
+X-Gm-Message-State: APjAAAVpNDb8Zw1xBupx4BYRuEMX8oE/5NGLSMQgy9WXayeeheLbTFRH
+ 1dCVvFE4qPmQG4ZEEKikLQaXME5TJJtOSKGlXUUHpr67WEj/PspE305KMaWS69RnH4Jg019OjTH
+ McL7VVxo7/4uXSSo=
+X-Received: by 2002:ac8:5206:: with SMTP id r6mr22432873qtn.214.1577119381261; 
+ Mon, 23 Dec 2019 08:43:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwmCX7swmn2HG3DfNc5qUEx4cdLJXUDnd0SuVSv2q+BQlH225qK5d7RNGVihHxt9mPlSE/KWg==
+X-Received: by 2002:ac8:5206:: with SMTP id r6mr22432859qtn.214.1577119381030; 
+ Mon, 23 Dec 2019 08:43:01 -0800 (PST)
 Received: from redhat.com (bzq-109-64-31-13.red.bezeqint.net. [109.64.31.13])
  by smtp.gmail.com with ESMTPSA id
- t1sm3703874qkt.129.2019.12.23.08.42.45
+ y184sm5862523qkd.128.2019.12.23.08.42.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Dec 2019 08:42:47 -0800 (PST)
-Date: Mon, 23 Dec 2019 11:42:43 -0500
+ Mon, 23 Dec 2019 08:43:00 -0800 (PST)
+Date: Mon, 23 Dec 2019 11:42:57 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 24/27] vhost-user-scsi: reset the device if supported
-Message-ID: <20191223141536.72682-25-mst@redhat.com>
+Subject: [PULL v2 27/27] tests: add virtio-scsi and virtio-blk seg_max_adjust
+ test
+Message-ID: <20191223141536.72682-28-mst@redhat.com>
 References: <20191223141536.72682-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20191223141536.72682-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: pRUb5IqHMMqGAjhghtOc4Q-1
+X-MC-Unique: fj87q8gVMtiuB6FQ00WM6g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,81 +90,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Vrabel <david.vrabel@nutanix.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-If the vhost-user-scsi backend supports the VHOST_USER_F_RESET_DEVICE
-protocol feature, then the device can be reset when requested.
+It tests proper seg_max_adjust settings for all machine types except
+'none', 'isapc', 'microvm'
 
-If this feature is not supported, do not try a reset as this will send
-a VHOST_USER_RESET_OWNER that the backend is not expecting,
-potentially putting into an inoperable state.
-
-Signed-off-by: David Vrabel <david.vrabel@nutanix.com>
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1572385083-5254-3-git-send-email-raphael.norwitz@nutanix.com>
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-Id: <20191220140905.1718-3-dplotnikov@virtuozzo.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/scsi/vhost-user-scsi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ tests/acceptance/virtio_seg_max_adjust.py | 134 ++++++++++++++++++++++
+ 1 file changed, 134 insertions(+)
+ create mode 100755 tests/acceptance/virtio_seg_max_adjust.py
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 6a6c15dd32..23f972df59 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -39,6 +39,10 @@ static const int user_feature_bits[] =3D {
-     VHOST_INVALID_FEATURE_BIT
- };
-=20
-+enum VhostUserProtocolFeature {
-+    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
-+};
+diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance/v=
+irtio_seg_max_adjust.py
+new file mode 100755
+index 0000000000..5458573138
+--- /dev/null
++++ b/tests/acceptance/virtio_seg_max_adjust.py
+@@ -0,0 +1,134 @@
++#!/usr/bin/env python
++#
++# Test virtio-scsi and virtio-blk queue settings for all machine types
++#
++# Copyright (c) 2019 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- static void vhost_user_scsi_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserSCSI *s =3D (VHostUserSCSI *)vdev;
-@@ -62,6 +66,25 @@ static void vhost_user_scsi_set_status(VirtIODevice *vde=
-v, uint8_t status)
-     }
- }
-=20
-+static void vhost_user_scsi_reset(VirtIODevice *vdev)
-+{
-+    VHostSCSICommon *vsc =3D VHOST_SCSI_COMMON(vdev);
-+    struct vhost_dev *dev =3D &vsc->dev;
++import sys
++import os
++import re
 +
-+    /*
-+     * Historically, reset was not implemented so only reset devices
-+     * that are expecting it.
-+     */
-+    if (!virtio_has_feature(dev->protocol_features,
-+                            VHOST_USER_PROTOCOL_F_RESET_DEVICE)) {
-+        return;
-+    }
++sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pytho=
+n'))
++from qemu.machine import QEMUMachine
++from avocado_qemu import Test
 +
-+    if (dev->vhost_ops->vhost_reset_device) {
-+        dev->vhost_ops->vhost_reset_device(dev);
-+    }
-+}
++#list of machine types and virtqueue properties to test
++VIRTIO_SCSI_PROPS =3D {'seg_max_adjust': 'seg_max_adjust'}
++VIRTIO_BLK_PROPS =3D {'seg_max_adjust': 'seg-max-adjust'}
 +
- static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
- }
-@@ -182,6 +205,7 @@ static void vhost_user_scsi_class_init(ObjectClass *kla=
-ss, void *data)
-     vdc->get_features =3D vhost_scsi_common_get_features;
-     vdc->set_config =3D vhost_scsi_common_set_config;
-     vdc->set_status =3D vhost_user_scsi_set_status;
-+    vdc->reset =3D vhost_user_scsi_reset;
-     fwc->get_dev_path =3D vhost_scsi_common_get_fw_dev_path;
- }
-=20
++DEV_TYPES =3D {'virtio-scsi-pci': VIRTIO_SCSI_PROPS,
++             'virtio-blk-pci': VIRTIO_BLK_PROPS}
++
++VM_DEV_PARAMS =3D {'virtio-scsi-pci': ['-device', 'virtio-scsi-pci,id=3Dsc=
+si0'],
++                 'virtio-blk-pci': ['-device',
++                                    'virtio-blk-pci,id=3Dscsi0,drive=3Ddri=
+ve0',
++                                    '-drive',
++                                    'driver=3Dnull-co,id=3Ddrive0,if=3Dnon=
+e']}
++
++
++class VirtioMaxSegSettingsCheck(Test):
++    @staticmethod
++    def make_pattern(props):
++        pattern_items =3D ['{0} =3D \w+'.format(prop) for prop in props]
++        return '|'.join(pattern_items)
++
++    def query_virtqueue(self, vm, dev_type_name):
++        query_ok =3D False
++        error =3D None
++        props =3D None
++
++        output =3D vm.command('human-monitor-command',
++                            command_line =3D 'info qtree')
++        props_list =3D DEV_TYPES[dev_type_name].values();
++        pattern =3D self.make_pattern(props_list)
++        res =3D re.findall(pattern, output)
++
++        if len(res) !=3D len(props_list):
++            props_list =3D set(props_list)
++            res =3D set(res)
++            not_found =3D props_list.difference(res)
++            not_found =3D ', '.join(not_found)
++            error =3D '({0}): The following properties not found: {1}'\
++                     .format(dev_type_name, not_found)
++        else:
++            query_ok =3D True
++            props =3D dict()
++            for prop in res:
++                p =3D prop.split(' =3D ')
++                props[p[0]] =3D p[1]
++        return query_ok, props, error
++
++    def check_mt(self, mt, dev_type_name):
++        with QEMUMachine(self.qemu_bin) as vm:
++            vm.set_machine(mt["name"])
++            for s in VM_DEV_PARAMS[dev_type_name]:
++                vm.add_args(s)
++            vm.launch()
++            query_ok, props, error =3D self.query_virtqueue(vm, dev_type_n=
+ame)
++
++        if not query_ok:
++            self.fail('machine type {0}: {1}'.format(mt['name'], error))
++
++        for prop_name, prop_val in props.items():
++            expected_val =3D mt[prop_name]
++            self.assertEqual(expected_val, prop_val)
++
++    @staticmethod
++    def seg_max_adjust_enabled(mt):
++        # machine types >=3D 5.0 should have seg_max_adjust =3D true
++        # others seg_max_adjust =3D false
++        mt =3D mt.split("-")
++
++        # machine types with one line name and name like pc-x.x
++        if len(mt) <=3D 2:
++            return False
++
++        # machine types like pc-<chip_name>-x.x[.x]
++        ver =3D mt[2]
++        ver =3D ver.split(".");
++
++        # versions >=3D 5.0 goes with seg_max_adjust enabled
++        major =3D int(ver[0])
++
++        if major >=3D 5:
++            return True
++        return False
++
++    def test_machine_types(self):
++        # collect all machine types except 'none', 'isapc', 'microvm'
++        with QEMUMachine(self.qemu_bin) as vm:
++            vm.launch()
++            machines =3D [m['name'] for m in vm.command('query-machines')]
++            vm.shutdown()
++        machines.remove('none')
++        machines.remove('isapc')
++        machines.remove('microvm')
++
++        for dev_type in DEV_TYPES:
++            # create the list of machine types and their parameters.
++            mtypes =3D list()
++            for m in machines:
++                if self.seg_max_adjust_enabled(m):
++                    enabled =3D 'true'
++                else:
++                    enabled =3D 'false'
++                mtypes.append({'name': m,
++                               DEV_TYPES[dev_type]['seg_max_adjust']: enab=
+led})
++
++            # test each machine type for a device type
++            for mt in mtypes:
++                self.check_mt(mt, dev_type)
 --=20
 MST
 
