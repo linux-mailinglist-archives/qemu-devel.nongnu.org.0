@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260851298E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 17:50:00 +0100 (CET)
-Received: from localhost ([::1]:58840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362101298E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Dec 2019 17:52:42 +0100 (CET)
+Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijQu6-00043s-KV
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 11:49:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
+	id 1ijQwi-0007XS-Te
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 11:52:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41427)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ijQlw-0003VL-Nj
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:41:33 -0500
+ (envelope-from <mst@redhat.com>) id 1ijQlz-0003ag-BA
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:41:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ijQlv-0005PZ-N8
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:41:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25051
+ (envelope-from <mst@redhat.com>) id 1ijQly-0005Q7-Cf
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:41:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31877
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ijQlv-0005PP-JE
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:41:31 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ijQly-0005Pz-8w
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 11:41:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577119291;
+ s=mimecast20190719; t=1577119293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8li2Tk9kJtAQIFMop0/eFLC5J5NJiOvfkc+z767fYRk=;
- b=hbOtevfjTt47U6EzshZVD+ws+knCq4sU7S413fLkXPsNV4Ij0qe5hSGwPoS/lMTnvsvlEp
- rJkkIWGa7cU2ltpedoDT3CHrbR+/7Z+6vo0gLhZBy/fRTJ2bSr0CHAAV1TwSGqsYKNxuil
- PRXSvhhaskYxzlS/ESKjcyp5X3rIlZk=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-SyJrTI7CO660Fn_AfyQ6Ww-1; Mon, 23 Dec 2019 11:41:29 -0500
-Received: by mail-qk1-f198.google.com with SMTP id u30so11537085qke.13
- for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:41:29 -0800 (PST)
+ bh=zj2wVrIh8KQNhFA65bESMfJP7roYgy+mFo3n5QglPhQ=;
+ b=HSYDfcnQC1rZrfLybnIh+F7sEZoO5BTJ6cWKZFsEifZ/16PqQOB4MYbFbscw8uH4Lyr8ae
+ nV6nmbTTXjWVO3+weUvzd3tya4KlFaP2xuhY2MSY5kZytijDgdFTGD430h0uCXyc4BKlqS
+ VuBf3A79ZKN+VVwd4jkVbJtuS5Lb3FU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-WVBpQVurOlOncalRRBQsvg-1; Mon, 23 Dec 2019 11:41:32 -0500
+Received: by mail-qv1-f71.google.com with SMTP id g15so11629472qvq.20
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 08:41:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=8e5zVSr3EGK6wfLcmhM6md/VpcFIAiAuGM2x/CJ8sg4=;
- b=dzNHuWleuMyKEDTXg/ihhuvfZ2ZclBji3R/2xR6PnTOrHS+nDaDurP/mEeEwaIEXRR
- mqyGoNTT3UWDTCQ6x/RSeCIooDcgeMKkRfhypM8awITFpI+L3rHL9oLGN2OHLBv6bGOl
- AzSXV6QfGEyY1qoC19/tVDxPdb8NmsQ0Bv3VeLf+ojJ7+LDw6m98XRH5Uazosz19Kswq
- Z7DQK38K9KGYpeXi0QRvu2HXJs196xC54uq6p/v/w0ypZFIxQuzC0lKGqH/19I+rpCdR
- Ai8gESxiuNjv5hjC6E6+nLp/q1n7j8fFudmWLheG8ap6q5j9AqC8rwI1fFcMQTH+0NyN
- bY1Q==
-X-Gm-Message-State: APjAAAVu9N8hqXE7LqZIKPQoymiDVo/EBTZXkEm3twLuBbDhZ393WlEi
- 5Zd9jX7tJ4RdIqlFUYMfG4k/ktcf7t/NNMv52hBPGP51DFxe3EReB99KNgWbe+uynqo8opPMi1O
- AEgu5nJdXAmrY9Ks=
-X-Received: by 2002:a37:a9d1:: with SMTP id
- s200mr27094368qke.110.1577119288293; 
- Mon, 23 Dec 2019 08:41:28 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx5sXItuOpvHG6323vHGFR7mDt4BQ+fGfrFmZZkDD6vhMF/HEK/MWepceEoy14qfDI35Rsk6A==
-X-Received: by 2002:a37:a9d1:: with SMTP id
- s200mr27094353qke.110.1577119288091; 
- Mon, 23 Dec 2019 08:41:28 -0800 (PST)
+ bh=sanExUpcAf7TPhNumiJmyXjhA8u9u6QpSUASPDnjn/0=;
+ b=LC9+SpZn83E2noEEmikWriGeh4s3W3k3WBfdfsxUGNg/CPvt9YTVnanRt81M/ozsQN
+ xW1q18QGDGYr1XLlWt8j+4xU5lTa6s4Vruyt1LUxrO57RP8RxR473nz+mtPgTxEIrrIy
+ HDJAmWvNskYYnK33jWvXRcpWXcPnCKfyfg+cvEt+fy2PoI3eCUdsBEbvn/vxBgLQB89M
+ 2vU2xPTKbYqtltXLctnuPp/YGn0OVrdajyiDt2rQ5m4gg1yF8oBBdW3jC9Cwb8p/VRXZ
+ bddtfP8m/4y610+OEM8s36ZUPNlJbC81gEejt3pXKEHDdP8CQtPeB9cieuz50q0aRhUX
+ nEhw==
+X-Gm-Message-State: APjAAAU5Zve9Gv0eb3SWKzhKwXL1Brz3+iu7Jsy5L7o/ZEFMHQESLG8z
+ wlTRZrLSgShJwZGZYQ4NIr7nf/nCgvwVLi3w9WE1Z4qfxFyXCWL/6Xz94lO1cpkDNc5XgkEa8EP
+ irPQvO4YRT0vlAI4=
+X-Received: by 2002:ae9:f502:: with SMTP id o2mr25648392qkg.89.1577119291960; 
+ Mon, 23 Dec 2019 08:41:31 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzAdDHozY1iPuJQG8QAYeBkagUKF7GQsAXj6//X2u+8eoZT7FHgzzX4GBZWz6jyImaIZhGZjw==
+X-Received: by 2002:ae9:f502:: with SMTP id o2mr25648381qkg.89.1577119291761; 
+ Mon, 23 Dec 2019 08:41:31 -0800 (PST)
 Received: from redhat.com (bzq-109-64-31-13.red.bezeqint.net. [109.64.31.13])
  by smtp.gmail.com with ESMTPSA id
- i6sm5889478qkk.7.2019.12.23.08.41.25
+ m10sm5848176qki.74.2019.12.23.08.41.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Dec 2019 08:41:27 -0800 (PST)
-Date: Mon, 23 Dec 2019 11:41:23 -0500
+ Mon, 23 Dec 2019 08:41:31 -0800 (PST)
+Date: Mon, 23 Dec 2019 11:41:28 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 06/27] intel_iommu: fix bug to read DMAR_RTADDR_REG
-Message-ID: <20191223141536.72682-7-mst@redhat.com>
+Subject: [PULL v2 07/27] virtio: update queue size on guest write
+Message-ID: <20191223141536.72682-8-mst@redhat.com>
 References: <20191223141536.72682-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20191223141536.72682-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: SyJrTI7CO660Fn_AfyQ6Ww-1
+X-MC-Unique: WVBpQVurOlOncalRRBQsvg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
@@ -91,53 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yi Sun <yi.y.sun@linux.intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yi Sun <yi.y.sun@linux.intel.com>
+Some guests read back queue size after writing it.
+Update the size immediatly upon write otherwise
+they get confused.
 
-Should directly read DMAR_RTADDR_REG but not using 's->root'.
-Because 's->root' is modified in 'vtd_root_table_setup()' so
-that the first 12 bits are omitted. This causes the guest
-iommu debugfs cannot show pasid tables.
-
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
-Message-Id: <20191205095439.29114-1-yi.y.sun@linux.intel.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/intel_iommu.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/virtio/virtio-pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 43c94b993b..ee06993675 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2610,16 +2610,15 @@ static uint64_t vtd_mem_read(void *opaque, hwaddr a=
-ddr, unsigned size)
-     switch (addr) {
-     /* Root Table Address Register, 64-bit */
-     case DMAR_RTADDR_REG:
-+        val =3D vtd_get_quad_raw(s, DMAR_RTADDR_REG);
-         if (size =3D=3D 4) {
--            val =3D s->root & ((1ULL << 32) - 1);
--        } else {
--            val =3D s->root;
-+            val =3D val & ((1ULL << 32) - 1);
-         }
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index c6b47a9c73..e5c759e19e 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1256,6 +1256,8 @@ static void virtio_pci_common_write(void *opaque, hwa=
+ddr addr,
          break;
-=20
-     case DMAR_RTADDR_REG_HI:
-         assert(size =3D=3D 4);
--        val =3D s->root >> 32;
-+        val =3D vtd_get_quad_raw(s, DMAR_RTADDR_REG) >> 32;
+     case VIRTIO_PCI_COMMON_Q_SIZE:
+         proxy->vqs[vdev->queue_sel].num =3D val;
++        virtio_queue_set_num(vdev, vdev->queue_sel,
++                             proxy->vqs[vdev->queue_sel].num);
          break;
-=20
-     /* Invalidation Queue Address Register, 64-bit */
+     case VIRTIO_PCI_COMMON_Q_MSIX:
+         msix_vector_unuse(&proxy->pci_dev,
 --=20
 MST
 
