@@ -2,48 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F24129DDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Dec 2019 06:38:19 +0100 (CET)
-Received: from localhost ([::1]:36336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751D6129E49
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Dec 2019 07:54:42 +0100 (CET)
+Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijctd-0002tj-O4
-	for lists+qemu-devel@lfdr.de; Tue, 24 Dec 2019 00:38:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34330)
+	id 1ije5Z-0002t8-0d
+	for lists+qemu-devel@lfdr.de; Tue, 24 Dec 2019 01:54:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ijcs2-0001yj-Vu
- for qemu-devel@nongnu.org; Tue, 24 Dec 2019 00:36:40 -0500
+ (envelope-from <hpoussin@reactos.org>) id 1ije4m-0002Ez-Dg
+ for qemu-devel@nongnu.org; Tue, 24 Dec 2019 01:53:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ijcs1-0003ZQ-BB
- for qemu-devel@nongnu.org; Tue, 24 Dec 2019 00:36:38 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37195 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ijcs0-0003L4-90; Tue, 24 Dec 2019 00:36:37 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47hlML0qt9z9sP6; Tue, 24 Dec 2019 16:36:29 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1577165790;
- bh=ZvPbNLyyloftXPdG86oAKU+tnwleI7uEMh+7917IPTA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hmwh6QTDYgCT1rWTllgIlhYmDzO32Mb5Cgeoqt4pjrIDhwBUf8Zmv/j5Jl1/qpb8W
- Cla/g58+1D+Sim0wiUd72W4FDPjTbonDA0Jk6mXVaJP7DoPoRPOkh7uqxAMViaAcr5
- Mb0W4jPHz0CkUD3qAbFJYOrGtxMDz6gZ2XcYWKp4=
-Date: Tue, 24 Dec 2019 16:19:04 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH] target/ppc: fix memory dump endianness in QEMU monitor
-Message-ID: <20191224051904.GK38380@umbus.modem>
-References: <20191219163854.8945-1-maxiwell@linux.ibm.com>
- <20191223063043.GH38380@umbus.modem> <875zi6fwqy.fsf@linux.ibm.com>
+ (envelope-from <hpoussin@reactos.org>) id 1ije4k-0007ig-Pc
+ for qemu-devel@nongnu.org; Tue, 24 Dec 2019 01:53:52 -0500
+Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:59836)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <hpoussin@reactos.org>)
+ id 1ije4g-0007dP-9i; Tue, 24 Dec 2019 01:53:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
+ ; s=25047;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+ Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=EaDMT62X+Ci7T5DSFkIYNU/naZk5v47Af+kzQ7NdGTk=; b=mREFfk7NRDdEOzt1uriWNd0vNI
+ MQHyQRAiksQSsWHcu7n18p2InJPextZDqcM6cIRga0wRFof/AflImeBT+6Lyvnpjv0EkrHd6KfBGA
+ TcHt7zh/ZXyko7AisY4c2oXfpBLKMIkJvfOp7r+WD2wTkb4sqDR9nMpZqUQrM6BrBgnc=;
+Received: from [2a01:e35:2e3e:3c40:6416:79f2:693c:92fe]
+ by iserv.reactos.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <hpoussin@reactos.org>)
+ id 1ije4Z-0000oE-Np; Tue, 24 Dec 2019 06:53:40 +0000
+Subject: Re: NetBSD/arc on MIPS Magnum, was Re: [PATCH 00/10] Fixes for
+ DP8393X SONIC device emulation
+To: Finn Thain <fthain@telegraphics.com.au>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <cover.1576286757.git.fthain@telegraphics.com.au>
+ <CAL1e-=gwxSDa1NSevcCbjG1r5vg6A49Kg_FP2EL1jW+BMn7Ghw@mail.gmail.com>
+ <alpine.LNX.2.21.1.1912150915460.8@nippy.intranet>
+ <CAL1e-=hRs0EMz7ZTt+GXMfyHW8arq-h-m1Dzd3jz+vqP82+zjA@mail.gmail.com>
+ <CAL1e-=iTBxqCsNCbGpONdewE4uTDG=OAV36fF_Cq9=i6KQhMaA@mail.gmail.com>
+ <alpine.LNX.2.21.1.1912200912360.8@nippy.intranet>
+ <636043f1-bd84-f00d-55a5-7d58aab6cd57@redhat.com>
+ <alpine.LNX.2.21.1.1912241016420.42@nippy.intranet>
+ <alpine.LNX.2.21.1.1912241504560.11@nippy.intranet>
+From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Message-ID: <8fe965fe-5cf5-2b1e-1f4c-c3e9ce06107d@reactos.org>
+Date: Tue, 24 Dec 2019 07:53:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="W2ydbIOJmkm74tJ2"
-Content-Disposition: inline
-In-Reply-To: <875zi6fwqy.fsf@linux.ibm.com>
+In-Reply-To: <alpine.LNX.2.21.1.1912241504560.11@nippy.intranet>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
+X-Received-From: 2a01:4f8:1c17:5ae1::1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,124 +71,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- "Maxiwell S. Garcia" <maxiwell@linux.ibm.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 24/12/2019 à 05:33, Finn Thain a écrit :
+> On Tue, 24 Dec 2019, Finn Thain wrote:
+> 
+>>
+>> I know precious little about NetBSD installation and MIPS Magnum. What I
+>> wrote above was guesswork. Hence this could be a NetBSD bug or user
+>> error.
+>>
+> 
+> It was bugs and user error.
+> 
+> The user error was not using the serial console. The NetBSD/arc
+> installation guide says that only serial console is supported for MIPS
+> Magnum.
+> 
+> The bugs include regressions in NetBSD. (See below.)
+> 
+> The other issue is that the ARC firmware didn't work properly until I
+> defined one or more 'boot selections', even though none of these will ever
+> be selected.
+> 
+>> Does there exist a known-good combination of NetBSD/arc and
+>> qemu-system-mips64el releases?
+>>
+> 
+> The commit log says that Herv? Poussineau used NetBSD 5.1 with dp8393x in
+> the past, so I tried that.
+> 
+> Here are the steps I used:
+> 
+> ./mips64el-softmmu/qemu-system-mips64el -M magnum -L .
+> -drive if=scsi,unit=2,media=cdrom,format=raw,file=arccd-5.1.iso
+> -global ds1225y.filename=nvram -global ds1225y.size=8200
+> -serial stdio -serial null
+> -nic bridge,model=dp83932,mac=00:00:00:02:03:04
+> 
+> -> Run setup -> Initialize system -> Set default configurations
+> 	800x688
+> 	3.5 1.44 M
+> 	No
+> 	7
+> 
+> -> Set default environment
+> 	CD-ROM
+> 	2
+> 
+> -> Set environment variables
+> 	CONSOLEIN
+> 	multi()serial(0)term()
+> 	CONSOLEOUT
+> 	multi()serial(0)term()
+> 
+> -> Exit
+> 
+> Now restart QEMU. The ARC menu should appear on the tty.
+> 
+> -> Run a program
+> 
+> 	scsi(0)cdrom(2)fdisk(0)boot scsi(0)cdrom(2)fdisk(0)netbsd
+> 
+> That doesn't work. Add a boot selection.
+> 
+> -> Run setup -> Manage startup -> Add a boot selection -> Scsi CD-ROM 0
+> 	\os\nt\osloader.exe
+> 	Yes
+> 	\winnt
+> 	Windows NT
+> 	No
+> 
+> Somehow, that seems to help. Now restart QEMU.
+> 
+> -> Run a program
+> 
+>          scsi(0)cdrom(2)fdisk(0)boot scsi(0)cdrom(2)fdisk(0)netbsd
+> 
+> NetBSD/arc Bootstrap, Revision 1.1
+> (builds@b7.netbsd.org, Sat Nov  6 14:06:36 UTC 2010)
+> devopen: scsi(0)cdrom(2)fdisk(0) type disk file netbsd
+> 5502064+289092=0x5860e0
+> Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+>      2006, 2007, 2008, 2009, 2010
+>      The NetBSD Foundation, Inc.  All rights reserved.
+> Copyright (c) 1982, 1986, 1989, 1991, 1993
+>      The Regents of the University of California.  All rights reserved.
+> 
+> NetBSD 5.1 (RAMDISK) #0: Sat Nov  6 14:17:36 UTC 2010
+>          builds@b7.netbsd.org:/home/builds/ab/netbsd-5-1-RELEASE/arc/201011061943Z-obj/home/builds/ab/netbsd-5-1-RELEASE/src/sys/arch/arc/compile/RAMDISK
+> MIPS Magnum
+> total memory = 128 MB
+> avail memory = 117 MB
+> mainbus0 (root)
+> cpu0 at mainbus0: MIPS R4000 CPU (0x400) Rev. 0.0 with MIPS R4010 FPC Rev. 0.0
+> cpu0: 8KB/16B direct-mapped L1 Instruction cache, 48 TLB entries
+> cpu0: 8KB/16B direct-mapped write-back L1 Data cache
+> jazzio0 at mainbus0
+> timer0 at jazzio0 addr 0xe0000228
+> mcclock0 at jazzio0 addr 0xe0004000: mc146818 compatible time-of-day clock
+> LPT1 at jazzio0 addr 0xe0008000 intr 0 not configured
+> fdc0 at jazzio0 addr 0xe0003000 intr 1
+> fd0 at fdc0 drive 1: 1.44MB, 80 cyl, 2 head, 18 sec
+> MAGNUM at jazzio0 addr 0xe000c000 intr 2 not configured
+> VXL at jazzio0 addr 0xe0800000 intr 3 not configured
+> sn0 at jazzio0 addr 0xe0001000 intr 4: SONIC Ethernet
+> sonic: write 0x0015 to reg CR
+> sonic: write 0x0080 to reg CR
+> sonic: write 0x0000 to reg IMR
+> sonic: write 0x7fff to reg ISR
+> sonic: write 0x0000 to reg CR
+> sn0: Ethernet address 00:00:00:00:00:00
+> asc0 at jazzio0 addr 0xe0002000 intr 5: NCR53C94, 25MHz, SCSI ID 7
+> scsibus0 at asc0: 8 targets, 8 luns per target
+> pckbc0 at jazzio0 addr 0xe0005000 intr 6
+> pckbd0 at pckbc0 (kbd slot)
+> wskbd0 at pckbd0 (mux ignored)
+> pms at jazzio0 addr 0xe0005000 intr 7 not configured
+> com0 at jazzio0 addr 0xe0006000 intr 8: ns16550a, working fifo
+> com0: txfifo disabled
+> com0: console
+> com1 at jazzio0 addr 0xe0007000 intr 9: ns16550a, working fifo
+> com1: txfifo disabled
+> jazzisabr0 at mainbus0
+> isa0 at jazzisabr0
+> isapnp0 at isa0 port 0x279: ISA Plug 'n Play device support
+> scsibus0: waiting 2 seconds for devices to settle...
+> cd0 at scsibus0 target 2 lun 0: <QEMU, QEMU CD-ROM, 2.5+> cdrom removable
+> cd1 at scsibus0 target 4 lun 0: <QEMU, QEMU CD-ROM, 2.5+> cdrom removable
+> boot device: <unknown>
+> root on md0a dumps on md0b
+> root file system type: ffs
+> WARNING: preposterous TOD clock time
+> WARNING: using filesystem time
+> WARNING: CHECK AND RESET THE DATE!
+> erase ^H, werase ^W, kill ^U, intr ^C, status ^T
+> Terminal type? [vt100]
+> Erase is backspace.
+> (I)nstall, (S)hell or (H)alt ? s
+> # ifconfig sn0 10.2.3.4/24
+> # ping
+> usage:
+> ping [-adDfLnoPqQrRv] [-c count] [-g gateway] [-h host] [-i interval] [-I addr]
+>       [-l preload] [-p pattern] [-s size] [-t tos] [-T ttl] [-w maxwait] host
+> 
+> 
+> My initial testing shows that NetBSD 5.1 doesn't like my v2 patch series.
+> I'll debug that before I send v3.
+> 
+> BTW, there seem to be regressions in NetBSD 8.1 compared to NetBSD 5.1.
+> 
+> The 'boot' program on the 8.1 ISO just hangs.
+> 
+> If I use the 'boot' program from the 5.1 ISO to load the 'netbsd'
+> binary from the 8.1 ISO, I get a crash:
+> 
+> -> Run a program
+> 
+> 	scsi(0)cdrom(2)fdisk(0)boot scsi(0)cdrom(4)fdisk(0)netbsd
+> 
+> NetBSD/arc Bootstrap, Revision 1.1
+> (builds@b7.netbsd.org, Sat Nov  6 14:06:36 UTC 2010)
+> devopen: scsi(0)cdrom(4)fdisk(0) type disk file netbsd
+> 7902064|
+> Jazz Monitor. Version 174
+> Press H for help, Q to quit.
+> AdEL exception occurred.
+>   at=149f4800 v0=00000000 v1=8003d698 a0=807f3d40 a1=80eff158 a2=00000800
+>   a3=80eff188 t0=00000001 t1=00000001 t2=80045400 t3=800232d8 t4=000a4fa4
+>   t5=00000000 t6=00746669 t7=00746685 s0=80f0cab8 s1=00000800 s2=80eff1d0
+>   s3=80f10000 s4=80f0ee18 s5=80f0ee18 s6=00028eef s7=00000000 t8=00746685
+>   t9=c0000000 k0=80041f50 k1=80000194 gp=80f0c540 sp=80eff128 s8=80f0ca30
+>   ra=80023310 psr=20000803 epc=8002331c cause=00004010 errorepc=00000000
+>   badvaddr=00746689
+>>
+> 
+> I haven't tried the latest iso (9.0-rc1).
+> 
 
---W2ydbIOJmkm74tJ2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Finn,
 
-On Mon, Dec 23, 2019 at 08:27:49PM -0300, Fabiano Rosas wrote:
-> David Gibson <david@gibson.dropbear.id.au> writes:
->=20
-> > b) AFAICT this is the *only* thing that looks for the LE bit in
-> > hflags. Given that, and the fact that it would be wrong in most cases,
-> > we should remove it from hflags entirely along with this change.
-> >
->=20
-> I see there is:
->=20
-> static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState =
-*cs)
-> {
->     ...
->     ctx->le_mode =3D !!(env->hflags & (1 << MSR_LE));
->     ...
-> }
+Thanks for finding the required steps to boot NetBSD on MIPS Magnum. I was trying to find how to let it work on non-configured machine since some days!
+You indeed need my patch at https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg05037.html
 
-Ah... good point, I missed that one, sorry.  That makes all the
-difference.
+My test for networking is:
+- Terminal type = "vt100"
+- (S)hell
+- ifconfig sn0 10.0.2.15 netmask 255.255.255.0
+- route add default 10.0.2.2
+- connect to ftp.intel.com: ftp 192.198.164.82
 
-My guess is that this bit exists to be a universal flag for endianness
-mode, generalizing across the MSR bit on modern cpus, and the old 601
-which had it in the HID register.  I'm a bit dubious as to whether our
-601 emulation is good enough to warrant bothering with this, but it's
-probably best not to mess with it.
+Regards,
 
-
-> And we call hreg_recompute_hflags in some places:
-
-ITYM hreg_compute_hflags().
-
-> - powerpc_excp (target/ppc/excp_helper.c)
->   Called from TCG do_interrupt
->=20
-> - ppc_cpu_reset (target/ppc/translate_init.inc.c)
->   Called from spapr_machine_reset
->=20
-> - hreg_store_msr (target/ppc/helper_regs.h)
->   This is used for migration and for do_rfi, store_msr
-
-Huh... given this, I'm not sure how hflags was getting out of sync
-with the MSR in the first place, which brings the initial patch into
-question.
-
-> - h_cede (hw/ppc/spapr_hcall.c)
->   QEMU-side H_CEDE hypercall implementation=20
->=20
->=20
-> It looks like the hflags MSR_LE is being updated correctly with TCG. But
-> with KVM we only touch it on system_reset
-
-Ah.. right.  I think to fix that we'd want an hreg_compute_hflags() at
-the end of sucking the state out of KVM.
-
-> (and possibly h_cede? I don't
-> know if it is QEMU who handles it).
-
-It's KVM.  If we used the qemu one it would add an awful lot of
-latency to cedes.
->=20
-> So I would let hflags be.
->=20
->=20
-> ... Actually, I don't really know the purpose of hflags. It comes from:
->=20
->   commit 3f3373166227b13e762e20d2fb51eadfa6a2d653
->   Author: Fabrice Bellard <fabrice@bellard.org>
->   Date:   Wed Aug 20 23:02:09 2003 +0000
->  =20
->       pop ss, mov ss, x and sti disable irqs for the next instruction -
->       began dispatch optimization by adding new x86 cpu 'hidden' flags
->      =20
->      =20
->       git-svn-id: svn://svn.savannah.nongnu.org/qemu/trunk@372 c046a42c-6=
-fe2-441c-8c8c-71466251a162
->=20
-> Could any one clarify that?
-
-Not really.  It's really, really old, in the cruft bits of TCG I don't
-much understand.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---W2ydbIOJmkm74tJ2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4Bn8gACgkQbDjKyiDZ
-s5JFhhAAhTbLOoCfdmnD+eTrOp81/xphIaKzRyrM0XIqfcPVMyp8Glr0FEbeJ5mU
-hHQ5OwmjaRw2DP47o558Q5iZ6Z/edPAIlk8I5ocPs3/GWRVIMnCFLDM98Pn7OP/V
-9LUgzZl5keePTzjiIB0naZfQ1SduUmYqJ3TnnoQ5jALa4B/S/kdZEACc6ubKskxc
-ok/cK+oOfHc857tH1jEka2a41oowtdrsIJjvlZVal+omsDDpwlLoGSf1Bj//OnDB
-IOjdIh9JldterY7Nkr0eEzejJvehEyVQGnfinqBMxuS1HVqQ1EoktUURjmmCZZln
-wSiHbI4R9ksOgwFOuen5DSO2SfPpKboJXSqQz/d/EWUv1VlWA1K2SjrHP7sjsCnc
-xX0Msu7qGCXrIrU5NWACnYq+VAURU2hrg0Mmtf20ZoEXNiEFqlsik/HIXAE/MzLF
-CMYXQeN6rKMk0ym10UXow6v8D3C7+8V76qFgLml2rRFEXqe9S+FsMTWsQKIiPnVf
-N41KHrLMS58DDxb/RopgNvzuA75+CuoefSIvcea4rDJCiqdENPp+kciGQ//xuF23
-ec/e/R7JCqlIxMQ8+0e3OoB2fAaAA4XKACj9ugVpOLZKfEmuT+El5budz2Y9xwEg
-461eJLkWOSBgzgkV5GigpSCrew00a3mrJ9zEoQzcX2O92If6C00=
-=TaTW
------END PGP SIGNATURE-----
-
---W2ydbIOJmkm74tJ2--
+Hervé
 
