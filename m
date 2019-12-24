@@ -2,44 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AAA129CDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Dec 2019 03:44:28 +0100 (CET)
-Received: from localhost ([::1]:35418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8AC129D0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Dec 2019 04:13:30 +0100 (CET)
+Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijaBP-0004ab-BX
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 21:44:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38859)
+	id 1ijadU-000346-Mv
+	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 22:13:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ija8A-00016p-Vl
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 21:41:07 -0500
+ (envelope-from <jcmvbkbc@gmail.com>) id 1ijacK-0002M2-Ah
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 22:12:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ija89-0001r9-Na
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 21:41:06 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:47664 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ija89-0001pw-HS
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 21:41:05 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 48E6F1A1195;
- Tue, 24 Dec 2019 03:40:06 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 15D651A0F29;
- Tue, 24 Dec 2019 03:40:06 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] linux-user: Add support for FS_IOC32_<GET|SET>VERSION
- ioctls
-Date: Tue, 24 Dec 2019 03:39:47 +0100
-Message-Id: <1577155187-12622-6-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1577155187-12622-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ (envelope-from <jcmvbkbc@gmail.com>) id 1ijacH-0003U9-4u
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 22:12:16 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41366)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1ijacG-0003Sv-To
+ for qemu-devel@nongnu.org; Mon, 23 Dec 2019 22:12:13 -0500
+Received: by mail-pf1-x444.google.com with SMTP id w62so10090435pfw.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Dec 2019 19:12:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5LaBGpXGL1WH0Aox8Wudf6UMqLO5RnVXNA74q4WbVGw=;
+ b=NafJITCSXPRXhm0NUkg25SGYc1XFXG7hJ95BMmsLqBVc1IKT9JVlE1IG/sH2WgnvrM
+ uo02D3pM9QUYGqP4mFZ4hdojYALhmyQuM8MW0FD/TL6xtm2/GEGlNiHZM9cUNODG+oEb
+ y0WyYVodUP866TCnTE4tUNtCOGKCUaSdrx0816QDqguSk1ErtMczm5ZWQSz4uOIvuw2B
+ OOD7/UVmO/zh8p0kv/ogbNQp3UzqmZiXrsAU+EKISPHzrbVkTvBOA/Pe/oAkUawodXvy
+ uJOxUuYGv2YTFYH/01+AeEOMzW4iKFrEL38AANzypK1s4CSm/NdLK3WoKieqdQb3l3Bu
+ OXPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5LaBGpXGL1WH0Aox8Wudf6UMqLO5RnVXNA74q4WbVGw=;
+ b=D0BqOsYcgtLoG+QzShH5bJjFMk+Hc1SpKpjH7gVfeGmP3+pm2fL60gnMjPXbaV3Vm1
+ l88Gz6kSrVqp3vaFUxyp6X6Srbs7eVoKz91KZ/XTtknh0BJqZ3X/MAan0uHAVLs1vPHR
+ rZ1hwTKyjhO2W+7g42dGeBp+0/uelOrMms3JubKDkx1Q16HNRtBtojeeyCuxEHEFdEIp
+ tGUv75bIyoQcDgvnBn7xH6Z9VJPw3L0p2JY986tsZg41E6xppyKBfIh6oLFTrQJoLaF5
+ ufh41QZhOUIeBfl5j0lHW7Ti7zB7qQC1OQirWmdtfaNXr9S/EdFOibGi/mD6xViV1978
+ JOOg==
+X-Gm-Message-State: APjAAAUdch47cdSaYyYvgG2aECHbSQSDWVK44Lwfh7z6pPmlTY1KVUI7
+ WoZ8pV/hw+NSWeU/acGYx+jUzUMpIIukpuIBC2E=
+X-Google-Smtp-Source: APXvYqz8jhRcycEQcT9gH05lg+O0LoWc+LCLA7g4Qr27J7njezzXM6o0EcfmkXk3ndWrxlsHPhlN3b4O7SW4Ax8Iv/k=
+X-Received: by 2002:a63:5062:: with SMTP id q34mr22320059pgl.378.1577157131504; 
+ Mon, 23 Dec 2019 19:12:11 -0800 (PST)
+MIME-Version: 1.0
 References: <1577155187-12622-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ <1577155187-12622-2-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1577155187-12622-2-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Mon, 23 Dec 2019 19:11:58 -0800
+Message-ID: <CAMo8Bf+gYien0BWW8EmHNF1TXRoBuc=pOq8Qb5pBTspsnkeAYQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] linux-user: Fix some constants in termbits.h
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,50 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Mon, Dec 23, 2019 at 6:45 PM Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> Some constants were defined in terms of host, instead of target,
+> as they should be.
+>
+> Some additional trivial changes in this patch were forced by
+> checkpatch.pl.
+>
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+[...]
+> index d1e09e6..b1853f0 100644
+> --- a/linux-user/xtensa/termbits.h
+> +++ b/linux-user/xtensa/termbits.h
+[...]
+> @@ -286,43 +286,61 @@ struct target_ktermios {
+[...]
+> -#define TARGET_TIOCMIWAIT  _IO('T', 92) /* wait for a change on serial input line(s) */
+> -#define TARGET_TIOCGICOUNT 0x545D  /* read serial port inline interrupt counts */
+> +/* wait for a change on serial input line(s) */
+> +#define TARGET_TIOCMIWAIT  _IO('T', 92)
 
-These FS_IOC32_<GET|SET>VERSION ioctls are identical to
-FS_IOC_<GET|SET>VERSION ioctls, but without the anomaly of their
-number defined as if their third argument is of type long, while
-it is treated internally in kernel as is of type int.
+This one should also be TARGET_IO, right?
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 4 insertions(+)
+> +/* read serial port inline interrupt counts */
+> +#define TARGET_TIOCGICOUNT 0x545D
+>  #endif /* XTENSA_TERMBITS_H */
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 4fd6939..3affd88 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -142,6 +142,8 @@
-      IOCTL(FS_IOC_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_GETFLAGS, IOC_R, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
-+     IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
-+     IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
- 
- #ifdef CONFIG_USBFS
-   /* USB ioctls */
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 964b2b4..a73cc3d 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -922,6 +922,8 @@ struct target_pollfd {
- #define TARGET_FS_IOC_FIEMAP TARGET_IOWR('f',11,struct fiemap)
- #define TARGET_FS_IOC32_GETFLAGS TARGET_IOR('f', 1, int)
- #define TARGET_FS_IOC32_SETFLAGS TARGET_IOW('f', 2, int)
-+#define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
-+#define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
- 
- /* usb ioctls */
- #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
+Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
+
 -- 
-2.7.4
-
+Thanks.
+-- Max
 
