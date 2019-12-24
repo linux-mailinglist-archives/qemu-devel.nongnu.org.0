@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ED3129D5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Dec 2019 05:36:52 +0100 (CET)
-Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8AE129DDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Dec 2019 06:38:19 +0100 (CET)
+Received: from localhost ([::1]:36338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ijbwA-0007om-I7
-	for lists+qemu-devel@lfdr.de; Mon, 23 Dec 2019 23:36:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
+	id 1ijcte-0002uc-3g
+	for lists+qemu-devel@lfdr.de; Tue, 24 Dec 2019 00:38:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ijbuH-00068E-Pw
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 23:34:54 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ijcs2-0001yi-RB
+ for qemu-devel@nongnu.org; Tue, 24 Dec 2019 00:36:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ijbuG-0008Em-Oh
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 23:34:53 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:58899 helo=mail.rt-rk.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1ijcs1-0003ZG-AO
+ for qemu-devel@nongnu.org; Tue, 24 Dec 2019 00:36:38 -0500
+Received: from ozlabs.org ([203.11.71.1]:37587)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ijbuG-0008C6-Hy
- for qemu-devel@nongnu.org; Mon, 23 Dec 2019 23:34:52 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 97F461A115D;
- Tue, 24 Dec 2019 05:34:47 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 6005D1A1CFA;
- Tue, 24 Dec 2019 05:34:47 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] linux-user: Add support for FS_IOC_FS<GET|SET>XATTR
- ioctls
-Date: Tue, 24 Dec 2019 05:34:38 +0100
-Message-Id: <1577162078-29048-7-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1577162078-29048-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1577162078-29048-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ijcs0-0003Km-8R; Tue, 24 Dec 2019 00:36:37 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47hlMK6x5bz9sPh; Tue, 24 Dec 2019 16:36:29 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1577165789;
+ bh=intfF2AeYZ+3YDeDwDLzDnNODZWxGx0IeRPoMxjrZWc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Qe/72tF06tTJd6RJDZZLvlsnRO9UZuKCLPRPY4q8HZWB44WdapKErX67hp0PT+p/S
+ FH/mC725j9+bqhBEcddaLAtOk2ShRAUPqTyXgztU3/sZGAAXdNpZupJWBb4kPAGz/p
+ WM+Xr1LD869PII5ROrMo3vNCAOxvozUHbqqfAVJU=
+Date: Tue, 24 Dec 2019 16:10:45 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Maxiwell S. Garcia" <maxiwell@linux.ibm.com>
+Subject: Re: [PATCH] target/ppc: fix memory dump endianness in QEMU monitor
+Message-ID: <20191224051045.GJ38380@umbus.modem>
+References: <20191219163854.8945-1-maxiwell@linux.ibm.com>
+ <20191223063043.GH38380@umbus.modem>
+ <20191223213530.m4thca35liyjlsln@maxibm>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HcccYpVZDxQ8hzPO"
+Content-Disposition: inline
+In-Reply-To: <20191223213530.m4thca35liyjlsln@maxibm>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,53 +56,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-These ioctls were relatively recently introduced, so the "#ifdef"
-guards are used in this implementation.
+--HcccYpVZDxQ8hzPO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/ioctls.h       | 7 +++++++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 9 insertions(+)
+On Mon, Dec 23, 2019 at 06:35:30PM -0300, Maxiwell S. Garcia wrote:
+> On Mon, Dec 23, 2019 at 05:30:43PM +1100, David Gibson wrote:
+> > On Thu, Dec 19, 2019 at 01:38:54PM -0300, Maxiwell S. Garcia wrote:
+> > > The env->hflags is computed in ppc_cpu_reset(), using the MSR register
+> > > as input. But at the point ppc_disas_set_info() is called the MSR_LE =
+bit
+> > > in env->hflags doesn't contain the same information that env->msr.
+> > >=20
+> > > Signed-off-by: Maxiwell S. Garcia <maxiwell@linux.ibm.com>
+> > > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> >=20
+> > I think the change is ok as far as it goes but,
+> >=20
+> > a) the commit message should expand on what the practical effect of
+> > this is.  Looking, I think the only thing this affects is DEBUG_DISAS
+> > output (i.e. very rarely) which is worth noting.
+>=20
+> Ok, I will do that. I got this bug using the 'x/i' command on QEMU
+> monitor with a LE guest.
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 3affd88..e1b89a7 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -144,6 +144,13 @@
-      IOCTL(FS_IOC32_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
-+#ifdef FS_IOC_FSGETXATTR
-+     IOCTL(FS_IOC_FSGETXATTR, IOC_W, MK_PTR(MK_STRUCT(STRUCT_fsxattr)))
-+#endif
-+#ifdef FS_IOC_FSSETXATTR
-+     IOCTL(FS_IOC_FSSETXATTR, IOC_W, MK_PTR(MK_STRUCT(STRUCT_fsxattr)))
-+#endif
-+
- 
- #ifdef CONFIG_USBFS
-   /* USB ioctls */
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index a73cc3d..12cd3de 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -924,6 +924,8 @@ struct target_pollfd {
- #define TARGET_FS_IOC32_SETFLAGS TARGET_IOW('f', 2, int)
- #define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
- #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
-+#define TARGET_FS_IOC_FSGETXATTR TARGET_IOR('X', 31, struct file_clone_range)
-+#define TARGET_FS_IOC_FSSETXATTR TARGET_IOR('X', 32, struct file_clone_range)
- 
- /* usb ioctls */
- #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
--- 
-2.7.4
+Ok.
 
+> > b) AFAICT this is the *only* thing that looks for the LE bit in
+> > hflags. Given that, and the fact that it would be wrong in most cases,
+> > we should remove it from hflags entirely along with this change.
+> >=20
+>=20
+> I was changing the code to remove this LE bit from hflags and I found the
+> function 'helper_store_hid0_601()' in misc_helper.c, which manipulates the
+> 'hflags'. The commit 056401eae6 says:
+>=20
+> "Implement PowerPC 601 HID0 register, needed for little-endian mode suppo=
+rt.
+> As a consequence, we need to merge hflags coming from MSR with other ones.
+> Use little-endian mode from hflags instead of MSR during code translation=
+=2E"
+>=20
+> So, is the 'hflags' necessary here? Can we use MSR instead of hflags to
+> change the endianness in this function?
+
+That function alters the LE bit in hflags, but doesn't read it.
+*Nothing* reads it, so none of the places that alter it matter.
+
+I strongly suspect we won't properly honour the LE bit in the 601 HID
+register, but that's already the case.  I also suspect it's far from
+the only way in which 601 emulation is broken.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--HcccYpVZDxQ8hzPO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4BndIACgkQbDjKyiDZ
+s5KYig/+Mg2CCs+oD4fiUxbsDeRK6C2WMRZPJopRVaWvn3nLzvE/FVyy99NG+k/v
+hMfJZU0J8ruHKx+VLJny0GqkmU9SR0DU/+LiKseYUtpKKY2rRltVoJb5t1mk1Xzg
+JaL8VJ/FJV+NkuAEQTeYXMKo7rXZBkbfFlJwED1mE+NXTOaAnzJ5fzKr8lVPNlfi
+vIJ9dHqc4eqnjx+l1FwSJ+VIcDFp3zHrvSGAFXqCIXdtUG5lCKZeEqKXNfmluCsI
+fIkPqzhJxv01rZ0P4SstHraAQ2UNA5/3GaHsP2J8oPXWWooEU7l9FHEEIA/Xy/2f
+FFmDfIq6X892viLxljwf7RWjUN1cDyRBVvJDCM/G31wIcbRUbTCjFN2EijjlWP8p
+NNXHzPzE2/mv/a96YE0H6yQdMaejnz+Qh1FlIzLQbBkJH1Db6YhyBvxKRjNbVdqa
+fV+LoIwbR7tkNqtpK5WQWSjaQ8ZtE3rqX+tSZNiN5M2OdPPppuk0maKV8oxvzvJX
+SXr3f17LWdbbTQL9K1m5Uvs8CFPNJMEuau1YZxnMk6IxYLntj6QSjzVQpk24Vz8n
+VRGK6kHp7D20DusyC+UUqAfFbuPn9PgN0NLmibD1SpV0IdaiRY7YfXxUUPLjGa+v
++mZATgTa4VW94mcU3egZVxaIJzETahuCr4l+dApxSsnxaV8i2s0=
+=40nG
+-----END PGP SIGNATURE-----
+
+--HcccYpVZDxQ8hzPO--
 
