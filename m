@@ -2,63 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9B112B0CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Dec 2019 04:16:57 +0100 (CET)
-Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEFF12B448
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Dec 2019 12:45:35 +0100 (CET)
+Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ikg7T-0003rS-KP
-	for lists+qemu-devel@lfdr.de; Thu, 26 Dec 2019 22:16:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36408)
+	id 1iko3h-0008TW-NN
+	for lists+qemu-devel@lfdr.de; Fri, 27 Dec 2019 06:45:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ikg6G-000382-I6
- for qemu-devel@nongnu.org; Thu, 26 Dec 2019 22:15:41 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iko2T-0007Yk-9f
+ for qemu-devel@nongnu.org; Fri, 27 Dec 2019 06:44:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ikg6F-0003sv-3S
- for qemu-devel@nongnu.org; Thu, 26 Dec 2019 22:15:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54552)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ikg6E-0003qp-UD
- for qemu-devel@nongnu.org; Thu, 26 Dec 2019 22:15:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ikg6D-0006JR-2T
- for <qemu-devel@nongnu.org>; Fri, 27 Dec 2019 03:15:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0B5D92E8078
- for <qemu-devel@nongnu.org>; Fri, 27 Dec 2019 03:15:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Dec 2019 03:10:20 -0000
-From: Marek Dolata <1857640@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: gdb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mkdolata
-X-Launchpad-Bug-Reporter: Marek Dolata (mkdolata)
-X-Launchpad-Bug-Modifier: Marek Dolata (mkdolata)
-References: <157740016424.15105.4522605454597916967.malonedeb@wampee.canonical.com>
-Message-Id: <157741622059.28004.6353437007938853210.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1857640] Re: qemu-system-i386 registers clobbered after gdb set
- due to k_gs_base bug in gdbstub
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 73d171d69b699e70e3cb69ee1aa9020fded2f78d
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iko2S-0007PX-4w
+ for qemu-devel@nongnu.org; Fri, 27 Dec 2019 06:44:17 -0500
+Received: from relay.sw.ru ([185.231.240.75]:58020)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iko2P-0007JB-7o; Fri, 27 Dec 2019 06:44:13 -0500
+Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iko2C-0001wk-AA; Fri, 27 Dec 2019 14:44:00 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/2] Dump QCOW2 metadata
+Date: Fri, 27 Dec 2019 14:43:57 +0300
+Message-Id: <1577447039-400109-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,166 +43,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1857640 <1857640@bugs.launchpad.net>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: gdb
+The information about QCOW2 metadata allocations in an image ELF-file is
+helpful for finding issues with the image data integrity.
 
--- =
+Snapshots dump example:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1857640
+$ sudo ./qemu-img check /.../.../harddisk.hdd -M --output=json
+{
+    "image-end-offset": 24820842496,
+    "total-clusters": 153600,
+    "check-errors": 0,
+    "viscera": {
+        "refcount-table": {
+            "location": {
+                "offset": 3845128192,
+                "size": 1048576
+            }
+        },
+        "active-l1": {
+            "name": "L1 active table",
+            "location": {
+                "offset": 4194304,
+                "size": 16
+            },
+            "l2-list": [
+                {
+                    "offset": 619708416,
+                    "size": 1048576
+                },
+                {
+                    "offset": 1156579328,
+                    "size": 1048576
+                }
+            ]
+        },
+        "qcow2-header": {
+            "location": {
+                "offset": 0,
+                "size": 1048576
+            },
+            "version": 3
+        },
+        "snapshot-table": {
+            "location": {
+                "offset": 648019968,
+                "size": 191
+            },
+            "l1-list": [
+                {
+                    "name": "{3036f6c5-3a1f-44cb-af1f-653cc87fba04}",
+                    "location": {
+                        "offset": 14680064,
+                        "size": 16
+                    },
+                    "l2-list": [
+                        {
+                            "offset": 3957325824,
+                            "size": 1048576
+                        },
+                        {
+                            "offset": 7025459200,
+                            "size": 1048576
+                        }
+                    ]
+                },
+                {
+                    "name": "{0aa1a7d6-16ee-4b44-a515-b5ecc571c959}",
+                    "location": {
+                        "offset": 638582784,
+                        "size": 16
+                    },
+                    "l2-list": [
+                        {
+                            "offset": 3957325824,
+                            "size": 1048576
+                        },
+                        {
+                            "offset": 7025459200,
+                            "size": 1048576
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "allocated-clusters": 22485,
+    "filename": "/.../.../harddisk.hdd",
+    "format": "qcow2",
+    "fragmented-clusters": 3549
+}
 
-Title:
-  qemu-system-i386 registers clobbered after gdb set due to k_gs_base
-  bug in gdbstub
+Bitmaps dump example:
 
-Status in QEMU:
-  New
+$ ./qemu-img check /home/disk -M --output=json
+{
+    "image-end-offset": 1441792,
+    "total-clusters": 16,
+    "check-errors": 0,
+    "viscera": {
+        "refcount-table": {
+            "location": {
+                "offset": 65536,
+                "size": 65536
+            }
+        },
+        "active-l1": {
+            "name": "L1 active table",
+            "location": {
+                "offset": 196608,
+                "size": 8
+            },
+            "l2-list": [
+                {
+                    "offset": 262144,
+                    "size": 65536
+                }
+            ]
+        },
+        "bitmaps": {
+            "bitmap-dir": {
+                "location": {
+                    "offset": 1048576,
+                    "size": 64
+                },
+                "dir-entries": [
+                    {
+                        "bitmap-table": {
+                            "location": {
+                                "offset": 589824,
+                                "size": 8
+                            },
+                            "table-entries": [
+                                {
+                                    "type": "all-zeros"
+                                }
+                            ]
+                        },
+                        "bitmap-name": "bitmap-1"
+                    },
+                    {
+                        "bitmap-table": {
+                            "location": {
+                                "offset": 983040,
+                                "size": 8
+                            },
+                            "table-entries": [
+                                {
+                                    "cluster": {
+                                        "offset": 655360,
+                                        "size": 65536
+                                    },
+                                    "type": "serialized"
+                                }
+                            ]
+                        },
+                        "bitmap-name": "bitmap-2"
+                    }
+                ]
+            },
+            "nb-bitmaps": 2
+        },
+        "qcow2-header": {
+            "location": {
+                "offset": 0,
+                "size": 65536
+            },
+            "version": 3
+        }
+    },
+    "allocated-clusters": 12,
+    "filename": "/home/disk",
+    "format": "qcow2",
+    "fragmented-clusters": 2
+}
 
-Bug description:
-  Due to a bug in /target/i386/gdbstub.c, setting registers in gdb
-  causes the ones following k_gs_base to get clobbered.
+Andrey Shinkevich (2):
+  qcow2: introduce Qcow2Metadata structure
+  qcow2: dump QCOW2 metadata
 
-  I'm using qemu version 4.2.50 on an msys64 and start qemu's i386 with
-  a gdb server.
+ block/qcow2-bitmap.c   |  53 ++++++++++++-
+ block/qcow2-refcount.c |  84 ++++++++++++++++----
+ block/qcow2.c          |  30 +++++++
+ block/qcow2.h          |   6 +-
+ include/block/block.h  |   3 +-
+ qapi/block-core.json   | 208 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ qemu-img.c             |  29 ++++++-
+ qemu-img.texi          |   2 +-
+ 8 files changed, 390 insertions(+), 25 deletions(-)
 
-  $ qemu-system-i386 -version
-  QEMU emulator version 4.2.50 (v4.2.0-363-gdd5b0f9549-dirty)
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+-- 
+1.8.3.1
 
-  $ qemu-system-i386 -gdb tcp::29096 -S
-  C:\msys64\usr\local\qemu-system-i386.exe: invalid accelerator kvm
-  C:\msys64\usr\local\qemu-system-i386.exe: falling back to tcg
-
-  =
-
-  I start a gdb client, connect to the server, display the register state, =
-set k_gs_base, display the register state again, and notice an issue. (Sett=
-ing other registers also clobbers the ones after k_gs_base).
-
-  $ gdb -q
-  (gdb) target remote :29096
-  ...
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x60000010       [ CD NW ET ]
-  cr2            0x0      0
-  ...
-  (gdb) set $k_gs_base =3D 0x41414141
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x41414151       [ CD WP ET PE ]
-  cr2            0x60000010       1610612752
-  ...
-
-  =
-
-  In the gdbstub code, I notice that the read and write functions are not s=
-ymmetric for IDX_SEG_REGS + 8, which corresponds to k_gs_base.
-
-  $ cat /usr/local/src/qemu-4.2.0/target/i386/gdbstub.c
-  ...
-  int x86_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
-  {
-  ...
-          case IDX_SEG_REGS + 8:
-  #ifdef TARGET_X86_64
-              if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
-                  return gdb_get_reg64(mem_buf, env->kernelgsbase);
-              }
-              return gdb_get_reg32(mem_buf, env->kernelgsbase);
-  #else
-              return gdb_get_reg32(mem_buf, 0);
-  #endif
-  ...
-  }
-  ...
-  int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-  {
-  ...
-  #ifdef TARGET_X86_64
-          case IDX_SEG_REGS + 8:
-              if (env->hflags & HF_CS64_MASK) {
-                  env->kernelgsbase =3D ldq_p(mem_buf);
-                  return 8;
-              }
-              env->kernelgsbase =3D ldl_p(mem_buf);
-              return 4;
-  #endif
-  ...
-  }
-  ...
-
-  =
-
-  I change the write function, rebuild, and verify that the issue is resolv=
-ed.
-
-  $ cat /usr/local/src/qemu-4.2.0/target/i386/gdbstub.c
-  int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-  {
-  ...
-          case IDX_SEG_REGS + 8:
-  #ifdef TARGET_X86_64
-              if (env->hflags & HF_CS64_MASK) {
-                  env->kernelgsbase =3D ldq_p(mem_buf);
-                  return 8;
-              }
-              env->kernelgsbase =3D ldl_p(mem_buf);
-              return 4;
-  #else
-              return 4;
-  #endif
-  ...
-  }
-  ...
-
-  $ make
-  ...
-  $ make install
-  ...
-
-  $ qemu-system-i386 -gdb tcp::29096 -S
-
-  $ gdb -q
-  (gdb) target remote :29096
-  ...
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x60000010       [ CD NW ET ]
-  cr2            0x0      0
-  ...
-  (gdb) set $k_gs_base =3D 0x41414141
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x60000010       [ CD NW ET ]
-  cr2            0x0      0
-  ...
-
-  =
-
-  I'll submit the patch below.
-
-  $ diff gdbstub.c gdbstub.c.bkp
-  353d352
-  <         case IDX_SEG_REGS + 8:
-  354a354
-  >         case IDX_SEG_REGS + 8:
-  362,363d361
-  < #else
-  <             return 4;
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1857640/+subscriptions
 
