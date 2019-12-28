@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF2912BF8E
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 00:16:21 +0100 (CET)
-Received: from localhost ([::1]:47246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666F312BF8B
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 00:13:34 +0100 (CET)
+Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ilLJj-0000es-Sh
-	for lists+qemu-devel@lfdr.de; Sat, 28 Dec 2019 18:16:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38769)
+	id 1ilLH3-0005q4-1A
+	for lists+qemu-devel@lfdr.de; Sat, 28 Dec 2019 18:13:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ilLFF-0004Dp-5r
- for qemu-devel@nongnu.org; Sat, 28 Dec 2019 18:11:42 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ilLFI-0004Ga-LG
+ for qemu-devel@nongnu.org; Sat, 28 Dec 2019 18:11:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ilLFE-0003Ss-7S
- for qemu-devel@nongnu.org; Sat, 28 Dec 2019 18:11:41 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:38320)
+ (envelope-from <richard.henderson@linaro.org>) id 1ilLFH-0003iD-0d
+ for qemu-devel@nongnu.org; Sat, 28 Dec 2019 18:11:44 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38320)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ilLFE-0003OF-0Y
- for qemu-devel@nongnu.org; Sat, 28 Dec 2019 18:11:40 -0500
-Received: by mail-pg1-x543.google.com with SMTP id a33so16263925pgm.5
- for <qemu-devel@nongnu.org>; Sat, 28 Dec 2019 15:11:39 -0800 (PST)
+ id 1ilLFG-0003eo-QV
+ for qemu-devel@nongnu.org; Sat, 28 Dec 2019 18:11:42 -0500
+Received: by mail-pg1-x542.google.com with SMTP id a33so16263971pgm.5
+ for <qemu-devel@nongnu.org>; Sat, 28 Dec 2019 15:11:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TefutcrMB9pareM/zxzC1lVLnwDD302zB/fR5vwwqMc=;
- b=He482V05R9k0rygoGIICBNAFswxjxmfOc5nE59djzdhF6Psht9FBYdiKs0jxPfY7cz
- LMemqN1E8Kd1h1DjHwz/FLWnSNMep9IOK4R7Kch1VljgCRd9O6yEIOqkqbhAajGMWLG4
- 5mOqLejmNEVqzYpyJKqQf3iNj9d0aKw8IkFGMP4sp68W+B4VEZQRviGaDxRAaw9qLd4o
- 2a/kvouCtWeYBcLmQfiGrjm21xAtmGr3Cgd+CcdbaveaEBYQ+VwiTKaT7RUwbVEd9tp4
- HrM7BY3YUGUIQLFK9uyaLlNhCMBjIYnCZSO4SwCestiJ100OXAkaSxws6DvYeU+BW5D0
- OjtQ==
+ bh=iCXuMC6wO9f+VoJnhE3lUwa5BRgmWcB+z6z3m9aJPKQ=;
+ b=VccT/pFKYrNFJ3WEWmdpipPqoqHosL1A6LjVTQaN7FGNXJD16B1dqpHuAZgfkI+YBi
+ sAqlfWglTg51sid7HvoGss4eTmmG+bMN2UqnqQZQvmy6Ora1CfeuP2G7Ab4YDKy/BWq3
+ zltK8VmCE2ymK4TJZ6KCfhsbHv+bwskwRBu7H3QId/v5y7nx083d8SqyVc9RhjfkDGJn
+ IE+XKS0MWtn2/FvouFuBEz8DdxM7ga0FwKPbJI0rjfc1BKgqYN0JR/mL9YPgSfqntPbE
+ 8RjEC+YdUwJthwW5Y7A8jqSOWAcZ17HOOi3ouavxS03avP+vinDF0AqRZc+4gj3+xBhW
+ lSuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TefutcrMB9pareM/zxzC1lVLnwDD302zB/fR5vwwqMc=;
- b=JaOnFoi6MBKBPQAcgzbuTy/V7LASqPtDALq1/33yOEfe9kYWDX4yGnKsdSbtjL/GZl
- RPXsHLZHpr99kIPlAwlMFQe7hmBWmyGDWu9jAwGKA+F6G3Dpe0zaSH/XuUoWoWnFfXNW
- 6nMm8iavOJIY7s50wQsy1r7oISwezSJ1/6ZsDitacNyLcKNAsoqK3TElBd4EPycDMvh+
- KYI0nCkbj4cPUdKTE5d8RAw1x7xjVPqMjMs9LJzViSfd3XdxSWOdlFpbwENQxx2Cz3q1
- AbRk4Rc6wVxxmWaVfOSUivvgspjaMiHkl9FyXSsKW+/GgwbvWQblB+JJA/Oh94hDuTnY
- J7tQ==
-X-Gm-Message-State: APjAAAUvig8RF92sdeCfZgibPOcHonBgQNuA6HlcwTYz0cmciyZbpxwA
- 4x9zemJMuITsCbfCiIOiIyvU+b0Gqbk=
-X-Google-Smtp-Source: APXvYqxtqxVcXHiiZJmmjwsBdlyzVVOp0dyWFL3TP93BgavdjyYEKloCi/kmmPgyeEM3tIh3f/mwCQ==
-X-Received: by 2002:a63:4f5c:: with SMTP id p28mr61537504pgl.409.1577574698647; 
- Sat, 28 Dec 2019 15:11:38 -0800 (PST)
+ bh=iCXuMC6wO9f+VoJnhE3lUwa5BRgmWcB+z6z3m9aJPKQ=;
+ b=ZGjZBMZFHg+rfn9UOqBwA82BscLX44ywRdWiYEf4viQQGnDejqMmnBRbT5tt1EnAc+
+ siaPai5YMLuLu9qeDOjFCXm4k4a3IDAbrmTtJnAfrIKlcmlOmNAYJCAe7elSiZQHNNRf
+ xj3Xhh8xZEjQzCERy8/bp6Jl/xr32Or+4psvD0t9vopQy3JQ9tUFNMmjxhciYjNstF6x
+ UpogtvSeB4ZLhqJFJ9VJYdrFBotvaLL1Wb2EX+9bKzpPs61EX4WoncArlY39jncUuAcu
+ jIo1SuMPxYBLuqWvfqt59CtdCMKKTUA3GylZpjaP+ZLEb+nVYAeng26xdci+K1UK1A4Q
+ HwhQ==
+X-Gm-Message-State: APjAAAX8LwAKkP9Dp3ktHZnlK3mkqM3ynpEKHMYsysZZDUhtQzxe4QhV
+ qx1ZaVF0fHjj+F8yUSxI8pUeLkDp9YQ=
+X-Google-Smtp-Source: APXvYqyOsp7p6JwozUmVXQuc4+FOZiuZOdfrYdOsl49jAZxleWeuv4b0DUyHVUL2cjTUl9eiphUAXQ==
+X-Received: by 2002:a63:5a64:: with SMTP id k36mr64306167pgm.323.1577574701551; 
+ Sat, 28 Dec 2019 15:11:41 -0800 (PST)
 Received: from localhost.localdomain (194-223-58-9.tpgi.com.au. [194.223.58.9])
- by smtp.gmail.com with ESMTPSA id c18sm21077186pfr.40.2019.12.28.15.11.35
+ by smtp.gmail.com with ESMTPSA id c18sm21077186pfr.40.2019.12.28.15.11.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Dec 2019 15:11:38 -0800 (PST)
+ Sat, 28 Dec 2019 15:11:40 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/29] target/xtensa: Use probe_access for itlb_hit_test
-Date: Sun, 29 Dec 2019 10:10:56 +1100
-Message-Id: <20191228231124.18307-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 02/29] cputlb: Use trace_mem_get_info instead of
+ trace_mem_build_info
+Date: Sun, 29 Dec 2019 10:10:57 +1100
+Message-Id: <20191228231124.18307-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191228231124.18307-1-richard.henderson@linaro.org>
 References: <20191228231124.18307-1-richard.henderson@linaro.org>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,44 +79,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't actually need the result of the read, only to probe that the
-memory mapping exists.  This is exactly what probe_access does.
+In the cpu_ldst templates, we already require a MemOp, and it
+is cleaner and clearer to pass that instead of 3 separate
+arguments describing the memory operation.
 
-This is also the only user of any cpu_ld*_code_ra function.
-Removing this allows the interface to be removed shortly.
-
-Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/xtensa/mmu_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/exec/cpu_ldst_template.h          | 22 +++++++++++-----------
+ include/exec/cpu_ldst_useronly_template.h | 12 ++++++------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/target/xtensa/mmu_helper.c b/target/xtensa/mmu_helper.c
-index f15bff306f..b01ff9399a 100644
---- a/target/xtensa/mmu_helper.c
-+++ b/target/xtensa/mmu_helper.c
-@@ -63,10 +63,11 @@
- void HELPER(itlb_hit_test)(CPUXtensaState *env, uint32_t vaddr)
- {
-     /*
--     * Attempt the memory load; we don't care about the result but
-+     * Probe the memory; we don't care about the result but
-      * only the side-effects (ie any MMU or other exception)
-      */
--    cpu_ldub_code_ra(env, vaddr, GETPC());
-+    probe_access(env, vaddr, 1, MMU_INST_FETCH,
-+                 cpu_mmu_index(env, true), GETPC());
- }
+diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_template.h
+index 54b5e858ce..0ad5de3ef9 100644
+--- a/include/exec/cpu_ldst_template.h
++++ b/include/exec/cpu_ldst_template.h
+@@ -86,9 +86,9 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     RES_TYPE res;
+     target_ulong addr;
+     int mmu_idx = CPU_MMU_INDEX;
+-    TCGMemOpIdx oi;
++    MemOp op = MO_TE | SHIFT;
+ #if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, false, mmu_idx);
++    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+ #endif
  
- void HELPER(wsr_rasid)(CPUXtensaState *env, uint32_t v)
+@@ -96,9 +96,9 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     entry = tlb_entry(env, mmu_idx, addr);
+     if (unlikely(entry->ADDR_READ !=
+                  (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        oi = make_memop_idx(SHIFT, mmu_idx);
++        TCGMemOpIdx oi = make_memop_idx(op, mmu_idx);
+         res = glue(glue(helper_ret_ld, URETSUFFIX), MMUSUFFIX)(env, addr,
+-                                                            oi, retaddr);
++                                                               oi, retaddr);
+     } else {
+         uintptr_t hostaddr = addr + entry->addend;
+         res = glue(glue(ld, USUFFIX), _p)((uint8_t *)hostaddr);
+@@ -125,9 +125,9 @@ glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     int res;
+     target_ulong addr;
+     int mmu_idx = CPU_MMU_INDEX;
+-    TCGMemOpIdx oi;
+-#if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, true, MO_TE, false, mmu_idx);
++    MemOp op = MO_TE | MO_SIGN | SHIFT;
++#ifndef SOFTMMU_CODE_ACCESS
++    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+ #endif
+ 
+@@ -135,7 +135,7 @@ glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     entry = tlb_entry(env, mmu_idx, addr);
+     if (unlikely(entry->ADDR_READ !=
+                  (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        oi = make_memop_idx(SHIFT, mmu_idx);
++        TCGMemOpIdx oi = make_memop_idx(op & ~MO_SIGN, mmu_idx);
+         res = (DATA_STYPE)glue(glue(helper_ret_ld, SRETSUFFIX),
+                                MMUSUFFIX)(env, addr, oi, retaddr);
+     } else {
+@@ -167,9 +167,9 @@ glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     CPUTLBEntry *entry;
+     target_ulong addr;
+     int mmu_idx = CPU_MMU_INDEX;
+-    TCGMemOpIdx oi;
++    MemOp op = MO_TE | SHIFT;
+ #if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, true, mmu_idx);
++    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, true);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+ #endif
+ 
+@@ -177,7 +177,7 @@ glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     entry = tlb_entry(env, mmu_idx, addr);
+     if (unlikely(tlb_addr_write(entry) !=
+                  (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        oi = make_memop_idx(SHIFT, mmu_idx);
++        TCGMemOpIdx oi = make_memop_idx(op, mmu_idx);
+         glue(glue(helper_ret_st, SUFFIX), MMUSUFFIX)(env, addr, v, oi,
+                                                      retaddr);
+     } else {
+diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu_ldst_useronly_template.h
+index dbdc7a845d..e5a3d1983a 100644
+--- a/include/exec/cpu_ldst_useronly_template.h
++++ b/include/exec/cpu_ldst_useronly_template.h
+@@ -70,8 +70,8 @@ glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+     ret = glue(glue(ld, USUFFIX), _p)(g2h(ptr));
+     clear_helper_retaddr();
+ #else
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, false,
+-                                            MMU_USER_IDX);
++    MemOp op = MO_TE | SHIFT;
++    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+     ret = glue(glue(ld, USUFFIX), _p)(g2h(ptr));
+ #endif
+@@ -102,8 +102,8 @@ glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+     ret = glue(glue(lds, SUFFIX), _p)(g2h(ptr));
+     clear_helper_retaddr();
+ #else
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, true, MO_TE, false,
+-                                            MMU_USER_IDX);
++    MemOp op = MO_TE | MO_SIGN | SHIFT;
++    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+     ret = glue(glue(lds, SUFFIX), _p)(g2h(ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+@@ -131,8 +131,8 @@ static inline void
+ glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr,
+                                       RES_TYPE v)
+ {
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, true,
+-                                            MMU_USER_IDX);
++    MemOp op = MO_TE | SHIFT;
++    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, true);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+     glue(glue(st, SUFFIX), _p)(g2h(ptr), v);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
 -- 
 2.20.1
 
