@@ -2,63 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DD212CB51
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Dec 2019 00:17:43 +0100 (CET)
-Received: from localhost ([::1]:55894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD31212CB57
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Dec 2019 00:20:03 +0100 (CET)
+Received: from localhost ([::1]:55919 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ilhob-0006j7-Ko
-	for lists+qemu-devel@lfdr.de; Sun, 29 Dec 2019 18:17:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41215)
+	id 1ilhqs-000080-SO
+	for lists+qemu-devel@lfdr.de; Sun, 29 Dec 2019 18:20:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ilhmx-0006HM-Aq
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 18:16:00 -0500
+ id 1ilhpo-00089x-MQ
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 18:18:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ilhmw-0002Jd-3H
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 18:15:59 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:42061)
+ id 1ilhpm-0006UY-56
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 18:18:56 -0500
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:47101)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ilhmv-0002Iw-Va
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 18:15:58 -0500
-Received: by mail-yw1-f68.google.com with SMTP id x138so13489942ywd.9
- for <qemu-devel@nongnu.org>; Sun, 29 Dec 2019 15:15:57 -0800 (PST)
+ id 1ilhpm-0006TR-0b
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 18:18:54 -0500
+Received: by mail-yb1-f196.google.com with SMTP id k128so2508743ybc.13
+ for <qemu-devel@nongnu.org>; Sun, 29 Dec 2019 15:18:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4muagDWPqCJzbtOgkWuKuhfOywclUY0y4uXBo7SEil0=;
- b=Urrr2J03Yv+t+2f+hNuTuGlpAsclfWyTWR8Sz6L0gNniHuVWZQ+b4QrZKCjbxrqgNT
- pByznzQVqb2Qi6WLVtqRYA7UrzZUDMQeosjh7vui1GzXmuCtajhm7sds56KuTtkytriB
- R76AW39kdo0rWsYkVpZs+0hThkugPlZ0xMWluJay+dkNw4Ixz6JreoR+MKc74ypSdvaL
- P3CGHM8uiKx5GjnXV0pwehh9k/WKTtH4cN822shLdZh5pDnIiENRNBVP6CFSYAt9NYV4
- HBi8/dQEMFWWoyx6x793tp6cIeLiy82gHnUFwo7fV3pqMFd9CnJqNeTNQaKUUe9bfG92
- E3gQ==
-X-Gm-Message-State: APjAAAXsm1T7xgxHDIfZh6+nofBCQ079kLiaBJKHcA6dL9mJCX6nI+oj
- gfZ+4apm/r8IhJuSyNjbbCxuUMCnvRDP10jWcPg=
-X-Google-Smtp-Source: APXvYqxODyKO6PlreH4qal+980/pQykrdTMAmooIiHVFStsL0NFCQ4m8zNt+gBHKkxIz5xxw+t92teqAyw3f9l+7SmA=
-X-Received: by 2002:a81:ac55:: with SMTP id z21mr48536324ywj.499.1577661356991; 
- Sun, 29 Dec 2019 15:15:56 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=FVD/vhmxptTs5QmedKsL2Cibw7NX9ARIffFjDSdz3Gs=;
+ b=TRACIeMTmtO5pNJT9VKE0nVmwG/hImoCoIZCT5sjNjImlCPncvxmCGVlJ9zfP+exEw
+ 2dPQt0ZujwLr5RHPS+PfpymhJHC76JrTmIhAwFnH7ZTc6HOQEP0LTILSiciy/BbS5daN
+ 5FnM1RvJiW5hmU80Gj8banj8CQv9cHH+Vx+2HAWzn/zJmhRtkRNOFR5ya9RG3W34FZSD
+ gqMNEUo2s+On0ZJZ5wlNBXT37ud7DFmGO0rMt4ijVWMTpL7iS3VbDuKA1LZyr/lVFMMX
+ ysByHhCxxUziJlnGnXNcPmlvYB+k7soTZyb+LKmpA+/XeogAFdop1ZcTtkvFsooLT5Z7
+ 163A==
+X-Gm-Message-State: APjAAAVLnIPbGLdE6E0HJGfTAEfJBa9xgdzMqPgicgM6Y1RjQqMXKOig
+ nCyLEdfULnnWFLbQjW7TQRcgagXvx8oo+Y8518UlMJr4p18=
+X-Google-Smtp-Source: APXvYqw7KtEifJOayWBYruByl+nQ/wjACqCA5l9tlkJbjtyczlN4xstvFij39+G3xCYJDOYFpJ1FXMX56ziEMhKsCtY=
+X-Received: by 2002:a25:3182:: with SMTP id x124mr6317525ybx.323.1577661533028; 
+ Sun, 29 Dec 2019 15:18:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20191220211512.3289-1-svens@stackframe.org>
- <20191220211512.3289-6-svens@stackframe.org>
- <8e0f79d6-46ba-a121-b6cc-8c0a5cc4ea14@amsat.org>
- <20191223175006.GA17323@t470p.stackframe.org>
- <37033554-7247-8301-a527-c48f6d74b91a@redhat.com>
- <851902ba-8b89-09ac-b16f-bd6a99cb2c30@gmx.de>
-In-Reply-To: <851902ba-8b89-09ac-b16f-bd6a99cb2c30@gmx.de>
+References: <20191229224505.24466-1-f4bug@amsat.org>
+ <157766026188.19009.2772418918814016586@37313f22b938>
+In-Reply-To: <157766026188.19009.2772418918814016586@37313f22b938>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 30 Dec 2019 00:15:46 +0100
-Message-ID: <CAAdtpL5RdbFFWbRvfXSKv7Z8_f6R+s_Ljo-pvKb5xdSG2hMkaQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] hppa: Add emulation of Artist graphics
-To: Helge Deller <deller@gmx.de>
+Date: Mon, 30 Dec 2019 00:18:40 +0100
+Message-ID: <CAAdtpL6pg7zCkrcb5kmZ=mxBucJOmah8cORFQf=tW8FOWMQW3w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] hw/avr: Introduce the Arduino boards
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, patchew-devel@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.161.68
+X-Received-From: 209.85.219.196
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,73 +66,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sven Schnelle <svens@stackframe.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Michael Rolnik <mrolnik@gmail.com>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 27, 2019 at 9:58 PM Helge Deller <deller@gmx.de> wrote:
-> On 24.12.19 01:18, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 12/23/19 6:50 PM, Sven Schnelle wrote:
-> >> Hi Philippe,
-> >>
-> >> On Sun, Dec 22, 2019 at 01:37:48PM +0100, Philippe Mathieu-Daud=C3=A9 =
-wrote:
-> >>>>   +    if (vga_interface_type !=3D VGA_NONE) {
-> >>>> +        dev =3D qdev_create(NULL, "artist");
-> >>>> +        qdev_init_nofail(dev);
-> >>>> +        s =3D SYS_BUS_DEVICE(dev);
-> >>>> +        sysbus_mmio_map(s, 0, LASI_GFX_HPA);
-> >>>> +        sysbus_mmio_map(s, 1, ARTIST_FB_ADDR);
-> >>>
-> >>> How is this chipset connected on the board?
-> >>> If it is a card you can plug on a bus, you can use a condition.
-> >>> If it is soldered or part of another chipset, then it has to be mappe=
-d
-> >>> unconditionally.
-> >>
-> >> Depends on the Model. Hp 9000 712 and 715 had it onboard, for the B160=
-L
-> >> we're emulating and others it was a GSC add-on card.
-> >
-> > The B160L case is unclear, do you mean this is not the chipset on the m=
-achine, but the software is happy if another chipset is available?
-> >
-> > Looking at hw/hppa/ I only see one machine:
-> >
-> >   static void machine_hppa_machine_init(MachineClass *mc)
-> >   {
-> >       mc->desc =3D "HPPA generic machine";
-> >       ...
-> >   }
-> >   DEFINE_MACHINE("hppa", machine_hppa_machine_init)
-> >
-> > Are you saying this generic machine is able to run different physical h=
-w? Why not add them? This shouldn't take long and it would be clearer, what=
- do you think?
-> >
-> > Adding different machines here in QEMU mostly mean add a class which de=
-clare the different properties used by each machine. Igor Mammedov recently=
- suggested to follow the example of aspeed_machine_types[] in hw/arm/aspeed=
-.c.
->
-> Yes, we plan to add specific machines like 712 (or 715), and maybe a
-> C3000 or B2000 over time, as needed device emulations (e.g. tulip, artist=
-)
-> gets accepted.
-> But for that it would be very beneficial if changes (like the Artist emul=
-ation
-> here in this thread) would be accepted faster upstream....
+On Sun, Dec 29, 2019 at 11:58 PM <no-reply@patchew.org> wrote:
+> This series failed the docker-quick@centos7 build test. Please find the testing commands and
+> their output below. If you have Docker installed, you can probably reproduce it
+> locally.
+> Please send your feedback to patchew-devel@redhat.com
 
-IMHO the HPPA patches are merged quicker than various other subsystems...
-From the cover, this series contains "3311 insertions". If you do the
-ratio lines per patch / time for a patch to get accepted, you are not
-that bad ;)
+Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+From https://github.com/patchew-project/qemu
+ - [tag update]      patchew/20191229215158.5788-1-mrolnik@gmail.com
+-> patchew/20191229215158.5788-1-mrolnik@gmail.com
+ * [new tag]         patchew/20191229224505.24466-1-f4bug@amsat.org ->
+patchew/20191229224505.24466-1-f4bug@amsat.org
+fatal: failed to write ref-pack file
+fatal: The remote end hung up unexpectedly
 
-To be constructive, how do you think we can improve?
-Looking at the git history, except global refactors, I see only 3
-contributors, Richard (who merges your patches), you and Sven.
-2 users so far, + Richard as tester.
+Is patchew disk full?
 
