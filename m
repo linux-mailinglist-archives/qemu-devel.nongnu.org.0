@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD4912C027
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 03:58:41 +0100 (CET)
-Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A7312C02B
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 03:59:35 +0100 (CET)
+Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ilOmu-0001kE-6z
-	for lists+qemu-devel@lfdr.de; Sat, 28 Dec 2019 21:58:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57555)
+	id 1ilOnm-0002kd-HR
+	for lists+qemu-devel@lfdr.de; Sat, 28 Dec 2019 21:59:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ilOlr-0001Bj-7n
- for qemu-devel@nongnu.org; Sat, 28 Dec 2019 21:57:36 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ilOmf-0001qr-7O
+ for qemu-devel@nongnu.org; Sat, 28 Dec 2019 21:58:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ilOlq-0007OG-7l
- for qemu-devel@nongnu.org; Sat, 28 Dec 2019 21:57:35 -0500
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:40426)
+ (envelope-from <richard.henderson@linaro.org>) id 1ilOme-0000io-5a
+ for qemu-devel@nongnu.org; Sat, 28 Dec 2019 21:58:25 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:38783)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ilOlq-0007Lu-0A
- for qemu-devel@nongnu.org; Sat, 28 Dec 2019 21:57:34 -0500
-Received: by mail-pl1-x643.google.com with SMTP id s21so10597770plr.7
- for <qemu-devel@nongnu.org>; Sat, 28 Dec 2019 18:57:33 -0800 (PST)
+ id 1ilOme-0000gm-0G
+ for qemu-devel@nongnu.org; Sat, 28 Dec 2019 21:58:24 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id l35so6702399pje.3
+ for <qemu-devel@nongnu.org>; Sat, 28 Dec 2019 18:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yLaqwPIFuNuKqoOfcXmFF2FZpBhCNI7L5ivEi70Tx7A=;
- b=NbA0oMwyNZ+xHiqx6KaWXfxDiL+pOlrQaZiXHwVeym3kJzJFrKbLErxhcRKN5lnWwQ
- pu36YjNLL/9jjXLwB0yRA7HPW2AK1G5TJxE20vcLRVBsCOLm7iqI5VbEctvNdZVwukrA
- tKUJrGKmNdGdlw1izmxlYjtYAP5w1viZr7XVSPz/KiQ+rG7ROmv+UIwpI1Lcq2/q9/61
- kkAuXipaTjXcsUzYpwQfiKRbBrorAK6eBEfb10a794gVrLnz5nHZgdz+SpTQor0+R1wR
- ePugyLpAxwR7J/ymPr8kZQimGyzyJOUiCz8ELa7zQkro0TtyKB3tTtiz7HGkrWxwifLT
- A+3Q==
+ bh=sKTtw6iLCBEzEWlSLDwQfYCTUbvbbN6mdX1NAs6ay7c=;
+ b=H70OHFsrftMWCZ+UDyLDurr+aPNwErsai9BBFaX7OZuBVJHeCw+YhsseNa5qig4qul
+ My0e593G5MjbbDkLwwQloDRfWc+3JiehgSohGtCNBR2nWZnWxWEaUvecQko5aMs3Yexv
+ z2e2Vt4EdGebmCa0BH6ctK9zDDOjbatoG4DD2BLPjhRwauYxM1kr248IeiYMKIyQbObN
+ 9X4/tP2/XwqCX/a5Ymz65w8CnV4FSGPEXN90wnIsVmf+Bk5b8p/nfazfoMp3Jy41KuwL
+ HF2N0pfvX3C0rwWaMZ+/3+37gmORQ1FmcUJRat1GvYV7t+YFh60Yvwdt1aGGTCTj+B43
+ MO7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yLaqwPIFuNuKqoOfcXmFF2FZpBhCNI7L5ivEi70Tx7A=;
- b=nrMV+MWoLUHs+cIoBQVC/DCFcpwUJOodxwVkXFxHDJ4PAIkr275vuQ3r506Y5WEu7R
- azvHvDMMep6AMOVvUg9tsYg54qmqEHPRVOxluwCdJQ0OhnP84hIQIQEPmHfLqn5h7pDy
- 463YHAX+l+HtGdCE7eU9XhVUEsThRvaMU2QlI+I4091hHnw7FnDXcwRDzH1w5BPigpD1
- trAiYhH+X61Ro+/EALWe6apO4CVsH7ZVNV9kSZZmz00v8PCK8fU2QhozkhY3iyKs92p7
- +R6SXcmO2s+oSSRZt+QLR+ZVq7+OcjSUmslnhCAYkKlcSbSygSyyixUFyRcPHH5wpPcf
- oUWw==
-X-Gm-Message-State: APjAAAUVabcAsO5FBYrWlXXud4C7rJ8SHp3TPYraCtkujpz7lIjho2xj
- vrlvKjjxGUTpTUF/9lncdGqwWw==
-X-Google-Smtp-Source: APXvYqwHLFGBtdQq3j/i+kaQWDuhG9WqLrDYK3G6uy+PcAqmC0j/2qwGQruwkABv4sH3+ivN+2VuJQ==
-X-Received: by 2002:a17:902:760e:: with SMTP id
- k14mr62031009pll.238.1577588252927; 
- Sat, 28 Dec 2019 18:57:32 -0800 (PST)
+ bh=sKTtw6iLCBEzEWlSLDwQfYCTUbvbbN6mdX1NAs6ay7c=;
+ b=jz9Q6U4SGum798HufFVdAL7YcbIwFmI+7GyJG0k2fsOMp7RER8aXAqw+ZxAY5l1yj5
+ GzsEimK+do1M4r+3G7f4M22aCJvGlNYRlVnzOxfi2X6nz1vmHY3tx01FK+I4LjRRKk8s
+ RnMeco51P7wxYgEeAOIlp4M/aLauBVmc3aOHp36mjd7Ph1X3y5hEDZdEy9r6uU/D4+Kh
+ R+jLYhXphBqxPAZxeVkJTYH2RvUqnWQgLafPpKjJcm65UlMP4mioqYa2etMVVym6f2Fn
+ x/UqW9eu9syirxB4TBMmFe2x7z3sifsSwv4pHg8zmvbMUZf29L4j2tzRYOkk6b8tV9qV
+ fffQ==
+X-Gm-Message-State: APjAAAUlWGyltq8Xx1x7WU461afq7nlvwjUmW/Tfpn56KtcTC06tBA4r
+ /ty2mez4KPPUZhinE5saAwsnFA==
+X-Google-Smtp-Source: APXvYqwZX7YM1CM5Aw6RCoQfQjKAHAnIC3xDHjYOmV0bqMLkst+9ANruVM+de+7AdO65vBs5ufcyyg==
+X-Received: by 2002:a17:90a:aa84:: with SMTP id
+ l4mr36952343pjq.143.1577588303071; 
+ Sat, 28 Dec 2019 18:58:23 -0800 (PST)
 Received: from [192.168.1.118] (194-223-58-9.tpgi.com.au. [194.223.58.9])
- by smtp.gmail.com with ESMTPSA id q15sm42618719pgi.55.2019.12.28.18.57.29
+ by smtp.gmail.com with ESMTPSA id x11sm44613813pfn.53.2019.12.28.18.58.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Dec 2019 18:57:32 -0800 (PST)
-Subject: Re: [PATCH v2 4/5] tests/tcg: add a dumb-as-bricks semihosting
- console test
+ Sat, 28 Dec 2019 18:58:22 -0800 (PST)
+Subject: Re: [PATCH v2 3/5] semihosting: add qemu_semihosting_console_inc for
+ SYS_READC
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20191220132246.6759-1-alex.bennee@linaro.org>
- <20191220132246.6759-5-alex.bennee@linaro.org>
+ <20191220132246.6759-4-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <557f36ea-159f-ebb2-b7aa-e96b0844e1ae@linaro.org>
-Date: Sun, 29 Dec 2019 13:57:26 +1100
+Message-ID: <d2332616-1bef-fd80-817a-0c9c75f89162@linaro.org>
+Date: Sun, 29 Dec 2019 13:58:15 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191220132246.6759-5-alex.bennee@linaro.org>
+In-Reply-To: <20191220132246.6759-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,33 +86,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, keithp@keithp.com,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/21/19 12:22 AM, Alex Bennée wrote:
-> We don't run this during check-tcg as we would need to check stuff is
-> echoed back. However we can still build the binary so people can test
-> it manually.
+> From: Keith Packard <keithp@keithp.com>
 > 
+> Provides a blocking call to read a character from the console using
+> semihosting.chardev, if specified. This takes some careful command
+> line options to use stdio successfully as the serial ports, monitor
+> and semihost all want to use stdio. Here's a sample set of command
+> line options which share stdio between semihost, monitor and serial
+> ports:
+> 
+> 	qemu \
+> 	-chardev stdio,mux=on,id=stdio0 \
+> 	-serial chardev:stdio0 \
+> 	-semihosting-config enable=on,chardev=stdio0 \
+> 	-mon chardev=stdio0,mode=readline
+> 
+> This creates a chardev hooked to stdio and then connects all of the
+> subsystems to it. A shorter mechanism would be good to hear about.
+> 
+> Signed-off-by: Keith Packard <keithp@keithp.com>
+> Message-Id: <20191104204230.12249-1-keithp@keithp.com>
+> [AJB: fixed up deadlock, minor commit title reword]
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> ---
-> v8
->   - actually return the result!
-> ---
->  tests/tcg/aarch64/system/semiconsole.c    | 38 +++++++++++++++++++++++
->  tests/tcg/aarch64/Makefile.softmmu-target |  9 +++++-
->  2 files changed, 46 insertions(+), 1 deletion(-)
->  create mode 100644 tests/tcg/aarch64/system/semiconsole.c
-
-There probably is a way to easily test this with python, but I don't want to
-write that script either, so.
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Keith Packard <keithp@keithp.com>
+> Tested-by: Keith Packard <keithp@keithp.com>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-:-)
 
 
 r~
