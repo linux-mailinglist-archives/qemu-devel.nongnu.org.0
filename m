@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F3712CB13
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 23:02:51 +0100 (CET)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE22012CB11
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 23:01:36 +0100 (CET)
+Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ilgeA-0001O4-NW
-	for lists+qemu-devel@lfdr.de; Sun, 29 Dec 2019 17:02:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33541)
+	id 1ilgcx-00007Z-EZ
+	for lists+qemu-devel@lfdr.de; Sun, 29 Dec 2019 17:01:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1ilgUh-0007OF-A2
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:04 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ilgUr-0007cy-Fn
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1ilgUg-0003LM-3r
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:03 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42871)
+ (envelope-from <mrolnik@gmail.com>) id 1ilgUp-0003mo-8H
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:13 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51753)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ilgUf-0003J9-U0
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:02 -0500
-Received: by mail-wr1-x444.google.com with SMTP id q6so31132138wro.9
- for <qemu-devel@nongnu.org>; Sun, 29 Dec 2019 13:53:01 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ilgUp-0003l7-0j
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:11 -0500
+Received: by mail-wm1-x344.google.com with SMTP id d73so12639833wmd.1
+ for <qemu-devel@nongnu.org>; Sun, 29 Dec 2019 13:53:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xpfZgnT26wh6XP4aMAQe8AQUYeKm0us2smWVQbWZbdE=;
- b=ld0faP6Gp8uEps0TBsuZ1Ln53yQ2Efbcl8NOVGYMRaXmv2f5Je1Y0/AW2UO0ZEOLBI
- mLE1lE5O+93CuUaX6NaxxEJu+wqvvXc5snjjV83plkZKX/vSl0LeanreQFoAwoheQCh8
- 21110+xujhjPR+lPV6+YYqIf2IDPKACtGbk6sFkvYMkzvc5TP/BYl7EgRRkFjzrWEg2r
- dXWdgV8ym5g057USVCv8fNTQP+nJ06LuHqU8Q+rECerLfK4HC0qp8k0OzsbuZw6ZuaCe
- fhgn+tXof+PDjL9AggiPUGn759O/U47qB5YosinOwQ12EThIh8LjQeqwumHM7PVTuirm
- wWIQ==
+ bh=fiDJnfw8KuN71OMSUCFWBmBl80J4Xx3JLR0YGBv3k54=;
+ b=k3nMAQ4rUoqvPngcp/iPZ1cegBDDf2tCTlT0PegyXI5Rr/rlASs2VvIsjZpDbCrzA7
+ 4bmQg0NIBAMb5ijnWwYxZtvo50bwyM6SSx3847V+w44LKTa/aVcCGEKCzn3Nd7Pdeimy
+ xZ8IBvcgEsCrO6ywF5koNfQ7IMplW9RbQNMGl8l2LTdyvmOF5E5hpD6FD3gWgMJLiGZD
+ eCMSrDcmWWSSNJhG+hFvvfohFaeMMGqhkf0FjT139LmVTfWFxX2lOEd4UIJwNMnfnY9/
+ zkRE1tdhlhqZvrFWQ8nVCSCWRZ5YG6YWrY7933kMh0Usx84dKJgSeVeLUBoFqIWxFnmQ
+ PQxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xpfZgnT26wh6XP4aMAQe8AQUYeKm0us2smWVQbWZbdE=;
- b=gBdR8eE1N83OgO99VjfVQOMmMCsnwZ5iXlHZuYLc8GHCHFDma+WQGAkTjGFiIlW6Pj
- LfHB+v+LHdNt9UGu/1cuqFw0J0gBSF8v0gNIW7X+2JXW8bYK8fYlCq2KHcsQLXKmvFHO
- Zh5DL0eEghluKgVAdXAVKd7a2Df+eZiSleHocwQFzUvp+/SPeEIdx9jsJRUucqYmmzyV
- lcyoyP9t2weCuYDupFBItgQIMKPYaI4ZUoaxV5hDPmCQKp7RlMfkVTAJzIp9/nRH+ZtX
- nPziUXBYIotY7xHJqz9szOxHbhq1EyTrjuBEwct+67+eCB60rUQsFVjOwZ4iufGQSGk3
- IAbg==
-X-Gm-Message-State: APjAAAWeAM9yAcdeBx3iT2F/7Lzxz2XmD1Xq9XaBOh6eaqZ3DJ3co/4V
- UmyypD6HRmfmXd7fCnwT2SLJgzrKNHlkew==
-X-Google-Smtp-Source: APXvYqzSy9147ZUIAvJa/t6KXRIrOimxkjQlUIdylexapI9HHnxsUDRje2nTnZbPtrsg+R0LS1zSUQ==
-X-Received: by 2002:adf:fd91:: with SMTP id d17mr66286554wrr.340.1577656380760; 
- Sun, 29 Dec 2019 13:53:00 -0800 (PST)
+ bh=fiDJnfw8KuN71OMSUCFWBmBl80J4Xx3JLR0YGBv3k54=;
+ b=pj0ddsFsDcY8XJtSBAgA+tW7Z0RO2sIN6wYtWP1RpQ6dP4K77u7ghdJzmS1kBWJRcL
+ bGoJVI2+5TU/d/qhxJzYsYjOuytyyO0T+Kl3YAWaIgK8ZpQM4Izv67h+meeRekNmcUcS
+ 8T80JbVgHAHJmhzr0JNkJPu1k/zrg+rmIORHgz6YxEMBLsehEDRMVOPJK8FkC/urwSnA
+ k9FGujEaBkQjNAwjGtijYSeewJ0fbRjXATAygD0N+yyeIH9Nfkfv9dGs2mrQQawLunhN
+ gafszaL+nABGQgd8QnJ7SxrGgNCFkNBcGtYcj+zCb5jyibK6FIrY3dI54G/i6AgC82lo
+ UAEA==
+X-Gm-Message-State: APjAAAVi9RyUd7dQdQF3tc2kMTE25AMrk2Dwb6ap8z3fhdxQL0cRytjz
+ 1pXITILpWCZZhJI97FACtn/m0/J4pXDo/w==
+X-Google-Smtp-Source: APXvYqzqeKKeMmtWzZX+j3VWMM69RnZklTEnTLy9E76FDMqHErlKAKYOxwZbJp2gcRI8pZ63KJwd2w==
+X-Received: by 2002:a7b:c00c:: with SMTP id c12mr30549617wmb.174.1577656389696; 
+ Sun, 29 Dec 2019 13:53:09 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-79-183-93-3.red.bezeqint.net. [79.183.93.3])
- by smtp.gmail.com with ESMTPSA id 25sm18182850wmi.32.2019.12.29.13.52.57
+ by smtp.gmail.com with ESMTPSA id 25sm18182850wmi.32.2019.12.29.13.53.07
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sun, 29 Dec 2019 13:53:00 -0800 (PST)
+ Sun, 29 Dec 2019 13:53:09 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v40 08/21] target/avr: Add instruction translation - MCU
- Control Instructions
-Date: Sun, 29 Dec 2019 23:51:45 +0200
-Message-Id: <20191229215158.5788-9-mrolnik@gmail.com>
+Subject: [PATCH v40 11/21] hw/avr: Add limited support for USART peripheral
+Date: Sun, 29 Dec 2019 23:51:48 +0200
+Message-Id: <20191229215158.5788-12-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20191229215158.5788-1-mrolnik@gmail.com>
 References: <20191229215158.5788-1-mrolnik@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,116 +75,473 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
- me@xcancerberox.com.ar, richard.henderson@linaro.org, dovgaluk@ispras.ru,
- imammedo@redhat.com, philmd@redhat.com, aleksandar.m.mail@gmail.com
+ me@xcancerberox.com.ar, richard.henderson@linaro.org,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, dovgaluk@ispras.ru, imammedo@redhat.com,
+ philmd@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
-    - BREAK
-    - NOP
-    - SLEEP
-    - WDR
+These were designed to facilitate testing but should provide enough function to be useful in other contexts.
+Only a subset of the functions of each peripheral is implemented, mainly due to the lack of a standard way to handle electrical connections (like GPIO pins).
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
 ---
- target/avr/translate.c | 68 ++++++++++++++++++++++++++++++++++++++++++
- target/avr/insn.decode |  9 ++++++
- 2 files changed, 77 insertions(+)
+ include/hw/char/avr_usart.h |  93 +++++++++++
+ hw/char/avr_usart.c         | 320 ++++++++++++++++++++++++++++++++++++
+ hw/char/Kconfig             |   3 +
+ hw/char/Makefile.objs       |   1 +
+ 4 files changed, 417 insertions(+)
+ create mode 100644 include/hw/char/avr_usart.h
+ create mode 100644 hw/char/avr_usart.c
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 55706c6b29..246f9e7e47 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -2681,3 +2681,71 @@ static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
- 
-     return true;
- }
-+
+diff --git a/include/hw/char/avr_usart.h b/include/hw/char/avr_usart.h
+new file mode 100644
+index 0000000000..467e97e8c0
+--- /dev/null
++++ b/include/hw/char/avr_usart.h
+@@ -0,0 +1,93 @@
 +/*
-+ * MCU Control Instructions
++ * AVR USART
++ *
++ * Copyright (c) 2018 University of Kent
++ * Author: Sarah Harris
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
 + */
 +
++#ifndef HW_AVR_USART_H
++#define HW_AVR_USART_H
++
++#include "hw/sysbus.h"
++#include "chardev/char-fe.h"
++#include "hw/hw.h"
++
++/* Offsets of registers. */
++#define USART_DR   0x06
++#define USART_CSRA  0x00
++#define USART_CSRB  0x01
++#define USART_CSRC  0x02
++#define USART_BRRH 0x05
++#define USART_BRRL 0x04
++
++/* Relevant bits in regiters. */
++#define USART_CSRA_RXC    (1 << 7)
++#define USART_CSRA_TXC    (1 << 6)
++#define USART_CSRA_DRE    (1 << 5)
++#define USART_CSRA_MPCM   (1 << 0)
++
++#define USART_CSRB_RXCIE  (1 << 7)
++#define USART_CSRB_TXCIE  (1 << 6)
++#define USART_CSRB_DREIE  (1 << 5)
++#define USART_CSRB_RXEN   (1 << 4)
++#define USART_CSRB_TXEN   (1 << 3)
++#define USART_CSRB_CSZ2   (1 << 2)
++#define USART_CSRB_RXB8   (1 << 1)
++#define USART_CSRB_TXB8   (1 << 0)
++
++#define USART_CSRC_MSEL1  (1 << 7)
++#define USART_CSRC_MSEL0  (1 << 6)
++#define USART_CSRC_PM1    (1 << 5)
++#define USART_CSRC_PM0    (1 << 4)
++#define USART_CSRC_CSZ1   (1 << 2)
++#define USART_CSRC_CSZ0   (1 << 1)
++
++#define TYPE_AVR_USART "avr-usart"
++#define AVR_USART(obj) \
++    OBJECT_CHECK(AVRUsartState, (obj), TYPE_AVR_USART)
++
++typedef struct {
++    /* <private> */
++    SysBusDevice parent_obj;
++
++    /* <public> */
++    MemoryRegion mmio;
++
++    CharBackend chr;
++
++    bool enabled;
++
++    uint8_t data;
++    bool data_valid;
++    uint8_t char_mask;
++    /* Control and Status Registers */
++    uint8_t csra;
++    uint8_t csrb;
++    uint8_t csrc;
++    /* Baud Rate Registers (low/high byte) */
++    uint8_t brrh;
++    uint8_t brrl;
++
++    /* Receive Complete */
++    qemu_irq rxc_irq;
++    /* Transmit Complete */
++    qemu_irq txc_irq;
++    /* Data Register Empty */
++    qemu_irq dre_irq;
++} AVRUsartState;
++
++#endif /* HW_AVR_USART_H */
+diff --git a/hw/char/avr_usart.c b/hw/char/avr_usart.c
+new file mode 100644
+index 0000000000..cb307fe23d
+--- /dev/null
++++ b/hw/char/avr_usart.c
+@@ -0,0 +1,320 @@
 +/*
-+ *  The BREAK instruction is used by the On-chip Debug system, and is
-+ *  normally not used in the application software. When the BREAK instruction is
-+ *  executed, the AVR CPU is set in the Stopped Mode. This gives the On-chip
-+ *  Debugger access to internal resources.  If any Lock bits are set, or either
-+ *  the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will treat the BREAK
-+ *  instruction as a NOP and will not enter the Stopped mode.  This instruction
-+ *  is not available in all devices. Refer to the device specific instruction
-+ *  set summary.
++ * AVR USART
++ *
++ * Copyright (c) 2018 University of Kent
++ * Author: Sarah Harris
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
 + */
-+static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
++
++#include "qemu/osdep.h"
++#include "hw/char/avr_usart.h"
++#include "qemu/log.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++
++static int avr_usart_can_receive(void *opaque)
 +{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {
-+        return true;
++    AVRUsartState *usart = opaque;
++
++    if (usart->data_valid || !(usart->csrb & USART_CSRB_RXEN)) {
++        return 0;
++    }
++    return 1;
++}
++
++static void avr_usart_receive(void *opaque, const uint8_t *buffer, int size)
++{
++    AVRUsartState *usart = opaque;
++    assert(size == 1);
++    assert(!usart->data_valid);
++    usart->data = buffer[0];
++    usart->data_valid = true;
++    usart->csra |= USART_CSRA_RXC;
++    if (usart->csrb & USART_CSRB_RXCIE) {
++        qemu_set_irq(usart->rxc_irq, 1);
++    }
++}
++
++static void update_char_mask(AVRUsartState *usart)
++{
++    uint8_t mode = ((usart->csrc & USART_CSRC_CSZ0) ? 1 : 0) |
++        ((usart->csrc & USART_CSRC_CSZ1) ? 2 : 0) |
++        ((usart->csrb & USART_CSRB_CSZ2) ? 4 : 0);
++    switch (mode) {
++    case 0:
++        usart->char_mask = 0b11111;
++        break;
++    case 1:
++        usart->char_mask = 0b111111;
++        break;
++    case 2:
++        usart->char_mask = 0b1111111;
++        break;
++    case 3:
++        usart->char_mask = 0b11111111;
++        break;
++    case 4:
++        /* Fallthrough. */
++    case 5:
++        /* Fallthrough. */
++    case 6:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Reserved character size 0x%x\n",
++            __func__,
++            mode);
++        break;
++    case 7:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Nine bit character size not supported (forcing eight)\n",
++            __func__);
++        usart->char_mask = 0b11111111;
++        break;
++    default:
++        assert(0);
++    }
++}
++
++static void avr_usart_reset(DeviceState *dev)
++{
++    AVRUsartState *usart = AVR_USART(dev);
++    usart->data_valid = false;
++    usart->csra = 0b00100000;
++    usart->csrb = 0b00000000;
++    usart->csrc = 0b00000110;
++    usart->brrl = 0;
++    usart->brrh = 0;
++    update_char_mask(usart);
++    qemu_set_irq(usart->rxc_irq, 0);
++    qemu_set_irq(usart->txc_irq, 0);
++    qemu_set_irq(usart->dre_irq, 0);
++}
++
++static uint64_t avr_usart_read(void *opaque, hwaddr addr, unsigned int size)
++{
++    AVRUsartState *usart = opaque;
++    uint8_t data;
++    assert(size == 1);
++
++    if (!usart->enabled) {
++        return 0;
 +    }
 +
-+#ifdef BREAKPOINT_ON_BREAK
-+    tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
-+    gen_helper_debug(cpu_env);
-+    ctx->bstate = DISAS_EXIT;
-+#else
-+    /* NOP */
-+#endif
-+
-+    return true;
++    switch (addr) {
++    case USART_DR:
++        if (!(usart->csrb & USART_CSRB_RXEN)) {
++            /* Receiver disabled, ignore. */
++            return 0;
++        }
++        if (usart->data_valid) {
++            data = usart->data & usart->char_mask;
++            usart->data_valid = false;
++        } else {
++            data = 0;
++        }
++        usart->csra &= 0xff ^ USART_CSRA_RXC;
++        qemu_set_irq(usart->rxc_irq, 0);
++        qemu_chr_fe_accept_input(&usart->chr);
++        return data;
++    case USART_CSRA:
++        return usart->csra;
++    case USART_CSRB:
++        return usart->csrb;
++    case USART_CSRC:
++        return usart->csrc;
++    case USART_BRRL:
++        return usart->brrl;
++    case USART_BRRH:
++        return usart->brrh;
++    default:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Bad offset 0x%"HWADDR_PRIx"\n",
++            __func__,
++            addr);
++    }
++    return 0;
 +}
 +
-+
-+/*
-+ *  This instruction performs a single cycle No Operation.
-+ */
-+static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
++static void avr_usart_write(void *opaque, hwaddr addr, uint64_t value,
++                                unsigned int size)
 +{
++    AVRUsartState *usart = opaque;
++    uint8_t mask;
++    uint8_t data;
++    assert((value & 0xff) == value);
++    assert(size == 1);
 +
-+    /* NOP */
++    if (!usart->enabled) {
++        return;
++    }
 +
-+    return true;
++    switch (addr) {
++    case USART_DR:
++        if (!(usart->csrb & USART_CSRB_TXEN)) {
++            /* Transmitter disabled, ignore. */
++            return;
++        }
++        usart->csra |= USART_CSRA_TXC;
++        usart->csra |= USART_CSRA_DRE;
++        if (usart->csrb & USART_CSRB_TXCIE) {
++            qemu_set_irq(usart->txc_irq, 1);
++            usart->csra &= 0xff ^ USART_CSRA_TXC;
++        }
++        if (usart->csrb & USART_CSRB_DREIE) {
++            qemu_set_irq(usart->dre_irq, 1);
++        }
++        data = value;
++        qemu_chr_fe_write_all(&usart->chr, &data, 1);
++        break;
++    case USART_CSRA:
++        mask = 0b01000011;
++        /* Mask read-only bits. */
++        value = (value & mask) | (usart->csra & (0xff ^ mask));
++        usart->csra = value;
++        if (value & USART_CSRA_TXC) {
++            usart->csra ^= USART_CSRA_TXC;
++            qemu_set_irq(usart->txc_irq, 0);
++        }
++        if (value & USART_CSRA_MPCM) {
++            qemu_log_mask(
++                LOG_GUEST_ERROR,
++                "%s: MPCM not supported by USART\n",
++                __func__);
++        }
++        break;
++    case USART_CSRB:
++        mask = 0b11111101;
++        /* Mask read-only bits. */
++        value = (value & mask) | (usart->csrb & (0xff ^ mask));
++        usart->csrb = value;
++        if (!(value & USART_CSRB_RXEN)) {
++            /* Receiver disabled, flush input buffer. */
++            usart->data_valid = false;
++        }
++        qemu_set_irq(usart->rxc_irq,
++            ((value & USART_CSRB_RXCIE) &&
++            (usart->csra & USART_CSRA_RXC)) ? 1 : 0);
++        qemu_set_irq(usart->txc_irq,
++            ((value & USART_CSRB_TXCIE) &&
++            (usart->csra & USART_CSRA_TXC)) ? 1 : 0);
++        qemu_set_irq(usart->dre_irq,
++            ((value & USART_CSRB_DREIE) &&
++            (usart->csra & USART_CSRA_DRE)) ? 1 : 0);
++        update_char_mask(usart);
++        break;
++    case USART_CSRC:
++        usart->csrc = value;
++        if ((value & USART_CSRC_MSEL1) && (value & USART_CSRC_MSEL0)) {
++            qemu_log_mask(
++                LOG_GUEST_ERROR,
++                "%s: SPI mode not supported by USART\n",
++                __func__);
++        }
++        if ((value & USART_CSRC_MSEL1) && !(value & USART_CSRC_MSEL0)) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad USART mode\n", __func__);
++        }
++        if (!(value & USART_CSRC_PM1) && (value & USART_CSRC_PM0)) {
++            qemu_log_mask(
++                LOG_GUEST_ERROR,
++                "%s: Bad USART parity mode\n",
++                __func__);
++        }
++        update_char_mask(usart);
++        break;
++    case USART_BRRL:
++        usart->brrl = value;
++        break;
++    case USART_BRRH:
++        usart->brrh = value & 0b00001111;
++        break;
++    default:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Bad offset 0x%"HWADDR_PRIx"\n",
++            __func__,
++            addr);
++    }
 +}
 +
++static const MemoryRegionOps avr_usart_ops = {
++    .read = avr_usart_read,
++    .write = avr_usart_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {.min_access_size = 1, .max_access_size = 1}
++};
 +
-+/*
-+ *  This instruction sets the circuit in sleep mode defined by the MCU
-+ *  Control Register.
-+ */
-+static bool trans_SLEEP(DisasContext *ctx, arg_SLEEP *a)
++static Property avr_usart_properties[] = {
++    DEFINE_PROP_CHR("chardev", AVRUsartState, chr),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void avr_usart_pr(void *opaque, int irq, int level)
 +{
-+    gen_helper_sleep(cpu_env);
-+    ctx->bstate = DISAS_NORETURN;
-+    return true;
++    AVRUsartState *s = AVR_USART(opaque);
++
++    s->enabled = !level;
++
++    if (!s->enabled) {
++        avr_usart_reset(DEVICE(s));
++    }
 +}
 +
-+
-+/*
-+ *  This instruction resets the Watchdog Timer. This instruction must be
-+ *  executed within a limited time given by the WD prescaler. See the Watchdog
-+ *  Timer hardware specification.
-+ */
-+static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
++static void avr_usart_init(Object *obj)
 +{
-+    gen_helper_wdr(cpu_env);
-+
-+    return true;
++    AVRUsartState *s = AVR_USART(obj);
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rxc_irq);
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->dre_irq);
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->txc_irq);
++    memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_AVR_USART, 8);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
++    qdev_init_gpio_in(DEVICE(s), avr_usart_pr, 1);
++    s->enabled = true;
 +}
-diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-index 4ee55862b2..0e4ec9ddf0 100644
---- a/target/avr/insn.decode
-+++ b/target/avr/insn.decode
-@@ -172,3 +172,12 @@ BST             1111 101 rd:5 0 bit:3
- BLD             1111 100 rd:5 0 bit:3
- BSET            1001 0100 0 bit:3 1000
- BCLR            1001 0100 1 bit:3 1000
 +
-+#
-+# MCU Control Instructions
-+#
-+BREAK           1001 0101 1001 1000
-+NOP             0000 0000 0000 0000
-+SLEEP           1001 0101 1000 1000
-+WDR             1001 0101 1010 1000
++static void avr_usart_realize(DeviceState *dev, Error **errp)
++{
++    AVRUsartState *s = AVR_USART(dev);
++    qemu_chr_fe_set_handlers(&s->chr, avr_usart_can_receive,
++                             avr_usart_receive, NULL, NULL,
++                             s, NULL, true);
++    avr_usart_reset(dev);
++}
 +
++static void avr_usart_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = avr_usart_reset;
++    dc->props = avr_usart_properties;
++    dc->realize = avr_usart_realize;
++}
++
++static const TypeInfo avr_usart_info = {
++    .name          = TYPE_AVR_USART,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AVRUsartState),
++    .instance_init = avr_usart_init,
++    .class_init    = avr_usart_class_init,
++};
++
++static void avr_usart_register_types(void)
++{
++    type_register_static(&avr_usart_info);
++}
++
++type_init(avr_usart_register_types)
+diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+index 40e7a8b8bb..331b20983f 100644
+--- a/hw/char/Kconfig
++++ b/hw/char/Kconfig
+@@ -46,3 +46,6 @@ config SCLPCONSOLE
+ 
+ config TERMINAL3270
+     bool
++
++config AVR_USART
++    bool
+diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
+index 02d8a66925..f05c1f5667 100644
+--- a/hw/char/Makefile.objs
++++ b/hw/char/Makefile.objs
+@@ -21,6 +21,7 @@ obj-$(CONFIG_PSERIES) += spapr_vty.o
+ obj-$(CONFIG_DIGIC) += digic-uart.o
+ obj-$(CONFIG_STM32F2XX_USART) += stm32f2xx_usart.o
+ obj-$(CONFIG_RASPI) += bcm2835_aux.o
++common-obj-$(CONFIG_AVR_USART) += avr_usart.o
+ 
+ common-obj-$(CONFIG_CMSDK_APB_UART) += cmsdk-apb-uart.o
+ common-obj-$(CONFIG_ETRAXFS) += etraxfs_ser.o
 -- 
 2.17.2 (Apple Git-113)
 
