@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E32612CB0D
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 22:59:19 +0100 (CET)
-Received: from localhost ([::1]:55346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F3712CB13
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Dec 2019 23:02:51 +0100 (CET)
+Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ilgak-0005uK-2g
-	for lists+qemu-devel@lfdr.de; Sun, 29 Dec 2019 16:59:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33761)
+	id 1ilgeA-0001O4-NW
+	for lists+qemu-devel@lfdr.de; Sun, 29 Dec 2019 17:02:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1ilgUq-0007as-Gv
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:14 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1ilgUh-0007OF-A2
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1ilgUo-0003kx-BZ
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:12 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34304)
+ (envelope-from <mrolnik@gmail.com>) id 1ilgUg-0003LM-3r
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:03 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42871)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ilgUo-0003gl-44
- for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:10 -0500
-Received: by mail-wr1-x431.google.com with SMTP id t2so31209109wrr.1
- for <qemu-devel@nongnu.org>; Sun, 29 Dec 2019 13:53:09 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ilgUf-0003J9-U0
+ for qemu-devel@nongnu.org; Sun, 29 Dec 2019 16:53:02 -0500
+Received: by mail-wr1-x444.google.com with SMTP id q6so31132138wro.9
+ for <qemu-devel@nongnu.org>; Sun, 29 Dec 2019 13:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=l33UuXTZumbLbEzbebtEuXxDVMvJqAuhtDGGzs+jDzE=;
- b=cHioEY5GxZeSNywtA/LicH94LICA7Ee9N+1LKcKxoeeJLccYL7eTgWzKce6yST5grq
- +RJKi1pd8lhwi89BvacCfYZ1xbnsCunFc9zIU3UfBRxfCh3xbOKrnSvGnttWerOvFCl7
- ggbj7HycUxrt5/FDSjST4OSJLMuMO+ZEVlWI3P8RWix89xqln9Nx1EeL3yXCaPtZ04ao
- uJySQJ/qEXy54NuX2ogPoWKt+R5k80ZQx41YMg9bKhZm31cKwbm5y02AwbSWmzfc3dHm
- 8b/FtFeStUDaMaQxXC1L/9waOFDvpVZRSjrl+qLIBv6ZIu8z2lr6MqgS5yfghv5/yOId
- S49g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=xpfZgnT26wh6XP4aMAQe8AQUYeKm0us2smWVQbWZbdE=;
+ b=ld0faP6Gp8uEps0TBsuZ1Ln53yQ2Efbcl8NOVGYMRaXmv2f5Je1Y0/AW2UO0ZEOLBI
+ mLE1lE5O+93CuUaX6NaxxEJu+wqvvXc5snjjV83plkZKX/vSl0LeanreQFoAwoheQCh8
+ 21110+xujhjPR+lPV6+YYqIf2IDPKACtGbk6sFkvYMkzvc5TP/BYl7EgRRkFjzrWEg2r
+ dXWdgV8ym5g057USVCv8fNTQP+nJ06LuHqU8Q+rECerLfK4HC0qp8k0OzsbuZw6ZuaCe
+ fhgn+tXof+PDjL9AggiPUGn759O/U47qB5YosinOwQ12EThIh8LjQeqwumHM7PVTuirm
+ wWIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=l33UuXTZumbLbEzbebtEuXxDVMvJqAuhtDGGzs+jDzE=;
- b=IgBs0fXRRt6Pm7N88qtnXV7yRR1h2fRB4epfxBa9B9bbhG5whBHZeOH3kqXSQNJ8jL
- 7cmi8U56p0s588mAvDMJ14GeQFUvy0eVhbieLUL89MGwZpIHlCWFaaw61b3VU6hR3YAj
- Qgs70DwFmcepAvROovWnQdQ2VzvjZ0UBq96bfbZUlWXNidhvTD1psxgOa0BEh4vQfZ9B
- 3JX+qF4Vj89qlmB4e5vr6PUmLmJ/izYDtHb6v5+nWO2to68wJjwe2/ZqCDTIsyHYQiKG
- bVlhesBbmBSa51VeqTVQ1yEa+00t+COrRaen6Gyrrlsc6YwMUAXHLM6XHAAKsMx2gMMU
- s2ig==
-X-Gm-Message-State: APjAAAX/UMB8wW2a+vfaehFcBuHlwrfaPXaxElBoQnciojluhUtnLf8I
- ZMYYN5wKSOPnSPug/rl+3r+cIqtO5cr3Jg==
-X-Google-Smtp-Source: APXvYqw8ZqMYq8KpiGwvHdO4097Oshbnw+VMTdL29C75YQrka7M44dabk1fCkD2eKJlnm8bgMyUnHw==
-X-Received: by 2002:adf:f382:: with SMTP id m2mr63393778wro.163.1577656387762; 
- Sun, 29 Dec 2019 13:53:07 -0800 (PST)
+ :references;
+ bh=xpfZgnT26wh6XP4aMAQe8AQUYeKm0us2smWVQbWZbdE=;
+ b=gBdR8eE1N83OgO99VjfVQOMmMCsnwZ5iXlHZuYLc8GHCHFDma+WQGAkTjGFiIlW6Pj
+ LfHB+v+LHdNt9UGu/1cuqFw0J0gBSF8v0gNIW7X+2JXW8bYK8fYlCq2KHcsQLXKmvFHO
+ Zh5DL0eEghluKgVAdXAVKd7a2Df+eZiSleHocwQFzUvp+/SPeEIdx9jsJRUucqYmmzyV
+ lcyoyP9t2weCuYDupFBItgQIMKPYaI4ZUoaxV5hDPmCQKp7RlMfkVTAJzIp9/nRH+ZtX
+ nPziUXBYIotY7xHJqz9szOxHbhq1EyTrjuBEwct+67+eCB60rUQsFVjOwZ4iufGQSGk3
+ IAbg==
+X-Gm-Message-State: APjAAAWeAM9yAcdeBx3iT2F/7Lzxz2XmD1Xq9XaBOh6eaqZ3DJ3co/4V
+ UmyypD6HRmfmXd7fCnwT2SLJgzrKNHlkew==
+X-Google-Smtp-Source: APXvYqzSy9147ZUIAvJa/t6KXRIrOimxkjQlUIdylexapI9HHnxsUDRje2nTnZbPtrsg+R0LS1zSUQ==
+X-Received: by 2002:adf:fd91:: with SMTP id d17mr66286554wrr.340.1577656380760; 
+ Sun, 29 Dec 2019 13:53:00 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-79-183-93-3.red.bezeqint.net. [79.183.93.3])
- by smtp.gmail.com with ESMTPSA id 25sm18182850wmi.32.2019.12.29.13.53.05
+ by smtp.gmail.com with ESMTPSA id 25sm18182850wmi.32.2019.12.29.13.52.57
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sun, 29 Dec 2019 13:53:07 -0800 (PST)
+ Sun, 29 Dec 2019 13:53:00 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v40 10/21] target/avr: Add instruction disassembly function
-Date: Sun, 29 Dec 2019 23:51:47 +0200
-Message-Id: <20191229215158.5788-11-mrolnik@gmail.com>
+Subject: [PATCH v40 08/21] target/avr: Add instruction translation - MCU
+ Control Instructions
+Date: Sun, 29 Dec 2019 23:51:45 +0200
+Message-Id: <20191229215158.5788-9-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20191229215158.5788-1-mrolnik@gmail.com>
 References: <20191229215158.5788-1-mrolnik@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,345 +81,111 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide function disassembles executed instruction when `-d in_asm` is
-provided
-
-Example:
-`./avr-softmmu/qemu-system-avr -bios free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf -d in_asm` will produce something like the following
-
-```
-    ...
-    IN:
-    0x0000014a:  CALL      0x3808
-
-    IN: main
-    0x00003808:  CALL      0x4b4
-
-    IN: vParTestInitialise
-    0x000004b4:  LDI       r24, 255
-    0x000004b6:  STS       r24, 0
-    0x000004b8:  MULS      r16, r20
-    0x000004ba:  OUT       $1, r24
-    0x000004bc:  LDS       r24, 0
-    0x000004be:  MULS      r16, r20
-    0x000004c0:  OUT       $2, r24
-    0x000004c2:  RET
-    ...
-```
+This includes:
+    - BREAK
+    - NOP
+    - SLEEP
+    - WDR
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/avr/cpu.h       |   1 +
- target/avr/cpu.c       |   2 +-
- target/avr/disas.c     | 245 +++++++++++++++++++++++++++++++++++++++++
- target/avr/translate.c |  12 ++
- 4 files changed, 259 insertions(+), 1 deletion(-)
- create mode 100644 target/avr/disas.c
+ target/avr/translate.c | 68 ++++++++++++++++++++++++++++++++++++++++++
+ target/avr/insn.decode |  9 ++++++
+ 2 files changed, 77 insertions(+)
 
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index b74bcf01ae..af89b6611e 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -160,6 +160,7 @@ bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
- hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
- int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-+int avr_print_insn(bfd_vma addr, disassemble_info *info);
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index 55706c6b29..246f9e7e47 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -2681,3 +2681,71 @@ static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
  
- static inline int avr_feature(CPUAVRState *env, AVRFeature feature)
- {
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index c74c5106fe..fa51f771c0 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -84,7 +84,7 @@ static void avr_cpu_reset(CPUState *cs)
- static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-     info->mach = bfd_arch_avr;
--    info->print_insn = NULL;
-+    info->print_insn = avr_print_insn;
+     return true;
  }
- 
- static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/target/avr/disas.c b/target/avr/disas.c
-new file mode 100644
-index 0000000000..f3fa3d6bef
---- /dev/null
-+++ b/target/avr/disas.c
-@@ -0,0 +1,245 @@
-+/*
-+ * AVR disassembler
-+ *
-+ * Copyright (c) 2019 Richard Henderson <rth@twiddle.net>
-+ * Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
-+ *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+
-+typedef struct {
-+    disassemble_info *info;
-+    uint16_t next_word;
-+    bool next_word_used;
-+} DisasContext;
-+
-+static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
-+{
-+    return 16 + (indx % 16);
-+}
-+
-+static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
-+{
-+    return 16 + (indx % 8);
-+}
-+static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
-+{
-+    return 24 + (indx % 4) * 2;
-+}
-+static int to_regs_00_30_by_two(DisasContext *ctx, int indx)
-+{
-+    return (indx % 16) * 2;
-+}
-+
-+static uint16_t next_word(DisasContext *ctx)
-+{
-+    ctx->next_word_used = true;
-+    return ctx->next_word;
-+}
-+
-+static int append_16(DisasContext *ctx, int x)
-+{
-+    return x << 16 | next_word(ctx);
-+}
-+
-+
-+/* Include the auto-generated decoder.  */
-+static bool decode_insn(DisasContext *ctx, uint16_t insn);
-+#include "decode_insn.inc.c"
-+
-+#define output(mnemonic, format, ...) \
-+    (pctx->info->fprintf_func(pctx->info->stream, "%-9s " format, \
-+                        mnemonic, ##__VA_ARGS__))
-+
-+int avr_print_insn(bfd_vma addr, disassemble_info *info)
-+{
-+    DisasContext ctx;
-+    DisasContext *pctx = &ctx;
-+    bfd_byte buffer[4];
-+    uint16_t insn;
-+    int status;
-+
-+    ctx.info = info;
-+
-+    status = info->read_memory_func(addr, buffer, 4, info);
-+    if (status != 0) {
-+        info->memory_error_func(status, addr, info);
-+        return -1;
-+    }
-+    insn = bfd_getl16(buffer);
-+    ctx.next_word = bfd_getl16(buffer + 2);
-+    ctx.next_word_used = false;
-+
-+    if (!decode_insn(&ctx, insn)) {
-+        output(".db", "0x%02x, 0x%02x", buffer[0], buffer[1]);
-+    }
-+
-+    return ctx.next_word_used ? 4 : 2;
-+}
-+
-+
-+#define INSN(opcode, format, ...)                                   \
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        \
-+{                                                                       \
-+    output(#opcode, format, ##__VA_ARGS__);                             \
-+    return true;                                                        \
-+}
-+
-+#define INSN_MNEMONIC(opcode, mnemonic, format, ...)                \
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        \
-+{                                                                       \
-+    output(mnemonic, format, ##__VA_ARGS__);                            \
-+    return true;                                                        \
-+}
-+
-+/*
-+ *   C       Z       N       V       S       H       T       I
-+ *   0       1       2       3       4       5       6       7
-+ */
-+static const char *brbc[] = {
-+    "BRCC", "BRNE", "BRPL", "BRVC", "BRGE", "BRHC", "BRTC", "BRID"
-+};
-+
-+static const char *brbs[] = {
-+    "BRCS", "BREQ", "BRMI", "BRVS", "BRLT", "BRHS", "BRTS", "BRIE"
-+};
-+
-+static const char *bset[] = {
-+    "SEC",  "SEZ",  "SEN",  "SEZ",  "SES",  "SEH",  "SET",  "SEI"
-+};
-+
-+static const char *bclr[] = {
-+    "CLC",  "CLZ",  "CLN",  "CLZ",  "CLS",  "CLH",  "CLT",  "CLI"
-+};
-+
-+/*
-+ * Arithmetic Instructions
-+ */
-+INSN(ADD,    "r%d, r%d", a->rd, a->rr)
-+INSN(ADC,    "r%d, r%d", a->rd, a->rr)
-+INSN(ADIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-+INSN(SUB,    "r%d, r%d", a->rd, a->rr)
-+INSN(SUBI,   "r%d, %d", a->rd, a->imm)
-+INSN(SBC,    "r%d, r%d", a->rd, a->rr)
-+INSN(SBCI,   "r%d, %d", a->rd, a->imm)
-+INSN(SBIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-+INSN(AND,    "r%d, r%d", a->rd, a->rr)
-+INSN(ANDI,   "r%d, %d", a->rd, a->imm)
-+INSN(OR,     "r%d, r%d", a->rd, a->rr)
-+INSN(ORI,    "r%d, %d", a->rd, a->imm)
-+INSN(EOR,    "r%d, r%d", a->rd, a->rr)
-+INSN(COM,    "r%d", a->rd)
-+INSN(NEG,    "r%d", a->rd)
-+INSN(INC,    "r%d", a->rd)
-+INSN(DEC,    "r%d", a->rd)
-+INSN(MUL,    "r%d, r%d", a->rd, a->rr)
-+INSN(MULS,   "r%d, r%d", a->rd, a->rr)
-+INSN(MULSU,  "r%d, r%d", a->rd, a->rr)
-+INSN(FMUL,   "r%d, r%d", a->rd, a->rr)
-+INSN(FMULS,  "r%d, r%d", a->rd, a->rr)
-+INSN(FMULSU, "r%d, r%d", a->rd, a->rr)
-+INSN(DES,    "%d", a->imm)
-+
-+/*
-+ * Branch Instructions
-+ */
-+INSN(RJMP,   ".%+d", a->imm * 2)
-+INSN(IJMP,   "")
-+INSN(EIJMP,  "")
-+INSN(JMP,    "0x%x", a->imm * 2)
-+INSN(RCALL,  ".%+d", a->imm * 2)
-+INSN(ICALL,  "")
-+INSN(EICALL, "")
-+INSN(CALL,   "0x%x", a->imm * 2)
-+INSN(RET,    "")
-+INSN(RETI,   "")
-+INSN(CPSE,   "r%d, r%d", a->rd, a->rr)
-+INSN(CP,     "r%d, r%d", a->rd, a->rr)
-+INSN(CPC,    "r%d, r%d", a->rd, a->rr)
-+INSN(CPI,    "r%d, %d", a->rd, a->imm)
-+INSN(SBRC,   "r%d, %d", a->rr, a->bit)
-+INSN(SBRS,   "r%d, %d", a->rr, a->bit)
-+INSN(SBIC,   "$%d, %d", a->reg, a->bit)
-+INSN(SBIS,   "$%d, %d", a->reg, a->bit)
-+INSN_MNEMONIC(BRBS,  brbs[a->bit], ".%+d", a->imm * 2)
-+INSN_MNEMONIC(BRBC,  brbc[a->bit], ".%+d", a->imm * 2)
-+
-+/*
-+ * Data Transfer Instructions
-+ */
-+INSN(MOV,    "r%d, r%d", a->rd, a->rr)
-+INSN(MOVW,   "r%d:r%d, r%d:r%d", a->rd + 1, a->rd, a->rr + 1, a->rr)
-+INSN(LDI,    "r%d, %d", a->rd, a->imm)
-+INSN(LDS,    "r%d, %d", a->rd, a->imm)
-+INSN(LDX1,   "r%d, X", a->rd)
-+INSN(LDX2,   "r%d, X+", a->rd)
-+INSN(LDX3,   "r%d, -X", a->rd)
-+INSN(LDY2,   "r%d, Y+", a->rd)
-+INSN(LDY3,   "r%d, -Y", a->rd)
-+INSN(LDZ2,   "r%d, Z+", a->rd)
-+INSN(LDZ3,   "r%d, -Z", a->rd)
-+INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
-+INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
-+INSN(STS,    "r%d, %d", a->rd, a->imm)
-+INSN(STX1,   "r%d, X", a->rr)
-+INSN(STX2,   "r%d, X+", a->rr)
-+INSN(STX3,   "r%d, -X", a->rr)
-+INSN(STY2,   "r%d, Y+", a->rd)
-+INSN(STY3,   "r%d, -Y", a->rd)
-+INSN(STZ2,   "r%d, Z+", a->rd)
-+INSN(STZ3,   "r%d, -Z", a->rd)
-+INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
-+INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
-+INSN(LPM1,   "")
-+INSN(LPM2,   "r%d, Z", a->rd)
-+INSN(LPMX,   "r%d, Z+", a->rd)
-+INSN(ELPM1,  "")
-+INSN(ELPM2,  "r%d, Z", a->rd)
-+INSN(ELPMX,  "r%d, Z+", a->rd)
-+INSN(SPM,    "")
-+INSN(SPMX,   "Z+")
-+INSN(IN,     "r%d, $%d", a->rd, a->imm)
-+INSN(OUT,    "$%d, r%d", a->imm, a->rd)
-+INSN(PUSH,   "r%d", a->rd)
-+INSN(POP,    "r%d", a->rd)
-+INSN(XCH,    "Z, r%d", a->rd)
-+INSN(LAC,    "Z, r%d", a->rd)
-+INSN(LAS,    "Z, r%d", a->rd)
-+INSN(LAT,    "Z, r%d", a->rd)
-+
-+/*
-+ * Bit and Bit-test Instructions
-+ */
-+INSN(LSR,    "r%d", a->rd)
-+INSN(ROR,    "r%d", a->rd)
-+INSN(ASR,    "r%d", a->rd)
-+INSN(SWAP,   "r%d", a->rd)
-+INSN(SBI,    "$%d, %d", a->reg, a->bit)
-+INSN(CBI,    "%d, %d", a->reg, a->bit)
-+INSN(BST,    "r%d, %d", a->rd, a->bit)
-+INSN(BLD,    "r%d, %d", a->rd, a->bit)
-+INSN_MNEMONIC(BSET,  bset[a->bit], "")
-+INSN_MNEMONIC(BCLR,  bclr[a->bit], "")
 +
 +/*
 + * MCU Control Instructions
 + */
-+INSN(BREAK,  "")
-+INSN(NOP,    "")
-+INSN(SLEEP,  "")
-+INSN(WDR,    "")
 +
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 5cbdf80a6e..7124b04a97 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -2976,6 +2976,18 @@ done_generating:
- 
-     tb->size = (ctx.npc - pc_start) * 2;
-     tb->icount = num_insns;
-+
-+#ifdef DEBUG_DISAS
-+    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
-+        && qemu_log_in_addr_range(tb->pc)) {
-+        FILE *fd;
-+        fd = qemu_log_lock();
-+        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
-+        log_target_disas(cs, tb->pc, tb->size);
-+        qemu_log("\n");
-+        qemu_log_unlock(fd);
++/*
++ *  The BREAK instruction is used by the On-chip Debug system, and is
++ *  normally not used in the application software. When the BREAK instruction is
++ *  executed, the AVR CPU is set in the Stopped Mode. This gives the On-chip
++ *  Debugger access to internal resources.  If any Lock bits are set, or either
++ *  the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will treat the BREAK
++ *  instruction as a NOP and will not enter the Stopped mode.  This instruction
++ *  is not available in all devices. Refer to the device specific instruction
++ *  set summary.
++ */
++static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
++{
++    if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {
++        return true;
 +    }
++
++#ifdef BREAKPOINT_ON_BREAK
++    tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
++    gen_helper_debug(cpu_env);
++    ctx->bstate = DISAS_EXIT;
++#else
++    /* NOP */
 +#endif
- }
- 
- void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
++
++    return true;
++}
++
++
++/*
++ *  This instruction performs a single cycle No Operation.
++ */
++static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
++{
++
++    /* NOP */
++
++    return true;
++}
++
++
++/*
++ *  This instruction sets the circuit in sleep mode defined by the MCU
++ *  Control Register.
++ */
++static bool trans_SLEEP(DisasContext *ctx, arg_SLEEP *a)
++{
++    gen_helper_sleep(cpu_env);
++    ctx->bstate = DISAS_NORETURN;
++    return true;
++}
++
++
++/*
++ *  This instruction resets the Watchdog Timer. This instruction must be
++ *  executed within a limited time given by the WD prescaler. See the Watchdog
++ *  Timer hardware specification.
++ */
++static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
++{
++    gen_helper_wdr(cpu_env);
++
++    return true;
++}
+diff --git a/target/avr/insn.decode b/target/avr/insn.decode
+index 4ee55862b2..0e4ec9ddf0 100644
+--- a/target/avr/insn.decode
++++ b/target/avr/insn.decode
+@@ -172,3 +172,12 @@ BST             1111 101 rd:5 0 bit:3
+ BLD             1111 100 rd:5 0 bit:3
+ BSET            1001 0100 0 bit:3 1000
+ BCLR            1001 0100 1 bit:3 1000
++
++#
++# MCU Control Instructions
++#
++BREAK           1001 0101 1001 1000
++NOP             0000 0000 0000 0000
++SLEEP           1001 0101 1000 1000
++WDR             1001 0101 1010 1000
++
 -- 
 2.17.2 (Apple Git-113)
 
