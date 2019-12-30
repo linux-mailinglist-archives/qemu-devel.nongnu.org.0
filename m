@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D855712D4BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Dec 2019 23:03:58 +0100 (CET)
-Received: from localhost ([::1]:37002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35BD12D4C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Dec 2019 23:04:07 +0100 (CET)
+Received: from localhost ([::1]:37004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1im38n-0007UN-1L
-	for lists+qemu-devel@lfdr.de; Mon, 30 Dec 2019 17:03:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52845)
+	id 1im38w-0007UZ-ES
+	for lists+qemu-devel@lfdr.de; Mon, 30 Dec 2019 17:04:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ilyFf-0003wZ-9z
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 11:50:44 -0500
+ (envelope-from <pavlica.nikola@gmail.com>) id 1ilypr-00054O-1l
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 12:28:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ilyFe-0008Ge-2H
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 11:50:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56428)
+ (envelope-from <pavlica.nikola@gmail.com>) id 1ilypq-0006gM-4I
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 12:28:06 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51480)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ilyFd-0008GW-T1
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 11:50:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ilyFb-00035m-Kt
- for <qemu-devel@nongnu.org>; Mon, 30 Dec 2019 16:50:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9C66E2E80C0
- for <qemu-devel@nongnu.org>; Mon, 30 Dec 2019 16:50:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 30 Dec 2019 16:41:45 -0000
-From: Alex Fliker <alexandru.barbovschi@gmail.com>
+ (Exim 4.71) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1ilypp-0006g5-VG
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 12:28:06 -0500
+Received: by mail-wm1-x343.google.com with SMTP id d73so114577wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Dec 2019 09:28:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=DKxEyQEWWonv3/oV1ZRaUYsqd9/HbiTnWCnnF1QJ9tE=;
+ b=Cu+FHE0daDdCw7KqzJ9fLAWkpPfuiY5nYK084HoVM9wXw03Qx28RJvcdkOdvNi3Bay
+ KbHaed4YLov0Ex82hf+prf/i8VgmoLOOgGrXcBDr7krj79+W29ABSZLqUMjvi6t29Reb
+ fp5FmBPa20uSiZV6tPCHyz0wa25hYbX+ojM5JdOxtjxoVXuIClWTmK60GNmiFpVvuNsl
+ fdLq79mj1LuXmhyz+jhl8YgJrTWegibDaDmzq4jyEB6lSKNT6uwehLShhaWoepLaSenI
+ oOSqIS36HS7yaj8CuQh25E/wLaFCxVSuiDw5Q+U66//S4375yaXRl110KEE2Df68nw0X
+ sQww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=DKxEyQEWWonv3/oV1ZRaUYsqd9/HbiTnWCnnF1QJ9tE=;
+ b=NB48rMpRbDKMpVJ2TekhkhMIjEIj2fdL+thYpvOI+mPzBwGaLQHpSljpJoU0QXfWt3
+ JwFNwxWTjH3LhVX2Z/QmFN+HYQAzLQ0ra+/7Xq2fqRor6XxaKFvOhUG+palrw21V3U/m
+ ueOesqMWd9JujR2dhY0iP4RdKNWwqY358keKhT2U2o83f7AGGc3FhexE3ZC0c8qG/ftf
+ gEyoLWvX13fgmRx9hgIkAiduDEFtRLMOTyDrnbfCucAzQdYcXy4qgkqe93aU2j/7fBP3
+ h8g9BOjlGnv3qCVgzqb8wByJigopMwOK26iPuzk6u8u3YoQaaOEgXokGm8/VLhWIJFKI
+ IxvA==
+X-Gm-Message-State: APjAAAVRCSo3OMatXsvvq2M3wuAACmmrnaijRTlpAK82KPqHdZ+2fiLU
+ +49gu0hDIyCtzBamM9wyGqKeAjAUfeQ=
+X-Google-Smtp-Source: APXvYqwTwZLPXeSTzHWmFTCrvEsgX1dkUjDSxNfSoOLHnh3PwC0edrnpYvzr+y2eB/Cl8le2vyHySw==
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr135815wmk.42.1577726884232;
+ Mon, 30 Dec 2019 09:28:04 -0800 (PST)
+Received: from HP-Laptop (93-143-218-144.adsl.net.t-com.hr. [93.143.218.144])
+ by smtp.gmail.com with ESMTPSA id
+ v22sm82405wml.11.2019.12.30.09.28.03 for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Dec 2019 09:28:03 -0800 (PST)
+Message-ID: <8531e41f28df7f4bebe4db257ff95e92f5145afc.camel@gmail.com>
+Subject: [PATCH] display/gtk: get proper refreshrate
+From: Nikola Pavlica <pavlica.nikola@gmail.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: crash hvf macos
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bwibking cuser2 fliker09 kisg roolebo
-X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
-X-Launchpad-Bug-Modifier: Alex Fliker (fliker09)
-References: <155192472106.28960.15645485731508389788.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157772410599.5239.8975502245585267506.malone@gac.canonical.com>
-Subject: [Bug 1818937] Re: Crash with HV_ERROR on macOS host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 76ff33dc01b0c05deb9c7d163622eac9784f3ca1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Date: Mon, 30 Dec 2019 18:28:02 +0100
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-Mailman-Approved-At: Mon, 30 Dec 2019 17:01:56 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,86 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1818937 <1818937@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Are there any updates? Trying to run the IE11 image from Microsoft
-(based on Windows 8.1) and it is crashing with this error sporadically
-:-\
+From 70c95b18fa056b2dd0ecc202ab517bc775b986da Mon Sep 17 00:00:00 2001
+From: Nikola Pavlica <pavlica.nikola@gmail.com>
+Date: Mon, 30 Dec 2019 18:17:35 +0100
+Subject: [PATCH] display/gtk: get proper refreshrate
 
--- =
+Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
+---
+ ui/gtk.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1818937
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 692ccc7bbb..7a041457f2 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2259,6 +2259,11 @@ static void gtk_display_init(DisplayState *ds,
+DisplayOptions *opts)
+         opts->u.gtk.grab_on_hover) {
+         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+     }
++
++    GdkDisplay *display = gdk_display_get_default();
++    GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
++    vc->gfx.dcl.update_interval = 1000000 /
++        gdk_monitor_get_refresh_rate(monitor);
+ }
+ 
+ static void early_gtk_display_init(DisplayOptions *opts)
+-- 
+2.24.0
 
-Title:
-  Crash with HV_ERROR on macOS host
 
-Status in QEMU:
-  New
-
-Bug description:
-  On macOS host running Windows 10 guest, qemu crashed with error
-  message: Error: HV_ERROR.
-
-  Host: macOS Mojave 10.14.3 (18D109) Late 2014 Mac mini presumably Core i5=
- 4278U.
-  QEMU: git commit a3e3b0a7bd5de211a62cdf2d6c12b96d3c403560
-  QEMU parameter: qemu-system-x86_64 -m 3000 -drive file=3Ddisk.img,if=3Dvi=
-rtio,discard=3Dunmap -accel hvf -soundhw hda -smp 3
-
-  thread list
-  Process 56054 stopped
-    thread #1: tid =3D 0x2ffec8, 0x00007fff48d0805a vImage`vLookupTable_Pla=
-nar16 + 970, queue =3D 'com.apple.main-thread'
-    thread #2: tid =3D 0x2ffecc, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #3: tid =3D 0x2ffecd, 0x00007fff79d715aa libsystem_kernel.dylib`=
-__select + 10
-    thread #4: tid =3D 0x2ffece, 0x00007fff79d71d9a libsystem_kernel.dylib`=
-__sigwait + 10
-  * thread #6: tid =3D 0x2ffed0, 0x00007fff79d7023e libsystem_kernel.dylib`=
-__pthread_kill + 10, stop reason =3D signal SIGABRT
-    thread #7: tid =3D 0x2ffed1, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #8: tid =3D 0x2ffed2, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #11: tid =3D 0x2fff34, 0x00007fff79d6a17a libsystem_kernel.dylib=
-`mach_msg_trap + 10, name =3D 'com.apple.NSEventThread'
-    thread #30: tid =3D 0x300c04, 0x00007fff79e233f8 libsystem_pthread.dyli=
-b`start_wqthread
-    thread #31: tid =3D 0x300c16, 0x00007fff79e233f8 libsystem_pthread.dyli=
-b`start_wqthread
-    thread #32: tid =3D 0x300c17, 0x0000000000000000
-    thread #33: tid =3D 0x300c93, 0x00007fff79d6d7de libsystem_kernel.dylib=
-`__psynch_cvwait + 10
-
-  =
-
-  Crashed thread:
-
-  * thread #6, stop reason =3D signal SIGABRT
-    * frame #0: 0x00007fff79d7023e libsystem_kernel.dylib`__pthread_kill + =
-10
-      frame #1: 0x00007fff79e26c1c libsystem_pthread.dylib`pthread_kill + 2=
-85
-      frame #2: 0x00007fff79cd91c9 libsystem_c.dylib`abort + 127
-      frame #3: 0x000000010baa476d qemu-system-x86_64`assert_hvf_ok(ret=3D<=
-unavailable>) at hvf.c:106 [opt]
-      frame #4: 0x000000010baa4c8f qemu-system-x86_64`hvf_vcpu_exec(cpu=3D0=
-x00007f8e5283de00) at hvf.c:681 [opt]
-      frame #5: 0x000000010b988423 qemu-system-x86_64`qemu_hvf_cpu_thread_f=
-n(arg=3D0x00007f8e5283de00) at cpus.c:1636 [opt]
-      frame #6: 0x000000010bd9dfce qemu-system-x86_64`qemu_thread_start(arg=
-s=3D<unavailable>) at qemu-thread-posix.c:502 [opt]
-      frame #7: 0x00007fff79e24305 libsystem_pthread.dylib`_pthread_body + =
-126
-      frame #8: 0x00007fff79e2726f libsystem_pthread.dylib`_pthread_start +=
- 70
-      frame #9: 0x00007fff79e23415 libsystem_pthread.dylib`thread_start + 13
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1818937/+subscriptions
 
