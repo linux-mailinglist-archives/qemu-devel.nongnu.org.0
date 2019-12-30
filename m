@@ -2,57 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DE412D4C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Dec 2019 23:04:03 +0100 (CET)
-Received: from localhost ([::1]:37000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C5D12D4E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 00:00:55 +0100 (CET)
+Received: from localhost ([::1]:37566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1im38s-0007Sf-Lw
-	for lists+qemu-devel@lfdr.de; Mon, 30 Dec 2019 17:04:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33542)
+	id 1im41u-0008Cb-FQ
+	for lists+qemu-devel@lfdr.de; Mon, 30 Dec 2019 18:00:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Mahmoud_Eltahawy@mentor.com>) id 1ilzfe-0004To-AG
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 13:21:39 -0500
+ (envelope-from <philmd@redhat.com>) id 1im40b-0007ip-97
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 17:59:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Mahmoud_Eltahawy@mentor.com>) id 1ilzfc-0004Ax-Bm
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 13:21:37 -0500
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:61599)
+ (envelope-from <philmd@redhat.com>) id 1im40Y-0000P3-8j
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 17:59:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38674
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Mahmoud_Eltahawy@mentor.com>)
- id 1ilzfc-0004A0-2Y
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 13:21:36 -0500
-IronPort-SDR: A/H9mOnSqvLKVeNMWckTniI//ao0ULvf87od/XzrfT5HTEo5VwfXn/H+JCq7H8AF4ByBulvOBb
- cLRC6S09QRhqBlwKRo1ivfSBVvyYo0SCLV8f+mcXTqlceUXswBabWtbSNZuiC88S+2upZoFmjy
- Go2y/LYCZ4BBCSfjWuctt3UOHNcX239SZ2PMAuSSS/C25sBqDfJjxB3xZkVHDq7cQa8h1cS6RF
- 05LeWsaOla3Zs2gQYLrKcejl0WIOzNI/L/YOlBKDopUuBcXMyuJlFBvJzwg6RvXoK2LHtRV1HJ
- seI=
-X-IronPort-AV: E=Sophos;i="5.69,376,1571731200"; d="scan'208,217";a="44470658"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa3.mentor.iphmx.com with ESMTP; 30 Dec 2019 10:21:32 -0800
-IronPort-SDR: aH6KAjNd0mtoPf/JmGf4gxJ4fyNHuxQjiX/sSpX9KAg+u/nMndI9Tcsg0OwUQalxnVPSCDyCXS
- YVDJWL8f//dtNQKpujlrOuSNEEKK9zifwYHrIdJ0ErMmQd0ZF2yOVk6+whm29PbYEORDPGEKdR
- IMoZ5Na7RFdB5W5J8SvjpBkotiubQJFlw0PWNFFpBAU0bGPLqKDYFGi5sze5gyjBEulovgV3Hh
- hC8kXYbGCKlEvqdBlRMEKuQE8oD9GQpHKifJKSkzR+zpVG/DwysvM1AKL9zgemNcbphkA7eRna
- kWQ=
-From: "Eltahawy, Mahmoud" <Mahmoud_Eltahawy@mentor.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: qemu_set_fd_handler callback is delayed
-Thread-Topic: qemu_set_fd_handler callback is delayed
-Thread-Index: AdW/O7ZAD9WLlnZCThGjbc0jYrLHkg==
-Date: Mon, 30 Dec 2019 18:21:27 +0000
-Message-ID: <55e69ff3c25f4e3ab4bfc8007498fcde@svr-ies-mbx-01.mgc.mentorg.com>
-Accept-Language: en-US, en-IE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-Content-Type: multipart/alternative;
- boundary="_000_55e69ff3c25f4e3ab4bfc8007498fcdesvriesmbx01mgcmentorgco_"
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1im40Y-0000IF-2N
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 17:59:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1577746768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pOBSoYSqiWQjBrUtAcV/qem+ibiygU+Pte2uOxw+L1c=;
+ b=HHFHqBk4MaqWt07UlBnvgrjXy+Xj4FwxGzOc2Uu3aOsMpjRUE045XYb5wNomEoyyJzmxCl
+ YeyTH3mnvfyT6qUQmv+gPKrP9Yjj4BTi8UdRXByEtjE3/PL+DnfBuOkuBmcFkVsWAgSx+H
+ vHwyev7hbZcB21L5KB7ZYTRV5ennaxM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-ouVrUqxqPU-QwM1yfk7shA-1; Mon, 30 Dec 2019 17:59:23 -0500
+Received: by mail-wr1-f71.google.com with SMTP id k18so17277821wrw.9
+ for <qemu-devel@nongnu.org>; Mon, 30 Dec 2019 14:59:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pOBSoYSqiWQjBrUtAcV/qem+ibiygU+Pte2uOxw+L1c=;
+ b=reDZXj9FxKOFDi6AQjNNQtLs/WZ7mUCwYT3nfNi/ALI4Or5oV9RD7MHHmMNuxUrqJ9
+ Enr4qM3HnWuoZGtbsPhtAFaolVr+42bwd1FGEZF38LbeQyXUbBv2idgRDANnvxUvMmMM
+ ofDNHScP5itpd2fs7/DRErPl7eQjw+LAlBkxIUUV1lZTP9dDezX7aLX7zUBBdt3ALGBH
+ f16Ms1kNDMUrgRassrF3w6mze1nmkepkAHoUTZWvO+d5PnReEVtD02ALHSvXY0B4dKhm
+ UOgw/qLijRH3ENlvqilFtde7+pn51hdFCK9muKTQ2Toq0QMv2dlzyivlgomCE17jVKJ6
+ x9Uw==
+X-Gm-Message-State: APjAAAV8ReGgvftYiorPevzmMexEyh8CV2BNpFoDeehvU2Qnzxl8exKZ
+ 8uERE6ShQiE+YfHHBYcaxl+cFqnPBfRQu4pvjo5rBdT6BxKzLm/yczVYyRQV7Nu4Jm4Bu8dl3m5
+ FnWUQjJg625scm+Y=
+X-Received: by 2002:a5d:404b:: with SMTP id w11mr71920011wrp.171.1577746762506; 
+ Mon, 30 Dec 2019 14:59:22 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxHoDjfiWd983ESjr+aYkxq5u0glUtsj1zuAb8fDxXS2Cv7mri1y/O7CpCbjwMX4q9BBhhboA==
+X-Received: by 2002:a5d:404b:: with SMTP id w11mr71920001wrp.171.1577746762238; 
+ Mon, 30 Dec 2019 14:59:22 -0800 (PST)
+Received: from ?IPv6:2a01:cb18:8372:6b00:691b:aac5:8837:d4da?
+ ([2a01:cb18:8372:6b00:691b:aac5:8837:d4da])
+ by smtp.gmail.com with ESMTPSA id w8sm812099wmm.0.2019.12.30.14.59.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Dec 2019 14:59:21 -0800 (PST)
+Subject: Re: [PATCH] display/gtk: get proper refreshrate
+To: Nikola Pavlica <pavlica.nikola@gmail.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <8531e41f28df7f4bebe4db257ff95e92f5145afc.camel@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <dc998ea3-4fbe-8ecb-65f5-0af59ddd0d6f@redhat.com>
+Date: Mon, 30 Dec 2019 23:59:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.137.180
-X-Mailman-Approved-At: Mon, 30 Dec 2019 17:01:55 -0500
+In-Reply-To: <8531e41f28df7f4bebe4db257ff95e92f5145afc.camel@gmail.com>
+Content-Language: en-US
+X-MC-Unique: ouVrUqxqPU-QwM1yfk7shA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,114 +94,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_55e69ff3c25f4e3ab4bfc8007498fcdesvriesmbx01mgcmentorgco_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Hi Nikola,
 
-Hi,
+Thanks for your patch!
 
-I am new to QEMU and I am using qemu-3.0.1, I noticed a strange behavior fo=
-r qemu_set_fd_handler that the callback for reading from a file descriptor =
-is delayed then expected while the file descriptor(socket) has a data to re=
-ad.
+On 12/30/19 6:28 PM, Nikola Pavlica wrote:
+>  From 70c95b18fa056b2dd0ecc202ab517bc775b986da Mon Sep 17 00:00:00 2001
+> From: Nikola Pavlica <pavlica.nikola@gmail.com>
+> Date: Mon, 30 Dec 2019 18:17:35 +0100
+> Subject: [PATCH] display/gtk: get proper refreshrate
 
-I register a callback for reading from a socket using qemu_set_fd_handler a=
-nd during runtime, this callback is not invoked for about 14msec, however t=
-he socket has a data available for read. I tested this behavior by just cre=
-ating a pthread which periodically checks the socket for any data using ioc=
-tl(socket_fd, FIONREAD, &count), and for a period of 14ms, I found that the=
- pthread indicates there is a data in the socket while the qemu_set_fd_hand=
-ler didn't trigger the read callback.
+Can you describe here the problem you encountered, and how your patch 
+fixes it?
 
-Any advice?
+> 
+> Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
+> ---
+>   ui/gtk.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 692ccc7bbb..7a041457f2 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -2259,6 +2259,11 @@ static void gtk_display_init(DisplayState *ds,
+> DisplayOptions *opts)
+>           opts->u.gtk.grab_on_hover) {
+>           gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+>       }
+> +
+> +    GdkDisplay *display = gdk_display_get_default();
 
+Can we use window_display declared earlier instead?
 
-Thanks
-Mahmoud
+     window_display = gtk_widget_get_display(s->window);
 
+If you look at the CODING_STYLE.rst file referenced here:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Use_the_QEMU_coding_style
+It states:
 
+   Declarations
+   ============
 
---_000_55e69ff3c25f4e3ab4bfc8007498fcdesvriesmbx01mgcmentorgco_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   Mixed declarations (interleaving statements and declarations
+   within blocks) are generally not allowed; declarations should
+   be at the beginning of blocks.
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I am new to QEMU and I am using qemu-3.0.1, I notice=
-d a strange behavior for qemu_set_fd_handler that the callback for reading =
-from a file descriptor is delayed then expected while the file descriptor(s=
-ocket) has a data to read.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I register a callback for reading from a socket usin=
-g qemu_set_fd_handler and during runtime, this callback is not invoked for =
-about 14msec, however the socket has a data available for read. I tested th=
-is behavior by just creating a pthread
- which periodically checks the socket for any data using ioctl(socket_fd, F=
-IONREAD, &amp;count), and for a period of 14ms, I found that the pthread in=
-dicates there is a data in the socket while the qemu_set_fd_handler didn&#8=
-217;t trigger the read callback.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Any advice?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks<o:p></o:p></p>
-<p class=3D"MsoNormal">Mahmoud<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+So you should move the declaration of both display/monitor variables 
+earlier, around line 2192.
 
---_000_55e69ff3c25f4e3ab4bfc8007498fcdesvriesmbx01mgcmentorgco_--
+> +    GdkMonitor *monitor = gdk_display_get_primary_monitor(display);
+> +    vc->gfx.dcl.update_interval = 1000000 /
+> +        gdk_monitor_get_refresh_rate(monitor);
+
+Now looking at this line, I think this should be done in the 
+gd_vc_gfx_init() function (line 2029, before the 
+register_displaychangelistener() call).
+
+>   }
+>   
+>   static void early_gtk_display_init(DisplayOptions *opts)
+> 
+
+As suggested on IRC, your patch have more chances to get reviewed if you 
+Cc its maintainers. See this help here:
+https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintainer
+
+In this case we get:
+
+$ ./scripts/get_maintainer.pl -f ui/gtk.c
+Gerd Hoffmann <kraxel@redhat.com> (odd fixer:Graphics)
+qemu-devel@nongnu.org (open list:All patches CC here)
+
+I'm Cc'ing Gerd for you.
+
+Regards,
+
+Phil.
+
 
