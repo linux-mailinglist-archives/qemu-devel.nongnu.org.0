@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58E312D496
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Dec 2019 21:53:30 +0100 (CET)
-Received: from localhost ([::1]:36538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D855712D4BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Dec 2019 23:03:58 +0100 (CET)
+Received: from localhost ([::1]:37002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1im22b-0004Z0-9d
-	for lists+qemu-devel@lfdr.de; Mon, 30 Dec 2019 15:53:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50456)
+	id 1im38n-0007UN-1L
+	for lists+qemu-devel@lfdr.de; Mon, 30 Dec 2019 17:03:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1im21f-00043N-2S
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 15:52:32 -0500
+ (envelope-from <bounces@canonical.com>) id 1ilyFf-0003wZ-9z
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 11:50:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1im21c-0000Hn-1S
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 15:52:29 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22707
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1im21b-0000G2-JE
- for qemu-devel@nongnu.org; Mon, 30 Dec 2019 15:52:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577739146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zc0FTPmlN/eRAhViCLUrPsRLUXsok9bOT2zdMSbRLgQ=;
- b=R8X1ijzzwhP2BLHQXQe7+C7Ec4lqGlZV+KePHM+EzWmQ+aRsmT1+jbEn43b0dVmGog84bW
- gBr5li2m2Z+o5WwlKbuuVU7lN+iDB8m7ZbKwfI/pTrJulTj2M6w//qzELlyvnlznhvtA31
- Qh3j1sm7cjWWhsWQQ9+23Xmyab7h9lQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-NjHmOij-PCKjhle4dijyog-1; Mon, 30 Dec 2019 15:52:21 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 797B2107ACC5;
- Mon, 30 Dec 2019 20:52:19 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-92.gru2.redhat.com
- [10.97.116.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0BF778E81;
- Mon, 30 Dec 2019 20:52:15 +0000 (UTC)
-Subject: Re: [PATCH 1/6] tests/boot_linux_console: Add initrd test for the
- CubieBoard
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20191230110953.25496-1-f4bug@amsat.org>
- <20191230110953.25496-2-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <31147d48-2f31-9fce-b8a4-1a270f114a45@redhat.com>
-Date: Mon, 30 Dec 2019 18:52:13 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <bounces@canonical.com>) id 1ilyFe-0008Ge-2H
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 11:50:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56428)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ilyFd-0008GW-T1
+ for qemu-devel@nongnu.org; Mon, 30 Dec 2019 11:50:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ilyFb-00035m-Kt
+ for <qemu-devel@nongnu.org>; Mon, 30 Dec 2019 16:50:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9C66E2E80C0
+ for <qemu-devel@nongnu.org>; Mon, 30 Dec 2019 16:50:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191230110953.25496-2-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: NjHmOij-PCKjhle4dijyog-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 30 Dec 2019 16:41:45 -0000
+From: Alex Fliker <alexandru.barbovschi@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: crash hvf macos
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bwibking cuser2 fliker09 kisg roolebo
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
+X-Launchpad-Bug-Modifier: Alex Fliker (fliker09)
+References: <155192472106.28960.15645485731508389788.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157772410599.5239.8975502245585267506.malone@gac.canonical.com>
+Subject: [Bug 1818937] Re: Crash with HV_ERROR on macOS host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 76ff33dc01b0c05deb9c7d163622eac9784f3ca1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 30 Dec 2019 17:01:56 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,144 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1818937 <1818937@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Are there any updates? Trying to run the IE11 image from Microsoft
+(based on Windows 8.1) and it is crashing with this error sporadically
+:-\
 
-On 12/30/19 9:09 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> This test boots a Linux kernel on a CubieBoard and verify
-> the serial output is working.
->
-> The kernel image and DeviceTree blob are built by the Armbian
-> project (based on Debian):
-> https://docs.armbian.com/Developer-Guide_Build-Preparation/
->
-> The cpio image used comes from the linux-build-test project:
-> https://github.com/groeck/linux-build-test
->
-> If ARM is a target being built, "make check-acceptance" will
-> automatically include this test by the use of the "arch:arm" tags.
->
-> Alternatively, this test can be run using:
->
->    $ avocado --show=3Dconsole run -t machine:cubieboard tests/acceptance/=
-boot_linux_console.py
->    console: Uncompressing Linux... done, booting the kernel.
->    console: Booting Linux on physical CPU 0x0
->    console: Linux version 4.20.7-sunxi (root@armbian.com) (gcc version 7.=
-2.1 20171011 (Linaro GCC 7.2-2017.11)) #5.75 SMP Fri Feb 8 09:02:10 CET 201=
-9
->    console: CPU: ARMv7 Processor [410fc080] revision 0 (ARMv7), cr=3D50c5=
-387d
->    console: CPU: PIPT / VIPT nonaliasing data cache, VIPT nonaliasing ins=
-truction cache
->    console: OF: fdt: Machine model: Cubietech Cubieboard
->    [...]
->    console: Boot successful.
->    console: cat /proc/cpuinfo
->    console: / # cat /proc/cpuinfo
->    console: processor      : 0
->    console: model name     : ARMv7 Processor rev 0 (v7l)
->    console: BogoMIPS       : 832.51
->    [...]
->    console: Hardware       : Allwinner sun4i/sun5i Families
->    console: Revision       : 0000
->    console: Serial         : 0000000000000000
->    console: cat /proc/iomem
->    console: / # cat /proc/iomem
->    console: 01c00000-01c0002f : system-control@1c00000
->    console: 01c02000-01c02fff : dma-controller@1c02000
->    console: 01c05000-01c05fff : spi@1c05000
->    console: 01c0b080-01c0b093 : mdio@1c0b080
->    console: 01c0c000-01c0cfff : lcd-controller@1c0c000
->    console: 01c0d000-01c0dfff : lcd-controller@1c0d000
->    console: 01c0f000-01c0ffff : mmc@1c0f000
->    [...]
->    PASS (54.35 s)
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->   tests/acceptance/boot_linux_console.py | 41 ++++++++++++++++++++++++++
->   1 file changed, 41 insertions(+)
->
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index 9c6aa2040a..4643f60e37 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -400,6 +400,47 @@ class BootLinuxConsole(Test):
->           self.wait_for_console_pattern('Boot successful.')
->           # TODO user command, for now the uart is stuck
->  =20
-> +    def test_arm_cubieboard_initrd(self):
+-- =
 
-Unless you have two tests, one with and without initrd (not the case=20
-though) the suffix '_initrd' is useless. So I suggest to remove it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1818937
 
-> +        """
-> +        :avocado: tags=3Darch:arm
-> +        :avocado: tags=3Dmachine:cubieboard
-> +        """
-> +        deb_url =3D ('https://apt.armbian.com/pool/main/l/'
-> +                   'linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.=
-deb')
-> +        deb_hash =3D '1334c29c44d984ffa05ed10de8c3361f33d78315'
-> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
-> +        kernel_path =3D self.extract_from_deb(deb_path,
-> +                                            '/boot/vmlinuz-4.20.7-sunxi'=
-)
-> +        dtb_path =3D '/usr/lib/linux-image-dev-sunxi/sun4i-a10-cubieboar=
-d.dtb'
-> +        dtb_path =3D self.extract_from_deb(deb_path, dtb_path)
-> +        initrd_url =3D ('https://github.com/groeck/linux-build-test/raw/=
-'
-> +                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
-> +                      'arm/rootfs-armv5.cpio.gz')
-> +        initrd_hash =3D '2b50f1873e113523967806f4da2afe385462ff9b'
-> +        initrd_path_gz =3D self.fetch_asset(initrd_url, asset_hash=3Dini=
-trd_hash)
-> +        initrd_path =3D os.path.join(self.workdir, 'rootfs.cpio')
-> +        archive.gzip_uncompress(initrd_path_gz, initrd_path)
-> +
-> +        self.vm.set_console()
-> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'console=3DttyS0,115200 '
-> +                               'usbcore.nousb '
-> +                               'panic=3D-1 noreboot')
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-dtb', dtb_path,
-> +                         '-initrd', initrd_path,
-> +                         '-append', kernel_command_line,
-> +                         '-no-reboot')
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('Boot successful.')
-> +
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> +                                                'Allwinner sun4i/sun5i')
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
-> +                                                'system-control@1c00000'=
-)
-> +        exec_command_and_wait_for_pattern(self, 'reboot',
-> +                                                'reboot: Restarting syst=
-em')
+Title:
+  Crash with HV_ERROR on macOS host
 
+Status in QEMU:
+  New
 
-I ran this test case with success, so:
+Bug description:
+  On macOS host running Windows 10 guest, qemu crashed with error
+  message: Error: HV_ERROR.
 
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+  Host: macOS Mojave 10.14.3 (18D109) Late 2014 Mac mini presumably Core i5=
+ 4278U.
+  QEMU: git commit a3e3b0a7bd5de211a62cdf2d6c12b96d3c403560
+  QEMU parameter: qemu-system-x86_64 -m 3000 -drive file=3Ddisk.img,if=3Dvi=
+rtio,discard=3Dunmap -accel hvf -soundhw hda -smp 3
 
-With the comment regarding the _initrd suffix:
+  thread list
+  Process 56054 stopped
+    thread #1: tid =3D 0x2ffec8, 0x00007fff48d0805a vImage`vLookupTable_Pla=
+nar16 + 970, queue =3D 'com.apple.main-thread'
+    thread #2: tid =3D 0x2ffecc, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #3: tid =3D 0x2ffecd, 0x00007fff79d715aa libsystem_kernel.dylib`=
+__select + 10
+    thread #4: tid =3D 0x2ffece, 0x00007fff79d71d9a libsystem_kernel.dylib`=
+__sigwait + 10
+  * thread #6: tid =3D 0x2ffed0, 0x00007fff79d7023e libsystem_kernel.dylib`=
+__pthread_kill + 10, stop reason =3D signal SIGABRT
+    thread #7: tid =3D 0x2ffed1, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #8: tid =3D 0x2ffed2, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #11: tid =3D 0x2fff34, 0x00007fff79d6a17a libsystem_kernel.dylib=
+`mach_msg_trap + 10, name =3D 'com.apple.NSEventThread'
+    thread #30: tid =3D 0x300c04, 0x00007fff79e233f8 libsystem_pthread.dyli=
+b`start_wqthread
+    thread #31: tid =3D 0x300c16, 0x00007fff79e233f8 libsystem_pthread.dyli=
+b`start_wqthread
+    thread #32: tid =3D 0x300c17, 0x0000000000000000
+    thread #33: tid =3D 0x300c93, 0x00007fff79d6d7de libsystem_kernel.dylib=
+`__psynch_cvwait + 10
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+  =
 
+  Crashed thread:
 
-> +
->       def test_s390x_s390_ccw_virtio(self):
->           """
->           :avocado: tags=3Darch:s390x
+  * thread #6, stop reason =3D signal SIGABRT
+    * frame #0: 0x00007fff79d7023e libsystem_kernel.dylib`__pthread_kill + =
+10
+      frame #1: 0x00007fff79e26c1c libsystem_pthread.dylib`pthread_kill + 2=
+85
+      frame #2: 0x00007fff79cd91c9 libsystem_c.dylib`abort + 127
+      frame #3: 0x000000010baa476d qemu-system-x86_64`assert_hvf_ok(ret=3D<=
+unavailable>) at hvf.c:106 [opt]
+      frame #4: 0x000000010baa4c8f qemu-system-x86_64`hvf_vcpu_exec(cpu=3D0=
+x00007f8e5283de00) at hvf.c:681 [opt]
+      frame #5: 0x000000010b988423 qemu-system-x86_64`qemu_hvf_cpu_thread_f=
+n(arg=3D0x00007f8e5283de00) at cpus.c:1636 [opt]
+      frame #6: 0x000000010bd9dfce qemu-system-x86_64`qemu_thread_start(arg=
+s=3D<unavailable>) at qemu-thread-posix.c:502 [opt]
+      frame #7: 0x00007fff79e24305 libsystem_pthread.dylib`_pthread_body + =
+126
+      frame #8: 0x00007fff79e2726f libsystem_pthread.dylib`_pthread_start +=
+ 70
+      frame #9: 0x00007fff79e23415 libsystem_pthread.dylib`thread_start + 13
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1818937/+subscriptions
 
