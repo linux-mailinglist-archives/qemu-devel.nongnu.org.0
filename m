@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB8D12D8E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:13:51 +0100 (CET)
-Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8449912D8EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:18:23 +0100 (CET)
+Received: from localhost ([::1]:42352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imHLK-0000hG-E9
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:13:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55451)
+	id 1imHPh-0005Uk-Ts
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:18:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1imHC2-0005Nj-Jc
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:15 -0500
+ (envelope-from <imammedo@redhat.com>) id 1imHC2-0005Nx-Np
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1imHC1-0002zQ-9v
+ (envelope-from <imammedo@redhat.com>) id 1imHC1-0002zY-AN
  for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45670
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46806
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHC1-0002wh-0Y
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHC1-0002wv-0k
  for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1577797450;
@@ -27,38 +27,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EA/fwOAxYcC2WHTyH0qlJjpswYl4o4MaYKMyRzH3SgQ=;
- b=DGCBRVe5CsflFiJaLNqYptLG1D5mZhYbzXcylRr1oURVxjvddQ4QyRMe+q32hhXd9Ce2f1
- Ng0Onw6Mt5gntr6KJVECyWa8mvueKEfEkTN28tkTfTZBWPnEAqsygARdrE7RYjP0XLEU3M
- gCa0CLj/AmglSCrx02NqgrFZEmPg3XM=
+ bh=bX1iE3IP5V5Kv6foRv/GtNz+jpzuyWFnTjvRpveGZWo=;
+ b=O29t0djxP/VA8c2VTAjezuYGGcUpw8KVkIMFT7gdv7RKmdJw16VsPVUEULmtMfsKIq0qFa
+ S48WWq4hgIFE2oMGfaynFsk3HD3lUeNbQLTpuHaDegZ29wDia26Wxl24YqzyJYaato16eh
+ 2XdmMT8r2NsvFEXPI6eiaVAv9CiqKN4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-Lo-KH5zePBKpQ2M2FRZRpQ-1; Tue, 31 Dec 2019 08:04:07 -0500
+ us-mta-36-YmCMuXXvPbWL7E4C5nZVDQ-1; Tue, 31 Dec 2019 08:04:08 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D3F7800D41
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1798477
  for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:07 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 98BD678E96
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6720E620A6
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:07 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/86] arm:kzm: use memdev for RAM
-Date: Tue, 31 Dec 2019 14:03:05 +0100
-Message-Id: <1577797450-88458-22-git-send-email-imammedo@redhat.com>
+Subject: [PATCH 22/86] arm:mcimx6ul-evk: use memdev for RAM
+Date: Tue, 31 Dec 2019 14:03:06 +0100
+Message-Id: <1577797450-88458-23-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: Lo-KH5zePBKpQ2M2FRZRpQ-1
+X-MC-Unique: YmCMuXXvPbWL7E4C5nZVDQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,56 +81,85 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
+PS:
+  remove no longer needed MCIMX6ULEVK
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/arm/kzm.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ hw/arm/mcimx6ul-evk.c | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
 
-diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
-index 27800c5..f63902e 100644
---- a/hw/arm/kzm.c
-+++ b/hw/arm/kzm.c
-@@ -51,7 +51,6 @@
+diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
+index e90b393..23a71ed 100644
+--- a/hw/arm/mcimx6ul-evk.c
++++ b/hw/arm/mcimx6ul-evk.c
+@@ -19,15 +19,10 @@
+ #include "qemu/error-report.h"
+ #include "sysemu/qtest.h"
 =20
- typedef struct IMX31KZM {
-     FslIMX31State soc;
+-typedef struct {
+-    FslIMX6ULState soc;
 -    MemoryRegion ram;
-     MemoryRegion ram_alias;
- } IMX31KZM;
+-} MCIMX6ULEVK;
+-
+ static void mcimx6ul_evk_init(MachineState *machine)
+ {
+     static struct arm_boot_info boot_info;
+-    MCIMX6ULEVK *s =3D g_new0(MCIMX6ULEVK, 1);
++    FslIMX6ULState *s;
+     int i;
 =20
-@@ -84,10 +83,8 @@ static void kzm_init(MachineState *machine)
-         exit(EXIT_FAILURE);
-     }
+     if (machine->ram_size > FSL_IMX6UL_MMDC_SIZE) {
+@@ -43,15 +38,12 @@ static void mcimx6ul_evk_init(MachineState *machine)
+         .nb_cpus =3D machine->smp.cpus,
+     };
 =20
--    memory_region_allocate_system_memory(&s->ram, NULL, "kzm.ram",
--                                         machine->ram_size);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX31_SDRAM0_ADDR=
+-    object_initialize_child(OBJECT(machine), "soc", &s->soc,  sizeof(s->so=
+c),
+-                            TYPE_FSL_IMX6UL, &error_fatal, NULL);
+-
+-    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_fat=
+al);
++    s =3D FSL_IMX6UL(object_new(TYPE_FSL_IMX6UL));
++    object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fa=
+tal);
++    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+=20
+-    memory_region_allocate_system_memory(&s->ram, NULL, "mcimx6ul-evk.ram"=
 ,
--                                &s->ram);
+-                                         machine->ram_size);
+-    memory_region_add_subregion(get_system_memory(),
+-                                FSL_IMX6UL_MMDC_ADDR, &s->ram);
++    memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_MMDC_ADDR,
 +                                machine->ram);
 =20
-     /* initialize the alias memory if any */
-     for (i =3D 0, ram_size =3D machine->ram_size, alias_offset =3D 0;
-@@ -107,7 +104,8 @@ static void kzm_init(MachineState *machine)
+     for (i =3D 0; i < FSL_IMX6UL_NUM_USDHCS; i++) {
+         BusState *bus;
+@@ -61,7 +53,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
 =20
-         if (size < ram[i].size) {
-             memory_region_init_alias(&s->ram_alias, NULL, "ram.alias",
--                                     &s->ram, alias_offset, ram[i].size - =
-size);
-+                                     machine->ram,
-+                                     alias_offset, ram[i].size - size);
-             memory_region_add_subregion(get_system_memory(),
-                                         ram[i].addr + size, &s->ram_alias)=
-;
-         }
-@@ -139,6 +137,7 @@ static void kzm_machine_init(MachineClass *mc)
-     mc->desc =3D "ARM KZM Emulation Baseboard (ARM1136)";
-     mc->init =3D kzm_init;
-     mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_id =3D "kzm.ram";
+         di =3D drive_get_next(IF_SD);
+         blk =3D di ? blk_by_legacy_dinfo(di) : NULL;
+-        bus =3D qdev_get_child_bus(DEVICE(&s->soc.usdhc[i]), "sd-bus");
++        bus =3D qdev_get_child_bus(DEVICE(&s->usdhc[i]), "sd-bus");
+         carddev =3D qdev_create(bus, TYPE_SD_CARD);
+         qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
+         object_property_set_bool(OBJECT(carddev), true,
+@@ -69,7 +61,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
+     }
+=20
+     if (!qtest_enabled()) {
+-        arm_load_kernel(&s->soc.cpu, machine, &boot_info);
++        arm_load_kernel(&s->cpu, machine, &boot_info);
+     }
  }
 =20
- DEFINE_MACHINE("kzm", kzm_machine_init)
+@@ -78,5 +70,6 @@ static void mcimx6ul_evk_machine_init(MachineClass *mc)
+     mc->desc =3D "Freescale i.MX6UL Evaluation Kit (Cortex A7)";
+     mc->init =3D mcimx6ul_evk_init;
+     mc->max_cpus =3D FSL_IMX6UL_NUM_CPUS;
++    mc->default_ram_id =3D "mcimx6ul-evk.ram";
+ }
+ DEFINE_MACHINE("mcimx6ul-evk", mcimx6ul_evk_machine_init)
 --=20
 2.7.4
 
