@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D795112DA13
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 17:10:07 +0100 (CET)
-Received: from localhost ([::1]:44014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910FF12DA11
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 17:09:21 +0100 (CET)
+Received: from localhost ([::1]:43986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imK5u-0002Fe-Nf
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 11:10:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39978)
+	id 1imK5A-0000ty-GC
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 11:09:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41491)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1imK3G-0007ly-8Z
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 11:07:23 -0500
+ (envelope-from <philmd@redhat.com>) id 1imK3p-0008Kf-Oq
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 11:07:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1imK3F-0002sS-2r
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 11:07:22 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23377
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1imK3o-0005Yb-HZ
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 11:07:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56272
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imK3E-0002pg-TF
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 11:07:21 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imK3o-0005WR-Cr
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 11:07:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577808440;
+ s=mimecast20190719; t=1577808475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jj3bdqvkofHV9cEURiV6DQYLMnUPtfz/3+UuqT32CLA=;
- b=IgjDYUvRuyN9+qapOdWlEO7cUvQxaGrkkR8BtDSXRExx6zPlopbr8pxL9JTiyoLUPOpI+y
- ficGqTNglKzOUcFBRIBw/9SRzFDisDDcm6ReFWN4sZVu7/dVcbqGQx8E7Arazlku2yRGlv
- YK9EdIlh2hd2eTZDCr2blZ9+yXC0ecY=
+ bh=lUzvKXspv0LC33wvnoRpdXodcfLCsOHP76zLKSfurWw=;
+ b=GjpSU5/BY2G/DlKg0gKIEl+sevscWvPMN8nCcAeq59brIBEbJtuecfc4jhClq9QdLKmvQm
+ H3YudBrEF9/K+v3aBQ/81G84M0Pge7uMfZO6vJMWHOTtyZXnpuFsX9zgmzBh5+WVVir4Fa
+ Damq7GzktUFPnOjjo39z02YvPLrZ3EI=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-oCT3wasIPd-G2AcjcVHx0g-1; Tue, 31 Dec 2019 11:07:17 -0500
-Received: by mail-wr1-f71.google.com with SMTP id f15so4921488wrr.2
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 08:07:16 -0800 (PST)
+ us-mta-269-3gO--EGjP5SZqtxzWzmsQw-1; Tue, 31 Dec 2019 11:07:54 -0500
+Received: by mail-wr1-f71.google.com with SMTP id f10so10954433wro.14
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 08:07:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/zwQ0S/+8FuCzNvYra0M+gYuDWlfnN4yZjxvU7PyRrw=;
- b=HS5yIzA5H0WKKmT6jiQA/5yufq5sNS/3Fyo3r1ZC21ZkMMlcl5cwBbua/ylaI1rlrp
- Xvmk/+iy3O+eRMO50qHPpHgNSU3X5evzZhHAuhD3ewaXn1/RwKsOQ+Agopudy0aZBq7Z
- En0IH8U7wARojIYiPp7mY76b4NKrmDm42IXl65b3jPoUggUvo/pZSijgx1FAQF+ljkrM
- 9v9pvMnd8l9NXDiqftQe1YwVutSrCFhpDSlQzeIkT69YYAnssr6SckRiCq+vQo8Vsqxj
- 8r4/OImp4BtVaBY7giOc7PRdOPCnVfVh5Gb6fWtN3nV9DX+fQuENpW42/5yXsDs2rKi5
- L6SA==
-X-Gm-Message-State: APjAAAVqCCqrbBqFOCuZhgsgvfUYQmqwyzOprEUHASr+tavUsdHguNnH
- clTgIJ9Q7wYzrVxGoQLnvoYBraz6lpOmc8Fl2sODRm8JaaPTRMGY8gQS4adEmLJNFBBEpqqsH7z
- tK6V08hlkzggVUvU=
-X-Received: by 2002:adf:b605:: with SMTP id f5mr70723746wre.383.1577808435372; 
- Tue, 31 Dec 2019 08:07:15 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwMPPrLSF4wqL73/zDYhsOIEDaMj6Wakde5VboM0poSurzMIIoF/zenRrQfmOc124cvZQJBxg==
-X-Received: by 2002:adf:b605:: with SMTP id f5mr70723734wre.383.1577808435203; 
- Tue, 31 Dec 2019 08:07:15 -0800 (PST)
+ bh=jHUkrwTqcSv/kiMD97qPtX1Sk/VPIkWVms4DRmNNTzg=;
+ b=qSCD7z+zqYLNFBzYJj9pw8IXnWKpsQci1t9AWWaytdmcV/YXtTpoi+hGV/rNurNuJV
+ 801gzGE4+rZnKqF0/0l4e6eLhGrKXR7RXc7AdnBxgDiUR7GlpYPpHxauFOXThWYSNCKc
+ PqjbFZ1vdK0tOQfpcXEi2hSIhcfrGtGVsZEv5wK6U+bxZ7W62q5p4lFTW4MpzjsodB1E
+ NnLoJxsi82DrFOp9QLsS8vjNKzZ54RATzAAXEenboEWS12FXKJdZtr1zxC4rStSn8StG
+ u4iB6QXRQ2lukjLCqcqkA+fW8Skq9ukgVHuzNG4J8nuh0o5+A23V9cWmL92XITUalXwH
+ xaQQ==
+X-Gm-Message-State: APjAAAWwcs6O4IYb5E4DGVxJ6jdt4SCkRoLXTgovYoHa7uVqI1ylENeO
+ iM/5CqXPJUzF87oIWq8SoSj1k1iY5Z7IDMKZo8gFQzQ349ZMASddmL084/Q3UMJH+i1Nh+eNJ4J
+ YmBQfLsBnsV4LM0s=
+X-Received: by 2002:a1c:22c6:: with SMTP id i189mr5351129wmi.15.1577808472709; 
+ Tue, 31 Dec 2019 08:07:52 -0800 (PST)
+X-Google-Smtp-Source: APXvYqym1zwPNp1ryPGMMVIZnzstox8LiD7lzw/FQukBmjzCoDgZbv2OXmIqK/ckuyPc1egW6mdEwg==
+X-Received: by 2002:a1c:22c6:: with SMTP id i189mr5351114wmi.15.1577808472517; 
+ Tue, 31 Dec 2019 08:07:52 -0800 (PST)
 Received: from ?IPv6:2a01:cb18:8372:6b00:691b:aac5:8837:d4da?
  ([2a01:cb18:8372:6b00:691b:aac5:8837:d4da])
- by smtp.gmail.com with ESMTPSA id z123sm2977640wme.18.2019.12.31.08.07.14
+ by smtp.gmail.com with ESMTPSA id y6sm48706523wrl.17.2019.12.31.08.07.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Dec 2019 08:07:14 -0800 (PST)
-Subject: Re: [PATCH 56/86] mips:mips_malta: use memdev for RAM
+ Tue, 31 Dec 2019 08:07:52 -0800 (PST)
+Subject: Re: [PATCH 57/86] mips:mips_mipssim: use memdev for RAM
 To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
- <1577797450-88458-57-git-send-email-imammedo@redhat.com>
+ <1577797450-88458-58-git-send-email-imammedo@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <12cc39b2-705f-cc58-991d-df6d6d97369d@redhat.com>
-Date: Tue, 31 Dec 2019 17:07:14 +0100
+Message-ID: <5a3a05a7-1668-8976-0146-941974ddf236@redhat.com>
+Date: Tue, 31 Dec 2019 17:07:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1577797450-88458-57-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1577797450-88458-58-git-send-email-imammedo@redhat.com>
 Content-Language: en-US
-X-MC-Unique: oCT3wasIPd-G2AcjcVHx0g-1
+X-MC-Unique: 3gO--EGjP5SZqtxzWzmsQw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,58 +109,62 @@ Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 > ---
->   hw/mips/mips_malta.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
+>   hw/mips/mips_mipssim.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 783cd99..adffa3a 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1223,7 +1223,6 @@ void mips_malta_init(MachineState *machine)
+> diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
+> index 282bbec..be3972f 100644
+> --- a/hw/mips/mips_mipssim.c
+> +++ b/hw/mips/mips_mipssim.c
+> @@ -142,14 +142,12 @@ static void mipsnet_init(int base, qemu_irq irq, NI=
+CInfo *nd)
+>   static void
+>   mips_mipssim_init(MachineState *machine)
+>   {
+> -    ram_addr_t ram_size =3D machine->ram_size;
+>       const char *kernel_filename =3D machine->kernel_filename;
+>       const char *kernel_cmdline =3D machine->kernel_cmdline;
+>       const char *initrd_filename =3D machine->initrd_filename;
 >       char *filename;
->       PFlashCFI01 *fl;
->       MemoryRegion *system_memory =3D get_system_memory();
-> -    MemoryRegion *ram_high =3D g_new(MemoryRegion, 1);
->       MemoryRegion *ram_low_preio =3D g_new(MemoryRegion, 1);
->       MemoryRegion *ram_low_postio;
->       MemoryRegion *bios, *bios_copy =3D g_new(MemoryRegion, 1);
-> @@ -1261,13 +1260,11 @@ void mips_malta_init(MachineState *machine)
+>       MemoryRegion *address_space_mem =3D get_system_memory();
+>       MemoryRegion *isa =3D g_new(MemoryRegion, 1);
+> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+>       MemoryRegion *bios =3D g_new(MemoryRegion, 1);
+>       MIPSCPU *cpu;
+>       CPUMIPSState *env;
+> @@ -166,13 +164,11 @@ mips_mipssim_init(MachineState *machine)
+>       qemu_register_reset(main_cpu_reset, reset_info);
+>  =20
+>       /* Allocate RAM. */
+> -    memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
+> -                                         ram_size);
+>       memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
+>                              &error_fatal);
+>       memory_region_set_readonly(bios, true);
+>  =20
+> -    memory_region_add_subregion(address_space_mem, 0, ram);
+> +    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+>  =20
+>       /* Map the BIOS / boot exception handler. */
+>       memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
+> @@ -199,7 +195,7 @@ mips_mipssim_init(MachineState *machine)
 >       }
 >  =20
->       /* register RAM at high address where it is undisturbed by IO */
-> -    memory_region_allocate_system_memory(ram_high, NULL, "mips_malta.ram=
-",
-> -                                         ram_size);
-> -    memory_region_add_subregion(system_memory, 0x80000000, ram_high);
-> +    memory_region_add_subregion(system_memory, 0x80000000, machine->ram)=
-;
->  =20
->       /* alias for pre IO hole access */
->       memory_region_init_alias(ram_low_preio, NULL, "mips_malta_low_preio=
-.ram",
-> -                             ram_high, 0, MIN(ram_size, 256 * MiB));
-> +                             machine->ram, 0, MIN(ram_size, 256 * MiB));
->       memory_region_add_subregion(system_memory, 0, ram_low_preio);
->  =20
->       /* alias for post IO hole access, if there is enough RAM */
-> @@ -1275,7 +1272,7 @@ void mips_malta_init(MachineState *machine)
->           ram_low_postio =3D g_new(MemoryRegion, 1);
->           memory_region_init_alias(ram_low_postio, NULL,
->                                    "mips_malta_low_postio.ram",
-> -                                 ram_high, 512 * MiB,
-> +                                 machine->ram, 512 * MiB,
->                                    ram_size - 512 * MiB);
->           memory_region_add_subregion(system_memory, 512 * MiB,
->                                       ram_low_postio);
-> @@ -1447,6 +1444,7 @@ static void mips_malta_machine_init(MachineClass *m=
+>       if (kernel_filename) {
+> -        loaderparams.ram_size =3D ram_size;
+> +        loaderparams.ram_size =3D machine->ram_size;
+>           loaderparams.kernel_filename =3D kernel_filename;
+>           loaderparams.kernel_cmdline =3D kernel_cmdline;
+>           loaderparams.initrd_filename =3D initrd_filename;
+> @@ -237,6 +233,7 @@ static void mips_mipssim_machine_init(MachineClass *m=
 c)
 >   #else
 >       mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("24Kf");
 >   #endif
-> +    mc->default_ram_id =3D "mips_malta.ram";
+> +    mc->default_ram_id =3D "mips_mipssim.ram";
 >   }
 >  =20
->   DEFINE_MACHINE("malta", mips_malta_machine_init)
+>   DEFINE_MACHINE("mipssim", mips_mipssim_machine_init)
 >=20
 
 
