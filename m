@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE6F12D901
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:28:46 +0100 (CET)
-Received: from localhost ([::1]:42488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780BA12D8F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:23:33 +0100 (CET)
+Received: from localhost ([::1]:42426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imHZk-00022A-Mp
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56297)
+	id 1imHUh-0003Rv-WD
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:23:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56151)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1imHCE-0005hT-Tx
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:33 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1imHCD-0003sf-Gm
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41646
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHCD-0003q4-By
+ (envelope-from <imammedo@redhat.com>) id 1imHCC-0005eP-RK
  for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:25 -0500
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <imammedo@redhat.com>) id 1imHCB-0003j3-Fq
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:24 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45675
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHCB-0003h1-AN
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577797464;
+ s=mimecast20190719; t=1577797462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J+/F5MFll7h1BejUr/Qw1LJ5J2Y8NYnLvrSS6TTi6Bs=;
- b=CDt5I627N5DNE5pY8VxuRDfgtLXPr112YJJ4+l3mk9DHINeF2jjtdigaWJhmdAPEt1knEJ
- rRI/7tywWSa6JcL8iPstbant6hR3IaQO6VgVvK6OVIz8MwhLT9NJoVxLwdmJWSYg0Gk6r5
- b4EyZ4GjtqEY60lqv2bJSJfJNdS4/YU=
+ bh=m19fOxX7h2bliNC0m68qr2ip1wTDRq6lTo+RgGFC5Y0=;
+ b=MjadgHUBFooUYlj1bj2yD52R2uehy2ofjW9VqlmPaO4dwTydzF/SyXl1R8HC2IlS1xBXQo
+ 8L+oGQFFA63Sd8y42HchTye/xMkFJjrPicK0ypg1J9dYX7G0nfgpYfYJa+hMY0TZF2rGWN
+ J1Qx1qHx+qK5ijqDKk0FEXgDQZGeedA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-wcucoobAOXC4eS7I5HFsNg-1; Tue, 31 Dec 2019 08:04:19 -0500
+ us-mta-114-73HpvNgRMkmp3M0Xa--Bzw-1; Tue, 31 Dec 2019 08:04:20 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 439961005502
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D486518031CD
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:19 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE1B1620A6
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AF65620A6
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:19 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 35/86] arm:virt: use memdev for RAM
-Date: Tue, 31 Dec 2019 14:03:19 +0100
-Message-Id: <1577797450-88458-36-git-send-email-imammedo@redhat.com>
+Subject: [PATCH 37/86] arm:xilinx_zynq: use memdev for RAM
+Date: Tue, 31 Dec 2019 14:03:21 +0100
+Message-Id: <1577797450-88458-38-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: wcucoobAOXC4eS7I5HFsNg-1
+X-MC-Unique: 73HpvNgRMkmp3M0Xa--Bzw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,52 +73,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away,
-so replace it with memdev allocated MemoryRegion.
-The later is initialized by generic code, so board only
-needs to opt in to memdev scheme by providing
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
   MachineClass::default_ram_id
-and then map memory region provided by
-  MachineState::ram_memdev
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/arm/virt.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/arm/xilinx_zynq.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 39ab5f4..e2fbca3 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1512,7 +1512,6 @@ static void machvirt_init(MachineState *machine)
-     MemoryRegion *sysmem =3D get_system_memory();
-     MemoryRegion *secure_sysmem =3D NULL;
-     int n, virt_max_cpus;
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     bool firmware_loaded;
-     bool aarch64 =3D true;
-     bool has_ged =3D !vmc->no_ged;
-@@ -1701,9 +1700,8 @@ static void machvirt_init(MachineState *machine)
-         }
-     }
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index df950fc..0ef9688 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -160,7 +160,6 @@ static void zynq_init(MachineState *machine)
+ {
+     ARMCPU *cpu;
+     MemoryRegion *address_space_mem =3D get_system_memory();
+-    MemoryRegion *ext_ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *ocm_ram =3D g_new(MemoryRegion, 1);
+     DeviceState *dev;
+     SysBusDevice *busdev;
+@@ -190,9 +189,7 @@ static void zynq_init(MachineState *machine)
+     object_property_set_bool(OBJECT(cpu), true, "realized", &error_fatal);
 =20
--    memory_region_allocate_system_memory(ram, NULL, "mach-virt.ram",
+     /* DDR remapped to address zero.  */
+-    memory_region_allocate_system_memory(ext_ram, NULL, "zynq.ext_ram",
 -                                         machine->ram_size);
--    memory_region_add_subregion(sysmem, vms->memmap[VIRT_MEM].base, ram);
-+    memory_region_add_subregion(sysmem, vms->memmap[VIRT_MEM].base,
-+                                machine->ram);
-     if (machine->device_memory) {
-         memory_region_add_subregion(sysmem, machine->device_memory->base,
-                                     &machine->device_memory->mr);
-@@ -2053,6 +2051,7 @@ static void virt_machine_class_init(ObjectClass *oc, =
-void *data)
-     hc->unplug_request =3D virt_machine_device_unplug_request_cb;
-     mc->numa_mem_supported =3D true;
-     mc->auto_enable_numa_with_memhp =3D true;
-+    mc->default_ram_id =3D "mach-virt.ram";
+-    memory_region_add_subregion(address_space_mem, 0, ext_ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+=20
+     /* 256K of on-chip memory */
+     memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 * KiB,
+@@ -318,6 +315,7 @@ static void zynq_machine_init(MachineClass *mc)
+     mc->no_sdcard =3D 1;
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a9");
++    mc->default_ram_id =3D "zynq.ext_ram";
  }
 =20
- static void virt_instance_init(Object *obj)
+ DEFINE_MACHINE("xilinx-zynq-a9", zynq_machine_init)
 --=20
 2.7.4
 
