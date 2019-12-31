@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C2F12DAEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 19:34:47 +0100 (CET)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF27112DAF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 19:37:07 +0100 (CET)
+Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imMLu-0000ak-Hi
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 13:34:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42023)
+	id 1imMOA-0003oa-7h
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 13:37:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42767)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1imMJw-0007Ce-F9
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:32:45 -0500
+ (envelope-from <philmd@redhat.com>) id 1imMK7-0007UF-W0
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:32:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1imMJu-0006pZ-Uh
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:32:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22061
+ (envelope-from <philmd@redhat.com>) id 1imMK6-0007TS-UU
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:32:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22143
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imMJu-0006mw-QY
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:32:42 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imMK6-0007ST-Pw
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:32:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577817162;
+ s=mimecast20190719; t=1577817174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LNrbe+4B+umJ4zWOxS26ufKgntytZstSfWcEVuRFYr4=;
- b=NDfi6HzRABsKNrEAg1cx1Yv1tFQPi/4Qr9+/smBEW3lLA7j1tIcHaywUoe8pVo7zLBIEGH
- d5A9lvyVY2BsQv+zoECi6JA/7hfbqMT7o1w9UZiFKtIfiQQsyNWyqVgwe8o2aEX3LmAeJQ
- PWXfgkrDiyoWtGHSNshwKVVedi4Yd10=
+ bh=A8zT9hMVESj5Eti91E6Xy3QJmXt+rT5wjccs06y86/k=;
+ b=aJGad8BpmvmXoPIWIEwDhZcNQThRFrOYCuUqKkg9M31fyaVmSsg7j8admdjS8hf5TR74Qx
+ pmhlTEURCRlOa7795ky2HfcNSzjuFhcafGqmYTko3ZWmo805MUX7jlV1bZG1+RtFX532xA
+ P4VXXb9GULYbsqRgFsoTz1u0ljFhyrI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-7M8wrOacOneps52M3JOhuQ-1; Tue, 31 Dec 2019 13:32:40 -0500
+ us-mta-358-cnp9WkqLM-eaGTP4xNNZ5A-1; Tue, 31 Dec 2019 13:32:53 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A370477;
- Tue, 31 Dec 2019 18:32:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1322610054E3;
+ Tue, 31 Dec 2019 18:32:51 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-116-30.ams2.redhat.com [10.36.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FEC68207A;
- Tue, 31 Dec 2019 18:32:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E943267673;
+ Tue, 31 Dec 2019 18:32:38 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 01/14] hw/usb/redirect: Do not link 'usb-redir' device when
- USB not enabled
-Date: Tue, 31 Dec 2019 19:32:03 +0100
-Message-Id: <20191231183216.6781-2-philmd@redhat.com>
+Subject: [PATCH 02/14] hw/intc/i8259: Fix Kconfig dependency on ISA bus
+Date: Tue, 31 Dec 2019 19:32:04 +0100
+Message-Id: <20191231183216.6781-3-philmd@redhat.com>
 In-Reply-To: <20191231183216.6781-1-philmd@redhat.com>
 References: <20191231183216.6781-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 7M8wrOacOneps52M3JOhuQ-1
+X-MC-Unique: cnp9WkqLM-eaGTP4xNNZ5A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,34 +85,38 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'usb-redir' device requires the USB core code to work. Do not
-link it when there is no USB support. This fixes:
+The 8259 Interrupt Controller sits on a ISA bus.
+Add the missing dependency to fix:
 
-  $ qemu-system-tricore -M tricore_testboard -device usb-redir
-  qemu-system-tricore: -device usb-redir: No 'usb-bus' bus found for device=
- 'usb-redir'
+    LINK    x86_64-softmmu/qemu-system-x86_64
+  /usr/bin/ld: ../hw/intc/i8259_common.o: in function `pic_common_realize':
+  hw/intc/i8259_common.c:84: undefined reference to `isa_register_ioport'
+  /usr/bin/ld: hw/intc/i8259_common.c:86: undefined reference to `isa_regis=
+ter_ioport'
+  /usr/bin/ld: ../hw/intc/i8259_common.o: in function `i8259_init_chip':
+  hw/intc/i8259_common.c:97: undefined reference to `isa_create'
+  collect2: error: ld returned 1 exit status
+  make[1]: *** [Makefile:206: qemu-system-x86_64] Error 1
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/usb/Makefile.objs | 2 ++
- 1 file changed, 2 insertions(+)
+Cc: "Michael S. Tsirkin" <mst@redhat.com> (supporter:PC Chipset)
+---
+ hw/intc/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-index 0ab20f9d73..0052d49ce1 100644
---- a/hw/usb/Makefile.objs
-+++ b/hw/usb/Makefile.objs
-@@ -39,9 +39,11 @@ common-obj-$(CONFIG_USB_STORAGE_MTP)  +=3D dev-mtp.o
- endif
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index 10a680b53a..a189d6fedd 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -3,6 +3,7 @@ config HEATHROW_PIC
 =20
- # usb redirection
-+ifeq ($(CONFIG_USB),y)
- common-obj-$(CONFIG_USB_REDIR) +=3D redirect.o quirks.o
- redirect.o-cflags =3D $(USB_REDIR_CFLAGS)
- redirect.o-libs =3D $(USB_REDIR_LIBS)
-+endif
+ config I8259
+     bool
++    select ISA_BUS
 =20
- # usb pass-through
- ifeq ($(CONFIG_USB_LIBUSB)$(CONFIG_USB),yy)
+ config PL190
+     bool
 --=20
 2.21.0
 
