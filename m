@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A8112D8FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:25:42 +0100 (CET)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1EE12D8FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:26:37 +0100 (CET)
+Received: from localhost ([::1]:42466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imHWn-0006PP-Cg
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:25:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55507)
+	id 1imHXg-0007dQ-36
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:26:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1imHC3-0005Oq-9A
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:16 -0500
+ (envelope-from <imammedo@redhat.com>) id 1imHC6-0005Uk-EI
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1imHC2-00032t-0a
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:15 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44435
+ (envelope-from <imammedo@redhat.com>) id 1imHC5-0003H1-1C
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:18 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51363
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHC1-00030I-R9
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:13 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHC4-0003EP-SA
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577797453;
+ s=mimecast20190719; t=1577797456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UVKMODe+MpjYLQreYlBXiezNgqlaIQPtM6juxP85AtM=;
- b=a4dxSzcWW3x+tEX8bPYeo5rI0f0HvOVqsVr8GcyoVYw/D5en0FlyxtDxf4WvD6tI5G9w2i
- iMnNOAbpiFFwsshNnouLgAD8Jj0080ZQl4qWDKbh4WFASAaVSI5Ndf8wIpMGRDc+OPfdRK
- hXl4clGSl4Tl6veW5H7ca6+ctvzlP18=
+ bh=79eURPN1sQsi2h5uxNhyVtBz8N1xgtm8YMcGzpAfDa0=;
+ b=eS51uzmupVHRFq5ekPYiCYMP7S5NnUdolWfi64aFwLUmzyVImBxGkzDEo6zFEFrp4zUOlg
+ e2DGbxKS+fWoJbJup/LHEzt5OSt0mkE84jMwan/D7opTN9BqUdTc+HLll8glpEq2LtRBec
+ CdhNEQo+w9KsaKaEIy/GPHo6rCeZmwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-RoNMO_k1M2-lJby3bpMILQ-1; Tue, 31 Dec 2019 08:04:11 -0500
+ us-mta-246-jZnq5mP-Mxmcv_c-w8BZGA-1; Tue, 31 Dec 2019 08:04:12 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CB09800D41
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDFF3DB60
  for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:11 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9637F620A6
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66097620A6
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:11 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/86] arm:musicpal: use memdev for RAM
-Date: Tue, 31 Dec 2019 14:03:10 +0100
-Message-Id: <1577797450-88458-27-git-send-email-imammedo@redhat.com>
+Subject: [PATCH 27/86] arm:nseries: use memdev for RAM
+Date: Tue, 31 Dec 2019 14:03:11 +0100
+Message-Id: <1577797450-88458-28-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: RoNMO_k1M2-lJby3bpMILQ-1
+X-MC-Unique: jZnq5mP-Mxmcv_c-w8BZGA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -87,48 +87,97 @@ PS:
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/arm/musicpal.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ hw/arm/nseries.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index f68a399..5bcb144 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -1589,16 +1589,20 @@ static void musicpal_init(MachineState *machine)
-     int i;
-     unsigned long flash_size;
-     DriveInfo *dinfo;
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-     MemoryRegion *address_space_mem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *sram =3D g_new(MemoryRegion, 1);
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 3fd196f..89e4627 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -47,7 +47,6 @@
 =20
-+    /* For now we use a fixed - the original - RAM size */
+ /* Nokia N8x0 support */
+ struct n800_s {
+-    MemoryRegion sdram;
+     struct omap_mpu_state_s *mpu;
+=20
+     struct rfbi_chip_s blizzard;
+@@ -1311,13 +1310,18 @@ static void n8x0_init(MachineState *machine,
+                       struct arm_boot_info *binfo, int model)
+ {
+     struct n800_s *s =3D (struct n800_s *) g_malloc0(sizeof(*s));
+-    uint64_t sdram_size =3D binfo->ram_size;
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+=20
+-    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
+-                                         sdram_size);
+-    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE, &s->sd=
+ram);
 +    if (machine->ram_size !=3D mc->default_ram_size) {
 +        error_report("Invalid RAM size, should be %" PRIi64 " Bytes",
 +                     mc->default_ram_size);
 +        exit(EXIT_FAILURE);
 +    }
 +
-     cpu =3D ARM_CPU(cpu_create(machine->cpu_type));
++    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE,
++                                machine->ram);
 =20
--    /* For now we use a fixed - the original - RAM size */
--    memory_region_allocate_system_memory(ram, NULL, "musicpal.ram",
--                                         MP_RAM_DEFAULT_SIZE);
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+-    s->mpu =3D omap2420_mpu_init(&s->sdram, machine->cpu_type);
++    s->mpu =3D omap2420_mpu_init(machine->ram, machine->cpu_type);
 =20
-     memory_region_init_ram(sram, NULL, "musicpal.sram", MP_SRAM_SIZE,
-                            &error_fatal);
-@@ -1714,6 +1718,8 @@ static void musicpal_machine_init(MachineClass *mc)
-     mc->init =3D musicpal_init;
+     /* Setup peripherals
+      *
+@@ -1383,9 +1387,8 @@ static void n8x0_init(MachineState *machine,
+          *
+          * The code above is for loading the `zImage' file from Nokia
+          * images.  */
+-        load_image_targphys(option_rom[0].name,
+-                            OMAP2_Q2_BASE + 0x400000,
+-                            sdram_size - 0x400000);
++        load_image_targphys(option_rom[0].name, OMAP2_Q2_BASE + 0x400000,
++                            machine->ram_size - 0x400000);
+=20
+         n800_setup_nolo_tags(nolo_tags);
+         cpu_physical_memory_write(OMAP2_SRAM_BASE, nolo_tags, 0x10000);
+@@ -1395,16 +1398,12 @@ static void n8x0_init(MachineState *machine,
+=20
+ static struct arm_boot_info n800_binfo =3D {
+     .loader_start =3D OMAP2_Q2_BASE,
+-    /* Actually two chips of 0x4000000 bytes each */
+-    .ram_size =3D 0x08000000,
+     .board_id =3D 0x4f7,
+     .atag_board =3D n800_atag_setup,
+ };
+=20
+ static struct arm_boot_info n810_binfo =3D {
+     .loader_start =3D OMAP2_Q2_BASE,
+-    /* Actually two chips of 0x4000000 bytes each */
+-    .ram_size =3D 0x08000000,
+     /* 0x60c and 0x6bf (WiMAX Edition) have been assigned but are not
+      * used by some older versions of the bootloader and 5555 is used
+      * instead (including versions that shipped with many devices).  */
+@@ -1431,6 +1430,9 @@ static void n800_class_init(ObjectClass *oc, void *da=
+ta)
+     mc->default_boot_order =3D "";
      mc->ignore_memory_transaction_failures =3D true;
-     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm926");
-+    mc->default_ram_size =3D MP_RAM_DEFAULT_SIZE;
-+    mc->default_ram_id =3D "musicpal.ram";
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm1136-r2");
++    /* Actually two chips of 0x4000000 bytes each */
++    mc->default_ram_size =3D 0x08000000;
++    mc->default_ram_id =3D "omap2.dram";
  }
 =20
- DEFINE_MACHINE("musicpal", musicpal_machine_init)
+ static const TypeInfo n800_type =3D {
+@@ -1448,6 +1450,9 @@ static void n810_class_init(ObjectClass *oc, void *da=
+ta)
+     mc->default_boot_order =3D "";
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm1136-r2");
++    /* Actually two chips of 0x4000000 bytes each */
++    mc->default_ram_size =3D 0x08000000;
++    mc->default_ram_id =3D "omap2.dram";
+ }
+=20
+ static const TypeInfo n810_type =3D {
 --=20
 2.7.4
 
