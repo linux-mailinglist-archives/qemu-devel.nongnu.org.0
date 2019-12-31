@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB4412D8DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:09:05 +0100 (CET)
-Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B310112D8E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:13:42 +0100 (CET)
+Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imHGi-0002TA-LN
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:09:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54712)
+	id 1imHLB-0000UZ-AH
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:13:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54901)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1imHBp-00057G-Eq
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:02 -0500
+ (envelope-from <imammedo@redhat.com>) id 1imHBr-0005B8-Iu
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1imHBn-0002Gt-TM
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:01 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24622
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1imHBq-0002Rt-77
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54657
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHBn-0002EO-NR
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:03:59 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHBq-0002PQ-1O
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577797439;
+ s=mimecast20190719; t=1577797441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pi4qg6e+0D+hKsCGU9ukhXFZ4DCZR/K9HAcGfwOP+qE=;
- b=QTQ3N0uPVH3FjRm6gsrQbWFcR2C72SfqMskiJOlAghp1vaURqCkR7EFRapplYCTHj9c/tM
- Y0X/c4Q350D3VyZRhVOv0M6/DXxHYt9VN317TlqwcxSYwhVnfTAiHpPehnd9GS9Uhjx8KR
- Tcev09lM7XvsW3Syo/9SKw0gBFywLqQ=
+ bh=lZEgKo+57ODct3JCURUjhK20v4l31l3e6Fp67VhEK3Q=;
+ b=Q2sugjy0LFrZ1GEZ3v6zG0TQH2hW4wo/Cg7OvyLlm7OVCB5vGfQ0bhL2wa+n+SdssePzTG
+ kFsupm8RfbyNVBjriJ5sgHyrnzUlbweALVr/Edi9islD6eSABtjfiKVnFPH5xy1V4600Yl
+ g2B7VYBH19hcp8UKqH6STxVSgQNjmmc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-y6SarP2_OgixfPyw4afeAQ-1; Tue, 31 Dec 2019 08:03:57 -0500
+ us-mta-345-Btu_qz3HN2-XfesHWTKwyA-1; Tue, 31 Dec 2019 08:03:57 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDE65107ACE5
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:03:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA144100551B
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:03:56 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72374620A6
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:03:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4007F620A6
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:03:56 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/86] initialize MachineState::ram in NUMA case
-Date: Tue, 31 Dec 2019 14:02:51 +0100
-Message-Id: <1577797450-88458-8-git-send-email-imammedo@redhat.com>
+Subject: [PATCH 08/86] alpha:dp264: use memdev for RAM
+Date: Tue, 31 Dec 2019 14:02:52 +0100
+Message-Id: <1577797450-88458-9-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: y6SarP2_OgixfPyw4afeAQ-1
+X-MC-Unique: Btu_qz3HN2-XfesHWTKwyA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,151 +73,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case of NUMA there are 2 cases to consider:
- 1. '-numa node,memdev', the only one that will be available
-    for 5.0 and newer machine types.
-
-    In this case reuse current behavior, with only difference
-    memdevs are put into MachineState::ram container +
-    a temporary glue to keep memory_region_allocate_system_memory()
-    working until all boards converted.
-
- 2. fake NUMA ("-numa node mem" and default RAM splitting)
-    the later has been deprecated and will be removed but the former
-    is going to stay available for compat reasons for 4.2 and
-    older machine types (libvirt was heavy user of this)
-
-    it takes allocate_system_memory_nonnuma() path, like non-NUMA
-    case and falls under conversion to memdev.  So extend non-NUMA
-    MachineState::ram initialization introduced in previous patch
-    to take care of fake NUMA case.
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/sysemu/numa.h |  1 +
- hw/core/numa.c        | 43 ++++++++++++++++++++++++++++++-------------
- vl.c                  |  7 ++++---
- 3 files changed, 35 insertions(+), 16 deletions(-)
+ hw/alpha/alpha_sys.h | 2 +-
+ hw/alpha/dp264.c     | 3 ++-
+ hw/alpha/typhoon.c   | 8 ++------
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index ae9c41d..21f6a5a 100644
---- a/include/sysemu/numa.h
-+++ b/include/sysemu/numa.h
-@@ -49,5 +49,6 @@ void numa_default_auto_assign_ram(MachineClass *mc, NodeI=
-nfo *nodes,
-                                   int nb_nodes, ram_addr_t size);
- void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,
-                        Error **errp);
-+bool numa_uses_legacy_mem(void);
+diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
+index 95033d7..bc0a286 100644
+--- a/hw/alpha/alpha_sys.h
++++ b/hw/alpha/alpha_sys.h
+@@ -11,7 +11,7 @@
+ #include "hw/intc/i8259.h"
 =20
- #endif
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index ee655b0..a752866 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -51,6 +51,11 @@ QemuOptsList qemu_numa_opts =3D {
- };
 =20
- static int have_memdevs;
-+bool numa_uses_legacy_mem(void)
-+{
-+    return !have_memdevs;
-+}
-+
- static int have_mem;
- static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
-                              * For all nodes, nodeid < max_numa_nodeid
-@@ -355,6 +360,23 @@ void numa_default_auto_assign_ram(MachineClass *mc, No=
-deInfo *nodes,
-     nodes[i].node_mem =3D size - usedmem;
+-PCIBus *typhoon_init(ram_addr_t, ISABus **, qemu_irq *, AlphaCPU *[4],
++PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
+                      pci_map_irq_fn);
+=20
+ /* alpha_pci.c.  */
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index f2026fd..29439c7 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -75,7 +75,7 @@ static void clipper_init(MachineState *machine)
+     cpus[0]->env.trap_arg2 =3D smp_cpus;
+=20
+     /* Init the chipset.  */
+-    pci_bus =3D typhoon_init(ram_size, &isa_bus, &rtc_irq, cpus,
++    pci_bus =3D typhoon_init(machine->ram, &isa_bus, &rtc_irq, cpus,
+                            clipper_pci_map_irq);
+=20
+     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
+@@ -183,6 +183,7 @@ static void clipper_machine_init(MachineClass *mc)
+     mc->max_cpus =3D 4;
+     mc->is_default =3D 1;
+     mc->default_cpu_type =3D ALPHA_CPU_TYPE_NAME("ev67");
++    mc->default_ram_id =3D "ram";
  }
 =20
-+static void numa_init_memdev_container(MachineState *ms, MemoryRegion *ram=
-)
-+{
-+    int i;
-+    uint64_t addr =3D 0;
-+
-+    for (i =3D 0; i < ms->numa_state->num_nodes; i++) {
-+        uint64_t size =3D ms->numa_state->nodes[i].node_mem;
-+        HostMemoryBackend *backend =3D ms->numa_state->nodes[i].node_memde=
-v;
-+        if (!backend) {
-+            continue;
-+        }
-+        MemoryRegion *seg =3D machine_consume_memdev(ms, backend);
-+        memory_region_add_subregion(ram, addr, seg);
-+        addr +=3D size;
-+    }
-+}
-+
- void numa_complete_configuration(MachineState *ms)
- {
-     int i;
-@@ -437,6 +459,12 @@ void numa_complete_configuration(MachineState *ms)
-             exit(1);
-         }
+ DEFINE_MACHINE("clipper", clipper_machine_init)
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index 179e1f7..1795e2f 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -58,7 +58,6 @@ typedef struct TyphoonState {
+     TyphoonCchip cchip;
+     TyphoonPchip pchip;
+     MemoryRegion dchip_region;
+-    MemoryRegion ram_region;
+ } TyphoonState;
 =20
-+        if (!numa_uses_legacy_mem() && mc->default_ram_id) {
-+            ms->ram =3D g_new(MemoryRegion, 1);
-+            memory_region_init(ms->ram, OBJECT(ms), mc->default_ram_id,
-+                               ram_size);
-+            numa_init_memdev_container(ms, ms->ram);
-+        }
-         /* QEMU needs at least all unique node pair distances to build
-          * the whole NUMA distance table. QEMU treats the distance table
-          * as symmetric by default, i.e. distance A->B =3D=3D distance B->=
-A.
-@@ -503,27 +531,16 @@ void memory_region_allocate_system_memory(MemoryRegio=
-n *mr, Object *owner,
-                                           const char *name,
-                                           uint64_t ram_size)
- {
--    uint64_t addr =3D 0;
--    int i;
-     MachineState *ms =3D MACHINE(qdev_get_machine());
-=20
-     if (ms->numa_state =3D=3D NULL ||
--        ms->numa_state->num_nodes =3D=3D 0 || !have_memdevs) {
-+        ms->numa_state->num_nodes =3D=3D 0 || numa_uses_legacy_mem()) {
-         allocate_system_memory_nonnuma(mr, owner, name, ram_size);
-         return;
-     }
-=20
-     memory_region_init(mr, owner, name, ram_size);
--    for (i =3D 0; i < ms->numa_state->num_nodes; i++) {
--        uint64_t size =3D ms->numa_state->nodes[i].node_mem;
--        HostMemoryBackend *backend =3D ms->numa_state->nodes[i].node_memde=
-v;
--        if (!backend) {
--            continue;
--        }
--        MemoryRegion *seg =3D machine_consume_memdev(ms, backend);
--        memory_region_add_subregion(mr, addr, seg);
--        addr +=3D size;
--    }
-+    numa_init_memdev_container(ms, mr);
+ /* Called when one of DRIR or DIM changes.  */
+@@ -817,8 +816,7 @@ static void typhoon_alarm_timer(void *opaque)
+     cpu_interrupt(CPU(s->cchip.cpu[cpu]), CPU_INTERRUPT_TIMER);
  }
 =20
- static void numa_stat_memory_devices(NumaNodeMem node_mem[])
-diff --git a/vl.c b/vl.c
-index 579ae44..b89e76c 100644
---- a/vl.c
-+++ b/vl.c
-@@ -4294,9 +4294,10 @@ int main(int argc, char **argv, char **envp)
-     }
-     parse_numa_opts(current_machine);
+-PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **isa_bus,
+-                     qemu_irq *p_rtc_irq,
++PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_=
+irq,
+                      AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq)
+ {
+     MemoryRegion *addr_space =3D get_system_memory();
+@@ -851,9 +849,7 @@ PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **isa_=
+bus,
 =20
--    if (!current_machine->ram_memdev &&
--         machine_class->default_ram_size &&
--         machine_class->default_ram_id) {
-+    if (numa_uses_legacy_mem() &&
-+        machine_class->default_ram_size &&
-+        machine_class->default_ram_id &&
-+        !current_machine->ram_memdev) {
-         create_default_memdev(current_machine, mem_path, mem_prealloc);
-     }
-     /* do monitor/qmp handling at preconfig state if requested */
+     /* Main memory region, 0x00.0000.0000.  Real hardware supports 32GB,
+        but the address space hole reserved at this point is 8TB.  */
+-    memory_region_allocate_system_memory(&s->ram_region, OBJECT(s), "ram",
+-                                         ram_size);
+-    memory_region_add_subregion(addr_space, 0, &s->ram_region);
++    memory_region_add_subregion(addr_space, 0, ram);
+=20
+     /* TIGbus, 0x801.0000.0000, 1GB.  */
+     /* ??? The TIGbus is used for delivering interrupts, and access to
 --=20
 2.7.4
 
