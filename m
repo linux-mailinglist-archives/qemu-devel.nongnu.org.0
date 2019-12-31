@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B4112D963
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 15:08:41 +0100 (CET)
-Received: from localhost ([::1]:43016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6DE12D95C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 15:05:00 +0100 (CET)
+Received: from localhost ([::1]:42956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imICN-0002zS-RN
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 09:08:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
+	id 1imI8o-0006mB-Jt
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 09:04:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1imHCq-0006Km-UX
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:06 -0500
+ (envelope-from <imammedo@redhat.com>) id 1imHCs-0006Mx-7v
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1imHCm-0005cE-9e
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51111
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1imHCr-0005hr-41
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20800
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHCm-0005Zk-3J
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:00 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHCq-0005dj-VI
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577797499;
+ s=mimecast20190719; t=1577797500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2Ni0xGBUhNILEbnzZX6suH7qxyEqdMvdJf/IW4fnvZE=;
- b=VGBJwds50gUW8vidVB5OtahSUerSuF/3bQZfw+UePIidzmp4vto3ZHN4lovqztgGe9XeMn
- P9D//buSzJkFCxCMNU3r9Rvjcc9aGI9YM5M5BUshuT5G0A+11Dy/A2wMWrOU5RhTsjlLrf
- tYuau0nvELOYHRZGDQx/xhab6OuJBfE=
+ bh=MVkKlRH3RCq8RkLAivZKk7H3y7MvONdSXCX3tNEU9SU=;
+ b=hN9BOPmzOXEuiavdvBsRVRfS1nJvQ67/NfwHMH/RvyJxsCKnD7kkm7QGutAkzv+MZ1EkBp
+ qoG5zunQlMzFYd8242yt0LzMytI1hMYoJ1ado8OdWK4IEMy/z3fTgWBJTOpZpMhOzkaMQI
+ 1trEn7plDKZguXWJHfiOk8QKQ3/LGZY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-sXpRrWwTOCqLj3I6u9kllg-1; Tue, 31 Dec 2019 08:04:58 -0500
+ us-mta-402-zf-ngDGgP3m_YsO9XgcyGQ-1; Tue, 31 Dec 2019 08:04:58 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 396328024D2
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06B1D800EBF
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:58 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3C3378E96
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82AAB620A6
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:57 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 84/86] tests:numa-test: use explicit memdev to specify node RAM
-Date: Tue, 31 Dec 2019 14:04:08 +0100
-Message-Id: <1577797450-88458-85-git-send-email-imammedo@redhat.com>
+Subject: [PATCH 85/86] numa: make exit() usage consistent
+Date: Tue, 31 Dec 2019 14:04:09 +0100
+Message-Id: <1577797450-88458-86-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: sXpRrWwTOCqLj3I6u9kllg-1
+X-MC-Unique: zf-ngDGgP3m_YsO9XgcyGQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,176 +73,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow up patches will remove automatic RAM distribution
-between nodes and will make default machine types require
-"memdev" option instead of legacy "mem" option.
-
-Make tests to follow new rules and add an additional test
-for legacy "mem" option on old machine type, to make sure
-it won't regress in the future.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/numa-test.c | 52 ++++++++++++++++++++++++++++++++++++++-------------=
--
- 1 file changed, 38 insertions(+), 14 deletions(-)
+ hw/core/numa.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/numa-test.c b/tests/numa-test.c
-index 6f7aab9..4d27220 100644
---- a/tests/numa-test.c
-+++ b/tests/numa-test.c
-@@ -25,9 +25,8 @@ static void test_mon_explicit(const void *data)
-     g_autofree char *s =3D NULL;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=3D0,cpus=3D0-3 "
--                   "-numa node,nodeid=3D1,cpus=3D4-7 ");
-+    cli =3D make_cli(data, "-smp 8 -numa node,nodeid=3D0,memdev=3Dram,cpus=
-=3D0-3 "
-+                         "-numa node,nodeid=3D1,cpus=3D4-7");
-     qts =3D qtest_init(cli);
-=20
-     s =3D qtest_hmp(qts, "info numa");
-@@ -37,13 +36,13 @@ static void test_mon_explicit(const void *data)
-     qtest_quit(qts);
- }
-=20
--static void test_mon_default(const void *data)
-+static void test_def_cpu_split(const void *data)
- {
-     QTestState *qts;
-     g_autofree char *s =3D NULL;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 -numa node -numa node");
-+    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram -numa node");
-     qts =3D qtest_init(cli);
-=20
-     s =3D qtest_hmp(qts, "info numa");
-@@ -53,6 +52,23 @@ static void test_mon_default(const void *data)
-     qtest_quit(qts);
- }
-=20
-+static void test_pc_legacy_mem(const void *data)
-+{
-+    QTestState *qts;
-+    g_autofree char *s =3D NULL;
-+    g_autofree char *cli =3D NULL;
-+
-+    cli =3D make_cli(data, "-M pc-i440fx-4.2 -smp 8 "
-+                         "-numa node,mem=3D64M -numa node,mem=3D64M");
-+    qts =3D qtest_init(cli);
-+
-+    s =3D qtest_hmp(qts, "info numa");
-+    g_assert(strstr(s, "node 0 size: 64 MB"));
-+    g_assert(strstr(s, "node 1 size: 64 MB"));
-+
-+    qtest_quit(qts);
-+}
-+
- static void test_mon_partial(const void *data)
- {
-     QTestState *qts;
-@@ -60,7 +76,7 @@ static void test_mon_partial(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=3D0,cpus=3D0-1 "
-+                   "-numa node,nodeid=3D0,memdev=3Dram,cpus=3D0-1 "
-                    "-numa node,nodeid=3D1,cpus=3D4-5 ");
-     qts =3D qtest_init(cli);
-=20
-@@ -87,7 +103,8 @@ static void test_query_cpus(const void *data)
-     QTestState *qts;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
-=3D4-7");
-+    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram,cpus=3D0-3 "
-+                         "-numa node,cpus=3D4-7");
-     qts =3D qtest_init(cli);
-     cpus =3D get_cpus(qts, &resp);
-     g_assert(cpus);
-@@ -125,7 +142,7 @@ static void pc_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-cpu pentium -smp 8,sockets=3D2,cores=3D2,thre=
-ads=3D2 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D1,socket-id=3D0 "
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D0 "
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D1,thread-id=3D0 "
-@@ -178,7 +195,7 @@ static void spapr_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 4,cores=3D4 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D0,core-id=3D0 "
-         "-numa cpu,node-id=3D0,core-id=3D1 "
-         "-numa cpu,node-id=3D0,core-id=3D2 "
-@@ -223,7 +240,7 @@ static void aarch64_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 2 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D1,thread-id=3D0 "
-         "-numa cpu,node-id=3D0,thread-id=3D1");
-     qts =3D qtest_init(cli);
-@@ -263,13 +280,14 @@ static void pc_dynamic_cpu_cfg(const void *data)
-     QDict *resp;
-     QList *cpus;
-     QTestState *qs;
-+    g_autofree char *cli =3D NULL;
-=20
--    qs =3D qtest_initf("%s -nodefaults --preconfig -smp 2",
--                     data ? (char *)data : "");
-+    cli =3D make_cli(data, "-nodefaults --preconfig -smp 2");
-+    qs =3D qtest_init(cli);
-=20
-     /* create 2 numa nodes */
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
--        " 'arguments': { 'type': 'node', 'nodeid': 0 } }")));
-+        " 'arguments': { 'type': 'node', 'nodeid': 0, 'memdev': 'ram' } }"=
-)));
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-         " 'arguments': { 'type': 'node', 'nodeid': 1 } }")));
-=20
-@@ -325,10 +343,15 @@ int main(int argc, char **argv)
-     if (strcmp(arch, "aarch64") =3D=3D 0) {
-         g_string_append(args, " -machine virt");
-     }
-+    if (!strcmp(arch, "ppc64")) {
-+        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
-=3D512M");
-+    } else {
-+        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
-=3D128M");
-+    }
-=20
-     g_test_init(&argc, &argv, NULL);
-=20
--    qtest_add_data_func("/numa/mon/default", args, test_mon_default);
-+    qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_split=
-);
-     qtest_add_data_func("/numa/mon/cpus/explicit", args, test_mon_explicit=
-);
-     qtest_add_data_func("/numa/mon/cpus/partial", args, test_mon_partial);
-     qtest_add_data_func("/numa/qmp/cpus/query-cpus", args, test_query_cpus=
-);
-@@ -336,6 +359,7 @@ int main(int argc, char **argv)
-     if (!strcmp(arch, "i386") || !strcmp(arch, "x86_64")) {
-         qtest_add_data_func("/numa/pc/cpu/explicit", args, pc_numa_cpu);
-         qtest_add_data_func("/numa/pc/dynamic/cpu", args, pc_dynamic_cpu_c=
-fg);
-+        qtest_add_data_func("/numa/pc/legacy/mem", args, test_pc_legacy_me=
-m);
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index beb6d2e..96776ff 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -421,7 +421,7 @@ void numa_complete_configuration(MachineState *ms)
+         /* Report large node IDs first, to make mistakes easier to spot */
+         if (!numa_info[i].present) {
+             error_report("numa: Node ID missing: %d", i);
+-            exit(1);
++            exit(EXIT_FAILURE);
+         }
      }
 =20
-     if (!strcmp(arch, "ppc64")) {
+@@ -462,7 +462,7 @@ void numa_complete_configuration(MachineState *ms)
+             error_report("total memory for NUMA nodes (0x%" PRIx64 ")"
+                          " should equal RAM size (0x" RAM_ADDR_FMT ")",
+                          numa_total, ram_size);
+-            exit(1);
++            exit(EXIT_FAILURE);
+         }
+=20
+         if (!numa_uses_legacy_mem()) {
 --=20
 2.7.4
 
