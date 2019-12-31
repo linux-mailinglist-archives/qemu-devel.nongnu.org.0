@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB6012DAFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 19:44:57 +0100 (CET)
-Received: from localhost ([::1]:45474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958F412DAF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 19:40:21 +0100 (CET)
+Received: from localhost ([::1]:45406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imMVk-0006bA-7E
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 13:44:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48609)
+	id 1imMRI-000075-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 13:40:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1imMLu-0001nF-4J
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:34:47 -0500
+ (envelope-from <philmd@redhat.com>) id 1imMLy-0001vU-D8
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:34:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1imMLs-00053H-To
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:34:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37133
+ (envelope-from <philmd@redhat.com>) id 1imMLx-0005Cp-70
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:34:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28011
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imMLs-00052F-BA
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:34:44 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imMLx-0005Aw-1y
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 13:34:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577817283;
+ s=mimecast20190719; t=1577817288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BCWFO4N6aSA6lg4FzqFWDScvfpnAbsxaIOBUJCAtlAY=;
- b=SI1zYusl/Y3QkVxPfZnWAXlWywhA5QxiYKllfTR2+j7d/Gu+dSHNGirUVaHo0RPZXNutdb
- mstjs+/t+gl7QQTPWvuVr+KE2lv+86Y7stApLSkhwH32feJyPaGrANz+XTCxEXVoUlH3GI
- YK+7MfMhAtLzAf1qTbh9iXkH2r0dEQw=
+ bh=you1BNnIeWey8KnPaYhu1Usou9ayEsaOY1T/aNIHy6g=;
+ b=SWE3KiMdwGHufm3wA6lw60OhY33NtTmtJnkuTQ78MWP9Wg/IPhSYqfvmUjvgYeEl8SMxwk
+ utFbCu0vIvaImU2Xa1eYBYE2UpLANTfe8RuCVOjm7LoXVMojZCMTd6IN142SclggQAac17
+ 9xbBGG6I1Id77tfPH1SdQr3ZEuXPHnQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-zHxZCLBtNXqDgrW_y4K8QA-1; Tue, 31 Dec 2019 13:34:42 -0500
+ us-mta-316-y3TTSorwNJ6XAMJfDvTQUg-1; Tue, 31 Dec 2019 13:34:47 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A49E8017DF;
- Tue, 31 Dec 2019 18:34:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42D55800EB8;
+ Tue, 31 Dec 2019 18:34:45 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-116-30.ams2.redhat.com [10.36.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 243F967673;
- Tue, 31 Dec 2019 18:34:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23B6167673;
+ Tue, 31 Dec 2019 18:34:40 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 13/14] hw/nvram/Kconfig: Restrict CHRP NVRAM to machines using
- OpenBIOS or SLOF
-Date: Tue, 31 Dec 2019 19:32:15 +0100
-Message-Id: <20191231183216.6781-14-philmd@redhat.com>
+Subject: [RFC PATCH 14/14] hw/intc/Kconfig: Let APIC select IOAPIC
+Date: Tue, 31 Dec 2019 19:32:16 +0100
+Message-Id: <20191231183216.6781-15-philmd@redhat.com>
 In-Reply-To: <20191231183216.6781-1-philmd@redhat.com>
 References: <20191231183216.6781-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: zHxZCLBtNXqDgrW_y4K8QA-1
+X-MC-Unique: y3TTSorwNJ6XAMJfDvTQUg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,82 +85,30 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only the OpenBIOS and SLOF firmwares use the CHRP NVRAM layout.
+apic_eoi() calls ioapic_eoi_broadcast(), so APIC has to
+select the IOAPIC Kconfig.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/nvram/Kconfig       | 4 ++++
- hw/nvram/Makefile.objs | 2 +-
- hw/ppc/Kconfig         | 1 +
- hw/sparc/Kconfig       | 1 +
- hw/sparc64/Kconfig     | 1 +
- 5 files changed, 8 insertions(+), 1 deletion(-)
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 
-diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
-index e082a5610c..0d2ba531ac 100644
---- a/hw/nvram/Kconfig
-+++ b/hw/nvram/Kconfig
-@@ -7,7 +7,11 @@ config AT24C
-=20
- config MAC_NVRAM
+RFC because I'm not sure the design is correct (meanwhile the fix is, howev=
+er).
+---
+ hw/intc/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index a189d6fedd..82748ae13d 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -24,6 +24,7 @@ config APIC
      bool
-+    select CHRP_NVRAM
-=20
- # NMC93XX uses the NS =CE=BCWire interface (similar to SPI but less config=
-urable)
- config NMC93XX_EEPROM
-     bool
-+
-+config CHRP_NVRAM
-+    bool
-diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
-index a4bdfbf187..090df63fcd 100644
---- a/hw/nvram/Makefile.objs
-+++ b/hw/nvram/Makefile.objs
-@@ -2,7 +2,7 @@ common-obj-$(CONFIG_DS1225Y) +=3D ds1225y.o
- common-obj-$(CONFIG_NMC93XX_EEPROM) +=3D eeprom93xx.o
- common-obj-$(CONFIG_AT24C) +=3D eeprom_at24c.o
- common-obj-y +=3D fw_cfg.o
--common-obj-y +=3D chrp_nvram.o
-+common-obj-$(CONFIG_CHRP_NVRAM) +=3D chrp_nvram.o
- common-obj-$(CONFIG_MAC_NVRAM) +=3D mac_nvram.o
- obj-$(CONFIG_PSERIES) +=3D spapr_nvram.o
- obj-$(CONFIG_NRF51_SOC) +=3D nrf51_nvm.o
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 8e62d8f470..e27efe9a24 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -11,6 +11,7 @@ config PSERIES
-     select XIVE_SPAPR
      select MSI_NONBROKEN
-     select FDT_PPC
-+    select CHRP_NVRAM
+     select I8259
++    select IOAPIC
 =20
- config SPAPR_RNG
-     bool
-diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-index 2a83a8010e..22aff2f5b7 100644
---- a/hw/sparc/Kconfig
-+++ b/hw/sparc/Kconfig
-@@ -12,6 +12,7 @@ config SUN4M
-     select LANCE
-     select M48T59
-     select STP2000
-+    select CHRP_NVRAM
-=20
- config LEON3
-     bool
-diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
-index f9f8b0f73a..980a201bb7 100644
---- a/hw/sparc64/Kconfig
-+++ b/hw/sparc64/Kconfig
-@@ -12,6 +12,7 @@ config SUN4U
-     select IDE_CMD646
-     select PCKBD
-     select SIMBA
-+    select CHRP_NVRAM
-=20
- config NIAGARA
+ config ARM_GIC_KVM
      bool
 --=20
 2.21.0
