@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D2412D95B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 15:02:22 +0100 (CET)
-Received: from localhost ([::1]:42916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A140412D959
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 15:01:41 +0100 (CET)
+Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imI6G-00043h-1V
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 09:02:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
+	id 1imI5c-0003FK-5z
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 09:01:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1imHCc-00062r-Tk
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:52 -0500
+ (envelope-from <imammedo@redhat.com>) id 1imHCm-0006Jq-Ni
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1imHCb-0004kT-NN
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37809
+ (envelope-from <imammedo@redhat.com>) id 1imHCl-0005XE-CF
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:05:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40146
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHCb-0004hk-Fn
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:49 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHCl-0005Uh-5A
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577797489;
+ s=mimecast20190719; t=1577797498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1IMz3vSK2QPdKSvb5rz27DYRqvQCEnPgI1KwjPhFPAM=;
- b=i9WlZcB97o6naFFi7q0bNetJbfwB+VGmtX38Zo82FdNz6f0qdY3SsVeqMcyEphfQjGpdeh
- lOqdwz84j5XXkVg4G87oaSMen0ZGqS9Ns31TnXbPDDSjhL3mB9v+2cVXRl087C6u8TejtX
- S/igVUJiBACdl2WDa7YJVgMpZaT9WPE=
+ bh=I4pcG404aVmF4+tOZ0zCGklA5LQSbnhcQJhf9sSNVD8=;
+ b=bWu190UiI4iMsehOOJp9QpVUnzHf+bW8tmJhvc7sUStoAjEGUTuXcNejUq0y84mudZ4dns
+ JgAF2CPiTUd3Hr6FCW6/IWPWRvgAfbnxQVOSXgYNuKBtNgK+W24sdAZLVx+3BGYTTPREFA
+ 4iQjjwx8RBm59Cx0rjIi8t/WrfYh16w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-KJMH7vAHM22IO2-vCiHbhA-1; Tue, 31 Dec 2019 08:04:46 -0500
+ us-mta-263-GQqzUtd3N3aeAXiuTWT6nQ-1; Tue, 31 Dec 2019 08:04:57 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19BA7DB60
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B48918031D0
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:56 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 926E1620A6
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E589178E96
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:55 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 70/86] ppc:virtex_ml507: remove unused arguments
-Date: Tue, 31 Dec 2019 14:03:54 +0100
-Message-Id: <1577797450-88458-71-git-send-email-imammedo@redhat.com>
+Subject: [PATCH 83/86] tests:numa-test: make top level args dynamic and
+ g_autofree(cli) cleanups
+Date: Tue, 31 Dec 2019 14:04:07 +0100
+Message-Id: <1577797450-88458-84-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: KJMH7vAHM22IO2-vCiHbhA-1
+X-MC-Unique: GQqzUtd3N3aeAXiuTWT6nQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,39 +74,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use GString to pass argument to make_cli() so that it would be easy
+to dynamically change test case arguments from main(). The follow up
+patch will use it to change RAM size options depending on target.
+
+While at it cleanup 'cli' freeing, using g_autofree annotation.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/ppc/virtex_ml507.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+PS:
+  make as separate patch so it won't clutter follow up testcase changes.
+---
+ tests/numa-test.c | 38 ++++++++++++++------------------------
+ 1 file changed, 14 insertions(+), 24 deletions(-)
 
-diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-index 6862552..651d8db 100644
---- a/hw/ppc/virtex_ml507.c
-+++ b/hw/ppc/virtex_ml507.c
-@@ -89,10 +89,7 @@ static void mmubooke_create_initial_mapping(CPUPPCState =
-*env,
-     tlb->PID =3D 0;
+diff --git a/tests/numa-test.c b/tests/numa-test.c
+index 8de8581..6f7aab9 100644
+--- a/tests/numa-test.c
++++ b/tests/numa-test.c
+@@ -14,16 +14,16 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qlist.h"
+=20
+-static char *make_cli(const char *generic_cli, const char *test_cli)
++static char *make_cli(const GString *generic_cli, const char *test_cli)
+ {
+-    return g_strdup_printf("%s %s", generic_cli ? generic_cli : "", test_c=
+li);
++    return g_strdup_printf("%s %s", generic_cli->str, test_cli);
  }
 =20
--static PowerPCCPU *ppc440_init_xilinx(ram_addr_t *ram_size,
--                                      int do_init,
--                                      const char *cpu_type,
--                                      uint32_t sysclk)
-+static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t syscl=
-k)
+ static void test_mon_explicit(const void *data)
  {
-     PowerPCCPU *cpu;
-     CPUPPCState *env;
-@@ -213,7 +210,7 @@ static void virtex_init(MachineState *machine)
-     int i;
+-    char *s;
+-    char *cli;
+     QTestState *qts;
++    g_autofree char *s =3D NULL;
++    g_autofree char *cli =3D NULL;
 =20
-     /* init CPUs */
--    cpu =3D ppc440_init_xilinx(&ram_size, 1, machine->cpu_type, 400000000)=
-;
-+    cpu =3D ppc440_init_xilinx(machine->cpu_type, 400000000);
-     env =3D &cpu->env;
+     cli =3D make_cli(data, "-smp 8 "
+                    "-numa node,nodeid=3D0,cpus=3D0-3 "
+@@ -33,17 +33,15 @@ static void test_mon_explicit(const void *data)
+     s =3D qtest_hmp(qts, "info numa");
+     g_assert(strstr(s, "node 0 cpus: 0 1 2 3"));
+     g_assert(strstr(s, "node 1 cpus: 4 5 6 7"));
+-    g_free(s);
 =20
-     if (env->mmu_model !=3D POWERPC_MMU_BOOKE) {
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void test_mon_default(const void *data)
+ {
+-    char *s;
+-    char *cli;
+     QTestState *qts;
++    g_autofree char *s =3D NULL;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 8 -numa node -numa node");
+     qts =3D qtest_init(cli);
+@@ -51,17 +49,15 @@ static void test_mon_default(const void *data)
+     s =3D qtest_hmp(qts, "info numa");
+     g_assert(strstr(s, "node 0 cpus: 0 2 4 6"));
+     g_assert(strstr(s, "node 1 cpus: 1 3 5 7"));
+-    g_free(s);
+=20
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void test_mon_partial(const void *data)
+ {
+-    char *s;
+-    char *cli;
+     QTestState *qts;
++    g_autofree char *s =3D NULL;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 8 "
+                    "-numa node,nodeid=3D0,cpus=3D0-1 "
+@@ -71,10 +67,8 @@ static void test_mon_partial(const void *data)
+     s =3D qtest_hmp(qts, "info numa");
+     g_assert(strstr(s, "node 0 cpus: 0 1 2 3 6 7"));
+     g_assert(strstr(s, "node 1 cpus: 4 5"));
+-    g_free(s);
+=20
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static QList *get_cpus(QTestState *qts, QDict **resp)
+@@ -87,11 +81,11 @@ static QList *get_cpus(QTestState *qts, QDict **resp)
+=20
+ static void test_query_cpus(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
+=3D4-7");
+     qts =3D qtest_init(cli);
+@@ -120,16 +114,15 @@ static void test_query_cpus(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void pc_numa_cpu(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-cpu pentium -smp 8,sockets=3D2,cores=3D2,thre=
+ads=3D2 "
+         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
+@@ -174,16 +167,15 @@ static void pc_numa_cpu(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void spapr_numa_cpu(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 4,cores=3D4 "
+         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
+@@ -220,16 +212,15 @@ static void spapr_numa_cpu(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void aarch64_numa_cpu(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 2 "
+         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
+@@ -264,7 +255,6 @@ static void aarch64_numa_cpu(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void pc_dynamic_cpu_cfg(const void *data)
+@@ -329,11 +319,11 @@ static void pc_dynamic_cpu_cfg(const void *data)
+=20
+ int main(int argc, char **argv)
+ {
+-    const char *args =3D NULL;
++    g_autoptr(GString) args =3D g_string_new("");
+     const char *arch =3D qtest_get_arch();
+=20
+     if (strcmp(arch, "aarch64") =3D=3D 0) {
+-        args =3D "-machine virt";
++        g_string_append(args, " -machine virt");
+     }
+=20
+     g_test_init(&argc, &argv, NULL);
 --=20
 2.7.4
 
