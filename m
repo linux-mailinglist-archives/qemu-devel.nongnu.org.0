@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A6112D8E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:14:10 +0100 (CET)
-Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19ABB12D900
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Dec 2019 14:28:43 +0100 (CET)
+Received: from localhost ([::1]:42486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imHLc-00019H-Jo
-	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:14:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54973)
+	id 1imHZh-0001zp-Ik
+	for lists+qemu-devel@lfdr.de; Tue, 31 Dec 2019 08:28:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1imHBs-0005CS-Bt
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:05 -0500
+ (envelope-from <imammedo@redhat.com>) id 1imHC7-0005Wf-L1
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1imHBr-0002Vx-1c
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51813
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1imHC6-0003Nb-CR
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39802
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHBq-0002Tc-TD
- for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:02 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1imHC6-0003LS-7a
+ for qemu-devel@nongnu.org; Tue, 31 Dec 2019 08:04:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577797442;
+ s=mimecast20190719; t=1577797457;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TuhqGloe2JFox7+RnDN/Ndkz744NAvXh5x2+C2XCQcE=;
- b=K0X4UCswJODAvyYqEuTfiAtKKJ7ceUjU3aJjoUUx6EN+lquk8puYD8sN3aOLeOK+ksUVmq
- K6Lh9sTqchL8pGh0UACemjImiR0b/fanAOgOfb/ueiOdoebeehGD8BQW/CeQwzsSF9a/Kw
- UimUgwW5ioNUxa8htapSxbepJWvOk2A=
+ bh=26+KW75Tite2RSmCVDD1qthDMDM37VCYU0I3PJV8Dvs=;
+ b=Z7Hi3Qeq+c7YWqMLSTw4TUx1DSlU9ybO9zcZh1oOnGyarM7PG0PdjNyBMYudREfT2OIh+J
+ 0Qd/hDx/eAAGlA1B6HQv04d+WpXk/z07ek8DLeeUC7KXwRnDgRbC9dOMqzzzLZk6hXe8qW
+ jpjQqElhG3qt5ZTn0EDtVgJn0agyPLY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-OTAxBLfPPMStBvWuwNrbog-1; Tue, 31 Dec 2019 08:04:00 -0500
+ us-mta-117-rMCV9W8nOAqXaXvVJ2BK6g-1; Tue, 31 Dec 2019 08:04:01 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4887800EB8
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:03:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B30C9801E66
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:00 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BA6178E96
- for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:03:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3948E620A6
+ for <qemu-devel@nongnu.org>; Tue, 31 Dec 2019 13:04:00 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/86] arm:aspeed: use memdev for RAM
-Date: Tue, 31 Dec 2019 14:02:56 +0100
-Message-Id: <1577797450-88458-13-git-send-email-imammedo@redhat.com>
+Subject: [PATCH 13/86] arm:collie: use memdev for RAM
+Date: Tue, 31 Dec 2019 14:02:57 +0100
+Message-Id: <1577797450-88458-14-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: OTAxBLfPPMStBvWuwNrbog-1
+X-MC-Unique: rMCV9W8nOAqXaXvVJ2BK6g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,52 +81,58 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
+PS:
+ while at it add check for user supplied RAM size and error
+ out if it mismatches board expected value.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/arm/aspeed.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/arm/collie.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 525c547..330254b 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -35,7 +35,6 @@ static struct arm_boot_info aspeed_board_binfo =3D {
- struct AspeedBoardState {
-     AspeedSoCState soc;
-     MemoryRegion ram_container;
--    MemoryRegion ram;
-     MemoryRegion max_ram;
+diff --git a/hw/arm/collie.c b/hw/arm/collie.c
+index 970a440..a67bb1f 100644
+--- a/hw/arm/collie.c
++++ b/hw/arm/collie.c
+@@ -20,20 +20,23 @@
+=20
+ static struct arm_boot_info collie_binfo =3D {
+     .loader_start =3D SA_SDCS0,
+-    .ram_size =3D 0x20000000,
  };
 =20
-@@ -184,6 +183,7 @@ static void aspeed_machine_init(MachineState *machine)
+ static void collie_init(MachineState *machine)
+ {
+     StrongARMState *s;
+     DriveInfo *dinfo;
+-    MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
++
++    if (machine->ram_size !=3D mc->default_ram_size) {
++        error_report("Invalid RAM size, should be %" PRIi64 " Bytes",
++                     mc->default_ram_size);
++        exit(EXIT_FAILURE);
++    }
 =20
-     memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
-                        UINT32_MAX);
-+    memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
+     s =3D sa1110_init(machine->cpu_type);
 =20
-     object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
-                             (sizeof(bmc->soc)), amc->soc_name, &error_abor=
-t,
-@@ -215,8 +215,6 @@ static void aspeed_machine_init(MachineState *machine)
-     object_property_set_bool(OBJECT(&bmc->soc), true, "realized",
-                              &error_fatal);
+-    memory_region_allocate_system_memory(sdram, NULL, "strongarm.sdram",
+-                                         collie_binfo.ram_size);
+-    memory_region_add_subregion(get_system_memory(), SA_SDCS0, sdram);
++    memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine->ra=
+m);
 =20
--    memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size)=
-;
--    memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
-     memory_region_add_subregion(get_system_memory(),
-                                 sc->memmap[ASPEED_SDRAM],
-                                 &bmc->ram_container);
-@@ -393,6 +391,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, =
-void *data)
-     mc->no_floppy =3D 1;
-     mc->no_cdrom =3D 1;
-     mc->no_parallel =3D 1;
-+    mc->default_ram_id =3D "ram";
+     dinfo =3D drive_get(IF_PFLASH, 0, 0);
+     pflash_cfi01_register(SA_CS0, "collie.fl1", 0x02000000,
+@@ -57,6 +60,8 @@ static void collie_machine_init(MachineClass *mc)
+     mc->init =3D collie_init;
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("sa1110");
++    mc->default_ram_size =3D 0x20000000;
++    mc->default_ram_id =3D "strongarm.sdram";
  }
 =20
- static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data=
-)
+ DEFINE_MACHINE("collie", collie_machine_init)
 --=20
 2.7.4
 
