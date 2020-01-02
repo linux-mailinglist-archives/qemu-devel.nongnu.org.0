@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3433812E1B0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:26:30 +0100 (CET)
-Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE91312E1AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:24:46 +0100 (CET)
+Received: from localhost ([::1]:35760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imqBx-0006Yp-8m
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:26:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42633)
+	id 1imqAG-00044R-O8
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:24:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6m-0008Ms-CJ
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6m-0008Mt-CU
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6l-0005UX-49
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6l-0005UP-3G
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:08 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37477 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39663 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1imq6k-0005TK-PF; Wed, 01 Jan 2020 21:21:07 -0500
+ id 1imq6k-0005TI-OL; Wed, 01 Jan 2020 21:21:07 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47pBbc4b99z9sSL; Thu,  2 Jan 2020 13:21:00 +1100 (AEDT)
+ id 47pBbc3lvsz9sSP; Thu,  2 Jan 2020 13:21:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1577931660;
- bh=1LFoTe3s6flHTJfC8lWxcgYuGo3tkFZLZsuVyfSGx4g=;
+ bh=qjhx2lC1m2sIPnJf8DjvA8VKRmh4JMECOQnp38tlKTM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KFMJ+q8qKjjxq4D7aRKIZXmyyI0SClmCjqTMtahTW9LCKR5RLlpPYPLUq/gTAFi86
- 99XGhgBmHFk794lbihaqxKhRspN9cqz0QTqGw7QEb1KIKQGCGTP83uGdbnwEhN23lz
- Kck7Hgv4ud7eER39eUWVBv395PvTs54O3LroO2kg=
-Date: Thu, 2 Jan 2020 13:06:16 +1100
+ b=K7nzymxlX32iGMlftA8mTlSp2l9rTeAzRWQ7Kr0ZQKlyEEgkcnS9C6CxDM6hdLgww
+ FVhAM8FMh2se+V/Y3Xaeqq7c5qPx9BiA/ArO5Og8LyK76Cd1n5viAgm3WcvnlxLzNj
+ JTlJ0qTSNSjlfdJCFdRtKxqDAVPTr6LShrafgVrs=
+Date: Thu, 2 Jan 2020 13:07:48 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 11/14] hw/ppc/Kconfig: Only select FDT helper for
- machines using it
-Message-ID: <20200102020616.GH2098@umbus>
+Subject: Re: [PATCH 13/14] hw/nvram/Kconfig: Restrict CHRP NVRAM to machines
+ using OpenBIOS or SLOF
+Message-ID: <20200102020748.GI2098@umbus>
 References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-12-philmd@redhat.com>
+ <20191231183216.6781-14-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WRT3RXLOp/bBMgTI"
+ protocol="application/pgp-signature"; boundary="gJNQRAHI5jiYqw2y"
 Content-Disposition: inline
-In-Reply-To: <20191231183216.6781-12-philmd@redhat.com>
+In-Reply-To: <20191231183216.6781-14-philmd@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -68,100 +68,92 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---WRT3RXLOp/bBMgTI
-Content-Type: text/plain; charset=iso-8859-1
+--gJNQRAHI5jiYqw2y
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 31, 2019 at 07:32:13PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Not all machines use the ppc_create_page_sizes_prop() helper.
+On Tue, Dec 31, 2019 at 07:32:15PM +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+> Only the OpenBIOS and SLOF firmwares use the CHRP NVRAM layout.
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
-> Can Kconfig can restrict to TARGET_PPC64?
-> ---
->  hw/ppc/Kconfig       | 10 ++++++++++
->  hw/ppc/Makefile.objs |  3 ++-
->  2 files changed, 12 insertions(+), 1 deletion(-)
+>  hw/nvram/Kconfig       | 4 ++++
+>  hw/nvram/Makefile.objs | 2 +-
+>  hw/ppc/Kconfig         | 1 +
+>  hw/sparc/Kconfig       | 1 +
+>  hw/sparc64/Kconfig     | 1 +
+>  5 files changed, 8 insertions(+), 1 deletion(-)
 >=20
+> diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
+> index e082a5610c..0d2ba531ac 100644
+> --- a/hw/nvram/Kconfig
+> +++ b/hw/nvram/Kconfig
+> @@ -7,7 +7,11 @@ config AT24C
+> =20
+>  config MAC_NVRAM
+>      bool
+> +    select CHRP_NVRAM
+> =20
+>  # NMC93XX uses the NS =CE=BCWire interface (similar to SPI but less conf=
+igurable)
+>  config NMC93XX_EEPROM
+>      bool
+> +
+> +config CHRP_NVRAM
+> +    bool
+> diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
+> index a4bdfbf187..090df63fcd 100644
+> --- a/hw/nvram/Makefile.objs
+> +++ b/hw/nvram/Makefile.objs
+> @@ -2,7 +2,7 @@ common-obj-$(CONFIG_DS1225Y) +=3D ds1225y.o
+>  common-obj-$(CONFIG_NMC93XX_EEPROM) +=3D eeprom93xx.o
+>  common-obj-$(CONFIG_AT24C) +=3D eeprom_at24c.o
+>  common-obj-y +=3D fw_cfg.o
+> -common-obj-y +=3D chrp_nvram.o
+> +common-obj-$(CONFIG_CHRP_NVRAM) +=3D chrp_nvram.o
+>  common-obj-$(CONFIG_MAC_NVRAM) +=3D mac_nvram.o
+>  obj-$(CONFIG_PSERIES) +=3D spapr_nvram.o
+>  obj-$(CONFIG_NRF51_SOC) +=3D nrf51_nvm.o
 > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index e4ca920507..8e62d8f470 100644
+> index 8e62d8f470..e27efe9a24 100644
 > --- a/hw/ppc/Kconfig
 > +++ b/hw/ppc/Kconfig
-> @@ -10,6 +10,7 @@ config PSERIES
->      select XICS_SPAPR
+> @@ -11,6 +11,7 @@ config PSERIES
 >      select XIVE_SPAPR
 >      select MSI_NONBROKEN
-> +    select FDT_PPC
+>      select FDT_PPC
+> +    select CHRP_NVRAM
 > =20
 >  config SPAPR_RNG
 >      bool
-> @@ -26,6 +27,7 @@ config POWERNV
->      select MC146818RTC
->      select XICS
->      select XIVE
-> +    select FDT_PPC
+> diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
+> index 2a83a8010e..22aff2f5b7 100644
+> --- a/hw/sparc/Kconfig
+> +++ b/hw/sparc/Kconfig
+> @@ -12,6 +12,7 @@ config SUN4M
+>      select LANCE
+>      select M48T59
+>      select STP2000
+> +    select CHRP_NVRAM
 > =20
->  config PPC405
+>  config LEON3
 >      bool
-> @@ -42,6 +44,7 @@ config PPC440
->      select PCI_EXPRESS
->      select PPC4XX
->      select SERIAL
-> +    select FDT_PPC
+> diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
+> index f9f8b0f73a..980a201bb7 100644
+> --- a/hw/sparc64/Kconfig
+> +++ b/hw/sparc64/Kconfig
+> @@ -12,6 +12,7 @@ config SUN4U
+>      select IDE_CMD646
+>      select PCKBD
+>      select SIMBA
+> +    select CHRP_NVRAM
 > =20
->  config PPC4XX
+>  config NIAGARA
 >      bool
-> @@ -60,6 +63,7 @@ config SAM460EX
->      select SMBUS_EEPROM
->      select USB_EHCI_SYSBUS
->      select USB_OHCI
-> +    select FDT_PPC
-> =20
->  config PREP
->      bool
-> @@ -110,6 +114,7 @@ config E500
->      select PPCE500_PCI
->      select SERIAL
->      select MPC_I2C
-> +    select FDT_PPC
-> =20
->  config VIRTEX
->      bool
-> @@ -118,6 +123,7 @@ config VIRTEX
->      select SERIAL
->      select XILINX
->      select XILINX_ETHLITE
-> +    select FDT_PPC
-> =20
->  config XIVE
->      bool
-> @@ -134,5 +140,9 @@ config XIVE_KVM
->      default y
->      depends on XIVE_SPAPR && KVM
-> =20
-> +# Only used by 64-bit targets
->  config FW_CFG_PPC
->      bool
-> +
-> +config FDT_PPC
-> +    bool
-> diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-> index 5c46c68e44..a4bac57be6 100644
-> --- a/hw/ppc/Makefile.objs
-> +++ b/hw/ppc/Makefile.objs
-> @@ -1,5 +1,6 @@
->  # shared objects
-> -obj-y +=3D ppc.o ppc_booke.o fdt.o
-> +obj-y +=3D ppc.o ppc_booke.o
-> +obj-$(CONFIG_FDT_PPC) +=3D fdt.o
->  obj-$(CONFIG_FW_CFG_PPC) +=3D fw_cfg.o
->  # IBM pSeries (sPAPR)
->  obj-$(CONFIG_PSERIES) +=3D spapr.o spapr_caps.o spapr_vio.o spapr_events=
-=2Eo
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -169,25 +161,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---WRT3RXLOp/bBMgTI
+--gJNQRAHI5jiYqw2y
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NUBgACgkQbDjKyiDZ
-s5JOKA/8D6gW4zVYQleoNiAiu0pbOjrwhJaWalbepOfbdf5mzdU7tEmYAs678RAc
-4XcOSRcA6AIE8z4oZaiOoJykl7Zg7hcLx171xnku1d/9G4x94KkX8lSHVL9ZYDh8
-iKvMaaAoG4rnQ0NRmcG6I4gBf+K0rMZ3A9jX3/k0hSV1wBqxGSqMWtGLm8j5ecry
-1htK/WiNwRQca9/pgkn6ydH0oKAlvgBXIATtNssxfRb/PI44zpvMQlyHV1x8BaqS
-67wT8Kx429/PhLX3kZRk1LhxhWoIbrAzaYoTYL/IsHLMxqv+NMtDKg4rJHLS2M5n
-jr2wFhDnKgq0ceT5vtRNz3dI+vLxVqj/xfy98fKmpa9gBYVEMEpWH8oTs8hAICS7
-R1WCX7rneDyXMAkuFQN4x5tEU4O+XL5pmYE1LQiSQQZS24+qjLPGocnCfXTWAALQ
-+DBd/tieVp1ccmLIGnIulH5eig/EgstrPHiiFsLH0CZQEp1nIMhr+FRM2/FaW7pz
-Dt++rDOkT3zRSq7oAGofppTpQmZGi9aUE2CMg4Q10hKbJuPyhqJFXYThBLennWE1
-q08kN0VUZIaQYRuPNEd+2VHNtR9HFnHlX2ix5a+Tmc++vDg4luSLRbjPVee+HJv9
-jZwx9NglrYGThC5q2hjdp31nahn//HfCqd1A+sl31t1whrZnS+Q=
-=q4R9
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NUHQACgkQbDjKyiDZ
+s5IHMhAAkhljr5f8Zcot19wEckEE3hgY+w6Disn3Gl3kE0DGpm70cc/74aHa6y4i
+ihX4xvwcF7/UESoEi+9RG+6oJpnwlJ5HanE2fU3QgL9vG1oZx6t1KqT30EIgGCdI
+nSa9PwJFc5yKulG09FaIkmEjS4JT2nYsh/zfHoJBwYdRITdwpIiLwGSKIOS1duJg
+VFRIbJ3o4rCT0/5cTak2U7cEoz18QcPmd9OZ8W1WlK+qDfMzEIExbwqTfcUfv3r4
+m5LZ3b2GEnTLhaFC8PhfpCQukUKVbi2vHLUajNqf7YevXHChHwdS+jxSjvgTZT+C
+mZYHflxW42Y4WzhuZIa+o+xQX1/FzLEahWAtObN1ElXqE8Aekd8qeciTkg1JgwK6
+UbQxCKwf+nmp5QV4XzJSAr/nNXpoooPkccwjaIknJThDqYHrucFsM+UozU6+K3hV
+zrkFFYQzYP1l8lhE65AtwfG/3Q9i51HIq513u3EuLhIfdiv7XxRSfMhCyxESu4XT
+cgZqoGDYcqjan4hG2IyEFMRHbqQK3rhfS6H0l1otPRCAQY2ULxtqWasitHY9OVP6
+PMV+C9b8y6wg6eMyMXLZmlZqMp1A7DgEAGHsURJpKd9blm4unQEOYdClPG03G6m1
+4zfh9jiOeAVgxuWluMc8dTwI6Cz7043+XPWJCBlz3SrGXawecgY=
+=g0n1
 -----END PGP SIGNATURE-----
 
---WRT3RXLOp/bBMgTI--
+--gJNQRAHI5jiYqw2y--
 
