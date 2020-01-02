@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CACF12E1A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:22:56 +0100 (CET)
-Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A714112E1AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:24:49 +0100 (CET)
+Received: from localhost ([::1]:35764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imq8V-0001OY-Fh
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:22:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42575)
+	id 1imqAK-00047W-FY
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:24:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42573)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MP-Ab
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MN-9i
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005T7-SZ
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005Sq-RS
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:05 -0500
-Received: from ozlabs.org ([203.11.71.1]:53893)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39307 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1imq6h-0005Qz-Tl; Wed, 01 Jan 2020 21:21:04 -0500
+ id 1imq6i-0005R6-Fm; Wed, 01 Jan 2020 21:21:04 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47pBbb0GvXz9sPW; Thu,  2 Jan 2020 13:20:58 +1100 (AEDT)
+ id 47pBbb3lNrz9sPK; Thu,  2 Jan 2020 13:20:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1577931659;
- bh=0vwoa7fPYG43fPT648dq7hg98MiNPTwh8x1FiZdydDM=;
+ bh=zzCsEZFC21PJNnTZTKM+zrONrqVJimGayr78SWVC6Bc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MxRp/N0QmaVA4Da5EnKdBxhqyecn45rZCDh4tIkpj5y/VHnEJaQ+YQPTTXT253sdU
- r2jPEIJ/S/qs6EufsmhRWB3um3hE4cs07iAuCjGz44mabk6Xu8ROYlPtaJqhAS7X6u
- K1NMoTY4mpMAWqXvBsGIMekUjonhoH+7OwsNC8aM=
-Date: Thu, 2 Jan 2020 13:03:03 +1100
+ b=LMfLQe4+PAlWPCfbb7VcZaf0SmXA+chVOhV6GD5eSuK+DekwPiFXbx3vb6/aTA7Pp
+ oOF9BRfyqnKtoIqeFTjdcfNMLgcbptWUe8spPJsDBFdqtGUFYxsmL5+mprBLL6mRNx
+ su26XWRJUP0NOo3mt0tHLpW3pVdtjTn+tjGk5C98=
+Date: Thu, 2 Jan 2020 13:03:40 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 06/14] hw/ppc/Kconfig: Restrict the MPC I2C controller to
- e500-based platforms
-Message-ID: <20200102020303.GC2098@umbus>
+Subject: Re: [PATCH 07/14] hw/ppc/Kconfig: Let the Sam460ex board use the
+ PowerPC 405 devices
+Message-ID: <20200102020340.GD2098@umbus>
 References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-7-philmd@redhat.com>
+ <20191231183216.6781-8-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iFRdW5/EC4oqxDHL"
+ protocol="application/pgp-signature"; boundary="hoZxPH4CaxYzWscb"
 Content-Disposition: inline
-In-Reply-To: <20191231183216.6781-7-philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <20191231183216.6781-8-philmd@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,49 +68,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---iFRdW5/EC4oqxDHL
+--hoZxPH4CaxYzWscb
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 31, 2019 at 07:32:08PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Only the PowerPC e500-based platforms use the MPC I2C controller.
-> Do not build it for the other machines.
+On Tue, Dec 31, 2019 at 07:32:09PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> When configured with --without-default-devices, the build fails:
+>=20
+>     LINK    ppc-softmmu/qemu-system-ppc
+>   /usr/bin/ld: hw/ppc/sam460ex.o: in function `sam460ex_init':
+>   hw/ppc/sam460ex.c:313: undefined reference to `ppc4xx_plb_init'
+>   /usr/bin/ld: hw/ppc/sam460ex.c:353: undefined reference to `ppc405_ebc_=
+init'
+>   collect2: error: ld returned 1 exit status
+>   make[1]: *** [Makefile:206: qemu-system-ppc] Error 1
+>=20
+> Fix by selecting the PPC405 config.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  default-configs/ppc-softmmu.mak | 1 -
->  hw/ppc/Kconfig                  | 1 +
->  2 files changed, 1 insertion(+), 1 deletion(-)
+>  hw/ppc/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/default-configs/ppc-softmmu.mak b/default-configs/ppc-softmm=
-u.mak
-> index bf86128a0c..61b78b844d 100644
-> --- a/default-configs/ppc-softmmu.mak
-> +++ b/default-configs/ppc-softmmu.mak
-> @@ -1,7 +1,6 @@
->  # Default configuration for ppc-softmmu
-> =20
->  # For embedded PPCs:
-> -CONFIG_MPC_I2C=3Dy
->  CONFIG_DS1338=3Dy
->  CONFIG_E500=3Dy
->  CONFIG_PPC405=3Dy
 > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index f927ec9c74..0cd8d4053e 100644
+> index 0cd8d4053e..004b7d5ad5 100644
 > --- a/hw/ppc/Kconfig
 > +++ b/hw/ppc/Kconfig
-> @@ -105,6 +105,7 @@ config E500
->      select PLATFORM_BUS
->      select PPCE500_PCI
->      select SERIAL
-> +    select MPC_I2C
+> @@ -50,6 +50,7 @@ config PPC4XX
 > =20
->  config VIRTEX
+>  config SAM460EX
 >      bool
+> +    select PPC405
+>      select PFLASH_CFI01
+>      select IDE_SII3112
+>      select M41T80
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -118,25 +113,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---iFRdW5/EC4oqxDHL
+--hoZxPH4CaxYzWscb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT1QACgkQbDjKyiDZ
-s5IQLRAA4n3fsNvpeW0COz2th17NtKiRyu0b0Zp5PngR1zTQQ1mlVKKihkb1QMnu
-k+nQ4DuGHhQcfqWA97EjwzuY/sS0uxbh8cyDtTgPRWEpgja8NtC/xQKwyvF3kimh
-VQTWpSS2bdPJT6n7Y/gvf9g0M2rvwcDCZxIPOEk8Fcfj3Ewn739vz2zqWxtwohUD
-f14KvXwfinEUiq3f+J0ANTIQ6kTItvudPeWLOUO37gVBTibCmgcaF1tA27fbeKaF
-bQj30RvYoSYxYzVWj7SJn3c5n3Uw2Hw/t8imJPgaHA4UJZ8QMNG0FKZjegMZqXtA
-KqtOLfQ+vjU9rDxfpicFa2ULZWzPwV+Cb17lzxuO7et+m6Rw9agoEQQ4+DdQc3Av
-O/vU9WOmfKzt2gziMieXY+fMwYR7rNOI/gSACEoWg3kfbDohqS3AyPHY2AC/aDqz
-+UtR+ZOdcAKD9Dpa1mzX2Dfz0iPTA7QifNFcTrFXVeiSKEOt6Bb2sf6NR5d5vAKz
-+AfB5PjNTuMTrphltTR/3BG3SN5DZX8rK6espi+tiH6ieon2aet4gbesx9H8JqTw
-+X5pY/tvjlcmPcpJwn+CxePya4gBsIdXjJDCuuFaREJluaJMkVnMWRAnMm0zMIpS
-jMvLpT18Pcv855tVCwy4wCjSoNkVui8C25ZLcGVj9KqQ2p8MVMI=
-=wxqr
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT3wACgkQbDjKyiDZ
+s5KY7w//SVKQ4v5x4L4eF0eJEkXtTVSGVIiQWtn1oVHu3qhTWc1UOnk9XjIagtqJ
+n4/p8z3KcnsugxU/TvfFHlRNfbnA7WJUdg/t2JGQPTDmvPLP2cumMAMHnd4LzduC
+D1BPnpZsT5bq4L0YDhpjaw9IQ86m+RIUoty+GMVB7O4Fg8eqc85Iy8/Ch6JpYZP2
+smuKvZjXtJ3v3luIrnkqmvE22KTG2+jmg4wynIcKF6XqkLIdY2X+BsSRX/y1e3nz
+17HnAlzrFiMKtAq6K/ucLpQXEOepY1GWEj6QXZuDgixRLMc4iOptKeirhf7NtrUj
+R2q2i4MIAvjer6R9AOzBcjVqrqaJG+ubnN/5e8QacQsqVJzWvtgB+Dkp2yl05uHm
+yZ0usEoV2qtWf7ilw45lLdWE9A5ZuBCD7dY1jAFqO6PLY9Ri2nnAsK80XzPjRtRc
+Xz57StVbO0356ABDjrkWzhj/ZlWNkY0AQ1IjdOVvfVhUvQ/BS/mppZO1coVdwVNZ
+qaSZt8WkhVV/krWX840kq4fJG98sVpO6U2MIT2oNRyvz1CIP0te4svgcimkPtgus
+SdlenbW30kvGbaoVsdVCSbSnI986HTzXvsibgVceznnEyBeQ4qdP1Yvg3sMIlJeY
+qkOAgBsBMHf9N5Ux5+k+CJSpfJgM1hGHPH8TkqlNq0pPz2NUez0=
+=918o
 -----END PGP SIGNATURE-----
 
---iFRdW5/EC4oqxDHL--
+--hoZxPH4CaxYzWscb--
 
