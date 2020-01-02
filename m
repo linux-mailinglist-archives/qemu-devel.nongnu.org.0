@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9310412E1AB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:24:47 +0100 (CET)
-Received: from localhost ([::1]:35762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3433812E1B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:26:30 +0100 (CET)
+Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imqAI-00044V-GJ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:24:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42574)
+	id 1imqBx-0006Yp-8m
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:26:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42633)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MO-80
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:07 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6m-0008Ms-CJ
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005Sj-PZ
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:05 -0500
-Received: from ozlabs.org ([203.11.71.1]:56725)
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6l-0005UX-49
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:08 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37477 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1imq6i-0005R7-AV; Wed, 01 Jan 2020 21:21:04 -0500
+ id 1imq6k-0005TK-PF; Wed, 01 Jan 2020 21:21:07 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47pBbc1Bxlz9sRG; Thu,  2 Jan 2020 13:21:00 +1100 (AEDT)
+ id 47pBbc4b99z9sSL; Thu,  2 Jan 2020 13:21:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1577931660;
- bh=6NrZCEiI06S9033LlWqxZYWlYwi5hDEfONFR9YFnEG4=;
+ bh=1LFoTe3s6flHTJfC8lWxcgYuGo3tkFZLZsuVyfSGx4g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lSRNnjp2vpdI2tAkgrdBObv1O1tvXf7q48Y2VDKeLwYqWd/3PTAn78MqFdKlnJaSB
- kglNHDAaKdtGyquQJPK0KcqurGhWlCHEQFuCESNtlEWMy4EdBEp9YJZn/AtTZLoBlC
- yvW7CE1z8YcYumfwdU0v4JtLbfjX46lMsorPHgBE=
-Date: Thu, 2 Jan 2020 13:05:44 +1100
+ b=KFMJ+q8qKjjxq4D7aRKIZXmyyI0SClmCjqTMtahTW9LCKR5RLlpPYPLUq/gTAFi86
+ 99XGhgBmHFk794lbihaqxKhRspN9cqz0QTqGw7QEb1KIKQGCGTP83uGdbnwEhN23lz
+ Kck7Hgv4ud7eER39eUWVBv395PvTs54O3LroO2kg=
+Date: Thu, 2 Jan 2020 13:06:16 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 10/14] hw/ppc/Kconfig: Only select fw_cfg with machines
- using OpenBIOS
-Message-ID: <20200102020544.GG2098@umbus>
+Subject: Re: [PATCH 11/14] hw/ppc/Kconfig: Only select FDT helper for
+ machines using it
+Message-ID: <20200102020616.GH2098@umbus>
 References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-11-philmd@redhat.com>
+ <20191231183216.6781-12-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0z5c7mBtSy1wdr4F"
+ protocol="application/pgp-signature"; boundary="WRT3RXLOp/bBMgTI"
 Content-Disposition: inline
-In-Reply-To: <20191231183216.6781-11-philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <20191231183216.6781-12-philmd@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,84 +60,108 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0z5c7mBtSy1wdr4F
+--WRT3RXLOp/bBMgTI
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 31, 2019 at 07:32:12PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> The fw_cfg helpers are only used by machines using OpenBIOS.
+On Tue, Dec 31, 2019 at 07:32:13PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Not all machines use the ppc_create_page_sizes_prop() helper.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Cc: "Herv=E9 Poussineau" <hpoussin@reactos.org>
+> Can Kconfig can restrict to TARGET_PPC64?
 > ---
->  hw/ppc/Kconfig       | 6 ++++++
->  hw/ppc/Makefile.objs | 3 ++-
->  2 files changed, 8 insertions(+), 1 deletion(-)
+>  hw/ppc/Kconfig       | 10 ++++++++++
+>  hw/ppc/Makefile.objs |  3 ++-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index d8482a5e99..e4ca920507 100644
+> index e4ca920507..8e62d8f470 100644
 > --- a/hw/ppc/Kconfig
 > +++ b/hw/ppc/Kconfig
-> @@ -72,6 +72,7 @@ config PREP
->      select M48T59
->      select PC87312
->      select RS6000_MC
-> +    select FW_CFG_PPC
+> @@ -10,6 +10,7 @@ config PSERIES
+>      select XICS_SPAPR
+>      select XIVE_SPAPR
+>      select MSI_NONBROKEN
+> +    select FDT_PPC
 > =20
->  config RS6000_MC
+>  config SPAPR_RNG
 >      bool
-> @@ -85,6 +86,7 @@ config MAC_OLDWORLD
->      select GRACKLE_PCI
->      select HEATHROW_PIC
->      select MACIO
-> +    select FW_CFG_PPC
+> @@ -26,6 +27,7 @@ config POWERNV
+>      select MC146818RTC
+>      select XICS
+>      select XIVE
+> +    select FDT_PPC
 > =20
->  config MAC_NEWWORLD
+>  config PPC405
 >      bool
-> @@ -96,6 +98,7 @@ config MAC_NEWWORLD
->      select MACIO_GPIO
->      select MAC_PMU
->      select UNIN_PCI
-> +    select FW_CFG_PPC
+> @@ -42,6 +44,7 @@ config PPC440
+>      select PCI_EXPRESS
+>      select PPC4XX
+>      select SERIAL
+> +    select FDT_PPC
 > =20
->  config E500
+>  config PPC4XX
 >      bool
-> @@ -130,3 +133,6 @@ config XIVE_KVM
+> @@ -60,6 +63,7 @@ config SAM460EX
+>      select SMBUS_EEPROM
+>      select USB_EHCI_SYSBUS
+>      select USB_OHCI
+> +    select FDT_PPC
+> =20
+>  config PREP
 >      bool
+> @@ -110,6 +114,7 @@ config E500
+>      select PPCE500_PCI
+>      select SERIAL
+>      select MPC_I2C
+> +    select FDT_PPC
+> =20
+>  config VIRTEX
+>      bool
+> @@ -118,6 +123,7 @@ config VIRTEX
+>      select SERIAL
+>      select XILINX
+>      select XILINX_ETHLITE
+> +    select FDT_PPC
+> =20
+>  config XIVE
+>      bool
+> @@ -134,5 +140,9 @@ config XIVE_KVM
 >      default y
 >      depends on XIVE_SPAPR && KVM
+> =20
+> +# Only used by 64-bit targets
+>  config FW_CFG_PPC
+>      bool
 > +
-> +config FW_CFG_PPC
+> +config FDT_PPC
 > +    bool
 > diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-> index 79adf06aa3..5c46c68e44 100644
+> index 5c46c68e44..a4bac57be6 100644
 > --- a/hw/ppc/Makefile.objs
 > +++ b/hw/ppc/Makefile.objs
 > @@ -1,5 +1,6 @@
 >  # shared objects
-> -obj-y +=3D ppc.o ppc_booke.o fdt.o fw_cfg.o
-> +obj-y +=3D ppc.o ppc_booke.o fdt.o
-> +obj-$(CONFIG_FW_CFG_PPC) +=3D fw_cfg.o
+> -obj-y +=3D ppc.o ppc_booke.o fdt.o
+> +obj-y +=3D ppc.o ppc_booke.o
+> +obj-$(CONFIG_FDT_PPC) +=3D fdt.o
+>  obj-$(CONFIG_FW_CFG_PPC) +=3D fw_cfg.o
 >  # IBM pSeries (sPAPR)
 >  obj-$(CONFIG_PSERIES) +=3D spapr.o spapr_caps.o spapr_vio.o spapr_events=
 =2Eo
->  obj-$(CONFIG_PSERIES) +=3D spapr_hcall.o spapr_iommu.o spapr_rtas.o
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -145,25 +169,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---0z5c7mBtSy1wdr4F
+--WRT3RXLOp/bBMgTI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT/gACgkQbDjKyiDZ
-s5LVlQ//cQikYx+f+vanSJYjAmi9dPy2I40J+/g16ddrs0IsYhHqt3fEakrNNs4+
-hrvEX+m7GCJcvLpJlhwiT6nTtk42kdhbmwCBvN9KRu8AyYJaFDMn9EXsYEkPWmg3
-nXKZ9A6smp6foeQ77ZyV4WVHq60TclFO6/XyivqdqawCPgjD8nxOSZCqvqHwqQzZ
-Sgeief6N3BV5ZENKp0ROqUbuDGP4uScSTTG8WnYsJEx9uF6Quj2q3T+C2IFlYCRz
-W+axA1sxUiiT9HcoHFwbUqV6SO7tNgNiXpCjXZLVTr54dkcHgYjtSzZTuuo2lj/v
-hzGnTHfMbS9eG1o22EhN4A9Pw6KY4DiOzjMOuoDkjDrl2/oKCkE24Aoa1PrhLhXS
-pUzQSc8q3JPhfS/nqAQVPc6MdMlgchjE9NDuereG4FcqdnRFV2B3ilfd2Dx0Zt0y
-X9LtUjIbpJB114tTaNXXtVTGdZ+//p3hItUvr8h86mKvym0TFxgjhy8m9SavSeqQ
-3pzROgjUcmNOspdGH2nbTBP2cD6ob+zT2YtecsMVezT/0YoIK6hRAZKeZEuRW3uu
-7uy2abD/WaOneTIdCKXdcsDVZlIRVjE1KmCY6HVhCms8SRwXaT+z+FSO064vvJn8
-haRng/nsFvg5P0icrM8cTN66noqG+JrujXuKSyM8gze9RiYdYOQ=
-=YrJN
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NUBgACgkQbDjKyiDZ
+s5JOKA/8D6gW4zVYQleoNiAiu0pbOjrwhJaWalbepOfbdf5mzdU7tEmYAs678RAc
+4XcOSRcA6AIE8z4oZaiOoJykl7Zg7hcLx171xnku1d/9G4x94KkX8lSHVL9ZYDh8
+iKvMaaAoG4rnQ0NRmcG6I4gBf+K0rMZ3A9jX3/k0hSV1wBqxGSqMWtGLm8j5ecry
+1htK/WiNwRQca9/pgkn6ydH0oKAlvgBXIATtNssxfRb/PI44zpvMQlyHV1x8BaqS
+67wT8Kx429/PhLX3kZRk1LhxhWoIbrAzaYoTYL/IsHLMxqv+NMtDKg4rJHLS2M5n
+jr2wFhDnKgq0ceT5vtRNz3dI+vLxVqj/xfy98fKmpa9gBYVEMEpWH8oTs8hAICS7
+R1WCX7rneDyXMAkuFQN4x5tEU4O+XL5pmYE1LQiSQQZS24+qjLPGocnCfXTWAALQ
++DBd/tieVp1ccmLIGnIulH5eig/EgstrPHiiFsLH0CZQEp1nIMhr+FRM2/FaW7pz
+Dt++rDOkT3zRSq7oAGofppTpQmZGi9aUE2CMg4Q10hKbJuPyhqJFXYThBLennWE1
+q08kN0VUZIaQYRuPNEd+2VHNtR9HFnHlX2ix5a+Tmc++vDg4luSLRbjPVee+HJv9
+jZwx9NglrYGThC5q2hjdp31nahn//HfCqd1A+sl31t1whrZnS+Q=
+=q4R9
 -----END PGP SIGNATURE-----
 
---0z5c7mBtSy1wdr4F--
+--WRT3RXLOp/bBMgTI--
 
