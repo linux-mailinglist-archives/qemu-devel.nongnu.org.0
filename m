@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5B512E19B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:10:17 +0100 (CET)
-Received: from localhost ([::1]:35646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD82112E1AF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:26:29 +0100 (CET)
+Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1impwG-0006xl-4O
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:10:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41726)
+	id 1imqBw-0006XX-Nk
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:26:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eguan@linux.alibaba.com>) id 1impvO-0006Wm-IS
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:09:23 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6m-0008Mu-HN
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eguan@linux.alibaba.com>) id 1impvJ-0000NG-RF
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:09:18 -0500
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:18530)
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6l-0005Un-BN
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:08 -0500
+Received: from ozlabs.org ([203.11.71.1]:56359)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eguan@linux.alibaba.com>)
- id 1impvJ-0000Bg-HK
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:09:17 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R421e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e07486; MF=eguan@linux.alibaba.com;
- NM=1; PH=DS; RN=3; SR=0; TI=SMTPD_---0TmXLrqa_1577930930; 
-Received: from localhost(mailfrom:eguan@linux.alibaba.com
- fp:SMTPD_---0TmXLrqa_1577930930) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 02 Jan 2020 10:08:50 +0800
-Date: Thu, 2 Jan 2020 10:08:50 +0800
-From: Eryu Guan <eguan@linux.alibaba.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [BUG qemu 4.0] segfault when unplugging virtio-blk-pci device
-Message-ID: <20200102020850.GB41863@e18g06458.et15sqa>
-References: <20191231103434.GA41863@e18g06458.et15sqa>
- <20191231115136.7b967604@Igors-MacBook-Pro>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0005TM-Vf
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:07 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47pBbc31wnz9sRp; Thu,  2 Jan 2020 13:21:00 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1577931660;
+ bh=lcckO8Br3mxw9lPZDlRNQSACAfzbUFAgMI0QmlGurfo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TBg+TDRUo+v578O0jmFG+gh8SA63Lkp2ntX2WHwESoKfQUhsPI1t7PqokZ7Ny2eFR
+ LCNbgKAFTDaPmbodmPIvxsMVuZ/rDIi6XmOGPhbioFmJLr43JT0sDgxvKbzyo1sEwx
+ 4lRJ0sYebEZSn0THj9LhdeLmfOYg5rhNvp7e54Z8=
+Date: Thu, 2 Jan 2020 13:19:55 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH] vfio/pci: Don't remove irqchip notifier if not registered
+Message-ID: <20200102021955.GJ2098@umbus>
+References: <20191231133915.115363-1-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bgQAstJ9X1Eg13Dy"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191231115136.7b967604@Igors-MacBook-Pro>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 47.88.44.36
+In-Reply-To: <20191231133915.115363-1-peterx@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,56 +54,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: yanghliu@redhat.com, Alex Williamson <alex.williamson@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 31, 2019 at 11:51:35AM +0100, Igor Mammedov wrote:
-> On Tue, 31 Dec 2019 18:34:34 +0800
-> Eryu Guan <eguan@linux.alibaba.com> wrote:
-> 
-> > Hi,
-> > 
-> > I'm using qemu 4.0 and hit segfault when tearing down kata sandbox, I
-> > think it's because io completion hits use-after-free when device is
-> > already gone. Is this a known bug that has been fixed? (I went through
-> > the git log but didn't find anything obvious).
-> > 
-> > gdb backtrace is:
-> > 
-> > Core was generated by `/usr/local/libexec/qemu-kvm -name sandbox-5b8df8c6c6901c3c0a9b02879be10fe8d69d6'.
-> > Program terminated with signal 11, Segmentation fault.
-> > #0 object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
-> > 903        return obj->class;
-> > (gdb) bt
-> > #0  object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
-> > #1  0x0000558a2c009e9b in virtio_notify_vector (vdev=0x558a2e7751d0,
-> >     vector=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio.c:1118
-> > #2  0x0000558a2bfdcb1e in virtio_blk_discard_write_zeroes_complete (
-> >     opaque=0x558a2f2fd420, ret=0)
-> >     at /usr/src/debug/qemu-4.0/hw/block/virtio-blk.c:186
-> > #3  0x0000558a2c261c7e in blk_aio_complete (acb=0x558a2eed7420)
-> >     at /usr/src/debug/qemu-4.0/block/block-backend.c:1305
-> > #4  0x0000558a2c3031db in coroutine_trampoline (i0=<optimized out>,
-> >     i1=<optimized out>) at /usr/src/debug/qemu-4.0/util/coroutine-ucontext.c:116
-> > #5  0x00007f45b2f8b080 in ?? () from /lib64/libc.so.6
-> > #6  0x00007fff9ed75780 in ?? ()
-> > #7  0x0000000000000000 in ?? ()
-> > 
-> > It seems like qemu was completing a discard/write_zero request, but
-> > parent BusState was already freed & set to NULL.
-> > 
-> > Do we need to drain all pending request before unrealizing virtio-blk
-> > device? Like the following patch proposed?
-> > 
-> > https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg02945.html
-> > 
-> > If more info is needed, please let me know.
-> 
-> may be this will help: https://patchwork.kernel.org/patch/11213047/
 
-Yeah, this looks promising! I'll try it out (though it's a one-time
-crash for me). Thanks!
+--bgQAstJ9X1Eg13Dy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Eryu
+On Tue, Dec 31, 2019 at 08:39:15AM -0500, Peter Xu wrote:
+> The kvm irqchip notifier is only registered if the device supports
+> INTx, however it's unconditionally removed.  If the assigned device
+> does not support INTx, this will cause QEMU to crash when unplugging
+> the device from the system.  Change it to conditionally remove the
+> notifier only if the notify hook is setup.
+>=20
+> CC: Eduardo Habkost <ehabkost@redhat.com>
+> CC: David Gibson <david@gibson.dropbear.id.au>
+> CC: Alex Williamson <alex.williamson@redhat.com>
+> Reported-by: yanghliu@redhat.com
+> Fixes: c5478fea27 ("vfio/pci: Respond to KVM irqchip change notifier", 20=
+19-11-26)
+> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1782678
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+Mea culpa.
+
+> ---
+>  hw/vfio/pci.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 2d40b396f2..337a173ce7 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -3076,7 +3076,9 @@ static void vfio_exitfn(PCIDevice *pdev)
+>      vfio_unregister_req_notifier(vdev);
+>      vfio_unregister_err_notifier(vdev);
+>      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+> -    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
+> +    if (vdev->irqchip_change_notifier.notify) {
+> +        kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifie=
+r);
+> +    }
+>      vfio_disable_interrupts(vdev);
+>      if (vdev->intx.mmap_timer) {
+>          timer_free(vdev->intx.mmap_timer);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--bgQAstJ9X1Eg13Dy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NU0kACgkQbDjKyiDZ
+s5L8vg/9Fk8vxtqyn/Up4u050Ne0DH2XMgCKVQGHP67qPkMY5Ij2L9XXMJ+UUwX6
+6kSQOB/9su4k9hBcr9/LW/gtDUU7H5xGlq+NONtWMFJozNAFTqCFTjEf/6NAT0zH
+V4w3NnqOTojpccJsnT5x0b0+R5XGTeklyo41YBEHh0fiY/eHbAmcGNBbnGrOdYRo
+REmhIKbmk9/y+VfSmHn+E/KJUpPQNqCXt45Cp6yMh4aW+RI1mlyBa8ggPU9qhVdi
+yOS/8ft4bmq8IN/mZZTmZNa7RTDADrf8BbV2xOlyvd4OaXbeXSclSeQIR7nb9g/d
+gGXaT67vKXSxGyeVbQ8ll9I6U5BlTjQJr1pFPPcULj8seexPSeRZeT7z4VRpJwW3
+197LPOlb1Bi2AboOnTd3rPCedKf7cxKiUHA7AZEALUqw7YGQxpLvUx204wDamPHt
+xxbvJpX9GX490pDV4j8WMv6GG349X5a9lL5U52pb1rMz2xJQ1qSyaodFEGRkt38r
+yDfyIlq9Z1MVpw4hAOsogpn+shXv0YDh9vCioYT+Z0hcTRlqLqi+nicwCdL+297k
+NRKRj1uCCMIS5z/yE0vxlFhR9ul5g6jAy32Mmn3SZQapxDJpyTcKS5ZeIJRZi+JQ
+RjwYEruYkzzXUKpLV0UQdhiZLMVQnuMqW8HXay+x1DDlvkXbj2g=
+=zylT
+-----END PGP SIGNATURE-----
+
+--bgQAstJ9X1Eg13Dy--
 
