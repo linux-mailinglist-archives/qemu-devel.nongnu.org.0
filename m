@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC1312EB02
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 22:04:29 +0100 (CET)
-Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40ED412EB03
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 22:04:39 +0100 (CET)
+Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1in7ds-0005lp-5L
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 16:04:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54207)
+	id 1in7e2-0005r6-3f
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 16:04:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1in7bb-00047m-SQ
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 16:02:08 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1in7bf-0004CB-18
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 16:02:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1in7bX-0001b2-1W
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 16:02:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54050
+ (envelope-from <marcandre.lureau@redhat.com>) id 1in7bd-0001lB-Vl
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 16:02:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46688
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1in7bW-0001ZW-FT
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 16:02:02 -0500
+ id 1in7bd-0001jZ-Os
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 16:02:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577998921;
+ s=mimecast20190719; t=1577998929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7YCLpR+elqo2z3rxy6eLmrOdvuLyD7kqB7N2geleoLw=;
- b=bcXpdZLOBUFW/3zaNNqcsKvkCJC1mqgxdtS57eZTBl6ZCbAON7PFkg91QwMDGYjOMuZLDr
- DdAscWOK/pmhbMHzau1qaSLaH3wpE5XUQBUS4oKotJwS9y1meOF5xW5ndlJIW0rtcXT61H
- /b3d5IxHukE2wWV19pFiU1TO9v/Q4vg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XvM+x+U//sNpxwKnWsxJ8Igu9nUn0utM6MJUGCdIYMs=;
+ b=beTFWhlm6S6bphwJQZqE+Zmrat/FPk4wREKfUU4c+6ieJKVbGiNvwlMsHjtyBpwAqAJsmd
+ IyZfI5ulrD099dmbqECDqLMOsXMawYPsnfJFl5wLow23I12Rrbm+0F7GSXx1rWjtw/BEFb
+ u/EhsLiVQJ8wtPDJUO+G/JALK6U/ypA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-AstXqiCZP0KT8kFyq8xlTw-1; Thu, 02 Jan 2020 16:01:58 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-231-O7DYVPx-PgeJMuWhSlxORA-1; Thu, 02 Jan 2020 16:02:08 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F93F107ACC4;
- Thu,  2 Jan 2020 21:01:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2542918C8C02;
+ Thu,  2 Jan 2020 21:02:07 +0000 (UTC)
 Received: from localhost (ovpn-112-20.ams2.redhat.com [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9275C6F432;
- Thu,  2 Jan 2020 21:01:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85B54101F942;
+ Thu,  2 Jan 2020 21:02:03 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] tpm: fix PPI RAM migration
-Date: Fri,  3 Jan 2020 01:01:47 +0400
-Message-Id: <20200102210149.926077-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 1/2] RFC: savevm: check RAM is page_size aligned
+Date: Fri,  3 Jan 2020 01:01:48 +0400
+Message-Id: <20200102210149.926077-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20200102210149.926077-1-marcandre.lureau@redhat.com>
+References: <20200102210149.926077-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: AstXqiCZP0KT8kFyq8xlTw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: O7DYVPx-PgeJMuWhSlxORA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,19 +78,30 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Check the host pointer is correctly aligned, otherwise we may fail
+during migration in ram_block_discard_range().
 
-The following series fixes a migration issue with the TPM PPI code due
-to unaligned host RAM pointer.
-
-Marc-Andr=C3=A9 Lureau (2):
-  RFC: savevm: check RAM is page_size aligned
-  tpm-ppi: page-align PPI RAM
-
- hw/tpm/tpm_ppi.c   | 3 ++-
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
  migration/savevm.c | 5 +++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ 1 file changed, 5 insertions(+)
 
+diff --git a/migration/savevm.c b/migration/savevm.c
+index a71b930b91..ab6e02011f 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2910,6 +2910,11 @@ err_drain:
+=20
+ void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
+ {
++    RAMBlock *rb =3D mr->ram_block;
++    uintptr_t hostaddr =3D (uintptr_t)qemu_ram_get_host_addr(rb);
++
++    assert((hostaddr & (qemu_ram_pagesize(rb) - 1)) =3D=3D 0);
++
+     qemu_ram_set_idstr(mr->ram_block,
+                        memory_region_name(mr), dev);
+     qemu_ram_set_migratable(mr->ram_block);
 --=20
 2.24.0.308.g228f53135a
 
