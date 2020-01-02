@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3071312E1A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:22:58 +0100 (CET)
-Received: from localhost ([::1]:35740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9310412E1AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:24:47 +0100 (CET)
+Received: from localhost ([::1]:35762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imq8X-0001Nj-3E
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:22:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42577)
+	id 1imqAI-00044V-GJ
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:24:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MR-40
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MO-80
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005Sw-Rc
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005Sj-PZ
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:05 -0500
-Received: from ozlabs.org ([203.11.71.1]:39559)
+Received: from ozlabs.org ([203.11.71.1]:56725)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1imq6h-0005R3-UR; Wed, 01 Jan 2020 21:21:04 -0500
+ id 1imq6i-0005R7-AV; Wed, 01 Jan 2020 21:21:04 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47pBbc2DF9z9sRt; Thu,  2 Jan 2020 13:20:59 +1100 (AEDT)
+ id 47pBbc1Bxlz9sRG; Thu,  2 Jan 2020 13:21:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1577931660;
- bh=eVd6IVkmLlRS7A65O2JzOk0P+UWes7IJ9oVfvoox7ZA=;
+ bh=6NrZCEiI06S9033LlWqxZYWlYwi5hDEfONFR9YFnEG4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cI214dq7IwpaSinkFY8kVt5zCr2YanpzxJq+WdNDhCeboULBBZYfhA/0sawqsolpo
- 1OlfhLnB6NH3kYRYvD6xz7ZMg0AdZXFqsul5DQ5M8Z0IgFQBVdgS0GlsrFmIC0bHgI
- fCBzK8KdRRkb6dGjJCWHO0cpVQ+jFImKZosAiYyA=
-Date: Thu, 2 Jan 2020 13:05:15 +1100
+ b=lSRNnjp2vpdI2tAkgrdBObv1O1tvXf7q48Y2VDKeLwYqWd/3PTAn78MqFdKlnJaSB
+ kglNHDAaKdtGyquQJPK0KcqurGhWlCHEQFuCESNtlEWMy4EdBEp9YJZn/AtTZLoBlC
+ yvW7CE1z8YcYumfwdU0v4JtLbfjX46lMsorPHgBE=
+Date: Thu, 2 Jan 2020 13:05:44 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 09/14] hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
-Message-ID: <20200102020515.GF2098@umbus>
+Subject: Re: [PATCH 10/14] hw/ppc/Kconfig: Only select fw_cfg with machines
+ using OpenBIOS
+Message-ID: <20200102020544.GG2098@umbus>
 References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-10-philmd@redhat.com>
+ <20191231183216.6781-11-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ULyIDA2m8JTe+TiX"
+ protocol="application/pgp-signature"; boundary="0z5c7mBtSy1wdr4F"
 Content-Disposition: inline
-In-Reply-To: <20191231183216.6781-10-philmd@redhat.com>
+In-Reply-To: <20191231183216.6781-11-philmd@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -59,54 +60,84 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ULyIDA2m8JTe+TiX
+--0z5c7mBtSy1wdr4F
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 31, 2019 at 07:32:11PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> The CONFIG_PSERIES already selects CONFIG_PCI.
-> Simplify the Makefile rules.
+On Tue, Dec 31, 2019 at 07:32:12PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> The fw_cfg helpers are only used by machines using OpenBIOS.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/Makefile.objs | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: "Herv=E9 Poussineau" <hpoussin@reactos.org>
+> ---
+>  hw/ppc/Kconfig       | 6 ++++++
+>  hw/ppc/Makefile.objs | 3 ++-
+>  2 files changed, 8 insertions(+), 1 deletion(-)
 >=20
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index d8482a5e99..e4ca920507 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -72,6 +72,7 @@ config PREP
+>      select M48T59
+>      select PC87312
+>      select RS6000_MC
+> +    select FW_CFG_PPC
+> =20
+>  config RS6000_MC
+>      bool
+> @@ -85,6 +86,7 @@ config MAC_OLDWORLD
+>      select GRACKLE_PCI
+>      select HEATHROW_PIC
+>      select MACIO
+> +    select FW_CFG_PPC
+> =20
+>  config MAC_NEWWORLD
+>      bool
+> @@ -96,6 +98,7 @@ config MAC_NEWWORLD
+>      select MACIO_GPIO
+>      select MAC_PMU
+>      select UNIN_PCI
+> +    select FW_CFG_PPC
+> =20
+>  config E500
+>      bool
+> @@ -130,3 +133,6 @@ config XIVE_KVM
+>      bool
+>      default y
+>      depends on XIVE_SPAPR && KVM
+> +
+> +config FW_CFG_PPC
+> +    bool
 > diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-> index 101e9fc591..79adf06aa3 100644
+> index 79adf06aa3..5c46c68e44 100644
 > --- a/hw/ppc/Makefile.objs
 > +++ b/hw/ppc/Makefile.objs
-> @@ -7,14 +7,11 @@ obj-$(CONFIG_PSERIES) +=3D spapr_pci.o spapr_rtc.o spap=
-r_drc.o
->  obj-$(CONFIG_PSERIES) +=3D spapr_cpu_core.o spapr_ovec.o spapr_irq.o
->  obj-$(CONFIG_PSERIES) +=3D spapr_tpm_proxy.o
->  obj-$(CONFIG_SPAPR_RNG) +=3D  spapr_rng.o
-> +obj-$(call land,$(CONFIG_PSERIES),$(CONFIG_LINUX)) +=3D spapr_pci_vfio.o=
- spapr_pci_nvlink2.o
->  # IBM PowerNV
->  obj-$(CONFIG_POWERNV) +=3D pnv.o pnv_xscom.o pnv_core.o pnv_lpc.o pnv_ps=
-i.o pnv_occ.o pnv_bmc.o
->  obj-$(CONFIG_POWERNV) +=3D pnv_homer.o pnv_pnor.o
-> =20
-> -
-> -ifeq ($(CONFIG_PCI)$(CONFIG_PSERIES)$(CONFIG_LINUX), yyy)
-> -obj-y +=3D spapr_pci_vfio.o spapr_pci_nvlink2.o
-> -endif
->  obj-$(CONFIG_PSERIES) +=3D spapr_rtas_ddw.o
->  # PowerPC 4xx boards
->  obj-$(CONFIG_PPC405) +=3D ppc405_boards.o ppc405_uc.o
+> @@ -1,5 +1,6 @@
+>  # shared objects
+> -obj-y +=3D ppc.o ppc_booke.o fdt.o fw_cfg.o
+> +obj-y +=3D ppc.o ppc_booke.o fdt.o
+> +obj-$(CONFIG_FW_CFG_PPC) +=3D fw_cfg.o
+>  # IBM pSeries (sPAPR)
+>  obj-$(CONFIG_PSERIES) +=3D spapr.o spapr_caps.o spapr_vio.o spapr_events=
+=2Eo
+>  obj-$(CONFIG_PSERIES) +=3D spapr_hcall.o spapr_iommu.o spapr_rtas.o
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -114,25 +145,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ULyIDA2m8JTe+TiX
+--0z5c7mBtSy1wdr4F
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT9sACgkQbDjKyiDZ
-s5JEyw//T0x65dHpEJYRSBW9PfEiWZ3evwyWckmjX1inncFZfX8nGkWtHnAHgXM2
-ZZI5KVPZ9I4Tuf0+jOoMmypqVDT88ZDSnBlSIdbkXHkqGpnen0F8IPVtkQNr4e9s
-WhlFqk2qIbEvDCBoMZw/X87szLAnZ0eC8dIMJszReWXcZUoMoAETIlEMNCoKxX4u
-bsnhQHobn9vAIBmVZ0q+iEO5EkZ8VNvU+6pM8H0QGj6Tpm8CuWk6Z1EGKPwV1BcN
-XokibibAXzfIRNdo5G3rAkIcpuykguNpYgg5XIOTP2BLzo6kXyL6NscDqfJIDsd3
-q3c09/WF1cvBHy3unsqfZBCXcTh9XGTiyZ/a2o4eySSQL0PHvCT/1qBkf3uGwybk
-+OX1r8WBDPPnQ0ZvrvGwJwbuWLYUnx9uNyHIWNu6BJTvnKLMI2ODq7D2Per11YjQ
-ERE6Dmhiff175IN7vxyPZONEwcZZNse4C9gRSzjJNkkRKZ32BO0b1p2Srl0fUzlx
-3MKH+mxuaUB+ZZaD4u+jrOiKT+/sISDMm5y/nhx1Ai1vr5nY2H4Xw0BVWKMZFRkg
-YHfEToYw/FQyP787FG4CqzDU0EXuRkhE1ebbyaU+3CGW8fRGpYO61bywbDcbBbIk
-ghqYCpHQB6EvK9v77PcCpWVeplo0a8S17yko87wJfM1JmyrfnQk=
-=TVPA
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT/gACgkQbDjKyiDZ
+s5LVlQ//cQikYx+f+vanSJYjAmi9dPy2I40J+/g16ddrs0IsYhHqt3fEakrNNs4+
+hrvEX+m7GCJcvLpJlhwiT6nTtk42kdhbmwCBvN9KRu8AyYJaFDMn9EXsYEkPWmg3
+nXKZ9A6smp6foeQ77ZyV4WVHq60TclFO6/XyivqdqawCPgjD8nxOSZCqvqHwqQzZ
+Sgeief6N3BV5ZENKp0ROqUbuDGP4uScSTTG8WnYsJEx9uF6Quj2q3T+C2IFlYCRz
+W+axA1sxUiiT9HcoHFwbUqV6SO7tNgNiXpCjXZLVTr54dkcHgYjtSzZTuuo2lj/v
+hzGnTHfMbS9eG1o22EhN4A9Pw6KY4DiOzjMOuoDkjDrl2/oKCkE24Aoa1PrhLhXS
+pUzQSc8q3JPhfS/nqAQVPc6MdMlgchjE9NDuereG4FcqdnRFV2B3ilfd2Dx0Zt0y
+X9LtUjIbpJB114tTaNXXtVTGdZ+//p3hItUvr8h86mKvym0TFxgjhy8m9SavSeqQ
+3pzROgjUcmNOspdGH2nbTBP2cD6ob+zT2YtecsMVezT/0YoIK6hRAZKeZEuRW3uu
+7uy2abD/WaOneTIdCKXdcsDVZlIRVjE1KmCY6HVhCms8SRwXaT+z+FSO064vvJn8
+haRng/nsFvg5P0icrM8cTN66noqG+JrujXuKSyM8gze9RiYdYOQ=
+=YrJN
 -----END PGP SIGNATURE-----
 
---ULyIDA2m8JTe+TiX--
+--0z5c7mBtSy1wdr4F--
 
