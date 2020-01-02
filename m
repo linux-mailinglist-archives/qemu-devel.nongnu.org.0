@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A0712E5E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 12:56:53 +0100 (CET)
-Received: from localhost ([::1]:40198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABA812E5ED
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 12:58:01 +0100 (CET)
+Received: from localhost ([::1]:40224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imz5v-0002KY-UF
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 06:56:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47504)
+	id 1imz72-000424-Io
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 06:58:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47581)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1imz4V-0001op-PO
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:55:26 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1imz56-0002O8-Uo
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1imz4T-0006EG-3E
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:55:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47242
+ (envelope-from <marcandre.lureau@redhat.com>) id 1imz55-0006WE-IY
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30969
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1imz4S-00066S-Et
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:55:21 -0500
+ id 1imz4a-0006Pp-0C
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:55:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577966115;
+ s=mimecast20190719; t=1577966127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zXgQau0OHLXrbMTjTnAjOHTrAjILGGxG0SSv2EqN2i4=;
- b=UCyY5jZ6w5/P0AaTe46yYwM8PjLzxfUfvKj08OvO1Z9T9BKVMqAARcYbqX6LMQW6piYccE
- S0XuhmjWV59aNz6VTm0TXaKWl8gwjfY/IW4ZzPttjXUmuvFzzyr8WGziGsJCVcKCuskbOk
- AqWgxzH5RCrApUDopD6Wwvn6tvETTw4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0FWWYxlBN7Pk6/eX53YyVxaINIkOAizELQM3kTnJNc8=;
+ b=aw5azOicRvFtOTvPTub5QCsQQ8pHcbpiHN3YqtTDJBw3yMN7jX+b2bZ0n7wF4jiKVbzu64
+ duHNa1d5LqYz5K75B9CcjElP0hNSN/Y8HHste9WQH9cPkSNb9lx7b8xTvLvNbJehxJPSWv
+ Ce+MJNaJOVRzYRZASXDDfl4TM0XJ6dM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-0xewhmOzMWKgsS23R4FYZQ-1; Thu, 02 Jan 2020 06:55:13 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-268-1czFX3E4PYyWgDaLjL2D2g-1; Thu, 02 Jan 2020 06:55:26 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ABFB18B5FD2
- for <qemu-devel@nongnu.org>; Thu,  2 Jan 2020 11:55:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE8D718B633E
+ for <qemu-devel@nongnu.org>; Thu,  2 Jan 2020 11:55:25 +0000 (UTC)
 Received: from localhost (ovpn-112-28.ams2.redhat.com [10.36.112.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5207277C80;
- Thu,  2 Jan 2020 11:55:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A9C610013D9;
+ Thu,  2 Jan 2020 11:55:18 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] Screendump patches
-Date: Thu,  2 Jan 2020 15:54:52 +0400
-Message-Id: <20200102115459.854103-1-marcandre.lureau@redhat.com>
+Subject: [PULL 1/7] console: add graphic_hw_update_done()
+Date: Thu,  2 Jan 2020 15:54:53 +0400
+Message-Id: <20200102115459.854103-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20200102115459.854103-1-marcandre.lureau@redhat.com>
+References: <20200102115459.854103-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 0xewhmOzMWKgsS23R4FYZQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 1czFX3E4PYyWgDaLjL2D2g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -76,55 +79,122 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit dd5b0f95490883cd8bc7d070db8de70d5c979cbc=
-:
+Add a function to be called when a graphic update is done.
 
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20191219' into st=
-aging (2019-12-20 16:37:07 +0000)
+Declare the QXL renderer as async: render_update_cookie_num counts the
+number of outstanding updates, and graphic_hw_update_done() is called
+when it reaches none.
 
-are available in the Git repository at:
+(note: this is preliminary work for asynchronous screendump support)
 
-  https://github.com/elmarco/qemu.git tags/screendump-pull-request
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+ hw/display/qxl-render.c | 9 +++++++--
+ hw/display/qxl.c        | 1 +
+ include/ui/console.h    | 2 ++
+ ui/console.c            | 9 +++++++++
+ 4 files changed, 19 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to 6b8d2a5132378ac19cf93597dad694ea764cca4f:
-
-  screendump: use qemu_unlink() (2020-01-02 13:54:57 +0400)
-
-----------------------------------------------------------------
-console: screendump improvements
-
-Hi,
-
-The following patches have been extracted from the "[PATCH v6 00/25]
-monitor: add asynchronous command type", as they are
-reviewable/mergeable independantly.
-
-They introduce some internal API changes, and fix
-qemu_open()/qemu_close()/unlink() misusages which should be quite
-harmless.
-
-----------------------------------------------------------------
-
-Marc-Andr=C3=A9 Lureau (7):
-  console: add graphic_hw_update_done()
-  ppm-save: pass opened fd
-  ui: add pixman image g_autoptr support
-  object: add g_autoptr support
-  screendump: replace FILE with QIOChannel and fix close()/qemu_close()
-  osdep: add qemu_unlink()
-  screendump: use qemu_unlink()
-
- hw/display/qxl-render.c  |  9 +++--
- hw/display/qxl.c         |  1 +
- include/qemu/osdep.h     |  1 +
- include/qom/object.h     |  3 ++
- include/ui/console.h     |  2 ++
- include/ui/qemu-pixman.h |  2 ++
- ui/console.c             | 74 +++++++++++++++++++++-------------------
- ui/trace-events          |  2 +-
- util/osdep.c             | 15 ++++++++
- 9 files changed, 71 insertions(+), 38 deletions(-)
-
+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
+index f7fdc4901e..3ce2e57b8f 100644
+--- a/hw/display/qxl-render.c
++++ b/hw/display/qxl-render.c
+@@ -109,7 +109,7 @@ static void qxl_render_update_area_unlocked(PCIQXLDevic=
+e *qxl)
+                                                 qxl->guest_primary.surface=
+.mem,
+                                                 MEMSLOT_GROUP_GUEST);
+         if (!qxl->guest_primary.data) {
+-            return;
++            goto end;
+         }
+         qxl_set_rect_to_surface(qxl, &qxl->dirty[0]);
+         qxl->num_dirty_rects =3D 1;
+@@ -137,7 +137,7 @@ static void qxl_render_update_area_unlocked(PCIQXLDevic=
+e *qxl)
+     }
+=20
+     if (!qxl->guest_primary.data) {
+-        return;
++        goto end;
+     }
+     for (i =3D 0; i < qxl->num_dirty_rects; i++) {
+         if (qemu_spice_rect_is_empty(qxl->dirty+i)) {
+@@ -158,6 +158,11 @@ static void qxl_render_update_area_unlocked(PCIQXLDevi=
+ce *qxl)
+                        qxl->dirty[i].bottom - qxl->dirty[i].top);
+     }
+     qxl->num_dirty_rects =3D 0;
++
++end:
++    if (qxl->render_update_cookie_num =3D=3D 0) {
++        graphic_hw_update_done(qxl->ssd.dcl.con);
++    }
+ }
+=20
+ /*
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index cd7eb39d20..6d43b7433c 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -1181,6 +1181,7 @@ static const QXLInterface qxl_interface =3D {
+=20
+ static const GraphicHwOps qxl_ops =3D {
+     .gfx_update  =3D qxl_hw_update,
++    .gfx_update_async =3D true,
+ };
+=20
+ static void qxl_enter_vga_mode(PCIQXLDevice *d)
+diff --git a/include/ui/console.h b/include/ui/console.h
+index f981696848..281f9c145b 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -365,6 +365,7 @@ static inline void console_write_ch(console_ch_t *dest,=
+ uint32_t ch)
+ typedef struct GraphicHwOps {
+     void (*invalidate)(void *opaque);
+     void (*gfx_update)(void *opaque);
++    bool gfx_update_async; /* if true, calls graphic_hw_update_done() */
+     void (*text_update)(void *opaque, console_ch_t *text);
+     void (*update_interval)(void *opaque, uint64_t interval);
+     int (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
+@@ -380,6 +381,7 @@ void graphic_console_set_hwops(QemuConsole *con,
+ void graphic_console_close(QemuConsole *con);
+=20
+ void graphic_hw_update(QemuConsole *con);
++void graphic_hw_update_done(QemuConsole *con);
+ void graphic_hw_invalidate(QemuConsole *con);
+ void graphic_hw_text_update(QemuConsole *con, console_ch_t *chardata);
+ void graphic_hw_gl_block(QemuConsole *con, bool block);
+diff --git a/ui/console.c b/ui/console.c
+index 82d1ddac9c..3c941528d2 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -259,13 +259,22 @@ static void gui_setup_refresh(DisplayState *ds)
+     ds->have_text =3D have_text;
+ }
+=20
++void graphic_hw_update_done(QemuConsole *con)
++{
++}
++
+ void graphic_hw_update(QemuConsole *con)
+ {
++    bool async =3D false;
+     if (!con) {
+         con =3D active_console;
+     }
+     if (con && con->hw_ops->gfx_update) {
+         con->hw_ops->gfx_update(con->hw);
++        async =3D con->hw_ops->gfx_update_async;
++    }
++    if (!async) {
++        graphic_hw_update_done(con);
+     }
+ }
+=20
 --=20
 2.24.0.308.g228f53135a
 
