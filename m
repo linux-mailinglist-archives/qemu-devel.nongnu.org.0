@@ -2,49 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE91312E1AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:24:46 +0100 (CET)
-Received: from localhost ([::1]:35760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5B512E19B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:10:17 +0100 (CET)
+Received: from localhost ([::1]:35646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imqAG-00044R-O8
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:24:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42634)
+	id 1impwG-0006xl-4O
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:10:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41726)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6m-0008Mt-CU
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:09 -0500
+ (envelope-from <eguan@linux.alibaba.com>) id 1impvO-0006Wm-IS
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:09:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6l-0005UP-3G
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:08 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39663 helo=ozlabs.org)
+ (envelope-from <eguan@linux.alibaba.com>) id 1impvJ-0000NG-RF
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:09:18 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:18530)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1imq6k-0005TI-OL; Wed, 01 Jan 2020 21:21:07 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47pBbc3lvsz9sSP; Thu,  2 Jan 2020 13:21:00 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1577931660;
- bh=qjhx2lC1m2sIPnJf8DjvA8VKRmh4JMECOQnp38tlKTM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K7nzymxlX32iGMlftA8mTlSp2l9rTeAzRWQ7Kr0ZQKlyEEgkcnS9C6CxDM6hdLgww
- FVhAM8FMh2se+V/Y3Xaeqq7c5qPx9BiA/ArO5Og8LyK76Cd1n5viAgm3WcvnlxLzNj
- JTlJ0qTSNSjlfdJCFdRtKxqDAVPTr6LShrafgVrs=
-Date: Thu, 2 Jan 2020 13:07:48 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 13/14] hw/nvram/Kconfig: Restrict CHRP NVRAM to machines
- using OpenBIOS or SLOF
-Message-ID: <20200102020748.GI2098@umbus>
-References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-14-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <eguan@linux.alibaba.com>)
+ id 1impvJ-0000Bg-HK
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:09:17 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R421e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e07486; MF=eguan@linux.alibaba.com;
+ NM=1; PH=DS; RN=3; SR=0; TI=SMTPD_---0TmXLrqa_1577930930; 
+Received: from localhost(mailfrom:eguan@linux.alibaba.com
+ fp:SMTPD_---0TmXLrqa_1577930930) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 02 Jan 2020 10:08:50 +0800
+Date: Thu, 2 Jan 2020 10:08:50 +0800
+From: Eryu Guan <eguan@linux.alibaba.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [BUG qemu 4.0] segfault when unplugging virtio-blk-pci device
+Message-ID: <20200102020850.GB41863@e18g06458.et15sqa>
+References: <20191231103434.GA41863@e18g06458.et15sqa>
+ <20191231115136.7b967604@Igors-MacBook-Pro>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gJNQRAHI5jiYqw2y"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191231183216.6781-14-philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191231115136.7b967604@Igors-MacBook-Pro>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 47.88.44.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,130 +53,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Dec 31, 2019 at 11:51:35AM +0100, Igor Mammedov wrote:
+> On Tue, 31 Dec 2019 18:34:34 +0800
+> Eryu Guan <eguan@linux.alibaba.com> wrote:
+> 
+> > Hi,
+> > 
+> > I'm using qemu 4.0 and hit segfault when tearing down kata sandbox, I
+> > think it's because io completion hits use-after-free when device is
+> > already gone. Is this a known bug that has been fixed? (I went through
+> > the git log but didn't find anything obvious).
+> > 
+> > gdb backtrace is:
+> > 
+> > Core was generated by `/usr/local/libexec/qemu-kvm -name sandbox-5b8df8c6c6901c3c0a9b02879be10fe8d69d6'.
+> > Program terminated with signal 11, Segmentation fault.
+> > #0 object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
+> > 903        return obj->class;
+> > (gdb) bt
+> > #0  object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
+> > #1  0x0000558a2c009e9b in virtio_notify_vector (vdev=0x558a2e7751d0,
+> >     vector=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio.c:1118
+> > #2  0x0000558a2bfdcb1e in virtio_blk_discard_write_zeroes_complete (
+> >     opaque=0x558a2f2fd420, ret=0)
+> >     at /usr/src/debug/qemu-4.0/hw/block/virtio-blk.c:186
+> > #3  0x0000558a2c261c7e in blk_aio_complete (acb=0x558a2eed7420)
+> >     at /usr/src/debug/qemu-4.0/block/block-backend.c:1305
+> > #4  0x0000558a2c3031db in coroutine_trampoline (i0=<optimized out>,
+> >     i1=<optimized out>) at /usr/src/debug/qemu-4.0/util/coroutine-ucontext.c:116
+> > #5  0x00007f45b2f8b080 in ?? () from /lib64/libc.so.6
+> > #6  0x00007fff9ed75780 in ?? ()
+> > #7  0x0000000000000000 in ?? ()
+> > 
+> > It seems like qemu was completing a discard/write_zero request, but
+> > parent BusState was already freed & set to NULL.
+> > 
+> > Do we need to drain all pending request before unrealizing virtio-blk
+> > device? Like the following patch proposed?
+> > 
+> > https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg02945.html
+> > 
+> > If more info is needed, please let me know.
+> 
+> may be this will help: https://patchwork.kernel.org/patch/11213047/
 
---gJNQRAHI5jiYqw2y
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yeah, this looks promising! I'll try it out (though it's a one-time
+crash for me). Thanks!
 
-On Tue, Dec 31, 2019 at 07:32:15PM +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> Only the OpenBIOS and SLOF firmwares use the CHRP NVRAM layout.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/nvram/Kconfig       | 4 ++++
->  hw/nvram/Makefile.objs | 2 +-
->  hw/ppc/Kconfig         | 1 +
->  hw/sparc/Kconfig       | 1 +
->  hw/sparc64/Kconfig     | 1 +
->  5 files changed, 8 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
-> index e082a5610c..0d2ba531ac 100644
-> --- a/hw/nvram/Kconfig
-> +++ b/hw/nvram/Kconfig
-> @@ -7,7 +7,11 @@ config AT24C
-> =20
->  config MAC_NVRAM
->      bool
-> +    select CHRP_NVRAM
-> =20
->  # NMC93XX uses the NS =CE=BCWire interface (similar to SPI but less conf=
-igurable)
->  config NMC93XX_EEPROM
->      bool
-> +
-> +config CHRP_NVRAM
-> +    bool
-> diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
-> index a4bdfbf187..090df63fcd 100644
-> --- a/hw/nvram/Makefile.objs
-> +++ b/hw/nvram/Makefile.objs
-> @@ -2,7 +2,7 @@ common-obj-$(CONFIG_DS1225Y) +=3D ds1225y.o
->  common-obj-$(CONFIG_NMC93XX_EEPROM) +=3D eeprom93xx.o
->  common-obj-$(CONFIG_AT24C) +=3D eeprom_at24c.o
->  common-obj-y +=3D fw_cfg.o
-> -common-obj-y +=3D chrp_nvram.o
-> +common-obj-$(CONFIG_CHRP_NVRAM) +=3D chrp_nvram.o
->  common-obj-$(CONFIG_MAC_NVRAM) +=3D mac_nvram.o
->  obj-$(CONFIG_PSERIES) +=3D spapr_nvram.o
->  obj-$(CONFIG_NRF51_SOC) +=3D nrf51_nvm.o
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index 8e62d8f470..e27efe9a24 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -11,6 +11,7 @@ config PSERIES
->      select XIVE_SPAPR
->      select MSI_NONBROKEN
->      select FDT_PPC
-> +    select CHRP_NVRAM
-> =20
->  config SPAPR_RNG
->      bool
-> diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-> index 2a83a8010e..22aff2f5b7 100644
-> --- a/hw/sparc/Kconfig
-> +++ b/hw/sparc/Kconfig
-> @@ -12,6 +12,7 @@ config SUN4M
->      select LANCE
->      select M48T59
->      select STP2000
-> +    select CHRP_NVRAM
-> =20
->  config LEON3
->      bool
-> diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
-> index f9f8b0f73a..980a201bb7 100644
-> --- a/hw/sparc64/Kconfig
-> +++ b/hw/sparc64/Kconfig
-> @@ -12,6 +12,7 @@ config SUN4U
->      select IDE_CMD646
->      select PCKBD
->      select SIMBA
-> +    select CHRP_NVRAM
-> =20
->  config NIAGARA
->      bool
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---gJNQRAHI5jiYqw2y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NUHQACgkQbDjKyiDZ
-s5IHMhAAkhljr5f8Zcot19wEckEE3hgY+w6Disn3Gl3kE0DGpm70cc/74aHa6y4i
-ihX4xvwcF7/UESoEi+9RG+6oJpnwlJ5HanE2fU3QgL9vG1oZx6t1KqT30EIgGCdI
-nSa9PwJFc5yKulG09FaIkmEjS4JT2nYsh/zfHoJBwYdRITdwpIiLwGSKIOS1duJg
-VFRIbJ3o4rCT0/5cTak2U7cEoz18QcPmd9OZ8W1WlK+qDfMzEIExbwqTfcUfv3r4
-m5LZ3b2GEnTLhaFC8PhfpCQukUKVbi2vHLUajNqf7YevXHChHwdS+jxSjvgTZT+C
-mZYHflxW42Y4WzhuZIa+o+xQX1/FzLEahWAtObN1ElXqE8Aekd8qeciTkg1JgwK6
-UbQxCKwf+nmp5QV4XzJSAr/nNXpoooPkccwjaIknJThDqYHrucFsM+UozU6+K3hV
-zrkFFYQzYP1l8lhE65AtwfG/3Q9i51HIq513u3EuLhIfdiv7XxRSfMhCyxESu4XT
-cgZqoGDYcqjan4hG2IyEFMRHbqQK3rhfS6H0l1otPRCAQY2ULxtqWasitHY9OVP6
-PMV+C9b8y6wg6eMyMXLZmlZqMp1A7DgEAGHsURJpKd9blm4unQEOYdClPG03G6m1
-4zfh9jiOeAVgxuWluMc8dTwI6Cz7043+XPWJCBlz3SrGXawecgY=
-=g0n1
------END PGP SIGNATURE-----
-
---gJNQRAHI5jiYqw2y--
+Eryu
 
