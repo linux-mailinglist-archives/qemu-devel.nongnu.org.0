@@ -2,51 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A614B12E5FB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 13:03:05 +0100 (CET)
-Received: from localhost ([::1]:40302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157A212E604
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 13:07:39 +0100 (CET)
+Received: from localhost ([::1]:40336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imzBw-0001uQ-NP
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 07:03:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48415)
+	id 1imzGM-00051s-5y
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 07:07:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Jason@zx2c4.com>) id 1imzAx-0001AQ-4i
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 07:02:04 -0500
+ (envelope-from <philmd@redhat.com>) id 1imzFR-0004Jp-GF
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 07:06:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Jason@zx2c4.com>) id 1imzAv-000310-VK
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 07:02:03 -0500
-Received: from frisell.zx2c4.com ([192.95.5.64]:36245)
+ (envelope-from <philmd@redhat.com>) id 1imzFO-0005kn-F5
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 07:06:39 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42408
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Jason@zx2c4.com>) id 1imzAv-00030i-OH
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 07:02:01 -0500
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id cc148834;
- Thu, 2 Jan 2020 11:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=from:to:cc
- :subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding; s=mail; bh=++GFLu2bysJEhyp/HhL2numvU
- Ug=; b=cqWU1CeenCcUIp61D9UHPZXI68X5j+f4aLXOPdcEl/ss30VPS8EGppa54
- OPRYJtu7DMOWA4P/YPG9d/xJIOgT+iqOeBggLjGVvDpi5hrBS7Z7Hj/h1cfQ8Sju
- D6IvdraFrKOb/k8Xa0blX4bDZGFAbphmFAWgnKx2cdv5EaI/6/Hkp+fWjNeC7z8Q
- igwU2xb7clLmsRpvlXk8YvUxg3DQJFg8xT5zjh00jZtFR+zPW8jfEh5UrdNG4V8M
- 5v1tV/VHOJz4qtznlo8CIgiDdoTvOd5VLWUYzbX0tkgaAY+pryu0NKKgmwIKNVTw
- fAlyd6ObdvvXyR7TYPDHzCr9JEeNg==
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5192d7a9
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
- Thu, 2 Jan 2020 11:03:30 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: laurent@vivier.eu,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2] q800: implement mac rom reset function for BIOS-less mode
-Date: Thu,  2 Jan 2020 13:01:50 +0100
-Message-Id: <20200102120150.281082-1-Jason@zx2c4.com>
-In-Reply-To: <d3eb847b-a6b9-4ac7-3c06-576686cca608@vivier.eu>
-References: <d3eb847b-a6b9-4ac7-3c06-576686cca608@vivier.eu>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imzFO-0005k8-7u
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 07:06:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1577966797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RYhfHmeeHMKKOsO/cCqHLaF0/+NzxaX0b/2oNpbXcTw=;
+ b=R9NP5SxQyMYNVJ3f/GxiPpZJtcGfnjqmo/Es5XUDBlHZvgfrgCyQuDgOFFcL7i8YGeLkjd
+ Qub2Em5T4YzT2Gv/n82ArDQIYj2oFcNX0R/OxD3B5x4UpucDT1eC1hXBVvDvjabKMbyQky
+ E8sH6B6yaYZTokmFPUMf6Xz8IZPvwvk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-N4GfrclcObaa9oEGbMY0_Q-1; Thu, 02 Jan 2020 07:06:36 -0500
+Received: by mail-ed1-f71.google.com with SMTP id w9so14570721eds.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Jan 2020 04:06:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5Crq6E72DrLGSxDyhaQ7XsAYH/SCQyFWp5IEVCTQyHI=;
+ b=rqU9VdBwRmCckJ1QkWORBMlZ9n9KyJH60SgkgDyNNk6JM3UKoKzGNJ5bItcAg1Zmeu
+ XrE9qgF2qq/lSJyzJSNvLKltWX8BRq7bEdrX1o9IKgpbZPSd609FmIyPBKzulg22QsJ/
+ GnG+mqRpdq6Achw46S42cIMOK2bcpmWaekFW2RwPQqSTjF5LZlyB7dgVEihoRRfdh1w8
+ 1STzmiVAyYLspB+CHse74rgVVA6z7qi88TV7tQJcGMx3wsuVRz/QKV3SH9PipUZKY5ez
+ WRwi+yos5Jy1gBqO0DfqeowjgaeXcUjeUU+D+7UF7Ic+yV8QkPn5nYZOKtlS2LdhnBXs
+ iO2Q==
+X-Gm-Message-State: APjAAAUv4BtrWV77uS+AGxY1q7BTqpASO6b+Em2yluHmyDBQHKIGsbDG
+ rylu1Mt3azF7c/TvguOtE/bcyaCFHkWUbAU5M8EeltHxqkD7KZoAEo3XaXCEE2Ky7526chxL048
+ CD8zV8yy7L+Vw0+0=
+X-Received: by 2002:a50:d849:: with SMTP id v9mr86991974edj.105.1577966794885; 
+ Thu, 02 Jan 2020 04:06:34 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxbA7qRy+OpK90HHeXnw/OPLrcRp0UuVqnOm63Kk32/VPhU5fhbxla1bZAcGiCBrZqMA8+hew==
+X-Received: by 2002:a50:d849:: with SMTP id v9mr86991953edj.105.1577966794654; 
+ Thu, 02 Jan 2020 04:06:34 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id md13sm7365967ejb.85.2020.01.02.04.06.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jan 2020 04:06:34 -0800 (PST)
+Subject: Re: [PATCH 43/86] hppa: drop RAM size fixup
+To: Helge Deller <deller@gmx.de>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+References: <1577797450-88458-1-git-send-email-imammedo@redhat.com>
+ <1577797450-88458-44-git-send-email-imammedo@redhat.com>
+ <bc7bac60-0d20-d0e3-b9ac-2c9ff62c2c15@redhat.com>
+ <8cb7bd0f-7841-7e60-8de6-708515b81b00@gmx.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7cc361d0-300f-a8a1-3650-9358e815c070@redhat.com>
+Date: Thu, 2 Jan 2020 13:06:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <8cb7bd0f-7841-7e60-8de6-708515b81b00@gmx.de>
+Content-Language: en-US
+X-MC-Unique: N4GfrclcObaa9oEGbMY0_Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 192.95.5.64
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,78 +94,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Linux, calling `reboot(RB_AUTOBOOT);` will result in
-arch/m68k/mac/misc.c's mac_reset function being called. That in turn
-looks at the rombase (or uses 0x40800000 is there's no rombase), adds
-0xa, and jumps to that address. At the moment, there's nothing there, so
-the kernel just crashes when trying to reboot. So, this commit adds a
-very simple implementation at that location, which just writes to via2
-to power down. We also correct the value of ROMBASE while we're at it.
+On 1/2/20 12:31 PM, Helge Deller wrote:
+> On 31.12.19 16:44, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 12/31/19 2:03 PM, Igor Mammedov wrote:
+>>> If user provided non-sense RAM size, board will complain and
+>>> continue running with max RAM size supported.
+>>> Also RAM is going to be allocated by generic code, so it won't be
+>>> possible for board to fix things up for user.
+>>>
+>>> Make it error message and exit to force user fix CLI,
+>>> instead of accepting non-sense CLI values.
+>>>
+>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>>> ---
+>>>  =C2=A0 hw/hppa/machine.c | 3 ++-
+>>>  =C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+>>> index 5d0de26..25f5afc 100644
+>>> --- a/hw/hppa/machine.c
+>>> +++ b/hw/hppa/machine.c
+>>> @@ -92,7 +92,8 @@ static void machine_hppa_init(MachineState *machine)
+>>>  =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Limit main memory. */
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ram_size > FIRMWARE_START) {
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 machine->ram_size =3D ram_s=
+ize =3D FIRMWARE_START;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("RAM size more=
+ than %d is not supported", FIRMWARE_START);
+>>> +        exit(EXIT_FAILURE);
+>>
+>> $ qemu-system-hppa -m 3841m
+>> qemu-system-hppa: invalid accelerator kvm
+>> qemu-system-hppa: falling back to tcg
+>> qemu-system-hppa: RAM size more than -268435456 is not supported
+>>
+>> Instead of using qemu_strtosz_MiB on FIRMWARE_START or unsigned format, =
+we can simply use "RAM size more than 3840m is not supported". Is that OK w=
+ith you?
+>=20
+> I don't really like that change.
+>=20
+> We currently only emulate a 32-bit system, and for those 4GB is the maxim=
+um.
+> So, if I start my machine with "qemu-system-hppa -m 4G", the current code
+> then automatically uses the maximum possible of 3841MB (which is limited =
+by
+> firmware start address).
+> I don't expect users to know the excact 3841MB number.
+> Even on a phyiscal machine you can only add DIMMs of sizes 2GB, 3GB or 4G=
+B,
+> but not "3841MB".
 
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/m68k/q800.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+Thanks for the explanation. This deserves a comment in the source file=20
+IMHO (and displaying a warning to the user that the behavior is changed).
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 4ca8678007..f03679e24c 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -47,7 +47,7 @@
- #include "sysemu/runstate.h"
- #include "sysemu/reset.h"
- 
--#define MACROM_ADDR     0x40000000
-+#define MACROM_ADDR     0x40800000
- #define MACROM_SIZE     0x00100000
- 
- #define MACROM_FILENAME "MacROM.bin"
-@@ -128,6 +128,27 @@ static void main_cpu_reset(void *opaque)
-     cpu->env.pc = ldl_phys(cs->as, 4);
- }
- 
-+static uint8_t fake_mac_rom[] = {
-+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+
-+    /* offset: 0xa - mac_reset */
-+
-+    /* via2[vDirB] |= VIA2B_vPower */
-+    0x20, 0x7C, 0x50, 0xF0, 0x24, 0x00, /* moveal VIA2_BASE+vDirB,%a0 */
-+    0x10, 0x10,                         /* moveb %a0@,%d0 */
-+    0x00, 0x00, 0x00, 0x04,             /* orib #4,%d0 */
-+    0x10, 0x80,                         /* moveb %d0,%a0@ */
-+
-+    /* via2[vBufB] &= ~VIA2B_vPower */
-+    0x20, 0x7C, 0x50, 0xF0, 0x20, 0x00, /* moveal VIA2_BASE+vBufB,%a0 */
-+    0x10, 0x10,                         /* moveb %a0@,%d0 */
-+    0x02, 0x00, 0xFF, 0xFB,             /* andib #-5,%d0 */
-+    0x10, 0x80,                         /* moveb %d0,%a0@ */
-+
-+    /* while (true) ; */
-+    0x60, 0xFE                          /* bras [self] */
-+};
-+
- static void q800_init(MachineState *machine)
- {
-     M68kCPU *cpu = NULL;
-@@ -340,6 +361,12 @@ static void q800_init(MachineState *machine)
-                   (graphic_width * graphic_depth + 7) / 8);
-         BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
- 
-+        rom = g_malloc(sizeof(*rom));
-+        memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
-+                                   sizeof(fake_mac_rom), fake_mac_rom);
-+        memory_region_set_readonly(rom, true);
-+        memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
-+
-         if (kernel_cmdline) {
-             BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-                         kernel_cmdline);
--- 
-2.24.1
+I understand the CPU can't access this DRAM area because the ROM is=20
+mapped there. What about other devices, can they do DMA access to it?
+
+Igor: If this complicates your series too much, I think we can directly=20
+allocate up-to 4GiB and not worry about the 256MiB lost.
+
+> So, I think that patch is - although it's more correct - not a
+> benefit for the end user.
+>=20
+> Helge
+>=20
 
 
