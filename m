@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCC112E5EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 12:58:01 +0100 (CET)
-Received: from localhost ([::1]:40226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC83A12E5F3
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 13:00:26 +0100 (CET)
+Received: from localhost ([::1]:40268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imz72-00045W-P5
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 06:58:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47628)
+	id 1imz9N-0008Iq-V7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 07:00:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1imz5G-0002TA-F6
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:11 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1imz5S-0002fO-L7
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1imz5F-00070G-F9
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:10 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41666
+ (envelope-from <marcandre.lureau@redhat.com>) id 1imz5R-0007Q3-Gk
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:22 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29951
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1imz5F-0006sZ-Ag
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:09 -0500
+ id 1imz5R-0007Or-04
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:56:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1577966168;
+ s=mimecast20190719; t=1577966180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uZ492ip0+fI0VQCW9S4eYVfwzGKlxnI/K5IAS3UZ5vs=;
- b=W0d1dWejR3oaJfUEYt0MGfTBT/k4CKoSi9Khcr80uh7+/thURq0GHmDRFu48EtATkEdKQg
- Y7Q+sr91Mztxt90Hz67fBR6tiWrehbE8E60ShvFstKWor+t1Tiohs5yGXUuLE4GNYPLyhz
- RRy4zmhdxUm16QQkZRMom2pIJJHF0Do=
+ bh=cZuJFppdIygI7a0JFt5qSBIq2Ddt1WNFM8RuXUYvobw=;
+ b=IzXQmCMvpNv2FfICycX18SDMAXrOQB/uooipzKTg5W/q/8ZbNrpn9RK757VKlGY/VYMFvu
+ hudRrEhGRReGCJMsZlqJbtl2SVn7zisPVbNBblyYpHtmfYkBFIbhI7I4dl8q6q6Lng2g+y
+ xhwPLMfJaDGhqPYHbz3xlH4KEvwYZ3o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-d9CJHsoGN0aJcE4uGsvOdw-1; Thu, 02 Jan 2020 06:56:05 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-258-7SQQfBl_Mr6jhRyWqRaSyg-1; Thu, 02 Jan 2020 06:56:19 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AA41104ED67
- for <qemu-devel@nongnu.org>; Thu,  2 Jan 2020 11:56:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E2BD18C43CD
+ for <qemu-devel@nongnu.org>; Thu,  2 Jan 2020 11:56:18 +0000 (UTC)
 Received: from localhost (ovpn-112-28.ams2.redhat.com [10.36.112.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4530F7A04F;
- Thu,  2 Jan 2020 11:55:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A20B10013D9;
+ Thu,  2 Jan 2020 11:56:10 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/7] object: add g_autoptr support
-Date: Thu,  2 Jan 2020 15:54:56 +0400
-Message-Id: <20200102115459.854103-5-marcandre.lureau@redhat.com>
+Subject: [PULL 5/7] screendump: replace FILE with QIOChannel and fix
+ close()/qemu_close()
+Date: Thu,  2 Jan 2020 15:54:57 +0400
+Message-Id: <20200102115459.854103-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20200102115459.854103-1-marcandre.lureau@redhat.com>
 References: <20200102115459.854103-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: d9CJHsoGN0aJcE4uGsvOdw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 7SQQfBl_Mr6jhRyWqRaSyg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,25 +80,88 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The file opened for ppm_save() may be a /dev/fdset, in which case a
+dup fd is added to the fdset. It should be removed by calling
+qemu_close(), instead of the implicit close() on fclose().
+
+I don't see a convenient way to solve that with stdio streams, so I
+switched the code to QIOChannel which uses qemu_close().
+
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- include/qom/object.h | 3 +++
- 1 file changed, 3 insertions(+)
+ ui/console.c | 38 +++++++++++++++++---------------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 1d7b7e5a79..54a548868c 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1766,4 +1766,7 @@ Object *container_get(Object *root, const char *path)=
-;
-  * Returns the instance_size of the given @typename.
-  */
- size_t object_type_get_instance_size(const char *typename);
+diff --git a/ui/console.c b/ui/console.c
+index 77d62fe76d..587edf4ed4 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -33,6 +33,7 @@
+ #include "chardev/char-fe.h"
+ #include "trace.h"
+ #include "exec/memory.h"
++#include "io/channel-file.h"
+=20
+ #define DEFAULT_BACKSCROLL 512
+ #define CONSOLE_CURSOR_PERIOD 500
+@@ -313,36 +314,31 @@ static bool ppm_save(int fd, DisplaySurface *ds, Erro=
+r **errp)
+ {
+     int width =3D pixman_image_get_width(ds->image);
+     int height =3D pixman_image_get_height(ds->image);
+-    FILE *f;
++    g_autoptr(Object) ioc =3D OBJECT(qio_channel_file_new_fd(fd));
++    g_autofree char *header =3D NULL;
++    g_autoptr(pixman_image_t) linebuf =3D NULL;
++    g_autoptr(GError) error =3D NULL;
+     int y;
+-    int ret;
+-    pixman_image_t *linebuf;
+-    bool success =3D false;
+=20
+     trace_ppm_save(fd, ds);
+-    f =3D fdopen(fd, "wb");
+-    ret =3D fprintf(f, "P6\n%d %d\n%d\n", width, height, 255);
+-    if (ret < 0) {
+-        linebuf =3D NULL;
+-        goto end;
 +
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(Object, object_unref)
++    header =3D g_strdup_printf("P6\n%d %d\n%d\n", width, height, 255);
++    if (qio_channel_write_all(QIO_CHANNEL(ioc),
++                              header, strlen(header), errp) < 0) {
++        return false;
+     }
 +
- #endif
+     linebuf =3D qemu_pixman_linebuf_create(PIXMAN_BE_r8g8b8, width);
+     for (y =3D 0; y < height; y++) {
+         qemu_pixman_linebuf_fill(linebuf, ds->image, width, 0, y);
+-        clearerr(f);
+-        ret =3D fwrite(pixman_image_get_data(linebuf), 1,
+-                     pixman_image_get_stride(linebuf), f);
+-        (void)ret;
+-        success =3D !ferror(f);
++        if (qio_channel_write_all(QIO_CHANNEL(ioc),
++                                  (char *)pixman_image_get_data(linebuf),
++                                  pixman_image_get_stride(linebuf), errp) =
+< 0) {
++            return false;
++        }
+     }
+=20
+-end:
+-    if (!success) {
+-        error_setg(errp, "failed to write to PPM file: %s", strerror(errno=
+));
+-    }
+-    qemu_pixman_image_unref(linebuf);
+-    fclose(f);
+-    return success;
++    return true;
+ }
+=20
+ void qmp_screendump(const char *filename, bool has_device, const char *dev=
+ice,
 --=20
 2.24.0.308.g228f53135a
 
