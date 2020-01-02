@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32D112E6D8
+	by mail.lfdr.de (Postfix) with ESMTPS id B971C12E6D7
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 14:36:41 +0100 (CET)
-Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1in0eW-0001nw-Vj
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 08:36:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57693)
+	id 1in0eW-0001mo-Ff
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 08:36:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1in0dS-0000z8-OA
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 08:35:36 -0500
+ (envelope-from <bounces@canonical.com>) id 1in0dS-0000z7-Ks
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 08:35:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1in0dR-0008LH-Hd
+ (envelope-from <bounces@canonical.com>) id 1in0dR-0008LB-F7
  for qemu-devel@nongnu.org; Thu, 02 Jan 2020 08:35:34 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46046)
+Received: from indium.canonical.com ([91.189.90.7]:46062)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1in0dR-0008JB-CH
+ id 1in0dR-0008Jx-9x
  for qemu-devel@nongnu.org; Thu, 02 Jan 2020 08:35:33 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1in0dP-0006DF-On
- for <qemu-devel@nongnu.org>; Thu, 02 Jan 2020 13:35:31 +0000
+ id 1in0dQ-0006DF-7Z
+ for <qemu-devel@nongnu.org>; Thu, 02 Jan 2020 13:35:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B94A32E80CB
- for <qemu-devel@nongnu.org>; Thu,  2 Jan 2020 13:35:31 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 358832E8074
+ for <qemu-devel@nongnu.org>; Thu,  2 Jan 2020 13:35:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 02 Jan 2020 13:28:08 -0000
+Date: Thu, 02 Jan 2020 13:28:52 -0000
 From: crocket <crockabiscuit@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: crockabiscuit laurent-vivier
 X-Launchpad-Bug-Reporter: crocket (crockabiscuit)
 X-Launchpad-Bug-Modifier: crocket (crockabiscuit)
 References: <155806778498.21734.945063058665872727.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157797168886.5882.6380213761362019230.malone@gac.canonical.com>
+Message-Id: <157797173209.14768.15569330814177560407.malone@wampee.canonical.com>
 Subject: [Bug 1829459] Re: qemu seems to lack support for pid namespace.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 950ea71d0b0f3b11835710cff7b30a8203321923
+X-Launchpad-Hash: 9f3960d31aa1397318936c84bd00c55f4c94a2e2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -69,13 +69,8 @@ Reply-To: Bug 1829459 <1829459@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In a native chroot, `sudo unshare --pid -- echo hello world` works
-without a problem.
-
-In a qemu-aarch64 chroot, `sudo unshare --keep-caps --pid -- echo hello
-world` fails with the same error described in this issue.
-
-`qemu: qemu_thread_create: Invalid argument`
+According to `man unshare`, --keep-caps seems to apply only to user
+namespace.
 
 -- =
 
