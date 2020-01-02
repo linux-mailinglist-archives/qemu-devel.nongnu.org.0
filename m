@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA2612E59F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 12:23:48 +0100 (CET)
-Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8087C12E5A0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 12:25:30 +0100 (CET)
+Received: from localhost ([::1]:39866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imyZv-0003x6-JD
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 06:23:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43748)
+	id 1imybZ-0004xt-I7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 06:25:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43926)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1imyZ8-0003UA-C4
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:22:59 -0500
+ (envelope-from <philmd@redhat.com>) id 1imyaa-0004Rg-Dg
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:24:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1imyZ7-0006CW-7j
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:22:58 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:32885)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1imyZ5-0006BQ-6l; Thu, 02 Jan 2020 06:22:55 -0500
-Received: by mail-wm1-x343.google.com with SMTP id d139so4774305wmd.0;
- Thu, 02 Jan 2020 03:22:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=mVX9QPG03GTNcZPTxGtontvUV2HYU3ZmRUoACxKJ2pI=;
- b=fIRyC/Pc0YcmdhTad5+9I9wKOFnw9g1xgSQA/izjzDyIUnBdmlOl3ic90r7UITjZMx
- IVUy6sjnR4fgmj+UCgNVv+XfoI3TfA5tKk9CG7q2obga+Dv1IRLawwFwohGiORRQrj5L
- WfS4200uUsP9PgfXLkRp5ODN+A8QMfmKzE8IKln+OKeISS+N4wMNxDVksgSVMNaEV4Vv
- di50oVvH05bddKjSr5mtTiVhY695Ao+y+oAX+Rb8EKsZ/bdoclnmVprp5Wl366BUg0iA
- 2uKlanyE+0LigOIKNFG1rl+P6WpJTHz29M2f3smAnKdJANKnPX18BZmVTMP6UwQWfENQ
- u03Q==
+ (envelope-from <philmd@redhat.com>) id 1imyaY-0006nz-Es
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:24:27 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54312
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1imyaY-0006nG-8F
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 06:24:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1577964264;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dnKjfN+dTe7awd3Z1ieOUyD7hBqLGQ9bsXfNjMDsXos=;
+ b=QzwN4MD+52GBcTCDuzm5jh2cAkp6qtqKeWqlW0/bYDtCa1nb5z5pSv6HJXWQ4ZDw647PHP
+ +ab58A/VZczhcHuxX4MnOZllu9ts3gq4mxkAgd5HGyHcJe+IFDaQtXtgf7m1qDOWYe0x+W
+ tcYDuGcAY9QtuLyLdX+0fEc5tZsLciU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-01w6OvI9MIeKnQCbZniIwg-1; Thu, 02 Jan 2020 06:24:23 -0500
+Received: by mail-ed1-f71.google.com with SMTP id m21so7056184edp.14
+ for <qemu-devel@nongnu.org>; Thu, 02 Jan 2020 03:24:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mVX9QPG03GTNcZPTxGtontvUV2HYU3ZmRUoACxKJ2pI=;
- b=IFYWkWhBcFq44VU92gRJCsBOFU+g0jtAAZJYMl1CdZzjVw6Y/3YgQy79TwgRfidz/4
- jj8heljfYFcQ47f7JuAgqor37XFYiYBppXJRrsUDBcPDTOSOaORGJb05ZGR+PLoCju5q
- 8E3x4Tcs1ZX9h5L7oX5idc5tuxCLDcb0QObSKx3GlsUCCpTyPBRf0Fi+3mpWjRE5ozmX
- cQdnOKLnj65Au2RQnmbterEYuQVkiX6DjacYoZpHcm8+Hz40d8xsN37xGBIHt/Wb4B2k
- QhI7+RHLOP1WErX5ydka2BBydVnxKvLy4oNiTI7fKDT+YyNU0JqI1rLQoGmFwLTaaCFD
- WgzQ==
-X-Gm-Message-State: APjAAAXSykhYqXZNKK9heAcmrwEXAlBlZJkmOAwT67liu7rLA+KIJ096
- jChzPH+VcPBkYbgPIq0GJaJb22GisnE=
-X-Google-Smtp-Source: APXvYqwomBm0JOu1ZA2yMmePYx/deuqcKyw1mb0hTekTZvyeSbasGYN1gyqaEA3aK2GdH062iKOSeQ==
-X-Received: by 2002:a7b:cbc8:: with SMTP id n8mr13940702wmi.35.1577964173567; 
- Thu, 02 Jan 2020 03:22:53 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id i11sm55900494wrs.10.2020.01.02.03.22.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2020 03:22:52 -0800 (PST)
-Date: Thu, 2 Jan 2020 11:22:51 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 00/18] block: Allow exporting BDSs via FUSE
-Message-ID: <20200102112251.GI121208@stefanha-x1.localdomain>
-References: <20191219143818.1646168-1-mreitz@redhat.com>
- <20191220100846.GC1635864@stefanha-x1.localdomain>
- <a372e742-182a-ec98-d297-ed8d43e10734@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dnKjfN+dTe7awd3Z1ieOUyD7hBqLGQ9bsXfNjMDsXos=;
+ b=eSmR8MP5VxLeu0d6nSmcLO7yVDvQ3plONUhs4hT5F/HjisgvCWqk77PC6R5s+3mXVX
+ BoL+kYDXHDIFn3BPbYBrWejB1m5+bZUAhhBW+dP88dYi0wKsnVOqlG7B6voTDIsZuOcF
+ zIhq3cY9xt1Du9snmsDcvs5rR6PizU0tdHeYk2/ZZLflDPunCtT4kwkpiRmFINSnslCD
+ lUYU+51fYbKEdV+iJYNeiBczFs7kwwJouONE3/8X6X8TuZN0niqP5WRQG/MrVjph3n5N
+ RYufSj2MHI1R6+C/hR+55GFbYPdGE0ETDXYssUQYVJBxoHbjbXXngSckrZqb9l7HXQOS
+ fszg==
+X-Gm-Message-State: APjAAAVY5LJsWrGYc2DXGKlqQS5DHdgUA0DnwpAk4DgIvUXDZCxkl6WL
+ 97eOXMrB3aDjD9GvjWgJ8viH5ZyWOm0xXCNfwST0Be8xfXjQF3v47KG8KCY4iilYy75mJgUEIMH
+ FR9ZzF5SyP9Cvzew=
+X-Received: by 2002:a17:906:2e41:: with SMTP id
+ r1mr87355668eji.127.1577964262248; 
+ Thu, 02 Jan 2020 03:24:22 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxmZYREZjTOPLg/tvPZIp6o2JkrPtdfEl+UR/lROML01Mccmk2F8Ndtffqvccjrg4K3nibtVQ==
+X-Received: by 2002:a17:906:2e41:: with SMTP id
+ r1mr87355642eji.127.1577964261977; 
+ Thu, 02 Jan 2020 03:24:21 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id u26sm7339814ejj.7.2020.01.02.03.24.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jan 2020 03:24:21 -0800 (PST)
+Subject: Re: sysbus usb xhci
+To: "kraxel@redhat.com" <kraxel@redhat.com>,
+ Sai Pavan Boddu <saipava@xilinx.com>
+References: <MN2PR02MB5935CFE95528B85E06DA9583CA200@MN2PR02MB5935.namprd02.prod.outlook.com>
+ <20200102094515.bbjaqlif7ucvzuou@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b8ad0f98-a02d-bcb2-acd8-a6e9fb606167@redhat.com>
+Date: Thu, 2 Jan 2020 12:26:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HkMjoL2LAeBLhbFV"
-Content-Disposition: inline
-In-Reply-To: <a372e742-182a-ec98-d297-ed8d43e10734@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <20200102094515.bbjaqlif7ucvzuou@sirius.home.kraxel.org>
+Content-Language: en-US
+X-MC-Unique: 01w6OvI9MIeKnQCbZniIwg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,45 +94,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/2/20 10:45 AM, kraxel@redhat.com wrote:
+> On Thu, Jan 02, 2020 at 07:13:25AM +0000, Sai Pavan Boddu wrote:
+>> Hi Gred,
+>>
+>> We are seeing of options to reuse the hcd-xhci model and use it over system bus interface rather than pci. (for Xilinx ZynqMP SOC, usb emulation)
+>> Are there any plans of implementing a sysbus device ? if none it would be good if provided few pointers to start.
+> 
+> There have been some discussions about this for a (IIRC) sbsa machine,
+> but I'm not sure whenever that where just ideas or some code exists.
+> 
+>> Im looking at hcd-ehci/ochi as a reference, let me know if there are any know limitations for this usecase.
+> 
+> Yep, the path for xhci would be quite simliar:  Create a new
+> XHCIPciState struct, move over all pci-specific bits from XHCIState,
+> leaving the generic stuff in XHCIState for sharing with sysbus.
+> Possibly move all pci-specific code bits into a new source file (for
+> cleanup, will also allow to build qemu with CONFIG_PCI=n and still have
+> XHCI enabled).
+> 
+> Once this separation is done you should be able to create a sysbus
+> device, reusing the generic xhci code and adding sysbus plumbing
+> (mmio, irq, ...)
 
---HkMjoL2LAeBLhbFV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The SDHCI commits b635d98cf32..8b7455c75e seem similar to what you want 
+to achieve (see also commit ce8646034).
 
-On Fri, Dec 20, 2019 at 11:30:33AM +0100, Max Reitz wrote:
-> On 20.12.19 11:08, Stefan Hajnoczi wrote:
-> > On Thu, Dec 19, 2019 at 03:38:00PM +0100, Max Reitz wrote:
-> > Please send a follow-up patch that adds a qemu(1) -blockdev
-> > 'Driver-specific options for "fuse"' documentation section.
->=20
-> What exactly do you mean?  This is not a block driver, so it doesn=E2=80=
-=99t
-> work as part of -blockdev.  Currently, it can only be used through QMP
-> (fuse-export-add/fuse-export-remove).
-
-I don't know what I was thinking :).
-
-Stefan
-
---HkMjoL2LAeBLhbFV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4N0osACgkQnKSrs4Gr
-c8huFgf/aRR8GvmFf4y0xfcF8oHth1gsIYccMfbfMT3JJskuGBaaN5gZSUR+H5HE
-jTsoqo1H01YQpdQ1EL8AdvUMDigKwWe57b1J0UOdxP4/p2QEM7S8BzM5mFLFJL+z
-Ga0BrqGacRf7YHR5GAkpZXoqDQvW5KC/y1emtrx+feNOwqFPUm/V6rbnL//Zu7MT
-WuPQfc1qRDYpg60hSrXkxctNwAJkcpUR9XWUSgkIFmgn0E3HpeY9UdbieakD1uvU
-un0EIKCSGhMl+cEj38RCHdXO1iTO7l6EUIx/UY+SyvbMBdomexHBe+09GbZB/sIN
-rG3zQxu4easJNBM5hZ9XzDVsxZrNOQ==
-=84zL
------END PGP SIGNATURE-----
-
---HkMjoL2LAeBLhbFV--
 
