@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A05B12E193
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:03:25 +0100 (CET)
-Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CACF12E1A7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:22:56 +0100 (CET)
+Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imppb-00047y-M8
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:03:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40932)
+	id 1imq8V-0001OY-Fh
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:22:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42575)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1impoX-0003I0-G6
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:02:19 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MP-Ab
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1impoV-0001QW-PB
- for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:02:17 -0500
-Received: from ozlabs.org ([203.11.71.1]:49775)
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005T7-SZ
+ for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:05 -0500
+Received: from ozlabs.org ([203.11.71.1]:53893)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1impoQ-0000Zb-Nc; Wed, 01 Jan 2020 21:02:11 -0500
+ id 1imq6h-0005Qz-Tl; Wed, 01 Jan 2020 21:21:04 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47pB9h5TDtz9sPW; Thu,  2 Jan 2020 13:02:00 +1100 (AEDT)
+ id 47pBbb0GvXz9sPW; Thu,  2 Jan 2020 13:20:58 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1577930520;
- bh=HPM5Vh+tpYJbZd9Q2oxyabGJjmW597vE4NhBqlukHnU=;
+ d=gibson.dropbear.id.au; s=201602; t=1577931659;
+ bh=0vwoa7fPYG43fPT648dq7hg98MiNPTwh8x1FiZdydDM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mxgDvtPQMS/c+WOwEGgIXGIP2ffLGXnwSAK2YS9hdWApVVmXjz4DgbjG+GDMDBOZM
- H1jMWiCw9jN0w+Y1rnnXNn4DxrS/UYjYKi+D8dNxZeWuzteF/vIrPnc7UR5YGo6G2C
- wtJYi9HDZa0dkdWpC1+ZbdGvEDytRsJuyZ44Pn90=
-Date: Thu, 2 Jan 2020 12:44:19 +1100
+ b=MxRp/N0QmaVA4Da5EnKdBxhqyecn45rZCDh4tIkpj5y/VHnEJaQ+YQPTTXT253sdU
+ r2jPEIJ/S/qs6EufsmhRWB3um3hE4cs07iAuCjGz44mabk6Xu8ROYlPtaJqhAS7X6u
+ K1NMoTY4mpMAWqXvBsGIMekUjonhoH+7OwsNC8aM=
+Date: Thu, 2 Jan 2020 13:03:03 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 2/4] tcg: Search includes in the parent source directory
-Message-ID: <20200102014419.GB2098@umbus>
-References: <20200101112303.20724-1-philmd@redhat.com>
- <20200101112303.20724-3-philmd@redhat.com>
+Subject: Re: [PATCH 06/14] hw/ppc/Kconfig: Restrict the MPC I2C controller to
+ e500-based platforms
+Message-ID: <20200102020303.GC2098@umbus>
+References: <20191231183216.6781-1-philmd@redhat.com>
+ <20191231183216.6781-7-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KFztAG8eRSV9hGtP"
+ protocol="application/pgp-signature"; boundary="iFRdW5/EC4oqxDHL"
 Content-Disposition: inline
-In-Reply-To: <20200101112303.20724-3-philmd@redhat.com>
+In-Reply-To: <20191231183216.6781-7-philmd@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -55,226 +56,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Palmer Dabbelt <palmer@dabbelt.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Richard Henderson <rth@twiddle.net>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Claudio Fontana <claudio.fontana@huawei.com>,
- Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KFztAG8eRSV9hGtP
+--iFRdW5/EC4oqxDHL
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 01, 2020 at 12:23:01PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> All the *.inc.c files included by tcg/$TARGET/tcg-target.inc.c
-> are in tcg/, their parent directory. To simplify the preprocessor
-> search path, include the relative parent path: '..'.
->=20
-> Patch created mechanically by running:
->=20
->   $ for x in tcg-pool.inc.c tcg-ldst.inc.c; do \
->     sed -i "s,#include \"$x\",#include \"../$x\"," \
->       $(git grep -l "#include \"$x\""); \
->     done
+On Tue, Dec 31, 2019 at 07:32:08PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Only the PowerPC e500-based platforms use the MPC I2C controller.
+> Do not build it for the other machines.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-ppc parts
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  tcg/aarch64/tcg-target.inc.c | 4 ++--
->  tcg/arm/tcg-target.inc.c     | 4 ++--
->  tcg/i386/tcg-target.inc.c    | 4 ++--
->  tcg/mips/tcg-target.inc.c    | 2 +-
->  tcg/ppc/tcg-target.inc.c     | 4 ++--
->  tcg/riscv/tcg-target.inc.c   | 4 ++--
->  tcg/s390/tcg-target.inc.c    | 4 ++--
->  tcg/sparc/tcg-target.inc.c   | 2 +-
->  8 files changed, 14 insertions(+), 14 deletions(-)
+>  default-configs/ppc-softmmu.mak | 1 -
+>  hw/ppc/Kconfig                  | 1 +
+>  2 files changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-> index 3f921015d3..843fd0ca69 100644
-> --- a/tcg/aarch64/tcg-target.inc.c
-> +++ b/tcg/aarch64/tcg-target.inc.c
-> @@ -10,7 +10,7 @@
->   * See the COPYING file in the top-level directory for details.
->   */
+> diff --git a/default-configs/ppc-softmmu.mak b/default-configs/ppc-softmm=
+u.mak
+> index bf86128a0c..61b78b844d 100644
+> --- a/default-configs/ppc-softmmu.mak
+> +++ b/default-configs/ppc-softmmu.mak
+> @@ -1,7 +1,6 @@
+>  # Default configuration for ppc-softmmu
 > =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
->  #include "qemu/bitops.h"
+>  # For embedded PPCs:
+> -CONFIG_MPC_I2C=3Dy
+>  CONFIG_DS1338=3Dy
+>  CONFIG_E500=3Dy
+>  CONFIG_PPC405=3Dy
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index f927ec9c74..0cd8d4053e 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -105,6 +105,7 @@ config E500
+>      select PLATFORM_BUS
+>      select PPCE500_PCI
+>      select SERIAL
+> +    select MPC_I2C
 > =20
->  /* We're going to re-use TCGType in setting of the SF bit, which controls
-> @@ -1541,7 +1541,7 @@ static void tcg_out_cltz(TCGContext *s, TCGType ext=
-, TCGReg d,
->  }
-> =20
->  #ifdef CONFIG_SOFTMMU
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     TCGMemOpIdx oi, uintptr_t ra)
-> diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-> index 94d80d79d1..fffb6611e2 100644
-> --- a/tcg/arm/tcg-target.inc.c
-> +++ b/tcg/arm/tcg-target.inc.c
-> @@ -23,7 +23,7 @@
->   */
-> =20
->  #include "elf.h"
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  int arm_arch =3D __ARM_ARCH;
-> =20
-> @@ -1131,7 +1131,7 @@ static TCGCond tcg_out_cmp2(TCGContext *s, const TC=
-GArg *args,
->  }
-> =20
->  #ifdef CONFIG_SOFTMMU
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     int mmu_idx, uintptr_t ra)
-> diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-> index 9d8ed974e0..cdedcb2b25 100644
-> --- a/tcg/i386/tcg-target.inc.c
-> +++ b/tcg/i386/tcg-target.inc.c
-> @@ -22,7 +22,7 @@
->   * THE SOFTWARE.
->   */
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #ifdef CONFIG_DEBUG_TCG
->  static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
-> @@ -1647,7 +1647,7 @@ static void tcg_out_nopn(TCGContext *s, int n)
->  }
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     int mmu_idx, uintptr_t ra)
-> diff --git a/tcg/mips/tcg-target.inc.c b/tcg/mips/tcg-target.inc.c
-> index 5442167045..1da663ce84 100644
-> --- a/tcg/mips/tcg-target.inc.c
-> +++ b/tcg/mips/tcg-target.inc.c
-> @@ -1107,7 +1107,7 @@ static void tcg_out_call(TCGContext *s, tcg_insn_un=
-it *arg)
->  }
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  static void * const qemu_ld_helpers[16] =3D {
->      [MO_UB]   =3D helper_ret_ldub_mmu,
-> diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-> index d308d69aba..ee1f9227c1 100644
-> --- a/tcg/ppc/tcg-target.inc.c
-> +++ b/tcg/ppc/tcg-target.inc.c
-> @@ -23,7 +23,7 @@
->   */
-> =20
->  #include "elf.h"
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #if defined _CALL_DARWIN || defined __APPLE__
->  #define TCG_TARGET_CALL_DARWIN
-> @@ -1845,7 +1845,7 @@ static const uint32_t qemu_exts_opc[4] =3D {
->  };
-> =20
->  #if defined (CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ld_mmu(CPUState *env, target_ulong addr,
->   *                                 int mmu_idx, uintptr_t ra)
-> diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-> index 7018509693..2bc0ba71f2 100644
-> --- a/tcg/riscv/tcg-target.inc.c
-> +++ b/tcg/riscv/tcg-target.inc.c
-> @@ -27,7 +27,7 @@
->   * THE SOFTWARE.
->   */
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #ifdef CONFIG_DEBUG_TCG
->  static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
-> @@ -921,7 +921,7 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
->   */
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     TCGMemOpIdx oi, uintptr_t ra)
-> diff --git a/tcg/s390/tcg-target.inc.c b/tcg/s390/tcg-target.inc.c
-> index 8aaa4cebe8..b07e9ff7d6 100644
-> --- a/tcg/s390/tcg-target.inc.c
-> +++ b/tcg/s390/tcg-target.inc.c
-> @@ -29,7 +29,7 @@
->  #error "unsupported code generation mode"
->  #endif
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
->  #include "elf.h"
-> =20
->  /* ??? The translation blocks produced by TCG are generally small enough=
- to
-> @@ -1536,7 +1536,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s, M=
-emOp opc, TCGReg data,
->  }
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* We're expecting to use a 20-bit negative offset on the tlb memory ops=
-=2E  */
->  QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
-> diff --git a/tcg/sparc/tcg-target.inc.c b/tcg/sparc/tcg-target.inc.c
-> index d7986cda5c..65fddb310d 100644
-> --- a/tcg/sparc/tcg-target.inc.c
-> +++ b/tcg/sparc/tcg-target.inc.c
-> @@ -22,7 +22,7 @@
->   * THE SOFTWARE.
->   */
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #ifdef CONFIG_DEBUG_TCG
->  static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
+>  config VIRTEX
+>      bool
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -282,25 +118,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KFztAG8eRSV9hGtP
+--iFRdW5/EC4oqxDHL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NSvIACgkQbDjKyiDZ
-s5KATA/5AcabIswOejZ2JbqWvu28jlG9o1t0ZX4usP0ZOABITylyMVWjjxdg+Old
-SAiQMQL7qgBsIWiyWZZDJnuScJ6W/JcUAnDSH/dTiJ7yRp3V6w79MYeoedH+wzLg
-j68PYRpcYdFj4egqlfWtqe4EPWdf+7KHalSy+ZYqj32hb9Cbgb4T2mqfEpCPJ3B/
-heNBamLflMq7xQ2buewVZoYCcT/nyAHqQgm7Z9AbJG/62I9DFdqI95b2/n1zsvWw
-GoyLwthpi4LZsuWQfKvD5ldkR+68blV/DkrvLexTo25vPHxdSXOJ4ABsYpbS7g2Y
-hjvh+v8N2F4ABnfRV6uxZq26Peqrrm+Nbt8wBsz6HgW8nEXy6dp2sWFXj6xr2iXF
-hadNNhOFM91027bIwidRpHQAMyxFrQcftHh2XNwbYIXRYGaoEWcChn+2UGl1xFCf
-YYHJ2yCNKVNVodnzF1shndjpOmYPCfqotqhkegnDIM9cJWRddWuA/pqAX4wo2qVH
-cAzJyAPplQpMIIWD2wANxmLzOSdJjO0jejnim8LcjbMgHbPJu+ckFTeaRyXeAo06
-wVWBnn8UDbuo2YsK2IaHCRAUy7fx1GNeLyrpb8X8dYnnrQliw7u6Ls+YWQc+5++u
-xZhFLg6hNxPe6KRwZcxq34tXx/IKb+HA+DsEzhe9fPYEYwqOqyY=
-=XK1l
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT1QACgkQbDjKyiDZ
+s5IQLRAA4n3fsNvpeW0COz2th17NtKiRyu0b0Zp5PngR1zTQQ1mlVKKihkb1QMnu
+k+nQ4DuGHhQcfqWA97EjwzuY/sS0uxbh8cyDtTgPRWEpgja8NtC/xQKwyvF3kimh
+VQTWpSS2bdPJT6n7Y/gvf9g0M2rvwcDCZxIPOEk8Fcfj3Ewn739vz2zqWxtwohUD
+f14KvXwfinEUiq3f+J0ANTIQ6kTItvudPeWLOUO37gVBTibCmgcaF1tA27fbeKaF
+bQj30RvYoSYxYzVWj7SJn3c5n3Uw2Hw/t8imJPgaHA4UJZ8QMNG0FKZjegMZqXtA
+KqtOLfQ+vjU9rDxfpicFa2ULZWzPwV+Cb17lzxuO7et+m6Rw9agoEQQ4+DdQc3Av
+O/vU9WOmfKzt2gziMieXY+fMwYR7rNOI/gSACEoWg3kfbDohqS3AyPHY2AC/aDqz
++UtR+ZOdcAKD9Dpa1mzX2Dfz0iPTA7QifNFcTrFXVeiSKEOt6Bb2sf6NR5d5vAKz
++AfB5PjNTuMTrphltTR/3BG3SN5DZX8rK6espi+tiH6ieon2aet4gbesx9H8JqTw
++X5pY/tvjlcmPcpJwn+CxePya4gBsIdXjJDCuuFaREJluaJMkVnMWRAnMm0zMIpS
+jMvLpT18Pcv855tVCwy4wCjSoNkVui8C25ZLcGVj9KqQ2p8MVMI=
+=wxqr
 -----END PGP SIGNATURE-----
 
---KFztAG8eRSV9hGtP--
+--iFRdW5/EC4oqxDHL--
 
