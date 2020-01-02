@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4774012E1A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:22:59 +0100 (CET)
-Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3071312E1A8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 03:22:58 +0100 (CET)
+Received: from localhost ([::1]:35740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1imq8Y-0001R0-3t
-	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:22:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42576)
+	id 1imq8X-0001Nj-3E
+	for lists+qemu-devel@lfdr.de; Wed, 01 Jan 2020 21:22:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MQ-At
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6k-0008MR-40
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005T2-Ry
+ (envelope-from <dgibson@ozlabs.org>) id 1imq6i-0005Sw-Rc
  for qemu-devel@nongnu.org; Wed, 01 Jan 2020 21:21:05 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:50207)
+Received: from ozlabs.org ([203.11.71.1]:39559)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1imq6i-0005R4-2v; Wed, 01 Jan 2020 21:21:04 -0500
+ id 1imq6h-0005R3-UR; Wed, 01 Jan 2020 21:21:04 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47pBbc0Bkwz9sR8; Thu,  2 Jan 2020 13:20:59 +1100 (AEDT)
+ id 47pBbc2DF9z9sRt; Thu,  2 Jan 2020 13:20:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1577931660;
- bh=hIIWn1SmokkbLLZNg975rs8sgN4QUTmhkbF6Bm9+qVY=;
+ bh=eVd6IVkmLlRS7A65O2JzOk0P+UWes7IJ9oVfvoox7ZA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ChQU4YXcz2CFIiaiVzALaiGErkY0fs4NMeBNjjLfvETQkYZqTyS05UIugXLdQSPqR
- zvvx0Va+WfMWhwtv9uHfuxwWpbZP2ZHmPbeP31yPPOh+sPrNZDbAdcCjBUT0xc1yde
- jEz1ti83EH1lApZaiipAtMEuZqzyrGIyD/yjHw70=
-Date: Thu, 2 Jan 2020 13:04:28 +1100
+ b=cI214dq7IwpaSinkFY8kVt5zCr2YanpzxJq+WdNDhCeboULBBZYfhA/0sawqsolpo
+ 1OlfhLnB6NH3kYRYvD6xz7ZMg0AdZXFqsul5DQ5M8Z0IgFQBVdgS0GlsrFmIC0bHgI
+ fCBzK8KdRRkb6dGjJCWHO0cpVQ+jFImKZosAiYyA=
+Date: Thu, 2 Jan 2020 13:05:15 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 08/14] hw/ppc/Kconfig: Let the Xilinx Virtex5 ML507 use
- the PPC-440 devices
-Message-ID: <20200102020428.GE2098@umbus>
+Subject: Re: [PATCH 09/14] hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
+Message-ID: <20200102020515.GF2098@umbus>
 References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-9-philmd@redhat.com>
+ <20191231183216.6781-10-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wTWi5aaYRw9ix9vO"
+ protocol="application/pgp-signature"; boundary="ULyIDA2m8JTe+TiX"
 Content-Disposition: inline
-In-Reply-To: <20191231183216.6781-9-philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <20191231183216.6781-10-philmd@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,43 +67,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wTWi5aaYRw9ix9vO
+--ULyIDA2m8JTe+TiX
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 31, 2019 at 07:32:10PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> When configured with --without-default-devices, the build fails:
->=20
->     LINK    ppc-softmmu/qemu-system-ppc
->   /usr/bin/ld: hw/ppc/virtex_ml507.o: in function `ppc440_init_xilinx':
->   hw/ppc/virtex_ml507.c:112: undefined reference to `ppcuic_init'
->   collect2: error: ld returned 1 exit status
->   make[1]: *** [Makefile:206: qemu-system-ppc] Error 1
->   make: *** [Makefile:483: ppc-softmmu/all] Error 2
->=20
-> Fix by selecting the PPC4XX config.
+On Tue, Dec 31, 2019 at 07:32:11PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> The CONFIG_PSERIES already selects CONFIG_PCI.
+> Simplify the Makefile rules.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  hw/ppc/Makefile.objs | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 >=20
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index 004b7d5ad5..d8482a5e99 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -110,6 +110,7 @@ config E500
+> diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
+> index 101e9fc591..79adf06aa3 100644
+> --- a/hw/ppc/Makefile.objs
+> +++ b/hw/ppc/Makefile.objs
+> @@ -7,14 +7,11 @@ obj-$(CONFIG_PSERIES) +=3D spapr_pci.o spapr_rtc.o spap=
+r_drc.o
+>  obj-$(CONFIG_PSERIES) +=3D spapr_cpu_core.o spapr_ovec.o spapr_irq.o
+>  obj-$(CONFIG_PSERIES) +=3D spapr_tpm_proxy.o
+>  obj-$(CONFIG_SPAPR_RNG) +=3D  spapr_rng.o
+> +obj-$(call land,$(CONFIG_PSERIES),$(CONFIG_LINUX)) +=3D spapr_pci_vfio.o=
+ spapr_pci_nvlink2.o
+>  # IBM PowerNV
+>  obj-$(CONFIG_POWERNV) +=3D pnv.o pnv_xscom.o pnv_core.o pnv_lpc.o pnv_ps=
+i.o pnv_occ.o pnv_bmc.o
+>  obj-$(CONFIG_POWERNV) +=3D pnv_homer.o pnv_pnor.o
 > =20
->  config VIRTEX
->      bool
-> +    select PPC4XX
->      select PFLASH_CFI01
->      select SERIAL
->      select XILINX
+> -
+> -ifeq ($(CONFIG_PCI)$(CONFIG_PSERIES)$(CONFIG_LINUX), yyy)
+> -obj-y +=3D spapr_pci_vfio.o spapr_pci_nvlink2.o
+> -endif
+>  obj-$(CONFIG_PSERIES) +=3D spapr_rtas_ddw.o
+>  # PowerPC 4xx boards
+>  obj-$(CONFIG_PPC405) +=3D ppc405_boards.o ppc405_uc.o
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -112,25 +114,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---wTWi5aaYRw9ix9vO
+--ULyIDA2m8JTe+TiX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT6sACgkQbDjKyiDZ
-s5Li/hAAxxLlQvl1ySONsVvlskMByoYb9tvaj8TSpViFYdvMeczB4Ue97iRM/4hV
-WIBSzsncV/7nIyho9k25avz7ZfRIYz7Q5Um8Ano1Kiotv6kHOwFatpQr44+Foapy
-cj+tFyVuXXypo9ao2mEmfLv2+UGpVb3fz+NudGOeNUTTE6clUN5XevK/oCgpseMH
-QmxwlVvIacdl1Mgqs5q00g/+aFYS8n9dtDB/5WMDjyQX96JrZFcz7bAfuVPQHuv/
-PHtD4z6OKAA6xVlaLRzTeevhXC1RblmMTjQWOfu3Y7vj+t3Qwc0MubA4Jp7sH1sF
-5Ccuz64udFJ0qYpUW/MY7G6REahC5MJXitcsyH8343BFzB4IeK/m0l9LMu0E9NRR
-r8KqUCL1qXzuCr/8qVS5gGbGHROEjgygDCEJrAF2R6b4U0sWvMjKyE76P/WL6uUM
-h8ApuVQz1vM0r3DrY5P5l07+Mf1WbKrNFwpQdyaVm8GGI9LVlmxYwvwGf8dbKkiM
-sYJL572WnWQxXvii8DHCsT3GMZP1miQKk7AseIOAncNNlQKeyvbIC/2qe5CHdF0j
-gU+lXN/MNqCpNUFWTHmmG/HKkb0zAP/DOHD3NnCN76DBysGVKfGNKMbOz7cUDxGT
-O5NeQcTR5g9jUFQ9OdpKMb8nsr2h8kXNMf6ZjmcnK2mMnnd9gTU=
-=zzqV
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4NT9sACgkQbDjKyiDZ
+s5JEyw//T0x65dHpEJYRSBW9PfEiWZ3evwyWckmjX1inncFZfX8nGkWtHnAHgXM2
+ZZI5KVPZ9I4Tuf0+jOoMmypqVDT88ZDSnBlSIdbkXHkqGpnen0F8IPVtkQNr4e9s
+WhlFqk2qIbEvDCBoMZw/X87szLAnZ0eC8dIMJszReWXcZUoMoAETIlEMNCoKxX4u
+bsnhQHobn9vAIBmVZ0q+iEO5EkZ8VNvU+6pM8H0QGj6Tpm8CuWk6Z1EGKPwV1BcN
+XokibibAXzfIRNdo5G3rAkIcpuykguNpYgg5XIOTP2BLzo6kXyL6NscDqfJIDsd3
+q3c09/WF1cvBHy3unsqfZBCXcTh9XGTiyZ/a2o4eySSQL0PHvCT/1qBkf3uGwybk
++OX1r8WBDPPnQ0ZvrvGwJwbuWLYUnx9uNyHIWNu6BJTvnKLMI2ODq7D2Per11YjQ
+ERE6Dmhiff175IN7vxyPZONEwcZZNse4C9gRSzjJNkkRKZ32BO0b1p2Srl0fUzlx
+3MKH+mxuaUB+ZZaD4u+jrOiKT+/sISDMm5y/nhx1Ai1vr5nY2H4Xw0BVWKMZFRkg
+YHfEToYw/FQyP787FG4CqzDU0EXuRkhE1ebbyaU+3CGW8fRGpYO61bywbDcbBbIk
+ghqYCpHQB6EvK9v77PcCpWVeplo0a8S17yko87wJfM1JmyrfnQk=
+=TVPA
 -----END PGP SIGNATURE-----
 
---wTWi5aaYRw9ix9vO--
+--ULyIDA2m8JTe+TiX--
 
