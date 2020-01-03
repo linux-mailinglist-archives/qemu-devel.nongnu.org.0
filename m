@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3E412FB00
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 17:59:13 +0100 (CET)
-Received: from localhost ([::1]:54550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D24512FB0B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 18:01:24 +0100 (CET)
+Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inQI4-0008Mc-66
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 11:59:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39014)
+	id 1inQK9-0001E1-PK
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 12:01:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1inQH0-0007e3-1y
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 11:58:10 -0500
+ (envelope-from <berrange@redhat.com>) id 1inQHa-0008NO-Di
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 11:58:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1inQGx-000107-6e
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 11:58:05 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51914
+ (envelope-from <berrange@redhat.com>) id 1inQHZ-0003XQ-52
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 11:58:42 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57395
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1inQGx-0000uC-16
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 11:58:03 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1inQHY-0003T8-Tc
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 11:58:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578070682;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1578070720;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5mOhBIxP2ji2YnrE8OKzKTkc/h9xU45SPdUXCj33CKQ=;
- b=ilylU67CtJTWsL/0AjWxIruaCELlzA6ywagpYOS6s/HtDUp2AGfXKKuGu7aPmEXUGwy7Rf
- xn9PTpjl1mcOILVpfUIyNHLa2jE/dVW7xkFa9CbFUA3BQxgpv7KtYa8I5bgtyTBxbK4yZC
- GlgSmkGksVZOrN4N2yz2318SFYg2uQE=
+ bh=ecFjSAQ8WCbyZvUgQ+S+gT7tmqzgddPzqMB6UKfZYuI=;
+ b=U68LuhnmETHSNC0qIhcJsMUYiAiD/0HWhS6h7Cpb7E/G5FIeqPuKgSvgwsOI0GhIS6nlGr
+ gT/KdAX0jRDMaXqOkzPRR/0NJgG3At4bSL71mSsjok4JYwge1aw0JhAYLA6gwzdaTNya7S
+ yINZRWtbG9O3E3wI0a4kyzNgl+2RUcY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-O3FryvwnP5qtmTvkDsSDuA-1; Fri, 03 Jan 2020 11:58:00 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-354-6kw3-8m8OwyxD_cnmm7euA-1; Fri, 03 Jan 2020 11:58:38 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF724800D48
- for <qemu-devel@nongnu.org>; Fri,  3 Jan 2020 16:57:59 +0000 (UTC)
-Received: from work-vm (ovpn-117-78.ams2.redhat.com [10.36.117.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C39CC7D552;
- Fri,  3 Jan 2020 16:57:57 +0000 (UTC)
-Date: Fri, 3 Jan 2020 16:57:55 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4A9F593A7
+ for <qemu-devel@nongnu.org>; Fri,  3 Jan 2020 16:58:37 +0000 (UTC)
+Received: from redhat.com (ovpn-112-41.ams2.redhat.com [10.36.112.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52A5B5D9D6;
+ Fri,  3 Jan 2020 16:58:35 +0000 (UTC)
+Date: Fri, 3 Jan 2020 16:58:32 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2 03/10] migration-test: introduce functions to handle
- string parameters
-Message-ID: <20200103165755.GN3804@work-vm>
+Subject: Re: [PATCH v2 01/10] migration: Increase default number of multifd
+ channels to 16
+Message-ID: <20200103165832.GU2753983@redhat.com>
 References: <20191218020119.3776-1-quintela@redhat.com>
- <20191218020119.3776-4-quintela@redhat.com>
+ <20191218020119.3776-2-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191218020119.3776-4-quintela@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: O3FryvwnP5qtmTvkDsSDuA-1
+In-Reply-To: <20191218020119.3776-2-quintela@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 6kw3-8m8OwyxD_cnmm7euA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,84 +75,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Wed, Dec 18, 2019 at 03:01:10AM +0100, Juan Quintela wrote:
+> We can scale much better with 16, so we can scale to higher numbers.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+What was the test scenario showing such scaling ?
 
-(I'm surprised we don't need to quote the %s's in qtest_qmp, but it
-seems that we never do it in any other of the qtest_qmp calls that I can
-see when we use %s.
+In the real world I'm sceptical that virt hosts will have
+16 otherwise idle CPU cores available that are permissible
+to use for migration, or indeed whether they'll have network
+bandwidth available to allow 16 cores to saturate the link.
 
-Dave
 
-> ---
->  tests/migration-test.c | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->=20
-> diff --git a/tests/migration-test.c b/tests/migration-test.c
-> index 1c9f2c4e6a..fc221f172a 100644
-> --- a/tests/migration-test.c
-> +++ b/tests/migration-test.c
-> @@ -460,6 +460,43 @@ static void migrate_set_parameter_int(QTestState *wh=
-o, const char *parameter,
->      migrate_check_parameter_int(who, parameter, value);
->  }
-> =20
-> +static char *migrate_get_parameter_str(QTestState *who,
-> +                                       const char *parameter)
-> +{
-> +    QDict *rsp;
-> +    char *result;
-> +
-> +    rsp =3D wait_command(who, "{ 'execute': 'query-migrate-parameters' }=
-");
-> +    result =3D g_strdup(qdict_get_str(rsp, parameter));
-> +    qobject_unref(rsp);
-> +    return result;
-> +}
-> +
-> +static void migrate_check_parameter_str(QTestState *who, const char *par=
-ameter,
-> +                                        const char *value)
-> +{
-> +    char *result;
-> +
-> +    result =3D migrate_get_parameter_str(who, parameter);
-> +    g_assert_cmpstr(result, =3D=3D, value);
-> +    g_free(result);
-> +}
-> +
-> +__attribute__((unused))
-> +static void migrate_set_parameter_str(QTestState *who, const char *param=
-eter,
-> +                                      const char *value)
-> +{
-> +    QDict *rsp;
-> +
-> +    rsp =3D qtest_qmp(who,
-> +                    "{ 'execute': 'migrate-set-parameters',"
-> +                    "'arguments': { %s: %s } }",
-> +                    parameter, value);
-> +    g_assert(qdict_haskey(rsp, "return"));
-> +    qobject_unref(rsp);
-> +    migrate_check_parameter_str(who, parameter, value);
-> +}
-> +
->  static void migrate_pause(QTestState *who)
->  {
->      QDict *rsp;
-> --=20
-> 2.23.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
