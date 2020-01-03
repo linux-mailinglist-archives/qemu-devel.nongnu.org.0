@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9FF12FEB5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 23:24:50 +0100 (CET)
-Received: from localhost ([::1]:57380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF2412FEAF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 23:21:34 +0100 (CET)
+Received: from localhost ([::1]:57333 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inVNB-0005dz-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 17:24:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39669)
+	id 1inVK1-0000UK-Ba
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 17:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39737)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHq-0006yo-NY
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:20 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHr-0006z7-Qa
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHp-00086y-8g
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:18 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53920 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHp-00088Q-GE
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:19 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53921 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1inVHo-00080x-Tl
+ id 1inVHp-00081U-0V
  for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:17 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 661D41A2299;
+ by mail.rt-rk.com (Postfix) with ESMTP id 70C1C1A21B9;
  Fri,  3 Jan 2020 23:18:10 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 2EF971A2276;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 37E9D1A1F94;
  Fri,  3 Jan 2020 23:18:10 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/12] linux-user: Add support for FDFMT<BEG|TRK|END> ioctls
-Date: Fri,  3 Jan 2020 23:17:58 +0100
-Message-Id: <1578089882-3587-9-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v3 09/12] linux-user: Add support for FDGETFDCSTAT ioctl
+Date: Fri,  3 Jan 2020 23:17:59 +0100
+Message-Id: <1578089882-3587-10-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1578089882-3587-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1578089882-3587-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -56,73 +56,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-FDFMTBEG, FDFMTTRK, and FDFMTEND ioctls provide means for controlling
-formatting of a floppy drive.
+FDGETFDCSTAT's third agrument is a pointer to the structure:
 
-FDFMTTRK's third agrument is a pointer to the structure:
-
-struct format_descr {
-    unsigned int device,head,track;
+struct floppy_fdc_state {
+    int spec1;
+    int spec2;
+    int dtr;
+    unsigned char version;
+    unsigned char dor;
+    unsigned long address;
+    unsigned int rawcmd:2;
+    unsigned int reset:1;
+    unsigned int need_configure:1;
+    unsigned int perp_mode:2;
+    unsigned int has_fifo:1;
+    unsigned int driver_version;
+    unsigned char track[4];
 };
 
 defined in Linux kernel header <linux/fd.h>.
 
-Since all fields of the structure are of type 'unsigned int', there is
-no need to define "target_format_descr".
-
-FDFMTBEG and FDFMTEND ioctls do not use the third argument.
+Since there is a fields of the structure of type 'unsigned long', there is
+a need to define "target_format_descr". Also, five fields rawcmd, reset,
+need_configure, perp_mode, and has_fifo are all just bitfields and are
+part od a single 'unsigned int' field.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- linux-user/ioctls.h        | 3 +++
- linux-user/syscall_defs.h  | 3 +++
- linux-user/syscall_types.h | 5 +++++
- 3 files changed, 11 insertions(+)
+ linux-user/ioctls.h        |  2 ++
+ linux-user/syscall_defs.h  | 18 ++++++++++++++++++
+ linux-user/syscall_types.h | 12 ++++++++++++
+ 3 files changed, 32 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index d555c2b..06b1074 100644
+index 06b1074..060ab28 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -115,6 +115,9 @@
-      IOCTL(FDMSGON, 0, TYPE_NULL)
-      IOCTL(FDMSGOFF, 0, TYPE_NULL)
-      IOCTL(FDSETEMSGTRESH, 0, TYPE_NULL)
-+     IOCTL(FDFMTBEG, 0, TYPE_NULL)
-+     IOCTL(FDFMTTRK, IOC_W, MK_PTR(MK_STRUCT(STRUCT_format_descr)))
-+     IOCTL(FDFMTEND, 0, TYPE_NULL)
-      IOCTL(FDFLUSH, 0, TYPE_NULL)
+@@ -122,6 +122,8 @@
       IOCTL(FDSETMAXERRS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
       IOCTL(FDGETMAXERRS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
+      IOCTL(FDRESET, 0, TYPE_NULL)
++     IOCTL(FDGETFDCSTAT, IOC_R,
++           MK_PTR(MK_STRUCT(STRUCT_target_floppy_fdc_state)))
+      IOCTL(FDRAWCMD, 0, TYPE_NULL)
+      IOCTL(FDTWADDLE, 0, TYPE_NULL)
+      IOCTL(FDEJECT, 0, TYPE_NULL)
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 064de65..07e7a74 100644
+index 07e7a74..75604e7 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -899,6 +899,9 @@ struct target_pollfd {
+@@ -897,6 +897,23 @@ struct target_pollfd {
  
+ /* From <linux/fd.h> */
+ 
++struct target_floppy_fdc_state {
++    int spec1;      /* spec1 value last used */
++    int spec2;      /* spec2 value last used */
++    int dtr;
++    unsigned char version;  /* FDC version code */
++    unsigned char dor;
++    abi_long address;  /* io address */
++    unsigned int rawcmd:2;
++    unsigned int reset:1;
++    unsigned int need_configure:1;
++    unsigned int perp_mode:2;
++    unsigned int has_fifo:1;
++    unsigned int driver_version;    /* version code for floppy driver */
++    unsigned char track[4];
++};
++
++
  #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
  #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
-+#define TARGET_FDFMTBEG       TARGET_IO(2, 0x47)
-+#define TARGET_FDFMTTRK      TARGET_IOW(2, 0x48, struct format_descr)
-+#define TARGET_FDFMTEND       TARGET_IO(2, 0x49)
- #define TARGET_FDSETEMSGTRESH TARGET_IO(2, 0x4a)
- #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
+ #define TARGET_FDFMTBEG       TARGET_IO(2, 0x47)
+@@ -907,6 +924,7 @@ struct target_pollfd {
  #define TARGET_FDSETMAXERRS  TARGET_IOW(2, 0x4c, struct floppy_max_errors)
+ #define TARGET_FDGETMAXERRS  TARGET_IOR(2, 0x0e, struct floppy_max_errors)
+ #define TARGET_FDRESET        TARGET_IO(2, 0x54)
++#define TARGET_FDGETFDCSTAT  TARGET_IOR(2, 0x15, struct target_floppy_fdc_state)
+ #define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
+ #define TARGET_FDTWADDLE      TARGET_IO(2, 0x59)
+ #define TARGET_FDEJECT        TARGET_IO(2, 0x5a)
 diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index e4e0429..8ff78a6 100644
+index 8ff78a6..a111c61 100644
 --- a/linux-user/syscall_types.h
 +++ b/linux-user/syscall_types.h
-@@ -261,6 +261,11 @@ STRUCT(blkpg_ioctl_arg,
-        TYPE_INT, /* datalen */
-        TYPE_PTRVOID) /* data */
+@@ -273,6 +273,18 @@ STRUCT(floppy_max_errors,
+        TYPE_INT, /* recal */
+        TYPE_INT) /* reporting */
  
-+STRUCT(format_descr,
-+       TYPE_INT,     /* device */
-+       TYPE_INT,     /* head */
-+       TYPE_INT)     /* track */
++STRUCT(target_floppy_fdc_state,
++       TYPE_INT, /* spec1 */
++       TYPE_INT, /* spec2 */
++       TYPE_INT, /* dtr */
++       TYPE_CHAR, /* version */
++       TYPE_CHAR, /* dor */
++       TYPE_ULONG, /* address */
++       TYPE_INT, /* bit field for rawcmd:2, reset:1, need_configure:1, */
++                 /* perp_mode:2, and has_fifo:1 */
++       TYPE_INT, /* driver_version */
++       MK_ARRAY(TYPE_CHAR, 4)) /* track */
 +
- STRUCT(floppy_max_errors,
-        TYPE_INT, /* abort */
-        TYPE_INT, /* read_track */
+ #if defined(CONFIG_USBFS)
+ /* usb device ioctls */
+ STRUCT(usbdevfs_ctrltransfer,
 -- 
 2.7.4
 
