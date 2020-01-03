@@ -2,65 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A468F12F2DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 03:09:59 +0100 (CET)
-Received: from localhost ([::1]:47826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108C612F2EC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 03:27:37 +0100 (CET)
+Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inCPW-0008CU-6l
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 21:09:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53709)
+	id 1inCgZ-0003cM-RL
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 21:27:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1inCOk-0007kz-7W
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 21:09:11 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1inCf4-0002Ab-6a
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 21:26:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1inCOj-0006nd-5I
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 21:09:10 -0500
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:39527)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1inCOi-0006m9-SN; Thu, 02 Jan 2020 21:09:09 -0500
-Received: by mail-lf1-x144.google.com with SMTP id y1so31000429lfb.6;
- Thu, 02 Jan 2020 18:09:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l8QDKYxk0sJNh5vSS9NGjFYqiMTqN7rFRbE8+T4VhPw=;
- b=Vdqp48cPEId9OmcQKc2Juvl+pFgxTvZQhTEpTzeAixJP42Bd17fwI0bijSJkVzObHx
- 3fEC0048mmwS7dvE+YCT1Jx8Q25KkbrLayuJA9pf/7J3N2d60pPi9+T8vjN7wWtYuKYs
- WUi5Yew1a54G+bUDnBtpkIw7ZBNaliH0MIE9dr+mV5QXw/wBsSmSo6aruFzAIUv60IlM
- pnJSPThcd/OlrhuhlqBxKgyI1Pz2LpfNOhyJoX02olhgCde5UR5XRHnFYScxM+aSish7
- OEjYw4fnA1bQZWgsxTVDGVy4ANvbrUQK8XIQ5+6WiQM+q/QBqZkXxxFW+TOyjsiN9xEt
- qADw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l8QDKYxk0sJNh5vSS9NGjFYqiMTqN7rFRbE8+T4VhPw=;
- b=Ymcn+fqGinsEoWr7aFSWSAK4vnuCrEYkQpE+5YlVfA8dDKNILwlps2GyO1yNYwzFmJ
- SWnKBZ7XOjjEY8Q05wgi5pig6ZbDrRLNDv0l9f64B0Ni7yzO7AijNZOh+ux7kVSQLDzE
- E346PLjBz0uppdZEP/7ixBXxp4deKmYfm2OcMgFY4uTVwxV+Y3mB9OR48BCRKYTurpn/
- mgXEAgKuuMgl0tyIrubiE8a1J4qh9NdTn2wJexSO1LtT/yPgWCUbpRWJJWMG249HfzCA
- 589+QEIT3IbpdeAmCdHoKL1gZrtqx2Zib+7tuXgQcsRm8Ol+OlfaWSkc8PaBQ62NMpn3
- /i9Q==
-X-Gm-Message-State: APjAAAVFBFVxLlfry8Ww0Wd4giy/YHJ0R8ATpxn8S93zJhygKcpDjoDE
- uh0nhtOxPcglNdp9oOq3JvZ2kChATHG3fTISIT0=
-X-Google-Smtp-Source: APXvYqzEVgFN2vcIftNKj/jDoZCix10wCo8BufTrfV7MTmk8M9qktKu4oQBkRDmEhq6icf8DGQ9gbLwxCoYi7iBximg=
-X-Received: by 2002:a19:8a41:: with SMTP id m62mr48223003lfd.5.1578017346414; 
- Thu, 02 Jan 2020 18:09:06 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1inCf2-00062E-Ah
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 21:26:02 -0500
+Received: from ozlabs.org ([203.11.71.1]:53751)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1inCf0-0005jn-43; Thu, 02 Jan 2020 21:26:00 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47ppfk4QK6z9sRG; Fri,  3 Jan 2020 13:25:50 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578018350;
+ bh=Ef633iE+rJY3SbV1KGTTq0y8s3+uJUhawIxzDSPIx5k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bL04F7Mw9tX3aUQ4QiO0CAGAT7fdF353ENPzu3/wLJrEiPJD9f8A22zhwkSJf9JTc
+ V2zrPL6dj8Rc0TXWFB9tIA3gxB7AnWCXiKl2tztEXiKzRInCHAR9RbLoSAdGsw/TuW
+ S5yhsjv8lnT2jnh03xur+gRVdT8r1H2T+9SYq6H8=
+Date: Fri, 3 Jan 2020 13:19:59 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Ganesh Goudar <ganeshgr@linux.ibm.com>
+Subject: Re: [PATCH v18 5/7] ppc: spapr: Handle "ibm,nmi-register" and
+ "ibm,nmi-interlock" RTAS calls
+Message-ID: <20200103021959.GR2098@umbus>
+References: <20200102075111.25308-1-ganeshgr@linux.ibm.com>
+ <20200102075111.25308-6-ganeshgr@linux.ibm.com>
 MIME-Version: 1.0
-References: <cover.1575914822.git.alistair.francis@wdc.com>
- <aa8557d53c1f6d3265e2b2c9bc4e127eddb995ea.1575914822.git.alistair.francis@wdc.com>
- <mhng-7890ef29-2f3d-4600-8bd5-5ad839f404a0@palmerdabbelt-glaptop>
-In-Reply-To: <mhng-7890ef29-2f3d-4600-8bd5-5ad839f404a0@palmerdabbelt-glaptop>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 2 Jan 2020 18:08:40 -0800
-Message-ID: <CAKmqyKNwE77qjEGHVewWhZcx3DKESvAArjqixmFR-72g=+DgLA@mail.gmail.com>
-Subject: Re: [PATCH v1 01/36] target/riscv: Convert MIP CSR to target_ulong
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::144
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="e7jIye1Ygp5H0AIi"
+Content-Disposition: inline
+In-Reply-To: <20200102075111.25308-6-ganeshgr@linux.ibm.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,59 +56,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>, aik@ozlabs.ru,
+ qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 2, 2020 at 10:18 AM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
->
-> On Mon, 09 Dec 2019 10:10:43 PST (-0800), Alistair Francis wrote:
-> > The MIP CSR is a xlen CSR, it was only 32-bits to allow atomic access.
-> > Now that we don't use atomics for MIP we can change this back to a xlen
-> > CSR.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  target/riscv/cpu.c | 2 +-
-> >  target/riscv/cpu.h | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index d37861a430..e521ebe2e1 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -224,7 +224,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-> >  #ifndef CONFIG_USER_ONLY
-> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mhartid ", env->mhartid);
-> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatus ", env->mstatus);
-> > -    qemu_fprintf(f, " %s 0x%x\n", "mip     ", env->mip);
-> > +    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ", env->mip);
-> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
-> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mideleg ", env->mideleg);
-> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "medeleg ", env->medeleg);
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index e59343e13c..f889427869 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -121,7 +121,7 @@ struct CPURISCVState {
-> >      target_ulong mhartid;
-> >      target_ulong mstatus;
-> >
-> > -    uint32_t mip;
-> > +    target_ulong mip;
-> >      uint32_t miclaim;
-> >
-> >      target_ulong mie;
->
-> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
-Thanks!
+--e7jIye1Ygp5H0AIi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you just apply the patches from this series as they are reviewed?
+On Thu, Jan 02, 2020 at 01:21:09PM +0530, Ganesh Goudar wrote:
+> From: Aravinda Prasad <arawinda.p@gmail.com>
+>=20
+> This patch adds support in QEMU to handle "ibm,nmi-register"
+> and "ibm,nmi-interlock" RTAS calls.
+>=20
+> The machine check notification address is saved when the
+> OS issues "ibm,nmi-register" RTAS call.
+>=20
+> This patch also handles the case when multiple processors
+> experience machine check at or about the same time by
+> handling "ibm,nmi-interlock" call. In such cases, as per
+> PAPR, subsequent processors serialize waiting for the first
+> processor to issue the "ibm,nmi-interlock" call. The second
+> processor that also received a machine check error waits
+> till the first processor is done reading the error log.
+> The first processor issues "ibm,nmi-interlock" call
+> when the error log is consumed.
+>=20
+> [Move fwnmi registration to .apply hook]
+> Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+> Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+> ---
+>  hw/ppc/spapr_caps.c    |  6 +++++
+>  hw/ppc/spapr_rtas.c    | 58 ++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h |  7 ++++-
+>  3 files changed, 70 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 3001098601..e922419cfb 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -502,6 +502,12 @@ static void cap_fwnmi_mce_apply(SpaprMachineState *s=
+papr, uint8_t val,
+>      if (!val) {
+>          return; /* Disabled by default */
+>      }
+> +
+> +    if (!spapr->fwnmi_calls_registered && !kvmppc_set_fwnmi()) {
 
-Also, can you review this series :)
+So, we definitely need the kvmppc_set_fwnmi() call here.  But in the
+case where we *do* have KVM, but the call fails, we should fail the
+=2Eapply hook, rather than ignoring it silently.
 
-Alistair
+As we've discussed although TCG behaviour with fwnmi isn't 100%
+correct, it's close enough to pass for most purposes - so it's
+reasonable to continue if the cap is selected.  But if the cap is
+selected and we're running with KVM we *must* enable the capability in
+KVM or we're not providing the environment the user requested.
+
+> +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS calls */
+> +        spapr_fwnmi_register();
+
+We discussed registering the hypercalls here, but I thought after that
+I suggested just always registering them, and having them bail out
+when called if the cap is not set.  I see that you've implemented that
+bailout for register, though not for interlock.  I think that's
+simpler than registering them here.
+
+> +        spapr->fwnmi_calls_registered =3D true;
+> +    }
+>  }
+> =20
+>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 2c066a372d..54b142f35b 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -400,6 +400,56 @@ static void rtas_get_power_level(PowerPCCPU *cpu, Sp=
+aprMachineState *spapr,
+>      rtas_st(rets, 1, 100);
+>  }
+> =20
+> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+> +                                  SpaprMachineState *spapr,
+> +                                  uint32_t token, uint32_t nargs,
+> +                                  target_ulong args,
+> +                                  uint32_t nret, target_ulong rets)
+> +{
+> +    hwaddr rtas_addr;
+> +
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_OFF) {
+> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> +        return;
+> +    }
+> +
+> +    rtas_addr =3D spapr_get_rtas_addr();
+> +    if (!rtas_addr) {
+> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> +        return;
+> +    }
+> +
+> +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
+> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> +}
+> +
+> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+> +                                   SpaprMachineState *spapr,
+> +                                   uint32_t token, uint32_t nargs,
+> +                                   target_ulong args,
+> +                                   uint32_t nret, target_ulong rets)
+> +{
+> +    if (spapr->guest_machine_check_addr =3D=3D -1) {
+> +        /* NMI register not called */
+> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        return;
+> +    }
+> +
+> +    if (spapr->mc_status !=3D cpu->vcpu_id) {
+> +        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" */
+> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+> +     * hence unset mc_status.
+> +     */
+> +    spapr->mc_status =3D -1;
+> +    qemu_cond_signal(&spapr->mc_delivery_cond);
+> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> +}
+> +
+>  static struct rtas_call {
+>      const char *name;
+>      spapr_rtas_fn fn;
+> @@ -503,6 +553,14 @@ hwaddr spapr_get_rtas_addr(void)
+>      return (hwaddr)fdt32_to_cpu(*rtas_data);
+>  }
+> =20
+> +void spapr_fwnmi_register(void)
+> +{
+> +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
+> +                        rtas_ibm_nmi_register);
+> +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock",
+> +                        rtas_ibm_nmi_interlock);
+> +}
+> +
+>  static void core_rtas_register_types(void)
+>  {
+>      spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 652a5514e8..a90e677cc3 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -218,6 +218,8 @@ struct SpaprMachineState {
+> =20
+>      unsigned gpu_numa_id;
+>      SpaprTpmProxy *tpm_proxy;
+> +
+> +    bool fwnmi_calls_registered;
+>  };
+> =20
+>  #define H_SUCCESS         0
+> @@ -656,8 +658,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target=
+_ulong opcode,
+>  #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
+>  #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
+>  #define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE + 0x2A)
+> +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + 0x2B)
+> +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + 0x2C)
+> =20
+> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2B)
+> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2D)
+> =20
+>  /* RTAS ibm,get-system-parameter token values */
+>  #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
+> @@ -908,4 +912,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, h=
+waddr pagesize,
+> =20
+>  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+>  hwaddr spapr_get_rtas_addr(void);
+> +void spapr_fwnmi_register(void);
+>  #endif /* HW_SPAPR_H */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--e7jIye1Ygp5H0AIi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4OpMwACgkQbDjKyiDZ
+s5JPNQ/+L16eHcqoWpynJx9xQQgRruCsgfQAbsYcktTVtJjl59oAzsDO1QQfnEBR
+5E8QGGEXmXylPyL0B1OdlrDB5Xeyx32edMVY6Pi3zGqKYcjSURgLueKOnfQBBB58
+8d0hXPic3qL7YVumhUjYU8vd1xIjIN8s3gBN0Vc3jmrK6SJgwJDTaanHB3R5Jb3q
+rQ2EGh+X9urQ5XCiM3XIuIqZTYD2iW9hb0o+Yaog8qk5rHuTAWNkh8AZ8nsynwXQ
+e8PMExFAtgEEODFfj37nmNZbOm4r7F+rbLUl24//hdtBAkfp6o1T/VK7CVCMqYQF
+5q7qt3pa6SzxNkTv1WDQrncliN13KGbjvEzHZykHYwnJjfYdpZKkxBk+WWVAJ/eN
+f43OHQ+W79uDqgcmFy3yJhC8OF/egzgtUhmxv6CbKfBvM0LFZXzAMAZ/pFbGtL4d
+qpfA/XJ/QEY3cfbcuYe6mu3+XI4aRH8xRc/fW9EOv7EpcbuT7XBLpJHYs65YpFOM
+w1JfQCHfzmyq7RC96RZ40063kVB3M5IbIKdE3gJwBxO2Mb31cALZ1IEcNrRM4kl3
+vv+o7CRh/QhLdAHcNap/aWDwer5jXA1wjRtMxACcP/4L3izT6Mv1gqb9M14Me1bK
+dDYxMwJ3/0Cf3aPDpOQ7OQn1ZQ6AC0aN+WQnmfHyQvEuK8aQxh4=
+=vEEH
+-----END PGP SIGNATURE-----
+
+--e7jIye1Ygp5H0AIi--
 
