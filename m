@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE2412F9DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 16:34:44 +0100 (CET)
-Received: from localhost ([::1]:53564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782E612F9E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 16:35:51 +0100 (CET)
+Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inOyJ-0001dN-Fl
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 10:34:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35100)
+	id 1inOzO-0002lN-Jo
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 10:35:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1inOx6-00019G-O2
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:33:32 -0500
+ (envelope-from <berrange@redhat.com>) id 1inOyO-00027H-Fg
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:34:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1inOx3-0003CR-RQ
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:33:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41026
+ (envelope-from <berrange@redhat.com>) id 1inOyN-0007sD-7q
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:34:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45262
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1inOwy-00037K-F5
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:33:22 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1inOyN-0007pg-11
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:34:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578065598;
+ s=mimecast20190719; t=1578065686;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bZ0bVLF50aywIEei6urxQZ4sUKYMVipm89faLeb0ZF4=;
- b=XP8IQWw32vYNyr8bsk7vdBF1fgxRXWuZypCHl+mhchk58bJLtSPx3jDDZHLDM1ZHRw9hGs
- aV6hfk3VIzbmFJMYR+A7WP+CoQHcN6IZB+sjNAkOByYB1pYeCX1ChnSpO97ePjeRMeT6DS
- C1/Ozm5nLsZFWHP/iv1faAtWwco+jnU=
+ bh=fW83AF5s9MS2Il+fBI2wjzkI6dduqzipv3vYTqTMi18=;
+ b=K8FX5bXaAokJAqY7r3hPjfJmzcG7bv5tI88r9fQwwBgG9tsXga9EeRG/ONmm5H6+y4rcd4
+ vFUFNaPF8oAMeHcBm6WomG1ns7lR1JUmuaT4WpkScf9FUCCiQwFRR5ARr7C4uCyO3SQci+
+ hVzZm71jZJoe9ESmxHwtEJ5vDtfjl5A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-wV6aic85N-uFVcS6034csQ-1; Fri, 03 Jan 2020 10:33:16 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-100-gtQJFhHdO_iTXBTdf4C29g-1; Fri, 03 Jan 2020 10:34:44 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFEAB1083E80
- for <qemu-devel@nongnu.org>; Fri,  3 Jan 2020 15:33:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EAD4107ACC7
+ for <qemu-devel@nongnu.org>; Fri,  3 Jan 2020 15:34:43 +0000 (UTC)
 Received: from redhat.com (ovpn-112-41.ams2.redhat.com [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C14D780B34;
- Fri,  3 Jan 2020 15:33:11 +0000 (UTC)
-Date: Fri, 3 Jan 2020 15:33:08 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D6955D9C5;
+ Fri,  3 Jan 2020 15:34:39 +0000 (UTC)
+Date: Fri, 3 Jan 2020 15:34:35 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 021/104] virtiofsd: Poll kick_fd for queue
-Message-ID: <20200103153308.GO2753983@redhat.com>
+Subject: Re: [PATCH 022/104] virtiofsd: Start reading commands from queue
+Message-ID: <20200103153435.GP2753983@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-22-dgilbert@redhat.com>
+ <20191212163904.159893-23-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-22-dgilbert@redhat.com>
+In-Reply-To: <20191212163904.159893-23-dgilbert@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: wV6aic85N-uFVcS6034csQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: gtQJFhHdO_iTXBTdf4C29g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -79,16 +79,26 @@ Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:37:41PM +0000, Dr. David Alan Gilbert (git) wrot=
+On Thu, Dec 12, 2019 at 04:37:42PM +0000, Dr. David Alan Gilbert (git) wrot=
 e:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >=20
-> In the queue thread poll the kick_fd we're passed.
+> Pop queue elements off queues, copy the data from them and
+> pass that to fuse.
+>=20
+>   Note: 'out' in a VuVirtqElement is from QEMU
+>         'in' in libfuse is into the daemon
+>=20
+>   So we read from the out iov's to get a fuse_in_header
+>=20
+> When we get a kick we've got to read all the elements until the queue
+> is empty.
 >=20
 > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  tools/virtiofsd/fuse_virtio.c | 40 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 39 insertions(+), 1 deletion(-)
+>  tools/virtiofsd/fuse_i.h      |   2 +
+>  tools/virtiofsd/fuse_virtio.c | 100 +++++++++++++++++++++++++++++++++-
+>  2 files changed, 99 insertions(+), 3 deletions(-)
 
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
