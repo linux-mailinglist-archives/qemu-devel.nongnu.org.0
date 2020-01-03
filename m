@@ -2,45 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21A012F390
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 04:35:58 +0100 (CET)
-Received: from localhost ([::1]:48286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348F712F3FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 06:07:23 +0100 (CET)
+Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inDkj-0006Mg-GW
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 22:35:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43892)
+	id 1inFBB-000761-NR
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 00:07:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47097)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1inDj0-000519-Vx
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 22:34:13 -0500
+ (envelope-from <philmd@redhat.com>) id 1inFAK-0006cv-1Q
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 00:06:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1inDiy-000378-QQ
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 22:34:10 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:50815)
+ (envelope-from <philmd@redhat.com>) id 1inFAH-0002Er-Gy
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 00:06:26 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55758
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1inDiy-0002xJ-7k
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 22:34:08 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436282|-1; CH=green;
- DM=CONTINUE|CONTINUE|true|0.652223-0.0139949-0.333782; DS=||;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16370; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=9; RT=9; SR=0; TI=SMTPD_---.GV9YvOJ_1578022440; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.GV9YvOJ_1578022440)
- by smtp.aliyun-inc.com(10.147.42.16); Fri, 03 Jan 2020 11:34:02 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: alistair23@gmail.com, richard.henderson@linaro.org,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v3 4/4] RISC-V: add vector extension configure instruction
-Date: Fri,  3 Jan 2020 11:33:47 +0800
-Message-Id: <20200103033347.20909-5-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200103033347.20909-1-zhiwei_liu@c-sky.com>
-References: <20200103033347.20909-1-zhiwei_liu@c-sky.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1inFAH-00029U-1w
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 00:06:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578027983;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0e7IM6FFYqaY0OqhGuJX3oIso53CmeO603gpv21Dd3A=;
+ b=MQIaGh71FA4+oxfShy4DtdWghfPRlueuI+K2mTBSqBNl5scyKyWo78zYEXgmFGEi8zWLG6
+ TQSel4LM5lVVkcENO0DVxsXSo7+5e5sHXpCnS0VbcYzI4gkG2iy60d82GiXr1hzL6yTU+p
+ sBtQQjHS+kMen7sbMvZsLVWwSw+Bgvw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-azEJeDE_M2mvWejzZ4vL-Q-1; Fri, 03 Jan 2020 00:06:21 -0500
+Received: by mail-wr1-f72.google.com with SMTP id 90so22490590wrq.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Jan 2020 21:06:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1znOzGs2JxGB7GNeic5dKzBKrJwcITpNgFNCw8yiKAE=;
+ b=OYfIiouKS4qs1VsfKrfiCTIXtOEsdVDrDHafBVWH1A4XZkqSYBSj9m+k0h3OcoD7wN
+ /yrQB3UL/vs5TO3f66nLJ85DYgkHXg4WY1Sm1MzzB8jaGckMGpPd+OXOY8rwuSqNuSnZ
+ Wi2KFpcxg9dL40DMUYqoys57m0RI9sKXJNVno2CfUFpaaO6GNWBt9aeJ+gxJW1zEEMPm
+ 5Rm9b5yaPr62KrdpgVXpAe70h5FWXckIS5CMZANfc1/Q2KwVdRY6faEOiquWDaNrrn4r
+ 0k7mM/tsjhZEMDk1RBPMiEelcPhkjkfYAjJs3OvznlAbV8QKrorFS5uZny05BbVb2JKL
+ 2lGg==
+X-Gm-Message-State: APjAAAUzvxkeSiboU/ogyCOgQeeXHGwetYxq16FGC4KnFfJLI4d0VgkE
+ hs28aoTx7Q5uct16dIaLdZfeq6F2jtTUYJVYuorHvoJuJbwBtNjE3vjAM4ta+Ra4OwxBlle7tn2
+ UVE+7sJ9a1cueQ6U=
+X-Received: by 2002:adf:9c8a:: with SMTP id d10mr84660656wre.156.1578027980590; 
+ Thu, 02 Jan 2020 21:06:20 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzDoTm/wTLQ8olEfgVeaElo+4rYJVzNptfe47SHw7bJkDFYwjH2EjA6JGtxY23VyunqsPv8Fg==
+X-Received: by 2002:adf:9c8a:: with SMTP id d10mr84660629wre.156.1578027980351; 
+ Thu, 02 Jan 2020 21:06:20 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id a1sm58314712wrr.80.2020.01.02.21.06.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Jan 2020 21:06:19 -0800 (PST)
+Subject: Re: [PATCH 1/2] RFC: savevm: check RAM is page_size aligned
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200102210149.926077-1-marcandre.lureau@redhat.com>
+ <20200102210149.926077-2-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <926dcf48-e309-55a5-cfcd-bd1343c17f27@redhat.com>
+Date: Fri, 3 Jan 2020 06:06:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+In-Reply-To: <20200102210149.926077-2-marcandre.lureau@redhat.com>
+Content-Language: en-US
+X-MC-Unique: azEJeDE_M2mvWejzZ4vL-Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,338 +92,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vsetvl and vsetvli are two configure instructions for vl, vtype. TB flags
-should update after configure instructions. The (ill, lmul, sew ) of vtype
-and the bit of (VSTART == 0 && VL == VLMAX) will be placed within tb_flags.
+Hi Marc-Andr=C3=A9,
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/Makefile.objs              |  2 +-
- target/riscv/cpu.c                      |  1 +
- target/riscv/cpu.h                      | 55 ++++++++++++++++++++-----
- target/riscv/helper.h                   |  2 +
- target/riscv/insn32.decode              |  5 +++
- target/riscv/insn_trans/trans_rvv.inc.c | 52 +++++++++++++++++++++++
- target/riscv/translate.c                | 17 +++++++-
- target/riscv/vector_helper.c            | 51 +++++++++++++++++++++++
- 8 files changed, 172 insertions(+), 13 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
- create mode 100644 target/riscv/vector_helper.c
+On 1/2/20 10:01 PM, Marc-Andr=C3=A9 Lureau wrote:
+> Check the host pointer is correctly aligned, otherwise we may fail
+> during migration in ram_block_discard_range().
+>=20
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>   migration/savevm.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+>=20
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index a71b930b91..ab6e02011f 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2910,6 +2910,11 @@ err_drain:
+>  =20
+>   void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
+>   {
+> +    RAMBlock *rb =3D mr->ram_block;
+> +    uintptr_t hostaddr =3D (uintptr_t)qemu_ram_get_host_addr(rb);
+> +
+> +    assert((hostaddr & (qemu_ram_pagesize(rb) - 1)) =3D=3D 0);
 
-diff --git a/target/riscv/Makefile.objs b/target/riscv/Makefile.objs
-index b1c79bc1d1..d577cef9e0 100644
---- a/target/riscv/Makefile.objs
-+++ b/target/riscv/Makefile.objs
-@@ -1,4 +1,4 @@
--obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o gdbstub.o pmp.o
-+obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o vector_helper.o gdbstub.o pmp.o
- 
- DECODETREE = $(SRC_PATH)/scripts/decodetree.py
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c2370a0a57..3ff7b50bff 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -347,6 +347,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         }
-     }
-     if (cpu->cfg.vext_spec) {
-+        env->vext.vtype = ~((target_ulong)-1 >> 1);
-         if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-             vext_version = VEXT_VERSION_0_07_1;
-         } else {
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index d0b106583a..152a96f1fa 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -23,6 +23,7 @@
- #include "qom/cpu.h"
- #include "exec/cpu-defs.h"
- #include "fpu/softfloat.h"
-+#include "hw/registerfields.h"
- 
- #define TCG_GUEST_DEFAULT_MO 0
- 
-@@ -98,6 +99,20 @@ typedef struct CPURISCVState CPURISCVState;
- 
- #define RV_VLEN_MAX 4096
- 
-+struct VTYPE {
-+#ifdef HOST_WORDS_BIGENDIAN
-+    target_ulong vill:1;
-+    target_ulong reserved:sizeof(target_ulong) * 8 - 7;
-+    target_ulong sew:3;
-+    target_ulong lmul:2;
-+#else
-+    target_ulong lmul:2;
-+    target_ulong sew:3;
-+    target_ulong reserved:sizeof(target_ulong) * 8 - 7;
-+    target_ulong vill:1;
-+#endif
-+};
-+
- struct CPURISCVState {
-     target_ulong gpr[32];
-     uint64_t fpr[32]; /* assume both F and D extensions */
-@@ -309,19 +324,44 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
- void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
- 
--#define TB_FLAGS_MMU_MASK   3
--#define TB_FLAGS_MSTATUS_FS MSTATUS_FS
-+typedef CPURISCVState CPUArchState;
-+typedef RISCVCPU ArchCPU;
-+#include "exec/cpu-all.h"
-+
-+FIELD(TB_FLAGS, MMU, 0, 2)
-+FIELD(TB_FLAGS, FS, 13, 2)
-+FIELD(TB_FLAGS, VL_EQ_VLMAX, 16, 1)
-+FIELD(TB_FLAGS, LMUL, 17, 2)
-+FIELD(TB_FLAGS, SEW, 19, 3)
-+FIELD(TB_FLAGS, VILL, 22, 1)
- 
- static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
--                                        target_ulong *cs_base, uint32_t *flags)
-+                                        target_ulong *cs_base, uint32_t *pflags)
- {
-+    RISCVCPU *cpu = env_archcpu(env);
-+    struct VTYPE *vtype = (struct VTYPE *)&env->vext.vtype;
-+    uint32_t vlmax;
-+    uint8_t vl_eq_vlmax;
-+    uint32_t flags = 0;
-+
-     *pc = env->pc;
-     *cs_base = 0;
-+    vlmax = (1 << vtype->lmul) * cpu->cfg.vlen / (8 * (1 << vtype->sew));
-+    vl_eq_vlmax = (env->vext.vstart == 0) && (vlmax == env->vext.vl);
-+
-+    flags = FIELD_DP32(flags, TB_FLAGS, VILL, vtype->vill);
-+    flags = FIELD_DP32(flags, TB_FLAGS, SEW, vtype->sew);
-+    flags = FIELD_DP32(flags, TB_FLAGS, LMUL, vtype->lmul);
-+    flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
-+
- #ifdef CONFIG_USER_ONLY
--    *flags = TB_FLAGS_MSTATUS_FS;
-+    flags = FIELD_DP32(flags, TB_FLAGS, FS, MSTATUS_FS);
- #else
--    *flags = cpu_mmu_index(env, 0) | (env->mstatus & MSTATUS_FS);
-+    flags = FIELD_DP32(flags, TB_FLAGS, MMU, cpu_mmu_index(env, 0));
-+    flags = FIELD_DP32(flags, TB_FLAGS, FS, (env->mstatus & MSTATUS_FS));
- #endif
-+    *pflags = flags;
-+    *cs_base = 0;
- }
- 
- int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-@@ -362,9 +402,4 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
- 
- void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
- 
--typedef CPURISCVState CPUArchState;
--typedef RISCVCPU ArchCPU;
--
--#include "exec/cpu-all.h"
--
- #endif /* RISCV_CPU_H */
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index debb22a480..000b5aa3d1 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -76,3 +76,5 @@ DEF_HELPER_2(mret, tl, env, tl)
- DEF_HELPER_1(wfi, void, env)
- DEF_HELPER_1(tlb_flush, void, env)
- #endif
-+/* Vector functions */
-+DEF_HELPER_3(vector_vsetvli, tl, env, tl, tl)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 77f794ed70..5dc009c3cd 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -62,6 +62,7 @@
- @r_rm    .......   ..... ..... ... ..... ....... %rs2 %rs1 %rm %rd
- @r2_rm   .......   ..... ..... ... ..... ....... %rs1 %rm %rd
- @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
-+@r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
- 
- @sfence_vma ....... ..... .....   ... ..... ....... %rs2 %rs1
- @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
-@@ -203,3 +204,7 @@ fcvt_w_d   1100001  00000 ..... ... ..... 1010011 @r2_rm
- fcvt_wu_d  1100001  00001 ..... ... ..... 1010011 @r2_rm
- fcvt_d_w   1101001  00000 ..... ... ..... 1010011 @r2_rm
- fcvt_d_wu  1101001  00001 ..... ... ..... 1010011 @r2_rm
-+
-+# *** RV32V Extension ***
-+vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
-+vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-new file mode 100644
-index 0000000000..5d80144502
---- /dev/null
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -0,0 +1,52 @@
-+/*
-+ * RISC-V translation routines for the RVV Standard Extension.
-+ *
-+ * Copyright (c) 2019 C-SKY Limited. All rights reserved.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl * a)
-+{
-+    TCGv s1, s2, d;
-+    d = tcg_temp_new();
-+    s1 = tcg_temp_new();
-+    s2 = tcg_temp_new();
-+    gen_get_gpr(s1, a->rs1);
-+    gen_get_gpr(s2, a->rs2);
-+    gen_helper_vector_vsetvli(d, cpu_env, s1, s2);
-+    tcg_gen_st_tl(d, cpu_env, offsetof(CPURISCVState, vext.vl));
-+    exit_tb(ctx);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    tcg_temp_free(s1);
-+    tcg_temp_free(s2);
-+    tcg_temp_free(d);
-+    return true;
-+}
-+
-+static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli * a)
-+{
-+    TCGv s1, s2, d;
-+    d = tcg_temp_new();
-+    s1 = tcg_temp_new();
-+    s2 = tcg_const_tl(a->zimm);
-+    gen_get_gpr(s1, a->rs1);
-+    gen_helper_vector_vsetvli(d, cpu_env, s1, s2);
-+    tcg_gen_st_tl(d, cpu_env, offsetof(CPURISCVState, vext.vl));
-+    exit_tb(ctx);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    tcg_temp_free(s1);
-+    tcg_temp_free(s2);
-+    tcg_temp_free(d);
-+    return true;
-+}
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 8d6ab73258..beb283b735 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -55,6 +55,12 @@ typedef struct DisasContext {
-        to reset this known value.  */
-     int frm;
-     bool ext_ifencei;
-+    /* vector extension */
-+    bool vill;
-+    uint8_t lmul;
-+    uint8_t sew;
-+    uint16_t vlen;
-+    bool vl_eq_vlmax;
- } DisasContext;
- 
- #ifdef TARGET_RISCV64
-@@ -706,6 +712,7 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
- #include "insn_trans/trans_rva.inc.c"
- #include "insn_trans/trans_rvf.inc.c"
- #include "insn_trans/trans_rvd.inc.c"
-+#include "insn_trans/trans_rvv.inc.c"
- #include "insn_trans/trans_privileged.inc.c"
- 
- /*
-@@ -754,14 +761,20 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPURISCVState *env = cs->env_ptr;
-     RISCVCPU *cpu = RISCV_CPU(cs);
-+    uint32_t tb_flags = ctx->base.tb->flags;
- 
-     ctx->pc_succ_insn = ctx->base.pc_first;
--    ctx->mem_idx = ctx->base.tb->flags & TB_FLAGS_MMU_MASK;
--    ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
-+    ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MMU);
-+    ctx->mstatus_fs = FIELD_EX32(tb_flags, TB_FLAGS, FS);
-     ctx->priv_ver = env->priv_ver;
-     ctx->misa = env->misa;
-     ctx->frm = -1;  /* unknown rounding mode */
-     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-+    ctx->vlen = cpu->cfg.vlen;
-+    ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
-+    ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
-+    ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
-+    ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
- }
- 
- static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-new file mode 100644
-index 0000000000..4e394207ce
---- /dev/null
-+++ b/target/riscv/vector_helper.c
-@@ -0,0 +1,51 @@
-+/*
-+ * RISC-V Vectore Extension Helpers for QEMU.
-+ *
-+ * Copyright (c) 2019 C-SKY Limited. All rights reserved.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+#include <math.h>
-+
-+#define VECTOR_HELPER(name) HELPER(glue(vector_, name))
-+
-+target_ulong VECTOR_HELPER(vsetvli)(CPURISCVState *env, target_ulong s1,
-+    target_ulong s2)
-+{
-+    int vlmax, vl;
-+    RISCVCPU *cpu = env_archcpu(env);
-+    struct VTYPE *vtype = (struct VTYPE *)&s2;
-+
-+    if (vtype->sew > cpu->cfg.elen) { /* only set vill bit. */
-+        env->vext.vtype = ~((target_ulong)-1 >> 1);
-+        return 0;
-+    }
-+
-+    vlmax = (1 << vtype->lmul) * cpu->cfg.vlen / (8 * (1 << vtype->sew));
-+    if (s1 == 0) {
-+        vl = vlmax;
-+    } else if (s1 <= vlmax) {
-+        vl = s1;
-+    } else {
-+        vl = vlmax;
-+    }
-+    env->vext.vl = vl;
-+    env->vext.vtype = s2;
-+    env->vext.vstart = 0;
-+    return vl;
-+}
--- 
-2.23.0
+Can we use the QEMU_PTR_IS_ALIGNED() macro instead?
+
+        assert(QEMU_PTR_IS_ALIGNED(qemu_ram_get_host_addr(rb),
+                                   qemu_ram_pagesize(rb)));
+
+>       qemu_ram_set_idstr(mr->ram_block,
+>                          memory_region_name(mr), dev);
+>       qemu_ram_set_migratable(mr->ram_block);
+>=20
 
 
