@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821DA12FEB6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 23:24:52 +0100 (CET)
-Received: from localhost ([::1]:57382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD83E12FEAE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 23:21:33 +0100 (CET)
+Received: from localhost ([::1]:57330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inVND-0005hB-Hv
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 17:24:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39671)
+	id 1inVK0-0000RG-Ec
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 17:21:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39685)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHq-0006yp-O6
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:19 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHr-0006z0-26
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHp-00087W-9Z
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHp-00087P-9F
  for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:18 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53922 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:53923 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1inVHp-00081c-0f
+ id 1inVHo-00081e-Vu
  for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:17 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 7B8991A1F94;
+ by mail.rt-rk.com (Postfix) with ESMTP id 84B3F1A207D;
  Fri,  3 Jan 2020 23:18:10 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 44C6D1A221D;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 56E421A1FD7;
  Fri,  3 Jan 2020 23:18:10 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/12] configure: Detect kcov support and introduce
- CONFIG_KCOV
-Date: Fri,  3 Jan 2020 23:18:00 +0100
-Message-Id: <1578089882-3587-11-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v3 11/12] linux-user: Add support for KCOV_<ENABLE|DISABLE>
+ ioctls
+Date: Fri,  3 Jan 2020 23:18:01 +0100
+Message-Id: <1578089882-3587-12-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1578089882-3587-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1578089882-3587-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -57,58 +57,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-kcov is kernel code coverage tracing tool. It requires kernel 4.4+
-compiled with certain kernel options. Its interface consists of
-three ioctls.
-
-This patch checks if kcov support is present on build machine, and
-stores the result in variable CONFIG_KCOV, meant to be used in
-linux-user code related to the support for above mentioned ioctls.
+KCOV_ENABLE and KCOV_DISABLE play the role in kernel coverage
+tracing. These ioctls do not use the third argument of ioctl()
+system call and are straightforward to implement in QEMU.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- configure | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ linux-user/ioctls.h       | 5 +++++
+ linux-user/syscall.c      | 3 +++
+ linux-user/syscall_defs.h | 4 ++++
+ 3 files changed, 12 insertions(+)
 
-diff --git a/configure b/configure
-index 940bf9e..bf162d4 100755
---- a/configure
-+++ b/configure
-@@ -4752,6 +4752,24 @@ if compile_prog "" "" ; then
-   syncfs=yes
- fi
- 
-+# check for kcov support (kernel must be 4.4+, compiled with certain options)
-+kcov=no
-+cat > $TMPC << EOF
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 060ab28..6be143a 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -543,3 +543,8 @@
+   IOCTL_IGNORE(TIOCSTART)
+   IOCTL_IGNORE(TIOCSTOP)
+ #endif
++
++#ifdef CONFIG_KCOV
++  IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
++  IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
++#endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 171c0ca..6edcb0d 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -73,6 +73,9 @@
+ #ifdef CONFIG_SENDFILE
+ #include <sys/sendfile.h>
+ #endif
++#ifdef CONFIG_KCOV
 +#include <sys/kcov.h>
++#endif
+ 
+ #define termios host_termios
+ #define winsize host_winsize
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 75604e7..ab4414f 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -2454,6 +2454,10 @@ struct target_mtpos {
+ #define TARGET_MTIOCGET        TARGET_IOR('m', 2, struct target_mtget)
+ #define TARGET_MTIOCPOS        TARGET_IOR('m', 3, struct target_mtpos)
+ 
++/* kcov ioctls */
++#define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
++#define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
 +
-+int main(void)
-+{
-+    ioctl(-1, KIOENABLE, NULL);
-+    ioctl(-1, KIODISABLE, NULL);
-+    ioctl(-1, KIOSETBUFSIZE, NULL);
-+
-+    return 0;
-+}
-+EOF
-+if compile_prog "" "" ; then
-+  kcov=yes
-+fi
-+
- # Check we have a new enough version of sphinx-build
- has_sphinx_build() {
-     # This is a bit awkward but works: create a trivial document and
-@@ -6874,6 +6892,9 @@ fi
- if test "$syncfs" = "yes" ; then
-   echo "CONFIG_SYNCFS=y" >> $config_host_mak
- fi
-+if test "$kcov" = "yes" ; then
-+  echo "CONFIG_KCOV=y" >> $config_host_mak
-+fi
- if test "$inotify" = "yes" ; then
-   echo "CONFIG_INOTIFY=y" >> $config_host_mak
- fi
+ struct target_sysinfo {
+     abi_long uptime;                /* Seconds since boot */
+     abi_ulong loads[3];             /* 1, 5, and 15 minute load averages */
 -- 
 2.7.4
 
