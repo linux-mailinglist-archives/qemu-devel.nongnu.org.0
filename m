@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEACE12F49E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 07:42:04 +0100 (CET)
-Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8B412F49B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 07:41:58 +0100 (CET)
+Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inGep-000702-GF
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 01:42:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36132)
+	id 1inGej-0006s3-2a
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 01:41:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1inGcK-00057W-Cy
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 01:39:29 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1inGcI-0000Tj-5X
+ (envelope-from <dgibson@ozlabs.org>) id 1inGcH-00056s-DG
  for qemu-devel@nongnu.org; Fri, 03 Jan 2020 01:39:27 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23526
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgibson@ozlabs.org>) id 1inGcF-0000Jl-Fa
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 01:39:24 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40321 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1inGcH-0000N9-Kg
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 01:39:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578033564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HO9RLhtwIIyQR4FFzIUqOddlqFWl6JdL+vs0Oe2+rVI=;
- b=MkNCMsSGGdBjjw2GTuy751wBvWVC1b+RH5r1CtHU5nB40iCWreZ6NOLioE9WytGvWPMlh2
- 7tu3LSoUA501fM2jsNq7Z3MdH3Ta/2RX1gZVPiYemZcbs5A28OiEdxawrARy6KKpq2J1rQ
- 8upQ9bQuuOYmb/DlIrJUTNn1BXcFPyM=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-ePqugwd4P_Sqr1I-stXiBA-1; Fri, 03 Jan 2020 01:39:19 -0500
-Received: by mail-ot1-f70.google.com with SMTP id l13so17249984otn.18
- for <qemu-devel@nongnu.org>; Thu, 02 Jan 2020 22:39:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HO9RLhtwIIyQR4FFzIUqOddlqFWl6JdL+vs0Oe2+rVI=;
- b=ItzDQF7qfZkwKLrhHuR7vx7tA7rZpks3QbmXmPOoNuWeG4DOEpHTmSQad/6XP8HA4b
- 37/W3D0dInntuRsdrE+/2ClyvLg5jjFJc50+XJvkwEDMSspKAIsrEBLeUXp7qYizILDG
- Uej/r/oGj5DxJSZf0abeqj9gB1I/tfOz2hpC3Cyf7Vw8KY2rAfxHOwMH/TCE3vlZ59Mp
- cAD7TYgdGC+ibopzNL1+/y+pYQEgOQgdKifqS9RpErl5Bq6l/XZaxivIX4XObu2viRGK
- FtcNnBNfAmwpGAv3Xg3jjBofG2Lox/nMgahid8HdhTN45XvsMgAjv5POkRyxbFtOSYH6
- WA8A==
-X-Gm-Message-State: APjAAAULAKvHmKPNWBvAUfYuX1PKMlqdfV6dyUGUaWe5nmvNeIS/v+Cb
- 1+jEWBX53M0lgqRH051bCaahdUsJO3mODHx02lUbnjhbLUs2fsJo5KcHjDZHE/J6+zHjwnuXvFg
- s+4W22zTJQ7a28DuNBLzSELE1mruSTqQ=
-X-Received: by 2002:a9d:4706:: with SMTP id a6mr90141530otf.331.1578033558719; 
- Thu, 02 Jan 2020 22:39:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx1BTRb+jDUrG4qBKf1DsWDFJuTx99QF5H6uJ//B6csTLjVJutHhbqhcAeuKMcUOX0wxtMnHf1WVvWE5LyKL1Y=
-X-Received: by 2002:a9d:4706:: with SMTP id a6mr90141517otf.331.1578033558546; 
- Thu, 02 Jan 2020 22:39:18 -0800 (PST)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1inGcE-00007j-9m; Fri, 03 Jan 2020 01:39:22 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47pwH82DYFz9sR0; Fri,  3 Jan 2020 17:39:16 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578033556;
+ bh=KnDd/bGGexvHpiw+9M2GlBohx9YVWH4iDq7+dtggNVo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nBm929Bi//7maq2qo/6aMcKbdOeGZZEeRfyMBfsp+y4w4WtKtxX1jigFUOxztwkJ0
+ R18XakqBI4la3f6VriHY3h/rf2Dm9DIIkWPK4bT2Zs76w0/FtVhlcyxpBz7ttVFWqW
+ fLwR+DXASkk7fTAoA5Nlu1U8Hwv2FpRv8b4zhHSk=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org,
+	philmd@redhat.com,
+	clg@kaod.org,
+	groug@kaod.org
+Subject: [RFC 0/4] target/ppc: Correct some errors with real mode handling
+Date: Fri,  3 Jan 2020 17:39:07 +1100
+Message-Id: <20200103063911.180977-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200102210149.926077-1-marcandre.lureau@redhat.com>
- <20200102210149.926077-2-marcandre.lureau@redhat.com>
- <926dcf48-e309-55a5-cfcd-bd1343c17f27@redhat.com>
-In-Reply-To: <926dcf48-e309-55a5-cfcd-bd1343c17f27@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 3 Jan 2020 10:39:07 +0400
-Message-ID: <CAMxuvawHor3Lf--XY8q=SCBKq0Ad3wYquaXhj4OYPjaQSp2hQg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] RFC: savevm: check RAM is page_size aligned
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-MC-Unique: ePqugwd4P_Sqr1I-stXiBA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,53 +54,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, paulus@samba.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+POWER "book S" (server class) cpus have a concept of "real mode" where
+MMU translation is disabled... sort of.  In fact this can mean a bunch
+of slightly different things when hypervisor mode and other
+considerations are present.
 
-On Fri, Jan 3, 2020 at 9:06 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> Hi Marc-Andr=C3=A9,
->
-> On 1/2/20 10:01 PM, Marc-Andr=C3=A9 Lureau wrote:
-> > Check the host pointer is correctly aligned, otherwise we may fail
-> > during migration in ram_block_discard_range().
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   migration/savevm.c | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> >
-> > diff --git a/migration/savevm.c b/migration/savevm.c
-> > index a71b930b91..ab6e02011f 100644
-> > --- a/migration/savevm.c
-> > +++ b/migration/savevm.c
-> > @@ -2910,6 +2910,11 @@ err_drain:
-> >
-> >   void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
-> >   {
-> > +    RAMBlock *rb =3D mr->ram_block;
-> > +    uintptr_t hostaddr =3D (uintptr_t)qemu_ram_get_host_addr(rb);
-> > +
-> > +    assert((hostaddr & (qemu_ram_pagesize(rb) - 1)) =3D=3D 0);
->
-> Can we use the QEMU_PTR_IS_ALIGNED() macro instead?
->
->         assert(QEMU_PTR_IS_ALIGNED(qemu_ram_get_host_addr(rb),
->                                    qemu_ram_pagesize(rb)));
->
+We had some errors in edge cases here, so clean some things up and
+correct them.
 
-nice, good idea
+David Gibson (4):
+  ppc: Drop PPC_EMULATE_32BITS_HYPV stub
+  ppc: Remove stub of PPC970 HID4 implementation
+  target/ppc: Correct handling of real mode accesses with vhyp on hash
+    MMU
+  target/ppc: Introduce ppc_hash64_use_vrma() helper
 
-> >       qemu_ram_set_idstr(mr->ram_block,
-> >                          memory_region_name(mr), dev);
-> >       qemu_ram_set_migratable(mr->ram_block);
-> >
->
+ target/ppc/cpu.h                |   7 --
+ target/ppc/mmu-hash64.c         | 125 ++++++++++++++------------------
+ target/ppc/translate_init.inc.c |  17 ++---
+ 3 files changed, 59 insertions(+), 90 deletions(-)
+
+--=20
+2.24.1
 
 
