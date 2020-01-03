@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FD812F673
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 10:59:02 +0100 (CET)
-Received: from localhost ([::1]:50496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC5B12F677
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 10:59:56 +0100 (CET)
+Received: from localhost ([::1]:50502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inJjR-0004L7-PB
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 04:59:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42345)
+	id 1inJkJ-0005Db-K5
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 04:59:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1inJih-0003uY-74
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:58:16 -0500
+ (envelope-from <stefanha@redhat.com>) id 1inJj2-0004F7-L6
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:58:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1inJig-0004ad-8Q
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:58:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46748
+ (envelope-from <stefanha@redhat.com>) id 1inJj1-0006AN-M1
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:58:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34397
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1inJig-0004YC-2Z
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:58:14 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1inJj1-00067o-EM
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:58:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578045493;
+ s=mimecast20190719; t=1578045514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TDV6JdK52Bthz4Xz0NJNuYqMf0ub+ILXENGu09wJAj8=;
- b=RaresJnO3BjnJkwI7Rn/hPEQWA4KPSsfX88eXa78Y4xiLoFm6F9YzDL7ecgXNGxzwnwCwU
- KSxCrZcyUSm08bokk0JXw7J0jzvuY1MdiLn+hxailxtBaqYuQu/RAngMDOGGaEWMdYjYgo
- 256ZttvSwxbOxyZHRcRGKoveuSRo1WY=
+ bh=ApPvvk1yWuhSnB98XOrMRjx7I4EMfIx16NUWBTnePeM=;
+ b=QKPecddQxIv8CDtSSeWRF+KWeGVT87lK6dmqANBq1f3NKYVK3Lz+R+SZ7xgV6FXgc+59VW
+ gHIb8XLPWuX5PXP+fHeTVdyTRwcV0WcrmAE9hPzXcejjGQkE7wThv7yVTBgNat4DhNaX27
+ V9+1ez5PL+C0IhUIzuwsz4kfv/dcTjw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-PeK9deH7O8ag_dmSHrGOfw-1; Fri, 03 Jan 2020 04:58:10 -0500
-X-MC-Unique: PeK9deH7O8ag_dmSHrGOfw-1
+ us-mta-277-bAZA1MjmNkOJfh4_ZznamA-1; Fri, 03 Jan 2020 04:58:33 -0500
+X-MC-Unique: bAZA1MjmNkOJfh4_ZznamA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75463185432C;
- Fri,  3 Jan 2020 09:58:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61E65DB31;
+ Fri,  3 Jan 2020 09:58:31 +0000 (UTC)
 Received: from localhost (ovpn-116-102.ams2.redhat.com [10.36.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B9ED10013A1;
- Fri,  3 Jan 2020 09:58:06 +0000 (UTC)
-Date: Fri, 3 Jan 2020 09:58:04 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88BC91081333;
+ Fri,  3 Jan 2020 09:58:28 +0000 (UTC)
+Date: Fri, 3 Jan 2020 09:58:26 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Oleinik, Alexander" <alxndr@bu.edu>
-Subject: Re: [PATCH v6 01/21] softmmu: split off vl.c:main() into main.c
-Message-ID: <20200103095804.GB130240@stefanha-x1.localdomain>
+Subject: Re: [PATCH v6 02/21] libqos: Rename i2c_send and i2c_recv
+Message-ID: <20200103095826.GC130240@stefanha-x1.localdomain>
 References: <20191129213424.6290-1-alxndr@bu.edu>
- <20191129213424.6290-2-alxndr@bu.edu>
+ <20191129213424.6290-3-alxndr@bu.edu>
 MIME-Version: 1.0
-In-Reply-To: <20191129213424.6290-2-alxndr@bu.edu>
+In-Reply-To: <20191129213424.6290-3-alxndr@bu.edu>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GID0FwUMdk1T2AWN"
+ protocol="application/pgp-signature"; boundary="+nBD6E3TurpgldQp"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,45 +71,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
  "bsd@redhat.com" <bsd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laurent Vivier <lvivier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---GID0FwUMdk1T2AWN
+--+nBD6E3TurpgldQp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 29, 2019 at 09:34:36PM +0000, Oleinik, Alexander wrote:
-> @@ -3853,7 +3834,7 @@ int main(int argc, char **argv, char **envp)
->      set_memory_options(&ram_slots, &maxram_size, machine_class);
-> =20
->      os_daemonize();
-> -    rcu_disable_atfork();
-> +    /* rcu_disable_atfork(); */
-> =20
->      if (pid_file && !qemu_write_pidfile(pid_file, &err)) {
->          error_reportf_err(err, "cannot create PID file: ");
+On Fri, Nov 29, 2019 at 09:34:38PM +0000, Oleinik, Alexander wrote:
+> The names i2c_send and i2c_recv collide with functions defined in
+> hw/i2c/core.c. This causes an error when linking against libqos and
+> softmmu simultaneously (for example when using qtest inproc). Rename the
+> libqos functions to avoid this.
+>=20
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  tests/libqos/i2c.c   | 10 +++++-----
+>  tests/libqos/i2c.h   |  4 ++--
+>  tests/pca9552-test.c | 10 +++++-----
+>  3 files changed, 12 insertions(+), 12 deletions(-)
 
-Did you find a solution for this?
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---GID0FwUMdk1T2AWN
+--+nBD6E3TurpgldQp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4PECwACgkQnKSrs4Gr
-c8hLhwf+OlNbm/hpgg4cmPLfF34S42Igu1HV+gReTkETVADEw4R9nZn7pXGCBTA9
-t/DkQBe9hfkPiB4FIConGWin9uwoxC2bny7/zEqtY2t5gYvQiFE1Hh3BgBWmMFrg
-xNHTKYtj3XXW38ex2qFY0EonTgjeGjjQibaTny7rUB5vAgo8hdTSQDBUCb4j82ZA
-Xzaw1yH6iT0pSTSFySf+dIg8zrMN0mQKEyFRh0K0uJWIF6UszjgzSrY+4U/Z6aio
-IfutmMd/6KmYmLyiHH/MMc2RPClOuli9qxBcRSjn2DxUZg+c4itBk0sWXAxCSBrs
-cybugTeGcXZE8FzoE1wuaay3s7O/1w==
-=6+wl
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4PEEIACgkQnKSrs4Gr
+c8gCZQgApYfUwfxGsyQUSvfOHfs+1WoVN95UIRJk/MCHw5osHrJLOsxk3RUHPLza
+tP8x9WgsGYs746ni0Ux1RaxHySowsQUXoAal6SS5K0FLkSeWSEX7EsImVJAtPBX2
+g83FiXT+MYSZBDJL0ugBXVY1OxAJr9efuerRjgciBZOvnW1v+AFjD+coePB257G5
+hlbxTt0qxE10ScC4uKm6Enu0DicWvQoqr06narl96Tg3MMNi9ufiA6FFGhRU7+lt
+UUDOP44MLNJ0llip/Rmk/VMr1dzfXvwUGhCHJUsBgr5T11ISETx8qBjy5s4leXTI
+oiwYQihIRg5CtrIxp7JSA8wBeUyHlw==
+=cjU/
 -----END PGP SIGNATURE-----
 
---GID0FwUMdk1T2AWN--
+--+nBD6E3TurpgldQp--
 
 
