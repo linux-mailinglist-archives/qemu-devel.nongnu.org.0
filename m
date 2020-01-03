@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757F212F5F0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 10:11:34 +0100 (CET)
-Received: from localhost ([::1]:50206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1A212F5F8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 10:13:45 +0100 (CET)
+Received: from localhost ([::1]:50226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inIzV-0003W8-6e
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 04:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
+	id 1inJ1b-0006Kn-Vb
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 04:13:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1inIxm-0001vK-4V
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:09:47 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1inIxw-0002Dh-Ic
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:09:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1inIxl-0008J0-3O
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:09:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29258
+ (envelope-from <marcandre.lureau@redhat.com>) id 1inIxv-00004q-Km
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:09:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54892
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1inIxk-0008IX-VT
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:09:45 -0500
+ id 1inIxv-0008WA-Hy
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 04:09:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578042584;
+ s=mimecast20190719; t=1578042595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R063N5ie8o145AAXdc1hIyKgs8ANiq/iY8KELqpfZLw=;
- b=cgcl6uFCYOpEPMwPCeSIxpE0DJWUkInOuWrq5FlaUgX2CEf84UGjuIii0XSowf7QkUTTNY
- MjRBRTgU78pEfdMKrLjCFM5KgzhBSZn1CIkZ5A+daNlcTKFT8Kis+8NzyDboYksXSGN8Xw
- A6UoDHc5/J73ooXl8rYq0mp95OpXA18=
+ bh=uZ492ip0+fI0VQCW9S4eYVfwzGKlxnI/K5IAS3UZ5vs=;
+ b=DESc+e8O8jgwclPUcYNP1LbNw79n51qFFCMu8MjZNuLJSCySsOKnZvTsTdcNwRkwwKYViX
+ gPGKVxNi81bfuMguGaR8l4QLbMr2YlShojo8NIZY2ZZIRjbnoYbIwJ/z5pMOLqRkD6PVQE
+ bjTUDlNg4NgE7Mt//yw1MvwYm86QNh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-gZ2ej1inPTeBq3XLrCmKFg-1; Fri, 03 Jan 2020 04:09:41 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-225-7FT7mgMANoGm6lC7m_l7ZQ-1; Fri, 03 Jan 2020 04:09:54 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A11A185432D;
- Fri,  3 Jan 2020 09:09:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38363477;
+ Fri,  3 Jan 2020 09:09:53 +0000 (UTC)
 Received: from localhost (ovpn-112-30.ams2.redhat.com [10.36.112.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFFA583C09;
- Fri,  3 Jan 2020 09:09:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 036A45D9C9;
+ Fri,  3 Jan 2020 09:09:45 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 3/7] ui: add pixman image g_autoptr support
-Date: Fri,  3 Jan 2020 13:08:49 +0400
-Message-Id: <20200103090853.1014627-4-marcandre.lureau@redhat.com>
+Subject: [PULL v2 4/7] object: add g_autoptr support
+Date: Fri,  3 Jan 2020 13:08:50 +0400
+Message-Id: <20200103090853.1014627-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20200103090853.1014627-1-marcandre.lureau@redhat.com>
 References: <20200103090853.1014627-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: gZ2ej1inPTeBq3XLrCmKFg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 7FT7mgMANoGm6lC7m_l7ZQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,20 +79,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- include/ui/qemu-pixman.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/qom/object.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/ui/qemu-pixman.h b/include/ui/qemu-pixman.h
-index 0668109305..3b7cf70157 100644
---- a/include/ui/qemu-pixman.h
-+++ b/include/ui/qemu-pixman.h
-@@ -90,4 +90,6 @@ void qemu_pixman_glyph_render(pixman_image_t *glyph,
-                               pixman_color_t *bgcol,
-                               int x, int y, int cw, int ch);
-=20
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(pixman_image_t, qemu_pixman_image_unref)
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 1d7b7e5a79..54a548868c 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1766,4 +1766,7 @@ Object *container_get(Object *root, const char *path)=
+;
+  * Returns the instance_size of the given @typename.
+  */
+ size_t object_type_get_instance_size(const char *typename);
 +
- #endif /* QEMU_PIXMAN_H */
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(Object, object_unref)
++
+ #endif
 --=20
 2.24.0.308.g228f53135a
 
