@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BE412F9B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 16:26:48 +0100 (CET)
-Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C51812F9B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 16:27:56 +0100 (CET)
+Received: from localhost ([::1]:53424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inOqd-0004e5-LW
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 10:26:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41510)
+	id 1inOrj-00064n-Hd
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 10:27:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43501)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1inOpY-000410-Jp
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:25:41 -0500
+ (envelope-from <berrange@redhat.com>) id 1inOqN-0004kx-Aw
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:26:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1inOpX-0003pv-9f
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:25:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29314
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1inOqM-0006tA-5c
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:26:31 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20755
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1inOpX-0003lK-1s
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:25:39 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1inOqM-0006r8-0C
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 10:26:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578065138;
+ s=mimecast20190719; t=1578065187;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UXwwhlspvtNalXVzNY/lwEVbNpM7buulhICGdSEoEO4=;
- b=J1S/+j+ze16/PxERJaSFx4cM3ztpIB8tZX/LNVLUXVBAdBO3EKa0LSrjLcx6pZTZZWQdSp
- W1fo3iREDovBVhIERIVc7HK1WEQoBDSKse75Lvc5yPIDSYA9wMLQhJeVtIbAOEF7JQmVxf
- LcDpfxbAkHsn7gQYfODf5iaFn5Br0v0=
+ bh=XyAkwfaymgcSOQ2+n75Ri87lPL2MHcoiGONoql3hBiQ=;
+ b=gngD59PLzsimm5pPtMePtWaxFtSml0KHOYY2Ho1D85Bt2FQeWAG10tPQ8wcuuPh/smy21Z
+ t1vZUcL4SN8/al6X3KHbHLUal6gU6GCAddRJjCioPEkGG9x3Nok35nA+1n1zx3QXaKo/Az
+ FPdbijqP6k5HAj/id9N772I3Tw6WjZo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-WXVnHOT9N0KO7gSr63AsxQ-1; Fri, 03 Jan 2020 10:25:36 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-327-uEflCWSPPziIIBe8TUd3sg-1; Fri, 03 Jan 2020 10:26:25 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2823C107ACC5
- for <qemu-devel@nongnu.org>; Fri,  3 Jan 2020 15:25:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2E0C18AAFA1
+ for <qemu-devel@nongnu.org>; Fri,  3 Jan 2020 15:26:24 +0000 (UTC)
 Received: from redhat.com (ovpn-112-41.ams2.redhat.com [10.36.112.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84F661081172;
- Fri,  3 Jan 2020 15:25:32 +0000 (UTC)
-Date: Fri, 3 Jan 2020 15:25:29 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA5BC60F89;
+ Fri,  3 Jan 2020 15:26:20 +0000 (UTC)
+Date: Fri, 3 Jan 2020 15:26:17 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 017/104] virtiofsd: Start wiring up vhost-user
-Message-ID: <20200103152529.GK2753983@redhat.com>
+Subject: Re: [PATCH 018/104] virtiofsd: Add main virtio loop
+Message-ID: <20200103152617.GL2753983@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-18-dgilbert@redhat.com>
+ <20191212163904.159893-19-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-18-dgilbert@redhat.com>
+In-Reply-To: <20191212163904.159893-19-dgilbert@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: WXVnHOT9N0KO7gSr63AsxQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: uEflCWSPPziIIBe8TUd3sg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,24 +79,16 @@ Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:37:37PM +0000, Dr. David Alan Gilbert (git) wrot=
+On Thu, Dec 12, 2019 at 04:37:38PM +0000, Dr. David Alan Gilbert (git) wrot=
 e:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >=20
-> Listen on our unix socket for the connection from QEMU, when we get it
-> initialise vhost-user and dive into our own loop variant (currently
-> dummy).
+> Processes incoming requests on the vhost-user fd.
 >=20
 > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  tools/virtiofsd/fuse_i.h         |  4 ++
->  tools/virtiofsd/fuse_loop_mt.c   |  1 +
->  tools/virtiofsd/fuse_lowlevel.c  |  5 ++
->  tools/virtiofsd/fuse_lowlevel.h  |  7 +++
->  tools/virtiofsd/fuse_virtio.c    | 87 +++++++++++++++++++++++++++++++-
->  tools/virtiofsd/fuse_virtio.h    |  2 +
->  tools/virtiofsd/passthrough_ll.c |  7 +--
->  7 files changed, 107 insertions(+), 6 deletions(-)
+>  tools/virtiofsd/fuse_virtio.c | 42 ++++++++++++++++++++++++++++++++---
+>  1 file changed, 39 insertions(+), 3 deletions(-)
 
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
