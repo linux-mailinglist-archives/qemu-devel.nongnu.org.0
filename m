@@ -2,102 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68A112F2AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 02:21:39 +0100 (CET)
-Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2144F12F2EB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 03:27:35 +0100 (CET)
+Received: from localhost ([::1]:47904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inBek-0007IQ-As
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 20:21:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44411)
+	id 1inCgX-0003Zn-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 21:27:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rth7680@gmail.com>) id 1inBdn-0006ib-Ax
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 20:20:40 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1inCf3-0002AY-2l
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 21:26:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rth7680@gmail.com>) id 1inBdk-0004KH-DE
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 20:20:37 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37034)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rth7680@gmail.com>)
- id 1inBdQ-0003zl-Qf; Thu, 02 Jan 2020 20:20:16 -0500
-Received: by mail-pf1-x444.google.com with SMTP id p14so22826972pfn.4;
- Thu, 02 Jan 2020 17:20:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GD40s/tUbUanspRuAIelM3ult2DJvl9iASATBW5QYYU=;
- b=A7NS7d65+KO8/AXqM5iy7u1L6JLo7WvBT8ZnNh5dl+axIPPv2VFPaKnwrqy58lgcc6
- IrJ9JQfxteR8Ip7kklMCodxf0PPZnDMr11NaUGvoAMmjCMUELa3k+zyL74U4w4ZAzpeb
- K6IV9xHpUzVCo0oq3TCJUEtCsJ9i+YPt9xgj05FZwaIUfRM5pHEOrba/2Ms0O83QbPgO
- hElZVZswZUT+fF38zFu2CrXaTnDvepU6rwQjQ+QO8JSNRioe7f2aVNP/HJSP/Qm8cD2y
- JkhiWCBB+E3pvdO6WfZElTMhT1fZiU3p59QiJWGmO203qRvjvpAmb2Sv7ti5Ij+BQ5HB
- Nl3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=GD40s/tUbUanspRuAIelM3ult2DJvl9iASATBW5QYYU=;
- b=LHutVAeq3ricvmXq3i1S46ORWEsKRTdlWEyH9vPpCSDyeMKQJlat3U7yvgBf+TGaSl
- YF/SUhyAQLxfpckOdmedpa8RosxmZPGaWQ1GDgPOiToj+4sFUzDdMYgc2ijVAKzFOXOp
- GwBRTjgn49/j8nyR6FXFap58G1rQKelHSmOJ8MurRwyP3aGZJciLlKucpFqu2a/LDkep
- 7XVL3EWCDoB3L8vW2zwAtlaVPTn+DOQcM+U+up0kJ0IULrm19Gg6iXIStnec6D3vy8ok
- yKqqAqFfWihDlc74iampnZIst/0lQuG+XSry5jWobjecuU8TBWuXge3hUzmYQTweyaSd
- nyWw==
-X-Gm-Message-State: APjAAAWsY/eLeG0pyLKyJttjvOo5Ey61T1hlgJj/yM6sTOGxuH/ZJCqO
- aqzHFHlERLJ8U2gdVFHSvrs=
-X-Google-Smtp-Source: APXvYqyTSjheyI6n364IpYP5Sqnq5cjq+aQ3bF/jeKEzgFpqkeFJR8UgReE0JyclZ7kgqJio14k4jQ==
-X-Received: by 2002:a63:484b:: with SMTP id x11mr94312119pgk.148.1578014414825; 
- Thu, 02 Jan 2020 17:20:14 -0800 (PST)
-Received: from [10.103.5.8] (59-100-211-22.bri.static-ipl.aapt.com.au.
- [59.100.211.22]) by smtp.googlemail.com with ESMTPSA id
- o134sm61034779pfg.137.2020.01.02.17.19.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Jan 2020 17:20:13 -0800 (PST)
-Subject: Re: [PATCH v2 0/4] tcg: Include tcg files using tcg/ dirname, reduce
- cpp search path list
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200101112303.20724-1-philmd@redhat.com>
-From: Richard Henderson <rth@twiddle.net>
-Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
- mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
- n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
- rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
- Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
- n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
- AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFYBBMBAgBCAhsDBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAIZARYhBJyxjdr46EmtKvwWpK0ScMxN0CebBQJdweUY
- BQkP1h/pAAoJEK0ScMxN0CebqDsH/0YyfnXk+Dc++H37VCEKgRet2i1ATFzxRnifkvmdxha0
- V+PVptQ2fwSe+w3KxoFecD8W75nysmUjrU/FicW9yU5YRlGONPZjruG02/KzmhA5PzWJdYO3
- i/t0qRayvWIcX2qA/flsXEbmb/BbAFM05LQIdcOu74eiBFe5CBCOWBDJeneE1urIE0hSYxoh
- nCcG60ULrNj13ohZ4zAEluoY32qIo7/OPWmtR88cPrEbZT8k+RqgZbsotzaPT1/RlL74fL8k
- ofYfTgKAFH7eEy6fF2nzDp2GThVn+3sA62xtpSXUf/X1m75B40KOcq1EQbHypNTmBc1wt13e
- ibhPNEVX2am5AQ0EUa4sLwEIALITHfH3gciRNfQIe7awDTDvn6H3C6gDyCAnv5LiuLTLZiyK
- NZp3lNO3rPowyKrGT2RIDlumlqPgdeHzqEEX91YK0yk2vdFvwU04rJ4D+qRgdUPoeICLD1zo
- PwOv2FaY6Tf8dKYas1RHF5QU5yQNey8j7IYYoE2yGPn2PtBmvtmK4iLataUEvx0U385Zr+jf
- HscqwTiToryeDC8Io/9BsMvAssE5Yf5URS2nJ7LFOvc4njsQJPF1i9egBXaIloqv7p2hVCKJ
- Hl5UWIxitQ9QQIl6iU4LCpz8mVYTXwv48IAVpbUf7+ak9V9Kk3jCeQnlxCJBUHjUhoIzinbS
- JHPHtkkAEQEAAYkBPAQYAQIAJgIbDBYhBJyxjdr46EmtKvwWpK0ScMxN0CebBQJdweVIBQkP
- 1iAZAAoJEK0ScMxN0CebGHUH/RtouOlWl6To97tQsTJUq/2YwmRpFOsvV0/zCX4fKBGAbeZi
- VaELSt2+3UEErA+n8HwbQmjJ6IrdhA9GustOpOyCcbLVSMwql/OlAwBtDzCcC8dTU4zcuY2a
- rGG2A8i5krU85G9r1wowVcWZBsdmW7/dKiNoadLQiig4bHNiSaV4ograas5efyEjqTxiY+yG
- hzPw5DK2kbp2co8iDF1vW0LWPeLFBinCgItcI9LvgHWaB3rwjOfvNpMn5m64SoQYHB8wbnid
- erAjOzkBzmqnfS1tAUr8mtESStEwrEmNv0ZoA6S0Wt+c9pyTr+BpG4OFlhj7ZI+Eh7zOrr33
- q9OBIdA=
-Message-ID: <ea560ebf-7ae5-a72d-2f03-e7097ab0ba8c@twiddle.net>
-Date: Fri, 3 Jan 2020 12:19:55 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <dgibson@ozlabs.org>) id 1inCf1-00060M-EM
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 21:26:00 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39555 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1inCf0-0005ja-2r; Thu, 02 Jan 2020 21:25:59 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47ppfk2pScz9sR8; Fri,  3 Jan 2020 13:25:50 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578018350;
+ bh=FjGMJI8ugYDqCgkEZ/x2g32ks3hBQputV4DP0QsRfAk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=h2PiMqFhnEzqdp3Gsqh3Varpx9HAvc6UR33ARjyyoMi2BsHi/G96goMp3xMxSYoPg
+ lgVxl2YbhVOVpf8+4er7Pg/vhdhkVxNGPPMxvFbXJjY0sqczneaxUUVlb2wthib2yi
+ W6xnF/SzAcFPzfRT7glHe6eJ6+4YKEI7zsf89uaE=
+Date: Fri, 3 Jan 2020 12:20:15 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Subject: Re: [PATCH v4 3/4] spapr: Add NVDIMM device support
+Message-ID: <20200103012015.GP2098@umbus>
+References: <157657241446.53829.7078678659499762596.stgit@lep8c.aus.stglabs.ibm.com>
+ <157657253645.53829.168353921681383728.stgit@lep8c.aus.stglabs.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200101112303.20724-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EkxpYdHiqGHPYbUt"
+Content-Disposition: inline
+In-Reply-To: <157657253645.53829.168353921681383728.stgit@lep8c.aus.stglabs.ibm.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,47 +55,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Claudio Fontana <claudio.fontana@huawei.com>,
- Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, imammedo@redhat.com, qemu-ppc@nongnu.org,
+ xiaoguangrong.eric@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/1/20 10:22 PM, Philippe Mathieu-Daudé wrote:
-> Noticed we could clean this while reviewing Richard patch last night:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg667606.html
-> 
-> Since v1:
-> - moved headers to include/tcg/ (Paolo)
-> - include in .inc.c relative to parent (Stefan)
-> 
-> v1: https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg05356.html
-> 
-> Philippe Mathieu-Daudé (4):
->   tcg: Search includes from the project root source directory
->   tcg: Search includes in the parent source directory
->   tcg: Move TCG headers to include/tcg/
->   configure: Remove tcg/ from the preprocessor include search list
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Will queue shortly.
+--EkxpYdHiqGHPYbUt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Dec 17, 2019 at 02:49:14AM -0600, Shivaprasad G Bhat wrote:
+> Add support for NVDIMM devices for sPAPR. Piggyback on existing nvdimm
+> device interface in QEMU to support virtual NVDIMM devices for Power.
+> Create the required DT entries for the device (some entries have
+> dummy values right now).
+>=20
+> The patch creates the required DT node and sends a hotplug
+> interrupt to the guest. Guest is expected to undertake the normal
+> DR resource add path in response and start issuing PAPR SCM hcalls.
+>=20
+> The device support is verified based on the machine version unlike x86.
+>=20
+> This is how it can be used ..
+> Ex :
+> For coldplug, the device to be added in qemu command line as shown below
+> -object memory-backend-file,id=3Dmemnvdimm0,prealloc=3Dyes,mem-path=3D/tm=
+p/nvdimm0,share=3Dyes,size=3D1073872896
+> -device nvdimm,label-size=3D128k,uuid=3D75a3cdd7-6a2f-4791-8d15-fe0a920e8=
+e9e,memdev=3Dmemnvdimm0,id=3Dnvdimm0,slot=3D0
+>=20
+> For hotplug, the device to be added from monitor as below
+> object_add memory-backend-file,id=3Dmemnvdimm0,prealloc=3Dyes,mem-path=3D=
+/tmp/nvdimm0,share=3Dyes,size=3D1073872896
+> device_add nvdimm,label-size=3D128k,uuid=3D75a3cdd7-6a2f-4791-8d15-fe0a92=
+0e8e9e,memdev=3Dmemnvdimm0,id=3Dnvdimm0,slot=3D0
+>=20
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+>                [Early implementation]
+> ---
+>  default-configs/ppc64-softmmu.mak |    1=20
+>  hw/mem/Kconfig                    |    2=20
+>  hw/ppc/spapr.c                    |  216 +++++++++++++++++++++++++++++++=
++++---
+>  hw/ppc/spapr_drc.c                |   18 +++
+>  hw/ppc/spapr_events.c             |    4 +
+>  include/hw/ppc/spapr.h            |   11 ++
+>  include/hw/ppc/spapr_drc.h        |    9 ++
+>  7 files changed, 245 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/default-configs/ppc64-softmmu.mak b/default-configs/ppc64-so=
+ftmmu.mak
+> index cca52665d9..ae0841fa3a 100644
+> --- a/default-configs/ppc64-softmmu.mak
+> +++ b/default-configs/ppc64-softmmu.mak
+> @@ -8,3 +8,4 @@ CONFIG_POWERNV=3Dy
+> =20
+>  # For pSeries
+>  CONFIG_PSERIES=3Dy
+> +CONFIG_NVDIMM=3Dy
+> diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
+> index 620fd4cb59..2ad052a536 100644
+> --- a/hw/mem/Kconfig
+> +++ b/hw/mem/Kconfig
+> @@ -8,4 +8,4 @@ config MEM_DEVICE
+>  config NVDIMM
+>      bool
+>      default y
+> -    depends on PC
+> +    depends on (PC || PSERIES)
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 3ae7db1563..921d8d7c8e 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -80,6 +80,8 @@
+>  #include "hw/ppc/spapr_cpu_core.h"
+>  #include "hw/mem/memory-device.h"
+>  #include "hw/ppc/spapr_tpm_proxy.h"
+> +#include "hw/mem/nvdimm.h"
+> +#include "qemu/nvdimm-utils.h"
+> =20
+>  #include "monitor/monitor.h"
+> =20
+> @@ -685,12 +687,22 @@ static int spapr_populate_drmem_v2(SpaprMachineStat=
+e *spapr, void *fdt,
+>              nr_entries++;
+>          }
+> =20
+> -        /* Entry for DIMM */
+> -        drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_LMB, addr / lmb_size);
+> -        g_assert(drc);
+> -        elem =3D spapr_get_drconf_cell(size / lmb_size, addr,
+> -                                     spapr_drc_index(drc), node,
+> -                                     SPAPR_LMB_FLAGS_ASSIGNED);
+> +        if (info->value->type =3D=3D MEMORY_DEVICE_INFO_KIND_DIMM) {
+> +            /* Entry for DIMM */
+> +            drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_LMB, addr / lmb_size);
+> +            g_assert(drc);
+> +            elem =3D spapr_get_drconf_cell(size / lmb_size, addr,
+> +                                         spapr_drc_index(drc), node,
+> +                                         SPAPR_LMB_FLAGS_ASSIGNED);
+> +        } else if (info->value->type =3D=3D MEMORY_DEVICE_INFO_KIND_NVDI=
+MM) {
+> +            /*
+> +             * NVDIMM sits here, let the DIMM LMBs be unusable here in t=
+he
+> +             * whole range
+> +             */
+> +            elem =3D spapr_get_drconf_cell(size / lmb_size, addr, 0, -1,
+> +                                         SPAPR_LMB_FLAGS_RESERVED |
+> +                                         SPAPR_LMB_FLAGS_DRC_INVALID);
+> +        }
 
-r~
+As discussed in reply to an earlier thread, this whole scheme
+basically breaks down in the presence of hotplug - it relies on which
+GPAs are DIMMs and which are NVDIMMs not changing.
+
+Other than that significant problem, the rest of this looks
+reasonable.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--EkxpYdHiqGHPYbUt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4Ols0ACgkQbDjKyiDZ
+s5J2ohAAvAI0a2uIhlaGi4VoWc5R4/GhT27YMp55jQtiSdoT6ja6kSXGQjtkqd34
+kMZHr508aYnJU5d917PplMh9ryXpRStnfDnC3rB4FOqWi54gy6VYb0ZrA6mEubX9
+0ey32UF09lYueRkspbthSuMKCxeOQC7HKIJFMjkdN+iiACZACa5Pv0A4avYmIaXy
+D2mhaxrlxH6r4PlhlubFyePUyNd23CuFrNT8+Kt4eG0T8psyfvq+ZXoP2/8idmU9
+dZDaz1ayjH1Na6gPaykppMdFC+0xDGu7uYO5WqZu+csq7X4v1jE/R2PXYTpOSFxX
+kYVNTsQrWmse0zRapHTcwZVbFlUcM5uNQoeb/R7jCX9iruPoWdEtDhTKnFa2ezPU
+Zu88ImGihR1dwPVSJ3xyMJxFDKxkxvvjGMtq+ZKG0ClPCapnEdQ9ksD4UY5aKcU6
+DCGu2sUcRziEWS+1E/s0cAPCwqsmafvFvpcNR1x6OlnRusa1H7o4kW+CWWHnCwM1
+VYqBdagC2NPtwqGLUBNqRlsweC1pElfmx0kj1uCA1Pg43MjPm+fvMozvHyDmvZew
+AY4KmTiJwyz9liM4KPWQ2d+xh+BIqeYaDTezQ8V0OJ726XVdT4OCLYnFTwE93gQe
+rSbstcCLDIxaTbP8ASTMTEDfwLTrsJOCC2R7jLusY08ksMLdq0A=
+=ZuRP
+-----END PGP SIGNATURE-----
+
+--EkxpYdHiqGHPYbUt--
 
