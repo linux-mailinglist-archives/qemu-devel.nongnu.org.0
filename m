@@ -2,43 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053E512FEBE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 23:28:15 +0100 (CET)
-Received: from localhost ([::1]:57420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C2212FEFE
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jan 2020 00:06:37 +0100 (CET)
+Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1inVQU-0001cm-3v
-	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 17:28:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39719)
+	id 1inW1c-0006eB-3x
+	for lists+qemu-devel@lfdr.de; Fri, 03 Jan 2020 18:06:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHr-0006z6-JX
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:20 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1inW0l-0006Cf-Ej
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 18:05:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1inVHp-00087x-F6
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:19 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53924 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1inVHp-00081m-1m
- for qemu-devel@nongnu.org; Fri, 03 Jan 2020 17:19:17 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 8EEA91A1FD7;
- Fri,  3 Jan 2020 23:18:10 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 694EB1A229B;
- Fri,  3 Jan 2020 23:18:10 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/12] linux-user: Add support for KCOV_INIT_TRACE ioctl
-Date: Fri,  3 Jan 2020 23:18:02 +0100
-Message-Id: <1578089882-3587-13-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1578089882-3587-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1578089882-3587-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (envelope-from <richard.henderson@linaro.org>) id 1inW0k-0002Mh-0Y
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 18:05:43 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36282)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1inW0j-0002Ih-PE
+ for qemu-devel@nongnu.org; Fri, 03 Jan 2020 18:05:41 -0500
+Received: by mail-pg1-x542.google.com with SMTP id k3so24037474pgc.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Jan 2020 15:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=I3cfvt4gXU3UwGUGbZS5OIwd8hrozxLi+qSzb+8T/t8=;
+ b=uIsic2SlR5QB/R81WGE6HV08dcAyA4ZdB+rvevEqK7TZZQUEprm9Sn9uKGcw84KvkO
+ A8oifRqdhmJT6eKjcZdhX2m/yA6/B8mwpKohwroNEY7P60VRwtqykzwSIislfNh0KPL3
+ pHsEZhGKTZQsJOOCvHb3UrG/AdeLhb4TctfarscK2uZlBlMjoXFo4l386/d85U2w/o07
+ /vb4jFnGDILjRHfiVJyUT3JX6OWCZwwa8rQJKmxdaqd1VBN8slZv04zyY0S6B4gA+kLw
+ CiqqPJCAFdyxCdgO96wbIccC6pc7NFZ9uIBbcW0ZcAV5HEbymWH4BM24ZhuBIqERkU1f
+ 7Rxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=I3cfvt4gXU3UwGUGbZS5OIwd8hrozxLi+qSzb+8T/t8=;
+ b=M8wXa/LfNuqdpZdZ2BMpmYslKkRnP5ROpvX4dr/gIMJZF0J2HvG/5PF5H3kfgdlqA8
+ 1/Tod7DalyqYwyeNkRfd/cweBRsfWlCANf2ldytidZiiFx+r1+ak8C528fj5iMnc01VE
+ pN+sLH546c+mQA79opDdI6gqAKHmaEnJnD5tK3j9KvVUYDvIudSf/wU9uHhjV2dBHRNX
+ o6mCZRSUikc516ZYzv0V5oVi7ecYjC98RyR+BFNF0LuYK/iZ7fKQ9sUHNql2/aIQJNEn
+ xpWt2IWvTFRgLWDMaYD0jFsE3cUYyTvUrnNuyVH72QL9yfquwDGletjcpfwIGjxDWSWs
+ Xx9w==
+X-Gm-Message-State: APjAAAWhjgIJP4KW2esbeYcyYksOFyhmOKGy+p2t5KylZ4EgKEYyqQy1
+ mZL5XIhozMi2OqEmPzGRJIVitQ==
+X-Google-Smtp-Source: APXvYqzf8FkxTwe6nCDc0Xeo3ob8oC/ve2NZVkfCIVuxY2EXGmH1d7jDAAWotIglN98s+MYBR1kbmg==
+X-Received: by 2002:a62:a515:: with SMTP id v21mr98123405pfm.128.1578092740523; 
+ Fri, 03 Jan 2020 15:05:40 -0800 (PST)
+Received: from [10.103.5.8] (59-100-211-22.bri.static-ipl.aapt.com.au.
+ [59.100.211.22])
+ by smtp.gmail.com with ESMTPSA id c26sm64615241pfj.101.2020.01.03.15.05.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Jan 2020 15:05:39 -0800 (PST)
+Subject: Re: [PATCH v3 1/4] RISC-V: add vector extension field in CPURISCVState
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200103033347.20909-1-zhiwei_liu@c-sky.com>
+ <20200103033347.20909-2-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f8138b4b-51ef-15f7-c128-f78a46005afa@linaro.org>
+Date: Sat, 4 Jan 2020 10:05:32 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20200103033347.20909-2-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,45 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On 1/3/20 2:33 PM, LIU Zhiwei wrote:
+> The 32 vector registers will be viewed as a continuous memory block.
+> It avoids the convension between element index and (regno,offset).
+> Thus elements can be directly accessed by offset from the first vector
+> base address.
+> 
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/cpu.h | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0adb307f32..af66674461 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -93,9 +93,23 @@ typedef struct CPURISCVState CPURISCVState;
+>  
+>  #include "pmp.h"
+>  
+> +#define RV_VLEN_MAX 4096
+> +
+>  struct CPURISCVState {
+>      target_ulong gpr[32];
+>      uint64_t fpr[32]; /* assume both F and D extensions */
+> +
+> +    /* vector coprocessor state.  */
+> +    struct {
+> +         uint64_t vreg[32 * RV_VLEN_MAX / 64];
 
-KCOV_INIT_TRACE ioctl plays the role in kernel coverage tracing.
-This ioctl's third argument is of type 'unsigned long', and the
-implementation in QEMU is straightforward.
+Missing alignment.
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/ioctls.h       | 1 +
- linux-user/syscall_defs.h | 1 +
- 2 files changed, 2 insertions(+)
+> +         target_ulong vxrm;
+> +         target_ulong vxsat;
+> +         target_ulong vl;
+> +         target_ulong vstart;
+> +         target_ulong vtype;
+> +    } vext;
+> +
+> +    bool         foflag;
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 6be143a..e2ccd6f 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -547,4 +547,5 @@
- #ifdef CONFIG_KCOV
-   IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
-   IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-+  IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
- #endif
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index ab4414f..4d6599d 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2457,6 +2457,7 @@ struct target_mtpos {
- /* kcov ioctls */
- #define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
- #define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
-+#define TARGET_KCOV_INIT_TRACE TARGET_IOR('c', 1, abi_ulong)
- 
- struct target_sysinfo {
-     abi_long uptime;                /* Seconds since boot */
--- 
-2.7.4
+Remove this.  As discussed before, you don't need it.  Faulting behaviour
+should be handled with the proper interfaces.
 
+
+r~
 
