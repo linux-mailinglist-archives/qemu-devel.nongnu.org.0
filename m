@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CA212EBA6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Jan 2020 23:07:47 +0100 (CET)
-Received: from localhost ([::1]:46094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FC212F21B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Jan 2020 01:22:22 +0100 (CET)
+Received: from localhost ([::1]:47210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1in8d7-0008BQ-7c
-	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 17:07:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
+	id 1inAjN-0001ih-VN
+	for lists+qemu-devel@lfdr.de; Thu, 02 Jan 2020 19:22:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36968)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1in8bv-0006vY-Pi
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 17:06:34 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1inAhS-0000A9-7e
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 19:20:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1in8bs-0002oz-0F
- for qemu-devel@nongnu.org; Thu, 02 Jan 2020 17:06:30 -0500
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:41053)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1in8bq-0002m4-7w; Thu, 02 Jan 2020 17:06:26 -0500
-Received: by mail-il1-x12a.google.com with SMTP id f10so35170942ils.8;
- Thu, 02 Jan 2020 14:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R0NxGTQSccVveKz1rKpEw/by0/GKdb9fm1wSFc0d/Gs=;
- b=Be5RR40Faf2BpjDHJIcBNI/JWBjFNx0EHJ/Mi6MJfSBaaqYWZiqvVNeuSNIAp8Hk6d
- Suiyb00nNr5DyfYtrS2ia7aCvW22LGPGV9dHyTHyVku55ju/qX8p1E5Qvx9lhqzyybeC
- MZ7ytI+SXJywrRz3nUpyV19fn/UVNWvDclAGMLx2uWO7rjJWAzd1K1viqcR0a4CX90/r
- esiYqljmIUiOf7nzAWySiz+0/NQUuZjV08IpGr+lboTSGmd2vH4FnVouncCjhJ5n88Dq
- zRyOMqy9JN/hpfIvekkW67gzK7ESshvBAPhSwErnZaICw6XXFL/p5RAXWs+4Zm1TIiDR
- aU6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R0NxGTQSccVveKz1rKpEw/by0/GKdb9fm1wSFc0d/Gs=;
- b=ihSigAdV1wbDzCw9M60nWj+rUhgv/TFz24CrYBZIUTDeyyZ0l7yEatJyD1W5QXWghA
- ISOdP36o6UqPGCQKqj2Pkaj4VHZOXSkHJdc6xyVqmQh/0p6+NufZ06LYrOM/DG8ng/8K
- o/wtg8I0iHfG4nwnBjwsA212tRAHFZlI2kHY5k2N6+QItPrgEUUuRjG45CP/rBwO2Nxg
- oj9bbcY6n7oNHnu4R/h3soLbJhTRb8yLW/ofjoDtAc0kVsclPnmEEI3xWp5Jwn4W1957
- kMnUpLmY1x1ht8T3GMcuxKqFmqU9aqeAg94o+3Sh5v9BS1WUtEsSpYNod4jr3oYmGsk1
- sXTQ==
-X-Gm-Message-State: APjAAAXKme2JF8QVnqhomtCpCQKbmlWJ29RrPJ2lXRCYa1etJcpxjwx7
- +GQznskqN+/a95khjz1vTa5pcq5PdSPjklXBhyw=
-X-Google-Smtp-Source: APXvYqw4gyWUe/kxC8TQrDWIIsKazBf57uoYkeyM2NEh1rd/8mTgARpheTVTpYOg4JvFz66OhoPT5cKVkNWDrCYrWeg=
-X-Received: by 2002:a92:7509:: with SMTP id q9mr49545228ilc.67.1578002784160; 
- Thu, 02 Jan 2020 14:06:24 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1inAhQ-0003aK-K4
+ for qemu-devel@nongnu.org; Thu, 02 Jan 2020 19:20:22 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34193 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1inAhP-0003K5-Fv; Thu, 02 Jan 2020 19:20:20 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47plsn6BXpz9sRW; Fri,  3 Jan 2020 11:20:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578010813;
+ bh=3pX7F5giFylzhxl5ZE/j2spBbPk7L+DltqI80W6E31c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mpZZKQlJwFemmvBCN/Y+fjDb5k+QodVy7sLbEewLajCMY7dtC9ulsZuXagBgLJLkJ
+ 8/Uw55X1MwpByRNvuGgaJ7ihsaJdTAkyDTnKnmVX3R3semItfDL8m5+ti7rqgza/T3
+ VgS1m2L1+ttEvCfnkfmHndK6Rd9E3MXKQ3CUCbHE=
+Date: Fri, 3 Jan 2020 11:19:00 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Subject: Re: [PATCH v7 4/6] tpm_spapr: Support suspend and resume
+Message-ID: <20200103001900.GM2098@umbus>
+References: <20191219140605.3243321-1-stefanb@linux.vnet.ibm.com>
+ <20191219140605.3243321-5-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
-References: <20191216233519.29030-1-nieklinnenbank@gmail.com>
- <CAPan3WpDbWb_cBMJPgokSLKAJndMQLvRdOav6CPpDbFv+ChN0g@mail.gmail.com>
- <9756419b-55bf-23a9-556a-d5bc5fb29331@redhat.com>
- <CAPan3WrYAK+PFtFM7ZDCVsKLc_ksGxZeHEcwB9_FK=4v5p8h=w@mail.gmail.com>
- <CAPan3WoP8MYubKaArOuWVCo65iOYNc2TpQ8KA0f_wRZwLATMAA@mail.gmail.com>
- <f331fe6e-87ce-4f04-cdc0-981281e53c9b@redhat.com>
-In-Reply-To: <f331fe6e-87ce-4f04-cdc0-981281e53c9b@redhat.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Thu, 2 Jan 2020 23:06:13 +0100
-Message-ID: <CAPan3WrhOdaTxKm0nVMa6XByp2VqGg5a9dgv7q4o-4bCbUTk6w@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] Add Allwinner H3 SoC and Orange Pi PC Machine
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000679261059b2f67d5"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GoZzJvFfKjxI3RhA"
+Content-Disposition: inline
+In-Reply-To: <20191219140605.3243321-5-stefanb@linux.vnet.ibm.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::12a
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,423 +55,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000679261059b2f67d5
-Content-Type: text/plain; charset="UTF-8"
+
+--GoZzJvFfKjxI3RhA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hey Philippe,
+On Thu, Dec 19, 2019 at 09:06:03AM -0500, Stefan Berger wrote:
+> Extend the tpm_spapr frontend with VM suspend and resume support.
+>=20
+> Signed-off-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
+> ---
+>  hw/tpm/tpm_spapr.c  | 67 ++++++++++++++++++++++++++++++++++++++++++++-
+>  hw/tpm/trace-events |  2 ++
+>  2 files changed, 68 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+> index ab184fbb82..cf5c7851e7 100644
+> --- a/hw/tpm/tpm_spapr.c
+> +++ b/hw/tpm/tpm_spapr.c
+> @@ -76,6 +76,9 @@ typedef struct {
+> =20
+>      unsigned char buffer[TPM_SPAPR_BUFFER_MAX];
+> =20
+> +    uint32_t numbytes; /* number of bytes in suspend_buffer */
+> +    unsigned char *suspend_buffer;
+> +
+>      TPMBackendCmd cmd;
+> =20
+>      TPMBackend *be_driver;
+> @@ -240,6 +243,13 @@ static void tpm_spapr_request_completed(TPMIf *ti, i=
+nt ret)
+> =20
+>      /* a max. of be_buffer_size bytes can be transported */
+>      len =3D MIN(tpm_cmd_get_size(s->buffer), s->be_buffer_size);
+> +
+> +    if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+> +        /* defer delivery of response until .post_load */
+> +        s->numbytes =3D len;
+> +        return;
+> +    }
 
-On Thu, Jan 2, 2020 at 10:11 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-wrote:
+I'm not understanding the basics of what's going on here.  IIUC, the
+backend TPM can complete a request after we've entered migration
+downtime.  But if that's the case, I can't see any guarantee that we
+won't have already transmitted the TPM device state, so updating it
+here might never reach the destination.  In that case we'd still lose
+the request, so I'm not sure what we're accomplishing here.
 
-> Hi Niek,
->
-> On 1/2/20 8:52 PM, Niek Linnenbank wrote:
-> > Hi Philippe,
-> >
-> > I'm almost ready to send out v3 here.
-> >
-> > Now for documentation I'm not sure yet what to do:
-> >
-> > 1) Where should I place board documentation?
-> >      For example, the information that I wrote on the cover letter with
-> > instructions on how to get the board up and running,
-> >      some description of the design, where to find more inforformation,
-> > datasheet sources, etc. I don't yet see any documentation
->
-> We usually refer the datasheet in the implementation header, see:
->
-> $ git grep -F .pdf hw/ | wc -l
-> 62
->
-> You can cite the datasheet globally in hw/arm/allwinner-h3.c, and then
-> the particular chapters or source files in the other hw/*/allwinner-*
-> files.
->
-> >     for the other boards in the source. In my opinion, it is important
-> > to keep that information somewhere, such that also in the future
-> >     the boards can still be properly maintained. Can I / shall I place =
-a
-> > new file like ./docs/hw/arm/orangepi.txt for that?
->
-> See docs/microvm.rst which is a recent example of machine documentation,
-> the obvious name is docs/orangepi.rst.
->
-> Ah great, that is very helpful! I will use the microvm.rst as example and
-add a new file docs/orangepi.rst to document the board.
-
-
-> Maybe refer to this file in hw/arm/orangepi.c header for completeness.
->
-> >   2) Is is allowed / encouraged to provide Doxygen-style comments in th=
-e
-> > header files in include/hw/*?
-> >     I see that some of the API's have that, but the boards and devices
-> > mostly are free of Doxygen-style comments.
-> >     It takes some work, but I think it can really help to give more
-> > insight / background info on how things are working
-> >     for the devices and boards. But if it's not preferred for QEMU, I'm
-> > fine with that as well.
->
-> Documentation is certainly welcome!
->
-> There are 2 different schools over the codebase, one that document the
-> declarations, and another that documents the implementation/definition.
->
-> I personally prefer to document the headers, which is where I look when
-> I want to consume an API.
-> The implementation school says this can lead to documentation getting
-> outdated.
->
-> So if you are willing to document, I'd suggest to document your
-> include/hw/ files.
->
-
-OK, thanks for clarifying! Yes, I also prefer to have it in the header
-files, it
-makes the most sense indeed.
-
-
->
-> Happy new year!
->
-
-And happy new year to you as well Philippe!
-
-Regards,
-Niek
-
->
-> Phil.
->
-> > On Mon, Dec 30, 2019 at 9:10 PM Niek Linnenbank
-> > <nieklinnenbank@gmail.com <mailto:nieklinnenbank@gmail.com>> wrote:
-> >
-> >
-> >
-> >     On Mon, Dec 30, 2019 at 3:56 PM Philippe Mathieu-Daud=C3=A9
-> >     <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
-> >
-> >         On 12/30/19 12:28 PM, Niek Linnenbank wrote:
-> >          > Hi,
-> >          >
-> >          > Here a short status report of this patch series.
-> >
-> >         Good idea!
-> >
-> >          >
-> >          > For V3 update I already prepared the following:
-> >          >   - reworked all review comments from Philippe, except:
-> >          >     - patch#8: question for the SID, whether command-line
-> >         override is
-> >          > required (and how is the best way for machine-specific cli
-> >         arg?) [1]
-> >
-> >         Answered recently.
-> >
-> >     Thanks!
-> >
-> >
-> >          > - added BootROM support, allows booting with only specifying
-> >         -sd <IMG>
-> >          > - added SDRAM controller driver, for U-Boot SPL
-> >          > - added Allwinner generic RTC driver (for both Cubieboard an=
-d
-> >         OrangePi
-> >          > PC, supports sun4i, sun6i, sun7i)
-> >          > - small fixes for EMAC
-> >          >
-> >          > My current TODO:
-> >          >   - integrate Philips acceptance tests in the series
-> >
-> >         You can queue them in your series, adding your Signed-off-by ta=
-g
-> >         after
-> >         mine. See:
-> >
-> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#si=
-gn-your-work-the-developer-s-certificate-of-origin
-> >
-> >             The sign-off is a simple line at the end of the explanation
-> >         for the
-> >         patch, which certifies that you wrote it or otherwise have the
-> >         right to
-> >         pass it on as an open-source patch.
-> >
-> >         See point (c).
-> >
-> >     Ah that certainly helps. I'll read that page.
-> >
-> >          >   - integrate Philips work for generalizing the Allwinner
-> >         timer, and
-> >          > finish it
-> >
-> >         We can also do that later, and get your work merged first.
-> >
-> >
-> >     Ok that sounds very good! Agreed, lets do the timer work later.
-> >
-> >
-> >          >   - test and fix BSD targets (NetBSD, FreeBSD) [2, 3]
-> >          >   - further generalize the series to cover very similar SoCs=
-:
-> >         H2+, H5
-> >          >
-> >          > Does anyone have more comments/requests for the V3 update?
-> >          >
-> >          > [1]
-> >
-> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg04049.html
-> >          > [2] https://wiki.netbsd.org/ports/evbarm/allwinner/
-> >          > [3]
-> >          >
-> >
-> https://wiki.freebsd.org/action/show/arm/Allwinner?action=3Dshow&redirect=
-=3DFreeBSD%2Farm%2FAllwinner
-> >
-> >
-> >
-> >     --
-> >     Niek Linnenbank
-> >
-> >
-> >
-> > --
-> > Niek Linnenbank
-> >
->
->
+>      rc =3D spapr_vio_dma_write(&s->vdev, be32_to_cpu(crq->data),
+>                               s->buffer, len);
+> =20
+> @@ -288,11 +298,13 @@ static void tpm_spapr_reset(SpaprVioDevice *dev)
+>      SpaprTpmState *s =3D VIO_SPAPR_VTPM(dev);
+> =20
+>      s->state =3D SPAPR_VTPM_STATE_NONE;
+> +    s->numbytes =3D 0;
+> =20
+>      s->be_tpm_version =3D tpm_backend_get_tpm_version(s->be_driver);
+> =20
+>      s->be_buffer_size =3D MIN(tpm_backend_get_buffer_size(s->be_driver),
+>                              TPM_SPAPR_BUFFER_MAX);
+> +    s->suspend_buffer =3D g_realloc(s->suspend_buffer, s->be_buffer_size=
+);
+> =20
+>      tpm_backend_reset(s->be_driver);
+>      tpm_spapr_do_startup_tpm(s, s->be_buffer_size);
+> @@ -309,9 +321,62 @@ static enum TPMVersion tpm_spapr_get_version(TPMIf *=
+ti)
+>      return tpm_backend_get_tpm_version(s->be_driver);
+>  }
+> =20
+> +/* persistent state handling */
+> +
+> +static int tpm_spapr_pre_save(void *opaque)
+> +{
+> +    SpaprTpmState *s =3D opaque;
+> +
+> +    tpm_backend_finish_sync(s->be_driver);
+> +
+> +    if (s->numbytes) {
+> +        memcpy(s->suspend_buffer, s->buffer, s->numbytes);
+> +    }
+> +
+> +    trace_tpm_spapr_pre_save(s->numbytes);
+> +    /*
+> +     * we cannot deliver the results to the VM since DMA would touch VM =
+memory
+> +     */
+> +
+> +    return 0;
+> +}
+> +
+> +static int tpm_spapr_post_load(void *opaque, int version_id)
+> +{
+> +    SpaprTpmState *s =3D opaque;
+> +
+> +    if (s->numbytes) {
+> +        trace_tpm_spapr_post_load();
+> +
+> +        memcpy(s->buffer, s->suspend_buffer,
+> +               MIN(s->numbytes, s->be_buffer_size));
+> +        /* deliver the results to the VM via DMA */
+> +        tpm_spapr_request_completed(TPM_IF(s), 0);
+> +        s->numbytes =3D 0;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static const VMStateDescription vmstate_spapr_vtpm =3D {
+>      .name =3D "tpm-spapr",
+> -    .unmigratable =3D 1,
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 0,
+> +    .minimum_version_id_old =3D 0,
+> +    .pre_save =3D tpm_spapr_pre_save,
+> +    .post_load =3D tpm_spapr_post_load,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_SPAPR_VIO(vdev, SpaprTpmState),
+> +
+> +        VMSTATE_UINT8(state, SpaprTpmState),
+> +        VMSTATE_UINT32(numbytes, SpaprTpmState),
+> +        VMSTATE_VBUFFER_ALLOC_UINT32(suspend_buffer,
+> +                                     SpaprTpmState, 0, NULL,
+> +                                     numbytes),
+> +        /* remember DMA address */
+> +        VMSTATE_UINT32(crq.data, SpaprTpmState),
+> +        VMSTATE_END_OF_LIST(),
+> +    }
+>  };
+> =20
+>  static Property tpm_spapr_properties[] =3D {
+> diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
+> index 9143a8eaa3..5592cec7de 100644
+> --- a/hw/tpm/trace-events
+> +++ b/hw/tpm/trace-events
+> @@ -67,3 +67,5 @@ tpm_spapr_do_crq_get_version(uint32_t version) "respons=
+e: version %u"
+>  tpm_spapr_do_crq_prepare_to_suspend(void) "response: preparing to suspen=
+d"
+>  tpm_spapr_do_crq_unknown_msg_type(uint8_t type) "Unknown message type 0x=
+%02x"
+>  tpm_spapr_do_crq_unknown_crq(uint8_t raw1, uint8_t raw2) "unknown CRQ 0x=
+%02x 0x%02x ..."
+> +tpm_spapr_pre_save(uint32_t v) "Number of TPM response bytes to deliver =
+after resume: %u"
+> +tpm_spapr_post_load(void) "Delivering TPM response after resume"
 
 --=20
-Niek Linnenbank
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
---000000000000679261059b2f67d5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--GoZzJvFfKjxI3RhA
+Content-Type: application/pgp-signature; name="signature.asc"
 
-<div dir=3D"ltr"><div>Hey Philippe,<br></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 2, 2020 at 10:11 PM Phil=
-ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">Hi Niek,<br>
-<br>
-On 1/2/20 8:52 PM, Niek Linnenbank wrote:<br>
-&gt; Hi Philippe,<br>
-&gt; <br>
-&gt; I&#39;m almost ready to send out v3 here.<br>
-&gt; <br>
-&gt; Now for documentation I&#39;m not sure yet what to do:<br>
-&gt; <br>
-&gt; 1) Where should I place board documentation?<br>
-&gt;=C2=A0 =C2=A0=C2=A0=C2=A0 For example, the information that I wrote on =
-the cover letter with <br>
-&gt; instructions on how to get the board up and running,<br>
-&gt;=C2=A0 =C2=A0=C2=A0=C2=A0 some description of the design, where to find=
- more inforformation, <br>
-&gt; datasheet sources, etc. I don&#39;t yet see any documentation<br>
-<br>
-We usually refer the datasheet in the implementation header, see:<br>
-<br>
-$ git grep -F .pdf hw/ | wc -l<br>
-62<br>
-<br>
-You can cite the datasheet globally in hw/arm/allwinner-h3.c, and then <br>
-the particular chapters or source files in the other hw/*/allwinner-* files=
-.<br>
-<br>
-&gt;=C2=A0 =C2=A0=C2=A0 for the other boards in the source. In my opinion, =
-it is important <br>
-&gt; to keep that information somewhere, such that also in the future<br>
-&gt;=C2=A0 =C2=A0=C2=A0 the boards can still be properly maintained. Can I =
-/ shall I place a <br>
-&gt; new file like ./docs/hw/arm/orangepi.txt for that?<br>
-<br>
-See docs/microvm.rst which is a recent example of machine documentation,<br=
->
-the obvious name is docs/orangepi.rst.<br>
-<br></blockquote><div>Ah great, that is very helpful! I will use the microv=
-m.rst as example and</div><div>add a new file docs/orangepi.rst to document=
- the board.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
-Maybe refer to this file in hw/arm/orangepi.c header for completeness.<br>
-<br>
-&gt;=C2=A0 =C2=A02) Is is allowed / encouraged to provide Doxygen-style com=
-ments in the <br>
-&gt; header files in include/hw/*?<br>
-&gt;=C2=A0 =C2=A0=C2=A0 I see that some of the API&#39;s have that, but the=
- boards and devices <br>
-&gt; mostly are free of Doxygen-style comments.<br>
-&gt;=C2=A0 =C2=A0=C2=A0 It takes some work, but I think it can really help =
-to give more <br>
-&gt; insight / background info on how things are working<br>
-&gt;=C2=A0 =C2=A0=C2=A0 for the devices and boards. But if it&#39;s not pre=
-ferred for QEMU, I&#39;m <br>
-&gt; fine with that as well.<br>
-<br>
-Documentation is certainly welcome!<br>
-<br>
-There are 2 different schools over the codebase, one that document the <br>
-declarations, and another that documents the implementation/definition.<br>
-<br>
-I personally prefer to document the headers, which is where I look when <br=
->
-I want to consume an API.<br>
-The implementation school says this can lead to documentation getting <br>
-outdated.<br>
-<br>
-So if you are willing to document, I&#39;d suggest to document your <br>
-include/hw/ files.<br></blockquote><div><br></div><div>OK, thanks for clari=
-fying! Yes, I also prefer to have it in the header files, it</div><div>make=
-s the most sense indeed.<br></div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-<br>
-Happy new year!<br></blockquote><div><br></div><div>And happy new year to y=
-ou as well Philippe!</div><div><br></div><div>Regards,</div><div>Niek<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Phil.<br>
-<br>
-&gt; On Mon, Dec 30, 2019 at 9:10 PM Niek Linnenbank <br>
-&gt; &lt;<a href=3D"mailto:nieklinnenbank@gmail.com" target=3D"_blank">niek=
-linnenbank@gmail.com</a> &lt;mailto:<a href=3D"mailto:nieklinnenbank@gmail.=
-com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Mon, Dec 30, 2019 at 3:56 PM Philippe Mathieu-Da=
-ud=C3=A9<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:philmd@redhat.com" target=3D"=
-_blank">philmd@redhat.com</a> &lt;mailto:<a href=3D"mailto:philmd@redhat.co=
-m" target=3D"_blank">philmd@redhat.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On 12/30/19 12:28 PM, Niek Linnenbank=
- wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; Hi,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; Here a short status report of t=
-his patch series.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Good idea!<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; For V3 update I already prepare=
-d the following:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0- reworked all revi=
-ew comments from Philippe, except:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0=C2=A0 - patch#8: q=
-uestion for the SID, whether command-line<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0override is<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; required (and how is the best w=
-ay for machine-specific cli<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arg?) [1]<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Answered recently.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Thanks!<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; - added BootROM support, allows=
- booting with only specifying<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-sd &lt;IMG&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; - added SDRAM controller driver=
-, for U-Boot SPL<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; - added Allwinner generic RTC d=
-river (for both Cubieboard and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0OrangePi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; PC, supports sun4i, sun6i, sun7=
-i)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; - small fixes for EMAC<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; My current TODO:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0- integrate Philips=
- acceptance tests in the series<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0You can queue them in your series, ad=
-ding your Signed-off-by tag<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0after<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mine. See:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.kernel.org/doc=
-/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s=
--certificate-of-origin" rel=3D"noreferrer" target=3D"_blank">https://www.ke=
-rnel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the=
--developer-s-certificate-of-origin</a><br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The sign-off is a simpl=
-e line at the end of the explanation<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0patch, which certifies that you wrote=
- it or otherwise have the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0right to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pass it on as an open-source patch.<b=
-r>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0See point (c).<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Ah that certainly helps. I&#39;ll read that page.<b=
-r>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0- integrate Philips=
- work for generalizing the Allwinner<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0timer, and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; finish it<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0We can also do that later, and get yo=
-ur work merged first.<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Ok that sounds very good! Agreed, lets do the timer=
- work later.<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0- test and fix BSD =
-targets (NetBSD, FreeBSD) [2, 3]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0- further generaliz=
-e the series to cover very similar SoCs:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0H2+, H5<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; Does anyone have more comments/=
-requests for the V3 update?<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; [1]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.gnu.org/arch=
-ive/html/qemu-devel/2019-12/msg04049.html" rel=3D"noreferrer" target=3D"_bl=
-ank">https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg04049.html</a=
-><br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; [2] <a href=3D"https://wiki.net=
-bsd.org/ports/evbarm/allwinner/" rel=3D"noreferrer" target=3D"_blank">https=
-://wiki.netbsd.org/ports/evbarm/allwinner/</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; [3]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://wiki.freebsd.org/a=
-ction/show/arm/Allwinner?action=3Dshow&amp;redirect=3DFreeBSD%2Farm%2FAllwi=
-nner" rel=3D"noreferrer" target=3D"_blank">https://wiki.freebsd.org/action/=
-show/arm/Allwinner?action=3Dshow&amp;redirect=3DFreeBSD%2Farm%2FAllwinner</=
-a><br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0-- <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Niek Linnenbank<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; -- <br>
-&gt; Niek Linnenbank<br>
-&gt; <br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
+-----BEGIN PGP SIGNATURE-----
 
---000000000000679261059b2f67d5--
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4OiHEACgkQbDjKyiDZ
+s5L9Eg//R1C2dNKhfH2GFn+leb4gK4DF/u/LMODgWb1kVLmO3GY3IZvr5xBx5/OJ
+5XCAgxTdx6T7weySgjKzBIZM4k41eiFC6wYenv56A6HddwjZA2kNmKZRC2g4K0A3
+Wpx45iVLWJa3BEibVYv5JDq5TA+IsQeSKTE0SFpZYjBndv3MRebCyRIaN14TRiIK
+kYgxJSaKoZD+S+1ZPoS80tZOT/yTbLM7Gf81gEw0xf9G21N5YjOwBXqNn4O8uvS1
+tyj1rWYilkH5WClIozA3FrOt3KYA22UJIvaVUJZ8AYuH+9xJuOW8cDicmTu9sSyB
+e02sZRPrCiveskEqmzwN9v6Xy0kL/XRm/q0eSdf1QTobAegB3U8wV0Y1H25d+KDu
+lGcO0mbani0a2QSzaAPme2b7nQM574l9y8nzurDyx/ARXHL6oWzJ+58ePru9mIs3
+LiYssUddCuiO5W92ySJ54h5NbDU5Ur7P/wxs+gzTB50cbzdZF6QuLzRnA+Wr3Tyg
+eX3OHSTmyjsz985HhOPix5bs/H2BGuhMIN0JcouGTR5LHza38KMUf8duwJ+BURwK
+8ZsW0s6u7u0mE1SXocUjDihh3CWNMaGz3O/bWetePelhsfS61MYmiCdj5tH2PXba
+YNVvDdbdhN0/CxcB2PJVlBDCOBd0sZ7QiHTiKxm70UkqhMDvzsI=
+=MyAK
+-----END PGP SIGNATURE-----
+
+--GoZzJvFfKjxI3RhA--
 
