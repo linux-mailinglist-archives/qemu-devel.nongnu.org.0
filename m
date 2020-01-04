@@ -2,51 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B092A130190
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jan 2020 10:13:16 +0100 (CET)
-Received: from localhost ([::1]:60830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11437130208
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Jan 2020 12:24:26 +0100 (CET)
+Received: from localhost ([::1]:33256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1infUh-00038F-EB
-	for lists+qemu-devel@lfdr.de; Sat, 04 Jan 2020 04:13:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
+	id 1inhXb-0007ou-LI
+	for lists+qemu-devel@lfdr.de; Sat, 04 Jan 2020 06:24:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51321)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <volker.ruemelin@t-online.de>) id 1infTC-0001qR-5o
- for qemu-devel@nongnu.org; Sat, 04 Jan 2020 04:11:43 -0500
+ (envelope-from <philmd@redhat.com>) id 1inhWk-0007Jr-8U
+ for qemu-devel@nongnu.org; Sat, 04 Jan 2020 06:23:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <volker.ruemelin@t-online.de>) id 1infTA-0007TL-R2
- for qemu-devel@nongnu.org; Sat, 04 Jan 2020 04:11:42 -0500
-Received: from mailout12.t-online.de ([194.25.134.22]:33140)
+ (envelope-from <philmd@redhat.com>) id 1inhWh-0007wF-8Y
+ for qemu-devel@nongnu.org; Sat, 04 Jan 2020 06:23:28 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35084
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <volker.ruemelin@t-online.de>)
- id 1infTA-0007NT-Jc
- for qemu-devel@nongnu.org; Sat, 04 Jan 2020 04:11:40 -0500
-Received: from fwd21.aul.t-online.de (fwd21.aul.t-online.de [172.20.27.66])
- by mailout12.t-online.de (Postfix) with SMTP id 30B6A41E652F;
- Sat,  4 Jan 2020 10:11:39 +0100 (CET)
-Received: from linpower.localnet
- (EZWeFBZfghF69dEMnIqJRorvOHbAgVQGZh4eOH2FBL4NRM7JDnFHVw+xIron87bgSS@[46.86.52.107])
- by fwd21.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1infT2-0fp5CC0; Sat, 4 Jan 2020 10:11:32 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 2723E202791; Sat,  4 Jan 2020 10:11:22 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 5/5] paaudio: wait until the recording stream is ready
-Date: Sat,  4 Jan 2020 10:11:22 +0100
-Message-Id: <20200104091122.13971-5-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <07d61da6-51fb-8599-ea27-dae828fbdb3c@t-online.de>
-References: <07d61da6-51fb-8599-ea27-dae828fbdb3c@t-online.de>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1inhWh-0007ql-1F
+ for qemu-devel@nongnu.org; Sat, 04 Jan 2020 06:23:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578137000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cqSrU+fcykwBhVx5ExH3a7Abr8AUvuKrBkpk9Iqj318=;
+ b=dMEtyPH+nU6tPpnPRXDPFU1hip25oX/7ltRcwY/qFFFlfhyHMRbtOlYIn1R9GQpLabk5xZ
+ /ONHGBr+e9Yf9b+xjMXydZJD/x7MQmadWw0vDQJkt1LrBVj7gkUz2DCNBabZ7+5B68xwRP
+ wZwj4kzR72YICxuqR9P2Hydvw373JYo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-V3ZKky1QN-2vWr_M_bPA7A-1; Sat, 04 Jan 2020 06:23:17 -0500
+Received: by mail-wr1-f71.google.com with SMTP id w6so23155453wrm.16
+ for <qemu-devel@nongnu.org>; Sat, 04 Jan 2020 03:23:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PEXjquDI4DL/1zHLv/GjuOu0r/0418IZfnZPM32Rwso=;
+ b=JtWQ3aqmWkYP7yzApkHtEIkHcUMHoylrRwXDu0rPVKuqxfoCUMOoQwQfYyiQ+4CLL3
+ Fn90IU6T04ptkqTeOAeBWRL9UmMr4Zq43SnwTJAf4z/EXqRVHpVOwHsCNitoLWU9mu9C
+ 38CFL+UYorb1AUpw+CHpYcwJO6K/36uS1eWnaKTFA3Sis8bg62uNTsFBR261A3/sBomi
+ s2qICoEfRqbwZBEXUzgmsZfu/Hooh6I1+Qn9RsX9FJeLAF9hICrFDUYX4tJzCRYDL3jV
+ GvrrueOey1HMJxXozvKwjZxydxnqJXVPNdaGRVKZr3Xwu8IW+9wg5x9GX1PmSZd1aX23
+ yYXA==
+X-Gm-Message-State: APjAAAX31NF53eL+o282b1I/w0ryh2R6+XJqnlv+d7FWQuqPDT61dlzY
+ 6fvX7DV5otLTO6Tv4i4rgoXBvHVLvRubMapJ/4w4J2J0xbyGec5VWAXe84SXWAWgNbSs1rYS5ch
+ PNpbZQuBQ2rjRafU=
+X-Received: by 2002:a1c:f30e:: with SMTP id q14mr24469354wmq.65.1578136996433; 
+ Sat, 04 Jan 2020 03:23:16 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz+4shmDHJsNde4gQJhWD3/1gXbiPfM6X26ciDa70CRh1bWEq2uISDrwzrJwav6siZOedMCjA==
+X-Received: by 2002:a1c:f30e:: with SMTP id q14mr24469334wmq.65.1578136996158; 
+ Sat, 04 Jan 2020 03:23:16 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id o7sm15172766wmh.11.2020.01.04.03.23.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Jan 2020 03:23:15 -0800 (PST)
+Subject: Re: [PATCH 1/3] capstone: Update to next
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+References: <20200103212500.14384-1-richard.henderson@linaro.org>
+ <20200103212500.14384-2-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7433d1e5-28af-caa6-1565-6d8a02b8793f@redhat.com>
+Date: Sat, 4 Jan 2020 12:23:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-ID: EZWeFBZfghF69dEMnIqJRorvOHbAgVQGZh4eOH2FBL4NRM7JDnFHVw+xIron87bgSS
-X-TOI-MSGID: adab2745-9ac0-43f4-9e76-d06ad377268a
+In-Reply-To: <20200103212500.14384-2-richard.henderson@linaro.org>
+Content-Language: en-US
+X-MC-Unique: V3ZKky1QN-2vWr_M_bPA7A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 194.25.134.22
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,66 +92,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?q?Zolt=C3=A1n=20K=C5=91v=C3=A1g=C3=B3?= <dirty.ice.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't call pa_stream_peek before the recording stream is ready.
+On 1/3/20 10:24 PM, Richard Henderson wrote:
+> Update to aaffb38c44fa.  Choose this over the "current" 4.0.1 tag
+> because next now includes the s390x z13 vector opcodes, and also
+> the insn tables are now read-only.
+>=20
 
-Information to reproduce the problem.
+As Thomas suggested,
+Fixes: https://bugs.launchpad.net/qemu/+bug/1826175
 
-Start and stop Audacity in the guest several times because the
-problem is racy.
+With GCC on Linux:
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-libvirt log file:
--audiodev pa,id=3Daudio0,server=3Dlocalhost,out.latency=3D30000,
- out.mixing-engine=3Doff,in.mixing-engine=3Doff \
--sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,
- resourcecontrol=3Ddeny \
--msg timestamp=3Don
-: Domain id=3D4 is tainted: custom-argv
-char device redirected to /dev/pts/1 (label charserial0)
-audio: Device pcspk: audiodev default parameter is deprecated,
- please specify audiodev=3Daudio0
-audio: Device hda: audiodev default parameter is deprecated,
- please specify audiodev=3Daudio0
-pulseaudio: pa_stream_peek failed
-pulseaudio: Reason: Bad state
-pulseaudio: pa_stream_peek failed
-pulseaudio: Reason: Bad state
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   Makefile  | 1 +
+>   capstone  | 2 +-
+>   configure | 2 +-
+>   3 files changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Makefile b/Makefile
+> index 6b5ad1121b..12e129ac9d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -499,6 +499,7 @@ dtc/%: .git-submodule-status
+>   # Remove all the extra -Warning flags that QEMU uses that Capstone does=
+n't;
+>   # no need to annoy QEMU developers with such things.
+>   CAP_CFLAGS =3D $(patsubst -W%,,$(CFLAGS) $(QEMU_CFLAGS))
+> +CAP_CFLAGS +=3D -I$(SRC_PATH)/capstone/include
+>   CAP_CFLAGS +=3D -DCAPSTONE_USE_SYS_DYN_MEM
+>   CAP_CFLAGS +=3D -DCAPSTONE_HAS_ARM
+>   CAP_CFLAGS +=3D -DCAPSTONE_HAS_ARM64
+> diff --git a/capstone b/capstone
+> index 22ead3e0bf..aaffb38c44 160000
+> --- a/capstone
+> +++ b/capstone
+> @@ -1 +1 @@
+> -Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
+> +Subproject commit aaffb38c44fa58f510ba9b6264f7079bfbba4c8e
 
-Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
----
- audio/paaudio.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Looking at https://github.com/aquynh/capstone/pull/1549, this is=20
+unfortunate the upstream project use the 'squash merge request' feature :(
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index b23274550e..dbfe48c03a 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -162,6 +162,10 @@ static size_t qpa_read(HWVoiceIn *hw, void *data, si=
-ze_t length)
-=20
-     CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
-                     "pa_threaded_mainloop_lock failed\n");
-+    if (pa_stream_get_state(p->stream) !=3D PA_STREAM_READY) {
-+        /* wait for stream to become ready */
-+        goto unlock;
-+    }
-=20
-     while (total < length) {
-         size_t l;
-@@ -191,6 +195,7 @@ static size_t qpa_read(HWVoiceIn *hw, void *data, siz=
-e_t length)
-         }
-     }
-=20
-+unlock:
-     pa_threaded_mainloop_unlock(c->mainloop);
-     return total;
-=20
---=20
-2.16.4
+Since I already reviewed various of the 1589 patches in the earlier=20
+version of this patch (22ead3e0bf..418d36d695) I'll only focus on the=20
+291 'squashed' commits added on top:
+
+   $ git log --oneline 418d36d695..aaffb38c44|wc -l
+   291
+
+Most of the commits contains a single line of description, and various=20
+of them have hundreds of lines of changes.
+
+Similarly to my previous review, I skipped the architecture we don't=20
+support and X86. Still to many ARM/Aarch64 patches to review, so I'm=20
+focusing on the buildsys and changes on the API we use:
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> diff --git a/configure b/configure
+> index 940bf9e87a..de96bfe017 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5062,7 +5062,7 @@ case "$capstone" in
+>         git_submodules=3D"${git_submodules} capstone"
+>       fi
+>       mkdir -p capstone
+> -    QEMU_CFLAGS=3D"$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
+> +    QEMU_CFLAGS=3D"$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include/capstone=
+"
+>       if test "$mingw32" =3D "yes"; then
+>         LIBCAPSTONE=3Dcapstone.lib
+>       else
+>=20
 
 
