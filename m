@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63ACF130839
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:17:54 +0100 (CET)
-Received: from localhost ([::1]:42074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25184130845
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:25:17 +0100 (CET)
+Received: from localhost ([::1]:42234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1io5my-0007kV-Pa
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:17:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58625)
+	id 1io5u8-0007Of-80
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:25:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58720)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1io5Vj-0003jy-2O
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:04 -0500
+ (envelope-from <mst@redhat.com>) id 1io5Vu-0003yb-LE
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1io5Vh-0005HE-Nb
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:02 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23445
+ (envelope-from <mst@redhat.com>) id 1io5Vt-0005Ru-EF
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:14 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50057
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5Vh-0005GZ-Gl
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:01 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5Vt-0005Rd-AN
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578229201;
+ s=mimecast20190719; t=1578229212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BgmNsnDUrIKv5qIqtQ+hIbBMXsq7KvX1kSU3ybRDZeQ=;
- b=RciQZePOm70DAm57Ot+NWxHWOMKeZjivap2a9gw2AWerHZzMRAbSoxpLMgIPkx0ugLiR12
- vPOhgBpnrLotab4Rok1aM8j464BWgmN1C7QgqmtIPC4lRrTSXYDkBFGolB51ByzRWshKIS
- 81PZWIPaceCpUNjTPFFvh+/8eygw0s0=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-jw3MDuN8OFuZnxySen45cw-1; Sun, 05 Jan 2020 07:59:59 -0500
-Received: by mail-qv1-f69.google.com with SMTP id j10so2759180qvi.1
- for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:59:59 -0800 (PST)
+ bh=s9CW2f1wTLCUXOOV0nNq1e86u0ryEb/Y8cd2jez9DrU=;
+ b=adeg4H9fCNd9GFf5q42EKg/OdcN3yfY4muJAHf1zG2nH9aBrKbN3T6KzfMaAapjasStNAR
+ BEQFtc2IB8ojB1KJ5HFtstxtCSc7EqkPth//Qrv0TG68jw15Dwi+B5EuExaggDRKEsRRqL
+ xmECrj0p67djJMaaR6DhyHd90hjrgKY=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-CFWs4czvNCC8Nve4bMLopg-1; Sun, 05 Jan 2020 08:00:07 -0500
+Received: by mail-qt1-f199.google.com with SMTP id e37so32589460qtk.7
+ for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 05:00:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tdoWlLoYwJDJiT74CT7GYIP+izHUlkgXXi1RbTtf6v8=;
- b=CoHqpNhrCqzo8ugyK0eCbPAQZP6MM+53yJwHM8RB1TiEeqhwLrMeHUYtgGiz4Pp0xN
- KI2o/D0DCEZ+5AkE5qfruhm1ExHA9rlM8i9x0HSC0+K8LNNyuNF5f3+rgp4H/CaJurv1
- NKyydIYOMlJJO9chWSDbzQWeSa91D8VLcKRNl5Zev7nSrKapToFNfaVLPHbXwQI4nD5h
- +EBs/epW2+rhYq8bsk9pIkAaFbYOM3SlcmqA6K7hNS8on3pqlSd/3Qf90ISrrjDvApY2
- Xs9EfPupGTHdC6JstbVKW8+dBJ7HeRJcMxBDlb3DFWgcBLr7kbHGH0MaTyASTKQ489Q7
- xckg==
-X-Gm-Message-State: APjAAAXdQWTizB0fyqo+7Iv6n81c12L0w+4erTsuu9c0HqsYhS7yov4M
- hPRA48mpIUdORW8jVESeJD4H1ckUsioAJb7UpQRjkaz7XLvHnnzdrNSKOKITXLsW3xa6yQr5L2m
- 3F2HjSpcorhdM2U0=
-X-Received: by 2002:a37:6cc1:: with SMTP id h184mr77141179qkc.96.1578229198623; 
- Sun, 05 Jan 2020 04:59:58 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwpj+KnaJfccbiF/CfsiYRydssjgq27XCEF2rQy1KfGYj6TbF1wmVWRF/GMaFw3zhUFUfoF+Q==
-X-Received: by 2002:a37:6cc1:: with SMTP id h184mr77141168qkc.96.1578229198396; 
- Sun, 05 Jan 2020 04:59:58 -0800 (PST)
+ bh=pNIx/NiIdCE26OJhITv4+Fn8KZTuaXrKqh88qEn+vzc=;
+ b=rCzX4CMQjz8gu9qd8R/tLwXsI/TI0z/07Z5WYu/xpBBB5dpQRZHXmQ/zuTT5L4nwWM
+ Zvf/wFlgZWSvu/zPrN42jKZdtPWUK/82m1E1BKcC8p+RV+6NQppvXcFC66HieAfIFc0S
+ iW0Jeo7IFKu1K4uyaUKdCfJ7xNbV5o+Axt40RRi+wzf0iqCoxmjlAKnIey6Htzm6GBIT
+ h3sBclruYPfVHvLfSLLsi+cX+VIkcGTIFBM4AWFiuTw8kt7pTZas2beOG2hJ8mfFiX+n
+ AMbcw6uxxI8DJBI8kd6czAaYEjKFeAof4j/SUR2eB8+8rN5zi8S2cCFnDK6AFuHcTRye
+ Vv7g==
+X-Gm-Message-State: APjAAAXB+mXXr6n/m6w0Hstz0yjgggQWdU604mu4GA+/mgqfQnKN7o7Y
+ kRmJ4bJh4Oz85VNK+sp5iaGmlqXBzzblZyyoFT/QXktU7KhvxAthPY2MScAPlEKk83aHYETvT1u
+ qOyRYMzym3VzLtb4=
+X-Received: by 2002:aed:2a87:: with SMTP id t7mr59400344qtd.384.1578229205355; 
+ Sun, 05 Jan 2020 05:00:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwzmhbBoRU0CKNJ7Jwdq4kaoke+znnw9ZVMiFTafmdUCOiILtGzMv9d8B6A27Lcb5YPRoeVeA==
+X-Received: by 2002:aed:2a87:: with SMTP id t7mr59400328qtd.384.1578229205200; 
+ Sun, 05 Jan 2020 05:00:05 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id t29sm18626355qkm.27.2020.01.05.04.59.56
+ by smtp.gmail.com with ESMTPSA id y18sm19181850qki.0.2020.01.05.05.00.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jan 2020 04:59:57 -0800 (PST)
-Date: Sun, 5 Jan 2020 07:59:53 -0500
+ Sun, 05 Jan 2020 05:00:04 -0800 (PST)
+Date: Sun, 5 Jan 2020 07:59:59 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 30/32] virtio-net: delete also control queue when TX/RX
- deleted
-Message-ID: <20200105125622.27231-31-mst@redhat.com>
+Subject: [PULL v3 31/32] intel_iommu: a fix to vtd_find_as_from_bus_num()
+Message-ID: <20200105125622.27231-32-mst@redhat.com>
 References: <20200105125622.27231-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200105125622.27231-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: jw3MDuN8OFuZnxySen45cw-1
+X-MC-Unique: CFWs4czvNCC8Nve4bMLopg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,42 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-stable@nongnu.org, Yuri Benditovich <yuri.benditovich@daynix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Liu Yi L <yi.l.liu@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
+From: Liu Yi L <yi.l.liu@intel.com>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1708480
-If the control queue is not deleted together with TX/RX, it
-later will be ignored in freeing cache resources and hot
-unplug will not be completed.
+Ensure the return value of vtd_find_as_from_bus_num() is NULL by
+enforcing vtd_bus=3DNULL. This would help caller of vtd_find_as_from_bus_nu=
+m()
+to decide if any further operation on the returned vtd_bus.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Message-Id: <20191226043649.14481-3-yuri.benditovich@daynix.com>
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Yi Sun <yi.y.sun@linux.intel.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
+Message-Id: <1578058086-4288-2-git-send-email-yi.l.liu@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/i386/intel_iommu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index db3d7c38e6..f325440d01 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3101,7 +3101,8 @@ static void virtio_net_device_unrealize(DeviceState *=
-dev, Error **errp)
-     for (i =3D 0; i < max_queues; i++) {
-         virtio_net_del_queue(n, i);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index ee06993675..609b80750a 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -948,6 +948,7 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState=
+ *s, uint8_t bus_num)
+                 return vtd_bus;
+             }
+         }
++        vtd_bus =3D NULL;
      }
--
-+    /* delete also control vq */
-+    virtio_del_queue(vdev, max_queues * 2);
-     qemu_announce_timer_del(&n->announce_timer, false);
-     g_free(n->vqs);
-     qemu_del_nic(n->nic);
+     return vtd_bus;
+ }
 --=20
 MST
 
