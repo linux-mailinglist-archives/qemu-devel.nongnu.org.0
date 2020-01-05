@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BA413081A
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:06:26 +0100 (CET)
-Received: from localhost ([::1]:41910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D256F130820
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:08:51 +0100 (CET)
+Received: from localhost ([::1]:41944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1io5bt-0001HG-Hp
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:06:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58368)
+	id 1io5eE-00052B-KG
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:08:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58387)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1io5Uu-0002p4-EP
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:14 -0500
+ (envelope-from <mst@redhat.com>) id 1io5V0-0002x9-Ci
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1io5Ut-0004sy-8w
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:12 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50228
+ (envelope-from <mst@redhat.com>) id 1io5Uz-0004vb-6J
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:18 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36516
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5Ut-0004si-4b
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:11 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5Uz-0004vN-2d
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578229150;
+ s=mimecast20190719; t=1578229156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=75DSOPWG53BQMc2DQp8pZrGaf6WLAio2xZatEQc8yH4=;
- b=VAhh1MHtirf8mXwYD4GVOsRqRRy+5Mi8ZfkXggF+q1u9eUfREr62Uinhp/oVXnwt5lGsbw
- c8uvNuPn2V5EsR5YdI/4icIRMA4IIiF7JqM5UUvqG81FBmmtp9sX3wqeW2PG4GR0BeKOB2
- M7Ali3Jm32xloisxfm8jxAxHm9hEnpE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-6I7jbfCbN5eHIA-UCE-AHQ-1; Sun, 05 Jan 2020 07:59:08 -0500
-Received: by mail-qt1-f198.google.com with SMTP id e37so32588131qtk.7
- for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:59:08 -0800 (PST)
+ bh=WMQapAZoKHuzNu9Pp7IYAg1kGSgMFQ0zkXvOLbEXi5E=;
+ b=a6LKUFXil7qctonNy/5ckdrx8Sewp5aB2Q77jtKSmqHYtzhRhFiuNq6EsSL/70fR9tbJz/
+ VfyBm8DLQzB3zU182K++FYoL57knzngWh7GQyKlRz9Mwe+nA//q54IqjrEhQ54+eNuryUq
+ Gxyjn+LW1YHhSOtyM2R9WrCiLM4tvDc=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-lmckzrOGOF-dLzInhdXWRQ-1; Sun, 05 Jan 2020 07:59:13 -0500
+Received: by mail-qt1-f200.google.com with SMTP id x8so8877291qtq.14
+ for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:59:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ilfUa7pwbD2DsrhFhXRw/VkM07xbn4jtSmYjKOWR/YA=;
- b=p6xYuncH/hbr0R+z0woYbvLW+N0iewTdil0IcUaTm0ETeXG1tqEo0iq0KEDv99XyUc
- 780iePeU8skMLdLb13OZOrRLUdBTBUmKAiET2IE24H7J7qIhaxGSbObHhPLm/K2Z3Js9
- XjWp4tljyFZa5+el4DWjDZUITk6RCN8dQCHIlnjzUx54n/CBTAwrmL0G9ECFAzsjJ0nh
- eX9AG9j++qBA3Q5YXcned0ZLUg8e1m3EWu1DjjK0W2H8ZLwv0551pYnwdVuF03IEFQ93
- W6YM6HcGNDma3jNwRHLBBop4430i2+Q74xiMwjv+TP0znpHBONTsofXw9rrE2uxtAFUj
- 07aQ==
-X-Gm-Message-State: APjAAAWac45FgWG4ju46exloibZflR4Lzl12MUv63EzD0OL3Rk3M57QL
- L/yPqubhr2jcQHRdqqghXMQqeqsEsL0MQ6CX4CxV8TG8WHMFM61bofA4Y49hjHVNrCxyiUt/vNz
- inXeUDVVfkqh+f+M=
-X-Received: by 2002:a37:7d01:: with SMTP id y1mr80866506qkc.452.1578229148067; 
- Sun, 05 Jan 2020 04:59:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxGujOsx4NP+1CFXxupJzzlOJdssoaxV4zMCAx30PyZDzYQ+eYl2U+ZoxK6yr4TnqcirQvEng==
-X-Received: by 2002:a37:7d01:: with SMTP id y1mr80866496qkc.452.1578229147827; 
- Sun, 05 Jan 2020 04:59:07 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=kOPqzhUAAr1F9DHkT+R7bzvkT8C45cWHnUcu3/B6bq0=;
+ b=fNNwFmOLEUqdcN2Eln/ratQihuiiHXMw9TNUjs0yB1SZEcOY5aQkFWWDppedCc1RNb
+ Zhfb0Eh9h5R5IpZa0t+PAR4E3twqEwJ/NsfGI0IMaJVHc7id3Lpn8mBwuj1Er9ikDXaZ
+ JIvOQr0XgTHGuMwU+4iXd9A4148zrjq+Lgbb2MfuxM0oosulNlf/EuYtEDkUPhTSmUyn
+ 72epi+D7M3A4coqwM1IYd+Kuwl2kpM+S48y7hlNRRKC9In9hRJcaDi9n/iHqW/AlcdEa
+ WBvUqx/pRRojjqhyHLbnJSzQzwbNb7FRkMerLFKUCGi8gdqKU7KcOnZmIC0qs8Crk1pF
+ 2kSw==
+X-Gm-Message-State: APjAAAWNhxknfimk6nGCVGTYEzNlbbbMRSs7KjchtpERn2hDn5TsPUds
+ EnOsACbGmY2OwrZPMh/k7U3NOTbBgw+1KFIXzkLPeLK05qzrDzBdHu0eCM6J9Kski5IG44GBCk7
+ c8R++AKo8C0YENh4=
+X-Received: by 2002:ac8:410f:: with SMTP id q15mr71046061qtl.192.1578229152727; 
+ Sun, 05 Jan 2020 04:59:12 -0800 (PST)
+X-Google-Smtp-Source: APXvYqytPrZ3BXHjaiZtYcG36Pw+7AzrXNsb0T0z5iNf8O9aAHxyA0vEXx5CnlbC2xhDeGifiK+fvg==
+X-Received: by 2002:ac8:410f:: with SMTP id q15mr71046051qtl.192.1578229152544; 
+ Sun, 05 Jan 2020 04:59:12 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id w20sm21866786qtj.4.2020.01.05.04.59.05
+ by smtp.gmail.com with ESMTPSA id j185sm19255290qkc.96.2020.01.05.04.59.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jan 2020 04:59:07 -0800 (PST)
-Date: Sun, 5 Jan 2020 07:59:03 -0500
+ Sun, 05 Jan 2020 04:59:11 -0800 (PST)
+Date: Sun, 5 Jan 2020 07:59:08 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 20/32] virtio-mmio: Clear v2 transport state on soft reset
-Message-ID: <20200105125622.27231-21-mst@redhat.com>
+Subject: [PULL v3 21/32] hw/pci/pci_host: Remove redundant PCI_DPRINTF()
+Message-ID: <20200105125622.27231-22-mst@redhat.com>
 References: <20200105125622.27231-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200105125622.27231-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: 6I7jbfCbN5eHIA-UCE-AHQ-1
+X-MC-Unique: lmckzrOGOF-dLzInhdXWRQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,75 +89,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-At the moment when the guest writes a status of 0, we only reset the
-virtio core state but not the virtio-mmio state. The virtio-mmio
-specification says (v1.1 cs01, 4.2.2.1 Device Requirements:
-MMIO Device Register Layout):
+In commit 3bf4dfdd111 we introduced the pci_cfg_[read/write]
+trace events in pci_host_config_[read/write]_common().
+We have the following call trace:
 
-    Upon reset, the device MUST clear all bits in InterruptStatus and
-    ready bits in the QueueReady register for all queues in the device.
+  pci_host_data_[read/write]()
+    - PCI_DPRINTF()
+    - pci_data_[read/write]()
+        - PCI_DPRINTF()
+        - pci_host_config_[read/write]_common()
+            trace_pci_cfg_[read/write]()
 
-The core already takes care of InterruptStatus by clearing isr, but we
-still need to clear QueueReady.
+Since the PCI_DPRINTF() calls are redundant with the trace
+events, remove them.
 
-It would be tempting to clean all registers, but since the specification
-doesn't say anything more, guests could rely on the registers keeping
-their state across reset. Linux for example, relies on this for
-GuestPageSize in the legacy MMIO tranport.
-
-Fixes: 44e687a4d9ab ("virtio-mmio: implement modern (v2) personality (virti=
-o-1)")
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20191213095410.1516119-1-jean-philippe@linaro.org>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191216002134.18279-2-philmd@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mmio.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/pci/pci_host.c | 21 +++++----------------
+ 1 file changed, 5 insertions(+), 16 deletions(-)
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 94d934c44b..ef40b7a9b2 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -65,6 +65,19 @@ static void virtio_mmio_stop_ioeventfd(VirtIOMMIOProxy *=
-proxy)
-     virtio_bus_stop_ioeventfd(&proxy->bus);
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index c5f9244934..0958d157de 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -115,8 +115,6 @@ void pci_data_write(PCIBus *s, uint32_t addr, uint32_t =
+val, int len)
+         return;
+     }
+=20
+-    PCI_DPRINTF("%s: %s: addr=3D%02" PRIx32 " val=3D%08" PRIx32 " len=3D%d=
+\n",
+-                __func__, pci_dev->name, config_addr, val, len);
+     pci_host_config_write_common(pci_dev, config_addr, PCI_CONFIG_SPACE_SI=
+ZE,
+                                  val, len);
+ }
+@@ -125,18 +123,13 @@ uint32_t pci_data_read(PCIBus *s, uint32_t addr, int =
+len)
+ {
+     PCIDevice *pci_dev =3D pci_dev_find_by_addr(s, addr);
+     uint32_t config_addr =3D addr & (PCI_CONFIG_SPACE_SIZE - 1);
+-    uint32_t val;
+=20
+     if (!pci_dev) {
+         return ~0x0;
+     }
+=20
+-    val =3D pci_host_config_read_common(pci_dev, config_addr,
+-                                      PCI_CONFIG_SPACE_SIZE, len);
+-    PCI_DPRINTF("%s: %s: addr=3D%02"PRIx32" val=3D%08"PRIx32" len=3D%d\n",
+-                __func__, pci_dev->name, config_addr, val, len);
+-
+-    return val;
++    return pci_host_config_read_common(pci_dev, config_addr,
++                                       PCI_CONFIG_SPACE_SIZE, len);
  }
 =20
-+static void virtio_mmio_soft_reset(VirtIOMMIOProxy *proxy)
-+{
-+    int i;
-+
-+    if (proxy->legacy) {
-+        return;
-+    }
-+
-+    for (i =3D 0; i < VIRTIO_QUEUE_MAX; i++) {
-+        proxy->vqs[i].enabled =3D 0;
-+    }
-+}
-+
- static uint64_t virtio_mmio_read(void *opaque, hwaddr offset, unsigned siz=
-e)
+ static void pci_host_config_write(void *opaque, hwaddr addr,
+@@ -167,8 +160,7 @@ static void pci_host_data_write(void *opaque, hwaddr ad=
+dr,
+                                 uint64_t val, unsigned len)
  {
-     VirtIOMMIOProxy *proxy =3D (VirtIOMMIOProxy *)opaque;
-@@ -378,6 +391,7 @@ static void virtio_mmio_write(void *opaque, hwaddr offs=
-et, uint64_t value,
+     PCIHostState *s =3D opaque;
+-    PCI_DPRINTF("write addr " TARGET_FMT_plx " len %d val %x\n",
+-                addr, len, (unsigned)val);
++
+     if (s->config_reg & (1u << 31))
+         pci_data_write(s->bus, s->config_reg | (addr & 3), val, len);
+ }
+@@ -177,14 +169,11 @@ static uint64_t pci_host_data_read(void *opaque,
+                                    hwaddr addr, unsigned len)
+ {
+     PCIHostState *s =3D opaque;
+-    uint32_t val;
++
+     if (!(s->config_reg & (1U << 31))) {
+         return 0xffffffff;
+     }
+-    val =3D pci_data_read(s->bus, s->config_reg | (addr & 3), len);
+-    PCI_DPRINTF("read addr " TARGET_FMT_plx " len %d val %x\n",
+-                addr, len, val);
+-    return val;
++    return pci_data_read(s->bus, s->config_reg | (addr & 3), len);
+ }
 =20
-         if (vdev->status =3D=3D 0) {
-             virtio_reset(vdev);
-+            virtio_mmio_soft_reset(proxy);
-         }
-         break;
-     case VIRTIO_MMIO_QUEUE_DESC_LOW:
+ const MemoryRegionOps pci_host_conf_le_ops =3D {
 --=20
 MST
 
