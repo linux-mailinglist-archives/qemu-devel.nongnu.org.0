@@ -2,84 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232C413083A
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:18:19 +0100 (CET)
-Received: from localhost ([::1]:42086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA8913086D
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 15:41:02 +0100 (CET)
+Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1io5nN-0008V8-Vu
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:18:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58737)
+	id 1io75R-0003NG-4D
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 09:41:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1io5Vx-00042w-NM
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:19 -0500
+ (envelope-from <programmingkidx@gmail.com>) id 1io74N-0002eg-7k
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 09:39:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1io5Vw-0005TY-5m
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51030
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5Vw-0005TM-11
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578229215;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VvaA+Bcc2Gxeb7XmQhJgoMxxUrIKTcdYM4rBXSKaGgM=;
- b=VOtSxsZpO1BoD5HEBi3+gueKbrW20FWxrgY7vzlNOeGHK2/7kmB7GC4Qkgo0ZSZf3dN9q1
- 1UOXgVGx5WWv8VSrrs/4lhR5iSOyfB6R0H7vt35PDG+ZJxp2nWbpWdN9JJ/mLn0fPMWf4u
- YToD4sn7I7K18LyI8nvoK5X4w7d6IEY=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-BJ3nyWm0NYO_dGScZqZQYQ-1; Sun, 05 Jan 2020 08:00:12 -0500
-Received: by mail-qv1-f71.google.com with SMTP id v5so32900480qvn.21
- for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 05:00:12 -0800 (PST)
+ (envelope-from <programmingkidx@gmail.com>) id 1io74M-0003Rx-6n
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 09:39:55 -0500
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:45573)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
+ id 1io74M-0003Rc-3E
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 09:39:54 -0500
+Received: by mail-yb1-xb44.google.com with SMTP id y67so11311288yba.12
+ for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 06:39:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:content-transfer-encoding:mime-version:subject:date:references
+ :to:in-reply-to:message-id;
+ bh=eKyfqDzWhpfm7QXDCSdlO2+Ap+fUv6gMHcwSqpgghRs=;
+ b=h0wdtwq06I+0vh7jkCDz8Q7L3y2xvh6rwIYTCLSraUb3G9Sg6Qq+QQ1/BbC5k9TBm6
+ otLDAoLVPmkMh5+cH2TgQ5FXqK6haoaQ3SFfsUH4g/WdZyBstcrcGK0lGiATWVgGl0W/
+ BxabrCY9zbVzFvMwfjm9LItx75G2LeMg5Xf1+4dVGogsxo+r09mOoRWeKueHbpWlf50S
+ hB6UEJZ0lFqirRoTab/MqhEWVLD/87kdOgg8w2NJgWm7ApHk9K5oq0rwFE7sshMprHI2
+ gxnrTj2k7iXSrgcdwi23oaH3Sb6HpPmJgHZMtST6VFs6zGvxGjvB4JEPZOpeQU1y28Rb
+ FDGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=aNLKl1oKPF+kDyM8hwhwxdKmZvFLTYfwlNBJlJeT2zg=;
- b=UqqEX3AR2K9ROaiJYNFhXo49ef6hGNrDa9ygWNjVVlWKFgpJXWnc9dajZRBTnYcn25
- og7MByccklhn2TruuDCsaSQeTZX7o2MFByVur3W6yWG8HZZDaLt/VE/fk7M/WtEEaYUo
- Y0HavswsBPdPf/DqQpMhv+tUlTYWV/OlqCrcX7QISBlN+Jmn3JjBTd4Z5SVO4HTfF8o1
- DFmA+0YwxVipW7FYnrE60f6viTmJ/GSDwFq68uDpIGD1zhgR/NVwPWgBwEQNlcz7b3ox
- x3FES+JZSAth115DwFIh6nhBl29XKG3RjHv413yrVna1L5RLOlAH3jsoPhbAlkce06iu
- LqLA==
-X-Gm-Message-State: APjAAAUkXIpC4D0LGZ1/ghojBfrszPE2p6vf/IiSe4//N+qYuCydWUs/
- 00Un32aUfy8KkoGY4EflgcdJzcMotIIhrjPaK0HPMjNHlmTonZD6IPOBpNpW6RxZN84C6wxyPQs
- 1mBcbIy0Gt3Mvm2w=
-X-Received: by 2002:a05:6214:1772:: with SMTP id
- et18mr39343901qvb.154.1578229211856; 
- Sun, 05 Jan 2020 05:00:11 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwMKh8VtuZnkWcWHJLEF8OmGmsU0HxtpqN5DQIXpP8bDy+Hffc5juG13QqEpIkYS1AsMLQBUw==
-X-Received: by 2002:a05:6214:1772:: with SMTP id
- et18mr39343872qvb.154.1578229211561; 
- Sun, 05 Jan 2020 05:00:11 -0800 (PST)
-Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id q25sm19415327qkq.88.2020.01.05.05.00.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jan 2020 05:00:10 -0800 (PST)
-Date: Sun, 5 Jan 2020 08:00:05 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v3 32/32] intel_iommu: add present bit check for pasid table
- entries
-Message-ID: <20200105125622.27231-33-mst@redhat.com>
-References: <20200105125622.27231-1-mst@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20200105125622.27231-1-mst@redhat.com>
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-MC-Unique: BJ3nyWm0NYO_dGScZqZQYQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+ h=x-gm-message-state:from:content-transfer-encoding:mime-version
+ :subject:date:references:to:in-reply-to:message-id;
+ bh=eKyfqDzWhpfm7QXDCSdlO2+Ap+fUv6gMHcwSqpgghRs=;
+ b=WmJ7M9r195YHHxSektdJeXPU7qotLdzQSMnr+LW2k8jIgyaKSRLyOw7wZCQ6cB6Nxk
+ tGm3UcU2hp47F4bEQfIGdGuAYZBbaWlbi6fSrPDJqcrCGHqekaTw5yd/TH+5gAdGue2s
+ 0jRlhUDJ0HlwTKBH/hDletphnvlrV7HKV8xDrQYVVj72AE5l3XwoXMvpyuC7dqj6OL/k
+ DlubU8eopT9B4GsK4ZSD3yTXgK7LEUJvF+mxRcTD/bUt7M3cluql+ZdEFrjWZKZVCjqh
+ 0j2LYeOndpcY3vbmbkRBtrPJby6y+DkWeVtTubz8mOPMQaPRJExyZ61MxTRGVSPjNBGV
+ cKDA==
+X-Gm-Message-State: APjAAAWn7MINr5PkVYfGGDUN4il/rX4BR9nKXNEssWTxNcsifJ7lv0mu
+ eeMjnowatOwKIZC+UW5b+y+U6+tW
+X-Google-Smtp-Source: APXvYqyRjQPdTmdxJg3vnJaziJqgy80m/6PooZOaht5cCX+/rxaLDrA4y8lROEunHn/NdHPWWVTWCA==
+X-Received: by 2002:a25:c514:: with SMTP id v20mr74089927ybe.293.1578235193204; 
+ Sun, 05 Jan 2020 06:39:53 -0800 (PST)
+Received: from [192.168.0.2] (d14-69-20-184.try.wideopenwest.com.
+ [69.14.184.20])
+ by smtp.gmail.com with ESMTPSA id t3sm25847250ywi.18.2020.01.05.06.39.52
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 05 Jan 2020 06:39:52 -0800 (PST)
+From: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [PATCH v2] Implement the Screamer sound chip for the mac99
+ machine type
+Date: Sun, 5 Jan 2020 09:39:51 -0500
+References: <43D423C6-78D4-4DCE-B97C-0658D3D2E3BD@gmail.com>
+To: qemu Developers <qemu-devel@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>,
+ =?utf-8?Q?Zolt=C3=A1n?= <dirty.ice.hu@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <43D423C6-78D4-4DCE-B97C-0658D3D2E3BD@gmail.com>
+Message-Id: <F5A6AB85-8A07-411C-9E45-776D13BADCA8@gmail.com>
+X-Mailer: Apple Mail (2.3273)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::b44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,211 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
- Peter Xu <peterx@redhat.com>, Liu Yi L <yi.l.liu@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
 
-The present bit check for pasid entry (pe) and pasid directory
-entry (pdire) were missed in previous commits as fpd bit check
-doesn't require present bit as "Set". This patch adds the present
-bit check for callers which wants to get a valid pe/pdire.
+> On Jan 4, 2020, at 8:58 PM, Programmingkid <programmingkidx@gmail.com> =
+wrote:
+>=20
+> I found the patch that breaks Screamer sound support for =
+qemu-system-ppc. It is this:
+>=20
+> commit 2ceb8240fa4e4e30fb853565eb2bed3032d74f62
+> Author: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
+> Date:   Thu Sep 19 23:24:11 2019 +0200
+>=20
+>    coreaudio: port to the new audio backend api
+>=20
+>    Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n =
+<DirtY.iCE.hu@gmail.com>
+>    Message-id: =
+586a1e66de5cbc6c5234f9ae556d24befb6afada.1568927990.git.DirtY.iCE.hu@gmail=
+.com
+>    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>=20
+>=20
+> Reversing this patch should make the Screamer patch work with the =
+current git version of QEMU.
 
-Cc: qemu-stable@nongnu.org
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Message-Id: <1578058086-4288-3-git-send-email-yi.l.liu@intel.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/i386/intel_iommu_internal.h |  1 +
- hw/i386/intel_iommu.c          | 92 +++++++++++++++++++++++++++-------
- 2 files changed, 74 insertions(+), 19 deletions(-)
+@Peter Maydell
 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.=
-h
-index edcf9fc9bb..862033ebe6 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -479,6 +479,7 @@ typedef struct VTDRootEntry VTDRootEntry;
- #define VTD_PASID_ENTRY_FPD           (1ULL << 1) /* Fault Processing Disa=
-ble */
-=20
- /* PASID Granular Translation Type Mask */
-+#define VTD_PASID_ENTRY_P              1ULL
- #define VTD_SM_PASID_ENTRY_PGTT        (7ULL << 6)
- #define VTD_SM_PASID_ENTRY_FLT         (1ULL << 6)
- #define VTD_SM_PASID_ENTRY_SLT         (2ULL << 6)
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 609b80750a..a523ef0e65 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -686,9 +686,18 @@ static inline bool vtd_pe_type_check(X86IOMMUState *x8=
-6_iommu,
-     return true;
- }
-=20
--static int vtd_get_pasid_dire(dma_addr_t pasid_dir_base,
--                              uint32_t pasid,
--                              VTDPASIDDirEntry *pdire)
-+static inline bool vtd_pdire_present(VTDPASIDDirEntry *pdire)
-+{
-+    return pdire->val & 1;
-+}
-+
-+/**
-+ * Caller of this function should check present bit if wants
-+ * to use pdir entry for futher usage except for fpd bit check.
-+ */
-+static int vtd_get_pdire_from_pdir_table(dma_addr_t pasid_dir_base,
-+                                         uint32_t pasid,
-+                                         VTDPASIDDirEntry *pdire)
- {
-     uint32_t index;
-     dma_addr_t addr, entry_size;
-@@ -703,18 +712,22 @@ static int vtd_get_pasid_dire(dma_addr_t pasid_dir_ba=
-se,
-     return 0;
- }
-=20
--static int vtd_get_pasid_entry(IntelIOMMUState *s,
--                               uint32_t pasid,
--                               VTDPASIDDirEntry *pdire,
--                               VTDPASIDEntry *pe)
-+static inline bool vtd_pe_present(VTDPASIDEntry *pe)
-+{
-+    return pe->val[0] & VTD_PASID_ENTRY_P;
-+}
-+
-+static int vtd_get_pe_in_pasid_leaf_table(IntelIOMMUState *s,
-+                                          uint32_t pasid,
-+                                          dma_addr_t addr,
-+                                          VTDPASIDEntry *pe)
- {
-     uint32_t index;
--    dma_addr_t addr, entry_size;
-+    dma_addr_t entry_size;
-     X86IOMMUState *x86_iommu =3D X86_IOMMU_DEVICE(s);
-=20
-     index =3D VTD_PASID_TABLE_INDEX(pasid);
-     entry_size =3D VTD_PASID_ENTRY_SIZE;
--    addr =3D pdire->val & VTD_PASID_TABLE_BASE_ADDR_MASK;
-     addr =3D addr + index * entry_size;
-     if (dma_memory_read(&address_space_memory, addr, pe, entry_size)) {
-         return -VTD_FR_PASID_TABLE_INV;
-@@ -732,25 +745,54 @@ static int vtd_get_pasid_entry(IntelIOMMUState *s,
-     return 0;
- }
-=20
--static int vtd_get_pasid_entry_from_pasid(IntelIOMMUState *s,
--                                          dma_addr_t pasid_dir_base,
--                                          uint32_t pasid,
--                                          VTDPASIDEntry *pe)
-+/**
-+ * Caller of this function should check present bit if wants
-+ * to use pasid entry for futher usage except for fpd bit check.
-+ */
-+static int vtd_get_pe_from_pdire(IntelIOMMUState *s,
-+                                 uint32_t pasid,
-+                                 VTDPASIDDirEntry *pdire,
-+                                 VTDPASIDEntry *pe)
-+{
-+    dma_addr_t addr =3D pdire->val & VTD_PASID_TABLE_BASE_ADDR_MASK;
-+
-+    return vtd_get_pe_in_pasid_leaf_table(s, pasid, addr, pe);
-+}
-+
-+/**
-+ * This function gets a pasid entry from a specified pasid
-+ * table (includes dir and leaf table) with a specified pasid.
-+ * Sanity check should be done to ensure return a present
-+ * pasid entry to caller.
-+ */
-+static int vtd_get_pe_from_pasid_table(IntelIOMMUState *s,
-+                                       dma_addr_t pasid_dir_base,
-+                                       uint32_t pasid,
-+                                       VTDPASIDEntry *pe)
- {
-     int ret;
-     VTDPASIDDirEntry pdire;
-=20
--    ret =3D vtd_get_pasid_dire(pasid_dir_base, pasid, &pdire);
-+    ret =3D vtd_get_pdire_from_pdir_table(pasid_dir_base,
-+                                        pasid, &pdire);
-     if (ret) {
-         return ret;
-     }
-=20
--    ret =3D vtd_get_pasid_entry(s, pasid, &pdire, pe);
-+    if (!vtd_pdire_present(&pdire)) {
-+        return -VTD_FR_PASID_TABLE_INV;
-+    }
-+
-+    ret =3D vtd_get_pe_from_pdire(s, pasid, &pdire, pe);
-     if (ret) {
-         return ret;
-     }
-=20
--    return ret;
-+    if (!vtd_pe_present(pe)) {
-+        return -VTD_FR_PASID_TABLE_INV;
-+    }
-+
-+    return 0;
- }
-=20
- static int vtd_ce_get_rid2pasid_entry(IntelIOMMUState *s,
-@@ -763,7 +805,7 @@ static int vtd_ce_get_rid2pasid_entry(IntelIOMMUState *=
-s,
-=20
-     pasid =3D VTD_CE_GET_RID2PASID(ce);
-     pasid_dir_base =3D VTD_CE_GET_PASID_DIR_TABLE(ce);
--    ret =3D vtd_get_pasid_entry_from_pasid(s, pasid_dir_base, pasid, pe);
-+    ret =3D vtd_get_pe_from_pasid_table(s, pasid_dir_base, pasid, pe);
-=20
-     return ret;
- }
-@@ -781,7 +823,11 @@ static int vtd_ce_get_pasid_fpd(IntelIOMMUState *s,
-     pasid =3D VTD_CE_GET_RID2PASID(ce);
-     pasid_dir_base =3D VTD_CE_GET_PASID_DIR_TABLE(ce);
-=20
--    ret =3D vtd_get_pasid_dire(pasid_dir_base, pasid, &pdire);
-+    /*
-+     * No present bit check since fpd is meaningful even
-+     * if the present bit is clear.
-+     */
-+    ret =3D vtd_get_pdire_from_pdir_table(pasid_dir_base, pasid, &pdire);
-     if (ret) {
-         return ret;
-     }
-@@ -791,7 +837,15 @@ static int vtd_ce_get_pasid_fpd(IntelIOMMUState *s,
-         return 0;
-     }
-=20
--    ret =3D vtd_get_pasid_entry(s, pasid, &pdire, &pe);
-+    if (!vtd_pdire_present(&pdire)) {
-+        return -VTD_FR_PASID_TABLE_INV;
-+    }
-+
-+    /*
-+     * No present bit check since fpd is meaningful even
-+     * if the present bit is clear.
-+     */
-+    ret =3D vtd_get_pe_from_pdire(s, pasid, &pdire, &pe);
-     if (ret) {
-         return ret;
-     }
---=20
-MST
+Does QEMU play audio correctly on your version of Mac OS X? I am using =
+Mac OS 10.12 and the audio sound demonically loud and scary. I am =
+currently at this git revision:
 
+f0dcfddecee8b860e015bb07d67cfcbdfbfd51d
+
+Merge: 40f09ee833 725fe5d10d
+Author: Peter Maydell <peter.maydell@linaro.org>
+Date:   Fri Jan 3 17:18:08 2020 +0000
+
+    Merge remote-tracking branch =
+'remotes/stefanha/tags/block-pull-request' into staging
+
+I have ran several tests with qemu-system-i386 using Windows guest with =
+the ac97 and sb16 sound cards. It sounds just as bad for me on =
+qemu-system-ppc.=20
+
+Thank you.=
 
