@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7213A130705
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 11:17:31 +0100 (CET)
-Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF58130706
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 11:19:13 +0100 (CET)
+Received: from localhost ([::1]:40670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1io2yO-0005MJ-P0
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 05:17:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41731)
+	id 1io304-0006XB-PJ
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 05:19:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1io2wx-0004mp-IM
+ (envelope-from <bounces@canonical.com>) id 1io2wx-0004mo-IM
  for qemu-devel@nongnu.org; Sun, 05 Jan 2020 05:16:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1io2wq-0001Ud-JL
+ (envelope-from <bounces@canonical.com>) id 1io2wq-0001Ui-JK
  for qemu-devel@nongnu.org; Sun, 05 Jan 2020 05:15:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41308)
+Received: from indium.canonical.com ([91.189.90.7]:41344)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1io2wm-0001ON-6t
+ id 1io2wm-0001P4-70
  for qemu-devel@nongnu.org; Sun, 05 Jan 2020 05:15:49 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1io2wi-0003N9-86
- for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 10:15:44 +0000
+ id 1io2wj-0003Pc-7L
+ for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 10:15:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 396382E80C7
- for <qemu-devel@nongnu.org>; Sun,  5 Jan 2020 10:15:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 31B912E80CD
+ for <qemu-devel@nongnu.org>; Sun,  5 Jan 2020 10:15:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 05 Jan 2020 10:07:02 -0000
+Date: Sun, 05 Jan 2020 10:07:35 -0000
 From: Idar Lund <1839060@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: gnif idarlund spheenik
 X-Launchpad-Bug-Reporter: Martin Schrodt (spheenik)
 X-Launchpad-Bug-Modifier: Idar Lund (idarlund)
 References: <156507518934.25260.15982229597694445610.malonedeb@soybean.canonical.com>
-Message-Id: <157821882273.22331.1112861441417472361.malone@wampee.canonical.com>
+Message-Id: <157821885573.2454.6097116337997869141.malone@soybean.canonical.com>
 Subject: [Bug 1839060] Re: HDA device non functional in Windows 10 1903
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 75c0cf6d24b96cb0127de01b19d2840ac2d5b074
+X-Launchpad-Hash: 5d3c7a0835ecb7e00267a490a3d6b12c60df3ccb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -71,8 +71,10 @@ Reply-To: Bug 1839060 <1839060@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Microsoft has updated their driver to 10.0.18362.356 and the sound is
-now working with the audoidev hda.
+Microsoft has fixed their hda driver
+
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
 -- =
 
