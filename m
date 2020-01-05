@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36FC3130834
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:14:41 +0100 (CET)
-Received: from localhost ([::1]:42012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C02130844
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:24:14 +0100 (CET)
+Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1io5jr-00045L-R1
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:14:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58557)
+	id 1io5t7-0006UE-2h
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:24:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1io5VY-0003V1-KM
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:53 -0500
+ (envelope-from <mst@redhat.com>) id 1io5Vf-0003fh-ID
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 08:00:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1io5VX-0005Ao-GC
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:52 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23482
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1io5Ve-0005Ej-BQ
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43385
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5VX-0005AH-DI
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:51 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5Ve-0005EO-8J
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:59:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578229191;
+ s=mimecast20190719; t=1578229197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=10wNZRiSDwsgBzUvgX+qZm4UOG4d0UwTiZy8rXJV4jo=;
- b=YDjq19pyxb3ybffHqs3+MxNRgnqNU09FHrhfOM2G8S9S2CtJqDI9KPSgrNvIQSsGOx+FKv
- NYW9QItIMa9X8pqAfsuobwWv1xmtObqFkjlgfL7vkMfGUV2CD8rXG6QGb05ErwlVzm6we0
- lfvPNGDfKPZQ3DMKE72C+L7aLn8OI7E=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-MnzbPnS9MoWseXuWKW-kGA-1; Sun, 05 Jan 2020 07:59:49 -0500
-Received: by mail-qt1-f199.google.com with SMTP id e8so8949920qtg.9
- for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:59:49 -0800 (PST)
+ bh=9q2/1/1fqOdhU65sqIDbx6cBRpFU6//iIePNlnfAizE=;
+ b=OjRfw+NMs41nSoMlEG/YbhP+Lz3YVrRiS7scHtqW79I5S5NjkiPQsk3HjX2dm78v/t4fgo
+ CLL5sXA47C18ontdafgwQQDHyIL+EJEj8R+59O8+IHfcUTBH+jCls9Nol+bEAW8m04YHxR
+ MGvbWlBs8R23qx9KulbI/88NNLKMsSk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-4qQwvfqVPNmJdX9zDKUzNA-1; Sun, 05 Jan 2020 07:59:54 -0500
+Received: by mail-qk1-f197.google.com with SMTP id u10so27961759qkk.1
+ for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:59:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tfGwPPQntx/q9Ytbl/8/C6b7fB9jJ0SAUnXApOete/4=;
- b=PcNs4JhKexwrXgb7CG3jpqw3x6xSDXfCg7qNg2Gq7VyZ8hHxumir3DchfVioOyi+ux
- aOC9sQIrETegtCSxcV0i5hR3KMsZQe0raBPFWiUhlFfVE/zlhA9ejLv2l8YNFsrg8MJf
- Zv6X/t2BVBhCd6UP6JjoFWI9hrD6O09ezjVki0yfUjkDdkP2ROHJJBwdo+DS3yU7KUVl
- MAkMm6m3W1/YNNZptBHrcSbDF82qt/KS9yI+NelW7xIcrqegvcYeuixKbo3SdLHDDps1
- m8bSb9k8B4rRIKfwJ2dRfCRk1C3Om7FmLmX3ogNJ2mi2oz7TIeerJ/tMQjazagx/ALdg
- atDg==
-X-Gm-Message-State: APjAAAXHvrHYY8g3XIrfJny2iJNT2YhwxqOjCiC4iNVieg9aHPEYhWkF
- 0ItexzHZIMO/0iewdQADTXaXKkn7K4Fd+q2hjL4JTy2oYvtMvr/6E64nBitxy6QP6HTEnKKf//y
- X/GIlCR8cL5DH/7w=
-X-Received: by 2002:a05:620a:228:: with SMTP id
- u8mr78749096qkm.88.1578229188590; 
- Sun, 05 Jan 2020 04:59:48 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxOE4cIY1bNLTLu0Bu78IPE9J/LJAq1L5FwOKszwHvLSvf0wCD2P/qs4S0HjmVaD/b7kzC+5g==
-X-Received: by 2002:a05:620a:228:: with SMTP id
- u8mr78749091qkm.88.1578229188391; 
- Sun, 05 Jan 2020 04:59:48 -0800 (PST)
+ bh=6oUZcRx6oHUh2LroAUnKmJ6d2Eg7LapR5X4J56q3mek=;
+ b=UaBF4CFjVwvEiH4/j3qFSr+ZqELKF//Dw22YkcUM5uhk77RqS5uikDKdmOs02KRd00
+ FEsez2o8sD7+bF5c4n86H4z8QNNxJ4cXATq8ESpTr9+ziRsThLhz8KlxoYNo7XXaKYeY
+ SuQtE2nQX5iHEMqJpNDJRvEWp6Npu7CDOjM0Fs+mKGmsxDFuW/BM8BP/bKMloOrSkKQY
+ Sm9YbMCsdbZTa04yCjIivy7iFZO350ESHdwSM5ycGAmHBQ41bd3pzuhZP21OUw7K0dGH
+ HVtT9ZluTrJ3xZciDmxO92OpPOzpI6egwliEuw/2vhp3gHpVqfQ0/S+5bN61mB2wBayq
+ 8glg==
+X-Gm-Message-State: APjAAAVPofe0irk7LwMDbXY8pUroZ0gGifAsVNtEjG9WxoL3jaGGlZ+h
+ uNA6CQlGctJAkEWlF5j9+FFw97Ln/OmHbSUEEYq7opsyBadZCp63D4KnmarHJ+coJv03fnCUimp
+ y0UfrLHdTI+Mwrdw=
+X-Received: by 2002:a05:620a:1265:: with SMTP id
+ b5mr78724809qkl.172.1578229193528; 
+ Sun, 05 Jan 2020 04:59:53 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzkuvvhVbwLf/pPx09Q3HwkhYyNZksOS8UoPgk6pUpkdprImtvdLmq5f+sdetSvVYGWv1j4Eg==
+X-Received: by 2002:a05:620a:1265:: with SMTP id
+ b5mr78724803qkl.172.1578229193320; 
+ Sun, 05 Jan 2020 04:59:53 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id t198sm19356680qke.6.2020.01.05.04.59.46
+ by smtp.gmail.com with ESMTPSA id u16sm19167732qku.19.2020.01.05.04.59.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jan 2020 04:59:47 -0800 (PST)
-Date: Sun, 5 Jan 2020 07:59:44 -0500
+ Sun, 05 Jan 2020 04:59:52 -0800 (PST)
+Date: Sun, 5 Jan 2020 07:59:48 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 28/32] virtio-mmio: update queue size on guest write
-Message-ID: <20200105125622.27231-29-mst@redhat.com>
+Subject: [PULL v3 29/32] virtio: reset region cache when on queue deletion
+Message-ID: <20200105125622.27231-30-mst@redhat.com>
 References: <20200105125622.27231-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200105125622.27231-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: MnzbPnS9MoWseXuWKW-kGA-1
+X-MC-Unique: 4qQwvfqVPNmJdX9zDKUzNA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,41 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
 
-Some guests read back queue size after writing it.
-Always update the on size write otherwise they might be confused.
+https://bugzilla.redhat.com/show_bug.cgi?id=3D1708480
+Fix leak of region reference that prevents complete
+device deletion on hot unplug.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-Id: <20191224081446.17003-1-dplotnikov@virtuozzo.com>
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+Message-Id: <20191226043649.14481-2-yuri.benditovich@daynix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mmio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/virtio/virtio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index ef40b7a9b2..872f2cd237 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -308,8 +308,9 @@ static void virtio_mmio_write(void *opaque, hwaddr offs=
-et, uint64_t value,
-         break;
-     case VIRTIO_MMIO_QUEUE_NUM:
-         trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
-+        virtio_queue_set_num(vdev, vdev->queue_sel, value);
-+
-         if (proxy->legacy) {
--            virtio_queue_set_num(vdev, vdev->queue_sel, value);
-             virtio_queue_update_rings(vdev, vdev->queue_sel);
-         } else {
-             proxy->vqs[vdev->queue_sel].num =3D value;
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 95d8ff8508..7b861e0ca0 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2344,6 +2344,7 @@ void virtio_delete_queue(VirtQueue *vq)
+     vq->handle_aio_output =3D NULL;
+     g_free(vq->used_elems);
+     vq->used_elems =3D NULL;
++    virtio_virtqueue_reset_region_cache(vq);
+ }
+=20
+ void virtio_del_queue(VirtIODevice *vdev, int n)
 --=20
 MST
 
