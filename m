@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358E213082F
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:13:17 +0100 (CET)
-Received: from localhost ([::1]:42004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB9D130838
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:17:10 +0100 (CET)
+Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1io5iV-0002EU-UC
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:13:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58193)
+	id 1io5mH-0006fY-DI
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:17:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1io5Tz-0001QN-GO
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:58:16 -0500
+ (envelope-from <mst@redhat.com>) id 1io5U6-0001ai-14
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:58:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1io5Ty-0003x7-4A
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:58:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37666
+ (envelope-from <mst@redhat.com>) id 1io5U3-0003zW-WE
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:58:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60793
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5Tx-0003wn-Vq
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:58:14 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5U3-0003zD-QJ
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:58:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578229093;
+ s=mimecast20190719; t=1578229099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w1jQK9Yxd2TIknp+M77tR7Mc2wzi2h6Dp27XqCYt2e4=;
- b=U1PCZcoal3iqeNNro9FgQmGI9OnS3askj42n9C6toZC8RT0ksjoP6sNp4629eniI3mgVtd
- UQZZfvd+qou7qmZJ9UeXArvnPApjfFROGCHuQJv1HllIm/WqTR20ioaEbG8st9qKFpVt17
- AXyHY3IzsoQE8y2JwkGh0pNVo59tWxQ=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-mtMJk_nkOLav80IQXd_EMQ-1; Sun, 05 Jan 2020 07:58:11 -0500
-Received: by mail-qt1-f197.google.com with SMTP id c8so32580873qte.22
- for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:58:11 -0800 (PST)
+ bh=pXEsl8xj2B6C4J6CzOpzs7IZM8KuBGBRcno+vmHdxQg=;
+ b=EfA8MTu60O1m7qrsKBG1QQPXB713uxXTRW4kGjkR9HBk2lSfQCfyk/QPEjU+yi2ZB5sKz7
+ 6bAGtti4p/EvO4MqMyKQHL2LbCjuqqD/H81swbDSWhnQi5B7q3PKQnRagloTtarjwye0ER
+ RFjdmSagQIfV5qC7dxl3HTP9/XHoTKs=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-YyIp_V7VNBKIM5rG26RWCQ-1; Sun, 05 Jan 2020 07:58:18 -0500
+Received: by mail-qk1-f200.google.com with SMTP id j16so23404712qkk.17
+ for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:58:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Ks6shax4mMonha1r8yzWlFliM2SkYmnLxhP6HsmGeGE=;
- b=ANzYli9BlMd5QEo6lWgZGIZtb0b7r6I6yJA6fW+pcQuhZS0qPltqsHbJd4YTuTR0zl
- zQYO74luwwvODM2ZQRuQfp9A0jVlzUXLadfbOl/DzrYTRcG9uU6YN3dYYROw07R9iK3N
- c5i157paYB4OQhPMs98oEEB0Nl41e7tk8S0dLUxuLe56IZ6UvtbkOMbaxucBzZiKps+F
- 06MtBjcNJPrm+1mkHpy+8ZM8wkpuWh62IzTsui33OtSgBUN7kLyE8h+fPuggAjkPaowc
- TW8w7pfcte+7ND2KYF/u4dcKjgU1BlpI6X1FJHHUYihd/lwGRlwPQFJg8+XBTyZeuc6A
- xvIg==
-X-Gm-Message-State: APjAAAV/2ar8holACi0/02PF1gDdSKU1+h20BrrtLsnPZIxW/Z0HUpI7
- u7aOuqGjmBuaPDXb+SZFQQ51GIYJ4dZli0NEYua8KkrlTjg3IEm3vF/upGMYPwZ8trDX4Yu31La
- jL8DRhzhMD+Z0G+c=
-X-Received: by 2002:ac8:534b:: with SMTP id d11mr71529186qto.170.1578229091021; 
- Sun, 05 Jan 2020 04:58:11 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzlFNzqS0gmB/zolFhggrnVT1qp+cOLY6pKTITBMeu03UUBZV4+fx0/wzPXGJjDed0mv+07Fg==
-X-Received: by 2002:ac8:534b:: with SMTP id d11mr71529179qto.170.1578229090812; 
- Sun, 05 Jan 2020 04:58:10 -0800 (PST)
+ bh=MPPKzQOazirg5jBND3h1wpeXbc817RV9EQNRRNDvGLg=;
+ b=Qsaiv4H9bJ41hfEFN4atjYTz1rcLalZGKhj2eDypJPgmnusqf7h44uqMoBmqVI9L6s
+ gL59zkD56PPNEGNJWFtrClMaXdbQ7UTA7LF6umquILdzFoL7KwGppXwCrKxqt7C8bSNs
+ CMz6exeYFmR+ibWH/8KOJ1w+Lxyqv61u0E/dAVPKop70vfO9QyP92nvJaOsLFb7GqUYD
+ KB+ZkEqH/SS/X7Zn8E+qE7ttFoyFWTvIim/DGbF9YQRaDnzRU2E6GJFnkUCS1WbWTlwH
+ H19YcYX6nzXQhdY8Gr9c45G8XZrrlwfrO64oJsqyLIJhm2HGQBhQjEtgMyNkw3dElfiF
+ gDFA==
+X-Gm-Message-State: APjAAAVhpsjAxHuKOC2eFuCPKI7Me6BmQRoQIi2K7gqmCtPS1R4dfdNY
+ rMfiClNcDGMoFI/xI3AVcUCp9wd9z/Gl0zwFWHgtGNIjbH9jACNCVIwR4NLqCQ82uU6ZKirmSpf
+ ncpDmUIZRYYo3NWQ=
+X-Received: by 2002:a37:411:: with SMTP id 17mr81498011qke.40.1578229097210;
+ Sun, 05 Jan 2020 04:58:17 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyzhR2hq0tb0d1FUiBPp50koJazwOb6PwGgQDqTvTLccY/Q2MJNUK8xMjDvmIaM0lYOhHY2Pg==
+X-Received: by 2002:a37:411:: with SMTP id 17mr81497985qke.40.1578229096769;
+ Sun, 05 Jan 2020 04:58:16 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id b35sm21939105qtc.9.2020.01.05.04.58.08
+ by smtp.gmail.com with ESMTPSA id h1sm22069389qte.42.2020.01.05.04.58.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jan 2020 04:58:10 -0800 (PST)
-Date: Sun, 5 Jan 2020 07:58:06 -0500
+ Sun, 05 Jan 2020 04:58:15 -0800 (PST)
+Date: Sun, 5 Jan 2020 07:58:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 10/32] virtio: don't enable notifications during polling
-Message-ID: <20200105125622.27231-11-mst@redhat.com>
+Subject: [PULL v3 11/32] numa: Extend CLI to provide initiator information
+ for numa nodes
+Message-ID: <20200105125622.27231-12-mst@redhat.com>
 References: <20200105125622.27231-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200105125622.27231-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: mtMJk_nkOLav80IQXd_EMQ-1
+X-MC-Unique: YyIp_V7VNBKIM5rG26RWCQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,160 +89,342 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jingqi Liu <jingqi.liu@intel.com>,
+ Tao Xu <tao3.xu@intel.com>, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
 
-Virtqueue notifications are not necessary during polling, so we disable
-them.  This allows the guest driver to avoid MMIO vmexits.
-Unfortunately the virtio-blk and virtio-scsi handler functions re-enable
-notifications, defeating this optimization.
+In ACPI 6.3 chapter 5.2.27 Heterogeneous Memory Attribute Table (HMAT),
+The initiator represents processor which access to memory. And in 5.2.27.3
+Memory Proximity Domain Attributes Structure, the attached initiator is
+defined as where the memory controller responsible for a memory proximity
+domain. With attached initiator information, the topology of heterogeneous
+memory can be described. Add new machine property 'hmat' to enable all
+HMAT specific options.
 
-Fix virtio-blk and virtio-scsi emulation so they leave notifications
-disabled.  The key thing to remember for correctness is that polling
-always checks one last time after ending its loop, therefore it's safe
-to lose the race when re-enabling notifications at the end of polling.
+Extend CLI of "-numa node" option to indicate the initiator numa node-id.
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables. Before using initiator option, enable HMAT with
+-machine hmat=3Don.
 
-There is a measurable performance improvement of 5-10% with the null-co
-block driver.  Real-life storage configurations will see a smaller
-improvement because the MMIO vmexit overhead contributes less to
-latency.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20191209210957.65087-1-stefanha@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+Suggested-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
+Message-Id: <20191213011929.2520-2-tao3.xu@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio.h |  1 +
- hw/block/virtio-blk.c      |  9 +++++++--
- hw/scsi/virtio-scsi.c      |  9 +++++++--
- hw/virtio/virtio.c         | 12 ++++++------
- 4 files changed, 21 insertions(+), 10 deletions(-)
+ qapi/machine.json     | 10 ++++++-
+ include/sysemu/numa.h |  5 ++++
+ hw/core/machine.c     | 64 +++++++++++++++++++++++++++++++++++++++++++
+ hw/core/numa.c        | 23 ++++++++++++++++
+ qemu-options.hx       | 35 +++++++++++++++++++----
+ 5 files changed, 131 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 777772475c..b69d517496 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -228,6 +228,7 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int ve=
-rsion_id);
+diff --git a/qapi/machine.json b/qapi/machine.json
+index ca26779f1a..27d0e37534 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -463,6 +463,13 @@
+ # @memdev: memory backend object.  If specified for one node,
+ #          it must be specified for all nodes.
+ #
++# @initiator: defined in ACPI 6.3 Chapter 5.2.27.3 Table 5-145,
++#             points to the nodeid which has the memory controller
++#             responsible for this NUMA node. This field provides
++#             additional information as to the initiator node that
++#             is closest (as in directly attached) to this node, and
++#             therefore has the best performance (since 5.0)
++#
+ # Since: 2.1
+ ##
+ { 'struct': 'NumaNodeOptions',
+@@ -470,7 +477,8 @@
+    '*nodeid': 'uint16',
+    '*cpus':   ['uint16'],
+    '*mem':    'size',
+-   '*memdev': 'str' }}
++   '*memdev': 'str',
++   '*initiator': 'uint16' }}
 =20
- void virtio_notify_config(VirtIODevice *vdev);
+ ##
+ # @NumaDistOptions:
+diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+index ae9c41d02b..788cbec7a2 100644
+--- a/include/sysemu/numa.h
++++ b/include/sysemu/numa.h
+@@ -18,6 +18,8 @@ struct NodeInfo {
+     uint64_t node_mem;
+     struct HostMemoryBackend *node_memdev;
+     bool present;
++    bool has_cpu;
++    uint16_t initiator;
+     uint8_t distance[MAX_NODES];
+ };
 =20
-+bool virtio_queue_get_notification(VirtQueue *vq);
- void virtio_queue_set_notification(VirtQueue *vq, int enable);
+@@ -33,6 +35,9 @@ struct NumaState {
+     /* Allow setting NUMA distance for different NUMA nodes */
+     bool have_numa_distance;
 =20
- int virtio_queue_ready(VirtQueue *vq);
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index d62e6377c2..b12157b5eb 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -764,13 +764,16 @@ bool virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *=
-vq)
- {
-     VirtIOBlockReq *req;
-     MultiReqBuffer mrb =3D {};
-+    bool suppress_notifications =3D virtio_queue_get_notification(vq);
-     bool progress =3D false;
-=20
-     aio_context_acquire(blk_get_aio_context(s->blk));
-     blk_io_plug(s->blk);
-=20
-     do {
--        virtio_queue_set_notification(vq, 0);
-+        if (suppress_notifications) {
-+            virtio_queue_set_notification(vq, 0);
-+        }
-=20
-         while ((req =3D virtio_blk_get_request(s, vq))) {
-             progress =3D true;
-@@ -781,7 +784,9 @@ bool virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq=
-)
-             }
-         }
-=20
--        virtio_queue_set_notification(vq, 1);
-+        if (suppress_notifications) {
-+            virtio_queue_set_notification(vq, 1);
-+        }
-     } while (!virtio_queue_empty(vq));
-=20
-     if (mrb.num_reqs) {
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index e8b2b64d09..f080545f48 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -597,12 +597,15 @@ bool virtio_scsi_handle_cmd_vq(VirtIOSCSI *s, VirtQue=
-ue *vq)
- {
-     VirtIOSCSIReq *req, *next;
-     int ret =3D 0;
-+    bool suppress_notifications =3D virtio_queue_get_notification(vq);
-     bool progress =3D false;
-=20
-     QTAILQ_HEAD(, VirtIOSCSIReq) reqs =3D QTAILQ_HEAD_INITIALIZER(reqs);
-=20
-     do {
--        virtio_queue_set_notification(vq, 0);
-+        if (suppress_notifications) {
-+            virtio_queue_set_notification(vq, 0);
-+        }
-=20
-         while ((req =3D virtio_scsi_pop_req(s, vq))) {
-             progress =3D true;
-@@ -622,7 +625,9 @@ bool virtio_scsi_handle_cmd_vq(VirtIOSCSI *s, VirtQueue=
- *vq)
-             }
-         }
-=20
--        virtio_queue_set_notification(vq, 1);
-+        if (suppress_notifications) {
-+            virtio_queue_set_notification(vq, 1);
-+        }
-     } while (ret !=3D -EINVAL && !virtio_queue_empty(vq));
-=20
-     QTAILQ_FOREACH_SAFE(req, &reqs, next, next) {
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 7bc6a9455e..95d8ff8508 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -432,6 +432,11 @@ static void virtio_queue_packed_set_notification(VirtQ=
-ueue *vq, int enable)
-     }
++    /* Detect if HMAT support is enabled. */
++    bool hmat_enabled;
++
+     /* NUMA nodes information */
+     NodeInfo nodes[MAX_NODES];
+ };
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 0854dcebdd..f5e2b32b3b 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -430,6 +430,20 @@ static void machine_set_nvdimm(Object *obj, bool value=
+, Error **errp)
+     ms->nvdimms_state->is_enabled =3D value;
  }
 =20
-+bool virtio_queue_get_notification(VirtQueue *vq)
++static bool machine_get_hmat(Object *obj, Error **errp)
 +{
-+    return vq->notification;
++    MachineState *ms =3D MACHINE(obj);
++
++    return ms->numa_state->hmat_enabled;
 +}
 +
- void virtio_queue_set_notification(VirtQueue *vq, int enable)
++static void machine_set_hmat(Object *obj, bool value, Error **errp)
++{
++    MachineState *ms =3D MACHINE(obj);
++
++    ms->numa_state->hmat_enabled =3D value;
++}
++
+ static char *machine_get_nvdimm_persistence(Object *obj, Error **errp)
  {
-     vq->notification =3D enable;
-@@ -3410,17 +3415,12 @@ static bool virtio_queue_host_notifier_aio_poll(voi=
-d *opaque)
+     MachineState *ms =3D MACHINE(obj);
+@@ -557,6 +571,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+                                const CpuInstanceProperties *props, Error *=
+*errp)
  {
-     EventNotifier *n =3D opaque;
-     VirtQueue *vq =3D container_of(n, VirtQueue, host_notifier);
--    bool progress;
+     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
++    NodeInfo *numa_info =3D machine->numa_state->nodes;
+     bool match =3D false;
+     int i;
 =20
-     if (!vq->vring.desc || virtio_queue_empty(vq)) {
-         return false;
+@@ -626,6 +641,17 @@ void machine_set_cpu_numa_node(MachineState *machine,
+         match =3D true;
+         slot->props.node_id =3D props->node_id;
+         slot->props.has_node_id =3D props->has_node_id;
++
++        if (machine->numa_state->hmat_enabled) {
++            if ((numa_info[props->node_id].initiator < MAX_NODES) &&
++                (props->node_id !=3D numa_info[props->node_id].initiator))=
+ {
++                error_setg(errp, "The initiator of CPU NUMA node %" PRId64
++                        " should be itself", props->node_id);
++                return;
++            }
++            numa_info[props->node_id].has_cpu =3D true;
++            numa_info[props->node_id].initiator =3D props->node_id;
++        }
      }
 =20
--    progress =3D virtio_queue_notify_aio_vq(vq);
--
--    /* In case the handler function re-enabled notifications */
--    virtio_queue_set_notification(vq, 0);
--    return progress;
-+    return virtio_queue_notify_aio_vq(vq);
+     if (!match) {
+@@ -846,6 +872,13 @@ static void machine_initfn(Object *obj)
+=20
+     if (mc->numa_mem_supported) {
+         ms->numa_state =3D g_new0(NumaState, 1);
++        object_property_add_bool(obj, "hmat",
++                                 machine_get_hmat, machine_set_hmat,
++                                 &error_abort);
++        object_property_set_description(obj, "hmat",
++                                        "Set on/off to enable/disable "
++                                        "ACPI Heterogeneous Memory Attribu=
+te "
++                                        "Table (HMAT)", NULL);
+     }
+=20
+     /* Register notifier when init is done for sysbus sanity checks */
+@@ -913,6 +946,32 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
+     return g_string_free(s, false);
  }
 =20
- static void virtio_queue_host_notifier_aio_poll_end(EventNotifier *n)
++static void numa_validate_initiator(NumaState *numa_state)
++{
++    int i;
++    NodeInfo *numa_info =3D numa_state->nodes;
++
++    for (i =3D 0; i < numa_state->num_nodes; i++) {
++        if (numa_info[i].initiator =3D=3D MAX_NODES) {
++            error_report("The initiator of NUMA node %d is missing, use "
++                         "'-numa node,initiator' option to declare it", i)=
+;
++            exit(1);
++        }
++
++        if (!numa_info[numa_info[i].initiator].present) {
++            error_report("NUMA node %" PRIu16 " is missing, use "
++                         "'-numa node' option to declare it first",
++                         numa_info[i].initiator);
++            exit(1);
++        }
++
++        if (!numa_info[numa_info[i].initiator].has_cpu) {
++            error_report("The initiator of NUMA node %d is invalid", i);
++            exit(1);
++        }
++    }
++}
++
+ static void machine_numa_finish_cpu_init(MachineState *machine)
+ {
+     int i;
+@@ -953,6 +1012,11 @@ static void machine_numa_finish_cpu_init(MachineState=
+ *machine)
+             machine_set_cpu_numa_node(machine, &props, &error_fatal);
+         }
+     }
++
++    if (machine->numa_state->hmat_enabled) {
++        numa_validate_initiator(machine->numa_state);
++    }
++
+     if (s->len && !qtest_enabled()) {
+         warn_report("CPU(s) not present in any NUMA nodes: %s",
+                     s->str);
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index e3332a984f..e60da99293 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -133,6 +133,29 @@ static void parse_numa_node(MachineState *ms, NumaNode=
+Options *node,
+         numa_info[nodenr].node_mem =3D object_property_get_uint(o, "size",=
+ NULL);
+         numa_info[nodenr].node_memdev =3D MEMORY_BACKEND(o);
+     }
++
++    /*
++     * If not set the initiator, set it to MAX_NODES. And if
++     * HMAT is enabled and this node has no cpus, QEMU will raise error.
++     */
++    numa_info[nodenr].initiator =3D MAX_NODES;
++    if (node->has_initiator) {
++        if (!ms->numa_state->hmat_enabled) {
++            error_setg(errp, "ACPI Heterogeneous Memory Attribute Table "
++                       "(HMAT) is disabled, enable it with -machine hmat=
+=3Don "
++                       "before using any of hmat specific options");
++            return;
++        }
++
++        if (node->initiator >=3D MAX_NODES) {
++            error_report("The initiator id %" PRIu16 " expects an integer =
+"
++                         "between 0 and %d", node->initiator,
++                         MAX_NODES - 1);
++            return;
++        }
++
++        numa_info[nodenr].initiator =3D node->initiator;
++    }
+     numa_info[nodenr].present =3D true;
+     max_numa_nodeid =3D MAX(max_numa_nodeid, nodenr + 1);
+     ms->numa_state->num_nodes++;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e9d6231438..b78bc52634 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -40,7 +40,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "                suppress-vmdesc=3Don|off disables self-describing mig=
+ration (default=3Doff)\n"
+     "                nvdimm=3Don|off controls NVDIMM support (default=3Dof=
+f)\n"
+     "                enforce-config-section=3Don|off enforce configuration=
+ section migration (default=3Doff)\n"
+-    "                memory-encryption=3D@var{} memory encryption object t=
+o use (default=3Dnone)\n",
++    "                memory-encryption=3D@var{} memory encryption object t=
+o use (default=3Dnone)\n"
++    "                hmat=3Don|off controls ACPI HMAT support (default=3Do=
+ff)\n",
+     QEMU_ARCH_ALL)
+ STEXI
+ @item -machine [type=3D]@var{name}[,prop=3D@var{value}[,...]]
+@@ -94,6 +95,9 @@ NOTE: this parameter is deprecated. Please use @option{-g=
+lobal}
+ @option{migration.send-configuration}=3D@var{on|off} instead.
+ @item memory-encryption=3D@var{}
+ Memory encryption object to use. The default is none.
++@item hmat=3Don|off
++Enables or disables ACPI Heterogeneous Memory Attribute Table (HMAT) suppo=
+rt.
++The default is off.
+ @end table
+ ETEXI
+=20
+@@ -168,14 +172,14 @@ If any on the three values is given, the total number=
+ of CPUs @var{n} can be omi
+ ETEXI
+=20
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+-    "-numa node[,mem=3Dsize][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dnode]\n=
+"
+-    "-numa node[,memdev=3Did][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dnode]\=
+n"
++    "-numa node[,mem=3Dsize][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dnode][,=
+initiator=3Dnode]\n"
++    "-numa node[,memdev=3Did][,cpus=3Dfirstcpu[-lastcpu]][,nodeid=3Dnode][=
+,initiator=3Dnode]\n"
+     "-numa dist,src=3Dsource,dst=3Ddestination,val=3Ddistance\n"
+     "-numa cpu,node-id=3Dnode[,socket-id=3Dx][,core-id=3Dy][,thread-id=3Dz=
+]\n",
+     QEMU_ARCH_ALL)
+ STEXI
+-@item -numa node[,mem=3D@var{size}][,cpus=3D@var{firstcpu}[-@var{lastcpu}]=
+][,nodeid=3D@var{node}]
+-@itemx -numa node[,memdev=3D@var{id}][,cpus=3D@var{firstcpu}[-@var{lastcpu=
+}]][,nodeid=3D@var{node}]
++@item -numa node[,mem=3D@var{size}][,cpus=3D@var{firstcpu}[-@var{lastcpu}]=
+][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
++@itemx -numa node[,memdev=3D@var{id}][,cpus=3D@var{firstcpu}[-@var{lastcpu=
+}]][,nodeid=3D@var{node}][,initiator=3D@var{initiator}]
+ @itemx -numa dist,src=3D@var{source},dst=3D@var{destination},val=3D@var{di=
+stance}
+ @itemx -numa cpu,node-id=3D@var{node}[,socket-id=3D@var{x}][,core-id=3D@va=
+r{y}][,thread-id=3D@var{z}]
+ @findex -numa
+@@ -222,6 +226,27 @@ split equally between them.
+ @samp{mem} and @samp{memdev} are mutually exclusive. Furthermore,
+ if one node uses @samp{memdev}, all of them have to use it.
+=20
++@samp{initiator} is an additional option that points to an @var{initiator}
++NUMA node that has best performance (the lowest latency or largest bandwid=
+th)
++to this NUMA @var{node}. Note that this option can be set only when
++the machine property 'hmat' is set to 'on'.
++
++Following example creates a machine with 2 NUMA nodes, node 0 has CPU.
++node 1 has only memory, and its initiator is node 0. Note that because
++node 0 has CPU, by default the initiator of node 0 is itself and must be
++itself.
++@example
++-machine hmat=3Don \
++-m 2G,slots=3D2,maxmem=3D4G \
++-object memory-backend-ram,size=3D1G,id=3Dm0 \
++-object memory-backend-ram,size=3D1G,id=3Dm1 \
++-numa node,nodeid=3D0,memdev=3Dm0 \
++-numa node,nodeid=3D1,memdev=3Dm1,initiator=3D0 \
++-smp 2,sockets=3D2,maxcpus=3D2  \
++-numa cpu,node-id=3D0,socket-id=3D0 \
++-numa cpu,node-id=3D0,socket-id=3D1
++@end example
++
+ @var{source} and @var{destination} are NUMA node IDs.
+ @var{distance} is the NUMA distance from @var{source} to @var{destination}=
+.
+ The distance from a node to itself is always 10. If any pair of nodes is
 --=20
 MST
 
