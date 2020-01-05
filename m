@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40965130817
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:03:36 +0100 (CET)
-Received: from localhost ([::1]:41872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29ED130819
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Jan 2020 14:03:57 +0100 (CET)
+Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1io5Z8-00062F-Oh
-	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:03:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58082)
+	id 1io5ZU-0006WP-QE
+	for lists+qemu-devel@lfdr.de; Sun, 05 Jan 2020 08:03:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58097)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1io5TQ-0000bi-V3
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:57:41 -0500
+ (envelope-from <mst@redhat.com>) id 1io5TY-0000jY-Hf
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:57:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1io5TP-0003gw-RJ
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:57:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32276
+ (envelope-from <mst@redhat.com>) id 1io5TX-0003ji-Hy
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:57:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22637
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5TP-0003gj-NO
- for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:57:39 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1io5TX-0003jU-Dz
+ for qemu-devel@nongnu.org; Sun, 05 Jan 2020 07:57:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578229059;
+ s=mimecast20190719; t=1578229067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y+1AiFYA4jwJXgwLDoVnwKQ62HQ9au7D6spvhTUBGU8=;
- b=QW6PXgNR4OcExaJan+jtbRrBhrZGgoc9r5slZkHMpUKVqoa26v1km+cZ0BY+Un9wfKcwTJ
- nS+p1zqoMtfP4rZduLNolSOqAZUmGL+2x7fGbeGDz8sPJEA0Go7DxIs2vkLLiqz6slODYM
- IYxuA35MZbQtp8OHmDXCqPxnxqmmr7Q=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-__2DBuQJN66emddeKSeiCw-1; Sun, 05 Jan 2020 07:57:35 -0500
-Received: by mail-qt1-f200.google.com with SMTP id x8so8875175qtq.14
- for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:57:35 -0800 (PST)
+ bh=K9epneyHKkAEq5gGDVE/gbeFue8BzwP7OkBM6QzY9Yk=;
+ b=UzufamW7/NaGKuvlszzqtO/7/T4KLz14A0I503vwUWc5LDfpeH2QCWEbkXgdLdqyqE3A5p
+ ohpN+60YL4ZcyAbUgdSS1j+JShox6NGUvI9KPBdUfnbd1MrWCbRJVn1TV1kkaXNMxufPWt
+ 8Zcu/Dv18NSWEwhwFX+7nt0p0Nib5rM=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-H1kk4p0HNcmSGrbDBngf8A-1; Sun, 05 Jan 2020 07:57:45 -0500
+Received: by mail-qt1-f198.google.com with SMTP id d9so28195440qtq.13
+ for <qemu-devel@nongnu.org>; Sun, 05 Jan 2020 04:57:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=1upHWGgN+kA2iqb9NZ9XxvQ8bHfo9CqfdVL2Jr4HnRY=;
- b=YKd5N5kvVAeWXAOeMTK/yn/rqdMro0ZY9MmZO/bQlcGV0rA47pdRNZrVYasZZvQ5qF
- cVqZja2TpBZWI8H61yd65sWyEJIaqAQAfghUW7FmA+zwLVvjEiOkgoyLBAYolGv+VzNG
- NdW8tj4Sxq5EVvgH/07lzFTND9R85uebrji90lY47JiBGdm/unszEuDxiQoCF1qM0OEI
- w6wMHEzCJEDDAM/ezE71hJJxUeuDY4A12Hv87W70mNtfVBteWSZmIuCtUssa/G9bxWv7
- hfOwTbJnBsMDZ8KStFIy0XOzK4i53tiMiVYCkd/W1SbC2jjg6JZn17SZfO5D+t+c7PLU
- Gx+g==
-X-Gm-Message-State: APjAAAXEBnD8TGdwcl8vva0YQbKx70ma1qCMH0/0+omChOQaQQwUi19x
- cvk7JiKoYwy6IdSQrDmaezx+8KqJbynyTqwvv038ZiVZNLo9fESR6mXOHOwNDVFORNaVnxwdtXv
- bK/ja+tiR6nddtuY=
-X-Received: by 2002:a0c:a563:: with SMTP id y90mr62740223qvy.78.1578229054854; 
- Sun, 05 Jan 2020 04:57:34 -0800 (PST)
-X-Google-Smtp-Source: APXvYqybwO2O4OgIabEdTzA+/hkr4g5j7ZfdylmRWEBTa5snlbEE0KQ98qXVnFIjsp2am1CWe6RAZQ==
-X-Received: by 2002:a0c:a563:: with SMTP id y90mr62740212qvy.78.1578229054639; 
- Sun, 05 Jan 2020 04:57:34 -0800 (PST)
+ bh=iiaP0RxMw50Y4u2HruPOoUKc+xP0ZRMmYrMUAAr8Wgg=;
+ b=CQJhmcA4PbtgQbhoAi3b6V6mUtRWar0NeztRWY7mM8bPWeegqavF7idproqjJgVhnM
+ 4WVceFRPbY1FwPCzL/5kpJm7L0ThQ1zd1aKsRSZJUiBgj0sR6b/l9W8icKUnAfOmP49f
+ e9qUolsKu5VHKkV+aFGMa/7+4Vz0HW1PNF6cmSYd9ChZVAYCp9zW1Ma2D8IvKiG5cBAI
+ 3jNBK+K895RXs95rt2Qu/YPC4BwMCfMgYymMJuUpI7zXYXMeuviNb+km1D2vnJGn0x6i
+ b6luMYk7esOJPWRyUNwE1hC9ADGWWHQcWykYy6QP59cqxacFggiNNbvSvhUg+nV+izue
+ Vn8w==
+X-Gm-Message-State: APjAAAWoIqC5ENBxpYvjT2YkKelo0W0Q9UfXMCCEUJMbFX8cOzXGk7Xw
+ OtZvD6cdNMaGxgPLZRe4CJ5vje6daLzhA06Yl9HKxipCsU3QKoN9yG6gH1m+Gh6QjnO4cTJBXeP
+ p5u2VFRoiQQ4ij0M=
+X-Received: by 2002:aed:256d:: with SMTP id w42mr70505959qtc.385.1578229064939; 
+ Sun, 05 Jan 2020 04:57:44 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzMjtSTRO/gE7LEGLDi8SRZHAY/yO7moOX9NXEKTKs6dCNIDksAhfQVOwEKtkr4iuZX1tqXyg==
+X-Received: by 2002:aed:256d:: with SMTP id w42mr70505953qtc.385.1578229064794; 
+ Sun, 05 Jan 2020 04:57:44 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id g52sm19046718qta.58.2020.01.05.04.57.32
+ by smtp.gmail.com with ESMTPSA id w20sm21865250qtj.4.2020.01.05.04.57.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jan 2020 04:57:33 -0800 (PST)
-Date: Sun, 5 Jan 2020 07:57:30 -0500
+ Sun, 05 Jan 2020 04:57:44 -0800 (PST)
+Date: Sun, 5 Jan 2020 07:57:40 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 03/32] virtio-balloon: fix memory leak while attach
- virtio-balloon device
-Message-ID: <20200105125622.27231-4-mst@redhat.com>
+Subject: [PULL v3 05/32] virtio-input: convert to new virtio_delete_queue
+Message-ID: <20200105125622.27231-6-mst@redhat.com>
 References: <20200105125622.27231-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200105125622.27231-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: __2DBuQJN66emddeKSeiCw-1
+X-MC-Unique: H1kk4p0HNcmSGrbDBngf8A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,55 +88,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+Seems cleaner than using VQ index values.
 
-ivq/dvq/svq/free_page_vq is forgot to cleanup in
-virtio_balloon_device_unrealize, the memory leak stack is as follow:
-
-Direct leak of 14336 byte(s) in 2 object(s) allocated from:
-    #0 0x7f99fd9d8560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
-    #1 0x7f99fcb20015 in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x50015)
-    #2 0x557d90638437 in virtio_add_queue hw/virtio/virtio.c:2327
-    #3 0x557d9064401d in virtio_balloon_device_realize hw/virtio/virtio-bal=
-loon.c:793
-    #4 0x557d906356f7 in virtio_device_realize hw/virtio/virtio.c:3504
-    #5 0x557d9073f081 in device_set_realized hw/core/qdev.c:876
-    #6 0x557d908b1f4d in property_set_bool qom/object.c:2080
-    #7 0x557d908b655e in object_property_set_qobject qom/qom-qobject.c:26
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-Id: <1575444716-17632-2-git-send-email-pannengyuan@huawei.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-balloon.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/input/virtio-input.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 40b04f5180..57f3b9f22d 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -831,6 +831,13 @@ static void virtio_balloon_device_unrealize(DeviceStat=
-e *dev, Error **errp)
+diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
+index ec54e46ad6..9c013afddb 100644
+--- a/hw/input/virtio-input.c
++++ b/hw/input/virtio-input.c
+@@ -280,6 +280,7 @@ static void virtio_input_device_unrealize(DeviceState *=
+dev, Error **errp)
+ {
+     VirtIOInputClass *vic =3D VIRTIO_INPUT_GET_CLASS(dev);
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
++    VirtIOInput *vinput =3D VIRTIO_INPUT(dev);
+     Error *local_err =3D NULL;
+=20
+     if (vic->unrealize) {
+@@ -289,8 +290,8 @@ static void virtio_input_device_unrealize(DeviceState *=
+dev, Error **errp)
+             return;
+         }
      }
-     balloon_stats_destroy_timer(s);
-     qemu_remove_balloon_handler(s);
-+
-+    virtio_delete_queue(s->ivq);
-+    virtio_delete_queue(s->dvq);
-+    virtio_delete_queue(s->svq);
-+    if (s->free_page_vq) {
-+        virtio_delete_queue(s->free_page_vq);
-+    }
+-    virtio_del_queue(vdev, 0);
+-    virtio_del_queue(vdev, 1);
++    virtio_delete_queue(vinput->evt);
++    virtio_delete_queue(vinput->sts);
      virtio_cleanup(vdev);
  }
 =20
