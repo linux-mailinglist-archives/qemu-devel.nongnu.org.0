@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4901314BE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:22:54 +0100 (CET)
-Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27841314C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:26:53 +0100 (CET)
+Received: from localhost ([::1]:53484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioUDU-0006hT-SQ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:22:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49490)
+	id 1ioUHM-0004Kj-Eg
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:26:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49713)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ioTom-0000W5-OT
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:57:21 -0500
+ (envelope-from <clg@kaod.org>) id 1ioToz-0000pP-1Q
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:57:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ioTol-0000io-Dj
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:57:20 -0500
-Received: from 1.mo69.mail-out.ovh.net ([178.33.251.173]:41206)
+ (envelope-from <clg@kaod.org>) id 1ioTox-0000vi-RT
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:57:32 -0500
+Received: from 10.mo3.mail-out.ovh.net ([87.98.165.232]:51347)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ioTol-0000iM-6S
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:57:19 -0500
-Received: from player731.ha.ovh.net (unknown [10.109.146.76])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id E979F7AE3B
- for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 15:57:17 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ioTox-0000uP-Lt
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:57:31 -0500
+Received: from player731.ha.ovh.net (unknown [10.109.146.175])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 0A13D23BB63
+ for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 15:57:29 +0100 (CET)
 Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
  (Authenticated sender: clg@kaod.org)
- by player731.ha.ovh.net (Postfix) with ESMTPSA id 41633DB3A5F9;
- Mon,  6 Jan 2020 14:57:12 +0000 (UTC)
+ by player731.ha.ovh.net (Postfix) with ESMTPSA id 33FA7DB3A6E1;
+ Mon,  6 Jan 2020 14:57:24 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v3 04/12] spapr, pnv,
- xive: Add a "xive-fabric" link to the XIVE router
-Date: Mon,  6 Jan 2020 15:56:37 +0100
-Message-Id: <20200106145645.4539-5-clg@kaod.org>
+Subject: [PATCH v3 06/12] ppc/pnv: Add an "nr-threads" property to the base
+ chip class
+Date: Mon,  6 Jan 2020 15:56:39 +0100
+Message-Id: <20200106145645.4539-7-clg@kaod.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200106145645.4539-1-clg@kaod.org>
 References: <20200106145645.4539-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 5389964332362992614
+X-Ovh-Tracer-Id: 5393342032797404134
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehtddgjedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehtddgjedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.251.173
+X-Received-From: 87.98.165.232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,126 +64,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-In order to get rid of qdev_get_machine(), first add a pointer to the
-XIVE fabric under the XIVE router and make it configurable through a
-QOM link property.
-
-Configure it in the spapr and pnv machine. In the case of pnv, the XIVE
-routers are under the chip, so this is done with a QOM alias property of
-the POWER9 pnv chip.
+Set it at chip creation and forward it to the cores. This allows to drop
+a call to qdev_get_machine().
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/hw/ppc/xive.h | 5 +++--
- hw/intc/xive.c        | 8 ++++++++
- hw/ppc/pnv.c          | 6 ++++++
- hw/ppc/spapr_irq.c    | 2 ++
- 4 files changed, 19 insertions(+), 2 deletions(-)
+ include/hw/ppc/pnv.h | 1 +
+ hw/ppc/pnv.c         | 8 +++++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 1b7b89098f71..1ded82b1cda8 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -324,9 +324,12 @@ typedef struct XiveTCTX {
- /*
-  * XIVE Router
-  */
-+typedef struct XiveFabric XiveFabric;
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 56277862dd53..4b9012f9949e 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -48,6 +48,7 @@ typedef struct PnvChip {
+     uint64_t     ram_size;
 =20
- typedef struct XiveRouter {
-     SysBusDevice    parent;
-+
-+    XiveFabric *xfb;
- } XiveRouter;
+     uint32_t     nr_cores;
++    uint32_t     nr_threads;
+     uint64_t     cores_mask;
+     PnvCore      **cores;
 =20
- #define TYPE_XIVE_ROUTER "xive-router"
-@@ -402,8 +405,6 @@ int xive_presenter_tctx_match(XivePresenter *xptr, Xi=
-veTCTX *tctx,
-  * XIVE Fabric (Interface between Interrupt Controller and Machine)
-  */
-=20
--typedef struct XiveFabric XiveFabric;
--
- #define TYPE_XIVE_FABRIC "xive-fabric"
- #define XIVE_FABRIC(obj)                                     \
-     INTERFACE_CHECK(XiveFabric, (obj), TYPE_XIVE_FABRIC)
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index d4c6e21703b3..6df89b06da38 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1714,12 +1714,19 @@ void xive_router_notify(XiveNotifier *xn, uint32_=
-t lisn)
-                            xive_get_field64(EAS_END_DATA,  eas.w));
- }
-=20
-+static Property xive_router_properties[] =3D {
-+    DEFINE_PROP_LINK("xive-fabric", XiveRouter, xfb,
-+                     TYPE_XIVE_FABRIC, XiveFabric *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void xive_router_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-     XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
-=20
-     dc->desc    =3D "XIVE Router Engine";
-+    dc->props   =3D xive_router_properties;
-     xnc->notify =3D xive_router_notify;
- }
-=20
-@@ -1727,6 +1734,7 @@ static const TypeInfo xive_router_info =3D {
-     .name          =3D TYPE_XIVE_ROUTER,
-     .parent        =3D TYPE_SYS_BUS_DEVICE,
-     .abstract      =3D true,
-+    .instance_size =3D sizeof(XiveRouter),
-     .class_size    =3D sizeof(XiveRouterClass),
-     .class_init    =3D xive_router_class_init,
-     .interfaces    =3D (InterfaceInfo[]) {
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index a0e0e43610a2..6d003144b6fc 100644
+index 6d003144b6fc..8f072ea7eff1 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -797,6 +797,10 @@ static void pnv_init(MachineState *machine)
-         if (object_dynamic_cast(OBJECT(pnv), TYPE_XICS_FABRIC)) {
-             object_property_set_link(chip, OBJECT(pnv), "xics", &error_a=
-bort);
-         }
-+        if (object_dynamic_cast(OBJECT(pnv), TYPE_XIVE_FABRIC)) {
-+            object_property_set_link(chip, OBJECT(pnv), "xive-fabric",
-+                                     &error_abort);
-+        }
-         object_property_set_bool(chip, true, "realized", &error_fatal);
-     }
-     g_free(chip_typename);
-@@ -1215,6 +1219,8 @@ static void pnv_chip_power9_instance_init(Object *o=
-bj)
+@@ -790,6 +790,8 @@ static void pnv_init(MachineState *machine)
+                                 &error_fatal);
+         object_property_set_int(chip, machine->smp.cores,
+                                 "nr-cores", &error_fatal);
++        object_property_set_int(chip, machine->smp.threads,
++                                "nr-threads", &error_fatal);
+         /*
+          * The POWER8 machine use the XICS interrupt interface.
+          * Propagate the XICS fabric to the chip and its controllers.
+@@ -1514,7 +1516,6 @@ static void pnv_chip_core_sanitize(PnvChip *chip, E=
+rror **errp)
 =20
-     object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xiv=
-e),
-                             TYPE_PNV_XIVE, &error_abort, NULL);
-+    object_property_add_alias(obj, "xive-fabric", OBJECT(&chip9->xive),
-+                              "xive-fabric", &error_abort);
+ static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
+ {
+-    MachineState *ms =3D MACHINE(qdev_get_machine());
+     Error *error =3D NULL;
+     PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
+     const char *typename =3D pnv_chip_core_typename(chip);
+@@ -1550,8 +1551,8 @@ static void pnv_chip_core_realize(PnvChip *chip, Er=
+ror **errp)
+         object_property_add_child(OBJECT(chip), core_name, OBJECT(pnv_co=
+re),
+                                   &error_abort);
+         chip->cores[i] =3D pnv_core;
+-        object_property_set_int(OBJECT(pnv_core), ms->smp.threads, "nr-t=
+hreads",
+-                                &error_fatal);
++        object_property_set_int(OBJECT(pnv_core), chip->nr_threads,
++                                "nr-threads", &error_fatal);
+         object_property_set_int(OBJECT(pnv_core), core_hwid,
+                                 CPU_CORE_PROP_CORE_ID, &error_fatal);
+         object_property_set_int(OBJECT(pnv_core),
+@@ -1590,6 +1591,7 @@ static Property pnv_chip_properties[] =3D {
+     DEFINE_PROP_UINT64("ram-size", PnvChip, ram_size, 0),
+     DEFINE_PROP_UINT32("nr-cores", PnvChip, nr_cores, 1),
+     DEFINE_PROP_UINT64("cores-mask", PnvChip, cores_mask, 0x0),
++    DEFINE_PROP_UINT32("nr-threads", PnvChip, nr_threads, 1),
+     DEFINE_PROP_END_OF_LIST(),
+ };
 =20
-     object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi)=
-,
-                             TYPE_PNV9_PSI, &error_abort, NULL);
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 373505d28b9a..1f630f296bd5 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -332,6 +332,8 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
-*errp)
-          * priority
-          */
-         qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-+        object_property_set_link(OBJECT(dev), OBJECT(spapr), "xive-fabri=
-c",
-+                                 &error_abort);
-         qdev_init_nofail(dev);
-=20
-         spapr->xive =3D SPAPR_XIVE(dev);
 --=20
 2.21.1
 
