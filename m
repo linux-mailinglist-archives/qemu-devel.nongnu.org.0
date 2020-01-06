@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37454131679
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:08:00 +0100 (CET)
-Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D47F13168C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:12:42 +0100 (CET)
+Received: from localhost ([::1]:55412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioVrD-0000hr-9D
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:07:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44514)
+	id 1ioVvl-0005ht-Li
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:12:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1ioVqI-0008K7-TQ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:07:04 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1ioVq3-00086l-SK
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:06:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1ioVqH-000148-A1
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:07:02 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2058 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1ioVqA-0000oi-TT; Mon, 06 Jan 2020 12:06:55 -0500
-Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.107])
- by Forcepoint Email with ESMTP id DBAD9F27661A12FACF7E;
- Mon,  6 Jan 2020 17:06:45 +0000 (GMT)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml703-cah.china.huawei.com (10.201.108.44) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 6 Jan 2020 17:06:32 +0000
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 6 Jan 2020 17:06:32 +0000
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.1713.004; Mon, 6 Jan 2020 17:06:32 +0000
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: Igor Mammedov <imammedo@redhat.com>, Jonathan Cameron
- <jonathan.cameron@huawei.com>
-Subject: RE: [PATCH 0/5] ARM virt: Add NVDIMM support
-Thread-Topic: [PATCH 0/5] ARM virt: Add NVDIMM support
-Thread-Index: AQHVeswdQv2zL2ZjnU2+5S1CywnCCKdgnucAgAYn2ECANV3CUIAANK6AgAADjLCAARyUgIADW0wAgBGftACAAodbgIADcKzggCX7GsA=
-Date: Mon, 6 Jan 2020 17:06:32 +0000
-Message-ID: <8562f82b7c0140d3ad0c7f6616cb6f28@huawei.com>
-References: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
- <a133d4c4-3f60-2bb1-a7d7-35cdb06af265@redhat.com>
- <441c818f24084b4191315cf2a6267cef@huawei.com>
- <20191125164541.3f0a593f@redhat.com>
- <444efcb441fe42e5aff58b3af3ab14b4@huawei.com>
- <20191126095655.27227f59@redhat.com>
- <c2bb0be09e244ee59d27c7aaab1783a9@huawei.com>
- <20191211085727.1ab9564e@redhat.com> 
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.237]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <jean-philippe@linaro.org>) id 1ioVq2-0000o5-C9
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:06:47 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38371)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
+ id 1ioVpy-0000jo-Ff
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:06:46 -0500
+Received: by mail-wr1-x444.google.com with SMTP id y17so50499114wrh.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 09:06:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QwtBdC5pI1sgKCXH6j8cPBwozyzvDybZ4woNY7xn/Cg=;
+ b=pcbrkjEd8PM/cmseu4JciD9/I7TRvwC47RtdpnoBoECQA8mNGU45dtKmFlGdMQ/I88
+ HF8eS3sTnxw8ljtJREjRcfSfxte4Wn6N8YH0mzjMmAlrXR/1kWLS0LJheMnA/DhnlVcj
+ Go5pPutKhtIuu4xJ7hslC7Pb9xF5muHxuqxfxr/FlJp64jDDfjYs5UQhFal4+SlDCnwl
+ 3jBlGbIUTeUB9sm9QTvdur8Hw7PtHip3zYb2SJPCuxTqOcOfJ7IXDSWOpmFK73qNIN3Z
+ LLIHSW1/TIkQG6LEtY34/LhPNJgqNtXBc6oos0bG+z4UPpFAg9JVokP2vdquCJaOoc9T
+ raUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QwtBdC5pI1sgKCXH6j8cPBwozyzvDybZ4woNY7xn/Cg=;
+ b=fkjvejVsRLxGB80l1Vk2cDfJ52llIjHe6l+Biyw/oLr4o06MUlFHAZy3sUAHrOJN6i
+ YUSxuVdtN/mExNKTILKFuaKpJLuDdQyUCbiaryX44sYk+qRQTx+2U6u/1UrxI7JYVAdg
+ 8kJk6wE7e/wFFsuqEtjdGooHBatgKx/7xQriwQ9rrYHQmQYLQ7d3iZFDuKobXQazCCAC
+ Vtpf0BkonJLkTa9S3oaSQrDQSfBl57CkBFTIaeLq6d6/YIdq/HTBwj8qHfMSU0wiqTOz
+ Wrl0U+JQlU8uBU9/reiCNxBRJditt82q9dltubW4ODHixCkL36wICVkmQjYLpaZQApWP
+ vQlA==
+X-Gm-Message-State: APjAAAU6kvsnLM3lin+jhWZR5LZSzOuprnU4fXcU0c16l4Dh3RD+2F/F
+ XJ6OYtEhqDWRPz3nl6NsRdrwyQ==
+X-Google-Smtp-Source: APXvYqwIm5Atl15tx1r8r9EFH+KPKAp94qgWgdQrh1zTWM3Ue3tPtJI6g1URL1Ye+BQSX7y+Qor0KQ==
+X-Received: by 2002:adf:bc87:: with SMTP id g7mr108873928wrh.121.1578330400372; 
+ Mon, 06 Jan 2020 09:06:40 -0800 (PST)
+Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
+ by smtp.gmail.com with ESMTPSA id 2sm75044495wrq.31.2020.01.06.09.06.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2020 09:06:39 -0800 (PST)
+Date: Mon, 6 Jan 2020 18:06:34 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
+Message-ID: <20200106170634.GF2062@myrica>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-9-eric.auger@redhat.com>
+ <20191210193342.GJ3352@xz-x1>
+ <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
+ <20191219133308.GA4246@xz-x1>
+ <9d58b293-ada0-353e-bba2-ad1f538dfc62@redhat.com>
+ <20191219144936.GB50561@xz-x1>
+ <9ec9d0d5-062b-f96b-c72c-4d15865ff9a1@redhat.com>
+ <20191220162642.GA2626852@myrica> <20191220165100.GA3780@xz-x1>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 185.176.76.210
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191220165100.GA3780@xz-x1>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,231 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "drjones@redhat.com" <drjones@redhat.com>,
- "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
- Auger Eric <eric.auger@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ Auger Eric <eric.auger@redhat.com>, bharatb.linux@gmail.com,
+ qemu-arm@nongnu.org, dgilbert@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+On Fri, Dec 20, 2019 at 11:51:00AM -0500, Peter Xu wrote:
+> On Fri, Dec 20, 2019 at 05:26:42PM +0100, Jean-Philippe Brucker wrote:
+> > There is at the virtio transport level: the driver sets status to
+> > FEATURES_OK once it accepted the feature bits, and to DRIVER_OK once its
+> > fully operational. The virtio-iommu spec says:
+> > 
+> >   If the driver does not accept the VIRTIO_IOMMU_F_BYPASS feature, the
+> >   device SHOULD NOT let endpoints access the guest-physical address space.
+> > 
+> > So before features negotiation, there is no access. Afterwards it depends
+> > if the VIRTIO_IOMMU_F_BYPASS has been accepted by the driver.
+> 
+> Before enabling virtio-iommu device, should we still let the devices
+> to access the whole system address space?  I believe that's at least
+> what Intel IOMMUs are doing.  From code-wise, its:
+> 
+>     if (likely(s->dmar_enabled)) {
+>         success = vtd_do_iommu_translate(vtd_as, vtd_as->bus, vtd_as->devfn,
+>                                          addr, flag & IOMMU_WO, &iotlb);
+>     } else {
+>         /* DMAR disabled, passthrough, use 4k-page*/
+>         iotlb.iova = addr & VTD_PAGE_MASK_4K;
+>         iotlb.translated_addr = addr & VTD_PAGE_MASK_4K;
+>         iotlb.addr_mask = ~VTD_PAGE_MASK_4K;
+>         iotlb.perm = IOMMU_RW;
+>         success = true;
+>     }
+> 
+> From hardware-wise, an IOMMU should be close to transparent if you
+> never enable it, imho.
 
-> -----Original Message-----
-> From: Shameerali Kolothum Thodi
-> Sent: 13 December 2019 12:52
-> To: 'Igor Mammedov' <imammedo@redhat.com>
-> Cc: xiaoguangrong.eric@gmail.com; peter.maydell@linaro.org;
-> drjones@redhat.com; shannon.zhaosl@gmail.com; qemu-devel@nongnu.org;
-> Linuxarm <linuxarm@huawei.com>; Auger Eric <eric.auger@redhat.com>;
-> qemu-arm@nongnu.org; xuwei (O) <xuwei5@huawei.com>;
-> lersek@redhat.com
-> Subject: RE: [PATCH 0/5] ARM virt: Add NVDIMM support
->=20
+For hardware that's not necessarily the best choice. As cited in my
+previous reply it has been shown to introduce vulnerabilities since
+malicious devices can DMA during boot, before the OS takes control of the
+IOMMU. The Arm SMMU allows an implementation to adopt a deny policy by
+default.
+
+> Otherwise I'm confused on how a guest (with virtio-iommu) could boot
+> with a normal BIOS that does not contain a virtio-iommu driver.  For
+> example, what if the BIOS needs to read some block sectors (as you
+> mentioned)?
+
+Ideally we should aim at supporting the device in both the BIOS and the
+OS. Failing that, there should at least be a way to instantiate a
+virtio-iommu device that is blocking by default, that cannot be bypassed
+unless the controlling software decides to allow it. Could the bypass
+policy be a command-line option to the virtio-iommu device?
 
 [...]
+> > Yes bypass mode assumes that devices and drivers aren't malicious, and the
+> > IOMMU is only used for things like assigning devices to guest userspace,
+> > or having large contiguous DMA buffers.
+> 
+> Yes I agree.  However again when the BYPASS flag was introduced, have
+> you thought of introducing that flag per-device?  IMHO that could be
+> better because you have a finer granularity on controlling all these,
+> so you'll be able to reject malicious devices but at the meantime
+> grant permission to trusted devices.
 
->=20
-> Thanks for your help. I did spend some more time debugging this further.
-> I tried to introduce a totally new Buffer field object with different
-> sizes and printing the size after creation.
->=20
-> --- SSDT.dsl	2019-12-12 15:28:21.976986949 +0000
-> +++ SSDT-arm64-dbg.dsl	2019-12-13 12:17:11.026806186 +0000
-> @@ -18,7 +18,7 @@
->   *     Compiler ID      "BXPC"
->   *     Compiler Version 0x00000001 (1)
->   */
-> -DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM", 0x00000001)
-> +DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM", 0x00000002)
->  {
->      Scope (\_SB)
->      {
-> @@ -48,6 +48,11 @@
->                      RLEN,   32,
->                      ODAT,   32736
->                  }
-> +
-> +                Field (NRAM, DWordAcc, NoLock, Preserve)
-> +                {
-> +                    NBUF,   32768
-> +                }
->=20
->                  If ((Arg4 =3D=3D Zero))
->                  {
-> @@ -87,6 +92,12 @@
->                      Local3 =3D DerefOf (Local2)
->                      FARG =3D Local3
->                  }
-> +
-> +                Local2 =3D 0x2
-> +                printf("AML:NVDIMM Creating TBUF with bytes %o",
-> Local2)
-> +                CreateField (NBUF, Zero, (Local2 << 3), TBUF)
-> +                Concatenate (Buffer (Zero){}, TBUF, Local3)
-> +                printf("AML:NVDIMM Size of TBUF(Local3) %o",
-> SizeOf(Local3))
->=20
->                  NTFI =3D Local6
->                  Local1 =3D (RLEN - 0x04)
->=20
-> And run it by changing Local2 with different values, It looks on ARM64,
->=20
-> For cases where, Local2 <8, the created buffer size is always 8 bytes
->=20
-> "AML:NVDIMM Creating TBUF with bytes 0000000000000002"
-> "AML:NVDIMM Size of TBUF(Local3) 0000000000000008"
->=20
-> ...
-> "AML:NVDIMM Creating TBUF with bytes 0000000000000005"
-> "AML:NVDIMM Size of TBUF(Local3) 0000000000000008"
->=20
-> And once Local2 >=3D8, it gets the correct size,
->=20
-> "AML:NVDIMM Creating TBUF with bytes 0000000000000009"
-> "AML:NVDIMM Size of TBUF(Local3) 0000000000000009"
->=20
->=20
-> But on x86, the behavior is like,
->=20
-> For cases where, Local2 <4, the created buffer size is always 4 bytes
->=20
-> "AML:NVDIMM Creating TBUF with bytes 00000002"
-> "AML:NVDIMM Size of TBUF(Local3) 00000004"
-> ....
-> "AML:NVDIMM Creating TBUF with bytes 00000003"
-> "AML:NVDIMM Size of TBUF(Local3) 00000004"
->=20
-> And once Local2 >=3D 4, it is ok
->=20
-> "AML:NVDIMM Creating TBUF with bytes 00000005"
-> "AML:NVDIMM Size of TBUF(Local3) 00000005"
-> ...
-> "AML:NVDIMM Creating TBUF with bytes 00000009"
-> "AML:NVDIMM Size of TBUF(Local3) 00000009"
->=20
-> This is the reason why it works on x86 and not on ARM64. Because, if you
-> remember on second iteration of the FIT buffer, the requested buffer size=
- is 4 .
->=20
-> I tried changing the AccessType of the below NBUF field from DWordAcc to
-> ByteAcc/BufferAcc, but no luck.
->=20
-> +                Field (NRAM, DWordAcc, NoLock, Preserve)
-> +                {
-> +                    NBUF,   32768
-> +                }
->=20
-> Not sure what we need to change for ARM64 to create buffer object of size=
- 4
-> here. Please let me know if you have any pointers to debug this further.
->=20
-> (I am attaching both x86 and ARM64 SSDT dsl used for reference)
-
-(+Jonathan)
-
-Thanks to Jonathan for taking a fresh look at this issue and spotting this,
-https://elixir.bootlin.com/linux/v5.5-rc5/source/drivers/acpi/acpica/utmisc=
-.c#L109
-
-And, from ACPI 6.3, table 19-419
-
-"If the Buffer Field is smaller than or equal to the size of an Integer (in=
- bits), it
-will be treated as an Integer. Otherwise, it will be treated as a Buffer. T=
-he size
-of an Integer is indicated by the Definition Block table header's Revision =
-field.
-A Revision field value less than 2 indicates that the size of an Integer is=
- 32 bits.
-A value greater than or equal to 2 signifies that the size of an Integer is=
- 64 bits."
-
-It looks like the main reason for the difference in behavior of the buffer =
-object
-size between x86 and ARM/virt, is because of the Revision number used in th=
-e
-DSDT table. On x86 it is 1 and ARM/virt it is 2.
-
-So most likely,
-
->     CreateField (ODAT, Zero, Local1, OBUF)
->     Concatenate (Buffer (Zero){}, OBUF, Local7)
-
-defaults to the minimum integer byte length based on DSDT revision number.
-
-I tried changing the DSDT rev number of x86 code to 2,
-=20
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 614e48ff38..2941edab8d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2257,7 +2257,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-=A0 =A0 =A0g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len)=
-;
-=A0 =A0 =A0build_header(linker, table_data,
-=A0 =A0 =A0 =A0 =A0(void *)(table_data->data + table_data->len - dsdt->buf-=
->len),
-- =A0 =A0 =A0 =A0"DSDT", dsdt->buf->len, 1, NULL, NULL);
-+ =A0 =A0 =A0 =A0"DSDT", dsdt->buf->len, 2, NULL, NULL);
-=A0 =A0 =A0free_aml_allocator();
-=A0}
-
-And the same issue was reported by Guest Kernel,
-
-[ =A0 =A01.636672] nfit ACPI0012:00: found a zero length table '0' parsing =
-nfit
-
-
-With a quick fix to the nvdimm aml code(below) everything seems to work
-now. But again this may not be the right fix/approach for this.
-
-Please take a look and let me know.
+At the moment that per-device behavior can be emulated by sending an
+ATTACH request followed by identity MAP. It could be a little more
+efficient to add a "bypass" flag to the ATTACH request and avoid setting
+up the identity mapping manually, since the device then wouldn't need to
+look up the mapping on translation, but I don't know how much it would
+improve performance. The device could also cache the fact that the address
+space is identity-mapped, for the same result. The domain lookup has to
+happen in any case, so you can never get the full iommu-free performance
+with these mechanisms.
 
 Thanks,
-Shameer
-
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 64eacfad08..621f9ffd41 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -1192,15 +1192,18 @@ static void nvdimm_build_fit(Aml *dev)
-=A0 =A0 =A0aml_append(method, ifctx);
-=A0
-=A0 =A0 =A0aml_append(method, aml_store(aml_sizeof(buf), buf_size));
-- =A0 =A0aml_append(method, aml_subtract(buf_size,
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0am=
-l_int(4) /* the size of "STAU" */,
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bu=
-f_size));
-=A0
-=A0 =A0 =A0/* if we read the end of fit. */
-- =A0 =A0ifctx =3D aml_if(aml_equal(buf_size, aml_int(0)));
-+ =A0 =A0ifctx =3D aml_if(aml_equal(aml_subtract(buf_size,
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 aml_sizeof(aml_in=
-t(0)), NULL),
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 aml_int(0)));
-=A0 =A0 =A0aml_append(ifctx, aml_return(aml_buffer(0, NULL)));
-=A0 =A0 =A0aml_append(method, ifctx);
-=A0
-+ =A0 =A0aml_append(method, aml_subtract(buf_size,
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0am=
-l_int(4) /* the size of "STAU" */,
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bu=
-f_size));
-+
-=A0 =A0 =A0aml_append(method, aml_create_field(buf,
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0aml_int(4 * BITS=
-_PER_BYTE), /* offset at byte 4.*/
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0aml_shiftleft(bu=
-f_size, aml_int(3)), "BUFF"));
-
-
-
-
-
+Jean
 
