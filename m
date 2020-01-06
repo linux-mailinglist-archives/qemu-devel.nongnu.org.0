@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34C013143F
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 15:59:59 +0100 (CET)
-Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE2B131410
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 15:49:51 +0100 (CET)
+Received: from localhost ([::1]:52870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioTrK-000386-A5
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 09:59:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43716)
+	id 1ioThW-0004wd-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 09:49:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTb4-0006Vx-CM
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:11 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ioTbE-0006jT-52
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTb3-0000MD-8u
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:10 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52263
+ (envelope-from <mreitz@redhat.com>) id 1ioTbD-0000U6-0b
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:19 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40901
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTb3-0000M1-5y
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:09 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbC-0000Tp-Sl
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321788;
+ s=mimecast20190719; t=1578321798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wvs5BLjjC+phE0DkejwRiHX0/gXnCNReskLUf3qZM5M=;
- b=dptcUr9wfkzx/GOczAz873FfFd42fiRoqZb+d1gYCoEE7u+jfJMZ04NQ0LRLdggyZu8kj4
- fpU7NBhCM6Mc30aABb9Wz1pqjLOWev9tXxZojqxkDT9ZKA/Gb6ZHAPO2aDxaIHMNtGRJvZ
- uNE2aT35DMJIuSaji339EiqLSMtfJJo=
+ bh=bLiYj6BXkPYmDRDPIGzY1HHWOR+4yjYppQp72ysdNJc=;
+ b=hREzr7g8YRtA36wgPaJqJadIadogcjQhRUW8gSPeYmiBXYG7lYe4JQD77pVZKFooTnZqvY
+ cy8648csVktpVlA5bDsX9wDLGVSktwzo4YwylSvl4+ScvC8EX9mX72SeIXvlWOkDil2xis
+ j8Szj5o5IX1DZkR8yji8gIsUiejm3z8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-kaXbUbqCM9OGae6pO8v_Fw-1; Mon, 06 Jan 2020 09:43:05 -0500
+ us-mta-132-Xss0MI4xOBKUcOEtrf1LtA-1; Mon, 06 Jan 2020 09:43:17 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EA508F2CEA;
- Mon,  6 Jan 2020 14:43:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06BF55B37C;
+ Mon,  6 Jan 2020 14:43:16 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9833D1084201;
- Mon,  6 Jan 2020 14:43:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A067210840F1;
+ Mon,  6 Jan 2020 14:43:15 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/34] iotests: Add -o and --no-opts to _make_test_img
-Date: Mon,  6 Jan 2020 15:41:48 +0100
-Message-Id: <20200106144206.698920-17-mreitz@redhat.com>
+Subject: [PULL 20/34] iotests: Drop IMGOPTS use in 267
+Date: Mon,  6 Jan 2020 15:41:52 +0100
+Message-Id: <20200106144206.698920-21-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: kaXbUbqCM9OGae6pO8v_Fw-1
+X-MC-Unique: Xss0MI4xOBKUcOEtrf1LtA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,64 +75,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Blindly overriding IMGOPTS is suboptimal as this discards user-specified
-options.  Whatever options the test needs should simply be appended.
-
-Some tests do this (with IMGOPTS=3D$(_optstr_add "$IMGOPTS" "...")), but
-that is cumbersome.  It=E2=80=99s simpler to just give _make_test_img an -o
-parameter with which tests can add options.
-
-Some tests actually must override the user-specified options, though,
-for example when creating an image in a different format than the test
-$IMGFMT.  For such cases, --no-opts allows clearing the current option
-list.
+Overwriting IMGOPTS means ignoring all user-supplied options, which is
+not what we want.  Replace the current IMGOPTS use by a new BACKING_FILE
+variable.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20191107163708.833192-10-mreitz@redhat.com
+Message-id: 20191107163708.833192-14-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.rc | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tests/qemu-iotests/267 | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index f01165a66e..7d704f9573 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -308,6 +308,7 @@ _make_test_img()
-     local use_backing=3D0
-     local backing_file=3D""
-     local object_options=3D""
-+    local opts_param=3Dfalse
-     local misc_params=3D()
+diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
+index b823668e29..bd9a5c5524 100755
+--- a/tests/qemu-iotests/267
++++ b/tests/qemu-iotests/267
+@@ -69,7 +69,11 @@ size=3D128M
 =20
-     if [ -n "$TEST_IMG_FILE" ]; then
-@@ -328,6 +329,10 @@ _make_test_img()
-         if [ "$use_backing" =3D "1" -a -z "$backing_file" ]; then
-             backing_file=3D$param
-             continue
-+        elif $opts_param; then
-+            optstr=3D$(_optstr_add "$optstr" "$param")
-+            opts_param=3Dfalse
-+            continue
-         fi
+ run_test()
+ {
+-    _make_test_img $size
++    if [ -n "$BACKING_FILE" ]; then
++        _make_test_img -b "$BACKING_FILE" $size
++    else
++        _make_test_img $size
++    fi
+     printf "savevm snap0\ninfo snapshots\nloadvm snap0\n" | run_qemu "$@" =
+| _filter_date
+ }
 =20
-         case "$param" in
-@@ -335,6 +340,14 @@ _make_test_img()
-                 use_backing=3D1
-                 ;;
+@@ -120,12 +124,12 @@ echo
 =20
-+            -o)
-+                opts_param=3Dtrue
-+                ;;
-+
-+            --no-opts)
-+                optstr=3D""
-+                ;;
-+
-             *)
-                 misc_params=3D("${misc_params[@]}" "$param")
-                 ;;
+ TEST_IMG=3D"$TEST_IMG.base" _make_test_img $size
+=20
+-IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
++BACKING_FILE=3D"$TEST_IMG.base" \
+ run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-name=3Db=
+acking-file \
+          -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile \
+          -blockdev driver=3D$IMGFMT,file=3Dfile,backing=3Dbacking-file,nod=
+e-name=3Dfmt
+=20
+-IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
++BACKING_FILE=3D"$TEST_IMG.base" \
+ run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-name=3Db=
+acking-file \
+          -blockdev driver=3D$IMGFMT,file=3Dbacking-file,node-name=3Dbackin=
+g-fmt \
+          -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile \
+@@ -142,7 +146,7 @@ echo
+ echo "=3D=3D=3D -blockdev with NBD server on the backing file =3D=3D=3D"
+ echo
+=20
+-IMGOPTS=3D"backing_file=3D$TEST_IMG.base" _make_test_img $size
++_make_test_img -b "$TEST_IMG.base" $size
+ cat <<EOF |
+ nbd_server_start unix:$SOCK_DIR/nbd
+ nbd_server_add -w backing-fmt
 --=20
 2.24.1
 
