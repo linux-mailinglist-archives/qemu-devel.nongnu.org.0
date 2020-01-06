@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D00131413
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 15:51:37 +0100 (CET)
-Received: from localhost ([::1]:52906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B8B13142A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 15:56:10 +0100 (CET)
+Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioTjD-0006zP-Rp
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 09:51:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43313)
+	id 1ioTnd-0006Ag-M1
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 09:56:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTae-0005vi-LQ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:42:45 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ioTah-0005xR-FN
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:42:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTad-0008SJ-HR
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:42:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39227
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1ioTag-0008Tu-6L
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:42:47 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45908
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTad-0008Rg-E3
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:42:43 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTag-0008TG-3K
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:42:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321762;
+ s=mimecast20190719; t=1578321765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HcR8kdZVNr6+Xmm97ZoQXx/mtvvqp3phSsQ3QlqYEE8=;
- b=GPcKP9VmlVcBzcV++eCEoeQLfTtM4BorLGlqciRF/vzEtlsPEBdTQ8yf00YWU1JPVt2Yal
- 2uvCMw7Fz85UUHGsCpMWeZPTe0H/JYczJnWsoUprNJ6SThEh1kozxZYmnHaE00qR9pVlLM
- iKadDg4QTLkcyV1bFBja5W6u3wC9OO4=
+ bh=/IpDbiZG05sAUScSJC7wQs3uaDUS0rYw+sdrCP2plhw=;
+ b=MgFOQNPd6VMnzPrOgIkGA4SLFSb45eUyylDSNKZDZv74/3Pctgw28th63fc6DEIGbjMxoJ
+ IVLE6SThBeAQec/NEWY9ZQWCsE10rKuXk2wEqZCRLHhBVqHf5yJofhuUKmhnaOpPqdfb7y
+ p/+2wrL5F98Fag0fsNzBj1nzu6CRG1Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-PGKEBlKJPtyFb-0gutoewA-1; Mon, 06 Jan 2020 09:42:39 -0500
+ us-mta-96-NxrSOsEvPMSB68lbvd4D7w-1; Mon, 06 Jan 2020 09:42:41 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 281C585B6FE;
- Mon,  6 Jan 2020 14:42:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5F14A9D740;
+ Mon,  6 Jan 2020 14:42:40 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8499B29342;
- Mon,  6 Jan 2020 14:42:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 39F4F271B4;
+ Mon,  6 Jan 2020 14:42:39 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/34] throttle-groups: fix memory leak in
- throttle_group_set_limit:
-Date: Mon,  6 Jan 2020 15:41:38 +0100
-Message-Id: <20200106144206.698920-7-mreitz@redhat.com>
+Subject: [PULL 07/34] qcow2-bitmaps: fix qcow2_can_store_new_dirty_bitmap
+Date: Mon,  6 Jan 2020 15:41:39 +0100
+Message-Id: <20200106144206.698920-8-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: PGKEBlKJPtyFb-0gutoewA-1
+X-MC-Unique: NxrSOsEvPMSB68lbvd4D7w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,67 +75,101 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: PanNengyuan <pannengyuan@huawei.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-This avoid a memory leak when qom-set is called to set throttle_group
-limits, here is an easy way to reproduce:
+qcow2_can_store_new_dirty_bitmap works wrong, as it considers only
+bitmaps already stored in the qcow2 image and ignores persistent
+BdrvDirtyBitmap objects.
 
-1. run qemu-iotests as follow and check the result with asan:
-       ./check -qcow2 184
+So, let's instead count persistent BdrvDirtyBitmaps. We load all qcow2
+bitmaps on open, so there should not be any bitmap in the image for
+which we don't have BdrvDirtyBitmaps version. If it is - it's a kind of
+corruption, and no reason to check for corruptions here (open() and
+close() are better places for it).
 
-Following is the asan output backtrack:
-Direct leak of 912 byte(s) in 3 object(s) allocated from:
-    #0 0xffff8d7ab3c3 in __interceptor_calloc   (/lib64/libasan.so.4+0xd33c=
-3)
-    #1 0xffff8d4c31cb in g_malloc0   (/lib64/libglib-2.0.so.0+0x571cb)
-    #2 0x190c857 in qobject_input_start_struct  /mnt/sdc/qemu-master/qemu-4=
-.2.0-rc0/qapi/qobject-input-visitor.c:295
-    #3 0x19070df in visit_start_struct   /mnt/sdc/qemu-master/qemu-4.2.0-rc=
-0/qapi/qapi-visit-core.c:49
-    #4 0x1948b87 in visit_type_ThrottleLimits   qapi/qapi-visit-block-core.=
-c:3759
-    #5 0x17e4aa3 in throttle_group_set_limits   /mnt/sdc/qemu-master/qemu-4=
-.2.0-rc0/block/throttle-groups.c:900
-    #6 0x1650eff in object_property_set     /mnt/sdc/qemu-master/qemu-4.2.0=
--rc0/qom/object.c:1272
-    #7 0x1658517 in object_property_set_qobject   /mnt/sdc/qemu-master/qemu=
--4.2.0-rc0/qom/qom-qobject.c:26
-    #8 0x15880bb in qmp_qom_set  /mnt/sdc/qemu-master/qemu-4.2.0-rc0/qom/qo=
-m-qmp-cmds.c:74
-    #9 0x157e3e3 in qmp_marshal_qom_set  qapi/qapi-commands-qom.c:154
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
-Message-id: 1574835614-42028-1-git-send-email-pannengyuan@huawei.com
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-id: 20191014115126.15360-2-vsementsov@virtuozzo.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/throttle-groups.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/qcow2-bitmap.c | 41 ++++++++++++++++++-----------------------
+ 1 file changed, 18 insertions(+), 23 deletions(-)
 
-diff --git a/block/throttle-groups.c b/block/throttle-groups.c
-index 77014c741b..37695b0cd7 100644
---- a/block/throttle-groups.c
-+++ b/block/throttle-groups.c
-@@ -893,8 +893,7 @@ static void throttle_group_set_limits(Object *obj, Visi=
-tor *v,
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index c6c8ebbe89..d41f5d049b 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1703,8 +1703,14 @@ bool coroutine_fn qcow2_co_can_store_new_dirty_bitma=
+p(BlockDriverState *bs,
+                                                       Error **errp)
  {
-     ThrottleGroup *tg =3D THROTTLE_GROUP(obj);
-     ThrottleConfig cfg;
--    ThrottleLimits arg =3D { 0 };
--    ThrottleLimits *argp =3D &arg;
-+    ThrottleLimits *argp;
-     Error *local_err =3D NULL;
+     BDRVQcow2State *s =3D bs->opaque;
+-    bool found;
+-    Qcow2BitmapList *bm_list;
++    BdrvDirtyBitmap *bitmap;
++    uint64_t bitmap_directory_size =3D 0;
++    uint32_t nb_bitmaps =3D 0;
++
++    if (bdrv_find_dirty_bitmap(bs, name)) {
++        error_setg(errp, "Bitmap already exists: %s", name);
++        return false;
++    }
 =20
-     visit_type_ThrottleLimits(v, name, &argp, &local_err);
-@@ -912,6 +911,7 @@ static void throttle_group_set_limits(Object *obj, Visi=
-tor *v,
- unlock:
-     qemu_mutex_unlock(&tg->lock);
- ret:
-+    qapi_free_ThrottleLimits(argp);
-     error_propagate(errp, local_err);
-     return;
- }
+     if (s->qcow_version < 3) {
+         /* Without autoclear_features, we would always have to assume
+@@ -1720,38 +1726,27 @@ bool coroutine_fn qcow2_co_can_store_new_dirty_bitm=
+ap(BlockDriverState *bs,
+         goto fail;
+     }
+=20
+-    if (s->nb_bitmaps =3D=3D 0) {
+-        return true;
++    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
++        if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
++            nb_bitmaps++;
++            bitmap_directory_size +=3D
++                calc_dir_entry_size(strlen(bdrv_dirty_bitmap_name(bitmap))=
+, 0);
++        }
+     }
++    nb_bitmaps++;
++    bitmap_directory_size +=3D calc_dir_entry_size(strlen(name), 0);
+=20
+-    if (s->nb_bitmaps >=3D QCOW2_MAX_BITMAPS) {
++    if (nb_bitmaps > QCOW2_MAX_BITMAPS) {
+         error_setg(errp,
+                    "Maximum number of persistent bitmaps is already reache=
+d");
+         goto fail;
+     }
+=20
+-    if (s->bitmap_directory_size + calc_dir_entry_size(strlen(name), 0) >
+-        QCOW2_MAX_BITMAP_DIRECTORY_SIZE)
+-    {
++    if (bitmap_directory_size > QCOW2_MAX_BITMAP_DIRECTORY_SIZE) {
+         error_setg(errp, "Not enough space in the bitmap directory");
+         goto fail;
+     }
+=20
+-    qemu_co_mutex_lock(&s->lock);
+-    bm_list =3D bitmap_list_load(bs, s->bitmap_directory_offset,
+-                               s->bitmap_directory_size, errp);
+-    qemu_co_mutex_unlock(&s->lock);
+-    if (bm_list =3D=3D NULL) {
+-        goto fail;
+-    }
+-
+-    found =3D find_bitmap_by_name(bm_list, name);
+-    bitmap_list_free(bm_list);
+-    if (found) {
+-        error_setg(errp, "Bitmap with the same name is already stored");
+-        goto fail;
+-    }
+-
+     return true;
+=20
+ fail:
 --=20
 2.24.1
 
