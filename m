@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964D3131851
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:09:39 +0100 (CET)
-Received: from localhost ([::1]:58454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2AE131866
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:13:12 +0100 (CET)
+Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXkw-0001U3-AI
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:09:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57480)
+	id 1ioXoN-00076P-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:13:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ioXci-0007Av-Ab
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:09 -0500
+ (envelope-from <mlureau@redhat.com>) id 1ioXd9-0007Si-Js
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ioXcg-00087l-P5
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43619
+ (envelope-from <mlureau@redhat.com>) id 1ioXd7-00008e-Tb
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55282
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ioXcg-00083h-Kn
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:06 -0500
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1ioXd1-0008Pu-7z
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578337263;
+ s=mimecast20190719; t=1578337283;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=au/pglmVqc0kAc3cUMqBnW5dy0fhlG/MrR+MRT7YGsc=;
- b=C7LKe3ucJnEx8vUV4HrOxGZt93eHcpWoxdx5uwy5ZWm1Trqd/x0TitsUG3v0uuSI/nxb5M
- 74uLSDxhRG1y64iPvsp8T/Te/9kBgdJ6g72q8KHplxhPoIRwAophk9j5CdJeIIPfJvttdg
- cTA99Qzr0d259ZOSfbSF0luVCgUCCAo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-5bkmoIheMWu0NfQKt2NATQ-1; Mon, 06 Jan 2020 14:00:48 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7963E10054E3
- for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 19:00:47 +0000 (UTC)
-Received: from work-vm (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14C2E10016EB;
- Mon,  6 Jan 2020 19:00:43 +0000 (UTC)
-Date: Mon, 6 Jan 2020 19:00:41 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 032/104] virtiofsd: passthrough_ll: create new files in
- caller's context
-Message-ID: <20200106190041.GO2798@work-vm>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-33-dgilbert@redhat.com>
- <20200106143011.GK2930416@redhat.com>
+ bh=udr4qNUrHL92V3QPI1xp7SuA0OONQ/iGl2vzlDGLXAo=;
+ b=Rik3Pyqew/dVHw1vHJZyyXx4NbcsxVwyaZdEnW1kNiBjSRcnhuZ5AfS7jWJz7F026bCbcJ
+ O6sgpLjk2Lpf01NVqRVxH/1UNI/NQm3oIMDXfZ8bWG3C6DjcTMPb5Nvg+oVP8f1X2mmKCI
+ qGFr610pfolo75Dm/4S4M13CwnoYZzA=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-KCa-2e9FNFKTX-1oovKeqQ-1; Mon, 06 Jan 2020 14:01:20 -0500
+Received: by mail-ot1-f71.google.com with SMTP id v7so17789880otr.14
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 11:01:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=udr4qNUrHL92V3QPI1xp7SuA0OONQ/iGl2vzlDGLXAo=;
+ b=QDWYWkjNcDDJ9cu44YCwzBGwkq5BIAVoecwaR1qNVJgEBbPyN9XGgqwGh8uydVLDTE
+ FP19Gfoxow1AWnxQPY+a8cYFTgsdNXsfjsNBC1Zhbr/qfNsg2ym3jxc46xnSHU4T4h6Z
+ lFs2nlWHsSNwwKBJ4aajeuxNF0i9oGO02gCs65VBqzUVHylJfCA5/zExpBLWPqHRvvda
+ VgBx50voRxqW+b3E6+m/Se5FJalgDaZ0cFQzAmvu7+/LFkv2geXtVyF8oukqUGxiU60Q
+ 4w9zv1zqg6Wpi8uLMv+FqpghB7YAmabNHEMreThZw06t45wJADuRTXYV6e9qg/klWy66
+ eJRg==
+X-Gm-Message-State: APjAAAX9PIAkYZyOuQTumO6kuo0m+qcF8gPEFVZmcp8E3ncW9S16KAVn
+ xOkKgXRalPvCJ1b0QTFRG686hc0RGbq6PI+Z+lOH0nYA8JhxOdd4cZdF/X52+DpPAEGqyP8SL0m
+ iDhP94V9BVqVZ6qbD4y3WJ2xFAb7EuJ0=
+X-Received: by 2002:a9d:4706:: with SMTP id a6mr109017049otf.331.1578337278811; 
+ Mon, 06 Jan 2020 11:01:18 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy6hg7r8jOwhDc1l9VjJIUG5XkDT8WG02VjnstOQj4/x7ixMw2kczT/a6yFRqGT6A+K6KhfmSzxzCXNyrCt7D4=
+X-Received: by 2002:a9d:4706:: with SMTP id a6mr109017029otf.331.1578337278541; 
+ Mon, 06 Jan 2020 11:01:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200106143011.GK2930416@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 5bkmoIheMWu0NfQKt2NATQ-1
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106182425.20312-11-danielhb413@gmail.com>
+In-Reply-To: <20200106182425.20312-11-danielhb413@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 6 Jan 2020 23:01:06 +0400
+Message-ID: <CAMxuvawDuytTS90fBxc95ONkR=w1AxGT8+faSm+Dbd7-U4TJyA@mail.gmail.com>
+Subject: Re: [PATCH v1 10/59] chardev/char-win.c: remove 'fail' label in
+ win_chr_serial_init()
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+X-MC-Unique: KCa-2e9FNFKTX-1oovKeqQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,182 +83,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: qemu-trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> On Thu, Dec 12, 2019 at 04:37:52PM +0000, Dr. David Alan Gilbert (git) wr=
-ote:
-> > From: Vivek Goyal <vgoyal@redhat.com>
-> >=20
-> > We need to create files in the caller's context. Otherwise after
-> > creating a file, the caller might not be able to do file operations on
-> > that file.
-> >=20
-> > Changed effective uid/gid to caller's uid/gid, create file and then
-> > switch back to uid/gid 0.
-> >=20
-> > Use syscall(setresuid, ...) otherwise glibc does some magic to change E=
-UID
-> > in all threads, which is not what we want.
-> >=20
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 79 ++++++++++++++++++++++++++++++--
-> >  1 file changed, 74 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
-> > index 68bacb6fc5..0188cd9ad6 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
->=20
->=20
-> > +static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
-> > +{
-> > +    int res;
-> > +
-> > +    old->euid =3D geteuid();
-> > +    old->egid =3D getegid();
-> > +
-> > +    res =3D syscall(SYS_setresgid, -1, fuse_req_ctx(req)->gid, -1);
->=20
-> Do we need to be using  SYS_setres[u,g]id32 instead...
->=20
-> [quote setresgid(2)]
->        The original Linux setresuid() and setresgid() system  calls
->        supported  only  16-bit  user  and group IDs.  Subsequently,
->        Linux 2.4 added setresuid32() and setresgid32(),  supporting
->        32-bit  IDs.   The glibc setresuid() and setresgid() wrapper
->        functions transparently deal with the variations across ker=E2=80=
-=90
->        nel versions.
-> [/quote]
+On Mon, Jan 6, 2020 at 10:25 PM Daniel Henrique Barboza
+<danielhb413@gmail.com> wrote:
+>
+> The 'fail' label is a simply call to 'return -1' on error. Remove
+> it and do the return call instead.
+>
+> CC: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> CC: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-OK, updated.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Dave
-
-> > +    if (res =3D=3D -1) {
-> > +        return errno;
-> > +    }
-> > +
-> > +    res =3D syscall(SYS_setresuid, -1, fuse_req_ctx(req)->uid, -1);
-> > +    if (res =3D=3D -1) {
-> > +        int errno_save =3D errno;
-> > +
-> > +        syscall(SYS_setresgid, -1, old->egid, -1);
-> > +        return errno_save;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +/* Regain Privileges */
-> > +static void lo_restore_cred(struct lo_cred *old)
-> > +{
-> > +    int res;
-> > +
-> > +    res =3D syscall(SYS_setresuid, -1, old->euid, -1);
-> > +    if (res =3D=3D -1) {
-> > +        fuse_log(FUSE_LOG_ERR, "seteuid(%u): %m\n", old->euid);
-> > +        exit(1);
-> > +    }
-> > +
-> > +    res =3D syscall(SYS_setresgid, -1, old->egid, -1);
-> > +    if (res =3D=3D -1) {
-> > +        fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
-> > +        exit(1);
-> > +    }
-> > +}
-> > +
-> >  static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-> >                               const char *name, mode_t mode, dev_t rdev=
-,
-> >                               const char *link)
-> > @@ -391,12 +443,21 @@ static void lo_mknod_symlink(fuse_req_t req, fuse=
-_ino_t parent,
-> >      int saverr;
-> >      struct lo_inode *dir =3D lo_inode(req, parent);
-> >      struct fuse_entry_param e;
-> > +    struct lo_cred old =3D {};
-> > =20
-> >      saverr =3D ENOMEM;
-> > =20
-> > +    saverr =3D lo_change_cred(req, &old);
-> > +    if (saverr) {
-> > +        goto out;
-> > +    }
-> > +
-> >      res =3D mknod_wrapper(dir->fd, name, link, mode, rdev);
-> > =20
-> >      saverr =3D errno;
-> > +
-> > +    lo_restore_cred(&old);
-> > +
-> >      if (res =3D=3D -1) {
-> >          goto out;
-> >      }
-> > @@ -794,26 +855,34 @@ static void lo_create(fuse_req_t req, fuse_ino_t =
-parent, const char *name,
-> >      struct lo_data *lo =3D lo_data(req);
-> >      struct fuse_entry_param e;
-> >      int err;
-> > +    struct lo_cred old =3D {};
-> > =20
-> >      if (lo_debug(req)) {
-> >          fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=
-=3D%s)\n",
-> >                   parent, name);
-> >      }
-> > =20
-> > +    err =3D lo_change_cred(req, &old);
-> > +    if (err) {
-> > +        goto out;
-> > +    }
-> > +
-> >      fd =3D openat(lo_fd(req, parent), name, (fi->flags | O_CREAT) & ~O=
-_NOFOLLOW,
-> >                  mode);
-> > -    if (fd =3D=3D -1) {
-> > -        return (void)fuse_reply_err(req, errno);
-> > -    }
-> > +    err =3D fd =3D=3D -1 ? errno : 0;
-> > +    lo_restore_cred(&old);
-> > =20
-> > -    fi->fh =3D fd;
-> > +    if (!err) {
-> > +        fi->fh =3D fd;
-> > +        err =3D lo_do_lookup(req, parent, name, &e);
-> > +    }
-> >      if (lo->cache =3D=3D CACHE_NEVER) {
-> >          fi->direct_io =3D 1;
-> >      } else if (lo->cache =3D=3D CACHE_ALWAYS) {
-> >          fi->keep_cache =3D 1;
-> >      }
-> > =20
-> > -    err =3D lo_do_lookup(req, parent, name, &e);
-> > +out:
-> >      if (err) {
-> >          fuse_reply_err(req, err);
-> >      } else {
-> > --=20
-> > 2.23.0
-> >=20
-> >=20
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> ---
+>  chardev/char-win.c | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
+>
+> diff --git a/chardev/char-win.c b/chardev/char-win.c
+> index 34825f683d..72c232e6d9 100644
+> --- a/chardev/char-win.c
+> +++ b/chardev/char-win.c
+> @@ -85,12 +85,12 @@ int win_chr_serial_init(Chardev *chr, const char *fil=
+ename, Error **errp)
+>      s->hsend =3D CreateEvent(NULL, TRUE, FALSE, NULL);
+>      if (!s->hsend) {
+>          error_setg(errp, "Failed CreateEvent");
+> -        goto fail;
+> +        return -1;
+>      }
+>      s->hrecv =3D CreateEvent(NULL, TRUE, FALSE, NULL);
+>      if (!s->hrecv) {
+>          error_setg(errp, "Failed CreateEvent");
+> -        goto fail;
+> +        return -1;
+>      }
+>
+>      s->file =3D CreateFile(filename, GENERIC_READ | GENERIC_WRITE, 0, NU=
+LL,
+> @@ -98,12 +98,12 @@ int win_chr_serial_init(Chardev *chr, const char *fil=
+ename, Error **errp)
+>      if (s->file =3D=3D INVALID_HANDLE_VALUE) {
+>          error_setg(errp, "Failed CreateFile (%lu)", GetLastError());
+>          s->file =3D NULL;
+> -        goto fail;
+> +        return -1;
+>      }
+>
+>      if (!SetupComm(s->file, NRECVBUF, NSENDBUF)) {
+>          error_setg(errp, "Failed SetupComm");
+> -        goto fail;
+> +        return -1;
+>      }
+>
+>      ZeroMemory(&comcfg, sizeof(COMMCONFIG));
+> @@ -114,29 +114,26 @@ int win_chr_serial_init(Chardev *chr, const char *f=
+ilename, Error **errp)
+>
+>      if (!SetCommState(s->file, &comcfg.dcb)) {
+>          error_setg(errp, "Failed SetCommState");
+> -        goto fail;
+> +        return -1;
+>      }
+>
+>      if (!SetCommMask(s->file, EV_ERR)) {
+>          error_setg(errp, "Failed SetCommMask");
+> -        goto fail;
+> +        return -1;
+>      }
+>
+>      cto.ReadIntervalTimeout =3D MAXDWORD;
+>      if (!SetCommTimeouts(s->file, &cto)) {
+>          error_setg(errp, "Failed SetCommTimeouts");
+> -        goto fail;
+> +        return -1;
+>      }
+>
+>      if (!ClearCommError(s->file, &err, &comstat)) {
+>          error_setg(errp, "Failed ClearCommError");
+> -        goto fail;
+> +        return -1;
+>      }
+>      qemu_add_polling_cb(win_chr_serial_poll, chr);
+>      return 0;
+> -
+> - fail:
+> -    return -1;
+>  }
+>
+>  int win_chr_pipe_poll(void *opaque)
+> --
+> 2.24.1
+>
 
 
