@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526601317C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:49:51 +0100 (CET)
-Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC5B1317C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:52:37 +0100 (CET)
+Received: from localhost ([::1]:58092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXRl-0006xy-KO
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:49:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46358)
+	id 1ioXUR-0002Ua-E9
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:52:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46403)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX52-0003Zb-D7
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:21 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX55-0003ex-Je
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX51-00057q-9X
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:20 -0500
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:39322)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX54-0005Am-Lo
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:23 -0500
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:44338)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX51-00057I-53; Mon, 06 Jan 2020 13:26:19 -0500
-Received: by mail-qk1-x743.google.com with SMTP id c16so40279922qko.6;
- Mon, 06 Jan 2020 10:26:19 -0800 (PST)
+ id 1ioX54-0005AX-I5; Mon, 06 Jan 2020 13:26:22 -0500
+Received: by mail-qk1-x743.google.com with SMTP id w127so40269883qkb.11;
+ Mon, 06 Jan 2020 10:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bs7x1DdZtpqQKwEZE8GS4y2GJ9iZwDpJNAVLOudv4rU=;
- b=N7CNeotvXctrkrAGky6hUb3El8MgPub51aUw6VZiMIVZL9tyQ7kP52weIeQagDaSVv
- bD6qcCwLE1gJpKw0hKxyV8P/NyYX5PmC49IIGRfzEUpTWcZ32GsXhJHXbiM89WBF+oxJ
- QnGv5K6lPy//8DEBPf0mb4YggELTgr3nAUBojHGjmNfUzYYESzzsMwpE95ohNoIDAxVq
- sC9v3rQgsBBPv2CAp/r2oOZU4nDrtWuGigu7TOgEoYxGox794Zya2DhVwibpXC563vmj
- 6rRgdw7vpGFwDaboG+LmNNSP1Jh+cSrG9FoHVlvCAQdFjxqoT/P5DwnVUemFfJsPNccO
- LdGQ==
+ bh=JP7yRAv3JFqhY7+OM2TlYk8mkn5EeN/uOmT4fxUErEA=;
+ b=Vr1DbhI/ySi+nSz1J3b1Vz6TDDueqfUI5kWiNnFHtX+b77uUHqpAd02mmjG30yN1AQ
+ ZxRuPfiL8EN6Uwr1kZYQU76VHMFnAlR07gdPcK91D9sXGRjgT3x292tpMES0e7iwbXYs
+ wmkuamyCyCBvRSxASDKoJ+4V0wH1dtYxVE14TzYhWZzhGqPyG4JeprB32MXbULns40Ck
+ xhHINx2ofieHYO9vLJGW1D0iBdOkJLHi2j/tqJqEKUb/BoIBeS8jBRFVfGcKKZvARmQG
+ SCqAgUuEzNlnRT0PX7kv7tAWXVlMr7hc8lNNEpddZ36aK07TLvKXr+Dombf7XSDMz6Du
+ bduw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bs7x1DdZtpqQKwEZE8GS4y2GJ9iZwDpJNAVLOudv4rU=;
- b=Mdq14J1FB1T/m3YPTw63A0HwT11L4gUOQW8YDIK5Oom1Yp32necOkOToU9qrbyUYus
- 8GIaANr9M5LPwWigvLqwGReVRdWRvfUW4t9sUasXW59/CsmGx7maHNU/MZLQ163o8IIN
- V6H1l4JIEgYRfw/7g4hCTxjuhnpYBkSKWmuySk15hY9gptPfuw7hW7b01gtEe1i7brea
- UNETHmcCcXKhm4vEps13MFVRS8LV5BvROvQZhZw9ZlqA6GmX8ZM8JStAejVlcxDmgltQ
- +5f2Ls9KDSOPGNQ2HL7ulImxyEARn7oEYTsJnqgrtZ+eKXZi4d/ol9wATcFUWvzcvwq/
- TsFw==
-X-Gm-Message-State: APjAAAXjwdf/dA7ebJ8Kf/59AgDTzOVxL+wHeSJhDgT3/4GvuCFNfvpX
- eMZATHqXhwEwBR9nhRjKn21Mj4eT
-X-Google-Smtp-Source: APXvYqwp57AWDJiUhXtstFk6McUIumDhjnvSPpEl2+ee+XmFqCQ7VRFp/LZ+b+CsrS76H3AIMpI7wg==
-X-Received: by 2002:a37:6346:: with SMTP id x67mr83721219qkb.476.1578335178367; 
- Mon, 06 Jan 2020 10:26:18 -0800 (PST)
+ bh=JP7yRAv3JFqhY7+OM2TlYk8mkn5EeN/uOmT4fxUErEA=;
+ b=PT2WCj1aoX89TwUmDZHoTp+nGad+IcU4GE5TpJ6g/RJmO58e1kUtbxHO/LAuROSvnL
+ WOhJmpfFl/fdbfemyKio75+HR9r/X7hB/EfI2xbLWXUxWv6CUIMDiUhap77kZkANu7zZ
+ nXFA0DXDlkUpl6RGbD+4iIjDtLy2U/yoowlOeBuQr+7ilAHa46Av+GmMGZBMEUOF+LM0
+ hEppsoN81583TOqyZuoYYNNJS3uRrYQmIe2NGXnXPZqXlC7g1dLXCdVg8PAlU4h8wdu5
+ +6v7wFphUQBfHxB24nL367BAW2MoSiVu36fxVYNgaeFaP3k1hFfMS3mYdmUZRap/XyyT
+ dnVQ==
+X-Gm-Message-State: APjAAAUOv/G4BY7wvKR6RzwQMpGRIDkqWrQH9q2uUjYrioVdmr+25mO5
+ ExAEMhstZat96krQ5txBbM2ZBZ2t
+X-Google-Smtp-Source: APXvYqy7eHx3DNdyUi8FeIpvryybTYEiqNapfd+kmM0ClNOuRVHCPX1NE2URNksuTXzckQsorG3jZA==
+X-Received: by 2002:a05:620a:b04:: with SMTP id
+ t4mr86335470qkg.7.1578335181943; 
+ Mon, 06 Jan 2020 10:26:21 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.16
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:18 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:21 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 48/59] pvrdma_dev_ring.c: remove unneeded label in
- pvrdma_ring_init()
-Date: Mon,  6 Jan 2020 15:24:14 -0300
-Message-Id: <20200106182425.20312-49-danielhb413@gmail.com>
+Subject: [PATCH v1 50/59] rdma/rdma_backend.c: remove unneeded label in
+ rdma_backend_init()
+Date: Mon,  6 Jan 2020 15:24:16 -0300
+Message-Id: <20200106182425.20312-51-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -82,56 +83,38 @@ Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' label can be replaced by 'return' with the right return
-value. Since the 'rc' var was being used just to set -ENOMEM
-in a single error condition, get rid of the var and set
-the return value directly in the 'return' call.
+'out' label can be replaced by 'return -EIO' in the single
+goto jump.
 
 CC: Yuval Shaia <yuval.shaia@oracle.com>
 CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/rdma/vmw/pvrdma_dev_ring.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/rdma/rdma_backend.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
-index d7bc7f5ccc..c2ecce3b41 100644
---- a/hw/rdma/vmw/pvrdma_dev_ring.c
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-@@ -28,7 +28,6 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
-                      size_t elem_sz, dma_addr_t *tbl, uint32_t npages)
- {
-     int i;
--    int rc = 0;
- 
-     strncpy(ring->name, name, MAX_RING_NAME_SZ);
-     ring->name[MAX_RING_NAME_SZ - 1] = 0;
-@@ -51,14 +50,13 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
- 
-         ring->pages[i] = rdma_pci_dma_map(dev, tbl[i], TARGET_PAGE_SIZE);
-         if (!ring->pages[i]) {
--            rc = -ENOMEM;
-             rdma_error_report("Failed to map to page %d in ring %s", i, name);
-             goto out_free;
-         }
-         memset(ring->pages[i], 0, TARGET_PAGE_SIZE);
+diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+index c346407cd3..20c4c9fc3a 100644
+--- a/hw/rdma/rdma_backend.c
++++ b/hw/rdma/rdma_backend.c
+@@ -1335,8 +1335,7 @@ int rdma_backend_init(RdmaBackendDev *backend_dev, PCIDevice *pdev,
+     if (!backend_dev->context) {
+         rdma_error_report("Failed to open IB device %s",
+                           ibv_get_device_name(backend_dev->ib_dev));
+-        ret = -EIO;
+-        goto out;
++        return -EIO;
      }
  
--    goto out;
-+    return 0;
- 
- out_free:
-     while (i--) {
-@@ -66,8 +64,7 @@ out_free:
-     }
-     g_free(ring->pages);
+     backend_dev->channel = ibv_create_comp_channel(backend_dev->context);
+@@ -1377,7 +1376,6 @@ out_close_device:
+ out_free_dev_list:
+     ibv_free_device_list(dev_list);
  
 -out:
--    return rc;
-+    return -ENOMEM;
+     return ret;
  }
  
- void *pvrdma_ring_next_elem_read(PvrdmaRing *ring)
 -- 
 2.24.1
 
