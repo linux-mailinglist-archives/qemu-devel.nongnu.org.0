@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2AE131866
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:13:12 +0100 (CET)
-Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB7413187B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:16:51 +0100 (CET)
+Received: from localhost ([::1]:58688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXoN-00076P-Nc
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:13:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57644)
+	id 1ioXru-0003eq-KW
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57762)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1ioXd9-0007Si-Js
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:36 -0500
+ (envelope-from <mlureau@redhat.com>) id 1ioXdM-0007kT-IJ
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1ioXd7-00008e-Tb
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55282
+ (envelope-from <mlureau@redhat.com>) id 1ioXdK-0000NN-8Z
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36262
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1ioXd1-0008Pu-7z
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:28 -0500
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1ioXdK-0000Mo-4p
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:01:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578337283;
+ s=mimecast20190719; t=1578337305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=udr4qNUrHL92V3QPI1xp7SuA0OONQ/iGl2vzlDGLXAo=;
- b=Rik3Pyqew/dVHw1vHJZyyXx4NbcsxVwyaZdEnW1kNiBjSRcnhuZ5AfS7jWJz7F026bCbcJ
- O6sgpLjk2Lpf01NVqRVxH/1UNI/NQm3oIMDXfZ8bWG3C6DjcTMPb5Nvg+oVP8f1X2mmKCI
- qGFr610pfolo75Dm/4S4M13CwnoYZzA=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-KCa-2e9FNFKTX-1oovKeqQ-1; Mon, 06 Jan 2020 14:01:20 -0500
-Received: by mail-ot1-f71.google.com with SMTP id v7so17789880otr.14
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 11:01:19 -0800 (PST)
+ bh=jZYMq6rkclQC8eMi6qcmCvHpL50F8Ty50/ctqNiKoSM=;
+ b=RZGCZWaJ3pLdtrF6DFnrEW1x4a3M8nOKBucqiWtIND0kB9oX78HewbO3s76MavNyEfU8p9
+ ScE2v/Paobd0mXaHBCgz1UUUPuRQle0Gc4hXNIuzQZkvovsOTYJe2CnTt+6z+TMDyZax4U
+ sIfCq4WScn7L/xyZ6N7ErWSAwcltoVw=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-ASrAHUIHMMmQsgG39w01FQ-1; Mon, 06 Jan 2020 14:01:44 -0500
+Received: by mail-oi1-f199.google.com with SMTP id q204so17716065oic.12
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 11:01:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=udr4qNUrHL92V3QPI1xp7SuA0OONQ/iGl2vzlDGLXAo=;
- b=QDWYWkjNcDDJ9cu44YCwzBGwkq5BIAVoecwaR1qNVJgEBbPyN9XGgqwGh8uydVLDTE
- FP19Gfoxow1AWnxQPY+a8cYFTgsdNXsfjsNBC1Zhbr/qfNsg2ym3jxc46xnSHU4T4h6Z
- lFs2nlWHsSNwwKBJ4aajeuxNF0i9oGO02gCs65VBqzUVHylJfCA5/zExpBLWPqHRvvda
- VgBx50voRxqW+b3E6+m/Se5FJalgDaZ0cFQzAmvu7+/LFkv2geXtVyF8oukqUGxiU60Q
- 4w9zv1zqg6Wpi8uLMv+FqpghB7YAmabNHEMreThZw06t45wJADuRTXYV6e9qg/klWy66
- eJRg==
-X-Gm-Message-State: APjAAAX9PIAkYZyOuQTumO6kuo0m+qcF8gPEFVZmcp8E3ncW9S16KAVn
- xOkKgXRalPvCJ1b0QTFRG686hc0RGbq6PI+Z+lOH0nYA8JhxOdd4cZdF/X52+DpPAEGqyP8SL0m
- iDhP94V9BVqVZ6qbD4y3WJ2xFAb7EuJ0=
-X-Received: by 2002:a9d:4706:: with SMTP id a6mr109017049otf.331.1578337278811; 
- Mon, 06 Jan 2020 11:01:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy6hg7r8jOwhDc1l9VjJIUG5XkDT8WG02VjnstOQj4/x7ixMw2kczT/a6yFRqGT6A+K6KhfmSzxzCXNyrCt7D4=
-X-Received: by 2002:a9d:4706:: with SMTP id a6mr109017029otf.331.1578337278541; 
- Mon, 06 Jan 2020 11:01:18 -0800 (PST)
+ bh=jZYMq6rkclQC8eMi6qcmCvHpL50F8Ty50/ctqNiKoSM=;
+ b=Qt1iY32uU56pxNMUXFmkHUOykNOVY0ah6LCTndWjaLoejWWzX8sKNnDhkJPy/xVWbH
+ vishkuv5er9nX+MgWSlG5KeJpPP7UqnV8dh14sTjQ2ophNqGECh5QGmBYQ+FU58MxgNR
+ 7Dao9AcDlUnXUOWMJ56JGL6jaNPXsuRCktCJCxX7TU+JKBjy4n/h53ZstqhYXzONCy0B
+ G8I/Ep8Zx4HXgVh32CfNVCPTVo2utKLHYdLO2Hh+KajyKpPq0mt9l1j5wI0W9V9vshA9
+ PNLkH33VQ5RI7Fvf9VQJlLCYhcn1+Ue/CnU+hBdEQgRa8hLvuzDnuK1ZSPYeDwCC+LZ5
+ haKQ==
+X-Gm-Message-State: APjAAAUslQIVZ6iQQNjjoZzcR4DB7IDVz2QlMCcY+i6Qhix8bXJ7ofML
+ Y3PvuVRLup6GgnI2dXQtVyjRQirD2b2PeW2/oehdU7EWYaqjYIIS7smTj8ALsZydvyDGqmGnmgt
+ dLFGFyLd1HrS5Q+G0eCkWBBdtf2Eoc74=
+X-Received: by 2002:a9d:60c4:: with SMTP id b4mr94936866otk.166.1578337303964; 
+ Mon, 06 Jan 2020 11:01:43 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxE7iYyaQtBsvuxtSKh/zmmpmdZfvLPHwENXoxR/9WkQcmEG38PQlOfRMCLmkbLq5DtA/VlLoYSCqO6/JkZJ+k=
+X-Received: by 2002:a9d:60c4:: with SMTP id b4mr94936845otk.166.1578337303778; 
+ Mon, 06 Jan 2020 11:01:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20200106182425.20312-1-danielhb413@gmail.com>
- <20200106182425.20312-11-danielhb413@gmail.com>
-In-Reply-To: <20200106182425.20312-11-danielhb413@gmail.com>
+ <20200106182425.20312-10-danielhb413@gmail.com>
+In-Reply-To: <20200106182425.20312-10-danielhb413@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 6 Jan 2020 23:01:06 +0400
-Message-ID: <CAMxuvawDuytTS90fBxc95ONkR=w1AxGT8+faSm+Dbd7-U4TJyA@mail.gmail.com>
-Subject: Re: [PATCH v1 10/59] chardev/char-win.c: remove 'fail' label in
- win_chr_serial_init()
+Date: Mon, 6 Jan 2020 23:01:31 +0400
+Message-ID: <CAMxuvawvybuW20r2UOT_Eke2YXRwk5o2wi-OnAvaiXEM8iSkAg@mail.gmail.com>
+Subject: Re: [PATCH v1 09/59] chardev/char-pipe.c: remove 'fail' label in
+ win_chr_pipe_init()
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-X-MC-Unique: KCa-2e9FNFKTX-1oovKeqQ-1
+X-MC-Unique: ASrAHUIHMMmQsgG39w01FQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,8 +91,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Jan 6, 2020 at 10:25 PM Daniel Henrique Barboza
 <danielhb413@gmail.com> wrote:
 >
-> The 'fail' label is a simply call to 'return -1' on error. Remove
-> it and do the return call instead.
+> The 'fail' label is simply doing a 'return -1'.
 >
 > CC: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > CC: Paolo Bonzini <pbonzini@redhat.com>
@@ -101,15 +100,15 @@ On Mon, Jan 6, 2020 at 10:25 PM Daniel Henrique Barboza
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 > ---
->  chardev/char-win.c | 19 ++++++++-----------
->  1 file changed, 8 insertions(+), 11 deletions(-)
+>  chardev/char-pipe.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 >
-> diff --git a/chardev/char-win.c b/chardev/char-win.c
-> index 34825f683d..72c232e6d9 100644
-> --- a/chardev/char-win.c
-> +++ b/chardev/char-win.c
-> @@ -85,12 +85,12 @@ int win_chr_serial_init(Chardev *chr, const char *fil=
-ename, Error **errp)
+> diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+> index 94d714ffcd..65d52beb0d 100644
+> --- a/chardev/char-pipe.c
+> +++ b/chardev/char-pipe.c
+> @@ -54,12 +54,12 @@ static int win_chr_pipe_init(Chardev *chr, const char=
+ *filename,
 >      s->hsend =3D CreateEvent(NULL, TRUE, FALSE, NULL);
 >      if (!s->hsend) {
 >          error_setg(errp, "Failed CreateEvent");
@@ -123,59 +122,49 @@ ename, Error **errp)
 > +        return -1;
 >      }
 >
->      s->file =3D CreateFile(filename, GENERIC_READ | GENERIC_WRITE, 0, NU=
-LL,
-> @@ -98,12 +98,12 @@ int win_chr_serial_init(Chardev *chr, const char *fil=
-ename, Error **errp)
+>      openname =3D g_strdup_printf("\\\\.\\pipe\\%s", filename);
+> @@ -72,7 +72,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *=
+filename,
 >      if (s->file =3D=3D INVALID_HANDLE_VALUE) {
->          error_setg(errp, "Failed CreateFile (%lu)", GetLastError());
+>          error_setg(errp, "Failed CreateNamedPipe (%lu)", GetLastError())=
+;
 >          s->file =3D NULL;
 > -        goto fail;
 > +        return -1;
 >      }
 >
->      if (!SetupComm(s->file, NRECVBUF, NSENDBUF)) {
->          error_setg(errp, "Failed SetupComm");
+>      ZeroMemory(&ov, sizeof(ov));
+> @@ -80,7 +80,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *=
+filename,
+>      ret =3D ConnectNamedPipe(s->file, &ov);
+>      if (ret) {
+>          error_setg(errp, "Failed ConnectNamedPipe");
 > -        goto fail;
 > +        return -1;
 >      }
 >
->      ZeroMemory(&comcfg, sizeof(COMMCONFIG));
-> @@ -114,29 +114,26 @@ int win_chr_serial_init(Chardev *chr, const char *f=
-ilename, Error **errp)
->
->      if (!SetCommState(s->file, &comcfg.dcb)) {
->          error_setg(errp, "Failed SetCommState");
+>      ret =3D GetOverlappedResult(s->file, &ov, &size, TRUE);
+> @@ -90,7 +90,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *=
+filename,
+>              CloseHandle(ov.hEvent);
+>              ov.hEvent =3D NULL;
+>          }
 > -        goto fail;
 > +        return -1;
 >      }
 >
->      if (!SetCommMask(s->file, EV_ERR)) {
->          error_setg(errp, "Failed SetCommMask");
-> -        goto fail;
-> +        return -1;
+>      if (ov.hEvent) {
+> @@ -99,9 +99,6 @@ static int win_chr_pipe_init(Chardev *chr, const char *=
+filename,
 >      }
->
->      cto.ReadIntervalTimeout =3D MAXDWORD;
->      if (!SetCommTimeouts(s->file, &cto)) {
->          error_setg(errp, "Failed SetCommTimeouts");
-> -        goto fail;
-> +        return -1;
->      }
->
->      if (!ClearCommError(s->file, &err, &comstat)) {
->          error_setg(errp, "Failed ClearCommError");
-> -        goto fail;
-> +        return -1;
->      }
->      qemu_add_polling_cb(win_chr_serial_poll, chr);
+>      qemu_add_polling_cb(win_chr_pipe_poll, chr);
 >      return 0;
 > -
 > - fail:
 > -    return -1;
 >  }
 >
->  int win_chr_pipe_poll(void *opaque)
+>  static void qemu_chr_open_pipe(Chardev *chr,
 > --
 > 2.24.1
 >
