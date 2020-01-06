@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D653D131C7E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 00:41:13 +0100 (CET)
-Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3173A131CA2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 01:09:18 +0100 (CET)
+Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iobzk-0007MW-O4
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 18:41:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51977)
+	id 1iocQt-0007c3-SB
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 19:09:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iobxB-0005Rz-1D
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 18:38:34 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iocJk-0007rC-No
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iobx8-0006G3-HD
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 18:38:31 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37015
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iocJj-0005XU-9q
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:52 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:34553)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iobx8-0006FH-D2
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 18:38:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578353909;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vOyTcMLr9WzrXoxI0/cmErtAO80sAJQrm+KZusxm4dw=;
- b=BxWmy4hiVcq9lN7lhnELID9ZgtG6Npf3TyPV5A6n8J5LhlpATPzVfHZMaXPup4rJAS6qbe
- pVMbVyGDF0H69RTX+ULRHFznaNVtTbclVBWFzxtIbt/TRC2cq4M4Qvcfm6z9Pbl5c9c3bz
- /tFIwFRTS/VLtNiSfSJX3HoTg7jf7yU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-Wd5YEv4HMBCP6QgXnIEGcA-1; Mon, 06 Jan 2020 18:38:27 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 901BE107ACC5;
- Mon,  6 Jan 2020 23:38:26 +0000 (UTC)
-Received: from redhat.com (ovpn-116-57.ams2.redhat.com [10.36.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C1A9387;
- Mon,  6 Jan 2020 23:38:25 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iocJi-0005PO-S8; Mon, 06 Jan 2020 19:01:51 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47sCGd5qd2z9sQp; Tue,  7 Jan 2020 11:01:45 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578355305;
+ bh=JW2A0tTFBaP1VMkBWGg8bauxWYDN+FvFtnNVgZpjfAc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iKXNnS3WipsppcULLme5EmE1NyiY+zGjnUwQEGEkvtc8luWjTfigfmob1iKruKquO
+ FGdCFC6MQjyx21lX7Frea2zIimjfij1oWsb48uEvWGZmO07Rb/9sRHKf+HP8uXbi/t
+ u6Sv6kWt6kDXmlo5x31vcY4PU8/Egc/jh+5OS2Qg=
+Date: Tue, 7 Jan 2020 10:44:35 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v1 05/59] ram.c: remove unneeded labels
-In-Reply-To: <20200106182425.20312-6-danielhb413@gmail.com> (Daniel Henrique
- Barboza's message of "Mon, 6 Jan 2020 15:23:31 -0300")
+Subject: Re: [PATCH v1 01/59] spapr.c: remove 'out' label in
+ spapr_dt_cas_updates()
+Message-ID: <20200106234435.GX2098@umbus>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
- <20200106182425.20312-6-danielhb413@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 07 Jan 2020 00:38:23 +0100
-Message-ID: <87blrgxij4.fsf@trasno.org>
+ <20200106182425.20312-2-danielhb413@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Wd5YEv4HMBCP6QgXnIEGcA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l4GQ7sizse6iPvDe"
+Content-Disposition: inline
+In-Reply-To: <20200106182425.20312-2-danielhb413@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,24 +56,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> ram_save_queue_pages() has an 'err' label that can be replaced by
-> 'return -1' instead.
->
-> Same thing with ram_discard_range(), and in this case we can also
-> get rid of the 'ret' variable and return either '-1' on error
-> or the result of ram_block_discard_range().
->
-> CC: Juan Quintela <quintela@redhat.com>
-> CC: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+--l4GQ7sizse6iPvDe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jan 06, 2020 at 03:23:27PM -0300, Daniel Henrique Barboza wrote:
+> 'out' can be replaced by 'return' with the appropriate
+> return value.
+>=20
+> CC: David Gibson <david@gibson.dropbear.id.au>
+> CC: qemu-ppc@nongnu.org
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Applied to ppc-for-5.0.  I see this is part of a larged series which
+might have a different merge plan, but it should be an easy conflict
+to resolve if that happens.
 
+> ---
+>  hw/ppc/spapr.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index f11422fc41..1bfe47337c 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -878,7 +878,7 @@ static int spapr_dt_cas_updates(SpaprMachineState *sp=
+apr, void *fdt,
+>          g_assert(smc->dr_lmb_enabled);
+>          ret =3D spapr_populate_drconf_memory(spapr, fdt);
+>          if (ret) {
+> -            goto out;
+> +            return ret;
+>          }
+>      }
+> =20
+> @@ -889,11 +889,8 @@ static int spapr_dt_cas_updates(SpaprMachineState *s=
+papr, void *fdt,
+>              return offset;
+>          }
+>      }
+> -    ret =3D spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
+> -                                 "ibm,architecture-vec-5");
+> -
+> -out:
+> -    return ret;
+> +    return spapr_ovec_populate_dt(fdt, offset, spapr->ov5_cas,
+> +                                  "ibm,architecture-vec-5");
+>  }
+> =20
+>  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--l4GQ7sizse6iPvDe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4TxmAACgkQbDjKyiDZ
+s5KAURAAh8HW6gNLOiPojeb2WYWPsUFh9EctIsImKhszDVbE0XNIBZ2k/iEqZUb9
+23UqawnlqVziTtMEDRcAhxekwlGiZy1RFo3mkp+p/UPGLnmJPHBXnQIUbKURMUoZ
+WLjeI/y+hbl5BbbUijGKfrApCHnp1PueTwoMIgAOfpSCq5d9qnIlqKtTOasYJJkq
+WN2bGaOpbJlkkYe66Z7tVhFNZ1Bwz81/gV80tg6FKNo7rV6VlMys38gs1jjZRalO
+I2PyTEGEzyRqXlQ9J2b/nk52pkOArqiD/wl+AG5A9ceNqWUvlKK2iscQTZcHAdrn
+zht0Fgl7HUjyayyXZYlmexoy19/+qjWDlpp+9kf8DLD0xIGpmeDtx87k857Gfpod
+FzFQsbgD5JkMGJZSbeOXJwc/uM6B5hMnRWWrAMYhy7LLcZqGGOSsUfJ7K8XY4xDe
+f0AtYEt7M+eaC9X7jyZMJNpRz6X3tL2r7GTsM3uamL9D+/JM2i8Usu2yKlnkozft
+7Gn3LnIsPSyQhPYF1xRl8pKlFaA97zUjzS7hRiWzrGmX43opD91NVKZ0BmMtlVkZ
+W4rNZqZ9UkgibFTm4DViuc1uWy2tM4bL1YXYyu6UexPZ0vVkBCg6Oul5hQE57CUW
+DNuWki5aAGaVrh7xvRmWu1upxXf4atYEEH/QOnR4ksQ3SzmPbnI=
+=+++J
+-----END PGP SIGNATURE-----
+
+--l4GQ7sizse6iPvDe--
 
