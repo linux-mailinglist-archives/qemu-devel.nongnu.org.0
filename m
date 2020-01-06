@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92784131260
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:56:50 +0100 (CET)
-Received: from localhost ([::1]:51486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0BC131254
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:54:45 +0100 (CET)
+Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioRw9-0006Az-Az
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:56:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58335)
+	id 1ioRu8-0002Vf-2N
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:54:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1ioRsH-0000v2-3n
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:50 -0500
+ (envelope-from <kraxel@redhat.com>) id 1ioRsC-0000qF-Lk
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1ioRsF-0000tT-HZ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23921
+ (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000oh-Kk
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51214
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ioRsF-0000sq-DX
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:47 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000my-FM
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578315166;
+ s=mimecast20190719; t=1578315162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YtNgYh0UiNRf7SRbxWfm1Y/56HrjV3yGhYAdEcgxHeA=;
- b=Z1F6QFJAhFkaClAfQVJHMV78a13IyA8c+KRk3H/Bj4OoD/L7FbI8oTYireQ0ZhqU4DWejX
- PyCIFOjO0PHeCZPPQ4P5pDihB93TvwTq2tNGH72k27qU6EH9Y5ZRicIbhkrluY+HZbxhfM
- JZV41j5rxVZIusNB3paM5K9tZJ/kv5Q=
+ bh=rUKfZuNd1Qu2lKoFCCnXZ06t/YR98pMi3balpjSIsSo=;
+ b=Jwk/iMBrck5d2WAVbA7Bv2KYzaRSsCtOu5z6silLz4aXeoFy88VZ88Vts57hqSieZP/495
+ sMqzGs3kQEEvYoBpbiRiTODlzT+oR6lys8OJ1nWlPEQkoxWDffCJWfDQ/edkAEz/i0kZAz
+ Vy1rLboWBRAt+8WDHFA3Y9nAHO3oJYw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-0g2Bz-1YMnydK69Km5suvg-1; Mon, 06 Jan 2020 07:52:41 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-264-yI2feI0yMZuuG6khj3vIMQ-1; Mon, 06 Jan 2020 07:52:41 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 805EB107ACC4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D390800D4E;
  Mon,  6 Jan 2020 12:52:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
  [10.36.116.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8471460251;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83FEB5C57C;
  Mon,  6 Jan 2020 12:52:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A02C631E46; Mon,  6 Jan 2020 13:52:36 +0100 (CET)
+ id A8B7831E49; Mon,  6 Jan 2020 13:52:36 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/6] paaudio: drop recording stream in qpa_fini_in
-Date: Mon,  6 Jan 2020 13:52:33 +0100
-Message-Id: <20200106125236.24132-4-kraxel@redhat.com>
+Subject: [PULL 4/6] paaudio: try to drain the recording stream
+Date: Mon,  6 Jan 2020 13:52:34 +0100
+Message-Id: <20200106125236.24132-5-kraxel@redhat.com>
 In-Reply-To: <20200106125236.24132-1-kraxel@redhat.com>
 References: <20200106125236.24132-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 0g2Bz-1YMnydK69Km5suvg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: yI2feI0yMZuuG6khj3vIMQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,89 +80,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-Every call to pa_stream_peek which returns a data length > 0
-should have a corresponding pa_stream_drop. A call to qpa_read
-does not necessarily call pa_stream_drop immediately after a
-call to pa_stream_peek. Test in qpa_fini_in if a last
-pa_stream_drop is needed.
+There is no guarantee a single call to pa_stream_peek every
+timer_period microseconds can read a recording stream faster
+than the data gets produced at the source. Let qpa_read try to
+drain the recording stream.
 
-This prevents following messages in the libvirt log file after
-a recording stream gets closed and a new one opened.
+To reproduce the problem:
 
-pulseaudio: pa_stream_drop failed
-pulseaudio: Reason: Bad state
-pulseaudio: pa_stream_drop failed
-pulseaudio: Reason: Bad state
+Start qemu with -audiodev pa,id=3Daudio0,in.mixing-engine=3Doff
 
-To reproduce start qemu with
--audiodev pa,id=3Daudio0,in.mixing-engine=3Doff
-and in the guest start and stop Audacity several times.
+On the host connect the qemu recording stream to the monitor of
+a hardware output device. While the problem can also be seen
+with a hardware input device, it's obvious with the monitor of
+a hardware output device.
+
+In the guest start audio recording with audacity and notice the
+slow recording data rate.
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Message-id: 20200104091122.13971-3-vr_qemu@t-online.de
+Message-id: 20200104091122.13971-4-vr_qemu@t-online.de
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/paaudio.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ audio/paaudio.c | 41 +++++++++++++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 16 deletions(-)
 
 diff --git a/audio/paaudio.c b/audio/paaudio.c
-index 55a91f898073..7db1dc15f09e 100644
+index 7db1dc15f09e..b23274550e1c 100644
 --- a/audio/paaudio.c
 +++ b/audio/paaudio.c
-@@ -536,7 +536,6 @@ static void qpa_simple_disconnect(PAConnection *c, pa_s=
-tream *stream)
+@@ -156,34 +156,43 @@ static size_t qpa_read(HWVoiceIn *hw, void *data, siz=
+e_t length)
  {
-     int err;
+     PAVoiceIn *p =3D (PAVoiceIn *) hw;
+     PAConnection *c =3D p->g->conn;
+-    size_t l;
+-    int r;
++    size_t total =3D 0;
 =20
--    pa_threaded_mainloop_lock(c->mainloop);
-     /*
-      * wait until actually connects. workaround pa bug #247
-      * https://gitlab.freedesktop.org/pulseaudio/pulseaudio/issues/247
-@@ -550,7 +549,6 @@ static void qpa_simple_disconnect(PAConnection *c, pa_s=
-tream *stream)
-         dolog("Failed to disconnect! err=3D%d\n", err);
-     }
-     pa_stream_unref(stream);
--    pa_threaded_mainloop_unlock(c->mainloop);
- }
+     pa_threaded_mainloop_lock(c->mainloop);
 =20
- static void qpa_fini_out (HWVoiceOut *hw)
-@@ -558,8 +556,12 @@ static void qpa_fini_out (HWVoiceOut *hw)
-     PAVoiceOut *pa =3D (PAVoiceOut *) hw;
+     CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
+                     "pa_threaded_mainloop_lock failed\n");
 =20
-     if (pa->stream) {
--        qpa_simple_disconnect(pa->g->conn, pa->stream);
-+        PAConnection *c =3D pa->g->conn;
-+
-+        pa_threaded_mainloop_lock(c->mainloop);
-+        qpa_simple_disconnect(c, pa->stream);
-         pa->stream =3D NULL;
-+        pa_threaded_mainloop_unlock(c->mainloop);
-     }
- }
+-    if (!p->read_length) {
+-        r =3D pa_stream_peek(p->stream, &p->read_data, &p->read_length);
+-        CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
+-                           "pa_stream_peek failed\n");
+-    }
++    while (total < length) {
++        size_t l;
++        int r;
 =20
-@@ -568,8 +570,20 @@ static void qpa_fini_in (HWVoiceIn *hw)
-     PAVoiceIn *pa =3D (PAVoiceIn *) hw;
-=20
-     if (pa->stream) {
--        qpa_simple_disconnect(pa->g->conn, pa->stream);
-+        PAConnection *c =3D pa->g->conn;
-+
-+        pa_threaded_mainloop_lock(c->mainloop);
-+        if (pa->read_length) {
-+            int r =3D pa_stream_drop(pa->stream);
-+            if (r) {
-+                qpa_logerr(pa_context_errno(c->context),
-+                           "pa_stream_drop failed\n");
+-    l =3D MIN(p->read_length, length);
+-    memcpy(data, p->read_data, l);
++        if (!p->read_length) {
++            r =3D pa_stream_peek(p->stream, &p->read_data, &p->read_length=
+);
++            CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
++                               "pa_stream_peek failed\n");
++            if (!p->read_length) {
++                /* buffer is empty */
++                break;
 +            }
-+            pa->read_length =3D 0;
 +        }
-+        qpa_simple_disconnect(c, pa->stream);
-         pa->stream =3D NULL;
-+        pa_threaded_mainloop_unlock(c->mainloop);
-     }
- }
 =20
+-    p->read_data +=3D l;
+-    p->read_length -=3D l;
++        l =3D MIN(p->read_length, length - total);
++        memcpy((char *)data + total, p->read_data, l);
+=20
+-    if (!p->read_length) {
+-        r =3D pa_stream_drop(p->stream);
+-        CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
+-                           "pa_stream_drop failed\n");
++        p->read_data +=3D l;
++        p->read_length -=3D l;
++        total +=3D l;
++
++        if (!p->read_length) {
++            r =3D pa_stream_drop(p->stream);
++            CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
++                               "pa_stream_drop failed\n");
++        }
+     }
+=20
+     pa_threaded_mainloop_unlock(c->mainloop);
+-    return l;
++    return total;
+=20
+ unlock_and_fail:
+     pa_threaded_mainloop_unlock(c->mainloop);
 --=20
 2.18.1
 
