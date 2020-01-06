@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576CD13147E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:10:52 +0100 (CET)
-Received: from localhost ([::1]:53196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950A4131483
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:12:24 +0100 (CET)
+Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioU1q-00075Q-RV
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:10:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43940)
+	id 1ioU3L-0000ww-53
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:12:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTbI-0006qT-Se
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:25 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ioTbU-00076X-U1
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTbH-0000ZH-Hf
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:24 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28722
+ (envelope-from <mreitz@redhat.com>) id 1ioTbT-0000k4-HN
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:36 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54607
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbH-0000Ys-Ea
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:23 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbT-0000jf-Dl
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321803;
+ s=mimecast20190719; t=1578321815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3gHujdJjM41RdpbjEmSonadhyx8lYjVR+tHuzN4sg8Y=;
- b=bXi1GkUdTHkCHsjAveD7Uj7BhXrz/V3fKeXVWKP/ARXucDT2HZzQOoP7bgGFn5dGxOJrqZ
- 77JJmm61T3d1s7aJTbTkJyegEuybu31JFKzZm9USYCYtFfbkgaKQpHhSe/yFRjcD1hRsx9
- SzTplj2QqcqG9kjYZ97BSwUu43bbyWA=
+ bh=fsW9A/KuWJzfMXhzNLmReZ4zVfg0ysO1L/7uPXDRxUE=;
+ b=fAnWiCRT2kU1ajTJA4NJMQzzz+Ihv/sIrJ2qMHUVhS9y+BxFYt3ByPaVqa9yK16Wg4uTHT
+ jMBcMaFyQtYmSsOS5WC3nQPviKC9fb951cb7tD5vM7cecI1WD/0tg9B2sES1hcDMKg57iI
+ jRHQjDM4YFwu34BkhDRjW8O9XOq2Zsk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-zxsGfi1kP32qTrhBFcDqXQ-1; Mon, 06 Jan 2020 09:43:19 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-280-9Dmy-FBQOk2lD5sfMK30sg-1; Mon, 06 Jan 2020 09:43:31 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B624B19057D1;
- Mon,  6 Jan 2020 14:43:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B53A5802C81;
+ Mon,  6 Jan 2020 14:43:30 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FD0E100164D;
- Mon,  6 Jan 2020 14:43:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AC9A5D9E1;
+ Mon,  6 Jan 2020 14:43:30 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/34] iotests: Avoid qemu-img create
-Date: Mon,  6 Jan 2020 15:41:53 +0100
-Message-Id: <20200106144206.698920-22-mreitz@redhat.com>
+Subject: [PULL 25/34] iotests: Make 110 work with data_file
+Date: Mon,  6 Jan 2020 15:41:57 +0100
+Message-Id: <20200106144206.698920-26-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: zxsGfi1kP32qTrhBFcDqXQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 9Dmy-FBQOk2lD5sfMK30sg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,97 +75,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use _make_test_img whenever possible.  This way, we will not ignore
-user-specified image options.
+The only difference is that the json:{} filename of the image looks
+different.  We actually do not care about that filename in this test, we
+are only interested in (1) that there is a json:{} filename, and (2)
+whether the backing filename can be constructed.
+
+So just filter out the json:{} data, thus making this test pass both
+with and without data_file.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20191107163708.833192-15-mreitz@redhat.com
+Message-id: 20191107163708.833192-19-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/094 | 2 +-
- tests/qemu-iotests/111 | 3 +--
- tests/qemu-iotests/123 | 2 +-
- tests/qemu-iotests/153 | 2 +-
- tests/qemu-iotests/200 | 4 ++--
- 5 files changed, 6 insertions(+), 7 deletions(-)
+ tests/qemu-iotests/110     | 7 +++++--
+ tests/qemu-iotests/110.out | 4 ++--
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/094 b/tests/qemu-iotests/094
-index 9343e09492..d645952d54 100755
---- a/tests/qemu-iotests/094
-+++ b/tests/qemu-iotests/094
-@@ -45,7 +45,7 @@ _supported_proto nbd
- _unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxExt=
-entFlat"
+diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
+index f78df0e6e1..139c02c2cf 100755
+--- a/tests/qemu-iotests/110
++++ b/tests/qemu-iotests/110
+@@ -67,6 +67,7 @@ echo
+ # Across blkdebug without a config file, you cannot reconstruct filenames,=
+ so
+ # qemu is incapable of knowing the directory of the top image from the fil=
+ename
+ # alone. However, using bdrv_dirname(), it should still work.
++# (Filter out the json:{} filename so this test works with external data f=
+iles)
+ TEST_IMG=3D"json:{
+     'driver': '$IMGFMT',
+     'file': {
+@@ -82,7 +83,8 @@ TEST_IMG=3D"json:{
+             }
+         ]
+     }
+-}" _img_info | _filter_img_info | grep -v 'backing file format'
++}" _img_info | _filter_img_info | grep -v 'backing file format' \
++    | _filter_json_filename
 =20
- _make_test_img 64M
--$QEMU_IMG create -f $IMGFMT "$TEST_DIR/source.$IMGFMT" 64M | _filter_img_c=
-reate
-+TEST_IMG_FILE=3D"$TEST_DIR/source.$IMGFMT" IMGPROTO=3Dfile _make_test_img =
-64M
+ echo
+ echo '=3D=3D=3D Backing name is always relative to the backed image =3D=3D=
+=3D'
+@@ -114,7 +116,8 @@ TEST_IMG=3D"json:{
+             }
+         ]
+     }
+-}" _img_info | _filter_img_info | grep -v 'backing file format'
++}" _img_info | _filter_img_info | grep -v 'backing file format' \
++    | _filter_json_filename
 =20
- _launch_qemu -drive if=3Dnone,id=3Dsrc,file=3D"$TEST_DIR/source.$IMGFMT",f=
-ormat=3Draw \
-              -nodefaults
-diff --git a/tests/qemu-iotests/111 b/tests/qemu-iotests/111
-index 490a5bbcb5..3b43d1bd83 100755
---- a/tests/qemu-iotests/111
-+++ b/tests/qemu-iotests/111
-@@ -41,8 +41,7 @@ _supported_fmt qed qcow qcow2 vmdk
- _supported_proto file
- _unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxExt=
-entFlat"
-=20
--$QEMU_IMG create -f $IMGFMT -b "$TEST_IMG.inexistent" "$TEST_IMG" 2>&1 \
--    | _filter_testdir | _filter_imgfmt
-+_make_test_img -b "$TEST_IMG.inexistent"
 =20
  # success, all done
- echo '*** done'
-diff --git a/tests/qemu-iotests/123 b/tests/qemu-iotests/123
-index d33950eb54..74d40d0478 100755
---- a/tests/qemu-iotests/123
-+++ b/tests/qemu-iotests/123
-@@ -44,7 +44,7 @@ _supported_os Linux
- SRC_IMG=3D"$TEST_DIR/source.$IMGFMT"
+diff --git a/tests/qemu-iotests/110.out b/tests/qemu-iotests/110.out
+index f60b26390e..f835553a99 100644
+--- a/tests/qemu-iotests/110.out
++++ b/tests/qemu-iotests/110.out
+@@ -11,7 +11,7 @@ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGF=
+MT.base)
 =20
- _make_test_img 1M
--$QEMU_IMG create -f $IMGFMT "$SRC_IMG" 1M | _filter_img_create
-+TEST_IMG_FILE=3D$SRC_IMG IMGPROTO=3Dfile _make_test_img 1M
+ =3D=3D=3D Non-reconstructable filename =3D=3D=3D
 =20
- $QEMU_IO -c 'write -P 42 0 1M' "$SRC_IMG" | _filter_qemu_io
+-image: json:{"driver": "IMGFMT", "file": {"set-state.0.event": "read_aio",=
+ "image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driver": "b=
+lkdebug", "set-state.0.new_state": 42}}
++image: json:{ /* filtered */ }
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
+ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGFMT.base)
+@@ -22,7 +22,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108=
+864 backing_file=3Dt.IMGFMT.b
 =20
-diff --git a/tests/qemu-iotests/153 b/tests/qemu-iotests/153
-index c969a1a16f..e59090259c 100755
---- a/tests/qemu-iotests/153
-+++ b/tests/qemu-iotests/153
-@@ -98,7 +98,7 @@ for opts1 in "" "read-only=3Don" "read-only=3Don,force-sh=
-are=3Don"; do
+ =3D=3D=3D Nodes without a common directory =3D=3D=3D
 =20
-     echo
-     echo "=3D=3D Creating test image =3D=3D"
--    $QEMU_IMG create -f $IMGFMT "${TEST_IMG}" -b ${TEST_IMG}.base | _filte=
-r_img_create
-+    _make_test_img -b "${TEST_IMG}.base"
-=20
-     echo
-     echo "=3D=3D Launching QEMU, opts: '$opts1' =3D=3D"
-diff --git a/tests/qemu-iotests/200 b/tests/qemu-iotests/200
-index 72d431f251..d904885136 100755
---- a/tests/qemu-iotests/200
-+++ b/tests/qemu-iotests/200
-@@ -46,8 +46,8 @@ _supported_proto file
- BACKING_IMG=3D"${TEST_DIR}/backing.img"
- TEST_IMG=3D"${TEST_DIR}/test.img"
-=20
--${QEMU_IMG} create -f $IMGFMT "${BACKING_IMG}" 512M | _filter_img_create
--${QEMU_IMG} create -f $IMGFMT -F $IMGFMT "${TEST_IMG}" -b "${BACKING_IMG}"=
- 512M | _filter_img_create
-+TEST_IMG=3D"$BACKING_IMG" _make_test_img 512M
-+_make_test_img -F $IMGFMT -b "$BACKING_IMG" 512M
-=20
- ${QEMU_IO} -c "write -P 0xa5 512 300M" "${BACKING_IMG}" | _filter_qemu_io
-=20
+-image: json:{"driver": "IMGFMT", "file": {"children": [{"driver": "file", =
+"filename": "TEST_DIR/t.IMGFMT"}, {"driver": "file", "filename": "TEST_DIR/=
+t.IMGFMT.copy"}], "driver": "quorum", "vote-threshold": 1}}
++image: json:{ /* filtered */ }
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
+ backing file: t.IMGFMT.base (cannot determine actual path)
 --=20
 2.24.1
 
