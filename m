@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6161317DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:57:15 +0100 (CET)
-Received: from localhost ([::1]:58160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73CC131805
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:59:54 +0100 (CET)
+Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXYw-0000qj-Ce
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:57:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45561)
+	id 1ioXbV-0004X2-8X
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:59:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4H-0002EF-9w
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:34 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4J-0002GJ-83
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4F-0004IB-Fx
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:33 -0500
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:44904)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4H-0004Ks-Ck
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:34 -0500
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:44903)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4E-0004Gm-8c; Mon, 06 Jan 2020 13:25:31 -0500
-Received: by mail-qt1-x843.google.com with SMTP id t3so43182952qtr.11;
- Mon, 06 Jan 2020 10:25:30 -0800 (PST)
+ id 1ioX4H-0004Ik-8v; Mon, 06 Jan 2020 13:25:33 -0500
+Received: by mail-qt1-x841.google.com with SMTP id t3so43183042qtr.11;
+ Mon, 06 Jan 2020 10:25:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a9jsk8u+/5hibvcbWneMzoArJdAq2nWhpUyUdOQCk1M=;
- b=HogvO3OAHqmXNQNWDvBqNkfr5eN91mMiemuxU5UdLdAjJb5muyyyIsEznFNTt9Ea+q
- DTZkVChOcIWsLAWQqKk/UWwC+Lk3NoJb15mgilFglc7lEbTlgS8aa/25SQhXW2fBpnnT
- jMOG101eQ8ICQw0/M1pnNwaHSGkq8EumOBxFM9lhm90unF4X4lxwZuYYP5L+F9MDLY7o
- Htg0NnhD6bYmxcCdUzAZdEcCNr7X76bnCQIWCl0q6am2rvW6HOzTZdnfR0KnMPbQUwb9
- 3ABKOU4DKFxLlB6BhhiQeQC3PvcMXP9o8YD6wqJB9owvrGbt74IXsR7pHe4kgstuo2iG
- cxig==
+ bh=ETqO23SHWpPMRbtRK9xMCrBSsMXG0QNt/7zW03rA7Ew=;
+ b=pkqpqClAAU65D8rWlHzvXBzNxtF8NFiKqQd/peZLcto6NN8X4vC011llPx805Cuh9j
+ okgP2a4G55Vc75DZiwkkL7LflHQd6GUb8yTJh3JgzJFK8VPYgIwgWnnk/XhSHdcmKlLz
+ VGPbSH3HIozEfeeyOmzCfu3r4rX1sZM7Gtbu8gHVpaPNnb5GI+Dx4yPA0478xOFxdBJ5
+ EWIXsbpNUZE7f4KX7YJcs7mTHE7LlmvthkL3BEauzAYAF4U1i1Xe7lSZQJR8lNvRtvTJ
+ IrDfUiLViWdxs7Ve/1SHxdutDNjVuQVaHAT3NTQnPWxjr+fqcMo7DdHxDHDlmuWLT/o5
+ fLPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a9jsk8u+/5hibvcbWneMzoArJdAq2nWhpUyUdOQCk1M=;
- b=XmWerVyY7t+rI5/XIsfLQxumeDa8loovgFfejZYHW0fss/O9eYwy+uPujIKLtFANm3
- VNXz9DoXTm8rG/x+M+flW+uxAhBo1cNFuCS6eIAzEJPSMIknbkVrKHhSnzvVPTz2KLg+
- b4g+c4QbHwe4VnZcw5aSjTjMWasTgRwnBFMq0/CGLbnwTerXR+2z92ZQlAgxCY5zQvu9
- FqY9706vmTMd5zpgIAHPPpCVaIuY1LBfjgG3SSzS5htXohp3YokEeHDIqk06+qOHjvVc
- yg1iukMiQfJ+j5O3/BtbIRvL3N8bdc+xwgSh6ShitL2FulLwZHc277wFKlaYih/1/nzW
- MrcA==
-X-Gm-Message-State: APjAAAWEzrCFjVBPAp9SWETdbhFkIzyY0LC8sPBRwQ1BfWpNuwgIkdIU
- XWZko4veW7lli2OAAuYcBX8Kx7M+
-X-Google-Smtp-Source: APXvYqzKjaRzSrLUDb5OgrpFLF8q43Lcha4CSMKbMWZawaidR3nbPVnUEDfKMRgcd9g1WNdLHGLAhw==
-X-Received: by 2002:aed:2be4:: with SMTP id e91mr77977865qtd.148.1578335129743; 
- Mon, 06 Jan 2020 10:25:29 -0800 (PST)
+ bh=ETqO23SHWpPMRbtRK9xMCrBSsMXG0QNt/7zW03rA7Ew=;
+ b=cxKVJ0LH+nXBX+7Gye5xO0QMhoCe0B7Mi9CR3abxOnLg97vMCKk5Obiq0dUJ9fUTg3
+ qQWgiODD48JO2G/oxGirhBIF8rmUj0rw/qAFk544Hmo9CnGrMuZCy2IWGE0/Qt0GXbei
+ k3i6zdVXGN1DQJqeMeQb/UVI74hvG4bG2iZmbnO5mQGsslZ7eJ11tYCY49Zc84Q+j0yk
+ w7bYdCnHu9QKwbPcS4JfTWy+rkRhIVN+/InK5b8dBV/zWIJc5fqEzNr7qJ7xv9uyCowl
+ UIsqSEj0Vafy0fPZUhaAXe/T6W+STBn3qiOY2SpkBPs4ZYS068NQD63o74Ml/tW7JzIt
+ eVjg==
+X-Gm-Message-State: APjAAAXkrtCBI6CbfgCU3qilZN+SrXLsddIVxms9nfj/P2Ql+Ae1znqE
+ PHZU5uEyTPMdDyw/j8M7CoXN08+G
+X-Google-Smtp-Source: APXvYqwVAjtRACMUNbwLQSLwq35h9JtpfeE9y9G2e55OXgkDStnsckiZohcDDEa5GjF3ioEOBZ6VIw==
+X-Received: by 2002:ac8:5442:: with SMTP id d2mr78985485qtq.297.1578335131570; 
+ Mon, 06 Jan 2020 10:25:31 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.28
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:29 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:31 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 21/59] block/backup.c remove unneeded 'out' label in
- backup_run()
-Date: Mon,  6 Jan 2020 15:23:47 -0300
-Message-Id: <20200106182425.20312-22-danielhb413@gmail.com>
+Subject: [PATCH v1 22/59] block/vmdk.c: remove unneeded labels
+Date: Mon,  6 Jan 2020 15:23:48 -0300
+Message-Id: <20200106182425.20312-23-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +64,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
+X-Received-From: 2607:f8b0:4864:20::841
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,48 +76,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' can be replaced by 'return ret' and 'return -ECANCELED'.
+'exit' label from vmdk_open_desc_file() can be replaced by
+'return' calls with the appropriate value. Same thing with
+the 'out' label from vmdk_co_create().
 
-CC: John Snow <jsnow@redhat.com>
+CC: Fam Zheng <fam@euphon.net>
 CC: qemu-block@nongnu.org
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- block/backup.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ block/vmdk.c | 37 +++++++++++++------------------------
+ 1 file changed, 13 insertions(+), 24 deletions(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index cf62b1a38c..e73294872c 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -254,13 +254,12 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 20e909d997..d1491486de 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -1222,14 +1222,12 @@ out:
+ static int vmdk_open_desc_file(BlockDriverState *bs, int flags, char *buf,
+                                QDict *options, Error **errp)
+ {
+-    int ret;
+     char ct[128];
+     BDRVVmdkState *s = bs->opaque;
  
-         for (offset = 0; offset < s->len; ) {
-             if (yield_and_check(s)) {
--                ret = -ECANCELED;
--                goto out;
-+                return -ECANCELED;
-             }
- 
-             ret = block_copy_reset_unallocated(s->bcs, offset, &count);
-             if (ret < 0) {
--                goto out;
-+                return ret;
-             }
- 
-             offset += count;
-@@ -284,7 +283,6 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
-         ret = backup_loop(s);
+     if (vmdk_parse_description(buf, "createType", ct, sizeof(ct))) {
+         error_setg(errp, "invalid VMDK image descriptor");
+-        ret = -EINVAL;
+-        goto exit;
++        return -EINVAL;
      }
- 
-- out:
-     return ret;
+     if (strcmp(ct, "monolithicFlat") &&
+         strcmp(ct, "vmfs") &&
+@@ -1238,14 +1236,11 @@ static int vmdk_open_desc_file(BlockDriverState *bs, int flags, char *buf,
+         strcmp(ct, "twoGbMaxExtentSparse") &&
+         strcmp(ct, "twoGbMaxExtentFlat")) {
+         error_setg(errp, "Unsupported image type '%s'", ct);
+-        ret = -ENOTSUP;
+-        goto exit;
++        return -ENOTSUP;
+     }
+     s->create_type = g_strdup(ct);
+     s->desc_offset = 0;
+-    ret = vmdk_parse_extents(buf, bs, options, errp);
+-exit:
+-    return ret;
++    return vmdk_parse_extents(buf, bs, options, errp);
  }
  
+ static int vmdk_open(BlockDriverState *bs, QDict *options, int flags,
+@@ -2738,7 +2733,6 @@ static BlockBackend *vmdk_co_create_cb(int64_t size, int idx,
+ static int coroutine_fn vmdk_co_create(BlockdevCreateOptions *create_options,
+                                        Error **errp)
+ {
+-    int ret;
+     BlockdevCreateOptionsVmdk *opts;
+ 
+     opts = &create_options->u.vmdk;
+@@ -2746,23 +2740,18 @@ static int coroutine_fn vmdk_co_create(BlockdevCreateOptions *create_options,
+     /* Validate options */
+     if (!QEMU_IS_ALIGNED(opts->size, BDRV_SECTOR_SIZE)) {
+         error_setg(errp, "Image size must be a multiple of 512 bytes");
+-        ret = -EINVAL;
+-        goto out;
++        return -EINVAL;
+     }
+ 
+-    ret = vmdk_co_do_create(opts->size,
+-                            opts->subformat,
+-                            opts->adapter_type,
+-                            opts->backing_file,
+-                            opts->hwversion,
+-                            false,
+-                            opts->zeroed_grain,
+-                            vmdk_co_create_cb,
+-                            opts, errp);
+-    return ret;
+-
+-out:
+-    return ret;
++    return vmdk_co_do_create(opts->size,
++                             opts->subformat,
++                             opts->adapter_type,
++                             opts->backing_file,
++                             opts->hwversion,
++                             false,
++                             opts->zeroed_grain,
++                             vmdk_co_create_cb,
++                             opts, errp);
+ }
+ 
+ static void vmdk_close(BlockDriverState *bs)
 -- 
 2.24.1
 
