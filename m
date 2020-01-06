@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59194131504
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:43:26 +0100 (CET)
-Received: from localhost ([::1]:53886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90BB131507
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:45:10 +0100 (CET)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioUXN-0003sE-D0
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:43:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39351)
+	id 1ioUZ3-0005BA-U9
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:45:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ioULm-00043a-HJ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:31:27 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ioUYD-0004fr-Rg
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:44:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ioULl-0004HF-Ac
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:31:26 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37144)
+ (envelope-from <peter.maydell@linaro.org>) id 1ioUYC-0006R4-JD
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:44:17 -0500
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:45813)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ioULl-0004Fc-4Y
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:31:25 -0500
-Received: by mail-oi1-x243.google.com with SMTP id z64so9827999oia.4
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 07:31:24 -0800 (PST)
+ id 1ioUYC-0006Qp-Dy
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:44:16 -0500
+Received: by mail-oi1-x229.google.com with SMTP id n16so12085297oie.12
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 07:44:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=PSt786zdUr+RZhsCyf9cMWSNjSK1NSrxJJSQuMhHSrk=;
- b=ou1icnTeP8B1y+qcAeVqUWa6Sy+efIFjlCk8aWDdWclflqS5NoEHkcyM4avEykyg0N
- 4U0PAIHkadwD0XJ0C68kKZxro/yUmapo/LtSwD2yF3UgyJGUUpvvPqJ2g39chqmINwja
- xS0PZ9hJru5P+1Nhsn3o36uZXlYZ0LFJNUlDuZnbgiCdHV9bGzDcCJdEgCPGW8JWjiGp
- DkEy/zQPoMisJI9bF5tcHPWTw8HMCXM+j8H3F2Znjy1O5V9LrpQeAZWM81pdG0kqQSRN
- wqjV2WrNX3kcP77v62Y7re88Z5kRXy5QMrOINOCT4TrxWyLT1/WG27O7Niq2mlyNvWGR
- 5LSQ==
+ bh=cnXLeEww/UxELA+FfCliH5roA0WLKxxsejw5QZT5e98=;
+ b=VquWLChLNAKF8UNe1FYJfLhrEbozxTmpSNarX13ltUKzyt0IpVuHcY9uPC05/5TNml
+ zNkmZ2N/JAEaOv+2I09qkEE857dHtD5C3Hp0L7ZjYEeCu7JTh+0qSivMG7vYI1ZfZl3M
+ vwRRI7/abpvWqRu22xdVMP3hI52XbGPsD7JFvl0ceToyjmFqTc7ekEJ6bPcf0fmx5l5S
+ opVdCQJQ9RZ+UQhB25LuyivXatfiZHdX2FTdlIcQkKrOoMidQ1aocuYR53hHKaMCir/e
+ hABAvjcYh/dC5UqDuhFp8Nf2LJswqjk7ZpFszW9ISs4LL6URxqePB0gNJZyiDNqtDc8W
+ L6zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=PSt786zdUr+RZhsCyf9cMWSNjSK1NSrxJJSQuMhHSrk=;
- b=PZyyihPLihuTtQ7RFrBnLwoqn54ra4AG+6WBQuYac1M2seLxztaClL5afaKaSzOXNb
- PYUVL4rpZhb864Sxw2ZZrpPXP7skbNuLvgRdso7vrLmUYSkb18a+PW2LS3kbuN+f5APv
- qnfXjyFB1Jat/sqYZjH5ZmjOG7fRAQVgPnM++bpg9m8I/+gS2Dmo/tiQ13YCPIGuVchu
- 1PpCriZuYtSQbnqa98S/oi17Hv9jtsspNq5JG2jY6b5frGTGjSLw1fo20drzEhlt0xJ8
- Brj9ehiyEhR620kSTRXZCO3G1lPNKaNvcnQMHew1+ZyePJ9eJxUvAnrCCbqhLojHxD6d
- LsDg==
-X-Gm-Message-State: APjAAAUhCwPKn9K1+Isa8NaCUD795RH+/LNkhtx+kV+IPR6vkG6ymxBo
- IFXYaigr8FEM3a/teQfOyv6eBU7DQcLwzNFE2DfMHA==
-X-Google-Smtp-Source: APXvYqxVl73SBr6Fa9s27kaQkLGP/JyDV7CJct/dOP5ups20G/k4QCMk5l1DQqa94BhIML/f11czyvG6dK3AKHM5OmM=
-X-Received: by 2002:aca:f484:: with SMTP id s126mr5253711oih.48.1578324683886; 
- Mon, 06 Jan 2020 07:31:23 -0800 (PST)
+ bh=cnXLeEww/UxELA+FfCliH5roA0WLKxxsejw5QZT5e98=;
+ b=T/juqybRKuI/2M07G9FFE2532uizD8D0a/OxRy8lqg582eXzI6v6q9z6GSsSSxaSyx
+ JzDpm30jsq08oY9DiSN9xaV12m4nr8wK/XySrnW6EMtvX+NyVLm9uDEAVaUNxHIfjFbE
+ L8tk9SWsAzmql5Pez49Eyea01xZmzkUmT0QnxzoNAmiIIM0XD5js28jiOL9UEOi4l5e0
+ 1+9HCGMpOPIczubuFQNBzbsX+yzcTmeUB6E26pDUbiY6R7UN0xG62EAFbRFWPkd11HZc
+ HCd6oF2a1uwEyrtKDO1OzTkwjGSTip/xKwNcwtDQTt18mq2d1+PwrHF3assMqGRZzl+e
+ ogtQ==
+X-Gm-Message-State: APjAAAUS+ASnN0TzvvOWYvo+Ud8r7e7iNf5WfddO7p5Ck3/KGIS98oPa
+ Hm5i9r6Vgz0XEyc8+G0A4hG2cx8lv92r4ubeTNE0VQ==
+X-Google-Smtp-Source: APXvYqxlF9dJtTlzWo0eEniIkgS+MwDqs3r9K8n8OkcFNsGNw5Cocp01RRkwJoFjzfDhCglYR/diowowABMf6AWJbn0=
+X-Received: by 2002:aca:570d:: with SMTP id l13mr5423595oib.146.1578325455513; 
+ Mon, 06 Jan 2020 07:44:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20200106144552.7205-1-peter.maydell@linaro.org>
- <CAJ+F1C+PcER4eQhJwwE6Q-xrfn4+rTr=z+otyg2O=ZQA+sD4FQ@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+PcER4eQhJwwE6Q-xrfn4+rTr=z+otyg2O=ZQA+sD4FQ@mail.gmail.com>
+References: <20200103090853.1014627-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20200103090853.1014627-1-marcandre.lureau@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Jan 2020 15:31:12 +0000
-Message-ID: <CAFEAcA8-_vT3dX9aT5UZVmsnS3qkohZk8LrgTQRymsitAFNAZg@mail.gmail.com>
-Subject: Re: [PATCH] tests/iothread: Always connect iothread GSource to a
- GMainContext
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 6 Jan 2020 15:44:04 +0000
+Message-ID: <CAFEAcA9LzQeevZyvYU0sqMGBNQedh2L4rh8S5EK9+TyewQvmug@mail.gmail.com>
+Subject: Re: [PULL v2 0/7] Screendump patches
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,62 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 15:22, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
+On Fri, 3 Jan 2020 at 09:09, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
 >
-> Hi
+> The following changes since commit dd5b0f95490883cd8bc7d070db8de70d5c979c=
+bc:
 >
-> On Mon, Jan 6, 2020 at 7:03 PM Peter Maydell <peter.maydell@linaro.org> w=
-rote:
-> >
-> > On older versions of glib (anything prior to glib commit 0f056ebe
-> > from May 2019), the implementation of g_source_ref() and
-> > g_source_unref() is not threadsafe for a GSource which is not
-> > attached to a GMainContext.
-> >
-> > QEMU's real iothread.c implementation always attaches its
-> > iothread->ctx's GSource to a GMainContext created for that iothread,
-> > so it is OK, but the simple test framework implementation in
-> > tests/iothread.c was not doing this.  This was causing intermittent
-> > assertion failures in the test-aio-multithread subtest
-> > "/aio/multi/mutex/contended" test on the BSD hosts.  (It's unclear
-> > why only BSD seems to have been affected -- perhaps a combination of
-> > the specific glib version being used in the VMs and their happening
-> > to run on a host with a lot of CPUs).
-
-> >  static void *iothread_run(void *opaque)
-> >  {
-> >      IOThread *iothread =3D opaque;
-> > @@ -44,6 +57,20 @@ static void *iothread_run(void *opaque)
-> >      my_iothread =3D iothread;
-> >      qemu_mutex_lock(&iothread->init_done_lock);
-> >      iothread->ctx =3D aio_context_new(&error_abort);
-> > +
-> > +    /*
-> > +     * We must connect the ctx to a GMainContext, because in older ver=
-sions
-> > +     * of glib the g_source_ref()/unref() functions are not threadsafe
-> > +     * on sources without a context.
-> > +     */
-> > +    iothread_init_gcontext(iothread);
-> > +
-> > +    /*
-> > +     * g_main_context_push_thread_default() must be called before anyt=
-hing
-> > +     * in this new thread uses glib.
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20191219' into =
+staging (2019-12-20 16:37:07 +0000)
 >
-> in/if, I suppose
+> are available in the Git repository at:
+>
+>   https://github.com/elmarco/qemu.git tags/screendump-pull-request
+>
+> for you to fetch changes up to 53a61ecbb16b28c707f0b126193d226a25c28cb2:
+>
+>   screendump: use qemu_unlink() (2020-01-02 16:29:32 +0400)
+>
+> ----------------------------------------------------------------
+> console: screendump improvements
+>
+> Hi,
+>
+> The following patches have been extracted from the "[PATCH v6 00/25]
+> monitor: add asynchronous command type", as they are
+> reviewable/mergeable independantly.
+>
+> They introduce some internal API changes, and fix
+> qemu_open()/qemu_close()/unlink() misusages which should be quite
+> harmless.
 
-No; it means "before anything in this new thread specifically" as
-opposed to "before anything in the whole process". (This comment is
-verbatim copied from the main iothread.c, incidentally).
 
-Thanks for the review.
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
 -- PMM
 
