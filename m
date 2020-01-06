@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FCE131469
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:06:36 +0100 (CET)
-Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005B213145D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:04:15 +0100 (CET)
+Received: from localhost ([::1]:53094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioTxi-0001AA-UY
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:06:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43625)
+	id 1ioTvQ-000757-OO
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:04:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTay-0006Lu-PS
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:05 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ioTb7-0006Ze-0X
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTax-0000Gp-OY
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45932
+ (envelope-from <mreitz@redhat.com>) id 1ioTb6-0000P5-2S
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:12 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53481
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTax-0000Gj-Kt
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:03 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTb5-0000Nh-UY
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321783;
+ s=mimecast20190719; t=1578321791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N9OkpeVzkzlcztCw+WGFva69O4o2CJxWuJHyMhqELkI=;
- b=REaIfO7dVWn0Amv5D2gj/eBbjaIqUKL7/9/cs2GQA+Rr9afVYUWox76Ykt/Tptjrxb0C7a
- sO4jw++VcwlPB2S4qqAuInnFNcKM59ePHVyYM0r35O4Kh1KcdvsjwvHJMIXVUp3hB49KiI
- 3sC/Mrv8z9SGAu7Uqq90l1DP06UVpgw=
+ bh=a3yi+86XKGWerRekgayIoQ0UIxyR9uQYIXSVaTtp5bc=;
+ b=fU8EOLZ8W8JWOUaw1HA5XNlFj8NKposxyOf4sBQkPVEiowabg8hTO93sPQiwqij+I79Nm/
+ Pk6rS8/ziv8wsXbLl2o8d8fixyZtnYv/Qr6nP+r1/nA2PWrF/bJDaJtjr7Om+5WnWXbZMs
+ VNTtRx8zS65VOY70xPnGEFnfQj7R3kM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-EMJqrB09PVi_e1kGkNkdsA-1; Mon, 06 Jan 2020 09:43:00 -0500
+ us-mta-368-uCWCR4z_Mei5AjSMZ-wKHA-1; Mon, 06 Jan 2020 09:43:08 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C40258E3BDD;
- Mon,  6 Jan 2020 14:42:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22A551118E16;
+ Mon,  6 Jan 2020 14:43:07 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4022950A8F;
- Mon,  6 Jan 2020 14:42:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98D706A83B;
+ Mon,  6 Jan 2020 14:43:06 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 14/34] iotests: Drop compat=1.1 in 050
-Date: Mon,  6 Jan 2020 15:41:46 +0100
-Message-Id: <20200106144206.698920-15-mreitz@redhat.com>
+Subject: [PULL 17/34] iotests: Inject space into -ocompat=0.10 in 051
+Date: Mon,  6 Jan 2020 15:41:49 +0100
+Message-Id: <20200106144206.698920-18-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: EMJqrB09PVi_e1kGkNkdsA-1
+X-MC-Unique: uCWCR4z_Mei5AjSMZ-wKHA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,33 +75,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IMGOPTS can never be empty for qcow2, because the check scripts adds
-compat=3D1.1 unless the user specified any compat option themselves.
-Thus, this block does not do anything and can be dropped.
+It did not matter before, but now that _make_test_img understands -o, we
+should use it properly here.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20191107163708.833192-8-mreitz@redhat.com
+Message-id: 20191107163708.833192-11-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/050 | 4 ----
- 1 file changed, 4 deletions(-)
+ tests/qemu-iotests/051 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/050 b/tests/qemu-iotests/050
-index 211fc00797..272ecab195 100755
---- a/tests/qemu-iotests/050
-+++ b/tests/qemu-iotests/050
-@@ -41,10 +41,6 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2 qed
- _supported_proto file
-=20
--if test "$IMGFMT" =3D qcow2 && test $IMGOPTS =3D ""; then
--  IMGOPTS=3Dcompat=3D1.1
--fi
--
+diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+index a13bce2fd0..d7294d80d9 100755
+--- a/tests/qemu-iotests/051
++++ b/tests/qemu-iotests/051
+@@ -158,7 +158,7 @@ echo
+ echo =3D=3D=3D With version 2 images enabling lazy refcounts must fail =3D=
+=3D=3D
  echo
- echo "=3D=3D Creating images =3D=3D"
 =20
+-_make_test_img -ocompat=3D0.10 $size
++_make_test_img -o compat=3D0.10 $size
+=20
+ run_qemu -drive file=3D"$TEST_IMG",format=3Dqcow2,lazy-refcounts=3Don
+ run_qemu -drive file=3D"$TEST_IMG",format=3Dqcow2,lazy-refcounts=3Doff
 --=20
 2.24.1
 
