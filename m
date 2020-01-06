@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F7F131794
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:36:55 +0100 (CET)
-Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979F9131798
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:39:11 +0100 (CET)
+Received: from localhost ([::1]:57871 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXFF-0006sG-Ke
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:36:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45152)
+	id 1ioXHS-0002N8-7S
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:39:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3s-0001h1-Am
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:09 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3v-0001lp-PO
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3r-0003r6-7p
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:08 -0500
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:41657)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3u-0003uP-Fi
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:11 -0500
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:45902)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX3r-0003qn-3c; Mon, 06 Jan 2020 13:25:07 -0500
-Received: by mail-qv1-xf44.google.com with SMTP id x1so19419533qvr.8;
- Mon, 06 Jan 2020 10:25:07 -0800 (PST)
+ id 1ioX3u-0003u6-BB; Mon, 06 Jan 2020 13:25:10 -0500
+Received: by mail-qt1-x844.google.com with SMTP id l12so43162498qtq.12;
+ Mon, 06 Jan 2020 10:25:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HIopQr4qTmGaxGQiMN5TTFQQCD/j0A0k1KsTz1BsHzQ=;
- b=qsvA6ykMdsUaYwrycIaSnBHwNEA/UnDxc/XsRoNQAUOHMpjXlpz7Q5dMJQpV8uzJvi
- wHjeM/Fld3r94sYQ0FRIw9ABv2y6VXn3Zjwn9rHPiP9Tk4YFC3Yuu0LjgA6/niZyCfzi
- utUJ0T29pW/0DLN5pF1ZhaZ8qZPfFMb9PDB5Q6AyZ22Hd2hohPUTWM8yn8qV/8qDonXk
- RIOp7cpQjxV/BFtef6J5EcPXW275Vh4EKw88y1C9P1j+Mz6Tm7jms9c61gl9v2CrY1UH
- wG/i6cgvxYUNHyIYEcea6+rnz4ja9X8a6pXOiDTlem5jvnyTkroi2ONCdKuAfyJDBgzk
- aKnA==
+ bh=tnY7QxipU1+snECgL7BBBU3+B3MZxCY/MIXbljxzDB8=;
+ b=AG8vG7v2VGw2KzpxtIVUSix/hig/+nKsA/yE7FWR40p8AU5NhiYLJ38r7kYFhHSvYY
+ CW8ELOWLFo8wKg0P6B/ylPd8YaLgS2lHNQgANVz1OXNV1ci2v43DrVPTk4VtUYGL5kph
+ ZsoC7Hpxs98LZ2cj2k9Z/uyTFz36iynVok48mRkvwTY+GAmBTzc/jc859sGy6J+tTJP/
+ e5G9AJRwad+nCeHEbcXKFez4vkcHccibprR4FxOhP0yO0riUzEqbu3G2wL5K6mOz5ZgH
+ x1gdasslqNGKmyxlxjK+5y9dzoNyoj2+lDtRFWLy4fe4iNjlbVcM9h2ppEdpPQFGxKAt
+ 3a0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HIopQr4qTmGaxGQiMN5TTFQQCD/j0A0k1KsTz1BsHzQ=;
- b=J5FjlitYmGodnWImDiELQCsMA7v22xY45FQg6Md9yFaeiHmLAWP9UHAn0+X1muyvDb
- MalDFpdzfhzVvCfzD/9ZIo10K4AZXGhvk4O+nrNM0SbSCOog60YCQDWgAq37EwZwjdw1
- kL5BinS92qn3Iuwk9A0FxuW+oNZ/LrT2OvZFWiMukC3V6gIt23Ha/gX4Vx0n8WSDNkhq
- 37kkO+GazFUfnqj/aqfpLtbrzWz8IH4j6evlBEOJpInU/D6YsxTvm3YPDuqfEq1zD1oa
- DkdQ27uyeYynY3941EvWZyVSZuKKEC0Ms/XDhf/462euaFCibBN5ga/v6CidjAkHjrjS
- nQsw==
-X-Gm-Message-State: APjAAAX+jb3xBNPQQiwtRbfSM+zaw+0VQAjbxtaArRyFTs9wxAiOZTUK
- fYtmPljaoY8GtPLznw4fRDJvYFBu
-X-Google-Smtp-Source: APXvYqyrGoztyJ3OW0uHkXVUIYehSLXql54psfC/wxm3VKSe1+tGwfTPA0tiSR1qnkYmgtNRym0H0A==
-X-Received: by 2002:ad4:49cc:: with SMTP id j12mr79841188qvy.188.1578335106538; 
- Mon, 06 Jan 2020 10:25:06 -0800 (PST)
+ bh=tnY7QxipU1+snECgL7BBBU3+B3MZxCY/MIXbljxzDB8=;
+ b=i+xsplcdK1M4v8aoQqvaNe04Bm2m99GvJfZydoPCWcfpLDRssRxEflQxCUx1FwuWmN
+ 6g97hlTN3xQBa/qHV7nAkTIvvlNMjoevHZHGvy2zK1a/Kpltqo3Ih4KLQoOg9UIBD+xm
+ N1CpoKTpEEW4UoNpOjr9K+Sl52ZDzzPvfssi57h1pLcldYv5dRP7lytpDdpdC715tAjh
+ hWBSdZ9atgER6sYebojAql1jk2n1iXYM807pUMsKStBgvIxBWrlYT0kg7HrBpnxIafPD
+ WpvMbWv+3KeJQXG55iKQXgOCITYwvTFI3PYff6CXdTQQE6GBOMgHbwZBld3fbsxFNtX4
+ rnHw==
+X-Gm-Message-State: APjAAAXiD6horcvMPhLkrEagkm1EKlVx7SEPZ5YDfIj6C9agyyrwQ7XR
+ 8HPS4S8bk0TShFuwdfnzrWHPqu7j
+X-Google-Smtp-Source: APXvYqye+lhuCh1FLVoCiYftUgeEtIrW0bNAhi7IeTTrucdmUNSCcRaHprn2BTjxc7LZh/69i7qYGQ==
+X-Received: by 2002:ac8:490f:: with SMTP id e15mr72867227qtq.32.1578335109804; 
+ Mon, 06 Jan 2020 10:25:09 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.04
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:06 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:09 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 08/59] chardev/char-mux.c: remove 'send_char' label
-Date: Mon,  6 Jan 2020 15:23:34 -0300
-Message-Id: <20200106182425.20312-9-danielhb413@gmail.com>
+Subject: [PATCH v1 10/59] chardev/char-win.c: remove 'fail' label in
+ win_chr_serial_init()
+Date: Mon,  6 Jan 2020 15:23:36 -0300
+Message-Id: <20200106182425.20312-11-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f44
+X-Received-From: 2607:f8b0:4864:20::844
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,34 +85,84 @@ Cc: qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The 'fail' label is a simply call to 'return -1' on error. Remove
+it and do the return call instead.
+
 CC: Marc-André Lureau <marcandre.lureau@redhat.com>
 CC: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- chardev/char-mux.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ chardev/char-win.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/chardev/char-mux.c b/chardev/char-mux.c
-index 200c62a0d0..edbaaf5cbf 100644
---- a/chardev/char-mux.c
-+++ b/chardev/char-mux.c
-@@ -140,7 +140,7 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
-     if (d->term_got_escape) {
-         d->term_got_escape = 0;
-         if (ch == term_escape_char) {
--            goto send_char;
-+            return 1;
-         }
-         switch (ch) {
-         case '?':
-@@ -174,7 +174,6 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
-     } else if (ch == term_escape_char) {
-         d->term_got_escape = 1;
-     } else {
--    send_char:
-         return 1;
+diff --git a/chardev/char-win.c b/chardev/char-win.c
+index 34825f683d..72c232e6d9 100644
+--- a/chardev/char-win.c
++++ b/chardev/char-win.c
+@@ -85,12 +85,12 @@ int win_chr_serial_init(Chardev *chr, const char *filename, Error **errp)
+     s->hsend = CreateEvent(NULL, TRUE, FALSE, NULL);
+     if (!s->hsend) {
+         error_setg(errp, "Failed CreateEvent");
+-        goto fail;
++        return -1;
      }
+     s->hrecv = CreateEvent(NULL, TRUE, FALSE, NULL);
+     if (!s->hrecv) {
+         error_setg(errp, "Failed CreateEvent");
+-        goto fail;
++        return -1;
+     }
+ 
+     s->file = CreateFile(filename, GENERIC_READ | GENERIC_WRITE, 0, NULL,
+@@ -98,12 +98,12 @@ int win_chr_serial_init(Chardev *chr, const char *filename, Error **errp)
+     if (s->file == INVALID_HANDLE_VALUE) {
+         error_setg(errp, "Failed CreateFile (%lu)", GetLastError());
+         s->file = NULL;
+-        goto fail;
++        return -1;
+     }
+ 
+     if (!SetupComm(s->file, NRECVBUF, NSENDBUF)) {
+         error_setg(errp, "Failed SetupComm");
+-        goto fail;
++        return -1;
+     }
+ 
+     ZeroMemory(&comcfg, sizeof(COMMCONFIG));
+@@ -114,29 +114,26 @@ int win_chr_serial_init(Chardev *chr, const char *filename, Error **errp)
+ 
+     if (!SetCommState(s->file, &comcfg.dcb)) {
+         error_setg(errp, "Failed SetCommState");
+-        goto fail;
++        return -1;
+     }
+ 
+     if (!SetCommMask(s->file, EV_ERR)) {
+         error_setg(errp, "Failed SetCommMask");
+-        goto fail;
++        return -1;
+     }
+ 
+     cto.ReadIntervalTimeout = MAXDWORD;
+     if (!SetCommTimeouts(s->file, &cto)) {
+         error_setg(errp, "Failed SetCommTimeouts");
+-        goto fail;
++        return -1;
+     }
+ 
+     if (!ClearCommError(s->file, &err, &comstat)) {
+         error_setg(errp, "Failed ClearCommError");
+-        goto fail;
++        return -1;
+     }
+     qemu_add_polling_cb(win_chr_serial_poll, chr);
      return 0;
+-
+- fail:
+-    return -1;
+ }
+ 
+ int win_chr_pipe_poll(void *opaque)
 -- 
 2.24.1
 
