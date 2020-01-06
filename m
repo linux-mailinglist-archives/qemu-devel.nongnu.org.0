@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329D4131806
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:59:56 +0100 (CET)
-Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526601317C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:49:51 +0100 (CET)
+Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXbW-0004We-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:59:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46301)
+	id 1ioXRl-0006xy-KO
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:49:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4y-0003S6-M2
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:17 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX52-0003Zb-D7
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4x-00053c-FP
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:16 -0500
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:38170)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX51-00057q-9X
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:20 -0500
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:39322)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4x-00053I-BG; Mon, 06 Jan 2020 13:26:15 -0500
-Received: by mail-qt1-x843.google.com with SMTP id n15so43213366qtp.5;
- Mon, 06 Jan 2020 10:26:15 -0800 (PST)
+ id 1ioX51-00057I-53; Mon, 06 Jan 2020 13:26:19 -0500
+Received: by mail-qk1-x743.google.com with SMTP id c16so40279922qko.6;
+ Mon, 06 Jan 2020 10:26:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vLkBK5lSWEkB9UXmndWqWUlDLfAZMhVOoZ7WRef+Ig4=;
- b=IhG6pGWJ6BRiXdPk0rw3Kv9D6qGDfbd3ECSNZ2+sAA/tXxgRYiVztrJBDuz4WGFREC
- rIana4JBxaZVXnlLcelSckeO/sL4PJQol+dhSin85HPt0PgNL/LdAXk6jRr+ITE4DBpm
- 7pB063tzhD/thPSt/MjN4IlK7jUWwA8lOoi1IBnH9o6Umtg7a1wRxm8zbrq+xv9rDIFU
- TG8H1z/Yr2MTxFL3yP1QJLxdJBVNCBcuShcHnWF6VTQJsb/FTaAMclJQm9YZvzTqRQhU
- t7BU6m2tRWNUjNc8e3ZA9xyL1GYhMAU48VpZSa9TbIkhq+B/ft35pmeaPufAsXrP7LGo
- Dvgg==
+ bh=bs7x1DdZtpqQKwEZE8GS4y2GJ9iZwDpJNAVLOudv4rU=;
+ b=N7CNeotvXctrkrAGky6hUb3El8MgPub51aUw6VZiMIVZL9tyQ7kP52weIeQagDaSVv
+ bD6qcCwLE1gJpKw0hKxyV8P/NyYX5PmC49IIGRfzEUpTWcZ32GsXhJHXbiM89WBF+oxJ
+ QnGv5K6lPy//8DEBPf0mb4YggELTgr3nAUBojHGjmNfUzYYESzzsMwpE95ohNoIDAxVq
+ sC9v3rQgsBBPv2CAp/r2oOZU4nDrtWuGigu7TOgEoYxGox794Zya2DhVwibpXC563vmj
+ 6rRgdw7vpGFwDaboG+LmNNSP1Jh+cSrG9FoHVlvCAQdFjxqoT/P5DwnVUemFfJsPNccO
+ LdGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vLkBK5lSWEkB9UXmndWqWUlDLfAZMhVOoZ7WRef+Ig4=;
- b=i3VcEkS7gBUCTfq45v8REy2BN//EcR9pynw+jpQ+bkkWnXJauZSra/RVkBh/dCvDON
- OY7BZPlhqSoK07NzvVwj3LHXy7VPOhNrKH7q7nWGR405tuHMfngcb5su8e8RjwBLuEkw
- 6Yl+8bto8cWV65s6JiEoYvyWnmEoT8C0j4xH1ICyABsiDbs/Ec7EXBAJazo2jj5cdR6J
- 5VlwFKiQLVjTiOM59hi6oU07y562KN/7VuU654CcV9+QaJRqpvxq1mxlLB2X7NWSIUq6
- Jg00/LKQJvDzREB9H0IQjYlbGj6F4V18wI+AeP+YT09t4wYqqmQmPALsz7cGomLL+Lyp
- tH7g==
-X-Gm-Message-State: APjAAAXnsQjtRywKZ53m5Rqet+CBCKtHHGkbslsYRIrT8Gi9pzIsF+f2
- 26yAf68VjKU04ZjywPy2ZpTSWsBJ
-X-Google-Smtp-Source: APXvYqz0JY9smgLFPzAiiETwEw3EDaNA9DaxSXm2oBrDtCaChGrePUXVRbUAYfq3Q9hxG9/fYtO3tA==
-X-Received: by 2002:ac8:769a:: with SMTP id g26mr12100709qtr.259.1578335174763; 
- Mon, 06 Jan 2020 10:26:14 -0800 (PST)
+ bh=bs7x1DdZtpqQKwEZE8GS4y2GJ9iZwDpJNAVLOudv4rU=;
+ b=Mdq14J1FB1T/m3YPTw63A0HwT11L4gUOQW8YDIK5Oom1Yp32necOkOToU9qrbyUYus
+ 8GIaANr9M5LPwWigvLqwGReVRdWRvfUW4t9sUasXW59/CsmGx7maHNU/MZLQ163o8IIN
+ V6H1l4JIEgYRfw/7g4hCTxjuhnpYBkSKWmuySk15hY9gptPfuw7hW7b01gtEe1i7brea
+ UNETHmcCcXKhm4vEps13MFVRS8LV5BvROvQZhZw9ZlqA6GmX8ZM8JStAejVlcxDmgltQ
+ +5f2Ls9KDSOPGNQ2HL7ulImxyEARn7oEYTsJnqgrtZ+eKXZi4d/ol9wATcFUWvzcvwq/
+ TsFw==
+X-Gm-Message-State: APjAAAXjwdf/dA7ebJ8Kf/59AgDTzOVxL+wHeSJhDgT3/4GvuCFNfvpX
+ eMZATHqXhwEwBR9nhRjKn21Mj4eT
+X-Google-Smtp-Source: APXvYqwp57AWDJiUhXtstFk6McUIumDhjnvSPpEl2+ee+XmFqCQ7VRFp/LZ+b+CsrS76H3AIMpI7wg==
+X-Received: by 2002:a37:6346:: with SMTP id x67mr83721219qkb.476.1578335178367; 
+ Mon, 06 Jan 2020 10:26:18 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.13
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:14 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:18 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 46/59] alpha/typhoon.c: remove unneeded label in
- typhoon_translate_iommu()
-Date: Mon,  6 Jan 2020 15:24:12 -0300
-Message-Id: <20200106182425.20312-47-danielhb413@gmail.com>
+Subject: [PATCH v1 48/59] pvrdma_dev_ring.c: remove unneeded label in
+ pvrdma_ring_init()
+Date: Mon,  6 Jan 2020 15:24:14 -0300
+Message-Id: <20200106182425.20312-49-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
+X-Received-From: 2607:f8b0:4864:20::743
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,97 +78,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+ Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Label 'success' can be replaced by 'return ret'.
+'out' label can be replaced by 'return' with the right return
+value. Since the 'rc' var was being used just to set -ENOMEM
+in a single error condition, get rid of the var and set
+the return value directly in the 'return' call.
 
-As a bonus, existing trailing whitespaces were automatically
-deleted by the text editor while making this patch.
-
-CC: Richard Henderson <rth@twiddle.net>
+CC: Yuval Shaia <yuval.shaia@oracle.com>
+CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/alpha/typhoon.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ hw/rdma/vmw/pvrdma_dev_ring.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
-index 179e1f7658..af992883c7 100644
---- a/hw/alpha/typhoon.c
-+++ b/hw/alpha/typhoon.c
-@@ -34,7 +34,7 @@ typedef struct TyphoonWindow {
-     uint64_t wsm;
-     uint64_t tba;
- } TyphoonWindow;
-- 
-+
- typedef struct TyphoonPchip {
-     MemoryRegion region;
-     MemoryRegion reg_iack;
-@@ -190,7 +190,7 @@ static MemTxResult cchip_read(void *opaque, hwaddr addr,
-     case 0x0780:
-         /* PWR: Power Management Control.   */
-         break;
--    
-+
-     case 0x0c00: /* CMONCTLA */
-     case 0x0c40: /* CMONCTLB */
-     case 0x0c80: /* CMONCNT01 */
-@@ -442,7 +442,7 @@ static MemTxResult cchip_write(void *opaque, hwaddr addr,
-     case 0x0780:
-         /* PWR: Power Management Control.   */
-         break;
--    
-+
-     case 0x0c00: /* CMONCTLA */
-     case 0x0c40: /* CMONCTLB */
-     case 0x0c80: /* CMONCNT01 */
-@@ -694,14 +694,14 @@ static IOMMUTLBEntry typhoon_translate_iommu(IOMMUMemoryRegion *iommu,
-         /* Check the first three windows.  */
-         for (i = 0; i < 3; ++i) {
-             if (window_translate(&pchip->win[i], addr, &ret)) {
--                goto success;
-+                return ret;
-             }
-         }
+diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
+index d7bc7f5ccc..c2ecce3b41 100644
+--- a/hw/rdma/vmw/pvrdma_dev_ring.c
++++ b/hw/rdma/vmw/pvrdma_dev_ring.c
+@@ -28,7 +28,6 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
+                      size_t elem_sz, dma_addr_t *tbl, uint32_t npages)
+ {
+     int i;
+-    int rc = 0;
  
-         /* Check the fourth window for DAC disable.  */
-         if ((pchip->win[3].wba & 0x80000000000ull) == 0
-             && window_translate(&pchip->win[3], addr, &ret)) {
--            goto success;
-+            return ret;
-         }
-     } else {
-         /* Double-address cycle.  */
-@@ -711,7 +711,7 @@ static IOMMUTLBEntry typhoon_translate_iommu(IOMMUMemoryRegion *iommu,
-             if (pchip->ctl & 0x40) {
-                 /* See 10.1.4.4; in particular <39:35> is ignored.  */
-                 make_iommu_tlbe(0, 0x007ffffffffull, &ret);
--                goto success;
-+                return ret;
-             }
-         }
+     strncpy(ring->name, name, MAX_RING_NAME_SZ);
+     ring->name[MAX_RING_NAME_SZ - 1] = 0;
+@@ -51,14 +50,13 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
  
-@@ -723,16 +723,14 @@ static IOMMUTLBEntry typhoon_translate_iommu(IOMMUMemoryRegion *iommu,
-                 pte_addr  = pchip->win[3].tba & 0x7ffc00000ull;
-                 pte_addr |= (addr & 0xffffe000u) >> 10;
-                 if (pte_translate(pte_addr, &ret)) {
--                        goto success;
-+                    return ret;
-                 }
-             }
+         ring->pages[i] = rdma_pci_dma_map(dev, tbl[i], TARGET_PAGE_SIZE);
+         if (!ring->pages[i]) {
+-            rc = -ENOMEM;
+             rdma_error_report("Failed to map to page %d in ring %s", i, name);
+             goto out_free;
          }
+         memset(ring->pages[i], 0, TARGET_PAGE_SIZE);
      }
  
-  failure:
--    ret = (IOMMUTLBEntry) { .perm = IOMMU_NONE };
-- success:
--    return ret;
-+    return (IOMMUTLBEntry) { .perm = IOMMU_NONE };
+-    goto out;
++    return 0;
+ 
+ out_free:
+     while (i--) {
+@@ -66,8 +64,7 @@ out_free:
+     }
+     g_free(ring->pages);
+ 
+-out:
+-    return rc;
++    return -ENOMEM;
  }
  
- static AddressSpace *typhoon_pci_dma_iommu(PCIBus *bus, void *opaque, int devfn)
+ void *pvrdma_ring_next_elem_read(PvrdmaRing *ring)
 -- 
 2.24.1
 
