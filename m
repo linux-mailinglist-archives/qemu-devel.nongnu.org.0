@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9062F1317C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:54:40 +0100 (CET)
-Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813D313178C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:35:07 +0100 (CET)
+Received: from localhost ([::1]:57784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXWR-00052v-7c
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:54:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45477)
+	id 1ioXDV-0004rj-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:35:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45499)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4C-000284-M8
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:29 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4D-00029p-Vk
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4B-0004E5-EB
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:28 -0500
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:38116)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4C-0004FY-RJ
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:29 -0500
+Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:42441)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4B-0004DU-4H; Mon, 06 Jan 2020 13:25:27 -0500
-Received: by mail-qk1-x741.google.com with SMTP id k6so40296404qki.5;
- Mon, 06 Jan 2020 10:25:26 -0800 (PST)
+ id 1ioX4C-0004FG-NL; Mon, 06 Jan 2020 13:25:28 -0500
+Received: by mail-qv1-xf41.google.com with SMTP id dc14so19417436qvb.9;
+ Mon, 06 Jan 2020 10:25:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iIYRPlSXfjPSgphJVr9MrieAqsI8xts4nkwFUXyHtYQ=;
- b=mQhipP9oLD5WYxqXU3Jf1sX/+F2XCuz17PnDMVOQGuSYlA3ITIeH4GDfHo5O9OLRAi
- mpbP56gc+LoBIWpZpz3A+ESeexNycfiOo1O2ieYVo+FriFiqkp11MFrBAL5+WGE1mGj5
- Q6YB0MM+1pK2HWLfKBV2Q3iJzy6VpY1GL93KunDPDXcZa+zkf3BlSFtOtDp2bhk1wPz6
- gnXS4qGhYPas6OybiOE4st28V0WnQlAf1trWanaB59bweCqfsDUvEY+ZCUE9MlpdAgeS
- /aIn9BVLx75tuQsEM1IFY9+AAavV0NjSP6/smv8WV35hLxj7pltxOve41CM9MCN+3t7E
- sF3Q==
+ bh=bPEopA2rGPiKlnwe7NwEEW5/buNpX4bBB0w0wRuIyWo=;
+ b=VwihmafXyrVYQKAP1pZJKtR4hfs73lmSlCTxATzLXkFHVkupvup1ZQLLLiplJDqsQq
+ bczTVaeiaZ4fDnBYDC8azWkuwM4uEx6INZLK3pkookVwygZbBOteZgBd5nFDXEG0BWaW
+ o1S77n7u3WX2kZnhr/LV8l5clxTwAKoh8rVd711zrk5rono1U5aZjP+H1H5/+rPB0K5U
+ dw8gWHKa1d6qlfDUZYM6aEQkZEo3eqSH/V8H6fL7i9Rg4RaRb+JBOAopejZ19h43YXe0
+ WA7h+D+gqR602cf0FMGl8ykZf+3Cjh3/G4HDEEXLmPKtF1lFtC/hNNnFMbxLh8F6VOgT
+ ytZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iIYRPlSXfjPSgphJVr9MrieAqsI8xts4nkwFUXyHtYQ=;
- b=dEOrwk/YTq0tG4RqGgcBXIukwJu/yYVInUkx1P1W0SCl81L+KsDlWLqTLEHsst0iL+
- QgYAH2nMtSIhfxOWus392CiIHFMdoiZPPcsxLgSJEe1cLXrMOvzrAo6rxfM3oce3vgbK
- feBaAQ2S1R61QYjP4DgaR0mjwOoVqomA6peMlj3D3mW8lhAnhSVFInjXIItQ8oK6hG9C
- n/yMvc87eC6mdxYmHc70DZty/lwS8DImrqmz342+VVyo5xywjeEINSvpF3Zm/N4YI/sn
- 3F3D1K1FN9hMQ+M6LNaWaZkke7rCFzj5BkpyiAAl4higMEZabO9wSAj5+A6ewd+E5XPI
- tJ+g==
-X-Gm-Message-State: APjAAAWP5MzqYJH0elyBd1l2a/v2BX6k6J8wOgipmXAfoLWwLWrhZLQQ
- qK0f+1oUpj5+WVhIWyQivhsoaWt6
-X-Google-Smtp-Source: APXvYqyr26GEbIsdAlLQPqpzzUEP+eCeLvGjtbIaTl7QyANUHBEppluPjmQ1RudJ9NcQqRSQ6A7raw==
-X-Received: by 2002:a37:684b:: with SMTP id d72mr85753234qkc.293.1578335126320; 
- Mon, 06 Jan 2020 10:25:26 -0800 (PST)
+ bh=bPEopA2rGPiKlnwe7NwEEW5/buNpX4bBB0w0wRuIyWo=;
+ b=hZC+UXSMN/waHCpoNVPYUK8lspLBXVYx/pepyVHwuYcYOPbbcdpc10qMh9E2NCehxx
+ Qk6xyyWOhbzR0Ly2Dh1ZfY7tNuHleTxcdM8YLh0EQpXp9SVsrb5Q7z5LY4+KCb2hUjyy
+ t855hOmZy58G5lE8huWGwJHvCeN8XRK2GQR2B2JF5H3h1E/Bu0SlAdyU9MLIs9H0BYe9
+ c3VCb5ASNvgPmop9hwhi8yzdTtcrMuRJP+VcFZ0vPexmJO60/mnMsOpPpl+Tld3WR4BB
+ DpyaRpHzKlpbtEc5qP9zkrYhu7CXuOJyq+0KrkSIZutHTZ6rHfMQa0nmtV7OnejF+ODV
+ eWUQ==
+X-Gm-Message-State: APjAAAWnsj1MgOdil44OtfA9qcz7d0oA5MRYOxLJ1c27Zv4nzSC0eqnv
+ aO8Z5RtJ/B2NSLs39VsfOwm77rZ0
+X-Google-Smtp-Source: APXvYqzciuoVbabwwxlGIl13Ksj3vtokHbUWMVSjvO9RGjZcKpW4zNQZ5T9o2tbs6M1UcRLDoSfAdQ==
+X-Received: by 2002:a05:6214:1272:: with SMTP id
+ r18mr51710568qvv.208.1578335128135; 
+ Mon, 06 Jan 2020 10:25:28 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.24
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:25 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:27 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 19/59] block/ssh.c: remove unneeded labels
-Date: Mon,  6 Jan 2020 15:23:45 -0300
-Message-Id: <20200106182425.20312-20-danielhb413@gmail.com>
+Subject: [PATCH v1 20/59] block/vpc.c: remove unneeded 'fail' label in
+ create_dynamic_disk()
+Date: Mon,  6 Jan 2020 15:23:46 -0300
+Message-Id: <20200106182425.20312-21-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -64,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+X-Received-From: 2607:f8b0:4864:20::f41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,177 +78,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Richard W . M . Jones" <rjones@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'out' labels for check_host_key_knownhosts() and authenticate()
-functions can be removed and, instead, call 'return' with the
-appropriate return value. The 'ret' integer from both functions
-could also be removed.
+'fail' label can be replaced by 'return ret' on error and
+'return 0' in the end of the function.
 
-CC: Richard W.M. Jones <rjones@redhat.com>
+CC: Kevin Wolf <kwolf@redhat.com>
 CC: qemu-block@nongnu.org
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- block/ssh.c | 61 +++++++++++++++++------------------------------------
- 1 file changed, 19 insertions(+), 42 deletions(-)
+ block/vpc.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/block/ssh.c b/block/ssh.c
-index b4375cf7d2..e0c56d002a 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -276,7 +276,6 @@ static void ssh_parse_filename(const char *filename, QDict *options,
+diff --git a/block/vpc.c b/block/vpc.c
+index a65550298e..2678b48dfd 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -839,13 +839,13 @@ static int create_dynamic_disk(BlockBackend *blk, uint8_t *buf,
  
- static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
- {
--    int ret;
- #ifdef HAVE_LIBSSH_0_8
-     enum ssh_known_hosts_e state;
-     int r;
-@@ -295,7 +294,6 @@ static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
-         trace_ssh_check_host_key_knownhosts();
-         break;
-     case SSH_KNOWN_HOSTS_CHANGED:
--        ret = -EINVAL;
-         r = ssh_get_server_publickey(s->session, &pubkey);
-         if (r == 0) {
-             r = ssh_get_publickey_hash(pubkey, SSH_PUBLICKEY_HASH_SHA256,
-@@ -320,28 +318,23 @@ static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
-                        "host key does not match the one in known_hosts; this "
-                        "may be a possible attack");
+     ret = blk_pwrite(blk, offset, buf, HEADER_SIZE, 0);
+     if (ret < 0) {
+-        goto fail;
++        return ret;
+     }
+ 
+     offset = 1536 + ((num_bat_entries * 4 + 511) & ~511);
+     ret = blk_pwrite(blk, offset, buf, HEADER_SIZE, 0);
+     if (ret < 0) {
+-        goto fail;
++        return ret;
+     }
+ 
+     /* Write the initial BAT */
+@@ -855,7 +855,7 @@ static int create_dynamic_disk(BlockBackend *blk, uint8_t *buf,
+     for (i = 0; i < DIV_ROUND_UP(num_bat_entries * 4, 512); i++) {
+         ret = blk_pwrite(blk, offset, buf, 512, 0);
+         if (ret < 0) {
+-            goto fail;
++            return ret;
          }
--        goto out;
-+        return -EINVAL;
-     case SSH_KNOWN_HOSTS_OTHER:
--        ret = -EINVAL;
-         error_setg(errp,
-                    "host key for this server not found, another type exists");
--        goto out;
-+        return -EINVAL;
-     case SSH_KNOWN_HOSTS_UNKNOWN:
--        ret = -EINVAL;
-         error_setg(errp, "no host key was found in known_hosts");
--        goto out;
-+        return -EINVAL;
-     case SSH_KNOWN_HOSTS_NOT_FOUND:
--        ret = -ENOENT;
-         error_setg(errp, "known_hosts file not found");
--        goto out;
-+        return -ENOENT;
-     case SSH_KNOWN_HOSTS_ERROR:
--        ret = -EINVAL;
-         error_setg(errp, "error while checking the host");
--        goto out;
-+        return -EINVAL;
-     default:
--        ret = -EINVAL;
-         error_setg(errp, "error while checking for known server (%d)", state);
--        goto out;
-+        return -EINVAL;
+         offset += 512;
      }
- #else /* !HAVE_LIBSSH_0_8 */
-     int state;
-@@ -355,40 +348,31 @@ static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)
-         trace_ssh_check_host_key_knownhosts();
-         break;
-     case SSH_SERVER_KNOWN_CHANGED:
--        ret = -EINVAL;
-         error_setg(errp,
-                    "host key does not match the one in known_hosts; this "
-                    "may be a possible attack");
--        goto out;
-+        return -EINVAL;
-     case SSH_SERVER_FOUND_OTHER:
--        ret = -EINVAL;
-         error_setg(errp,
-                    "host key for this server not found, another type exists");
--        goto out;
-+        return -EINVAL;
-     case SSH_SERVER_FILE_NOT_FOUND:
--        ret = -ENOENT;
-         error_setg(errp, "known_hosts file not found");
--        goto out;
-+        return -ENOENT;
-     case SSH_SERVER_NOT_KNOWN:
--        ret = -EINVAL;
-         error_setg(errp, "no host key was found in known_hosts");
--        goto out;
-+        return -EINVAL;
-     case SSH_SERVER_ERROR:
--        ret = -EINVAL;
-         error_setg(errp, "server error");
--        goto out;
-+        return -EINVAL;
-     default:
--        ret = -EINVAL;
-         error_setg(errp, "error while checking for known server (%d)", state);
--        goto out;
-+        return -EINVAL;
-     }
- #endif /* !HAVE_LIBSSH_0_8 */
+@@ -882,12 +882,10 @@ static int create_dynamic_disk(BlockBackend *blk, uint8_t *buf,
  
-     /* known_hosts checking successful. */
+     ret = blk_pwrite(blk, offset, buf, 1024, 0);
+     if (ret < 0) {
+-        goto fail;
++        return ret;
+     }
+ 
 -    ret = 0;
--
-- out:
+- fail:
 -    return ret;
 +    return 0;
  }
  
- static unsigned hex2decimal(char ch)
-@@ -501,20 +485,18 @@ static int check_host_key(BDRVSSHState *s, SshHostKeyCheck *hkc, Error **errp)
- 
- static int authenticate(BDRVSSHState *s, Error **errp)
- {
--    int r, ret;
-+    int r;
-     int method;
- 
-     /* Try to authenticate with the "none" method. */
-     r = ssh_userauth_none(s->session, NULL);
-     if (r == SSH_AUTH_ERROR) {
--        ret = -EPERM;
-         session_error_setg(errp, s, "failed to authenticate using none "
-                                     "authentication");
--        goto out;
-+        return -EPERM;
-     } else if (r == SSH_AUTH_SUCCESS) {
-         /* Authenticated! */
--        ret = 0;
--        goto out;
-+        return 0;
-     }
- 
-     method = ssh_userauth_list(s->session, NULL);
-@@ -527,23 +509,18 @@ static int authenticate(BDRVSSHState *s, Error **errp)
-     if (method & SSH_AUTH_METHOD_PUBLICKEY) {
-         r = ssh_userauth_publickey_auto(s->session, NULL, NULL);
-         if (r == SSH_AUTH_ERROR) {
--            ret = -EINVAL;
-             session_error_setg(errp, s, "failed to authenticate using "
-                                         "publickey authentication");
--            goto out;
-+            return -EINVAL;
-         } else if (r == SSH_AUTH_SUCCESS) {
-             /* Authenticated! */
--            ret = 0;
--            goto out;
-+            return 0;
-         }
-     }
- 
--    ret = -EPERM;
-     error_setg(errp, "failed to authenticate using publickey authentication "
-                "and the identities held by your ssh-agent");
--
-- out:
--    return ret;
-+    return -EPERM;
- }
- 
- static QemuOptsList ssh_runtime_opts = {
+ static int create_fixed_disk(BlockBackend *blk, uint8_t *buf,
 -- 
 2.24.1
 
