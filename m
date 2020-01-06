@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0BC131254
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:54:45 +0100 (CET)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE28131261
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:56:51 +0100 (CET)
+Received: from localhost ([::1]:51488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioRu8-0002Vf-2N
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:54:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
+	id 1ioRwA-0006DE-7k
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:56:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1ioRsC-0000qF-Lk
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:45 -0500
+ (envelope-from <kraxel@redhat.com>) id 1ioRsF-0000rp-8p
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000oh-Kk
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51214
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1ioRsE-0000sE-7J
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:47 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52069
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000my-FM
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:43 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ioRsE-0000rY-3r
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578315162;
+ s=mimecast20190719; t=1578315165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rUKfZuNd1Qu2lKoFCCnXZ06t/YR98pMi3balpjSIsSo=;
- b=Jwk/iMBrck5d2WAVbA7Bv2KYzaRSsCtOu5z6silLz4aXeoFy88VZ88Vts57hqSieZP/495
- sMqzGs3kQEEvYoBpbiRiTODlzT+oR6lys8OJ1nWlPEQkoxWDffCJWfDQ/edkAEz/i0kZAz
- Vy1rLboWBRAt+8WDHFA3Y9nAHO3oJYw=
+ bh=Te2JijOz57Os2mZyO59E9CRodauE2oIIc487Aq0SD7U=;
+ b=LsH5oMmYymX32oWQ+vseGoXxzAZIt/p7mHFaYupIrqw9lo8LoB0QRQBnTkzE5j2p1kl+i8
+ f0wAS+fOYOmS4Zr4ZF/cWXRm673X7mRrhilktzXcRsKWY7kUrvoJ6aKHK0emKBFkTsphBf
+ XlShdfc8Lcl9WvWL55Rw1/SkZbLhii0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-yI2feI0yMZuuG6khj3vIMQ-1; Mon, 06 Jan 2020 07:52:41 -0500
+ us-mta-313-yz8t2z8TMsKeK-oGgtberg-1; Mon, 06 Jan 2020 07:52:42 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D390800D4E;
- Mon,  6 Jan 2020 12:52:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AA9918C8C00;
+ Mon,  6 Jan 2020 12:52:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
  [10.36.116.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83FEB5C57C;
- Mon,  6 Jan 2020 12:52:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 138CF5C21A;
+ Mon,  6 Jan 2020 12:52:41 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A8B7831E49; Mon,  6 Jan 2020 13:52:36 +0100 (CET)
+ id B13E031E8E; Mon,  6 Jan 2020 13:52:36 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/6] paaudio: try to drain the recording stream
-Date: Mon,  6 Jan 2020 13:52:34 +0100
-Message-Id: <20200106125236.24132-5-kraxel@redhat.com>
+Subject: [PULL 5/6] paaudio: wait until the recording stream is ready
+Date: Mon,  6 Jan 2020 13:52:35 +0100
+Message-Id: <20200106125236.24132-6-kraxel@redhat.com>
 In-Reply-To: <20200106125236.24132-1-kraxel@redhat.com>
 References: <20200106125236.24132-1-kraxel@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: yI2feI0yMZuuG6khj3vIMQ-1
+X-MC-Unique: yz8t2z8TMsKeK-oGgtberg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,96 +80,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-There is no guarantee a single call to pa_stream_peek every
-timer_period microseconds can read a recording stream faster
-than the data gets produced at the source. Let qpa_read try to
-drain the recording stream.
+Don't call pa_stream_peek before the recording stream is ready.
 
-To reproduce the problem:
+Information to reproduce the problem.
 
-Start qemu with -audiodev pa,id=3Daudio0,in.mixing-engine=3Doff
+Start and stop Audacity in the guest several times because the
+problem is racy.
 
-On the host connect the qemu recording stream to the monitor of
-a hardware output device. While the problem can also be seen
-with a hardware input device, it's obvious with the monitor of
-a hardware output device.
-
-In the guest start audio recording with audacity and notice the
-slow recording data rate.
+libvirt log file:
+-audiodev pa,id=3Daudio0,server=3Dlocalhost,out.latency=3D30000,
+ out.mixing-engine=3Doff,in.mixing-engine=3Doff \
+-sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,
+ resourcecontrol=3Ddeny \
+-msg timestamp=3Don
+: Domain id=3D4 is tainted: custom-argv
+char device redirected to /dev/pts/1 (label charserial0)
+audio: Device pcspk: audiodev default parameter is deprecated,
+ please specify audiodev=3Daudio0
+audio: Device hda: audiodev default parameter is deprecated,
+ please specify audiodev=3Daudio0
+pulseaudio: pa_stream_peek failed
+pulseaudio: Reason: Bad state
+pulseaudio: pa_stream_peek failed
+pulseaudio: Reason: Bad state
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Message-id: 20200104091122.13971-4-vr_qemu@t-online.de
+Message-id: 20200104091122.13971-5-vr_qemu@t-online.de
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/paaudio.c | 41 +++++++++++++++++++++++++----------------
- 1 file changed, 25 insertions(+), 16 deletions(-)
+ audio/paaudio.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/audio/paaudio.c b/audio/paaudio.c
-index 7db1dc15f09e..b23274550e1c 100644
+index b23274550e1c..dbfe48c03a1d 100644
 --- a/audio/paaudio.c
 +++ b/audio/paaudio.c
-@@ -156,34 +156,43 @@ static size_t qpa_read(HWVoiceIn *hw, void *data, siz=
-e_t length)
- {
-     PAVoiceIn *p =3D (PAVoiceIn *) hw;
-     PAConnection *c =3D p->g->conn;
--    size_t l;
--    int r;
-+    size_t total =3D 0;
-=20
-     pa_threaded_mainloop_lock(c->mainloop);
+@@ -162,6 +162,10 @@ static size_t qpa_read(HWVoiceIn *hw, void *data, size=
+_t length)
 =20
      CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
                      "pa_threaded_mainloop_lock failed\n");
++    if (pa_stream_get_state(p->stream) !=3D PA_STREAM_READY) {
++        /* wait for stream to become ready */
++        goto unlock;
++    }
 =20
--    if (!p->read_length) {
--        r =3D pa_stream_peek(p->stream, &p->read_data, &p->read_length);
--        CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
--                           "pa_stream_peek failed\n");
--    }
-+    while (total < length) {
-+        size_t l;
-+        int r;
-=20
--    l =3D MIN(p->read_length, length);
--    memcpy(data, p->read_data, l);
-+        if (!p->read_length) {
-+            r =3D pa_stream_peek(p->stream, &p->read_data, &p->read_length=
-);
-+            CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
-+                               "pa_stream_peek failed\n");
-+            if (!p->read_length) {
-+                /* buffer is empty */
-+                break;
-+            }
-+        }
-=20
--    p->read_data +=3D l;
--    p->read_length -=3D l;
-+        l =3D MIN(p->read_length, length - total);
-+        memcpy((char *)data + total, p->read_data, l);
-=20
--    if (!p->read_length) {
--        r =3D pa_stream_drop(p->stream);
--        CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
--                           "pa_stream_drop failed\n");
-+        p->read_data +=3D l;
-+        p->read_length -=3D l;
-+        total +=3D l;
-+
-+        if (!p->read_length) {
-+            r =3D pa_stream_drop(p->stream);
-+            CHECK_SUCCESS_GOTO(c, r =3D=3D 0, unlock_and_fail,
-+                               "pa_stream_drop failed\n");
-+        }
+     while (total < length) {
+         size_t l;
+@@ -191,6 +195,7 @@ static size_t qpa_read(HWVoiceIn *hw, void *data, size_=
+t length)
+         }
      }
 =20
++unlock:
      pa_threaded_mainloop_unlock(c->mainloop);
--    return l;
-+    return total;
+     return total;
 =20
- unlock_and_fail:
-     pa_threaded_mainloop_unlock(c->mainloop);
 --=20
 2.18.1
 
