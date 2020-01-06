@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F2C13123D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:44:51 +0100 (CET)
-Received: from localhost ([::1]:51368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A773B131253
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:54:43 +0100 (CET)
+Received: from localhost ([::1]:51448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioRkY-0007Jo-38
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:44:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55753)
+	id 1ioRu6-0002UB-6t
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:54:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ioRjd-0006u1-1G
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:43:53 -0500
+ (envelope-from <kraxel@redhat.com>) id 1ioRsC-0000qD-Ky
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ioRjb-0003UK-Oo
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:43:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38968
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000oN-Jb
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:44 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51100
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ioRjb-0003Tw-LQ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:43:51 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000mm-FJ
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578314630;
+ s=mimecast20190719; t=1578315162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IXKdof+MVdjvGYVFNSS24nw7VWqWRsd/U913Bm3yu/8=;
- b=YoFz/+8hx2f6Np//auHayziD5qBsaFP3DzQoMqJm81QITEg8/ieAVveVCL0Pu7naNH1LgJ
- Gt6ZAv4Vhhgmop7J6HDVSAfxaljmiob5o/B/CmHSKIpdvp4PvF1UVETk657yqpkLNCdkm+
- WI/8wYHtzYvpfaADmDZ3PL5I5MsFx20=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-VWkdhOTbPWagvKNm48M-HA-1; Mon, 06 Jan 2020 07:43:49 -0500
-Received: by mail-qt1-f197.google.com with SMTP id t4so34257435qtd.3
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 04:43:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XI0PgSw7b875iFaieplG/MXErHrY8BKiY4MOxCdG/O0=;
- b=lPocts+oHA6JrSc7sKtppXt18rIUe24fbxcgy6RQPFf2MLYTN/FvZwM+qmcgH1SYsm
- Jilo9sX2Mb2l8r/z2lRfe76Cutc5NvHj4K9l0ySnH4TjOp3WrVsu5s9NhOJWGVqq0Rae
- qgQlk/pFX4j+V0b8xORGAbIQg65llqj7i5Q3k278hmFRts1VZVFWgl/DzIYbImXFhB4l
- rL6ni15d+rxq2tcJPweZ959o16ywi8XqXESQ5ESqEwYMecGwgoN5ozSCpKlbwh71aSJI
- 6Rl36g6U92TqUmd9IfRRUXgZgCO2OiPNNjKZAQ4wit54lJDLyI2GmzT+3XhQIEJ46AQb
- RqHg==
-X-Gm-Message-State: APjAAAXl0D3zWa51z+lpPRV+hQVaub983iZDc86G08iN08DHlnARtcFs
- pyQrbKBlpc3cPmkKzu1ES5Q++tRZ2zSbRYXAtMDoGA5IRQaZrgk8CrJSLXzFvpdhR9jVQ3fwQzE
- NyTrCIi8fL1GQsQE=
-X-Received: by 2002:aed:3f32:: with SMTP id p47mr77028275qtf.374.1578314629294; 
- Mon, 06 Jan 2020 04:43:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzMw+R3XzhlyX7WlOxkGfBQ6pHCo0xj/Sf5+Md+U7kMqByrUURZXX5EgDn5rYyCQNyuo4wunw==
-X-Received: by 2002:aed:3f32:: with SMTP id p47mr77028262qtf.374.1578314629119; 
- Mon, 06 Jan 2020 04:43:49 -0800 (PST)
-Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id i2sm23368610qte.87.2020.01.06.04.43.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 04:43:47 -0800 (PST)
-Date: Mon, 6 Jan 2020 07:43:43 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Anton Kuchin <antonkuchin@yandex-team.ru>
-Subject: Re: [RFC PATCH] virtio: Change order of appling runstate to device
- and bus
-Message-ID: <20200106074302-mutt-send-email-mst@kernel.org>
-References: <20191220125245.7679-1-antonkuchin@yandex-team.ru>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FBp5aqjLZFYnatMx/1MpZ3T9tDK6H8YGgSHSkfHsa6c=;
+ b=FHUqI9HPG1mXEk5gAObQ5+B1DstWJon7Xn/ONfkWAucD0jvAd3yU6QeDEsR7oOMuJx+w8m
+ P7NsybGSvVWft4SUEz+nTXU6Ll+WliLd9zIFglIQEM/Ss0iD7dnYbYMEf0UpLu34WKgOaO
+ w+lI3zSAiyw4Pi1vCZWZQo6/MfPyPZU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-WBerDlcBNLyKapRBgK4GlA-1; Mon, 06 Jan 2020 07:52:41 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25EA31005514
+ for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 12:52:40 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
+ [10.36.116.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83E1F46;
+ Mon,  6 Jan 2020 12:52:37 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 875A348E0; Mon,  6 Jan 2020 13:52:36 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] Audio 20200106 patches
+Date: Mon,  6 Jan 2020 13:52:30 +0100
+Message-Id: <20200106125236.24132-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191220125245.7679-1-antonkuchin@yandex-team.ru>
-X-MC-Unique: VWkdhOTbPWagvKNm48M-HA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: WBerDlcBNLyKapRBgK4GlA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,50 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 20, 2019 at 03:52:45PM +0300, Anton Kuchin wrote:
-> On transition to running first apply state to bus and then to device
-> so device can access bus functions correctly. When going to stopped
-> notify device first and then the bus.
->=20
-> Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+The following changes since commit f0dcfddecee8b860e015bb07d67cfcbdfbfd51d9=
+:
 
-I kind of like this but this has the potential to break lots of things.
-How was this tested?
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' i=
+nto staging (2020-01-03 17:18:08 +0000)
 
-> ---
->  hw/virtio/virtio.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 04716b5f6c..2ea2edba10 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3096,7 +3096,7 @@ static void virtio_vmstate_change(void *opaque, int=
- running, RunState state)
->      bool backend_run =3D running && virtio_device_started(vdev, vdev->st=
-atus);
->      vdev->vm_running =3D running;
-> =20
-> -    if (backend_run) {
-> +    if (!backend_run) {
->          virtio_set_status(vdev, vdev->status);
->      }
-> =20
-> @@ -3104,7 +3104,7 @@ static void virtio_vmstate_change(void *opaque, int=
- running, RunState state)
->          k->vmstate_change(qbus->parent, backend_run);
->      }
-> =20
-> -    if (!backend_run) {
-> +    if (backend_run) {
->          virtio_set_status(vdev, vdev->status);
->      }
->  }
-> --=20
-> 2.20.1
+are available in the Git repository at:
+
+  git://git.kraxel.org/qemu tags/audio-20200106-pull-request
+
+for you to fetch changes up to 40ad46d3cc463fab5a23db466f77e37aff23f927:
+
+  audio: fix integer overflow (2020-01-06 08:47:16 +0100)
+
+----------------------------------------------------------------
+audio: bugfixes.
+
+----------------------------------------------------------------
+
+Volker R=C3=BCmelin (6):
+  hda-codec: fix playback rate control
+  hda-codec: fix recording rate control
+  paaudio: drop recording stream in qpa_fini_in
+  paaudio: try to drain the recording stream
+  paaudio: wait until the recording stream is ready
+  audio: fix integer overflow
+
+ audio/audio.c        |  2 +-
+ audio/paaudio.c      | 68 +++++++++++++++++++++++++++++++-------------
+ hw/audio/hda-codec.c |  8 +++---
+ 3 files changed, 53 insertions(+), 25 deletions(-)
+
+--=20
+2.18.1
 
 
