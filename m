@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950A4131483
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:12:24 +0100 (CET)
-Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA288131445
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:01:37 +0100 (CET)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioU3L-0000ww-53
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:12:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
+	id 1ioTsu-0004OX-KH
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:01:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTbU-00076X-U1
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:37 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ioTbg-0007OR-5h
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTbT-0000k4-HN
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:36 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54607
+ (envelope-from <mreitz@redhat.com>) id 1ioTbc-0000s1-Jx
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:48 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20564
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbT-0000jf-Dl
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:35 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbc-0000rs-FC
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321815;
+ s=mimecast20190719; t=1578321824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fsW9A/KuWJzfMXhzNLmReZ4zVfg0ysO1L/7uPXDRxUE=;
- b=fAnWiCRT2kU1ajTJA4NJMQzzz+Ihv/sIrJ2qMHUVhS9y+BxFYt3ByPaVqa9yK16Wg4uTHT
- jMBcMaFyQtYmSsOS5WC3nQPviKC9fb951cb7tD5vM7cecI1WD/0tg9B2sES1hcDMKg57iI
- jRHQjDM4YFwu34BkhDRjW8O9XOq2Zsk=
+ bh=CugtdPlV3P6ys0x+ESsYl6QadaILtmI+aVl7Yj5Jbyo=;
+ b=cGQkjJp/sCHiQOlJ1L/VJSr9hLi+b5RQGVhDBGS5fiGL6s36iK+cqFJxgvZut629WnFGhy
+ OsjtOjL+DUG5e0Oyeo2AI/HaYxVYN5mF32VlA2GgBFN4dclaZ4d5vxnBoy3T/g7aXdEsEN
+ FJw6twduxi9EU8vNX+tRQn+iJAMa+ow=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-9Dmy-FBQOk2lD5sfMK30sg-1; Mon, 06 Jan 2020 09:43:31 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-28-LASyD0DIPgmK8C6pAnSZpA-1; Mon, 06 Jan 2020 09:43:40 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B53A5802C81;
- Mon,  6 Jan 2020 14:43:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7926A8C4400;
+ Mon,  6 Jan 2020 14:43:39 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AC9A5D9E1;
- Mon,  6 Jan 2020 14:43:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4065F100164D;
+ Mon,  6 Jan 2020 14:43:37 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 25/34] iotests: Make 110 work with data_file
-Date: Mon,  6 Jan 2020 15:41:57 +0100
-Message-Id: <20200106144206.698920-26-mreitz@redhat.com>
+Subject: [PULL 28/34] iotests: Disable data_file where it cannot be used
+Date: Mon,  6 Jan 2020 15:42:00 +0100
+Message-Id: <20200106144206.698920-29-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 9Dmy-FBQOk2lD5sfMK30sg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: LASyD0DIPgmK8C6pAnSZpA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -75,87 +75,736 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only difference is that the json:{} filename of the image looks
-different.  We actually do not care about that filename in this test, we
-are only interested in (1) that there is a json:{} filename, and (2)
-whether the backing filename can be constructed.
-
-So just filter out the json:{} data, thus making this test pass both
-with and without data_file.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20191107163708.833192-19-mreitz@redhat.com
+Message-id: 20191107163708.833192-22-mreitz@redhat.com
+[mreitz: Also disable 273]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/110     | 7 +++++--
- tests/qemu-iotests/110.out | 4 ++--
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/007 | 5 +++--
+ tests/qemu-iotests/014 | 2 ++
+ tests/qemu-iotests/015 | 5 +++--
+ tests/qemu-iotests/026 | 5 ++++-
+ tests/qemu-iotests/029 | 5 +++--
+ tests/qemu-iotests/031 | 6 +++---
+ tests/qemu-iotests/036 | 5 +++--
+ tests/qemu-iotests/039 | 3 +++
+ tests/qemu-iotests/046 | 2 ++
+ tests/qemu-iotests/048 | 2 ++
+ tests/qemu-iotests/051 | 5 +++--
+ tests/qemu-iotests/058 | 5 +++--
+ tests/qemu-iotests/060 | 6 ++++--
+ tests/qemu-iotests/061 | 6 ++++--
+ tests/qemu-iotests/062 | 2 +-
+ tests/qemu-iotests/066 | 4 +++-
+ tests/qemu-iotests/067 | 6 ++++--
+ tests/qemu-iotests/068 | 5 +++--
+ tests/qemu-iotests/071 | 3 +++
+ tests/qemu-iotests/073 | 4 ++++
+ tests/qemu-iotests/074 | 2 ++
+ tests/qemu-iotests/080 | 5 +++--
+ tests/qemu-iotests/090 | 2 ++
+ tests/qemu-iotests/098 | 6 ++++--
+ tests/qemu-iotests/099 | 3 ++-
+ tests/qemu-iotests/103 | 5 +++--
+ tests/qemu-iotests/108 | 6 ++++--
+ tests/qemu-iotests/112 | 5 +++--
+ tests/qemu-iotests/114 | 2 ++
+ tests/qemu-iotests/121 | 3 +++
+ tests/qemu-iotests/138 | 3 +++
+ tests/qemu-iotests/156 | 2 ++
+ tests/qemu-iotests/176 | 7 +++++--
+ tests/qemu-iotests/191 | 2 ++
+ tests/qemu-iotests/201 | 6 +++---
+ tests/qemu-iotests/214 | 3 ++-
+ tests/qemu-iotests/217 | 3 ++-
+ tests/qemu-iotests/220 | 5 +++--
+ tests/qemu-iotests/243 | 6 ++++--
+ tests/qemu-iotests/244 | 5 +++--
+ tests/qemu-iotests/250 | 2 ++
+ tests/qemu-iotests/261 | 3 ++-
+ tests/qemu-iotests/267 | 5 +++--
+ tests/qemu-iotests/273 | 3 +++
+ 44 files changed, 127 insertions(+), 53 deletions(-)
 
-diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
-index f78df0e6e1..139c02c2cf 100755
---- a/tests/qemu-iotests/110
-+++ b/tests/qemu-iotests/110
-@@ -67,6 +67,7 @@ echo
- # Across blkdebug without a config file, you cannot reconstruct filenames,=
- so
- # qemu is incapable of knowing the directory of the top image from the fil=
-ename
- # alone. However, using bdrv_dirname(), it should still work.
-+# (Filter out the json:{} filename so this test works with external data f=
-iles)
- TEST_IMG=3D"json:{
-     'driver': '$IMGFMT',
-     'file': {
-@@ -82,7 +83,8 @@ TEST_IMG=3D"json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info | grep -v 'backing file format'
-+}" _img_info | _filter_img_info | grep -v 'backing file format' \
-+    | _filter_json_filename
+diff --git a/tests/qemu-iotests/007 b/tests/qemu-iotests/007
+index 7d3544b479..160683adf8 100755
+--- a/tests/qemu-iotests/007
++++ b/tests/qemu-iotests/007
+@@ -41,8 +41,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto generic
+ # refcount_bits must be at least 4 so we can create ten internal snapshots
+-# (1 bit supports none, 2 bits support two, 4 bits support 14)
+-_unsupported_imgopts 'refcount_bits=3D\(1\|2\)[^0-9]'
++# (1 bit supports none, 2 bits support two, 4 bits support 14);
++# snapshot are generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D\(1\|2\)[^0-9]' data_file
 =20
  echo
- echo '=3D=3D=3D Backing name is always relative to the backed image =3D=3D=
+ echo "creating image"
+diff --git a/tests/qemu-iotests/014 b/tests/qemu-iotests/014
+index 2f728a1956..e1221c0fff 100755
+--- a/tests/qemu-iotests/014
++++ b/tests/qemu-iotests/014
+@@ -43,6 +43,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++# Compression and snapshots do not work with external data files
++_unsupported_imgopts data_file
+=20
+ TEST_OFFSETS=3D"0 4294967296"
+ TEST_OPS=3D"writev read write readv"
+diff --git a/tests/qemu-iotests/015 b/tests/qemu-iotests/015
+index eec5387f3d..4d8effd0ae 100755
+--- a/tests/qemu-iotests/015
++++ b/tests/qemu-iotests/015
+@@ -40,8 +40,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # actually any format that supports snapshots
+ _supported_fmt qcow2
+ _supported_proto generic
+-# Internal snapshots are (currently) impossible with refcount_bits=3D1
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
+=20
+ echo
+ echo "creating image"
+diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
+index 3430029ed6..a4aa74764f 100755
+--- a/tests/qemu-iotests/026
++++ b/tests/qemu-iotests/026
+@@ -49,7 +49,10 @@ _supported_cache_modes writethrough none
+ # 32 and 64 bits do not work either, however, due to different leaked clus=
+ter
+ # count on error.
+ # Thus, the only remaining option is refcount_bits=3D16.
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++#
++# As for data_file, none of the refcount tests can work for it.
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' \
++    data_file
+=20
+ echo "Errors while writing 128 kB"
+ echo
+diff --git a/tests/qemu-iotests/029 b/tests/qemu-iotests/029
+index 9254ede5e5..2161a4b87a 100755
+--- a/tests/qemu-iotests/029
++++ b/tests/qemu-iotests/029
+@@ -42,8 +42,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto generic
+ _unsupported_proto vxhs
+-# Internal snapshots are (currently) impossible with refcount_bits=3D1
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
+=20
+ offset_size=3D24
+ offset_l1_size=3D36
+diff --git a/tests/qemu-iotests/031 b/tests/qemu-iotests/031
+index c44fcf91bb..646ecd593f 100755
+--- a/tests/qemu-iotests/031
++++ b/tests/qemu-iotests/031
+@@ -40,9 +40,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+ _supported_proto file
+-# We want to test compat=3D0.10, which does not support refcount widths
+-# other than 16
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++# We want to test compat=3D0.10, which does not support external data
++# files or refcount widths other than 16
++_unsupported_imgopts data_file 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
+=20
+ CLUSTER_SIZE=3D65536
+=20
+diff --git a/tests/qemu-iotests/036 b/tests/qemu-iotests/036
+index bbaf0ef45b..512598421c 100755
+--- a/tests/qemu-iotests/036
++++ b/tests/qemu-iotests/036
+@@ -43,8 +43,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+ _supported_proto file
+-# Only qcow2v3 and later supports feature bits
+-_unsupported_imgopts 'compat=3D0.10'
++# Only qcow2v3 and later supports feature bits;
++# qcow2.py does not support external data files
++_unsupported_imgopts 'compat=3D0.10' data_file
+=20
+ echo
+ echo =3D=3D=3D Image with unknown incompatible feature bit =3D=3D=3D
+diff --git a/tests/qemu-iotests/039 b/tests/qemu-iotests/039
+index 99563bf126..ddce48ab47 100755
+--- a/tests/qemu-iotests/039
++++ b/tests/qemu-iotests/039
+@@ -44,6 +44,9 @@ _supported_proto file
+ _supported_os Linux
+ _default_cache_mode writethrough
+ _supported_cache_modes writethrough
++# Some of these test cases expect no external data file so that all
++# clusters are part of the qcow2 image and refcounted
++_unsupported_imgopts data_file
+=20
+ size=3D128M
+=20
+diff --git a/tests/qemu-iotests/046 b/tests/qemu-iotests/046
+index 4e03ead7b1..a066eec605 100755
+--- a/tests/qemu-iotests/046
++++ b/tests/qemu-iotests/046
+@@ -38,6 +38,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt qcow2
+ _supported_proto file
++# data_file does not support compressed clusters
++_unsupported_imgopts data_file
+=20
+ CLUSTER_SIZE=3D64k
+ size=3D128M
+diff --git a/tests/qemu-iotests/048 b/tests/qemu-iotests/048
+index a8feb76184..2af6b74b41 100755
+--- a/tests/qemu-iotests/048
++++ b/tests/qemu-iotests/048
+@@ -49,6 +49,8 @@ _compare()
+ _supported_fmt raw qcow2 qed luks
+ _supported_proto file
+ _supported_os Linux
++# Using 'cp' is incompatible with external data files
++_unsupported_imgopts data_file
+=20
+ # Remove once all tests are fixed to use TEST_IMG_FILE
+ # correctly and common.rc sets it unconditionally
+diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+index d7294d80d9..034d3a3250 100755
+--- a/tests/qemu-iotests/051
++++ b/tests/qemu-iotests/051
+@@ -39,8 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ # A compat=3D0.10 image is created in this test which does not support any=
+thing
+-# other than refcount_bits=3D16
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++# other than refcount_bits=3D16;
++# it also will not support an external data file
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file
+ _require_drivers nbd
+=20
+ do_run_qemu()
+diff --git a/tests/qemu-iotests/058 b/tests/qemu-iotests/058
+index ed01115fa3..d5304bb404 100755
+--- a/tests/qemu-iotests/058
++++ b/tests/qemu-iotests/058
+@@ -56,8 +56,9 @@ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+ _require_command QEMU_NBD
+-# Internal snapshots are (currently) impossible with refcount_bits=3D1
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
+=20
+ nbd_snapshot_img=3D"nbd:unix:$nbd_unix_socket"
+=20
+diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
+index 1411781618..043f12904a 100755
+--- a/tests/qemu-iotests/060
++++ b/tests/qemu-iotests/060
+@@ -48,8 +48,10 @@ _filter_io_error()
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-# These tests only work for compat=3D1.1 images with refcount_bits=3D16
+-_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D\([^1]\|.\([^6]\|$\)=
+\)'
++# These tests only work for compat=3D1.1 images without an external
++# data file with refcount_bits=3D16
++_unsupported_imgopts 'compat=3D0.10' data_file \
++    'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
+=20
+ # The repair process will create a large file - so check for availability =
+first
+ _require_large_file 64G
+diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
+index aad6b72d8a..36b040491f 100755
+--- a/tests/qemu-iotests/061
++++ b/tests/qemu-iotests/061
+@@ -42,8 +42,10 @@ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+ # Conversion between different compat versions can only really work
+-# with refcount_bits=3D16
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++# with refcount_bits=3D16;
++# we have explicit tests for data_file here, but the whole test does
++# not work with it
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file
+=20
+ echo
+ echo "=3D=3D=3D Testing version downgrade with zero expansion =3D=3D=3D"
+diff --git a/tests/qemu-iotests/062 b/tests/qemu-iotests/062
+index 0df8667e5a..f26b88df9d 100755
+--- a/tests/qemu-iotests/062
++++ b/tests/qemu-iotests/062
+@@ -41,7 +41,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto generic
+ # We need zero clusters and snapshots
+-_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D1[^0-9]'
++_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D1[^0-9]' data_file
+=20
+ IMG_SIZE=3D64M
+=20
+diff --git a/tests/qemu-iotests/066 b/tests/qemu-iotests/066
+index 71e8df598a..a4ac613f8e 100755
+--- a/tests/qemu-iotests/066
++++ b/tests/qemu-iotests/066
+@@ -40,7 +40,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto generic
+ # We need zero clusters and snapshots
+-_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D1[^0-9]'
++# (TODO: Consider splitting the snapshot part into a separate test
++#        file, so this one runs with refcount_bits=3D1 and data_file)
++_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D1[^0-9]' data_file
+=20
+ # Intentionally create an unaligned image
+ IMG_SIZE=3D$((64 * 1024 * 1024 + 512))
+diff --git a/tests/qemu-iotests/067 b/tests/qemu-iotests/067
+index 926c79b37c..a63be9cabf 100755
+--- a/tests/qemu-iotests/067
++++ b/tests/qemu-iotests/067
+@@ -32,8 +32,10 @@ status=3D1=09# failure is the default!
+=20
+ _supported_fmt qcow2
+ _supported_proto file
+-# Because anything other than 16 would change the output of query-block
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++# Because anything other than 16 would change the output of query-block,
++# and external data files would change the output of
++# query-named-block-nodes
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file
+=20
+ do_run_qemu()
+ {
+diff --git a/tests/qemu-iotests/068 b/tests/qemu-iotests/068
+index fe9d7ae1be..ccd1a9f1db 100755
+--- a/tests/qemu-iotests/068
++++ b/tests/qemu-iotests/068
+@@ -39,8 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+ _supported_proto generic
+-# Internal snapshots are (currently) impossible with refcount_bits=3D1
+-_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D1[^0-9]'
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'compat=3D0.10' 'refcount_bits=3D1[^0-9]' data_file
+=20
+ IMG_SIZE=3D128K
+=20
+diff --git a/tests/qemu-iotests/071 b/tests/qemu-iotests/071
+index 4e31943244..88faebcc1d 100755
+--- a/tests/qemu-iotests/071
++++ b/tests/qemu-iotests/071
+@@ -39,6 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _require_drivers blkdebug blkverify
++# blkdebug can only inject errors on bs->file, not on the data_file,
++# so thie test does not work with external data files
++_unsupported_imgopts data_file
+=20
+ do_run_qemu()
+ {
+diff --git a/tests/qemu-iotests/073 b/tests/qemu-iotests/073
+index e684b1b780..23a1bdf890 100755
+--- a/tests/qemu-iotests/073
++++ b/tests/qemu-iotests/073
+@@ -39,6 +39,10 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto generic
+ _unsupported_proto vxhs
++# External data files do not support compressed clusters
++# (TODO: Consider writing a version for external data files that does
++#        not test compressed clusters)
++_unsupported_imgopts data_file
+=20
+ CLUSTER_SIZE=3D64k
+ size=3D128M
+diff --git a/tests/qemu-iotests/074 b/tests/qemu-iotests/074
+index 62be89a0d9..db03edf0b0 100755
+--- a/tests/qemu-iotests/074
++++ b/tests/qemu-iotests/074
+@@ -50,6 +50,8 @@ _compare()
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++# blkdebug can only inject errors on bs->file
++_unsupported_imgopts data_file
+=20
+ # Setup test basic parameters
+ TEST_IMG2=3D$TEST_IMG.2
+diff --git a/tests/qemu-iotests/080 b/tests/qemu-iotests/080
+index b1ecafb41e..a3d13c414e 100755
+--- a/tests/qemu-iotests/080
++++ b/tests/qemu-iotests/080
+@@ -40,9 +40,10 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-# - Internal snapshots are (currently) impossible with refcount_bits=3D1
++# - Internal snapshots are (currently) impossible with refcount_bits=3D1,
++#   and generally impossible with external data files
+ # - This is generally a test for compat=3D1.1 images
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]' 'compat=3D0.10'
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file 'compat=3D0.10'
+=20
+ header_size=3D104
+=20
+diff --git a/tests/qemu-iotests/090 b/tests/qemu-iotests/090
+index 9f8cfbb80f..1246e4f910 100755
+--- a/tests/qemu-iotests/090
++++ b/tests/qemu-iotests/090
+@@ -38,6 +38,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt qcow2
+ _supported_proto file nfs
++# External data files do not support compressed clusters
++_unsupported_imgopts data_file
+=20
+ IMG_SIZE=3D128K
+=20
+diff --git a/tests/qemu-iotests/098 b/tests/qemu-iotests/098
+index 700068b328..1e29d96b3d 100755
+--- a/tests/qemu-iotests/098
++++ b/tests/qemu-iotests/098
+@@ -40,8 +40,10 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt qcow2
+ _supported_proto file
+-# The code path we want to test here only works for compat=3D1.1 images
+-_unsupported_imgopts 'compat=3D0.10'
++# The code path we want to test here only works for compat=3D1.1 images;
++# blkdebug can only inject errors on bs->file, so external data files
++# do not work with this test
++_unsupported_imgopts 'compat=3D0.10' data_file
+=20
+ for event in l1_update empty_image_prepare reftable_update refblock_alloc;=
+ do
+=20
+diff --git a/tests/qemu-iotests/099 b/tests/qemu-iotests/099
+index b383c11e6a..65e8e92572 100755
+--- a/tests/qemu-iotests/099
++++ b/tests/qemu-iotests/099
+@@ -46,8 +46,9 @@ _supported_fmt qcow qcow2 qed vdi vhdx vmdk vpc
+ _supported_proto file
+ _supported_os Linux
+ _require_drivers blkdebug blkverify
++# data_file would change the json:{} filenames
+ _unsupported_imgopts "subformat=3DmonolithicFlat" "subformat=3DtwoGbMaxExt=
+entFlat" \
+-    "subformat=3DtwoGbMaxExtentSparse"
++    "subformat=3DtwoGbMaxExtentSparse" data_file
+=20
+ do_run_qemu()
+ {
+diff --git a/tests/qemu-iotests/103 b/tests/qemu-iotests/103
+index 554b9de054..8c1ebe0443 100755
+--- a/tests/qemu-iotests/103
++++ b/tests/qemu-iotests/103
+@@ -38,8 +38,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt qcow2
+ _supported_proto file nfs
+-# Internal snapshots are (currently) impossible with refcount_bits=3D1
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
+=20
+ IMG_SIZE=3D64K
+=20
+diff --git a/tests/qemu-iotests/108 b/tests/qemu-iotests/108
+index 3324c86b5f..5f7076fba4 100755
+--- a/tests/qemu-iotests/108
++++ b/tests/qemu-iotests/108
+@@ -41,8 +41,10 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-# This test directly modifies a refblock so it relies on refcount_bits bei=
+ng 16
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++# This test directly modifies a refblock so it relies on refcount_bits bei=
+ng 16;
++# and the low-level modification it performs are not tuned for external da=
+ta
++# files
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file
+=20
+ echo
+ echo '=3D=3D=3D Repairing an image without any refcount table =3D=3D=3D'
+diff --git a/tests/qemu-iotests/112 b/tests/qemu-iotests/112
+index 6850225939..20ff5c224a 100755
+--- a/tests/qemu-iotests/112
++++ b/tests/qemu-iotests/112
+@@ -40,8 +40,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ # This test will set refcount_bits on its own which would conflict with th=
+e
+-# manual setting; compat will be overridden as well
+-_unsupported_imgopts refcount_bits 'compat=3D0.10'
++# manual setting; compat will be overridden as well;
++# and external data files do not work well with our refcount testing
++_unsupported_imgopts refcount_bits 'compat=3D0.10' data_file
+=20
+ print_refcount_bits()
+ {
+diff --git a/tests/qemu-iotests/114 b/tests/qemu-iotests/114
+index f90a744fc0..26104fff6c 100755
+--- a/tests/qemu-iotests/114
++++ b/tests/qemu-iotests/114
+@@ -39,6 +39,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto generic
+ _unsupported_proto vxhs
++# qcow2.py does not work too well with external data files
++_unsupported_imgopts data_file
+=20
+=20
+ TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
+diff --git a/tests/qemu-iotests/121 b/tests/qemu-iotests/121
+index 10db813d94..90ea0db737 100755
+--- a/tests/qemu-iotests/121
++++ b/tests/qemu-iotests/121
+@@ -39,6 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++# Refcount structures are used much differently with external data
++# files
++_unsupported_imgopts data_file
+=20
+ echo
+ echo '=3D=3D=3D New refcount structures may not conflict with existing str=
+uctures =3D=3D=3D'
+diff --git a/tests/qemu-iotests/138 b/tests/qemu-iotests/138
+index 26d18ac8b6..54b01046ad 100755
+--- a/tests/qemu-iotests/138
++++ b/tests/qemu-iotests/138
+@@ -40,6 +40,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++# With an external data file, data clusters are not refcounted
++# (and so qemu-img check does not check their refcount)
++_unsupported_imgopts data_file
+=20
+ echo
+ echo '=3D=3D=3D Check on an image with a multiple of 2^32 clusters =3D=3D=
 =3D'
-@@ -114,7 +116,8 @@ TEST_IMG=3D"json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info | grep -v 'backing file format'
-+}" _img_info | _filter_img_info | grep -v 'backing file format' \
-+    | _filter_json_filename
+diff --git a/tests/qemu-iotests/156 b/tests/qemu-iotests/156
+index 3f27db71f2..5559df63a5 100755
+--- a/tests/qemu-iotests/156
++++ b/tests/qemu-iotests/156
+@@ -51,6 +51,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2 qed
+ _supported_proto generic
+ _unsupported_proto vxhs
++# Copying files around with cp does not work with external data files
++_unsupported_imgopts data_file
+=20
+ # Create source disk
+ TEST_IMG=3D"$TEST_IMG.backing" _make_test_img 1M
+diff --git a/tests/qemu-iotests/176 b/tests/qemu-iotests/176
+index 50df4c00fa..117c8b6954 100755
+--- a/tests/qemu-iotests/176
++++ b/tests/qemu-iotests/176
+@@ -47,8 +47,11 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-# Persistent dirty bitmaps require compat=3D1.1
+-_unsupported_imgopts 'compat=3D0.10'
++# Persistent dirty bitmaps require compat=3D1.1;
++# Internal snapshots forbid using an external data file
++# (they work with refcount_bits=3D1 here, though, because there actually
++# is no data when creating the snapshot)
++_unsupported_imgopts 'compat=3D0.10' data_file
+=20
+ run_qemu()
+ {
+diff --git a/tests/qemu-iotests/191 b/tests/qemu-iotests/191
+index 23ab0ce899..b05db68141 100755
+--- a/tests/qemu-iotests/191
++++ b/tests/qemu-iotests/191
+@@ -43,6 +43,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+ _supported_fmt qcow2
+ _supported_proto file
++# An external data file would change the query-named-block-nodes output
++_unsupported_imgopts data_file
+=20
+ size=3D64M
+=20
+diff --git a/tests/qemu-iotests/201 b/tests/qemu-iotests/201
+index 86fa37e714..133ba9f03e 100755
+--- a/tests/qemu-iotests/201
++++ b/tests/qemu-iotests/201
+@@ -43,9 +43,9 @@ _supported_fmt qcow2
+ _supported_proto generic
+ _supported_os Linux
+=20
+-# Internal snapshots are (currently) impossible with refcount_bits=3D1
+-# This was taken from test 080
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
+=20
+ size=3D64M
+ _make_test_img $size
+diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
+index 21ec8a2ad8..0f2e61280a 100755
+--- a/tests/qemu-iotests/214
++++ b/tests/qemu-iotests/214
+@@ -39,7 +39,8 @@ _supported_proto file
+=20
+ # Repairing the corrupted image requires qemu-img check to store a
+ # refcount up to 3, which requires at least two refcount bits.
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# External data files do not support compressed clusters.
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
 =20
 =20
- # success, all done
-diff --git a/tests/qemu-iotests/110.out b/tests/qemu-iotests/110.out
-index f60b26390e..f835553a99 100644
---- a/tests/qemu-iotests/110.out
-+++ b/tests/qemu-iotests/110.out
-@@ -11,7 +11,7 @@ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGF=
-MT.base)
+ echo
+diff --git a/tests/qemu-iotests/217 b/tests/qemu-iotests/217
+index 58a78a6098..d89116ccad 100755
+--- a/tests/qemu-iotests/217
++++ b/tests/qemu-iotests/217
+@@ -40,7 +40,8 @@ _supported_proto file
 =20
- =3D=3D=3D Non-reconstructable filename =3D=3D=3D
+ # This test needs clusters with at least a refcount of 2 so that
+ # OFLAG_COPIED is not set.  refcount_bits=3D1 is therefore unsupported.
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# (As are external data files.)
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
 =20
--image: json:{"driver": "IMGFMT", "file": {"set-state.0.event": "read_aio",=
- "image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driver": "b=
-lkdebug", "set-state.0.new_state": 42}}
-+image: json:{ /* filtered */ }
- file format: IMGFMT
- virtual size: 64 MiB (67108864 bytes)
- backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGFMT.base)
-@@ -22,7 +22,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108=
-864 backing_file=3Dt.IMGFMT.b
+ echo
+ echo '=3D=3D=3D Simulating an I/O error during snapshot deletion =3D=3D=3D=
+'
+diff --git a/tests/qemu-iotests/220 b/tests/qemu-iotests/220
+index 3f86f24c4d..a9259b7127 100755
+--- a/tests/qemu-iotests/220
++++ b/tests/qemu-iotests/220
+@@ -37,8 +37,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-# To use a different refcount width but 16 bits we need compat=3D1.1
+-_unsupported_imgopts 'compat=3D0.10'
++# To use a different refcount width but 16 bits we need compat=3D1.1,
++# and external data files do not support compressed clusters.
++_unsupported_imgopts 'compat=3D0.10' data_file
 =20
- =3D=3D=3D Nodes without a common directory =3D=3D=3D
+ echo "=3D=3D Creating huge file =3D=3D"
 =20
--image: json:{"driver": "IMGFMT", "file": {"children": [{"driver": "file", =
-"filename": "TEST_DIR/t.IMGFMT"}, {"driver": "file", "filename": "TEST_DIR/=
-t.IMGFMT.copy"}], "driver": "quorum", "vote-threshold": 1}}
-+image: json:{ /* filtered */ }
- file format: IMGFMT
- virtual size: 64 MiB (67108864 bytes)
- backing file: t.IMGFMT.base (cannot determine actual path)
+diff --git a/tests/qemu-iotests/243 b/tests/qemu-iotests/243
+index 3dc3b6a711..a61852f6d9 100755
+--- a/tests/qemu-iotests/243
++++ b/tests/qemu-iotests/243
+@@ -40,8 +40,10 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-# External data files do not work with compat=3D0.10
+-_unsupported_imgopts 'compat=3D0.10'
++# External data files do not work with compat=3D0.10, and because there
++# is an explicit case for external data files here, we cannot allow
++# the user to specify whether to use one
++_unsupported_imgopts 'compat=3D0.10' data_file
+=20
+ for mode in off metadata falloc full; do
+=20
+diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
+index 13263292b0..0d1efee6ef 100755
+--- a/tests/qemu-iotests/244
++++ b/tests/qemu-iotests/244
+@@ -41,8 +41,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-# External data files do not work with compat=3D0.10
+-_unsupported_imgopts 'compat=3D0.10'
++# External data files do not work with compat=3D0.10, and because we use
++# our own external data file, we cannot let the user specify one
++_unsupported_imgopts 'compat=3D0.10' data_file
+=20
+ echo
+ echo "=3D=3D=3D Create and open image with external data file =3D=3D=3D"
+diff --git a/tests/qemu-iotests/250 b/tests/qemu-iotests/250
+index 670cf19076..9bb6b94d74 100755
+--- a/tests/qemu-iotests/250
++++ b/tests/qemu-iotests/250
+@@ -39,6 +39,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++# This test does not make much sense with external data files
++_unsupported_imgopts data_file
+=20
+ # This test checks that qcow2_process_discards does not truncate a discard
+ # request > 2G.
+diff --git a/tests/qemu-iotests/261 b/tests/qemu-iotests/261
+index 9f2817251f..ddcb04f285 100755
+--- a/tests/qemu-iotests/261
++++ b/tests/qemu-iotests/261
+@@ -47,7 +47,8 @@ _supported_os Linux
+ # (1) We create a v2 image that supports nothing but refcount_bits=3D16
+ # (2) We do some refcount management on our own which expects
+ #     refcount_bits=3D16
+-_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
++# As for data files, they do not support snapshots at all.
++_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file
+=20
+ # Parameters:
+ #   $1: image filename
+diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
+index bd9a5c5524..c296877168 100755
+--- a/tests/qemu-iotests/267
++++ b/tests/qemu-iotests/267
+@@ -42,8 +42,9 @@ _supported_proto file
+ _supported_os Linux
+ _require_drivers copy-on-read
+=20
+-# Internal snapshots are (currently) impossible with refcount_bits=3D1
+-_unsupported_imgopts 'refcount_bits=3D1[^0-9]'
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
+=20
+ do_run_qemu()
+ {
+diff --git a/tests/qemu-iotests/273 b/tests/qemu-iotests/273
+index d598c47d9b..00ff79bcf8 100755
+--- a/tests/qemu-iotests/273
++++ b/tests/qemu-iotests/273
+@@ -37,6 +37,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
++# External data files would add nodes to the block graph, so it would
++# not match the reference output
++_unsupported_imgopts data_file
+=20
+ do_run_qemu()
+ {
 --=20
 2.24.1
 
