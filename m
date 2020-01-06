@@ -2,78 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D47F13168C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:12:42 +0100 (CET)
-Received: from localhost ([::1]:55412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E1713167D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:08:56 +0100 (CET)
+Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioVvl-0005ht-Li
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:12:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
+	id 1ioVs7-0001lA-D4
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:08:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44911)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1ioVq3-00086l-SK
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:06:49 -0500
+ (envelope-from <groug@kaod.org>) id 1ioVqg-0000Sa-IE
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:07:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1ioVq2-0000o5-C9
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:06:47 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38371)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1ioVpy-0000jo-Ff
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:06:46 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y17so50499114wrh.5
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 09:06:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=QwtBdC5pI1sgKCXH6j8cPBwozyzvDybZ4woNY7xn/Cg=;
- b=pcbrkjEd8PM/cmseu4JciD9/I7TRvwC47RtdpnoBoECQA8mNGU45dtKmFlGdMQ/I88
- HF8eS3sTnxw8ljtJREjRcfSfxte4Wn6N8YH0mzjMmAlrXR/1kWLS0LJheMnA/DhnlVcj
- Go5pPutKhtIuu4xJ7hslC7Pb9xF5muHxuqxfxr/FlJp64jDDfjYs5UQhFal4+SlDCnwl
- 3jBlGbIUTeUB9sm9QTvdur8Hw7PtHip3zYb2SJPCuxTqOcOfJ7IXDSWOpmFK73qNIN3Z
- LLIHSW1/TIkQG6LEtY34/LhPNJgqNtXBc6oos0bG+z4UPpFAg9JVokP2vdquCJaOoc9T
- raUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QwtBdC5pI1sgKCXH6j8cPBwozyzvDybZ4woNY7xn/Cg=;
- b=fkjvejVsRLxGB80l1Vk2cDfJ52llIjHe6l+Biyw/oLr4o06MUlFHAZy3sUAHrOJN6i
- YUSxuVdtN/mExNKTILKFuaKpJLuDdQyUCbiaryX44sYk+qRQTx+2U6u/1UrxI7JYVAdg
- 8kJk6wE7e/wFFsuqEtjdGooHBatgKx/7xQriwQ9rrYHQmQYLQ7d3iZFDuKobXQazCCAC
- Vtpf0BkonJLkTa9S3oaSQrDQSfBl57CkBFTIaeLq6d6/YIdq/HTBwj8qHfMSU0wiqTOz
- Wrl0U+JQlU8uBU9/reiCNxBRJditt82q9dltubW4ODHixCkL36wICVkmQjYLpaZQApWP
- vQlA==
-X-Gm-Message-State: APjAAAU6kvsnLM3lin+jhWZR5LZSzOuprnU4fXcU0c16l4Dh3RD+2F/F
- XJ6OYtEhqDWRPz3nl6NsRdrwyQ==
-X-Google-Smtp-Source: APXvYqwIm5Atl15tx1r8r9EFH+KPKAp94qgWgdQrh1zTWM3Ue3tPtJI6g1URL1Ye+BQSX7y+Qor0KQ==
-X-Received: by 2002:adf:bc87:: with SMTP id g7mr108873928wrh.121.1578330400372; 
- Mon, 06 Jan 2020 09:06:40 -0800 (PST)
-Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id 2sm75044495wrq.31.2020.01.06.09.06.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 09:06:39 -0800 (PST)
-Date: Mon, 6 Jan 2020 18:06:34 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
-Message-ID: <20200106170634.GF2062@myrica>
-References: <20191122182943.4656-1-eric.auger@redhat.com>
- <20191122182943.4656-9-eric.auger@redhat.com>
- <20191210193342.GJ3352@xz-x1>
- <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
- <20191219133308.GA4246@xz-x1>
- <9d58b293-ada0-353e-bba2-ad1f538dfc62@redhat.com>
- <20191219144936.GB50561@xz-x1>
- <9ec9d0d5-062b-f96b-c72c-4d15865ff9a1@redhat.com>
- <20191220162642.GA2626852@myrica> <20191220165100.GA3780@xz-x1>
+ (envelope-from <groug@kaod.org>) id 1ioVqf-0001Ws-9R
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:07:26 -0500
+Received: from 8.mo69.mail-out.ovh.net ([46.105.56.233]:34610)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ioVqf-0001Ld-2z
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:07:25 -0500
+Received: from player726.ha.ovh.net (unknown [10.108.54.119])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id DF9E67AF89
+ for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 18:07:15 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player726.ha.ovh.net (Postfix) with ESMTPSA id 2FD0FDD33489;
+ Mon,  6 Jan 2020 17:07:13 +0000 (UTC)
+Date: Mon, 6 Jan 2020 18:07:11 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2 5/9] tests/virtio-9p: check file names of R_readdir
+ response
+Message-ID: <20200106180711.3a665d11@bahia.lan>
+In-Reply-To: <2a40095340d9536575af8fd214a7ac647b4603c9.1576678644.git.qemu_oss@crudebyte.com>
+References: <cover.1576678644.git.qemu_oss@crudebyte.com>
+ <2a40095340d9536575af8fd214a7ac647b4603c9.1576678644.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191220165100.GA3780@xz-x1>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 7584906201415719232
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehtddgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.56.233
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,83 +58,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
- quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- Auger Eric <eric.auger@redhat.com>, bharatb.linux@gmail.com,
- qemu-arm@nongnu.org, dgilbert@redhat.com, eric.auger.pro@gmail.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 20, 2019 at 11:51:00AM -0500, Peter Xu wrote:
-> On Fri, Dec 20, 2019 at 05:26:42PM +0100, Jean-Philippe Brucker wrote:
-> > There is at the virtio transport level: the driver sets status to
-> > FEATURES_OK once it accepted the feature bits, and to DRIVER_OK once its
-> > fully operational. The virtio-iommu spec says:
-> > 
-> >   If the driver does not accept the VIRTIO_IOMMU_F_BYPASS feature, the
-> >   device SHOULD NOT let endpoints access the guest-physical address space.
-> > 
-> > So before features negotiation, there is no access. Afterwards it depends
-> > if the VIRTIO_IOMMU_F_BYPASS has been accepted by the driver.
+On Wed, 18 Dec 2019 14:35:56 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+
+> Additionally to the already existing check for expected amount
+> of directory entries returned by R_readdir response, also check
+> whether all directory entries have the expected file names (as
+> created on 9pfs synth driver side), ignoring their precise order
+> in result list though.
 > 
-> Before enabling virtio-iommu device, should we still let the devices
-> to access the whole system address space?  I believe that's at least
-> what Intel IOMMUs are doing.  From code-wise, its:
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+
+LGTM and trivial enough that it can be folded in the previous
+patch.
+
+>  tests/virtio-9p-test.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
->     if (likely(s->dmar_enabled)) {
->         success = vtd_do_iommu_translate(vtd_as, vtd_as->bus, vtd_as->devfn,
->                                          addr, flag & IOMMU_WO, &iotlb);
->     } else {
->         /* DMAR disabled, passthrough, use 4k-page*/
->         iotlb.iova = addr & VTD_PAGE_MASK_4K;
->         iotlb.translated_addr = addr & VTD_PAGE_MASK_4K;
->         iotlb.addr_mask = ~VTD_PAGE_MASK_4K;
->         iotlb.perm = IOMMU_RW;
->         success = true;
->     }
-> 
-> From hardware-wise, an IOMMU should be close to transparent if you
-> never enable it, imho.
+> diff --git a/tests/virtio-9p-test.c b/tests/virtio-9p-test.c
+> index 48c0eca292..cb5c9fb420 100644
+> --- a/tests/virtio-9p-test.c
+> +++ b/tests/virtio-9p-test.c
+> @@ -565,6 +565,16 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
+>      g_free(wqid);
+>  }
+>  
+> +static bool fs_dirents_contain_name(struct v9fs_dirent *e, const char* name)
+> +{
+> +    for (; e; e = e->next) {
+> +        if (!strcmp(e->name, name)) {
+> +            return true;
+> +        }
+> +    }
+> +    return false;
+> +}
+> +
+>  static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+>  {
+>      QVirtio9P *v9p = obj;
+> @@ -599,6 +609,18 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+>          QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
+>      );
+>  
+> +    /*
+> +     * Check all file names exist in returned entries, ignore their order
+> +     * though.
+> +     */
+> +    g_assert_cmpint(fs_dirents_contain_name(entries, "."), ==, true);
+> +    g_assert_cmpint(fs_dirents_contain_name(entries, ".."), ==, true);
+> +    for (int i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
+> +        char *name = g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
+> +        g_assert_cmpint(fs_dirents_contain_name(entries, name), ==, true);
+> +        g_free(name);
+> +    }
+> +
+>      v9fs_free_dirents(entries);
+>      g_free(wnames[0]);
+>  }
 
-For hardware that's not necessarily the best choice. As cited in my
-previous reply it has been shown to introduce vulnerabilities since
-malicious devices can DMA during boot, before the OS takes control of the
-IOMMU. The Arm SMMU allows an implementation to adopt a deny policy by
-default.
-
-> Otherwise I'm confused on how a guest (with virtio-iommu) could boot
-> with a normal BIOS that does not contain a virtio-iommu driver.  For
-> example, what if the BIOS needs to read some block sectors (as you
-> mentioned)?
-
-Ideally we should aim at supporting the device in both the BIOS and the
-OS. Failing that, there should at least be a way to instantiate a
-virtio-iommu device that is blocking by default, that cannot be bypassed
-unless the controlling software decides to allow it. Could the bypass
-policy be a command-line option to the virtio-iommu device?
-
-[...]
-> > Yes bypass mode assumes that devices and drivers aren't malicious, and the
-> > IOMMU is only used for things like assigning devices to guest userspace,
-> > or having large contiguous DMA buffers.
-> 
-> Yes I agree.  However again when the BYPASS flag was introduced, have
-> you thought of introducing that flag per-device?  IMHO that could be
-> better because you have a finer granularity on controlling all these,
-> so you'll be able to reject malicious devices but at the meantime
-> grant permission to trusted devices.
-
-At the moment that per-device behavior can be emulated by sending an
-ATTACH request followed by identity MAP. It could be a little more
-efficient to add a "bypass" flag to the ATTACH request and avoid setting
-up the identity mapping manually, since the device then wouldn't need to
-look up the mapping on translation, but I don't know how much it would
-improve performance. The device could also cache the fact that the address
-space is identity-mapped, for the same result. The domain lookup has to
-happen in any case, so you can never get the full iommu-free performance
-with these mechanisms.
-
-Thanks,
-Jean
 
