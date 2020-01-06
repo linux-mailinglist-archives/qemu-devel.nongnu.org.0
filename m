@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438DA131795
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:37:25 +0100 (CET)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035161317A1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:41:49 +0100 (CET)
+Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXFj-0007xF-Oo
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:37:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45265)
+	id 1ioXJz-0005yr-K7
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:41:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45297)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3z-0001rK-Cu
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:16 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX41-0001uc-LF
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3y-00041B-AV
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:15 -0500
-Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:42440)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX40-00043W-56
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:17 -0500
+Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:46125)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX3y-00040c-6Y; Mon, 06 Jan 2020 13:25:14 -0500
-Received: by mail-qv1-xf42.google.com with SMTP id dc14so19417067qvb.9;
- Mon, 06 Jan 2020 10:25:14 -0800 (PST)
+ id 1ioX40-00042q-0F; Mon, 06 Jan 2020 13:25:16 -0500
+Received: by mail-qv1-xf43.google.com with SMTP id u1so18595118qvk.13;
+ Mon, 06 Jan 2020 10:25:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2sphsqeXWmt2nxo4pNzgWsK8+C0EHag/7k5lhcriuzg=;
- b=Av4AJcvtOUy0CPFhaBCz5ZiTaJBTugY4UUMcxbFchMXiPFODV4/+bNN9oek01Hr/mm
- a+/YWlQVlxaYId52fmeEyF/wjVdQuaEwy99GiNaewgcGiIa3Nv3loeoxiCUZ2s6MKPrT
- BiLcFeXvdMBLWJdGlch/A64fEP1Ukve/Pdv3iu8pS0KKCP7j/LoySaaEWLYU4tmUUUr9
- 3ffW3i+21mwvqfyC5jabllUT9zp/qIx3GWzKRIAhyNmhkILZBp0eg4nNBWfyHSL9XG3Z
- gvCPOWw/UbeyXTMnxAR9eNtVIIZ5OnEVgjg5cPpspNheg3OYOPNdwvH2K+V8ilyvTxEg
- /UMA==
+ bh=JYeXo1PZyJ3bV7EW4va4cPF2eGfCKteiWZKnaCT0LBw=;
+ b=gWSKhXgWxHgTVSyrxbw5oJ/d/BrxyglvHXecQ9nrd1nu1vWZN6BSx8UyreJZ/M2Ymv
+ l7d9fLf8MuYu0uvEA1l8lOF1GiAVb68ZkzYuwaoaQM/cgLcWG0UYjAzBkge53M+5Fcwp
+ 1yBa+4USzdtZJwesk6R7HL3aNWVOI9JrmPBfBMfRnUh3tq4i3X399vTK9kbRvNMUgeGQ
+ IFpJ/TOCYmVt00vgv+CG0HEVun7QlAu1NvWheOQJDp1LQJtB9r7DgMeR/RFnJsU2pgMU
+ +P67sQsfxaqoqDZhieYgssNvehYBu/lW4qLqzXu5A5Mvvkr4zyo9Bb/yX2V/QVqFTLcj
+ dzdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2sphsqeXWmt2nxo4pNzgWsK8+C0EHag/7k5lhcriuzg=;
- b=SnwP7x/kyX8olKKXOUPJ7WLKZEzrSqSINF0BtW1ZT2G5hrc4pvpQV95edIVSBxfiwx
- Mq5E0azDCotqmm7WaLS2B7hE7iHgp4rd4WTGIAUmyM2DpZ9OFn5qzoMpe//wHevrcSfk
- diY9cVEsRoJIih5Kbdc4eZTR8VgtfzBsDBxat9idszbsqXokLS48o7Y8ZzVzDJ1nBG/z
- EI1oejSGXctA/Hx8E3v74IGfhpkFdxhAYqiPin+3kbLTgNT7VxbxCMt8GJdFwyqTjLcX
- w2s3uND5RxmYM6pMkh6mqWJVQQbAwMy3A8fJZvqmNKVfL3PW3FToyVfVhcmczhVGjHey
- tw5g==
-X-Gm-Message-State: APjAAAW7CdJD1EXF7wOoCGjAxr7/dxWmpzOT5Cfv2kBDiaeHKnN05NkO
- 8vJetJ1FJTp0rWuXVWN1bYG7juu0
-X-Google-Smtp-Source: APXvYqxbEPLQoXbbC7smuVlCk3eHBMp7zY0FXnL4X+Wuae99p+OfYQTKcEB/oFd0Z+KlU3OEqpDJrw==
-X-Received: by 2002:ad4:4e68:: with SMTP id ec8mr80760104qvb.203.1578335113486; 
- Mon, 06 Jan 2020 10:25:13 -0800 (PST)
+ bh=JYeXo1PZyJ3bV7EW4va4cPF2eGfCKteiWZKnaCT0LBw=;
+ b=hLWFJ4yF4V8isEy0gmTDH+TFLIj4VwJ5Y581TNDFfBwrxokxR5dUUMcZ6CEF0KntSy
+ LrhWWjmqTH85JBtPHLX0OK6i6JcAxkQE77LYyB3orXxr8lDjj8rxFua3FUyHOxnnzY5b
+ nn94PhGiOc3s5J21qTNmiV+9fJuBQPvLIeS5cVLHfTBOr1pD4omHP8Sn2omJY0IRyrWn
+ oQk5LYv6enItsOhlDDdvdQtLLPn58I9IZkCD1n9W56HL5IwrNjGW0eorD+mNDD/hAPPW
+ CmOd8HffU/hKUCIzmT5j5IpkBchZwXJmpNjjVvpP7VBMdbf/hG8B7Lwwg35VwczRcMu+
+ eHAg==
+X-Gm-Message-State: APjAAAWohdwwwB+EVWL1CmAX1+QcPwwG4v3P8JKMHlvqZgk7q/AmUlpA
+ u1eDcZaelUv36PVmOLzCvXDogOvQ
+X-Google-Smtp-Source: APXvYqzp+VHHwmI3uPG7Wjis4BMw6w1fISV9ea/h3lm2ND4OXS3Gr3UsCu7/I71BgTJTYUxKMxzCSA==
+X-Received: by 2002:a05:6214:1348:: with SMTP id
+ b8mr80477849qvw.137.1578335115308; 
+ Mon, 06 Jan 2020 10:25:15 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.11
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:12 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:15 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/59] virtfs-proxy-helper.c: remove 'err_out' label in
- setugid()
-Date: Mon,  6 Jan 2020 15:23:38 -0300
-Message-Id: <20200106182425.20312-13-danielhb413@gmail.com>
+Subject: [PATCH v1 13/59] block/vdi.c: remove 'fail' label in vdi_open()
+Date: Mon,  6 Jan 2020 15:23:39 -0300
+Message-Id: <20200106182425.20312-14-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f42
+X-Received-From: 2607:f8b0:4864:20::f43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,40 +77,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'err_out' can be removed and be replaced by 'return -errno'
-in its only instance in the function.
+The 'fail' label can be replaced by 'return ret' or by
+a 'return' with the error code that was being set right
+before the 'goto' call.
 
-CC: Greg Kurz <groug@kaod.org>
+CC: Stefan Weil <sw@weilnetz.de>
+CC: qemu-block@nongnu.org
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- fsdev/virtfs-proxy-helper.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ block/vdi.c | 40 +++++++++++++---------------------------
+ 1 file changed, 13 insertions(+), 27 deletions(-)
 
-diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-index 0d4de49dcf..aa1ab2590d 100644
---- a/fsdev/virtfs-proxy-helper.c
-+++ b/fsdev/virtfs-proxy-helper.c
-@@ -287,8 +287,7 @@ static int setugid(int uid, int gid, int *suid, int *sgid)
-     *sgid = getegid();
+diff --git a/block/vdi.c b/block/vdi.c
+index 0142da7233..6d486ffed9 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -388,7 +388,7 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
  
-     if (setresgid(-1, gid, *sgid) == -1) {
--        retval = -errno;
--        goto err_out;
-+        return -errno;
+     ret = bdrv_pread(bs->file, 0, &header, sizeof(header));
+     if (ret < 0) {
+-        goto fail;
++        return ret;
      }
  
-     if (setresuid(-1, uid, *suid) == -1) {
-@@ -322,7 +321,6 @@ err_sgid:
-     if (setresgid(-1, *sgid, *sgid) == -1) {
-         abort();
+     vdi_header_to_cpu(&header);
+@@ -400,8 +400,7 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
+         error_setg(errp, "Unsupported VDI image size (size is 0x%" PRIx64
+                           ", max supported is 0x%" PRIx64 ")",
+                           header.disk_size, VDI_DISK_SIZE_MAX);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
      }
--err_out:
-     return retval;
+ 
+     uuid_link = header.uuid_link;
+@@ -418,58 +417,48 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
+     if (header.signature != VDI_SIGNATURE) {
+         error_setg(errp, "Image not in VDI format (bad signature %08" PRIx32
+                    ")", header.signature);
+-        ret = -EINVAL;
+-        goto fail;
++        return -EINVAL;
+     } else if (header.version != VDI_VERSION_1_1) {
+         error_setg(errp, "unsupported VDI image (version %" PRIu32 ".%" PRIu32
+                    ")", header.version >> 16, header.version & 0xffff);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (header.offset_bmap % SECTOR_SIZE != 0) {
+         /* We only support block maps which start on a sector boundary. */
+         error_setg(errp, "unsupported VDI image (unaligned block map offset "
+                    "0x%" PRIx32 ")", header.offset_bmap);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (header.offset_data % SECTOR_SIZE != 0) {
+         /* We only support data blocks which start on a sector boundary. */
+         error_setg(errp, "unsupported VDI image (unaligned data offset 0x%"
+                    PRIx32 ")", header.offset_data);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (header.sector_size != SECTOR_SIZE) {
+         error_setg(errp, "unsupported VDI image (sector size %" PRIu32
+                    " is not %u)", header.sector_size, SECTOR_SIZE);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (header.block_size != DEFAULT_CLUSTER_SIZE) {
+         error_setg(errp, "unsupported VDI image (block size %" PRIu32
+                          " is not %" PRIu32 ")",
+                    header.block_size, DEFAULT_CLUSTER_SIZE);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (header.disk_size >
+                (uint64_t)header.blocks_in_image * header.block_size) {
+         error_setg(errp, "unsupported VDI image (disk size %" PRIu64 ", "
+                    "image bitmap has room for %" PRIu64 ")",
+                    header.disk_size,
+                    (uint64_t)header.blocks_in_image * header.block_size);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (!qemu_uuid_is_null(&uuid_link)) {
+         error_setg(errp, "unsupported VDI image (non-NULL link UUID)");
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (!qemu_uuid_is_null(&uuid_parent)) {
+         error_setg(errp, "unsupported VDI image (non-NULL parent UUID)");
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     } else if (header.blocks_in_image > VDI_BLOCKS_IN_IMAGE_MAX) {
+         error_setg(errp, "unsupported VDI image "
+                          "(too many blocks %u, max is %u)",
+                           header.blocks_in_image, VDI_BLOCKS_IN_IMAGE_MAX);
+-        ret = -ENOTSUP;
+-        goto fail;
++        return -ENOTSUP;
+     }
+ 
+     bs->total_sectors = header.disk_size / SECTOR_SIZE;
+@@ -482,8 +471,7 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
+     bmap_size = DIV_ROUND_UP(bmap_size, SECTOR_SIZE);
+     s->bmap = qemu_try_blockalign(bs->file->bs, bmap_size * SECTOR_SIZE);
+     if (s->bmap == NULL) {
+-        ret = -ENOMEM;
+-        goto fail;
++        return -ENOMEM;
+     }
+ 
+     ret = bdrv_pread(bs->file, header.offset_bmap, s->bmap,
+@@ -509,8 +497,6 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
+ 
+  fail_free_bmap:
+     qemu_vfree(s->bmap);
+-
+- fail:
+     return ret;
  }
  
 -- 
