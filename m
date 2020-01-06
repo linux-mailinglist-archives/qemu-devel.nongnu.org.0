@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354AB1317C2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:50:47 +0100 (CET)
-Received: from localhost ([::1]:58060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC121317C4
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:52:06 +0100 (CET)
+Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXSg-00086u-6F
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:50:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46046)
+	id 1ioXTw-0001VR-V3
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:52:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4i-0002zH-SE
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:01 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4k-00032Y-Oy
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4h-0004lK-Nk
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:00 -0500
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:41709)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4j-0004nK-Nq
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:02 -0500
+Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:41661)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4h-0004l9-K3; Mon, 06 Jan 2020 13:25:59 -0500
-Received: by mail-qt1-x844.google.com with SMTP id k40so43186044qtk.8;
- Mon, 06 Jan 2020 10:25:59 -0800 (PST)
+ id 1ioX4j-0004ms-Jp; Mon, 06 Jan 2020 13:26:01 -0500
+Received: by mail-qv1-xf43.google.com with SMTP id x1so19420805qvr.8;
+ Mon, 06 Jan 2020 10:26:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dFCW/pT3CYgJTCfIMv+vOfdNZ6PcIxCGOVhdGgC1DCo=;
- b=oSgpl5Ca3cVgcfTotPuV6oPNOhUXbeDmGSk8zwp8nSnzWxSkS+fSYd3s7qHkr7kLuP
- LKNlPwfxGyQ0YIlWex+7ezogXdP22mFl9A7QOrMyVGTU/aBh/U4Vw4XW4GkBSFnmuG7o
- F6UKcQiHj6/uoaso0x2kYzErEBlag08WX+SEB9Kyw8B0aVWFerJwB2f9TyDy54/3OjDa
- bWu9CO4jiE/NBFiUwn6gYil8UwOEvdGFdqocXL3gzzzuQ7Q/o7Ri8/NcTrqnNddffeId
- vGROkOnHE7xn3EocOyRMiAh1yC2Ckv9gYF6uUlJtRzH9LXdAmlvn4c45ddq87HWdyIg5
- GYtw==
+ bh=AeTlk6Mv4Sdw9TGJE5bJAMzPZ3CIV82gaf3D39HkxpY=;
+ b=mSCzFxGkDvJH0IMXM8h4ve+2MYWjYSUJ4vRU40x8Ls6nAraZaxAfEODkR5bkOFVIky
+ i2+oZq3zbx0+xFWnHOovK57omXi1H9FEOvBGxcw8rd3OcFn3bA32YjdviqLJ4v9Bgmyl
+ dp8nN/Tw8//TvPwC6hY8LRh0Agag5ip8u3PG2TVYhHDVLHTmR+a0jFEYsvQXnQZBtvTr
+ dm1nES3c0C1Cc0ccjxtbW2ir23ihHJQZYBys26BR0Pp44yuc7/11mIyFtGSrNba3uXvs
+ xss3gMUzvuCYHgEbqpjVoLxv98zEt4z+0ipt7gs/el1J1zLTe3U6LoMIMzkgdMSeUlwh
+ 1QzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dFCW/pT3CYgJTCfIMv+vOfdNZ6PcIxCGOVhdGgC1DCo=;
- b=Mgk41Fq3lrncJIjEBQK2T+WrGhRkx01E+l4Uo1Rx85xvGsHjThnPPOAxtNjlDf927n
- 1/E+W8SqInTqQfW0094OoirttabpH+pi9F2UieEJvtyH0m4O1aA6sw3+eI97xoYWhVHQ
- iR4ZNaJOZKLvoL+JTOahmOSzfJZsjyyAexmBd5kKlmwXE49J/6lopGUxxV/0DfqzM7CA
- K6SyTE0NX4a1qDu81KZKzfPdZHOdbVSLl1zbQb8bXXrUUET4182BKs8D5TkCx0hAuz2H
- 5Qw39e7gbHV5giJikNdWsAVK/m63sB6lttATW3WrAbJws5qFAfHhT5beBbp18SVwMrmG
- djcw==
-X-Gm-Message-State: APjAAAVGtNWjjWV+Sx4d72pj8dhUPlYLhInKJgnRGGy74ayxS9PronUs
- ndSlsrGKOjChu3mvDIcXlz7WdIbm
-X-Google-Smtp-Source: APXvYqzhcjveduVulYsE2b+5+6bnrZ4v4OsEJnrftTuEJ50lwBr9HCbWoFJXSIlnlr8iFTsXB+lZnQ==
-X-Received: by 2002:ac8:1194:: with SMTP id d20mr75595878qtj.243.1578335159069; 
- Mon, 06 Jan 2020 10:25:59 -0800 (PST)
+ bh=AeTlk6Mv4Sdw9TGJE5bJAMzPZ3CIV82gaf3D39HkxpY=;
+ b=r6Xj9zn7atMoWwNG35F9wMUiE9IfW/LLRASuZC/gErFmTlX++o+YbaNvGlj0Daw8nf
+ BtBI5LHAxHK1U1EaNUwOiiaMr7kkmGQkHFBi4KdGNf3/MXW2zTzTDfY9SY0+IFDBk77B
+ 1tOBT/J23XEn4RfpxKaHZaVl3WeIAN7WEuy0X4kn/PqcYhYImSzETZwbNCWIVncdBj7K
+ 7tmxMeVpSUu3PRHo3wpiEJ+wk4MILeF9Y2mHVKDL10QD6D3M6dqmZcnt+DSFlEaFyay9
+ 6vJtlaORC/3dk6AmiTRs3PgoNjHtPpcNDRCjqtBnFg/4oVIgOh7K2D/3hyC88ySGPJ9J
+ E2Sg==
+X-Gm-Message-State: APjAAAVTRygo0VaZm8foCxb0pCh+rVr8OrBrbo6BMayWgzmd8EJy3Orc
+ vX5r/TUfYSkQ9qGj/Uf5vRhU1god
+X-Google-Smtp-Source: APXvYqydM2v6y698cHrh6e48dCGfdy3XG0GFCyDtLkp+J84lN4ZngHlwI7Wr28Og/NNJ84T9Q4lJEA==
+X-Received: by 2002:a05:6214:1150:: with SMTP id
+ b16mr81204786qvt.71.1578335161010; 
+ Mon, 06 Jan 2020 10:26:01 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.56
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:58 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:00 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 37/59] s390x/event-facility.c: remove unneeded labels
-Date: Mon,  6 Jan 2020 15:24:03 -0300
-Message-Id: <20200106182425.20312-38-danielhb413@gmail.com>
+Subject: [PATCH v1 38/59] s390x/sclp.c: remove unneeded label in
+ sclp_service_call()
+Date: Mon,  6 Jan 2020 15:24:04 -0300
+Message-Id: <20200106182425.20312-39-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -64,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::844
+X-Received-From: 2607:f8b0:4864:20::f43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,94 +85,70 @@ Cc: qemu-trivial@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' label from write_event_mask(), handle_sccb_read_events()
-and write_event_data() can be replaced by 'return'.
+'out' label can be replaced by 'return' with the appropriate
+value. The 'r' integer, which is used solely to set the
+return value for this label, can also be removed.
 
 CC: Cornelia Huck <cohuck@redhat.com>
 CC: Halil Pasic <pasic@linux.ibm.com>
 CC: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/s390x/event-facility.c | 21 ++++++---------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
+ hw/s390x/sclp.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-index 6afe278cad..f3b9661f32 100644
---- a/hw/s390x/event-facility.c
-+++ b/hw/s390x/event-facility.c
-@@ -182,11 +182,11 @@ static void write_event_data(SCLPEventFacility *ef, SCCB *sccb)
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index f57ce7b739..af0bfbc2ec 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -197,24 +197,20 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
  {
-     if (sccb->h.function_code != SCLP_FC_NORMAL_WRITE) {
-         sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_FUNCTION);
--        goto out;
-+        return;
-     }
-     if (be16_to_cpu(sccb->h.length) < 8) {
-         sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
--        goto out;
-+        return;
-     }
-     /* first do a sanity check of the write events */
-     sccb->h.response_code = cpu_to_be16(write_event_length_check(sccb));
-@@ -196,9 +196,6 @@ static void write_event_data(SCLPEventFacility *ef, SCCB *sccb)
-         sccb->h.response_code =
-                 cpu_to_be16(handle_sccb_write_events(ef, sccb));
-     }
--
--out:
--    return;
- }
+     SCLPDevice *sclp = get_sclp_device();
+     SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
+-    int r = 0;
+     SCCB work_sccb;
  
- static uint16_t handle_sccb_read_events(SCLPEventFacility *ef, SCCB *sccb,
-@@ -262,7 +259,7 @@ static void read_event_data(SCLPEventFacility *ef, SCCB *sccb)
+     hwaddr sccb_len = sizeof(SCCB);
  
-     if (be16_to_cpu(sccb->h.length) != SCCB_SIZE) {
-         sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+     /* first some basic checks on program checks */
+     if (env->psw.mask & PSW_MASK_PSTATE) {
+-        r = -PGM_PRIVILEGED;
 -        goto out;
-+        return;
++        return -PGM_PRIVILEGED;
      }
- 
-     sclp_cp_receive_mask = ef->receive_mask;
-@@ -280,18 +277,15 @@ static void read_event_data(SCLPEventFacility *ef, SCCB *sccb)
-             (sclp_active_selection_mask & ~sclp_cp_receive_mask)) {
-             sccb->h.response_code =
-                     cpu_to_be16(SCLP_RC_INVALID_SELECTION_MASK);
--            goto out;
-+            return;
-         }
-         break;
-     default:
-         sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_FUNCTION);
+     if (cpu_physical_memory_is_io(sccb)) {
+-        r = -PGM_ADDRESSING;
 -        goto out;
-+        return;
++        return -PGM_ADDRESSING;
      }
-     sccb->h.response_code = cpu_to_be16(
-             handle_sccb_read_events(ef, sccb, sclp_active_selection_mask));
--
--out:
--    return;
- }
- 
- static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
-@@ -303,7 +297,7 @@ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
-     if (!mask_length || (mask_length > SCLP_EVENT_MASK_LEN_MAX) ||
-         ((mask_length != 4) && !ef->allow_all_mask_sizes)) {
-         sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_MASK_LENGTH);
+     if ((sccb & ~0x1fffUL) == 0 || (sccb & ~0x1fffUL) == env->psa
+         || (sccb & ~0x7ffffff8UL) != 0) {
+-        r = -PGM_SPECIFICATION;
 -        goto out;
-+        return;
++        return -PGM_SPECIFICATION;
      }
  
      /*
-@@ -328,9 +322,6 @@ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
+@@ -226,8 +222,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
  
-     sccb->h.response_code = cpu_to_be16(SCLP_RC_NORMAL_COMPLETION);
-     ef->mask_length = mask_length;
--
+     /* Valid sccb sizes */
+     if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
+-        r = -PGM_SPECIFICATION;
+-        goto out;
++        return -PGM_SPECIFICATION;
+     }
+ 
+     switch (code & SCLP_CMD_CODE_MASK) {
+@@ -257,8 +252,7 @@ out_write:
+ 
+     sclp_c->service_interrupt(sclp, sccb);
+ 
 -out:
--    return;
+-    return r;
++    return 0;
  }
  
- /* qemu object creation and initialization functions */
+ static void service_interrupt(SCLPDevice *sclp, uint32_t sccb)
 -- 
 2.24.1
 
