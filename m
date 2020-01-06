@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADB2131425
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 15:54:51 +0100 (CET)
-Received: from localhost ([::1]:52950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95838131433
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 15:57:20 +0100 (CET)
+Received: from localhost ([::1]:52996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioTmL-0003jh-Lz
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 09:54:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44074)
+	id 1ioTol-0007eE-2i
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 09:57:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTbT-00072s-2b
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:36 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ioTbX-0007AP-AS
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTbS-0000ir-0P
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42678
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1ioTbV-0000lz-V9
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:39 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39362
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbR-0000iM-Rt
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:33 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbV-0000lC-RO
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321813;
+ s=mimecast20190719; t=1578321817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s82BuCk3tx2ruVJGHJbAYGdvIqL16IjCtGpYp+Ky8nE=;
- b=XxpUZBtjqHpZxcvielTynLojgThCzV90ZQVibbT/01wfXXXXLgvVSOXNCSGcdo60jSFyHv
- bUO69OV5Dyow4ahQ9jfgLN/t9dP0iESH+P63si0srYeQeutlTnoGuJrsucK3z+K1RhXMuW
- hBCtDB8Hz70rwmDcpj4YTzM46NYVZCE=
+ bh=nig+3laE/ZHq5msk6s+ae2OgPY+P7khyKOhHy12rGi4=;
+ b=XiFcfTSuPAqsAstGyWa2EBAkmOohSHkiGl65I/Lr+aB1692Fzk7hXs8ZHXr3k0jfgq98ZM
+ 89VP5WoHkoTV4n0xMVnCoxfGC5pbxEXBpGqLwB8m5v+Cp5Cwb6r/Vi1aYixi7+CQYfempt
+ NRUrrSZM0ggvFtuU992FdViTfog5QGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-mOru9p5NMxq8hfoKkDVW5A-1; Mon, 06 Jan 2020 09:43:30 -0500
+ us-mta-276-Ip6_iSiIPsqVB3jROVsXEA-1; Mon, 06 Jan 2020 09:43:34 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8793941BD;
- Mon,  6 Jan 2020 14:43:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F0E3107B784;
+ Mon,  6 Jan 2020 14:43:33 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65B057DB3E;
- Mon,  6 Jan 2020 14:43:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC8157DB58;
+ Mon,  6 Jan 2020 14:43:32 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 24/34] iotests: Make 091 work with data_file
-Date: Mon,  6 Jan 2020 15:41:56 +0100
-Message-Id: <20200106144206.698920-25-mreitz@redhat.com>
+Subject: [PULL 26/34] iotests: Make 137 work with data_file
+Date: Mon,  6 Jan 2020 15:41:58 +0100
+Message-Id: <20200106144206.698920-27-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: mOru9p5NMxq8hfoKkDVW5A-1
+X-MC-Unique: Ip6_iSiIPsqVB3jROVsXEA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +75,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The image end offset as reported by qemu-img check is different when
-using an external data file; we do not care about its value here, so we
-can just filter it.  Incidentally, common.rc already has _check_test_img
-for us which does exactly that.
+When using an external data file, there are no refcounts for data
+clusters.  We thus have to adjust the corruption test in this patch to
+not be based around a data cluster allocation, but the L2 table
+allocation (L2 tables are still refcounted with external data files).
+
+Furthermore, we should not print qcow2.py's list of incompatible
+features because it differs depending on whether there is an external
+data file or not.
+
+With those two changes, the test will work both with and without
+external data files (once that options works with the iotests at all).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20191107163708.833192-18-mreitz@redhat.com
+Message-id: 20191107163708.833192-20-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/091     | 2 +-
- tests/qemu-iotests/091.out | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ tests/qemu-iotests/137     | 15 +++++++++++----
+ tests/qemu-iotests/137.out |  6 ++----
+ 2 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
-index f4b44659ae..0874fa84c8 100755
---- a/tests/qemu-iotests/091
-+++ b/tests/qemu-iotests/091
-@@ -101,7 +101,7 @@ echo "Check image pattern"
- ${QEMU_IO} -c "read -P 0x22 0 4M" "${TEST_IMG}" | _filter_testdir | _filte=
-r_qemu_io
+diff --git a/tests/qemu-iotests/137 b/tests/qemu-iotests/137
+index 6cf2997577..7ae86892f7 100755
+--- a/tests/qemu-iotests/137
++++ b/tests/qemu-iotests/137
+@@ -138,14 +138,21 @@ $QEMU_IO \
+     "$TEST_IMG" 2>&1 | _filter_qemu_io
 =20
- echo "Running 'qemu-img check -r all \$TEST_IMG'"
--"${QEMU_IMG}" check -r all "${TEST_IMG}" 2>&1 | _filter_testdir | _filter_=
-qemu
-+_check_test_img -r all
+ # The dirty bit must not be set
+-$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++# (Filter the external data file bit)
++if $PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features \
++    | grep -q '\<0\>'
++then
++    echo 'ERROR: Dirty bit set'
++else
++    echo 'OK: Dirty bit not set'
++fi
 =20
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/091.out b/tests/qemu-iotests/091.out
-index 5017f8c2d9..5ec7b00f13 100644
---- a/tests/qemu-iotests/091.out
-+++ b/tests/qemu-iotests/091.out
-@@ -23,6 +23,4 @@ read 4194304/4194304 bytes at offset 0
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- Running 'qemu-img check -r all $TEST_IMG'
- No errors were found on the image.
--80/16384 =3D 0.49% allocated, 0.00% fragmented, 0.00% compressed clusters
--Image end offset: 5570560
+ # Similarly we can test whether corruption detection has been enabled:
+-# Create L1/L2, overwrite first entry in refcount block, allocate somethin=
+g.
++# Create L1, overwrite refcounts, force allocation of L2 by writing
++# data.
+ # Disabling the checks should fail, so the corruption must be detected.
+ _make_test_img 64M
+-$QEMU_IO -c "write 0 64k" "$TEST_IMG" | _filter_qemu_io
+-poke_file "$TEST_IMG" "$((0x20000))" "\x00\x00"
++poke_file "$TEST_IMG" "$((0x20000))" "\x00\x00\x00\x00\x00\x00\x00\x00"
+ $QEMU_IO \
+     -c "reopen -o overlap-check=3Dnone,lazy-refcounts=3D42" \
+     -c "write 64k 64k" \
+diff --git a/tests/qemu-iotests/137.out b/tests/qemu-iotests/137.out
+index bd4523a853..86377c80cd 100644
+--- a/tests/qemu-iotests/137.out
++++ b/tests/qemu-iotests/137.out
+@@ -36,11 +36,9 @@ qemu-io: Unsupported value 'blubb' for qcow2 option 'ove=
+rlap-check'. Allowed are
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_IO=
+}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"=
+ )
+-incompatible_features     []
++OK: Dirty bit not set
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
+-wrote 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ qemu-io: Parameter 'lazy-refcounts' expects 'on' or 'off'
+-qcow2: Marking image as corrupt: Preventing invalid write on metadata (ove=
+rlaps with qcow2_header); further corruption events will be suppressed
++qcow2: Marking image as corrupt: Preventing invalid allocation of L2 table=
+ at offset 0; further corruption events will be suppressed
+ write failed: Input/output error
  *** done
 --=20
 2.24.1
