@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5451314B1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:18:11 +0100 (CET)
-Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D65131461
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:05:43 +0100 (CET)
+Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioU8w-0007jr-DL
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:18:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1ioTwr-000086-O6
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:05:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTbw-0007nw-8N
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:44:05 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ioTdm-0001pT-5q
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:45:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTbv-00016U-37
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:44:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42534
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbu-000166-W4
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:44:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321842;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+G2RUZx0lySONatlvCEdCYt5JyxyNEJIdc3ZLiAijyY=;
- b=PopviVM4vwMaqbRfvtgFlZO6kcAsULw74TgCWpFRPn9NTg5s5tnKHwj+VHBuTUc/noeU9J
- lt9AMpJMCMyYuZUv4jEO91xctHQEfJq40V6a0SjqcKPnDPEdwL+C9GKeGnOsdgKEvB5FPd
- kJtcRXBXw74SFHohZxt+Zz38+NkZDJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-WCXvJLr8PZiNYHUZAkYJYg-1; Mon, 06 Jan 2020 09:43:56 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 150FB8024DE;
- Mon,  6 Jan 2020 14:43:55 +0000 (UTC)
-Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 872435D9D6;
- Mon,  6 Jan 2020 14:43:54 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 34/34] backup-top: Begin drain earlier
-Date: Mon,  6 Jan 2020 15:42:06 +0100
-Message-Id: <20200106144206.698920-35-mreitz@redhat.com>
-In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
-References: <20200106144206.698920-1-mreitz@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1ioTdk-0002Y2-KW
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:45:57 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43348)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ioTdk-0002XI-BX
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:45:56 -0500
+Received: by mail-wr1-x443.google.com with SMTP id d16so49872634wre.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 06:45:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nezePDIoKL9YqKg2Drhg7Q51VT90qdtkt9dfDguD9NM=;
+ b=xKX3bFOOEMstqpKGkBlo/F0zZHcA2CXFEDE4NYWpXYNWv4LMyY6Gifgdh4Wi4bpsjs
+ eCkOUO+CEFW+0IReIhMUeHJDs7mHNiIpD5IcrhhsPv8YzkaCJiBOvkSxszH80Ct28Eto
+ YVBv3G7yiBzYQA3lvWDyHhmencJOegSEOUEYRqUamrpO8TdyjNnSydTxWNVN42RIaOP0
+ mNR/Cz5p81u1OYsZpdAK60Ha1nL5zDv+F31ec/O/OU4srZ//mqT5a0AHQpPE2+/ob/Sg
+ YfM4csOlWmmqM/zks1mvu24TkSb8Vs9s1msv8flLE3MX5yM8lTpJ/bfqgbz/CHZ1BJy1
+ CoPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nezePDIoKL9YqKg2Drhg7Q51VT90qdtkt9dfDguD9NM=;
+ b=eqb7nm+cYGSf9apv1BOO08BdAjm0Dw2KfMThJE8rlqzuGSULppbVa2H/WmK2tYw0ah
+ rgclRGysjIw5FXs7jCe/0yoMXfwYodee1s4xpGDNSwCd/uVdOinVtql2iRRlwUuDHHwL
+ xXIvv5K1aoUmK6DE899c/QJ6hXMXa5ZtMRLRPQNTJ5e3w0bUQaq7cAegYe50o8pKjFqG
+ 7ue8GDqLNCyzOFwOo3avcUChQN/mbAkSP6OeCrkVomjS+AeAN3d9N5tcBPNKbSuo3dxA
+ FDhvYzrkWZJHTQlBfJDoNHe+sGZ/opbgDVuo0w65FFieC7q0eIE4h0Izaeg6qoImgiTo
+ mXqg==
+X-Gm-Message-State: APjAAAU1KIqWuXVZlHMku0Tu5X0XFwUM3zokXJSiuIRCiIYIm/UWfwj+
+ I2ZUaoYB22tGvXsy2RMNIfz4tMQ+5lp+/g==
+X-Google-Smtp-Source: APXvYqyy26J3FMfONcg02o8VjG90VPW6dJegg6pG17RBZk46DGbpxWnCGof90IcNQD42pstwfvPHcg==
+X-Received: by 2002:adf:cf06:: with SMTP id o6mr102740787wrj.349.1578321954372; 
+ Mon, 06 Jan 2020 06:45:54 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id g7sm72929943wrq.21.2020.01.06.06.45.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2020 06:45:53 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/iothread: Always connect iothread GSource to a
+ GMainContext
+Date: Mon,  6 Jan 2020 14:45:52 +0000
+Message-Id: <20200106144552.7205-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: WCXvJLr8PZiNYHUZAkYJYg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,45 +76,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When dropping backup-top, we need to drain the node before freeing the
-BlockCopyState.  Otherwise, requests may still be in flight and then the
-assertion in shres_destroy() will fail.
+On older versions of glib (anything prior to glib commit 0f056ebe
+from May 2019), the implementation of g_source_ref() and
+g_source_unref() is not threadsafe for a GSource which is not
+attached to a GMainContext.
 
-(This becomes visible in intermittent failure of 056.)
+QEMU's real iothread.c implementation always attaches its
+iothread->ctx's GSource to a GMainContext created for that iothread,
+so it is OK, but the simple test framework implementation in
+tests/iothread.c was not doing this.  This was causing intermittent
+assertion failures in the test-aio-multithread subtest
+"/aio/multi/mutex/contended" test on the BSD hosts.  (It's unclear
+why only BSD seems to have been affected -- perhaps a combination of
+the specific glib version being used in the VMs and their happening
+to run on a host with a lot of CPUs).
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20191219182638.104621-1-mreitz@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Borrow the iothread_init_gcontext() from the real iothread.c
+and add the corresponding cleanup code and the calls to
+g_main_context_push/pop_thread_default() so we actually use
+the GMainContext we create.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- block/backup-top.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I don't really have a good understanding of the glib APIs here,
+so I'm mostly just cribbing code from the real iothread.c;
+review by people who do know the glib/iothread stuff better
+welcomed. It does seem to fix the intermittent test failure
+on NetBSD, at least, where we were running into an assertion
+failure because a g_source_unref() incorrectly thought it
+had decremented the refcount to 0 and should delete a context
+that was actually still in use.
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 7cdb1f8eba..818d3f26b4 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -257,12 +257,12 @@ void bdrv_backup_top_drop(BlockDriverState *bs)
-     BDRVBackupTopState *s =3D bs->opaque;
-     AioContext *aio_context =3D bdrv_get_aio_context(bs);
-=20
--    block_copy_state_free(s->bcs);
--
-     aio_context_acquire(aio_context);
-=20
-     bdrv_drained_begin(bs);
-=20
-+    block_copy_state_free(s->bcs);
+ tests/iothread.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/tests/iothread.c b/tests/iothread.c
+index 13c9fdcd8df..d3a2ee9a014 100644
+--- a/tests/iothread.c
++++ b/tests/iothread.c
+@@ -21,6 +21,8 @@
+ 
+ struct IOThread {
+     AioContext *ctx;
++    GMainContext *worker_context;
++    GMainLoop *main_loop;
+ 
+     QemuThread thread;
+     QemuMutex init_done_lock;
+@@ -35,6 +37,17 @@ AioContext *qemu_get_current_aio_context(void)
+     return my_iothread ? my_iothread->ctx : qemu_get_aio_context();
+ }
+ 
++static void iothread_init_gcontext(IOThread *iothread)
++{
++    GSource *source;
 +
-     s->active =3D false;
-     bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
-     bdrv_replace_node(bs, backing_bs(bs), &error_abort);
---=20
-2.24.1
++    iothread->worker_context = g_main_context_new();
++    source = aio_get_g_source(iothread_get_aio_context(iothread));
++    g_source_attach(source, iothread->worker_context);
++    g_source_unref(source);
++    iothread->main_loop = g_main_loop_new(iothread->worker_context, TRUE);
++}
++
+ static void *iothread_run(void *opaque)
+ {
+     IOThread *iothread = opaque;
+@@ -44,6 +57,20 @@ static void *iothread_run(void *opaque)
+     my_iothread = iothread;
+     qemu_mutex_lock(&iothread->init_done_lock);
+     iothread->ctx = aio_context_new(&error_abort);
++
++    /*
++     * We must connect the ctx to a GMainContext, because in older versions
++     * of glib the g_source_ref()/unref() functions are not threadsafe
++     * on sources without a context.
++     */
++    iothread_init_gcontext(iothread);
++
++    /*
++     * g_main_context_push_thread_default() must be called before anything
++     * in this new thread uses glib.
++     */
++    g_main_context_push_thread_default(iothread->worker_context);
++
+     qemu_cond_signal(&iothread->init_done_cond);
+     qemu_mutex_unlock(&iothread->init_done_lock);
+ 
+@@ -51,6 +78,7 @@ static void *iothread_run(void *opaque)
+         aio_poll(iothread->ctx, true);
+     }
+ 
++    g_main_context_pop_thread_default(iothread->worker_context);
+     rcu_unregister_thread();
+     return NULL;
+ }
+@@ -66,6 +94,8 @@ void iothread_join(IOThread *iothread)
+ {
+     aio_bh_schedule_oneshot(iothread->ctx, iothread_stop_bh, iothread);
+     qemu_thread_join(&iothread->thread);
++    g_main_context_unref(iothread->worker_context);
++    g_main_loop_unref(iothread->main_loop);
+     qemu_cond_destroy(&iothread->init_done_cond);
+     qemu_mutex_destroy(&iothread->init_done_lock);
+     aio_context_unref(iothread->ctx);
+-- 
+2.20.1
 
 
