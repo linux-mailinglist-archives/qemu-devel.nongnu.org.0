@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B093A131804
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:58:58 +0100 (CET)
-Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329D4131806
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:59:56 +0100 (CET)
+Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXab-00035D-DQ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:58:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46272)
+	id 1ioXbW-0004We-Qk
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:59:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46301)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4w-0003OX-Uo
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:15 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4y-0003S6-M2
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4v-00051U-Q0
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:14 -0500
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41165)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4x-00053c-FP
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:16 -0500
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:38170)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4v-000515-M6; Mon, 06 Jan 2020 13:26:13 -0500
-Received: by mail-qk1-x742.google.com with SMTP id x129so40279331qke.8;
- Mon, 06 Jan 2020 10:26:13 -0800 (PST)
+ id 1ioX4x-00053I-BG; Mon, 06 Jan 2020 13:26:15 -0500
+Received: by mail-qt1-x843.google.com with SMTP id n15so43213366qtp.5;
+ Mon, 06 Jan 2020 10:26:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8LtGJFRoLm+1QViJT/TSBBPXd3MZMx440gcj2kcTdA4=;
- b=E0AwercUzSfgtOPsdaKwCargU5p1STDCJT25acr9PLcWwNzJVhZNBfbIIoAOJElWNh
- pRx3+aoOoI+GvsMLVeyfpdl3RUmg+qa9GgpwKCsg43/7KB6s6UY/CggIQ7wUhkPqXlwt
- BdNAry1dcFq5VH4T3oSmu1XC6++yaN5dZFLiaTkw5OSyR5qPzuL58r5MyERrG4yax8Lh
- F7fvShSFdDgJwsXlpuiVGLwQsS0y8pj9MjZb58sFCTuRDCFvX9NBh7IXwXWl2/hyxmcW
- S3SD9J8TRBalKqXLNoE7zjL9p7Llz5I/SSbrpEQQ202liFEqK/bqlgJUNX/8vYTWVjkf
- lDRg==
+ bh=vLkBK5lSWEkB9UXmndWqWUlDLfAZMhVOoZ7WRef+Ig4=;
+ b=IhG6pGWJ6BRiXdPk0rw3Kv9D6qGDfbd3ECSNZ2+sAA/tXxgRYiVztrJBDuz4WGFREC
+ rIana4JBxaZVXnlLcelSckeO/sL4PJQol+dhSin85HPt0PgNL/LdAXk6jRr+ITE4DBpm
+ 7pB063tzhD/thPSt/MjN4IlK7jUWwA8lOoi1IBnH9o6Umtg7a1wRxm8zbrq+xv9rDIFU
+ TG8H1z/Yr2MTxFL3yP1QJLxdJBVNCBcuShcHnWF6VTQJsb/FTaAMclJQm9YZvzTqRQhU
+ t7BU6m2tRWNUjNc8e3ZA9xyL1GYhMAU48VpZSa9TbIkhq+B/ft35pmeaPufAsXrP7LGo
+ Dvgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8LtGJFRoLm+1QViJT/TSBBPXd3MZMx440gcj2kcTdA4=;
- b=cH5euehgyJ24DDx0P4K8ChUK/3u1V6bZe+2xagLnDD2onKKpKCvyskwTzp9ME4VMVO
- SA6r5Fx68hv/BrYsqRuGUHICaZcE6kui5eUxCcGlPy0jXT93Dh6s7IJskn0toXC9Qeja
- HMS/VgnpBG3PvP3A2k1GorGMv4ppK0ZmQnjpyuJ5BJ83TQoh9bEuWqiLhzZjCJJOHaZJ
- z977ENCQz9q5ad8+IskETDg2NhytwUrl5eVN/7oVaIRQaNl/zhyX0pLFo0VLKiSAZJ3s
- UHJwPWAG2ivpLQpwXxZggyCJ8085ECAp8d2OSONoGO8dvpacEsVSUFekjVeiwoiEozXl
- u1jQ==
-X-Gm-Message-State: APjAAAVQdoTliDm5Jx2QqWPvF7nLt2xYdV/bfBRk5+QLI++UTh4GvpEJ
- bpoVvH2mMyOIQzKVC+2bYO9tX7BH
-X-Google-Smtp-Source: APXvYqy/Z+2Py4bryxprBQK1r7tzlXhDuL+n9PFjlwc5OSvUfaRZzVCcIsfcph9Pz8WVncG1rCwivw==
-X-Received: by 2002:a37:6794:: with SMTP id
- b142mr85101702qkc.216.1578335173136; 
- Mon, 06 Jan 2020 10:26:13 -0800 (PST)
+ bh=vLkBK5lSWEkB9UXmndWqWUlDLfAZMhVOoZ7WRef+Ig4=;
+ b=i3VcEkS7gBUCTfq45v8REy2BN//EcR9pynw+jpQ+bkkWnXJauZSra/RVkBh/dCvDON
+ OY7BZPlhqSoK07NzvVwj3LHXy7VPOhNrKH7q7nWGR405tuHMfngcb5su8e8RjwBLuEkw
+ 6Yl+8bto8cWV65s6JiEoYvyWnmEoT8C0j4xH1ICyABsiDbs/Ec7EXBAJazo2jj5cdR6J
+ 5VlwFKiQLVjTiOM59hi6oU07y562KN/7VuU654CcV9+QaJRqpvxq1mxlLB2X7NWSIUq6
+ Jg00/LKQJvDzREB9H0IQjYlbGj6F4V18wI+AeP+YT09t4wYqqmQmPALsz7cGomLL+Lyp
+ tH7g==
+X-Gm-Message-State: APjAAAXnsQjtRywKZ53m5Rqet+CBCKtHHGkbslsYRIrT8Gi9pzIsF+f2
+ 26yAf68VjKU04ZjywPy2ZpTSWsBJ
+X-Google-Smtp-Source: APXvYqz0JY9smgLFPzAiiETwEw3EDaNA9DaxSXm2oBrDtCaChGrePUXVRbUAYfq3Q9hxG9/fYtO3tA==
+X-Received: by 2002:ac8:769a:: with SMTP id g26mr12100709qtr.259.1578335174763; 
+ Mon, 06 Jan 2020 10:26:14 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.11
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:12 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:14 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 45/59] 9pfs/9p.c: remove unneeded labels
-Date: Mon,  6 Jan 2020 15:24:11 -0300
-Message-Id: <20200106182425.20312-46-danielhb413@gmail.com>
+Subject: [PATCH v1 46/59] alpha/typhoon.c: remove unneeded label in
+ typhoon_translate_iommu()
+Date: Mon,  6 Jan 2020 15:24:12 -0300
+Message-Id: <20200106182425.20312-47-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Received-From: 2607:f8b0:4864:20::843
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,61 +78,97 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' label in v9fs_xattr_write() and 'out_nofid' label in
-v9fs_complete_rename() can be replaced by appropriate return
-calls.
+Label 'success' can be replaced by 'return ret'.
 
-CC: Greg Kurz <groug@kaod.org>
+As a bonus, existing trailing whitespaces were automatically
+deleted by the text editor while making this patch.
+
+CC: Richard Henderson <rth@twiddle.net>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/9pfs/9p.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ hw/alpha/typhoon.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 520177f40c..be2beba4cd 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2464,8 +2464,7 @@ static int v9fs_xattr_write(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
- 
- 
-     if (fidp->fs.xattr.len < off) {
--        err = -ENOSPC;
--        goto out;
-+        return -ENOSPC;
-     }
-     write_count = fidp->fs.xattr.len - off;
-     if (write_count > count) {
-@@ -2491,7 +2490,7 @@ static int v9fs_xattr_write(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
-         off += to_copy;
-         write_count -= to_copy;
-     }
--out:
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index 179e1f7658..af992883c7 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -34,7 +34,7 @@ typedef struct TyphoonWindow {
+     uint64_t wsm;
+     uint64_t tba;
+ } TyphoonWindow;
+- 
 +
-     return err;
- }
- 
-@@ -3056,8 +3055,7 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
-     if (newdirfid != -1) {
-         dirfidp = get_fid(pdu, newdirfid);
-         if (dirfidp == NULL) {
--            err = -ENOENT;
--            goto out_nofid;
-+            return -ENOENT;
+ typedef struct TyphoonPchip {
+     MemoryRegion region;
+     MemoryRegion reg_iack;
+@@ -190,7 +190,7 @@ static MemTxResult cchip_read(void *opaque, hwaddr addr,
+     case 0x0780:
+         /* PWR: Power Management Control.   */
+         break;
+-    
++
+     case 0x0c00: /* CMONCTLA */
+     case 0x0c40: /* CMONCTLB */
+     case 0x0c80: /* CMONCNT01 */
+@@ -442,7 +442,7 @@ static MemTxResult cchip_write(void *opaque, hwaddr addr,
+     case 0x0780:
+         /* PWR: Power Management Control.   */
+         break;
+-    
++
+     case 0x0c00: /* CMONCTLA */
+     case 0x0c40: /* CMONCTLB */
+     case 0x0c80: /* CMONCNT01 */
+@@ -694,14 +694,14 @@ static IOMMUTLBEntry typhoon_translate_iommu(IOMMUMemoryRegion *iommu,
+         /* Check the first three windows.  */
+         for (i = 0; i < 3; ++i) {
+             if (window_translate(&pchip->win[i], addr, &ret)) {
+-                goto success;
++                return ret;
+             }
          }
-         if (fidp->fid_type != P9_FID_NONE) {
-             err = -EINVAL;
-@@ -3100,7 +3098,6 @@ out:
-         put_fid(pdu, dirfidp);
+ 
+         /* Check the fourth window for DAC disable.  */
+         if ((pchip->win[3].wba & 0x80000000000ull) == 0
+             && window_translate(&pchip->win[3], addr, &ret)) {
+-            goto success;
++            return ret;
+         }
+     } else {
+         /* Double-address cycle.  */
+@@ -711,7 +711,7 @@ static IOMMUTLBEntry typhoon_translate_iommu(IOMMUMemoryRegion *iommu,
+             if (pchip->ctl & 0x40) {
+                 /* See 10.1.4.4; in particular <39:35> is ignored.  */
+                 make_iommu_tlbe(0, 0x007ffffffffull, &ret);
+-                goto success;
++                return ret;
+             }
+         }
+ 
+@@ -723,16 +723,14 @@ static IOMMUTLBEntry typhoon_translate_iommu(IOMMUMemoryRegion *iommu,
+                 pte_addr  = pchip->win[3].tba & 0x7ffc00000ull;
+                 pte_addr |= (addr & 0xffffe000u) >> 10;
+                 if (pte_translate(pte_addr, &ret)) {
+-                        goto success;
++                    return ret;
+                 }
+             }
+         }
      }
-     v9fs_path_free(&new_path);
--out_nofid:
-     return err;
+ 
+  failure:
+-    ret = (IOMMUTLBEntry) { .perm = IOMMU_NONE };
+- success:
+-    return ret;
++    return (IOMMUTLBEntry) { .perm = IOMMU_NONE };
  }
  
+ static AddressSpace *typhoon_pci_dma_iommu(PCIBus *bus, void *opaque, int devfn)
 -- 
 2.24.1
 
