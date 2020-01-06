@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FB71317BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:48:50 +0100 (CET)
-Received: from localhost ([::1]:58034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4411317C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:51:59 +0100 (CET)
+Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXQm-0005Yr-LX
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:48:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45392)
+	id 1ioXTq-0001Li-E1
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:51:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX47-00022a-DI
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:24 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX48-00024C-EM
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX45-000485-AK
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:23 -0500
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:33219)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX47-00049j-8H
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:24 -0500
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:43226)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX45-00047m-4l; Mon, 06 Jan 2020 13:25:21 -0500
-Received: by mail-qv1-xf41.google.com with SMTP id z3so19446137qvn.0;
- Mon, 06 Jan 2020 10:25:21 -0800 (PST)
+ id 1ioX47-00049R-3z; Mon, 06 Jan 2020 13:25:23 -0500
+Received: by mail-qv1-xf42.google.com with SMTP id p2so19407459qvo.10;
+ Mon, 06 Jan 2020 10:25:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tFptgxo5nLcHuBzNhDqkhDGvP/NtmbUAgg4er/i3OcI=;
- b=CjbbnBbZeH65SvqiUKCUdLGlmqNvamFF0SCoUPUUECYmNgvoxr20Hho/d2NoFjC/4n
- +ywLwA3JsotAuqchbZE06Kis3BhMSNOZ2xrNZZPa4+JNO6u2p6O8JN2NWJCVcoVh04o/
- E7aHRSIznAfeFO3aFLQXJ7eSw8pq4ZowRdjG3BdZPMsIacaX16L70D1xJa/dYgiJSEEe
- P7yNhPp1HXobhQzQkRIfAF/G0Wo8uOtIRFeEMktzBa9U7HJN21+BzEiO8TJehE+TPab9
- MeXbZbMbJIcDAsRnstHY17ZCJ6drHm/8qvpNVtyX7Z5E2u9zWPKyrNTYN2RDemiINZP7
- Gegw==
+ bh=AQ30SiavMBc1O6qPtvk0xgAULn2vwWgQBHbs/PLUbI8=;
+ b=eO/AqUVMui9U6V4k1266lbWw9rHB6L1/xQKK9x30mQ8ILZg7Wj6nXgXUTRudpF1J1G
+ 6FABU8/sNTARDGMPGCjHZHS6sZ2Cjr3RSBUY7s0d6ipN4okgaDy3N1BxvUD79bBl77z2
+ Ev5/wUAvrl2KfeDaF+EwO7m7camnfr6OTyfdS1ntFDov9WF7CDLcHbriiMldC2IyDsD4
+ iQpLdrsZaagqfp7eoQpzG0xoTW2+I5xsSwUvBEAW2uE8gC+hp9VS+Vwg/TvzFqMi/CPh
+ exC/csYIhV3cyoDllSgzE7Kfy5AnyjYVB0Mo0RBkdV/PcKkszn/3lMFAVQbrLyBEm+TM
+ FwUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tFptgxo5nLcHuBzNhDqkhDGvP/NtmbUAgg4er/i3OcI=;
- b=FgGYmcLGbs6Tsj8NhenRRk2DEYK9bUM9VeoBDchWtS/28bFFI5je745nMBRe6FFiSI
- zZahaPUTgrbmVIUWms2h9N1BbgVUeKfeMq0bDcXvOP9DosH1Z+3f1UMsRG0zYdwb5XUU
- Z+FPqTOlH0yx4i073NgU/syPBdfFkbYZI2mR0yyfMa9J8nh2k4N+Rl6NFTn9eK5iFqMz
- 2OCYIBNe5T0D8p/55YH0vta8V80SEqB0pL2mxceiK93gUNt11lQutsr/R3eaLYDilnyw
- soqrvbBUCXVciyMWXVK4BdCoANONl3AR3NchTykAQUJY2JDq5IzziM+/Cmse09mFZNnN
- NfKQ==
-X-Gm-Message-State: APjAAAXh5CU7a7q9qRZ1g5W5uIUnFoKIR+u3DISHMG5SVVFbtanFUO+f
- 5WZ3g7TZc2jgOwEhCjZWIlty3szL
-X-Google-Smtp-Source: APXvYqymKbrnOHEYtNhyMzPUU1W18xtiLJrqeXj/Id6ujn5bb5mLTq9mC92G0kVdcTfeMFvWLV05rw==
-X-Received: by 2002:a0c:e2d1:: with SMTP id t17mr82517992qvl.25.1578335120624; 
- Mon, 06 Jan 2020 10:25:20 -0800 (PST)
+ bh=AQ30SiavMBc1O6qPtvk0xgAULn2vwWgQBHbs/PLUbI8=;
+ b=D+FqbNPJz2i5kdbY71RojygEw89XLNpU/bVvLNYbVvFNGgfPBSXjZC0Ej1wN+STtnq
+ kt/0CPPSAHyFoHkQifrV7NXgUrvJdMaJn2I2KIQKXwsKOtCbRRo8kspiQIHK6mMqpZTM
+ s2wiwBBeHvuP6fyTwGtPym2fUgVQblpmCdz0SOhJFGMkevJbMXvVn5Ik5wbkfth4EwvJ
+ 2gBEvQRkaEIC2gHM9y/43nGTZRGvd13cfCXzrHGe2Ts92OoxHXbfGW3/1fhKB4W9FTIi
+ +Q+pRkXgydzI3j79RBwuPMCSgIK5nKV7wacXgwJSZ7aJuAFvoof7xULEsGMeb4UYMHGp
+ RAdw==
+X-Gm-Message-State: APjAAAUZpS9CN9VNdDI88LqFAnF3iq8HC2tp5YoGPobG4SbgjBzlOaFw
+ 6biPkpDwyku6Vbc44pNYfq3Qs7V5
+X-Google-Smtp-Source: APXvYqxOrPWINPn22Tyf/XmY642bRM7VWtoZbvGTLor0xos/mdHd9Ta3OD1J1WE+mG5vddqcaLHxQg==
+X-Received: by 2002:a0c:c18f:: with SMTP id n15mr68377057qvh.35.1578335122527; 
+ Mon, 06 Jan 2020 10:25:22 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.19
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:20 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:22 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 16/59] block/gluster.c: remove unneeded 'exit' label
-Date: Mon,  6 Jan 2020 15:23:42 -0300
-Message-Id: <20200106182425.20312-17-danielhb413@gmail.com>
+Subject: [PATCH v1 17/59] block/dmg.c: remove unneeded 'fail' label in
+ dmg_read_mish_block()
+Date: Mon,  6 Jan 2020 15:23:43 -0300
+Message-Id: <20200106182425.20312-18-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -64,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f41
+X-Received-From: 2607:f8b0:4864:20::f42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,40 +78,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-block@nongnu.org
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'exit' label in find_allocation() can be replaced by a
-'return -ENOTSUP' call.
+Both the 'fail' label and 'ret' variable can be removed from the
+function. Instead, call 'return -EINVAL' in the error conditions.
 
+CC: Stefan Hajnoczi <stefanha@redhat.com>
 CC: qemu-block@nongnu.org
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- block/gluster.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ block/dmg.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/block/gluster.c b/block/gluster.c
-index 4fa4a77a47..43bf76eed7 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -1381,7 +1381,7 @@ static int find_allocation(BlockDriverState *bs, off_t start,
-     BDRVGlusterState *s = bs->opaque;
+diff --git a/block/dmg.c b/block/dmg.c
+index 4a045f2b3e..ce39a87864 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -217,7 +217,6 @@ static int dmg_read_mish_block(BDRVDMGState *s, DmgHeaderState *ds,
+                                uint8_t *buffer, uint32_t count)
+ {
+     uint32_t type, i;
+-    int ret;
+     size_t new_size;
+     uint32_t chunk_count;
+     int64_t offset = 0;
+@@ -273,8 +272,7 @@ static int dmg_read_mish_block(BDRVDMGState *s, DmgHeaderState *ds,
+             error_report("sector count %" PRIu64 " for chunk %" PRIu32
+                          " is larger than max (%u)",
+                          s->sectorcounts[i], i, DMG_SECTORCOUNTS_MAX);
+-            ret = -EINVAL;
+-            goto fail;
++            return -EINVAL;
+         }
  
-     if (!s->supports_seek_data) {
--        goto exit;
-+        return -ENOTSUP;
+         /* offset in (compressed) data fork */
+@@ -288,8 +286,7 @@ static int dmg_read_mish_block(BDRVDMGState *s, DmgHeaderState *ds,
+             error_report("length %" PRIu64 " for chunk %" PRIu32
+                          " is larger than max (%u)",
+                          s->lengths[i], i, DMG_LENGTHS_MAX);
+-            ret = -EINVAL;
+-            goto fail;
++            return -EINVAL;
+         }
+ 
+         update_max_chunk_size(s, i, &ds->max_compressed_size,
+@@ -298,9 +295,6 @@ static int dmg_read_mish_block(BDRVDMGState *s, DmgHeaderState *ds,
      }
- 
- #if defined SEEK_HOLE && defined SEEK_DATA
-@@ -1466,7 +1466,6 @@ static int find_allocation(BlockDriverState *bs, off_t start,
-     return -EBUSY;
- #endif
- 
--exit:
-     return -ENOTSUP;
+     s->n_chunks += chunk_count;
+     return 0;
+-
+-fail:
+-    return ret;
  }
  
+ static int dmg_read_resource_fork(BlockDriverState *bs, DmgHeaderState *ds,
 -- 
 2.24.1
 
