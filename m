@@ -2,56 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D75A131502
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:42:25 +0100 (CET)
-Received: from localhost ([::1]:53852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590251314FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:39:35 +0100 (CET)
+Received: from localhost ([::1]:53758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioUWO-0002Iq-Dk
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:42:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35449)
+	id 1ioUTe-0006t3-E6
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:39:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1ioUEx-0001n7-KL
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:24:24 -0500
+ (envelope-from <tcminyard@gmail.com>) id 1ioUHp-0006cF-Ie
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:27:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1ioUEw-0005A3-BZ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:24:23 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:40921)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ioUEv-00058f-TZ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:24:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=jChDevm7+FSSnpvZooTOApF3ckawxX62n9bXQo0ypqw=; b=WlS0tY7lhZB/XkcM8Nb6BraZru
- Y1w1iMZcufQ7BdbUExR4lC7A+vi8/r8sw1eXxwVhoGTCZO09oBfS0C2/T9URLSWz4bTa5UPsPrcXE
- c2OU+oqMUlBGYwk7UqszQOgUjIJ9YuVRaaND9fhuveFGCok6Vpi1OSrFc+QP3ku9y5LpLen1+3KVe
- quf+RFB1J3liRl7sCfE+5Zg0Hnu+WA/ckh+Gq3kMq1fvC7xT1+bx0S6o6zz7S9pz6fxmkNaaWBkFN
- HQdyL6inG7LkXXQVw1pXdaMWDCyj7RQhdBviVmCaVizbyh7iYlmgTldBgg6uEZCwIMHqAUKVt/PuA
- NDn+rDTkF7IusQ5gAFWIOFaK+SELfQhyaKB9m7FtbLUjH6athhvkdKWauYCOFJzpxbqCP1r3kTa2b
- rTqkQL23Jn/UCTdlG2CWxVyoXKJjcfL1INCEiqN/bp4i5oybcwQ7gQnyGjpwfG3Mx4l5xnCHzWbDg
- z49Kwr8i9JTGSKHnBD9my0LFVnrRn+qmxeS6eu+amOSN4eCiSTHYuV1dZwGP9dHb/8D3zbWfcGV08
- Sv5AOeiwx7Kz2TQYtiNZ9th9zGPD6VGUzDT/yNXXdOy93dpWKRQSIwE+bc1HyAnMoxl3m69Vu/Moa
- 5i+KWE2Pe0Bp7VTpAjCy7WsU3muPvq7jUOuruYK1Y=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (envelope-from <tcminyard@gmail.com>) id 1ioUHm-000810-6c
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:27:21 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43016)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1ioUHm-000802-22
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:27:18 -0500
+Received: by mail-ot1-x341.google.com with SMTP id p8so35711823oth.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 07:27:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=RALcAVMrFgZq7I9MBPW6YNVoQ1qjsckt124hKks9wk4=;
+ b=SrAP8wv92ItJK/zTkHiXJ17CcFOI0JnJSorhRxvx3KW4Yaq1m0w0uICyy8CU85ANF3
+ oV2QczP+04Duyy9N2JDHs4Ot2hQsg5Fs+jauN8fp3at9mEaES0iD5wL0dYVix6jMKuKO
+ cqS5AJ9pIxtfpQlsh/cMPSAGHu9JJ87wrz1KHfQ+Z1XTLy6igsKnYFtp0PIqDvb9ULrN
+ 3qY/sobDjT6VHJkRv4xtFh4vvjKDNA4OrgjTYF11j4hwj05LIPTU8F9mHsGoRJReC9DN
+ K9T1duha0tXAPeT5WapO1AVxQNcNxizsqfGfdeXmczfzLAEI61PDij3eIGLPkJ2XLNFW
+ G6zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=RALcAVMrFgZq7I9MBPW6YNVoQ1qjsckt124hKks9wk4=;
+ b=EkA94BOorTGIEt02aYYy4TWqlkGq/DTZjgjT1ELgh9jLl4kiWPzIbIE2Upuvz4Pys6
+ my9EZWY/I4hRbvLjAITMOZSgFq7Hsw87QeWMqwR/aV2wlfKmyNrZzopd7Ml5Y9YF7xvx
+ COLYN8F5Lh8ZBueS5Gi42VvEExNaWaa6r3GxjPKADoEMyS8R8Sf872yM4Z8Iscz66Pfr
+ tod93vZEIP0o6Rg4z5mtm78go+kDugjG1e5arDX1uQgcPjapKQG0VX2jm3IIV+5Ok+17
+ jqIDhLWFvm2MdGHcYpv0nRgYc5ydJr+AygunAuMuDPKwuIKDriMsTBe+BOkSHt+RiK8v
+ Tnfw==
+X-Gm-Message-State: APjAAAXu2e/U7gK+swQSaLByhvBbGaJcKNysMoOS1QzFFY0bmhHt+b7V
+ 9Y756zxuDj7dl89IiMqxUw==
+X-Google-Smtp-Source: APXvYqxEbniKz152PhZQ33JLNRkyrjRQiyDHQsXhJG4B4TQM72cbaKmGbJWzt9R+IdHxmWTo792msw==
+X-Received: by 2002:a9d:3a65:: with SMTP id j92mr117482186otc.37.1578324436612; 
+ Mon, 06 Jan 2020 07:27:16 -0800 (PST)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id 17sm24243378oty.48.2020.01.06.07.27.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2020 07:27:16 -0800 (PST)
+Received: from t560.minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:adc3:7c20:81:d62b])
+ by serve.minyard.net (Postfix) with ESMTPA id 6DB1D180050;
+ Mon,  6 Jan 2020 15:27:15 +0000 (UTC)
+From: minyard@acm.org
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
- anthony.perard@citrix.com, Stefano Stabellini <stefano.stabellini@xilinx.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9p: init_in_iov_from_pdu can truncate the size
-Date: Mon, 06 Jan 2020 16:24:18 +0100
-Message-ID: <2163433.xPYm55Bgvh@silver>
-In-Reply-To: <20200106144254.79920ae7@bahia.lan>
-References: <20191219004251.23763-1-sstabellini@kernel.org>
- <20200106144254.79920ae7@bahia.lan>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.189.157.229
+Subject: [PATCH] i386:acpi: Remove _HID from the SMBus ACPI entry
+Date: Mon,  6 Jan 2020 09:27:05 -0600
+Message-Id: <20200106152705.8258-1-minyard@acm.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,60 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, wanghaibin.wang@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 6. Januar 2020 14:42:54 CET Greg Kurz wrote:
-> > diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
-> > index 775e8ff766..68873c3f5f 100644
-> > --- a/hw/9pfs/virtio-9p-device.c
-> > +++ b/hw/9pfs/virtio-9p-device.c
-> > @@ -145,19 +145,15 @@ static ssize_t virtio_pdu_vunmarshal(V9fsPDU *pdu,
-> > size_t offset,> 
-> >  }
-> >  
-> >  static void virtio_init_in_iov_from_pdu(V9fsPDU *pdu, struct iovec
-> >  **piov,
-> > 
-> > -                                        unsigned int *pniov, size_t size)
-> > +                                        unsigned int *pniov, size_t
-> > *size)
-> > 
-> >  {
-> >  
-> >      V9fsState *s = pdu->s;
-> >      V9fsVirtioState *v = container_of(s, V9fsVirtioState, state);
-> >      VirtQueueElement *elem = v->elems[pdu->idx];
-> >      size_t buf_size = iov_size(elem->in_sg, elem->in_num);
-> > 
-> > -    if (buf_size < size) {
-> > -        VirtIODevice *vdev = VIRTIO_DEVICE(v);
-> > -
-> > -        virtio_error(vdev,
-> > -                     "VirtFS reply type %d needs %zu bytes, buffer has
-> > %zu", -                     pdu->id + 1, size, buf_size);
-> > +    if (buf_size < *size) {
-> > +        *size = buf_size;
-> > 
-> >      }
-> 
-> As suggested by Christian in some other mail, it could still make sense to
-> raise the error if there isn't even enough space to pack a 9p message
-> header.
+From: Corey Minyard <cminyard@mvista.com>
 
-Another option: Instead of handling this as a hard error (which they probably 
-try to avoid in their use case): putting the handler asleep for a while by 
-calling qemu_co_sleep_ns_wakeable() in this case. Then a bit later transport 
-would eventually have the required buffer size and handler could continue the 
-request without an error.
+Per the ACPI spec (version 6.1, section 6.1.5 _HID) it is not required
+on enumerated buses (like PCI in this case), _ADR is required (and is
+already there).  And the _HID value is wrong.  Linux appears to ignore
+the _HID entry, but it confuses Windows.
 
-But this would require more care. For instance subsequent request handlers 
-would need to check if there was already an event handler asleep, and if so it 
-would either need to wake it up or put itself asleep as well to prevent the 
-request order being processed by server being messed up.
+Signed-off-by: Corey Minyard <cminyard@mvista.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/i386/acpi-build.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Best regards,
-Christian Schoenebeck
-
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 7b8da62d41..ab73a8f4c8 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1815,7 +1815,6 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
+     Aml *scope = aml_scope("_SB.PCI0");
+     Aml *dev = aml_device("SMB0");
+ 
+-    aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0005")));
+     aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
+     build_acpi_ipmi_devices(dev, BUS(smbus), "\\_SB.PCI0.SMB0");
+     aml_append(scope, dev);
+-- 
+2.17.1
 
 
