@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A104A131865
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:13:12 +0100 (CET)
-Received: from localhost ([::1]:58574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B08313186D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:14:35 +0100 (CET)
+Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXoN-00075L-FA
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:13:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46223)
+	id 1ioXpi-0001Nr-MR
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46251)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4t-0003Jc-MS
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:12 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4v-0003MZ-Jy
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4s-0004yM-MB
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:11 -0500
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:38123)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4u-000508-Bz
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:13 -0500
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:44709)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4s-0004y0-I5; Mon, 06 Jan 2020 13:26:10 -0500
-Received: by mail-qk1-x741.google.com with SMTP id k6so40298558qki.5;
- Mon, 06 Jan 2020 10:26:10 -0800 (PST)
+ id 1ioX4u-0004zT-8L; Mon, 06 Jan 2020 13:26:12 -0500
+Received: by mail-qv1-xf44.google.com with SMTP id n8so19408060qvg.11;
+ Mon, 06 Jan 2020 10:26:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3FG9qdDQWzZLGEvFHKtE2+cU1rKneLyoMCDilVuOhQw=;
- b=GtSaFG8D1mBVeP9wYwdRsmx7jcl3MN12LcQELS2dx6mPJSyN+d7D/TqBkLUCcUL91Z
- pshF27WZbKMYFQAIp0G4naYN6nBcbDAUwS3tGLKw+LiUdVLz/pk3TKGQMBQDx2FZHddP
- d0T4Twaa5/Hj9ChzEhzh3XDZd5t2VROGdeqMd+XXWfewSFZvAeKIwGw5ZO9sEHVBHcOR
- sGwzTMjVSmPuzGHTsv/n+t5sYkUbgcYQs8QKVKJbo1j/13rd6hIdiDI0zOrYsOa9MyXW
- cPlXfBfLUnBZDh/CPdxw/iGylpD0cCctLe4kxmE0IDmXsHHDx+0DvOhTrVMxUZTTZkSb
- xIWQ==
+ bh=mpfIHJqJRcqC4Yq+ELUmZkb3CWZtgP1HlVj632oKpm4=;
+ b=SQQZXd0Hkm27bw09ihFgZpDdMnFMt5UqLm7MMQo1Baw8csh13X325ESiZ2a1n8di4I
+ cyg1Ew9ipVOzN8liH9UcttZCbJLe/gOj2CM40aXfsn8Sbo3RHMztenxxNu6gS4pnHQW2
+ fWwuDVvHANdc1mvbwIi77g+qf0bq9yOpjg1ibzdqD5vqS1tWIjiGF+HkxCnoBEd00G4S
+ 35z8jlkaqxPX7FaBTq5cGBn2qP5Wylc58mLQtvWfuDSFe6TAORRbyHpo8oFZTowueK79
+ zod7gGyH4aCn3f+f7Ni46cHhb5oe26WybhsHJnQ3MrLmDno1hagR+BiWfNIZKsaNhib9
+ G/6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3FG9qdDQWzZLGEvFHKtE2+cU1rKneLyoMCDilVuOhQw=;
- b=XG+9UbDaGOr/+d3ZBow58jUjBNpFwGQBfFqBXam3JwNWMAC/u9zXX2G4FORF+P3i1j
- IhjHWBpaF82HJlQ+8sduPp2jf9ttLmaavRS2EPTDxwCxpEEyrHpU/ElajCSEXv8wEMSY
- ZYEQJ0dkGKr3TQ1QDnRLkNHy2/8Xg98i8QqLOAaWWB8D1xslTjSzOMQv1XtqVK7xWCnu
- rADTwYtCEQJwEtbwUaYlnQDGMPuqDnhQqW7Hz+bRnF8SO93Oa/BfwOxgMOpGYoLvb3nj
- IQYI4/2SctCTRRF4nWe52e1L1FEqJnC7G2hX4aKWt+/Z7uK2HZ+ttCip+O+AgUReSAp/
- sKdQ==
-X-Gm-Message-State: APjAAAUGbv3EN1CiGYNTJaSOeCCAGZJN7Uu/qXl8gtVMEfEqZh7+Jzkc
- NHH7eSus5dc8OygoRKeGwyLSR3xm
-X-Google-Smtp-Source: APXvYqzFew3AJMCvTiarhXTnm1iHIqDjLoyAdP9XUwvEvi4CAIw5zq9xyF6Xr0nVkXGwaZxqVdwk1g==
-X-Received: by 2002:a37:48f:: with SMTP id 137mr83918265qke.25.1578335169968; 
- Mon, 06 Jan 2020 10:26:09 -0800 (PST)
+ bh=mpfIHJqJRcqC4Yq+ELUmZkb3CWZtgP1HlVj632oKpm4=;
+ b=eZbYU4SBhVA6NP7OJgYB+h3uefhkwV09yiyaCDyF54/OGha9rpzLSRYl8n3gcaqBvQ
+ dPz4T9fgjhZSrXTnU5/y4VdgLNVowK0imO95qYaZKul4itMUc8+BkkEfrHKiyfu8jC27
+ B+mBC34qp8kyEpgbEfy67pdBTTaymaR87uc5uVKdazZiTaVogoUuadPSI1AOATfcP+Oa
+ jd+GQ/2ZITImLNvIDl29X2sXQYB/9DQoPe0YNtJ6yg3IzW8A7D+u/9jfzfl06l+cOSyG
+ 1KHPT9K7fPafpQgGlamAL/IJeXipmWkA3YDBW1Uupl5zYN8eTicNE645dKK8lWGksBnV
+ Ofgg==
+X-Gm-Message-State: APjAAAUc6XOednrUgJjv5ECToPUsTYxYBOXBkQneKpRAGXX8xZvcjrz6
+ bhZMGFsQUM4PAUiRBJURlkMoKtH7
+X-Google-Smtp-Source: APXvYqxmtVPcSIQ61YfaX5ax6qApQhozK+8b0/vmjFHP/QdsenqVJrYHT3fEy/D5ZOY2OaML8pv2SA==
+X-Received: by 2002:a05:6214:118d:: with SMTP id
+ t13mr78133928qvv.5.1578335171686; 
+ Mon, 06 Jan 2020 10:26:11 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.08
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:09 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:11 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 43/59] i386/amd_iommu.c: remove unneeded label in
- amdvi_int_remap_msi()
-Date: Mon,  6 Jan 2020 15:24:09 -0300
-Message-Id: <20200106182425.20312-44-danielhb413@gmail.com>
+Subject: [PATCH v1 44/59] 9p-local.c: remove unneeded label in
+ local_unlinkat_common()
+Date: Mon,  6 Jan 2020 15:24:10 -0300
+Message-Id: <20200106182425.20312-45-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,70 +79,58 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'remap_fail' label can be replaced by 'return' with the
-adequate error value.
+'err_out' can be replaced by 'return ret' in the error conditions
+the jump was being made.
 
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+CC: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/i386/amd_iommu.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ hw/9pfs/9p-local.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index b1175e52c7..711e1f6e40 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -1268,7 +1268,7 @@ static int amdvi_int_remap_msi(AMDVIState *iommu,
-         trace_amdvi_ir_delivery_mode("fixed/arbitrated");
-         ret = __amdvi_int_remap_msi(iommu, origin, translated, dte, &irq, sid);
-         if (ret < 0) {
--            goto remap_fail;
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index ca641390fb..f9bdd2ad7c 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1094,12 +1094,12 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+ 
+             fd = openat_dir(dirfd, name);
+             if (fd == -1) {
+-                goto err_out;
++                return ret;
+             }
+             ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
+             close_preserve_errno(fd);
+             if (ret < 0 && errno != ENOENT) {
+-                goto err_out;
++                return ret;
+             }
+         }
+         map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
+@@ -1107,16 +1107,14 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+             ret = unlinkat(map_dirfd, name, 0);
+             close_preserve_errno(map_dirfd);
+             if (ret < 0 && errno != ENOENT) {
+-                goto err_out;
++                return ret;
+             }
+         } else if (errno != ENOENT) {
+-            goto err_out;
 +            return ret;
-         } else {
-             /* Translate IRQ to MSI messages */
-             x86_iommu_irq_to_msi_message(&irq, translated);
-@@ -1298,7 +1298,7 @@ static int amdvi_int_remap_msi(AMDVIState *iommu,
+         }
      }
  
-     if (ret < 0) {
--        goto remap_fail;
-+        return ret;
-     }
- 
-     /*
-@@ -1309,25 +1309,20 @@ static int amdvi_int_remap_msi(AMDVIState *iommu,
-     dest_mode = (origin->address >> MSI_ADDR_DEST_MODE_SHIFT) & 1;
-     if (dest_mode) {
-         trace_amdvi_ir_err("invalid dest_mode");
--        ret = -AMDVI_IR_ERR;
--        goto remap_fail;
-+        return -AMDVI_IR_ERR;
-     }
- 
-     if (pass) {
-         memcpy(translated, origin, sizeof(*origin));
-     } else {
-         trace_amdvi_ir_err("passthrough is not enabled");
--        ret = -AMDVI_IR_ERR;
--        goto remap_fail;
-+        return -AMDVI_IR_ERR;
-     }
- 
- out:
-     trace_amdvi_ir_remap_msi(origin->address, origin->data,
-                              translated->address, translated->data);
-     return 0;
--
--remap_fail:
+-    ret = unlinkat(dirfd, name, flags);
+-err_out:
 -    return ret;
++    return unlinkat(dirfd, name, flags);
  }
  
- static int amdvi_int_remap(X86IOMMUState *iommu,
+ static int local_remove(FsContext *ctx, const char *path)
 -- 
 2.24.1
 
