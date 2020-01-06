@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71F1131846
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:07:28 +0100 (CET)
-Received: from localhost ([::1]:58406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B9A13186E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:14:37 +0100 (CET)
+Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXip-0005iY-5H
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:07:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54478)
+	id 1ioXpk-0001Ru-9N
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:14:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ioXWQ-0006TG-UG
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:54:40 -0500
+ (envelope-from <philmd@redhat.com>) id 1ioXXu-0000HT-1A
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:56:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ioXWP-0001Rg-3K
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:54:38 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54622
+ (envelope-from <philmd@redhat.com>) id 1ioXXs-0002p8-Qc
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:56:09 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44342
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ioXWO-0001R3-VP
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:54:37 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ioXXs-0002ok-Nb
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:56:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578336876;
+ s=mimecast20190719; t=1578336968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NC4EGocwZpRI2+e3qyo8g2Pu/CERqWRnwIerHFqVqEg=;
- b=WZCso5AUw/mtK4ImxaYfLD7sGVaF61qg6XoNXTx4rYjATJp7CLjrXjehIRokf7JE3QE8ry
- NKExvunjZEQ49uTSja8SPUHBDNDwzpCL8viw3yeyMcBjuS3ZfFUeZXdsn5+ty3brRnuaI4
- xcyGqNeHBc/tDia3OIW9S3siH6KwOV0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-nmIGWrOmPe6G7raILjx99g-1; Mon, 06 Jan 2020 13:54:34 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C0D88EB6C1
- for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 18:54:33 +0000 (UTC)
-Received: from work-vm (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B1B7272A3;
- Mon,  6 Jan 2020 18:54:25 +0000 (UTC)
-Date: Mon, 6 Jan 2020 18:54:22 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 050/104] virtiofsd: add seccomp whitelist
-Message-ID: <20200106185422.GM2798@work-vm>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-51-dgilbert@redhat.com>
- <20200106145618.GP2930416@redhat.com>
+ bh=hIp7ZgtBYeXJsyf4hkZCTUh5a1NowQo7bvQavIpEFQI=;
+ b=bdDbUZZssM1ONZrwoij4Mtcq0vAp+PXBUU2mdcV1dDcayQ7wrUqwgbDYa50z03Mj/iV8WR
+ V8rKohIfJfuvSaDR82j2Ci7ivIp9VLriYnXs2lmmq3k4AEmiuFC+Op/7ya+Ldm+yARAwA6
+ /dtr6KEcUYoVP4oks1Tw7yKI17YJgl4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-xr1TD4bDM_Cp7B0YhuBCuw-1; Mon, 06 Jan 2020 13:56:07 -0500
+Received: by mail-wr1-f71.google.com with SMTP id z14so27688194wrs.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 10:56:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=f52nck1WgVsD0vNwhu4z7UU2av926Cm0pV8zGMRcySY=;
+ b=JZrABOF3QhizTwnh7XIyC5m69tj1n+PZLqcZXCOzu5USPGMud2JppHsyMURkeRWpmU
+ hMJbhJ7l8RPxHyUIsJBxTooCS/QCxOwjN2y6BWufu+GwlwlKOy9OWyu6Jre176DAaDgP
+ L6AFnRkVfSkm2Qij5PBZ7sE9YQhlYzkVFIJj5mlyuAXyaUd4sGKFWaHZqFliEQMQEoRP
+ CoPI+SCEDth7hEIzp+UgHYvAxPqVfiQd2tfRMkKT3YfhjKXWYzEpAS/tW0cBx10X7b8m
+ Ptb9abD446BtmiOZYJyRK+91Tci7ZT23o6qxK8W8ELCIGC6rUjsvNfStkwlDo1up2+wl
+ sFcw==
+X-Gm-Message-State: APjAAAWBuP6CpHTTdTzZyrhn+PyNtN/V6oBy7+JnZnQrYPbXD9OX90cn
+ Z3I5pJTcmBCnMGcY3l/ER5PU60ufBUko7rF2lG0dyfyfJgQ9G5nhabLKh1+X4W2fJKfYmQivBrK
+ hoM4W5hbYr9XFEI0=
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr100923391wrv.86.1578336965850; 
+ Mon, 06 Jan 2020 10:56:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwuFXh+0WvXkdx1l2fRevVEuEYiwYRoQxZqZK+4WnP+OCWaVuZgqef83GUj+oDT/dKUVhTtMw==
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr100923364wrv.86.1578336965574; 
+ Mon, 06 Jan 2020 10:56:05 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id g199sm24473198wmg.12.2020.01.06.10.56.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jan 2020 10:56:05 -0800 (PST)
+Subject: Re: [PATCH qemu v2] spapr: Kill SLOF
+To: Peter Maydell <peter.maydell@linaro.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goate?=
+ =?UTF-8?Q?r?= <clg@kaod.org>, Alexey Kardashevskiy <aik@ozlabs.ru>
+References: <20200105234242.78897-1-aik@ozlabs.ru>
+ <20200106041940.GV2098@umbus>
+ <80157816-7859-3450-6a2c-ab151be5ee94@ozlabs.ru>
+ <20200106085042.GW2098@umbus>
+ <741e9b5e-6a7d-66a4-451d-e37c30697b2b@ozlabs.ru>
+ <b0587d24-c7f6-ff1f-9527-ee389bd25b1f@kaod.org>
+ <CAFEAcA9ZrTgPBxBq1rBo0u4z2SB=YHpWx_WUuycXK6pahARuXg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b67cd7f5-b8ca-631a-f349-234789b9df12@redhat.com>
+Date: Mon, 6 Jan 2020 19:56:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200106145618.GP2930416@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: nmIGWrOmPe6G7raILjx99g-1
+In-Reply-To: <CAFEAcA9ZrTgPBxBq1rBo0u4z2SB=YHpWx_WUuycXK6pahARuXg@mail.gmail.com>
+Content-Language: en-US
+X-MC-Unique: xr1TD4bDM_Cp7B0YhuBCuw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,237 +97,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> On Thu, Dec 12, 2019 at 04:38:10PM +0000, Dr. David Alan Gilbert (git) wr=
-ote:
-> > From: Stefan Hajnoczi <stefanha@redhat.com>
-> >=20
-> > Only allow system calls that are needed by virtiofsd.  All other system
-> > calls cause SIGSYS to be directed at the thread and the process will
-> > coredump.
-> >=20
-> > Restricting system calls reduces the kernel attack surface and limits
-> > what the process can do when compromised.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > with additional entries by:
-> > Signed-off-by: Ganesh Maharaj Mahalingam <ganesh.mahalingam@intel.com>
-> > Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-> > Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> > Signed-off-by: piaojun <piaojun@huawei.com>
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > Signed-off-by: Eric Ren <renzhen@linux.alibaba.com>
-> > ---
-> >  Makefile                         |   2 +
-> >  tools/virtiofsd/Makefile.objs    |   5 +-
-> >  tools/virtiofsd/passthrough_ll.c |   2 +
-> >  tools/virtiofsd/seccomp.c        | 141 +++++++++++++++++++++++++++++++
-> >  tools/virtiofsd/seccomp.h        |  14 +++
-> >  5 files changed, 163 insertions(+), 1 deletion(-)
-> >  create mode 100644 tools/virtiofsd/seccomp.c
-> >  create mode 100644 tools/virtiofsd/seccomp.h
-> >=20
-> > diff --git a/Makefile b/Makefile
-> > index 8a5746d8a0..3f5d04e1f7 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -322,8 +322,10 @@ HELPERS-y =3D
-> >  HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) =3D qemu-bridge=
--helper$(EXESUF)
-> > =20
-> >  ifdef CONFIG_LINUX
-> > +ifdef CONFIG_SECCOMP
-> >  HELPERS-y +=3D virtiofsd$(EXESUF)
-> >  vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
-> > +endif
-> > =20
-> >  ifdef CONFIG_VIRGL
-> >  ifdef CONFIG_GBM
-> > diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.o=
-bjs
-> > index 67be16332c..941b19f18e 100644
-> > --- a/tools/virtiofsd/Makefile.objs
-> > +++ b/tools/virtiofsd/Makefile.objs
-> > @@ -6,5 +6,8 @@ virtiofsd-obj-y =3D buffer.o \
-> >                    fuse_signals.o \
-> >                    fuse_virtio.o \
-> >                    helper.o \
-> > -                  passthrough_ll.o
-> > +                  passthrough_ll.o \
-> > +                  seccomp.o
-> > =20
-> > +seccomp.o-cflags :=3D $(SECCOMP_CFLAGS)
-> > +seccomp.o-libs :=3D $(SECCOMP_LIBS)
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
-> > index 754ef2618b..701608c6df 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -58,6 +58,7 @@
-> >  #include <unistd.h>
-> > =20
-> >  #include "passthrough_helpers.h"
-> > +#include "seccomp.h"
-> > =20
-> >  #define HAVE_POSIX_FALLOCATE 1
-> >  struct lo_map_elem {
-> > @@ -2073,6 +2074,7 @@ static void setup_sandbox(struct lo_data *lo, str=
-uct fuse_session *se)
-> >  {
-> >      setup_namespaces(lo, se);
-> >      setup_mounts(lo->source);
-> > +    setup_seccomp();
-> >  }
-> > =20
-> >  int main(int argc, char *argv[])
-> > diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
-> > new file mode 100644
-> > index 0000000000..6359bb55bb
-> > --- /dev/null
-> > +++ b/tools/virtiofsd/seccomp.c
-> > @@ -0,0 +1,141 @@
-> > +/*
-> > + * Seccomp sandboxing for virtiofsd
-> > + *
-> > + * Copyright (C) 2019 Red Hat, Inc.
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +
-> > +#include "seccomp.h"
-> > +#include "fuse_i.h"
-> > +#include "fuse_log.h"
-> > +#include <errno.h>
-> > +#include <glib.h>
-> > +#include <seccomp.h>
-> > +#include <stdlib.h>
-> > +
-> > +/* Bodge for libseccomp 2.4.2 which broke ppoll */
-> > +#if !defined(__SNR_ppoll) && defined(__SNR_brk)
-> > +#ifdef __NR_ppoll
-> > +#define __SNR_ppoll __NR_ppoll
-> > +#else
-> > +#define __SNR_ppoll __PNR_ppoll
-> > +#endif
-> > +#endif
-> > +
-> > +static const int syscall_whitelist[] =3D {
-> > +    /* TODO ireg sem*() syscalls */
-> > +    SCMP_SYS(brk),
-> > +    SCMP_SYS(capget), /* For CAP_FSETID */
-> > +    SCMP_SYS(capset),
-> > +    SCMP_SYS(clock_gettime),
-> > +    SCMP_SYS(clone),
+On 1/6/20 6:25 PM, Peter Maydell wrote:
+> On Mon, 6 Jan 2020 at 17:09, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>> ARM bootloaders are also embedded in QEMU's code. See hw/arm/boot.c.
+>> You could improve a bit the definition though.
 >=20
-> clone2 ?  clone3 ? IIC some archs in Linux
-> will require the newer variants.
+> Given an opportunity to restart from scratch I don't know
+> that I'd do things the way hw/arm/boot.c does. The initial
+> idea was really simple and straightforward: 3 or 4 insns
+> which just set some registers and jumped to the kernel.
+> Fast-forward a decade or two, and the complexity has
+> significantly increased as we added extra tweaks to deal
+> with SMP systems, the GIC interrupt controller, boards
+> which need to do some extra odd stuff, CPUs which start
+> in Secure state, 64-bit CPUs, mangling the DTB, booting
+> multiple flavours of image file format, implementing
+> various 'firmware' functionality and APIs, and so on and on.
 
-It looks like clone2 was an Itanium only thing; lets ignore that.
-Clone3 is very new; so we're going to have to do:
+:S
 
-  #ifdef __NR_clone3
-  SCMP_SYS(clone3);
-  #endif
+> Insisting from the start that QEMU emulates what bare metal
+> hardware does, and doesn't get into the business of faking
+> up the behaviour of firmware would have been a neater
+> separation of concerns in the long run.
+>=20
+> To the narrower concern, yeah, on the arm side we
+> just embed hand-assembled hex values in the C file;
+> this is mostly to avoid needing a cross-compiler setup at
+> QEMU build time, but it also lets us hand-patch the
+> binary blob at runtime to fill in addresses and so on.
 
-> > +    SCMP_SYS(close),
-> > +    SCMP_SYS(copy_file_range),
-> > +    SCMP_SYS(dup),
-> > +    SCMP_SYS(eventfd2),
-> > +    SCMP_SYS(exit),
-> > +    SCMP_SYS(exit_group),
-> > +    SCMP_SYS(fallocate),
-> > +    SCMP_SYS(fchmodat),
-> > +    SCMP_SYS(fchownat),
-> > +    SCMP_SYS(fcntl),
-> > +    SCMP_SYS(fdatasync),
-> > +    SCMP_SYS(fgetxattr),
-> > +    SCMP_SYS(flistxattr),
-> > +    SCMP_SYS(flock),
-> > +    SCMP_SYS(fremovexattr),
-> > +    SCMP_SYS(fsetxattr),
-> > +    SCMP_SYS(fstat),
-> > +    SCMP_SYS(fstatfs),
-> > +    SCMP_SYS(fsync),
-> > +    SCMP_SYS(ftruncate),
-> > +    SCMP_SYS(futex),
-> > +    SCMP_SYS(getdents),
-> > +    SCMP_SYS(getdents64),
-> > +    SCMP_SYS(getegid),
-> > +    SCMP_SYS(geteuid),
-> > +    SCMP_SYS(getpid),
-> > +    SCMP_SYS(gettid),
-> > +    SCMP_SYS(gettimeofday),
-> > +    SCMP_SYS(linkat),
-> > +    SCMP_SYS(lseek),
-> > +    SCMP_SYS(madvise),
-> > +    SCMP_SYS(mkdirat),
-> > +    SCMP_SYS(mknodat),
-> > +    SCMP_SYS(mmap),
-> > +    SCMP_SYS(mprotect),
-> > +    SCMP_SYS(mremap),
-> > +    SCMP_SYS(munmap),
-> > +    SCMP_SYS(newfstatat),
-> > +    SCMP_SYS(open),
-> > +    SCMP_SYS(openat),
-> > +    SCMP_SYS(ppoll),
-> > +    SCMP_SYS(prctl), /* TODO restrict to just PR_SET_NAME? */
-> > +    SCMP_SYS(preadv),
-> > +    SCMP_SYS(pread64),
-> > +    SCMP_SYS(pwritev),
-> > +    SCMP_SYS(pwrite64),
-> > +    SCMP_SYS(read),
-> > +    SCMP_SYS(readlinkat),
-> > +    SCMP_SYS(recvmsg),
-> > +    SCMP_SYS(renameat),
-> > +    SCMP_SYS(renameat2),
-> > +    SCMP_SYS(rt_sigaction),
-> > +    SCMP_SYS(rt_sigprocmask),
-> > +    SCMP_SYS(rt_sigreturn),
-> > +    SCMP_SYS(sendmsg),
-> > +    SCMP_SYS(setresgid),
->=20
-> Should be setresgid32 instead I think. We don't
-> want the legacy syscall that's limted to 16-bit GIDs
->=20
-> Needs the code fix I mention in an earlier patch too.
->=20
-> > +    SCMP_SYS(setresuid),
->=20
-> Same as above
+This was also before we provide a handy docker image with cross compiler=20
+for about all architectures supported.
 
-OK.
-Interestingly I see setresuid/setresgid blacklisted as SET_PRIVILEGED
-in qemu's qemu-secomp.c but not the 32 versions; perhaps those should
-be added - but then I don't understand why qemu would ever allow them to
-be enabled.
-
-Dave
-
-> > +    SCMP_SYS(set_robust_list),
-> > +    SCMP_SYS(symlinkat),
-> > +    SCMP_SYS(time), /* Rarely needed, except on static builds */
-> > +    SCMP_SYS(tgkill),
-> > +    SCMP_SYS(unlinkat),
-> > +    SCMP_SYS(utimensat),
-> > +    SCMP_SYS(write),
-> > +    SCMP_SYS(writev),
-> > +};
->=20
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Maybe the cross-build-guest-tests target from tests/tcg/Makefile.qemu=20
+can be reused to build spapr-rtas.S?
 
 
