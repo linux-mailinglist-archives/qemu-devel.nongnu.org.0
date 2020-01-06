@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1C3131446
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:01:54 +0100 (CET)
-Received: from localhost ([::1]:53052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1764A131462
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:05:49 +0100 (CET)
+Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioTtA-0004fL-WE
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:01:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44319)
+	id 1ioTwx-00008j-EO
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:05:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44371)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTbh-0007Qs-N7
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:50 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ioTbk-0007Uu-7X
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTbg-0000vK-Az
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:49 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44007
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1ioTbi-0000wl-9O
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58844
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbg-0000us-6u
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:48 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbi-0000wM-5K
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578321827;
+ s=mimecast20190719; t=1578321829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8OTAklieXOLYX/lSCA2VGvy3up9ymC7jLemk1W5qafU=;
- b=KJ3GsCvn41cjFuP/j3tKp5jn9MVL6ktIU+zKEdAwlElirQhoNFT9J4Si1GViRiYJjh47Cx
- IV6ebl2sBgqOVjok2/vogCcaSYB5khXpU6adVJcz/tZqWBzeZpQtP4CrM4ZHtrCOwMDzdz
- u+JaFYs34B4W00F4s84kP0jcpr0KxKE=
+ bh=ALrgf1ejh1uyRY0B/Cnfkz3HYp0WNNSyUUF0a8TRbWI=;
+ b=d4Sgx+G4qMJMH9JJIUJkOmaoxqmrWH+ngnEs/oGVfZhhATVBh8x9tv2ConIEidAzDQGCf4
+ T9U7lT26FBb1O/pQN8kMdi+GHUGm37uaLuAM+omnBqVxWcFy9Swyi/vePmRQbpuzgndaLW
+ 9lUygPVNXBwMCBNNWlSlt9D2eD+B4O4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-LdKWTsz5P1qS13ynVnC4hA-1; Mon, 06 Jan 2020 09:43:43 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-389-LI9gq9H9P9GZYo67oqi6Lw-1; Mon, 06 Jan 2020 09:43:46 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7066219586E0;
- Mon,  6 Jan 2020 14:43:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B953805141;
+ Mon,  6 Jan 2020 14:43:45 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DDD2250A8F;
- Mon,  6 Jan 2020 14:43:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99F91691AD;
+ Mon,  6 Jan 2020 14:43:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 29/34] iotests: Allow check -o data_file
-Date: Mon,  6 Jan 2020 15:42:01 +0100
-Message-Id: <20200106144206.698920-30-mreitz@redhat.com>
+Subject: [PULL 30/34] block: introduce compress filter driver
+Date: Mon,  6 Jan 2020 15:42:02 +0100
+Message-Id: <20200106144206.698920-31-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: LdKWTsz5P1qS13ynVnC4hA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: LI9gq9H9P9GZYo67oqi6Lw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,116 +75,263 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The problem with allowing the data_file option is that you want to use a
-different data file per image used in the test.  Therefore, we need to
-allow patterns like -o data_file=3D'$TEST_IMG.data_file'.
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Then, we need to filter it out from qemu-img map, qemu-img create, and
-remove the data file in _rm_test_img.
+Allow writing all the data compressed through the filter driver.
+The written data will be aligned by the cluster size.
+Based on the QEMU current implementation, that data can be written to
+unallocated clusters only. May be used for a backup job.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-id: 20191107163708.833192-23-mreitz@redhat.com
+Suggested-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-id: 1575288906-551879-2-git-send-email-andrey.shinkevich@virtuozzo.=
+com
+[mreitz: Replace NULL bdrv_get_format_name() by "(no format)"]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.filter | 23 +++++++++++++++++++++--
- tests/qemu-iotests/common.rc     | 22 +++++++++++++++++++++-
- 2 files changed, 42 insertions(+), 3 deletions(-)
+ block/Makefile.objs     |   1 +
+ block/filter-compress.c | 168 ++++++++++++++++++++++++++++++++++++++++
+ qapi/block-core.json    |  10 ++-
+ 3 files changed, 175 insertions(+), 4 deletions(-)
+ create mode 100644 block/filter-compress.c
 
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.f=
-ilter
-index 116cc8a840..3f8ee3e5f7 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -122,7 +122,13 @@ _filter_actual_image_size()
- # replace driver-specific options in the "Formatting..." line
- _filter_img_create()
- {
--    $SED -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-+    data_file_filter=3D()
-+    if data_file=3D$(_get_data_file "$TEST_IMG"); then
-+        data_file_filter=3D(-e "s# data_file=3D$data_file##")
-+    fi
-+
-+    $SED "${data_file_filter[@]}" \
-+        -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-         -e "s#$TEST_DIR#TEST_DIR#g" \
-         -e "s#$SOCK_DIR#SOCK_DIR#g" \
-@@ -209,9 +215,22 @@ _filter_img_info()
- # human and json output
- _filter_qemu_img_map()
- {
-+    # Assuming the data_file value in $IMGOPTS contains a '$TEST_IMG',
-+    # create a filter that replaces the data file name by $TEST_IMG.
-+    # Example:
-+    #   In $IMGOPTS: 'data_file=3D$TEST_IMG.data_file'
-+    #   Then data_file_pattern =3D=3D '\(.*\).data_file'
-+    #   And  data_file_filter  =3D=3D -e 's#\(.*\).data_file#\1#
-+    data_file_filter=3D()
-+    if data_file_pattern=3D$(_get_data_file '\\(.*\\)'); then
-+        data_file_filter=3D(-e "s#$data_file_pattern#\\1#")
-+    fi
-+
-     $SED -e 's/\([0-9a-fx]* *[0-9a-fx]* *\)[0-9a-fx]* */\1/g' \
-         -e 's/"offset": [0-9]\+/"offset": OFFSET/g' \
--        -e 's/Mapped to *//' | _filter_testdir | _filter_imgfmt
-+        -e 's/Mapped to *//' \
-+        "${data_file_filter[@]}" \
-+        | _filter_testdir | _filter_imgfmt
- }
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index e394fe0b6c..330529b0b7 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -43,6 +43,7 @@ block-obj-y +=3D crypto.o
 =20
- _filter_nbd()
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 7d704f9573..d088392ab6 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -298,6 +298,20 @@ _stop_nbd_server()
-     fi
- }
+ block-obj-y +=3D aio_task.o
+ block-obj-y +=3D backup-top.o
++block-obj-y +=3D filter-compress.o
 =20
-+# Gets the data_file value from IMGOPTS and replaces the '$TEST_IMG'
-+# pattern by '$1'
-+# Caution: The replacement is done with sed, so $1 must be escaped
-+#          properly.  (The delimiter is '#'.)
-+_get_data_file()
+ common-obj-y +=3D stream.o
+=20
+diff --git a/block/filter-compress.c b/block/filter-compress.c
+new file mode 100644
+index 0000000000..60137fb680
+--- /dev/null
++++ b/block/filter-compress.c
+@@ -0,0 +1,168 @@
++/*
++ * Compress filter block driver
++ *
++ * Copyright (c) 2019 Virtuozzo International GmbH
++ *
++ * Author:
++ *   Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
++ *   (based on block/copy-on-read.c by Max Reitz)
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) any later version of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "block/block_int.h"
++#include "qemu/module.h"
++#include "qapi/error.h"
++
++
++static int compress_open(BlockDriverState *bs, QDict *options, int flags,
++                         Error **errp)
 +{
-+    if ! echo "$IMGOPTS" | grep -q 'data_file=3D'; then
-+        return 1
-+    fi
++    bs->file =3D bdrv_open_child(NULL, options, "file", bs, &child_file, f=
+alse,
++                               errp);
++    if (!bs->file) {
++        return -EINVAL;
++    }
 +
-+    echo "$IMGOPTS" | sed -e 's/.*data_file=3D\([^,]*\).*/\1/' \
-+                    | sed -e "s#\\\$TEST_IMG#$1#"
++    if (!bs->file->bs->drv || !block_driver_can_compress(bs->file->bs->drv=
+)) {
++        error_setg(errp,
++                   "Compression is not supported for underlying format: %s=
+",
++                   bdrv_get_format_name(bs->file->bs) ?: "(no format)");
++
++        return -ENOTSUP;
++    }
++
++    bs->supported_write_flags =3D BDRV_REQ_WRITE_UNCHANGED |
++        (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
++
++    bs->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
++        ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
++            bs->file->bs->supported_zero_flags);
++
++    return 0;
 +}
 +
- _make_test_img()
- {
-     # extra qemu-img options can be added by tests
-@@ -318,7 +332,8 @@ _make_test_img()
-     fi
-=20
-     if [ -n "$IMGOPTS" ]; then
--        optstr=3D$(_optstr_add "$optstr" "$IMGOPTS")
-+        imgopts_expanded=3D$(echo "$IMGOPTS" | sed -e "s#\\\$TEST_IMG#$img=
-_name#")
-+        optstr=3D$(_optstr_add "$optstr" "$imgopts_expanded")
-     fi
-     if [ -n "$IMGKEYSECRET" ]; then
-         object_options=3D"--object secret,id=3Dkeysec0,data=3D$IMGKEYSECRE=
-T"
-@@ -400,6 +415,11 @@ _rm_test_img()
-         # Remove all the extents for vmdk
-         "$QEMU_IMG" info "$img" 2>/dev/null | grep 'filename:' | cut -f 2 =
--d: \
-             | xargs -I {} rm -f "{}"
-+    elif [ "$IMGFMT" =3D "qcow2" ]; then
-+        # Remove external data file
-+        if data_file=3D$(_get_data_file "$img"); then
-+            rm -f "$data_file"
-+        fi
-     fi
-     rm -f "$img"
- }
++
++static int64_t compress_getlength(BlockDriverState *bs)
++{
++    return bdrv_getlength(bs->file->bs);
++}
++
++
++static int coroutine_fn compress_co_preadv_part(BlockDriverState *bs,
++                                                uint64_t offset, uint64_t =
+bytes,
++                                                QEMUIOVector *qiov,
++                                                size_t qiov_offset,
++                                                int flags)
++{
++    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
++                               flags);
++}
++
++
++static int coroutine_fn compress_co_pwritev_part(BlockDriverState *bs,
++                                                 uint64_t offset,
++                                                 uint64_t bytes,
++                                                 QEMUIOVector *qiov,
++                                                 size_t qiov_offset, int f=
+lags)
++{
++    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_offset=
+,
++                                flags | BDRV_REQ_WRITE_COMPRESSED);
++}
++
++
++static int coroutine_fn compress_co_pwrite_zeroes(BlockDriverState *bs,
++                                                  int64_t offset, int byte=
+s,
++                                                  BdrvRequestFlags flags)
++{
++    return bdrv_co_pwrite_zeroes(bs->file, offset, bytes, flags);
++}
++
++
++static int coroutine_fn compress_co_pdiscard(BlockDriverState *bs,
++                                             int64_t offset, int bytes)
++{
++    return bdrv_co_pdiscard(bs->file, offset, bytes);
++}
++
++
++static void compress_refresh_limits(BlockDriverState *bs, Error **errp)
++{
++    BlockDriverInfo bdi;
++    int ret;
++
++    if (!bs->file) {
++        return;
++    }
++
++    ret =3D bdrv_get_info(bs->file->bs, &bdi);
++    if (ret < 0 || bdi.cluster_size =3D=3D 0) {
++        return;
++    }
++
++    bs->bl.request_alignment =3D bdi.cluster_size;
++}
++
++
++static void compress_eject(BlockDriverState *bs, bool eject_flag)
++{
++    bdrv_eject(bs->file->bs, eject_flag);
++}
++
++
++static void compress_lock_medium(BlockDriverState *bs, bool locked)
++{
++    bdrv_lock_medium(bs->file->bs, locked);
++}
++
++
++static bool compress_recurse_is_first_non_filter(BlockDriverState *bs,
++                                                 BlockDriverState *candida=
+te)
++{
++    return bdrv_recurse_is_first_non_filter(bs->file->bs, candidate);
++}
++
++
++static BlockDriver bdrv_compress =3D {
++    .format_name                        =3D "compress",
++
++    .bdrv_open                          =3D compress_open,
++    .bdrv_child_perm                    =3D bdrv_filter_default_perms,
++
++    .bdrv_getlength                     =3D compress_getlength,
++
++    .bdrv_co_preadv_part                =3D compress_co_preadv_part,
++    .bdrv_co_pwritev_part               =3D compress_co_pwritev_part,
++    .bdrv_co_pwrite_zeroes              =3D compress_co_pwrite_zeroes,
++    .bdrv_co_pdiscard                   =3D compress_co_pdiscard,
++    .bdrv_refresh_limits                =3D compress_refresh_limits,
++
++    .bdrv_eject                         =3D compress_eject,
++    .bdrv_lock_medium                   =3D compress_lock_medium,
++
++    .bdrv_co_block_status               =3D bdrv_co_block_status_from_file=
+,
++
++    .bdrv_recurse_is_first_non_filter   =3D compress_recurse_is_first_non_=
+filter,
++
++    .has_variable_length                =3D true,
++    .is_filter                          =3D true,
++};
++
++static void bdrv_compress_init(void)
++{
++    bdrv_register(&bdrv_compress);
++}
++
++block_init(bdrv_compress_init);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 839b10b3f0..7ff5e5edaf 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2884,15 +2884,16 @@
+ # @copy-on-read: Since 3.0
+ # @blklogwrites: Since 3.0
+ # @blkreplay: Since 4.2
++# @compress: Since 5.0
+ #
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevDriver',
+   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
+-            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluste=
+r',
+-            'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
+-            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qco=
+w',
+-            'qcow2', 'qed', 'quorum', 'raw', 'rbd',
++            'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ft=
+ps',
++            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscs=
+i',
++            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallel=
+s',
++            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' }=
+,
+             'sheepdog',
+             'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat', 'vxh=
+s' ] }
+@@ -4060,6 +4061,7 @@
+       'blkreplay':  'BlockdevOptionsBlkreplay',
+       'bochs':      'BlockdevOptionsGenericFormat',
+       'cloop':      'BlockdevOptionsGenericFormat',
++      'compress':   'BlockdevOptionsGenericFormat',
+       'copy-on-read':'BlockdevOptionsGenericFormat',
+       'dmg':        'BlockdevOptionsGenericFormat',
+       'file':       'BlockdevOptionsFile',
 --=20
 2.24.1
 
