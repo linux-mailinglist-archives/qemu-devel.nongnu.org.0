@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E231317E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:57:20 +0100 (CET)
-Received: from localhost ([::1]:58162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B093A131804
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:58:58 +0100 (CET)
+Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXZ1-0000v6-D5
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:57:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46195)
+	id 1ioXab-00035D-DQ
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:58:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4r-0003Fv-Qk
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:10 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4w-0003OX-Uo
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4q-0004vr-P9
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:09 -0500
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:44706)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4v-00051U-Q0
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:14 -0500
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41165)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4q-0004va-Lf; Mon, 06 Jan 2020 13:26:08 -0500
-Received: by mail-qv1-xf41.google.com with SMTP id n8so19407992qvg.11;
- Mon, 06 Jan 2020 10:26:08 -0800 (PST)
+ id 1ioX4v-000515-M6; Mon, 06 Jan 2020 13:26:13 -0500
+Received: by mail-qk1-x742.google.com with SMTP id x129so40279331qke.8;
+ Mon, 06 Jan 2020 10:26:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e2Pglg9q4RMFoXAtcnS8nyYGqCU2Tjq8RVW10uPUEeA=;
- b=PdJHk+dxqZORm7y8xJbfbi8AyLgfnD4aDeCYFLOeiHbk6FSIg1xKIWSA6cXNY2hrcT
- p1U98c0XD4iJxVvzonsagevv8f2o4xNMwnVPWe1i+03yeEFgBv5HWFdS1YqVp9St2RaR
- iEESSUn0ONAvWl/TL0V3FYkWi6Dg7kjF2t1tBkNurApYktaikl25//wppIT+8pwYK6C9
- RVE13ERlyHzzXRXNEUZMJQg3xKXc/BpqkahYfH2JR+7w+vC3CJph6mfR5yD75hAkgur6
- 1eKHrlaqN2RL3BNKODPy7BGY46eh5kIfbhOZdKg7qKmstSi7EoGstEYzhG+KZJfn2lLb
- bFVA==
+ bh=8LtGJFRoLm+1QViJT/TSBBPXd3MZMx440gcj2kcTdA4=;
+ b=E0AwercUzSfgtOPsdaKwCargU5p1STDCJT25acr9PLcWwNzJVhZNBfbIIoAOJElWNh
+ pRx3+aoOoI+GvsMLVeyfpdl3RUmg+qa9GgpwKCsg43/7KB6s6UY/CggIQ7wUhkPqXlwt
+ BdNAry1dcFq5VH4T3oSmu1XC6++yaN5dZFLiaTkw5OSyR5qPzuL58r5MyERrG4yax8Lh
+ F7fvShSFdDgJwsXlpuiVGLwQsS0y8pj9MjZb58sFCTuRDCFvX9NBh7IXwXWl2/hyxmcW
+ S3SD9J8TRBalKqXLNoE7zjL9p7Llz5I/SSbrpEQQ202liFEqK/bqlgJUNX/8vYTWVjkf
+ lDRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e2Pglg9q4RMFoXAtcnS8nyYGqCU2Tjq8RVW10uPUEeA=;
- b=qYMfM6k5coz0ShGTqTI/t93vW/QDZ32dypFP/1gNqlQmivEEHxUVksu8UoGUGPlgXI
- GSZ01ivnaR97z2CgvHBLYlsvYEkharltGgwkpWXevTNy8tMA82h+9L1vXI+clwpOvEng
- M2/EHitUTBBYam+4K+AraHHo7K1QwIEw+YBEYYlTKSmdK1GqkrXUs7QARuu8KkKBRknx
- Aus4Eej9r3yUgfxF29ULDV3nGxTPfaLRwik+t8IWdbg3ZBoFfPmbw0XigUvvmkR4I7A9
- 7IW/3LBrUeaT3mZQVFHGmwPVHFM+PYDTxhjIumeqgsIPtelZoUe0+8vo5TklrKugEFM/
- kw6Q==
-X-Gm-Message-State: APjAAAXDRSZwgRh9vGk0X5YPZjHEj2lktGJSeXlvzY3HYb+WZEMaoiur
- reX5H0keb4/82jOoIGikzEisWpT7
-X-Google-Smtp-Source: APXvYqyMOUdvQFsVG1KX82JecU22kDLwhxzjSAPzowB71iFledUIlr4Xia7OhmMcc+66CTt7CwzG+A==
-X-Received: by 2002:a05:6214:923:: with SMTP id
- dk3mr77520156qvb.96.1578335168111; 
- Mon, 06 Jan 2020 10:26:08 -0800 (PST)
+ bh=8LtGJFRoLm+1QViJT/TSBBPXd3MZMx440gcj2kcTdA4=;
+ b=cH5euehgyJ24DDx0P4K8ChUK/3u1V6bZe+2xagLnDD2onKKpKCvyskwTzp9ME4VMVO
+ SA6r5Fx68hv/BrYsqRuGUHICaZcE6kui5eUxCcGlPy0jXT93Dh6s7IJskn0toXC9Qeja
+ HMS/VgnpBG3PvP3A2k1GorGMv4ppK0ZmQnjpyuJ5BJ83TQoh9bEuWqiLhzZjCJJOHaZJ
+ z977ENCQz9q5ad8+IskETDg2NhytwUrl5eVN/7oVaIRQaNl/zhyX0pLFo0VLKiSAZJ3s
+ UHJwPWAG2ivpLQpwXxZggyCJ8085ECAp8d2OSONoGO8dvpacEsVSUFekjVeiwoiEozXl
+ u1jQ==
+X-Gm-Message-State: APjAAAVQdoTliDm5Jx2QqWPvF7nLt2xYdV/bfBRk5+QLI++UTh4GvpEJ
+ bpoVvH2mMyOIQzKVC+2bYO9tX7BH
+X-Google-Smtp-Source: APXvYqy/Z+2Py4bryxprBQK1r7tzlXhDuL+n9PFjlwc5OSvUfaRZzVCcIsfcph9Pz8WVncG1rCwivw==
+X-Received: by 2002:a37:6794:: with SMTP id
+ b142mr85101702qkc.216.1578335173136; 
+ Mon, 06 Jan 2020 10:26:13 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.06
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:07 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:12 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 42/59] i386/intel_iommu.c: remove unneeded labels
-Date: Mon,  6 Jan 2020 15:24:08 -0300
-Message-Id: <20200106182425.20312-43-danielhb413@gmail.com>
+Subject: [PATCH v1 45/59] 9pfs/9p.c: remove unneeded labels
+Date: Mon,  6 Jan 2020 15:24:11 -0300
+Message-Id: <20200106182425.20312-46-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f41
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,59 +78,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' label in vtd_lookup_iotlb() and 'done' label in
-vtd_process_device_iotlb_desc() can be replaced by
-'return' with the apropriate value.
+'out' label in v9fs_xattr_write() and 'out_nofid' label in
+v9fs_complete_rename() can be replaced by appropriate return
+calls.
 
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+CC: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/i386/intel_iommu.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/9pfs/9p.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 43c94b993b..e0dd987851 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -304,11 +304,10 @@ static VTDIOTLBEntry *vtd_lookup_iotlb(IntelIOMMUState *s, uint16_t source_id,
-                                 source_id, level);
-         entry = g_hash_table_lookup(s->iotlb, &key);
-         if (entry) {
--            goto out;
-+            return entry;
-         }
-     }
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 520177f40c..be2beba4cd 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -2464,8 +2464,7 @@ static int v9fs_xattr_write(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
  
+ 
+     if (fidp->fs.xattr.len < off) {
+-        err = -ENOSPC;
+-        goto out;
++        return -ENOSPC;
+     }
+     write_count = fidp->fs.xattr.len - off;
+     if (write_count > count) {
+@@ -2491,7 +2490,7 @@ static int v9fs_xattr_write(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+         off += to_copy;
+         write_count -= to_copy;
+     }
 -out:
-     return entry;
++
+     return err;
  }
  
-@@ -2380,12 +2379,12 @@ static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
- 
-     vtd_bus = vtd_find_as_from_bus_num(s, bus_num);
-     if (!vtd_bus) {
--        goto done;
-+        return true;
+@@ -3056,8 +3055,7 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
+     if (newdirfid != -1) {
+         dirfidp = get_fid(pdu, newdirfid);
+         if (dirfidp == NULL) {
+-            err = -ENOENT;
+-            goto out_nofid;
++            return -ENOENT;
+         }
+         if (fidp->fid_type != P9_FID_NONE) {
+             err = -EINVAL;
+@@ -3100,7 +3098,6 @@ out:
+         put_fid(pdu, dirfidp);
      }
- 
-     vtd_dev_as = vtd_bus->dev_as[devfn];
-     if (!vtd_dev_as) {
--        goto done;
-+        return true;
-     }
- 
-     /* According to ATS spec table 2.4:
-@@ -2410,7 +2409,6 @@ static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
-     entry.translated_addr = 0;
-     memory_region_notify_iommu(&vtd_dev_as->iommu, 0, entry);
- 
--done:
-     return true;
+     v9fs_path_free(&new_path);
+-out_nofid:
+     return err;
  }
  
 -- 
