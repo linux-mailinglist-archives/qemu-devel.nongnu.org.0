@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9869131774
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:28:18 +0100 (CET)
-Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D3B13177E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:30:41 +0100 (CET)
+Received: from localhost ([::1]:57708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioX6v-0005Kx-Ef
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:28:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45189)
+	id 1ioX9D-00080t-VS
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:30:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3u-0001ju-Do
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:11 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3k-0001TD-LO
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3t-0003t3-2H
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:10 -0500
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:33722)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3j-0003iA-Li
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:00 -0500
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:43832)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX3s-0003sS-Tj; Mon, 06 Jan 2020 13:25:08 -0500
-Received: by mail-qt1-x844.google.com with SMTP id d5so43221896qto.0;
- Mon, 06 Jan 2020 10:25:08 -0800 (PST)
+ id 1ioX3j-0003ho-Hv; Mon, 06 Jan 2020 13:24:59 -0500
+Received: by mail-qv1-xf34.google.com with SMTP id p2so19406856qvo.10;
+ Mon, 06 Jan 2020 10:24:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QRyshu9MeZF7Qp8JBN9b2R4zIWlvD97XdczFgR/WKsg=;
- b=oW0fJ1WOFaFYQygb4OiaE2zwvUJCoVB0ClpJiA+CpxlH5uLM/ELeanPSZao/ebTUai
- azFcEXAXgGk5jMU6ksXGrZdoPcQ7w+4hCy2+fnwl7yemAoThA+FTuV2H76J8EfNxVIRx
- /C0gbSFOtqmy8udAeWsKYRouWWF621uQ3Ba+UvCnqmyAtgNZPIBh2vHvIrUhMYw7lOUu
- OSVobWtjOKsj1P+sEc3HZnfUVOapduplG09t3LZRFjUJW3vFzx0mXqYne9VFRn9/CobG
- 7I1LlNZmPfpqCl7bGc4sbNINlk2ofK073OgQ4UwM7L7CV5l22HT8RRfv6DcFaNgieVPJ
- +b1A==
+ bh=b3ezhmI6tKSWqDJ/WfwsteLWfxOpOCrsFHh/gbYbAF0=;
+ b=tzBvyGj+wo2T2PolIlgntJfnn2j0wmFIzjfVA/xfbb6SHdEOj3ECGjiDut4B2xfRUx
+ HvfWVudIb33UJYVpg64NVRCAF90YRNV59v/jWQ1BvCig2z2ObX0JQzfK/zpBhdjzU+E3
+ IvbB5oOLuvl9rUo+OHQTWip3yVc44k7Hs5AKXtOIQkNBzFPKD4Xt/PEYT0iBGPJxPpVF
+ 6x8lz/kRro2g5UIqTVg87FoAJ+EGGk301p/uPY6NV9w31M3hBgbcutVG2/fUra3E+23Z
+ BuFkuj/XsU4YjvjNKGl4RDTX49CxhILyGAp+KyveD+J+XAburCq05wAMAtMBlGzVI8Qg
+ u2Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QRyshu9MeZF7Qp8JBN9b2R4zIWlvD97XdczFgR/WKsg=;
- b=Q24w6nMclxdp/QCYJMqeN8VFoj2fJe5yV4n1L6YiCqsQk1oHxZlOX7d2za6oIKxyg/
- /Q/wfKcwxaMDbb+ZzZc6EC/MO878IXIxW7vF49CbvuLcdoznOyICB9ecbuTxkQhEiMxI
- kJfg2XgWsQ53JFHPu9R4a5RzJYJSKB7z7/Bzrlkqe7UI9gNbrhg50Ngg/OIUsGH1bpGE
- TAjHbJnL31WZ6F1t2FUTfEq0C9FFx/sPcg0kgkG+g1PmEASIW6lxHyWj94FghDi+KR7k
- euGDLaJr+QJBiifeff+rAfrLpzzZXnF14xdx1tuLJYqyJ+FZF5fgAevpOE36d/M0pqd/
- QKRQ==
-X-Gm-Message-State: APjAAAWvf2hnMXOsX76Z0kH2CSYsN3Krgmfg5XWZnc3eK4Oh6F6CZIbi
- KSql+Ywyu0geqT6tKbtlAs4ZeGZq
-X-Google-Smtp-Source: APXvYqz2P1iO6OVNn84mm/5qlWhQzA+cG1IKA4KYCAetSls150BfSZkRNfZfWLTnxF9hsQgqLWY5PQ==
-X-Received: by 2002:ac8:41c1:: with SMTP id o1mr61453222qtm.229.1578335108258; 
- Mon, 06 Jan 2020 10:25:08 -0800 (PST)
+ bh=b3ezhmI6tKSWqDJ/WfwsteLWfxOpOCrsFHh/gbYbAF0=;
+ b=t10rjgl4vNYfAbqRkzoSThgUeWQcmYPBK7ZhYzb+qjdU5BUVOwX8plv25XxwomPpos
+ zoKUt/MEAqfFNTYuyoKdeNWGtMCy4DOocPuNlQCpdjzGL1SF/Q9vhMMA7Jt5L2Qv8pm8
+ /3fe3EE0Me3NFpHuaF7YZ2Tb6KWYyA7GqG7fIOCPYyneJVqs/Hi58uQ36uwtAGLk9EAT
+ wnbSzXTI+kHgAE1Wz3hqQak1m+Jeoa5DpZpDBEluB9O3EdAilNPrTy5cuhuP16qpC02C
+ my30IKNw/6KNtrozVTnDApayQBQTTRmGjAqUSeEaSYntml9+FA++QAFyN+6ka6Yg8g/Z
+ z0rg==
+X-Gm-Message-State: APjAAAU7lG0pGGMeSSopkQ3HYceD6UngohKWTnC9TUQ9aForHyfM0lz8
+ ycJZ248i3uJN52Hv2uDzPgB8eroU
+X-Google-Smtp-Source: APXvYqxa8alPkC2npZOI2FQeAkrumgVeX/miC9HIetSqUniM1Jt1AOLEdKApQV2OAJgr2qzoUR3JLA==
+X-Received: by 2002:ad4:58e1:: with SMTP id di1mr65547720qvb.201.1578335098883; 
+ Mon, 06 Jan 2020 10:24:58 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.06
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.24.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:07 -0800 (PST)
+ Mon, 06 Jan 2020 10:24:58 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/59] chardev/char-pipe.c: remove 'fail' label in
- win_chr_pipe_init()
-Date: Mon,  6 Jan 2020 15:23:35 -0300
-Message-Id: <20200106182425.20312-10-danielhb413@gmail.com>
+Subject: [PATCH v1 04/59] paaudio.c: remove unneeded labels
+Date: Mon,  6 Jan 2020 15:23:30 -0300
+Message-Id: <20200106182425.20312-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::844
+X-Received-From: 2607:f8b0:4864:20::f34
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,78 +76,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'fail' label is simply doing a 'return -1'.
+Label 'fail1' in qpa_init_out() and qpa_init_in() can be replaced
+by 'return -1'.
 
-CC: Marc-André Lureau <marcandre.lureau@redhat.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- chardev/char-pipe.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ audio/paaudio.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-index 94d714ffcd..65d52beb0d 100644
---- a/chardev/char-pipe.c
-+++ b/chardev/char-pipe.c
-@@ -54,12 +54,12 @@ static int win_chr_pipe_init(Chardev *chr, const char *filename,
-     s->hsend = CreateEvent(NULL, TRUE, FALSE, NULL);
-     if (!s->hsend) {
-         error_setg(errp, "Failed CreateEvent");
--        goto fail;
-+        return -1;
-     }
-     s->hrecv = CreateEvent(NULL, TRUE, FALSE, NULL);
-     if (!s->hrecv) {
-         error_setg(errp, "Failed CreateEvent");
--        goto fail;
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index 55a91f8980..8f42b2079c 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -470,7 +470,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
+         );
+     if (!pa->stream) {
+         qpa_logerr (error, "pa_simple_new for playback failed\n");
+-        goto fail1;
 +        return -1;
      }
  
-     openname = g_strdup_printf("\\\\.\\pipe\\%s", filename);
-@@ -72,7 +72,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *filename,
-     if (s->file == INVALID_HANDLE_VALUE) {
-         error_setg(errp, "Failed CreateNamedPipe (%lu)", GetLastError());
-         s->file = NULL;
--        goto fail;
-+        return -1;
-     }
+     audio_pcm_init_info (&hw->info, &obt_as);
+@@ -479,9 +479,6 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
+         &obt_as, ppdo->buffer_length);
  
-     ZeroMemory(&ov, sizeof(ov));
-@@ -80,7 +80,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *filename,
-     ret = ConnectNamedPipe(s->file, &ov);
-     if (ret) {
-         error_setg(errp, "Failed ConnectNamedPipe");
--        goto fail;
-+        return -1;
-     }
- 
-     ret = GetOverlappedResult(s->file, &ov, &size, TRUE);
-@@ -90,7 +90,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *filename,
-             CloseHandle(ov.hEvent);
-             ov.hEvent = NULL;
-         }
--        goto fail;
-+        return -1;
-     }
- 
-     if (ov.hEvent) {
-@@ -99,9 +99,6 @@ static int win_chr_pipe_init(Chardev *chr, const char *filename,
-     }
-     qemu_add_polling_cb(win_chr_pipe_poll, chr);
      return 0;
 -
-- fail:
+- fail1:
 -    return -1;
  }
  
- static void qemu_chr_open_pipe(Chardev *chr,
+ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+@@ -518,7 +515,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+         );
+     if (!pa->stream) {
+         qpa_logerr (error, "pa_simple_new for capture failed\n");
+-        goto fail1;
++        return -1;
+     }
+ 
+     audio_pcm_init_info (&hw->info, &obt_as);
+@@ -527,9 +524,6 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+         &obt_as, ppdo->buffer_length);
+ 
+     return 0;
+-
+- fail1:
+-    return -1;
+ }
+ 
+ static void qpa_simple_disconnect(PAConnection *c, pa_stream *stream)
 -- 
 2.24.1
 
