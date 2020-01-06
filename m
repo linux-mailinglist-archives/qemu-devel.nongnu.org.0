@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79951131881
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:18:19 +0100 (CET)
-Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA4D131884
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:19:43 +0100 (CET)
+Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXtK-0005b0-DH
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:18:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46560)
+	id 1ioXug-0007dq-Vl
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:19:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX5G-0003zz-61
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:35 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX5I-00046M-OP
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX5E-0005JP-VF
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:34 -0500
-Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:44709)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX5H-0005Lu-7E
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:36 -0500
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:39837)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX5E-0005J5-RL; Mon, 06 Jan 2020 13:26:32 -0500
-Received: by mail-qv1-xf42.google.com with SMTP id n8so19408495qvg.11;
- Mon, 06 Jan 2020 10:26:32 -0800 (PST)
+ id 1ioX5H-0005LQ-3H; Mon, 06 Jan 2020 13:26:35 -0500
+Received: by mail-qt1-x843.google.com with SMTP id e5so43200842qtm.6;
+ Mon, 06 Jan 2020 10:26:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8epzYC9Hx96nC8wKq8nl8igdorRt4UtCgIwD3AuQIS8=;
- b=CtGRoI1EAaFcZ6XoR5d+63MLor+iAEqD2yM88p5EaGJXkcPA9LKw3LiViNE5nDNejI
- ABgUNaD6xhvfr1VYxHN+POKVOR40TVf6QUGvzZCiZJ4xztny9YCi67AyIYgo7pwPwIAD
- CuR/1wIM0q/H/1p+His7K4QoYglHO7cKAJ/HF825HXbChXuByO/OC0ztG4npOytSl2HF
- v7HYadn8fhnmUYifDQ/GAt34Ec23R0aX5h8BGPziaU5JTrsj+BA/wHwo2MdQoXOY9XZB
- 2QTp4yefkn51kwf1LkTr+jQRQpiVaAAG2kwg7t4sunaCf32ZidCRVOtFa8JWk4UOVwAH
- EXUw==
+ bh=ccbDbqi5TpxjVO4gg8wa3OUyCmF9mr26PCOhgdDhY5Q=;
+ b=rD8S9lV90nJR1aQdNOkFzLUnqDwG0zLCFCjl6ZJP1ejSDzVvYdE0laaNUwz9upVf5/
+ g340pbGs05UsOrcLPF0FJ8TfXFK7TLju2U+OXUemAG0sIoZEVMKEAFlL3zS2nOLTt5+O
+ 0lQP7e+aTwhdpiUtNH+BjMwHwOT7AXRjphGTXOMCSKybRcnRdGv1064D1bUAKv41On8V
+ URfWk4TbXSnjt+cH3poNEuMte6v1Tlf5bWj90f0qf+ZUVI7Ve46eRs1WzRGWEv9CR51A
+ Ht8Y7M8NP1HBw42yX9/5iaFU+yHtowpqzU9yULWxVsQbIwV2hOzCn2sRXmzKeQe33CL9
+ nZhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8epzYC9Hx96nC8wKq8nl8igdorRt4UtCgIwD3AuQIS8=;
- b=cCbz6RrrVbDa6dhTQqfhupqKQfjuF8DFpFjR6+TTDPHm79UkW+KDBz8cTGoO8Yafz4
- +r62rNH3S7CURSLC2dzIJRuDf5QsHnmG/5+DQ/B5+PYr5hyRZvxMll4gi1AKjgjGYuHU
- gTlAqf6iSOo/TcW9Hd7tf75mTcRlww98ncv6B58eYBqYGZZXDeXBxJQTNFXVRlar3897
- s5mWmWfaGw4Vh76SPNgSzO52IZ0Pgfr3A5cgjKo4jlaT/j9CFuAytXv3Gd1S1XsmdhZm
- GvGYVP/V9qKMRZbWe0t3NEMJcO2LpeJ0VdDLvsnFVLvsiBbZZJO16vlIBzMUGGBLTQaR
- PGqA==
-X-Gm-Message-State: APjAAAWJop3wiGWg/ajholh2qo/0bKT2kQGGssS+wtq5VKrkWSQXOjKH
- fvM18vpjjLhKxGIrciBvJsSC0jjI
-X-Google-Smtp-Source: APXvYqxtyRMbmiEujs6q/5zgBBL/E9J99OUADg6ZgH+EC79ejwTz2kcu9nJQQyNjSHyiW7bCWWSW7Q==
-X-Received: by 2002:a0c:a145:: with SMTP id d63mr82830123qva.120.1578335192274; 
- Mon, 06 Jan 2020 10:26:32 -0800 (PST)
+ bh=ccbDbqi5TpxjVO4gg8wa3OUyCmF9mr26PCOhgdDhY5Q=;
+ b=uYPCNre+wEdUVBh2To9LgHebPN8QQnJEFEtzgkldDOiX8NbG29CAtVGelkU7sLodUd
+ r7xmTehMQzX5CfzrLDgCQMNSiNv24kZ5BMqFzK/4fKQhEWPFn+dHTPoGKh6v12cvvhKo
+ o6NOCH0ef+3E7CFWLl1Kr4zrTBHmParHMd1nCRJH94kN27986kpzS9o1u0HQPKOaN+Ly
+ dsBw3L3CbCkWcJMbVboCQ6n+PG/WKU9XGjABpKdS1V1w+9Su2pZeOvAIdw1npT6jzThH
+ sRMAHIhW6lev1vDgm/pZ5FaIMEPFifSJobpkAAYcwYgwVkeHWWCpwvZeOwjobWxEMaNp
+ IOMw==
+X-Gm-Message-State: APjAAAXpAMtYQVDtBDSpJTY1e/l3dZoudnpBi2H0i4IARQ1HNJ1MEK4r
+ UkrVWw6ZtJKR2GSUz4VdNrnhGHGZ
+X-Google-Smtp-Source: APXvYqwxkipLwpEZ9rRAif+gDyZa4pKepNu5OkiSHk08Vsc1pqvhLLpe3mv8sCxBN8LfE8Q79xkxHg==
+X-Received: by 2002:ac8:5215:: with SMTP id r21mr75442967qtn.77.1578335194548; 
+ Mon, 06 Jan 2020 10:26:34 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.30
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:31 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:34 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 56/59] linux-user/signal.c: remove unneeded label in
- do_sigaltstack()
-Date: Mon,  6 Jan 2020 15:24:22 -0300
-Message-Id: <20200106182425.20312-57-danielhb413@gmail.com>
+Subject: [PATCH v1 57/59] linux-user/syscall.c: fix trailing whitespaces and
+ style
+Date: Mon,  6 Jan 2020 15:24:23 -0300
+Message-Id: <20200106182425.20312-58-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f42
+X-Received-From: 2607:f8b0:4864:20::843
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,83 +83,134 @@ Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' can be replaced by 'return ret'. Since 'ret' is used
-just to set the return value, drop the 'ret' variable and
-use 'return' with the appropriate value instead.
+There are trailing whitespaces in this file that, if removed
+by a text editor that refuses to let the traiing whitespace
+alone, which happens to be the editor I am using, will cause
+checkpatch.pl to warn about styling problems in the resulting
+patch. This happens because the trailing whitespace lines
+are using a deprecated style.
+
+To keep the intended change I wanted to do (remove unneeded
+labels in do_ioctl_blkpg() and do_sendrecvmsg_locked())
+trivial, this patch is another trivial change to fix the
+trailing whitespaces and the code style errors that
+checkpatch.pl warns about. Doing this change beforehand will
+keep the next patch focused just on the label removal changes.
 
 CC: Riku Voipio <riku.voipio@iki.fi>
 CC: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- linux-user/signal.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ linux-user/syscall.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 5ca6d62b15..5efb1b79d9 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -708,7 +708,6 @@ static void host_signal_handler(int host_signum, siginfo_t *info,
- /* compare linux/kernel/signal.c:do_sigaltstack() */
- abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 171c0caef3..49c6151c2d 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1062,7 +1062,7 @@ static inline rlim_t target_to_host_rlim(abi_ulong target_rlim)
  {
--    int ret;
-     struct target_sigaltstack oss;
-     TaskState *ts = (TaskState *)thread_cpu->opaque;
- 
-@@ -734,32 +733,28 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-         }
- #endif
- 
--        ret = -TARGET_EFAULT;
-         if (!lock_user_struct(VERIFY_READ, uss, uss_addr, 1)) {
--            goto out;
-+            return -TARGET_EFAULT;
-         }
-         __get_user(ss.ss_sp, &uss->ss_sp);
-         __get_user(ss.ss_size, &uss->ss_size);
-         __get_user(ss.ss_flags, &uss->ss_flags);
-         unlock_user_struct(uss, uss_addr, 0);
- 
--        ret = -TARGET_EPERM;
-         if (on_sig_stack(sp))
--            goto out;
-+            return -TARGET_EPERM;
- 
--        ret = -TARGET_EINVAL;
-         if (ss.ss_flags != TARGET_SS_DISABLE
-             && ss.ss_flags != TARGET_SS_ONSTACK
-             && ss.ss_flags != 0)
--            goto out;
-+            return -TARGET_EINVAL;
- 
-         if (ss.ss_flags == TARGET_SS_DISABLE) {
-             ss.ss_size = 0;
-             ss.ss_sp = 0;
-         } else {
--            ret = -TARGET_ENOMEM;
-             if (ss.ss_size < minstacksize) {
--                goto out;
-+                return -TARGET_ENOMEM;
-             }
-         }
- 
-@@ -768,14 +763,11 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-     }
- 
-     if (uoss_addr) {
--        ret = -TARGET_EFAULT;
-         if (copy_to_user(uoss_addr, &oss, sizeof(oss)))
--            goto out;
-+            return -TARGET_EFAULT;
-     }
- 
--    ret = 0;
--out:
--    return ret;
-+    return 0;
+     abi_ulong target_rlim_swap;
+     rlim_t result;
+-    
++
+     target_rlim_swap = tswapal(target_rlim);
+     if (target_rlim_swap == TARGET_RLIM_INFINITY)
+         return RLIM_INFINITY;
+@@ -1070,7 +1070,7 @@ static inline rlim_t target_to_host_rlim(abi_ulong target_rlim)
+     result = target_rlim_swap;
+     if (target_rlim_swap != (rlim_t)result)
+         return RLIM_INFINITY;
+-    
++
+     return result;
  }
  
- /* do_sigaction() return target values and host errnos */
+@@ -1078,13 +1078,13 @@ static inline abi_ulong host_to_target_rlim(rlim_t rlim)
+ {
+     abi_ulong target_rlim_swap;
+     abi_ulong result;
+-    
++
+     if (rlim == RLIM_INFINITY || rlim != (abi_long)rlim)
+         target_rlim_swap = TARGET_RLIM_INFINITY;
+     else
+         target_rlim_swap = rlim;
+     result = tswapal(target_rlim_swap);
+-    
++
+     return result;
+ }
+ 
+@@ -1526,10 +1526,11 @@ static inline abi_long target_to_host_cmsg(struct msghdr *msgh,
+     abi_ulong target_cmsg_addr;
+     struct target_cmsghdr *target_cmsg, *target_cmsg_start;
+     socklen_t space = 0;
+-    
++
+     msg_controllen = tswapal(target_msgh->msg_controllen);
+-    if (msg_controllen < sizeof (struct target_cmsghdr)) 
++    if (msg_controllen < sizeof(struct target_cmsghdr)) {
+         goto the_end;
++    }
+     target_cmsg_addr = tswapal(target_msgh->msg_control);
+     target_cmsg = lock_user(VERIFY_READ, target_cmsg_addr, msg_controllen, 1);
+     target_cmsg_start = target_cmsg;
+@@ -1610,8 +1611,9 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
+     socklen_t space = 0;
+ 
+     msg_controllen = tswapal(target_msgh->msg_controllen);
+-    if (msg_controllen < sizeof (struct target_cmsghdr)) 
++    if (msg_controllen < sizeof(struct target_cmsghdr)) {
+         goto the_end;
++    }
+     target_cmsg_addr = tswapal(target_msgh->msg_control);
+     target_cmsg = lock_user(VERIFY_WRITE, target_cmsg_addr, msg_controllen, 0);
+     target_cmsg_start = target_cmsg;
+@@ -5592,9 +5594,9 @@ abi_long do_set_thread_area(CPUX86State *env, abi_ulong ptr)
+     }
+     unlock_user_struct(target_ldt_info, ptr, 1);
+ 
+-    if (ldt_info.entry_number < TARGET_GDT_ENTRY_TLS_MIN || 
++    if (ldt_info.entry_number < TARGET_GDT_ENTRY_TLS_MIN ||
+         ldt_info.entry_number > TARGET_GDT_ENTRY_TLS_MAX)
+-           return -TARGET_EINVAL;
++        return -TARGET_EINVAL;
+     seg_32bit = ldt_info.flags & 1;
+     contents = (ldt_info.flags >> 1) & 3;
+     read_exec_only = (ldt_info.flags >> 3) & 1;
+@@ -5670,7 +5672,7 @@ static abi_long do_get_thread_area(CPUX86State *env, abi_ulong ptr)
+     lp = (uint32_t *)(gdt_table + idx);
+     entry_1 = tswap32(lp[0]);
+     entry_2 = tswap32(lp[1]);
+-    
++
+     read_exec_only = ((entry_2 >> 9) & 1) ^ 1;
+     contents = (entry_2 >> 10) & 3;
+     seg_not_present = ((entry_2 >> 15) & 1) ^ 1;
+@@ -5686,8 +5688,8 @@ static abi_long do_get_thread_area(CPUX86State *env, abi_ulong ptr)
+         (read_exec_only << 3) | (limit_in_pages << 4) |
+         (seg_not_present << 5) | (useable << 6) | (lm << 7);
+     limit = (entry_1 & 0xffff) | (entry_2  & 0xf0000);
+-    base_addr = (entry_1 >> 16) | 
+-        (entry_2 & 0xff000000) | 
++    base_addr = (entry_1 >> 16) |
++        (entry_2 & 0xff000000) |
+         ((entry_2 & 0xff) << 16);
+     target_ldt_info->base_addr = tswapal(base_addr);
+     target_ldt_info->limit = tswap32(limit);
+@@ -10554,8 +10556,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return get_errno(fchown(arg1, low2highuid(arg2), low2highgid(arg3)));
+ #if defined(TARGET_NR_fchownat)
+     case TARGET_NR_fchownat:
+-        if (!(p = lock_user_string(arg2))) 
++        p = lock_user_string(arg2);
++        if (!p) {
+             return -TARGET_EFAULT;
++        }
+         ret = get_errno(fchownat(arg1, p, low2highuid(arg3),
+                                  low2highgid(arg4), arg5));
+         unlock_user(p, arg2, 0);
 -- 
 2.24.1
 
