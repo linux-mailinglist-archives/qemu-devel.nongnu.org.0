@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3F413181C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:03:57 +0100 (CET)
-Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79951131881
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:18:19 +0100 (CET)
+Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXfQ-0008V1-4F
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:03:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46529)
+	id 1ioXtK-0005b0-DH
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:18:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX5E-0003vm-2s
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:32 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX5G-0003zz-61
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX5D-0005He-0u
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:31 -0500
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:33225)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX5E-0005JP-VF
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:34 -0500
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:44709)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX5C-0005HQ-Th; Mon, 06 Jan 2020 13:26:30 -0500
-Received: by mail-qv1-xf41.google.com with SMTP id z3so19447673qvn.0;
- Mon, 06 Jan 2020 10:26:30 -0800 (PST)
+ id 1ioX5E-0005J5-RL; Mon, 06 Jan 2020 13:26:32 -0500
+Received: by mail-qv1-xf42.google.com with SMTP id n8so19408495qvg.11;
+ Mon, 06 Jan 2020 10:26:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EhZ2N0Be93JJ38Lc58rqaW3YyswF78lbGstMwnrxgGM=;
- b=C8Pjl3ZAR7uxcNb2WC2cD7a0IyfpVUGS7udsCxa1RgktzSShtaiYwsCBaTnalFM3p4
- pXFWMXSmRtC1pANYIMNlxv4/a+iPhvKTDKB/IanhJc6mCR9BOzXYYjrNX1gUCmvOow3j
- aZ1QK0805WfMtxzDZw642f8eE+f1XkvmJTIz57zAGBrCPoazVugJEjWek8sB2glAaAtK
- cAPiBbQO+pkAkgJ0rHSKk/bXWPFVbeVWKCXwBShCx41fKR2HripZ2t4g2VkKp0YBLMWd
- SiIsHCO1rjBcrLEtAgfPq9sNYOlldhnH0ed5jL1mP2Oerp9ZiLUAk4FK81IdbuWU1kQe
- TeTA==
+ bh=8epzYC9Hx96nC8wKq8nl8igdorRt4UtCgIwD3AuQIS8=;
+ b=CtGRoI1EAaFcZ6XoR5d+63MLor+iAEqD2yM88p5EaGJXkcPA9LKw3LiViNE5nDNejI
+ ABgUNaD6xhvfr1VYxHN+POKVOR40TVf6QUGvzZCiZJ4xztny9YCi67AyIYgo7pwPwIAD
+ CuR/1wIM0q/H/1p+His7K4QoYglHO7cKAJ/HF825HXbChXuByO/OC0ztG4npOytSl2HF
+ v7HYadn8fhnmUYifDQ/GAt34Ec23R0aX5h8BGPziaU5JTrsj+BA/wHwo2MdQoXOY9XZB
+ 2QTp4yefkn51kwf1LkTr+jQRQpiVaAAG2kwg7t4sunaCf32ZidCRVOtFa8JWk4UOVwAH
+ EXUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EhZ2N0Be93JJ38Lc58rqaW3YyswF78lbGstMwnrxgGM=;
- b=mkrTA2wHd3NOO8zgCvQYESPl1qhemdMWudt/TJ0OCXf5wGcZ+3Uck5XjNI31p/DpIy
- VpAdUwODLl1rLkEgVwuAl7b/VG0EaYIJ3iHqqWTWrvm2d9TSfw1JLJCk4+NklGJt30z7
- B5DHiu/xY0k/7O42KZYex3KiP5PC2hRO+o6z7BQOGVOdiX9QqTYOD4fDJWMYkK9qur5R
- RxS1YRqHjDdI5gShH2rWBfoDSAptM4igzZXbsiysopxV6f+swezCHXq3v4Bcyk03QJf6
- RQyR2aXQw9PO36/ydBHwmhQHJTsPsybi/U+oPiGbMdXIhut1vkJu2JVgnZAST6Hjnqs7
- rpsA==
-X-Gm-Message-State: APjAAAXqovCsO2YjOF2mX2RqLlH6qwQ2FSyptvE+gkUxmr2FMx3c7FR9
- BZ7YM/E1VxD+e2DwcceOA9ZRybpf
-X-Google-Smtp-Source: APXvYqw7lVxB1o+8CAoAA6lKB+gAA0an9W9BtgAWkHWtYxNXwFKkIXd3FIPrxT20ebCZz5Xn0KuW4Q==
-X-Received: by 2002:ad4:58e1:: with SMTP id di1mr65553062qvb.201.1578335190371; 
- Mon, 06 Jan 2020 10:26:30 -0800 (PST)
+ bh=8epzYC9Hx96nC8wKq8nl8igdorRt4UtCgIwD3AuQIS8=;
+ b=cCbz6RrrVbDa6dhTQqfhupqKQfjuF8DFpFjR6+TTDPHm79UkW+KDBz8cTGoO8Yafz4
+ +r62rNH3S7CURSLC2dzIJRuDf5QsHnmG/5+DQ/B5+PYr5hyRZvxMll4gi1AKjgjGYuHU
+ gTlAqf6iSOo/TcW9Hd7tf75mTcRlww98ncv6B58eYBqYGZZXDeXBxJQTNFXVRlar3897
+ s5mWmWfaGw4Vh76SPNgSzO52IZ0Pgfr3A5cgjKo4jlaT/j9CFuAytXv3Gd1S1XsmdhZm
+ GvGYVP/V9qKMRZbWe0t3NEMJcO2LpeJ0VdDLvsnFVLvsiBbZZJO16vlIBzMUGGBLTQaR
+ PGqA==
+X-Gm-Message-State: APjAAAWJop3wiGWg/ajholh2qo/0bKT2kQGGssS+wtq5VKrkWSQXOjKH
+ fvM18vpjjLhKxGIrciBvJsSC0jjI
+X-Google-Smtp-Source: APXvYqxtyRMbmiEujs6q/5zgBBL/E9J99OUADg6ZgH+EC79ejwTz2kcu9nJQQyNjSHyiW7bCWWSW7Q==
+X-Received: by 2002:a0c:a145:: with SMTP id d63mr82830123qva.120.1578335192274; 
+ Mon, 06 Jan 2020 10:26:32 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.28
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:30 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:31 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 55/59] linux-user/flatload.c: remove unused 'out' label
-Date: Mon,  6 Jan 2020 15:24:21 -0300
-Message-Id: <20200106182425.20312-56-danielhb413@gmail.com>
+Subject: [PATCH v1 56/59] linux-user/signal.c: remove unneeded label in
+ do_sigaltstack()
+Date: Mon,  6 Jan 2020 15:24:22 -0300
+Message-Id: <20200106182425.20312-57-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -64,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f41
+X-Received-From: 2607:f8b0:4864:20::f42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,27 +83,83 @@ Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' label in out_free_buf() is not used at all.
+'out' can be replaced by 'return ret'. Since 'ret' is used
+just to set the return value, drop the 'ret' variable and
+use 'return' with the appropriate value instead.
 
 CC: Riku Voipio <riku.voipio@iki.fi>
 CC: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- linux-user/flatload.c | 1 -
- 1 file changed, 1 deletion(-)
+ linux-user/signal.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/linux-user/flatload.c b/linux-user/flatload.c
-index 0122ab3afe..3945c40ee1 100644
---- a/linux-user/flatload.c
-+++ b/linux-user/flatload.c
-@@ -247,7 +247,6 @@ out_free_buf:
- 	kfree(buf);
- out_free:
- 	kfree(strm.workspace);
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 5ca6d62b15..5efb1b79d9 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -708,7 +708,6 @@ static void host_signal_handler(int host_signum, siginfo_t *info,
+ /* compare linux/kernel/signal.c:do_sigaltstack() */
+ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
+ {
+-    int ret;
+     struct target_sigaltstack oss;
+     TaskState *ts = (TaskState *)thread_cpu->opaque;
+ 
+@@ -734,32 +733,28 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
+         }
+ #endif
+ 
+-        ret = -TARGET_EFAULT;
+         if (!lock_user_struct(VERIFY_READ, uss, uss_addr, 1)) {
+-            goto out;
++            return -TARGET_EFAULT;
+         }
+         __get_user(ss.ss_sp, &uss->ss_sp);
+         __get_user(ss.ss_size, &uss->ss_size);
+         __get_user(ss.ss_flags, &uss->ss_flags);
+         unlock_user_struct(uss, uss_addr, 0);
+ 
+-        ret = -TARGET_EPERM;
+         if (on_sig_stack(sp))
+-            goto out;
++            return -TARGET_EPERM;
+ 
+-        ret = -TARGET_EINVAL;
+         if (ss.ss_flags != TARGET_SS_DISABLE
+             && ss.ss_flags != TARGET_SS_ONSTACK
+             && ss.ss_flags != 0)
+-            goto out;
++            return -TARGET_EINVAL;
+ 
+         if (ss.ss_flags == TARGET_SS_DISABLE) {
+             ss.ss_size = 0;
+             ss.ss_sp = 0;
+         } else {
+-            ret = -TARGET_ENOMEM;
+             if (ss.ss_size < minstacksize) {
+-                goto out;
++                return -TARGET_ENOMEM;
+             }
+         }
+ 
+@@ -768,14 +763,11 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
+     }
+ 
+     if (uoss_addr) {
+-        ret = -TARGET_EFAULT;
+         if (copy_to_user(uoss_addr, &oss, sizeof(oss)))
+-            goto out;
++            return -TARGET_EFAULT;
+     }
+ 
+-    ret = 0;
 -out:
- 	return retval;
+-    return ret;
++    return 0;
  }
  
+ /* do_sigaction() return target values and host errnos */
 -- 
 2.24.1
 
