@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F89C131787
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:33:32 +0100 (CET)
-Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F7F131794
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:36:55 +0100 (CET)
+Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXBy-00036F-Ua
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:33:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45119)
+	id 1ioXFF-0006sG-Ke
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:36:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3q-0001el-Nh
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:07 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3s-0001h1-Am
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3p-0003nI-87
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:06 -0500
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:33219)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3r-0003r6-7p
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:08 -0500
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:41657)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX3p-0003n4-3a; Mon, 06 Jan 2020 13:25:05 -0500
-Received: by mail-qv1-xf43.google.com with SMTP id z3so19445708qvn.0;
- Mon, 06 Jan 2020 10:25:05 -0800 (PST)
+ id 1ioX3r-0003qn-3c; Mon, 06 Jan 2020 13:25:07 -0500
+Received: by mail-qv1-xf44.google.com with SMTP id x1so19419533qvr.8;
+ Mon, 06 Jan 2020 10:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eY6GwOKUsSxbSiC0sEZUPgTqkPSXyaF2//XptsTcqg0=;
- b=Ir10aGHisUato561BZTbYR+T9sXZkJZa09fi7GWiq733xHdB0qdupgf6KGp2/jlp72
- 9liT2tk+YwLFfMuybNo72GaPvgAK70rwojOb2rBHSiLquEVIYZ404wx8/NWW9Kj0qMR1
- DkyB9UexOsa5+H11jhW4kYgvjimYr2O9EYdfEQp2bM3W08jAJgnF21yC3x/SEqTARsi7
- 3Xor9+ML05wbwttIZSIZ6OIdKpEnX7HFyFSBcTDx+plwF4R4apt8Jg+hVXUEt5zQVhq9
- LGYTVvXLm8YRjrCa1ksHW9676g+sv59z+e1W/3g9YjAKVd6nwkoAcB0JCMRAkyeaAy3i
- exeA==
+ bh=HIopQr4qTmGaxGQiMN5TTFQQCD/j0A0k1KsTz1BsHzQ=;
+ b=qsvA6ykMdsUaYwrycIaSnBHwNEA/UnDxc/XsRoNQAUOHMpjXlpz7Q5dMJQpV8uzJvi
+ wHjeM/Fld3r94sYQ0FRIw9ABv2y6VXn3Zjwn9rHPiP9Tk4YFC3Yuu0LjgA6/niZyCfzi
+ utUJ0T29pW/0DLN5pF1ZhaZ8qZPfFMb9PDB5Q6AyZ22Hd2hohPUTWM8yn8qV/8qDonXk
+ RIOp7cpQjxV/BFtef6J5EcPXW275Vh4EKw88y1C9P1j+Mz6Tm7jms9c61gl9v2CrY1UH
+ wG/i6cgvxYUNHyIYEcea6+rnz4ja9X8a6pXOiDTlem5jvnyTkroi2ONCdKuAfyJDBgzk
+ aKnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eY6GwOKUsSxbSiC0sEZUPgTqkPSXyaF2//XptsTcqg0=;
- b=nV9P8rFlBwJ0JUrVPa4mfcKB+RnysB5oon7rRGKRL+5ggkboCqFCZJVwmnj/yaMjnV
- wCjjaZJymlOZaDUc9Qeagf5qhDg1Yk+eB1jULDw4n29ZEgaT1ugqB/qCKp82PqjnbvYd
- gHMdHjFlXXd1l5gbaW+/XwOhCFDnCOT5VXxpidQkY31St5ZBWY4Me2O0meVSBpJULSXo
- eOkrJ9RipyiQmBL0bbO4QtYRyoydNZo/SU8CopQ+rhsaatQKzIb/kPW98wXzmiQjr033
- QWAYXS76+6lbq8uLPtdBVwLQb7UyjyEf+Z4tlW6kusC3v0Pw9Y87i/n5aENTkYdKOUFP
- q7YQ==
-X-Gm-Message-State: APjAAAW4xq10+H7O0mlandP7wwrjiozRI5q8vhY41fCz4Dsj+ztpKnUT
- oeoLpSZNOErDYLwPEMlJCGGjXsXo
-X-Google-Smtp-Source: APXvYqy1QFUQeLXKMDt2TJuYG88b704qBzioKoASnhKiJguwt1zbK+ohgbdq9BwNC8spt6Uq6hNRDw==
-X-Received: by 2002:a0c:c542:: with SMTP id y2mr6110998qvi.225.1578335104537; 
- Mon, 06 Jan 2020 10:25:04 -0800 (PST)
+ bh=HIopQr4qTmGaxGQiMN5TTFQQCD/j0A0k1KsTz1BsHzQ=;
+ b=J5FjlitYmGodnWImDiELQCsMA7v22xY45FQg6Md9yFaeiHmLAWP9UHAn0+X1muyvDb
+ MalDFpdzfhzVvCfzD/9ZIo10K4AZXGhvk4O+nrNM0SbSCOog60YCQDWgAq37EwZwjdw1
+ kL5BinS92qn3Iuwk9A0FxuW+oNZ/LrT2OvZFWiMukC3V6gIt23Ha/gX4Vx0n8WSDNkhq
+ 37kkO+GazFUfnqj/aqfpLtbrzWz8IH4j6evlBEOJpInU/D6YsxTvm3YPDuqfEq1zD1oa
+ DkdQ27uyeYynY3941EvWZyVSZuKKEC0Ms/XDhf/462euaFCibBN5ga/v6CidjAkHjrjS
+ nQsw==
+X-Gm-Message-State: APjAAAX+jb3xBNPQQiwtRbfSM+zaw+0VQAjbxtaArRyFTs9wxAiOZTUK
+ fYtmPljaoY8GtPLznw4fRDJvYFBu
+X-Google-Smtp-Source: APXvYqyrGoztyJ3OW0uHkXVUIYehSLXql54psfC/wxm3VKSe1+tGwfTPA0tiSR1qnkYmgtNRym0H0A==
+X-Received: by 2002:ad4:49cc:: with SMTP id j12mr79841188qvy.188.1578335106538; 
+ Mon, 06 Jan 2020 10:25:06 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.02
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:04 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:06 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 07/59] unicore32/softmmu.c: remove 'do_fault' label in
- get_phys_addr_ucv2()
-Date: Mon,  6 Jan 2020 15:23:33 -0300
-Message-Id: <20200106182425.20312-8-danielhb413@gmail.com>
+Subject: [PATCH v1 08/59] chardev/char-mux.c: remove 'send_char' label
+Date: Mon,  6 Jan 2020 15:23:34 -0300
+Message-Id: <20200106182425.20312-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f43
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,107 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'do_fault' is a label that executes 'return code'. The 'code'
-variable is an integer that is set to zero, then in all instances
-it is set to another value right before 'do_fault'.
-
-We can get rid of both the label and the variable to make
-the code a bit cleaner.
-
-CC: Guan Xuetao <gxt@mprc.pku.edu.cn>
+CC: Marc-André Lureau <marcandre.lureau@redhat.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/unicore32/softmmu.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ chardev/char-mux.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
-index cbdaa500b7..3373400cba 100644
---- a/target/unicore32/softmmu.c
-+++ b/target/unicore32/softmmu.c
-@@ -125,7 +125,6 @@ static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
-         target_ulong *page_size)
- {
-     CPUState *cs = env_cpu(env);
--    int code;
-     uint32_t table;
-     uint32_t desc;
-     uint32_t phys_addr;
-@@ -135,13 +134,11 @@ static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
-     table = env->cp0.c2_base & 0xfffff000;
-     table |= (address >> 20) & 0xffc;
-     desc = ldl_phys(cs->as, table);
--    code = 0;
-     switch (PAGETABLE_TYPE(desc)) {
-     case 3:
-         /* Superpage  */
-         if (!(desc & UC32_PAGETABLE_EXIST)) {
--            code = 0x0b; /* superpage miss */
--            goto do_fault;
-+            return 0x0b; /* superpage miss */
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index 200c62a0d0..edbaaf5cbf 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -140,7 +140,7 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
+     if (d->term_got_escape) {
+         d->term_got_escape = 0;
+         if (ch == term_escape_char) {
+-            goto send_char;
++            return 1;
          }
-         phys_addr = (desc & 0xffc00000) | (address & 0x003fffff);
-         *page_size = SUPERPAGE_SIZE;
-@@ -152,8 +149,7 @@ static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
-             DPRINTF("PGD address %x, desc %x\n", table, desc);
-         }
-         if (!(desc & UC32_PAGETABLE_EXIST)) {
--            code = 0x05; /* second pagetable miss */
--            goto do_fault;
-+            return 0x05; /* second pagetable miss */
-         }
-         table = (desc & 0xfffff000) | ((address >> 10) & 0xffc);
-         desc = ldl_phys(cs->as, table);
-@@ -162,8 +158,7 @@ static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
-             DPRINTF("PTE address %x, desc %x\n", table, desc);
-         }
-         if (!(desc & UC32_PAGETABLE_EXIST)) {
--            code = 0x08; /* page miss */
--            goto do_fault;
-+            return 0x08; /* page miss */
-         }
-         switch (PAGETABLE_TYPE(desc)) {
-         case 0:
-@@ -185,8 +180,7 @@ static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
-         *prot |= PAGE_READ;
+         switch (ch) {
+         case '?':
+@@ -174,7 +174,6 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
+     } else if (ch == term_escape_char) {
+         d->term_got_escape = 1;
      } else {
-         if (is_user && (access_type == 0)) {
--            code = 0x11; /* access unreadable area */
--            goto do_fault;
-+            return 0x11; /* access unreadable area */
-         }
+-    send_char:
+         return 1;
      }
- 
-@@ -194,8 +188,7 @@ static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
-         *prot |= PAGE_WRITE;
-     } else {
-         if (is_user && (access_type == 1)) {
--            code = 0x12; /* access unwritable area */
--            goto do_fault;
-+            return 0x12; /* access unwritable area */
-         }
-     }
- 
-@@ -203,13 +196,11 @@ static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
-         *prot |= PAGE_EXEC;
-     } else {
-         if (is_user && (access_type == 2)) {
--            code = 0x13; /* access unexecutable area */
--            goto do_fault;
-+            return 0x13; /* access unexecutable area */
-         }
-     }
- 
--do_fault:
--    return code;
-+    return 0;
- }
- 
- bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     return 0;
 -- 
 2.24.1
 
