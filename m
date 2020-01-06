@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1FF1316D5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:31:19 +0100 (CET)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9621316E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:34:40 +0100 (CET)
+Received: from localhost ([::1]:57000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioWDm-0004MQ-0U
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:31:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59361)
+	id 1ioWH1-00082c-6f
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:34:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ioWCD-0003Ou-4q
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:29:42 -0500
+ (envelope-from <groug@kaod.org>) id 1ioWDt-0005UR-JV
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:31:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ioWCB-0007z5-VZ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:29:41 -0500
-Received: from 1.mo173.mail-out.ovh.net ([178.33.111.180]:46473)
+ (envelope-from <groug@kaod.org>) id 1ioWDs-0003H7-Bj
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:31:25 -0500
+Received: from 2.mo178.mail-out.ovh.net ([46.105.39.61]:36409)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ioWCB-0007se-PX
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:29:39 -0500
-Received: from player737.ha.ovh.net (unknown [10.108.16.196])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id C8E2712AF58
- for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 18:29:37 +0100 (CET)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ioWDs-0003CX-4V
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:31:24 -0500
+Received: from player694.ha.ovh.net (unknown [10.108.35.119])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id 7189A8B0AE
+ for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 18:31:21 +0100 (CET)
 Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
  [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player737.ha.ovh.net (Postfix) with ESMTPSA id 59506474C74E;
- Mon,  6 Jan 2020 17:29:33 +0000 (UTC)
-Date: Mon, 6 Jan 2020 18:29:31 +0100
+ by player694.ha.ovh.net (Postfix) with ESMTPSA id 82297DD2ABD3;
+ Mon,  6 Jan 2020 17:31:15 +0000 (UTC)
+Date: Mon, 6 Jan 2020 18:31:14 +0100
 From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] spapr/xive: remove redundant check in spapr_match_nvt()
-Message-ID: <20200106182931.54f12057@bahia.lan>
-In-Reply-To: <20200106163207.4608-1-clg@kaod.org>
-References: <20200106163207.4608-1-clg@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] 9p: init_in_iov_from_pdu can truncate the size
+Message-ID: <20200106183114.6b1a4de4@bahia.lan>
+In-Reply-To: <2163433.xPYm55Bgvh@silver>
+References: <20191219004251.23763-1-sstabellini@kernel.org>
+ <20200106144254.79920ae7@bahia.lan> <2163433.xPYm55Bgvh@silver>
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 7962645619541711243
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 7991919016024119616
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehtddguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehtddguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.111.180
+X-Received-From: 46.105.39.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,61 +57,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: anthony.perard@citrix.com, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-devel@nongnu.org, Stefano Stabellini <stefano.stabellini@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Jan 2020 17:32:07 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Mon, 06 Jan 2020 16:24:18 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> spapr_match_nvt() is a XIVE operation and it used by the machine to
+> On Montag, 6. Januar 2020 14:42:54 CET Greg Kurz wrote:
+> > > diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+> > > index 775e8ff766..68873c3f5f 100644
+> > > --- a/hw/9pfs/virtio-9p-device.c
+> > > +++ b/hw/9pfs/virtio-9p-device.c
+> > > @@ -145,19 +145,15 @@ static ssize_t virtio_pdu_vunmarshal(V9fsPDU *pdu,
+> > > size_t offset,> 
+> > >  }
+> > >  
+> > >  static void virtio_init_in_iov_from_pdu(V9fsPDU *pdu, struct iovec
+> > >  **piov,
+> > > 
+> > > -                                        unsigned int *pniov, size_t size)
+> > > +                                        unsigned int *pniov, size_t
+> > > *size)
+> > > 
+> > >  {
+> > >  
+> > >      V9fsState *s = pdu->s;
+> > >      V9fsVirtioState *v = container_of(s, V9fsVirtioState, state);
+> > >      VirtQueueElement *elem = v->elems[pdu->idx];
+> > >      size_t buf_size = iov_size(elem->in_sg, elem->in_num);
+> > > 
+> > > -    if (buf_size < size) {
+> > > -        VirtIODevice *vdev = VIRTIO_DEVICE(v);
+> > > -
+> > > -        virtio_error(vdev,
+> > > -                     "VirtFS reply type %d needs %zu bytes, buffer has
+> > > %zu", -                     pdu->id + 1, size, buf_size);
+> > > +    if (buf_size < *size) {
+> > > +        *size = buf_size;
+> > > 
+> > >      }
+> > 
+> > As suggested by Christian in some other mail, it could still make sense to
+> > raise the error if there isn't even enough space to pack a 9p message
+> > header.
+> 
+> Another option: Instead of handling this as a hard error (which they probably 
+> try to avoid in their use case): putting the handler asleep for a while by 
+> calling qemu_co_sleep_ns_wakeable() in this case. Then a bit later transport 
+> would eventually have the required buffer size and handler could continue the 
+> request without an error.
+> 
 
-... and it "is" used by the machine...
+Waiting for an arbitrary amount of time (how much?) and retrying doesn't give
+any guarantee either that things will go smoothly. If anything, I'd rather have
+the transport to wake up the request when more buffer space gets available.
 
-> look for a matching target when an event notification is being
-> delivered. An assert checks that spapr_match_nvt() is called only when
-> the machine has selected the XIVE interrupt mode but it is redundant
-> with the XIVE_PRESENTER() dynamic cast.
->=20
-> Apply the cast to spapr->active_intc and remove the assert.
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
+> But this would require more care. For instance subsequent request handlers 
+> would need to check if there was already an event handler asleep, and if so it 
+> would either need to wake it up or put itself asleep as well to prevent the 
+> request order being processed by server being messed up.
+> 
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+And so on... ie. we would need to handle a queue of sleeping requests IIUC.
+Not really fan to go this way to address what looks like a corner case.
 
->  hw/ppc/spapr.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index e62c89b3dd40..5008b7563173 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4198,19 +4198,19 @@ static void spapr_pic_print_info(InterruptStatsPr=
-ovider *obj,
->                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
->  }
-> =20
-> +/*
-> + * This is a XIVE only operation
-> + */
->  static int spapr_match_nvt(XiveFabric *xfb, uint8_t format,
->                             uint8_t nvt_blk, uint32_t nvt_idx,
->                             bool cam_ignore, uint8_t priority,
->                             uint32_t logic_serv, XiveTCTXMatch *match)
->  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
-> -    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
-> +    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->active_intc);
->      XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
->      int count;
-> =20
-> -    /* This is a XIVE only operation */
-> -    assert(spapr->active_intc =3D=3D SPAPR_INTC(spapr->xive));
-> -
->      count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
->                             priority, logic_serv, match);
->      if (count < 0) {
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
