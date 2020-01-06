@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A773B131253
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:54:43 +0100 (CET)
-Received: from localhost ([::1]:51448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679C8131255
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 13:54:48 +0100 (CET)
+Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioRu6-0002UB-6t
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:54:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58250)
+	id 1ioRuA-0002bB-Vi
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 07:54:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1ioRsC-0000qD-Ky
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:45 -0500
+ (envelope-from <kraxel@redhat.com>) id 1ioRsE-0000rS-V7
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000oN-Jb
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:44 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51100
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1ioRsD-0000rc-Sn
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39298
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ioRsB-0000mm-FJ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:43 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ioRsD-0000rP-Oa
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 07:52:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578315162;
+ s=mimecast20190719; t=1578315165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FBp5aqjLZFYnatMx/1MpZ3T9tDK6H8YGgSHSkfHsa6c=;
- b=FHUqI9HPG1mXEk5gAObQ5+B1DstWJon7Xn/ONfkWAucD0jvAd3yU6QeDEsR7oOMuJx+w8m
- P7NsybGSvVWft4SUEz+nTXU6Ll+WliLd9zIFglIQEM/Ss0iD7dnYbYMEf0UpLu34WKgOaO
- w+lI3zSAiyw4Pi1vCZWZQo6/MfPyPZU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXOGosYvPW6jgvcFaLnN32Way/3Noo2iJQc1+mSjxOc=;
+ b=efqBmje0qIRrrqG1Cqw2IVAZiRtfT/wqKUD0k/BUDIYzQmJ3+2CWBZeQOioYPEyKq6brWZ
+ 58tDChagf73bd60uV40/6sxVfLonFHlBIzQMAZc4lnVpdiYt7LUs758Fm5ebjkpKJDbqRX
+ sVN9qXayKglHgoEWYmE2hpM21wnH1KQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-WBerDlcBNLyKapRBgK4GlA-1; Mon, 06 Jan 2020 07:52:41 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-278-3elVJeAVMmeD-CBR-P-_fw-1; Mon, 06 Jan 2020 07:52:41 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25EA31005514
- for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 12:52:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D3F7800D48;
+ Mon,  6 Jan 2020 12:52:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com
  [10.36.116.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83E1F46;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 87A3484FE2;
  Mon,  6 Jan 2020 12:52:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 875A348E0; Mon,  6 Jan 2020 13:52:36 +0100 (CET)
+ id 8ED756DF9; Mon,  6 Jan 2020 13:52:36 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] Audio 20200106 patches
-Date: Mon,  6 Jan 2020 13:52:30 +0100
-Message-Id: <20200106125236.24132-1-kraxel@redhat.com>
+Subject: [PULL 1/6] hda-codec: fix playback rate control
+Date: Mon,  6 Jan 2020 13:52:31 +0100
+Message-Id: <20200106125236.24132-2-kraxel@redhat.com>
+In-Reply-To: <20200106125236.24132-1-kraxel@redhat.com>
+References: <20200106125236.24132-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: WBerDlcBNLyKapRBgK4GlA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 3elVJeAVMmeD-CBR-P-_fw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,42 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f0dcfddecee8b860e015bb07d67cfcbdfbfd51d9=
-:
+From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' i=
-nto staging (2020-01-03 17:18:08 +0000)
+Since commit 1930616b98 "audio: make mixeng optional" the
+function hda_audio_output_cb can no longer assume the function
+parameter avail contains the free buffer size. With the playback
+mixing-engine turned off this leads to a broken playback rate
+control and playback buffer drops in regular intervals.
 
-are available in the Git repository at:
+This patch moves down the rate calculation, so the correct
+buffer fill level is used for the calculation.
 
-  git://git.kraxel.org/qemu tags/audio-20200106-pull-request
+Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+Message-id: 20200104091122.13971-1-vr_qemu@t-online.de
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/audio/hda-codec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to 40ad46d3cc463fab5a23db466f77e37aff23f927:
-
-  audio: fix integer overflow (2020-01-06 08:47:16 +0100)
-
-----------------------------------------------------------------
-audio: bugfixes.
-
-----------------------------------------------------------------
-
-Volker R=C3=BCmelin (6):
-  hda-codec: fix playback rate control
-  hda-codec: fix recording rate control
-  paaudio: drop recording stream in qpa_fini_in
-  paaudio: try to drain the recording stream
-  paaudio: wait until the recording stream is ready
-  audio: fix integer overflow
-
- audio/audio.c        |  2 +-
- audio/paaudio.c      | 68 +++++++++++++++++++++++++++++++-------------
- hw/audio/hda-codec.c |  8 +++---
- 3 files changed, 53 insertions(+), 25 deletions(-)
-
+diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
+index f17e8d8dcea2..768ba31e7926 100644
+--- a/hw/audio/hda-codec.c
++++ b/hw/audio/hda-codec.c
+@@ -338,8 +338,6 @@ static void hda_audio_output_cb(void *opaque, int avail=
+)
+         return;
+     }
+=20
+-    hda_timer_sync_adjust(st, (wpos - rpos) - to_transfer - (B_SIZE >> 1))=
+;
+-
+     while (to_transfer) {
+         uint32_t start =3D (uint32_t) (rpos & B_MASK);
+         uint32_t chunk =3D (uint32_t) MIN(B_SIZE - start, to_transfer);
+@@ -351,6 +349,8 @@ static void hda_audio_output_cb(void *opaque, int avail=
+)
+             break;
+         }
+     }
++
++    hda_timer_sync_adjust(st, (wpos - rpos) - (B_SIZE >> 1));
+ }
+=20
+ static void hda_audio_compat_input_cb(void *opaque, int avail)
 --=20
 2.18.1
 
