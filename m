@@ -2,103 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CD1131BB1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 23:43:23 +0100 (CET)
-Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB3E131C5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 00:29:23 +0100 (CET)
+Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iob5l-0005Ku-Md
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 17:43:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32787)
+	id 1ioboH-0001y5-B3
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 18:29:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robhenry@microsoft.com>) id 1iob4H-00049q-Lu
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 17:41:50 -0500
+ (envelope-from <bounces@canonical.com>) id 1ioY9z-000350-7V
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:35:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robhenry@microsoft.com>) id 1iob4F-0001uw-Sc
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 17:41:48 -0500
-Received: from mail-bn8nam11on2103.outbound.protection.outlook.com
- ([40.107.236.103]:28384 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <robhenry@microsoft.com>)
- id 1iob4E-0001sl-5X
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 17:41:46 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lo8INExEPYDG/shaefzbZ6cnAWCYsbkWg34qgKkKwgr/IVFhx+llugvnJt/q+ayqy2ZMGS/5erqUaFykdu9HhT+0pqbuAkMu7vG10ArqpZjwva0BlT9taQR4cVKTMHCLgEv/9dWBEMuf/6muDCJTijfIzFwcB5wcZiEzB7rzD6zbz/NiBdei5C3PIoUSZKAVy8BqyPVpDYrihdo1jd6IvvzAElubjjwHtNSKGebWBy7RJ606MbhQ3r+/xvCULVYZk+ALDtQ1gxkMzqaGvLkopfn+LEVz3wsiRA4UNXKBEWulE/2zMI1vqCs6vAzW/FmA8qLbihk/5flsGfO9+a6btA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VTItsxBAKw6B6aHxAkoJLGZaOe8p63nAa19WK4y3zFU=;
- b=C1/9cGqVR+hzVl7hHH39XPm4WbJhVKGy2t1pd1PnB/yLPctKjfZDrn0M+cSHFgEaSbzWHngICWmksZSfMCAvTSEKUKf+OgfkKb+gA9AwgHVMWvUp/J5e5Xyy70uhj8WlpBE+Cp/20qdmre6+CwGEin7fH7A9KdGNgTsZtAIO/ZdZBkvsKxcMTIzijEhWY/sgPIdEAXZCTnshtm1hNbu8B8/SF9UECmmJ7R8+UNSDni9QdHc6hCkAAUf2gDFw3v0BU7/qil0g5n6vQlHdQmO/Ru1qHeseqsQgbadXyjPgHc4saOjuM/ju551xXTNKtvEtk0NbK6JEc9GSf0mEukX18w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VTItsxBAKw6B6aHxAkoJLGZaOe8p63nAa19WK4y3zFU=;
- b=iYpS8OKXsVXeLX7N+xa5v9GEjPAMivVX6mQxkj299ShwmXpoNWmrlfVlKEtfROKCQZgKR/emYCYzjsv5kp93qK9W5T2g0BNJg6Cd2RtOwG31bUQYu7mMmFsgU5uyZ4NzmEbNiU9YOOUPbH9Ga2rXbXVGJfAnvPaybSADqTetjkk=
-Received: from MW2PR2101MB1035.namprd21.prod.outlook.com (52.132.149.11) by
- MW2PR2101MB1097.namprd21.prod.outlook.com (52.132.149.26) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.3; Mon, 6 Jan 2020 22:41:43 +0000
-Received: from MW2PR2101MB1035.namprd21.prod.outlook.com
- ([fe80::74ad:3459:4b02:2885]) by MW2PR2101MB1035.namprd21.prod.outlook.com
- ([fe80::74ad:3459:4b02:2885%7]) with mapi id 15.20.2623.008; Mon, 6 Jan 2020
- 22:41:43 +0000
-From: Robert Henry <robhenry@microsoft.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: plugin order of registration and order of callback
-Thread-Topic: plugin order of registration and order of callback
-Thread-Index: AQHVxNseQXzc8CYKGkq6l1Nhoyx0Vw==
-Date: Mon, 6 Jan 2020 22:41:43 +0000
-Message-ID: <MW2PR2101MB1035A21608E50D68EE1CF890D63C0@MW2PR2101MB1035.namprd21.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-01-06T22:41:43.696Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard; 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=robhenry@microsoft.com; 
-x-originating-ip: [2001:4898:80e8:1:c045:c765:32e8:996e]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 5cf0cfbc-238a-4f68-8ed7-08d792f99ae8
-x-ms-traffictypediagnostic: MW2PR2101MB1097:
-x-microsoft-antispam-prvs: <MW2PR2101MB1097AB29539F9B82DAA5CF7CD63C0@MW2PR2101MB1097.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0274272F87
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(39860400002)(136003)(346002)(376002)(396003)(199004)(189003)(316002)(33656002)(9686003)(55016002)(86362001)(4744005)(8936002)(5660300002)(19627405001)(52536014)(71200400001)(6916009)(7696005)(186003)(10290500003)(66946007)(8990500004)(2906002)(66476007)(6506007)(66556008)(66446008)(81166006)(81156014)(64756008)(478600001)(76116006)(8676002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MW2PR2101MB1097;
- H:MW2PR2101MB1035.namprd21.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3bVVZbbws3DcKbfNZL9mjWvrFVLIcRMF9Y5KphEIrN6oUqbp81U2rzy3qU0ImbQ4e52VGQCix1PtLGFw2lSok2SZNrmTbusUmoaoxuq09XWYzzZmnC560Dyst0cE9gAMo5J5rHGeAz2+WKZbELSktJMu66W1Q31bQBhz4FPfrArzJzN78J9QCnhEJtKL1d3efqHAMGlscGRs1I3kSeUQNyn4/vT8mJ2eZ3SqFwiJA3UuiVBbPWZ6lESDqnLckkaAE3rPGUGh2/X3KJyfv19SuCn/fAcYA1IiMmqUtw+ZLhauZqFFUxT7yVNJ05hKLMjFJQqM1gv9zeqpKlfhKpMawamVGN676yV8CvY9M7b2JOx+Sc+1ry8jHSmtzk3z248Ye2tiR3N2lrrmSnjy4jh3DRIHIJTAA7Lv9ra5AemwWDMFJNfZg/uS/dKvXhiLrmwo
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_MW2PR2101MB1035A21608E50D68EE1CF890D63C0MW2PR2101MB1035_"
+ (envelope-from <bounces@canonical.com>) id 1ioY9x-0000kZ-VE
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:35:31 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45562)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ioY9x-0000jh-PQ
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 14:35:29 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ioY9w-0004QT-Ra
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 19:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CF5B52E80C3
+ for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 19:35:28 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cf0cfbc-238a-4f68-8ed7-08d792f99ae8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2020 22:41:43.8329 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: La/V1k2nHnWw745ucQat5rJim6r7tG9CTb4FXe8RngxRRd2HerDAiaD9LMSjn2aTHZ0LPX64RD0jhz8dUEFcLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB1097
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.236.103
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 Jan 2020 19:26:48 -0000
+From: David Miller <zezuspam@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: audio dos games gus sb16 timed timer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: zezuspam
+X-Launchpad-Bug-Reporter: David Miller (zezuspam)
+X-Launchpad-Bug-Modifier: David Miller (zezuspam)
+References: <157833854539.28173.10729724748625497755.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157833880848.3062.6630996346887021056.malone@soybean.canonical.com>
+Subject: [Bug 1858488] Re: qemu git && 4.2:  timed audio issues with sb16,
+ gus not working?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4059a55347c6390ff9cc4c74fecaa9a598f4c4c5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 06 Jan 2020 18:26:20 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -107,65 +68,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1858488 <1858488@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_MW2PR2101MB1035A21608E50D68EE1CF890D63C0MW2PR2101MB1035_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+./qemu is a symlink to qemu/build/i386-softmmu/qemu-system-i386
 
-The documentation on the new plugin capabilities of qemu is silent about th=
-e order call back registration should be done, and is also silent on the or=
-der in which call backs are fired.
+-- =
 
-Case in point: The callback registered by qemu_plugin_register_vcpu_mem_cb =
-is called after the call back registered by qemu_plugin_register_vcpu_insn_=
-exec_cb, regardless of the order of registration.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1858488
 
-However, I'd like to have the insn_exec_cb called after the mem_cb so that =
-I can save the mem information to be consumed by the insn callback.
+Title:
+  qemu git && 4.2:  timed audio issues with sb16,  gus not working?
 
+Status in QEMU:
+  New
 
---_000_MW2PR2101MB1035A21608E50D68EE1CF890D63C0MW2PR2101MB1035_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Bug description:
+  =
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-The documentation on the new plugin capabilities of qemu is silent about th=
-e order call back registration should be done, and is also silent on the or=
-der in which call backs are fired.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Case in point: The callback registered by qemu_plugin_register_vcpu_mem_cb =
-is called after the call back registered by qemu_plugin_register_vcpu_insn_=
-exec_cb, regardless of the order of registration.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-However, I'd like to have the insn_exec_cb called after the mem_cb so that =
-I can save the mem information to be consumed by the insn callback.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-</body>
-</html>
+  I have built [both] current git, and 4.2.0, there are issues with audio/s=
+oundhw for both.
 
---_000_MW2PR2101MB1035A21608E50D68EE1CF890D63C0MW2PR2101MB1035_--
+  Specifics:
+
+  Linux nullrig 5.3.0-24-generic #26-Ubuntu SMP Thu Nov 14 01:33:18 UTC
+  2019 x86_64 x86_64 x86_64 GNU/Linux
+
+  Out of source build, successful for both:
+
+  ../configure --prefix=3D/opt/qemu --target-list=3Di386-softmmu,mips64el-
+  softmmu ---enable-sdl --enable-sdl-image --enable-lzo --enable-bzip2
+  --enable-avx2 --enable-kvm --enable-membarrier --enable-plugin
+
+  Call:
+
+  ./qemu -machine pc,accel=3Dkvm,usb=3Doff -cpu pentium -m 64 -rtc
+  base=3Dlocaltime -parallel none -soundhw sb16,adlib,pcspk -device
+  cirrus-vga,bus=3Dpci.0 -drive
+  id=3Ddisk1,file=3Ddoom.cow,format=3Dqcow2,if=3Dvirtio -audiodev pa,id=3Dpa
+
+  Audio for sb16 sounds ok,  however if i switch to a timer based audio:
+  -audiodev wav
+
+  The output is wrong..  I had assumed it was all timer based audio,
+  however it seems to be limited to sb16.
+
+  So I then tried the next popular/compatible audio device for dos
+  games:  gravis ultrasound [gus].
+
+  I get no output at all for it.
+  I have tried more than one piece of software,  DOOM shareware is any easy=
+ example.
+
+  I realize there are better solutions for playing DOS games, however I
+  am interested in snapshot support which many of them lack.
+
+  I am willing to put the work into fixing it myself if need be,
+  however i'm not very familiar with the audio backend.   Specifically,
+  it is already mixed into a single buffer,  if 'adlib' driver is
+  already working: (audio_pcm_ops.write() output is correct on timer
+  based output) I failed to see how it affects emulation of the sound
+  blaster.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1858488/+subscriptions
 
