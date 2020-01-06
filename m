@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4291317DB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:56:24 +0100 (CET)
-Received: from localhost ([::1]:58150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DBE1317C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:54:52 +0100 (CET)
+Received: from localhost ([::1]:58114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXY6-0007qD-NO
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:56:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46148)
+	id 1ioXWd-0005O1-1T
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:54:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46163)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4o-00039p-NI
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:07 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4p-0003BE-Fc
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4n-0004qu-6L
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:06 -0500
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:41709)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4o-0004tw-Hy
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:07 -0500
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:37690)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4n-0004qX-2V; Mon, 06 Jan 2020 13:26:05 -0500
-Received: by mail-qt1-x842.google.com with SMTP id k40so43186289qtk.8;
- Mon, 06 Jan 2020 10:26:05 -0800 (PST)
+ id 1ioX4o-0004tX-EI; Mon, 06 Jan 2020 13:26:06 -0500
+Received: by mail-qt1-x844.google.com with SMTP id w47so43209353qtk.4;
+ Mon, 06 Jan 2020 10:26:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jkWrhgPSptvUdoRpBvu+nZPt4DG/CCW6P9e4SvO3R4Y=;
- b=PpUVHzsymhP0qmvWWvSH988bOE8R/TWD2utS/aX3eog494DPlrx06/rLaIj/20bdOD
- 5cw7BvX+je2pcnvWwYaAt0BlnD8JeZEhq4YaZ2fjSBW0E+Aq/GrFCHEcEDTNyLogntj1
- 4LgtKWaFgsSfXKgXLvi5hnn4YuWWrd89zF2VI8qK0yFs3EKSllP9i35mywAVXz4knxtK
- /ZoIxnj2xzEYMgDe8c5ThzuPJd+M4atCl3zbtmXUaA0o0mDwkqGPo3Zxet287hcMM0m9
- cL8S0bQwL4eYsHUxhEDrEH3nEp23MUUNQzwb9N+Div5n48JnD3bFUbKI25aWssVDp7/3
- fhOg==
+ bh=9CWmGBj5aHcDceZZnak42d3HhmzkoQ6hZFURnh41AJQ=;
+ b=fRNkR8Pq92PLD4Rj2lj2DlkW57FOCci79QyrBY/E4ItMBC7xeq+R4kunKB7FeSjPBu
+ zE7qF4hW36T00wvtYM1tPvWSSPc3sGscMOX2LcqviMfYfAb956a3JsAgBzi+Z03E7w+d
+ o2Jmt6n7jy0juIFX8uBKPJsDlAmbis15KOmxjz457UtyLCyjMojluXkmvYoNTesQtRas
+ I7Wvx2kAjPaAr8vps60mOcT+IOz3SpGyaxZMaN7Zqfu4ELJ6S5cCMZOdTJ1tAU9KUowr
+ hUuGn9M6ibX620kKFO66ixGhvZpTc5ESQMjCQ75CZdfxcqZZIMJx74PaVpZRu1UFkFCQ
+ EcQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jkWrhgPSptvUdoRpBvu+nZPt4DG/CCW6P9e4SvO3R4Y=;
- b=uKzQZEN4LUMYBF2rPtnWCNxrIqPduI4FaE2HSd3EGPiS/Y8my5Cpjvy9o/S4VS0YS3
- idh/NHfHFjHHP08DWLXC+xv7m6vmuRgtYf6FN0HTcHVlCZt7BSbn+By8S95BzOOjJXZK
- BUNmhbglhaBFe090MoCY7HD4I7NMBmME+mYI80jtUfbXK/q7Z9S2BTYc6y3m+TZCOYbV
- zj0yG0tW3FebmarxqT5Ayzj0N5643wMFurkAb6D7A/UubE4aBGmzftdcPB0gHejsjjK6
- vtSVLcuWVTZOPmPV5H11TcaF+AhLOqjVOqTtEw9XY2kkOnrqvN9aTzyHV8E2U1y6p6br
- JR7A==
-X-Gm-Message-State: APjAAAWR+HatDfD6WYQuILLeeLlmM2u7shvghX4IQ1bm9PIerm5SYl20
- DJEJXYMfu//IXlBkh1e1RPGM9uVe
-X-Google-Smtp-Source: APXvYqyfAVd/QYltAIZUHmuLgfKU7232NaaldQUa3oK+LsgJIaAp0wBAPCDwRaSixBJh8RVGfnZ/Eg==
-X-Received: by 2002:ac8:404e:: with SMTP id j14mr67129587qtl.312.1578335164489; 
- Mon, 06 Jan 2020 10:26:04 -0800 (PST)
+ bh=9CWmGBj5aHcDceZZnak42d3HhmzkoQ6hZFURnh41AJQ=;
+ b=EzlkzNHDcQmVHgLKfsP1dPDKfz0gGvIB88Uj+Y16rR5Z55QNKbrOcIlPoWVWwy3y7+
+ H5vTd9aooqOZ2mDkceDfJS8GglNNE/53DZqQvLye+ZodkUO9PiZzCXTx8esGVB4D6Wvq
+ gLwbgDReBPFQmdYWFnGBfS6zvw9McVCxD3Jt3DjdbpprbdhUdwsqTVCPpxlJg3cvEpC9
+ CJV4kTYZBkWorbmfeL6Sf0+7eqjkVeD5pm78zWa35T+MefdBpqOo82tbceTM+qfnrOBk
+ gSjj7k4a69opRufaZVM64HviakgdEDb6FIT2ifq6Xka19lQyKtdR/cGzPFIV0dqK0oDQ
+ csIw==
+X-Gm-Message-State: APjAAAW3xAIX5RfBDC2GIl1ivBnEB7K++t/5J6I/aSbaEqAib6RK8t78
+ P6J3mCtMAqx8uORp2S0QOSieOXT4
+X-Google-Smtp-Source: APXvYqzTlr5xjO3oGTrwz33FSc5NOPPkNEHipnTdpGDDmkxvyLdJGLhxx5lH/htTz8fDtvcjIVnPbg==
+X-Received: by 2002:ac8:5457:: with SMTP id d23mr72710032qtq.93.1578335165941; 
+ Mon, 06 Jan 2020 10:26:05 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.02
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:04 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:05 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 40/59] hsb/hcd-ehci.c: remove unneeded labels
-Date: Mon,  6 Jan 2020 15:24:06 -0300
-Message-Id: <20200106182425.20312-41-danielhb413@gmail.com>
+Subject: [PATCH v1 41/59] intc/s390_flic_kvm.c: remove unneeded label in
+ kvm_flic_load()
+Date: Mon,  6 Jan 2020 15:24:07 -0300
+Message-Id: <20200106182425.20312-42-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -64,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::842
+X-Received-From: 2607:f8b0:4864:20::844
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,141 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Label 'out' in ehci_state_fetchentry(), ehci_state_waitlisthead(),
-ehci_state_fetchqh() and ehci_state_execute() can be replaced
-by 'return' with the appropriate value.
+'out' label can be replaced by 'return' with the apropriate
+value that is set by 'r' right before the jump.
 
-CC: Gerd Hoffmann <kraxel@redhat.com>
+Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/usb/hcd-ehci.c | 32 ++++++++++----------------------
- 1 file changed, 10 insertions(+), 22 deletions(-)
+ hw/intc/s390_flic_kvm.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 56ab2f457f..d8103102d6 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -1511,7 +1511,6 @@ static int ehci_state_waitlisthead(EHCIState *ehci,  int async)
- {
-     EHCIqh qh;
-     int i = 0;
--    int again = 0;
-     uint32_t entry = ehci->asynclistaddr;
- 
-     /* set reclamation flag at start event (4.8.6) */
-@@ -1536,8 +1535,7 @@ static int ehci_state_waitlisthead(EHCIState *ehci,  int async)
- 
-             ehci_set_fetch_addr(ehci, async, entry);
-             ehci_set_state(ehci, async, EST_FETCHENTRY);
--            again = 1;
--            goto out;
-+            return 1;
-         }
- 
-         entry = qh.next;
-@@ -1550,8 +1548,7 @@ static int ehci_state_waitlisthead(EHCIState *ehci,  int async)
- 
-     ehci_set_state(ehci, async, EST_ACTIVE);
- 
--out:
--    return again;
-+    return 0;
- }
- 
- 
-@@ -1565,7 +1562,7 @@ static int ehci_state_fetchentry(EHCIState *ehci, int async)
- 
-     if (NLPTR_TBIT(entry)) {
-         ehci_set_state(ehci, async, EST_ACTIVE);
+diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
+index dddd33ea61..2e1e70c61d 100644
+--- a/hw/intc/s390_flic_kvm.c
++++ b/hw/intc/s390_flic_kvm.c
+@@ -439,17 +439,14 @@ static int kvm_flic_load(QEMUFile *f, void *opaque, size_t size,
+     count = qemu_get_be64(f);
+     len = count * sizeof(struct kvm_s390_irq);
+     if (count == FLIC_FAILED) {
+-        r = -EINVAL;
+-        goto out;
++        return -EINVAL;
+     }
+     if (count == 0) {
+-        r = 0;
 -        goto out;
 +        return 0;
      }
- 
-     /* section 4.8, only QH in async schedule */
-@@ -1597,7 +1594,6 @@ static int ehci_state_fetchentry(EHCIState *ehci, int async)
-         return -1;
+     buf = g_try_malloc0(len);
+     if (!buf) {
+-        r = -ENOMEM;
+-        goto out;
++        return -ENOMEM;
      }
  
+     if (qemu_get_buffer(f, (uint8_t *) buf, len) != len) {
+@@ -460,7 +457,6 @@ static int kvm_flic_load(QEMUFile *f, void *opaque, size_t size,
+ 
+ out_free:
+     g_free(buf);
 -out:
-     return again;
+     return r;
  }
  
-@@ -1617,14 +1613,12 @@ static EHCIQueue *ehci_state_fetchqh(EHCIState *ehci, int async)
-     if (q->seen > 1) {
-         /* we are going in circles -- stop processing */
-         ehci_set_state(ehci, async, EST_ACTIVE);
--        q = NULL;
--        goto out;
-+        return NULL;
-     }
- 
-     if (get_dwords(ehci, NLPTR_GET(q->qhaddr),
-                    (uint32_t *) &qh, sizeof(EHCIqh) >> 2) < 0) {
--        q = NULL;
--        goto out;
-+        return NULL;
-     }
-     ehci_trace_qh(q, NLPTR_GET(q->qhaddr), &qh);
- 
-@@ -1658,8 +1652,7 @@ static EHCIQueue *ehci_state_fetchqh(EHCIState *ehci, int async)
-             DPRINTF("FETCHQH:  QH 0x%08x. H-bit set, reclamation status reset"
-                        " - done processing\n", q->qhaddr);
-             ehci_set_state(ehci, async, EST_ACTIVE);
--            q = NULL;
--            goto out;
-+            return NULL;
-         }
-     }
- 
-@@ -1688,7 +1681,6 @@ static EHCIQueue *ehci_state_fetchqh(EHCIState *ehci, int async)
-         ehci_set_state(ehci, async, EST_ADVANCEQUEUE);
-     }
- 
--out:
-     return q;
- }
- 
-@@ -1932,8 +1924,7 @@ static int ehci_state_execute(EHCIQueue *q)
-     /* 4.10.3, bottom of page 82, go horizontal on transaction counter == 0 */
-     if (!q->async && q->transact_ctr == 0) {
-         ehci_set_state(q->ehci, q->async, EST_HORIZONTALQH);
--        again = 1;
--        goto out;
-+        return 1;
-     }
- 
-     if (q->async) {
-@@ -1942,7 +1933,7 @@ static int ehci_state_execute(EHCIQueue *q)
- 
-     again = ehci_execute(p, "process");
-     if (again == -1) {
--        goto out;
-+        return -1;
-     }
-     if (p->packet.status == USB_RET_ASYNC) {
-         ehci_flush_qh(q);
-@@ -1954,14 +1945,11 @@ static int ehci_state_execute(EHCIQueue *q)
-         } else {
-             again = 1;
-         }
--        goto out;
-+        return again;
-     }
- 
-     ehci_set_state(q->ehci, q->async, EST_EXECUTING);
--    again = 1;
--
--out:
--    return again;
-+    return 1;
- }
- 
- static int ehci_state_executing(EHCIQueue *q)
 -- 
 2.24.1
 
