@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15578131797
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:38:17 +0100 (CET)
-Received: from localhost ([::1]:57860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42DF13179D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:40:48 +0100 (CET)
+Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXGZ-0000zc-Mv
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:38:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45648)
+	id 1ioXJ1-0004Yb-P0
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:40:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4L-0002LW-Jh
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:39 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4P-0002R3-5p
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4K-0004N6-0o
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:37 -0500
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:39292)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4N-0004Qv-Md
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:40 -0500
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:40605)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4J-0004Mk-SN; Mon, 06 Jan 2020 13:25:35 -0500
-Received: by mail-qv1-xf43.google.com with SMTP id y8so19431485qvk.6;
- Mon, 06 Jan 2020 10:25:35 -0800 (PST)
+ id 1ioX4N-0004QZ-J4; Mon, 06 Jan 2020 13:25:39 -0500
+Received: by mail-qt1-x843.google.com with SMTP id e6so43208219qtq.7;
+ Mon, 06 Jan 2020 10:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1eNWCesezoeCHU4P6XXmYWzX+KWcO3wBsevjsS6K9fg=;
- b=Nu0kKN/mxLka/H/3rWIpQbIG6c9bN9JQ85u2Z01T8cvkL4gjy7BxQihZSMLpMLUklq
- Vqg76xrZlnb6wmDKUUeUpvbQxFZGd7JmKMFdPj/VoIBcDhCxEiqfSGd1GoEyroFDgFJa
- tHjY0lqU+XOQd458ZLr/EQO1Bd83NFE9CXCgZitBjxwJWZFXwkkkOm7ih9cBnxX6NmmN
- QgQa6CuISUm9Q9ntrKJAumoUi5MvmEryIh0IBODnTON0O8LSvTfaQpBivcbtLiz2EslZ
- ZQlRgJmQApUN06vFTQ1mfpGL9YGXImbdAHMkX0U07th7TSBEQLn2TV78jtUED5fwTRRd
- /kMg==
+ bh=Q+bOzXBEsI8nNVkaMppRn/FCllRO/uVUk7UDRcJPDvc=;
+ b=OV2233OKuf+rUsSvB+iilCKEFGrWOy30+te8ooCAwZfPiQbGkPvIcW7BN1GG/za4ih
+ cG8Hwbz2L+lM8fUdGGzKGAo8m7vRhI3y+w/74n0UNzgn/e00j1Fv+1Celw1U4qvaM6QH
+ vMh/K2VavxGGJ8lA5Fwf1lMvQ38SXE7l0wjzP64uT8Q634whU6l57KsB7QTcJDhFSH+o
+ UAValYXfUXAAxNVmTpURArStt+68P+KPHScLU3uPIULXRy5IizI8LSq2sHxfKv65qFeI
+ NxZXQ9NFV9DwP3UFgH1qaQiCyrtYaUbmPyUYuPdloUFr+krHdH5jgbCmIyRDYUlxrEZ8
+ 9+aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1eNWCesezoeCHU4P6XXmYWzX+KWcO3wBsevjsS6K9fg=;
- b=LEOxwHVuSspPIi63ArFbaQeqUDQvoLDg1Pb0Y4ZXdluk1eqMRLOhdatFP31MkMPxtJ
- krydVUgiDrsgm27MJZnrc9308Y4ZNZrQRuvGSD010anZraZplOPjf5dEqQOMinQoLgun
- GOlTts6o1gLvgVv/7PYmZGAhWRIap2UVW+c4RqtUHgVTqYGmkvbgZqSTyC3NsmbIq9GM
- 0JwTHC3iXuCvxPLxhPfK/kHTouHPU3wja9uGtjv3mHpI/g8SYxurA0TcaDD5hN7oUVG/
- SvVtASKJmmSPyAhY2+LWNR+l4IaTwB8jg8ixk2jTyVggpSenpXIKDzOuV9fM5jQKKpzz
- z2bQ==
-X-Gm-Message-State: APjAAAXJvaITTws1rQX41Fwdeh3ddLk+QhdBVxrDd/zXtpAO7RVxWyg4
- TENyIcypMEGFBubH4/tVhkCp4Xub
-X-Google-Smtp-Source: APXvYqw9VquKkGWHrF4hZ6jV1CoCcGb2PRdGGrSSPEADPaUlEEOsRNz2cwqWfgIdzM0AbV/oVRUjgw==
-X-Received: by 2002:a0c:fa87:: with SMTP id o7mr81007061qvn.160.1578335135150; 
- Mon, 06 Jan 2020 10:25:35 -0800 (PST)
+ bh=Q+bOzXBEsI8nNVkaMppRn/FCllRO/uVUk7UDRcJPDvc=;
+ b=lyXaVuapamFRMGWZaSRD+I3/sVBhl+8PyZ5p+p/REEN3jCDDYP2WKaPzl91P8pssoZ
+ 1uEZrsB9kuLwPs1pNQPUnQOshAnUYYJs/tEKZ37Ho/xZ+ZHRiiJXqbofLyNOukB4sdqK
+ eO5pFRph1sm8NW8lLd+HD247cnH1KL54ygQgxJH9H0B1ksakbu/qt4EREodBvA4qhaj7
+ B8R+29WJF00zXeX/haY8CJ5054zoey1tLcaSdyIB3JVpCE9U4kfpVBgvLxZwWjoJMJEz
+ hJpPTOo/rM2AIYtCTGaL/sTHgQZb2wlFrZGGJ62ohL4GkQJJ4YrT4bxUQI3FGO35aNml
+ Eb6Q==
+X-Gm-Message-State: APjAAAVWLGR8dNA0p7h23vjiiLlmKA958ZRfTwsdMVwzZN/Bc/EApisv
+ pzPMVOZBB+I9JVGYgNhFfrgiGHZ9
+X-Google-Smtp-Source: APXvYqyh5mMSZQ3pxp9i2UhaMKhzyAq85dan9+Qp2AUbce0/Y7zG4ocvzlPpaOwU8tebgr9Uv32NCQ==
+X-Received: by 2002:ac8:21ae:: with SMTP id 43mr77471513qty.223.1578335139073; 
+ Mon, 06 Jan 2020 10:25:39 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.33
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:34 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:38 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 24/59] block/vhdx-log.c: remove unneeded labels
-Date: Mon,  6 Jan 2020 15:23:50 -0300
-Message-Id: <20200106182425.20312-25-danielhb413@gmail.com>
+Subject: [PATCH v1 26/59] block/replication.c: remove unneeded label in
+ replication_co_writev
+Date: Mon,  6 Jan 2020 15:23:52 -0300
+Message-Id: <20200106182425.20312-27-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -64,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f43
+X-Received-From: 2607:f8b0:4864:20::843
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,321 +77,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jeff Cody <codyprime@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removing some 'exit' labels used in some functions that are
-unneeded, changing them for the adequate 'return' value
-for the context.
+The label 'out' in replication_co_writev() can be replaced by
+'return ret'. The other label, 'out1', was renamed to 'out'
+since the original 'out' label was removed.
 
-CC: Jeff Cody <codyprime@gmail.com>
-CC: qemu-block@nongnu.org
+CC: Wen Congyang <wencongyang2@huawei.com>
+CC: Xie Changlong <xiechanglong.d@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- block/vhdx-log.c | 86 ++++++++++++++++++------------------------------
- 1 file changed, 32 insertions(+), 54 deletions(-)
+ block/replication.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/block/vhdx-log.c b/block/vhdx-log.c
-index 13a49c2a33..ba89f0adc6 100644
---- a/block/vhdx-log.c
-+++ b/block/vhdx-log.c
-@@ -64,8 +64,7 @@ static int vhdx_log_peek_hdr(BlockDriverState *bs, VHDXLogEntries *log,
- 
-     /* peek is only supported on sector boundaries */
-     if (log->read % VHDX_LOG_SECTOR_SIZE) {
--        ret = -EFAULT;
--        goto exit;
-+        return -EFAULT;
-     }
- 
-     read = log->read;
-@@ -77,19 +76,17 @@ static int vhdx_log_peek_hdr(BlockDriverState *bs, VHDXLogEntries *log,
-     }
- 
-     if (read == log->write) {
--        ret = -EINVAL;
--        goto exit;
-+        return -EINVAL;
-     }
- 
-     offset = log->offset + read;
- 
-     ret = bdrv_pread(bs->file, offset, hdr, sizeof(VHDXLogEntryHeader));
+diff --git a/block/replication.c b/block/replication.c
+index 99532ce521..3d5eb64d41 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -258,7 +258,7 @@ static coroutine_fn int replication_co_writev(BlockDriverState *bs,
+     assert(!flags);
+     ret = replication_get_io_status(s);
      if (ret < 0) {
--        goto exit;
-+        return ret;
-     }
-     vhdx_log_entry_hdr_le_import(hdr);
- 
--exit:
-     return ret;
- }
- 
-@@ -179,7 +176,7 @@ static int vhdx_log_write_sectors(BlockDriverState *bs, VHDXLogEntries *log,
- 
-     ret = vhdx_user_visible_write(bs, s);
-     if (ret < 0) {
--        goto exit;
+-        goto out;
 +        return ret;
      }
  
-     write = log->write;
-@@ -196,7 +193,7 @@ static int vhdx_log_write_sectors(BlockDriverState *bs, VHDXLogEntries *log,
-         ret = bdrv_pwrite(bs->file, offset, buffer_tmp,
-                           VHDX_LOG_SECTOR_SIZE);
+     if (ret == 0) {
+@@ -280,7 +280,7 @@ static coroutine_fn int replication_co_writev(BlockDriverState *bs,
+                                       remaining_sectors * BDRV_SECTOR_SIZE,
+                                       &count);
          if (ret < 0) {
--            goto exit;
-+            return ret;
+-            goto out1;
++            goto out;
          }
-         buffer_tmp += VHDX_LOG_SECTOR_SIZE;
  
-@@ -205,7 +202,6 @@ static int vhdx_log_write_sectors(BlockDriverState *bs, VHDXLogEntries *log,
-         num_sectors--;
-     }
- 
--exit:
-     return ret;
- }
- 
-@@ -214,42 +210,37 @@ exit:
- static bool vhdx_log_hdr_is_valid(VHDXLogEntries *log, VHDXLogEntryHeader *hdr,
-                                   BDRVVHDXState *s)
- {
--    int valid = false;
--
-     if (hdr->signature != VHDX_LOG_SIGNATURE) {
--        goto exit;
-+        return false;
-     }
- 
-     /* if the individual entry length is larger than the whole log
-      * buffer, that is obviously invalid */
-     if (log->length < hdr->entry_length) {
--        goto exit;
-+        return false;
-     }
- 
-     /* length of entire entry must be in units of 4KB (log sector size) */
-     if (hdr->entry_length % (VHDX_LOG_SECTOR_SIZE)) {
--        goto exit;
-+        return false;
-     }
- 
-     /* per spec, sequence # must be > 0 */
-     if (hdr->sequence_number == 0) {
--        goto exit;
-+        return false;
-     }
- 
-     /* log entries are only valid if they match the file-wide log guid
-      * found in the active header */
-     if (!guid_eq(hdr->log_guid, s->headers[s->curr_header]->log_guid)) {
--        goto exit;
-+        return false;
-     }
- 
-     if (hdr->descriptor_count * sizeof(VHDXLogDescriptor) > hdr->entry_length) {
--        goto exit;
-+        return false;
-     }
- 
--    valid = true;
--
--exit:
--    return valid;
-+    return true;
- }
- 
- /*
-@@ -274,10 +265,10 @@ static bool vhdx_log_desc_is_valid(VHDXLogDescriptor *desc,
-     bool ret = false;
- 
-     if (desc->sequence_number != hdr->sequence_number) {
--        goto exit;
-+        return false;
-     }
-     if (desc->file_offset % VHDX_LOG_SECTOR_SIZE) {
--        goto exit;
-+        return false;
-     }
- 
-     if (desc->signature == VHDX_LOG_ZERO_SIGNATURE) {
-@@ -290,7 +281,6 @@ static bool vhdx_log_desc_is_valid(VHDXLogDescriptor *desc,
-             ret = true;
-     }
- 
--exit:
-     return ret;
- }
- 
-@@ -347,20 +337,18 @@ static int vhdx_log_read_desc(BlockDriverState *bs, BDRVVHDXState *s,
- 
-     ret = vhdx_log_peek_hdr(bs, log, &hdr);
-     if (ret < 0) {
--        goto exit;
-+        return ret;
-     }
- 
-     if (vhdx_log_hdr_is_valid(log, &hdr, s) == false) {
--        ret = -EINVAL;
--        goto exit;
-+        return -EINVAL;
-     }
- 
-     desc_sectors = vhdx_compute_desc_sectors(hdr.descriptor_count);
-     desc_entries = qemu_try_blockalign(bs->file->bs,
-                                        desc_sectors * VHDX_LOG_SECTOR_SIZE);
-     if (desc_entries == NULL) {
--        ret = -ENOMEM;
--        goto exit;
-+        return -ENOMEM;
-     }
- 
-     ret = vhdx_log_read_sectors(bs, log, &sectors_read, desc_entries,
-@@ -390,11 +378,10 @@ static int vhdx_log_read_desc(BlockDriverState *bs, BDRVVHDXState *s,
-     }
- 
-     *buffer = desc_entries;
--    goto exit;
-+    return ret;
- 
- free_and_exit:
-     qemu_vfree(desc_entries);
--exit:
-     return ret;
- }
- 
-@@ -688,7 +675,7 @@ static int vhdx_log_search(BlockDriverState *bs, BDRVVHDXState *s,
-         ret = vhdx_validate_log_entry(bs, s, &curr_log, curr_seq,
-                                       &seq_valid, &hdr);
+         assert(QEMU_IS_ALIGNED(count, BDRV_SECTOR_SIZE));
+@@ -292,7 +292,7 @@ static coroutine_fn int replication_co_writev(BlockDriverState *bs,
+         ret = bdrv_co_pwritev(target, sector_num * BDRV_SECTOR_SIZE,
+                               n * BDRV_SECTOR_SIZE, &hd_qiov, 0);
          if (ret < 0) {
--            goto exit;
-+            return ret;
+-            goto out1;
++            goto out;
          }
  
-         if (seq_valid) {
-@@ -704,7 +691,7 @@ static int vhdx_log_search(BlockDriverState *bs, BDRVVHDXState *s,
-                 ret = vhdx_validate_log_entry(bs, s, &curr_log, curr_seq,
-                                               &seq_valid, &hdr);
-                 if (ret < 0) {
--                    goto exit;
-+                    return ret;
-                 }
-                 if (seq_valid == false) {
-                     break;
-@@ -735,8 +722,6 @@ static int vhdx_log_search(BlockDriverState *bs, BDRVVHDXState *s,
-         s->log.sequence = candidate.hdr.sequence_number + 1;
+         remaining_sectors -= n;
+@@ -300,9 +300,8 @@ static coroutine_fn int replication_co_writev(BlockDriverState *bs,
+         bytes_done += count;
      }
  
--
--exit:
-     return ret;
- }
- 
-@@ -766,29 +751,26 @@ int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
- 
-     if (s->log.offset < VHDX_LOG_MIN_SIZE ||
-         s->log.offset % VHDX_LOG_MIN_SIZE) {
--        ret = -EINVAL;
--        goto exit;
-+        return -EINVAL;
-     }
- 
-     /* per spec, only log version of 0 is supported */
-     if (hdr->log_version != 0) {
--        ret = -EINVAL;
--        goto exit;
-+        return -EINVAL;
-     }
- 
-     /* If either the log guid, or log length is zero,
-      * then a replay log is not present */
-     if (guid_eq(hdr->log_guid, zero_guid)) {
--        goto exit;
-+        return 0;
-     }
- 
-     if (hdr->log_length == 0) {
--        goto exit;
-+        return 0;
-     }
- 
-     if (hdr->log_length % VHDX_LOG_MIN_SIZE) {
--        ret = -EINVAL;
--        goto exit;
-+        return -EINVAL;
-     }
- 
- 
-@@ -797,13 +779,12 @@ int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
- 
-     ret = vhdx_log_search(bs, s, &logs);
-     if (ret < 0) {
--        goto exit;
-+        return ret;
-     }
- 
-     if (logs.valid) {
-         if (bs->read_only) {
-             bdrv_refresh_filename(bs);
--            ret = -EPERM;
-             error_setg(errp,
-                        "VHDX image file '%s' opened read-only, but "
-                        "contains a log that needs to be replayed",
-@@ -811,18 +792,16 @@ int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
-             error_append_hint(errp,  "To replay the log, run:\n"
-                               "qemu-img check -r all '%s'\n",
-                               bs->filename);
--            goto exit;
-+            return -EPERM;
-         }
-         /* now flush the log */
-         ret = vhdx_log_flush(bs, s, &logs);
-         if (ret < 0) {
--            goto exit;
-+            return ret;
-         }
-         *flushed = true;
-     }
- 
--
--exit:
-     return ret;
- }
- 
-@@ -1048,29 +1027,28 @@ int vhdx_log_write_and_flush(BlockDriverState *bs, BDRVVHDXState *s,
-      * on disk, before creating log entry */
-     ret = bdrv_flush(bs);
-     if (ret < 0) {
--        goto exit;
-+        return ret;
-     }
- 
-     ret = vhdx_log_write(bs, s, data, length, offset);
-     if (ret < 0) {
--        goto exit;
-+        return ret;
-     }
-     logs.log = s->log;
- 
-     /* Make sure log is stable on disk */
-     ret = bdrv_flush(bs);
-     if (ret < 0) {
--        goto exit;
-+        return ret;
-     }
- 
-     ret = vhdx_log_flush(bs, s, &logs);
-     if (ret < 0) {
--        goto exit;
-+        return ret;
-     }
- 
-     s->log = logs.log;
- 
--exit:
+-out1:
+-    qemu_iovec_destroy(&hd_qiov);
+ out:
++    qemu_iovec_destroy(&hd_qiov);
      return ret;
  }
  
