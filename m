@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CED01314F6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:38:08 +0100 (CET)
-Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BAD1314FD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:41:22 +0100 (CET)
+Received: from localhost ([::1]:53838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioUSF-0004YK-9X
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:38:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32833)
+	id 1ioUVM-0001PG-Qk
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:41:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34521)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ioU9G-0001Ik-0l
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:18:31 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ioUDJ-0007cV-9O
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:22:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ioU9E-00013b-1z
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:18:29 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59458
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ioU9D-00013I-Ud
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:18:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578323907;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J7nilBbIsUZFieXeFgHe8O6C0oQfwQWIAQAZkO/kr6A=;
- b=b+X3zXNETxvCJNZmgaX9YLrrw/lCgxMJnepzXeQcZP2ECIjLf3DkVtbn0dk5jqdXhdIepP
- qWnlCwzrPTX5Vzi/7Uo1TB27HlLBf/sN/uZGfiTnBF/QH8OSFQYNX9mno6InH/OObexw2x
- hPIxjjXzZF8GyF3ioLdW+et77OiMkG4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-cBVytmopNqGdw08JRxR_jQ-1; Mon, 06 Jan 2020 10:18:25 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBA2F8026A9
- for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 15:18:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B9475C3F8;
- Mon,  6 Jan 2020 15:18:18 +0000 (UTC)
-Date: Mon, 6 Jan 2020 15:18:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 059/104] virtiofsd: Add ID to the log with FUSE_LOG_DEBUG
- level
-Message-ID: <20200106151819.GW2930416@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-60-dgilbert@redhat.com>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ioUDI-0003xc-0Z
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:22:41 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55119)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ioUDH-0003uQ-QO
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 10:22:39 -0500
+Received: by mail-wm1-x342.google.com with SMTP id b19so15309147wmj.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 07:22:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LShIjmc7MPKNcJQC0b7I/MFUevn2g2qSUoYMEt41DTg=;
+ b=KdfrxoBj27XeMPo+opeMRQJUtyY9NxfBqqU2OimW6EgdIRvQ4LU9nd4BN0W1M0uEoo
+ EEqvwNBVStpqh+FDp++mZeSqHpcXcWOsftXCBGGorevYJf6PpsRbY+9Vp8vLfykUxo14
+ YoTafOtOdyU2X/c2OzCM3zC7q4/eaPfQE3VKapUqrYUCYJjbGgd4jwiniHfjHrPSKJqm
+ 0SxqrfanPg6BGC0uHW2TaLuKovp6RYvhKb7+OtQjX0pXrrj0yU7hEqSBI4B6xJlaK1tJ
+ iSUC7dxpr8OiXALvDExLeZFGQNnvwI8Aeh+okc9GJ5QzdL2u4OjP62vtr3ZSPonLF5Bx
+ q2eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LShIjmc7MPKNcJQC0b7I/MFUevn2g2qSUoYMEt41DTg=;
+ b=d0UtqWB1IabK3B+HXs59mt/33VOPc2whH7PWCBkSwRihD6ATvxjKjWUx4nWffopf7z
+ vmDQUPkCsCPFW3QjbVRRMXm0bNo2TciPEt1vBCsKCevMPwwNcwBfFEBZ7v+Sb5FRQr3E
+ b/5sW6bLpQyxdd3GPxA6QPzst++9XCuXKnamuBXekVCQEJLjXW054vxKlTsmz+4bduyt
+ ZUdR1IcEGkH5X+8yCoOmxIPPns4AcKMW5WcXbFVzbue4SUkN24yy0ZKRMD00wdqZYEqF
+ UyeYgnHgbssSLYHc1wuqLp3JQgVz4Lr+yvUnY2hRMYdnEOzHjid2mLjC7aQwHzcF5hwH
+ t3uA==
+X-Gm-Message-State: APjAAAVWKIedL0OzwD/wBbgC1GeEu93qgHmv9vLC5iJr8btE63/T+dGo
+ o5IJqvfbKC0xpEboICUyIGKCRQh4QwuZdMyMo8s=
+X-Google-Smtp-Source: APXvYqwBo7+IDOjta5MmpBIWV5eIJPOe+3FLooG9pwI1yc5wunIVwIvfL3vN6om4Q5GqxxXf3r4/GYHVPiDKLiVVEQM=
+X-Received: by 2002:a7b:c407:: with SMTP id k7mr35801878wmi.46.1578324156699; 
+ Mon, 06 Jan 2020 07:22:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-60-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: cBVytmopNqGdw08JRxR_jQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+References: <20200106144552.7205-1-peter.maydell@linaro.org>
+In-Reply-To: <20200106144552.7205-1-peter.maydell@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 6 Jan 2020 19:22:23 +0400
+Message-ID: <CAJ+F1C+PcER4eQhJwwE6Q-xrfn4+rTr=z+otyg2O=ZQA+sD4FQ@mail.gmail.com>
+Subject: Re: [PATCH] tests/iothread: Always connect iothread GSource to a
+ GMainContext
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,117 +74,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:19PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
->=20
-> virtiofsd has some threads, so we see a lot of logs with debug option.
-> It would be useful for debugging if we can identify the specific thread
-> from the log.
->=20
-> Add ID, which is got by gettid(), to the log with FUSE_LOG_DEBUG level
-> so that we can grep the specific thread.
->=20
-> The log is like as:
->=20
->   ]# ./virtiofsd -d -o vhost_user_socket=3D/tmp/vhostqemu0 -o source=3D/t=
-mp/share0 -o cache=3Dauto
->   ...
->   [ID: 00000097]    unique: 12696, success, outsize: 120
->   [ID: 00000097] virtio_send_msg: elem 18: with 2 in desc of length 120
->   [ID: 00000003] fv_queue_thread: Got queue event on Queue 1
->   [ID: 00000003] fv_queue_thread: Queue 1 gave evalue: 1 available: in: 6=
-5552 out: 80
->   [ID: 00000003] fv_queue_thread: Waiting for Queue 1 event
->   [ID: 00000071] fv_queue_worker: elem 33: with 2 out desc of length 80 b=
-ad_in_num=3D0 bad_out_num=3D0
->   [ID: 00000071] unique: 12694, opcode: READ (15), nodeid: 2, insize: 80,=
- pid: 2014
->   [ID: 00000071] lo_read(ino=3D2, size=3D65536, off=3D131072)
->=20
-> Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Hi
+
+On Mon, Jan 6, 2020 at 7:03 PM Peter Maydell <peter.maydell@linaro.org> wro=
+te:
+>
+> On older versions of glib (anything prior to glib commit 0f056ebe
+> from May 2019), the implementation of g_source_ref() and
+> g_source_unref() is not threadsafe for a GSource which is not
+> attached to a GMainContext.
+>
+> QEMU's real iothread.c implementation always attaches its
+> iothread->ctx's GSource to a GMainContext created for that iothread,
+> so it is OK, but the simple test framework implementation in
+> tests/iothread.c was not doing this.  This was causing intermittent
+> assertion failures in the test-aio-multithread subtest
+> "/aio/multi/mutex/contended" test on the BSD hosts.  (It's unclear
+> why only BSD seems to have been affected -- perhaps a combination of
+> the specific glib version being used in the VMs and their happening
+> to run on a host with a lot of CPUs).
+>
+> Borrow the iothread_init_gcontext() from the real iothread.c
+> and add the corresponding cleanup code and the calls to
+> g_main_context_push/pop_thread_default() so we actually use
+> the GMainContext we create.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-
->=20
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
-gh_ll.c
-> index 6f398a7ff2..8e00a90e6f 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -42,6 +42,7 @@
->  #include <cap-ng.h>
->  #include <dirent.h>
->  #include <errno.h>
-> +#include <glib.h>
->  #include <inttypes.h>
->  #include <limits.h>
->  #include <pthread.h>
-> @@ -2248,12 +2249,18 @@ static void setup_nofile_rlimit(void)
->      }
+> I don't really have a good understanding of the glib APIs here,
+> so I'm mostly just cribbing code from the real iothread.c;
+> review by people who do know the glib/iothread stuff better
+> welcomed. It does seem to fix the intermittent test failure
+> on NetBSD, at least, where we were running into an assertion
+> failure because a g_source_unref() incorrectly thought it
+> had decremented the refcount to 0 and should delete a context
+> that was actually still in use.
+>
+>  tests/iothread.c | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>
+> diff --git a/tests/iothread.c b/tests/iothread.c
+> index 13c9fdcd8df..d3a2ee9a014 100644
+> --- a/tests/iothread.c
+> +++ b/tests/iothread.c
+> @@ -21,6 +21,8 @@
+>
+>  struct IOThread {
+>      AioContext *ctx;
+> +    GMainContext *worker_context;
+> +    GMainLoop *main_loop;
+>
+>      QemuThread thread;
+>      QemuMutex init_done_lock;
+> @@ -35,6 +37,17 @@ AioContext *qemu_get_current_aio_context(void)
+>      return my_iothread ? my_iothread->ctx : qemu_get_aio_context();
 >  }
-> =20
-> -static void log_func(enum fuse_log_level level, const char *fmt, va_list=
- ap)
-> +static void log_func(enum fuse_log_level level, const char *_fmt, va_lis=
-t ap)
+>
+> +static void iothread_init_gcontext(IOThread *iothread)
+> +{
+> +    GSource *source;
+> +
+> +    iothread->worker_context =3D g_main_context_new();
+> +    source =3D aio_get_g_source(iothread_get_aio_context(iothread));
+> +    g_source_attach(source, iothread->worker_context);
+> +    g_source_unref(source);
+> +    iothread->main_loop =3D g_main_loop_new(iothread->worker_context, TR=
+UE);
+> +}
+> +
+>  static void *iothread_run(void *opaque)
 >  {
-> +    char *fmt =3D (char *)_fmt;
-
-Reusing a variable for data that may be const from stack or
-non-const from heap is really gross & asking for trouble.
-
-If instead it does:
-
-    g_autofree *localfmt =3D NULL;
-
+>      IOThread *iothread =3D opaque;
+> @@ -44,6 +57,20 @@ static void *iothread_run(void *opaque)
+>      my_iothread =3D iothread;
+>      qemu_mutex_lock(&iothread->init_done_lock);
+>      iothread->ctx =3D aio_context_new(&error_abort);
 > +
->      if (current_log_level < level) {
->          return;
+> +    /*
+> +     * We must connect the ctx to a GMainContext, because in older versi=
+ons
+> +     * of glib the g_source_ref()/unref() functions are not threadsafe
+> +     * on sources without a context.
+> +     */
+> +    iothread_init_gcontext(iothread);
+> +
+> +    /*
+> +     * g_main_context_push_thread_default() must be called before anythi=
+ng
+> +     * in this new thread uses glib.
+
+in/if, I suppose
+
+> +     */
+> +    g_main_context_push_thread_default(iothread->worker_context);
+> +
+>      qemu_cond_signal(&iothread->init_done_cond);
+>      qemu_mutex_unlock(&iothread->init_done_lock);
+>
+> @@ -51,6 +78,7 @@ static void *iothread_run(void *opaque)
+>          aio_poll(iothread->ctx, true);
 >      }
-> =20
-> +    if (current_log_level =3D=3D FUSE_LOG_DEBUG) {
-> +        fmt =3D g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid), =
-_fmt);
-
-Then:
-
-           localfmt =3D g_strdup_printf(....)
-=09   fmt =3D localfmt;
-
-> +    }
-> +
->      if (use_syslog) {
->          int priority =3D LOG_ERR;
->          switch (level) {
-> @@ -2286,6 +2293,10 @@ static void log_func(enum fuse_log_level level, co=
-nst char *fmt, va_list ap)
->      } else {
->          vfprintf(stderr, fmt, ap);
->      }
-> +
-> +    if (current_log_level =3D=3D FUSE_LOG_DEBUG) {
-> +        g_free(fmt);
-> +    }
-
-This can then be deleted.
-
+>
+> +    g_main_context_pop_thread_default(iothread->worker_context);
+>      rcu_unregister_thread();
+>      return NULL;
 >  }
+> @@ -66,6 +94,8 @@ void iothread_join(IOThread *iothread)
+>  {
+>      aio_bh_schedule_oneshot(iothread->ctx, iothread_stop_bh, iothread);
+>      qemu_thread_join(&iothread->thread);
+> +    g_main_context_unref(iothread->worker_context);
+> +    g_main_loop_unref(iothread->main_loop);
+>      qemu_cond_destroy(&iothread->init_done_cond);
+>      qemu_mutex_destroy(&iothread->init_done_lock);
+>      aio_context_unref(iothread->ctx);
+> --
+> 2.20.1
+>
+>
 
-Regards,
-Daniel
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
+Marc-Andr=C3=A9 Lureau
 
