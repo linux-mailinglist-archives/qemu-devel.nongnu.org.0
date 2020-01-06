@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF0F13176D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:23:36 +0100 (CET)
-Received: from localhost ([::1]:57634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832F7131775
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:28:26 +0100 (CET)
+Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioX2N-0000PP-F7
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:23:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44406)
+	id 1ioX73-0005Yg-6A
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:28:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ioX1U-0007yx-N1
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:22:41 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3f-0001M3-54
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:24:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ioX1T-0001pz-Ez
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:22:40 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:38240)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3d-0003bi-El
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:24:55 -0500
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:40593)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ioX1T-0001pB-8a
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:22:39 -0500
-Received: by mail-oi1-x232.google.com with SMTP id l9so13837383oii.5
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 10:22:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UHjJxboTBKVUiBSfVPlqkZ919fmiFLCQYAEoJAJpgps=;
- b=v5p2GZUTxtQLNOBdCCj0wwWJGuByoHviPQX4uk1XGsrfjeOmYK5JrAh5ztQpV//vT+
- ktn6y/Zq/W+x8mO+0ADjq18xwqcUuzbpLCcXOzllKm0hvBRYghIFOvsU/qRFapCWnIa1
- /VENLpvi16JDcs+1o9hbS9OoD2KZCC3S0lefrXHFKPHw8ir2MGOW/sV+KT9q5lvZrbUj
- 0ByiyaH/Ktv7qHFYdpKFCr54fCMhLbucetH0sPrYoJme2gfqeZY2cUuxDFmt87Y8g8zG
- mcOfGpcjFZNjJSxM09WqUpNZLnQFmrVOz+5Cq2J+ManaKRW2FRpJK+qBt/YWFkbZ7PxM
- yseQ==
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1ioX3d-0003b4-5d; Mon, 06 Jan 2020 13:24:53 -0500
+Received: by mail-qt1-x842.google.com with SMTP id e6so43206345qtq.7;
+ Mon, 06 Jan 2020 10:24:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7r60/2+UgSmMY0vXGIJweGB5lb3xcciRJ3ojSxazjoM=;
+ b=LB3b2KMCHB2aHogtMJ5UNa8lwCVB0lI+4OwlPjlAbGdUZKTMAr5F90t65oPthvVeaK
+ KROOr/YJy9u1kWaHd0pwZoFFJZYFo3elG6RZXewdUGRKF88DZGbGwrRJJRVPvumVw61y
+ CxqHRFnpF/6VrVucIjvYo+v2y4UmkKc3JiRUmOPx5OBRREkxnkvklj5xrgjjhWaisfr4
+ 5wgdpPMZfM24ViAZ2rJvvTYO12lKr/nVncKvbYRrJrGMFpVLxqJG6AYsgu0T8fMLBHKZ
+ 1A7k0+c7VLQeGB7jF5ECg8LrcnGIEvJh1MhdULc77X1QIgZrkG92Kh3ZNjCNNjcgo8wM
+ 2/BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UHjJxboTBKVUiBSfVPlqkZ919fmiFLCQYAEoJAJpgps=;
- b=bqP1E/S4vlY43fP/HBqWCiBS347F639Da77Rx+tHxOR1tHGvMHd1/3jLmcqipkF48a
- hSaRw22lsXVjabxuSkGGCV7/MqzdQFpo4tELCgMJI4TC4KGFdxuCV6lSsLQAc8DxbUUq
- W4wrL+Ts5pjfIY1cKB5yGLVYD/4ExkALGcMnnbMW8DiEil1AyZLwfpBkY46hb9yvI25F
- FhVFPNaIgX1nyihBtNn3ItPOvpyZg/vnXumOYznZvdgAfiaStUnm9ZPMxXhct56xIbQJ
- VJCAHUuIffr+Hmb8zVT8K/EmquVH9btpEi+8eM5v/Ga1MnhI8L6lcETfdf5kkQsAaMzp
- qP3w==
-X-Gm-Message-State: APjAAAWmv3YEzK0zI7/+gLWrqA8KPLVQSsPu7uLVkJLwCdBDiaoD+0re
- NrMxg9znuxBdE0fpsQhWNOHJJ1baOcOBwS8yqZRq9A==
-X-Google-Smtp-Source: APXvYqw5I3+sUhmQLuQHXNd3/okhyosD1XHicyXUAdmK4TA/pxhHiATXG6u4+zoyTp0rmYZeMSOr36YK9WRwFURJpDg=
-X-Received: by 2002:aca:d78b:: with SMTP id o133mr6382669oig.163.1578334958161; 
- Mon, 06 Jan 2020 10:22:38 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7r60/2+UgSmMY0vXGIJweGB5lb3xcciRJ3ojSxazjoM=;
+ b=PP3GWTwRpAFtSkV+x2NyULGC7v+Udlb5RQTDELsjLuAisvAQC5xtGxpu2np21lyafS
+ Y0fbghFn2pwmxJSHZ8Ko0Dq+lCmNyZbJZLaeV/ttQMub4Hf1xI63g5PyP6MWARtjhEje
+ WqKLsVhti31K1eOwnHhD045kVE7F0P7N2E/0ba4g8vhZeoESrL9gJg6EH0mgbv9isk9R
+ q/vqK+XTjWILAVTiU26ekecFBnBKI/AkNnzRbpLHgZ2NdreW29gRDiAG2rPVhpR6cfcT
+ i/2l8QAXS4kIYa7n1q18czxuPFbeDWmr/l+6+qjwA4hMLh7tHhdqnV1iM3ETlGz7TNNU
+ lSeg==
+X-Gm-Message-State: APjAAAX8oV77mn7xHnWEjCz4Gimpx02/xIXcFi0/qT7VbZrfMsbBOa0p
+ aPY5yIE83HJuDrbdBtUy+bgz/33w
+X-Google-Smtp-Source: APXvYqyoDfLGSMJXKtOo/0LyiZQUa1ga2ohAuISkp6U6hL8TGYfb/xpsQmaHuUuQjAdXPkBZXE5y2g==
+X-Received: by 2002:ac8:689a:: with SMTP id m26mr76509045qtq.68.1578335092238; 
+ Mon, 06 Jan 2020 10:24:52 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.24.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2020 10:24:51 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 00/59] trivial unneeded labels cleanup
+Date: Mon,  6 Jan 2020 15:23:26 -0300
+Message-Id: <20200106182425.20312-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200106144206.698920-1-mreitz@redhat.com>
-In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Jan 2020 18:22:27 +0000
-Message-ID: <CAFEAcA_u05UkX0f9es1MZaaJ0+KGrKFeu0rBRC2ZJ6z9xLN-uQ@mail.gmail.com>
-Subject: Re: [PULL 00/34] Block patches
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+X-Received-From: 2607:f8b0:4864:20::842
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,40 +75,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 14:42, Max Reitz <mreitz@redhat.com> wrote:
->
-> The following changes since commit f17783e706ab9c7b3a2b69cf48e4f0ba40664f54:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20191220' into staging (2020-01-03 18:50:33 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2020-01-06
->
-> for you to fetch changes up to 503ca1262bab2c11c533a4816d1ff4297d4f58a6:
->
->   backup-top: Begin drain earlier (2020-01-06 14:26:23 +0100)
->
-> ----------------------------------------------------------------
-> Block patches:
-> - Minor fixes and tests from the freeze period (too minor to be included
->   in 4.2)
-> - Allow many bash iotests to test qcow2's external data file feature
-> - Add compress filter driver
-> - Fix Python iotests after 6f6e1698a6
-> - Fix for the backup job
->
+Hello,
+
+This is the type of cleanup I've contributed to Libvirt
+during the last year. Figured QEMU also deserves the same
+care.
+
+The idea here is remove unneeded labels. By 'unneeded' I
+mean labels that does nothing but a 'return' call. One
+common case is something like this:
+
+if ()
+    goto cleanup;
+[...]
+ cleanup:
+    return 0;
+
+This code can be simplified to:
+
+if ()
+    return 0;
 
 
-Applied, thanks.
+Which is cleaner and requires less brain cycles to wonder
+whether the 'cleanup' label does anything special, such
+as a heap memory cleanup.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Another common case uses a variable to set a return value,
+generally an error, then return:
 
--- PMM
+if () {
+    ret = -ENOENT;
+    goto out;
+}
+[..]
+ out:
+    return ret;
+
+Likewise, it is clearer to just 'return -ENOENT' instead of
+jumping to a label. There are other cases being handled in
+these patches, but these are the most common.
+
+There are still a handful of unneeded labels hanging around after
+this series. There are cases in which the label name is
+part of the code semantics and I judged not worth removing.
+search_chunk() in block/dmg.c has an example of an unneeded
+'err' label that I decided to not remove.
+
+No functional change was made. If any of these patches changes
+existing behavior it is unintended and an error from my
+part.
+
+
+
+Daniel Henrique Barboza (59):
+  spapr.c: remove 'out' label in spapr_dt_cas_updates()
+  ppc440_bamboo.c: remove label from bamboo_load_device_tree()
+  kvm-all.c: remove unneeded labels
+  paaudio.c: remove unneeded labels
+  ram.c: remove unneeded labels
+  mips-semi.c: remove 'uhi_done' label in helper_do_semihosting()
+  unicore32/softmmu.c: remove 'do_fault' label in get_phys_addr_ucv2()
+  chardev/char-mux.c: remove 'send_char' label
+  chardev/char-pipe.c: remove 'fail' label in win_chr_pipe_init()
+  chardev/char-win.c: remove 'fail' label in win_chr_serial_init()
+  exec.c: remove 'err' label in ram_block_discard_range()
+  virtfs-proxy-helper.c: remove 'err_out' label in setugid()
+  block/vdi.c: remove 'fail' label in vdi_open()
+  block/file-posix.c: remove unneeded labels
+  block/blkreplay.c: remove unneeded 'fail' label in blkreplay_open()
+  block/gluster.c: remove unneeded 'exit' label
+  block/dmg.c: remove unneeded 'fail' label in dmg_read_mish_block()
+  qcow2-refcount.c: remove unneeded 'fail' label in
+    qcow2_refcount_init()
+  block/ssh.c: remove unneeded labels
+  block/vpc.c: remove unneeded 'fail' label in create_dynamic_disk()
+  block/backup.c remove unneeded 'out' label in backup_run()
+  block/vmdk.c: remove unneeded labels
+  block/vxhs.c: remove unneeded 'out' label in vxhs_iio_callback()
+  block/vhdx-log.c: remove unneeded labels
+  block/vhdx.c: remove unneeded 'exit' labels
+  block/replication.c: remove unneeded label in replication_co_writev
+  crypto/block-luks.c: remove unneeded label in
+    qcrypto_block_luks_find_key
+  qga/commands-win32.c: remove 'out' label in get_pci_info
+  cryptodev-vhost.c: remove unneeded 'err' label in
+    cryptodev_vhost_start
+  util/module.c: remove unneeded label in module_load_file()
+  util/aio-posix.c: remove unneeded 'out' label in aio_epoll
+  qemu-img.c: remove 'out4' label in img_compare
+  ipmi/ipmi_bmc_sim.c: remove unneeded labels
+  ipmi/ipmi_bt.c: remove unneeded label in ipmi_bt_handle_event
+  ipmi_bmc_extern.c: remove unneeded label in
+    ipmi_bmc_extern_handle_command
+  ipmi/ipmi_kcs.c: remove unneeded label in ipmi_kcs_handle_event
+  s390x/event-facility.c: remove unneeded labels
+  s390x/sclp.c: remove unneeded label in sclp_service_call()
+  usb/dev-mtp.c: remove unneeded label in write_retry()
+  hsb/hcd-ehci.c: remove unneeded labels
+  intc/s390_flic_kvm.c: remove unneeded label in kvm_flic_load()
+  i386/intel_iommu.c: remove unneeded labels
+  i386/amd_iommu.c: remove unneeded label in amdvi_int_remap_msi()
+  9p-local.c: remove unneeded label in local_unlinkat_common()
+  9pfs/9p.c: remove unneeded labels
+  alpha/typhoon.c: remove unneeded label in typhoon_translate_iommu()
+  pvrdma_main.c: remove unneeded labels
+  pvrdma_dev_ring.c: remove unneeded label in pvrdma_ring_init()
+  rdma/rdma_rm.c: remove unneeded label in rdma_rm_alloc_pd()
+  rdma/rdma_backend.c: remove unneeded label in rdma_backend_init()
+  virtio/vhost.c: remove unneeded labels
+  net/vhost_net.c: remove unneeded labels
+  net/net_tx_pkt.c: remove unneeded label in net_tx_pkt_get_gso_type()
+  ivshmem-server/main.c: remove unneeded label in main()
+  linux-user/flatload.c: remove unused 'out' label
+  linux-user/signal.c: remove unneeded label in do_sigaltstack()
+  linux-user/syscall.c: fix trailing whitespaces and style
+  linux-user/syscall.c: remove unneeded labels
+  linux-user/vm86.c: remove unneeded label in do_vm86()
+
+ accel/kvm/kvm-all.c           | 30 +++++-------
+ audio/paaudio.c               | 10 +---
+ backends/cryptodev-vhost.c    |  4 +-
+ block/backup.c                |  6 +--
+ block/blkreplay.c             |  8 +---
+ block/dmg.c                   | 10 +---
+ block/file-posix.c            | 10 ++--
+ block/gluster.c               |  3 +-
+ block/qcow2-refcount.c        |  7 +--
+ block/replication.c           |  9 ++--
+ block/ssh.c                   | 61 ++++++++-----------------
+ block/vdi.c                   | 40 ++++++----------
+ block/vhdx-log.c              | 86 +++++++++++++----------------------
+ block/vhdx.c                  | 10 ++--
+ block/vmdk.c                  | 37 ++++++---------
+ block/vpc.c                   | 12 ++---
+ block/vxhs.c                  |  4 +-
+ chardev/char-mux.c            |  3 +-
+ chardev/char-pipe.c           | 13 ++----
+ chardev/char-win.c            | 19 ++++----
+ contrib/ivshmem-server/main.c |  9 ++--
+ crypto/block-luks.c           |  3 +-
+ exec.c                        | 13 +++---
+ fsdev/virtfs-proxy-helper.c   |  4 +-
+ hw/9pfs/9p-local.c            | 12 ++---
+ hw/9pfs/9p.c                  |  9 ++--
+ hw/alpha/typhoon.c            | 18 ++++----
+ hw/i386/amd_iommu.c           | 13 ++----
+ hw/i386/intel_iommu.c         |  8 ++--
+ hw/intc/s390_flic_kvm.c       | 10 ++--
+ hw/ipmi/ipmi_bmc_extern.c     |  5 +-
+ hw/ipmi/ipmi_bmc_sim.c        |  9 +---
+ hw/ipmi/ipmi_bt.c             |  8 ++--
+ hw/ipmi/ipmi_kcs.c            |  4 +-
+ hw/net/net_tx_pkt.c           | 11 ++---
+ hw/net/vhost_net.c            |  7 ++-
+ hw/ppc/ppc440_bamboo.c        |  8 +---
+ hw/ppc/spapr.c                |  9 ++--
+ hw/rdma/rdma_backend.c        |  4 +-
+ hw/rdma/rdma_rm.c             | 11 ++---
+ hw/rdma/vmw/pvrdma_dev_ring.c |  7 +--
+ hw/rdma/vmw/pvrdma_main.c     | 10 ++--
+ hw/s390x/event-facility.c     | 21 +++------
+ hw/s390x/sclp.c               | 16 ++-----
+ hw/usb/dev-mtp.c              | 13 ++----
+ hw/usb/hcd-ehci.c             | 32 ++++---------
+ hw/virtio/vhost.c             | 11 ++---
+ linux-user/flatload.c         |  1 -
+ linux-user/signal.c           | 20 +++-----
+ linux-user/syscall.c          | 54 ++++++++++------------
+ linux-user/vm86.c             |  7 +--
+ migration/ram.c               | 18 ++------
+ qemu-img.c                    |  7 +--
+ qga/commands-win32.c          | 17 ++++---
+ target/mips/mips-semi.c       | 15 +++---
+ target/unicore32/softmmu.c    | 23 +++-------
+ util/aio-posix.c              |  3 +-
+ util/module.c                 | 11 ++---
+ 58 files changed, 293 insertions(+), 550 deletions(-)
+
+-- 
+2.24.1
+
 
