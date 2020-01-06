@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568A61318A8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:24:31 +0100 (CET)
-Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C82131847
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:08:23 +0100 (CET)
+Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXzK-0004TO-CW
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52961)
+	id 1ioXjh-0007bA-He
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:08:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ioXOW-0004lY-UC
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:46:30 -0500
+ (envelope-from <philmd@redhat.com>) id 1ioXOe-0004q5-Nd
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:46:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ioXOU-0003ES-Ik
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:46:28 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26563
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ioXOZ-0003I5-7h
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:46:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59775
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ioXOU-0003EC-FL
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:46:26 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ioXOY-0003H8-PG
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:46:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578336386;
+ s=mimecast20190719; t=1578336389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+x7G4JCLQje2QXs8EZmf9Rkm8tTIk53p9vFvwGwU7HI=;
- b=adiP0ZcTRmfJBjMjfS1rWJmbDin9i8Zg1laGqgrFgmszPR9qX9eiO9obzYB0x3O2p89c2w
- ai4i7/QwCQV/mWFas6wSuThPndAOsyqcPdtM4uzDwtTw9QLlHsREl+mt2OGN/s/2JCoscj
- kJL1eiDQXCb8W47W/ZqonAWjI0ZcDmQ=
+ bh=JtCAaREUfb5bmCXH03wjqlQoiSqbMgLqqNesZ69/gd4=;
+ b=MGVN+828/9Cst5lD/Bi+HCpFFqB/b7eKHHHlhFjUZeGokRMi02zAC8WXPQ7NR+MxMWCoxC
+ BCrvYudK6OBEn1SULzaU1hPtpB8O48oS4P4+OTcYQ2+aphsWuFIJoc/7xkUYVG6avYewc+
+ cOQyfVmOG+mP3k+Kh+T0cH6nsq2k6K8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-QQTE08bBPZ21ibRs4Mq5tA-1; Mon, 06 Jan 2020 13:46:22 -0500
+ us-mta-14-Vrqdy2gFNkWXQMCgrwqM_A-1; Mon, 06 Jan 2020 13:46:28 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C9FC100551A;
- Mon,  6 Jan 2020 18:46:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF1D619057B5;
+ Mon,  6 Jan 2020 18:46:27 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-53.brq.redhat.com [10.40.204.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AAAA761076;
- Mon,  6 Jan 2020 18:46:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44F9060FA2;
+ Mon,  6 Jan 2020 18:46:21 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Laszlo Ersek <lersek@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/3] gitlab-ci.yml: Add a job to build EDK2 firmware binaries
-Date: Mon,  6 Jan 2020 19:46:00 +0100
-Message-Id: <20200106184601.25453-3-philmd@redhat.com>
+Subject: [PATCH 3/3] gitlab-ci-edk2.yml: Use ccache
+Date: Mon,  6 Jan 2020 19:46:01 +0100
+Message-Id: <20200106184601.25453-4-philmd@redhat.com>
 In-Reply-To: <20200106184601.25453-1-philmd@redhat.com>
 References: <20200106184601.25453-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: QQTE08bBPZ21ibRs4Mq5tA-1
+X-MC-Unique: Vrqdy2gFNkWXQMCgrwqM_A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,104 +77,62 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a GitLab job to build the EDK2 firmware binaries.
-This job is only built when the roms/edk2/ submodule is updated,
-when a git-ref starts with 'edk2' or when the last commit contains
-'EDK2'.
+By using ccache we reduce the job duration from
+40 minutes 26 seconds to 32 minutes 6 seconds.
 
-GitLab CI generates an artifacts.zip file containing the firmware
-binaries.
+  Running after script...
+  $ ccache --show-stats
+  cache hit (direct)                  6604
+  files in cache                     12090
+  cache size                         335.5 MB
 
-With edk2-stable201905, the job took 40 minutes 26 seconds,
-the artifacts.zip takes 10MiB.
+For now downloading this cache takes 16 seconds, archiving
+it 44 seconds.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- .gitlab-ci-edk2.yml | 37 +++++++++++++++++++++++++++++++++++++
- .gitlab-ci.yml      |  3 +++
- MAINTAINERS         |  3 ++-
- 3 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 .gitlab-ci-edk2.yml
+ .gitlab-ci-edk2.yml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci-edk2.yml
-new file mode 100644
-index 0000000000..abfaf52874
---- /dev/null
+index abfaf52874..329ba24f20 100644
+--- a/.gitlab-ci-edk2.yml
 +++ b/.gitlab-ci-edk2.yml
-@@ -0,0 +1,37 @@
-+build-edk2:
-+ rules: # Only run this job when ...
-+ - changes: # ... roms/edk2/ is modified (submodule updated)
-+   - roms/edk2/*
-+   when: always
-+ - if: '$CI_COMMIT_REF_NAME =3D~ /^edk2/' # ... the branch/tag starts with=
- 'edk2'
-+   when: always
-+ - if: '$CI_COMMIT_MESSAGE =3D~ /edk2/i' # last commit description contain=
-s 'EDK2'
-+   when: always
-+ artifacts:
-+   paths: # 'artifacts.zip' will contains the following files:
-+   - pc-bios/edk2*bz2
-+   - pc-bios/edk2-licenses.txt
-+   - edk2-stdout.log
-+   - edk2-stderr.log
-+ image: ubuntu:16.04 # Use Ubuntu Xenial
-+ before_script: # Install packages requiered to build EDK2
-+ - apt-get update --quiet --quiet
-+ - DEBIAN_FRONTEND=3Dnoninteractive
-+   apt-get install --assume-yes --no-install-recommends --quiet --quiet
-+     build-essential
-+     ca-certificates
-+     dos2unix
-+     gcc-aarch64-linux-gnu
-+     gcc-arm-linux-gnueabi
-+     git
-+     iasl
-+     make
-+     nasm
-+     python
-+     uuid-dev
-+ script: # Clone the required submodules and build EDK2
-+ - git submodule update --init roms/edk2
-+ - git -C roms/edk2 submodule update --init
-+ - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
-+ - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
-+ - make -j${JOBS} -C roms efi 1>edk2-stdout.log 2> >(tee -a edk2-stderr.lo=
+@@ -14,12 +14,19 @@ build-edk2:
+    - edk2-stdout.log
+    - edk2-stderr.log
+  image: ubuntu:16.04 # Use Ubuntu Xenial
++ variables:
++   CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
++ cache: # Use the same cache for all EDK2 jobs
++   key: ubuntu16.04-edk2-ccache
++   paths:
++   - ${CCACHE_DIR}
+  before_script: # Install packages requiered to build EDK2
+  - apt-get update --quiet --quiet
+  - DEBIAN_FRONTEND=3Dnoninteractive
+    apt-get install --assume-yes --no-install-recommends --quiet --quiet
+      build-essential
+      ca-certificates
++     ccache
+      dos2unix
+      gcc-aarch64-linux-gnu
+      gcc-arm-linux-gnueabi
+@@ -29,9 +36,13 @@ build-edk2:
+      nasm
+      python
+      uuid-dev
++ - export PATH=3D/usr/lib/ccache:$PATH
++ - ccache --zero-stats
+  script: # Clone the required submodules and build EDK2
+  - git submodule update --init roms/edk2
+  - git -C roms/edk2 submodule update --init
+  - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
+  - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
+  - make -j${JOBS} -C roms efi 1>edk2-stdout.log 2> >(tee -a edk2-stderr.lo=
 g >&2)
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index ebcef0ebe9..f799246047 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -1,3 +1,6 @@
-+include:
-+  - local: '/.gitlab-ci-edk2.yml'
-+
- before_script:
-  - apt-get update -qq
-  - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev geniso=
-image
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8571327881..22a1fd5824 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2346,6 +2346,7 @@ F: roms/edk2
- F: roms/edk2-*
- F: tests/data/uefi-boot-images/
- F: tests/uefi-test-tools/
-+F: .gitlab-ci-edk2.yml
-=20
- Usermode Emulation
- ------------------
-@@ -2689,7 +2690,7 @@ W: https://cirrus-ci.com/github/qemu/qemu
- GitLab Continuous Integration
- M: Thomas Huth <thuth@redhat.com>
- S: Maintained
--F: .gitlab-ci.yml
-+F: .gitlab-ci*.yml
-=20
- Guest Test Compilation Support
- M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
++ after_script:
++ - ccache --show-stats
 --=20
 2.21.1
 
