@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F091317B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:44:37 +0100 (CET)
-Received: from localhost ([::1]:57962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FB71317BF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:48:50 +0100 (CET)
+Received: from localhost ([::1]:58034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXMi-0001hQ-Bg
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:44:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45349)
+	id 1ioXQm-0005Yr-LX
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:48:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX44-0001zH-P6
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:21 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX47-00022a-DI
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX43-00046c-Mm
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:20 -0500
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:45614)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX45-000485-AK
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:23 -0500
+Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:33219)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX43-00046G-Ih; Mon, 06 Jan 2020 13:25:19 -0500
-Received: by mail-qv1-xf41.google.com with SMTP id l14so19415266qvu.12;
- Mon, 06 Jan 2020 10:25:19 -0800 (PST)
+ id 1ioX45-00047m-4l; Mon, 06 Jan 2020 13:25:21 -0500
+Received: by mail-qv1-xf41.google.com with SMTP id z3so19446137qvn.0;
+ Mon, 06 Jan 2020 10:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hSgP8NRncEIEX6pPa78Nm0OrXSlmyhM+fq2uskBfwUQ=;
- b=PnwIgj7Mss+7c3FRHg/gxnuuuKT8VRVeMsMvCbh1H4EGvXB3DM2fzXTh5jB0Rkh2Nn
- JCW4h8jtc19hRCb2cAOxvhCJC05xHS92i2Zm+j5y/OZJwI+goDz5791lDCJwzm5ERSeH
- WyEgduHpVUIVR6CNKpZSeLfVr8/wH9iGgMwLxf7nhDIEiTcm2Wxk0kgicREh0VB+jcE3
- /wsN8ac/2tnyy0LXicEg4VGn+YEY9hzwjeI1TBRwY7YeDZm2TgQLxbuwAVScuhpewABw
- MdJWkCG0Rn0e1e7Z310As33vFUSeFS0x4GdRDnDesE1Yn78gGk2VZMB5VhNk0wq8/8nl
- 3ZVw==
+ bh=tFptgxo5nLcHuBzNhDqkhDGvP/NtmbUAgg4er/i3OcI=;
+ b=CjbbnBbZeH65SvqiUKCUdLGlmqNvamFF0SCoUPUUECYmNgvoxr20Hho/d2NoFjC/4n
+ +ywLwA3JsotAuqchbZE06Kis3BhMSNOZ2xrNZZPa4+JNO6u2p6O8JN2NWJCVcoVh04o/
+ E7aHRSIznAfeFO3aFLQXJ7eSw8pq4ZowRdjG3BdZPMsIacaX16L70D1xJa/dYgiJSEEe
+ P7yNhPp1HXobhQzQkRIfAF/G0Wo8uOtIRFeEMktzBa9U7HJN21+BzEiO8TJehE+TPab9
+ MeXbZbMbJIcDAsRnstHY17ZCJ6drHm/8qvpNVtyX7Z5E2u9zWPKyrNTYN2RDemiINZP7
+ Gegw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hSgP8NRncEIEX6pPa78Nm0OrXSlmyhM+fq2uskBfwUQ=;
- b=DGuWTI4uDeeyoIWwxJ7jx6Y5Nquo7EUUV1bUzWQmoQEELbv6gIfvzOFwJ/+W8kpoDF
- v7gm7/3Zs0QDU+5NePMSz/U+LrygWULskNSKjI8p2bzJO9U0gNKz/fUiZhY/axUwwi0p
- 3hrQ+xPZESr2hlXcCy8JW4lvB8Qr4eZUHAGG5RYvv3aD3abII59iCBdLBgbT1yRvzpCt
- 8UPd51Tli28FwjroUTXXr45a8xsJmSENZEv94/mpzMzG3XT9lH+TPjZ4B4ypX3t+4Ub2
- x+Xybzzl5sRO1O2TQvJ3pK37AbOEDUQMCJRz+IJe8QIs297XiRlZYpPc6sv/jqBDlDAB
- RtOA==
-X-Gm-Message-State: APjAAAUPkRzRp7jf65vPj0r9qql3eFHPcyx+g3CiOR98yzPcf2Iyx4Y3
- TS6c81Gzui2WyfhNmOpTgCwYiq6l
-X-Google-Smtp-Source: APXvYqxX16Cv1Akxg3pbiFk+LwU7ID3SXP4GXRzIaaySsTIEkjSILzEueIMKSMxhXeNKoZzSZuNfdA==
-X-Received: by 2002:a0c:8bd2:: with SMTP id a18mr53137941qvc.38.1578335118942; 
- Mon, 06 Jan 2020 10:25:18 -0800 (PST)
+ bh=tFptgxo5nLcHuBzNhDqkhDGvP/NtmbUAgg4er/i3OcI=;
+ b=FgGYmcLGbs6Tsj8NhenRRk2DEYK9bUM9VeoBDchWtS/28bFFI5je745nMBRe6FFiSI
+ zZahaPUTgrbmVIUWms2h9N1BbgVUeKfeMq0bDcXvOP9DosH1Z+3f1UMsRG0zYdwb5XUU
+ Z+FPqTOlH0yx4i073NgU/syPBdfFkbYZI2mR0yyfMa9J8nh2k4N+Rl6NFTn9eK5iFqMz
+ 2OCYIBNe5T0D8p/55YH0vta8V80SEqB0pL2mxceiK93gUNt11lQutsr/R3eaLYDilnyw
+ soqrvbBUCXVciyMWXVK4BdCoANONl3AR3NchTykAQUJY2JDq5IzziM+/Cmse09mFZNnN
+ NfKQ==
+X-Gm-Message-State: APjAAAXh5CU7a7q9qRZ1g5W5uIUnFoKIR+u3DISHMG5SVVFbtanFUO+f
+ 5WZ3g7TZc2jgOwEhCjZWIlty3szL
+X-Google-Smtp-Source: APXvYqymKbrnOHEYtNhyMzPUU1W18xtiLJrqeXj/Id6ujn5bb5mLTq9mC92G0kVdcTfeMFvWLV05rw==
+X-Received: by 2002:a0c:e2d1:: with SMTP id t17mr82517992qvl.25.1578335120624; 
+ Mon, 06 Jan 2020 10:25:20 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.17
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:18 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:20 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 15/59] block/blkreplay.c: remove unneeded 'fail' label in
- blkreplay_open()
-Date: Mon,  6 Jan 2020 15:23:41 -0300
-Message-Id: <20200106182425.20312-16-danielhb413@gmail.com>
+Subject: [PATCH v1 16/59] block/gluster.c: remove unneeded 'exit' label
+Date: Mon,  6 Jan 2020 15:23:42 -0300
+Message-Id: <20200106182425.20312-17-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -77,53 +76,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both the 'fail' label and the 'ret' variable can be removed.
-Use 'return -EINVAL' in the error condition and 'return 0' in
-the end of the function.
+'exit' label in find_allocation() can be replaced by a
+'return -ENOTSUP' call.
 
-CC: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: qemu-block@nongnu.org
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- block/blkreplay.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ block/gluster.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/block/blkreplay.c b/block/blkreplay.c
-index c96ac8f4bc..d8c4c311f3 100644
---- a/block/blkreplay.c
-+++ b/block/blkreplay.c
-@@ -24,23 +24,19 @@ static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
-                           Error **errp)
- {
-     Error *local_err = NULL;
--    int ret;
+diff --git a/block/gluster.c b/block/gluster.c
+index 4fa4a77a47..43bf76eed7 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -1381,7 +1381,7 @@ static int find_allocation(BlockDriverState *bs, off_t start,
+     BDRVGlusterState *s = bs->opaque;
  
-     /* Open the image file */
-     bs->file = bdrv_open_child(NULL, options, "image",
-                                bs, &child_file, false, &local_err);
-     if (local_err) {
--        ret = -EINVAL;
-         error_propagate(errp, local_err);
--        goto fail;
-+        return -EINVAL;
+     if (!s->supports_seek_data) {
+-        goto exit;
++        return -ENOTSUP;
      }
  
-     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED;
-     bs->supported_zero_flags = BDRV_REQ_WRITE_UNCHANGED;
+ #if defined SEEK_HOLE && defined SEEK_DATA
+@@ -1466,7 +1466,6 @@ static int find_allocation(BlockDriverState *bs, off_t start,
+     return -EBUSY;
+ #endif
  
--    ret = 0;
--fail:
--    return ret;
-+    return 0;
+-exit:
+     return -ENOTSUP;
  }
  
- static int64_t blkreplay_getlength(BlockDriverState *bs)
 -- 
 2.24.1
 
