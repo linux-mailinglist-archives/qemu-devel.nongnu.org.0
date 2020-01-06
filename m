@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1764A131462
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:05:49 +0100 (CET)
-Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2FF131490
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 16:16:04 +0100 (CET)
+Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioTwx-00008j-EO
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:05:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44371)
+	id 1ioU6s-00052K-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 10:16:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44369)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ioTbk-0007Uu-7X
+ (envelope-from <mreitz@redhat.com>) id 1ioTbk-0007Uc-1x
  for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ioTbi-0000wl-9O
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58844
+ (envelope-from <mreitz@redhat.com>) id 1ioTbi-0000ww-GE
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30320
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbi-0000wM-5K
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ioTbi-0000wP-CC
  for qemu-devel@nongnu.org; Mon, 06 Jan 2020 09:43:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1578321829;
@@ -27,38 +27,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ALrgf1ejh1uyRY0B/Cnfkz3HYp0WNNSyUUF0a8TRbWI=;
- b=d4Sgx+G4qMJMH9JJIUJkOmaoxqmrWH+ngnEs/oGVfZhhATVBh8x9tv2ConIEidAzDQGCf4
- T9U7lT26FBb1O/pQN8kMdi+GHUGm37uaLuAM+omnBqVxWcFy9Swyi/vePmRQbpuzgndaLW
- 9lUygPVNXBwMCBNNWlSlt9D2eD+B4O4=
+ bh=Hm6QfIxR3LaHwtOs1bSTrud2MauR+uxy3BxBrarzp/c=;
+ b=JZGB72tn2ZXQSHQo044AOgad0lwyUvHg1M5z6VZPHUebyVSPaBjIeUifjAjyHpG0q3zGpB
+ lVQFXEwEGIKc/nThG1LUuwlSruxKeQtvM6NUUZreP5i7fIDSIF990p41qCSy3wGzXz/RWA
+ BZdKl+S5NBHatJcesGf+ESCRaQCW6dI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-LI9gq9H9P9GZYo67oqi6Lw-1; Mon, 06 Jan 2020 09:43:46 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-104-1XabV9-wPWu4sIpw4fp7vQ-1; Mon, 06 Jan 2020 09:43:48 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B953805141;
- Mon,  6 Jan 2020 14:43:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78CB0107BAA9;
+ Mon,  6 Jan 2020 14:43:47 +0000 (UTC)
 Received: from localhost (ovpn-117-91.ams2.redhat.com [10.36.117.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99F91691AD;
- Mon,  6 Jan 2020 14:43:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16433100164D;
+ Mon,  6 Jan 2020 14:43:46 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 30/34] block: introduce compress filter driver
-Date: Mon,  6 Jan 2020 15:42:02 +0100
-Message-Id: <20200106144206.698920-31-mreitz@redhat.com>
+Subject: [PULL 31/34] qcow2: Allow writing compressed data of multiple clusters
+Date: Mon,  6 Jan 2020 15:42:03 +0100
+Message-Id: <20200106144206.698920-32-mreitz@redhat.com>
 In-Reply-To: <20200106144206.698920-1-mreitz@redhat.com>
 References: <20200106144206.698920-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: LI9gq9H9P9GZYo67oqi6Lw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 1XabV9-wPWu4sIpw4fp7vQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,261 +77,161 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Allow writing all the data compressed through the filter driver.
-The written data will be aligned by the cluster size.
-Based on the QEMU current implementation, that data can be written to
-unallocated clusters only. May be used for a backup job.
+QEMU currently supports writing compressed data of the size equal to
+one cluster. This patch allows writing QCOW2 compressed data that
+exceed one cluster. Now, we split buffered data into separate clusters
+and write them compressed using the block/aio_task API.
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
+Suggested-by: Pavel Butsykin <pbutsykin@virtuozzo.com>
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 1575288906-551879-2-git-send-email-andrey.shinkevich@virtuozzo.=
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-id: 1575288906-551879-3-git-send-email-andrey.shinkevich@virtuozzo.=
 com
-[mreitz: Replace NULL bdrv_get_format_name() by "(no format)"]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/Makefile.objs     |   1 +
- block/filter-compress.c | 168 ++++++++++++++++++++++++++++++++++++++++
- qapi/block-core.json    |  10 ++-
- 3 files changed, 175 insertions(+), 4 deletions(-)
- create mode 100644 block/filter-compress.c
+ block/qcow2.c | 102 +++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 75 insertions(+), 27 deletions(-)
 
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index e394fe0b6c..330529b0b7 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -43,6 +43,7 @@ block-obj-y +=3D crypto.o
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 7fbaac8457..cef9d72b3a 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -4221,10 +4221,8 @@ fail:
+     return ret;
+ }
 =20
- block-obj-y +=3D aio_task.o
- block-obj-y +=3D backup-top.o
-+block-obj-y +=3D filter-compress.o
+-/* XXX: put compressed sectors first, then all the cluster aligned
+-   tables to avoid losing bytes in alignment */
+ static coroutine_fn int
+-qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
++qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
+                                  uint64_t offset, uint64_t bytes,
+                                  QEMUIOVector *qiov, size_t qiov_offset)
+ {
+@@ -4234,32 +4232,11 @@ qcow2_co_pwritev_compressed_part(BlockDriverState *=
+bs,
+     uint8_t *buf, *out_buf;
+     uint64_t cluster_offset;
 =20
- common-obj-y +=3D stream.o
+-    if (has_data_file(bs)) {
+-        return -ENOTSUP;
+-    }
+-
+-    if (bytes =3D=3D 0) {
+-        /* align end of file to a sector boundary to ease reading with
+-           sector based I/Os */
+-        int64_t len =3D bdrv_getlength(bs->file->bs);
+-        if (len < 0) {
+-            return len;
+-        }
+-        return bdrv_co_truncate(bs->file, len, false, PREALLOC_MODE_OFF, N=
+ULL);
+-    }
+-
+-    if (offset_into_cluster(s, offset)) {
+-        return -EINVAL;
+-    }
++    assert(bytes =3D=3D s->cluster_size || (bytes < s->cluster_size &&
++           (offset + bytes =3D=3D bs->total_sectors << BDRV_SECTOR_BITS)))=
+;
 =20
-diff --git a/block/filter-compress.c b/block/filter-compress.c
-new file mode 100644
-index 0000000000..60137fb680
---- /dev/null
-+++ b/block/filter-compress.c
-@@ -0,0 +1,168 @@
-+/*
-+ * Compress filter block driver
-+ *
-+ * Copyright (c) 2019 Virtuozzo International GmbH
-+ *
-+ * Author:
-+ *   Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-+ *   (based on block/copy-on-read.c by Max Reitz)
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License as
-+ * published by the Free Software Foundation; either version 2 or
-+ * (at your option) any later version of the License.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "block/block_int.h"
-+#include "qemu/module.h"
-+#include "qapi/error.h"
-+
-+
-+static int compress_open(BlockDriverState *bs, QDict *options, int flags,
-+                         Error **errp)
+     buf =3D qemu_blockalign(bs, s->cluster_size);
+-    if (bytes !=3D s->cluster_size) {
+-        if (bytes > s->cluster_size ||
+-            offset + bytes !=3D bs->total_sectors << BDRV_SECTOR_BITS)
+-        {
+-            qemu_vfree(buf);
+-            return -EINVAL;
+-        }
++    if (bytes < s->cluster_size) {
+         /* Zero-pad last write if image size is not cluster aligned */
+         memset(buf + bytes, 0, s->cluster_size - bytes);
+     }
+@@ -4308,6 +4285,77 @@ fail:
+     return ret;
+ }
+=20
++static coroutine_fn int qcow2_co_pwritev_compressed_task_entry(AioTask *ta=
+sk)
 +{
-+    bs->file =3D bdrv_open_child(NULL, options, "file", bs, &child_file, f=
-alse,
-+                               errp);
-+    if (!bs->file) {
-+        return -EINVAL;
-+    }
++    Qcow2AioTask *t =3D container_of(task, Qcow2AioTask, task);
 +
-+    if (!bs->file->bs->drv || !block_driver_can_compress(bs->file->bs->drv=
-)) {
-+        error_setg(errp,
-+                   "Compression is not supported for underlying format: %s=
-",
-+                   bdrv_get_format_name(bs->file->bs) ?: "(no format)");
++    assert(!t->cluster_type && !t->l2meta);
 +
++    return qcow2_co_pwritev_compressed_task(t->bs, t->offset, t->bytes, t-=
+>qiov,
++                                            t->qiov_offset);
++}
++
++/*
++ * XXX: put compressed sectors first, then all the cluster aligned
++ * tables to avoid losing bytes in alignment
++ */
++static coroutine_fn int
++qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
++                                 uint64_t offset, uint64_t bytes,
++                                 QEMUIOVector *qiov, size_t qiov_offset)
++{
++    BDRVQcow2State *s =3D bs->opaque;
++    AioTaskPool *aio =3D NULL;
++    int ret =3D 0;
++
++    if (has_data_file(bs)) {
 +        return -ENOTSUP;
 +    }
 +
-+    bs->supported_write_flags =3D BDRV_REQ_WRITE_UNCHANGED |
-+        (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
-+
-+    bs->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
-+        ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-+            bs->file->bs->supported_zero_flags);
-+
-+    return 0;
-+}
-+
-+
-+static int64_t compress_getlength(BlockDriverState *bs)
-+{
-+    return bdrv_getlength(bs->file->bs);
-+}
-+
-+
-+static int coroutine_fn compress_co_preadv_part(BlockDriverState *bs,
-+                                                uint64_t offset, uint64_t =
-bytes,
-+                                                QEMUIOVector *qiov,
-+                                                size_t qiov_offset,
-+                                                int flags)
-+{
-+    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                               flags);
-+}
-+
-+
-+static int coroutine_fn compress_co_pwritev_part(BlockDriverState *bs,
-+                                                 uint64_t offset,
-+                                                 uint64_t bytes,
-+                                                 QEMUIOVector *qiov,
-+                                                 size_t qiov_offset, int f=
-lags)
-+{
-+    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_offset=
-,
-+                                flags | BDRV_REQ_WRITE_COMPRESSED);
-+}
-+
-+
-+static int coroutine_fn compress_co_pwrite_zeroes(BlockDriverState *bs,
-+                                                  int64_t offset, int byte=
-s,
-+                                                  BdrvRequestFlags flags)
-+{
-+    return bdrv_co_pwrite_zeroes(bs->file, offset, bytes, flags);
-+}
-+
-+
-+static int coroutine_fn compress_co_pdiscard(BlockDriverState *bs,
-+                                             int64_t offset, int bytes)
-+{
-+    return bdrv_co_pdiscard(bs->file, offset, bytes);
-+}
-+
-+
-+static void compress_refresh_limits(BlockDriverState *bs, Error **errp)
-+{
-+    BlockDriverInfo bdi;
-+    int ret;
-+
-+    if (!bs->file) {
-+        return;
++    if (bytes =3D=3D 0) {
++        /*
++         * align end of file to a sector boundary to ease reading with
++         * sector based I/Os
++         */
++        int64_t len =3D bdrv_getlength(bs->file->bs);
++        if (len < 0) {
++            return len;
++        }
++        return bdrv_co_truncate(bs->file, len, false, PREALLOC_MODE_OFF, N=
+ULL);
 +    }
 +
-+    ret =3D bdrv_get_info(bs->file->bs, &bdi);
-+    if (ret < 0 || bdi.cluster_size =3D=3D 0) {
-+        return;
++    if (offset_into_cluster(s, offset)) {
++        return -EINVAL;
 +    }
 +
-+    bs->bl.request_alignment =3D bdi.cluster_size;
++    while (bytes && aio_task_pool_status(aio) =3D=3D 0) {
++        uint64_t chunk_size =3D MIN(bytes, s->cluster_size);
++
++        if (!aio && chunk_size !=3D bytes) {
++            aio =3D aio_task_pool_new(QCOW2_MAX_WORKERS);
++        }
++
++        ret =3D qcow2_add_task(bs, aio, qcow2_co_pwritev_compressed_task_e=
+ntry,
++                             0, 0, offset, chunk_size, qiov, qiov_offset, =
+NULL);
++        if (ret < 0) {
++            break;
++        }
++        qiov_offset +=3D chunk_size;
++        offset +=3D chunk_size;
++        bytes -=3D chunk_size;
++    }
++
++    if (aio) {
++        aio_task_pool_wait_all(aio);
++        if (ret =3D=3D 0) {
++            ret =3D aio_task_pool_status(aio);
++        }
++        g_free(aio);
++    }
++
++    return ret;
 +}
 +
-+
-+static void compress_eject(BlockDriverState *bs, bool eject_flag)
-+{
-+    bdrv_eject(bs->file->bs, eject_flag);
-+}
-+
-+
-+static void compress_lock_medium(BlockDriverState *bs, bool locked)
-+{
-+    bdrv_lock_medium(bs->file->bs, locked);
-+}
-+
-+
-+static bool compress_recurse_is_first_non_filter(BlockDriverState *bs,
-+                                                 BlockDriverState *candida=
-te)
-+{
-+    return bdrv_recurse_is_first_non_filter(bs->file->bs, candidate);
-+}
-+
-+
-+static BlockDriver bdrv_compress =3D {
-+    .format_name                        =3D "compress",
-+
-+    .bdrv_open                          =3D compress_open,
-+    .bdrv_child_perm                    =3D bdrv_filter_default_perms,
-+
-+    .bdrv_getlength                     =3D compress_getlength,
-+
-+    .bdrv_co_preadv_part                =3D compress_co_preadv_part,
-+    .bdrv_co_pwritev_part               =3D compress_co_pwritev_part,
-+    .bdrv_co_pwrite_zeroes              =3D compress_co_pwrite_zeroes,
-+    .bdrv_co_pdiscard                   =3D compress_co_pdiscard,
-+    .bdrv_refresh_limits                =3D compress_refresh_limits,
-+
-+    .bdrv_eject                         =3D compress_eject,
-+    .bdrv_lock_medium                   =3D compress_lock_medium,
-+
-+    .bdrv_co_block_status               =3D bdrv_co_block_status_from_file=
-,
-+
-+    .bdrv_recurse_is_first_non_filter   =3D compress_recurse_is_first_non_=
-filter,
-+
-+    .has_variable_length                =3D true,
-+    .is_filter                          =3D true,
-+};
-+
-+static void bdrv_compress_init(void)
-+{
-+    bdrv_register(&bdrv_compress);
-+}
-+
-+block_init(bdrv_compress_init);
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 839b10b3f0..7ff5e5edaf 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2884,15 +2884,16 @@
- # @copy-on-read: Since 3.0
- # @blklogwrites: Since 3.0
- # @blkreplay: Since 4.2
-+# @compress: Since 5.0
- #
- # Since: 2.9
- ##
- { 'enum': 'BlockdevDriver',
-   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
--            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluste=
-r',
--            'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
--            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qco=
-w',
--            'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-+            'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ft=
-ps',
-+            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscs=
-i',
-+            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallel=
-s',
-+            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' }=
-,
-             'sheepdog',
-             'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat', 'vxh=
-s' ] }
-@@ -4060,6 +4061,7 @@
-       'blkreplay':  'BlockdevOptionsBlkreplay',
-       'bochs':      'BlockdevOptionsGenericFormat',
-       'cloop':      'BlockdevOptionsGenericFormat',
-+      'compress':   'BlockdevOptionsGenericFormat',
-       'copy-on-read':'BlockdevOptionsGenericFormat',
-       'dmg':        'BlockdevOptionsGenericFormat',
-       'file':       'BlockdevOptionsFile',
+ static int coroutine_fn
+ qcow2_co_preadv_compressed(BlockDriverState *bs,
+                            uint64_t file_cluster_offset,
 --=20
 2.24.1
 
