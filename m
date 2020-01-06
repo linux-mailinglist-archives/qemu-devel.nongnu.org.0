@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0F3131841
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:06:25 +0100 (CET)
-Received: from localhost ([::1]:58378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CD013189F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:20:41 +0100 (CET)
+Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXhn-00044O-N9
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:06:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
+	id 1ioXvc-0000Ba-IS
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:20:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX5K-00048o-9p
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:39 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX5L-0004Ba-Vj
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX5J-0005NT-0f
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:38 -0500
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:33737)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX5K-0005PS-TU
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:26:39 -0500
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:39836)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX5I-0005ND-TK; Mon, 06 Jan 2020 13:26:36 -0500
-Received: by mail-qt1-x841.google.com with SMTP id d5so43225469qto.0;
- Mon, 06 Jan 2020 10:26:36 -0800 (PST)
+ id 1ioX5K-0005P0-Q6; Mon, 06 Jan 2020 13:26:38 -0500
+Received: by mail-qt1-x841.google.com with SMTP id e5so43200983qtm.6;
+ Mon, 06 Jan 2020 10:26:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XLjlJHRdZ19eNFwu3xtUWDKA1dixiH7lhcQ1c7qm+lk=;
- b=rxgaaiaGGAXY4b6eaHrizaVp6uRoDPzxm0U99pvv3OC2vBkxMyVPG1nC3ijsI2Xeiu
- Io8w5WoSUPCizvSw3Sjyz0yfIZEp9HGSV+PbEBxooaWvy264gz4Ijm3NpxPMMPZin937
- 0iuI4IW00jfInthvUMN1kPBSZbQEWy3l8JL3I87w6KuqnCbX5V0wV8Iliqa5n4jI+ewh
- 3uki8cLhCINIkX0ml3n6wGlT2zkRxfCCdlGlsVyUa1UbSeQ559yHXsZh/WK5bv2cH5w2
- uk6FPikyAAHpY0NxBpSjTC/BxG+q7XOug+eBodSz16DcveCs8//r+mDJnLHs5X/t+Rff
- uj3A==
+ bh=q32rULKz3P9b6ke9olYLbvQa+p3xcZiLFsA6TSHCyN8=;
+ b=YRHtec+6gQkyO8Q1QEPd+ZjMIctJswB2JVqUKy8ZpBSNA2A80anJziRw2RNP6+WROM
+ QoROU0jmDp6ku7XfIg4pD24HFj9sLo6VSl0VrbSeD/Ap+frv60bejoO+C+Yu98UA2a+A
+ 8F8h6zufzf2ph6hPTGZ4EH4Cp3YLfAAiG7TmcC5d94390LAJGdE9cNNSbWrcYZfLATn8
+ GzYExcQiXRUYClOHv3++nN0olVDFFY5nLy9B10rAneTb7n6Ytk7VRh1h8fJuT53epP0h
+ /VNWudnyyBB16c/NxH3CO9RPOS3FosOtYxYOgNgn+p1J3W660+XHG8tTArQTZkbL2EB+
+ r38Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XLjlJHRdZ19eNFwu3xtUWDKA1dixiH7lhcQ1c7qm+lk=;
- b=h0Wdu4AMAZ9i1Al8pg4+lE1Wf9n7a2LbFkCqcj9IBnFqgSkd2FCQBtN7UewMMIiTvB
- Acq4b+zOBOi6PkwjCmGGDwNfTrvLvCKp0PmSKmJNadgyM09pUYPRcCLNpocQuSxLPiHu
- wbBiSfGUWTTk9RyPUpMkx2yVMw+Gpu6DuWkeV2Ho5CF7PYkzCkJT3TJf1Me877csnsuF
- K5rU8yIlnUm52LVhKGOtVRn6MkHheyGjAaNkzh2mtv9GoFn4+pfujV2Qy7y7Km1YKFDE
- 0tmXpx5Hs3AEXFVVQvZRfEA73VhZxrzzZ1sADHmImTTq5teftV30PBTlBNRgucAp0bmt
- +15g==
-X-Gm-Message-State: APjAAAWKnQj+wzP5FEraDVG01drIAWBobEOgJFJmbQwHDKFS0n5nRVue
- sXGA8np8ZN/vtHlluzA7L/+ewfCo
-X-Google-Smtp-Source: APXvYqwqRExlnWSj4gM1GN00iSoFDDf0O6JVyrbbvKFfmIWOynI3GK8nhm+eTh7R+pmsda/kpSdNhA==
-X-Received: by 2002:ac8:5442:: with SMTP id d2mr78989156qtq.297.1578335196334; 
- Mon, 06 Jan 2020 10:26:36 -0800 (PST)
+ bh=q32rULKz3P9b6ke9olYLbvQa+p3xcZiLFsA6TSHCyN8=;
+ b=ukzEkCPUychoIhgZ+ngzJU14ut4+LJdur7dq10g8gUvIAat1gN+sSSnIDB4/uGTeFs
+ z+49UShWXY4UAlhat4S6fSz74/8INrpT2aPlefp2R/GE+uUbMFtxZqO4bjs4Pxi7K/b6
+ LQrQb7ELPAnpc9m2gNA8b8jUIsdPlN3f0f6fz8q+7hTMo3JolqrJHeCSryfxcY7SZ1Op
+ hlqh8O+Urm1QfwoZ7E116YoOEdP0ePWKdIShYj++qXkS3bfdE3wDl2eDP0XbLFF38Ywj
+ YH5QKeNxd1zvWtdARrQPZQczoiLiQUl2sT6m4seq46k2vxzPYWPRoZzt4sNJFYVU9UB2
+ 3jHA==
+X-Gm-Message-State: APjAAAX5IfIlfTzzAFr6gI+ArmRplGlnBeDTF/RsgU06DxtJkDpq833M
+ +M/faBGe2KgAEwYDrplDJVaGe/aP
+X-Google-Smtp-Source: APXvYqxKlqxxWT1ZxGM41mk+ro9IEI89tdH9hwlP2posSHuazzXVALsjzFSUx8ZfFjAvmwaqbLc5Aw==
+X-Received: by 2002:ac8:534b:: with SMTP id d11mr76351116qto.170.1578335198304; 
+ Mon, 06 Jan 2020 10:26:38 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.34
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.26.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:26:35 -0800 (PST)
+ Mon, 06 Jan 2020 10:26:38 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 58/59] linux-user/syscall.c: remove unneeded labels
-Date: Mon,  6 Jan 2020 15:24:24 -0300
-Message-Id: <20200106182425.20312-59-danielhb413@gmail.com>
+Subject: [PATCH v1 59/59] linux-user/vm86.c: remove unneeded label in do_vm86()
+Date: Mon,  6 Jan 2020 15:24:25 -0300
+Message-Id: <20200106182425.20312-60-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -82,106 +82,46 @@ Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out2' label in do_sendrecvmsg_locked() can be replaced by
-'return' with the adequate exit value. Same thing with the
-label 'out' in do_ioctl_blkpg(), and in that function we
-can get rid of the 'ret' variable as well.
+'out' can be replaced by 'return' calls with the adequate
+return value.
 
 CC: Riku Voipio <riku.voipio@iki.fi>
 CC: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- linux-user/syscall.c | 24 +++++++-----------------
- 1 file changed, 7 insertions(+), 17 deletions(-)
+ linux-user/vm86.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 49c6151c2d..5db066921e 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -2941,7 +2941,7 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
-              */
-             msg.msg_name = (void *)-1;
-         } else if (ret) {
--            goto out2;
-+            return ret;
-         }
-     } else {
-         msg.msg_name = NULL;
-@@ -2960,15 +2960,13 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
-         /* sendrcvmsg returns a different errno for this condition than
-          * readv/writev, so we must catch it here before lock_iovec() does.
-          */
--        ret = -TARGET_EMSGSIZE;
--        goto out2;
-+        return -TARGET_EMSGSIZE;
-     }
- 
-     vec = lock_iovec(send ? VERIFY_READ : VERIFY_WRITE,
-                      target_vec, count, send);
-     if (vec == NULL) {
--        ret = -host_to_target_errno(errno);
--        goto out2;
-+        return -host_to_target_errno(errno);
-     }
-     msg.msg_iovlen = count;
-     msg.msg_iov = vec;
-@@ -3020,7 +3018,6 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
- 
- out:
-     unlock_iovec(vec, target_vec, count, !send);
--out2:
-     return ret;
- }
- 
-@@ -4952,7 +4949,6 @@ static abi_long do_ioctl_blkpg(const IOCTLEntry *ie, uint8_t *buf_temp, int fd,
-     int target_size;
-     const argtype *arg_type = ie->arg_type;
-     const argtype part_arg_type[] = { MK_STRUCT(STRUCT_blkpg_partition) };
--    abi_long ret;
- 
-     struct blkpg_ioctl_arg *host_blkpg = (void*)buf_temp;
-     struct blkpg_partition host_part;
-@@ -4962,8 +4958,7 @@ static abi_long do_ioctl_blkpg(const IOCTLEntry *ie, uint8_t *buf_temp, int fd,
-     target_size = thunk_type_size(arg_type, 0);
-     argptr = lock_user(VERIFY_READ, arg, target_size, 1);
-     if (!argptr) {
--        ret = -TARGET_EFAULT;
--        goto out;
-+        return -TARGET_EFAULT;
-     }
-     thunk_convert(buf_temp, argptr, arg_type, THUNK_HOST);
-     unlock_user(argptr, arg, 0);
-@@ -4975,8 +4970,7 @@ static abi_long do_ioctl_blkpg(const IOCTLEntry *ie, uint8_t *buf_temp, int fd,
-         break;
-     default:
-         /* Unknown opcode */
+diff --git a/linux-user/vm86.c b/linux-user/vm86.c
+index 2fa7a89edc..eceddd05df 100644
+--- a/linux-user/vm86.c
++++ b/linux-user/vm86.c
+@@ -403,16 +403,14 @@ int do_vm86(CPUX86State *env, long subfunction, abi_ulong vm86_addr)
+     case TARGET_VM86_GET_IRQ_BITS:
+     case TARGET_VM86_GET_AND_RESET_IRQ:
+         gemu_log("qemu: unsupported vm86 subfunction (%ld)\n", subfunction);
 -        ret = -TARGET_EINVAL;
 -        goto out;
 +        return -TARGET_EINVAL;
-     }
- 
-     /* Read and convert blkpg->data */
-@@ -4984,18 +4978,14 @@ static abi_long do_ioctl_blkpg(const IOCTLEntry *ie, uint8_t *buf_temp, int fd,
-     target_size = thunk_type_size(part_arg_type, 0);
-     argptr = lock_user(VERIFY_READ, arg, target_size, 1);
-     if (!argptr) {
--        ret = -TARGET_EFAULT;
+     case TARGET_VM86_PLUS_INSTALL_CHECK:
+         /* NOTE: on old vm86 stuff this will return the error
+            from verify_area(), because the subfunction is
+            interpreted as (invalid) address to vm86_struct.
+            So the installation check works.
+             */
+-        ret = 0;
 -        goto out;
-+        return -TARGET_EFAULT;
++        return 0;
      }
-     thunk_convert(&host_part, argptr, part_arg_type, THUNK_HOST);
-     unlock_user(argptr, arg, 0);
  
-     /* Swizzle the data pointer to our local copy and call! */
-     host_blkpg->data = &host_part;
--    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_blkpg));
--
--out:
--    return ret;
-+    return get_errno(safe_ioctl(fd, ie->host_cmd, host_blkpg));
+     /* save current CPU regs */
+@@ -485,6 +483,5 @@ int do_vm86(CPUX86State *env, long subfunction, abi_ulong vm86_addr)
+     LOG_VM86("do_vm86: cs:ip=%04x:%04x\n",
+              env->segs[R_CS].selector, env->eip);
+     /* now the virtual CPU is ready for vm86 execution ! */
+- out:
+     return ret;
  }
- 
- static abi_long do_ioctl_rt(const IOCTLEntry *ie, uint8_t *buf_temp,
 -- 
 2.24.1
 
