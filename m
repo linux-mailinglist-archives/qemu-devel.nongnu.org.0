@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999BA131773
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:27:16 +0100 (CET)
-Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AE613177B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 19:29:59 +0100 (CET)
+Received: from localhost ([::1]:57700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioX5v-0003hh-A2
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:27:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44949)
+	id 1ioX8X-0007QZ-TE
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 13:29:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3h-0001OH-B3
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:24:58 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3j-0001Qt-8P
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX3g-0003el-Ao
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:24:57 -0500
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:43278)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX3i-0003gd-1j
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:24:59 -0500
+Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:37941)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX3g-0003eZ-77; Mon, 06 Jan 2020 13:24:56 -0500
-Received: by mail-qt1-x843.google.com with SMTP id d18so40492830qtj.10;
- Mon, 06 Jan 2020 10:24:56 -0800 (PST)
+ id 1ioX3h-0003gA-T6; Mon, 06 Jan 2020 13:24:57 -0500
+Received: by mail-qv1-xf43.google.com with SMTP id t6so19445797qvs.5;
+ Mon, 06 Jan 2020 10:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9UmeSQEs5rob9wrTq2qmb04fnkLXv4NpiQ8wHgmBhdQ=;
- b=NYbCZL8kRRwem5Io6W0Rv8fJs/luyPrKXDV1i3FI2TMztdEE2dMIcwM/vU9maVNhMr
- 3t/FqCrKWy4GHh/Eg5tg83YQSid3KvIYEt8oVX4BgLS31EPmbiAUw8D1N6od7AN6EWgJ
- +gC9gaEX5EMeVvc1Yi/7276dYGW2YURBRGmzphfT2dY1/+vDAcKaXMgx43iNa8rbcgP4
- xM+UQIbFsd9WrLaQR+WgCTNlPOW2AM+BfM/04WqOozqXaqChsE8o1y9RxXaHQ1iC3h5m
- h9s5IJyzmh8oFC9Ec9/VrAaPyUn7a4fJH66QHNm75vUZCcIGWd0C2cZA7bVwMgjLkRnt
- 7sGA==
+ bh=w1daSF8Ke50vf7L1lkiX0k78v3ttDXfxEHmXKjiAnDM=;
+ b=fvEA+lPfmF5uzZTGgJKwCrnrb0+IU9t4oJ74GmQhGsUw8ayTq0kCoiOsWnTHyXEZzA
+ HM02mY9S0Ppzbk6pg5VFW3FBLfI9LN+Y9vf8OT/Upj5c2TgmYOeeCwGWrdCE2z+ubUSW
+ HbLFak51A2jvycRPrk+GJ9ilsqbhQMMLS4/mwtjlrlW5D7hHtf5PlWbZC99MEcePiCLN
+ NK5FjV+21LTBZSBcF+o0niXd7C4nHn7lvM5KXfrpUaQlPBV2PlRoQQdjzzNlj4rjq7lA
+ R6Lunp1SY/5fUqYyvqeVV4fbvbu36wQxWATOw4FZmoPt/fsD7N/lVN+0yYAV964e8QUU
+ zosQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9UmeSQEs5rob9wrTq2qmb04fnkLXv4NpiQ8wHgmBhdQ=;
- b=uSMNsWNDtZAxifOBhv6UdFoU77ISvgEyW4xfG/QQBUdP0vLxGtUMQFjR1H/4yLKkci
- 8a9g81aQ8cQ26DDg4pE2zCvAPQCBLY1Mv8xgmEEWG8/FiDtbbIfJwjbVt6DsHGlyAhIb
- yZt2fl9qdANBlWTLe8DU4TC1STGYneY8P1EFp+VfHas/q+7uJWEgyOkiYDy0rab1Z8cy
- UpTA6eGVjCfwod9yncj70h63KC3gAifHzDyjzhiWcT0Lz/C3+f+a8f0bvrnwps4XWKJe
- J6IROnXqwGMqmIsoJOZ0cPbRqjz1YDXtk+1grvpVWbdJ0S64qM9IzTprZHClvm8zp/Kw
- AfFQ==
-X-Gm-Message-State: APjAAAWLusAsaR/Ob/rKS7V9luK8O6NmyLkydjNtjry/y8jiEK+eomRr
- 3jklzHwDz9jAPl9Nm73vnwbac4vM
-X-Google-Smtp-Source: APXvYqysG9Euycb7WM82W/Td0I147yU5XTejtd+bqGoAlGKBmm3Qvmlpmn7SqAtCcQzqSKytc+nEPw==
-X-Received: by 2002:ac8:59:: with SMTP id i25mr76889454qtg.110.1578335095624; 
- Mon, 06 Jan 2020 10:24:55 -0800 (PST)
+ bh=w1daSF8Ke50vf7L1lkiX0k78v3ttDXfxEHmXKjiAnDM=;
+ b=hU99zO16K70HC2No3uyBaNfwHehSnfivFPakkJieQOanjUPZvRptHs2R6E5yaJ25Iu
+ nEeE8mKKnz3AzxVZUniLwGF2C2T1D4s4YneMKflPjPA34wC6FyaK+ADKLT560tPPZgO7
+ +W2xRHI/qzKxqTXAp5ROyVGjwNG/TJUe5kAu4jfstgvYKtTYWfjfus+hQ+wHn++rwWWV
+ yVL7hzoDuqyp8le7DZ/VroBFmP9zycAmSZXZViN9+r+8NrWy4x4J1Py3xjcAioRkA33C
+ 9c5WGadZui8uQSY6HE2BmUVVCFpBH1+W3BNvDXC2dTBMJf4oBH1P9j8PqzQwEYx1ukKH
+ xnPA==
+X-Gm-Message-State: APjAAAVLm8ORWIExG6w4YjuZvmrO/Ibvq5YrJ6dm7oClefTpjZVy3Tzi
+ ejmmfQzJNFIRHZ9lhypyjHo428d3
+X-Google-Smtp-Source: APXvYqxWTlBIt1KcA9as9yiBJamQ7BhAdA9fJnTkcj1X7G95+rr5BfkNXkOu4UuKsXjqGexd6u42yg==
+X-Received: by 2002:a0c:8605:: with SMTP id p5mr80154235qva.109.1578335097141; 
+ Mon, 06 Jan 2020 10:24:57 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.24.54
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.24.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:24:55 -0800 (PST)
+ Mon, 06 Jan 2020 10:24:56 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 02/59] ppc440_bamboo.c: remove label from
- bamboo_load_device_tree()
-Date: Mon,  6 Jan 2020 15:23:28 -0300
-Message-Id: <20200106182425.20312-3-danielhb413@gmail.com>
+Subject: [PATCH v1 03/59] kvm-all.c: remove unneeded labels
+Date: Mon,  6 Jan 2020 15:23:29 -0300
+Message-Id: <20200106182425.20312-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +64,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
+X-Received-From: 2607:f8b0:4864:20::f43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,50 +76,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' label can be replaced by 'return -1' in all cases.
+Labels 'err' and 'out' from kvm_destroy_vcpu(), kvm_init_vcpu()
+and kvm_physical_sync_dirty_bitmap() can be replaced by
+'return' with the appropriate return value.
 
-CC: David Gibson <david@gibson.dropbear.id.au>
-CC: qemu-ppc@nongnu.org
+CC: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc440_bamboo.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ accel/kvm/kvm-all.c | 30 +++++++++++-------------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 4d95c0f8a8..b782641b23 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -71,12 +71,12 @@ static int bamboo_load_device_tree(hwaddr addr,
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index b2f1a5bcb5..09ca99e082 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -329,26 +329,24 @@ int kvm_destroy_vcpu(CPUState *cpu)
  
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, BINARY_DEVICE_TREE_FILE);
-     if (!filename) {
--        goto out;
-+        return -1;
-     }
-     fdt = load_device_tree(filename, &fdt_size);
-     g_free(filename);
-     if (fdt == NULL) {
--        goto out;
-+        return -1;
+     ret = kvm_arch_destroy_vcpu(cpu);
+     if (ret < 0) {
+-        goto err;
++        return ret;
      }
  
-     /* Manipulate device tree in memory. */
-@@ -117,10 +117,6 @@ static int bamboo_load_device_tree(hwaddr addr,
-     rom_add_blob_fixed(BINARY_DEVICE_TREE_FILE, fdt, fdt_size, addr);
-     g_free(fdt);
-     return 0;
--
--out:
--
--    return ret;
+     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
+     if (mmap_size < 0) {
+-        ret = mmap_size;
+         DPRINTF("KVM_GET_VCPU_MMAP_SIZE failed\n");
+-        goto err;
++        return mmap_size;
+     }
+ 
+     ret = munmap(cpu->kvm_run, mmap_size);
+     if (ret < 0) {
+-        goto err;
++        return ret;
+     }
+ 
+     vcpu = g_malloc0(sizeof(*vcpu));
+     vcpu->vcpu_id = kvm_arch_vcpu_id(cpu);
+     vcpu->kvm_fd = cpu->kvm_fd;
+     QLIST_INSERT_HEAD(&kvm_state->kvm_parked_vcpus, vcpu, node);
+-err:
+     return ret;
  }
  
- /* Create reset TLB entries for BookE, spanning the 32bit addr space.  */
+@@ -381,7 +379,7 @@ int kvm_init_vcpu(CPUState *cpu)
+     ret = kvm_get_vcpu(s, kvm_arch_vcpu_id(cpu));
+     if (ret < 0) {
+         DPRINTF("kvm_create_vcpu failed\n");
+-        goto err;
++        return ret;
+     }
+ 
+     cpu->kvm_fd = ret;
+@@ -390,17 +388,15 @@ int kvm_init_vcpu(CPUState *cpu)
+ 
+     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
+     if (mmap_size < 0) {
+-        ret = mmap_size;
+         DPRINTF("KVM_GET_VCPU_MMAP_SIZE failed\n");
+-        goto err;
++        return mmap_size;
+     }
+ 
+     cpu->kvm_run = mmap(NULL, mmap_size, PROT_READ | PROT_WRITE, MAP_SHARED,
+                         cpu->kvm_fd, 0);
+     if (cpu->kvm_run == MAP_FAILED) {
+-        ret = -errno;
+         DPRINTF("mmap'ing vcpu state failed\n");
+-        goto err;
++        return -errno;
+     }
+ 
+     if (s->coalesced_mmio && !s->coalesced_mmio_ring) {
+@@ -408,9 +404,7 @@ int kvm_init_vcpu(CPUState *cpu)
+             (void *)cpu->kvm_run + s->coalesced_mmio * PAGE_SIZE;
+     }
+ 
+-    ret = kvm_arch_init_vcpu(cpu);
+-err:
+-    return ret;
++    return kvm_arch_init_vcpu(cpu);
+ }
+ 
+ /*
+@@ -565,7 +559,6 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
+     KVMSlot *mem;
+     hwaddr start_addr, size;
+     hwaddr slot_size, slot_offset = 0;
+-    int ret = 0;
+ 
+     size = kvm_align_section(section, &start_addr);
+     while (size) {
+@@ -575,7 +568,7 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
+         mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
+         if (!mem) {
+             /* We don't have a slot if we want to trap every access. */
+-            goto out;
++            return 0;
+         }
+ 
+         if (!mem->dirty_bmap) {
+@@ -587,8 +580,7 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
+         d.slot = mem->slot | (kml->as_id << 16);
+         if (kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) == -1) {
+             DPRINTF("ioctl failed %d\n", errno);
+-            ret = -1;
+-            goto out;
++            return -1;
+         }
+ 
+         subsection.offset_within_region += slot_offset;
+@@ -599,8 +591,8 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
+         start_addr += slot_size;
+         size -= slot_size;
+     }
+-out:
+-    return ret;
++
++    return 0;
+ }
+ 
+ /* Alignment requirement for KVM_CLEAR_DIRTY_LOG - 64 pages */
 -- 
 2.24.1
 
