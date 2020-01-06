@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EE3131685
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:11:45 +0100 (CET)
-Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12884131675
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 18:07:09 +0100 (CET)
+Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioVuq-0004fV-52
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:11:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42977)
+	id 1ioVqN-00080m-Be
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 12:07:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ioVoi-0006wf-Ng
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:05:26 -0500
+ (envelope-from <mst@redhat.com>) id 1ioVp9-00075H-MV
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:05:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ioVof-0007hq-SL
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:05:23 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27419
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1ioVp4-0008Da-PQ
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:05:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42548
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ioVof-0007em-7L
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:05:21 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ioVp4-0008D5-La
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 12:05:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578330320;
+ s=mimecast20190719; t=1578330346;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gV8JUI+Cmd8JgdTBVK7Cut4Q9MQRkogNpLPSNJ8sMhk=;
- b=VUip0jUSj8LDkqi3XlYeg7ByEYN7HhrrITjU/RaMfr5UWf75MGJThslGAfyz9h/4RhatLY
- nshhnpeuboYCXs4hoYTxTeSmPaoiqqyCGsjgMk3P172RalotHR8hw8JSmPl6gV8UusMC1w
- FaKvXvDVesnxRN+U+/Sk1dQn8D5XWGo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-Qb2HqUEyPvy0b8FTXw4RVA-1; Mon, 06 Jan 2020 12:05:18 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A5611800D4E
- for <qemu-devel@nongnu.org>; Mon,  6 Jan 2020 17:05:17 +0000 (UTC)
-Received: from work-vm (ovpn-117-53.ams2.redhat.com [10.36.117.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B94345C1B0;
- Mon,  6 Jan 2020 17:05:13 +0000 (UTC)
-Date: Mon, 6 Jan 2020 17:05:11 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 058/104] virtiofsd: print log only when priority is high
- enough
-Message-ID: <20200106170511.GI2798@work-vm>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-59-dgilbert@redhat.com>
- <20200106151048.GV2930416@redhat.com>
+ bh=kovrPs1uR8E9eW21cu83x1YVGrQUxrI0NZQD9ns/75g=;
+ b=hrgdlZ+dkp2UwbhI6L0+0TbN157s1Z1e5yU7n5ngkbeKZzDQphp4W0h5kUWjfQiKOh31LL
+ JQJ/a18ZQdWMTMxOlhCiAWs32ckT2b3XZXZ2FkH5EpFWQ+KUjeHQhBQGK121V5o0X0O/Dw
+ nZd6aRXtoV71GZwKbJrOvQw3oQ31A74=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-Ba8bJMXSPHWGWEnEg2EsyQ-1; Mon, 06 Jan 2020 12:05:44 -0500
+Received: by mail-qk1-f199.google.com with SMTP id d1so7639643qkk.15
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 09:05:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7nrgiSGZGWya5NshyMRioDKxNvrJEVEu5x6Ov8Zq+RY=;
+ b=RtZVPxTG1hyAkwCMa+HOjzZUwE8czjIHm69Jv59TnGlr4LtK7zec1OsEcqzd6K109S
+ 2qk+a8OLmp6kYxWI+bqROEYvSzslIHMa5xeOClVmInY6zYilx9f9rT/cGcxTqylJi5L8
+ TC+TUdGmUJTdX9pjdWNAtQJKRt9/xyxmbt59w+RdofuY1Pjz5n1hwe9+foJLATUV9ALF
+ 5XMHrexpN24x2r4b+EMC2pB2a0zYbJE658w/DQus7gBBgwIDkptpSlTzuJVc6LcuTG+s
+ 9cMLN1Cua+0PjnGkN5+IBSWY8fSBKRUV5coMwxJ22MJ/FSkMQAku4pioyowyMb9zy0iL
+ tQqQ==
+X-Gm-Message-State: APjAAAWs3TDW62KLVcQsdHXByFz7xb0lJ34GZ/SuT5qu/y1xJLT0VH2J
+ rz47PsRFYWx2vxFWPckRLegkcdS7y4MUJyDMy7SrUzNgImHCoogWabRByCNhsxqk2Dw+jmXYiR5
+ Bw3zc4aQCCH8iin8=
+X-Received: by 2002:a37:4894:: with SMTP id
+ v142mr70919253qka.220.1578330344401; 
+ Mon, 06 Jan 2020 09:05:44 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyVopkZph7eDKQTeen8r/z9NFlZ9LXpXc5r8cp/4JAN+7F2S9FSIpDVZdj42/uNwbItyXKBeQ==
+X-Received: by 2002:a37:4894:: with SMTP id
+ v142mr70919235qka.220.1578330344153; 
+ Mon, 06 Jan 2020 09:05:44 -0800 (PST)
+Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
+ by smtp.gmail.com with ESMTPSA id a14sm21092274qko.92.2020.01.06.09.05.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2020 09:05:43 -0800 (PST)
+Date: Mon, 6 Jan 2020 12:05:39 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v3 00/32] virtio, pci, pc: fixes, features
+Message-ID: <20200106120515-mutt-send-email-mst@kernel.org>
+References: <20200105125622.27231-1-mst@redhat.com>
+ <CAFEAcA8u56NW2634q7_6BrgVOUxcNt037EQ_dNDg0RdqgUWUMQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200106151048.GV2930416@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Qb2HqUEyPvy0b8FTXw4RVA-1
+In-Reply-To: <CAFEAcA8u56NW2634q7_6BrgVOUxcNt037EQ_dNDg0RdqgUWUMQ@mail.gmail.com>
+X-MC-Unique: Ba8bJMXSPHWGWEnEg2EsyQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,122 +89,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> On Thu, Dec 12, 2019 at 04:38:18PM +0000, Dr. David Alan Gilbert (git) wr=
-ote:
-> > From: Eryu Guan <eguan@linux.alibaba.com>
-> >=20
-> > Introduce "-o log_level=3D" command line option to specify current log
-> > level (priority), valid values are "debug info warn err", e.g.
-> >=20
-> >     ./virtiofsd -o log_level=3Ddebug ...
-> >=20
-> > So only log priority higher than "debug" will be printed to
-> > stderr/syslog. And the default level is info.
-> >=20
-> > The "-o debug"/"-d" options are kept, and imply debug log level.
-> >=20
-> > Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
-> > dgilbert: Reworked for libfuse's log_func
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  tools/virtiofsd/fuse_log.c       |   4 ++
-> >  tools/virtiofsd/fuse_lowlevel.c  |  75 ++++++++------------
-> >  tools/virtiofsd/fuse_lowlevel.h  |   1 +
-> >  tools/virtiofsd/helper.c         |  10 ++-
-> >  tools/virtiofsd/passthrough_ll.c | 118 +++++++++++++------------------
-> >  5 files changed, 92 insertions(+), 116 deletions(-)
+On Mon, Jan 06, 2020 at 04:48:19PM +0000, Peter Maydell wrote:
+> On Sun, 5 Jan 2020 at 12:57, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > Changes from v2:
+> > - rebased on master
+> > - a couple more bugfixes
+> >
+> > The following changes since commit f0dcfddecee8b860e015bb07d67cfcbdfbfd=
+51d9:
+> >
+> >   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-reques=
+t' into staging (2020-01-03 17:18:08 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >
+> > for you to fetch changes up to 93ef96f3258f489f7bff28ca7b9e0dc74de2a75b=
+:
+> >
+> >   intel_iommu: add present bit check for pasid table entries (2020-01-0=
+5 07:41:10 -0500)
+> >
+> > ----------------------------------------------------------------
+> > virtio, pci, pc: fixes, features
+> >
+> > Bugfixes all over the place.
+> > HMAT support.
+> > New flags for vhost-user-blk utility.
+> > Auto-tuning of seg max for virtio storage.
+> >
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 >=20
-> > diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
-> > index 11345f9ec8..79a18a7aaa 100644
-> > --- a/tools/virtiofsd/fuse_log.c
-> > +++ b/tools/virtiofsd/fuse_log.c
-> > @@ -8,6 +8,10 @@
-> >   * See the file COPYING.LIB
-> >   */
-> > =20
-> > +#include <stdbool.h>
-> > +#include <stdio.h>
-> > +#include <stdarg.h>
-> > +#include <syslog.h>
-> >  #include "fuse_log.h"
-> > =20
-> >  #include <stdarg.h>
+> Build failure for OSX:
 >=20
-> Why do we need to add these headers if there are no code changes in this
-> file ?
-
-Thanks, those are left overs from an earlier version; I've deleted them now=
-.
-
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_low=
-level.c
-> > index f3c8bdf7cb..0abb369b3d 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > @@ -158,19 +158,17 @@ static int fuse_send_msg(struct fuse_session *se,=
- struct fuse_chan *ch,
-> >      struct fuse_out_header *out =3D iov[0].iov_base;
-> > =20
-> >      out->len =3D iov_length(iov, count);
-> > -    if (se->debug) {
-> > -        if (out->unique =3D=3D 0) {
-> > -            fuse_log(FUSE_LOG_DEBUG, "NOTIFY: code=3D%d length=3D%u\n"=
-, out->error,
-> > -                     out->len);
-> > -        } else if (out->error) {
-> > -            fuse_log(FUSE_LOG_DEBUG,
-> > -                     "   unique: %llu, error: %i (%s), outsize: %i\n",
-> > -                     (unsigned long long)out->unique, out->error,
-> > -                     strerror(-out->error), out->len);
-> > -        } else {
-> > -            fuse_log(FUSE_LOG_DEBUG, "   unique: %llu, success, outsiz=
-e: %i\n",
-> > -                     (unsigned long long)out->unique, out->len);
-> > -        }
-> > +    if (out->unique =3D=3D 0) {
-> > +        fuse_log(FUSE_LOG_DEBUG, "NOTIFY: code=3D%d length=3D%u\n", ou=
-t->error,
-> > +                 out->len);
-> > +    } else if (out->error) {
-> > +        fuse_log(FUSE_LOG_DEBUG,
-> > +                 "   unique: %llu, error: %i (%s), outsize: %i\n",
-> > +                 (unsigned long long)out->unique, out->error,
-> > +                 strerror(-out->error), out->len);
-> > +    } else {
-> > +        fuse_log(FUSE_LOG_DEBUG, "   unique: %llu, success, outsize: %=
-i\n",
-> > +                 (unsigned long long)out->unique, out->len);
-> >      }
+> /Users/pm215/src/qemu-for-merges/hw/scsi/virtio-scsi.c:904:35: error:
+> format specifies type 'unsigned short' but the argument has type
+> 'uint32_t' (aka 'unsigned int') [-Werror,-Wformat]
+>                    "must be > 2", s->conf.virtqueue_size);
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+> /Users/pm215/src/qemu-for-merges/include/qapi/error.h:166:35: note:
+> expanded from macro 'error_setg'
+>                         (fmt), ## __VA_ARGS__)
+>                                   ^~~~~~~~~~~
+> 1 error generated.
 >=20
-> Removing all the 'if (se->debug)' checks means that we take the
-> performance hit of calling many logging functions in the common
-> case where debug is disabled. Hopefully 'fuse_log' is smart
-> enough to avoid printf formatting of the msg + args unless
-> it is actually goiing to output the message
-
-It is; we go through fuse_log (fuse_log.c an imported file) that just
-does the va_start and then calls the log_func that was set later in this
-patch and the first thing it does is check the level and exit.
-
-Dave
-
+> (Everything else passed OK.)
 >=20
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> thanks
+> -- PMM
+
+Fixed up now - can you try again pls?
+
+--=20
+MST
 
 
