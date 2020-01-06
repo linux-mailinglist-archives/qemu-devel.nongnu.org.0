@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3255131842
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:06:30 +0100 (CET)
-Received: from localhost ([::1]:58380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C535131849
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Jan 2020 20:08:49 +0100 (CET)
+Received: from localhost ([::1]:58444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioXht-0004A8-6v
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:06:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45811)
+	id 1ioXk7-0008Ru-SM
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 14:08:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4S-0002X8-Sw
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:46 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4Z-0002jN-To
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioX4R-0004VU-MJ
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:44 -0500
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:41776)
+ (envelope-from <danielhb413@gmail.com>) id 1ioX4Y-0004cN-Pr
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 13:25:51 -0500
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:42550)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioX4R-0004VB-Ia; Mon, 06 Jan 2020 13:25:43 -0500
-Received: by mail-qk1-x72b.google.com with SMTP id x129so40277788qke.8;
- Mon, 06 Jan 2020 10:25:43 -0800 (PST)
+ id 1ioX4Y-0004bz-LQ; Mon, 06 Jan 2020 13:25:50 -0500
+Received: by mail-qk1-x744.google.com with SMTP id z14so39015038qkg.9;
+ Mon, 06 Jan 2020 10:25:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Adi6YmWzd5BlIyjySU/FHh29puafqwS6MyW1XVUsuis=;
- b=aCigGM45Roe/Nr1ZXPjbYM8Xz0GSFXDL5YrXrdeaqunEB+OI3Y2LN/2I5bPMtc5S8j
- CGMl++arbFq6+4W/1Q33RBV8me0qDj45oXKxyynzYylUQnuirH625VTao0ior+8O3qFz
- xIN4ehhT7CuPe+exRMgisa4ERBUk5Fyfv7wN9eqZEvjeCUXVXHs2zFK4EW5LgBgQGgDF
- p+tQzfTuoWQNk0l4xKS44jJE2a/ik0xT352iQsjb6V7RhWs7FCkfZBlQNDsAAU/zjGxu
- zl+jk5tZ7tXYfIiTIlZb4glU0uA69gLjeZNo3bgkwJKmZEbEjEO8+wU2ywCNKD0kvRiZ
- Y9rw==
+ bh=hHc8KM4wbyx7oApuYrLldPmbj5H4j8u/5LpfmbUVXc8=;
+ b=T4tyhqkugSDw1fNHjAUkq2C8KOBU/8EGI4SIrpzht34zgrAhBGiAL0bL/pFJpErVl7
+ h2cXmZyXig9uRZ8Sbnb/yGrWNsLTrph9Yc5XGuKlAJD2YQBmXTF6rSc1eaOxdjKoke37
+ uhHunMIc06Nwk2lmSI1dCbTD8aQBIkVroN2MaFA3Hmx+10jmI8nxHgywNoHSGg0e9iEU
+ feoY75Nn7cB6QDRKhD+S/7jKbVMb8vyX0w7r3tZT9abXigC4i2uvWfsLllzjApbg4iiU
+ 4G/gpomo4ZCM6y87qSYolYLop1AtUd1d2lqc9uJheElCSIJv+zIySGazJYEz5BQsKMan
+ nyZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Adi6YmWzd5BlIyjySU/FHh29puafqwS6MyW1XVUsuis=;
- b=Vi54n9HzxSjjZja4aeMs2cWOWaNPxqHHeE0K7ReddM/v/3HWjFo+UNrJFO94oBo6rn
- 8LjL+Jafo9/8MB8jJ/Qbia85OfOBA8Ur7fDlMkvMID5CLCiCW48xRi0jEUDyzUorJlD2
- O7T/Q1RRT+1rwjaezDlECLUCQxefKNPlL/wYS2ZhUiWNtD9KHfKVWhbuVjghAb1VFC/K
- Q8v5rTQKrBEllLMfr0oG9N48DtoS43oJxbDaeb8rEeF6BW8Czq6pVY8yHCW4BxQYUt75
- hz+ZfQrOnJ+zVN+2uJHB3si6SYq+ABHC8ZRqW8DZVZ8r8AwSF92kzMS+9Aoz5R/7PGZW
- 82nA==
-X-Gm-Message-State: APjAAAXgY8GzOA2N8+OZ5+X5jrK9qiSsDkklwJCsOgGlZoEA63CKQRXz
- /UPpSJ5IUSIFXDKoFP82gv4AylND
-X-Google-Smtp-Source: APXvYqy9uuY+g/FFOUyP/GV4GYpoqMkRy1st8SV0/XE9bt2uTfjdO1LUISMtE5C85hik3nZV78SaHg==
-X-Received: by 2002:ae9:f711:: with SMTP id s17mr83111219qkg.238.1578335142878; 
- Mon, 06 Jan 2020 10:25:42 -0800 (PST)
+ bh=hHc8KM4wbyx7oApuYrLldPmbj5H4j8u/5LpfmbUVXc8=;
+ b=ZywST0Zw/9YTNhZe+EXx5ME55hbL9ln6O44LoPkhAAbDiv+Nr/nOK8PMel9ghSNlAp
+ rPD+NZdQX08YDn+QEQcJQ36IT/brLa/Farq3qUhVLyZngdmWNMfjIVIJibwJ0r9eyKsa
+ dZ27lS+ZMUCFZ+oOpSbNcfP1G7WxvbIOka8BmTW2YTTjZlJwpjGl4JTav1aUYK1hPElK
+ FCpO+IZ0YH10s/SncnBm4bUenmD+YCI838flEQZ89v80/+RN6+OgeR4PBHWK4GPrJgIq
+ 3a8D5jvLO/SBf7/Qp9QoQwD+XeerPVW2JtfwFh6o5L705AWQXIn8VxZt+oi4Cfg3N0mP
+ qD0g==
+X-Gm-Message-State: APjAAAXSgMPspsGdk6z2s8Gsmk+zSmDBXzHp0YQHVa5DpTwxyWe8mUK0
+ cyjEImsaA+bcsLvhBQZY4iURwa7/
+X-Google-Smtp-Source: APXvYqziWR5ne9olzdjMctJpqGaccIPRjn1I2s35O8ZZA3yBuUdyRiz8JOcQsiLp1p1GmlxmHKMvlw==
+X-Received: by 2002:a37:801:: with SMTP id 1mr86585967qki.326.1578335150132;
+ Mon, 06 Jan 2020 10:25:50 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.41
+ by smtp.gmail.com with ESMTPSA id b81sm21026522qkc.135.2020.01.06.10.25.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 10:25:42 -0800 (PST)
+ Mon, 06 Jan 2020 10:25:49 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 28/59] qga/commands-win32.c: remove 'out' label in
- get_pci_info
-Date: Mon,  6 Jan 2020 15:23:54 -0300
-Message-Id: <20200106182425.20312-29-danielhb413@gmail.com>
+Subject: [PATCH v1 32/59] qemu-img.c: remove 'out4' label in img_compare
+Date: Mon,  6 Jan 2020 15:23:58 -0300
+Message-Id: <20200106182425.20312-33-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200106182425.20312-1-danielhb413@gmail.com>
 References: <20200106182425.20312-1-danielhb413@gmail.com>
@@ -65,7 +64,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::72b
+X-Received-From: 2607:f8b0:4864:20::744
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,99 +76,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-trivial@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'out' can be replaced by 'return pci' instead.
+'out4' can be replaced by 'return 2'.
 
-CC: Stefan Weil <sw@weilnetz.de>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Max Reitz <mreitz@redhat.com>
+CC: qemu-block@nongnu.org
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- qga/commands-win32.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ qemu-img.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 2461fd19bf..c520a341df 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -513,7 +513,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                                    DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-     if (dev_info == INVALID_HANDLE_VALUE) {
-         error_setg_win32(errp, GetLastError(), "failed to get devices tree");
--        goto out;
-+        return pci;
+diff --git a/qemu-img.c b/qemu-img.c
+index 6233b8ca56..fc7b08e7ee 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1346,8 +1346,7 @@ static int img_compare(int argc, char **argv)
+             opts = qemu_opts_parse_noisily(&qemu_object_opts,
+                                            optarg, true);
+             if (!opts) {
+-                ret = 2;
+-                goto out4;
++                return 2;
+             }
+         }   break;
+         case OPTION_IMAGE_OPTS:
+@@ -1371,8 +1370,7 @@ static int img_compare(int argc, char **argv)
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+                           qemu_img_object_print_help, &error_fatal)) {
+-        ret = 2;
+-        goto out4;
++        return 2;
      }
  
-     g_debug("enumerating devices");
-@@ -584,7 +584,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 } else {
-                     error_setg_win32(errp, GetLastError(),
-                                      "failed to get device instance ID");
--                    goto out;
-+                    return pci;
-                 }
-             }
- 
-@@ -598,14 +598,14 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 g_error("CM_Locate_DevInst failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get device instance");
--                goto out;
-+                return pci;
-             }
-             cr = CM_Get_Parent(&parent_dev_inst, dev_inst, 0);
-             if (cr != CR_SUCCESS) {
-                 g_error("CM_Get_Parent failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get parent device instance");
--                goto out;
-+                return pci;
-             }
- 
-             cr = CM_Get_Device_ID_Size(&dev_id_size, parent_dev_inst, 0);
-@@ -613,7 +613,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 g_error("CM_Get_Device_ID_Size failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get parent device ID length");
--                goto out;
-+                return pci;
-             }
- 
-             ++dev_id_size;
-@@ -628,7 +628,7 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-                 g_error("CM_Get_Device_ID failed with code %lx", cr);
-                 error_setg_win32(errp, GetLastError(),
-                                  "failed to get parent device ID");
--                goto out;
-+                return pci;
-             }
-         }
- 
-@@ -642,14 +642,14 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
-         if (parent_dev_info == INVALID_HANDLE_VALUE) {
-             error_setg_win32(errp, GetLastError(),
-                              "failed to get parent device");
--            goto out;
-+            return pci;
-         }
- 
-         parent_dev_info_data.cbSize = sizeof(SP_DEVINFO_DATA);
-         if (!SetupDiEnumDeviceInfo(parent_dev_info, 0, &parent_dev_info_data)) {
-             error_setg_win32(errp, GetLastError(),
-                            "failed to get parent device data");
--            goto out;
-+            return pci;
-         }
- 
-         for (j = 0;
-@@ -731,7 +731,6 @@ static GuestPCIAddress *get_pci_info(int number, Error **errp)
- 
- free_dev_info:
-     SetupDiDestroyDeviceInfoList(dev_info);
--out:
-     return pci;
+     /* Initialize before goto out */
+@@ -1559,7 +1557,6 @@ out2:
+     blk_unref(blk1);
+ out3:
+     qemu_progress_end();
+-out4:
+     return ret;
  }
  
 -- 
