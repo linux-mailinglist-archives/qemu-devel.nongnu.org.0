@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F48132380
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:24:44 +0100 (CET)
-Received: from localhost ([::1]:45870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B59D13236F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:20:44 +0100 (CET)
+Received: from localhost ([::1]:45806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iom2U-0003aR-LY
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:24:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50181)
+	id 1iolyb-0000AW-QQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:20:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jean-philippe@linaro.org>) id 1ioloq-0001kH-5c
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:10:37 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iolsl-000274-SS
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:14:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jean-philippe@linaro.org>) id 1ioloo-0005xW-MS
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:10:35 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52450)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
- id 1ioloo-0005vp-B7
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:10:34 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p9so18272089wmc.2
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:10:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=YEFNM/oy8Cq7YUXJMV4fPNXxRE6yOF0JHPTPbwWQ/Wk=;
- b=oVjxiN6pox1UL+86wboFMZ0EFcCAwlMoRKMJpVZ/r1Pn57cAKc9Ow+bWZrDQeeY8ug
- o9hBh9lp0gwVmDIG0wR9NtfJvOpxdGZX/lfOQW+uT7Z4/z5maHoIV8q+V2SNGYay1Uh4
- zvRiP2rx47NtHvoGt7WWw/6dD++f07Xdshaw9fPxHC/AsB26LoRok0l9QlYxbrKvFipm
- F8uv3iQXYcTanGSoncRJLkiYYCeBBBbsSGfSElNJBbRcWwmcHb388e0mEYJpzn5ZWweT
- x2dolzPJdGs+iuVgbS6bXhMXZtGcOsng3MW0n/rMCnlYkmzuwMQXd3rgU9wbikvIZKht
- KT/Q==
+ (envelope-from <pbonzini@redhat.com>) id 1iolsk-0007sp-MY
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:14:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45177
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iolsk-0007sc-JT
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:14:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578392078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rrQ+gMo4zbJaq4NpNdTnusPx/z0A5WLMSHm5zLXuAUs=;
+ b=ftCZjPzLXMSkRar5yQD7+XmB0zXFr4mCj8aYPTZjL9oGz6bZKNybXulFyhGtXR+s02NdXt
+ MF3KZfnjga8p3/fMaBDG18cuPEENU70IuoiMMMJsZuGRogxvsj+lR3M8kgLJ6G4tfBNr7Q
+ 4zpJmkzMJ3Io0Cf3YnpseHCSwbdcIzk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-w7KZHwXmOW2W_TcJBx6IWQ-1; Tue, 07 Jan 2020 05:14:35 -0500
+Received: by mail-wm1-f69.google.com with SMTP id h130so3904900wme.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:14:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YEFNM/oy8Cq7YUXJMV4fPNXxRE6yOF0JHPTPbwWQ/Wk=;
- b=TgFEi0eBwzhGQqZwpkNzJr2+iPUNyed5NylBmQTna4ebdL5zdtH7i9nLEAyYj8zaK4
- 0b88q4Ysfc1P/XZmUVNTqcghB9x3epPrEMHN2F47BtOdbDdx4q8katTpdBPqyyX5LboK
- 9D1jFQcADBolHr7JH/mxjtFZAnKZJZWJarryQnv5/IWqFeS30RIZXoLblqVSFd7bvkQE
- OemXZ95jBSA2yvHt8NW/TMg5bJoBs3IUofoJRQ4bmfsk76GFjkKpmRArTR5YTt0Vayok
- ao2Xf8PWjWwoRzI90sWQ6UUCxQcn0XyOSUQGHT6/lhE/v7WrkoaY9WBE3E+wsG1EF5by
- cx7A==
-X-Gm-Message-State: APjAAAV/O38Eos3q2B8JY5VLNHGMpl97DfgtyUQxZcDJ0QdPtC4QHm8E
- 6wZ8+RjimCWYTsZcZywJDS9dJg==
-X-Google-Smtp-Source: APXvYqw4W95ZsciRHupbCwXa3shUmCBpe2DbVJssL3LpAOOsyrbqjA8bxjh/Iw75OulytnEels6wxw==
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr39069782wmi.152.1578391831321; 
- Tue, 07 Jan 2020 02:10:31 -0800 (PST)
-Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id h8sm78750914wrx.63.2020.01.07.02.10.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 02:10:30 -0800 (PST)
-Date: Tue, 7 Jan 2020 11:10:24 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
-Message-ID: <20200107101024.GB832497@myrica>
-References: <20191210193342.GJ3352@xz-x1>
- <44c0041d-68ad-796f-16cc-4bab7ba0f164@redhat.com>
- <20191219133308.GA4246@xz-x1>
- <9d58b293-ada0-353e-bba2-ad1f538dfc62@redhat.com>
- <20191219144936.GB50561@xz-x1>
- <9ec9d0d5-062b-f96b-c72c-4d15865ff9a1@redhat.com>
- <20191220162642.GA2626852@myrica> <20191220165100.GA3780@xz-x1>
- <20200106170634.GF2062@myrica> <20200106175850.GC219677@xz-x1>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rrQ+gMo4zbJaq4NpNdTnusPx/z0A5WLMSHm5zLXuAUs=;
+ b=bsq8vFhAe2Q/OuDsnLYTIGXNuYohTuHCEq6OxtDDJFjky35SbmNglF8clPqIAE1itw
+ oMjmqxNv8uNo2hkxSubxgf4znoDymfHqq6ALkJCO17l8W0akRnwuOLIDGR6KrI/L7rR6
+ KpKxTpNWPfafsfJ5Iz0FRBYZ2rntE4U+ovvqxf/DUxgCf/7ldvMa/jJxw6lyfmvrkEap
+ WRiVeP9Sa/bbuO+yw4Y9GQqDl13kifWz+253qsHC4lnY1O2MTJ/fuiVXfltdrrVNu946
+ w2TNh5MnFkpHZ6XburA3uIWgLzGklH1mBkiPlm1X+zcn1zZojgZsj1kevmcgZYWbFjTG
+ ja7w==
+X-Gm-Message-State: APjAAAX1QITdC7lWCqTjuFY7xhFuhLAuwmXH7ju1gCT+cd9ccxHWLWfF
+ A7aRo82J7iMDjU578JqPR/FOeZ8By/aVzbh9bNXwE9gCXhAwDuY9w2+9Wz+c/16ZilBcVQaD7ki
+ t4M8tJA2bJpx0iqQ=
+X-Received: by 2002:a5d:6151:: with SMTP id y17mr57987518wrt.110.1578392074184; 
+ Tue, 07 Jan 2020 02:14:34 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzlaiRtwCEJ58zUK8aaZ7bShCA/KUKMaq5G5bQ1xpFxTm8R9i/lcV1KHg20mRuaFYfHooSaMQ==
+X-Received: by 2002:a5d:6151:: with SMTP id y17mr57987489wrt.110.1578392073974; 
+ Tue, 07 Jan 2020 02:14:33 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id p5sm77111081wrt.79.2020.01.07.02.14.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 02:14:33 -0800 (PST)
+Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
+ to recent desugarized -accel option)
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <20200106130951.29873-1-philmd@redhat.com>
+ <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+Date: Tue, 7 Jan 2020 11:14:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200106175850.GC219677@xz-x1>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+In-Reply-To: <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+Content-Language: en-US
+X-MC-Unique: w7KZHwXmOW2W_TcJBx6IWQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,68 +93,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
- tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
- quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- Auger Eric <eric.auger@redhat.com>, bharatb.linux@gmail.com,
- qemu-arm@nongnu.org, dgilbert@redhat.com, eric.auger.pro@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 06, 2020 at 12:58:50PM -0500, Peter Xu wrote:
-> On Mon, Jan 06, 2020 at 06:06:34PM +0100, Jean-Philippe Brucker wrote:
-> > On Fri, Dec 20, 2019 at 11:51:00AM -0500, Peter Xu wrote:
-> > > On Fri, Dec 20, 2019 at 05:26:42PM +0100, Jean-Philippe Brucker wrote:
-> > > > There is at the virtio transport level: the driver sets status to
-> > > > FEATURES_OK once it accepted the feature bits, and to DRIVER_OK once its
-> > > > fully operational. The virtio-iommu spec says:
-> > > > 
-> > > >   If the driver does not accept the VIRTIO_IOMMU_F_BYPASS feature, the
-> > > >   device SHOULD NOT let endpoints access the guest-physical address space.
-> > > > 
-> > > > So before features negotiation, there is no access. Afterwards it depends
-> > > > if the VIRTIO_IOMMU_F_BYPASS has been accepted by the driver.
-> > > 
-> > > Before enabling virtio-iommu device, should we still let the devices
-> > > to access the whole system address space?  I believe that's at least
-> > > what Intel IOMMUs are doing.  From code-wise, its:
-> > > 
-> > >     if (likely(s->dmar_enabled)) {
-> > >         success = vtd_do_iommu_translate(vtd_as, vtd_as->bus, vtd_as->devfn,
-> > >                                          addr, flag & IOMMU_WO, &iotlb);
-> > >     } else {
-> > >         /* DMAR disabled, passthrough, use 4k-page*/
-> > >         iotlb.iova = addr & VTD_PAGE_MASK_4K;
-> > >         iotlb.translated_addr = addr & VTD_PAGE_MASK_4K;
-> > >         iotlb.addr_mask = ~VTD_PAGE_MASK_4K;
-> > >         iotlb.perm = IOMMU_RW;
-> > >         success = true;
-> > >     }
-> > > 
-> > > From hardware-wise, an IOMMU should be close to transparent if you
-> > > never enable it, imho.
-> > 
-> > For hardware that's not necessarily the best choice. As cited in my
-> > previous reply it has been shown to introduce vulnerabilities since
-> > malicious devices can DMA during boot, before the OS takes control of the
-> > IOMMU. The Arm SMMU allows an implementation to adopt a deny policy by
-> > default.
+On 07/01/20 11:03, Thomas Huth wrote:
+>>  
+>>  vm = QEMUMachine(iotests.qemu_prog)
+>> -vm.add_args('-machine', 'accel=kvm:tcg')
+>> +vm.add_args('-accel', 'kvm', '-accel', 'tcg')
+> Looking at this, I wonder whether we really want the "-accel" option to
+> prioritize the accelerators in the order of appearance? A lot of other
+> CLI tools give the highest priority to the last parameter instead, e.g.
+> "gcc -O3 -O1" compiles with -O1, and not with -O3.
 > 
-> I see.  But then how to read a sector from the block to at least boot
-> an OS if we use a default-deny policy?  Does it still need a mapping
-> that is established somehow by someone before hand?
+> Also I think it might be quite common that there are shell scripts which
+> call "qemu-system-xxx -accel xyz $*" ... and if we don't invert the
+> priorities of -accel, it will be impossible to override -accel in that
+> case...
 
-Yes, it looks like EDK II uses IOMMU operations in order to access those
-devices on platforms where the IOMMU isn't default-bypass (AMD SEV support
-is provided by edk2, and a VT-d driver seems provided by edk2-platforms).
-However for OVMF we could just set the bypass feature bit in virtio-iommu
-device, which doesn't even requires setting up the virtqueue.
+Hmm, it does match "-machine accel=kvm:tcg" and in general I think it's
+more self-explanatory.  However, it is indeed less friendly to scripts.
+ On one hand those could be changed to place "-accel xyz" after $* (or
+better "$@"), on the other hand we could also add a priority option to
+"-accel".  What do you think?
 
-I'm missing a piece of the puzzle for Arm platforms though, because it
-looks like Trusted Firmware-A sets up the default-deny policy on reset
-even when it wasn't hardwired, but doesn't provide a service to create
-SMMUv3 mappings for the bootloader.
+Paolo
 
-Thanks,
-Jean
 
