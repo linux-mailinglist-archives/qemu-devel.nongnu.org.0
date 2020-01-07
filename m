@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727461326C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:55:28 +0100 (CET)
-Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837331326B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:51:15 +0100 (CET)
+Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iooOM-0000f0-07
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:55:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55599)
+	id 1iooKH-00083K-Fq
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:51:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56025)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ionuL-0005dI-Qe
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:24:26 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ionvT-0000e5-B3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ionuJ-0008BK-NZ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:24:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26483
+ (envelope-from <pbonzini@redhat.com>) id 1ionvS-0000IK-4V
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59773
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ionuJ-0008B9-KR
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:24:23 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ionvR-0000Gq-NF
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578399863;
+ s=mimecast20190719; t=1578399933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=Sl8WGQpZL1pmSlF8449Htl3rLKUh4HtY/Fk2ULKmZo0=;
- b=RzW1aSJXIKnwWX6k8F6TQuRPzrhoVRytc+DVhfhuQrrPnW+6nh1K9bgQsxdJFQU4YMG2Aw
- RamPU7ne3JN3ucr4xUNeXoFV5ORWsjQcCh+n+1SYcYVVoSssh9mGhRnMH6rzUk0ovUEEIT
- M6yjkYNag8Ar9lJcNikoZgqtQLIeSF0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-fYDtDc4dMkiE1VR296XhdA-1; Tue, 07 Jan 2020 07:24:22 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AF3218A8C80;
- Tue,  7 Jan 2020 12:24:20 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F106E1084199;
- Tue,  7 Jan 2020 12:24:07 +0000 (UTC)
-Subject: Re: [PATCH 01/14] hw/usb/redirect: Do not link 'usb-redir' device
- when USB not enabled
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-2-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <160b203b-0af3-c912-7eff-847730f3911d@redhat.com>
-Date: Tue, 7 Jan 2020 13:24:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=/rhLvWplWE7F6PPHzZQL12AXzNtOnd8yYBRfECcHnVQ=;
+ b=F4d0JZB9bShnOBgbG0f0qr+y+Ln826l/H2Yvl5avwsYNRpoo5mobhjtlSqaE7QZJmPhhNb
+ l9EDtUYY0Ou+qPnjkj1i5SnilC+F4h/ehh920uJbMi3BRhlSw4mRvfR9JStcj0iL6GFTum
+ wJYx86/kFXvQcdIhbytENdY0LIt5QpE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-RZZyHPMKPueydl1nvPbe2g-1; Tue, 07 Jan 2020 07:25:30 -0500
+Received: by mail-wm1-f69.google.com with SMTP id m133so1897503wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:25:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/rhLvWplWE7F6PPHzZQL12AXzNtOnd8yYBRfECcHnVQ=;
+ b=dapSN9a7W8OIh4cs9Gd2yjTsPmjzmAjgDnGQNnUxp+uwfFeQGndQtm/g1XFuPnEBho
+ Zuz8GanHI5UNalCeLK9EM48eV3ib/CA7sn65zjx2E0yh8yuKijOqjQP6aacjwf3n0pOg
+ 9NjS7RQw33fOonrZUy2FiCT0S8KHjXoWBw5N2nOsfOMe4buucbBmoXax4tnMkE3fqm80
+ VKwKswOspv+2aL6RrzjHF16i/bS870jxxsJhpZwKIe5pMl9cCpg0ki37HoiB1tslZ+26
+ o9vBAPFwaSVs7OAK6z1xvLOraiAkpzkmcBaSC3SJ/PY5TQ0DC8AU885ZgheYpwKGTbol
+ 4hmQ==
+X-Gm-Message-State: APjAAAVrd/hJImWwQ4aaVViNQ2/nnCoQfeRtb1Ptc2RAuAqMdeeCD2ww
+ ferPggugYU6mWkxTjyndT35FSGYsOKnBTPvWvBGlBPBriIdlTTIEk6jdvJbv2n4ciqkoMDwNpak
+ Eux7MmJEsi1vvYh4=
+X-Received: by 2002:adf:c54e:: with SMTP id
+ s14mr114685164wrf.385.1578399929100; 
+ Tue, 07 Jan 2020 04:25:29 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwNY7BQ79OOtlCgt3uOshSXlS0hHB96UqsQeVj8QvloU9WbOKgMeV93oscyC4CZTeXsN+/zsg==
+X-Received: by 2002:adf:c54e:: with SMTP id
+ s14mr114685145wrf.385.1578399928900; 
+ Tue, 07 Jan 2020 04:25:28 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id a184sm27055593wmf.29.2020.01.07.04.25.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 04:25:28 -0800 (PST)
+Subject: Re: [PATCH RFC] i386/kvm: fix enlightened VMCS with fine-grained VMX
+ feature enablement
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
+References: <20200102203926.1179743-1-vkuznets@redhat.com>
+ <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
+ <87zhezsc30.fsf@vitty.brq.redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7c4dcca1-a1e6-a00c-56fd-bcc6c8bcc474@redhat.com>
+Date: Tue, 7 Jan 2020 13:25:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191231183216.6781-2-philmd@redhat.com>
+In-Reply-To: <87zhezsc30.fsf@vitty.brq.redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: fYDtDc4dMkiE1VR296XhdA-1
+X-MC-Unique: RZZyHPMKPueydl1nvPbe2g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,49 +95,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Aurelien Jarno <aurelien@aurel32.net>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Liran Alon <liran.alon@oracle.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/12/2019 19.32, Philippe Mathieu-Daud=C3=A9 wrote:
-> The 'usb-redir' device requires the USB core code to work. Do not
-> link it when there is no USB support. This fixes:
->=20
->   $ qemu-system-tricore -M tricore_testboard -device usb-redir
->   qemu-system-tricore: -device usb-redir: No 'usb-bus' bus found for devi=
-ce 'usb-redir'
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/usb/Makefile.objs | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-> index 0ab20f9d73..0052d49ce1 100644
-> --- a/hw/usb/Makefile.objs
-> +++ b/hw/usb/Makefile.objs
-> @@ -39,9 +39,11 @@ common-obj-$(CONFIG_USB_STORAGE_MTP)  +=3D dev-mtp.o
->  endif
-> =20
->  # usb redirection
-> +ifeq ($(CONFIG_USB),y)
->  common-obj-$(CONFIG_USB_REDIR) +=3D redirect.o quirks.o
->  redirect.o-cflags =3D $(USB_REDIR_CFLAGS)
->  redirect.o-libs =3D $(USB_REDIR_LIBS)
-> +endif
-> =20
->  # usb pass-through
->  ifeq ($(CONFIG_USB_LIBUSB)$(CONFIG_USB),yy)
->=20
+On 07/01/20 13:08, Vitaly Kuznetsov wrote:
+> Honestly I forgot the story why we filtered out these features upon
+> eVMCS enablement in KVM. As there are no corresponding eVMCS fields,
+> there's no way a guest can actually use them.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Well, mostly because we mimicked what Hyper-V was doing I guess.
+
+> I'm going to check that nothing breaks if we remove the filter. I'll go
+> and test Hyper-V 2016 and 2019.
+
+KVM would break, right?  But we can mark that patch as stable material.
+
+Paolo
+
+>> If so, we should teach guest-side KVM about this, not QEMU.
+> 
+> This is not required when enabling eVMCS on a genuine Hyper-V because it
+> correctly filters out unsupported features, however, to not break
+> KVM-on-KVM-using-eVMCS case we'll have to move the filter from host to
+> guest.
+> 
+> Thanks!
+> 
 
 
