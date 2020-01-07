@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81781328B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:19:33 +0100 (CET)
-Received: from localhost ([::1]:49584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77671328BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:21:39 +0100 (CET)
+Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iophk-0004rR-EU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:19:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35353)
+	id 1iopjm-0003fu-K8
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:21:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35499)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iooLU-0006Qj-Ha
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:29 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iooMD-0008Bd-Dx
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:53:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iooLS-0007ye-RE
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:28 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41154)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iooMB-0008Lp-VB
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:53:13 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36843)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iooLS-0007y4-KW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:26 -0500
-Received: by mail-wr1-x441.google.com with SMTP id c9so53806293wrw.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:52:26 -0800 (PST)
+ id 1iooMB-0008LE-OT
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:53:11 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so19267343wma.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:53:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=IF2p0g9z3hjHu1vHCAsockZnOSXDZZid6UAbkQGw4BY=;
- b=arSVWYB232D4avwssZqVHliOV65pTGQ6xlgetJdf/XdqpPK4Sc3var9/mz4Bsp2H7Q
- D76pgXmuB8bWjvF671AGDfZJKYrVqcKR+bRPolTAv8iSaMZTEL16itL59xLghkDvppSA
- 1G2V0t37E5fgOTytvmADVLZJa2InHs5Yc9zDqCltFyzUKvcIKvulH4eDuNNSKt4cAnWn
- 5JUnPxaLu1bhhD/hrZLriZQlZtJAo1w2C1r/OjQo94lLIkv4T7qoSlkJTV9IpGb4xQmo
- aormXReDoexaZuRGs/qTx/e3pXdfWFG6OuPWACE/U3+im2Ph/32jLFEHLi+f2RyY7Gmu
- UJPg==
+ bh=DkFkhBsEEWMJIdr5iOzrBzGzPQw3TGwOEoiv4wHtGDQ=;
+ b=HJj1VX4vgmUnVkEgSs/s/j7c48HyuIGXRVSQh5j7IhP3BQSSRFRH/tT7bhOI4NQNc8
+ c6zY+hJXVVwU4+K3twtrlDbcM8vt7e7HnC4TmUOixirCwkc24XsWejDVNdG8xYGmVhwI
+ uJPM2NeZUd5eXqdi2S/IfSG/dV4OSdvI6IBLXYg3EFO8s+rbKTj+vax11KPSU2/SBEa+
+ kBluxCp+rymKVLV4Oybtm8GKKGP1dnILzOT940sjf0IwuudaHkWpFjHbKljRiYcGxhJD
+ MIukKyO12EMl9/tW6rSq64t6LhtZ5ifxpOmsm2rsLOaBRADWbVehOVyaiMDlWc0wwKdK
+ ivhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=IF2p0g9z3hjHu1vHCAsockZnOSXDZZid6UAbkQGw4BY=;
- b=lSCHNfdMiWdbH4bCRbtW82zCoyweVH8v6267uKEqedS5wnB+sSqb0+3Si1FL3eKL19
- //DuTW9gpRQXpNvNAV0ATXjPKad8MRlNxXLBuye84vIS4jxP/6Hea23JFQBq0USZ1p2C
- 4bYLitsH+fPxN5I2/e19mZHwIcnl9jmnJe76TvsmkpEiYoYnj7jBq+pqX7UtoD6d9gsD
- RDdP+qcY7N2x5eP0empiIbUX9cflopyMJJPT5dW+4cYFsbFzddWyPq8iegWwgDD4ipP/
- RElkxzojoSCGyChl6tZzXVLzZRgkeTEPvzvHmrwhlfUH56KjM9BCaMZK2VHkNugS0Ueh
- jDpA==
-X-Gm-Message-State: APjAAAWLcDDAG2ppzJkzbfHjDZsrzQTRrj5Fr8pYBXOhUAnOyexYuftk
- ifUUt9A2sIEIaZ2aAnKEZ+3lli4GE62p+GfEarrIt812
-X-Google-Smtp-Source: APXvYqw3DJMucONxmeFATiA6hxnnScyiMtGpvr3x04dgQQE/eubuYIchbJoQ2JO8p7o2WydWgVOeK07yptxwkCh5IJc=
-X-Received: by 2002:a5d:66c3:: with SMTP id k3mr102240309wrw.370.1578401543841; 
- Tue, 07 Jan 2020 04:52:23 -0800 (PST)
+ bh=DkFkhBsEEWMJIdr5iOzrBzGzPQw3TGwOEoiv4wHtGDQ=;
+ b=Nfx4RSS1UK/nJmjM6dXApeRFjvaZTeWTkgF0AZbP9GrerbkJ9BWUPHcamkHwL6+5CT
+ szc8+UwMlgmvBAYGgz+/MJoxRpBCaaZOJ9HKTCt8CE/J4ZTXJUBFTUG0obcI9k4ZTo2H
+ 91taHnL+B+JZvTLg9dGW7qE6MoX8lYaRA5rhirdpPDSEKJ/kKvCKY9TaTNGKbLxrpfl6
+ c53BcQQRWuYHj5MDASB58l2n1ggL/rGgpxi3cJ/soUWaRXESSMACVY16kMqVcpIvBNpA
+ Q7eYalCRCudqjz1/pT4SQ+YZViwiKocnvP8mSrCLiVpH0YtT4GLNW0ZMG3V4HuUMnpHc
+ Z46w==
+X-Gm-Message-State: APjAAAXnD6Bb4Io68jTFFGTJ2ya5xgkDfZTu5hOryUGf09xMpN7dakgY
+ mxM/Zt3gc/0RWrPvsQ7sUTuicwm31Sj4noKPfH5CFJ/w
+X-Google-Smtp-Source: APXvYqy3TpXIBG5xHpD7pp56fWu0555eQIIDvtLBtHwkRUMPGC3UHXP8/9LHN3h6x4E14gqPf3iZpSkNsl/5BeN1ie8=
+X-Received: by 2002:a05:600c:228f:: with SMTP id
+ 15mr41260407wmf.56.1578401589339; 
+ Tue, 07 Jan 2020 04:53:09 -0800 (PST)
 MIME-Version: 1.0
 References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
- <20191220134601.571905-13-marcandre.lureau@redhat.com>
-In-Reply-To: <20191220134601.571905-13-marcandre.lureau@redhat.com>
+ <20191220134601.571905-22-marcandre.lureau@redhat.com>
+In-Reply-To: <20191220134601.571905-22-marcandre.lureau@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 7 Jan 2020 16:52:10 +0400
-Message-ID: <CAJ+F1CKSA8kvPQ973b3AfHG=nm83hDSyn7_oe7sbaOV6JZ4_sQ@mail.gmail.com>
-Subject: Re: [PATCH v5 12/37] serial: start making SerialMM a sysbus device
+Date: Tue, 7 Jan 2020 16:52:56 +0400
+Message-ID: <CAJ+F1CK84g_NOZUy_-jLx=jSYukTu9OJo_fg8kK-Q-gi5Ys52Q@mail.gmail.com>
+Subject: Re: [PATCH v5 21/37] sm501: make SerialMM a child,
+ export chardev property
 To: QEMU <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,218 +81,110 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 20, 2019 at 5:57 PM Marc-Andr=C3=A9 Lureau
+On Fri, Dec 20, 2019 at 5:55 PM Marc-Andr=C3=A9 Lureau
 <marcandre.lureau@redhat.com> wrote:
 >
-> Memory mapped serial device is in fact a sysbus device. The following
-> patches will make use of sysbus facilities for resource and
-> registration. In particular, "serial-mm: use sysbus facilities" will
-> move internal serial realization to serial_mm_realize callback to
-> follow qdev best practices.
+> Embed the SerialMM sybus device, and re-export its "chardev" property.
+> That way, we can get rid of PROP_PTR "chr-state" and better track
+> devices relationship.
 >
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  hw/char/omap_uart.c      |  2 +-
->  hw/char/serial.c         | 66 +++++++++++++++++++++++++++++++---------
->  hw/mips/boston.c         |  2 +-
->  hw/mips/mips_malta.c     |  2 +-
->  include/hw/char/serial.h | 20 +++++++++---
->  5 files changed, 70 insertions(+), 22 deletions(-)
+>  hw/display/sm501.c | 29 +++++++++++++++++++++--------
+>  hw/sh4/r2d.c       |  2 +-
+>  2 files changed, 22 insertions(+), 9 deletions(-)
 >
-> diff --git a/hw/char/omap_uart.c b/hw/char/omap_uart.c
-> index 13e4f43c4c..e8da933378 100644
-> --- a/hw/char/omap_uart.c
-> +++ b/hw/char/omap_uart.c
-> @@ -27,7 +27,7 @@
->  struct omap_uart_s {
->      MemoryRegion iomem;
->      hwaddr base;
-> -    SerialState *serial; /* TODO */
-> +    SerialMM *serial; /* TODO */
->      struct omap_target_agent_s *ta;
->      omap_clk fclk;
->      qemu_irq irq;
-> diff --git a/hw/char/serial.c b/hw/char/serial.c
-> index ec388f3876..905b84c25f 100644
-> --- a/hw/char/serial.c
-> +++ b/hw/char/serial.c
-> @@ -1032,16 +1032,28 @@ static const TypeInfo serial_info =3D {
->  static uint64_t serial_mm_read(void *opaque, hwaddr addr,
->                                 unsigned size)
->  {
-> -    SerialState *s =3D opaque;
-> -    return serial_ioport_read(s, addr >> s->it_shift, 1);
-> +    SerialMM *s =3D SERIAL_MM(opaque);
-> +    return serial_ioport_read(&s->serial, addr >> s->it_shift, 1);
+> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+> index 79bd7bc2d1..66a1bfbe60 100644
+> --- a/hw/display/sm501.c
+> +++ b/hw/display/sm501.c
+> @@ -1930,7 +1930,7 @@ typedef struct {
+>      SM501State state;
+>      uint32_t vram_size;
+>      uint32_t base;
+> -    void *chr_state;
+> +    SerialMM serial;
+>  } SM501SysBusState;
+>
+>  static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+> @@ -1938,6 +1938,7 @@ static void sm501_realize_sysbus(DeviceState *dev, =
+Error **errp)
+>      SM501SysBusState *s =3D SYSBUS_SM501(dev);
+>      SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+>      DeviceState *usb_dev;
+> +    MemoryRegion *mr;
+>
+>      sm501_init(&s->state, dev, s->vram_size);
+>      if (get_local_mem_size(&s->state) !=3D s->vram_size) {
+> @@ -1958,15 +1959,15 @@ static void sm501_realize_sysbus(DeviceState *dev=
+, Error **errp)
+>      sysbus_pass_irq(sbd, SYS_BUS_DEVICE(usb_dev));
+>
+>      /* bridge to serial emulation module */
+> -    serial_mm_init(&s->state.mmio_region, SM501_UART0, 2,
+> -                   NULL, /* TODO : chain irq to IRL */
+> -                   115200, s->chr_state, DEVICE_LITTLE_ENDIAN);
+> +    qdev_init_nofail(DEVICE(&s->serial));
+> +    mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->serial), 0);
+> +    memory_region_add_subregion(&s->state.mmio_region, SM501_UART0, mr);
+> +    /* TODO : chain irq to IRL */
 >  }
 >
->  static void serial_mm_write(void *opaque, hwaddr addr,
->                              uint64_t value, unsigned size)
->  {
-> -    SerialState *s =3D opaque;
-> +    SerialMM *s =3D SERIAL_MM(opaque);
->      value &=3D 255;
-> -    serial_ioport_write(s, addr >> s->it_shift, value, 1);
-> +    serial_ioport_write(&s->serial, addr >> s->it_shift, value, 1);
-> +}
-> +
-> +static void serial_mm_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SerialMM *s =3D SERIAL_MM(dev);
-> +    Error *local_err =3D NULL;
-> +
-> +    object_property_set_bool(OBJECT(&s->serial), true, "realized", &loca=
-l_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
->  }
->
->  static const MemoryRegionOps serial_mm_ops[3] =3D {
-> @@ -1068,30 +1080,56 @@ static const MemoryRegionOps serial_mm_ops[3] =3D=
- {
->      },
+>  static Property sm501_sysbus_properties[] =3D {
+>      DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
+>      DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
+> -    DEFINE_PROP_PTR("chr-state", SM501SysBusState, chr_state),
+>      DEFINE_PROP_END_OF_LIST(),
 >  };
 >
-> -SerialState *serial_mm_init(MemoryRegion *address_space,
-> +SerialMM *serial_mm_init(MemoryRegion *address_space,
->                              hwaddr base, int it_shift,
->                              qemu_irq irq, int baudbase,
->                              Chardev *chr, enum device_endian end)
->  {
-> -    DeviceState *dev =3D DEVICE(object_new(TYPE_SERIAL));
-> -    SerialState *s =3D SERIAL(dev);
-> +    SerialMM *smm =3D SERIAL_MM(qdev_create(NULL, TYPE_SERIAL_MM));
-> +    SerialState *s =3D &smm->serial;
->
-> -    s->it_shift =3D it_shift;
-> +    smm->it_shift =3D it_shift;
->      s->irq =3D irq;
-> -    qdev_prop_set_uint32(dev, "baudbase", baudbase);
-> -    qdev_prop_set_chr(dev, "chardev", chr);
-> -    qdev_set_legacy_instance_id(dev, base, 2);
-> -    qdev_init_nofail(dev);
-> +    qdev_prop_set_uint32(DEVICE(s), "baudbase", baudbase);
-> +    qdev_prop_set_chr(DEVICE(s), "chardev", chr);
-> +    qdev_set_legacy_instance_id(DEVICE(s), base, 2);
->
-> -    memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], s,
-> +    qdev_init_nofail(DEVICE(smm));
-> +
-> +    memory_region_init_io(&s->io, NULL, &serial_mm_ops[end], smm,
->                            "serial", 8 << it_shift);
->      memory_region_add_subregion(address_space, base, &s->io);
-> -    return s;
-> +
-> +    return smm;
+> @@ -1997,9 +1998,20 @@ static void sm501_sysbus_class_init(ObjectClass *k=
+lass, void *data)
+>      dc->props =3D sm501_sysbus_properties;
+>      dc->reset =3D sm501_reset_sysbus;
+>      dc->vmsd =3D &vmstate_sm501_sysbus;
+> -    /* Note: pointer property "chr-state" may remain null, thus
+> -     * no need for dc->user_creatable =3D false;
+> -     */
 > +}
 > +
-> +static void serial_mm_instance_init(Object *o)
+> +static void sm501_sysbus_init(Object *o)
 > +{
-> +    SerialMM *smm =3D SERIAL_MM(o);
+> +    SM501SysBusState *sm501 =3D SYSBUS_SM501(o);
+> +    SerialMM *smm =3D &sm501->serial;
 > +
-> +    object_initialize_child(o, "serial", &smm->serial, sizeof(smm->seria=
-l),
-> +                            TYPE_SERIAL, &error_abort, NULL);
+> +    sysbus_init_child_obj(o, "serial", smm, sizeof(SerialMM), TYPE_SERIA=
+L_MM);
+> +    qdev_set_legacy_instance_id(DEVICE(smm), SM501_UART0, 2);
+> +    qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
+> +    qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN)=
+;
+> +
+> +    object_property_add_alias(o, "chardev",
+> +                              OBJECT(smm), "chardev", &error_abort);
 >  }
 >
-> +static void serial_mm_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +
-> +    dc->realize =3D serial_mm_realize;
-> +}
-> +
-> +static const TypeInfo serial_mm_info =3D {
-> +    .name =3D TYPE_SERIAL_MM,
-> +    .parent =3D TYPE_SYS_BUS_DEVICE,
-> +    .class_init =3D serial_mm_class_init,
-> +    .instance_init =3D serial_mm_instance_init,
-> +    .instance_size =3D sizeof(SerialMM),
-> +};
-> +
->  static void serial_register_types(void)
->  {
->      type_register_static(&serial_info);
-> +    type_register_static(&serial_mm_info);
->  }
+>  static const TypeInfo sm501_sysbus_info =3D {
+> @@ -2007,6 +2019,7 @@ static const TypeInfo sm501_sysbus_info =3D {
+>      .parent        =3D TYPE_SYS_BUS_DEVICE,
+>      .instance_size =3D sizeof(SM501SysBusState),
+>      .class_init    =3D sm501_sysbus_class_init,
+> +    .instance_init =3D sm501_sysbus_init,
+>  };
 >
->  type_init(serial_register_types)
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index ca7d813a52..23fdd5ec6a 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -50,7 +50,7 @@ typedef struct {
->
->      MachineState *mach;
->      MIPSCPSState cps;
-> -    SerialState *uart;
-> +    SerialMM *uart;
->
->      CharBackend lcd_display;
->      char lcd_content[8];
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 783cd99848..ea92e5e27d 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -83,7 +83,7 @@ typedef struct {
->      uint32_t i2csel;
->      CharBackend display;
->      char display_text[9];
-> -    SerialState *uart;
-> +    SerialMM *uart;
->      bool display_inited;
->  } MaltaFPGAState;
->
-> diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-> index 548944b06a..730165347c 100644
-> --- a/include/hw/char/serial.h
-> +++ b/include/hw/char/serial.h
-> @@ -57,7 +57,6 @@ typedef struct SerialState {
->      qemu_irq irq;
->      CharBackend chr;
->      int last_break_enable;
-> -    int it_shift;
->      uint32_t baudbase;
->      uint32_t tsr_retry;
->      guint watch_tag;
-> @@ -80,6 +79,14 @@ typedef struct SerialState {
->      MemoryRegion io;
->  } SerialState;
->
-> +typedef struct SerialMM {
-> +    SysBusDevice parent;
-> +
-> +    SerialState serial;
-> +
-> +    int it_shift;
-> +} SerialMM;
-> +
->  extern const VMStateDescription vmstate_serial;
->  extern const MemoryRegionOps serial_io_ops;
->
-> @@ -88,12 +95,15 @@ void serial_set_frequency(SerialState *s, uint32_t fr=
-equency);
->  #define TYPE_SERIAL "serial"
->  #define SERIAL(s) OBJECT_CHECK(SerialState, (s), TYPE_SERIAL)
->
-> +#define TYPE_SERIAL_MM "serial-mm"
-> +#define SERIAL_MM(s) OBJECT_CHECK(SerialMM, (s), TYPE_SERIAL_MM)
-> +
->  SerialState *serial_init(int base, qemu_irq irq, int baudbase,
->                           Chardev *chr, MemoryRegion *system_io);
-> -SerialState *serial_mm_init(MemoryRegion *address_space,
-> -                            hwaddr base, int it_shift,
-> -                            qemu_irq irq, int baudbase,
-> -                            Chardev *chr, enum device_endian end);
-> +SerialMM *serial_mm_init(MemoryRegion *address_space,
-> +                         hwaddr base, int it_shift,
-> +                         qemu_irq irq, int baudbase,
-> +                         Chardev *chr, enum device_endian end);
->
->  /* serial-isa.c */
->
+>  #define TYPE_PCI_SM501 "sm501"
+> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+> index ee0840f380..72bb5285cc 100644
+> --- a/hw/sh4/r2d.c
+> +++ b/hw/sh4/r2d.c
+> @@ -272,7 +272,7 @@ static void r2d_init(MachineState *machine)
+>      busdev =3D SYS_BUS_DEVICE(dev);
+>      qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
+>      qdev_prop_set_uint32(dev, "base", 0x10000000);
+> -    qdev_prop_set_ptr(dev, "chr-state", serial_hd(2));
+> +    qdev_prop_set_chr(dev, "chardev", serial_hd(2));
+>      qdev_init_nofail(dev);
+>      sysbus_mmio_map(busdev, 0, 0x10000000);
+>      sysbus_mmio_map(busdev, 1, 0x13e00000);
 > --
 > 2.24.0.308.g228f53135a
 >
