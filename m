@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497F0132DA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:55:08 +0100 (CET)
-Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9619132DB4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:56:28 +0100 (CET)
+Received: from localhost ([::1]:54336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iot4N-0004iZ-2e
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:55:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47841)
+	id 1iot5f-0007ih-Lw
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:56:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48457)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iot2r-00033C-5i
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:34 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iot3h-0004cr-At
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:54:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iot2p-0005aV-Ud
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:32 -0500
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:44153)
+ (envelope-from <peter.maydell@linaro.org>) id 1iot3g-0006Ma-4t
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:54:25 -0500
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:42883)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iot2p-0005Zs-PK
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:31 -0500
-Received: by mail-ot1-x335.google.com with SMTP id h9so764512otj.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 09:53:31 -0800 (PST)
+ id 1iot3g-0006M2-0J
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:54:24 -0500
+Received: by mail-ot1-x336.google.com with SMTP id 66so785134otd.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 09:54:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yRBzQzbz+mb07/PAwmjxnccumlBqLY525MRl1LqBn9c=;
- b=NYEFKJh7tGt9au0QIF2XCM5ObpvozzJ+JZuhQlkTKVRREym5OT73Yyf8rYetqvQQp2
- yXp99GepW5kBtg5LNxTZpsYqrPyAHBAiGTVh2/FRpINCvvY1sdzk/H60muLFaoqSdjSa
- +lTnpCI0f2c8YiKlOYpiMiLiM7KALQ6z3M4dluPC5FQ05RlF/6RXKlHJe7+CdZm3bflX
- gTI/Op4T+X/e67xiF5swqjShZ52X4QL220nSzm0rEaUyqX98bu3Y0ONKLIqckhvV1s7/
- dUcDltqqM+PVumOtobU9kJBYVzw+o+ga5dIFUX5nZhrWaMidJ4vdXj+GiraHOCgFzSpN
- L+5w==
+ :cc; bh=OAq6J76cZsu2bVStGxW+pkCcF4Ho3l+ElJiJM6rBG1k=;
+ b=AxA3DrastXZJjsoWi2t3oQcg/k/umR/BpAi44ROipGe7Yv+ESf+NY2D9CDEyOyzj45
+ s0SCsvAOglEAp0L8H7w67YhIYu+vLTsu8Y9o3kpYoSfhDt57c9sr2VMrkzLtrtFgIxnY
+ +81UN5ISgLYKGnvJGQJSnDZMOXvANOZCzJ6aJy+y90QCBp/5Ul2dAXPJecftDGWlTXgW
+ Zr6FmBkcDaOGjvCVPMNQwkY+Ut9INbthw8xtiQ3Q+BlzYuDAu4Bi/uS+98naFzBhBGA3
+ qFTEw8LYCFYfcb3DARFX7nEvlmP/b/ifTZyZ2Pa9nMnQl7RhHhbQZQMCEyqzCoVrFDat
+ wrWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yRBzQzbz+mb07/PAwmjxnccumlBqLY525MRl1LqBn9c=;
- b=miLalazsFIzdU6vFbPv0trfK47/Cwd0JvD5WuNH5QhM0OsGOyOQDIREBihPKa2Hhvr
- Jfd50y7Tmuu4jNWcAlXmh63eS0CRLXAPZ5fCkVMdTjGduLNQTBlcRUdf5VHDdLjOqTK+
- PWpNWdMUTkbMnU7B+M13Rc2wJJXBbKkZXcxA7Uk3MyeTe4Ai5hk4rQ7ZvlZfTLIYnhRE
- ZFZAI76Ut+Mq6WdM+BYvan74ua14VtdvLaqxyuKzPw0pONn6GHRcIN9hkuWk34HGfEUq
- IHSFtMm0StjvMWF5Z05ja68va7Rr542YtqLAtEXo7pU5ahXCnzq/8ABBV5HpS0dzHNwf
- Cm5A==
-X-Gm-Message-State: APjAAAXDKE/djnef/PDkA7vXYWPsznxoBie3FJLTB5Yh+gOfM+yCEv5D
- TiYAEaJr2kGcn36P/JwsQVB1XGO81yWen8kY0tCoMA==
-X-Google-Smtp-Source: APXvYqziN+ffHQWP7jFljzyRjUSeE/7ar4tI3qQRX5/2DSRFbPvI3smgfKr1O/S47asb/Xy14uLQjNAvFOywFn9tpSQ=
-X-Received: by 2002:a9d:8cb:: with SMTP id 69mr916021otf.221.1578419610926;
- Tue, 07 Jan 2020 09:53:30 -0800 (PST)
+ bh=OAq6J76cZsu2bVStGxW+pkCcF4Ho3l+ElJiJM6rBG1k=;
+ b=Mt571Xe7UPbZOqXhakc35bSaTPHpoiF4DdN7eEtdcyS10EZ7kzTRvH7GUhH9vJC2g7
+ yvBRy+Fsyimb+1Oi3XsjvaU29frLym3jnXnGmMruIN/eQ2cI7r55vC3EnoT585csRxaE
+ tLvFl32dPnifQdJCGchGaMcPubDhisezvBCHYo/uBBoU9rJt8H0jeUAlsUYj/VHBNvHN
+ AUC2+6T/iWpP7M6qfnByzJZlvvq/cJ2ekl/iIOK4fREEwgACAVrRd4W23j5AFrM8xISm
+ Nw9iOxTvH/hKDIDYVeM+3+cFl144Lp5u/wnntZSA8VVx+LCQcbfZgmx7bgN8m/OLL4W1
+ MITg==
+X-Gm-Message-State: APjAAAX2F9PkldqEkXplidzZtQs7GpSKZ79P1tAe9BZgiI4d3PGkqOa/
+ /2Cqd9frUThiocBfpRZa4zKg87Qk7zeNstYJaiZ7lEiz9BY=
+X-Google-Smtp-Source: APXvYqwyz7lPo2RxviRoCu25XY78FM747/pA0m3OrxogNB2+NouYHDKT8N5q6l9NiogyOndTr1t+F4HbFjL/01C24IM=
+X-Received: by 2002:a9d:8cb:: with SMTP id 69mr919657otf.221.1578419663149;
+ Tue, 07 Jan 2020 09:54:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20200106130951.29873-1-philmd@redhat.com>
- <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
- <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
- <1A5859EA-4403-4921-B527-DFD07C59C702@redhat.com>
- <360fa010-ba80-b02b-3a35-19c2b48a462d@redhat.com>
- <5FB9F11E-77DC-4FD6-B780-AB508DD42B42@redhat.com>
-In-Reply-To: <5FB9F11E-77DC-4FD6-B780-AB508DD42B42@redhat.com>
+References: <20200107132715.722101-1-laurent@vivier.eu>
+In-Reply-To: <20200107132715.722101-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 17:53:20 +0000
-Message-ID: <CAFEAcA-ot4VTdC8X8cH2kfkieyu0OsW9F-X2SBQxtYtUBjWmKg@mail.gmail.com>
-Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
- to recent desugarized -accel option)
-To: Christophe de Dinechin <dinechin@redhat.com>
+Date: Tue, 7 Jan 2020 17:54:12 +0000
+Message-ID: <CAFEAcA9F-GSqNTwL8oQ5Ft+YAOYBzB_qoPU3FL7_0L2ZbewPOA@mail.gmail.com>
+Subject: Re: [PULL 0/4] Q800 for 5.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::335
+X-Received-From: 2607:f8b0:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,36 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Jan 2020 at 17:44, Christophe de Dinechin <dinechin@redhat.com> wrote:
-> > On 7 Jan 2020, at 15:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > It would break backwards compatibility for "-machine accel=tcg:kvm",
-> > which so far meant "use TCG if compiled in, otherwise use KVM".  This is
-> > not something I would have a problem with... except that "tcg:kvm" is
-> > the default if no -accel option is provided!
+On Tue, 7 Jan 2020 at 13:57, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> What is the rationale for picking tcg over kvm?
+> The following changes since commit cdbc5c51c8755e4e9ce964fc92ba755e1c71a914:
+>
+>   Merge remote-tracking branch 'remotes/xtensa/tags/20200106-xtensa' into staging (2020-01-07 10:31:07 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu-m68k.git tags/q800-for-5.0-pull-request
+>
+> for you to fetch changes up to 18b6102e51bb317d25ee61b49b7b56702b79560c:
+>
+>   target/m68k: only change valid bits in CACR (2020-01-07 14:21:18 +0100)
+>
+> ----------------------------------------------------------------
+> m68k: fix CACR valid bits
+> q800: add a fake mac rom reset (used by linux)
+>       fix and improve PRAM emulation
+>
 
-Command line compatibility. QEMU existed before KVM support
-was ever merged into it, and so the default has always been
-"emulate the CPU". Defaulting to KVM would be a change of
-behaviour for existing working command lines. The reason
-for using "tcg:kvm" rather than just "tcg" may be that
-this way a --disable-tcg QEMU does something useful, but that's
-just a guess.
 
-QEMU tends to prioritize "don't change behaviour for users"
-to a degree that is arguably counterproductive. But it's a
-nice easy rule to follow :-)
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
 -- PMM
 
