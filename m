@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228B0132B89
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:53:54 +0100 (CET)
-Received: from localhost ([::1]:53056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBBC4132C01
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:56:26 +0100 (CET)
+Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ios76-00077I-BH
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:53:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53391)
+	id 1ios9Z-0003EU-Ic
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:56:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1ioruH-0002Wp-AO
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:40:40 -0500
+ (envelope-from <groug@kaod.org>) id 1ios13-00075C-07
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:47:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1ioruE-0003Aa-O0
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:40:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50638
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <groug@kaod.org>) id 1ios11-0000iT-Jb
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:47:36 -0500
+Received: from 18.mo6.mail-out.ovh.net ([46.105.73.110]:42456)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1ioruE-00039B-Fu
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:40:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578415233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ijb+I/w5fooBGV7tHXtFatEAkdbihBD54nk3sX98BBM=;
- b=dv4cH5VPQkfypwK2glpexbYW6mPNgTxvR9gMEWQ9czG+LS/ofKjiRTB0jioHko/Z8DcsI8
- UggUuVsmxK3ZUpt8R6oXuZ/9F5gTcPoIGtss2t/H5lPTW8FeQo1RGYwIKDxmJh5Bx01Rg6
- +EUP1dgHF/geWh9hpxpfj0DnI7tm/mA=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-5z1Nwt05OQCDddqQ-qDrKA-1; Tue, 07 Jan 2020 11:40:32 -0500
-Received: by mail-oi1-f200.google.com with SMTP id q204so221588oic.12
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:40:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ijb+I/w5fooBGV7tHXtFatEAkdbihBD54nk3sX98BBM=;
- b=H5kocR3s6LUnoQ+sCL1rirudNnF01+hzUSPckUHhLLDAX9AEH2ro9ZtEnnt4FVH5cs
- 5RwWebhQ0CvqUOufCXwetCxwTpe8ukAIk+m3AkmdZfxoLaeccao8iOmVx/QlDHKlxD0Z
- fBr3oB1O1u7oQKwlMoK+Ulz7jnydq4e8KVooy7qqGxp4Bvqc7mX2v9TzqqD9F9alMK4M
- m5fv9+g3VsKwivY3Z7HBApvaF87di94iL3yYeA/Sjq+NDZuJDSHL6mGuQ4lvXqPtNJe/
- R0a0LEorTCsYyE8MEJQ08eDgxapFeXVzL859u78ynunEUZMRF32QDETcWkBIRRCmyl/i
- fv8w==
-X-Gm-Message-State: APjAAAXvWRAx+t2ODNk5qSkxPZzJtp1/QVSOquc4Z9XNUwRygPByZOtt
- KoH3iv1QYG/0ANrZRKM9SNzgB/PLz+khMUZRb1O7CtCBha2i8imgfbgQx3JsLRdA3nGH9e4pmfm
- kgi0mJt2SrWx2eX95CFQ8g5oSh8AEYcI=
-X-Received: by 2002:a9d:730e:: with SMTP id e14mr649849otk.62.1578415231907;
- Tue, 07 Jan 2020 08:40:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwbjPVXgunlcV7pDmMFW31ZeYjgKvvu/sEIdSIaqmz+QCGLhCx/pKeW64T8gnREV0KtVJPVvMm0GiVkilie+cA=
-X-Received: by 2002:a9d:730e:: with SMTP id e14mr649821otk.62.1578415231686;
- Tue, 07 Jan 2020 08:40:31 -0800 (PST)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ios10-0000fa-Be
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:47:35 -0500
+Received: from player772.ha.ovh.net (unknown [10.108.42.239])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id BA5D41F4AA4
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 17:47:31 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id C95FFE02459E;
+ Tue,  7 Jan 2020 16:47:28 +0000 (UTC)
+Date: Tue, 7 Jan 2020 17:47:26 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 1/1] 9p-local.c: always return -1 on error in
+ local_unlinkat_common
+Message-ID: <20200107174726.5640a059@bahia.lan>
+In-Reply-To: <20200107144718.391550-1-danielhb413@gmail.com>
+References: <20200107144718.391550-1-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200106144622.1520994-1-marcandre.lureau@redhat.com>
- <20200106144622.1520994-7-marcandre.lureau@redhat.com>
- <CAFEAcA8c3A_zXcHRF3kj9z3C2AtLLPatQ=h=NX2+Ywzj+OiyVg@mail.gmail.com>
-In-Reply-To: <CAFEAcA8c3A_zXcHRF3kj9z3C2AtLLPatQ=h=NX2+Ywzj+OiyVg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 7 Jan 2020 20:40:01 +0400
-Message-ID: <CAMxuvazSBkowtk1p_tDFs+j8TJ53TfuCKjyBDeDVP3Yuj_uoEw@mail.gmail.com>
-Subject: Re: [PULL v2 6/9] configure: add GDBUS_CODEGEN
-To: Peter Maydell <peter.maydell@linaro.org>
-X-MC-Unique: 5z1Nwt05OQCDddqQ-qDrKA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 13124333742538463494
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgedggeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 46.105.73.110
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,77 +57,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+I've changed "9p-local.c:" to "9p: local:" which is the usual prefix used for
+fsdev backend specific changes.
 
-On Tue, Jan 7, 2020 at 8:14 PM Peter Maydell <peter.maydell@linaro.org> wro=
-te:
->
-> On Mon, 6 Jan 2020 at 14:47, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@redhat.com> wrote:
-> >
-> > gdbus-codegen generated code requires gio-unix on Unix, so add it to
-> > GIO libs/cflags.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > ---
-> >  configure | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/configure b/configure
-> > index 747d3b4120..0ce2c0354a 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -3701,10 +3701,16 @@ if $pkg_config --atleast-version=3D$glib_req_ve=
-r gio-2.0; then
-> >      gio=3Dyes
-> >      gio_cflags=3D$($pkg_config --cflags gio-2.0)
-> >      gio_libs=3D$($pkg_config --libs gio-2.0)
-> > +    gdbus_codegen=3D$($pkg_config --variable=3Dgdbus_codegen gio-2.0)
-> >  else
-> >      gio=3Dno
-> >  fi
-> >
-> > +if $pkg_config --atleast-version=3D$glib_req_ver gio-unix-2.0; then
-> > +    gio_cflags=3D"$gio_cflags $($pkg_config --cflags gio-unix-2.0)"
-> > +    gio_libs=3D"$gio_libs $($pkg_config --libs gio-unix-2.0)"
-> > +fi
-> > +
-> >  # Sanity check that the current size_t matches the
-> >  # size that glib thinks it should be. This catches
-> >  # problems on multi-arch where people try to build
-> > @@ -6904,6 +6910,7 @@ if test "$gio" =3D "yes" ; then
-> >      echo "CONFIG_GIO=3Dy" >> $config_host_mak
-> >      echo "GIO_CFLAGS=3D$gio_cflags" >> $config_host_mak
-> >      echo "GIO_LIBS=3D$gio_libs" >> $config_host_mak
-> > +    echo "GDBUS_CODEGEN=3D$gdbus_codegen" >> $config_host_mak
-> >  fi
->
-> I've just noticed that this seems to cause problems for
-> the NetBSD VM, because pkg-config reports a value for
-> gdbus_codegen which isn't an installed binary:
->
-> localhost$ pkg-config --variable=3Dgdbus_codegen gio-2.0
-> /usr/pkg/bin/gdbus-codegen
-> localhost$ ls /usr/pkg/bin/gdbus-codegen
-> ls: /usr/pkg/bin/gdbus-codegen: No such file or directory
->
-> I think we need to install the 'gdbus-codegen' package in
-> our netbsd VM image.
->
-> Maybe configure should check that it's actually got
-> an executable file before trying to use it?
+On Tue,  7 Jan 2020 11:47:18 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-Sure, that should be enough:
+> local_unlinkat_common() is supposed to always return -1 on error.
+> This is being done by jumps to the 'err_out' label, which is
+> a 'return ret' call, and 'ret' is initialized with -1.
+> 
+> Unfortunately there is a condition in which the function will
+> return 0 on error: in a case where flags == AT_REMOVEDIR, 'ret'
+> will be 0 when reaching
+> 
+> map_dirfd = openat_dir(...)
+> 
+> And, if map_dirfd == -1 and errno != ENOENT, the existing 'err_out'
+> jump will execute 'return ret', when ret is still set to zero
+> at that point.
+> 
+> This patch fixes it by changing all 'err_out' labels by
+> 'return -1' calls, ensuring that the function will always
+> return -1 on error conditions. 'ret' can be left unintialized
+> since it's now being used just to store the result of 'unlinkat'
+> calls.
+> 
+> CC: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
 
-+    if [ ! -x "$gdbus_codegen" ]; then
-+        gdbus_codegen=3D
-+    fi
+Applied to 9p-next.
 
-I can send the patch.
+Thanks Daniel and feliz ano novo :)
+
+>  hw/9pfs/9p-local.c | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index ca641390fb..de61aca216 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -1076,7 +1076,7 @@ out:
+>  static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+>                                   int flags)
+>  {
+> -    int ret = -1;
+> +    int ret;
+>  
+>      if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+>          int map_dirfd;
+> @@ -1094,12 +1094,12 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+>  
+>              fd = openat_dir(dirfd, name);
+>              if (fd == -1) {
+> -                goto err_out;
+> +                return -1;
+>              }
+>              ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
+>              close_preserve_errno(fd);
+>              if (ret < 0 && errno != ENOENT) {
+> -                goto err_out;
+> +                return -1;
+>              }
+>          }
+>          map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
+> @@ -1107,16 +1107,14 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+>              ret = unlinkat(map_dirfd, name, 0);
+>              close_preserve_errno(map_dirfd);
+>              if (ret < 0 && errno != ENOENT) {
+> -                goto err_out;
+> +                return -1;
+>              }
+>          } else if (errno != ENOENT) {
+> -            goto err_out;
+> +            return -1;
+>          }
+>      }
+>  
+> -    ret = unlinkat(dirfd, name, flags);
+> -err_out:
+> -    return ret;
+> +    return unlinkat(dirfd, name, flags);
+>  }
+>  
+>  static int local_remove(FsContext *ctx, const char *path)
 
 
