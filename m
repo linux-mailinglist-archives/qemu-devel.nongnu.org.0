@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBBB2132542
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:53:18 +0100 (CET)
-Received: from localhost ([::1]:47228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781F5132568
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:57:22 +0100 (CET)
+Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionQD-0008Jw-1Z
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:53:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56971)
+	id 1ionU8-0003Ct-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:57:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iomEw-0001Jb-IK
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:37:35 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iomGe-00077V-1S
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:39:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iomEv-0007HS-6k
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:37:34 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35353)
+ (envelope-from <alex.bennee@linaro.org>) id 1iomGc-0008Up-VS
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:39:19 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34524)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iomEv-0007Go-0E
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:37:33 -0500
-Received: by mail-ot1-x341.google.com with SMTP id i15so8215239oto.2
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:37:32 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iomGc-0008UA-Oc
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:39:18 -0500
+Received: by mail-wm1-x342.google.com with SMTP id c127so13890460wme.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t3qwPXT9p7cy8baY/HD1tlyhWXo+nF5zeMf9AINIWe8=;
- b=T9FmmKghVH0A+OKwu3l2SFN19n1GdF+EE+w+6CMq7E2AkZaN+CbG0+lVv1sHq+2c5d
- hsnSGkyX47Gqnd5n8sa8gHUhx7riS03a1f2DsfEkMeSsf3TGVq/gpao2d9uUrN2G2jQj
- xXh+yPzZmgU38R9hGzRgfBUPukqIHyuwDql7tEczbjVobI7j6sAkJhbojzQmT5J8JB/z
- ZC39UYDDeOCMqxlJdh3aYiEhbfLaX2svQIuimlXbS5GewqatzCLdhKZJFqASQw0o9HKw
- AqlI0cP0+a8Di3+lzu9dSz/duij3xcK8yqj/WhD8CRmxpkVsbeUrmzijLWSa0LmuWEhK
- ZkWA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=083p/YJcb2cj3fsrtAL/N02jVsHsBhdOeQ/BfG6pu1g=;
+ b=difeiYM8yKCvzr/jI7IstNIyKU3CmB8gwcPOwvMJhK5RiT+9ehMvkNCbZN+WPlbncs
+ n+rWA5g5MjYPnYXJQIn0FiGS/+t4GTAZ2LxU/DhtSAWoshr+1ej5+TBFtUYGMPPmaQ8+
+ hr+EV1D31zviZ8t/AE4rS0uvj8sXPKQiaAhyiRNwW0mPDJBtD3G1zN8wnKHthIw8klIS
+ SjoFl2qJE+7FTTpfBlroaUUn4RuvJnTab1wUKa8npwv2/I5ns28iAiVGBolt5qgRzx1D
+ 8/CNZkJTm9QEGAk0OEUFhaJ0Tepwz1CqauTqV29ZRDioIcdguSbELVfhQD4DNIWhVwj/
+ AhVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t3qwPXT9p7cy8baY/HD1tlyhWXo+nF5zeMf9AINIWe8=;
- b=AIcG/G7wtbiDf8is5rEVyytF2ePnxbddgAchh/TXQBwXbJFQgOKpfvS6+7nFdUmsG0
- /qNU86wgOS6taNe6IOBvFHuvUgTEkuXoWfYnHZjhSgpknwD3xa4tmt/5aZYJdNffGJCf
- 6FSl553vqGIPE1ouPQLdA1JsTgj4hQ/+fpA9xQAAelwDbeHG4Ixla3oQ894Vf5r/XSqA
- toZveEbPJw5XtstH1MfsZEuuhy0UprHeKZYz9fh5jPun5ZOGdbTiBTfKs9Px0tHU85Q7
- bL3nuWaeJUvBtG0eMaYUaeYL7/JhSvhgtuI4Ovl2xgO4LFkjLCRv8nP3puVpL9II27dy
- Y8Rg==
-X-Gm-Message-State: APjAAAXCOmt8kpS5XnVk2TG4QUNI3pnRC5vpoiOD3OC10Hu4IGgFo0f4
- 8kFR0V9yu2fHigjBVsCOjrmacMYgy8Wol9slwfsQuiA0Yp4=
-X-Google-Smtp-Source: APXvYqz8Xz/RsFiCXx6qhGE89+jJSQl8w9bOQzIBVL+81h+6btmZd2oKVXLUgHcWp71DmLMYW34yU457JeDX/seNjhA=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr46349otq.97.1578393451691; 
- Tue, 07 Jan 2020 02:37:31 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=083p/YJcb2cj3fsrtAL/N02jVsHsBhdOeQ/BfG6pu1g=;
+ b=QjAsE8wuUqf7aa/pk9BjWcedUAGwMwFjUlAAmLFW+vZKemezx0UhhtBjIPvrCajYX9
+ HJthsiEOUX6YgVD4GDdZW/LhipJ8fzDK1YsyevYWMUSVlwPDmElNqPBvEU0KwLF87K8V
+ GQ6YXHSQ+qaDCGzwFwJWAq9RzXbTpI17wMPekiwxVxT+1v9zNKSxEEJYEgIdWoslcB0k
+ NFmtTYLxm+G1P3OcZudfsIJHsQnY6s/AJB9k5HRzssHuVHNHEtGB4x6mkYFHyhfd4RLq
+ +8fyUaj8r1psF8RyZPxGcwsZduAGfM0lLuVoShjTmKWppLVWZQvdT+auv4EqS9zsyqMV
+ 4GyQ==
+X-Gm-Message-State: APjAAAVtmOkvjhvj85mw1JThOIFyzJjA8scH2yz7x3f4uyfa6/NBnWh3
+ KrU2jldM93iuU4nhmrZUm4gx1w==
+X-Google-Smtp-Source: APXvYqw3DJIigc3c127/+WyirN10btzB1c49XyDLqkfd36tZMSu5f2upzC5Y5tiJhMoHTIdnhTOfzQ==
+X-Received: by 2002:a7b:cb0a:: with SMTP id u10mr38723186wmj.165.1578393557443; 
+ Tue, 07 Jan 2020 02:39:17 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y6sm74535039wrl.17.2020.01.07.02.39.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 02:39:16 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 57C851FF87;
+ Tue,  7 Jan 2020 10:39:15 +0000 (GMT)
+References: <20191230082856.30556-1-philmd@redhat.com>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] scripts/git.orderfile: Display decodetree before C source
+In-reply-to: <20191230082856.30556-1-philmd@redhat.com>
+Date: Tue, 07 Jan 2020 10:39:15 +0000
+Message-ID: <87blrf5z58.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200106182425.20312-1-danielhb413@gmail.com>
- <20200106182425.20312-58-danielhb413@gmail.com>
-In-Reply-To: <20200106182425.20312-58-danielhb413@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 10:37:20 +0000
-Message-ID: <CAFEAcA-c-RGWartF61zGGszs8CFH3TxZyBeKR71Sn+A_0OnDqQ@mail.gmail.com>
-Subject: Re: [PATCH v1 57/59] linux-user/syscall.c: fix trailing whitespaces
- and style
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,75 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Riku Voipio <riku.voipio@iki.fi>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Stafford Horne <shorne@gmail.com>, Sven Schnelle <svens@stackframe.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 19:19, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> To avoid scrolling each instruction when reviewing tcg
+> helpers written for the decodetree script, display the
+> .decode files (similar to header declarations) before
+> the C source (implementation of previous declarations).
 >
-> There are trailing whitespaces in this file that, if removed
-> by a text editor that refuses to let the traiing whitespace
-> alone, which happens to be the editor I am using, will cause
-> checkpatch.pl to warn about styling problems in the resulting
-> patch. This happens because the trailing whitespace lines
-> are using a deprecated style.
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-You should fix your editor to not do this kind of uncommanded edit
-(otherwise you'll be spending forever trying to sort out
-unasked for changes from patches you write) but the style cleanup
-here is reasonable.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> To keep the intended change I wanted to do (remove unneeded
-> labels in do_ioctl_blkpg() and do_sendrecvmsg_locked())
-> trivial, this patch is another trivial change to fix the
-> trailing whitespaces and the code style errors that
-> checkpatch.pl warns about. Doing this change beforehand will
-> keep the next patch focused just on the label removal changes.
-
-> @@ -1526,10 +1526,11 @@ static inline abi_long target_to_host_cmsg(struct msghdr *msgh,
->      abi_ulong target_cmsg_addr;
->      struct target_cmsghdr *target_cmsg, *target_cmsg_start;
->      socklen_t space = 0;
-> -
+> ---
+>  scripts/git.orderfile | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/scripts/git.orderfile b/scripts/git.orderfile
+> index e89790941c..1f747b583a 100644
+> --- a/scripts/git.orderfile
+> +++ b/scripts/git.orderfile
+> @@ -25,5 +25,8 @@ qga/*.json
+>  # headers
+>  *.h
+>=20=20
+> +# decoding tree specification
+> +*.decode
 > +
->      msg_controllen = tswapal(target_msgh->msg_controllen);
-> -    if (msg_controllen < sizeof (struct target_cmsghdr))
-> +    if (msg_controllen < sizeof(struct target_cmsghdr)) {
->          goto the_end;
-> +    }
->      target_cmsg_addr = tswapal(target_msgh->msg_control);
->      target_cmsg = lock_user(VERIFY_READ, target_cmsg_addr, msg_controllen, 1);
->      target_cmsg_start = target_cmsg;
-> @@ -1610,8 +1611,9 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
->      socklen_t space = 0;
->
->      msg_controllen = tswapal(target_msgh->msg_controllen);
-> -    if (msg_controllen < sizeof (struct target_cmsghdr))
-> +    if (msg_controllen < sizeof(struct target_cmsghdr)) {
->          goto the_end;
-> +    }
->      target_cmsg_addr = tswapal(target_msgh->msg_control);
->      target_cmsg = lock_user(VERIFY_WRITE, target_cmsg_addr, msg_controllen, 0);
->      target_cmsg_start = target_cmsg;
-> @@ -5592,9 +5594,9 @@ abi_long do_set_thread_area(CPUX86State *env, abi_ulong ptr)
->      }
->      unlock_user_struct(target_ldt_info, ptr, 1);
->
-> -    if (ldt_info.entry_number < TARGET_GDT_ENTRY_TLS_MIN ||
-> +    if (ldt_info.entry_number < TARGET_GDT_ENTRY_TLS_MIN ||
->          ldt_info.entry_number > TARGET_GDT_ENTRY_TLS_MAX)
-> -           return -TARGET_EINVAL;
-> +        return -TARGET_EINVAL;
->      seg_32bit = ldt_info.flags & 1;
->      contents = (ldt_info.flags >> 1) & 3;
->      read_exec_only = (ldt_info.flags >> 3) & 1;
+>  # code
+>  *.c
 
-Doesn't checkpatch complain about not having braces on this if ?
 
-Either way
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
--- PMM
+--=20
+Alex Benn=C3=A9e
 
