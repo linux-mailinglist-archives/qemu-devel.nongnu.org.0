@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EA1132787
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:25:46 +0100 (CET)
-Received: from localhost ([::1]:48616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127421327B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:33:01 +0100 (CET)
+Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioorg-0000lT-HV
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:25:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46247)
+	id 1iooyg-0001JL-M9
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:32:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ionO1-00075b-Pf
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:51:03 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ionPG-0001na-Me
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:52:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ionO0-0005Uc-0W
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:51:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37309
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ionNX-0005IX-E0
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:50:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578397829;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=68EmF+9APYZn4U1yvfuNM8QsTUNGkUcZTwal+KPeF4o=;
- b=QGP/RMJGVSwCtU3Hw7QPrZT68lVY/hnSUj4OkyJE+vcpVsvCZa8S4D+bNe4jreglIoArbC
- 9bsaqNzM19ouaOH0BMisISO1WotJYqWCBihZLyfqMYWIyQp+A/nn+2TNOqMBsn7kg2vrdK
- OtSbPEe7uL3WVxz2CpX/rmw+K6BxSxU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-qJg7GpyTPJaCeaL6FbR7VA-1; Tue, 07 Jan 2020 06:50:28 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 786AF800D55
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:50:27 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E88E5C1B0;
- Tue,  7 Jan 2020 11:50:23 +0000 (UTC)
-Date: Tue, 7 Jan 2020 11:50:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] trace: update qemu-trace-stap to Python 3
-Message-ID: <20200107115020.GZ3368802@redhat.com>
-References: <20200107112438.383958-1-stefanha@redhat.com>
+ (envelope-from <danielhb413@gmail.com>) id 1ionPF-0006gQ-KY
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:52:18 -0500
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:35030)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1ionPF-0006gC-FS; Tue, 07 Jan 2020 06:52:17 -0500
+Received: by mail-qk1-x744.google.com with SMTP id z76so42709852qka.2;
+ Tue, 07 Jan 2020 03:52:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yzn1zCoB14WPeQ2paa+Cw7nFAH9Sc6jZWCqBHO4evGE=;
+ b=qau63yJ365iTsHGe3ZCAmC4WREW4dI8TFrmWonBNTFRMpLEtrdkAZ929FJ8Tu1bNT7
+ o308iOuXEfi3RrGFnPRWX4LKOyDb4w3GKnxTn5DxDFlN5NVWakiV2lTH9uu6xiz0wfc1
+ abDs3uEKeiYGGNMO5pxMi3V2De/f754qf7kMk1wNeY/Fln9W/m3Hq731eIYeXi54rwH+
+ FweLopsahEWeWG3WyLROBofLjdRrHXe8yGsTQoQDkBlJ/T9u84Drb98IAHL4ukBvLppj
+ DRzzldUiWz/CZF3CZHYvuTu8Nj0PuH863qqbGetbY7mglma/uUbWvEuT/7LpcSnqXjT3
+ HbJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yzn1zCoB14WPeQ2paa+Cw7nFAH9Sc6jZWCqBHO4evGE=;
+ b=C04Xt3sAoSoitDrY0IJa3b3NKLnYhg0HRBHw/bVhXcG6CqTudZ/EVGyGLXDA7HLsmZ
+ T+eKqmodIQqlG8LRZci/3YRQi/i4U8TR9aEi8ivMnTKLqKkEi8MS4EH5UOrbvpGxFMu/
+ jDaIzxuVcIB/17DxdG8UvaO/3cWAQHu7zJq30J/uKyf2p31SLKIICZd9vpDCHyiEY4U2
+ m8aMiDytqrOD3rN7Z2CqkqoI9zEYu6aDaVx0ifJ/HCXmmJV8tYCWu9LWJiUhOb8Y4B/6
+ tYWchw8H0EpbooR6RKW296RbInVn6TWqyn3qCcSPhziwB64Fhpl4jU8v6dg8gI+IZj5E
+ 3yGw==
+X-Gm-Message-State: APjAAAUNhvRuX414c6ImDWhFVq0S6aRK710O1yXTbO0ijrHFv6+nbWsX
+ gC2KXWhrxsPNJcNkvkt65nw=
+X-Google-Smtp-Source: APXvYqwPkOrdGp9vtMc/cVXcJbbR0o5mGx4bus7kUXqPbwdxYsVZ6STbTc+qmgFyY3A+SMOeVIFaVA==
+X-Received: by 2002:a37:b601:: with SMTP id g1mr85298916qkf.114.1578397937025; 
+ Tue, 07 Jan 2020 03:52:17 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c6:655b:9e1c:e865:3705:e1df?
+ ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
+ by smtp.gmail.com with ESMTPSA id h6sm20244570qtr.33.2020.01.07.03.52.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 03:52:16 -0800 (PST)
+Subject: Re: [PATCH v1 00/59] trivial unneeded labels cleanup
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106195457.GE2886@minyard.net>
+ <f71eb524-571b-54d1-1a99-95d2896f6586@gmail.com>
+ <20200107061613.GB4076@linux.fritz.box>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <ccd70c1c-790a-bdc6-0f85-379777125892@gmail.com>
+Date: Tue, 7 Jan 2020 08:52:12 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200107112438.383958-1-stefanha@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: qJg7GpyTPJaCeaL6FbR7VA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+In-Reply-To: <20200107061613.GB4076@linux.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::744
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,50 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, minyard@acm.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 07, 2020 at 11:24:38AM +0000, Stefan Hajnoczi wrote:
-> qemu-trace-stap does not support Python 3 yet:
->=20
->   $ scripts/qemu-trace-stap list path/to/qemu-system-x86_64
->   Traceback (most recent call last):
->     File "scripts/qemu-trace-stap", line 175, in <module>
->       main()
->     File "scripts/qemu-trace-stap", line 171, in main
->       args.func(args)
->     File "scripts/qemu-trace-stap", line 118, in cmd_list
->       print_probes(args.verbose, "*")
->     File "scripts/qemu-trace-stap", line 114, in print_probes
->       if line.startswith(prefix):
->   TypeError: startswith first arg must be bytes or a tuple of bytes, not =
-str
->=20
-> Now that QEMU requires Python 3.5 or later we can switch to pure Python
-> 3.  Use Popen()'s universal_newlines=3DTrue argument to treat stdout as
-> text instead of binary.
->=20
-> Fixes: 62dd1048c0bd ("trace: add ability to do simple printf logging via =
-systemtap")
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1787395
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  scripts/qemu-trace-stap | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+On 1/7/20 3:16 AM, Kevin Wolf wrote:
+> Am 06.01.2020 um 21:35 hat Daniel Henrique Barboza geschrieben:
+>>
 
+[...]
+
+> 
+> So what is your plan for getting the series merged? Should maintainers
+> just picks patches from the series, or do you want to collect Acked-by
+> tags and then merge it through a single tree? If the latter, which one?
+
+The idea I had in mind was for each maintainer to pick up the patches and push
+through their own trees, like David did in patches 1 and 2.
+
+ From qemu-trivial archives I notice that Laurent creates qemu-trivial pull
+requests often, thus I believe this might also be an option. If we decide
+to go this route I'll ask David to remove patches 1 and 2 from his ppc
+tree to avoid unnecessary conflicts.
+
+
+
+Thanks,
+
+
+DHB
+
+
+> 
+> Kevin
+> 
 
