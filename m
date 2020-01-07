@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747B7132497
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:15:04 +0100 (CET)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56811324B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:21:12 +0100 (CET)
+Received: from localhost ([::1]:46750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iompC-0001k2-NJ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:15:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34897)
+	id 1iomv8-0001Rp-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:21:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iomgO-0003uR-MS
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:05:57 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iomhs-00005v-GO
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:07:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iomgN-0004Ss-DY
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:05:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38664)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iomgN-0004SW-88
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:05:55 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iomgM-0005JO-8z
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 11:05:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 295BD2E80CC
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:05:54 +0000 (UTC)
+ (envelope-from <dgilbert@redhat.com>) id 1iomhq-000541-5w
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:07:27 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50272
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iomhq-00053P-2J
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:07:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578395244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GKSqwOVAiECDIVxifFPMDATx26v8mm98NaXMUAFUNDM=;
+ b=eRuLgi84kL3mmNB6W3w6pXxOIZ3VwGAy2czW4pfKBFX9bOzDdercVrkkxtPAXFHMRdPbGl
+ Qs51TaDgloTO3gWqxaUCt7sEjoZ/tpIWANwXf81ovAgVsBNcioOQUs2LIS8cCPMuex03Ci
+ 51AlyT0bM6IbZDAMc9KP4a8De0Iv0tg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-2e3mygeBMheYe3GpFxSc2A-1; Tue, 07 Jan 2020 06:07:22 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9369F801E76;
+ Tue,  7 Jan 2020 11:07:21 +0000 (UTC)
+Received: from work-vm (ovpn-117-52.ams2.redhat.com [10.36.117.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 301AE5D9D6;
+ Tue,  7 Jan 2020 11:07:20 +0000 (UTC)
+Date: Tue, 7 Jan 2020 11:07:17 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v2 1/3] migration-test: Add migration multifd test
+Message-ID: <20200107110717.GB2732@work-vm>
+References: <20200107104914.1814-1-quintela@redhat.com>
+ <20200107104914.1814-2-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200107104914.1814-2-quintela@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 2e3mygeBMheYe3GpFxSc2A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 07 Jan 2020 10:55:48 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1856549@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: i2c m68k rtc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dcb314 laurent-vivier philmd
-X-Launchpad-Bug-Reporter: dcb (dcb314)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <157649490094.7480.17075229014510714852.malonedeb@soybean.canonical.com>
-Message-Id: <157839454891.2574.3115010173944275179.malone@soybean.canonical.com>
-Subject: [Bug 1856549] Re: qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1a8e18483fed610ce312f5ad3e28036f17a8bbe2
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,47 +73,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856549 <1856549@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch posted: https://www.mail-archive.com/qemu-
-devel@nongnu.org/msg666836.html
+* Juan Quintela (quintela@redhat.com) wrote:
+> We set multifd-channels.
+>=20
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Tested-by: Wei Yang <richardw.yang@linux.intel.com>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  tests/migration-test.c | 56 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>=20
+> diff --git a/tests/migration-test.c b/tests/migration-test.c
+> index 53afec4395..1a8d06718e 100644
+> --- a/tests/migration-test.c
+> +++ b/tests/migration-test.c
+> @@ -1202,6 +1202,61 @@ static void test_migrate_auto_converge(void)
+>      test_migrate_end(from, to, true);
+>  }
+> =20
+> +static void test_multifd_tcp(void)
+> +{
+> +    MigrateStart *args =3D migrate_start_new();
+> +    QTestState *from, *to;
+> +    QDict *rsp;
+> +    char *uri;
+> +
+> +    if (test_migrate_start(&from, &to, "defer", args)) {
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * We want to pick a speed slow enough that the test completes
+> +     * quickly, but that it doesn't complete precopy even on a slow
+> +     * machine, so also set the downtime.
+> +     */
+> +    /* 1 ms should make it not converge*/
+> +    migrate_set_parameter_int(from, "downtime-limit", 1);
+> +    /* 1GB/s */
+> +    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
+> +
+> +    migrate_set_parameter_int(from, "multifd-channels", 16);
+> +    migrate_set_parameter_int(to, "multifd-channels", 16);
+> +
+> +    migrate_set_capability(from, "multifd", "true");
+> +    migrate_set_capability(to, "multifd", "true");
+> +
+> +    /* Start incoming migration from the 1st socket */
+> +    rsp =3D wait_command(to, "{ 'execute': 'migrate-incoming',"
+> +                           "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}=
+");
+> +    qobject_unref(rsp);
+> +
+> +    /* Wait for the first serial output from the source */
+> +    wait_for_serial("src_serial");
+> +
+> +    uri =3D migrate_get_socket_address(to, "socket-address");
+> +
+> +    migrate_qmp(from, uri, "{}");
+> +
+> +    wait_for_migration_pass(from);
+> +
+> +    /* 300ms it should converge */
+> +    migrate_set_parameter_int(from, "downtime-limit", 600);
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+Comment doesn't quite match here; but other than that;
 
--- =
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856549
+> +    if (!got_stop) {
+> +        qtest_qmp_eventwait(from, "STOP");
+> +    }
+> +    qtest_qmp_eventwait(to, "RESUME");
+> +
+> +    wait_for_serial("dest_serial");
+> +    wait_for_migration_complete(from);
+> +    test_migrate_end(from, to, true);
+> +    free(uri);
+> +}
+> +
+>  int main(int argc, char **argv)
+>  {
+>      char template[] =3D "/tmp/migration-test-XXXXXX";
+> @@ -1266,6 +1321,7 @@ int main(int argc, char **argv)
+>                     test_validate_uuid_dst_not_set);
+> =20
+>      qtest_add_func("/migration/auto_converge", test_migrate_auto_converg=
+e);
+> +    qtest_add_func("/migration/multifd/tcp", test_multifd_tcp);
+> =20
+>      ret =3D g_test_run();
+> =20
+> --=20
+> 2.24.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Title:
-  qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  1.
-
-  qemu-4.2.0/hw/misc/mac_via.c:417:27: style: Expression is always false
-  because 'else if' condition matches previous condition at line 412.
-  [multiCondition]
-
-                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
-  ...
-                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
-
-  2.
-
-  qemu-4.2.0/hw/misc/mac_via.c:467:27: style: Expression is always false
-  because 'else if' condition matches previous condition at line 463.
-  [multiCondition]
-
-  Duplicate.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856549/+subscriptions
 
