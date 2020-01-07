@@ -2,114 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A33132EE8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 20:01:41 +0100 (CET)
-Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26073132F37
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 20:18:06 +0100 (CET)
+Received: from localhost ([::1]:55234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iou6l-0001Pr-85
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 14:01:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43568)
+	id 1iouMe-0000VR-LQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 14:18:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <LYan@suse.com>) id 1iou5d-0000gM-NB
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 14:00:30 -0500
+ (envelope-from <bounces@canonical.com>) id 1iouKW-0007sd-P3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 14:15:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <LYan@suse.com>) id 1iou5b-0008Vi-Cz
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 14:00:28 -0500
-Received: from m9a0014g.houston.softwaregrp.com ([15.124.64.90]:48774)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <LYan@suse.com>) id 1iou5b-0008Oi-6V
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 14:00:27 -0500
-Received: FROM m9a0014g.houston.softwaregrp.com (15.121.0.190) BY
- m9a0014g.houston.softwaregrp.com WITH ESMTP; 
- Tue,  7 Jan 2020 18:59:19 +0000
-Received: from M4W0334.microfocus.com (2002:f78:1192::f78:1192) by
- M9W0067.microfocus.com (2002:f79:be::f79:be) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10; Tue, 7 Jan 2020 18:47:58 +0000
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (15.124.8.10) by
- M4W0334.microfocus.com (15.120.17.146) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10 via Frontend Transport; Tue, 7 Jan 2020 18:47:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DHqwianGGow7lFED6i8P4EUcraEV0PNWHiT0lEZG/8yG0vrhAafBkmkK21IeHBIDOlIXwP6V7gbj7s3GURl9wYaj8qhme8QYFuYhEwEaVb8ZxLc607JRKuhNMPv/rPTND0YEh346sJ/zQXzftFwpwTz9CAkf0zEiNRmyuiaYtt5UM4joz3QAKmQCSzQ94EbDqrBSZvu+93jK71M3nMuAUfrxriKPKA2vD3J1HMXQqgaO5NincT1YM7hYF6qcCGIz2QpHdXl308SbvZ+52uIBXn8HBYms+22muxhlk8nfBGWUs6k5luts6CSBVAiiQQNMfm6ruMyDjYN5D+RFzq9h4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H882Qgbj3b0oEZoOlySODB5cbhJdKaM0JVxYukcR5vU=;
- b=AWJ2UlgIZTmxSEGN9Wm7zJ+O0UODNpZ/Of4+lNOEePRdfG1EOA/fjGK9qufgIjIqZDvbzF9X13xR4gCRNFEKbtztfvMgIhDwjca1pINyFtzRkPtIWrKUjLNUhjRiSNoDvSVGIx8kPlnna6px9UCZC0ApxN+1+MaMTK22iX6ZWebKn4nOHW3UWmFFYy3+WVim1ai88iuJnlTPGt3Vhf7ABWv2eJpiyl9wPaGBknthZbcM/HmeCgIFYyr8MNfgbuwlTaMMOz00wwqq0FdgsA1CzA83shvhi5/aSqwW2JndsHX2aKPS6XJjj5whla3Yk6pguYau4I277bRc7rDEIVOl4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Received: from BYAPR18MB2888.namprd18.prod.outlook.com (20.179.58.203) by
- BYAPR18MB2502.namprd18.prod.outlook.com (20.179.94.151) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.9; Tue, 7 Jan 2020 18:47:57 +0000
-Received: from BYAPR18MB2888.namprd18.prod.outlook.com
- ([fe80::70c4:1802:725e:e829]) by BYAPR18MB2888.namprd18.prod.outlook.com
- ([fe80::70c4:1802:725e:e829%7]) with mapi id 15.20.2602.016; Tue, 7 Jan 2020
- 18:47:57 +0000
-Received: from [192.168.1.162] (74.130.68.133) by
- CH2PR18CA0035.namprd18.prod.outlook.com (2603:10b6:610:55::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.10 via Frontend Transport; Tue, 7 Jan 2020 18:47:56 +0000
-From: Liang Yan <LYan@suse.com>
-To: "Moger, Babu" <Babu.Moger@amd.com>, "mst@redhat.com" <mst@redhat.com>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "rth@twiddle.net"
- <rth@twiddle.net>, "ehabkost@redhat.com" <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 0/2] Add support for 2nd generation AMD EPYC processors
-Thread-Topic: [PATCH v2 0/2] Add support for 2nd generation AMD EPYC processors
-Thread-Index: AQHVxYr6aLAEiZ+ixUGwyn+6AvLnZA==
-Date: Tue, 7 Jan 2020 18:47:57 +0000
-Message-ID: <0a6fe793-d5b1-bb9e-b9b3-fb8fefb26cb6@suse.com>
-References: <157314957337.23828.3860599077487615762.stgit@naples-babu.amd.com>
-In-Reply-To: <157314957337.23828.3860599077487615762.stgit@naples-babu.amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: CH2PR18CA0035.namprd18.prod.outlook.com
- (2603:10b6:610:55::15) To BYAPR18MB2888.namprd18.prod.outlook.com
- (2603:10b6:a03:10d::11)
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=LYan@suse.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [74.130.68.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9d8b1ec9-83ec-4c77-de32-08d793a21ccd
-x-ms-traffictypediagnostic: BYAPR18MB2502:
-x-microsoft-antispam-prvs: <BYAPR18MB25027580A1775BF958833FAEBF3F0@BYAPR18MB2502.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 027578BB13
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(346002)(136003)(396003)(376002)(366004)(39860400002)(199004)(189003)(26005)(2616005)(66946007)(66446008)(64756008)(66556008)(66476007)(53546011)(186003)(4326008)(956004)(71200400001)(478600001)(52116002)(16526019)(31696002)(86362001)(5660300002)(966005)(31686004)(316002)(81156014)(81166006)(8676002)(16576012)(36756003)(110136005)(8936002)(6486002)(4744005)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR18MB2502;
- H:BYAPR18MB2888.namprd18.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: suse.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FhDQWlqon7TbnXllI9vEt8l6yqeH//WQZWb453/aTuao2JaVWohI1lq7dG/6bClwKuaB1637+sX1Uipp4roforLsbUWARrlqrB9N5ze7OPppuJn3p2Ouhf6szT8tX1F5ZVz269eXwiTHXi7WtexM+SS85QVvcpXW4Z0Y9o1C5DCgMUle+5825m+ImkR3IngMAXZulRjxp4g1kT47LytMaP1MDK/qR2ZtzAGl1nq+W+FG1j7Jef2bssqX7hXjdcNWIN0fHywOcE+zCrRoiBexPIFhop6RKnvML/UApAsmo7LgiWpqFa6SCu41aGvPswa3xuSyk7+v4wirfRFuIZrbnkYmSJlTSwiOx7/81rQXWwhgwao2LrmsC4FhMdV/hlUPsoTijuotby5Szw6KSB8Y0T7q/4k+ReZBaNhX9XrUBe/jvHYj4jsFNkTD/O6qjINV4VEthl02xgARV9b8ETEQEPrXeaoQxXzJXdqYPXFNttyBiBJ51gegdIqlFcOW91YcVbnYHzQq8MgDf0Y9U9arAA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5F202C4AC03CEA4FAB2C7C581D74540A@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1iouKV-00060w-Ja
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 14:15:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44456)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iouKV-0005xK-Dz
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 14:15:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iouKQ-0007Bl-VD
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:15:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DF8162E80C8
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 19:15:46 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d8b1ec9-83ec-4c77-de32-08d793a21ccd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2020 18:47:57.5292 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hjnlqwaw9h3HQ5M/E7ha0A1zIusq/xL296GJmpbiprLi+CK1PqJG/qhLTQR3q6Nc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR18MB2502
-X-OriginatorOrg: suse.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Jan 2020 19:07:15 -0000
+From: puchuu <1858461@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aladjev-andrew
+X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
+X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
+References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
+Message-Id: <157842403591.2842.14163047975672055273.malone@soybean.canonical.com>
+Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e4c2758e1620e48c757b3510b107e14d7933591b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 15.124.64.90
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -118,26 +65,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-S2luZGx5IFBpbmcuDQpKdXN0IHdvbmRlcmluZyBpZiB0aGVyZSBhcmUgYW55IHBsYW5zIGZvciBp
-dC4NCg0KQmVzdCwNCkxpYW5nDQoNCg0KT24gMTEvNy8xOSAxOjAwIFBNLCBNb2dlciwgQmFidSB3
-cm90ZToNCj4gVGhlIGZvbGxvd2luZyBzZXJpZXMgYWRkcyB0aGUgc3VwcG9ydCBmb3IgMm5kIGdl
-bmVyYXRpb24gQU1EIEVQWUMgUHJvY2Vzc29ycw0KPiBvbiBxZW11IGd1ZXN0cy4gVGhlIG1vZGVs
-IGRpc3BsYXkgbmFtZSBmb3IgMm5kIGdlbmVyYXRpb24gd2lsbCBiZSBFUFlDLVJvbWUuDQo+IA0K
-PiBBbHNvIGZpeGVzIGZldyBtaXNzZWQgY3B1IGZlYXR1cmUgYml0cyBpbiAxc3QgZ2VuZXJhdGlv
-biBFUFlDIG1vZGVscy4NCj4gDQo+IFRoZSBSZWZlcmVuY2UgZG9jdW1lbnRzIGFyZSBhdmFpbGFi
-bGUgYXQNCj4gaHR0cHM6Ly9kZXZlbG9wZXIuYW1kLmNvbS93cC1jb250ZW50L3Jlc291cmNlcy81
-NTgwM18wLjU0LVBVQi5wZGYNCj4gaHR0cHM6Ly93d3cuYW1kLmNvbS9zeXN0ZW0vZmlsZXMvVGVj
-aERvY3MvMjQ1OTQucGRmDQo+IA0KPiAtLS0NCj4gdjI6IFVzZWQgdGhlIHZlcnNpb25lZCBDUFUg
-bW9kZWxzIGluc3RlYWQgb2YgbWFjaGluZS10eXBlLWJhc2VkIENQVQ0KPiAgICAgY29tcGF0aWJp
-bGl0eSAoY29tbWVudGVkIGJ5IEVkdWFyZG8pLg0KPiANCj4gQmFidSBNb2dlciAoMik6DQo+ICAg
-ICAgIGkzODY6IEFkZCBtaXNzaW5nIGNwdSBmZWF0dXJlIGJpdHMgaW4gRVBZQyBtb2RlbA0KPiAg
-ICAgICBpMzg2OiBBZGQgMm5kIEdlbmVyYXRpb24gQU1EIEVQWUMgcHJvY2Vzc29ycw0KPiANCj4g
-DQo+ICB0YXJnZXQvaTM4Ni9jcHUuYyB8ICAxMTkgKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrLS0NCj4gIHRhcmdldC9pMzg2L2NwdS5oIHwgICAgMiAr
-DQo+ICAyIGZpbGVzIGNoYW5nZWQsIDExNiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0K
-PiANCj4gLS0NCj4gDQo=
+It is possible to do the following:
+
+cd /usr/src/linux
+make clean
+make CC=3Dclang
+~/workspace/CastXML/build/bin/castxml -nostdinc -isystem /usr/lib/clang/9.0=
+.1/include -I./arch/x86/include -I./arch/x86/include/generated  -I./include=
+ -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/=
+uapi -include ./include/linux/kconfig.h -D__KERNEL__ arch/x86/entry/syscall=
+_32.c --castxml-output=3D1 -o /tmp/syscall_32.xml
+
+It generates all information including params about 32bit syscalls for
+current amd64 platform. Unfortunately cross compilation of generic
+kernel using mips clang toolchain is almost impossible today. It is an
+idea for future. So today we have to parse "include/linux/syscalls.h",
+"include/linux/compat.h", "arch/mips/kernel/linux32.c", etc without
+respect to config and syntax.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1858461
+
+Title:
+  Please refactor linux-user/mips/cpu_loop.c
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello. I am working with qemu on test images. I've added a new syscall
+  (436) to qemu but received ENOSYS from mips application.
+
+  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
+  "mips_syscall_args" the following:
+
+  ```
+  MIPS_SYS(sys_getdents64_x32, 3)
+  ```
+
+  But
+
+  ```
+  syscall_num =3D env->active_tc.gpr[2] - 4000;
+  if (syscall_num >=3D sizeof(mips_syscall_args)) {
+    ret =3D -TARGET_ENOSYS;
+  ```
+
+  returns -TARGET_ENOSYS
+
+  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
+  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
+
+  Can you please refactor mips cpu loop in the same way as arm? Thank
+  you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
 
