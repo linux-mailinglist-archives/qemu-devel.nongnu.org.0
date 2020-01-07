@@ -2,84 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0D013223F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:27:50 +0100 (CET)
-Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341F61321CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:00:57 +0100 (CET)
+Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iol6Q-0000us-Eo
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:24:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
+	id 1iokjN-000129-79
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:00:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34539)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iok3I-00082u-40
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:17:24 -0500
+ (envelope-from <clg@kaod.org>) id 1iokLr-0008J3-9f
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:36:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iok3F-0004fo-9N
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:17:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57130
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iokLp-00011S-TK
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:36:34 -0500
+Received: from 4.mo69.mail-out.ovh.net ([46.105.42.102]:60691)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iok3F-0004f3-66
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:17:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578385040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Ohh/00XASTFV4FCXDi/7EK0vZHd0Tq6uNQe4Q9vuRU=;
- b=UxgQzQJmjZH0HvWUtwvfOVjb70s2KlfjtRQyFDuiTe2nlOGb7iTKUIiglPtZ7g5R0QkiNv
- zWfwCp+vevxWgnoKEj6MKHvcRV9I7uBwBqu6PQscWOTfNw+W74Ve9nPqIdlu2FEDgjiwY4
- 8glzx+HXVuEqOgTOAnMzW3i9s+40dTw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-BVkv1nf1Om25Teq3rDTRwA-1; Tue, 07 Jan 2020 03:17:18 -0500
-Received: by mail-wm1-f71.google.com with SMTP id h130so3781865wme.7
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 00:17:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=REntnOxvkVvU9/IorJtjyKnxWXB6QVSO/rCfQBHHnv8=;
- b=ZpOs3mm47ZS2T23XnAl5U1McXzG9L64Cdk+8OL0RP14Q2jBPt+RxNCimhk98xlToCV
- 0G7juuGIrDq2R783ZD8nCK3mtKCS5EhXOpMfw9LUMaF6l/jM2rcM98MgKDJZOGLMb4CF
- rqmqvlLOeCtZtXEiN0GUCPOl04Xw4ZI6Ybn4GtsFNCWbbSwpX5rvZadad5IBAhRvGxQh
- 0VsCxTjya28siWNJuHgKNNYQr3PPY9f4hD/nazOQpNRehzhssmOZASiolriserl6arL2
- 7NwmmdjpPxKVSMpO10RQXoRucnA/7/7IzDmaciELCqO53UjYc0CNMXG2xXzqe7zoUhIM
- rJjg==
-X-Gm-Message-State: APjAAAUuj+1XG588le3gHIsxRpLpiUCDIH8zgyYrCpfeRC533zr7f2fE
- ILPHozk64IUpefLKL55IoZETlUewrcdGMR63Rp8aNL4nUrYypwSLxRnaEM0HiVtI1byhFI30vLl
- cVSi5QJwLl4VZW3c=
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr37708462wml.173.1578385037473; 
- Tue, 07 Jan 2020 00:17:17 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzjqu0pveBGSt/XxBYINg45YnX84OBvnfsK9+aKg1J+iGDc6v/z+2BcvUg2hJmRu3CT6RlFqQ==
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr37708444wml.173.1578385037268; 
- Tue, 07 Jan 2020 00:17:17 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id r6sm74998448wrq.92.2020.01.07.00.17.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 00:17:16 -0800 (PST)
-Subject: Re: [PATCH] hw/timer/Kconfig: Intel 8254 PIT depends of ISA bus
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iokLp-00010L-NM
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:36:33 -0500
+Received: from player759.ha.ovh.net (unknown [10.108.1.170])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 8B9007B0BB
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 09:36:31 +0100 (CET)
+Received: from kaod.org (lfbn-tou-1-1227-223.w90-76.abo.wanadoo.fr
+ [90.76.50.223]) (Authenticated sender: clg@kaod.org)
+ by player759.ha.ovh.net (Postfix) with ESMTPSA id 66698DF0BEBE;
+ Tue,  7 Jan 2020 08:36:25 +0000 (UTC)
+Subject: Re: [PATCH 3/5] ftgmac100: check RX and TX buffer alignment
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200106171912.16523-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5d86fe5c-84a9-5f1f-00df-96e4890533a4@redhat.com>
-Date: Tue, 7 Jan 2020 09:17:16 +0100
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200107073423.30043-1-clg@kaod.org>
+ <20200107073423.30043-4-clg@kaod.org>
+ <1587acec-3d08-9dfa-0bcc-37140fd5e2ad@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <ce0722d4-48ed-e7cd-2436-84d1ee24038f@kaod.org>
+Date: Tue, 7 Jan 2020 09:36:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200106171912.16523-1-philmd@redhat.com>
-Content-Language: en-US
-X-MC-Unique: BVkv1nf1Om25Teq3rDTRwA-1
-X-Mimecast-Spam-Score: 0
+In-Reply-To: <1587acec-3d08-9dfa-0bcc-37140fd5e2ad@redhat.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 4832080926734519104
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehuddguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeehledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 46.105.42.102
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,36 +61,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/01/20 18:19, Philippe Mathieu-Daud=C3=A9 wrote:
-> Since i8254_common.c calls isa_register_ioport() from "hw/isa/isa.h"
-> we can not select it when ISA_BUS is disabled. Add a 'depends on'
-> clause.
+On 1/7/20 9:27 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 1/7/20 8:34 AM, C=C3=A9dric Le Goater wrote:
+>> These buffers should be aligned on 16 bytes.
+>>
+>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>> ---
+>> =C2=A0 hw/net/ftgmac100.c | 13 +++++++++++++
+>> =C2=A0 1 file changed, 13 insertions(+)
+>>
+>> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
+>> index 86ac25894a89..051f7b7af2d6 100644
+>> --- a/hw/net/ftgmac100.c
+>> +++ b/hw/net/ftgmac100.c
+>> @@ -198,6 +198,8 @@ typedef struct {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 des3;
+>> =C2=A0 } FTGMAC100Desc;
+>> =C2=A0 +#define FTGMAC100_DESC_ALIGNMENT 16
+>> +
+>> =C2=A0 /*
+>> =C2=A0=C2=A0 * Specific RTL8211E MII Registers
+>> =C2=A0=C2=A0 */
+>> @@ -722,6 +724,12 @@ static void ftgmac100_write(void *opaque, hwaddr =
+addr,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->itc =3D valu=
+e;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case FTGMAC100_RXR_BADR: /* Ring buffer=
+ address */
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!QEMU_IS_ALIGNED(value=
+, FTGMAC100_DESC_ALIGNMENT)) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qe=
+mu_log_mask(LOG_GUEST_ERROR, "%s: Bad RX buffer alignment 0x%"
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 HWADDR_PRIx "\n", __func__, value);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+turn;
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/timer/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-> index a990f9fe35..59b3f44d69 100644
-> --- a/hw/timer/Kconfig
-> +++ b/hw/timer/Kconfig
-> @@ -15,6 +15,7 @@ config HPET
-> =20
->  config I8254
->      bool
-> +    depends on ISA_BUS
-> =20
->  config ALTERA_TIMER
->      bool
->=20
+> What is the hardware behavior?
 
-Queued, thanks.
+This is not documented :/
 
-Paolo
+C.
+
+>=20
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->rx_ring =3D =
+value;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->rx_descripto=
+r =3D s->rx_ring;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>> @@ -731,6 +739,11 @@ static void ftgmac100_write(void *opaque, hwaddr =
+addr,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case FTGMAC100_NPTXR_BADR: /* Tr=
+ansmit buffer address */
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!QEMU_IS_ALIGNED(value=
+, FTGMAC100_DESC_ALIGNMENT)) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qe=
+mu_log_mask(LOG_GUEST_ERROR, "%s: Bad TX buffer alignment 0x%"
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 HWADDR_PRIx "\n", __func__, value);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+turn;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->tx_ring =3D =
+value;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->tx_descripto=
+r =3D s->tx_ring;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>
+>=20
 
 
