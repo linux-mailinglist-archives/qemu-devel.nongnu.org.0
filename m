@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01F61325F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:20:50 +0100 (CET)
-Received: from localhost ([::1]:47632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5680513261E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:24:28 +0100 (CET)
+Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionqq-0000G8-S7
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:20:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39571)
+	id 1ionuM-00023p-EN
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:24:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iomyv-0002yP-S3
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:25:07 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ion0C-0005jx-3f
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:26:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iomyu-0006dG-3G
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:25:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32755
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iomyt-0006cd-Re
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:25:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578396303;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qc1VMYM9bACoRiS25ayM4rhkRpJZ+DREb++zgsU3+pE=;
- b=dUJLnVyshPzm9erCWhwiTkjAaXjSGegeOTSBeR4TBCeCCa0PxxzqJyBZDtNFmHvBcECwc7
- rjZFSWXZ9bkVcts/GuDcRKMOu4YstdwZGHMXsiJpkzBtBCRJL8xwVeopkTIxqIAleY7ZqK
- tpuxPNycoZ+OnYRbKxwGuCnkMMUo3y4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-j8EiiFAaOeWYA0ISAVqjGQ-1; Tue, 07 Jan 2020 06:25:02 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33AF3800D41
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:25:01 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 686D05C1BB;
- Tue,  7 Jan 2020 11:24:57 +0000 (UTC)
-Date: Tue, 7 Jan 2020 11:24:54 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 073/104] virtiofsd: passthrough_ll: clean up cache
- related options
-Message-ID: <20200107112454.GN3368802@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-74-dgilbert@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1ion0A-0007Th-Oo
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:26:23 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39593)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ion0A-0007Sl-GV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:26:22 -0500
+Received: by mail-wm1-x341.google.com with SMTP id 20so18947766wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 03:26:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3wqjZF5vvOisdbTUNGvI2Ps9JGJEyq1eaGvIxI8yav0=;
+ b=F4f6vAyNyHeUftwdwnuj2Z1o5n/ueRfyaBnajIr5XmOmLWAgRJfPBYFZIi6eBjDTDn
+ xijtzqAJz3MLtii319k8g1E57CvfGl/bCOrVey5nWFCdnv/Uh8yPaepuaMDlsVQ6Rn9f
+ zVEmGpymQ5q2aqreUnwI9gJjXsqt14NjyJceUMud2nJTnZUX+l9THfA9XQJ6Q7BK3+T1
+ NUGPUjjR82RmI04yex7jDjCT8yqhWHaRv71htvhnKP34l0MuulQ8peKDBa+yUAkGTEBS
+ s2MCIDXUTbPQ1J1PufWj4qc2e6U4wBoVKWnCdSCfcVg0HMciKDZIsbfMtV4FNPpa2ZWt
+ ud+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=3wqjZF5vvOisdbTUNGvI2Ps9JGJEyq1eaGvIxI8yav0=;
+ b=Fvc8ZgBRFdedIy0guT8+UPJYrfm2nGdvfbX2kcG2PLpwSzB5OuyjXvs4jt9/1lAXen
+ IrB9ZP18hwBreYnwnZGjETyj2AdeKEWzUlRWc19Q483YjBjgeVs5mzN0p7LJ8C6xIAzI
+ 3ENzfclniPoAqto74TTx6gCjRhvJTOUBHLFzL5ZxkwCfM8SeoSFKfioQryP4GyCDi06c
+ S0lWJMVUTdH7h0yH4mIVpf2h34nTss0S+aTc13VlFsTCFNIySUslSNOdPAC5YKHV5/OH
+ euzfV6srPU7Ghc3dlIoYcwwxHoGUW+pPyEUyUL7buxNd8iSTBWM8PnF9MmW0UYP4+vGW
+ brXg==
+X-Gm-Message-State: APjAAAWgSwM+v4Ph+2G6dy4Zc+XcTXpIQjktRTOSN9xmbqOGSGhsB6ME
+ oWvI7pjt31eOIY4OBDZylfqKcQ==
+X-Google-Smtp-Source: APXvYqyEwohLaYCfYIocUYE1yfFY5DNqnnO/VDZk7IPT0L0zOWGY01hxKGjKZhjjqe84AgzauYwmgg==
+X-Received: by 2002:a7b:c847:: with SMTP id c7mr39502258wml.3.1578396380121;
+ Tue, 07 Jan 2020 03:26:20 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z4sm26463994wma.2.2020.01.07.03.26.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 03:26:18 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2CAA31FF87;
+ Tue,  7 Jan 2020 11:26:18 +0000 (GMT)
+References: <20190821162831.27811-1-georg.kotheimer@kernkonzept.com>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [Qemu-devel] [PATCH v3] RISC-V: Select FPU gdb xml file based
+ on the supported extensions
+In-reply-to: <20190821162831.27811-1-georg.kotheimer@kernkonzept.com>
+Date: Tue, 07 Jan 2020 11:26:18 +0000
+Message-ID: <87zhez4ied.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-74-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: j8EiiFAaOeWYA0ISAVqjGQ-1
-X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +82,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:33PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: Miklos Szeredi <mszeredi@redhat.com>
->=20
->  - Rename "cache=3Dnever" to "cache=3Dnone" to match 9p's similar option.
->=20
->  - Rename CACHE_NORMAL constant to CACHE_AUTO to match the "cache=3Dauto"
->    option.
->=20
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Georg Kotheimer <georg.kotheimer@kernkonzept.com> writes:
+
+> The size of the FPU registers depends solely on the floating point
+> extensions supported by the target architecture.
+> However, in the previous implementation the floating point register
+> size was derived from whether the target architecture is 32-bit or
+> 64-bit.
+>
+> To allow RVF without RVD, changes to riscv_gdb_get_fpu() and
+> riscv_gdb_set_fpu() were necessary.
+>
+> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+>  configure              |  4 ++--
+>  target/riscv/gdbstub.c | 45 ++++++++++++++++++++++++------------------
+>  2 files changed, 28 insertions(+), 21 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 714e7fb6a1..44ee953022 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7596,14 +7596,14 @@ case "$target_name" in
+>      TARGET_BASE_ARCH=3Driscv
+>      TARGET_ABI_DIR=3Driscv
+>      mttcg=3Dyes
+> -    gdb_xml_files=3D"riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit=
+-csr.xml"
+> +    gdb_xml_files=3D"riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit=
+-fpu.xml riscv-32bit-csr.xml"
+>      target_compiler=3D$cross_cc_riscv32
+>    ;;
+>    riscv64)
+>      TARGET_BASE_ARCH=3Driscv
+>      TARGET_ABI_DIR=3Driscv
+>      mttcg=3Dyes
+> -    gdb_xml_files=3D"riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit=
+-csr.xml"
+> +    gdb_xml_files=3D"riscv-64bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit=
+-fpu.xml riscv-64bit-csr.xml"
+>      target_compiler=3D$cross_cc_riscv64
+>    ;;
+>    sh4|sh4eb)
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 27be93279b..89b2543c9d 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -303,19 +303,22 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint=
+8_t *mem_buf, int n)
+>  static int riscv_gdb_get_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+>  {
+>      if (n < 32) {
+> -        return gdb_get_reg64(mem_buf, env->fpr[n]);
+> +        if (env->misa & RVD) {
+> +            return gdb_get_reg64(mem_buf, env->fpr[n]);
+> +        }
+> +        return gdb_get_reg32(mem_buf, env->fpr[n]);
+>      /* there is hole between ft11 and fflags in fpu.xml */
+>      } else if (n < 36 && n > 32) {
+>          target_ulong val =3D 0;
+>          int result;
+>          /*
+> -         * CSR_FFLAGS is at index 8 in csr_register, and gdb says it is =
+FP
+> -         * register 33, so we recalculate the map index.
+> +         * CSR_FFLAGS is at index 1 in the csr space, and gdb says it is=
+ FP
+> +         * register 33, so we recalculate the csr index.
+>           * This also works for CSR_FRM and CSR_FCSR.
+>           */
+> -        result =3D riscv_csrrw_debug(env, n - 33 +  8, &val, 0, 0);
+> +        result =3D riscv_csrrw_debug(env, n - 33 + CSR_FFLAGS, &val, 0, =
+0);
+>          if (result =3D=3D 0) {
+> -            return gdb_get_regl(mem_buf, val);
+> +            return gdb_get_reg32(mem_buf, val);
+>          }
+>      }
+>      return 0;
+> @@ -324,20 +327,25 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, ui=
+nt8_t *mem_buf, int n)
+>  static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+>  {
+>      if (n < 32) {
+> -        env->fpr[n] =3D ldq_p(mem_buf); /* always 64-bit */
+> -        return sizeof(uint64_t);
+> +        if (env->misa & RVD) {
+> +            env->fpr[n] =3D ldq_p(mem_buf);
+> +            return sizeof(uint64_t);
+> +        } else {
+> +            env->fpr[n] =3D ldl_p(mem_buf);
+> +            return sizeof(uint32_t);
+> +        }
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+What endianess can RISC-V support? Unless specifically stated by the
+architecture values should be returned in tgarget endian format.
+
+>      /* there is hole between ft11 and fflags in fpu.xml */
+>      } else if (n < 36 && n > 32) {
+> -        target_ulong val =3D ldtul_p(mem_buf);
+> +        target_ulong val =3D ldl_p(mem_buf);
+>          int result;
+>          /*
+> -         * CSR_FFLAGS is at index 8 in csr_register, and gdb says it is =
+FP
+> -         * register 33, so we recalculate the map index.
+> +         * CSR_FFLAGS is at index 1 in the csr space, and gdb says it is=
+ FP
+> +         * register 33, so we recalculate the csr index.
+>           * This also works for CSR_FRM and CSR_FCSR.
+>           */
+> -        result =3D riscv_csrrw_debug(env, n - 33 + 8, NULL, val, -1);
+> +        result =3D riscv_csrrw_debug(env, n - 33 + CSR_FFLAGS, NULL, val=
+, -1);
+>          if (result =3D=3D 0) {
+> -            return sizeof(target_ulong);
+> +            return sizeof(uint32_t);
+>          }
+>      }
+>      return 0;
+> @@ -375,20 +383,19 @@ void riscv_cpu_register_gdb_regs_for_features(CPUSt=
+ate *cs)
+>  {
+>      RISCVCPU *cpu =3D RISCV_CPU(cs);
+>      CPURISCVState *env =3D &cpu->env;
+> -#if defined(TARGET_RISCV32)
+> -    if (env->misa & RVF) {
+> +
+> +    if (env->misa & RVD) {
+> +        gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
+> +                                 36, "riscv-64bit-fpu.xml", 0);
+> +    } else if (env->misa & RVF) {
+>          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
+>                                   36, "riscv-32bit-fpu.xml", 0);
+>      }
+>=20=20
+> +#if defined(TARGET_RISCV32)
+>      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+>                               4096, "riscv-32bit-csr.xml", 0);
+>  #elif defined(TARGET_RISCV64)
+> -    if (env->misa & RVF) {
+> -        gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
+> -                                 36, "riscv-64bit-fpu.xml", 0);
+> -    }
+> -
+>      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+>                               4096, "riscv-64bit-csr.xml", 0);
+>  #endif
 
 
-Regards,
-Daniel
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
+Alex Benn=C3=A9e
 
