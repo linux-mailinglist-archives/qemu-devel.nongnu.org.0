@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77671328BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:21:39 +0100 (CET)
-Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07DD132796
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:29:40 +0100 (CET)
+Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopjm-0003fu-K8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:21:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35499)
+	id 1ioovR-0001S6-VI
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:29:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iooMD-0008Bd-Dx
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:53:14 -0500
+ (envelope-from <n54@gmx.com>) id 1iooNm-0003SW-R8
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:54:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iooMB-0008Lp-VB
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:53:13 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36843)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iooMB-0008LE-OT
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:53:11 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p17so19267343wma.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:53:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DkFkhBsEEWMJIdr5iOzrBzGzPQw3TGwOEoiv4wHtGDQ=;
- b=HJj1VX4vgmUnVkEgSs/s/j7c48HyuIGXRVSQh5j7IhP3BQSSRFRH/tT7bhOI4NQNc8
- c6zY+hJXVVwU4+K3twtrlDbcM8vt7e7HnC4TmUOixirCwkc24XsWejDVNdG8xYGmVhwI
- uJPM2NeZUd5eXqdi2S/IfSG/dV4OSdvI6IBLXYg3EFO8s+rbKTj+vax11KPSU2/SBEa+
- kBluxCp+rymKVLV4Oybtm8GKKGP1dnILzOT940sjf0IwuudaHkWpFjHbKljRiYcGxhJD
- MIukKyO12EMl9/tW6rSq64t6LhtZ5ifxpOmsm2rsLOaBRADWbVehOVyaiMDlWc0wwKdK
- ivhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DkFkhBsEEWMJIdr5iOzrBzGzPQw3TGwOEoiv4wHtGDQ=;
- b=Nfx4RSS1UK/nJmjM6dXApeRFjvaZTeWTkgF0AZbP9GrerbkJ9BWUPHcamkHwL6+5CT
- szc8+UwMlgmvBAYGgz+/MJoxRpBCaaZOJ9HKTCt8CE/J4ZTXJUBFTUG0obcI9k4ZTo2H
- 91taHnL+B+JZvTLg9dGW7qE6MoX8lYaRA5rhirdpPDSEKJ/kKvCKY9TaTNGKbLxrpfl6
- c53BcQQRWuYHj5MDASB58l2n1ggL/rGgpxi3cJ/soUWaRXESSMACVY16kMqVcpIvBNpA
- Q7eYalCRCudqjz1/pT4SQ+YZViwiKocnvP8mSrCLiVpH0YtT4GLNW0ZMG3V4HuUMnpHc
- Z46w==
-X-Gm-Message-State: APjAAAXnD6Bb4Io68jTFFGTJ2ya5xgkDfZTu5hOryUGf09xMpN7dakgY
- mxM/Zt3gc/0RWrPvsQ7sUTuicwm31Sj4noKPfH5CFJ/w
-X-Google-Smtp-Source: APXvYqy3TpXIBG5xHpD7pp56fWu0555eQIIDvtLBtHwkRUMPGC3UHXP8/9LHN3h6x4E14gqPf3iZpSkNsl/5BeN1ie8=
-X-Received: by 2002:a05:600c:228f:: with SMTP id
- 15mr41260407wmf.56.1578401589339; 
- Tue, 07 Jan 2020 04:53:09 -0800 (PST)
+ (envelope-from <n54@gmx.com>) id 1iooNl-0000rs-DY
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:54:50 -0500
+Received: from mout.gmx.net ([212.227.15.19]:49057)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iooNl-0000pp-0V
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:54:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1578401683;
+ bh=PcERl262TeVj2M3QgBH1unkb+D/qsJJsIchSNao9H0c=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=jvgiLs+F50gqxoO57T3Iz+GFZ5HuS/9Kg5W4OnjpPwH3qYQQryFCTbsPhX4pbnGO6
+ 1Kz6ncZUZALgIcqiGj2Wf7sbm80dL8CDuQeThAI4HnLfAvQ3/8HotxoFDzhERQUt8M
+ 9HrGhXW8Uf5r2OqeicDfyZfvaL9G4ciFhxYHsq5A=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([89.71.135.231]) by mail.gmx.com
+ (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MF3He-1ivLpb0lIW-00FUYT; Tue, 07 Jan 2020 13:54:43 +0100
+From: Kamil Rytarowski <n54@gmx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] Implements the NetBSD Virtual Machine Monitor accelerator
+Date: Tue,  7 Jan 2020 13:53:57 +0100
+Message-Id: <20200107125401.18126-1-n54@gmx.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
- <20191220134601.571905-22-marcandre.lureau@redhat.com>
-In-Reply-To: <20191220134601.571905-22-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 7 Jan 2020 16:52:56 +0400
-Message-ID: <CAJ+F1CK84g_NOZUy_-jLx=jSYukTu9OJo_fg8kK-Q-gi5Ys52Q@mail.gmail.com>
-Subject: Re: [PATCH v5 21/37] sm501: make SerialMM a child,
- export chardev property
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Provags-ID: V03:K1:kv7PXygsM+7QKxU9FVA5sp91WWBmYwOxMy5J7gASuxvYuvEvFDi
+ XtBudhWJ0D33OOUiW++Rqdfk/4bZgDOGtsuSFkB/NDk1uS0m5HTLOqzJvhODUba2urq/Sum
+ V6eTMGco2CQIEgnHjLHWDGzOS3X1RKzy9bn8OBon7dl9+j86ZeRJ+pzeVf3OlpW8gpw/0lG
+ ObR53H1LL7qzpGEVsJqOA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8YuVoUIGsJw=:7SHs1S6EMxEVO8T9ZVCViX
+ ZnX8y3stAwGjOJd/HohrFbwWmybUZ9UdEWDvj1V6wLVHDOkWUjz6Xu3vFYX0ylDbcMh5dkWaa
+ 1No5ughaBBnXjIDJbZLA6lBLnCmTP8ZJk/5kkg/FCGzjDWOD7ch+RpF0ciKJ/7htgDUPDn8Rb
+ jBh23vjvJmDHuNG0nVtioQ9BaTBT3ZZTMMyEy+MkqPF4VMeBtsW2bWh7iYLEnlseB57tQYSeO
+ lbSXPNBi/lLcsMImha8sxlHG0OMHpdpeLqyIytmmIIWbnVKbgUbU3N+3FPon5FIwfvwJIk6xr
+ DF6BVhEyiB5ZgzHn924H1lOf9A+cXn1yczqxn4gAxAIaFDkVP+qv+Y3jjK+B/e15jpDXqKOQG
+ CdWmbc7lJzAM8ww8vtvgvEpIFvydZrpFrZuB0ZLC7FMzMLZPuZlrWIIBq3zwxXPDtVNrQWifo
+ Cds6CuzTv50NfGxhplSkctx9ZDx3Hj4/ADpGAjlEpCipsT/kP0qa4ICbRZfrvlDTYP2ywBUv8
+ UrVfaOazn6zyAyxLvx47UyPNf/D8sXUtAEHwEvUNz+4j7woDb06rTqOYgpMryHG/49G8Jqjsj
+ g7kWcZKo7Lhu77Xab9DESJf6n6ED1IpL/l1yNSpi7yXUcSrTJHKsA08MFwe/N3sVUwHFddldK
+ ERKsO9xuJJtb8REo52M+7J3IBWM3lkXXnfUmlw3sp7+Q0g8BiSC1amCZYOh3tlqWwI5ywLipq
+ Q/AmMQhx3OsvY6g+p/qy8qgq03Ev9Z8UQS34cbQe+PZZR2UegpEA4ZVWimXFPR6JZwM2FfBTV
+ 96Mj9OMjinpnsycnogSr/pWEsNYaKlRgynWfxvLhneOJUuYFSEHHfr95QjsY2w02GbTQIocCx
+ qG0vRKZqCqzbGzMCD+FYkbyz+iO/cm0dSSAseTO8ZSBiqUvD5q99/BZN3v5rTJNk0sdz/Kjtu
+ 3b8oWNRH3ZSf9mEQaEn0r/QyperqRqg5L0ypq/WF+Yu0mXIc3WepaPXQK984hsT+xP41TuZTi
+ H7cVAAELXepZvc4uniOZC9igsHw7qpRp4eL0dkE39IZldlNkUY7pZCjhunan1zOb3iEhCFy0i
+ /y82dsRPoVODM4nGYRlslFgYSPlv6A/u2UphYBB0EFuF4tb7ce3mjFVkXxJnjjBP5RH3uCI6q
+ 8OZU7rZmPLo9ltz5eeLwWvLxhCr9+RLYrFz3xEhK+gpCTqmUAxNhd/Ze/DKgAOj5yZzLICzN1
+ cC45QGbHEKvMMA21bNH2wP+fFzZpHXqagZNXdSg==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.15.19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,122 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: pbonzini@redhat.com, Kamil Rytarowski <n54@gmx.com>,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 20, 2019 at 5:55 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Embed the SerialMM sybus device, and re-export its "chardev" property.
-> That way, we can get rid of PROP_PTR "chr-state" and better track
-> devices relationship.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/display/sm501.c | 29 +++++++++++++++++++++--------
->  hw/sh4/r2d.c       |  2 +-
->  2 files changed, 22 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-> index 79bd7bc2d1..66a1bfbe60 100644
-> --- a/hw/display/sm501.c
-> +++ b/hw/display/sm501.c
-> @@ -1930,7 +1930,7 @@ typedef struct {
->      SM501State state;
->      uint32_t vram_size;
->      uint32_t base;
-> -    void *chr_state;
-> +    SerialMM serial;
->  } SM501SysBusState;
->
->  static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
-> @@ -1938,6 +1938,7 @@ static void sm501_realize_sysbus(DeviceState *dev, =
-Error **errp)
->      SM501SysBusState *s =3D SYSBUS_SM501(dev);
->      SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
->      DeviceState *usb_dev;
-> +    MemoryRegion *mr;
->
->      sm501_init(&s->state, dev, s->vram_size);
->      if (get_local_mem_size(&s->state) !=3D s->vram_size) {
-> @@ -1958,15 +1959,15 @@ static void sm501_realize_sysbus(DeviceState *dev=
-, Error **errp)
->      sysbus_pass_irq(sbd, SYS_BUS_DEVICE(usb_dev));
->
->      /* bridge to serial emulation module */
-> -    serial_mm_init(&s->state.mmio_region, SM501_UART0, 2,
-> -                   NULL, /* TODO : chain irq to IRL */
-> -                   115200, s->chr_state, DEVICE_LITTLE_ENDIAN);
-> +    qdev_init_nofail(DEVICE(&s->serial));
-> +    mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->serial), 0);
-> +    memory_region_add_subregion(&s->state.mmio_region, SM501_UART0, mr);
-> +    /* TODO : chain irq to IRL */
->  }
->
->  static Property sm501_sysbus_properties[] =3D {
->      DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
->      DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
-> -    DEFINE_PROP_PTR("chr-state", SM501SysBusState, chr_state),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> @@ -1997,9 +1998,20 @@ static void sm501_sysbus_class_init(ObjectClass *k=
-lass, void *data)
->      dc->props =3D sm501_sysbus_properties;
->      dc->reset =3D sm501_reset_sysbus;
->      dc->vmsd =3D &vmstate_sm501_sysbus;
-> -    /* Note: pointer property "chr-state" may remain null, thus
-> -     * no need for dc->user_creatable =3D false;
-> -     */
-> +}
-> +
-> +static void sm501_sysbus_init(Object *o)
-> +{
-> +    SM501SysBusState *sm501 =3D SYSBUS_SM501(o);
-> +    SerialMM *smm =3D &sm501->serial;
-> +
-> +    sysbus_init_child_obj(o, "serial", smm, sizeof(SerialMM), TYPE_SERIA=
-L_MM);
-> +    qdev_set_legacy_instance_id(DEVICE(smm), SM501_UART0, 2);
-> +    qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
-> +    qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN)=
-;
-> +
-> +    object_property_add_alias(o, "chardev",
-> +                              OBJECT(smm), "chardev", &error_abort);
->  }
->
->  static const TypeInfo sm501_sysbus_info =3D {
-> @@ -2007,6 +2019,7 @@ static const TypeInfo sm501_sysbus_info =3D {
->      .parent        =3D TYPE_SYS_BUS_DEVICE,
->      .instance_size =3D sizeof(SM501SysBusState),
->      .class_init    =3D sm501_sysbus_class_init,
-> +    .instance_init =3D sm501_sysbus_init,
->  };
->
->  #define TYPE_PCI_SM501 "sm501"
-> diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-> index ee0840f380..72bb5285cc 100644
-> --- a/hw/sh4/r2d.c
-> +++ b/hw/sh4/r2d.c
-> @@ -272,7 +272,7 @@ static void r2d_init(MachineState *machine)
->      busdev =3D SYS_BUS_DEVICE(dev);
->      qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
->      qdev_prop_set_uint32(dev, "base", 0x10000000);
-> -    qdev_prop_set_ptr(dev, "chr-state", serial_hd(2));
-> +    qdev_prop_set_chr(dev, "chardev", serial_hd(2));
->      qdev_init_nofail(dev);
->      sysbus_mmio_map(busdev, 0, 0x10000000);
->      sysbus_mmio_map(busdev, 1, 0x13e00000);
-> --
-> 2.24.0.308.g228f53135a
->
->
+Hello QEMU Community!
 
-ping, thanks
+Over the past year the NetBSD team has been working hard on a new user-mod=
+e API
+for our hypervisor that will be released as part of the upcoming NetBSD 9.=
+0.
+This new API adds user-mode capabilities to create and manage virtual mach=
+ines,
+configure memory mappings for guest machines, and create and control execu=
+tion
+of virtual processors.
 
---=20
-Marc-Andr=C3=A9 Lureau
+With this new API we are now able to bring our hypervisor to the QEMU
+community! The following patches implement the NetBSD Virtual Machine Moni=
+tor
+accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
+
+When compiling QEMU for x86_64 passing the --enable-nvmm flag will compile=
+ the
+accelerator for use. At runtime using the '-accel nvmm' should see a
+significant performance improvement over emulation, much like when using '=
+hax'
+on NetBSD.
+
+The documentation for this new API is visible at https://man.netbsd.org un=
+der
+the libnvmm(3) and nvmm(4) pages.
+
+NVMM was designed and implemented by Maxime Villard.
+
+Thank you for your feedback.
+
+Maxime Villard (4):
+  Add the NVMM vcpu API
+  Add the NetBSD Virtual Machine Monitor accelerator.
+  Introduce the NVMM impl
+  Add the NVMM acceleration enlightenments
+
+ accel/stubs/Makefile.objs |    1 +
+ accel/stubs/nvmm-stub.c   |   43 ++
+ configure                 |   36 ++
+ cpus.c                    |   58 ++
+ include/sysemu/hw_accel.h |   14 +
+ include/sysemu/nvmm.h     |   35 ++
+ qemu-options.hx           |    4 +-
+ target/i386/Makefile.objs |    1 +
+ target/i386/helper.c      |    2 +-
+ target/i386/nvmm-all.c    | 1222 +++++++++++++++++++++++++++++++++++++
+ 10 files changed, 1413 insertions(+), 3 deletions(-)
+ create mode 100644 accel/stubs/nvmm-stub.c
+ create mode 100644 include/sysemu/nvmm.h
+ create mode 100644 target/i386/nvmm-all.c
+
+=2D-
+2.24.0
 
