@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283451324BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:22:20 +0100 (CET)
-Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5B0132485
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:10:22 +0100 (CET)
+Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomwD-0005Sj-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:22:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51525)
+	id 1iomkd-0003xy-HL
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:10:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iolth-0005xM-RJ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:15:39 -0500
+ (envelope-from <berrange@redhat.com>) id 1iolkI-0005cf-Tq
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:05:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ioltg-0008SI-E6
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:15:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40888)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ioltg-0008RQ-6b
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:15:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iolte-0008U0-SH
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 10:15:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CFE892E805B
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 10:15:34 +0000 (UTC)
+ (envelope-from <berrange@redhat.com>) id 1iolkH-0003dQ-FJ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:05:54 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40505
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iolkH-0003dC-B2
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:05:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578391552;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=csSjxJAcVDYv6IToAX9oHQf06tSljbIHMNDOTYaaw0k=;
+ b=PkaUVeRsbyUY2wvJgonp3b0EASt7HrY9KVN6jMFNNp6OM8jMBLPt52N9Kh7FoCs3NsWRUj
+ zl4mpG8ap4o1SuVFe1gf+LP7qFPlI2UADQl25vsgMVIKUrF9BGMCjGrG59uZwI+i7sSyUJ
+ 4hUakKm6hd5FhhN5hdIQsFrtzxsEoE8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-130-0rR38oZhNzmnApzrDOnTog-1; Tue, 07 Jan 2020 05:05:51 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6167180746B
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 10:05:50 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A71A1036D1B;
+ Tue,  7 Jan 2020 10:05:46 +0000 (UTC)
+Date: Tue, 7 Jan 2020 10:05:43 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 056/104] virtiofsd: add security guide document
+Message-ID: <20200107100543.GC3368802@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-57-dgilbert@redhat.com>
+ <20200106150351.GT2930416@redhat.com>
+ <20200106175355.GL2798@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200106175355.GL2798@work-vm>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 0rR38oZhNzmnApzrDOnTog-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 07 Jan 2020 10:02:02 -0000
-From: Artyom <1858623@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: theartlav
-X-Launchpad-Bug-Reporter: Artyom (theartlav)
-X-Launchpad-Bug-Modifier: Artyom (theartlav)
-Message-Id: <157839132261.5317.2350112240462311551.malonedeb@gac.canonical.com>
-Subject: [Bug 1858623] [NEW] VNC outputs garbage in zlib mode
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 734500ca3a66b7e0e60892318635db6e3607779b
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,67 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858623 <1858623@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Mon, Jan 06, 2020 at 05:53:55PM +0000, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> > On Thu, Dec 12, 2019 at 04:38:16PM +0000, Dr. David Alan Gilbert (git) =
+wrote:
+> > > From: Stefan Hajnoczi <stefanha@redhat.com>
+> > >=20
+> > > Many people want to know: what's up with virtiofsd and security?  Thi=
+s
+> > > document provides the answers!
+> > >=20
+> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > ---
+> > >  tools/virtiofsd/security.rst | 118 +++++++++++++++++++++++++++++++++=
+++
+> >=20
+> > Do we need to link this into the rest of QEMU's docs in some
+> > index page ?
+>=20
+> I wonder how;  there's a autogenerated thing in
+>   docs/index.rst
+>=20
+> that includes some of the docs directories subdirectories/index
+> Does that mean we should have this in docs/tools/virtiofsd/security.rst
+> and a docs/tools/index  and a docs/tools/virtiofsd/index  ?
 
-TL;DR: When QEMU is launched with VNC as the output and viewed with a
-client that defaults to zlib VNC encoding, the resulting output tends to
-accumulate artifacts.
+I was wondering if this fits into any of the current three sections
+"devel" or "interop" or "specs", but it doesn't feel quite right in
+any of them to me. So having a new docs/tools subtree looks like an
+ok idea in absence of better suggestions.
 
-Reproduction:
-Launch QEMU (tried with versions 4.2.0 and 4.1.0 on Linux  64bit) with -vnc=
- 0.0.0.0:0
-Connect to it with a VNC client that allows you to select encoding, i.e. Ul=
-traVNC.
-Set encoding to zlib (type 6), 32bit color.
-As screen content changes it starts accumulating artifacts. Almost certain =
-to appear if you open-close windows over a pattern.
-Does not seem to depend on guest used, but easier to reproduce with a GUI.
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
-Looks like this: https://orbides.org/img/vnc.png
-
-It appears to be a deflate glitch of some sort - all of the bad pixels
-are generated by length/distance codes. Can't narrow it down any more.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858623
-
-Title:
-  VNC outputs garbage in zlib mode
-
-Status in QEMU:
-  New
-
-Bug description:
-  TL;DR: When QEMU is launched with VNC as the output and viewed with a
-  client that defaults to zlib VNC encoding, the resulting output tends
-  to accumulate artifacts.
-
-  Reproduction:
-  Launch QEMU (tried with versions 4.2.0 and 4.1.0 on Linux  64bit) with -v=
-nc 0.0.0.0:0
-  Connect to it with a VNC client that allows you to select encoding, i.e. =
-UltraVNC.
-  Set encoding to zlib (type 6), 32bit color.
-  As screen content changes it starts accumulating artifacts. Almost certai=
-n to appear if you open-close windows over a pattern.
-  Does not seem to depend on guest used, but easier to reproduce with a GUI.
-
-  Looks like this: https://orbides.org/img/vnc.png
-
-  It appears to be a deflate glitch of some sort - all of the bad pixels
-  are generated by length/distance codes. Can't narrow it down any more.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858623/+subscriptions
 
