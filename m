@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B51A1329FF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:26:07 +0100 (CET)
-Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58EAD132A0A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:28:42 +0100 (CET)
+Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqk9-0008AO-Fz
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:26:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57638)
+	id 1ioqmf-0003ba-8G
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:28:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqVF-0000pB-Bw
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:43 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqVW-0001kW-Ut
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:11:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqVD-0006dl-Fg
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:40 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41677
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqVV-0006q1-S9
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:58 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48269
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ioqVD-0006dM-Bo
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:39 -0500
+ id 1ioqVV-0006pl-Oc
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578409839;
+ s=mimecast20190719; t=1578409857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U3QVwEMauewj5UNLItNA1yrc04E1MF3yTFfAWyYkVY0=;
- b=QQ70dCCf4tvlFyanY9lx21rIhOZH+Ju2GS/uVBILMJNphsScgd8ONJfWGP2ak9HvE627ks
- uefm5RfBzJeqsfzhidbZpu4t6Y3a0zVNY603wBfkS6QlJVLHaQyIZHGtuXKOElLEeKtC9Q
- S2l6mSx8RtQYycBrdzAlUxA14QrLtAo=
+ bh=JI6010Zba0jR7V5oioUNd1W8ZIeOPboPlX4JjxIfyT0=;
+ b=JtnCA/IKf+BAdnyl78unPVrKGKAEUvmE5M1+r3bhqiS0uovVTR230k2LPecBxrRAdRaEoR
+ hxXZ+mYpp3bEoXl2G85+KHNKKGf2OM+e48riydcbw80K5ktQ89TXzrvyw8UUre79D27uNb
+ wUgQgBTCE1FsFFQ6F8zX9cGZ0DA9yEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-0muL2gLFMK6qVCl-pv8cmA-1; Tue, 07 Jan 2020 10:10:37 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-265-2vBbqoMgMm26WphpBmj_OA-1; Tue, 07 Jan 2020 10:10:55 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C03AE1005516;
- Tue,  7 Jan 2020 15:10:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E5981B18BCA;
+ Tue,  7 Jan 2020 15:10:54 +0000 (UTC)
 Received: from localhost (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C52D35D9E1;
- Tue,  7 Jan 2020 15:10:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA6E05C1BB;
+ Tue,  7 Jan 2020 15:10:52 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/37] mips/cps: fix setting saar property
-Date: Tue,  7 Jan 2020 19:04:34 +0400
-Message-Id: <20200107150442.1727958-30-marcandre.lureau@redhat.com>
+Subject: [PULL 31/37] smbus-eeprom: remove PROP_PTR
+Date: Tue,  7 Jan 2020 19:04:36 +0400
+Message-Id: <20200107150442.1727958-32-marcandre.lureau@redhat.com>
 In-Reply-To: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 0muL2gLFMK6qVCl-pv8cmA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 2vBbqoMgMm26WphpBmj_OA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,34 +77,74 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no "saar" property. Note: I haven't been able to test this
-code. Help welcome.
+Instead, set the initial data field directly.
 
-May fix commit 043715d1e0fbb3e3411be3f898c5b77b7f90327a ("target/mips:
-Update ITU to utilize SAARI and SAAR CP0 registers")
+(the initial data is an array of 256 bytes. As I don't know if it may
+change over time, I keep the pointer to original buffer as is, but it
+might be worth to consider to copy it instead)
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
 ---
- hw/mips/cps.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i2c/smbus_eeprom.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index 1660f86908..c49868d5da 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -106,7 +106,7 @@ static void mips_cps_realize(DeviceState *dev, Error **=
-errp)
-         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-pres=
-ent",
-                                  &err);
-         if (saar_present) {
--            qdev_prop_set_ptr(DEVICE(&s->itu), "saar", (void *)&env->CP0_S=
-AAR);
-+            s->itu.saar =3D &env->CP0_SAAR;
-         }
-         object_property_set_bool(OBJECT(&s->itu), true, "realized", &err);
-         if (err !=3D NULL) {
+diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+index 54c86a0112..5adf3b15b5 100644
+--- a/hw/i2c/smbus_eeprom.c
++++ b/hw/i2c/smbus_eeprom.c
+@@ -44,7 +44,7 @@
+ typedef struct SMBusEEPROMDevice {
+     SMBusDevice smbusdev;
+     uint8_t data[SMBUS_EEPROM_SIZE];
+-    void *init_data;
++    uint8_t *init_data;
+     uint8_t offset;
+     bool accessed;
+ } SMBusEEPROMDevice;
+@@ -129,14 +129,14 @@ static void smbus_eeprom_reset(DeviceState *dev)
+=20
+ static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
+ {
++    SMBusEEPROMDevice *eeprom =3D SMBUS_EEPROM(dev);
++
+     smbus_eeprom_reset(dev);
++    if (eeprom->init_data =3D=3D NULL) {
++        error_setg(errp, "init_data cannot be NULL");
++    }
+ }
+=20
+-static Property smbus_eeprom_properties[] =3D {
+-    DEFINE_PROP_PTR("data", SMBusEEPROMDevice, init_data),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+ static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+@@ -146,9 +146,8 @@ static void smbus_eeprom_class_initfn(ObjectClass *klas=
+s, void *data)
+     dc->reset =3D smbus_eeprom_reset;
+     sc->receive_byte =3D eeprom_receive_byte;
+     sc->write_data =3D eeprom_write_data;
+-    dc->props =3D smbus_eeprom_properties;
+     dc->vmsd =3D &vmstate_smbus_eeprom;
+-    /* Reason: pointer property "data" */
++    /* Reason: init_data */
+     dc->user_creatable =3D false;
+ }
+=20
+@@ -172,7 +171,8 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t addre=
+ss, uint8_t *eeprom_buf)
+=20
+     dev =3D qdev_create((BusState *) smbus, TYPE_SMBUS_EEPROM);
+     qdev_prop_set_uint8(dev, "address", address);
+-    qdev_prop_set_ptr(dev, "data", eeprom_buf);
++    /* FIXME: use an array of byte or block backend property? */
++    SMBUS_EEPROM(dev)->init_data =3D eeprom_buf;
+     qdev_init_nofail(dev);
+ }
+=20
 --=20
 2.25.0.rc1.20.g2443f3f80d
 
