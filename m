@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C95C132A84
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:55:23 +0100 (CET)
-Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D88132AC0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:09:07 +0100 (CET)
+Received: from localhost ([::1]:52278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iorCT-0006Vt-SP
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:55:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55975)
+	id 1iorPl-0003ye-Vf
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:09:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iorAK-0003Ji-Ui
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:53:09 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iorOy-0003Xr-WE
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:08:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iorAJ-0000jr-RZ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:53:08 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29711
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iorAJ-0000jU-NW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:53:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578412387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nCRNamqpK0fJRKMGrYopymoOjDkBbBc2TQ5SUbcsGYY=;
- b=i4/TGzkfoc9NrZ8/cHGFENXZg5m/ZZ/MWMyuLXy2X0EkGnN7aLkaFAgZek4BBqbtaza8Bx
- LPs1FTpe5OcsfuXPPRzKJyUth2OKOpxPqlPQ4gws9o2rKqWZSwr36RbuBjHSJVawqHfvbT
- omYBmtjj2wzRS2dExLhX7wCjOQpxSMI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-G4cw4dbSNAupgzcOWPrlbA-1; Tue, 07 Jan 2020 10:53:05 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E91CB19057A2;
- Tue,  7 Jan 2020 15:53:03 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 122559CA3;
- Tue,  7 Jan 2020 15:52:59 +0000 (UTC)
-Date: Tue, 7 Jan 2020 16:52:58 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: minyard@acm.org
-Subject: Re: [PATCH] i386:acpi: Remove _HID from the SMBus ACPI entry
-Message-ID: <20200107165258.56feae12@redhat.com>
-In-Reply-To: <20200106152705.8258-1-minyard@acm.org>
-References: <20200106152705.8258-1-minyard@acm.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1iorOx-0001RI-Rx
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:08:16 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:45202)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iorOx-0001Qu-ME
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:08:15 -0500
+Received: by mail-oi1-x230.google.com with SMTP id n16so14034751oie.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:08:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=0saChhg4qrhZ46e1NiOXLlVi1TRckAWKj+w9jP0rvMo=;
+ b=XLqCYP6w0oLrbweoKm1J3LAcW6kTlsAMddR8HGu1dIak/S85niMEE3JZXfSHgwgbVS
+ ujMBf4pnQMeb9MA+bg1vOWodJOo0k276HT0jvn83ugsGOvBQDXKtcqJlbCAZJ3XjUQBn
+ cueVFmmbpW2mcVh9v740d6eo7OZKswYJCf5nynfPqtKQ4O+19r9b6GyJlFb4bSIYOqdI
+ 9aQwTitImsm/SkiKxLpDLR2J2fgC9XqYXjVeLF0Xw1rHncTvE/DCcq9VC0lpcD+3NO0a
+ k6wEfZ/7dXqUJqpTS+HOYShNCAj54h9pFdP6PKIgJymDxLi4Esa1K6a7opO8NydIJ4FT
+ vKjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=0saChhg4qrhZ46e1NiOXLlVi1TRckAWKj+w9jP0rvMo=;
+ b=UptBGuytDfYUx9lD3F9ht8UdkJhk+ivbgsq6bxK4yrEnJ/4aC+qjSzHlbPWbft5xi2
+ a4qI5G1/lH0DWH5UGjY89lQ9NGr3/OC5qolHwfdA4BcGoBhvEZVL2PznIaO0zqf1cqMi
+ BjYBDQYuG3M+loXVt9r7f1cYjjkJ/XA4f22frgLPVXoBY/ioPJrgVq8ZOvNpN7qDjPFG
+ CnTfUt4yVlK8NixF/oVYGbxGT1UrAUevDSZkJareHG4ncswYpyXo0eWDAUYe28GFsu+0
+ QdVredyhHmG3+SLsC6HHyfGXZnBPNjQGqcBim84pOlLiIhxN5XLWDn7uD/jPdlAgN42J
+ Ss2A==
+X-Gm-Message-State: APjAAAXdpY7HGcPzHPYn//pJM3GhNaobWOsCXIspK/+baqbwMFDfm3mU
+ 4DhNs2tdQrurbpK5ALi4qqHsqAmHcLP6L79mlZ3bns4D/GI=
+X-Google-Smtp-Source: APXvYqzgTmv+JDlsbqD+C1CXHMzPMb9sZQmy1hFpj0c98m+k9ttMN7npRjALrKxQ0ORkf2/G/a8p4XvWaeO2V22nKXk=
+X-Received: by 2002:aca:3d7:: with SMTP id 206mr301046oid.98.1578413294576;
+ Tue, 07 Jan 2020 08:08:14 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: G4cw4dbSNAupgzcOWPrlbA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jan 2020 16:08:03 +0000
+Message-ID: <CAFEAcA-U1JqzH8m2AWV7KuJKm0WfczDKK+ddzPs44y9usujB2Q@mail.gmail.com>
+Subject: race condition in tests/fp/Makefile
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::230
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,44 +68,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Corey Minyard <cminyard@mvista.com>,
- wanghaibin.wang@huawei.com
+Cc: "Emilio G. Cota" <cota@braap.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Jan 2020 09:27:05 -0600
-minyard@acm.org wrote:
+I've just spotted this issue with tests/fp/Makefile which I think
+is causing my tests/vm/netbsd builds to fail:
 
-> From: Corey Minyard <cminyard@mvista.com>
-> 
-> Per the ACPI spec (version 6.1, section 6.1.5 _HID) it is not required
-> on enumerated buses (like PCI in this case), _ADR is required (and is
-> already there).  And the _HID value is wrong.  Linux appears to ignore
-> the _HID entry, but it confuses Windows.
-> 
-> Signed-off-by: Corey Minyard <cminyard@mvista.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
+tests/Makefile.include has some rules that invoke a fresh make
+process on tests/fp/Makefile:
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+tests/fp/%:
+        $(MAKE) -C $(dir $@) $(notdir $@)
 
-> ---
->  hw/i386/acpi-build.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 7b8da62d41..ab73a8f4c8 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1815,7 +1815,6 @@ static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
->      Aml *scope = aml_scope("_SB.PCI0");
->      Aml *dev = aml_device("SMB0");
->  
-> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0005")));
->      aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
->      build_acpi_ipmi_devices(dev, BUS(smbus), "\\_SB.PCI0.SMB0");
->      aml_append(scope, dev);
+tests/fp/Makefile has some rules that invoke a fresh make process
+in the parent build directory:
 
+BUILD_DIR := $(CURDIR)/../..
+$(LIBQEMUUTIL):
+        $(MAKE) -C $(BUILD_DIR) libqemuutil.a
+
+$(BUILD_DIR)/config-host.h:
+        $(MAKE) -C $(BUILD_DIR) config-host.h
+
+This means that we can end up with two 'make' processes
+(the original top level one, and the one invoked by the
+rules in tests/fp/Makefile) both trying to build things in
+the top level build dir simultaneously. They then step on
+each others toes and the build can fail.
+
+In the most usual case where "make" and "make check"
+run as separate steps, this doesn't happen, because
+libqemuutil.a and config-host.h will both be built by
+the "make" step, and then the second make invoked in
+"make check" will fairly harmlessly see it has nothing
+to do. But the tests/vm scripts all directly run
+"make check" without a preceding "make", so they can
+hit this.
+
+I guess the best fix here is to move the dependencies
+on libqemuutil.a and config-host.h into tests/Makefile.include
+(though then you wouldn't be able to stand-alone run
+tests/fp/Makefile -- does anybody do that?)
+
+Also, should we change tests/vm to separately invoke
+'make' and 'make check' ? I think that doing a single
+'make check' is a bit fragile because we don't
+really test it and there's no rule that says
+"check depends on all" or similar AFAIK.
+
+thanks
+-- PMM
 
