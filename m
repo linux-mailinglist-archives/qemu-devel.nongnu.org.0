@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D21A13296D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:58:45 +0100 (CET)
-Received: from localhost ([::1]:50700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA71132875
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:07:50 +0100 (CET)
+Received: from localhost ([::1]:49350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqJf-0005rD-Qj
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:58:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56488)
+	id 1iopWP-0004R9-Du
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:07:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dinechin@redhat.com>) id 1iopL2-0000fg-3g
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:05 -0500
+ (envelope-from <philmd@redhat.com>) id 1iopLA-0001C0-8T
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dinechin@redhat.com>) id 1iopL0-0003rq-0u
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37822
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iopL9-0003wr-1Q
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:11 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38667
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1iopKz-0003rM-Sl
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:01 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iopL8-0003wa-UW
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578405361;
+ s=mimecast20190719; t=1578405370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1MI7Lxmg8no2HXeqhClaxscebjE/j8XvsCkkSPA8C4o=;
- b=NwQBEO6cgSF3kFp1DD9gvT1iM7brBApC/EpayLeSSOPAvP6NCeAhK3ZkEEaJi0HMwQfqHp
- HVzw4SUDHUJ8lb9H15itB0jL3fAPLXZwu2g6KG9j5abTX0X2NmvOcp+KQIa3ZZKYg+IOWG
- xs73h3FyRHQTf6utUhEQClKAZ/EgZjA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-MxMa9e7RMVmmzinFNFQknw-1; Tue, 07 Jan 2020 08:55:58 -0500
-Received: by mail-wr1-f70.google.com with SMTP id y7so28770094wrm.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:55:58 -0800 (PST)
+ bh=YrWqu9GBqMZixmL4RACyDAhAI7ES5+5rpa8/IzsFY4I=;
+ b=iWseT2hTdgQgR1jPT92B3Rzp8S0hvwhpeJfW0PYNAFzstF/HTSbIyhGFVDAqfRbNGFt61c
+ 2W3mM2NWEXe4iWoEnl7rG8ab7wciRa++giuloPmzewqSEcgwEWOsLflkdvcdW/JlyyyEqw
+ YmqrgxkjX6rAlmgfXUSX+WcgxQrlKYk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-28nYnWr_Mjqcl9DsQrBgdQ-1; Tue, 07 Jan 2020 08:56:09 -0500
+Received: by mail-wm1-f72.google.com with SMTP id g26so1965579wmk.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:56:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=Pyh8yFqLK644qpz9EflJPGt6BofuTw8JlPFAd1ZqhTw=;
- b=P2F//1ThxTuLQhLE/jyclsoaZUflXFhWBdJanvu0faDCI2176lUrciGT2gNPSKsGU6
- VO7NtIg+Ht+NcHalQhUUTAH/qCQJrznXCYlZYnHo/+/1RO/rMnIfwEReyQt6X67xW6al
- vYyJSQ2EpiYC9fBQ7oTbvP492ERymgvr6TpHrRgTXjBb/PYNhDA+LONfaaTNxvxEfKC8
- UbGo57++3i8UJx96IQ6OwP1rrCySpTzuhv2F7jg6Fm9m3HcEZnWR383uEwo3bOHQcJws
- 3a+2Sp2+LH16Gi0L5Qqyl1As0SSdvc5Bgs5wocBtCFvnzEILT2JsSShwz81YCb1qsbl9
- H+Ug==
-X-Gm-Message-State: APjAAAUU3ZMHqPBN2qoCmMrbxYBvpYpgb8src0izVgeFMaaB3mQop1hW
- zDQl1R7SqbP50MNPg97fxOu8AfjGIisEKC0puAnfQ4GomEY4ZmfNfrKXUEY8MvSMwpOdsRh20t6
- 5WtBYBf77a7qPvWQ=
-X-Received: by 2002:adf:e641:: with SMTP id b1mr108603390wrn.34.1578405357031; 
- Tue, 07 Jan 2020 05:55:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzkG9hviFFPPqmQzJYYcYCiwKL7K1J8UONm/g5vt2bwX+8v+gpsrtu8W2yHY0aDrGGb8E/okA==
-X-Received: by 2002:adf:e641:: with SMTP id b1mr108603373wrn.34.1578405356793; 
- Tue, 07 Jan 2020 05:55:56 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:466:71c0:8d4b:4003:dcb:4c70?
- ([2a01:e0a:466:71c0:8d4b:4003:dcb:4c70])
- by smtp.gmail.com with ESMTPSA id n3sm75470686wrs.8.2020.01.07.05.55.55
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 07 Jan 2020 05:55:56 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
-Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
- to recent desugarized -accel option)
-From: Christophe de Dinechin <dinechin@redhat.com>
-In-Reply-To: <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
-Date: Tue, 7 Jan 2020 14:55:55 +0100
-Message-Id: <1A5859EA-4403-4921-B527-DFD07C59C702@redhat.com>
-References: <20200106130951.29873-1-philmd@redhat.com>
- <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
- <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-X-Mailer: Apple Mail (2.3608.40.2.2.4)
-X-MC-Unique: MxMa9e7RMVmmzinFNFQknw-1
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hc1yJfEjNyr3441XE8a76KFJd1zcXLNbt/2mctO4szA=;
+ b=JxVrsdWHcGbM3PgOgRiS6sRAVoWCXYwgQm3FfhqPhCobunx61oQ4l/SV4p8nb0S8Oy
+ OEcgPiQ9t4++5Okl1DBFvtaObzdNIHYXtjBDYdIsCwdzPKCIcUfSbkh02U6pZxQ1xCua
+ UcqgyA2JC1iAilcELj0Ikk4jq8gGajCAvTjBvQ0Xr0ulJInUS5LUUaPUn/slhVqJJMty
+ Fx1Erh4GnVw6TliIV3wVwL2Z5w0h2j9IStb9dIQOBm4l0jHXIOeAYXZS2PfD16YprW/L
+ t6yf+OLwZiCLRBdhMzX2fd6PLxwUXW5BK3dah1VS+a2cf+JN1MMs8Mb26d0OTTn7wiYW
+ P1kg==
+X-Gm-Message-State: APjAAAVTt53ixTOVjXDyLuvyWfJAuC0QPvwPl2zIryoxQAv74uT6nz1z
+ Xq9m/XNx2StCzbLdb0zEWEKK/qpDTeSiy2QBc5GBYi68H8IJKg1DKqAzFt0dR+wNqFp5NcklaUw
+ fvClgOeiU2dLsDUA=
+X-Received: by 2002:adf:8041:: with SMTP id 59mr104998909wrk.257.1578405368085; 
+ Tue, 07 Jan 2020 05:56:08 -0800 (PST)
+X-Google-Smtp-Source: APXvYqysAZUfznQGIIyJscWPtR/xweEQ/jLH2AeBHSfLnJXcblrHEqKRprIap04bfuOGuMkWQndA2A==
+X-Received: by 2002:adf:8041:: with SMTP id 59mr104998889wrk.257.1578405367937; 
+ Tue, 07 Jan 2020 05:56:07 -0800 (PST)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id e16sm75504566wrs.73.2020.01.07.05.56.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 05:56:07 -0800 (PST)
+Subject: Re: [PATCH v9 14/15] hw/i386: Introduce the microvm machine type
+To: Paolo Bonzini <pbonzini@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191015112346.45554-1-slp@redhat.com>
+ <20191015112346.45554-15-slp@redhat.com>
+ <6276a8e7-2928-6e33-64a1-3ae01a30a718@redhat.com>
+ <a5863b05-4021-df51-d84f-1bb070fa6137@redhat.com>
+ <8eec451f-3ee3-b111-2c03-3c29ade661a6@redhat.com>
+ <21e2508a-764f-1db9-9c53-dc9eb43d7f68@redhat.com>
+ <c9733853-9202-504e-c823-b4441322d3fb@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1e62c826-4a5f-4ac5-86ed-077bbad31667@redhat.com>
+Date: Tue, 7 Jan 2020 14:56:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <c9733853-9202-504e-c823-b4441322d3fb@redhat.com>
+Content-Language: en-US
+X-MC-Unique: 28nYnWr_Mjqcl9DsQrBgdQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain;
-	charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,80 +97,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, kraxel@redhat.com,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ imammedo@redhat.com, rth@twiddle.net, lersek@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On 7 Jan 2020, at 11:14, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On 1/7/20 2:35 PM, Paolo Bonzini wrote:
+> On 24/12/19 01:09, Philippe Mathieu-Daud=C3=A9 wrote:
+>> We have CONFIG_SERIAL_ISA declared in "config-devices.h" so we could
+>> also use:
+>>
+>> -- >8 --
+>> --- a/hw/i386/microvm.c
+>> +++ b/hw/i386/microvm.c
+>> @@ -153,9 +153,11 @@ static void
+>> microvm_devices_init(MicrovmMachineState *mms)
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 microvm_set_rtc(mms, r=
+tc_state);
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 }
+>>
+>> +#ifdef CONFIG_SERIAL_ISA
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 if (mms->isa_serial) {
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 serial_hds_isa_init(is=
+a_bus, 0, 1);
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +#endif
+>>
+>>  =C2=A0=C2=A0=C2=A0=C2=A0 if (bios_name =3D=3D NULL) {
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bios_name =3D MICROVM_=
+BIOS_FILENAME;
+>> ---
+>>
+>> The binary links too, and the difference with the other hunk is now the
+>> device is not listed in 'qemu-system-x86_64 -M microvm -device help'.
+>> However I guess understand we prefer to avoid that kind of ifdef'ry.
 >=20
-> On 07/01/20 11:03, Thomas Huth wrote:
->>>=20
->>> vm =3D QEMUMachine(iotests.qemu_prog)
->>> -vm.add_args('-machine', 'accel=3Dkvm:tcg')
->>> +vm.add_args('-accel', 'kvm', '-accel', 'tcg')
->> Looking at this, I wonder whether we really want the "-accel" option to
->> prioritize the accelerators in the order of appearance? A lot of other
->> CLI tools give the highest priority to the last parameter instead, e.g.
->> "gcc -O3 -O1" compiles with -O1, and not with -O3.
->>=20
->> Also I think it might be quite common that there are shell scripts which
->> call "qemu-system-xxx -accel xyz $*" ... and if we don't invert the
->> priorities of -accel, it will be impossible to override -accel in that
->> case...
->=20
-> Hmm, it does match "-machine accel=3Dkvm:tcg" and in general I think it's
-> more self-explanatory.  However, it is indeed less friendly to scripts.
-> On one hand those could be changed to place "-accel xyz" after $* (or
-> better "$@"), on the other hand we could also add a priority option to
-> "-accel".  What do you think?
+> The ifdef'ery is okay in board code, but in this case I think it would
+> be even better to have a stub for serial_hds_isa_init that gives the
+> right error (via Error*, and then you can call it with &error_fatal
+> etc.).  So for now I included your patch that changes it to "select"
+> from the other series.
 
-I tend to agree with Thomas=E2=80=99 assessment that in general, later opti=
-ons
-tend to override earlier ones, if only because that=E2=80=99s typically how=
- getopt
-works with the typical usage of setting global variables.
+Clever! I'll wait Marc-Andr=C3=A9 SerialState cleanup gets in and will do a=
+s=20
+suggested.
 
-I also agree that when it=E2=80=99s a single list given to an option, then =
-it
-generally makes more sense to interpret the later ones as a =E2=80=9Cfallba=
-ck=E2=80=9D
-if you could not get the previous ones. Which I believe gives me a
-hint of what the intent of specifying multiple options would be=E2=80=A6
+Thanks,
 
-So what about ranking the accelerators, so that all combinaisons
--accel=3Dkvm:tcg, -accel=3Dtcg:kvm, -accel kvm -accel tcg, etc would
-all pickup kvm if available, and tcg as a fallback? Implementation-wise,
-it would simply mean ranking the accelerators and updating the accelerator
-only if it=E2=80=99s available and better.
-
-To allow full override, we might add something like -accel reset
-to reset to the default, i.e. as if no option had been given.
-
-I personally don=E2=80=99t like =E2=80=9Cpriority=3Dn=E2=80=9D being explic=
-it on the command-line
-because that IMO pushes the problem of ranking the accelerators
-to the user, without guidance on how to do that. For example, if I
-have a script that reliably overrode before, then it might stop
-overriding because the inner script has set priority=3D2, so I put
-priority=3D3, not knowing that the maintainer thinks my override
-broke something, so the inner script maintainers escalates to
-priority=3D4 to =E2=80=9Cfix=E2=80=9D my priority=3D3. In the end, the whol=
-e universe
-crumbles or something equally unpredictable.
-
-
-Cheers,
-Christophe
-
->=20
-> Paolo
->=20
->=20
+Phil.
 
 
