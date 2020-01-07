@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BF91329ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:23:30 +0100 (CET)
-Received: from localhost ([::1]:51361 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B51A1329FF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:26:07 +0100 (CET)
+Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqhc-0004HB-OM
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:23:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57448)
+	id 1ioqk9-0008AO-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:26:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqV0-0000C3-HD
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:29 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqVF-0000pB-Bw
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUy-0006TK-CV
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:26 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46366
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqVD-0006dl-Fg
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:40 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41677
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ioqUy-0006Sx-8P
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:24 -0500
+ id 1ioqVD-0006dM-Bo
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578409823;
+ s=mimecast20190719; t=1578409839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8VKEc8VlnQnG8/4SFTl8P15OlmXM6phP4gj0P6bqgC0=;
- b=fpTsuEEu21Bxjvw+2qLWlbpOSAvuh3C7wtP/ReMjzTPmcXT7NO8Nb2kb7OmBw/Med3I4ty
- QQ9RPCQeVDR9bDs0c2JaMaUl8zlebsDrr9G02cfEX7p9iAu7zm33IKfZerzlMm2T2lkCPa
- 8KXjesFA1MoNVa6VBxU5f0vVaU+g6lA=
+ bh=U3QVwEMauewj5UNLItNA1yrc04E1MF3yTFfAWyYkVY0=;
+ b=QQ70dCCf4tvlFyanY9lx21rIhOZH+Ju2GS/uVBILMJNphsScgd8ONJfWGP2ak9HvE627ks
+ uefm5RfBzJeqsfzhidbZpu4t6Y3a0zVNY603wBfkS6QlJVLHaQyIZHGtuXKOElLEeKtC9Q
+ S2l6mSx8RtQYycBrdzAlUxA14QrLtAo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-rG0gYIYxOvGRX80rqUAMhw-1; Tue, 07 Jan 2020 10:10:21 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-5-0muL2gLFMK6qVCl-pv8cmA-1; Tue, 07 Jan 2020 10:10:37 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C8C98024D1;
- Tue,  7 Jan 2020 15:10:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C03AE1005516;
+ Tue,  7 Jan 2020 15:10:33 +0000 (UTC)
 Received: from localhost (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E1B31001925;
- Tue,  7 Jan 2020 15:10:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C52D35D9E1;
+ Tue,  7 Jan 2020 15:10:26 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/37] qdev: use g_strcmp0() instead of open-coding it
-Date: Tue,  7 Jan 2020 19:04:33 +0400
-Message-Id: <20200107150442.1727958-29-marcandre.lureau@redhat.com>
+Subject: [PULL 29/37] mips/cps: fix setting saar property
+Date: Tue,  7 Jan 2020 19:04:34 +0400
+Message-Id: <20200107150442.1727958-30-marcandre.lureau@redhat.com>
 In-Reply-To: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: rG0gYIYxOvGRX80rqUAMhw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 0muL2gLFMK6qVCl-pv8cmA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,33 +77,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Minor code simplification.
+There is no "saar" property. Note: I haven't been able to test this
+code. Help welcome.
+
+May fix commit 043715d1e0fbb3e3411be3f898c5b77b7f90327a ("target/mips:
+Update ITU to utilize SAARI and SAAR CP0 registers")
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- hw/core/qdev.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/mips/cps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 501228ba08..aa3ccbf2ec 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -394,11 +394,8 @@ static NamedGPIOList *qdev_get_named_gpio_list(DeviceS=
-tate *dev,
-     NamedGPIOList *ngl;
-=20
-     QLIST_FOREACH(ngl, &dev->gpios, node) {
--        /* NULL is a valid and matchable name, otherwise do a normal
--         * strcmp match.
--         */
--        if ((!ngl->name && !name) ||
--                (name && ngl->name && strcmp(name, ngl->name) =3D=3D 0)) {
-+        /* NULL is a valid and matchable name. */
-+        if (g_strcmp0(name, ngl->name) =3D=3D 0) {
-             return ngl;
+diff --git a/hw/mips/cps.c b/hw/mips/cps.c
+index 1660f86908..c49868d5da 100644
+--- a/hw/mips/cps.c
++++ b/hw/mips/cps.c
+@@ -106,7 +106,7 @@ static void mips_cps_realize(DeviceState *dev, Error **=
+errp)
+         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-pres=
+ent",
+                                  &err);
+         if (saar_present) {
+-            qdev_prop_set_ptr(DEVICE(&s->itu), "saar", (void *)&env->CP0_S=
+AAR);
++            s->itu.saar =3D &env->CP0_SAAR;
          }
-     }
+         object_property_set_bool(OBJECT(&s->itu), true, "realized", &err);
+         if (err !=3D NULL) {
 --=20
 2.25.0.rc1.20.g2443f3f80d
 
