@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C7E1326A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:44:39 +0100 (CET)
-Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5461326B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:50:27 +0100 (CET)
+Received: from localhost ([::1]:48042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iooDt-0002N0-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:44:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39271)
+	id 1iooJU-0006j8-H2
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:50:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iomxO-0005ym-0R
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:31 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ion21-0002Dz-D0
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:28:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iomxM-0005zI-Hy
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:29 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58110
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1ion20-0000It-6i
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:28:17 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24932
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iomxM-0005z5-Dx
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:28 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ion1z-0000IM-Pv
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:28:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578396208;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1578396495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bQpHBiB77jRLIM/SSzBI+5nIv6lki2GltRFSi+L6sGM=;
- b=Wa23F0w8INJ2Cb048oj3hSwPQIL9855s9+CMlk+YkG/Q3xuxzUOjL60htpSHa0LxcrOtM5
- kaKe0IIA6/FAc2ZcRuQQIyZjkoz/a5qjmFPqqUNRHmBMj9eX3vwWTKGFncz0gJpzLmf5Xv
- j0UwfOYoLF5/Te7ouXcha/ao/jjsZQI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-6H0n-0AkN0O8w1fOsE2bVA-1; Tue, 07 Jan 2020 06:23:25 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FAB9801E72
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:23:24 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55D795C21B;
- Tue,  7 Jan 2020 11:23:20 +0000 (UTC)
-Date: Tue, 7 Jan 2020 11:23:16 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 068/104] virtiofsd: passthrough_ll: control readdirplus
-Message-ID: <20200107112316.GL3368802@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-69-dgilbert@redhat.com>
+ bh=+y6i5AYw6RS9XpoinVNgjpsvTj3TWUAm3c53u+JDcmo=;
+ b=O7DDfvSdqRhOG4MCBcb/IPT3SJLb5rcobJCbZsBnOrFIrR4v8cIU4hvhQCR1dOGGipEHBZ
+ 9ASI3ZX3QIEtSIUv2lPfKB+bSVzIJ6TtPV9bOF/19/ngW+c10p48WF2O1oitA9R0wNMAFs
+ 7P/2AF/4yQypo6/ScCVptZuqBKsBCMA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-y1H0QhwkPJe5qPPUsjsKDg-1; Tue, 07 Jan 2020 06:28:14 -0500
+Received: by mail-wr1-f69.google.com with SMTP id f15so14230467wrr.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 03:28:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PDlKY2A96jLPYyFYV3vpu9cDCLSBAsuRtKPc321C/6c=;
+ b=I26t+3Mspo0oSlRlLz6jzDP8wTfv9pz2XrKn8cD0HTUAT2oisLOYt//d8DIiLVx5LM
+ Ium5OhSzFZjT6plQAQiSvD/iflUeSzshtXvbrR2sAUvXOn+cKD35g4JSaw6GE1Yd31P7
+ Mlew28UGm79P6n53exZnYYkHDfCxoA8ZPhkx94HNGD0hl1/5fXBHYkEDFFz9AIJgac8U
+ 4C1JuWD5UNck0Bzuq5vqYlnmoJy0o0FkLlz0l9LgPvdJYm6O1KpxG/fMn0ywL/68fpUr
+ 4Cuk9vJCE0VCFuLyjmvJZFvMTZFXS51aIUkIbIwP0w8udpJlGpTTgnHTei9KHdsGW3j3
+ 81VQ==
+X-Gm-Message-State: APjAAAWGp5o40SszVjCfxVDeWkarxnrrnGmV7aKDHrwqXEPtw/5TeJAY
+ dpUG8usze5ZBp5qPcZ3VFxfjdWZuN1r/DjrfIThOiXdSiOeOQSEN4kIB8SaghNgbuGkgPYrBYEU
+ +Xd30i2IafeNBzlk=
+X-Received: by 2002:adf:df03:: with SMTP id y3mr117148720wrl.260.1578396492721; 
+ Tue, 07 Jan 2020 03:28:12 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwC2EatpWNXPFhuDBIkonyxeTKhnZpRF+S8PbDW5w4yCACI8IaNEhjw/8FWk5CtXnYXhesZ1Q==
+X-Received: by 2002:adf:df03:: with SMTP id y3mr117148694wrl.260.1578396492534; 
+ Tue, 07 Jan 2020 03:28:12 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id w8sm26749313wmm.0.2020.01.07.03.28.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 03:28:11 -0800 (PST)
+Subject: Re: [PATCH 032/132] meson: uncompress edk2 bios
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <1576155176-2464-1-git-send-email-pbonzini@redhat.com>
+ <1576155176-2464-33-git-send-email-pbonzini@redhat.com>
+ <3301602d-5543-a03f-ec5a-d49782d5296b@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2707a2d2-6267-a097-9dc4-b536b20919e9@redhat.com>
+Date: Tue, 7 Jan 2020 12:28:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-69-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 6H0n-0AkN0O8w1fOsE2bVA-1
+In-Reply-To: <3301602d-5543-a03f-ec5a-d49782d5296b@redhat.com>
+Content-Language: en-US
+X-MC-Unique: y1H0QhwkPJe5qPPUsjsKDg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,72 +93,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:28PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: Miklos Szeredi <mszeredi@redhat.com>
->
+On 03/01/20 11:52, Philippe Mathieu-Daud=C3=A9 wrote:
+> > +foreach f : fds=20
+> Can strip space between f/column.
 
-What is readdirplus and what do we need a command line option to
-control it ? What's the user benefit of changing the setting ?
+Could, but it seems like other meson.build files usually leave a space in.
 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
-gh_ll.c
-> index 0d70a367bd..c3e8bde5cf 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -118,6 +118,8 @@ struct lo_data {
->      double timeout;
->      int cache;
->      int timeout_set;
-> +    int readdirplus_set;
-> +    int readdirplus_clear;
->      struct lo_inode root; /* protected by lo->mutex */
->      struct lo_map ino_map; /* protected by lo->mutex */
->      struct lo_map dirp_map; /* protected by lo->mutex */
-> @@ -141,6 +143,8 @@ static const struct fuse_opt lo_opts[] =3D {
->      { "cache=3Dauto", offsetof(struct lo_data, cache), CACHE_NORMAL },
->      { "cache=3Dalways", offsetof(struct lo_data, cache), CACHE_ALWAYS },
->      { "norace", offsetof(struct lo_data, norace), 1 },
-> +    { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
-> +    { "no_readdirplus", offsetof(struct lo_data, readdirplus_clear), 1 }=
-,
->      FUSE_OPT_END
->  };
->  static bool use_syslog =3D false;
-> @@ -479,7 +483,8 @@ static void lo_init(void *userdata, struct fuse_conn_=
-info *conn)
->          fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
->          conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
->      }
-> -    if (lo->cache =3D=3D CACHE_NEVER) {
-> +    if ((lo->cache =3D=3D CACHE_NEVER && !lo->readdirplus_set) ||
-> +        lo->readdirplus_clear) {
->          fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling readdirplus\n");
->          conn->want &=3D ~FUSE_CAP_READDIRPLUS;
->      }
-> --=20
-> 2.23.0
->=20
->=20
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Paolo
 
 
