@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8985C1321F7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:12:19 +0100 (CET)
-Received: from localhost ([::1]:45066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F75A13220F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:16:53 +0100 (CET)
+Received: from localhost ([::1]:45116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iokqZ-0003iJ-N3
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:08:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52104)
+	id 1iokyn-0005HL-8r
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:16:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52271)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iojQW-0006hC-3d
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:37:21 -0500
+ (envelope-from <mst@redhat.com>) id 1iojR4-00087R-OS
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:37:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iojQU-00005R-Kc
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:37:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33410
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iojR3-0000UA-D1
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:37:54 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46338
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojQU-0008WK-GH
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:37:18 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojR3-0000Ty-9U
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:37:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578382638;
+ s=mimecast20190719; t=1578382672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5EhLJ8ESaItKzPeue3PIZ6PBy1w7sicN5shNVXQfGIo=;
- b=R0zTNpiFzFzCekl+tFMgbbeCJ5piH+3iUFGwSA0B0DYy4DU3K6BhtkvV7ZAjYEyEaVbEEk
- /SMiXBqcOZR0zYFcx1pvw7AaQW4tFrnoe/cDhYqKmLJGPGdX0nk1726417j9VujGOcIWyU
- dlhG8EjA8TZPoFs/MAlDcodJe6ia41c=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-JTX6WB2VN0mMeu8uGfm9Hg-1; Tue, 07 Jan 2020 02:37:16 -0500
-Received: by mail-qt1-f200.google.com with SMTP id d18so19070208qtp.16
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:37:16 -0800 (PST)
+ bh=s9CW2f1wTLCUXOOV0nNq1e86u0ryEb/Y8cd2jez9DrU=;
+ b=XklovNJUDxm3oN1jFm4oY7G9eZKkSf2RydtN+8cJrZnCzS8lUEH9NQv1zkwJJ3zJ1Bg9yv
+ NH89VpdKhWl0SOSMpSLphcwSIACO0E36+IQ1sA8wWHP87E+RGYpObKJEDvKKWrc0/qg16j
+ 55ptChwUUuMcn07Ok1xGu0MGZr+J1UM=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-9xiM6zbuMO-cKVfxZz6BQQ-1; Tue, 07 Jan 2020 02:37:51 -0500
+Received: by mail-qt1-f197.google.com with SMTP id o24so30926973qtr.17
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:37:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wp7IEacTPDnbh2fT1ey9LJUjRbVmj0GN0bCAT90OXe4=;
- b=JbXt0AT1D13pB1CPI7xq8u2x9QFMzXsOMwVQOpBRDrowbNI0XNGJnlbe2YL4jqseUk
- PBKVY9oehjakV1jaQWpDafPx9ieZQnoiVNKEUSYcieCiGaT+ZgEgeV+YmpeGrYOx/WCY
- 8tLcC/ZUOloA1Q8urkKuKkE/VWpMKnRbN3P4E17mmWf3TsMJPFciad3+pISXo5SZI2XN
- aVDBr5qDFH3kSg0hjDw89NLs5Es0fneVFukNT5FVDv0rQvUbWYvHTFooGRtC+H5rOobS
- HPv2lBPDBio/Mmx/7T+DtT/SyO/lTgZXcBfnYoyRVn09+tklSMssnbUA/G4VNV5SDJYl
- XoTA==
-X-Gm-Message-State: APjAAAWhBbgYEuooif0tMB/hyh8gycmB6ZOot+vp7pkM6F7NUCag/s+A
- qmo7dmV7crmYwuohs7kWAmKL19jLGJmHtsgCVMAiXKsO4SB5n/k5D/qvzxL1s1ACTtv49fggxs5
- lhPzxiolMO90DLLI=
-X-Received: by 2002:ac8:454c:: with SMTP id z12mr78356990qtn.123.1578382636023; 
- Mon, 06 Jan 2020 23:37:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx3Vwgep2tNLi6KTR/rSWiF9ixPIZ1K02S9NiBerJDf87G5XHEOqFQ4DZoRzCZfzZ3974koeA==
-X-Received: by 2002:ac8:454c:: with SMTP id z12mr78356982qtn.123.1578382635847; 
- Mon, 06 Jan 2020 23:37:15 -0800 (PST)
+ bh=pNIx/NiIdCE26OJhITv4+Fn8KZTuaXrKqh88qEn+vzc=;
+ b=qWjBjIuvLlKodFuc/x9DwNfrEZzYCvtDavzefzhOKdkuP3U1z2h7cIrc4ZZAE09PMX
+ POIuX/cMOOe1HnBAiVr8pkdmBLzNqATEFDp4N9ERZpw/xZZCeLCjkSFvrlsLSEYLsA3o
+ lXLkrH7RL/bxP3badkRnNtRdBsAoJ3y/HBHNG61Zsg2BGDByQQuQZe1Ut/Ukyi19sZRc
+ Q1mvybtcWl+ZHIjxWIplM2dhUGwcbjRjuSUTuDFxhi3yOjvPpJcZ6BvwgNTfRwcu3+sm
+ TK5lgmt4fnWc7neRse1W3zxsHE9BM4N1Fz5VKVgepDFivuJ2DemT7wiRy3lBmRg3I2yn
+ I/Kg==
+X-Gm-Message-State: APjAAAUKGgdIbxZwbc6cNtHiUssN/14IbKeCE/86eLQ6/TPzXOFFPqHQ
+ d6O1fl/8wVgKiJjS5dt3W1PdiUdTVidazxLQ3uMYPAlaWHFNF+ytryKsAbvcFtm/Q14aN7sryBg
+ 4yWsnCegu+iBCogk=
+X-Received: by 2002:a0c:c542:: with SMTP id y2mr8192839qvi.225.1578382670544; 
+ Mon, 06 Jan 2020 23:37:50 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxgYOWgdZPNRKFI/m8rAelRQ8xkjuX4GuLjRjJZ3OrZEWiR6go3CWQki2q9x5DhlL4L0NsH8Q==
+X-Received: by 2002:a0c:c542:: with SMTP id y2mr8192821qvi.225.1578382670343; 
+ Mon, 06 Jan 2020 23:37:50 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id p19sm25008954qte.81.2020.01.06.23.37.13
+ by smtp.gmail.com with ESMTPSA id x19sm24688703qtm.47.2020.01.06.23.37.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 23:37:15 -0800 (PST)
-Date: Tue, 7 Jan 2020 02:37:11 -0500
+ Mon, 06 Jan 2020 23:37:49 -0800 (PST)
+Date: Tue, 7 Jan 2020 02:37:44 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 24/32] vhost-user-scsi: reset the device if supported
-Message-ID: <20200107073451.298261-25-mst@redhat.com>
+Subject: [PULL v2 31/32] intel_iommu: a fix to vtd_find_as_from_bus_num()
+Message-ID: <20200107073451.298261-32-mst@redhat.com>
 References: <20200107073451.298261-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107073451.298261-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: JTX6WB2VN0mMeu8uGfm9Hg-1
+X-MC-Unique: 9xiM6zbuMO-cKVfxZz6BQQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,81 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Vrabel <david.vrabel@nutanix.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Liu Yi L <yi.l.liu@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+From: Liu Yi L <yi.l.liu@intel.com>
 
-If the vhost-user-scsi backend supports the VHOST_USER_F_RESET_DEVICE
-protocol feature, then the device can be reset when requested.
+Ensure the return value of vtd_find_as_from_bus_num() is NULL by
+enforcing vtd_bus=3DNULL. This would help caller of vtd_find_as_from_bus_nu=
+m()
+to decide if any further operation on the returned vtd_bus.
 
-If this feature is not supported, do not try a reset as this will send
-a VHOST_USER_RESET_OWNER that the backend is not expecting,
-potentially putting into an inoperable state.
-
-Signed-off-by: David Vrabel <david.vrabel@nutanix.com>
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1572385083-5254-3-git-send-email-raphael.norwitz@nutanix.com>
+Cc: qemu-stable@nongnu.org
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Yi Sun <yi.y.sun@linux.intel.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
+Message-Id: <1578058086-4288-2-git-send-email-yi.l.liu@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/scsi/vhost-user-scsi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ hw/i386/intel_iommu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 6a6c15dd32..23f972df59 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -39,6 +39,10 @@ static const int user_feature_bits[] =3D {
-     VHOST_INVALID_FEATURE_BIT
- };
-=20
-+enum VhostUserProtocolFeature {
-+    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
-+};
-+
- static void vhost_user_scsi_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserSCSI *s =3D (VHostUserSCSI *)vdev;
-@@ -62,6 +66,25 @@ static void vhost_user_scsi_set_status(VirtIODevice *vde=
-v, uint8_t status)
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index ee06993675..609b80750a 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -948,6 +948,7 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState=
+ *s, uint8_t bus_num)
+                 return vtd_bus;
+             }
+         }
++        vtd_bus =3D NULL;
      }
+     return vtd_bus;
  }
-=20
-+static void vhost_user_scsi_reset(VirtIODevice *vdev)
-+{
-+    VHostSCSICommon *vsc =3D VHOST_SCSI_COMMON(vdev);
-+    struct vhost_dev *dev =3D &vsc->dev;
-+
-+    /*
-+     * Historically, reset was not implemented so only reset devices
-+     * that are expecting it.
-+     */
-+    if (!virtio_has_feature(dev->protocol_features,
-+                            VHOST_USER_PROTOCOL_F_RESET_DEVICE)) {
-+        return;
-+    }
-+
-+    if (dev->vhost_ops->vhost_reset_device) {
-+        dev->vhost_ops->vhost_reset_device(dev);
-+    }
-+}
-+
- static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
- }
-@@ -182,6 +205,7 @@ static void vhost_user_scsi_class_init(ObjectClass *kla=
-ss, void *data)
-     vdc->get_features =3D vhost_scsi_common_get_features;
-     vdc->set_config =3D vhost_scsi_common_set_config;
-     vdc->set_status =3D vhost_user_scsi_set_status;
-+    vdc->reset =3D vhost_user_scsi_reset;
-     fwc->get_dev_path =3D vhost_scsi_common_get_fw_dev_path;
- }
-=20
 --=20
 MST
 
