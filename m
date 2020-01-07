@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88806132502
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:36:37 +0100 (CET)
-Received: from localhost ([::1]:46966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BE5132511
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:41:48 +0100 (CET)
+Received: from localhost ([::1]:47062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionA2-0008Ow-Se
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:36:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60344)
+	id 1ionF4-0007BQ-GC
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:41:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60927)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iomVZ-0004Rj-LZ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:54:47 -0500
+ (envelope-from <mprivozn@redhat.com>) id 1iomWy-0001D1-6U
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:56:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iomVX-0007Dm-Up
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:54:45 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27468
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mprivozn@redhat.com>) id 1iomWw-00083I-Qo
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:56:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56554
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iomVX-0007D9-RW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:54:43 -0500
+ (Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1iomWw-000832-Mk
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:56:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578394483;
+ s=mimecast20190719; t=1578394570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TjodyhE9M9oMNhZED49rT8Ro16OowE6OEG/lcmHdm+4=;
- b=achWDeH1FO5tPr6SRl+uP8IdAOVZ7+uASQ1EDXYaH105dryytstl86YDiZKtHNpl+/hsZU
- /5D6h/XIHfPdZyl6lxlOthkjWI28Zo74+hOtdas3LQMMfElW03Ggjeu2NDX1DXyZkhLg1i
- LDtzOBf4mdkz1uqPUBFwVDxXImQy7CY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-x5di-fJAPF2gZ6ztStcMCg-1; Tue, 07 Jan 2020 05:54:42 -0500
-Received: by mail-wr1-f69.google.com with SMTP id u12so28470176wrt.15
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:54:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5457hFrQC5z9kErgtWtmvH8rSFNPXA9e5vzM+pY/1rY=;
- b=Z3vJqVpYYAhkdMn5cyxtX+fR2D0V4kMi9NLGIe3RQ4N6hnIIcUAryEoNQA9FqagMzs
- OGaZfwHZin8nAyrqkEBan8oXplo9V9K9JAmKNPB6gbb6YPk1U8WT//hZ4zTKdpZ42/6h
- z5LOUG/Mr4gdHGCOaFwoBOtvO8v89lLpo+E9VVJvBpimyQOs554RDVCH+/OmtrpaIWrV
- /hgNN/nKpkjOnIzyZnHBVT4uEYWclq4XCOuNIVsoUmqhJ4iqS8qFH4k0FdwI41op8IjP
- 8663chGFuULkINhfpqtza1zeTjPkqEAAb0N1Abi7a2Kh0E7MdFI/lcCLNLICfOkzgTsa
- MF+Q==
-X-Gm-Message-State: APjAAAXKrqxvkzc1MaKsTRqrjBtEYYKqYLrhOX+j/xK6FW10ZJcg57mc
- DMka3AZB6v49LS8nQ5cB1N6Dnqlterq/DZAAhiIbmc048TEkjIqp89oQrC4ZyKxFmhpk57YAJhB
- Pw44/VzHgEPcOh3I=
-X-Received: by 2002:a7b:cf39:: with SMTP id m25mr40202739wmg.146.1578394480659; 
- Tue, 07 Jan 2020 02:54:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxveQL3hZ2QnDilbrDEMNPP9vZyLZC+g3A3mQqLxulCBFmSQCH9Ui3lRCyB0gmc8tBAU61G8Q==
-X-Received: by 2002:a7b:cf39:: with SMTP id m25mr40202714wmg.146.1578394480338; 
- Tue, 07 Jan 2020 02:54:40 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id f1sm76414366wru.6.2020.01.07.02.54.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 02:54:39 -0800 (PST)
-Subject: Re: [PATCH v2 2/4] tcg: Search includes in the parent source directory
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200101112303.20724-1-philmd@redhat.com>
- <20200101112303.20724-3-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f298aa7f-d9bf-36ea-ffdf-b07e02fe6575@redhat.com>
-Date: Tue, 7 Jan 2020 11:54:37 +0100
+ bh=EES1OAuNaFge24Ux8k5oj0ISuj+xvaYv7MXVNmDEGL4=;
+ b=aEsM7CHoqDIWVjYItp51IHTXENNWeE5paVkDWePqEyxr2hyVXNxVviK3aUBPyEuiy1K1ZV
+ /70zwgGzWWCEZ5//2j4VcY7hnHuTRdYDA2LGOSRt7wawDgzBGK2JjbfdO3V78rO4KNPxqo
+ /4fby+qJOfWfmK3tmU5jG9/Z+nwpfOw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-w2L3vccSOT6Uf8lxMsS48w-1; Tue, 07 Jan 2020 05:56:08 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E467801E6C;
+ Tue,  7 Jan 2020 10:56:07 +0000 (UTC)
+Received: from [10.43.2.30] (unknown [10.43.2.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9C895D9D6;
+ Tue,  7 Jan 2020 10:55:57 +0000 (UTC)
+Subject: Re: Making QEMU easier for management tools and applications
+To: Kevin Wolf <kwolf@redhat.com>
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+ <87h81unja8.fsf@dusky.pond.sub.org>
+ <c445ecbe-1559-462a-31c2-f44f60e60a8b@redhat.com>
+ <20200107093655.GF4076@linux.fritz.box>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <d18b8c0f-3054-dd63-0d10-dda6d0655175@redhat.com>
+Date: Tue, 7 Jan 2020 11:55:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200101112303.20724-3-philmd@redhat.com>
+In-Reply-To: <20200107093655.GF4076@linux.fritz.box>
 Content-Language: en-US
-X-MC-Unique: x5di-fJAPF2gZ6ztStcMCg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: w2L3vccSOT6Uf8lxMsS48w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,223 +76,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Riku Voipio <riku.voipio@iki.fi>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Claudio Fontana <claudio.fontana@huawei.com>,
- Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/01/20 12:23, Philippe Mathieu-Daud=C3=A9 wrote:
-> All the *.inc.c files included by tcg/$TARGET/tcg-target.inc.c
-> are in tcg/, their parent directory. To simplify the preprocessor
-> search path, include the relative parent path: '..'.
->=20
-> Patch created mechanically by running:
->=20
->   $ for x in tcg-pool.inc.c tcg-ldst.inc.c; do \
->     sed -i "s,#include \"$x\",#include \"../$x\"," \
->       $(git grep -l "#include \"$x\""); \
->     done
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 1/7/20 10:36 AM, Kevin Wolf wrote:
+> The easy way out would be tying libvirt to a specific QEMU version. And
+> I'm only half joking.
+> 
+> If libvirt didn't exist yet and we needed a management library for QEMU,
+> what we would build now would probably not look much like libvirt looks
+> today. We wouldn't try to have basic support for every hypervisor out
+> there, but integrate it much closer with QEMU and avoid much of the
+> backwards compatibility requirements that the interface between QEMU and
+> libvirt has (which requires us to deal with compatibility twice for
+> everything).
+> 
 
-Another possibility is to move the .inc.c files to include/tcg (probably
-renaming them to .inc.h in the meanwhile) but this is good too.
+By doing this, you would force your consumers to implement compatibility 
+layer each on their own. Freshly finished blockdev is a beautiful 
+example - OpenStack, oVirt and whatnot - they all are/can use blockdev 
+without even noticing, because the API provided by libvirt is stable and 
+provides abstraction, i.e. you don't need to change anything in your 
+domain XML to use blockdev.
 
-Paolo
+Of course, you can apply the argument one more time and have mgmt 
+application tied to a specific version of qemu. But even that is not 
+good enough, because with backports version is just meaningless number.
 
-> ---
->  tcg/aarch64/tcg-target.inc.c | 4 ++--
->  tcg/arm/tcg-target.inc.c     | 4 ++--
->  tcg/i386/tcg-target.inc.c    | 4 ++--
->  tcg/mips/tcg-target.inc.c    | 2 +-
->  tcg/ppc/tcg-target.inc.c     | 4 ++--
->  tcg/riscv/tcg-target.inc.c   | 4 ++--
->  tcg/s390/tcg-target.inc.c    | 4 ++--
->  tcg/sparc/tcg-target.inc.c   | 2 +-
->  8 files changed, 14 insertions(+), 14 deletions(-)
->=20
-> diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-> index 3f921015d3..843fd0ca69 100644
-> --- a/tcg/aarch64/tcg-target.inc.c
-> +++ b/tcg/aarch64/tcg-target.inc.c
-> @@ -10,7 +10,7 @@
->   * See the COPYING file in the top-level directory for details.
->   */
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
->  #include "qemu/bitops.h"
-> =20
->  /* We're going to re-use TCGType in setting of the SF bit, which control=
-s
-> @@ -1541,7 +1541,7 @@ static void tcg_out_cltz(TCGContext *s, TCGType ext=
-, TCGReg d,
->  }
-> =20
->  #ifdef CONFIG_SOFTMMU
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     TCGMemOpIdx oi, uintptr_t ra)
-> diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-> index 94d80d79d1..fffb6611e2 100644
-> --- a/tcg/arm/tcg-target.inc.c
-> +++ b/tcg/arm/tcg-target.inc.c
-> @@ -23,7 +23,7 @@
->   */
-> =20
->  #include "elf.h"
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  int arm_arch =3D __ARM_ARCH;
-> =20
-> @@ -1131,7 +1131,7 @@ static TCGCond tcg_out_cmp2(TCGContext *s, const TC=
-GArg *args,
->  }
-> =20
->  #ifdef CONFIG_SOFTMMU
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     int mmu_idx, uintptr_t ra)
-> diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-> index 9d8ed974e0..cdedcb2b25 100644
-> --- a/tcg/i386/tcg-target.inc.c
-> +++ b/tcg/i386/tcg-target.inc.c
-> @@ -22,7 +22,7 @@
->   * THE SOFTWARE.
->   */
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #ifdef CONFIG_DEBUG_TCG
->  static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
-> @@ -1647,7 +1647,7 @@ static void tcg_out_nopn(TCGContext *s, int n)
->  }
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     int mmu_idx, uintptr_t ra)
-> diff --git a/tcg/mips/tcg-target.inc.c b/tcg/mips/tcg-target.inc.c
-> index 5442167045..1da663ce84 100644
-> --- a/tcg/mips/tcg-target.inc.c
-> +++ b/tcg/mips/tcg-target.inc.c
-> @@ -1107,7 +1107,7 @@ static void tcg_out_call(TCGContext *s, tcg_insn_un=
-it *arg)
->  }
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  static void * const qemu_ld_helpers[16] =3D {
->      [MO_UB]   =3D helper_ret_ldub_mmu,
-> diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-> index d308d69aba..ee1f9227c1 100644
-> --- a/tcg/ppc/tcg-target.inc.c
-> +++ b/tcg/ppc/tcg-target.inc.c
-> @@ -23,7 +23,7 @@
->   */
-> =20
->  #include "elf.h"
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #if defined _CALL_DARWIN || defined __APPLE__
->  #define TCG_TARGET_CALL_DARWIN
-> @@ -1845,7 +1845,7 @@ static const uint32_t qemu_exts_opc[4] =3D {
->  };
-> =20
->  #if defined (CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ld_mmu(CPUState *env, target_ulong addr,
->   *                                 int mmu_idx, uintptr_t ra)
-> diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-> index 7018509693..2bc0ba71f2 100644
-> --- a/tcg/riscv/tcg-target.inc.c
-> +++ b/tcg/riscv/tcg-target.inc.c
-> @@ -27,7 +27,7 @@
->   * THE SOFTWARE.
->   */
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #ifdef CONFIG_DEBUG_TCG
->  static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
-> @@ -921,7 +921,7 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
->   */
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     TCGMemOpIdx oi, uintptr_t ra)
-> diff --git a/tcg/s390/tcg-target.inc.c b/tcg/s390/tcg-target.inc.c
-> index 8aaa4cebe8..b07e9ff7d6 100644
-> --- a/tcg/s390/tcg-target.inc.c
-> +++ b/tcg/s390/tcg-target.inc.c
-> @@ -29,7 +29,7 @@
->  #error "unsupported code generation mode"
->  #endif
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
->  #include "elf.h"
-> =20
->  /* ??? The translation blocks produced by TCG are generally small enough=
- to
-> @@ -1536,7 +1536,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s, M=
-emOp opc, TCGReg data,
->  }
-> =20
->  #if defined(CONFIG_SOFTMMU)
-> -#include "tcg-ldst.inc.c"
-> +#include "../tcg-ldst.inc.c"
-> =20
->  /* We're expecting to use a 20-bit negative offset on the tlb memory ops=
-.  */
->  QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
-> diff --git a/tcg/sparc/tcg-target.inc.c b/tcg/sparc/tcg-target.inc.c
-> index d7986cda5c..65fddb310d 100644
-> --- a/tcg/sparc/tcg-target.inc.c
-> +++ b/tcg/sparc/tcg-target.inc.c
-> @@ -22,7 +22,7 @@
->   * THE SOFTWARE.
->   */
-> =20
-> -#include "tcg-pool.inc.c"
-> +#include "../tcg-pool.inc.c"
-> =20
->  #ifdef CONFIG_DEBUG_TCG
->  static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
->=20
+> Maybe it would even be part of the QEMU repository, allowing a single
+> patch series to implement a new feature in the system emulator and
+> expose it in the API immediately instead of waiting for the next QEMU
+> release before libvirt can even think about implementing support for it.
+
+Thing is, it's not just qmp that a mgmt application has to master, it's 
+also process managing (and with growing number of helper binaries this 
+is not as trivial as fork() + exec()). This would need to be the bare 
+minimum your API layer has to provide to be consumable by anybody.
+But then you have some advanced subsystems to take care of (CGroups, 
+SELinux, etc.) which are used heavily by OpenStack. oVirt and friends.
+
+> 
+> So should libvirt move in that direction? Do people actually still make
+> much use of its multi-hypervisor nature, or would it make sense to split
+> it into separate libraries for each hypervisor that can be much tighter
+> integrated with (a specific version of) the respective hypervisor?
+
+Truth to be told, I don't think libvirt is held back by its attempts to 
+provide hypervisor agnostic APIs. Sure, it leads to some weirdness (e.g. 
+different naming in libvirt and qemu), but as a libvirt developer I 
+don't remember feeling blocked by this multi-hypervisor nature (not to 
+mention that this has saved us couple of times).
+
+Also, it would be not correct to think that a feature is implemented for 
+all hypervisors in libvirt. I mean, when implementing a feature I 
+usually implement it only for qemu driver and don't even look at other 
+drivers (unless I'm doing a change in a core that causes build 
+failures). On the other hand, I do sometimes review patches posted by 
+developers from other companies which have interest in different 
+hypervisors (e.g. there is a SUSE guy working on LXC driver, and another 
+SUSE guy working on libxenlight (basically Xen)), so I do spend some 
+time not working on qemu driver, but I'd say it's negligible.
+
+Michal
 
 
