@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7F51326FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:04:05 +0100 (CET)
-Received: from localhost ([::1]:48246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB63F132719
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:09:11 +0100 (CET)
+Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iooWh-0007zv-IE
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:04:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35384)
+	id 1ioobd-0003X4-Nb
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:09:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iooLY-0006aj-4o
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:33 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iooPg-0007no-TU
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:56:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iooLW-00080p-Tw
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:31 -0500
-Received: from 9.mo177.mail-out.ovh.net ([46.105.72.238]:48287)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iooLW-00080B-Nn
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:30 -0500
-Received: from player729.ha.ovh.net (unknown [10.108.42.66])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 3A80111D2FF
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:52:29 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: clg@kaod.org)
- by player729.ha.ovh.net (Postfix) with ESMTPSA id 95A3AE142458;
- Tue,  7 Jan 2020 12:52:17 +0000 (UTC)
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Subject: Re: [PATCH v2 01/10] ppc: Drop PPC_EMULATE_32BITS_HYPV stub
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- groug@kaod.org, philmd@redhat.com
-References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
- <20200107044827.471355-2-david@gibson.dropbear.id.au>
-Message-ID: <64259936-5392-6eb4-3c4e-2f4fa901ea57@kaod.org>
-Date: Tue, 7 Jan 2020 13:52:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <peter.maydell@linaro.org>) id 1iooPe-00025V-PQ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:56:48 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39799)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iooPe-000257-Jy
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:56:46 -0500
+Received: by mail-ot1-x343.google.com with SMTP id 77so76264558oty.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:56:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uHNVe45bPawaFpgDDd0YwUYB1ddE9UBM+oSkjbA/SMg=;
+ b=LkcK/27y65VU4stAT9nfUfM3xQ0OkTPo+zUFulBnmBVqnzO59r+Ol0I+xhfbXN2q5N
+ QMuHfUAopGliwDPAXXdPF1tdkXhgCIKUEm34lNz31kdhncFZ3qnc+MvzmvfXNv5g7uzU
+ uCq17qI+rZTsGauGvLMBwsgo6k5H8p377CGfUzc9H0VPU+II6E2C9hB5P3wymFQCCSYp
+ y4WyjPYiD2LVC2VZusNSUvJq97viOLH6lEDRxEt3AiJ/elXMesJLZ6Foz4+RlMz42KUr
+ FZxt0xf978TqMeDqQ/AA+KI8k43j++d3IwCAIO+0pxlUte4uQLU2zgTOa+d+5Pb/GZAE
+ uJIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uHNVe45bPawaFpgDDd0YwUYB1ddE9UBM+oSkjbA/SMg=;
+ b=FsMtrVr2C3n91/DQCHW2dck8cBx+sLLRK2V7dDmE/z5onPOpkKqGao41PI2dn8dzYO
+ ih9Km570VCK1+3TE476a8KKPgxhdX8vGTP6bqjHA468b3RGJW8BXiED62c7vPx66+EFJ
+ NBOHM3EMqDpDE3Guw6p/Jc0dJsjHh2asSBYvAi6mWvdyEJTmDwn+DrcKnYjYc3SPE97e
+ pBjk9un96iHOmyOpryzjzzsStG6y7ZOPcNU04aaAnYXdoXlHckdMr8h8myxTq4JHFz/K
+ nXSnm1ABf6TlBhG7+xAFm5RuSfxUuWhAONBgcxU984Ett5Z0V+FnKnDI2F6WoFAsF1/D
+ MoUg==
+X-Gm-Message-State: APjAAAXfzX+Y/Q5UKrENnjB61T1HozqMFEDVRSvx2usxGDPOFE7XKPcg
+ w7vUmTOnH5EkzC0J88M6f6ZhjsaxettC4Qyl0Hfduw==
+X-Google-Smtp-Source: APXvYqx+2ER+NcHPoqe+taz0/tnrRgly7NxQ3fIjXmqbd5x4m5fhtSMfyQKje7YNsCaRciMcRFKzKAE1S2JPY3cDnDs=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr113452893otq.135.1578401805747; 
+ Tue, 07 Jan 2020 04:56:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200107044827.471355-2-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 9154973617539550091
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhuffvfhfkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjedvledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
+ <20191220134601.571905-22-marcandre.lureau@redhat.com>
+In-Reply-To: <20191220134601.571905-22-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jan 2020 12:56:34 +0000
+Message-ID: <CAFEAcA-VanHHknV7BWOmfs5ZuN1=OVW5fdHstFALQ80zY-ODCg@mail.gmail.com>
+Subject: Re: [PATCH v5 21/37] sm501: make SerialMM a child,
+ export chardev property
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.72.238
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,62 +76,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, paulus@samba.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/20 5:48 AM, David Gibson wrote:
-> The only effect of the PPC_EMULATE_32BITS_HYPV define is to change how
-> MSR_HVB is defined.  This appears to be something to handle hypervisor =
-mode
-> for 32-bit CPUs, but there's really no other code to handle this.  The
-> MSR_THV bit, which it uses is implemented for no cpus we model.
->=20
-> It's unlikely anyone is going to implement this any time soon, so just =
-drop
-> it.
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
+On Fri, 20 Dec 2019 at 13:49, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Embed the SerialMM sybus device, and re-export its "chardev" property.
+> That way, we can get rid of PROP_PTR "chr-state" and better track
+> devices relationship.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  target/ppc/cpu.h | 7 -------
->  1 file changed, 7 deletions(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 103bfe9dc2..2de9e2fa2b 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -26,8 +26,6 @@
->  #include "exec/cpu-defs.h"
->  #include "cpu-qom.h"
-> =20
-> -/* #define PPC_EMULATE_32BITS_HYPV */
-> -
->  #define TCG_GUEST_DEFAULT_MO 0
-> =20
->  #define TARGET_PAGE_BITS_64K 16
+>  hw/display/sm501.c | 29 +++++++++++++++++++++--------
+>  hw/sh4/r2d.c       |  2 +-
+>  2 files changed, 22 insertions(+), 9 deletions(-)
+>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-btw, this define ^ is unused.
-
-> @@ -450,14 +448,9 @@ typedef struct ppc_v3_pate_t {
->  #define MSR_HVB (1ULL << MSR_SHV)
->  #define msr_hv  msr_shv
->  #else
-> -#if defined(PPC_EMULATE_32BITS_HYPV)
-> -#define MSR_HVB (1ULL << MSR_THV)
-> -#define msr_hv  msr_thv
-> -#else
->  #define MSR_HVB (0ULL)
->  #define msr_hv  (0)
->  #endif
-> -#endif
-> =20
->  /* DSISR */
->  #define DSISR_NOPTE              0x40000000
->=20
-
+thanks
+-- PMM
 
