@@ -2,51 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441DC13296B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:57:10 +0100 (CET)
-Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D21A13296D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:58:45 +0100 (CET)
+Received: from localhost ([::1]:50700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqI9-0003zO-7X
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:57:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55619)
+	id 1ioqJf-0005rD-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:58:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iopIr-0001Y1-Qs
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:51 -0500
+ (envelope-from <dinechin@redhat.com>) id 1iopL2-0000fg-3g
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iopIq-0002Yq-Lr
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:49 -0500
-Received: from 12.mo4.mail-out.ovh.net ([178.33.104.253]:56301)
+ (envelope-from <dinechin@redhat.com>) id 1iopL0-0003rq-0u
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37822
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iopIq-0002Wg-FW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:48 -0500
-Received: from player789.ha.ovh.net (unknown [10.109.146.168])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 1987121C1DC
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 14:53:45 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: groug@kaod.org)
- by player789.ha.ovh.net (Postfix) with ESMTPSA id 2CF13DF96870;
- Tue,  7 Jan 2020 13:53:43 +0000 (UTC)
-Date: Tue, 7 Jan 2020 14:53:40 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v1 44/59] 9p-local.c: remove unneeded label in
- local_unlinkat_common()
-Message-ID: <20200107145340.60698c46@bahia.lan>
-In-Reply-To: <20200106182425.20312-45-danielhb413@gmail.com>
-References: <20200106182425.20312-1-danielhb413@gmail.com>
- <20200106182425.20312-45-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 10189675636031199494
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1iopKz-0003rM-Sl
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:56:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578405361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1MI7Lxmg8no2HXeqhClaxscebjE/j8XvsCkkSPA8C4o=;
+ b=NwQBEO6cgSF3kFp1DD9gvT1iM7brBApC/EpayLeSSOPAvP6NCeAhK3ZkEEaJi0HMwQfqHp
+ HVzw4SUDHUJ8lb9H15itB0jL3fAPLXZwu2g6KG9j5abTX0X2NmvOcp+KQIa3ZZKYg+IOWG
+ xs73h3FyRHQTf6utUhEQClKAZ/EgZjA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-MxMa9e7RMVmmzinFNFQknw-1; Tue, 07 Jan 2020 08:55:58 -0500
+Received: by mail-wr1-f70.google.com with SMTP id y7so28770094wrm.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:55:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=Pyh8yFqLK644qpz9EflJPGt6BofuTw8JlPFAd1ZqhTw=;
+ b=P2F//1ThxTuLQhLE/jyclsoaZUflXFhWBdJanvu0faDCI2176lUrciGT2gNPSKsGU6
+ VO7NtIg+Ht+NcHalQhUUTAH/qCQJrznXCYlZYnHo/+/1RO/rMnIfwEReyQt6X67xW6al
+ vYyJSQ2EpiYC9fBQ7oTbvP492ERymgvr6TpHrRgTXjBb/PYNhDA+LONfaaTNxvxEfKC8
+ UbGo57++3i8UJx96IQ6OwP1rrCySpTzuhv2F7jg6Fm9m3HcEZnWR383uEwo3bOHQcJws
+ 3a+2Sp2+LH16Gi0L5Qqyl1As0SSdvc5Bgs5wocBtCFvnzEILT2JsSShwz81YCb1qsbl9
+ H+Ug==
+X-Gm-Message-State: APjAAAUU3ZMHqPBN2qoCmMrbxYBvpYpgb8src0izVgeFMaaB3mQop1hW
+ zDQl1R7SqbP50MNPg97fxOu8AfjGIisEKC0puAnfQ4GomEY4ZmfNfrKXUEY8MvSMwpOdsRh20t6
+ 5WtBYBf77a7qPvWQ=
+X-Received: by 2002:adf:e641:: with SMTP id b1mr108603390wrn.34.1578405357031; 
+ Tue, 07 Jan 2020 05:55:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzkG9hviFFPPqmQzJYYcYCiwKL7K1J8UONm/g5vt2bwX+8v+gpsrtu8W2yHY0aDrGGb8E/okA==
+X-Received: by 2002:adf:e641:: with SMTP id b1mr108603373wrn.34.1578405356793; 
+ Tue, 07 Jan 2020 05:55:56 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:466:71c0:8d4b:4003:dcb:4c70?
+ ([2a01:e0a:466:71c0:8d4b:4003:dcb:4c70])
+ by smtp.gmail.com with ESMTPSA id n3sm75470686wrs.8.2020.01.07.05.55.55
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 07 Jan 2020 05:55:56 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
+Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
+ to recent desugarized -accel option)
+From: Christophe de Dinechin <dinechin@redhat.com>
+In-Reply-To: <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+Date: Tue, 7 Jan 2020 14:55:55 +0100
+Message-Id: <1A5859EA-4403-4921-B527-DFD07C59C702@redhat.com>
+References: <20200106130951.29873-1-philmd@redhat.com>
+ <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+ <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3608.40.2.2.4)
+X-MC-Unique: MxMa9e7RMVmmzinFNFQknw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.104.253
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,71 +91,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Jan 2020 15:24:10 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-> 'err_out' can be replaced by 'return ret' in the error conditions
-> the jump was being made.
-> 
-> CC: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/9pfs/9p-local.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index ca641390fb..f9bdd2ad7c 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -1094,12 +1094,12 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
->  
->              fd = openat_dir(dirfd, name);
->              if (fd == -1) {
-> -                goto err_out;
-> +                return ret;
->              }
->              ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
->              close_preserve_errno(fd);
->              if (ret < 0 && errno != ENOENT) {
-> -                goto err_out;
-> +                return ret;
->              }
->          }
->          map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
-> @@ -1107,16 +1107,14 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
->              ret = unlinkat(map_dirfd, name, 0);
->              close_preserve_errno(map_dirfd);
->              if (ret < 0 && errno != ENOENT) {
-> -                goto err_out;
-> +                return ret;
->              }
->          } else if (errno != ENOENT) {
-> -            goto err_out;
-> +            return ret;
 
-Ouch... I now realize we can get there with ret == 0 when unlinking a
-directory in mapped-file mode. The function will wrongly return success
-despite the failure.... Since this function is supposed to return -1
-on error, I suggest to do that instead of return ret, and to drop the
-initialization of ret to -1, which wouldn't be needed anymore.
+> On 7 Jan 2020, at 11:14, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> On 07/01/20 11:03, Thomas Huth wrote:
+>>>=20
+>>> vm =3D QEMUMachine(iotests.qemu_prog)
+>>> -vm.add_args('-machine', 'accel=3Dkvm:tcg')
+>>> +vm.add_args('-accel', 'kvm', '-accel', 'tcg')
+>> Looking at this, I wonder whether we really want the "-accel" option to
+>> prioritize the accelerators in the order of appearance? A lot of other
+>> CLI tools give the highest priority to the last parameter instead, e.g.
+>> "gcc -O3 -O1" compiles with -O1, and not with -O3.
+>>=20
+>> Also I think it might be quite common that there are shell scripts which
+>> call "qemu-system-xxx -accel xyz $*" ... and if we don't invert the
+>> priorities of -accel, it will be impossible to override -accel in that
+>> case...
+>=20
+> Hmm, it does match "-machine accel=3Dkvm:tcg" and in general I think it's
+> more self-explanatory.  However, it is indeed less friendly to scripts.
+> On one hand those could be changed to place "-accel xyz" after $* (or
+> better "$@"), on the other hand we could also add a priority option to
+> "-accel".  What do you think?
 
-Since this would fix a bug it makes sense to post it separately from
-this series. Rewrite the title/changelog accordingly and I'll merge
-it via the 9p tree.
+I tend to agree with Thomas=E2=80=99 assessment that in general, later opti=
+ons
+tend to override earlier ones, if only because that=E2=80=99s typically how=
+ getopt
+works with the typical usage of setting global variables.
 
->          }
->      }
->  
-> -    ret = unlinkat(dirfd, name, flags);
-> -err_out:
-> -    return ret;
-> +    return unlinkat(dirfd, name, flags);
->  }
->  
->  static int local_remove(FsContext *ctx, const char *path)
+I also agree that when it=E2=80=99s a single list given to an option, then =
+it
+generally makes more sense to interpret the later ones as a =E2=80=9Cfallba=
+ck=E2=80=9D
+if you could not get the previous ones. Which I believe gives me a
+hint of what the intent of specifying multiple options would be=E2=80=A6
+
+So what about ranking the accelerators, so that all combinaisons
+-accel=3Dkvm:tcg, -accel=3Dtcg:kvm, -accel kvm -accel tcg, etc would
+all pickup kvm if available, and tcg as a fallback? Implementation-wise,
+it would simply mean ranking the accelerators and updating the accelerator
+only if it=E2=80=99s available and better.
+
+To allow full override, we might add something like -accel reset
+to reset to the default, i.e. as if no option had been given.
+
+I personally don=E2=80=99t like =E2=80=9Cpriority=3Dn=E2=80=9D being explic=
+it on the command-line
+because that IMO pushes the problem of ranking the accelerators
+to the user, without guidance on how to do that. For example, if I
+have a script that reliably overrode before, then it might stop
+overriding because the inner script has set priority=3D2, so I put
+priority=3D3, not knowing that the maintainer thinks my override
+broke something, so the inner script maintainers escalates to
+priority=3D4 to =E2=80=9Cfix=E2=80=9D my priority=3D3. In the end, the whol=
+e universe
+crumbles or something equally unpredictable.
+
+
+Cheers,
+Christophe
+
+>=20
+> Paolo
+>=20
+>=20
 
 
