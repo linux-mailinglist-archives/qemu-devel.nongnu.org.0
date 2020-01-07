@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80665132957
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:50:47 +0100 (CET)
-Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44751327E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:39:12 +0100 (CET)
+Received: from localhost ([::1]:48832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqBy-0000Gc-9C
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:50:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47090)
+	id 1iop4g-00008U-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:39:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1ioozQ-0007LG-A0
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:33:45 -0500
+ (envelope-from <thuth@redhat.com>) id 1iop06-0000RG-Mp
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:34:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1ioozP-0006GR-1w
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:33:44 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35557
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iop05-0006df-Kx
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:34:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28064
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1ioozO-0006G1-Ts
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:33:43 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iop05-0006c6-GB
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:34:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578404022;
+ s=mimecast20190719; t=1578404065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qy8XArzqdhSuNPmt781U/XXMMYtFQGsAe2yAQwds87k=;
- b=OgZsJMc12SXNqZu4/pdKFD3Nbc+Q9yPa3fj1ys605/YGaNw65a4PZixhthP4YWvk1xIJ/z
- y8ntkIw2mscuEZeg7lp/TtA2NfBlD6XCS6mvSEFk+YV+Wx0B62qQhAYBFwD7Og0NUJSXMM
- Edjf04LDc5/ny0xi7IwZix1+pjO2V8w=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-ETwl4RJIPKWlBYBv7CVyaw-1; Tue, 07 Jan 2020 08:33:37 -0500
-Received: by mail-qt1-f198.google.com with SMTP id p12so36376563qtu.6
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:33:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mbWyuV09w6dFxpToORccWwL4yGT3GH+qoXS0i7qzuCE=;
- b=JtNV4ewOPbG+AS4MV6ZMqNMT9dHKxvryuoxC+sx2iIRLaf9+YHKzsQIhb+y31YySn2
- B9w3Z1F4S65ej27NfRAScpXMeB5lVnRzsDf3X2Npg45U4gDvoMiL8irVdlsbEenkfZwP
- h63kkoPleNNl8z6FVMu2DChZ5N7YgYWT8oAiwNIQqhKUdSuQcgxycdjJtI3HNU+pfARe
- vdNpx0Ky50mb5dSLgPaXFI3A96YIHoWfydvG6p09/3sFf6VjC6GxBz/dxGoB/niMT7Q8
- H1JULQR1+R7a64Z5QK1uR7knW2racgy94t6t400kTrHaVjCdijWbEu9NYffeCv02Gl3w
- 7J1A==
-X-Gm-Message-State: APjAAAVgTkueuGPeqJPlvyTXRI0/taxqDf8McE7OHfWaJSEbcFohCMLE
- Ejqg6uufHkRbOTNoI9RaHr3ifm11frSlB3dSn/1nXxJevyM8INrj1JrP8RslF/r4UGrr7+3BoTy
- P/AStR6qVUSxVzr4=
-X-Received: by 2002:a05:620a:228:: with SMTP id
- u8mr87530237qkm.88.1578404017397; 
- Tue, 07 Jan 2020 05:33:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzCq/7Zdqmtoc8UiQv0McpMAPqtKl+vpi/qzQH5lGsUVuTBEsRtGReWKGO2NKhxXDgrKxddfw==
-X-Received: by 2002:a05:620a:228:: with SMTP id
- u8mr87530222qkm.88.1578404017179; 
- Tue, 07 Jan 2020 05:33:37 -0800 (PST)
-Received: from xz-x1 ([2607:9880:19c0:3f::3])
- by smtp.gmail.com with ESMTPSA id 65sm21347228qtf.95.2020.01.07.05.33.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 05:33:36 -0800 (PST)
-Date: Tue, 7 Jan 2020 08:33:32 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH] vfio/pci: Don't remove irqchip notifier if not registered
-Message-ID: <20200107133332.GE219677@xz-x1>
-References: <20191231133915.115363-1-peterx@redhat.com>
- <20200106151324.15fbb68d@w520.home>
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=aVHWUPijN67Yd8prPGoEwGFdSzw4hbEysj3lMHTDpXY=;
+ b=X7ijQkmkBtB//Wm4dRg80byuer4xG8gu16Pgt3P6ooTONBkBQbqndwQWtSGNQLCVUkt59t
+ TiCKKrEHuiBOoK3a26AT1mE+OzFBVKThUHl6KWm1g4xhGJuHAWTDWwX3oQeABV7J/IfPtj
+ aWekctgAY3HGewGIEI6oPjjSG/bMos8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-140-B6jzkJq9O2e1-GXptvivYQ-1; Tue, 07 Jan 2020 08:34:24 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1124E801E77;
+ Tue,  7 Jan 2020 13:34:23 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2711E86C43;
+ Tue,  7 Jan 2020 13:34:21 +0000 (UTC)
+Subject: Re: [PATCH v1 31/59] util/aio-posix.c: remove unneeded 'out' label in
+ aio_epoll
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106182425.20312-32-danielhb413@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <e38ddfcb-1b65-a7ac-924b-5c0d36476bad@redhat.com>
+Date: Tue, 7 Jan 2020 14:34:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200106151324.15fbb68d@w520.home>
-X-MC-Unique: ETwl4RJIPKWlBYBv7CVyaw-1
+In-Reply-To: <20200106182425.20312-32-danielhb413@gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: B6jzkJq9O2e1-GXptvivYQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,61 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yanghliu@redhat.com, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 06, 2020 at 03:13:24PM -0700, Alex Williamson wrote:
-> On Tue, 31 Dec 2019 08:39:15 -0500
-> Peter Xu <peterx@redhat.com> wrote:
->=20
-> > The kvm irqchip notifier is only registered if the device supports
-> > INTx, however it's unconditionally removed.  If the assigned device
-> > does not support INTx, this will cause QEMU to crash when unplugging
-> > the device from the system.  Change it to conditionally remove the
-> > notifier only if the notify hook is setup.
-> >=20
-> > CC: Eduardo Habkost <ehabkost@redhat.com>
-> > CC: David Gibson <david@gibson.dropbear.id.au>
-> > CC: Alex Williamson <alex.williamson@redhat.com>
-> > Reported-by: yanghliu@redhat.com
-> > Fixes: c5478fea27 ("vfio/pci: Respond to KVM irqchip change notifier", =
-2019-11-26)
-> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1782678
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >  hw/vfio/pci.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> > index 2d40b396f2..337a173ce7 100644
-> > --- a/hw/vfio/pci.c
-> > +++ b/hw/vfio/pci.c
-> > @@ -3076,7 +3076,9 @@ static void vfio_exitfn(PCIDevice *pdev)
-> >      vfio_unregister_req_notifier(vdev);
-> >      vfio_unregister_err_notifier(vdev);
-> >      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-> > -    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier)=
-;
-> > +    if (vdev->irqchip_change_notifier.notify) {
-> > +        kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notif=
-ier);
-> > +    }
-> >      vfio_disable_interrupts(vdev);
-> >      if (vdev->intx.mmap_timer) {
-> >          timer_free(vdev->intx.mmap_timer);
->=20
->=20
-> Thanks, Peter!  Sent a pull request with David and Greg's R-b, stable
-> tag, and debug credit to Eduardo as I think he spotted the issue first.
-> Thanks,
+On 06/01/2020 19.23, Daniel Henrique Barboza wrote:
+> 'out' can be replaced by 'return ret'.
+> 
+> CC: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  util/aio-posix.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/util/aio-posix.c b/util/aio-posix.c
+> index a4977f538e..7c4cfea8ce 100644
+> --- a/util/aio-posix.c
+> +++ b/util/aio-posix.c
+> @@ -121,7 +121,7 @@ static int aio_epoll(AioContext *ctx, GPollFD *pfds,
+>                           ARRAY_SIZE(events),
+>                           timeout);
+>          if (ret <= 0) {
+> -            goto out;
+> +            return ret;
+>          }
+>          for (i = 0; i < ret; i++) {
+>              int ev = events[i].events;
+> @@ -132,7 +132,6 @@ static int aio_epoll(AioContext *ctx, GPollFD *pfds,
+>                  (ev & EPOLLERR ? G_IO_ERR : 0);
+>          }
+>      }
+> -out:
+>      return ret;
+>  }
 
-Yes thanks!  I wished Eduardo had even updated the bz when he debugged
-so I won't be needinfo-ed and did it twice without notice :)
-
---=20
-Peter Xu
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
