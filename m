@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84DAA132B59
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:47:38 +0100 (CET)
-Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5A2132B62
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:50:13 +0100 (CET)
+Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ios13-00059L-2c
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:47:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47415)
+	id 1ios3X-0001MH-RQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:50:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47503)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iorlq-0000LF-P2
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:55 -0500
+ (envelope-from <mst@redhat.com>) id 1iorlx-0000To-EZ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iorlp-0005uK-KV
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39826
+ (envelope-from <mst@redhat.com>) id 1iorlw-0005yN-9h
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59819
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorlp-0005tw-Go
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:53 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorlw-0005xv-66
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578414713;
+ s=mimecast20190719; t=1578414719;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BgmNsnDUrIKv5qIqtQ+hIbBMXsq7KvX1kSU3ybRDZeQ=;
- b=e9exI0DQAmGuSUlb49EmEzKK5qvn6MsM9mlDPbFMl32y6UCSclJYqT/lgnczPhjgtEfX5K
- 320YK30pOhkkBtVjvEXQp3LE9rYYqHFYp+ym3eLVztm69pm6BRIv8cnR0hX3ixjSdS9sBC
- 77a37Ms8jSVC1BfEJQVfRCHkUSTh1rA=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-Zm_bMpedPl6ipgeP0x-h-w-1; Tue, 07 Jan 2020 11:31:50 -0500
-Received: by mail-qk1-f200.google.com with SMTP id 11so141274qkk.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:31:50 -0800 (PST)
+ bh=s9CW2f1wTLCUXOOV0nNq1e86u0ryEb/Y8cd2jez9DrU=;
+ b=QSXNjrRyJXLeHIiU77RndLXVabQQAWgZ7n70KhGpfBoSYsC5bdkuSiSsqrpVR06Xqb89Ey
+ 5xw7BSqvya2jDoadRL/zbr1qGI3vF5HelSmzDRNUJOmCOodcIgj9UiaPqnzjNCAWPdx8Ae
+ gBj/245FA0+kjFxjMSgQhVyse4WP02c=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-9citjb5eOLGnegp1efK7iw-1; Tue, 07 Jan 2020 11:31:56 -0500
+Received: by mail-qt1-f200.google.com with SMTP id d9so127803qtq.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:31:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tdoWlLoYwJDJiT74CT7GYIP+izHUlkgXXi1RbTtf6v8=;
- b=paS035tEVgQiUDHwaTO54IsFuETL0Q51jCHcy+9DWgC/M5396pbnm6LLOdqx22XVIa
- GcGFuzJJA11D4qy5XkBIQwLjB8OYh+Gs8lT8PyKrFvAY3Xj/HNyEbXadgCN5Qt9+Xr7u
- 8nH7IHTPsaJKQdJMT9pMOrzanOUE9dT5Mn1GS94eVeZC5p/FLz+97vshdzSq2UdxCLVc
- onRES0O1JOKhAA9jL1rIDqVT0YlIGtIK9sT8KfGBg0E6zppLCw1u443tbfeHuMupQ5t1
- QgjvOOaf4jRsTi20E5/XSL/awZ/j9fZqlHREgTEVUtPSsYlMhxCi8tINq8lx/ICmQt5H
- DIYg==
-X-Gm-Message-State: APjAAAUIPmzseA0/KBKFhntuDpgNPbdMVBT/XXqLeWNP2+StC/pd5MOx
- 1R4WptywQuVs3fMcSIHrVCNTpkuVq32AuKntdIQGxv9KreXa0fQjQmPz8qkLfnelCA9RSGZvVz0
- RVAiepgF25c3mYT0=
-X-Received: by 2002:a05:6214:965:: with SMTP id
- do5mr234693qvb.202.1578414709818; 
- Tue, 07 Jan 2020 08:31:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyoMgg8OtyFiNoK+ZXqXiuH3lonojNzltmM8yAYTvdBDzCKbvtHnN/qetpi/uIK5AziIU+OLg==
-X-Received: by 2002:a05:6214:965:: with SMTP id
- do5mr234674qvb.202.1578414709586; 
- Tue, 07 Jan 2020 08:31:49 -0800 (PST)
+ bh=pNIx/NiIdCE26OJhITv4+Fn8KZTuaXrKqh88qEn+vzc=;
+ b=f6XOtqKRVpHlJnkoOK9t2pWagKRLJAk6Eme64wtFHUrPQWEUWUei9K43EEwcjAsjoP
+ MhVf3CQm+7NAgINuMlpl7xAJc4dTRSVopCR2hul72rxa6JQfqHNzXWYAMAYPjZoarBU4
+ nlNbxehdhs6bsxxB3uVxz8KujP4FrIQXAmKBGy6lLtMM8O5JTjvOZGjuItS+BoxRrrbJ
+ 5j9gZzaUBXwvJy25yoew+KW1YFNFN/F0J7PkrNbilimicu/tfzeZN4WY0UeYT/irFuC0
+ JnsWe6QeQPfkaZ8YT432UWNY6AVfrEfbZO9q6xwIROTFPDTUO/eNPHlXoJC2PEecOY1g
+ Q0mw==
+X-Gm-Message-State: APjAAAVQZgjvs1mgrTTXFQ8ojnWsFToLzRH5uIx1E/Qi6jn4EM8AiUOh
+ nn2/2y0V3nr1Mbkmfv4ms619s1Bd2iz/KRKgXq/u06KP3drGVqrFYBbCT6DJYqkmrjHtxF0n6iT
+ t+9YQoTJkBOiyW+U=
+X-Received: by 2002:a37:8ec7:: with SMTP id q190mr141717qkd.412.1578414715055; 
+ Tue, 07 Jan 2020 08:31:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxkrThP5YQgrQvG0mYq1wmrd2uPHD2tITEVJ6fJjZFsHj53YEW+so06qTREo8UP4/vLl26CGA==
+X-Received: by 2002:a37:8ec7:: with SMTP id q190mr141690qkd.412.1578414714796; 
+ Tue, 07 Jan 2020 08:31:54 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id 201sm46809qkf.10.2020.01.07.08.31.47
+ by smtp.gmail.com with ESMTPSA id h1sm111122qte.42.2020.01.07.08.31.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 08:31:48 -0800 (PST)
-Date: Tue, 7 Jan 2020 11:31:45 -0500
+ Tue, 07 Jan 2020 08:31:54 -0800 (PST)
+Date: Tue, 7 Jan 2020 11:31:50 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 30/32] virtio-net: delete also control queue when TX/RX
- deleted
-Message-ID: <20200107162850.411448-31-mst@redhat.com>
+Subject: [PULL v3 31/32] intel_iommu: a fix to vtd_find_as_from_bus_num()
+Message-ID: <20200107162850.411448-32-mst@redhat.com>
 References: <20200107162850.411448-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107162850.411448-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: Zm_bMpedPl6ipgeP0x-h-w-1
+X-MC-Unique: 9citjb5eOLGnegp1efK7iw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
@@ -91,42 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-stable@nongnu.org, Yuri Benditovich <yuri.benditovich@daynix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Liu Yi L <yi.l.liu@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
+From: Liu Yi L <yi.l.liu@intel.com>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1708480
-If the control queue is not deleted together with TX/RX, it
-later will be ignored in freeing cache resources and hot
-unplug will not be completed.
+Ensure the return value of vtd_find_as_from_bus_num() is NULL by
+enforcing vtd_bus=3DNULL. This would help caller of vtd_find_as_from_bus_nu=
+m()
+to decide if any further operation on the returned vtd_bus.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Message-Id: <20191226043649.14481-3-yuri.benditovich@daynix.com>
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Yi Sun <yi.y.sun@linux.intel.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
+Message-Id: <1578058086-4288-2-git-send-email-yi.l.liu@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/i386/intel_iommu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index db3d7c38e6..f325440d01 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3101,7 +3101,8 @@ static void virtio_net_device_unrealize(DeviceState *=
-dev, Error **errp)
-     for (i =3D 0; i < max_queues; i++) {
-         virtio_net_del_queue(n, i);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index ee06993675..609b80750a 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -948,6 +948,7 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState=
+ *s, uint8_t bus_num)
+                 return vtd_bus;
+             }
+         }
++        vtd_bus =3D NULL;
      }
--
-+    /* delete also control vq */
-+    virtio_del_queue(vdev, max_queues * 2);
-     qemu_announce_timer_del(&n->announce_timer, false);
-     g_free(n->vqs);
-     qemu_del_nic(n->nic);
+     return vtd_bus;
+ }
 --=20
 MST
 
