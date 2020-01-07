@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF653131C9C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 01:05:45 +0100 (CET)
-Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C01131CA1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 01:09:16 +0100 (CET)
+Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iocNR-0002H1-Sh
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 19:05:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54969)
+	id 1iocQs-0007eI-56
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 19:09:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iocJk-0007qn-IB
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:54 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iocJn-0007up-VE
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iocJi-0005Wf-W5
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:52 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:59295 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iocJl-0005cO-LN
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:55 -0500
+Received: from ozlabs.org ([203.11.71.1]:51583)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iocJh-0005Pf-V6; Mon, 06 Jan 2020 19:01:50 -0500
+ id 1iocJl-0005Xo-8S; Mon, 06 Jan 2020 19:01:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47sCGf1CZ0z9sR4; Tue,  7 Jan 2020 11:01:45 +1100 (AEDT)
+ id 47sCGf3jc3z9sRR; Tue,  7 Jan 2020 11:01:46 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1578355306;
- bh=Elu1bG8fkh+Mkm/ZFNkrkRJ6NChkxlokegsR1CzbTxQ=;
+ bh=vbVkizeB2tlK42HOcxWWfy4YVs22gKlhuSp5KkgE7Ns=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S7OnxRCxLQK5eiSHGT2Cppc5D5wHJRy6w3Zlfsho9UXjSf0jTKqsAfp/2JW6uHL+g
- 4YzRcbQmAiZvhnzwNYPeCI6M7Fkv1howlfGe7/HawGIZ0kizGweuxUfNuIat+mMqyz
- zBx7EDnMpbI2nOh+HPL7Mh5CUIFtlM0CdDP/SlXU=
-Date: Tue, 7 Jan 2020 10:56:04 +1100
+ b=ihgriU9TaGgmJnMA0FNRH8uTUYGNW3nR/35rPFKKkzpWvd4s9R3Wl0eicWtA9F0BM
+ VVVM2dMeP79fYoL0T9Koh2lbLZ45T/ha2jhUw16K/JN6SsOztBa6GRMmy6VKO1FzvV
+ 9P9iZfSXXWTtO+ynDb0weOl8he7nbVYAahWUlV6o=
+Date: Tue, 7 Jan 2020 11:00:10 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v2] spapr: Kill SLOF
-Message-ID: <20200106235604.GA2098@umbus>
-References: <20200105234242.78897-1-aik@ozlabs.ru>
- <20200106041940.GV2098@umbus>
- <d8ad377b-3ac1-d190-af5e-342b0e0ba47d@ozlabs.ru>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] spapr/xive: remove redundant check in spapr_match_nvt()
+Message-ID: <20200107000010.GB2098@umbus>
+References: <20200106163207.4608-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0FWGRsEUTYx4i2U9"
+ protocol="application/pgp-signature"; boundary="ZCk4OG7a+AFlaik7"
 Content-Disposition: inline
-In-Reply-To: <d8ad377b-3ac1-d190-af5e-342b0e0ba47d@ozlabs.ru>
+In-Reply-To: <20200106163207.4608-1-clg@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -56,72 +54,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0FWGRsEUTYx4i2U9
-Content-Type: text/plain; charset=us-ascii
+--ZCk4OG7a+AFlaik7
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2020 at 12:39:42AM +1100, Alexey Kardashevskiy wrote:
+On Mon, Jan 06, 2020 at 05:32:07PM +0100, C=E9dric Le Goater wrote:
+> spapr_match_nvt() is a XIVE operation and it used by the machine to
+> look for a matching target when an event notification is being
+> delivered. An assert checks that spapr_match_nvt() is called only when
+> the machine has selected the XIVE interrupt mode but it is redundant
+> with the XIVE_PRESENTER() dynamic cast.
 >=20
+> Apply the cast to spapr->active_intc and remove the assert.
 >=20
-> On 06/01/2020 15:19, David Gibson wrote:
->=20
-> > > +    const struct fdt_property *prop;
-> > > +    const char *tmp;
-> > > +
-> > > +    readstr(prevaddr, prev);
-> > > +    for (offset =3D fdt_first_property_offset(fdt, offset);
-> > > +         (offset >=3D 0);
-> > > +         (offset =3D fdt_next_property_offset(fdt, offset))) {
-> > > +
-> > > +        prop =3D fdt_get_property_by_offset(fdt, offset, &namelen);
-> >=20
-> > fdt_getprop_by_offset() also returns the property's name without
-> > having to dick around with fdt_get_string() manually.
->=20
->=20
-> btw I looked quickly:
->=20
-> const void *fdt_getprop_by_offset(const void *fdt, int offset,
->                   const char **namep, int *lenp)
-> {
->     const struct fdt_property *prop;
->=20
->     prop =3D fdt_get_property_by_offset_(fdt, offset, lenp);
->     if (!prop)
->         return NULL;
->     if (namep) {
->         const char *name;
->         int namelen;
->         name =3D fdt_get_string(fdt, fdt32_ld(&prop->nameoff),
->                       &namelen);
->         if (!name) {
->             if (lenp)
->                 *lenp =3D namelen;
->             return NULL;
->         }
->         *namep =3D name;
->     }
->=20
->     /* Handle realignment */
->     if (fdt_version(fdt) < 0x10 && (offset + sizeof(*prop)) % 8 &&
->         fdt32_ld(&prop->len) >=3D 8)
->         return prop->data + 4;
->     return prop->data;
-> }
->=20
->=20
-> and incorrectly assumed *lenp is the name length because of "*lenp =3D
-> namelen". Huh :)
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Ah, yeah, that is a bit confusing, but I don't see a way to improve
-it.  That's the error case, in which case both *lenp and namelen are
-carrying an error code, not their usual value.
+Applied to ppc-for-5.0.
+
+> ---
+>  hw/ppc/spapr.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index e62c89b3dd40..5008b7563173 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4198,19 +4198,19 @@ static void spapr_pic_print_info(InterruptStatsPr=
+ovider *obj,
+>                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
+>  }
+> =20
+> +/*
+> + * This is a XIVE only operation
+> + */
+>  static int spapr_match_nvt(XiveFabric *xfb, uint8_t format,
+>                             uint8_t nvt_blk, uint32_t nvt_idx,
+>                             bool cam_ignore, uint8_t priority,
+>                             uint32_t logic_serv, XiveTCTXMatch *match)
+>  {
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
+> -    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
+> +    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->active_intc);
+>      XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
+>      int count;
+> =20
+> -    /* This is a XIVE only operation */
+> -    assert(spapr->active_intc =3D=3D SPAPR_INTC(spapr->xive));
+> -
+>      count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
+>                             priority, logic_serv, match);
+>      if (count < 0) {
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -129,25 +117,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---0FWGRsEUTYx4i2U9
+--ZCk4OG7a+AFlaik7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4TyRQACgkQbDjKyiDZ
-s5JapQ/+My7C8MCbmRY1kYkcW+a3Zs3CigTEwlgePzvokKFbO5LNl7bjQ7QL3R3+
-yj4VvhxBDaZswp4xaqUaxt9JhmmSAL34+Xp9CbaC00wT8Jc/kPMHn0gfLEcu1vUT
-MrVqV0HkM5u3YxaIsm7hPkmt7GfynwSPGQoJljPKZXBfp/Y9/y2dGQiDogBtDHY8
-eSCSFreOEGrZIExp523EQjU0lquDXlzm/YauDHiE1h5iOoYgFzbcgBIoBxDUuTaC
-DOoZuNDRgAovap7CTrDhJ3pFCmYy0RExzyslDZE3z5MzNT0UXCAREc8AfLgXIpcs
-aTiWaJyqMBZ1KEQxyVbbqb937d/L4vtUXUKmYVzy7RtWWI1GfrLkf4Mao4+6k9j6
-w36aFvsvcKOVtYdMTU+LRhn5FuyxNNO8lN5O8oZD0makleThNFNjzzN+zm7wka+D
-FFGzTrr105qwCUIApI3ZT4Lhe9xdgLdUCWBEp1HvyTgUWT7GzYC8eAz5QTruOae3
-NqZGmQU7CfqXD9rYiKkBD/EuOfwkKCWSLmDvCyHazWTChovKSpbca4/zkHZwWpBm
-MBavu9E2+PTvdX0FHnxeZiwes+R+B8bMxdFG7W1cxeyNKEsdrTWkSfj0PyxR8EwE
-2Ba8sGiH1uxSpd009zrBHxdiYrjuuYk9QGbBj/wOjL+Eno5w39E=
-=Z1ni
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4TygoACgkQbDjKyiDZ
+s5IdvA/+OHwv3icFir9mPIITEnrk8Tut8HcKfAtxHx+9QlBdLZLMAwehlPUktJRw
+3Mw/yB0f7kE8hrLlDsQxnp5KBec/h2cpLFSDKU05MT5cTEUvbA2vD9LB18/om2H8
+1Tt7d/PfnOqPVKGASgop7joQBKb+40eUPBLK9WgepCEEqrbmtqPSUTqPqfkqAyg3
+2eALpN0Es8nKK4XdTUXphoHncfWjD3u3GPLRaQH4gozWQFwpzS2IkKMFgYI+4O8m
+KE9g5Xl0YLGWOBIy5Z/sAyWUmFgsmSvSA77lKXRaSNBaKlDDMJ362bscfSB6gZFx
+ABGlipVk4lEJ63y9Fit0e5rZkeD4NplTr5ZSzFtbOunMREps7UVsCUFL7HcJqAC1
+btXlbq4hEpvF/q3vONMKCLe9nX0jDN2wiGm5HkxHt23jEO5plzVbwiP6cWJUsDir
+Mt436yf8uS2QfVvkqs1pvmCsN1q/Gf7Spddifq7w2rF2KPBQmO+JSHRx0T+AAfez
+d8AUCrc5AxIrRBS8K0JBhPBQC9Q7J4P3mkxfswiw1AQQmBZNt1pktoWxGozZvhia
+u3aa0exwtgZvLFLPOHOJJrCCIcxWKH4yGgT4nO2BhWUwlJdH4MetWMtF7EthWs6+
+5cfT484BYurc+ai6Id/G65W1CcIIIg9Jl/OVY0Fg1vUu8+GNk8s=
+=kXXs
 -----END PGP SIGNATURE-----
 
---0FWGRsEUTYx4i2U9--
+--ZCk4OG7a+AFlaik7--
 
