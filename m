@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396AD132A1F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:35:49 +0100 (CET)
-Received: from localhost ([::1]:51614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F34132A69
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:49:13 +0100 (CET)
+Received: from localhost ([::1]:51872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqtX-0006YR-TK
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:35:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
+	id 1ior6W-0002kA-Ez
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:49:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqW8-0002eu-6t
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:11:38 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqWP-000368-T3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:11:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqW6-0007Fm-KI
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:11:36 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45797
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqWO-0007TQ-PF
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:11:53 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53721
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ioqW6-0007Fe-GZ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:11:34 -0500
+ id 1ioqWO-0007T8-Lq
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:11:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578409894;
+ s=mimecast20190719; t=1578409912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T57Gr0VcUmBL9GiXGA2VDCEgwG0f5qLGbZwaTcOHrLc=;
- b=gJ8o0DHOxcA2xqF2MivVhzEYwP7NceUEXV/EumjZR7VPAIF60xFXsOAjFLy9dsxzkSXV3F
- aB5CCGbv7p3/zsMmfBBPlI6roCLLTZG0tpkGQry3jHEJ68lAtMhoo4cC43C1HfxScz8OXP
- KRzXbsL5qODc9cJ3eU9X7jRPcnvfBec=
+ bh=fWPsYdSzDBv8GmgrXGGg04pvHjkMqD1rvCCSCkM0Qyw=;
+ b=fLpHRpqlEjBIV8Rm4xKX+1hf6uMjAOVBbbqkqwFearO/9qDDJlKXzDl0LAe66HGF3LwQjl
+ JhyLQvn4io0TiAuvA/+rJr7IgIDR8is2MR87eB/6uV6veniCxJvqQ8/rzBXIIIrqFCmo2A
+ GcYE7cj3QpQp4pZIUjqEm0HNBFCBELQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-Kpw013QSNnSi375Lw0pzSQ-1; Tue, 07 Jan 2020 10:11:33 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-167-AkcEOiMWPgiTJYEeXVP06A-1; Tue, 07 Jan 2020 10:11:45 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D4C2477;
- Tue,  7 Jan 2020 15:11:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D512107B7D4;
+ Tue,  7 Jan 2020 15:11:44 +0000 (UTC)
 Received: from localhost (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0AC2A5C1BB;
- Tue,  7 Jan 2020 15:11:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F311272A3;
+ Tue,  7 Jan 2020 15:11:36 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/37] omap-gpio: remove PROP_PTR
-Date: Tue,  7 Jan 2020 19:04:39 +0400
-Message-Id: <20200107150442.1727958-35-marcandre.lureau@redhat.com>
+Subject: [PULL 35/37] qdev: remove PROP_MEMORY_REGION
+Date: Tue,  7 Jan 2020 19:04:40 +0400
+Message-Id: <20200107150442.1727958-36-marcandre.lureau@redhat.com>
 In-Reply-To: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Kpw013QSNnSi375Lw0pzSQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: AkcEOiMWPgiTJYEeXVP06A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -77,203 +77,33 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since clocks are not QOM objects, replace PROP_PTR of clocks with
-setters methods.
-
-Move/adapt the existing TODO comment about a clock framework.
+PROP_MEMORY_REGION was a derivative of PROP_PTR, added in commit
+ed03d749f3f513b8fb0287757cfda2cb6825f063 (qdev: add MemoryRegion
+property) and thankfully no longer needed since commit
+3eff40dbf44896a8180c86c84dbdefb2eb173fbe (hw/misc: Remove
+mmio_interface device).
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/arm/omap.h | 33 +++++++++++++++++++++++++++++----
- hw/arm/omap1.c        |  2 +-
- hw/arm/omap2.c        | 13 +++++++------
- hw/gpio/omap_gpio.c   | 42 +++++++++++++++---------------------------
- 4 files changed, 52 insertions(+), 38 deletions(-)
+ include/hw/qdev-properties.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index 39a295ba20..6be386d0e2 100644
---- a/include/hw/arm/omap.h
-+++ b/include/hw/arm/omap.h
-@@ -77,6 +77,16 @@ typedef struct omap_intr_handler_s omap_intr_handler;
- /*
-  * TODO: Ideally we should have a clock framework that
-  * let us wire these clocks up with QOM properties or links.
-+ *
-+ * qdev should support a generic means of defining a 'port' with
-+ * an arbitrary interface for connecting two devices. Then we
-+ * could reframe the omap clock API in terms of clock ports,
-+ * and get some type safety. For now the best qdev provides is
-+ * passing an arbitrary pointer.
-+ * (It's not possible to pass in the string which is the clock
-+ * name, because this device does not have the necessary information
-+ * (ie the struct omap_mpu_state_s*) to do the clockname to pointer
-+ * translation.)
-  */
- void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk);
- void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk);
-@@ -87,13 +97,28 @@ void omap_intc_set_fclk(omap_intr_handler *intc, omap_c=
-lk clk);
-=20
- typedef struct OMAPI2CState OMAPI2CState;
-=20
--/*
-- * TODO: Ideally we should have a clock framework that
-- * let us wire these clocks up with QOM properties or links.
-- */
-+/* TODO: clock framework (see above) */
- void omap_i2c_set_iclk(OMAPI2CState *i2c, omap_clk clk);
- void omap_i2c_set_fclk(OMAPI2CState *i2c, omap_clk clk);
-=20
-+/* omap_gpio.c */
-+#define TYPE_OMAP1_GPIO "omap-gpio"
-+#define OMAP1_GPIO(obj)                                         \
-+    OBJECT_CHECK(struct omap_gpif_s, (obj), TYPE_OMAP1_GPIO)
-+
-+#define TYPE_OMAP2_GPIO "omap2-gpio"
-+#define OMAP2_GPIO(obj)                                         \
-+    OBJECT_CHECK(struct omap2_gpif_s, (obj), TYPE_OMAP2_GPIO)
-+
-+typedef struct omap_gpif_s omap_gpif;
-+typedef struct omap2_gpif_s omap2_gpif;
-+
-+/* TODO: clock framework (see above) */
-+void omap_gpio_set_clk(omap_gpif *gpio, omap_clk clk);
-+
-+void omap2_gpio_set_iclk(omap2_gpif *gpio, omap_clk clk);
-+void omap2_gpio_set_fclk(omap2_gpif *gpio, uint8_t i, omap_clk clk);
-+
- /* OMAP2 l4 Interconnect */
- struct omap_l4_s;
- struct omap_l4_region_s {
-diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-index 807e5f70d1..761cc17ea9 100644
---- a/hw/arm/omap1.c
-+++ b/hw/arm/omap1.c
-@@ -4012,7 +4012,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
-n *dram,
-=20
-     s->gpio =3D qdev_create(NULL, "omap-gpio");
-     qdev_prop_set_int32(s->gpio, "mpu_model", s->mpu_model);
--    qdev_prop_set_ptr(s->gpio, "clk", omap_findclk(s, "arm_gpio_ck"));
-+    omap_gpio_set_clk(OMAP1_GPIO(s->gpio), omap_findclk(s, "arm_gpio_ck"))=
-;
-     qdev_init_nofail(s->gpio);
-     sysbus_connect_irq(SYS_BUS_DEVICE(s->gpio), 0,
-                        qdev_get_gpio_in(s->ih[0], OMAP_INT_GPIO_BANK1));
-diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
-index 171e2d0472..e1c11de5ce 100644
---- a/hw/arm/omap2.c
-+++ b/hw/arm/omap2.c
-@@ -2449,13 +2449,14 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRe=
-gion *sdram,
-=20
-     s->gpio =3D qdev_create(NULL, "omap2-gpio");
-     qdev_prop_set_int32(s->gpio, "mpu_model", s->mpu_model);
--    qdev_prop_set_ptr(s->gpio, "iclk", omap_findclk(s, "gpio_iclk"));
--    qdev_prop_set_ptr(s->gpio, "fclk0", omap_findclk(s, "gpio1_dbclk"));
--    qdev_prop_set_ptr(s->gpio, "fclk1", omap_findclk(s, "gpio2_dbclk"));
--    qdev_prop_set_ptr(s->gpio, "fclk2", omap_findclk(s, "gpio3_dbclk"));
--    qdev_prop_set_ptr(s->gpio, "fclk3", omap_findclk(s, "gpio4_dbclk"));
-+    omap2_gpio_set_iclk(OMAP2_GPIO(s->gpio), omap_findclk(s, "gpio_iclk"))=
-;
-+    omap2_gpio_set_fclk(OMAP2_GPIO(s->gpio), 0, omap_findclk(s, "gpio1_dbc=
-lk"));
-+    omap2_gpio_set_fclk(OMAP2_GPIO(s->gpio), 1, omap_findclk(s, "gpio2_dbc=
-lk"));
-+    omap2_gpio_set_fclk(OMAP2_GPIO(s->gpio), 2, omap_findclk(s, "gpio3_dbc=
-lk"));
-+    omap2_gpio_set_fclk(OMAP2_GPIO(s->gpio), 3, omap_findclk(s, "gpio4_dbc=
-lk"));
-     if (s->mpu_model =3D=3D omap2430) {
--        qdev_prop_set_ptr(s->gpio, "fclk4", omap_findclk(s, "gpio5_dbclk")=
-);
-+        omap2_gpio_set_fclk(OMAP2_GPIO(s->gpio), 4,
-+                            omap_findclk(s, "gpio5_dbclk"));
-     }
-     qdev_init_nofail(s->gpio);
-     busdev =3D SYS_BUS_DEVICE(s->gpio);
-diff --git a/hw/gpio/omap_gpio.c b/hw/gpio/omap_gpio.c
-index 41e1aa798c..85c16897ae 100644
---- a/hw/gpio/omap_gpio.c
-+++ b/hw/gpio/omap_gpio.c
-@@ -40,10 +40,6 @@ struct omap_gpio_s {
-     uint16_t pins;
- };
-=20
--#define TYPE_OMAP1_GPIO "omap-gpio"
--#define OMAP1_GPIO(obj) \
--    OBJECT_CHECK(struct omap_gpif_s, (obj), TYPE_OMAP1_GPIO)
--
- struct omap_gpif_s {
-     SysBusDevice parent_obj;
-=20
-@@ -212,10 +208,6 @@ struct omap2_gpio_s {
-     uint8_t delay;
- };
-=20
--#define TYPE_OMAP2_GPIO "omap2-gpio"
--#define OMAP2_GPIO(obj) \
--    OBJECT_CHECK(struct omap2_gpif_s, (obj), TYPE_OMAP2_GPIO)
--
- struct omap2_gpif_s {
-     SysBusDevice parent_obj;
-=20
-@@ -747,21 +739,13 @@ static void omap2_gpio_realize(DeviceState *dev, Erro=
-r **errp)
-     }
- }
-=20
--/* Using qdev pointer properties for the clocks is not ideal.
-- * qdev should support a generic means of defining a 'port' with
-- * an arbitrary interface for connecting two devices. Then we
-- * could reframe the omap clock API in terms of clock ports,
-- * and get some type safety. For now the best qdev provides is
-- * passing an arbitrary pointer.
-- * (It's not possible to pass in the string which is the clock
-- * name, because this device does not have the necessary information
-- * (ie the struct omap_mpu_state_s*) to do the clockname to pointer
-- * translation.)
-- */
-+void omap_gpio_set_clk(omap_gpif *gpio, omap_clk clk)
-+{
-+    gpio->clk =3D clk;
-+}
-=20
- static Property omap_gpio_properties[] =3D {
-     DEFINE_PROP_INT32("mpu_model", struct omap_gpif_s, mpu_model, 0),
--    DEFINE_PROP_PTR("clk", struct omap_gpif_s, clk),
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
-@@ -784,15 +768,19 @@ static const TypeInfo omap_gpio_info =3D {
-     .class_init    =3D omap_gpio_class_init,
- };
-=20
-+void omap2_gpio_set_iclk(omap2_gpif *gpio, omap_clk clk)
-+{
-+    gpio->iclk =3D clk;
-+}
-+
-+void omap2_gpio_set_fclk(omap2_gpif *gpio, uint8_t i, omap_clk clk)
-+{
-+    assert(i <=3D 5);
-+    gpio->fclk[i] =3D clk;
-+}
-+
- static Property omap2_gpio_properties[] =3D {
-     DEFINE_PROP_INT32("mpu_model", struct omap2_gpif_s, mpu_model, 0),
--    DEFINE_PROP_PTR("iclk", struct omap2_gpif_s, iclk),
--    DEFINE_PROP_PTR("fclk0", struct omap2_gpif_s, fclk[0]),
--    DEFINE_PROP_PTR("fclk1", struct omap2_gpif_s, fclk[1]),
--    DEFINE_PROP_PTR("fclk2", struct omap2_gpif_s, fclk[2]),
--    DEFINE_PROP_PTR("fclk3", struct omap2_gpif_s, fclk[3]),
--    DEFINE_PROP_PTR("fclk4", struct omap2_gpif_s, fclk[4]),
--    DEFINE_PROP_PTR("fclk5", struct omap2_gpif_s, fclk[5]),
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index c6a8cb5516..16837ab5dd 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -216,8 +216,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
+ #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAddre=
+ss)
+-#define DEFINE_PROP_MEMORY_REGION(_n, _s, _f)             \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, MemoryRegion *)
+ #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_off_auto_pcibar, \
+                         OffAutoPCIBAR)
 --=20
 2.25.0.rc1.20.g2443f3f80d
 
