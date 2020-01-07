@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9718C132965
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:55:57 +0100 (CET)
-Received: from localhost ([::1]:50638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441DC13296B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:57:10 +0100 (CET)
+Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqGy-0001yW-Js
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:55:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
+	id 1ioqI9-0003zO-7X
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:57:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iopIP-0000PJ-FG
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:22 -0500
+ (envelope-from <groug@kaod.org>) id 1iopIr-0001Y1-Qs
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iopIO-0002JS-BN
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:21 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52219)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iopIO-0002Ij-5r
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:20 -0500
-Received: by mail-wm1-x342.google.com with SMTP id d73so19037079wmd.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:53:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5+y6glt1oNxJugm2Ypcxd+Fn7DJ6oHVA90lV4Ls02gw=;
- b=T9ZUESkhNQBjOjLvg4vdncq9LWXZJGl1bSvfT8JJ3ZKgvYl1GymEsqIkGLEdoO3zbH
- s+e7E6WyfXxrKxRLmCwEXyFFC0EHc4dRbIZlh69GBoN/VzT8kNI4TUAGffxEDAa4Cwwx
- kjad6eWPXGlkteN3/sRrnA3PkCV16ETX3K4i6AuK8aozdsGBiwqGxxqKogRJrpkYjZRY
- PKkRktvkLFZlRkNrkhPaLWBfUC1eHFA0SHRQX730mFX73Im2XVOMA7Q4PtrjSTRHgdb9
- Z1EU6Iktk+BoA5IxY9hq3XAq8sOfamgKZ+mq3qSKLS7XjIfMQxDGmpKcuoE75veBtWzA
- twmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5+y6glt1oNxJugm2Ypcxd+Fn7DJ6oHVA90lV4Ls02gw=;
- b=fea6kkhuZX22GzUDQVmqVT5sLuxtdyxJdJhCD/zxnKhEMaqTBOjA68zNM/Cf8WVAbS
- OrQ5ymicTbq2l2Lfp1zOQVoaQcehz6E6BSrIuOhfAlXa1ZsleR0URxDRKuDtg7QpIG+l
- k4p9bVWkk9gs4cpp6TcT+XoAc+aKC9Y87DVUt0YBALHtwnvU/UtADfL3L/4C6GVGf27B
- +P82vq5lMxIHKxVQHoKRVDoFR4W6NiVl6VLE3HHRBN0i+iL5FX1N3bFEIQYfURE7Lx2O
- Q1kEsdwGBz6NarMH4odZV+cekM1luZUFLH67fkoTMjhoXWxvK5thSBojuZ0ZgBzc36Hs
- lFaA==
-X-Gm-Message-State: APjAAAWozwf+zOBb9zxbKuE0YjHEmMS/iolma408Pe3ioh/STR0ylkGq
- soBw78SBmPfzTn45fipELpw45w==
-X-Google-Smtp-Source: APXvYqzInmGcd4F/ishrr0pzTmT9jpjhidj2veNpWAjnha9274YpQAbHxgV/P6C6WnHsjQouaychrw==
-X-Received: by 2002:a7b:c957:: with SMTP id i23mr40737020wml.49.1578405199240; 
- Tue, 07 Jan 2020 05:53:19 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q3sm26279525wmj.38.2020.01.07.05.53.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 05:53:16 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 977CE1FF93;
- Tue,  7 Jan 2020 13:53:11 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 6/6] travis: install homebrew python for OS X
-Date: Tue,  7 Jan 2020 13:53:11 +0000
-Message-Id: <20200107135311.5215-7-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200107135311.5215-1-alex.bennee@linaro.org>
-References: <20200107135311.5215-1-alex.bennee@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1iopIq-0002Yq-Lr
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:49 -0500
+Received: from 12.mo4.mail-out.ovh.net ([178.33.104.253]:56301)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iopIq-0002Wg-FW
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:48 -0500
+Received: from player789.ha.ovh.net (unknown [10.109.146.168])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 1987121C1DC
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 14:53:45 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player789.ha.ovh.net (Postfix) with ESMTPSA id 2CF13DF96870;
+ Tue,  7 Jan 2020 13:53:43 +0000 (UTC)
+Date: Tue, 7 Jan 2020 14:53:40 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v1 44/59] 9p-local.c: remove unneeded label in
+ local_unlinkat_common()
+Message-ID: <20200107145340.60698c46@bahia.lan>
+In-Reply-To: <20200106182425.20312-45-danielhb413@gmail.com>
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106182425.20312-45-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 10189675636031199494
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 178.33.104.253
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,32 +58,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our python3 requirements now outstrip those of the build.
+On Mon,  6 Jan 2020 15:24:10 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .travis.yml | 1 +
- 1 file changed, 1 insertion(+)
+> 'err_out' can be replaced by 'return ret' in the error conditions
+> the jump was being made.
+> 
+> CC: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/9pfs/9p-local.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index ca641390fb..f9bdd2ad7c 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -1094,12 +1094,12 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+>  
+>              fd = openat_dir(dirfd, name);
+>              if (fd == -1) {
+> -                goto err_out;
+> +                return ret;
+>              }
+>              ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
+>              close_preserve_errno(fd);
+>              if (ret < 0 && errno != ENOENT) {
+> -                goto err_out;
+> +                return ret;
+>              }
+>          }
+>          map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
+> @@ -1107,16 +1107,14 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+>              ret = unlinkat(map_dirfd, name, 0);
+>              close_preserve_errno(map_dirfd);
+>              if (ret < 0 && errno != ENOENT) {
+> -                goto err_out;
+> +                return ret;
+>              }
+>          } else if (errno != ENOENT) {
+> -            goto err_out;
+> +            return ret;
 
-diff --git a/.travis.yml b/.travis.yml
-index 848a2714efe..a86ca34f79d 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -57,6 +57,7 @@ addons:
-       - glib
-       - pixman
-       - gnu-sed
-+      - python
-     update: true
- 
- 
--- 
-2.20.1
+Ouch... I now realize we can get there with ret == 0 when unlinking a
+directory in mapped-file mode. The function will wrongly return success
+despite the failure.... Since this function is supposed to return -1
+on error, I suggest to do that instead of return ret, and to drop the
+initialization of ret to -1, which wouldn't be needed anymore.
+
+Since this would fix a bug it makes sense to post it separately from
+this series. Rewrite the title/changelog accordingly and I'll merge
+it via the 9p tree.
+
+>          }
+>      }
+>  
+> -    ret = unlinkat(dirfd, name, flags);
+> -err_out:
+> -    return ret;
+> +    return unlinkat(dirfd, name, flags);
+>  }
+>  
+>  static int local_remove(FsContext *ctx, const char *path)
 
 
