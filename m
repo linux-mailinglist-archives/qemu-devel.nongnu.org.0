@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159F51322B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:41:43 +0100 (CET)
-Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E53132277
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:34:04 +0100 (CET)
+Received: from localhost ([::1]:45274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iolMp-00053c-1x
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:41:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51671)
+	id 1iol9C-0006EH-MX
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:27:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iojOr-0004QZ-HA
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:38 -0500
+ (envelope-from <mst@redhat.com>) id 1iojSA-0002nG-Pt
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:39:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iojOp-0007Oi-Vg
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:37 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39203
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iojS9-0001Qz-HL
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:39:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44894
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojOp-0007OS-RM
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:35 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojS9-0001QZ-D8
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:39:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578382535;
+ s=mimecast20190719; t=1578382741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nm5rBDcoCplmlWRAfpJUTX03Lt2BWA14BTGdBKMUPBs=;
- b=WdAa70i7xLvjO1zsyMCX01K+L5r9iMvG1U9omGZw72T6VM15F7Pd3MSmqCL9O/p+D6UnmT
- xNM1zIx+PhtskRnvjsCECKuvZmxNHg5X7mh3jAM5u6JZpZq9ifXCCp62kKkXiNkuefY0n3
- SGkKuoCNLAZuia5YlJ71UbSLJ4pFBiA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-JPcXG3FtMx-4m4293IqxJg-1; Tue, 07 Jan 2020 02:35:33 -0500
-Received: by mail-qk1-f199.google.com with SMTP id 24so19533221qka.16
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:35:33 -0800 (PST)
+ bh=mD5CnKaHCqEnDtYsfaWuvKKdqaTymxgk4zlUTmpGAA8=;
+ b=Yut060G6jXelUx3LdePcJ0YFgFmea9lpPIYSNM7O9+a/MZsGrlMSCvMYJAxfFweWZxFDVr
+ MecLqxUhaf8PxE3no1X6mGjtcYICk59+vadDtQVraure5eyNppNwRtRwzdhT0wYRiDf57z
+ PqxSELK7KWzqJ94Xbguk30pCfrSfWgQ=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-L6Bu27xiPbiWuIfgyjvcGA-1; Tue, 07 Jan 2020 02:37:09 -0500
+Received: by mail-qv1-f71.google.com with SMTP id n11so36111338qvp.15
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:37:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=SV/3gkt55AkXiObd4ttRVZfM0Ouiap0tkA8DR2mthfg=;
- b=WtSRqdd7DZBhOSHKzDgyorKu/BpliDt/hnI05oAMUPzoQNDtSIKNFfD8Nhvx6W6qOZ
- TPDLngbGRkOJS/IXGPKpMGzhcW5oZFoo7o5zXdQ8ehKFDe632Hqh3nivfbnBw23EYeDv
- cGpbyBga8D/yJhWBRUJCUE8VIX6fsLFGL2iQkZUCxsPk+jJYqsARZV+Wc1/6BYDbcZMa
- f6xuff0MzrB21imPFxzbAHRneeBJGF0HCZudwaw6oV8eabNUF15k/rpjEJxHzsSv5Y+e
- 0UOmWeqDcmqbsQARuWbQqiI5eutZee8FUPxlmcgwRdoxyhfh7wg/eDHw00g1NZ6Vzko/
- aO8A==
-X-Gm-Message-State: APjAAAVFLh06rUybIED1TkHM5lXRvXN+TZ3Yc7JWoklrc2IZyH7lIcYV
- G4WlAeY0NOtHzMRFUxTZh5ROAqcBiS18dqe7ji8kW0aZl3rjWD1pxVsuJSWlukpdt+8tEleMsXo
- qF56/qs6qbcWyNOc=
-X-Received: by 2002:ac8:4a10:: with SMTP id x16mr77211027qtq.371.1578382533045; 
- Mon, 06 Jan 2020 23:35:33 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxXXUsgb1tFKZVVnJc4c9Dx8hlj36CENQ7Ymj6ynLjzWachi2rZOjgDXNXX9O4yyRojY2LejA==
-X-Received: by 2002:ac8:4a10:: with SMTP id x16mr77211011qtq.371.1578382532880; 
- Mon, 06 Jan 2020 23:35:32 -0800 (PST)
+ bh=zrcV6NduOW424RfDjQAFC57USpEMc62nbflawLr92Qk=;
+ b=spLasPldmFO/Fz2Cb8udsSJyNalydJOH+JX+BCdTXi8jsT6GK0XsoRGxY2Q4fXAt2m
+ b5HVCpHOdFgaXZ9RCpQgLvpejZAoeZwjjQnm1tRBffM9sc9pPHxI9IekBScmEiXmdLfo
+ CyY3FelbfRFYQORTRvb+aaojYJqLEC9FJM5zLvrtQ7KgCNOaWDL/Q9T2O2E96vALra+a
+ F2+Vy5qpvWwYlJDsf3NFDHDJNUYqTZjLZ0R1epV6QHtVKpKz85Wqyj0L4DzGoljl9Rat
+ d7mxXRB+GvNuO/JKwPVTpKkBB+ZwO1dGurlRY9jQVHQ6TTzCpiyGe+6AbgEMaW+5Fk8p
+ up5w==
+X-Gm-Message-State: APjAAAU5FC70K05O757ZTvpUTvwkFg0/NTJdzDvQ89LgXa6RJd2wZOhM
+ M9F2w7utdIEpyHY8YVuW9i3huOPkKRqJWjKap73kD6Q9CWbmJ/sv6JVA0nkoZvsPxfzgFAkY/bx
+ aRBvkxBJ+hghF4aQ=
+X-Received: by 2002:a37:e312:: with SMTP id y18mr88627004qki.250.1578382626005; 
+ Mon, 06 Jan 2020 23:37:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyLRgD5T2iwhQwjVEw5plXhkS2IFiChVBYXgc7TQD1LlCFQnhXxmd2PCgVlnIFZZXOeyl1FYg==
+X-Received: by 2002:a37:e312:: with SMTP id y18mr88626992qki.250.1578382625785; 
+ Mon, 06 Jan 2020 23:37:05 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id d5sm21367620qtk.96.2020.01.06.23.35.29
+ by smtp.gmail.com with ESMTPSA id j194sm22072669qke.83.2020.01.06.23.37.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 23:35:32 -0800 (PST)
-Date: Tue, 7 Jan 2020 02:35:27 -0500
+ Mon, 06 Jan 2020 23:37:05 -0800 (PST)
+Date: Tue, 7 Jan 2020 02:37:01 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 04/32] virtio-serial-bus: fix memory leak while attach
- virtio-serial-bus
-Message-ID: <20200107073451.298261-5-mst@redhat.com>
+Subject: [PULL v2 22/32] hw/pci/pci_host: Let pci_data_[read/write] use
+ unsigned 'size' argument
+Message-ID: <20200107073451.298261-23-mst@redhat.com>
 References: <20200107073451.298261-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107073451.298261-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: JPcXG3FtMx-4m4293IqxJg-1
+X-MC-Unique: L6Bu27xiPbiWuIfgyjvcGA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,68 +90,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Amit Shah <amit@kernel.org>,
- Pan Nengyuan <pannengyuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Euler Robot <euler.robot@huawei.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-ivqs/ovqs/c_ivq/c_ovq is forgot to cleanup in
-virtio_serial_device_unrealize, the memory leak stack is as bellow:
+Both functions are called by MemoryRegionOps.[read/write] handlers
+with unsigned 'size' argument. Both functions call
+pci_host_config_[read/write]_common() which expect a uint32_t 'len'
+parameter (also unsigned).
+Since it is pointless (and confuse) to use a signed value, use a
+unsigned type.
 
-Direct leak of 1290240 byte(s) in 180 object(s) allocated from:
-    #0 0x7fc9bfc27560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
-    #1 0x7fc9bed6f015 in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x50015)
-    #2 0x5650e02b83e7 in virtio_add_queue hw/virtio/virtio.c:2327
-    #3 0x5650e02847b5 in virtio_serial_device_realize hw/char/virtio-serial=
--bus.c:1089
-    #4 0x5650e02b56a7 in virtio_device_realize hw/virtio/virtio.c:3504
-    #5 0x5650e03bf031 in device_set_realized hw/core/qdev.c:876
-    #6 0x5650e0531efd in property_set_bool qom/object.c:2080
-    #7 0x5650e053650e in object_property_set_qobject qom/qom-qobject.c:26
-    #8 0x5650e0533e14 in object_property_set_bool qom/object.c:1338
-    #9 0x5650e04c0e37 in virtio_pci_realize hw/virtio/virtio-pci.c:1801
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Amit Shah <amit@kernel.org>
-Cc: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <1575444716-17632-3-git-send-email-pannengyuan@huawei.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191216002134.18279-3-philmd@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/char/virtio-serial-bus.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/hw/pci/pci_host.h | 4 ++--
+ hw/pci/pci_host.c         | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index 33259042a9..e1cbce3ba3 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -1126,9 +1126,17 @@ static void virtio_serial_device_unrealize(DeviceSta=
-te *dev, Error **errp)
+diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
+index ba31595fc7..9ce088bd13 100644
+--- a/include/hw/pci/pci_host.h
++++ b/include/hw/pci/pci_host.h
+@@ -62,8 +62,8 @@ void pci_host_config_write_common(PCIDevice *pci_dev, uin=
+t32_t addr,
+ uint32_t pci_host_config_read_common(PCIDevice *pci_dev, uint32_t addr,
+                                      uint32_t limit, uint32_t len);
+=20
+-void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, int len);
+-uint32_t pci_data_read(PCIBus *s, uint32_t addr, int len);
++void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, unsigned len);
++uint32_t pci_data_read(PCIBus *s, uint32_t addr, unsigned len);
+=20
+ extern const MemoryRegionOps pci_host_conf_le_ops;
+ extern const MemoryRegionOps pci_host_conf_be_ops;
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index 0958d157de..ce7bcdb1d5 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -106,7 +106,7 @@ uint32_t pci_host_config_read_common(PCIDevice *pci_dev=
+, uint32_t addr,
+     return ret;
+ }
+=20
+-void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, int len)
++void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, unsigned len)
  {
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-     VirtIOSerial *vser =3D VIRTIO_SERIAL(dev);
-+    int i;
+     PCIDevice *pci_dev =3D pci_dev_find_by_addr(s, addr);
+     uint32_t config_addr =3D addr & (PCI_CONFIG_SPACE_SIZE - 1);
+@@ -119,7 +119,7 @@ void pci_data_write(PCIBus *s, uint32_t addr, uint32_t =
+val, int len)
+                                  val, len);
+ }
 =20
-     QLIST_REMOVE(vser, next);
-=20
-+    virtio_delete_queue(vser->c_ivq);
-+    virtio_delete_queue(vser->c_ovq);
-+    for (i =3D 0; i < vser->bus.max_nr_ports; i++) {
-+        virtio_delete_queue(vser->ivqs[i]);
-+        virtio_delete_queue(vser->ovqs[i]);
-+    }
-+
-     g_free(vser->ivqs);
-     g_free(vser->ovqs);
-     g_free(vser->ports_map);
+-uint32_t pci_data_read(PCIBus *s, uint32_t addr, int len)
++uint32_t pci_data_read(PCIBus *s, uint32_t addr, unsigned len)
+ {
+     PCIDevice *pci_dev =3D pci_dev_find_by_addr(s, addr);
+     uint32_t config_addr =3D addr & (PCI_CONFIG_SPACE_SIZE - 1);
 --=20
 MST
 
