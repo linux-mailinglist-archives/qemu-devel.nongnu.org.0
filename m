@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7604E132815
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:50:54 +0100 (CET)
-Received: from localhost ([::1]:49060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C203D132831
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:56:15 +0100 (CET)
+Received: from localhost ([::1]:49188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopFz-0005V4-VB
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:50:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55075)
+	id 1iopLB-0003sn-EN
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:56:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ionsJ-0008An-9L
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:20 -0500
+ (envelope-from <berrange@redhat.com>) id 1ionty-0004PA-Oo
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:24:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ionsI-0007GG-4g
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27804
+ (envelope-from <berrange@redhat.com>) id 1iontx-0007yv-HJ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:24:02 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56740
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ionsI-0007G5-1i
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:18 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iontx-0007ya-Cx
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:24:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578399737;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1578399841;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MuhCTz+C6MaTpFxoNziRH6JqZlhj937Jrv0EFLky8Sk=;
- b=LgPM8erw2/Z3UqeKun5f8y7I3AHUZFD22rLi9m20/TaQ9P6tnqASAIb073ZONmrColKSK2
- zInlFHUiOXYsXtYYTqgM8Y1akpkPgxVEfxH6pSkG5BHvRcytX+Z+gN2/cpegvLGa2JemlV
- ziBUHHksvnc2ZBX2GQLilztvo5lJ0CI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-Bg7ntxGaNdOxX9slddlIyw-1; Tue, 07 Jan 2020 07:22:16 -0500
-Received: by mail-wm1-f72.google.com with SMTP id 7so1891690wmf.9
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:22:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wqAJeqaN1FUy1p3MtuptAKhlaN745axb3tJUVhCfY7U=;
- b=Y+jRK9BqCQOCnsAp8XRlvI3dgzPGY5C7rkSLJWEPLZD3dAILPdsekweM7zs9c+VrKl
- WT9YW89K/+9RoKH0GHn6TaSZY9zSBGYIq7S10G1FR2grJgZxpNYP7B6g1TVCSTcbXV85
- zhlJjJCzbSsyVSO6c39t+kCwTJBGY9j+AqzAtxIU4HoFqD1uGPG3aUGwcB/Al+fF3KV3
- cod3bJXUr7ca7E8xnrE4d8BaWT0Ml0KsNhOkxQ0OW1aCFw8BP7U1hIpSXtslR5/MiD8X
- F0t+Zh8T7PLhJ2hHl3w749l8msVy/GihpHBDdNHsPMnrT1qm1ijpx5IXQcVQ26p7QeSG
- fSnA==
-X-Gm-Message-State: APjAAAWif7uXVqDcoeyJ3FyE2JmbDlJalr53tAqJUAxhFuVRn9sv8+YC
- Yyigw3eQ5HY1vgY7/FtShXT7uyF63oTN+BzeqaCnMqOGB5YxiUGk6CBth8KfeAoedg52w+7hb4z
- +dJKSvNvt7scnhR4=
-X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr39307387wmc.58.1578399735084; 
- Tue, 07 Jan 2020 04:22:15 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxkH39hJZcyPPUEai+OguMZZ8G0fZoCu5nbD6Q7LmnhnBkch7+9oVFscjGePNm6QvaTkzo0MQ==
-X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr39307355wmc.58.1578399734829; 
- Tue, 07 Jan 2020 04:22:14 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id k13sm76207458wrx.59.2020.01.07.04.22.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 04:22:14 -0800 (PST)
-Subject: Re: [PATCH 04/14] hw/i386: Restrict fw_cfg to the PC machines
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-5-philmd@redhat.com>
- <a5ba0619-e236-7fb0-8c17-028670b69501@redhat.com>
- <20200107050921-mutt-send-email-mst@kernel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <21529c45-117d-ed7d-d518-e8073af86581@redhat.com>
-Date: Tue, 7 Jan 2020 13:22:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=oC07tjMNCb6/KY8QuP2S6Zj4G5pWsRSrG7Ans7trRLU=;
+ b=iEybUa6haOMLQX9+pND+Nn6qVhyw3nxehbZLsja+m5p+dZ3wR/FZPPyVBvy1nfzZcZMFib
+ 9ay48qqMPX3HkSOop+4x89e5V2BSJO8kpy7RSx6zrqEhMk16qxVQJHPpAtHmKVaJEeB+VR
+ ydNkXRh2xhFsYotlK+pTcHCQwxrD28I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-RIayX67HN6m4L48ZGlGUwA-1; Tue, 07 Jan 2020 07:23:56 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 419D4477
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 12:23:55 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7686A272AA;
+ Tue,  7 Jan 2020 12:23:51 +0000 (UTC)
+Date: Tue, 7 Jan 2020 12:23:47 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 099/104] virtiofsd: use fuse_buf_writev to replace
+ fuse_buf_write for better performance
+Message-ID: <20200107122347.GI3368802@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-100-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200107050921-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-X-MC-Unique: Bg7ntxGaNdOxX9slddlIyw-1
+In-Reply-To: <20191212163904.159893-100-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: RIayX67HN6m4L48ZGlGUwA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,57 +75,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Sergio Lopez <slp@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/20 11:16, Michael S. Tsirkin wrote:
-> On Tue, Jan 07, 2020 at 11:01:48AM +0100, Paolo Bonzini wrote:
->> On 31/12/19 19:32, Philippe Mathieu-Daud=C3=A9 wrote:
->>> Only the PC-based machines use the fw_cfg device. In particular,
->>> the MicroVM machine does not use it. Only compile/link it when
->>> machines require it.
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>> ---
->>> Cc: Sergio Lopez <slp@redhat.com>
->>> ---
->>>  hw/i386/Makefile.objs | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
->>> index 6ebb6d0cf0..48f2693546 100644
->>> --- a/hw/i386/Makefile.objs
->>> +++ b/hw/i386/Makefile.objs
->>> @@ -5,7 +5,7 @@ obj-$(CONFIG_PC) +=3D pc.o pc_sysfw.o
->>>  obj-$(CONFIG_I440FX) +=3D pc_piix.o
->>>  obj-$(CONFIG_Q35) +=3D pc_q35.o
->>>  obj-$(CONFIG_MICROVM) +=3D microvm.o
->>> -obj-y +=3D fw_cfg.o
->>> +obj-$(CONFIG_PC) +=3D fw_cfg.o
->>>  obj-$(CONFIG_X86_IOMMU) +=3D x86-iommu.o
->>>  obj-$(CONFIG_VTD) +=3D intel_iommu.o
->>>  obj-$(CONFIG_AMD_IOMMU) +=3D amd_iommu.o
->>>
->>
->> Ah no, this is hw/i386/fw_cfg.c; of course hw/nvram/fw_cfg.c has its own
->> Kconfig symbol.
+On Thu, Dec 12, 2019 at 04:38:59PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: piaojun <piaojun@huawei.com>
 >=20
-> Sorry couldn't find it. Which symbol is that?
+> fuse_buf_writev() only handles the normal write in which src is buffer
+> and dest is fd. Specially if src buffer represents guest physical
+> address that can't be mapped by the daemon process, IO must be bounced
+> back to the VMM to do it by fuse_buf_copy().
+>=20
+> Signed-off-by: Jun Piao <piaojun@huawei.com>
+> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tools/virtiofsd/buffer.c | 23 +++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
 
-None. :)  fw_cfg has a bunch of uses in vl.c, it's not really going to
-be easy to stub it out and probably pointless because it's an easy way
-for firmware to get QEMU-specific information.
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Paolo
+>=20
+> diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+> index ae420c70c4..4875473785 100644
+> --- a/tools/virtiofsd/buffer.c
+> +++ b/tools/virtiofsd/buffer.c
+> @@ -33,9 +33,7 @@ size_t fuse_buf_size(const struct fuse_bufvec *bufv)
+>      return size;
+>  }
+> =20
+> -__attribute__((unused))
+> -static ssize_t fuse_buf_writev(fuse_req_t req,
+
+Lets cull the fuse_req_t param in the previous patch
+
+> -                               struct fuse_buf *out_buf,
+> +static ssize_t fuse_buf_writev(struct fuse_buf *out_buf,
+>                                 struct fuse_bufvec *in_buf)
+>  {
+>      ssize_t res, i, j;
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
