@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6930D132809
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:47:11 +0100 (CET)
-Received: from localhost ([::1]:49024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BC4132931
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:46:10 +0100 (CET)
+Received: from localhost ([::1]:50356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopCO-0005oN-Ly
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:47:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44637)
+	id 1ioq7V-0000ry-9w
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:46:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iooqb-0001mj-MS
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:24:38 -0500
+ (envelope-from <clg@kaod.org>) id 1ioor7-0003bM-Pc
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iooqY-0001xf-Ud
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:24:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51939
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1ioor6-0002Df-4j
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:09 -0500
+Received: from 8.mo69.mail-out.ovh.net ([46.105.56.233]:56020)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iooqY-0001xN-Qu
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:24:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578403473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rxp5XWspXCFx1p/qkyz0To8lkzLvJ+l5Oa8Rn2EGkmM=;
- b=B0lMGBQoaVOGa1s0/XFmaVy7yukOpVPcE4qsxEDORjL8KI0em+fh7SyZh+qKdtazysBzlR
- zzn1UyXCj/sswVHNGyhW6b+8IW5XQ1FxsElD/xJrxn7ROyARe6xAFVcfnXxdQU3j5b/NN7
- 2ryHGzDrJ5WgKD5Uu+A0B5L8DddDPww=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-5R5kmxzMN4epOn99Q4U4mQ-1; Tue, 07 Jan 2020 08:24:32 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B83E800D4E
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:24:31 +0000 (UTC)
-Received: from work-vm (ovpn-117-52.ams2.redhat.com [10.36.117.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE2E25D9CA;
- Tue,  7 Jan 2020 13:24:27 +0000 (UTC)
-Date: Tue, 7 Jan 2020 13:24:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 086/104] virtiofsd: use fuse_lowlevel_is_virtio() in
- fuse_session_destroy()
-Message-ID: <20200107132425.GG2732@work-vm>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-87-dgilbert@redhat.com>
- <20200107120112.GA3368802@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ioor5-0002Bu-U3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:08 -0500
+Received: from player699.ha.ovh.net (unknown [10.108.35.211])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 473A7794A8
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 14:25:05 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: clg@kaod.org)
+ by player699.ha.ovh.net (Postfix) with ESMTPSA id 55F54DEA9ABA;
+ Tue,  7 Jan 2020 13:24:53 +0000 (UTC)
+Subject: Re: [PATCH v2 04/10] target/ppc: Introduce ppc_hash64_use_vrma()
+ helper
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ groug@kaod.org, philmd@redhat.com
+References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+ <20200107044827.471355-5-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <c0e48f0d-e495-549e-0835-4107d00be3bc@kaod.org>
+Date: Tue, 7 Jan 2020 14:24:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200107120112.GA3368802@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 5R5kmxzMN4epOn99Q4U4mQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <20200107044827.471355-5-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 9705257199232977702
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgedgtdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 46.105.56.233
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +61,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: aik@ozlabs.ru, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-ppc@nongnu.org, lvivier@redhat.com, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> On Thu, Dec 12, 2019 at 04:38:46PM +0000, Dr. David Alan Gilbert (git) wr=
-ote:
-> > From: Stefan Hajnoczi <stefanha@redhat.com>
-> >=20
-> > vu_socket_path is NULL when --fd=3DFDNUM was used.  Use
-> > fuse_lowlevel_is_virtio() instead.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> >   pull request 10
+On 1/7/20 5:48 AM, David Gibson wrote:
+> When running guests under a hypervisor, the hypervisor obviously needs =
+to
+> be protected from guest accesses even if those are in what the guest
+> considers real mode (translation off).  The POWER hardware provides two
+> ways of doing that: The old way has guest real mode accesses simply off=
+set
+> and bounds checked into host addresses.  It works, but requires that a
+> significant chunk of the guest's memory - the RMA - be physically
+> contiguous in the host, which is pretty inconvenient.  The new way, kno=
+wn
+> as VRMA, has guest real mode accesses translated in roughly the normal =
+way
+> but with some special parameters.
 >=20
-> Extraneous line
-
-Hmm, not sure where that came from; thanks.
-
-> > ---
-> >  tools/virtiofsd/fuse_lowlevel.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> In POWER7 and POWER8 the LPCR[VPM0] bit selected between the two modes,=
+ but
+> in POWER9 only VRMA mode is supported and LPCR[VPM0] no longer exists. =
+ We
+> handle that difference in behaviour in ppc_hash64_set_isi().. but not i=
+n
+> other places that we blindly check LPCR[VPM0].
 >=20
-> Reviewed-by: Daniel P. Berrang=E9 <berrange@redhat.com>
-
-Thanks!
-
+> Correct those instances with a new helper to tell if we should be in VR=
+MA
+> mode.
 >=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+> ---
+>  target/ppc/mmu-hash64.c | 41 +++++++++++++++++++----------------------
+>  1 file changed, 19 insertions(+), 22 deletions(-)
 >=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 5fabd93c92..d878180df5 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -668,6 +668,19 @@ unsigned ppc_hash64_hpte_page_shift_noslb(PowerPCC=
+PU *cpu,
+>      return 0;
+>  }
+> =20
+> +static bool ppc_hash64_use_vrma(CPUPPCState *env)
+> +{
+> +    switch (env->mmu_model) {
+> +    case POWERPC_MMU_3_00:
+> +        /* ISAv3.0 (POWER9) always uses VRMA, the VPM0 field and RMOR
+> +         * register no longer exist */
+> +        return true;
+> +
+> +    default:
+> +        return !!(env->spr[SPR_LPCR] & LPCR_VPM0);
+> +    }
+> +}
+> +
+>  static void ppc_hash64_set_isi(CPUState *cs, uint64_t error_code)
+>  {
+>      CPUPPCState *env =3D &POWERPC_CPU(cs)->env;
+> @@ -676,15 +689,7 @@ static void ppc_hash64_set_isi(CPUState *cs, uint6=
+4_t error_code)
+>      if (msr_ir) {
+>          vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM1);
+>      } else {
+> -        switch (env->mmu_model) {
+> -        case POWERPC_MMU_3_00:
+> -            /* Field deprecated in ISAv3.00 - interrupts always go to =
+hyperv */
+> -            vpm =3D true;
+> -            break;
+> -        default:
+> -            vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM0);
+> -            break;
+> -        }
+> +        vpm =3D ppc_hash64_use_vrma(env);
+>      }
+>      if (vpm && !msr_hv) {
+>          cs->exception_index =3D POWERPC_EXCP_HISI;
+> @@ -702,15 +707,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, uint6=
+4_t dar, uint64_t dsisr)
+>      if (msr_dr) {
+>          vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM1);
+>      } else {
+> -        switch (env->mmu_model) {
+> -        case POWERPC_MMU_3_00:
+> -            /* Field deprecated in ISAv3.00 - interrupts always go to =
+hyperv */
+> -            vpm =3D true;
+> -            break;
+> -        default:
+> -            vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM0);
+> -            break;
+> -        }
+> +        vpm =3D ppc_hash64_use_vrma(env);
+>      }
+>      if (vpm && !msr_hv) {
+>          cs->exception_index =3D POWERPC_EXCP_HDSI;
+> @@ -799,7 +796,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, va=
+ddr eaddr,
+>              if (!(eaddr >> 63)) {
+>                  raddr |=3D env->spr[SPR_HRMOR];
+>              }
+> -        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
+> +        } else if (ppc_hash64_use_vrma(env)) {
+>              /* Emulated VRMA mode */
+>              slb =3D &env->vrma_slb;
+>              if (!slb->sps) {
+> @@ -967,7 +964,7 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *c=
+pu, target_ulong addr)
+>          } else if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
+>              /* In HV mode, add HRMOR if top EA bit is clear */
+>              return raddr | env->spr[SPR_HRMOR];
+> -        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
+> +        } else if (ppc_hash64_use_vrma(env)) {
+>              /* Emulated VRMA mode */
+>              slb =3D &env->vrma_slb;
+>              if (!slb->sps) {
+> @@ -1056,8 +1053,7 @@ static void ppc_hash64_update_vrma(PowerPCCPU *cp=
+u)
+>      slb->sps =3D NULL;
+> =20
+>      /* Is VRMA enabled ? */
+> -    lpcr =3D env->spr[SPR_LPCR];
+> -    if (!(lpcr & LPCR_VPM0)) {
+> +    if (ppc_hash64_use_vrma(env)) {
+>          return;
+>      }
+> =20
+> @@ -1065,6 +1061,7 @@ static void ppc_hash64_update_vrma(PowerPCCPU *cp=
+u)
+>       * Make one up. Mostly ignore the ESID which will not be needed
+>       * for translation
+>       */
+> +    lpcr =3D env->spr[SPR_LPCR];
+>      vsid =3D SLB_VSID_VRMA;
+>      vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
+>      vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
+>=20
 
 
