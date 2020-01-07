@@ -2,69 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A6613291A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:40:16 +0100 (CET)
-Received: from localhost ([::1]:50144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CABB13291F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:41:57 +0100 (CET)
+Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioq1m-0006IG-S2
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:40:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37597)
+	id 1ioq3Q-0000iR-DT
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:41:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iooT4-0006zN-7J
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:00:19 -0500
+ (envelope-from <eguan@linux.alibaba.com>) id 1iooZo-0002FM-Jj
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:07:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iooT2-0004uV-M8
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:00:17 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56386
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eguan@linux.alibaba.com>) id 1iooZh-00011O-P8
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:07:11 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:38383)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iooT2-0004tg-Hq
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:00:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578402015;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9eo6Au6AL9qxIDF7nfivXVIB4aPc72kysfxZ9eW992E=;
- b=e32tgti+QuMrFikKjdthxJck/gDwtUZvTxSvm21lK6SuHdVnpxp4VdeIulaRkuYBFX3GXh
- de1/4PDGmVZZOVfboKlgAwPWFsSd5bQ5GgIRXhvydqgPMbcJd3wzDNcBa/lc494K1l/JSr
- bA2j8kIM09Pj5XKrDf0ihERFvVN2Uc8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-bq6Vmnb_MKK3QZaBbpY9-Q-1; Tue, 07 Jan 2020 08:00:13 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E0B9100551A
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:00:12 +0000 (UTC)
-Received: from redhat.com (ovpn-116-141.ams2.redhat.com [10.36.116.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A057F383;
- Tue,  7 Jan 2020 13:00:11 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 05/10] migration: Make multifd_load_setup() get an
- Error parameter
-In-Reply-To: <20200103172222.GP3804@work-vm> (David Alan Gilbert's message of
- "Fri, 3 Jan 2020 17:22:22 +0000")
-References: <20191218020119.3776-1-quintela@redhat.com>
- <20191218020119.3776-6-quintela@redhat.com>
- <20200103172222.GP3804@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 07 Jan 2020 14:00:06 +0100
-Message-ID: <8736crqv55.fsf@trasno.org>
+ (Exim 4.71) (envelope-from <eguan@linux.alibaba.com>)
+ id 1iooZh-0000v9-EM
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:07:09 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R271e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01f04446; MF=eguan@linux.alibaba.com;
+ NM=1; PH=DS; RN=4; SR=0; TI=SMTPD_---0Tn5TOVF_1578402409; 
+Received: from localhost(mailfrom:eguan@linux.alibaba.com
+ fp:SMTPD_---0Tn5TOVF_1578402409) by smtp.aliyun-inc.com(127.0.0.1);
+ Tue, 07 Jan 2020 21:06:50 +0800
+Date: Tue, 7 Jan 2020 21:06:49 +0800
+From: Eryu Guan <eguan@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [BUG qemu 4.0] segfault when unplugging virtio-blk-pci device
+Message-ID: <20200107130649.GH41863@e18g06458.et15sqa>
+References: <20191231103434.GA41863@e18g06458.et15sqa>
+ <20191231115136.7b967604@Igors-MacBook-Pro>
+ <20200102020850.GB41863@e18g06458.et15sqa>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: bq6Vmnb_MKK3QZaBbpY9-Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200102020850.GB41863@e18g06458.et15sqa>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 47.88.44.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,100 +54,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> We need to change the full chain to pass the Error parameter.
->>=20
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/migration.c | 10 +++++-----
->>  migration/migration.h |  2 +-
->>  migration/ram.c       |  2 +-
->>  migration/ram.h       |  2 +-
->>  migration/rdma.c      |  2 +-
->>  5 files changed, 9 insertions(+), 9 deletions(-)
->>=20
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 5a56bd0c91..cf6cec5fb6 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -518,11 +518,11 @@ fail:
->>      exit(EXIT_FAILURE);
->>  }
->> =20
->> -static void migration_incoming_setup(QEMUFile *f)
->> +static void migration_incoming_setup(QEMUFile *f, Error **errp)
->>  {
->>      MigrationIncomingState *mis =3D migration_incoming_get_current();
->> =20
->> -    if (multifd_load_setup() !=3D 0) {
->> +    if (multifd_load_setup(errp) !=3D 0) {
->>          /* We haven't been able to create multifd threads
->>             nothing better to do */
->
-> But if you're taking an errp and the load fails, don't you want to
-> report the error before you exit? (with an error_get_pretty or
-> something?)
+On Thu, Jan 02, 2020 at 10:08:50AM +0800, Eryu Guan wrote:
+> On Tue, Dec 31, 2019 at 11:51:35AM +0100, Igor Mammedov wrote:
+> > On Tue, 31 Dec 2019 18:34:34 +0800
+> > Eryu Guan <eguan@linux.alibaba.com> wrote:
+> > 
+> > > Hi,
+> > > 
+> > > I'm using qemu 4.0 and hit segfault when tearing down kata sandbox, I
+> > > think it's because io completion hits use-after-free when device is
+> > > already gone. Is this a known bug that has been fixed? (I went through
+> > > the git log but didn't find anything obvious).
+> > > 
+> > > gdb backtrace is:
+> > > 
+> > > Core was generated by `/usr/local/libexec/qemu-kvm -name sandbox-5b8df8c6c6901c3c0a9b02879be10fe8d69d6'.
+> > > Program terminated with signal 11, Segmentation fault.
+> > > #0 object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
+> > > 903        return obj->class;
+> > > (gdb) bt
+> > > #0  object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
+> > > #1  0x0000558a2c009e9b in virtio_notify_vector (vdev=0x558a2e7751d0,
+> > >     vector=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio.c:1118
+> > > #2  0x0000558a2bfdcb1e in virtio_blk_discard_write_zeroes_complete (
+> > >     opaque=0x558a2f2fd420, ret=0)
+> > >     at /usr/src/debug/qemu-4.0/hw/block/virtio-blk.c:186
+> > > #3  0x0000558a2c261c7e in blk_aio_complete (acb=0x558a2eed7420)
+> > >     at /usr/src/debug/qemu-4.0/block/block-backend.c:1305
+> > > #4  0x0000558a2c3031db in coroutine_trampoline (i0=<optimized out>,
+> > >     i1=<optimized out>) at /usr/src/debug/qemu-4.0/util/coroutine-ucontext.c:116
+> > > #5  0x00007f45b2f8b080 in ?? () from /lib64/libc.so.6
+> > > #6  0x00007fff9ed75780 in ?? ()
+> > > #7  0x0000000000000000 in ?? ()
+> > > 
+> > > It seems like qemu was completing a discard/write_zero request, but
+> > > parent BusState was already freed & set to NULL.
+> > > 
+> > > Do we need to drain all pending request before unrealizing virtio-blk
+> > > device? Like the following patch proposed?
+> > > 
+> > > https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg02945.html
+> > > 
+> > > If more info is needed, please let me know.
+> > 
+> > may be this will help: https://patchwork.kernel.org/patch/11213047/
+> 
+> Yeah, this looks promising! I'll try it out (though it's a one-time
+> crash for me). Thanks!
 
-error_report_err() that is.
+After applying this patch, I don't see the original segfaut and
+backtrace, but I see this crash
 
->
->>          exit(EXIT_FAILURE);
->> @@ -572,13 +572,13 @@ static bool postcopy_try_recover(QEMUFile *f)
->>      return false;
->>  }
->> =20
->> -void migration_fd_process_incoming(QEMUFile *f)
->> +void migration_fd_process_incoming(QEMUFile *f, Error **errp)
->>  {
->>      if (postcopy_try_recover(f)) {
->>          return;
->>      }
->> =20
->> -    migration_incoming_setup(f);
->> +    migration_incoming_setup(f, errp);
->>      migration_incoming_process();
->
-> and if you're making incoming_setup able to fail, don't you need
-> to.... hmm, skip the incoming_process?
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+Core was generated by `/usr/local/libexec/qemu-kvm -name sandbox-a2f34a11a7e1449496503bbc4050ae040c0d3'.
+Program terminated with signal 11, Segmentation fault.
+#0  0x0000561216a57609 in virtio_pci_notify_write (opaque=0x5612184747e0, addr=0, val=<optimized out>, size=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio-pci.c:1324
+1324        VirtIOPCIProxy *proxy = VIRTIO_PCI(DEVICE(vdev)->parent_bus->parent);
+Missing separate debuginfos, use: debuginfo-install glib2-2.42.2-5.1.alios7.x86_64 glibc-2.17-260.alios7.x86_64 libgcc-4.8.5-28.alios7.1.x86_64 libseccomp-2.3.1-3.alios7.x86_64 libstdc++-4.8.5-28.alios7.1.x86_64 numactl-libs-2.0.9-5.1.alios7.x86_64 pixman-0.32.6-3.1.alios7.x86_64 zlib-1.2.7-16.2.alios7.x86_64
+(gdb) bt
+#0  0x0000561216a57609 in virtio_pci_notify_write (opaque=0x5612184747e0, addr=0, val=<optimized out>, size=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio-pci.c:1324
+#1  0x0000561216835b22 in memory_region_write_accessor (mr=<optimized out>, addr=<optimized out>, value=<optimized out>, size=<optimized out>, shift=<optimized out>, mask=<optimized out>, attrs=...) at /usr/src/debug/qemu-4.0/memory.c:502
+#2  0x0000561216833c5d in access_with_adjusted_size (addr=addr@entry=0, value=value@entry=0x7fcdeab1b8a8, size=size@entry=2, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x561216835ac0 <memory_region_write_accessor>, mr=0x56121846d340, attrs=...)
+    at /usr/src/debug/qemu-4.0/memory.c:568
+#3  0x0000561216837c66 in memory_region_dispatch_write (mr=mr@entry=0x56121846d340, addr=0, data=<optimized out>, size=2, attrs=attrs@entry=...) at /usr/src/debug/qemu-4.0/memory.c:1503
+#4  0x00005612167e036f in flatview_write_continue (fv=fv@entry=0x56121852edd0, addr=addr@entry=841813602304, attrs=..., buf=buf@entry=0x7fce7dd97028 <Address 0x7fce7dd97028 out of bounds>, len=len@entry=2, addr1=<optimized out>, l=<optimized out>, mr=0x56121846d340)
+    at /usr/src/debug/qemu-4.0/exec.c:3279
+#5  0x00005612167e0506 in flatview_write (fv=0x56121852edd0, addr=841813602304, attrs=..., buf=0x7fce7dd97028 <Address 0x7fce7dd97028 out of bounds>, len=2) at /usr/src/debug/qemu-4.0/exec.c:3318
+#6  0x00005612167e4a1b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., buf=<optimized out>, len=<optimized out>) at /usr/src/debug/qemu-4.0/exec.c:3408
+#7  0x00005612167e4aa5 in address_space_rw (as=<optimized out>, addr=<optimized out>, attrs=..., attrs@entry=..., buf=buf@entry=0x7fce7dd97028 <Address 0x7fce7dd97028 out of bounds>, len=<optimized out>, is_write=<optimized out>) at /usr/src/debug/qemu-4.0/exec.c:3419
+#8  0x0000561216849da1 in kvm_cpu_exec (cpu=cpu@entry=0x56121849aa00) at /usr/src/debug/qemu-4.0/accel/kvm/kvm-all.c:2034
+#9  0x000056121682255e in qemu_kvm_cpu_thread_fn (arg=arg@entry=0x56121849aa00) at /usr/src/debug/qemu-4.0/cpus.c:1281
+#10 0x0000561216b794d6 in qemu_thread_start (args=<optimized out>) at /usr/src/debug/qemu-4.0/util/qemu-thread-posix.c:502
+#11 0x00007fce7bef6e25 in start_thread () from /lib64/libpthread.so.0
+#12 0x00007fce7bc1ef1d in clone () from /lib64/libc.so.6
 
-Changing it to test for errors, thanks.
+And I searched and found
+https://bugzilla.redhat.com/show_bug.cgi?id=1706759 , which has the same
+backtrace as above, and it seems commit 7bfde688fb1b ("virtio-blk: Add
+blk_drain() to virtio_blk_device_unrealize()") is to fix this particular
+bug.
 
->>  }
->> =20
->> @@ -596,7 +596,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc,=
- Error **errp)
->>              return;
->>          }
->> =20
->> -        migration_incoming_setup(f);
->> +        migration_incoming_setup(f, errp);
->
-> Don't you need to make that use a local_err and propagate, like in the
-> other half of the if/else?
+But I can still hit the bug even after applying the commit. Do I miss
+anything?
 
-Changed the whole business.  It appears that each time that I use an
-Error ** I have to relearn how to use it.  Changed all places to use a
-local error and propagate/error_report_err() as apropiate.
-
->>      rdma->migration_started_on_destination =3D 1;
->> -    migration_fd_process_incoming(f);
->> +    migration_fd_process_incoming(f, errp);
->
-> Heck, the errp handling in rdma_accept_incoming_migration is very very
-> broken; I don't see how the errp ever gets reported or freed.
-> (But that's an existing problem)
-
-Leaving this for next series.
-
-Thanks, Juan.
-
+Thanks,
+Eryu
+> Eryu
 
