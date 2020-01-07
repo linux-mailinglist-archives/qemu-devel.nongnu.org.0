@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FACC132541
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:53:18 +0100 (CET)
-Received: from localhost ([::1]:47234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D63132567
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:57:18 +0100 (CET)
+Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionQA-0008Kr-T8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:53:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36571)
+	id 1ionU4-00039J-Ku
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:57:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iomlP-00037p-NQ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:11:08 -0500
+ (envelope-from <berrange@redhat.com>) id 1iomtW-00023i-W8
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:19:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iomlO-0007LN-Hm
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:11:07 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36788)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iomlO-0007Kb-AY
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:11:06 -0500
-Received: by mail-wm1-x341.google.com with SMTP id p17so18927907wma.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 03:11:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=JBtnW38xXFl77T1JUBLmdP4GEJWaN4c6Sz81fJCaRAg=;
- b=ix2fD45gp1sywu3oqGtyac8TpZzkxyPt55BeriKPyPvpWdcRbQnrfmw0So5r64sTAv
- SETnG32lqHzJdOcxxG3pr6bwHhsMaZGcAmzfpXTOfkPUCEpn3WsqOhtx5KiYEYu8SneN
- GsbQlorgGlrvKhl+SOkTVx/s8tZbk5OQ3mcRJWwG8Q86+tMBrIg2DgQAH25LFe+INcFB
- nFP9UnD1ZEs1gr3Ik+94oe4OJZOM1HoQuk4skWL4PBqlXFsJmogarlNGpny6WhdPF0pT
- ycsZ0Nli0c5heSaU4zk8Vhw/PXlddQdJE8pgZvqScRduTtNbSWP2DpaOKH8E96Ui5d8N
- fOgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=JBtnW38xXFl77T1JUBLmdP4GEJWaN4c6Sz81fJCaRAg=;
- b=IAw84VXqMBDSjkA+Z3UhNDjnnfLiOtk05dUFk16i3j3vAZKIj/ap3MyVoqBsG5dB4D
- qA4mfg0a21EhzPpmXx9m17YctnCZBE7qwGMbBJHkEbRuLiRZFq/P3NTe2efzcezUKlhw
- h9cqozWodDBjGlj1ZQk3jsG8mxgsgHzfjt5bkwUwerH/8GOSbzqEnJywGEJXJB6+6dpL
- GhIHLBJMJEOIAmm2aJNWJOXBXiSWF8eLqKGpQhuYzAsKvO2SfMFU2rV0bIjsC3XPGu5n
- l69Oq6HQ3UF2B/sW++GCfi8hDhyEsCbf1mgDziLrLly9hA/deIPW1noHwwuO0psrUpFY
- wNzA==
-X-Gm-Message-State: APjAAAW4qAtFxQHBoMaqY4kDX8QWPWatLE0SdnJaikczZNjd3W/NNwfl
- c/dH+Ipuj1rtHYyV7qlegPoo8A==
-X-Google-Smtp-Source: APXvYqwdsR+TiOMcqBfMrO7I5RF3rziP9Ju7x7D0c5D+prJHTHK1dY/rKw/W/0zGB2VklW8NPVWslg==
-X-Received: by 2002:a1c:1b41:: with SMTP id b62mr38861376wmb.53.1578395465400; 
- Tue, 07 Jan 2020 03:11:05 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r62sm27568657wma.32.2020.01.07.03.11.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 03:11:04 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B1EE1FF87;
- Tue,  7 Jan 2020 11:11:03 +0000 (GMT)
-References: <20200106123746.18201-1-kraxel@redhat.com>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] freebsd: use python37
-In-reply-to: <20200106123746.18201-1-kraxel@redhat.com>
-Date: Tue, 07 Jan 2020 11:11:03 +0000
-Message-ID: <878smj5xo8.fsf@linaro.org>
+ (envelope-from <berrange@redhat.com>) id 1iomtV-0003bL-OJ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:19:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60717
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iomtV-0003b4-Kj
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:19:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578395969;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=prI2ds4/TEzjlpDYQi6whe6hjCDWx66yqI4oUKk5/qM=;
+ b=L4OmPXEabqqqKqU/GmjwIPprUOPP8UNzSh6jjrZ4Peby6ZsdwEUqnH8Z+D1QLZ12H8ZzqZ
+ hAjXMZPKB8x7bghmqSJMPCt2+D6avZ7waNLL/kbIj35pEk53pF5SVLORH1FrQaLdDb3pzP
+ 8ymfApMrK9MzxxuP0CCu2m33N29GX8k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-oarq3YjNPQiriVGv430kwA-1; Tue, 07 Jan 2020 06:19:27 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2513477
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:19:26 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ACA135C1BB;
+ Tue,  7 Jan 2020 11:19:22 +0000 (UTC)
+Date: Tue, 7 Jan 2020 11:19:19 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 065/104] contrib/libvhost-user: Protect slave fd with mutex
+Message-ID: <20200107111919.GI3368802@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-66-dgilbert@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20191212163904.159893-66-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: oarq3YjNPQiriVGv430kwA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,49 +74,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Gerd Hoffmann <kraxel@redhat.com> writes:
-
-> FreeBSD seems to use python37 by default now, which breaks the build
-> script.  Add python to the package list, to explicitly pick the version,
-> and also adapt the configure command line.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Queued to testing/next, thanks.
-
+On Thu, Dec 12, 2019 at 04:38:25PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> In future patches we'll be performing commands on the slave-fd driven
+> by commands on queues, since those queues will be driven by individual
+> threads we need to make sure they don't attempt to use the slave-fd
+> for multiple commands in parallel.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  tests/vm/freebsd | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index 1825cc58218b..33a736298a9a 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -32,6 +32,7 @@ class FreeBSDVM(basevm.BaseVM):
->          "git",
->          "pkgconf",
->          "bzip2",
-> +        "python37",
->=20=20
->          # gnu tools
->          "bash",
-> @@ -63,7 +64,7 @@ class FreeBSDVM(basevm.BaseVM):
->          mkdir src build; cd src;
->          tar -xf /dev/vtbd1;
->          cd ../build
-> -        ../src/configure --python=3Dpython3.6 {configure_opts};
-> +        ../src/configure --python=3Dpython3.7 {configure_opts};
->          gmake --output-sync -j{jobs} {target} {verbose};
->      """
+>  contrib/libvhost-user/libvhost-user.c | 24 ++++++++++++++++++++----
+>  contrib/libvhost-user/libvhost-user.h |  3 +++
+>  2 files changed, 23 insertions(+), 4 deletions(-)
+
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
+Regards,
+Daniel
 --=20
-Alex Benn=C3=A9e
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
