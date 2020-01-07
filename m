@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF5C1326A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:44:25 +0100 (CET)
-Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB3E132636
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:31:26 +0100 (CET)
+Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iooDf-0001tT-AN
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:44:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53121)
+	id 1ioo16-0002oB-QB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:31:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53799)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ionmy-0004U8-EE
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:16:49 -0500
+ (envelope-from <thuth@redhat.com>) id 1ionof-0007Sg-43
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:18:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ionmx-0003kW-7P
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:16:48 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21184
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1ionod-00056Q-V2
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:18:32 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58804
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ionmx-0003jg-3T
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:16:47 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ionod-000562-R8
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:18:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578399406;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1578399511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7MowAdUkC5KlrKN79Gp346Zw+R/vmWdHj8PXkVakM60=;
- b=h5BpePB7AW5rpfDcP0xkQTecE3t1KIvfGhyS0npl8xJqWJQ2aUq6QifzahWInRy8WQ/NFo
- lW3Y/LLvhyOq0yvXy2wVHNTBuUnRAwTAYJbkE8MjJNnww9rookeHpMt6039KzONiLZgeHI
- nXldWqdjmfHcaC6kKkeEwUJgYqJW+AE=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=JgyFu4VXRE74ffDYkkKrGkqXkGP7ShHcOWSArhXziiE=;
+ b=IK6oKHtURajHR/Bi5oMXtvjHgQvbPG4ir0JeM9PPKKoLfHE3XR3RHDYU+DL1C5wF1oFJlp
+ kMP3xzQQxVmW37bo2+qyh01be27dnL8YxnNRI8ogH6YoK1oB5/67Beusz1TZnwxWBVkDEg
+ rN4fUnr+Zr8UIgyCHr6KZfhHLpCcxpc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-4KAA_oELPmOu1NFe_x1FKQ-1; Tue, 07 Jan 2020 07:16:44 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-47-Q-k02HL5OHaITs_DXKZPiw-1; Tue, 07 Jan 2020 07:18:30 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1CBE800D41
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 12:16:43 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D249B5C1B0;
- Tue,  7 Jan 2020 12:16:39 +0000 (UTC)
-Date: Tue, 7 Jan 2020 12:16:36 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 095/104] virtiofsd: convert more fprintf and perror to
- use fuse log infra
-Message-ID: <20200107121636.GE3368802@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-96-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E298107ACC5;
+ Tue,  7 Jan 2020 12:18:29 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A4927FB53;
+ Tue,  7 Jan 2020 12:18:20 +0000 (UTC)
+Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
+ to recent desugarized -accel option)
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200106130951.29873-1-philmd@redhat.com>
+ <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+ <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
+Date: Tue, 7 Jan 2020 13:18:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-96-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 4KAA_oELPmOu1NFe_x1FKQ-1
+In-Reply-To: <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: Q-k02HL5OHaITs_DXKZPiw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -75,32 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:55PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: Eryu Guan <eguan@linux.alibaba.com>
->=20
-> Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
-> ---
->  tools/virtiofsd/fuse_signals.c | 6 +++++-
->  tools/virtiofsd/helper.c       | 9 ++++++---
->  2 files changed, 11 insertions(+), 4 deletions(-)
+On 07/01/2020 11.14, Paolo Bonzini wrote:
+> On 07/01/20 11:03, Thomas Huth wrote:
+>>>  
+>>>  vm = QEMUMachine(iotests.qemu_prog)
+>>> -vm.add_args('-machine', 'accel=kvm:tcg')
+>>> +vm.add_args('-accel', 'kvm', '-accel', 'tcg')
+>> Looking at this, I wonder whether we really want the "-accel" option to
+>> prioritize the accelerators in the order of appearance? A lot of other
+>> CLI tools give the highest priority to the last parameter instead, e.g.
+>> "gcc -O3 -O1" compiles with -O1, and not with -O3.
+>>
+>> Also I think it might be quite common that there are shell scripts which
+>> call "qemu-system-xxx -accel xyz $*" ... and if we don't invert the
+>> priorities of -accel, it will be impossible to override -accel in that
+>> case...
+> 
+> Hmm, it does match "-machine accel=kvm:tcg" and in general I think it's
+> more self-explanatory.  However, it is indeed less friendly to scripts.
+>  On one hand those could be changed to place "-accel xyz" after $* (or
+> better "$@"), on the other hand we could also add a priority option to
+> "-accel".  What do you think?
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+I don't think we need a separate priority parameter here. But IMHO it's
+ really rather common practice to prioritize the last option. So while
+it might be more "self-explanatory" to a CLI newbie if the first
+occurrence got the highest priority, it might be rather confusing
+instead for a CLI veteran...?
 
+What do others on the list here think about this?
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+ Thomas
 
 
