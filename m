@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB63F132719
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:09:11 +0100 (CET)
-Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D370132755
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:14:11 +0100 (CET)
+Received: from localhost ([::1]:48398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioobd-0003X4-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36315)
+	id 1ioogT-00074Y-8y
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:14:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iooPg-0007no-TU
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:56:49 -0500
+ (envelope-from <quintela@redhat.com>) id 1iooW2-00036a-Ni
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:03:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iooPe-00025V-PQ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:56:48 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39799)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iooPe-000257-Jy
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:56:46 -0500
-Received: by mail-ot1-x343.google.com with SMTP id 77so76264558oty.6
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:56:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uHNVe45bPawaFpgDDd0YwUYB1ddE9UBM+oSkjbA/SMg=;
- b=LkcK/27y65VU4stAT9nfUfM3xQ0OkTPo+zUFulBnmBVqnzO59r+Ol0I+xhfbXN2q5N
- QMuHfUAopGliwDPAXXdPF1tdkXhgCIKUEm34lNz31kdhncFZ3qnc+MvzmvfXNv5g7uzU
- uCq17qI+rZTsGauGvLMBwsgo6k5H8p377CGfUzc9H0VPU+II6E2C9hB5P3wymFQCCSYp
- y4WyjPYiD2LVC2VZusNSUvJq97viOLH6lEDRxEt3AiJ/elXMesJLZ6Foz4+RlMz42KUr
- FZxt0xf978TqMeDqQ/AA+KI8k43j++d3IwCAIO+0pxlUte4uQLU2zgTOa+d+5Pb/GZAE
- uJIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uHNVe45bPawaFpgDDd0YwUYB1ddE9UBM+oSkjbA/SMg=;
- b=FsMtrVr2C3n91/DQCHW2dck8cBx+sLLRK2V7dDmE/z5onPOpkKqGao41PI2dn8dzYO
- ih9Km570VCK1+3TE476a8KKPgxhdX8vGTP6bqjHA468b3RGJW8BXiED62c7vPx66+EFJ
- NBOHM3EMqDpDE3Guw6p/Jc0dJsjHh2asSBYvAi6mWvdyEJTmDwn+DrcKnYjYc3SPE97e
- pBjk9un96iHOmyOpryzjzzsStG6y7ZOPcNU04aaAnYXdoXlHckdMr8h8myxTq4JHFz/K
- nXSnm1ABf6TlBhG7+xAFm5RuSfxUuWhAONBgcxU984Ett5Z0V+FnKnDI2F6WoFAsF1/D
- MoUg==
-X-Gm-Message-State: APjAAAXfzX+Y/Q5UKrENnjB61T1HozqMFEDVRSvx2usxGDPOFE7XKPcg
- w7vUmTOnH5EkzC0J88M6f6ZhjsaxettC4Qyl0Hfduw==
-X-Google-Smtp-Source: APXvYqx+2ER+NcHPoqe+taz0/tnrRgly7NxQ3fIjXmqbd5x4m5fhtSMfyQKje7YNsCaRciMcRFKzKAE1S2JPY3cDnDs=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr113452893otq.135.1578401805747; 
- Tue, 07 Jan 2020 04:56:45 -0800 (PST)
+ (envelope-from <quintela@redhat.com>) id 1iooW0-00078c-Q4
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:03:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23962
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iooW0-000789-Li
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:03:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578402199;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gL62l4ua0R4eJbl2NloECOZYkAZeMhcRjHctJTe9BMw=;
+ b=C58zbeTl4xYITduS0Vlg6cn/fqAsoMdAWqmBjPYdOoJqWGzm1GWr+12CjZmTSArvM8YTgp
+ qrA1scUlSOM4poLoe/YXfIoC54/c+vCsrUSNdNt/GFds8Rql5fs1wuX8jgIdjR+sJghZyM
+ ZUtyWOZN+QROHOKP5rTkxhou75GrhgA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-Zmr_PzW5O-6kIGEhs4TWKQ-1; Tue, 07 Jan 2020 08:03:18 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05E641005516
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:03:17 +0000 (UTC)
+Received: from redhat.com (ovpn-116-141.ams2.redhat.com [10.36.116.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 601EC1C4;
+ Tue,  7 Jan 2020 13:03:16 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 06/10] migration: Add multifd-compress parameter
+In-Reply-To: <20200103175708.GR3804@work-vm> (David Alan Gilbert's message of
+ "Fri, 3 Jan 2020 17:57:08 +0000")
+References: <20191218020119.3776-1-quintela@redhat.com>
+ <20191218020119.3776-7-quintela@redhat.com>
+ <20200103175708.GR3804@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Tue, 07 Jan 2020 14:03:13 +0100
+Message-ID: <87v9pnpgfi.fsf@trasno.org>
 MIME-Version: 1.0
-References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
- <20191220134601.571905-22-marcandre.lureau@redhat.com>
-In-Reply-To: <20191220134601.571905-22-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 12:56:34 +0000
-Message-ID: <CAFEAcA-VanHHknV7BWOmfs5ZuN1=OVW5fdHstFALQ80zY-ODCg@mail.gmail.com>
-Subject: Re: [PATCH v5 21/37] sm501: make SerialMM a child,
- export chardev property
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: Zmr_PzW5O-6kIGEhs4TWKQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,25 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Dec 2019 at 13:49, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Embed the SerialMM sybus device, and re-export its "chardev" property.
-> That way, we can get rid of PROP_PTR "chr-state" and better track
-> devices relationship.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/display/sm501.c | 29 +++++++++++++++++++++--------
->  hw/sh4/r2d.c       |  2 +-
->  2 files changed, 22 insertions(+), 9 deletions(-)
->
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-thanks
--- PMM
+>> +#
+>> +##
+>> +{ 'enum': 'MultifdCompress',
+>> +  'data': [ 'none' ] }
+>> +
+>>  ##
+>>  # @MigrationParameter:
+>>  #
+>> @@ -586,6 +599,9 @@
+>>  # @max-cpu-throttle: maximum cpu throttle percentage.
+>>  #                    Defaults to 99. (Since 3.1)
+>>  #
+>> +# @multifd-compress: Which compression method to use.
+>> +#                    Defaults to none. (Since 4.1)
+>> +#
+>
+> 5.0 I guess!
+
+changed.
+
+>
+> Except for the Since 4.1's:
+>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
+
+Thanks, Juan.
+
 
