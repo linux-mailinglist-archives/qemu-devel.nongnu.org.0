@@ -2,73 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFB4132991
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:04:39 +0100 (CET)
-Received: from localhost ([::1]:50842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3381329A3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:08:54 +0100 (CET)
+Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqPO-00056U-Js
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:04:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38273)
+	id 1ioqTS-0003Zx-Rv
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:08:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ioppo-00074X-FA
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:27:53 -0500
+ (envelope-from <clg@kaod.org>) id 1iopxW-0000dH-GA
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ioppn-0005mG-5l
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:27:52 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58089
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iopxT-0002RJ-VD
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:50 -0500
+Received: from 9.mo5.mail-out.ovh.net ([178.32.96.204]:51729)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ioppm-0005lk-UC
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:27:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578407270;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ky0xuTdKS0oC7J5xeh4jTsKqem76ETVJ2E83Coo4SEU=;
- b=P1LPNRgZr2xJa/ajtgZZ6+emN4mkT/HBL2YvPSutmshpX3GeSzUIudH89T5RuKQgcCKyhK
- FZx4668wbN+0EwPmgOGIyQmClMnLvQLO/zF5zszqkvdU6fq0aqZjrGIRYHm9uuiljDOkfO
- 98EUr6pptJQiJ71HzSdNO0KgAMPHu0E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-lUKR1D-cPQCy_VEHW0UhBg-1; Tue, 07 Jan 2020 09:27:47 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FC7F477;
- Tue,  7 Jan 2020 14:27:46 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 676F1858B0;
- Tue,  7 Jan 2020 14:27:38 +0000 (UTC)
-Date: Tue, 7 Jan 2020 14:27:35 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: Priority of -accel
-Message-ID: <20200107142735.GC3368802@redhat.com>
-References: <20200106130951.29873-1-philmd@redhat.com>
- <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
- <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
- <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
- <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
- <20200107125451.GL3368802@redhat.com>
- <3241dff4-6223-404f-55d4-846991763046@redhat.com>
- <2ae2dee3-cd16-a247-971b-4b3482e596a5@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iopxT-0002QA-PO
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:47 -0500
+Received: from player739.ha.ovh.net (unknown [10.108.35.223])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 32B41265C54
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 15:35:44 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: clg@kaod.org)
+ by player739.ha.ovh.net (Postfix) with ESMTPSA id A210A9ED3A9E;
+ Tue,  7 Jan 2020 14:35:34 +0000 (UTC)
+Subject: Re: [PATCH v2 05/10] spapr, ppc: Remove VPM0/RMLS hacks for POWER9
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ groug@kaod.org, philmd@redhat.com
+References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+ <20200107044827.471355-6-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <0e3fa283-fa6e-61bb-f94e-c5b9dc780bad@kaod.org>
+Date: Tue, 7 Jan 2020 15:35:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <2ae2dee3-cd16-a247-971b-4b3482e596a5@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: lUKR1D-cPQCy_VEHW0UhBg-1
-X-Mimecast-Spam-Score: 0
+In-Reply-To: <20200107044827.471355-6-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 10898711099699858214
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgedgvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 178.32.96.204
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,65 +60,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: aik@ozlabs.ru, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-ppc@nongnu.org, lvivier@redhat.com, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 07, 2020 at 03:20:40PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
-:
-> On 1/7/20 3:14 PM, Thomas Huth wrote:
-> > On 07/01/2020 13.54, Daniel P. Berrang=C3=A9 wrote:
-> > > On Tue, Jan 07, 2020 at 01:23:18PM +0100, Paolo Bonzini wrote:
-> > > > On 07/01/20 13:18, Thomas Huth wrote:
-> > > > > I don't think we need a separate priority parameter here. But IMH=
-O it's
-> > > > >   really rather common practice to prioritize the last option. So=
- while
-> > > > > it might be more "self-explanatory" to a CLI newbie if the first
-> > > > > occurrence got the highest priority, it might be rather confusing
-> > > > > instead for a CLI veteran...?
-> > > >=20
-> > > > Prioritising the last certainly makes sense for a choose-one-only
-> > > > option, but I'm not sure it's the same for a choose-best option.  A=
-fter
-> > > > all it was -machine accel=3Dkvm:tcg, not -machine accel=3Dtcg:kvm..=
-.
-> > >=20
-> > > IIUC, the main use case for specifying multiple accelerators is
-> > > so that lazy invokations can ask for a hardware virt, but then get
-> > > fallback to TCG if not available. For things that should be platform
-> > > portabile, there's more than just kvm to consider though, as we have
-> > > many accelerators.  Listing all possible accelerators is kind of
-> > > crazy though no matter what the syntax is.
-> > >=20
-> > > How about taking a completely different approach, inspired by the
-> > > -cpu arg and implement:
-> > >=20
-> > >      -machine accel=3Dbest
-> >=20
-> > Something like that sounds like the best solution to me, but I'd maybe
-> > rather not call it "best", since the definition of "best" might depend
-> > on your use-case (e.g. do you want to use a CPU close to the host or
-> > something different which might be better emulated by TCG?).
-> >=20
-> > What about "-accel any" or "-accel fastest" or something similar?
+On 1/7/20 5:48 AM, David Gibson wrote:
+> For the "pseries" machine, we use "virtual hypervisor" mode where we on=
+ly
+> model the CPU in non-hypervisor privileged mode.  This means that we ne=
+ed
+> guest physical addresses within the modelled within the cpu to be treat=
+ed
+> as absolute physical addresses.
 >=20
-> 'any' is a russian roulette, you don't want it to return 'qtest' ;)
+> We used to do that by clearing LPCR[VPM0] and setting LPCR[RMLS] to a h=
+igh
+> limit so that the old offset based translation for guest mode applied,
+> which does what we need.  However, POWER9 has removed support for that
+> translation mode, which meant we had some ugly hacks to keep it working=
+.
+>=20
+> We now explicitly handle this sort of translation for virtual hyperviso=
+r
+> mode, so the hacks aren't necessary.  We don't need to set VPM0 and RML=
+S
+> from the machine type code - they're now ignored in vhyp mode.  On the =
+cpu
+> side we don't need to allow LPCR[RMLS] to be set on POWER9 in vhyp mode=
+ -
+> that was only there to allow the hack on the machine side.
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-We could make it return "qtest" only on April 1st ;-P
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+> ---
+>  hw/ppc/spapr_cpu_core.c | 6 +-----
+>  target/ppc/mmu-hash64.c | 8 --------
+>  2 files changed, 1 insertion(+), 13 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 8339c4c0f8..daebcd9f38 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -58,14 +58,10 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+>       * we don't get spurious wakups before an RTAS start-cpu call.
+>       * For the same reason, set PSSCR_EC.
+>       */
+> -    lpcr &=3D ~(LPCR_VPM0 | LPCR_VPM1 | LPCR_ISL | LPCR_KBV | pcc->lpc=
+r_pm);
+> +    lpcr &=3D ~(LPCR_VPM1 | LPCR_ISL | LPCR_KBV | pcc->lpcr_pm);
+>      lpcr |=3D LPCR_LPES0 | LPCR_LPES1;
+>      env->spr[SPR_PSSCR] |=3D PSSCR_EC;
+> =20
+> -    /* Set RMLS to the max (ie, 16G) */
+> -    lpcr &=3D ~LPCR_RMLS;
+> -    lpcr |=3D 1ull << LPCR_RMLS_SHIFT;
+> -
+>      ppc_store_lpcr(cpu, lpcr);
+> =20
+>      /* Set a full AMOR so guest can use the AMR as it sees fit */
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index d878180df5..d7f9933e6d 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -1124,14 +1124,6 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulon=
+g val)
+>                        (LPCR_PECE_L_MASK & (LPCR_PDEE | LPCR_HDEE | LPC=
+R_EEE |
+>                        LPCR_DEE | LPCR_OEE)) | LPCR_MER | LPCR_GTSE | L=
+PCR_TC |
+>                        LPCR_HEIC | LPCR_LPES0 | LPCR_HVICE | LPCR_HDICE=
+);
+> -        /*
+> -         * If we have a virtual hypervisor, we need to bring back RMLS=
+. It
+> -         * doesn't exist on an actual P9 but that's all we know how to
+> -         * configure with softmmu at the moment
+> -         */
+> -        if (cpu->vhyp) {
+> -            lpcr |=3D (val & LPCR_RMLS);
+> -        }
+>          break;
+>      default:
+>          g_assert_not_reached();
+>=20
 
 
