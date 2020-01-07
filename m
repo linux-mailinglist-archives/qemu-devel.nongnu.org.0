@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A20132403
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:44:13 +0100 (CET)
-Received: from localhost ([::1]:46232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A50132421
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:49:39 +0100 (CET)
+Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomLL-0002M7-An
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:44:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
+	id 1iomQa-0008KW-W0
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:49:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iolEo-0000jL-3J
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:33:25 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iolIV-0005ib-BC
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:37:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iolEm-0006Sz-ME
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:33:21 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44800
+ (envelope-from <kwolf@redhat.com>) id 1iolIT-0000HZ-LZ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:37:11 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28265
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iolEm-0006SY-IN
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:33:20 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iolIT-0000H3-HC
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:37:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578389600;
+ s=mimecast20190719; t=1578389828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rV4AdtV6fpiPzPLrFUgrzsHrBxOJEDqTcY7DhA1rJnY=;
- b=AiRCrQSHB8QOP2qUJV060pqweVanSv24j3dEq8FwAcMnxaJl3WQvujY8NTotAia5xeHT6H
- uYpqB4c5V49OqPrgOULsNugslox7HQV5vFKa0ha1SmGf1ZaCp0Ryvc0RlCqiOPLNfBPklG
- 7BR3XDMT4FguQ2lZUJH+1V3JLE/iFqM=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-9jX-dkKrNNG3Tk10EMnz7Q-1; Tue, 07 Jan 2020 04:33:16 -0500
-Received: by mail-qk1-f199.google.com with SMTP id 65so7448708qkl.23
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 01:33:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ohifn2DS3HJRYsyyct+ZrgDyh93/8Y0awwWQNx1/1jY=;
- b=PujotR8AfM4gcK3czjaiUonME9vVg7/tnu+L8kuGSz7mz2/0Q872fZuhAGqUGjTWWG
- 7vPgaxFw0VcLGkOuRKMteyLr1Gx6V6KWPjIN9CaZToItwSA0R8NqLFxVmM+7z0SlwkHJ
- /kFq7j47IQrpqm/ElD6VXZYxYm1dnGi/X/xdFusof+iOilLpDlq+nqGCgptmkQNtO2Bn
- M8eaFf27JUYFz8Ih5dTsjXsgI2LW9Ujs35x+aaaJ1PePMI0a10w1FKLYsw72aqs0Vngv
- CXcanLYJfKa8p6hCDZhZuT7HRgCnRytmhTpt9PRcwWSrxCs+xXiF6p2uQsnRdc1yEBpD
- 2qZQ==
-X-Gm-Message-State: APjAAAXRQuVG5w3a7Dinx6CgjIj6mmuC0IiYkf4MFLhEkqZ7yUOQ1Jwf
- GiVqCrPJQSH81fwpHl6YI+onFBPqcvlZPdUWKOCzSSzTR2t8tWfpi4KB9gFbQ1q26VyaRXNNe68
- t492QThlTpzI68h4=
-X-Received: by 2002:ae9:c112:: with SMTP id z18mr85848443qki.145.1578389596434; 
- Tue, 07 Jan 2020 01:33:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxHY0PZh8Y4O5aIkVgVdtBJKAFwFFbuwYsxD3dYruwAypabO3DUWnEUYzHwjzsKxNefEKWRGw==
-X-Received: by 2002:ae9:c112:: with SMTP id z18mr85848421qki.145.1578389596085; 
- Tue, 07 Jan 2020 01:33:16 -0800 (PST)
-Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id q73sm22021675qka.56.2020.01.07.01.33.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 01:33:15 -0800 (PST)
-Date: Tue, 7 Jan 2020 04:33:10 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Zeng Tao <prime.zeng@hisilicon.com>
-Subject: Re: [PATCH] hw/arm/acpi: Pack the SRAT processors structure by
- node_id ascending order
-Message-ID: <20200107042918-mutt-send-email-mst@kernel.org>
-References: <1578388729-55540-1-git-send-email-prime.zeng@hisilicon.com>
+ bh=41nvUBr59e3WRVw0HYn1zrcTgkUkat8OUGwKC9dTltk=;
+ b=U1Ala2LmVohwvle8LbZ/41ph+LPqy5yfybClF0r+vN1GTgfzrxWfPh5lFNVg0mn6/SSwrg
+ bSfbkWKqsJANW22UpNExF6we7ZmqFYTb6u8wkIOio/5qYDxOhq9Od5Sul6w8yZRc/iW1hL
+ 6QhjgHZRx0htwOjfj3OpZSa9BWK8pNw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-9p4IlR6MN6yqTjcpkfJyeQ-1; Tue, 07 Jan 2020 04:37:07 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49DD4800D41;
+ Tue,  7 Jan 2020 09:37:06 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-78.ams2.redhat.com [10.36.116.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68F2E272A1;
+ Tue,  7 Jan 2020 09:36:56 +0000 (UTC)
+Date: Tue, 7 Jan 2020 10:36:55 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Michal =?iso-8859-1?B?UHLtdm96bu1r?= <mprivozn@redhat.com>
+Subject: Re: Making QEMU easier for management tools and applications
+Message-ID: <20200107093655.GF4076@linux.fritz.box>
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+ <87h81unja8.fsf@dusky.pond.sub.org>
+ <c445ecbe-1559-462a-31c2-f44f60e60a8b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1578388729-55540-1-git-send-email-prime.zeng@hisilicon.com>
-X-MC-Unique: 9jX-dkKrNNG3Tk10EMnz7Q-1
+In-Reply-To: <c445ecbe-1559-462a-31c2-f44f60e60a8b@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 9p4IlR6MN6yqTjcpkfJyeQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,100 +74,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 07, 2020 at 05:18:49PM +0800, Zeng Tao wrote:
-> When booting the guest linux with the following numa configuration:
-> -numa node,node_id=3D1,cpus=3D0-3
-> -numa node,node_id=3D0,cpus=3D4-7
-> We can get the following numa topology in the guest system:
-> Architecture:          aarch64
-> Byte Order:            Little Endian
-> CPU(s):                8
-> On-line CPU(s) list:   0-7
-> Thread(s) per core:    1
-> Core(s) per socket:    8
-> Socket(s):             1
-> NUMA node(s):          2
-> L1d cache:             unknown size
-> L1i cache:             unknown size
-> L2 cache:              unknown size
-> NUMA node0 CPU(s):     0-3
-> NUMA node1 CPU(s):     4-7
-> The Cpus 0-3 is assigned with NUMA node 1 in QEMU while it get NUMA node
-> 0 in the guest.
+Am 23.12.2019 um 16:04 hat Michal Pr=EDvozn=EDk geschrieben:
+> On 12/21/19 10:02 AM, Markus Armbruster wrote:
+> > Stefan Hajnoczi <stefanha@gmail.com> writes:
+> >=20
 >=20
-> In fact, In the linux kernel, numa_node_id is allocated per the ACPI
-> SRAT processors structure order,so the cpu 0 will be the first one to
-> allocate its NUMA node id, so it gets the NUMA node 0.
 >=20
-> To fix this issue, we pack the SRAT processors structure in numa node id
-> order but not the default cpu number order.
+> >> 4. Go and Rust bindings would also be useful.  There is
+> >> https://github.com/intel/govmm but I think it makes sense to keep it
+> >> in qemu.git and provide an interface similar to our Python modules.
+> >=20
+> > Mapping QAPI/QMP commands and events to function signatures isn't hard
+> > (the QAPI code generator does).  Two problems (at least):
+> >=20
+> > 1. Leads to some pretty ridiculous functions.  Here's one:
+> >=20
+> >     void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
+> >                              const char *device,
+> >                              const char *target,
+> >                              bool has_replaces, const char *replaces,
+> >                              MirrorSyncMode sync,
+> >                              bool has_speed, int64_t speed,
+> >                              bool has_granularity, uint32_t granularity=
+,
+> >                              bool has_buf_size, int64_t buf_size,
+> >                              bool has_on_source_error,
+> >                              BlockdevOnError on_source_error,
+> >                              bool has_on_target_error, BlockdevOnError =
+on_target_error,
+> >                              bool has_filter_node_name, const char *fil=
+ter_node_name,
+> >                              bool has_copy_mode, MirrorCopyMode copy_mo=
+de,=20
+> >                              bool has_auto_finalize, bool auto_finalize=
+,
+> >                              bool has_auto_dismiss, bool auto_dismiss,
+> >                              Error **errp);
+> >=20
+> >   We commonly use 'boxed': true for such beasts, which results in
+> >   functions like this one:
+> >=20
+> >     void qmp_blockdev_add(BlockdevOptions *arg, Error **errp);
+> >=20
+> > 2. Many schema changes that are nicely backward compatible in QMP are
+> >    anything but in such an "obvious" C API.  Adding optional arguments,
+> >    for instance, or changing integer type width.  The former is less of
+> >    an issue with 'boxed': true.
+> >=20
+> > Perhaps less of an issue with dynamic languages.
+> >=20
+> > I figure a static language would need much more expressive oomph than C
+> > to be a good target.  No idea how well Go or Rust bindings can work.
 >=20
-> Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
-
-
-Does this matter? If yes fixing linux to take node id from proximity
-field in ACPI seems cleaner ...
-
-> ---
->  hw/arm/virt-acpi-build.c | 23 +++++++++++++++--------
->  1 file changed, 15 insertions(+), 8 deletions(-)
+> This is something that bothered me for a while now. Even though it's not
+> as bad as it used to be because we are not adding so much wrappers for
+> monitor commands as we used to. I mean, in libvirt the wrapper for a
+> monitor command has to be written by hand. Worse, whenever I'm adding a
+> wrapper I look at the QMP schema of it and let my muscle memory write
+> the wrapper.
 >=20
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index bd5f771..497192b 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -520,7 +520,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, Vi=
-rtMachineState *vms)
->      AcpiSystemResourceAffinityTable *srat;
->      AcpiSratProcessorGiccAffinity *core;
->      AcpiSratMemoryAffinity *numamem;
-> -    int i, srat_start;
-> +    int i, j, srat_start;
-> +    uint32_t node_id;
->      uint64_t mem_base;
->      MachineClass *mc =3D MACHINE_GET_CLASS(vms);
->      MachineState *ms =3D MACHINE(vms);
-> @@ -530,13 +531,19 @@ build_srat(GArray *table_data, BIOSLinker *linker, =
-VirtMachineState *vms)
->      srat =3D acpi_data_push(table_data, sizeof(*srat));
->      srat->reserved1 =3D cpu_to_le32(1);
-> =20
-> -    for (i =3D 0; i < cpu_list->len; ++i) {
-> -        core =3D acpi_data_push(table_data, sizeof(*core));
-> -        core->type =3D ACPI_SRAT_PROCESSOR_GICC;
-> -        core->length =3D sizeof(*core);
-> -        core->proximity =3D cpu_to_le32(cpu_list->cpus[i].props.node_id)=
-;
-> -        core->acpi_processor_uid =3D cpu_to_le32(i);
-> -        core->flags =3D cpu_to_le32(1);
-> +    for (i =3D 0; i < ms->numa_state->num_nodes; ++i) {
-> +        for (j =3D 0; j < cpu_list->len; ++j) {
+> However, it's not only what Markus already mentioned. Even if we
+> generated wrappers by a script, we need to be able to generate wrappers
+> for every single supported version of qemu.
+>=20
+> For instance, if qemu version X has a command that accepts some set of
+> arguments and this set changes in version X+1 then libvirt needs both
+> wrappers and decides at runtime (depending on what version it is talking
+> to) what wrapper to use.
+>=20
+> Unfortunately, I don't see any easy way out.
 
-Hmm O(n ^2) isn't great ...
+The easy way out would be tying libvirt to a specific QEMU version. And
+I'm only half joking.
 
-> +            node_id =3D cpu_to_le32(cpu_list->cpus[j].props.node_id);
-> +            if (node_id !=3D i) {
-> +                continue;
-> +            }
-> +            core =3D acpi_data_push(table_data, sizeof(*core));
-> +            core->type =3D ACPI_SRAT_PROCESSOR_GICC;
-> +            core->length =3D sizeof(*core);
-> +            core->proximity =3D node_id;
-> +            core->acpi_processor_uid =3D cpu_to_le32(j);
-> +            core->flags =3D cpu_to_le32(1);
-> +        }
->      }
+If libvirt didn't exist yet and we needed a management library for QEMU,
+what we would build now would probably not look much like libvirt looks
+today. We wouldn't try to have basic support for every hypervisor out
+there, but integrate it much closer with QEMU and avoid much of the
+backwards compatibility requirements that the interface between QEMU and
+libvirt has (which requires us to deal with compatibility twice for
+everything).
 
-is the issue arm specific? wouldn't it affect x86 too?
+Maybe it would even be part of the QEMU repository, allowing a single
+patch series to implement a new feature in the system emulator and
+expose it in the API immediately instead of waiting for the next QEMU
+release before libvirt can even think about implementing support for it.
 
->      mem_base =3D vms->memmap[VIRT_MEM].base;
-> --=20
-> 2.8.1
+So should libvirt move in that direction? Do people actually still make
+much use of its multi-hypervisor nature, or would it make sense to split
+it into separate libraries for each hypervisor that can be much tighter
+integrated with (a specific version of) the respective hypervisor?
+
+Kevin
 
 
