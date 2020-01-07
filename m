@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A92E132B72
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:52:38 +0100 (CET)
-Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0BD132C3E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:57:37 +0100 (CET)
+Received: from localhost ([::1]:53142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ios5s-0005RG-KF
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:52:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48280)
+	id 1iosAi-0004kg-MC
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:57:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iormt-0001Tk-MW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:33:01 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iorqo-0006VK-US
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:37:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iormr-0006dy-MV
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:59 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18898)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iormp-0006ca-SW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:56 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 007GRi6N112170
- for <qemu-devel@nongnu.org>; Tue, 7 Jan 2020 11:32:54 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xapd6j3kt-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 11:32:54 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Tue, 7 Jan 2020 16:32:50 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 7 Jan 2020 16:32:48 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 007GVxCd49480182
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Jan 2020 16:31:59 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 136E15204E;
- Tue,  7 Jan 2020 16:32:47 +0000 (GMT)
-Received: from bahia.tlslab.ibm.com (unknown [9.101.4.41])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id D4DD452054;
- Tue,  7 Jan 2020 16:32:46 +0000 (GMT)
-Subject: [PATCH 2/2] pnv/psi: Consolidate some duplicated code in
- pnv_psi_realize()
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Tue, 07 Jan 2020 17:32:46 +0100
-In-Reply-To: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
-References: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
-User-Agent: StGit/unknown-version
+ (envelope-from <dgilbert@redhat.com>) id 1iorqn-0000mb-QC
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:37:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40706
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iorqn-0000ls-MJ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:37:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578415021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=deIymBpJ8L5xzgOMqD2GOgswzjAkfpMPfhBZxWqwugw=;
+ b=ID3Mkw/g4q+2p+94Thhg3byKkh18qtjcXt2EK5dkjdfUdNjzCC993mGn9hSppP1PwrbtZ9
+ 0cslrYqJA+4eu8b+LpJBO1PBccgKhU3fGc47hghqi0sV+4R17VuSGbwKeRtNAoixipDCXU
+ VgA0iyeKcTVRuBnIvo/9T6WIlOKsjzY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-9w9yALg_PJeMMf_7H4lDzA-1; Tue, 07 Jan 2020 11:36:59 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99B59801E6C;
+ Tue,  7 Jan 2020 16:36:58 +0000 (UTC)
+Received: from work-vm (ovpn-117-52.ams2.redhat.com [10.36.117.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7078E10016EB;
+ Tue,  7 Jan 2020 16:36:54 +0000 (UTC)
+Date: Tue, 7 Jan 2020 16:36:52 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] migration-test: ppc64: fix FORTH test program
+Message-ID: <20200107163652.GJ2732@work-vm>
+References: <20200107163437.52139-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-x-cbid: 20010716-0008-0000-0000-0000034740CB
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20010716-0009-0000-0000-00004A6782AD
-Message-Id: <157841476667.66386.13659183399113837990.stgit@bahia.tlslab.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-07_05:2020-01-07,
- 2020-01-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 clxscore=1034 suspectscore=0 adultscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 mlxlogscore=750 mlxscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001070135
+In-Reply-To: <20200107163437.52139-1-lvivier@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 9w9yALg_PJeMMf_7H4lDzA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id 007GRi6N112170
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,83 +72,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Wei Huang <wei@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The proper way to do that would be to use device_class_set_parent_realize=
-(),
-but defining a Pnv8PsiClass and a Pnv9PsiClass types with a parent_realiz=
-e
-pointer adds a fair amount of code. Calling pnv_psi_realize() explicitely
-is fine for now.
+* Laurent Vivier (lvivier@redhat.com) wrote:
+> Commit e51e711b1bef has moved the initialization of start_address and
+> end_address after the definition of the command line argument,
+> where the nvramrc is initialized, and thus the loop is between 0 and 0
+> rather than 1 MiB and 100 MiB.
+>=20
+> It doesn't affect the result of the test if all the tests are run in
+> sequence because the two first tests don't run the loop, so the
+> values are correctly initialized when we actually need them.
+>=20
+> But it hangs when we ask to run only one test, for instance:
+>=20
+>     QTEST_QEMU_BINARY=3Dppc64-softmmu/qemu-system-ppc64 \
+>     tests/migration-test -m=3Dquick -p /ppc64/migration/validate_uuid_err=
+or
+>=20
+> Fixes: e51e711b1bef ("tests/migration: Add migration-test header file")
+> Cc: wei@redhat.com
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
-This should probably be achieved with a device realize hook in the
-PSI base class and device_class_set_parent_realize() in the children
-classes.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/ppc/pnv_psi.c |   19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 6c94781e377d..546232106756 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -469,6 +469,16 @@ static void pnv_psi_reset_handler(void *dev)
-     device_reset(DEVICE(dev));
- }
-=20
-+static void pnv_psi_realize(DeviceState *dev, Error **errp)
-+{
-+    PnvPsi *psi =3D PNV_PSI(dev);
-+
-+    /* Default BAR for MMIO region */
-+    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-+
-+    qemu_register_reset(pnv_psi_reset_handler, dev);
-+}
-+
- static void pnv_psi_power8_instance_init(Object *obj)
- {
-     Pnv8Psi *psi8 =3D PNV8_PSI(obj);
-@@ -528,9 +538,6 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
-Error **errp)
-     memory_region_init_io(&psi->regs_mr, OBJECT(dev), &psi_mmio_ops, psi=
-,
-                           "psihb", PNV_PSIHB_SIZE);
-=20
--    /* Default BAR for MMIO region */
--    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
--
-     /* Default sources in XIVR */
-     for (i =3D 0; i < PSI_NUM_INTERRUPTS; i++) {
-         uint8_t xivr =3D irq_to_xivr[i];
-@@ -538,7 +545,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
-Error **errp)
-             ((uint64_t) i << PSIHB_XIVR_SRC_SH);
-     }
-=20
--    qemu_register_reset(pnv_psi_reset_handler, dev);
-+    pnv_psi_realize(dev, errp);
- }
-=20
- static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, int xscom=
-_offset)
-@@ -873,9 +880,7 @@ static void pnv_psi_power9_realize(DeviceState *dev, =
-Error **errp)
-     memory_region_init_io(&psi->regs_mr, OBJECT(dev), &pnv_psi_p9_mmio_o=
-ps, psi,
-                           "psihb", PNV9_PSIHB_SIZE);
-=20
--    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
--
--    qemu_register_reset(pnv_psi_reset_handler, dev);
-+    pnv_psi_realize(dev, errp);
- }
-=20
- static void pnv_psi_power9_class_init(ObjectClass *klass, void *data)
+> ---
+>  tests/migration-test.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/tests/migration-test.c b/tests/migration-test.c
+> index 53afec439522..341d19092214 100644
+> --- a/tests/migration-test.c
+> +++ b/tests/migration-test.c
+> @@ -480,14 +480,14 @@ static int test_migrate_start(QTestState **from, QT=
+estState **to,
+>      } else if (strcmp(arch, "ppc64") =3D=3D 0) {
+>          machine_opts =3D "vsmt=3D8";
+>          memory_size =3D "256M";
+> +        start_address =3D PPC_TEST_MEM_START;
+> +        end_address =3D PPC_TEST_MEM_END;
+>          arch_source =3D g_strdup_printf("-nodefaults "
+>                                        "-prom-env 'use-nvramrc?=3Dtrue' -=
+prom-env "
+>                                        "'nvramrc=3Dhex .\" _\" begin %x %=
+x "
+>                                        "do i c@ 1 + i c! 1000 +loop .\" B=
+\" 0 "
+>                                        "until'", end_address, start_addre=
+ss);
+>          arch_target =3D g_strdup("");
+> -        start_address =3D PPC_TEST_MEM_START;
+> -        end_address =3D PPC_TEST_MEM_END;
+>      } else if (strcmp(arch, "aarch64") =3D=3D 0) {
+>          init_bootfile(bootpath, aarch64_kernel, sizeof(aarch64_kernel));
+>          machine_opts =3D "virt,gic-version=3Dmax";
+> --=20
+> 2.23.0
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
