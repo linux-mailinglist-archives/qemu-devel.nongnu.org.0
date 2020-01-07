@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A50132421
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:49:39 +0100 (CET)
-Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C965C13242E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:54:36 +0100 (CET)
+Received: from localhost ([::1]:46370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomQa-0008KW-W0
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:49:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44345)
+	id 1iomVO-0006zr-Gg
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:54:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iolIV-0005ib-BC
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:37:12 -0500
+ (envelope-from <abologna@redhat.com>) id 1iolKq-0005yx-3C
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:39:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iolIT-0000HZ-LZ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:37:11 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28265
+ (envelope-from <abologna@redhat.com>) id 1iolKo-0001P8-T3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:39:35 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20587
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iolIT-0000H3-HC
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:37:09 -0500
+ (Exim 4.71) (envelope-from <abologna@redhat.com>) id 1iolKo-0001Oc-Pq
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:39:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578389828;
+ s=mimecast20190719; t=1578389973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=41nvUBr59e3WRVw0HYn1zrcTgkUkat8OUGwKC9dTltk=;
- b=U1Ala2LmVohwvle8LbZ/41ph+LPqy5yfybClF0r+vN1GTgfzrxWfPh5lFNVg0mn6/SSwrg
- bSfbkWKqsJANW22UpNExF6we7ZmqFYTb6u8wkIOio/5qYDxOhq9Od5Sul6w8yZRc/iW1hL
- 6QhjgHZRx0htwOjfj3OpZSa9BWK8pNw=
+ bh=B//8vRo20C+8Gt42JSm+8TpAVhpMlc2XMCKMjASdfB4=;
+ b=P+UadafOhUC0pD7nBw+tKO3AWSyeoE7WsRSBgvOQ1CP7yzZI59WnVpvcT4uBn7cG51RLE+
+ jBkff3ItcforADKkH1Bjrdhw6yqix52Eogb5gnugr3CyzrylSfzFP7NLcsJ3RApguu3fn8
+ b9X/znq4QURCQGPgucH9TJ32nz7GrL0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-9p4IlR6MN6yqTjcpkfJyeQ-1; Tue, 07 Jan 2020 04:37:07 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-154-CTRV_67dOTSQ2Lh4OzHObQ-1; Tue, 07 Jan 2020 04:39:30 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49DD4800D41;
- Tue,  7 Jan 2020 09:37:06 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-78.ams2.redhat.com [10.36.116.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68F2E272A1;
- Tue,  7 Jan 2020 09:36:56 +0000 (UTC)
-Date: Tue, 7 Jan 2020 10:36:55 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Michal =?iso-8859-1?B?UHLtdm96bu1r?= <mprivozn@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200107093655.GF4076@linux.fritz.box>
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
- <87h81unja8.fsf@dusky.pond.sub.org>
- <c445ecbe-1559-462a-31c2-f44f60e60a8b@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57CD4DB6B;
+ Tue,  7 Jan 2020 09:39:27 +0000 (UTC)
+Received: from kinshicho.usersys.redhat.com (unknown [10.43.2.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0C9C1000325;
+ Tue,  7 Jan 2020 09:39:23 +0000 (UTC)
+Message-ID: <e3299f0688127627de96eb2db1f127bf94df9085.camel@redhat.com>
+Subject: Re: [RFC PATCH qemu] spapr: Kill SLOF
+From: Andrea Bolognani <abologna@redhat.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Date: Tue, 07 Jan 2020 10:39:21 +0100
+In-Reply-To: <81f1f752-3ada-2c8d-38b7-1344c7633e14@ozlabs.ru>
+References: <20200103074404.30853-1-aik@ozlabs.ru>
+ <3cf3e733-199a-61ba-7aaa-05e9546cd4d9@ozlabs.ru>
+ <dd98618f-01c6-850f-ac00-454a2f798508@gmail.com>
+ <81f1f752-3ada-2c8d-38b7-1344c7633e14@ozlabs.ru>
+User-Agent: Evolution 3.34.2 (3.34.2-1.fc31)
 MIME-Version: 1.0
-In-Reply-To: <c445ecbe-1559-462a-31c2-f44f60e60a8b@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 9p4IlR6MN6yqTjcpkfJyeQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: CTRV_67dOTSQ2Lh4OzHObQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,108 +75,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Jose Ricardo Ziviani <joserz@linux.ibm.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Paul Mackerras <paulus@ozlabs.org>, qemu-ppc@nongnu.org,
+ Leonardo Augusto =?ISO-8859-1?Q?Guimar=E3es?= Garcia <lagarcia@br.ibm.com>,
+ Leonardo Bras <leonardo@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.12.2019 um 16:04 hat Michal Pr=EDvozn=EDk geschrieben:
-> On 12/21/19 10:02 AM, Markus Armbruster wrote:
-> > Stefan Hajnoczi <stefanha@gmail.com> writes:
-> >=20
->=20
->=20
-> >> 4. Go and Rust bindings would also be useful.  There is
-> >> https://github.com/intel/govmm but I think it makes sense to keep it
-> >> in qemu.git and provide an interface similar to our Python modules.
-> >=20
-> > Mapping QAPI/QMP commands and events to function signatures isn't hard
-> > (the QAPI code generator does).  Two problems (at least):
-> >=20
-> > 1. Leads to some pretty ridiculous functions.  Here's one:
-> >=20
-> >     void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
-> >                              const char *device,
-> >                              const char *target,
-> >                              bool has_replaces, const char *replaces,
-> >                              MirrorSyncMode sync,
-> >                              bool has_speed, int64_t speed,
-> >                              bool has_granularity, uint32_t granularity=
-,
-> >                              bool has_buf_size, int64_t buf_size,
-> >                              bool has_on_source_error,
-> >                              BlockdevOnError on_source_error,
-> >                              bool has_on_target_error, BlockdevOnError =
-on_target_error,
-> >                              bool has_filter_node_name, const char *fil=
-ter_node_name,
-> >                              bool has_copy_mode, MirrorCopyMode copy_mo=
-de,=20
-> >                              bool has_auto_finalize, bool auto_finalize=
-,
-> >                              bool has_auto_dismiss, bool auto_dismiss,
-> >                              Error **errp);
-> >=20
-> >   We commonly use 'boxed': true for such beasts, which results in
-> >   functions like this one:
-> >=20
-> >     void qmp_blockdev_add(BlockdevOptions *arg, Error **errp);
-> >=20
-> > 2. Many schema changes that are nicely backward compatible in QMP are
-> >    anything but in such an "obvious" C API.  Adding optional arguments,
-> >    for instance, or changing integer type width.  The former is less of
-> >    an issue with 'boxed': true.
-> >=20
-> > Perhaps less of an issue with dynamic languages.
-> >=20
-> > I figure a static language would need much more expressive oomph than C
-> > to be a good target.  No idea how well Go or Rust bindings can work.
->=20
-> This is something that bothered me for a while now. Even though it's not
-> as bad as it used to be because we are not adding so much wrappers for
-> monitor commands as we used to. I mean, in libvirt the wrapper for a
-> monitor command has to be written by hand. Worse, whenever I'm adding a
-> wrapper I look at the QMP schema of it and let my muscle memory write
-> the wrapper.
->=20
-> However, it's not only what Markus already mentioned. Even if we
-> generated wrappers by a script, we need to be able to generate wrappers
-> for every single supported version of qemu.
->=20
-> For instance, if qemu version X has a command that accepts some set of
-> arguments and this set changes in version X+1 then libvirt needs both
-> wrappers and decides at runtime (depending on what version it is talking
-> to) what wrapper to use.
->=20
-> Unfortunately, I don't see any easy way out.
+On Tue, 2020-01-07 at 12:55 +1100, Alexey Kardashevskiy wrote:
+> On 07/01/2020 01:15, Daniel Henrique Barboza wrote:
+> > Question: does Petitboot already replaces SLOF in every possible
+> > scenario for all
+> > the spapr machine features?
+> 
+> Petitboot kernel+initramdisk almost replaces SLOF + GRUB.
 
-The easy way out would be tying libvirt to a specific QEMU version. And
-I'm only half joking.
+Is this necessarily a good thing? Personally I quite like the fact
+that I can use the same bootloader across x86, ppc64 and aarch64.
 
-If libvirt didn't exist yet and we needed a management library for QEMU,
-what we would build now would probably not look much like libvirt looks
-today. We wouldn't try to have basic support for every hypervisor out
-there, but integrate it much closer with QEMU and avoid much of the
-backwards compatibility requirements that the interface between QEMU and
-libvirt has (which requires us to deal with compatibility twice for
-everything).
-
-Maybe it would even be part of the QEMU repository, allowing a single
-patch series to implement a new feature in the system emulator and
-expose it in the API immediately instead of waiting for the next QEMU
-release before libvirt can even think about implementing support for it.
-
-So should libvirt move in that direction? Do people actually still make
-much use of its multi-hypervisor nature, or would it make sense to split
-it into separate libraries for each hypervisor that can be much tighter
-integrated with (a specific version of) the respective hypervisor?
-
-Kevin
+-- 
+Andrea Bolognani / Red Hat / Virtualization
 
 
