@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5419813242F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:54:53 +0100 (CET)
-Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7AD132459
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:59:45 +0100 (CET)
+Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomVe-00088H-P6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:54:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59167)
+	id 1iomaN-0006si-8a
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:59:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59974)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iomQO-0004Rp-U9
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:26 -0500
+ (envelope-from <thuth@redhat.com>) id 1iomUN-0000O7-R1
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:53:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iomQM-0004mI-Cg
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58872
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iomUM-0006Zv-Fp
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:53:31 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59979
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iomQM-0004lz-9V
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:22 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iomUM-0006Zc-Bi
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:53:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578394161;
+ s=mimecast20190719; t=1578394409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u9cLPIzThFBog77ftH06FIMmofa4BTkdvNkOMvWgwgw=;
- b=Lpy/R+OfAWK22CsIxw9Yyw4m3aEGe/UWU80SFFxG+tLQasTcs5s8o1hqkJteDKJvyQ9XC3
- U+uYLWTfbzznHFc2mF8fREzDgsXzmCv9ScVDuA07YAmpGJOnrj8EJOEd28ggBfcRJTbnh3
- T/yUFnOYs3c4mHpUop4OG/TlN9OAQZ4=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=vV1GLUhM7JgDjh0KEj8y2DRizEteVUZki1TyS3d7B/Q=;
+ b=Uiiln+5hoSRBVdJy8gb2BdJHE1U0R9HkVvxqaZydvFTTTkIu+c/4GicHB7yOODaDRWrwOQ
+ RscrP5nNqenI+NdaSVfNWeXtb4ydVZVJ5Xv49o4z4Yq+GCJld34e8p/ScoAektm8jc9zBV
+ yrRpuPFEo9ioO3lkCarHIHUAQwzi6/U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-Q-zpLXcNMhehrOLZ8F1OGg-1; Tue, 07 Jan 2020 05:49:20 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-45-J3HDwmELMlidwnrFTmwifg-1; Tue, 07 Jan 2020 05:53:24 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C67D1052A1F;
- Tue,  7 Jan 2020 10:49:19 +0000 (UTC)
-Received: from secure.mitica (ovpn-116-240.ams2.redhat.com [10.36.116.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFACC1A8D6;
- Tue,  7 Jan 2020 10:49:17 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] migration-test: Add migration multifd test
-Date: Tue,  7 Jan 2020 11:49:12 +0100
-Message-Id: <20200107104914.1814-2-quintela@redhat.com>
-In-Reply-To: <20200107104914.1814-1-quintela@redhat.com>
-References: <20200107104914.1814-1-quintela@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF0EB64A7E;
+ Tue,  7 Jan 2020 10:53:22 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AF345D9D6;
+ Tue,  7 Jan 2020 10:53:19 +0000 (UTC)
+Subject: Re: [PATCH v3] docs: build an index page for the HTML docs
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191219135620.1626608-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <a9011505-79cd-27e0-d8f6-eb4d14b7669b@redhat.com>
+Date: Tue, 7 Jan 2020 11:53:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Q-zpLXcNMhehrOLZ8F1OGg-1
+In-Reply-To: <20191219135620.1626608-1-stefanha@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: J3HDwmELMlidwnrFTmwifg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,101 +74,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wei Yang <richardw.yang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We set multifd-channels.
+On 19/12/2019 14.56, Stefan Hajnoczi wrote:
+> There is no index.html start page for the QEMU HTML documentation.  An
+> index page is needed so that documentation can be browsed easily on the
+> web.
+> 
+> This patch adds an index.html.in template file where the QEMU version
+> number is expanded.  It is written in HTML instead of using the existing
+> sphinx (rST) and texi documentation generators because they are
+> heavyweight and would make this harder.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v3:
+>  * Add <html lang="en"> attribute to satisfy the W3 Validator [Thomas Huth]
+> ---
+>  Makefile           |  6 ++++++
+>  docs/index.html.in | 17 +++++++++++++++++
+>  2 files changed, 23 insertions(+)
+>  create mode 100644 docs/index.html.in
+> 
+> diff --git a/Makefile b/Makefile
+> index 1361def144..9da9cfda73 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -347,6 +347,7 @@ DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/
+>  DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
+>  DOCS+=docs/qemu-block-drivers.7
+>  DOCS+=docs/qemu-cpu-models.7
+> +DOCS+=$(MANUAL_BUILDDIR)/index.html
+>  ifdef CONFIG_VIRTFS
+>  DOCS+=fsdev/virtfs-proxy-helper.1
+>  endif
+> @@ -819,6 +820,7 @@ install-sphinxdocs: sphinxdocs
+>  
+>  install-doc: $(DOCS) install-sphinxdocs
+>  	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+> +	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/index.html "$(DESTDIR)$(qemu_docdir)"
+>  	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
+>  	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
+>  	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.html "$(DESTDIR)$(qemu_docdir)"
+> @@ -1025,6 +1027,10 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+>  $(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
+>  	$(call build-manual,interop,man)
+>  
+> +$(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
+> +	$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
+> +             "GEN","$@")
+> +
+>  qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+>  	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+>  
+> diff --git a/docs/index.html.in b/docs/index.html.in
+> new file mode 100644
+> index 0000000000..94eb782cf7
+> --- /dev/null
+> +++ b/docs/index.html.in
+> @@ -0,0 +1,17 @@
+> +<!DOCTYPE html>
+> +<html lang="en">
+> +    <head>
+> +        <meta charset="UTF-8">
+> +        <title>QEMU @@VERSION@@ Documentation</title>
+> +    </head>
+> +    <body>
+> +        <h1>QEMU @@VERSION@@ Documentation</h1>
+> +        <ul>
+> +            <li><a href="qemu-doc.html">User Documentation</a></li>
+> +            <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
+> +            <li><a href="qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
+> +            <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
+> +            <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
+> +        </ul>
+> +    </body>
+> +</html>
+> 
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Tested-by: Wei Yang <richardw.yang@linux.intel.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- tests/migration-test.c | 56 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
-
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 53afec4395..1a8d06718e 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -1202,6 +1202,61 @@ static void test_migrate_auto_converge(void)
-     test_migrate_end(from, to, true);
- }
-=20
-+static void test_multifd_tcp(void)
-+{
-+    MigrateStart *args =3D migrate_start_new();
-+    QTestState *from, *to;
-+    QDict *rsp;
-+    char *uri;
-+
-+    if (test_migrate_start(&from, &to, "defer", args)) {
-+        return;
-+    }
-+
-+    /*
-+     * We want to pick a speed slow enough that the test completes
-+     * quickly, but that it doesn't complete precopy even on a slow
-+     * machine, so also set the downtime.
-+     */
-+    /* 1 ms should make it not converge*/
-+    migrate_set_parameter_int(from, "downtime-limit", 1);
-+    /* 1GB/s */
-+    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
-+
-+    migrate_set_parameter_int(from, "multifd-channels", 16);
-+    migrate_set_parameter_int(to, "multifd-channels", 16);
-+
-+    migrate_set_capability(from, "multifd", "true");
-+    migrate_set_capability(to, "multifd", "true");
-+
-+    /* Start incoming migration from the 1st socket */
-+    rsp =3D wait_command(to, "{ 'execute': 'migrate-incoming',"
-+                           "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}")=
-;
-+    qobject_unref(rsp);
-+
-+    /* Wait for the first serial output from the source */
-+    wait_for_serial("src_serial");
-+
-+    uri =3D migrate_get_socket_address(to, "socket-address");
-+
-+    migrate_qmp(from, uri, "{}");
-+
-+    wait_for_migration_pass(from);
-+
-+    /* 300ms it should converge */
-+    migrate_set_parameter_int(from, "downtime-limit", 600);
-+
-+    if (!got_stop) {
-+        qtest_qmp_eventwait(from, "STOP");
-+    }
-+    qtest_qmp_eventwait(to, "RESUME");
-+
-+    wait_for_serial("dest_serial");
-+    wait_for_migration_complete(from);
-+    test_migrate_end(from, to, true);
-+    free(uri);
-+}
-+
- int main(int argc, char **argv)
- {
-     char template[] =3D "/tmp/migration-test-XXXXXX";
-@@ -1266,6 +1321,7 @@ int main(int argc, char **argv)
-                    test_validate_uuid_dst_not_set);
-=20
-     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge)=
-;
-+    qtest_add_func("/migration/multifd/tcp", test_multifd_tcp);
-=20
-     ret =3D g_test_run();
-=20
---=20
-2.24.1
 
 
