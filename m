@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478D6132C84
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:06:19 +0100 (CET)
-Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6234132C8D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:08:06 +0100 (CET)
+Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iosJ7-0001Ii-Rv
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:06:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45161)
+	id 1iosKr-0004Vy-O9
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:08:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iosHA-0007z1-HE
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:04:17 -0500
+ (envelope-from <groug@kaod.org>) id 1iosIo-0001w4-I6
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:05:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iosH8-0005dB-Ub
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:04:16 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33462)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iosH8-0005cK-I9
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:04:14 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b6so264900wrq.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 09:04:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=HImR5jWRtvL22+YNBuFx+16suQ+5/mMCMitz+A2uTNQ=;
- b=VpeFK+VcXuBLZGJfVFrVmVLm5LGeKW+6rBgNP7xtQODl+37ijEd1z/5EE4BHmXzsGh
- D7n/V/wIJMhdo+gMTwrNUDLP33KW+n2BwUTgqbhyOJLlbSw69L507pXqb6rpW068LUVj
- 5Y/uoH6cceCSmoRXty3p0nohSgzIBrgrN5JHcVlx/U27qIy/MXkE6OQHnvSFIaH8PJwg
- X5QjavjmipVZmjSsUA0bViA9cX44MvgKzWQlig81bfSBnatz5iH/q8QRRI7HetjRePmI
- 3eN8pK2GOJLjL4yCGJbtIaYk9C9i1cUH8ZowVMlFaRffhFs/m/llw6m2EDmPAimgd4X+
- 3c1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=HImR5jWRtvL22+YNBuFx+16suQ+5/mMCMitz+A2uTNQ=;
- b=AFx1JBnY0VmhHjrIxnDGpJ4BKoTMHYvlz0uJ9PtoKtxsyyUStDOKFHJWoSs/piY5DT
- 5xNJUG/psUI0fVOAl7G48QV7M3bEheuabo0kAhaBGNmVqvrkim7DKiWOUvd9hyQWoTZI
- m7VkaFzeM/AVBfc7MqfNkd/IViwMivIcVzW5ugYIhbRNfbPHXcNwsyhSRb2HrBmkXEoc
- gWkxlp1Kqbt0jaFN9HXTjaeIzQpCpBH9wcmwc80z4LVACDWR5YZ1sBBnSHdA+sP0VPAa
- ycNkzFU0SjK0ztnpiUiFLbLa1ffPmo3XhyXSNHk23iw+01kNMAbPoniDbV+m2ETHjh8X
- fkHg==
-X-Gm-Message-State: APjAAAUQxwPXXJojejlhajWOQyCcrg9kGQXo6jhPHGvjJg4vhXGFEAe6
- aE1Kq4hMzBuMveZQbVVxDVfFNg==
-X-Google-Smtp-Source: APXvYqwQjGvFIc8pwtcPyVxL/FaBahcLpC9OS08InyKdNYcBxXJ1Mwq5vkIJj+AJ8BWWJ0NedJqX/A==
-X-Received: by 2002:adf:cf0a:: with SMTP id o10mr1843wrj.325.1578416653146;
- Tue, 07 Jan 2020 09:04:13 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g9sm512212wro.67.2020.01.07.09.04.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 09:04:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F3EE31FF87;
- Tue,  7 Jan 2020 17:04:10 +0000 (GMT)
-References: <CAFEAcA-U1JqzH8m2AWV7KuJKm0WfczDKK+ddzPs44y9usujB2Q@mail.gmail.com>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: race condition in tests/fp/Makefile
-In-reply-to: <CAFEAcA-U1JqzH8m2AWV7KuJKm0WfczDKK+ddzPs44y9usujB2Q@mail.gmail.com>
-Date: Tue, 07 Jan 2020 17:04:10 +0000
-Message-ID: <87imlnjj05.fsf@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1iosIn-0006qu-6F
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:05:58 -0500
+Received: from 8.mo178.mail-out.ovh.net ([46.105.74.227]:47045)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iosIm-0006q0-Ve
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:05:57 -0500
+Received: from player774.ha.ovh.net (unknown [10.109.143.216])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id BA8C68B499
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 18:05:54 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player774.ha.ovh.net (Postfix) with ESMTPSA id DCA60E06B455;
+ Tue,  7 Jan 2020 17:05:42 +0000 (UTC)
+Date: Tue, 7 Jan 2020 18:05:39 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 01/10] ppc: Drop PPC_EMULATE_32BITS_HYPV stub
+Message-ID: <20200107180539.57ba0781@bahia.lan>
+In-Reply-To: <20200107044827.471355-2-david@gibson.dropbear.id.au>
+References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+ <20200107044827.471355-2-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::429
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 13434800640545233382
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehhedgtdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.74.227
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,69 +57,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, paulus@samba.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue,  7 Jan 2020 15:48:18 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+> The only effect of the PPC_EMULATE_32BITS_HYPV define is to change how
+> MSR_HVB is defined.  This appears to be something to handle hypervisor mode
+> for 32-bit CPUs, but there's really no other code to handle this.  The
+> MSR_THV bit, which it uses is implemented for no cpus we model.
+> 
+> It's unlikely anyone is going to implement this any time soon, so just drop
+> it.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  target/ppc/cpu.h | 7 -------
+>  1 file changed, 7 deletions(-)
+> 
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 103bfe9dc2..2de9e2fa2b 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -26,8 +26,6 @@
+>  #include "exec/cpu-defs.h"
+>  #include "cpu-qom.h"
+>  
+> -/* #define PPC_EMULATE_32BITS_HYPV */
+> -
+>  #define TCG_GUEST_DEFAULT_MO 0
+>  
+>  #define TARGET_PAGE_BITS_64K 16
+> @@ -450,14 +448,9 @@ typedef struct ppc_v3_pate_t {
+>  #define MSR_HVB (1ULL << MSR_SHV)
+>  #define msr_hv  msr_shv
+>  #else
+> -#if defined(PPC_EMULATE_32BITS_HYPV)
+> -#define MSR_HVB (1ULL << MSR_THV)
+> -#define msr_hv  msr_thv
+> -#else
 
-> I've just spotted this issue with tests/fp/Makefile which I think
-> is causing my tests/vm/netbsd builds to fail:
->
-> tests/Makefile.include has some rules that invoke a fresh make
-> process on tests/fp/Makefile:
->
-> tests/fp/%:
->         $(MAKE) -C $(dir $@) $(notdir $@)
->
-> tests/fp/Makefile has some rules that invoke a fresh make process
-> in the parent build directory:
->
-> BUILD_DIR :=3D $(CURDIR)/../..
-> $(LIBQEMUUTIL):
->         $(MAKE) -C $(BUILD_DIR) libqemuutil.a
->
-> $(BUILD_DIR)/config-host.h:
->         $(MAKE) -C $(BUILD_DIR) config-host.h
->
-> This means that we can end up with two 'make' processes
-> (the original top level one, and the one invoked by the
-> rules in tests/fp/Makefile) both trying to build things in
-> the top level build dir simultaneously. They then step on
-> each others toes and the build can fail.
->
-> In the most usual case where "make" and "make check"
-> run as separate steps, this doesn't happen, because
-> libqemuutil.a and config-host.h will both be built by
-> the "make" step, and then the second make invoked in
-> "make check" will fairly harmlessly see it has nothing
-> to do. But the tests/vm scripts all directly run
-> "make check" without a preceding "make", so they can
-> hit this.
->
-> I guess the best fix here is to move the dependencies
-> on libqemuutil.a and config-host.h into tests/Makefile.include
-> (though then you wouldn't be able to stand-alone run
-> tests/fp/Makefile -- does anybody do that?)
+These lines come from commit a4f30719a8cd, which also introduced msr_thv
+and msr_shv to differentiate the 32 and 64 bits HV mode. Maybe you can go
+one step further: drop msr_thv and msr_shv and revert to msr_hv only, like
+before a4f30719a8cd ?
 
-Not really - it needs bits to build. I guess when testing you might
-invoke directly in the tree. I'll make it error out if the parent build
-bits aren't there.
+>  #define MSR_HVB (0ULL)
+>  #define msr_hv  (0)
+>  #endif
+> -#endif
+>  
+>  /* DSISR */
+>  #define DSISR_NOPTE              0x40000000
 
-> Also, should we change tests/vm to separately invoke
-> 'make' and 'make check' ? I think that doing a single
-> 'make check' is a bit fragile because we don't
-> really test it and there's no rule that says
-> "check depends on all" or similar AFAIK.
-
-OK - although shouldn't our rules be robust enough for this.=20
-
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
