@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085F81325A1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:07:19 +0100 (CET)
-Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88641325BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:11:58 +0100 (CET)
+Received: from localhost ([::1]:47480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iondl-0003Bt-CX
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:07:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39002)
+	id 1ioniG-0005mv-Of
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:11:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iomvt-0001Gu-PE
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:21:59 -0500
+ (envelope-from <berrange@redhat.com>) id 1iomxp-0007W9-BM
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iomvs-00056O-GD
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:21:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37760
+ (envelope-from <berrange@redhat.com>) id 1iomxo-00069y-3t
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46757
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iomvs-00054W-BC
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:21:56 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iomxo-00069q-0F
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578396115;
+ s=mimecast20190719; t=1578396235;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FPhqErhV+RtvqVE6Fap9iSQQ+GtipyBigjroZG4daxY=;
- b=NdS1aST8f/q/06uUb/78AhsTyzsGV4eUXyMQC/zZC0KKzgV/eq8Rk27VpeIwFDYDge5xyJ
- fV7Kuwq+9XxaxE3wGixd8yM2px/rchwpQ5pVm2+AQ9Z4MmqknxRwvxDNfyfC/E0FSp7kf3
- 8nNVO/+W8YQ9m/UViIu22cGGsTzIMX0=
+ bh=8+GUXz7mMGiNDLAhzZ0CFy6GLJB8UhmuexpDyteFKPM=;
+ b=K9HhMR6LDULjVnF/VxFjjLdscULZrZM/oIfrxkcl5cxtOTUenrHfTgpZ8QyA19YHLVkkzy
+ iY8SqMx01KeXUbtdijyHfjJSOSG79MAFCH5mImSmAzH42KakLbV1/RfQV8ZyOewl9AwJhJ
+ 8hRtBdTxD2pJX5CFOMbMbjwmDp9PBQo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-qxXmmf9PMUKNIise4quIyg-1; Tue, 07 Jan 2020 06:21:51 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-21-dkiv6OsFMnWX884BoYtbWA-1; Tue, 07 Jan 2020 06:23:52 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C77810054E3
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:21:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7AC7107ACC4
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:23:51 +0000 (UTC)
 Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBC095C1BB;
- Tue,  7 Jan 2020 11:21:46 +0000 (UTC)
-Date: Tue, 7 Jan 2020 11:21:43 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8CCE5D9CA;
+ Tue,  7 Jan 2020 11:23:47 +0000 (UTC)
+Date: Tue, 7 Jan 2020 11:23:44 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 066/104] virtiofsd: passthrough_ll: add renameat2 support
-Message-ID: <20200107112143.GJ3368802@redhat.com>
+Subject: Re: [PATCH 069/104] virtiofsd: rename unref_inode() to
+ unref_inode_lolocked()
+Message-ID: <20200107112344.GM3368802@redhat.com>
 References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-67-dgilbert@redhat.com>
+ <20191212163904.159893-70-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-67-dgilbert@redhat.com>
+In-Reply-To: <20191212163904.159893-70-dgilbert@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: qxXmmf9PMUKNIise4quIyg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: dkiv6OsFMnWX884BoYtbWA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,44 +80,17 @@ Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:26PM +0000, Dr. David Alan Gilbert (git) wrot=
+On Thu, Dec 12, 2019 at 04:38:29PM +0000, Dr. David Alan Gilbert (git) wrot=
 e:
 > From: Miklos Szeredi <mszeredi@redhat.com>
 >=20
-> No glibc support yet, so use syscall().
-
-It exists in glibc in my Fedora 31 install.
-
-Presumably this is related to an older version
-
 > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->=20
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
-gh_ll.c
-> index 91d3120033..bed2270141 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -1083,7 +1083,17 @@ static void lo_rename(fuse_req_t req, fuse_ino_t p=
-arent, const char *name,
->      }
-> =20
->      if (flags) {
-> +#ifndef SYS_renameat2
->          fuse_reply_err(req, EINVAL);
-> +#else
-> +        res =3D syscall(SYS_renameat2, lo_fd(req, parent), name,
-> +                      lo_fd(req, newparent), newname, flags);
-> +        if (res =3D=3D -1 && errno =3D=3D ENOSYS) {
-> +            fuse_reply_err(req, EINVAL);
-> +        } else {
-> +            fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
-> +        }
-> +#endif
+>  tools/virtiofsd/passthrough_ll.c | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
 
-We should use the formal API if available as first choice
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
 Regards,
