@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63EBE132779
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:21:24 +0100 (CET)
-Received: from localhost ([::1]:48542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EA1132787
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:25:46 +0100 (CET)
+Received: from localhost ([::1]:48616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioonS-0005fG-IZ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:21:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42532)
+	id 1ioorg-0000lT-HV
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:25:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ioois-00081I-0y
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:16:39 -0500
+ (envelope-from <berrange@redhat.com>) id 1ionO1-00075b-Pf
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:51:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iooiq-0006a5-Ms
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:16:37 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33383)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iooiq-0006Zb-FL
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:16:36 -0500
-Received: by mail-wr1-x443.google.com with SMTP id b6so53937100wrq.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:16:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=wz+ab3yKTTG2QO/JQK25iGQwFvyEHf5eNj4sMASafjA=;
- b=QYKY1xHzQucUpyJ3hDxzAppttyLVMuHCH3480wC1fXtUuUawvUB7SPvfMz48uplY/r
- TDD3iaGlENl3sG0Jh48QgzfI3c7HHbjcr6mLKblKl26mp7EoiCuPJYrEDpjn/lDXaAsY
- XkdRAusiQ8x+GO9IVg1xRjRUbfT5gkJzAYF5Ba52HnRenJgr7RvIn2zYQzurvyUT7bw2
- hv1+QJFaYsuC7QxBnNRXPKyRaZgdwf1rDa5GrQ0HCGbQpHn9hWtbUNmRfFChyzc5Bkpq
- KH/MnyEY75nPTYt+ZkVT25ecL0Kv77atSdqVMWrKFlVpLSHyGn1HM0P/Otmhrmbg1/6I
- oCJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=wz+ab3yKTTG2QO/JQK25iGQwFvyEHf5eNj4sMASafjA=;
- b=AlSYRcm++HzAzRnqFODNgymRpH+gVZYm8LSLStEx6Wal11jkzowPb0YG45Twd0Hvnj
- O7S2TJ29ZqiAgBINf+cldQkStgHuG+fQoAEELDe5z3HGIKD2Gnmp2oWZaCAKTdyio+/x
- pSRrKO8pP90l/XvCC+qof9OiDH53MigZywC4xi7US9ImmSsKh9NIwocByQvfJUsexsyu
- UV//VKlVqGxz22Vu1wJ+iv+EkdDWzP5ORQsQO04Y1sb59tkJmnbO8Xej4+rVbrqE2e06
- PoVigZYzsMhkNuJ9iHyByA0F21AtlfEUS4BwCaqMnuOFhFMigvE5a0P3FoFzeJLuyJ/7
- 1FDA==
-X-Gm-Message-State: APjAAAW53wE4q75BxzeUQieCzcbHDh4u2GKU4AsTVDd4XRvJCsZ8Hm+3
- XsOhp4YLjSV28xSHdPQOS9ORkQ==
-X-Google-Smtp-Source: APXvYqzxcmfQ/KV64Jzsbpy57fizc03+wRm4K7fr4FajQvSWUpL2eANyjSQJFu0lnnVN/giuAz7zzw==
-X-Received: by 2002:a5d:43c7:: with SMTP id v7mr102620578wrr.32.1578402994948; 
- Tue, 07 Jan 2020 05:16:34 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f17sm26925561wmc.8.2020.01.07.05.16.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 05:16:33 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C7B341FF87;
- Tue,  7 Jan 2020 13:16:32 +0000 (GMT)
-References: <20191218223441.23852-1-richard.henderson@linaro.org>
- <20191218223441.23852-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 4/7] configure: Always detect -no-pie toolchain support
-In-reply-to: <20191218223441.23852-5-richard.henderson@linaro.org>
-Date: Tue, 07 Jan 2020 13:16:32 +0000
-Message-ID: <87o8vf4dan.fsf@linaro.org>
+ (envelope-from <berrange@redhat.com>) id 1ionO0-0005Uc-0W
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:51:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37309
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ionNX-0005IX-E0
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:50:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578397829;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=68EmF+9APYZn4U1yvfuNM8QsTUNGkUcZTwal+KPeF4o=;
+ b=QGP/RMJGVSwCtU3Hw7QPrZT68lVY/hnSUj4OkyJE+vcpVsvCZa8S4D+bNe4jreglIoArbC
+ 9bsaqNzM19ouaOH0BMisISO1WotJYqWCBihZLyfqMYWIyQp+A/nn+2TNOqMBsn7kg2vrdK
+ OtSbPEe7uL3WVxz2CpX/rmw+K6BxSxU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-qJg7GpyTPJaCeaL6FbR7VA-1; Tue, 07 Jan 2020 06:50:28 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 786AF800D55
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:50:27 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E88E5C1B0;
+ Tue,  7 Jan 2020 11:50:23 +0000 (UTC)
+Date: Tue, 7 Jan 2020 11:50:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] trace: update qemu-trace-stap to Python 3
+Message-ID: <20200107115020.GZ3368802@redhat.com>
+References: <20200107112438.383958-1-stefanha@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20200107112438.383958-1-stefanha@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: qJg7GpyTPJaCeaL6FbR7VA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,73 +73,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, Thomas Huth <thuth@redhat.com>, i@maskray.me,
- philmd@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> The CFLAGS_NOPIE and LDFLAGS_NOPIE variables are used
-> in pc-bios/optionrom/Makefile, which has nothing to do
-> with the PIE setting of the main qemu executables.
->
-> This overrides any operating system default to build
-> all executables as PIE, which is important for ROMs.
-
-But if the compiler doesn't support no-pie it just keeps going on.
-Should the sub-build be bailing if _NOPIE is empty?
-
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Jan 07, 2020 at 11:24:38AM +0000, Stefan Hajnoczi wrote:
+> qemu-trace-stap does not support Python 3 yet:
+>=20
+>   $ scripts/qemu-trace-stap list path/to/qemu-system-x86_64
+>   Traceback (most recent call last):
+>     File "scripts/qemu-trace-stap", line 175, in <module>
+>       main()
+>     File "scripts/qemu-trace-stap", line 171, in main
+>       args.func(args)
+>     File "scripts/qemu-trace-stap", line 118, in cmd_list
+>       print_probes(args.verbose, "*")
+>     File "scripts/qemu-trace-stap", line 114, in print_probes
+>       if line.startswith(prefix):
+>   TypeError: startswith first arg must be bytes or a tuple of bytes, not =
+str
+>=20
+> Now that QEMU requires Python 3.5 or later we can switch to pure Python
+> 3.  Use Popen()'s universal_newlines=3DTrue argument to treat stdout as
+> text instead of binary.
+>=20
+> Fixes: 62dd1048c0bd ("trace: add ability to do simple printf logging via =
+systemtap")
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1787395
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  configure | 18 ++++++++----------
->  1 file changed, 8 insertions(+), 10 deletions(-)
->
-> diff --git a/configure b/configure
-> index 99faf64a74..7a646ec007 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2018,26 +2018,24 @@ if ! compile_prog "-Werror" "" ; then
->  	"Thread-Local Storage (TLS). Please upgrade to a version that does."
->  fi
->=20=20
-> -if test "$pie" !=3D "no" ; then
-> -  cat > $TMPC << EOF
-> +cat > $TMPC << EOF
->=20=20
->  #ifdef __linux__
->  #  define THREAD __thread
->  #else
->  #  define THREAD
->  #endif
-> -
->  static THREAD int tls_var;
-> -
->  int main(void) { return tls_var; }
-> -
->  EOF
-> -  # check we support --no-pie first...
-> -  if compile_prog "-Werror -fno-pie" "-no-pie"; then
-> -    CFLAGS_NOPIE=3D"-fno-pie"
-> -    LDFLAGS_NOPIE=3D"-nopie"
-> -  fi
->=20=20
-> +# Check we support --no-pie first; we will need this for building ROMs.
-> +if compile_prog "-Werror -fno-pie" "-no-pie"; then
-> +  CFLAGS_NOPIE=3D"-fno-pie"
-> +  LDFLAGS_NOPIE=3D"-no-pie"
-> +fi
-> +
-> +if test "$pie" !=3D "no" ; then
->    if compile_prog "-fPIE -DPIE" "-pie"; then
->      QEMU_CFLAGS=3D"-fPIE -DPIE $QEMU_CFLAGS"
->      LDFLAGS=3D"-pie $LDFLAGS"
+>  scripts/qemu-trace-stap | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
+Regards,
+Daniel
 --=20
-Alex Benn=C3=A9e
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
