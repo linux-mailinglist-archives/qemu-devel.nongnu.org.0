@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062731323F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:41:34 +0100 (CET)
-Received: from localhost ([::1]:46171 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D435132428
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:53:07 +0100 (CET)
+Received: from localhost ([::1]:46366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomIl-0000O3-V6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:41:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55284)
+	id 1iomTw-0002Bc-Iv
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:53:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iom7h-0003y7-Vs
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:30:07 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iomAL-0002N3-V2
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:32:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iom7f-0002Ri-Rj
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:30:05 -0500
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:41951)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iom7e-0002Ok-4w
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:30:02 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id r27so75828527otc.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:30:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PcwXxgMbgfNFmznP6VilRDfSBCFpIzKjRBBdoaGkuDM=;
- b=SSLGwhezAChNIv3f9hiuWR/yBWFrnJ8nVvibsWsDiQJBGEc3rlpifZrCSmlz4g3NyZ
- VOhUHJUQxKW29e4X6c7ypOrnbIlklZ1rpznyY/RbaSbZuGqxFACWW01vtG/jerS88Nb2
- GYgjfpgnePISjqeJH/Y+O2RVprf2eMih+IiZfcVAZQR+i52xJ5dUeUqubntjnbCsSDHf
- fUaFUVzEKCD93T4EiEB18uVR8+uAC+647wJn4e0ZImHzjQvXNHc77WuONXRqqvlZ2A2V
- xd16LdJz9XBckjHqgL786dx5z3B2Vsu6f7sfOliLmTLK0gwFn1UfDWGMVijEGWqM4b2H
- bm4Q==
+ (envelope-from <pbonzini@redhat.com>) id 1iomAK-0004So-Ff
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:32:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57673
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iomAK-0004Sd-C4
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:32:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578393167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8Le5hZ/Wfhmw2PDPjqsu0uBKJUVGybeJ15wX6trk4gM=;
+ b=FWELFU0duom/UjJI6okBCZk1Y5BaHi9zVWcrphcml7HwpGhhMGA0nsJ3OvDg9lHYKcmuW5
+ RYZcC7D6AQ990MsA/R2ZsSARhmJHMNeLbiKn2uv8y5XvvRjf/Tuz69aHkt/QDTx22I7FyN
+ xtrDKM3P4E0YruAKUxnt2rXA0GjvmVQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-R07r0htMN-u21n-itjRSfQ-1; Tue, 07 Jan 2020 05:32:45 -0500
+Received: by mail-wr1-f70.google.com with SMTP id t3so27658638wrm.23
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:32:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PcwXxgMbgfNFmznP6VilRDfSBCFpIzKjRBBdoaGkuDM=;
- b=ej/MjAHJBb/xs1/yUHp3ZnhIkWMSKvkp698ros9cYfWg8sc8/HshGRiRCsF1abFSOe
- /dIcQ+wDq8EH7jSu3UFOjq71rqvC32uPbwRkNE31ALUvon1AbJL0rlxJvJoOwPDTmngS
- ZqnfNqH7Ubhn2n7mUGdQWatJN5WBQIinkKI2x4/3mhf+6LB9fJkC9Rdu67N77BISBaf3
- KwRnYwPaZ04GQPXcUupSsI/xUyoIAfLS531s2URMFIpOkanyPlN3mWMy6p+gb04HfN8V
- y8seu5L17RnaSHBeM8dBaohTuN3dWiagllluTZMZCq+F4wkn40Ct2EXdgUzdyDBwswD2
- aTZg==
-X-Gm-Message-State: APjAAAXFRpHvcodh2jGPtc5l0oJ0Pzn3bZcU2qLhdNj5YrT5OYEySEB/
- gM19qDKwox+xCzGxpjV6SXvpJ9GP7p6eLuNfkWxaXA==
-X-Google-Smtp-Source: APXvYqwUwvM+Esmu36FiJzUWQffa1iLJm27mbVVq1SX2aHHwK/UVklchGrWbCp90IctsjUZWGnpjcCfHePNb57tHLig=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr16293otq.97.1578393000598; 
- Tue, 07 Jan 2020 02:30:00 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8Le5hZ/Wfhmw2PDPjqsu0uBKJUVGybeJ15wX6trk4gM=;
+ b=s4usNiwC/n+ZNakdiEf0HV4C1qLXu8s2spthFeA5nU1xcHkoCY2kDwuQt3g8aM2pLo
+ wUkM7+Iog5c2o0MQEwuYdf7elPoV75aHuCaJuVK/fAZ1slx3hyffPu4esoblDwSjCW9W
+ 8LJXuXU3u4zhQpKf8eCHa2VobHSl/BaDB0jIMALE4oy2l0KoFUXb4zmR3+ira9nh3Xtd
+ JhNheHvrg5i2FnIfXmx6eqF40kBeq21glqHW4e5yuWNDQOk7MBXV7k2pwFD+1ZQS9MRp
+ v+UL3fwumsQ42vqYYRpPU8vcLXtDMpIkJz7qV4czMUPakUPrJsuWpZPpQ0IzEonhS5kB
+ WnmQ==
+X-Gm-Message-State: APjAAAXkb7j32dc63JXlymGHlutMc2wT1i6KlOa7d0UBG3ihPXNarP7r
+ EJuQD6q8rEiqnctCWiSF7Dknm0+Oy5FA+X0BeAoBeYmY1L7J+ttPtztPDFaqkHBuPBxE+MJX8uz
+ iqP31zkUcjh4yQ/w=
+X-Received: by 2002:adf:ef0b:: with SMTP id e11mr91722156wro.128.1578393164562; 
+ Tue, 07 Jan 2020 02:32:44 -0800 (PST)
+X-Google-Smtp-Source: APXvYqybSbZb5FJzY0fq+KgPJEKtW48Ac5mhKJ5Jv6LZbrICgSGHwJIumMUJxewtQx+zER1Ev93xjQ==
+X-Received: by 2002:adf:ef0b:: with SMTP id e11mr91722133wro.128.1578393164333; 
+ Tue, 07 Jan 2020 02:32:44 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id v3sm77347697wru.32.2020.01.07.02.32.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 02:32:43 -0800 (PST)
+Subject: Re: [PATCH v2] accel/kvm: Make "kernel_irqchip" default on
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Eduardo Habkost <ehabkost@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20191228104326.21732-1-xiaoyao.li@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <05532242-3a70-b547-3765-0ab29583c4b0@redhat.com>
+Date: Tue, 7 Jan 2020 11:32:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20200106144622.1520994-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20200106144622.1520994-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 10:29:49 +0000
-Message-ID: <CAFEAcA_noBbQh3y6_5ZUu3n97o9pPDPVayLZKSnC1e7D4bjTnw@mail.gmail.com>
-Subject: Re: [PULL v2 0/9] Add dbus-vmstate
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32e
+In-Reply-To: <20191228104326.21732-1-xiaoyao.li@intel.com>
+Content-Language: en-US
+X-MC-Unique: R07r0htMN-u21n-itjRSfQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,35 +91,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 14:46, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> The following changes since commit b0b74e1f17508cb8cef8afd698558db1bd8999=
-cc:
->
->   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-re=
-quest' into staging (2020-01-06 11:39:55 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/elmarco/qemu.git tags/dbus-vmstate7-pull-request
->
-> for you to fetch changes up to 586ca6ba3cd6d7a3a85ed5cdc4e53b1cd584b0c0:
->
->   tests: add dbus-vmstate-test (2020-01-06 18:41:32 +0400)
->
-> ----------------------------------------------------------------
-> Add dbus-vmstate
+On 28/12/19 11:43, Xiaoyao Li wrote:
+> Commit 11bc4a13d1f4 ("kvm: convert "-machine kernel_irqchip" to an
+> accelerator property") moves kernel_irqchip property from "-machine" to
+> "-accel kvm", but it forgets to set the default value of
+> kernel_irqchip_allowed and kernel_irqchip_split.
+> 
+> Also cleaning up the three useless members (kernel_irqchip_allowed,
+> kernel_irqchip_required, kernel_irqchip_split) in struct MachineState.
+> 
+> Fixes: 11bc4a13d1f4 ("kvm: convert "-machine kernel_irqchip" to an accelerator property")
+> Reported-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+> Changes in v2:
+>   - Add Reported-by tag;
+>   - Initialize kernel_irqchip_split in init_machine();
 
+Now that I am actually reviewing the patch on something other than a
+phone, I think this would break "-machine kernel_irqchip=split".  I'll
+test, and squash if it works, something like this:
 
-Applied, thanks.
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index afbbe0a1af..ea35433170 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -98,7 +98,7 @@ struct KVMState
+     int kvm_shadow_mem;
+     bool kernel_irqchip_allowed;
+     bool kernel_irqchip_required;
+-    bool kernel_irqchip_split;
++    OnOffAuto kernel_irqchip_split;
+     bool sync_mmu;
+     bool manual_dirty_log_protect;
+     /* The man page (and posix) say ioctl numbers are signed int, but
+@@ -1799,7 +1799,7 @@ static void kvm_irqchip_create(KVMState *s)
+      * in-kernel irqchip for us */
+     ret = kvm_arch_irqchip_create(s);
+     if (ret == 0) {
+-        if (s->kernel_irqchip_split) {
++        if (s->kernel_irqchip_split == ON_OFF_AUTO_ON) {
+             perror("Split IRQ chip mode not supported.");
+             exit(1);
+         } else {
+@@ -2070,7 +2070,9 @@ static int kvm_init(MachineState *ms)
+         goto err;
+     }
+ 
+-    s->kernel_irqchip_split = mc->default_kernel_irqchip_split;
++    if (s->kernel_irqchip_split == ON_OFF_AUTO_AUTO) {
++        s->kernel_irqchip_split = mc->default_kernel_irqchip_split ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
++    }
+ 
+     if (s->kernel_irqchip_allowed) {
+         kvm_irqchip_create(s);
+@@ -3007,17 +3009,17 @@ static void kvm_set_kernel_irqchip(Object *obj, Visitor *v,
+         case ON_OFF_SPLIT_ON:
+             s->kernel_irqchip_allowed = true;
+             s->kernel_irqchip_required = true;
+-            s->kernel_irqchip_split = false;
++            s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
+             break;
+         case ON_OFF_SPLIT_OFF:
+             s->kernel_irqchip_allowed = false;
+             s->kernel_irqchip_required = false;
+-            s->kernel_irqchip_split = false;
++            s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
+             break;
+         case ON_OFF_SPLIT_SPLIT:
+             s->kernel_irqchip_allowed = true;
+             s->kernel_irqchip_required = true;
+-            s->kernel_irqchip_split = true;
++            s->kernel_irqchip_split = ON_OFF_AUTO_ON;
+             break;
+         default:
+             /* The value was checked in visit_type_OnOffSplit() above. If
+@@ -3040,7 +3042,7 @@ bool kvm_kernel_irqchip_required(void)
+ 
+ bool kvm_kernel_irqchip_split(void)
+ {
+-    return kvm_state->kernel_irqchip_split;
++    return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
+ }
+ 
+ static void kvm_accel_instance_init(Object *obj)
+@@ -3049,6 +3051,7 @@ static void kvm_accel_instance_init(Object *obj)
+ 
+     s->kvm_shadow_mem = -1;
+     s->kernel_irqchip_allowed = true;
++    s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
+ }
+ 
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+As a follow up, kernel_irqchip_allowed and kernel_irqchip_required could also be changed to a single OnOffAuto field, I think.
 
--- PMM
+Paolo
+
 
