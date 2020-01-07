@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE4C1329DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:19:13 +0100 (CET)
-Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE7A1329E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:21:47 +0100 (CET)
+Received: from localhost ([::1]:51290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqdT-00059z-Pm
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:19:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42796)
+	id 1ioqfx-0001PB-LG
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:21:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ioq4E-00037W-Fu
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:42:47 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ioq55-0004gS-Ud
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:43:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ioq4D-0005qe-F2
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:42:46 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49884
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ioq4D-0005pz-2G
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:42:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578408163;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=EcvpDXbfrED4TDgzoIKLdqr3hhn5oG2PdRsSW2xo5CE=;
- b=AL+o2Ugkqn+s2jjIrHrmNtankbKVJ9FFsxwovf9dNx1Vx1SJ6ePKxYW9o5hnan4rLFBq86
- UAac/2WMmyQN482AK6CvMgCkOmhjSt8emGgSlZG4ICHkWytkqVONyKaHECdGCCY4UgLYef
- qHBf+/WQH2XlhfLZ6Z1Q32faOeQ7Y64=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-LNBmD_6kNg6uEb-JvgXr0g-1; Tue, 07 Jan 2020 09:42:42 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 630011097F89;
- Tue,  7 Jan 2020 14:42:41 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C98F272A1;
- Tue,  7 Jan 2020 14:42:31 +0000 (UTC)
-Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
- to recent desugarized -accel option)
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>
-References: <20200106130951.29873-1-philmd@redhat.com>
- <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
- <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
- <1A5859EA-4403-4921-B527-DFD07C59C702@redhat.com>
- <360fa010-ba80-b02b-3a35-19c2b48a462d@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <82a310b7-9b99-163a-e0d3-967bb09e70f7@redhat.com>
-Date: Tue, 7 Jan 2020 15:42:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <peter.maydell@linaro.org>) id 1ioq54-0006GI-Hs
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:43:39 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42578)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ioq54-0006Fp-Bg
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:43:38 -0500
+Received: by mail-ot1-x342.google.com with SMTP id 66so59324otd.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:43:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mbRCzViKxv9HK4gEwYQNiZSD8xAj3xlM48H99QuJpXM=;
+ b=nrCVIOXAxNsLISHyL8ob8ZThMqNYG+T1HSzMsvLKzvCjyz19tVKHcDFAXyvqYbyWdf
+ g2i20bbjHOfRLuy8MK32GVr8IY1RLpxUu1+A/fG1BupThXDVsf/m/fF1WZZz1MMxU4Zj
+ 4FLjNtpB77A1TTXriBXaD1Rphn58BYDI+h2L3CfpCTn26XkUQmJp6uaErYvnf7rj3rzr
+ Q6ce4U+2bAgHfqudQWPgXAdRI6SLGJGcNH40dj/zdeytwMxuUdM+htcJGnasLAetEhgG
+ fkunnwt2RKlA8UBtUoloGBGMqOFmKH9FOjk1XZpLojJra1EbEtaVntwRlldv0P3DydSn
+ kNaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mbRCzViKxv9HK4gEwYQNiZSD8xAj3xlM48H99QuJpXM=;
+ b=apVLa8lN8lirJiZb3AhRxK/ALvWhlxLYXBRjwflnzgGnjWxWsvscZQT62LDxVWl9xW
+ SAK+XfFMkAChgpKjB0Q0ew6RP+WxF8KNu7Qhm0LuRACBfudAQ0oq7sIPubFrUf4nhPQg
+ /fOe7T5GGd3pxBOWHOMynVoDSrAZivAQPzKARiOaU3G2zaSXbsjjYJWPpw0M8db7ZGbL
+ nntNdRE6HsNQXPkVyWISPlD/SI6rVPWL1c5ow9ycVMnUEKfe5mX0huBwncq7BuMwBvVK
+ aZZVJ+ecQmU/UmVA9FBt5sY0QYrO1oCwihuYVVN5SA0Kd7wm95BynGkP29+das1sv9Mv
+ Ni3A==
+X-Gm-Message-State: APjAAAXdspz2OdeUrVxRmSWWk+heW1MM+nju7L7CkxgqaThy1O7YaEOB
+ ALZ93TKjwDBnSoI5PWbev090sT4vW8VBnEG2ck/naA==
+X-Google-Smtp-Source: APXvYqynPwkJAKaGBFzUdgkFvBOBYI8WXy9tj5w5bCaOSxMLLPsr7Mn9E8on6V7VDK1rjHT+9uFRxgCtax8B4TlpR6E=
+X-Received: by 2002:a9d:8cb:: with SMTP id 69mr36445otf.221.1578408217588;
+ Tue, 07 Jan 2020 06:43:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <360fa010-ba80-b02b-3a35-19c2b48a462d@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: LNBmD_6kNg6uEb-JvgXr0g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+References: <20191217044322.351838-1-david@gibson.dropbear.id.au>
+ <20191217044322.351838-2-david@gibson.dropbear.id.au>
+In-Reply-To: <20191217044322.351838-2-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jan 2020 14:43:25 +0000
+Message-ID: <CAFEAcA_NpwX8i74UisTB8xT=cve5w4eBRHxmqSs36mHRA1bdCQ@mail.gmail.com>
+Subject: Re: [PULL 01/88] ppc/pnv: Add a PNOR model
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,42 +74,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@fr.ibm.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/2020 15.37, Paolo Bonzini wrote:
-> On 07/01/20 14:55, Christophe de Dinechin wrote:
->> So what about ranking the accelerators, so that all combinaisons
->> -accel=3Dkvm:tcg, -accel=3Dtcg:kvm, -accel kvm -accel tcg, etc would
->=20
-> (I assume you mean "-machine accel=3Dkvm:tcg" and "-machine accel=3Dtcg:k=
-vm"
-> for the first two.  This is the "older" way which has now become sugar
-> for "-accel kvm -accel tcg").
->=20
->> all pickup kvm if available, and tcg as a fallback? Implementation-wise,
->> it would simply mean ranking the accelerators and updating the accelerat=
-or
->> only if it=E2=80=99s available and better.
->=20
-> This is an interesting idea.  I like this better than "-accel best",
-> because "-accel best" has the problem that you can't add suboptions to
-> it (the suboptions for the various accelerators are disjoint).
->=20
-> It would break backwards compatibility for "-machine accel=3Dtcg:kvm",
-> which so far meant "use TCG if compiled in, otherwise use KVM".  This is
-> not something I would have a problem with... except that "tcg:kvm" is
-> the default if no -accel option is provided!
+On Tue, 17 Dec 2019 at 04:43, David Gibson <david@gibson.dropbear.id.au> wr=
+ote:
+>
+> From: C=C3=A9dric Le Goater <clg@fr.ibm.com>
+>
+> On a POWERPC PowerNV system, the host firmware is stored in a PNOR
+> flash chip which contents is mapped on the LPC bus. This model adds a
+> simple dummy device to map the contents of a block device in the host
+> address space.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Message-Id: <20191021131215.3693-2-clg@kaod.org>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  hw/ppc/Makefile.objs      |   4 +-
+>  hw/ppc/pnv.c              |  14 ++++
+>  hw/ppc/pnv_pnor.c         | 135 ++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/pnv.h      |   3 +
+>  include/hw/ppc/pnv_pnor.h |  25 +++++++
+>  5 files changed, 180 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/ppc/pnv_pnor.c
+>  create mode 100644 include/hw/ppc/pnv_pnor.h
 
-Note that we need "-M accel=3Dtcg:kvm" (or "-accel tcg -accel kvm" now) in
-tests/boot-serial-test.c for example, since some machines can't use KVM
-on certain hosts (e.g. with KVM-HV on POWER8/9).
+Hi; Coverity finds some issues in this patch:
 
- Thomas
+> +static void pnv_pnor_update(PnvPnor *s, int offset, int size)
+> +{
+> +    int offset_end;
+> +
+> +    if (s->blk) {
+> +        return;
+> +    }
+> +
+> +    offset_end =3D offset + size;
+> +    offset =3D QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
+> +    offset_end =3D QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
+> +
+> +    blk_pwrite(s->blk, offset, s->storage + offset,
+> +               offset_end - offset, 0);
 
+Here we call blk_pwrite() but don't check whether it
+succeeded or failed. (CID 1412228)
+
+> +static void pnv_pnor_realize(DeviceState *dev, Error **errp)
+> +{
+> +    PnvPnor *s =3D PNV_PNOR(dev);
+> +    int ret;
+> +
+> +    if (s->blk) {
+> +        uint64_t perm =3D BLK_PERM_CONSISTENT_READ |
+> +                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
+> +        ret =3D blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
+> +        if (ret < 0) {
+> +            return;
+> +        }
+> +
+> +        s->size =3D blk_getlength(s->blk);
+> +        if (s->size <=3D 0) {
+
+blk_getlength() returns an int64_t, but s->size is a uint32_t.
+This means that this attempt to check for <=3D 0 doesn't
+actually catch the negative values which are errors...
+
+> +            error_setg(errp, "failed to get flash size");
+> +            return;
+> +        }
+> +
+> +        s->storage =3D blk_blockalign(s->blk, s->size);
+
+...so we'll pass a very large positive number to
+blk_blockalign() (since it takse a size_t argument), which
+Coverity correctly identifies as doing the wrong thing.
+(CID 1412226)
+
+Side note: the blk functions here seem a bit inconsistent:
+blk_getlength() returns int64_t
+blk_blockalign() takes size_t
+blk_pread() takes int
+
+> +
+> +        if (blk_pread(s->blk, 0, s->storage, s->size) !=3D s->size) {
+> +            error_setg(errp, "failed to read the initial flash content")=
+;
+> +            return;
+> +        }
+> +    } else {
+> +        s->storage =3D blk_blockalign(NULL, s->size);
+> +        memset(s->storage, 0xFF, s->size);
+> +    }
+> +
+> +    memory_region_init_io(&s->mmio, OBJECT(s), &pnv_pnor_ops, s,
+> +                          TYPE_PNV_PNOR, s->size);
+> +}
+
+thanks
+-- PMM
 
