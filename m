@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13619132341
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:11:12 +0100 (CET)
-Received: from localhost ([::1]:45714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A798A13235D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:17:52 +0100 (CET)
+Received: from localhost ([::1]:45776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iolpN-00033h-GA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:11:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
+	id 1iolvq-0003Nj-HD
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:17:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ioliN-00066u-6X
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:03:56 -0500
+ (envelope-from <philmd@redhat.com>) id 1iolkY-0006oS-Se
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:06:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ioliK-0002fC-O7
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:03:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52241
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iolkX-0003me-Kr
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:06:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57947
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ioliK-0002f1-K6
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:03:52 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iolkX-0003mJ-Hd
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:06:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578391432;
+ s=mimecast20190719; t=1578391569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=3pA9hprEcqlk7xqqIFHWewip/xdNWWqBhtCjMK712K8=;
- b=M8LLCYp93Ddfv2C9zXlbFfPQDqgXbBCuM7Rg8IR3CseUdDVS6xaQi1vZvvEVm32STpz62A
- E6OafHi0k1lW8TaI4poU+Vn8hja9sL99sNktQXC+qw/up7Y1oQjCcNlv3WGX8g1WQPTu/h
- tTWpDfIA5fnxehB2iF8LQl/9XcLPaoQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-rf21LxklOFyr55dbHQP56g-1; Tue, 07 Jan 2020 05:03:49 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CED3A1807463;
- Tue,  7 Jan 2020 10:03:47 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 813BC60BE2;
- Tue,  7 Jan 2020 10:03:41 +0000 (UTC)
-Subject: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests to
- recent desugarized -accel option)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20200106130951.29873-1-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
-Date: Tue, 7 Jan 2020 11:03:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=roNAOiTxMppecbI18fA9nXaIrsoN69+V7CraW+NnxYw=;
+ b=Rm06D77bPV51Tm2qgIhaaHs77GiYA9dSAbIHaqtc53XTtw6ql8ESy3tBnBU2yJtLSTaGac
+ eBjSG8kFQM0gWyvW06N1hElS/56TuvbwPsWlS9zHZGsn1WjIwkNaM6Zlssw5MB623GNaG3
+ GUxyMhb2a66B7Q1k/CMA1l0qbxAXS00=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-iOwT4B98P5OaPkw5PYUTtw-1; Tue, 07 Jan 2020 05:06:06 -0500
+Received: by mail-wm1-f69.google.com with SMTP id p2so3892527wma.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:06:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YgbBebsjUiDfwbSwnShoFApHftPg1MQ5BFE0eYrMKNs=;
+ b=kt4oDJBDcIzuvQnrVR1oP+oeezVmBkyZD2SKmIRBiFxeCAlFMkb+bau/QUq6s2711J
+ PUkXOfTaKjaJ03ClrtRf9ceQizFEo0DayVw9Uf1nzA9gbWlM1Pkpn1CpgBL3y0Y5GTky
+ 5Wef4PAashvnleERzYrudKuOuZfTyCkkZ54I/5p+HQ4gYF278+zpNPPVPQynx87p5Yrn
+ d9sz+ZXJo7s63V6zJv8yV8bOwFHya7LmDRrwhT61TmI4p/b1CZzbwx/G4J7X242HEnZw
+ p5qRg36fgPJP8zhpWUTwmCNwxUCCwYoN9kmL1LTj2pPrIzUCO3lCL8TJu36SYliOC08A
+ XOyg==
+X-Gm-Message-State: APjAAAX5Gty7kMSKzkbueHEjYbLgiv3LsIZbs8ZDnihQKLu29daa34jl
+ 806lUXh8QF0Dijl2IwamKuXsWsLCTWrNQtvBo8/m45/VkSA7IMLXc1yb5NNhPfzzwM2ilsNZ48E
+ DS+4eJ1CLd0FQ0Pg=
+X-Received: by 2002:adf:806e:: with SMTP id 101mr6293246wrk.300.1578391565406; 
+ Tue, 07 Jan 2020 02:06:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyhpQTHIoua4bWFUT/1keFePqRsttC844B+HKL9AFvKlUXi+O6DHyMOHHvckpaUxZIwS3xsVg==
+X-Received: by 2002:adf:806e:: with SMTP id 101mr6293210wrk.300.1578391565184; 
+ Tue, 07 Jan 2020 02:06:05 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id f12sm26154981wmf.28.2020.01.07.02.06.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 02:06:04 -0800 (PST)
+Subject: Re: [PATCH 03/14] hw/i386/Kconfig: Let the MicroVM machine select the
+ SERIAL_ISA config
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20191231183216.6781-1-philmd@redhat.com>
+ <20191231183216.6781-4-philmd@redhat.com>
+ <cf08bcf8-d0f2-e3ac-c4b4-946f268d8fa1@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6287357d-fb82-bf05-c3bf-690aab5f116e@redhat.com>
+Date: Tue, 7 Jan 2020 11:06:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200106130951.29873-1-philmd@redhat.com>
+In-Reply-To: <cf08bcf8-d0f2-e3ac-c4b4-946f268d8fa1@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: rf21LxklOFyr55dbHQP56g-1
+X-MC-Unique: iOwT4B98P5OaPkw5PYUTtw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,50 +93,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/01/2020 14.09, Philippe Mathieu-Daud=C3=A9 wrote:
-> Commit 6f6e1698a6 desugarized "-machine accel=3D" to a list
-> of "-accel" options. Since now "-machine accel" and "-accel"
-> became incompatible, update the iotests to the new format.
+On 1/7/20 11:00 AM, Paolo Bonzini wrote:
+> On 31/12/19 19:32, Philippe Mathieu-Daud=C3=A9 wrote:
+>> When configured with --without-default-devices, the build fails:
+>>
+>>       LINK    x86_64-softmmu/qemu-system-x86_64
+>>    /usr/bin/ld: hw/i386/microvm.o: in function `microvm_devices_init':
+>>    hw/i386/microvm.c:157: undefined reference to `serial_hds_isa_init'
+>>    collect2: error: ld returned 1 exit status
+>>    make[1]: *** [Makefile:206: qemu-system-x86_64] Error 1
+>>    make: *** [Makefile:483: x86_64-softmmu/all] Error 2
+>>
+>> While the MicroVM machine only uses the ISA serial port when the
+>> MICROVM_MACHINE_ISA_SERIAL property is set, it has to be linked
+>> with it. Replace the 'imply' Kconfig rule by a 'select'.
 >=20
-> Error reported here:
-> https://gitlab.com/qemu-project/qemu/-/jobs/385801004#L3400
+> I added a comment "# for serial_hds_isa_init()" here.
+
+Sounds good, assuming the microvm might become more modular later.
+
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>> Cc: Sergio Lopez <slp@redhat.com>
+>> ---
+>>   hw/i386/Kconfig | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+>> index e428322a2c..cbcfb1ce81 100644
+>> --- a/hw/i386/Kconfig
+>> +++ b/hw/i386/Kconfig
+>> @@ -96,7 +96,7 @@ config Q35
+>>  =20
+>>   config MICROVM
+>>       bool
+>> -    imply SERIAL_ISA
+>> +    select SERIAL_ISA
+>>       select ISA_BUS
+>>       select APIC
+>>       select IOAPIC
+>>
 >=20
-> Reported-by: GitLab CI
-> Fixes: 6f6e1698a6 (vl: configure accelerators from -accel options)
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/qemu-iotests/235   | 2 +-
->  tests/qemu-iotests/check | 6 +++---
->  2 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/235 b/tests/qemu-iotests/235
-> index fedd111fd4..3d7533980d 100755
-> --- a/tests/qemu-iotests/235
-> +++ b/tests/qemu-iotests/235
-> @@ -49,7 +49,7 @@ qemu_img_create('-f', iotests.imgfmt, '-o', 'preallocat=
-ion=3Dmetadata', disk,
->                  str(size))
-> =20
->  vm =3D QEMUMachine(iotests.qemu_prog)
-> -vm.add_args('-machine', 'accel=3Dkvm:tcg')
-> +vm.add_args('-accel', 'kvm', '-accel', 'tcg')
-
-Looking at this, I wonder whether we really want the "-accel" option to
-prioritize the accelerators in the order of appearance? A lot of other
-CLI tools give the highest priority to the last parameter instead, e.g.
-"gcc -O3 -O1" compiles with -O1, and not with -O3.
-
-Also I think it might be quite common that there are shell scripts which
-call "qemu-system-xxx -accel xyz $*" ... and if we don't invert the
-priorities of -accel, it will be impossible to override -accel in that
-case...
-
- Thomas
 
 
