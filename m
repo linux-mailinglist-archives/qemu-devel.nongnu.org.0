@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27794132792
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:29:25 +0100 (CET)
-Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFE3132902
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:35:40 +0100 (CET)
+Received: from localhost ([::1]:50006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioovD-0002f7-Ax
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:29:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44994)
+	id 1iopxL-0007oj-9e
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:35:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ioork-00055p-M3
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:49 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iool1-0003h0-1k
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:18:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ioorj-0002a2-EM
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53962)
+ (envelope-from <alex.bennee@linaro.org>) id 1iool0-0007Y6-1s
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:18:50 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44109)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ioorj-0002Z1-8J
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ioord-0004nD-B9
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 13:25:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 18E6E2E80D0
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:25:36 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 07 Jan 2020 13:17:55 -0000
-From: puchuu <1858461@bugs.launchpad.net>
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iookz-0007Xi-RF
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:18:50 -0500
+Received: by mail-wr1-x441.google.com with SMTP id q10so14941303wrm.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:18:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=F4RZ3RNIm/EZQJNxfXfsC5HolULABlTmlYeD0ThxhdQ=;
+ b=RooiNLaVsAIhPhRZ1EhWjAYKTKQI5Xz3A3fGdvLYk5nWZ5FI+fd6rscKG+rq2AOdA/
+ qL+EXt2COcSP4JCFjGXhXzX2KjyW5k60RT08DK+rYpMQJiuF5hOfug8voflmQ27aMK2V
+ LtYNJqYVlPfSirLj+/XqZIBUdNdXggFtf1O/GHykgPWpq6tWd++o1lzJWQ9uGWgGH9ic
+ b5xPy2IJdrckkRDK1wX1RIRkMFt8I1kBRaEdEUqiL+n/GdFfpss0hM/288qPU+OMJf+M
+ NP8pCdIY1mW5izDYQ3yCNlakAmBhl7LS1dPna9y86wKQUeg67ER0UCuFieqas3gDRAfM
+ SE3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=F4RZ3RNIm/EZQJNxfXfsC5HolULABlTmlYeD0ThxhdQ=;
+ b=G/mdk1Ohccl1yLpTGX7MJPGMKBoWd/PrmJWKYaJCpuUHMIw5a721s892r1Fdh68zlG
+ AckIKXYLhRH95BQss1+IrwVFPbhcBZ1VoLx2SqNlmgSwjfU30oGooEEkM+5R6oF6wwga
+ KFGFMf901T+i+6iSlUd0M+OU3gxLq21KI9I0ChR9s63OyOSNxY3dl2eWN1Q2FkOJR7mK
+ QY9HnYSo+nwdol74Wsoo2tp+dbymVlXTte48nZWCTD0PhawbRqNUiZY1mlHm6svnVHw6
+ IfN8iEpb7phNgX+3TtLYDgZEQ2Bi4tfJzyHcBHn33ts5OaijMwVxzG50buFWPwhcwbMy
+ kKAQ==
+X-Gm-Message-State: APjAAAUCWCkG6WeYYTvBCwFxwets0ebw+h3LhoQNwj/dvjOidyUrZWGr
+ RpkEmFJ+VEqEWTwFbGdEmfpnCg==
+X-Google-Smtp-Source: APXvYqyTwpcvah3t+D90O5Q7nXL4Gzy4ntJ2Ppzctwj7IujgXQT05NF5kafYiNQWcJuUB0G2Cv/umA==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr64219946wrm.13.1578403128653; 
+ Tue, 07 Jan 2020 05:18:48 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s65sm27367313wmf.48.2020.01.07.05.18.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 05:18:47 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9D5061FF87;
+ Tue,  7 Jan 2020 13:18:46 +0000 (GMT)
+References: <20191218223441.23852-1-richard.henderson@linaro.org>
+ <20191218223441.23852-6-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aladjev-andrew
-X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
-X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
-References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
-Message-Id: <157840307561.2880.15699191944143021403.malone@soybean.canonical.com>
-Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 94f0ba47bf89a9ff5e6abb272cb2f3ac72eca701
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Subject: Re: [PATCH v2 5/7] configure: Unnest detection of -z, relro and -z,
+ now
+In-reply-to: <20191218223441.23852-6-richard.henderson@linaro.org>
+Date: Tue, 07 Jan 2020 13:18:46 +0000
+Message-ID: <87lfqj4d6x.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,73 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
+Cc: berrange@redhat.com, i@maskray.me, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've found a reliable way to generate syscall arguments count table.
 
-cd /usr/src/linux
-make clean
-make CONFIG_DEBUG_INFO=3Dy CONFIG_DEBUG_INFO_SPLIT=3Dy CONFIG_DEBUG_INFO_DW=
-ARF4=3Dy
-llvm-dwarfdump -debug-info --name ksys_getdents64 --show-children --recurse=
--depth=3D1 fs/readdir.dwo
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-0x00013738: DW_TAG_subprogram
-              DW_AT_name        ("ksys_getdents64")
-              ...
+> There is nothing about these options that is related to PIE.
+> Use them unconditionally.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-0x00013752:   DW_TAG_formal_parameter
-              ...
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-0x00013766:   DW_TAG_formal_parameter
-              ...
+> ---
+> v2: Do not split into two tests.
+> ---
+>  configure | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 7a646ec007..2503288654 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2040,9 +2040,6 @@ if test "$pie" !=3D "no" ; then
+>      QEMU_CFLAGS=3D"-fPIE -DPIE $QEMU_CFLAGS"
+>      LDFLAGS=3D"-pie $LDFLAGS"
+>      pie=3D"yes"
+> -    if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
+> -      LDFLAGS=3D"-Wl,-z,relro -Wl,-z,now $LDFLAGS"
+> -    fi
+>    else
+>      if test "$pie" =3D "yes"; then
+>        error_exit "PIE not available due to missing toolchain support"
+> @@ -2053,6 +2050,12 @@ if test "$pie" !=3D "no" ; then
+>    fi
+>  fi
+>=20=20
+> +# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
+> +# The combination is known as "full relro", because .got is read-only to=
+o.
+> +if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
+> +  LDFLAGS=3D"-Wl,-z,relro -Wl,-z,now $LDFLAGS"
+> +fi
+> +
+>  ##########################################
+>  # __sync_fetch_and_and requires at least -march=3Di486. Many toolchains
+>  # use i686 as default anyway, but for those that don't, an explicit
 
-0x00013779:   DW_TAG_formal_parameter
-              ...
 
-We can count "DW_TAG_formal_parameter" for syscall and it that's it.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858461
-
-Title:
-  Please refactor linux-user/mips/cpu_loop.c
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello. I am working with qemu on test images. I've added a new syscall
-  (436) to qemu but received ENOSYS from mips application.
-
-  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
-  "mips_syscall_args" the following:
-
-  ```
-  MIPS_SYS(sys_getdents64_x32, 3)
-  ```
-
-  But
-
-  ```
-  syscall_num =3D env->active_tc.gpr[2] - 4000;
-  if (syscall_num >=3D sizeof(mips_syscall_args)) {
-    ret =3D -TARGET_ENOSYS;
-  ```
-
-  returns -TARGET_ENOSYS
-
-  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
-  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
-
-  Can you please refactor mips cpu loop in the same way as arm? Thank
-  you.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
