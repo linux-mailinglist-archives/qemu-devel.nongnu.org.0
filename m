@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BE0132956
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:50:39 +0100 (CET)
-Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41528132970
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:59:42 +0100 (CET)
+Received: from localhost ([::1]:50706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqBq-0008UY-53
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:50:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44138)
+	id 1ioqKb-0007Aw-4H
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:59:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ioq8v-0005ZK-SO
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:47:38 -0500
+ (envelope-from <thuth@redhat.com>) id 1ioqIs-0005lP-04
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:57:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ioq8q-0008Th-Ts
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:47:37 -0500
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:37267)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ioq8q-0008T4-Qb
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:47:32 -0500
-Received: by mail-qk1-x743.google.com with SMTP id 21so42887539qky.4
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:47:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zsukkUdOzMgCkp880DIaEjCzJSIPV+NKAHUZuxaekxI=;
- b=nY+gXMN1yaQU28qY/2dSOcyjq+YHIyFihKeioJnUPKMLSHtgigyWa6IZTH/ydWleLx
- yYWV64sfJ0DiyIgZUchhMn82hG+HXN0HUX4hRbYe7ZsoDO4MUPfJDITdgAc4n40W464E
- FBV8kCYMK2niU1Hgtw0AOPnZ1/0wMIZksxFNxDTZ4r3uEWP6WippornVjwirvYfjLibl
- zRwSySVTQ6Uvif4zaGZip5oysCPyiQUQ1C/0P8FL7EN+GvXqKzifaSrhxtdVQ4i8aVVF
- Tg84BKE03eqcmNvcvOHWoC8S621yv3maPXBla5WgyFPklNEqyOFCeXEC60g9ysL0R0zE
- wONw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zsukkUdOzMgCkp880DIaEjCzJSIPV+NKAHUZuxaekxI=;
- b=DSvAMMuM6z/Ge5xwvTk/L0F8vsnOpYpSW0u/l5EQZgMp0o2n2ZxMpQWjOJjVaAGsVs
- cfYRC4shPtkzrBYoA3Tzw5r/AeFsWXfwuNJlkFjMG6+qY9EqdKhXHNr7AQMEOQ1akBf0
- 5ENwENaO1BRotPbJpBgGsqlam8hC2GkZJS6FwxNP2iYZh5PLGMP4OEjE4o1DbIV94P2w
- L5GcWD4vOemGmNf3Tou+b2U+YsaR5f5v0haeuR2pAMePSmiShlQU4jn2AEkJXRsJG1RJ
- KrNuwTaGWDDgkXuj1KEg2PPl8J5OAy+2D4biBOjBu4DG5ijoSvL0r6wsef3v6ZIN3RF3
- HBhA==
-X-Gm-Message-State: APjAAAVgUMrs8f7/ZPfC5BArUwcuwD6uduBbCRKjXQzla1DRadmIg8hZ
- ZBquRta3K7+ZkgIx/RSmYemazJE/
-X-Google-Smtp-Source: APXvYqzHsuvFq7Qn/fjQZEZy69FvX5Njtvd48BFyTu44PpNn0eos6o9RUR5NKTMoGdrebbw/rxXlCg==
-X-Received: by 2002:a37:ad0e:: with SMTP id f14mr76773406qkm.213.1578408452012; 
- Tue, 07 Jan 2020 06:47:32 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:655b:9e1c:e865:3705:e1df])
- by smtp.gmail.com with ESMTPSA id x27sm22347072qkx.81.2020.01.07.06.47.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 06:47:31 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] 9p-local.c: always return -1 on error in
- local_unlinkat_common
-Date: Tue,  7 Jan 2020 11:47:18 -0300
-Message-Id: <20200107144718.391550-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.24.1
+ (envelope-from <thuth@redhat.com>) id 1ioqIq-0006JN-V9
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:57:53 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31481
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ioqIq-0006JE-RA
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:57:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578409072;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=wVAt2gV1StjWYUg2pynwSyqGXRx5om7LQn0BCLkNYv4=;
+ b=V3QGxYwTRWlDKzzlQQocIgP+AR7ZnwdyPVHBvSNoypHQGF4R/XoljUziVrpdH9wkWkbn1G
+ W1aTtp7yTe+Xrze/pRCKkqELG0500+X6xX3tNCfq6NOTAsd4XGRNUkqWktIGdUzxlm9cs3
+ SptPogVcCZqcxrfJDeGl+EZ4BuER3nk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-4LvwHyvjOc6OBLCuZyBn2g-1; Tue, 07 Jan 2020 09:57:49 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EED3801E6C;
+ Tue,  7 Jan 2020 14:57:48 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F1C07FB63;
+ Tue,  7 Jan 2020 14:57:28 +0000 (UTC)
+Subject: Re: [PATCH v1 1/6] hw/i386/x86-iommu: Add missing stubs
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200107135311.5215-1-alex.bennee@linaro.org>
+ <20200107135311.5215-2-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <3c8073ed-6e26-73d4-433f-e7ed6a36eb81@redhat.com>
+Date: Tue, 7 Jan 2020 15:57:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::743
+In-Reply-To: <20200107135311.5215-2-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 4LvwHyvjOc6OBLCuZyBn2g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,85 +76,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-local_unlinkat_common() is supposed to always return -1 on error.
-This is being done by jumps to the 'err_out' label, which is
-a 'return ret' call, and 'ret' is initialized with -1.
+On 07/01/2020 14.53, Alex Benn=C3=A9e wrote:
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> In commit 6c730e4af9 we introduced a stub to build the MicroVM
+> machine without Intel IOMMU. This stub is incomplete for the
+> other PC machines. Add the missing stubs.
+>=20
+> Fixes: 6c730e4af9
+> Reported-by: Travis-CI
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Message-Id: <20191220154225.25879-1-philmd@redhat.com>
+> ---
+>  hw/i386/x86-iommu-stub.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>=20
+> diff --git a/hw/i386/x86-iommu-stub.c b/hw/i386/x86-iommu-stub.c
+> index 03576cdccb4..c5ba077f9d1 100644
+> --- a/hw/i386/x86-iommu-stub.c
+> +++ b/hw/i386/x86-iommu-stub.c
+> @@ -32,3 +32,12 @@ X86IOMMUState *x86_iommu_get_default(void)
+>      return NULL;
+>  }
+> =20
+> +bool x86_iommu_ir_supported(X86IOMMUState *s)
+> +{
+> +    return false;
+> +}
+> +
+> +IommuType x86_iommu_get_type(void)
+> +{
+> +    abort();
+> +}
 
-Unfortunately there is a condition in which the function will
-return 0 on error: in a case where flags == AT_REMOVEDIR, 'ret'
-will be 0 when reaching
+I just ran into this issue today, too ... good to know that there is
+already a patch :-)
 
-map_dirfd = openat_dir(...)
-
-And, if map_dirfd == -1 and errno != ENOENT, the existing 'err_out'
-jump will execute 'return ret', when ret is still set to zero
-at that point.
-
-This patch fixes it by changing all 'err_out' labels by
-'return -1' calls, ensuring that the function will always
-return -1 on error conditions. 'ret' can be left unintialized
-since it's now being used just to store the result of 'unlinkat'
-calls.
-
-CC: Greg Kurz <groug@kaod.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/9pfs/9p-local.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index ca641390fb..de61aca216 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1076,7 +1076,7 @@ out:
- static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-                                  int flags)
- {
--    int ret = -1;
-+    int ret;
- 
-     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-         int map_dirfd;
-@@ -1094,12 +1094,12 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
- 
-             fd = openat_dir(dirfd, name);
-             if (fd == -1) {
--                goto err_out;
-+                return -1;
-             }
-             ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
-             close_preserve_errno(fd);
-             if (ret < 0 && errno != ENOENT) {
--                goto err_out;
-+                return -1;
-             }
-         }
-         map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
-@@ -1107,16 +1107,14 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-             ret = unlinkat(map_dirfd, name, 0);
-             close_preserve_errno(map_dirfd);
-             if (ret < 0 && errno != ENOENT) {
--                goto err_out;
-+                return -1;
-             }
-         } else if (errno != ENOENT) {
--            goto err_out;
-+            return -1;
-         }
-     }
- 
--    ret = unlinkat(dirfd, name, flags);
--err_out:
--    return ret;
-+    return unlinkat(dirfd, name, flags);
- }
- 
- static int local_remove(FsContext *ctx, const char *path)
--- 
-2.24.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
