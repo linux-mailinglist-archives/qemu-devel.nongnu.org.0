@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5601321EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:10:35 +0100 (CET)
-Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39727132234
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:23:32 +0100 (CET)
+Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioksg-0006or-Je
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:10:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51649)
+	id 1iol0J-0005IK-5l
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:18:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iojOp-0004Ll-Rc
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:36 -0500
+ (envelope-from <mst@redhat.com>) id 1iojOl-00048y-Tg
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iojOo-0007Nl-IZ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59611
+ (envelope-from <mst@redhat.com>) id 1iojOk-0007L0-HS
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46325
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iojOo-0007NQ-EW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:34 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojOk-0007Kk-Cl
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578382534;
+ s=mimecast20190719; t=1578382529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=9MB1EpwF/3QQ/vJ0P9V4XwfNz1wYN5CHQ5mAOEIgsWc=;
- b=igcD6iqOM8T2TukFvz30JZooeK5i4+fssuKNLmen1Sjqt4jHOkX3+CEW3cCPtO5msGyFus
- xM2RsGSElGcU3sieVeDjuscDdvIg1ss6UbAfbHp9OCLK3nVxSlMFLKlhuwAGWCn1mHXOYT
- IM0BCaHYm6CQrJa4nKjMiS5lqm7DY8o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-FdoqD2fZOFKOIrQZOzg5-w-1; Tue, 07 Jan 2020 02:35:27 -0500
-X-MC-Unique: FdoqD2fZOFKOIrQZOzg5-w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4DCB801E76;
- Tue,  7 Jan 2020 07:35:25 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89F8E1C4;
- Tue,  7 Jan 2020 07:35:20 +0000 (UTC)
-Subject: Re: [kvm-unit-tests PATCH 01/16] libcflat: Add other size defines
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- maz@kernel.org, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20191216140235.10751-1-eric.auger@redhat.com>
- <20191216140235.10751-2-eric.auger@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <cab416f2-4e86-4cae-97e9-d78cfb7f2781@redhat.com>
-Date: Tue, 7 Jan 2020 08:35:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=Y+1AiFYA4jwJXgwLDoVnwKQ62HQ9au7D6spvhTUBGU8=;
+ b=TQk1IKEjfRKTdYumTDvk+ymVW5pqvbycq9UOkAq9ktkSVtu8rAz1BR6J1pkR0EzMcuJC6K
+ 3WQ5pk3mnONKH8dqzBNxNLxzHMqC3hrcNpNiILQIfCgb2SaMyH9EC1J0GZUTdhvzB0Ys2d
+ cEUhtQySJrAId/1fc1eat1oaBpbSJDs=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-Xs1pmwo_P82CIKaNgD1wBw-1; Tue, 07 Jan 2020 02:35:28 -0500
+Received: by mail-qv1-f72.google.com with SMTP id e10so5026143qvq.18
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:35:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1upHWGgN+kA2iqb9NZ9XxvQ8bHfo9CqfdVL2Jr4HnRY=;
+ b=DQybrRaMXVNnFincXpXoKjgN0fDKJra08XNUwz+UqYoQ5MI+tQz22CZrIcnM8nDt+g
+ Rtpk9UkLM4vrSbgq5MZF4ofBRgx6b5I0SDgpEoBZmv72S2oV3g4NwIekACSGePfiVmcB
+ 0Hb9/oARagWB1II2NBJeYf9RXhA9pst4ABIPMbu+SP+kXRyzebZX/WPUwjHSnkh30pna
+ GwItg/FwuhBbHmOx+86fx+fA6QiScy/u0wqJJszOUSOogD37PEChGohU93viXydCD3y9
+ Hts/Ejfjq0y1frnlphYXM9nbmUgnnQ8RJWYaxFjdNgTVfivepDNY/DpvtYzSq6xt9PKa
+ LYMg==
+X-Gm-Message-State: APjAAAVeo54ViXS5aLJtHGgN9tcVUB2Ek7CFbZfvaaehk5SgjzpjuaSr
+ JpO+d29ES7L6pgVgwD8dM6yv8R+ONaIjwAvDYuEjDmPIUcTKHnbo7cQ/Tg9fxzzHP+H6yvUYFjf
+ 89ShSBiGW11q+3cM=
+X-Received: by 2002:a0c:c18f:: with SMTP id n15mr70463499qvh.35.1578382527541; 
+ Mon, 06 Jan 2020 23:35:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwSOqp9wdGe6au8cm40/OOAUPV0iuTj/AEBQBzXV3xgoPZJm4OQ4+chno8vYFA6+p5ya98VMg==
+X-Received: by 2002:a0c:c18f:: with SMTP id n15mr70463489qvh.35.1578382527347; 
+ Mon, 06 Jan 2020 23:35:27 -0800 (PST)
+Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
+ by smtp.gmail.com with ESMTPSA id l6sm24706349qti.10.2020.01.06.23.35.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2020 23:35:26 -0800 (PST)
+Date: Tue, 7 Jan 2020 02:35:23 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 03/32] virtio-balloon: fix memory leak while attach
+ virtio-balloon device
+Message-ID: <20200107073451.298261-4-mst@redhat.com>
+References: <20200107073451.298261-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191216140235.10751-2-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200107073451.298261-1-mst@redhat.com>
+X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
+X-Mutt-Fcc: =sent
+X-MC-Unique: Xs1pmwo_P82CIKaNgD1wBw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,37 +89,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yuzenghui@huawei.com, andre.przywara@arm.com, drjones@redhat.com,
- alexandru.elisei@arm.com, peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/12/2019 15.02, Eric Auger wrote:
-> Introduce additional SZ_256, SZ_8K, SZ_16K macros that will
-> be used by ITS tests.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  lib/libcflat.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/lib/libcflat.h b/lib/libcflat.h
-> index ea19f61..7092af2 100644
-> --- a/lib/libcflat.h
-> +++ b/lib/libcflat.h
-> @@ -36,7 +36,10 @@
->  #define ALIGN(x, a)		__ALIGN((x), (a))
->  #define IS_ALIGNED(x, a)	(((x) & ((typeof(x))(a) - 1)) == 0)
->  
-> +#define SZ_256			(1 << 8)
->  #define SZ_4K			(1 << 12)
-> +#define SZ_8K			(1 << 13)
-> +#define SZ_16K			(1 << 14)
->  #define SZ_64K			(1 << 16)
->  #define SZ_2M			(1 << 21)
->  #define SZ_1G			(1 << 30)
-> 
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+ivq/dvq/svq/free_page_vq is forgot to cleanup in
+virtio_balloon_device_unrealize, the memory leak stack is as follow:
+
+Direct leak of 14336 byte(s) in 2 object(s) allocated from:
+    #0 0x7f99fd9d8560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
+    #1 0x7f99fcb20015 in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x50015)
+    #2 0x557d90638437 in virtio_add_queue hw/virtio/virtio.c:2327
+    #3 0x557d9064401d in virtio_balloon_device_realize hw/virtio/virtio-bal=
+loon.c:793
+    #4 0x557d906356f7 in virtio_device_realize hw/virtio/virtio.c:3504
+    #5 0x557d9073f081 in device_set_realized hw/core/qdev.c:876
+    #6 0x557d908b1f4d in property_set_bool qom/object.c:2080
+    #7 0x557d908b655e in object_property_set_qobject qom/qom-qobject.c:26
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-Id: <1575444716-17632-2-git-send-email-pannengyuan@huawei.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+---
+ hw/virtio/virtio-balloon.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 40b04f5180..57f3b9f22d 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -831,6 +831,13 @@ static void virtio_balloon_device_unrealize(DeviceStat=
+e *dev, Error **errp)
+     }
+     balloon_stats_destroy_timer(s);
+     qemu_remove_balloon_handler(s);
++
++    virtio_delete_queue(s->ivq);
++    virtio_delete_queue(s->dvq);
++    virtio_delete_queue(s->svq);
++    if (s->free_page_vq) {
++        virtio_delete_queue(s->free_page_vq);
++    }
+     virtio_cleanup(vdev);
+ }
+=20
+--=20
+MST
 
 
