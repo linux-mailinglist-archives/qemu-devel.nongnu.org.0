@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D22132509
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:39:05 +0100 (CET)
-Received: from localhost ([::1]:47016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400FA132515
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:42:44 +0100 (CET)
+Received: from localhost ([::1]:47088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionCR-0008MX-Bo
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:39:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
+	id 1ionFy-0001QH-4x
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:42:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iomwK-0002IY-9L
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:22:25 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iomxR-0006DG-Qb
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iomwJ-0005Vk-2R
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:22:24 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47344
+ (envelope-from <pbonzini@redhat.com>) id 1iomxQ-00060c-No
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:33 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39077
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iomwI-0005VU-Ua
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:22:23 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iomxQ-00060S-KO
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578396142;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1578396212;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YV0UlUXh7rY7+vfZ07ngkfpD/MRmi7EioemXKYiPwS4=;
- b=QASWa8oviL67HdFsG8gUHS1C+7ePGgMiCyG6Oe8NJbux0oR4UWsh4zjisD6uE0RQ6eBxAz
- hX/WF3arED++aK4szl6prAHqTD2CDzTWuSGbaUZX+28at9Fsd5DoYZ2/4+yaBAzV/sQMtr
- ba5p67n0mIBteVq2sRGMwmKbafHvNqA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-xhS-74GRPF-qIp6l6Sa05Q-1; Tue, 07 Jan 2020 06:22:20 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E602C477
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:22:19 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D42460BEC;
- Tue,  7 Jan 2020 11:22:15 +0000 (UTC)
-Date: Tue, 7 Jan 2020 11:22:11 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 067/104] virtiofsd: passthrough_ll: disable readdirplus
- on cache=never
-Message-ID: <20200107112211.GK3368802@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-68-dgilbert@redhat.com>
+ bh=MhglGdzOEEfZlij3tsY3tJOTtOdu/FPAdIn/yPTr4p4=;
+ b=E6B4ehb0llL3sfdZ6kyB9HH8a92fSvE/1U0ilwmP6JZtbW8QQKBOYp2xy6eSC+VmuSo30b
+ lFFVBYP2JwAa96bZqe9U7tqzMUsRs1VgNMS2XCmLGd3jHfNoJ9/NBbIRLPtfru2lRVn96C
+ 5euxt4rZQJj/FtHan9Xqdb2MbAbBCqg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-mHkDpQnnPTuRZoxk9a697Q-1; Tue, 07 Jan 2020 06:23:30 -0500
+Received: by mail-wm1-f71.google.com with SMTP id t16so3974601wmt.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 03:23:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=u7q6w0UluuHzlzHeSCXnffyffA2o36zwTBsvKISPtx4=;
+ b=Cn9FKxvMabGlB98ursXeeyRe2bish6fnorhAYrrSbPF3IaPy7ePAKu5wReKrpZws2G
+ bS4zvpshx/cRR/QAHmrhVwDlnFBjp1DXucNI4E2GBm5aAch0zpKxYrExrslWYYa+suNp
+ ga2/AlzUZGVwrS3ODZfxHeOYRJfUIPq4K6ISVowz4s0DlSLj8DUmTB5BETKlXv5NPTfw
+ jHKv59TXpNoJlLDpfq+77Y6MQM2fqMZicOMfrM/obNP7y2prTuUk8LIXUrKYOjFLHlfi
+ kWNLcN4gr9aJi5h+IaOKokihSfihNOHTpEtwiMqHIT/YmNFquZlf5iRQI8mW3EXG5IQa
+ 15jA==
+X-Gm-Message-State: APjAAAXTA65Ww4paw+wEYl1IsajuL11bru+63T2IBonGN3/esw/CDOZl
+ 9cFaS5JCMSBPqLboK5iGBNEVd+BjYAObY2rdvQZry6N2hNBSIFsa6M8lF11FLs7DuvbDz8ZDmhn
+ IbTjbyk3x02GUOxY=
+X-Received: by 2002:a7b:c957:: with SMTP id i23mr39978655wml.49.1578396209700; 
+ Tue, 07 Jan 2020 03:23:29 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwxU7UqyGDgZFFBkfcfAMRAke9F9gGZInj7tfKdb+1Q8tC6cxr8/CAOQKpc8F9iHj6wicoIUA==
+X-Received: by 2002:a7b:c957:: with SMTP id i23mr39978643wml.49.1578396209506; 
+ Tue, 07 Jan 2020 03:23:29 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id w8sm26734145wmm.0.2020.01.07.03.23.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 03:23:29 -0800 (PST)
+Subject: Re: [PATCH] hw/rtc/mc146818: Add missing dependency on ISA Bus
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191224111628.3551-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <969f8d6d-b54c-cdb7-9011-c825b403a4d0@redhat.com>
+Date: Tue, 7 Jan 2020 12:23:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-68-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: xhS-74GRPF-qIp6l6Sa05Q-1
+In-Reply-To: <20191224111628.3551-1-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: mHkDpQnnPTuRZoxk9a697Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -75,35 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:27PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: Miklos Szeredi <mszeredi@redhat.com>
+On 24/12/19 12:16, Philippe Mathieu-Daud=C3=A9 wrote:
+> The MC146818 sits on an ISA bus. Since it can not be used
+> without it, select ISA in the Kconfig.
 >=20
-> ...because the attributes sent in the READDIRPLUS reply would be discarde=
-d
-> anyway.
->=20
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> Fixes: 82f5181777e
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  hw/rtc/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
+> index 45daa8d655..3dc2dd6888 100644
+> --- a/hw/rtc/Kconfig
+> +++ b/hw/rtc/Kconfig
+> @@ -17,6 +17,7 @@ config TWL92230
+>      depends on I2C
+> =20
+>  config MC146818RTC
+> +    depends on ISA_BUS
+>      bool
+> =20
+>  config SUN4V_RTC
+>=20
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Queued, thanks.
 
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Paolo
 
 
