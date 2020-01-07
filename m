@@ -2,60 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AE113258D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:02:26 +0100 (CET)
-Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E241325A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:07:37 +0100 (CET)
+Received: from localhost ([::1]:47432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionZ2-0006P0-Oo
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:02:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59141)
+	id 1ione3-0004CA-1d
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:07:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iomQM-0004Ib-0F
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:22 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iomW8-0006dY-Id
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:55:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iomQK-0004l6-FN
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43920
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iomW7-0007cT-A3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:55:20 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27010
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iomQK-0004kw-Bu
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:20 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iomW7-0007bx-6H
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:55:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578394159;
+ s=mimecast20190719; t=1578394518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wq9uhETQMxbGzYJ3jBgxUQc+fo0qNWVhuDg+t8IZDsg=;
- b=NSO4Gm7QysPktwJrTsKmiCz4ZrZ0tm0GclFxwXo/vl9KkjPvoNjbc8Mlpm4+Jl7U6VVd1+
- tUvB+2hBGuEq3W2s9sa+/Absp37N4QPcwcko9bLjSxpQhLuk3Dzn3h1pyxlJ5MAGN6JaAA
- 00b5xKuqjxsv+T2pUaDh8fp28OKPJnY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-BKTaTZgXPxS3qM8lYgjJ1w-1; Tue, 07 Jan 2020 05:49:18 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B54B18C35B2
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 10:49:17 +0000 (UTC)
-Received: from secure.mitica (ovpn-116-240.ams2.redhat.com [10.36.116.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E20921A8D6;
- Tue,  7 Jan 2020 10:49:15 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] Fix multifd + cancel + multifd
-Date: Tue,  7 Jan 2020 11:49:11 +0100
-Message-Id: <20200107104914.1814-1-quintela@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hhXZK6waXiBnmr0odxU7NgxYYfDC6HfydIaPIS8FwCc=;
+ b=gCNHinavbigOUPO41qNiYI3bN13SetHQxb+SgOgTZUanEqze5gDFgxsC8m/t8tr7pFVbG7
+ A+aMasLUE+G0il9luXCMoKWvuMRJrgDoMbJPvD22GAUhHAJ8qavDvuGXZzNaRa0CW0Y1qb
+ MYJ/yjkXe/yOmyKsq7KcOzOA1va2M/g=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-307-uy_BnrLVOgyGOsNQPKdGcQ-1; Tue, 07 Jan 2020 05:55:14 -0500
+Received: by mail-wr1-f72.google.com with SMTP id c6so19108540wrm.18
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:55:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Os9CxIhXNJ0oXSGR+KwiDvplTNsja19E/C5m6OPss7M=;
+ b=cF7hRFi61O2+2b8vfHbEWAGG6ax+1+vZo3XdVNSvVjW8TIzlJL9nlBKpSpsMOjV/AX
+ 9MkuVGFoTpv4MFim0WmGvJ3zYU5XTz2Z846K/Z69UefGOnex+NPH6mLXE8ElMLYT8h0G
+ +5EtpkWR5kdGAFxqv3fi6N9i5LZGjhOAPNRvaaUH7VxthgAbBWDBB0TIAzZUkhMr4zwM
+ wyhTvnFg0xEhyRTZOZNHN1twCucE7HUtYYP5QsRqgSWKwqwEVXnf/gE5qM40FqU35m/i
+ TwE1OEK/w+jnREiwkxWRftEWd/jKkEzHG06QMTXsltKH5L7BbHBA0iUM0KNs/M88diiu
+ bYUQ==
+X-Gm-Message-State: APjAAAU8sBfxlm6eEjn+eg9uOcB4d0oOKfF1OqWrnvLIyFMbplgiI5FS
+ hwQVSsgDs4cXxHRykns/BGmXbkjeiG/DFPmptVeQ4nVGQJ7L3qO2XQbuj4JIxPtqx2ZYGApQ+I3
+ J/hy4zJ0HXItrpuo=
+X-Received: by 2002:adf:eb51:: with SMTP id u17mr108866061wrn.29.1578394513131; 
+ Tue, 07 Jan 2020 02:55:13 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwZn0VYd/V/zNYe59k7LQ+zqsc3ubQbxlc7tCrvQ7YFApgV27+KayJZSkJZ6YzamX7G1QzoAA==
+X-Received: by 2002:adf:eb51:: with SMTP id u17mr108866018wrn.29.1578394512923; 
+ Tue, 07 Jan 2020 02:55:12 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id t1sm26610479wma.43.2020.01.07.02.55.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 02:55:12 -0800 (PST)
+Subject: Re: [PATCH v2 0/4] tcg: Include tcg files using tcg/ dirname, reduce
+ cpp search path list
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200101112303.20724-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ddded8a0-0df1-7408-b8c3-6a8ae1a5f438@redhat.com>
+Date: Tue, 7 Jan 2020 11:55:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: BKTaTZgXPxS3qM8lYgjJ1w-1
+In-Reply-To: <20200101112303.20724-1-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: uy_BnrLVOgyGOsNQPKdGcQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,47 +92,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Riku Voipio <riku.voipio@iki.fi>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Claudio Fontana <claudio.fontana@huawei.com>,
+ Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
+ qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 01/01/20 12:22, Philippe Mathieu-Daud=C3=A9 wrote:
+> Noticed we could clean this while reviewing Richard patch last night:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg667606.html
+>=20
+> Since v1:
+> - moved headers to include/tcg/ (Paolo)
+> - include in .inc.c relative to parent (Stefan)
+>=20
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg05356.html
 
-In the v2 series:
-- get the multifd test patch
-- drop the ->shutdown fix
-  it break postcopy recovery test.  Still trying to determine if the
-  problem is inside the recover test or the recover code.
-- upgrade the migrate_cancel test
 
-Please review.
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-[v1]
-This series:
-- create a test that does:
-  launch multifd on target
-  migrate to target
-  cancel on source
-  create another target
-  migrate again
+but I'll let Richad pick it up.
 
-- And fixes the cases that made it fail:
-* Make sure that we don't try ever IO after shutdown/error
-
-Please, review.
-
-Juan Quintela (3):
-  migration-test: Add migration multifd test
-  migration: Make sure that we don't call write() in case of error
-  migration-test: Make sure that multifd and cancel works
-
- migration/ram.c        |  25 +++++++
- tests/migration-test.c | 166 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 190 insertions(+), 1 deletion(-)
-
---=20
-2.24.1
+Paolo
 
 
