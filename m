@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3268213291D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:41:01 +0100 (CET)
-Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9DB132921
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:42:16 +0100 (CET)
+Received: from localhost ([::1]:50216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioq2W-0007Uh-3K
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:41:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45528)
+	id 1ioq3i-0001Ms-PP
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:42:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iootG-0001MY-Qf
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:24 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iootI-0001RT-6Y
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iootE-0003Mb-V8
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:22 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:43305)
+ (envelope-from <laurent@vivier.eu>) id 1iootG-0003NR-K6
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:23 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:59845)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iootE-0003Lm-Lo
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:20 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iootG-0003Mu-Aa
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:22 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MNtCi-1j4JVG2Jjs-00ODoh; Tue, 07 Jan 2020 14:27:18 +0100
+ id 1MOi1H-1j41zE1AY3-00Q8pI; Tue, 07 Jan 2020 14:27:19 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] q800: add a block backend to the PRAM
-Date: Tue,  7 Jan 2020 14:27:13 +0100
-Message-Id: <20200107132715.722101-3-laurent@vivier.eu>
+Subject: [PULL 3/4] q800: implement mac rom reset function for BIOS-less mode
+Date: Tue,  7 Jan 2020 14:27:14 +0100
+Message-Id: <20200107132715.722101-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200107132715.722101-1-laurent@vivier.eu>
 References: <20200107132715.722101-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VSkDYNS6O8gKJsAR0K+Tkh0Rb1s2elMaDTFZyrdgrasDSbfJI91
- t5fIAuvFJuk+zlviQI4CEV2hWXrPGrETxXf/fV8S9cesZ7gvtABmeGnZOWjXW+qHL1VkWnd
- g0jDTJgIQo+n4oH3412YX647sdpYLqtt+P0N6Fcjz5tX+VcjHcX9YHz1sz7c3qQy+fnZ7sx
- bj4xKuZIy+u4OIMjOWWHA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ojYEpLu4bYA=:oNXset85q+GcRXUs5RdKcc
- iIYMbKbFZQV3CTzkHODEnOaFLusc87FbOuyvsGRWeqxwbPyA2dNFAcmdP9JjovfPubVqB87G1
- IjB2sUYS4eeonwZmBH1TviXR0t3C5EDa14AjUeW9t1bG64tjcbIF2RSazZt0IMX0WCJ3JcLmm
- thNvcIODHXsaoYI1KY7hQN6w+bjb8y/h5Ys/GzXOxawCUDVyOYt7fA5Z2nrZHmOnp1jogAuQG
- ZOm2h5oxgOQtJFnG406fS/+CAtoYaVUbMWkOpy+knWLnBFFpCnsyCsSNDcZG3zUg88IKqC/wg
- evsh2RBeo9Wugv7fAmYM9crDEQPVtIQ/31AbKhPEGdHFRYlI7eaK+3QCV81d/pb93S66GKn8K
- i1MJSD/AO26QkGvYI2bD7r4U0IR/P4rUoFnkxm0BK6003O2N6SXThVfEJRwNZNiFhzw4AVqRx
- dJ6FnhllFMeN0bThiTvTI4DdZMj0Xkg5fvMoLPWuz2Xb8O0VjEDKG75RGhhosf2rJPbNarYhe
- yO6OQvMqfHf7CKkqUqiajJP/r0he5pjPfJ/Was3wF3XMRxLQo6HJUXAdMkurGbHsgAYERn7Ny
- A/wv1dhm67Pke7wCHQVhPV1mR+XiF3z+PY1k1NBlpa2dzNoCuYG5JRP6we2acZo1jXSJTRk87
- tiy0ftfbc03vlxGf1xCgI//fykLVU7vLYk2QIePP+LFi8efWIeEzwDIXTlrYU7gNh+E6/5834
- M96M5kJiFLMzZfuxnUm+XVtGagkhWJwIBQM+eVTLZ6hY3GcKKUi+D3LfTCTWxsDojWQWI0l+8
- 6MatKq3pTQMwtvnL4dGhyrmm7zZx+SOX7xpobNTcmS0Lvgvz7JFveueTmnvKXdS+V6u5qQZ4E
- wSbKSiJHo7XXJL+quw3w==
+X-Provags-ID: V03:K1:ruiixvM/g2wpHv9nuJ8npVJ9Xn9/pNYvZ35CKwSulzKBhkGoLAJ
+ WNjETZ4dSkwKm0ks39yM1cq0TzfBZ0dyRonRkmtTU1h+Y4+TPOj9ghoLYTt3NQh8VN7nqbZ
+ cfs6B9lnDBH1OaAnR1OyvzVkAq5lmQMhHlLUkiHkAgWLisyAUUvkukWOeNxmu8GVhMmiUPt
+ UxUfkhmt4zCDVmMET4N3g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4KB2AEvc450=:H5kxfQStNUC8QUigOrvnF+
+ qyLl/VLovA+eMT2krwadYbc6P8/b9Pf07GvI23jHDdL3AmvkW5xVgqVnwc0VjPSVUMCM6FsE1
+ YTTm3ZwVmS56h9kzajDYeJlqOObgaDvplH8QGU8HoWZ95pkfaeI1d8xvT1Tfb3Dm2Pfih2exI
+ U1OSklnZ/uZKA0P4NlKu+Q3Gct+8hBZseM+2NlNn1k5vUaCrhCWH9sM9Edkj+A4BuwbdyMTkD
+ iiHbV9E9d5D+ErRKrcN0NB+Pc1IRFJ1V7zUGQOoqUbUE036w77pX0TUeYzwoQO3NPVG8STGXC
+ jIFUcrNckdUQJpvFp1iy0Zzbi6MqxTBxVIbfBTHGP20Lx00Zg7wIy6DrD3JgfHZAbZYbJt/b9
+ SZVcM/8EZ7i5YWjsgNoZZpta9XZPhE+0lPgFy7qTmQCXAPZNhTdCPj0QHFWIYgU9vuZ62bIwY
+ DjbzFOeGM7+r4lPqOhQsqmJ+2m03qt2NqByfMXYWu49xMkFPbGXVz7l51QHBOv1uih+SGblhO
+ fNiKrDn3hPHHgJ00H7FCClez+dw1XoOstdodcd/DrE6BPCccT2hBYw+TmOsjVHpOSwG9sxWOG
+ eW9ITEr0l6IvbnqfAkyHizu6lu0fCEs9fq2SXzPxYHJHnlvLiVz2Dhshb1nA/Xk8Z+Z/Nd4GU
+ Yj86chAglCE/56ii56P7DRDI9fKHp9s4bEdZZ5a75wVebIWZlBbDpzs6zmiKJKDq/iWYj37i+
+ b8VGzUflW4O2xnHGvLXkAa/LKvAp0wDANrEZXtMLjqi4ZAbKeHsrHcRbZ3pQhS58jdVUEsndQ
+ 4sg/U2wyKScPa65J8nkhbophsUns570UDV6q+rvRC4EDdOEoh7RJIeKZExEHK0BYaeiQfEJC2
+ AAuMBSMRP70fuirvTT3A==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.126.133
@@ -65,209 +65,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows to save and restore the content of the PRAM.
-It may be useful if we want to check the configuration or to change it.
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-The backend is added using mtd interface, for instance:
+On Linux, calling `reboot(RB_AUTOBOOT);` will result in
+arch/m68k/mac/misc.c's mac_reset function being called. That in turn
+looks at the rombase (or uses 0x40800000 is there's no rombase), adds
+0xa, and jumps to that address. At the moment, there's nothing there, so
+the kernel just crashes when trying to reboot. So, this commit adds a
+very simple implementation at that location, which just writes to via2
+to power down. We also correct the value of ROMBASE while we're at it.
 
-    ... -drive file=pram.img,format=raw,if=mtd ...
-
-where pram.img is the file where the data will be stored, its size must
-be 256 bytes.
-
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200102120150.281082-1-Jason@zx2c4.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20191219201439.84804-3-laurent@vivier.eu>
 ---
- hw/m68k/q800.c            |  6 ++++
- hw/misc/mac_via.c         | 65 +++++++++++++++++++++++++++++++++++++++
- include/hw/misc/mac_via.h |  3 ++
- 3 files changed, 74 insertions(+)
+ hw/m68k/q800.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 4ca8678007..0c445c74bf 100644
+index 0c445c74bf..0e5a08f993 100644
 --- a/hw/m68k/q800.c
 +++ b/hw/m68k/q800.c
-@@ -158,6 +158,7 @@ static void q800_init(MachineState *machine)
-     NubusBus *nubus;
-     GLUEState *irq;
-     qemu_irq *pic;
-+    DriveInfo *dinfo;
- 
-     linux_boot = (kernel_filename != NULL);
- 
-@@ -200,6 +201,11 @@ static void q800_init(MachineState *machine)
-     /* VIA */
- 
-     via_dev = qdev_create(NULL, TYPE_MAC_VIA);
-+    dinfo = drive_get(IF_MTD, 0, 0);
-+    if (dinfo) {
-+        qdev_prop_set_drive(via_dev, "drive", blk_by_legacy_dinfo(dinfo),
-+                            &error_abort);
-+    }
-     qdev_init_nofail(via_dev);
-     sysbus = SYS_BUS_DEVICE(via_dev);
-     sysbus_mmio_map(sysbus, 0, VIA_BASE);
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index e5658af922..e9e6a95eab 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -27,6 +27,8 @@
+@@ -47,7 +47,7 @@
  #include "sysemu/runstate.h"
- #include "qapi/error.h"
- #include "qemu/cutils.h"
-+#include "hw/qdev-properties.h"
-+#include "sysemu/block-backend.h"
- #include "trace.h"
+ #include "sysemu/reset.h"
  
- /*
-@@ -375,6 +377,15 @@ static void via2_irq_request(void *opaque, int irq, int level)
-     mdc->update_irq(s);
+-#define MACROM_ADDR     0x40000000
++#define MACROM_ADDR     0x40800000
+ #define MACROM_SIZE     0x00100000
+ 
+ #define MACROM_FILENAME "MacROM.bin"
+@@ -128,6 +128,27 @@ static void main_cpu_reset(void *opaque)
+     cpu->env.pc = ldl_phys(cs->as, 4);
  }
  
++static uint8_t fake_mac_rom[] = {
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 +
-+static void pram_update(MacVIAState *m)
-+{
-+    if (m->blk) {
-+        blk_pwrite(m->blk, 0, m->mos6522_via1.PRAM,
-+                   sizeof(m->mos6522_via1.PRAM), 0);
-+    }
-+}
++    /* offset: 0xa - mac_reset */
 +
- /*
-  * RTC Commands
-  *
-@@ -547,6 +558,7 @@ static void via1_rtc_update(MacVIAState *m)
-             /* PRAM address 0x00 -> 0x13 */
-             trace_via1_rtc_cmd_pram_write(m->cmd - REG_PRAM_ADDR, m->data_out);
-             v1s->PRAM[m->cmd - REG_PRAM_ADDR] = m->data_out;
-+            pram_update(m);
-             m->cmd = REG_EMPTY;
-             break;
-         case REG_PRAM_SECT...REG_PRAM_SECT_LAST:
-@@ -577,6 +589,7 @@ static void via1_rtc_update(MacVIAState *m)
-     g_assert(REG_PRAM_SECT <= m->cmd && m->cmd <= REG_PRAM_SECT_LAST);
-     sector = m->cmd - REG_PRAM_SECT;
-     v1s->PRAM[sector * 32 + m->alt] = m->data_out;
-+    pram_update(m);
-     trace_via1_rtc_cmd_pram_sect_write(sector, m->alt, sector * 32 + m->alt,
-                                        m->data_out);
-     m->alt = REG_EMPTY;
-@@ -857,6 +870,7 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     MacVIAState *m = MAC_VIA(dev);
-     MOS6522State *ms;
-     struct tm tm;
-+    int ret;
- 
-     /* Init VIAs 1 and 2 */
-     sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
-@@ -890,6 +904,28 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     m->adb_poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via_adb_poll, m);
-     m->adb_data_ready = qdev_get_gpio_in_named(dev, "via1-irq",
-                                                VIA1_IRQ_ADB_READY_BIT);
++    /* via2[vDirB] |= VIA2B_vPower */
++    0x20, 0x7C, 0x50, 0xF0, 0x24, 0x00, /* moveal VIA2_BASE+vDirB,%a0 */
++    0x10, 0x10,                         /* moveb %a0@,%d0 */
++    0x00, 0x00, 0x00, 0x04,             /* orib #4,%d0 */
++    0x10, 0x80,                         /* moveb %d0,%a0@ */
 +
-+    if (m->blk) {
-+        int64_t len = blk_getlength(m->blk);
-+        if (len < 0) {
-+            error_setg_errno(errp, -len,
-+                             "could not get length of backing image");
-+            return;
-+        }
-+        ret = blk_set_perm(m->blk,
-+                           BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-+                           BLK_PERM_ALL, errp);
-+        if (ret < 0) {
-+            return;
-+        }
++    /* via2[vBufB] &= ~VIA2B_vPower */
++    0x20, 0x7C, 0x50, 0xF0, 0x20, 0x00, /* moveal VIA2_BASE+vBufB,%a0 */
++    0x10, 0x10,                         /* moveb %a0@,%d0 */
++    0x02, 0x00, 0xFF, 0xFB,             /* andib #-5,%d0 */
++    0x10, 0x80,                         /* moveb %d0,%a0@ */
 +
-+        len = blk_pread(m->blk, 0, m->mos6522_via1.PRAM,
-+                        sizeof(m->mos6522_via1.PRAM));
-+        if (len != sizeof(m->mos6522_via1.PRAM)) {
-+            error_setg(errp, "can't read PRAM contents");
-+            return;
-+        }
-+    }
- }
- 
- static void mac_via_init(Object *obj)
-@@ -914,10 +950,33 @@ static void mac_via_init(Object *obj)
-                         TYPE_ADB_BUS, DEVICE(obj), "adb.0");
- }
- 
-+static void postload_update_cb(void *opaque, int running, RunState state)
-+{
-+    MacVIAState *m = MAC_VIA(opaque);
-+
-+    qemu_del_vm_change_state_handler(m->vmstate);
-+    m->vmstate = NULL;
-+
-+    pram_update(m);
-+}
-+
-+static int mac_via_post_load(void *opaque, int version_id)
-+{
-+    MacVIAState *m = MAC_VIA(opaque);
-+
-+    if (m->blk) {
-+        m->vmstate = qemu_add_vm_change_state_handler(postload_update_cb,
-+                                                      m);
-+    }
-+
-+    return 0;
-+}
-+
- static const VMStateDescription vmstate_mac_via = {
-     .name = "mac-via",
-     .version_id = 1,
-     .minimum_version_id = 1,
-+    .post_load = mac_via_post_load,
-     .fields = (VMStateField[]) {
-         /* VIAs */
-         VMSTATE_STRUCT(mos6522_via1.parent_obj, MacVIAState, 0, vmstate_mos6522,
-@@ -950,6 +1009,11 @@ static const VMStateDescription vmstate_mac_via = {
-     }
- };
- 
-+static Property mac_via_properties[] = {
-+    DEFINE_PROP_DRIVE("drive", MacVIAState, blk),
-+    DEFINE_PROP_END_OF_LIST(),
++    /* while (true) ; */
++    0x60, 0xFE                          /* bras [self] */
 +};
 +
- static void mac_via_class_init(ObjectClass *oc, void *data)
+ static void q800_init(MachineState *machine)
  {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -957,6 +1021,7 @@ static void mac_via_class_init(ObjectClass *oc, void *data)
-     dc->realize = mac_via_realize;
-     dc->reset = mac_via_reset;
-     dc->vmsd = &vmstate_mac_via;
-+    dc->props = mac_via_properties;
- }
+     M68kCPU *cpu = NULL;
+@@ -346,6 +367,12 @@ static void q800_init(MachineState *machine)
+                   (graphic_width * graphic_depth + 7) / 8);
+         BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
  
- static TypeInfo mac_via_info = {
-diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-index 3f86fcb7e1..e74f85be0f 100644
---- a/include/hw/misc/mac_via.h
-+++ b/include/hw/misc/mac_via.h
-@@ -81,6 +81,8 @@ typedef struct MOS6522Q800VIA2State {
- typedef struct MacVIAState {
-     SysBusDevice busdev;
- 
-+    VMChangeStateEntry *vmstate;
++        rom = g_malloc(sizeof(*rom));
++        memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
++                                   sizeof(fake_mac_rom), fake_mac_rom);
++        memory_region_set_readonly(rom, true);
++        memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
 +
-     /* MMIO */
-     MemoryRegion mmio;
-     MemoryRegion via1mem;
-@@ -100,6 +102,7 @@ typedef struct MacVIAState {
-     uint8_t cmd;
-     int wprotect;
-     int alt;
-+    BlockBackend *blk;
- 
-     /* ADB */
-     ADBBusState adb_bus;
+         if (kernel_cmdline) {
+             BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
+                         kernel_cmdline);
 -- 
 2.24.1
 
