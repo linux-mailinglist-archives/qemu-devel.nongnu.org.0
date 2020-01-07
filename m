@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B050132962
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:53:10 +0100 (CET)
-Received: from localhost ([::1]:50530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE541328BE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:22:43 +0100 (CET)
+Received: from localhost ([::1]:49676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqEH-0005IE-Hl
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:53:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51893)
+	id 1iopko-0006PV-1A
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:22:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57551)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iopB6-0007ye-Aw
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:45:49 -0500
+ (envelope-from <bounces@canonical.com>) id 1iopPx-0005gA-NB
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:01:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iopB4-0005P2-Sb
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:45:47 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43495)
+ (envelope-from <bounces@canonical.com>) id 1iopPw-0006HS-79
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:01:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37422)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iopB4-0005OI-Hj
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:45:46 -0500
-Received: by mail-wr1-x443.google.com with SMTP id d16so53979815wre.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:45:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=BfVg/WfB/npygxZ7/2hzRL6di2s8nJIO/3FCAV+HBXo=;
- b=f/zmM2/89ZBOc/ZBkTdNjUJ0qKPzzmlATj0Q7KipQpGLtto4nGwEN8vF3YrzvWZGyn
- Gi787c9smeoy1njzw5Cxge9WzPGXVB5K3/MJXYNrUXSMAVQ6lh9e75OvOEn+gckm+vuC
- NTs/Z35knaI0/Dpw0IF4rnaySYeSTyJw/6WpdRgjWMualUZvfMWaHUCH0Ilt3lEwriFn
- 02A9uGeL0PmRPQ4rqhr67ZDT4ssIvWmO9FeAakGlNQID/Ey4Xass8ONPl+YjVWrSQ29B
- X6LY5FM9qBPC+beTn2MDW/9Hbhclw60SUojPuwPEVVjxdGHhOndBzd8oVUZYsQWB0/oX
- kxKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=BfVg/WfB/npygxZ7/2hzRL6di2s8nJIO/3FCAV+HBXo=;
- b=NCjez2pUSuPPlnh1BQWjqNpflhjSP+AOmUIMyNzPWhBt/41+HbJhzr48MGdKAGdrhF
- mRlbtWz8T9YTg32hLc74LJ8PsXCLmWsdBX05mVh7nSjYIcERVoNyX2GPDuURlDJBhvex
- g6yWE4R5Y1kfgx0z2ThCSK3r344a7wkjOu2oK+vO6n5SXnQJcXNT4yeDzsFa/N3lDqZ/
- CorxrLUx+zHF4WqLoubnvrEq2iNtd2M9yH9n8p9+tOgyDPxtX/PIeM35CN4UTQN5qhKr
- 4my59BcOVvJrlt8lByyEfnsOoeF1avFLaRH9Fmi1KmZ/Qbvke9FMefX4r2cdmE+5FIfN
- Du1Q==
-X-Gm-Message-State: APjAAAXlPHugiBvHuIaBtAQGuHVB+mho4v3WTcBPNx/t9eS7TPOgi8ns
- swh/hM4ZxzyzAOovaypqDNXkAw==
-X-Google-Smtp-Source: APXvYqziXbxFqLBJWCg0c+Jw4pP/R31MntQtcV+17gHQg+ds2IUNvFx1YHil6NriT3g3RPkvHvnhkA==
-X-Received: by 2002:adf:a141:: with SMTP id r1mr110862171wrr.285.1578404745311; 
- Tue, 07 Jan 2020 05:45:45 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n8sm77098417wrx.42.2020.01.07.05.45.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 05:45:44 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9563F1FF87;
- Tue,  7 Jan 2020 13:45:43 +0000 (GMT)
-References: <20191218223441.23852-1-richard.henderson@linaro.org>
- <20191218223441.23852-8-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 7/7] configure: Support -static-pie if requested
-In-reply-to: <20191218223441.23852-8-richard.henderson@linaro.org>
-Date: Tue, 07 Jan 2020 13:45:43 +0000
-Message-ID: <87ftgr4by0.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iopPw-0006G9-1U
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:01:08 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iopPr-0001lg-Jr
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 14:01:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 100922E80DB
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 14:01:00 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Date: Tue, 07 Jan 2020 13:53:02 -0000
+From: puchuu <1858461@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aladjev-andrew
+X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
+X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
+References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
+Message-Id: <157840518248.5706.13862044648842441564.malone@gac.canonical.com>
+Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f5df5869d6a5e220525a990892c3b59260b102be
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,77 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, i@maskray.me, philmd@redhat.com
+Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Unfortunately we can generate only very short table of syscalls using
+this method. Most of the syscalls are missing from "dwo" files. =3D(
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+-- =
 
-> Recent toolchains support static and pie at the same time.
->
-> As with normal dynamic builds, allow --static to default to PIE
-> if supported by the toolchain.  Allow --enable/--disable-pie to
-> override the default.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1858461
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Title:
+  Please refactor linux-user/mips/cpu_loop.c
 
-> ---
-> v2: Fix --disable-pie --static
-> ---
->  configure | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
->
-> diff --git a/configure b/configure
-> index f6ff079fab..55586c5498 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1024,7 +1024,6 @@ for opt do
->    ;;
->    --static)
->      static=3D"yes"
-> -    LDFLAGS=3D"-static $LDFLAGS"
->      QEMU_PKG_CONFIG_FLAGS=3D"--static $QEMU_PKG_CONFIG_FLAGS"
->    ;;
->    --mandir=3D*) mandir=3D"$optarg"
-> @@ -2000,11 +1999,6 @@ if test "$static" =3D "yes" ; then
->    if test "$modules" =3D "yes" ; then
->      error_exit "static and modules are mutually incompatible"
->    fi
-> -  if test "$pie" =3D "yes" ; then
-> -    error_exit "static and pie are mutually incompatible"
-> -  else
-> -    pie=3D"no"
-> -  fi
->  fi
->=20=20
->  # Unconditional check for compiler __thread support
-> @@ -2035,7 +2029,18 @@ if compile_prog "-Werror -fno-pie" "-no-pie"; then
->    LDFLAGS_NOPIE=3D"-no-pie"
->  fi
->=20=20
-> -if test "$pie" =3D "no"; then
-> +if test "$static" =3D "yes"; then
-> +  if test "$pie" !=3D "no" && compile_prog "-fPIE -DPIE" "-static-pie"; =
-then
-> +    QEMU_CFLAGS=3D"-fPIE -DPIE $QEMU_CFLAGS"
-> +    LDFLAGS=3D"-static-pie $LDFLAGS"
-> +    pie=3D"yes"
-> +  elif test "$pie" =3D "yes"; then
-> +    error_exit "-static-pie not available due to missing toolchain suppo=
-rt"
-> +  else
-> +    LDFLAGS=3D"-static $LDFLAGS"
-> +    pie=3D"no"
-> +  fi
-> +elif test "$pie" =3D "no"; then
->    QEMU_CFLAGS=3D"$CFLAGS_NOPIE $QEMU_CFLAGS"
->    LDFLAGS=3D"$LDFLAGS_NOPIE $LDFLAGS"
->  elif compile_prog "-fPIE -DPIE" "-pie"; then
+Status in QEMU:
+  New
 
+Bug description:
+  Hello. I am working with qemu on test images. I've added a new syscall
+  (436) to qemu but received ENOSYS from mips application.
 
---=20
-Alex Benn=C3=A9e
+  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
+  "mips_syscall_args" the following:
+
+  ```
+  MIPS_SYS(sys_getdents64_x32, 3)
+  ```
+
+  But
+
+  ```
+  syscall_num =3D env->active_tc.gpr[2] - 4000;
+  if (syscall_num >=3D sizeof(mips_syscall_args)) {
+    ret =3D -TARGET_ENOSYS;
+  ```
+
+  returns -TARGET_ENOSYS
+
+  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
+  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
+
+  Can you please refactor mips cpu loop in the same way as arm? Thank
+  you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
 
