@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B484F132938
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:46:54 +0100 (CET)
-Received: from localhost ([::1]:50366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80665132957
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:50:47 +0100 (CET)
+Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioq8D-0002hY-J6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:46:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46826)
+	id 1ioqBy-0000Gc-9C
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:50:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iooyH-0004ZE-GJ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:32:35 -0500
+ (envelope-from <peterx@redhat.com>) id 1ioozQ-0007LG-A0
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:33:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iooyF-0005kU-IO
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:32:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50664
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1ioozP-0006GR-1w
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:33:44 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35557
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iooyF-0005jq-Cr
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:32:31 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1ioozO-0006G1-Ts
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:33:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578403950;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1578404022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fQ8YZ4kxjS/Wvi2iTyW3cG1BWPlzmL6gE4ayGKp9Syw=;
- b=LnDHb9frWaT1RU/FS/vbV0Sc31dm+qknQF/VPTJwNZXgGgE1qxFjkg8G6HTihHPbSrCybM
- LH98AZwH1lKvlQn2+mnRbl3GV1E6jI6cuLRHDdRDhKGnPXRqLqO6R19iUHVjbaZtXMnitd
- YJEU8wlJ8TVykfffbkq2P+wGq0scguQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-GYwiqeN3PdyEDhCVhyAzgA-1; Tue, 07 Jan 2020 08:32:29 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1E31DBA3
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:32:28 +0000 (UTC)
-Received: from redhat.com (ovpn-116-141.ams2.redhat.com [10.36.116.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DABD5D9CA;
- Tue,  7 Jan 2020 13:32:28 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 01/10] migration: Increase default number of multifd
- channels to 16
-In-Reply-To: <20200107124934.GK3368802@redhat.com> ("Daniel P. =?utf-8?Q?B?=
- =?utf-8?Q?errang=C3=A9=22's?=
- message of "Tue, 7 Jan 2020 12:49:34 +0000")
-References: <20191218020119.3776-1-quintela@redhat.com>
- <20191218020119.3776-2-quintela@redhat.com>
- <20200103165832.GU2753983@redhat.com> <87mub4xurf.fsf@trasno.org>
- <20200107124934.GK3368802@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 07 Jan 2020 14:32:24 +0100
-Message-ID: <87muazpf2v.fsf@trasno.org>
+ bh=Qy8XArzqdhSuNPmt781U/XXMMYtFQGsAe2yAQwds87k=;
+ b=OgZsJMc12SXNqZu4/pdKFD3Nbc+Q9yPa3fj1ys605/YGaNw65a4PZixhthP4YWvk1xIJ/z
+ y8ntkIw2mscuEZeg7lp/TtA2NfBlD6XCS6mvSEFk+YV+Wx0B62qQhAYBFwD7Og0NUJSXMM
+ Edjf04LDc5/ny0xi7IwZix1+pjO2V8w=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-ETwl4RJIPKWlBYBv7CVyaw-1; Tue, 07 Jan 2020 08:33:37 -0500
+Received: by mail-qt1-f198.google.com with SMTP id p12so36376563qtu.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:33:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mbWyuV09w6dFxpToORccWwL4yGT3GH+qoXS0i7qzuCE=;
+ b=JtNV4ewOPbG+AS4MV6ZMqNMT9dHKxvryuoxC+sx2iIRLaf9+YHKzsQIhb+y31YySn2
+ B9w3Z1F4S65ej27NfRAScpXMeB5lVnRzsDf3X2Npg45U4gDvoMiL8irVdlsbEenkfZwP
+ h63kkoPleNNl8z6FVMu2DChZ5N7YgYWT8oAiwNIQqhKUdSuQcgxycdjJtI3HNU+pfARe
+ vdNpx0Ky50mb5dSLgPaXFI3A96YIHoWfydvG6p09/3sFf6VjC6GxBz/dxGoB/niMT7Q8
+ H1JULQR1+R7a64Z5QK1uR7knW2racgy94t6t400kTrHaVjCdijWbEu9NYffeCv02Gl3w
+ 7J1A==
+X-Gm-Message-State: APjAAAVgTkueuGPeqJPlvyTXRI0/taxqDf8McE7OHfWaJSEbcFohCMLE
+ Ejqg6uufHkRbOTNoI9RaHr3ifm11frSlB3dSn/1nXxJevyM8INrj1JrP8RslF/r4UGrr7+3BoTy
+ P/AStR6qVUSxVzr4=
+X-Received: by 2002:a05:620a:228:: with SMTP id
+ u8mr87530237qkm.88.1578404017397; 
+ Tue, 07 Jan 2020 05:33:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzCq/7Zdqmtoc8UiQv0McpMAPqtKl+vpi/qzQH5lGsUVuTBEsRtGReWKGO2NKhxXDgrKxddfw==
+X-Received: by 2002:a05:620a:228:: with SMTP id
+ u8mr87530222qkm.88.1578404017179; 
+ Tue, 07 Jan 2020 05:33:37 -0800 (PST)
+Received: from xz-x1 ([2607:9880:19c0:3f::3])
+ by smtp.gmail.com with ESMTPSA id 65sm21347228qtf.95.2020.01.07.05.33.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 05:33:36 -0800 (PST)
+Date: Tue, 7 Jan 2020 08:33:32 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH] vfio/pci: Don't remove irqchip notifier if not registered
+Message-ID: <20200107133332.GE219677@xz-x1>
+References: <20191231133915.115363-1-peterx@redhat.com>
+ <20200106151324.15fbb68d@w520.home>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: GYwiqeN3PdyEDhCVhyAzgA-1
+In-Reply-To: <20200106151324.15fbb68d@w520.home>
+X-MC-Unique: ETwl4RJIPKWlBYBv7CVyaw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,131 +89,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: yanghliu@redhat.com, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> On Fri, Jan 03, 2020 at 07:25:08PM +0100, Juan Quintela wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
->> > On Wed, Dec 18, 2019 at 03:01:10AM +0100, Juan Quintela wrote:
->> >> We can scale much better with 16, so we can scale to higher numbers.
->> >
->> > What was the test scenario showing such scaling ?
->>=20
->> On my test hardware, with 2 channels we can saturate around 8Gigabit max=
-,
->> more than that, and the migration thread is not fast enough to fill the
->> network bandwidth.
->>=20
->> With 8 that is enough to fill whatever we can find.
->> We used to have a bug where we were getting trouble with more channels
->> than cores.  That was the initial reason why the default was so low.
->>=20
->> So, pros/cons are:
->> - have low value (2).  We are backwards compatible, but we are not using
->>   all  bandwith.  Notice that we will dectect the error before 5.0 is
->>   out and print a good error message.
->>=20
->> - have high value (I tested 8 and 16).  Found no performance loss when
->>   moving to lower bandwidth limits, and clearly we were able to saturate
->>   the higher speeds (I tested on localhost, so I had big enough bandwidt=
-h)
->>=20
->>=20
->> > In the real world I'm sceptical that virt hosts will have
->> > 16 otherwise idle CPU cores available that are permissible
->> > to use for migration, or indeed whether they'll have network
->> > bandwidth available to allow 16 cores to saturate the link.
->>=20
->> The problem here is that if you have such a host, and you want to have
->> high speed migration, you need to configure it.  My measumermets are
->> that high number of channels don't affect performance with low
->> bandwidth, but low number of channels affect performance with high
->> bandwidth speed.
->
-> I'm not concerned about impact on performance of migration on a
-> low bandwidth link, rather I'm concerned about impact on performance
-> of other guests on the host. It will cause migration to contend with
-> other guest's vCPUs and network traffic.=20
+On Mon, Jan 06, 2020 at 03:13:24PM -0700, Alex Williamson wrote:
+> On Tue, 31 Dec 2019 08:39:15 -0500
+> Peter Xu <peterx@redhat.com> wrote:
+>=20
+> > The kvm irqchip notifier is only registered if the device supports
+> > INTx, however it's unconditionally removed.  If the assigned device
+> > does not support INTx, this will cause QEMU to crash when unplugging
+> > the device from the system.  Change it to conditionally remove the
+> > notifier only if the notify hook is setup.
+> >=20
+> > CC: Eduardo Habkost <ehabkost@redhat.com>
+> > CC: David Gibson <david@gibson.dropbear.id.au>
+> > CC: Alex Williamson <alex.williamson@redhat.com>
+> > Reported-by: yanghliu@redhat.com
+> > Fixes: c5478fea27 ("vfio/pci: Respond to KVM irqchip change notifier", =
+2019-11-26)
+> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1782678
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >  hw/vfio/pci.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> > index 2d40b396f2..337a173ce7 100644
+> > --- a/hw/vfio/pci.c
+> > +++ b/hw/vfio/pci.c
+> > @@ -3076,7 +3076,9 @@ static void vfio_exitfn(PCIDevice *pdev)
+> >      vfio_unregister_req_notifier(vdev);
+> >      vfio_unregister_err_notifier(vdev);
+> >      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+> > -    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier)=
+;
+> > +    if (vdev->irqchip_change_notifier.notify) {
+> > +        kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notif=
+ier);
+> > +    }
+> >      vfio_disable_interrupts(vdev);
+> >      if (vdev->intx.mmap_timer) {
+> >          timer_free(vdev->intx.mmap_timer);
+>=20
+>=20
+> Thanks, Peter!  Sent a pull request with David and Greg's R-b, stable
+> tag, and debug credit to Eduardo as I think he spotted the issue first.
+> Thanks,
 
-Two things here:
-- vcpus:  If you want migration to consume all the bandwidth, you are
-  happy with it using more vcpus.
-- bandwidth: It will only consume only the one that the guest has
-  assigned, split (we hope evenly) between all the channels.
+Yes thanks!  I wished Eduardo had even updated the bz when he debugged
+so I won't be needinfo-ed and did it twice without notice :)
 
-My main reason to have a higher number of channels is:
-- test better the code with more than one channel
-- work "magically" well in all scenarios.  With a low number of
-  channels, we are not going to be able to saturate a big network pipe.
-
-
->
->> So, if we want to have something that works "automatically" everywhere,
->> we need to put it to at least 8.  Or we can trust that management app
->> will do the right thing.
->
-> Aren't we still setting the bandwidth limit to MB bandwidth out of the
-> box, so we already require mgmt app to change settings to use more
-> bandwidth ?=20
-
-Yeap.  This is the default bandwidth.
-
-#define MAX_THROTTLE  (32 << 20)
-
-
->> If you are using a low value of bandwidth, the only difference with 16
->> channels is that you are using a bit more memory (just the space for the
->> stacks) and that you are having less contention for the locks (but with
->> low bandwidth you are not having contention anyways).
->>=20
->> So,  I think that the question is:
-
-Note that my idea is to make multifd "default" in the near future (5.1
-timeframe or so).
-
->> - What does libvirt prefferes
->
-> Libvirt doesn't really have an opinion in this case. I believe we'll
-> always set the number of channels on both src & dst, so we don't
-> see the defaults.
-
-What does libvirt does today for this value?
-
->> - What does ovirt/openstack preffer
->
-> Libvirt should insulate them from any change in defaults in QEMU
-> in this case, but always explicitly setting channels on src & dst
-> to match.
-
-I agree here, they should don't care by default.
-
->> - Do we really want that the user "have" to configure that value
->
-> Right so this is the key quesiton - for a user not using libvirt
-> or a libvirt based mgmt app, what we do want out out of the box
-> migration to be tuned for ?
-
-In my opinion, we should have something like:
-- multifd: enabled by default
-- max downtime: 300 ms (current) looks right to me
-- max bandwidth: 32MB/s (current) seems a bit low. 100MB/s (i.e. almost
-  full gigabit ethernet) seems reasonable to me.  Having a default for
-  10Gigabit ethernet or similar seems too high.
-
-> If we want to maximise migration performance, at cost of anything
-> else, then we can change the migration channels count, but probably
-> also ought to remove the 32MB bandwidth cap as no useful guest with
-> active apps will succeed migration with a 32MB cap.
-
-Will start another series with the current values to discuss all the
-defaults, ok?
-
-thanks for the comments, Juan.
+--=20
+Peter Xu
 
 
