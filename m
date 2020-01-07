@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A691327FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:44:29 +0100 (CET)
-Received: from localhost ([::1]:49006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7604E132815
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:50:54 +0100 (CET)
+Received: from localhost ([::1]:49060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iop9n-0007lG-Kt
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:44:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
+	id 1iopFz-0005V4-VB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:50:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55075)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1ions6-0007ZD-HD
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:07 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ionsJ-0008An-9L
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1ions5-0007Ak-CR
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38849
+ (envelope-from <pbonzini@redhat.com>) id 1ionsI-0007GG-4g
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27804
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ions5-0007AT-8S
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:05 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ionsI-0007G5-1i
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578399724;
+ s=mimecast20190719; t=1578399737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PeI52HgGfdoYKaKeA5CsC6ADKmmcbq85kw3u7jCjgZk=;
- b=QlFKobPeoixbCfQCiVVtCnw9WhplU0tg2EKr31YDlJUnpvuW7n1tsUqsZcGXw/YHHcE0+X
- baWXVJN0L/5wwlIptgnXilhW5x/+YeD89XbLigggF3nrvDR/FSvjszS1rtJk8oD5OGo6SS
- lzzHVY8hzbgOa4cnkVuSLgU0dVnFGNA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-YZ4w34WjPduRS1H31__Nhg-1; Tue, 07 Jan 2020 07:22:01 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C61618A6EC0;
- Tue,  7 Jan 2020 12:22:00 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-78.ams2.redhat.com [10.36.116.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57A118208E;
- Tue,  7 Jan 2020 12:21:59 +0000 (UTC)
-Date: Tue, 7 Jan 2020 13:21:57 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v1 00/59] trivial unneeded labels cleanup
-Message-ID: <20200107122157.GH4076@linux.fritz.box>
-References: <20200106182425.20312-1-danielhb413@gmail.com>
- <20200106195457.GE2886@minyard.net>
- <f71eb524-571b-54d1-1a99-95d2896f6586@gmail.com>
- <20200107061613.GB4076@linux.fritz.box>
- <ccd70c1c-790a-bdc6-0f85-379777125892@gmail.com>
+ bh=MuhCTz+C6MaTpFxoNziRH6JqZlhj937Jrv0EFLky8Sk=;
+ b=LgPM8erw2/Z3UqeKun5f8y7I3AHUZFD22rLi9m20/TaQ9P6tnqASAIb073ZONmrColKSK2
+ zInlFHUiOXYsXtYYTqgM8Y1akpkPgxVEfxH6pSkG5BHvRcytX+Z+gN2/cpegvLGa2JemlV
+ ziBUHHksvnc2ZBX2GQLilztvo5lJ0CI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-Bg7ntxGaNdOxX9slddlIyw-1; Tue, 07 Jan 2020 07:22:16 -0500
+Received: by mail-wm1-f72.google.com with SMTP id 7so1891690wmf.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:22:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wqAJeqaN1FUy1p3MtuptAKhlaN745axb3tJUVhCfY7U=;
+ b=Y+jRK9BqCQOCnsAp8XRlvI3dgzPGY5C7rkSLJWEPLZD3dAILPdsekweM7zs9c+VrKl
+ WT9YW89K/+9RoKH0GHn6TaSZY9zSBGYIq7S10G1FR2grJgZxpNYP7B6g1TVCSTcbXV85
+ zhlJjJCzbSsyVSO6c39t+kCwTJBGY9j+AqzAtxIU4HoFqD1uGPG3aUGwcB/Al+fF3KV3
+ cod3bJXUr7ca7E8xnrE4d8BaWT0Ml0KsNhOkxQ0OW1aCFw8BP7U1hIpSXtslR5/MiD8X
+ F0t+Zh8T7PLhJ2hHl3w749l8msVy/GihpHBDdNHsPMnrT1qm1ijpx5IXQcVQ26p7QeSG
+ fSnA==
+X-Gm-Message-State: APjAAAWif7uXVqDcoeyJ3FyE2JmbDlJalr53tAqJUAxhFuVRn9sv8+YC
+ Yyigw3eQ5HY1vgY7/FtShXT7uyF63oTN+BzeqaCnMqOGB5YxiUGk6CBth8KfeAoedg52w+7hb4z
+ +dJKSvNvt7scnhR4=
+X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr39307387wmc.58.1578399735084; 
+ Tue, 07 Jan 2020 04:22:15 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxkH39hJZcyPPUEai+OguMZZ8G0fZoCu5nbD6Q7LmnhnBkch7+9oVFscjGePNm6QvaTkzo0MQ==
+X-Received: by 2002:a1c:7ed0:: with SMTP id z199mr39307355wmc.58.1578399734829; 
+ Tue, 07 Jan 2020 04:22:14 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id k13sm76207458wrx.59.2020.01.07.04.22.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 04:22:14 -0800 (PST)
+Subject: Re: [PATCH 04/14] hw/i386: Restrict fw_cfg to the PC machines
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20191231183216.6781-1-philmd@redhat.com>
+ <20191231183216.6781-5-philmd@redhat.com>
+ <a5ba0619-e236-7fb0-8c17-028670b69501@redhat.com>
+ <20200107050921-mutt-send-email-mst@kernel.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <21529c45-117d-ed7d-d518-e8073af86581@redhat.com>
+Date: Tue, 7 Jan 2020 13:22:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <ccd70c1c-790a-bdc6-0f85-379777125892@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: YZ4w34WjPduRS1H31__Nhg-1
+In-Reply-To: <20200107050921-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+X-MC-Unique: Bg7ntxGaNdOxX9slddlIyw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -76,32 +93,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, minyard@acm.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.01.2020 um 12:52 hat Daniel Henrique Barboza geschrieben:
-> > So what is your plan for getting the series merged? Should maintainers
-> > just picks patches from the series, or do you want to collect Acked-by
-> > tags and then merge it through a single tree? If the latter, which one?
+On 07/01/20 11:16, Michael S. Tsirkin wrote:
+> On Tue, Jan 07, 2020 at 11:01:48AM +0100, Paolo Bonzini wrote:
+>> On 31/12/19 19:32, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> Only the PC-based machines use the fw_cfg device. In particular,
+>>> the MicroVM machine does not use it. Only compile/link it when
+>>> machines require it.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> ---
+>>> Cc: Sergio Lopez <slp@redhat.com>
+>>> ---
+>>>  hw/i386/Makefile.objs | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+>>> index 6ebb6d0cf0..48f2693546 100644
+>>> --- a/hw/i386/Makefile.objs
+>>> +++ b/hw/i386/Makefile.objs
+>>> @@ -5,7 +5,7 @@ obj-$(CONFIG_PC) +=3D pc.o pc_sysfw.o
+>>>  obj-$(CONFIG_I440FX) +=3D pc_piix.o
+>>>  obj-$(CONFIG_Q35) +=3D pc_q35.o
+>>>  obj-$(CONFIG_MICROVM) +=3D microvm.o
+>>> -obj-y +=3D fw_cfg.o
+>>> +obj-$(CONFIG_PC) +=3D fw_cfg.o
+>>>  obj-$(CONFIG_X86_IOMMU) +=3D x86-iommu.o
+>>>  obj-$(CONFIG_VTD) +=3D intel_iommu.o
+>>>  obj-$(CONFIG_AMD_IOMMU) +=3D amd_iommu.o
+>>>
+>>
+>> Ah no, this is hw/i386/fw_cfg.c; of course hw/nvram/fw_cfg.c has its own
+>> Kconfig symbol.
 >=20
-> The idea I had in mind was for each maintainer to pick up the patches and=
- push
-> through their own trees, like David did in patches 1 and 2.
+> Sorry couldn't find it. Which symbol is that?
 
-Okay, thanks.
+None. :)  fw_cfg has a bunch of uses in vl.c, it's not really going to
+be easy to stub it out and probably pointless because it's an easy way
+for firmware to get QEMU-specific information.
 
-> From qemu-trivial archives I notice that Laurent creates qemu-trivial pul=
-l
-> requests often, thus I believe this might also be an option. If we decide
-> to go this route I'll ask David to remove patches 1 and 2 from his ppc
-> tree to avoid unnecessary conflicts.
-
-Two trees picking up the same patch doesn't result in a conflict, git
-can resolve this just fine. It only gets problematic if different
-versions of a patch are picked up.
-
-Kevin
+Paolo
 
 
