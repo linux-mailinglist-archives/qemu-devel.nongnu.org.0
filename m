@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699A2132329
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:04:30 +0100 (CET)
-Received: from localhost ([::1]:45622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD0B132342
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:11:18 +0100 (CET)
+Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iolit-0005ox-FQ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:04:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47621)
+	id 1iolpT-0003NK-Un
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:11:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iolcc-0000oN-Ue
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:58:00 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iolfU-0005fr-OL
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:00:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iolca-0000ld-DW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:57:57 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27158
+ (envelope-from <pbonzini@redhat.com>) id 1iolfT-0001od-7V
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:00:56 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20142
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iolca-0000lN-9G
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:57:56 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iolfT-0001oO-4D
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:00:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578391075;
+ s=mimecast20190719; t=1578391254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bQMunk6FWbY32TzqInyBs1x6t0/E59W8Q2+Xg/4U8tA=;
- b=Pp8SIOeoBXKAfObrXbBtR4CHk4DcUA7ankGzXMqwxLRnVuuu3fbUErCvQpqux6nALQbtLW
- ue84ujVq+1ErECs41OWGAxDVKCjwOmYKAeMYTQqbw8W4sbxQQQGOWxXUiaROVGYzw9OTzJ
- DL2QsVAdsv+KVxXJwUlz/SIK+GU3lw0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-nleKyKxMNbqFHBsHkOsVpw-1; Tue, 07 Jan 2020 04:57:52 -0500
-X-MC-Unique: nleKyKxMNbqFHBsHkOsVpw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76DAB1800D4E;
- Tue,  7 Jan 2020 09:57:49 +0000 (UTC)
-Received: from work-vm (ovpn-117-52.ams2.redhat.com [10.36.117.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C9541036D1B;
- Tue,  7 Jan 2020 09:57:42 +0000 (UTC)
-Date: Tue, 7 Jan 2020 09:57:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v10 Kernel 1/5] vfio: KABI for migration interface for
- device state
-Message-ID: <20200107095740.GB2778@work-vm>
-References: <1576527700-21805-2-git-send-email-kwankhede@nvidia.com>
- <20191216154406.023f912b@x1.home>
- <f773a92a-acbd-874d-34ba-36c1e9ffe442@nvidia.com>
- <20191217114357.6496f748@x1.home>
- <3527321f-e310-8324-632c-339b22f15de5@nvidia.com>
- <20191219102706.0a316707@x1.home>
- <928e41b5-c3fd-ed75-abd6-ada05cda91c9@nvidia.com>
- <20191219140929.09fa24da@x1.home> <20200102182537.GK2927@work-vm>
- <20200106161851.07871e28@w520.home>
+ bh=G0+oOCvbb5nwR/XvdmQTSW4cL8ivro+H9deOhwV6uu4=;
+ b=iXLpWD4RI5mfc5tiOiH42Wi3pqYy4YIF2c4z4eMfITOWu/qAx4a62PAUkqaUIsiDuaISbj
+ Y79ZpoSUxrApeWiAvkcH29u3MNnQti1xvVvFHY/D91PKWgd0sw7voV/1VAXlMExYWlTFd/
+ tTJZEGAys7tByjAKmB0MdCDWFAzAmWw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-sOAbI94bOBy90hq_BXSU_w-1; Tue, 07 Jan 2020 05:00:13 -0500
+Received: by mail-wm1-f70.google.com with SMTP id l11so3031839wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:00:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uWUxbTkoXTIZUi9pzN1L2Ym2+wbf7V1tU4wwBL/sKwY=;
+ b=khCcBfJsq1SAWgfmNZ2yHEk9HnKhZb41t3lF1X8lDEYfTtz4DRaXlXSiZBvz9WBvS3
+ BTD/HDMKBQAqWvRVKOmeB/YMKrSYhrDUCSqWZIQew5/jSZPC4mPYNwwdYasdwPwnqoCB
+ UBncnatci9tB3LkxkIzCCM2uKZNY4/hozFYihstddg6OGB91BxCdfcjA/fMT71bFQwRQ
+ D0kyWNU65k+7q/pAb1NvppNqGUVd2pj0lG9byAlq2NrCB+kqKDKYy5eSLQ4YhXCqrinx
+ PpaEyv6zYx5N2oL8Jp/QynWGGY6dA3CWbxNSAiwkFxad1AM3AqfoHKFviOQjoNlSLm4b
+ 8RRQ==
+X-Gm-Message-State: APjAAAUe3/p5ATGRljyPHniUKdtAUS0LF5LhmYP8iz1ifT+M7XI0CynW
+ blg/zqAQnbetvxtYdaPLtzaux5rJfpBNyiTAzmgCq+UbpmgrFYbhTRMYNsYU4XjSJIBFryJcYH1
+ cyIKOk0sftCOjODY=
+X-Received: by 2002:a05:600c:211:: with SMTP id
+ 17mr38894844wmi.60.1578391212233; 
+ Tue, 07 Jan 2020 02:00:12 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx9bpInLQR6P+sWVvNl0/c4pes/VRsUb8WDDhIhHYCPnTJ1E+K0QXaeK5ejiQdN7iB3dmeNeg==
+X-Received: by 2002:a05:600c:211:: with SMTP id
+ 17mr38894816wmi.60.1578391212013; 
+ Tue, 07 Jan 2020 02:00:12 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id d8sm74548656wrx.71.2020.01.07.02.00.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 02:00:11 -0800 (PST)
+Subject: Re: [PATCH 03/14] hw/i386/Kconfig: Let the MicroVM machine select the
+ SERIAL_ISA config
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191231183216.6781-1-philmd@redhat.com>
+ <20191231183216.6781-4-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <cf08bcf8-d0f2-e3ac-c4b4-946f268d8fa1@redhat.com>
+Date: Tue, 7 Jan 2020 11:00:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200106161851.07871e28@w520.home>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20191231183216.6781-4-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: sOAbI94bOBy90hq_BXSU_w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -78,94 +95,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- cohuck@redhat.com, shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org,
- zhi.a.wang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Alex Williamson (alex.williamson@redhat.com) wrote:
-> On Thu, 2 Jan 2020 18:25:37 +0000
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> 
-> > * Alex Williamson (alex.williamson@redhat.com) wrote:
-> > > On Fri, 20 Dec 2019 01:40:35 +0530
-> > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> > >   
-> > > > On 12/19/2019 10:57 PM, Alex Williamson wrote:
-> > > > 
-> > > > <Snip>
-> > > >   
-> > 
-> > <snip>
-> > 
-> > > > 
-> > > > If device state it at pre-copy state (011b).
-> > > > Transition, i.e., write to device state as stop-and-copy state (010b) 
-> > > > failed, then by previous state I meant device should return pre-copy 
-> > > > state(011b), i.e. previous state which was successfully set, or as you 
-> > > > said current state which was successfully set.  
-> > > 
-> > > Yes, the point I'm trying to make is that this version of the spec
-> > > tries to tell the user what they should do upon error according to our
-> > > current interpretation of the QEMU migration protocol.  We're not
-> > > defining the QEMU migration protocol, we're defining something that can
-> > > be used in a way to support that protocol.  So I think we should be
-> > > concerned with defining our spec, for example my proposal would be: "If
-> > > a state transition fails the user can read device_state to determine the
-> > > current state of the device.  This should be the previous state of the
-> > > device unless the vendor driver has encountered an internal error, in
-> > > which case the device may report the invalid device_state 110b.  The
-> > > user must use the device reset ioctl in order to recover the device
-> > > from this state.  If the device is indicated in a valid device state
-> > > via reading device_state, the user may attempt to transition the device
-> > > to any valid state reachable from the current state."  
-> > 
-> > We might want to be able to distinguish between:
-> >   a) The device has failed and needs a reset
-> >   b) The migration has failed
-> 
-> I think the above provides this.  For Kirti's example above of
-> transitioning from pre-copy to stop-and-copy, the device could refuse
-> to transition to stop-and-copy, generating an error on the write() of
-> device_state.  The user re-reading device_state would allow them to
-> determine the current device state, still in pre-copy or failed.  Only
-> the latter would require a device reset.
+On 31/12/19 19:32, Philippe Mathieu-Daud=C3=A9 wrote:
+> When configured with --without-default-devices, the build fails:
+>=20
+>      LINK    x86_64-softmmu/qemu-system-x86_64
+>   /usr/bin/ld: hw/i386/microvm.o: in function `microvm_devices_init':
+>   hw/i386/microvm.c:157: undefined reference to `serial_hds_isa_init'
+>   collect2: error: ld returned 1 exit status
+>   make[1]: *** [Makefile:206: qemu-system-x86_64] Error 1
+>   make: *** [Makefile:483: x86_64-softmmu/all] Error 2
+>=20
+> While the MicroVM machine only uses the ISA serial port when the
+> MICROVM_MACHINE_ISA_SERIAL property is set, it has to be linked
+> with it. Replace the 'imply' Kconfig rule by a 'select'.
 
-OK - but that doesn't give you any way to figure out 'why' it failed;
-I guess I was expecting you to then read an 'error' register to find
-out what happened.
-Assuming the write() to transition to stop-and-copy fails and you're
-still in pre-copy, what's the defined thing you're supposed to do next?
-Decide migration has failed and then do a write() to transition to running?
+I added a comment "# for serial_hds_isa_init()" here.
 
-> > If some part of the devices mechanics for migration fail, but the device
-> > is otherwise operational then we should be able to decide to fail the
-> > migration without taking the device down, which might be very bad for
-> > the VM.
-> > Losing a VM during migration due to a problem with migration really
-> > annoys users; it's one thing the migration failing, but taking the VM
-> > out as well really gets to them.
-> > 
-> > Having the device automatically transition back to the 'running' state
-> > seems a bad idea to me; much better to tell the hypervisor and provide
-> > it with a way to clean up; for example, imagine a system with multiple
-> > devices that are being migrated, most of them have happily transitioned
-> > to stop-and-copy, but then the last device decides to fail - so now
-> > someone is going to have to take all of them back to running.
-> 
-> Right, unless I'm missing one, it seems invalid->running is the only
-> self transition the device should make, though still by way of user
-> interaction via the reset ioctl.  Thanks,
-> 
-o
-Dave
-> Alex
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Paolo
+
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Cc: Sergio Lopez <slp@redhat.com>
+> ---
+>  hw/i386/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> index e428322a2c..cbcfb1ce81 100644
+> --- a/hw/i386/Kconfig
+> +++ b/hw/i386/Kconfig
+> @@ -96,7 +96,7 @@ config Q35
+> =20
+>  config MICROVM
+>      bool
+> -    imply SERIAL_ISA
+> +    select SERIAL_ISA
+>      select ISA_BUS
+>      select APIC
+>      select IOAPIC
+>=20
 
 
