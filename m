@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CEE13211A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 09:13:55 +0100 (CET)
-Received: from localhost ([::1]:44400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0941813213E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 09:20:04 +0100 (CET)
+Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iojzs-0002XA-8P
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 03:13:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51936)
+	id 1iojww-0006wZ-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 03:10:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iojPl-0005gN-T3
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:35 -0500
+ (envelope-from <mst@redhat.com>) id 1iojPu-0005uY-20
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iojPh-0007wg-Aq
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:33 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33738
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iojPs-00085B-Dn
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26541
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojPh-0007wM-5Q
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:29 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojPs-000842-9E
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578382588;
+ s=mimecast20190719; t=1578382598;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FcK7WigJMJDie4qherce/SQbHzZxCxCRnKQYLmv9Zf4=;
- b=Z7ZSmvRLT6WPdPBhZyEd2eSLLKP+uo5yJTJJcFKqA/0NXEHsD6XTJ/VoMIo7Bw33Uiym32
- Q7/uArJfj23te21AFFq9rjYfsv1V99WkoExCn2IOfjpB0+lTWke2pO0vMNzUAw1xejH0rF
- W3TfDT1S/V+o5y5DuzYj+dh6XTrfmv0=
+ bh=9TnHo7VvJZaLFzHYDnog4vzTE/uU8KgG0+PD95HCZAE=;
+ b=MmVHLMOzwAr578ncGXgLUzmp+SWf8ikT7/H1NC/sJTu+u2G63j2AkEACKnc+Kyn8pmiTcg
+ xgQviF4AnKi8lPMajNz6butcVF5xZEAOi7T+ce4rqgh1UUFkeNuNZZIF2jGhloeTNFIq/4
+ 4QNO0t+Xnlb9rdWhFll8dZYAilg8U10=
 Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
  [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-niXntfV7OSKLizpzBDEjkg-1; Tue, 07 Jan 2020 02:36:26 -0500
-Received: by mail-qt1-f200.google.com with SMTP id p12so35900096qtu.6
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:36:26 -0800 (PST)
+ us-mta-422-xfTkEZejP4GCaFEPe-eWAw-1; Tue, 07 Jan 2020 02:36:36 -0500
+Received: by mail-qt1-f200.google.com with SMTP id m8so35948168qta.20
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:36:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OKLjdvfCJDfY6fGqKWe65+lk7+R2Zab8RzeVnW/XRtE=;
- b=P17ZlzSZ1vQCD8U1DOCy0S7sWC6ikMdSO7fyBmWFe3vlro8lCQc5IUeEl587D8Iai8
- gdS5z8r6c1788AVzw7B2o9/sz4QxuSxrlY3xiesyNVE/+v8w7AD3Fdr/F0RR7bbkxf65
- E8V/cctyJSpYKiJTnheu8lFcKqyTRgZsPN2GNqNh9LuyWecCnuDV7nxDWGXPUrUdZyXk
- XqtwO7c90QJlTXvYApSNVf+2y2taIxiME+ayhPJrfsPNToxehN+QXu1M/C4WsZh4ZZYa
- FowdTLz7oaXNS/NjRqj5uktQJe7ZTmFR5lJb+VhJNXL4eGCDyjMkXmVI/4wTSBcSc2qP
- XREg==
-X-Gm-Message-State: APjAAAW4dYRm597hu1CNbckXYRYYynOp/z2X2nboKavMKDXeIEM89Hk8
- JvFDeWha0eR41tg/ArPrqGhU56gusFegVrMIUmkrCHwr1wNpZLSGP6CL3ZyNd0JRbszAl+tFjcJ
- Oy5IXBzPphyC1LYE=
-X-Received: by 2002:a0c:ac4e:: with SMTP id m14mr80435420qvb.37.1578382585698; 
- Mon, 06 Jan 2020 23:36:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz0HdfNbG6wiu8D1U4XBcuQImR/uzu0X0TPGF2o9jVW9FsE/VdpFW81d7NYrJ8vcG/bU1GQqg==
-X-Received: by 2002:a0c:ac4e:: with SMTP id m14mr80435393qvb.37.1578382585294; 
- Mon, 06 Jan 2020 23:36:25 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=yLxJY7rN1k5OoWYN8rEjFXzk7p6lyE6U8ZaTa83HTg0=;
+ b=icdov4ueYrQeEuBVsRNsMWeYd71ZwmPhHC7l3byNRs4OFktsIquDCLnadYXVmyCF6p
+ c2zp5c4450ZebN6j5IKH1MFp2NRgJAX37yPILh+HR/DPoFJ+ukaL2sKfcycsS/ydpTGJ
+ 9uvfhkkl2rXZRlK/sQD95dkdqUr/zVFZfzvEe0YEA9JYUT3tyY0vTb9Gzi9s92C5VA52
+ s9u/znzCf+/J53B1kugdVcogGojQdo0oQLYhilbeHsp+fKbFoAvwb3hrKBpwCaERyn3m
+ jMlJqjo6Z/5vmqKBVZd6tbXX4hspEKfWUgMrRlQ0KITMiRtAaCW4fyXK67EoGUw8Cscj
+ 6wfA==
+X-Gm-Message-State: APjAAAUJetK4MZBDagQFnZ9a6zkJC6EDrVKeL1eOdCe571h3PZhLJIiR
+ 7JMjx6/oXwclksGTkORz1YH8uxJuyEPnhMR7pvFY3GEHtGRsYAMZ0Um/kFSLYfOpUPyIWraruKG
+ RQ38/uVAxLbb6paY=
+X-Received: by 2002:a05:620a:1522:: with SMTP id
+ n2mr85666494qkk.108.1578382595949; 
+ Mon, 06 Jan 2020 23:36:35 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyz6pl8zFpcEK0xj0IlNyKQYBvvlIpoiqaXAy2U2WlrHfqYW22eacSwJJKE7UbIBQ4g6GK67w==
+X-Received: by 2002:a05:620a:1522:: with SMTP id
+ n2mr85666480qkk.108.1578382595710; 
+ Mon, 06 Jan 2020 23:36:35 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id p185sm22139710qkd.126.2020.01.06.23.36.21
+ by smtp.gmail.com with ESMTPSA id s26sm16975956qtc.43.2020.01.06.23.36.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 23:36:24 -0800 (PST)
-Date: Tue, 7 Jan 2020 02:36:19 -0500
+ Mon, 06 Jan 2020 23:36:35 -0800 (PST)
+Date: Tue, 7 Jan 2020 02:36:30 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 14/32] hmat acpi: Build Memory Proximity Domain Attributes
+Subject: [PULL v2 16/32] hmat acpi: Build Memory Side Cache Information
  Structure(s)
-Message-ID: <20200107073451.298261-15-mst@redhat.com>
+Message-ID: <20200107073451.298261-17-mst@redhat.com>
 References: <20200107073451.298261-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107073451.298261-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: niXntfV7OSKLizpzBDEjkg-1
+X-MC-Unique: xfTkEZejP4GCaFEPe-eWAw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,32 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Liu Jingqi <jingqi.liu@intel.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Liu Jingqi <jingqi.liu@intel.com>,
  Tao Xu <tao3.xu@intel.com>, Markus Armbruster <armbru@redhat.com>,
- Daniel Black <daniel@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel Black <daniel@linux.ibm.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liu Jingqi <jingqi.liu@intel.com>
 
-HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
-(HMAT). The specification references below link:
-http://www.uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
-
-It describes the memory attributes, such as memory side cache
-attributes and bandwidth and latency details, related to the
-Memory Proximity Domain. The software is
-expected to use this information as hint for optimization.
-
-This structure describes Memory Proximity Domain Attributes by memory
-subsystem and its associativity with processor proximity domain as well as
-hint for memory usage.
-
-In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
-the platform's HMAT tables.
+This structure describes memory side cache information for memory
+proximity domains if the memory side cache is present and the
+physical device forms the memory side cache.
+The software could use this information to effectively place
+the data in memory to maximize the performance of the system
+memory that use the memory side cache.
 
 Acked-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
@@ -122,245 +115,114 @@ Reviewed-by: Daniel Black <daniel@linux.ibm.com>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
-Message-Id: <20191213011929.2520-5-tao3.xu@intel.com>
+Message-Id: <20191213011929.2520-7-tao3.xu@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/hmat.h        | 42 ++++++++++++++++++
- hw/acpi/hmat.c        | 99 +++++++++++++++++++++++++++++++++++++++++++
- hw/i386/acpi-build.c  |  5 +++
- hw/acpi/Kconfig       |  7 ++-
- hw/acpi/Makefile.objs |  1 +
- 5 files changed, 152 insertions(+), 2 deletions(-)
- create mode 100644 hw/acpi/hmat.h
- create mode 100644 hw/acpi/hmat.c
+ hw/acpi/hmat.c | 69 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 68 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-new file mode 100644
-index 0000000000..437dbc6872
---- /dev/null
-+++ b/hw/acpi/hmat.h
-@@ -0,0 +1,42 @@
-+/*
-+ * HMAT ACPI Implementation Header
-+ *
-+ * Copyright(C) 2019 Intel Corporation.
-+ *
-+ * Author:
-+ *  Liu jingqi <jingqi.liu@linux.intel.com>
-+ *  Tao Xu <tao3.xu@intel.com>
-+ *
-+ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Tabl=
-e
-+ * (HMAT)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licens=
-es/>
-+ */
-+
-+#ifndef HMAT_H
-+#define HMAT_H
-+
-+#include "hw/acpi/aml-build.h"
-+
-+/*
-+ * ACPI 6.3: 5.2.27.3 Memory Proximity Domain Attributes Structure,
-+ * Table 5-145, Field "flag", Bit [0]: set to 1 to indicate that data in
-+ * the Proximity Domain for the Attached Initiator field is valid.
-+ * Other bits reserved.
-+ */
-+#define HMAT_PROXIMITY_INITIATOR_VALID  0x1
-+
-+void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_st=
-ate);
-+
-+#endif
 diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-new file mode 100644
-index 0000000000..9ff79308a4
---- /dev/null
+index 4635d45dee..7c24bb5371 100644
+--- a/hw/acpi/hmat.c
 +++ b/hw/acpi/hmat.c
-@@ -0,0 +1,99 @@
-+/*
-+ * HMAT ACPI Implementation
-+ *
-+ * Copyright(C) 2019 Intel Corporation.
-+ *
-+ * Author:
-+ *  Liu jingqi <jingqi.liu@linux.intel.com>
-+ *  Tao Xu <tao3.xu@intel.com>
-+ *
-+ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Tabl=
-e
-+ * (HMAT)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licens=
-es/>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "sysemu/numa.h"
-+#include "hw/acpi/hmat.h"
-+
-+/*
-+ * ACPI 6.3:
-+ * 5.2.27.3 Memory Proximity Domain Attributes Structure: Table 5-145
-+ */
-+static void build_hmat_mpda(GArray *table_data, uint16_t flags,
-+                            uint32_t initiator, uint32_t mem_node)
+@@ -143,14 +143,62 @@ static void build_hmat_lb(GArray *table_data, HMAT_LB=
+_Info *hmat_lb,
+     g_free(entry_list);
+ }
+=20
++/* ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure: Table 5-147=
+ */
++static void build_hmat_cache(GArray *table_data, uint8_t total_levels,
++                             NumaHmatCacheOptions *hmat_cache)
 +{
++    /*
++     * Cache Attributes: Bits [3:0] =E2=80=93 Total Cache Levels
++     * for this Memory Proximity Domain
++     */
++    uint32_t cache_attr =3D total_levels;
 +
-+    /* Memory Proximity Domain Attributes Structure */
++    /* Bits [7:4] : Cache Level described in this structure */
++    cache_attr |=3D (uint32_t) hmat_cache->level << 4;
++
++    /* Bits [11:8] - Cache Associativity */
++    cache_attr |=3D (uint32_t) hmat_cache->associativity << 8;
++
++    /* Bits [15:12] - Write Policy */
++    cache_attr |=3D (uint32_t) hmat_cache->policy << 12;
++
++    /* Bits [31:16] - Cache Line size in bytes */
++    cache_attr |=3D (uint32_t) hmat_cache->line << 16;
++
 +    /* Type */
-+    build_append_int_noprefix(table_data, 0, 2);
++    build_append_int_noprefix(table_data, 2, 2);
 +    /* Reserved */
 +    build_append_int_noprefix(table_data, 0, 2);
 +    /* Length */
-+    build_append_int_noprefix(table_data, 40, 4);
-+    /* Flags */
-+    build_append_int_noprefix(table_data, flags, 2);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Proximity Domain for the Attached Initiator */
-+    build_append_int_noprefix(table_data, initiator, 4);
++    build_append_int_noprefix(table_data, 32, 4);
 +    /* Proximity Domain for the Memory */
-+    build_append_int_noprefix(table_data, mem_node, 4);
++    build_append_int_noprefix(table_data, hmat_cache->node_id, 4);
 +    /* Reserved */
 +    build_append_int_noprefix(table_data, 0, 4);
++    /* Memory Side Cache Size */
++    build_append_int_noprefix(table_data, hmat_cache->size, 8);
++    /* Cache Attributes */
++    build_append_int_noprefix(table_data, cache_attr, 4);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 2);
 +    /*
-+     * Reserved:
-+     * Previously defined as the Start Address of the System Physical
-+     * Address Range. Deprecated since ACPI Spec 6.3.
++     * Number of SMBIOS handles (n)
++     * Linux kernel uses Memory Side Cache Information Structure
++     * without SMBIOS entries for now, so set Number of SMBIOS handles
++     * as 0.
 +     */
-+    build_append_int_noprefix(table_data, 0, 8);
-+    /*
-+     * Reserved:
-+     * Previously defined as the Range Length of the region in bytes.
-+     * Deprecated since ACPI Spec 6.3.
-+     */
-+    build_append_int_noprefix(table_data, 0, 8);
++    build_append_int_noprefix(table_data, 0, 2);
 +}
 +
-+/* Build HMAT sub table structures */
-+static void hmat_build_table_structs(GArray *table_data, NumaState *numa_s=
+ /* Build HMAT sub table structures */
+ static void hmat_build_table_structs(GArray *table_data, NumaState *numa_s=
 tate)
-+{
-+    uint16_t flags;
-+    int i;
-+
-+    for (i =3D 0; i < numa_state->num_nodes; i++) {
-+        flags =3D 0;
-+
-+        if (numa_state->nodes[i].initiator < MAX_NODES) {
-+            flags |=3D HMAT_PROXIMITY_INITIATOR_VALID;
-+        }
-+
-+        build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiator,=
- i);
-+    }
-+}
-+
-+void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_st=
-ate)
-+{
-+    int hmat_start =3D table_data->len;
-+
-+    /* reserve space for HMAT header  */
-+    acpi_data_push(table_data, 40);
-+
-+    hmat_build_table_structs(table_data, numa_state);
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + hmat_start),
-+                 "HMAT", table_data->len - hmat_start, 2, NULL, NULL);
-+}
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 7b8da62d41..e25df838f0 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -68,6 +68,7 @@
- #include "hw/i386/intel_iommu.h"
+ {
+     uint16_t flags;
+     uint32_t num_initiator =3D 0;
+     uint32_t initiator_list[MAX_NODES];
+-    int i, hierarchy, type;
++    int i, hierarchy, type, cache_level, total_levels;
+     HMAT_LB_Info *hmat_lb;
++    NumaHmatCacheOptions *hmat_cache;
 =20
- #include "hw/acpi/ipmi.h"
-+#include "hw/acpi/hmat.h"
-=20
- /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
-  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-@@ -2835,6 +2836,10 @@ void acpi_build(AcpiBuildTables *tables, MachineStat=
-e *machine)
-             acpi_add_table(table_offsets, tables_blob);
-             build_slit(tables_blob, tables->linker, machine);
+     for (i =3D 0; i < numa_state->num_nodes; i++) {
+         flags =3D 0;
+@@ -184,6 +232,25 @@ static void hmat_build_table_structs(GArray *table_dat=
+a, NumaState *numa_state)
+             }
          }
-+        if (machine->numa_state->hmat_enabled) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_hmat(tables_blob, tables->linker, machine->numa_state);
-+        }
      }
-     if (acpi_get_mcfg(&mcfg)) {
-         acpi_add_table(table_offsets, tables_blob);
-diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-index 12e3f1e86e..54209c6f2f 100644
---- a/hw/acpi/Kconfig
-+++ b/hw/acpi/Kconfig
-@@ -7,6 +7,7 @@ config ACPI_X86
-     select ACPI_NVDIMM
-     select ACPI_CPU_HOTPLUG
-     select ACPI_MEMORY_HOTPLUG
-+    select ACPI_HMAT
-=20
- config ACPI_X86_ICH
-     bool
-@@ -23,6 +24,10 @@ config ACPI_NVDIMM
-     bool
-     depends on ACPI
-=20
-+config ACPI_HMAT
-+    bool
-+    depends on ACPI
 +
- config ACPI_PCI
-     bool
-     depends on ACPI && PCI
-@@ -33,5 +38,3 @@ config ACPI_VMGENID
-     depends on PC
++    /*
++     * ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure:
++     * Table 5-147
++     */
++    for (i =3D 0; i < numa_state->num_nodes; i++) {
++        total_levels =3D 0;
++        for (cache_level =3D 1; cache_level < HMAT_LB_LEVELS; cache_level+=
++) {
++            if (numa_state->hmat_cache[i][cache_level]) {
++                total_levels++;
++            }
++        }
++        for (cache_level =3D 0; cache_level <=3D total_levels; cache_level=
+++) {
++            hmat_cache =3D numa_state->hmat_cache[i][cache_level];
++            if (hmat_cache) {
++                build_hmat_cache(table_data, total_levels, hmat_cache);
++            }
++        }
++    }
+ }
 =20
- config ACPI_HW_REDUCED
--    bool
--    depends on ACPI
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-index 99253057e1..777da07f4d 100644
---- a/hw/acpi/Makefile.objs
-+++ b/hw/acpi/Makefile.objs
-@@ -7,6 +7,7 @@ common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) +=3D cpu.o
- common-obj-$(CONFIG_ACPI_NVDIMM) +=3D nvdimm.o
- common-obj-$(CONFIG_ACPI_VMGENID) +=3D vmgenid.o
- common-obj-$(CONFIG_ACPI_HW_REDUCED) +=3D generic_event_device.o
-+common-obj-$(CONFIG_ACPI_HMAT) +=3D hmat.o
- common-obj-$(call lnot,$(CONFIG_ACPI_X86)) +=3D acpi-stub.o
- common-obj-$(call lnot,$(CONFIG_PC)) +=3D acpi-x86-stub.o
-=20
+ void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_st=
+ate)
 --=20
 MST
 
