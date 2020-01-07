@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844AF13220C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:16:44 +0100 (CET)
-Received: from localhost ([::1]:45118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0D013223F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:27:50 +0100 (CET)
+Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iokye-0005I2-FL
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:16:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54190)
+	id 1iol6Q-0000us-Eo
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:24:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iojb6-0007w3-Uw
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:48:18 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iok3I-00082u-40
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:17:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iojb5-0000hz-HN
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:48:16 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57182
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iok3F-0004fo-9N
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:17:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57130
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iojb5-0000he-Do
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:48:15 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iok3F-0004f3-66
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:17:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578383295;
+ s=mimecast20190719; t=1578385040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TDsDpjQEeigFEbAW7KwgNlddB4JxuHx0FcxRbUhT+zQ=;
- b=O6HTBsU5i5YaZ1v2BvP4JQ3o4lCPB1n1EHwtu6EiDHGw1zsf+SGW9U8heknBYMqiXBw6Zb
- 7nYupoKXE3bJ4NeckIbvQwNRQ+vKzjPHlVhz5UbL9ziF0d+0w3f7wEKy0apsVkSC7MR2bp
- yAFLvt0s/Ft+gO4zooEL68LKFu+WhDM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-xovdreAbNGOlNzHM1Ci5vQ-1; Tue, 07 Jan 2020 02:48:13 -0500
-Received: by mail-wr1-f70.google.com with SMTP id u18so28232236wrn.11
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:48:13 -0800 (PST)
+ bh=2Ohh/00XASTFV4FCXDi/7EK0vZHd0Tq6uNQe4Q9vuRU=;
+ b=UxgQzQJmjZH0HvWUtwvfOVjb70s2KlfjtRQyFDuiTe2nlOGb7iTKUIiglPtZ7g5R0QkiNv
+ zWfwCp+vevxWgnoKEj6MKHvcRV9I7uBwBqu6PQscWOTfNw+W74Ve9nPqIdlu2FEDgjiwY4
+ 8glzx+HXVuEqOgTOAnMzW3i9s+40dTw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-BVkv1nf1Om25Teq3rDTRwA-1; Tue, 07 Jan 2020 03:17:18 -0500
+Received: by mail-wm1-f71.google.com with SMTP id h130so3781865wme.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 00:17:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IkWmwLjSXadxN0KJJSgFhipvSsRqAGVMgxYrERWX2DU=;
- b=dHCjzS5Zuk7CSgEJMbjVjZrc1udXPAkMj42N4NFinBqQvUVK/Q5N8Sb33GYLVIyLUF
- LP2tFXJAkhqHMjQ6KE3TmaeN8ztHH/C5FwGLlowXpQjtXNLUhpahPJCDiv1BQ6OPjK2H
- tlK9+cPgFEo457ZhFuX5rvXGlGQXSKssE18vaof7D7bXf6QgGKLdCOa30e3MyFDM6m33
- cxEeBWUoyFVMqyYMC1L+h+2mkwJoK1lNw9yvq/drzSfA5x9indN9nuI0/VB+Bz5wA7Hu
- MO5J8yRPR/BdC+IkqY6oQl6pepTUu1F6OdHzVyWJJ/JjizzFHbyOIdJn5o0yMuDzP2Py
- UOLQ==
-X-Gm-Message-State: APjAAAXiAh9bMKFfWi3Jr/LRjWu+2IEaaoEJ6TRdTaBYfL6sAncBw3rk
- XZPkt4y5IhANmkFk2aAzNIQmL2QmL2t7S7EeSq/OLh6dKfhP+xvPHK00hPzuW5mWg+N8GzOgTcD
- bDz4gv9KfaY7UDEw=
-X-Received: by 2002:a7b:cf39:: with SMTP id m25mr39280719wmg.146.1578383291842; 
- Mon, 06 Jan 2020 23:48:11 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw00GjYq36540x5z3siw3d/YG8EhWeS+M81fsDja4A58k9LHsloTOa9xoKQKeGXrvgye7OR/g==
-X-Received: by 2002:a7b:cf39:: with SMTP id m25mr39280692wmg.146.1578383291524; 
- Mon, 06 Jan 2020 23:48:11 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id z11sm76003459wrt.82.2020.01.06.23.48.10
+ bh=REntnOxvkVvU9/IorJtjyKnxWXB6QVSO/rCfQBHHnv8=;
+ b=ZpOs3mm47ZS2T23XnAl5U1McXzG9L64Cdk+8OL0RP14Q2jBPt+RxNCimhk98xlToCV
+ 0G7juuGIrDq2R783ZD8nCK3mtKCS5EhXOpMfw9LUMaF6l/jM2rcM98MgKDJZOGLMb4CF
+ rqmqvlLOeCtZtXEiN0GUCPOl04Xw4ZI6Ybn4GtsFNCWbbSwpX5rvZadad5IBAhRvGxQh
+ 0VsCxTjya28siWNJuHgKNNYQr3PPY9f4hD/nazOQpNRehzhssmOZASiolriserl6arL2
+ 7NwmmdjpPxKVSMpO10RQXoRucnA/7/7IzDmaciELCqO53UjYc0CNMXG2xXzqe7zoUhIM
+ rJjg==
+X-Gm-Message-State: APjAAAUuj+1XG588le3gHIsxRpLpiUCDIH8zgyYrCpfeRC533zr7f2fE
+ ILPHozk64IUpefLKL55IoZETlUewrcdGMR63Rp8aNL4nUrYypwSLxRnaEM0HiVtI1byhFI30vLl
+ cVSi5QJwLl4VZW3c=
+X-Received: by 2002:a7b:c935:: with SMTP id h21mr37708462wml.173.1578385037473; 
+ Tue, 07 Jan 2020 00:17:17 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzjqu0pveBGSt/XxBYINg45YnX84OBvnfsK9+aKg1J+iGDc6v/z+2BcvUg2hJmRu3CT6RlFqQ==
+X-Received: by 2002:a7b:c935:: with SMTP id h21mr37708444wml.173.1578385037268; 
+ Tue, 07 Jan 2020 00:17:17 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id r6sm74998448wrq.92.2020.01.07.00.17.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jan 2020 23:48:11 -0800 (PST)
-Subject: Re: [PATCH 2/3] gitlab-ci.yml: Add a job to build EDK2 firmware
- binaries
-To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
-References: <20200106184601.25453-1-philmd@redhat.com>
- <20200106184601.25453-3-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e77690e0-b3e1-37fd-3615-7c84c5490d6d@redhat.com>
-Date: Tue, 7 Jan 2020 08:48:10 +0100
+ Tue, 07 Jan 2020 00:17:16 -0800 (PST)
+Subject: Re: [PATCH] hw/timer/Kconfig: Intel 8254 PIT depends of ISA bus
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200106171912.16523-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5d86fe5c-84a9-5f1f-00df-96e4890533a4@redhat.com>
+Date: Tue, 7 Jan 2020 09:17:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200106184601.25453-3-philmd@redhat.com>
+In-Reply-To: <20200106171912.16523-1-philmd@redhat.com>
 Content-Language: en-US
-X-MC-Unique: xovdreAbNGOlNzHM1Ci5vQ-1
+X-MC-Unique: BVkv1nf1Om25Teq3rDTRwA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,113 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/6/20 7:46 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Add a GitLab job to build the EDK2 firmware binaries.
-> This job is only built when the roms/edk2/ submodule is updated,
-> when a git-ref starts with 'edk2' or when the last commit contains
-> 'EDK2'.
->=20
-> GitLab CI generates an artifacts.zip file containing the firmware
-> binaries.
->=20
-> With edk2-stable201905, the job took 40 minutes 26 seconds,
-> the artifacts.zip takes 10MiB.
+On 06/01/20 18:19, Philippe Mathieu-Daud=C3=A9 wrote:
+> Since i8254_common.c calls isa_register_ioport() from "hw/isa/isa.h"
+> we can not select it when ISA_BUS is disabled. Add a 'depends on'
+> clause.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->   .gitlab-ci-edk2.yml | 37 +++++++++++++++++++++++++++++++++++++
->   .gitlab-ci.yml      |  3 +++
->   MAINTAINERS         |  3 ++-
->   3 files changed, 42 insertions(+), 1 deletion(-)
->   create mode 100644 .gitlab-ci-edk2.yml
+>  hw/timer/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci-edk2.yml
-> new file mode 100644
-> index 0000000000..abfaf52874
-> --- /dev/null
-> +++ b/.gitlab-ci-edk2.yml
-> @@ -0,0 +1,37 @@
-> +build-edk2:
-> + rules: # Only run this job when ...
-> + - changes: # ... roms/edk2/ is modified (submodule updated)
-> +   - roms/edk2/*
-> +   when: always
-> + - if: '$CI_COMMIT_REF_NAME =3D~ /^edk2/' # ... the branch/tag starts wi=
-th 'edk2'
-> +   when: always
-> + - if: '$CI_COMMIT_MESSAGE =3D~ /edk2/i' # last commit description conta=
-ins 'EDK2'
-> +   when: always
-> + artifacts:
-> +   paths: # 'artifacts.zip' will contains the following files:
-> +   - pc-bios/edk2*bz2
-> +   - pc-bios/edk2-licenses.txt
-> +   - edk2-stdout.log
-> +   - edk2-stderr.log
-> + image: ubuntu:16.04 # Use Ubuntu Xenial
-> + before_script: # Install packages requiered to build EDK2
-
-typo "required"
-
-> + - apt-get update --quiet --quiet
-> + - DEBIAN_FRONTEND=3Dnoninteractive
-> +   apt-get install --assume-yes --no-install-recommends --quiet --quiet
-> +     build-essential
-> +     ca-certificates
-> +     dos2unix
-> +     gcc-aarch64-linux-gnu
-> +     gcc-arm-linux-gnueabi
-> +     git
-> +     iasl
-> +     make
-> +     nasm
-> +     python
-> +     uuid-dev
-> + script: # Clone the required submodules and build EDK2
-> + - git submodule update --init roms/edk2
-> + - git -C roms/edk2 submodule update --init
-> + - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
-> + - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
-> + - make -j${JOBS} -C roms efi 1>edk2-stdout.log 2> >(tee -a edk2-stderr.=
-log >&2)
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index ebcef0ebe9..f799246047 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -1,3 +1,6 @@
-> +include:
-> +  - local: '/.gitlab-ci-edk2.yml'
-> +
->   before_script:
->    - apt-get update -qq
->    - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev gen=
-isoimage
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8571327881..22a1fd5824 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2346,6 +2346,7 @@ F: roms/edk2
->   F: roms/edk2-*
->   F: tests/data/uefi-boot-images/
->   F: tests/uefi-test-tools/
-> +F: .gitlab-ci-edk2.yml
->  =20
->   Usermode Emulation
->   ------------------
-> @@ -2689,7 +2690,7 @@ W: https://cirrus-ci.com/github/qemu/qemu
->   GitLab Continuous Integration
->   M: Thomas Huth <thuth@redhat.com>
->   S: Maintained
-> -F: .gitlab-ci.yml
-> +F: .gitlab-ci*.yml
->  =20
->   Guest Test Compilation Support
->   M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
+> index a990f9fe35..59b3f44d69 100644
+> --- a/hw/timer/Kconfig
+> +++ b/hw/timer/Kconfig
+> @@ -15,6 +15,7 @@ config HPET
+> =20
+>  config I8254
+>      bool
+> +    depends on ISA_BUS
+> =20
+>  config ALTERA_TIMER
+>      bool
 >=20
+
+Queued, thanks.
+
+Paolo
 
 
