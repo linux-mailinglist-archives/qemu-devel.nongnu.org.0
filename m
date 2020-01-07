@@ -2,89 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D138D132477
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:05:44 +0100 (CET)
-Received: from localhost ([::1]:46552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F245132482
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:09:40 +0100 (CET)
+Received: from localhost ([::1]:46588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomgA-0006k0-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:05:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59697)
+	id 1iomjx-0001v9-L7
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:09:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34893)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iomSt-0003ps-QA
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:52:00 -0500
+ (envelope-from <bounces@canonical.com>) id 1iomgO-0003sb-6j
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:05:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iomSs-0005pH-IW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:51:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45382
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iomSs-0005oQ-E1
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:51:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578394315;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dXzyNtVfsGJ9QALhNtnYA36feVWALD6cMJ1wh1QejOU=;
- b=VKF9psKzkOeeng0BTDkN//yOp/00j5QqVu3uz+042Ne8wpyNQ7LhCZx7O6cCJ4x/13/k2J
- Jw0XPem0YT1zNUU/HOSa0vj7Ccj4QVHgz1DGf45Uut+DAZKRGVQMKVwCmU9OJCAbyO2FXM
- s9Ddz54TJYll/NDgfxsi2fK8QRNP964=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-HKDl5cMcOZKW2X6-30Hkrg-1; Tue, 07 Jan 2020 05:51:50 -0500
-Received: by mail-wr1-f72.google.com with SMTP id z10so24247781wrt.21
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:51:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dXzyNtVfsGJ9QALhNtnYA36feVWALD6cMJ1wh1QejOU=;
- b=UhNaxI9+imHqDG8oxaMC4/1RlCo5bF8ws/ZYmasPj45xC/36o0RXw1k7V79kpAZOs7
- xNCwc1nVntPwqqchzWbYmxMLF3MX3+9/5wugBqmTv7L0qjW3Bjd7UdbaKIBepwF6DfHt
- 4bKa8cKnsiP3yAftio+nvi5sUMhynaPtUzdWfeH5z/epaEUBPCrAyJgzYx2D2A9TQQVH
- 4XtLpRTz2s2bakf28JqPSC+VTOlLi+jUu/J9Zyq6ZBNVjX7kTpAqOfv6J/apibAK4Q+J
- Uj6XEJHJXfsTLrKYa6cGeVVnoDP5NNikdiif26c/e+tDyT/00YoiEnfFnGtIc57OvBW6
- Ssow==
-X-Gm-Message-State: APjAAAXEOQJnpufX3+ZbkMxF3kRijS3KwC2toJsdCSJHAzrXJb7ji/ZF
- WB1czua6SwOtd0u/fiAoDm8po9F6+++iaiVfRSo5cQXfQhLRxDiQ6cOmW4YNOetbEtkon9tW9eS
- vv9ozQxxyYYu6cT4=
-X-Received: by 2002:adf:e3c1:: with SMTP id k1mr105009896wrm.151.1578394309204; 
- Tue, 07 Jan 2020 02:51:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxRRd7TBwbA1TZbxtboRr9OmcnYRC7W84RJa0UuDGxQ6j/xvgalddEwvm5hfiT3+xTf08rnQA==
-X-Received: by 2002:adf:e3c1:: with SMTP id k1mr105009872wrm.151.1578394308936; 
- Tue, 07 Jan 2020 02:51:48 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id x14sm26223601wmj.42.2020.01.07.02.51.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 02:51:48 -0800 (PST)
-Subject: Re: [PATCH v1] hw: fix using 4.2 compat in 5.0 machine types for
- i440fx/q35
-To: Cornelia Huck <cohuck@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>
-References: <20191223072856.5369-1-dplotnikov@virtuozzo.com>
- <20200107102426.3f31d4d6.cohuck@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d5710941-b626-1b1b-a08a-f5fbc5684e7d@redhat.com>
-Date: Tue, 7 Jan 2020 11:51:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iomgN-0004Si-1t
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:05:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38614)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iomgM-0004SP-SL
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:05:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iomgL-0005Hz-Ly
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 11:05:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8DDA02E80CB
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:05:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200107102426.3f31d4d6.cohuck@redhat.com>
-Content-Language: en-US
-X-MC-Unique: HKDl5cMcOZKW2X6-30Hkrg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Jan 2020 10:52:17 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1856706@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dcb314
+X-Launchpad-Bug-Reporter: dcb (dcb314)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <157658912470.5706.7275804988501900768.malonedeb@gac.canonical.com>
+Message-Id: <157839433808.28078.8477173995897738350.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1856706] Re: target/mips/op_helper.c:971:duplicated branches ?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6148c4f3e77edfae7b0fe28b9124fa90d8a05f70
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,35 +67,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, rth@twiddle.net, qemu-devel@nongnu.org, mst@redhat.com
+Reply-To: Bug 1856706 <1856706@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/20 10:24, Cornelia Huck wrote:
-> On Mon, 23 Dec 2019 10:28:56 +0300
-> Denis Plotnikov <dplotnikov@virtuozzo.com> wrote:
-> 
->> 5.0 machine type uses 4.2 compats. This seems to be incorrect, since
->> the latests machine type by now is 5.0 and it should use its own
->> compat or shouldn't use any relying on the defaults.
->> Seems, like this appeared because of some problems on merge/rebase.
-> 
-> Yes, I seem to have fat-fingered that while rebasing.
-> 
->>
->> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
->> ---
->>  hw/i386/pc_piix.c | 1 -
->>  hw/i386/pc_q35.c  | 1 -
->>  2 files changed, 2 deletions(-)
-> 
-> I double checked that the other compat machines seem fine.
-> 
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> 
+** Tags added: mips
 
-Queued, thanks.
+-- =
 
-Paolo
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856706
 
+Title:
+  target/mips/op_helper.c:971:duplicated branches ?
+
+Status in QEMU:
+  New
+
+Bug description:
+  qemu-4.2.0/target/mips/op_helper.c:971:8: warning: this condition has
+  identical branches [-Wduplicated-branches]
+
+  Source code is
+
+     if (other_tc =3D=3D other->current_tc) {
+          tccause =3D other->CP0_Cause;
+      } else {
+          tccause =3D other->CP0_Cause;
+      }
+
+  Possible cut'n'paste error ?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856706/+subscriptions
 
