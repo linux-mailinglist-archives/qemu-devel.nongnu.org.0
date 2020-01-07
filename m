@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34671328B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:20:11 +0100 (CET)
-Received: from localhost ([::1]:49578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952301328E9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:31:14 +0100 (CET)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopiM-0000mt-6E
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:20:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35861)
+	id 1iopt2-0001KZ-2v
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:31:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35959)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1iooNn-0003V2-QI
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:54:53 -0500
+ (envelope-from <berrange@redhat.com>) id 1iooOA-0004WE-GG
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:55:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1iooNm-0000tL-8X
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:54:51 -0500
-Received: from mout.gmx.net ([212.227.15.18]:34979)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iooNl-0000r6-V8
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:54:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1578401685;
- bh=Esy/6Z9NMXlz6p4L3fdFRS0GPpSdZw4kBhSs2vKJIV8=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=OLIdfRRGkA1fEOXI1WAMZvtjgaafqUbQdDQC3wpXYNC2yRBzzyJ89eMJCpQOfUCYY
- VglFqkK8o6j67ksmM6qbiS/Lz5ZQOdIPuTs5Y++JaP3gXcecNtF0Xoy248EeRZoY+r
- IMVRedOqjStovLh1Suc5GrcWmy0B/Bg9NCQQxyCA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([89.71.135.231]) by mail.gmx.com
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1M5fMe-1in8M23BGc-007H5v; Tue, 07 Jan 2020 13:54:44 +0100
-From: Kamil Rytarowski <n54@gmx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] Add the NVMM acceleration enlightenments
-Date: Tue,  7 Jan 2020 13:54:01 +0100
-Message-Id: <20200107125401.18126-5-n54@gmx.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200107125401.18126-1-n54@gmx.com>
-References: <20200107125401.18126-1-n54@gmx.com>
+ (envelope-from <berrange@redhat.com>) id 1iooO9-0001A5-1b
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:55:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52016
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iooO8-00019j-SV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:55:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578401712;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qttufoECSLSKdnfLADfyVG7ycmdttEFt6/MGHWuVi8Y=;
+ b=cvIzo/GGBGgRRzeDlMo6bIul/T9/nRUnPgb+wt5pyndisJk4OP2Vt5puu3JqV21cw8ouuY
+ U3nen/DhspuatWTAwo12a8/q9I0V4kk8CGLdb5fXzKS3gf1+xTbI4Wcen9V6SJHhspmDvL
+ SGuyKxOFkh8b7Dq0CGQF3d4j0cL3Upw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-91aqR_DXO02GGVTn5W-TwQ-1; Tue, 07 Jan 2020 07:55:11 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20353DB62;
+ Tue,  7 Jan 2020 12:55:10 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1344260BE2;
+ Tue,  7 Jan 2020 12:54:54 +0000 (UTC)
+Date: Tue, 7 Jan 2020 12:54:51 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update
+ tests to recent desugarized -accel option)
+Message-ID: <20200107125451.GL3368802@redhat.com>
+References: <20200106130951.29873-1-philmd@redhat.com>
+ <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+ <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+ <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
+ <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 91aqR_DXO02GGVTn5W-TwQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vNZ6nz0iU75MIVWsUHT2AsPq62FvQ01v2ST4svHbbtuRxqgN5AZ
- BlnZyWsn2FN5jgGspMcwXymWa+PqVsaxscv3CiU7ZxmVnXMTsIIeyiW85cnizPumaWku7Yl
- e+CCtdsTEZcnWJv7laXJyB7M2QkKIfjTibQsfT8jHXYVHcwnJ0I8FNY67cgOaR+Uzur9amE
- unE4oP+fUwnrrN9VbW3kw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XOcp1Ra8bCE=:W0c4Nc5RZAwy4zAqiBXP2r
- 7CAX/p4zeXc4tiMP1HDEpgXNvCi7caR9OFCtX9kM3eedW+KhFW28hdFsiQ1cfoiBwnm5F7236
- jEOXa49RY7f/jm0yQ2UiZQQntaH5eNL1dyHaiiGIv1kjylwqhNcfTy5eQ3w+lpT4iL6Q4BtBm
- QujXpkzgm75WN3KgpMILFc36Zk258qOy+qndqzuPN7OtIHvEowL8xC8ivbWzNIBJSzZpazNXj
- Lg7G6boBaS+w8EiJg8yxMHasdx1B/Id1p+WqOOsHIeigSC/qBd2AyEpXvUdyxTAxmOL2SMmaO
- KYZprv14TinmwipAFuUJdMhq3Et2RtLsCOuZ9GPJXHkAdhdOqv55M93itbT2+hSXu/w2V9WAj
- zN/DHD47J9lY/4jXEe5q9EcZC4lvQs1dHYJ+5ER9fi1yen9Pg6mwGsQiOpYmsRUx2yH/+cTg5
- sfJdnlVuhcAO+LggB0qPHA0pni+BtmEf+51kDNSK73pk8duZeyX9mYfHrfJZR97gtvHaNg7SR
- awAzwzUX0640roU1/K7pelXFbnLK1boHrWmvXq/gbwQ3hoaVfvkZ9do7KJnNPJXuodJ3/Bgc4
- QfWsYJX0pJMOD/ic6JFg2O3/0lNxTby/oPUFojiwYMckkeiGAU4NUYOic89N+IVJgHO+P58mh
- XWDpApeHyEF1v8xHdhZQb1NgO7Hl8ZweSMjlkW6KB0vB+VJtAcs3Sy/L3kjjcaA4FMirebnx5
- aPEvq/NVBFUjXQd/VEjhGjW+jHxiea4dritVmkjC0ZCIEbn8X2QIZ0q4Mdz7pGex2dgFd4Jo/
- 0vwEB4JRVdZeQT9oFEJkRBFqwo47UFuNXvXpKXKnmwZvBsV/SVjwI9rCftY19dcF7xsKtm0mt
- n2NlMpkhwzsq2zCdyvhhongv1Y8+2ocMGEGtQxmJNOBY21YsJViAxJVoE3UTwAn9sR6aE9ICK
- JZXyhYZAuujNURLk42eX9b2rJKxyeSv/WRSnfUYXHiarcX7u/GFkqxvWMlwIFdt3qtYDZVaZy
- k19cWLFKnvDJOrIW+x8pXhtdpCbCkqxaPEkgChMl8dzi/O1FolfsLoehQeWBKjizh48ODsdc1
- juuolkP//8bMaRvN5d+eRyRVSOE1KS0buICVXqE/vFAi4AO5YqrH67urF49s/Ms173OHbS1BF
- jze9eHJXiloIiRsmL98T6ImNEFX0debgnt+kUDPXYy+1mWwBVIauKRG+C/UzstoCUdA4XEpew
- /NOzSjWmGAjZizP9f9w3QVuHd9hBy1qz61F7Lig==
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.15.18
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,186 +78,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Kamil Rytarowski <n54@gmx.com>,
- Maxime Villard <max@m00nbsd.net>, peter.maydell@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxime Villard <max@m00nbsd.net>
+On Tue, Jan 07, 2020 at 01:23:18PM +0100, Paolo Bonzini wrote:
+> On 07/01/20 13:18, Thomas Huth wrote:
+> > I don't think we need a separate priority parameter here. But IMHO it's
+> >  really rather common practice to prioritize the last option. So while
+> > it might be more "self-explanatory" to a CLI newbie if the first
+> > occurrence got the highest priority, it might be rather confusing
+> > instead for a CLI veteran...?
+>=20
+> Prioritising the last certainly makes sense for a choose-one-only
+> option, but I'm not sure it's the same for a choose-best option.  After
+> all it was -machine accel=3Dkvm:tcg, not -machine accel=3Dtcg:kvm...
 
-Implements the NVMM accelerator cpu enlightenments to actually use the nvm=
-m-all
-accelerator on NetBSD platforms.
+IIUC, the main use case for specifying multiple accelerators is
+so that lazy invokations can ask for a hardware virt, but then get
+fallback to TCG if not available. For things that should be platform
+portabile, there's more than just kvm to consider though, as we have
+many accelerators.  Listing all possible accelerators is kind of
+crazy though no matter what the syntax is.
 
-Signed-off-by: Maxime Villard <max@m00nbsd.net>
-Signed-off-by: Kamil Rytarowski <n54@gmx.com>
-=2D--
- cpus.c                    | 58 +++++++++++++++++++++++++++++++++++++++
- include/sysemu/hw_accel.h | 14 ++++++++++
- target/i386/helper.c      |  2 +-
- 3 files changed, 73 insertions(+), 1 deletion(-)
+How about taking a completely different approach, inspired by the
+-cpu arg and implement:
 
-diff --git a/cpus.c b/cpus.c
-index b472378b70..3c3f63588c 100644
-=2D-- a/cpus.c
-+++ b/cpus.c
-@@ -42,6 +42,7 @@
- #include "sysemu/hax.h"
- #include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
- #include "exec/exec-all.h"
+    -machine accel=3Dbest
 
- #include "qemu/thread.h"
-@@ -1666,6 +1667,48 @@ static void *qemu_whpx_cpu_thread_fn(void *arg)
-     return NULL;
- }
+which will just "do the right thing(tm)", picking the best available
+option for the current host.
 
-+static void *qemu_nvmm_cpu_thread_fn(void *arg)
-+{
-+    CPUState *cpu =3D arg;
-+    int r;
-+
-+    assert(nvmm_enabled());
-+
-+    rcu_register_thread();
-+
-+    qemu_mutex_lock_iothread();
-+    qemu_thread_get_self(cpu->thread);
-+    cpu->thread_id =3D qemu_get_thread_id();
-+    current_cpu =3D cpu;
-+
-+    r =3D nvmm_init_vcpu(cpu);
-+    if (r < 0) {
-+        fprintf(stderr, "nvmm_init_vcpu failed: %s\n", strerror(-r));
-+        exit(1);
-+    }
-+
-+    /* signal CPU creation */
-+    cpu->created =3D true;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+
-+    do {
-+        if (cpu_can_run(cpu)) {
-+            r =3D nvmm_vcpu_exec(cpu);
-+            if (r =3D=3D EXCP_DEBUG) {
-+                cpu_handle_guest_debug(cpu);
-+            }
-+        }
-+        qemu_wait_io_event(cpu);
-+    } while (!cpu->unplug || cpu_can_run(cpu));
-+
-+    nvmm_destroy_vcpu(cpu);
-+    cpu->created =3D false;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+    qemu_mutex_unlock_iothread();
-+    rcu_unregister_thread();
-+    return NULL;
-+}
-+
- #ifdef _WIN32
- static void CALLBACK dummy_apc_func(ULONG_PTR unused)
- {
-@@ -2029,6 +2072,19 @@ static void qemu_whpx_start_vcpu(CPUState *cpu)
- #endif
- }
+Then declare the use of mulitple -machine args is unsupported
+or undefined semantics, and ignore this priority question entirely
+thus avoid making QEMU's CLI even more complex than it already is
 
-+static void qemu_nvmm_start_vcpu(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    cpu->thread =3D g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond =3D g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/NVMM",
-+             cpu->cpu_index);
-+    qemu_thread_create(cpu->thread, thread_name, qemu_nvmm_cpu_thread_fn,
-+                       cpu, QEMU_THREAD_JOINABLE);
-+}
-+
- static void qemu_dummy_start_vcpu(CPUState *cpu)
- {
-     char thread_name[VCPU_THREAD_NAME_SIZE];
-@@ -2069,6 +2125,8 @@ void qemu_init_vcpu(CPUState *cpu)
-         qemu_tcg_init_vcpu(cpu);
-     } else if (whpx_enabled()) {
-         qemu_whpx_start_vcpu(cpu);
-+    } else if (nvmm_enabled()) {
-+        qemu_nvmm_start_vcpu(cpu);
-     } else {
-         qemu_dummy_start_vcpu(cpu);
-     }
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 0ec2372477..dbfa7a02f9 100644
-=2D-- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -15,6 +15,7 @@
- #include "sysemu/hax.h"
- #include "sysemu/kvm.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
-
- static inline void cpu_synchronize_state(CPUState *cpu)
- {
-@@ -27,6 +28,9 @@ static inline void cpu_synchronize_state(CPUState *cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_state(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_state(cpu);
-+    }
- }
-
- static inline void cpu_synchronize_post_reset(CPUState *cpu)
-@@ -40,6 +44,10 @@ static inline void cpu_synchronize_post_reset(CPUState =
-*cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_reset(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_reset(cpu);
-+    }
-+
- }
-
- static inline void cpu_synchronize_post_init(CPUState *cpu)
-@@ -53,6 +61,9 @@ static inline void cpu_synchronize_post_init(CPUState *c=
-pu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_init(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_init(cpu);
-+    }
- }
-
- static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
-@@ -66,6 +77,9 @@ static inline void cpu_synchronize_pre_loadvm(CPUState *=
-cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_pre_loadvm(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_pre_loadvm(cpu);
-+    }
- }
-
- #endif /* QEMU_HW_ACCEL_H */
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index c3a6e4fabe..2e79d61329 100644
-=2D-- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -981,7 +981,7 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess=
- access)
-     X86CPU *cpu =3D env_archcpu(env);
-     CPUState *cs =3D env_cpu(env);
-
--    if (kvm_enabled() || whpx_enabled()) {
-+    if (kvm_enabled() || whpx_enabled() || nvmm_enabled()) {
-         env->tpr_access_type =3D access;
-
-         cpu_interrupt(cs, CPU_INTERRUPT_TPR);
-=2D-
-2.24.0
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
