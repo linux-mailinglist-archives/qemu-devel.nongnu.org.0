@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C213C132DA4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:54:43 +0100 (CET)
-Received: from localhost ([::1]:54272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DF8132DA8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:55:13 +0100 (CET)
+Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iot3y-0003yj-Fo
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:54:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47675)
+	id 1iot4S-0004va-EW
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:55:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dinechin@redhat.com>) id 1iot2f-0002qz-Px
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:23 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1iot2u-0003A1-H3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dinechin@redhat.com>) id 1iot2e-0005PH-8d
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:21 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21264
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwankhede@nvidia.com>) id 1iot2s-0005dJ-Vr
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:36 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6412)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1iot2e-0005Ou-40
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578419599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Agm6cHpXBZSF9FASiNHmNNt/eL7QtD3NEQPTlhpHRZk=;
- b=jVfMtYRFJ7hXTNUQjKEvWVKwWqxnFDkA+IzWFPU1KJ5S9gaMvZsyTtKOGbgNFoEswV3UQo
- qIUpakHQZCw8/DNv7S5DoBUH9jbQcxiRlvfXzt0J5SvqHMB+I9lTTYkeRyGPx218t9prD/
- C9FDjrzIDlD4jOoGrpDY0OlrMNJLsQA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-SUliREoOMPePZdMQBoSphw-1; Tue, 07 Jan 2020 12:53:18 -0500
-Received: by mail-wr1-f70.google.com with SMTP id c17so258876wrp.10
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 09:53:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=3Pv4Ui5Z1GHqGX5/OYb3Y5a+vVsllIK07MhUGf4v77s=;
- b=r2BquLmBB0uZu4YKvDfx/VFaZ+rQR/mKd1uarJ+sJqpcH6iDPv2PA/GzyuSdCw5BgM
- UHxQhRuxpFYf96WtU13hh6GQ/hwSKKjj3XGyR/B/A4H0h2E7FNzQqr55W0kk4L1SWp2N
- yL1+SEc10QSJsSgclLxFwHwDA1FpcgQz/dEFIesS/fPHy7As6LC9xR+8NhqbKqQ4IocQ
- FMfXzSyKdYbhyB2DG+fEqga7OcH0+zqB5j7YIWaBPgjFDTezdP83GGmtBt3wRmB+HkQ1
- KBs+E7fyp8ubpyKZoC03lwdHifDfnkVMn6izuWuL9daN0LYFpCkXSs2Gd4s6FDiLQWeW
- cVkQ==
-X-Gm-Message-State: APjAAAXK0QHEoxzFV/7U9pwvsiy161QUwxoaNh8Xm6WQWSpC8G+U+8BF
- nQmqk5fRvw6DfEaMpOoNxYLUn/tMH0HmFWp99mPvjg+AerKZcTKCMZOtCyZJEDaxDQwHIZpQIIc
- qWg9f6C+S+rHZVs8=
-X-Received: by 2002:adf:cf0a:: with SMTP id o10mr214369wrj.325.1578419596966; 
- Tue, 07 Jan 2020 09:53:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzTZdpxAArzUn4K4oOihVX7lpHYd3JUsdPdbEHSvX4MmMfa12GO/Ajf9laMAuv5e3OxziRRXQ==
-X-Received: by 2002:adf:cf0a:: with SMTP id o10mr214333wrj.325.1578419596655; 
- Tue, 07 Jan 2020 09:53:16 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:466:71c0:8d4b:4003:dcb:4c70?
- ([2a01:e0a:466:71c0:8d4b:4003:dcb:4c70])
- by smtp.gmail.com with ESMTPSA id v83sm422831wmg.16.2020.01.07.09.53.14
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 07 Jan 2020 09:53:15 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
-Subject: Re: Making QEMU easier for management tools and applications
-From: Christophe de Dinechin <dinechin@redhat.com>
-In-Reply-To: <20200107125745.GJ4076@linux.fritz.box>
-Date: Tue, 7 Jan 2020 18:53:13 +0100
-Message-Id: <AE6AD21A-0DAD-4589-BAC0-C203B6F8A0D9@redhat.com>
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
- <87h81unja8.fsf@dusky.pond.sub.org>
- <c445ecbe-1559-462a-31c2-f44f60e60a8b@redhat.com>
- <20200107093655.GF4076@linux.fritz.box>
- <d18b8c0f-3054-dd63-0d10-dda6d0655175@redhat.com>
- <20200107125745.GJ4076@linux.fritz.box>
-To: Kevin Wolf <kwolf@redhat.com>
-X-Mailer: Apple Mail (2.3608.40.2.2.4)
-X-MC-Unique: SUliREoOMPePZdMQBoSphw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1iot2s-0005cM-Oh
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 12:53:34 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e14c58b0001>; Tue, 07 Jan 2020 09:53:15 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 07 Jan 2020 09:53:32 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 07 Jan 2020 09:53:32 -0800
+Received: from [10.40.100.83] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Jan
+ 2020 17:53:22 +0000
+Subject: Re: [PATCH v10 Kernel 1/5] vfio: KABI for migration interface for
+ device state
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
+ <1576527700-21805-2-git-send-email-kwankhede@nvidia.com>
+ <20191216154406.023f912b@x1.home>
+ <f773a92a-acbd-874d-34ba-36c1e9ffe442@nvidia.com>
+ <20191217114357.6496f748@x1.home>
+ <3527321f-e310-8324-632c-339b22f15de5@nvidia.com>
+ <20191219102706.0a316707@x1.home>
+ <928e41b5-c3fd-ed75-abd6-ada05cda91c9@nvidia.com>
+ <20191219140929.09fa24da@x1.home> <20200102182537.GK2927@work-vm>
+ <20200106161851.07871e28@w520.home>
+ <ce132929-64a7-9a5b-81ff-38616202b757@nvidia.com>
+ <20200107100923.2f7b5597@w520.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <08b7f953-6ac5-cd79-b1ff-54338da32d1e@nvidia.com>
+Date: Tue, 7 Jan 2020 23:23:17 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20200107100923.2f7b5597@w520.home>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1578419595; bh=sjbl05NGr9UeMkTIDZ58t68y/x3KNp1WD8LiS47A7UY=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=j+nf4OllFjoxTM40q3yhFz6m3FWuZMy+QsxWWCU9CtKQwn1aCE+gHbRGLiIl6Igke
+ 0Dz7Jvfs2v/NerBQXzp9fg+D+bR/cJqsLs5XsH2+2WQV0gi10s3Sk7Plh8t4UZy5C1
+ vI6ul1vWcKxuXHAn8xnzv3KYwg8jYGF3cpE3JJBoJDVcmr9xrBHfiDHyLmQAYOG6Xr
+ BBj+cjhglzkJkcekNb/K2A3eFEOpHUyPBlJu+yxkUXPPyJu1YK8W0Z0cQjwA4J3dni
+ TVNa04jLeuDq/pox5SmRuc0SWUDct9Fe0CR/1o1El/MqIX0/VI9KnBnehST7aCvirN
+ U2FTlG2CIyz7A==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,151 +86,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com,
+ felipe@nutanix.com, jonathan.davies@nutanix.com, yan.y.zhao@intel.com,
+ changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-> On 7 Jan 2020, at 13:57, Kevin Wolf <kwolf@redhat.com> wrote:
->=20
-> Am 07.01.2020 um 11:55 hat Michal Privoznik geschrieben:
->> On 1/7/20 10:36 AM, Kevin Wolf wrote:
->>> The easy way out would be tying libvirt to a specific QEMU version. And
->>> I'm only half joking.
->>>=20
->>> If libvirt didn't exist yet and we needed a management library for QEMU=
-,
->>> what we would build now would probably not look much like libvirt looks
->>> today. We wouldn't try to have basic support for every hypervisor out
->>> there, but integrate it much closer with QEMU and avoid much of the
->>> backwards compatibility requirements that the interface between QEMU an=
-d
->>> libvirt has (which requires us to deal with compatibility twice for
->>> everything).
->>=20
->> By doing this, you would force your consumers to implement compatibility
->> layer each on their own. Freshly finished blockdev is a beautiful exampl=
-e -
->> OpenStack, oVirt and whatnot - they all are/can use blockdev without eve=
-n
->> noticing, because the API provided by libvirt is stable and provides
->> abstraction, i.e. you don't need to change anything in your domain XML t=
-o
->> use blockdev.
->=20
-> Yes and no.
->=20
-> You could still keep using the same abstraction that libvirt has always
-> used while doing this. What my imaginary newly written management
-> library would do differently isn't necessarily the interface between
-> libvirt and applications, but getting rid of backwards compatibility
-> requirements in the interface between QEMU and libvirt.
->=20
-> But of course, blockdev isn't even a feature per se. It's getting the
-> abstraction right so that it's actually abstract enough to represent
-> everything. As long as libvirt keeps using an abstraction that is based
-> on simplistic setups, it won't be able to expose the full feature set of
-> QEMU. This is less than satisfying. In the long run, libvirt will have
-> to extend its abstraction to make full use of new features either way.
->=20
->> Of course, you can apply the argument one more time and have mgmt
->> application tied to a specific version of qemu. But even that is not
->> good enough, because with backports version is just meaningless
->> number.
->=20
-> I think this would be too much indeed.
->=20
->>> Maybe it would even be part of the QEMU repository, allowing a single
->>> patch series to implement a new feature in the system emulator and
->>> expose it in the API immediately instead of waiting for the next QEMU
->>> release before libvirt can even think about implementing support for it=
-.
->>=20
->> Thing is, it's not just qmp that a mgmt application has to master, it's =
-also
->> process managing (and with growing number of helper binaries this is not=
- as
->> trivial as fork() + exec()). This would need to be the bare minimum your=
- API
->> layer has to provide to be consumable by anybody.
->> But then you have some advanced subsystems to take care of (CGroups,
->> SELinux, etc.) which are used heavily by OpenStack. oVirt and friends.
->=20
-> Someone has to do this anyway. Note that here I'm still talking about
-> the hypothetical case where no libvirt existed yet.
->=20
-> If we cared only about OpenStack, oVirt and friends, this would still
-> all be QEMU-based, so not a big problem to have it tied to QEMU.
->=20
-> I'm not sure what this looks like in practice in libvirt: Are these
-> components shared between multiple hypervisor interfaces or is it only
-> for QEMU anyway?
->=20
-> If multiple hypervisors make use of it, how crazy would it be to imagine
-> reversing which project consumes which? Instead of having the libvirt
-> core consume the hypervisor-specific sublibraries, could a QEMU-specific
-> part live closer to QEMU and consume the libvirt core as an external
-> library?
->=20
-> I guess much of what I write in this thread is pure heresy. :-)
-> Maybe most of it isn't even useful. But maybe there is an idea or two in
-> it that are worth having a closer look at.
+On 1/7/2020 10:39 PM, Alex Williamson wrote:
+> On Tue, 7 Jan 2020 12:58:22 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> On 1/7/2020 4:48 AM, Alex Williamson wrote:
+>>> On Thu, 2 Jan 2020 18:25:37 +0000
+>>> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+>>>    
+>>>> * Alex Williamson (alex.williamson@redhat.com) wrote:
+>>>>> On Fri, 20 Dec 2019 01:40:35 +0530
+>>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>>>       
+>>>>>> On 12/19/2019 10:57 PM, Alex Williamson wrote:
+>>>>>>
+>>>>>> <Snip>
+>>>>>>       
+>>>>
+>>>> <snip>
+>>>>   
+>>>>>>
+>>>>>> If device state it at pre-copy state (011b).
+>>>>>> Transition, i.e., write to device state as stop-and-copy state (010b)
+>>>>>> failed, then by previous state I meant device should return pre-copy
+>>>>>> state(011b), i.e. previous state which was successfully set, or as you
+>>>>>> said current state which was successfully set.
+>>>>>
+>>>>> Yes, the point I'm trying to make is that this version of the spec
+>>>>> tries to tell the user what they should do upon error according to our
+>>>>> current interpretation of the QEMU migration protocol.  We're not
+>>>>> defining the QEMU migration protocol, we're defining something that can
+>>>>> be used in a way to support that protocol.  So I think we should be
+>>>>> concerned with defining our spec, for example my proposal would be: "If
+>>>>> a state transition fails the user can read device_state to determine the
+>>>>> current state of the device.  This should be the previous state of the
+>>>>> device unless the vendor driver has encountered an internal error, in
+>>>>> which case the device may report the invalid device_state 110b.  The
+>>>>> user must use the device reset ioctl in order to recover the device
+>>>>> from this state.  If the device is indicated in a valid device state
+>>>>> via reading device_state, the user may attempt to transition the device
+>>>>> to any valid state reachable from the current state."
+>>>>
+>>>> We might want to be able to distinguish between:
+>>>>     a) The device has failed and needs a reset
+>>>>     b) The migration has failed
+>>>
+>>> I think the above provides this.  For Kirti's example above of
+>>> transitioning from pre-copy to stop-and-copy, the device could refuse
+>>> to transition to stop-and-copy, generating an error on the write() of
+>>> device_state.  The user re-reading device_state would allow them to
+>>> determine the current device state, still in pre-copy or failed.  Only
+>>> the latter would require a device reset.
+>>>    
+>>>> If some part of the devices mechanics for migration fail, but the device
+>>>> is otherwise operational then we should be able to decide to fail the
+>>>> migration without taking the device down, which might be very bad for
+>>>> the VM.
+>>>> Losing a VM during migration due to a problem with migration really
+>>>> annoys users; it's one thing the migration failing, but taking the VM
+>>>> out as well really gets to them.
+>>>>
+>>>> Having the device automatically transition back to the 'running' state
+>>>> seems a bad idea to me; much better to tell the hypervisor and provide
+>>>> it with a way to clean up; for example, imagine a system with multiple
+>>>> devices that are being migrated, most of them have happily transitioned
+>>>> to stop-and-copy, but then the last device decides to fail - so now
+>>>> someone is going to have to take all of them back to running.
+>>>
+>>> Right, unless I'm missing one, it seems invalid->running is the only
+>>> self transition the device should make, though still by way of user
+>>> interaction via the reset ioctl.  Thanks,
+>>>    
+>>
+>> Instead of using invalid state by vendor driver on device failure, I
+>> think better to reserve one bit in device state which vendor driver can
+>> set on device failure. When error bit is set, other bits in device state
+>> should be ignored.
+> 
+> Why is a separate bit better?  Saving and Restoring states are mutually
+> exclusive, so we have an unused and invalid device state already
+> without burning another bit.  Thanks,
+> 
 
-Well, I don=E2=80=99t know if it is heresy, but at least as far as sandboxi=
-ng / jailing
-is concerned, I suggested something similar in earlier iterations of
-the discussion. My way to say that I am part of your heresy, I guess.
+There are 3 invalid states:
+  *  101b => Invalid state
+  *  110b => Invalid state
+  *  111b => Invalid state
 
->=20
->>> So should libvirt move in that direction? Do people actually still make
->>> much use of its multi-hypervisor nature, or would it make sense to spli=
-t
->>> it into separate libraries for each hypervisor that can be much tighter
->>> integrated with (a specific version of) the respective hypervisor?
->>=20
->> Truth to be told, I don't think libvirt is held back by its attempts to
->> provide hypervisor agnostic APIs. Sure, it leads to some weirdness (e.g.
->> different naming in libvirt and qemu), but as a libvirt developer I don'=
-t
->> remember feeling blocked by this multi-hypervisor nature (not to mention
->> that this has saved us couple of times).
->=20
-> I would imagine so, because the problem doesn't become visible in the
-> daily work, but only in the bigger picture: The other hypervisors are
-> what prevent libvirt from being more tightly intergrated with QEMU.
->=20
-> This means that there is a boundary between QEMU and libvirt that makes
-> it really slow to get new features to the user. And both QEMU and
-> libvirt waste a lot of time for maintaining backwards compatibility in
-> things that wouldn't necessarily have to be stable interfaces if the
-> management library were developed in lockstep with QEMU.
->=20
->> Also, it would be not correct to think that a feature is implemented for=
- all
->> hypervisors in libvirt. I mean, when implementing a feature I usually
->> implement it only for qemu driver and don't even look at other drivers
->> (unless I'm doing a change in a core that causes build failures). On the
->> other hand, I do sometimes review patches posted by developers from othe=
-r
->> companies which have interest in different hypervisors (e.g. there is a =
-SUSE
->> guy working on LXC driver, and another SUSE guy working on libxenlight
->> (basically Xen)), so I do spend some time not working on qemu driver, bu=
-t
->> I'd say it's negligible.
->=20
-> Time spent on non-QEMU isn't really my concern. Time spent maintaining
-> stable interface between QEMU and libvirt, and time spent waiting for
-> QEMU releases before libvirt development starts are my concern.
->=20
-> Kevin
+why only 110b should be used to report error from vendor driver to 
+report error? Aren't we adding more confusions in the interface?
 
+Only 3 bits from 32 bits are yet used, one bit can be spared to 
+represent error state from vendor driver.
+
+Thanks,
+Kirti
 
