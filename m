@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3DD1329FE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:25:47 +0100 (CET)
-Received: from localhost ([::1]:51404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2F51329CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:17:18 +0100 (CET)
+Received: from localhost ([::1]:51202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqjq-0007gy-6e
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:25:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56285)
+	id 1ioqbc-0002Br-6S
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:17:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTF-0005GA-3o
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:08:38 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTd-0005dR-Ct
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTE-0004wZ-1h
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:08:36 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23905
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTc-00058Z-AL
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:01 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43274
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ioqTD-0004wJ-UI
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:08:36 -0500
+ id 1ioqTc-00056A-7D
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578409715;
+ s=mimecast20190719; t=1578409734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oKTV1GWDNyd1B33P8RLG1jvM7IO9biN04q66oucReX4=;
- b=d5+ROMOeLckWnQY16FNyKNiDM5EyUuATGgAxvvYGR/YVKiIkitOucK90SQkHCtZWXYzzVo
- iHwXEGGVr8z6icLjlGzncYti5tMUf3RozGzhOzNMXFZLvOwiqWWfyPlrw6ddyYQ1vqXh4X
- qPIjizmNA7VMXP2NsUQHty+T8HQ8elA=
+ bh=+k9m31JXISacHhMNs6aatbQWb8ObMJVtwFYVXXhkj0A=;
+ b=fmPVcdW5tLZTv654wYoCzejtL7lktw/cgaAktkyHmauX0ofKcolfH8iv+LFZfzHk07D0hc
+ FMY8XHfVOv+bx5OOcGTLuVtlIn3nn4lGO7L6JPNkPtCJsZkfbm5HMsoU57KJ6arKWj0f2N
+ pwFP53tMfE6kK5cvFykU7hUgTY77Dqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-d795MoZcN_aP-P8cqudPdQ-1; Tue, 07 Jan 2020 10:08:34 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-227-k1H53Pa-Mb-fvdqzLkyM2A-1; Tue, 07 Jan 2020 10:08:53 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 410F11005502;
- Tue,  7 Jan 2020 15:08:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E89E4801E6C;
+ Tue,  7 Jan 2020 15:08:51 +0000 (UTC)
 Received: from localhost (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E25E07C82C;
- Tue,  7 Jan 2020 15:08:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E01EA7DB56;
+ Tue,  7 Jan 2020 15:08:38 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/37] mips: use sysbus_add_io()
-Date: Tue,  7 Jan 2020 19:04:24 +0400
-Message-Id: <20200107150442.1727958-20-marcandre.lureau@redhat.com>
+Subject: [PULL 20/37] mips: use sysbus_mmio_get_region() instead of internal
+ fields
+Date: Tue,  7 Jan 2020 19:04:25 +0400
+Message-Id: <20200107150442.1727958-21-marcandre.lureau@redhat.com>
 In-Reply-To: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: d795MoZcN_aP-P8cqudPdQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: k1H53Pa-Mb-fvdqzLkyM2A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,30 +78,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sysbus devices should use the associated helper function instead of
-calling memory_region_add_subregion() manually. This simplifies
-slightly the code.
+Register the memory region with sysbus_init_mmio() and look it up with
+sysbus_mmio_get_region() to avoid accessing internal device fields.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/mips/mips_mipssim.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/char/serial.c       | 1 +
+ hw/mips/mips_mipssim.c | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 7746dfcee8..6c327183c7 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -998,6 +998,7 @@ static void serial_io_realize(DeviceState *dev, Error *=
+*errp)
+     }
+=20
+     memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
++    sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
+     sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
+ }
+=20
 diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-index 3cd0e6eb33..2c2c7f25b2 100644
+index 2c2c7f25b2..84c03dd035 100644
 --- a/hw/mips/mips_mipssim.c
 +++ b/hw/mips/mips_mipssim.c
-@@ -227,8 +227,7 @@ mips_mipssim_init(MachineState *machine)
+@@ -227,7 +227,8 @@ mips_mipssim_init(MachineState *machine)
          qdev_set_legacy_instance_id(dev, 0x3f8, 2);
          qdev_init_nofail(dev);
          sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[4]);
--        memory_region_add_subregion(get_system_io(), 0x3f8,
--                                    &SERIAL_IO(dev)->serial.io);
-+        sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8, &SERIAL_IO(dev)->serial.=
+-        sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8, &SERIAL_IO(dev)->serial.=
 io);
++        sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8,
++                      sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
      }
 =20
      if (nd_table[0].used)
