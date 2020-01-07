@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A4A1322C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:43:36 +0100 (CET)
-Received: from localhost ([::1]:45284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAAE01322AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:41:09 +0100 (CET)
+Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iolC5-0002sv-Fh
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:30:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60203)
+	id 1iolK5-0004xQ-KC
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:38:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iokBS-0000o3-BV
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:25:51 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iokHA-0005dq-Gb
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:31:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iokBO-0001Tv-Q0
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:25:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54280
+ (envelope-from <pbonzini@redhat.com>) id 1iokH8-0006CJ-Ts
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:31:44 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49730
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iokBO-0001Tb-N0
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:25:46 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iokH8-0006Bq-Pq
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:31:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578385546;
+ s=mimecast20190719; t=1578385902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EItgcsqMjnzxV43V3Il8tJ34o6wX9PReSRH1fDJnmow=;
- b=OX1TVqZK313+H94Xw8bjiGHHX3eS6vKqix9NTZ85ZLY83FuSeSqUsUtqHAdrRAr6LUjMJX
- GHJOojBr1nRX48JhPzr25G4lV7mwmfDoY5ZQ+vlAuPERsXGZEbV3c21z4yKo6tZiKaNm/O
- D8+Bp/LsljDT4SSJRrEsHtaKP5+k6dA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-l7rxyOWAPN2dRDSfNxx8jA-1; Tue, 07 Jan 2020 03:25:45 -0500
-Received: by mail-wm1-f72.google.com with SMTP id s25so1691971wmj.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 00:25:45 -0800 (PST)
+ bh=OiNoABeQWSVW/vMzs3uuKaOKpFpi5UCB+Ay2aH3MdrQ=;
+ b=HTgz1cSr+NWI+OeIeH95+c5p1SBdShAHBVAAw01sW4MD4gfjq8wGiuqkcdJgyRImb1epSb
+ bNHhmtExjbtwa3rbHt44Xw/vjob7J+xSUocR4j1/R3Wb+F2TUNiVD1Nk9zZFlQxdXTDqtG
+ 1Qdj+in3cTF9zKBElXCpBFv1owN/6Fo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-QdMYv7FKMJa4O2mh7OMOuA-1; Tue, 07 Jan 2020 03:31:41 -0500
+Received: by mail-wr1-f70.google.com with SMTP id b13so10673150wrx.22
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 00:31:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=twvR55DUgXtP77qfYthgZ5Mc4/jTQDOUFsTn2kgZRmQ=;
- b=GwOqRY6UYyx97puqvh9uXid/mQJN9lej5N9Rti0bIq6Bi8Tz+u8affgJR5mXXlCihl
- /U3X6hulPuoOIOFK659TMS43olZqs2RcK17f3OWTN9eTnzqWUk6agMbX6piOUOV33HTn
- TB/rBs7YhLWwUUJhsgjaGmIBaQ//qV+gMjTqPsug6UIU3LVGj//xJAZUz/halMzCi0DD
- t1rr5OSO1hAsXcCHSsnWNhV9LrPUmrqCMfluq3jo0OBMYCtPfbRT51uMvEXH0cgo56Lp
- UQnKD98D6ABnv6L6x+ZSbxVKGcf2X6lJEj6Vf+8MPe2NCk2jf3njr6OG7jYpYVhHmt9V
- b5Og==
-X-Gm-Message-State: APjAAAWbqWd97Ob7JtPxMQV7tgKIUv0WviFPHlW2VEUBiQ1WWXup45p4
- p7cQhDqYmDfx33kQBNmpajOIHraxlV5FjUNMAKypLp1UJOVEJVKjqlB/jljS5RAmqZZVzwhp5N8
- InFYJO1mctRQrh+8=
-X-Received: by 2002:adf:dfd2:: with SMTP id
- q18mr107226627wrn.152.1578385542971; 
- Tue, 07 Jan 2020 00:25:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxG/drZ3ew1CkVTV/HlnqhJ2XDgBb0efS022eVKQlfjBcp7dihWXjafKKgEEdgA7A7f0HvR/Q==
-X-Received: by 2002:adf:dfd2:: with SMTP id
- q18mr107226583wrn.152.1578385542506; 
- Tue, 07 Jan 2020 00:25:42 -0800 (PST)
-Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id p5sm76736768wrt.79.2020.01.07.00.25.41
+ bh=OiNoABeQWSVW/vMzs3uuKaOKpFpi5UCB+Ay2aH3MdrQ=;
+ b=Ut4JjpEJIBAXSU7p7EJ1xkSkhVPWA+9N1KGnoGmiUxAByARDbytrHBQ2L/ld9fdBRR
+ GEeGkEAyBNUzm5hSameJLgCozSkpid5EzWjbFIQYatviJ0yMXJdc/jeu0rzDM8KycM81
+ KxSu90gtXJujBOFGacEyXZh4DaHViltZO4Ec3N1MHybyl09Jb9/O44DXYhC6+K34LV8y
+ 9ssm8g6z+Ev+jq87fqyu6heqUmarTc1QxfjBoBIH/XpRe3kcLru47H4q5CIikcnDJE84
+ MStqyS/tyLS1D44MBEYFrwXLpLfvpUJXgPll5l0MNpHU6Dm24WjnYsArds3cUtKxXiHz
+ yITw==
+X-Gm-Message-State: APjAAAUyFH+LO1BG1H9Kzzj8tf0U2MtmAjxa+/VO9qGLUZ8A2Oz6r+ea
+ HuDf5dK33Js9wXeh798EAifs0L2kDMV8zxlyfFx/TGIxy8ZzZgB6KoyxfG0Qwa28xHnc72wuTOM
+ 8VJsoHCySDSz4zr0=
+X-Received: by 2002:a5d:5267:: with SMTP id l7mr114969235wrc.84.1578385899869; 
+ Tue, 07 Jan 2020 00:31:39 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwX1w8AmSEdGDvfcXip5mlhhuzzYtPHyksZFzqDFeuGK0szt3xgJmV1HUVxwC3F6Ai9TZ39ww==
+X-Received: by 2002:a5d:5267:: with SMTP id l7mr114969200wrc.84.1578385899590; 
+ Tue, 07 Jan 2020 00:31:39 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id t5sm74393652wrr.35.2020.01.07.00.31.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 00:25:41 -0800 (PST)
-Subject: Re: [PATCH 2/5] hw/arm: ast2600: Wire up the eMMC controller
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200107073423.30043-1-clg@kaod.org>
- <20200107073423.30043-3-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a7c45303-e624-d7aa-df6f-e03f26b3cba7@redhat.com>
-Date: Tue, 7 Jan 2020 09:25:40 +0100
+ Tue, 07 Jan 2020 00:31:39 -0800 (PST)
+Subject: Re: [PATCH RFC] i386/kvm: fix enlightened VMCS with fine-grained VMX
+ feature enablement
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
+References: <20200102203926.1179743-1-vkuznets@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
+Date: Tue, 7 Jan 2020 09:31:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200107073423.30043-3-clg@kaod.org>
+In-Reply-To: <20200102203926.1179743-1-vkuznets@redhat.com>
 Content-Language: en-US
-X-MC-Unique: l7rxyOWAPN2dRDSfNxx8jA-1
+X-MC-Unique: QdMYv7FKMJa4O2mh7OMOuA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,181 +91,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Liran Alon <liran.alon@oracle.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/20 8:34 AM, C=C3=A9dric Le Goater wrote:
-> From: Andrew Jeffery <andrew@aj.id.au>
->=20
-> Initialise another SDHCI model instance for the AST2600's eMMC
-> controller and use the SDHCI's num_slots value introduced previously to
-> determine whether we should create an SD card instance for the new slot.
->=20
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On 02/01/20 21:39, Vitaly Kuznetsov wrote:
+> When enlightened VMCS is enabled, certain VMX controls disappear, e.g.
+> posted interrupts for PINBASED_CTLS. With fine-grained VMX feature
+> enablement QEMU tries to do KVM_SET_MSRS with default (matching CPU
+> model) values and fails as KVM doesn't allow to set now-unsupported
+> controls.
+> 
+> The ideal solution for the issue would probably be to re-read VMX
+> feature MSRs after enabling KVM_CAP_HYPERV_ENLIGHTENED_VMCS, however,
+> this doesn't seem to be possible: currently, KVM returns global
+> &vmcs_config.nested values for VMX MSRs when userspace does KVM_GET_MSR.
+> 
+> It is also possible to modify KVM to apply 'evmcs filtering' to VMX
+> MSRs when userspace tries to set them and hide the issue but this doesn't
+> seem to be entirely correct.
+> 
+> It is unfortunate that we now need to support the list of VMX features
+> disabled by enlightened VMCS in QEMU. When (and if) enlightened VMCS v2
+> arrives we'll need to fix QEMU and allow previously disabled features.
+> 
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 > ---
->   include/hw/arm/aspeed_soc.h |  2 ++
->   hw/arm/aspeed.c             | 25 ++++++++++++++++---------
->   hw/arm/aspeed_ast2600.c     | 21 +++++++++++++++++++++
->   3 files changed, 39 insertions(+), 9 deletions(-)
->=20
-> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> index e84380984f7b..90ac7f7ffa3b 100644
-> --- a/include/hw/arm/aspeed_soc.h
-> +++ b/include/hw/arm/aspeed_soc.h
-> @@ -57,6 +57,7 @@ typedef struct AspeedSoCState {
->       AspeedGPIOState gpio;
->       AspeedGPIOState gpio_1_8v;
->       AspeedSDHCIState sdhci;
-> +    AspeedSDHCIState emmc;
->   } AspeedSoCState;
->  =20
->   #define TYPE_ASPEED_SOC "aspeed-soc"
-> @@ -126,6 +127,7 @@ enum {
->       ASPEED_MII4,
->       ASPEED_SDRAM,
->       ASPEED_XDMA,
-> +    ASPEED_EMMC,
->   };
->  =20
->   #endif /* ASPEED_SOC_H */
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 4174e313cae5..0a7dfd29868b 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -171,6 +171,18 @@ static void aspeed_board_init_flashes(AspeedSMCState=
- *s, const char *flashtype,
->       }
->   }
->  =20
-> +static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
-> +{
-> +        BlockBackend *blk;
-> +        DeviceState *card;
-> +
-> +        blk =3D dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
-> +        card =3D qdev_create(qdev_get_child_bus(DEVICE(sdhci), "sd-bus")=
-,
-> +                           TYPE_SD_CARD);
-> +        qdev_prop_set_drive(card, "drive", blk, &error_fatal);
+> - I don't quite like this workaround myself, thus RFC. I'm sure someone
+>  will suggest a better alternative.
 
-I find this form easier to review:
+The patch itself is not a big deal, the only thing is that we should
+probably check that we get warnings if the "forbidden" features are
+explicitly requested by the user.  On the other hand, for something like
+"-cpu Haswell,vmx,hv_evmcs" there should be no warnings.
 
-            if (dinfo) {
-                 qdev_prop_set_drive(card, "drive",
-                                     blk_by_legacy_dinfo(dinfo),
-                                     &error_fatal);
-            }
+That said, I'm not sure about the whole idea of disabling features, even
+in the kernel.  I would prefer if the guest knew that it cannot use
+these features if using eVMCS.  Is this the case for Windows?  If so, we
+should teach guest-side KVM about this, not QEMU.
 
-> +        object_property_set_bool(OBJECT(card), true, "realized", &error_=
-fatal);
-> +}
-> +
->   static void aspeed_machine_init(MachineState *machine)
->   {
->       AspeedBoardState *bmc;
-> @@ -264,16 +276,11 @@ static void aspeed_machine_init(MachineState *machi=
-ne)
->       }
->  =20
->       for (i =3D 0; i < bmc->soc.sdhci.num_slots; i++) {
-> -        SDHCIState *sdhci =3D &bmc->soc.sdhci.slots[i];
-> -        DriveInfo *dinfo =3D drive_get_next(IF_SD);
-> -        BlockBackend *blk;
-> -        DeviceState *card;
-> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_S=
-D));
-> +    }
->  =20
-> -        blk =3D dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
-> -        card =3D qdev_create(qdev_get_child_bus(DEVICE(sdhci), "sd-bus")=
-,
-> -                           TYPE_SD_CARD);
-> -        qdev_prop_set_drive(card, "drive", blk, &error_fatal);
-> -        object_property_set_bool(OBJECT(card), true, "realized", &error_=
-fatal);
-> +    if (bmc->soc.emmc.num_slots) {
-> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD=
-));
->       }
->  =20
->       arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index fb73c4043ea3..e59cdd291925 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -46,6 +46,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
->       [ASPEED_ADC]       =3D 0x1E6E9000,
->       [ASPEED_VIDEO]     =3D 0x1E700000,
->       [ASPEED_SDHCI]     =3D 0x1E740000,
-> +    [ASPEED_EMMC]      =3D 0x1E750000,
->       [ASPEED_GPIO]      =3D 0x1E780000,
->       [ASPEED_GPIO_1_8V] =3D 0x1E780800,
->       [ASPEED_RTC]       =3D 0x1E781000,
-> @@ -64,6 +65,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
->  =20
->   #define ASPEED_SOC_AST2600_MAX_IRQ 128
->  =20
-> +/* Shared Peripheral Interrupt values below are offset by -32 from datas=
-heet */
->   static const int aspeed_soc_ast2600_irqmap[] =3D {
->       [ASPEED_UART1]     =3D 47,
->       [ASPEED_UART2]     =3D 48,
-> @@ -77,6 +79,7 @@ static const int aspeed_soc_ast2600_irqmap[] =3D {
->       [ASPEED_ADC]       =3D 78,
->       [ASPEED_XDMA]      =3D 6,
->       [ASPEED_SDHCI]     =3D 43,
-> +    [ASPEED_EMMC]      =3D 15,
->       [ASPEED_GPIO]      =3D 40,
->       [ASPEED_GPIO_1_8V] =3D 11,
->       [ASPEED_RTC]       =3D 13,
-> @@ -206,6 +209,14 @@ static void aspeed_soc_ast2600_init(Object *obj)
->           sysbus_init_child_obj(obj, "sdhci[*]", OBJECT(&s->sdhci.slots[i=
-]),
->                                 sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SD=
-HCI);
->       }
-> +
-> +    sysbus_init_child_obj(obj, "emmc", OBJECT(&s->emmc), sizeof(s->emmc)=
-,
-> +                          TYPE_ASPEED_SDHCI);
-> +
-> +    object_property_set_int(OBJECT(&s->emmc), 1, "num-slots", &error_abo=
-rt);
-> +
-> +    sysbus_init_child_obj(obj, "emmc[*]", OBJECT(&s->emmc.slots[0]),
+Paolo
 
-Single block, so use "emmc" instead.
-
-Using "emmc":
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-> +            sizeof(s->emmc.slots[0]), TYPE_SYSBUS_SDHCI);
->   }
->  =20
->   /*
-> @@ -497,6 +508,16 @@ static void aspeed_soc_ast2600_realize(DeviceState *=
-dev, Error **errp)
->                       sc->memmap[ASPEED_SDHCI]);
->       sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
->                          aspeed_soc_get_irq(s, ASPEED_SDHCI));
+> ---
+>  target/i386/kvm.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 0b511906e3fe..1b0589b79358 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -1198,6 +1198,30 @@ static int hyperv_handle_properties(CPUState *cs,
+>          }
+>  
+>          if (!r) {
+> +            /*
+> +             * Certain VMX controls are unsupported when enlightened VMCS is
+> +             * enabled, filter them out here so we don't attempt to set them
+> +             * with KVM_SET_MSR even if they are supported by CPU model.
+> +             * The list below is for eVMCS version 1.
+> +             */
+> +            env->features[FEAT_VMX_PINBASED_CTLS] &=
+> +                ~(VMX_PIN_BASED_VMX_PREEMPTION_TIMER |
+> +                  VMX_PIN_BASED_POSTED_INTR);
+> +            env->features[FEAT_VMX_SECONDARY_CTLS] &=
+> +                ~(VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
+> +                  VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
+> +                  VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT |
+> +                  VMX_SECONDARY_EXEC_ENABLE_PML |
+> +                  VMX_SECONDARY_EXEC_ENABLE_VMFUNC |
+> +                  VMX_SECONDARY_EXEC_SHADOW_VMCS |
+> +                  /* VMX_SECONDARY_EXEC_TSC_SCALING | */
+> +                  VMX_SECONDARY_EXEC_PAUSE_LOOP_EXITING);
+> +            env->features[FEAT_VMX_ENTRY_CTLS] &=
+> +                ~VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
+> +            env->features[FEAT_VMX_EXIT_CTLS] &=
+> +                ~VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
+> +            env->features[FEAT_VMX_VMFUNC] &= ~MSR_VMX_VMFUNC_EPT_SWITCHING;
 > +
-> +    /* eMMC */
-> +    object_property_set_bool(OBJECT(&s->emmc), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->emmc), 0, sc->memmap[ASPEED_EMMC]=
-);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
-> +                       aspeed_soc_get_irq(s, ASPEED_EMMC));
->   }
->  =20
->   static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
->=20
+>              env->features[FEAT_HV_RECOMM_EAX] |=
+>                  HV_ENLIGHTENED_VMCS_RECOMMENDED;
+>              env->features[FEAT_HV_NESTED_EAX] = evmcs_version;
+> 
 
 
