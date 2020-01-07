@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C228813294B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:49:30 +0100 (CET)
-Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43DB132960
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:52:29 +0100 (CET)
+Received: from localhost ([::1]:50520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqAj-0006tE-6G
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:49:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47791)
+	id 1ioqDc-0004FW-Ly
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iop1U-0004Wu-Po
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:35:53 -0500
+ (envelope-from <thuth@redhat.com>) id 1iop29-0005xX-L1
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:36:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iop1T-0007Xv-BB
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:35:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31619
+ (envelope-from <thuth@redhat.com>) id 1iop28-00082L-5J
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:36:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36604
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iop1T-0007XR-6z
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:35:51 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iop28-000821-16
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:36:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578404150;
+ s=mimecast20190719; t=1578404191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pgJ63KNFeV8fEsy3bxMCPXMmgApiQL8nb2oNzV/98ZA=;
- b=I4Spd77BikD4gvaMTmI0/n6q8U2bMgK/IoTQe9BesPmvbQz+tXjPROeZl+5rLdW5lbE1hI
- awyejk6uwCU03Lv5rGggDtZZxj1T1YC2qwH6o+8YIRgAfOstZUZjLwJ9rW1QuYlI+eQogG
- ygrGOFP/o51Mdm20YQzDVsE4TrcjU38=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-GKAUFDldMZ-FdyOupQJ4Pg-1; Tue, 07 Jan 2020 08:35:33 -0500
-Received: by mail-wr1-f69.google.com with SMTP id t3so27845937wrm.23
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:35:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fJbhXYVWjA1jrDmpcRkXb5jIT7BOB8Y1hafwH68X/4s=;
- b=J/4PDR5NDmL5EoY1ou8gJQejgk6hL95T78ZRwpswqWP4V/are86iT8CnplraIK8S1G
- ziIxucGDNs4xTgp1NDvm6OK/f3eSQBqTqiqQHGjZILgLRTRdmNTWyyouGgpGXv8ddE+o
- wYTOzvj3so7lv8gdKxXuAtrvJ7CUCBzdM3/kfhE5y0GZkV3wuIdsE7Uo4ofZYuS226Rn
- 13MP6X1bgpKL+Q5Lk08uXsulp/nmX3bi3VVMg87q8GQ+UesdXPe4jXp/TqdmkDuk1wBS
- sWR2IVZqWbednNNf8oODCjOn33uO0G66U9HxBm5Y00aEvUjvnDIDfTBSb4nFcif3sw7l
- KdZQ==
-X-Gm-Message-State: APjAAAUg8D6sYlm76Et1uoHu4KU34x8EOKaLc7lvmb3zeUIYbxIg/TPg
- C0N/hwBvprjrt6stgzAZVr7EXm0nPoCqZORgQedvEDDnl2Qj4nN6rYglP4p+7rPeTvM2XjZPFKx
- WAMc4enb7T/hj8ck=
-X-Received: by 2002:adf:f508:: with SMTP id q8mr33861541wro.334.1578404132091; 
- Tue, 07 Jan 2020 05:35:32 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzEhGHBs6uCD4+GgBcnG6U3KrQhMvIw/NlraO6IXaclcxbRszM0lbPdiCL8E4D1cKhUfOHjjw==
-X-Received: by 2002:adf:f508:: with SMTP id q8mr33861520wro.334.1578404131887; 
- Tue, 07 Jan 2020 05:35:31 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id k16sm79780983wru.0.2020.01.07.05.35.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 05:35:31 -0800 (PST)
-Subject: Re: [PATCH v9 14/15] hw/i386: Introduce the microvm machine type
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
-References: <20191015112346.45554-1-slp@redhat.com>
- <20191015112346.45554-15-slp@redhat.com>
- <6276a8e7-2928-6e33-64a1-3ae01a30a718@redhat.com>
- <a5863b05-4021-df51-d84f-1bb070fa6137@redhat.com>
- <8eec451f-3ee3-b111-2c03-3c29ade661a6@redhat.com>
- <21e2508a-764f-1db9-9c53-dc9eb43d7f68@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c9733853-9202-504e-c823-b4441322d3fb@redhat.com>
-Date: Tue, 7 Jan 2020 14:35:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=34RMSZkL48no063to1I0icdNEnW7GdgTFsYRTceuYaQ=;
+ b=YgwS658FsVpnhM/6EDpjw+XZunVPRaR0KBlq4px3SQRmUJ6b665cXEpZoTGxCS8lFJHf4G
+ 7l4OabyR6i6CN+OD0G4tcxehFLEWvhmv/DEaHwLGx5WLSqUcQBy/mg3x91OzYe0Dvvat2/
+ sVFaEWBDdSQvELcAZ8Bwy+aMSGueYyI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-j9UQCtXuOCOZhDoEBbdTfg-1; Tue, 07 Jan 2020 08:36:30 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F076107ACC5;
+ Tue,  7 Jan 2020 13:36:29 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60E8E7C364;
+ Tue,  7 Jan 2020 13:36:27 +0000 (UTC)
+Subject: Re: [PATCH v1 37/59] s390x/event-facility.c: remove unneeded labels
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106182425.20312-38-danielhb413@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <7a274241-0844-b068-527a-bec07dbf207c@redhat.com>
+Date: Tue, 7 Jan 2020 14:36:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <21e2508a-764f-1db9-9c53-dc9eb43d7f68@redhat.com>
+In-Reply-To: <20200106182425.20312-38-danielhb413@gmail.com>
 Content-Language: en-US
-X-MC-Unique: GKAUFDldMZ-FdyOupQJ4Pg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: j9UQCtXuOCOZhDoEBbdTfg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -96,47 +75,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, kraxel@redhat.com, imammedo@redhat.com,
- rth@twiddle.net, lersek@redhat.com, sgarzare@redhat.com
+Cc: qemu-trivial@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/12/19 01:09, Philippe Mathieu-Daud=C3=A9 wrote:
-> We have CONFIG_SERIAL_ISA declared in "config-devices.h" so we could
-> also use:
->=20
-> -- >8 --
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -153,9 +153,11 @@ static void
-> microvm_devices_init(MicrovmMachineState *mms)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 microvm_set_rtc(mms, rtc=
-_state);
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
-> +#ifdef CONFIG_SERIAL_ISA
-> =C2=A0=C2=A0=C2=A0=C2=A0 if (mms->isa_serial) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 serial_hds_isa_init(isa_=
-bus, 0, 1);
-> =C2=A0=C2=A0=C2=A0=C2=A0 }
-> +#endif
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0 if (bios_name =3D=3D NULL) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bios_name =3D MICROVM_BI=
-OS_FILENAME;
+On 06/01/2020 19.24, Daniel Henrique Barboza wrote:
+> 'out' label from write_event_mask(), handle_sccb_read_events()
+> and write_event_data() can be replaced by 'return'.
+> 
+> CC: Cornelia Huck <cohuck@redhat.com>
+> CC: Halil Pasic <pasic@linux.ibm.com>
+> CC: Christian Borntraeger <borntraeger@de.ibm.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->=20
-> The binary links too, and the difference with the other hunk is now the
-> device is not listed in 'qemu-system-x86_64 -M microvm -device help'.
-> However I guess understand we prefer to avoid that kind of ifdef'ry.
+>  hw/s390x/event-facility.c | 21 ++++++---------------
+>  1 file changed, 6 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+> index 6afe278cad..f3b9661f32 100644
+> --- a/hw/s390x/event-facility.c
+> +++ b/hw/s390x/event-facility.c
+> @@ -182,11 +182,11 @@ static void write_event_data(SCLPEventFacility *ef, SCCB *sccb)
+>  {
+>      if (sccb->h.function_code != SCLP_FC_NORMAL_WRITE) {
+>          sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_FUNCTION);
+> -        goto out;
+> +        return;
+>      }
+>      if (be16_to_cpu(sccb->h.length) < 8) {
+>          sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+> -        goto out;
+> +        return;
+>      }
+>      /* first do a sanity check of the write events */
+>      sccb->h.response_code = cpu_to_be16(write_event_length_check(sccb));
+> @@ -196,9 +196,6 @@ static void write_event_data(SCLPEventFacility *ef, SCCB *sccb)
+>          sccb->h.response_code =
+>                  cpu_to_be16(handle_sccb_write_events(ef, sccb));
+>      }
+> -
+> -out:
+> -    return;
+>  }
+>  
+>  static uint16_t handle_sccb_read_events(SCLPEventFacility *ef, SCCB *sccb,
+> @@ -262,7 +259,7 @@ static void read_event_data(SCLPEventFacility *ef, SCCB *sccb)
+>  
+>      if (be16_to_cpu(sccb->h.length) != SCCB_SIZE) {
+>          sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+> -        goto out;
+> +        return;
+>      }
+>  
+>      sclp_cp_receive_mask = ef->receive_mask;
+> @@ -280,18 +277,15 @@ static void read_event_data(SCLPEventFacility *ef, SCCB *sccb)
+>              (sclp_active_selection_mask & ~sclp_cp_receive_mask)) {
+>              sccb->h.response_code =
+>                      cpu_to_be16(SCLP_RC_INVALID_SELECTION_MASK);
+> -            goto out;
+> +            return;
+>          }
+>          break;
+>      default:
+>          sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_FUNCTION);
+> -        goto out;
+> +        return;
+>      }
+>      sccb->h.response_code = cpu_to_be16(
+>              handle_sccb_read_events(ef, sccb, sclp_active_selection_mask));
+> -
+> -out:
+> -    return;
+>  }
+>  
+>  static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
+> @@ -303,7 +297,7 @@ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
+>      if (!mask_length || (mask_length > SCLP_EVENT_MASK_LEN_MAX) ||
+>          ((mask_length != 4) && !ef->allow_all_mask_sizes)) {
+>          sccb->h.response_code = cpu_to_be16(SCLP_RC_INVALID_MASK_LENGTH);
+> -        goto out;
+> +        return;
+>      }
+>  
+>      /*
+> @@ -328,9 +322,6 @@ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
+>  
+>      sccb->h.response_code = cpu_to_be16(SCLP_RC_NORMAL_COMPLETION);
+>      ef->mask_length = mask_length;
+> -
+> -out:
+> -    return;
+>  }
+>  
+>  /* qemu object creation and initialization functions */
+> 
 
-The ifdef'ery is okay in board code, but in this case I think it would
-be even better to have a stub for serial_hds_isa_init that gives the
-right error (via Error*, and then you can call it with &error_fatal
-etc.).  So for now I included your patch that changes it to "select"
-from the other series.
-
-Paolo
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
