@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD941328EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:33:41 +0100 (CET)
-Received: from localhost ([::1]:49896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A6613291A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:40:16 +0100 (CET)
+Received: from localhost ([::1]:50144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopvQ-00052R-LS
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:33:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37103)
+	id 1ioq1m-0006IG-S2
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:40:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iooRp-0004i0-Hm
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:59:03 -0500
+ (envelope-from <quintela@redhat.com>) id 1iooT4-0006zN-7J
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:00:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iooRo-0003kT-9F
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:59:01 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53567)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iooRo-0003js-0y
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:59:00 -0500
-Received: by mail-wm1-x342.google.com with SMTP id m24so18837525wmc.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:58:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=i175rk+8Kf76ICDOtYMU2bYqO0QEH6Bb0CbJbkc9bB0=;
- b=flyWfm8UG2uzTG/ieRXVNDHie23TgVWxnNns1B8M+Go4dTs32GoIh559B6DepQyBiL
- rxPuazM4yDscM/QCwKo4ZJtvpjk+U3sqqHB/Mqq3qBEdJAP0hbqKAvDLxPis98xuNTZ9
- om8FLW/b2YJ35+J0qpXBfMnjLgMryajZeXSUS2ZIIRBbfQyICjB9T/dBvx3KT7GvKYVk
- G3ooLmc58I3vvgJ64/tmE1bHD7bWzMKmiaQ2VjyEki3ZGljqyRHQei7SId/5OiXEWY1e
- kxqnPLfKy/8eRUMu58AJ9MZtAHAu3Wrp0mZHgZX/+StJn8LNxicJk1bxhA4P3gBARje8
- eBgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=i175rk+8Kf76ICDOtYMU2bYqO0QEH6Bb0CbJbkc9bB0=;
- b=RdAMuZ4lQUO2GkU6eXKYs7/fi3afWOC5Y5ViCE3d1HG3b72YUWN1cD5tjnusq20xNw
- Te0FRCYsbgnxEV+7gV56LQq6PFrr0TXSO3k9ork7UG+xsfTYEMiLb3pod8t+QvUDc80t
- gIhLxuqSIJHNIlXbnAC1FNMh60q6sp2EX7NNhUNsvjsqMZ+uDqzSP9Vnx4E/THqZLl13
- fcLKybsbfUOuZQ/ROczOlo0qldqC8O6rRNWN0FKx4VYqdx2DO7biRkHHyJhprsQm5bXl
- hyjL9UB/gefYED354BKHHRuBKrgq/KMnv+T0j1u5cKKEQ8yy37OmEnsHXhiUzhLG3eUI
- eFeg==
-X-Gm-Message-State: APjAAAWLtQwmVdaCI+OCmHRov5qXah6rPFLu6QujvPS3U3plP0GxuUNN
- VJdH4n5S3VQsxA4lm6rfbLaPEQ==
-X-Google-Smtp-Source: APXvYqwM6D2y9dGpFnMnLlD60QlAF/cqIW6puzQAWx/1LEMDBnzkDeSmY4+6AOgyv2vuc20IAn7TAA==
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr41632804wmh.22.1578401938827; 
- Tue, 07 Jan 2020 04:58:58 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p18sm26723207wmg.4.2020.01.07.04.58.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 04:58:57 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D15751FF87;
- Tue,  7 Jan 2020 12:58:56 +0000 (GMT)
-References: <20191218223441.23852-1-richard.henderson@linaro.org>
- <20191218223441.23852-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 3/7] configure: Do not force pie=no for non-x86
-In-reply-to: <20191218223441.23852-4-richard.henderson@linaro.org>
-Date: Tue, 07 Jan 2020 12:58:56 +0000
-Message-ID: <87r20b4e3z.fsf@linaro.org>
+ (envelope-from <quintela@redhat.com>) id 1iooT2-0004uV-M8
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:00:17 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56386
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iooT2-0004tg-Hq
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:00:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578402015;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9eo6Au6AL9qxIDF7nfivXVIB4aPc72kysfxZ9eW992E=;
+ b=e32tgti+QuMrFikKjdthxJck/gDwtUZvTxSvm21lK6SuHdVnpxp4VdeIulaRkuYBFX3GXh
+ de1/4PDGmVZZOVfboKlgAwPWFsSd5bQ5GgIRXhvydqgPMbcJd3wzDNcBa/lc494K1l/JSr
+ bA2j8kIM09Pj5XKrDf0ihERFvVN2Uc8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-bq6Vmnb_MKK3QZaBbpY9-Q-1; Tue, 07 Jan 2020 08:00:13 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E0B9100551A
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:00:12 +0000 (UTC)
+Received: from redhat.com (ovpn-116-141.ams2.redhat.com [10.36.116.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A057F383;
+ Tue,  7 Jan 2020 13:00:11 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 05/10] migration: Make multifd_load_setup() get an
+ Error parameter
+In-Reply-To: <20200103172222.GP3804@work-vm> (David Alan Gilbert's message of
+ "Fri, 3 Jan 2020 17:22:22 +0000")
+References: <20191218020119.3776-1-quintela@redhat.com>
+ <20191218020119.3776-6-quintela@redhat.com>
+ <20200103172222.GP3804@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Tue, 07 Jan 2020 14:00:06 +0100
+Message-ID: <8736crqv55.fsf@trasno.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: bq6Vmnb_MKK3QZaBbpY9-Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,61 +76,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, i@maskray.me, philmd@redhat.com
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> PIE is supported on many other hosts besides x86.
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> We need to change the full chain to pass the Error parameter.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  migration/migration.c | 10 +++++-----
+>>  migration/migration.h |  2 +-
+>>  migration/ram.c       |  2 +-
+>>  migration/ram.h       |  2 +-
+>>  migration/rdma.c      |  2 +-
+>>  5 files changed, 9 insertions(+), 9 deletions(-)
+>>=20
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 5a56bd0c91..cf6cec5fb6 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -518,11 +518,11 @@ fail:
+>>      exit(EXIT_FAILURE);
+>>  }
+>> =20
+>> -static void migration_incoming_setup(QEMUFile *f)
+>> +static void migration_incoming_setup(QEMUFile *f, Error **errp)
+>>  {
+>>      MigrationIncomingState *mis =3D migration_incoming_get_current();
+>> =20
+>> -    if (multifd_load_setup() !=3D 0) {
+>> +    if (multifd_load_setup(errp) !=3D 0) {
+>>          /* We haven't been able to create multifd threads
+>>             nothing better to do */
 >
-> The default for non-x86 is now the same as x86: pie is used
-> if supported, and may be forced via --enable/--disable-pie.
->
-> The original commit (40d6444e91c) said:
->
->   "Non-x86 are not changed, as they require TCG changes"
->
-> but I think that's wrong -- there's nothing about PIE that
-> affects TCG one way or another.
->
-> Tested on aarch64 (bionic) and ppc64le (centos 7) hosts.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> But if you're taking an errp and the load fails, don't you want to
+> report the error before you exit? (with an error_get_pretty or
+> something?)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+error_report_err() that is.
 
-Also I double checked OpenBSD still worked:
-
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  configure | 10 ----------
->  1 file changed, 10 deletions(-)
 >
-> diff --git a/configure b/configure
-> index 30e3875c6b..99faf64a74 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2018,16 +2018,6 @@ if ! compile_prog "-Werror" "" ; then
->  	"Thread-Local Storage (TLS). Please upgrade to a version that does."
->  fi
->=20=20
-> -if test "$pie" =3D ""; then
-> -  case "$cpu-$targetos" in
-> -    i386-Linux|x86_64-Linux|x32-Linux|i386-OpenBSD|x86_64-OpenBSD)
-> -      ;;
-> -    *)
-> -      pie=3D"no"
-> -      ;;
-> -  esac
-> -fi
-> -
->  if test "$pie" !=3D "no" ; then
->    cat > $TMPC << EOF
+>>          exit(EXIT_FAILURE);
+>> @@ -572,13 +572,13 @@ static bool postcopy_try_recover(QEMUFile *f)
+>>      return false;
+>>  }
+>> =20
+>> -void migration_fd_process_incoming(QEMUFile *f)
+>> +void migration_fd_process_incoming(QEMUFile *f, Error **errp)
+>>  {
+>>      if (postcopy_try_recover(f)) {
+>>          return;
+>>      }
+>> =20
+>> -    migration_incoming_setup(f);
+>> +    migration_incoming_setup(f, errp);
+>>      migration_incoming_process();
+>
+> and if you're making incoming_setup able to fail, don't you need
+> to.... hmm, skip the incoming_process?
 
+Changing it to test for errors, thanks.
 
---=20
-Alex Benn=C3=A9e
+>>  }
+>> =20
+>> @@ -596,7 +596,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc,=
+ Error **errp)
+>>              return;
+>>          }
+>> =20
+>> -        migration_incoming_setup(f);
+>> +        migration_incoming_setup(f, errp);
+>
+> Don't you need to make that use a local_err and propagate, like in the
+> other half of the if/else?
+
+Changed the whole business.  It appears that each time that I use an
+Error ** I have to relearn how to use it.  Changed all places to use a
+local error and propagate/error_report_err() as apropiate.
+
+>>      rdma->migration_started_on_destination =3D 1;
+>> -    migration_fd_process_incoming(f);
+>> +    migration_fd_process_incoming(f, errp);
+>
+> Heck, the errp handling in rdma_accept_incoming_migration is very very
+> broken; I don't see how the errp ever gets reported or freed.
+> (But that's an existing problem)
+
+Leaving this for next series.
+
+Thanks, Juan.
+
 
