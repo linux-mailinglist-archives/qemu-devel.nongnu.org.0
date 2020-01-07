@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8751325DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:15:54 +0100 (CET)
-Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620291325F7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:21:35 +0100 (CET)
+Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionm4-00071Y-0S
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:15:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50733)
+	id 1ionrZ-0002ES-FB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vkuznets@redhat.com>) id 1ionfR-0002zK-UH
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:09:03 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ionhc-0000Hi-NJ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:11:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vkuznets@redhat.com>) id 1ionfP-0007dc-SJ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:09:01 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40587
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1ionfP-0007cd-Ol
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:08:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578398937;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8UqXgxoabqLbbYDl1EERybiFw7Yu6N6KgfnlUPqX0AI=;
- b=BH/Zo8UWVFw152Dm69hzgBRhT2UucNl8WhxeSyPSlBv/maQWClMuZVQSqME6mFX0laPH7B
- vDGzeqr0iBHWlevg1srTl/jWZUA6+2c9jXrc5YPsnFr48aEutid44xR+AP+0Z4eCUBieZO
- 0aWNjB3MTEAOU7SijN48BWJGXG5K6sg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-XWgxvSSnNfy66x9JAkZg8w-1; Tue, 07 Jan 2020 07:08:54 -0500
-Received: by mail-wm1-f70.google.com with SMTP id q26so1887898wmq.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:08:54 -0800 (PST)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ionhb-0000o3-BW
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:11:16 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37449)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ionhb-0000nc-4q
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:11:15 -0500
+Received: by mail-wm1-x344.google.com with SMTP id f129so19137560wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:11:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bT84RsZvfc+7Ezuy38ghlog/7n4wY9ui9iTN2N4rkmc=;
+ b=JmH1PlRpQn5nwFU1uAjptB8ylq74cjDbctmYwY7r2vVIjvVSZ8WKt0nJWr5QYWGOBQ
+ yzxyeRlrrriQvZcZNWAfrWy0tOD27jlNM6SsCbEXzM5sBDWtVbrmt8VAUg13fhUtK22M
+ /+DEvdZHipCYYDMayZk2Hit8gY2q3GGRYV+z81q95Zs8YWE6M7ZEgE7bDK8LPivZlyty
+ 0N8QpRWr1k4eKDM0E3U998I6jfJl5fidHLZVWj2YXPW0GeAfLtUvFot6jien7xUsBJnz
+ Br4esV7fkNzF79tgd7T0KeuX+SLwn+NGZvckjNQKNh4iEKIDznyiuJPo0UTGt6Ui9sja
+ 0xlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=Grw1tyESGLinhtxOIpeXyy7JzPwANRKzddYm76xprfw=;
- b=c6NoC19Ob7/8hUXyuAF0ciKnKtbb+sBNqYADvdw89fwcyW+5rtF+TBUWEG729fP/FO
- dHk8H7BHKGNyXV1U4qgyyTDbvcp4Qa+mKtzlMLY7ATO6J0e2TA5S3LrPm9yhxbejAtLn
- oH89aNsgBsjYlmJ8Mr1MepkvcCMgPJ7m0Cc3nEYKNvA1a2Ufb80AuFwwk9CTw2WgGdPH
- Adq9ksCXD+slZivwQ7vCvUQGocbCq1rJ88nzDxidoQ+UhM/6nUe+eG0NQYpGT9GmVwzx
- eQ/IwWAPHqa0LxZWFkaGAJPVnWEWwMr9CWjqaWA+XWuPoVt1ckyX76U6bDkPJDjVCOV9
- kwzQ==
-X-Gm-Message-State: APjAAAV6sqLHlbLgiGJO+TZyiI1puLHAoDf+l7I7Hd6Esczp854I0NAT
- IyBMIdzgeC10ubIlbGE8ims9zLVEEDoBuhdzDUr0x8Sq41FovpBO8umdU3gnd0DMbpMoS7xbkzN
- AuI4LS4WFFjkAnfk=
-X-Received: by 2002:a05:600c:1007:: with SMTP id
- c7mr42064516wmc.158.1578398933589; 
- Tue, 07 Jan 2020 04:08:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzYfJ4tcUsD4bqGjvLlY+GaIZ66+4ZTbPQ7CqXhiK+TI3OkXWyhFU5651oJ8GnaeAcg4xpzHQ==
-X-Received: by 2002:a05:600c:1007:: with SMTP id
- c7mr42064497wmc.158.1578398933389; 
- Tue, 07 Jan 2020 04:08:53 -0800 (PST)
-Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id q3sm78945644wrn.33.2020.01.07.04.08.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 04:08:52 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH RFC] i386/kvm: fix enlightened VMCS with fine-grained VMX
- feature enablement
-In-Reply-To: <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
-References: <20200102203926.1179743-1-vkuznets@redhat.com>
- <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
-Date: Tue, 07 Jan 2020 13:08:51 +0100
-Message-ID: <87zhezsc30.fsf@vitty.brq.redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bT84RsZvfc+7Ezuy38ghlog/7n4wY9ui9iTN2N4rkmc=;
+ b=km6c02+QXNfkCNMiYYDxDtnRHR3B/fclJxA26Y85cHX/GbWraDJ6gGhwj24KEbVO9V
+ bD+sVd83oAQB5FNMTNhGJoB/YU+OQJ4hcGwvFCroNTR2eysjMrinGVDvN4a1BatviQ5B
+ caA+dneAoLHGtlkH7XYQH2E5hsrLhblltjPBSX0dGzltYwN9/tvJQu0dHkTW/xVzEetv
+ T6O/AFsExL+jpWo/ugALWNRFqkEvZt/T+rWlcACgd3HFwq+f0lzV+aDBsu4uQhuSLJmG
+ dpRZEkQutD/WOEORdMdqwU44NzToFgGg+sUJ6CTasl7Qtn9fHrpBdWTZAe3RHTqx9PXg
+ JThA==
+X-Gm-Message-State: APjAAAXn/hXm/fXyAoGWS7hs5GqVOcpEy4P7IcEUfuzxIToE7ZKD9WjC
+ AX8PDXIEKy2iZxrSpibX8Fnxuy059mrRTiprnhs=
+X-Google-Smtp-Source: APXvYqzmhIuFgZ7lJ/wtzoYvizTQE34O89TPh5zt+8t81eeAsA7DI8f86Evl0iog66Uzj6YHcM1TkjJAYRG3UY3Us1Q=
+X-Received: by 2002:a05:600c:2148:: with SMTP id
+ v8mr41841951wml.111.1578399074013; 
+ Tue, 07 Jan 2020 04:11:14 -0800 (PST)
 MIME-Version: 1.0
-X-MC-Unique: XWgxvSSnNfy66x9JAkZg8w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
+ <20191213160330.GD3428@localhost.localdomain>
+ <CAJ+F1CLSfYPFPych4twnvOMt3qR4UnGauWq_k=VN8W5kKUze9g@mail.gmail.com>
+ <20191216120701.GC6610@linux.fritz.box>
+ <CAJ+F1CJjrh3LJs=YtNOkk3rYo-MpmXr3ho9pt0z7tnqm4kp96w@mail.gmail.com>
+ <20200107051728.GA4076@linux.fritz.box>
+In-Reply-To: <20200107051728.GA4076@linux.fritz.box>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 7 Jan 2020 16:11:01 +0400
+Message-ID: <CAJ+F1CLocmL-9d06jsbfUFq1peV7w-Ho30vKnp7cVVk8jfXVnw@mail.gmail.com>
+Subject: Re: [PATCH v6 00/25] monitor: add asynchronous command type
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,66 +79,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Liran Alon <liran.alon@oracle.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Hi
 
-> On 02/01/20 21:39, Vitaly Kuznetsov wrote:
->> When enlightened VMCS is enabled, certain VMX controls disappear, e.g.
->> posted interrupts for PINBASED_CTLS. With fine-grained VMX feature
->> enablement QEMU tries to do KVM_SET_MSRS with default (matching CPU
->> model) values and fails as KVM doesn't allow to set now-unsupported
->> controls.
->>=20
->> The ideal solution for the issue would probably be to re-read VMX
->> feature MSRs after enabling KVM_CAP_HYPERV_ENLIGHTENED_VMCS, however,
->> this doesn't seem to be possible: currently, KVM returns global
->> &vmcs_config.nested values for VMX MSRs when userspace does KVM_GET_MSR.
->>=20
->> It is also possible to modify KVM to apply 'evmcs filtering' to VMX
->> MSRs when userspace tries to set them and hide the issue but this doesn'=
+On Tue, Jan 7, 2020 at 9:17 AM Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> Am 06.01.2020 um 19:21 hat Marc-Andr=C3=A9 Lureau geschrieben:
+> > > What my patch does is moving everything into a coroutine. This is wro=
+ng
+> > > because not everything can be run in a coroutine, so it needs to be m=
+ade
+> > > optional (like you did with your async flag).
+> >
+> > "everything" is a bit too much ;) You proposal is to replace
+> > qmp_dispatch_bh by a coroutine version (except for OOB commands). This
+> > is nice because indeed, it allows to reenter the mainloop with a
+> > simple yield in QMP commands. It is also simpler than my "async"
+> > proposal, because some of the state is part of the coroutine, and
+> > because it doesn't allow QMP commands concurrency (beside existing
+> > OOB).
+> >
+> > Iow, coroutine (for async) + oob (for concurrency) make my proposal
+> > kinda obsolete. I can only regret that a simple callback-based
+> > solution looked simpler to me than one that mixes both threads &
+> > coroutines, but I don't mind if everybody likes it better :) I can
+> > definitely see the point for block commands, which rely on coroutines
+> > anyway, and qemu is already that complex in general.
+>
+> Callbacks are indeed simple enough for implementing the infrastructure,
+> but for the users they only look simple as long as they do trivial
+> things. :-)
+>
+> Anyway, now that you have seen my POC hack, do you agree that this
+> should help solving the screendump problem, too?
+
+Yes, and I will work on it as soon as you have a working patch series
+or branch :)
+
+>
+> > > The problem isn't with completely coroutine-unaware code, though: Tha=
 t
->> seem to be entirely correct.
->>=20
->> It is unfortunate that we now need to support the list of VMX features
->> disabled by enlightened VMCS in QEMU. When (and if) enlightened VMCS v2
->> arrives we'll need to fix QEMU and allow previously disabled features.
->>=20
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
->> - I don't quite like this workaround myself, thus RFC. I'm sure someone
->>  will suggest a better alternative.
+> > > one would just work, even if not taking advantage from the coroutine.=
+ A
+> > > potential problem exists with code that behaves differently when run =
+in
+> > > a coroutine or outside of coroutine context (generally by checking
+> > > qemu_in_coroutine())), or calls of coroutine-unaware code into such
+> > > functions.
+> > >
+> > > Running some command handlers outside of coroutine context wouldn't b=
+e
+> > > hard to add to my patch (basically just a BH), but I haven't looked i=
+nto
+> > > the QAPI side of making it an option.
+> >
+> > Yes, I think we should have a 'coroutine': true, for commands that
+> > should be run with a coroutine.
+> >
+> > Or perhaps replace existing allow-oob with 'dispatch':
+> > - 'bh' (default)
+> > - 'coroutine'
+> > - 'allow-oob' (oob + bh fallback, since oob don't have coroutine - at
+> > this point)
 >
-> The patch itself is not a big deal, the only thing is that we should
-> probably check that we get warnings if the "forbidden" features are
-> explicitly requested by the user.  On the other hand, for something like
-> "-cpu Haswell,vmx,hv_evmcs" there should be no warnings.
+> If it's "at this point", then making it two separate bools would make
+> more sense. But I seem to remember that OOB handlers are fundamentally
+> not supposed to block, so coroutine support would be pointless for them
+> and an enum could work.
+
+I think so too
+
 >
-> That said, I'm not sure about the whole idea of disabling features, even
-> in the kernel.  I would prefer if the guest knew that it cannot use
-> these features if using eVMCS.  Is this the case for Windows?
+> I'll defer to Markus on this one.
 
-Honestly I forgot the story why we filtered out these features upon
-eVMCS enablement in KVM. As there are no corresponding eVMCS fields,
-there's no way a guest can actually use them.
+Yup, Markus should take a look at your proposal and give some
+guidance. And hopefully, it won't take >2y.
 
-I'm going to check that nothing breaks if we remove the filter. I'll go
-and test Hyper-V 2016 and 2019.
+>
+> > Your patch looks quite good to me, but make check hangs. Have you
+> > looked at it?
+>
+> I'm not sure if I was looking at some qemu-iotests cases or make check,
+> but yes, I did see a hang. My case was a QMP command that just doesn't
+> work correctly inside a coroutine without modifications, so requiring
+> 'coroutine': true would fix it.
 
-> If so, we should teach guest-side KVM about this, not QEMU.
+ok, then I suggest you do a "minimal" patch series that works.
 
-This is not required when enabling eVMCS on a genuine Hyper-V because it
-correctly filters out unsupported features, however, to not break
-KVM-on-KVM-using-eVMCS case we'll have to move the filter from host to
-guest.
-
-Thanks!
+thanks!
 
 --=20
-Vitaly
-
+Marc-Andr=C3=A9 Lureau
 
