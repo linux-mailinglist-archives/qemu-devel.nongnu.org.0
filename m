@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E397132A07
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:28:27 +0100 (CET)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07BF91329ED
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:23:30 +0100 (CET)
+Received: from localhost ([::1]:51361 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqmP-00039X-R9
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:28:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56877)
+	id 1ioqhc-0004HB-OM
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:23:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUF-0006iY-Cb
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:44 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqV0-0000C3-HD
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUA-0005lQ-9m
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:39 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53054
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUy-0006TK-CV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:26 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46366
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ioqU9-0005gH-1H
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:33 -0500
+ id 1ioqUy-0006Sx-8P
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:10:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578409768;
+ s=mimecast20190719; t=1578409823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j8fewjeKg+zncBThUi9yhZeQUuxokLL3S6GoRnZbbtM=;
- b=GNoPZeGLXVdtfsANThS83Of3w3QuEdZ0pAxMIjRa9Un9XklLpBrszwP0O3uMI1jvjvkhCp
- NM/IlL4qZasU7hw3b8RMZKEUK+fVa2uXNeyjdQ74OZbW30Aw7szxIoNtw2C3Hso7gGpjWB
- qmd/pEyNdtONRmHSo5YLGt17u/IgR4c=
+ bh=8VKEc8VlnQnG8/4SFTl8P15OlmXM6phP4gj0P6bqgC0=;
+ b=fpTsuEEu21Bxjvw+2qLWlbpOSAvuh3C7wtP/ReMjzTPmcXT7NO8Nb2kb7OmBw/Med3I4ty
+ QQ9RPCQeVDR9bDs0c2JaMaUl8zlebsDrr9G02cfEX7p9iAu7zm33IKfZerzlMm2T2lkCPa
+ 8KXjesFA1MoNVa6VBxU5f0vVaU+g6lA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-o8T9gjszPounq9Kqa2_3ZA-1; Tue, 07 Jan 2020 10:09:24 -0500
+ us-mta-434-rG0gYIYxOvGRX80rqUAMhw-1; Tue, 07 Jan 2020 10:10:21 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D4021005502;
- Tue,  7 Jan 2020 15:09:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C8C98024D1;
+ Tue,  7 Jan 2020 15:10:20 +0000 (UTC)
 Received: from localhost (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4223B1001925;
- Tue,  7 Jan 2020 15:09:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E1B31001925;
+ Tue,  7 Jan 2020 15:10:13 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/37] lance: replace PROP_PTR with PROP_LINK
-Date: Tue,  7 Jan 2020 19:04:28 +0400
-Message-Id: <20200107150442.1727958-24-marcandre.lureau@redhat.com>
+Subject: [PULL 28/37] qdev: use g_strcmp0() instead of open-coding it
+Date: Tue,  7 Jan 2020 19:04:33 +0400
+Message-Id: <20200107150442.1727958-29-marcandre.lureau@redhat.com>
 In-Reply-To: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: o8T9gjszPounq9Kqa2_3ZA-1
+X-MC-Unique: rG0gYIYxOvGRX80rqUAMhw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -77,83 +77,33 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The device remains non-user creatable since it is a sysbus device.
+Minor code simplification.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/net/pcnet.h       | 2 +-
- hw/dma/sparc32_dma.c | 2 +-
- hw/net/lance.c       | 5 ++---
- hw/net/pcnet-pci.c   | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
+ hw/core/qdev.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/net/pcnet.h b/hw/net/pcnet.h
-index 28d19a5c6f..f49b213c57 100644
---- a/hw/net/pcnet.h
-+++ b/hw/net/pcnet.h
-@@ -50,7 +50,7 @@ struct PCNetState_st {
-                          uint8_t *buf, int len, int do_bswap);
-     void (*phys_mem_write)(void *dma_opaque, hwaddr addr,
-                           uint8_t *buf, int len, int do_bswap);
--    void *dma_opaque;
-+    DeviceState *dma_opaque;
-     int tx_busy;
-     int looptest;
- };
-diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index 0e5bbcdc7f..3e4da0c47f 100644
---- a/hw/dma/sparc32_dma.c
-+++ b/hw/dma/sparc32_dma.c
-@@ -346,7 +346,7 @@ static void sparc32_ledma_device_realize(DeviceState *d=
-ev, Error **errp)
-     d =3D qdev_create(NULL, TYPE_LANCE);
-     object_property_add_child(OBJECT(dev), "lance", OBJECT(d), errp);
-     qdev_set_nic_properties(d, nd);
--    qdev_prop_set_ptr(d, "dma", dev);
-+    object_property_set_link(OBJECT(d), OBJECT(dev), "dma", errp);
-     qdev_init_nofail(d);
- }
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 501228ba08..aa3ccbf2ec 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -394,11 +394,8 @@ static NamedGPIOList *qdev_get_named_gpio_list(DeviceS=
+tate *dev,
+     NamedGPIOList *ngl;
 =20
-diff --git a/hw/net/lance.c b/hw/net/lance.c
-index 6631e2a4e0..4d96299041 100644
---- a/hw/net/lance.c
-+++ b/hw/net/lance.c
-@@ -138,7 +138,8 @@ static void lance_instance_init(Object *obj)
- }
-=20
- static Property lance_properties[] =3D {
--    DEFINE_PROP_PTR("dma", SysBusPCNetState, state.dma_opaque),
-+    DEFINE_PROP_LINK("dma", SysBusPCNetState, state.dma_opaque,
-+                     TYPE_DEVICE, DeviceState *),
-     DEFINE_NIC_PROPERTIES(SysBusPCNetState, state.conf),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -153,8 +154,6 @@ static void lance_class_init(ObjectClass *klass, void *=
-data)
-     dc->reset =3D lance_reset;
-     dc->vmsd =3D &vmstate_lance;
-     dc->props =3D lance_properties;
--    /* Reason: pointer property "dma" */
--    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo lance_info =3D {
-diff --git a/hw/net/pcnet-pci.c b/hw/net/pcnet-pci.c
-index 4723c30c79..d067d21e2c 100644
---- a/hw/net/pcnet-pci.c
-+++ b/hw/net/pcnet-pci.c
-@@ -231,7 +231,7 @@ static void pci_pcnet_realize(PCIDevice *pci_dev, Error=
- **errp)
-     s->irq =3D pci_allocate_irq(pci_dev);
-     s->phys_mem_read =3D pci_physical_memory_read;
-     s->phys_mem_write =3D pci_physical_memory_write;
--    s->dma_opaque =3D pci_dev;
-+    s->dma_opaque =3D DEVICE(pci_dev);
-=20
-     pcnet_common_init(DEVICE(pci_dev), s, &net_pci_pcnet_info);
- }
+     QLIST_FOREACH(ngl, &dev->gpios, node) {
+-        /* NULL is a valid and matchable name, otherwise do a normal
+-         * strcmp match.
+-         */
+-        if ((!ngl->name && !name) ||
+-                (name && ngl->name && strcmp(name, ngl->name) =3D=3D 0)) {
++        /* NULL is a valid and matchable name. */
++        if (g_strcmp0(name, ngl->name) =3D=3D 0) {
+             return ngl;
+         }
+     }
 --=20
 2.25.0.rc1.20.g2443f3f80d
 
