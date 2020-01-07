@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0BD132C3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:57:37 +0100 (CET)
-Received: from localhost ([::1]:53142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228B0132B89
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:53:54 +0100 (CET)
+Received: from localhost ([::1]:53056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iosAi-0004kg-MC
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:57:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50776)
+	id 1ios76-00077I-BH
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:53:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iorqo-0006VK-US
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:37:04 -0500
+ (envelope-from <mlureau@redhat.com>) id 1ioruH-0002Wp-AO
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:40:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iorqn-0000mb-QC
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:37:02 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40706
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mlureau@redhat.com>) id 1ioruE-0003Aa-O0
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:40:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50638
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iorqn-0000ls-MJ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:37:01 -0500
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1ioruE-00039B-Fu
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:40:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578415021;
+ s=mimecast20190719; t=1578415233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=deIymBpJ8L5xzgOMqD2GOgswzjAkfpMPfhBZxWqwugw=;
- b=ID3Mkw/g4q+2p+94Thhg3byKkh18qtjcXt2EK5dkjdfUdNjzCC993mGn9hSppP1PwrbtZ9
- 0cslrYqJA+4eu8b+LpJBO1PBccgKhU3fGc47hghqi0sV+4R17VuSGbwKeRtNAoixipDCXU
- VgA0iyeKcTVRuBnIvo/9T6WIlOKsjzY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-9w9yALg_PJeMMf_7H4lDzA-1; Tue, 07 Jan 2020 11:36:59 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99B59801E6C;
- Tue,  7 Jan 2020 16:36:58 +0000 (UTC)
-Received: from work-vm (ovpn-117-52.ams2.redhat.com [10.36.117.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7078E10016EB;
- Tue,  7 Jan 2020 16:36:54 +0000 (UTC)
-Date: Tue, 7 Jan 2020 16:36:52 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] migration-test: ppc64: fix FORTH test program
-Message-ID: <20200107163652.GJ2732@work-vm>
-References: <20200107163437.52139-1-lvivier@redhat.com>
+ bh=Ijb+I/w5fooBGV7tHXtFatEAkdbihBD54nk3sX98BBM=;
+ b=dv4cH5VPQkfypwK2glpexbYW6mPNgTxvR9gMEWQ9czG+LS/ofKjiRTB0jioHko/Z8DcsI8
+ UggUuVsmxK3ZUpt8R6oXuZ/9F5gTcPoIGtss2t/H5lPTW8FeQo1RGYwIKDxmJh5Bx01Rg6
+ +EUP1dgHF/geWh9hpxpfj0DnI7tm/mA=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-5z1Nwt05OQCDddqQ-qDrKA-1; Tue, 07 Jan 2020 11:40:32 -0500
+Received: by mail-oi1-f200.google.com with SMTP id q204so221588oic.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:40:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ijb+I/w5fooBGV7tHXtFatEAkdbihBD54nk3sX98BBM=;
+ b=H5kocR3s6LUnoQ+sCL1rirudNnF01+hzUSPckUHhLLDAX9AEH2ro9ZtEnnt4FVH5cs
+ 5RwWebhQ0CvqUOufCXwetCxwTpe8ukAIk+m3AkmdZfxoLaeccao8iOmVx/QlDHKlxD0Z
+ fBr3oB1O1u7oQKwlMoK+Ulz7jnydq4e8KVooy7qqGxp4Bvqc7mX2v9TzqqD9F9alMK4M
+ m5fv9+g3VsKwivY3Z7HBApvaF87di94iL3yYeA/Sjq+NDZuJDSHL6mGuQ4lvXqPtNJe/
+ R0a0LEorTCsYyE8MEJQ08eDgxapFeXVzL859u78ynunEUZMRF32QDETcWkBIRRCmyl/i
+ fv8w==
+X-Gm-Message-State: APjAAAXvWRAx+t2ODNk5qSkxPZzJtp1/QVSOquc4Z9XNUwRygPByZOtt
+ KoH3iv1QYG/0ANrZRKM9SNzgB/PLz+khMUZRb1O7CtCBha2i8imgfbgQx3JsLRdA3nGH9e4pmfm
+ kgi0mJt2SrWx2eX95CFQ8g5oSh8AEYcI=
+X-Received: by 2002:a9d:730e:: with SMTP id e14mr649849otk.62.1578415231907;
+ Tue, 07 Jan 2020 08:40:31 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwbjPVXgunlcV7pDmMFW31ZeYjgKvvu/sEIdSIaqmz+QCGLhCx/pKeW64T8gnREV0KtVJPVvMm0GiVkilie+cA=
+X-Received: by 2002:a9d:730e:: with SMTP id e14mr649821otk.62.1578415231686;
+ Tue, 07 Jan 2020 08:40:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200107163437.52139-1-lvivier@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 9w9yALg_PJeMMf_7H4lDzA-1
+References: <20200106144622.1520994-1-marcandre.lureau@redhat.com>
+ <20200106144622.1520994-7-marcandre.lureau@redhat.com>
+ <CAFEAcA8c3A_zXcHRF3kj9z3C2AtLLPatQ=h=NX2+Ywzj+OiyVg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8c3A_zXcHRF3kj9z3C2AtLLPatQ=h=NX2+Ywzj+OiyVg@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 7 Jan 2020 20:40:01 +0400
+Message-ID: <CAMxuvazSBkowtk1p_tDFs+j8TJ53TfuCKjyBDeDVP3Yuj_uoEw@mail.gmail.com>
+Subject: Re: [PULL v2 6/9] configure: add GDBUS_CODEGEN
+To: Peter Maydell <peter.maydell@linaro.org>
+X-MC-Unique: 5z1Nwt05OQCDddqQ-qDrKA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,69 +83,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Huang <wei@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laurent Vivier (lvivier@redhat.com) wrote:
-> Commit e51e711b1bef has moved the initialization of start_address and
-> end_address after the definition of the command line argument,
-> where the nvramrc is initialized, and thus the loop is between 0 and 0
-> rather than 1 MiB and 100 MiB.
->=20
-> It doesn't affect the result of the test if all the tests are run in
-> sequence because the two first tests don't run the loop, so the
-> values are correctly initialized when we actually need them.
->=20
-> But it hangs when we ask to run only one test, for instance:
->=20
->     QTEST_QEMU_BINARY=3Dppc64-softmmu/qemu-system-ppc64 \
->     tests/migration-test -m=3Dquick -p /ppc64/migration/validate_uuid_err=
-or
->=20
-> Fixes: e51e711b1bef ("tests/migration: Add migration-test header file")
-> Cc: wei@redhat.com
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Hi
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Tue, Jan 7, 2020 at 8:14 PM Peter Maydell <peter.maydell@linaro.org> wro=
+te:
+>
+> On Mon, 6 Jan 2020 at 14:47, Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@redhat.com> wrote:
+> >
+> > gdbus-codegen generated code requires gio-unix on Unix, so add it to
+> > GIO libs/cflags.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > ---
+> >  configure | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/configure b/configure
+> > index 747d3b4120..0ce2c0354a 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -3701,10 +3701,16 @@ if $pkg_config --atleast-version=3D$glib_req_ve=
+r gio-2.0; then
+> >      gio=3Dyes
+> >      gio_cflags=3D$($pkg_config --cflags gio-2.0)
+> >      gio_libs=3D$($pkg_config --libs gio-2.0)
+> > +    gdbus_codegen=3D$($pkg_config --variable=3Dgdbus_codegen gio-2.0)
+> >  else
+> >      gio=3Dno
+> >  fi
+> >
+> > +if $pkg_config --atleast-version=3D$glib_req_ver gio-unix-2.0; then
+> > +    gio_cflags=3D"$gio_cflags $($pkg_config --cflags gio-unix-2.0)"
+> > +    gio_libs=3D"$gio_libs $($pkg_config --libs gio-unix-2.0)"
+> > +fi
+> > +
+> >  # Sanity check that the current size_t matches the
+> >  # size that glib thinks it should be. This catches
+> >  # problems on multi-arch where people try to build
+> > @@ -6904,6 +6910,7 @@ if test "$gio" =3D "yes" ; then
+> >      echo "CONFIG_GIO=3Dy" >> $config_host_mak
+> >      echo "GIO_CFLAGS=3D$gio_cflags" >> $config_host_mak
+> >      echo "GIO_LIBS=3D$gio_libs" >> $config_host_mak
+> > +    echo "GDBUS_CODEGEN=3D$gdbus_codegen" >> $config_host_mak
+> >  fi
+>
+> I've just noticed that this seems to cause problems for
+> the NetBSD VM, because pkg-config reports a value for
+> gdbus_codegen which isn't an installed binary:
+>
+> localhost$ pkg-config --variable=3Dgdbus_codegen gio-2.0
+> /usr/pkg/bin/gdbus-codegen
+> localhost$ ls /usr/pkg/bin/gdbus-codegen
+> ls: /usr/pkg/bin/gdbus-codegen: No such file or directory
+>
+> I think we need to install the 'gdbus-codegen' package in
+> our netbsd VM image.
+>
+> Maybe configure should check that it's actually got
+> an executable file before trying to use it?
 
-> ---
->  tests/migration-test.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/tests/migration-test.c b/tests/migration-test.c
-> index 53afec439522..341d19092214 100644
-> --- a/tests/migration-test.c
-> +++ b/tests/migration-test.c
-> @@ -480,14 +480,14 @@ static int test_migrate_start(QTestState **from, QT=
-estState **to,
->      } else if (strcmp(arch, "ppc64") =3D=3D 0) {
->          machine_opts =3D "vsmt=3D8";
->          memory_size =3D "256M";
-> +        start_address =3D PPC_TEST_MEM_START;
-> +        end_address =3D PPC_TEST_MEM_END;
->          arch_source =3D g_strdup_printf("-nodefaults "
->                                        "-prom-env 'use-nvramrc?=3Dtrue' -=
-prom-env "
->                                        "'nvramrc=3Dhex .\" _\" begin %x %=
-x "
->                                        "do i c@ 1 + i c! 1000 +loop .\" B=
-\" 0 "
->                                        "until'", end_address, start_addre=
-ss);
->          arch_target =3D g_strdup("");
-> -        start_address =3D PPC_TEST_MEM_START;
-> -        end_address =3D PPC_TEST_MEM_END;
->      } else if (strcmp(arch, "aarch64") =3D=3D 0) {
->          init_bootfile(bootpath, aarch64_kernel, sizeof(aarch64_kernel));
->          machine_opts =3D "virt,gic-version=3Dmax";
-> --=20
-> 2.23.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Sure, that should be enough:
+
++    if [ ! -x "$gdbus_codegen" ]; then
++        gdbus_codegen=3D
++    fi
+
+I can send the patch.
 
 
