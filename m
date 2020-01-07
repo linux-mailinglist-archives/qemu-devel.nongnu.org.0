@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5DB132B1E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:32:18 +0100 (CET)
-Received: from localhost ([::1]:52662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D59132B2B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:35:27 +0100 (CET)
+Received: from localhost ([::1]:52740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iormD-0007sQ-HW
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:32:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
+	id 1iorpF-00036r-0U
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:35:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45810)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iorjk-0006Jf-C5
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:29:45 -0500
+ (envelope-from <mst@redhat.com>) id 1iorjm-0006KI-77
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:29:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iorjh-0004Uo-Ah
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:29:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51367
+ (envelope-from <mst@redhat.com>) id 1iorjl-0004XD-6E
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:29:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41016
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorjg-0004To-OS
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:29:41 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorjl-0004Wq-2Y
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:29:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578414579;
+ s=mimecast20190719; t=1578414584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yAgrKhqNgYy4cSlrJWB7CtH85YICbdDZQd1zHnyrxfY=;
- b=gTAB9FjhJRNoRQa0yiaHg5fR2Q1VTdLAlXhhEZbgXOtBfN/329z9PjyFjK3blmLvBPkou2
- pMolozdnq3qaPbGdsIeAdGEc+luQnHO/RFp14o4SIZxZwl8o26+Xk7x3lKzQSd50TEZsKA
- Zc7XTphrUesf6SiWGgpsQOVwTXaQCzc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ky3AoPDK1Dl90THjFQNp/2P2m3Le5A8fcjpKsYSUby0=;
+ b=fJEl2Xe9Ib7uFfmiokp4KHemk60vM2VyacNmXmH54r718HU2kr+viZsqWc5oelrZbSk9gG
+ /Qgc+53Fxm/dnFs5sT72SNlTQLi5KReKAEuEaQeC2KrGHB9VW6F4KBBpjnAbSWNOuakZbd
+ cBFICAXAi5XJyZvzjWLUN6ANZAtjS30=
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
  [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-jqttjkECPhmPDy3u8095Ow-1; Tue, 07 Jan 2020 11:29:37 -0500
-Received: by mail-qk1-f199.google.com with SMTP id 24so127111qka.16
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:29:37 -0800 (PST)
+ us-mta-8-llQ_2URYOzy6uzCwXl8Yug-1; Tue, 07 Jan 2020 11:29:41 -0500
+Received: by mail-qk1-f199.google.com with SMTP id f22so137173qka.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:29:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=D6krPWu8nfUyCXL/nCIsBXo092/Khn3FDPUCJt/Yoss=;
- b=fV6tYr0ucHKqUa2Qnm7XouKsfoig0M7xbOE+e2XovGG7HrrtfOshZ/f3eeRIn5Sae1
- luFL0uLtHOtc/4S5SrB2+Q2LQ5HMJX8RUsGUCMkbUTnkrU0fRnHR1gKfZLMKfUz0e3zj
- geu01RHHOXoMaXz93TYeuct63NkxKzssWnrB0R6Tm9SXPM/15aGtDyGDqGt1ASDEIjSX
- 3T0ZMN1txH4sg3OPHXEBKhP831Wb+nHtBKa9NPpCh2y3qMH9xGQT8FNXrTbgPgGWq9p6
- rsl/hmm+CvMpYlYihrr4k9IBtRHZeqvVjhV0rRgGyRhRBEqB3xBFDnQ77sDqiYPk0lO/
- FoFQ==
-X-Gm-Message-State: APjAAAXSN5Lb9Crtii4dVysIiJ3IMHRX9VkzROU5nJFkmkvKihPzpz80
- JYASyspIJIf4nIo0Yt5JYJAl8lj0i0vAwd0th3NDvGrmYBBfUQkCu89wsLFM0aZtM/05ol5iPVd
- 90OkaGRkAjviWcTc=
-X-Received: by 2002:a0c:f24a:: with SMTP id z10mr218583qvl.33.1578414577011;
- Tue, 07 Jan 2020 08:29:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyWKj+VTW1HYUoGZMI/ZCJ0zwM0haK/Kc5nFDO+ZJeAdUuTJ7ZCHGnY0vpXc7qpfHChAvZGZQ==
-X-Received: by 2002:a0c:f24a:: with SMTP id z10mr218555qvl.33.1578414576641;
- Tue, 07 Jan 2020 08:29:36 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=S797ekb1koe77yVikHhjJoQQO+mcOVBkg02x1T+LNQw=;
+ b=iDKl0cRUrCzRN4ainmFxCqiHbxboxdOBCwoyRtue2t4NJDyRwX9OLsZAc+LuvkTMTK
+ YjW0HrDj5+6tU0tY7cheAwHP0X+CWj5KRsxwJstPmj0/TK71AkxIpizEmVLE1uzbeJur
+ 4mX5eJXk5LidWW8ISkyM0XBSbwGRnaA23FAryWzlyfxk7M/vLNRA+cT4UdaCllf+9erV
+ l375LWsgqKnECyn/zMgI83vJVQqz7KRFqrvOzZ63uprNLcs2rZcFKM3uOnUJdDJvgdz0
+ XObQnOc234fsUKNYb4hvbFlRx7NiJ+8pRoTgHLYXry9G2c3uR1+0gyi2Fok/WeajJazp
+ G10A==
+X-Gm-Message-State: APjAAAUAk1WGs/ym99z+OiFPk5o23pseC51zDEkDaMqy9LiMW/MsazRQ
+ khEF7EcHtSTuUIiMacP2u4dUrFx4l8kwzUHVa8hZQtYuxcEJo6pL4mBAplW2krp5+5rs/nqWqp0
+ 0QBhKoZ7oc2iPeto=
+X-Received: by 2002:aed:3fb7:: with SMTP id s52mr79810973qth.311.1578414580714; 
+ Tue, 07 Jan 2020 08:29:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwBASJc7+GSyeLhPK1jDxVtCqoIoPn5+Nf3z6SRS2r7n+a3n0rxMCEKINFN+2AFYKpI0OFtrg==
+X-Received: by 2002:aed:3fb7:: with SMTP id s52mr79810955qth.311.1578414580543; 
+ Tue, 07 Jan 2020 08:29:40 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id n4sm97065qti.55.2020.01.07.08.29.34
+ by smtp.gmail.com with ESMTPSA id k14sm34585qki.66.2020.01.07.08.29.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 08:29:35 -0800 (PST)
-Date: Tue, 7 Jan 2020 11:29:31 -0500
+ Tue, 07 Jan 2020 08:29:39 -0800 (PST)
+Date: Tue, 7 Jan 2020 11:29:37 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 00/32] virtio, pci, pc: fixes, features
-Message-ID: <20200107162850.411448-1-mst@redhat.com>
+Subject: [PULL v3 01/32] virtio: add ability to delete vq through a pointer
+Message-ID: <20200107162850.411448-2-mst@redhat.com>
+References: <20200107162850.411448-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20200107162850.411448-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: jqttjkECPhmPDy3u8095Ow-1
+X-MC-Unique: llQ_2URYOzy6uzCwXl8Yug-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -85,161 +88,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-changes from v2
-    clang build fix
-changes from v1
-    clang build fix
-
-The following changes since commit f0dcfddecee8b860e015bb07d67cfcbdfbfd51d9=
-:
-
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' i=
-nto staging (2020-01-03 17:18:08 +0000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 56fc1e6ac6bde95bc0369d358587f2234d4dddad:
-
-  intel_iommu: add present bit check for pasid table entries (2020-01-06 12=
-:04:51 -0500)
-
-----------------------------------------------------------------
-virtio, pci, pc: fixes, features
-
-Bugfixes all over the place.
-HMAT support.
-New flags for vhost-user-blk utility.
-Auto-tuning of seg max for virtio storage.
+Devices tend to maintain vq pointers, allow deleting them trough a vq point=
+er.
 
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+---
+ include/hw/virtio/virtio.h |  2 ++
+ hw/virtio/virtio.c         | 15 ++++++++++-----
+ 2 files changed, 12 insertions(+), 5 deletions(-)
 
-----------------------------------------------------------------
-Denis Plotnikov (4):
-      hw: fix using 4.2 compat in 5.0 machine types for i440fx/q35
-      virtio: make seg_max virtqueue size dependent
-      tests: add virtio-scsi and virtio-blk seg_max_adjust test
-      virtio-mmio: update queue size on guest write
-
-Jean-Philippe Brucker (1):
-      virtio-mmio: Clear v2 transport state on soft reset
-
-Liu Jingqi (5):
-      numa: Extend CLI to provide memory latency and bandwidth information
-      numa: Extend CLI to provide memory side cache information
-      hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
-      hmat acpi: Build System Locality Latency and Bandwidth Information St=
-ructure(s)
-      hmat acpi: Build Memory Side Cache Information Structure(s)
-
-Liu Yi L (2):
-      intel_iommu: a fix to vtd_find_as_from_bus_num()
-      intel_iommu: add present bit check for pasid table entries
-
-Michael Roth (1):
-      virtio-pci: disable vring processing when bus-mastering is disabled
-
-Michael S. Tsirkin (5):
-      virtio: add ability to delete vq through a pointer
-      virtio: make virtio_delete_queue idempotent
-      virtio-input: convert to new virtio_delete_queue
-      virtio: update queue size on guest write
-      ACPI: add expected files for HMAT tests (acpihmat)
-
-Micky Yun Chan (1):
-      Implement backend program convention command for vhost-user-blk
-
-Pan Nengyuan (2):
-      virtio-balloon: fix memory leak while attach virtio-balloon device
-      virtio-serial-bus: fix memory leak while attach virtio-serial-bus
-
-Philippe Mathieu-Daud=C3=A9 (2):
-      hw/pci/pci_host: Remove redundant PCI_DPRINTF()
-      hw/pci/pci_host: Let pci_data_[read/write] use unsigned 'size' argume=
-nt
-
-Raphael Norwitz (2):
-      vhost-user: add VHOST_USER_RESET_DEVICE to reset devices
-      vhost-user-scsi: reset the device if supported
-
-Stefan Hajnoczi (1):
-      virtio: don't enable notifications during polling
-
-Tao Xu (3):
-      numa: Extend CLI to provide initiator information for numa nodes
-      tests/numa: Add case for QMP build HMAT
-      tests/bios-tables-test: add test cases for ACPI HMAT
-
-Yi Sun (1):
-      intel_iommu: fix bug to read DMAR_RTADDR_REG
-
-Yuri Benditovich (2):
-      virtio: reset region cache when on queue deletion
-      virtio-net: delete also control queue when TX/RX deleted
-
- docs/interop/vhost-user.json              |  31 ++++
- qapi/machine.json                         | 180 +++++++++++++++++-
- hw/acpi/hmat.h                            |  42 +++++
- hw/i386/intel_iommu_internal.h            |   1 +
- include/hw/pci/pci_host.h                 |   4 +-
- include/hw/virtio/virtio-blk.h            |   1 +
- include/hw/virtio/virtio-scsi.h           |   1 +
- include/hw/virtio/virtio.h                |  18 ++
- include/sysemu/numa.h                     |  63 +++++++
- contrib/vhost-user-blk/vhost-user-blk.c   | 108 ++++++-----
- hw/acpi/hmat.c                            | 268 ++++++++++++++++++++++++++=
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index c32a815303..e18756d50d 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -183,6 +183,8 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int que=
+ue_size,
+=20
+ void virtio_del_queue(VirtIODevice *vdev, int n);
+=20
++void virtio_delete_queue(VirtQueue *vq);
 +
- hw/block/virtio-blk.c                     |  18 +-
- hw/char/virtio-serial-bus.c               |   8 +
- hw/core/machine.c                         |  68 +++++++
- hw/core/numa.c                            | 297 ++++++++++++++++++++++++++=
-++++
- hw/i386/acpi-build.c                      |   5 +
- hw/i386/intel_iommu.c                     | 100 +++++++---
- hw/i386/pc_piix.c                         |   1 -
- hw/i386/pc_q35.c                          |   1 -
- hw/input/virtio-input.c                   |   5 +-
- hw/net/virtio-net.c                       |   3 +-
- hw/pci/pci_host.c                         |  25 +--
- hw/scsi/vhost-scsi.c                      |   2 +
- hw/scsi/vhost-user-scsi.c                 |  24 +++
- hw/scsi/virtio-scsi.c                     |  19 +-
- hw/virtio/vhost-user.c                    |   8 +-
- hw/virtio/virtio-balloon.c                |   7 +
- hw/virtio/virtio-mmio.c                   |  17 +-
- hw/virtio/virtio-pci.c                    |  14 +-
- hw/virtio/virtio.c                        |  64 +++++--
- tests/bios-tables-test.c                  |  44 +++++
- tests/numa-test.c                         | 213 +++++++++++++++++++++
- docs/interop/vhost-user.rst               |  32 ++++
- hw/acpi/Kconfig                           |   7 +-
- hw/acpi/Makefile.objs                     |   1 +
- qemu-options.hx                           |  95 +++++++++-
- tests/acceptance/virtio_seg_max_adjust.py | 134 ++++++++++++++
- tests/data/acpi/pc/APIC.acpihmat          | Bin 0 -> 128 bytes
- tests/data/acpi/pc/DSDT.acpihmat          | Bin 0 -> 6455 bytes
- tests/data/acpi/pc/HMAT.acpihmat          | Bin 0 -> 280 bytes
- tests/data/acpi/pc/SRAT.acpihmat          | Bin 0 -> 280 bytes
- tests/data/acpi/q35/APIC.acpihmat         | Bin 0 -> 128 bytes
- tests/data/acpi/q35/DSDT.acpihmat         | Bin 0 -> 9203 bytes
- tests/data/acpi/q35/HMAT.acpihmat         | Bin 0 -> 280 bytes
- tests/data/acpi/q35/SRAT.acpihmat         | Bin 0 -> 280 bytes
- 45 files changed, 1796 insertions(+), 133 deletions(-)
- create mode 100644 hw/acpi/hmat.h
- create mode 100644 hw/acpi/hmat.c
- create mode 100755 tests/acceptance/virtio_seg_max_adjust.py
- create mode 100644 tests/data/acpi/pc/APIC.acpihmat
- create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
- create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
- create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
- create mode 100644 tests/data/acpi/q35/APIC.acpihmat
- create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
- create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
- create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
+ void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
+                     unsigned int len);
+ void virtqueue_flush(VirtQueue *vq, unsigned int count);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 04716b5f6c..31dd140990 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2330,17 +2330,22 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int=
+ queue_size,
+     return &vdev->vq[i];
+ }
+=20
++void virtio_delete_queue(VirtQueue *vq)
++{
++    vq->vring.num =3D 0;
++    vq->vring.num_default =3D 0;
++    vq->handle_output =3D NULL;
++    vq->handle_aio_output =3D NULL;
++    g_free(vq->used_elems);
++}
++
+ void virtio_del_queue(VirtIODevice *vdev, int n)
+ {
+     if (n < 0 || n >=3D VIRTIO_QUEUE_MAX) {
+         abort();
+     }
+=20
+-    vdev->vq[n].vring.num =3D 0;
+-    vdev->vq[n].vring.num_default =3D 0;
+-    vdev->vq[n].handle_output =3D NULL;
+-    vdev->vq[n].handle_aio_output =3D NULL;
+-    g_free(vdev->vq[n].used_elems);
++    virtio_delete_queue(&vdev->vq[n]);
+ }
+=20
+ static void virtio_set_isr(VirtIODevice *vdev, int value)
+--=20
+MST
 
 
