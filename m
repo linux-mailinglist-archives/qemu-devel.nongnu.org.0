@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A340813288A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:13:48 +0100 (CET)
-Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01EA132944
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:48:43 +0100 (CET)
+Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopcA-00049D-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:13:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45979)
+	id 1ioq9y-0005rO-NT
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:48:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46651)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iooux-00061G-CI
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:29:08 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iooxk-0003Vz-J0
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:32:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ioouv-00044h-TP
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:29:06 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55111
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iooxj-0005OY-Cx
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:32:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30934
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ioouv-00043I-QI
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:29:05 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iooxj-0005OJ-8v
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:31:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578403745;
+ s=mimecast20190719; t=1578403918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SBM0R32glpMVuot9fSWTjQ1+QD7ILwo94E2L+NFbt3k=;
- b=ZlKKAmFjMPYSS9hwdI7jk5hwXVss1xE7CxHfUM+mnr7p3ljkmKDAkZrsA30LGT11Nwx1MY
- xHoNAB8o49aH2tfxbZPhmNA1NoDMqE/BPU2zBSL+c9jbfl/uoHQTpcqMpntH/wGgzIWT4d
- 5+kZ2NYsOzr3J8nrYddteZH9i869I3I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-mzYvX5BVMGqA1StgLZzemA-1; Tue, 07 Jan 2020 08:29:04 -0500
-Received: by mail-wr1-f70.google.com with SMTP id u18so28581443wrn.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:29:03 -0800 (PST)
+ bh=nQ8k4187maCsiVkv/BlfiwiJbwIWL5nyIopjleGN2iA=;
+ b=cfzEIbfwNmaSzrrzarFjdMlZqWeb3o336EioqfEHZyUB7Qgcpt0ofH34UNc9XQSQ6lKyPC
+ 3V+4mLuRzFi8vnx8hef+4iv/Tx7t8vq6EtAo6EeItA1pmMuNi5uYurK2TuwS1/nHUgsuja
+ Bbq8v3ZBMWHCrvJW58pdnjVEF8FdZWk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-WXz1c3AxOy-aPo_381YY7A-1; Tue, 07 Jan 2020 08:31:57 -0500
+Received: by mail-wm1-f70.google.com with SMTP id m133so1950250wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:31:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SBM0R32glpMVuot9fSWTjQ1+QD7ILwo94E2L+NFbt3k=;
- b=Fhv1KMR7XHCZgIe2h7e7WtKdZJPPPhKAiSJ5x0QP+J90ni4x/HuMFo2mpHAzkHVQWx
- xw/Q275LpI2eCwgq7k/bLec0OnI/H6bwDCWMfudbc4xkIXUGMyhpzVdNHEp5aPtZ9Pcs
- QKxeLPP3zQfQtFIev8SCJciS0YP3aGOsGTPZGCh0G9bpShkSsMwOk21/JcHQ2Aik5a1P
- MK71RytNwd/tLIiAEbA2F/Yvel2JPDB/QNDatXCAN0y36mkvS9RvNhdwe+UC9gPDgCYx
- yls253f1n+CyPT96ol4JhEdh4rGlE7BvWUNPGc70jnHZM2OLZRibAGYH8l3HJJIxaYgC
- YQRg==
-X-Gm-Message-State: APjAAAW2s5ek8nPawt/OMu51bGolIoyf4eTOLv1U/Y9jnqhfyP7hcOr9
- wUtY/xcaxZ1m6iQ4kNkjNmQG4hm+IoH6Tm8MfNigRaIeGAQCQgcc8Miyi9K6hb4okP1MUQuNmUW
- thFqsTOj6lt31bjU=
-X-Received: by 2002:a1c:f210:: with SMTP id s16mr38901854wmc.57.1578403742912; 
- Tue, 07 Jan 2020 05:29:02 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwjXVv7ouLDbitXju/95vWo7+UF9DVG8hZVlNxGRslqnI5/Cgk19r7pCe8P91E0lioe/Pv6OQ==
-X-Received: by 2002:a1c:f210:: with SMTP id s16mr38901832wmc.57.1578403742639; 
- Tue, 07 Jan 2020 05:29:02 -0800 (PST)
+ bh=nQ8k4187maCsiVkv/BlfiwiJbwIWL5nyIopjleGN2iA=;
+ b=PWMkMEiSA82NJnHAcsUbNf1ZMv29iMmM+GkAQsoFsg7M/mJW6FMdXmthjh9vkQNqSs
+ ViaQkSB/rKRa5+XJ/+dDL6sfCA0VD1WgcrmzpcMC6QkzEW0S3sbwZSeOD+j4zdkZUWXM
+ Q/0i5iIwkasyuTSRffcj/uuYrTEDkvt2PpkPcEF60fCn/LP6PcmezT1Eb+rufbktZ7fA
+ Ws9C4Skduk+U1bq5Al2qbAZFyD+Ok2StyZHckwrhIvD+alFiQ0FL6z77SdVqipZsmBnA
+ 1KdW8ZPXkRScBkIRBflWbnUNUzR+vKAesdPyUMWupRnjFafNNNNdBtoIp9x4TRq8WzFG
+ Ho3A==
+X-Gm-Message-State: APjAAAU2sBqekeQ85JnSlsSd4zgkky7CZnCwk7/BjxiRRH6kvDXUNBkp
+ WvwpXEchRFPGphOO4kZVblELJqr4X6/MvqN0f3af0VfF7CsqEWEGp0XThlwSaC2TYYRC5/uVyp3
+ +qYKqNlOyZZZx0dQ=
+X-Received: by 2002:adf:f308:: with SMTP id i8mr49050753wro.42.1578403916634; 
+ Tue, 07 Jan 2020 05:31:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxmdNxCxvc9k02zJuROx2zg1Xu3uFx3m2LXaQbKd4m6cPmsfKqYWE4pn3SDa5fw427OKIu2dg==
+X-Received: by 2002:adf:f308:: with SMTP id i8mr49050730wro.42.1578403916430; 
+ Tue, 07 Jan 2020 05:31:56 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
  ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id p18sm26735668wmb.8.2020.01.07.05.29.01
+ by smtp.gmail.com with ESMTPSA id a14sm81681169wrx.81.2020.01.07.05.31.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 05:29:01 -0800 (PST)
-Subject: Re: [PATCH v4] target/i386: Fix handling of k_gs_base register in
- 32-bit mode in gdbstub
-To: "Marek Dolata - mkdolata@us.ibm.com" <mkdolata@us.ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <4afa19236529458282794f682dfac556@us.ibm.com>
+ Tue, 07 Jan 2020 05:31:55 -0800 (PST)
+Subject: Re: [PATCH 0/2] Fix Cooperlake CPU model
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20191225063018.20038-1-xiaoyao.li@intel.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1f942e38-d3bf-0d12-89fe-0ccf72f763d0@redhat.com>
-Date: Tue, 7 Jan 2020 14:29:00 +0100
+Message-ID: <93c9cc8c-09ec-d13f-f012-edf86fd945ab@redhat.com>
+Date: Tue, 7 Jan 2020 14:31:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <4afa19236529458282794f682dfac556@us.ibm.com>
+In-Reply-To: <20191225063018.20038-1-xiaoyao.li@intel.com>
 Content-Language: en-US
-X-MC-Unique: mzYvX5BVMGqA1StgLZzemA-1
+X-MC-Unique: WXz1c3AxOy-aPo_381YY7A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,31 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Doug Gale <doug16k@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Cathy Zhang <cathy.zhang@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/12/19 03:48, Marek Dolata - mkdolata@us.ibm.com wrote:
-> Fixes: corrects clobbering of registers appearing after k_gs_base
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1857640
+On 25/12/19 07:30, Xiaoyao Li wrote:
+> Current Cooperlake CPU model lacks VMX features which are introduced by Paolo
+> several months ago, and it also lacks 2 security features in
+> MSR_IA32_ARCH_CAPABILITIES disclosed recently.
 > 
-> Signed-off-by: Marek Dolata <mkdolata@us.ibm.com>
+> Xiaoyao Li (2):
+>   target/i386: Add new bit definitions of MSR_IA32_ARCH_CAPABILITIES
+>   target/i386: Add missed features to Cooperlake CPU model
+> 
+>  target/i386/cpu.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  target/i386/cpu.h | 13 +++++++-----
+>  2 files changed, 58 insertions(+), 6 deletions(-)
+> 
 
-Queued.  Note that I had to apply the patch by hand since you probably did
-some cut-and-paste job.  I also added a meaningful commit message:
-
-    gdb-xml/i386-32bit.xml includes the k_gs_base register too, so we have to
-    handle it even if TARGET_X86_64 is not defined.  This is already done in
-    x86_cpu_gdb_read_register, but not in x86_cpu_gdb_write_register where the
-    incorrect return value causes all registers after it to be clobbered.
-    
-    Fixes https://bugs.launchpad.net/qemu/+bug/1857640.
-
-Thanks,
+Queued, thanks.
 
 Paolo
 
