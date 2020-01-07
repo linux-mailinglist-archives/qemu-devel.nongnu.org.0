@@ -2,92 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9602013239F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:32:59 +0100 (CET)
-Received: from localhost ([::1]:45998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213FC13241B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:48:01 +0100 (CET)
+Received: from localhost ([::1]:46284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomAT-0004Ld-3i
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:32:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54645)
+	id 1iomP1-00044C-0K
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:47:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iom5A-0004EO-Qn
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:27:29 -0500
+ (envelope-from <prime.zeng@hisilicon.com>) id 1iom7I-0002gv-81
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:29:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iom59-0000KR-2t
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:27:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48514
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <prime.zeng@hisilicon.com>) id 1iom7G-0002Cl-Q5
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:29:39 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2426 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iom58-0000HM-M6
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:27:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578392845;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vozNSWGOqGw+rzRrkIUpBcg6Szu1Q4RiSvWuOU9wJ0Y=;
- b=PUsQk6k1D/LmtisRcJd45APZOFb6cS3vD9zNezHyb7OuZLWx827UbXMFTxQmAUkTmBcvLi
- YoSBS3+p1qhnnN2fqBkmIKJINeTCa+qos6b/4D13Lvrw09QBNTP0p9JrbFj5AfazvpCl3D
- nHKsTSdn9TLd0xr4gTXN3hSvRSj1kOo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-WlvtEw_CO9W8VNMbUQ3xqg-1; Tue, 07 Jan 2020 05:27:24 -0500
-Received: by mail-wm1-f69.google.com with SMTP id c4so3914164wmb.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:27:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Lr94RCTGcK381iTJJE6awOqmZcJ9B02thTJPNJha0gw=;
- b=oVh+Mx4/Qv+zA0qWo453Xbi1XDZD1X5k0pyZ3wE+zUOI8utq4e7T7DyBLkiC4M4Wtt
- ocwoGeptjgmk5Qf7wcsDjOy9uKaOOeMMczVvQI3NfjdhFvS8Ndz1CdbO+RUvpZyGCytU
- 4VusMximDrPVf7RGF53jZt6Vmv5UGFArSUhabmzZTXntkHWnQDwslifipTGGxm+Wpb7B
- mCFlgDNiTisUE/UUzZBY7FEZ1aKegVGg7dWZLnLzorMNI6r2q4SoE/IOwTZJG9RcLdqT
- pqldp1bKayeGxlcddc8k3yhhOQZ0SK+++KixPIGfL5NjCZ7Szc7y8HWLVT2YaR5SIo4F
- QZzQ==
-X-Gm-Message-State: APjAAAUfvTtINnW6oIvrlKlo+t6meQZvApqpzDq2pz87fVeBr9DcwJ66
- D4bsqMR9vCHniHVHfUw1YaBE1LOI4LbkL00Xc5pLywcpLa19ChFIQHC4SJaRq3mJEVaHn5IYI0K
- QfV+LBXzk9lh4e/s=
-X-Received: by 2002:a05:600c:298:: with SMTP id
- 24mr37952736wmk.141.1578392843550; 
- Tue, 07 Jan 2020 02:27:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzx0hozzj8jdQr19Z4l/0dJMbqq6I+3IDckPSEn244CKdsaujf0eeRgJ37xiFhMJ8Pgon3TDQ==
-X-Received: by 2002:a05:600c:298:: with SMTP id
- 24mr37952707wmk.141.1578392843259; 
- Tue, 07 Jan 2020 02:27:23 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id i11sm76317581wrs.10.2020.01.07.02.27.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 02:27:22 -0800 (PST)
-Subject: Re: [PATCH] x86: Check for machine state object class before
- typecasting it
-To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <7cc91bab3191bfd7e071bdd3fdf7fe2a2991deb0.1577692822.git.mprivozn@redhat.com>
- <bda93e70-f737-4384-0422-3901767b6330@redhat.com>
- <e70937bd-15e9-aa75-d894-b32b43052b6a@redhat.com>
- <b718e77c-9b49-9c18-7b9b-55333ab0afe5@redhat.com>
- <337056f8-4c8f-9a18-5f58-13dc459f6346@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e7b0685b-2444-d7f6-c4ba-2632bd2e4a23@redhat.com>
-Date: Tue, 7 Jan 2020 11:27:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <337056f8-4c8f-9a18-5f58-13dc459f6346@redhat.com>
-Content-Language: en-US
-X-MC-Unique: WlvtEw_CO9W8VNMbUQ3xqg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.71) (envelope-from <prime.zeng@hisilicon.com>)
+ id 1iom7A-00029I-H7; Tue, 07 Jan 2020 05:29:32 -0500
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.54])
+ by Forcepoint Email with ESMTP id 39AA7985251B38707C0B;
+ Tue,  7 Jan 2020 18:29:27 +0800 (CST)
+Received: from DGGEMM526-MBX.china.huawei.com ([169.254.8.143]) by
+ DGGEMM402-HUB.china.huawei.com ([10.3.20.210]) with mapi id 14.03.0439.000;
+ Tue, 7 Jan 2020 18:29:23 +0800
+From: "Zengtao (B)" <prime.zeng@hisilicon.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: RE: [PATCH] hw/arm/acpi: Pack the SRAT processors structure by
+ node_id ascending order
+Thread-Topic: [PATCH] hw/arm/acpi: Pack the SRAT processors structure by
+ node_id ascending order
+Thread-Index: AQHVxTwQeBqIZ8yXtEyanioq6c3U06feal4AgACT4nA=
+Date: Tue, 7 Jan 2020 10:29:22 +0000
+Message-ID: <678F3D1BB717D949B966B68EAEB446ED340B608D@dggemm526-mbx.china.huawei.com>
+References: <1578388729-55540-1-git-send-email-prime.zeng@hisilicon.com>
+ <20200107042918-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200107042918-mutt-send-email-mst@kernel.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.74.221.187]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 45.249.212.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,43 +61,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mtosatti@redhat.com, Sergio Lopez <slp@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/12/19 14:17, Michal Pr=C3=ADvozn=C3=ADk wrote:
-> On 12/30/19 10:45 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 12/30/19 10:35 AM, Michal Pr=C3=ADvozn=C3=ADk wrote:
->>> On 12/30/19 9:41 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> On 12/30/19 9:00 AM, Michal Privoznik wrote:
->>>>> In v4.2.0-246-ged9e923c3c the SMM property was moved from PC
->>>>
->>>> Typo v4.2.0-246-ged9e923c3c -> ed9e923c3c.
->>>
->>> This depends on how you format the hash :-)
->>> I've used 'git describe ed9e923c3c' because I find it more readable for
->>> us humans (at least we see what version the commit was introduced in).
->>> But I don't know what the praxis is in qemu.
->>
->> Hmm I never used it. Your explanation makes sense, but the tag confused
->> me because I don't have it locally. However git (and gitk) seems clever
->> enough to only use the useful part:
+> -----Original Message-----
+> From: Michael S. Tsirkin [mailto:mst@redhat.com]
+> Sent: Tuesday, January 07, 2020 5:33 PM
+> To: Zengtao (B)
+> Cc: qemu-devel@nongnu.org; qemu-trivial@nongnu.org; Shannon Zhao;
+> Peter Maydell; Igor Mammedov; qemu-arm@nongnu.org
+> Subject: Re: [PATCH] hw/arm/acpi: Pack the SRAT processors structure by
+> node_id ascending order
 >=20
-> The v4.2.0 tag is in origin. I wonder how come you do not have it.
+> On Tue, Jan 07, 2020 at 05:18:49PM +0800, Zeng Tao wrote:
+> > When booting the guest linux with the following numa configuration:
+> > -numa node,node_id=3D1,cpus=3D0-3
+> > -numa node,node_id=3D0,cpus=3D4-7
+> > We can get the following numa topology in the guest system:
+> > Architecture:          aarch64
+> > Byte Order:            Little Endian
+> > CPU(s):                8
+> > On-line CPU(s) list:   0-7
+> > Thread(s) per core:    1
+> > Core(s) per socket:    8
+> > Socket(s):             1
+> > NUMA node(s):          2
+> > L1d cache:             unknown size
+> > L1i cache:             unknown size
+> > L2 cache:              unknown size
+> > NUMA node0 CPU(s):     0-3
+> > NUMA node1 CPU(s):     4-7
+> > The Cpus 0-3 is assigned with NUMA node 1 in QEMU while it get NUMA
+> node
+> > 0 in the guest.
+> >
+> > In fact, In the linux kernel, numa_node_id is allocated per the ACPI
+> > SRAT processors structure order,so the cpu 0 will be the first one to
+> > allocate its NUMA node id, so it gets the NUMA node 0.
+> >
+> > To fix this issue, we pack the SRAT processors structure in numa node i=
+d
+> > order but not the default cpu number order.
+> >
+> > Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
 >=20
->>
->> $ git show randomcrap-ged9e923c3c
+>=20
+> Does this matter? If yes fixing linux to take node id from proximity
+> field in ACPI seems cleaner ...
+>
 
-Cool, I didn't know this.  I usually format it like
+In fact, I just want to align the node_id concept in QEMU and Linux.
+If we fix the kernel side, we need to align with all platforms.
+i think maybe not a good idea.
+=20
+> > ---
+> >  hw/arm/virt-acpi-build.c | 23 +++++++++++++++--------
+> >  1 file changed, 15 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> > index bd5f771..497192b 100644
+> > --- a/hw/arm/virt-acpi-build.c
+> > +++ b/hw/arm/virt-acpi-build.c
+> > @@ -520,7 +520,8 @@ build_srat(GArray *table_data, BIOSLinker
+> *linker, VirtMachineState *vms)
+> >      AcpiSystemResourceAffinityTable *srat;
+> >      AcpiSratProcessorGiccAffinity *core;
+> >      AcpiSratMemoryAffinity *numamem;
+> > -    int i, srat_start;
+> > +    int i, j, srat_start;
+> > +    uint32_t node_id;
+> >      uint64_t mem_base;
+> >      MachineClass *mc =3D MACHINE_GET_CLASS(vms);
+> >      MachineState *ms =3D MACHINE(vms);
+> > @@ -530,13 +531,19 @@ build_srat(GArray *table_data, BIOSLinker
+> *linker, VirtMachineState *vms)
+> >      srat =3D acpi_data_push(table_data, sizeof(*srat));
+> >      srat->reserved1 =3D cpu_to_le32(1);
+> >
+> > -    for (i =3D 0; i < cpu_list->len; ++i) {
+> > -        core =3D acpi_data_push(table_data, sizeof(*core));
+> > -        core->type =3D ACPI_SRAT_PROCESSOR_GICC;
+> > -        core->length =3D sizeof(*core);
+> > -        core->proximity =3D
+> cpu_to_le32(cpu_list->cpus[i].props.node_id);
+> > -        core->acpi_processor_uid =3D cpu_to_le32(i);
+> > -        core->flags =3D cpu_to_le32(1);
+> > +    for (i =3D 0; i < ms->numa_state->num_nodes; ++i) {
+> > +        for (j =3D 0; j < cpu_list->len; ++j) {
+>=20
+> Hmm O(n ^2) isn't great ...
+Good suggestion, 3Q.
+>=20
+> > +            node_id =3D cpu_to_le32(cpu_list->cpus[j].props.node_id);
+> > +            if (node_id !=3D i) {
+> > +                continue;
+> > +            }
+> > +            core =3D acpi_data_push(table_data, sizeof(*core));
+> > +            core->type =3D ACPI_SRAT_PROCESSOR_GICC;
+> > +            core->length =3D sizeof(*core);
+> > +            core->proximity =3D node_id;
+> > +            core->acpi_processor_uid =3D cpu_to_le32(j);
+> > +            core->flags =3D cpu_to_le32(1);
+> > +        }
+> >      }
+>=20
+> is the issue arm specific? wouldn't it affect x86 too?
+>=20
+Good question, I think it will affect x86, but I need to confirm.
 
-ed9e923c3c ("x86: move SMM property to X86MachineState", 2019-12-17)
-
-I can see why most developers don't use "git describe", because at least
-those that also are maintainers will often have intermediate tags after
-a release.
-
-Anyway I've queued this patch, thanks.
-
-Paolo
+> >      mem_base =3D vms->memmap[VIRT_MEM].base;
+> > --
+> > 2.8.1
 
 
