@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D7E1328F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:33:56 +0100 (CET)
-Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392FD132914
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:37:38 +0100 (CET)
+Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopvf-0005QP-FS
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:33:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39710)
+	id 1iopzE-0001ym-IC
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:37:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40911)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iopsA-0001oP-V9
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:30:20 -0500
+ (envelope-from <thuth@redhat.com>) id 1iopx3-0008DC-Dz
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iops9-00087s-Mw
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:30:18 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:40715)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iops9-00087T-IK
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:30:17 -0500
-Received: by mail-oi1-x234.google.com with SMTP id c77so17377926oib.7
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0r4EeqIFNcJaYUfmKTNLb5Cc5ORQ6dUfd20+fFY6GqQ=;
- b=eol04kd2hAqurD3Lm74/B66imoArADiusEH+RX6AXEEqVcyEnsvYyoTchnSU2D5kbq
- j2LFyZCHYVSuUc+uB7YaSe6dJ9ZAq/wJT70PPCXTyC8vYkgdgXo9XDe20sOUYkeXJ5Z2
- o1/KPv/9cVbhFkwW7haQhZ9XcyabgxnGhIkyNGytHReP95PjuyL+r+N5D8AFlXsxbYeW
- 6/yJLrzdcVt8i/q0DGTCIqUN4f1d8Z1SlCJ7xlup1f3qjQwSE6LEnJg5gZVKpqj14JxK
- CncKmyf9o9Tx9eETAoRLOpFnWDRvWSqggPKW4gIoAZTqmFTse0x/FW2NK8IlqMlEOSh+
- 5kyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0r4EeqIFNcJaYUfmKTNLb5Cc5ORQ6dUfd20+fFY6GqQ=;
- b=IDrMJdwyrOJPu/YQ1BlrP2sKJyJnqevEvbLxPZGdULdIZYSx+QlQmUKCR0Y1ha/UlF
- wyUGP878WfcuHsY5+hjdlPDkPzMzVXUVW36KhqF6TcDesZqkPWJ8/CS6mnna7mfds3O1
- cfCh8OKe6AbsVhnR+NynjURXQtB02cQRlggf3lQt/XM7tMo081CnjdUEWAKfgll2HZnv
- dOxnGISu6eAhK5JOgEOcreiUJpmF7C0FgZCnt34lUVpaYc30SQ3nHt2YdUEeK3Xt0SKp
- F+THFjbOGChpX4755oFKRdPjCJTXKKjS5bvCBwop5iKXeE+FbAyTOH0M0oYcqlOcwImJ
- 1Z4Q==
-X-Gm-Message-State: APjAAAWF83SSs2jy0xJutPrkPJLj5moMTOJKiIep8qxGODr/PwRUMhcL
- dOpP8tFNns44nuX+tnzJzXGXBDZwJx99aqlsTepEhG9IDv4=
-X-Google-Smtp-Source: APXvYqzb2frSu9CXPqOEM6vUxrIOXIRaNrxm/+3FWzI/b2J9w4Y6RZZBgai5dXLJVAe00NA7fwcdiJf/UqK/HFd3Hno=
-X-Received: by 2002:aca:3d7:: with SMTP id 206mr24688oid.98.1578407416731;
- Tue, 07 Jan 2020 06:30:16 -0800 (PST)
+ (envelope-from <thuth@redhat.com>) id 1iopx2-0002E4-7q
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:21 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53155
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iopx2-0002Da-4W
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578407719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=XufDugD6uYUlfBGd82PuKlgRYcjdnsQKOQ7nhUL8Mgc=;
+ b=fMp8T/SFONMTS1Hwn4IQhEeL/mABrwdmSHM/CE9Auq9wj8fpXIfisZCeaY8EuMHdwXzWtS
+ InMYHhtchooQtmG2Qv2uMJppFf8bUmZCHhI+tlj838wJLFmxLoSrrb7bThdpxD0z0aiAtF
+ e1sxZXlbRAWbAs7tdZORq/4d4UGmuDE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-2JdSoVrhPn-gRS9nxHzlnw-1; Tue, 07 Jan 2020 09:35:16 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5102F802CA6;
+ Tue,  7 Jan 2020 14:35:15 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E13E7DB3E;
+ Tue,  7 Jan 2020 14:35:08 +0000 (UTC)
+Subject: Re: Priority of -accel
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200106130951.29873-1-philmd@redhat.com>
+ <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+ <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+ <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
+ <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
+ <20200107125451.GL3368802@redhat.com>
+ <3241dff4-6223-404f-55d4-846991763046@redhat.com>
+ <2ae2dee3-cd16-a247-971b-4b3482e596a5@redhat.com>
+ <20200107142735.GC3368802@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <fb83df0a-da82-f981-fbda-d5c74e87cf5c@redhat.com>
+Date: Tue, 7 Jan 2020 15:35:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <157834844263.18456.7231217269341794728.stgit@gimli.home>
-In-Reply-To: <157834844263.18456.7231217269341794728.stgit@gimli.home>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 14:30:05 +0000
-Message-ID: <CAFEAcA8tEOE7b0gXXitvOn_a84_cuM1m-X1oB3FOJjX4_7vmog@mail.gmail.com>
-Subject: Re: [PULL 0/1] VFIO fixes 2020-01-06
-To: Alex Williamson <alex.williamson@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::234
+In-Reply-To: <20200107142735.GC3368802@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 2JdSoVrhPn-gRS9nxHzlnw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,34 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 22:11, Alex Williamson <alex.williamson@redhat.com> wrote:
->
-> The following changes since commit 48008198270e3ebcc9394401d676c54ed5ac139c:
->
->   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-12-20 11:20:25 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20200106.0
->
-> for you to fetch changes up to 0446f8121723b134ca1d1ed0b73e96d4a0a8689d:
->
->   vfio/pci: Don't remove irqchip notifier if not registered (2020-01-06 14:19:42 -0700)
->
-> ----------------------------------------------------------------
-> VFIO fixes 2020-01-06
->
->  - Fix irqchip notifier de-registration if not registered (Peter Xu)
->
+On 07/01/2020 15.27, Daniel P. Berrang=C3=A9 wrote:
+> On Tue, Jan 07, 2020 at 03:20:40PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> On 1/7/20 3:14 PM, Thomas Huth wrote:
+>>> On 07/01/2020 13.54, Daniel P. Berrang=C3=A9 wrote:
+>>>> On Tue, Jan 07, 2020 at 01:23:18PM +0100, Paolo Bonzini wrote:
+>>>>> On 07/01/20 13:18, Thomas Huth wrote:
+>>>>>> I don't think we need a separate priority parameter here. But IMHO i=
+t's
+>>>>>>   really rather common practice to prioritize the last option. So wh=
+ile
+>>>>>> it might be more "self-explanatory" to a CLI newbie if the first
+>>>>>> occurrence got the highest priority, it might be rather confusing
+>>>>>> instead for a CLI veteran...?
+>>>>>
+>>>>> Prioritising the last certainly makes sense for a choose-one-only
+>>>>> option, but I'm not sure it's the same for a choose-best option.  Aft=
+er
+>>>>> all it was -machine accel=3Dkvm:tcg, not -machine accel=3Dtcg:kvm...
+>>>>
+>>>> IIUC, the main use case for specifying multiple accelerators is
+>>>> so that lazy invokations can ask for a hardware virt, but then get
+>>>> fallback to TCG if not available. For things that should be platform
+>>>> portabile, there's more than just kvm to consider though, as we have
+>>>> many accelerators.  Listing all possible accelerators is kind of
+>>>> crazy though no matter what the syntax is.
+>>>>
+>>>> How about taking a completely different approach, inspired by the
+>>>> -cpu arg and implement:
+>>>>
+>>>>      -machine accel=3Dbest
+>>>
+>>> Something like that sounds like the best solution to me, but I'd maybe
+>>> rather not call it "best", since the definition of "best" might depend
+>>> on your use-case (e.g. do you want to use a CPU close to the host or
+>>> something different which might be better emulated by TCG?).
+>>>
+>>> What about "-accel any" or "-accel fastest" or something similar?
+>>
+>> 'any' is a russian roulette, you don't want it to return 'qtest' ;)
+>=20
+> We could make it return "qtest" only on April 1st ;-P
 
-Applied, thanks.
+... or we finally dare to let QEMU chose the "best" accelerator by
+default if no "-accel" option has been specified...
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Thus if no "-accel" has been specified, then use kvm/haxm/whpv if
+possible or TCG otherwise. And if "-accel" has been specified, then only
+use that accelerator and don't allow a second "-accel" to be specified.
 
--- PMM
+ Thomas
+
 
