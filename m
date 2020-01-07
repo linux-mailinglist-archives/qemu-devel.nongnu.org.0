@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6927D1328EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:31:57 +0100 (CET)
-Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D7E1328F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:33:56 +0100 (CET)
+Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioptk-0002M2-4Q
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:31:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38994)
+	id 1iopvf-0005QP-FS
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:33:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iopqs-0000JS-Ae
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:28:59 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iopsA-0001oP-V9
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:30:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iopqr-0006py-6K
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:28:58 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46138)
+ (envelope-from <peter.maydell@linaro.org>) id 1iops9-00087s-Mw
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:30:18 -0500
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:40715)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iopqr-0006p0-0v
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:28:57 -0500
-Received: by mail-ot1-x341.google.com with SMTP id r9so3272910otp.13
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:28:56 -0800 (PST)
+ id 1iops9-00087T-IK
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:30:17 -0500
+Received: by mail-oi1-x234.google.com with SMTP id c77so17377926oib.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:30:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Yr5cOy6W7NPRHMaNkz5yekAYUOlSuE8t7GjWPJE+NI0=;
- b=yY/vYJ9CB2CamlYkxJ+ZdrNJhSKMr2e0BCq5R1a6k0OPbfPGAaozyoNpA63lD7x1Cu
- Kxge36E4DqXZdLVXO9pUfNCKTBTNCTbS5+NeePmQ+3maxOFAlb2uNUzO93UL3AGdK5Dp
- S1b/QwhN5TM9UQvTK54O+GiWXxtBwESKvkkyL2SgjvIoK8CmIPypUD8Uf5VwW0ngOxda
- 2N0YFUxBL+G5GWRrp/e6bQgxQNflSmtPkBU60lO0hyThhnDNd9yyjL25Ovqw5vBHDcG2
- TUhoSy/tJnSAOwIVmvOXhey/yUaJgbN1HHioJWzrfRds5v84r1D8ZR3OAPsd4rJLE6RW
- 14/A==
+ :cc; bh=0r4EeqIFNcJaYUfmKTNLb5Cc5ORQ6dUfd20+fFY6GqQ=;
+ b=eol04kd2hAqurD3Lm74/B66imoArADiusEH+RX6AXEEqVcyEnsvYyoTchnSU2D5kbq
+ j2LFyZCHYVSuUc+uB7YaSe6dJ9ZAq/wJT70PPCXTyC8vYkgdgXo9XDe20sOUYkeXJ5Z2
+ o1/KPv/9cVbhFkwW7haQhZ9XcyabgxnGhIkyNGytHReP95PjuyL+r+N5D8AFlXsxbYeW
+ 6/yJLrzdcVt8i/q0DGTCIqUN4f1d8Z1SlCJ7xlup1f3qjQwSE6LEnJg5gZVKpqj14JxK
+ CncKmyf9o9Tx9eETAoRLOpFnWDRvWSqggPKW4gIoAZTqmFTse0x/FW2NK8IlqMlEOSh+
+ 5kyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Yr5cOy6W7NPRHMaNkz5yekAYUOlSuE8t7GjWPJE+NI0=;
- b=mUriUNeCZ8/fgrQIbDsFvGWMS6pzmZzynrQ33qRjBo+wIHFvMY6P/dRWcpv58e2PFk
- QC8L7GXW+1Bv9Tbir1Py7K976vDtgtFM8vwj2TJHwjaJ/0IzhmtHxH184qsZVzJi5D04
- wtXAPhdSUG60cFaiI/2WWnVNQbwgZYzS6q7rq+Kk43KX8A57bmfinUN1gvdI4l84Xcnw
- aNk/p3BaO3d6cDyHYyBQ9TKnd709eQpBebJuZh1i40WVigDACt0J0ZcvjbUCBt5j45RA
- kHUR3XQgmtME+4IjGOPOacnDpOr86FFwsZXOZ5Y/YAI5YSD64+pXZmQpJ5N5XgUfVcx9
- ZGWQ==
-X-Gm-Message-State: APjAAAXh9KF7qC8P4YbfZuP96aa8WjHbFNCd2Kld2+RG6rlDbGR87ZCk
- e71KtGWLMV1ocYk8QjAjUtI9nn6xwHRROjXLhqHv0w==
-X-Google-Smtp-Source: APXvYqySglJO67Zvwf70NwPtawteCkoqAEo4YNkxgWwfJ8PGopeHiEmwWyTOVk2tUYV+NUlxSNyQL2SLSg1HpsBr9bU=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr113889887otq.135.1578407335784; 
- Tue, 07 Jan 2020 06:28:55 -0800 (PST)
+ bh=0r4EeqIFNcJaYUfmKTNLb5Cc5ORQ6dUfd20+fFY6GqQ=;
+ b=IDrMJdwyrOJPu/YQ1BlrP2sKJyJnqevEvbLxPZGdULdIZYSx+QlQmUKCR0Y1ha/UlF
+ wyUGP878WfcuHsY5+hjdlPDkPzMzVXUVW36KhqF6TcDesZqkPWJ8/CS6mnna7mfds3O1
+ cfCh8OKe6AbsVhnR+NynjURXQtB02cQRlggf3lQt/XM7tMo081CnjdUEWAKfgll2HZnv
+ dOxnGISu6eAhK5JOgEOcreiUJpmF7C0FgZCnt34lUVpaYc30SQ3nHt2YdUEeK3Xt0SKp
+ F+THFjbOGChpX4755oFKRdPjCJTXKKjS5bvCBwop5iKXeE+FbAyTOH0M0oYcqlOcwImJ
+ 1Z4Q==
+X-Gm-Message-State: APjAAAWF83SSs2jy0xJutPrkPJLj5moMTOJKiIep8qxGODr/PwRUMhcL
+ dOpP8tFNns44nuX+tnzJzXGXBDZwJx99aqlsTepEhG9IDv4=
+X-Google-Smtp-Source: APXvYqzb2frSu9CXPqOEM6vUxrIOXIRaNrxm/+3FWzI/b2J9w4Y6RZZBgai5dXLJVAe00NA7fwcdiJf/UqK/HFd3Hno=
+X-Received: by 2002:aca:3d7:: with SMTP id 206mr24688oid.98.1578407416731;
+ Tue, 07 Jan 2020 06:30:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20191220202707.30641-1-beata.michalska@linaro.org>
- <20191220202707.30641-2-beata.michalska@linaro.org>
-In-Reply-To: <20191220202707.30641-2-beata.michalska@linaro.org>
+References: <157834844263.18456.7231217269341794728.stgit@gimli.home>
+In-Reply-To: <157834844263.18456.7231217269341794728.stgit@gimli.home>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 14:28:44 +0000
-Message-ID: <CAFEAcA-M=P=-6t5RX0bdO-8fbcd-_Ar_aBNskzs49aspvZ0+7Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] target/arm: kvm: Handle DABT with no valid ISS
-To: Beata Michalska <beata.michalska@linaro.org>
+Date: Tue, 7 Jan 2020 14:30:05 +0000
+Message-ID: <CAFEAcA8tEOE7b0gXXitvOn_a84_cuM1m-X1oB3FOJjX4_7vmog@mail.gmail.com>
+Subject: Re: [PULL 0/1] VFIO fixes 2020-01-06
+To: Alex Williamson <alex.williamson@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::234
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,42 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Christoffer Dall <Christoffer.Dall@arm.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Dec 2019 at 20:27, Beata Michalska
-<beata.michalska@linaro.org> wrote:
+On Mon, 6 Jan 2020 at 22:11, Alex Williamson <alex.williamson@redhat.com> wrote:
 >
-> On ARMv7 & ARMv8 some load/store instructions might trigger a data abort
-> exception with no valid ISS info to be decoded. The lack of decode info
-> makes it at least tricky to emulate those instruction which is one of the
-> (many) reasons why KVM will not even try to do so.
+> The following changes since commit 48008198270e3ebcc9394401d676c54ed5ac139c:
 >
-> Add suport for handling those by requesting KVM to inject external
-> dabt into the quest.
+>   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-12-20 11:20:25 +0000)
 >
-> Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-> ---
-> +        /*
-> +         * Get current PC before it will get updated to except vector entry
-> +         */
-> +        target_ulong ins_addr = is_a64(env) ? env->pc
-> +                                /* AArch32 mode vs T32 aka Thumb mode */
-> +                                : env->regs[15] - (env->thumb ? 4 : 8);
+> are available in the Git repository at:
+>
+>   git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20200106.0
+>
+> for you to fetch changes up to 0446f8121723b134ca1d1ed0b73e96d4a0a8689d:
+>
+>   vfio/pci: Don't remove irqchip notifier if not registered (2020-01-06 14:19:42 -0700)
+>
+> ----------------------------------------------------------------
+> VFIO fixes 2020-01-06
+>
+>  - Fix irqchip notifier de-registration if not registered (Peter Xu)
+>
 
-Another thing that occurred to me last night -- why do we need
-to do this adjustment of the PC/r15 ? If this is the kernel
-handing control to userspace to say "this is not an instruction
-I can handle, maybe you'd like to try" then surely it should
-do so with the PC pointing at the offending instruction?
-Similarly, if we ask the kernel to inject a data abort I
-would expect that the kernel would do the work of adjusting
-the PC forwards as the architecture requires when taking
-the exception.
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
 -- PMM
 
