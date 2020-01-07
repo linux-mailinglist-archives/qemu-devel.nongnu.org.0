@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E11D132C5B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:59:49 +0100 (CET)
-Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A49132B60
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:49:43 +0100 (CET)
+Received: from localhost ([::1]:52980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iosCp-0007gd-US
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:59:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46981)
+	id 1ios34-0000d3-0x
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:49:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47071)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iorlO-0008C2-Bs
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:27 -0500
+ (envelope-from <mst@redhat.com>) id 1iorlV-0008KI-P3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iorlN-0005cU-5J
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25670
+ (envelope-from <mst@redhat.com>) id 1iorlT-0005fo-J5
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25649
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorlN-0005cF-1o
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:25 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorlT-0005ey-Fa
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578414684;
+ s=mimecast20190719; t=1578414689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5EhLJ8ESaItKzPeue3PIZ6PBy1w7sicN5shNVXQfGIo=;
- b=EAV9cfjXaw2NTFyNadIfQNkGdEwgnd5byYhoW3OkvxYXFddP7hrZO2Q+mYmIBvwKnKT9lA
- Ae3B9wO9TlhtAkYwuS6m+GVCOkqCo4iciSYV3KaWBY4xtqT7++RiRrZQT1jt1sKramkkR/
- /5gzdZ/qXyns22idkELQGs0Frk86/yQ=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-M4vKjBZzNse9x2nYKlKJ-A-1; Tue, 07 Jan 2020 11:31:23 -0500
-Received: by mail-qv1-f69.google.com with SMTP id l1so238698qvu.13
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:31:23 -0800 (PST)
+ bh=piqn6mX5WQ96VESO5T0tIJ0XhrZt2DhdjHLkZukt+8U=;
+ b=Bpok0cX59L4ymg5tc27+VNkPl0w8olMeuNhRvvU28ldWJv0zuLYKQKdGi7i58HHrPESVd7
+ C8d098OXXByD834OTt/XGB/mU2jegCzbAAKXcvja/+uL5P43TZzM+No+rtGJj5l/g6InB0
+ 1Dc19lj8EgvJWdaBx4DRZ+zetIe5vE4=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-MtWvPTN0O1CKEkhqIFuc7A-1; Tue, 07 Jan 2020 11:31:28 -0500
+Received: by mail-qk1-f200.google.com with SMTP id 65so113853qkl.23
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:31:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wp7IEacTPDnbh2fT1ey9LJUjRbVmj0GN0bCAT90OXe4=;
- b=YwTSeQnfry0l1VpZW25HENuQmDLRiXgQ00plewEM9HdRevDQjsXB7laxWv2AzqVcJS
- 4LNSO8OHDkFRjpDwKlfG85ow/ZHsKziCLHnZYSj5axC6Ebz52VHAFUCWT0DskzB/sNWW
- bZlf8IxBpeRPb7MACSPD0rGXR+hLwZkPkooEME538+X6eA1y7Kxtvib44o0CY544kXnh
- zA8Ozl/yFUrdFbLyD0RGHLxvOXT8GdrU8XoX3mqnKayYzOcHunTajuUyNtKag3WWqkh/
- golETSGAYJP143X63OjpkzCoPIee3HLT+9Ju7Aa7/gZiU0Z2GxX8pNsL2uggp842H2j3
- Ou7Q==
-X-Gm-Message-State: APjAAAUNQEan8L7AecAWY2eP6UGOQAqPAB8eQGMx/BSkofoZOhJ8N/MF
- fG8/KLoJI1YvOH0aERp7uoVjTl7Rhs5fc4xlHvEoDji5/z/8RmM6ACEBaE8mnM2KcrHBQWMD4uz
- cThZoCCav/MZv700=
-X-Received: by 2002:ae9:f80d:: with SMTP id x13mr156333qkh.226.1578414682835; 
- Tue, 07 Jan 2020 08:31:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwS1Lsg7YmN4uiPzCU6FEB8sVBZTlaTRhM0vdtVfv26YYL71hps7Rz//4Khg6RLOFKISBC0bA==
-X-Received: by 2002:ae9:f80d:: with SMTP id x13mr156308qkh.226.1578414682582; 
- Tue, 07 Jan 2020 08:31:22 -0800 (PST)
+ bh=tN9j8nC8UNjEIUbDqAKywg3EszM5OfgJu5L0vZrOdtE=;
+ b=fkg+8KNp1T030GV8wehSw9hCa6/Rl8i4+tmpzkgVdCEQ8UqnMAj2Ydm+K10odqQan9
+ Uu8ckzgwbpUF2Cv6uOjSrOAlxsSdt6QtFnUmiKyuUkqGFwM1zZdNb2nvz/BkzQ/hU6cw
+ YJOWLDT2HLQXzNfsfid5QaR5s8GipVy355UPI/m5h8qMaZgjEzE9+QHPr3hAkvuc2Gqh
+ jrIMG4EG/ih6aCYLOhtvRRthECvMDcEqpk58J558STuqluEn0egN5c/2TW2uHE+zZu0R
+ 9nlYBrDcYUH6U85O8d1bmkSWbBdgk+njdb7sTeJ3k1koztWYIyMAcmRAlWG4MyshUO6R
+ G7qQ==
+X-Gm-Message-State: APjAAAVb7SBsycB0HUEswoePnwqLCr9e6M61d2xCjBN/9k0cItD/z7ja
+ 3ZULA/zI++kQEyhIX4+aCTX9Cgew43UJzTr+Go5lVnSJIYbUsUjlWIQ9Gr9IZyjXN7rwt+Slv1l
+ NQev81KoPVOyikJc=
+X-Received: by 2002:a0c:bd2c:: with SMTP id m44mr221783qvg.248.1578414687618; 
+ Tue, 07 Jan 2020 08:31:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyf1dU1aJdCxWSZXf+xztBtirWgRPKsyzxoJC0/OAU7jMMoU1MnPn/pCQWCkvUz3TpW+PJVyw==
+X-Received: by 2002:a0c:bd2c:: with SMTP id m44mr221735qvg.248.1578414687158; 
+ Tue, 07 Jan 2020 08:31:27 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id o6sm36586qkk.53.2020.01.07.08.31.20
+ by smtp.gmail.com with ESMTPSA id s91sm102251qtd.50.2020.01.07.08.31.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 08:31:21 -0800 (PST)
-Date: Tue, 7 Jan 2020 11:31:18 -0500
+ Tue, 07 Jan 2020 08:31:26 -0800 (PST)
+Date: Tue, 7 Jan 2020 11:31:23 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 24/32] vhost-user-scsi: reset the device if supported
-Message-ID: <20200107162850.411448-25-mst@redhat.com>
+Subject: [PULL v3 25/32] hw: fix using 4.2 compat in 5.0 machine types for
+ i440fx/q35
+Message-ID: <20200107162850.411448-26-mst@redhat.com>
 References: <20200107162850.411448-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107162850.411448-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: M4vKjBZzNse9x2nYKlKJ-A-1
+X-MC-Unique: MtWvPTN0O1CKEkhqIFuc7A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,81 +89,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Vrabel <david.vrabel@nutanix.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-If the vhost-user-scsi backend supports the VHOST_USER_F_RESET_DEVICE
-protocol feature, then the device can be reset when requested.
+5.0 machine type uses 4.2 compats. This seems to be incorrect, since
+the latests machine type by now is 5.0 and it should use its own
+compat or shouldn't use any relying on the defaults.
+Seems, like this appeared because of some problems on merge/rebase.
 
-If this feature is not supported, do not try a reset as this will send
-a VHOST_USER_RESET_OWNER that the backend is not expecting,
-potentially putting into an inoperable state.
-
-Signed-off-by: David Vrabel <david.vrabel@nutanix.com>
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <1572385083-5254-3-git-send-email-raphael.norwitz@nutanix.com>
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-Id: <20191223072856.5369-1-dplotnikov@virtuozzo.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/scsi/vhost-user-scsi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ hw/i386/pc_piix.c | 1 -
+ hw/i386/pc_q35.c  | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 6a6c15dd32..23f972df59 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -39,6 +39,10 @@ static const int user_feature_bits[] =3D {
-     VHOST_INVALID_FEATURE_BIT
- };
-=20
-+enum VhostUserProtocolFeature {
-+    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
-+};
-+
- static void vhost_user_scsi_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserSCSI *s =3D (VHostUserSCSI *)vdev;
-@@ -62,6 +66,25 @@ static void vhost_user_scsi_set_status(VirtIODevice *vde=
-v, uint8_t status)
-     }
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 721c7aa64e..fa12203079 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -425,7 +425,6 @@ static void pc_i440fx_5_0_machine_options(MachineClass =
+*m)
+     m->alias =3D "pc";
+     m->is_default =3D 1;
+     pcmc->default_cpu_version =3D 1;
+-    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
  }
 =20
-+static void vhost_user_scsi_reset(VirtIODevice *vdev)
-+{
-+    VHostSCSICommon *vsc =3D VHOST_SCSI_COMMON(vdev);
-+    struct vhost_dev *dev =3D &vsc->dev;
-+
-+    /*
-+     * Historically, reset was not implemented so only reset devices
-+     * that are expecting it.
-+     */
-+    if (!virtio_has_feature(dev->protocol_features,
-+                            VHOST_USER_PROTOCOL_F_RESET_DEVICE)) {
-+        return;
-+    }
-+
-+    if (dev->vhost_ops->vhost_reset_device) {
-+        dev->vhost_ops->vhost_reset_device(dev);
-+    }
-+}
-+
- static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
- }
-@@ -182,6 +205,7 @@ static void vhost_user_scsi_class_init(ObjectClass *kla=
-ss, void *data)
-     vdc->get_features =3D vhost_scsi_common_get_features;
-     vdc->set_config =3D vhost_scsi_common_set_config;
-     vdc->set_status =3D vhost_user_scsi_set_status;
-+    vdc->reset =3D vhost_user_scsi_reset;
-     fwc->get_dev_path =3D vhost_scsi_common_get_fw_dev_path;
+ DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 52f45735e4..84cf925cf4 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -354,7 +354,6 @@ static void pc_q35_5_0_machine_options(MachineClass *m)
+     pc_q35_machine_options(m);
+     m->alias =3D "q35";
+     pcmc->default_cpu_version =3D 1;
+-    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
  }
 =20
+ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
 --=20
 MST
 
