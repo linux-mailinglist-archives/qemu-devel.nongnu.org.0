@@ -2,63 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA313132E0B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 19:11:44 +0100 (CET)
-Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A51C132DF5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 19:06:45 +0100 (CET)
+Received: from localhost ([::1]:54490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iotKS-0003h8-0S
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 13:11:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36549)
+	id 1iotFb-00065S-VT
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 13:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57545)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iotJY-0003Ek-Oa
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:10:50 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1iotEo-00058m-MQ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:05:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iotJX-0005rS-GQ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:10:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34186)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iotJX-0005pm-Ah
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:10:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iotJV-0000O0-BO
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 18:10:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 51F2B2E80C3
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 18:10:45 +0000 (UTC)
+ (envelope-from <balaton@eik.bme.hu>) id 1iotEn-0000J4-3E
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:05:53 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:54687)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1iotEm-00007O-TB; Tue, 07 Jan 2020 13:05:53 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 062517482CC;
+ Tue,  7 Jan 2020 19:05:42 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 99BEB7482C9; Tue,  7 Jan 2020 19:05:41 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 981967482C8;
+ Tue,  7 Jan 2020 19:05:41 +0100 (CET)
+Date: Tue, 7 Jan 2020 19:05:41 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 02/10] ppc: Remove stub of PPC970 HID4
+ implementation
+In-Reply-To: <20200107183638.1c84f172@bahia.lan>
+Message-ID: <alpine.BSF.2.21.99999.352.2001071900510.93471@zero.eik.bme.hu>
+References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+ <20200107044827.471355-3-david@gibson.dropbear.id.au>
+ <20200107183215.09ce18c6@bahia.lan> <20200107183638.1c84f172@bahia.lan>
+User-Agent: Alpine 2.21.99999 (BSF 352 2019-06-22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 07 Jan 2020 18:01:24 -0000
-From: ecsdn <1856834@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
-X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
-X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
-References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
-Message-Id: <157842008481.2335.15171700808739534540.malone@soybean.canonical.com>
-Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
- versions
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a3836099995f4f732abbc0e9b937d4a8a69208b6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,74 +55,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ clg@kaod.org, paulus@samba.org, philmd@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With some precautionary measures I think I can provide it. Not sure what
-of our drivers may already be compiled in etc so I need to send it to
-you privately so only you have access for testing etc after which you
-would delete it once issue fixed or discovered etc. Is it possible to
-send you private message on here with such a link or better email?
-thanks
+On Tue, 7 Jan 2020, Greg Kurz wrote:
+> On Tue, 7 Jan 2020 18:32:15 +0100
+> Greg Kurz <groug@kaod.org> wrote:
+>
+>> On Tue,  7 Jan 2020 15:48:19 +1100
+>> David Gibson <david@gibson.dropbear.id.au> wrote:
+>>
+>>> The PowerPC 970 CPU was a cut-down POWER4, which had hypervisor capability.
+>>> However, it can be (and often was) strapped into "Apple mode", where the
+>>> hypervisor capabilities were disabled (essentially putting it always in
+>>> hypervisor mode).
+>
+> Isn't it supervisor mode instead of hypervisor mode ?
 
--- =
+By the way, do you know if this strapping is hardware or software based? 
+So is it the firmware that disables it on Apple hardware or is it some CPU 
+pin connected somewhere on the motherboard or it's within the CPU and 
+cannot be changed? I wonder if it's theoretically possible to re-enable it 
+on an Apple G5 or we would likely never see a PowerPC 970 with HV enabled?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856834
-
-Title:
-  Virtio broken in qemu ppc in 4.2.0 and other versions
-
-Status in QEMU:
-  New
-
-Bug description:
-  The same qemu -M mpc... command that works on qemu-system-ppc version
-  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
-  version 4.2.0release and 4.19dirtygit:
-
-  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
-ccel kvm is set.
-  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
-e (slower).
-
-  ends/freezes at:
-  nbd: registered device at major 43
-  =C2=A0vda:
-
-  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
-  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
-  with 2.8.0 official release from git/github that I compiled/built
-  myself. But both of the newer releases fail on the same exact machine
-  same config.
-
-  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
-ed weren't, ie gave
-  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
-bus=3D0,unit=3D0
-  (but I removed -drive if=3Dmtd since wasn't using it anyway)
-
-  I also tried on windows but I think virtio doesn't work on windows
-  hosts at all? On windows host it fails the same way, even version 2.12
-  as well as 4.1.10...
-
-  used:
-  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
-
-  (basically all steps the same on same exact system same config, yet
-  2.8.0 works fine whether apt-get installed or built from source while
-  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
-
-  In case newer qemu versions act weird on various kernels, I did try with =
-both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
- compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
-_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
-ich is why I can't use -M ppce500 instead..)
-  tx
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
+Regards,
+BALATON Zoltan
 
