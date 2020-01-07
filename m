@@ -2,89 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41FB13245D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:00:24 +0100 (CET)
-Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D5E13239E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:32:36 +0100 (CET)
+Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomb1-0000Bx-9o
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:00:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49750)
+	id 1iomA5-00039B-Df
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:32:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iolnB-0002Ib-1H
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:08:54 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iolpw-000686-Q2
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:11:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ioln9-0005Ce-F1
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:08:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45487
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iolpv-0006PJ-AL
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:11:44 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20538
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ioln9-0005CD-BV
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:08:51 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iolpv-0006P4-6Y
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578391730;
+ s=mimecast20190719; t=1578391902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/P9VLF0io03BjGg4rKlfATlz5W/poXmAz89j60scz7g=;
- b=Y9Nc9NtU1V4cfh97Uzra8U8IA5w5aasCx/Hz/up+4cBdvn6q1YINHtgVr05rCfTwp+gX8l
- 5INY8ilwGteBjXCvBY/7bLIuPGepSjWMzDBzWF04nxS0nzrksdu5rAZg+kNbwQ3Fwv6i10
- Zwpc0p4/Ij19n3tRhMWUv7L6ZBKkMb8=
+ bh=u0TXAl5VK0XtxKnjVC2WBxqzcROwrzO+VjHDWbm971E=;
+ b=bqOoflYD7LJAQjsPJME1IHH0/GQgvGnQDHRuuZTt2T8qf6UofpM6YgeejIvb6JtFt71EV2
+ pwrO9UelqeOgOFZV+BnpmxH6A09+2+gKpynFRB1trTgQMG+AP7Zc2wEspY/QWGZoqlCsmy
+ wADVliKinagreP8uj+5VgUBlEKmQ1C4=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-0Zyt1zPCPsSpxFDVvctj3g-1; Tue, 07 Jan 2020 05:08:49 -0500
-Received: by mail-wr1-f69.google.com with SMTP id w6so27196587wrm.16
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:08:49 -0800 (PST)
+ us-mta-210-2VqBR4AfP5CEMk3jLiN3Gg-1; Tue, 07 Jan 2020 05:11:39 -0500
+Received: by mail-wr1-f69.google.com with SMTP id o6so24517399wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:11:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7dqdNCqzoLIXdB/GkpZC55KyDexZZMslXoKBOViIu6k=;
- b=NQjPIDQPX5at4atgqPtDCAjvIzct6iprusoK+Z3s+c1xA8K17zdVZk1Meyy2O3sxng
- L2MpfNVh4F8NFSJv3024FciHMnOwmZNiYQ39i8nU15uz/D0Lny0A67fK3TgtFj8nGrhV
- JnyMX3T4iYXEEmjMgQO6J0yNP245xA9ewq5M5dodlmdmDANRuSeW0dsN+/+D1j4khbTb
- qkwuuzVVP+uccHCg7tbdOT1OmorqsKqK2TYR7ASxQG8yusQIacwcElG6MBp5lqsJHVJ9
- GPwrIrXYKPEhsEQln/QLNxuEl7X4HF14J8xk6fMxuB9DO5pS5OhEHElRtmCoJobE7SfU
- /QWg==
-X-Gm-Message-State: APjAAAXvEmCRNTj3bss/n965bOacX3SDG7B0zZzfni/NgP38/tyKMlws
- EPpO3BgHmQN8j6vx8Hs1xbUN5G6xoEGipOH/u+BfRR68is8JWki9/e1YNvjOTigTtv8ddAsv2zw
- 73lbEqAS/79ByrHg=
-X-Received: by 2002:a1c:80d4:: with SMTP id
- b203mr38716011wmd.102.1578391728484; 
- Tue, 07 Jan 2020 02:08:48 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxuayVu5etcXl6mB4VcWFJime7aHa5RaezjRxhcB0P2SxuRm56dfZPVXwCxTyCxdXegwEvfbw==
-X-Received: by 2002:a1c:80d4:: with SMTP id
- b203mr38715986wmd.102.1578391728230; 
- Tue, 07 Jan 2020 02:08:48 -0800 (PST)
+ bh=ksyuCtEFeMPGgh6ufgqQgZF5qP+qyUkEQPPgXWQIVmM=;
+ b=KG6b5WvdwxV6PlIueZ3lTsqiwPQAkgq/h6ecART9xnWALQ84U88UWl4mv23Tg4+07A
+ ZyMzd5UwRm7sBihk2fxZJlwKSQLQ3RpOAsivcxwhehZo4zeDMOD1vlCBjzCpMcy06tsZ
+ UZVPxK+eNFxIXfV5runKUvbGPvAPp5qgZTgccoXM1D1oR/iPlgigDhikEar5eTY2OC8W
+ WrYQK5srZEGOoYNYQYEkB4gYjQ6kaiO1D0gT8tjOQbJEiXXasFgTjUjmWol3ywpMRSjs
+ JtA0F9on/KaYHcRdiwXGzT7+AP3w/JzxcMEDIN1aIvHjgcYMT4QNHVF+YbF5Mso1xLMb
+ IJAg==
+X-Gm-Message-State: APjAAAVinQZ9ChmamBG4yAjLskbAUHqCjvXnXktYaE15XjxHbU4ialU0
+ Z+GPfuIlJYOpBv0LBuoddvooleoaWuEgaTk5gkh7z2k3ZYtGVSx/iZr2anlekNoNOVw8DVPdedw
+ 1pp6ZWJWEZlTGalw=
+X-Received: by 2002:a1c:b603:: with SMTP id g3mr38083895wmf.133.1578391897918; 
+ Tue, 07 Jan 2020 02:11:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyzG3AZszER2cj5ejqeqSdaKW471cdzDVV3v1zriQ3vgYKgOsLjNYZoRiLK+GDRwZAWRnTqNg==
+X-Received: by 2002:a1c:b603:: with SMTP id g3mr38083857wmf.133.1578391897672; 
+ Tue, 07 Jan 2020 02:11:37 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
  ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id f1sm76266465wru.6.2020.01.07.02.08.47
+ by smtp.gmail.com with ESMTPSA id z124sm27366885wmc.20.2020.01.07.02.11.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 02:08:47 -0800 (PST)
-Subject: Re: [PATCH 12/14] hw/nvram/Kconfig: Add an entry for the NMC93xx
- EEPROM
+ Tue, 07 Jan 2020 02:11:36 -0800 (PST)
+Subject: Re: [PATCH 00/14] hw: Fix various --without-default-devices issues
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
+ qemu-devel@nongnu.org
 References: <20191231183216.6781-1-philmd@redhat.com>
- <20191231183216.6781-13-philmd@redhat.com>
- <bf1bc1ee-99c2-e8b0-d4b1-8123d01b1165@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a355b8fc-dfaf-f42f-71f2-8318fa1b5dcd@redhat.com>
-Date: Tue, 7 Jan 2020 11:08:46 +0100
+Message-ID: <16b49cef-d801-98fc-c487-88239f237dfe@redhat.com>
+Date: Tue, 7 Jan 2020 11:11:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <bf1bc1ee-99c2-e8b0-d4b1-8123d01b1165@redhat.com>
+In-Reply-To: <20191231183216.6781-1-philmd@redhat.com>
 Content-Language: en-US
-X-MC-Unique: 0Zyt1zPCPsSpxFDVvctj3g-1
+X-MC-Unique: 2VqBR4AfP5CEMk3jLiN3Gg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,8 +92,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Artyom Tarasenko <atar4qemu@gmail.com>,
  Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
@@ -109,106 +103,72 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/01/20 11:31, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 12/31/19 7:32 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> The NMC93xx EEPROM is only used by few NIC cards and the
->> Am53C974 SCSI controller.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> Cc: Stefan Weil <sw@weilnetz.de>
->> ---
->> =C2=A0 hw/net/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
-2 ++
->> =C2=A0 hw/nvram/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ++++
->> =C2=A0 hw/nvram/Makefile.objs | 2 +-
->> =C2=A0 hw/scsi/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
->> =C2=A0 4 files changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/net/Kconfig b/hw/net/Kconfig
->> index 3856417d42..af6a11baf3 100644
->> --- a/hw/net/Kconfig
->> +++ b/hw/net/Kconfig
->> @@ -14,6 +14,7 @@ config EEPRO100_PCI
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default y if PCI_DEVICES
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on PCI
->> +=C2=A0=C2=A0=C2=A0 select NMC93XX_EEPROM
->> =C2=A0 =C2=A0 config PCNET_PCI
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->> @@ -28,6 +29,7 @@ config TULIP
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default y if PCI_DEVICES
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on PCI
->> +=C2=A0=C2=A0=C2=A0 select NMC93XX_EEPROM
->> =C2=A0 =C2=A0 config E1000_PCI
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->> diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
->> index ebaa749ce9..e082a5610c 100644
->> --- a/hw/nvram/Kconfig
->> +++ b/hw/nvram/Kconfig
->> @@ -7,3 +7,7 @@ config AT24C
->> =C2=A0 =C2=A0 config MAC_NVRAM
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->> +
->> +# NMC93XX uses the NS =CE=BCWire interface (similar to SPI but less
->> configurable)
+On 31/12/19 19:32, Philippe Mathieu-Daud=C3=A9 wrote:
+> Various fixes when configured with --without-default-devices
+> and building each machine individually.
+> Adding the corresponding CI tests is out of the scope of this
+> series.
+>=20
+> This series is pushed on top of "hw/i386: Allow building
+> machines without IOMMU" [*] here:
+> https://gitlab.com/philmd/qemu/commits/kconfig_misc_fixes
+>=20
+> Happy new year!
+>=20
+> [*] https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg05230.html
 
-Changed to uWire.  Gotta love Python 3. :)
+Queued these:
+
+ hw/intc/i8259: Fix Kconfig dependency on ISA bus
+ hw/i386/Kconfig: Let the MicroVM machine select the SERIAL_ISA config
+ hw/ppc/Kconfig: Restrict the MPC I2C controller to e500-based platforms
+ hw/ppc/Kconfig: Let the Sam460ex board use the PowerPC 405 devices
+ hw/ppc/Kconfig: Let the Xilinx Virtex5 ML507 use the PPC-440 devices
+ hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
+ hw/ppc/Kconfig: Only select fw_cfg with machines using OpenBIOS
+ hw/ppc/Kconfig: Only select FDT helper for machines using it
+ hw/nvram/Kconfig: Add an entry for the NMC93xx EEPROM
+ hw/nvram/Kconfig: Restrict CHRP NVRAM to machines using OpenBIOS or SLOF
+
+Thanks David for the acks.
 
 Paolo
 
-> Ah this line triggers:
+> Philippe Mathieu-Daud=C3=A9 (14):
+>   hw/usb/redirect: Do not link 'usb-redir' device when USB not enabled
+>   hw/intc/i8259: Fix Kconfig dependency on ISA bus
+>   hw/i386/Kconfig: Let the MicroVM machine select the SERIAL_ISA config
+>   hw/i386: Restrict fw_cfg to the PC machines
+>   hw/i2c/Kconfig: Add an entry for the SMBus
+>   hw/ppc/Kconfig: Restrict the MPC I2C controller to e500-based
+>     platforms
+>   hw/ppc/Kconfig: Let the Sam460ex board use the PowerPC 405 devices
+>   hw/ppc/Kconfig: Let the Xilinx Virtex5 ML507 use the PPC-440 devices
+>   hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
+>   hw/ppc/Kconfig: Only select fw_cfg with machines using OpenBIOS
+>   hw/ppc/Kconfig: Only select FDT helper for machines using it
+>   hw/nvram/Kconfig: Add an entry for the NMC93xx EEPROM
+>   hw/nvram/Kconfig: Restrict CHRP NVRAM to machines using OpenBIOS or
+>     SLOF
+>   hw/intc/Kconfig: Let APIC select IOAPIC
 >=20
-> Traceback (most recent call last):
-> =C2=A0 File "/root/src/github.com/philmd/qemu/scripts/minikconf.py", line
-> 700, in <module>
-> =C2=A0=C2=A0=C2=A0 parser.parse_file(fp)
-> =C2=A0 File "/root/src/github.com/philmd/qemu/scripts/minikconf.py", line
-> 362, in parse_file
-> =C2=A0=C2=A0=C2=A0 self.parse_config()
-> =C2=A0 File "/root/src/github.com/philmd/qemu/scripts/minikconf.py", line
-> 575, in parse_config
-> =C2=A0=C2=A0=C2=A0 self.parse_clause()
-> =C2=A0 File "/root/src/github.com/philmd/qemu/scripts/minikconf.py", line
-> 564, in parse_clause
-> =C2=A0=C2=A0=C2=A0 self.do_include(val)
-> =C2=A0 File "/root/src/github.com/philmd/qemu/scripts/minikconf.py", line
-> 413, in do_include
-> =C2=A0=C2=A0=C2=A0 KconfigParser(self.data).parse_file(fp)
-> =C2=A0 File "/root/src/github.com/philmd/qemu/scripts/minikconf.py", line
-> 355, in parse_file
-> =C2=A0=C2=A0=C2=A0 self.src =3D fp.read()
-> =C2=A0 File "/usr/lib/python3.5/encodings/ascii.py", line 26, in decode
-> =C2=A0=C2=A0=C2=A0 return codecs.ascii_decode(input, self.errors)[0]
-> UnicodeDecodeError: 'ascii' codec can't decode byte 0xce in position
-> 138: ordinal not in range(128)
->=20
->> +config NMC93XX_EEPROM
->> +=C2=A0=C2=A0=C2=A0 bool
->> diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
->> index 26f7b4ca35..a4bdfbf187 100644
->> --- a/hw/nvram/Makefile.objs
->> +++ b/hw/nvram/Makefile.objs
->> @@ -1,5 +1,5 @@
->> =C2=A0 common-obj-$(CONFIG_DS1225Y) +=3D ds1225y.o
->> -common-obj-y +=3D eeprom93xx.o
->> +common-obj-$(CONFIG_NMC93XX_EEPROM) +=3D eeprom93xx.o
->> =C2=A0 common-obj-$(CONFIG_AT24C) +=3D eeprom_at24c.o
->> =C2=A0 common-obj-y +=3D fw_cfg.o
->> =C2=A0 common-obj-y +=3D chrp_nvram.o
->> diff --git a/hw/scsi/Kconfig b/hw/scsi/Kconfig
->> index b3ba540c17..77d397c949 100644
->> --- a/hw/scsi/Kconfig
->> +++ b/hw/scsi/Kconfig
->> @@ -34,6 +34,7 @@ config ESP_PCI
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default y if PCI_DEVICES
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on PCI
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select ESP
->> +=C2=A0=C2=A0=C2=A0 select NMC93XX_EEPROM
->> =C2=A0 =C2=A0 config SPAPR_VSCSI
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->>
+>  default-configs/mips-softmmu-common.mak |  1 +
+>  default-configs/ppc-softmmu.mak         |  1 -
+>  hw/i2c/Kconfig                          |  8 ++++++--
+>  hw/i2c/Makefile.objs                    |  3 ++-
+>  hw/i386/Kconfig                         |  2 +-
+>  hw/i386/Makefile.objs                   |  2 +-
+>  hw/intc/Kconfig                         |  2 ++
+>  hw/net/Kconfig                          |  2 ++
+>  hw/nvram/Kconfig                        |  8 ++++++++
+>  hw/nvram/Makefile.objs                  |  4 ++--
+>  hw/ppc/Kconfig                          | 20 ++++++++++++++++++++
+>  hw/ppc/Makefile.objs                    |  9 ++++-----
+>  hw/scsi/Kconfig                         |  1 +
+>  hw/sparc/Kconfig                        |  1 +
+>  hw/sparc64/Kconfig                      |  1 +
+>  hw/usb/Makefile.objs                    |  2 ++
+>  16 files changed, 54 insertions(+), 13 deletions(-)
 >=20
 
 
