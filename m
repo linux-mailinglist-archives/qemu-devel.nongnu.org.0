@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FE1132A82
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:54:25 +0100 (CET)
-Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB44132A85
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:56:06 +0100 (CET)
+Received: from localhost ([::1]:52066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iorBY-0004e5-6b
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:54:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45349)
+	id 1iorDB-0008CB-DX
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:56:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ioqq6-0002cE-No
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:15 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ioqqC-0002le-6K
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ioqq5-0005HE-Ag
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:14 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42032
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ioqq5-0005Gj-6U
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578411132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j/c7sqHaYnfE1/rw6Ylzvk0Swj+SrRlKq+fOPflDkso=;
- b=CcYPXjRWH6msHs/UdH+LQjRw4uFYE82xmU4rAUbNietI5G3WOpzvCvCwXxzNOtaOtiUZfN
- JEWyAV3E7tcIcNnHg5YKquD7g5R2PlHSkN7YDefSrCxmqRuQPY3CLzpyrZwg9HYySw/0JV
- 8IpTfHNFH0nuDmVHm53ZgnCAfqd4Bwg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-uYnGxzVvOaixxYXA18jX1A-1; Tue, 07 Jan 2020 10:32:09 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D68A1005502;
- Tue,  7 Jan 2020 15:32:08 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-222.brq.redhat.com [10.40.204.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B9E15D9CA;
- Tue,  7 Jan 2020 15:32:05 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [NOTFORMERGE PATCH v2 3/3] gitlab-ci-edk2.yml: Use ccache
-Date: Tue,  7 Jan 2020 16:31:54 +0100
-Message-Id: <20200107153154.21401-4-philmd@redhat.com>
-In-Reply-To: <20200107153154.21401-1-philmd@redhat.com>
-References: <20200107153154.21401-1-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1ioqqA-0005MH-Py
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:19 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34760)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ioqqA-0005LO-Jh
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:18 -0500
+Received: by mail-oi1-x244.google.com with SMTP id l136so18016086oig.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 07:32:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=podBi/rjW/jG7GZECQsO96Hk3yL7ZXi+8rNfFC5U6Vk=;
+ b=gyAq3xkowlKJbb8h/5wSe+QoInXdMm64UKGLzlOIRHVgsyeVZPW0890oCZrU7KN2KR
+ Qh4SISYuDrLdlq9rLjyLBnKGZdGMqaIovOsgD3FMJ/dv7cLQHlnb1pGoOJK/UDde7Mpe
+ rqmkvibT9b7mgnlwPNl0HtsxFZDxEXFodUqRnG1l5nbVdpabgwbclxFSrhfo5xBcqyzw
+ 6baYYv/CZ6ORHyXiRs9Ez61O1Jg0RC8s40pw0BoB/Nj49ALNbZleE+Wx0/7ja9kgEZ4E
+ vT66Yvr5viahMIXAr+D0issydRpJ4yUMUqAosMzEZhDfoR0D78NQRDwz9LxGMEY+A2Vw
+ ceTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=podBi/rjW/jG7GZECQsO96Hk3yL7ZXi+8rNfFC5U6Vk=;
+ b=m74BB84rVbPs996G65lkjJF/ryXefhTbcXfkoaFshQW2+i3OWMMyqwIYKtbHndv0i0
+ Ga48f0Jwtk5BD0zFY1phCHHhPdwr1xMbz6jtFLVwK17tCOphLCvYKPAnNUCU0NHChHuu
+ AzJDaE8xG6spJEunl65g49BTt8plq+M5mcKGTInTpnzgWMO/OMVGVJ6HV+gdnbEZdCl1
+ b3U0n9JEEuVmq+R/0gqDrDqUwO1chCAoPb11qGwz4k1ZpFZffBOT/pncoNHwwvwtacKu
+ Lhv9L91JbmhIH8PX3v7ULweGkkeFz8Kmm68SNYSlaMYKiayIhet7chz9uomBwvJPL2bi
+ wdgg==
+X-Gm-Message-State: APjAAAXfD1+KXYbzrSVJUxO0d7Xn1iLvSsDNVxQrGXr8ik9pZ1fi0GQU
+ 8xOIltDGYAr512IOUScTDV8MKRUvYgf4gHUbyaPKkA==
+X-Google-Smtp-Source: APXvYqwn1fMAwwiMYxxvEduTQ9AXWqbBn/SowIu8nOvJlTiuLVFlloBlPYS9aF6aqZM6TTKJ2sanhyhWW+MXED0IegU=
+X-Received: by 2002:aca:f484:: with SMTP id s126mr190052oih.48.1578411137371; 
+ Tue, 07 Jan 2020 07:32:17 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: uYnGxzVvOaixxYXA18jX1A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20200106144552.7205-1-peter.maydell@linaro.org>
+ <20200106172808.GB219677@xz-x1>
+ <CAFEAcA89VHAyQKCeV6exxzDjLCEGUyg59um7w-VZ2K6s4ZV31g@mail.gmail.com>
+ <20200106180129.GD219677@xz-x1>
+In-Reply-To: <20200106180129.GD219677@xz-x1>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Jan 2020 15:32:06 +0000
+Message-ID: <CAFEAcA_-iB9buW0O8uoL9u8sUs7GdpD-fjfdjFfzP8yJ2+ZRbQ@mail.gmail.com>
+Subject: Re: [PATCH] tests/iothread: Always connect iothread GSource to a
+ GMainContext
+To: Peter Xu <peterx@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,92 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By using ccache we reduce the job duration from
-  36 minutes 28 seconds: https://gitlab.com/philmd/qemu/-/jobs/395823729
-to
-  29 minutes 15 seconds: https://gitlab.com/philmd/qemu/-/jobs/395840851
+On Mon, 6 Jan 2020 at 18:01, Peter Xu <peterx@redhat.com> wrote:
+>
+> On Mon, Jan 06, 2020 at 05:40:15PM +0000, Peter Maydell wrote:
+>
+> [...]
+>
+> > So we're OK to not do this because tests/iothread.c's
+> > main loop doesn't call g_main_loop_run(), and it doesn't
+> > provide an iothread_get_g_main_context() ?
+> >
+> > I'm kind of inclined towards being lazy and sticking with
+> > what this patch has, because:
+> >  * it matches the real iothread.c, which reduces the possiblity
+> >    of future surprise bugs due to things not matching up
+> >  * it's already been reviewed
+> >  * it saves me having to do a respin and retest
+> >
+> > But if people would prefer these bits deleted I'll stop
+> > being lazy :-)
+>
+> Please feel free to be lazy and fix the test sooner (and that's why I
+> offered my r-b :).
 
-  Running after script...
-  $ ccache --show-stats
-  cache hit (direct)                  6604
-  files in cache                     12090
-  cache size                         335.5 MB
+Thanks; I've applied this to master (though some other
+problem with the NetBSD VM test run seems to have crept
+in while I was ignoring failures on the assumption they
+were due to this bug :-( )
 
-For now downloading this cache takes 16 seconds, archiving
-it 44 seconds.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-We prefer to not use ccache to build the EDK2 firmware binaries, see:
-
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg668616.html
-
- .gitlab-ci-edk2.yml          | 13 +++++++++++--
- .gitlab-ci.d/edk2/Dockerfile |  3 +++
- 2 files changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci-edk2.yml
-index 088ba4b43a..50b8aee6b7 100644
---- a/.gitlab-ci-edk2.yml
-+++ b/.gitlab-ci-edk2.yml
-@@ -10,7 +10,7 @@ docker-edk2:
-  - docker:19.03.1-dind
-  variables:
-   GIT_DEPTH: 3
--  IMAGE_TAG: $CI_REGISTRY_IMAGE:edk2-cross-build
-+  IMAGE_TAG: $CI_REGISTRY_IMAGE:edk2-cross-build-ccache
-   # We don't use TLS
-   DOCKER_HOST: tcp://docker:2375
-   DOCKER_TLS_CERTDIR: ""
-@@ -38,12 +38,21 @@ build-edk2:
-    - pc-bios/edk2-licenses.txt
-    - edk2-stdout.log
-    - edk2-stderr.log
-- image: $CI_REGISTRY_IMAGE:edk2-cross-build
-+ image: $CI_REGISTRY_IMAGE:edk2-cross-build-ccache
-  variables:
-    GIT_DEPTH: 3
-+   CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
-+ cache: # Use the same cache for all EDK2 jobs
-+   key: edk2-cross-build-ccache
-+   paths:
-+   - ${CCACHE_DIR}
-+ before_script:
-+ - ccache --zero-stats
-  script: # Clone the required submodules and build EDK2
-  - git submodule update --init roms/edk2
-  - git -C roms/edk2 submodule update --init
-  - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
-  - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
-  - make -j${JOBS} -C roms efi 2>&1 1>edk2-stdout.log | tee -a edk2-stderr.=
-log >&2
-+ after_script:
-+ - ccache --show-stats
-diff --git a/.gitlab-ci.d/edk2/Dockerfile b/.gitlab-ci.d/edk2/Dockerfile
-index b4584d1cf6..350b4df240 100644
---- a/.gitlab-ci.d/edk2/Dockerfile
-+++ b/.gitlab-ci.d/edk2/Dockerfile
-@@ -13,6 +13,7 @@ RUN apt update \
-     apt install --assume-yes --no-install-recommends \
-         build-essential \
-         ca-certificates \
-+        ccache \
-         dos2unix \
-         gcc-aarch64-linux-gnu \
-         gcc-arm-linux-gnueabi \
-@@ -25,3 +26,5 @@ RUN apt update \
-     && \
-     \
-     rm -rf /var/lib/apt/lists/*
-+
-+ENV PATH /usr/lib/ccache:$PATH
---=20
-2.21.1
-
+-- PMM
 
