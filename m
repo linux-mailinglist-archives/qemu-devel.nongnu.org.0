@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D07713274A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:12:22 +0100 (CET)
-Received: from localhost ([::1]:48392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B3913276B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:18:30 +0100 (CET)
+Received: from localhost ([::1]:48494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iooei-0002fH-In
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:12:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58657)
+	id 1iooke-0006sX-Al
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:18:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pmathieu@redhat.com>) id 1ioo7X-0005nY-He
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:38:04 -0500
+ (envelope-from <thuth@redhat.com>) id 1iooFR-0001EZ-Ry
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:46:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pmathieu@redhat.com>) id 1ioo7W-0006Kc-7O
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:38:03 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24250
+ (envelope-from <thuth@redhat.com>) id 1iooFP-0003QJ-Vg
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:46:12 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50161
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1ioo7W-0006KS-3w
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:38:02 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iooFO-0003P0-4E
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:46:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578400681;
+ s=mimecast20190719; t=1578401168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tqUhkJXsVQ4TuLxzB7hb07CeRJM/DKs21CrozLauia8=;
- b=ZTn2vPdrQfFdLMbkp6xN7O5xTg7HZ43pjX+WjMxC3gxN8F7Bxv5BNGchN5yaIwhbBCWIwF
- 4B4hHmloPLEoiqiHSQrxdgAHSDqJ4XDtsIKEPU5P0h37lcIMLdNM7hsShc6oDBQLymDx8N
- ///O55KRt+3hsMBqiVzvNzi9t7e86DU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-yHgp0jnLPEiQeRiTYR3vAA-1; Tue, 07 Jan 2020 07:38:00 -0500
-Received: by mail-wr1-f71.google.com with SMTP id v17so26960312wrm.17
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:38:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tqUhkJXsVQ4TuLxzB7hb07CeRJM/DKs21CrozLauia8=;
- b=eqn9exGJph6uN9wqgeUXF9rvj0LX3iemPZqDVrpJ/E6co3QEgI7ZcVxTx5FtHFrBSJ
- xwRYRt7G/iYHEZsuksL8BfhLkXOkjfD/vPXKxblA24XhgOac56BX+jcsb//JYrJk5Sel
- q7gqbPX7R2KNbeuoWxmw5lJwRYy1/qjk9K/a3AVAD9MPI9GldTLPrHQYC4OOxcbocQUK
- itpFMjL7gq9AeQpqle8514yPHSRQ34mMqgx52o9BlHbYirAslyxXYCBinZyUZ8L6LSUD
- dSlxARcfj3noXR2stYE2v+vgDxdmB8QYlETLw6eZN25WfBhKoHvLN0xD6Q5eBCayqI/0
- ZmRA==
-X-Gm-Message-State: APjAAAXJj30LL2r0PhI2Is7f5O/64sNxJ8FZjyyTKcWg/JoRtn64ywlF
- 3qKcx6XRiSpxtRDI071Xv1k8RrwaifH2SwXl43d1xreBCh9jttFlvWMWpBhuIdf76TOSb8pgKV6
- fEuPePuVLc27sQkpMHpxtspkQV0dHIJE=
-X-Received: by 2002:a1c:4004:: with SMTP id n4mr39787790wma.153.1578400679646; 
- Tue, 07 Jan 2020 04:37:59 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyixcGA41IzkLxybhezBI5n4lUqk4raGxwM/LktYqux1bRDSveEHsP9hWwDS59CaKXBubCNVGWBz470dKyu9bM=
-X-Received: by 2002:a1c:4004:: with SMTP id n4mr39787765wma.153.1578400679443; 
- Tue, 07 Jan 2020 04:37:59 -0800 (PST)
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=1PmNgUSZ1ajqphItaB21o1D5ihT2oWrYJr1I7qUnvBg=;
+ b=D1NKxK6gFYgOXxzRQoknvCzTVPoNwqVk5kIClSPbyF7A+e8oUgKerPXmgsGw8emWLwrH/K
+ KXUOijs8S7ZDTJNwyawL38K2QIPMjirNYAE62NUyrplSf20BPne+4nNjbV6SP+7rnuEiTb
+ 6gg27c1tU8NtLOOHlMV0Sc33Fw46RqQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-NwqJvx4iPgmW-2sfD-AXOQ-1; Tue, 07 Jan 2020 07:46:05 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A210B10054E3;
+ Tue,  7 Jan 2020 12:46:04 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FA41272A9;
+ Tue,  7 Jan 2020 12:46:02 +0000 (UTC)
+Subject: Re: [PATCH] iotests: fix usage -machine accel= together with -accel
+ option
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+References: <20191223074329.21262-1-vsementsov@virtuozzo.com>
+ <8900f0c8-19ce-2475-01c6-150394d516f0@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <77427b54-f458-cecc-de21-f2fa2d1f2fec@redhat.com>
+Date: Tue, 7 Jan 2020 13:46:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200106130951.29873-1-philmd@redhat.com>
- <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
- <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
- <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
- <7322b7c9-51a9-f8e3-9d90-1d242d1c8cb4@redhat.com>
-In-Reply-To: <7322b7c9-51a9-f8e3-9d90-1d242d1c8cb4@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Tue, 7 Jan 2020 13:37:48 +0100
-Message-ID: <CAP+75-XbPLNErEWGUZbFo8r74bacL9wkYaJFS8CzP59znf4SPg@mail.gmail.com>
-Subject: Re: Priority of -accel
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-X-MC-Unique: yHgp0jnLPEiQeRiTYR3vAA-1
+In-Reply-To: <8900f0c8-19ce-2475-01c6-150394d516f0@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: NwqJvx4iPgmW-2sfD-AXOQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -85,59 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 7, 2020 at 1:34 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
-> On 1/7/20 1:18 PM, Thomas Huth wrote:
-> > On 07/01/2020 11.14, Paolo Bonzini wrote:
-> >> On 07/01/20 11:03, Thomas Huth wrote:
-> >>>>
-> >>>>   vm =3D QEMUMachine(iotests.qemu_prog)
-> >>>> -vm.add_args('-machine', 'accel=3Dkvm:tcg')
-> >>>> +vm.add_args('-accel', 'kvm', '-accel', 'tcg')
-> >>> Looking at this, I wonder whether we really want the "-accel" option =
-to
-> >>> prioritize the accelerators in the order of appearance? A lot of othe=
-r
-> >>> CLI tools give the highest priority to the last parameter instead, e.=
-g.
-> >>> "gcc -O3 -O1" compiles with -O1, and not with -O3.
-> >>>
-> >>> Also I think it might be quite common that there are shell scripts wh=
-ich
-> >>> call "qemu-system-xxx -accel xyz $*" ... and if we don't invert the
-> >>> priorities of -accel, it will be impossible to override -accel in tha=
-t
-> >>> case...
-> >>
-> >> Hmm, it does match "-machine accel=3Dkvm:tcg" and in general I think i=
-t's
-> >> more self-explanatory.  However, it is indeed less friendly to scripts=
-.
-> >>   On one hand those could be changed to place "-accel xyz" after $* (o=
-r
-> >> better "$@"), on the other hand we could also add a priority option to
-> >> "-accel".  What do you think?
-> >
-> > I don't think we need a separate priority parameter here. But IMHO it's
-> >   really rather common practice to prioritize the last option. So while
-> > it might be more "self-explanatory" to a CLI newbie if the first
-> > occurrence got the highest priority, it might be rather confusing
-> > instead for a CLI veteran...?
-> >
-> > What do others on the list here think about this?
->
-> We can make CLI more complex by adding a 'priority' option:
->
->    -accel tcg,priority=3D1 -accel kvm,priority=3D0
+On 23/12/2019 09.39, Paolo Bonzini wrote:
+> On 23/12/19 08:43, Vladimir Sementsov-Ogievskiy wrote:
+>> diff --git a/vl.c b/vl.c
+>> index 86474a55c9..9fb859969c 100644
+>> --- a/vl.c
+>> +++ b/vl.c
+>> @@ -2779,7 +2779,7 @@ static void configure_accelerators(const char *progname)
+>>          for (tmp = accel_list; !accel_initialised && tmp && *tmp; tmp++) {
+>>              /*
+>>               * Filter invalid accelerators here, to prevent obscenities
+>> -             * such as "-machine accel=tcg,,thread=single".
+>> +             * such as "-machine accel=tcg,thread=single".
+> 
+> The double comma is intentional.  Without the "if" below, the comma
+> would be escaped and parsed as "-accel tcg,thread=single".
+> 
+>>               */
+>>              if (accel_find(*tmp)) {
+>>                  qemu_opts_parse_noisily(qemu_find_opts("accel"), *tmp, true);
+>> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+>> index 90970b0549..2890785a10 100755
+>> --- a/tests/qemu-iotests/check
+>> +++ b/tests/qemu-iotests/check
+>> @@ -587,13 +587,13 @@ export QEMU_PROG="$(type -p "$QEMU_PROG")"
+>>  
+>>  case "$QEMU_PROG" in
+>>      *qemu-system-arm|*qemu-system-aarch64)
+>> -        export QEMU_OPTIONS="-nodefaults -display none -machine virt,accel=qtest"
+>> +        export QEMU_OPTIONS="-nodefaults -display none -machine virt -accel qtest"
+>>          ;;
+>>      *qemu-system-tricore)
+>> -        export QEMU_OPTIONS="-nodefaults -display none -machine tricore_testboard,accel=qtest"
+>> +        export QEMU_OPTIONS="-nodefaults -display none -machine tricore_testboard -accel qtest"
+>>          ;;
+>>      *)
+>> -        export QEMU_OPTIONS="-nodefaults -display none -machine accel=qtest"
+>> +        export QEMU_OPTIONS="-nodefaults -display none -accel qtest"
+>>          ;;
+>>  esac
+>>  
+>>
+> 
+> This part is good, but what is the reproducer?
 
-I meant "more explicit" =3D)
+Make the iotests run with either qemu-system-arm, qemu-system-aarch64 or
+qemu-system-tricore, e.g.:
+
+ QEMU_PROG=aarch64-softmmu/qemu-system-aarch64 make check-block
+
+ HTH,
+  Thomas
 
 
