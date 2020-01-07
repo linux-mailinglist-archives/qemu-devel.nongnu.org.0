@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D9B1323DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:39:35 +0100 (CET)
-Received: from localhost ([::1]:46148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A20132403
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:44:13 +0100 (CET)
+Received: from localhost ([::1]:46232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomGr-0003Pi-FB
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:39:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42360)
+	id 1iomLL-0002M7-An
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:44:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Harish_Kandiga@mentor.com>) id 1iol5D-0005h3-Tg
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:23:29 -0500
+ (envelope-from <mst@redhat.com>) id 1iolEo-0000jL-3J
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:33:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Harish_Kandiga@mentor.com>) id 1iol56-000821-JD
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:23:27 -0500
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:47449)
+ (envelope-from <mst@redhat.com>) id 1iolEm-0006Sz-ME
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:33:21 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44800
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Harish_Kandiga@mentor.com>)
- id 1iol56-0007yf-9S
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:23:20 -0500
-IronPort-SDR: MsiyhxAUdPwO7UhyXZFP3Ee45MXsFVAM4/TNPRM3s4gBad4PeSCvRCZYpRk8+CRw6/ENl6WJ+x
- ernM25eUFsNwnd+sGYBX3eGKhP7YLt9RQ/IK3i2SLh/HX5qGFPaGVDVCouj4ckWE74pQrERhJ7
- NVA0rhHZjIM6VuvlEUSh7B3U8dxiQZDSv3AxEMd3YkpjhKaoII7mi90IKFSVIbVvdKhkmrzVc0
- aecg3d3uQTARQaNA2ArOjgNVNz2GPzUU+sRHeGCZDzOOVqSeK4u2H7R/eUnCR+sJug5193Dxpq
- m10=
-X-IronPort-AV: E=Sophos;i="5.69,405,1571731200"; d="scan'208";a="46529102"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa1.mentor.iphmx.com with ESMTP; 07 Jan 2020 01:23:12 -0800
-IronPort-SDR: tplytpQIcwlbIf6KWtUbVKFft0awdS/aTQTvzBBS5nfk2+yF+nNPt/gKw3Bp71JWpuXBjDgttE
- ou1DhX9GL7maq4Zt5tL3WB5lEug62wNjDQ0Hf5D9pPSCdaw1Y9rbyeUHtGVD2TjUdPc9PBiXKo
- UVxCnDd8dmEOwk2n/far46XKA96RK92eSVdaRRC80sjVtkIX25JWz5QUy8HK2/aVsudoVSRlCF
- kKLKCz+exnrzdiTz5LU5QWud31JtVK56w8RQptKsfehgn286N8ErL2Qu9zAFY69vhCdFJagpm0
- WSE=
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Rob Herring <robh@kernel.org>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be>
- <20191205210653.GA29969@bogus>
- <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
- <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
- <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
-From: Harish Jenny K N <harish_kandiga@mentor.com>
-Message-ID: <bb5fb539-0d0d-6356-35c2-8ba47cb9fcbf@mentor.com>
-Date: Tue, 7 Jan 2020 14:52:54 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iolEm-0006SY-IN
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:33:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578389600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rV4AdtV6fpiPzPLrFUgrzsHrBxOJEDqTcY7DhA1rJnY=;
+ b=AiRCrQSHB8QOP2qUJV060pqweVanSv24j3dEq8FwAcMnxaJl3WQvujY8NTotAia5xeHT6H
+ uYpqB4c5V49OqPrgOULsNugslox7HQV5vFKa0ha1SmGf1ZaCp0Ryvc0RlCqiOPLNfBPklG
+ 7BR3XDMT4FguQ2lZUJH+1V3JLE/iFqM=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-9jX-dkKrNNG3Tk10EMnz7Q-1; Tue, 07 Jan 2020 04:33:16 -0500
+Received: by mail-qk1-f199.google.com with SMTP id 65so7448708qkl.23
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 01:33:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ohifn2DS3HJRYsyyct+ZrgDyh93/8Y0awwWQNx1/1jY=;
+ b=PujotR8AfM4gcK3czjaiUonME9vVg7/tnu+L8kuGSz7mz2/0Q872fZuhAGqUGjTWWG
+ 7vPgaxFw0VcLGkOuRKMteyLr1Gx6V6KWPjIN9CaZToItwSA0R8NqLFxVmM+7z0SlwkHJ
+ /kFq7j47IQrpqm/ElD6VXZYxYm1dnGi/X/xdFusof+iOilLpDlq+nqGCgptmkQNtO2Bn
+ M8eaFf27JUYFz8Ih5dTsjXsgI2LW9Ujs35x+aaaJ1PePMI0a10w1FKLYsw72aqs0Vngv
+ CXcanLYJfKa8p6hCDZhZuT7HRgCnRytmhTpt9PRcwWSrxCs+xXiF6p2uQsnRdc1yEBpD
+ 2qZQ==
+X-Gm-Message-State: APjAAAXRQuVG5w3a7Dinx6CgjIj6mmuC0IiYkf4MFLhEkqZ7yUOQ1Jwf
+ GiVqCrPJQSH81fwpHl6YI+onFBPqcvlZPdUWKOCzSSzTR2t8tWfpi4KB9gFbQ1q26VyaRXNNe68
+ t492QThlTpzI68h4=
+X-Received: by 2002:ae9:c112:: with SMTP id z18mr85848443qki.145.1578389596434; 
+ Tue, 07 Jan 2020 01:33:16 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxHY0PZh8Y4O5aIkVgVdtBJKAFwFFbuwYsxD3dYruwAypabO3DUWnEUYzHwjzsKxNefEKWRGw==
+X-Received: by 2002:ae9:c112:: with SMTP id z18mr85848421qki.145.1578389596085; 
+ Tue, 07 Jan 2020 01:33:16 -0800 (PST)
+Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
+ by smtp.gmail.com with ESMTPSA id q73sm22021675qka.56.2020.01.07.01.33.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 01:33:15 -0800 (PST)
+Date: Tue, 7 Jan 2020 04:33:10 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Zeng Tao <prime.zeng@hisilicon.com>
+Subject: Re: [PATCH] hw/arm/acpi: Pack the SRAT processors structure by
+ node_id ascending order
+Message-ID: <20200107042918-mutt-send-email-mst@kernel.org>
+References: <1578388729-55540-1-git-send-email-prime.zeng@hisilicon.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.129.153
+In-Reply-To: <1578388729-55540-1-git-send-email-prime.zeng@hisilicon.com>
+X-MC-Unique: 9jX-dkKrNNG3Tk10EMnz7Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,163 +87,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>, Alexander Graf <graf@amazon.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 06/01/20 1:42 PM, Geert Uytterhoeven wrote:
-> Hi Rob,
->
-> On Fri, Dec 6, 2019 at 4:04 PM Rob Herring <robh@kernel.org> wrote:
->> On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>> On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
->>>> On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
->>>>> Add Device Tree bindings for a GPIO repeater, with optional translation
->>>>> of physical signal properties.  This is useful for describing explicitly
->>>>> the presence of e.g. an inverter on a GPIO line, and was inspired by the
->>>>> non-YAML gpio-inverter bindings by Harish Jenny K N
->>>>> <harish_kandiga@mentor.com>[1].
->>>>>
->>>>> Note that this is different from a GPIO Nexus Node[2], which cannot do
->>>>> physical signal property translation.
->>>> It can't? Why not? The point of the passthru mask is to not do
->>>> translation of flags, but without it you are always doing translation of
->>>> cells.
->>> Thanks for pushing me deeper into nexuses!
->>> You're right, you can map from one type to another.
->>> However, you cannot handle the "double inversion" of an ACTIVE_LOW
->>> signal with a physical inverter added:
->>>
->>>         nexus: led-nexus {
->>>                 #gpio-cells = <2>;
->>>                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
->>>                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
->>>                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
->>>                 gpio-map-mask = <3 0>;
->>>                 // default gpio-map-pass-thru = <0 0>;
->>>         };
->>>
->>>         leds {
->>>                 compatible = "gpio-leds";
->>>                 led6-inverted {
->>>                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
->>>                 };
->>>                 led7-noninverted {
->>>                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
->>>                 };
->>>                 led8-double-inverted {  // FAILS: still inverted
->>>                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
->>>                 };
->>>         };
->>>
->>> It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
->>> Still, the consumer would see the final translated polarity, and not the
->>> actual one it needs to program the consumer for.
->> I'm not really following. Why isn't a double inversion just the same
->> as no inversion?
-> Because the nexus can only mask and/or substitute bits.
-> It cannot do a XOR operation on the GPIO flags.
->
->>>>> While an inverter can be described implicitly by exchanging the
->>>>> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
->>>>> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
->>>>> th provider and consumer sides:
->>>>>   1. The GPIO provider (controller) looks at the flags to know the
->>>>>      polarity, so it can translate between logical (active/not active)
->>>>>      and physical (high/low) signal levels.
->>>>>   2. While the signal polarity is usually fixed on the GPIO consumer
->>>>>      side (e.g. an LED is tied to either the supply voltage or GND),
->>>>>      it may be configurable on some devices, and both sides need to
->>>>>      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
->>>>>      match the actual polarity.
->>>>>      There exists a similar issue with interrupt flags, where both the
->>>>>      interrupt controller and the device generating the interrupt need
->>>>>      to agree, which breaks in the presence of a physical inverter not
->>>>>      described in DT (see e.g. [3]).
->>>> Adding an inverted flag as I've suggested would also solve this issue.
->>> As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
->>> the inverter bindings"?
->>> https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
->>>
->>> Oh, now I understand. I was misguided by Harish' interpretation
->>> https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
->>> which assumed an "inverted" property, e.g.
->>>
->>>     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
->>>
->>> But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
->>> cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
->>>
->>>     /* Bit 6 expresses the presence of a physical inverter */
->>>     #define GPIO_INVERTED 64
->> Exactly.
-> OK, makes sense.
+On Tue, Jan 07, 2020 at 05:18:49PM +0800, Zeng Tao wrote:
+> When booting the guest linux with the following numa configuration:
+> -numa node,node_id=3D1,cpus=3D0-3
+> -numa node,node_id=3D0,cpus=3D4-7
+> We can get the following numa topology in the guest system:
+> Architecture:          aarch64
+> Byte Order:            Little Endian
+> CPU(s):                8
+> On-line CPU(s) list:   0-7
+> Thread(s) per core:    1
+> Core(s) per socket:    8
+> Socket(s):             1
+> NUMA node(s):          2
+> L1d cache:             unknown size
+> L1i cache:             unknown size
+> L2 cache:              unknown size
+> NUMA node0 CPU(s):     0-3
+> NUMA node1 CPU(s):     4-7
+> The Cpus 0-3 is assigned with NUMA node 1 in QEMU while it get NUMA node
+> 0 in the guest.
+>=20
+> In fact, In the linux kernel, numa_node_id is allocated per the ACPI
+> SRAT processors structure order,so the cpu 0 will be the first one to
+> allocate its NUMA node id, so it gets the NUMA node 0.
+>=20
+> To fix this issue, we pack the SRAT processors structure in numa node id
+> order but not the default cpu number order.
+>=20
+> Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
 
 
-The reason I went for "inverted" property is because, we can specify this for gpios at provider side.
+Does this matter? If yes fixing linux to take node id from proximity
+field in ACPI seems cleaner ...
 
-The usecase needed to define the polarity which did not have kernel space consumer driver.
+> ---
+>  hw/arm/virt-acpi-build.c | 23 +++++++++++++++--------
+>  1 file changed, 15 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index bd5f771..497192b 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -520,7 +520,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+>      AcpiSystemResourceAffinityTable *srat;
+>      AcpiSratProcessorGiccAffinity *core;
+>      AcpiSratMemoryAffinity *numamem;
+> -    int i, srat_start;
+> +    int i, j, srat_start;
+> +    uint32_t node_id;
+>      uint64_t mem_base;
+>      MachineClass *mc =3D MACHINE_GET_CLASS(vms);
+>      MachineState *ms =3D MACHINE(vms);
+> @@ -530,13 +531,19 @@ build_srat(GArray *table_data, BIOSLinker *linker, =
+VirtMachineState *vms)
+>      srat =3D acpi_data_push(table_data, sizeof(*srat));
+>      srat->reserved1 =3D cpu_to_le32(1);
+> =20
+> -    for (i =3D 0; i < cpu_list->len; ++i) {
+> -        core =3D acpi_data_push(table_data, sizeof(*core));
+> -        core->type =3D ACPI_SRAT_PROCESSOR_GICC;
+> -        core->length =3D sizeof(*core);
+> -        core->proximity =3D cpu_to_le32(cpu_list->cpus[i].props.node_id)=
+;
+> -        core->acpi_processor_uid =3D cpu_to_le32(i);
+> -        core->flags =3D cpu_to_le32(1);
+> +    for (i =3D 0; i < ms->numa_state->num_nodes; ++i) {
+> +        for (j =3D 0; j < cpu_list->len; ++j) {
 
+Hmm O(n ^2) isn't great ...
 
-I am not sure how do we achieve this using GPIO_INVERTED flag. We need some sort of node/gpio-hog to specify these
+> +            node_id =3D cpu_to_le32(cpu_list->cpus[j].props.node_id);
+> +            if (node_id !=3D i) {
+> +                continue;
+> +            }
+> +            core =3D acpi_data_push(table_data, sizeof(*core));
+> +            core->type =3D ACPI_SRAT_PROCESSOR_GICC;
+> +            core->length =3D sizeof(*core);
+> +            core->proximity =3D node_id;
+> +            core->acpi_processor_uid =3D cpu_to_le32(j);
+> +            core->flags =3D cpu_to_le32(1);
+> +        }
+>      }
 
-type of properties? Otherwise gpio-pin will be held by kernel or the module using the hog property and the user space application will not be able to access pin.
+is the issue arm specific? wouldn't it affect x86 too?
 
+>      mem_base =3D vms->memmap[VIRT_MEM].base;
+> --=20
+> 2.8.1
 
-or please let me know if I am missing something.
-
-
->
->>> We need to be very careful in defining to which side the GPIO_ACTIVE_*
->>> applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
->>> Still, this doesn't help if e.g. a FET is used instead of a push-pull
->>> inverter, as the former needs translation of other flags (which the
->>> nexus can do, the caveats above still applies, though).
->> Yes. Historically the cells values are meaningful to the provider and
->> opaque to the consumer. Standardized cell values changes that
->> somewhat. I think we want the active flag to be from the provider's
->> prospective because the provider always needs to know. The consumer
->> often doesn't need to know. That also means things work without the
->> GPIO_INVERTED flag if the consumer doesn't care which is what we have
->> today already and we can't go back in time.
->>
-
-Things will work without GPIO_INVERTED flag for consumers which can specify GPIO_ACTIVE_* flags.
-
-
-
->>> Same for adding IRQ_TYPE_INVERTED.
->> I suppose so, yes.
->>
->>> Related issue: how to handle physical inverters on SPI chip select lines,
->>> if the SPI slave can be configured for both polarities?
->> Good question. Perhaps in a different way because we have to handle
->> both h/w controlled and gpio chip selects.
->>
->> However, how would one configure the polarity in the device in the
->> first place? You have to assert the CS first to give a command to
->> reprogram it.
-> That's indeed true for a simple SPI slave.
-> But if it is a smarter device (e.g. a generic micro controller), it may use the
-> system's DTB to configure itself.
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
 
