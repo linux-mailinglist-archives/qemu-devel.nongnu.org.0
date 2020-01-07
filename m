@@ -2,76 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D40D132827
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:53:49 +0100 (CET)
-Received: from localhost ([::1]:49134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0064D13283A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:59:18 +0100 (CET)
+Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopIp-0004eF-B4
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:53:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
+	id 1iopO8-0003xT-FY
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:59:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45513)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1ioorX-0004d1-7K
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:37 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iootG-0001Jg-3z
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1ioorT-0002PM-NA
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:34 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34341
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <laurent@vivier.eu>) id 1iootE-0003MM-Sz
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:57757)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1ioorT-0002Ob-Fs
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578403529;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B5iODGXm9YBO0JBkqFwGH5xxKJzdGnXkAv9u7IOcH2s=;
- b=ToP8zVcNAXoRxkM6mgnp+7yAYrkjLERtaYVuzA1uw9Pqkhs8VXLMxz5QkLdG63atSzuUY1
- JT0AiVygk7E6vnWjYk3t2fA4Ii1c/e6BHpb1FXVpBvUM9FyqRRX31w4DkHEk+KXtrUtyJ0
- /ASsVhvSQKzV2t3hG0Jb6KL5y55oIw4=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-Vmc-UkzzNMKtbwaI9M3Wtg-1; Tue, 07 Jan 2020 08:25:28 -0500
-Received: by mail-ot1-f69.google.com with SMTP id d16so18143208otq.19
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:25:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=B5iODGXm9YBO0JBkqFwGH5xxKJzdGnXkAv9u7IOcH2s=;
- b=nN8Lzv176MEb+44ocIlLHgzGrD2NDuoDlCfwaiZe6eAE+07CX+JEz4vQm/KnSBuNNA
- y2rlV+Afh43FprT+Lnoe5nOMOorG5oLqHav69A3ui7hfMl/CKAFgd8ojl8LP3Gfb5wcl
- eZkI9Y0YK0KpYBPalUbQ/a6YaGChrgAjUdad3Mj7Cosm5Pr15ulLio9f6meT3WS00WbX
- 4g8m9f3q4mOKBLOBJf4AVm5e/5AWzCGf9QZwbx0jZI0zyTI7Qo11IAElF1V1gdDE5Pe8
- 55jdIm88HipKgmeH26zcdKV1uAqzcPswhLfX7+wYTZhM0G4c/jvLUCUZRyM+zGoVKzS+
- kRIg==
-X-Gm-Message-State: APjAAAXlWKbn9jokrTLBntn7QIkjh9CyFQPtyq+H1ZhM7SizKsSmcPbc
- xATS1nELeP6oM0zZtxCRa1ZswKZuUdslWth8UNhWanEdWal23ricbkpaKdSW2O7UGo5h348Hmy9
- osIsUNjIezAOdNyQCkN5wUujsSiAtTRg=
-X-Received: by 2002:a9d:60c4:: with SMTP id b4mr99574519otk.166.1578403527133; 
- Tue, 07 Jan 2020 05:25:27 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx6iKTAxPb1Vc7dO+DIoWHUiI/xwL//ARmZTdeeZw0oOs9ymxcXnBgDYk1FYkKcuKnsxHASzDX/neQqsL7w+gk=
-X-Received: by 2002:a9d:60c4:: with SMTP id b4mr99574496otk.166.1578403526898; 
- Tue, 07 Jan 2020 05:25:26 -0800 (PST)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iootE-0003LV-Jr
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:20 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MtwEO-1jgeWv2Npc-00uEe7; Tue, 07 Jan 2020 14:27:17 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] Q800 for 5.0 patches
+Date: Tue,  7 Jan 2020 14:27:11 +0100
+Message-Id: <20200107132715.722101-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20191220134601.571905-1-marcandre.lureau@redhat.com>
- <20191220134601.571905-13-marcandre.lureau@redhat.com>
- <CAFEAcA99ajBCrmG=E6wPru2d3VYFzbvopfno8F62xvO8o3NikQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA99ajBCrmG=E6wPru2d3VYFzbvopfno8F62xvO8o3NikQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 7 Jan 2020 17:25:15 +0400
-Message-ID: <CAMxuvawqnkmcsQ8=+SPSRaSYELnBFJB-7SvwfSOQyYzueKhgeQ@mail.gmail.com>
-Subject: Re: [PATCH v5 12/37] serial: start making SerialMM a sysbus device
-To: Peter Maydell <peter.maydell@linaro.org>
-X-MC-Unique: Vmc-UkzzNMKtbwaI9M3Wtg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:dVLW7cis/7zDypaYSsSzqyh2fjmGDcbwV5fgeMe8RMfAmKnZaoG
+ kM+OtDTkgQcRvnK2c1J2jx5k1FxBxD/5Dxu4r+m0hYlex6JvpMAUnc8KbYbbpsViYF6/Gdd
+ etlh4ivOuI4mejLEzoC0stSTTkcies+lYi/aLXDzaV5arQ291kXPUAr6kEUZfgERe504LgX
+ PBik9RfYNRFFJ4OWSAvuw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Q1/QsfLiaTs=:7i4IvCW2+zgnJkoA5R0hwy
+ AM8aFUM7iBdEeogrQ1z+spgWVreYqb46BEGRrMXa8nY8T703AE9z1AcN3+Quwvthm2bkCKQPm
+ /paWdYU+hd68j0NitTaZY/2PwBILbJQoqbjHbIF9X1F9aoiQuys2HlZE/tYNRXikrxDQDccK/
+ xumn42r1bENq8K/HoUsXJmlWVlbT9ojCIdxKJKF/wcendBiQEWuoW3nTfGDDOnkZLJw4ZPats
+ eNEvHGJl03aYFYUR8pGoG5gAnqr68ZhtABhv4S+IuH7kZiyjJVHmn8IEZg7OMXfOvVhiAdxOZ
+ Ak6hAWA7QaMNJ6vuA/qf2u1+nAkVh8gSku87YqDGQO94IxMrrsyzY9X1CVWpJE84WSgcigMHp
+ EqPCB0LSugIcW+2y5PuMMF9fDaiukkoRG+kQjdu28l9JWkX6Cz+5NBXZrwXfr/PeFaLWyIJNQ
+ 4cPysTeuZB49nKN9FkULT+afgM9KhGeyrtVyVUrZUlsTdwhwsf427njgEYerAq/XwaHAoBcY4
+ BVbj+QvjV6VnNm2lSV9D4lnKQk1VHGhRoTprJLVQVmSNZpuC/22kRVmDidZPo0gNwcTNpB70Q
+ shhpDz4cPfte+rzePqYZa1s1qKIKUuMRM1uUVAQfJDWj94NIb21faoQAejY4+TVnKn88dL+E5
+ /Em65XauimihDWZ0fGDcP2PobwAxzuJKyXWxb9ZeUW44G2zmY0MH4p4cXZGUHEbW4sbSzq/dc
+ H3bTHfODXoEZgPE8aYPQEa1m/8HXAHvuciz48dRsrHMl4wQ/x4AeakxGtWejg/zaZJB/giRpE
+ ixFl8ttRlKYNfqSmlvUSQL7yWPhG3TnQ773IGuBnG/LKbsVMz6zacUU2l9fxyR/fwHbi22KaJ
+ XRAerUci055QcYgYMbkQ==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,40 +63,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 7, 2020 at 4:55 PM Peter Maydell <peter.maydell@linaro.org> wro=
-te:
->
-> On Fri, 20 Dec 2019 at 13:47, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@redhat.com> wrote:
-> >
-> > Memory mapped serial device is in fact a sysbus device. The following
-> > patches will make use of sysbus facilities for resource and
-> > registration. In particular, "serial-mm: use sysbus facilities" will
-> > move internal serial realization to serial_mm_realize callback to
-> > follow qdev best practices.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > @@ -1068,30 +1080,56 @@ static const MemoryRegionOps serial_mm_ops[3] =
-=3D {
-> >      },
-> >  };
-> >
-> > -SerialState *serial_mm_init(MemoryRegion *address_space,
-> > +SerialMM *serial_mm_init(MemoryRegion *address_space,
-> >                              hwaddr base, int it_shift,
-> >                              qemu_irq irq, int baudbase,
-> >                              Chardev *chr, enum device_endian end)
-> >  {
->
-> You might want to fix the indent on the other lines of
-> arguments here, but either way
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The following changes since commit cdbc5c51c8755e4e9ce964fc92ba755e1c71a914:
 
-done, thanks!
+  Merge remote-tracking branch 'remotes/xtensa/tags/20200106-xtensa' into staging (2020-01-07 10:31:07 +0000)
+
+are available in the Git repository at:
+
+  git://github.com/vivier/qemu-m68k.git tags/q800-for-5.0-pull-request
+
+for you to fetch changes up to 18b6102e51bb317d25ee61b49b7b56702b79560c:
+
+  target/m68k: only change valid bits in CACR (2020-01-07 14:21:18 +0100)
+
+----------------------------------------------------------------
+m68k: fix CACR valid bits
+q800: add a fake mac rom reset (used by linux)
+      fix and improve PRAM emulation
+
+----------------------------------------------------------------
+
+Jason A. Donenfeld (1):
+  q800: implement mac rom reset function for BIOS-less mode
+
+Laurent Vivier (3):
+  q800: fix mac_via RTC PRAM commands
+  q800: add a block backend to the PRAM
+  target/m68k: only change valid bits in CACR
+
+ hw/m68k/q800.c            |  35 +++-
+ hw/misc/mac_via.c         | 339 ++++++++++++++++++++++++++++----------
+ hw/misc/trace-events      |  19 +++
+ include/hw/misc/mac_via.h |   3 +
+ target/m68k/cpu.c         |  28 +++-
+ target/m68k/cpu.h         |   5 +-
+ target/m68k/helper.c      |  12 +-
+ 7 files changed, 348 insertions(+), 93 deletions(-)
+
+-- 
+2.24.1
 
 
