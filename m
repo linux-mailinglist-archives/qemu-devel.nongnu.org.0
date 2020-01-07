@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9DB132921
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:42:16 +0100 (CET)
-Received: from localhost ([::1]:50216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1022C132876
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:09:02 +0100 (CET)
+Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioq3i-0001Ms-PP
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:42:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
+	id 1iopXX-0005Xe-TM
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:08:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iootI-0001RT-6Y
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:28 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iootH-0001QW-QF
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iootG-0003NR-K6
+ (envelope-from <laurent@vivier.eu>) id 1iootG-0003NG-BO
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:23 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:59845)
+Received: from mout.kundenserver.de ([212.227.126.134]:58475)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iootG-0003Mu-Aa
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iootG-0003Mi-28
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:22 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MOi1H-1j41zE1AY3-00Q8pI; Tue, 07 Jan 2020 14:27:19 +0100
+ id 1M1HqM-1irZmP3KaQ-002p4r; Tue, 07 Jan 2020 14:27:19 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] q800: implement mac rom reset function for BIOS-less mode
-Date: Tue,  7 Jan 2020 14:27:14 +0100
-Message-Id: <20200107132715.722101-4-laurent@vivier.eu>
+Subject: [PULL 4/4] target/m68k: only change valid bits in CACR
+Date: Tue,  7 Jan 2020 14:27:15 +0100
+Message-Id: <20200107132715.722101-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200107132715.722101-1-laurent@vivier.eu>
 References: <20200107132715.722101-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ruiixvM/g2wpHv9nuJ8npVJ9Xn9/pNYvZ35CKwSulzKBhkGoLAJ
- WNjETZ4dSkwKm0ks39yM1cq0TzfBZ0dyRonRkmtTU1h+Y4+TPOj9ghoLYTt3NQh8VN7nqbZ
- cfs6B9lnDBH1OaAnR1OyvzVkAq5lmQMhHlLUkiHkAgWLisyAUUvkukWOeNxmu8GVhMmiUPt
- UxUfkhmt4zCDVmMET4N3g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4KB2AEvc450=:H5kxfQStNUC8QUigOrvnF+
- qyLl/VLovA+eMT2krwadYbc6P8/b9Pf07GvI23jHDdL3AmvkW5xVgqVnwc0VjPSVUMCM6FsE1
- YTTm3ZwVmS56h9kzajDYeJlqOObgaDvplH8QGU8HoWZ95pkfaeI1d8xvT1Tfb3Dm2Pfih2exI
- U1OSklnZ/uZKA0P4NlKu+Q3Gct+8hBZseM+2NlNn1k5vUaCrhCWH9sM9Edkj+A4BuwbdyMTkD
- iiHbV9E9d5D+ErRKrcN0NB+Pc1IRFJ1V7zUGQOoqUbUE036w77pX0TUeYzwoQO3NPVG8STGXC
- jIFUcrNckdUQJpvFp1iy0Zzbi6MqxTBxVIbfBTHGP20Lx00Zg7wIy6DrD3JgfHZAbZYbJt/b9
- SZVcM/8EZ7i5YWjsgNoZZpta9XZPhE+0lPgFy7qTmQCXAPZNhTdCPj0QHFWIYgU9vuZ62bIwY
- DjbzFOeGM7+r4lPqOhQsqmJ+2m03qt2NqByfMXYWu49xMkFPbGXVz7l51QHBOv1uih+SGblhO
- fNiKrDn3hPHHgJ00H7FCClez+dw1XoOstdodcd/DrE6BPCccT2hBYw+TmOsjVHpOSwG9sxWOG
- eW9ITEr0l6IvbnqfAkyHizu6lu0fCEs9fq2SXzPxYHJHnlvLiVz2Dhshb1nA/Xk8Z+Z/Nd4GU
- Yj86chAglCE/56ii56P7DRDI9fKHp9s4bEdZZ5a75wVebIWZlBbDpzs6zmiKJKDq/iWYj37i+
- b8VGzUflW4O2xnHGvLXkAa/LKvAp0wDANrEZXtMLjqi4ZAbKeHsrHcRbZ3pQhS58jdVUEsndQ
- 4sg/U2wyKScPa65J8nkhbophsUns570UDV6q+rvRC4EDdOEoh7RJIeKZExEHK0BYaeiQfEJC2
- AAuMBSMRP70fuirvTT3A==
+X-Provags-ID: V03:K1:xfELSbcbZwG8HdqIRr4st/peBT4HWSZ9RYZNHFq8L5Gsfcn4RGx
+ NaJ43g3WbzBz2sbvngwHcaVT19bxeO3FyoCrZlEBitms19MjZtkvkQ7a2nfBlFi9qhSRmH7
+ EU3J7lOH/idcxTbU/1vEIuvdLA7JSbDKx5+JycpE4i3Bu14KS9cSObBZfjxTd7n/Hl6BNp1
+ 7czmPfT7t1OVZgPWIkSDg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MaTsPoU9Xu8=:Ude4iFeLzsCNL6zDKyYk0u
+ bPy2q7N/sLApulwz+Hm11qTMrSGcU9s+dlqBOurRlqW2dz1UtA8iAZT7Gx9PTdANui4yqfUXt
+ gZW8/pNTl13Wvez4PCYUlhPVgjsbH6EoNjfR2BixOMUYFaur4DaMeaLdfMYFYG7Ib5VZhCwDx
+ ElNtTXeLUbTAB3SFwCTRnMTWpXFSkyx6a+cwf7dcJk9EKpf4CMCY1nzO1Z/5a+izpRMREVf41
+ DQV516XzkQYRxAhqYmVd91skfSFVxY3MBOSICt1L/kzLstxj+vH42p5lyDTQbfVQO4ygYUHDV
+ O9mkl06v9ioLiPPC61NeFBLtGPS84UMeqock4ZsdwKIdXATa1u9dxQumMhDGOBBsTmS/M6mkw
+ OIL2eBTD4HpH9wid/Z4cbIRA9iOMJz3VcXCxi6xRPyjzJyIugyEGwsJysRAG2XHLngfUatDZ5
+ 2oHEs/P5QaLBw2IjLWtWy4xOnbJa+Di0BsXNi2Gce7ntpIFT1y6bDYU3GAMDlQpRcHslm9jDn
+ jmhb/IbCaV7AIGa/o/L4UlzOlkbsUrjAZrqqkaRTEWy1Q5XzkbQ1MXuo69M/uQ1Z8s+g1NWRN
+ +eIH2GP6ExlvVbnxcKzzMtpYhHaVCPMK8IKnBscMHcpOfZpvPZ0OWqPexEPHexjc6rGhwtXkr
+ hfUXKEnofV73Jzs1gl/oYfmLiE30bMwf20GdyLj/8JZ1HDfhpWtNLb/erOGeomjFLEwCJiFGT
+ FZgg3nEQUv0IPqaZHIl+S5kM+zPJR7gmP2pS/1fNyUDTsPY5c1KrCH1nOARcVdvMB1+/j58Lw
+ iZdl3Z3n6DgtFqIhGUDFm37QjtheaYF8mfeoBxIWs47YWpcVjQne6LKR2kb03ObickdMlo/QC
+ wn2QsZdjnz/cv7iR+SsA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,82 +65,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+This is used by netBSD (and MacOS ROM) to detect the MMU type
 
-On Linux, calling `reboot(RB_AUTOBOOT);` will result in
-arch/m68k/mac/misc.c's mac_reset function being called. That in turn
-looks at the rombase (or uses 0x40800000 is there's no rombase), adds
-0xa, and jumps to that address. At the moment, there's nothing there, so
-the kernel just crashes when trying to reboot. So, this commit adds a
-very simple implementation at that location, which just writes to via2
-to power down. We also correct the value of ROMBASE while we're at it.
-
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200102120150.281082-1-Jason@zx2c4.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+Message-Id: <20191220172415.35838-1-laurent@vivier.eu>
+[lv: add a comment before m680x0_cpu_common()]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/m68k/q800.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ target/m68k/cpu.c    | 28 ++++++++++++++++++++++------
+ target/m68k/cpu.h    |  5 ++++-
+ target/m68k/helper.c | 12 ++++++++++--
+ 3 files changed, 36 insertions(+), 9 deletions(-)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 0c445c74bf..0e5a08f993 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -47,7 +47,7 @@
- #include "sysemu/runstate.h"
- #include "sysemu/reset.h"
- 
--#define MACROM_ADDR     0x40000000
-+#define MACROM_ADDR     0x40800000
- #define MACROM_SIZE     0x00100000
- 
- #define MACROM_FILENAME "MacROM.bin"
-@@ -128,6 +128,27 @@ static void main_cpu_reset(void *opaque)
-     cpu->env.pc = ldl_phys(cs->as, 4);
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index e6596de29c..f276335faf 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -114,11 +114,9 @@ static void m68000_cpu_initfn(Object *obj)
+     m68k_set_feature(env, M68K_FEATURE_MOVEP);
  }
  
-+static uint8_t fake_mac_rom[] = {
-+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+
-+    /* offset: 0xa - mac_reset */
-+
-+    /* via2[vDirB] |= VIA2B_vPower */
-+    0x20, 0x7C, 0x50, 0xF0, 0x24, 0x00, /* moveal VIA2_BASE+vDirB,%a0 */
-+    0x10, 0x10,                         /* moveb %a0@,%d0 */
-+    0x00, 0x00, 0x00, 0x04,             /* orib #4,%d0 */
-+    0x10, 0x80,                         /* moveb %d0,%a0@ */
-+
-+    /* via2[vBufB] &= ~VIA2B_vPower */
-+    0x20, 0x7C, 0x50, 0xF0, 0x20, 0x00, /* moveal VIA2_BASE+vBufB,%a0 */
-+    0x10, 0x10,                         /* moveb %a0@,%d0 */
-+    0x02, 0x00, 0xFF, 0xFB,             /* andib #-5,%d0 */
-+    0x10, 0x80,                         /* moveb %d0,%a0@ */
-+
-+    /* while (true) ; */
-+    0x60, 0xFE                          /* bras [self] */
-+};
-+
- static void q800_init(MachineState *machine)
+-static void m68020_cpu_initfn(Object *obj)
++/* common features for 68020, 68030 and 68040 */
++static void m680x0_cpu_common(CPUM68KState *env)
  {
-     M68kCPU *cpu = NULL;
-@@ -346,6 +367,12 @@ static void q800_init(MachineState *machine)
-                   (graphic_width * graphic_depth + 7) / 8);
-         BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
- 
-+        rom = g_malloc(sizeof(*rom));
-+        memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
-+                                   sizeof(fake_mac_rom), fake_mac_rom);
-+        memory_region_set_readonly(rom, true);
-+        memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
+-    M68kCPU *cpu = M68K_CPU(obj);
+-    CPUM68KState *env = &cpu->env;
+-
+     m68k_set_feature(env, M68K_FEATURE_M68000);
+     m68k_set_feature(env, M68K_FEATURE_USP);
+     m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
+@@ -136,14 +134,31 @@ static void m68020_cpu_initfn(Object *obj)
+     m68k_set_feature(env, M68K_FEATURE_CHK2);
+     m68k_set_feature(env, M68K_FEATURE_MOVEP);
+ }
+-#define m68030_cpu_initfn m68020_cpu_initfn
 +
-         if (kernel_cmdline) {
-             BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-                         kernel_cmdline);
++static void m68020_cpu_initfn(Object *obj)
++{
++    M68kCPU *cpu = M68K_CPU(obj);
++    CPUM68KState *env = &cpu->env;
++
++    m680x0_cpu_common(env);
++    m68k_set_feature(env, M68K_FEATURE_M68020);
++}
++
++static void m68030_cpu_initfn(Object *obj)
++{
++    M68kCPU *cpu = M68K_CPU(obj);
++    CPUM68KState *env = &cpu->env;
++
++    m680x0_cpu_common(env);
++    m68k_set_feature(env, M68K_FEATURE_M68030);
++}
+ 
+ static void m68040_cpu_initfn(Object *obj)
+ {
+     M68kCPU *cpu = M68K_CPU(obj);
+     CPUM68KState *env = &cpu->env;
+ 
+-    m68020_cpu_initfn(obj);
++    m680x0_cpu_common(env);
+     m68k_set_feature(env, M68K_FEATURE_M68040);
+ }
+ 
+@@ -166,6 +181,7 @@ static void m68060_cpu_initfn(Object *obj)
+     m68k_set_feature(env, M68K_FEATURE_BKPT);
+     m68k_set_feature(env, M68K_FEATURE_RTD);
+     m68k_set_feature(env, M68K_FEATURE_CHK2);
++    m68k_set_feature(env, M68K_FEATURE_M68060);
+ }
+ 
+ static void m5208_cpu_initfn(Object *obj)
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 20de3c379a..11c71fa962 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -460,6 +460,10 @@ void do_m68k_semihosting(CPUM68KState *env, int nr);
+ 
+ enum m68k_features {
+     M68K_FEATURE_M68000,
++    M68K_FEATURE_M68020,
++    M68K_FEATURE_M68030,
++    M68K_FEATURE_M68040,
++    M68K_FEATURE_M68060,
+     M68K_FEATURE_CF_ISA_A,
+     M68K_FEATURE_CF_ISA_B, /* (ISA B or C).  */
+     M68K_FEATURE_CF_ISA_APLUSC, /* BIT/BITREV, FF1, STRLDSR (ISA A+ or C).  */
+@@ -481,7 +485,6 @@ enum m68k_features {
+     M68K_FEATURE_BKPT,
+     M68K_FEATURE_RTD,
+     M68K_FEATURE_CHK2,
+-    M68K_FEATURE_M68040, /* instructions specific to MC68040 */
+     M68K_FEATURE_MOVEP,
+ };
+ 
+diff --git a/target/m68k/helper.c b/target/m68k/helper.c
+index ae766a6cb0..baf7729af0 100644
+--- a/target/m68k/helper.c
++++ b/target/m68k/helper.c
+@@ -203,9 +203,17 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+     case M68K_CR_VBR:
+         env->vbr = val;
+         return;
+-    /* MC680[234]0 */
++    /* MC680[2346]0 */
+     case M68K_CR_CACR:
+-        env->cacr = val;
++        if (m68k_feature(env, M68K_FEATURE_M68020)) {
++            env->cacr = val & 0x0000000f;
++        } else if (m68k_feature(env, M68K_FEATURE_M68030)) {
++            env->cacr = val & 0x00003f1f;
++        } else if (m68k_feature(env, M68K_FEATURE_M68040)) {
++            env->cacr = val & 0x80008000;
++        } else if (m68k_feature(env, M68K_FEATURE_M68060)) {
++            env->cacr = val & 0xf8e0e000;
++        }
+         m68k_switch_sp(env);
+         return;
+     /* MC680[34]0 */
 -- 
 2.24.1
 
