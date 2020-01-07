@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5A2132B62
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:50:13 +0100 (CET)
-Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A92E132B72
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:52:38 +0100 (CET)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ios3X-0001MH-RQ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:50:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47503)
+	id 1ios5s-0005RG-KF
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:52:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iorlx-0000To-EZ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:02 -0500
+ (envelope-from <groug@kaod.org>) id 1iormt-0001Tk-MW
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:33:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iorlw-0005yN-9h
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59819
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorlw-0005xv-66
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578414719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s9CW2f1wTLCUXOOV0nNq1e86u0ryEb/Y8cd2jez9DrU=;
- b=QSXNjrRyJXLeHIiU77RndLXVabQQAWgZ7n70KhGpfBoSYsC5bdkuSiSsqrpVR06Xqb89Ey
- 5xw7BSqvya2jDoadRL/zbr1qGI3vF5HelSmzDRNUJOmCOodcIgj9UiaPqnzjNCAWPdx8Ae
- gBj/245FA0+kjFxjMSgQhVyse4WP02c=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-9citjb5eOLGnegp1efK7iw-1; Tue, 07 Jan 2020 11:31:56 -0500
-Received: by mail-qt1-f200.google.com with SMTP id d9so127803qtq.13
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:31:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pNIx/NiIdCE26OJhITv4+Fn8KZTuaXrKqh88qEn+vzc=;
- b=f6XOtqKRVpHlJnkoOK9t2pWagKRLJAk6Eme64wtFHUrPQWEUWUei9K43EEwcjAsjoP
- MhVf3CQm+7NAgINuMlpl7xAJc4dTRSVopCR2hul72rxa6JQfqHNzXWYAMAYPjZoarBU4
- nlNbxehdhs6bsxxB3uVxz8KujP4FrIQXAmKBGy6lLtMM8O5JTjvOZGjuItS+BoxRrrbJ
- 5j9gZzaUBXwvJy25yoew+KW1YFNFN/F0J7PkrNbilimicu/tfzeZN4WY0UeYT/irFuC0
- JnsWe6QeQPfkaZ8YT432UWNY6AVfrEfbZO9q6xwIROTFPDTUO/eNPHlXoJC2PEecOY1g
- Q0mw==
-X-Gm-Message-State: APjAAAVQZgjvs1mgrTTXFQ8ojnWsFToLzRH5uIx1E/Qi6jn4EM8AiUOh
- nn2/2y0V3nr1Mbkmfv4ms619s1Bd2iz/KRKgXq/u06KP3drGVqrFYBbCT6DJYqkmrjHtxF0n6iT
- t+9YQoTJkBOiyW+U=
-X-Received: by 2002:a37:8ec7:: with SMTP id q190mr141717qkd.412.1578414715055; 
- Tue, 07 Jan 2020 08:31:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxkrThP5YQgrQvG0mYq1wmrd2uPHD2tITEVJ6fJjZFsHj53YEW+so06qTREo8UP4/vLl26CGA==
-X-Received: by 2002:a37:8ec7:: with SMTP id q190mr141690qkd.412.1578414714796; 
- Tue, 07 Jan 2020 08:31:54 -0800 (PST)
-Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id h1sm111122qte.42.2020.01.07.08.31.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 08:31:54 -0800 (PST)
-Date: Tue, 7 Jan 2020 11:31:50 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v3 31/32] intel_iommu: a fix to vtd_find_as_from_bus_num()
-Message-ID: <20200107162850.411448-32-mst@redhat.com>
-References: <20200107162850.411448-1-mst@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1iormr-0006dy-MV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:59 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18898)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iormp-0006ca-SW
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:56 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 007GRi6N112170
+ for <qemu-devel@nongnu.org>; Tue, 7 Jan 2020 11:32:54 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xapd6j3kt-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 11:32:54 -0500
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Tue, 7 Jan 2020 16:32:50 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 7 Jan 2020 16:32:48 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 007GVxCd49480182
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Jan 2020 16:31:59 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 136E15204E;
+ Tue,  7 Jan 2020 16:32:47 +0000 (GMT)
+Received: from bahia.tlslab.ibm.com (unknown [9.101.4.41])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id D4DD452054;
+ Tue,  7 Jan 2020 16:32:46 +0000 (GMT)
+Subject: [PATCH 2/2] pnv/psi: Consolidate some duplicated code in
+ pnv_psi_realize()
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Date: Tue, 07 Jan 2020 17:32:46 +0100
+In-Reply-To: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
+References: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-In-Reply-To: <20200107162850.411448-1-mst@redhat.com>
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-MC-Unique: 9citjb5eOLGnegp1efK7iw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+x-cbid: 20010716-0008-0000-0000-0000034740CB
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20010716-0009-0000-0000-00004A6782AD
+Message-Id: <157841476667.66386.13659183399113837990.stgit@bahia.tlslab.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-07_05:2020-01-07,
+ 2020-01-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 clxscore=1034 suspectscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=750 mlxscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-2001070135
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id 007GRi6N112170
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,50 +91,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
- Peter Xu <peterx@redhat.com>, Liu Yi L <yi.l.liu@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
+The proper way to do that would be to use device_class_set_parent_realize=
+(),
+but defining a Pnv8PsiClass and a Pnv9PsiClass types with a parent_realiz=
+e
+pointer adds a fair amount of code. Calling pnv_psi_realize() explicitely
+is fine for now.
 
-Ensure the return value of vtd_find_as_from_bus_num() is NULL by
-enforcing vtd_bus=3DNULL. This would help caller of vtd_find_as_from_bus_nu=
-m()
-to decide if any further operation on the returned vtd_bus.
+This should probably be achieved with a device realize hook in the
+PSI base class and device_class_set_parent_realize() in the children
+classes.
 
-Cc: qemu-stable@nongnu.org
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
-Message-Id: <1578058086-4288-2-git-send-email-yi.l.liu@intel.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/i386/intel_iommu.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/pnv_psi.c |   19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index ee06993675..609b80750a 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -948,6 +948,7 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState=
- *s, uint8_t bus_num)
-                 return vtd_bus;
-             }
-         }
-+        vtd_bus =3D NULL;
-     }
-     return vtd_bus;
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index 6c94781e377d..546232106756 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -469,6 +469,16 @@ static void pnv_psi_reset_handler(void *dev)
+     device_reset(DEVICE(dev));
  }
---=20
-MST
+=20
++static void pnv_psi_realize(DeviceState *dev, Error **errp)
++{
++    PnvPsi *psi =3D PNV_PSI(dev);
++
++    /* Default BAR for MMIO region */
++    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
++
++    qemu_register_reset(pnv_psi_reset_handler, dev);
++}
++
+ static void pnv_psi_power8_instance_init(Object *obj)
+ {
+     Pnv8Psi *psi8 =3D PNV8_PSI(obj);
+@@ -528,9 +538,6 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
+Error **errp)
+     memory_region_init_io(&psi->regs_mr, OBJECT(dev), &psi_mmio_ops, psi=
+,
+                           "psihb", PNV_PSIHB_SIZE);
+=20
+-    /* Default BAR for MMIO region */
+-    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
+-
+     /* Default sources in XIVR */
+     for (i =3D 0; i < PSI_NUM_INTERRUPTS; i++) {
+         uint8_t xivr =3D irq_to_xivr[i];
+@@ -538,7 +545,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
+Error **errp)
+             ((uint64_t) i << PSIHB_XIVR_SRC_SH);
+     }
+=20
+-    qemu_register_reset(pnv_psi_reset_handler, dev);
++    pnv_psi_realize(dev, errp);
+ }
+=20
+ static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, int xscom=
+_offset)
+@@ -873,9 +880,7 @@ static void pnv_psi_power9_realize(DeviceState *dev, =
+Error **errp)
+     memory_region_init_io(&psi->regs_mr, OBJECT(dev), &pnv_psi_p9_mmio_o=
+ps, psi,
+                           "psihb", PNV9_PSIHB_SIZE);
+=20
+-    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
+-
+-    qemu_register_reset(pnv_psi_reset_handler, dev);
++    pnv_psi_realize(dev, errp);
+ }
+=20
+ static void pnv_psi_power9_class_init(ObjectClass *klass, void *data)
 
 
