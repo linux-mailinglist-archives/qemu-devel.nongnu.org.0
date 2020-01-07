@@ -2,83 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565ED1320AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 08:49:03 +0100 (CET)
-Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629C013213C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 09:19:46 +0100 (CET)
+Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iojbh-0003EP-T4
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 02:48:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51603)
+	id 1iok5X-0005L1-FW
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 03:19:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iojOg-0003uI-9e
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:27 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iojPO-0005La-6C
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iojOe-0007Gx-TR
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56243
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iojPM-0007j0-OI
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:09 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48475 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojOe-0007GU-Pb
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:35:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578382524;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KTcB6zAIaRzY9EwvftE6Rtrz5u5tIha89kZ+phnxUYk=;
- b=A+lbb6xik6xx3tfdSdOe1A11GGlq1drlLiYCDPpW+CmqVpcBHg38GCkzBz7yH59l6iRm8j
- 02Luq0vArAGK2wRh5jufFsF0sQ3rYiXDUVFf4+UKi61ipRq4chvPhb7o5wdtLz6Yk2nJKi
- SRUwGOAn12QXAeslvGjjJXoQK4FWAek=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-i6RM7ghxNbG91c40pTq2WQ-1; Tue, 07 Jan 2020 02:35:23 -0500
-Received: by mail-qk1-f198.google.com with SMTP id f124so31118403qkb.22
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:35:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RMQMUHnYVnq2AcC/aQn0pR+4gejts1KmX+FDMoG77/0=;
- b=eozGsTopnyAWBrSaP+j/jDAfh1GSs5tsNeeONmH0F+jGYIaJKnK63oArDkRQlvXUTX
- h+K0Lxl52KBRmhNfJAlkh1j5dTg2djnNfRCqlSOoj3vZC4YfmroC64W1b6tTOpzz9EZJ
- U6ebOlFyYF7m+qUMvVkv8OWNRKBl4yW4ZZ8+44RNaVgdcRMemAFZArI4tDJJNEJzG53h
- HRavLke4L46XPJaORcq4mLbfXw5jWqOj1RduWBOpedBm/PTGBCwW+epEwr1QpmkECVuq
- mmqJpXJIlf/zNnfCYRIDDjXE+fPBJ+L42sWn0yWpag/Ms6+AY9r9jF9/lgIvSvCxW/XC
- myDg==
-X-Gm-Message-State: APjAAAX6r8yInjdir+cvxShJ9OWKv5Smap+m3NcKSJAiC2TOTycm1U8y
- QxT+MbkOJSnjxy3MPQv1TyCApq7eDIBX3z9HAfnjeQurp6Sa1gALGothC+5PGGICstq9EVg+0NE
- +PR5bATbdoAFGu6w=
-X-Received: by 2002:a05:620a:16c6:: with SMTP id
- a6mr87981106qkn.140.1578382522512; 
- Mon, 06 Jan 2020 23:35:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxhLAdtiJPhE/aI4ePsC2UQ2u1aXK7XFKiPt5F8mBUxv5K/6rfSATmfaqEXSRnZqWhgvblc8g==
-X-Received: by 2002:a05:620a:16c6:: with SMTP id
- a6mr87981096qkn.140.1578382522334; 
- Mon, 06 Jan 2020 23:35:22 -0800 (PST)
-Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id r205sm22044943qke.34.2020.01.06.23.35.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 23:35:21 -0800 (PST)
-Date: Tue, 7 Jan 2020 02:35:18 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 02/32] virtio: make virtio_delete_queue idempotent
-Message-ID: <20200107073451.298261-3-mst@redhat.com>
-References: <20200107073451.298261-1-mst@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iojPL-0007f0-Ru; Tue, 07 Jan 2020 02:36:08 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47sPLq666Vz9sR1; Tue,  7 Jan 2020 18:36:03 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578382563;
+ bh=JetNSslyu4u5D18ZvFLHkWiAUQyN3ZVxUAL03C7Lg5E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NHWU9bXr3+80UXpfwpYlUXX5C9Ga14dXTeb1afXsn9HfERvpQKlnYFnXXz+EDKgPW
+ DAZnFGduEA43MNLjYQ/jMUb09a/s90Pc9/jm3MlAVak8bZJJV8DHW+UN3bVHi4Y5oR
+ Kc4WNRNorq/McBvRll6bGSvkfP/psOxTQ7xBEgZI=
+Date: Tue, 7 Jan 2020 16:54:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v2] spapr: Kill SLOF
+Message-ID: <20200107055436.GI2098@umbus>
+References: <20200105234242.78897-1-aik@ozlabs.ru>
+ <20200106041940.GV2098@umbus>
+ <835b2928-aff9-c2d1-dfdf-60d915706404@ozlabs.ru>
 MIME-Version: 1.0
-In-Reply-To: <20200107073451.298261-1-mst@redhat.com>
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-MC-Unique: i6RM7ghxNbG91c40pTq2WQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0bvna4DSzZXbdO1R"
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+In-Reply-To: <835b2928-aff9-c2d1-dfdf-60d915706404@ozlabs.ru>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,33 +56,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Pan Nengyuan <pannengyuan@huawei.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's make sure calling this twice is harmless -
-no known instances, but seems safer.
 
-Suggested-by: Pan Nengyuan <pannengyuan@huawei.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/virtio/virtio.c | 1 +
- 1 file changed, 1 insertion(+)
+--0bvna4DSzZXbdO1R
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 31dd140990..6de3cfdc2c 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2337,6 +2337,7 @@ void virtio_delete_queue(VirtQueue *vq)
-     vq->handle_output =3D NULL;
-     vq->handle_aio_output =3D NULL;
-     g_free(vq->used_elems);
-+    vq->used_elems =3D NULL;
- }
-=20
- void virtio_del_queue(VirtIODevice *vdev, int n)
+On Tue, Jan 07, 2020 at 03:44:35PM +1100, Alexey Kardashevskiy wrote:
+>=20
+>=20
+> On 06/01/2020 15:19, David Gibson wrote:
+> >> +
+> >> +static uint32_t client_package_to_path(const void *fdt, uint32_t phan=
+dle,
+> >> +                                       uint32_t buf, uint32_t len)
+> >> +{
+> >> +    char tmp[256];
+> >=20
+> > Fixed sized buffers are icky.  You could either dynamically allocate
+> > this based on the size the client gives, or you could use
+> > memory_region_get_ram_ptr() to read the data from the tree directly
+> > into guest memory.
+>=20
+> @len comes from the guest, I am really not comfortable with allocating
+> whatever (broken) guest requested. And if I limit @len by 1024 or
+> similar, then a fixed size buffer will do too, no?
+
+I see your point.  Does this call have a way to report failure?  In
+that case you could outright fail the call if it requests too long a
+length.
+
+> btw how exactly can I use memory_region_get_ram_ptr()?
+> get_system_memory() returns a root MR which is not RAM, RAM is a
+> "spapr.ram" sub-MR.
+
+Right, but you know that RAM is always at offset 0 within that root
+MR.  That said, it doesn't look like it's that easy to bounds check
+that pointer, so maybe that's not a good idea after all.
+
 --=20
-MST
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--0bvna4DSzZXbdO1R
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4UHRoACgkQbDjKyiDZ
+s5KelRAA4aK3GP1xfnzXlXfDQ2vAdD0RhPkAng7TjJFi2UmrAKpmGDsAGz+wP4IF
+l47J8WDNVgfhAw1IerBKlgZ5q5xKr1fwMj91QzmkzuJqc7cnOl/CKYr66YdQd5x6
+WcPnU82HHJRytW2KzWb2WaFe4YZ8Y1zZBdmo5ZuV86smhYXd5hSJ2ek+VuKXMzmi
+S8BwK6ZSlv/b5UWQnsBzSC1JwiFtTZrrN+Gxqp+dtdaI6/oSmYJKGgrl7kPVgsUO
+2L0dow+sewx4CHny6rlUHN2TtweLFP+wuRQRD/eq2klC1ER193ibIPq610MyN7GK
+PzdQYKDfvZ2rTrrwbMiBJR6FBBG7krD+8HRyardDolR/pQ3g6OQA5Pe05xQlZoMj
+U0JryPVnVHRO6rCCxYnkV6Nv5TFHA0fK4P1rvMgx3/PQtZHOd7sXw1QqDIlqrTNP
+SjwtH3pmKT3hUSd/Vs5bzVdgFSBeSd89SWhnCU1FXydQxUG92oYxwmkKUHodSCC4
+1+vdVz3EkLf/7Y71/jBYevBVqLpWZMmrFpP+DCVx8CNcOMqELg6DYUruvxrUxNnb
+bqaGn2Ijlu9lF1Qez8hqDN4zSqvyuKH0WDDOJ6pfCvUwoOeFxbpMuvJVNI6EqNhc
+JvBFDKyPhl294P0DQwyI8iCWiPm4+ot9Z7aiw6/KDLRT4kj62vk=
+=pRz7
+-----END PGP SIGNATURE-----
+
+--0bvna4DSzZXbdO1R--
 
