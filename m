@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88767132872
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:06:13 +0100 (CET)
-Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3268213291D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:41:01 +0100 (CET)
+Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopUq-0005OA-04
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:06:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45534)
+	id 1ioq2W-0007Uh-3K
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:41:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iootH-0001Ng-2Y
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:25 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iootG-0001MY-Qf
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iootE-0003MT-Tg
+ (envelope-from <laurent@vivier.eu>) id 1iootE-0003Mb-V8
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:22 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:45415)
+Received: from mout.kundenserver.de ([212.227.126.133]:43305)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iootE-0003Li-JN
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iootE-0003Lm-Lo
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:27:20 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MKbPg-1j7alG03cC-00KttX; Tue, 07 Jan 2020 14:27:18 +0100
+ id 1MNtCi-1j4JVG2Jjs-00ODoh; Tue, 07 Jan 2020 14:27:18 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] q800: fix mac_via RTC PRAM commands
-Date: Tue,  7 Jan 2020 14:27:12 +0100
-Message-Id: <20200107132715.722101-2-laurent@vivier.eu>
+Subject: [PULL 2/4] q800: add a block backend to the PRAM
+Date: Tue,  7 Jan 2020 14:27:13 +0100
+Message-Id: <20200107132715.722101-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200107132715.722101-1-laurent@vivier.eu>
 References: <20200107132715.722101-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EvyjoCRJ96MLzLqUczWyVm9v9nyZVdCw82Zf8fIsJn8eHv09CmV
- bHFLxq8Z4Q3tM9Wf44L2wrS0qGwDc6mrOqTTTF/1NDJ3swoMxoxwMeF6t6JgIccLLD+CHbY
- HGRBlSDOPF8Pv21+yOSPYufKNnoHoUfWnWLGIhAw+u8x4X1DGqmUshhE+JYT8HPUVzu21Op
- 0gitk1jxQRSXTwptkWoPA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ps+KCaNfP60=:nikIm6NeVbc5zUfBqVG+V5
- oQqtySfO6c5LOqaRz+l5hxHmkg6qJWR1Fo+bbskkmnzBmaqNtgT45cEgbewNcy+kXzOhK50n8
- 3lB64EpKFqTni4Zy6piBFDnucNU16Y5LoOgUGM8YdrpLpKVCN3pl1IUABD6d9ZYCSJAOXFzff
- mWD241/ZKTqlUTEAltdNTW8BBI7i/5Rt1a/e66d2cnFjmZ1Tge+uz+QfNxXswsmpoL6ho+pS1
- AFdq1HClhqrTRrAVS63tevqXJ+AWzoQASoLLijlcmTt/qIUOAIyaJsyfb4II7Snb30EXXbsg0
- IEDsjnvDoUx54BIQ1Jgyz1sYCS4R08Us1P8tns4XaSIrlhuVfvS7ZVF+UH+LKbB06TXkQVA3W
- InEX7+EXUz7e4pBZRA0pd1RvlHIzgyxJOo/eYW/NGPPHmv3FqANnnBZejYZnqtC+hq39nXqwu
- mxiQR1VhpV6IwrpUMSMp/u9gPZ3g86mrsCK2jjra1VjR8DQ5RIy/2cugXEDlOQrI/4FMrfQvd
- U32QFfzmvtaAvhWKFEmRA4dSgoAGttyTPX8iqoE0Ko3aCPQBbI4q0k4/PooGeQTTFIAjaHpYW
- nT78lcELKOmbuFVG556OdPHVtbw6aNdT0lr/opol+8i9SJuaSQCFWJjc4ILyZpJPQ8un3papI
- L6tz3jjy6/i6p6BHx4D3Y40Ep7uNWKKBi3KkOATxVOIimKgsJVniij8f5jzSjY41u/mFjyqZC
- yFufDxYJnLv8ZKoP/VSCyGeLs668nJYJsE/hVmIrnY0JXlCrKEh39C9mtJxsxdaoNl1GTb5MK
- CthHJuGOAAd/Dsz/P5AImNqho5rQ275Z4zufOTQ6oIUrm91UrK4iidRu5nBlaxlbhrsOMJtgM
- NPk/FBBNDxunMzU9lkAQ==
+X-Provags-ID: V03:K1:VSkDYNS6O8gKJsAR0K+Tkh0Rb1s2elMaDTFZyrdgrasDSbfJI91
+ t5fIAuvFJuk+zlviQI4CEV2hWXrPGrETxXf/fV8S9cesZ7gvtABmeGnZOWjXW+qHL1VkWnd
+ g0jDTJgIQo+n4oH3412YX647sdpYLqtt+P0N6Fcjz5tX+VcjHcX9YHz1sz7c3qQy+fnZ7sx
+ bj4xKuZIy+u4OIMjOWWHA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ojYEpLu4bYA=:oNXset85q+GcRXUs5RdKcc
+ iIYMbKbFZQV3CTzkHODEnOaFLusc87FbOuyvsGRWeqxwbPyA2dNFAcmdP9JjovfPubVqB87G1
+ IjB2sUYS4eeonwZmBH1TviXR0t3C5EDa14AjUeW9t1bG64tjcbIF2RSazZt0IMX0WCJ3JcLmm
+ thNvcIODHXsaoYI1KY7hQN6w+bjb8y/h5Ys/GzXOxawCUDVyOYt7fA5Z2nrZHmOnp1jogAuQG
+ ZOm2h5oxgOQtJFnG406fS/+CAtoYaVUbMWkOpy+knWLnBFFpCnsyCsSNDcZG3zUg88IKqC/wg
+ evsh2RBeo9Wugv7fAmYM9crDEQPVtIQ/31AbKhPEGdHFRYlI7eaK+3QCV81d/pb93S66GKn8K
+ i1MJSD/AO26QkGvYI2bD7r4U0IR/P4rUoFnkxm0BK6003O2N6SXThVfEJRwNZNiFhzw4AVqRx
+ dJ6FnhllFMeN0bThiTvTI4DdZMj0Xkg5fvMoLPWuz2Xb8O0VjEDKG75RGhhosf2rJPbNarYhe
+ yO6OQvMqfHf7CKkqUqiajJP/r0he5pjPfJ/Was3wF3XMRxLQo6HJUXAdMkurGbHsgAYERn7Ny
+ A/wv1dhm67Pke7wCHQVhPV1mR+XiF3z+PY1k1NBlpa2dzNoCuYG5JRP6we2acZo1jXSJTRk87
+ tiy0ftfbc03vlxGf1xCgI//fykLVU7vLYk2QIePP+LFi8efWIeEzwDIXTlrYU7gNh+E6/5834
+ M96M5kJiFLMzZfuxnUm+XVtGagkhWJwIBQM+eVTLZ6hY3GcKKUi+D3LfTCTWxsDojWQWI0l+8
+ 6MatKq3pTQMwtvnL4dGhyrmm7zZx+SOX7xpobNTcmS0Lvgvz7JFveueTmnvKXdS+V6u5qQZ4E
+ wSbKSiJHo7XXJL+quw3w==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,387 +65,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The command byte is not decoded correctly.
+This allows to save and restore the content of the PRAM.
+It may be useful if we want to check the configuration or to change it.
 
-This patch reworks the RTC/PRAM interface and fixes the problem.
-It adds a comment before the function to explain how are encoded commands
-and some trace-events to ease debugging.
+The backend is added using mtd interface, for instance:
 
-Bug: https://bugs.launchpad.net/qemu/+bug/1856549
-Fixes: 6dca62a000 ("hw/m68k: add VIA support")
+    ... -drive file=pram.img,format=raw,if=mtd ...
+
+where pram.img is the file where the data will be stored, its size must
+be 256 bytes.
+
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20191219201439.84804-2-laurent@vivier.eu>
+Message-Id: <20191219201439.84804-3-laurent@vivier.eu>
 ---
- hw/misc/mac_via.c    | 274 ++++++++++++++++++++++++++++++-------------
- hw/misc/trace-events |  19 +++
- 2 files changed, 210 insertions(+), 83 deletions(-)
+ hw/m68k/q800.c            |  6 ++++
+ hw/misc/mac_via.c         | 65 +++++++++++++++++++++++++++++++++++++++
+ include/hw/misc/mac_via.h |  3 ++
+ 3 files changed, 74 insertions(+)
 
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 4ca8678007..0c445c74bf 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -158,6 +158,7 @@ static void q800_init(MachineState *machine)
+     NubusBus *nubus;
+     GLUEState *irq;
+     qemu_irq *pic;
++    DriveInfo *dinfo;
+ 
+     linux_boot = (kernel_filename != NULL);
+ 
+@@ -200,6 +201,11 @@ static void q800_init(MachineState *machine)
+     /* VIA */
+ 
+     via_dev = qdev_create(NULL, TYPE_MAC_VIA);
++    dinfo = drive_get(IF_MTD, 0, 0);
++    if (dinfo) {
++        qdev_prop_set_drive(via_dev, "drive", blk_by_legacy_dinfo(dinfo),
++                            &error_abort);
++    }
+     qdev_init_nofail(via_dev);
+     sysbus = SYS_BUS_DEVICE(via_dev);
+     sysbus_mmio_map(sysbus, 0, VIA_BASE);
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index f3f130ad96..e5658af922 100644
+index e5658af922..e9e6a95eab 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -27,7 +27,7 @@
+@@ -27,6 +27,8 @@
  #include "sysemu/runstate.h"
  #include "qapi/error.h"
  #include "qemu/cutils.h"
--
-+#include "trace.h"
++#include "hw/qdev-properties.h"
++#include "sysemu/block-backend.h"
+ #include "trace.h"
  
  /*
-  * VIAs: There are two in every machine,
-@@ -278,6 +278,21 @@
- /* VIA returns time offset from Jan 1, 1904, not 1970 */
- #define RTC_OFFSET 2082844800
- 
-+enum {
-+    REG_0,
-+    REG_1,
-+    REG_2,
-+    REG_3,
-+    REG_TEST,
-+    REG_WPROTECT,
-+    REG_PRAM_ADDR,
-+    REG_PRAM_ADDR_LAST = REG_PRAM_ADDR + 19,
-+    REG_PRAM_SECT,
-+    REG_PRAM_SECT_LAST = REG_PRAM_SECT + 7,
-+    REG_INVALID,
-+    REG_EMPTY = 0xff,
-+};
-+
- static void via1_VBL_update(MOS6522Q800VIA1State *v1s)
- {
-     MOS6522State *s = MOS6522(v1s);
-@@ -360,10 +375,62 @@ static void via2_irq_request(void *opaque, int irq, int level)
+@@ -375,6 +377,15 @@ static void via2_irq_request(void *opaque, int irq, int level)
      mdc->update_irq(s);
  }
  
-+/*
-+ * RTC Commands
-+ *
-+ * Command byte    Register addressed by the command
-+ *
-+ * z0000001        Seconds register 0 (lowest-order byte)
-+ * z0000101        Seconds register 1
-+ * z0001001        Seconds register 2
-+ * z0001101        Seconds register 3 (highest-order byte)
-+ * 00110001        Test register (write-only)
-+ * 00110101        Write-Protect Register (write-only)
-+ * z010aa01        RAM address 100aa ($10-$13) (first 20 bytes only)
-+ * z1aaaa01        RAM address 0aaaa ($00-$0F) (first 20 bytes only)
-+ * z0111aaa        Extended memory designator and sector number
-+ *
-+ * For a read request, z=1, for a write z=0
-+ * The letter a indicates bits whose value depend on what parameter
-+ * RAM byte you want to address
-+ */
-+static int via1_rtc_compact_cmd(uint8_t value)
++
++static void pram_update(MacVIAState *m)
 +{
-+    uint8_t read = value & 0x80;
-+
-+    value &= 0x7f;
-+
-+    /* the last 2 bits of a command byte must always be 0b01 ... */
-+    if ((value & 0x78) == 0x38) {
-+        /* except for the extended memory designator */
-+        return read | (REG_PRAM_SECT + (value & 0x07));
++    if (m->blk) {
++        blk_pwrite(m->blk, 0, m->mos6522_via1.PRAM,
++                   sizeof(m->mos6522_via1.PRAM), 0);
 +    }
-+    if ((value & 0x03) == 0x01) {
-+        value >>= 2;
-+        if ((value & 0x1c) == 0) {
-+            /* seconds registers */
-+            return read | (REG_0 + (value & 0x03));
-+        } else if ((value == 0x0c) && !read) {
-+            return REG_TEST;
-+        } else if ((value == 0x0d) && !read) {
-+            return REG_WPROTECT;
-+        } else if ((value & 0x1c) == 0x08) {
-+            /* RAM address 0x10 to 0x13 */
-+            return read | (REG_PRAM_ADDR + 0x10 + (value & 0x03));
-+        } else if ((value & 0x43) == 0x41) {
-+            /* RAM address 0x00 to 0x0f */
-+            return read | (REG_PRAM_ADDR + (value & 0x0f));
-+        }
-+    }
-+    return REG_INVALID;
 +}
 +
- static void via1_rtc_update(MacVIAState *m)
+ /*
+  * RTC Commands
+  *
+@@ -547,6 +558,7 @@ static void via1_rtc_update(MacVIAState *m)
+             /* PRAM address 0x00 -> 0x13 */
+             trace_via1_rtc_cmd_pram_write(m->cmd - REG_PRAM_ADDR, m->data_out);
+             v1s->PRAM[m->cmd - REG_PRAM_ADDR] = m->data_out;
++            pram_update(m);
+             m->cmd = REG_EMPTY;
+             break;
+         case REG_PRAM_SECT...REG_PRAM_SECT_LAST:
+@@ -577,6 +589,7 @@ static void via1_rtc_update(MacVIAState *m)
+     g_assert(REG_PRAM_SECT <= m->cmd && m->cmd <= REG_PRAM_SECT_LAST);
+     sector = m->cmd - REG_PRAM_SECT;
+     v1s->PRAM[sector * 32 + m->alt] = m->data_out;
++    pram_update(m);
+     trace_via1_rtc_cmd_pram_sect_write(sector, m->alt, sector * 32 + m->alt,
+                                        m->data_out);
+     m->alt = REG_EMPTY;
+@@ -857,6 +870,7 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+     MacVIAState *m = MAC_VIA(dev);
+     MOS6522State *ms;
+     struct tm tm;
++    int ret;
+ 
+     /* Init VIAs 1 and 2 */
+     sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
+@@ -890,6 +904,28 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+     m->adb_poll_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, via_adb_poll, m);
+     m->adb_data_ready = qdev_get_gpio_in_named(dev, "via1-irq",
+                                                VIA1_IRQ_ADB_READY_BIT);
++
++    if (m->blk) {
++        int64_t len = blk_getlength(m->blk);
++        if (len < 0) {
++            error_setg_errno(errp, -len,
++                             "could not get length of backing image");
++            return;
++        }
++        ret = blk_set_perm(m->blk,
++                           BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
++                           BLK_PERM_ALL, errp);
++        if (ret < 0) {
++            return;
++        }
++
++        len = blk_pread(m->blk, 0, m->mos6522_via1.PRAM,
++                        sizeof(m->mos6522_via1.PRAM));
++        if (len != sizeof(m->mos6522_via1.PRAM)) {
++            error_setg(errp, "can't read PRAM contents");
++            return;
++        }
++    }
+ }
+ 
+ static void mac_via_init(Object *obj)
+@@ -914,10 +950,33 @@ static void mac_via_init(Object *obj)
+                         TYPE_ADB_BUS, DEVICE(obj), "adb.0");
+ }
+ 
++static void postload_update_cb(void *opaque, int running, RunState state)
++{
++    MacVIAState *m = MAC_VIA(opaque);
++
++    qemu_del_vm_change_state_handler(m->vmstate);
++    m->vmstate = NULL;
++
++    pram_update(m);
++}
++
++static int mac_via_post_load(void *opaque, int version_id)
++{
++    MacVIAState *m = MAC_VIA(opaque);
++
++    if (m->blk) {
++        m->vmstate = qemu_add_vm_change_state_handler(postload_update_cb,
++                                                      m);
++    }
++
++    return 0;
++}
++
+ static const VMStateDescription vmstate_mac_via = {
+     .name = "mac-via",
+     .version_id = 1,
+     .minimum_version_id = 1,
++    .post_load = mac_via_post_load,
+     .fields = (VMStateField[]) {
+         /* VIAs */
+         VMSTATE_STRUCT(mos6522_via1.parent_obj, MacVIAState, 0, vmstate_mos6522,
+@@ -950,6 +1009,11 @@ static const VMStateDescription vmstate_mac_via = {
+     }
+ };
+ 
++static Property mac_via_properties[] = {
++    DEFINE_PROP_DRIVE("drive", MacVIAState, blk),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void mac_via_class_init(ObjectClass *oc, void *data)
  {
-     MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
-     MOS6522State *s = MOS6522(v1s);
-+    int cmd, sector, addr;
-+    uint32_t time;
- 
-     if (s->b & VIA1B_vRTCEnb) {
-         return;
-@@ -376,7 +443,9 @@ static void via1_rtc_update(MacVIAState *m)
-             m->data_out |= s->b & VIA1B_vRTCData;
-             m->data_out_cnt++;
-         }
-+        trace_via1_rtc_update_data_out(m->data_out_cnt, m->data_out);
-     } else {
-+        trace_via1_rtc_update_data_in(m->data_in_cnt, m->data_in);
-         /* receive bits from the RTC */
-         if ((v1s->last_b & VIA1B_vRTCClk) &&
-             !(s->b & VIA1B_vRTCClk) &&
-@@ -386,96 +455,132 @@ static void via1_rtc_update(MacVIAState *m)
-             m->data_in <<= 1;
-             m->data_in_cnt--;
-         }
-+        return;
-     }
- 
--    if (m->data_out_cnt == 8) {
--        m->data_out_cnt = 0;
--
--        if (m->cmd == 0) {
--            if (m->data_out & 0x80) {
--                /* this is a read command */
--                uint32_t time = m->tick_offset +
--                               (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) /
--                               NANOSECONDS_PER_SECOND);
--                if (m->data_out == 0x81) {        /* seconds register 0 */
--                    m->data_in = time & 0xff;
--                    m->data_in_cnt = 8;
--                } else if (m->data_out == 0x85) { /* seconds register 1 */
--                    m->data_in = (time >> 8) & 0xff;
--                    m->data_in_cnt = 8;
--                } else if (m->data_out == 0x89) { /* seconds register 2 */
--                    m->data_in = (time >> 16) & 0xff;
--                    m->data_in_cnt = 8;
--                } else if (m->data_out == 0x8d) { /* seconds register 3 */
--                    m->data_in = (time >> 24) & 0xff;
--                    m->data_in_cnt = 8;
--                } else if ((m->data_out & 0xf3) == 0xa1) {
--                    /* PRAM address 0x10 -> 0x13 */
--                    int addr = (m->data_out >> 2) & 0x03;
--                    m->data_in = v1s->PRAM[addr];
--                    m->data_in_cnt = 8;
--                } else if ((m->data_out & 0xf3) == 0xa1) {
--                    /* PRAM address 0x00 -> 0x0f */
--                    int addr = (m->data_out >> 2) & 0x0f;
--                    m->data_in = v1s->PRAM[addr];
--                    m->data_in_cnt = 8;
--                } else if ((m->data_out & 0xf8) == 0xb8) {
--                    /* extended memory designator and sector number */
--                    m->cmd = m->data_out;
--                }
--            } else {
--                /* this is a write command */
--                m->cmd = m->data_out;
-+    if (m->data_out_cnt != 8) {
-+        return;
-+    }
-+
-+    m->data_out_cnt = 0;
-+
-+    trace_via1_rtc_internal_status(m->cmd, m->alt, m->data_out);
-+    /* first byte: it's a command */
-+    if (m->cmd == REG_EMPTY) {
-+
-+        cmd = via1_rtc_compact_cmd(m->data_out);
-+        trace_via1_rtc_internal_cmd(cmd);
-+
-+        if (cmd == REG_INVALID) {
-+            trace_via1_rtc_cmd_invalid(m->data_out);
-+            return;
-+        }
-+
-+        if (cmd & 0x80) { /* this is a read command */
-+            switch (cmd & 0x7f) {
-+            case REG_0...REG_3: /* seconds registers */
-+                /*
-+                 * register 0 is lowest-order byte
-+                 * register 3 is highest-order byte
-+                 */
-+
-+                time = m->tick_offset + (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)
-+                       / NANOSECONDS_PER_SECOND);
-+                trace_via1_rtc_internal_time(time);
-+                m->data_in = (time >> ((cmd & 0x03) << 3)) & 0xff;
-+                m->data_in_cnt = 8;
-+                trace_via1_rtc_cmd_seconds_read((cmd & 0x7f) - REG_0,
-+                                                m->data_in);
-+                break;
-+            case REG_PRAM_ADDR...REG_PRAM_ADDR_LAST:
-+                /* PRAM address 0x00 -> 0x13 */
-+                m->data_in = v1s->PRAM[(cmd & 0x7f) - REG_PRAM_ADDR];
-+                m->data_in_cnt = 8;
-+                trace_via1_rtc_cmd_pram_read((cmd & 0x7f) - REG_PRAM_ADDR,
-+                                             m->data_in);
-+                break;
-+            case REG_PRAM_SECT...REG_PRAM_SECT_LAST:
-+                /*
-+                 * extended memory designator and sector number
-+                 * the only two-byte read command
-+                 */
-+                trace_via1_rtc_internal_set_cmd(cmd);
-+                m->cmd = cmd;
-+                break;
-+            default:
-+                g_assert_not_reached();
-+                break;
-             }
-+            return;
-+        }
-+
-+        /* this is a write command, needs a parameter */
-+        if (cmd == REG_WPROTECT || !m->wprotect) {
-+            trace_via1_rtc_internal_set_cmd(cmd);
-+            m->cmd = cmd;
-         } else {
-+            trace_via1_rtc_internal_ignore_cmd(cmd);
-+        }
-+        return;
-+    }
-+
-+    /* second byte: it's a parameter */
-+    if (m->alt == REG_EMPTY) {
-+        switch (m->cmd & 0x7f) {
-+        case REG_0...REG_3: /* seconds register */
-+            /* FIXME */
-+            trace_via1_rtc_cmd_seconds_write(m->cmd - REG_0, m->data_out);
-+            m->cmd = REG_EMPTY;
-+            break;
-+        case REG_TEST:
-+            /* device control: nothing to do */
-+            trace_via1_rtc_cmd_test_write(m->data_out);
-+            m->cmd = REG_EMPTY;
-+            break;
-+        case REG_WPROTECT:
-+            /* Write Protect register */
-+            trace_via1_rtc_cmd_wprotect_write(m->data_out);
-+            m->wprotect = !!(m->data_out & 0x80);
-+            m->cmd = REG_EMPTY;
-+            break;
-+        case REG_PRAM_ADDR...REG_PRAM_ADDR_LAST:
-+            /* PRAM address 0x00 -> 0x13 */
-+            trace_via1_rtc_cmd_pram_write(m->cmd - REG_PRAM_ADDR, m->data_out);
-+            v1s->PRAM[m->cmd - REG_PRAM_ADDR] = m->data_out;
-+            m->cmd = REG_EMPTY;
-+            break;
-+        case REG_PRAM_SECT...REG_PRAM_SECT_LAST:
-+            addr = (m->data_out >> 2) & 0x1f;
-+            sector = (m->cmd & 0x7f) - REG_PRAM_SECT;
-             if (m->cmd & 0x80) {
--                if ((m->cmd & 0xf8) == 0xb8) {
--                    /* extended memory designator and sector number */
--                    int sector = m->cmd & 0x07;
--                    int addr = (m->data_out >> 2) & 0x1f;
--
--                    m->data_in = v1s->PRAM[sector * 8 + addr];
--                    m->data_in_cnt = 8;
--                }
--            } else if (!m->wprotect) {
--                /* this is a write command */
--                if (m->alt != 0) {
--                    /* extended memory designator and sector number */
--                    int sector = m->cmd & 0x07;
--                    int addr = (m->alt >> 2) & 0x1f;
--
--                    v1s->PRAM[sector * 8 + addr] = m->data_out;
--
--                    m->alt = 0;
--                } else if (m->cmd == 0x01) { /* seconds register 0 */
--                    /* FIXME */
--                } else if (m->cmd == 0x05) { /* seconds register 1 */
--                    /* FIXME */
--                } else if (m->cmd == 0x09) { /* seconds register 2 */
--                    /* FIXME */
--                } else if (m->cmd == 0x0d) { /* seconds register 3 */
--                    /* FIXME */
--                } else if (m->cmd == 0x31) {
--                    /* Test Register */
--                } else if (m->cmd == 0x35) {
--                    /* Write Protect register */
--                    m->wprotect = m->data_out & 1;
--                } else if ((m->cmd & 0xf3) == 0xa1) {
--                    /* PRAM address 0x10 -> 0x13 */
--                    int addr = (m->cmd >> 2) & 0x03;
--                    v1s->PRAM[addr] = m->data_out;
--                } else if ((m->cmd & 0xf3) == 0xa1) {
--                    /* PRAM address 0x00 -> 0x0f */
--                    int addr = (m->cmd >> 2) & 0x0f;
--                    v1s->PRAM[addr] = m->data_out;
--                } else if ((m->cmd & 0xf8) == 0xb8) {
--                    /* extended memory designator and sector number */
--                    m->alt = m->cmd;
--                }
-+                /* it's a read */
-+                m->data_in = v1s->PRAM[sector * 32 + addr];
-+                m->data_in_cnt = 8;
-+                trace_via1_rtc_cmd_pram_sect_read(sector, addr,
-+                                                  sector * 32 + addr,
-+                                                  m->data_in);
-+                m->cmd = REG_EMPTY;
-+            } else {
-+                /* it's a write, we need one more parameter */
-+                trace_via1_rtc_internal_set_alt(addr, sector, addr);
-+                m->alt = addr;
-             }
-+            break;
-+        default:
-+            g_assert_not_reached();
-+            break;
-         }
--        m->data_out = 0;
-+        return;
-     }
-+
-+    /* third byte: it's the data of a REG_PRAM_SECT write */
-+    g_assert(REG_PRAM_SECT <= m->cmd && m->cmd <= REG_PRAM_SECT_LAST);
-+    sector = m->cmd - REG_PRAM_SECT;
-+    v1s->PRAM[sector * 32 + m->alt] = m->data_out;
-+    trace_via1_rtc_cmd_pram_sect_write(sector, m->alt, sector * 32 + m->alt,
-+                                       m->data_out);
-+    m->alt = REG_EMPTY;
-+    m->cmd = REG_EMPTY;
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -957,6 +1021,7 @@ static void mac_via_class_init(ObjectClass *oc, void *data)
+     dc->realize = mac_via_realize;
+     dc->reset = mac_via_reset;
+     dc->vmsd = &vmstate_mac_via;
++    dc->props = mac_via_properties;
  }
  
- static int adb_via_poll(MacVIAState *s, int state, uint8_t *data)
-@@ -742,6 +847,9 @@ static void mac_via_reset(DeviceState *dev)
-     v1s->next_VBL = 0;
-     timer_del(v1s->one_second_timer);
-     v1s->next_second = 0;
-+
-+    m->cmd = REG_EMPTY;
-+    m->alt = REG_EMPTY;
- }
+ static TypeInfo mac_via_info = {
+diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
+index 3f86fcb7e1..e74f85be0f 100644
+--- a/include/hw/misc/mac_via.h
++++ b/include/hw/misc/mac_via.h
+@@ -81,6 +81,8 @@ typedef struct MOS6522Q800VIA2State {
+ typedef struct MacVIAState {
+     SysBusDevice busdev;
  
- static void mac_via_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 1deb1d08c1..2e0c820834 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -149,3 +149,22 @@ bcm2835_mbox_write(unsigned int size, uint64_t addr, uint64_t value) "mbox write
- bcm2835_mbox_read(unsigned int size, uint64_t addr, uint64_t value) "mbox read sz:%u addr:0x%"PRIx64" data:0x%"PRIx64
- bcm2835_mbox_irq(unsigned level) "mbox irq:ARM level:%u"
- bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "mbox property tag:0x%08x in_sz:%u out_sz:%zu"
++    VMChangeStateEntry *vmstate;
 +
-+# mac_via.c
-+via1_rtc_update_data_out(int count, int value) "count=%d value=0x%02x"
-+via1_rtc_update_data_in(int count, int value) "count=%d value=0x%02x"
-+via1_rtc_internal_status(int cmd, int alt, int value) "cmd=0x%02x alt=0x%02x value=0x%02x"
-+via1_rtc_internal_cmd(int cmd) "cmd=0x%02x"
-+via1_rtc_cmd_invalid(int value) "value=0x%02x"
-+via1_rtc_internal_time(uint32_t time) "time=0x%08x"
-+via1_rtc_internal_set_cmd(int cmd) "cmd=0x%02x"
-+via1_rtc_internal_ignore_cmd(int cmd) "cmd=0x%02x"
-+via1_rtc_internal_set_alt(int alt, int sector, int offset) "alt=0x%02x sector=%u offset=%u"
-+via1_rtc_cmd_seconds_read(int reg, int value) "reg=%d value=0x%02x"
-+via1_rtc_cmd_seconds_write(int reg, int value) "reg=%d value=0x%02x"
-+via1_rtc_cmd_test_write(int value) "value=0x%02x"
-+via1_rtc_cmd_wprotect_write(int value) "value=0x%02x"
-+via1_rtc_cmd_pram_read(int addr, int value) "addr=%u value=0x%02x"
-+via1_rtc_cmd_pram_write(int addr, int value) "addr=%u value=0x%02x"
-+via1_rtc_cmd_pram_sect_read(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=%d value=0x%02x"
-+via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int value) "sector=%u offset=%u addr=%d value=0x%02x"
+     /* MMIO */
+     MemoryRegion mmio;
+     MemoryRegion via1mem;
+@@ -100,6 +102,7 @@ typedef struct MacVIAState {
+     uint8_t cmd;
+     int wprotect;
+     int alt;
++    BlockBackend *blk;
+ 
+     /* ADB */
+     ADBBusState adb_bus;
 -- 
 2.24.1
 
