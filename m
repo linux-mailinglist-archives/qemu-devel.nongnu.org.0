@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F88313268D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:40:03 +0100 (CET)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C7E1326A3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:44:39 +0100 (CET)
+Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioo9R-00074d-JC
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:40:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39251)
+	id 1iooDt-0002N0-Hd
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:44:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39271)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iomxL-0005pC-BR
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:28 -0500
+ (envelope-from <berrange@redhat.com>) id 1iomxO-0005ym-0R
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iomxK-0005xM-6A
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:27 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53887
+ (envelope-from <berrange@redhat.com>) id 1iomxM-0005zI-Hy
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:29 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58110
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iomxK-0005x1-1z
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:26 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iomxM-0005z5-Dx
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:23:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578396205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1578396208;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=5N9uf4KZ99qzJzNRLgNzDXSkvzhad+2YpQb+cUJ/uCU=;
- b=L1K1Qo+7xd2DazUUUu5F/MOuLKJvBhKNWsqoU5kx2/ZCHHkOgFy1ICRnO2XOiqwAZTZhc0
- UsO4ejEYEeK+K37Bs5I/jsZbLh1PsysSs4vWNzFhzyAo2R9ARqvYXjg7OmyjuXCcd+WQ8x
- VbYMnR5zC8bP4ZylCQhLybd3aIDzIPk=
+ in-reply-to:in-reply-to:references:references;
+ bh=bQpHBiB77jRLIM/SSzBI+5nIv6lki2GltRFSi+L6sGM=;
+ b=Wa23F0w8INJ2Cb048oj3hSwPQIL9855s9+CMlk+YkG/Q3xuxzUOjL60htpSHa0LxcrOtM5
+ kaKe0IIA6/FAc2ZcRuQQIyZjkoz/a5qjmFPqqUNRHmBMj9eX3vwWTKGFncz0gJpzLmf5Xv
+ j0UwfOYoLF5/Te7ouXcha/ao/jjsZQI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-eXfZR9NDOoysYKyCkHfbag-1; Tue, 07 Jan 2020 06:23:22 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-175-6H0n-0AkN0O8w1fOsE2bVA-1; Tue, 07 Jan 2020 06:23:25 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39A0418AAFA3;
- Tue,  7 Jan 2020 11:23:19 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 59DED10016EB;
- Tue,  7 Jan 2020 11:23:14 +0000 (UTC)
-Subject: Re: [RFC PATCH qemu] spapr: Kill SLOF
-To: Andrea Bolognani <abologna@redhat.com>
-References: <20200103074404.30853-1-aik@ozlabs.ru>
- <3cf3e733-199a-61ba-7aaa-05e9546cd4d9@ozlabs.ru>
- <dd98618f-01c6-850f-ac00-454a2f798508@gmail.com>
- <81f1f752-3ada-2c8d-38b7-1344c7633e14@ozlabs.ru>
- <e3299f0688127627de96eb2db1f127bf94df9085.camel@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <36763452-a67f-b663-42d2-48cd99995a0c@redhat.com>
-Date: Tue, 7 Jan 2020 12:23:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FAB9801E72
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:23:24 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55D795C21B;
+ Tue,  7 Jan 2020 11:23:20 +0000 (UTC)
+Date: Tue, 7 Jan 2020 11:23:16 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 068/104] virtiofsd: passthrough_ll: control readdirplus
+Message-ID: <20200107112316.GL3368802@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-69-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e3299f0688127627de96eb2db1f127bf94df9085.camel@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: eXfZR9NDOoysYKyCkHfbag-1
+In-Reply-To: <20191212163904.159893-69-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 6H0n-0AkN0O8w1fOsE2bVA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,35 +74,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jose Ricardo Ziviani <joserz@linux.ibm.com>,
- Fabiano Rosas <farosas@linux.ibm.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Paul Mackerras <paulus@ozlabs.org>, Sam Bobroff <sbobroff@linux.ibm.com>,
- qemu-ppc@nongnu.org,
- =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?= <lagarcia@br.ibm.com>,
- Leonardo Bras <leonardo@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/2020 10.39, Andrea Bolognani wrote:
-> On Tue, 2020-01-07 at 12:55 +1100, Alexey Kardashevskiy wrote:
->> On 07/01/2020 01:15, Daniel Henrique Barboza wrote:
->>> Question: does Petitboot already replaces SLOF in every possible
->>> scenario for all
->>> the spapr machine features?
->>
->> Petitboot kernel+initramdisk almost replaces SLOF + GRUB.
-> 
-> Is this necessarily a good thing? Personally I quite like the fact
-> that I can use the same bootloader across x86, ppc64 and aarch64.
+On Thu, Dec 12, 2019 at 04:38:28PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: Miklos Szeredi <mszeredi@redhat.com>
+>
 
-AFAIK petitboot can use the grub config files ... and it is already used
-on bare metal POWER8 and POWER9 systems, so it should not be such a big
-change to use it for POWER KVM guests, too?
+What is readdirplus and what do we need a command line option to
+control it ? What's the user benefit of changing the setting ?
 
- Thomas
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
+gh_ll.c
+> index 0d70a367bd..c3e8bde5cf 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -118,6 +118,8 @@ struct lo_data {
+>      double timeout;
+>      int cache;
+>      int timeout_set;
+> +    int readdirplus_set;
+> +    int readdirplus_clear;
+>      struct lo_inode root; /* protected by lo->mutex */
+>      struct lo_map ino_map; /* protected by lo->mutex */
+>      struct lo_map dirp_map; /* protected by lo->mutex */
+> @@ -141,6 +143,8 @@ static const struct fuse_opt lo_opts[] =3D {
+>      { "cache=3Dauto", offsetof(struct lo_data, cache), CACHE_NORMAL },
+>      { "cache=3Dalways", offsetof(struct lo_data, cache), CACHE_ALWAYS },
+>      { "norace", offsetof(struct lo_data, norace), 1 },
+> +    { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
+> +    { "no_readdirplus", offsetof(struct lo_data, readdirplus_clear), 1 }=
+,
+>      FUSE_OPT_END
+>  };
+>  static bool use_syslog =3D false;
+> @@ -479,7 +483,8 @@ static void lo_init(void *userdata, struct fuse_conn_=
+info *conn)
+>          fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
+>          conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
+>      }
+> -    if (lo->cache =3D=3D CACHE_NEVER) {
+> +    if ((lo->cache =3D=3D CACHE_NEVER && !lo->readdirplus_set) ||
+> +        lo->readdirplus_clear) {
+>          fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling readdirplus\n");
+>          conn->want &=3D ~FUSE_CAP_READDIRPLUS;
+>      }
+> --=20
+> 2.23.0
+>=20
+>=20
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
