@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB44132A85
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:56:06 +0100 (CET)
-Received: from localhost ([::1]:52066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCB4132A80
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:52:42 +0100 (CET)
+Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iorDB-0008CB-DX
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:56:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45460)
+	id 1ior9t-00015s-H6
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:52:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49011)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ioqqC-0002le-6K
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:21 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ioquv-0002O4-OS
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:37:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ioqqA-0005MH-Py
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:19 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34760)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ioqqA-0005LO-Jh
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:18 -0500
-Received: by mail-oi1-x244.google.com with SMTP id l136so18016086oig.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 07:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=podBi/rjW/jG7GZECQsO96Hk3yL7ZXi+8rNfFC5U6Vk=;
- b=gyAq3xkowlKJbb8h/5wSe+QoInXdMm64UKGLzlOIRHVgsyeVZPW0890oCZrU7KN2KR
- Qh4SISYuDrLdlq9rLjyLBnKGZdGMqaIovOsgD3FMJ/dv7cLQHlnb1pGoOJK/UDde7Mpe
- rqmkvibT9b7mgnlwPNl0HtsxFZDxEXFodUqRnG1l5nbVdpabgwbclxFSrhfo5xBcqyzw
- 6baYYv/CZ6ORHyXiRs9Ez61O1Jg0RC8s40pw0BoB/Nj49ALNbZleE+Wx0/7ja9kgEZ4E
- vT66Yvr5viahMIXAr+D0issydRpJ4yUMUqAosMzEZhDfoR0D78NQRDwz9LxGMEY+A2Vw
- ceTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=podBi/rjW/jG7GZECQsO96Hk3yL7ZXi+8rNfFC5U6Vk=;
- b=m74BB84rVbPs996G65lkjJF/ryXefhTbcXfkoaFshQW2+i3OWMMyqwIYKtbHndv0i0
- Ga48f0Jwtk5BD0zFY1phCHHhPdwr1xMbz6jtFLVwK17tCOphLCvYKPAnNUCU0NHChHuu
- AzJDaE8xG6spJEunl65g49BTt8plq+M5mcKGTInTpnzgWMO/OMVGVJ6HV+gdnbEZdCl1
- b3U0n9JEEuVmq+R/0gqDrDqUwO1chCAoPb11qGwz4k1ZpFZffBOT/pncoNHwwvwtacKu
- Lhv9L91JbmhIH8PX3v7ULweGkkeFz8Kmm68SNYSlaMYKiayIhet7chz9uomBwvJPL2bi
- wdgg==
-X-Gm-Message-State: APjAAAXfD1+KXYbzrSVJUxO0d7Xn1iLvSsDNVxQrGXr8ik9pZ1fi0GQU
- 8xOIltDGYAr512IOUScTDV8MKRUvYgf4gHUbyaPKkA==
-X-Google-Smtp-Source: APXvYqwn1fMAwwiMYxxvEduTQ9AXWqbBn/SowIu8nOvJlTiuLVFlloBlPYS9aF6aqZM6TTKJ2sanhyhWW+MXED0IegU=
-X-Received: by 2002:aca:f484:: with SMTP id s126mr190052oih.48.1578411137371; 
- Tue, 07 Jan 2020 07:32:17 -0800 (PST)
+ (envelope-from <imammedo@redhat.com>) id 1ioquu-0000hk-J2
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:37:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21902
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ioquu-0000hS-F6
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:37:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578411432;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zb86pkcQTkRb+tLn+Pn0ONVbfqPk0TR4wnSFZFvBwvo=;
+ b=XWLHup4+aD98Cil33u1ZETG1vO8cCPYgqD2PXTnuW2+9AUFeicfe7awiwp+XLKMkWYh30V
+ oebitHI2FwHpP2whDnZKEKL1wquLgxOkAt9ToLXQGrMtSQAymW8CR9PruX7cNkjeY5RQLf
+ IHc1zSxdfnhkvKWfeDfK48JNNr4R4G0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-QJD0ZEtHOuGCCetrAGhSQw-1; Tue, 07 Jan 2020 10:37:08 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFEBC100728A;
+ Tue,  7 Jan 2020 15:37:07 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 266C460C88;
+ Tue,  7 Jan 2020 15:37:03 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 43/86] hppa: allow max ram size upto 4Gb
+Date: Tue,  7 Jan 2020 16:34:38 +0100
+Message-Id: <1578411278-162603-1-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1577797450-88458-44-git-send-email-imammedo@redhat.com>
+References: <1577797450-88458-44-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <20200106144552.7205-1-peter.maydell@linaro.org>
- <20200106172808.GB219677@xz-x1>
- <CAFEAcA89VHAyQKCeV6exxzDjLCEGUyg59um7w-VZ2K6s4ZV31g@mail.gmail.com>
- <20200106180129.GD219677@xz-x1>
-In-Reply-To: <20200106180129.GD219677@xz-x1>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 15:32:06 +0000
-Message-ID: <CAFEAcA_-iB9buW0O8uoL9u8sUs7GdpD-fjfdjFfzP8yJ2+ZRbQ@mail.gmail.com>
-Subject: Re: [PATCH] tests/iothread: Always connect iothread GSource to a
- GMainContext
-To: Peter Xu <peterx@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: QJD0ZEtHOuGCCetrAGhSQw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,38 +71,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: svens@stackframe.org, deller@gmx.de, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 18:01, Peter Xu <peterx@redhat.com> wrote:
->
-> On Mon, Jan 06, 2020 at 05:40:15PM +0000, Peter Maydell wrote:
->
-> [...]
->
-> > So we're OK to not do this because tests/iothread.c's
-> > main loop doesn't call g_main_loop_run(), and it doesn't
-> > provide an iothread_get_g_main_context() ?
-> >
-> > I'm kind of inclined towards being lazy and sticking with
-> > what this patch has, because:
-> >  * it matches the real iothread.c, which reduces the possiblity
-> >    of future surprise bugs due to things not matching up
-> >  * it's already been reviewed
-> >  * it saves me having to do a respin and retest
-> >
-> > But if people would prefer these bits deleted I'll stop
-> > being lazy :-)
->
-> Please feel free to be lazy and fix the test sooner (and that's why I
-> offered my r-b :).
+Real hardware allows to plug in up to 4Gb RAM into memory slots.
+So allow user specify up to 4Gb and map all of it into guest
+address space.
 
-Thanks; I've applied this to master (though some other
-problem with the NetBSD VM test run seems to have crept
-in while I was ignoring failures on the assumption they
-were due to this bug :-( )
+PS:
+  * guest will still see 3840m being reported in
+    cpu[0]->env.gr[26] and won't be avare of remaining
+    ~248Mb, as it doesn't have other means to discover
+    RAM above firmware ROM.
+  * use local ram_size to avoid changing global one
+    which shouldn't be changed boards and will be removed
+    in the future
 
--- PMM
+Requested-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+v2:
+  - make main ram -1 prio, so it wouldn't conflict with other regions
+    starting from 0xf9000000
+    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+  - avoid type size comparision error on migw32 host with ram_addr_t
+  - simplify code a bit using local ram_size var.
+  - rewrite commit message
+v3:
+  - drop "hppa: drop RAM size fixup"
+  - rewrite commit message
+  - use 64-bit local ram_size to workaround always false
+    condition "if (ram_size > 4 * GiB)" when building on
+    32-bit host (mingw-32) as it's preffered over ifdefs.
+---
+ hw/hppa/machine.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 5d0de26..d63b61e 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -73,10 +73,9 @@ static void machine_hppa_init(MachineState *machine)
+     MemoryRegion *ram_region;
+     MemoryRegion *cpu_region;
+     long i;
++    uint64_t ram_size =3D machine->ram_size;
+     unsigned int smp_cpus =3D machine->smp.cpus;
+=20
+-    ram_size =3D machine->ram_size;
+-
+     /* Create CPUs.  */
+     for (i =3D 0; i < smp_cpus; i++) {
+         char *name =3D g_strdup_printf("cpu%ld-io-eir", i);
+@@ -91,15 +90,17 @@ static void machine_hppa_init(MachineState *machine)
+     }
+=20
+     /* Limit main memory. */
+-    if (ram_size > FIRMWARE_START) {
+-        machine->ram_size =3D ram_size =3D FIRMWARE_START;
++    if (ram_size > 4 * GiB) {
++        error_report("RAM size more than 4Gb is not supported");
++        exit(EXIT_FAILURE);
+     }
++    ram_size =3D ram_size > FIRMWARE_START ? FIRMWARE_START : ram_size;
+=20
+     /* Main memory region. */
+     ram_region =3D g_new(MemoryRegion, 1);
+     memory_region_allocate_system_memory(ram_region, OBJECT(machine),
+                                          "ram", ram_size);
+-    memory_region_add_subregion(addr_space, 0, ram_region);
++    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1);
+=20
+     /* Init Dino (PCI host bus chip).  */
+     pci_bus =3D dino_init(addr_space, &rtc_irq, &serial_irq);
+@@ -246,6 +247,8 @@ static void machine_hppa_init(MachineState *machine)
+ static void hppa_machine_reset(MachineState *ms)
+ {
+     unsigned int smp_cpus =3D ms->smp.cpus;
++    uint64_t ram_size =3D ms->ram_size > FIRMWARE_START ? FIRMWARE_START :
++                                                        ms->ram_size;
+     int i;
+=20
+     qemu_devices_reset();
+--=20
+2.7.4
+
 
