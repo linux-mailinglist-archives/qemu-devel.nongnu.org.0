@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF29132DE5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 19:01:28 +0100 (CET)
-Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA313132E0B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 19:11:44 +0100 (CET)
+Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iotAV-0002rJ-NE
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 13:01:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51943)
+	id 1iotKS-0003h8-0S
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 13:11:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iot9M-0002Il-5W
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:00:17 -0500
+ (envelope-from <bounces@canonical.com>) id 1iotJY-0003Ek-Oa
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:10:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iot9K-0003Fi-Bm
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:00:15 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38505)
+ (envelope-from <bounces@canonical.com>) id 1iotJX-0005rS-GQ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:10:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34186)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iot9I-0003D2-LG
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:00:12 -0500
-Received: by mail-wr1-x431.google.com with SMTP id y17so454655wrh.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 10:00:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N1hZ2+dZ+KNrvRY3A4OxdrdpA3fvLZxJeHpvL0wNwYY=;
- b=VYrt2jJnnHT2I+Sm3+ne0cCmiLKuaDkhAZCiV/5QK1Q4HFtfhi2D/aoEAkjcCiwd9K
- HKqynQMfK0/iTPWwm852O3mekraR4qj6OQ8LI0St8GOTgrJ6q9o10tmfysHrF1TWpvdg
- gTffdynm4jThwgg4sDpnKfA03EBXrx4jHIUriailfL+X7tcNh4O+UWXUtkncAH4CsSEv
- f+8AoG1AGgbyP3mb1ovoAg8cBlrgB7FOnn0Fe/H5bXZlRQ3VMyAoFPfaeTwTracqgTAU
- XcXZ5syy4CsPkQjkH9uenFILtrktVQgTprIMVmbIQfLHnRyv9bFX5pWJPRWqo8+TQ9Oi
- PAtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N1hZ2+dZ+KNrvRY3A4OxdrdpA3fvLZxJeHpvL0wNwYY=;
- b=Ms6vqfLkr0naJG7kA6nNeK2LsaMUn40qOwveM/8f3M5cvNh4DZvGkYCnaEWky6I5NG
- Elfi3Cvl8akw49Y1t7xUf9QzM48Wzn1/iKzGN8F4MXvPt9upAkxpALR9ygoaiWJi6548
- 89woSJyxT8a6jfmdGk9MEhhada5moashs30wVFagCvDSQ144JCikqVFQtxpcsRmIoH1t
- 5xR5O0CrWakDdTy4DrUJ5BI9QLLrLpTu727L4fO3VSfDTVNZndcQdbBZkt7cb5E+LMCT
- /2pQCLNLCwrWu5h4pb+0Bez3EVDdMqVHGggoUMQqtZz/pMT5uM5GEpW44Dm0yTz15BIw
- fkrg==
-X-Gm-Message-State: APjAAAWjLW/ycXi6hCG76qRJigcksx45MU2Cn7hXOT3FgShYUr5l9aNJ
- y8sq9NypZkcs0eBMDZjAT2EQcw==
-X-Google-Smtp-Source: APXvYqzsGgIzz83ENfweiTTD/3WppwWMF/Za65eESdrt0FPunHfjlKrjt23uJWf+FBTLCEHC9sntqA==
-X-Received: by 2002:a5d:5706:: with SMTP id a6mr318649wrv.108.1578420011021;
- Tue, 07 Jan 2020 10:00:11 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w17sm770964wrt.89.2020.01.07.10.00.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 10:00:10 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 542DB1FF87;
- Tue,  7 Jan 2020 18:00:09 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] testing: don't nest build for fp-test
-Date: Tue,  7 Jan 2020 18:00:03 +0000
-Message-Id: <20200107180003.6753-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iotJX-0005pm-Ah
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:10:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iotJV-0000O0-BO
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 18:10:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 51F2B2E80C3
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 18:10:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::431
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Jan 2020 18:01:24 -0000
+From: ecsdn <1856834@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
+X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
+X-Launchpad-Bug-Modifier: ecsdn (ecsdn)
+References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
+Message-Id: <157842008481.2335.15171700808739534540.malone@soybean.canonical.com>
+Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
+ versions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a3836099995f4f732abbc0e9b937d4a8a69208b6
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,63 +67,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Re-calling the main make is counter-productive and really messes up
-with parallel builds. Just ensure we have built the pre-requisites
-before we build the fp-test bits. If the user builds manually just
-complain if the parent build hasn't got the bits we need.
+With some precautionary measures I think I can provide it. Not sure what
+of our drivers may already be compiled in etc so I need to send it to
+you privately so only you have access for testing etc after which you
+would delete it once issue fixed or discovered etc. Is it possible to
+send you private message on here with such a link or better email?
+thanks
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/Makefile.include |  2 +-
- tests/fp/Makefile      | 14 ++++++--------
- 2 files changed, 7 insertions(+), 9 deletions(-)
+-- =
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 49e3b0d3194..7a767bf1148 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -969,7 +969,7 @@ FP_TEST_BIN=$(BUILD_DIR)/tests/fp/fp-test
- 
- # the build dir is created by configure
- .PHONY: $(FP_TEST_BIN)
--$(FP_TEST_BIN):
-+$(FP_TEST_BIN): config-host.h $(test-util-obj-y)
- 	$(call quiet-command, \
- 	 	$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" $(notdir $@), \
- 	         "BUILD", "$(notdir $@)")
-diff --git a/tests/fp/Makefile b/tests/fp/Makefile
-index 5a35e7c2109..56768ecfd2f 100644
---- a/tests/fp/Makefile
-+++ b/tests/fp/Makefile
-@@ -554,15 +554,13 @@ TF_OBJS_LIB += $(TF_OBJS_TEST)
- 
- BINARIES := fp-test$(EXESUF) fp-bench$(EXESUF)
- 
--# everything depends on config-host.h because platform.h includes it
--all: $(BUILD_DIR)/config-host.h
--	$(MAKE) $(BINARIES)
-+# We require artefacts from the main build including config-host.h
-+# because platform.h includes it. Rather than re-invoking the main
-+# build we just error out if things aren't there.
-+$(LIBQEMUUTIL) $(BUILD_DIR)/config-host.h:
-+	$(error $@ missing, re-run parent build)
- 
--$(LIBQEMUUTIL):
--	$(MAKE) -C $(BUILD_DIR) libqemuutil.a
--
--$(BUILD_DIR)/config-host.h:
--	$(MAKE) -C $(BUILD_DIR) config-host.h
-+all: $(BUILD_DIR)/config-host.h $(BINARIES)
- 
- # libtestfloat.a depends on libsoftfloat.a, so specify it first
- FP_TEST_LIBS := libtestfloat.a libsoftfloat.a $(LIBQEMUUTIL)
--- 
-2.20.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856834
 
+Title:
+  Virtio broken in qemu ppc in 4.2.0 and other versions
+
+Status in QEMU:
+  New
+
+Bug description:
+  The same qemu -M mpc... command that works on qemu-system-ppc version
+  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
+  version 4.2.0release and 4.19dirtygit:
+
+  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
+ccel kvm is set.
+  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
+e (slower).
+
+  ends/freezes at:
+  nbd: registered device at major 43
+  =C2=A0vda:
+
+  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
+  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
+  with 2.8.0 official release from git/github that I compiled/built
+  myself. But both of the newer releases fail on the same exact machine
+  same config.
+
+  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
+ed weren't, ie gave
+  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
+bus=3D0,unit=3D0
+  (but I removed -drive if=3Dmtd since wasn't using it anyway)
+
+  I also tried on windows but I think virtio doesn't work on windows
+  hosts at all? On windows host it fails the same way, even version 2.12
+  as well as 4.1.10...
+
+  used:
+  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
+
+  (basically all steps the same on same exact system same config, yet
+  2.8.0 works fine whether apt-get installed or built from source while
+  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
+
+  In case newer qemu versions act weird on various kernels, I did try with =
+both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
+ compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
+_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
+ich is why I can't use -M ppce500 instead..)
+  tx
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
