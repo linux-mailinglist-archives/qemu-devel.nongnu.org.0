@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268AD1329C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:16:15 +0100 (CET)
-Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE4C1329DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:19:13 +0100 (CET)
+Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqab-0000Uo-UI
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:16:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41574)
+	id 1ioqdT-00059z-Pm
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:19:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iopzL-0003SE-Bx
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:37:44 -0500
+ (envelope-from <thuth@redhat.com>) id 1ioq4E-00037W-Fu
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:42:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iopzK-0003Nb-A8
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:37:43 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48915
+ (envelope-from <thuth@redhat.com>) id 1ioq4D-0005qe-F2
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:42:46 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49884
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iopzK-0003NS-7I
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:37:42 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ioq4D-0005pz-2G
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:42:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578407861;
+ s=mimecast20190719; t=1578408163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1FTLW3Zp5gX0A4iNXsFVhBrrmq6NCyBZRPGdpqE/Q+Q=;
- b=M6E4FFdmuKyFrUUTlygSxBbC7XZc5RiEfUNerTzFsheVUkGzOYqTMVkdm3FekuQw9/FarQ
- 65so9gc/tYUs1NkQF2Ks9EtY5L12oL9GN7u7MmxDxhVjES7nhQ5hjt8ghW8jXmN+BBiAHw
- boOqhWX+RIxpPv+Dfea6Epw1Y8OTbwA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-TAiMYrsYMaOAW6gf_hPQ_w-1; Tue, 07 Jan 2020 09:37:38 -0500
-Received: by mail-wm1-f69.google.com with SMTP id z2so2005782wmf.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:37:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xKF1VCupVeoKj3nHzdMo2mtF6nZWlGED4GuKBt2xg5o=;
- b=GF5oEDkxHT6b/KsCVOHpEahyIicK22+yaLr0DtRXOJbh42mAjALfPxzTxPSoTOoiP4
- ESlBEgIBAbnUzRr7ckwGmK+bg0GDEAi8r7ZHhFVNDHq+++7L8ip9UijQ/nsPgx5X6oer
- tpZryYD8MHeXOOq/qms//VI43JbBKo8u4iKmOuFikAw961xiUAZSrxiTEGmGN/LJWFxq
- YvYO1mkGkfzTbC2t1+HYQ/HHRlmpROt7KG7ydY84gT/trQhLVFDUkK/XFzmVzcWRhDAo
- BqbzOPVbpLUurcZkNAe5yAKXgj9GqVNm1eEXkBxiOhsNuif9ILifAyW4uOrBztx01+cG
- Dyaw==
-X-Gm-Message-State: APjAAAWtGxj+s10najxBzlBXRLZnbcNAd2WGdGiq7tzxWkD+B3AUNQqI
- O1+f1+L37+EQg9l6R6EBNU/yvkt+laPNsGTQLOrhI+nTW+yJoGcyMMlWeYBF65JSRZf0x5PfhLd
- K+D+67Jt1bAzYsXk=
-X-Received: by 2002:a5d:534d:: with SMTP id t13mr33441520wrv.77.1578407857239; 
- Tue, 07 Jan 2020 06:37:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzIu3C4juhf4qTiEihrOsNkTCY3tePN3HrXjby+cLnB4kjNKwAqKhJpkV+pK9NApwz2jztiyA==
-X-Received: by 2002:a5d:534d:: with SMTP id t13mr33441501wrv.77.1578407857041; 
- Tue, 07 Jan 2020 06:37:37 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id s15sm60543wrp.4.2020.01.07.06.37.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 06:37:36 -0800 (PST)
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=EcvpDXbfrED4TDgzoIKLdqr3hhn5oG2PdRsSW2xo5CE=;
+ b=AL+o2Ugkqn+s2jjIrHrmNtankbKVJ9FFsxwovf9dNx1Vx1SJ6ePKxYW9o5hnan4rLFBq86
+ UAac/2WMmyQN482AK6CvMgCkOmhjSt8emGgSlZG4ICHkWytkqVONyKaHECdGCCY4UgLYef
+ qHBf+/WQH2XlhfLZ6Z1Q32faOeQ7Y64=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-LNBmD_6kNg6uEb-JvgXr0g-1; Tue, 07 Jan 2020 09:42:42 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 630011097F89;
+ Tue,  7 Jan 2020 14:42:41 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C98F272A1;
+ Tue,  7 Jan 2020 14:42:31 +0000 (UTC)
 Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
  to recent desugarized -accel option)
-To: Christophe de Dinechin <dinechin@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>
 References: <20200106130951.29873-1-philmd@redhat.com>
  <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
  <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
  <1A5859EA-4403-4921-B527-DFD07C59C702@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <360fa010-ba80-b02b-3a35-19c2b48a462d@redhat.com>
-Date: Tue, 7 Jan 2020 15:37:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ <360fa010-ba80-b02b-3a35-19c2b48a462d@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <82a310b7-9b99-163a-e0d3-967bb09e70f7@redhat.com>
+Date: Tue, 7 Jan 2020 15:42:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <1A5859EA-4403-4921-B527-DFD07C59C702@redhat.com>
+In-Reply-To: <360fa010-ba80-b02b-3a35-19c2b48a462d@redhat.com>
 Content-Language: en-US
-X-MC-Unique: TAiMYrsYMaOAW6gf_hPQ_w-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: LNBmD_6kNg6uEb-JvgXr0g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,37 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Max Reitz <mreitz@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/20 14:55, Christophe de Dinechin wrote:
-> So what about ranking the accelerators, so that all combinaisons
-> -accel=3Dkvm:tcg, -accel=3Dtcg:kvm, -accel kvm -accel tcg, etc would
+On 07/01/2020 15.37, Paolo Bonzini wrote:
+> On 07/01/20 14:55, Christophe de Dinechin wrote:
+>> So what about ranking the accelerators, so that all combinaisons
+>> -accel=3Dkvm:tcg, -accel=3Dtcg:kvm, -accel kvm -accel tcg, etc would
+>=20
+> (I assume you mean "-machine accel=3Dkvm:tcg" and "-machine accel=3Dtcg:k=
+vm"
+> for the first two.  This is the "older" way which has now become sugar
+> for "-accel kvm -accel tcg").
+>=20
+>> all pickup kvm if available, and tcg as a fallback? Implementation-wise,
+>> it would simply mean ranking the accelerators and updating the accelerat=
+or
+>> only if it=E2=80=99s available and better.
+>=20
+> This is an interesting idea.  I like this better than "-accel best",
+> because "-accel best" has the problem that you can't add suboptions to
+> it (the suboptions for the various accelerators are disjoint).
+>=20
+> It would break backwards compatibility for "-machine accel=3Dtcg:kvm",
+> which so far meant "use TCG if compiled in, otherwise use KVM".  This is
+> not something I would have a problem with... except that "tcg:kvm" is
+> the default if no -accel option is provided!
 
-(I assume you mean "-machine accel=3Dkvm:tcg" and "-machine accel=3Dtcg:kvm=
-"
-for the first two.  This is the "older" way which has now become sugar
-for "-accel kvm -accel tcg").
+Note that we need "-M accel=3Dtcg:kvm" (or "-accel tcg -accel kvm" now) in
+tests/boot-serial-test.c for example, since some machines can't use KVM
+on certain hosts (e.g. with KVM-HV on POWER8/9).
 
-> all pickup kvm if available, and tcg as a fallback? Implementation-wise,
-> it would simply mean ranking the accelerators and updating the accelerato=
-r
-> only if it=E2=80=99s available and better.
-
-This is an interesting idea.  I like this better than "-accel best",
-because "-accel best" has the problem that you can't add suboptions to
-it (the suboptions for the various accelerators are disjoint).
-
-It would break backwards compatibility for "-machine accel=3Dtcg:kvm",
-which so far meant "use TCG if compiled in, otherwise use KVM".  This is
-not something I would have a problem with... except that "tcg:kvm" is
-the default if no -accel option is provided!
-
-Paolo
+ Thomas
 
 
