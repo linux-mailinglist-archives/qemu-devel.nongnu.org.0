@@ -2,48 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5950131CC0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 01:27:31 +0100 (CET)
-Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E18E131D47
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 02:37:15 +0100 (CET)
+Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iociX-00060t-R0
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 19:27:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
+	id 1iodo0-0001rl-SK
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 20:37:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iocfT-0003g4-64
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:24:20 -0500
+ (envelope-from <alistair23@gmail.com>) id 1iodlF-000834-Ie
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 20:34:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iocfR-0001Zw-Iz
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:24:18 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55791 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iocfQ-0001Ti-OQ; Mon, 06 Jan 2020 19:24:17 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47sCmX4b6Gz9sPn; Tue,  7 Jan 2020 11:24:12 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578356652;
- bh=7FL2mKYT12vc/4ydTTLO8ZgjBSwwQQOlQFPMUogsLzQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XmaEdgVCQkEhhCYr0hGrF789SW8/PcJGd5NoWdr6lzcBm9g2Sd440LZzogdH4c4sb
- wSN9I0BAFq4Zrd+0mtlo7fZ/TQ5/bC2qzZxmr4cJWKAh/scAvfzwzdiHs/C0mpuFA2
- uH1d1MqMVz7HAyawDY6hutSQCqytWvCljShnjD18=
-Date: Tue, 7 Jan 2020 11:23:44 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v3 11/12] pnv/psi: Add device reset hook
-Message-ID: <20200107002344.GG2098@umbus>
-References: <20200106145645.4539-1-clg@kaod.org>
- <20200106145645.4539-12-clg@kaod.org>
+ (envelope-from <alistair23@gmail.com>) id 1iodlE-0000Ux-BM
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 20:34:21 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42701)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iodlE-0000RR-3p; Mon, 06 Jan 2020 20:34:20 -0500
+Received: by mail-lj1-x242.google.com with SMTP id y4so38596543ljj.9;
+ Mon, 06 Jan 2020 17:34:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SX1LrpGOJgG+s8anXrwIhUm+BAt4k9XEhLkb8jJ4rto=;
+ b=eTKiszeGb/h7xe4G1VuHcG3DRhIJOwVdP6/v6yJ2iI/XEjRm/15GEGKVMVxpHTQgO9
+ k/8I0v7W4fzByU36vFaxu/Mw3K+jVG/SOm3umMfRC5SSXjlbC8RriZdRgzJ/l/w13Ube
+ RekimDGRu4ii7/WXCtoUIQSsaqtsHw3zLJYpnSuaCGYL2LiEz0zbT5laFZAEbixNd5UG
+ 0h9h3lgCkaQPym2BBwT0vkH5g7nHJNi1aAmuCi8Z6VFIHI+0Gd4LhTu4d2p4MKcZRBKf
+ a5uCW1sANIAi6Ow6OoWTbAvh9cWzr50QuatlJwD3OCzb3pQbno7D7My3HeEW25qag1x1
+ Qa8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SX1LrpGOJgG+s8anXrwIhUm+BAt4k9XEhLkb8jJ4rto=;
+ b=tmjafHmyjeMHFy/qFNWKY0Mr7OSAgGVpV7KsMh2cNpl4zVfxr3EMA1jcpuwWWVjBjz
+ QbnQYy0PnuaP43kenI7rhx21t9E4LDiMg8q0ON4RkURkMZ+0W30DCLhKqtm3Tl1+3DK4
+ oxUFvr3ryotLNwVfkPKQ5q2sz15u/60Gk8QEGTNDl1aWzOrKdLuFw23zGtYFlvs11YpQ
+ p4iG4UhmTVfjijuO/n83GDhh3odQ/aVTXF/R5Ej8u24NinuJkHGbJFK5VkM7r6qcCKhx
+ xqDxnYITqN+aU+bQx5C1vEUR38CLjnabmxMdMc0h06V1betoyPIkGiFz3iNGoxr2QvU0
+ GRQg==
+X-Gm-Message-State: APjAAAXI0UYezW5BWM8nmD+0JAZIwVfXuUqvbvHuniGARi9Ifrk382mx
+ oAEdJRdOgB3pe5CGTx1yqY6PZ33EVkYZFxK+hSo=
+X-Google-Smtp-Source: APXvYqysImuIVppB8EDrBbIVnXs7xMZuCyOt2jnC2bH5up35SREeNIeZOu/kOr22x0pmQvCtaEaedSPQaemjHAt5rEU=
+X-Received: by 2002:a2e:9c04:: with SMTP id s4mr43647033lji.147.1578360858165; 
+ Mon, 06 Jan 2020 17:34:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="169fIVB/g4KxrKrw"
-Content-Disposition: inline
-In-Reply-To: <20200106145645.4539-12-clg@kaod.org>
+References: <cover.1575914822.git.alistair.francis@wdc.com>
+ <6a38e1a02e9a3d38fc311809772a152f0d99fd7a.1575914822.git.alistair.francis@wdc.com>
+ <mhng-23785a15-6ae5-4a3a-8474-9bff5d0c2109@palmerdabbelt-glaptop>
+In-Reply-To: <mhng-23785a15-6ae5-4a3a-8474-9bff5d0c2109@palmerdabbelt-glaptop>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Jan 2020 17:33:51 -0800
+Message-ID: <CAKmqyKNrjbcqo8EBt1_iOVmSXvkfyEj4qxGuAOkyB0tBWMxEsQ@mail.gmail.com>
+Subject: Re: [PATCH v1 02/36] target/riscv: Don't set write permissions on
+ dirty PTEs
+To: Palmer Dabbelt <palmerdabbelt@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,141 +73,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jan 6, 2020 at 9:51 AM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+>
+> On Mon, 09 Dec 2019 10:10:45 PST (-0800), Alistair Francis wrote:
+> > Setting write permission on dirty PTEs results in userspace inside a
+> > Hypervisor guest (VU) becoming corrupted. This appears to be because it
+> > ends up with write permission in the second stage translation in cases
+> > where we aren't doing a store.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > ---
+> >  target/riscv/cpu_helper.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 767c8762ac..0de3a468eb 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -344,10 +344,8 @@ restart:
+> >              if ((pte & PTE_X)) {
+> >                  *prot |= PAGE_EXEC;
+> >              }
+> > -            /* add write permission on stores or if the page is already dirty,
+> > -               so that we TLB miss on later writes to update the dirty bit */
+> > -            if ((pte & PTE_W) &&
+> > -                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+> > +            /* add write permission on stores */
+> > +            if ((pte & PTE_W) && (access_type == MMU_DATA_STORE)) {
+> >                  *prot |= PAGE_WRITE;
+> >              }
+> >              return TRANSLATE_SUCCESS;
+>
+> This is at least the second time I've spent a day or two trying to figure out
+> what the right thing to do here is, and once again I'm lost.  I think what's
+> really getting me is the original comment: why would this cause us to TLB miss,
+> wouldn't it cause us to not TLB miss?
+>
+> Assuming that's the case, it seems to me more like there's some missing fence
+> in whatever program is blowing up due to this -- maybe it's just reading from
+> the page before marking it as read-only, then relying on writes to trap without
+> doing the requisite fence.
 
---169fIVB/g4KxrKrw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ok, let's drop this for now then. I'll reinvestigate and if this is
+still needed I'll add a more detailed explanation.
 
-On Mon, Jan 06, 2020 at 03:56:44PM +0100, C=E9dric Le Goater wrote:
-> From: Greg Kurz <groug@kaod.org>
->=20
-> And call it from a QEMU reset handler. This allows each PNV child class to
-> override the reset hook if needed, eg. POWER8 doesn't but POWER9 does.
-> The proper way to do that would be to use device_class_set_parent_reset(),
-> but defining a Pnv8PsiClass and a Pnv9PsiClass types with a parent_reset
-> pointer adds a fair amount of code. Calling pnv_psi_reset() explicitely is
-> fine for now.
->=20
-> A subsequent patch will consolidate the call to qemu_register_reset() in
-> a single place.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> ---
->  hw/ppc/pnv_psi.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-> index 4da3d2568624..cf21e42d93b7 100644
-> --- a/hw/ppc/pnv_psi.c
-> +++ b/hw/ppc/pnv_psi.c
-> @@ -455,7 +455,7 @@ static const MemoryRegionOps pnv_psi_xscom_ops =3D {
->      }
->  };
-> =20
-> -static void pnv_psi_reset(void *dev)
-> +static void pnv_psi_reset(DeviceState *dev)
->  {
->      PnvPsi *psi =3D PNV_PSI(dev);
-> =20
-> @@ -464,6 +464,13 @@ static void pnv_psi_reset(void *dev)
->      psi->regs[PSIHB_XSCOM_BAR] =3D psi->bar | PSIHB_BAR_EN;
->  }
-> =20
-> +static void pnv_psi_reset_handler(void *dev)
-> +{
-> +    DeviceClass *dc =3D DEVICE_GET_CLASS(dev);
-> +
-> +    dc->reset(DEVICE(dev));
-
-I think it would be better to use device_reset() here rather than
-explicitly accessing the dc->reset pointer yourself.
-
-> +}
-> +
->  static void pnv_psi_power8_instance_init(Object *obj)
->  {
->      Pnv8Psi *psi8 =3D PNV8_PSI(obj);
-> @@ -526,7 +533,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
-Error **errp)
->              ((uint64_t) i << PSIHB_XIVR_SRC_SH);
->      }
-> =20
-> -    qemu_register_reset(pnv_psi_reset, dev);
-> +    qemu_register_reset(pnv_psi_reset_handler, dev);
->  }
-> =20
->  static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, int xscom=
-_offset)
-> @@ -809,7 +816,7 @@ static void pnv_psi_power9_irq_set(PnvPsi *psi, int i=
-rq, bool state)
->      qemu_set_irq(psi->qirqs[irq], state);
->  }
-> =20
-> -static void pnv_psi_power9_reset(void *dev)
-> +static void pnv_psi_power9_reset(DeviceState *dev)
->  {
->      Pnv9Psi *psi =3D PNV9_PSI(dev);
-> =20
-> @@ -863,7 +870,7 @@ static void pnv_psi_power9_realize(DeviceState *dev, =
-Error **errp)
-> =20
->      pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-> =20
-> -    qemu_register_reset(pnv_psi_power9_reset, dev);
-> +    qemu_register_reset(pnv_psi_reset_handler, dev);
->  }
-> =20
->  static void pnv_psi_power9_class_init(ObjectClass *klass, void *data)
-> @@ -875,6 +882,7 @@ static void pnv_psi_power9_class_init(ObjectClass *kl=
-ass, void *data)
-> =20
->      dc->desc    =3D "PowerNV PSI Controller POWER9";
->      dc->realize =3D pnv_psi_power9_realize;
-> +    dc->reset   =3D pnv_psi_power9_reset;
-> =20
->      ppc->xscom_pcba =3D PNV9_XSCOM_PSIHB_BASE;
->      ppc->xscom_size =3D PNV9_XSCOM_PSIHB_SIZE;
-> @@ -927,6 +935,7 @@ static void pnv_psi_class_init(ObjectClass *klass, vo=
-id *data)
-> =20
->      dc->desc =3D "PowerNV PSI Controller";
->      dc->props =3D pnv_psi_properties;
-> +    dc->reset =3D pnv_psi_reset;
->  }
-> =20
->  static const TypeInfo pnv_psi_info =3D {
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---169fIVB/g4KxrKrw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4Tz5AACgkQbDjKyiDZ
-s5LLHRAAtCoKVYa4OEMyuZwTa8BtZkpjtbxgLjC8HvRdpg8pAo5H/qgjGyd+HeNZ
-d0ZUJ5hms8a6uPT3gZHak1HlqRTH+YEM8vw+QD9jvhz5b0L8q2e/udOJq+HGtZ6Y
-hTuvR2GzpUspRbepe11hQ9eUt1UX7V4y2Bpj0GEt7W0mLW2B9pp+Smab9BHNSHhE
-RjppqpwDKMwpWRDvQyEIdQc7CHhdhmHzaDuYnkLAnarSlG49wnXvRHBh3cFB8S5W
-DxwJZR8Zh1yisPgdRyOnTzzVRNqCgHn+hkBnyKP6+OMhBxp4957M0Q264bAkjEWM
-oekifUhE/TCdecfHxGUueznDo3sCDKiq7HPoOBrxMZkaV/dHbSIRxmoIw+Fdg2p+
-3vsSLoRQyEz9OAkWUGaV1AjvVkxNufMn8bj38swOfezzKZ3EAaClMbUrpe6kF+ik
-qKNCL6X1BAzn1RKXShca9F0eBHpPhY+szK9CvdTs4CDdGaTYjs2RXHfGPsyRf3Eo
-nF3tWFmO7eUVtx2l0Kg+fWvjBJtl22pjBEKAM5qI21+kzgw6Ed9VR/CLweDFIP6K
-64ad4mXQvmda8C2MRdOEuwVUTvjpyB/bVqi+CuJK8YFZxIHjUSuRunBSpf6TxHVE
-wh6QH8lr0xMTVF1XDI1pk73VaNtPJQcyCmjOOW8FIlNK/8g/Bgo=
-=q0cY
------END PGP SIGNATURE-----
-
---169fIVB/g4KxrKrw--
+Alistair
 
