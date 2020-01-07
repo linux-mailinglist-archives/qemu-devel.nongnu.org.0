@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D77132B2F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:36:38 +0100 (CET)
-Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E982D132B36
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:39:32 +0100 (CET)
+Received: from localhost ([::1]:52806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iorqP-0004QW-0I
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:36:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46099)
+	id 1iortD-00008F-CE
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:39:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iork7-0006ll-33
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:30:08 -0500
+ (envelope-from <mst@redhat.com>) id 1iorkC-0006si-0m
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:30:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iork5-0004oO-P1
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:30:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44329
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iork8-0004qt-Ft
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:30:11 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22782
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iork5-0004n8-La
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:30:05 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iork8-0004qf-CH
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:30:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578414605;
+ s=mimecast20190719; t=1578414607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8li2Tk9kJtAQIFMop0/eFLC5J5NJiOvfkc+z767fYRk=;
- b=IqqDcswQ5LJekmJzKD7SmznLQGFMNd7mdc5hAiQ+EEb+15+foFuJp5Zt9YQIKcDfrYyK9A
- zBR3YcfSaaQF7tksvM4o8e16Zm+Dm0UO6Z2EkAYHPvO1RqvV48q8Y46lqP8rxibLc8hd1y
- wnTTfaNGFGZbr0ELb1LyFMUTl0EQFpk=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-jNf8x8eXPM6aGBn2PTOMVA-1; Tue, 07 Jan 2020 11:30:03 -0500
-Received: by mail-qt1-f197.google.com with SMTP id 38so119402qty.15
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:30:03 -0800 (PST)
+ bh=OMvJhEP2LlmkkK5OqUcX3Hea5Sokrq83L2n0JELoweI=;
+ b=HwXjVYKtTxLKB5jypIKQvNLq1YNAKCl3PQyIxWyGx3QkC9+NATHKfdcA7zBXM252BBhyZA
+ Ijpt10Rj4oKRvPw/xCFxHzixbG4o5QF0ettpobmUsamNv34LwEpW+DVrVVpqEyUeRXIxOg
+ 5Ta3EiPu8wHoPd36WmHLBM2adar2K7g=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-vfW3MQemN3uN2eDAm30wwQ-1; Tue, 07 Jan 2020 11:30:06 -0500
+Received: by mail-qv1-f69.google.com with SMTP id e14so249326qvr.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:30:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=8e5zVSr3EGK6wfLcmhM6md/VpcFIAiAuGM2x/CJ8sg4=;
- b=Us5eidCCa4iATM9YZk0TWXpk9rj0QiyagTT+b8l2dSOG4Ss0BcBU3IMZ78purgorUR
- lL0MSGlKJanl4Nr82pUrIu56IaNORIIY0uZJJMYM+qNtFaMhwYvSOnwYZAGcZE/8Gc1q
- biSroE5inl9xdw5FQDjLgWJoeEZXMFKlVPRcZ6zxJeiTTTZ8aO9y1840hzE3BYfbhIPM
- dRSCkyulxt1ovwdcBW0tSLl+iXjEPmzr/Fof9Ws/r4lHL47gieEDWAHLLj7up11wrl6T
- tIQOVEMfbvI0QLNuC3BDR3b+4N2aAKoHJw7wazdK0qmgzrFGfEr3gi/AG4yIelB4OAi4
- ewvQ==
-X-Gm-Message-State: APjAAAVbVW3Wjsx1nFMZCJVAEcyFkAwbTqHCA7y1qGe2vBwngsb/XZih
- W1nr0ihMuWMT/Gh9vSylZsK7LHu+tOgD20fdKMckY3U0avwJyCca3O/MA66EFzaBxhaZY3tP3bT
- zvfrsqx6YyRIPeNk=
-X-Received: by 2002:ac8:5205:: with SMTP id r5mr80592118qtn.230.1578414601888; 
- Tue, 07 Jan 2020 08:30:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy7denVb6FnL6CyNmr9HRL88W34YZ1uYt5Vk1Ih+YlmixmJuBsw9l4fVUIU3dt2p0mRkh0kJA==
-X-Received: by 2002:ac8:5205:: with SMTP id r5mr80592084qtn.230.1578414601445; 
- Tue, 07 Jan 2020 08:30:01 -0800 (PST)
+ bh=MZOXCGQ//jaCo4R+sHDCJUpSHTnIinHqd1QfSjM9oh0=;
+ b=f7Kcec5mhR8raQHwY0h5bSqhzaq0rCj+Mb5iC0EqGQkOG75ZRZKtc0+Y5HX6wKbOjr
+ /UNvnMx+tbqGml8PBo8a+eW0KdN4PxtEXGlCdIU48poUPxhDMeE9Xtiid1E6jU9gZjYF
+ meuS2zBjUs7YXfA278bZnyrWUQD9aDDp/jURiiJHXsYGTCaXlyKfRwznXZTaJsBFd5Ez
+ upt+VdL1ONm5SAyzfttah3XQLnrpLcdsIZFlC/kEO34sjS8tHrSsDfxXUNM29LrONrni
+ 9VISSc5pb/y5Cg+q0FeWRB6yrAfB/c6lmWg0JPWYRA3agNVy2AjbhdpGWaWqxfLEehIV
+ JiwQ==
+X-Gm-Message-State: APjAAAVd35dLuYmellueABBxd7XlDltvzEJ0hdqRCL84ULyKKdlvXE5Y
+ BCDbYnrTWXjnA+4kYS/sFn75M94wtC+q8h+YDb0qwr5ZiM0ZjKPAjF1ly2gpQODmKU4+/oGiZoT
+ zjwVeRqnjy6DcP+k=
+X-Received: by 2002:a05:620a:133a:: with SMTP id
+ p26mr100179qkj.233.1578414605924; 
+ Tue, 07 Jan 2020 08:30:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxGsVoKBcSWCFdgfIIfI28zOC1QlKjZXWrsT0GxD3tkpfdtTmTPTGVDXV9d+iLi46gFCwFs6w==
+X-Received: by 2002:a05:620a:133a:: with SMTP id
+ p26mr100152qkj.233.1578414605662; 
+ Tue, 07 Jan 2020 08:30:05 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id 24sm42544qka.32.2020.01.07.08.29.59
+ by smtp.gmail.com with ESMTPSA id m27sm114800qta.21.2020.01.07.08.30.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 08:30:00 -0800 (PST)
-Date: Tue, 7 Jan 2020 11:29:57 -0500
+ Tue, 07 Jan 2020 08:30:05 -0800 (PST)
+Date: Tue, 7 Jan 2020 11:30:02 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 06/32] intel_iommu: fix bug to read DMAR_RTADDR_REG
-Message-ID: <20200107162850.411448-7-mst@redhat.com>
+Subject: [PULL v3 07/32] virtio: update queue size on guest write
+Message-ID: <20200107162850.411448-8-mst@redhat.com>
 References: <20200107162850.411448-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107162850.411448-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: jNf8x8eXPM6aGBn2PTOMVA-1
+X-MC-Unique: vfW3MQemN3uN2eDAm30wwQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,53 +90,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yi Sun <yi.y.sun@linux.intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>, Roman Kagan <rkagan@virtuozzo.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yi Sun <yi.y.sun@linux.intel.com>
+Some guests read back queue size after writing it.
+Update the size immediatly upon write otherwise
+they get confused.
 
-Should directly read DMAR_RTADDR_REG but not using 's->root'.
-Because 's->root' is modified in 'vtd_root_table_setup()' so
-that the first 12 bits are omitted. This causes the guest
-iommu debugfs cannot show pasid tables.
+In particular this is the case for seabios.
 
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
-Message-Id: <20191205095439.29114-1-yi.y.sun@linux.intel.com>
+Reported-by: Roman Kagan <rkagan@virtuozzo.com>
+Suggested-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/intel_iommu.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/virtio/virtio-pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 43c94b993b..ee06993675 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2610,16 +2610,15 @@ static uint64_t vtd_mem_read(void *opaque, hwaddr a=
-ddr, unsigned size)
-     switch (addr) {
-     /* Root Table Address Register, 64-bit */
-     case DMAR_RTADDR_REG:
-+        val =3D vtd_get_quad_raw(s, DMAR_RTADDR_REG);
-         if (size =3D=3D 4) {
--            val =3D s->root & ((1ULL << 32) - 1);
--        } else {
--            val =3D s->root;
-+            val =3D val & ((1ULL << 32) - 1);
-         }
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index c6b47a9c73..e5c759e19e 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1256,6 +1256,8 @@ static void virtio_pci_common_write(void *opaque, hwa=
+ddr addr,
          break;
-=20
-     case DMAR_RTADDR_REG_HI:
-         assert(size =3D=3D 4);
--        val =3D s->root >> 32;
-+        val =3D vtd_get_quad_raw(s, DMAR_RTADDR_REG) >> 32;
+     case VIRTIO_PCI_COMMON_Q_SIZE:
+         proxy->vqs[vdev->queue_sel].num =3D val;
++        virtio_queue_set_num(vdev, vdev->queue_sel,
++                             proxy->vqs[vdev->queue_sel].num);
          break;
-=20
-     /* Invalidation Queue Address Register, 64-bit */
+     case VIRTIO_PCI_COMMON_Q_MSIX:
+         msix_vector_unuse(&proxy->pci_dev,
 --=20
 MST
 
