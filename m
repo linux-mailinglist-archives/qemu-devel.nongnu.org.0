@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDE0132499
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:15:44 +0100 (CET)
-Received: from localhost ([::1]:46674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943BD1324BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:21:44 +0100 (CET)
+Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iompq-0002xZ-Cu
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:15:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35965)
+	id 1iomve-0003HE-CK
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:21:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36704)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iomk3-00074a-KD
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:09:44 -0500
+ (envelope-from <berrange@redhat.com>) id 1iommU-00068J-6M
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:12:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iomk2-0006Oy-2F
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:09:43 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:41284)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iomk1-0006O2-Qd
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:09:42 -0500
-Received: by mail-ot1-x330.google.com with SMTP id r27so75965950otc.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 03:09:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mUAJ3tsm7IdfG+X32No9AxPGQTjUZBa6KgCtKb6tE7s=;
- b=Sm7fYBVk+1C6u9zY6fA/02/a0yAk7AYVj5m2pXJIUi7qh1u0wLy36VyXz8g58Ofm8O
- XAtMT9J5KgCUiTq/5aDZ9xsanWWmM2FB0GoPHX3Bh0lkuTaEiIS+e4+YPgXmAoZOX/AU
- jXE93gh7PkKGO3tPgCYUi9BGYaBaHHJVHNYVWlWmWpncaNbLvh1sz++3k2I1rpMqSZZw
- yZ4Sh98447QCtqsPwBYOmLPFYgeqxS5hP3ncMqfZHtFPB9yiY9Q6ZDgs10JLXBSQi1Wp
- uY/2rDB0YgHEhr3Aynp7oBPsqAvugReJMgLAOIPRk8S7HRe64AEl9NOsHsSXoFB5p7HO
- MMGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mUAJ3tsm7IdfG+X32No9AxPGQTjUZBa6KgCtKb6tE7s=;
- b=gHoYsiMZPhOjIBIuSMWLYpc32jvTBftoO+UB+OA2SsG8GcVx6AiB0gmpibOBIiPzgF
- PacTWPpCqTAbR5adwYzrOjOWfGHcz8vFj6Nt9z6CuJxVdWF8X5LFR81o4JjJUYM1kjYI
- AXXMBJFSMSzBNFpNgKvHmM+7SfnMtz4sP7K6OIMZvZnC7e5M1/tERtmiZTz9t4lSJNaM
- O2QYSqX8K8NbiFM9eee5JMf0dRzEiQ9haA2QgBnJe2g5l0/NEoPY6E5kAa5rQJNvXG/L
- G22pDZxA7Wb7hhnTPKoEZCk9ULCsloxNa4BI6vdfxlanPAv8Rb0CyQcIPY0/2Cddz69z
- 23Cg==
-X-Gm-Message-State: APjAAAVNTa0ikqJz66cE3AwMBquoJtFEcg6lYfOZGglirhUMHXd9GyKI
- VaTqvyIlVHqkc1feqdzU6TndSKfopEfWp9WAOqs57w==
-X-Google-Smtp-Source: APXvYqy2xF4B7f1AI0S4zvTwWV5LO5ZJLGMZoJATlu1jCmK1krNDy903AO1f3+Uu75AmjnOeVU3x7dCReJJKrhv1lfg=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr104908121ota.232.1578395380945; 
- Tue, 07 Jan 2020 03:09:40 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1iommS-0007t1-VK
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:12:13 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55530
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iommS-0007sm-Ra
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:12:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578395532;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5LvtFm4bsb16bLiNMlRpB0JLFv3pNji7TWq9Tl+KPSw=;
+ b=EE/s7CuJcdTDhnFVZJeq/wG+v9J4MuLtzFyMwWrq0AHgFAGVQi9UHw7KZ2JkFvL5Q3R0Xf
+ +BrPTDcAxI2Eq4Re1JsdRhBO8aSQszYVLPtwT+t/ajEZZ5so7wVdigHdiyNca2TFW04quE
+ kORlRrHkFERECloY1VfnTkr5OEEIQW8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-8tRtGvBdNwujU-RtTCSzEQ-1; Tue, 07 Jan 2020 06:12:11 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD3F477
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:12:10 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 095F97C019;
+ Tue,  7 Jan 2020 11:12:05 +0000 (UTC)
+Date: Tue, 7 Jan 2020 11:12:02 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 061/104] virtiofsd: Handle reinit
+Message-ID: <20200107111202.GE3368802@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-62-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20200106200434.27646-1-jcmvbkbc@gmail.com>
-In-Reply-To: <20200106200434.27646-1-jcmvbkbc@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 11:09:30 +0000
-Message-ID: <CAFEAcA9X+wS8vYaZUev69U2StzB6YZMp6R1cB6Ua20+8L=2m2A@mail.gmail.com>
-Subject: Re: [PULL 0/3] target/xtensa queue
-To: Max Filippov <jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::330
+In-Reply-To: <20191212163904.159893-62-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 8tRtGvBdNwujU-RtTCSzEQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,45 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 20:05, Max Filippov <jcmvbkbc@gmail.com> wrote:
->
-> Hi Peter,
->
-> please pull the following target/xtensa batch.
->
-> The following changes since commit f4d8cf148e43d942ef1202071e0cd66ce40322e0:
->
->   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-01-06' into staging (2020-01-06 17:44:22 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/OSLL/qemu-xtensa.git tags/20200106-xtensa
->
-> for you to fetch changes up to a153a3f73d8e028be996f1602fa99c7f3f53348c:
->
->   target/xtensa: use MPU background map from core configuration (2020-01-06 11:46:16 -0800)
->
-> ----------------------------------------------------------------
-> target/xtensa improvements for v5.0:
->
-> - fix ps.ring use in MPU configs;
-> - use MPU background map from the configuration overlay.
->
-> ----------------------------------------------------------------
-> Max Filippov (3):
->       target/xtensa: fix ps.ring use in MPU configs
->       target/xtensa: import xtensa/config/core-isa.h
->       target/xtensa: use MPU background map from core configuration
+On Thu, Dec 12, 2019 at 04:38:21PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> Allow init->destroy->init  for mount->umount->mount
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_lowlevel.c | 2 ++
+>  1 file changed, 2 insertions(+)
+
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
-Applied, thanks.
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
-
--- PMM
 
