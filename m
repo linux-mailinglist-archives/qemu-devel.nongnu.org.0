@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D5E13239E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:32:36 +0100 (CET)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4301323F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:41:27 +0100 (CET)
+Received: from localhost ([::1]:46164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomA5-00039B-Df
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:32:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50462)
+	id 1iomIf-00084H-2c
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:41:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iolpw-000686-Q2
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:11:46 -0500
+ (envelope-from <sgarzare@redhat.com>) id 1iom0G-0001H9-0Z
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:22:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iolpv-0006PJ-AL
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:11:44 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20538
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <sgarzare@redhat.com>) id 1iom0E-00046u-UV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:22:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59754
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iolpv-0006P4-6Y
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:11:43 -0500
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iom0E-00046H-Qe
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:22:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578391902;
+ s=mimecast20190719; t=1578392542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u0TXAl5VK0XtxKnjVC2WBxqzcROwrzO+VjHDWbm971E=;
- b=bqOoflYD7LJAQjsPJME1IHH0/GQgvGnQDHRuuZTt2T8qf6UofpM6YgeejIvb6JtFt71EV2
- pwrO9UelqeOgOFZV+BnpmxH6A09+2+gKpynFRB1trTgQMG+AP7Zc2wEspY/QWGZoqlCsmy
- wADVliKinagreP8uj+5VgUBlEKmQ1C4=
+ bh=bfFiZlrjL2+1me2zvC/8PzE/iU5WzxoO07KcMswUPVw=;
+ b=iJ2XwZQvv+Edktw/tKqK5q8ivEITeWYNhBmbXGSNJjOFF9Alh8o9lCo6ULcMRxAFiXh/hE
+ 3TMlBEa/JhicjmftwRh+nbko8Hz4mJv0KanSgVbZgNvHp5y1QZwlxtzuQMI9Ux1lWGS3Mo
+ clCK1Nm9M/jtPwft/8e9pT8P3tW1DTI=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-2VqBR4AfP5CEMk3jLiN3Gg-1; Tue, 07 Jan 2020 05:11:39 -0500
-Received: by mail-wr1-f69.google.com with SMTP id o6so24517399wrp.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:11:39 -0800 (PST)
+ us-mta-192-8d6Zo0maP9yaO10RCkKqRw-1; Tue, 07 Jan 2020 05:22:17 -0500
+Received: by mail-wr1-f69.google.com with SMTP id u12so28436809wrt.15
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:22:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ksyuCtEFeMPGgh6ufgqQgZF5qP+qyUkEQPPgXWQIVmM=;
- b=KG6b5WvdwxV6PlIueZ3lTsqiwPQAkgq/h6ecART9xnWALQ84U88UWl4mv23Tg4+07A
- ZyMzd5UwRm7sBihk2fxZJlwKSQLQ3RpOAsivcxwhehZo4zeDMOD1vlCBjzCpMcy06tsZ
- UZVPxK+eNFxIXfV5runKUvbGPvAPp5qgZTgccoXM1D1oR/iPlgigDhikEar5eTY2OC8W
- WrYQK5srZEGOoYNYQYEkB4gYjQ6kaiO1D0gT8tjOQbJEiXXasFgTjUjmWol3ywpMRSjs
- JtA0F9on/KaYHcRdiwXGzT7+AP3w/JzxcMEDIN1aIvHjgcYMT4QNHVF+YbF5Mso1xLMb
- IJAg==
-X-Gm-Message-State: APjAAAVinQZ9ChmamBG4yAjLskbAUHqCjvXnXktYaE15XjxHbU4ialU0
- Z+GPfuIlJYOpBv0LBuoddvooleoaWuEgaTk5gkh7z2k3ZYtGVSx/iZr2anlekNoNOVw8DVPdedw
- 1pp6ZWJWEZlTGalw=
-X-Received: by 2002:a1c:b603:: with SMTP id g3mr38083895wmf.133.1578391897918; 
- Tue, 07 Jan 2020 02:11:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyzG3AZszER2cj5ejqeqSdaKW471cdzDVV3v1zriQ3vgYKgOsLjNYZoRiLK+GDRwZAWRnTqNg==
-X-Received: by 2002:a1c:b603:: with SMTP id g3mr38083857wmf.133.1578391897672; 
- Tue, 07 Jan 2020 02:11:37 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id z124sm27366885wmc.20.2020.01.07.02.11.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 02:11:36 -0800 (PST)
-Subject: Re: [PATCH 00/14] hw: Fix various --without-default-devices issues
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191231183216.6781-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <16b49cef-d801-98fc-c487-88239f237dfe@redhat.com>
-Date: Tue, 7 Jan 2020 11:11:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=fQtUZKSyxRcIHhex5SLf6+Wtv5SZLUxWndPuKbjdgC4=;
+ b=scGraLVX59e4gFS9ppdWfHf5G0+n+p6nJ/c8+kc40fTNCFq/PakF6pOV31Hj6+FsEe
+ sUs2zdzF2X7pFJ0kcVEY+Mhia5RG8DXsYo377NZWwSPkPNxY44ih2BVlDnfG8uTe2i5L
+ 7x+K3Ye9G756zNL16DrpstF/hLgE3kyh2uBvSbvJ80hMBF7RuQZc8+coDhuzk/962GPL
+ jpmOcsLu/2Z9KoSJkSjImUgNxzD6cGbEFoXCwilIXkR5frOw+mqE1Z4fb0boUsjlMtXd
+ eETm9h8FUC5le4NB/FFQNjYlJy0GW1z4GzAtbPPEM3I4ls/OGM7MpR42y352a8KpwZrZ
+ zEhw==
+X-Gm-Message-State: APjAAAWDAc2r66GSW0loGmtTNhxf1n0eqbCcSm+nrDwHt+racuc2HGiR
+ PkEOJ3A3kynIMWFdlExn9CdVB1pwDpy6kwfmvbg4w/etoo0jr4ZgXQrMVbGg61GETcjUc12vYbC
+ 4zlQHnhqhsyvEScE=
+X-Received: by 2002:a7b:c946:: with SMTP id i6mr38755429wml.28.1578392536155; 
+ Tue, 07 Jan 2020 02:22:16 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzLKH73/xgifMEt08njgZnJmBIJaCh/jvKuYByaLpvPhpAxplIS2yEe8zZP/TbwdHLzpy8d0A==
+X-Received: by 2002:a7b:c946:: with SMTP id i6mr38755407wml.28.1578392535931; 
+ Tue, 07 Jan 2020 02:22:15 -0800 (PST)
+Received: from steredhat
+ (host221-164-dynamic.248-95-r.retail.telecomitalia.it. [95.248.164.221])
+ by smtp.gmail.com with ESMTPSA id s8sm74501677wrt.57.2020.01.07.02.22.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 02:22:15 -0800 (PST)
+Date: Tue, 7 Jan 2020 11:22:11 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] scripts/git.orderfile: Display decodetree before C source
+Message-ID: <20200107102211.rpadulqbox5tquzy@steredhat>
+References: <20191230082856.30556-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191231183216.6781-1-philmd@redhat.com>
-Content-Language: en-US
-X-MC-Unique: 2VqBR4AfP5CEMk3jLiN3Gg-1
+In-Reply-To: <20191230082856.30556-1-philmd@redhat.com>
+X-MC-Unique: 8d6Zo0maP9yaO10RCkKqRw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,84 +88,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Sven Schnelle <svens@stackframe.org>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Stafford Horne <shorne@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/12/19 19:32, Philippe Mathieu-Daud=C3=A9 wrote:
-> Various fixes when configured with --without-default-devices
-> and building each machine individually.
-> Adding the corresponding CI tests is out of the scope of this
-> series.
+On Mon, Dec 30, 2019 at 09:28:56AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> To avoid scrolling each instruction when reviewing tcg
+> helpers written for the decodetree script, display the
+> .decode files (similar to header declarations) before
+> the C source (implementation of previous declarations).
 >=20
-> This series is pushed on top of "hw/i386: Allow building
-> machines without IOMMU" [*] here:
-> https://gitlab.com/philmd/qemu/commits/kconfig_misc_fixes
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  scripts/git.orderfile | 3 +++
+>  1 file changed, 3 insertions(+)
+
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
 >=20
-> Happy new year!
+> diff --git a/scripts/git.orderfile b/scripts/git.orderfile
+> index e89790941c..1f747b583a 100644
+> --- a/scripts/git.orderfile
+> +++ b/scripts/git.orderfile
+> @@ -25,5 +25,8 @@ qga/*.json
+>  # headers
+>  *.h
+> =20
+> +# decoding tree specification
+> +*.decode
+> +
+>  # code
+>  *.c
+> --=20
+> 2.21.0
 >=20
-> [*] https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg05230.html
-
-Queued these:
-
- hw/intc/i8259: Fix Kconfig dependency on ISA bus
- hw/i386/Kconfig: Let the MicroVM machine select the SERIAL_ISA config
- hw/ppc/Kconfig: Restrict the MPC I2C controller to e500-based platforms
- hw/ppc/Kconfig: Let the Sam460ex board use the PowerPC 405 devices
- hw/ppc/Kconfig: Let the Xilinx Virtex5 ML507 use the PPC-440 devices
- hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
- hw/ppc/Kconfig: Only select fw_cfg with machines using OpenBIOS
- hw/ppc/Kconfig: Only select FDT helper for machines using it
- hw/nvram/Kconfig: Add an entry for the NMC93xx EEPROM
- hw/nvram/Kconfig: Restrict CHRP NVRAM to machines using OpenBIOS or SLOF
-
-Thanks David for the acks.
-
-Paolo
-
-> Philippe Mathieu-Daud=C3=A9 (14):
->   hw/usb/redirect: Do not link 'usb-redir' device when USB not enabled
->   hw/intc/i8259: Fix Kconfig dependency on ISA bus
->   hw/i386/Kconfig: Let the MicroVM machine select the SERIAL_ISA config
->   hw/i386: Restrict fw_cfg to the PC machines
->   hw/i2c/Kconfig: Add an entry for the SMBus
->   hw/ppc/Kconfig: Restrict the MPC I2C controller to e500-based
->     platforms
->   hw/ppc/Kconfig: Let the Sam460ex board use the PowerPC 405 devices
->   hw/ppc/Kconfig: Let the Xilinx Virtex5 ML507 use the PPC-440 devices
->   hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
->   hw/ppc/Kconfig: Only select fw_cfg with machines using OpenBIOS
->   hw/ppc/Kconfig: Only select FDT helper for machines using it
->   hw/nvram/Kconfig: Add an entry for the NMC93xx EEPROM
->   hw/nvram/Kconfig: Restrict CHRP NVRAM to machines using OpenBIOS or
->     SLOF
->   hw/intc/Kconfig: Let APIC select IOAPIC
->=20
->  default-configs/mips-softmmu-common.mak |  1 +
->  default-configs/ppc-softmmu.mak         |  1 -
->  hw/i2c/Kconfig                          |  8 ++++++--
->  hw/i2c/Makefile.objs                    |  3 ++-
->  hw/i386/Kconfig                         |  2 +-
->  hw/i386/Makefile.objs                   |  2 +-
->  hw/intc/Kconfig                         |  2 ++
->  hw/net/Kconfig                          |  2 ++
->  hw/nvram/Kconfig                        |  8 ++++++++
->  hw/nvram/Makefile.objs                  |  4 ++--
->  hw/ppc/Kconfig                          | 20 ++++++++++++++++++++
->  hw/ppc/Makefile.objs                    |  9 ++++-----
->  hw/scsi/Kconfig                         |  1 +
->  hw/sparc/Kconfig                        |  1 +
->  hw/sparc64/Kconfig                      |  1 +
->  hw/usb/Makefile.objs                    |  2 ++
->  16 files changed, 54 insertions(+), 13 deletions(-)
 >=20
 
 
