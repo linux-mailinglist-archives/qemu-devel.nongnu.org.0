@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943BD1324BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:21:44 +0100 (CET)
-Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AAA1324C6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:26:32 +0100 (CET)
+Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomve-0003HE-CK
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:21:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36704)
+	id 1ion0H-0008Iv-BZ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:26:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iommU-00068J-6M
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:12:15 -0500
+ (envelope-from <fflorensa@online.net>) id 1iomoC-0003OH-UO
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:14:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iommS-0007t1-VK
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:12:13 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55530
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <fflorensa@online.net>) id 1iomoA-0000K7-H7
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:13:59 -0500
+Received: from mail.online.net ([62.210.16.11]:50096)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iommS-0007sm-Ra
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:12:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578395532;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5LvtFm4bsb16bLiNMlRpB0JLFv3pNji7TWq9Tl+KPSw=;
- b=EE/s7CuJcdTDhnFVZJeq/wG+v9J4MuLtzFyMwWrq0AHgFAGVQi9UHw7KZ2JkFvL5Q3R0Xf
- +BrPTDcAxI2Eq4Re1JsdRhBO8aSQszYVLPtwT+t/ajEZZ5so7wVdigHdiyNca2TFW04quE
- kORlRrHkFERECloY1VfnTkr5OEEIQW8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-8tRtGvBdNwujU-RtTCSzEQ-1; Tue, 07 Jan 2020 06:12:11 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD3F477
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 11:12:10 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 095F97C019;
- Tue,  7 Jan 2020 11:12:05 +0000 (UTC)
-Date: Tue, 7 Jan 2020 11:12:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 061/104] virtiofsd: Handle reinit
-Message-ID: <20200107111202.GE3368802@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-62-dgilbert@redhat.com>
+ (Exim 4.71) (envelope-from <fflorensa@online.net>)
+ id 1iomoA-0000Dt-31
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 06:13:58 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.online.net (Postfix) with ESMTP id 45EB3F2B8AF8;
+ Tue,  7 Jan 2020 12:13:49 +0100 (CET)
+Received: from mail.online.net ([127.0.0.1])
+ by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id Nfa23F5c2zrU; Tue,  7 Jan 2020 12:13:49 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.online.net (Postfix) with ESMTP id 23A90F2B95BC;
+ Tue,  7 Jan 2020 12:13:49 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.online.net 23A90F2B95BC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=online.net;
+ s=4EC61654-9574-11E8-870F-3D38CA7095BF; t=1578395629;
+ bh=mrvEcFu6bzwIW4aWzk6nOvE+B5lMZitJUq4D2t4rZts=;
+ h=From:To:Date:Message-Id:MIME-Version;
+ b=hSGZveYyqwD9IuXBW3LwO5JfoO3EUDB566dVFYBbTZU2XuBVAhdVifXB9bNjqRrTA
+ MwQVx61f7QJnDCQbiDksvODaYaUJNVVdqlF+2vbKwSQ2a5LsLalU1aD4HG52R3cT1W
+ tZydqJFrCVJO0+dMkVtYgIQqd9N3WIupUp/5q/3KEYpJS6d5zoLYR8uk90gq4RibbJ
+ fMiP8rDkFMtgM2EI+hfGZXqVBr/JPNwh/dgzYFpZubwkH56BwHy5smMtUqY4xiTqca
+ KskrPuOhlMEqQvGUoMEO3LhVDuPOI7Y6SHJtVIiWYWKcqhlA9uz+EGfEucU4HfdDeq
+ AohvhD6n8Qjdg==
+X-Virus-Scanned: amavisd-new at mail.online.net
+Received: from mail.online.net ([127.0.0.1])
+ by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id gilNIuXAlawu; Tue,  7 Jan 2020 12:13:49 +0100 (CET)
+Received: from flash.online.net (unknown [195.154.229.35])
+ by mail.online.net (Postfix) with ESMTPSA id F016BF2B8AF8;
+ Tue,  7 Jan 2020 12:13:48 +0100 (CET)
+From: Florian Florensa <fflorensa@online.net>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] block/rbd: Add support for ceph namespaces
+Date: Tue,  7 Jan 2020 12:13:39 +0100
+Message-Id: <20200107111340.334965-1-fflorensa@online.net>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-62-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 8tRtGvBdNwujU-RtTCSzEQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 62.210.16.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,33 +70,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: kwolf@redhat.com, dillaman@redhat.com, armbru@redhat.com, mreitz@redhat.com,
+ sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:21PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> Allow init->destroy->init  for mount->umount->mount
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c | 2 ++
->  1 file changed, 2 insertions(+)
+Happy new year everyone, please find attached the v2 of the patch,
+updated with the input from Stefano, Jason and Eric.
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+What has changed from v1 :
 
+ - renamed the variables from nspace to namespace
+ - made the argument in qapi optional
+ - add the `(Since 5.0)` tag in qapi documentation
 
-Regards,
-Daniel
+Florian Florensa (1):
+  block/rbd: Add support for ceph namespaces
+
+ block/rbd.c          | 45 ++++++++++++++++++++++++++++++--------------
+ qapi/block-core.json |  4 ++++
+ 2 files changed, 35 insertions(+), 14 deletions(-)
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+2.24.1
 
 
