@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB63132322
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:03:03 +0100 (CET)
-Received: from localhost ([::1]:45592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B9B13234D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:14:27 +0100 (CET)
+Received: from localhost ([::1]:45760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iolhU-0000NR-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:03:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57988)
+	id 1iolsX-0002Cx-Fl
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:14:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58853)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iojzl-0000TI-5s
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:13:46 -0500
+ (envelope-from <arei.gonglei@huawei.com>) id 1iok4L-0001av-44
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:18:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iojzj-0002Fe-Ka
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:13:44 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39954)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iojzj-0002EU-Ch
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:13:43 -0500
-Received: by mail-wm1-x343.google.com with SMTP id t14so18262817wmi.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 00:13:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=HNIlDDKINL4Q/pKS1kv6ltDhoEkHZDt2zxV4QLbjic4=;
- b=TdC6lSRXvEqcOoCbF4YuJYhs1Sb2eppt7GOFJyVJEE6t5CzLICCUIMdxPaWk+b7sUl
- CKz5d4iONxSpjfHy5UzMyZFhJ4clhoB1JG8Yso8DbUYO4FRA11PD9JhoSxzIRPo1rG/J
- OKvz/SxlagBQ0NWxcHayt61Ctq7ysaJgGFCKx0jTv9fIX9TI/78T2np3oZaYXFve28uC
- plyu33YIEDr3aKptdswFr7sxE75JeA0q/as4M+v31uZI/+4HLaEHdUs35Z2uyzSFiZUQ
- TK66ZPIYYF0OQB9k8nksYodHYkOJTmK5wCRebaZNmcJ++AaUah2yFt3CPhjMoBScqrOP
- +DEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=HNIlDDKINL4Q/pKS1kv6ltDhoEkHZDt2zxV4QLbjic4=;
- b=c9WiFldoFH/i/J+kYgM2oB1SBG0K7E5hIRWH/vKuRC7EaajUirGmNL6fNf8qpIvTtp
- xEgGuEp8pkx9/k1rGwjcsv+8s/sDburmmMIgcLt2PfTdbxAZhqBFsSeppnBoJ8ARHYnu
- lZsyiOqPohrV2LRes/QqDqbDHm+PuMD9o2FFiblbPOsQjDLqNdBtRkNwyILGet48KGHn
- YBD12kMOdYVRlqj/hxE79W3B4vwDHSMucOKuHBKudx/Cef7fXKDmgQr4cL+oV422zVXG
- 0uO3HW7A4fQkrbNOrHFJq22PVVw485DSYbp7+xWxwmq0+OcArtKO1KFkohEyj+OlBw0M
- jWqg==
-X-Gm-Message-State: APjAAAXmZ/THbO3YBjiLzi+GbpFBsy52Gu8AiEGQKIFY2ikfyG1UU4nF
- bfYv4qGsq+7UifUPaldtnuKoig==
-X-Google-Smtp-Source: APXvYqwDTmBjuCTv4t7GKSoAw/TZ/QgV61V+gLjKowd3A0xWTa1BVqmtESQ0nePOr+22UYHuZ/D15A==
-X-Received: by 2002:a1c:3187:: with SMTP id x129mr38686737wmx.91.1578384821768; 
- Tue, 07 Jan 2020 00:13:41 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m126sm25462561wmf.7.2020.01.07.00.13.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 00:13:40 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B29DB1FF87;
- Tue,  7 Jan 2020 08:13:39 +0000 (GMT)
-References: <20200106063423.10936-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2] MAINTAINERS: Replace Claudio Fontana for tcg/aarch64
-In-reply-to: <20200106063423.10936-1-richard.henderson@linaro.org>
-Date: Tue, 07 Jan 2020 08:13:39 +0000
-Message-ID: <87eewb65vw.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <arei.gonglei@huawei.com>) id 1iok4J-0005bC-Mo
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:18:28 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2485 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <arei.gonglei@huawei.com>)
+ id 1iok4J-0005TJ-CP; Tue, 07 Jan 2020 03:18:27 -0500
+Received: from dggeml406-hub.china.huawei.com (unknown [172.30.72.54])
+ by Forcepoint Email with ESMTP id 75A044EAAA86566CD5EF;
+ Tue,  7 Jan 2020 16:18:18 +0800 (CST)
+Received: from DGGEML531-MBS.china.huawei.com ([169.254.5.203]) by
+ dggeml406-hub.china.huawei.com ([10.3.17.50]) with mapi id 14.03.0439.000;
+ Tue, 7 Jan 2020 16:18:10 +0800
+From: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v1 29/59] cryptodev-vhost.c: remove unneeded 'err' label
+ in cryptodev_vhost_start
+Thread-Topic: [PATCH v1 29/59] cryptodev-vhost.c: remove unneeded 'err'
+ label in cryptodev_vhost_start
+Thread-Index: AQHVxL65BOsM+4D/zEWd9ZrocadbLqfe3ASg
+Date: Tue, 7 Jan 2020 08:18:09 +0000
+Message-ID: <33183CC9F5247A488A2544077AF19020DB6093B9@dggeml531-mbs.china.huawei.com>
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106182425.20312-30-danielhb413@gmail.com>
+In-Reply-To: <20200106182425.20312-30-danielhb413@gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.133.225.234]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.188
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,49 +62,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Claudio Fontana <claudio.fontana@gmail.com>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Claudio's Huawei address has been defunct for quite a while.  In
->
->   https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg06872.html
->
-> he asked for his personal address to be removed as well.
->
-> I will take over officially.
->
-> Cc: Claudio Fontana <claudio.fontana@gmail.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+> -----Original Message-----
+> From: Daniel Henrique Barboza [mailto:danielhb413@gmail.com]
+> Sent: Tuesday, January 7, 2020 2:24 AM
+> To: qemu-devel@nongnu.org
+> Cc: qemu-trivial@nongnu.org; Daniel Henrique Barboza
+> <danielhb413@gmail.com>; Gonglei (Arei) <arei.gonglei@huawei.com>
+> Subject: [PATCH v1 29/59] cryptodev-vhost.c: remove unneeded 'err' label =
+in
+> cryptodev_vhost_start
+>=20
+> 'err' can be replaced by 'return r'.
+>=20
+> CC: Gonglei <arei.gonglei@huawei.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  MAINTAINERS | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6f453fc94c..1f5f3ca21b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2384,8 +2384,7 @@ F: plugins/
->  F: tests/plugin
->=20=20
->  AArch64 TCG target
-> -M: Claudio Fontana <claudio.fontana@huawei.com>
-> -M: Claudio Fontana <claudio.fontana@gmail.com>
-> +M: Richard Henderson <richard.henderson@linaro.org>
->  S: Maintained
->  L: qemu-arm@nongnu.org
->  F: tcg/aarch64/
+>  backends/cryptodev-vhost.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+
+Reviewed-by: Gonglei <arei.gonglei@huawei.com>
 
 
---=20
-Alex Benn=C3=A9e
+> diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c inde=
+x
+> 8337c9a495..907ca21fa7 100644
+> --- a/backends/cryptodev-vhost.c
+> +++ b/backends/cryptodev-vhost.c
+> @@ -201,7 +201,7 @@ int cryptodev_vhost_start(VirtIODevice *dev, int
+> total_queues)
+>      r =3D k->set_guest_notifiers(qbus->parent, total_queues, true);
+>      if (r < 0) {
+>          error_report("error binding guest notifier: %d", -r);
+> -        goto err;
+> +        return r;
+>      }
+>=20
+>      for (i =3D 0; i < total_queues; i++) { @@ -236,7 +236,7 @@ err_start=
+:
+>      if (e < 0) {
+>          error_report("vhost guest notifier cleanup failed: %d", e);
+>      }
+> -err:
+> +
+>      return r;
+>  }
+>=20
+> --
+> 2.24.1
+
 
