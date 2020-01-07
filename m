@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12FFF132A25
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:38:13 +0100 (CET)
-Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79ECA132A2E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:40:58 +0100 (CET)
+Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqvr-0002RS-HA
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:38:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36404)
+	id 1ioqyX-0007fZ-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:40:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ioqdT-00075u-7h
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:19:12 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ioqhQ-0005Ku-D3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:23:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ioqdS-00053x-65
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:19:11 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53990)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ioqdS-00053a-0R
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:19:10 -0500
-Received: by mail-wm1-x341.google.com with SMTP id m24so19363795wmc.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 07:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=spmWeXl4S5LMM/EH0t+JvDvCsYbDH5Ny1Okgs359Mz4=;
- b=MJevW+i7ayBjBkFcWjWUOYNKLPun/2eZsIAyFbqf1t8zO7BfXC4D73VWgSPBy/mEu+
- 4p0X/QsOZmHHR87tMdwk0GwrrdAq/gTb2hBJlij9CDx794iLh5kp6GHfibJ7JlM7cKbQ
- fVldxUJVKQAStZR41sr6Vnrar6vDE5y18QqyIX+zM9Z6uEifnQAaqXWFkqJjdz8QW+aw
- 6rjWCs66TzGTLAHQGA/f9Z6dpjeX7De7HDRzkVEXVr10NmdGYFHbcDvfJ7M5/mDghcZq
- uGA1jhf/7i7ODr1AxBajAEHwrlsz+tSprhDVceDB7Da56m43ZmQAFWYgiT1YpObDuIqQ
- Q84Q==
+ (envelope-from <pbonzini@redhat.com>) id 1ioqhO-0007dQ-QK
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:23:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55411
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ioqhO-0007d5-MV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:23:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578410594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vEZl/neS+NROZ3mdO1oRodcW72dgDNfEVAbmZRX2WOo=;
+ b=Ii2kvMAY5e0uf7Ik7+2z2orRKnlQHFASSNY84i7Ng5vrVIStowlIbSQzKvNRaK992cIvIT
+ IJC70oQXdde3okO/sRQ5seT8KsNi98ZvZOBS+zescXLKdli/XeMcyCwt+rUHO3cbeUdaFB
+ 6nS/lJJG1tN1s9ShG2PzMVDV/fTE01M=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-aD7seDmpMxiHpmmk6xFplA-1; Tue, 07 Jan 2020 10:23:13 -0500
+Received: by mail-wr1-f72.google.com with SMTP id j13so62699wrr.20
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 07:23:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=spmWeXl4S5LMM/EH0t+JvDvCsYbDH5Ny1Okgs359Mz4=;
- b=aNsgVdYOaMdNy8Uax4DRfCO+D55SHaVu1X+a8OzaS2WhxvKy4OSemM8nZeAlJM15iH
- cN/iTnNBSv3DZumyRmyIhzK8wxKN3Be8IqgIf9B3bjqmJ04jSTg6uPetEbgUuHrTkO5J
- MpPlrLbLYMBg98LTEDwxhWUCMcNwGgSgLUc1oLr3wnEdjajuq+nRD7vslHoBfh9cSHn1
- mk4eYEVz29ZQG4mF3e52hcYrCuPmByL+hUXLwEWVJ8gPhW9J1lyOcQDuBH1wFo7Djw3D
- WcGsj+NmJn++8M1NjNBxcm0Z9sKAAc3IB7cXOiuGuuTF6LU8BS8VVgKOkNomifDULS4L
- rThA==
-X-Gm-Message-State: APjAAAVziGaJqAaik77U7z3VIWtFJgo6AYma+/da87bpAmc9jI+YEzgN
- 3Xifuc6vXv+2gCpQipGXiMtwS08vgT8+GzE2na8=
-X-Google-Smtp-Source: APXvYqyNOVZmr3nwhz5OTJqEFmCZULtFqCT9YjFbfXRrZLCUIFxgtNnjtFC4c9ek5G9ROEu+h+aKHd4Tmqt6z8iKryY=
-X-Received: by 2002:a05:600c:228f:: with SMTP id
- 15mr41984335wmf.56.1578410348881; 
- Tue, 07 Jan 2020 07:19:08 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/wc1xxXSPNaCZ+dYdazVsN00S+wbJbcYuMJ74BKeA2g=;
+ b=bvdC0P7OMbmmPLWlbTaukkrkXueXN2H7njmFY0n9sfxZ/rhzuT5oT9SNt/ZXUnoxRP
+ ZDiHw2BfY1yo2arG4Rw3q7L1ED8M4gDa7Bx/6hDCzBT1ZQQXZiTTxG0OMROFg7PCzaIF
+ UZehBr8e48BLZhyYqJ5A2J9Ji1sVX3iV7s63FVgpYwnGxAaLzYW5qSwFXwW4RrdqvwSj
+ XgFonWnXO6hF8Qs7AoozCFTHe7cYvD9ZeXku5Fw40/5DQTcYNa03MSKutd/X5tlBfcez
+ rZqmM3dGdEQzCSjVNiov0uKoVADcMA0ahK/y1eEMlRYwNjxivCkz5yB2KqoVD5EwxpTC
+ ssAQ==
+X-Gm-Message-State: APjAAAXwqkL52i8Tpfk2pZGgoiyYeuDvq3iZ1WU9LQ0rN9PmYzj5tY+2
+ qsXcZ8opYzA86/ThogPVt6zyrx4h9lZyOaIXcvSDvmIRk2XINQxzXnaO1sy5CF4knwvN4ex48N8
+ pMAtn44DJJqU+pYs=
+X-Received: by 2002:adf:f308:: with SMTP id i8mr49579816wro.42.1578410591988; 
+ Tue, 07 Jan 2020 07:23:11 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyoAFGs2BOpjY0uBeuBN7Yc7/c6alEMV8/94B6n+mL/HLVDW5sduo9VmBSvBDk/vaL1rnBQXA==
+X-Received: by 2002:adf:f308:: with SMTP id i8mr49579799wro.42.1578410591769; 
+ Tue, 07 Jan 2020 07:23:11 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id d10sm182760wrw.64.2020.01.07.07.23.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 07:23:11 -0800 (PST)
+Subject: Re: [PATCH v2 00/14] chardev: Use QEMUChrEvent enum in IOEventHandler
+ typedef
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20191218172009.8868-1-philmd@redhat.com>
+ <CAMxuvayWibPU6_mEcYEqsWUhSRra33MvwPrbAYr254ZYaYKBgg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5b35d7f9-4590-2764-b48f-8d841c86fe3e@redhat.com>
+Date: Tue, 7 Jan 2020 16:23:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20200107135311.5215-1-alex.bennee@linaro.org>
- <20200107135311.5215-7-alex.bennee@linaro.org>
-In-Reply-To: <20200107135311.5215-7-alex.bennee@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 7 Jan 2020 19:18:56 +0400
-Message-ID: <CAJ+F1CJwudHpqDonGTOYQjBNJ65XEsRT99x1cPOn=CKSP=emnA@mail.gmail.com>
-Subject: Re: [PATCH v1 6/6] travis: install homebrew python for OS X
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMxuvayWibPU6_mEcYEqsWUhSRra33MvwPrbAYr254ZYaYKBgg@mail.gmail.com>
+Content-Language: en-US
+X-MC-Unique: aD7seDmpMxiHpmmk6xFplA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,43 +93,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Alberto Garcia <berto@igalia.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-block <qemu-block@nongnu.org>,
+ Zhang Chen <chen.zhang@intel.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, Joel Stanley <joel@jms.id.au>,
+ Laurent Vivier <lvivier@redhat.com>, Corey Minyard <minyard@acm.org>,
+ Amit Shah <amit@kernel.org>, Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-s390x@nongnu.org,
+ qemu-arm <qemu-arm@nongnu.org>, Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-riscv@nongnu.org,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 7, 2020 at 6:55 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
-> Our python3 requirements now outstrip those of the build.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On 20/12/19 14:32, Marc-Andr=C3=A9 Lureau wrote:
+> On Wed, Dec 18, 2019 at 9:20 PM Philippe Mathieu-Daud=C3=A9
+> <philmd@redhat.com> wrote:
+>>
+>> Hi,
+>>
+>> After this chat on #qemu IRC:
+>> 13:20 <stsquad> so what is the difference between a IOReadHandler and IO=
+EventHandler?
+>> 13:25 <f4bug> stsquad: one is in-band and the other out-of-band?
+>> 13:26 <stsquad> f4bug: ahh yes it seems so - connect/disconnect etc...
+>> 13:27 <f4bug> see QEMUChrEvent for IOEventHandler
+>>
+>> I thought it might be a good opportunity to make the IOEventHandler
+>> typedef meaning more obvious, by using the QEMUChrEvent enum.
+>>
+>> To be able to build I had to explicit all enums ignored in the
+>> switch(event) statement by these frontends.
+>>
+>> Then I used a coccinelle spatch to change the various IOEventHandler.
+>> I don't think the last patch can be split, but suggestions are welcome!
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+>> v2:
+>> - do blindly ignore all events using a 'default' case.
+>>
+>> Philippe Mathieu-Daud=C3=A9 (14):
+>>   hw/ipmi: Remove unnecessary declarations
+>>   hw/ipmi: Explicit we ignore some QEMUChrEvent in IOEventHandler
+>>   hw/char/terminal3270: Explicit ignored QEMUChrEvent in IOEventHandler
+>>   hw/usb/dev-serial: Explicit we ignore few QEMUChrEvent in IOEventHandl=
+er
+>>   hw/usb/redirect: Explicit we ignore few QEMUChrEvent in IOEventHandler
+>>   ccid-card-passthru: Explicit we ignore QEMUChrEvent in IOEventHandler
+>>   vhost-user-crypto: Explicit we ignore some QEMUChrEvent in IOEventHand=
+ler
+>>   vhost-user-net: Explicit we ignore few QEMUChrEvent in IOEventHandler
+>>   vhost-user-blk: Explicit we ignore few QEMUChrEvent in IOEventHandler
+>>   virtio-console: Explicit we ignore some QEMUChrEvent in IOEventHandler
+>>   monitor/qmp: Explicit we ignore few QEMUChrEvent in IOEventHandler
+>>   monitor/hmp: Explicit we ignore a QEMUChrEvent in IOEventHandler
+>>   chardev/char: Explicit we ignore some QEMUChrEvent in IOEventHandler
+>>   chardev: Use QEMUChrEvent enum in IOEventHandler typedef
+>=20
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>=20
+> (I guess Paolo will take the series for next PR?)
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Yes, I'm queuing it.  I'll check Richard's remark before sending out the
+pull request.
 
-> ---
->  .travis.yml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index 848a2714efe..a86ca34f79d 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -57,6 +57,7 @@ addons:
->        - glib
->        - pixman
->        - gnu-sed
-> +      - python
->      update: true
->
->
-> --
-> 2.20.1
->
->
+Paolo
 
-
---=20
-Marc-Andr=C3=A9 Lureau
 
