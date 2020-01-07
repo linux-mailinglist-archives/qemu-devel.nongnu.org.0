@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5CF132B52
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:47:08 +0100 (CET)
-Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B253132C03
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 17:57:03 +0100 (CET)
+Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ios0Y-0004O7-Gp
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:47:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46869)
+	id 1iosA9-00046z-Fy
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 11:57:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iorlI-00086C-D6
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:21 -0500
+ (envelope-from <mst@redhat.com>) id 1iorlK-00087c-TU
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iorlG-0005YN-Kj
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:19 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47224
+ (envelope-from <mst@redhat.com>) id 1iorlJ-0005a1-Hp
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:22 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30980
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorlG-0005Xd-HM
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:18 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iorlJ-0005Zs-EC
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:31:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578414677;
+ s=mimecast20190719; t=1578414681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mD5CnKaHCqEnDtYsfaWuvKKdqaTymxgk4zlUTmpGAA8=;
- b=OT2WbIEXrsyllY/Ag22SPdGMxrHtGA9AWBEgFID7NH3ulnTkBXyMBvq1fFY3C2fpHyXCKS
- YPI8dmiFfJLfOEkg060mYbZQLvU6D/DbNBtYoOA3A/rLMzwRGmQJpUgbRMujxZtV4c/yOO
- oBr6tGbIJg25g6piWVeIZ8zQJu4P+jg=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-39Gq8W05N5GkhesmgeZEKQ-1; Tue, 07 Jan 2020 11:31:16 -0500
-Received: by mail-qt1-f198.google.com with SMTP id b14so149793qtt.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:31:15 -0800 (PST)
+ bh=51WDbq+PBwGZb4DLRjFJvXY/baMy4xbXgzhN6b6J6AM=;
+ b=HJ+cvGS68koGnjViu5vJkd3C0pa+xNEA4XyRdBJULnD1s97QjK8er9kH7HvCDpAaec/ZXw
+ bg4yNbM9I6DQO9Ar3aWmVq/QMnlsStdfpDFmsqqxhS3Bbejv0hYfH17O+FGo9eVrH3PvKk
+ vn8/082rag17yChSEDKEm99CKfSZOsI=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-llPQ_F3pNdGVWtCvFgerog-1; Tue, 07 Jan 2020 11:31:19 -0500
+Received: by mail-qk1-f199.google.com with SMTP id a6so146781qkl.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 08:31:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=zrcV6NduOW424RfDjQAFC57USpEMc62nbflawLr92Qk=;
- b=ZUvBWzPn0A5ERnD2Ejus6Rbs1Gzwx2hshgN8Y4Q0y+yU2TJ2HF30Ohc1v1HSV48azn
- yyFrboFqaj2vxlg6Dytx7LQQgKG8ljkFdMrPeWtqhY7oahLQ3M40B0HCyZwGniTYbZYU
- J+MNtiQs5BrclJz9mYRHSus9NI3BnvI5ZwR5+J3ehztFR/BZd+BOmIrQcPSAjDXXxjut
- XkHWuO5SfwngXk/hgKzKMxYx18HmKadER2e7BAFcHNGHp+dU8n0vFqPJsc+aiv2OZtpV
- zFrUUHltL0X9Bv4ZLywX3wTlG+onPsAmVRZZPBjm5VU/2Izh5xab7OQNahUpu4OSAADV
- o96A==
-X-Gm-Message-State: APjAAAVit/BwSuqcc1xN2Mm0ljvdGni9hfrwUHIPmBC9WLksi5i3mHv1
- LbkVE/FmzmD01SfPky57Lb5gxU2+SKdKtwtEOzDb0eREGaxdMTCGsSBcTfJv/Sc7Xb+vOa8DAma
- VmDykz7PV7KzKutA=
-X-Received: by 2002:ad4:55a7:: with SMTP id f7mr260280qvx.36.1578414674366;
- Tue, 07 Jan 2020 08:31:14 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwIZcSXc7lFqaGIHTOODsXqMqSv0VfskeWYrkHQCbJe0eVs0ekd+BeLV84arSTSdPHTLuy3dA==
-X-Received: by 2002:ad4:55a7:: with SMTP id f7mr260262qvx.36.1578414674160;
- Tue, 07 Jan 2020 08:31:14 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=o8odu1UwTWT4bWPiNG9EYA27yURxcpg5mIlh0CMeiVA=;
+ b=rTnw+N4+9XCcTawH/95c+6cCRw+1Iu2WbsgvxPsZFgXJyPZFHMKNUiwjhLkHNG0Nl5
+ acH8jSNVgx0BhgV9y/AzbBwnQfiajnlKawA9DcRFSdSms9r1TAkXkgHUXrkMhqaXrUWd
+ rRcfP9LyTmL1w95wi519VYwWOZzF0gK+UZ1FN84meJPQjkVBxhqZX/AqEaanpgMAm30k
+ 9ZtJElBVS/CLL8uCxanDxA0nX0KWA5K/3O83dVTlW0ojBlG+JQlhBu6plFpkNyCge7TS
+ 13LNEYzKkr0ngscRjWwY3UIekE1ajuYl48XV1nsB/Ps2/08xNoJm81utqq1jOS8H34Zr
+ rQlw==
+X-Gm-Message-State: APjAAAVzLLqAC27dWyY3i0G+I0GxmCQ+ez/tBZ4DHxo9Zaz9wSaKheyI
+ R88o0jUxX1WhSan4fEeMc5IJDtpjNDYzobGCMIQJNncSSnByI7pyK271vpIHhBBvJ3ippkW4457
+ QDROPYUg0xVjmDcQ=
+X-Received: by 2002:a05:620a:1112:: with SMTP id
+ o18mr156917qkk.126.1578414678526; 
+ Tue, 07 Jan 2020 08:31:18 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxmywUj3AsUnzO3uXL9nzho3iWKp5JeLqWA/UAPzNxC2KFRx8VTRf6uKaHbHj3STvDbb80h8A==
+X-Received: by 2002:a05:620a:1112:: with SMTP id
+ o18mr156894qkk.126.1578414678252; 
+ Tue, 07 Jan 2020 08:31:18 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id d143sm19992qke.123.2020.01.07.08.31.12
+ by smtp.gmail.com with ESMTPSA id k21sm86403qtp.92.2020.01.07.08.31.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 08:31:13 -0800 (PST)
-Date: Tue, 7 Jan 2020 11:31:10 -0500
+ Tue, 07 Jan 2020 08:31:17 -0800 (PST)
+Date: Tue, 7 Jan 2020 11:31:14 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 22/32] hw/pci/pci_host: Let pci_data_[read/write] use
- unsigned 'size' argument
-Message-ID: <20200107162850.411448-23-mst@redhat.com>
+Subject: [PULL v3 23/32] vhost-user: add VHOST_USER_RESET_DEVICE to reset
+ devices
+Message-ID: <20200107162850.411448-24-mst@redhat.com>
 References: <20200107162850.411448-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107162850.411448-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: 39Gq8W05N5GkhesmgeZEKQ-1
+X-MC-Unique: llPQ_F3pNdGVWtCvFgerog-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,68 +92,103 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ David Vrabel <david.vrabel@nutanix.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-Both functions are called by MemoryRegionOps.[read/write] handlers
-with unsigned 'size' argument. Both functions call
-pci_host_config_[read/write]_common() which expect a uint32_t 'len'
-parameter (also unsigned).
-Since it is pointless (and confuse) to use a signed value, use a
-unsigned type.
+Add a VHOST_USER_RESET_DEVICE message which will reset the vhost user
+backend. Disabling all rings, and resetting all internal state, ready
+for the backend to be reinitialized.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191216002134.18279-3-philmd@redhat.com>
+A backend has to report it supports this features with the
+VHOST_USER_PROTOCOL_F_RESET_DEVICE protocol feature bit. If it does
+so, the new message is used instead of sending a RESET_OWNER which has
+had inconsistent implementations.
+
+Signed-off-by: David Vrabel <david.vrabel@nutanix.com>
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <1572385083-5254-2-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pci_host.h | 4 ++--
- hw/pci/pci_host.c         | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/virtio/vhost-user.c      |  8 +++++++-
+ docs/interop/vhost-user.rst | 15 +++++++++++++++
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
-index ba31595fc7..9ce088bd13 100644
---- a/include/hw/pci/pci_host.h
-+++ b/include/hw/pci/pci_host.h
-@@ -62,8 +62,8 @@ void pci_host_config_write_common(PCIDevice *pci_dev, uin=
-t32_t addr,
- uint32_t pci_host_config_read_common(PCIDevice *pci_dev, uint32_t addr,
-                                      uint32_t limit, uint32_t len);
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 02a9b25199..d27a10fcc6 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -58,6 +58,7 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD =3D 10,
+     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER =3D 11,
+     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD =3D 12,
++    VHOST_USER_PROTOCOL_F_RESET_DEVICE =3D 13,
+     VHOST_USER_PROTOCOL_F_MAX
+ };
 =20
--void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, int len);
--uint32_t pci_data_read(PCIBus *s, uint32_t addr, int len);
-+void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, unsigned len);
-+uint32_t pci_data_read(PCIBus *s, uint32_t addr, unsigned len);
+@@ -98,6 +99,7 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GET_INFLIGHT_FD =3D 31,
+     VHOST_USER_SET_INFLIGHT_FD =3D 32,
+     VHOST_USER_GPU_SET_SOCKET =3D 33,
++    VHOST_USER_RESET_DEVICE =3D 34,
+     VHOST_USER_MAX
+ } VhostUserRequest;
 =20
- extern const MemoryRegionOps pci_host_conf_le_ops;
- extern const MemoryRegionOps pci_host_conf_be_ops;
-diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
-index 0958d157de..ce7bcdb1d5 100644
---- a/hw/pci/pci_host.c
-+++ b/hw/pci/pci_host.c
-@@ -106,7 +106,7 @@ uint32_t pci_host_config_read_common(PCIDevice *pci_dev=
-, uint32_t addr,
-     return ret;
- }
-=20
--void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, int len)
-+void pci_data_write(PCIBus *s, uint32_t addr, uint32_t val, unsigned len)
+@@ -890,10 +892,14 @@ static int vhost_user_set_owner(struct vhost_dev *dev=
+)
+ static int vhost_user_reset_device(struct vhost_dev *dev)
  {
-     PCIDevice *pci_dev =3D pci_dev_find_by_addr(s, addr);
-     uint32_t config_addr =3D addr & (PCI_CONFIG_SPACE_SIZE - 1);
-@@ -119,7 +119,7 @@ void pci_data_write(PCIBus *s, uint32_t addr, uint32_t =
-val, int len)
-                                  val, len);
- }
+     VhostUserMsg msg =3D {
+-        .hdr.request =3D VHOST_USER_RESET_OWNER,
+         .hdr.flags =3D VHOST_USER_VERSION,
+     };
 =20
--uint32_t pci_data_read(PCIBus *s, uint32_t addr, int len)
-+uint32_t pci_data_read(PCIBus *s, uint32_t addr, unsigned len)
- {
-     PCIDevice *pci_dev =3D pci_dev_find_by_addr(s, addr);
-     uint32_t config_addr =3D addr & (PCI_CONFIG_SPACE_SIZE - 1);
++    msg.hdr.request =3D virtio_has_feature(dev->protocol_features,
++                                         VHOST_USER_PROTOCOL_F_RESET_DEVIC=
+E)
++        ? VHOST_USER_RESET_DEVICE
++        : VHOST_USER_RESET_OWNER;
++
+     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+         return -1;
+     }
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 015ac08177..5f8b3a456b 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -785,6 +785,7 @@ Protocol features
+   #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD  10
+   #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER  11
+   #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD 12
++  #define VHOST_USER_PROTOCOL_F_RESET_DEVICE   13
+=20
+ Master message types
+ --------------------
+@@ -1190,6 +1191,20 @@ Master message types
+   ancillary data. The GPU protocol is used to inform the master of
+   rendering state and updates. See vhost-user-gpu.rst for details.
+=20
++``VHOST_USER_RESET_DEVICE``
++  :id: 34
++  :equivalent ioctl: N/A
++  :master payload: N/A
++  :slave payload: N/A
++
++  Ask the vhost user backend to disable all rings and reset all
++  internal device state to the initial state, ready to be
++  reinitialized. The backend retains ownership of the device
++  throughout the reset operation.
++
++  Only valid if the ``VHOST_USER_PROTOCOL_F_RESET_DEVICE`` protocol
++  feature is set by the backend.
++
+ Slave message types
+ -------------------
+=20
 --=20
 MST
 
