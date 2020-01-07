@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E17D132A68
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:49:10 +0100 (CET)
-Received: from localhost ([::1]:51870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D08132A74
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:51:15 +0100 (CET)
+Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ior6T-0002jW-4k
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:49:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42315)
+	id 1ior8U-0006Cw-8W
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:51:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45199)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ioqnP-0006Dt-C8
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:29:28 -0500
+ (envelope-from <philmd@redhat.com>) id 1ioqq1-0002RP-Lv
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ioqnO-0002sx-Ah
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:29:27 -0500
-Received: from 1.mo7.mail-out.ovh.net ([178.33.45.51]:32911)
+ (envelope-from <philmd@redhat.com>) id 1ioqpz-0005BQ-L8
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:08 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60136
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ioqnO-0002rb-4K
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:29:26 -0500
-Received: from player158.ha.ovh.net (unknown [10.109.143.79])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 71110149D78
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 16:29:23 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: groug@kaod.org)
- by player158.ha.ovh.net (Postfix) with ESMTPSA id 806F8DEBA489;
- Tue,  7 Jan 2020 15:29:21 +0000 (UTC)
-Date: Tue, 7 Jan 2020 16:29:19 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 5/9] tests/virtio-9p: check file names of R_readdir
- response
-Message-ID: <20200107162919.74ec92d1@bahia.lan>
-In-Reply-To: <2640807.KD2hu4yizk@silver>
-References: <cover.1576678644.git.qemu_oss@crudebyte.com>
- <2a40095340d9536575af8fd214a7ac647b4603c9.1576678644.git.qemu_oss@crudebyte.com>
- <20200106180711.3a665d11@bahia.lan> <2640807.KD2hu4yizk@silver>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ioqpz-0005AS-Gn
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:32:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578411126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zOySCS/CoEGjbWjkUQ5KjtS6Qi5YVKt4h2N/MkT1Mxk=;
+ b=Vv5ZxrZC6q6zEeRRe9QUiI2PtP+LvGxEIscv26ETVTq4xc7GNOFe+fzvNlrDhPQzTVQ2Ba
+ oBQx3XeRLTzvEvCmN9FdyA5jqcG88woD8tF6oiERkZaIxqC9+9fzs6blXPsokqtgX1J2WI
+ K/SPC9y/d7i+PKtCBBpyWoE2MWqPqNI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-tixj4HT2Od-VbuSZ9mFBFA-1; Tue, 07 Jan 2020 10:32:01 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF89E8C6E0D;
+ Tue,  7 Jan 2020 15:32:00 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-222.brq.redhat.com [10.40.204.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FB9C5D9CA;
+ Tue,  7 Jan 2020 15:31:56 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] gitlab-ci: Add jobs to build the EDK2 firmware binaries
+Date: Tue,  7 Jan 2020 16:31:51 +0100
+Message-Id: <20200107153154.21401-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 11804779049658194240
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgedgvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduheekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: tixj4HT2Od-VbuSZ9mFBFA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.45.51
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,37 +68,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 07 Jan 2020 13:28:38 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+We provide the EDK2 firmware binaries in pc-bios/. When we
+update the roms/edk2/ submodule, we need to rebuild the
+firmware binaries.
+To avoid the burden on a single developer, this series add
+a GitLab job to generate reproducible EDK2 firmware binaries.
 
-> On Montag, 6. Januar 2020 18:07:11 CET Greg Kurz wrote:
-> > On Wed, 18 Dec 2019 14:35:56 +0100
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > Additionally to the already existing check for expected amount
-> > > of directory entries returned by R_readdir response, also check
-> > > whether all directory entries have the expected file names (as
-> > > created on 9pfs synth driver side), ignoring their precise order
-> > > in result list though.
-> > > 
-> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > ---
-> > 
-> > LGTM and trivial enough that it can be folded in the previous
-> > patch.
-> 
-> So you want that patch to be squashed. Np.
-> 
+The job is only on specific conditions:
+- roms/edk2/ is updated
+- or the branch or tag start with 'edk2'
+- or 'edk2' appears in last commit description
 
-Yes. Thanks.
+We won't use ccache to build the EDK2 firmwares, but the patch
+was ready/tested so I'm including it.
 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
+The proposed procedure to update the EDK2 submodule is:
+
+- add a commit to update roms/edk2/ submodule
+- push to gitlab
+- download generated artifacts (only available if job succeed)
+- unzip the firmware binaries from the artifacts archive
+- test the binaries
+- add a commit with the binaries, referencing the ci job url.
+
+Example of pipeline that built the edk2-stable201905 firmwares:
+https://gitlab.com/philmd/qemu/pipelines/107553178
+(the job is https://gitlab.com/philmd/qemu/-/jobs/395823729)
+
+The first patch is already reviewed, but is a prerequisite to
+use the Ubuntu docker image to build, so I included it.
+
+Since v1 [*]
+- split in 2 jobs: build docker image, build firmwares
+  (this way we build the docker image once for all the
+   subsequent jobs)
+- addressed Laszlo comment (minor the 'git-submodule-update)
+
+Regards,
+
+Phil.
+
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg668432.html
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  roms/edk2-funcs: Force softfloat ARM toolchain prefix on Debian
+  gitlab-ci.yml: Add jobs to build EDK2 firmware binaries
+  gitlab-ci-edk2.yml: Use ccache
+
+ .gitlab-ci-edk2.yml          | 58 ++++++++++++++++++++++++++++++++++++
+ .gitlab-ci.d/edk2/Dockerfile | 30 +++++++++++++++++++
+ .gitlab-ci.yml               |  3 ++
+ MAINTAINERS                  |  4 ++-
+ roms/edk2-funcs.sh           |  3 ++
+ 5 files changed, 97 insertions(+), 1 deletion(-)
+ create mode 100644 .gitlab-ci-edk2.yml
+ create mode 100644 .gitlab-ci.d/edk2/Dockerfile
+
+--=20
+2.21.1
 
 
