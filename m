@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6AB132457
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:59:28 +0100 (CET)
-Received: from localhost ([::1]:46454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76811323FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 11:43:37 +0100 (CET)
+Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioma6-0005rF-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:59:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45032)
+	id 1iomKl-0007VW-Md
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 05:43:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iolMx-00055c-Pe
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:41:48 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ioldV-0005FZ-Ri
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:58:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iolMw-0002QL-D6
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:41:47 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33852
+ (envelope-from <pbonzini@redhat.com>) id 1ioldU-00013V-Hn
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:58:53 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45012
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iolMw-0002Pu-9I
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:41:46 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ioldU-00013G-Dn
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:58:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578390105;
+ s=mimecast20190719; t=1578391132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GFPXBN/1uuYladgUMQcjVL2NCUO5aw8OYL069tuw8z0=;
- b=RBagUF5LZb4jknc7Sojh8UdZgOqdvwQfYcMGdBx4rfRdU4w/lHNZSC91lnL0hc6Kxj6FVP
- 83ZxftzuAXHVQux52ncR3yCtMbGQfdAau6DM2YJ3+WMfM/UKzejxizqvL05K7//BK4cYLX
- RiyNpDbRk04ddZFuYzn6KHOMYal+P2Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-3DmucBHWOGy3pf0uFtTtbQ-1; Tue, 07 Jan 2020 04:41:44 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B60A800D41;
- Tue,  7 Jan 2020 09:41:43 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-126.ams2.redhat.com
- [10.36.117.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA26260BEC;
- Tue,  7 Jan 2020 09:41:37 +0000 (UTC)
-Subject: Re: [PATCH 1/3] roms/edk2-funcs: Force softfloat ARM toolchain prefix
- on Debian
+ bh=FGaxt7S0LgnE+RWHbixBkCw6KNKbOW7a/NWJjQrCC/s=;
+ b=VVEWv8Nx8yeDTENkICAuJK9ziqPfVyyqsdO3DwiXqBFsiTg81ZP/YpF1siX1ShFpcLczz2
+ 4YjskowPqkcXlM/GwBhCbw023CmwA73m76In9Pp+uxR27enhEKDSZ+Bm1wIzCQmR88fkTm
+ 7ibiDzDsWV1HAlEWmCe6biLqpfyOVoQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-pPRjFe_bMWS6X6Q9Xaf1wA-1; Tue, 07 Jan 2020 04:58:51 -0500
+Received: by mail-wm1-f72.google.com with SMTP id o24so1779470wmh.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 01:58:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ipv/eoA8st4pkPe0NHevCXpF6nMYSBmo05/clUGxufc=;
+ b=pxbfCJry9iKlbskBCOfhH0XEBck5nQpa2G9PmpctwYLtnQhc8k3Jhz1F0Fm8bwCP9H
+ kDI6sN+c00TraUpwy++kPgJdNIRSx3Ma/fvlWMxKpoWZCHFF2Z6OiDAQZ+VsvDguZ6BD
+ nOfnXw9SKbKe0tK4X+E1lYmNpbqxO7hcHAbrVW4/LTD9Fo4SS5yuHyTT2G2RAz0KLuWi
+ od2YC2TC1e/EYm/Xq7eQKT+PlM1YEcWKLi5o2aiQEWMtDdFgjW7HXjSyNPDMQJMMu/cO
+ D996Q50Cf1kX/EkvIv4fcZUTB4RmTBW+qE+m6v7D+6mInAbzGJxMaoD2+Vu3X0UdcICM
+ jt0w==
+X-Gm-Message-State: APjAAAVYQmhw4FCgOXjEuAHNCCMSabbyqVLp9v3hapsSXvcULIEPsk45
+ BhnUYYGKKQKVlpClEBKlmX3spP90MQkroNoyUc7ccAEhtl9XhM6BKnojJqqV1i9df0zxOxCz80+
+ h2tSy+0PUU9gKCuw=
+X-Received: by 2002:a7b:cb46:: with SMTP id v6mr38816016wmj.117.1578391129463; 
+ Tue, 07 Jan 2020 01:58:49 -0800 (PST)
+X-Google-Smtp-Source: APXvYqznM70om4LZ6ytUCJD4AlFATYUabhqjS2w0dpP+bB7Oosb54s5LgY1hrVTzT0H7wBFc03sSSA==
+X-Received: by 2002:a7b:cb46:: with SMTP id v6mr38815993wmj.117.1578391129172; 
+ Tue, 07 Jan 2020 01:58:49 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id t5sm74681116wrr.35.2020.01.07.01.58.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 01:58:48 -0800 (PST)
+Subject: Re: [RFC PATCH 14/14] hw/intc/Kconfig: Let APIC select IOAPIC
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200106184601.25453-1-philmd@redhat.com>
- <20200106184601.25453-2-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <6698fcbb-3fd2-45c1-309f-4e6bed14406a@redhat.com>
-Date: Tue, 7 Jan 2020 10:41:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+References: <20191231183216.6781-1-philmd@redhat.com>
+ <20191231183216.6781-15-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a8291aad-ff1c-1ead-e311-b096514c16af@redhat.com>
+Date: Tue, 7 Jan 2020 10:58:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200106184601.25453-2-philmd@redhat.com>
+In-Reply-To: <20191231183216.6781-15-philmd@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 3DmucBHWOGy3pf0uFtTtbQ-1
+X-MC-Unique: pPRjFe_bMWS6X6Q9Xaf1wA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,60 +92,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/06/20 19:45, Philippe Mathieu-Daud=C3=A9 wrote:
-> The Debian (based) distributions currently provides 2 ARM
-> toolchains, documented as [1]:
+On 31/12/19 19:32, Philippe Mathieu-Daud=C3=A9 wrote:
+> apic_eoi() calls ioapic_eoi_broadcast(), so APIC has to
+> select the IOAPIC Kconfig.
 >=20
-> * The ARM EABI (armel) port targets a range of older 32-bit ARM
->   devices, particularly those used in NAS hardware and a variety
->   of *plug computers.
-> * The newer ARM hard-float (armhf) port supports newer, more
->   powerful 32-bit devices using version 7 of the ARM architecture
->   specification.
->=20
-> For various reasons documented in [2], the EDK2 project suggests
-> to use the softfloat toolchain (named 'armel' by Debian).
->=20
-> Force the softfloat cross toolchain prefix on Debian distributions.
->=20
-> [1] https://www.debian.org/ports/arm/#status
-> [2] https://github.com/tianocore/edk2/commit/41203b9a
->=20
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
-> v3: fixed s/hard/float/ typo (Laszlo)
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>=20
+> RFC because I'm not sure the design is correct (meanwhile the fix is, how=
+ever).
 
-s/float/soft/, but OK otherwise :)
+Just add a comment like "# for ioapic_eoi_broadcast()".  If anybody
+wants to drop it, they can add a stub.
 
-Thanks
-Laszlo
+Paolo
 
 > ---
->  roms/edk2-funcs.sh | 3 +++
->  1 file changed, 3 insertions(+)
+>  hw/intc/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
-> index 3f4485b201..cd6e4f2c82 100644
-> --- a/roms/edk2-funcs.sh
-> +++ b/roms/edk2-funcs.sh
-> @@ -112,6 +112,9 @@ qemu_edk2_get_cross_prefix()
->       ( [ "$gcc_arch" =3D=3D i686 ] && [ "$host_arch" =3D=3D x86_64 ] ); =
-then
->      # no cross-compiler needed
->      :
-> +  elif ( [ -e /etc/debian_version ] && [ "$gcc_arch" =3D=3D arm ] ); the=
-n
-> +    # force soft-float cross-compiler on Debian
-> +    printf 'arm-linux-gnueabi-'
->    else
->      printf '%s-linux-gnu-\n' "$gcc_arch"
->    fi
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index a189d6fedd..82748ae13d 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -24,6 +24,7 @@ config APIC
+>      bool
+>      select MSI_NONBROKEN
+>      select I8259
+> +    select IOAPIC
+> =20
+>  config ARM_GIC_KVM
+>      bool
 >=20
 
 
