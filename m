@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2DA132A29
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:39:51 +0100 (CET)
-Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE137132A35
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:42:21 +0100 (CET)
+Received: from localhost ([::1]:51762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqxS-0005fq-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:39:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56907)
+	id 1ioqzs-0002K0-Jz
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:42:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUH-0006kf-7u
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:42 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUN-0006xy-Ku
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUE-0005oo-UA
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:41 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45821
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqUM-0005vT-Ba
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:47 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47628
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ioqUE-0005nq-Pw
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:38 -0500
+ id 1ioqUM-0005uX-8A
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578409778;
+ s=mimecast20190719; t=1578409785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G5o3BZFfXOYMxsGVfHABUVa3/NLQ378y2wjX3/MhgO8=;
- b=GGMGpTJuUvgkMdDNoLrsYDPrTng2SG4wAJdt+P7F2x6s6vrP2E0AgoRwOKp+62LKw623B7
- gD9jHG70Gt6oC5cq1NRwsCuLzxvYrGo8PFd5a6r9fj9anWonjI6d9SnTmTreVDbbDhD+Am
- sLdjWtO3JNjU/OlRv0msHH2ciMjMZn8=
+ bh=IuDUTL8sKfVL8YiysWAUm2XIrVkGt414sgEIf3Q3Blo=;
+ b=V2Os2q33FbLt6noUq6ZA+5E9uTf8eoY1mMVnIokw4wHGCeqR2G+lBSPEz/YwIwr/MU3BLj
+ yZHUf2dQOdrI+ad3KFGUhBRj6r2hYEVl2dqnWsWZktgr4WBSJ7bINXBJPgGbnFnXX4rsCk
+ UrCGCJ/nYy26T9r/3S86vJh3KIEtDxg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-iksGxIo4P1yvzCZdR_BEAA-1; Tue, 07 Jan 2020 10:09:37 -0500
+ us-mta-199-3CtiVAvUPgmyhfXknmHArw-1; Tue, 07 Jan 2020 10:09:44 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2214A107ACC5;
- Tue,  7 Jan 2020 15:09:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 407431B18BC1;
+ Tue,  7 Jan 2020 15:09:43 +0000 (UTC)
 Received: from localhost (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 963877C82C;
- Tue,  7 Jan 2020 15:09:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF6C985F13;
+ Tue,  7 Jan 2020 15:09:41 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/37] etraxfs: remove PROP_PTR usage
-Date: Tue,  7 Jan 2020 19:04:29 +0400
-Message-Id: <20200107150442.1727958-25-marcandre.lureau@redhat.com>
+Subject: [PULL 25/37] dp8393x: replace PROP_PTR with PROP_LINK
+Date: Tue,  7 Jan 2020 19:04:30 +0400
+Message-Id: <20200107150442.1727958-26-marcandre.lureau@redhat.com>
 In-Reply-To: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: iksGxIo4P1yvzCZdR_BEAA-1
+X-MC-Unique: 3CtiVAvUPgmyhfXknmHArw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,122 +77,84 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-etraxfs_dma_client are not Object, so can't be exposed to user with
-QOM path. Let's remove property usage and move the constructor to the
-.c unit, simplifying some code on the way.
+Link property is the correct way to pass a MemoryRegion to a device
+for DMA purposes.
+
+Sidenote: as a sysbus device, this remains non-usercreatable
+even though we can drop the specific flag here.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/cris/etraxfs.h | 20 +++---------------
- hw/net/etraxfs_eth.c      | 44 +++++++++++++++++++++++++++++----------
- 2 files changed, 36 insertions(+), 28 deletions(-)
+ hw/m68k/q800.c      | 3 ++-
+ hw/mips/mips_jazz.c | 3 ++-
+ hw/net/dp8393x.c    | 7 +++----
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
-index aa146a2cd8..403e7f95e6 100644
---- a/include/hw/cris/etraxfs.h
-+++ b/include/hw/cris/etraxfs.h
-@@ -30,23 +30,9 @@
- #include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 4ca8678007..8f3eb6bfe7 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -239,7 +239,8 @@ static void q800_init(MachineState *machine)
+     qdev_set_nic_properties(dev, &nd_table[0]);
+     qdev_prop_set_uint8(dev, "it_shift", 2);
+     qdev_prop_set_bit(dev, "big_endian", true);
+-    qdev_prop_set_ptr(dev, "dma_mr", get_system_memory());
++    object_property_set_link(OBJECT(dev), OBJECT(get_system_memory()),
++                             "dma_mr", &error_abort);
+     qdev_init_nofail(dev);
+     sysbus =3D SYS_BUS_DEVICE(dev);
+     sysbus_mmio_map(sysbus, 0, SONIC_BASE);
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 291fd6c1b8..66fd4d867d 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -290,7 +290,8 @@ static void mips_jazz_init(MachineState *machine,
+             dev =3D qdev_create(NULL, "dp8393x");
+             qdev_set_nic_properties(dev, nd);
+             qdev_prop_set_uint8(dev, "it_shift", 2);
+-            qdev_prop_set_ptr(dev, "dma_mr", rc4030_dma_mr);
++            object_property_set_link(OBJECT(dev), OBJECT(rc4030_dma_mr),
++                                     "dma_mr", &error_abort);
+             qdev_init_nofail(dev);
+             sysbus =3D SYS_BUS_DEVICE(dev);
+             sysbus_mmio_map(sysbus, 0, 0x80001000);
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index 3d991af163..cdc2631c0c 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -175,7 +175,7 @@ typedef struct dp8393xState {
+     int loopback_packet;
 =20
--/* Instantiate an ETRAXFS Ethernet MAC.  */
--static inline DeviceState *
--etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
--                 void *dma_out, void *dma_in)
--{
--    DeviceState *dev;
--    qemu_check_nic_model(nd, "fseth");
--
--    dev =3D qdev_create(NULL, "etraxfs-eth");
--    qdev_set_nic_properties(dev, nd);
--    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
--    qdev_prop_set_ptr(dev, "dma_out", dma_out);
--    qdev_prop_set_ptr(dev, "dma_in", dma_in);
--    qdev_init_nofail(dev);
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
--    return dev;
--}
-+DeviceState *etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-+                              struct etraxfs_dma_client *dma_out,
-+                              struct etraxfs_dma_client *dma_in);
+     /* Memory access */
+-    void *dma_mr;
++    MemoryRegion *dma_mr;
+     AddressSpace as;
+ } dp8393xState;
 =20
- static inline DeviceState *etraxfs_ser_create(hwaddr addr,
-                                               qemu_irq irq,
-diff --git a/hw/net/etraxfs_eth.c b/hw/net/etraxfs_eth.c
-index 4cfbf1135a..f30d963487 100644
---- a/hw/net/etraxfs_eth.c
-+++ b/hw/net/etraxfs_eth.c
-@@ -338,14 +338,8 @@ typedef struct ETRAXFSEthState
-     uint8_t macaddr[2][6];
-     uint32_t regs[FS_ETH_MAX_REGS];
+@@ -948,7 +948,8 @@ static const VMStateDescription vmstate_dp8393x =3D {
 =20
--    union {
--        void *vdma_out;
--        struct etraxfs_dma_client *dma_out;
--    };
--    union {
--        void *vdma_in;
--        struct etraxfs_dma_client *dma_in;
--    };
-+    struct etraxfs_dma_client *dma_out;
-+    struct etraxfs_dma_client *dma_in;
-=20
-     /* MDIO bus.  */
-     struct qemu_mdio mdio_bus;
-@@ -635,8 +629,6 @@ static void etraxfs_eth_realize(DeviceState *dev, Error=
- **errp)
-=20
- static Property etraxfs_eth_properties[] =3D {
-     DEFINE_PROP_UINT32("phyaddr", ETRAXFSEthState, phyaddr, 1),
--    DEFINE_PROP_PTR("dma_out", ETRAXFSEthState, vdma_out),
--    DEFINE_PROP_PTR("dma_in", ETRAXFSEthState, vdma_in),
-     DEFINE_NIC_PROPERTIES(ETRAXFSEthState, conf),
+ static Property dp8393x_properties[] =3D {
+     DEFINE_NIC_PROPERTIES(dp8393xState, conf),
+-    DEFINE_PROP_PTR("dma_mr", dp8393xState, dma_mr),
++    DEFINE_PROP_LINK("dma_mr", dp8393xState, dma_mr,
++                     TYPE_MEMORY_REGION, MemoryRegion *),
+     DEFINE_PROP_UINT8("it_shift", dp8393xState, it_shift, 0),
+     DEFINE_PROP_BOOL("big_endian", dp8393xState, big_endian, false),
      DEFINE_PROP_END_OF_LIST(),
- };
-@@ -648,10 +640,40 @@ static void etraxfs_eth_class_init(ObjectClass *klass=
-, void *data)
-     dc->realize =3D etraxfs_eth_realize;
-     dc->reset =3D etraxfs_eth_reset;
-     dc->props =3D etraxfs_eth_properties;
--    /* Reason: pointer properties "dma_out", "dma_in" */
-+    /* Reason: dma_out, dma_in are not user settable */
-     dc->user_creatable =3D false;
+@@ -963,8 +964,6 @@ static void dp8393x_class_init(ObjectClass *klass, void=
+ *data)
+     dc->reset =3D dp8393x_reset;
+     dc->vmsd =3D &vmstate_dp8393x;
+     dc->props =3D dp8393x_properties;
+-    /* Reason: dma_mr property can't be set */
+-    dc->user_creatable =3D false;
  }
 =20
-+
-+/* Instantiate an ETRAXFS Ethernet MAC.  */
-+DeviceState *
-+etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-+                 struct etraxfs_dma_client *dma_out,
-+                 struct etraxfs_dma_client *dma_in)
-+{
-+    DeviceState *dev;
-+    qemu_check_nic_model(nd, "fseth");
-+
-+    dev =3D qdev_create(NULL, "etraxfs-eth");
-+    qdev_set_nic_properties(dev, nd);
-+    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
-+
-+    /*
-+     * TODO: QOM design, define a QOM interface for "I am an etraxfs
-+     * DMA client" (which replaces the current 'struct
-+     * etraxfs_dma_client' ad-hoc interface), implement it on the
-+     * ethernet device, and then have QOM link properties on the DMA
-+     * controller device so that you can pass the interface
-+     * implementations to it.
-+     */
-+    ETRAX_FS_ETH(dev)->dma_out =3D dma_out;
-+    ETRAX_FS_ETH(dev)->dma_in =3D dma_in;
-+    qdev_init_nofail(dev);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-+
-+    return dev;
-+}
-+
- static const TypeInfo etraxfs_eth_info =3D {
-     .name          =3D TYPE_ETRAX_FS_ETH,
-     .parent        =3D TYPE_SYS_BUS_DEVICE,
+ static const TypeInfo dp8393x_info =3D {
 --=20
 2.25.0.rc1.20.g2443f3f80d
 
