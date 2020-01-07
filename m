@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2F51329CC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:17:18 +0100 (CET)
-Received: from localhost ([::1]:51202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19A11329DC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:20:08 +0100 (CET)
+Received: from localhost ([::1]:51256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqbc-0002Br-6S
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:17:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
+	id 1ioqeN-00075R-4M
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:20:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTd-0005dR-Ct
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:02 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTy-0006PJ-Lo
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTc-00058Z-AL
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:01 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43274
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ioqTx-0005ZJ-60
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58554
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ioqTc-00056A-7D
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:00 -0500
+ id 1ioqTx-0005Yn-28
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 10:09:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578409734;
+ s=mimecast20190719; t=1578409760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+k9m31JXISacHhMNs6aatbQWb8ObMJVtwFYVXXhkj0A=;
- b=fmPVcdW5tLZTv654wYoCzejtL7lktw/cgaAktkyHmauX0ofKcolfH8iv+LFZfzHk07D0hc
- FMY8XHfVOv+bx5OOcGTLuVtlIn3nn4lGO7L6JPNkPtCJsZkfbm5HMsoU57KJ6arKWj0f2N
- pwFP53tMfE6kK5cvFykU7hUgTY77Dqo=
+ bh=KzZquunIWkcFxIp6xrNXd5CyX26rzDuiaRhlVh+ittg=;
+ b=Wuh456UY7SJHQXfnkTjl2j7M7z0vYSSCFiGYBNDjT7wpyG6r0tzI0THZVsyMobK8jpXrWt
+ ZfA//DAYtv6JlVkMJnmaRZg49iUyVfE578GOSDsvD4kF70V7ZF4vsII7UrOUVCFo7S9MF9
+ qRnqTlVbVf9tarAONS74Usb206PttKc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-k1H53Pa-Mb-fvdqzLkyM2A-1; Tue, 07 Jan 2020 10:08:53 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-166-7G22zW-mOe2QoMaNYGPnZQ-1; Tue, 07 Jan 2020 10:09:17 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E89E4801E6C;
- Tue,  7 Jan 2020 15:08:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1A36107ACC5;
+ Tue,  7 Jan 2020 15:09:16 +0000 (UTC)
 Received: from localhost (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E01EA7DB56;
- Tue,  7 Jan 2020 15:08:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B37E110018FF;
+ Tue,  7 Jan 2020 15:09:09 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/37] mips: use sysbus_mmio_get_region() instead of internal
- fields
-Date: Tue,  7 Jan 2020 19:04:25 +0400
-Message-Id: <20200107150442.1727958-21-marcandre.lureau@redhat.com>
+Subject: [PULL 22/37] vmmouse: replace PROP_PTR with PROP_LINK
+Date: Tue,  7 Jan 2020 19:04:27 +0400
+Message-Id: <20200107150442.1727958-23-marcandre.lureau@redhat.com>
 In-Reply-To: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 References: <20200107150442.1727958-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: k1H53Pa-Mb-fvdqzLkyM2A-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 7G22zW-mOe2QoMaNYGPnZQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,47 +77,124 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Register the memory region with sysbus_init_mmio() and look it up with
-sysbus_mmio_get_region() to avoid accessing internal device fields.
+While at it, use the expected type.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/char/serial.c       | 1 +
- hw/mips/mips_mipssim.c | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ include/hw/input/i8042.h | 4 +++-
+ hw/i386/pc.c             | 6 +++---
+ hw/i386/vmmouse.c        | 8 +++-----
+ hw/input/pckbd.c         | 8 +++-----
+ 4 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 7746dfcee8..6c327183c7 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -998,6 +998,7 @@ static void serial_io_realize(DeviceState *dev, Error *=
-*errp)
-     }
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index 246e6f3335..8eaebf50ce 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -14,10 +14,12 @@
 =20
-     memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
-     sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
+ #define I8042_A20_LINE "a20"
+=20
++typedef struct ISAKBDState ISAKBDState;
++
+ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+                    MemoryRegion *region, ram_addr_t size,
+                    hwaddr mask);
+-void i8042_isa_mouse_fake_event(void *opaque);
++void i8042_isa_mouse_fake_event(ISAKBDState *isa);
+ void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
+=20
+ #endif /* HW_INPUT_I8042_H */
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index a4fda69b49..8054bc4147 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1156,9 +1156,9 @@ static void pc_superio_init(ISABus *isa_bus, bool cre=
+ate_fdctrl, bool no_vmport)
+         vmmouse =3D NULL;
+     }
+     if (vmmouse) {
+-        DeviceState *dev =3D DEVICE(vmmouse);
+-        qdev_prop_set_ptr(dev, "ps2_mouse", i8042);
+-        qdev_init_nofail(dev);
++        object_property_set_link(OBJECT(vmmouse), OBJECT(i8042),
++                                 "i8042", &error_abort);
++        qdev_init_nofail(DEVICE(vmmouse));
+     }
+     port92 =3D isa_create_simple(isa_bus, TYPE_PORT92);
+=20
+diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
+index 41ad91ad53..c0c329f817 100644
+--- a/hw/i386/vmmouse.c
++++ b/hw/i386/vmmouse.c
+@@ -66,7 +66,7 @@ typedef struct VMMouseState
+     uint16_t status;
+     uint8_t absolute;
+     QEMUPutMouseEntry *entry;
+-    void *ps2_mouse;
++    ISAKBDState *i8042;
+ } VMMouseState;
+=20
+ static uint32_t vmmouse_get_status(VMMouseState *s)
+@@ -105,7 +105,7 @@ static void vmmouse_mouse_event(void *opaque, int x, in=
+t y, int dz, int buttons_
+=20
+     /* need to still generate PS2 events to notify driver to
+        read from queue */
+-    i8042_isa_mouse_fake_event(s->ps2_mouse);
++    i8042_isa_mouse_fake_event(s->i8042);
  }
 =20
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-index 2c2c7f25b2..84c03dd035 100644
---- a/hw/mips/mips_mipssim.c
-+++ b/hw/mips/mips_mipssim.c
-@@ -227,7 +227,8 @@ mips_mipssim_init(MachineState *machine)
-         qdev_set_legacy_instance_id(dev, 0x3f8, 2);
-         qdev_init_nofail(dev);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[4]);
--        sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8, &SERIAL_IO(dev)->serial.=
-io);
-+        sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8,
-+                      sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
-     }
+ static void vmmouse_remove_handler(VMMouseState *s)
+@@ -275,7 +275,7 @@ static void vmmouse_realizefn(DeviceState *dev, Error *=
+*errp)
+ }
 =20
-     if (nd_table[0].used)
+ static Property vmmouse_properties[] =3D {
+-    DEFINE_PROP_PTR("ps2_mouse", VMMouseState, ps2_mouse),
++    DEFINE_PROP_LINK("i8042", VMMouseState, i8042, TYPE_I8042, ISAKBDState=
+ *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
+@@ -287,8 +287,6 @@ static void vmmouse_class_initfn(ObjectClass *klass, vo=
+id *data)
+     dc->reset =3D vmmouse_reset;
+     dc->vmsd =3D &vmstate_vmmouse;
+     dc->props =3D vmmouse_properties;
+-    /* Reason: pointer property "ps2_mouse" */
+-    dc->user_creatable =3D false;
+ }
+=20
+ static const TypeInfo vmmouse_info =3D {
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index 2f09f780ba..60a4130320 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -482,17 +482,15 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_i=
+rq,
+=20
+ #define I8042(obj) OBJECT_CHECK(ISAKBDState, (obj), TYPE_I8042)
+=20
+-typedef struct ISAKBDState {
++struct ISAKBDState {
+     ISADevice parent_obj;
+=20
+     KBDState kbd;
+     MemoryRegion io[2];
+-} ISAKBDState;
++};
+=20
+-void i8042_isa_mouse_fake_event(void *opaque)
++void i8042_isa_mouse_fake_event(ISAKBDState *isa)
+ {
+-    ISADevice *dev =3D opaque;
+-    ISAKBDState *isa =3D I8042(dev);
+     KBDState *s =3D &isa->kbd;
+=20
+     ps2_mouse_fake_event(s->mouse);
 --=20
 2.25.0.rc1.20.g2443f3f80d
 
