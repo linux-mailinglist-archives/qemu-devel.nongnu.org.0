@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D55132E75
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 19:31:15 +0100 (CET)
-Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB63132E77
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 19:31:23 +0100 (CET)
+Received: from localhost ([::1]:54740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iotdK-0001Oe-6d
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 13:31:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48318)
+	id 1iotdR-0001Xo-QT
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 13:31:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1iotai-0007jX-BO
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:28:33 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1iotak-0007kV-MV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:28:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1iotah-0003VJ-45
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:28:32 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:32820)
+ (envelope-from <palmerdabbelt@google.com>) id 1iotai-0003Wd-9m
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:28:34 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:45783)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1iotag-0003SE-VL
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:28:31 -0500
-Received: by mail-pl1-x642.google.com with SMTP id ay11so30736plb.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 10:28:28 -0800 (PST)
+ id 1iotai-0003TH-4L
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 13:28:32 -0500
+Received: by mail-pf1-x441.google.com with SMTP id 2so257523pfg.12
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 10:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:from:subject:cc:to:in-reply-to:references:message-id
  :mime-version:content-transfer-encoding;
- bh=tjnPToxzH35dkt51Mt0Z9aB+X5UsaKioUuHEUhQveRE=;
- b=b5psLchSBh5VbIHy9pPtCyglQospEb9TVxMBr9cOBvhJo1xqHmyLYAQHd9aMh2/rkk
- fe75rAjpS0Qq8urq0q3ZZXjZG4dOHpDIFj6pal9ZIhHGuVK2H6/TIG/CYkj5kZ323wDx
- VORN4bEf3h/pIsXjwdMxGrVLrY8R2OsEvI8N/Az3wZAIl4u/R7A9Mzpdmr2nFBHiSfSq
- 1tcSW0bbZbtHy6OGUB2pgOJNfkLO93AIpXJTjzm9PwJV9+2pRbaRuOVUvF5eavddW1ud
- oX+Ccklh/ZHNggI/z6yRAVspb9k3gHPMWXRBa5PHdTlin70QG5CF+irQLmbcZjgRF3mY
- jBWg==
+ bh=alfB7Sh7np8t+qhn4btYu3UL6CIoMCLQeCh5Mx/68Dk=;
+ b=XASQL75o3D50xj62XD9u01FSRJtyWA++jD7V5l/NN4BEefAQ+1ID/iONUZcOZZ02w1
+ 0DuQ/RncO1/HLguF/zeofdRK05DEXSw7pu6Ct0dyYeoTtT4awLsfNVKiDR19DOpDNIld
+ r9I9slwE1tPyA1nJa/9YU0QlwOM9bSUjpzSi9veNM+BM8M6EBkXixaIiQEGBTmP06r47
+ pY4QlkqbaFeJb1WlBuuIde6wTX3IDDaQSWhng7IouBetu8dfew3ginrS+NJ7mUUXEjZP
+ IK99uSaCGDpO5gIoKqShoRLD2AFKehzIk/+aeBP0SE9OTA4tHnT0IIGIs4H+PK/Ivc/m
+ 3VFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:subject:cc:to:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=tjnPToxzH35dkt51Mt0Z9aB+X5UsaKioUuHEUhQveRE=;
- b=jcLMgP9ZUm3sAsQD3EXzE7yYkYj1mOFPOJ8W/Uz98lp13q4noBqrDHvR4YwFpgcUB6
- 1T/4995oGkI8x5xE5DUdQAeW0m0U2aP5IU4JNICS0U10IcoBSQMtzDSeAHMydQ8q4t58
- kDfFP6M1W/koFINRvXg2piodLdamhYnGAOnrHNtgF2st3JKoTfYVD3Ds74oXM25TaG2g
- HqOVMUOETZzgGoEd/90RK9SRQjndOS451lAxnZGvD89AUfEA96MD8TbT0Q8+iD7WAFF5
- mIfGAFAQ/5v5Fiz1GlkSF1HUSGysN9axFyyO+ctXvJtA85t+tDEh6xWFLd3Iu3aENp8y
- I4Fg==
-X-Gm-Message-State: APjAAAUIrvLHfn4gWgsrnNMObpCYbQm9mlhxydOAL2z+OQ8IJO5xHEMh
- uqk+XLXnRkmWq4ABKiKZ9mMOE5mw198=
-X-Google-Smtp-Source: APXvYqw3DfjroWgwKA1TFw9koubRZeWxlLUEKO+nM/sz15YlvlF+zFnv/Ygp0exasQGfIJNZ/pSzEw==
-X-Received: by 2002:a17:902:8f85:: with SMTP id
- z5mr1023921plo.43.1578421706743; 
- Tue, 07 Jan 2020 10:28:26 -0800 (PST)
+ bh=alfB7Sh7np8t+qhn4btYu3UL6CIoMCLQeCh5Mx/68Dk=;
+ b=PHVdWOMF6sqR7xYhmPU9L3oy6F823oxxI2d49ojkfsPUnI/QLErscgr2GE5+3kfsi+
+ XC5deIQTprNfiIlNG0KEKyvDbAd5YJGC4mDg1CehU+NOpoFvjU4IG3NdmuAPMYNmNU0U
+ 0xcmaTG9rjYB/UiBDP7JtYYUufTOg3ogpqe4Og3MSVgc116Dgm4Lc22YEx4SXMGOjuMn
+ /b6Bfh244Vb+EAPoUNdzIEidMNZr9tPgAkujBQCcc8ciIIxnsH9IdLYnCag9mvAoEd4A
+ V86zV6RikfnZ0fwjtb9QTF5ZrX71T5LidX5UZXzmwUQtlMp4vTcAiFYX69KEppOAtWDA
+ JsAA==
+X-Gm-Message-State: APjAAAUDCMyQ0a/tJQFIcewdppyrBXEvitGtP4BAqcKtPWSyhG4mbGoQ
+ O/WRQGL1AuX5IulZ/JcjD5Pp9LTu9wc=
+X-Google-Smtp-Source: APXvYqyLdYwgs5ll9Q/liSxIOnwZ2DzQny7gOoNCNFChhOoZXnXJbO9Lkx3Bpcy2pO1m1CiGWPRebg==
+X-Received: by 2002:a65:4587:: with SMTP id o7mr776718pgq.303.1578421708312;
+ Tue, 07 Jan 2020 10:28:28 -0800 (PST)
 Received: from localhost ([2620:0:1000:2514:7f69:cd98:a2a2:a03d])
- by smtp.gmail.com with ESMTPSA id w6sm248338pfq.99.2020.01.07.10.28.26
+ by smtp.gmail.com with ESMTPSA id y7sm230090pfb.139.2020.01.07.10.28.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 10:28:26 -0800 (PST)
-Date: Tue, 07 Jan 2020 10:28:26 -0800 (PST)
-X-Google-Original-Date: Tue, 07 Jan 2020 10:25:41 PST (-0800)
+ Tue, 07 Jan 2020 10:28:27 -0800 (PST)
+Date: Tue, 07 Jan 2020 10:28:27 -0800 (PST)
+X-Google-Original-Date: Tue, 07 Jan 2020 10:27:32 PST (-0800)
 From: Palmer Dabbelt <palmerdabbelt@google.com>
 X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH v1 04/36] target/riscv: Add the Hypervisor CSRs to CPUState
+Subject: Re: [PATCH v1 05/36] target/riscv: Add support for the new execption
+ numbers
 CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
  Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
 To: Alistair Francis <Alistair.Francis@wdc.com>
-In-Reply-To: <4b2d4e889d460e27d8f674d110fd1561768cd035.1575914822.git.alistair.francis@wdc.com>
-References: <4b2d4e889d460e27d8f674d110fd1561768cd035.1575914822.git.alistair.francis@wdc.com><cover.1575914822.git.alistair.francis@wdc.com>
-Message-ID: <mhng-85e3faed-06a1-495e-9a5e-3d995ced2b73@palmerdabbelt-glaptop>
+In-Reply-To: <1d461d2c750cf9e5573294b82d874b3823817c7e.1575914822.git.alistair.francis@wdc.com>
+References: <1d461d2c750cf9e5573294b82d874b3823817c7e.1575914822.git.alistair.francis@wdc.com><cover.1575914822.git.alistair.francis@wdc.com>
+Message-ID: <mhng-b045e9a9-8481-45ec-9561-e33606473513@palmerdabbelt-glaptop>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,146 +85,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 09 Dec 2019 10:10:50 PST (-0800), Alistair Francis wrote:
-> Add the Hypervisor CSRs to CPUState and at the same time (to avoid
-> bisect issues) update the CSR macros for the v0.5 Hyp spec.
+On Mon, 09 Dec 2019 10:10:53 PST (-0800), Alistair Francis wrote:
+> The v0.5 Hypervisor spec add new execption numbers, let's add support
+> for those.
 >
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  target/riscv/cpu.h      | 21 +++++++++++++++++++++
->  target/riscv/cpu_bits.h | 34 +++++++++++++++++++++-------------
->  target/riscv/gdbstub.c  | 11 ++++++-----
->  3 files changed, 48 insertions(+), 18 deletions(-)
+>  target/riscv/cpu.c        |  8 ++++++++
+>  target/riscv/cpu_bits.h   | 35 +++++++++++++++++++----------------
+>  target/riscv/cpu_helper.c |  7 +++++--
+>  target/riscv/csr.c        |  7 +++++--
+>  4 files changed, 37 insertions(+), 20 deletions(-)
 >
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 91e1c56fc4..bab938103d 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -143,6 +143,27 @@ struct CPURISCVState {
->      target_ulong mcause;
->      target_ulong mtval;  /* since: priv-1.10.0 */
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index e521ebe2e1..d23d2cba64 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -67,6 +67,14 @@ const char * const riscv_excp_names[] = {
+>      "load_page_fault",
+>      "reserved",
+>      "store_page_fault"
+> +    "reserved",
+> +    "reserved",
+> +    "reserved",
+> +    "reserved",
+> +    "guest_exec_page_fault",
+> +    "guest_load_page_fault",
+> +    "reserved",
+> +    "guest_store_page_fault"
+>  };
 >
-> +    /* Hypervisor CSRs */
-> +    target_ulong hstatus;
-> +    target_ulong hedeleg;
-> +    target_ulong hideleg;
-> +    target_ulong hcounteren;
-> +    target_ulong htval;
-> +    target_ulong htinst;
-> +    target_ulong hgatp;
-> +
-> +    /* Virtual CSRs */
-> +    target_ulong vsstatus;
-> +    target_ulong vstvec;
-> +    target_ulong vsscratch;
-> +    target_ulong vsepc;
-> +    target_ulong vscause;
-> +    target_ulong vstval;
-> +    target_ulong vsatp;
-> +
-> +    target_ulong mtval2;
-> +    target_ulong mtinst;
-> +
->      target_ulong scounteren;
->      target_ulong mcounteren;
->
+>  const char * const riscv_intr_names[] = {
 > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index e99834856c..25c0fb258d 100644
+> index 25c0fb258d..9ce73c36de 100644
 > --- a/target/riscv/cpu_bits.h
 > +++ b/target/riscv/cpu_bits.h
-> @@ -177,8 +177,14 @@
->  #define CSR_HSTATUS         0x600
->  #define CSR_HEDELEG         0x602
->  #define CSR_HIDELEG         0x603
-> -#define CSR_HCOUNTERNEN     0x606
-> +#define CSR_HIE             0x604
-> +#define CSR_HCOUNTEREN      0x606
-> +#define CSR_HTVAL           0x643
-> +#define CSR_HIP             0x644
-> +#define CSR_HTINST          0x64A
->  #define CSR_HGATP           0x680
-> +#define CSR_HTIMEDELTA      0x605
-> +#define CSR_HTIMEDELTAH     0x615
+> @@ -488,22 +488,25 @@
+>  #define DEFAULT_RSTVEC      0x1000
 >
->  #if defined(TARGET_RISCV32)
->  #define HGATP_MODE           SATP32_MODE
-> @@ -191,6 +197,20 @@
->  #define HGATP_PPN            SATP64_PPN
->  #endif
+>  /* Exception causes */
+> -#define EXCP_NONE                          -1 /* sentinel value */
+> -#define RISCV_EXCP_INST_ADDR_MIS           0x0
+> -#define RISCV_EXCP_INST_ACCESS_FAULT       0x1
+> -#define RISCV_EXCP_ILLEGAL_INST            0x2
+> -#define RISCV_EXCP_BREAKPOINT              0x3
+> -#define RISCV_EXCP_LOAD_ADDR_MIS           0x4
+> -#define RISCV_EXCP_LOAD_ACCESS_FAULT       0x5
+> -#define RISCV_EXCP_STORE_AMO_ADDR_MIS      0x6
+> -#define RISCV_EXCP_STORE_AMO_ACCESS_FAULT  0x7
+> -#define RISCV_EXCP_U_ECALL                 0x8
+> -#define RISCV_EXCP_S_ECALL                 0x9
+> -#define RISCV_EXCP_H_ECALL                 0xa
+> -#define RISCV_EXCP_M_ECALL                 0xb
+> -#define RISCV_EXCP_INST_PAGE_FAULT         0xc /* since: priv-1.10.0 */
+> -#define RISCV_EXCP_LOAD_PAGE_FAULT         0xd /* since: priv-1.10.0 */
+> -#define RISCV_EXCP_STORE_PAGE_FAULT        0xf /* since: priv-1.10.0 */
+> +#define EXCP_NONE                                -1 /* sentinel value */
+> +#define RISCV_EXCP_INST_ADDR_MIS                 0x0
+> +#define RISCV_EXCP_INST_ACCESS_FAULT             0x1
+> +#define RISCV_EXCP_ILLEGAL_INST                  0x2
+> +#define RISCV_EXCP_BREAKPOINT                    0x3
+> +#define RISCV_EXCP_LOAD_ADDR_MIS                 0x4
+> +#define RISCV_EXCP_LOAD_ACCESS_FAULT             0x5
+> +#define RISCV_EXCP_STORE_AMO_ADDR_MIS            0x6
+> +#define RISCV_EXCP_STORE_AMO_ACCESS_FAULT        0x7
+> +#define RISCV_EXCP_U_ECALL                       0x8
+> +#define RISCV_EXCP_S_ECALL                      0x9
+> +#define RISCV_EXCP_VS_ECALL                      0xa
+> +#define RISCV_EXCP_M_ECALL                       0xb
+> +#define RISCV_EXCP_INST_PAGE_FAULT               0xc /* since: priv-1.10.0 */
+> +#define RISCV_EXCP_LOAD_PAGE_FAULT               0xd /* since: priv-1.10.0 */
+> +#define RISCV_EXCP_STORE_PAGE_FAULT              0xf /* since: priv-1.10.0 */
+> +#define RISCV_EXCP_INST_GUEST_PAGE_FAULT         0x14
+> +#define RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT       0x15
+> +#define RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT  0x17
 >
-> +/* Virtual CSRs */
-> +#define CSR_VSSTATUS        0x200
-> +#define CSR_VSIE            0x204
-> +#define CSR_VSTVEC          0x205
-> +#define CSR_VSSCRATCH       0x240
-> +#define CSR_VSEPC           0x241
-> +#define CSR_VSCAUSE         0x242
-> +#define CSR_VSTVAL          0x243
-> +#define CSR_VSIP            0x244
-> +#define CSR_VSATP           0x280
-> +
-> +#define CSR_MTINST          0x34a
-> +#define CSR_MTVAL2          0x34b
-> +
->  /* Physical Memory Protection */
->  #define CSR_PMPCFG0         0x3a0
->  #define CSR_PMPCFG1         0x3a1
-> @@ -313,17 +333,6 @@
->  #define CSR_MHPMCOUNTER30H  0xb9e
->  #define CSR_MHPMCOUNTER31H  0xb9f
+>  #define RISCV_EXCP_INT_FLAG                0x80000000
+>  #define RISCV_EXCP_INT_MASK                0x7fffffff
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 0de3a468eb..c201919c54 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -526,7 +526,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>      static const int ecall_cause_map[] = {
+>          [PRV_U] = RISCV_EXCP_U_ECALL,
+>          [PRV_S] = RISCV_EXCP_S_ECALL,
+> -        [PRV_H] = RISCV_EXCP_H_ECALL,
+> +        [PRV_H] = RISCV_EXCP_VS_ECALL,
+>          [PRV_M] = RISCV_EXCP_M_ECALL
+>      };
 >
-> -/* Legacy Hypervisor Trap Setup (priv v1.9.1) */
-> -#define CSR_HIE             0x204
-> -#define CSR_HTVEC           0x205
-> -
-> -/* Legacy Hypervisor Trap Handling (priv v1.9.1) */
-> -#define CSR_HSCRATCH        0x240
-> -#define CSR_HEPC            0x241
-> -#define CSR_HCAUSE          0x242
-> -#define CSR_HBADADDR        0x243
-> -#define CSR_HIP             0x244
-> -
->  /* Legacy Machine Protection and Translation (priv v1.9.1) */
->  #define CSR_MBASE           0x380
->  #define CSR_MBOUND          0x381
-> @@ -400,7 +409,6 @@
+> @@ -542,6 +542,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>          case RISCV_EXCP_INST_PAGE_FAULT:
+>          case RISCV_EXCP_LOAD_PAGE_FAULT:
+>          case RISCV_EXCP_STORE_PAGE_FAULT:
+> +        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
+> +        case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
+> +        case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
+>              tval = env->badaddr;
+>              break;
+>          default:
+> @@ -554,7 +557,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>          }
+>      }
 >
->  /* hstatus CSR bits */
->  #define HSTATUS_SPRV         0x00000001
-> -#define HSTATUS_STL          0x00000040
->  #define HSTATUS_SPV          0x00000080
->  #define HSTATUS_SP2P         0x00000100
->  #define HSTATUS_SP2V         0x00000200
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index 1a7947e019..6d606f0d90 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -130,6 +130,8 @@ static int csr_register_map[] = {
->      CSR_MCAUSE,
->      CSR_MTVAL,
->      CSR_MIP,
-> +    CSR_MTINST,
-> +    CSR_MTVAL2,
->      CSR_PMPCFG0,
->      CSR_PMPCFG1,
->      CSR_PMPCFG2,
-> @@ -252,12 +254,11 @@ static int csr_register_map[] = {
->      CSR_HEDELEG,
->      CSR_HIDELEG,
->      CSR_HIE,
-> -    CSR_HTVEC,
-> -    CSR_HSCRATCH,
-> -    CSR_HEPC,
-> -    CSR_HCAUSE,
-> -    CSR_HBADADDR,
-> +    CSR_HCOUNTEREN,
-> +    CSR_HTVAL,
->      CSR_HIP,
-> +    CSR_HTINST,
-> +    CSR_HGATP,
->      CSR_MBASE,
->      CSR_MBOUND,
->      CSR_MIBASE,
+> -    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval, cause < 16 ?
+> +    trace_riscv_trap(env->mhartid, async, cause, env->pc, tval, cause < 23 ?
+>          (async ? riscv_intr_names : riscv_excp_names)[cause] : "(unknown)");
+>
+>      if (env->priv <= PRV_S &&
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index da02f9f0b1..6a0a59edfd 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -242,11 +242,14 @@ static const target_ulong delegable_excps =
+>      (1ULL << (RISCV_EXCP_STORE_AMO_ACCESS_FAULT)) |
+>      (1ULL << (RISCV_EXCP_U_ECALL)) |
+>      (1ULL << (RISCV_EXCP_S_ECALL)) |
+> -    (1ULL << (RISCV_EXCP_H_ECALL)) |
+> +    (1ULL << (RISCV_EXCP_VS_ECALL)) |
+>      (1ULL << (RISCV_EXCP_M_ECALL)) |
+>      (1ULL << (RISCV_EXCP_INST_PAGE_FAULT)) |
+>      (1ULL << (RISCV_EXCP_LOAD_PAGE_FAULT)) |
+> -    (1ULL << (RISCV_EXCP_STORE_PAGE_FAULT));
+> +    (1ULL << (RISCV_EXCP_STORE_PAGE_FAULT)) |
+> +    (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
+> +    (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
+> +    (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
+>  static const target_ulong sstatus_v1_9_mask = SSTATUS_SIE | SSTATUS_SPIE |
+>      SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
+>      SSTATUS_SUM | SSTATUS_SD;
 
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
