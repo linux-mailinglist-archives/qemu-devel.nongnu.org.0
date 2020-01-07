@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA771328B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:21:05 +0100 (CET)
-Received: from localhost ([::1]:49606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B902132860
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:02:50 +0100 (CET)
+Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopjD-0002KC-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:21:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55441)
+	id 1iopRX-0003Ej-CE
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:02:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iopIO-0000LS-DO
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:21 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iopIM-0000Cy-6j
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iopIN-0002IX-6h
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:20 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34785)
+ (envelope-from <alex.bennee@linaro.org>) id 1iopIK-0002Gu-PR
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:17 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43576)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iopIN-0002Hm-0o
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:19 -0500
-Received: by mail-wr1-x431.google.com with SMTP id t2so54021810wrr.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:53:18 -0800 (PST)
+ id 1iopIK-0002GR-JN
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:53:16 -0500
+Received: by mail-wr1-x441.google.com with SMTP id d16so54010271wre.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 05:53:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rt2Px2ccxS3QOQ8HuOIurdGrTuSjUHBCmbsVqBMFyYg=;
- b=vifs8tzJQDPdeuSZ/l4ons41Se/4k3giz1UnLQytKoIAokVkbyeibWgkv8Vp2ukFZ9
- sBkt2hJH8vohaNdvWY7EGjIVfFk5p5Im8/4BMHF/EN0PpcmidQAp6CFMQNORLSERmRrp
- IpHeVOOs+WOVrsO4Y9fb8ZE3KBApyzhmxq3MYYYCMgYZ6PI0PaZ5qpC1xYv1caw5u3t5
- x+2Dj9BQLfEH1C7XQnEeaF3vwNU5isIpZwCSh+jMKkCbPsO9us6m2fDif7JXGnZTIMh3
- Q+/Oj9nvrBKOwNU1l2R2Sx5LMDQDSgraJbJUgxm1ELDnABZ3sE7FwPNFVKVkUaed+/jR
- u4Fg==
+ bh=Butm6uDHOTmd1Tm6QI7qjPulemvQt3+T40NLuG/KpZ0=;
+ b=wlMlBDN5few0TxmTokuOHHvLaYxnWNQyGwVJJKXDFm0xE0ReCK66qP5Qyx5RY/LnAa
+ EffCP4fQObrxwOhaDM7gTCMrAdNU2Li+rWkClWTbhaLTqv56YXvodJz2Trz8Vqh3Tfwl
+ e75JjidZoMSMIC7I2ElfPOuSN+skewCqoWkMd8822ohinvK+rQI9F40uRoTsdGLrr716
+ 00K/JjEzG3kzxWoWdJjAb2o4tZ7NGmTeoC1HwCnyt5b0MtAvENavaBv7q4Cbc5/hws7D
+ 1eqyNsH+but7AGTqGi87GzVcxFFv00/GlK20aHXVs9axd/xeX/J+s46T29a8zqqoiBgG
+ 9Ezg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rt2Px2ccxS3QOQ8HuOIurdGrTuSjUHBCmbsVqBMFyYg=;
- b=FXAKRnyUebSObTp+bYlgXgmyUTWIansaxT/T+U+0LUjReAI5rjZ30yH3urGYtlntWx
- aHltENjAxpUk1pgsGNRXyRuGngS5ljdD83xXMmwpzYUKTL1wfB82T+f1rWMkTP7pdx4f
- IbV1mTY/KZtElynk3qn7pzEQM5CasMCrIMGKddcGRfJSNFs5L4ozIG2Sq4pMt7iRs3l2
- jWnQeCilEFtErQwsBUTNA8Q4WQ3MB6PUNXk5IBZNdQ/ynDcic0MYdGvHKkWnu4W0Oimw
- 75sjMCmNT69NRqXDpt0eqWHwX2QyHoVnG8eCOXlxqREgTkHnBlIpeXSPxc7JM3QcwJIk
- t4lQ==
-X-Gm-Message-State: APjAAAVmHq+u2qlBaxCLxjt9rwfa78/ZxizdECgi+QwPc6H9/+lxTOxk
- AQPIwLeB05r67oxEGEudNT43Pw==
-X-Google-Smtp-Source: APXvYqyUO1fFuM63aNzieakwp0CWr2eIsiYAR+DyyeC35FPcF6uVmfPAmzQ72n3kk0ZymaDEFBdebA==
-X-Received: by 2002:a5d:4847:: with SMTP id n7mr109472515wrs.30.1578405198050; 
- Tue, 07 Jan 2020 05:53:18 -0800 (PST)
+ bh=Butm6uDHOTmd1Tm6QI7qjPulemvQt3+T40NLuG/KpZ0=;
+ b=OWRCy4D3aSn2LZiNT8ROGIL0Eram0DTRUNW3hcHh8P2kqcf+C2TDsgbcsnR7mHu5dQ
+ UGaz1udhXxUxkJctl9vq327HXNcEN6zreFlGKYzCaCPSV4nF3nyeHfCn37BtYYxSKNGU
+ l1tWxh/hwI1Pa4kibjuisAYTCpRKK049U0Qk0Op6fk6wdtTfGc/c9baoSSsbo/EImt32
+ 8R4XuJaVb55b+v0mdtxXvz5akITj7J0axg6Mj5Z/elMmY4Nl8r79CdXOvBYOeQP2Ji61
+ hVwISl+NO6602YDnoKyMRPNDTLweZcmVeB+CfIc/n68vVg9RdrEmMmX25DtY+vKaR6Oh
+ FMew==
+X-Gm-Message-State: APjAAAUPgc3g1Y2cY80tfEYPe4r5FG60+9GrlyijoUH2sQAz+YoP2p60
+ svQhGnzQVPCumbjfPU+0ULGlOQ==
+X-Google-Smtp-Source: APXvYqwZTmNFsBo1/X+iGeezj/b2LD6G4IKT+SW6ac0QTG4xyqr1eUqgq30uabZzG3sS4VIqgNwUeA==
+X-Received: by 2002:adf:f1d0:: with SMTP id
+ z16mr105905643wro.209.1578405195609; 
+ Tue, 07 Jan 2020 05:53:15 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a1sm76084527wrr.80.2020.01.07.05.53.11
+ by smtp.gmail.com with ESMTPSA id x14sm26801722wmj.42.2020.01.07.05.53.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 05:53:14 -0800 (PST)
+ Tue, 07 Jan 2020 05:53:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B66F1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 6EF141FF91;
  Tue,  7 Jan 2020 13:53:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 3/6] freebsd: use python37
-Date: Tue,  7 Jan 2020 13:53:08 +0000
-Message-Id: <20200107135311.5215-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 4/6] travis.yml: avocado: Print logs of non-pass tests only
+Date: Tue,  7 Jan 2020 13:53:09 +0000
+Message-Id: <20200107135311.5215-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200107135311.5215-1-alex.bennee@linaro.org>
 References: <20200107135311.5215-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,46 +85,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-FreeBSD seems to use python37 by default now, which breaks the build
-script.  Add python to the package list, to explicitly pick the version,
-and also adapt the configure command line.
+The acceptance tests build on Travis is configured to print
+the entire Avocado's job log in case any test fail. Usually one is
+interested on failed tests only though. So this change the Travis
+configuration in order to show the log of tests which status is
+different from 'PASS' and 'SKIP' only. Note that 'CANCEL'-ed tests
+will have the log printed too because it can help to debug some
+condition on CI environment which is not being fulfilled.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200106123746.18201-1-kraxel@redhat.com>
+Message-Id: <20191230184327.2800-2-wainersm@redhat.com>
 ---
- tests/vm/freebsd | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .travis.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 1825cc58218..33a736298a9 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -32,6 +32,7 @@ class FreeBSDVM(basevm.BaseVM):
-         "git",
-         "pkgconf",
-         "bzip2",
-+        "python37",
- 
-         # gnu tools
-         "bash",
-@@ -63,7 +64,7 @@ class FreeBSDVM(basevm.BaseVM):
-         mkdir src build; cd src;
-         tar -xf /dev/vtbd1;
-         cd ../build
--        ../src/configure --python=python3.6 {configure_opts};
-+        ../src/configure --python=python3.7 {configure_opts};
-         gmake --output-sync -j{jobs} {target} {verbose};
-     """
- 
+diff --git a/.travis.yml b/.travis.yml
+index 638fba4799a..93838bf0f8b 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -262,8 +262,8 @@ matrix:
+     - env:
+         - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
+         - TEST_CMD="make check-acceptance"
+-      after_failure:
+-        - cat tests/results/latest/job.log
++      after_script:
++        - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
+       addons:
+         apt:
+           packages:
 -- 
 2.20.1
 
