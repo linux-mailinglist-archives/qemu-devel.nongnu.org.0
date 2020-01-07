@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781F5132568
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:57:22 +0100 (CET)
-Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24E51324EF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:33:56 +0100 (CET)
+Received: from localhost ([::1]:46892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionU8-0003Ct-Rw
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:57:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57391)
+	id 1ion4a-0003uT-N8
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:30:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59201)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iomGe-00077V-1S
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:39:21 -0500
+ (envelope-from <quintela@redhat.com>) id 1iomQR-0004dh-AH
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iomGc-0008Up-VS
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:39:19 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34524)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iomGc-0008UA-Oc
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:39:18 -0500
-Received: by mail-wm1-x342.google.com with SMTP id c127so13890460wme.1
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:39:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=083p/YJcb2cj3fsrtAL/N02jVsHsBhdOeQ/BfG6pu1g=;
- b=difeiYM8yKCvzr/jI7IstNIyKU3CmB8gwcPOwvMJhK5RiT+9ehMvkNCbZN+WPlbncs
- n+rWA5g5MjYPnYXJQIn0FiGS/+t4GTAZ2LxU/DhtSAWoshr+1ej5+TBFtUYGMPPmaQ8+
- hr+EV1D31zviZ8t/AE4rS0uvj8sXPKQiaAhyiRNwW0mPDJBtD3G1zN8wnKHthIw8klIS
- SjoFl2qJE+7FTTpfBlroaUUn4RuvJnTab1wUKa8npwv2/I5ns28iAiVGBolt5qgRzx1D
- 8/CNZkJTm9QEGAk0OEUFhaJ0Tepwz1CqauTqV29ZRDioIcdguSbELVfhQD4DNIWhVwj/
- AhVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=083p/YJcb2cj3fsrtAL/N02jVsHsBhdOeQ/BfG6pu1g=;
- b=QjAsE8wuUqf7aa/pk9BjWcedUAGwMwFjUlAAmLFW+vZKemezx0UhhtBjIPvrCajYX9
- HJthsiEOUX6YgVD4GDdZW/LhipJ8fzDK1YsyevYWMUSVlwPDmElNqPBvEU0KwLF87K8V
- GQ6YXHSQ+qaDCGzwFwJWAq9RzXbTpI17wMPekiwxVxT+1v9zNKSxEEJYEgIdWoslcB0k
- NFmtTYLxm+G1P3OcZudfsIJHsQnY6s/AJB9k5HRzssHuVHNHEtGB4x6mkYFHyhfd4RLq
- +8fyUaj8r1psF8RyZPxGcwsZduAGfM0lLuVoShjTmKWppLVWZQvdT+auv4EqS9zsyqMV
- 4GyQ==
-X-Gm-Message-State: APjAAAVtmOkvjhvj85mw1JThOIFyzJjA8scH2yz7x3f4uyfa6/NBnWh3
- KrU2jldM93iuU4nhmrZUm4gx1w==
-X-Google-Smtp-Source: APXvYqw3DJIigc3c127/+WyirN10btzB1c49XyDLqkfd36tZMSu5f2upzC5Y5tiJhMoHTIdnhTOfzQ==
-X-Received: by 2002:a7b:cb0a:: with SMTP id u10mr38723186wmj.165.1578393557443; 
- Tue, 07 Jan 2020 02:39:17 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y6sm74535039wrl.17.2020.01.07.02.39.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 02:39:16 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57C851FF87;
- Tue,  7 Jan 2020 10:39:15 +0000 (GMT)
-References: <20191230082856.30556-1-philmd@redhat.com>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] scripts/git.orderfile: Display decodetree before C source
-In-reply-to: <20191230082856.30556-1-philmd@redhat.com>
-Date: Tue, 07 Jan 2020 10:39:15 +0000
-Message-ID: <87blrf5z58.fsf@linaro.org>
+ (envelope-from <quintela@redhat.com>) id 1iomQP-0004nv-W9
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:27 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43157
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iomQP-0004n4-SU
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:49:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578394163;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IoyM5N3oMYNqzFUjFx3yfuZB9d4KCOyOQGaheYlrGX0=;
+ b=ib71isITp+6EXrau4bgkES8RKLDyAQXcY86oq+6SzC73VbQibofKoH7ArxKzsh+WT/cO2D
+ xVfLJYGXrswkUIGStAEymag+ZvXjQn6IQ/l/imDS9GP8juF8WrLu+rbiqeiQLWZh0aHPtf
+ ZQhlPhP4XREAHHAc8Uf5ybgKfHfIUEk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-dETClZ0sMGu2-NjZbHvPJQ-1; Tue, 07 Jan 2020 05:49:22 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6021985B6FA
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 10:49:21 +0000 (UTC)
+Received: from secure.mitica (ovpn-116-240.ams2.redhat.com [10.36.116.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF3C71A8D6;
+ Tue,  7 Jan 2020 10:49:19 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 2/3] migration: Make sure that we don't call write() in
+ case of error
+Date: Tue,  7 Jan 2020 11:49:13 +0100
+Message-Id: <20200107104914.1814-3-quintela@redhat.com>
+In-Reply-To: <20200107104914.1814-1-quintela@redhat.com>
+References: <20200107104914.1814-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: dETClZ0sMGu2-NjZbHvPJQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,45 +71,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Stafford Horne <shorne@gmail.com>, Sven Schnelle <svens@stackframe.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If we are exiting due to an error/finish/.... Just don't try to even
+touch the channel with one IO operation.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/ram.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-> To avoid scrolling each instruction when reviewing tcg
-> helpers written for the decodetree script, display the
-> .decode files (similar to header declarations) before
-> the C source (implementation of previous declarations).
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  scripts/git.orderfile | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/scripts/git.orderfile b/scripts/git.orderfile
-> index e89790941c..1f747b583a 100644
-> --- a/scripts/git.orderfile
-> +++ b/scripts/git.orderfile
-> @@ -25,5 +25,8 @@ qga/*.json
->  # headers
->  *.h
->=20=20
-> +# decoding tree specification
-> +*.decode
-> +
->  # code
->  *.c
-
-
+diff --git a/migration/ram.c b/migration/ram.c
+index 96feb4062c..6e678dbd2e 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -900,6 +900,12 @@ struct {
+     uint64_t packet_num;
+     /* send channels ready */
+     QemuSemaphore channels_ready;
++    /*
++     * Have we already run terminate threads.  There is a race when it
++     * happens that we got one error while we are exiting.
++     * We will use atomic operations.  Only valid values are 0 and 1.
++     */
++    int exiting;
+ } *multifd_send_state;
+=20
+ /*
+@@ -928,6 +934,10 @@ static int multifd_send_pages(RAMState *rs)
+     MultiFDPages_t *pages =3D multifd_send_state->pages;
+     uint64_t transferred;
+=20
++    if (atomic_read(&multifd_send_state->exiting)) {
++        return -1;
++    }
++
+     qemu_sem_wait(&multifd_send_state->channels_ready);
+     for (i =3D next_channel;; i =3D (i + 1) % migrate_multifd_channels()) =
+{
+         p =3D &multifd_send_state->params[i];
+@@ -1009,6 +1019,16 @@ static void multifd_send_terminate_threads(Error *er=
+r)
+         }
+     }
+=20
++    /*
++     * We don't want to exit each threads twice.  Depending on where
++     * we get the error, or if there are two independent errors in two
++     * threads at the same time, we can end calling this function
++     * twice.
++     */
++    if (atomic_xchg(&multifd_send_state->exiting, 1)) {
++        return;
++    }
++
+     for (i =3D 0; i < migrate_multifd_channels(); i++) {
+         MultiFDSendParams *p =3D &multifd_send_state->params[i];
+=20
+@@ -1118,6 +1138,10 @@ static void *multifd_send_thread(void *opaque)
+=20
+     while (true) {
+         qemu_sem_wait(&p->sem);
++
++        if (atomic_read(&multifd_send_state->exiting)) {
++            break;
++        }
+         qemu_mutex_lock(&p->mutex);
+=20
+         if (p->pending_job) {
+@@ -1224,6 +1248,7 @@ int multifd_save_setup(void)
+     multifd_send_state->params =3D g_new0(MultiFDSendParams, thread_count)=
+;
+     multifd_send_state->pages =3D multifd_pages_init(page_count);
+     qemu_sem_init(&multifd_send_state->channels_ready, 0);
++    atomic_set(&multifd_send_state->exiting, 0);
+=20
+     for (i =3D 0; i < thread_count; i++) {
+         MultiFDSendParams *p =3D &multifd_send_state->params[i];
 --=20
-Alex Benn=C3=A9e
+2.24.1
+
 
