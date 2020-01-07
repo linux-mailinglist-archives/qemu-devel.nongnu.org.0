@@ -2,62 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5541329D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:18:46 +0100 (CET)
-Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180C01329E3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 16:21:28 +0100 (CET)
+Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioqd3-0004Mg-7f
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:18:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46192)
+	id 1ioqfe-0000pn-In
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 10:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ioqDS-0004sE-8b
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:52:19 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ioqHn-0004Cb-Ub
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:56:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ioqDR-0002Vy-C2
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:52:18 -0500
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:41561)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ioqDR-0002VD-6b
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:52:17 -0500
-Received: by mail-ot1-x331.google.com with SMTP id r27so99456otc.8
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:52:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=h/jA0lsZC+KHXkwlBnEBjA1xv0an3aPYNKxDK6nX7lE=;
- b=c/sHfPvKHSbznpgO3lZ9XlpWP1eQYX6zNDKAD3OaaRKEx2dp4zFPvHx7drOxSzAz4Y
- lfqRo3TIZua1tqW9uWDCZTd2AgV5010q/sbQ+f5pSaZwMAEvOYfBnZt/TAUFEAr1HJi2
- NBysp6YfOk/s6KnI7nJzr2s6orS1o6WY5Q/E7qKnr0W/4OT1hU0RrrF2jnpZxHsSuBwC
- cMRGcrsHqWhNfgsYI4KTGs5hHHCGwvuCR5+BFHMfulO7W07UGmiz6DpOGnhdb+yx66kN
- G9eBrb9IkrNzc0mhphicH5oaZMyYNsdYpliRC3CiJaH0PK2fISuI1JTmzJBR9hB06uQo
- UW+A==
+ (envelope-from <pbonzini@redhat.com>) id 1ioqHm-0005jm-Op
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:56:47 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60112
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ioqHm-0005jM-L9
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:56:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578409006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R0RrzZgv66jhK7LMA3RAoxyp5F5E4qkxn7mKXQVUqJE=;
+ b=OyevSe0yZwHwRET9YXtmu0bvf7ECaWTLFAD++jOHURpykOwD7FYRU4vcl3qLKs5eIQ2Y4F
+ YNjYLxiTTn13ArPXsZrD92sfNVfWYsIC2UmpIl1I0uXQ5r8Zt6yCQbjjvGNFm9E1tjhTyy
+ 0wXg/jKxj8V1v4Fw0RW86d8XQGCUL3g=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-M81Z2FRZOe2VEjpZcv5mpA-1; Tue, 07 Jan 2020 09:56:43 -0500
+Received: by mail-wr1-f71.google.com with SMTP id j13so29376wrr.20
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 06:56:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=h/jA0lsZC+KHXkwlBnEBjA1xv0an3aPYNKxDK6nX7lE=;
- b=cVIn3WA4cmos5R5e58ejdxTRnZvoXPssAOJBm2kfXB30BlPVcNm2Oo8rDGEfEb2IYB
- edToLZrbtEVYVqCT299Z0h2M5ftkAepToGC2/8CzUutItEpLZvV12Xz4PvuRVq+hySbV
- QSeqtz11w6hkM73yT1VP4sxqkc4MvPSadBLznmxA+DIMDW/66t9hBHjjzaQjo631XCjl
- jVYVTNJRqWcylVuL+hfJYqaRmsUPGQOdx7Q/ii250BLABhEN7/lSqMG852uatSy73DV6
- dApSOyxcBD6/jdCGCRqzoIyG5WvqZiAPGxIjnygFumhS5wZ+IgmOeBWdQ8ruhut//ASX
- 4buQ==
-X-Gm-Message-State: APjAAAVUX6Wfhzts7vZFPIdRikj0NKp3muXzIwibDqcVlyXP3q4KQkIn
- 0v2IdOHP4xc4Rd6qZNiKSE6dMqjPOGwsJnhxWJwVU+9rWe4=
-X-Google-Smtp-Source: APXvYqxdwrbYdxTm1KMZV4FR2dqov0Aj0LHkFsLKL/5+RzqiwXO9VaD81+Jl4gqScaum3gHzTP6J4dkE4OHLJwTtAMU=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr126309ota.232.1578408736387; 
- Tue, 07 Jan 2020 06:52:16 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=R0RrzZgv66jhK7LMA3RAoxyp5F5E4qkxn7mKXQVUqJE=;
+ b=idI/XP+dkld/dZeyRoVB3oW6t4AVm0C04ZrwcET7v1Sgca3JP9MykeyrQ0+wkObq9O
+ P9kfyCrgUzvGDhnBX0wH5hUWHgKOrg/sbuYdUnBXnmvDiXruYJz9wvevD3eltcOfBpki
+ qHa4RHwC5GK8lRXEG90jSlf1KMGpoaW0qq3NgCKgLXYmSlDSMg2K+/HvakcWjnxxIIWg
+ +uFk2iuKumZUeFB18jCU410ccBMWjFonYbxm4Du0ZHwJcfpbL98Xu+aw0FtH1yymVX8F
+ IDfDgIszQBUk+taEfZ9u/F8evcgJvQpSGzyLx2VKgoZ65ckxO6JT84ATZNG6TRzom8VD
+ IGiQ==
+X-Gm-Message-State: APjAAAW2Qbtv/Vrk1u6WSazaCIRFrk9UEARvDs2rCCNgu0Z9khRldTyP
+ URTjEkgX7Bdx4QtTILmzcUPy/gDhWzHEtX6Sjf/1aNZmsUvhxxezEprCyi0P16lhe5+YUCtChyD
+ TISel3Iv550OprxA=
+X-Received: by 2002:a7b:cfc9:: with SMTP id f9mr42395389wmm.1.1578409001864;
+ Tue, 07 Jan 2020 06:56:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwFXZz5Lvb9UTJc8bmGOVgoKv5Yn5b0xYiia9ZaeHgK1hfq+LjN+nSIjE0UdrtwU4y5bCFvJw==
+X-Received: by 2002:a7b:cfc9:: with SMTP id f9mr42395374wmm.1.1578409001640;
+ Tue, 07 Jan 2020 06:56:41 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id o4sm109503wrx.25.2020.01.07.06.56.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 06:56:41 -0800 (PST)
+Subject: Re: [PATCH 5/6] hw/scsi/megasas: Silent GCC9 duplicated-cond warning
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191217173425.5082-1-philmd@redhat.com>
+ <20191217173425.5082-6-philmd@redhat.com>
+ <b29f856a-5199-6f62-4aee-5a2cfc9f05a3@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8e06e74a-901d-acb3-67f0-006732abdba9@redhat.com>
+Date: Tue, 7 Jan 2020 15:56:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Jan 2020 14:52:05 +0000
-Message-ID: <CAFEAcA-Q_qprNny1gy1TX=JSrJm3um=6=dQbtrHVry1ODSCc_A@mail.gmail.com>
-Subject: kvm_set_user_memory_region() doesn't check ioctl return value
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::331
+In-Reply-To: <b29f856a-5199-6f62-4aee-5a2cfc9f05a3@linaro.org>
+Content-Language: en-US
+X-MC-Unique: M81Z2FRZOe2VEjpZcv5mpA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,20 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-trivial@nongnu.org,
+ Hannes Reinecke <hare@suse.com>, Hannes Reinecke <hare@suse.de>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity has just pointed out (CID 1412229) that the function
-kvm_set_user_memory_region() in accel/kvm/kvm-all.c calls
-kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, ...) twice, but
-it only checks the ioctl return value for failure in the
-second case. Shouldn't it be checking both calls?
+On 18/12/19 05:03, Richard Henderson wrote:
+>>      if (!s->hba_serial) {
+>>          s->hba_serial = g_strdup(MEGASAS_HBA_SERIAL);
+>>      }
+>> -    if (s->fw_sge >= MEGASAS_MAX_SGE - MFI_PASS_FRAME_SIZE) {
+>> +    if (MEGASAS_MAX_SGE > 128
+>> +        && s->fw_sge >= MEGASAS_MAX_SGE - MFI_PASS_FRAME_SIZE) {
+>>          s->fw_sge = MEGASAS_MAX_SGE - MFI_PASS_FRAME_SIZE;
+>>      } else if (s->fw_sge >= 128 - MFI_PASS_FRAME_SIZE) {
+>>          s->fw_sge = 128 - MFI_PASS_FRAME_SIZE;
+>>      } else {
+>>          s->fw_sge = 64 - MFI_PASS_FRAME_SIZE;
+>>      }
+>
+> I'm not keen on this.  It looks to me like the raw 128 case should be removed
+> -- surely that's the point of the symbolic constant.  But I'll defer if a
+> maintainer disagrees.
 
-(This code seems to have been in place for years so I guess
-Coverity has only just decided that kvm_vm_ioctl() passes its
-'needs return value checking' heuristic...)
+I don't really understand this chain of ifs.  Hannes, does it make sense
+to just remove the "if (s->fw_sge >= 128 - MFI_PASS_FRAME_SIZE)" case,
+or does Phil's variation (quoted in the patch fragment above) makes sense?
 
-thanks
--- PMM
+Or perhaps this rewrite:
+
+        max_sge = s->fw_sge + MFI_PASS_FRAME_SIZE;
+        if (max_sge < MEGASAS_MAX_SGE) {
+            if (max_sge < 64) {
+                error(...);
+            } else {
+                max_sge = max_sge < 128 ? 64 : 128;
+            }
+        }
+	s->fw_sge = max_sge - MFI_PASS_FRAME_SIZE;
+
+Paolo
+
 
