@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250C0132C93
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:09:05 +0100 (CET)
-Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BE0132CAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 18:11:09 +0100 (CET)
+Received: from localhost ([::1]:53620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iosLn-00067f-PR
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:09:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48067)
+	id 1iosNo-0001Zy-9k
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 12:11:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iormd-0001Mq-Ke
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:45 -0500
+ (envelope-from <groug@kaod.org>) id 1iormh-0001OZ-Vd
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iormb-0006T4-Tc
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:43 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24092
+ (envelope-from <groug@kaod.org>) id 1iormg-0006Wi-LN
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:47 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6048
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iormb-0006SL-N6
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:41 -0500
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iormg-0006W8-FQ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 11:32:46 -0500
 Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 007GRqqe094084
- for <qemu-devel@nongnu.org>; Tue, 7 Jan 2020 11:32:40 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xb8n21t4y-1
+ 007GRqlq094053
+ for <qemu-devel@nongnu.org>; Tue, 7 Jan 2020 11:32:45 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xb8n21t8e-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 11:32:40 -0500
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 11:32:45 -0500
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Tue, 7 Jan 2020 16:32:38 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Tue, 7 Jan 2020 16:32:44 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 7 Jan 2020 16:32:36 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 007GWZAK48758948
+ Tue, 7 Jan 2020 16:32:42 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 007GVsBl35127626
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 7 Jan 2020 16:32:35 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5584452050;
- Tue,  7 Jan 2020 16:32:35 +0000 (GMT)
+ Tue, 7 Jan 2020 16:31:54 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 74534A405C;
+ Tue,  7 Jan 2020 16:32:41 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C85D2A405B;
+ Tue,  7 Jan 2020 16:32:40 +0000 (GMT)
 Received: from bahia.tlslab.ibm.com (unknown [9.101.4.41])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 22F525204F;
- Tue,  7 Jan 2020 16:32:35 +0000 (GMT)
-Subject: [PATCH 0/2] ppc/pnv: Reset handler registration cleanup
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Jan 2020 16:32:40 +0000 (GMT)
+Subject: [PATCH 1/2] pnv/psi: Add device reset hook
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>,
  =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Tue, 07 Jan 2020 17:32:34 +0100
+Date: Tue, 07 Jan 2020 17:32:40 +0100
+In-Reply-To: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
+References: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
 User-Agent: StGit/unknown-version
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20010716-0028-0000-0000-000003CEF9E6
+x-cbid: 20010716-0012-0000-0000-0000037B3E76
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20010716-0029-0000-0000-000024930A48
-Message-Id: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
+x-cbparentid: 20010716-0013-0000-0000-000021B75ADE
+Message-Id: <157841476035.66386.17838417527621752518.stgit@bahia.tlslab.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-01-07_05:2020-01-07,
  2020-01-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=937 bulkscore=0
+ mlxlogscore=965 bulkscore=0
  phishscore=0 mlxscore=0 priorityscore=1501 suspectscore=0 spamscore=0
  adultscore=0 malwarescore=0 clxscore=1034 impostorscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-2001070135
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id 007GRqlq094053
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,24 +98,98 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches were initially posted in Cedric's "ppc/pnv: remove the use of
-qdev_get_machine()" series, which isn't really related to reset handlers
-BTW.
+And call it from a QEMU reset handler. This allows each PNV child class t=
+o
+override the reset hook if needed, eg. POWER8 doesn't but POWER9 does.
+The proper way to do that would be to use device_class_set_parent_reset()=
+,
+but defining a Pnv8PsiClass and a Pnv9PsiClass types with a parent_reset
+pointer adds a fair amount of code. Calling pnv_psi_reset() explicitely i=
+s
+fine for now.
 
-The only change is to call device_reset() instead of open-coding the
-invocation of DeviceReset::reset() as suggested by David.
+A subsequent patch will consolidate the call to qemu_register_reset() in
+a single place.
 
---
-Greg
-
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
+ hw/ppc/pnv_psi.c |   15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-Greg Kurz (2):
-      pnv/psi: Add device reset hook
-      pnv/psi: Consolidate some duplicated code in pnv_psi_realize()
-
-
- hw/ppc/pnv_psi.c |   30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index 75e20d9da08b..6c94781e377d 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -455,7 +455,7 @@ static const MemoryRegionOps pnv_psi_xscom_ops =3D {
+     }
+ };
+=20
+-static void pnv_psi_reset(void *dev)
++static void pnv_psi_reset(DeviceState *dev)
+ {
+     PnvPsi *psi =3D PNV_PSI(dev);
+=20
+@@ -464,6 +464,11 @@ static void pnv_psi_reset(void *dev)
+     psi->regs[PSIHB_XSCOM_BAR] =3D psi->bar | PSIHB_BAR_EN;
+ }
+=20
++static void pnv_psi_reset_handler(void *dev)
++{
++    device_reset(DEVICE(dev));
++}
++
+ static void pnv_psi_power8_instance_init(Object *obj)
+ {
+     Pnv8Psi *psi8 =3D PNV8_PSI(obj);
+@@ -533,7 +538,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, =
+Error **errp)
+             ((uint64_t) i << PSIHB_XIVR_SRC_SH);
+     }
+=20
+-    qemu_register_reset(pnv_psi_reset, dev);
++    qemu_register_reset(pnv_psi_reset_handler, dev);
+ }
+=20
+ static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, int xscom=
+_offset)
+@@ -816,7 +821,7 @@ static void pnv_psi_power9_irq_set(PnvPsi *psi, int i=
+rq, bool state)
+     qemu_set_irq(psi->qirqs[irq], state);
+ }
+=20
+-static void pnv_psi_power9_reset(void *dev)
++static void pnv_psi_power9_reset(DeviceState *dev)
+ {
+     Pnv9Psi *psi =3D PNV9_PSI(dev);
+=20
+@@ -870,7 +875,7 @@ static void pnv_psi_power9_realize(DeviceState *dev, =
+Error **errp)
+=20
+     pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
+=20
+-    qemu_register_reset(pnv_psi_power9_reset, dev);
++    qemu_register_reset(pnv_psi_reset_handler, dev);
+ }
+=20
+ static void pnv_psi_power9_class_init(ObjectClass *klass, void *data)
+@@ -882,6 +887,7 @@ static void pnv_psi_power9_class_init(ObjectClass *kl=
+ass, void *data)
+=20
+     dc->desc    =3D "PowerNV PSI Controller POWER9";
+     dc->realize =3D pnv_psi_power9_realize;
++    dc->reset   =3D pnv_psi_power9_reset;
+=20
+     ppc->xscom_pcba =3D PNV9_XSCOM_PSIHB_BASE;
+     ppc->xscom_size =3D PNV9_XSCOM_PSIHB_SIZE;
+@@ -934,6 +940,7 @@ static void pnv_psi_class_init(ObjectClass *klass, vo=
+id *data)
+=20
+     dc->desc =3D "PowerNV PSI Controller";
+     dc->props =3D pnv_psi_properties;
++    dc->reset =3D pnv_psi_reset;
+ }
+=20
+ static const TypeInfo pnv_psi_info =3D {
 
 
