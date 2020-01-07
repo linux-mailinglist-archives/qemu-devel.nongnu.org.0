@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4893131ECA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 06:14:53 +0100 (CET)
-Received: from localhost ([::1]:42146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495BD131EC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 06:07:48 +0100 (CET)
+Received: from localhost ([::1]:42148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iogtZ-0003Ik-Uo
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 23:55:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
+	id 1iogtV-0003JE-OP
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 23:55:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iognM-0005Lc-NQ
+ (envelope-from <dgibson@ozlabs.org>) id 1iognI-0005Kg-Ao
  for qemu-devel@nongnu.org; Mon, 06 Jan 2020 23:48:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iognI-0004e8-8D
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 23:48:44 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:41111)
+ (envelope-from <dgibson@ozlabs.org>) id 1iognH-0004ch-9C
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 23:48:40 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34477 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iognH-0004Vc-U1; Mon, 06 Jan 2020 23:48:40 -0500
+ id 1iognG-0004Vu-VC; Mon, 06 Jan 2020 23:48:39 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47sKdW5mPgz9sRK; Tue,  7 Jan 2020 15:48:31 +1100 (AEDT)
+ id 47sKdX1c7qz9sRf; Tue,  7 Jan 2020 15:48:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578372511;
- bh=Y1fJLmHsx1ZlkSB3wbl8Ri4K1UbGDGFlzQzbv2B7WYU=;
- h=From:To:Cc:Subject:Date:From;
- b=BV5fei4JrPN1TkKMk0DpAoJiaZLaYm1qawLA7gdJ7RdobZ02JhtlmCLgwLHpbK5Se
- kiXfizDlnfwFflmzi/j1sfhlTPBP6fkNSRVvRRwjtnEHzDJw4Dk9VHwrhRTZqvBSYc
- RUMNuBdDj8OadN7buAoCZuf9WLZ8j3/c0Njp+qGk=
+ d=gibson.dropbear.id.au; s=201602; t=1578372512;
+ bh=TfQTmXYbC8QhW9e6z4YK15NqUFRWl/4wKLoSPI7wBfQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=XnO7c4g4M44yHzlm8HFUJdT1t8yBD1JJUIv4f/H6ea5UdulOLl/a0Fj/x4pA4k8tx
+ cX5jQEHsEuRUvezFlGXaqYdNdU7jRbzmej68JtpD3KVwrjqt05HCssABHpYi6RRTPH
+ zXOYuFc3RYQ7NisC2MjmKy7sDlhDI3uJwseIJpZg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	groug@kaod.org,
 	philmd@redhat.com,
 	clg@kaod.org
-Subject: [PATCH v2 00/10] target/ppc: Correct some errors with real mode
- handling
-Date: Tue,  7 Jan 2020 15:48:17 +1100
-Message-Id: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+Subject: [PATCH v2 01/10] ppc: Drop PPC_EMULATE_32BITS_HYPV stub
+Date: Tue,  7 Jan 2020 15:48:18 +1100
+Message-Id: <20200107044827.471355-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -61,38 +62,49 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-POWER "book S" (server class) cpus have a concept of "real mode" where
-MMU translation is disabled... sort of.  In fact this can mean a bunch
-of slightly different things when hypervisor mode and other
-considerations are present.
+The only effect of the PPC_EMULATE_32BITS_HYPV define is to change how
+MSR_HVB is defined.  This appears to be something to handle hypervisor mo=
+de
+for 32-bit CPUs, but there's really no other code to handle this.  The
+MSR_THV bit, which it uses is implemented for no cpus we model.
 
-We had some errors in edge cases here, so clean some things up and
-correct them.
+It's unlikely anyone is going to implement this any time soon, so just dr=
+op
+it.
 
-Changes since RFCv1:
- * Add a number of extra patches taking advantage of the initial
-   cleanups
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ target/ppc/cpu.h | 7 -------
+ 1 file changed, 7 deletions(-)
 
-David Gibson (10):
-  ppc: Drop PPC_EMULATE_32BITS_HYPV stub
-  ppc: Remove stub of PPC970 HID4 implementation
-  target/ppc: Correct handling of real mode accesses with vhyp on hash
-    MMU
-  target/ppc: Introduce ppc_hash64_use_vrma() helper
-  spapr, ppc: Remove VPM0/RMLS hacks for POWER9
-  target/ppc: Remove RMOR register from POWER9 & POWER10
-  target/ppc: Use class fields to simplify LPCR masking
-  target/ppc: Streamline calculation of RMA limit from LPCR[RMLS]
-  target/ppc: Correct RMLS table
-  target/ppc: Only calculate RMLS derived RMA limit on demand
-
- hw/ppc/spapr_cpu_core.c         |   6 +-
- target/ppc/cpu-qom.h            |   1 +
- target/ppc/cpu.h                |   8 --
- target/ppc/mmu-hash64.c         | 241 ++++++++++++--------------------
- target/ppc/translate_init.inc.c |  54 ++++---
- 5 files changed, 130 insertions(+), 180 deletions(-)
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 103bfe9dc2..2de9e2fa2b 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -26,8 +26,6 @@
+ #include "exec/cpu-defs.h"
+ #include "cpu-qom.h"
+=20
+-/* #define PPC_EMULATE_32BITS_HYPV */
+-
+ #define TCG_GUEST_DEFAULT_MO 0
+=20
+ #define TARGET_PAGE_BITS_64K 16
+@@ -450,14 +448,9 @@ typedef struct ppc_v3_pate_t {
+ #define MSR_HVB (1ULL << MSR_SHV)
+ #define msr_hv  msr_shv
+ #else
+-#if defined(PPC_EMULATE_32BITS_HYPV)
+-#define MSR_HVB (1ULL << MSR_THV)
+-#define msr_hv  msr_thv
+-#else
+ #define MSR_HVB (0ULL)
+ #define msr_hv  (0)
+ #endif
+-#endif
+=20
+ /* DSISR */
+ #define DSISR_NOPTE              0x40000000
 --=20
 2.24.1
 
