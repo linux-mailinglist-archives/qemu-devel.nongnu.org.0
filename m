@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F0B1326C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:56:51 +0100 (CET)
-Received: from localhost ([::1]:48124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909EC132710
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:07:29 +0100 (CET)
+Received: from localhost ([::1]:48308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iooPh-0003OZ-8g
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:56:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56199)
+	id 1iooZz-0007c3-FB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:07:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1ionvj-00018w-5N
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:52 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1ionyT-0000gT-El
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:28:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1ionvh-0000WB-PR
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:50 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:36753)
+ (envelope-from <qemu_oss@crudebyte.com>) id 1ionyS-0001lx-DH
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:28:41 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:50639)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ionvh-0000V1-Cu
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:49 -0500
+ id 1ionyS-0001la-5U
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:28:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=dUHd+9G2AYjgCyzQ49UQCRBnmcpm08/n661jKXFbrMo=; b=d1kfI7/7UautXD0hhWyEpGLPRp
- bzPHDJdPQP6Jt66wCf997O/VHKA3sNn+uvlFALEStSqDcDOA0j35tBJI1jrH3DWq5/n5O0ncLecg7
- wh6u0a3NW840uPt+bENbPs+fWELA5ms4VlTTX55HiJgJsAmxTvdyeH9HnxP+Q8+5r6SfXwZtp48aB
- igdWvAaMKoKrp5vcM+4IAiHv1ApRIvws5OvQdWbaxxfpSTcaUGUXhNL2Z0Qy4OenQHA5ttiAEw/hq
- 9b02nIYEEls8Ksls9pJdG2bwQ8CDu+uw2OQy2YaccC/qvevcdWXFtRWhpDsTp+d6I7Yb9lNoH8Rqf
- tV4sKzU54xT1xFar71q4L1+zK+5aazRUDvEYwQwef9FooYlxt8igjy1dLvidHPp/JAoo2RsJ+Rizm
- 4CvbZhJTUaJ4lbraE3ls59nvIEPwa5I0evzzI1uIxBg5Q1uKfZVQFypv+vhW2kTv4wUFp0vYEr00B
- bpY8YIXtptz6EwgMAoR2eItIRhRM+LEqwi+26FCwnHLpkxuaih5SJugVWNmrt4WF+oq0os1TDy5Xn
- FCPIUp/F1bPyr0tvwEisJnuJ+XqNjkKGopVqyUP3Y8XUGDWmT2Bbn+yRkln9thYoXPiKl7E8SFX8f
- 41eBFJMqZ0Udv1Us4zEVh1gHJUCI1wxEkTHOLY7eo=;
+ bh=II/zaNf6+3BT4ugKHJuLlX/NNoq75sw/GJNFhgy6VL4=; b=g0fJ/NEraAwvVP8m3eg5QpDYpS
+ lkNsBKCgjCem9cI6Rom/toFg2KhwwfnBywzQ9/SmwpjkYXC1xChAOZumKL7Y/NAfr4QhL5IoB6erX
+ JqLdJV51I8ErDUUvcfeX0gHiMsM4TpqdH2jVnNgGRtoaFJTWePzH4EMSiptKiAxuPpWDjPw8upuWP
+ jkI4mu/yKeiMbxE1Uxh219Phv5moqNN2qhYX2lqd9lykQiIB37i6IirxiaFq0jXHLYQNTz3AoCyaf
+ w/5v7yBM1Yiky/T26BjGUnQAGZ/EU8vBdcUschmBdOSnBGEuXE9a7S9DYPvww7YBLalnPlmX9//9E
+ tOY1zQLjZnfsv4zQLOh0Hg9Wi9y39olFx8Y+7owDBWJX2xWfGPB/YEOITJLMO1/CEnJ+A69QIfXWO
+ dTHLKejvy8mZmBOrYIxNR2MPRjj0715Ggwmlpf18vfLxgnnp7eyeF9kL+s94PlCDrBcHgS8P0gsNx
+ fMGH5wb1XHqRbdHXEqtV4cRXXI/AM7AJck3YVgR0zPeGEvN2tJBT5ib1KXq6t2j7UCeqaWkdV7Kbk
+ CvcHqgsQjRP+T5jrGbcdV47LNHkADxqt2MKDeWhUJluJzuVC4Be6E43GAb+EFJrW9sgzYmr1uyCrH
+ t/u68jYH1dtrELWoL6nNStg6NuTPoOlgv/uHXgsvY=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 4/9] tests/virtio-9p: added readdir test
-Date: Tue, 07 Jan 2020 13:25:46 +0100
-Message-ID: <10962452.xo9bJ14PLm@silver>
-In-Reply-To: <20200106182252.58dd6712@bahia.lan>
+Subject: Re: [PATCH v2 5/9] tests/virtio-9p: check file names of R_readdir
+ response
+Date: Tue, 07 Jan 2020 13:28:38 +0100
+Message-ID: <2640807.KD2hu4yizk@silver>
+In-Reply-To: <20200106180711.3a665d11@bahia.lan>
 References: <cover.1576678644.git.qemu_oss@crudebyte.com>
- <a8d6dab2625554d425bd44a4d54d84459f083b18.1576678644.git.qemu_oss@crudebyte.com>
- <20200106182252.58dd6712@bahia.lan>
+ <2a40095340d9536575af8fd214a7ac647b4603c9.1576678644.git.qemu_oss@crudebyte.com>
+ <20200106180711.3a665d11@bahia.lan>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -65,136 +66,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 6. Januar 2020 18:22:52 CET Greg Kurz wrote:
-> > diff --git a/tests/virtio-9p-test.c b/tests/virtio-9p-test.c
-> > index 06263edb53..48c0eca292 100644
-> > --- a/tests/virtio-9p-test.c
-> > +++ b/tests/virtio-9p-test.c
-> > @@ -68,6 +68,11 @@ static void v9fs_memread(P9Req *req, void *addr, size_t
-> > len)> 
-> >      req->r_off += len;
-> >  
-> >  }
-> > 
-> > +static void v9fs_uint8_read(P9Req *req, uint8_t *val)
-> > +{
-> > +    v9fs_memread(req, val, 1);
-> > +}
-> > +
-> > 
-> >  static void v9fs_uint16_write(P9Req *req, uint16_t val)
-> >  {
-> >  
-> >      uint16_t le_val = cpu_to_le16(val);
-> > 
-> > @@ -101,6 +106,12 @@ static void v9fs_uint32_read(P9Req *req, uint32_t
-> > *val)> 
-> >      le32_to_cpus(val);
-> >  
-> >  }
-> > 
-> > +static void v9fs_uint64_read(P9Req *req, uint64_t *val)
-> > +{
-> > +    v9fs_memread(req, val, 8);
-> > +    le64_to_cpus(val);
-> > +}
-> > +
-> > 
-> >  /* len[2] string[len] */
-> >  static uint16_t v9fs_string_size(const char *string)
-> >  {
-> > 
-> > @@ -191,6 +202,7 @@ static const char *rmessage_name(uint8_t id)
-> > 
-> >          id == P9_RLOPEN ? "RLOPEN" :
-> >          id == P9_RWRITE ? "RWRITE" :
-> > 
-> >          id == P9_RFLUSH ? "RFLUSH" :
-> > +        id == P9_RREADDIR ? "READDIR" :
-> >          "<unknown>";
-> >  
-> >  }
-> > 
-> > @@ -348,6 +360,79 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid,
-> > v9fs_qid **wqid)> 
-> >      v9fs_req_free(req);
-> >  
-> >  }
-> > 
-> > +/* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
-> > +static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t
-> > offset,
-> > +                            uint32_t count, uint16_t tag)
-> > +{
-> > +    P9Req *req;
-> > +
-> > +    req = v9fs_req_init(v9p, 4 + 8 + 4, P9_TREADDIR, tag);
-> > +    v9fs_uint32_write(req, fid);
-> > +    v9fs_uint64_write(req, offset);
-> > +    v9fs_uint32_write(req, count);
-> > +    v9fs_req_send(req);
-> > +    return req;
-> > +}
-> > +
-> > +struct v9fs_dirent {
+On Montag, 6. Januar 2020 18:07:11 CET Greg Kurz wrote:
+> On Wed, 18 Dec 2019 14:35:56 +0100
 > 
-> The QEMU coding style calls for a CamelCase typedef,
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > Additionally to the already existing check for expected amount
+> > of directory entries returned by R_readdir response, also check
+> > whether all directory entries have the expected file names (as
+> > created on 9pfs synth driver side), ignoring their precise order
+> > in result list though.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
 > 
-> ie.
-> 
-> typedef struct V9fsDirent V9fsDirent;
+> LGTM and trivial enough that it can be folded in the previous
+> patch.
 
-np
-
-> > +    v9fs_qid qid;
-> 
-> Yeah... I should have done the same when I introduced this type ;-)
-
-So I'll probably address your sin with a separate patch then.
-
-> > +static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-> > +{
-> > +    QVirtio9P *v9p = obj;
-> > +    alloc = t_alloc;
-> > +    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-> > +    uint16_t nqid;
-> > +    v9fs_qid qid;
-> > +    uint32_t count, nentries;
-> > +    struct v9fs_dirent *entries = NULL;
-> > +    P9Req *req;
-> > +
-> > +    fs_attach(v9p, NULL, t_alloc);
-> > +    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> > +    v9fs_req_wait_for_reply(req, NULL);
-> > +    v9fs_rwalk(req, &nqid, NULL);
-> > +    g_assert_cmpint(nqid, ==, 1);
-> > +
-> > +    req = v9fs_tlopen(v9p, 1, O_DIRECTORY, 0);
-> > +    v9fs_req_wait_for_reply(req, NULL);
-> > +    v9fs_rlopen(req, &qid, NULL);
-> > +
-> > +    req = v9fs_treaddir(v9p, 1, 0, P9_MAX_SIZE - P9_IOHDRSZ, 0);
-> > +    v9fs_req_wait_for_reply(req, NULL);
-> > +    v9fs_rreaddir(req, &count, &nentries, &entries);
-> > +
-> > +    /*
-> > +     * Assuming msize (P9_MAX_SIZE) is large enough so we can retrieve
-> > all
-> > +     * dir entries with only one readdir request.
-> > +     */
-> > +    g_assert_cmpint(
-> > +        nentries, ==,
-> > +        QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
-> > +    );
-> 
-> What about coming up with a version of this test that loops until
-> it could read all the entries instead of this assumption ?
-
-Yes, I had this planned a bit later though. And not as a replacement for this 
-one, but rather as a subsequent advanced readdir test. Because it makes sense 
-to cover both cases: readdir a large amount of entries with a single request, 
-but also splitted down by several readdir requests as subsequent, separate 
-test.
+So you want that patch to be squashed. Np.
 
 Best regards,
 Christian Schoenebeck
