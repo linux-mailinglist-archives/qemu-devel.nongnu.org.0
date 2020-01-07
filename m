@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D8A132923
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:44:03 +0100 (CET)
-Received: from localhost ([::1]:50238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27794132792
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:29:25 +0100 (CET)
+Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioq5S-00041K-6b
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:44:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40094)
+	id 1ioovD-0002f7-Ax
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:29:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44994)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ioobT-0006mR-7E
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:09:00 -0500
+ (envelope-from <bounces@canonical.com>) id 1ioork-00055p-M3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ioobS-0002Qf-1K
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:08:59 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49299
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ioobR-0002QF-U0
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:08:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578402537;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Gd5D1/Mo04YP1gum04D/CLbfkhw2V+UTQeme1m/yReQ=;
- b=Qw6u/ELIzGVaJdW2ZCY16HQBTGudrRBYXSsuunrjqHZfDGX5Bk2AUuKLa6oYH6/J+xzylX
- n0l6Ari1ZsgcS1seO/hVgMtzN0PMKoZ1o+PzvX6BPgp3uoGy4kZ4MnHipHVS4bua42RtGH
- XarNGvaLfCmMIU4QojqUaK+wOTDXyo4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-jq76exXkPeuAYrsjsy0F7A-1; Tue, 07 Jan 2020 08:08:53 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E31DA10054E3
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:08:52 +0000 (UTC)
-Received: from redhat.com (ovpn-116-141.ams2.redhat.com [10.36.116.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 449C97DB3E;
- Tue,  7 Jan 2020 13:08:52 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 07/10] migration: Make no compression operations into
- its own structure
-In-Reply-To: <20200103182038.GS3804@work-vm> (David Alan Gilbert's message of
- "Fri, 3 Jan 2020 18:20:38 +0000")
-References: <20191218020119.3776-1-quintela@redhat.com>
- <20191218020119.3776-8-quintela@redhat.com>
- <20200103182038.GS3804@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 07 Jan 2020 14:08:47 +0100
-Message-ID: <87r20bpg68.fsf@trasno.org>
+ (envelope-from <bounces@canonical.com>) id 1ioorj-0002a2-EM
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53962)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ioorj-0002Z1-8J
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 08:25:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ioord-0004nD-B9
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 13:25:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 18E6E2E80D0
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:25:36 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: jq76exXkPeuAYrsjsy0F7A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 07 Jan 2020 13:17:55 -0000
+From: puchuu <1858461@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aladjev-andrew
+X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
+X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
+References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
+Message-Id: <157840307561.2880.15699191944143021403.malone@soybean.canonical.com>
+Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 94f0ba47bf89a9ff5e6abb272cb2f3ac72eca701
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,64 +65,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> It will be used later.
->>=20
->> +static int nocomp_recv_pages(MultiFDRecvParams *p, uint32_t used, Error=
- **errp)
->> +{
->> +    if (p->flags !=3D MULTIFD_FLAG_NOCOMP) {
->> +        error_setg(errp, "multifd %d: flags received %x flags expected =
-%x",
->> +                   p->id, MULTIFD_FLAG_NOCOMP, p->flags);
->
-> That looks the wrong way around to me - shouldn't that be
->    p->flags, MULTIFD_FLAG_NOCOMP
-> ?
+I've found a reliable way to generate syscall arguments count table.
 
-Good catch.
->> =20
->>          qemu_mutex_init(&p->mutex);
->>          qemu_sem_init(&p->sem, 0);
->> @@ -1240,8 +1405,12 @@ int multifd_save_setup(Error **errp)
->>          p->packet->version =3D cpu_to_be32(MULTIFD_VERSION);
->>          p->name =3D g_strdup_printf("multifdsend_%d", i);
->>          socket_send_channel_create(multifd_new_send_channel_async, p);
->> +        res =3D multifd_send_state->ops->send_setup(p, errp);
->> +        if (ret =3D=3D 0) {
->> +            ret =3D res;
->
-> How do you handle the errp's here - I think that if is so that you
-> get the 'ret' from the first thread that fails; but I don't think you're
-> allowed to call that twice if the first one set it's errp.
+cd /usr/src/linux
+make clean
+make CONFIG_DEBUG_INFO=3Dy CONFIG_DEBUG_INFO_SPLIT=3Dy CONFIG_DEBUG_INFO_DW=
+ARF4=3Dy
+llvm-dwarfdump -debug-info --name ksys_getdents64 --show-children --recurse=
+-depth=3D1 fs/readdir.dwo
 
-You are right.  I was doing the res/ret variable right, and failed with
-the other.  Changed the code to two loops:
-- Everything that can't fail, done in the 1st loop.
-- Everything else on the second loop.  the time that we have one error,
-  we just stop the loop.
->> @@ -1448,6 +1622,10 @@ int multifd_load_setup(Error **errp)
->>                        + sizeof(ram_addr_t) * page_count;
->>          p->packet =3D g_malloc0(p->packet_len);
->>          p->name =3D g_strdup_printf("multifdrecv_%d", i);
->> +        ret =3D multifd_recv_state->ops->recv_setup(p, errp);
->> +        if (ret !=3D 0) {
->> +            return ret;
->> +        }
->
-> same question as the save case above
+0x00013738: DW_TAG_subprogram
+              DW_AT_name        ("ksys_getdents64")
+              ...
 
-Same solution.
+0x00013752:   DW_TAG_formal_parameter
+              ...
 
-Thanks, Juan.
+0x00013766:   DW_TAG_formal_parameter
+              ...
 
+0x00013779:   DW_TAG_formal_parameter
+              ...
+
+We can count "DW_TAG_formal_parameter" for syscall and it that's it.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1858461
+
+Title:
+  Please refactor linux-user/mips/cpu_loop.c
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello. I am working with qemu on test images. I've added a new syscall
+  (436) to qemu but received ENOSYS from mips application.
+
+  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
+  "mips_syscall_args" the following:
+
+  ```
+  MIPS_SYS(sys_getdents64_x32, 3)
+  ```
+
+  But
+
+  ```
+  syscall_num =3D env->active_tc.gpr[2] - 4000;
+  if (syscall_num >=3D sizeof(mips_syscall_args)) {
+    ret =3D -TARGET_ENOSYS;
+  ```
+
+  returns -TARGET_ENOSYS
+
+  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
+  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
+
+  Can you please refactor mips cpu loop in the same way as arm? Thank
+  you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
 
