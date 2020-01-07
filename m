@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5B0132485
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:10:22 +0100 (CET)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CAE81324A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:17:11 +0100 (CET)
+Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iomkd-0003xy-HL
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:10:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
+	id 1iomrE-0005sx-Lr
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:17:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50572)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iolkI-0005cf-Tq
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:05:56 -0500
+ (envelope-from <lersek@redhat.com>) id 1iolqR-0008ND-43
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:12:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iolkH-0003dQ-FJ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:05:54 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40505
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <lersek@redhat.com>) id 1iolqP-0006cK-8D
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:12:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40844
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iolkH-0003dC-B2
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:05:53 -0500
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iolqP-0006c7-3i
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:12:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578391552;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1578391932;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=csSjxJAcVDYv6IToAX9oHQf06tSljbIHMNDOTYaaw0k=;
- b=PkaUVeRsbyUY2wvJgonp3b0EASt7HrY9KVN6jMFNNp6OM8jMBLPt52N9Kh7FoCs3NsWRUj
- zl4mpG8ap4o1SuVFe1gf+LP7qFPlI2UADQl25vsgMVIKUrF9BGMCjGrG59uZwI+i7sSyUJ
- 4hUakKm6hd5FhhN5hdIQsFrtzxsEoE8=
+ bh=VIKlIC18EuyvwnJ2pfH5VMHBgfyHNE2VFm0qfK7GFag=;
+ b=FnLSgXB5xlJKxd5LGIJE/wd9gdjbNjXFP/yuxPRgIgXz206+UpYtMuh1m9h/V6YbZb+FNN
+ RAJQvpaCpA5xMWQqa3IH8n08SmcZP61Bk5bxjvMiONf3vT/FUfCi5qJrVwUvm2sXW/eZ0n
+ KSxU4K/ixjZnc03SEXORGsmbIVo5gQ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-0rR38oZhNzmnApzrDOnTog-1; Tue, 07 Jan 2020 05:05:51 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-220-SRPPA7_6Nr2_CZKiMl-4tg-1; Tue, 07 Jan 2020 05:12:09 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6167180746B
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 10:05:50 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A71A1036D1B;
- Tue,  7 Jan 2020 10:05:46 +0000 (UTC)
-Date: Tue, 7 Jan 2020 10:05:43 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 056/104] virtiofsd: add security guide document
-Message-ID: <20200107100543.GC3368802@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-57-dgilbert@redhat.com>
- <20200106150351.GT2930416@redhat.com>
- <20200106175355.GL2798@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 951B110054E3;
+ Tue,  7 Jan 2020 10:12:08 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-126.ams2.redhat.com
+ [10.36.117.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5AB9858BD;
+ Tue,  7 Jan 2020 10:12:04 +0000 (UTC)
+Subject: Re: [PATCH 2/3] gitlab-ci.yml: Add a job to build EDK2 firmware
+ binaries
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200106184601.25453-1-philmd@redhat.com>
+ <20200106184601.25453-3-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <74b5d03a-c3a3-38b8-68cb-192dd04f1802@redhat.com>
+Date: Tue, 7 Jan 2020 11:12:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200106175355.GL2798@work-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 0rR38oZhNzmnApzrDOnTog-1
+In-Reply-To: <20200106184601.25453-3-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: SRPPA7_6Nr2_CZKiMl-4tg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,49 +77,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 06, 2020 at 05:53:55PM +0000, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > On Thu, Dec 12, 2019 at 04:38:16PM +0000, Dr. David Alan Gilbert (git) =
-wrote:
-> > > From: Stefan Hajnoczi <stefanha@redhat.com>
-> > >=20
-> > > Many people want to know: what's up with virtiofsd and security?  Thi=
-s
-> > > document provides the answers!
-> > >=20
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > >  tools/virtiofsd/security.rst | 118 +++++++++++++++++++++++++++++++++=
-++
-> >=20
-> > Do we need to link this into the rest of QEMU's docs in some
-> > index page ?
->=20
-> I wonder how;  there's a autogenerated thing in
->   docs/index.rst
->=20
-> that includes some of the docs directories subdirectories/index
-> Does that mean we should have this in docs/tools/virtiofsd/security.rst
-> and a docs/tools/index  and a docs/tools/virtiofsd/index  ?
+On 01/06/20 19:46, Philippe Mathieu-Daud=C3=A9 wrote:
+> Add a GitLab job to build the EDK2 firmware binaries.
+> This job is only built when the roms/edk2/ submodule is updated,
+> when a git-ref starts with 'edk2' or when the last commit contains
+> 'EDK2'.
 
-I was wondering if this fits into any of the current three sections
-"devel" or "interop" or "specs", but it doesn't feel quite right in
-any of them to me. So having a new docs/tools subtree looks like an
-ok idea in absence of better suggestions.
+keyword "or"; okay.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+>=20
+> GitLab CI generates an artifacts.zip file containing the firmware
+> binaries.
+>=20
+> With edk2-stable201905, the job took 40 minutes 26 seconds,
+> the artifacts.zip takes 10MiB.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  .gitlab-ci-edk2.yml | 37 +++++++++++++++++++++++++++++++++++++
+>  .gitlab-ci.yml      |  3 +++
+>  MAINTAINERS         |  3 ++-
+>  3 files changed, 42 insertions(+), 1 deletion(-)
+>  create mode 100644 .gitlab-ci-edk2.yml
+>=20
+> diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci-edk2.yml
+> new file mode 100644
+> index 0000000000..abfaf52874
+> --- /dev/null
+> +++ b/.gitlab-ci-edk2.yml
+> @@ -0,0 +1,37 @@
+> +build-edk2:
+> + rules: # Only run this job when ...
+> + - changes: # ... roms/edk2/ is modified (submodule updated)
+> +   - roms/edk2/*
+> +   when: always
+> + - if: '$CI_COMMIT_REF_NAME =3D~ /^edk2/' # ... the branch/tag starts wi=
+th 'edk2'
+
+(1) can you add "or" in the comment here?
+
+> +   when: always
+> + - if: '$CI_COMMIT_MESSAGE =3D~ /edk2/i' # last commit description conta=
+ins 'EDK2'
+
+(2) ditto
+
+> +   when: always
+> + artifacts:
+> +   paths: # 'artifacts.zip' will contains the following files:
+> +   - pc-bios/edk2*bz2
+> +   - pc-bios/edk2-licenses.txt
+> +   - edk2-stdout.log
+> +   - edk2-stderr.log
+> + image: ubuntu:16.04 # Use Ubuntu Xenial
+> + before_script: # Install packages requiered to build EDK2
+> + - apt-get update --quiet --quiet
+> + - DEBIAN_FRONTEND=3Dnoninteractive
+> +   apt-get install --assume-yes --no-install-recommends --quiet --quiet
+> +     build-essential
+> +     ca-certificates
+> +     dos2unix
+> +     gcc-aarch64-linux-gnu
+> +     gcc-arm-linux-gnueabi
+> +     git
+> +     iasl
+> +     make
+> +     nasm
+> +     python
+> +     uuid-dev
+> + script: # Clone the required submodules and build EDK2
+> + - git submodule update --init roms/edk2
+
+yes, this is needed; qemu users are used to updating top-level
+submodules (which is why we didn't try to automate that away in the edk2
+build stuff)
+
+> + - git -C roms/edk2 submodule update --init
+
+(3) but this should not be necessary. See the "submodules" target in
+"roms/Makefile.edk2".
+
+> + - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
+> + - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
+> + - make -j${JOBS} -C roms efi 1>edk2-stdout.log 2> >(tee -a edk2-stderr.=
+log >&2)
+
+Process substitution is a nifty feature, but perhaps we can do without
+it, for simplicity. (I realize this is bash-only; I just like to
+minimize the use of non-portable features if there is a portable
+replacement that is also simple.)
+
+Redirections are processed in the order they appear on the command line
+[1], *after* stdout/stdin is redirected for pipelining [2]:
+
+[1]
+https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#t=
+ag_18_07
+
+"If more than one redirection operator is specified with a command, the
+order of evaluation is from beginning to end."
+
+[2]
+https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#t=
+ag_18_09_02
+
+"The standard input, standard output, or both of a command shall be
+considered to be assigned by the pipeline before any redirection
+specified by redirection operators that are part of the command"
+
+
+(4) Therefore, the following should work:
+
+  make -j${JOBS} -C roms efi 2>&1 1>edk2-stdout.log \
+  | tee -a edk2-stderr.log >&2
+
+Untested, of course :)
+
+Looks OK otherwise.
+
+Thanks!
+Laszlo
+
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index ebcef0ebe9..f799246047 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -1,3 +1,6 @@
+> +include:
+> +  - local: '/.gitlab-ci-edk2.yml'
+> +
+>  before_script:
+>   - apt-get update -qq
+>   - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev geni=
+soimage
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8571327881..22a1fd5824 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2346,6 +2346,7 @@ F: roms/edk2
+>  F: roms/edk2-*
+>  F: tests/data/uefi-boot-images/
+>  F: tests/uefi-test-tools/
+> +F: .gitlab-ci-edk2.yml
+> =20
+>  Usermode Emulation
+>  ------------------
+> @@ -2689,7 +2690,7 @@ W: https://cirrus-ci.com/github/qemu/qemu
+>  GitLab Continuous Integration
+>  M: Thomas Huth <thuth@redhat.com>
+>  S: Maintained
+> -F: .gitlab-ci.yml
+> +F: .gitlab-ci*.yml
+> =20
+>  Guest Test Compilation Support
+>  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>=20
 
 
