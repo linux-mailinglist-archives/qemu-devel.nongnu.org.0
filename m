@@ -2,88 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837331326B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:51:15 +0100 (CET)
-Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68F11326E1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:00:28 +0100 (CET)
+Received: from localhost ([::1]:48210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iooKH-00083K-Fq
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:51:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56025)
+	id 1iooTB-0003N6-Ou
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:00:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ionvT-0000e5-B3
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:36 -0500
+ (envelope-from <no-reply@patchew.org>) id 1ionvq-0001Y1-Qh
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ionvS-0000IK-4V
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59773
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ionvR-0000Gq-NF
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578399933;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/rhLvWplWE7F6PPHzZQL12AXzNtOnd8yYBRfECcHnVQ=;
- b=F4d0JZB9bShnOBgbG0f0qr+y+Ln826l/H2Yvl5avwsYNRpoo5mobhjtlSqaE7QZJmPhhNb
- l9EDtUYY0Ou+qPnjkj1i5SnilC+F4h/ehh920uJbMi3BRhlSw4mRvfR9JStcj0iL6GFTum
- wJYx86/kFXvQcdIhbytENdY0LIt5QpE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-RZZyHPMKPueydl1nvPbe2g-1; Tue, 07 Jan 2020 07:25:30 -0500
-Received: by mail-wm1-f69.google.com with SMTP id m133so1897503wmf.2
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:25:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/rhLvWplWE7F6PPHzZQL12AXzNtOnd8yYBRfECcHnVQ=;
- b=dapSN9a7W8OIh4cs9Gd2yjTsPmjzmAjgDnGQNnUxp+uwfFeQGndQtm/g1XFuPnEBho
- Zuz8GanHI5UNalCeLK9EM48eV3ib/CA7sn65zjx2E0yh8yuKijOqjQP6aacjwf3n0pOg
- 9NjS7RQw33fOonrZUy2FiCT0S8KHjXoWBw5N2nOsfOMe4buucbBmoXax4tnMkE3fqm80
- VKwKswOspv+2aL6RrzjHF16i/bS870jxxsJhpZwKIe5pMl9cCpg0ki37HoiB1tslZ+26
- o9vBAPFwaSVs7OAK6z1xvLOraiAkpzkmcBaSC3SJ/PY5TQ0DC8AU885ZgheYpwKGTbol
- 4hmQ==
-X-Gm-Message-State: APjAAAVrd/hJImWwQ4aaVViNQ2/nnCoQfeRtb1Ptc2RAuAqMdeeCD2ww
- ferPggugYU6mWkxTjyndT35FSGYsOKnBTPvWvBGlBPBriIdlTTIEk6jdvJbv2n4ciqkoMDwNpak
- Eux7MmJEsi1vvYh4=
-X-Received: by 2002:adf:c54e:: with SMTP id
- s14mr114685164wrf.385.1578399929100; 
- Tue, 07 Jan 2020 04:25:29 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwNY7BQ79OOtlCgt3uOshSXlS0hHB96UqsQeVj8QvloU9WbOKgMeV93oscyC4CZTeXsN+/zsg==
-X-Received: by 2002:adf:c54e:: with SMTP id
- s14mr114685145wrf.385.1578399928900; 
- Tue, 07 Jan 2020 04:25:28 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id a184sm27055593wmf.29.2020.01.07.04.25.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2020 04:25:28 -0800 (PST)
-Subject: Re: [PATCH RFC] i386/kvm: fix enlightened VMCS with fine-grained VMX
- feature enablement
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-References: <20200102203926.1179743-1-vkuznets@redhat.com>
- <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
- <87zhezsc30.fsf@vitty.brq.redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7c4dcca1-a1e6-a00c-56fd-bcc6c8bcc474@redhat.com>
-Date: Tue, 7 Jan 2020 13:25:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <no-reply@patchew.org>) id 1ionvp-0000Zh-KX
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:58 -0500
+Resent-Date: Tue, 07 Jan 2020 07:25:58 -0500
+Resent-Message-Id: <E1ionvp-0000Zh-KX@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21116)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1ionvp-0000Z9-D5
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:25:57 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1578399942; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GhYSYSwL4tHFo3GK3zx14nO58aQ/Uk1pP6RoaCL3p5ierRgQufsdsJWwT/9/MW/Rf0f9FVsToq50zeK6fKd/YgiO7VaEBv5efNF4yYxfGBWaFHDA6WEJ8JRn3WhzgnwTcI8GRoN7IfM7GdidtjHvtqhhXUzo881/jNrxQQtCES8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1578399942;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=mFl+xX00e6a0HXwfPIT5moPt5qklI19eggcmxCLmUU8=; 
+ b=guG1L6SLybCpZA7x00DEir9HmO50wvoV1X02J1JNZlnnwwFtzp+qKUjSYtEDdCUjTahJsd/xTPyoEUNwpqElUiZQMs1I9be6UEz5eo9s95c7zIYrwLZyIYuS8uOWomAzsCxNlMNSmsPPpAbshRHNRBm88LO2EjtXrqbkD2bsOz4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1578399938378190.09249149101674;
+ Tue, 7 Jan 2020 04:25:38 -0800 (PST)
+In-Reply-To: <20200107111340.334965-1-fflorensa@online.net>
+Subject: Re: [PATCH v2 0/1] block/rbd: Add support for ceph namespaces
+Message-ID: <157839993776.799.14711854682294607608@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <87zhezsc30.fsf@vitty.brq.redhat.com>
-Content-Language: en-US
-X-MC-Unique: RZZyHPMKPueydl1nvPbe2g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: fflorensa@online.net
+Date: Tue, 7 Jan 2020 04:25:38 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,34 +64,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Liran Alon <liran.alon@oracle.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, dillaman@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/20 13:08, Vitaly Kuznetsov wrote:
-> Honestly I forgot the story why we filtered out these features upon
-> eVMCS enablement in KVM. As there are no corresponding eVMCS fields,
-> there's no way a guest can actually use them.
-
-Well, mostly because we mimicked what Hyper-V was doing I guess.
-
-> I'm going to check that nothing breaks if we remove the filter. I'll go
-> and test Hyper-V 2016 and 2019.
-
-KVM would break, right?  But we can mark that patch as stable material.
-
-Paolo
-
->> If so, we should teach guest-side KVM about this, not QEMU.
-> 
-> This is not required when enabling eVMCS on a genuine Hyper-V because it
-> correctly filters out unsupported features, however, to not break
-> KVM-on-KVM-using-eVMCS case we'll have to move the filter from host to
-> guest.
-> 
-> Thanks!
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDEwNzExMTM0MC4zMzQ5
+NjUtMS1mZmxvcmVuc2FAb25saW5lLm5ldC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKTi9BLiBJbnRlcm5hbCBlcnJvciB3aGlsZSByZWFkaW5nIGxvZyBmaWxl
+CgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
+MjAyMDAxMDcxMTEzNDAuMzM0OTY1LTEtZmZsb3JlbnNhQG9ubGluZS5uZXQvdGVzdGluZy5jaGVj
+a3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
+eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
+Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
