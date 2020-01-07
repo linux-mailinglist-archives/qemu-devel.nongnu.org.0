@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0499132175
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 09:34:54 +0100 (CET)
-Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884F0132192
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 09:42:50 +0100 (CET)
+Received: from localhost ([::1]:44722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iok8e-0005Ce-0c
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 03:22:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51949)
+	id 1iokOL-0002Ts-Mo
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 03:39:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iojPn-0005nZ-Od
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:40 -0500
+ (envelope-from <mst@redhat.com>) id 1iojQ0-000629-1j
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iojPm-00080N-4P
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:35 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59060
+ (envelope-from <mst@redhat.com>) id 1iojPy-00089o-0r
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:47 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60095
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojPl-000803-Vx
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:34 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iojPx-00087u-RS
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 02:36:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578382593;
+ s=mimecast20190719; t=1578382603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bLV8rQCbLBZmY0FVDGOQq3AQD9eSmdJYBYmhF7NfsUU=;
- b=QDlmWqwuYEUoC4UopyGW4dvLCebh1Ibyx04W4RYzBzEJRCvxFJNpDpYNiBEhmg7ZHQCpdK
- QXhjmW7VTcGBbyOdgjboddxqEqU0T50Xu0UDtJtoZqBkcBvPXi5fttSsIqcK3JN+G8IZfc
- 3lFcLRmexNAjDUHcNclfkU9CjznP4WU=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-r7ojF80DO-eYCH1c1k6H8Q-1; Tue, 07 Jan 2020 02:36:31 -0500
-Received: by mail-qk1-f199.google.com with SMTP id 143so30947373qkg.12
- for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:36:31 -0800 (PST)
+ bh=Cp6Js316PIXYZH4FnO2Nl29XN8Dewk3Zb8G0nu+p7nE=;
+ b=WGSpRDnUcRYmcpH01Zt0NbIR3uFcN+E+KhxQ9zvpL7qYzcI7nRG3Cg4yEcianFCBGgYhiz
+ 093+1mAUpUIIIt0N9/rKB2+BFI0zws+D7Va4lkvEEaCZZ8Tat7PmU/1+JzSB7edU/CraP5
+ OO/WdwbkKLfeLL6diB/dDvMhQ1ieWNI=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-Sa9NJoSzPla0ZBlAknvmUQ-1; Tue, 07 Jan 2020 02:36:42 -0500
+Received: by mail-qv1-f69.google.com with SMTP id p3so9745616qvt.9
+ for <qemu-devel@nongnu.org>; Mon, 06 Jan 2020 23:36:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=3qP/C/NttECQ066FqPp6xPe1UgZkrZPuw+r54Uke8BM=;
- b=gUWBUwjbI8DgJgN6tpu5T+k1x6l27CKs71RIT59IwfWsi9XzuQAAR2rDhQyb5y9tLh
- 6+xnFvkJCs/OjeRsuFd41LZ+Z72trxXT/UcJffGkngwx1B0XhBpFs3AMwze/UAB64C6T
- /ZxuOuy/PS/DqgVZzV8x2bTV6xvSvek+s0hozkF0JUe9ha7iRiq7Z+jBth31BjzxOKzv
- AWsh9ybCwGlNGVRSaxD8/ZvFVjpAsklRkXrtWLYBbhRFBXpSQhCRnzsJMMK0tNAB2HtL
- pZrpy0kOPMQjMXLa0rdM6d9G4HKhUdYDm7ZxW3GhzxL9wa57Xq9FvYppEl6svCZqZ/wP
- r5/A==
-X-Gm-Message-State: APjAAAXEcpCJGlCj0GmKWzY+d77d2ntsQMDEGtweOni/5I2xWVr4MEcB
- sl+yODJvnY4sIx7xlqV/eKZWFOph/V/knOaGL6syK8IpsgrQ/RMJuPl5togETiBs5QXekOVegI8
- /maP6Ict7eHgv6Q4=
-X-Received: by 2002:ac8:104:: with SMTP id e4mr77608290qtg.37.1578382590657;
- Mon, 06 Jan 2020 23:36:30 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyTWFpHD2gso5//KlOp7VgleXoOPMrcO41QFNikqu5aUarexVbW5RBlAxE+6O3Mnn0vGMEtiA==
-X-Received: by 2002:ac8:104:: with SMTP id e4mr77608284qtg.37.1578382590433;
- Mon, 06 Jan 2020 23:36:30 -0800 (PST)
+ bh=5G41uwHBTYAB+Ul1VVsmoX3H1jPszYS18zVu3nGvXFk=;
+ b=U4xRbLqMmIj1ukJZUVT8TaJbTZhLydYpElDagoUymK8Q9UuJowGKgnj/Zyzkzx/ApW
+ H1TaDIcQlSnvweay23wZB71bX7KfHab4DTvXxnu+bB4M0oUupn5GfPsFYFM/O9z8G/zO
+ IzCqjslqU1Rl8guiyJI1RgMgeJDoJDEPKEsmdocCdMrUm3n4mdDch1/Ev2MuVvLyuC6l
+ WpZzpKggtbuEN1aIVwuUrBf49q7DtETxD8pVK/XQUYdxvBxUzQr40kHslVOpBdyemE5C
+ HIjx9U93ZdZnehlig1o6lvWPxZ1PwjHO3rLfOpf6t8RcJukqnx5KjXAhZbi27ZOKcWP/
+ 8ocw==
+X-Gm-Message-State: APjAAAWIJF+pE3gkblbBZWVHK/hfl2HrpeIo7YJysYQrKPwd8Px3XtIn
+ KWFymXQJqCg5iEbID/X2/o2khXHe48GY0MFZqevL3W3ffnsJn9OssvsKqJna6XmbZd+c1r1To75
+ xmjElHM5/ooSxdaI=
+X-Received: by 2002:ac8:5457:: with SMTP id d23mr74635799qtq.93.1578382601567; 
+ Mon, 06 Jan 2020 23:36:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyzvPkt6eep4BbXLO2a1oKyby3ON5MvxTFUIzJzegaLl8FH6PV2kHJ2MEFncepF6HX9q14H7Q==
+X-Received: by 2002:ac8:5457:: with SMTP id d23mr74635779qtq.93.1578382601130; 
+ Mon, 06 Jan 2020 23:36:41 -0800 (PST)
 Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id z4sm21857065qkz.62.2020.01.06.23.36.27
+ by smtp.gmail.com with ESMTPSA id k4sm24081530qtj.74.2020.01.06.23.36.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2020 23:36:29 -0800 (PST)
-Date: Tue, 7 Jan 2020 02:36:25 -0500
+ Mon, 06 Jan 2020 23:36:40 -0800 (PST)
+Date: Tue, 7 Jan 2020 02:36:36 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 15/32] hmat acpi: Build System Locality Latency and
- Bandwidth Information Structure(s)
-Message-ID: <20200107073451.298261-16-mst@redhat.com>
+Subject: [PULL v2 17/32] tests/numa: Add case for QMP build HMAT
+Message-ID: <20200107073451.298261-18-mst@redhat.com>
 References: <20200107073451.298261-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200107073451.298261-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: r7ojF80DO-eYCH1c1k6H8Q-1
+X-MC-Unique: Sa9NJoSzPla0ZBlAknvmUQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,172 +88,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Tao Xu <tao3.xu@intel.com>,
- Markus Armbruster <armbru@redhat.com>, Liu Jingqi <jingqi.liu@intel.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Tao Xu <tao3.xu@intel.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jingqi <jingqi.liu@intel.com>
+From: Tao Xu <tao3.xu@intel.com>
 
-This structure describes the memory access latency and bandwidth
-information from various memory access initiator proximity domains.
-The latency and bandwidth numbers represented in this structure
-correspond to rated latency and bandwidth for the platform.
-The software could use this information as hint for optimization.
+Check configuring HMAT usecase
 
 Acked-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
-Message-Id: <20191213011929.2520-6-tao3.xu@intel.com>
+Message-Id: <20191213011929.2520-8-tao3.xu@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/hmat.c | 104 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 103 insertions(+), 1 deletion(-)
+ tests/numa-test.c | 213 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 213 insertions(+)
 
-diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-index 9ff79308a4..4635d45dee 100644
---- a/hw/acpi/hmat.c
-+++ b/hw/acpi/hmat.c
-@@ -25,6 +25,7 @@
-  */
-=20
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "sysemu/numa.h"
- #include "hw/acpi/hmat.h"
-=20
-@@ -67,11 +68,89 @@ static void build_hmat_mpda(GArray *table_data, uint16_=
-t flags,
-     build_append_int_noprefix(table_data, 0, 8);
+diff --git a/tests/numa-test.c b/tests/numa-test.c
+index 8de8581231..17dd807d2a 100644
+--- a/tests/numa-test.c
++++ b/tests/numa-test.c
+@@ -327,6 +327,216 @@ static void pc_dynamic_cpu_cfg(const void *data)
+     qtest_quit(qs);
  }
 =20
-+/*
-+ * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
-+ * Structure: Table 5-146
-+ */
-+static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
-+                          uint32_t num_initiator, uint32_t num_target,
-+                          uint32_t *initiator_list)
++static void pc_hmat_build_cfg(const void *data)
 +{
-+    int i, index;
-+    HMAT_LB_Data *lb_data;
-+    uint16_t *entry_list;
-+    uint32_t base;
-+    /* Length in bytes for entire structure */
-+    uint32_t lb_length
-+        =3D 32 /* Table length upto and including Entry Base Unit */
-+        + 4 * num_initiator /* Initiator Proximity Domain List */
-+        + 4 * num_target /* Target Proximity Domain List */
-+        + 2 * num_initiator * num_target; /* Latency or Bandwidth Entries =
-*/
++    QTestState *qs =3D qtest_initf("%s -nodefaults --preconfig -machine hm=
+at=3Don "
++                     "-smp 2,sockets=3D2 "
++                     "-m 128M,slots=3D2,maxmem=3D1G "
++                     "-object memory-backend-ram,size=3D64M,id=3Dm0 "
++                     "-object memory-backend-ram,size=3D64M,id=3Dm1 "
++                     "-numa node,nodeid=3D0,memdev=3Dm0 "
++                     "-numa node,nodeid=3D1,memdev=3Dm1,initiator=3D0 "
++                     "-numa cpu,node-id=3D0,socket-id=3D0 "
++                     "-numa cpu,node-id=3D0,socket-id=3D1",
++                     data ? (char *)data : "");
 +
-+    /* Type */
-+    build_append_int_noprefix(table_data, 1, 2);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Length */
-+    build_append_int_noprefix(table_data, lb_length, 4);
-+    /* Flags: Bits [3:0] Memory Hierarchy, Bits[7:4] Reserved */
-+    assert(!(hmat_lb->hierarchy >> 4));
-+    build_append_int_noprefix(table_data, hmat_lb->hierarchy, 1);
-+    /* Data Type */
-+    build_append_int_noprefix(table_data, hmat_lb->data_type, 1);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Number of Initiator Proximity Domains (s) */
-+    build_append_int_noprefix(table_data, num_initiator, 4);
-+    /* Number of Target Proximity Domains (t) */
-+    build_append_int_noprefix(table_data, num_target, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 4);
++    /* Fail: Initiator should be less than the number of nodes */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 2, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\" } }")))=
+;
 +
-+    /* Entry Base Unit */
-+    if (hmat_lb->data_type <=3D HMAT_LB_DATA_WRITE_LATENCY) {
-+        /* Convert latency base from nanoseconds to picosecond */
-+        base =3D hmat_lb->base * 1000;
-+    } else {
-+        /* Convert bandwidth base from Byte to Megabyte */
-+        base =3D hmat_lb->base / MiB;
-+    }
-+    build_append_int_noprefix(table_data, base, 8);
++    /* Fail: Target should be less than the number of nodes */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 2,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\" } }")))=
+;
 +
-+    /* Initiator Proximity Domain List */
-+    for (i =3D 0; i < num_initiator; i++) {
-+        build_append_int_noprefix(table_data, initiator_list[i], 4);
-+    }
++    /* Fail: Initiator should contain cpu */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 1, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\" } }")))=
+;
 +
-+    /* Target Proximity Domain List */
-+    for (i =3D 0; i < num_target; i++) {
-+        build_append_int_noprefix(table_data, i, 4);
-+    }
++    /* Fail: Data-type mismatch */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"write-latency\","
++        " 'bandwidth': 524288000 } }")));
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"read-bandwidth\","
++        " 'latency': 5 } }")));
 +
-+    /* Latency or Bandwidth Entries */
-+    entry_list =3D g_malloc0(num_initiator * num_target * sizeof(uint16_t)=
-);
-+    for (i =3D 0; i < hmat_lb->list->len; i++) {
-+        lb_data =3D &g_array_index(hmat_lb->list, HMAT_LB_Data, i);
-+        index =3D lb_data->initiator * num_target + lb_data->target;
++    /* Fail: Bandwidth should be 1MB (1048576) aligned */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
++        " 'bandwidth': 1048575 } }")));
 +
-+        entry_list[index] =3D (uint16_t)(lb_data->data / hmat_lb->base);
-+    }
++    /* Configuring HMAT bandwidth and latency details */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
++        " 'latency': 1 } }")));    /* 1 ns */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
++        " 'latency': 5 } }")));    /* Fail: Duplicate configuration */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
++        " 'bandwidth': 68717379584 } }")));    /* 65534 MB/s */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 1,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
++        " 'latency': 65534 } }")));    /* 65534 ns */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 1,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
++        " 'bandwidth': 34358689792 } }")));    /* 32767 MB/s */
 +
-+    for (i =3D 0; i < num_initiator * num_target; i++) {
-+        build_append_int_noprefix(table_data, entry_list[i], 2);
-+    }
++    /* Fail: node_id should be less than the number of nodes */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 2, 'size': 10240=
+,"
++        " 'level': 1, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
 +
-+    g_free(entry_list);
++    /* Fail: level should be less than HMAT_LB_LEVELS (4) */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 4, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
++
++    /* Fail: associativity option should be 'none', if level is 0 */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 0, 'associativity': \"direct\", 'policy': \"none\","
++        " 'line': 0 } }")));
++    /* Fail: policy option should be 'none', if level is 0 */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 0, 'associativity': \"none\", 'policy': \"write-back\",=
+"
++        " 'line': 0 } }")));
++    /* Fail: line option should be 0, if level is 0 */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 0, 'associativity': \"none\", 'policy': \"none\","
++        " 'line': 8 } }")));
++
++    /* Configuring HMAT memory side cache attributes */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 1, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 1, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));    /* Fail: Duplicate configuration */
++    /* Fail: The size of level 2 size should be small than level 1 */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 2, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
++    /* Fail: The size of level 0 size should be larger than level 1 */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 0, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 1, 'size': 10240=
+,"
++        " 'level': 1, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
++
++    /* let machine initialization to complete and run */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs,
++        "{ 'execute': 'x-exit-preconfig' }")));
++    qtest_qmp_eventwait(qs, "RESUME");
++
++    qtest_quit(qs);
 +}
 +
- /* Build HMAT sub table structures */
- static void hmat_build_table_structs(GArray *table_data, NumaState *numa_s=
-tate)
- {
-     uint16_t flags;
--    int i;
-+    uint32_t num_initiator =3D 0;
-+    uint32_t initiator_list[MAX_NODES];
-+    int i, hierarchy, type;
-+    HMAT_LB_Info *hmat_lb;
-=20
-     for (i =3D 0; i < numa_state->num_nodes; i++) {
-         flags =3D 0;
-@@ -82,6 +161,29 @@ static void hmat_build_table_structs(GArray *table_data=
-, NumaState *numa_state)
-=20
-         build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiator,=
- i);
-     }
-+
-+    for (i =3D 0; i < numa_state->num_nodes; i++) {
-+        if (numa_state->nodes[i].has_cpu) {
-+            initiator_list[num_initiator++] =3D i;
-+        }
-+    }
++static void pc_hmat_off_cfg(const void *data)
++{
++    QTestState *qs =3D qtest_initf("%s -nodefaults --preconfig "
++                     "-smp 2,sockets=3D2 "
++                     "-m 128M,slots=3D2,maxmem=3D1G "
++                     "-object memory-backend-ram,size=3D64M,id=3Dm0 "
++                     "-object memory-backend-ram,size=3D64M,id=3Dm1 "
++                     "-numa node,nodeid=3D0,memdev=3Dm0",
++                     data ? (char *)data : "");
 +
 +    /*
-+     * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Informatio=
-n
-+     * Structure: Table 5-146
++     * Fail: Enable HMAT with -machine hmat=3Don
++     * before using any of hmat specific options
 +     */
-+    for (hierarchy =3D HMAT_LB_MEM_MEMORY;
-+         hierarchy <=3D HMAT_LB_MEM_CACHE_3RD_LEVEL; hierarchy++) {
-+        for (type =3D HMAT_LB_DATA_ACCESS_LATENCY;
-+             type <=3D HMAT_LB_DATA_WRITE_BANDWIDTH; type++) {
-+            hmat_lb =3D numa_state->hmat_lb[hierarchy][type];
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'node', 'nodeid': 1, 'memdev': \"m1\","
++        " 'initiator': 0 } }")));
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'node', 'nodeid': 1, 'memdev': \"m1\" } }=
+")));
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
++        " 'latency': 1 } }")));
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 1, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
 +
-+            if (hmat_lb && hmat_lb->list->len) {
-+                build_hmat_lb(table_data, hmat_lb, num_initiator,
-+                              numa_state->num_nodes, initiator_list);
-+            }
-+        }
-+    }
- }
++    /* let machine initialization to complete and run */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs,
++        "{ 'execute': 'x-exit-preconfig' }")));
++    qtest_qmp_eventwait(qs, "RESUME");
++
++    qtest_quit(qs);
++}
++
++static void pc_hmat_erange_cfg(const void *data)
++{
++    QTestState *qs =3D qtest_initf("%s -nodefaults --preconfig -machine hm=
+at=3Don "
++                     "-smp 2,sockets=3D2 "
++                     "-m 128M,slots=3D2,maxmem=3D1G "
++                     "-object memory-backend-ram,size=3D64M,id=3Dm0 "
++                     "-object memory-backend-ram,size=3D64M,id=3Dm1 "
++                     "-numa node,nodeid=3D0,memdev=3Dm0 "
++                     "-numa node,nodeid=3D1,memdev=3Dm1,initiator=3D0 "
++                     "-numa cpu,node-id=3D0,socket-id=3D0 "
++                     "-numa cpu,node-id=3D0,socket-id=3D1",
++                     data ? (char *)data : "");
++
++    /* Can't store the compressed latency */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
++        " 'latency': 1 } }")));    /* 1 ns */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 1,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
++        " 'latency': 65535 } }")));    /* 65535 ns */
++
++    /* Test the 0 input (bandwidth not provided) */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-no=
+de',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
++        " 'bandwidth': 0 } }")));    /* 0 MB/s */
++    /* Fail: bandwidth should be provided before memory side cache attribu=
+tes */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240=
+,"
++        " 'level': 1, 'associativity': \"direct\", 'policy': \"write-back\=
+","
++        " 'line': 8 } }")));
++
++    /* Can't store the compressed bandwidth */
++    g_assert_true(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-nod=
+e',"
++        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 1,"
++        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
++        " 'bandwidth': 68718428160 } }")));    /* 65535 MB/s */
++
++    /* let machine initialization to complete and run */
++    g_assert_false(qmp_rsp_is_err(qtest_qmp(qs,
++        "{ 'execute': 'x-exit-preconfig' }")));
++    qtest_qmp_eventwait(qs, "RESUME");
++
++    qtest_quit(qs);
++}
++
+ int main(int argc, char **argv)
+ {
+     const char *args =3D NULL;
+@@ -346,6 +556,9 @@ int main(int argc, char **argv)
+     if (!strcmp(arch, "i386") || !strcmp(arch, "x86_64")) {
+         qtest_add_data_func("/numa/pc/cpu/explicit", args, pc_numa_cpu);
+         qtest_add_data_func("/numa/pc/dynamic/cpu", args, pc_dynamic_cpu_c=
+fg);
++        qtest_add_data_func("/numa/pc/hmat/build", args, pc_hmat_build_cfg=
+);
++        qtest_add_data_func("/numa/pc/hmat/off", args, pc_hmat_off_cfg);
++        qtest_add_data_func("/numa/pc/hmat/erange", args, pc_hmat_erange_c=
+fg);
+     }
 =20
- void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_st=
-ate)
+     if (!strcmp(arch, "ppc64")) {
 --=20
 MST
 
