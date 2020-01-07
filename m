@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620291325F7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:21:35 +0100 (CET)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5E0132625
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:26:40 +0100 (CET)
+Received: from localhost ([::1]:47744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionrZ-0002ES-FB
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:21:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51744)
+	id 1ionwU-0007WH-Fo
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:26:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ionhc-0000Hi-NJ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:11:17 -0500
+ (envelope-from <berrange@redhat.com>) id 1ionnh-0005r3-2q
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:17:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ionhb-0000o3-BW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:11:16 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37449)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ionhb-0000nc-4q
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:11:15 -0500
-Received: by mail-wm1-x344.google.com with SMTP id f129so19137560wmf.2
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:11:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bT84RsZvfc+7Ezuy38ghlog/7n4wY9ui9iTN2N4rkmc=;
- b=JmH1PlRpQn5nwFU1uAjptB8ylq74cjDbctmYwY7r2vVIjvVSZ8WKt0nJWr5QYWGOBQ
- yzxyeRlrrriQvZcZNWAfrWy0tOD27jlNM6SsCbEXzM5sBDWtVbrmt8VAUg13fhUtK22M
- /+DEvdZHipCYYDMayZk2Hit8gY2q3GGRYV+z81q95Zs8YWE6M7ZEgE7bDK8LPivZlyty
- 0N8QpRWr1k4eKDM0E3U998I6jfJl5fidHLZVWj2YXPW0GeAfLtUvFot6jien7xUsBJnz
- Br4esV7fkNzF79tgd7T0KeuX+SLwn+NGZvckjNQKNh4iEKIDznyiuJPo0UTGt6Ui9sja
- 0xlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bT84RsZvfc+7Ezuy38ghlog/7n4wY9ui9iTN2N4rkmc=;
- b=km6c02+QXNfkCNMiYYDxDtnRHR3B/fclJxA26Y85cHX/GbWraDJ6gGhwj24KEbVO9V
- bD+sVd83oAQB5FNMTNhGJoB/YU+OQJ4hcGwvFCroNTR2eysjMrinGVDvN4a1BatviQ5B
- caA+dneAoLHGtlkH7XYQH2E5hsrLhblltjPBSX0dGzltYwN9/tvJQu0dHkTW/xVzEetv
- T6O/AFsExL+jpWo/ugALWNRFqkEvZt/T+rWlcACgd3HFwq+f0lzV+aDBsu4uQhuSLJmG
- dpRZEkQutD/WOEORdMdqwU44NzToFgGg+sUJ6CTasl7Qtn9fHrpBdWTZAe3RHTqx9PXg
- JThA==
-X-Gm-Message-State: APjAAAXn/hXm/fXyAoGWS7hs5GqVOcpEy4P7IcEUfuzxIToE7ZKD9WjC
- AX8PDXIEKy2iZxrSpibX8Fnxuy059mrRTiprnhs=
-X-Google-Smtp-Source: APXvYqzmhIuFgZ7lJ/wtzoYvizTQE34O89TPh5zt+8t81eeAsA7DI8f86Evl0iog66Uzj6YHcM1TkjJAYRG3UY3Us1Q=
-X-Received: by 2002:a05:600c:2148:: with SMTP id
- v8mr41841951wml.111.1578399074013; 
- Tue, 07 Jan 2020 04:11:14 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1ionnf-0004L9-1I
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:17:32 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33152
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ionne-0004KH-Qg
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:17:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578399449;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RHcASlKTGc+G3lZdaUkBAbeg1XWhEyuwFVSH+MtzDJs=;
+ b=gdsb1EK5tyzAAkK3uJQG+nC1LpWMP2tuTcA4zx8qmIZomeEoghizMaNdztLrYfFvx/bKqP
+ P5S6mdeVeqHKzF7hurVvm+7tA1ZRKKffFklm6L1sFne9Zpo860ySLtz1cRIxpnpSg8a6RO
+ UU9DZkmZongIoA+98fY7639GTh0CxQM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-7YMtdTMhPvi2bp1qPJZYFA-1; Tue, 07 Jan 2020 07:17:28 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32ECF477
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 12:17:27 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E5905C1B0;
+ Tue,  7 Jan 2020 12:17:23 +0000 (UTC)
+Date: Tue, 7 Jan 2020 12:17:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 096/104] virtiofsd: Reset O_DIRECT flag during file open
+Message-ID: <20200107121720.GF3368802@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-97-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
- <20191213160330.GD3428@localhost.localdomain>
- <CAJ+F1CLSfYPFPych4twnvOMt3qR4UnGauWq_k=VN8W5kKUze9g@mail.gmail.com>
- <20191216120701.GC6610@linux.fritz.box>
- <CAJ+F1CJjrh3LJs=YtNOkk3rYo-MpmXr3ho9pt0z7tnqm4kp96w@mail.gmail.com>
- <20200107051728.GA4076@linux.fritz.box>
-In-Reply-To: <20200107051728.GA4076@linux.fritz.box>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 7 Jan 2020 16:11:01 +0400
-Message-ID: <CAJ+F1CLocmL-9d06jsbfUFq1peV7w-Ho30vKnp7cVVk8jfXVnw@mail.gmail.com>
-Subject: Re: [PATCH v6 00/25] monitor: add asynchronous command type
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191212163904.159893-97-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 7YMtdTMhPvi2bp1qPJZYFA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,99 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Thu, Dec 12, 2019 at 04:38:56PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: Vivek Goyal <vgoyal@redhat.com>
+>=20
+> If an application wants to do direct IO and opens a file with O_DIRECT
+> in guest, that does not necessarily mean that we need to bypass page
+> cache on host as well. So reset this flag on host.
+>=20
+> If somebody needs to bypass page cache on host as well (and it is safe to
+> do so), we can add a knob in daemon later to control this behavior.
+>=20
+> I check virtio-9p and they do reset O_DIRECT flag.
+>=20
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 
-On Tue, Jan 7, 2020 at 9:17 AM Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 06.01.2020 um 19:21 hat Marc-Andr=C3=A9 Lureau geschrieben:
-> > > What my patch does is moving everything into a coroutine. This is wro=
-ng
-> > > because not everything can be run in a coroutine, so it needs to be m=
-ade
-> > > optional (like you did with your async flag).
-> >
-> > "everything" is a bit too much ;) You proposal is to replace
-> > qmp_dispatch_bh by a coroutine version (except for OOB commands). This
-> > is nice because indeed, it allows to reenter the mainloop with a
-> > simple yield in QMP commands. It is also simpler than my "async"
-> > proposal, because some of the state is part of the coroutine, and
-> > because it doesn't allow QMP commands concurrency (beside existing
-> > OOB).
-> >
-> > Iow, coroutine (for async) + oob (for concurrency) make my proposal
-> > kinda obsolete. I can only regret that a simple callback-based
-> > solution looked simpler to me than one that mixes both threads &
-> > coroutines, but I don't mind if everybody likes it better :) I can
-> > definitely see the point for block commands, which rely on coroutines
-> > anyway, and qemu is already that complex in general.
->
-> Callbacks are indeed simple enough for implementing the infrastructure,
-> but for the users they only look simple as long as they do trivial
-> things. :-)
->
-> Anyway, now that you have seen my POC hack, do you agree that this
-> should help solving the screendump problem, too?
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Yes, and I will work on it as soon as you have a working patch series
-or branch :)
 
->
-> > > The problem isn't with completely coroutine-unaware code, though: Tha=
-t
-> > > one would just work, even if not taking advantage from the coroutine.=
- A
-> > > potential problem exists with code that behaves differently when run =
-in
-> > > a coroutine or outside of coroutine context (generally by checking
-> > > qemu_in_coroutine())), or calls of coroutine-unaware code into such
-> > > functions.
-> > >
-> > > Running some command handlers outside of coroutine context wouldn't b=
-e
-> > > hard to add to my patch (basically just a BH), but I haven't looked i=
-nto
-> > > the QAPI side of making it an option.
-> >
-> > Yes, I think we should have a 'coroutine': true, for commands that
-> > should be run with a coroutine.
-> >
-> > Or perhaps replace existing allow-oob with 'dispatch':
-> > - 'bh' (default)
-> > - 'coroutine'
-> > - 'allow-oob' (oob + bh fallback, since oob don't have coroutine - at
-> > this point)
->
-> If it's "at this point", then making it two separate bools would make
-> more sense. But I seem to remember that OOB handlers are fundamentally
-> not supposed to block, so coroutine support would be pointless for them
-> and an enum could work.
-
-I think so too
-
->
-> I'll defer to Markus on this one.
-
-Yup, Markus should take a look at your proposal and give some
-guidance. And hopefully, it won't take >2y.
-
->
-> > Your patch looks quite good to me, but make check hangs. Have you
-> > looked at it?
->
-> I'm not sure if I was looking at some qemu-iotests cases or make check,
-> but yes, I did see a hang. My case was a QMP command that just doesn't
-> work correctly inside a coroutine without modifications, so requiring
-> 'coroutine': true would fix it.
-
-ok, then I suggest you do a "minimal" patch series that works.
-
-thanks!
-
+Regards,
+Daniel
 --=20
-Marc-Andr=C3=A9 Lureau
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
