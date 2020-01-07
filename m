@@ -2,76 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392FD132914
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:37:38 +0100 (CET)
-Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE761132919
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:40:02 +0100 (CET)
+Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopzE-0001ym-IC
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:37:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40911)
+	id 1ioq1Z-0005xW-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:40:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iopx3-0008DC-Dz
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:22 -0500
+ (envelope-from <jan.kiszka@siemens.com>) id 1iopyo-0002mA-6m
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:37:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iopx2-0002E4-7q
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:21 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53155
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jan.kiszka@siemens.com>) id 1iopyi-00035Z-QR
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:37:09 -0500
+Received: from goliath.siemens.de ([192.35.17.28]:54898)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iopx2-0002Da-4W
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:35:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578407719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=XufDugD6uYUlfBGd82PuKlgRYcjdnsQKOQ7nhUL8Mgc=;
- b=fMp8T/SFONMTS1Hwn4IQhEeL/mABrwdmSHM/CE9Auq9wj8fpXIfisZCeaY8EuMHdwXzWtS
- InMYHhtchooQtmG2Qv2uMJppFf8bUmZCHhI+tlj838wJLFmxLoSrrb7bThdpxD0z0aiAtF
- e1sxZXlbRAWbAs7tdZORq/4d4UGmuDE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-2JdSoVrhPn-gRS9nxHzlnw-1; Tue, 07 Jan 2020 09:35:16 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5102F802CA6;
- Tue,  7 Jan 2020 14:35:15 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-116.ams2.redhat.com [10.36.116.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E13E7DB3E;
- Tue,  7 Jan 2020 14:35:08 +0000 (UTC)
-Subject: Re: Priority of -accel
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200106130951.29873-1-philmd@redhat.com>
- <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
- <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
- <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
- <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
- <20200107125451.GL3368802@redhat.com>
- <3241dff4-6223-404f-55d4-846991763046@redhat.com>
- <2ae2dee3-cd16-a247-971b-4b3482e596a5@redhat.com>
- <20200107142735.GC3368802@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <fb83df0a-da82-f981-fbda-d5c74e87cf5c@redhat.com>
-Date: Tue, 7 Jan 2020 15:35:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200107142735.GC3368802@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 2JdSoVrhPn-gRS9nxHzlnw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+ (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
+ id 1iopyi-0002wa-Fr
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 09:37:04 -0500
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 007EaiNQ008533
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Jan 2020 15:36:44 +0100
+Received: from md1f2u6c.ad001.siemens.net ([139.25.68.37])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 007Eai7Q011484;
+ Tue, 7 Jan 2020 15:36:44 +0100
+From: Jan Kiszka <jan.kiszka@siemens.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [RFC][PATCH v2 0/3] IVSHMEM version 2 device for QEMU
+Date: Tue,  7 Jan 2020 15:36:39 +0100
+Message-Id: <cover.1578407802.git.jan.kiszka@siemens.com>
+X-Mailer: git-send-email 2.16.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 192.35.17.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,63 +47,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/2020 15.27, Daniel P. Berrang=C3=A9 wrote:
-> On Tue, Jan 07, 2020 at 03:20:40PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> On 1/7/20 3:14 PM, Thomas Huth wrote:
->>> On 07/01/2020 13.54, Daniel P. Berrang=C3=A9 wrote:
->>>> On Tue, Jan 07, 2020 at 01:23:18PM +0100, Paolo Bonzini wrote:
->>>>> On 07/01/20 13:18, Thomas Huth wrote:
->>>>>> I don't think we need a separate priority parameter here. But IMHO i=
-t's
->>>>>>   really rather common practice to prioritize the last option. So wh=
-ile
->>>>>> it might be more "self-explanatory" to a CLI newbie if the first
->>>>>> occurrence got the highest priority, it might be rather confusing
->>>>>> instead for a CLI veteran...?
->>>>>
->>>>> Prioritising the last certainly makes sense for a choose-one-only
->>>>> option, but I'm not sure it's the same for a choose-best option.  Aft=
-er
->>>>> all it was -machine accel=3Dkvm:tcg, not -machine accel=3Dtcg:kvm...
->>>>
->>>> IIUC, the main use case for specifying multiple accelerators is
->>>> so that lazy invokations can ask for a hardware virt, but then get
->>>> fallback to TCG if not available. For things that should be platform
->>>> portabile, there's more than just kvm to consider though, as we have
->>>> many accelerators.  Listing all possible accelerators is kind of
->>>> crazy though no matter what the syntax is.
->>>>
->>>> How about taking a completely different approach, inspired by the
->>>> -cpu arg and implement:
->>>>
->>>>      -machine accel=3Dbest
->>>
->>> Something like that sounds like the best solution to me, but I'd maybe
->>> rather not call it "best", since the definition of "best" might depend
->>> on your use-case (e.g. do you want to use a CPU close to the host or
->>> something different which might be better emulated by TCG?).
->>>
->>> What about "-accel any" or "-accel fastest" or something similar?
->>
->> 'any' is a russian roulette, you don't want it to return 'qtest' ;)
->=20
-> We could make it return "qtest" only on April 1st ;-P
+Overdue update of the ivshmem 2.0 device model as presented at [1].
 
-... or we finally dare to let QEMU chose the "best" accelerator by
-default if no "-accel" option has been specified...
+Changes in v2:
+ - changed PCI device ID to Siemens-granted one,
+   adjusted PCI device revision to 0
+ - removed unused feature register from device
+ - addressed feedback on specification document
+ - rebased over master
 
-Thus if no "-accel" has been specified, then use kvm/haxm/whpv if
-possible or TCG otherwise. And if "-accel" has been specified, then only
-use that accelerator and don't allow a second "-accel" to be specified.
+This version is now fully in sync with the implementation for Jailhouse
+that is currently under review [2][3], UIO and virtio-ivshmem drivers
+are shared. Jailhouse will very likely pick up this revision of the
+device in order to move forward with stressing it.
 
- Thomas
+More details on the usage with QEMU were in the original cover letter
+(with adjustements to the new device ID):
+
+If you want to play with this, the basic setup of the shared memory
+device is described in patch 1 and 3. UIO driver and also the
+virtio-ivshmem prototype can be found at
+
+    http://git.kiszka.org/?p=linux.git;a=shortlog;h=refs/heads/queues/ivshmem2
+
+Accessing the device via UIO is trivial enough. If you want to use it
+for virtio, this is additionally to the description in patch 3 needed on
+the virtio console backend side:
+
+    modprobe uio_ivshmem
+    echo "110a 4106 1af4 1100 ffc003 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
+    linux/tools/virtio/virtio-ivshmem-console /dev/uio0
+
+And for virtio block:
+
+    echo "110a 4106 1af4 1100 ffc002 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
+    linux/tools/virtio/virtio-ivshmem-console /dev/uio0 /path/to/disk.img
+
+After that, you can start the QEMU frontend instance with the
+virtio-ivshmem driver installed which can use the new /dev/hvc* or
+/dev/vda* as usual.
+
+Any feedback welcome!
+
+Jan
+
+PS: Let me know if I missed someone potentially interested in this topic
+on CC - or if you would like to be dropped from the list.
+
+[1] https://kvmforum2019.sched.com/event/TmxI
+[2] https://groups.google.com/forum/#!topic/jailhouse-dev/ffnCcRh8LOs
+[3] https://groups.google.com/forum/#!topic/jailhouse-dev/HX-0AGF1cjg
+
+Jan Kiszka (3):
+  hw/misc: Add implementation of ivshmem revision 2 device
+  docs/specs: Add specification of ivshmem device revision 2
+  contrib: Add server for ivshmem revision 2
+
+ Makefile                                  |    3 +
+ Makefile.objs                             |    1 +
+ configure                                 |    1 +
+ contrib/ivshmem2-server/Makefile.objs     |    1 +
+ contrib/ivshmem2-server/ivshmem2-server.c |  462 ++++++++++++
+ contrib/ivshmem2-server/ivshmem2-server.h |  158 +++++
+ contrib/ivshmem2-server/main.c            |  313 +++++++++
+ docs/specs/ivshmem-2-device-spec.md       |  376 ++++++++++
+ hw/misc/Makefile.objs                     |    2 +-
+ hw/misc/ivshmem2.c                        | 1085 +++++++++++++++++++++++++++++
+ include/hw/misc/ivshmem2.h                |   48 ++
+ include/hw/pci/pci_ids.h                  |    2 +
+ 12 files changed, 2451 insertions(+), 1 deletion(-)
+ create mode 100644 contrib/ivshmem2-server/Makefile.objs
+ create mode 100644 contrib/ivshmem2-server/ivshmem2-server.c
+ create mode 100644 contrib/ivshmem2-server/ivshmem2-server.h
+ create mode 100644 contrib/ivshmem2-server/main.c
+ create mode 100644 docs/specs/ivshmem-2-device-spec.md
+ create mode 100644 hw/misc/ivshmem2.c
+ create mode 100644 include/hw/misc/ivshmem2.h
+
+-- 
+2.16.4
 
 
