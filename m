@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5CB131C9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 01:05:50 +0100 (CET)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4842131CC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 01:27:36 +0100 (CET)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iocNY-0002L7-2F
-	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 19:05:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54973)
+	id 1iocid-000685-8K
+	for lists+qemu-devel@lfdr.de; Mon, 06 Jan 2020 19:27:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iocJk-0007qy-Nt
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:54 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iocfT-0003g8-1I
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:24:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iocJj-0005XC-6a
- for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:01:52 -0500
-Received: from ozlabs.org ([203.11.71.1]:41549)
+ (envelope-from <dgibson@ozlabs.org>) id 1iocfR-0001aE-LP
+ for qemu-devel@nongnu.org; Mon, 06 Jan 2020 19:24:18 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:48553 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iocJh-0005Pg-Uz; Mon, 06 Jan 2020 19:01:51 -0500
+ id 1iocfQ-0001TL-IS; Mon, 06 Jan 2020 19:24:17 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47sCGf236Hz9sR8; Tue,  7 Jan 2020 11:01:46 +1100 (AEDT)
+ id 47sCmX3SNXz9sR0; Tue,  7 Jan 2020 11:24:12 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578355306;
- bh=Yr+XDBI6OhT4dlM9pRbUdGEOBejDaidLgTSKUOYnm3Y=;
+ d=gibson.dropbear.id.au; s=201602; t=1578356652;
+ bh=1bHsKSBS3bKUQ2pR9M825T3Fa2TU9dWNO+YnKsEB4Dk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JC1aG2fAwYcOlg9/PVtbujJ+Eb/xiQJ+jaLdtuDo35Wt97javw3aFXs3LVKyVwj0A
- Ll8+goDHgjqcyprpSFSjVIpfLPCNnISW9vDXWeIfsL5vetgN5henW+dH313iDp5sK8
- +WVL2Cbxqr7hSQqkFwcfmZCcftOdPLLqY/GZsKdw=
-Date: Tue, 7 Jan 2020 11:00:40 +1100
+ b=efSmjN1Z/9qdcZy54g0tnXs8XXCPkvdgP5iPrZ91hdDsIhm+iF1On4eQt3aJvrORk
+ 0jq5J7n1zevedBQuR3zmuLruTiJotvoDAXvXVVok/j81iPqY/C2LN0s+u+LZR2cnhw
+ vWxi3n4QuWA3BS4pkMRxJJIMDsdbukN54oHMBf6A=
+Date: Tue, 7 Jan 2020 11:11:06 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr/xive: remove redundant check in spapr_match_nvt()
-Message-ID: <20200107000040.GC2098@umbus>
-References: <20200106163207.4608-1-clg@kaod.org>
- <20200106182931.54f12057@bahia.lan>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v3 05/12] xive: Use the XIVE fabric link under the XIVE
+ router
+Message-ID: <20200107001106.GE2098@umbus>
+References: <20200106145645.4539-1-clg@kaod.org>
+ <20200106145645.4539-6-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ozkSYTWEkbLDijvq"
+ protocol="application/pgp-signature"; boundary="CkAEuVknXa3V+za6"
 Content-Disposition: inline
-In-Reply-To: <20200106182931.54f12057@bahia.lan>
+In-Reply-To: <20200106145645.4539-6-clg@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -55,74 +56,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ozkSYTWEkbLDijvq
+--CkAEuVknXa3V+za6
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 06, 2020 at 06:29:31PM +0100, Greg Kurz wrote:
-> On Mon,  6 Jan 2020 17:32:07 +0100
-> C=E9dric Le Goater <clg@kaod.org> wrote:
+On Mon, Jan 06, 2020 at 03:56:38PM +0100, C=E9dric Le Goater wrote:
+> From: Greg Kurz <groug@kaod.org>
 >=20
-> > spapr_match_nvt() is a XIVE operation and it used by the machine to
+> Now that the spapr and pnv machines do set the "xive-fabric" link, the
+> use of the XIVE fabric pointer becomes mandatory. This is checked with
+> an assert() in a new realize hook. Since the XIVE router is realized at
+> machine init for the all the machine's life time, no risk to abort an
+> already running guest (ie. not a hotplug path).
 >=20
-> ... and it "is" used by the machine...
+> This gets rid of a qdev_get_machine() call.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Adjusted in my tree.
+1..5 applied to ppc-for-5.0.
 
+> ---
+>  hw/intc/xive.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 >=20
-> > look for a matching target when an event notification is being
-> > delivered. An assert checks that spapr_match_nvt() is called only when
-> > the machine has selected the XIVE interrupt mode but it is redundant
-> > with the XIVE_PRESENTER() dynamic cast.
-> >=20
-> > Apply the cast to spapr->active_intc and remove the assert.
-> >=20
-> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > ---
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
-> >  hw/ppc/spapr.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index e62c89b3dd40..5008b7563173 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -4198,19 +4198,19 @@ static void spapr_pic_print_info(InterruptStats=
-Provider *obj,
-> >                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
-> >  }
-> > =20
-> > +/*
-> > + * This is a XIVE only operation
-> > + */
-> >  static int spapr_match_nvt(XiveFabric *xfb, uint8_t format,
-> >                             uint8_t nvt_blk, uint32_t nvt_idx,
-> >                             bool cam_ignore, uint8_t priority,
-> >                             uint32_t logic_serv, XiveTCTXMatch *match)
-> >  {
-> >      SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
-> > -    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
-> > +    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->active_intc);
-> >      XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
-> >      int count;
-> > =20
-> > -    /* This is a XIVE only operation */
-> > -    assert(spapr->active_intc =3D=3D SPAPR_INTC(spapr->xive));
-> > -
-> >      count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignor=
-e,
-> >                             priority, logic_serv, match);
-> >      if (count < 0) {
->=20
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 6df89b06da38..12a362b681a6 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1378,6 +1378,13 @@ static int xive_router_get_block_id(XiveRouter *xr=
+tr)
+>     return xrc->get_block_id(xrtr);
+>  }
+> =20
+> +static void xive_router_realize(DeviceState *dev, Error **errp)
+> +{
+> +    XiveRouter *xrtr =3D XIVE_ROUTER(dev);
+> +
+> +    assert(xrtr->xfb);
+> +}
+> +
+>  /*
+>   * Encode the HW CAM line in the block group mode format :
+>   *
+> @@ -1470,12 +1477,11 @@ int xive_presenter_tctx_match(XivePresenter *xptr=
+, XiveTCTX *tctx,
+>   *
+>   * The parameters represent what is sent on the PowerBus
+>   */
+> -static bool xive_presenter_notify(uint8_t format,
+> +static bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
+>                                    uint8_t nvt_blk, uint32_t nvt_idx,
+>                                    bool cam_ignore, uint8_t priority,
+>                                    uint32_t logic_serv)
+>  {
+> -    XiveFabric *xfb =3D XIVE_FABRIC(qdev_get_machine());
+>      XiveFabricClass *xfc =3D XIVE_FABRIC_GET_CLASS(xfb);
+>      XiveTCTXMatch match =3D { .tctx =3D NULL, .ring =3D 0 };
+>      int count;
+> @@ -1607,7 +1613,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
+, uint8_t end_blk,
+>          return;
+>      }
+> =20
+> -    found =3D xive_presenter_notify(format, nvt_blk, nvt_idx,
+> +    found =3D xive_presenter_notify(xrtr->xfb, format, nvt_blk, nvt_idx,
+>                            xive_get_field32(END_W7_F0_IGNORE, end.w7),
+>                            priority,
+>                            xive_get_field32(END_W7_F1_LOG_SERVER_ID, end.=
+w7));
+> @@ -1727,6 +1733,8 @@ static void xive_router_class_init(ObjectClass *kla=
+ss, void *data)
+> =20
+>      dc->desc    =3D "XIVE Router Engine";
+>      dc->props   =3D xive_router_properties;
+> +    /* Parent is SysBusDeviceClass. No need to call its realize hook */
+> +    dc->realize =3D xive_router_realize;
+>      xnc->notify =3D xive_router_notify;
+>  }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -130,25 +148,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ozkSYTWEkbLDijvq
+--CkAEuVknXa3V+za6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4TyigACgkQbDjKyiDZ
-s5LiqQ//dZCejbLIQXuIuTAB4O/y3oMaE9RYUnBclsGBMlHuMXMVjsJeIaJ/6OfS
-0raDLzMD3gMfj8Xd/9mEvaqCKSGZMJWgfQvrCPO3qvag6OB1PS9Wqoa5vm7fugQd
-hJJX3Jx1lxuGL8ZCeP4TEgETNqOUi7K/9Stg01PkIaqYkYocLb0YHAhPe2Gmh+3u
-KW3869WEcpAxAZroKRGpPuKIsLXG8GUaVuAal0nzY9Vf28yD+k3FdWi6Yjhp7ffo
-l+aGwR6kgoYE7DSwDb5D1r+SzgdZZL9IcCydQPeZR3VdXk2dRWeKzRiW91fbwxZj
-FJFzOibfXp39Kszt7DPpsm/PEHWR16wLMcFMveKqBPTXf/kb4aX+ICymPAwZyV0x
-3RFw3gl4sy/cK0zz15CXqtOonHgNJZpPsIcDWrd2cigw5xzJO32pK/Ta+SWAt47o
-/J5rripBTEWjz3ihmzaU0S5L9EYp7AsOAlry92mFqYUa5tf8VLcjghr6HVP3fLSG
-jlv6N5iuHYa8b4rSOafJYuOT3NiasvOU2qP4eNYNq+q4nhve1ZoIB323fHBMdWMV
-TL1eTnu+mkoIY3T108XJFysQHE76JN/bcjlgh8oL4//46/BQV4CS1D5QzvZMfoqQ
-L4OwuBGPdnpqqh2fudUQES/EiLbHL+neA2exoUIDd3B2Y2ORW1A=
-=NNJi
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4TzJoACgkQbDjKyiDZ
+s5JR2g/8DJtL0mr3NpyzuXJbaNuC9GVQLfVgcEljXEVHqsXUzx3aFk6igCQ2IwX/
+5vG+36+YltR+3BZDGJX14xwhYNExuMnPokGTlJN4As5dhKd8KZ9K+mIsEv0TPBj1
+XUCx7tOQR94+DoDE6vb4Yt9RBU56mrAwkcSzN0ZSLiBCVdYjb+dbMjSDL3+YGqyY
+ozEr6z/SgsO/mtvtn3/a37JA7Rp7t27JUIDbRp+sJSv1jGetSmZMsICr5EmmH1N3
+Y2yvqxWhQ+/m+9RFVlNV9A3CZJACOkHKfaz/AU+j/ENMvIyljsDwNa6yJ5NYGXlp
+zt1J+UcKNt1y0Kqq21brtHStR1SRfuqefPhb0fCchhekPF+04DUViTKRB1DNnf5b
+y9w865mFUOdgQdf1GvKxSKfDlGvj+gDLbyz9MVzMAolQRLMmFi2oBOUkXN4kHlde
+rjTYSh5kx9Y+ploucRMVUWoQcpn5mbvyPdAFp/q9b9uZQ5tVL7CCUQmm36iq7TRT
+m8ZL3AgM8mUu1Jvy0GT2MpkgwdKVK8N9V6EmvpUexv7lVzcoclR1Ho83WR0BNC0r
+/YPTtAxdnsZ7Tsboi/QCK2Gmb+FcVBZI6xiayLda/ErXuGoBAKC2l553VIhDrPya
+teYuxKFUYlKGJ1LI/LUQ8Tk9Wq+Urb1Jq4/uBVu5Gh5PCY3mwUk=
+=7zXV
 -----END PGP SIGNATURE-----
 
---ozkSYTWEkbLDijvq--
+--CkAEuVknXa3V+za6--
 
