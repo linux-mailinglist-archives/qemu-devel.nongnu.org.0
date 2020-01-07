@@ -2,57 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1538C1325BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:11:00 +0100 (CET)
-Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8751325DE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 13:15:54 +0100 (CET)
+Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ionhK-00044h-0m
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:10:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50377)
+	id 1ionm4-00071Y-0S
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 07:15:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iondz-0007Hj-7q
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:07:32 -0500
+ (envelope-from <vkuznets@redhat.com>) id 1ionfR-0002zK-UH
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:09:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iondx-0006qv-E4
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:07:30 -0500
-Resent-Date: Tue, 07 Jan 2020 07:07:30 -0500
-Resent-Message-Id: <E1iondx-0006qv-E4@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21188)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iondx-0006qA-5l
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:07:29 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1578398838; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nvV5Se62xk4yMz18kPsWstz23DlWHLPsrzmOX6FvHTB4BqttUPOpb9qbE6H2rDenh5cK7ExRIH5xyx1ymZU9wsz1w89m+y4w4kVj/OQHBR2uaPomMmSFroHLId/Kt+Mfb/wd41KZWgNduTO07GYP61XyeU+wNY/1D00MQ5z+F7w=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1578398838;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=geTzJvlc+ia8ImFaC1ep1s4AGCj9vbz8kY6URNBmlcA=; 
- b=O3Yt11d8k/+rXJouu129AO0uJMLIGrgDJJcK5wdce3tm9/mwfbUPlykBtlVKHK4ckI6Z1uz9xFX3J1xf25P6uUw+lmaEnEuofySUNg5jWblqvMDbgGOD9+tFD+uz6rXuTHXbKY2ElUg8t2J3wttY/V5xXNUbmb9zlMIlLHQiT+o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1578398835570334.8310690503363;
- Tue, 7 Jan 2020 04:07:15 -0800 (PST)
-In-Reply-To: <20200107104914.1814-1-quintela@redhat.com>
-Subject: Re: [PATCH v2 0/3] Fix multifd + cancel + multifd
-Message-ID: <157839883493.727.2839689792701242416@37313f22b938>
+ (envelope-from <vkuznets@redhat.com>) id 1ionfP-0007dc-SJ
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:09:01 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40587
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1ionfP-0007cd-Ol
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:08:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578398937;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8UqXgxoabqLbbYDl1EERybiFw7Yu6N6KgfnlUPqX0AI=;
+ b=BH/Zo8UWVFw152Dm69hzgBRhT2UucNl8WhxeSyPSlBv/maQWClMuZVQSqME6mFX0laPH7B
+ vDGzeqr0iBHWlevg1srTl/jWZUA6+2c9jXrc5YPsnFr48aEutid44xR+AP+0Z4eCUBieZO
+ 0aWNjB3MTEAOU7SijN48BWJGXG5K6sg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-XWgxvSSnNfy66x9JAkZg8w-1; Tue, 07 Jan 2020 07:08:54 -0500
+Received: by mail-wm1-f70.google.com with SMTP id q26so1887898wmq.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 04:08:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=Grw1tyESGLinhtxOIpeXyy7JzPwANRKzddYm76xprfw=;
+ b=c6NoC19Ob7/8hUXyuAF0ciKnKtbb+sBNqYADvdw89fwcyW+5rtF+TBUWEG729fP/FO
+ dHk8H7BHKGNyXV1U4qgyyTDbvcp4Qa+mKtzlMLY7ATO6J0e2TA5S3LrPm9yhxbejAtLn
+ oH89aNsgBsjYlmJ8Mr1MepkvcCMgPJ7m0Cc3nEYKNvA1a2Ufb80AuFwwk9CTw2WgGdPH
+ Adq9ksCXD+slZivwQ7vCvUQGocbCq1rJ88nzDxidoQ+UhM/6nUe+eG0NQYpGT9GmVwzx
+ eQ/IwWAPHqa0LxZWFkaGAJPVnWEWwMr9CWjqaWA+XWuPoVt1ckyX76U6bDkPJDjVCOV9
+ kwzQ==
+X-Gm-Message-State: APjAAAV6sqLHlbLgiGJO+TZyiI1puLHAoDf+l7I7Hd6Esczp854I0NAT
+ IyBMIdzgeC10ubIlbGE8ims9zLVEEDoBuhdzDUr0x8Sq41FovpBO8umdU3gnd0DMbpMoS7xbkzN
+ AuI4LS4WFFjkAnfk=
+X-Received: by 2002:a05:600c:1007:: with SMTP id
+ c7mr42064516wmc.158.1578398933589; 
+ Tue, 07 Jan 2020 04:08:53 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzYfJ4tcUsD4bqGjvLlY+GaIZ66+4ZTbPQ7CqXhiK+TI3OkXWyhFU5651oJ8GnaeAcg4xpzHQ==
+X-Received: by 2002:a05:600c:1007:: with SMTP id
+ c7mr42064497wmc.158.1578398933389; 
+ Tue, 07 Jan 2020 04:08:53 -0800 (PST)
+Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id q3sm78945644wrn.33.2020.01.07.04.08.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2020 04:08:52 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH RFC] i386/kvm: fix enlightened VMCS with fine-grained VMX
+ feature enablement
+In-Reply-To: <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
+References: <20200102203926.1179743-1-vkuznets@redhat.com>
+ <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
+Date: Tue, 07 Jan 2020 13:08:51 +0100
+Message-ID: <87zhezsc30.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: quintela@redhat.com
-Date: Tue, 7 Jan 2020 04:07:15 -0800 (PST)
-X-ZohoMailClient: External
+X-MC-Unique: XWgxvSSnNfy66x9JAkZg8w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,21 +90,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lvivier@redhat.com, thuth@redhat.com, quintela@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pbonzini@redhat.com
+Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Liran Alon <liran.alon@oracle.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDEwNzEwNDkxNC4xODE0
-LTEtcXVpbnRlbGFAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
-Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCgoKCgoKVGhlIGZ1bGwg
-bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDEwNzEwNDkx
-NC4xODE0LTEtcXVpbnRlbGFAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEv
-P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
-ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
-YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+Paolo Bonzini <pbonzini@redhat.com> writes:
+
+> On 02/01/20 21:39, Vitaly Kuznetsov wrote:
+>> When enlightened VMCS is enabled, certain VMX controls disappear, e.g.
+>> posted interrupts for PINBASED_CTLS. With fine-grained VMX feature
+>> enablement QEMU tries to do KVM_SET_MSRS with default (matching CPU
+>> model) values and fails as KVM doesn't allow to set now-unsupported
+>> controls.
+>>=20
+>> The ideal solution for the issue would probably be to re-read VMX
+>> feature MSRs after enabling KVM_CAP_HYPERV_ENLIGHTENED_VMCS, however,
+>> this doesn't seem to be possible: currently, KVM returns global
+>> &vmcs_config.nested values for VMX MSRs when userspace does KVM_GET_MSR.
+>>=20
+>> It is also possible to modify KVM to apply 'evmcs filtering' to VMX
+>> MSRs when userspace tries to set them and hide the issue but this doesn'=
+t
+>> seem to be entirely correct.
+>>=20
+>> It is unfortunate that we now need to support the list of VMX features
+>> disabled by enlightened VMCS in QEMU. When (and if) enlightened VMCS v2
+>> arrives we'll need to fix QEMU and allow previously disabled features.
+>>=20
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>> - I don't quite like this workaround myself, thus RFC. I'm sure someone
+>>  will suggest a better alternative.
+>
+> The patch itself is not a big deal, the only thing is that we should
+> probably check that we get warnings if the "forbidden" features are
+> explicitly requested by the user.  On the other hand, for something like
+> "-cpu Haswell,vmx,hv_evmcs" there should be no warnings.
+>
+> That said, I'm not sure about the whole idea of disabling features, even
+> in the kernel.  I would prefer if the guest knew that it cannot use
+> these features if using eVMCS.  Is this the case for Windows?
+
+Honestly I forgot the story why we filtered out these features upon
+eVMCS enablement in KVM. As there are no corresponding eVMCS fields,
+there's no way a guest can actually use them.
+
+I'm going to check that nothing breaks if we remove the filter. I'll go
+and test Hyper-V 2016 and 2019.
+
+> If so, we should teach guest-side KVM about this, not QEMU.
+
+This is not required when enabling eVMCS on a genuine Hyper-V because it
+correctly filters out unsupported features, however, to not break
+KVM-on-KVM-using-eVMCS case we'll have to move the filter from host to
+guest.
+
+Thanks!
+
+--=20
+Vitaly
 
 
