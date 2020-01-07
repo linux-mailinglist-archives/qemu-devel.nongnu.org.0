@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBBC1324ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:33:28 +0100 (CET)
-Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC53132520
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 12:47:16 +0100 (CET)
+Received: from localhost ([::1]:47132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ion70-00019M-NV
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:33:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52533)
+	id 1ionKM-0003HC-FX
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 06:47:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iolxy-0007P0-6W
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:20:03 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iomBo-0006tI-7K
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:34:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iolxw-0002Ue-OQ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:20:01 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23165
+ (envelope-from <pbonzini@redhat.com>) id 1iomBn-0005N4-2U
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:34:20 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45747
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iolxw-0002Tm-KY
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:20:00 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iomBm-0005Li-V6
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 05:34:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578392400;
+ s=mimecast20190719; t=1578393258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x+Yr2/bXyN9lnwWcWTxM2v8w0rpDwaWiPcSxQZOpx0M=;
- b=g9iIBXtZxvJOg+2tNZ1wEWPYFW171BcXervS+FJzKxVXVFIRkFnMW9zbrOJzbs4ljMnrIE
- MjZ6oCYkcsOKl08XIVE5imPNI0P8LMBxTc5b48emEYLvm8ti4VhTnL6GUa3CloG3/OdwGF
- frJax+VNYij4C3SFcK6y6XNzA+ZKAvc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-sMBC5PaqO16ZAREDaxnhxQ-1; Tue, 07 Jan 2020 05:19:59 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31B4F801E6C;
- Tue,  7 Jan 2020 10:19:58 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-126.ams2.redhat.com
- [10.36.117.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB1D77C34A;
- Tue,  7 Jan 2020 10:19:54 +0000 (UTC)
-Subject: Re: [PATCH 3/3] gitlab-ci-edk2.yml: Use ccache
+ bh=3VWrm5t3dJ+OkI+JMxHMGI0ClvGjVadJrvF8sQm1D3U=;
+ b=eXa6rRgSvvAaL3iY0FGWObD1yES0rDWBWT2IF3osAiITQi1xnRfNLNK8xgTdnqx4GSE2+9
+ glErvaOA4UisTWFo1ZqXEUL7q6jSBcYi4VdL9aWfeK3pWdqWIGjapCGyrdMo9CjdKLiXYu
+ tjVN7yWwlFw04ifTyKod0IARxzn1f9Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-YdwUTYmINdG-reOkt7Ez1g-1; Tue, 07 Jan 2020 05:34:15 -0500
+Received: by mail-wr1-f70.google.com with SMTP id c6so19087360wrm.18
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 02:34:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PxNvrIz6y3kihbk3x31P4PsqYCMZdduiFFlcYioHv8Q=;
+ b=THXZ5oHCVllcbu8T7s/kSmE1I0Bzl2BJorM3UbEoZd1/i4y1kIgo69hiHs+v1xzdoG
+ s57TeaWT2uZ0pg3q77GVgmfKyh+G2chmqZqYPzrYv6e2QFbWE60MYwYJ5dJkpTxQQvVO
+ ABDRsnOAAwQBCb+o2sS2/iC+Psf+xUATYQn3guNhy1JT0yoC1JUmg9cjbpVLe2Yov4wf
+ gUIJXC03ZkvsWEJGYwMQy94FlLMyfNibBoo3O9WhDnMVOTysjaRAbRaGthy9rQ4vF54C
+ SbleY2L9gMSYKe9pReeOskY3bPlNlxSBtZafrvDywkd3PlzhWqCCi2J8KJ4s1TuM00ld
+ wN6w==
+X-Gm-Message-State: APjAAAXnxvv1OoXNhE4GhJ1V2M7JczE8Syde+G2V4dQ7gedHAdnK/Cs9
+ +zCadEJ/A6vcY0bWTqBRjuhtM5pD56dQ9WwBiJqFX3IMGO31FbUfxWnzxqLYm1uvDSjccleUul3
+ +ktahT7KQFnGetZE=
+X-Received: by 2002:a1c:4008:: with SMTP id n8mr37360129wma.121.1578393254544; 
+ Tue, 07 Jan 2020 02:34:14 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx0DXd9qqgRr1u4KR2W6t/RZ+mvLeirV8egLa4hDPKQdADzns0jt2yhCjXYnBxobDVZXLkPuQ==
+X-Received: by 2002:a1c:4008:: with SMTP id n8mr37360106wma.121.1578393254333; 
+ Tue, 07 Jan 2020 02:34:14 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id y139sm27653841wmd.24.2020.01.07.02.34.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 02:34:13 -0800 (PST)
+Subject: Re: [RFC PATCH] qapi: Incorrect attempt to fix building with
+ MC146818RTC=n
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200106184601.25453-1-philmd@redhat.com>
- <20200106184601.25453-4-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <b70f81d0-596d-d867-b722-f9e7aab0e935@redhat.com>
-Date: Tue, 7 Jan 2020 11:19:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+References: <20191231184916.10235-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0e61692a-b670-153c-d348-5ab292d30a87@redhat.com>
+Date: Tue, 7 Jan 2020 11:34:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200106184601.25453-4-philmd@redhat.com>
+In-Reply-To: <20191231184916.10235-1-philmd@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: sMBC5PaqO16ZAREDaxnhxQ-1
+X-MC-Unique: YdwUTYmINdG-reOkt7Ez1g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,86 +92,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/06/20 19:46, Philippe Mathieu-Daud=C3=A9 wrote:
-> By using ccache we reduce the job duration from
-> 40 minutes 26 seconds to 32 minutes 6 seconds.
+On 31/12/19 19:49, Philippe Mathieu-Daud=C3=A9 wrote:
+> When configured with --without-default-devices and setting
+> MC146818RTC=3Dn, the build fails:
 >=20
->   Running after script...
->   $ ccache --show-stats
->   cache hit (direct)                  6604
->   files in cache                     12090
->   cache size                         335.5 MB
+>     LINK    x86_64-softmmu/qemu-system-x86_64
+>   /usr/bin/ld: qapi/qapi-commands-misc-target.o: in function `qmp_marshal=
+_rtc_reset_reinjection':
+>   qapi/qapi-commands-misc-target.c:46: undefined reference to `qmp_rtc_re=
+set_reinjection'
+>   /usr/bin/ld: qapi/qapi-commands-misc-target.c:46: undefined reference t=
+o `qmp_rtc_reset_reinjection'
+>   collect2: error: ld returned 1 exit status
+>   make[1]: *** [Makefile:206: qemu-system-x86_64] Error 1
+>   make: *** [Makefile:483: x86_64-softmmu/all] Error 2
 >=20
-> For now downloading this cache takes 16 seconds, archiving
-> it 44 seconds.
+> This patch tries to fix this, but this is incorrect because QAPI
+> scripts only provide TARGET definitions, so with MC146818RTC=3Dy we
+> get:
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .gitlab-ci-edk2.yml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>   hw/rtc/mc146818rtc.c:113:6: error: no previous prototype for =E2=80=98q=
+mp_rtc_reset_reinjection=E2=80=99 [-Werror=3Dmissing-prototypes]
+>     113 | void qmp_rtc_reset_reinjection(Error **errp)
+>         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>   cc1: all warnings being treated as errors
+>   make[1]: *** [rules.mak:69: hw/rtc/mc146818rtc.o] Error 1
 >=20
-> diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci-edk2.yml
-> index abfaf52874..329ba24f20 100644
-> --- a/.gitlab-ci-edk2.yml
-> +++ b/.gitlab-ci-edk2.yml
-> @@ -14,12 +14,19 @@ build-edk2:
->     - edk2-stdout.log
->     - edk2-stderr.log
->   image: ubuntu:16.04 # Use Ubuntu Xenial
-> + variables:
-> +   CCACHE_DIR: ${CI_PROJECT_DIR}/.ccache
-> + cache: # Use the same cache for all EDK2 jobs
-> +   key: ubuntu16.04-edk2-ccache
-> +   paths:
-> +   - ${CCACHE_DIR}
->   before_script: # Install packages requiered to build EDK2
->   - apt-get update --quiet --quiet
->   - DEBIAN_FRONTEND=3Dnoninteractive
->     apt-get install --assume-yes --no-install-recommends --quiet --quiet
->       build-essential
->       ca-certificates
-> +     ccache
->       dos2unix
->       gcc-aarch64-linux-gnu
->       gcc-arm-linux-gnueabi
-> @@ -29,9 +36,13 @@ build-edk2:
->       nasm
->       python
->       uuid-dev
-> + - export PATH=3D/usr/lib/ccache:$PATH
-> + - ccache --zero-stats
->   script: # Clone the required submodules and build EDK2
->   - git submodule update --init roms/edk2
->   - git -C roms/edk2 submodule update --init
->   - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
->   - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
->   - make -j${JOBS} -C roms efi 1>edk2-stdout.log 2> >(tee -a edk2-stderr.=
-log >&2)
-> + after_script:
-> + - ccache --show-stats
->=20
+> Any idea? :)
 
-I suggest dropping this patch. (In the first place: thank you for making
-this a separate patch!)
+Adding a stub seems like a good alternative.  Is the purpose of this to
+change MicroVM's select directive to imply?
 
-I'm not a fan of ccache, to be honest. I've seen obscure failures with
-it in the past. Also, the edk2 build system is a complicated beast in
-itself; let's not compose that with another opaque thing. I'm especially
-not fond of caching artifacts between multiple edk2 jobs.
-
-For speeding up my builds, I used to use distcc instead; it worked
-better than ccache (using multiple machines in my home). But I abandoned
-even that, after a while.
-
-I certainly don't intend to nack this patch -- if others really like
-(and trust) ccache, they are welcome to ack. I'm just not a fan of it.
-
-Thanks,
-Laszlo
+Paolo
 
 
