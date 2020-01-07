@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC9D132843
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 15:00:24 +0100 (CET)
-Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A691327FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:44:29 +0100 (CET)
+Received: from localhost ([::1]:49006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iopPB-0006El-25
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 09:00:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54369)
+	id 1iop9n-0007lG-Kt
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:44:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ionqP-0002rQ-Hy
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:20:22 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ions6-0007ZD-HD
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ionqO-0006Bh-8v
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:20:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56953
+ (envelope-from <kwolf@redhat.com>) id 1ions5-0007Ak-CR
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38849
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ionqO-0006Az-1z
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:20:20 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ions5-0007AT-8S
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:22:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578399619;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1578399724;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dmAzUURucQszBHULNimRpqChcdE2WZHmVXYSQzpsv5g=;
- b=JCGuSL49pvGI/QN2T/CrCvFPL460MA5D77rXzUWkR/U3h7tuwGlpMfJPRYXZpwDZB4PPK0
- Vn0gtuYZV+AzrUnUJSXZ4twS3frp4YFOvE72u73eaNQ6r8o6sJMwDNOoGLRcavU0B8S3Wg
- yD2SYANW6Q7CC7u0/0KR5ehqEO8MNkk=
+ bh=PeI52HgGfdoYKaKeA5CsC6ADKmmcbq85kw3u7jCjgZk=;
+ b=QlFKobPeoixbCfQCiVVtCnw9WhplU0tg2EKr31YDlJUnpvuW7n1tsUqsZcGXw/YHHcE0+X
+ baWXVJN0L/5wwlIptgnXilhW5x/+YeD89XbLigggF3nrvDR/FSvjszS1rtJk8oD5OGo6SS
+ lzzHVY8hzbgOa4cnkVuSLgU0dVnFGNA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-lzuwMYvWNqKJQabzo3xDfw-1; Tue, 07 Jan 2020 07:20:18 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-366-YZ4w34WjPduRS1H31__Nhg-1; Tue, 07 Jan 2020 07:22:01 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71280100551A
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 12:20:17 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E8CA85D9CA;
- Tue,  7 Jan 2020 12:20:10 +0000 (UTC)
-Date: Tue, 7 Jan 2020 12:20:07 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 097/104] virtiofsd: Fix data corruption with O_APPEND
- wirte in writeback mode
-Message-ID: <20200107122007.GG3368802@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-98-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C61618A6EC0;
+ Tue,  7 Jan 2020 12:22:00 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-78.ams2.redhat.com [10.36.116.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 57A118208E;
+ Tue,  7 Jan 2020 12:21:59 +0000 (UTC)
+Date: Tue, 7 Jan 2020 13:21:57 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v1 00/59] trivial unneeded labels cleanup
+Message-ID: <20200107122157.GH4076@linux.fritz.box>
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106195457.GE2886@minyard.net>
+ <f71eb524-571b-54d1-1a99-95d2896f6586@gmail.com>
+ <20200107061613.GB4076@linux.fritz.box>
+ <ccd70c1c-790a-bdc6-0f85-379777125892@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-98-dgilbert@redhat.com>
+In-Reply-To: <ccd70c1c-790a-bdc6-0f85-379777125892@gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: lzuwMYvWNqKJQabzo3xDfw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: YZ4w34WjPduRS1H31__Nhg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,52 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, minyard@acm.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 12, 2019 at 04:38:57PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Am 07.01.2020 um 12:52 hat Daniel Henrique Barboza geschrieben:
+> > So what is your plan for getting the series merged? Should maintainers
+> > just picks patches from the series, or do you want to collect Acked-by
+> > tags and then merge it through a single tree? If the latter, which one?
 >=20
-> When writeback mode is enabled (-o writeback), O_APPEND handling is
-> done in kernel. Therefore virtiofsd clears O_APPEND flag when open.
-> Otherwise O_APPEND flag takes precedence over pwrite() and write
-> data may corrupt.
->=20
-> Currently clearing O_APPEND flag is done in lo_open(), but we also
-> need the same operation in lo_create(). So, factor out the flag
-> update operation in lo_open() to update_open_flags() and call it
-> in both lo_open() and lo_create().
->=20
-> This fixes the failure of xfstest generic/069 in writeback mode
-> (which tests O_APPEND write data integrity).
+> The idea I had in mind was for each maintainer to pick up the patches and=
+ push
+> through their own trees, like David did in patches 1 and 2.
 
-Seeing this mention of xfstest reminds me that there are no tests
-added anywhere in this patch series.  Is there another followup
-pending with tests or is it a todo item ?
+Okay, thanks.
 
-We can usefully wire up this xfstest program in the functional
-tests of QEMU in some way ?
+> From qemu-trivial archives I notice that Laurent creates qemu-trivial pul=
+l
+> requests often, thus I believe this might also be an option. If we decide
+> to go this route I'll ask David to remove patches 1 and 2 from his ppc
+> tree to avoid unnecessary conflicts.
 
->=20
-> Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 66 ++++++++++++++++----------------
->  1 file changed, 33 insertions(+), 33 deletions(-)
+Two trees picking up the same patch doesn't result in a conflict, git
+can resolve this just fine. It only gets problematic if different
+versions of a patch are picked up.
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Kevin
 
 
