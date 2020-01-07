@@ -2,57 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AA81322C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:44:39 +0100 (CET)
-Received: from localhost ([::1]:45432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D09913226B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 10:33:30 +0100 (CET)
+Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iolPg-0000Y0-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:44:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37627)
+	id 1iolCp-0004T2-3P
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 04:31:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42341)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iokdw-0004Hr-Oe
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:55:17 -0500
+ (envelope-from <prime.zeng@hisilicon.com>) id 1iol5C-0005Xe-9z
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:23:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iokdu-0005H0-Pl
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:55:15 -0500
-Resent-Date: Tue, 07 Jan 2020 03:55:15 -0500
-Resent-Message-Id: <E1iokdu-0005H0-Pl@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21185)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iokdu-0005FX-I0
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 03:55:14 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1578387308; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nRZW1OBoMz18+FIkkQhLNd3kzMy9ij+W631VDFy3LDtcO5KDDwtWgF230mibSCpFG6V1byQnxXqnhPynoqOKrepTTLbGMx2NrqCAbsd9bhxUIdqqLmNPaimPOS3VR3ba7CbkZGzDt0jkZz5hnTmU6LlC/lENImnvAwsM6eiKZRM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1578387308;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=/gL+hqE6FcypT4qXMtXAkMrwO0oceCzm2i1NMQoSxuY=; 
- b=Q9QNKK3EG6Y7Ns69o+F8HVOdkmSrCw53Ax/kix1oMzWsmgIG5TQyPTHDEGUgqvKbjkuBrX5ote8nQKiTgNaeNBYnI01JVLMhaJcFSLZtK/6WtMNACJZ2legkFdFFx8LsNlqFM9BsNSuiSi+BaFKUdkAds7/IajBrzxPoYHCZuHs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1578387306523599.3131519661741;
- Tue, 7 Jan 2020 00:55:06 -0800 (PST)
-In-Reply-To: <20200107083606.12393-1-kraxel@redhat.com>
-Subject: Re: [PATCH] xhci: recheck slot status
-Message-ID: <157838730588.32546.15529440671038680188@37313f22b938>
+ (envelope-from <prime.zeng@hisilicon.com>) id 1iol52-00080o-Pu
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 04:23:19 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2229 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prime.zeng@hisilicon.com>)
+ id 1iol4x-0007kv-Qa; Tue, 07 Jan 2020 04:23:12 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id B80F5282A2F41FAD5E84;
+ Tue,  7 Jan 2020 17:23:03 +0800 (CST)
+Received: from localhost.localdomain (10.67.165.24) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 7 Jan 2020 17:22:55 +0800
+From: Zeng Tao <prime.zeng@hisilicon.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] hw/arm/acpi: Pack the SRAT processors structure by node_id
+ ascending order
+Date: Tue, 7 Jan 2020 17:18:49 +0800
+Message-ID: <1578388729-55540-1-git-send-email-prime.zeng@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Tue, 7 Jan 2020 00:55:06 -0800 (PST)
-X-ZohoMailClient: External
+Content-Type: text/plain
+X-Originating-IP: [10.67.165.24]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,19 +51,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, kraxel@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org, Shannon
+ Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Zeng Tao <prime.zeng@hisilicon.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDEwNzA4MzYwNi4xMjM5
-My0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpOL0EuIEludGVybmFsIGVycm9yIHdoaWxlIHJlYWRpbmcgbG9nIGZpbGUKCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIw
-MDEwNzA4MzYwNi4xMjM5My0xLWtyYXhlbEByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+When booting the guest linux with the following numa configuration:
+-numa node,node_id=1,cpus=0-3
+-numa node,node_id=0,cpus=4-7
+We can get the following numa topology in the guest system:
+Architecture:          aarch64
+Byte Order:            Little Endian
+CPU(s):                8
+On-line CPU(s) list:   0-7
+Thread(s) per core:    1
+Core(s) per socket:    8
+Socket(s):             1
+NUMA node(s):          2
+L1d cache:             unknown size
+L1i cache:             unknown size
+L2 cache:              unknown size
+NUMA node0 CPU(s):     0-3
+NUMA node1 CPU(s):     4-7
+The Cpus 0-3 is assigned with NUMA node 1 in QEMU while it get NUMA node
+0 in the guest.
+
+In fact, In the linux kernel, numa_node_id is allocated per the ACPI
+SRAT processors structure order,so the cpu 0 will be the first one to
+allocate its NUMA node id, so it gets the NUMA node 0.
+
+To fix this issue, we pack the SRAT processors structure in numa node id
+order but not the default cpu number order.
+
+Signed-off-by: Zeng Tao <prime.zeng@hisilicon.com>
+---
+ hw/arm/virt-acpi-build.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index bd5f771..497192b 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -520,7 +520,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     AcpiSystemResourceAffinityTable *srat;
+     AcpiSratProcessorGiccAffinity *core;
+     AcpiSratMemoryAffinity *numamem;
+-    int i, srat_start;
++    int i, j, srat_start;
++    uint32_t node_id;
+     uint64_t mem_base;
+     MachineClass *mc = MACHINE_GET_CLASS(vms);
+     MachineState *ms = MACHINE(vms);
+@@ -530,13 +531,19 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     srat = acpi_data_push(table_data, sizeof(*srat));
+     srat->reserved1 = cpu_to_le32(1);
+ 
+-    for (i = 0; i < cpu_list->len; ++i) {
+-        core = acpi_data_push(table_data, sizeof(*core));
+-        core->type = ACPI_SRAT_PROCESSOR_GICC;
+-        core->length = sizeof(*core);
+-        core->proximity = cpu_to_le32(cpu_list->cpus[i].props.node_id);
+-        core->acpi_processor_uid = cpu_to_le32(i);
+-        core->flags = cpu_to_le32(1);
++    for (i = 0; i < ms->numa_state->num_nodes; ++i) {
++        for (j = 0; j < cpu_list->len; ++j) {
++            node_id = cpu_to_le32(cpu_list->cpus[j].props.node_id);
++            if (node_id != i) {
++                continue;
++            }
++            core = acpi_data_push(table_data, sizeof(*core));
++            core->type = ACPI_SRAT_PROCESSOR_GICC;
++            core->length = sizeof(*core);
++            core->proximity = node_id;
++            core->acpi_processor_uid = cpu_to_le32(j);
++            core->flags = cpu_to_le32(1);
++        }
+     }
+ 
+     mem_base = vms->memmap[VIRT_MEM].base;
+-- 
+2.8.1
 
 
