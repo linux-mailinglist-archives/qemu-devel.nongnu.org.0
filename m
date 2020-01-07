@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F5013277F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:23:22 +0100 (CET)
-Received: from localhost ([::1]:48584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7F51326FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Jan 2020 14:04:05 +0100 (CET)
+Received: from localhost ([::1]:48246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ioopM-0002Cm-A6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:23:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34532)
+	id 1iooWh-0007zv-IE
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 08:04:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iooIr-0000xW-DQ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:49:46 -0500
+ (envelope-from <clg@kaod.org>) id 1iooLY-0006aj-4o
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iooIp-0005rs-Po
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:49:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55178
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iooLW-00080p-Tw
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:31 -0500
+Received: from 9.mo177.mail-out.ovh.net ([46.105.72.238]:48287)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iooIp-0005rQ-M3
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:49:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578401383;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ddkwZHIwvsKmyCpSkC4mGiKhT+5QLXENIZJE+XzURNY=;
- b=fxkjn1eCGEL+x592wHDUJyW0qDG4jwG8ttYaqhc+D60MXug4FVGefeynTEQI+ZtPySA6Rn
- gOByh8UbtLo2NPaDieE2NPvub05hlQ+vLlkN81Jr8EWuQ3ONYJIr8M+x5xhe8WovKUbVG5
- dohIcRkegKWpzwbCGDx/XbV68uFHpaQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-8A7GgNgmOquVlgKx2olTfQ-1; Tue, 07 Jan 2020 07:49:41 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53244802C96
- for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 12:49:40 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 364731036D1B;
- Tue,  7 Jan 2020 12:49:37 +0000 (UTC)
-Date: Tue, 7 Jan 2020 12:49:34 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2 01/10] migration: Increase default number of multifd
- channels to 16
-Message-ID: <20200107124934.GK3368802@redhat.com>
-References: <20191218020119.3776-1-quintela@redhat.com>
- <20191218020119.3776-2-quintela@redhat.com>
- <20200103165832.GU2753983@redhat.com> <87mub4xurf.fsf@trasno.org>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iooLW-00080B-Nn
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 07:52:30 -0500
+Received: from player729.ha.ovh.net (unknown [10.108.42.66])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 3A80111D2FF
+ for <qemu-devel@nongnu.org>; Tue,  7 Jan 2020 13:52:29 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: clg@kaod.org)
+ by player729.ha.ovh.net (Postfix) with ESMTPSA id 95A3AE142458;
+ Tue,  7 Jan 2020 12:52:17 +0000 (UTC)
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: [PATCH v2 01/10] ppc: Drop PPC_EMULATE_32BITS_HYPV stub
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ groug@kaod.org, philmd@redhat.com
+References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+ <20200107044827.471355-2-david@gibson.dropbear.id.au>
+Message-ID: <64259936-5392-6eb4-3c4e-2f4fa901ea57@kaod.org>
+Date: Tue, 7 Jan 2020 13:52:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <87mub4xurf.fsf@trasno.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 8A7GgNgmOquVlgKx2olTfQ-1
-X-Mimecast-Spam-Score: 0
+In-Reply-To: <20200107044827.471355-2-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 9154973617539550091
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhuffvfhfkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjedvledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 46.105.72.238
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,101 +60,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 03, 2020 at 07:25:08PM +0100, Juan Quintela wrote:
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> > On Wed, Dec 18, 2019 at 03:01:10AM +0100, Juan Quintela wrote:
-> >> We can scale much better with 16, so we can scale to higher numbers.
-> >
-> > What was the test scenario showing such scaling ?
+On 1/7/20 5:48 AM, David Gibson wrote:
+> The only effect of the PPC_EMULATE_32BITS_HYPV define is to change how
+> MSR_HVB is defined.  This appears to be something to handle hypervisor =
+mode
+> for 32-bit CPUs, but there's really no other code to handle this.  The
+> MSR_THV bit, which it uses is implemented for no cpus we model.
 >=20
-> On my test hardware, with 2 channels we can saturate around 8Gigabit max,
-> more than that, and the migration thread is not fast enough to fill the
-> network bandwidth.
+> It's unlikely anyone is going to implement this any time soon, so just =
+drop
+> it.
 >=20
-> With 8 that is enough to fill whatever we can find.
-> We used to have a bug where we were getting trouble with more channels
-> than cores.  That was the initial reason why the default was so low.
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+> ---
+>  target/ppc/cpu.h | 7 -------
+>  1 file changed, 7 deletions(-)
 >=20
-> So, pros/cons are:
-> - have low value (2).  We are backwards compatible, but we are not using
->   all  bandwith.  Notice that we will dectect the error before 5.0 is
->   out and print a good error message.
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 103bfe9dc2..2de9e2fa2b 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -26,8 +26,6 @@
+>  #include "exec/cpu-defs.h"
+>  #include "cpu-qom.h"
+> =20
+> -/* #define PPC_EMULATE_32BITS_HYPV */
+> -
+>  #define TCG_GUEST_DEFAULT_MO 0
+> =20
+>  #define TARGET_PAGE_BITS_64K 16
+
+btw, this define ^ is unused.
+
+> @@ -450,14 +448,9 @@ typedef struct ppc_v3_pate_t {
+>  #define MSR_HVB (1ULL << MSR_SHV)
+>  #define msr_hv  msr_shv
+>  #else
+> -#if defined(PPC_EMULATE_32BITS_HYPV)
+> -#define MSR_HVB (1ULL << MSR_THV)
+> -#define msr_hv  msr_thv
+> -#else
+>  #define MSR_HVB (0ULL)
+>  #define msr_hv  (0)
+>  #endif
+> -#endif
+> =20
+>  /* DSISR */
+>  #define DSISR_NOPTE              0x40000000
 >=20
-> - have high value (I tested 8 and 16).  Found no performance loss when
->   moving to lower bandwidth limits, and clearly we were able to saturate
->   the higher speeds (I tested on localhost, so I had big enough bandwidth=
-)
->=20
->=20
-> > In the real world I'm sceptical that virt hosts will have
-> > 16 otherwise idle CPU cores available that are permissible
-> > to use for migration, or indeed whether they'll have network
-> > bandwidth available to allow 16 cores to saturate the link.
->=20
-> The problem here is that if you have such a host, and you want to have
-> high speed migration, you need to configure it.  My measumermets are
-> that high number of channels don't affect performance with low
-> bandwidth, but low number of channels affect performance with high
-> bandwidth speed.
-
-I'm not concerned about impact on performance of migration on a
-low bandwidth link, rather I'm concerned about impact on performance
-of other guests on the host. It will cause migration to contend with
-other guest's vCPUs and network traffic.=20
-
-> So, if we want to have something that works "automatically" everywhere,
-> we need to put it to at least 8.  Or we can trust that management app
-> will do the right thing.
-
-Aren't we still setting the bandwidth limit to MB bandwidth out of the
-box, so we already require mgmt app to change settings to use more
-bandwidth ?=20
-
-> If you are using a low value of bandwidth, the only difference with 16
-> channels is that you are using a bit more memory (just the space for the
-> stacks) and that you are having less contention for the locks (but with
-> low bandwidth you are not having contention anyways).
->=20
-> So,  I think that the question is:
-> - What does libvirt prefferes
-
-Libvirt doesn't really have an opinion in this case. I believe we'll
-always set the number of channels on both src & dst, so we don't
-see the defaults.
-
-> - What does ovirt/openstack preffer
-
-Libvirt should insulate them from any change in defaults in QEMU
-in this case, but always explicitly setting channels on src & dst
-to match.
-
-> - Do we really want that the user "have" to configure that value
-
-Right so this is the key quesiton - for a user not using libvirt
-or a libvirt based mgmt app, what we do want out out of the box
-migration to be tuned for ?
-
-If we want to maximise migration performance, at cost of anything
-else, then we can change the migration channels count, but probably
-also ought to remove the 32MB bandwidth cap as no useful guest with
-active apps will succeed migration with a 32MB cap.
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
 
 
