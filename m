@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5602A13457B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:58:19 +0100 (CET)
-Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB3913457D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:58:30 +0100 (CET)
+Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCmn-0006if-MA
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:58:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40338)
+	id 1ipCmy-00070s-MM
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:58:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipCkc-0004an-7t
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:03 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipCkd-0004bk-4G
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipCkb-0005QA-0D
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:02 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36028)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipCkb-0005Qe-Oq
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:03 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38950)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipCka-0005Oy-PS; Wed, 08 Jan 2020 09:56:00 -0500
-Received: by mail-wr1-x443.google.com with SMTP id z3so3726941wru.3;
- Wed, 08 Jan 2020 06:56:00 -0800 (PST)
+ id 1ipCkb-0005Q6-Hc; Wed, 08 Jan 2020 09:56:01 -0500
+Received: by mail-wm1-x343.google.com with SMTP id 20so2812622wmj.4;
+ Wed, 08 Jan 2020 06:56:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=thqT8r9CcCG0T97Pz3DNSEuib2QMsHHphXqr+0a7uqc=;
- b=sbzQRY0KNmus5MMY6Rfoc+hLGOKn833YTEy+YoktzfgkZO5UnD8l0Yor8M0/rmjd9U
- F3apNtOHlaLPeTStQ8kwJyp7/UB25W0CI3nxeQLAbSc/87zY5j8dVjXPwgATwK4BuH4O
- G9hgtGDtylzSq3WdIMzaXnwgQ1DUcugsvhpQtzclJCtRscr2G+xgsySuC7sw3b+mDKIo
- 1pvX/hN/csYFhp/EvvVo9yQWgbRpdc2jiVbunYMK5LoTndQk7tvsBtG7ja+Y2FLWrPDB
- sIxedMpp/BxeJZvRwTg4miqrfhwhaqfghaW9OEBmMjns+MpFZ217U514oSPcrwvTHvln
- RNGA==
+ bh=55yi1vJuIPc6uvcE+4FM+S7vWH9/hsBz/Hp/0qkGAcQ=;
+ b=CnoUn7FgkPHdQcIV91sThsYdyY2OwOXjVAf7x7fp3H5AIJcr+HrENJ9Fkc+1FD2tKO
+ D20lOcZiol5DXp/LDMHcENRJa4ITJ1g3VZWS0DLSoU29WHD4FoKN4FvMGX5zR0+Z28Mh
+ S9Fve0u+FAKZmmuVJB93+FCCuHutBYFEyEcj024Baaoxk/O/9dTCozRyTTZmLLfkEb24
+ ViaNbnHMRWakS0+D+UV/eNG4xQLP+Z08looFW+9UDyVqtpMm9T5z+jCgLHtjRzjGGBj3
+ hwTQC6gAgA0aFxg0WARs5RpKO2C5isAeS7JzNWJto888L4FkwyzOJKWq2FP0OeQFbCCV
+ wyTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=thqT8r9CcCG0T97Pz3DNSEuib2QMsHHphXqr+0a7uqc=;
- b=ZFgi0cvHGXwd/hUhM3UZiKbciyvxjJu0u9erGceTzwdAMQk1yNkbVLPDURVYnV6u9D
- +55TVjnfdHGol8bh37YtJ0V5TH5R0x7lzRrHW8lBywuXk7pCaSLmAHr90WOsOQt8kOIl
- QfacNqD7UNr85NAjZBfEjsR9nwR2H98nsV3iOYL7Xy9Ut9oTOs5ddc94DkGK2lZSSCKz
- z+5UVmjRiSArrQwh5idXxBfiTGxKZHfYzpawHFnbHaSiMVmfMn/MPAwJjXzA1xR8XPEO
- p4YLYEorMYua5YvocX3ce4xz0XzZF3g21/eSidRxp0mb7WZ6n/PDECasxHQ4F+27AkGF
- AObg==
-X-Gm-Message-State: APjAAAWJpV0iubizuWQDcH03i6K6g9KCTTzVGTOsgIb6lMpU4QR0TaZN
- Cd2OATzRyQYK4A7FhaptCw+W5LFj
-X-Google-Smtp-Source: APXvYqwYg19dCC2FKaE1SnWdS2WrqK/9J5So61rrvTzpqM6ZguMFTANHBLVeA/UUrEFxVS/Zgo06Hw==
-X-Received: by 2002:adf:e609:: with SMTP id p9mr4800868wrm.397.1578495359357; 
- Wed, 08 Jan 2020 06:55:59 -0800 (PST)
+ bh=55yi1vJuIPc6uvcE+4FM+S7vWH9/hsBz/Hp/0qkGAcQ=;
+ b=fWuDle6ln1u+1w3a5JEQnVXBDKpRZj7WcZORqnVCfjq/kmj+drl57Wsxqtd7pfBv8I
+ hER2JZjtnjLU0ItK0VbOdtfGAZKZPiRLLW0zgC2LuZCg4HuQsBs6/sd5/YJmrCLg5Lu5
+ AN0Q2wOiYOoRGOTGuNm2x/pCBmoQBD9aymU7a85q8LPFKnxIzgLncPpfH4ZLmQV3HYle
+ YDx5uplER2LunD7OiooSziljXRQHoCfET5WMbh2XOL6+2DEICFB8z0VlMljjNFie1o0t
+ HrsU8mmQKTKryLIuLvRR/IRQS9pgZq+DK3228IInc1xJK40QV0/uEM9ePcaKcvW1X7aR
+ 5T/Q==
+X-Gm-Message-State: APjAAAXxjZ/r+sp9Nf1aN4js1T+afo3f2aVmYfyzE4yJKGn+i1toJQqY
+ uj8rjz8nqhkk6cCiZRQjthvtQWC9
+X-Google-Smtp-Source: APXvYqyWg27U+eNw3TbGnM+Z1vCCIukWhA2gslQAkdwDorUxEx3CQOmWqSIAPNocQfnk8An88rOFRQ==
+X-Received: by 2002:a1c:23d7:: with SMTP id j206mr4198369wmj.39.1578495360251; 
+ Wed, 08 Jan 2020 06:56:00 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g21sm4703529wrb.48.2020.01.08.06.55.58
+ by smtp.gmail.com with ESMTPSA id g21sm4703529wrb.48.2020.01.08.06.55.59
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 06:55:58 -0800 (PST)
+ Wed, 08 Jan 2020 06:55:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] block: eliminate BDRV_REQ_NO_SERIALISING
-Date: Wed,  8 Jan 2020 15:55:54 +0100
-Message-Id: <1578495356-46219-2-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH v2 2/3] block/io: wait for serialising requests when a request
+ becomes serialising
+Date: Wed,  8 Jan 2020 15:55:55 +0100
+Message-Id: <1578495356-46219-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578495356-46219-1-git-send-email-pbonzini@redhat.com>
 References: <1578495356-46219-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,97 +78,147 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is unused since commit 00e30f0 ("block/backup: use backup-top instead
-of write notifiers", 2019-10-01), drop it to simplify the code.
-
-While at it, drop redundant assertions on flags.
+Marking without waiting would not result in actual serialising behavior.
+Thus, make a call bdrv_mark_request_serialising sufficient for
+serialisation to happen.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/io.c            | 18 ++++--------------
- include/block/block.h | 12 ------------
- 2 files changed, 4 insertions(+), 26 deletions(-)
+ block/file-posix.c        |  1 -
+ block/io.c                | 40 +++++++++++++++++-----------------------
+ include/block/block_int.h |  3 +--
+ 3 files changed, 18 insertions(+), 26 deletions(-)
 
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 1b805bd..2b08b02 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2753,7 +2753,6 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int bytes,
+         req->overlap_bytes = req->bytes;
+ 
+         bdrv_mark_request_serialising(req, bs->bl.request_alignment);
+-        bdrv_wait_serialising_requests(req);
+     }
+ #endif
+ 
 diff --git a/block/io.c b/block/io.c
-index f75777f..b3a67fe 100644
+index b3a67fe..c466df8 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -1445,8 +1445,7 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-      * potential fallback support, if we ever implement any read flags
-      * to pass through to drivers.  For now, there aren't any
-      * passthrough flags.  */
--    assert(!(flags & ~(BDRV_REQ_NO_SERIALISING | BDRV_REQ_COPY_ON_READ |
--                       BDRV_REQ_PREFETCH)));
-+    assert(!(flags & ~(BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH)));
+@@ -41,6 +41,7 @@
+ #define MAX_BOUNCE_BUFFER (32768 << BDRV_SECTOR_BITS)
  
-     /* Handle Copy on Read and associated serialisation */
-     if (flags & BDRV_REQ_COPY_ON_READ) {
-@@ -1458,12 +1457,7 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+ static void bdrv_parent_cb_resize(BlockDriverState *bs);
++static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self);
+ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+     int64_t offset, int bytes, BdrvRequestFlags flags);
+ 
+@@ -715,7 +716,7 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
+     qemu_co_mutex_unlock(&bs->reqs_lock);
+ }
+ 
+-void bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
++bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
+ {
+     int64_t overlap_offset = req->offset & ~(align - 1);
+     uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
+@@ -728,18 +729,7 @@ void bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
+ 
+     req->overlap_offset = MIN(req->overlap_offset, overlap_offset);
+     req->overlap_bytes = MAX(req->overlap_bytes, overlap_bytes);
+-}
+-
+-static bool is_request_serialising_and_aligned(BdrvTrackedRequest *req)
+-{
+-    /*
+-     * If the request is serialising, overlap_offset and overlap_bytes are set,
+-     * so we can check if the request is aligned. Otherwise, don't care and
+-     * return false.
+-     */
+-
+-    return req->serialising && (req->offset == req->overlap_offset) &&
+-           (req->bytes == req->overlap_bytes);
++    return bdrv_wait_serialising_requests(req);
+ }
+ 
+ /**
+@@ -823,7 +813,7 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
+     bdrv_wakeup(bs);
+ }
+ 
+-bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
++static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
+ {
+     BlockDriverState *bs = self->bs;
+     BdrvTrackedRequest *req;
+@@ -1455,10 +1445,10 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+          * it ensures that the CoR read and write operations are atomic and
+          * guest writes cannot interleave between them. */
          bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++    } else {
++        bdrv_wait_serialising_requests(req);
      }
  
--    /* BDRV_REQ_SERIALISING is only for write operation */
--    assert(!(flags & BDRV_REQ_SERIALISING));
+-    bdrv_wait_serialising_requests(req);
 -
--    if (!(flags & BDRV_REQ_NO_SERIALISING)) {
--        bdrv_wait_serialising_requests(req);
--    }
-+    bdrv_wait_serialising_requests(req);
- 
      if (flags & BDRV_REQ_COPY_ON_READ) {
          int64_t pnum;
-@@ -1711,7 +1705,7 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
-     bdrv_inc_in_flight(bs);
  
-     /* Don't do copy-on-read if we read data before write operation */
--    if (atomic_read(&bs->copy_on_read) && !(flags & BDRV_REQ_NO_SERIALISING)) {
-+    if (atomic_read(&bs->copy_on_read)) {
-         flags |= BDRV_REQ_COPY_ON_READ;
-     }
- 
-@@ -1852,8 +1846,6 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
-         return -EPERM;
-     }
- 
--    /* BDRV_REQ_NO_SERIALISING is only for read operation */
--    assert(!(flags & BDRV_REQ_NO_SERIALISING));
-     assert(!(bs->open_flags & BDRV_O_INACTIVE));
-     assert((bs->open_flags & BDRV_O_NO_IO) == 0);
+@@ -1851,13 +1841,19 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
      assert(!(flags & ~BDRV_REQ_MASK));
-@@ -3222,9 +3214,7 @@ static int coroutine_fn bdrv_co_copy_range_internal(
  
-         /* BDRV_REQ_SERIALISING is only for write operation */
-         assert(!(read_flags & BDRV_REQ_SERIALISING));
--        if (!(read_flags & BDRV_REQ_NO_SERIALISING)) {
--            bdrv_wait_serialising_requests(&req);
--        }
-+        bdrv_wait_serialising_requests(&req);
+     if (flags & BDRV_REQ_SERIALISING) {
+-        bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++        waited = bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++        /*
++         * For a misaligned request we should have already waited earlier,
++         * because we come after bdrv_padding_rmw_read which must be called
++         * with the request already marked as serialising.
++         */
++        assert(!waited ||
++               (req->offset == req->overlap_offset &&
++                req->bytes == req->overlap_bytes));
++    } else {
++        bdrv_wait_serialising_requests(req);
+     }
  
-         ret = src->bs->drv->bdrv_co_copy_range_from(src->bs,
-                                                     src, src_offset,
-diff --git a/include/block/block.h b/include/block/block.h
-index e9dcfef..23c7642 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -51,18 +51,6 @@ typedef enum {
-      */
-     BDRV_REQ_MAY_UNMAP          = 0x4,
+-    waited = bdrv_wait_serialising_requests(req);
+-
+-    assert(!waited || !req->serialising ||
+-           is_request_serialising_and_aligned(req));
+     assert(req->overlap_offset <= offset);
+     assert(offset + bytes <= req->overlap_offset + req->overlap_bytes);
+     assert(end_sector <= bs->total_sectors || child->perm & BLK_PERM_RESIZE);
+@@ -2019,7 +2015,6 @@ static int coroutine_fn bdrv_co_do_zero_pwritev(BdrvChild *child,
+     padding = bdrv_init_padding(bs, offset, bytes, &pad);
+     if (padding) {
+         bdrv_mark_request_serialising(req, align);
+-        bdrv_wait_serialising_requests(req);
  
--    /*
--     * The BDRV_REQ_NO_SERIALISING flag is only valid for reads and means that
--     * we don't want wait_serialising_requests() during the read operation.
--     *
--     * This flag is used for backup copy-on-write operations, when we need to
--     * read old data before write (write notifier triggered). It is okay since
--     * we already waited for other serializing requests in the initiating write
--     * (see bdrv_aligned_pwritev), and it is necessary if the initiating write
--     * is already serializing (without the flag, the read would deadlock
--     * waiting for the serialising write to complete).
--     */
--    BDRV_REQ_NO_SERIALISING     = 0x8,
-     BDRV_REQ_FUA                = 0x10,
-     BDRV_REQ_WRITE_COMPRESSED   = 0x20,
+         bdrv_padding_rmw_read(child, req, &pad, true);
  
+@@ -2122,7 +2117,6 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
+ 
+     if (bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad)) {
+         bdrv_mark_request_serialising(&req, align);
+-        bdrv_wait_serialising_requests(&req);
+         bdrv_padding_rmw_read(child, &req, &pad, false);
+     }
+ 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index dd033d0..640fb82 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -999,8 +999,7 @@ extern unsigned int bdrv_drain_all_count;
+ void bdrv_apply_subtree_drain(BdrvChild *child, BlockDriverState *new_parent);
+ void bdrv_unapply_subtree_drain(BdrvChild *child, BlockDriverState *old_parent);
+ 
+-bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self);
+-void bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align);
++bool coroutine_fn bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align);
+ BdrvTrackedRequest *coroutine_fn bdrv_co_get_self_request(BlockDriverState *bs);
+ 
+ int get_tmp_filename(char *filename, int size);
 -- 
 1.8.3.1
 
