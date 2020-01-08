@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DF21341CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:35:12 +0100 (CET)
-Received: from localhost ([::1]:42802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C871341D1
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:35:15 +0100 (CET)
+Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAYI-0005II-IK
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:35:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60200)
+	id 1ipAYL-0005SQ-RU
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:35:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWD-0003ZN-Uz
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWE-0003ZT-Ha
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWC-0004CF-JV
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:01 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36677)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWD-0004Cu-Fc
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:02 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54053)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWC-0004Bg-D1
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:00 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id p17so2323114wma.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:00 -0800 (PST)
+ id 1ipAWD-0004CT-A5
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:01 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id m24so2289955wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Gy9btQ6/hiFDb+yxtplkQokqmOK4xY8N+OZWF2JIRzg=;
- b=uVAAq1O5zbSUP4gUAYETzx/Q1eW++7FFfF1E7r9RL4hvDqaLlY2ynJSlOhKZYCc+8e
- xLXzS8pQ5CNs8PecKzp7lCPVDS9DZ/LI745N6iXvw7/hkAMcr1Y8OlJ0lsvOEXc/5EFa
- 3vyukwO+D5yy6ht18JdKVthcI/4f90oxMTXpnH5DSKUbOaaFx9O9/6R5blFbs+CyyCVe
- L7MsWdQIy5zvhUd0nDmWXd8xHMp6mNhDmtQpicYpW+ewoHCYbS3WbtX/EsMq1OXPIXcy
- 0IawvP3TOjuNS7N/2zVBbSnPEzP70YcyRudNUC03wcNXPur94v8ARpI7lf6axZa+WfFQ
- MAkg==
+ bh=UqcGASlTCMJvprrArRFDwqMRetNCkLLbCVZeMkPWPJg=;
+ b=RdP17KFj2BiPki7Bf5fmZctgh+lPGAjGZEPJvapioRSAPV6h28o/7eSDbSqXDoTJq/
+ ftKdNYpL5FXE9XFQ5TTVAAdu2WRedc0mmGkoPYS/eKX8FbOiX3vNs81yJ0SBKHpGV57K
+ 7LPIaUtyCVih9nv4t9r6M79EWWCGmhLObIoVSciECgprZxjzUB5NZSzT59n9YXtYZraL
+ ONVOMj2d6GUOAP7DCnnuHdCNrQpRzPS1tRj5H5GL+EgKPrgf5bcWffCFBU61dg0CddJ+
+ wGoXBl3TLCtAcVXJxuW+kQpaWazo04AspqqblzeKGlVvDuePxC+6TsbZds0c0naVe+VM
+ YqZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Gy9btQ6/hiFDb+yxtplkQokqmOK4xY8N+OZWF2JIRzg=;
- b=QRUq4WInDq1zCFrIBwoeC1GxbyTI/lcEdfYE7+iIYD2XPxJXkmdUTw1ol/kmZ4xt2b
- evt6uF7LYsIL1SQ0tqWV9cDKGf2mmI0SMZv2FwHo0VtDyzeYbshYbQOuba1C7sLuvQRP
- dGhuPEL61bYS3z+hd0vcOLz3BWSmarqAETq8FythYeZ84zN7zQKWO4gpX10cMp8rYjUy
- 10BQ08mBsj+KT0jWIMlp5vFbFfRcobIm8JbeI0M3BWH/xUJA8StLZey6m04AntqhBDBK
- xhk+OJKZFzMHTlhLuoAPLHa77xF2Gv71bxZPffZRbx5FM/EFyoRAVWhoRVsPOIciiT4Q
- Xwaw==
-X-Gm-Message-State: APjAAAUV5bAuYdvrGA6P7e6oqjUc7ET9uQDYYNKhwNz5mJh7nS/VUJKA
- hgFAQuvYayvOp5uLFX2L50rpS4eh
-X-Google-Smtp-Source: APXvYqxnaRJGuAXC10yDrED+U3B6O/guHPlCxhLbplE72TC6qq7sGS2xCsVqacVfX6DoqVzL+PV0Ww==
-X-Received: by 2002:a05:600c:22d3:: with SMTP id
- 19mr3525935wmg.92.1578486779147; 
- Wed, 08 Jan 2020 04:32:59 -0800 (PST)
+ bh=UqcGASlTCMJvprrArRFDwqMRetNCkLLbCVZeMkPWPJg=;
+ b=fBck4D3UkEDOW+QCDNx9KmXs3dimwml5y8HTMJjSGCfqvnNCaqeaSGVWl+IRONIT61
+ EqPp7VBCbb7H9YblG2mC8yLnsTYQqS/O3jeN/Q9Ru7VNcadfHK2ctoICoqvfbzCSGHUY
+ riRDib7Fr3QodbMNX69SROqSdsHb0bEOSeOTdr+UdLGjg2Ge28l+QLvQQDUAQu5lnoHK
+ M2SJW8lsb3Cda+nsNLUhJtvF4fos9OqDJ4Rzs8zzRgBmU/EcCl0kaj7j/Li2BcmGcX+K
+ Y4XLAZ4zjg+Tv0wpT+mcPaAehQSMFuVTd8IU1VNC0KZ4+kx+XLf+lJ0SbgYkZH3jOxt/
+ JAJQ==
+X-Gm-Message-State: APjAAAWRZDZGbkPQ27aOw9w3/6CY0PZuPgc5NS9yqh07uY3f/+AC29Ou
+ 52e3wSUBKoeJtJs2upLGJQpSljAr
+X-Google-Smtp-Source: APXvYqxmicQnUXWkSI7oXTTYVPD73FLc7DvpqSJtd9QpksqCGH5Mew0avrk3DwUrRj+s16tw1KLYRA==
+X-Received: by 2002:a1c:720a:: with SMTP id n10mr3522271wmc.74.1578486780149; 
+ Wed, 08 Jan 2020 04:33:00 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.32.58
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.32.59
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:32:58 -0800 (PST)
+ Wed, 08 Jan 2020 04:32:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/38] accel/kvm: Make "kernel_irqchip" default on
-Date: Wed,  8 Jan 2020 13:32:19 +0100
-Message-Id: <1578486775-52247-3-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 03/38] hw: fix using 4.2 compat in 5.0 machine types for
+ i440fx/q35
+Date: Wed,  8 Jan 2020 13:32:20 +0100
+Message-Id: <1578486775-52247-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,124 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiaoyao Li <xiaoyao.li@intel.com>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-Commit 11bc4a13d1f4 ("kvm: convert "-machine kernel_irqchip" to an
-accelerator property") moves kernel_irqchip property from "-machine" to
-"-accel kvm", but it forgets to set the default value of
-kernel_irqchip_allowed and kernel_irqchip_split.
+5.0 machine type uses 4.2 compats. This seems to be incorrect, since
+the latests machine type by now is 5.0 and it should use its own
+compat or shouldn't use any relying on the defaults.
+Seems, like this appeared because of some problems on merge/rebase.
 
-Also cleaning up the three useless members (kernel_irqchip_allowed,
-kernel_irqchip_required, kernel_irqchip_split) in struct MachineState.
-
-Fixes: 11bc4a13d1f4 ("kvm: convert "-machine kernel_irqchip" to an accelerator property")
-Reported-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-Id: <20191228104326.21732-1-xiaoyao.li@intel.com>
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20191223072856.5369-1-dplotnikov@virtuozzo.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c | 19 +++++++++++++------
- include/hw/boards.h |  3 ---
- 2 files changed, 13 insertions(+), 9 deletions(-)
+ hw/i386/pc_piix.c | 1 -
+ hw/i386/pc_q35.c  | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index b2f1a5b..1ada2f4 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -98,7 +98,7 @@ struct KVMState
-     int kvm_shadow_mem;
-     bool kernel_irqchip_allowed;
-     bool kernel_irqchip_required;
--    bool kernel_irqchip_split;
-+    OnOffAuto kernel_irqchip_split;
-     bool sync_mmu;
-     bool manual_dirty_log_protect;
-     /* The man page (and posix) say ioctl numbers are signed int, but
-@@ -1783,6 +1783,7 @@ static void kvm_irqchip_create(KVMState *s)
- {
-     int ret;
- 
-+    assert(s->kernel_irqchip_split != ON_OFF_AUTO_AUTO);
-     if (kvm_check_extension(s, KVM_CAP_IRQCHIP)) {
-         ;
-     } else if (kvm_check_extension(s, KVM_CAP_S390_IRQCHIP)) {
-@@ -1799,7 +1800,7 @@ static void kvm_irqchip_create(KVMState *s)
-      * in-kernel irqchip for us */
-     ret = kvm_arch_irqchip_create(s);
-     if (ret == 0) {
--        if (s->kernel_irqchip_split) {
-+        if (s->kernel_irqchip_split == ON_OFF_AUTO_ON) {
-             perror("Split IRQ chip mode not supported.");
-             exit(1);
-         } else {
-@@ -2070,6 +2071,10 @@ static int kvm_init(MachineState *ms)
-         goto err;
-     }
- 
-+    if (s->kernel_irqchip_split == ON_OFF_AUTO_AUTO) {
-+        s->kernel_irqchip_split = mc->default_kernel_irqchip_split ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
-+    }
-+
-     if (s->kernel_irqchip_allowed) {
-         kvm_irqchip_create(s);
-     }
-@@ -3005,17 +3010,17 @@ static void kvm_set_kernel_irqchip(Object *obj, Visitor *v,
-         case ON_OFF_SPLIT_ON:
-             s->kernel_irqchip_allowed = true;
-             s->kernel_irqchip_required = true;
--            s->kernel_irqchip_split = false;
-+            s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
-             break;
-         case ON_OFF_SPLIT_OFF:
-             s->kernel_irqchip_allowed = false;
-             s->kernel_irqchip_required = false;
--            s->kernel_irqchip_split = false;
-+            s->kernel_irqchip_split = ON_OFF_AUTO_OFF;
-             break;
-         case ON_OFF_SPLIT_SPLIT:
-             s->kernel_irqchip_allowed = true;
-             s->kernel_irqchip_required = true;
--            s->kernel_irqchip_split = true;
-+            s->kernel_irqchip_split = ON_OFF_AUTO_ON;
-             break;
-         default:
-             /* The value was checked in visit_type_OnOffSplit() above. If
-@@ -3038,7 +3043,7 @@ bool kvm_kernel_irqchip_required(void)
- 
- bool kvm_kernel_irqchip_split(void)
- {
--    return kvm_state->kernel_irqchip_split;
-+    return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 721c7aa..fa12203 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -425,7 +425,6 @@ static void pc_i440fx_5_0_machine_options(MachineClass *m)
+     m->alias = "pc";
+     m->is_default = 1;
+     pcmc->default_cpu_version = 1;
+-    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
  }
  
- static void kvm_accel_instance_init(Object *obj)
-@@ -3046,6 +3051,8 @@ static void kvm_accel_instance_init(Object *obj)
-     KVMState *s = KVM_STATE(obj);
- 
-     s->kvm_shadow_mem = -1;
-+    s->kernel_irqchip_allowed = true;
-+    s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
+ DEFINE_I440FX_MACHINE(v5_0, "pc-i440fx-5.0", NULL,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 52f4573..84cf925 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -354,7 +354,6 @@ static void pc_q35_5_0_machine_options(MachineClass *m)
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+     pcmc->default_cpu_version = 1;
+-    compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
  }
  
- static void kvm_accel_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 61f8bb8..fb1b43d 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -271,9 +271,6 @@ struct MachineState {
- 
-     /*< public >*/
- 
--    bool kernel_irqchip_allowed;
--    bool kernel_irqchip_required;
--    bool kernel_irqchip_split;
-     char *dtb;
-     char *dumpdtb;
-     int phandle_start;
+ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
 -- 
 1.8.3.1
 
