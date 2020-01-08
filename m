@@ -2,78 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DAE134083
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:31:58 +0100 (CET)
-Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE02C1340B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:40:56 +0100 (CET)
+Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip9Z7-0004Ey-F6
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:31:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53748)
+	id 1ip9hn-0008BQ-UU
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:40:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tgolembi@redhat.com>) id 1ip9XR-000347-4K
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:19 -0500
+ (envelope-from <gengdongjiu@huawei.com>) id 1ip9Zv-0005Lp-Nx
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:32:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tgolembi@redhat.com>) id 1ip9XL-0000uk-5W
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22984
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <gengdongjiu@huawei.com>) id 1ip9Zt-0002iE-DS
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:32:47 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2231 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tgolembi@redhat.com>) id 1ip9XL-0000uP-00
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578483006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Xdn9RJjhVOoi9NMdxaD1ECPY7dCE1Ow6rO1+C9OtDGE=;
- b=OdRStVdiBG3OPX1IXs8PP4+EUXEQarQHCdj+37Kvn+BKBE7g3rLTQNj40KvesmGP+wYX1t
- Z03eqVq//wYlBMmwD76YW6lzMhQZ0yGNzGP9EhPJQNqf2M1QfOrh/QSdmOiLAu4MROsL9t
- b0cWmxSwoE+VEp95JvS6z0GesekzCLw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-IYajOBtHMpCiL3H50u4jSg-1; Wed, 08 Jan 2020 06:30:04 -0500
-Received: by mail-wr1-f69.google.com with SMTP id l20so1316062wrc.13
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 03:30:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PHgOrOJJ+UBBJn0Y0yVUX3rUSDw0grOwYc/U+JJM8wI=;
- b=ELX3MSNNG0hrjThYJHULN5nSXMdJya8O/7x3AZ6c5wQUtwx+TW+x3pgmhbDyG3te5N
- 2DH+UGKkdj/4C5kE09pV6iJXowgmadGWgfrpOxncZjd9tojFuSJ/4b9tLl+XGwMG4FXf
- AotZF2Dzd/rzkkG8ihMdVBVdWsItNEt81QS9WaRo+eZxKBc1Z0RTKeOLl4/TLc8evBi8
- x/KsFe3c26xx8b5yvSuIWEXd6HhT9CxxrC75j4se2u7/MVHQ2cleFYCuTXFrShl6r/Rf
- I3MADq7z8iMdCTXquLmiXoSfDaeEatYCM+OSLkzj+AN66dv5l+fxEJQzjboi1VjVwKLs
- Ar2Q==
-X-Gm-Message-State: APjAAAX6brtYT9ewfnjXru5yIukhzSItlEtM1hG/yY4H7Ck6IM5Yv/9c
- z2rsuCdB4dFY7zjjVsxe92EJROzVVguqUvif9JW8NC13fXOCqUpr14Ry1GhAEvKIuidw6rYWE45
- aawfLgjzWrsMOYSw=
-X-Received: by 2002:adf:f103:: with SMTP id r3mr3877153wro.295.1578483002608; 
- Wed, 08 Jan 2020 03:30:02 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyCTb2uz04w+keslz/OfnUVj6kGUV66HmLMRWkKAwXmoB9nti+d410678kEqVryy6mKQBrnkw==
-X-Received: by 2002:adf:f103:: with SMTP id r3mr3877106wro.295.1578483002206; 
- Wed, 08 Jan 2020 03:30:02 -0800 (PST)
-Received: from auriga.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- 2sm3694212wrq.31.2020.01.08.03.30.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 03:30:01 -0800 (PST)
-From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7] qga: add command guest-get-devices for reporting VirtIO
- devices
-Date: Wed,  8 Jan 2020 12:30:00 +0100
-Message-Id: <5245e15fbb05c85112b6c818b0de8c66c8f8b6b3.1578482882.git.tgolembi@redhat.com>
-X-Mailer: git-send-email 2.24.1
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1ip9Zn-0002Y3-MQ; Wed, 08 Jan 2020 06:32:40 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 89A5CE8EDA0EA525B289;
+ Wed,  8 Jan 2020 19:32:32 +0800 (CST)
+Received: from localhost.localdomain (10.151.151.249) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.439.0; Wed, 8 Jan 2020 19:32:24 +0800
+From: Dongjiu Geng <gengdongjiu@huawei.com>
+To: <pbonzini@redhat.com>, <gengdongjiu@huawei.com>, <mst@redhat.com>,
+ <imammedo@redhat.com>, <shannon.zhaosl@gmail.com>,
+ <peter.maydell@linaro.org>, <fam@euphon.net>, <rth@twiddle.net>,
+ <ehabkost@redhat.com>, <mtosatti@redhat.com>, <xuwei5@huawei.com>,
+ <jonathan.cameron@huawei.com>, <james.morse@arm.com>,
+ <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <qemu-arm@nongnu.org>
+Subject: [PATCH v22 0/9] Add ARMv8 RAS virtualization support in QEMU
+Date: Wed, 8 Jan 2020 19:32:14 +0800
+Message-ID: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-MC-Unique: IYajOBtHMpCiL3H50u4jSg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.151.151.249]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,389 +55,291 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: zhengxiang9@huawei.com, linuxarm@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add command for reporting devices on Windows guest. The intent is not so
-much to report the devices but more importantly the driver (and its
-version) that is assigned to the device. This gives caller the
-information whether VirtIO drivers are installed and/or whether
-inadequate driver is used on a device (e.g. QXL device with base VGA
-driver).
+In the ARMv8 platform, the CPU error types are synchronous external abort(SEA)
+and SError Interrupt (SEI). If exception happens in guest, sometimes it's better
+for guest to perform the recovery, because host does not know the detailed
+information of guest. For example, if an exception happens in a user-space
+application within guest, host does not know which application encounters
+errors.
 
-Example:
-[
-    {
-      "driver-date": "2019-08-12",
-      "driver-name": "Red Hat VirtIO SCSI controller",
-      "driver-version": "100.80.104.17300",
-      "address": {
-        "type": "pci",
-        "data": {
-          "device-id": 4162,
-          "vendor-id": 6900
-        }
-      }
-    },
-    ...
-]
+For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify userspace.
+After user space gets the notification, it will record the CPER into guest GHES
+buffer and inject an exception or IRQ into guest.
 
-Signed-off-by: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
+In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we will
+treat it as a synchronous exception, and notify guest with ARMv8 SEA
+notification type after recording CPER into guest.
+
+This series of patches are based on Qemu 4.2, which include two parts:
+1. Generate APEI/GHES table.
+2. Handle the SIGBUS signal, record the CPER in runtime and fill it into guest
+   memory, then notify guest according to the type of SIGBUS.
+
+The whole solution was suggested by James(james.morse@arm.com); The solution of
+APEI section was suggested by Laszlo(lersek@redhat.com).
+Show some discussions in [1].
+
+This series of patches have already been tested on ARM64 platform with RAS
+feature enabled:
+Show the APEI part verification result in [2].
+Show the BUS_MCEERR_AR SIGBUS handling verification result in [3].
+
 ---
-I forgot to ammend the patch before publishing the last version.
+Change since v21:
+1. Make the user-facing 'ras' option description more clearly to address Peter's comments.
+2. Update the doc description in "docs/specs/acpi_hest_ghes.rst"
+3. Split HEST/GHES patches to more patches to make the review easily
+4. Using source_id to index the location to save the CPER.
+5. Optimize and simplify the logic to build HEST/GHES table to address Igor/Michael/Beata comments.
+6. make ghes_addr_le a part of GED device.
 
-Changes in v7:
-- fix compilation errors
-- fix incorrect use of optional fields
+Change since v20:
+1. Move some implementation details from acpi_ghes.h to acpi_ghes.c
+2. Add the reviewers for the ACPI/APEI/GHES part
 
- qga/commands-posix.c |   9 ++
- qga/commands-win32.c | 216 ++++++++++++++++++++++++++++++++++++++++++-
- qga/qapi-schema.json |  51 ++++++++++
- 3 files changed, 275 insertions(+), 1 deletion(-)
+Change since v19:
+1. Fix clang compile error
+2. Fix sphinx build error
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 1c1a165dae..efcd9174a8 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2758,6 +2758,8 @@ GList *ga_command_blacklist_init(GList *blacklist)
-     blacklist =3D g_list_append(blacklist, g_strdup("guest-fstrim"));
- #endif
-=20
-+    blacklist =3D g_list_append(blacklist, g_strdup("guest-get-devices"));
-+
-     return blacklist;
- }
-=20
-@@ -2978,3 +2980,10 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
-=20
-     return info;
- }
-+
-+GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+
-+    return NULL;
-+}
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 55ba5b263a..b473675553 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -21,10 +21,11 @@
- #ifdef CONFIG_QGA_NTDDSCSI
- #include <winioctl.h>
- #include <ntddscsi.h>
-+#endif
- #include <setupapi.h>
- #include <cfgmgr32.h>
- #include <initguid.h>
--#endif
-+#include <devpropdef.h>
- #include <lm.h>
- #include <wtsapi32.h>
- #include <wininet.h>
-@@ -38,6 +39,36 @@
- #include "qemu/host-utils.h"
- #include "qemu/base64.h"
-=20
-+/*
-+ * The following should be in devpkey.h, but it isn't. The key names were
-+ * prefixed to avoid (future) name clashes. Once the definitions get into
-+ * mingw the following lines can be removed.
-+ */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_NAME, 0xb725f130, 0x47ef, 0x101a, 0xa5,
-+    0xf1, 0x02, 0x60, 0x8c, 0x9e, 0xeb, 0xac, 10);
-+    /* DEVPROP_TYPE_STRING */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_HardwareIds, 0xa45c254e, 0xdf1c,
-+    0x4efd, 0x80, 0x20, 0x67, 0xd1, 0x46, 0xa8, 0x50, 0xe0, 3);
-+    /* DEVPROP_TYPE_STRING_LIST */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverDate, 0xa8b865dd, 0x2e3d,
-+    0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 2);
-+    /* DEVPROP_TYPE_FILETIME */
-+DEFINE_DEVPROPKEY(qga_DEVPKEY_Device_DriverVersion, 0xa8b865dd, 0x2e3d,
-+    0x4094, 0xad, 0x97, 0xe5, 0x93, 0xa7, 0xc, 0x75, 0xd6, 3);
-+    /* DEVPROP_TYPE_STRING */
-+/* The following shoud be in cfgmgr32.h, but it isn't */
-+#ifndef CM_Get_DevNode_Property
-+CMAPI CONFIGRET WINAPI CM_Get_DevNode_PropertyW(
-+    DEVINST          dnDevInst,
-+    CONST DEVPROPKEY * PropertyKey,
-+    DEVPROPTYPE      * PropertyType,
-+    PBYTE            PropertyBuffer,
-+    PULONG           PropertyBufferSize,
-+    ULONG            ulFlags
-+);
-+#define CM_Get_DevNode_Property CM_Get_DevNode_PropertyW
-+#endif
-+
- #ifndef SHTDN_REASON_FLAG_PLANNED
- #define SHTDN_REASON_FLAG_PLANNED 0x80000000
- #endif
-@@ -92,6 +123,8 @@ static OpenFlags guest_file_open_modes[] =3D {
-     g_free(suffix); \
- } while (0)
-=20
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GuestDeviceInfo, qapi_free_GuestDeviceInfo)
-+
- static OpenFlags *find_open_flag(const char *mode_str)
- {
-     int mode;
-@@ -2234,3 +2267,184 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
-=20
-     return info;
- }
-+
-+/*
-+ * Safely get device property. Returned strings are using wide characters.
-+ * Caller is responsible for freeing the buffer.
-+ */
-+static LPBYTE cm_get_property(DEVINST devInst, const DEVPROPKEY *propName,
-+    PDEVPROPTYPE propType)
-+{
-+    CONFIGRET cr;
-+    g_autofree LPBYTE buffer =3D NULL;
-+    ULONG buffer_len =3D 0;
-+
-+    /* First query for needed space */
-+    cr =3D CM_Get_DevNode_PropertyW(devInst, propName, propType,
-+        buffer, &buffer_len, 0);
-+    if (cr !=3D CR_SUCCESS && cr !=3D CR_BUFFER_SMALL) {
-+
-+        slog("failed to get property size, error=3D0x%lx", cr);
-+        return NULL;
-+    }
-+    buffer =3D g_new0(BYTE, buffer_len + 1);
-+    cr =3D CM_Get_DevNode_PropertyW(devInst, propName, propType,
-+        buffer, &buffer_len, 0);
-+    if (cr !=3D CR_SUCCESS) {
-+        slog("failed to get device property, error=3D0x%lx", cr);
-+        return NULL;
-+    }
-+    return g_steal_pointer(&buffer);
-+}
-+
-+static GStrv ga_get_hardware_ids(DEVINST devInstance)
-+{
-+    GStrv hw_ids =3D NULL;
-+    GArray *values =3D NULL;
-+    DEVPROPTYPE cm_type;
-+    LPWSTR id;
-+    g_autofree LPWSTR property =3D (LPWSTR)cm_get_property(devInstance,
-+        &qga_DEVPKEY_Device_HardwareIds, &cm_type);
-+    if (property =3D=3D NULL) {
-+        slog("failed to get hardware IDs");
-+        return NULL;
-+    }
-+    if (*property =3D=3D '\0') {
-+        /* empty list */
-+        return NULL;
-+    }
-+    values =3D g_array_new(TRUE, TRUE, sizeof(gchar *));
-+    for (id =3D property; '\0' !=3D *id; id +=3D lstrlenW(id) + 1) {
-+        gchar *id8 =3D g_utf16_to_utf8(id, -1, NULL, NULL, NULL);
-+        g_array_append_val(values, id8);
-+    }
-+    hw_ids =3D (GStrv)g_array_free(values, FALSE);
-+    values =3D NULL;
-+    return hw_ids;
-+}
-+
-+/*
-+ * https://docs.microsoft.com/en-us/windows-hardware/drivers/install/ident=
-ifiers-for-pci-devices
-+ */
-+#define DEVICE_PCI_RE "PCI\\\\VEN_(1AF4|1B36)&DEV_([0-9A-B]{4})(&|$)"
-+
-+GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-+{
-+    GuestDeviceInfoList *head =3D NULL, *cur_item =3D NULL, *item =3D NULL=
-;
-+    HDEVINFO dev_info =3D INVALID_HANDLE_VALUE;
-+    SP_DEVINFO_DATA dev_info_data;
-+    int i, j;
-+    GError *gerr =3D NULL;
-+    g_autoptr(GRegex) device_pci_re =3D NULL;
-+    DEVPROPTYPE cm_type;
-+
-+    device_pci_re =3D g_regex_new(DEVICE_PCI_RE,
-+        G_REGEX_ANCHORED | G_REGEX_OPTIMIZE, 0,
-+        &gerr);
-+    g_assert(device_pci_re !=3D NULL);
-+
-+    dev_info_data.cbSize =3D sizeof(SP_DEVINFO_DATA);
-+    dev_info =3D SetupDiGetClassDevs(0, 0, 0, DIGCF_PRESENT | DIGCF_ALLCLA=
-SSES);
-+    if (dev_info =3D=3D INVALID_HANDLE_VALUE) {
-+        error_setg(errp, "failed to get device tree");
-+        return NULL;
-+    }
-+
-+    slog("enumerating devices");
-+    for (i =3D 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i++)=
- {
-+        bool skip =3D true;
-+        SYSTEMTIME utc_date;
-+        g_autofree LPWSTR name =3D NULL;
-+        g_autofree LPFILETIME date =3D NULL;
-+        g_autofree LPWSTR version =3D NULL;
-+        g_auto(GStrv) hw_ids =3D NULL;
-+        g_autoptr(GuestDeviceInfo) device =3D g_new0(GuestDeviceInfo, 1);
-+        g_autofree char *vendor_id =3D NULL;
-+        g_autofree char *device_id =3D NULL;
-+
-+        name =3D (LPWSTR)cm_get_property(dev_info_data.DevInst,
-+            &qga_DEVPKEY_NAME, &cm_type);
-+        if (name =3D=3D NULL) {
-+            slog("failed to get device description");
-+            continue;
-+        }
-+        device->driver_name =3D g_utf16_to_utf8(name, -1, NULL, NULL, NULL=
-);
-+        if (device->driver_name =3D=3D NULL) {
-+            error_setg(errp, "conversion to utf8 failed (driver name)");
-+            goto out;
-+        }
-+        slog("querying device: %s", device->driver_name);
-+        hw_ids =3D ga_get_hardware_ids(dev_info_data.DevInst);
-+        if (hw_ids =3D=3D NULL) {
-+            continue;
-+        }
-+        for (j =3D 0; hw_ids[j] !=3D NULL; j++) {
-+            GMatchInfo *match_info;
-+            GuestDeviceAddressPCI *address;
-+            if (!g_regex_match(device_pci_re, hw_ids[j], 0, &match_info)) =
-{
-+                continue;
-+            }
-+            skip =3D false;
-+
-+            address =3D g_new0(GuestDeviceAddressPCI, 1);
-+            vendor_id =3D g_match_info_fetch(match_info, 1);
-+            device_id =3D g_match_info_fetch(match_info, 2);
-+            address->vendor_id =3D g_ascii_strtoull(vendor_id, NULL, 16);
-+            address->device_id =3D g_ascii_strtoull(device_id, NULL, 16);
-+
-+            device->address =3D g_new0(GuestDeviceAddress,1);
-+            device->has_address =3D true;
-+            device->address->type =3D GUEST_DEVICE_ADDRESS_KIND_PCI;
-+            device->address->u.pci.data =3D address;
-+
-+            g_match_info_free(match_info);
-+            break;
-+        }
-+        if (skip) {
-+            continue;
-+        }
-+
-+        version =3D (LPWSTR)cm_get_property(dev_info_data.DevInst,
-+            &qga_DEVPKEY_Device_DriverVersion, &cm_type);
-+        if (version =3D=3D NULL) {
-+            slog("failed to get driver version");
-+            continue;
-+        }
-+        device->driver_version =3D g_utf16_to_utf8(version, -1, NULL,
-+            NULL, NULL);
-+        if (device->driver_version =3D=3D NULL) {
-+            error_setg(errp, "conversion to utf8 failed (driver version)")=
-;
-+            goto out;
-+        }
-+        device->has_driver_version =3D true;
-+
-+        date =3D (LPFILETIME)cm_get_property(dev_info_data.DevInst,
-+            &qga_DEVPKEY_Device_DriverDate, &cm_type);
-+        if (date =3D=3D NULL) {
-+            slog("failed to get driver date");
-+            continue;
-+        }
-+        FileTimeToSystemTime(date, &utc_date);
-+        device->driver_date =3D g_strdup_printf("%04d-%02d-%02d",
-+            utc_date.wYear, utc_date.wMonth, utc_date.wDay);
-+        device->has_driver_date =3D true;
-+
-+        slog("driver: %s\ndriver version: %s,%s\n", device->driver_name,
-+            device->driver_date, device->driver_version);
-+        item =3D g_new0(GuestDeviceInfoList, 1);
-+        item->value =3D g_steal_pointer(&device);
-+        if (!cur_item) {
-+            head =3D cur_item =3D item;
-+        } else {
-+            cur_item->next =3D item;
-+            cur_item =3D item;
-+        }
-+        continue;
-+    }
-+
-+out:
-+    if (dev_info !=3D INVALID_HANDLE_VALUE) {
-+        SetupDiDestroyDeviceInfoList(dev_info);
-+    }
-+    return head;
-+}
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index fb4605cc19..92ed76c419 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1242,3 +1242,54 @@
- ##
- { 'command': 'guest-get-osinfo',
-   'returns': 'GuestOSInfo' }
-+
-+##
-+# @GuestDeviceAddressPCI:
-+#
-+# @vendor-id: vendor ID
-+# @device-id: device ID
-+#
-+# Since: 5.0
-+##
-+{ 'struct': 'GuestDeviceAddressPCI',
-+  'data': { 'vendor-id': 'uint16', 'device-id': 'uint16' } }
-+
-+##
-+# @GuestDeviceAddress:
-+#
-+# Address of the device
-+# - @pci: address of PCI device, since: 5.0
-+#
-+# Since: 5.0
-+##
-+{ 'union': 'GuestDeviceAddress',
-+  'data': { 'pci': 'GuestDeviceAddressPCI' } }
-+
-+##
-+# @GuestDeviceInfo:
-+#
-+# @driver-name: name of the associated driver
-+# @driver-date: driver release date in format YYYY-MM-DD
-+# @driver-version: driver version
-+#
-+# Since: 5.0
-+##
-+{ 'struct': 'GuestDeviceInfo',
-+  'data': {
-+      'driver-name': 'str',
-+      '*driver-date': 'str',
-+      '*driver-version': 'str',
-+      '*address': 'GuestDeviceAddress'
-+  } }
-+
-+##
-+# @guest-get-devices:
-+#
-+# Retrieve information about device drivers in Windows guest
-+#
-+# Returns: @GuestDeviceInfo
-+#
-+# Since: 5.0
-+##
-+{ 'command': 'guest-get-devices',
-+  'returns': ['GuestDeviceInfo'] }
---=20
-2.24.1
+Change since v18:
+1. Fix some code-style and typo/grammar problems.
+2. Remove no_ras in the VirtMachineClass struct.
+3. Convert documentation to rst format.
+4. Simplize the code and add comments for some magic value.
+5. Move kvm_inject_arm_sea() function into the patch where it's used.
+6. Register the reset handler(kvm_unpoison_all()) in the kvm_init() function.
 
+Change since v17:
+1. Improve some commit messages and comments.
+2. Fix some code-style problems.
+3. Add a *ras* machine option.
+4. Move HEST/GHES related structures and macros into "hw/acpi/acpi_ghes.*".
+5. Move HWPoison page functions into "include/sysemu/kvm_int.h".
+6. Fix some bugs.
+7. Improve the design document.
+
+Change since v16:
+1. check whether ACPI table is enabled when handling the memory error in the SIGBUS handler.
+
+Change since v15:
+1. Add a doc-comment in the proper format for 'include/exec/ram_addr.h'
+2. Remove write_part_cpustate_to_list() because there is another bug fix patch
+   has been merged "arm: Allow system registers for KVM guests to be changed by QEMU code"
+3. Add some comments for kvm_inject_arm_sea() in 'target/arm/kvm64.c'
+4. Compare the arm_current_el() return value to 0,1,2,3, not to PSTATE_MODE_* constants.
+5. Change the RAS support wasn't introduced before 4.1 QEMU version.
+6. Move the no_ras flag  patch to begin in this series
+
+Change since v14:
+1. Remove the BUS_MCEERR_AO handling logic because this asynchronous signal was masked by main thread
+2. Address some Igor Mammedov's comments(ACPI part)
+   1) change the comments for the enum AcpiHestNotifyType definition and remove ditto in patch 1
+   2) change some patch commit messages and separate "APEI GHES table generation" patch to more patches.
+3. Address some peter's comments(arm64 Synchronous External Abort injection)
+   1) change some code notes
+   2) using arm_current_el() for current EL
+   2) use the helper functions for those (syn_data_abort_*).
+
+Change since v13:
+1. Move the patches that set guest ESR and inject virtual SError out of this series
+2. Clean and optimize the APEI part patches
+3. Update the commit messages and add some comments for the code
+
+Change since v12:
+1. Address Paolo's comments to move HWPoisonPage definition to accel/kvm/kvm-all.c
+2. Only call kvm_cpu_synchronize_state() when get the BUS_MCEERR_AR signal
+3. Only add and enable GPIO-Signal and ARMv8 SEA two hardware error sources
+4. Address Michael's comments to not sync SPDX from Linux kernel header file
+
+Change since v11:
+Address James's comments(james.morse@arm.com)
+1. Check whether KVM has the capability to to set ESR instead of detecting host CPU RAS capability
+2. For SIGBUS_MCEERR_AR SIGBUS, use Synchronous-External-Abort(SEA) notification type
+   for SIGBUS_MCEERR_AO SIGBUS, use GPIO-Signal notification
+
+
+Address Shannon's comments(for ACPI part):
+1. Unify hest_ghes.c and hest_ghes.h license declaration
+2. Remove unnecessary including "qmp-commands.h" in hest_ghes.c
+3. Unconditionally add guest APEI table based on James's comments(james.morse@arm.com)
+4. Add a option to virt machine for migration compatibility. On new virt machine it's on
+   by default while off for old ones, we enabled it since 2.12
+5. Refer to the ACPI spec version which introduces Hardware Error Notification first time
+6. Add ACPI_HEST_NOTIFY_RESERVED notification type
+
+Address Igor's comments(for ACPI part):
+1. Add doc patch first which will describe how it's supposed to work between QEMU/firmware/guest
+   OS with expected flows.
+2. Move APEI diagrams into doc/spec patch
+3. Remove redundant g_malloc in ghes_record_cper()
+4. Use build_append_int_noprefix() API to compose whole error status block and whole APEI table,
+   and try to get rid of most structures in patch 1, as they will be left unused after that
+5. Reuse something like https://github.com/imammedo/qemu/commit/3d2fd6d13a3ea298d2ee814835495ce6241d085c
+   to build GAS
+6. Remove much offsetof() in the function
+7. Build independent tables first and only then build dependent tables passing to it pointers
+   to previously build table if necessary.
+8. Redefine macro GHES_ACPI_HEST_NOTIFY_RESERVED to ACPI_HEST_ERROR_SOURCE_COUNT to avoid confusion
+
+
+Address Peter Maydell's comments
+1. linux-headers is done as a patch of their own created using scripts/update-linux-headers.sh run against a
+   mainline kernel tree
+2. Tested whether this patchset builds OK on aarch32
+3. Abstract Hwpoison page adding code  out properly into a cpu-independent source file from target/i386/kvm.c,
+   such as kvm-all.c
+4. Add doc-comment formatted documentation comment for new globally-visible function prototype in a header
+
+---
+[1]:
+https://lkml.org/lkml/2017/2/27/246
+https://patchwork.kernel.org/patch/9633105/
+https://patchwork.kernel.org/patch/9925227/
+
+[2]:
+Note: the UEFI(QEMU_EFI.fd) is needed if guest want to use ACPI table.
+
+After guest boot up, dump the APEI table, then can see the initialized table
+(1) # iasl -p ./HEST -d /sys/firmware/acpi/tables/HEST
+(2) # cat HEST.dsl
+    /*
+     * Intel ACPI Component Architecture
+     * AML/ASL+ Disassembler version 20170728 (64-bit version)
+     * Copyright (c) 2000 - 2017 Intel Corporation
+     *
+     * Disassembly of /sys/firmware/acpi/tables/HEST, Mon Sep  5 07:59:17 2016
+     *
+     * ACPI Data Table [HEST]
+     *
+     * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
+     */
+
+    ..................................................................................
+    [308h 0776   2]                Subtable Type : 000A [Generic Hardware Error Source V2]
+    [30Ah 0778   2]                    Source Id : 0001
+    [30Ch 0780   2]            Related Source Id : FFFF
+    [30Eh 0782   1]                     Reserved : 00
+    [30Fh 0783   1]                      Enabled : 01
+    [310h 0784   4]       Records To Preallocate : 00000001
+    [314h 0788   4]      Max Sections Per Record : 00000001
+    [318h 0792   4]          Max Raw Data Length : 00001000
+
+    [31Ch 0796  12]         Error Status Address : [Generic Address Structure]
+    [31Ch 0796   1]                     Space ID : 00 [SystemMemory]
+    [31Dh 0797   1]                    Bit Width : 40
+    [31Eh 0798   1]                   Bit Offset : 00
+    [31Fh 0799   1]         Encoded Access Width : 04 [QWord Access:64]
+    [320h 0800   8]                      Address : 00000000785D0040
+
+    [328h 0808  28]                       Notify : [Hardware Error Notification Structure]
+    [328h 0808   1]                  Notify Type : 08 [SEA]
+    [329h 0809   1]                Notify Length : 1C
+    [32Ah 0810   2]   Configuration Write Enable : 0000
+    [32Ch 0812   4]                 PollInterval : 00000000
+    [330h 0816   4]                       Vector : 00000000
+    [334h 0820   4]      Polling Threshold Value : 00000000
+    [338h 0824   4]     Polling Threshold Window : 00000000
+    [33Ch 0828   4]        Error Threshold Value : 00000000
+    [340h 0832   4]       Error Threshold Window : 00000000
+
+    [344h 0836   4]    Error Status Block Length : 00001000
+    [348h 0840  12]            Read Ack Register : [Generic Address Structure]
+    [348h 0840   1]                     Space ID : 00 [SystemMemory]
+    [349h 0841   1]                    Bit Width : 40
+    [34Ah 0842   1]                   Bit Offset : 00
+    [34Bh 0843   1]         Encoded Access Width : 04 [QWord Access:64]
+    [34Ch 0844   8]                      Address : 00000000785D0098
+
+    [354h 0852   8]            Read Ack Preserve : 00000000FFFFFFFE
+    [35Ch 0860   8]               Read Ack Write : 0000000000000001
+
+    .....................................................................................
+
+(3) After a synchronous external abort(SEA) happen, Qemu receive a SIGBUS and 
+    filled the CPER into guest GHES memory.  For example, according to above table,
+    the address that contains the physical address of a block of memory that holds
+    the error status data for this abort is 0x00000000785D0040
+(4) the address for SEA notification error source is 0x785d80b0
+    (qemu) xp /1 0x00000000785D0040
+    00000000785d0040: 0x785d80b0
+
+(5) check the content of generic error status block and generic error data entry
+    (qemu) xp /100x 0x785d80b0
+    00000000785d80b0: 0x00000001 0x00000000 0x00000000 0x00000098
+    00000000785d80c0: 0x00000000 0xa5bc1114 0x4ede6f64 0x833e63b8
+    00000000785d80d0: 0xb1837ced 0x00000000 0x00000300 0x00000050
+    00000000785d80e0: 0x00000000 0x00000000 0x00000000 0x00000000
+    00000000785d80f0: 0x00000000 0x00000000 0x00000000 0x00000000
+    00000000785d8100: 0x00000000 0x00000000 0x00000000 0x00004002
+(6) check the OSPM's ACK value(for example SEA)
+    /* Before OSPM acknowledges the error, check the ACK value */
+    (qemu) xp /1 0x00000000785D0098
+    00000000785d00f0: 0x00000000
+
+    /* After OSPM acknowledges the error, check the ACK value, it change to 1 from 0 */
+    (qemu) xp /1 0x00000000785D0098
+    00000000785d00f0: 0x00000001
+
+[3]: KVM deliver "BUS_MCEERR_AR" to Qemu, Qemu record the guest CPER and inject
+    synchronous external abort to notify guest, then guest do the recovery.
+
+[ 1552.516170] Synchronous External Abort: synchronous external abort (0x92000410) at 0x000000003751c6b4
+[ 1553.074073] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 8
+[ 1553.081654] {1}[Hardware Error]: event severity: recoverable
+[ 1554.034191] {1}[Hardware Error]:  Error 0, type: recoverable
+[ 1554.037934] {1}[Hardware Error]:   section_type: memory error
+[ 1554.513261] {1}[Hardware Error]:   physical_address: 0x0000000040fa6000
+[ 1554.513944] {1}[Hardware Error]:   error_type: 0, unknown
+[ 1555.041451] Memory failure: 0x40fa6: Killing mca-recover:1296 due to hardware memory corruption
+[ 1555.373116] Memory failure: 0x40fa6: recovery action for dirty LRU page: Recovered
+
+Dongjiu Geng (9):
+  hw/arm/virt: Introduce a RAS machine option
+  docs: APEI GHES generation and CPER record description
+  ACPI: Build related register address fields via hardware error fw_cfg
+    blob
+  ACPI: Build Hardware Error Source Table
+  ACPI: Record the Generic Error Status Block address
+  KVM: Move hwpoison page related functions into kvm-all.c
+  ACPI: Record Generic Error Status Block(GESB) table
+  target-arm: kvm64: handle SIGBUS signal from kernel or KVM
+  MAINTAINERS: Add ACPI/HEST/GHES entries
+
+ MAINTAINERS                            |   9 +
+ accel/kvm/kvm-all.c                    |  36 +++
+ default-configs/arm-softmmu.mak        |   1 +
+ docs/specs/acpi_hest_ghes.rst          | 110 ++++++++
+ docs/specs/index.rst                   |   1 +
+ hw/acpi/Kconfig                        |   4 +
+ hw/acpi/Makefile.objs                  |   1 +
+ hw/acpi/aml-build.c                    |   2 +
+ hw/acpi/generic_event_device.c         |  15 +-
+ hw/acpi/ghes.c                         | 446 +++++++++++++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c               |  19 ++
+ hw/arm/virt.c                          |  23 ++
+ include/hw/acpi/aml-build.h            |   1 +
+ include/hw/acpi/generic_event_device.h |   2 +
+ include/hw/acpi/ghes.h                 |  75 ++++++
+ include/hw/arm/virt.h                  |   1 +
+ include/qemu/uuid.h                    |   5 +
+ include/sysemu/kvm.h                   |   3 +-
+ include/sysemu/kvm_int.h               |  12 +
+ target/arm/cpu.h                       |   4 +
+ target/arm/helper.c                    |   2 +-
+ target/arm/internals.h                 |   5 +-
+ target/arm/kvm64.c                     |  66 +++++
+ target/arm/tlb_helper.c                |   2 +-
+ target/i386/cpu.h                      |   2 +
+ target/i386/kvm.c                      |  36 ---
+ 26 files changed, 840 insertions(+), 43 deletions(-)
+ create mode 100644 docs/specs/acpi_hest_ghes.rst
+ create mode 100644 hw/acpi/ghes.c
+ create mode 100644 include/hw/acpi/ghes.h
+
+-- 
+1.8.3.1
 
