@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AF7134052
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:22:38 +0100 (CET)
-Received: from localhost ([::1]:42130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C9713405C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:24:41 +0100 (CET)
+Received: from localhost ([::1]:42170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip9Q5-0003cK-Ec
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:22:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49271)
+	id 1ip9S4-00062l-Ea
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:24:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49709)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pavlica.nikola@gmail.com>) id 1ip9P8-0002pp-Pz
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:21:39 -0500
+ (envelope-from <stefanha@redhat.com>) id 1ip9Q5-0003vZ-AX
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:22:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavlica.nikola@gmail.com>) id 1ip9P6-0003xL-8R
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:21:37 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34770)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pavlica.nikola@gmail.com>)
- id 1ip9P6-0003wO-0d
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:21:36 -0500
-Received: by mail-wm1-x342.google.com with SMTP id w5so1006669wmi.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 03:21:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mE2lnlrRD/lR6rpbLiZ24E0msmA8lV+tPD7M/Fd7f3M=;
- b=FESHySM+6CfufVwmvbg6DtXwO1OL3g2eWhDMnzDJ1b16bXlaWNyzxe3sLmMxgF9YGB
- sYJSriiX2II7rUbO7SWymRzrfoDbeiuJrOkezQ4bs4DGxpDudBmwjpHX3q1t5Uumqz1c
- nF3QqMo7geeIFxl3lS5sHAEz2G1WiDR+DmE3Tp1+/3ZPZPSADLTd1ttCjPlqrxe5hvZX
- ogWX7vQBqer46ADGxoRnZplcAiGZD711IPjExDbMO9HEgUx5xVA3LNLt0brRQJpxli0W
- RrhxgOvomuLe0zkdgyl7rC9v3HEHJNNy+C0sWaPQfwGCsrAv+caXrSMLPjM45iOtZXAF
- Fn6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mE2lnlrRD/lR6rpbLiZ24E0msmA8lV+tPD7M/Fd7f3M=;
- b=tMRUVmkLIiChykssOz1Spizmv5MT5euxgykWxRK7p1KAMPo43WdPAsBQ+wiGv6pq3j
- XARW2HfLggNdX2570QyiJR5RaNQ2NrcYWxss4NZf1BLKS5pyK4SVxtAq5b4+TfKg+Km0
- Jg7iTZ2zlJ52mQi3Jy72l6cYtoWCDidoJf7ipdsbqrvo02vySyH14O5om0cTyYHq86UL
- fLBvMyxq6RCBTz7AIIBVyRaGZDJFoTCX6lvvjJWeC4aPc5SmUBsb3F5gfGK5l4VVkWC9
- WjAsGicdDwv5aCU6z0pDm2NrmoP3hStO0JqHc6JrVYAy8bpOrymYwfe8xdXxmdcQ6k08
- ABIQ==
-X-Gm-Message-State: APjAAAV7kpgY3lg5kyVV9ATqxbvQZELfzYUyAB9CiT8LnK/lBkMvUWg7
- 2B5h+UHVh8B2vzzFLurNQCVLEAjaKBS+bA==
-X-Google-Smtp-Source: APXvYqzz4/6HP2S5xi9XPhpb48t7ijr9XurqfGBxyH49aq+eHiJbpZQtQSQTIqdhD1LC2y0aBW8iDw==
-X-Received: by 2002:a05:600c:2150:: with SMTP id
- v16mr3002845wml.156.1578482494608; 
- Wed, 08 Jan 2020 03:21:34 -0800 (PST)
-Received: from localhost.localdomain (93-139-26-156.adsl.net.t-com.hr.
- [93.139.26.156])
- by smtp.gmail.com with ESMTPSA id w20sm3318177wmk.34.2020.01.08.03.21.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 03:21:34 -0800 (PST)
-From: pavlica.nikola@gmail.com
+ (envelope-from <stefanha@redhat.com>) id 1ip9Q2-0004XG-8Z
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:22:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41746
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ip9Q2-0004Wn-5Y
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:22:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578482553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CtmmA9E68r1HvEbrexz8X2iHJRv6g2zy+89x9DQTmzM=;
+ b=GUVPC/7KvyWC1m9Pn1t6t/KMBibvugXnf+CQfxRwSq0rN2VnsX8C9sRpNvrHaEKq3MyaoF
+ 2zGWKYR6y7Jyiq0cm+n4NgSIjURvxA64emmeQejxAlo7l9qRQA4zB0Qntx4sll6nLZyWcB
+ KDwfAUDTAW6cNp0KArIs9bavS+8tcbU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-8a-nmlYcOR2-08a_37lazw-1; Wed, 08 Jan 2020 06:22:26 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37974184B1E3;
+ Wed,  8 Jan 2020 11:22:25 +0000 (UTC)
+Received: from localhost (ovpn-116-249.ams2.redhat.com [10.36.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC3E686C5F;
+ Wed,  8 Jan 2020 11:22:21 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4] display/gtk: get proper refreshrate
-Date: Wed,  8 Jan 2020 12:20:41 +0100
-Message-Id: <20200108112041.24447-1-pavlica.nikola@gmail.com>
-X-Mailer: git-send-email 2.24.1
+Subject: [PATCH 0/4] luks: add qemu-img measure support
+Date: Wed,  8 Jan 2020 11:22:16 +0000
+Message-Id: <20200108112220.499180-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 8a-nmlYcOR2-08a_37lazw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,98 +67,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com, Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nikola Pavlica <pavlica.nikola@gmail.com>
+This patch series adds qemu-img measure support to the "luks" block driver.=
+  We
+just need to take into account the LUKS header when sizing the image.
 
-Hi,
-QEMU mailing list.
+Stefan Hajnoczi (4):
+  luks: extract block_crypto_calculate_payload_offset()
+  luks: implement .bdrv_measure()
+  qemu-img: allow qemu-img measure --object without a filename
+  iotests: add 282 luks qemu-img measure test
 
-This is the fourth revision of the patch involving the GTK display
-output getting the proper refresh rate for your particular display
-output.
+ block/crypto.c             | 146 +++++++++++++++++++++++++++++++++++++
+ block/crypto.h             |   5 ++
+ block/qcow2.c              |  59 +--------------
+ qemu-img.c                 |   6 +-
+ tests/qemu-iotests/282     |  93 +++++++++++++++++++++++
+ tests/qemu-iotests/282.out |  30 ++++++++
+ tests/qemu-iotests/group   |   1 +
+ 7 files changed, 281 insertions(+), 59 deletions(-)
+ create mode 100755 tests/qemu-iotests/282
+ create mode 100644 tests/qemu-iotests/282.out
 
-Because some VMs in QEMU can get GPU virtualization (using technologies
-such as iGVT-g, as mentioned previously), they could produce a video
-output that had a higher display refresh rate than of what the GTK
-display was displaying. (fxp. Playing a video game inside of a Windows
-VM at 60 Hz, while the output stood locked at 33 Hz because of defaults
-set in include/ui/console.h)
-
-Since QEMU does indeed have internal systems for determining frame
-times as defined in ui/console.c.
-The code checks for a variable called update_interval that it later
-uses for time calculation. This variable, however, isn't defined
-anywhere in ui/gtk.c and instead ui/console.c just sets it to
-GUI_REFRESH_INTERVAL_DEFAULT which is 30
-
-update_interval represents the number of milliseconds per display
-refresh, and by doing some math we get that 1000/30 = 33.33... Hz
-
-This creates the mentioned problem and what this patch does is that it
-checks for the display refresh rate reported by GTK itself (we can take
-this as a safe value) and just converts it back to a number of
-milliseconds per display refresh.
-
-Explinations of each revision:
-v1: initial patch
-v2: moved code to a more appropriate place and reduced overhead and
-memory usage (by not creating a new GdkDisplay)
-v3: removed magic value and turned it into something more readable and
-added checks for an error state where GTK was unable to get the refresh
-rate, in which case we use the already existing default
-v4: fixed wrapping and repositioned variable names
-
-Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
----
- include/ui/gtk.h |  2 ++
- ui/gtk.c         | 10 ++++++++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index d9eedad976..d1b230848a 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -28,6 +28,8 @@
- #include "ui/egl-context.h"
- #endif
- 
-+#define MILLISEC_PER_SEC 1000000
-+
- typedef struct GtkDisplayState GtkDisplayState;
- 
- typedef struct VirtualGfxConsole {
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 692ccc7bbb..eb0efc70ee 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1966,6 +1966,10 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               GSList *group, GtkWidget *view_menu)
- {
-     bool zoom_to_fit = false;
-+    int refresh_rate_millihz;
-+    GdkDisplay *dpy = gtk_widget_get_display(s->window);
-+    GdkWindow *win = gtk_widget_get_window(s->window);
-+    GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
- 
-     vc->label = qemu_console_get_label(con);
-     vc->s = s;
-@@ -2026,6 +2030,12 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
- 
-     vc->gfx.kbd = qkbd_state_init(con);
-     vc->gfx.dcl.con = con;
-+
-+    refresh_rate_millihz = gdk_monitor_get_refresh_rate(monitor);
-+    if (refresh_rate_millihz) {
-+        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
-+    }
-+
-     register_displaychangelistener(&vc->gfx.dcl);
- 
-     gd_connect_vc_gfx_signals(vc);
--- 
+--=20
 2.24.1
 
 
