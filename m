@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7CB133A04
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:12:34 +0100 (CET)
-Received: from localhost ([::1]:35752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917B8133A09
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:14:03 +0100 (CET)
+Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip2ht-0007yP-A4
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:12:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50430)
+	id 1ip2jK-0001IV-JW
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:14:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50478)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2Jj-0005mQ-AA
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:36 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2Jn-0005pm-H9
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2Ji-0004Rx-6B
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:35 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37213)
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2Jl-0004VK-GP
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:39 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:33382)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ip2Ji-0004RB-0r
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:34 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id q127so874516pga.4
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:47:33 -0800 (PST)
+ id 1ip2Jl-0004UL-8D
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:37 -0500
+Received: by mail-pg1-x535.google.com with SMTP id 6so886823pgk.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:47:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RzXBbhxl96ISJyXRfF2leNwAZhzfRVDaPz7xNTcibJE=;
- b=TAqoz4P2xKcAp0SrGhlNYnU9NaPsMDw/CvWocI21QsElPumrYluW8Sy9e3369osFSR
- oYi4NbxnrYHARPpT/cm7nOyJwucpBeGBL53VzUrWmu22N4vRgcp7h627sADyzqpq3lFS
- fxpddnkjWgfd3t2b9SGhOkHE0udFhvx+vtx2vdPPt6sgFpH28+NaGiFb2mkT/K3wLe2y
- 2s0SCOncROGulijX2Z258H7ps8AEHZ0Ku2wJf/wKUg4R56ojKJCdNgwFf9NiGTFDiL51
- N3Q3yEL8i1TA95Ux+KnvSsDrwchUGha/M9K+yGYFdeF1SVVCYPLmpdZlhJFOM6UIiRNH
- c7IA==
+ bh=QkZbjvbQ7GHATNZxrRi8m/ZcWvz3612eqG76lAaVpag=;
+ b=uMmRWWlS8ZYozLcGMBRq9ker+HNKWyIZN7SKeDh0mwZsHbKn4DXN0MwjU4yxXGgJQ9
+ u515BVzjk9lhGnfrwtBATZTTlmysqV8mcv6fksMQXudS0ONYjXfTv88B4Mkcvj3bO+iR
+ ioOySVND+gdZTgvEV6l2oLKCmFv+jir0Cv7i237nF2MBjA1ejkLEu3emT5ZQGnhYGhw8
+ qBPGJF3JxTehh6rfsIAdaigwPYjuwdhosf2laCNxseeFYDQa24zLqouQaMsovqA6zaQi
+ JyTzWIx9gcha8dfCJAcGv12b5m+9HjMapLACJBUQOT4P0qgMGhM5G5sq+BXQH0IU0NLT
+ bgIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RzXBbhxl96ISJyXRfF2leNwAZhzfRVDaPz7xNTcibJE=;
- b=bz2mQmSHsQ7cxTIS4ElUkqoAzfNIL73uwHGaWL2QNL0VgfA9LlnKXFoQUH1Zla+fjW
- mDdnBEUTEbpFDr+kMS0Nwe/g8w/CNux8591ZGOg4JrKXOo9a091an4mqEFSu6lnCmqQP
- +kcn0dpR+G+DXeWvB+AMkquIFPpfkadHrwT4j44XwMyCVN4XCMC+aVIsc+ppFnXklDBi
- gl0mQGY8P5vZ+RbOnELEWwkdzt3NHHC9clKI7EexjQUVTeVXm1OeP8iGtatDRXEAOKO1
- /ONHelTbokHDXuveiqa2O6r4wb9HLBYY6tAu4+NByNtK6FVUdLWnGUt7Hg9c1rNvehu/
- +ZGw==
-X-Gm-Message-State: APjAAAUMCr8I22XKUBf9j8svd8ea15n9VHfZohqCYMpYl7MI0jbE9yV6
- Lga6n7e9FS6i+T/HUShDG3H5Fvzd62+tzw==
-X-Google-Smtp-Source: APXvYqyJIjSL+0r/DNG2izx6PHeVU9XntEhoZXADTcp7EHNO/Uq23qcb9hEq586osUMk/YcVT12XsQ==
-X-Received: by 2002:a63:d108:: with SMTP id k8mr3055415pgg.434.1578455252611; 
- Tue, 07 Jan 2020 19:47:32 -0800 (PST)
+ bh=QkZbjvbQ7GHATNZxrRi8m/ZcWvz3612eqG76lAaVpag=;
+ b=JsYnmsO08ghsQMRL9p/FYYEASgI5AAuYkEkFaLsf6+o4D64RRYBz6anvR9I2kiw3kC
+ Zrj8gWt9/4DBjQ6CIlpIpk6FQi2SDWUXdENteyEwjBR6t+cLZBCxxIrJ1PILXw0g0dgv
+ RkWo+7Z5keP7YALuR9+JMLx3Cei/0BEkGfajQxsj8ovSG4rRLdpLhEXnNzgi+EFUCzMs
+ 9PqSiOpqLWOLQTqkGFIE5XfDRQpWntgd9K5Lk6rYh6mdinMl+l+Y9GGEBaHz4FiFqEsO
+ 6HfMSp+JDoXj3S1C3ZwGxOxqn7ES2FCt8Gte59rAVFy0PqwogPSMqqpmw1usFxX5QCMN
+ ukmg==
+X-Gm-Message-State: APjAAAU3beA9OVpBaz9UoBNpYuq8EFRyaBHVCEJdEjAVDiNNsxWVU29r
+ kb+qiZOAkYRAlVqnG3LXc90qGyadpFIO0w==
+X-Google-Smtp-Source: APXvYqxcxP5PJcVSpfLC6zWqo9sj7tpROMMxeczPpwRmPT1hIWikS7LPxm1nRcO3pQItrl2I5MoQZg==
+X-Received: by 2002:a62:7a43:: with SMTP id v64mr2737150pfc.243.1578455256065; 
+ Tue, 07 Jan 2020 19:47:36 -0800 (PST)
 Received: from localhost.localdomain (alanje.lnk.telstra.net.
  [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.47.29
+ by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.47.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 19:47:32 -0800 (PST)
+ Tue, 07 Jan 2020 19:47:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/41] tcg: Move TCG headers to include/tcg/
-Date: Wed,  8 Jan 2020 14:45:21 +1100
-Message-Id: <20200108034523.17349-40-richard.henderson@linaro.org>
+Subject: [PULL 40/41] configure: Remove tcg/ from the preprocessor include
+ search list
+Date: Wed,  8 Jan 2020 14:45:22 +1100
+Message-Id: <20200108034523.17349-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200108034523.17349-1-richard.henderson@linaro.org>
 References: <20200108034523.17349-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52d
+X-Received-From: 2607:f8b0:4864:20::535
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,65 +88,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+All tcg includes are relative to the repository root directory,
+we can safely remove the tcg/ directory from the include search
+path list.
+
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Stefan Weil <sw@weilnetz.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200101112303.20724-4-philmd@redhat.com>
+Message-Id: <20200101112303.20724-5-philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- {tcg => include/tcg}/tcg-gvec-desc.h | 0
- {tcg => include/tcg}/tcg-mo.h        | 0
- {tcg => include/tcg}/tcg-op-gvec.h   | 0
- {tcg => include/tcg}/tcg-op.h        | 0
- {tcg => include/tcg}/tcg-opc.h       | 0
- {tcg => include/tcg}/tcg.h           | 0
- MAINTAINERS                          | 1 +
- 7 files changed, 1 insertion(+)
- rename {tcg => include/tcg}/tcg-gvec-desc.h (100%)
- rename {tcg => include/tcg}/tcg-mo.h (100%)
- rename {tcg => include/tcg}/tcg-op-gvec.h (100%)
- rename {tcg => include/tcg}/tcg-op.h (100%)
- rename {tcg => include/tcg}/tcg-opc.h (100%)
- rename {tcg => include/tcg}/tcg.h (100%)
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tcg/tcg-gvec-desc.h b/include/tcg/tcg-gvec-desc.h
-similarity index 100%
-rename from tcg/tcg-gvec-desc.h
-rename to include/tcg/tcg-gvec-desc.h
-diff --git a/tcg/tcg-mo.h b/include/tcg/tcg-mo.h
-similarity index 100%
-rename from tcg/tcg-mo.h
-rename to include/tcg/tcg-mo.h
-diff --git a/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-similarity index 100%
-rename from tcg/tcg-op-gvec.h
-rename to include/tcg/tcg-op-gvec.h
-diff --git a/tcg/tcg-op.h b/include/tcg/tcg-op.h
-similarity index 100%
-rename from tcg/tcg-op.h
-rename to include/tcg/tcg-op.h
-diff --git a/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
-similarity index 100%
-rename from tcg/tcg-opc.h
-rename to include/tcg/tcg-opc.h
-diff --git a/tcg/tcg.h b/include/tcg/tcg.h
-similarity index 100%
-rename from tcg/tcg.h
-rename to include/tcg/tcg.h
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cd2dc137a3..1c6919c455 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2386,6 +2386,7 @@ Common TCG code
- M: Richard Henderson <rth@twiddle.net>
- S: Maintained
- F: tcg/
-+F: include/tcg/
+diff --git a/configure b/configure
+index 94a4b1c848..cac36a9e08 100755
+--- a/configure
++++ b/configure
+@@ -7386,7 +7386,6 @@ elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
+ else
+   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
+ fi
+-QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg $QEMU_INCLUDES"
  
- TCG Plugins
- M: Alex Bennée <alex.bennee@linaro.org>
+ echo "TOOLS=$tools" >> $config_host_mak
+ echo "ROMS=$roms" >> $config_host_mak
 -- 
 2.20.1
 
