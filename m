@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407CC1338FE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 03:07:13 +0100 (CET)
-Received: from localhost ([::1]:59398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79037133901
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 03:07:14 +0100 (CET)
+Received: from localhost ([::1]:59402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip0kZ-0004Wv-UJ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 21:07:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42125)
+	id 1ip0kb-0004YT-8u
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 21:07:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ip0ie-0002dC-AG
+ (envelope-from <dgibson@ozlabs.org>) id 1ip0ie-0002dD-GO
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 21:05:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ip0ic-0007gE-VC
+ (envelope-from <dgibson@ozlabs.org>) id 1ip0id-0007gT-1V
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 21:05:12 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45097 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:39365 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ip0ic-0007er-A6; Tue, 07 Jan 2020 21:05:10 -0500
+ id 1ip0ic-0007ed-Bn; Tue, 07 Jan 2020 21:05:10 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47ssyV2Dpjz9sP6; Wed,  8 Jan 2020 13:05:06 +1100 (AEDT)
+ id 47ssyV5j43z9sS3; Wed,  8 Jan 2020 13:05:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1578449106;
- bh=DmMS/4+MWqhgQbtFx7WWFE2qbNMnHLtZSsiPfKWcSGg=;
+ bh=G/8ZO79i8I8MSGC1a+NeZazity1CH5fUjPjznyHl9Tc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZT7uS/Qx2aLJk6jSchULTjN2HeNgMe28Cqm2tSGmy5pQx3tKS4VMW9XlIBjM6YY9+
- R7d/7zmQJOseWtE2o6Nf9mGux5zPJZvPBD2yGqozqFbLlJb5DaISeoOXr1ZTJcmJ5K
- 3yQINlDmVKbsa4VG9y5FFHlub/wXvsxMgHt3vezY=
-Date: Wed, 8 Jan 2020 12:06:04 +1100
+ b=TzGwIozM0ZdbE9fDt/pllhCzhXW5YMVgZR0zXSwIFnYtg8uPS8jn+JcmS8W7XICsw
+ /+zy6yrQk67DYtTRXPX2zHX6YUlqwjKYqB/crFmGCwLJsQuwhKM2Jd00bK1Kw24+KN
+ Br/Ni9x1EXHP6UAuNKSQYj3nlb8ZghHjhHJXacHU=
+Date: Wed, 8 Jan 2020 12:08:50 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 09/10] target/ppc: Correct RMLS table
-Message-ID: <20200108010604.GI2137@umbus.fritz.box>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 02/10] ppc: Remove stub of PPC970 HID4 implementation
+Message-ID: <20200108010850.GJ2137@umbus.fritz.box>
 References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
- <20200107044827.471355-10-david@gibson.dropbear.id.au>
- <b4f4b0f9-759d-637d-9b40-d0fd3c0c21f6@kaod.org>
+ <20200107044827.471355-3-david@gibson.dropbear.id.au>
+ <20200107183215.09ce18c6@bahia.lan>
+ <20200107183638.1c84f172@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VkqCAaSJIySsbD6j"
+ protocol="application/pgp-signature"; boundary="fckbADODYWZD5TdN"
 Content-Disposition: inline
-In-Reply-To: <b4f4b0f9-759d-637d-9b40-d0fd3c0c21f6@kaod.org>
+In-Reply-To: <20200107183638.1c84f172@bahia.lan>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -56,64 +57,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, paulus@samba.org, philmd@redhat.com
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, paulus@samba.org, clg@kaod.org,
+ qemu-ppc@nongnu.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---VkqCAaSJIySsbD6j
-Content-Type: text/plain; charset=iso-8859-1
+--fckbADODYWZD5TdN
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2020 at 03:21:42PM +0100, C=E9dric Le Goater wrote:
-> On 1/7/20 5:48 AM, David Gibson wrote:
-> > The table of RMA limits based on the LPCR[RMLS] field is slightly wrong.
-> > We're missing the RMLS =3D=3D 0 =3D> 256 GiB RMA option, which is avail=
-able on
-> > POWER8, so add that.
+On Tue, Jan 07, 2020 at 06:36:38PM +0100, Greg Kurz wrote:
+> On Tue, 7 Jan 2020 18:32:15 +0100
+> Greg Kurz <groug@kaod.org> wrote:
 >=20
-> Where is this defined ?
-
-It's in the Book4, so not easily available, unfortunately :(.
-
-> > The comment that goes with the table is much more wrong.  We *don't* fi=
-lter
-> > invalid RMLS values when writing the LPCR, and there's not really a
-> > sensible way to do so.  Furthermore, while in theory the set of RMLS va=
-lues
-> > is implementation dependent, it seems in practice the same set has been
-> > available since around POWER4+ up until POWER8, the last model which
-> > supports RMLS at all.  So, correct that as well.
+> > On Tue,  7 Jan 2020 15:48:19 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
 > >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  target/ppc/mmu-hash64.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > The PowerPC 970 CPU was a cut-down POWER4, which had hypervisor capab=
+ility.
+> > > However, it can be (and often was) strapped into "Apple mode", where =
+the
+> > > hypervisor capabilities were disabled (essentially putting it always =
+in
+> > > hypervisor mode).
+>=20
+> Isn't it supervisor mode instead of hypervisor mode ?
+
+No; hypervisor is correct.  If the cpu was always in supervisor mode,
+the boot OS couldn't access the hypervisor privileged registers that
+are needed for basic setup (e.g. SDR1).  "Apple mode" means the cpu
+doesn't have a supervisor mode that _isn't_ hypervisor privileged and
+hence, can't run guests.
+
+>=20
+> > >=20
+> > > That's actually the only mode of the 970 we support in qemu, and we're
+> > > unlikely to change that any time soon.  However, we do have a partial
+> > > implementation of the 970's HID4 register which affects things only
+> > > relevant for hypervisor mode.
+> > >=20
+> > > That stub is also really ugly, since it attempts to duplicate the eff=
+ects
+> > > of HID4 by re-encoding it into the LPCR register used in newer CPUs, =
+but
+> > > in a really confusing way.
+> > >=20
+> > > Just get rid of it.
+> > >=20
+> > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > > ---
 > >=20
-> > diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> > index bb9ebeaf48..e6f24be93e 100644
-> > --- a/target/ppc/mmu-hash64.c
-> > +++ b/target/ppc/mmu-hash64.c
-> > @@ -760,12 +760,12 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
-> >  {
-> >      CPUPPCState *env =3D &cpu->env;
-> >      /*
-> > -     * This is the full 4 bits encoding of POWER8. Previous
-> > -     * CPUs only support a subset of these but the filtering
-> > -     * is done when writing LPCR
-> > +     * In theory the meanings of RMLS values are implementation
-> > +     * dependent.  In practice, this seems to have been the set from
-> > +     * POWER4+..POWER8, and RMLS is no longer supported in POWER9.
-> >       */
-> >      const target_ulong rma_sizes[] =3D {
-> > -        [0] =3D 0,
-> > +        [0] =3D 256 * GiB,
-> >          [1] =3D 16 * GiB,
-> >          [2] =3D 1 * GiB,
-> >          [3] =3D 64 * MiB,
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > >  target/ppc/mmu-hash64.c         | 28 +---------------------------
+> > >  target/ppc/translate_init.inc.c | 17 ++++++-----------
+> > >  2 files changed, 7 insertions(+), 38 deletions(-)
+> > >=20
+> > > diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> > > index da8966ccf5..a881876647 100644
+> > > --- a/target/ppc/mmu-hash64.c
+> > > +++ b/target/ppc/mmu-hash64.c
+> > > @@ -1091,33 +1091,6 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ul=
+ong val)
+> > > =20
+> > >      /* Filter out bits */
+> > >      switch (env->mmu_model) {
+> > > -    case POWERPC_MMU_64B: /* 970 */
+> > > -        if (val & 0x40) {
+> > > -            lpcr |=3D LPCR_LPES0;
+> > > -        }
+> > > -        if (val & 0x8000000000000000ull) {
+> > > -            lpcr |=3D LPCR_LPES1;
+> > > -        }
+> > > -        if (val & 0x20) {
+> > > -            lpcr |=3D (0x4ull << LPCR_RMLS_SHIFT);
+> > > -        }
+> > > -        if (val & 0x4000000000000000ull) {
+> > > -            lpcr |=3D (0x2ull << LPCR_RMLS_SHIFT);
+> > > -        }
+> > > -        if (val & 0x2000000000000000ull) {
+> > > -            lpcr |=3D (0x1ull << LPCR_RMLS_SHIFT);
+> > > -        }
+> > > -        env->spr[SPR_RMOR] =3D ((lpcr >> 41) & 0xffffull) << 26;
+> > > -
+> > > -        /*
+> > > -         * XXX We could also write LPID from HID4 here
+> > > -         * but since we don't tag any translation on it
+> > > -         * it doesn't actually matter
+> > > -         *
+> > > -         * XXX For proper emulation of 970 we also need
+> > > -         * to dig HRMOR out of HID5
+> > > -         */
+> > > -        break;
+> > >      case POWERPC_MMU_2_03: /* P5p */
+> > >          lpcr =3D val & (LPCR_RMLS | LPCR_ILE |
+> > >                        LPCR_LPES0 | LPCR_LPES1 |
+> > > @@ -1154,6 +1127,7 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulo=
+ng val)
+> > >          }
+> > >          break;
+> > >      default:
+> > > +        g_assert_not_reached();
+> > >          ;
+> > >      }
+> > >      env->spr[SPR_LPCR] =3D lpcr;
+> > > diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_i=
+nit.inc.c
+> > > index d33d65dff7..436d0d5a51 100644
+> > > --- a/target/ppc/translate_init.inc.c
+> > > +++ b/target/ppc/translate_init.inc.c
+> > > @@ -7884,25 +7884,20 @@ static void spr_write_lpcr(DisasContext *ctx,=
+ int sprn, int gprn)
+> > >  {
+> > >      gen_helper_store_lpcr(cpu_env, cpu_gpr[gprn]);
+> > >  }
+> > > -
+> > > -static void spr_write_970_hid4(DisasContext *ctx, int sprn, int gprn)
+> > > -{
+> > > -#if defined(TARGET_PPC64)
+> > > -    spr_write_generic(ctx, sprn, gprn);
+> > > -    gen_helper_store_lpcr(cpu_env, cpu_gpr[gprn]);
+> > > -#endif
+> > > -}
+> > > -
+> > >  #endif /* !defined(CONFIG_USER_ONLY) */
+> > > =20
+> > >  static void gen_spr_970_lpar(CPUPPCState *env)
+> > >  {
+> > >  #if !defined(CONFIG_USER_ONLY)
+> > >      /* Logical partitionning */
+> > > -    /* PPC970: HID4 is effectively the LPCR */
+> > > +    /* PPC970: HID4 covers things later controlled by the LPCR and
+> > > +     * RMOR in later CPUs, but with a different encoding.  We only
+> > > +     * support the 970 in "Apple mode" which has all hypervisor
+> > > +     * facilities disabled by strapping, so we can basically just
+> > > +     * ignore it */
+> > >      spr_register(env, SPR_970_HID4, "HID4",
+> > >                   SPR_NOACCESS, SPR_NOACCESS,
+> > > -                 &spr_read_generic, &spr_write_970_hid4,
+> > > +                 &spr_read_generic, &spr_write_generic,
+> > >                   0x00000000);
+> > >  #endif
+> > >  }
+> >=20
 > >=20
 >=20
 
@@ -123,25 +211,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---VkqCAaSJIySsbD6j
+--fckbADODYWZD5TdN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VKvwACgkQbDjKyiDZ
-s5JQxA/+LI6wK0mezttiQuuoVA2eDN3yFiG9TuvE68jraz0ameeYfknfZ+i2qcEJ
-BoHWc0KzLf9uFgUirvZ/8KgKFxsbkCG/e4i5SWgpKJI7MUGIFGEjZ4bcO0kaa8xt
-dyPfrXbAc0RkOMieNZQQ5T6N/58dg8OuWP1oLFvJoI9UD5OtYcgtN7I9q462jgrB
-IknRvyjprfsHCTXvORH+eCVtLoC+WxbbLHdxAEnxNBq0Kdh/rdfTYIMthSvjB72d
-Zg5viulaIfRhYvNdW56HLx9mG3yHUxNp3i3j4au8xo6ewDSHh3QTy5t749ajQ5sz
-a97h310DkZ5ZuhxURU7IfpV5faeKjJyrjgebBfgkqQ4m/4Vanzway+gTx3cmHlQr
-tM3H+AVvbDyBwXTx4hoW7spMysKV7+L2OqsS56FrD5Bw5weLUty7VT62KfahpIzs
-6j4Rd0Txffv+p7+1Cpf/zPan5nqmsYVqsRqGB1+lBC/2NWSVPIRkplTxfTa1JJz2
-itsALSOUneBCsLIRGckOgHCiznl7IRK32OOl+RHd88SUYP/6ds1zuH61XlZ48Ldp
-2FutiMC9tmUtNI1IZmM8AxuOsNSYJBHhhK312hhwMHejXIP91gp+/dWNXr1Wz4JJ
-Bq4c1r7DJ8XR/sTXRMbb0hTmDJRlX8jhvFu0Hjq8zeISgd2jHlY=
-=jix6
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VK6IACgkQbDjKyiDZ
+s5LDFBAAkBD+6t8YQRnVghcszIRLs9CrYM9WRD+BfWCkoyHvBIvtZpVt5octDMCD
+nAJO4X61neW5h2uIN2mSRf4TuWgksvza9Ui5wn187s11G3yd8cDT95zOGtCJbtP7
+dYdTcexnvvtq8gnH5dagrPAiEsJUH2mIowetTYxLke/PQV2YArw959Zqd5WzM654
+I2vqzfukqbdoIvFypPiqaI0gUcOURBLmWq60DlynBmRaIZKpRpqLJeBzIjFuwulO
+6Wc95pfTSD8dTHLe6ePz3qSN40/nL2egfxH7mHanOe215qGuIbiqEwu4FyjaJm1X
+nwtCknvoKKq8XTHzhsGhIT7hX2VVSTFiJ2Fh+1dh9oMUwsnuOJPu7eV0Hkbk0t6C
+OofOsISEt7wYMmcJxE8LPykypgRxTPGeVyt/POdwgogoyVfRwmYor1dFe9XRqaL8
+4E7on9ysPylQnCqme6GHiIjPLojujmT50uufd27kzA6PPEh1BwHw0gc0uUzboXyC
+gy+FA4eCLRiBc35ViQ/G1NjXywysEgXqVl4DiBmu2ggMRWlCMjHzQVY6g9LO3+dW
+7ltFbnLQxDw3e//8lH7hr6PgLO2PudMoupKs/eVK5sVOfb6hH0R7V4VZMismtb4S
+D3Bmm7/5YVPSBh8GPtHUUiHv+P49dQN4mysvZ3+tauUuIXg2iYk=
+=zwgS
 -----END PGP SIGNATURE-----
 
---VkqCAaSJIySsbD6j--
+--fckbADODYWZD5TdN--
 
