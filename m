@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6266E133B15
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 06:25:48 +0100 (CET)
-Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D723133B23
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 06:28:08 +0100 (CET)
+Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip3qk-0005iL-LR
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 00:25:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47323)
+	id 1ip3t0-0001Wb-Pt
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 00:28:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ip3oX-0003qH-6z
+ (envelope-from <dgibson@ozlabs.org>) id 1ip3oX-0003qK-8X
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ip3oW-0002cP-1z
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:28 -0500
-Received: from ozlabs.org ([203.11.71.1]:49391)
+ (envelope-from <dgibson@ozlabs.org>) id 1ip3oW-0002d6-8b
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:29 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43747 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ip3oV-0002UK-8f; Wed, 08 Jan 2020 00:23:27 -0500
+ id 1ip3oV-0002Uc-Bd; Wed, 08 Jan 2020 00:23:28 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47syM95g2kz9sRl; Wed,  8 Jan 2020 16:23:17 +1100 (AEDT)
+ id 47syM93DzXz9sNx; Wed,  8 Jan 2020 16:23:17 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1578460997;
- bh=lbm8EJRZ7JKETrZE+YNbktjUtLSvJ1kr18xQhBolrpM=;
+ bh=RIG8AVq/A1LrdRejHrsb2i5wZf5SloXuDpwkP/Qb1zQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pz63e+OfWX+mPzYpOSTGA19vV9f2k9rT4ftqwjXpkOwApsF1kwQxs/CcZm2WYwq/9
- jzmyi5Tg4TopnF8GpDS7g8RZplgND610NrQ6B9B6KQWV96MqrRlTJ4MAtBJzXfWCmy
- MOginqQFg5GsNVvBiX4u5gbCbQSMMSPemN3c4vw0=
+ b=adAP7IjrZFjRDOqW4vvufUM7oifi56f52xwirILWr9Wmnaew6Yo0Vh8QgsL20DVhv
+ nQrEkb/byFP9G53Fhs9pBjikaBXQZYPWJm/B2P0nWVyKnFC26DGXZsreYeIuorLWAf
+ hZu0pdAzy+Y9ci8Xu0v4OslV+CXnBQSoEdnYULpY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/26] target/ppc: Remove unused PPC_INPUT_INT defines
-Date: Wed,  8 Jan 2020 16:22:47 +1100
-Message-Id: <20200108052312.238710-2-david@gibson.dropbear.id.au>
+Subject: [PULL 02/26] target/ppc: Handle AIL=0 in ppc_excp_vector_offset
+Date: Wed,  8 Jan 2020 16:22:48 +1100
+Message-Id: <20200108052312.238710-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200108052312.238710-1-david@gibson.dropbear.id.au>
 References: <20200108052312.238710-1-david@gibson.dropbear.id.au>
@@ -61,35 +61,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-They were added in "16415335be Use correct input constant" with a
-single use in kvm_arch_pre_run but that function's implementation was
-removed by "1e8f51e856 ppc: remove idle_timer logic".
+The exception vector offset calculation was moved into a function but
+the case when AIL=3D0 was not checked.
 
+The reason we got away with this is that the sole caller of
+ppc_excp_vector_offset checks the AIL before calling the function:
+
+    /* Handle AIL */
+    if (ail) {
+        ...
+        vector |=3D ppc_excp_vector_offset(cs, ail);
+    }
+
+Fixes: 2586a4d7a0 ("target/ppc: Move exception vector offset computation =
+into a function")
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20191218014616.686124-1-farosas@linux.ibm.com>
+Message-Id: <20191217142512.574075-1-farosas@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/kvm.c | 6 ------
- 1 file changed, 6 deletions(-)
+ target/ppc/excp_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index d1c334f0e3..5e4f219902 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1325,12 +1325,6 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq,=
- int level)
-     return 0;
- }
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 50b004d00d..5752ed4a4d 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -112,6 +112,8 @@ static uint64_t ppc_excp_vector_offset(CPUState *cs, =
+int ail)
+     uint64_t offset =3D 0;
 =20
--#if defined(TARGET_PPC64)
--#define PPC_INPUT_INT PPC970_INPUT_INT
--#else
--#define PPC_INPUT_INT PPC6xx_INPUT_INT
--#endif
--
- void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
- {
-     return;
+     switch (ail) {
++    case AIL_NONE:
++        break;
+     case AIL_0001_8000:
+         offset =3D 0x18000;
+         break;
 --=20
 2.24.1
 
