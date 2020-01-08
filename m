@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46F81341D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:35:22 +0100 (CET)
-Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FF31341DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:38:27 +0100 (CET)
+Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAYT-0005YW-E5
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:35:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60269)
+	id 1ipAbR-0001g5-LP
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:38:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60286)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWJ-0003eI-Ef
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:08 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWK-0003fm-Dc
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWI-0004Fr-Ba
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:07 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:32778)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWJ-0004GV-5c
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:08 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50266)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWI-0004FQ-5c
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:06 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id d139so16419022wmd.0
+ id 1ipAWI-0004Fw-Vx
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:07 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id a5so2310729wmb.0
  for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i2g/TgemWgl5O4aQNWuawgyyRlmyRO6mT3xQ0xkXqXE=;
- b=qcP7acUtTX8xWP80zC/e87WsdpTp3Kk0SINaC+Qb8bHdci7Ug5Q00jM5rpLI2Pxh6y
- 43u60gKm4b5NT2wzkJ/4AYhJzSfJwIMgRPVxOyoyxur4EOgLzh3FrTNWwNwaancczaSw
- pGo10rVBwX1Bh42YRFRykdh5Bhd1bLDRll8NUV3d48ZQIcqxAyKDUs7OxVekXVOeRj68
- nhtNq6sz/GpePDBcJZ0II2Fu2/oX3KYuinOnwHSBzESJRBQus2QtpcYQFd4ILAZW1hdl
- 0acXxyg32TpPIHRAARDYF/pBICohbzBw+slNeuOzmEqcq8S5JyrBupEMtg9k8cGf8ale
- k2Yg==
+ bh=3yhWA8yXlYsJVpooobRrkZ5hRD9Oh/35FTaEzQyVALk=;
+ b=o+GypmTRf7QK5WHOcIUm34g5ke1D5ixjsIbuwOH6BhxATeHpUwEvKroFGxrKCN85Gl
+ aIJJTpkV+XcCjU9WXA4PFigbDfWUmPzSEL92X/8qu5Rol/Th3Hl4dlXbMeCkvu70TbhJ
+ 6DsfR9wamSy82jmS2oE+XOJN2KHr1BZrTDPnHMKVA/nJEjfm/vYUhkFwQcYPskPbYZc4
+ 3fQ6gRkeFLrJutbTqqCVZFmB3dl8tBpQ5qWM0VyJzxWoLwzaMnzQKMYn3WDrblwEEnoy
+ DsVQReGJdBItNPtNUzJ50VkPI0MD6IebVV2pDIF90TUnYjJvd9C4irpeIXuA/kwP5PZ5
+ ufvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=i2g/TgemWgl5O4aQNWuawgyyRlmyRO6mT3xQ0xkXqXE=;
- b=OOktf7ThfRhqRCO02Z7oE0eg1/9P3N48Dr/qkPlU0DXODBDWj1z3tNvCZJ7a6ov2BP
- gp7DBHM8wgfZIoXr+ycC+79m36TX964VDdySoVXKYvul/xVWRvrnvdBovCVpnKVMuSWV
- m1iHKz30fhexIYT15n4tLEAyzbr2wsGumQLu/fY3pC2+QcrsXSDt7W1sGLNU4OcgaXVy
- tUrEJ3AsnSP6P5Gp9IRi6yIti7C0pKwqjBKiRYvmgp+gVwTLd70BkfXMuSB8GHCVnP02
- tsy8Oq4U1paU2dzFQ/4AxpfFtBiShnnRz/POfHqaN8+eC1xmh7Y4FVzWz3FjounKGxdS
- IJRg==
-X-Gm-Message-State: APjAAAXmldKiaAqQbcy+sVLb+xk+uE3+2rQ17caUqd2lZ7/3SWK1tOZa
- PmGyg4VgKAVPBi7inILnGEekJhVf
-X-Google-Smtp-Source: APXvYqxmaxTl7dLyTBQzmnAQxGMkqOVL+k5zdDIwuJJv2GyOuy+R0Q3T056fdSfacNmm72HgIXE1UA==
-X-Received: by 2002:a7b:c4c5:: with SMTP id g5mr3725444wmk.85.1578486785006;
+ bh=3yhWA8yXlYsJVpooobRrkZ5hRD9Oh/35FTaEzQyVALk=;
+ b=jsxTdJRhGhExClRiGfr5XNeshR64f7ILyrLJAm4xJymHJK5yo6byci7ZmER7d1i2+F
+ X8RCRosl0U7nRcPVKgFGgPWes1GuYiijsq3YssPd9zCuqhi1ngKzcrxto/og7/4XH5Uj
+ 5YKqZNCPEvd3uz1uKPKmuCShE0ei7cev5SUDXHvCOLIulilsjva30shAluH/6Ao9ynQZ
+ nY6Resxk5Q5s8mmoym+OW4i3Zatn0p5QzMIlCYufVcxsXm/JcqpDDF0mMw5sAmNpakl/
+ Ii5TZV0SZOUYXJTz6lBh+P7xgrlL1DwXF/gWKld/0osEKirplFSiZ2tj00hdTL3YNCfT
+ 0HQQ==
+X-Gm-Message-State: APjAAAWua7BRJYgKBrBEso3/pNGpT0Ukl6UWDHTtdXopNU6jxNvs+H9J
+ XlIIuSLDv99RZK6rRu0oFQqQfUa3
+X-Google-Smtp-Source: APXvYqwpOLz/VNGF1tLzpzLCMjK3QWloyXaw38yEMgaVj9pj7kBSK3gl7eB/oCzjm3SrOJgo08ON4w==
+X-Received: by 2002:a1c:1dcd:: with SMTP id d196mr3617884wmd.106.1578486785837; 
  Wed, 08 Jan 2020 04:33:05 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.04
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.05
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:04 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:05 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/38] hw/timer/Kconfig: Intel 8254 PIT depends of ISA bus
-Date: Wed,  8 Jan 2020 13:32:25 +0100
-Message-Id: <1578486775-52247-9-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 09/38] hw/usb/redirect: Do not link 'usb-redir' device when USB
+ not enabled
+Date: Wed,  8 Jan 2020 13:32:26 +0100
+Message-Id: <1578486775-52247-10-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +85,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Since i8254_common.c calls isa_register_ioport() from "hw/isa/isa.h"
-we can not select it when ISA_BUS is disabled. Add a 'depends on'
-clause.
+The 'usb-redir' device requires the USB core code to work. Do not
+link it when there is no USB support. This fixes:
+
+  $ qemu-system-tricore -M tricore_testboard -device usb-redir
+  qemu-system-tricore: -device usb-redir: No 'usb-bus' bus found for device 'usb-redir'
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200106171912.16523-1-philmd@redhat.com>
+Message-Id: <20191231183216.6781-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/timer/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/Makefile.objs | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index a990f9f..59b3f44 100644
---- a/hw/timer/Kconfig
-+++ b/hw/timer/Kconfig
-@@ -15,6 +15,7 @@ config HPET
+diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
+index 0ab20f9..0052d49 100644
+--- a/hw/usb/Makefile.objs
++++ b/hw/usb/Makefile.objs
+@@ -39,9 +39,11 @@ common-obj-$(CONFIG_USB_STORAGE_MTP)  += dev-mtp.o
+ endif
  
- config I8254
-     bool
-+    depends on ISA_BUS
+ # usb redirection
++ifeq ($(CONFIG_USB),y)
+ common-obj-$(CONFIG_USB_REDIR) += redirect.o quirks.o
+ redirect.o-cflags = $(USB_REDIR_CFLAGS)
+ redirect.o-libs = $(USB_REDIR_LIBS)
++endif
  
- config ALTERA_TIMER
-     bool
+ # usb pass-through
+ ifeq ($(CONFIG_USB_LIBUSB)$(CONFIG_USB),yy)
 -- 
 1.8.3.1
 
