@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4FF134228
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:49:34 +0100 (CET)
-Received: from localhost ([::1]:43016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E792134227
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:49:31 +0100 (CET)
+Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAmD-0000Sz-KK
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:49:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60451)
+	id 1ipAm9-0000L5-PW
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:49:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWV-0003wr-Hw
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:20 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWW-0003yV-Pc
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWU-0004PE-KS
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:19 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51292)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWV-0004Q0-Jd
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:20 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:56013)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWU-0004Of-Eg
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:18 -0500
-Received: by mail-wm1-x332.google.com with SMTP id d73so2307213wmd.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:18 -0800 (PST)
+ id 1ipAWV-0004PQ-DN
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:19 -0500
+Received: by mail-wm1-x332.google.com with SMTP id q9so2276610wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZENGOtMS6+bKQUaERKPKm8qYGAS6+eCRE25grnCOJjk=;
- b=PWoTVDsnsWBBEB81pkQ8E/z2BjlJZNHqextjiw8AvAw47LiNz7Ge0kEnw/RictIOpq
- ZDFUfLhOD5JpKxuNrUqHCB3XtiYQ1eTACdD+nfBwGaCG8RZxLgQckLDclRZdwAda4qkw
- 048jfBQyxdPatXYJJtVlOzpnIKhvJhwtM9GtO+/5xz2KgsaSpv/OUNDt90DwXmPTMKFA
- P0jxTzOKPWb92Kdnm7PtXASf4aelwR9z2qrcqh7F4WKw94pYysbz3I0qb/TTvQfYhpoD
- /rt3hOF90EBXeQkhPuGIfF8E2f2CWt1C3dYd2Jq+xemHsvnKcALZFdEpe0Z8grVzyXLy
- jNtg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=pjqdkb919vSGbnhGqmpTVjV2nd+xhVlSchT013lEZf4=;
+ b=SOoNFmgyyOk6cSR2Im99JnLuqnckG49ouCoz9MhUFkUvzVH0p4cz3oUzV8uaCqmkxE
+ bWB1Qz+e5kdqCMSi9jylSDKbKzoJU/M6cQEOyKZqoYZjwV1EWzSA4ebrF4pLkRSHzx22
+ IuQvX+xCcWj+AL4gl619PeBErChUNZkYTNJNbOXQBGLIeix7g5NO/RMD7yYPu/dw9izL
+ HirjQ8sx0WQ99Oc9RIFXfrkwKWuk/3Xe3aCikoHk8pZe+PiFetlTd0Z9biWqvEM12/83
+ a/Yu3T0EYF56ez9+zGPolyHkHwal36JXg2jOn9FCfAv9ci8SX7S8c18tjHfi6QbbSKP9
+ bEyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZENGOtMS6+bKQUaERKPKm8qYGAS6+eCRE25grnCOJjk=;
- b=g6Q3RcAp82k4c+CnazdoPfwBhbJ8tF8FQol4/Fvy2XaeU20eG3b2EmlgmNUkx3TaMh
- MUVjN7UwM0RoDZ/iZgfyFnZG4ycYZQkZ2VLEj+VAok+js2ULalOj8sM9HwG2On9zP1ka
- mmyG93NbAYfS2yqVd74Z1x2EeMZY/LZIkrx0CrA+IoD6UeYg4X2J0gtEOcDIJQqxUXsY
- Y0ozjxbgmXGWYt3KB0fiV15xxLCVfCngkJe4/wggNe2NvL/09Cagx1chq9veboY/RTut
- f/xLYGTHbOSxFQniU/z3q130jpyOn1jimMQSFHjx0fwbf2YibXTjKvrTGvp8DlSEUmMz
- kmrg==
-X-Gm-Message-State: APjAAAWuK3ry/3sS1G76jRgwOC63TZFDVmeKzkQMnJd2sgzFICR44U1O
- k8Da+WL3IeOEPMjiq6igWZir2zJf
-X-Google-Smtp-Source: APXvYqwnv/cZtv7N/ojW3GZ3gVip8CNh+hKTEDwS47sKLhKzwdgn94qwPeFQvMK2TJamHGFY7G3j6Q==
-X-Received: by 2002:a05:600c:507:: with SMTP id
- i7mr3795819wmc.135.1578486797347; 
- Wed, 08 Jan 2020 04:33:17 -0800 (PST)
+ :in-reply-to:references;
+ bh=pjqdkb919vSGbnhGqmpTVjV2nd+xhVlSchT013lEZf4=;
+ b=HB3cHMW7+0EH6GL0eifBG44b5wYX0Gtwmzpi94fXBW16+6IlVe/bZ8AU+zL24BktId
+ WdJxsLEuE1/aOHiEbtNqTn3oWVsk6VPgVoGInquumkgePMuPFoWr52QyhF2f+o5p+53U
+ BhtJ0Ac1DOZtiEVc/v0bTONcqlzhhsJ84Ez68kyhJvlJYm2GlZB32ya8rof8I7clEI28
+ LTjeRUTYTjnEfw3B4VQQE/svE2E6ywIJ9lG3LdK1FJMNVuyVV9Fq1zdji80jMtB0wpaf
+ Mz54gt4Qs2TSqjxM4UDARjcY8vN/VWUdZMXAN8VyoOzl9Yltz5VZtJnZfU8TVdAqv2xK
+ ZlTA==
+X-Gm-Message-State: APjAAAX6pabeFthva2yjZ5uyTAtSMvoN1xWyGeL9kZ7hniVjKY1+x+XB
+ UUSo/nH0lFlnIYDtIdLZyBwwr6r4
+X-Google-Smtp-Source: APXvYqyHoiVzUTX26+8pWc32tXhi2ydMlQP0ECfcIKNbpoCRf9HuepfeWz8SMrVdBbNq0M5blgcN5Q==
+X-Received: by 2002:a1c:720a:: with SMTP id n10mr3523811wmc.74.1578486798283; 
+ Wed, 08 Jan 2020 04:33:18 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.16
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.17
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:16 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/38] hw/rtc/mc146818: Add missing dependency on ISA Bus
-Date: Wed,  8 Jan 2020 13:32:37 +0100
-Message-Id: <1578486775-52247-21-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 21/38] target/i386: Fix handling of k_gs_base register in
+ 32-bit mode in gdbstub
+Date: Wed,  8 Jan 2020 13:32:38 +0100
+Message-Id: <1578486775-52247-22-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::332
@@ -79,36 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "mkdolata@us.ibm.com" <mkdolata@us.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: "mkdolata@us.ibm.com" <mkdolata@us.ibm.com>
 
-The MC146818 sits on an ISA bus. Since it can not be used
-without it, select ISA in the Kconfig.
+gdb-xml/i386-32bit.xml includes the k_gs_base register too, so we have to
+handle it even if TARGET_X86_64 is not defined.  This is already done in
+x86_cpu_gdb_read_register, but not in x86_cpu_gdb_write_register where the
+incorrect return value causes all registers after it to be clobbered.
 
-Fixes: 82f5181777 ("kconfig: introduce kconfig files", 2019-03-07)
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191224111628.3551-1-philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Fixes https://bugs.launchpad.net/qemu/+bug/1857640.
+
+Signed-off-by: Marek Dolata <mkdolata@us.ibm.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/rtc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/gdbstub.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-index 45daa8d..3dc2dd6 100644
---- a/hw/rtc/Kconfig
-+++ b/hw/rtc/Kconfig
-@@ -17,6 +17,7 @@ config TWL92230
-     depends on I2C
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index aef25b7..572ead6 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -350,15 +350,15 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+             env->segs[R_GS].base = ldl_p(mem_buf);
+             return 4;
  
- config MC146818RTC
-+    depends on ISA_BUS
-     bool
+-#ifdef TARGET_X86_64
+         case IDX_SEG_REGS + 8:
++#ifdef TARGET_X86_64
+             if (env->hflags & HF_CS64_MASK) {
+                 env->kernelgsbase = ldq_p(mem_buf);
+                 return 8;
+             }
+             env->kernelgsbase = ldl_p(mem_buf);
+-            return 4;
+ #endif
++            return 4;
  
- config SUN4V_RTC
+         case IDX_FP_REGS + 8:
+             cpu_set_fpuc(env, ldl_p(mem_buf));
 -- 
 1.8.3.1
 
