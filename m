@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934CF134A42
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 19:11:52 +0100 (CET)
-Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B7A134A5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 19:21:31 +0100 (CET)
+Received: from localhost ([::1]:47802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipFo7-0005jE-6V
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 13:11:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
+	id 1ipFxS-0007DW-EE
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 13:21:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipFnG-00052c-PZ
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:10:59 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipFwc-0006aL-BW
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:20:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipFnF-0006Xf-IM
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:10:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33094)
+ (envelope-from <bounces@canonical.com>) id 1ipFwb-00076v-0Q
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:20:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34416)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipFnF-0006Vr-Cw
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:10:57 -0500
+ id 1ipFwa-00074C-Qm
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:20:36 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipFnC-0003eo-P0
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 18:10:54 +0000
+ id 1ipFwZ-0004ef-5J
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 18:20:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BA76F2E80C9
- for <qemu-devel@nongnu.org>; Wed,  8 Jan 2020 18:10:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 221E42E80C8
+ for <qemu-devel@nongnu.org>; Wed,  8 Jan 2020 18:20:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jan 2020 17:56:17 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 08 Jan 2020 18:13:40 -0000
+From: puchuu <1858461@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,18 +41,17 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic pmaydell
 X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
 References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
- <157850256701.5510.8747112724719044821.malone@gac.canonical.com>
-Message-Id: <CAFEAcA-X5L0j6esqjowx0n=xBdxyuK4XDB_MLUEn2tHya19pOw@mail.gmail.com>
-Subject: Re: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+Message-Id: <157850722034.14768.6377307121922513104.malone@wampee.canonical.com>
+Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 502d22fab78ddabc98069791dccbf2eb224c4294
+X-Launchpad-Hash: 29bef2da18dd23177ecb92d6d6093eab4db35dca
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -70,28 +69,23 @@ Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jan 2020 at 17:06, puchuu <1858461@bugs.launchpad.net> wrote:
-> I think about the following development flow:
->
-> 1. Kernel updates and maintains "tbl".
-> 2. Qemu developer wants to implement new syscall (like clone3) in "linux-=
-user/syscall.c".
-> 3. Developer clones new kernel into some directory and runs generators.
-> 4. All syscall related stuff will be updated immediately.
+After applying my patch it seems like another issue was fixed: "emerge"
+inside qemu has no permissions bug. Without that patch I was able to
+reproduce "emerge" program can't apply any patch (permission denied). So
+it looks like old hardcoded table has some wrong values that are not
+compatible with current kernel.
 
-That seems like quite a lot of effort, given that we don't really
-have to update the set of syscall number #defines very often.
-At the moment it's just "somebody submits a patch which
-updates the list of #defines every so often". (And if you want
-to actually implement a new syscall then the the actual
-implementation is the bulk of the work anyhow.)
+So I think that generator is super critical for mips. With that patch I
+am able to "emerge app-arch/gzip" inside qemu, works perfect. I will try
+to rebuild a complete image inside qemu.
 
-In particular if you really want to proceed down the path of
-suggesting scripts for doing the update then I think we would
-want something that works for all our architectures, not just MIPS.
+http://patchwork.ozlabs.org/patch/1217454/
 
-thanks
--- PMM
+I want to say that this patch is not safe. Zero values around "MIPS_SYS"
+means that syscall can be processed but arguments won't be received from
+stack (please see cpu loop switch). So when main code will receive a new
+syscall support - mips will become broken. I can recommend to use -1
+intead and add additional check for "nb_args".
 
 -- =
 
