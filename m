@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E792134227
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:49:31 +0100 (CET)
-Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F24134238
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:51:45 +0100 (CET)
+Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAm9-0000L5-PW
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:49:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60477)
+	id 1ipAoK-0004W7-0f
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:51:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60498)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWW-0003yV-Pc
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:21 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWX-00040B-T8
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWV-0004Q0-Jd
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:20 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:56013)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWW-0004Qq-P7
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:21 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54663)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWV-0004PQ-DN
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:19 -0500
-Received: by mail-wm1-x332.google.com with SMTP id q9so2276610wmj.5
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:19 -0800 (PST)
+ id 1ipAWW-0004QV-J4
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:20 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id b19so2289107wmj.4
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pjqdkb919vSGbnhGqmpTVjV2nd+xhVlSchT013lEZf4=;
- b=SOoNFmgyyOk6cSR2Im99JnLuqnckG49ouCoz9MhUFkUvzVH0p4cz3oUzV8uaCqmkxE
- bWB1Qz+e5kdqCMSi9jylSDKbKzoJU/M6cQEOyKZqoYZjwV1EWzSA4ebrF4pLkRSHzx22
- IuQvX+xCcWj+AL4gl619PeBErChUNZkYTNJNbOXQBGLIeix7g5NO/RMD7yYPu/dw9izL
- HirjQ8sx0WQ99Oc9RIFXfrkwKWuk/3Xe3aCikoHk8pZe+PiFetlTd0Z9biWqvEM12/83
- a/Yu3T0EYF56ez9+zGPolyHkHwal36JXg2jOn9FCfAv9ci8SX7S8c18tjHfi6QbbSKP9
- bEyg==
+ bh=+1cYJv2/SCgEaS7XXUU1nSsoWuZ/j2VFPEMFOllKrRM=;
+ b=bVhaNaPqrDQgdP5kUomEIYo3Q4Y/Z42aG4o/qISYzhO+jonvaeNpueyKLdrE2pW4Fq
+ MqxQqonlWXakjJmXE4PGXY6YFcNJpvkC7FLjWuzJIr0wFygKZvGNJKrF+le0Pwh7Uu1t
+ 71u7QFREQtcSIonVNzdiHo2UDJ7XuvDwmyVp2WyX03fd6XzObG6LLG+K4P84WA38eMRU
+ G3z7NM7ZUbSgsfcbUJWkbgE0GO+evvUjOao9nGJeGwrfyXBL1IErlPRpvukpNLci9gEv
+ egb9FabPIdq1PaPRAeRSoOlHWuhWJW+N3D6beDqQZgVNywSHnugn9+VdVjy9f3mTgvOi
+ vakA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=pjqdkb919vSGbnhGqmpTVjV2nd+xhVlSchT013lEZf4=;
- b=HB3cHMW7+0EH6GL0eifBG44b5wYX0Gtwmzpi94fXBW16+6IlVe/bZ8AU+zL24BktId
- WdJxsLEuE1/aOHiEbtNqTn3oWVsk6VPgVoGInquumkgePMuPFoWr52QyhF2f+o5p+53U
- BhtJ0Ac1DOZtiEVc/v0bTONcqlzhhsJ84Ez68kyhJvlJYm2GlZB32ya8rof8I7clEI28
- LTjeRUTYTjnEfw3B4VQQE/svE2E6ywIJ9lG3LdK1FJMNVuyVV9Fq1zdji80jMtB0wpaf
- Mz54gt4Qs2TSqjxM4UDARjcY8vN/VWUdZMXAN8VyoOzl9Yltz5VZtJnZfU8TVdAqv2xK
- ZlTA==
-X-Gm-Message-State: APjAAAX6pabeFthva2yjZ5uyTAtSMvoN1xWyGeL9kZ7hniVjKY1+x+XB
- UUSo/nH0lFlnIYDtIdLZyBwwr6r4
-X-Google-Smtp-Source: APXvYqyHoiVzUTX26+8pWc32tXhi2ydMlQP0ECfcIKNbpoCRf9HuepfeWz8SMrVdBbNq0M5blgcN5Q==
-X-Received: by 2002:a1c:720a:: with SMTP id n10mr3523811wmc.74.1578486798283; 
- Wed, 08 Jan 2020 04:33:18 -0800 (PST)
+ bh=+1cYJv2/SCgEaS7XXUU1nSsoWuZ/j2VFPEMFOllKrRM=;
+ b=CdphlD8RxGmit2fxuDUDz3lYszGuaOviAixGjhVoJ0f63rXlkINQ6mIeVC/wLL+ETM
+ cK3VWeFs6oqGgg74xF/9FSbpxYdKsmBZcxJY8ahG+GxTNOu/6po5ezYqXkzr1USSchcQ
+ /Tcc0RzKCtvEhFM9DUDo2stLEYmdqFiO3dE2K18mgUGyOeFkC5rSFYF8mtnBX9p3KC0I
+ kmuEOc9T2KxS1BECbuFKozFV61Tgks+pkQdjkh5AnmMExbX9KfEK2WN9T1DTYZcl9mJk
+ touH6KP3J4vnyGTV4/cd+dGh4sgdVmtnlZfxFeXupp99eCRqx4xXsxjfoJr/GMrJU2p1
+ CW/Q==
+X-Gm-Message-State: APjAAAXlzUs3N5AcFLBuRLW4JsmzyXXi8LUaHfRsMnVy68HlEo0x07uR
+ rhp+JhTxeK7mcQV9oDnaspsmLaE0
+X-Google-Smtp-Source: APXvYqydHOayDxZgebsipaKXg4xEAvDXJmDPPQz5N5+9LHkl0nSzmEKrbk68gVczU7x+kNpuouAC0A==
+X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr3549692wmk.124.1578486799468; 
+ Wed, 08 Jan 2020 04:33:19 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.17
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.18
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:17 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/38] target/i386: Fix handling of k_gs_base register in
- 32-bit mode in gdbstub
-Date: Wed,  8 Jan 2020 13:32:38 +0100
-Message-Id: <1578486775-52247-22-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 22/38] target/i386: Add new bit definitions of
+ MSR_IA32_ARCH_CAPABILITIES
+Date: Wed,  8 Jan 2020 13:32:39 +0100
+Message-Id: <1578486775-52247-23-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,47 +75,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mkdolata@us.ibm.com" <mkdolata@us.ibm.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "mkdolata@us.ibm.com" <mkdolata@us.ibm.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
 
-gdb-xml/i386-32bit.xml includes the k_gs_base register too, so we have to
-handle it even if TARGET_X86_64 is not defined.  This is already done in
-x86_cpu_gdb_read_register, but not in x86_cpu_gdb_write_register where the
-incorrect return value causes all registers after it to be clobbered.
+The bit 6, 7 and 8 of MSR_IA32_ARCH_CAPABILITIES are recently disclosed
+for some security issues. Add the definitions for them to be used by named
+CPU models.
 
-Fixes https://bugs.launchpad.net/qemu/+bug/1857640.
-
-Signed-off-by: Marek Dolata <mkdolata@us.ibm.com>
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Message-Id: <20191225063018.20038-2-xiaoyao.li@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/cpu.h | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index aef25b7..572ead6 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -350,15 +350,15 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-             env->segs[R_GS].base = ldl_p(mem_buf);
-             return 4;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index af28293..594326a 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -835,12 +835,15 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_TOPOLOGY_LEVEL_DIE      (5U << 8)
  
--#ifdef TARGET_X86_64
-         case IDX_SEG_REGS + 8:
-+#ifdef TARGET_X86_64
-             if (env->hflags & HF_CS64_MASK) {
-                 env->kernelgsbase = ldq_p(mem_buf);
-                 return 8;
-             }
-             env->kernelgsbase = ldl_p(mem_buf);
--            return 4;
- #endif
-+            return 4;
+ /* MSR Feature Bits */
+-#define MSR_ARCH_CAP_RDCL_NO    (1U << 0)
+-#define MSR_ARCH_CAP_IBRS_ALL   (1U << 1)
+-#define MSR_ARCH_CAP_RSBA       (1U << 2)
++#define MSR_ARCH_CAP_RDCL_NO            (1U << 0)
++#define MSR_ARCH_CAP_IBRS_ALL           (1U << 1)
++#define MSR_ARCH_CAP_RSBA               (1U << 2)
+ #define MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY (1U << 3)
+-#define MSR_ARCH_CAP_SSB_NO     (1U << 4)
+-#define MSR_ARCH_CAP_MDS_NO     (1U << 5)
++#define MSR_ARCH_CAP_SSB_NO             (1U << 4)
++#define MSR_ARCH_CAP_MDS_NO             (1U << 5)
++#define MSR_ARCH_CAP_PSCHANGE_MC_NO     (1U << 6)
++#define MSR_ARCH_CAP_TSX_CTRL_MSR       (1U << 7)
++#define MSR_ARCH_CAP_TAA_NO             (1U << 8)
  
-         case IDX_FP_REGS + 8:
-             cpu_set_fpuc(env, ldl_p(mem_buf));
+ #define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
+ 
 -- 
 1.8.3.1
 
