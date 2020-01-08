@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDF3134D0C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:20:31 +0100 (CET)
-Received: from localhost ([::1]:48970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29080134CDE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:11:51 +0100 (CET)
+Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipHoc-0001fk-Md
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:20:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35721)
+	id 1ipHgD-0006Kj-V8
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:11:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ipHVf-0001VW-UH
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:00:58 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1ipHWM-0002AL-Kz
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:01:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ipHVd-0002kY-Lk
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:00:55 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53492)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1ipHVd-0002jP-Br; Wed, 08 Jan 2020 15:00:53 -0500
-Received: by mail-wm1-x342.google.com with SMTP id m24so240131wmc.3;
- Wed, 08 Jan 2020 12:00:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FhZfMCx+hQAEMHoDM8nohY4Wa8xPj65mmIcDkIovQ1w=;
- b=rXAp2NVjqEMOqRShOBpP+Qxlfp8sJCPPNf4IgvcCbAORtT7Jg0jxXbGS3yRHGRoqYq
- B4QRBXB35gPUo7fSGsJIH58lBYvKBF5DvL523peCNYzgZqMqy0ubFsfJyfF4BXH0feqf
- mDICXj3O9WATkYu1+1SHNoT1jJ7TfpP6odIwBHc1HjT8P60hsgDqqaRtROUGBQ+oJivt
- vQFoPS/Q/d+TpOhY6yB0AZO/0Dhf7KEvOsXn4MgkyFINOYqY6UTeUnObpaFjeyeGkuFg
- tCC3Duj/AR4/EB9cH0HkPkmBQuIZIk2mi5y1g62k7spUbWXJIMJRTj3MhUUtO4BI7zpn
- oMrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=FhZfMCx+hQAEMHoDM8nohY4Wa8xPj65mmIcDkIovQ1w=;
- b=mttOoQdLjZjvyfP7VKZugj896B/UHNDq+9YzoMdwtoXLf018iBFrqSaOLXCUidDME9
- fBw7qvnvEnbnsOt40DT0OHaHEY7yrNJPMtgknI6Sqei2enSB2P+kGGjTGiBYNDdjpgSp
- YTEMiodO5n8S+S32DJMiGTZop7u38SaNF3iQS3Dr+aKkSWbDO7KuSI8DT3fBxEstibiH
- C+a50mMhGrwCKRX23/K77ZBmNTicoKT/Vez6ESzt+HqoA6njqIbX7eGcU8BGaMipfjyG
- aLoGTqJJMfUViBJx8n9k0TyPUKrtASq/OUpD9uzWPa6IDPk8HGqoDBWIuLmYwdQ573sk
- z0yQ==
-X-Gm-Message-State: APjAAAUC2S9gMWUwltr0dBWdTWrDLCPTP6oPQ8LWjGKe24b3nKueOhR3
- 3z4BMchoOkhM8fk4lks34wP3n5DC
-X-Google-Smtp-Source: APXvYqyc1aNst1AOHX28WE3iWVNSD3fZpLWe/Fjq+O4ftRJ2yn2VYfOsJAXWH4C2AFOwJchP44VVwA==
-X-Received: by 2002:a7b:c38c:: with SMTP id s12mr366170wmj.96.1578513651937;
- Wed, 08 Jan 2020 12:00:51 -0800 (PST)
-Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id u18sm4970099wrt.26.2020.01.08.12.00.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 12:00:51 -0800 (PST)
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/17] docs: add Orange Pi PC document
-Date: Wed,  8 Jan 2020 21:00:20 +0100
-Message-Id: <20200108200020.4745-18-nieklinnenbank@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200108200020.4745-1-nieklinnenbank@gmail.com>
-References: <20200108200020.4745-1-nieklinnenbank@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+ (envelope-from <kwankhede@nvidia.com>) id 1ipHWK-0003NI-QS
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:01:38 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4834)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1ipHWK-0003JU-Ia
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:01:36 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e1635090001>; Wed, 08 Jan 2020 12:01:13 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Wed, 08 Jan 2020 12:01:31 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Wed, 08 Jan 2020 12:01:31 -0800
+Received: from [10.40.100.122] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Jan
+ 2020 20:01:21 +0000
+Subject: Re: [PATCH v11 Kernel 3/6] vfio iommu: Implementation of ioctl to for
+ dirty pages tracking.
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1576602651-15430-1-git-send-email-kwankhede@nvidia.com>
+ <1576602651-15430-4-git-send-email-kwankhede@nvidia.com>
+ <20191217151203.342b686a@x1.home>
+ <ebd08133-e258-9f5e-5c8f-f88d7165cd7a@nvidia.com>
+ <20200107150223.0dab0a85@w520.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <d2faa3fe-d656-5ba7-475a-9646298e3d50@nvidia.com>
+Date: Thu, 9 Jan 2020 01:31:16 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20200107150223.0dab0a85@w520.home>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1578513674; bh=rTykfQvHrYyZEKPRHyxOkgPV3jZF1IBbSkNxe8rRI00=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=SqfSEQ/fNqEzLKki1wECvxFTP7sJzm0QreQGiBR9Shc1VPST3PWtlVoe3vDz3E3m0
+ 9ulY/ahhX3HWzsNS+bV3EdP/inH4qlr7lg9jgg2MFcXJd05y5dU4IiFCBstMfMxHu5
+ SCedSecJSKT4VBErRAJkXB2wLuuaFiu4MBHB/KKbfRZw4gXJcYuR2A+hVjnqWiNE2O
+ PhwGcwCCbpDwMfwO2DbUhPG/SPp+hhVjINihcV0C9djGgYJV573w+/heoZ14beN/DE
+ ra+22/1fF6GicsVNYmw5wCzT0osgFmO4gxkx8bCbWp8Ww3kEInTxSmnrfbtEw8LXY6
+ IMDiagHymvIuQ==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,244 +79,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Niek Linnenbank <nieklinnenbank@gmail.com>,
- qemu-arm@nongnu.org, philmd@redhat.com
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Xunlong Orange Pi PC machine is a functional ARM machine
-based on the Allwinner H3 System-on-Chip. It supports mainline
-Linux, U-Boot, NetBSD and is covered by acceptance tests.
 
-This commit adds a documentation text file with a description
-of the machine and instructions for the user.
 
-Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
----
- docs/orangepi.rst | 200 ++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS       |   1 +
- 2 files changed, 201 insertions(+)
- create mode 100644 docs/orangepi.rst
+On 1/8/2020 3:32 AM, Alex Williamson wrote:
+> On Wed, 8 Jan 2020 01:37:03 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
 
-diff --git a/docs/orangepi.rst b/docs/orangepi.rst
-new file mode 100644
-index 0000000000..5ac2a7b7cc
---- /dev/null
-+++ b/docs/orangepi.rst
-@@ -0,0 +1,200 @@
-+=========================
-+Orange Pi PC Machine Type
-+=========================
-+
-+The Xunlong Orange Pi PC is an Allwinner H3 System on Chip
-+based embedded computer with mainline support in both U-Boot
-+and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,
-+512MB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and
-+various other I/O.
-+
-+Supported devices
-+-----------------
-+
-+The Orange Pi PC machine type supports the following devices:
-+
-+ * SMP (Quad Core Cortex A7)
-+ * Generic Interrupt Controller configuration
-+ * SRAM mappings
-+ * SDRAM controller
-+ * Real Time Clock
-+ * Timer device (re-used from Allwinner A10)
-+ * UART
-+ * SD/MMC storage controller
-+ * EMAC ethernet connectivity
-+ * USB 2.0 interfaces
-+ * Clock Control Unit
-+ * System Control module
-+ * Security Identifier device
-+
-+Limitations
-+-----------
-+
-+Currently, Orange Pi PC does *not* support the following features:
-+
-+- Graphical output via HDMI, GPU and/or the Display Engine
-+- Audio output
-+- Hardware Watchdog
-+
-+Also see the 'unimplemented' array in the Allwinner H3 SoC module
-+for a complete list of unimplemented I/O devices:
-+  ./hw/arm/allwinner-h3.c
-+
-+Using the Orange Pi PC machine type
-+-----------------------------------
-+
-+Boot options
-+~~~~~~~~~~~~
-+
-+The Orange Pi PC machine can start using the standard -kernel functionality
-+for loading a Linux kernel or ELF executable. Additionally, the Orange Pi PC
-+machine can also emulate the BootROM which is present on an actual Allwinner H3
-+based SoC, which loads the bootloader from SD card, specified via the -sd argument
-+to qemu-system-arm.
-+
-+Running mainline Linux
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+Recently released mainline Linux kernels from 4.19 up to latest master
-+are known to work. To build a Linux mainline kernel that can be booted
-+by the Orange Pi PC machine, simply configure the kernel using the
-+sunxi_defconfig configuration:
-+
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make mrproper
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make sunxi_defconfig
-+
-+To be able to use USB storage, you need to manually enable the corresponding
-+configuration item. Start the kconfig configuration tool:
-+
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make menuconfig
-+
-+Navigate to the following item, enable it and save your configuration:
-+
-+  Device Drivers > USB support > USB Mass Storage support
-+
-+Build the Linux kernel with:
-+
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make -j5
-+
-+To boot the newly build linux kernel in QEMU with the Orange Pi PC machine, use:
-+
-+  $ qemu-system-arm -M orangepi-pc -nic user -nographic \
-+      -kernel /path/to/linux/arch/arm/boot/zImage \
-+      -append 'console=ttyS0,115200' \
-+      -dtb /path/to/linux/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dtb
-+
-+Orange Pi PC images
-+~~~~~~~~~~~~~~~~~~~
-+
-+Note that the mainline kernel does not have a root filesystem. You may provide it
-+with an official Orange Pi PC image from the official website:
-+
-+  http://www.orangepi.org/downloadresources/
-+
-+Another possibility is to run an Armbian image for Orange Pi PC which
-+can be downloaded from:
-+
-+   https://www.armbian.com/orange-pi-pc/
-+
-+Alternatively, you can also choose to build you own image with buildroot
-+using the orangepi_pc_defconfig. Also see https://buildroot.org for more information.
-+
-+You can choose to attach the selected image either as an SD card or as USB mass storage.
-+For example, to boot using the Orange Pi PC Debian image on SD card, simply add the -sd
-+argument and provide the proper root= kernel parameter:
-+
-+  $ qemu-system-arm -M orangepi-pc -nic user -nographic \
-+      -kernel /path/to/linux/arch/arm/boot/zImage \
-+      -append 'console=ttyS0,115200 root=/dev/mmcblk0p2' \
-+      -dtb /path/to/linux/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dtb \
-+      -sd OrangePi_pc_debian_stretch_server_linux5.3.5_v1.0.img
-+
-+To attach the image as an USB mass storage device to the machine,
-+simply append to the command:
-+
-+  -drive if=none,id=stick,file=myimage.img \
-+  -device usb-storage,bus=usb-bus.0,drive=stick
-+
-+Instead of providing a custom Linux kernel via the -kernel command you may also
-+choose to let the Orange Pi PC machine load the bootloader from SD card, just like
-+a real board would do using the BootROM. Simply pass the selected image via the -sd
-+argument and remove the -kernel, -append, -dbt and -initrd arguments:
-+
-+  $ qemu-system-arm -M orangepi-pc -nic user -nographic \
-+       -sd Armbian_19.11.3_Orangepipc_buster_current_5.3.9.img
-+
-+Note that both the official Orange Pi PC images and Armbian images start
-+a lot of userland programs via systemd. Depending on the host hardware and OS,
-+they may be slow to emulate, especially due to emulating the 4 cores.
-+To help reduce the performance slow down due to emulating the 4 cores, you can
-+give the following kernel parameters (or via -append):
-+
-+  => setenv extraargs 'systemd.default_timeout_start_sec=9000 loglevel=7 nosmp console=ttyS0,115200'
-+
-+Running U-Boot
-+~~~~~~~~~~~~~~
-+
-+U-Boot mainline can be build and configured using the orangepi_pc_defconfig
-+using similar commands as describe above for Linux. Note that it is recommended
-+for development/testing to select the following configuration setting in U-Boot:
-+
-+  Device Tree Control > Provider for DTB for DT Control > Embedded DTB
-+
-+To start U-Boot using the Orange Pi PC machine, provide the
-+u-boot binary to the -kernel argument:
-+
-+  $ qemu-system-arm -M orangepi-pc -nic user -nographic \
-+      -kernel /path/to/uboot/u-boot -sd disk.img
-+
-+Use the following U-boot commands to load and boot a Linux kernel from SD card:
-+
-+  -> setenv bootargs console=ttyS0,115200
-+  -> ext2load mmc 0 0x42000000 zImage
-+  -> ext2load mmc 0 0x43000000 sun8i-h3-orangepi-pc.dtb
-+  -> bootz 0x42000000 - 0x43000000
-+
-+Running NetBSD
-+~~~~~~~~~~~~~~
-+
-+The NetBSD operating system also includes support for Allwinner H3 based boards,
-+including the Orange Pi PC. NetBSD 9.0 is known to work best for the Orange Pi PC
-+board and provides a fully working system with serial console, networking and storage.
-+
-+Currently NetBSD 9.0 is in testing, but release candidate 1 can be started
-+successfully on the Orange Pi PC machine. Get the 'evbarm-earmv7hf' based image from:
-+
-+  https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0_RC1/evbarm-earmv7hf/binary/gzimg/armv7.img.gz
-+
-+The image requires manually installing U-Boot in the image. Build U-Boot with
-+the orangepi_pc_defconfig configuration as described in the previous section.
-+Next, unzip the NetBSD image and write the U-Boot binary including SPL using:
-+
-+  $ gunzip armv7.img.gz
-+  $ dd if=/path/to/u-boot-sunxi-with-spl.bin of=armv7.img bs=1024 seek=8 conv=notrunc
-+
-+Start the machine using the following command:
-+
-+  $ qemu-system-arm -M orangepi-pc -nic user -nographic \
-+        -sd armv7.img
-+
-+At the U-Boot stage, interrupt the automatic boot process by pressing a key
-+and set the following environment variables before booting:
-+
-+  => setenv bootargs root=ld0a
-+  => setenv kernel netbsd-GENERIC.ub
-+  => setenv fdtfile dtb/sun8i-h3-orangepi-pc.dtb
-+  => setenv bootcmd 'fatload mmc 0:1 ${kernel_addr_r} ${kernel}; fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}; fdt addr ${fdt_addr_r}; bootm ${kernel_addr_r} - ${fdt_addr_r}'
-+
-+Optionally you may save the environment variables to SD card with 'saveenv'.
-+To continue booting simply give the 'boot' command and NetBSD boots.
-+
-+Orange Pi PC acceptance tests
-+-----------------------------
-+
-+The Orange Pi PC machine has several acceptance tests included.
-+To run the whole set of tests, build QEMU from source and simply
-+provide the following command:
-+
-+  $ AVOCADO_ALLOW_LARGE_STORAGE=yes avocado --show=app,console run \
-+     -t machine:orangepi-pc tests/acceptance/boot_linux_console.py
-+
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6e1b92b5fa..b52ac2fb9e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -488,6 +488,7 @@ S: Maintained
- F: hw/*/allwinner-h3*
- F: include/hw/*/allwinner-h3*
- F: hw/arm/orangepi.c
-+F: docs/orangepi.rst
- 
- ARM PrimeCell and CMSDK devices
- M: Peter Maydell <peter.maydell@linaro.org>
--- 
-2.17.1
+<snip>
 
+>>>> +
+>>>> +	unlocked = vfio_iova_put_vfio_pfn(dma, vpfn, dirty_tracking);
+>>>>    
+>>>>    	if (do_accounting)
+>>>>    		vfio_lock_acct(dma, -unlocked, true);
+>>>> @@ -571,8 +606,12 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+>>>>    
+>>>>    		vpfn = vfio_iova_get_vfio_pfn(dma, iova);
+>>>>    		if (vpfn) {
+>>>> -			phys_pfn[i] = vpfn->pfn;
+>>>> -			continue;
+>>>> +			if (vpfn->unpinned)
+>>>> +				vfio_remove_from_pfn_list(dma, vpfn);
+>>>
+>>> This seems inefficient, we have an allocated vpfn at the right places
+>>> in the list, wouldn't it be better to repin the page?
+>>>    
+>>
+>> vfio_pin_page_external() takes care of pinning and accounting as well.
+> 
+> Yes, but could we call vfio_pin_page_external() without {unlinking,
+> freeing} and {re-allocating, linking} on either side of it since it's
+> already in the list?  That's the inefficient part.  Maybe at least a
+> TODO comment?
+> 
+
+Changing it as below:
+
+                 vpfn = vfio_iova_get_vfio_pfn(dma, iova);
+                 if (vpfn) {
+-                       phys_pfn[i] = vpfn->pfn;
+-                       continue;
++                       if (vpfn->ref_count > 1) {
++                               phys_pfn[i] = vpfn->pfn;
++                               continue;
++                       }
+                 }
+
+                 remote_vaddr = dma->vaddr + iova - dma->iova;
+                 ret = vfio_pin_page_external(dma, remote_vaddr, 
+&phys_pfn[i],
+                                              do_accounting);
+                 if (ret)
+                         goto pin_unwind;
+-
+-               ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
+-               if (ret) {
+-                       vfio_unpin_page_external(dma, iova, do_accounting);
+-                       goto pin_unwind;
+-               }
++               if (!vpfn) {
++                       ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
++                       if (ret) {
++                               vfio_unpin_page_external(dma, iova,
++                                                        do_accounting, 
+false);
++                               goto pin_unwind;
++                       }
++               } else
++                       vpfn->pfn = phys_pfn[i];
+         }
+
+
+
+
+>>>> +			else {
+>>>> +				phys_pfn[i] = vpfn->pfn;
+>>>> +				continue;
+>>>> +			}
+>>>>    		}
+>>>>    
+>>>>    		remote_vaddr = dma->vaddr + iova - dma->iova;
+>>>> @@ -583,7 +622,8 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+>>>>    
+>>>>    		ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
+>>>>    		if (ret) {
+>>>> -			vfio_unpin_page_external(dma, iova, do_accounting);
+>>>> +			vfio_unpin_page_external(dma, iova, do_accounting,
+>>>> +						 false);
+>>>>    			goto pin_unwind;
+>>>>    		}
+>>>>    	}
+
+<snip>
+
+>>
+>>>> +		if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
+>>>> +			iommu->dirty_page_tracking = true;
+>>>> +			return 0;
+>>>> +		} else if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
+>>>> +			iommu->dirty_page_tracking = false;
+>>>> +
+>>>> +			mutex_lock(&iommu->lock);
+>>>> +			vfio_remove_unpinned_from_dma_list(iommu);
+>>>> +			mutex_unlock(&iommu->lock);
+>>>> +			return 0;
+>>>> +
+>>>> +		} else if (range.flags &
+>>>> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
+>>>> +			uint64_t iommu_pgmask;
+>>>> +			unsigned long pgshift = __ffs(range.pgsize);
+>>>> +			unsigned long *bitmap;
+>>>> +			long bsize;
+>>>> +
+>>>> +			iommu_pgmask =
+>>>> +			 ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
+>>>> +
+>>>> +			if (((range.pgsize - 1) & iommu_pgmask) !=
+>>>> +			    (range.pgsize - 1))
+>>>> +				return -EINVAL;
+>>>> +
+>>>> +			if (range.iova & iommu_pgmask)
+>>>> +				return -EINVAL;
+>>>> +			if (!range.size || range.size > SIZE_MAX)
+>>>> +				return -EINVAL;
+>>>> +			if (range.iova + range.size < range.iova)
+>>>> +				return -EINVAL;
+>>>> +
+>>>> +			bsize = verify_bitmap_size(range.size >> pgshift,
+>>>> +						   range.bitmap_size);
+>>>> +			if (bsize < 0)
+>>>> +				return ret;
+>>>> +
+>>>> +			bitmap = kmalloc(bsize, GFP_KERNEL);
+>>>
+>>> I think I remember mentioning previously that we cannot allocate an
+>>> arbitrary buffer on behalf of the user, it's far too easy for them to
+>>> kill the kernel that way.  kmalloc is also limited in what it can
+>>> alloc.
+>>
+>> That's the reason added verify_bitmap_size(), so that size is verified
+> 
+> That's only a consistency test, it only verifies that the user claims
+> to provide a bitmap sized sufficiently for the range they're trying to
+> request.  range.size is limited to SIZE_MAX, so 2^64, divided by page
+> size for 2^52 bits, 8bits per byte for 2^49 bytes of bitmap that we'd
+> try to kmalloc (512TB).  kmalloc is good for a couple MB AIUI.
+> Meanwhile the user doesn't actually need to allocate that bitmap in
+> order to crash the kernel.
+> 
+>>> Can't we use the user buffer directly or only work on a part of
+>>> it at a time?
+>>>    
+>>
+>> without copy_from_user(), how?
+> 
+> For starters, what's the benefit of copying the bitmap from the user
+> in the first place?  We presume the data is zero'd and if it's not,
+> that's the user's bug to sort out (we just need to define the API to
+> specify that).  Therefore the copy_from_user() is unnecessary anyway and
+> we really just need to copy_to_user() for any places we're setting
+> bits.  We could just walk through the range with an unsigned long
+> bitmap buffer, writing it out to userspace any time we reach the end
+> with bits set, zeroing it and shifting it as a window to the user
+> buffer.  We could improve batching by allocating a larger buffer in the
+> kernel, with a kernel defined maximum size and performing the same
+> windowing scheme.
+> 
+
+Ok removing copy_from_user().
+But AFAIK, calling copy_to_user() multiple times is not efficient in 
+terms of performance.
+
+Checked code in virt/kvm/kvm_main.c: __kvm_set_memory_region() where 
+dirty_bitmap is allocated, that has generic checks, user space address 
+check, memory overflow check and KVM_MEM_MAX_NR_PAGES as below. I'll add 
+access_ok check. I already added overflow check.
+
+         /* General sanity checks */
+         if (mem->memory_size & (PAGE_SIZE - 1))
+                 goto out;
+
+        !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+                         mem->memory_size)))
+
+         if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
+                 goto out;
+
+         if (npages > KVM_MEM_MAX_NR_PAGES)
+                 goto out;
+
+
+Where KVM_MEM_MAX_NR_PAGES is:
+
+/*
+  * Some of the bitops functions do not support too long bitmaps.
+  * This number must be determined not to exceed such limits.
+  */
+#define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+
+But we can't use KVM specific KVM_MEM_MAX_NR_PAGES check in vfio module.
+Should we define similar limit in vfio module instead of SIZE_MAX?
+
+> I don't know if there's a way to directly map the user buffer rather
+> than copy_to_user(), but I thought I'd ask in case there's some obvious
+> efficiency improvement to be had there.
+> 
+>>>> +			if (!bitmap)
+>>>> +				return -ENOMEM;
+>>>> +
+>>>> +			ret = copy_from_user(bitmap,
+>>>> +			     (void __user *)range.bitmap, bsize) ? -EFAULT : 0;
+>>>> +			if (ret)
+>>>> +				goto bitmap_exit;
+>>>> +
+>>>> +			iommu->dirty_page_tracking = false;
+>>>
+>>> a) This is done outside of the mutex and susceptible to races,
+>>
+>> moving inside lock
+>>
+>>> b) why is this done?
+>> once bitmap is read, dirty_page_tracking should be stopped. Right?
+> 
+> Absolutely not.  Dirty bit page tracking should remain enabled until
+> the user turns it off, doing otherwise precludes both iterative and
+> partial dirty page collection from userspace.  I think both of those
+> are fundamentally required of this interface.  Thanks,
+> 
+
+OK.
+
+Thanks,
+Kirti
 
