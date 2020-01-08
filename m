@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFED1339C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 04:48:35 +0100 (CET)
-Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6276D1339C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 04:50:47 +0100 (CET)
+Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip2Kf-0005iQ-Fz
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 22:48:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
+	id 1ip2Mn-0000Q0-My
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 22:50:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2I4-0003Jo-Sp
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:45:53 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2IB-0003Ux-7m
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2I3-0002k5-Lv
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:45:52 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36286)
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2I9-0002px-N2
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:45:59 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:40963)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ip2I3-0002jG-GK
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:45:51 -0500
-Received: by mail-pf1-x432.google.com with SMTP id x184so912797pfb.3
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:45:51 -0800 (PST)
+ id 1ip2I9-0002pa-Gj
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:45:57 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id x8so863023pgk.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:45:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WAyFVokvd/qDR4nuAyVDRmGp5pg99piONaTKi+oPUR0=;
- b=XSX0wIsTN6Rprrhea0R4b3vHQgYQIZeUwGeWQqqBru0235sJqfM8YgMes6LEFPAzjY
- vl9W9J8ta5W1IvJKv+cIcvq0mhrrB8bn9lR90lKhQaFr0xfPiCaQyd//mhmR3uoIFhH3
- PtljSA9Rv7KZmpgH+3XeftjsxKqBcnLQX6lYy72nZNv2xxq6yS0Quc+0sTot0x2HWbNj
- w+gZnxrghhtGTAs0uXHpFRZX5NLPebL7ZFy/+j13RnyDjVp0qtGw6kUEzRpfh1EIehnB
- /wRAaBf8lNmioV3vU62AKolgVLqHmBEi04AlM/Sluxefm5btMrtTRpFToIHpI8fcWJt2
- s+dQ==
+ bh=q5vJOghVRdDlALEm4T0uJnn6jnvHJUhH0NdnFSF4Cms=;
+ b=tx17hTwWYwvWeMVgoT3IqrD/6BB2/tDQy4cHBLJ2H9RwjPIlJ/gj+3GQI+qvwRYG4i
+ s7qpMpgLouTOH3bqIIE6gK6FsoGgQNZsO9rxQvKEnYV0m4zCqcRMOe9yuWZYXcVdxDrX
+ kQvkbf48v8A1IOjSYb5tW6Cn8EhXTJrmmqbgM8uQD3yv+ysA/C/6qNwn1w07WI8iBQR8
+ 71UXNut/VKmKby5H2tvBLKflnL6ZStDs4zy85et/sLNxMJRRco6tE8YfvYbpdt7bbjqV
+ MVcgQcZdS9BPtuJ/JDqSp9TgxVfQtE+4F7a61pmELqEGFyxPEPaZfTnheks/+DlIr1k9
+ TsdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WAyFVokvd/qDR4nuAyVDRmGp5pg99piONaTKi+oPUR0=;
- b=CjGhaT6+SgcQM/7s1N+L5i6wX10F3E6fnNSmPJA/mALBXWdQ0IzfKb4Y+Wb7VsYX/P
- 1jwczXz8AgOv+I0wcVjXqPutQjtZ6wR69N6LlpBVN7HDTJtA5mO/U0rNUeWheQ/W0HsF
- VNxeU6HuKMAwtbV1SRqcABCyxXX1Rdtg6aHgPpEylXDVU/DZAbTW3oTHsaZTI5a6CVCs
- MIMr/AffvB6hsrP+AafcpoS2d83cqf5rrUNMM8sq2G1LVqZIxHe263vxY+CKRPFOiEtW
- Ytbnxui7I+7Eb+fIS6BPCCEgQxuAV48u1mby2h47kE8UmYMxTYkhC+OjOYYQujh2R0kT
- eqoA==
-X-Gm-Message-State: APjAAAUQ/MfVaRC9+r/MrV83Z+z2tAAwHA5U6ZMeQnzKhjhDGJf+4JB4
- QPYJe/Hm4mKkAHbluhLUp3QNPPht9tPfvA==
-X-Google-Smtp-Source: APXvYqyo/y2l25JmbNfQkGSc1w2aPPLpQGGsNPAUw3XCnrc9H28Pb+HKce6TKkJczk3PZpNcPL4Sdw==
-X-Received: by 2002:a62:62c4:: with SMTP id w187mr2940652pfb.216.1578455150297; 
- Tue, 07 Jan 2020 19:45:50 -0800 (PST)
+ bh=q5vJOghVRdDlALEm4T0uJnn6jnvHJUhH0NdnFSF4Cms=;
+ b=Ro7SXeXuNpNxIQZ40ypSm2d2aahKd5ZxZm7P45Di2CqvPofrGJ0HIZIA9o5ip7h3EX
+ HHMLKKrA7BLiFScp1/Vfwe4/yslQScwUTxMku6+KU3SSkj/2uJUAA8FflZ1+VaOPF6Jj
+ uwwdYA+U0QPLS16IXOoEd4BLE6OqlZsw0kdTM7NoW4827Y6TmDsXFaqJPKSBhuE8CRXy
+ ePoW2Q2KhSTzSJ4xr+wdotxjgzbmuM4eV1UZq2DF1TZk9SqaUp1WBPFA+gapYXlliRF8
+ SlzrR76ex6SnqiZDU1cpKoW1I3cKau/IkkVNu0+ScFPfNQqHDGGGHLdNRV/5bkma67/A
+ SQ7w==
+X-Gm-Message-State: APjAAAU5hg+uR0XDKPIubXCr23cGO4jh4a1yepfDigPE5MeYrkTJAuwx
+ QsIfWnHgwWyV17LXQSjpJOl/QDBec9swdw==
+X-Google-Smtp-Source: APXvYqyQaXc6n1heufnWPu4yDSl+8EnfnhPPwXEM8YItuc26qa03ytltFdBroTdBc132isPfzq5BvA==
+X-Received: by 2002:a62:5214:: with SMTP id g20mr2831546pfb.101.1578455156217; 
+ Tue, 07 Jan 2020 19:45:56 -0800 (PST)
 Received: from localhost.localdomain (alanje.lnk.telstra.net.
  [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.45.48
+ by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.45.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 19:45:49 -0800 (PST)
+ Tue, 07 Jan 2020 19:45:55 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/41] configure: Support -static-pie if requested
-Date: Wed,  8 Jan 2020 14:44:49 +1100
-Message-Id: <20200108034523.17349-8-richard.henderson@linaro.org>
+Subject: [PULL 09/41] cputlb: Use trace_mem_get_info instead of
+ trace_mem_build_info
+Date: Wed,  8 Jan 2020 14:44:51 +1100
+Message-Id: <20200108034523.17349-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200108034523.17349-1-richard.henderson@linaro.org>
 References: <20200108034523.17349-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::432
+X-Received-From: 2607:f8b0:4864:20::52c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,69 +80,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent toolchains support static and pie at the same time.
+In the cpu_ldst templates, we already require a MemOp, and it
+is cleaner and clearer to pass that instead of 3 separate
+arguments describing the memory operation.
 
-As with normal dynamic builds, allow --static to default to PIE
-if supported by the toolchain.  Allow --enable/--disable-pie to
-override the default.
-
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Fix --disable-pie --static
----
- configure | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ include/exec/cpu_ldst_template.h          | 22 +++++++++++-----------
+ include/exec/cpu_ldst_useronly_template.h | 12 ++++++------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/configure b/configure
-index de2c4867ad..94a4b1c848 100755
---- a/configure
-+++ b/configure
-@@ -1025,7 +1025,6 @@ for opt do
-   ;;
-   --static)
-     static="yes"
--    LDFLAGS="-static $LDFLAGS"
-     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
-   ;;
-   --mandir=*) mandir="$optarg"
-@@ -2001,11 +2000,6 @@ if test "$static" = "yes" ; then
-   if test "$modules" = "yes" ; then
-     error_exit "static and modules are mutually incompatible"
-   fi
--  if test "$pie" = "yes" ; then
--    error_exit "static and pie are mutually incompatible"
--  else
--    pie="no"
--  fi
- fi
+diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_template.h
+index 54b5e858ce..0ad5de3ef9 100644
+--- a/include/exec/cpu_ldst_template.h
++++ b/include/exec/cpu_ldst_template.h
+@@ -86,9 +86,9 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     RES_TYPE res;
+     target_ulong addr;
+     int mmu_idx = CPU_MMU_INDEX;
+-    TCGMemOpIdx oi;
++    MemOp op = MO_TE | SHIFT;
+ #if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, false, mmu_idx);
++    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+ #endif
  
- # Unconditional check for compiler __thread support
-@@ -2036,7 +2030,18 @@ if compile_prog "-Werror -fno-pie" "-no-pie"; then
-   LDFLAGS_NOPIE="-no-pie"
- fi
+@@ -96,9 +96,9 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     entry = tlb_entry(env, mmu_idx, addr);
+     if (unlikely(entry->ADDR_READ !=
+                  (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        oi = make_memop_idx(SHIFT, mmu_idx);
++        TCGMemOpIdx oi = make_memop_idx(op, mmu_idx);
+         res = glue(glue(helper_ret_ld, URETSUFFIX), MMUSUFFIX)(env, addr,
+-                                                            oi, retaddr);
++                                                               oi, retaddr);
+     } else {
+         uintptr_t hostaddr = addr + entry->addend;
+         res = glue(glue(ld, USUFFIX), _p)((uint8_t *)hostaddr);
+@@ -125,9 +125,9 @@ glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     int res;
+     target_ulong addr;
+     int mmu_idx = CPU_MMU_INDEX;
+-    TCGMemOpIdx oi;
+-#if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, true, MO_TE, false, mmu_idx);
++    MemOp op = MO_TE | MO_SIGN | SHIFT;
++#ifndef SOFTMMU_CODE_ACCESS
++    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+ #endif
  
--if test "$pie" = "no"; then
-+if test "$static" = "yes"; then
-+  if test "$pie" != "no" && compile_prog "-fPIE -DPIE" "-static-pie"; then
-+    QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
-+    LDFLAGS="-static-pie $LDFLAGS"
-+    pie="yes"
-+  elif test "$pie" = "yes"; then
-+    error_exit "-static-pie not available due to missing toolchain support"
-+  else
-+    LDFLAGS="-static $LDFLAGS"
-+    pie="no"
-+  fi
-+elif test "$pie" = "no"; then
-   QEMU_CFLAGS="$CFLAGS_NOPIE $QEMU_CFLAGS"
-   LDFLAGS="$LDFLAGS_NOPIE $LDFLAGS"
- elif compile_prog "-fPIE -DPIE" "-pie"; then
+@@ -135,7 +135,7 @@ glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     entry = tlb_entry(env, mmu_idx, addr);
+     if (unlikely(entry->ADDR_READ !=
+                  (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        oi = make_memop_idx(SHIFT, mmu_idx);
++        TCGMemOpIdx oi = make_memop_idx(op & ~MO_SIGN, mmu_idx);
+         res = (DATA_STYPE)glue(glue(helper_ret_ld, SRETSUFFIX),
+                                MMUSUFFIX)(env, addr, oi, retaddr);
+     } else {
+@@ -167,9 +167,9 @@ glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     CPUTLBEntry *entry;
+     target_ulong addr;
+     int mmu_idx = CPU_MMU_INDEX;
+-    TCGMemOpIdx oi;
++    MemOp op = MO_TE | SHIFT;
+ #if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, true, mmu_idx);
++    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, true);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+ #endif
+ 
+@@ -177,7 +177,7 @@ glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+     entry = tlb_entry(env, mmu_idx, addr);
+     if (unlikely(tlb_addr_write(entry) !=
+                  (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        oi = make_memop_idx(SHIFT, mmu_idx);
++        TCGMemOpIdx oi = make_memop_idx(op, mmu_idx);
+         glue(glue(helper_ret_st, SUFFIX), MMUSUFFIX)(env, addr, v, oi,
+                                                      retaddr);
+     } else {
+diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu_ldst_useronly_template.h
+index dbdc7a845d..e5a3d1983a 100644
+--- a/include/exec/cpu_ldst_useronly_template.h
++++ b/include/exec/cpu_ldst_useronly_template.h
+@@ -70,8 +70,8 @@ glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+     ret = glue(glue(ld, USUFFIX), _p)(g2h(ptr));
+     clear_helper_retaddr();
+ #else
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, false,
+-                                            MMU_USER_IDX);
++    MemOp op = MO_TE | SHIFT;
++    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+     ret = glue(glue(ld, USUFFIX), _p)(g2h(ptr));
+ #endif
+@@ -102,8 +102,8 @@ glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+     ret = glue(glue(lds, SUFFIX), _p)(g2h(ptr));
+     clear_helper_retaddr();
+ #else
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, true, MO_TE, false,
+-                                            MMU_USER_IDX);
++    MemOp op = MO_TE | MO_SIGN | SHIFT;
++    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, false);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+     ret = glue(glue(lds, SUFFIX), _p)(g2h(ptr));
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+@@ -131,8 +131,8 @@ static inline void
+ glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr,
+                                       RES_TYPE v)
+ {
+-    uint16_t meminfo = trace_mem_build_info(SHIFT, false, MO_TE, true,
+-                                            MMU_USER_IDX);
++    MemOp op = MO_TE | SHIFT;
++    uint16_t meminfo = trace_mem_get_info(op, MMU_USER_IDX, true);
+     trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+     glue(glue(st, SUFFIX), _p)(g2h(ptr), v);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
 -- 
 2.20.1
 
