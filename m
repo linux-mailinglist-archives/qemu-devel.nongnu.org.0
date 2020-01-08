@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA2E134439
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:46:13 +0100 (CET)
-Received: from localhost ([::1]:44136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FF41343E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:34:57 +0100 (CET)
+Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipBf2-000888-1V
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:46:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
+	id 1ipBU7-0006EX-LD
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:34:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <afscoelho@gmail.com>) id 1ipAu8-0005kb-5t
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:57:45 -0500
+ (envelope-from <quintela@redhat.com>) id 1ipBSN-00051v-0W
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:33:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <afscoelho@gmail.com>) id 1ipAu6-0006vT-V1
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:57:44 -0500
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:46834)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <afscoelho@gmail.com>) id 1ipAu6-0006v1-RO
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:57:42 -0500
-Received: by mail-qt1-x842.google.com with SMTP id g1so2628108qtr.13
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:57:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3iNdSV8zBFGK8UymqmkBvvTKOdXx9yjzt+CxLIC0Pqs=;
- b=GaVCRw83ANe0r1TjBqf1Z/pqwW8nPFOZLf0CHdQArynxRwFM82e9IkdV3T62geGk3c
- YPm0DfUou+ThHxAF382LIo+iDCpGWYTfVXuxSyx1heYRnVRs9GJNvfDgS0q2gtWwbeos
- Yx9YW3RDIk4a+CAc5Ha/+4r1sus6+ciKY/3NBaEUMOx6D2DWbdhxoUTAHXIp6EYF2kVZ
- PmMHYH02pEVp3byemxCNHN7FGe2xZU+2VN2IgY0+N33+EPJiSfAyaBM3EN93fi1F3zOU
- UUGFWXdpbCSx8X21V5/vzrYdNv8Q2T6K7z03/x5uUcMtFG+qpEVwerIJhXnLT3+88UJc
- IJow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3iNdSV8zBFGK8UymqmkBvvTKOdXx9yjzt+CxLIC0Pqs=;
- b=RFmW6h19lacYAmI9hjMdnDpbKnW8pwIFZhABW7bqOURExU6jrlT8gANeRorGjVFh+N
- x+rfGLuphMCAFWfaI2DBl6vI+0120FiDIoFtw+VRNASdpJqevx/Jq98q1eLZj7oy+1YF
- UDSKy4QoPRSi/nMy7bwF3Er/C8Rd2ylrXrPJV/w0Pi3Sb5G+C17PyX6i5NPYbrtxtLj2
- 5Z8mNtu79iok+oMbpoz+Qar0K4wV3PgZ57w8J2IMTrQjHuaFyV9C3pwG2560Y6aZbWfS
- UUcM8/WCM0bSkXxcfWMJT35wYTvHo3yViIbCSz30jrDCyYKtbBfKcDu8OosAjjmv4rlp
- l56g==
-X-Gm-Message-State: APjAAAVvCGboiq0kLGMK8FnOV5BJ7iFtLRqhFONOBvZm7HYGnLE23IEj
- lBjJgEG3t4efZeoP5hp84o1pSs44
-X-Google-Smtp-Source: APXvYqxSUT79y/p3Hx0kj2szVxaAdtHYAiG0eqfJVKo2GDqeubPL1Z9kPtk6oi9y+I6OYXNjLqgunQ==
-X-Received: by 2002:ac8:747:: with SMTP id k7mr3452010qth.120.1578488262108;
- Wed, 08 Jan 2020 04:57:42 -0800 (PST)
-Received: from frodo.corp.eldorado.org.br ([200.168.210.66])
- by smtp.gmail.com with ESMTPSA id z6sm1283615qkz.101.2020.01.08.04.57.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 04:57:41 -0800 (PST)
-From: Andre Silva <afscoelho@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio: Prevent double swap due to target pre 1.0 VirtIO
-Date: Wed,  8 Jan 2020 09:56:58 -0300
-Message-Id: <20200108125658.208480-2-afscoelho@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200108125658.208480-1-afscoelho@gmail.com>
-References: <20200108125658.208480-1-afscoelho@gmail.com>
+ (envelope-from <quintela@redhat.com>) id 1ipBSL-0002VQ-9l
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:33:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47469
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipBSL-0002UA-67
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:33:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578490384;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VQR2RCi3gks8yKm9J3cqt6uLn8ZXaWfEmTgCPtqzKhE=;
+ b=SdOik6NjcbFyLyeb8k/+/+3MdmfPIdvmqXkjmB1oXVjuIrXbPwBZ4AxvVabqrAn9swdsli
+ F4mdGzqCXwJimcgLKEy1T2pfAHpYinUUynXdh2bOC3PGJmsN4gCl7IcmZpzfXjv+pk+n+l
+ 1XZpFZDItpoK2yG4I12HtpM/qMhqqHo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-GWP_HXvHPKSYk3o6oiqwaQ-1; Wed, 08 Jan 2020 08:33:00 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68EC8801E6C;
+ Wed,  8 Jan 2020 13:32:59 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.118.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90AD019C69;
+ Wed,  8 Jan 2020 13:32:58 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Yury Kotov <yury-kotov@yandex-team.ru>
+Subject: Re: [PATCH v2] migration/ram: Yield periodically to the main loop
+In-Reply-To: <87imlmgk01.fsf@secure.laptop> (Juan Quintela's message of "Wed, 
+ 08 Jan 2020 14:23:10 +0100")
+References: <20191125133632.21387-1-yury-kotov@yandex-team.ru>
+ <87imlmgk01.fsf@secure.laptop>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Wed, 08 Jan 2020 14:32:54 +0100
+Message-ID: <87eewagjjt.fsf@secure.laptop>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::842
-X-Mailman-Approved-At: Wed, 08 Jan 2020 08:43:53 -0500
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: GWP_HXvHPKSYk3o6oiqwaQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,83 +74,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Reply-To: quintela@redhat.com
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ yc-core@yandex-team.ru, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the bswap function calls after reading and before writing
-memory bytes in virtio_pci_config_read and virtio_pci_config_write
-because they are reverting back an already swapped bytes.
+Juan Quintela <quintela@redhat.com> wrote:
+> Yury Kotov <yury-kotov@yandex-team.ru> wrote:
+>> Usually, incoming migration coroutine yields to the main loop
+>> while its IO-channel is waiting for data to receive. But there is a case
+>> when RAM migration and data receive have the same speed: VM with huge
+>> zeroed RAM. In this case, IO-channel won't read and thus the main loop
+>> is stuck and for instance, it doesn't respond to QMP commands.
+>>
+>> For this case, yield periodically, but not too often, so as not to
+>> affect the speed of migration.
+>>
+>> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Consider the table below in the context of virtio_pci_config_read
-function.
+Nack.
 
-Host   Target  virtio-config-read[wl]
-               swap?                   virtio-is-big-endian?   extra bswap?   Should be   Final result   Final result ok?
------ ------- ------------------------ ----------------------- -------------- ----------- -------------- ------------------
-LE     BE      s(x)                    true                    s(s(x))        s(x)        x              No
-LE     LE      x                       false                   -              x           x              Yes
-BE     LE      s(x)                    false                   -              s(x)        s(x)           Yes
-BE     BE      x                       true                    s(x)           x           s(x)           No
+The idea is good.  But it fails migration-test to fail from time to time
+(50% of the time on my laptop).
 
-In table above, when target is big endian and VirtIO is pre 1.0,
-function virtio_is_big_endian would return true and the extra
-swap would be executed, reverting the previous swap made by
-virtio_config_read[wl].
+Will investigate why this is failing.
 
-The 's(x)' means that a swap function was applied at
-address x. 'LE' is little endian and 'BE' is big endian. The
-'Final result' column is the returned value from
-virtio_pci_config_read, considering a target Virtio pre 1.0.
-'x' means that target's value was not swapped in Qemu, 's(x)' means
-that Qemu will use a swapped value.
-
-If we remove the extra swap made in virtio_pci_config_read we will
-have the correct result in any host/target combination, both for
-VirtIO pre 1.0 or later versions.
-
-The same reasoning applies to virtio_pci_config_write.
----
- hw/virtio/virtio-pci.c | 12 ------------
- 1 file changed, 12 deletions(-)
-
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index c6b47a9c73..4ba9e847f3 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -431,15 +431,9 @@ static uint64_t virtio_pci_config_read(void *opaque, hwaddr addr,
-         break;
-     case 2:
-         val = virtio_config_readw(vdev, addr);
--        if (virtio_is_big_endian(vdev)) {
--            val = bswap16(val);
--        }
-         break;
-     case 4:
-         val = virtio_config_readl(vdev, addr);
--        if (virtio_is_big_endian(vdev)) {
--            val = bswap32(val);
--        }
-         break;
-     }
-     return val;
-@@ -465,15 +459,9 @@ static void virtio_pci_config_write(void *opaque, hwaddr addr,
-         virtio_config_writeb(vdev, addr, val);
-         break;
-     case 2:
--        if (virtio_is_big_endian(vdev)) {
--            val = bswap16(val);
--        }
-         virtio_config_writew(vdev, addr, val);
-         break;
-     case 4:
--        if (virtio_is_big_endian(vdev)) {
--            val = bswap32(val);
--        }
-         virtio_config_writel(vdev, addr, val);
-         break;
-     }
--- 
-2.24.1
+Later, Juan.
 
 
