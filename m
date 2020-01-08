@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4034F134229
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:49:38 +0100 (CET)
-Received: from localhost ([::1]:43018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D967813420F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:44:12 +0100 (CET)
+Received: from localhost ([::1]:42934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAmG-0000WM-RK
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:49:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60381)
+	id 1ipAh1-000257-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:44:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWR-0003qg-4h
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWR-0003qm-C0
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWQ-0004M3-1p
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWQ-0004MB-52
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:15 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41923)
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44174)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWP-0004Lb-Ry
+ id 1ipAWP-0004Le-VZ
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:14 -0500
-Received: by mail-wr1-x430.google.com with SMTP id c9so3167376wrw.8
+Received: by mail-wr1-x431.google.com with SMTP id q10so3145191wrm.11
  for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G/wfhSCVdFYk0kyTP7PLIWQJ6W1w4exviX2br2pbzUs=;
- b=GEWvuMWMm0FIm13/D5imLf9jpwauudV0rGFLtWbzi/S4qLCjqKsfmZgeKaeEkWLFec
- /J1e2flm0k1kJGMfUxJjsCc5tmZZnQKghumyLyEpMSw1sMpMDX7GSvLkOXq3r/7dqCgs
- uMddYVZrY9WX4cdQsUp9TLjYFQ68mU8Q5lPSXeWAb0AwBsaoAY2rEPw4b4XgNuKO+xJ6
- /leADosfxomPK37njXS5JZiJg7drLG8M4lqifqAmeLmLT7Jjp0xtma/fkfd1DMGR7tjJ
- ORAtssJWHrOoxtC3+CaxMykaR17hmRH8i7D0q3Hg/YDY1n1KTZXlBkhlzYyNNFxjHctv
- DdpA==
+ bh=EKgddJUC32edGpEYyVtkWbvCn6HqFnHHNoZScg8SMCE=;
+ b=ZJ8wURPg+5wY7IrRf60rQD0o9JtsQmMHUNCq9krbpCrnn1sSOWmuSd1qecFxrklLSc
+ 2/n0zJtpxvrgpLfUaYT+JFyLLDasoATVCfCU3OeItLc0y0PdRmt0PoSQ33u6XLS9QGDU
+ zMzJmdTVikUvBaaoGRMUsO8zlWENb+jdZnYFUvnKPZvV7lkmSD8H9w9pWXHKFJAh+xMD
+ HpXBhMldbe7tnIwdJzX6BRyDJUa8ercEJKDxQ/j4nPE4bhHadGc9Ur5OjngcG7cn3whj
+ 7lBWxEA1Pc8XstxE8UBanjzswN/UwHWkUKjjdcb+RVnFYRJioFZaYFlKdjhsCNrwUU7g
+ L9pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=G/wfhSCVdFYk0kyTP7PLIWQJ6W1w4exviX2br2pbzUs=;
- b=j9batjcdpNIADDnBmBlYOyzHVRaev3oNfZ8SelU+3rKtbMDhTTdGyHM2sHb6Smu+TM
- R3IWL1XkKIMKesaGiaDfUhTUGJaAOQpP0npTF6Mk/GG/juQ8hkrZgOw43Gt2ey21pK0A
- roLss7IWo1KoYFghjsiQKsWaidaJ4Sjy7Fy2Q5C1XSfA1OdT5F6Jh9ImDeEFUsXVxByn
- 49G3YXFs9QLPnA6s5R6CnvBz0l/7Qm164sI4LQMSnCsQGs/Qf8a3t+jLTQ9aGHlXhYFl
- 6cBSLtV4SVk6MdkVkWt40uB6oOSIZyS7j32NEEvMJsu4CTP/h/YZJm7eBQi9RxV8naEQ
- zfyg==
-X-Gm-Message-State: APjAAAXEbUnpgtkFvh0QDfh7TTbXJhwHbRzKrewDhjWP6EHcIo1qFSMx
- dmm7SNW4W5Tm35iJhuuvpxdpYMKe
-X-Google-Smtp-Source: APXvYqxBLa9pMJtIac9q/Yyv/LI2wnh+TsNEOw5u7O+EArXvQGkkGNU9aSXzLrSkMh8oR83BzrZ98A==
-X-Received: by 2002:adf:f3d1:: with SMTP id g17mr4406509wrp.378.1578486791670; 
- Wed, 08 Jan 2020 04:33:11 -0800 (PST)
+ bh=EKgddJUC32edGpEYyVtkWbvCn6HqFnHHNoZScg8SMCE=;
+ b=bSlWvJppUMrYkMQL9D/2alYel7WNbreVEm5vVA+xyL3R56Y+pPxcZn39BRDwcMLEbX
+ 8I543qjBNlS3qtzCWW5u/LuWPtsGzWLSSppy0tw59ylDnHwv2Ef7dd2dvJ0XQVfoYbEK
+ yHePQwhNJ2ItCB62/28QEasnGv01lTP01/rR08/XUqgO+Nz3p7/RPlYQAEpA1xnDV9zu
+ XMD1jdiu+OUGuYqniYMhF3TSQxwryARsRjwSOqiIS3JArRHxJ4xNFJHD3AhsYO5EfpF6
+ sgjezsIWLxgn6IGG800XXfSwA0de4PGhkLaGr5Soy7wct6Jv3EQD7xsTzpJCQ/OdO79H
+ cdeA==
+X-Gm-Message-State: APjAAAXypRlu8S1ru0hfTnIhQFv9QA0kwX0AZ3EbmX1in30Y1ucKb5Sp
+ 1aec9O+GaAm/os2rBa2wFVHzkcnR
+X-Google-Smtp-Source: APXvYqx340DkaCSIciOZeVwEvQHOhFj2xPHa7dAx8KDCHz1WBRxC+fKB1o2sUMr/HzJ34gjKmwFtUA==
+X-Received: by 2002:adf:ec4c:: with SMTP id w12mr4227592wrn.124.1578486792780; 
+ Wed, 08 Jan 2020 04:33:12 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.10
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.11
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Wed, 08 Jan 2020 04:33:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/38] hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
-Date: Wed,  8 Jan 2020 13:32:32 +0100
-Message-Id: <1578486775-52247-16-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 16/38] hw/ppc/Kconfig: Only select fw_cfg with machines using
+ OpenBIOS
+Date: Wed,  8 Jan 2020 13:32:33 +0100
+Message-Id: <1578486775-52247-17-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,37 +85,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The CONFIG_PSERIES already selects CONFIG_PCI.
-Simplify the Makefile rules.
+The fw_cfg helpers are only used by machines using OpenBIOS.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191231183216.6781-10-philmd@redhat.com>
+Message-Id: <20191231183216.6781-11-philmd@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/ppc/Makefile.objs | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/ppc/Kconfig       | 6 ++++++
+ hw/ppc/Makefile.objs | 3 ++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index d8482a5..e4ca920 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -72,6 +72,7 @@ config PREP
+     select M48T59
+     select PC87312
+     select RS6000_MC
++    select FW_CFG_PPC
+ 
+ config RS6000_MC
+     bool
+@@ -85,6 +86,7 @@ config MAC_OLDWORLD
+     select GRACKLE_PCI
+     select HEATHROW_PIC
+     select MACIO
++    select FW_CFG_PPC
+ 
+ config MAC_NEWWORLD
+     bool
+@@ -96,6 +98,7 @@ config MAC_NEWWORLD
+     select MACIO_GPIO
+     select MAC_PMU
+     select UNIN_PCI
++    select FW_CFG_PPC
+ 
+ config E500
+     bool
+@@ -130,3 +133,6 @@ config XIVE_KVM
+     bool
+     default y
+     depends on XIVE_SPAPR && KVM
++
++config FW_CFG_PPC
++    bool
 diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-index 101e9fc..79adf06 100644
+index 79adf06..5c46c68 100644
 --- a/hw/ppc/Makefile.objs
 +++ b/hw/ppc/Makefile.objs
-@@ -7,14 +7,11 @@ obj-$(CONFIG_PSERIES) += spapr_pci.o spapr_rtc.o spapr_drc.o
- obj-$(CONFIG_PSERIES) += spapr_cpu_core.o spapr_ovec.o spapr_irq.o
- obj-$(CONFIG_PSERIES) += spapr_tpm_proxy.o
- obj-$(CONFIG_SPAPR_RNG) +=  spapr_rng.o
-+obj-$(call land,$(CONFIG_PSERIES),$(CONFIG_LINUX)) += spapr_pci_vfio.o spapr_pci_nvlink2.o
- # IBM PowerNV
- obj-$(CONFIG_POWERNV) += pnv.o pnv_xscom.o pnv_core.o pnv_lpc.o pnv_psi.o pnv_occ.o pnv_bmc.o
- obj-$(CONFIG_POWERNV) += pnv_homer.o pnv_pnor.o
- 
--
--ifeq ($(CONFIG_PCI)$(CONFIG_PSERIES)$(CONFIG_LINUX), yyy)
--obj-y += spapr_pci_vfio.o spapr_pci_nvlink2.o
--endif
- obj-$(CONFIG_PSERIES) += spapr_rtas_ddw.o
- # PowerPC 4xx boards
- obj-$(CONFIG_PPC405) += ppc405_boards.o ppc405_uc.o
+@@ -1,5 +1,6 @@
+ # shared objects
+-obj-y += ppc.o ppc_booke.o fdt.o fw_cfg.o
++obj-y += ppc.o ppc_booke.o fdt.o
++obj-$(CONFIG_FW_CFG_PPC) += fw_cfg.o
+ # IBM pSeries (sPAPR)
+ obj-$(CONFIG_PSERIES) += spapr.o spapr_caps.o spapr_vio.o spapr_events.o
+ obj-$(CONFIG_PSERIES) += spapr_hcall.o spapr_iommu.o spapr_rtas.o
 -- 
 1.8.3.1
 
