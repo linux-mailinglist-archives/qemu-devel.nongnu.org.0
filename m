@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF1E134D17
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:23:00 +0100 (CET)
-Received: from localhost ([::1]:49018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2675D134D0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:19:24 +0100 (CET)
+Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipHr1-0005HF-Rm
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:22:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36503)
+	id 1ipHnX-0008Hv-50
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1ipHWf-0002WZ-Go
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:01:58 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ipHaK-0007Dl-T6
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1ipHWd-0003cN-RN
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:01:57 -0500
-Resent-Date: Wed, 08 Jan 2020 15:01:57 -0500
-Resent-Message-Id: <E1ipHWd-0003cN-RN@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21135)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1ipHWd-0003ac-JH
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:01:55 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1578513706; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=chM7O7rv7V2O3HTUUNfQD3nFevsKUxlEb7yoQxwh8yOJ4RFQWol9ZTxo1wB+xfhr0NjZv0/4uuW1f2CHsci0gN9ndXP7pJg0HiHVLi80fcxLNB0D28i1EXLW5J01+Utebkxp5udqPtA1+iS1iuSdUPplroPNDBJ9Z1a2jNDQ7GE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1578513706;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=xXJOLqAkzb9pl13WK9piRpn39/w5+tqgtXdEcYEg/QI=; 
- b=L1KHhaVyIjr4KxMJohE/OBeheMxHeCDjvInFccrR142mLPOXhVBCpDLNKXP/VH7JWTRujlaXskb+sYPEXlQYcBBexKQIWrilHv2FegwOa79L7bo5C/hNWPIS1+A3FXKzQQStChPLYb3v0M0F1tfeglDBJGqhnhPEHy7QNI8j7Fs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1578513703795564.866566677624;
- Wed, 8 Jan 2020 12:01:43 -0800 (PST)
-In-Reply-To: <642f73c78a99258dc134e3879a0287db8ef176c0.1578497245.git.tgolembi@redhat.com>
-Subject: Re: [PATCH v8] qga: add command guest-get-devices for reporting
- VirtIO devices
-Message-ID: <157851370234.6690.7910519642221702597@37313f22b938>
+ (envelope-from <alex.bennee@linaro.org>) id 1ipHaI-000794-Sy
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:44 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36216)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ipHaI-00077i-Nj
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:42 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so243670wma.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 12:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=aoZmBCHq8KdFyuYwAZ29pK8yo9t5oHzC7+ZipSOnK4o=;
+ b=xH3vD3drbsAplx28P//fQaNZ69lvMTMtOaSA31IQ1LlkVvvKFkHTsJqlYOu3yLvKvN
+ aZ3EGuvSIeHQ8dJayblsPz4g4G+9lyYHja5rLxlzl+Kj28Vp7GlKbVPdWZfBMcpDDLJE
+ RvAKY7G6GPJoT7neR9cazwMijmTOHooJeSFC1jJ3nH/sT4iJCnEqP1jdQb5V+Lzk6iV+
+ iBAAKyOxMYz/pN78nDzuXo1Bf2BWZDB8eC4rgRdovOoG3tQAB9CrJwUqwYtESuqHXUYW
+ MkcBvjcc560fFhrCkqG4Qpu6yiYaBaV4RoK68K2WUmhgtqm1+yTrVBczc6FPUgp47bcD
+ InEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=aoZmBCHq8KdFyuYwAZ29pK8yo9t5oHzC7+ZipSOnK4o=;
+ b=piafaAV6I6SMg0sjqVTh48zU1lpYXvVGkL8b69TxbfEGKlDlLEi6MZBPO/ceALGu4P
+ znNMKzyPDS+MaHFZu6GWRgakyZM0B2BVap4O/mD74hDuYZQVL+d/4SZcxTcZc70yUftf
+ Mi8R0gSa9rpG2iU02WRZN9PE7m/qxaO8cqr0eO+HpCnzTT8NbnTBXN3yoQpMOc78A7/9
+ M5Pyn9WzOhxvjKhTOes5IAu3q/Z9FAFiWXDq5pv0fNIVw+q4apFUL4C9oIHZhV6eDjhJ
+ 3vutUGybJZ9As2Xgs25Viw2sWxx16NPBMSJ6okV0tzCkL/x//J4g8R3aNjmglGsN1ceA
+ L5ig==
+X-Gm-Message-State: APjAAAXSubw77eO7zfUiFA5bjX3p1mZhiRD6LeuFenjT9yxLqAvcubRs
+ mJYvS+gVIjuZlZe8l0NMJ5bdqdhFlC8=
+X-Google-Smtp-Source: APXvYqxQOd/CT6GuhQ5W7OLEVnUKro7qH1GUHWinp7c66KcmagTClyqKF2JChvnEzvyTZfmD5UwAzQ==
+X-Received: by 2002:a7b:c949:: with SMTP id i9mr335569wml.131.1578513940140;
+ Wed, 08 Jan 2020 12:05:40 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f127sm239202wma.4.2020.01.08.12.05.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 12:05:39 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6D2AD1FF87;
+ Wed,  8 Jan 2020 20:05:38 +0000 (GMT)
+References: <20200108192402.19672-1-thuth@redhat.com>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] include/sysemu/sysemu.h: Remove usused variable no_quit
+In-reply-to: <20200108192402.19672-1-thuth@redhat.com>
+Date: Wed, 08 Jan 2020 20:05:38 +0000
+Message-ID: <874kx5k92l.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: tgolembi@redhat.com
-Date: Wed, 8 Jan 2020 12:01:43 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,55 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, tgolembi@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS82NDJmNzNjNzhhOTkyNThkYzEz
-NGUzODc5YTAyODdkYjhlZjE3NmMwLjE1Nzg0OTcyNDUuZ2l0LnRnb2xlbWJpQHJlZGhhdC5jb20v
-CgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxk
-IHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQg
-YmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVw
-cm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhIC9iaW4vYmFz
-aApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JL
-PTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0g
-VEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAgIHg4Nl82NC1zb2Z0bW11L2h3L3ZpcnRpby92
-aXJ0aW8taW5wdXQtcGNpLm8KICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS9ody9pbnRjL2V4eW5v
-czQyMTBfY29tYmluZXIubwovdG1wL3FlbXUtdGVzdC9zcmMvcWdhL2NvbW1hbmRzLXdpbjMyLmM6
-IEluIGZ1bmN0aW9uICdnYV9nZXRfaGFyZHdhcmVfaWRzJzoKL3RtcC9xZW11LXRlc3Qvc3JjL3Fn
-YS9jb21tYW5kcy13aW4zMi5jOjIzMDI6MTE6IGVycm9yOiB1bnVzZWQgdmFyaWFibGUgJ2h3X2lk
-cycgWy1XZXJyb3I9dW51c2VkLXZhcmlhYmxlXQogICAgIEdTdHJ2IGh3X2lkcyA9IE5VTEw7CiAg
-ICAgICAgICAgXn5+fn5+Ci90bXAvcWVtdS10ZXN0L3NyYy9xZ2EvY29tbWFuZHMtd2luMzIuYzog
-SW4gZnVuY3Rpb24gJ3FtcF9ndWVzdF9nZXRfZGV2aWNlcyc6Ci90bXAvcWVtdS10ZXN0L3NyYy9x
-Z2EvY29tbWFuZHMtd2luMzIuYzoyNDQzOjE6IGVycm9yOiBsYWJlbCAnb3V0JyBkZWZpbmVkIGJ1
-dCBub3QgdXNlZCBbLVdlcnJvcj11bnVzZWQtbGFiZWxdCiBvdXQ6CiBefn4KY2MxOiBhbGwgd2Fy
-bmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKbWFrZTogKioqIFsvdG1wL3FlbXUtdGVzdC9z
-cmMvcnVsZXMubWFrOjY5OiBxZ2EvY29tbWFuZHMtd2luMzIub10gRXJyb3IgMQptYWtlOiAqKiog
-V2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIENDICAgICAgYWFyY2g2NC1zb2Z0bW11
-L2h3L2ludGMvb21hcF9pbnRjLm8KICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS9ody9pbnRjL2Jj
-bTI4MzVfaWMubwotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQp
-CnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAn
-ZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MzE2NTc2
-ZGE1OWI3NDg0OWExZmE4YTliOGI3NGY4YmUnLCAnLXUnLCAnMTAwMycsICctLXNlY3VyaXR5LW9w
-dCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAn
-LWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAn
-LWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIv
-dG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2Nh
-Y2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRt
-cC02MzFkc2U3My9zcmMvZG9ja2VyLXNyYy4yMDIwLTAxLTA4LTE0LjU4LjU4Ljc4NTQ6L3Zhci90
-bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3Qt
-bWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVy
-PWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MzE2NTc2ZGE1OWI3NDg0OWExZmE4YTliOGI3
-NGY4YmUKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcg
-ZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtNjMxZHNlNzMvc3JjJwptYWtl
-OiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgMm00
-NC41ODNzCnVzZXIgICAgMG04LjAwNHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzY0MmY3M2M3OGE5OTI1OGRjMTM0ZTM4NzlhMDI4N2RiOGVm
-MTc2YzAuMTU3ODQ5NzI0NS5naXQudGdvbGVtYmlAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1t
-aW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNh
-bGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBm
-ZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
+Thomas Huth <thuth@redhat.com> writes:
+
+> The no_quit variable has been removed in commit 78782712a62d56 ("vl: drop
+> no_quit variable"), so let's remove the extern declaration in the header
+> now, too.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  include/sysemu/sysemu.h | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 80c57fdc4e..686f4217a6 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -44,7 +44,6 @@ extern int alt_grab;
+>  extern int ctrl_grab;
+>  extern int cursor_hide;
+>  extern int graphic_rotate;
+> -extern int no_quit;
+>  extern int no_shutdown;
+>  extern int old_param;
+>  extern int boot_menu;
+
+
+--=20
+Alex Benn=C3=A9e
 
