@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1871341DA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:37:48 +0100 (CET)
-Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B75F1341EB
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:40:24 +0100 (CET)
+Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAap-0000h6-Dl
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:37:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60326)
+	id 1ipAdL-0005Nf-5Z
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:40:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60335)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWM-0003jc-7P
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:11 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWN-0003kl-2J
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWL-0004Iy-5e
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWL-0004Jr-Uq
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:10 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39180)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46969)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWK-0004Hi-W0
+ id 1ipAWL-0004Ir-Ol
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:09 -0500
-Received: by mail-wm1-x330.google.com with SMTP id 20so2309129wmj.4
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:08 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id z7so3123858wrl.13
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9PjzHiXwj1KdaDnPbGNelnRbOtkZ/aefiRl2myJ+BXU=;
- b=qG6So0vTYWa8iEipqHSW/GMHxSRvAPLp+/DMdd3nP/LiDn3/96/+9pSiH5fuLymK15
- NTRWF4wfyq2RXShDKap9rNDY55q4As8+U/bicuF2PNwlxlTTCAUEqeD1/pn9Big+XjdP
- W7IkJETfB5i5rjO0+27KR8BafoHwVcLjeacRmfAyWpiN7oyelRFQpRQtBi7cuFOUnAmR
- 66M6PKSkucXlWDo8FNji8k+LSEZzt9jKJqGVSy1rV8Aa0/P0XHCRlQZMfm9Q9tJnu5ZM
- Dy4RoLuEQMlC3P5V0lApjJ/r7dZ4n47zsQadZ5GDmYinunaqaWfzWLH4XuIr9O9FI+Gw
- AgFQ==
+ bh=se+V48CVFj2UMhia/l7TQbfN4HTq3HN6TcBQFtKO7+Q=;
+ b=P7qTUpIzEQ0plOiP2KBlmpij9QZ42bwoNHY3LRT7zFaWoHfdzl63+1zdchsfS80Hda
+ SB0TnjbnZca8TKkaDrfVTSVKVxz61K4ouh2CUQV/NIPlBUn7HnxqrrQkAzIUOsOotyEf
+ SVW5los9GV9CrwClztMzEcnaElnNLZfKQpjSPsdCnkjFZeIA91tfoivs+q9NvAAaqOjQ
+ +BFKsuD+U/svCvFIBBcmGYRJn4JPC5jI7yHsjVJSCjlSFtwJJqL/Kc75x/4gwgnZhWKd
+ MMjDQVqoQILCvMpnLjCzIC1BCSWHzvgFDbkuibNfuw6Ba3ghiTIl9W0rwdeqYymAFcKF
+ ULZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9PjzHiXwj1KdaDnPbGNelnRbOtkZ/aefiRl2myJ+BXU=;
- b=KfcYQhep/rhcpfFy6UY0lvQMvvs1PMjQ3rGX+kn1jEYulbuUVN416hTRQxbixWrYS3
- 9DTyMdOJJaxYiBu1sSA9sQM1n6UcOvGK7Mdwf18oREFWkDdghh+rbv32p6mdx6o2ibVZ
- FNWtBsGfKYQ0DiPmmiKLeqnmM5x7rWA6eUEzQTVE1zi5uOpx4SJ01RVkAiQsx4TI19pS
- 3YplthEk2RMpoE4OHUnnVeHcuR52flJ+/1XkpBgNBehGluElpPxmaJoMNn7l9P298nas
- lOmmPUqfGyUG6oimFbvrrFYj5z6RVDlA5axUvGTX+6APaeJD+qmeti1nqkjJt64gMmry
- wwgg==
-X-Gm-Message-State: APjAAAU4tW1oTGEd02dNZNpEzNdARxcWJ/VQcDG65I3pqSiISbLxqDnd
- gwRZJ8c81pPE1kazaBXqEmqQl+Cc
-X-Google-Smtp-Source: APXvYqwnr9EgKFTIZwRM1eZSGaYf/HS5mTKgumPV9FVDnZWvJwv/VbGA1gybr6iSyYtMM4Uy3wwO7w==
-X-Received: by 2002:a7b:cfc2:: with SMTP id f2mr3624754wmm.44.1578486787776;
- Wed, 08 Jan 2020 04:33:07 -0800 (PST)
+ bh=se+V48CVFj2UMhia/l7TQbfN4HTq3HN6TcBQFtKO7+Q=;
+ b=SPu4e+H0yGmF6DyEZ6ej6FEgoYYccvdksyolaLnEhGWhFALUKTwJWW7CGp9KHAFbJH
+ 09lZpXnpPA/z+26kTr/4QlrfZvGa04MxOux8lJnWLu6ftsq8t6M0YpIbLUyloghexKeh
+ p8h3Nd0bzIkciY9o5IdiF8itm6F7rk88FhyUg47+88XSqwN4K6hMFn58tINcurc8t5wD
+ 7yleH+sMDJM9humUIx1nZlWre7NRSD/8VlM/YvRic471f1t+fgYbnTnZoXNjpTF84FQr
+ IDSod+D/QOMzKLeGSeir79aE+hj6TLZSHX6UwIY9oC7nt1jvZzbvfHdfJxB/GB/QDmOg
+ u//w==
+X-Gm-Message-State: APjAAAV1h2Ai7J2Cb+DUfPwHniJ+lC2HWM8DyPqTGeSzZDJ8jEOXHkP6
+ ehqRtOAjyzTySuQLEthttjCgR1lC
+X-Google-Smtp-Source: APXvYqy12AOv3O4ADmjF14ctfr2Vd5agtCJLpeRKhyObrB8zens0tkyadRDfu934KV1Nt8FK4DYltQ==
+X-Received: by 2002:a5d:45c4:: with SMTP id b4mr4242923wrs.303.1578486788568; 
+ Wed, 08 Jan 2020 04:33:08 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.06
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.07
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:07 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/38] hw/i386/Kconfig: Let the MicroVM machine select the
- SERIAL_ISA config
-Date: Wed,  8 Jan 2020 13:32:28 +0100
-Message-Id: <1578486775-52247-12-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 12/38] hw/ppc/Kconfig: Restrict the MPC I2C controller to
+ e500-based platforms
+Date: Wed,  8 Jan 2020 13:32:29 +0100
+Message-Id: <1578486775-52247-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,39 +85,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When configured with --without-default-devices, the build fails:
-
-     LINK    x86_64-softmmu/qemu-system-x86_64
-  /usr/bin/ld: hw/i386/microvm.o: in function `microvm_devices_init':
-  hw/i386/microvm.c:157: undefined reference to `serial_hds_isa_init'
-  collect2: error: ld returned 1 exit status
-  make[1]: *** [Makefile:206: qemu-system-x86_64] Error 1
-  make: *** [Makefile:483: x86_64-softmmu/all] Error 2
-
-While the MicroVM machine only uses the ISA serial port when the
-MICROVM_MACHINE_ISA_SERIAL property is set, it has to be linked
-with it. Replace the 'imply' Kconfig rule by a 'select'.
+Only the PowerPC e500-based platforms use the MPC I2C controller.
+Do not build it for the other machines.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191231183216.6781-4-philmd@redhat.com>
+Message-Id: <20191231183216.6781-7-philmd@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ default-configs/ppc-softmmu.mak | 1 -
+ hw/ppc/Kconfig                  | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 91cf584..cdc8515 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -95,7 +95,7 @@ config Q35
+diff --git a/default-configs/ppc-softmmu.mak b/default-configs/ppc-softmmu.mak
+index bf86128..61b78b8 100644
+--- a/default-configs/ppc-softmmu.mak
++++ b/default-configs/ppc-softmmu.mak
+@@ -1,7 +1,6 @@
+ # Default configuration for ppc-softmmu
  
- config MICROVM
+ # For embedded PPCs:
+-CONFIG_MPC_I2C=y
+ CONFIG_DS1338=y
+ CONFIG_E500=y
+ CONFIG_PPC405=y
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index f927ec9..0cd8d40 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -105,6 +105,7 @@ config E500
+     select PLATFORM_BUS
+     select PPCE500_PCI
+     select SERIAL
++    select MPC_I2C
+ 
+ config VIRTEX
      bool
--    imply SERIAL_ISA
-+    select SERIAL_ISA # for serial_hds_isa_init()
-     select ISA_BUS
-     select APIC
-     select IOAPIC
 -- 
 1.8.3.1
 
